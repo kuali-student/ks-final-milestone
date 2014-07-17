@@ -9,7 +9,7 @@ angular.module('regCartApp')
         $scope.searchResults = []; // Results from the last search request.
 
 
-        $scope.$on('termIdChanged', function(event, newValue, oldValue) {
+        $scope.$on('termIdChanged', function() {
             var criteria = $scope.searchCriteria;
 
             // Drop the existing search results when the term changes
@@ -24,6 +24,7 @@ angular.module('regCartApp')
 
         // Listen for any state changes from ui-router. This is where we get the search criteria from.
         $scope.$on('$stateChangeSuccess', function(event, toState, toParams) {
+            console.log(toParams);
             if (angular.isDefined(toParams.searchCriteria)) {
                 doSearch(toParams.searchCriteria);
             }
@@ -55,7 +56,7 @@ angular.module('regCartApp')
         };
 
         // if the display limit changes, reset the page to 1
-        $scope.$watch('displayLimit', function(newValue, oldValue) {
+        $scope.$watch('displayLimit', function() {
             $scope.page = 1;
         });
 
@@ -72,17 +73,6 @@ angular.module('regCartApp')
                 return (rangeMax + ' of ' + length);
             } else {
                 return (rangeMin + '-' + rangeMax + ' of ' + length);
-            }
-        };
-
-        // formats the credits for display
-        $scope.displayCredits = function(creditOptions) {
-            if (creditOptions.length === 1) {
-                return parseFloat(creditOptions[0])+" cr";
-            } else {
-                var min = parseFloat(Math.min.apply(null, creditOptions));
-                var max = parseFloat(Math.max.apply(null, creditOptions));
-                return min + "-" + max + " cr";
             }
         };
 
@@ -160,7 +150,7 @@ angular.module('regCartApp')
     /**
      * Controller for the search form
      */
-    .controller('SearchFormCtrl', ['$scope', '$window', function SearchFormCtrl ($scope, $window) {
+    .controller('SearchFormCtrl', ['$scope', '$state', function SearchFormCtrl ($scope, $state) {
 
         $scope.courseSearchCriteria = '';
 
@@ -174,9 +164,7 @@ angular.module('regCartApp')
         $scope.submit = function() {
             if ($scope.courseSearchCriteria) {
                 console.log('Submitting search form: ' + $scope.courseSearchCriteria);
-
-                // Use the goToPage method to go to the search page with the criteria in the query string
-                $scope.goToPage('/search/' + $window.encodeURIComponent($scope.courseSearchCriteria));
+                $state.go('root.search', { searchCriteria: $scope.courseSearchCriteria });
             }
         };
 
@@ -186,7 +174,7 @@ angular.module('regCartApp')
         return function(input, start) {
             start = +start; //parse to int
             return input.slice(start);
-        }
+        };
     })
 
 ;

@@ -58,8 +58,9 @@ angular.module('regCartApp', [
                     searchform: searchForm
                 }
             })
+
             .state('root.search', {
-                url: '/search/:searchCriteria',
+                url: '/search/{searchCriteria}',
                 views: {
                     '': {
                         templateUrl: 'partials/search.html',
@@ -69,7 +70,13 @@ angular.module('regCartApp', [
                     schedule: mySchedule,
                     searchform: searchForm
                 }
-            });
+            })
+            .state('root.search.details', {
+                url: '/{courseId}', // URL gets appended to parent's
+                templateUrl: 'partials/searchDetails.html',
+                controller: 'SearchDetailsCtrl'
+            })
+        ;
 
         //Add the  login interceptor to all service calls
         $httpProvider.interceptors.push('loginInterceptor');
