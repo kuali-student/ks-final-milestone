@@ -278,7 +278,7 @@ public class KSCommentController extends KsUifControllerBase {
 //            }
 //        }
 
-//        setupCommentWrapper(commentWrapper,comment,proposalInfo);
+        setupCommentWrapper(commentWrapper,comment);
         LOG.debug("Comment successfully added/updated. [id=" + comment.getId() + "]");
 
     }
@@ -354,50 +354,40 @@ public class KSCommentController extends KsUifControllerBase {
             for (CommentInfo comment : comments) {
                 KSCommentWrapper wrapper = new KSCommentWrapper();
 //                setupCommentWrapper(wrapper,comment,proposal);
-                wrapper.setCommentInfo(comment);
-                wrapper.setCreatedDate(comment.getMeta().getCreateTime().toString());
-                wrapper.setCreatorName(comment.getMeta().getCreateId());
-                wrapper.setLastEditedDate(comment.getMeta().getUpdateTime().toString());
-                wrapper.setCreatorName(comment.getMeta().getUpdateId());
+                setupCommentWrapper(wrapper, comment);
                 form.getComments().add(wrapper);
             }
         }
     }
 
-//    protected void setupCommentWrapper(KSCommentWrapper commentWrapper, CommentInfo commentInfo, ProposalInfo proposalInfo) {
-//        commentWrapper.setCommentInfo(commentInfo);
+    protected void setupCommentWrapper(KSCommentWrapper wrapper, CommentInfo comment) {
+        wrapper.setCommentInfo(comment);
+        wrapper.setCreatedDate(DateFormatters.COURSE_OFFERING_VIEW_HELPER_DATE_TIME_FORMATTER.format(comment.getMeta().getCreateTime()));
+        Person creator = getPersonService().getPerson(comment.getCommenterId());
+        wrapper.setCreatorName(creator.getFirstName() + " " + creator.getLastName());
+        wrapper.setLastEditedDate(DateFormatters.COURSE_OFFERING_VIEW_HELPER_DATE_TIME_FORMATTER.format(comment.getMeta().getUpdateTime()));
+        Person lastEditor = getPersonService().getPerson(comment.getMeta().getUpdateId());
+        wrapper.setLastEditorName(lastEditor.getFirstName() + " " + lastEditor.getLastName());
+        if (lastEditor.getPrincipalId().equals(creator.getPrincipalId()) && comment.getMeta().getUpdateTime().equals(comment.getMeta().getCreateTime())) {
+            wrapper.setEdited(false);
+        } else {
+            wrapper.setEdited(true);
+        }
 //        setupAuthorizations(proposalInfo, commentWrapper);
-//        setupDisplayNameForComment(commentWrapper);
-//        commentWrapper.getRenderHelper().setCreationTime(DateFormatters.COURSE_OFFERING_VIEW_HELPER_DATE_TIME_FORMATTER.format(commentInfo.getMeta().getCreateTime()));
-//    }
+    }
 
-//    protected void setupDisplayNameForComment(KSCommentWrapper commentWrapper) {
-//        Person person = getPersonService().getPerson(commentWrapper.getCommentInfo().getCommenterId());
-//        if (person == null) {
-//            throw new RuntimeException("Error fetching person for principal id '" + commentWrapper.getCommentInfo().getCommenterId() + "'");
-//        }
-//        commentWrapper.getRenderHelper().setDisplayName((new StringBuilder(person.getFirstName())).append(" ").append(person.getLastName()).toString());
-//    }
-//
-//    public PersonService getPersonService() {
-//        if (personService == null) {
-//            personService = KimApiServiceLocator.getPersonService();
-//        }
-//        return personService;
-//    }
-//
+    public PersonService getPersonService() {
+        if (personService == null) {
+            personService = KimApiServiceLocator.getPersonService();
+        }
+        return personService;
+    }
+
     protected CommentService getCommentService() {
         if (commentService == null) {
             commentService = (CommentService) GlobalResourceLoader.getService(new QName(CommentServiceConstants.NAMESPACE, CommentService.class.getSimpleName()));
         }
         return commentService;
     }
-//
-//    protected ProposalService getProposalService() {
-//        if (proposalService == null) {
-//            proposalService = (ProposalService) GlobalResourceLoader.getService(new QName(ProposalServiceConstants.NAMESPACE, ProposalServiceConstants.SERVICE_NAME_LOCAL_PART));
-//        }
-//        return proposalService;
-//    }
 
 }

@@ -35,6 +35,7 @@ public class KSCommentWrapper implements Comparable<KSCommentWrapper> {
     private String createdDate;
     private String lastEditorName;
     private String lastEditedDate;
+    private boolean edited;
 //    protected CreateCourseRenderHelper renderHelper;
 
     public KSCommentWrapper(){
@@ -92,7 +93,14 @@ public class KSCommentWrapper implements Comparable<KSCommentWrapper> {
         this.lastEditedDate = lastEditedDate;
     }
 
-    //    public CreateCourseRenderHelper getRenderHelper() {
+    public boolean isEdited() {
+        return edited;
+    }
+
+    public void setEdited(boolean edited) {
+        this.edited = edited;
+    }
+//    public CreateCourseRenderHelper getRenderHelper() {
 //        return renderHelper;
 //    }
 //
