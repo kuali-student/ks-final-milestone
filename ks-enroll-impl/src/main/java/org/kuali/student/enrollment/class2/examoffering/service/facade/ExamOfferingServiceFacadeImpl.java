@@ -249,10 +249,10 @@ public class ExamOfferingServiceFacadeImpl implements ExamOfferingServiceFacade 
         Map<String, ExamOfferingInfo> eos = loadExamOfferings(foToEoRelations, context);
         //Do not create exam offerings for canceled course offerings.
         if (!LuiServiceConstants.LUI_CO_STATE_CANCELED_KEY.equals(coInfo.getStateKey())) {
-        for (Map.Entry<FormatOfferingInfo, List<ExamOfferingRelationInfo>> foEntry : foToEoRelations.entrySet()) {
+            for (Map.Entry<FormatOfferingInfo, List<ExamOfferingRelationInfo>> foEntry : foToEoRelations.entrySet()) {
 
-            //Get all existing eo as per co driver, and remove them from the map.
-            List<ExamOfferingRelationInfo> eors = getExistingExamOfferingsPerDriver(eos, foEntry.getValue(), ExamOfferingContext.Driver.PER_CO.name());
+                //Get all existing eo as per co driver, and remove them from the map.
+                List<ExamOfferingRelationInfo> eors = getExistingExamOfferingsPerDriver(eos, foEntry.getValue(), ExamOfferingContext.Driver.PER_CO.name());
 
                 //Create new exam offerings per CO
                 for (ExamOfferingRelationInfo eoRelation : eors) {
@@ -580,7 +580,7 @@ public class ExamOfferingServiceFacadeImpl implements ExamOfferingServiceFacade 
      * the soc state, else return true.
      */
     protected boolean checkDriverActivity(ActivityOfferingInfo aoInfo, List<ExamOfferingRelationInfo> eors, TypeInfo finalExamLevelType,
-                                        boolean socPublished, ContextInfo context)
+                                          boolean socPublished, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 
         if (finalExamLevelType == null) {
@@ -631,7 +631,7 @@ public class ExamOfferingServiceFacadeImpl implements ExamOfferingServiceFacade 
     }
 
     protected List<ExamOfferingRelationInfo> getExistingExamOfferingsPerDriver(Map<String, ExamOfferingInfo> eos,
-                                                                             List<ExamOfferingRelationInfo> eors, String driver)
+                                                                               List<ExamOfferingRelationInfo> eors, String driver)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
 
@@ -805,7 +805,7 @@ public class ExamOfferingServiceFacadeImpl implements ExamOfferingServiceFacade 
      * @throws ReadOnlyException
      */
     protected ExamOfferingInfo createExamOffering(String examPeriodId, String stateKey, String driver, List<AttributeInfo> attributes,
-                                                ContextInfo context) throws MissingParameterException,
+                                                  ContextInfo context) throws MissingParameterException,
             InvalidParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException,
             DataValidationErrorException, ReadOnlyException {
 
@@ -850,7 +850,7 @@ public class ExamOfferingServiceFacadeImpl implements ExamOfferingServiceFacade 
      * @throws ReadOnlyException
      */
     protected ExamOfferingRelationInfo createExamOfferingRelation(String formatOfferingId, String examOfferingId,
-                                                                List<String> aoIds, ContextInfo context)
+                                                                  List<String> aoIds, ContextInfo context)
             throws DataValidationErrorException, DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
 

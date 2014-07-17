@@ -119,13 +119,17 @@ public class ExamOfferingTransformer {
             break;  //ExamOffering should only have one scheduleId.
         }
 
+        // if there is an actual schedule tied to the AO, and at least one of the components is not marked TBA, then the AO scheduling state is Scheduled
+        if (eo.getScheduleId() != null) {
+            eo.setSchedulingStateKey(getSchedulingState(eo, scheduleIdToScheduleMap));
+        } else {
+            eo.setSchedulingStateKey(getSchedulingStateByScheduleRequest(eo, luiToScheduleRequestsMap.get(eo.getId()), schedulingService, context));
+        }
+
         //Dynamic attributes
         List<AttributeInfo> attributes = eo.getAttributes();
         for (Attribute attr : lui.getAttributes()) {
             attributes.add(new AttributeInfo(attr));
-            if (ExamOfferingServiceConstants.EXAM_OFFERING_SCHEDULING_STATE_ATTR.equals(attr.getKey())) {
-                eo.setSchedulingStateKey(attr.getValue());
-            }
         }
         eo.setAttributes(attributes);
 
@@ -155,13 +159,21 @@ public class ExamOfferingTransformer {
             break;  //ExamOffering should only have one scheduleId.
         }
 
+        // if there is an actual schedule tied to the EO, and at least one of the components is not marked TBA, then the EO scheduling state is Scheduled
+        if (eo.getScheduleId() != null) {
+            try {
+                eo.setSchedulingStateKey(getSchedulingState(eo, schedulingService, context));
+            } catch (DoesNotExistException e) {
+                throw new OperationFailedException("Unable the retrieve scheduling state.", e);
+            }
+        } else {
+            eo.setSchedulingStateKey(getSchedulingStateByScheduleRequest(eo, schedulingService, context));
+        }
+
         //Dynamic attributes
         List<AttributeInfo> attributes = eo.getAttributes();
         for (Attribute attr : lui.getAttributes()) {
             attributes.add(new AttributeInfo(attr));
-            if (ExamOfferingServiceConstants.EXAM_OFFERING_SCHEDULING_STATE_ATTR.equals(attr.getKey())) {
-                eo.setSchedulingStateKey(attr.getValue());
-            }
         }
         eo.setAttributes(attributes);
 
