@@ -36,7 +36,7 @@ public class StateServiceCacheDecorator extends StateServiceDecorator {
         Element cachedResult = cacheManager.getCache(STATE_SERVICE_CACHE).get(cacheKey);
         Object result;
         if (cachedResult == null) {
-            result = getNextDecorator().getLifecycleKeysByRefObjectUri(lifecycleKey, contextInfo);
+            result = getNextDecorator().getLifecycle(lifecycleKey, contextInfo); // JIRA KSENROLL-8816
             cacheManager.getCache(STATE_SERVICE_CACHE).put(new Element(cacheKey, result));
         } else {
             result = cachedResult.getValue();
