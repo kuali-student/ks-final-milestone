@@ -23,6 +23,7 @@ import org.kuali.student.cm.course.form.CourseRuleManagementWrapper;
 import org.kuali.student.cm.course.form.LoCategoryInfoWrapper;
 import org.kuali.student.cm.course.form.OrganizationInfoWrapper;
 import org.kuali.student.cm.course.form.SubjectCodeWrapper;
+import org.kuali.student.cm.course.form.SupportingDocumentInfoWrapper;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
 
 import java.util.List;
@@ -61,5 +62,7 @@ public interface CourseInfoMaintainable {
     public void updateReview();
 
     public void setLOActions();
+
+    public void populateSupportingDocBytes(SupportingDocumentInfoWrapper supportingDoc);
 
 }

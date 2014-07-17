@@ -152,6 +152,7 @@ import org.springframework.beans.BeanUtils;
 
 import javax.xml.namespace.QName;
 import java.io.File;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -512,22 +513,8 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
         } else if (newLine instanceof SupportingDocumentInfoWrapper) {
             MaintenanceDocumentForm modelForm = (MaintenanceDocumentForm) viewModel;
             CourseInfoWrapper courseInfoWrapper = (CourseInfoWrapper) modelForm.getDocument().getNewMaintainableObject().getDataObject();
-            if (courseInfoWrapper.getSupportingDocs().size() > 0) {
-                final SupportingDocumentInfoWrapper addLineResult = courseInfoWrapper.getSupportingDocs().get(
-                                                                        courseInfoWrapper.getSupportingDocs().size() - 1);
-
-                if (addLineResult.isNewDto() && addLineResult.getDocumentUpload() != null) {
-                    addLineResult.setDocumentName(addLineResult.getDocumentUpload().getOriginalFilename());
-
-                    try {
-                        // create a temp file on disk and store the uploaded file contents to it.
-                        File tempFile = File.createTempFile(addLineResult.getDocumentName(),null);
-                        addLineResult.getDocumentUpload().transferTo(tempFile);
-                        addLineResult.setTempDocumentPath(tempFile.getPath());
-                    } catch (Exception ex) {
-                        LOG.error("An error occurred while creating the temp file : " + addLineResult.getDocumentName(), ex);
-                    }
-                }
+            for (SupportingDocumentInfoWrapper doc : courseInfoWrapper.getSupportingDocs()){
+                populateSupportingDocBytes(doc);
             }
         }
         return ((CourseRuleViewHelperServiceImpl) getRuleViewHelperService()).performAddLineValidation(viewModel, newLine, collectionId, collectionPath);
@@ -1577,6 +1564,22 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
     }
 
     /**
+     * This method transfers the content from MultipartFile to a byte array. MultipartFile's content will be
+     * cleared out once the request
+     * @param supportingDoc
+     */
+    public void populateSupportingDocBytes(SupportingDocumentInfoWrapper supportingDoc){
+        try {
+            if (supportingDoc.isNewDto() && supportingDoc.getUploadedDoc() == null && supportingDoc.getDocumentUpload() != null && supportingDoc.getDocumentUpload().getBytes() != null){
+                supportingDoc.setDocumentName(supportingDoc.getDocumentUpload().getOriginalFilename());
+                supportingDoc.setUploadedDoc(supportingDoc.getDocumentUpload().getBytes());
+            }
+        }catch (Exception e){
+            throw new RuntimeException(e);
+        }
+    }
+
+    /**
      * Add the supporting documents and create the ref doc relations between document and course.
      *
      * @param courseInfoWrapper
@@ -1584,7 +1587,10 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
     protected void persistSupportingDocuments(CourseInfoWrapper courseInfoWrapper) {
 
         for (SupportingDocumentInfoWrapper supportingDoc : courseInfoWrapper.getSupportingDocs()){
-            if (supportingDoc.isNewDto() && supportingDoc.getDocumentUpload() != null && supportingDoc.getDocumentUpload().getSize() > 0) {
+
+            populateSupportingDocBytes(supportingDoc);
+
+            if (supportingDoc.isNewDto() && supportingDoc.getUploadedDoc() != null) {
                 DocumentInfo toAdd = new DocumentInfo();
                 toAdd.setFileName(supportingDoc.getDocumentUpload().getOriginalFilename());
                 RichTextInfo desc = new RichTextInfo();
@@ -1599,13 +1605,7 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
                 DocumentBinaryInfo documentBinaryInfo = new DocumentBinaryInfo();
 
                 try {
-                    if (supportingDoc.getTempDocumentPath() == null) {
-                        documentBinaryInfo.setBinary(new String(Base64.encodeBase64(supportingDoc.getDocumentUpload().getBytes())));
-                    } else {
-                        Path path = Paths.get(supportingDoc.getTempDocumentPath());
-                        byte[] data = Files.readAllBytes(path);
-                        documentBinaryInfo.setBinary(new String(Base64.encodeBase64(data)));
-                    }
+                    documentBinaryInfo.setBinary(new String(Base64.encodeBase64(supportingDoc.getUploadedDoc())));
                     toAdd.setDocumentBinary(documentBinaryInfo);
                     // Save the uploaded document
                     DocumentInfo doc = getSupportingDocumentService().createDocument(
@@ -1631,11 +1631,7 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
                     supportingDoc.setDocumentName(toAdd.getFileName());
                     //Free up memory
                     supportingDoc.setDocumentUpload(null);
-
-                    if (supportingDoc.getTempDocumentPath() != null) {
-                        //Remove the temp file stored
-                        Files.deleteIfExists(Paths.get(supportingDoc.getTempDocumentPath()));
-                    }
+                    supportingDoc.setUploadedDoc(null);
 
                 } catch (Exception ex) {
                     LOG.error("Unable to add supporting document to the course for file: " +

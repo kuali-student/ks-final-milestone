@@ -32,6 +32,7 @@ import org.kuali.student.cm.course.form.LoDisplayInfoWrapper;
 import org.kuali.student.cm.course.form.OrganizationInfoWrapper;
 import org.kuali.student.cm.course.form.ResultValuesGroupInfoWrapper;
 import org.kuali.student.cm.course.form.SupportingDocumentInfoWrapper;
+import org.kuali.student.cm.course.service.CourseInfoMaintainable;
 import org.kuali.student.cm.course.service.util.OrganizationSearchUtil;
 import org.kuali.student.common.collection.KSCollectionUtils;
 import org.kuali.student.common.uif.rule.KsMaintenanceDocumentRuleBase;
@@ -111,7 +112,7 @@ public class CourseRule extends KsMaintenanceDocumentRuleBase {
         success = success && validateOrganization(dataObject);
         success = success && validateLearningObjectives(dataObject);
         success = success && validateAuthorsAndCollaborators(dataObject);
-        success = success && validateSupportingDocuments(dataObject);
+        success = success && validateSupportingDocuments(maintenanceDocument,dataObject);
 
         return success;
     }
@@ -262,17 +263,22 @@ public class CourseRule extends KsMaintenanceDocumentRuleBase {
         return result;
     }
 
-    protected boolean validateSupportingDocuments(CourseInfoWrapper courseInfoWrapper) {
+    protected boolean validateSupportingDocuments(MaintenanceDocument maintenanceDocument,CourseInfoWrapper courseInfoWrapper) {
 
         int index = 0;
         List<SupportingDocumentInfoWrapper> emptyDocsToDelete = new ArrayList<>();
         boolean result = true;
 
+        CourseInfoMaintainable maintainable = (CourseInfoMaintainable)maintenanceDocument.getNewMaintainableObject();
+
         for (SupportingDocumentInfoWrapper supportingDoc : courseInfoWrapper.getSupportingDocs()){
-            if (supportingDoc.isNewDto() && supportingDoc.getDocumentUpload() != null && supportingDoc.getDocumentUpload().getSize() > 0) {
+
+            maintainable.populateSupportingDocBytes(supportingDoc);
+
+            if (supportingDoc.isNewDto() && supportingDoc.getUploadedDoc() != null) {
                 long size = Long.valueOf(CoreApiServiceLocator.getKualiConfigurationService().getPropertyValueAsString(
                         CurriculumManagementConstants.MessageKeys.SUPPORTING_DOC_MAX_SIZE_LIMIT));
-                if (supportingDoc.getDocumentUpload().getSize() > size) {
+                if (supportingDoc.getUploadedDoc().length > size) {
                     GlobalVariables.getMessageMap().putError(DATA_OBJECT_PATH + ".documentsToAdd[" +
                             index + "].documentUpload",
                             CurriculumManagementConstants.MessageKeys.ERROR_SUPPORTING_DOCUMENTS_FILE_TOO_LARGE);

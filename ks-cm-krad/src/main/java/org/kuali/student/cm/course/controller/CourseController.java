@@ -465,39 +465,33 @@ public class CourseController extends CourseRuleEditorController {
         byte[] bytes = null;
 
         if (supportingDocument.isNewDto()) {
-            bytes = Files.readAllBytes(Paths.get(supportingDocument.getTempDocumentPath()));
+            bytes = supportingDocument.getUploadedDoc();
             documentName = supportingDocument.getDocumentName();
         } else {
             try {
                 document = getSupportingDocumentService().getDocument(supportingDocument.getDocumentId(), ContextUtils.createDefaultContextInfo());
+                bytes = Base64.decodeBase64(document.getDocumentBinary().getBinary());
+                documentName = document.getFileName();
             } catch (Exception ex) {
                 LOG.error("Exception occurred while retrieving the document", ex);
             }
         }
 
-        if ((document != null && document.getDocumentBinary() != null
-                && document.getDocumentBinary().getBinary() != null
-                && !document.getDocumentBinary().getBinary().isEmpty())
-                || supportingDocument.getTempDocumentPath() != null) {
+        BufferedInputStream byteStream = new BufferedInputStream(new ByteArrayInputStream(bytes));
 
-            if (bytes == null) {
-                bytes = Base64.decodeBase64(document.getDocumentBinary().getBinary());
-                documentName = document.getName();
-            }
-            BufferedInputStream byteStream = new BufferedInputStream(new ByteArrayInputStream(bytes));
+        try {
+            KRADUtils.addAttachmentToResponse(response, byteStream,
+                    CurriculumManagementConstants.DEFAULT_MIME_TYPE, documentName,
+                    bytes.length);
+        } catch (Exception ex) {
+            LOG.error("Exception occurred while attaching the document to response", ex);
+            throw new RuntimeException("An error has occurred while downloading the file. Please try again.");
+        }
 
-            try {
-                KRADUtils.addAttachmentToResponse(response, byteStream,
-                        CurriculumManagementConstants.DEFAULT_MIME_TYPE, documentName,
-                        bytes.length);
-            } catch (Exception ex) {
-                LOG.error("Exception occurred while attaching the document to response", ex);
-                throw new RuntimeException("An error has occurred while downloading the file. Please try again.");
-            }
-        } else {
+        /*} else {
             LOG.error("Sorry, the file could not be retrieved.  It may not exist, or the server could not be contacted.");
             throw new RuntimeException("Document cannot be found.");
-        }
+        }*/
 
         return null;
 

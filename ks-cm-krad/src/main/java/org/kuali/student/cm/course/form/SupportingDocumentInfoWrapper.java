@@ -31,7 +31,7 @@ public class SupportingDocumentInfoWrapper implements DTOWrapper {
     private String description;
     private String documentId;
     private String documentName;
-    private String tempDocumentPath;
+    private byte[] uploadedDoc;
 
     /**
      * Gets the value of documentUpload
@@ -106,11 +106,18 @@ public class SupportingDocumentInfoWrapper implements DTOWrapper {
         return StringUtils.isBlank(documentId);
     }
 
-    public String getTempDocumentPath() {
-        return tempDocumentPath;
+    public byte[] getUploadedDoc() {
+        return uploadedDoc;
     }
 
-    public void setTempDocumentPath(String tempDocumentPath) {
-        this.tempDocumentPath = tempDocumentPath;
+    /**
+     * Once user uploads a file, we copy the bytes from MultipartFile to persist during save operation.
+     * MultipartFile will be empty once it hits the server. We need to retain the uploaded doc until
+     * the user clicks on save and then we persist all the uploaded files.
+     *
+     * @param uploadedDoc
+     */
+    public void setUploadedDoc(byte[] uploadedDoc) {
+        this.uploadedDoc = uploadedDoc;
     }
 }
