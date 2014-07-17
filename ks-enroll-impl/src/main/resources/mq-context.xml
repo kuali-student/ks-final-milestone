@@ -58,7 +58,7 @@
         <!-- This is used for performance monitoring of queues -->
         <jms:listener id="regPerfListener" destination="org.kuali.student.enrollment.registration.performanceStatsQueue" ref="performanceStatsListener" />
         <!-- These listeners are the nodes in the registration engine -->
-        <jms:listener id="regInitListener" destination="org.kuali.student.enrollment.registration.initilizationListenerQueue" ref="registrationInitilizationListener" />
+        <jms:listener id="regInitListener" destination="org.kuali.student.enrollment.registration.initializationListenerQueue" ref="registrationInitializationListener" />
         <jms:listener id="regVerificationListener" destination="org.kuali.student.enrollment.registration.verificationQueue" ref="registrationVerificationListener" />
         <jms:listener id="waitlistManagerListener" destination="org.kuali.student.enrollment.registration.seatOpenEventQueue" ref="waitlistManagerNode" />
     </jms:listener-container>
@@ -69,7 +69,7 @@
     </bean>
 
     <!-- Starts the registration process for adds/drops/updates/swaps/etc. -->
-    <bean id="registrationInitilizationListener" class="org.kuali.student.enrollment.registration.engine.node.impl.CourseRegistrationInitializationNode">
+    <bean id="registrationInitializationListener" class="org.kuali.student.enrollment.registration.engine.node.impl.CourseRegistrationInitializationNode">
         <property name="jmsTemplate" ref="jmsTemplate"/>
         <property name="courseRegistrationEngineService" ref="courseRegistrationEngineService"/>
         <property name="destinations">

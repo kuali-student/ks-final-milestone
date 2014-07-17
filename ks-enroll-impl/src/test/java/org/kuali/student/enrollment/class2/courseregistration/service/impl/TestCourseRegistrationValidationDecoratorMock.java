@@ -69,7 +69,7 @@ public class TestCourseRegistrationValidationDecoratorMock extends CourseRegistr
                     }
                 }
             }
-            jmsTemplate.convertAndSend(CourseRegistrationConstants.REGISTRATION_INITILIZATION_QUEUE, mapMessage);
+            jmsTemplate.convertAndSend(CourseRegistrationConstants.REGISTRATION_INITIALIZATION_QUEUE, mapMessage);
         } catch (JMSException jmsEx) {
             throw new RuntimeException("Error submitting registration request.", jmsEx);
         }

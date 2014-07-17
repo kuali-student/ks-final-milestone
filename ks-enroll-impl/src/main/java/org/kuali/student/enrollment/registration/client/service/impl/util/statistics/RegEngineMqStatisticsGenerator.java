@@ -42,7 +42,7 @@ public class RegEngineMqStatisticsGenerator {
 
     public static final String BROKER_QUEUE_NAME = "ActiveMQ.Statistics.Broker";
     public static final String DESTINATION_QUEUE_NAME_PREFIX = "ActiveMQ.Statistics.Destination";
-    public static final String INITIALIZATION_QUEUE_NAME = DESTINATION_QUEUE_NAME_PREFIX + "." + "org.kuali.student.enrollment.registration.initilizationListenerQueue";
+    public static final String INITIALIZATION_QUEUE_NAME = DESTINATION_QUEUE_NAME_PREFIX + "." + "org.kuali.student.enrollment.registration.initializationListenerQueue";
     public static final String VERIFICATION_QUEUE_NAME = DESTINATION_QUEUE_NAME_PREFIX + "." + "org.kuali.student.enrollment.registration.verificationQueue";
     public static final String REQ_ITEM_SPLIT_QUEUE_NAME = DESTINATION_QUEUE_NAME_PREFIX + "." + "org.kuali.student.enrollment.registration.splitByItemQueue";
     public static final String LPR_ACTION_QUEUE_NAME = DESTINATION_QUEUE_NAME_PREFIX + "." + "org.kuali.student.enrollment.registration.lprActionQueue";

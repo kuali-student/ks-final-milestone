@@ -91,7 +91,7 @@
     </util:map>
 
     <!-- override the CourseRegistrationInitializationNode -->
-    <bean id="registrationInitilizationListener" class="org.kuali.student.enrollment.registration.engine.node.impl.CourseRegistrationInitializationNodeMock">
+    <bean id="registrationInitializationListener" class="org.kuali.student.enrollment.registration.engine.node.impl.CourseRegistrationInitializationNodeMock">
         <property name="jmsTemplate" ref="jmsTemplate"/>
         <property name="courseRegistrationEngineService" ref="courseRegistrationEngineService"/>
         <property name="destinations">

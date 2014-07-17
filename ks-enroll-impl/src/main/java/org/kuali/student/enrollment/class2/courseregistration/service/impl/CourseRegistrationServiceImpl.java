@@ -83,7 +83,7 @@ public class CourseRegistrationServiceImpl extends AbstractCourseRegistrationSer
             MapMessage mapMessage = new ActiveMQMapMessage();
             mapMessage.setString(CourseRegistrationConstants.REGISTRATION_QUEUE_MESSAGE_USER_ID, regRequestInfo.getRequestorId());
             mapMessage.setString(CourseRegistrationConstants.REGISTRATION_QUEUE_MESSAGE_REG_REQ_ID, regRequestInfo.getId());
-            jmsTemplate.convertAndSend(CourseRegistrationConstants.REGISTRATION_INITILIZATION_QUEUE, mapMessage);
+            jmsTemplate.convertAndSend(CourseRegistrationConstants.REGISTRATION_INITIALIZATION_QUEUE, mapMessage);
         } catch (JMSException jmsEx) {
             throw new RuntimeException("Error submitting registration request.", jmsEx);
         }
