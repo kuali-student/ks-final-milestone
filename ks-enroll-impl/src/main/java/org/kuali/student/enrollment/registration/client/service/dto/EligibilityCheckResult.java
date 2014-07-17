@@ -34,11 +34,11 @@ import java.util.List;
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "EligibilityCheckResult", propOrder = {
-        "isEligible", "reasons"})
+        "isEligible", "reasons", "userId"})
 public class EligibilityCheckResult {
     private boolean isEligible;
     private List<ValidationResultInfo> reasons;
-
+    private String userId;
 
     public EligibilityCheckResult() {}
     public EligibilityCheckResult(List<ValidationResultInfo> reasons) {
@@ -63,5 +63,13 @@ public class EligibilityCheckResult {
 
     public void setReasons(List<ValidationResultInfo> reasons) {
         this.reasons = reasons;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 }

@@ -28,6 +28,9 @@ angular.module('regCartApp')
                         // of things the user won't have access to or see.
                         if ($scope.studentIsEligibleForTerm) {
                             $scope.$broadcast('termIdChanged', newValue, oldValue);
+                        } else {
+                            GlobalVarsService.setUserId(response.userId);
+                            $scope.userId = GlobalVarsService.getUserId;
                         }
                     }, function (error) {
                         console.log('Error while checking if term is open for registration', error);

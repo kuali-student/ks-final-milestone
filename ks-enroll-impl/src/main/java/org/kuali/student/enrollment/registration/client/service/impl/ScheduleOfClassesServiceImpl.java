@@ -120,6 +120,7 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
 
         EligibilityCheckResult result = new EligibilityCheckResult(reasons);
         result.setIsEligible(result.getReasons().isEmpty()); // The check passes if there are no errors
+        result.setUserId(contextInfo.getPrincipalId());
 
         return result;
     }
