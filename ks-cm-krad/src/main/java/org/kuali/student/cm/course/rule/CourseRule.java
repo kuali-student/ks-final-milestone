@@ -279,11 +279,13 @@ public class CourseRule extends KsMaintenanceDocumentRuleBase {
                 long size = Long.valueOf(CoreApiServiceLocator.getKualiConfigurationService().getPropertyValueAsString(
                         CurriculumManagementConstants.MessageKeys.SUPPORTING_DOC_MAX_SIZE_LIMIT));
                 if (supportingDoc.getUploadedDoc().length > size) {
-                    GlobalVariables.getMessageMap().putError(DATA_OBJECT_PATH + ".documentsToAdd[" +
+                    GlobalVariables.getMessageMap().putError(DATA_OBJECT_PATH + ".supportingDocs[" +
                             index + "].documentUpload",
                             CurriculumManagementConstants.MessageKeys.ERROR_SUPPORTING_DOCUMENTS_FILE_TOO_LARGE);
                     LOG.warn(CurriculumManagementConstants.MessageKeys.ERROR_SUPPORTING_DOCUMENTS_FILE_TOO_LARGE);
-                    result = true;
+                    supportingDoc.setDocumentName(null);
+                    supportingDoc.setUploadedDoc(null);
+                    result = false;
                 }
             } else if (supportingDoc.isNewDto()) {
                 emptyDocsToDelete.add(supportingDoc);
