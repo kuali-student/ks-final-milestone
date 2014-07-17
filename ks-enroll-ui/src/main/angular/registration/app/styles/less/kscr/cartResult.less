@@ -34,7 +34,8 @@
     }
 
     // Transaction results icons
-    &--success {
+    &--success,
+    &--waitlisted {
         background-image: @successImage;
     }
     &--fail {
@@ -42,6 +43,11 @@
     }
     &--waitlist {
         background-image: @warningImage;
+    }
+
+    // Count of successfully waitlisted courses
+    &--waitlisted {
+        display: none; // Hidden by default (only for large-format)
     }
 }
 
@@ -208,6 +214,26 @@
         }
     }
 
+    // Cart result heading w/ counts
+    .kscr-cartResult-responseHeading {
+        // Hide if only successes
+        &--success {
+            display: none;
+            &.kscr-cartResult-responseHeading--waitlisted,
+            &.kscr-cartResult-responseHeading--waitlist,
+            &.kscr-cartResult-responseHeading--fail {
+                display: block;
+            }
+        }
+
+        // Response counts
+        .kscr-cartResult-responseCount--success {
+            display: none; // Hide success count in large-format
+        }
+        .kscr-cartResult-responseCount--waitlisted {
+            display: inline; // Show the waitlisted success count though
+        }
+    }
 
     // Cart item result w/ status (e.g. processing, error, success)
     .kscr-cartResult-status {

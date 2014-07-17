@@ -3,7 +3,9 @@
 angular.module('regCartApp')
     .controller('CartCtrl', ['$scope', '$modal', '$timeout', 'STATE', 'STATUS', 'GRADING_OPTION', 'ACTION_LINK', 'CartService', 'ScheduleService', 'GlobalVarsService',
     function ($scope, $modal, $timeout, STATE, STATUS, GRADING_OPTION, ACTION_LINK, CartService, ScheduleService, GlobalVarsService) {
+        $scope.states = STATE;
         $scope.statuses = STATUS;
+
         $scope.oneAtATime = false;
         $scope.isCollapsed = true;
         var hasCartBeenLoaded = false;
@@ -232,9 +234,6 @@ angular.module('regCartApp')
                 cartItem.status = STATUS.processing;
                 cartItem.cartItemId = registrationResponseInfo.registrationRequestItems[0].id;
 
-                //cartItem.waitlistedStatus = true;
-                //cartItem.statusMessage = GlobalVarsService.getCorrespondingMessageFromStatus('waitlisted');
-
                 $timeout(function () {
                 }, 250);    // delay for 250 milliseconds
                 console.log('Just waited 250, now start the polling');
@@ -289,7 +288,7 @@ angular.module('regCartApp')
                             if (item.cartItemId === responseItem.registrationRequestItemId) {
                                 item.state = responseItem.state;
                                 item.type = responseItem.type;
-                                // we need to update the status, which is used to controll css
+                                // we need to update the status, which is used to control css
                                 item.status = GlobalVarsService.getCorrespondingStatusFromState(responseItem.state);
                                 item.statusMessages = responseItem.messages;
                             }
@@ -314,6 +313,7 @@ angular.module('regCartApp')
                         // Calculate the result counts per status (clearing out initially to trigger the view to reset the values)
                         $scope.cartResults.successCount = 0;
                         $scope.cartResults.waitlistCount = 0;
+                        $scope.cartResults.waitlistedCount = 0;
                         $scope.cartResults.errorCount = 0;
                         calculateCartResultCounts();
 
@@ -350,6 +350,7 @@ angular.module('regCartApp')
             // Store as local variables so the $scope vars don't fire change events on increments
             var success = 0,
                 waitlist = 0,
+                waitlisted = 0,
                 error = 0;
 
             angular.forEach($scope.cartResults.items, function (item) {
@@ -357,8 +358,11 @@ angular.module('regCartApp')
                     case STATUS.success:
                         success++;
                         break;
-                    case STATUS.waitlist:
-                    case STATUS.action: //waitlist action available
+                    case STATUS.waitlist: // Waitlist action successful
+                        success++; // Also increment the successes
+                        waitlisted++;
+                        break;
+                    case STATUS.action: // Waitlist action available
                         waitlist++;
                         break;
                     case STATUS.error:
@@ -370,6 +374,7 @@ angular.module('regCartApp')
             // Set the counts into the scope
             $scope.cartResults.successCount = success;
             $scope.cartResults.waitlistCount = waitlist;
+            $scope.cartResults.waitlistedCount = waitlisted;
             $scope.cartResults.errorCount = error;
         }
 

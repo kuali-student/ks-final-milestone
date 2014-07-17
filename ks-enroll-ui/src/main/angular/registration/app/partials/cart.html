@@ -10,7 +10,7 @@
         </div>
         <!-- Sticky Cart Summary & Registration Action -->
         <div sticky class="kscr-MainHeading-CartHeading">
-            <div class="kscr-MainHeading util-Grid util-Grid--center" ng-hide="showConfirmation||cartResults.state=='kuali.lpr.trans.state.processing'">
+            <div class="kscr-MainHeading util-Grid util-Grid--center" ng-hide="showConfirmation || cartResults.state==states.processing">
                 <div class="util-Grid-cell">
                     <div class="kscr-MainHeading-header kscr-MainHeading-stickyHeader">My Cart</div>
                     <div id="credit_count_title" class="kscr-MainHeading-support">
@@ -25,7 +25,7 @@
                     <button id="register" ng-disabled="cart.items.length < 1" class="kscr-MainHeading-button kscr-Button--primary" type="button" ng-click="showConfirmation =!showConfirmation">Register</button>
                 </div>
             </div>
-            <div class="kscr-MainHeading" ng-show="cartResults.state=='kuali.lpr.trans.state.processing'">
+            <div class="kscr-MainHeading" ng-show="cartResults.state == states.processing">
                 <div id="registering_message" class="kscr-MainHeading-header--processing">
                     Registering for courses...
                 </div>
@@ -95,10 +95,15 @@
     </div>
 
     <div class="kscr-Card kscr-Card-Results" ng-show="cartResults.items.length">
-        <div class="kscr-Heading-sub kscr-cartResult-responseHeading">
+        <div class="kscr-Heading-sub kscr-cartResult-responseHeading"
+             ng-class="{'kscr-cartResult-responseHeading--success' : (cartResults.successCount > 0),
+                        'kscr-cartResult-responseHeading--waitlisted' : (cartResults.waitlistedCount > 0),
+                        'kscr-cartResult-responseHeading--waitlist' : (cartResults.waitlistCount > 0),
+                        'kscr-cartResult-responseHeading--fail' : (cartResults.errorCount > 0)}">
             <span class="kscr-cartResult-responseLabel">Results</span>
-            <span class="kscr-cartResult-responseCount" ng-show="(cartResults.successCount + cartResults.waitlistCount + cartResults.errorCount) > 0">
+            <span class="kscr-cartResult-responseCount">
                 <span ng-if="cartResults.successCount > 0" class="kscr-cartResult-responseCount--success">{{cartResults.successCount}}</span>
+                <span ng-if="cartResults.waitlistedCount > 0" class="kscr-cartResult-responseCount--waitlisted">{{cartResults.waitlistedCount}}</span>
                 <span ng-if="cartResults.waitlistCount > 0" class="kscr-cartResult-responseCount--waitlist">{{cartResults.waitlistCount}}</span>
                 <span ng-if="cartResults.errorCount > 0" class="kscr-cartResult-responseCount--fail">{{cartResults.errorCount}}</span>
             </span>
@@ -145,9 +150,9 @@
                                 <button class="kscr-Button" id="waitlist_{{cartResultItem.courseCode}}_{{cartResultItem.regGroupCode}}" ng-click="addCartItemToWaitlist(cartResultItem)">Add to Waitlist</button>
                             </span>
                         </div>
+                        <!-- Dismiss Button-->
                         <div class="kscr-Card-button">
                             <span>
-                                <!-- Dismiss Button-->
                                 <button class="kscr-Button" id="course_remove_{{cartResultItem.courseCode}}_{{cartResultItem.regGroupCode}}" ng-click="removeCartResultItem($index)">Dismiss</button>
                             </span>
                         </div>
@@ -165,6 +170,13 @@
                         </div>
                         <ng-include src="'aoInfo.html'"></ng-include>
                     </div>
+                    <div class="kscr-Card-buttons">
+                        <!-- Dismiss Button-->
+                        <div class="kscr-Card-button">
+                            <span>
+                                <button class="kscr-Button" id="course_remove_{{cartResultItem.courseCode}}_{{cartResultItem.regGroupCode}}" ng-click="removeCartResultItem($index)">Dismiss</button>
+                            </span>
+                        </div>
                 </div>
             </div>
         </div>
