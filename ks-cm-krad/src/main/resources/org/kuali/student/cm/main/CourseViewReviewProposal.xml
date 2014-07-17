@@ -682,7 +682,7 @@
                             <bean parent="Uif-VerticalFieldGroup" p:label="Supporting Documents" p:colSpan="3" p:fieldLabel.renderColon="false">
                                 <property name="items">
                                     <list>
-                                        <bean id="supporting_document_review_section" parent="Uif-StackedCollectionSection"
+                                        <bean id="supporting_document_review_section" parent="KS-Uif-StackedCollectionSection-HorizontalSubCollectionFieldGroup"
                                               p:propertyName="reviewProposalDisplay.supportingDocumentsSection.supportingDocuments"
                                               p:collectionObjectClass="org.kuali.student.cm.course.form.SupportingDocumentInfoWrapper"
                                               p:colSpan="3">
@@ -690,17 +690,25 @@
                                             <property name="renderAddLine" value="false"/>
                                             <property name="items">
                                                 <list>
-                                                    <bean id="supporting_document_@{#index}" parent="Uif-ActionLinkField" p:actionLabel="@{#line.documentName}" p:methodToCall="downloadSupportingDoc"
-                                                          p:ajaxSubmit="false"
-                                                          p:disableBlocking="true"
-                                                          p:onClickScript="writeHiddenToForm(&quot;ajaxReturnType&quot;, &quot;update-none&quot;);">
-                                                        <property name="fieldLabel.render" value="false"/>
-                                                        <property name="id" value="supporting_document_@{#index}"/>
-                                                        <property name="cssClasses">
-                                                            <list merge="true">
-                                                                <value>review_readonly</value>
-                                                            </list>
-                                                        </property>
+                                                    <bean id="supporting_document_group" parent="Uif-HorizontalFieldGroup" p:showLabel="false">
+                                                         <property name="items">
+                                                             <list>
+                                                                 <bean id="supporting_document_@{#index}" parent="Uif-ActionLinkField" p:actionLabel="@{#line.documentName}" p:methodToCall="downloadSupportingDoc"
+                                                                       p:ajaxSubmit="false"
+                                                                       p:disableBlocking="true"
+                                                                       p:onClickScript="writeHiddenToForm(&quot;ajaxReturnType&quot;, &quot;update-none&quot;);">
+                                                                     <property name="fieldLabel.render" value="false"/>
+                                                                     <property name="id" value="supporting_document_@{#index}"/>
+                                                                     <property name="cssClasses">
+                                                                         <list merge="true">
+                                                                             <value>review_readonly</value>
+                                                                         </list>
+                                                                     </property>
+                                                                 </bean>
+                                                                 <bean id="supporting_document_description" parent="Uif-DataField"
+                                                                       p:propertyName="description"/>
+                                                             </list>
+                                                         </property>
                                                     </bean>
                                                 </list>
                                             </property>
