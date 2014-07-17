@@ -36,7 +36,7 @@
     <alias name="courseRegistrationServiceProcessCheckDecorator" alias="CourseRegistrationService" />
     <alias name="processServiceValidationDecorator" alias="ProcessService" />
     <alias name="exemptionServiceMapImpl" alias="ExemptionService" />
-    <alias name="gesServiceDataLoadingDecorator" alias="GesService" />
+    <alias name="gesServiceEvaluationDecorator" alias="GesService" />
     <alias name="schedulingServiceValidationDecorator" alias="SchedulingService" />
     <alias name="courseWaitListServiceImpl" alias="courseWaitListService" />
     <alias name="examServiceImpl" alias="ExamService" />
@@ -1809,21 +1809,17 @@
     
     <!--TODO: KSENROLL-12393 Replace wiring to ExemptionServiceMapImpl once JPA impl is done-->
     <bean id="exemptionServiceMapImpl" class="org.kuali.student.core.exemption.service.impl.ExemptionServiceMapImpl" />
-    
-    <!--TODO: KSENROLL-12394 replace data loading decorator with SQL inserts when JPA impl is done as well -->
-    <bean id="gesServiceDataLoadingDecorator" class="org.kuali.student.enrollment.process.service.integration.deprecate.GesServiceDataLoadingDecorator">
-        <constructor-arg ref="gesServiceEvaluationDecorator"/>
-    </bean>
+
     <bean id="gesServiceEvaluationDecorator" class="org.kuali.student.core.ges.service.decorators.GesServiceEvaluationDecorator" >
         <property name="populationService" ref="PopulationService" />
         <property name="atpService" ref="AtpService" />
-        <property name="nextDecorator" ref="gesServiceMapImpl" />
+        <property name="nextDecorator" ref="gesServiceImpl" />
     </bean>    
-    <!--TODO: KSENROLL-12394 Replace wiring to GES Map Impl once JPA impl is done-->
-    <bean id="gesServiceMapImpl" class="org.kuali.student.core.ges.service.impl.GesServiceMapImpl" >
+
+    <bean id="gesServiceImpl" class="org.kuali.student.core.ges.service.impl.GesServiceImpl" >
+        <property name="parameterDao" ref="parameterDao" />
+        <property name="valueDao" ref="valueDao" />
     </bean>
-
-
 
  </beans>
 

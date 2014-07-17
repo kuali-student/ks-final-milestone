@@ -204,6 +204,12 @@
         <class>org.kuali.student.r2.core.room.model.RoomResponsibleOrgEntity</class>
         <class>org.kuali.student.r2.core.room.model.RoomResponsibleOrgAttributeEntity</class>
 
+        <!-- Ges -->
+        <class>org.kuali.student.core.ges.service.model.ParameterEntity</class>
+        <class>org.kuali.student.core.ges.service.model.ParameterAttributeEntity</class>
+        <class>org.kuali.student.core.ges.service.model.ValueEntity</class>
+        <class>org.kuali.student.core.ges.service.model.ValueAttributeEntity</class>
+
         <exclude-unlisted-classes>true</exclude-unlisted-classes>
 
     </persistence-unit>

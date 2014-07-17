@@ -87,4 +87,8 @@
     <bean id="statePropagationDao" class="org.kuali.student.r2.core.class1.state.dao.StatePropagationDao" parent="genericEntityDao"/>
     <bean id="codeGeneratorLocksDao" class="org.kuali.student.enrollment.class2.courseoffering.dao.CodeGeneratorLocksDao" parent="genericEntityDao"/>
 
+    <!-- GES Service -->
+    <bean id="parameterDao" class="org.kuali.student.core.ges.service.dao.ParameterDao" parent="genericEntityDao"/>
+    <bean id="valueDao" class="org.kuali.student.core.ges.service.dao.ValueDao" parent="genericEntityDao"/>
+
 </beans>
