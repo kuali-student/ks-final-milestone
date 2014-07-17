@@ -593,9 +593,7 @@ public class CourseDetailsViewHelperServiceImpl extends ViewHelperServiceImpl im
             activityEvents.add(activityEvent);
         }
         addEvent.add("activities", activityEvents);
-        if(activities.size()==1){
-            addEvent.add("regGroupCode", regGroupCode);
-        }
+        addEvent.add("regGroupCode", regGroupCode);
 
         eventList.add("COURSE_SECTION_ADDED", addEvent);
         return eventList;
