@@ -138,7 +138,7 @@ public class RuleEditorMaintainableImpl extends KSMaintainableImpl implements Ru
         LOG.info("Retrieving reference object binding for refobjectid: {}", refObjectId);
         List<ReferenceObjectBinding> refObjectsBindings = this.getRuleManagementService().findReferenceObjectBindingsByReferenceObject(discriminatorType, refObjectId);
         for (ReferenceObjectBinding referenceObjectBinding : refObjectsBindings) {
-            LOG.info("Retrieved reference object binding with id: {}", referenceObjectBinding);
+            LOG.info("Retrieved reference object binding with id: {}", referenceObjectBinding.getReferenceObjectId());
             agendas.add(this.getAgendaEditor(referenceObjectBinding.getKrmsObjectId()));
         }
 
