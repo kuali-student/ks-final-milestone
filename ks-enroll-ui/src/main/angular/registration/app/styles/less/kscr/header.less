@@ -12,7 +12,7 @@
 .kscr-Header {
     color: @headerFontColor; //#F8F8F8
     font-family: @primaryFontFamily;
-    font-size: 14px;
+    .font-size(14);
     font-weight: bold;
     margin-left: auto;
     margin-right: auto;
@@ -47,7 +47,7 @@
 
     &-icon {
         float: left;
-        font-size: 12px;
+        .font-size(12);
         margin-right: 5px;
     }
 
@@ -90,7 +90,7 @@
 .kscr-Header-credits {
     display: block;
     font-family: @secondaryFontFamily;
-    font-size: 13px;
+    .font-size(13);
     font-weight: normal;
     line-height: 13px;
     margin-top: 3px;
@@ -146,7 +146,7 @@
   }
 }
 
-@media screen and (max-width: 660px) {
+@media screen and (max-width: @largeFormatMin) {
   .kscr-Header-menu {
     display: none; /* only shown in large view */
   }

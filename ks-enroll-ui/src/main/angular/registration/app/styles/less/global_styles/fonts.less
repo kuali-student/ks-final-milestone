@@ -36,3 +36,12 @@
 .ks-fonts-textShadow{
     text-shadow: 0 0.5px #fff;
 }
+
+//@sizeValue can be used like px values.
+//example: 12px would be .font-size(12);
+
+.font-size(@sizeValue) {
+  //assume base font-size is 10px since html font-size equals 62.5%
+  @remValue: @sizeValue/10;
+  font-size: ~"@{remValue}rem";
+}
