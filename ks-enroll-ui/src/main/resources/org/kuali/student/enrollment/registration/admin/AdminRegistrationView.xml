@@ -121,7 +121,7 @@
                             </bean>
                             <bean parent="Uif-SecondaryActionButton" p:actionLabel="Go" p:performClientSideValidation="true"
                                   p:id="changeTermGoButton" p:methodToCall="getRegistrationInfo" p:actionScript="goAction(this, 'kuali.admin.reg.state.initialized');"/>
-                            <bean parent="Uif-MessageField" p:messageText="[b]@{termName}[/b]"/>
+                            <bean parent="Uif-MessageField" p:id="changeTermInfoMsg" p:messageText="[b]@{termName}[/b]"/>
                         </list>
                     </property>
                 </bean>
