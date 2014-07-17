@@ -29,6 +29,13 @@
                 <ref bean="KS-HomewardPathBreadcrumbs-Enrollment"/>
             </list>
         </property>
+        <property name="breadcrumbOptions.breadcrumbOverrides">
+            <list>
+                <bean parent="Uif-BreadcrumbItem">
+                    <property name="label" value="Admin Registration"/>
+                </bean>
+            </list>
+        </property>
         <property name="page">
             <bean parent="Uif-Page">
                 <property name="header.render" value="false"/>
@@ -78,7 +85,7 @@
                 <bean parent="Uif-HorizontalFieldGroup">
                     <property name="items">
                         <list>
-                            <bean parent="Uif-InputField" p:propertyName="personInfo.id"
+                            <bean parent="KS-Uif-InputField-LabelLeft" p:propertyName="personInfo.id"
                                   p:label="Student ID" p:readOnly="false" p:id="studentIdField"
                                   p:onDocumentReadyScript="setValidation('clientState', 'personInfo.id', ['kuali.admin.reg.state.open', 'kuali.admin.reg.state.initialized', 'kuali.admin.reg.state.ready'], 'Student Id is required.');">
                                 <property name="control">
@@ -105,7 +112,7 @@
                 <bean parent="Uif-HorizontalFieldGroup">
                     <property name="items">
                         <list>
-                            <bean parent="Uif-InputField" p:propertyName="termCode"
+                            <bean parent="KS-Uif-InputField-LabelLeft" p:propertyName="termCode"
                                   p:label="Change Term" p:readOnly="false" p:id="termCodeField"
                                   p:onDocumentReadyScript="setValidation('clientState', 'termCode', ['kuali.admin.reg.state.initialized', 'kuali.admin.reg.state.ready'], 'Term is required.');">
                                 <!-- Constrain to 6 digits and use a custom message. -->
