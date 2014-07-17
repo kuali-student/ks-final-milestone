@@ -34,6 +34,7 @@ public class AdminRegistrationUtil {
     private static IdentityService identityService;
     private static CourseRegistrationService courseRegService;
     private static CourseOfferingService courseOfferingService;
+    private static CourseOfferingService courseOfferingServiceCached;
     private static SchedulingService schedulingService;
     private static RoomService roomService;
     private static CacheManager cacheManager;
@@ -72,6 +73,13 @@ public class AdminRegistrationUtil {
             courseOfferingService = (CourseOfferingService) GlobalResourceLoader.getService(new QName(CourseOfferingServiceConstants.NAMESPACE, CourseOfferingServiceConstants.SERVICE_NAME_LOCAL_PART));
         }
         return courseOfferingService;
+    }
+
+    public static CourseOfferingService getCourseOfferingServiceCached() {
+        if (courseOfferingServiceCached == null){
+            courseOfferingServiceCached = (CourseOfferingService) GlobalResourceLoader.getService(new QName(CourseOfferingServiceConstants.NAMESPACE, CourseOfferingServiceConstants.CACHED_SERVICE_NAME_LOCAL_PART));
+        }
+        return courseOfferingServiceCached;
     }
 
     public static CourseWaitListService getCourseWaitlistService() {

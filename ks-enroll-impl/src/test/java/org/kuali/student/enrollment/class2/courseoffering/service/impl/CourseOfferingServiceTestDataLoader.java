@@ -133,8 +133,8 @@ public class CourseOfferingServiceTestDataLoader extends AbstractMockServicesAwa
 
     protected AcalTestDataLoader acalDataLoader;
 
-    TermInfo fall2012 = null;
-    TermInfo spring2012 = null;
+    public TermInfo fall2012 = null;
+    public TermInfo spring2012 = null;
 
     private boolean loadBaseData = true;
 

@@ -7,4 +7,13 @@
             <searchAttribute name="relatedLuiId"/>
         </searchable>
     </cache>
+    <!-- These caches are for Course Offering. -->
+    <cache name="courseOfferingCache" maxElementsInMemory="500" eternal="false" timeToIdleSeconds="0" timeToLiveSeconds="600" />
+    <cache name="activityOfferingCache" maxElementsInMemory="500" eternal="false" timeToIdleSeconds="0" timeToLiveSeconds="600" />
+    <cache name="activityOfferingClusterCache" maxElementsInMemory="500" eternal="false" timeToIdleSeconds="0" timeToLiveSeconds="600" />
+    <cache name="activityOfferingTypeCache" maxElementsInMemory="500" eternal="false" timeToIdleSeconds="0" timeToLiveSeconds="600" />
+    <cache name="formatOfferingCache" maxElementsInMemory="500" eternal="false" timeToIdleSeconds="0" timeToLiveSeconds="600" />
+    <cache name="registrationGroupCache" maxElementsInMemory="500" eternal="false" timeToIdleSeconds="0" timeToLiveSeconds="600" />
+    <cache name="seatPoolCache" maxElementsInMemory="500" eternal="false" timeToIdleSeconds="0" timeToLiveSeconds="600" />
+
 </ehcache>

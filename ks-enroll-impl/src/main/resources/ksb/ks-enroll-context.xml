@@ -26,6 +26,7 @@
     <!-- Top Level Alias -->
     <alias name="socServiceAft" alias="CourseOfferingSetService" />
     <alias name="coServiceValidation" alias="CourseOfferingService" />
+    <alias name="courseOfferingServiceCache" alias="CourseOfferingServiceCached" />
     <alias name="luiServiceValidationDecorator" alias="LuiService" />
     <alias name="lprServiceValidationDecorator" alias="LprService"/>
     <alias name="lrcServiceValidation" alias="LRCService" />
@@ -371,6 +372,11 @@
         <property name="searchService" ref="searchService" />
     </bean>
 
+    <bean id="courseOfferingServiceCache" class="org.kuali.student.enrollment.class2.courseoffering.service.decorators.CourseOfferingServiceCacheDecorator">
+        <property name="cacheManager" ref="ksCacheManager"/>
+        <property name="nextDecorator" ref="coServiceValidation"/>
+    </bean>
+
     <bean id="coServiceImpl" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingServiceImpl">
         <property name="luiService" ref="luiServiceValidationDecorator" />
         <property name="rgAssembler" ref="rgAssembler" />
@@ -523,8 +529,18 @@
         </property>
     </bean>
 
-
-
+    <bean id="ks.exp.courseOfferingServiceCached" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
+        <property name="serviceDefinition">
+            <bean class="org.kuali.rice.ksb.api.bus.support.SoapServiceDefinition">
+                <property name="jaxWsService" value="true" />
+                <property name="service" ref="CourseOfferingService" />
+                <property name="serviceInterface" value="org.kuali.student.enrollment.courseoffering.service.CourseOfferingService" />
+                <property name="localServiceName" value="CourseOfferingServiceCached" />
+                <property name="serviceNameSpaceURI" value="http://student.kuali.org/wsdl/courseOffering" />
+                <property name="busSecurity" value="${ks.enroll.bus.security}" />
+            </bean>
+        </property>
+    </bean>
 
     <bean id="offeringCodeGenerator" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingCodeGeneratorDBImpl">
         <property name="codeGeneratorLocksDao" ref="codeGeneratorLocksDao" />
@@ -708,6 +724,8 @@
         <property name="cacheManager" ref="ksCacheManager"/>
         <property name="nextDecorator" ref="luiServiceImpl"/>
     </bean>
+
+
 
     <bean id="luiServiceImpl" class="org.kuali.student.enrollment.class1.lui.service.impl.LuiServiceImpl">
         <property name="luiDao" ref="luiDao" />
