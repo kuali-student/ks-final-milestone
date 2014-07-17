@@ -151,7 +151,7 @@ public class CurriculumManagementConstants {
 
     public final static String KS_MESSAGE_ICON_IMAGE_ID = "[id=Uif-KS-IconImage]";
 
-    public final static String DEFAULT_MIME_TYPE = "application/octet-stream";
+    public final static String SUPPORTING_DOC_MIME_TYPE = "application/octet-stream";
 
     public final static String REF_OBJECT_TYPE_KEY = "kuali.org.RefObjectType.CluInfo";
     public final static String REF_DOC_RELATION_TYPE_KEY = "kuali.org.DocRelation.allObjectTypes";

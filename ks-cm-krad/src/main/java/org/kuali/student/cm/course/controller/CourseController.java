@@ -89,8 +89,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.xml.namespace.QName;
 import java.io.BufferedInputStream;
 import java.io.ByteArrayInputStream;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
@@ -481,7 +479,7 @@ public class CourseController extends CourseRuleEditorController {
 
         try {
             KRADUtils.addAttachmentToResponse(response, byteStream,
-                    CurriculumManagementConstants.DEFAULT_MIME_TYPE, documentName,
+                    CurriculumManagementConstants.SUPPORTING_DOC_MIME_TYPE, documentName,
                     bytes.length);
         } catch (Exception ex) {
             LOG.error("Exception occurred while attaching the document to response", ex);
