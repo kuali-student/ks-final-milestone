@@ -19,7 +19,6 @@ import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
-import org.kuali.rice.core.api.CoreApiServiceLocator;
 import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.exception.RiceIllegalStateException;
@@ -36,7 +35,6 @@ import org.kuali.rice.krad.uif.container.Container;
 import org.kuali.rice.krad.uif.element.Action;
 import org.kuali.rice.krad.uif.util.ObjectPropertyUtils;
 import org.kuali.rice.krad.uif.view.ViewModel;
-import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 import org.kuali.rice.krms.api.repository.agenda.AgendaDefinition;
 import org.kuali.rice.krms.api.repository.agenda.AgendaItemDefinition;
@@ -49,7 +47,6 @@ import org.kuali.rice.krms.dto.TemplateInfo;
 import org.kuali.rice.krms.dto.TermParameterEditor;
 import org.kuali.rice.krms.service.RuleViewHelperService;
 import org.kuali.rice.krms.service.impl.RuleEditorMaintainableImpl;
-import org.kuali.rice.krms.tree.RuleCompareTreeBuilder;
 import org.kuali.rice.krms.tree.RuleViewTreeBuilder;
 import org.kuali.rice.krms.tree.node.CompareTreeNode;
 import org.kuali.rice.krms.util.NaturalLanguageHelper;
@@ -151,11 +148,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 
 import javax.xml.namespace.QName;
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -2168,9 +2160,7 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
 
         courseInfoWrapper.setRefObjectId(courseId);
 
-        courseInfoWrapper.setAgendas(this.getAgendasForRef("", courseId, null));
-
-        courseInfoWrapper.setCompareTree(RuleCompareTreeBuilder.initCompareTree());
+        courseInfoWrapper.setAgendas(this.getAgendasForRef(CourseServiceConstants.REF_OBJECT_URI_COURSE, courseId, null));
     }
     /**
      * This method creates <class>LoDisplayWrapperModel</class> instances from <class>LoDisplayInfoWrapper</class> instances
