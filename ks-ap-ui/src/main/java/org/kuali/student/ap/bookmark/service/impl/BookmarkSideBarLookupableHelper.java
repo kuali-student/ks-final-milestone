@@ -1,15 +1,15 @@
 package org.kuali.student.ap.bookmark.service.impl;
 
-import org.kuali.rice.krad.lookup.LookupableImpl;
 import org.kuali.rice.krad.lookup.LookupForm;
+import org.kuali.rice.krad.lookup.LookupableImpl;
+import org.kuali.student.ap.academicplan.constants.AcademicPlanServiceConstants;
 import org.kuali.student.ap.academicplan.dto.LearningPlanInfo;
 import org.kuali.student.ap.academicplan.dto.PlanItemInfo;
 import org.kuali.student.ap.academicplan.service.AcademicPlanService;
-import org.kuali.student.ap.academicplan.constants.AcademicPlanServiceConstants;
 import org.kuali.student.ap.bookmark.dto.BookmarkSideBarWrapper;
+import org.kuali.student.ap.coursesearch.CreditsFormatter;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
 import org.kuali.student.ap.framework.context.PlanConstants;
-import org.kuali.student.ap.coursesearch.CreditsFormatter;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
@@ -17,7 +17,6 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.lum.course.infc.Course;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -79,8 +78,8 @@ public class BookmarkSideBarLookupableHelper extends
                 bookmark.setCourseCd(course.getCode());
                 bookmark.setCourseTitle(course.getCourseTitle());
                 bookmark.setDateAdded(planItem.getMeta().getCreateTime());
-                if(planItem.getCredits()!=null) bookmark.setCredits(planItem.getCredits());
-                else bookmark.setCredits(new BigDecimal(CreditsFormatter.formatCredits(course)));
+                if(planItem.getCredits()!=null) bookmark.setCredits(planItem.getCredits().toString());
+                else bookmark.setCredits(CreditsFormatter.formatCredits(course));
 
                 bookmark.setUniqueId(UUID.randomUUID().toString());
 

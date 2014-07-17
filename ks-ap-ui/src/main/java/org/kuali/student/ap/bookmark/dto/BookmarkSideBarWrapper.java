@@ -2,7 +2,6 @@ package org.kuali.student.ap.bookmark.dto;
 
 import org.kuali.student.ap.common.infc.HasUniqueId;
 
-import java.math.BigDecimal;
 import java.util.Date;
 
 public class BookmarkSideBarWrapper implements HasUniqueId, Comparable<BookmarkSideBarWrapper> {
@@ -12,7 +11,7 @@ public class BookmarkSideBarWrapper implements HasUniqueId, Comparable<BookmarkS
     private String courseTitle;
     private String planItemId;
     private String uniqueId;
-    private BigDecimal credits;
+    private String credits;
     private Date dateAdded;
 
     /**
@@ -82,11 +81,11 @@ public class BookmarkSideBarWrapper implements HasUniqueId, Comparable<BookmarkS
         this.planItemId = planItemId;
     }
 
-    public BigDecimal getCredits() {
+    public String getCredits() {
         return credits;
     }
 
-    public void setCredits(BigDecimal credits) {
+    public void setCredits(String credits) {
         this.credits = credits;
     }
 
