@@ -4,6 +4,7 @@
  */
 package org.kuali.student.enrollment.process.service.integration.deprecate;
 
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.student.core.constants.GesServiceConstants;
 import org.kuali.student.core.ges.dto.ParameterInfo;
 import org.kuali.student.core.ges.dto.ValueInfo;
@@ -47,9 +48,9 @@ public class GesServiceDataLoadingDecorator extends GesServiceDecorator {
         _createParam(GesServiceConstants.PARAMETER_KEY_LOAD_CALCULATION_FOR_CREDIT_CHECKS, "Load Calculation for Credit Checks",
                 "The Load Calculation to use for credit limit checks", GesValueTypeEnum.STRING, contextInfo);
 
-        _createValue(GesServiceConstants.PARAMETER_KEY_CREDIT_LIMIT, 1, "8",
+        _createValue(GesServiceConstants.PARAMETER_KEY_CREDIT_LIMIT, 1, 8,
                 "kuali.population.student.key.everyone", "kuali.atp.type.Summer1", contextInfo);
-        _createValue(GesServiceConstants.PARAMETER_KEY_CREDIT_LIMIT, 2, "20",
+        _createValue(GesServiceConstants.PARAMETER_KEY_CREDIT_LIMIT, 2, 20,
                 "kuali.population.student.key.everyone", "kuali.atp.type.Fall, kuali.atp.type.Spring", contextInfo);
 //        _createValue(GesServiceConstants.PARAMETER_KEY_CREDIT_LIMIT, 3, "15",
 //                "kuali.population.freshman", "kuali.atp.type.Fall, kuali.atp.type.Spring", contextInfo);
@@ -92,15 +93,29 @@ public class GesServiceDataLoadingDecorator extends GesServiceDecorator {
         return info;
     }
 
+    private ValueInfo _createValue(String paramKey,int priority, float value, String populationId,
+                                   String atpTypeKeys,
+                                   ContextInfo context) {
+        ValueInfo info = new ValueInfo();
+        info.setDecimalValue(new KualiDecimal(value));
+        return _createValue(paramKey, priority, populationId, atpTypeKeys, context, info);
+    }
+
     private ValueInfo _createValue(String paramKey,int priority, String value, String populationId,
             String atpTypeKeys,
             ContextInfo context) {
         ValueInfo info = new ValueInfo();
+        info.setStringValue(_nullIt(value));
+        return _createValue(paramKey, priority, populationId, atpTypeKeys, context, info);
+    }
+
+    private ValueInfo _createValue(String paramKey,int priority, String populationId,
+                                   String atpTypeKeys,
+                                   ContextInfo context, ValueInfo info) {
         info.setParameterKey(paramKey);
         info.setTypeKey(GesServiceConstants.GES_VALUE_TYPE_KEY);
         info.setStateKey(GesServiceConstants.GES_VALUE_ACTIVE_STATE_KEY);
         info.setPriority(priority);
-        info.setStringValue(_nullIt(value));
         info.setPopulationId(populationId);
         info.setAtpTypeKeys(this._splitIt(atpTypeKeys));
         try {
@@ -119,8 +134,7 @@ public class GesServiceDataLoadingDecorator extends GesServiceDecorator {
         for (int i = 0; i < strs.length; i++) {
             strs[i] = strs[i].trim();
         }
-        List<String> list = Arrays.asList(strs);
-        return list;
+        return Arrays.asList(strs);
     }
 
     private String _nullIt(String str) {
