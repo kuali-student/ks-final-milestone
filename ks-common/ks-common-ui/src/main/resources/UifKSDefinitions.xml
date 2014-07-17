@@ -1096,7 +1096,7 @@
                 <bean parent="Uif-VerticalBoxSection" p:onDocumentReadyScript="setReadonlyTextWidthForComment();">
                     <property name="items">
                         <list>
-                            <bean id="KSCM-NewCommentField" parent="Uif-InputField" p:propertyName="commentText" p:additionalCssClasses="ks-comment-textArea-field"
+                            <bean id="KS-NewCommentField" parent="Uif-InputField" p:propertyName="commentText" p:additionalCssClasses="ks-comment-textArea-field"
                                   p:render="@{canAddComment}">
                                 <property name="control">
                                     <bean parent="Uif-LargeTextAreaControl"/>
@@ -1150,14 +1150,14 @@
                                 <property name="header.lowerGroup">
                                     <bean parent="Uif-HorizontalBoxGroup">
                                         <property name="render" value="@{deletedComment != null}"/>
-                                        <property name="id" value="KSCM-CloseCommentDeleteUndoInfo"/>
+                                        <property name="id" value="KS-CloseCommentDeleteUndoInfo"/>
                                         <property name="items">
                                             <list>
                                                 <bean parent="Uif-Message"
                                                       p:messageText="[b]Comment has been deleted. [0][/b]">
                                                     <property name="inlineComponents">
                                                         <list>
-                                                            <bean id="KSCM-Comment-undo-delete" parent="Uif-ActionLink"
+                                                            <bean id="KS-Comment-undo-delete" parent="Uif-ActionLink"
                                                                   p:methodToCall="undoDeleteComment"
                                                                   p:actionLabel="Undo"/>
                                                         </list>
@@ -1184,7 +1184,7 @@
                                             <property name="renderAddLine" value="false"/>
                                             <property name="items">
                                                 <list>
-                                                    <bean id="KSCM-CommentField" p:id="KSCM-Comment-Add"
+                                                    <bean id="KS-CommentField" p:id="KS-Comment-Add"
                                                           parent="KS-Uif-InputField" p:label=""
                                                           p:propertyName="commentInfo.commentText.plain"
                                                             p:readOnly="true">
@@ -1204,12 +1204,12 @@
                                             <property name="lineActions">
                                                 <list>
                                                     <!--p:render="@{#line.renderHelper.editInProgress}"-->
-                                                    <bean id="KSCM-CommentSaveAction" parent="Uif-PrimaryActionButton"
+                                                    <bean id="KS-CommentSaveAction" parent="Uif-PrimaryActionButton"
                                                           p:methodToCall="updateComment"
                                                           p:actionLabel="Save"/>
 
                                                     <!--p:render="@{#line.renderHelper.editInProgress}"-->
-                                                    <bean id="KSCM-CommentCancelAction" parent="Uif-CancelAction"
+                                                    <bean id="KS-CommentCancelAction" parent="Uif-CancelAction"
                                                           p:methodToCall="cancelEditComment"
                                                           p:actionLabel="Cancel"/>
                                                 </list>
@@ -1221,7 +1221,7 @@
                                                         <bean parent="Uif-SimpleLayout"/>
                                                     </property>
                                                     <property name="header">
-                                                        <bean id="KSCM-CommentField-comment-header-id"
+                                                        <bean id="KS-CommentField-comment-header-id"
                                                               parent="Uif-HeaderFive">
                                                             <!--<property name="render"-->
                                                                       <!--value="@{!#line.renderHelper.editInProgress}"/>-->
@@ -1246,20 +1246,20 @@
                                                                                 <property name="items">
                                                                                     <list>
                                                                                         <!--p:render="@{#line.renderHelper.canEdit}"-->
-                                                                                        <bean id="KSCM-CommentEditAction"
+                                                                                        <bean id="KS-CommentEditAction"
                                                                                               parent="KS-Uif-Edit-NavigationActionLink"
                                                                                               p:actionLabel="Edit"
                                                                                               p:methodToCall="editComment"
                                                                                               p:dirtyOnAction="false"/>
                                                                                         <!--p:render="@{#line.renderHelper.canDelete}"-->
-                                                                                        <bean id="KSCM-CommentDeleteAction"
+                                                                                        <bean id="KS-CommentDeleteAction"
                                                                                               parent="KS-Uif-Delete-NavigationActionLink"
                                                                                               p:methodToCall="deleteComment"
                                                                                               p:actionLabel="Delete"/>
                                                                                     </list>
                                                                                 </property>
                                                                             </bean>
-                                                                            <bean parent="Uif-HorizontalBoxGroup" p:colSpan="9">
+                                                                            <bean parent="Uif-HorizontalBoxGroup" p:colSpan="9" p:render="@{#line.edited eq true}">
                                                                                 <property name="items">
                                                                                     <list>
                                                                                         <bean parent="Uif-Message" p:messageText="Last Editor">
@@ -1275,25 +1275,6 @@
                                                                     </property>
                                                                 </bean>
                                                             </property>
-                                                            <!--<property name="rightGroup">-->
-                                                                <!--<bean parent="Uif-HorizontalBoxGroup">-->
-                                                                    <!--<property name="items">-->
-                                                                        <!--<list>-->
-                                                                            <!--&lt;!&ndash;p:render="@{#line.renderHelper.canEdit}"&ndash;&gt;-->
-                                                                            <!--<bean id="KSCM-CommentEditAction"-->
-                                                                                  <!--parent="KS-Uif-Edit-NavigationActionLink"-->
-                                                                                  <!--p:actionLabel="Edit"-->
-                                                                                  <!--p:methodToCall="editComment"-->
-                                                                                  <!--p:dirtyOnAction="false"/>-->
-                                                                            <!--&lt;!&ndash;p:render="@{#line.renderHelper.canDelete}"&ndash;&gt;-->
-                                                                            <!--<bean id="KSCM-CommentDeleteAction"-->
-                                                                                  <!--parent="KS-Uif-Delete-NavigationActionLink"-->
-                                                                                  <!--p:methodToCall="deleteComment"-->
-                                                                                  <!--p:actionLabel="Delete"/>-->
-                                                                        <!--</list>-->
-                                                                    <!--</property>-->
-                                                                <!--</bean>-->
-                                                            <!--</property>-->
                                                         </bean>
                                                     </property>
                                                 </bean>
