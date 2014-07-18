@@ -54,7 +54,7 @@ public class LprServiceConstants {
     public static final String ADVISOR_TYPE_KEY = "kuali.lpr.type.advisor";
 
     // lpr transaction type
-    public static final String LPRTRANS_REGISTER_TYPE_KEY = "kuali.lpr.trans.type.register";
+    public static final String LPRTRANS_REGISTRATION_TYPE_KEY = "kuali.lpr.trans.type.registration"; // KSENROLL-13667
     public static final String LPRTRANS_REG_CART_TYPE_KEY = "kuali.lpr.trans.type.registration.cart"; // KSENROLL-11784
 
     // lpr transaction item request options
