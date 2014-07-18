@@ -1,0 +1,26 @@
+
+<div class="kscr-SearchForm">
+    <!-- Search Heading -->
+    <div class="kscr-MainHeading kscr-SearchForm-heading">
+        <div class="kscr-MainHeading-header">Find Courses</div>
+    </div>
+
+    <!-- Search Form -->
+    <div class="kscr-SearchForm-form">
+        <form novalidate name="form" ng-submit="submit();">
+            <fieldset>
+                <div class="util-Grid">
+                    <div class="util-Grid-cell">
+                        <input id="courseSearchCriteria" class="kscr-SearchForm-input" type="text" maxlength="20" ng-model="courseSearchCriteria" />
+                    </div>
+                    <div class="kscr-SearchForm-button">
+                        <button id="searchSubmit" name="submit" class="kscr-Button" ng-disabled="!courseSearchCriteria">Search</button>
+                    </div>
+                </div>
+                <div class="util-Grid">
+                    <div class="util-Grid-cell kscr-SearchForm-label">ENGL, CHEM101, shakespeare, HIST 2XX</div>
+                </div>
+            </fieldset>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,78 @@
+.kscr-Search-results {
+  .util-Grid-cell;
+  color: @primaryTextColor;
+  font-family: @secondaryFontFamily;
+  .font-size(14);
+  font-weight: normal;
+  margin-right: 10px;
+  position: relative;
+}
+
+.kscr-Search-results-heading {
+  padding: 10px 0px 5px 15px;
+}
+
+.kscr-Search-results-summary {
+  float: left;
+}
+.kscr-Search-results-picker {
+  float: right;
+}
+
+.kscr-Search-results-header {
+  color: @secondaryTextColor;
+  font-family: @secondaryFontFamily;
+  .font-size(14);
+  font-weight: bold;
+  background-color: @cardBorderColor;
+  padding: 10px 15px 10px 15px;
+}
+
+.kscr-Search-results-cell {
+  padding: 10px 15px 10px 15px;
+  border-bottom: @horizontalLineBorder;
+}
+
+.kscr-Search-results-sortIcon {
+  float: right;
+}
+
+.kscr-Search-results-card {
+  background-color: @cardBackgroundColor;
+  border-color: @cardBorderColor;
+  border-style: solid;
+  border-radius: 4px;
+  border-width: 1px 1px 2px;
+}
+
+.kscr-Search-results-table {
+  .kscr-Search-results-card;
+  width: 100%;
+}
+
+.kscr-Search-results-paginate {
+  .util-Grid;
+  .kscr-Search-results-card;
+  position: absolute;
+  bottom: 0px;
+  right: 0px;
+  padding-top: 5px;
+}
+
+.kscr-Search-results-pageBox {
+  .util-Grid-cell;
+  border-style: solid;
+  border-color: @cardBorderColor;
+  border-width: 0 1px 0 0;
+  width: 25px;
+  height: 25px;
+  text-align: center;
+}
+
+.kscr-Search-results-pageBox a.hover {
+  text-decoration: none;
+}
+
+.kscr-Search-results-limits {
+  margin-left: 5px;
+}

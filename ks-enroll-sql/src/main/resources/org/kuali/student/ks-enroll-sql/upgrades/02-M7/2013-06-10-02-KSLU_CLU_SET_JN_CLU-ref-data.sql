@@ -1,0 +1,364 @@
+insert into KSLU_CLU_SET_JN_CLU (CLU_SET_ID, CLU_VER_IND_ID, ID, VER_NBR, OBJ_ID) values ('01c9b77e-9aaa-4c3e-a6b5-a20db8ccc207', '7d7f8a83-8679-4330-a0db-2d3df130427a', '2f1b4a14-0449-4613-8ce4-7ce345cebed7', 0, 'dac1b209-9b42-4b1e-b65a-fc93db54d425')
+/
+insert into KSLU_CLU_SET_JN_CLU (CLU_SET_ID, CLU_VER_IND_ID, ID, VER_NBR, OBJ_ID) values ('039dd9cc-d12e-458b-866f-e7684c490674', '75a23193-a4e9-440a-82e5-dfc8a7d629b5', '030eeedb-f1e5-4ec9-8f4b-25ec1aa00b32', 0, 'cb2b9989-4996-401f-9f0f-586f6e2945d1')
+/
+insert into KSLU_CLU_SET_JN_CLU (CLU_SET_ID, CLU_VER_IND_ID, ID, VER_NBR, OBJ_ID) values ('0513ec18-e77b-49df-a529-54aa12ee55ef', '8af491cf-9c23-409e-adc8-dc184dcbced6', '2e46467d-42e4-42be-87f1-8d9932b5b97c', 0, 'b211c82b-c4fe-4dee-9092-e723c5f3845e')
+/
+insert into KSLU_CLU_SET_JN_CLU (CLU_SET_ID, CLU_VER_IND_ID, ID, VER_NBR, OBJ_ID) values ('0513ec18-e77b-49df-a529-54aa12ee55ef', '3b3e07c4-0823-4a3b-9665-83c8c4d97c6f', '38ceb255-540e-49e5-9e17-8c7531cf075f', 0, '826aed1f-d178-40bd-9a34-2fc9fa1a9edf')
+/
+insert into KSLU_CLU_SET_JN_CLU (CLU_SET_ID, CLU_VER_IND_ID, ID, VER_NBR, OBJ_ID) values ('0513ec18-e77b-49df-a529-54aa12ee55ef', 'ffcc4b93-14fe-4655-95c0-226ddf1e9e0f', '8781c57d-ffde-46ec-9d20-30d4bb0a0835', 0, '4c85a984-ebd6-449b-973a-f140c867cf4a')
+/
+insert into KSLU_CLU_SET_JN_CLU (CLU_SET_ID, CLU_VER_IND_ID, ID, VER_NBR, OBJ_ID) values ('066465ad-9b72-4f61-aa6d-9be4a772ec1a', '7c8e4622-e327-471a-9493-f87222c1c979', 'fd1f2a31-860d-43cd-b1d3-9abd2d6652cc', 0, '135f72cd-2042-41bc-aa27-bacc7234baf7')
+/
+insert into KSLU_CLU_SET_JN_CLU (CLU_SET_ID, CLU_VER_IND_ID, ID, VER_NBR, OBJ_ID) values ('066465ad-9b72-4f61-aa6d-9be4a772ec1a', '158ea15c-6954-4b8c-bf47-8385321aa465', '5e4f172c-18d2-4f37-8d07-ae22f882f951', 0, 'ed093972-8aee-424e-9e73-97c7e044783d')
+/
+insert into KSLU_CLU_SET_JN_CLU (CLU_SET_ID, CLU_VER_IND_ID, ID, VER_NBR, OBJ_ID) values ('08597942-b4f3-4a4f-a14e-e0ebfe2acb6b', 'f8b7fc41-d19d-42ba-abd1-3b4b0a1bf991', '800a40a9-12a1-4671-87c4-e89316c2010d', 0, 'f53625d4-814a-4fc5-bc7a-a5eba3dc0f9a')
+/
+insert into KSLU_CLU_SET_JN_CLU (CLU_SET_ID, CLU_VER_IND_ID, ID, VER_NBR, OBJ_ID) values ('0a9b633f-6aae-4877-991a-a86c997d09ea', 'fbdb1677-b187-4c79-8a65-eb176e76f378', '02be25ea-1259-48f4-8ba1-c4ac7f791ee3', 0, 'd066a644-7288-4589-8204-322cfb5482f9')
+/
+insert into KSLU_CLU_SET_JN_CLU (CLU_SET_ID, CLU_VER_IND_ID, ID, VER_NBR, OBJ_ID) values ('0a9b633f-6aae-4877-991a-a86c997d09ea', '0989a5fe-bfc6-4fe0-8ca7-2108d867491c', '4dd4e0e0-6320-4672-ac33-d939abbe7e0a', 0, 'c096dab8-eeab-4f22-94c9-2ba366afba2b')
+/
+insert into KSLU_CLU_SET_JN_CLU (CLU_SET_ID, CLU_VER_IND_ID, ID, VER_NBR, OBJ_ID) values ('0cab1671-b09b-4a9f-99a5-3ddf57361392', '5324fdb1-c043-4000-8529-a98f8fceb5a1', 'd3096c92-c9ac-4f50-bcf6-37ba5cd0aa99', 0, '5091dfa9-b186-4a36-afd0-42474d9c3511')
+/
+insert into KSLU_CLU_SET_JN_CLU (CLU_SET_ID, CLU_VER_IND_ID, ID, VER_NBR, OBJ_ID) values ('0cab1671-b09b-4a9f-99a5-3ddf57361392', 'f754cdc9-ff68-47c0-aa74-3322c3e14b07', '83e43d1f-5245-4fa9-a534-a733020484fc', 0, 'b7e724ba-9986-4ec5-9d52-578b067657c0')
+/
+insert into KSLU_CLU_SET_JN_CLU (CLU_SET_ID, CLU_VER_IND_ID, ID, VER_NBR, OBJ_ID) values ('1449eb03-8808-4dd6-9367-65d643654bb9', '2b0a936d-0e2e-44a9-aeb1-ba33063baf96', 'c9855a9e-35c4-4755-a1a2-93084c104da6', 0, 'bf38ff5f-878c-43d3-a096-b0e2309cd6c8')
+/
+insert into KSLU_CLU_SET_JN_CLU (CLU_SET_ID, CLU_VER_IND_ID, ID, VER_NBR, OBJ_ID) values ('1449eb03-8808-4dd6-9367-65d643654bb9', '5e51aae0-6588-4eff-9afb-bb7c90e5bdfa', '0bf4694d-f1db-415d-b1ce-cd47d5d10067', 0, 'b7668231-0830-49e4-9fda-7aa612c108b3')
+/
+insert into KSLU_CLU_SET_JN_CLU (CLU_SET_ID, CLU_VER_IND_ID, ID, VER_NBR, OBJ_ID) values ('14cc4043-f0cc-44fb-8c40-40cd4372cd10', '2b0a936d-0e2e-44a9-aeb1-ba33063baf96', 'd63c4253-4c6f-47ec-98e9-49cd564b177a', 0, '3f5eeafe-51d6-443c-9621-cd03530e0e4a')
+/
+insert into KSLU_CLU_SET_JN_CLU (CLU_SET_ID, CLU_VER_IND_ID, ID, VER_NBR, OBJ_ID) values ('14cc4043-f0cc-44fb-8c40-40cd4372cd10', '5e51aae0-6588-4eff-9afb-bb7c90e5bdfa', 'a40a8e90-3313-4315-81bc-003969b9436f', 0, '88bafcde-87bf-44c6-ad90-65fad83653d0')
+/
+insert into KSLU_CLU_SET_JN_CLU (CLU_SET_ID, CLU_VER_IND_ID, ID, VER_NBR, OBJ_ID) values ('14cc4043-f0cc-44fb-8c40-40cd4372cd10', '743e00fa-f996-436b-bbe7-f8a1ace62898', '8cb1b2fc-6ece-460c-b035-12d58486b386', 0, '0563fc43-2d9d-44e4-817b-7ad9aef6a51b')
+/
+insert into KSLU_CLU_SET_JN_CLU (CLU_SET_ID, CLU_VER_IND_ID, ID, VER_NBR, OBJ_ID) values ('1826fd1d-d382-472b-af96-cabba5440b10', '01cf3c3b-5c7e-42e9-a5f0-3f922005e313', 'bdbcdfb6-7a42-4b90-8a87-220d0603f45b', 0, '32492e67-5a7c-4afb-8a9d-513db7e13d1d')
+/
+insert into KSLU_CLU_SET_JN_CLU (CLU_SET_ID, CLU_VER_IND_ID, ID, VER_NBR, OBJ_ID) values ('192b03ad-075d-4a1d-84dd-774dec6e314e', 'f92efc5f-27a4-45d1-a05a-a12a9a635247', '752d9f92-3758-491b-baa1-82449615fe85', 0, '77eda691-2223-41ec-ba92-78acb58feffd')
+/
+insert into KSLU_CLU_SET_JN_CLU (CLU_SET_ID, CLU_VER_IND_ID, ID, VER_NBR, OBJ_ID) values ('21b9f6f3-7d6c-422b-9d25-1e4ec113df4b', '4c1056a0-8ac2-489d-8457-986c6f419eca', '2f4a5880-5f81-4c57-a543-7e81c91c6ad3', 0, '9a5e98af-8c95-46f4-87ed-1c08cbf2eee4')
+/
+insert into KSLU_CLU_SET_JN_CLU (CLU_SET_ID, CLU_VER_IND_ID, ID, VER_NBR, OBJ_ID) values ('21b9f6f3-7d6c-422b-9d25-1e4ec113df4b', '0f549e4c-b201-4d53-8aed-3a0e86bc7492', 'ce151fd0-bfe4-4ab4-a826-cf8cdad03327', 0, 'f9b584db-d0a1-4015-bfd6-c4ad64faf7f7')
+/
+insert into KSLU_CLU_SET_JN_CLU (CLU_SET_ID, CLU_VER_IND_ID, ID, VER_NBR, OBJ_ID) values ('2353a482-3b81-4fb9-947a-9ee35c18d519', '8bac15a8-4d5d-4b24-8e65-d56e4de01125', 'bb6a75d4-4461-44f2-ae0d-984395c8b763', 0, 'a39a629d-69e5-4e31-9280-282e42fe9bf2')
+/
+insert into KSLU_CLU_SET_JN_CLU (CLU_SET_ID, CLU_VER_IND_ID, ID, VER_NBR, OBJ_ID) values ('2353a482-3b81-4fb9-947a-9ee35c18d519', '9e01baf6-c5c4-4758-93dc-64688373dc1b', '251802d9-1d85-45ec-a9a5-41f9712f7895', 0, 'af679557-365e-4d59-83a5-40b5d397bda7')
+/
+insert into KSLU_CLU_SET_JN_CLU (CLU_SET_ID, CLU_VER_IND_ID, ID, VER_NBR, OBJ_ID) values ('2353a482-3b81-4fb9-947a-9ee35c18d519', '21cbbc8d-ffaf-4e7e-b08e-13b075416818', '692fc1b8-26f2-4477-9f9c-b2b77dcebd2b', 0, '37b4dee1-ea96-470e-b8d5-a444591c65e7')
+/
+insert into KSLU_CLU_SET_JN_CLU (CLU_SET_ID, CLU_VER_IND_ID, ID, VER_NBR, OBJ_ID) values ('2353a482-3b81-4fb9-947a-9ee35c18d519', '27c318d7-0d64-4f58-b8ba-d9333d61c4ac', '126f145c-12a9-4003-8fca-b9c8c350a27a', 0, '97365d8c-af90-4dd2-99a5-5a2d01cead84')
+/
+insert into KSLU_CLU_SET_JN_CLU (CLU_SET_ID, CLU_VER_IND_ID, ID, VER_NBR, OBJ_ID) values ('279b36e8-e0c9-4524-906d-0b61e35e6db1', '8537ca73-af54-4802-927d-473972b7952a', 'e327c574-1ea8-4de8-8eba-4a1766173eae', 0, '7a21750a-4eae-46d0-b2ca-492b791ef4f6')
+/
+insert into KSLU_CLU_SET_JN_CLU (CLU_SET_ID, CLU_VER_IND_ID, ID, VER_NBR, OBJ_ID) values ('279b36e8-e0c9-4524-906d-0b61e35e6db1', '6c7e3b0c-a6f5-4cdb-9b42-dfa5b5916882', '3828c0bf-75b5-474f-8dd2-e39c05bc1f04', 0, '8f651a4e-ff19-476e-a01a-342ebb752d2a')
+/
+insert into KSLU_CLU_SET_JN_CLU (CLU_SET_ID, CLU_VER_IND_ID, ID, VER_NBR, OBJ_ID) values ('27b5b42d-c34f-46e9-bb27-cf2d403322f2', '8aa10ba6-9941-4241-8c04-ffb4ffde49f6', 'ef4d8755-b2d0-465a-857c-78f87ebaf5da', 0, 'b7bf3b55-803b-4173-8751-1877a0a0e035')
+/
+insert into KSLU_CLU_SET_JN_CLU (CLU_SET_ID, CLU_VER_IND_ID, ID, VER_NBR, OBJ_ID) values ('2ad370f0-36a2-4487-9ad9-9050812535cb', '257c0494-3149-457e-ab1a-fe63b36c8375', 'b1fbb777-3576-4108-b349-819caee1c35d', 0, '75d845a7-eb27-4066-b5b6-d2740695ad45')
+/
+insert into KSLU_CLU_SET_JN_CLU (CLU_SET_ID, CLU_VER_IND_ID, ID, VER_NBR, OBJ_ID) values ('2ad370f0-36a2-4487-9ad9-9050812535cb', '4960877d-ddcc-4f8e-851e-d576d290f4c8', '12dc7ee3-acbf-4aa2-8fbf-7e3d62afc59e', 0, '7398b8ac-9a63-4158-a01f-bcbc10cb3558')
+/
+insert into KSLU_CLU_SET_JN_CLU (CLU_SET_ID, CLU_VER_IND_ID, ID, VER_NBR, OBJ_ID) values ('2d600b2d-f455-4597-a6d5-b36cda421fe1', 'be1309f9-1fa2-4c11-a0ae-ca9d9f643b4a', 'a82dc07d-f3e3-41c0-b2e8-d813fd8358cb', 0, '43a84263-da9c-41c2-9fc4-9f6f0118acc2')
+/
+insert into KSLU_CLU_SET_JN_CLU (CLU_SET_ID, CLU_VER_IND_ID, ID, VER_NBR, OBJ_ID) values ('30db3d7c-e9b5-4c9e-b659-fd104e8b3be0', '37448741-44eb-46b3-b688-90e59b8d4f8b', '0aeaed91-cea2-43d5-8f7c-5bdfb713afae', 0, '9fee8845-f999-49c8-88f9-d83b74b3c1b7')
+/
+insert into KSLU_CLU_SET_JN_CLU (CLU_SET_ID, CLU_VER_IND_ID, ID, VER_NBR, OBJ_ID) values ('30db3d7c-e9b5-4c9e-b659-fd104e8b3be0', 'bb0f7a39-b682-4c76-b145-8cffffd0b126', '084d7aee-77d7-4428-9e9f-b270d49f1f17', 0, '0faec866-12bc-4b37-aab1-630421a4f202')
+/
+insert into KSLU_CLU_SET_JN_CLU (CLU_SET_ID, CLU_VER_IND_ID, ID, VER_NBR, OBJ_ID) values ('31c363b8-9611-4c07-ae83-65061a65d701', '5614805c-e9b4-46db-b7a8-05201ed9be0a', '5040a5c4-8bce-4ce8-8208-5bd1a3aea13a', 0, 'b4048f64-45d0-4e4c-9d14-9e8eb7cc2364')
+/
+insert into KSLU_CLU_SET_JN_CLU (CLU_SET_ID, CLU_VER_IND_ID, ID, VER_NBR, OBJ_ID) values ('31c363b8-9611-4c07-ae83-65061a65d701', '08ba54bb-fb09-45c7-a0ab-ddad36f4a94b', '9da3509b-55bf-4079-a59f-ce85ca2126e5', 0, 'b19e64cc-2fdb-4398-bf8e-239c6d3222c2')
+/
+insert into KSLU_CLU_SET_JN_CLU (CLU_SET_ID, CLU_VER_IND_ID, ID, VER_NBR, OBJ_ID) values ('3272c717-61a7-4aac-8391-17c8b95a5881', 'be8fd9d2-32c0-4eca-bf19-008ce28a896f', '8ed68b4c-37c1-472a-b090-ecb0202b6411', 0, 'f3584e8c-f3c5-4f17-828e-4dbf1d709144')
+/
+insert into KSLU_CLU_SET_JN_CLU (CLU_SET_ID, CLU_VER_IND_ID, ID, VER_NBR, OBJ_ID) values ('32a6177a-993d-4c35-9eff-2b3177e452a4', '0ebd57aa-0c14-4c34-808e-f96e4d53173c', '98305ca1-737b-4976-868f-8400b25a6c06', 0, 'd8e2af0c-596a-49e5-901f-05b6a21c9038')
+/
+insert into KSLU_CLU_SET_JN_CLU (CLU_SET_ID, CLU_VER_IND_ID, ID, VER_NBR, OBJ_ID) values ('32a6177a-993d-4c35-9eff-2b3177e452a4', '6cff7779-174c-40c2-9c62-1b1c4a823734', '6bc79860-8b17-49b2-8007-03d472fed7c4', 0, 'f171c9f3-31cd-40dd-9214-2dafaa6275c5')
+/
+insert into KSLU_CLU_SET_JN_CLU (CLU_SET_ID, CLU_VER_IND_ID, ID, VER_NBR, OBJ_ID) values ('3af50a5f-52e5-4e1b-b824-17a806d89786', '4c1056a0-8ac2-489d-8457-986c6f419eca', '160aad79-562b-4bdf-9cf1-4b03c0a91529', 0, '4abf6088-365b-43ef-86ad-2a886793dc04')
+/
+insert into KSLU_CLU_SET_JN_CLU (CLU_SET_ID, CLU_VER_IND_ID, ID, VER_NBR, OBJ_ID) values ('3af50a5f-52e5-4e1b-b824-17a806d89786', 'c6e9f035-404a-445b-bb00-0c4289ef3701', '71bc2593-5160-47e6-ba63-4be7cef480b7', 0, '4cf16b8b-c687-4bfd-b8b5-1b0cc7e52911')
+/
+insert into KSLU_CLU_SET_JN_CLU (CLU_SET_ID, CLU_VER_IND_ID, ID, VER_NBR, OBJ_ID) values ('3bd48ba5-2d6f-4d24-b335-2f482441e1f4', '0f549e4c-b201-4d53-8aed-3a0e86bc7492', '930e4c81-4d50-4f78-9ca6-cb4a16181fa9', 0, 'cc49b334-4807-4560-acb3-56b7abd5d32a')
+/
+insert into KSLU_CLU_SET_JN_CLU (CLU_SET_ID, CLU_VER_IND_ID, ID, VER_NBR, OBJ_ID) values ('3bd48ba5-2d6f-4d24-b335-2f482441e1f4', '4c1056a0-8ac2-489d-8457-986c6f419eca', '5f29e78c-a943-494e-82df-1d25f419fba8', 0, '22dec720-954a-4179-850a-c83b85c2267f')
+/
+insert into KSLU_CLU_SET_JN_CLU (CLU_SET_ID, CLU_VER_IND_ID, ID, VER_NBR, OBJ_ID) values ('3e7aa9f0-6fed-42dc-81bb-435a69f7b2ce', '0ebd57aa-0c14-4c34-808e-f96e4d53173c', 'eeb126c5-cea4-467c-b0cc-886f2ce7dd56', 0, 'fadd8d58-92d4-4e3e-875c-f573e37e2dfb')
+/
+insert into KSLU_CLU_SET_JN_CLU (CLU_SET_ID, CLU_VER_IND_ID, ID, VER_NBR, OBJ_ID) values ('3e7aa9f0-6fed-42dc-81bb-435a69f7b2ce', '389d3aa6-fb7d-4f8d-b0b5-795eb7af13df', '6ed4b084-8e1f-4a07-954d-0d9db0014c66', 0, 'c7d51005-6bdd-4a4f-bb55-5755da8b8e26')
+/
+insert into KSLU_CLU_SET_JN_CLU (CLU_SET_ID, CLU_VER_IND_ID, ID, VER_NBR, OBJ_ID) values ('416bb4d4-3b60-4d52-a1f9-b1f04dcdaa5d', '06611716-590a-4193-94b6-464e08763648', 'd7f2f7d0-0a23-4e2e-9b5b-8cc8aec5e1b0', 0, '123e4412-c26e-40ba-bdfc-4ed77a496aa6')
+/
+insert into KSLU_CLU_SET_JN_CLU (CLU_SET_ID, CLU_VER_IND_ID, ID, VER_NBR, OBJ_ID) values ('416bb4d4-3b60-4d52-a1f9-b1f04dcdaa5d', '951a8ea0-94d2-449a-8741-83e3dcffddf3', 'ec5c3a68-fd9f-419e-9d9c-d7c2fa76d754', 0, 'd0b0f33b-9d80-41cb-bd8d-03653ad2e13c')
+/
+insert into KSLU_CLU_SET_JN_CLU (CLU_SET_ID, CLU_VER_IND_ID, ID, VER_NBR, OBJ_ID) values ('42d6c8d8-a27b-4aa3-92fa-b06f9524b39b', '3c14f5b5-12ea-4d2b-b556-dc19c7bb5aa3', 'a72ba075-2e1d-48c8-b871-5619126e9f3b', 0, '613d6447-4052-40f2-a2a7-c10ac2da6bbe')
+/
+insert into KSLU_CLU_SET_JN_CLU (CLU_SET_ID, CLU_VER_IND_ID, ID, VER_NBR, OBJ_ID) values ('44f5dac3-9699-4f28-bf1b-51e3fd95a1c5', '01cf3c3b-5c7e-42e9-a5f0-3f922005e313', '0d30b3c4-ad12-40e5-88ec-8854682b596e', 0, '7b024ac8-b945-48f8-a805-266ff99f47ac')
+/
+insert into KSLU_CLU_SET_JN_CLU (CLU_SET_ID, CLU_VER_IND_ID, ID, VER_NBR, OBJ_ID) values ('45111cce-0a10-451c-bd26-067d1a0d7d74', 'f8b7fc41-d19d-42ba-abd1-3b4b0a1bf991', '6644ac58-6ba7-4114-93b0-512397a64d26', 0, '798204f7-2b3c-44f3-a8e9-394748070c59')
+/
+insert into KSLU_CLU_SET_JN_CLU (CLU_SET_ID, CLU_VER_IND_ID, ID, VER_NBR, OBJ_ID) values ('47649970-a003-4c45-9693-6679d93581ca', '5e1a47aa-6ceb-45f2-96d2-d5d5f12aaad1', '16531404-0469-456c-92be-56e5c4e86310', 0, 'c5372c25-5224-46fc-9c39-ca8f6211c578')
+/
+insert into KSLU_CLU_SET_JN_CLU (CLU_SET_ID, CLU_VER_IND_ID, ID, VER_NBR, OBJ_ID) values ('4ae90739-4013-447b-9a3a-1aececa2b964', '951a8ea0-94d2-449a-8741-83e3dcffddf3', '9ad8055b-49ec-4269-864c-e7cfc51b7485', 0, '8680908a-667e-42b4-86a1-5db89cecb0d4')
+/
+insert into KSLU_CLU_SET_JN_CLU (CLU_SET_ID, CLU_VER_IND_ID, ID, VER_NBR, OBJ_ID) values ('4ae90739-4013-447b-9a3a-1aececa2b964', '95aed53b-055d-41c6-8ddc-18578fb8fe36', 'a932d561-485b-4d54-be17-ee5f5d2abd85', 0, 'd659e4b9-1c69-443e-8d98-f2a58a852b35')
+/
+insert into KSLU_CLU_SET_JN_CLU (CLU_SET_ID, CLU_VER_IND_ID, ID, VER_NBR, OBJ_ID) values ('565d19a7-6fc5-45af-80ff-5ff4d94365fa', '0f549e4c-b201-4d53-8aed-3a0e86bc7492', '23d67608-d660-4562-91d1-1ce1edd0c912', 0, '45dd2483-708a-4bf6-910c-6d7ab5d3573b')
+/
+insert into KSLU_CLU_SET_JN_CLU (CLU_SET_ID, CLU_VER_IND_ID, ID, VER_NBR, OBJ_ID) values ('565d19a7-6fc5-45af-80ff-5ff4d94365fa', '0989a5fe-bfc6-4fe0-8ca7-2108d867491c', '2dafb059-8e82-495b-a8d2-81f8b3828552', 0, '9a523897-31a5-4445-b1e4-6c1c45088cd5')
+/
+insert into KSLU_CLU_SET_JN_CLU (CLU_SET_ID, CLU_VER_IND_ID, ID, VER_NBR, OBJ_ID) values ('59bc13db-7ccc-4e78-a87b-c4fd2c023cda', '4c1056a0-8ac2-489d-8457-986c6f419eca', '0a233b57-a4f7-4ab3-9285-723d4c23fdb9', 0, '74cf56a7-cba9-4cc7-884a-5371b7b2319b')
+/
+insert into KSLU_CLU_SET_JN_CLU (CLU_SET_ID, CLU_VER_IND_ID, ID, VER_NBR, OBJ_ID) values ('59bc13db-7ccc-4e78-a87b-c4fd2c023cda', 'd38a0167-208d-4e57-8e40-d6ae61717b84', '1eb8f72b-b69d-4e7e-abe8-6e6158ee2f49', 0, 'd9865629-b0ab-44a2-bacc-69a698517054')
+/
+insert into KSLU_CLU_SET_JN_CLU (CLU_SET_ID, CLU_VER_IND_ID, ID, VER_NBR, OBJ_ID) values ('6300db00-4957-47c9-aef4-591bc114e015', '91a41cdf-4ae8-4815-b11e-542f7f1de112', '7d185660-50d6-4941-ba02-951e0a04bfa2', 0, '1db83fc7-ff17-42c5-b327-22e5d6369031')
+/
+insert into KSLU_CLU_SET_JN_CLU (CLU_SET_ID, CLU_VER_IND_ID, ID, VER_NBR, OBJ_ID) values ('65eedeae-d63a-4b21-a864-e247b786a150', '01cf3c3b-5c7e-42e9-a5f0-3f922005e313', 'ed0f63b1-6c97-4942-a38f-82b39ccd6afc', 0, 'a8eb8a6d-c89b-4bca-ad81-437a5af74c46')
+/
+insert into KSLU_CLU_SET_JN_CLU (CLU_SET_ID, CLU_VER_IND_ID, ID, VER_NBR, OBJ_ID) values ('6a314b5d-9c2f-470a-9c9b-0e870e59c0d0', 'df1e59b1-a84c-4347-aa5e-bfaa5a533ac8', '4bd07fb7-d35d-4b41-b22a-4b751756700c', 0, '10f0a429-e215-4cd7-80fe-066004a812bb')
+/
+insert into KSLU_CLU_SET_JN_CLU (CLU_SET_ID, CLU_VER_IND_ID, ID, VER_NBR, OBJ_ID) values ('6a314b5d-9c2f-470a-9c9b-0e870e59c0d0', 'd1baa980-8639-4577-aa4d-338558b9a17c', '5ddec294-99f1-45bc-9990-fad69c2cec41', 0, 'e3343185-4bcc-4d74-96ab-250acbf43361')
+/
+insert into KSLU_CLU_SET_JN_CLU (CLU_SET_ID, CLU_VER_IND_ID, ID, VER_NBR, OBJ_ID) values ('6dc1a13e-d4b0-48a7-a166-0ee60e411295', '951a8ea0-94d2-449a-8741-83e3dcffddf3', 'df6476a1-ab4a-4724-bcc5-dcc1cbe69c53', 0, 'b35b4504-61c5-4585-95ce-56b009814c50')
+/
+insert into KSLU_CLU_SET_JN_CLU (CLU_SET_ID, CLU_VER_IND_ID, ID, VER_NBR, OBJ_ID) values ('6ede31d9-259d-4697-9efa-13e54ec792b1', '743e00fa-f996-436b-bbe7-f8a1ace62898', '4c2086fb-d15f-42da-b1a8-2655051afe71', 0, '3e503fa2-1124-43a8-a0e9-3eb45510c180')
+/
+insert into KSLU_CLU_SET_JN_CLU (CLU_SET_ID, CLU_VER_IND_ID, ID, VER_NBR, OBJ_ID) values ('74de3880-624f-48cf-bf04-bd1ecfc6f204', 'a153b3b5-1c50-4c20-b4b6-9ac74a99a30d', '763e56b8-eaf8-499a-a0e3-8361e8a9a837', 0, 'd4b52fa7-3de1-4ea6-9cde-4cd9c28124f1')
+/
+insert into KSLU_CLU_SET_JN_CLU (CLU_SET_ID, CLU_VER_IND_ID, ID, VER_NBR, OBJ_ID) values ('75590bd4-7de2-4037-8a45-59323d2fdf72', 'efe78a5c-7803-49b0-bc1e-601f4d4b5cdf', '5f009eb8-f5ad-4c1b-8616-29be758473c5', 0, '36da1277-8e43-42dd-a88c-56074337a7d1')
+/
+insert into KSLU_CLU_SET_JN_CLU (CLU_SET_ID, CLU_VER_IND_ID, ID, VER_NBR, OBJ_ID) values ('75590bd4-7de2-4037-8a45-59323d2fdf72', '4d5df842-74e3-495e-83d8-4ba23deea138', 'a2b3b7d6-33a5-4fa8-8021-7bc7fcffeff1', 0, '8b59df2a-47b6-4d77-8a84-799ed86b96a0')
+/
+insert into KSLU_CLU_SET_JN_CLU (CLU_SET_ID, CLU_VER_IND_ID, ID, VER_NBR, OBJ_ID) values ('84c94710-5381-45a6-807a-f83f2fff54ec', '8aa10ba6-9941-4241-8c04-ffb4ffde49f6', '77c31ad2-9962-409b-b679-4f7055640605', 0, 'b6abfa9d-4c18-4b8b-be16-68e813bc51c2')
+/
+insert into KSLU_CLU_SET_JN_CLU (CLU_SET_ID, CLU_VER_IND_ID, ID, VER_NBR, OBJ_ID) values ('84f46372-b5a5-490c-81b1-3803be0713dc', '08ba54bb-fb09-45c7-a0ab-ddad36f4a94b', '0d17758b-4514-4799-8ccd-d3163379b687', 0, 'c4d27ec8-18ea-466a-aaa6-29cd6e4f13c2')
+/
+insert into KSLU_CLU_SET_JN_CLU (CLU_SET_ID, CLU_VER_IND_ID, ID, VER_NBR, OBJ_ID) values ('84f46372-b5a5-490c-81b1-3803be0713dc', '5614805c-e9b4-46db-b7a8-05201ed9be0a', 'ebc8916a-9048-4815-a373-9329fc188b64', 0, '6e70a252-111a-48fb-a7aa-6a29235bb6d5')
+/
+insert into KSLU_CLU_SET_JN_CLU (CLU_SET_ID, CLU_VER_IND_ID, ID, VER_NBR, OBJ_ID) values ('8646c7b0-969e-4db7-8346-70ebbe9eafe7', 'f8b7fc41-d19d-42ba-abd1-3b4b0a1bf991', 'b4347ee1-a001-4017-b20a-e262bfdc0977', 0, '9b594bdc-796b-482b-b6fa-31194ec0e86e')
+/
+insert into KSLU_CLU_SET_JN_CLU (CLU_SET_ID, CLU_VER_IND_ID, ID, VER_NBR, OBJ_ID) values ('8ca2b049-8567-4f0d-85ca-9a65cb7b5d90', 'a05b5b4a-e0dc-4375-9911-0e3984740caa', '3d5af414-8c87-46f0-9f2f-e0eadb4ab5f8', 0, '540cabfd-da32-4b17-a26e-769520a2720b')
+/
+insert into KSLU_CLU_SET_JN_CLU (CLU_SET_ID, CLU_VER_IND_ID, ID, VER_NBR, OBJ_ID) values ('8ca2b049-8567-4f0d-85ca-9a65cb7b5d90', 'fe5bdc17-db55-4636-9cbc-a72a105da233', '06e91ff1-35f6-4a63-9eda-510ba2024359', 0, 'e5cc0a35-4df0-43d9-a856-f2700038af77')
+/
+insert into KSLU_CLU_SET_JN_CLU (CLU_SET_ID, CLU_VER_IND_ID, ID, VER_NBR, OBJ_ID) values ('8e62f8f7-dc9c-4d43-a7ba-39fb431e3a50', 'a153b3b5-1c50-4c20-b4b6-9ac74a99a30d', '98394d35-fd77-413e-bbd4-a638d76fbc8b', 0, '1064973d-2475-435d-8609-55294c1d1bfb')
+/
+insert into KSLU_CLU_SET_JN_CLU (CLU_SET_ID, CLU_VER_IND_ID, ID, VER_NBR, OBJ_ID) values ('8e62f8f7-dc9c-4d43-a7ba-39fb431e3a50', '0f549e4c-b201-4d53-8aed-3a0e86bc7492', '5c516bba-0a47-4c02-9985-7de39a359b94', 0, 'cd826f0b-e1c6-47fa-a3c5-f6fbb7124309')
+/
+insert into KSLU_CLU_SET_JN_CLU (CLU_SET_ID, CLU_VER_IND_ID, ID, VER_NBR, OBJ_ID) values ('91bc807c-d76a-409c-83c0-695cb945075e', 'c6e9f035-404a-445b-bb00-0c4289ef3701', '592e306f-293f-4506-b9ef-e832cec429ae', 0, '25aebdd8-be1e-49dd-96f2-834b9b12030f')
+/
+insert into KSLU_CLU_SET_JN_CLU (CLU_SET_ID, CLU_VER_IND_ID, ID, VER_NBR, OBJ_ID) values ('91bc807c-d76a-409c-83c0-695cb945075e', '0989a5fe-bfc6-4fe0-8ca7-2108d867491c', '58c94dbb-bee6-43f2-b634-25a97f91709e', 0, '772f735d-ac72-495b-8fc9-ef57f0b5bd6f')
+/
+insert into KSLU_CLU_SET_JN_CLU (CLU_SET_ID, CLU_VER_IND_ID, ID, VER_NBR, OBJ_ID) values ('9562ba90-ff79-40db-baf9-3a384d79eeb3', '6d93b357-91cf-49e6-acc2-8864baa09ad3', '5f9f6650-6201-445a-8b8b-d6afea841819', 0, 'a992cc6b-dd00-4498-b664-3229374ec2fd')
+/
+insert into KSLU_CLU_SET_JN_CLU (CLU_SET_ID, CLU_VER_IND_ID, ID, VER_NBR, OBJ_ID) values ('9562ba90-ff79-40db-baf9-3a384d79eeb3', 'f9b37df3-d11c-42cc-92f7-9b5e01f9bc9a', '1df7577e-1b8d-4c10-b508-1ebac5be2473', 0, 'ffd676b1-e4b1-40c0-8683-899698df3498')
+/
+insert into KSLU_CLU_SET_JN_CLU (CLU_SET_ID, CLU_VER_IND_ID, ID, VER_NBR, OBJ_ID) values ('9562ba90-ff79-40db-baf9-3a384d79eeb3', '8a246144-4da9-4cc1-aea4-85f61597bf9c', '87ee6dc6-a778-46d8-923e-1edacc501185', 0, 'c9ea0aee-1029-439b-98ba-3cc5b3bd0a32')
+/
+insert into KSLU_CLU_SET_JN_CLU (CLU_SET_ID, CLU_VER_IND_ID, ID, VER_NBR, OBJ_ID) values ('a3831cde-80ff-4209-8e3e-90d683546918', '3ccd136c-59a7-4cf3-bdbb-be2bfe3bf054', 'dff3fe08-d0ce-4487-a5f8-06d33c2a792c', 0, '4f8e10c1-06af-42f8-ae0d-e6b2d0593c2a')
+/
+insert into KSLU_CLU_SET_JN_CLU (CLU_SET_ID, CLU_VER_IND_ID, ID, VER_NBR, OBJ_ID) values ('a41ae744-0eb5-448e-b7e0-415755192ed4', '1c2e8431-2479-473d-81e0-a05cffa296e8', '3e5039cd-3ff5-40b4-b9a2-0fac5afa7dc3', 0, '15d6a2ed-7f34-4843-ba7a-a6ad1cfe46be')
+/
+insert into KSLU_CLU_SET_JN_CLU (CLU_SET_ID, CLU_VER_IND_ID, ID, VER_NBR, OBJ_ID) values ('a4a7cb46-9e39-4e9a-a091-f9ddc9382aad', '54414200-ea95-47dd-9718-1ec1d81f366b', '63d8d20f-3cea-4b2d-add0-967030aef2c5', 0, '8cc1a415-89e7-4e8c-b7e0-e2aa1b14c5d0')
+/
+insert into KSLU_CLU_SET_JN_CLU (CLU_SET_ID, CLU_VER_IND_ID, ID, VER_NBR, OBJ_ID) values ('a4a7cb46-9e39-4e9a-a091-f9ddc9382aad', '1f99f4f2-7be0-4e77-80ad-ce9fe1d66202', '69d15de8-43ed-45f8-92e0-3cd3aab74080', 0, '0d7a55d2-8ee6-4ef8-b331-0a15ab46c4e9')
+/
+insert into KSLU_CLU_SET_JN_CLU (CLU_SET_ID, CLU_VER_IND_ID, ID, VER_NBR, OBJ_ID) values ('a6ad4f4c-b41f-4c91-b74f-6a714cbff75c', '257c0494-3149-457e-ab1a-fe63b36c8375', '2d365c5b-e1c2-49f5-b078-c9b90ae4d947', 0, '02aa6913-5c2e-4875-9f69-55858a51270c')
+/
+insert into KSLU_CLU_SET_JN_CLU (CLU_SET_ID, CLU_VER_IND_ID, ID, VER_NBR, OBJ_ID) values ('a6ad4f4c-b41f-4c91-b74f-6a714cbff75c', '4960877d-ddcc-4f8e-851e-d576d290f4c8', '8c80c525-4751-4df7-801e-deed882da7ef', 0, '03826e7c-54ae-4cd7-be8d-5f729919141f')
+/
+insert into KSLU_CLU_SET_JN_CLU (CLU_SET_ID, CLU_VER_IND_ID, ID, VER_NBR, OBJ_ID) values ('a6d61113-871f-4552-9ea7-db3754305055', '3b3e07c4-0823-4a3b-9665-83c8c4d97c6f', '6f2c8396-4b5a-41e4-8d3e-69938bf8131e', 0, '1ce36d45-22d5-4c40-88c7-515a3490a799')
+/
+insert into KSLU_CLU_SET_JN_CLU (CLU_SET_ID, CLU_VER_IND_ID, ID, VER_NBR, OBJ_ID) values ('a6d61113-871f-4552-9ea7-db3754305055', 'b8c5c730-d8a8-4ef6-8339-aa4f69ee9b75', '65cfab24-b5dc-4930-b8fc-c3e8e48255ec', 0, 'e6413556-cd88-4f42-80d5-23f829d81d67')
+/
+insert into KSLU_CLU_SET_JN_CLU (CLU_SET_ID, CLU_VER_IND_ID, ID, VER_NBR, OBJ_ID) values ('acff23e4-57df-4999-b491-2a6267a04a63', 'd9c4ed6d-465f-446f-8315-62d6520902a0', '52d7e541-85bb-46fd-a719-6cea6cce9f7d', 0, '082e841b-e54b-437f-b37c-feb11546837e')
+/
+insert into KSLU_CLU_SET_JN_CLU (CLU_SET_ID, CLU_VER_IND_ID, ID, VER_NBR, OBJ_ID) values ('b009038d-b950-4009-ab44-41d88afe661b', 'fe5bdc17-db55-4636-9cbc-a72a105da233', 'ad3176cc-4b89-436f-ab1d-405729d5364c', 0, '28a83d05-6a71-4d1e-b625-8bc19b78d0d2')
+/
+insert into KSLU_CLU_SET_JN_CLU (CLU_SET_ID, CLU_VER_IND_ID, ID, VER_NBR, OBJ_ID) values ('b009038d-b950-4009-ab44-41d88afe661b', 'a05b5b4a-e0dc-4375-9911-0e3984740caa', '6bd3907e-6c47-42b3-b6ca-5cd023de6b8e', 0, '842089f1-2724-4bff-8cdd-45af4f004edf')
+/
+insert into KSLU_CLU_SET_JN_CLU (CLU_SET_ID, CLU_VER_IND_ID, ID, VER_NBR, OBJ_ID) values ('b37b367b-aee3-4b88-b9a7-b84cccfa2c23', 'a153b3b5-1c50-4c20-b4b6-9ac74a99a30d', '569589cc-f82a-4038-bcf9-3873996d641a', 0, '619a7e6b-de1b-4bdb-bca0-6a4c19e59fa2')
+/
+insert into KSLU_CLU_SET_JN_CLU (CLU_SET_ID, CLU_VER_IND_ID, ID, VER_NBR, OBJ_ID) values ('b37b367b-aee3-4b88-b9a7-b84cccfa2c23', '0f549e4c-b201-4d53-8aed-3a0e86bc7492', 'c6c938ab-771d-46e7-8cfa-8e4081b6391b', 0, '282d13d8-9743-4647-abb3-63bed5b14d9c')
+/
+insert into KSLU_CLU_SET_JN_CLU (CLU_SET_ID, CLU_VER_IND_ID, ID, VER_NBR, OBJ_ID) values ('b7bfb2b0-760e-4004-8974-0cf437009ea9', '85ef288e-ac9b-4c15-80bd-ed6646943614', '41b048d8-1a4b-42a4-966c-0d78270b71fb', 0, '59c6e79e-469f-4a07-9322-1d8d8d8fa782')
+/
+insert into KSLU_CLU_SET_JN_CLU (CLU_SET_ID, CLU_VER_IND_ID, ID, VER_NBR, OBJ_ID) values ('b95cb76d-857d-48fd-aece-44001ab364df', '9a0c3505-f369-47a4-a227-ed6854c1c10f', '6fa30340-a57c-4b16-9741-2f3be1a1a246', 0, '3e40ffba-efd5-4d1e-bb4e-d67b1d9a3f17')
+/
+insert into KSLU_CLU_SET_JN_CLU (CLU_SET_ID, CLU_VER_IND_ID, ID, VER_NBR, OBJ_ID) values ('b95cb76d-857d-48fd-aece-44001ab364df', '6cff7779-174c-40c2-9c62-1b1c4a823734', 'b2e9b1e4-37e5-4b1b-be5d-71098e1ee33f', 0, 'af246f45-6fc4-4bc1-a5af-dc5be8f19182')
+/
+insert into KSLU_CLU_SET_JN_CLU (CLU_SET_ID, CLU_VER_IND_ID, ID, VER_NBR, OBJ_ID) values ('bb1bb583-e137-48a3-9b98-41f81cd08e9b', '53e0cc6d-c80b-4cf9-b2d9-b11c539e54e1', '08c8c771-133f-4f8f-ada9-7dba2f6cff38', 0, '97556a3d-90eb-49ca-8320-d52d3cd0bb95')
+/
+insert into KSLU_CLU_SET_JN_CLU (CLU_SET_ID, CLU_VER_IND_ID, ID, VER_NBR, OBJ_ID) values ('bb9a8011-4efa-425b-a0bc-a69a8f88ff8d', '08ba54bb-fb09-45c7-a0ab-ddad36f4a94b', '2b538024-6c2a-4f7c-a748-050895e5b805', 0, '91074a2a-43ef-4d93-8547-5c34b1b2b71a')
+/
+insert into KSLU_CLU_SET_JN_CLU (CLU_SET_ID, CLU_VER_IND_ID, ID, VER_NBR, OBJ_ID) values ('bb9a8011-4efa-425b-a0bc-a69a8f88ff8d', '5614805c-e9b4-46db-b7a8-05201ed9be0a', '5b883fd4-fcd1-408b-8feb-c87114a7f1e6', 0, '415421bf-79c5-41c6-bda1-e99c5485a539')
+/
+insert into KSLU_CLU_SET_JN_CLU (CLU_SET_ID, CLU_VER_IND_ID, ID, VER_NBR, OBJ_ID) values ('bf2a12c3-34a6-4721-9c2c-6b758f6bd7a3', '0f549e4c-b201-4d53-8aed-3a0e86bc7492', '942e9d53-a087-4ee7-8d2e-cb2342f84fa0', 0, '5dead28f-f97c-4544-bed5-4251c8d28e61')
+/
+insert into KSLU_CLU_SET_JN_CLU (CLU_SET_ID, CLU_VER_IND_ID, ID, VER_NBR, OBJ_ID) values ('bf2a12c3-34a6-4721-9c2c-6b758f6bd7a3', '4c1056a0-8ac2-489d-8457-986c6f419eca', '32c49f3c-3811-477a-858f-44bd8fa6fdeb', 0, '1f6e2370-03b6-42e4-a425-d9fdeecca9ef')
+/
+insert into KSLU_CLU_SET_JN_CLU (CLU_SET_ID, CLU_VER_IND_ID, ID, VER_NBR, OBJ_ID) values ('bf866d67-c34f-41c3-984d-4f64ad348632', 'f8b7fc41-d19d-42ba-abd1-3b4b0a1bf991', '2246c61f-ecb8-42ba-9ef0-baa25cec8716', 0, 'ad213956-024d-43e5-82cb-bc1a2cae5e6f')
+/
+insert into KSLU_CLU_SET_JN_CLU (CLU_SET_ID, CLU_VER_IND_ID, ID, VER_NBR, OBJ_ID) values ('c08123af-3498-4f95-850d-16b3ed6fff25', '0989a5fe-bfc6-4fe0-8ca7-2108d867491c', '2a2abe5d-882e-4d1a-b5cf-64ecfcf193e2', 0, 'adea7206-cf0c-4fb8-a987-6e086fc8f6dc')
+/
+insert into KSLU_CLU_SET_JN_CLU (CLU_SET_ID, CLU_VER_IND_ID, ID, VER_NBR, OBJ_ID) values ('c08123af-3498-4f95-850d-16b3ed6fff25', '5e51aae0-6588-4eff-9afb-bb7c90e5bdfa', 'b0eae650-623c-4333-9c84-be4c8ad0594a', 0, '3f57724a-4666-4d73-83cf-b127adb6935d')
+/
+insert into KSLU_CLU_SET_JN_CLU (CLU_SET_ID, CLU_VER_IND_ID, ID, VER_NBR, OBJ_ID) values ('c08123af-3498-4f95-850d-16b3ed6fff25', '2b0a936d-0e2e-44a9-aeb1-ba33063baf96', '33570de7-17fe-4a8c-8315-65c85809629e', 0, '047c59e1-a202-4b32-9b2b-74f1220a324b')
+/
+insert into KSLU_CLU_SET_JN_CLU (CLU_SET_ID, CLU_VER_IND_ID, ID, VER_NBR, OBJ_ID) values ('c08123af-3498-4f95-850d-16b3ed6fff25', '743e00fa-f996-436b-bbe7-f8a1ace62898', '615c4c3e-a503-4520-9364-1e99e06861d7', 0, 'b1e7ce84-da87-4e44-8917-bb691465f574')
+/
+insert into KSLU_CLU_SET_JN_CLU (CLU_SET_ID, CLU_VER_IND_ID, ID, VER_NBR, OBJ_ID) values ('c281a3be-3ffa-4a12-bf86-de6926179f22', '3cba70d8-46c2-4408-8ed5-d52978a5137f', 'd06a4265-98c0-4d30-937f-1728abadf5f5', 0, '439ec13b-df6f-4856-a6e1-75fc6f19cc70')
+/
+insert into KSLU_CLU_SET_JN_CLU (CLU_SET_ID, CLU_VER_IND_ID, ID, VER_NBR, OBJ_ID) values ('c281a3be-3ffa-4a12-bf86-de6926179f22', '461232e9-65d5-4772-84ad-945ab91075d6', '0a3350c6-a3cb-4870-bc50-8bc8fb31c30a', 0, '9b68ff1f-6443-4d0f-bd15-00531f222f05')
+/
+insert into KSLU_CLU_SET_JN_CLU (CLU_SET_ID, CLU_VER_IND_ID, ID, VER_NBR, OBJ_ID) values ('c346f81b-7f14-4b9f-a23c-ed2029eec577', '0f549e4c-b201-4d53-8aed-3a0e86bc7492', '918855dc-506e-4586-80ff-e7337ce369a3', 0, '8f688885-c97b-4ae7-8c31-06e1bcd5ca36')
+/
+insert into KSLU_CLU_SET_JN_CLU (CLU_SET_ID, CLU_VER_IND_ID, ID, VER_NBR, OBJ_ID) values ('c346f81b-7f14-4b9f-a23c-ed2029eec577', '0989a5fe-bfc6-4fe0-8ca7-2108d867491c', '4064b9bf-5366-4b80-8346-09403e679490', 0, 'f0548578-98d7-4013-8a2c-c7c6cbf59098')
+/
+insert into KSLU_CLU_SET_JN_CLU (CLU_SET_ID, CLU_VER_IND_ID, ID, VER_NBR, OBJ_ID) values ('c3faace1-a86e-4ba0-a1fd-b18bd8a0fc95', 'a60919a1-2309-4fd3-94f3-944d39581e9d', '449f0148-5a48-49c0-9d23-d03f57477c93', 0, '45aedd54-db3d-4879-96b0-2c3d8f9af1cf')
+/
+insert into KSLU_CLU_SET_JN_CLU (CLU_SET_ID, CLU_VER_IND_ID, ID, VER_NBR, OBJ_ID) values ('c3faace1-a86e-4ba0-a1fd-b18bd8a0fc95', 'ef12819c-24e9-4b08-ab92-04e8bb26261b', 'f0c13103-27b2-41a8-86d3-19badaf47ccb', 0, 'f96c8078-27eb-44c1-abc9-2882ed47f164')
+/
+insert into KSLU_CLU_SET_JN_CLU (CLU_SET_ID, CLU_VER_IND_ID, ID, VER_NBR, OBJ_ID) values ('cb23862a-f8c0-486b-9902-8fb23d5bc9a6', 'a05b5b4a-e0dc-4375-9911-0e3984740caa', '0f45d593-b550-4efc-87b9-c713c16b1d5b', 0, 'c1ec390a-b648-42c0-8f08-0e1d9bc82f76')
+/
+insert into KSLU_CLU_SET_JN_CLU (CLU_SET_ID, CLU_VER_IND_ID, ID, VER_NBR, OBJ_ID) values ('cb23862a-f8c0-486b-9902-8fb23d5bc9a6', 'fe5bdc17-db55-4636-9cbc-a72a105da233', 'ba583d3e-2a4e-4e23-8a3c-0091633a0f57', 0, '8f5ba3a2-fe99-4155-81f1-7e0d8d949a6e')
+/
+insert into KSLU_CLU_SET_JN_CLU (CLU_SET_ID, CLU_VER_IND_ID, ID, VER_NBR, OBJ_ID) values ('cb49c3bb-dad8-419a-b87e-fe7e1ece6036', '01cf3c3b-5c7e-42e9-a5f0-3f922005e313', 'bb6c088b-08dd-4f54-b585-97b412afe677', 0, '71fddd7a-2c54-4f7a-b728-2654b01d3c56')
+/
+insert into KSLU_CLU_SET_JN_CLU (CLU_SET_ID, CLU_VER_IND_ID, ID, VER_NBR, OBJ_ID) values ('cbc17b3d-1a75-414a-8f3b-580a02360a2f', '3b3e07c4-0823-4a3b-9665-83c8c4d97c6f', '8165fc7b-9c02-4a77-876e-d4febc760a11', 0, '4d91cd26-abfd-4aa8-9055-fe3be40fd482')
+/
+insert into KSLU_CLU_SET_JN_CLU (CLU_SET_ID, CLU_VER_IND_ID, ID, VER_NBR, OBJ_ID) values ('cbd0f58f-26e6-4c23-86f6-25493fc69115', 'a05b5b4a-e0dc-4375-9911-0e3984740caa', 'e7aa4c7b-e36a-43b4-85cd-8f293a04a3a2', 0, '0a28e747-7d16-414a-8a63-1b047bb3da85')
+/
+insert into KSLU_CLU_SET_JN_CLU (CLU_SET_ID, CLU_VER_IND_ID, ID, VER_NBR, OBJ_ID) values ('cbd0f58f-26e6-4c23-86f6-25493fc69115', 'fe5bdc17-db55-4636-9cbc-a72a105da233', 'a43b3de5-d6ca-41cf-8e3b-95bc6c94b896', 0, 'a42c570a-b4ed-427b-a1dc-e6dcc642b717')
+/
+insert into KSLU_CLU_SET_JN_CLU (CLU_SET_ID, CLU_VER_IND_ID, ID, VER_NBR, OBJ_ID) values ('cf6f1431-e918-489a-9893-35b5b4d36ff9', '0989a5fe-bfc6-4fe0-8ca7-2108d867491c', 'c0ea5c6d-836e-45c8-8004-8f79421771e7', 0, 'c56a0efe-2ebb-49f1-ae2d-8e0b13951b11')
+/
+insert into KSLU_CLU_SET_JN_CLU (CLU_SET_ID, CLU_VER_IND_ID, ID, VER_NBR, OBJ_ID) values ('cf6f1431-e918-489a-9893-35b5b4d36ff9', '0f549e4c-b201-4d53-8aed-3a0e86bc7492', 'ce0ff1e2-1ba2-490b-ac6a-53f96a296b24', 0, '2610643f-ba42-4f45-b91e-8c1e560c711a')
+/
+insert into KSLU_CLU_SET_JN_CLU (CLU_SET_ID, CLU_VER_IND_ID, ID, VER_NBR, OBJ_ID) values ('cf6f1431-e918-489a-9893-35b5b4d36ff9', '743e00fa-f996-436b-bbe7-f8a1ace62898', '5de71f06-284c-437a-be9c-e064f3b32280', 0, '3f9b5698-8b96-4716-860d-a357267d3a6b')
+/
+insert into KSLU_CLU_SET_JN_CLU (CLU_SET_ID, CLU_VER_IND_ID, ID, VER_NBR, OBJ_ID) values ('d0944755-f24f-4ec9-9448-b2a37d120a38', 'ccdc0050-fac9-4336-a996-0634aabaf5c2', 'aef90595-c0cc-4d25-b393-093ab3a284aa', 0, '54cce976-82db-4a3b-b0e7-ffc413e891ae')
+/
+insert into KSLU_CLU_SET_JN_CLU (CLU_SET_ID, CLU_VER_IND_ID, ID, VER_NBR, OBJ_ID) values ('d0944755-f24f-4ec9-9448-b2a37d120a38', '16c6fc2b-e096-43ad-9ba6-ca39ecf0351d', '29bde109-47c2-474a-9c9f-412a8f9cdfea', 0, '5c118e2f-4396-45f6-a367-894822a5f0fe')
+/
+insert into KSLU_CLU_SET_JN_CLU (CLU_SET_ID, CLU_VER_IND_ID, ID, VER_NBR, OBJ_ID) values ('d8478c18-b99e-4e05-ac2a-a5623ed506fb', 'ca1a89d8-075f-4f48-af30-e7775602b3e7', 'c74dedb6-7fc7-4c2d-acdb-7b567be71856', 0, '1812223d-98e9-42fd-b0e8-67a91c1028a8')
+/
+insert into KSLU_CLU_SET_JN_CLU (CLU_SET_ID, CLU_VER_IND_ID, ID, VER_NBR, OBJ_ID) values ('da12e2f7-ebe0-4189-aff8-dd9e2aba2496', 'f52241f0-3cbd-4ab3-a690-cd129222aff8', 'dc362581-0e53-46e6-9d54-7a0257e6cadb', 0, 'acf796e8-128c-4ca1-80b3-606691a37d27')
+/
+insert into KSLU_CLU_SET_JN_CLU (CLU_SET_ID, CLU_VER_IND_ID, ID, VER_NBR, OBJ_ID) values ('da12e2f7-ebe0-4189-aff8-dd9e2aba2496', 'ac7c9d94-6849-4d50-97a2-6d92abbce35c', '16e3aa29-9d69-4ea9-a8fd-b29e89253c9a', 0, 'e46a996f-b2c9-4f73-872c-783dd545b337')
+/
+insert into KSLU_CLU_SET_JN_CLU (CLU_SET_ID, CLU_VER_IND_ID, ID, VER_NBR, OBJ_ID) values ('dba98d72-c1dd-4096-8605-cf642a4f6774', '0989a5fe-bfc6-4fe0-8ca7-2108d867491c', '4963d423-89ef-475a-aba7-a5f730ae3153', 0, '95a5e788-4dff-44f0-a6fb-a98ce482ee5b')
+/
+insert into KSLU_CLU_SET_JN_CLU (CLU_SET_ID, CLU_VER_IND_ID, ID, VER_NBR, OBJ_ID) values ('dba98d72-c1dd-4096-8605-cf642a4f6774', '743e00fa-f996-436b-bbe7-f8a1ace62898', 'edf85ab3-610b-4a39-b834-fbaa29ca762f', 0, '2ce3012f-ddcd-44df-b8bd-b3433965bc08')
+/
+insert into KSLU_CLU_SET_JN_CLU (CLU_SET_ID, CLU_VER_IND_ID, ID, VER_NBR, OBJ_ID) values ('dcc6c79c-6fe1-4592-9396-d57f296cd990', 'f8b7fc41-d19d-42ba-abd1-3b4b0a1bf991', 'b319b863-0289-472e-9ff4-c0dd0e859366', 0, 'e33a5d84-428e-40fb-83d9-8a8fe119ea3b')
+/
+insert into KSLU_CLU_SET_JN_CLU (CLU_SET_ID, CLU_VER_IND_ID, ID, VER_NBR, OBJ_ID) values ('dda31c9e-741a-430b-8991-1ff548f56c96', 'a153b3b5-1c50-4c20-b4b6-9ac74a99a30d', '470a7b7b-6678-4b9e-9727-a57948bdb079', 0, 'ba280f5f-8fb8-4a3d-89bb-3ab412c85c67')
+/
+insert into KSLU_CLU_SET_JN_CLU (CLU_SET_ID, CLU_VER_IND_ID, ID, VER_NBR, OBJ_ID) values ('dda31c9e-741a-430b-8991-1ff548f56c96', '0f549e4c-b201-4d53-8aed-3a0e86bc7492', 'e2c7cd05-1f5b-48b7-9a0d-f16f73c50d6f', 0, '92d740bb-aaf6-4716-945d-c83c9c230c63')
+/
+insert into KSLU_CLU_SET_JN_CLU (CLU_SET_ID, CLU_VER_IND_ID, ID, VER_NBR, OBJ_ID) values ('dfec2eb3-ed91-4c7b-90f2-41f5f46815cc', '31c3ab41-89f2-4528-9978-de9a09c4fb83', '56c85707-ca0e-40a5-bc3c-05aa323c556a', 0, '7658cc74-a8f9-45e8-96ee-d79536563a43')
+/
+insert into KSLU_CLU_SET_JN_CLU (CLU_SET_ID, CLU_VER_IND_ID, ID, VER_NBR, OBJ_ID) values ('e0cb859b-9000-47fd-a3cf-7fc9c24df367', '83cc1bcf-c074-4a3a-a7f7-18c45a564677', 'f252fff5-7ea1-449a-a923-2ae83d805867', 0, '8f706ea7-d5dd-482e-9858-f921134b1c50')
+/
+insert into KSLU_CLU_SET_JN_CLU (CLU_SET_ID, CLU_VER_IND_ID, ID, VER_NBR, OBJ_ID) values ('e0cb859b-9000-47fd-a3cf-7fc9c24df367', '73edbc07-1c59-4b5d-93cb-6ffda39e025d', '9e8d8781-3cdf-4ee9-8479-cd99b6ecc722', 0, 'd58f6af4-b051-41b5-91d3-8339bb471278')
+/
+insert into KSLU_CLU_SET_JN_CLU (CLU_SET_ID, CLU_VER_IND_ID, ID, VER_NBR, OBJ_ID) values ('e20fc6c5-c2e2-42db-a9ea-6d9b36460439', '0f549e4c-b201-4d53-8aed-3a0e86bc7492', '20ad8ae0-028d-4d15-9a36-61fc34445886', 0, 'd09606c2-e8da-4294-8568-ca515e2da29a')
+/
+insert into KSLU_CLU_SET_JN_CLU (CLU_SET_ID, CLU_VER_IND_ID, ID, VER_NBR, OBJ_ID) values ('e20fc6c5-c2e2-42db-a9ea-6d9b36460439', 'a153b3b5-1c50-4c20-b4b6-9ac74a99a30d', '44e933c4-9325-4082-afc1-5a5d74fa212e', 0, 'aeae0688-ada6-4f36-a8d2-604e3fc66cfe')
+/
+insert into KSLU_CLU_SET_JN_CLU (CLU_SET_ID, CLU_VER_IND_ID, ID, VER_NBR, OBJ_ID) values ('e301bea7-0fad-459a-9447-b5432d50641c', '8a19e520-93d8-409e-b104-fbe75b460ac1', '10f393d3-8f37-46e7-a398-b792eaa41ba8', 0, '848d1164-c152-4624-83c7-be6b0834ae6f')
+/
+insert into KSLU_CLU_SET_JN_CLU (CLU_SET_ID, CLU_VER_IND_ID, ID, VER_NBR, OBJ_ID) values ('e301bea7-0fad-459a-9447-b5432d50641c', 'cd374fa1-9ec9-4878-b194-631aaff14ce8', 'f3efc3db-9bbe-482c-915a-afc282fb1da0', 0, '44b08db0-0c2c-4cd3-a08d-73147b540758')
+/
+insert into KSLU_CLU_SET_JN_CLU (CLU_SET_ID, CLU_VER_IND_ID, ID, VER_NBR, OBJ_ID) values ('e42ecc7e-4757-47fb-a1c6-d95a11068593', '4960877d-ddcc-4f8e-851e-d576d290f4c8', 'ef7c7380-502d-44e8-8f79-44cc276230d5', 0, '3eafec18-3d74-4b29-b1d4-5f64693a254f')
+/
+insert into KSLU_CLU_SET_JN_CLU (CLU_SET_ID, CLU_VER_IND_ID, ID, VER_NBR, OBJ_ID) values ('e42ecc7e-4757-47fb-a1c6-d95a11068593', '257c0494-3149-457e-ab1a-fe63b36c8375', '3658cd83-b4f5-46cd-aadd-1799c61d2aa4', 0, 'eb7011ed-d0ec-4813-a445-3674f8f6038b')
+/
+insert into KSLU_CLU_SET_JN_CLU (CLU_SET_ID, CLU_VER_IND_ID, ID, VER_NBR, OBJ_ID) values ('e4f1a5b6-b35c-4a0e-8a6e-1326ceccbd6d', '0f549e4c-b201-4d53-8aed-3a0e86bc7492', 'aca71f61-2553-4232-8eb3-93a20455b46e', 0, '2d9e9667-0b8a-498c-bb01-7d972e82c845')
+/
+insert into KSLU_CLU_SET_JN_CLU (CLU_SET_ID, CLU_VER_IND_ID, ID, VER_NBR, OBJ_ID) values ('e5d23049-37fc-450c-b4fa-5831ddcf012e', '4c1056a0-8ac2-489d-8457-986c6f419eca', 'd96f4706-f667-4b65-a3d8-96f44b57a246', 0, '05324b49-10d8-4642-ab76-d884a90e1708')
+/
+insert into KSLU_CLU_SET_JN_CLU (CLU_SET_ID, CLU_VER_IND_ID, ID, VER_NBR, OBJ_ID) values ('e5d23049-37fc-450c-b4fa-5831ddcf012e', '4960877d-ddcc-4f8e-851e-d576d290f4c8', 'ab0a9bbc-fc86-4022-972e-51ede3addc15', 0, '54831ad1-e806-42b8-822a-bb8391713cdc')
+/
+insert into KSLU_CLU_SET_JN_CLU (CLU_SET_ID, CLU_VER_IND_ID, ID, VER_NBR, OBJ_ID) values ('e5d23049-37fc-450c-b4fa-5831ddcf012e', '257c0494-3149-457e-ab1a-fe63b36c8375', '400620ba-a305-43aa-8048-ccfc8a73088a', 0, 'e21efccd-4dc0-49b7-8893-f7f3c0b11445')
+/
+insert into KSLU_CLU_SET_JN_CLU (CLU_SET_ID, CLU_VER_IND_ID, ID, VER_NBR, OBJ_ID) values ('e5d23049-37fc-450c-b4fa-5831ddcf012e', '08a490ac-0af0-4145-930d-3229bc88e1e9', 'c62eabc7-df2a-412c-ab50-89cc11f70f2c', 0, 'f5b15ffe-ee08-4263-a23a-064ec0187bd9')
+/
+insert into KSLU_CLU_SET_JN_CLU (CLU_SET_ID, CLU_VER_IND_ID, ID, VER_NBR, OBJ_ID) values ('e75cd462-f58d-422f-af6f-e65e8c6258a4', '4c1056a0-8ac2-489d-8457-986c6f419eca', 'e1a4ab54-369e-44fc-98f6-e28cc501961c', 0, '8a76cbd8-edc5-496f-9a84-1279ee8b433e')
+/
+insert into KSLU_CLU_SET_JN_CLU (CLU_SET_ID, CLU_VER_IND_ID, ID, VER_NBR, OBJ_ID) values ('e75cd462-f58d-422f-af6f-e65e8c6258a4', '0f549e4c-b201-4d53-8aed-3a0e86bc7492', '820d865b-c925-4247-bc81-1a79da12a8b1', 0, '0d8d5e1e-c7e9-4310-ba8e-9a362746225d')
+/
+insert into KSLU_CLU_SET_JN_CLU (CLU_SET_ID, CLU_VER_IND_ID, ID, VER_NBR, OBJ_ID) values ('e7648ef6-dd34-470a-aa6f-268484a16d5a', 'b8c5c730-d8a8-4ef6-8339-aa4f69ee9b75', 'a2b27693-cac6-4c35-b3d5-7ab7463e2650', 0, '3948b166-2aa7-41d4-8f44-f59fa41f3ef3')
+/
+insert into KSLU_CLU_SET_JN_CLU (CLU_SET_ID, CLU_VER_IND_ID, ID, VER_NBR, OBJ_ID) values ('e7648ef6-dd34-470a-aa6f-268484a16d5a', 'e9bdc20f-2393-470e-9660-391e8ec041df', '8031aca6-65ec-4281-8cc2-e2d140782813', 0, '442ce1d0-923a-43d5-94c5-52c60c8d130a')
+/
+insert into KSLU_CLU_SET_JN_CLU (CLU_SET_ID, CLU_VER_IND_ID, ID, VER_NBR, OBJ_ID) values ('e77d9dc6-1296-41ed-9131-523bb54fb303', 'd8d0723d-9aa5-421c-83e4-b9ccefa54d2b', '9c7ca834-2a82-408d-b334-fbe1cb6f1e43', 0, 'e7aa783d-e48b-4595-8d80-31e6e1d1f8b6')
+/
+insert into KSLU_CLU_SET_JN_CLU (CLU_SET_ID, CLU_VER_IND_ID, ID, VER_NBR, OBJ_ID) values ('e77d9dc6-1296-41ed-9131-523bb54fb303', '92a27ea5-5746-445d-883d-726de52b4a1b', 'a1afa560-6b4b-4147-b6ab-5ee933cd39d4', 0, 'f9153c3f-057b-4f20-b3c4-68fbfb8e3cec')
+/
+insert into KSLU_CLU_SET_JN_CLU (CLU_SET_ID, CLU_VER_IND_ID, ID, VER_NBR, OBJ_ID) values ('e914f45e-d193-4a9d-abbf-a35d70d7cfd4', '0989a5fe-bfc6-4fe0-8ca7-2108d867491c', 'd411e01f-4609-4473-b028-af64d228cc61', 0, '738cf6c8-621a-438b-b2d5-952e12ad3278')
+/
+insert into KSLU_CLU_SET_JN_CLU (CLU_SET_ID, CLU_VER_IND_ID, ID, VER_NBR, OBJ_ID) values ('e914f45e-d193-4a9d-abbf-a35d70d7cfd4', '743e00fa-f996-436b-bbe7-f8a1ace62898', 'ebf909e2-825e-429e-9f69-ede24d7a0c18', 0, '36916fcc-fd5a-493a-aff4-1d35062ea582')
+/
+insert into KSLU_CLU_SET_JN_CLU (CLU_SET_ID, CLU_VER_IND_ID, ID, VER_NBR, OBJ_ID) values ('ed90e992-aa7d-4a72-abc2-4bfd0819211a', '08ba54bb-fb09-45c7-a0ab-ddad36f4a94b', 'c50e4c56-8fc0-49d8-b30e-28f7df244d9d', 0, 'd1a76983-28c3-4aaf-839a-5d77df633713')
+/
+insert into KSLU_CLU_SET_JN_CLU (CLU_SET_ID, CLU_VER_IND_ID, ID, VER_NBR, OBJ_ID) values ('ed90e992-aa7d-4a72-abc2-4bfd0819211a', '5614805c-e9b4-46db-b7a8-05201ed9be0a', '0b1b46e1-621d-4d64-99d9-384be7ab7e77', 0, 'df821380-68d1-4a5a-b0de-34770d04bb55')
+/
+insert into KSLU_CLU_SET_JN_CLU (CLU_SET_ID, CLU_VER_IND_ID, ID, VER_NBR, OBJ_ID) values ('ee4b44d2-40fc-4402-a8ab-bc7247c5e67f', '49456f9b-78e7-4739-9750-650c583bbd51', '1ecec163-ecab-4794-bc89-8cbaacee9d93', 0, '051e1cd1-ad07-46c5-8209-065a5656105c')
+/
+insert into KSLU_CLU_SET_JN_CLU (CLU_SET_ID, CLU_VER_IND_ID, ID, VER_NBR, OBJ_ID) values ('ee4b44d2-40fc-4402-a8ab-bc7247c5e67f', '23f04464-37e7-4cd0-9ccc-cdc1f3717bf7', 'f06eaabb-60be-4eb6-8275-66ad58e20eb0', 0, 'f44d4488-ea23-43d1-92eb-410a20b2ce2e')
+/
+insert into KSLU_CLU_SET_JN_CLU (CLU_SET_ID, CLU_VER_IND_ID, ID, VER_NBR, OBJ_ID) values ('f072ed5d-2a39-424d-bac4-f0081e1cf4bb', '743e00fa-f996-436b-bbe7-f8a1ace62898', '8224786a-8e83-42b2-9c4e-485a4d707477', 0, '7d0c80ef-e491-49ba-96a1-5c9454bb52e7')
+/
+insert into KSLU_CLU_SET_JN_CLU (CLU_SET_ID, CLU_VER_IND_ID, ID, VER_NBR, OBJ_ID) values ('f072ed5d-2a39-424d-bac4-f0081e1cf4bb', '2b0a936d-0e2e-44a9-aeb1-ba33063baf96', '836aea77-1bf4-4575-9e9a-0d10d001ab71', 0, '34a5132e-facf-4dd5-a9b6-b37227761e53')
+/
+insert into KSLU_CLU_SET_JN_CLU (CLU_SET_ID, CLU_VER_IND_ID, ID, VER_NBR, OBJ_ID) values ('f072ed5d-2a39-424d-bac4-f0081e1cf4bb', '0989a5fe-bfc6-4fe0-8ca7-2108d867491c', '9086412d-44b5-4f6b-9e60-8c56ace9d90f', 0, 'c93372fa-f811-4bc7-9dc1-204194c748a1')
+/
+insert into KSLU_CLU_SET_JN_CLU (CLU_SET_ID, CLU_VER_IND_ID, ID, VER_NBR, OBJ_ID) values ('f072ed5d-2a39-424d-bac4-f0081e1cf4bb', '22e9bf50-5ef8-4a42-bc0c-60b24964848d', 'ae0ae0ae-b1ab-4001-8ea8-477bb22c7ce7', 0, 'ee434b6f-d363-4172-a0f5-7eb35515396d')
+/
+insert into KSLU_CLU_SET_JN_CLU (CLU_SET_ID, CLU_VER_IND_ID, ID, VER_NBR, OBJ_ID) values ('f072ed5d-2a39-424d-bac4-f0081e1cf4bb', 'f5167326-e5eb-4aa1-bf85-554a5ca14472', '12cc1b87-3137-46f8-b92a-45ded6817f36', 0, '6910f5a0-ba0e-41bd-9e46-aa4e0202c174')
+/
+insert into KSLU_CLU_SET_JN_CLU (CLU_SET_ID, CLU_VER_IND_ID, ID, VER_NBR, OBJ_ID) values ('f42680f6-41de-4b94-b100-66e50baeb4cc', '83cc1bcf-c074-4a3a-a7f7-18c45a564677', '1198b167-13fd-4404-b221-b49f3491d664', 0, '18950850-f540-456d-bbc3-42090a082e2d')
+/
+insert into KSLU_CLU_SET_JN_CLU (CLU_SET_ID, CLU_VER_IND_ID, ID, VER_NBR, OBJ_ID) values ('f42680f6-41de-4b94-b100-66e50baeb4cc', '62c72bdc-42a8-48b2-8c04-f56239c3b5c1', 'f3feffa3-4d95-4207-ab6f-b2bd94501567', 0, 'a8798b76-ef5e-42ed-a7e0-5fe500dde77c')
+/
+insert into KSLU_CLU_SET_JN_CLU (CLU_SET_ID, CLU_VER_IND_ID, ID, VER_NBR, OBJ_ID) values ('f5ba2fc1-4668-4a81-814b-9241057193ff', 'd7d6a153-3a66-475d-bf98-8d3f61531dd4', 'e744dfbf-4883-4004-9c5d-8ffeef10d333', 0, '7ee4d3cd-d6fb-41ef-a7f8-bd2a91ce9ff8')
+/
+insert into KSLU_CLU_SET_JN_CLU (CLU_SET_ID, CLU_VER_IND_ID, ID, VER_NBR, OBJ_ID) values ('f61fa77c-9a87-4db1-8d33-5b8bca4322be', '08a490ac-0af0-4145-930d-3229bc88e1e9', '5fc80f29-c418-43ee-a189-29ebc4cbfd69', 0, 'f1dcceef-6f05-4fe5-ac43-cb50e854d4b5')
+/
+insert into KSLU_CLU_SET_JN_CLU (CLU_SET_ID, CLU_VER_IND_ID, ID, VER_NBR, OBJ_ID) values ('f61fa77c-9a87-4db1-8d33-5b8bca4322be', '4c1056a0-8ac2-489d-8457-986c6f419eca', 'e68cf3f4-1bf4-4ea8-b5dd-6fb9960199ca', 0, '8bf6b3b6-d93b-45ba-9c46-527091f86600')
+/
+insert into KSLU_CLU_SET_JN_CLU (CLU_SET_ID, CLU_VER_IND_ID, ID, VER_NBR, OBJ_ID) values ('f61fa77c-9a87-4db1-8d33-5b8bca4322be', '4960877d-ddcc-4f8e-851e-d576d290f4c8', '3157cb52-17e2-4e2c-b1a1-7575ee83ca7d', 0, '503db1bc-6a76-4215-a822-0224fa8c6db6')
+/
+insert into KSLU_CLU_SET_JN_CLU (CLU_SET_ID, CLU_VER_IND_ID, ID, VER_NBR, OBJ_ID) values ('f61fa77c-9a87-4db1-8d33-5b8bca4322be', '257c0494-3149-457e-ab1a-fe63b36c8375', 'aadce6cd-5684-493f-a421-888b164b0701', 0, 'fef666b4-7dcd-4c2a-8262-f1d3865baf8f')
+/
+insert into KSLU_CLU_SET_JN_CLU (CLU_SET_ID, CLU_VER_IND_ID, ID, VER_NBR, OBJ_ID) values ('f8c72364-b0fd-4df1-962a-bf59f1dea54c', '22e9bf50-5ef8-4a42-bc0c-60b24964848d', '92872921-5c0d-43cc-819d-e9ccb512573f', 0, '816ef3fd-3988-4845-8896-1d7fffdfb806')
+/
+insert into KSLU_CLU_SET_JN_CLU (CLU_SET_ID, CLU_VER_IND_ID, ID, VER_NBR, OBJ_ID) values ('f8c72364-b0fd-4df1-962a-bf59f1dea54c', '0989a5fe-bfc6-4fe0-8ca7-2108d867491c', 'cd190b2d-f955-491f-8f0f-4bdc315827b9', 0, 'bd6a1aa7-4995-4f97-bef0-4650ae2f3733')
+/
+insert into KSLU_CLU_SET_JN_CLU (CLU_SET_ID, CLU_VER_IND_ID, ID, VER_NBR, OBJ_ID) values ('f9ac7323-03bb-4aaf-ad8a-89c06ce4a1fc', '5614805c-e9b4-46db-b7a8-05201ed9be0a', '275d656b-9ab0-4108-a560-2718ff69b646', 0, '1880cd06-2b7d-417c-9399-59ae3c79859b')
+/
+insert into KSLU_CLU_SET_JN_CLU (CLU_SET_ID, CLU_VER_IND_ID, ID, VER_NBR, OBJ_ID) values ('f9ac7323-03bb-4aaf-ad8a-89c06ce4a1fc', '08ba54bb-fb09-45c7-a0ab-ddad36f4a94b', '65f8b03b-038b-47b7-82da-0e581ac67acc', 0, '79ed9dbf-92f7-43f7-b91e-71e3d9bc95f6')
+/
+insert into KSLU_CLU_SET_JN_CLU (CLU_SET_ID, CLU_VER_IND_ID, ID, VER_NBR, OBJ_ID) values ('f9b1d3a9-ad34-4d2e-97cc-c45c4cd3eb89', 'c6e9f035-404a-445b-bb00-0c4289ef3701', 'c548c0aa-ab70-400f-a8bc-269324661ca5', 0, '817a88e8-06f9-4951-8551-42afffb82148')
+/
+insert into KSLU_CLU_SET_JN_CLU (CLU_SET_ID, CLU_VER_IND_ID, ID, VER_NBR, OBJ_ID) values ('f9b1d3a9-ad34-4d2e-97cc-c45c4cd3eb89', '0f549e4c-b201-4d53-8aed-3a0e86bc7492', 'bca312cb-457f-4d27-901c-9bc10107cec7', 0, '99224c20-f1f0-4624-b354-c8f2fecee7e8')
+/
+insert into KSLU_CLU_SET_JN_CLU (CLU_SET_ID, CLU_VER_IND_ID, ID, VER_NBR, OBJ_ID) values ('fa4fed31-cf28-4cd0-b125-3445e3302b94', '9e0e3083-3965-40ea-a276-14c7d6fa77e1', '526aecd8-91a9-485d-bb11-59ff579b3511', 0, 'ca1b16b3-8852-4e18-a1bf-c700ebed83f6')
+/
+insert into KSLU_CLU_SET_JN_CLU (CLU_SET_ID, CLU_VER_IND_ID, ID, VER_NBR, OBJ_ID) values ('fbf03658-4532-400b-b157-e4bbaa306c08', 'f8b7fc41-d19d-42ba-abd1-3b4b0a1bf991', 'c2d14f6e-1806-42d1-ba68-e7755cb855c0', 0, '64c9eb5a-9d5d-43c7-86ea-ce2ac85775c1')
+/
+insert into KSLU_CLU_SET_JN_CLU (CLU_SET_ID, CLU_VER_IND_ID, ID, VER_NBR, OBJ_ID) values ('fc61a323-4432-4c0d-be2d-e480524462d4', 'fe5bdc17-db55-4636-9cbc-a72a105da233', '5a3e2975-c51f-4883-9915-ebedd215c360', 0, '1a9cabda-9161-4081-9b57-77ad18b6d4cf')
+/
+insert into KSLU_CLU_SET_JN_CLU (CLU_SET_ID, CLU_VER_IND_ID, ID, VER_NBR, OBJ_ID) values ('fc61a323-4432-4c0d-be2d-e480524462d4', 'a05b5b4a-e0dc-4375-9911-0e3984740caa', 'aff754ed-5f35-487a-a2e0-c937b8dfd335', 0, '592dd554-f9f0-46bc-910e-d312f5b21867')
+/
+insert into KSLU_CLU_SET_JN_CLU (CLU_SET_ID, CLU_VER_IND_ID, ID, VER_NBR, OBJ_ID) values ('fce381c8-55b8-41d3-9fcb-6f05b44ffff7', '3b3e07c4-0823-4a3b-9665-83c8c4d97c6f', 'b7501bef-c721-46a2-b294-836799dff0a0', 0, 'c47f70e2-6f3c-4929-bbfa-81335e9f4475')
+/
+insert into KSLU_CLU_SET_JN_CLU (CLU_SET_ID, CLU_VER_IND_ID, ID, VER_NBR, OBJ_ID) values ('fce381c8-55b8-41d3-9fcb-6f05b44ffff7', '54414200-ea95-47dd-9718-1ec1d81f366b', '166dff98-0d6b-4b77-b181-5f0f648c64a4', 0, '03703052-ae60-451e-93dd-7d7519e830ad')
+/
+insert into KSLU_CLU_SET_JN_CLU (CLU_SET_ID, CLU_VER_IND_ID, ID, VER_NBR, OBJ_ID) values ('fce381c8-55b8-41d3-9fcb-6f05b44ffff7', '1f99f4f2-7be0-4e77-80ad-ce9fe1d66202', '1bd0fad7-c40e-4a2a-a1e9-a06c4e5d2cc0', 0, 'c680a1b5-ef6e-4f12-b896-54858b1becd0')
+/
+insert into KSLU_CLU_SET_JN_CLU (CLU_SET_ID, CLU_VER_IND_ID, ID, VER_NBR, OBJ_ID) values ('fdf33c1d-63d2-4d2d-bd54-7881bd84eb98', 'a05b5b4a-e0dc-4375-9911-0e3984740caa', '0c096e21-304f-454a-bc16-477c53347b90', 0, 'f3b069a4-fdd3-4b2e-8f89-aea9adcdc14f')
+/
+insert into KSLU_CLU_SET_JN_CLU (CLU_SET_ID, CLU_VER_IND_ID, ID, VER_NBR, OBJ_ID) values ('fdf33c1d-63d2-4d2d-bd54-7881bd84eb98', 'fe5bdc17-db55-4636-9cbc-a72a105da233', 'dfc1f227-c9fb-4c28-bd73-057a1a742ae6', 0, '9bb41802-565b-4057-b2ec-60407372a9ac')
+/

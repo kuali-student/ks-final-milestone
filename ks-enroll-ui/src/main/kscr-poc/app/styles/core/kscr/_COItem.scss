@@ -1,0 +1,98 @@
+$ns: '.kscr-COItem';
+
+#{$ns} {
+  background-color: $secondary-color;
+  //border-bottom: 1px solid #ccc;
+  border-width: 2px;
+  border-style: solid;
+  border-color: $border-color-normal;
+  border-radius: $border-radius;
+  line-height: 1;
+  padding: 0.5rem;
+ margin: 5px 5px;
+   a:hover{
+    color: white;
+    outline: none;
+   }
+   a:focus{
+    color: black;
+    outline: none;
+    opacity: 0.7;
+   }
+}
+
+#{$ns}--active {
+  //background-color: tint(yellow, 70%);
+  border-width: 2px 2px 1px 12px;
+  border-style: solid;
+  border-color: $border-color-active;
+
+}
+
+#{$ns}-header {
+  background-color: $header-secondary-color;
+  border-top-right-radius: ($border-radius - 2px);
+  border-top-left-radius: ($border-radius -4px );
+  display: flex;
+  padding-bottom: 0.5rem;
+  margin: -0.5em -0.5em 0;
+  color: black;
+  //position: relative;
+}
+
+  #{$ns}-headline {
+    flex: 1;
+    font-size: 1em;
+    line-height: 1;
+    margin: 5px 0 0 5px;
+    color: $secondary-font-color;
+      a:hover{
+    color: white;
+  }
+  }
+
+    #{$ns}-code {
+      font-size: 1em;
+      font-weight: bold;
+      color: $secondary-font-color;
+      margin: 0;
+    }
+
+    #{$ns}-title {
+      display: block;
+      font-weight: normal;
+      
+      //line-height: 1.2;
+    }
+
+  #{$ns}-credits {
+    font-size: rem-calc(14);
+    //position: absolute;
+    //right: 0;
+    //top: 0;
+    margin:10px;
+  }
+
+#{$ns}-body {
+  //@include clearfix;
+  display: flex;
+  margin: 0.5rem 0 0.5rem 0;
+
+  > * {
+    flex: auto;
+    font-size: rem-calc(14);
+  }
+}
+
+#{$ns}-time {
+  white-space: nowrap;
+}
+
+#{$ns}-time, #{$ns}-type {
+  //float: left;
+}
+
+#{$ns}-enrollment, #{$ns}-instructor {
+  text-align: right;
+  //float: right;
+}

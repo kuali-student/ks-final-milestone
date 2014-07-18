@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="KS-EnrollmentBatch-View" parent="KS-Uif-FormView" p:additionalCssClasses="ks-enrollment-home">
+        <property name="id" value="enrollmentBatchView"/>
+        <property name="headerText" value="Enrollment"/>
+        <property name="formClass" value="org.kuali.student.enrollment.batch.form.BatchForm"/>
+        <property name="footer">
+            <bean parent="Uif-FooterBase"/>
+        </property>
+
+        <property name="breadcrumbOptions.homewardPathBreadcrumbs">
+            <list>
+                <ref bean="KS-HomewardPathBreadcrumbs-Home"/>
+            </list>
+        </property>
+
+        <property name="breadcrumbItem.siblingBreadcrumbComponent">
+            <bean parent="KS-Uif-Dynamic-BreadCrumb"/>
+        </property>
+
+        <property name="items">
+            <list>
+                <bean parent="KS-Uif-Page" p:disclosure.render="false">
+                    <property name="items">
+                        <list>
+                            <ref bean="Batch-DateTime-Section"/>
+                            <bean parent="KS-Uif-PrimaryActionButton" p:ajaxSubmit="false"
+                                  p:methodToCall="scheduleBatch"
+                                  p:actionLabel="Submit"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="Batch-DateTime-Section" parent="Uif-HorizontalBoxSubSection">
+        <property name="items">
+            <list>
+                <bean id="startDate" parent="KS-Uif-InputField-LabelTop" p:propertyName="startDate"
+                      p:label="Start Date" p:required="true">
+                    <!-- Rice 2.4 upgrade : removing p:labelPlacement="TOP" -->
+                    <property name="control">
+                        <bean parent="KS-Uif-Default-DateControl"/>
+                    </property>
+                    <property name="validCharactersConstraint">
+                        <bean parent="KS-BasicDatePatternConstraint"/>
+                    </property>
+                </bean>
+                <bean id="startTime" parent="KS-Uif-InputField"
+                      p:propertyName="startTime" p:cssClasses="new_ts"
+                      p:label="Start Time">
+                    <property name="control">
+                        <bean parent="KS-Uif-TextControl" p:size="5" p:maxLength="5"
+                              p:cssClasses="new_ts_control"/>
+                    </property>
+                    <!--<property name="constraintText" value="HH:MM"/>-->
+                    <property name="validCharactersConstraint">
+                        <bean parent="TimePatternConstraint"/>
+                    </property>
+                </bean>
+                <bean id="startTimeAmPm" parent="KS-Uif-InputField" p:propertyName="startTimeAmPm"
+                      p:render="@{!#view.readOnly}"
+                      p:defaultValue="AM">
+                    <property name="control">
+                        <bean parent="KS-Uif-VerticalRadioControl"
+                              p:options-ref="hctime-options"
+                              p:refreshWhenChangedPropertyNames="startTime"
+                              p:evaluateDisabledOnKeyUp="true">
+                            <property name="disabled" value="@{#empty(startTime)}"/>
+                        </bean>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+</beans>

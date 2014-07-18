@@ -1,0 +1,18 @@
+// Transition styles
+@transitionSpeed:                0.25s;
+@transition:                    all linear @transitionSpeed;
+
+
+/**
+ * Transition Mixin
+ * @param @speed Speed with which to perform the transition (e.g. 2s). Defaults to @transitionSpeed value.
+ */
+.util-transitions-browserHelper(@speed: @transitionSpeed) {
+    // Reset the local instance of the @transitionSpeed to the @speed parameter so it will be used in the @transition var
+    @transitionSpeed: @speed;
+
+    -webkit-transition: @transition;
+    -moz-transition: @transition;
+    -o-transition: @transition;
+    transition: @transition;
+}

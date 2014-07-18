@@ -1,0 +1,167 @@
+/*** Search Details Page ***/
+
+// Mixin to make an unordered list (<ul>) an inline comma-separated list.
+.details-list-mixin() {
+    & > ul {
+        display: inline;
+        list-style: none;
+        margin: 0;
+        padding: 0;
+
+        & > li {
+            .util-Text-delimited(", ");
+            display: inline;
+            &:before {
+                content: " "; // Add a space before the items b/c they get scrunched up in the compiled mode
+            }
+        }
+    }
+}
+
+
+// Main container
+.kscr-SearchDetails {
+    padding: 10px;
+}
+
+// Top header containing 'Return to Search Results' link
+.kscr-SearchDetails-top {
+    padding: 0 10px 10px;
+
+    // Link itself
+    & > a {
+        font-family: @secondaryFontFamily;
+        font-weight: normal;
+        text-decoration: none;
+
+        // << Arrows in link
+        & > span {
+            font-size: 80%;
+        }
+    }
+}
+
+// Search details content container
+.kscr-SearchDetails-container {
+    background-color: @whiteBackground;
+    border: 1px @cardBorderColor solid;
+    border-bottom-width: 2px;
+    color: @cardTextColor;
+    font-family: @secondaryFontFamily;
+    padding: 10px;
+}
+
+
+// Details header (code, title, & credits)
+.kscr-SearchDetails-header {
+    border-bottom: @horizontalLineBorder;
+    margin: 0 0 10px;
+    padding: 0 0 10px;
+}
+.kscr-SearchDetails-courseCode {
+    font-weight: bold;
+    margin-right: 25px;
+}
+.kscr-SearchDetails-courseTitle {
+
+}
+.kscr-SearchDetails-credits {
+    margin-left: 20px; // Don't let the title get too close
+}
+
+
+// Course description
+.kscr-SearchDetails-description {
+}
+
+// Cross-listed courses
+.kscr-SearchDetails-crosslists {
+    margin: 10px 0 0;
+
+    // Icon (CR)
+    .kscr-SearchDetails-crosslists-icon {
+        background: @cardBorderColor;
+        font-size: 70%;
+        font-style: normal;
+        font-weight: bold;
+        padding: 3px;
+        .Rounded(10px);
+    }
+
+    .details-list-mixin();
+}
+
+// Prerequisites
+.kscr-SearchDetails-prerequisites {
+    margin: 10px 0 0;
+
+    .kscr-SearchDetails-label {
+        font-weight: bold;
+    }
+
+    .details-list-mixin();
+}
+
+// Grading Methods
+.kscr-SearchDetails-grading {
+    margin: 10px 0 0;
+
+    .kscr-SearchDetails-label {
+        font-weight: bold;
+    }
+
+    .details-list-mixin();
+}
+
+
+// Selection actions
+.kscr-SearchDetails-actionsContainer {
+    border-bottom: @horizontalLineBorder;
+    border-top: @horizontalLineBorder;
+    margin: 10px 0 0;
+    padding: 10px 0;
+}
+
+.kscr-SearchDetails-actions {
+    .kscr-SearchDetails-button .kscr-Button {
+        font-weight: normal;
+    }
+}
+
+
+// Activity Offering Groups Container
+.kscr-SearchDetails-activityOfferingGroups {
+    margin: 10px 0 0;
+
+    // Single Activity Offering Group (e.g. Lecture, Discussion)
+    .kscr-SearchDetails-activityOfferingGroup {
+        margin-top: 20px;
+        &:first-child {
+            margin-top: 0;
+        }
+    }
+
+    // Activity Offering Type Labels
+    .kscr-SearchDetails-label {
+        font-weight: bold;
+
+        & a {
+            font-weight: normal;
+            margin-left: 10px;
+        }
+    }
+
+    // Single activity offering row
+    .kscr-SearchDetails-activityOffering {
+        &--selected {
+            color: green;
+        }
+
+        // Seat count
+        &-seats {
+            &--noneAvailable { // Added when no seats are available
+                color: red;
+            }
+        }
+    }
+}

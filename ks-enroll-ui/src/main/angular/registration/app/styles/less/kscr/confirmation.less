@@ -1,0 +1,48 @@
+/*** Registration Button Confirmation section  ***/
+
+.kscr-Confirmation-container {
+    background-color: @cardBackgroundColor;
+    padding: 5px 10px;
+    border: 1px @cardBorderColor solid;
+    border-bottom-width: 2px;
+    .util-transitions-browserHelper();
+
+    // Transitions
+    &.ng-hide-remove {
+        display: block !important; // Important to override the styles in ng-hide.
+    }
+    &.ng-hide-add {
+        display: none;
+    }
+
+    &.ng-hide-add.ng-hide-add-active,
+    &.ng-hide-remove {
+        opacity: 0;
+    }
+    &.ng-hide-remove.ng-hide-remove-active {
+        opacity: 1;
+    }
+}
+
+.kscr-Confirmation-header {
+    border-bottom: @horizontalLineBorder;
+    color: @primaryTextColor;
+    font-family: @secondaryFontFamily;
+    .font-size(14);
+    font-weight: normal;
+    padding-bottom: 5px;
+}
+
+.kscr-Confirmation-buttons {
+    padding: 10px 0 5px;
+    text-align: right;
+}
+
+
+
+@media screen and (min-width: @largeFormatMin) {
+    // No border on confirmation box in large-format
+    .kscr-Confirmation-container {
+        border: none;
+    }
+}

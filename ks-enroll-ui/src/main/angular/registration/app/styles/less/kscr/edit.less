@@ -1,0 +1,92 @@
+/**** Edit section of card ****/
+
+.kscr-Edit{
+    color: @primaryTextColor;
+    font-family: @secondaryFontFamily;
+    .font-size(13);
+    font-weight: normal;
+    margin: 0 10px 0 0;
+    max-width: 185px;
+    width: 50%;
+
+    &:last-child {
+        // nix the right margin on the last item so it sits flush against the right edge
+        margin-right: 0;
+    }
+}
+
+.kscr-Edit-details {
+    display:block;
+    font-family: @secondaryFontFamily;
+    .font-size(13);
+    font-weight: normal;
+    color: @primaryTextColor;
+
+    & > .kscr-Edit-helpIcon {
+        .help-icon;
+        cursor: pointer;
+        float: right;
+    }
+}
+
+
+// Mixin for control styling
+.kscr-Edit-control() {
+    background-color: @optionBackground;
+    border: 1px solid @optionBorder;
+    color: @optionText;
+    cursor: pointer;
+    font-family: @secondaryFontFamily;
+    .font-size(14);
+    font-weight: normal;
+    margin: 0 0 3px;
+    outline: 1px solid @optionOutline;
+    padding: 8px 10px;
+
+    & span {
+        font-weight: normal !important;
+    }
+
+    &--Selected {
+        background-color: @optionBackgroundSelected;
+        border-color: @optionBorderSelected;
+        color: @optionTextSelected;
+        font-weight: bold;
+        outline-color: @optionOutlineSelected;
+    }
+}
+
+
+.kscr-Edit-option {
+    .kscr-Edit-control();
+
+    padding-right: 28px;
+    position: relative;
+
+    & input {
+        display: none;
+    }
+
+    & span {
+        font-weight: normal !important;
+    }
+
+    & .kscr-Edit-option-icon {
+        .check-dark-icon;
+        position: absolute;
+        right: 5px;
+        top: 8px;
+    }
+
+    &--Selected {
+        background-color: @optionBackgroundSelected;
+        border-color: @optionBorderSelected;
+        color: @optionTextSelected;
+        font-weight: bold;
+        outline-color: @optionOutlineSelected;
+
+        & .kscr-Edit-option-icon {
+            .check-light-icon;
+        }
+    }
+}

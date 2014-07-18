@@ -1,0 +1,58 @@
+/* Splash page styles */
+
+.kscr-Splash-card {
+  margin: 10px;
+  border-width: 1px 1px 2px;
+  border-style: solid;
+  opacity: 1;
+  border-radius: 4px;
+  overflow: hidden;
+  background-color: @cardBackgroundColor;
+  border-color: @cardBorderColor;
+  text-align: center;
+  padding: 65px 0 30px 0;
+}
+
+.kscr-Splash-heading {
+  color: @secondaryTextColor;
+  font-family: @secondaryFontFamily;
+  .font-size(20);
+  font-weight: bold;
+  margin: auto;
+  padding-top: 65px;
+}
+
+.kscr-Splash-message {
+  color: @secondaryTextColor;
+  font-family: @secondaryFontFamily;
+  .font-size(16);
+  font-weight: normal;
+  margin: auto;
+  padding-top: 25px;
+}
+
+.kscr-Splash-logo {
+  max-width: 100%;
+}
+
+.kscr-MainHeading.kscr-Splash-header {
+  display: none;
+}
+
+@media screen and (max-width: @smallFormatMax) {
+  .kscr-Splash-card {
+    padding: 15px 0 10px 0;
+  }
+
+  .kscr-Splash-heading {
+    padding-top: 15px;
+  }
+
+  .kscr-Splash-message {
+    padding-top: 10px;
+  }
+
+  .kscr-MainHeading.kscr-Splash-header {
+    display: flex;
+  }
+}

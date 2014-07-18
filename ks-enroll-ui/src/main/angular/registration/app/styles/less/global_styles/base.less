@@ -1,0 +1,50 @@
+/******* Global styling ******/
+@import url(http://fonts.googleapis.com/css?family=Montserrat);
+
+html {
+    font-size: 62.5%;
+    height: 100%;
+}
+
+body {
+    background-color: @bodyColor;
+    font-family: @primaryFontFamily;
+    height: 100%;
+}
+
+a {
+    cursor: pointer;
+    cursor: hand;
+}
+
+input[type="radio"] {
+    margin-right: 5px;
+}
+
+::-webkit-input-placeholder,
+:-moz-placeholder, /* Firefox 18- */
+::-moz-placeholder, /* Firefox 19+ */
+:-ms-input-placeholder,
+input:-moz-placeholder {
+   font-style: italic;
+}
+
+// Rounded corners
+.Rounded(@radius:@defaultRadius){
+    -webkit-border-radius:@radius;
+       -moz-border-radius:@radius;
+            border-radius:@radius;
+}
+
+// Drop shadows (Pulled from bootstrap mixins.less)
+.box-shadow(@shadow) {
+    -webkit-box-shadow: @shadow; // iOS <4.3 & Android <4.1
+    box-shadow: @shadow;
+}
+
+.global-Base-divider {
+    width: 5px;
+    height: auto;
+    display: inline-block;
+}
+

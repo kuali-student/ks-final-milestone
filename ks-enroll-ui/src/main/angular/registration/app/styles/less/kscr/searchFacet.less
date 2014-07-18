@@ -1,0 +1,78 @@
+/*** Search Form Section  ***/
+
+// Facet list container
+.kscr-SearchFacets {
+    margin: 10px;
+    width: 200px;
+}
+
+
+
+// Facet header container
+.kscr-SearchFacet-headerContainer {
+    background: @cardBorderColor;
+    font-family: @secondaryFontFamily;
+    margin-bottom: 1px;
+}
+
+// Facet header (chevron & text)
+.kscr-SearchFacet-header {
+    cursor: pointer;
+    padding-left: 30px;
+    position: relative;
+
+    // Chevron icon
+    & .kscr-Card-icon {
+        left: 10px;
+    }
+}
+
+// Heading text
+.kscr-SearchFacet-heading {
+    color: @cardTextColor;
+    font-weight: bold;
+    padding: 0.65em 10px 0.65em 0;
+}
+
+// Clear button
+.kscr-SearchFacet-clearButton {
+    border-left: @horizontalLineBorder;
+    color: @optionText;
+    cursor: pointer;
+    padding: 0.65em 15px;
+}
+
+
+
+
+// Facet options container
+.kscr-SearchFacet-options {
+    list-style: none;
+    margin: 2px 1px 0; // Fix up the margins so the options line up with the heading
+    padding: 0;
+}
+
+// Single facet option
+.kscr-SearchFacet-option {
+    .kscr-Edit-control();
+
+    display: block;
+    padding-left: 30px;
+    position: relative;
+
+    &:last-child {
+        // Cut the margin on the last item a bit so it sits flush against the facet below it
+        margin-bottom: 2px;
+    }
+
+    // Checkbox icon styles
+    & .kscr-SearchFacet-option-icon {
+        .checkbox-icon();
+        left: 5px;
+        position: absolute;
+        top: 8px;
+    }
+    &--Selected .kscr-SearchFacet-option-icon {
+        .checkbox-icon--checked();
+    }
+}
