@@ -140,7 +140,7 @@
         <dependency>
             <groupId>org.codehaus.jackson</groupId>
             <artifactId>jackson-core-asl</artifactId>
-            <version>${jackson.mapper.asl.version}</version>
+            <version>${jackson.version}</version>
         </dependency>
     </dependencies>
 </project>
