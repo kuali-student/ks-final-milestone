@@ -38,6 +38,8 @@ import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.util.constants.LprServiceConstants;
 import org.kuali.student.r2.core.class1.util.ValidationUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.jws.WebParam;
@@ -51,6 +53,8 @@ import java.util.Set;
  */
 //@Transactional(readOnly = true, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
 public class LprServiceImpl implements LprService {
+
+    public static final Logger LOGGER = LoggerFactory.getLogger(LprServiceImpl.class);
 
     private LprDao lprDao;
     private LprTransactionDao lprTransactionDao;
@@ -975,6 +979,7 @@ public class LprServiceImpl implements LprService {
     }
 
     @Override
+    @Transactional
     public StatusInfo changeLprTransactionState(String lprTransactionId,
                                                 String nextStateKey, ContextInfo contextInfo)
             throws DoesNotExistException, InvalidParameterException,

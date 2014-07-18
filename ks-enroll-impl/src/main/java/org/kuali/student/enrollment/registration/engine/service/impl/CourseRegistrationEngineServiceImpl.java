@@ -12,7 +12,6 @@ import org.kuali.student.enrollment.courseregistration.service.CourseRegistratio
 import org.kuali.student.enrollment.courseseatcount.infc.SeatCount;
 import org.kuali.student.enrollment.courseseatcount.service.CourseSeatCountService;
 import org.kuali.student.enrollment.lpr.dto.LprInfo;
-import org.kuali.student.enrollment.lpr.dto.LprTransactionInfo;
 import org.kuali.student.enrollment.lpr.dto.LprTransactionItemInfo;
 import org.kuali.student.enrollment.lpr.infc.Lpr;
 import org.kuali.student.enrollment.lpr.service.LprService;
@@ -45,6 +44,7 @@ import org.kuali.student.r2.core.search.service.SearchService;
 import org.kuali.student.r2.lum.util.constants.LrcServiceConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.xml.namespace.QName;
 import java.util.ArrayList;
@@ -66,6 +66,7 @@ public class CourseRegistrationEngineServiceImpl implements CourseRegistrationEn
     private WaitlistManagerService waitlistManagerService;
 
     @Override
+    @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public void updateLprTransactionItemResult(String lprTransactionId, String lprTransactionItemId, String lprTransactionItemStateKey, String resultingLprId, String message, boolean status, ContextInfo contextInfo) throws DoesNotExistException, PermissionDeniedException, OperationFailedException, VersionMismatchException, InvalidParameterException, MissingParameterException, DataValidationErrorException, ReadOnlyException {
         LprTransactionItemInfo lprTransactionItem = getLprService().getLprTransactionItem(lprTransactionItemId, contextInfo);
         lprTransactionItem.setStateKey(lprTransactionItemStateKey);
@@ -78,13 +79,6 @@ public class CourseRegistrationEngineServiceImpl implements CourseRegistrationEn
         //update the state and result message;
         getLprService().changeLprTransactionItem(lprTransactionItem.getId(), lprTransactionItem, contextInfo);
         return;
-    }
-
-    @Override
-    public LprTransactionInfo updateLprTransaction(String lprTransactionId, String state, ContextInfo contextInfo) throws PermissionDeniedException, MissingParameterException, InvalidParameterException, OperationFailedException, DoesNotExistException, VersionMismatchException, DataValidationErrorException {
-        LprTransactionInfo lprTransactionInfo = getLprService().getLprTransaction(lprTransactionId, contextInfo);
-        lprTransactionInfo.setStateKey(state);
-        return getLprService().updateLprTransaction(lprTransactionId, lprTransactionInfo, contextInfo);
     }
 
     /**
@@ -103,6 +97,7 @@ public class CourseRegistrationEngineServiceImpl implements CourseRegistrationEn
         return result;
     }
 
+    @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     protected List<LprInfo> buildLprsCommon(String regGroupLprType,
                                             String courseOfferingLprType,
                                             String activityOfferingLprType,
@@ -236,8 +231,30 @@ public class CourseRegistrationEngineServiceImpl implements CourseRegistrationEn
         // get lpr ids based on master lpr id
         List<String> lprIds = getLprIdsByMasterLprId(masterLprId, contextInfo);
 
-        List<LprInfo> lprInfos = getLprService().getLprsByIds(lprIds, contextInfo);
+        return dropLprs(lprIds, contextInfo);
+
+    }
+
+    /**
+     * helper method to perform drop in the smallest possible transactional boundary.
+     * @param lprIds
+     * @param contextInfo
+     * @return
+     * @throws PermissionDeniedException
+     * @throws MissingParameterException
+     * @throws InvalidParameterException
+     * @throws OperationFailedException
+     * @throws DoesNotExistException
+     * @throws ReadOnlyException
+     * @throws DataValidationErrorException
+     * @throws VersionMismatchException
+     */
+    @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
+    protected List<LprInfo> dropLprs(List<String> lprIds, ContextInfo contextInfo) throws PermissionDeniedException, MissingParameterException, InvalidParameterException, OperationFailedException, DoesNotExistException, ReadOnlyException, DataValidationErrorException, VersionMismatchException {
         List<LprInfo> resultLprInfos = new ArrayList<LprInfo>();
+
+        List<LprInfo> lprInfos = getLprService().getLprsByIds(lprIds, contextInfo);
+
         Date now = new Date();
         for (LprInfo lprInfo : lprInfos) {
             lprInfo.setStateKey(LprServiceConstants.DROPPED_STATE_KEY);
@@ -265,7 +282,8 @@ public class CourseRegistrationEngineServiceImpl implements CourseRegistrationEn
         RegistrationRequestEngineMessage registrationMessage = new RegistrationRequestEngineMessage(registrationRequestInfo, regGroupIdToRegGroupMap, contextInfo);
 
         //Set the status on the Request to processing. This leaves the message out of sync as far as state and
-        getCourseRegistrationService().changeRegistrationRequestState(registrationRequestInfo.getId(), LprServiceConstants.LPRTRANS_PROCESSING_STATE_KEY, contextInfo);
+        getLprService().changeLprTransactionState(registrationRequestInfo.getId(), LprServiceConstants.LPRTRANS_PROCESSING_STATE_KEY, contextInfo);
+
         return registrationMessage;
     }
 
@@ -307,43 +325,38 @@ public class CourseRegistrationEngineServiceImpl implements CourseRegistrationEn
     }
 
     @Override
+    @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public List<LprInfo> addLprsFromWaitlist(String masterLprId, ContextInfo contextInfo)
             throws OperationFailedException, PermissionDeniedException, MissingParameterException,
             InvalidParameterException, DoesNotExistException, ReadOnlyException, DataValidationErrorException,
             VersionMismatchException {
 
         List<String> waitlistLprIds = getLprIdsByMasterLprId(masterLprId, contextInfo);
-        List<LprInfo> waitlistLprs = getLprService().getLprsByIds(waitlistLprIds, contextInfo);
+        List<LprInfo> expiredLprs = expireWaitlistLprs(waitlistLprIds, contextInfo);
         List<LprInfo> registeredLprs = new ArrayList<LprInfo>();
         List<LprInfo> newRegisteredLprs = new ArrayList<LprInfo>();
         LprInfo newRegisteredMasterLpr = null;
         Date now = new Date();
 
-        for (LprInfo waitlistLpr : waitlistLprs) {
-            //Only process active waitlists
-            if (LprServiceConstants.ACTIVE_STATE_KEY.equals(waitlistLpr.getStateKey())) {
-                LprInfo registeredLpr = new LprInfo(waitlistLpr); // Make a copy
-                registeredLpr.setId(null);
-                registeredLpr.setMeta(null);
-                registeredLpr.setMasterLprId(null);
-                registeredLpr.setEffectiveDate(now);
-                registeredLpr.setResultValuesGroupKeys(waitlistLpr.getResultValuesGroupKeys());
-                registeredLpr.setTypeKey(this.convertWaitlistTypesToRegisteredTypes(waitlistLpr.getTypeKey()));
+        for (LprInfo waitlistLpr : expiredLprs) {
 
-                //Expire the waitlisted record
-                waitlistLpr.setExpirationDate(now);
-                waitlistLpr.setStateKey(LprServiceConstants.RECEIVED_LPR_STATE_KEY);
+            LprInfo registeredLpr = new LprInfo(waitlistLpr); // Make a copy
+            registeredLpr.setId(null);
+            registeredLpr.setMeta(null);
+            registeredLpr.setMasterLprId(null);
+            registeredLpr.setExpirationDate(null);
+            registeredLpr.setEffectiveDate(now);
+            registeredLpr.setResultValuesGroupKeys(waitlistLpr.getResultValuesGroupKeys());
+            registeredLpr.setTypeKey(this.convertWaitlistTypesToRegisteredTypes(waitlistLpr.getTypeKey()));
+            registeredLpr.setStateKey(LprServiceConstants.ACTIVE_STATE_KEY);
 
-                // Update the orig
-                getLprService().updateLpr(waitlistLpr.getId(), waitlistLpr, contextInfo);
-
-                //Get a handle to the RG lpr since this wil lbe the "master" lpr
-                if (LprServiceConstants.REGISTRANT_RG_LPR_TYPE_KEY.equals(registeredLpr.getTypeKey())) {
-                    newRegisteredMasterLpr = registeredLpr;
-                } else {
-                    newRegisteredLprs.add(registeredLpr);
-                }
+            //Get a handle to the RG lpr since this wil lbe the "master" lpr
+            if (LprServiceConstants.REGISTRANT_RG_LPR_TYPE_KEY.equals(registeredLpr.getTypeKey())) {
+                newRegisteredMasterLpr = registeredLpr;
+            } else {
+                newRegisteredLprs.add(registeredLpr);
             }
+
         }
 
         //If a new master LPR was found create the new registration records
@@ -365,6 +378,27 @@ public class CourseRegistrationEngineServiceImpl implements CourseRegistrationEn
         return registeredLprs;
     }
 
+    @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
+    protected List<LprInfo> expireWaitlistLprs(List<String> waitlistLprIds, ContextInfo contextInfo) throws PermissionDeniedException, MissingParameterException, InvalidParameterException, OperationFailedException, DoesNotExistException, ReadOnlyException, DataValidationErrorException, VersionMismatchException {
+        List<LprInfo> retList = new ArrayList<>();
+        List<LprInfo> waitlistLprs = getLprService().getLprsByIds(waitlistLprIds, contextInfo);
+        Date now = new Date();
+
+        for (LprInfo waitlistLpr : waitlistLprs) {
+            //Only process active waitlists
+            if (LprServiceConstants.ACTIVE_STATE_KEY.equals(waitlistLpr.getStateKey())) {
+                //Expire the waitlisted record
+                waitlistLpr.setExpirationDate(now);
+                waitlistLpr.setStateKey(LprServiceConstants.RECEIVED_LPR_STATE_KEY);
+
+                // Update the orig
+                retList.add(getLprService().updateLpr(waitlistLpr.getId(), waitlistLpr, contextInfo));
+            }
+        }
+        return retList;
+
+    }
+
     private static String convertWaitlistTypesToRegisteredTypes(String waitlistType) {
         String registeredType = null;
 
@@ -384,6 +418,8 @@ public class CourseRegistrationEngineServiceImpl implements CourseRegistrationEn
     /**
      * Common code to update LPRs (registrant and waitlists)
      *
+     * Must be transactional to perform rollbacks on the multiple updates
+     *
      * @param courseOfferingLprType Either LprServiceConstants.REGISTRANT_CO_LPR_TYPE_KEY
      *                              or LprServiceConstants.WAITLIST_CO_LPR_TYPE_KEY
      * @param masterLprId           The RG LPR for either registrant/waitlist LPR
@@ -392,6 +428,7 @@ public class CourseRegistrationEngineServiceImpl implements CourseRegistrationEn
      * @param contextInfo           The context
      * @return List of update LprInfos
      */
+    @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     protected List<LprInfo> updateOptionsOnLprsCommon(String courseOfferingLprType,
                                                       String masterLprId, String credits, String gradingOptionId,
                                                       ContextInfo contextInfo)
@@ -408,13 +445,12 @@ public class CourseRegistrationEngineServiceImpl implements CourseRegistrationEn
         List<String> coLprIds = getLprIdsByMasterLprId(masterLprId, courseOfferingLprType,
                 lprStates, contextInfo);
         String coLprId = KSCollectionUtils.getRequiredZeroElement(coLprIds);
-        LprInfo origCoLpr = getLprService().getLpr(coLprId, contextInfo);
-        LprInfo updatedCoLpr = new LprInfo(origCoLpr); // Make a copy
+        LprInfo expiredCoLpr = expireLpr(coLprId, contextInfo);
+        LprInfo updatedCoLpr = new LprInfo(expiredCoLpr); // Make a copy
         updatedCoLpr.setId(null);
         updatedCoLpr.setMeta(null);
         updatedCoLpr.setEffectiveDate(now);
-        origCoLpr.setExpirationDate(now);
-        origCoLpr.setStateKey(LprServiceConstants.EXPIRED_LPR_STATE_KEY);
+
         updatedCoLpr.setResultValuesGroupKeys(new ArrayList<String>());
         if (!StringUtils.isEmpty(credits)) {
             updatedCoLpr.getResultValuesGroupKeys().add(LrcServiceConstants.RESULT_VALUE_KEY_CREDIT_DEGREE_PREFIX + credits);
@@ -422,18 +458,14 @@ public class CourseRegistrationEngineServiceImpl implements CourseRegistrationEn
         if (!StringUtils.isEmpty(gradingOptionId)) {
             updatedCoLpr.getResultValuesGroupKeys().add(gradingOptionId);
         }
-        // Update the orig
-        getLprService().updateLpr(coLprId, origCoLpr, contextInfo);
+
         // Create the new one
         getLprService().createLpr(updatedCoLpr.getPersonId(), updatedCoLpr.getLuiId(),
                 updatedCoLpr.getTypeKey(), updatedCoLpr, contextInfo);
 
         // Also update the master LPR since this is updating credit/reg options
-        LprInfo masterLpr = getLprService().getLpr(masterLprId, contextInfo);
-        if (masterLpr.getExpirationDate() != null) {
-            throw new OperationFailedException("Master LPR should have null expiration date");
+        LprInfo masterLpr = updateMasterLpr(masterLprId, credits, gradingOptionId, contextInfo);
 
-        }
         // Make a copy of the original master LPR.  This copy will store the original master LPR's info
         // while the original master LPR will be updated.  This is a "trick" to avoid creating new master LPR
         // IDs whenever the master LPR is updated.
@@ -443,6 +475,41 @@ public class CourseRegistrationEngineServiceImpl implements CourseRegistrationEn
         masterLprCopy.setMeta(null);
         masterLprCopy.setExpirationDate(now); // Set its expiration date
         masterLprCopy.setStateKey(LprServiceConstants.EXPIRED_LPR_STATE_KEY); // Put it expired state
+
+        // Then, create the copy LPR
+        getLprService().createLpr(masterLprCopy.getPersonId(),
+                masterLprCopy.getLuiId(), masterLprCopy.getTypeKey(), masterLprCopy, contextInfo);
+
+        List<LprInfo> updatedLprInfos = new ArrayList<LprInfo>();
+        updatedLprInfos.add(masterLpr);
+
+        return updatedLprInfos;
+    }
+
+    /**
+     * Transactional helper method to update the masterLpr
+     * @param masterLprId
+     * @param credits
+     * @param gradingOptionId
+     * @param contextInfo
+     * @return
+     * @throws PermissionDeniedException
+     * @throws MissingParameterException
+     * @throws InvalidParameterException
+     * @throws OperationFailedException
+     * @throws DoesNotExistException
+     * @throws ReadOnlyException
+     * @throws DataValidationErrorException
+     * @throws VersionMismatchException
+     */
+    @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
+    protected LprInfo updateMasterLpr(String masterLprId, String credits, String gradingOptionId, ContextInfo contextInfo) throws PermissionDeniedException, MissingParameterException, InvalidParameterException, OperationFailedException, DoesNotExistException, ReadOnlyException, DataValidationErrorException, VersionMismatchException {
+        LprInfo masterLpr = getLprService().getLpr(masterLprId, contextInfo);
+        Date now = new Date();
+
+        if (masterLpr.getExpirationDate() != null) {
+            throw new OperationFailedException("Master LPR should have null expiration date");
+        }
 
         masterLpr.setResultValuesGroupKeys(new ArrayList<String>());
         if (!StringUtils.isEmpty(credits)) {
@@ -454,15 +521,20 @@ public class CourseRegistrationEngineServiceImpl implements CourseRegistrationEn
         // Set effective date
         masterLpr.setEffectiveDate(now);
         // Update the master LPR
-        masterLpr = getLprService().updateLpr(masterLpr.getId(), masterLpr, contextInfo);
-        // Then, create the copy LPR
-        getLprService().createLpr(masterLprCopy.getPersonId(),
-                masterLprCopy.getLuiId(), masterLprCopy.getTypeKey(), masterLprCopy, contextInfo);
+        return getLprService().updateLpr(masterLpr.getId(), masterLpr, contextInfo);
 
-        List<LprInfo> updatedLprInfos = new ArrayList<LprInfo>();
-        updatedLprInfos.add(masterLpr);
+    }
 
-        return updatedLprInfos;
+    @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
+    protected LprInfo expireLpr(String lprId, ContextInfo contextInfo) throws PermissionDeniedException, MissingParameterException, InvalidParameterException, OperationFailedException, DoesNotExistException, ReadOnlyException, DataValidationErrorException, VersionMismatchException {
+
+        LprInfo lprInfo = getLprService().getLpr(lprId, contextInfo);
+        Date now = new Date();
+        lprInfo.setExpirationDate(now);
+        lprInfo.setStateKey(LprServiceConstants.EXPIRED_LPR_STATE_KEY);
+
+        return getLprService().updateLpr(lprInfo.getId(), lprInfo, contextInfo);
+
     }
 
     @Override

@@ -27,6 +27,7 @@ import org.kuali.student.r2.common.infc.ValidationResult;
 import org.kuali.student.r2.common.util.constants.LprServiceConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.xml.namespace.QName;
 
@@ -112,6 +113,7 @@ public class CourseRegistrationErrorProcessor {
      * @param message the jms message coming in
      * @return the jms message going out
      */
+    @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public RegistrationRequestEngineMessage processRequest (RegistrationRequestEngineMessage message) throws DoesNotExistException, PermissionDeniedException, OperationFailedException, VersionMismatchException, InvalidParameterException, MissingParameterException, DataValidationErrorException {
 
         RegistrationRequest regRequest = message.getRegistrationRequest();

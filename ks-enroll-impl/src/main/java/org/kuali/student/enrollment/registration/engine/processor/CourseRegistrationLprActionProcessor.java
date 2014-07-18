@@ -24,7 +24,10 @@ import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.util.constants.LprServiceConstants;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.jms.core.JmsTemplate;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.jms.JMSException;
 import javax.jms.ObjectMessage;
@@ -33,6 +36,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CourseRegistrationLprActionProcessor {
+
+    public static final Logger LOGGER = LoggerFactory.getLogger(CourseRegistrationLprActionProcessor.class);
 
     private CourseRegistrationEngineService courseRegistrationEngineService;
     private LprService lprService;
@@ -184,6 +189,7 @@ public class CourseRegistrationLprActionProcessor {
         return courseRegistrationEngineService.areSeatsAvailable(seatCounts, message.getRegistrationGroup().getActivityOfferingIds(), contextInfo);
     }
 
+    @Transactional
     public void updateRegistrationRequestStatus(List<RegistrationRequestItemEngineMessage> regItems) throws PermissionDeniedException, OperationFailedException, VersionMismatchException, InvalidParameterException, DataValidationErrorException, MissingParameterException, DoesNotExistException {
         ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
 
@@ -209,8 +215,7 @@ public class CourseRegistrationLprActionProcessor {
         }
 
         contextInfo.setPrincipalId(requestorId);
-
-        courseRegistrationEngineService.updateLprTransaction(regReqId, lprTransFinalState, contextInfo);
+        getLprService().changeLprTransactionState(regReqId, lprTransFinalState, contextInfo);
 
     }
 

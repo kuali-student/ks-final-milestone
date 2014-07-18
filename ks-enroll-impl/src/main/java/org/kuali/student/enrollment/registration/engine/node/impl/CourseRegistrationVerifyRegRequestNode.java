@@ -2,6 +2,7 @@ package org.kuali.student.enrollment.registration.engine.node.impl;
 
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestInfo;
+import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestItemInfo;
 import org.kuali.student.enrollment.courseregistration.infc.RegistrationRequest;
 import org.kuali.student.enrollment.courseregistration.infc.RegistrationRequestItem;
 import org.kuali.student.enrollment.courseregistration.service.CourseRegistrationService;
@@ -13,10 +14,18 @@ import org.kuali.student.enrollment.registration.engine.node.AbstractCourseRegis
 import org.kuali.student.enrollment.registration.engine.processor.CourseRegistrationErrorProcessor;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
+import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.exceptions.MissingParameterException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.util.constants.CourseRegistrationServiceConstants;
 import org.kuali.student.r2.common.util.constants.LprServiceConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.xml.namespace.QName;
 import java.util.ArrayList;
@@ -75,33 +84,58 @@ public class CourseRegistrationVerifyRegRequestNode extends AbstractCourseRegist
             return message;
         }
 
-        //Error out the items
-        RegistrationRequestInfo updatedRequestInfo = new RegistrationRequestInfo(message.getRegistrationRequest());
-
         try {
-            LprTransactionInfo trans = getLprService().getLprTransaction(regRequest.getId(), contextInfo);
-            trans.setStateKey(LprServiceConstants.LPRTRANS_FAILED_STATE_KEY);
-            updatedRequestInfo.setStateKey(LprServiceConstants.LPRTRANS_FAILED_STATE_KEY);
-            for (LprTransactionItemInfo item : trans.getLprTransactionItems()) {
-                for (ValidationResultInfo error : errors) {
-                    //Match each error with the corresponding id.
-                    String itemId = error.getElement().replaceFirst("registrationRequestItems\\['([^']*)'\\]", "$1");
-                    if (item.getId().equals(itemId)) {
-                        courseRegistrationErrorProcessor.updateRequestItemsToError(item, updatedRequestInfo, error);
-                    }
-                }
-            }
-            getLprService().updateLprTransaction(trans.getId(), trans, contextInfo);
-
-            message.setRegistrationRequest(updatedRequestInfo);
             if (transactionException != null) {
                 message = courseRegistrationErrorProcessor.processRequest(message); // roll back the entire transaction
+            } else {
+                //Error out the items
+                RegistrationRequestInfo updatedRequestInfo = new RegistrationRequestInfo(message.getRegistrationRequest());
+                updateLprTransactionWithErrors(regRequest.getId(), errors, contextInfo);
+                updateRegRequestWithErrors(updatedRequestInfo, errors);
+                message.setRegistrationRequest(updatedRequestInfo);
             }
+
         } catch (Exception ex) {
             throw new RuntimeException(ex);
         }
 
         return message;
+
+    }
+
+    @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
+    protected void updateLprTransactionWithErrors(String lprTransactionId, List<ValidationResultInfo> errors, ContextInfo contextInfo) throws PermissionDeniedException, MissingParameterException, InvalidParameterException, OperationFailedException, DoesNotExistException, VersionMismatchException, DataValidationErrorException {
+
+        LprTransactionInfo trans = getLprService().getLprTransaction(lprTransactionId, contextInfo);
+
+        for (LprTransactionItemInfo item : trans.getLprTransactionItems()) {
+            for (ValidationResultInfo error : errors) {
+                //Match each error with the corresponding id.
+                String itemId = error.getElement().replaceFirst("registrationRequestItems\\['([^']*)'\\]", "$1");
+                if (item.getId().equals(itemId)) {
+                    //Update the item with the failed validation state and result
+                    item.getValidationResults().add(new ValidationResultInfo(error));
+                    item.setStateKey(LprServiceConstants.LPRTRANS_ITEM_FAILED_STATE_KEY);
+                }
+            }
+        }
+        getLprService().updateLprTransaction(lprTransactionId, trans, contextInfo);
+
+
+    }
+
+    protected void updateRegRequestWithErrors(RegistrationRequestInfo updatedRequestInfo, List<ValidationResultInfo> errors){
+        for (ValidationResultInfo error : errors) {
+            //Match each error with the corresponding id.
+            String itemId = error.getElement().replaceFirst("registrationRequestItems\\['([^']*)'\\]", "$1");
+            for (RegistrationRequestItemInfo requestItem:updatedRequestInfo.getRegistrationRequestItems()) {
+                if (requestItem.getId().equals(itemId)) {
+                    requestItem.setStateKey(LprServiceConstants.LPRTRANS_ITEM_FAILED_STATE_KEY);
+                    requestItem.getValidationResults().add(new ValidationResultInfo(error));
+                }
+            }
+        }
+
 
     }
 
