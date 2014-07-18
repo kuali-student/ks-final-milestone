@@ -85,7 +85,7 @@ public class TestCourseRegistrationValidationDecoratorMock extends CourseRegistr
             // Create a copy of the registration request
             RegistrationRequestInfo copy = new RegistrationRequestInfo(cartInfo);
             // Change the type to standard
-            copy.setTypeKey(LprServiceConstants.LPRTRANS_REGISTER_TYPE_KEY);
+            copy.setTypeKey(LprServiceConstants.LPRTRANS_REGISTRATION_TYPE_KEY);
             // Remove IDs and meta
             copy.setId(null);
             copy.setMeta(null);

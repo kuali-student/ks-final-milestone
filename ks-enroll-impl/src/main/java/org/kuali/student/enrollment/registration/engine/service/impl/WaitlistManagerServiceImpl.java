@@ -146,7 +146,7 @@ public class WaitlistManagerServiceImpl implements WaitlistManagerService {
                 RegistrationRequestInfo regRequest = person2RegRequest.get(waitlistInfo.personId);
                 if(regRequest == null){
                     regRequest = new RegistrationRequestInfo();
-                    regRequest.setTypeKey(LprServiceConstants.LPRTRANS_REGISTER_TYPE_KEY);
+                    regRequest.setTypeKey(LprServiceConstants.LPRTRANS_REGISTRATION_TYPE_KEY);
                     regRequest.setStateKey(LprServiceConstants.LPRTRANS_NEW_STATE_KEY);
                     regRequest.setTermId(waitlistInfo.atpId);
                     regRequest.setRequestorId(waitlistInfo.personId);

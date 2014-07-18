@@ -125,7 +125,7 @@ public class DevTestWidgetViewHelperServiceImpl extends ViewHelperServiceImpl im
         RegistrationRequestInfo request = new RegistrationRequestInfo();
         request.setTermId(SPRING_2012_TERM);
         request.setRequestorId(personId);
-        request.setTypeKey(LprServiceConstants.LPRTRANS_REGISTER_TYPE_KEY);
+        request.setTypeKey(LprServiceConstants.LPRTRANS_REGISTRATION_TYPE_KEY);
         request.setStateKey(LprServiceConstants.LPRTRANS_NEW_STATE_KEY);
 
         // Add the item
@@ -191,7 +191,7 @@ public class DevTestWidgetViewHelperServiceImpl extends ViewHelperServiceImpl im
         RegistrationRequestInfo request = new RegistrationRequestInfo();
         request.setTermId(SPRING_2012_TERM);
         request.setRequestorId(personId);
-        request.setTypeKey(LprServiceConstants.LPRTRANS_REGISTER_TYPE_KEY);
+        request.setTypeKey(LprServiceConstants.LPRTRANS_REGISTRATION_TYPE_KEY);
         request.setStateKey(LprServiceConstants.LPRTRANS_NEW_STATE_KEY);
 
         // Add the item

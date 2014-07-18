@@ -160,7 +160,7 @@ public class TypeVerificationController extends UifControllerBase  {
             "kuali.lpr.roster.type.course.grade.final",
             "kuali.lpr.trans.item.type.add",
             "kuali.lpr.trans.registrant",
-            "kuali.lpr.trans.type.register",
+            "kuali.lpr.trans.type.registration",
             "kuali.lpr.type.instructor.assistant",
             "kuali.lpr.type.instructor.main",
             "kuali.lpr.type.instructor.support",

@@ -11,7 +11,6 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.util.constants.LprRosterServiceConstants;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -28,7 +27,6 @@ import org.kuali.student.enrollment.courseregistration.dto.CreditLoadInfo;
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestInfo;
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestItemInfo;
 import org.kuali.student.enrollment.courseregistration.service.CourseRegistrationService;
-import org.kuali.student.enrollment.rules.credit.limit.CourseRegistrationServiceTypeStateConstants;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.util.constants.LprServiceConstants;
 
@@ -296,7 +294,7 @@ public class ProcessIntegrationTest {
         RegistrationRequestInfo req = new RegistrationRequestInfo();
         req.setRequestorId(ProcessIntegrationTestConstants.PERSON_ID_BARBARA_HARRIS_2016);
         req.setTermId(ProcessIntegrationTestConstants.FALL_2011_TERM_KEY);
-        req.setTypeKey(LprServiceConstants.LPRTRANS_REGISTER_TYPE_KEY);
+        req.setTypeKey(LprServiceConstants.LPRTRANS_REGISTRATION_TYPE_KEY);
         req.setStateKey(LprServiceConstants.LPRTRANS_NEW_STATE_KEY);
         req = this.courseRegistrationService.createRegistrationRequest(req.getTypeKey(),
                 req,
@@ -325,7 +323,7 @@ public class ProcessIntegrationTest {
         RegistrationRequestInfo req = new RegistrationRequestInfo();
         req.setRequestorId(ProcessIntegrationTestConstants.PERSON_ID_BARBARA_HARRIS_2016);
         req.setTermId(ProcessIntegrationTestConstants.FALL_2011_TERM_KEY);
-        req.setTypeKey(LprServiceConstants.LPRTRANS_REGISTER_TYPE_KEY);
+        req.setTypeKey(LprServiceConstants.LPRTRANS_REGISTRATION_TYPE_KEY);
         req.setStateKey(LprServiceConstants.LPRTRANS_NEW_STATE_KEY);
 
         RegistrationRequestItemInfo item = new RegistrationRequestItemInfo();

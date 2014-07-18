@@ -192,7 +192,7 @@ public class TestLprServiceMockImpl {
         
         expected.setRequestingPersonId("person1");
         expected.setAtpId("atp1");
-        expected.setTypeKey(LprServiceConstants.LPRTRANS_REGISTER_TYPE_KEY);
+        expected.setTypeKey(LprServiceConstants.LPRTRANS_REGISTRATION_TYPE_KEY);
         expected.setStateKey(LprServiceConstants.LPRTRANS_NEW_STATE_KEY);
         expected.setLprTransactionItems(new java.util.LinkedList<LprTransactionItemInfo>());
         new AttributeTester().add2ForCreate(expected.getAttributes());

@@ -290,7 +290,7 @@ public class KRMSEnrollmentEligibilityDataLoader extends AbstractMockServicesAwa
         RegistrationRequestInfo request = new RegistrationRequestInfo();
         request.setRequestorId(studentId);
         request.setTermId(termId);
-        request.setTypeKey(LprServiceConstants.LPRTRANS_REGISTER_TYPE_KEY);
+        request.setTypeKey(LprServiceConstants.LPRTRANS_REGISTRATION_TYPE_KEY);
         return request;
     }
 

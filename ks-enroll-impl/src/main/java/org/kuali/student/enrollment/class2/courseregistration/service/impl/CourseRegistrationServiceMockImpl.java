@@ -427,7 +427,7 @@ public class CourseRegistrationServiceMockImpl
 
         List<ValidationResultInfo> results = new ArrayList<ValidationResultInfo>();
 
-        if (!registrationRequestTypeKey.equals(LprServiceConstants.LPRTRANS_REGISTER_TYPE_KEY)) {
+        if (!registrationRequestTypeKey.equals(LprServiceConstants.LPRTRANS_REGISTRATION_TYPE_KEY)) {
             results.add(makeValidationError("RegistrationRequest.type", "unknown type"));
         }
 
