@@ -732,6 +732,12 @@ function durationTypeOnBlur() {
     return;
 }
 
+
+function setupCharCountersForLo() {
+    jQuery(".lo-charcount-max-500").jqEasyCounter({'maxChars':500, 'maxCharsWarning':450, 'msgTextAlign':'left'});
+}
+
+
 function durationCountOnBlur() {
     validateFieldValue(jQuery("#KS-DurationTimeQuantity-Field_control"));
     validateFieldValue(jQuery("#KS-DurationTypeDropDown_control"));
