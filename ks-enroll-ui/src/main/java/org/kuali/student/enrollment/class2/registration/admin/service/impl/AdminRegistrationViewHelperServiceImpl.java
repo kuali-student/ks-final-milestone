@@ -99,13 +99,13 @@ public class AdminRegistrationViewHelperServiceImpl extends KSViewHelperServiceI
         List<RegistrationCourse> registeredCourses = new ArrayList<RegistrationCourse>();
 
         try {
-
+            //Uses the StudentId and Term entered on the screen to retrieve existing CourseRegistrations for that specific student
             List<CourseRegistrationInfo> courseRegistrationInfos = AdminRegistrationUtil.getCourseRegistrationService().getCourseRegistrationsByStudentAndTerm(
                     studentId, termCode, createContextInfo());
 
             for (CourseRegistrationInfo courseRegInfo : courseRegistrationInfos) {
                 RegistrationCourse registeredCourse = createRegistrationCourse(courseRegInfo);
-
+                //retrieves ActivityRegistrations for the existing RegisteredCourse
                 List<ActivityRegistrationInfo> activityRegistrations = AdminRegistrationUtil.getCourseRegistrationService().getActivityRegistrationsForCourseRegistration(
                         courseRegInfo.getId(), createContextInfo());
                 registeredCourse.setActivities(createRegistrationActivitiesFromList(activityRegistrations));
@@ -145,9 +145,12 @@ public class AdminRegistrationViewHelperServiceImpl extends KSViewHelperServiceI
     }
 
     /**
+     * Creates Registration Course info based on CourseRegistrationInfo.
+     * Based on the CourseRegistrationInfo, CourseInfo is retrieved
      *
      * @param courseRegistrationListInfo
-     * @return
+     *
+     * @return registrationCourse
      * @throws DoesNotExistException
      * @throws InvalidParameterException
      * @throws MissingParameterException
@@ -178,7 +181,7 @@ public class AdminRegistrationViewHelperServiceImpl extends KSViewHelperServiceI
      * day in the month and gets an exception.
      *
      * @param date
-     * @return
+     * @return foramttedDate
      */
     private Date generateFormattedDate(Date date) {
         StringBuilder formattedDate = new StringBuilder();
@@ -202,7 +205,7 @@ public class AdminRegistrationViewHelperServiceImpl extends KSViewHelperServiceI
      * Create Registration Activities based on the given list of activity registrations.
      *
      * @param activityRegistrations
-     * @return
+     * @return List<RegistrationActivity> registrationActivities
      * @throws InvalidParameterException
      * @throws MissingParameterException
      * @throws OperationFailedException
@@ -284,7 +287,7 @@ public class AdminRegistrationViewHelperServiceImpl extends KSViewHelperServiceI
      * Create a single Registration Activity based on a activity offering.
      *
      * @param activityOffering
-     * @return
+     * @return registrationActivity
      * @throws DoesNotExistException
      * @throws InvalidParameterException
      * @throws MissingParameterException
@@ -374,7 +377,7 @@ public class AdminRegistrationViewHelperServiceImpl extends KSViewHelperServiceI
      *
      * @param termCode
      * @param courseCode
-     * @return
+     * @return List<String> retrieveCourseCodes
      * @throws InvalidParameterException
      * @throws MissingParameterException
      * @throws PermissionDeniedException
@@ -396,7 +399,7 @@ public class AdminRegistrationViewHelperServiceImpl extends KSViewHelperServiceI
      *
      * @param course
      * @param termCode
-     * @return
+     * @return String retrieveCourseTitle
      * @throws MissingParameterException
      * @throws InvalidParameterException
      * @throws OperationFailedException
