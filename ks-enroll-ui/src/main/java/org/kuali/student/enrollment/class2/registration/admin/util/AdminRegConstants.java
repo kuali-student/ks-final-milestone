@@ -42,8 +42,8 @@ public class AdminRegConstants {
     public static final String STUDENT_INFO_SECTION = "KS-AdminRegistration-StudentInfo";
 
     //form property names
-    public static final String PERSON_ID = "personInfo.id";
-    public static final String TERM_CODE = "termCode";
+    public static final String PERSON_ID = "person.id";
+    public static final String TERM_CODE = "term.code";
     public static final String PENDING_COURSES = "pendingCourses";
     public static final String REGISTERED_COURSES = "registeredCourses";
     public static final String WAITLISTED_COURSES = "waitlistedCourses";

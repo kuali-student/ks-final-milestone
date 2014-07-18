@@ -47,45 +47,55 @@ import java.util.List;
  * Created with IntelliJ IDEA.
  * User: Blue Team (SA)
  * Date: 17 July 2014
- *
+ * <p/>
  * Implementation of the AdminRegistrationViewHelperService that contains helper methods that support the Admin Reg Controller.
  */
 public class AdminRegistrationViewHelperServiceImpl extends KSViewHelperServiceImpl implements AdminRegistrationViewHelperService {
 
     @Override
-    public void populateStudentInfo(AdminRegistrationForm form) throws Exception {
+    public PersonInfo getStudentById(String studentId) {
+
+        if (StringUtils.isBlank(studentId)) {
+            GlobalVariables.getMessageMap().putError(AdminRegConstants.PERSON_ID, AdminRegConstants.ADMIN_REG_MSG_ERROR_STUDENT_REQUIRED);
+            return null;
+        }
 
         try {
-            PersonInfo personInfo = AdminRegistrationUtil.getPersonService().getPerson(form.getPersonInfo().getId().toUpperCase(), createContextInfo());
-            //KSENROLL-13558 :work around for incorrect Data
-            form.getPrincipalIDs().addAll(AdminRegistrationUtil.getIdentityService().getPrincipalsByEntityId(personInfo.getId().toUpperCase()));
-
-            List<PersonAffiliationInfo> personAffiliationInfos = AdminRegistrationUtil.getPersonService().getPersonAffiliationsByPerson(personInfo.getId(), createContextInfo());
+            PersonInfo personInfo = AdminRegistrationUtil.getPersonService().getPerson(studentId.toUpperCase(), createContextInfo());
 
             Boolean validStudent = false;
+            List<PersonAffiliationInfo> personAffiliationInfos = AdminRegistrationUtil.getPersonService().getPersonAffiliationsByPerson(personInfo.getId(), createContextInfo());
             for (PersonAffiliationInfo personAffiliationInfo : personAffiliationInfos) {
                 if (personAffiliationInfo.getTypeKey().equals(PersonServiceConstants.PERSON_AFFILIATION_TYPE_PREFIX + AdminRegConstants.STUDENT_AFFILIATION_TYPE_CODE.toLowerCase())) {
                     validStudent = true;
                 }
             }
             if (!validStudent) {
-//                GlobalVariables.getMessageMap().putError(AdminRegConstants.STUDENT_INFO_SECTION_STUDENT_ID, AdminRegConstants.ADMIN_REG_MSG_ERROR_INVALID_STUDENT,form.getStudentId());
-//                return;
+                //GlobalVariables.getMessageMap().putError(AdminRegConstants.STUDENT_INFO_SECTION_STUDENT_ID, AdminRegConstants.ADMIN_REG_MSG_ERROR_INVALID_STUDENT,form.getStudentId());
+                //return;
             }
-            form.setPersonInfo(personInfo);
+            return personInfo;
         } catch (DoesNotExistException dne) {
-            GlobalVariables.getMessageMap().putError(AdminRegConstants.PERSON_ID, AdminRegConstants.ADMIN_REG_MSG_ERROR_INVALID_STUDENT, form.getPersonInfo().getId());
+            GlobalVariables.getMessageMap().putError(AdminRegConstants.PERSON_ID, AdminRegConstants.ADMIN_REG_MSG_ERROR_INVALID_STUDENT, studentId);
+        } catch (Exception e) {
+            throw convertServiceExceptionsToUI(e);
         }
+
+        return null;
     }
 
     @Override
     public TermInfo getTermByCode(String termCode) {
 
+        if (StringUtils.isBlank(termCode)) {
+            GlobalVariables.getMessageMap().putError(AdminRegConstants.TERM_CODE, AdminRegConstants.ADMIN_REG_MSG_ERROR_INVALID_TERM);
+            return null;
+        }
+
         try {
             TermInfo term = AdminRegistrationClientCache.getTermByCode(termCode);
             if (term == null) {
                 GlobalVariables.getMessageMap().putError(AdminRegConstants.TERM_CODE, AdminRegConstants.ADMIN_REG_MSG_ERROR_INVALID_TERM);
-                return null;
             }
             return term;
         } catch (Exception e) {
@@ -231,7 +241,7 @@ public class AdminRegistrationViewHelperServiceImpl extends KSViewHelperServiceI
 
             List<RegistrationGroupInfo> regGroups = new ArrayList<RegistrationGroupInfo>();
             try {
-                CourseOfferingInfo courseOffering = AdminRegistrationClientCache.getCourseOfferingByCodeAndTerm(form.getTermCode(), course.getCode());
+                CourseOfferingInfo courseOffering = AdminRegistrationClientCache.getCourseOfferingByCodeAndTerm(form.getTerm().getId(), course.getCode());
                 if (courseOffering == null) {
                     GlobalVariables.getMessageMap().putError(AdminRegConstants.PENDING_COURSES + "[" + i + "]." + AdminRegConstants.CODE,
                             AdminRegConstants.ADMIN_REG_MSG_ERROR_COURSE_CODE_TERM_INVALID);
@@ -390,22 +400,27 @@ public class AdminRegistrationViewHelperServiceImpl extends KSViewHelperServiceI
             return new ArrayList<String>();   // if nothing passed in, return empty list
         }
 
+        TermInfo term = getTermByCode(termCode);
+        if(term==null){
+            return new ArrayList<String>(); // cannot do search on an invalid term code
+        }
+
         courseCode = courseCode.toUpperCase(); // force toUpper
-        return AdminRegistrationClientCache.retrieveCourseCodes(termCode, courseCode);
+        return AdminRegistrationClientCache.retrieveCourseCodes(term.getId(), courseCode);
     }
 
     /**
      * This method is called on an ajax call from the client when a course code is entered in the input section.
      *
      * @param course
-     * @param termCode
+     * @param termId
      * @return String retrieveCourseTitle
      * @throws MissingParameterException
      * @throws InvalidParameterException
      * @throws OperationFailedException
      * @throws PermissionDeniedException
      */
-    public String retrieveCourseTitle(RegistrationCourse course, String termCode)
+    public String retrieveCourseTitle(RegistrationCourse course, String termId)
             throws MissingParameterException, InvalidParameterException, OperationFailedException, PermissionDeniedException {
 
         String courseCode = course.getCode();
@@ -413,7 +428,7 @@ public class AdminRegistrationViewHelperServiceImpl extends KSViewHelperServiceI
             course.setTitle(StringUtils.EMPTY);
         } else {
 
-            CourseOfferingInfo courseOffering = AdminRegistrationClientCache.getCourseOfferingByCodeAndTerm(termCode, courseCode);
+            CourseOfferingInfo courseOffering = AdminRegistrationClientCache.getCourseOfferingByCodeAndTerm(termId, courseCode);
             if (courseOffering != null) {
                 course.setTitle(courseOffering.getCourseOfferingTitle());
             } else {

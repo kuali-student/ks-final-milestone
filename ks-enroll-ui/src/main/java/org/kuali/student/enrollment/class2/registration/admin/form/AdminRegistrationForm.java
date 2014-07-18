@@ -16,7 +16,6 @@
 
 package org.kuali.student.enrollment.class2.registration.admin.form;
 
-import org.kuali.rice.kim.api.identity.principal.Principal;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.core.person.dto.PersonInfo;
 import org.kuali.student.enrollment.class2.registration.admin.util.AdminRegConstants;
@@ -46,7 +45,7 @@ public class AdminRegistrationForm extends UifFormBase implements Serializable {
     /**
      * Contains the personal information for the selected student.
      */
-    private PersonInfo personInfo;
+    private PersonInfo person;
 
     private String program;
     private String standing;
@@ -54,9 +53,10 @@ public class AdminRegistrationForm extends UifFormBase implements Serializable {
     private String major;
     private String department;
 
-    private String termCode;
-    private TermInfo termInfo;
-    private String termName;
+    /**
+     * Contains the term information for the selected term code.
+     */
+    private TermInfo term;
 
     /**
      * Pending Courses are course codes and sections added in the input section but not yet move registered or
@@ -92,27 +92,22 @@ public class AdminRegistrationForm extends UifFormBase implements Serializable {
 
     private RegistrationCourse pendingDropCourse = new RegistrationCourse();
 
-    //KSENROLL-13558 :work around for incorrect Data
-    private List<Principal> principalIDs = new ArrayList<Principal>();
-
     public AdminRegistrationForm(){
-        clientState = AdminRegConstants.ClientStates.OPEN;
-        editRegisteredIndex = -1;
-        editWaitlistedIndex = -1;
-        personInfo = new PersonInfo();
+        this.clientState = AdminRegConstants.ClientStates.OPEN;
+        this.editRegisteredIndex = -1;
+        this.editWaitlistedIndex = -1;
+        this.person = new PersonInfo();
+        this.term = new TermInfo();
         this.resetPendingCourseValues();
     }
 
     public void clear() {
-        this.personInfo.setName(null);
-        this.personInfo.setTypeKey(null);
+        this.person = new PersonInfo();
         this.clearTermValues();
     }
 
     public void clearTermValues() {
-        this.termInfo = null;
-        this.termCode = null;
-        this.termName = null;
+        this.term = new TermInfo();
         this.clearCourseRegistrationValues();
     }
 
@@ -136,12 +131,12 @@ public class AdminRegistrationForm extends UifFormBase implements Serializable {
         this.clientState = clientState;
     }
 
-    public PersonInfo getPersonInfo() {
-        return personInfo;
+    public PersonInfo getPerson() {
+        return person;
     }
 
-    public void setPersonInfo(PersonInfo personInfo) {
-        this.personInfo = personInfo;
+    public void setPerson(PersonInfo person) {
+        this.person = person;
     }
 
     public String getProgram() {
@@ -184,28 +179,12 @@ public class AdminRegistrationForm extends UifFormBase implements Serializable {
         this.department = department;
     }
 
-    public String getTermCode() {
-        return termCode;
+    public TermInfo getTerm() {
+        return term;
     }
 
-    public void setTermCode(String termCode) {
-        this.termCode = termCode;
-    }
-
-    public TermInfo getTermInfo() {
-        return termInfo;
-    }
-
-    public void setTermInfo(TermInfo termInfo) {
-        this.termInfo = termInfo;
-    }
-
-    public String getTermName() {
-        return termName;
-    }
-
-    public void setTermName( String termName) {
-        this.termName = termName;
+    public void setTerm(TermInfo term) {
+        this.term = term;
     }
 
     public List<RegistrationCourse> getPendingCourses() {
@@ -310,14 +289,6 @@ public class AdminRegistrationForm extends UifFormBase implements Serializable {
 
     public void setPendingDropCourse(RegistrationCourse pendingDropCourse) {
         this.pendingDropCourse = pendingDropCourse;
-    }
-
-    public List<Principal> getPrincipalIDs() {
-        return principalIDs;
-    }
-
-    public void setPrincipalIDs(List<Principal> principalIDs) {
-        this.principalIDs = principalIDs;
     }
 
 }

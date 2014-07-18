@@ -1,5 +1,6 @@
 package org.kuali.student.enrollment.class2.registration.admin.service;
 
+import org.kuali.student.core.person.dto.PersonInfo;
 import org.kuali.student.enrollment.class2.registration.admin.form.AdminRegistrationForm;
 import org.kuali.student.enrollment.class2.registration.admin.form.RegistrationActivity;
 import org.kuali.student.enrollment.class2.registration.admin.form.RegistrationCourse;
@@ -18,10 +19,11 @@ public interface AdminRegistrationViewHelperService {
     /**
      * Retrieves the Student information for the Entity ID entered.
      *
-     * @param form
+     * @param studentId
      * @throws Exception
+     * @return
      */
-    public void populateStudentInfo(AdminRegistrationForm form) throws Exception;
+    public PersonInfo getStudentById(String studentId);
 
     /**
      * Retrieves the Term information for the term code entered on the screen.

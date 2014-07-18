@@ -85,9 +85,9 @@
                 <bean parent="Uif-HorizontalFieldGroup">
                     <property name="items">
                         <list>
-                            <bean parent="KS-Uif-InputField-LabelLeft" p:propertyName="personInfo.id"
+                            <bean parent="KS-Uif-InputField-LabelLeft" p:propertyName="person.id"
                                   p:label="Student ID" p:readOnly="false" p:id="studentIdField"
-                                  p:onDocumentReadyScript="setValidation('personInfo.id', ['kuali.admin.reg.state.open', 'kuali.admin.reg.state.initialized', 'kuali.admin.reg.state.ready'], 'Student Id is required.');">
+                                  p:onDocumentReadyScript="setValidation('person.id', ['kuali.admin.reg.state.open', 'kuali.admin.reg.state.initialized', 'kuali.admin.reg.state.ready'], 'Student Id is required.');">
                                 <property name="control">
                                     <bean parent="KS-Uif-TextControl" p:size="12" p:maxLength="40"/>
                                 </property>
@@ -96,8 +96,8 @@
                                   p:actionLabel="Go" p:methodToCall="getStudentInfo"
                                   p:actionScript="goAction(this, 'kuali.admin.reg.state.open');"
                                   p:jumpToIdAfterSubmit="TOP" p:ajaxSubmit="false" p:id="go_button"/>
-                            <bean parent="Uif-MessageField" p:id="studentInfoMsg" p:render="@{personInfo.id != null}"
-                                  p:messageText="[b]@{personInfo.name} (@{personInfo.id})[/b]"/>
+                            <bean parent="Uif-MessageField" p:id="studentInfoMsg" p:render="@{person.id != null}"
+                                  p:messageText="[b]@{person.name} (@{person.id})[/b]"/>
                         </list>
 
                     </property>
@@ -106,15 +106,15 @@
         </property>
     </bean>
 
-    <bean id="KS-AdminRegistration-ChangeTermSection" parent="Uif-HorizontalBoxSection" p:render="@{personInfo.name != null}">
+    <bean id="KS-AdminRegistration-ChangeTermSection" parent="Uif-HorizontalBoxSection" p:render="@{person.name != null}">
         <property name="items">
             <list>
                 <bean parent="Uif-HorizontalFieldGroup">
                     <property name="items">
                         <list>
-                            <bean parent="KS-Uif-InputField-LabelLeft" p:propertyName="termCode"
+                            <bean parent="KS-Uif-InputField-LabelLeft" p:propertyName="term.code"
                                   p:label="Change Term" p:readOnly="false" p:id="termCodeField"
-                                  p:onDocumentReadyScript="setValidation('termCode', ['kuali.admin.reg.state.initialized', 'kuali.admin.reg.state.ready'], 'Term is required.');">
+                                  p:onDocumentReadyScript="setValidation('term.code', ['kuali.admin.reg.state.initialized', 'kuali.admin.reg.state.ready'], 'Term is required.');">
                                 <!-- Constrain to 6 digits and use a custom message. -->
                                 <property name="validCharactersConstraint">
                                     <bean parent="NumericPatternConstraint"
@@ -128,7 +128,7 @@
                             </bean>
                             <bean parent="Uif-SecondaryActionButton" p:actionLabel="Go" p:performClientSideValidation="true"
                                   p:id="changeTermGoButton" p:methodToCall="getRegistrationInfo" p:actionScript="goAction(this, 'kuali.admin.reg.state.initialized');"/>
-                            <bean parent="Uif-MessageField" p:id="changeTermInfoMsg" p:messageText="[b]@{termName}[/b]"/>
+                            <bean parent="Uif-MessageField" p:id="changeTermInfoMsg" p:messageText="[b]@{term.name}[/b]"/>
                         </list>
                     </property>
                 </bean>
@@ -136,7 +136,7 @@
         </property>
     </bean>
 
-    <bean id="KS-AdminRegistration-RegistrationTabs" p:render="@{termName != null}" parent="Uif-TabSection">
+    <bean id="KS-AdminRegistration-RegistrationTabs" p:render="@{term.name != null}" parent="Uif-TabSection">
         <property name="items">
             <list>
                 <ref bean="KS-AdminRegistration-RegisteredTab"/>
@@ -209,7 +209,7 @@
                             <property name="returnFullQueryObject" value="true"/>
                             <property name="suggestQuery">
                                 <bean parent="Uif-AttributeQueryConfig" p:queryMethodToCall="retrieveCourseCodes"
-                                      p:queryMethodArgumentFieldList="termCode"/>
+                                      p:queryMethodArgumentFieldList="term.code"/>
                             </property>
                             <property name="templateOptions">
                                 <map merge="true">
@@ -233,7 +233,7 @@
                 <bean parent="Uif-MessageField" p:refreshWhenChangedPropertyNames="#lp.code" p:valign="middle">
                     <property name="methodToCallOnRefresh" value="refreshCourseTitle"/>
                     <property name="messageText"
-                              value="@{#dp.methodToCall == 'refreshCourseTitle' ? #ViewHelper.retrieveCourseTitle(#line, #dp.termCode) : #line.title}"/>
+                              value="@{#dp.methodToCall == 'refreshCourseTitle' ? #ViewHelper.retrieveCourseTitle(#line, #dp.term.id) : #line.title}"/>
                 </bean>
             </list>
         </property>

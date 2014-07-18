@@ -26,12 +26,14 @@ import org.kuali.rice.krad.web.controller.MethodAccessible;
 import org.kuali.rice.krad.web.controller.UifControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.common.uif.util.KSControllerHelper;
+import org.kuali.student.core.person.dto.PersonInfo;
 import org.kuali.student.enrollment.class2.registration.admin.form.AdminRegistrationForm;
 import org.kuali.student.enrollment.class2.registration.admin.form.RegistrationCourse;
 import org.kuali.student.enrollment.class2.registration.admin.form.RegistrationIssue;
 import org.kuali.student.enrollment.class2.registration.admin.form.RegistrationIssueItem;
 import org.kuali.student.enrollment.class2.registration.admin.service.AdminRegistrationViewHelperService;
 import org.kuali.student.enrollment.class2.registration.admin.util.AdminRegConstants;
+import org.kuali.student.enrollment.class2.registration.admin.util.AdminRegistrationUtil;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -55,7 +57,7 @@ import java.util.Random;
  * Created with IntelliJ IDEA.
  * User: Blue Team (SA)
  * Date: 17 July 2014
- *
+ * <p/>
  * Controller for Admin Registration.
  */
 @Controller
@@ -79,23 +81,22 @@ public class AdminRegistrationController extends UifControllerBase {
      * This method is called when the user has added or changed a course code in the input section when adding a new
      * pending course to update the course title. It is called via AJAX on a conditional property refresh.
      *
-     * @see org.kuali.student.enrollment.class2.registration.admin.service.impl.AdminRegistrationViewHelperServiceImpl#retrieveCourseTitle
-     *
      * @param form
      * @param result
      * @param request
      * @param response
      * @return
      * @throws Exception
+     * @see org.kuali.student.enrollment.class2.registration.admin.service.impl.AdminRegistrationViewHelperServiceImpl#retrieveCourseTitle
      */
+    @MethodAccessible
     @RequestMapping(params = "methodToCall=refreshCourseTitle")
     public ModelAndView refreshCourseTitle(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result, HttpServletRequest request,
-                                          HttpServletResponse response) throws Exception {
+                                           HttpServletResponse response) throws Exception {
         return super.refresh(form, result, request, response);
     }
 
     /**
-     *
      * @param form
      * @param result
      * @param request
@@ -106,17 +107,13 @@ public class AdminRegistrationController extends UifControllerBase {
     public ModelAndView getStudentInfo(@ModelAttribute("KualiForm") AdminRegistrationForm form, BindingResult result,
                                        HttpServletRequest request, HttpServletResponse response) {
 
-        form.clear();
-        this.validateUserPopulatedStudentIdField(form);
+        form.clearTermValues();
+        PersonInfo person = this.getViewHelper(form).getStudentById(form.getPerson().getId());
         if (GlobalVariables.getMessageMap().hasErrors()) {
             form.setClientState(AdminRegConstants.ClientStates.OPEN);
             return getUIFModelAndView(form);
-        }
-
-        try {
-            this.getViewHelper(form).populateStudentInfo(form);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+        } else {
+            form.setPerson(person);
         }
 
         form.setClientState(AdminRegConstants.ClientStates.INITIALIZED);
@@ -124,7 +121,6 @@ public class AdminRegistrationController extends UifControllerBase {
     }
 
     /**
-     *
      * @param form
      * @param result
      * @param request
@@ -136,27 +132,24 @@ public class AdminRegistrationController extends UifControllerBase {
     public ModelAndView getTermInfo(@ModelAttribute("KualiForm") AdminRegistrationForm form, BindingResult result,
                                     HttpServletRequest request, HttpServletResponse response) {
 
-        if (form.getTermCode() != null) {
-            TermInfo term = getViewHelper(form).getTermByCode(form.getTermCode());
-            if (term != null) {
-                form.setTermInfo(term);
-                form.setTermName(term.getName());
-                //KSENROLL-13558 :work around for incorrect Data
-                String studentID = "";
-                for(Principal principalID: form.getPrincipalIDs())  {
-                    //setting the first item to String on the assumption that there will only be one.
-                    studentID = principalID.getPrincipalId();
-                }
-                //method needs to change to pass form.getStudentId and not studentID
-                form.setRegisteredCourses(getViewHelper(form).getCourseRegForStudentAndTerm(studentID, term.getId()));
-                form.setWaitlistedCourses(getViewHelper(form).getCourseWaitListForStudentAndTerm(studentID, term.getId()));
-            } else {
-                form.clearTermValues();
-            }
-        }else{
-           GlobalVariables.getMessageMap().putError(AdminRegConstants.TERM_CODE, AdminRegConstants.ADMIN_REG_MSG_ERROR_INVALID_TERM);
-            form.clearTermValues();
+        form.clearCourseRegistrationValues();
+        TermInfo term = getViewHelper(form).getTermByCode(form.getTerm().getCode());
+        if (GlobalVariables.getMessageMap().hasErrors()) {
+            form.setClientState(AdminRegConstants.ClientStates.INITIALIZED);
+            return getUIFModelAndView(form);
+        } else {
+            form.setTerm(term);
         }
+
+        //KSENROLL-13558 :work around for incorrect Data
+        String studentID = StringUtils.EMPTY;
+        List<Principal> principals = AdminRegistrationUtil.getIdentityService().getPrincipalsByEntityId(form.getPerson().getId().toUpperCase());
+        for (Principal principalID : principals) {
+            studentID = principalID.getPrincipalId();
+        }
+        //method needs to change to pass form.getStudentId and not studentID
+        form.setRegisteredCourses(getViewHelper(form).getCourseRegForStudentAndTerm(studentID, form.getTerm().getId()));
+        form.setWaitlistedCourses(getViewHelper(form).getCourseWaitListForStudentAndTerm(studentID, form.getTerm().getId()));
 
         form.setClientState(AdminRegConstants.ClientStates.READY);
         return getUIFModelAndView(form);
@@ -177,7 +170,7 @@ public class AdminRegistrationController extends UifControllerBase {
             course.setCredits(3);
             course.setTransactionalDate(new Date());
             course.setRegOptions("reg");
-            course.setActivities(getViewHelper(form).getRegistrationActivitiesForRegistrationCourse(course, form.getTermCode()));
+            course.setActivities(getViewHelper(form).getRegistrationActivitiesForRegistrationCourse(course, form.getTerm().getCode()));
         }
 
         form.setClientState(AdminRegConstants.ClientStates.REGISTERING);
@@ -404,12 +397,6 @@ public class AdminRegistrationController extends UifControllerBase {
             // using temp here but could retrieve original from db
             ((List) collection).set(form.getEditWaitlistedIndex(), form.getTempWaitlistCourseEdit());
             form.setEditRegisteredIndex(-1);
-        }
-    }
-
-    private void validateUserPopulatedStudentIdField(AdminRegistrationForm form) {
-        if (StringUtils.isBlank(form.getPersonInfo().getId())) {
-            GlobalVariables.getMessageMap().putError(AdminRegConstants.PERSON_ID, AdminRegConstants.ADMIN_REG_MSG_ERROR_STUDENT_REQUIRED);
         }
     }
 

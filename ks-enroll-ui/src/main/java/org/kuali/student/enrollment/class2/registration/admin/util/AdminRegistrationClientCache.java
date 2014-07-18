@@ -30,8 +30,8 @@ public class AdminRegistrationClientCache {
 
     private final static String CACHE_NAME = "AdminRegistrationCodeCache";
 
-    private final static String TERMCODE_CODEPARM_TO_COURSECODES = "termcode.codeparm.to.coursecodes";
-    private final static String TERMCODE_COURSECODE_TO_CO = "termcode.coursecode.to.co";
+    private final static String TERMID_CODEPARM_TO_COURSECODES = "termId.codeparm.to.coursecodes";
+    private final static String TERMID_COURSECODE_TO_CO = "termId.coursecode.to.co";
     private final static String TERMCODE_TO_TERMINFO_KEY = "termcode.to.term";
 
     private static CacheManager cacheManager;
@@ -74,16 +74,16 @@ public class AdminRegistrationClientCache {
      * @throws org.kuali.student.r2.common.exceptions.PermissionDeniedException
      * @throws org.kuali.student.r2.common.exceptions.OperationFailedException
      */
-    public static List<String> retrieveCourseCodes(String termCode, String courseCode) throws InvalidParameterException, MissingParameterException, PermissionDeniedException, OperationFailedException {
+    public static List<String> retrieveCourseCodes(String termId, String courseCode) throws InvalidParameterException, MissingParameterException, PermissionDeniedException, OperationFailedException {
 
         List<String> results = new ArrayList<String>();
-        MultiKey cacheKey = new MultiKey(TERMCODE_CODEPARM_TO_COURSECODES, termCode, courseCode);
+        MultiKey cacheKey = new MultiKey(TERMID_CODEPARM_TO_COURSECODES, termId, courseCode);
         Element cachedResult = getCache().get(cacheKey);
 
         // only one character. This is the base search.
         if (cachedResult == null) {
             if (courseCode.length() == 1) {
-                List<CourseOfferingInfo> searchResult = searchCourseOfferingsByCodeAndTerm(termCode, courseCode, true);
+                List<CourseOfferingInfo> searchResult = searchCourseOfferingsByCodeAndTerm(termId, courseCode, true);
                 for (CourseOfferingInfo courseOffering : searchResult) {
                     results.add(courseOffering.getCourseOfferingCode());
                 }
@@ -94,7 +94,7 @@ public class AdminRegistrationClientCache {
             // This is where the recursion happens. If you entered CHEM and it didn't find anything it will
             // recurse and search for CHE -> CH -> C (C is the base). Each time building up the cache.
             // This for loop is the worst part of this method. I'd love to use some logic to remove the for loop.
-            for (String searchedCode : retrieveCourseCodes(termCode, courseCode.substring(0, courseCode.length() - 1))) {
+            for (String searchedCode : retrieveCourseCodes(termId, courseCode.substring(0, courseCode.length() - 1))) {
                 // for every course code, see if it's part of the Match.
                 if (searchedCode.startsWith(courseCode)) {
                     results.add(searchedCode);
@@ -122,7 +122,7 @@ public class AdminRegistrationClientCache {
     public static CourseOfferingInfo getCourseOfferingByCodeAndTerm(String termCode, String courseCode)
             throws MissingParameterException, InvalidParameterException, OperationFailedException, PermissionDeniedException {
 
-        MultiKey cacheKey = new MultiKey(TERMCODE_COURSECODE_TO_CO, termCode, courseCode);
+        MultiKey cacheKey = new MultiKey(TERMID_COURSECODE_TO_CO, termCode, courseCode);
         Element cachedResult = getCache().get(cacheKey);
         if (cachedResult == null) {
             List<CourseOfferingInfo> courseOfferings = searchCourseOfferingsByCodeAndTerm(termCode, courseCode, false);
@@ -138,27 +138,25 @@ public class AdminRegistrationClientCache {
      *
      * Note: the course code could be only a partial course code when used by a suggest field for example.
      *
-     * @param termCode the term code
+     * @param termId the term id
      * @param courseCode the actial course code or the starting characters of a course code
      * @return a list of CourseOfferings containing matching course codes
      */
-    public static List<CourseOfferingInfo> searchCourseOfferingsByCodeAndTerm(String termCode, String courseCode, boolean addWildCard)
+    public static List<CourseOfferingInfo> searchCourseOfferingsByCodeAndTerm(String termId, String courseCode, boolean addWildCard)
             throws InvalidParameterException, MissingParameterException, PermissionDeniedException, OperationFailedException {
 
         ContextInfo context = ContextUtils.createDefaultContextInfo();
-        TermInfo term = getTermByCode(termCode);
-
         String searchCode = addWildCard ? courseCode + "*" : courseCode;
 
         QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
         qbcBuilder.setPredicates(PredicateFactory.and(
                 PredicateFactory.like(CourseOfferingConstants.COURSEOFFERING_COURSE_OFFERING_CODE, searchCode),
-                PredicateFactory.equalIgnoreCase(CourseOfferingConstants.ATP_ID, term.getId())));
+                PredicateFactory.equalIgnoreCase(CourseOfferingConstants.ATP_ID, termId)));
         QueryByCriteria criteria = qbcBuilder.build();
 
         List<CourseOfferingInfo> results = AdminRegistrationUtil.getCourseOfferingService().searchForCourseOfferings(criteria, context);
         for (CourseOfferingInfo result : results) {
-            MultiKey cacheKey = new MultiKey(TERMCODE_COURSECODE_TO_CO, termCode, result.getCourseOfferingCode());
+            MultiKey cacheKey = new MultiKey(TERMID_COURSECODE_TO_CO, termId, result.getCourseOfferingCode());
             getCache().put(new Element(cacheKey, result));
         }
         return results;
