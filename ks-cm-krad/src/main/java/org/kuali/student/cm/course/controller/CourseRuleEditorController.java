@@ -122,7 +122,9 @@ public class CourseRuleEditorController extends RuleEditorController {
         //Return with error message if user is currently editing a proposition.
         PropositionEditor proposition = PropositionTreeUtil.getProposition(ruleEditor);
         if ((proposition!=null) && (proposition.isEditMode())) {
-            GlobalVariables.getMessageMap().putErrorForSectionId(KRMSConstants.KRMS_PROPOSITION_DETAILSECTION_ID, KRMSConstants.KRMS_MSG_ERROR_RULE_PREVIEW);
+            GlobalVariables.getMessageMap().putErrorForSectionId(
+                    KRMSConstants.KRMS_PROPOSITION_DETAILSECTION_ID + proposition.getIdSuffix(),
+                    KRMSConstants.KRMS_MSG_ERROR_RULE_PREVIEW);
             return getUIFModelAndView(form);
         }
 
@@ -131,6 +133,12 @@ public class CourseRuleEditorController extends RuleEditorController {
             ruleEditor.setDummy(false);
             PropositionTreeUtil.resetNewProp(ruleEditor.getPropositionEditor());
         }
+
+        if(ruleEditor.getPropositionEditor()!=null){
+            // handle saving new parameterized terms
+            this.getViewHelper(form).finPropositionEditor(ruleEditor.getPropositionEditor());
+        }
+
         this.getViewHelper(form).refreshViewTree(ruleEditor);
 
         //Replace edited rule with existing rule.

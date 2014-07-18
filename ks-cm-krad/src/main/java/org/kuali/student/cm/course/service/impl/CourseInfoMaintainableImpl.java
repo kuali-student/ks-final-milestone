@@ -585,7 +585,7 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
 
     @Override
     public void finPropositionEditor(PropositionEditor propositionEditor) {
-        throw new RuntimeException("Implement me");
+        getRuleViewHelperService().finPropositionEditor(propositionEditor);
     }
 
     @Override
