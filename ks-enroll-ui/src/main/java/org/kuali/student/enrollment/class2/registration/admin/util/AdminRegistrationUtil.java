@@ -15,6 +15,7 @@ import org.kuali.student.r2.common.util.constants.CourseRegistrationServiceConst
 import org.kuali.student.r2.common.util.constants.CourseWaitListServiceConstants;
 import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
 import org.kuali.student.r2.core.constants.AcademicCalendarServiceConstants;
+import org.kuali.student.r2.core.constants.RoomServiceConstants;
 import org.kuali.student.r2.core.room.service.RoomService;
 import org.kuali.student.r2.core.scheduling.constants.SchedulingServiceConstants;
 import org.kuali.student.r2.core.scheduling.service.SchedulingService;
@@ -23,12 +24,12 @@ import javax.xml.namespace.QName;
 
 /**
  * Created with IntelliJ IDEA.
- * User: aliabad4
- * Date: 3/4/13
- * Time: 3:27 PM
+ * User: Blue Team (SA)
+ * Date: 17 July 2014
  * Utility Class for common auto generated reg group functions
  */
 public class AdminRegistrationUtil {
+
     private static PersonService personService;
     private static AcademicCalendarService academicCalendarService;
     private static IdentityService identityService;
@@ -37,7 +38,6 @@ public class AdminRegistrationUtil {
     private static CourseOfferingService courseOfferingServiceCached;
     private static SchedulingService schedulingService;
     private static RoomService roomService;
-    private static CacheManager cacheManager;
     private static CourseWaitListService courseWaitListService;
 
     public static PersonService getPersonService() {
@@ -62,43 +62,35 @@ public class AdminRegistrationUtil {
     }
 
     public static CourseRegistrationService getCourseRegistrationService() {
-        if (courseRegService == null){
+        if (courseRegService == null) {
             courseRegService = (CourseRegistrationService) GlobalResourceLoader.getService(new QName(CourseRegistrationServiceConstants.NAMESPACE, CourseRegistrationServiceConstants.SERVICE_NAME_LOCAL_PART));
         }
         return courseRegService;
     }
 
     public static CourseOfferingService getCourseOfferingService() {
-        if (courseOfferingService == null){
+        if (courseOfferingService == null) {
             courseOfferingService = (CourseOfferingService) GlobalResourceLoader.getService(new QName(CourseOfferingServiceConstants.NAMESPACE, CourseOfferingServiceConstants.SERVICE_NAME_LOCAL_PART));
         }
         return courseOfferingService;
     }
 
     public static CourseOfferingService getCourseOfferingServiceCached() {
-        if (courseOfferingServiceCached == null){
+        if (courseOfferingServiceCached == null) {
             courseOfferingServiceCached = (CourseOfferingService) GlobalResourceLoader.getService(new QName(CourseOfferingServiceConstants.NAMESPACE, CourseOfferingServiceConstants.CACHED_SERVICE_NAME_LOCAL_PART));
         }
         return courseOfferingServiceCached;
     }
 
     public static CourseWaitListService getCourseWaitlistService() {
-        if (courseWaitListService == null){
+        if (courseWaitListService == null) {
             courseWaitListService = (CourseWaitListService) GlobalResourceLoader.getService(new QName(CourseWaitListServiceConstants.NAMESPACE, CourseWaitListServiceConstants.SERVICE_NAME_LOCAL_PART));
         }
         return courseWaitListService;
     }
 
-    public static CacheManager getCacheManager() {
-        if (cacheManager == null) {
-            // "ks-ehcache" is the parent bean in ks-ehcache.xml file. This should probably be a constant.
-            cacheManager = CacheManager.getCacheManager("ks-ehcache");
-        }
-        return cacheManager;
-    }
-
     public static SchedulingService getSchedulingService() {
-        if (schedulingService == null){
+        if (schedulingService == null) {
             schedulingService = (SchedulingService) GlobalResourceLoader.getService(new QName(SchedulingServiceConstants.NAMESPACE, SchedulingServiceConstants.SERVICE_NAME_LOCAL_PART));
         }
         return schedulingService;
@@ -106,7 +98,7 @@ public class AdminRegistrationUtil {
 
     public static RoomService getRoomService() {
         if (roomService == null) {
-            roomService = CourseOfferingResourceLoader.loadRoomService();
+            roomService = (RoomService) GlobalResourceLoader.getService(new QName(RoomServiceConstants.NAMESPACE, RoomServiceConstants.SERVICE_NAME_LOCAL_PART));
         }
         return roomService;
     }

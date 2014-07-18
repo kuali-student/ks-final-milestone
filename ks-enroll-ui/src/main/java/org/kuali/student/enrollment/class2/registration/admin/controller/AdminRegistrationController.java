@@ -52,7 +52,11 @@ import java.util.Map;
 import java.util.Random;
 
 /**
- * Created by Brian on 6/17/14.
+ * Created with IntelliJ IDEA.
+ * User: Blue Team (SA)
+ * Date: 17 July 2014
+ *
+ * Controller for Admin Registration.
  */
 @Controller
 @RequestMapping(value = "/adminreg")
@@ -65,16 +69,39 @@ public class AdminRegistrationController extends UifControllerBase {
 
     @Override
     @RequestMapping(params = "methodToCall=refresh")
-    public ModelAndView refresh(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public ModelAndView refresh(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result, HttpServletRequest request,
+                                HttpServletResponse response) throws Exception {
         //cancelEdits((AdminRegistrationForm) form, form.getUpdateComponentId());
         return super.refresh(form, result, request, response);
     }
 
-    @RequestMapping(params = "methodToCall=refreshCourseName")
-    public ModelAndView refreshCourseName(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    /**
+     * This method is called when the user has added or changed a course code in the input section when adding a new
+     * pending course to update the course title. It is called via AJAX on a conditional property refresh.
+     *
+     * @see org.kuali.student.enrollment.class2.registration.admin.service.impl.AdminRegistrationViewHelperServiceImpl#retrieveCourseTitle
+     *
+     * @param form
+     * @param result
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(params = "methodToCall=refreshCourseTitle")
+    public ModelAndView refreshCourseTitle(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result, HttpServletRequest request,
+                                          HttpServletResponse response) throws Exception {
         return super.refresh(form, result, request, response);
     }
 
+    /**
+     *
+     * @param form
+     * @param result
+     * @param request
+     * @param response
+     * @return
+     */
     @RequestMapping(method = RequestMethod.POST, params = "methodToCall=getStudentInfo")
     public ModelAndView getStudentInfo(@ModelAttribute("KualiForm") AdminRegistrationForm form, BindingResult result,
                                        HttpServletRequest request, HttpServletResponse response) {
@@ -96,6 +123,14 @@ public class AdminRegistrationController extends UifControllerBase {
         return getUIFModelAndView(form);
     }
 
+    /**
+     *
+     * @param form
+     * @param result
+     * @param request
+     * @param response
+     * @return
+     */
     @MethodAccessible
     @RequestMapping(method = RequestMethod.POST, params = "methodToCall=getRegistrationInfo")
     public ModelAndView getTermInfo(@ModelAttribute("KualiForm") AdminRegistrationForm form, BindingResult result,
@@ -119,7 +154,7 @@ public class AdminRegistrationController extends UifControllerBase {
                 form.clearTermValues();
             }
         }else{
-           GlobalVariables.getMessageMap().putError("termCode", AdminRegConstants.ADMIN_REG_MSG_ERROR_INVALID_TERM);
+           GlobalVariables.getMessageMap().putError(AdminRegConstants.TERM_CODE, AdminRegConstants.ADMIN_REG_MSG_ERROR_INVALID_TERM);
             form.clearTermValues();
         }
 
@@ -360,12 +395,12 @@ public class AdminRegistrationController extends UifControllerBase {
 
         // Cancel other edit if one is open
         if (form.getEditRegisteredIndex() > -1 && collectionId.equals(AdminRegConstants.REG_COLL_ID)) {
-            Collection<Object> collection = ObjectPropertyUtils.getPropertyValue(form, "registeredCourses");
+            Collection<Object> collection = ObjectPropertyUtils.getPropertyValue(form, AdminRegConstants.REGISTERED_COURSES);
             // using temp here but could retrieve original from db
             ((List) collection).set(form.getEditRegisteredIndex(), form.getTempRegCourseEdit());
             form.setEditRegisteredIndex(-1);
         } else if (form.getEditWaitlistedIndex() > -1 && collectionId.equals(AdminRegConstants.WAITLIST_COLL_ID)) {
-            Collection<Object> collection = ObjectPropertyUtils.getPropertyValue(form, "waitlistedCourses");
+            Collection<Object> collection = ObjectPropertyUtils.getPropertyValue(form, AdminRegConstants.WAITLISTED_COURSES);
             // using temp here but could retrieve original from db
             ((List) collection).set(form.getEditWaitlistedIndex(), form.getTempWaitlistCourseEdit());
             form.setEditRegisteredIndex(-1);
@@ -374,7 +409,7 @@ public class AdminRegistrationController extends UifControllerBase {
 
     private void validateUserPopulatedStudentIdField(AdminRegistrationForm form) {
         if (StringUtils.isBlank(form.getPersonInfo().getId())) {
-            GlobalVariables.getMessageMap().putError(AdminRegConstants.STUDENT_INFO_SECTION_STUDENT_ID, AdminRegConstants.ADMIN_REG_MSG_ERROR_STUDENT_REQUIRED);
+            GlobalVariables.getMessageMap().putError(AdminRegConstants.PERSON_ID, AdminRegConstants.ADMIN_REG_MSG_ERROR_STUDENT_REQUIRED);
         }
     }
 

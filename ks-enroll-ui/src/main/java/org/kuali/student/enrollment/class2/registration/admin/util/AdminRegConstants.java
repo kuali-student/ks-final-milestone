@@ -1,7 +1,11 @@
 package org.kuali.student.enrollment.class2.registration.admin.util;
 
 /**
- * Created by SW Genis on 2014-07-10.
+ * Created with IntelliJ IDEA.
+ * User: Blue Team (SA)
+ * Date: 17 July 2014
+ *
+ * Admin Registration User Interface constants.
  */
 public class AdminRegConstants {
 
@@ -36,7 +40,16 @@ public class AdminRegConstants {
 
     //sections ids
     public static final String STUDENT_INFO_SECTION = "KS-AdminRegistration-StudentInfo";
-    public static final String STUDENT_INFO_SECTION_STUDENT_ID = "personInfo.id";
+
+    //form property names
+    public static final String PERSON_ID = "personInfo.id";
+    public static final String TERM_CODE = "termCode";
+    public static final String PENDING_COURSES = "pendingCourses";
+    public static final String REGISTERED_COURSES = "registeredCourses";
+    public static final String WAITLISTED_COURSES = "waitlistedCourses";
+    public static final String CODE = "code";
+    public static final String SECTION = "section";
+
     //Affiliation Types
     public static final String STUDENT_AFFILIATION_TYPE_CODE= "STDNT";
 

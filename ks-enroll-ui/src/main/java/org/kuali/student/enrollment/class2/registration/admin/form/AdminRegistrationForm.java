@@ -27,12 +27,25 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by Brian on 6/17/14.
+ * Created with IntelliJ IDEA.
+ * User: Blue Team (SA)
+ * Date: 17 July 2014
+ *
+ * Main Form class used on the Admin Registration screen.
  */
 public class AdminRegistrationForm extends UifFormBase implements Serializable {
 
+    /**
+     * ClientState tracks the state of the screen in the browser. This is NOT the state of the registration but instead
+     * it is used to check which components should be validated at what time and which components should be inactive.
+     *
+     * @see AdminRegConstants.ClientStates for available states.
+     */
     private String clientState;
 
+    /**
+     * Contains the personal information for the selected student.
+     */
     private PersonInfo personInfo;
 
     private String program;
@@ -45,19 +58,39 @@ public class AdminRegistrationForm extends UifFormBase implements Serializable {
     private TermInfo termInfo;
     private String termName;
 
-    private RegistrationCourse pendingDropCourse = new RegistrationCourse();
+    /**
+     * Pending Courses are course codes and sections added in the input section but not yet move registered or
+     * added to the registration cart.
+     */
+    private List<RegistrationCourse> pendingCourses;
 
+    /**
+     * Courses In Process are courses that has been sent to the registration engine but the registration
+     * is not yet completed.
+     */
+    private List<RegistrationCourse> coursesInProcess = new ArrayList<RegistrationCourse>();
+
+    /**
+     * Registration Issues contain courses that did not pass the course eligibility checks. Administrative
+     * users has the option to allow these courses to be registered.
+     */
+    private List<RegistrationIssue> registrationIssues = new ArrayList<RegistrationIssue>();
+
+    /**
+     * Registered Courses contain courses that the student is currently enrolled for.
+     */
+    private List<RegistrationCourse> registeredCourses = new ArrayList<RegistrationCourse>();
     private int editRegisteredIndex;
-    private int editWaitlistedIndex;
-
     private RegistrationCourse tempRegCourseEdit;
+
+    /**
+     * Waitlisted Courses contains courses that the student was added to the waitlist for.
+     */
+    private List<RegistrationCourse> waitlistedCourses = new ArrayList<RegistrationCourse>();
+    private int editWaitlistedIndex;
     private RegistrationCourse tempWaitlistCourseEdit;
 
-    private List<RegistrationCourse> pendingCourses;
-    private List<RegistrationIssue> registrationIssues = new ArrayList<RegistrationIssue>();
-    private List<RegistrationCourse> registeredCourses = new ArrayList<RegistrationCourse>();
-    private List<RegistrationCourse> waitlistedCourses = new ArrayList<RegistrationCourse>();
-    private List<RegistrationCourse> coursesInProcess = new ArrayList<RegistrationCourse>();
+    private RegistrationCourse pendingDropCourse = new RegistrationCourse();
 
     //KSENROLL-13558 :work around for incorrect Data
     private List<Principal> principalIDs = new ArrayList<Principal>();
@@ -68,6 +101,31 @@ public class AdminRegistrationForm extends UifFormBase implements Serializable {
         editWaitlistedIndex = -1;
         personInfo = new PersonInfo();
         this.resetPendingCourseValues();
+    }
+
+    public void clear() {
+        this.personInfo.setName(null);
+        this.personInfo.setTypeKey(null);
+        this.clearTermValues();
+    }
+
+    public void clearTermValues() {
+        this.termInfo = null;
+        this.termCode = null;
+        this.termName = null;
+        this.clearCourseRegistrationValues();
+    }
+
+    public void clearCourseRegistrationValues() {
+        this.resetPendingCourseValues();
+        this.registrationIssues = new ArrayList<RegistrationIssue>();
+        this.registeredCourses = new ArrayList<RegistrationCourse>();
+        this.waitlistedCourses = new ArrayList<RegistrationCourse>();
+    }
+
+    public void resetPendingCourseValues(){
+        this.pendingCourses = new ArrayList<RegistrationCourse>();
+        this.pendingCourses.add(new RegistrationCourse());
     }
 
     public String getClientState() {
@@ -150,54 +208,12 @@ public class AdminRegistrationForm extends UifFormBase implements Serializable {
         this.termName = termName;
     }
 
-    public List<RegistrationCourse> getRegisteredCourses() {
-        return registeredCourses;
-    }
-
-    public void setRegisteredCourses(List<RegistrationCourse> registeredCourses) {
-        this.registeredCourses = registeredCourses;
-    }
-
-    public List<RegistrationCourse> getWaitlistedCourses() {
-        return waitlistedCourses;
-    }
-
-    public void setWaitlistedCourses(List<RegistrationCourse> waitlistedCourses) {
-        this.waitlistedCourses = waitlistedCourses;
-    }
-
-    public int getRegisteredCredits() {
-        int credits = 0;
-        for (RegistrationCourse course: registeredCourses) {
-            credits += course.getCredits();
-        }
-
-        return credits;
-    }
-
-    public int getWaitlistedCredits() {
-        int credits = 0;
-        for (RegistrationCourse course: waitlistedCourses) {
-            credits += course.getCredits();
-        }
-
-        return credits;
-    }
-
     public List<RegistrationCourse> getPendingCourses() {
         return pendingCourses;
     }
 
     public void setPendingCourses(List<RegistrationCourse> pendingCourses) {
         this.pendingCourses = pendingCourses;
-    }
-
-    public List<RegistrationIssue> getRegistrationIssues() {
-        return registrationIssues;
-    }
-
-    public void setRegistrationIssues(List<RegistrationIssue> registrationIssues) {
-        this.registrationIssues = registrationIssues;
     }
 
     public List<RegistrationCourse> getCoursesInProcess() {
@@ -208,12 +224,32 @@ public class AdminRegistrationForm extends UifFormBase implements Serializable {
         this.coursesInProcess = coursesInProcess;
     }
 
-    public RegistrationCourse getPendingDropCourse() {
-        return pendingDropCourse;
+    public List<RegistrationIssue> getRegistrationIssues() {
+        return registrationIssues;
     }
 
-    public void setPendingDropCourse(RegistrationCourse pendingDropCourse) {
-        this.pendingDropCourse = pendingDropCourse;
+    public void setRegistrationIssues(List<RegistrationIssue> registrationIssues) {
+        this.registrationIssues = registrationIssues;
+    }
+
+    public List<RegistrationCourse> getRegisteredCourses() {
+        return registeredCourses;
+    }
+
+    public void setRegisteredCourses(List<RegistrationCourse> registeredCourses) {
+        this.registeredCourses = registeredCourses;
+    }
+
+    /**
+     * @return the total number of credits for all registered courses.
+     */
+    public int getRegisteredCredits() {
+        int credits = 0;
+        for (RegistrationCourse course: registeredCourses) {
+            credits += course.getCredits();
+        }
+
+        return credits;
     }
 
     public int getEditRegisteredIndex() {
@@ -224,20 +260,40 @@ public class AdminRegistrationForm extends UifFormBase implements Serializable {
         this.editRegisteredIndex = editRegisteredIndex;
     }
 
-    public int getEditWaitlistedIndex() {
-        return editWaitlistedIndex;
-    }
-
-    public void setEditWaitlistedIndex(int editWaitlistedIndex) {
-        this.editWaitlistedIndex = editWaitlistedIndex;
-    }
-
     public RegistrationCourse getTempRegCourseEdit() {
         return tempRegCourseEdit;
     }
 
     public void setTempRegCourseEdit(RegistrationCourse tempRegCourseEdit) {
         this.tempRegCourseEdit = tempRegCourseEdit;
+    }
+
+    public List<RegistrationCourse> getWaitlistedCourses() {
+        return waitlistedCourses;
+    }
+
+    public void setWaitlistedCourses(List<RegistrationCourse> waitlistedCourses) {
+        this.waitlistedCourses = waitlistedCourses;
+    }
+
+    /**
+     * @return The total number of credits for waitlisted courses.
+     */
+    public int getWaitlistedCredits() {
+        int credits = 0;
+        for (RegistrationCourse course: waitlistedCourses) {
+            credits += course.getCredits();
+        }
+
+        return credits;
+    }
+
+    public int getEditWaitlistedIndex() {
+        return editWaitlistedIndex;
+    }
+
+    public void setEditWaitlistedIndex(int editWaitlistedIndex) {
+        this.editWaitlistedIndex = editWaitlistedIndex;
     }
 
     public RegistrationCourse getTempWaitlistCourseEdit() {
@@ -248,6 +304,14 @@ public class AdminRegistrationForm extends UifFormBase implements Serializable {
         this.tempWaitlistCourseEdit = tempWaitlistCourseEdit;
     }
 
+    public RegistrationCourse getPendingDropCourse() {
+        return pendingDropCourse;
+    }
+
+    public void setPendingDropCourse(RegistrationCourse pendingDropCourse) {
+        this.pendingDropCourse = pendingDropCourse;
+    }
+
     public List<Principal> getPrincipalIDs() {
         return principalIDs;
     }
@@ -256,28 +320,4 @@ public class AdminRegistrationForm extends UifFormBase implements Serializable {
         this.principalIDs = principalIDs;
     }
 
-    public void clear() {
-        this.personInfo.setName(null);
-        this.personInfo.setTypeKey(null);
-        this.clearTermValues();
-    }
-
-    public void clearTermValues() {
-        this.termInfo = null;
-        this.termCode = null;
-        this.termName = null;
-        this.clearCourseRegistrationValues();
-    }
-
-    public void clearCourseRegistrationValues() {
-        this.resetPendingCourseValues();
-        this.registeredCourses = new ArrayList<RegistrationCourse>();
-        this.waitlistedCourses = new ArrayList<RegistrationCourse>();
-        this.registrationIssues = new ArrayList<RegistrationIssue>();
-    }
-
-    public void resetPendingCourseValues(){
-        this.pendingCourses = new ArrayList<RegistrationCourse>();
-        this.pendingCourses.add(new RegistrationCourse());
-    }
 }

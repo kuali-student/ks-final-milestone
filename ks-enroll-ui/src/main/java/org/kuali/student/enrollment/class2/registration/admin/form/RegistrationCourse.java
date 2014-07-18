@@ -22,7 +22,10 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * Created by Brian on 6/18/14.
+ * Created with IntelliJ IDEA.
+ * User: Blue Team (SA)
+ * Date: 17 July 2014
+ * Utility Class for common auto generated reg group functions
  */
 public class RegistrationCourse implements Serializable{
 
@@ -43,17 +46,6 @@ public class RegistrationCourse implements Serializable{
     private boolean subterm;
 
     public RegistrationCourse(){}
-
-    public RegistrationCourse(String code, String section, String title, Integer credits, String regOptions,
-                              Date transactionalDate) {
-        this.code = code;
-        this.section = section;
-        this.title = title;
-        this.credits = credits;
-        this.regOptions = regOptions;
-        this.transactionalDate = transactionalDate;
-        this.effectiveDate = transactionalDate;
-    }
 
     public String getCode() {
         return code;

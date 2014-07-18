@@ -19,7 +19,10 @@ package org.kuali.student.enrollment.class2.registration.admin.form;
 import java.io.Serializable;
 
 /**
- * Created by Brian on 6/18/14.
+ * Created with IntelliJ IDEA.
+ * User: Blue Team (SA)
+ * Date: 17 July 2014
+ * Utility Class for common auto generated reg group functions
  */
 public class RegistrationActivity implements Serializable {
     private static final long serialVersionUID = -58207877197440410L;
@@ -30,7 +33,6 @@ public class RegistrationActivity implements Serializable {
     private String room;
 
     public RegistrationActivity() {
-
     }
 
     public String getType() {

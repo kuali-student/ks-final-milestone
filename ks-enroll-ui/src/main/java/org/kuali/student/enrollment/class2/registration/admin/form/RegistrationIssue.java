@@ -4,7 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by SW Genis on 2014/06/19.
+ * Created with IntelliJ IDEA.
+ * User: Blue Team (SA)
+ * Date: 17 July 2014
+ * Utility Class for common auto generated reg group functions
  */
 public class RegistrationIssue {
 

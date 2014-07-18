@@ -87,7 +87,7 @@
                         <list>
                             <bean parent="KS-Uif-InputField-LabelLeft" p:propertyName="personInfo.id"
                                   p:label="Student ID" p:readOnly="false" p:id="studentIdField"
-                                  p:onDocumentReadyScript="setValidation('clientState', 'personInfo.id', ['kuali.admin.reg.state.open', 'kuali.admin.reg.state.initialized', 'kuali.admin.reg.state.ready'], 'Student Id is required.');">
+                                  p:onDocumentReadyScript="setValidation('personInfo.id', ['kuali.admin.reg.state.open', 'kuali.admin.reg.state.initialized', 'kuali.admin.reg.state.ready'], 'Student Id is required.');">
                                 <property name="control">
                                     <bean parent="KS-Uif-TextControl" p:size="12" p:maxLength="40"/>
                                 </property>
@@ -114,7 +114,7 @@
                         <list>
                             <bean parent="KS-Uif-InputField-LabelLeft" p:propertyName="termCode"
                                   p:label="Change Term" p:readOnly="false" p:id="termCodeField"
-                                  p:onDocumentReadyScript="setValidation('clientState', 'termCode', ['kuali.admin.reg.state.initialized', 'kuali.admin.reg.state.ready'], 'Term is required.');">
+                                  p:onDocumentReadyScript="setValidation('termCode', ['kuali.admin.reg.state.initialized', 'kuali.admin.reg.state.ready'], 'Term is required.');">
                                 <!-- Constrain to 6 digits and use a custom message. -->
                                 <property name="validCharactersConstraint">
                                     <bean parent="NumericPatternConstraint"
@@ -193,7 +193,7 @@
         <property name="items">
             <list>
                 <bean parent="Uif-InputField" p:propertyName="code" p:label="Course Code"
-                      p:onDocumentReadyScript="setValidation('clientState', 'pendingCourses[@{#index}].code', ['kuali.admin.reg.state.ready'], 'Course Code is required.');">
+                      p:onDocumentReadyScript="setValidation('pendingCourses[@{#index}].code', ['kuali.admin.reg.state.ready'], 'Course Code is required.');">
                     <property name="control">
                         <bean parent="KS-Uif-TextControl" p:size="9" p:watermarkText="ENGL101"
                               p:minLength="7" p:maxLength="8"/>
@@ -220,7 +220,7 @@
                     </property>
                 </bean>
                 <bean parent="Uif-InputField" p:propertyName="section" p:label="Section"
-                      p:onDocumentReadyScript="setValidation('clientState', 'pendingCourses[@{#index}].section', ['kuali.admin.reg.state.ready'], 'Section is required.');">
+                      p:onDocumentReadyScript="setValidation('pendingCourses[@{#index}].section', ['kuali.admin.reg.state.ready'], 'Section is required.');">
                     <property name="control">
                         <bean parent="KS-Uif-TextControl" p:size="5" p:watermarkText="1001"
                               p:minLength="4" p:maxLength="4"/>
@@ -241,7 +241,7 @@
             <bean parent="Uif-HorizontalBoxGroup">
                 <property name="items">
                     <list>
-                        <bean parent="Uif-SecondaryActionButton" p:methodToCall="addBlankLine" p:actionScript="goAction(this);"
+                        <bean parent="Uif-SecondaryActionButton" p:methodToCall="addBlankLine"
                               p:successCallback="jQuery(&quot;[name='pendingCourses[@{pendingCourses.size()}].code']&quot;).focus()"
                               p:refreshId="KS-AdminRegistration-RegFor" p:ajaxReturnType="update-component"
                               p:actionLabel=" + " p:actionEvent="addBlankLine" p:performClientSideValidation="true">
@@ -253,7 +253,7 @@
                             </property>
                         </bean>
                         <bean parent="Uif-PrimaryActionButton" p:actionLabel="Register" p:methodToCall="register"
-                              p:refreshId="KS-AdminRegistration-RegistrationTabs" p:actionScript="goAction(this);"
+                              p:refreshId="KS-AdminRegistration-RegistrationTabs"
                               p:ajaxReturnType="update-component" p:performClientSideValidation="true"/>
                     </list>
                 </property>
