@@ -27,6 +27,7 @@ limitations under the License.
         <property name="viewHelperServiceClass" value="org.kuali.student.lum.lu.ui.krms.service.impl.CourseInfoLookupableImpl" />
         <property name="cssClasses">
             <list>
+                <value>ks-cm-find-course-proposal</value>
                 <value>ks-cm-find-course</value>
             </list>
         </property>
@@ -63,25 +64,48 @@ limitations under the License.
             </bean>
         </property>
 
-        <property name="criteriaFields">
-            <list>
-                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="code" p:label="Course Code" p:fieldLabel.renderColon="true"/>
-                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="title" p:label="Course Title" p:fieldLabel.renderColon="true" />
-                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="description" p:label="Phrase in Description" p:fieldLabel.renderColon="true"/>
-            </list>
+        <property name="criteriaGroup">
+            <bean parent="Uif-HorizontalBoxSection">
+                <property name="fieldBindingObjectPath" value="lookupCriteria"/>
+                <property name="footer">
+                    <bean parent="Uif-LookupCriteriaFooter"/>
+                </property>
+                <property name="items">
+                    <list>
+                        <bean id="courseLookup_code" parent="Uif-LookupCriteriaInputField" p:propertyName="code"
+                              p:label="Course Code" p:required="true" p:fieldLabel.renderColon="true"/>
+                        <bean id="courseLookup_searchButton" parent="Uif-SecondaryActionButton" p:methodToCall="search"
+                              p:actionLabel="Find Courses" p:performClientSideValidation="true"/>
+                    </list>
+                </property>
+            </bean>
         </property>
+
         <property name="resultFields">
             <list>
-                <bean parent="KS-Uif-DataField-Simple" p:propertyName="code" p:label="Course Code"/>
-                <bean parent="KS-Uif-DataField-Simple" p:propertyName="title" p:label="Course Title"/>
-                <bean parent="KS-Uif-DataField-Simple" p:propertyName="state" p:label="State"/>
+                <bean parent="KS-Uif-DataField-Simple" p:propertyName="code" p:label="Code" />
+                <bean parent="KS-Uif-DataField-Simple" p:propertyName="title" p:label="Title"/>
                 <bean parent="KS-Uif-DataField-Simple" p:propertyName="description" p:label="Description"/>
             </list>
         </property>
 
-        <property name="criteriaGroup.footer.items">
+        <property name="resultsGroup.renderLineActions" value="true"/>
+        <property name="resultsGroup.layoutManager.actionColumnPlacement" value="RIGHT"/>
+
+        <property name="resultsGroup.layoutManager.richTable">
+            <bean parent="KS-Uif-RichTable"/>
+        </property>
+
+        <property name="resultsGroup.layoutManager.richTable.templateOptions">
+            <map merge="true">
+                <entry key="aoColumnDefs"
+                       value="[ {'aTargets':[0,1], 'bSortable':true} ]"/>
+            </map>
+        </property>
+
+        <property name="resultsGroup.lineActions">
             <list>
-                <bean parent="Uif-SecondaryActionButton" p:methodToCall="search" p:actionLabel="Find Courses" />
+                <bean parent="KS-Uif-View-NavigationActionLink"/>
             </list>
         </property>
 
