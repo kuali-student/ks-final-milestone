@@ -13,9 +13,29 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+//////////////////////////////////////
+// Polling Functions
+//////////////////////////////////////
+
+var POLLING_QUERY_METHOD_NAME = "queryForRegistrationStatus";
+
+/**
+ *
+ * @type {boolean}
+ */
 var polling = false;
+
+/**
+ *
+ * @type {null}
+ */
 var delay = null;
 
+/**
+ *
+ * @param time
+ */
 function startPolling(time) {
     if (!polling) {
         delay = time;
@@ -24,11 +44,17 @@ function startPolling(time) {
     }
 }
 
+/**
+ * Interrupt the polling action by setting the polling flag to false.
+ */
 function stopPolling() {
     polling = false;
     delay = null;
 }
 
+/**
+ *
+ */
 function sendPoll() {
 
     if (polling) {
@@ -37,7 +63,7 @@ function sendPoll() {
 
         console.log("Query");
 
-        queryData.methodToCall = "queryForRegistrationStatus";
+        queryData.methodToCall = POLLING_QUERY_METHOD_NAME;
         queryData.ajaxRequest = true;
         queryData.ajaxReturnType = "update-none";
         queryData.formKey = jQuery("input[name='" + kradVariables.FORM_KEY + "']").val();
@@ -69,9 +95,22 @@ function sendPoll() {
     }
 }
 
+//////////////////////////////////////
+// State Validation Functions
+//////////////////////////////////////
+
+var CLIENT_STATE_PROPERTY_NAME = "clientState";
+
+/**
+ * Called when a 'Go' button is clicked on the admin registration screen to set client state to an earlier state
+ * for validation purposes.
+ *
+ * @param component
+ * @param state
+ */
 function goAction(component, state) {
     if(state) {
-        jQuery("input[name='clientState']").val(state);
+        jQuery("input[name='" + CLIENT_STATE_PROPERTY_NAME + "']").val(state);
     }
 
     var action = jQuery(component);
@@ -80,12 +119,23 @@ function goAction(component, state) {
     kradRequest.send();
 }
 
-function setValidation(controlName, requiredName, states, message) {
+/**
+ * Using the KRAD validation framework to add rules to components.
+ *
+ * Alternatively we could've used the Case and When Constraints on the objects but that does not allow
+ * us to display a custom message when the validation fails.
+ *
+ * @param controlName
+ * @param requiredName
+ * @param states
+ * @param message
+ */
+function setValidation(requiredName, states, message) {
 
     var check = function(){
         var i;
         for (i = 0; i < states.length; i++) {
-            if((coerceValue(controlName).toUpperCase() == states[i].toUpperCase())){
+            if((coerceValue(CLIENT_STATE_PROPERTY_NAME) == states[i])){
                 return true;
             }
         }
@@ -93,7 +143,7 @@ function setValidation(controlName, requiredName, states, message) {
     };
 
     runValidationScript(function(){
-        setupShowReqIndicatorCheck(controlName, requiredName, check);
+        setupShowReqIndicatorCheck(CLIENT_STATE_PROPERTY_NAME, requiredName, check);
     });
 
     runValidationScript(function(){
