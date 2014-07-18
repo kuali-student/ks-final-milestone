@@ -36,9 +36,18 @@ import java.util.List;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "ValueInfo", propOrder = {"id", "typeKey", "stateKey", "effectiveDate", "expirationDate",
-        "parameterKey","priority","atpTypeKeys","populationId","ruleId","stringValue","numericValue","dateValue","booleanValue",
-        "decimalValue","amountValue","currencyAmountValue","timeAmountValue","timeOfDayValue","customValue", "meta", "attributes", "_futureElements" })
+        "parameterKey","priority","atpTypeKeys","ruleId","orgId",
+        "populationId",
+        "cluId","luiId","socId","subjectCode","buildingId",
+        "stringValue","numericValue","dateValue","booleanValue",
+        "decimalValue","amountValue","currencyAmountValue","timeAmountValue","timeOfDayValue","customValue",
+        "meta", "attributes", "_futureElements" })
 public class ValueInfo extends IdNamelessEntityInfo implements Value, HasEffectiveDates {
+
+    //////////////////////////////////
+    // Data Variables
+    //////////////////////////////////
+
     @XmlElement
     private Date effectiveDate;
     @XmlElement
@@ -50,9 +59,32 @@ public class ValueInfo extends IdNamelessEntityInfo implements Value, HasEffecti
     @XmlElement
     private List<String> atpTypeKeys;
     @XmlElement
-    private String populationId;
-    @XmlElement
     private String ruleId;
+    @XmlElement
+    private String orgId;
+
+    // Person Quantifiers
+    // -----------------------
+
+    @XmlElement
+    private String populationId;
+
+    // Course Quantifiers
+    // -----------------------
+
+    @XmlElement
+    private String cluId;
+    @XmlElement
+    private String luiId;
+    @XmlElement
+    private String socId;
+    @XmlElement
+    private String subjectCode;
+    @XmlElement
+    private String buildingId;
+
+    // Value Variables
+    // -----------------------
     @XmlElement
     private String stringValue;
     @XmlElement
@@ -76,9 +108,14 @@ public class ValueInfo extends IdNamelessEntityInfo implements Value, HasEffecti
     @XmlAnyElement
     private List<Object> _futureElements;
 
+    //////////////////////////////////
+    // Constructors
+    //////////////////////////////////
+
     public ValueInfo(){
 
     }
+
     public ValueInfo(Value value) throws OperationFailedException {
         super(value);
         if(value != null) {
@@ -87,30 +124,32 @@ public class ValueInfo extends IdNamelessEntityInfo implements Value, HasEffecti
             if (value.getAtpTypeKeys().size() > 0){
                 atpTypeKeys = new ArrayList<String>(value.getAtpTypeKeys());
             }
-            populationId = value.getPopulationId();
             ruleId = value.getRuleId();
+            orgId = value.getOrgId();
+
             if(value.getEffectiveDate() != null) {
                 effectiveDate = new Date(value.getEffectiveDate().getTime());
             }
             if(value.getExpirationDate() != null) {
                 expirationDate = new Date(value.getExpirationDate().getTime());
             }
+
+            populationId = value.getPopulationId();
+
+            cluId = value.getCluId();
+            luiId = value.getLuiId();
+            socId = value.getSocId();
+            subjectCode = value.getSubjectCode();
+            buildingId = value.getBuildingId();
+
             stringValue = value.getStringValue();
-
             numericValue = value.getNumericValue();
-
             dateValue = value.getDateValue();
-
             booleanValue = value.getBooleanValue();
-
             decimalValue = value.getDecimalValue();
-
             amountValue = value.getAmountValue();
-
             currencyAmountValue = value.getCurrencyAmountValue();
-
             timeAmountValue = value.getTimeAmountValue();
-
             timeOfDayValue = value.getTimeOfDayValue();
 
             if(value.getCustomValue() != null) {
@@ -119,6 +158,10 @@ public class ValueInfo extends IdNamelessEntityInfo implements Value, HasEffecti
 
         }
     }
+
+    //////////////////////////////////
+    // Getters and Setters
+    //////////////////////////////////
 
     @Override
     public Date getEffectiveDate() {
@@ -167,6 +210,25 @@ public class ValueInfo extends IdNamelessEntityInfo implements Value, HasEffecti
         this.atpTypeKeys = atpTypeKey;
     }
 
+
+    @Override
+    public String getRuleId() {
+        return ruleId;
+    }
+
+    public void setRuleId(String ruleId) {
+        this.ruleId = ruleId;
+    }
+
+    @Override
+    public String getOrgId() {
+        return orgId;
+    }
+
+    public void setOrgId(String orgId) {
+        this.orgId = orgId;
+    }
+
     @Override
     public String getPopulationId() {
         return populationId;
@@ -176,13 +238,44 @@ public class ValueInfo extends IdNamelessEntityInfo implements Value, HasEffecti
         this.populationId = populationId;
     }
 
-    @Override
-    public String getRuleId() {
-        return ruleId;
+    public String getCluId() {
+        return cluId;
     }
 
-    public void setRuleId(String ruleId) {
-        this.ruleId = ruleId;
+    public void setCluId(String cluId) {
+        this.cluId = cluId;
+    }
+
+    public String getLuiId() {
+        return luiId;
+    }
+
+    public void setLuiId(String luiId) {
+        this.luiId = luiId;
+    }
+
+    public String getSocId() {
+        return socId;
+    }
+
+    public void setSocId(String socId) {
+        this.socId = socId;
+    }
+
+    public String getSubjectCode() {
+        return subjectCode;
+    }
+
+    public void setSubjectCode(String subjectCode) {
+        this.subjectCode = subjectCode;
+    }
+
+    public String getBuildingId() {
+        return buildingId;
+    }
+
+    public void setBuildingId(String buildingId) {
+        this.buildingId = buildingId;
     }
 
     @Override
