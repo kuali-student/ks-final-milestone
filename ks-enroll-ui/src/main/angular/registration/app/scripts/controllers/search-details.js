@@ -3,22 +3,21 @@
 angular.module('regCartApp')
     .controller('SearchDetailsCtrl', ['$scope', '$state', 'SearchService', function SearchDetailsCtrl($scope, $state, SearchService) {
 
-        var searchCriteria = null; // Criteria used to generate the search results.
-
+        $scope.searchCriteria = null; // Criteria used to generate the search results.
         $scope.course = null; // Handle on the course
 
 
         // Push the user back to the search page when the term is changed
         $scope.$on('termIdChanged', function(event, newValue, oldValue) {
-            if (oldValue !== null && searchCriteria && $scope.uiState === 'root.search.results.details') {
-                $state.goToPage('root.search.results', { searchCriteria: searchCriteria });
+            if (oldValue !== null && $scope.searchCriteria && $scope.uiState === 'root.search.details') {
+                $state.goToPage('root.search.results', { searchCriteria: $scope.searchCriteria });
             }
         });
 
         // Listen for any state changes from ui-router. This is where we get the search criteria & course ID from.
         $scope.$on('$stateChangeSuccess', function(event, toState, toParams) {
             if (angular.isDefined(toParams.searchCriteria)) {
-                searchCriteria = toParams.searchCriteria;
+                $scope.searchCriteria = toParams.searchCriteria;
             }
 
             if (angular.isDefined(toParams.courseId)) {
