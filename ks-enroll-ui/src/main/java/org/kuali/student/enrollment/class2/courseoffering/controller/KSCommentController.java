@@ -134,6 +134,7 @@ public class KSCommentController extends KsUifControllerBase {
                 LOG.error(message);
                 throw new RuntimeException(message);
             }
+            setupCommentWrapper(commentWrapper, comment);
             return getUIFModelAndView(form);
     }
 
