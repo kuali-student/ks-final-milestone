@@ -147,6 +147,7 @@ angular.module('regCartApp')
              */
             $scope.removeStatusMessage = function (course) {
                 course.statusMessage = null;
+                $scope.$emit('removeRegisteredStatusMessage', course);
             };
 
             /*

@@ -10,6 +10,7 @@ angular.module('regCartApp')
         $scope.waitlistedCredits = GlobalVarsService.getWaitlistedCredits;
         $scope.waitlistedCourseCount = GlobalVarsService.getWaitlistedCourseCount;
         $scope.numberOfDroppedWailistedCourses = 0;
+        $scope.numberOfDroppedCourses = 0;
         $scope.userId = GlobalVarsService.getUserId;
 
         /*
@@ -24,6 +25,17 @@ angular.module('regCartApp')
         });
 
         /*
+         Listens for the "removeRegisteredStatusMessage" event and removes the card for the given course.
+         */
+        $scope.$on('removeRegisteredStatusMessage',function (event, course) {
+            course.statusMessage = null;
+            $scope.numberOfDroppedCourses = $scope.numberOfDroppedCourses - 1;
+            if ($scope.numberOfDroppedCourses === 0) {
+                $scope.showRegisteredMessages = false;
+            }
+        });
+
+        /*
          Listens for the "dropRegistered" event and calls the schedule service to drop the given
          course.
          */
@@ -32,6 +44,10 @@ angular.module('regCartApp')
             ScheduleService.dropRegistrationGroup().query({
                 masterLprId: course.masterLprId
             }, function (dropResponseResult) {
+                // need a count on how many success drop message are opened. So if there are no courses when we "X" the last
+                // success drop message the section can be replaced by the splash screen (unless there are waitlisted courses)
+                $scope.numberOfDroppedCourses = $scope.numberOfDroppedCourses + 1;
+                $scope.showRegisteredMessages = true;
                 course.dropping = false; // used to display confirmation popup
                 course.dropProcessing = true; // used to display spinner while poll is running
 

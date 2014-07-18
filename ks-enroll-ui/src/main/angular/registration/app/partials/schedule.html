@@ -3,7 +3,7 @@
 
         <!--ScheduleMain Heading-->
         <div class="kscr-MainHeading util-Grid util-Grid--center"
-             ng-class="{'kscr-Splash-header':registeredCredits() === 0 && waitlistedCredits() === 0}">
+             ng-class="{'kscr-Splash-header':registeredCredits() === 0 && waitlistedCredits() === 0 && !showRegisteredMessages && !showWaitlistMessages}">
             <div class="util-Grid-cell">
                 <div class="kscr-MainHeading-icon-left"><a ui-sref="root.cart"><i class="glyphicon glyphicon-shopping-cart"></i></a></div>
                 <div class="kscr-MainHeading-header">My Schedule</div>
@@ -11,7 +11,7 @@
             </div>
         </div>
 
-        <div class="kscr-Responsive-schedule" ng-if="registeredCredits() > 0 || waitlistedCredits() > 0">
+        <div class="kscr-Responsive-schedule" ng-if="registeredCredits() > 0 || waitlistedCredits() > 0 || showRegisteredMessages || showWaitlistMessages">
             <!-- display registered courses via the course-card directive -->
             <div class="kscr-Responsive-registered"
                  course-card type="registered" credits="registeredCredits()" schedules="getSchedules()"></div>
@@ -20,7 +20,7 @@
                  course-card type="waitlist" credits="waitlistedCredits()" schedules="getSchedules()"></div>
         </div>
 
-        <div class="kscr-Splash" ng-if="registeredCredits() === 0 && waitlistedCredits() === 0">
+        <div class="kscr-Splash" ng-if="registeredCredits() === 0 && waitlistedCredits() === 0 && !showRegisteredMessages && !showWaitlistMessages">
             <div class="kscr-Splash-card">
                 <img class="kscr-Splash-logo" src="images/logo_kuali.png" />
                 <p class="kscr-Splash-heading">You are not registered for any courses in this term.</p>
