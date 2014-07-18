@@ -79,7 +79,7 @@
                 <value>admin-not-required-field</value>
             </list>
         </property>
-        <property name="onDocumentReadyScript" value="setupCharCounters(); applyIndentationStyling();"/>
+        <property name="onDocumentReadyScript" value="setupCharCountersForLo(); applyIndentationStyling();"/>
         <property name="layoutManager">
             <bean parent="Uif-StackedCollectionLayout-WithBoxItems">
                 <property name="subCollectionFieldGroupPrototype">
@@ -151,7 +151,7 @@
                         <bean parent="Uif-MediumTextAreaControl">
                             <property name="cssClasses">
                                 <list merge="true">
-                                    <value>cm-charcount-max-500</value>
+                                    <value>lo-charcount-max-500</value>
                                 </list>
                             </property>
                         </bean>
