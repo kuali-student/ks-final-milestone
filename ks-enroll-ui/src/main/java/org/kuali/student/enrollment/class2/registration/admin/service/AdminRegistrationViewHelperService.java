@@ -30,23 +30,26 @@ public interface AdminRegistrationViewHelperService {
     public TermInfo getTermByCode(String termCode);
 
     /**
+     * Using the Student ID and term entered to get the registered courses for that student
+     * and also retrieves existing activities for that registered courses and adding it.
      *
      * @param studentId
      * @param termCode
-     * @return
+     * @return List<RegistrationCourse> registeredCourses
      */
     public List<RegistrationCourse> getCourseRegForStudentAndTerm(String studentId, String termCode);
 
     /**
+     * Using the Student ID and term entered to get the waitlisted courses for that student
+     * and also retrieves existing activities for that waitlisted courses and adding it.
      *
      * @param studentId
      * @param termCode
-     * @return
+     * @return List<RegistrationCourse> waitListCourse
      */
     public List<RegistrationCourse> getCourseWaitListForStudentAndTerm(String studentId, String termCode);
 
     /**
-     *
      * @param form
      */
     public void validateForRegistration(AdminRegistrationForm form);

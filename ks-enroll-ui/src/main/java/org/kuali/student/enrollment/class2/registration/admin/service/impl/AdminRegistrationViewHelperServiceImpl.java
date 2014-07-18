@@ -124,12 +124,14 @@ public class AdminRegistrationViewHelperServiceImpl extends KSViewHelperServiceI
         List<RegistrationCourse> waitListCourses = new ArrayList<RegistrationCourse>();
 
         try {
+            //Using the student Id and term info to retrieve the existing waitlisted courses for that student
             List<CourseRegistrationInfo> courseWaitListInfos = AdminRegistrationUtil.getCourseWaitlistService().getCourseWaitListRegistrationsByStudentAndTerm(
                     studentId, termCode, createContextInfo());
 
             for (CourseRegistrationInfo courseWaitListInfo : courseWaitListInfos) {
                 RegistrationCourse waitListCourse = createRegistrationCourse(courseWaitListInfo);
 
+                //Getting the list of existing activities for waitlisted courses and adding it
                 List<ActivityRegistrationInfo> activityRegistrations = AdminRegistrationUtil.getCourseWaitlistService().getActivityWaitListRegistrationsForCourseRegistration(
                         courseWaitListInfo.getId(), createContextInfo());
                 waitListCourse.setActivities(createRegistrationActivitiesFromList(activityRegistrations));
