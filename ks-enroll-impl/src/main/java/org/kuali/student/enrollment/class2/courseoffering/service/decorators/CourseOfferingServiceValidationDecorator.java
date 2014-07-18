@@ -169,7 +169,7 @@ public class CourseOfferingServiceValidationDecorator
         return getNextDecorator().createFormatOffering(courseOfferingId, formatId, formatOfferingType, formatOfferingInfo, context);
     }
 
-    private void _checkFormatOfferingForValidAOTypes(FormatOfferingInfo fo, ContextInfo context)
+    protected void _checkFormatOfferingForValidAOTypes(FormatOfferingInfo fo, ContextInfo context)
             throws MissingParameterException, InvalidParameterException, OperationFailedException, PermissionDeniedException, DataValidationErrorException, DoesNotExistException {
         SearchRequestInfo request = new SearchRequestInfo("lu.search.relatedTypes");
         request.addParam("lu.queryParam.cluId", fo.getFormatId());
@@ -323,7 +323,7 @@ public class CourseOfferingServiceValidationDecorator
      * If, however, the code on the AOInfo appears in the Map and the AOInfo#id doesn't match the map id then it's a duplicate,
      * so add the error to the list.
      */
-    private void validateActivityOfferingCode(List<ValidationResultInfo> errors, ActivityOfferingInfo activityOfferingInfo, ContextInfo context)
+    protected void validateActivityOfferingCode(List<ValidationResultInfo> errors, ActivityOfferingInfo activityOfferingInfo, ContextInfo context)
             throws OperationFailedException, MissingParameterException, InvalidParameterException, PermissionDeniedException {
 
         // Query for AO id and codes, and build a Map.
@@ -548,7 +548,7 @@ public class CourseOfferingServiceValidationDecorator
      * @return term Id
      * @throws OperationFailedException Atp Id was not found in the query result
      */
-    private String _getTermIdByOfferingId(String offeringId, ContextInfo context) throws OperationFailedException, InvalidParameterException, MissingParameterException, PermissionDeniedException {
+    protected String _getTermIdByOfferingId(String offeringId, ContextInfo context) throws OperationFailedException, InvalidParameterException, MissingParameterException, PermissionDeniedException {
 
         String termId;
 
@@ -718,7 +718,7 @@ public class CourseOfferingServiceValidationDecorator
         return getNextDecorator().deleteActivityOfferingCluster(activityOfferingClusterId, context);
     }
 
-    private static boolean checkForErrors(List<ValidationResultInfo> errors) {
+    protected static boolean checkForErrors(List<ValidationResultInfo> errors) {
 
         if (errors != null && !errors.isEmpty()) {
             for (ValidationResultInfo error : errors) {
@@ -731,7 +731,7 @@ public class CourseOfferingServiceValidationDecorator
         return false;
     }
 
-    private void verifySocStatePermitsCrud( String termId, ContextInfo contextInfo ) throws InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException {
+    protected void verifySocStatePermitsCrud( String termId, ContextInfo contextInfo ) throws InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException {
 
         String socStateKey = getSocState( termId, contextInfo );
 
@@ -740,7 +740,7 @@ public class CourseOfferingServiceValidationDecorator
 
     }
 
-    private String getSocState( String termId, ContextInfo contextInfo ) throws InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException {
+    protected String getSocState( String termId, ContextInfo contextInfo ) throws InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException {
 
         String socStateKey = StringUtils.EMPTY;
 
@@ -752,7 +752,7 @@ public class CourseOfferingServiceValidationDecorator
         return socStateKey;
     }
 
-    private void denyAccessOnSocState( String socStateKeyToDenyAccess, String socStateKey, String denialErrorMessage ) throws OperationFailedException {
+    protected void denyAccessOnSocState( String socStateKeyToDenyAccess, String socStateKey, String denialErrorMessage ) throws OperationFailedException {
         denialErrorMessage = StringUtils.defaultIfEmpty( denialErrorMessage, "Access to course offerings is not permitted while this term's Set of Course (SOC) is in state (SocState) : " + socStateKey );
 
         if( StringUtils.equalsIgnoreCase( socStateKeyToDenyAccess, socStateKey ) ) {
