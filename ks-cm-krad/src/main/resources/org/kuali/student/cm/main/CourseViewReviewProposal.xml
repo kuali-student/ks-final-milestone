@@ -507,20 +507,20 @@
                     <property name="items">
                         <list>
                             <bean parent="CM-ReadOnlyInput" p:label="Student Eligibility + Prerequisite"
-                                  id="courseLogisticsSection.terms_1"
+                                  id="courseRequisitesSection.Prerequisite"
                                   p:propertyName="reviewProposalDisplay.courseRequisitesSection.dummyString"/>
-                            <bean parent="CM-ReadOnlyInput" p:label="Corequisite" id="courseLogisticsSection.terms_2"
+                            <bean parent="CM-ReadOnlyInput" p:label="Corequisite" id="courseRequisitesSection.Corequisite"
                                   p:propertyName="reviewProposalDisplay.courseRequisitesSection.dummyString"/>
                             <bean parent="CM-ReadOnlyInput" p:label="Recommended Preparation"
-                                  id="courseLogisticsSection.terms_3"
+                                  id="courseRequisitesSection.Preparation"
                                   p:propertyName="reviewProposalDisplay.courseRequisitesSection.dummyString"/>
-                            <bean parent="CM-ReadOnlyInput" p:label="Antirequisite" id="courseLogisticsSection.terms_4"
+                            <bean parent="CM-ReadOnlyInput" p:label="Antirequisite" id="courseRequisitesSection.Antirequisite"
                                   p:propertyName="reviewProposalDisplay.courseRequisitesSection.dummyString"/>
                             <bean parent="CM-ReadOnlyInput" p:label="Course that Restricts Credits"
-                                  id="courseLogisticsSection.terms_5"
+                                  id="courseRequisitesSection.RestrictsCredits"
                                   p:propertyName="reviewProposalDisplay.courseRequisitesSection.dummyString"/>
                             <bean parent="CM-ReadOnlyInput" p:label="Repeatable for Credit"
-                                  id="courseLogisticsSection.terms_6"
+                                  id="courseRequisitesSection.RepeatableForCredit"
                                   p:propertyName="reviewProposalDisplay.courseRequisitesSection.dummyString"/>
                         </list>
                     </property>
