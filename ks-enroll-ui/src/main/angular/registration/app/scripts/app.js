@@ -21,10 +21,6 @@ angular.module('regCartApp', [
             mySchedule = {
                 templateUrl: 'partials/schedule.html',
                 controller: 'ScheduleCtrl'
-            },
-            searchForm = {
-                templateUrl: 'partials/searchForm.html',
-                controller: 'SearchFormCtrl'
             };
 
 
@@ -45,8 +41,7 @@ angular.module('regCartApp', [
                 views: {
                     '': mySchedule,
                     mycart: myCart,
-                    schedule: mySchedule,
-                    searchform: searchForm
+                    schedule: mySchedule
                 }
             })
             .state('root.cart', {
@@ -54,25 +49,31 @@ angular.module('regCartApp', [
                 views: {
                     '': mySchedule,
                     mycart: myCart,
-                    schedule: mySchedule,
-                    searchform: searchForm
+                    schedule: mySchedule
                 }
             })
 
             .state('root.search', {
-                url: '/search/{searchCriteria}',
+                url: '/search',
                 views: {
                     '': {
-                        templateUrl: 'partials/search.html',
-                        controller: 'SearchCtrl'
+                        templateUrl: 'partials/search.html'
                     },
                     mycart: myCart,
-                    schedule: mySchedule,
-                    searchform: searchForm
+                    schedule: mySchedule
+                }
+            })
+            .state('root.search.results', {
+                url: '/{searchCriteria}', // URL gets appended to parent's
+                views: {
+                    '': {
+                        templateUrl: 'partials/searchResults.html',
+                        controller: 'SearchCtrl'
+                    }
                 }
             })
             .state('root.search.details', {
-                url: '/{courseId}', // URL gets appended to parent's
+                url: '/{searchCriteria}/{courseId}', // URL gets appended to parent's
                 templateUrl: 'partials/searchDetails.html',
                 controller: 'SearchDetailsCtrl'
             })

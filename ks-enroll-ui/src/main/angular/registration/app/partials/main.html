@@ -65,8 +65,17 @@
 
             <!-- Sidebar Container (Shown in sidebar layout in large-format only) -->
             <div class="kscr-Responsive-sidebar">
-                <!-- Search Form Container -->
-                <div ui-view="searchform" class="kscr-Responsive-searchFormWrapper" ng-class="{ 'kscr-Responsive-searchFormWrapper--active' : uiState == 'root.search' }"></div>
+                <div class="kscr-Responsive-searchFormWrapper kscr-SearchForm">
+                    <div class="kscr-SearchForm-container">
+                        <!-- Search Heading -->
+                        <div class="kscr-MainHeading kscr-SearchForm-heading">
+                            <div class="kscr-MainHeading-header">Find Courses</div>
+                        </div>
+
+                        <!-- Search Form -->
+                        <search-form></search-form>
+                    </div>
+                </div>
 
                 <!-- My Cart Container -->
                 <div ui-view="mycart" class="kscr-Responsive-cart"></div>

@@ -1,13 +1,12 @@
 /*** Search Form Section  ***/
 
 // Main search form container (header & form contents)
-.kscr-SearchForm {
+.kscr-SearchForm-container {
     margin-bottom: 10px;
 }
 
 // Main search form header
 .kscr-SearchForm-heading {
-    display: none; // Hide in all but large-format
     padding-bottom: 8px; // Make sure the heading has enough padding in large-format
 
     & .kscr-MainHeading-header {
@@ -58,8 +57,9 @@
 
 // Large-format styles
 @media screen and (min-width: @largeFormatMin) {
-    .kscr-SearchForm-heading {
-        display: block;
+    // Hide the search content area form in large-format since it's in the sidebar
+    .kscr-Search .kscr-SearchForm {
+        display: none;
     }
 
     .kscr-SearchForm-form {
