@@ -187,12 +187,12 @@ public class DocumentCollaboratorHelper implements Serializable {
                     ActionRequestType requestType = actionRequest.getActionRequested();
                     collaborator.setAction(requestType.getCode());
 
-                    collaborator.setActionRequestStatus(actionRequest.getStatus().getLabel());
+                    // this below is VERY important because it is used as the defacto 'primary key' for the collaboratorWrapper objects
                     collaborator.setActionRequestId(actionRequest.getId());
+                    collaborator.setActionRequestStatus(actionRequest.getStatus().getLabel());
 
-                    if (!actionRequest.isDone()) {
-                        collaborator.setCanRevokeRequest(true);
-                    }
+                    // we can only revoke an actionRequest that has not been satisfied by an actionTaken
+                    collaborator.setCanRevokeRequest(!actionRequest.isDone());
 
                     try {
                         Map<String,String> permissionDetails = new HashMap<String,String>();
