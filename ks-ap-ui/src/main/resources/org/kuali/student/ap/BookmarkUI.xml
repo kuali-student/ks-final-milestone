@@ -313,35 +313,12 @@
         <property name="items">
             <list>
                 <ref bean="bookmark_detail" />
-                <bean parent="ksap_section">
-                    <property name="items">
-                        <list>
-                            <bean parent="your_stuff_widget">
-                                <property name="items">
-                                    <list>
-                                    </list>
-                                </property>
-                                <property name="propertyReplacers">
-                                    <list>
-                                        <bean parent="Uif-ConditionalBeanPropertyReplacer"
-                                              p:propertyName="items"
-                                              p:condition="T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getUserSessionHelper().isStudent()">
-                                            <property name="replacement">
-                                                <list>
-                                                </list>
-                                            </property>
-                                        </bean>
-                                    </list>
-                                </property>
-                            </bean>
-                        </list>
-                    </property>
-                </bean>
+
             </list>
         </property>
     </bean>
 
-    <bean id="bookmark_detail" parent="Uif-VerticalBoxSubSection" p:style="width: 700px; margin-right: 10px;">
+    <bean id="bookmark_detail" parent="Uif-VerticalBoxSubSection">
         <property name="cssClasses">
             <list merge="true">
                 <value>ksap-saved-courses-detail</value>
