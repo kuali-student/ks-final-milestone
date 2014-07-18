@@ -59,6 +59,16 @@
         <property name="validationMessages" ref="KS-ValidationMessages-Off"/>
         <property name="header">
             <bean parent="Uif-KS-IconHeader">
+                <!-- This is for debugging and should be removed. -->
+                <property name="rightGroup">
+                    <bean parent="Uif-VerticalBoxGroup">
+                        <property name="items">
+                            <list>
+                                <bean parent="Uif-Message" p:messageText="Initiated @{#workflowDoc.initiated}  Saved @{#workflowDoc.saved} Enroute @{#workflowDoc.enroute} Approved @{#workflowDoc.approved}"/>
+                            </list>
+                        </property>
+                    </bean>
+                </property>
                 <property name="propertyReplacers">
                     <list>
                         <!-- Conditional display of required indicator. Works by storing the required indicator
