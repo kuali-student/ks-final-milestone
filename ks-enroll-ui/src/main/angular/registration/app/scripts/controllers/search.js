@@ -100,30 +100,6 @@ angular.module('regCartApp')
 
     }])
 
-
-    /**
-     * Controller for the search form
-     */
-    .controller('SearchFormCtrl', ['$scope', '$state', function SearchFormCtrl ($scope, $state) {
-
-        $scope.courseSearchCriteria = '';
-
-        // Listen for any state changes from ui-router. This will reinsert the search criteria into the form on a refresh.
-        $scope.$on('$stateChangeSuccess', function(event, toState, toParams) {
-            if (angular.isDefined(toParams.searchCriteria) && $scope.courseSearchCriteria !== toParams.searchCriteria) {
-                $scope.courseSearchCriteria = toParams.searchCriteria;
-            }
-        });
-
-        $scope.submit = function() {
-            if ($scope.courseSearchCriteria) {
-                console.log('Submitting search form: ' + $scope.courseSearchCriteria);
-                $state.go('root.search', { searchCriteria: $scope.courseSearchCriteria });
-            }
-        };
-
-    }])
-
     .filter('startFrom', function() {
         return function(input, start) {
             start = +start; //parse to int

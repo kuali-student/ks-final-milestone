@@ -101,7 +101,7 @@ angular.module('regCartApp')
             } else{
                 return value;
             }
-        }
+        };
     }])
 
 ;
