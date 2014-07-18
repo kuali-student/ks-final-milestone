@@ -13,19 +13,19 @@ public interface SearchInfo {
 
     /**
      * Get the course search item
-     * @return
+     * @return The course item stored.
      */
     CourseSearchItem getItem();
 
     /**
      * Get the sort columns
-     * @return
+     * @return A list of columns for sorting the stored item.
      */
     String[] getSortColumns();
 
     /**
      * Get the facet columns
-     * @return
+     * @return - The facet information for the stored item
      */
     Map<String, List<String>> getFacetColumns();
 }

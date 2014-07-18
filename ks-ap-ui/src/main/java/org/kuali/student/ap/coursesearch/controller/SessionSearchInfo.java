@@ -41,7 +41,6 @@ import java.util.regex.Pattern;
  * searches are stored in the HTTP session via these objects.
  *
  */
-
 public class SessionSearchInfo {
 
     private static final Logger LOG = LoggerFactory.getLogger(SessionSearchInfo.class);
@@ -63,26 +62,11 @@ public class SessionSearchInfo {
     private final Map<String, Map<String, FacetState>> facetState;
 
     /**
-     * Pruned facet state - this shared state keeps a count of all facets
-     * values that were pruned from display due to size limits and relevance
-     * scoring.
-     *
-     * <p>
-     * Note that pruned is not reliable - it is only a placeholder to
-     * facilitate the counting algorithm and is used for informational
-     * logging. The first facet build leaves pruned rows uncounted - on
-     * updated builds they are recorded in the log for tuning purposes.
-     * </p>
-     */
-    private final FacetStateImpl pruned;
-
-    /**
      * The oneClick flag records whether or not any facet state leaf nodes
      * have been switched to false. Until oneClick has been set, count
      * updates and clickAll requests will be ignored.
      *
      * @see #facetClick(String, String)
-     * @see #facetClickAll()
      * @see #updateFacetCounts()
      */
     private boolean oneClick = false;
@@ -96,10 +80,8 @@ public class SessionSearchInfo {
      * results.
      * </p>
      *
-     * @param request
-     *            The active HTTP servlet request.
-     * @param form
-     *            The search form.
+     * @param request - The active HTTP servlet request.
+     * @param form - The search form.
      */
     public SessionSearchInfo(HttpServletRequest request,
                              CourseSearchForm form) {
@@ -110,6 +92,13 @@ public class SessionSearchInfo {
                                 .getStudentId()));
     }
 
+    /**
+     * Constructor storing the course results for a search during the session.
+     *
+     * @param request - The active HTTP servlet request.
+     * @param formKey - Key identifying the specific form
+     * @param courses - List of courses returned by a search
+     */
     SessionSearchInfo(HttpServletRequest request, FormKey formKey,
                       List<CourseSearchItem> courses) {
         CourseSearchStrategy searcher = KsapFrameworkServiceLocator
@@ -126,15 +115,16 @@ public class SessionSearchInfo {
             facetState = Collections.emptyMap();
         else {
             facetState = Collections.synchronizedMap(Collections
-                    .unmodifiableMap(createFacetStateMap(searcher)));
+                    .unmodifiableMap(createFacetStateMap()));
         }
-        // Tread pruned facets as not checked unless all
-        // visible facet values in the same group are checked
-        pruned = new FacetStateImpl(new FacetKeyValue("", ""));
-        pruned.setChecked(false);
     }
 
-    private Map<String, Map<String, FacetState>> createFacetStateMap(CourseSearchStrategy searcher) {
+    /**
+     * Creates the map of initial facet states values for the course search results.
+     *
+     * @return A map to each possible facet value and its initial state in the search results
+     */
+    private Map<String, Map<String, FacetState>> createFacetStateMap() {
         Map<String, List<String>> facetColumns = searchResults.get(0).getFacetColumns();
         assert facetColumns.size() == KsapFrameworkServiceLocator.getCourseFacetStrategy().getFacetSort().size() : facetColumns
                 .size()
@@ -150,10 +140,8 @@ public class SessionSearchInfo {
      * Update checked state on all facets following a click event from the
      * browser.
      *
-     * @param key
-     *            The facet key clicked. May be 'All'.
-     * @param fcol
-     *            The facet column the click is related to.
+     * @param key - The facet key clicked. May be 'All'.
+     * @param fcol - The facet column the click is related to.
      */
     public void facetClick(String key, String fcol) {
         LOG.debug("Facet click {} {}", key, fcol);
@@ -165,15 +153,9 @@ public class SessionSearchInfo {
             updateFacetCounts();
     }
 
-    private void facetClickAll() {
-        LOG.debug("Facet click all");
-        boolean tmpOneClick = facetStrategy.facetClickAll(oneClick, facetState);
-        if (tmpOneClick != oneClick) {
-            updateFacetCounts();
-            oneClick = tmpOneClick;
-        }
-    }
-
+    /**
+     * Updates the count displayed for each facet based on the courses being shown by the current facet selections
+     */
     private void updateFacetCounts() {
         if (searchResults.isEmpty())
             return;
@@ -190,14 +172,18 @@ public class SessionSearchInfo {
         assert facetState.size() == facetCols.size() : facetState.size()
                 + " != " + facetCols.size();
 
+        // Update the facet counts
         facetStrategy.updateFacetCounts(searchResults, facetState, facetCols);
-        if (LOG.isDebugEnabled())
-            LOG.debug("Pruned facet entry {}", pruned.getCount());
     }
 
-
-    public List<SearchInfo> getFilteredResults(
-            final DataTablesInputs dataTablesInputs) {
+    /**
+     * Creates a filtered list of courses that are currently being shown in the results based on the data table options
+     * and facets states
+     *
+     * @param dataTablesInputs - Inputs sent from the data table used to display the results
+     * @return A list of currently shown courses in the search results
+     */
+    public List<SearchInfo> getFilteredResults(final DataTablesInputs dataTablesInputs) {
         final List<SearchInfo> filteredResults = new ArrayList<SearchInfo>(
                 searchResults);
 
@@ -240,6 +226,12 @@ public class SessionSearchInfo {
              * Column iterator.
              */
             Iterator<List<String>> fi = new Iterator<List<String>>() {
+
+                /**
+                 * Returns false if row has been removed or if pointer at end of the list
+                 *
+                 * @return Returns whether there is a next step in the iteration
+                 */
                 @Override
                 public boolean hasNext() {
                     // break column loop once row has been removed,
@@ -247,6 +239,12 @@ public class SessionSearchInfo {
                     return !removed && j < current.getFacetColumns().size() - 1;
                 }
 
+                /**
+                 * Sets iterator search fields and increments pointer index before returning item facet columns of
+                 * next facet column value
+                 *
+                 * @return A list of the course item facet values for the next facet column.
+                 */
                 @Override
                 public List<String> next() {
                     // break column loop once row has been removed
@@ -262,9 +260,7 @@ public class SessionSearchInfo {
                         searchString = dataTablesInputs.getsSearch();
                         searchPattern = dataTablesInputs.getPatSearch();
                     }
-                    // Here is where data tables column # is tied to
-                    // internal
-                    // facet column order.
+                    // Here is where data tables column # is tied to internal facet column order.
                     return current.getFacetColumns().get(facetStrategy.getFacetColumnsReversed()
                             .get(j));
                 }
@@ -276,19 +272,16 @@ public class SessionSearchInfo {
             };
 
             /**
-             * Determine whether or not DataTables defines the current
-             * column as searchable.
+             * Determine whether or not DataTables defines the current column as searchable.
              *
-             * @return True if DataTables defines the current column as
-             *         searchable.
+             * @return True if DataTables defines the current column as searchable.
              */
             private boolean isSearchable() {
                 return dataTablesInputs.getbSearchable_()[j];
             }
 
             /**
-             * Get the column iterator, after resetting to the start of the
-             * row.
+             * Get the column iterator, after resetting to the start of the row.
              *
              * @return The column iterator, reset to the start of the row.
              */
@@ -332,18 +325,26 @@ public class SessionSearchInfo {
             }
         }
         Iter li = new Iter();
-        while (li.hasNext()) { // filter search results
+
+        // Perform filtering of search results
+        while (li.hasNext()) {
             SearchInfo ln = li.next();
             // li maintains its own handle to the row
             assert ln == li.current; // ln is otherwise unused
             for (List<String> cell : li.facets()) {
                 if (li.isSearchable()) {
+
+                    // If iterator search string is empty skip
                     if (li.searchString == null
                             || li.searchString.trim().equals(""))
                         continue;
+
+                    // If list for facets is empty remove search item from list
                     if (cell == null || cell.size() == 0)
                         li.remove();
                     else {
+
+                        // Check if there exist a facet value for the search item that matches the search for the column
                         boolean match = false;
                         for (String c : cell) {
                             if (match)
@@ -356,6 +357,8 @@ public class SessionSearchInfo {
                                     .matches())
                                 match = true;
                         }
+
+                        // If no match is found remove the search item
                         if (!match)
                             li.remove();
                     }
@@ -403,10 +406,6 @@ public class SessionSearchInfo {
 
     public Map<String, Map<String, FacetState>> getFacetState() {
         return facetState;
-    }
-
-    public FacetState getPruned() {
-        return pruned;
     }
 
     public boolean isOneClick() {

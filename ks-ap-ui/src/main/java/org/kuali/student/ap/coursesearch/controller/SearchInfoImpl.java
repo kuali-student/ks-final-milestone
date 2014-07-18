@@ -24,6 +24,11 @@ public class SearchInfoImpl implements Serializable, SearchInfo {
     private final String[] sortColumns;
     private final Map<String, List<String>> facetColumns;
 
+    /**
+     * Constructor which processes an item returned in the search and stores information for quick reference.
+     *
+     * @param item - Item for the search to process.
+     */
     public SearchInfoImpl(CourseSearchItem item) {
         this.item = item;
         sortColumns = item.getSortColumns();
@@ -46,16 +51,25 @@ public class SearchInfoImpl implements Serializable, SearchInfo {
                 + ", facetColumns=" + facetColumns + "]";
     }
 
+    /**
+     * @see org.kuali.student.ap.coursesearch.SearchInfo#getItem()
+     */
     @Override
     public CourseSearchItem getItem() {
         return item;
     }
 
+    /**
+     * @see org.kuali.student.ap.coursesearch.SearchInfo#getSortColumns()
+     */
     @Override
     public String[] getSortColumns() {
         return sortColumns;
     }
 
+    /**
+     * @see org.kuali.student.ap.coursesearch.SearchInfo#getFacetColumns()
+     */
     @Override
     public Map<String, List<String>> getFacetColumns() {
         return facetColumns;

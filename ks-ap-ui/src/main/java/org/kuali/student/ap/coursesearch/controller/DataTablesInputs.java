@@ -1,3 +1,18 @@
+/*
+ * Copyright 2014 The Kuali Foundation Licensed under the
+ * Educational Community License, Version 2.0 (the "License"); you may
+ * not use this file except in compliance with the License. You may
+ * obtain a copy of the License at
+ *
+ * http://www.osedu.org/licenses/ECL-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an "AS IS"
+ * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing
+ * permissions and limitations under the License.
+ */
+
 package org.kuali.student.ap.coursesearch.controller;
 
 import javax.servlet.http.HttpServletRequest;
@@ -6,9 +21,7 @@ import java.util.regex.Pattern;
 /**
  * Input command processor for supporting DataTables server-side processing.
  *
- *
- * @see <a
- *      href="http://datatables.net/usage/server-side">http://datatables.net/usage/server-side</a>
+ * @see <a href="http://datatables.net/usage/server-side">http://datatables.net/usage/server-side</a>
  */
 public class DataTablesInputs {
     private final int iDisplayStart, iDisplayLength, iColumns,
@@ -22,8 +35,16 @@ public class DataTablesInputs {
     private final Pattern[] patSearch_;
     private final int[] iSortCol_;
 
+    /**
+     * Constructor which fills in the information needed for the datatable plugin used by the page for showing the
+     * search results.
+     *
+     * @param request - Request object for the page storing information sent by the page.
+     */
     public DataTablesInputs(HttpServletRequest request) {
         String s;
+
+        // Fill in basic settings
         iDisplayStart = (s = request.getParameter("iDisplayStart")) == null ? 0
                 : Integer.parseInt(s);
         iDisplayLength = (s = request.getParameter("iDisplayLength")) == null ? 0
@@ -36,12 +57,17 @@ public class DataTablesInputs {
                 : new Boolean(s);
         patSearch = (sSearch = escape(request.getParameter("sSearch"), "+")) == null
                 || !bRegex ? null : Pattern.compile(sSearch);
+        sEcho = (s = request.getParameter("sEcho")) == null ? 0 : Integer
+                .parseInt(s);
+
+        // Fill in column settings
         bSearchable_ = new boolean[iColumns];
         sSearch_ = new String[iColumns];
         patSearch_ = new Pattern[iColumns];
         bRegex_ = new boolean[iColumns];
         bSmart_ = new boolean[iColumns];
         bSortable_ = new boolean[iColumns];
+        mDataProp_ = new String[iColumns];
         for (int i = 0; i < iColumns; i++) {
             bSearchable_[i] = (s = request.getParameter("bSearchable_" + i)) == null ? false
                     : new Boolean(s);
@@ -54,7 +80,10 @@ public class DataTablesInputs {
                     || !bRegex_[i] ? null : Pattern.compile(sSearch_[i]);
             bSortable_[i] = (s = request.getParameter("bSortable_" + i)) == null ? false
                     : new Boolean(s);
+            mDataProp_[i] = request.getParameter("mDataProp_" + i);
         }
+
+        // Fill in sorting settings
         iSortingCols = (s = request.getParameter("iSortingCols")) == null ? 0
                 : Integer.parseInt(s);
         iSortCol_ = new int[iSortingCols];
@@ -64,15 +93,12 @@ public class DataTablesInputs {
                     : Integer.parseInt(s);
             sSortDir_[i] = request.getParameter("sSortDir_" + i);
         }
-        mDataProp_ = new String[iColumns];
-        for (int i = 0; i < iColumns; i++)
-            mDataProp_[i] = request.getParameter("mDataProp_" + i);
-        sEcho = (s = request.getParameter("sEcho")) == null ? 0 : Integer
-                .parseInt(s);
+
     }
 
     /**
      * Look through the input string for occurrences of escapeVal and escape them
+     *
      * @param input Input string to search
      * @param escapeVal Value to look for in the input
      * @return The string, with the escapeVal character escaped
