@@ -55,7 +55,7 @@
             </list>
         </property>
         <property name="header">
-            <bean parent="Uif-HeaderSix"/>
+            <bean parent="Uif-HeaderFive"/>
         </property>
         <property name="onDocumentReadyScript"
                   value="ksapRetrieveComponent('bookmarks_watch_list','bookmark_summary','search','lookup',{viewId:'BookmarkSideBar-LookupView'});"/>
