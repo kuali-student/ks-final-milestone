@@ -72,12 +72,8 @@ public class CourseRegistrationServiceImpl extends AbstractCourseRegistrationSer
             throws AlreadyExistsException, DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
 
-        RegistrationRequestInfo regRequestInfo =
-                getRegistrationRequest(registrationRequestId, contextInfo);
-
-        if (LprServiceConstants.LPRTRANS_REG_CART_TYPE_KEY.equals(regRequestInfo.getTypeKey())) {
-            regRequestInfo = convertRegCartToRegRequest(regRequestInfo, contextInfo);
-        }
+        // had to create transactional helper methods
+        RegistrationRequestInfo regRequestInfo =  getRegistrationRequestToSubmit(registrationRequestId,contextInfo);
 
         try {
             MapMessage mapMessage = new ActiveMQMapMessage();
@@ -91,12 +87,25 @@ public class CourseRegistrationServiceImpl extends AbstractCourseRegistrationSer
         return regRequestInfo;
     }
 
+    @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
+    protected RegistrationRequestInfo getRegistrationRequestToSubmit(String registrationRequestId, ContextInfo contextInfo) throws PermissionDeniedException, MissingParameterException, InvalidParameterException, OperationFailedException, DoesNotExistException, AlreadyExistsException {
+        RegistrationRequestInfo regRequestInfo =
+                getRegistrationRequest(registrationRequestId, contextInfo);
+
+        if (LprServiceConstants.LPRTRANS_REG_CART_TYPE_KEY.equals(regRequestInfo.getTypeKey())) {
+            regRequestInfo = convertRegCartToRegRequest(regRequestInfo, contextInfo);
+        }
+        return regRequestInfo;
+
+    }
+
     /**
      *
      * @param cartInfo Same as a reg request ID.  Refers to a RegistrationRequestInfo/LPRTransactionInfo
      *                           object (with type
      * @param contextInfo The context info
      */
+    @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     private RegistrationRequestInfo convertRegCartToRegRequest(RegistrationRequestInfo cartInfo, ContextInfo contextInfo)
             throws PermissionDeniedException, MissingParameterException, InvalidParameterException,
             OperationFailedException, DoesNotExistException, AlreadyExistsException {
