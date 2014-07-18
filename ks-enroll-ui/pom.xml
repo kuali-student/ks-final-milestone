@@ -71,7 +71,6 @@
         <dependency>
             <groupId>org.apache.activemq</groupId>
             <artifactId>activemq-web</artifactId>
-            <version>${activemq.version}</version>
             <scope>runtime</scope>
         </dependency>
     </dependencies>
