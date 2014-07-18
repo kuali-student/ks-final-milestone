@@ -61,6 +61,7 @@
                             <ref bean="Financials-Review-section"/>
                             <ref bean="AuthorsAndCollaborators-Review-section"/>
                             <ref bean="SupportingDocuments-Review-section"/>
+                            <ref bean="submitCourseProposalConfirmationDialog-lightbox"/>
                         </list>
                     </property>
                 </bean>
@@ -729,20 +730,43 @@
                 <bean parent="Uif-HorizontalBoxGroup">
                     <property name="items">
                         <list>
-                            <!--
-                                            <bean parent="Uif-PrimaryActionButton"
-                                                  p:ajaxSubmit="false"
-                                                  p:methodToCall="route"
-                                                  p:actionLabel="Submit"
-                                                  p:performClientSideValidation="true"
-                                                  p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}"/>
-                            -->
+                            <bean parent="Uif-PrimaryActionButton"
+                                  p:ajaxSubmit="false"
+                                  p:methodToCall="route"
+                                  p:actionLabel="Submit"
+                                  p:actionScript="showCourseProposalSubmitConfirmation();"
+                                  p:performClientSideValidation="true"
+                                  p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}"/>
                             <bean id="CourseView-ReviewProposal-cancel"
                                   parent="Uif-ActionLink"
                                   p:actionLabel="Cancel"
                                   p:methodToCall="back"
                                   p:style="margin-right: 100px;"
                                   p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_CLOSE]}"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="submitCourseProposalConfirmationDialog-lightbox" parent="Uif-VerticalBoxSection">
+        <property name="headerText" value="Submit Proposal"/>
+        <property name="hidden" value="true"/>
+        <property name="items">
+            <list>
+                <bean parent="Uif-Message" p:messageText="Are you sure you want to submit the proposal to workflow.[br]"
+                      p:style="margin-top:10px;margin-bottom-10px;white-space:nowrap;"/>
+                <bean parent="Uif-HorizontalBoxSection">
+                    <property name="items">
+                        <list>
+                            <bean id="courseproposal_submit_confirm" parent="Uif-PrimaryActionButton" p:preSubmitCall="closeLightbox(); return true;"
+                                  p:methodToCall="" p:actionLabel="Submit" />
+                            <bean id="courseproposal_submit_button_close"
+                                  parent="Uif-ActionLink"
+                                  p:actionLabel="Cancel"
+                                  p:actionScript="closeLightbox();"
+                                  p:additionalCssClasses="cancel_link"/>
                         </list>
                     </property>
                 </bean>
