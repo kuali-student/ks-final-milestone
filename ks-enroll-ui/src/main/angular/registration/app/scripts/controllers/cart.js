@@ -8,7 +8,6 @@ angular.module('regCartApp')
 
         $scope.oneAtATime = false;
         $scope.isCollapsed = true;
-        var hasCartBeenLoaded = false;
         $scope.cartResults = {items: []};
 
         // Add a listener to the termIdChanged event so that when termId changes, the cart is reloaded with the new termId
@@ -19,10 +18,7 @@ angular.module('regCartApp')
                 $scope.removeUserMessage();
             }
 
-            if (newValue) {
-                hasCartBeenLoaded = true;
-                loadCart(newValue);
-            }
+            loadCart(newValue);
         });
 
         // Watch the cart items to ensure the global vars are up to date
@@ -34,10 +30,9 @@ angular.module('regCartApp')
             }
         });
 
-
         // this method loads the cart and kicks off polling if needed
         function loadCart(termId) {
-            CartService.getCart().query({termId: termId}, function (theCart) {
+            CartService.getCart(termId).then(function (theCart) {
                 $scope.cart = theCart; // right now theCart is a mix of processing and cart items
                 var cartItems = [];
 
@@ -70,6 +65,12 @@ angular.module('regCartApp')
                 }
             });
         }
+
+        // Initialize the cart
+        if ($scope.termId) {
+            loadCart($scope.termId);
+        }
+
 
         $scope.getStatusMessageFromStatus = function (status) {
             var retStatus = '';
@@ -327,7 +328,7 @@ angular.module('regCartApp')
                         });
 
                         // After all the processing is complete, get the final Schedule counts.
-                        ScheduleService.getScheduleFromServer().query({termId: $scope.termId }, function (result) {
+                        ScheduleService.getSchedule($scope.termId).then(function (result) {
                             console.log('called rest service to get schedule data - in cart.js');
                             GlobalVarsService.updateScheduleCounts(result);
                             $scope.registeredCredits = GlobalVarsService.getRegisteredCredits;   // notice that i didn't put the (). in the ui call: {{registeredCredits()}}

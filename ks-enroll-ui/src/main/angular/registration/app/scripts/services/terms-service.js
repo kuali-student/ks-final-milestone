@@ -1,13 +1,9 @@
 'use strict';
 
 angular.module('regCartApp')
-    .service('TermsService', ['ServiceUtilities', 'URLS', 'DEFAULT_TERM', function TermsService(ServiceUtilities, URLS, DEFAULT_TERM) {
+    .service('TermsService', ['$q', 'ServiceUtilities', 'URLS', 'DEFAULT_TERM', function TermsService($q, ServiceUtilities, URLS, DEFAULT_TERM) {
 
         var termId = DEFAULT_TERM;   // default value
-
-        this.checkStudentEligibilityForTerm = function () {
-            return ServiceUtilities.getData(URLS.scheduleOfClasses + '/checkStudentEligibilityForTerm');
-        };
 
         this.getTermId = function () {
             return termId;
@@ -15,10 +11,6 @@ angular.module('regCartApp')
 
         this.setTermId = function (value) {
             termId = value;
-        };
-
-        this.getTermsFromServer = function () {
-            return ServiceUtilities.getArray(URLS.scheduleOfClasses + '/terms');
         };
 
         this.getTermNameForTermId = function (terms, termId) {
@@ -29,6 +21,40 @@ angular.module('regCartApp')
                 }
             });
             return retTermName;
+        };
+
+
+        // Cache of terms.
+        var terms = null;
+
+        this.getTerms= function () {
+            var deferred = $q.defer();
+
+            if (terms !== null) {
+                deferred.resolve(terms);
+            } else {
+                this.getTermsFromServer().query({termCode: null, active: true}, function(result) {
+                    // Cache the terms
+                    terms = result;
+                    deferred.resolve(result);
+                }, function(error) {
+                    // Report out the error
+                    deferred.reject(error);
+                });
+            }
+
+            return deferred.promise;
+        };
+
+
+        // Server API Methods
+
+        this.checkStudentEligibilityForTerm = function () {
+            return ServiceUtilities.getData(URLS.scheduleOfClasses + '/checkStudentEligibilityForTerm');
+        };
+
+        this.getTermsFromServer = function () {
+            return ServiceUtilities.getArray(URLS.scheduleOfClasses + '/terms');
         };
 
     }]);

@@ -16,7 +16,7 @@ describe('Service: CartService', function () {
 
 
     it('should get the cart', inject(function (CartService, APP_URL) {
-       $httpBackend.expectGET(APP_URL + 'CourseRegistrationCartClientService/searchForCart')
+       $httpBackend.expectGET(APP_URL + 'CourseRegistrationCartClientService/searchForCart?termId=kuali.atp.2012Fall')
            .respond(200, {
                cartId: "a399078d-31e4-4a92-9319-c5cd02f48ca2",
                termId: "kuali.atp.2012Fall",
@@ -24,13 +24,13 @@ describe('Service: CartService', function () {
                state: null
            });
 
-        var response = CartService.getCart().query();
+        CartService.getCart("kuali.atp.2012Fall").then(function(response) {
+            expect(response.cartId).toBe('a399078d-31e4-4a92-9319-c5cd02f48ca2');
+            expect(response.termId).toBe('kuali.atp.2012Fall');
+            expect(response.items.length).toBe(2);
+            expect(response.state).toBe(null);
+        });
         $httpBackend.flush();
-
-        expect(response.cartId).toBe('a399078d-31e4-4a92-9319-c5cd02f48ca2');
-        expect(response.termId).toBe('kuali.atp.2012Fall');
-        expect(response.items.length).toBe(2);
-        expect(response.state).toBe(null);
     }));
 
     describe('CartService.addCourseToCart', function() {

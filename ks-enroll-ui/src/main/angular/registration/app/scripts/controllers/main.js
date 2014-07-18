@@ -49,7 +49,7 @@ angular.module('regCartApp')
         // Listen for the termIdChanged event that is fired when a term has been changed & processed
         $scope.$on('termIdChanged', function(event, newValue) {
             // Go and get the schedule for the new term
-            ScheduleService.getScheduleFromServer().query({termId: newValue }, function (result) {
+            ScheduleService.getSchedule(newValue).then(function (result) {
                 console.log('called rest service to get schedule data - in main.js');
                 GlobalVarsService.updateScheduleCounts(result);
                 $scope.cartCredits = GlobalVarsService.getCartCredits; // notice that i didn't put the (). in the ui call: {{cartCredits()}}
@@ -65,13 +65,17 @@ angular.module('regCartApp')
 
 
         // Load up the available terms
-        $scope.terms = TermsService.getTermsFromServer().query({termCode: null, active: true}, function (result) {
+        TermsService.getTerms().then(function (terms) {
+            $scope.terms = terms;
             $scope.termId = DEFAULT_TERM;
-            $scope.termName = TermsService.getTermNameForTermId(result, $scope.termId);
+            $scope.termName = TermsService.getTermNameForTermId(terms, $scope.termId);
         });
 
+        // Load up the messages
+        MessageService.getMessages().then(function(messages) {
+            $scope.messages = messages;
+        });
 
-        $scope.messages = MessageService.getMessages().query({messageKey: null});
 
         $scope.logout = function(){
             LoginService.logout().query({}, function () {
@@ -97,10 +101,9 @@ angular.module('regCartApp')
 
         //Update the UI routing state so it is available in the scope.
         $scope.$parent.uiState = $state.current.name;
-        $scope.$on('$stateChangeStart',
-            function(event, toState, toParams, fromState, fromParams) {
-                $scope.$parent.uiState = toState.name;
-            });
+        $scope.$on('$stateChangeStart', function(event, toState) {
+            $scope.$parent.uiState = toState.name;
+        });
     }])
 
     .controller('SessionCtrl', ['$scope', 'LoginService', function SessionCtrl($scope, LoginService) {

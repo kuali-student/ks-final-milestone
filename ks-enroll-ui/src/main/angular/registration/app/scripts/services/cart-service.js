@@ -1,9 +1,35 @@
 'use strict';
 
 angular.module('regCartApp')
-    .service('CartService', ['ServiceUtilities', 'URLS', function CartService(ServiceUtilities, URLS) {
+    .service('CartService', ['$q', 'ServiceUtilities', 'URLS', function CartService($q, ServiceUtilities, URLS) {
 
-        this.getCart = function () {
+        // Cache of carts per term
+        var carts = {};
+
+        this.getCart = function(termId) {
+            var deferred = $q.defer();
+
+            if (angular.isDefined(carts[termId])) {
+                // Return the cached cart
+                deferred.resolve(carts[termId]);
+            } else {
+                this.getCartFromServer().query({termId: termId}, function(cart) {
+                    // Cache the cart
+                    carts[termId] = cart;
+                    deferred.resolve(cart);
+                }, function(error) {
+                    // Report out the error
+                    deferred.reject(error);
+                });
+            }
+
+            return deferred.promise;
+        };
+
+
+        // Server API Methods
+
+        this.getCartFromServer = function () {
             return ServiceUtilities.getData(URLS.courseRegistrationCart + '/searchForCart');
         };
 
