@@ -6,8 +6,8 @@ angular.module('regCartApp')
         $scope.facets = SEARCH_FACETS; // Facet definitions
 
         $scope.searchCriteria = null; // Criteria used to generate the search results.
-        $scope.searchResults = []; // Results from the last search request.
-
+        $scope.searchResults = [];    // Results from the last search request.
+        $scope.searchColumns = [];    // Details about the search columns we want to display
 
         $scope.$on('termIdChanged', function() {
             var criteria = $scope.searchCriteria;
@@ -29,52 +29,6 @@ angular.module('regCartApp')
                 doSearch(toParams.searchCriteria);
             }
         });
-
-        // the choices for limiting display of search results
-        $scope.displayLimits = [20, 50, 100];
-//        $scope.displayLimits = [2, 3, 5]; //uncomment this for testing pagination with small data sets
-
-        // set the default display limit
-        $scope.displayLimit = $scope.displayLimits[0];
-
-        // set the default sort field
-        $scope.predicate = 'courseCode';
-
-        // set the default page #
-        $scope.page = 1;
-
-        // holds the last page
-        $scope.lastPage = 1;
-
-        // returns a the full range of pages
-        $scope.pageRange = function() {
-            var pageRange = [];
-            for (var i = 1; i <= $scope.lastPage; i++) {
-                pageRange.push(i);
-            }
-            return pageRange;
-        };
-
-        // if the display limit changes, reset the page to 1
-        $scope.$watch('displayLimit', function() {
-            $scope.page = 1;
-        });
-
-        // the range of search results being viewed
-        $scope.displayRange = function(length) {
-            var rangeMin = (($scope.page - 1) * $scope.displayLimit) + 1;
-            var rangeMax = rangeMin + $scope.displayLimit - 1;
-            if (rangeMax > length) {
-                rangeMax = length;
-            }
-            // set the last page
-            $scope.lastPage = Math.ceil (length / $scope.displayLimit);
-            if (rangeMin === rangeMax) {
-                return (rangeMax + ' of ' + length);
-            } else {
-                return (rangeMin + '-' + rangeMax + ' of ' + length);
-            }
-        };
 
         // Filter to apply facet options to the search results
         $scope.facetFilter = function(item) {
