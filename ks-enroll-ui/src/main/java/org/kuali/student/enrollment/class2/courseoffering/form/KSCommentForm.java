@@ -29,13 +29,12 @@ import java.util.List;
 public class KSCommentForm extends KsUifFormBase {
 
     protected List<KSCommentWrapper> comments = new ArrayList<KSCommentWrapper>();
-//    protected String newComment;
-//    protected ProposalInfo proposal;
     private String commentText;
     private String referenceId;
     private String referenceType;
     private String referenceName;
-    protected KSCommentWrapper deletedComment;
+
+//    protected KSCommentWrapper deletedComment;
     protected boolean canAddComment = true;
 
     public KSCommentForm(){
@@ -48,30 +47,6 @@ public class KSCommentForm extends KsUifFormBase {
 
     public void setComments(List<KSCommentWrapper> comments) {
         this.comments = comments;
-    }
-
-//    public ProposalInfo getProposal() {
-//        return proposal;
-//    }
-//
-//    public void setProposal(ProposalInfo proposal) {
-//        this.proposal = proposal;
-//    }
-
-//    public String getNewComment() {
-//        return newComment;
-//    }
-//
-//    public void setNewComment(String newComment) {
-//        this.newComment = newComment;
-//    }
-
-    public KSCommentWrapper getDeletedComment() {
-        return deletedComment;
-    }
-
-    public void setDeletedComment(KSCommentWrapper deletedComment) {
-        this.deletedComment = deletedComment;
     }
 
     public boolean isCanAddComment() {
@@ -110,7 +85,7 @@ public class KSCommentForm extends KsUifFormBase {
         return commentText;
     }
 
-    public void setCommnentText(String commnentText) {
-        this.commentText = commnentText;
+    public void setCommentText(String commentText) {
+        this.commentText = commentText;
     }
 }

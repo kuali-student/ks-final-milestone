@@ -184,6 +184,8 @@
                 <value>classpath:org/kuali/student/enrollment/registration/CourseRegistrationKradView.xml</value>
                 <value>classpath:org/kuali/student/enrollment/registration/admin/AdminRegistrationView.xml</value>
 
+                <!--comments-->
+                <value>classpath:org/kuali/student/enrollment/courseoffering/KSCommentsView.xml</value>
 	    	</list>
 	    	</constructor-arg>
 		</bean>   

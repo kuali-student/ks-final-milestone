@@ -16,8 +16,6 @@
  */
 package org.kuali.student.enrollment.class2.courseoffering.form;
 
-//import org.kuali.student.cm.uif.util.DTOWrapper;
-//import org.kuali.student.cm.uif.util.RenderHelper;
 import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.core.comment.dto.CommentInfo;
 
@@ -36,6 +34,12 @@ public class KSCommentWrapper implements Comparable<KSCommentWrapper> {
     private String lastEditorName;
     private String lastEditedDate;
     private boolean edited;
+    private String commentTextUI;
+    private String deletedCommentCreatorId;
+    private String deletedCommentCreatedDate;
+    private String deletedCommentLastEditorId;
+    private String deletedCommentLastEditedDate;
+    private String deletedCommentText;
 //    protected CreateCourseRenderHelper renderHelper;
 
     public KSCommentWrapper(){
@@ -43,15 +47,6 @@ public class KSCommentWrapper implements Comparable<KSCommentWrapper> {
         commentInfo.setCommentText(new RichTextInfo());
 //        renderHelper = new CreateCourseRenderHelper();
     }
-
-//    @Override
-//    public boolean isNewDto() {
-//        if (commentInfo == null || StringUtils.isBlank(commentInfo.getId())){
-//            return true;
-//        } else {
-//            return false;
-//        }
-//    }
 
     public CommentInfo getCommentInfo() {
         return commentInfo;
@@ -100,13 +95,54 @@ public class KSCommentWrapper implements Comparable<KSCommentWrapper> {
     public void setEdited(boolean edited) {
         this.edited = edited;
     }
-//    public CreateCourseRenderHelper getRenderHelper() {
-//        return renderHelper;
-//    }
-//
-//    public void setRenderHelper(CreateCourseRenderHelper renderHelper) {
-//        this.renderHelper = renderHelper;
-//    }
+
+    public String getCommentTextUI() {
+        return commentTextUI;
+    }
+
+    public void setCommentTextUI(String commentTextUI) {
+        this.commentTextUI = commentTextUI;
+    }
+
+    public String getDeletedCommentCreatorId() {
+        return deletedCommentCreatorId;
+    }
+
+    public void setDeletedCommentCreatorId(String deletedCommentCreatorId) {
+        this.deletedCommentCreatorId = deletedCommentCreatorId;
+    }
+
+    public String getDeletedCommentCreatedDate() {
+        return deletedCommentCreatedDate;
+    }
+
+    public void setDeletedCommentCreatedDate(String deletedCommentCreatedDate) {
+        this.deletedCommentCreatedDate = deletedCommentCreatedDate;
+    }
+
+    public String getDeletedCommentLastEditorId() {
+        return deletedCommentLastEditorId;
+    }
+
+    public void setDeletedCommentLastEditorId(String deletedCommentLastEditorId) {
+        this.deletedCommentLastEditorId = deletedCommentLastEditorId;
+    }
+
+    public String getDeletedCommentLastEditedDate() {
+        return deletedCommentLastEditedDate;
+    }
+
+    public void setDeletedCommentLastEditedDate(String deletedCommentLastEditedDate) {
+        this.deletedCommentLastEditedDate = deletedCommentLastEditedDate;
+    }
+
+    public String getDeletedCommentText() {
+        return deletedCommentText;
+    }
+
+    public void setDeletedCommentText(String deletedCommentText) {
+        this.deletedCommentText = deletedCommentText;
+    }
 
     @Override
     public int compareTo(KSCommentWrapper o) {
@@ -119,58 +155,4 @@ public class KSCommentWrapper implements Comparable<KSCommentWrapper> {
             return 0;
         }
     }
-
-//    public class CreateCourseRenderHelper implements RenderHelper {
-//
-//        protected String displayName;
-//        protected String creationTime;
-//        protected boolean editInProgress = false;
-//        protected boolean canEdit = false;
-//        protected boolean canDelete = false;
-//
-//        public CreateCourseRenderHelper(){
-//
-//        }
-//
-//        public String getDisplayName() {
-//            return displayName;
-//        }
-//
-//        public void setDisplayName(String displayName) {
-//            this.displayName = displayName;
-//        }
-//
-//        public String getCreationTime() {
-//            return creationTime;
-//        }
-//
-//        public void setCreationTime(String creationTime) {
-//            this.creationTime = creationTime;
-//        }
-//
-//        public boolean isEditInProgress() {
-//            return editInProgress;
-//        }
-//
-//        public void setEditInProgress(boolean editInProgress) {
-//            this.editInProgress = editInProgress;
-//        }
-//
-//        public boolean isCanEdit() {
-//            return canEdit;
-//        }
-//
-//        public void setCanEdit(boolean canEdit) {
-//            this.canEdit = canEdit;
-//        }
-//
-//        public boolean isCanDelete() {
-//            return canDelete;
-//        }
-//
-//        public void setCanDelete(boolean canDelete) {
-//            this.canDelete = canDelete;
-//        }
-//
-//    }
 }

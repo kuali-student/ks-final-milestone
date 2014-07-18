@@ -55,7 +55,9 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.xml.namespace.QName;
+import java.text.SimpleDateFormat;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -70,9 +72,8 @@ import java.util.Map;
 public class KSCommentController extends KsUifControllerBase {
 
     private static final Logger LOG = LoggerFactory.getLogger(KSCommentController.class);
-
     protected CommentService commentService;
-//    protected ProposalService proposalService;
+    //    protected ProposalService proposalService;
     protected PersonService personService;
 
     @Override
@@ -80,7 +81,7 @@ public class KSCommentController extends KsUifControllerBase {
         return new KSCommentForm();
     }
 
-    private String getRequestParamValue(HttpServletRequest request, String paramName){
+    private String getRequestParamValue(HttpServletRequest request, String paramName) {
         String paramValue = request.getParameter(paramName);
         if (StringUtils.isBlank(paramValue)) {
             String message = String.format("Missing parameter: %s", paramName);
@@ -102,115 +103,63 @@ public class KSCommentController extends KsUifControllerBase {
         commentForm.setReferenceId(refId);
         commentForm.setReferenceType(refType);
         commentForm.setReferenceName(refName);
-
-//        try {
-//            ProposalInfo proposalInfo = getProposalService().getProposal(proposalId, ContextUtils.createDefaultContextInfo());
-//            commentForm.setProposal(proposalInfo);
-//            commentForm.setCanAddComment(canAddComment(proposalInfo));
-            retrieveComments(commentForm);
-//        } catch (Exception e) {
-//            throw new RuntimeException("Invalid Proposal [id=" + proposalId + "]");
-//        }
+        retrieveComments(commentForm);
 
         return super.start(form, request, response);
     }
 
-    /**
-     * This method submits a new comment or the comment editing by the user
-     *
-     * @param form {@link org.kuali.rice.krad.web.form.MaintenanceDocumentForm} instance used for this action
-     * @throws Exception
-     */
+
     @MethodAccessible
     @RequestMapping(params = "methodToCall=addComment")
     public ModelAndView addComment(@ModelAttribute("KualiForm") KSCommentForm form, HttpServletRequest request) throws Exception {
 
-//        String refId = getRequestParamValue(request, "refId");
-//        String refType = getRequestParamValue(request, "refType");
-//        String refName = getRequestParamValue(request, "refName");
-//        form.setReferenceName(refName);
-
-
-        String collectionPath = form.getActionParamaterValue(UifParameters.SELECTED_COLLECTION_PATH);
-//        int index = Integer.parseInt(form.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX));
-
         KSCommentWrapper wrapper = new KSCommentWrapper();
-            wrapper.getCommentInfo().getCommentText().setPlain(form.getCommentText());
+        wrapper.getCommentInfo().getCommentText().setPlain(form.getCommentText());
         saveComment(form, wrapper);
-        form.getComments().add(0,wrapper);
-        /**
-         * If it's new comment, just create a new wrapper and call save, which should initialize all the details at the DTO
-         */
-//        if (StringUtils.isBlank(collectionPath)) {
-//
-//            KSCommentWrapper wrapper = new KSCommentWrapper();
-//            wrapper.getCommentInfo().getCommentText().setPlain(form.getNewComment());
-//            saveComment(form.getProposal(), wrapper);
-//            form.getComments().add(0,wrapper);
-//
-//            form.setNewComment(StringUtils.EMPTY);
-//
-//        } else {
-//
-//            int index = Integer.parseInt(form.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX));
-//            saveComment(form.getProposal(), form.getComments().get(index));
-//        }
-
-        //Reset edit in progress flag from all the comments.
-//        for (CommentWrapper commentWrapper : form.getComments()) {
-//            commentWrapper.getRenderHelper().setEditInProgress(false);
-//        }
-
-        form.setDeletedComment(null);
+        form.getComments().add(0, wrapper);
 
         return getUIFModelAndView(form);
     }
 
-//    @MethodAccessible
-//    @RequestMapping(params = "methodToCall=updateComment")
-//    public ModelAndView updateComment(@ModelAttribute("KualiForm") KSCommentForm form, HttpServletRequest request) throws Exception {
-//    }
-//
-//    @MethodAccessible
-//    @RequestMapping(params = "methodToCall=cancelEditComment")
-//    public ModelAndView cancelEditComment(@ModelAttribute("KualiForm") CMCommentForm form) throws Exception {
-//
-//        for (KSCommentWrapper commentWrapper : form.getComments()) {
-//            commentWrapper.getRenderHelper().setEditInProgress(false);
-//        }
-//
-//        return getUIFModelAndView(form);
-//    }
-//
-//    @MethodAccessible
-//    @RequestMapping(params = "methodToCall=editComment")
-//    public ModelAndView editComment(@ModelAttribute("KualiForm") CMCommentForm form) throws Exception {
-//
-//        if (form.getProposal() == null) {
-//            throw new RuntimeException("Proposal not found.");
-//        }
-//
+        @MethodAccessible
+    @RequestMapping(params = "methodToCall=updateComment")
+    public ModelAndView updateComment(@ModelAttribute("KualiForm") KSCommentForm form, HttpServletRequest request) throws Exception {
+            int index = Integer.parseInt(form.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX));
+            KSCommentWrapper commentWrapper = form.getComments().get(index);
+            CommentInfo comment = commentWrapper.getCommentInfo();
+            try {
+                comment = getCommentService().updateComment(comment.getId(), comment, ContextUtils.createDefaultContextInfo());
+            } catch (Exception e) {
+                String message = String.format("Error updating comment for Ref Type %s with Ref Id %s ", form.getReferenceType(), form.getReferenceId());
+                LOG.error(message);
+                throw new RuntimeException(message);
+            }
+            return getUIFModelAndView(form);
+    }
+
+    @MethodAccessible
+    @RequestMapping(params = "methodToCall=undeleteComment")
+    public ModelAndView undeleteComment(@ModelAttribute("KualiForm") KSCommentForm form) throws Exception {
+
+//        String collectionPath = form.getActionParamaterValue(UifParameters.SELECTED_COLLECTION_PATH);
 //        int index = Integer.parseInt(form.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX));
-//        KSCommentWrapper commentWrapper = form.getComments().get(index);
 //
-//        // verify that current user is able to delete this comment
-//        if (!canEditComment(form.getProposal(),commentWrapper)) {
-//            throw new RuntimeException("Current user '" + GlobalVariables.getUserSession().getPrincipalId() + "' is not authorized to edit comment id '" + commentWrapper.getCommentInfo().getId() + "'");
-//        }
-//
-//        form.getComments().get(index).getRenderHelper().setEditInProgress(true);
-//
-//        return getUIFModelAndView(form);
-//    }
-//
-//    @MethodAccessible
-//    @RequestMapping(params = "methodToCall=deleteComment")
-//    public ModelAndView deleteComment(@ModelAttribute("KualiForm") CMCommentForm form) throws Exception {
-//
-//        if (form.getProposal() == null) {
-//            throw new RuntimeException("Proposal not found.");
-//        }
-//
+//        KSCommentWrapper wrapper = new KSCommentWrapper();
+//        wrapper.getCommentInfo().getCommentText().setPlain(form.getComments().get(index).getDeletedCommentText());
+//        wrapper.getCommentInfo().getMeta().setCreateId(form.getComments().get(index).getDeletedCommentCreatorId());
+//        wrapper.getCommentInfo().getMeta().setCreateTime(DateFormatters.COURSE_OFFERING_VIEW_HELPER_DATE_TIME_FORMATTER.parse(form.getComments().get(index).getDeletedCommentCreatedDate()));
+//        wrapper.getCommentInfo().getMeta().setUpdateId(form.getComments().get(index).getDeletedCommentLastEditorId());
+//        wrapper.getCommentInfo().getMeta().setUpdateTime(DateFormatters.COURSE_OFFERING_VIEW_HELPER_DATE_TIME_FORMATTER.parse(form.getComments().get(index).getDeletedCommentLastEditedDate()));
+//        saveComment(form, wrapper);
+//        form.getComments().add(0, wrapper);
+
+        return getUIFModelAndView(form);
+    }
+
+    @MethodAccessible
+    @RequestMapping(params = "methodToCall=deleteComment")
+    public ModelAndView deleteComment(@ModelAttribute("KualiForm") KSCommentForm form) throws Exception {
+
 //        int index = Integer.parseInt(form.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX));
 //        KSCommentWrapper commentWrapper = form.getComments().get(index);
 //
@@ -220,34 +169,14 @@ public class KSCommentController extends KsUifControllerBase {
 //        }
 //        form.getComments().remove(commentWrapper);
 //        getCommentService().deleteComment(commentWrapper.getCommentInfo().getId(), ContextUtils.createDefaultContextInfo());
-//
+
 //        commentWrapper.getCommentInfo().setId(null); //Clear out the ID so that we can add that to DB if user decided to undo later
 //        form.setDeletedComment(commentWrapper);
-//
-//        return getUIFModelAndView(form);
-//
-//    }
-//
-//    @MethodAccessible
-//    @RequestMapping(params = "methodToCall=undoDeleteComment")
-//    public ModelAndView undoDeleteComment(@ModelAttribute("KualiForm") CMCommentForm form) throws Exception {
-//
-//        KSCommentWrapper deletedComment = form.getDeletedComment();
-//        saveComment(form.getProposal(), deletedComment);
-//        form.getComments().add(deletedComment);
-//        form.setDeletedComment(null);
-//
-//        Collections.sort(form.getComments());
-//
-//        return getUIFModelAndView(form);
-//    }
-//
-    /**
-     * Create or update a comment.
-     *
-     * @param form
-     * @param commentWrapper
-     */
+
+        return getUIFModelAndView(form);
+
+    }
+
     protected void saveComment(KSCommentForm form, KSCommentWrapper commentWrapper) {
 
 //        LOG.trace("Saving comment - " + commentWrapper.getCommentInfo().getCommentText());
@@ -256,94 +185,27 @@ public class KSCommentController extends KsUifControllerBase {
 
 //        if (commentWrapper.isNewDto()) {
 
-            comment.setReferenceId(form.getReferenceId());
-            comment.setReferenceTypeKey(form.getReferenceType());
-            comment.setTypeKey(CommentServiceConstants.COMMENT_GENERAL_REMARKS_TYPE_KEY);
-            comment.setCommenterId(GlobalVariables.getUserSession().getPrincipalId());
-            comment.setStateKey(CommentServiceConstants.COMMENT_ACTIVE_STATE_KEY);
+        comment.setReferenceId(form.getReferenceId());
+        comment.setReferenceTypeKey(form.getReferenceType());
+        comment.setTypeKey(CommentServiceConstants.COMMENT_GENERAL_REMARKS_TYPE_KEY);
+        comment.setCommenterId(GlobalVariables.getUserSession().getPrincipalId());
+        comment.setStateKey(CommentServiceConstants.COMMENT_ACTIVE_STATE_KEY);
 
-            try {
-                comment = getCommentService().createComment(form.getReferenceId(), form.getReferenceType(), CommentServiceConstants.COMMENT_GENERAL_REMARKS_TYPE_KEY, comment, ContextUtils.createDefaultContextInfo());
-            } catch (Exception e) {
-                LOG.error(String.format("Error adding comment for Ref Type %s with Ref Id %s ", form.getReferenceType(), form.getReferenceId()));
-                throw new RuntimeException(String.format("Error adding comment for Ref Type %s with Ref Id %s ", form.getReferenceType(), form.getReferenceId()), e);
-            }
+        try {
+            comment = getCommentService().createComment(form.getReferenceId(), form.getReferenceType(), CommentServiceConstants.COMMENT_GENERAL_REMARKS_TYPE_KEY, comment, ContextUtils.createDefaultContextInfo());
+        } catch (Exception e) {
+            LOG.error(String.format("Error adding comment for Ref Type %s with Ref Id %s ", form.getReferenceType(), form.getReferenceId()));
+            throw new RuntimeException(String.format("Error adding comment for Ref Type %s with Ref Id %s ", form.getReferenceType(), form.getReferenceId()), e);
+        }
 
-//        } else {
-//            try {
-//                comment = getCommentService().updateComment(comment.getId(), comment, ContextUtils.createDefaultContextInfo());
-//            } catch (Exception e) {
-//                LOG.error("Error updating comment " + comment.getId() + " for the proposal " + proposalInfo.getName());
-//                throw new RuntimeException("Error updating comment " + comment.getId() + " for the proposal " + proposalInfo.getName(), e);
-//            }
-//        }
-
-        setupCommentWrapper(commentWrapper,comment);
+        setupCommentWrapper(commentWrapper, comment);
         LOG.debug("Comment successfully added/updated. [id=" + comment.getId() + "]");
 
     }
-//
-//    protected void setupAuthorizations(ProposalInfo proposalInfo, KSCommentWrapper commentWrapper) {
-//        commentWrapper.getRenderHelper().setCanEdit(canEditComment(proposalInfo,commentWrapper));
-//        commentWrapper.getRenderHelper().setCanDelete(canDeleteComment(proposalInfo, commentWrapper));
-//    }
-//
-//    protected boolean canEditComment(ProposalInfo proposalInfo, KSCommentWrapper commentWrapper) {
-//        Map<String,String> permDetails = new HashMap<String, String>();
-//        permDetails.put(StudentIdentityConstants.KS_REFERENCE_TYPE_KEY, StudentIdentityConstants.QUALIFICATION_PROPOSAL_REF_TYPE);
-//        Map<String,String> roleQualifications = new HashMap<String, String>();
-//        roleQualifications.put(KimIdentityServiceConstants.COMMENT_ID_QUALIFICATION, commentWrapper.getCommentInfo().getId());
-//        return KimApiServiceLocator.getPermissionService().isAuthorizedByTemplate(GlobalVariables.getUserSession().getPrincipalId(), StudentIdentityConstants.PERMISSION_TEMPLATE_NAMESPACE_COMMENTS, StudentIdentityConstants.PERMISSION_TEMPLATE_NAME_COMMENTS_EDIT, permDetails, roleQualifications);
-//    }
-//
-//    protected boolean canDeleteComment(ProposalInfo proposalInfo, KSCommentWrapper commentWrapper) {
-//        Map<String,String> permDetails = new HashMap<String, String>();
-//        permDetails.put(StudentIdentityConstants.KS_REFERENCE_TYPE_KEY, StudentIdentityConstants.QUALIFICATION_PROPOSAL_REF_TYPE);
-//        Map<String,String> roleQualifications = new HashMap<String, String>();
-//        roleQualifications.put(KimIdentityServiceConstants.COMMENT_ID_QUALIFICATION, commentWrapper.getCommentInfo().getId());
-//        return KimApiServiceLocator.getPermissionService().isAuthorizedByTemplate(GlobalVariables.getUserSession().getPrincipalId(), StudentIdentityConstants.PERMISSION_TEMPLATE_NAMESPACE_COMMENTS, StudentIdentityConstants.PERMISSION_TEMPLATE_NAME_COMMENTS_DELETE, permDetails, roleQualifications);
-//    }
-//
-//    protected boolean canAddComment(ProposalInfo proposalInfo) throws WorkflowException {
-//        Map<String,String> permDetails = new HashMap<String, String>();
-//        permDetails.put(StudentIdentityConstants.KS_REFERENCE_TYPE_KEY, StudentIdentityConstants.QUALIFICATION_PROPOSAL_REF_TYPE);
-//        return KimApiServiceLocator.getPermissionService().isAuthorizedByTemplate(GlobalVariables.getUserSession().getPrincipalId(), StudentIdentityConstants.PERMISSION_TEMPLATE_NAMESPACE_COMMENTS, StudentIdentityConstants.PERMISSION_TEMPLATE_NAME_COMMENTS_ADD, permDetails, buildAddCommentAuthorizationRoleQualification(proposalInfo));
-//    }
-//
-//    protected Map<String,String> buildAddCommentAuthorizationRoleQualification(ProposalInfo proposalInfo) throws WorkflowException {
-//        Map<String,String> roleQualifications = new HashMap<String, String>();
-//        roleQualifications.put(KimConstants.AttributeConstants.DOCUMENT_NUMBER, proposalInfo.getWorkflowId());
-//        WorkflowDocument workflowDocument = KRADServiceLocatorWeb.getDocumentService().
-//                getByDocumentHeaderId(proposalInfo.getWorkflowId()).getDocumentHeader().getWorkflowDocument();
-//        roleQualifications.put(KimConstants.AttributeConstants.DOCUMENT_TYPE_NAME, workflowDocument.getDocumentTypeName());
-//
-//        if (workflowDocument.isInitiated() || workflowDocument.isSaved()) {
-//            roleQualifications.put(KimConstants.AttributeConstants.ROUTE_NODE_NAME, StudentWorkflowConstants.DEFAULT_WORKFLOW_DOCUMENT_START_NODE_NAME);
-//        } else {
-//            roleQualifications.put(KimConstants.AttributeConstants.ROUTE_NODE_NAME,
-//                    KRADServiceLocatorWeb.getWorkflowDocumentService().getCurrentRouteNodeNames(workflowDocument));
-//        }
-//
-//        roleQualifications.put(KimConstants.AttributeConstants.ROUTE_STATUS_CODE, workflowDocument.getStatus().getCode());
-//        return roleQualifications;
-//    }
 
-    /**
-     * This method retrieves all the comments for the proposal
-     */
     protected void retrieveComments(KSCommentForm form) {
-
-//        ProposalInfo proposal = form.getProposal();
-//
-//        LOG.debug("Retrieving comments for  - " + proposal.getId());
-
         List<CommentInfo> comments;
-
-//        form.getComments().clear();
-
-//        StudentIdentityConstants.QUALIFICATION_PROPOSAL_REF_TYPE
         try {
-//            comments = getCommentService().getCommentsByReferenceAndType(form.getReferenceId(), form.getReferenceType(), ContextUtils.createDefaultContextInfo());
             comments = getCommentService().getCommentsByReferenceAndType(form.getReferenceId(), form.getReferenceType(), ContextUtils.createDefaultContextInfo());
             LOG.debug(String.format("Retrieved %d comments for Ref Type %s with Ref Id %s ", comments.size(), form.getReferenceType(), form.getReferenceId()));
         } catch (Exception e) {
@@ -353,7 +215,6 @@ public class KSCommentController extends KsUifControllerBase {
         if (comments != null) {
             for (CommentInfo comment : comments) {
                 KSCommentWrapper wrapper = new KSCommentWrapper();
-//                setupCommentWrapper(wrapper,comment,proposal);
                 setupCommentWrapper(wrapper, comment);
                 form.getComments().add(wrapper);
             }
@@ -362,6 +223,10 @@ public class KSCommentController extends KsUifControllerBase {
 
     protected void setupCommentWrapper(KSCommentWrapper wrapper, CommentInfo comment) {
         wrapper.setCommentInfo(comment);
+        if (comment.getCommentText() != null) {
+            wrapper.setCommentTextUI(comment.getCommentText().getPlain());
+            wrapper.setDeletedCommentText(comment.getCommentText().getPlain());
+        }
         wrapper.setCreatedDate(DateFormatters.COURSE_OFFERING_VIEW_HELPER_DATE_TIME_FORMATTER.format(comment.getMeta().getCreateTime()));
         Person creator = getPersonService().getPerson(comment.getCommenterId());
         wrapper.setCreatorName(creator.getFirstName() + " " + creator.getLastName());
@@ -373,6 +238,10 @@ public class KSCommentController extends KsUifControllerBase {
         } else {
             wrapper.setEdited(true);
         }
+        wrapper.setDeletedCommentCreatorId(comment.getCommenterId());
+        wrapper.setDeletedCommentCreatedDate(wrapper.getCreatedDate());
+        wrapper.setDeletedCommentLastEditorId(comment.getMeta().getUpdateId());
+        wrapper.setDeletedCommentLastEditedDate(wrapper.getLastEditedDate());
 //        setupAuthorizations(proposalInfo, commentWrapper);
     }
 
