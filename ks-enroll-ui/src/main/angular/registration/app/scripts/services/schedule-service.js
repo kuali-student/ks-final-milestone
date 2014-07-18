@@ -6,10 +6,15 @@ angular.module('regCartApp')
         // Cache of schedules per term
         var schedules = {};
 
-        this.getSchedule = function(termId) {
+        this.getSchedule = function(termId, forceLoad) {
             var deferred = $q.defer();
 
-            if (angular.isDefined(schedules[termId])) {
+            if (!forceLoad) {
+                // Make sure forceLoad is set
+                forceLoad = false;
+            }
+
+            if (angular.isDefined(schedules[termId]) && !forceLoad) {
                 // Return the cached cart
                 deferred.resolve(schedules[termId]);
             } else {

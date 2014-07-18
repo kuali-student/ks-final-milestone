@@ -328,7 +328,7 @@ angular.module('regCartApp')
                         });
 
                         // After all the processing is complete, get the final Schedule counts.
-                        ScheduleService.getSchedule($scope.termId).then(function (result) {
+                        ScheduleService.getSchedule($scope.termId, true).then(function (result) {
                             console.log('called rest service to get schedule data - in cart.js');
                             GlobalVarsService.updateScheduleCounts(result);
                             $scope.registeredCredits = GlobalVarsService.getRegisteredCredits;   // notice that i didn't put the (). in the ui call: {{registeredCredits()}}
