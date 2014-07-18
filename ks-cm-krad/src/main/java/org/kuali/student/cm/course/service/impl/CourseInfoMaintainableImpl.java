@@ -1504,6 +1504,8 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
+            // if successful then clear the 'to be removed' collaborator list
+            courseInfoWrapper.getDeletedCollaboratorWrapperActionRequestIds().clear();
 
             // add in any new collaborators created
             if (StringUtils.isNotBlank(proposalInfo.getWorkflowId())) {
