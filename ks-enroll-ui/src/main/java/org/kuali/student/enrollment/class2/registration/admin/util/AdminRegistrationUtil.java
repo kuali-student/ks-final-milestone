@@ -27,6 +27,8 @@ import javax.xml.namespace.QName;
  * User: Blue Team (SA)
  * Date: 17 July 2014
  * Utility Class for common auto generated reg group functions
+ *
+ * Class is used to make individual service calls for the Registration Application.
  */
 public class AdminRegistrationUtil {
 

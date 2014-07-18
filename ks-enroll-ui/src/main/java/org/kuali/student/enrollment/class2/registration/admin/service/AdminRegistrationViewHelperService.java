@@ -16,6 +16,7 @@ import java.util.List;
 public interface AdminRegistrationViewHelperService {
 
     /**
+     * Retrieves the Student information for the Entity ID entered.
      *
      * @param form
      * @throws Exception
@@ -23,6 +24,7 @@ public interface AdminRegistrationViewHelperService {
     public void populateStudentInfo(AdminRegistrationForm form) throws Exception;
 
     /**
+     * Retrieves the Term information for the term code entered on the screen.
      *
      * @param termCode
      * @return
