@@ -22,7 +22,7 @@
         </property>
         <property name="complexAttributes">
             <list>
-                <ref bean="BookmarkDetailWrapper.courseSummaryDetails"/>
+                <ref bean="BookmarkDetailWrapper.courseDetailsWrapper"/>
             </list>
         </property>
     </bean>
@@ -98,9 +98,9 @@
             <bean parent="KS-Uif-TextControl" p:size="10"/>
         </property>
     </bean>
-    <bean id="BookmarkDetailWrapper.courseSummaryDetails" parent="ComplexAttributeDefinition">
-        <property name="name" value="courseSummaryDetails"/>
-        <property name="dataObjectEntry" ref="CourseSummaryDetails"/>
+    <bean id="BookmarkDetailWrapper.courseDetailsWrapper" parent="ComplexAttributeDefinition">
+        <property name="name" value="courseDetailsWrapper"/>
+        <property name="dataObjectEntry" ref="CourseDetailsWrapper"/>
     </bean>
 
     <!--**************BookmarkSideBarWrapper Start*****************-->

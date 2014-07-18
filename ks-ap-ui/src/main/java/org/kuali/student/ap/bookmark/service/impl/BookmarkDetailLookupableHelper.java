@@ -1,14 +1,14 @@
 package org.kuali.student.ap.bookmark.service.impl;
 
-import org.kuali.rice.krad.lookup.LookupableImpl;
 import org.kuali.rice.krad.lookup.LookupForm;
+import org.kuali.rice.krad.lookup.LookupableImpl;
+import org.kuali.student.ap.academicplan.constants.AcademicPlanServiceConstants;
 import org.kuali.student.ap.academicplan.dto.LearningPlanInfo;
 import org.kuali.student.ap.academicplan.dto.PlanItemInfo;
 import org.kuali.student.ap.academicplan.service.AcademicPlanService;
-import org.kuali.student.ap.academicplan.constants.AcademicPlanServiceConstants;
 import org.kuali.student.ap.bookmark.dto.BookmarkDetailWrapper;
-import org.kuali.student.ap.coursesearch.dataobject.CourseSummaryDetails;
-import org.kuali.student.ap.coursesearch.service.impl.CourseDetailsInquiryHelperImpl;
+import org.kuali.student.ap.coursesearch.dataobject.CourseDetailsWrapper;
+import org.kuali.student.ap.coursesearch.service.impl.CourseDetailsInquiryHelperImpl2;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
 import org.kuali.student.ap.framework.context.PlanConstants;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
@@ -28,7 +28,7 @@ import java.util.UUID;
 public class BookmarkDetailLookupableHelper extends
         LookupableImpl {
     private static final long serialVersionUID = -8872944782230428634L;
-    CourseDetailsInquiryHelperImpl courseDetailsInquiryHelper;
+    CourseDetailsInquiryHelperImpl2 courseDetailsInquiryHelper;
 
     @Override
     public List<BookmarkDetailWrapper> performSearch(
@@ -79,8 +79,8 @@ public class BookmarkDetailLookupableHelper extends
                 bookmark.setUniqueId(UUID.randomUUID().toString());
 
                 CourseInfo course = KsapFrameworkServiceLocator.getCourseHelper().getCourseInfo(planItem.getRefObjectId());
-                CourseSummaryDetails courseDetails = getCourseDetailsInquiryService().retrieveCourseSummary(course);
-                bookmark.setCourseSummaryDetails(courseDetails);
+                CourseDetailsWrapper courseDetails = getCourseDetailsInquiryService().retrieveCourseSummary(course);
+                bookmark.setCourseDetailsWrapper(courseDetails);
                 bookmarkList.add(bookmark);
 
             }
@@ -89,9 +89,9 @@ public class BookmarkDetailLookupableHelper extends
         return bookmarkList;
     }
 
-    public synchronized CourseDetailsInquiryHelperImpl getCourseDetailsInquiryService() {
+    public synchronized CourseDetailsInquiryHelperImpl2 getCourseDetailsInquiryService() {
         if (this.courseDetailsInquiryHelper == null) {
-            this.courseDetailsInquiryHelper = new CourseDetailsInquiryHelperImpl();
+            this.courseDetailsInquiryHelper = new CourseDetailsInquiryHelperImpl2();
         }
         return courseDetailsInquiryHelper;
     }
