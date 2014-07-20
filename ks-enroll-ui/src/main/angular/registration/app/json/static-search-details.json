@@ -1,3 +1,4 @@
+[
 {
     "courseId": "55c412eb-f9aa-44e3-9d1f-e828e2dc1b5c",
     "courseCode": "CHEM146",
@@ -143,4 +144,65 @@
             ]
         }
     ]
-}
+},
+
+    {
+        "courseId":"eb375467-d064-4f4e-bf8e-220ab28e2560",
+        "courseCode":"CHEM232",
+        "courseNumber":"232",
+        "coursePrefix":"CHEM",
+        "description":"Provides experience in developing some basic laboratory techniques, recrystallizaton, distillation, extraction, chromatography.",
+        "credits":"1.0",
+        "gradingOptionId":"kuali.resultComponent.grade.letter",
+        "longName":"Organic Chemistry Laboratory I",
+        "creditOptions":[
+            "1.0"
+        ],
+        "gradingOptions":{
+            "kuali.resultComponent.grade.letter":"Letter"
+        },
+        "crossListedCourses":[
+
+        ],
+        "prerequisites":[
+
+        ],
+        "activityOfferingCode":"Lab",
+        "activityOfferingTypeName":"Lab",
+        "activityOfferingType":"kuali.lui.type.activity.offering.lab",
+        "activityOfferings":[
+            {
+                "activityOfferingId":"fd44a256-0070-48b7-a498-0446747ce66b",
+                "seatsAvailable":18,
+                "seatsOpen":18,
+                "scheduleComponents":[
+                    {
+                        "sun":false,
+                        "mon":false,
+                        "tue":false,
+                        "wed":false,
+                        "thu":false,
+                        "fri":false,
+                        "sat":false,
+                        "startTime":"3:30 pm",
+                        "endTime":"6:20 pm",
+                        "displayTime":"3:30-6:20pm",
+                        "days":"Tu",
+                        "buildingCode":"CHM",
+                        "roomCode":"1346",
+                        "isTBA":false
+                    }
+                ],
+                "instructors":[
+                    {
+                        "displayName":"WITT, WARD",
+                        "firstName":"WARD",
+                        "lastName":"WITT",
+                        "principalId":"W.WARDS",
+                        "primary":true
+                    }
+                ]
+            }
+        ]
+    }
+]
