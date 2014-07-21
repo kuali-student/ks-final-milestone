@@ -186,8 +186,8 @@ public class KSCommentController extends KsUifControllerBase {
 
 //        if (commentWrapper.isNewDto()) {
 
-        comment.setReferenceId(form.getReferenceId());
-        comment.setReferenceTypeKey(form.getReferenceType());
+        comment.setRefObjectId(form.getReferenceId());
+        comment.setRefObjectUri(form.getReferenceType());
         comment.setTypeKey(CommentServiceConstants.COMMENT_GENERAL_REMARKS_TYPE_KEY);
         comment.setCommenterId(GlobalVariables.getUserSession().getPrincipalId());
         comment.setStateKey(CommentServiceConstants.COMMENT_ACTIVE_STATE_KEY);
