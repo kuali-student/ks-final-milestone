@@ -1,4 +1,4 @@
-package org.kuali.student.ap.coursesearch.form;
+package org.kuali.student.ap.bookmark.form;
 
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.ap.coursesearch.dataobject.CourseTermDetailsWrapper;
