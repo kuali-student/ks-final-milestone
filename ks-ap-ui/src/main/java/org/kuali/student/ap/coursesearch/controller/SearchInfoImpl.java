@@ -33,13 +33,14 @@ public class SearchInfoImpl implements Serializable, SearchInfo {
         this.item = item;
         sortColumns = item.getSortColumns();
         facetColumns = new java.util.LinkedHashMap<String, List<String>>();
-        for (Map.Entry<String, Map<String, Map<String, KeyValue>>> fe : item
+        for (Map.Entry<Object, List<KeyValue>> fe : item
                 .getFacetColumns().entrySet()) {
             List<String> fl = facetColumns.get(fe.getKey());
             if (fl == null)
-                facetColumns.put(fe.getKey(), fl = new ArrayList<String>());
-            for (Map<String, KeyValue> fv : fe.getValue().values())
-                fl.addAll(fv.keySet());
+                facetColumns.put((String)fe.getKey(), fl = new ArrayList<String>());
+            for(KeyValue keyValue : fe.getValue()){
+                fl.add(keyValue.getKey());
+            }
         }
 
     }

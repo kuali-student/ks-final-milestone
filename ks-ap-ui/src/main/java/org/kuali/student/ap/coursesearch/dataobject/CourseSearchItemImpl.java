@@ -20,7 +20,7 @@ import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.student.ap.coursesearch.CourseSearchItem;
 import org.kuali.student.ap.coursesearch.FacetIndex;
-import org.kuali.student.ap.coursesearch.FacetIndexBuilder;
+import org.kuali.student.ap.coursesearch.FacetIndexImpl;
 import org.kuali.student.ap.coursesearch.util.CollectionListPropertyEditorHtmlListType;
 import org.kuali.student.ap.coursesearch.util.FacetKeyFormatter;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
@@ -549,12 +549,10 @@ public class CourseSearchItemImpl implements CourseSearchItem {
 	 *            The facet keys related to this item.
 	 * @return A string for passing as a column in the results.
 	 */
-	protected Map<String, Map<String, KeyValue>> facetString(
-			Collection<String> facetKeys) {
-		Map<String, Map<String, KeyValue>> rv = new java.util.LinkedHashMap<String, Map<String, KeyValue>>();
-		Map<String, KeyValue> ug = new java.util.LinkedHashMap<String, KeyValue>();
+	protected List<KeyValue> facetString(Collection<String> facetKeys) {
+		List<KeyValue> facetValues = new ArrayList<KeyValue>();
 		for (final String fk : facetKeys)
-			ug.put(fk, new KeyValue() {
+			facetValues.add(new KeyValue() {
 				private static final long serialVersionUID = 6620894647540404487L;
 
 				@Override
@@ -567,8 +565,7 @@ public class CourseSearchItemImpl implements CourseSearchItem {
                     return fk;
 				}
 			});
-		rv.put("", Collections.synchronizedMap(Collections.unmodifiableMap(ug)));
-		return Collections.synchronizedMap(Collections.unmodifiableMap(rv));
+		return Collections.synchronizedList(Collections.unmodifiableList(facetValues));
 	}
 
 	@Override
@@ -588,13 +585,14 @@ public class CourseSearchItemImpl implements CourseSearchItem {
 	@Override
 	public FacetIndex getFacetColumns() {
 		if (facetColumns == null) {
-			FacetIndexBuilder m = new FacetIndexBuilder();
+            Map<Object, List<KeyValue>> map = new HashMap<Object, List<KeyValue>>();
+            FacetIndexImpl m = new FacetIndexImpl(map);
 			m.put("facet_quarter", facetString(getTermsFacetKeys()));
 			m.put("facet_genedureq", facetString(getGenEduReqFacetKeys()));
 			m.put("facet_credits", facetString(getCreditsFacetKeys()));
 			m.put("facet_level", facetString(getCourseLevelFacetKeys()));
 			m.put("facet_curriculum", facetString(getCurriculumFacetKeys()));
-			facetColumns = m.build();
+			facetColumns = m;
 		}
 		return facetColumns;
 	}

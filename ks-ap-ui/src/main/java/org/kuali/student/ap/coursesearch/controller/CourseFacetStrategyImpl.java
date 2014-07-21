@@ -288,25 +288,19 @@ public class CourseFacetStrategyImpl implements CourseFacetStrategy {
             for (Map.Entry<String, Map<String, FacetState>> fce : facetStateMap
                     .entrySet()) {
                 Map<String, FacetState> fm = fce.getValue();
-                Map<String, Map<String, KeyValue>> fcr;
+                List<KeyValue> fcr;
                 if (row.getItem() != null
                         && (fcr = row.getItem().getFacetColumns().get(
                         fce.getKey())) != null)
-                    for (Map.Entry<String, Map<String, KeyValue>> group : fcr
-                            .entrySet())
-                        for (Map.Entry<String, KeyValue> fe : group
-                                .getValue().entrySet()) {
-                            KeyValue fv = fe.getValue();
-                            assert fv.getKey().length() >= 1 : fv
-                                    .getKey();
-                            String facetKey = fe.getKey();
+                    for (KeyValue keyValue : fcr){
+                            String facetKey = keyValue.getKey();
                             FacetStateImpl fs = (FacetStateImpl)fm.get(facetKey);
                             if (fs == null) {
-                                fm.put(facetKey, fs = new FacetStateImpl(fv));
+                                fm.put(facetKey, fs = new FacetStateImpl(keyValue));
                                 if (fce.getKey().equals("facet_genedureq")) {
-                                    fs.setDescription(KsapFrameworkServiceLocator.getCourseSearchStrategy().getGenEdMap().get(fv.getKey()));
+                                    fs.setDescription(KsapFrameworkServiceLocator.getCourseSearchStrategy().getGenEdMap().get(keyValue.getKey()));
                                 } else if (fce.getKey().equals("facet_curriculum")) {
-                                    fs.setDescription(KsapFrameworkServiceLocator.getCourseSearchStrategy().getCurriculumMap(null).get(fv.getKey()));
+                                    fs.setDescription(KsapFrameworkServiceLocator.getCourseSearchStrategy().getCurriculumMap(null).get(keyValue.getKey()));
                                 }
                             }
                             fs.incrementCount();

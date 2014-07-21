@@ -45,19 +45,8 @@ public class CourseSearchController extends UifControllerBase {
 
     private static final String COURSE_SEARCH_VIEW_FORM = "CourseSearch-FormView";
 
-	/**
-	 * HTTP session attribute key for holding recent search results.
-	 */
-	private static final String RESULTS_ATTR = CourseSearchController.class
-			.getName() + ".results";
-
     private CourseSearchStrategy searcher = KsapFrameworkServiceLocator
             .getCourseSearchStrategy();
-
-    private CourseFacetStrategy facetStrategy = KsapFrameworkServiceLocator
-            .getCourseFacetStrategy();
-
-	private ObjectMapper mapper = new ObjectMapper();
 
     /**
      * @see org.kuali.rice.krad.web.controller.UifControllerBase
