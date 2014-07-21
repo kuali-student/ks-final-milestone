@@ -207,7 +207,7 @@ public class KSCommentController extends KsUifControllerBase {
     protected void retrieveComments(KSCommentForm form) {
         List<CommentInfo> comments;
         try {
-            comments = getCommentService().getCommentsByReferenceAndType(form.getReferenceId(), form.getReferenceType(), ContextUtils.createDefaultContextInfo());
+            comments = getCommentService().getCommentsByRefObject(form.getReferenceId(), form.getReferenceType(), ContextUtils.createDefaultContextInfo());
             LOG.debug(String.format("Retrieved %d comments for Ref Type %s with Ref Id %s ", comments.size(), form.getReferenceType(), form.getReferenceId()));
         } catch (Exception e) {
             throw new RuntimeException(String.format("Error retrieving comment(s) comments for Ref Type %s with Ref Id %s", form.getReferenceType(), form.getReferenceId()), e);
