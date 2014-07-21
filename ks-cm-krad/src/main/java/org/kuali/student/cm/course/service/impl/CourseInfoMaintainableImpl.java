@@ -992,7 +992,9 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
         final SearchRequestInfo searchRequest = new SearchRequestInfo();
         searchRequest.setSearchKey("subjectCode.search.orgsForSubjectCode");
 
-        searchRequest.addParam("subjectCode.queryParam.code", subjectArea);
+        if(subjectArea != null) {
+            searchRequest.addParam("subjectCode.queryParam.code", subjectArea);
+        }
         searchRequest.addParam("subjectCode.queryParam.optionalOrgId", unitsContentOwner.getOrgId());
 
         List<KeyValue> departments = new ArrayList<KeyValue>();
