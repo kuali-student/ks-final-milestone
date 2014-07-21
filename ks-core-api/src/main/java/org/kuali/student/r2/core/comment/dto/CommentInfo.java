@@ -33,13 +33,13 @@ import java.util.List;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "CommentInfo", propOrder = {"id", "typeKey", "stateKey",
-                "commentText", "commenterId", "referenceTypeKey", 
-                "referenceId", "effectiveDate",
-                "expirationDate", "meta", "attributes", "_futureElements" }) 
+        "commentText", "commenterId", "refObjectUri",
+        "refObjectId", "effectiveDate",
+        "expirationDate", "meta", "attributes", "_futureElements" })
 
-public class CommentInfo 
-    extends IdNamelessEntityInfo 
-    implements Comment, Serializable {
+public class CommentInfo
+        extends IdNamelessEntityInfo
+        implements Comment, Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -50,10 +50,10 @@ public class CommentInfo
     private String commenterId;
 
     @XmlElement
-    private String referenceTypeKey;
+    private String refObjectUri;
 
     @XmlElement
-    private String referenceId;
+    private String refObjectId;
 
     @XmlElement
     private Date effectiveDate;
@@ -62,7 +62,7 @@ public class CommentInfo
     private Date expirationDate;
 
     @XmlAnyElement
-    private List<Object> _futureElements;  
+    private List<Object> _futureElements;
 
     public CommentInfo() {
     }
@@ -73,8 +73,8 @@ public class CommentInfo
         if (null != comment) {
             this.commentText = (null != comment.getCommentText()) ? new RichTextInfo(comment.getCommentText()) : null;
             this.commenterId = comment.getCommenterId();
-            this.referenceTypeKey = comment.getReferenceTypeKey();
-            this.referenceId = comment.getReferenceId();
+            this.refObjectUri = comment.getRefObjectUri();
+            this.refObjectId = comment.getRefObjectId();
             this.effectiveDate = (null != comment.getEffectiveDate()) ? new Date(comment.getEffectiveDate().getTime()) : null;
             this.expirationDate = (null != comment.getExpirationDate()) ? new Date(comment.getExpirationDate().getTime()) : null;
         }
@@ -99,21 +99,21 @@ public class CommentInfo
     }
 
     @Override
-    public String getReferenceTypeKey() {
-        return referenceTypeKey;
+    public String getRefObjectUri() {
+        return refObjectUri;
     }
 
-    public void setReferenceTypeKey(String referenceTypeKey) {
-        this.referenceTypeKey = referenceTypeKey;
+    public void setRefObjectUri(String refObjectUri) {
+        this.refObjectUri = refObjectUri;
     }
 
     @Override
-    public String getReferenceId() {
-        return referenceId;
+    public String getRefObjectId() {
+        return refObjectId;
     }
 
-    public void setReferenceId(String referenceId) {
-        this.referenceId = referenceId;
+    public void setRefObjectId(String refObjectId) {
+        this.refObjectId = refObjectId;
     }
 
     @Override

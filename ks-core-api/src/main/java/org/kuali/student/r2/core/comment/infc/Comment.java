@@ -43,24 +43,22 @@ public interface Comment extends IdNamelessEntity {
     public String getCommenterId();
 
     /**
-     * Unique identifier for a reference type.
+     * Gets the reference object Uri.
      *
-     * @name Reference Type Key
-     * @readOnly
-     * @required
+     * @name Reference Object Uri
      */
-    public String getReferenceTypeKey();
+    public String getRefObjectUri();
 
     /**
      * Identifier component for a reference. This is an external identifier and such may not uniquely identify
-     * a particular reference unless combined with the type. A referenceId could be a cluId, a luiId,
+     * a particular reference unless combined with the type. A refObjectId could be a cluId, a luiId,
      * an orgId, a documentId, etc.
      *
-     * @name Reference Id
+     * @name Reference Object Id
      * @readOnly
      * @required
      */
-    public String getReferenceId();
+    public String getRefObjectId();
 
     /**
      * Date and time that this comment became effective. This is a similar concept to the effective date on
