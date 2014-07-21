@@ -284,7 +284,7 @@ public abstract class TestCommentServiceImplConformanceBaseCrud {
     // SERVICE OPS NOT TESTED IN BASE TEST CLASS
     // ========================================
 
-    /* Method Name: getCommentsByReferenceAndType */
+    /* Method Name: getCommentsByRefObject */
     @Test
     public abstract void test_getCommentsByReferenceAndType() throws Exception;
 

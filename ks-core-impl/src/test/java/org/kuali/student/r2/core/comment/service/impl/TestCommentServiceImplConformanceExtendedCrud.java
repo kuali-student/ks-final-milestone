@@ -136,18 +136,18 @@ public abstract class TestCommentServiceImplConformanceExtendedCrud extends Test
     // SERVICE OPS NOT TESTED IN BASE TEST CLASS
     // ========================================
 
-    /* Method Name: getCommentsByReferenceAndType */
+    /* Method Name: getCommentsByRefObject */
     @Test
     public void test_getCommentsByReferenceAndType() throws Exception {
         loadData();
 
-        List<CommentInfo> comments = testService.getCommentsByReferenceAndType("1", CommentDataLoader.REF_OBJECT_ONE_COMMENT_TYPE, contextInfo);
+        List<CommentInfo> comments = testService.getCommentsByRefObject("1", CommentDataLoader.REF_OBJECT_ONE_COMMENT_TYPE, contextInfo);
         assertEquals(1, comments.size());
 
-        comments = testService.getCommentsByReferenceAndType("5", CommentDataLoader.REF_OBJECT_ONE_COMMENT_TYPE, contextInfo);
+        comments = testService.getCommentsByRefObject("5", CommentDataLoader.REF_OBJECT_ONE_COMMENT_TYPE, contextInfo);
         assertEquals(1, comments.size());
 
-        comments = testService.getCommentsByReferenceAndType("5", CommentDataLoader.REF_OBJECT_TWO_COMMENT_TYPE, contextInfo);
+        comments = testService.getCommentsByRefObject("5", CommentDataLoader.REF_OBJECT_TWO_COMMENT_TYPE, contextInfo);
         assertEquals(2, comments.size());
     }
 
@@ -168,12 +168,12 @@ public abstract class TestCommentServiceImplConformanceExtendedCrud extends Test
     public void test_deleteCommentsByReference() throws Exception {
         loadData();
 
-        List<CommentInfo> comments = testService.getCommentsByReferenceAndType("5", CommentDataLoader.REF_OBJECT_TWO_COMMENT_TYPE, contextInfo);
+        List<CommentInfo> comments = testService.getCommentsByRefObject("5", CommentDataLoader.REF_OBJECT_TWO_COMMENT_TYPE, contextInfo);
         assertEquals(2, comments.size());
 
         testService.deleteCommentsByReference("5", CommentDataLoader.REF_OBJECT_TWO_COMMENT_TYPE, contextInfo);
 
-        comments = testService.getCommentsByReferenceAndType("5", CommentDataLoader.REF_OBJECT_TWO_COMMENT_TYPE, contextInfo);
+        comments = testService.getCommentsByRefObject("5", CommentDataLoader.REF_OBJECT_TWO_COMMENT_TYPE, contextInfo);
         assertTrue(comments.isEmpty());
     }
 

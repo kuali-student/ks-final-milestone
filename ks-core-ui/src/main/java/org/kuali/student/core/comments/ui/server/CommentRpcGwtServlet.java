@@ -54,13 +54,13 @@ public class CommentRpcGwtServlet extends BaseRpcGwtServletAbstract<CommentServi
 	@Override
 	public List<CommentInfo> getComments(String refObjectId,
 			String refObjectUri) throws Exception {
-		return service.getCommentsByReferenceAndType(refObjectId, refObjectUri, ContextUtils.getContextInfo());
+		return service.getCommentsByRefObject(refObjectId, refObjectUri, ContextUtils.getContextInfo());
 	}
 
 	@Override
 	public List<CommentInfo> getCommentsByType(String refObjectId,
 			String refObjectUri, String commentTypeKey) throws Exception {
-		return service.getCommentsByReferenceAndType(refObjectId, refObjectUri, ContextUtils.getContextInfo());
+		return service.getCommentsByRefObject(refObjectId, refObjectUri, ContextUtils.getContextInfo());
 	}
 
 	@Override

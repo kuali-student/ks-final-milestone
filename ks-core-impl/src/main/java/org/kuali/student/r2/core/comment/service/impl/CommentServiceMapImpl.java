@@ -103,7 +103,7 @@ public class CommentServiceMapImpl implements MockService, CommentService
 	}
 	
 	@Override
-	public List<CommentInfo> getCommentsByReferenceAndType(String refObjectId, String refObjectUri, ContextInfo contextInfo)
+	public List<CommentInfo> getCommentsByRefObject(String refObjectId, String refObjectUri, ContextInfo contextInfo)
 		throws DoesNotExistException
 		      ,InvalidParameterException
 		      ,MissingParameterException
