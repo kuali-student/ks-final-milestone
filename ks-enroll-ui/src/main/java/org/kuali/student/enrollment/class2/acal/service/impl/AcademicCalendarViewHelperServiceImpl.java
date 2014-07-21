@@ -885,7 +885,7 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
      * @param acal
      * @return
      */
-    private boolean isValidAcalName(AcademicCalendarInfo acal){
+    protected boolean isValidAcalName(AcademicCalendarInfo acal){
 
         QueryByCriteria.Builder qBuilder = QueryByCriteria.Builder.create();
         List<Predicate> pList = new ArrayList<Predicate>();
@@ -1533,7 +1533,7 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
          * @param simplifiedAcademicTermWrappers - SimplifiedAcademicTermWrapper list
          *
          */
-    private void sortSimplifiedAcademicTermWrappers(List<SimplifiedAcademicTermWrapper> simplifiedAcademicTermWrappers) {
+    protected void sortSimplifiedAcademicTermWrappers(List<SimplifiedAcademicTermWrapper> simplifiedAcademicTermWrappers) {
         //Sort the termWrappers by start date
         if (simplifiedAcademicTermWrappers != null && !simplifiedAcademicTermWrappers.isEmpty()) {
             Collections.sort(simplifiedAcademicTermWrappers, new Comparator<SimplifiedAcademicTermWrapper>() {
@@ -1620,7 +1620,7 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
      * @param beforeSortingIndex index of the term before sorting for terms happens.
      * @param afterSortingIndex index of the term after sorting for terms happens.
      */
-    private void validateExamPeriodDays(AcademicTermWrapper termWrapperToValidate, List<HolidayInfo> holidayInfos, int beforeSortingIndex, int afterSortingIndex) throws Exception {
+    protected void validateExamPeriodDays(AcademicTermWrapper termWrapperToValidate, List<HolidayInfo> holidayInfos, int beforeSortingIndex, int afterSortingIndex) throws Exception {
         //trap null parameters
         if (termWrapperToValidate == null) {
             throw new Exception("term wrapper is null");
@@ -1657,7 +1657,7 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
      * @param examPeriodWrapper exam period wrapper
      * @param holidayInfos list of holidayinfos of the academic calendar
      */
-    private int getDaysForExamPeriod(ExamPeriodWrapper examPeriodWrapper, List<HolidayInfo> holidayInfos, ContextInfo contextInfo) throws Exception {
+    protected int getDaysForExamPeriod(ExamPeriodWrapper examPeriodWrapper, List<HolidayInfo> holidayInfos, ContextInfo contextInfo) throws Exception {
         //trap null parameters
         if (examPeriodWrapper == null){
             throw new Exception("Exam Period wrapper is null");
@@ -1722,7 +1722,7 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
         return examPeriodDays;
     }
 
-    private boolean doDatesOverlap(Date periodStartDate, Date periodEndDate, Date subStart, Date subEnd){
+    protected boolean doDatesOverlap(Date periodStartDate, Date periodEndDate, Date subStart, Date subEnd){
         boolean bRet = false;
 
         int compStart = subStart.compareTo(periodEndDate);
@@ -1734,7 +1734,7 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
         return bRet;
     }
 
-    private List<SimplifiedAcademicTermWrapper> populateSimplifiedAcademicTermWrappers(List<AcademicTermWrapper> termWrappers) {
+    protected List<SimplifiedAcademicTermWrapper> populateSimplifiedAcademicTermWrappers(List<AcademicTermWrapper> termWrappers) {
         List<SimplifiedAcademicTermWrapper> simplifiedAcademicTermWrappers = new ArrayList<SimplifiedAcademicTermWrapper>(termWrappers.size());
         int index = 0;
         for (AcademicTermWrapper academicTermWrapper : termWrappers) {
@@ -1755,13 +1755,13 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
      * the original term wrapper list in acalForm untouched.
      */
     public class SimplifiedAcademicTermWrapper {
-        private String termInfoId;
-        private boolean subTerm = false;
-        private Date startDate;
-        private String termType;
-        private String parentTerm;
-        private TermInfo parentTermInfo;
-        private int originalIndex;
+        public String termInfoId;
+        public boolean subTerm = false;
+        public Date startDate;
+        public String termType;
+        public String parentTerm;
+        public TermInfo parentTermInfo;
+        public int originalIndex;
 
 
         // private constructor to prevent the inner class from being instantiated outside the outer class
@@ -1771,7 +1771,7 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
 
         // private constructor to prevent the inner class from being instantiated outside the outer class
         // because this inner class doesn't need to be instantiated/accessed outside
-        private SimplifiedAcademicTermWrapper(AcademicTermWrapper academicTermWrapper) {
+        public SimplifiedAcademicTermWrapper(AcademicTermWrapper academicTermWrapper) {
             this.termInfoId = academicTermWrapper.getTermInfo().getId();
             this.subTerm = academicTermWrapper.isSubTerm();
             this.termType = academicTermWrapper.getTermType();
