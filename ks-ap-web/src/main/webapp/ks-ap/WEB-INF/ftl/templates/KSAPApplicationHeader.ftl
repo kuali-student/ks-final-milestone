@@ -57,10 +57,12 @@
                 </#if>
             </ul>
         </div>
+        <div class="ksapBookmarkCount">
+            <a id="Ksap-Header-Bookmark-Count" class="uif-link" target="" href="lookup?methodToCall=search&viewId=BookmarkDetail-LookupView">
+                <span id="Ksap-Header-Bookmark-Count-Label">Bookmarks</span>
+                (<span id="Ksap-Header-Bookmark-Count-Value">0</span>)
+            </a>
+        </div>
     </div>
-    <a id="Ksap-Header-Bookmark-Count" class="uif-link uif-boxLayoutHorizontalItem" target="" href="lookup?methodToCall=search&viewId=BookmarkDetail-LookupView">
-        <span id="Ksap-Header-Bookmark-Count-Label">Bookmark Count Val</span>
-        <span id="Ksap-Header-Bookmark-Count-Value">0</span>
-    </a>
 </div>
 </#macro>

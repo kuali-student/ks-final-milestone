@@ -148,26 +148,14 @@
 // Header
 #applicationHeader {
   margin: 0 0 10px 0;
-  position: relative;
-  a.disabled {
-        pointer-events: none;
-        cursor: default;
-  }
-}
-
-#applicationHeading {
-  height: 127px;
-  position: relative;
 }
 
 // Header Title
 #applicationLogo {
   font-size: 38px;
   font-style: normal;
-  left: 0;
-  position: absolute;
+  margin-top: 20px;
   text-shadow: 0 1px 2px #cfcabf;
-  top: 20px;
 }
 
 
@@ -175,9 +163,8 @@
 // --------------------------------------------------
 
 #applicationNavigation {
-  bottom: 0;
-  left: 0;
-  position: absolute;
+  border-bottom: 1px solid #333;
+  margin: 20px 0 5px 0;
 
   ul, ul li {
     list-style: none;
@@ -205,6 +192,19 @@
   } //End ul li
 } //End #applicationNavigation
 
+
+// Bookmark Navigation
+// --------------------------------------------------
+.ksapBookmarkCount
+{
+
+//Bookmarks link when bookmarks = 0
+  a.disabled {
+    pointer-events: none;
+    color: inherit;
+    cursor: default;
+  }
+}
 
 // Footer
 // --------------------------------------------------

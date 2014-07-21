@@ -526,10 +526,12 @@ function refreshBookmarkCount(data) {
     var bookmarkCountValue=jQuery("#Ksap-Header-Bookmark-Count-Value");
     bookmarkCountValue.html(data.bookmarkCount);
     if (data.bookmarkCount !=null && data.bookmarkCount <=0) {
-        boomarkCountLink.addClass("disabled");
+        boomarkCountLink.addClass("disabled ks-fontello-icon-star-empty");
+        boomarkCountLink.removeClass("ks-fontello-icon-star");
         boomarkCountLink.attr("disabled","disabled");
     } else {
-        boomarkCountLink.removeClass("disabled");
+        boomarkCountLink.addClass("ks-fontello-icon-star");
+        boomarkCountLink.removeClass("disabled ks-fontello-icon-star-empty");
         boomarkCountLink.removeAttr("disabled")
     }
 }
