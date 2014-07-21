@@ -57,7 +57,10 @@
                 </#if>
             </ul>
         </div>
-
+    </div>
+    <div id="Ksap-Header-Bookmark-Count">
+        <span id="Ksap-Header-Bookmark-Count-Label">Bookmark Count Val</span>
+        <span id="Ksap-Header-Bookmark-Count-Value">0</span>
     </div>
 </div>
 </#macro>

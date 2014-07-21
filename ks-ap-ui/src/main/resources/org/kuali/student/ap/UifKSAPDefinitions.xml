@@ -36,16 +36,17 @@
         </property>
     </bean>
 
+    <bean id="ks-banner" parent="Uif-HeaderOne"
+                  p:template="/ks-ap/WEB-INF/ftl/templates/KSAPApplicationHeader.ftl"
+                  p:templateName="ksap_app_header"
+                  p:onDocumentReadyScript="initBookmarkCount(jQuery('#Ksap-Header-Bookmark-Count'),'@{#textHelper.getText(&quot;banner.bookmark.link.label&quot;)}',e);"/>
+
     <bean id="KSAPFormView" abstract="true" parent="KSAPFormView-parent"/>
     <bean id="KSAPFormView-parent" abstract="true" parent="KSAPBaseFormView">
         <property name="theme">
             <bean parent="KSAPTheme"/>
         </property>
-        <property name="applicationHeader">
-            <bean parent="Uif-HeaderOne" p:id="ks-banner"
-                  p:template="/ks-ap/WEB-INF/ftl/templates/KSAPApplicationHeader.ftl"
-                  p:templateName="ksap_app_header"/>
-        </property>
+        <property name="applicationHeader" ref="ks-banner"/>
         <property name="applicationFooter">
             <bean parent="Uif-FooterBase" p:id="ks-footer"
                   p:template="/ks-ap/WEB-INF/ftl/templates/KSAPApplicationFooter.ftl"
@@ -83,11 +84,7 @@
         <property name="theme">
             <bean parent="KSAPTheme"/>
         </property>
-        <property name="applicationHeader">
-            <bean parent="Uif-HeaderOne" p:id="ks-banner"
-                  p:template="/ks-ap/WEB-INF/ftl/templates/KSAPApplicationHeader.ftl"
-                  p:templateName="ksap_app_header"/>
-        </property>
+        <property name="applicationHeader" ref="ks-banner"/>
         <property name="applicationFooter">
             <bean parent="Uif-FooterBase" p:id="ks-footer"
                   p:template="/ks-ap/WEB-INF/ftl/templates/KSAPApplicationFooter.ftl"
@@ -126,11 +123,7 @@
         <property name="theme">
             <bean parent="KSAPTheme"/>
         </property>
-        <property name="applicationHeader">
-            <bean parent="Uif-HeaderOne" p:id="ks-banner"
-                  p:template="/ks-ap/WEB-INF/ftl/templates/KSAPApplicationHeader.ftl"
-                  p:templateName="ksap_app_header"/>
-        </property>
+        <property name="applicationHeader" ref="ks-banner"/>
         <property name="applicationFooter">
             <bean parent="Uif-FooterBase" p:id="ks-footer"
                   p:template="/ks-ap/WEB-INF/ftl/templates/KSAPApplicationFooter.ftl"
@@ -163,11 +156,7 @@
             <bean parent="KSAPTheme"/>
         </property>
         <property name="footer" ref="KSAPFooterDocument"/>
-        <property name="applicationHeader">
-            <bean parent="Uif-HeaderOne" p:id="ks-banner"
-                  p:template="/ks-ap/WEB-INF/ftl/templates/KSAPApplicationHeader.ftl"
-                  p:templateName="ksap_app_header"/>
-        </property>
+        <property name="applicationHeader" ref="ks-banner"/>
         <property name="applicationFooter">
             <bean parent="Uif-FooterBase" p:id="ks-footer"
                   p:template="/ks-ap/WEB-INF/ftl/templates/KSAPApplicationFooter.ftl"

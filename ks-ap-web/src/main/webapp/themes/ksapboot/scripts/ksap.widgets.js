@@ -484,3 +484,44 @@ jQuery(function(){
         sessionStorage.removeItem('last_search');
     });
 });
+
+//Initialize the Header Bookmark count label & value
+function initBookmarkCount(evenObject,bookMarkLabelText,e){
+    //Register BM refresh event
+    jQuery(evenObject)
+        .on('REFRESH_BOOKMARK_COUNT', function(event, data) {
+            refreshBookmarkCount(data);
+        });
+
+    //Set bookmark count label text
+    var bookmarkCountLabel=jQuery("#Ksap-Header-Bookmark-Count-Label");
+    bookmarkCountLabel.html(bookMarkLabelText);
+
+    //refresh bookmarkCount ...for initial page display
+    requestBookmarkCountRefresh(e);
+}
+
+/**
+ * Refresh Bookmark Count displayed in KSAP Page Headers  (see Ksap
+ */
+function requestBookmarkCountRefresh(e) {
+    stopEvent(e);
+    var form = jQuery('<form />').attr("id", "refreshBookmarkFormId").attr("action", "course/details").attr("method", "post");
+    jQuery("body").append(form);
+    var additionalFormData = {
+        methodToCall:"refreshBookmarkCount"
+    }
+    form.ajaxSubmit({
+        data : ksapAdditionalFormData(additionalFormData),
+        dataType : 'json',
+        success : ksapAjaxSubmitSuccessCallback,
+        error : ksapAjaxSubmitErrorCallback
+    });
+    fnClosePopup();
+    jQuery("form#refreshBookmarkFormId").remove();
+}
+
+function refreshBookmarkCount(data) {
+    var bookmarkCountValue=jQuery("#Ksap-Header-Bookmark-Count-Value");
+    bookmarkCountValue.html(data.bookmarkCount);
+}
