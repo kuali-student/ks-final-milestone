@@ -16,9 +16,8 @@
 -->
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
-       xmlns:spring="http://camel.apache.org/schema/spring"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
-                           http://www.springframework.org/schema/beans/spring-beans.xsd http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/camel-spring-2.0-M3.xsd">
+                           http://www.springframework.org/schema/beans/spring-beans.xsd ">
 
     <bean id="KS-CourseView-LearningObjectives-Section" parent="KS-CourseView-VerticalBoxSection">
         <property name="headerText" value="Learning Objectives"/>
@@ -90,7 +89,8 @@
         <!-- Removal of this headerText property is not getting the validation messages displayed at section level. Need to investigate -->
         <property name="layoutManager.lineGroupPrototype.header.headerText" value=" "/>
         <property name="layoutManager.lineGroupPrototype.id" value="learning_objective_section_@{#index}"/>
-        <property name="layoutManager.lineGroupPrototype.additionalCssClasses" value="learning_objective_section_header"/>
+        <property name="layoutManager.lineGroupPrototype.additionalCssClasses"
+                  value="learning_objective_section_header"/>
         <property name="layoutManager.lineGroupPrototype.validationMessages.displayMessages" value="false"/>
         <property name="layoutManager.lineGroupPrototype.validationMessages.displayHeaderMessageSummary" value="false"/>
         <property name="validationMessages" ref="KS-ValidationMessages-Off"/>
@@ -128,16 +128,17 @@
             <bean id="KS-LearningObjective-QuickFinder" parent="Uif-CollectionQuickFinder"
                   p:dataObjectClassName="org.kuali.student.cm.course.form.LoDisplayInfoWrapper"
                   p:fieldConversions="descr.plain:loInfo.descr.plain"
-                  p:viewName="KS-LoDisplayInfoWrapper-LookupView" p:additionalCssClasses="learning_objective_section_header">
+                  p:viewName="KS-LoDisplayInfoWrapper-LookupView"
+                  p:additionalCssClasses="learning_objective_section_header">
                 <property name="baseLookupUrl"
                           value="@{#ConfigProperties['application.url']}/kr-krad/LoDisplaylookup"/>
                 <property name="autoSearch" value="false"/>
                 <property name="quickfinderAction">
                     <bean id="LearningObjective-ToolBar-FindObjectives"
                           parent="LearningObjective-ToolBar-FindObjectives-parent"
-                          p:methodToCall="performLookup" />
+                          p:methodToCall="performLookup"/>
                 </property>
-                  </bean>
+            </bean>
 
         </property>
 
@@ -244,7 +245,7 @@
                                                 <entry key="select">
                                                     <value>
                                                         function (event, ui) {
-                                                           return loCategoryAutocomplete(ui, jQuery(this));
+                                                        return loCategoryAutocomplete(ui, jQuery(this));
                                                         }
                                                     </value>
                                                 </entry>
