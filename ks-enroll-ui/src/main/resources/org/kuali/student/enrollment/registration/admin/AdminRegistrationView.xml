@@ -283,7 +283,7 @@
                         <list>
                             <bean parent="Uif-Message"
                                   p:messageText="[css='icon-warning'][/css] @{#line.course.code} (@{#line.course.section}) - "/>
-                            <bean parent="Uif-DataField" p:propertyName="items" p:readOnlyListDisplayType="UL"/>
+                            <bean parent="Uif-DataField" p:propertyName="itemDescriptions" p:readOnlyListDisplayType="UL"/>
                         </list>
                     </property>
                 </bean>

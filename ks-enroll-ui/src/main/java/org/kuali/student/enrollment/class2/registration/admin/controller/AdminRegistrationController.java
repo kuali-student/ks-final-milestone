@@ -34,6 +34,10 @@ import org.kuali.student.enrollment.class2.registration.admin.form.RegistrationI
 import org.kuali.student.enrollment.class2.registration.admin.service.AdminRegistrationViewHelperService;
 import org.kuali.student.enrollment.class2.registration.admin.util.AdminRegConstants;
 import org.kuali.student.enrollment.class2.registration.admin.util.AdminRegistrationUtil;
+import org.kuali.student.enrollment.courseregistration.infc.RegistrationRequest;
+import org.kuali.student.enrollment.courseregistration.infc.RegistrationRequestItem;
+import org.kuali.student.r2.common.infc.ValidationResult;
+import org.kuali.student.r2.common.util.constants.LprServiceConstants;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -160,12 +164,14 @@ public class AdminRegistrationController extends UifControllerBase {
     public ModelAndView register(@ModelAttribute("KualiForm") AdminRegistrationForm form, BindingResult result,
                                  HttpServletRequest request, HttpServletResponse response) {
 
+        // Validate for existing courses.
         getViewHelper(form).validateForRegistration(form);
         if (GlobalVariables.getMessageMap().hasErrors()) {
             form.setClientState(AdminRegConstants.ClientStates.READY);
             return getUIFModelAndView(form);
         }
 
+        // Set the necessary attributes on the pending courses.
         for (RegistrationCourse course : form.getPendingCourses()) {
             course.setCredits(3);
             course.setTransactionalDate(new Date());
@@ -173,9 +179,7 @@ public class AdminRegistrationController extends UifControllerBase {
             course.setActivities(getViewHelper(form).getRegistrationActivitiesForRegistrationCourse(course, form.getTerm().getCode()));
         }
 
-        form.setClientState(AdminRegConstants.ClientStates.REGISTERING);
         return showDialog(AdminRegConstants.REG_CONFIRM_DIALOG, form, request, response);
-
     }
 
     @MethodAccessible
@@ -183,11 +187,89 @@ public class AdminRegistrationController extends UifControllerBase {
     public ModelAndView submit(@ModelAttribute("KualiForm") AdminRegistrationForm form, BindingResult result,
                                HttpServletRequest request, HttpServletResponse response) {
 
-        // continue with registration
-        form.getCoursesInProcess().addAll(form.getPendingCourses());
+        // Continue with registration submission
+        List<RegistrationCourse> pendingCourses = form.getPendingCourses();
+        form.setRegRequestId(getViewHelper(form).submitRegistrationRequest(form.getPerson().getId(), form.getTerm().getId(), pendingCourses));
+
+        // Move courses to "In Process" list
+        form.getCoursesInProcess().addAll(pendingCourses);
         form.resetPendingCourseValues();
 
+        // Set the client state to "Registering" so that we can prevent certain actions on UI.
+        form.setClientState(AdminRegConstants.ClientStates.REGISTERING);
         return getUIFModelAndView(form);
+    }
+
+    @MethodAccessible
+    @RequestMapping(method = RequestMethod.GET, params = "methodToCall=queryForRegistrationStatus")
+    @ResponseBody
+    public Map queryForRegistrationStatus(@ModelAttribute("KualiForm") AdminRegistrationForm form) {
+
+        Map<String, Object> result = new HashMap<String, Object>();
+        List<String> updateIds = new ArrayList<String>();
+
+        // Check if any courses is being processed by the registration engine.
+        if (form.getRegRequestId() == null || form.getCoursesInProcess().isEmpty()) {
+            result.put("stop", true);
+            return result;
+        }
+
+        // Retrieve registration request and check the state.
+        RegistrationRequest regRequest = this.getViewHelper(form).getRegistrationRequest(form.getRegRequestId());
+        if (regRequest.getStateKey().equals(LprServiceConstants.LPRTRANS_PROCESSING_STATE_KEY)) {
+            return result;
+        }
+
+        synchronized (form) {
+
+            if (regRequest.getStateKey().equals(LprServiceConstants.LPRTRANS_SUCCEEDED_STATE_KEY)) {
+                for (RegistrationRequestItem item : regRequest.getRegistrationRequestItems()) {
+
+                    //Check for LPRTRANS_ITEM_NEW_STATE_KEY and LPRTRANS_ITEM_PROCESSING_STATE_KEY if any
+                    //and handle appropriately.
+
+                    // Get the corresponding registration course from the courses in process list.
+                    RegistrationCourse processedCourse = null;
+                    for (RegistrationCourse regCourse : form.getCoursesInProcess()) {
+                        if (regCourse.getRegGroup().getId().equals(item.getRegistrationGroupId())) {
+                            processedCourse = regCourse;
+                            break;
+                        }
+                    }
+
+                    // Remove the item from the courses in process list.
+                    form.getCoursesInProcess().remove(processedCourse);
+
+                    // Move item to appropriate list based on the item state.
+                    if (LprServiceConstants.LPRTRANS_ITEM_SUCCEEDED_STATE_KEY.equals(item.getStateKey())) {
+                        form.getRegisteredCourses().add(processedCourse);
+                    } else if (LprServiceConstants.LPRTRANS_ITEM_WAITLIST_STATE_KEY.equals(item.getStateKey())) {
+                        form.getWaitlistedCourses().add(processedCourse);
+                    } else if (LprServiceConstants.LPRTRANS_ITEM_WAITLIST_AVAILABLE_STATE_KEY.equals(item.getStateKey()) ||
+                            LprServiceConstants.LPRTRANS_ITEM_FAILED_STATE_KEY.equals(item.getStateKey())) {
+                        // Create a new registation issue with the course in error.
+                        RegistrationIssue regIssue = new RegistrationIssue();
+                        regIssue.setCourse(processedCourse);
+
+                        // Add the messages to the issue items list.
+                        for (ValidationResult validationResult : item.getValidationResults()) {
+                            regIssue.getItems().add(new RegistrationIssueItem(validationResult.getMessage()));
+                        }
+                        form.getRegistrationIssues().add(regIssue);
+                    }
+                }
+                updateIds.add(AdminRegConstants.ISSUES_COLL_ID);
+            }
+
+            // Reset the form to ready state.
+            form.setRegRequestId(null);
+            form.getCoursesInProcess().clear();
+            form.setClientState(AdminRegConstants.ClientStates.READY);
+        }
+
+        // Return updateIds to UI, to refresh selected collections.
+        result.put("updateIds", updateIds);
+        return result;
     }
 
     @RequestMapping(method = RequestMethod.POST, params = "methodToCall=dropCourse")
@@ -236,56 +318,6 @@ public class AdminRegistrationController extends UifControllerBase {
         cancelEdits(form, selectedCollectionId);
 
         return deleteLine(form, result, request, response);
-    }
-
-    @MethodAccessible
-    @RequestMapping(method = RequestMethod.GET, params = "methodToCall=queryForRegistrationStatus")
-    @ResponseBody
-    public Map queryForRegistrationStatus(@ModelAttribute("KualiForm") AdminRegistrationForm form) {
-
-        Map<String, Object> result = new HashMap<String, Object>();
-        List<String> updateIds = new ArrayList<String>();
-
-        if (form.getCoursesInProcess().isEmpty()) {
-            result.put("stop", true);
-            return result;
-        }
-
-        Random generator = new Random();
-        if (generator.nextInt(3) != 0) {
-            return result;
-        }
-
-        synchronized (form) {
-
-            int i = generator.nextInt(3);
-
-            RegistrationCourse regCourse = form.getCoursesInProcess().remove(0);
-            if (i == 0) {
-                // faking a registration complete
-                form.getRegisteredCourses().add(regCourse);
-                updateIds.add(AdminRegConstants.REG_COLL_ID);
-            }
-
-            if (i == 1) {
-                // faking a waitlist complete
-                form.getWaitlistedCourses().add(regCourse);
-                updateIds.add(AdminRegConstants.WAITLIST_COLL_ID);
-            }
-
-            if (i == 2) {
-                // faking an issue found add registration issue
-                RegistrationIssue regIssue = new RegistrationIssue();
-                regIssue.setCourse(regCourse);
-                regIssue.getItems().add(new RegistrationIssueItem("No seats available."));
-                regIssue.getItems().add(new RegistrationIssueItem("Time conflict with ENGL100 (10001)."));
-                form.getRegistrationIssues().add(regIssue);
-                updateIds.add(AdminRegConstants.ISSUES_COLL_ID);
-            }
-        }
-
-        result.put("updateIds", updateIds);
-        return result;
     }
 
     @RequestMapping(method = RequestMethod.POST, params = "methodToCall=editCourse")

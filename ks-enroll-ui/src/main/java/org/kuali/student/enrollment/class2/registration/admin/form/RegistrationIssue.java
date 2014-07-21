@@ -29,4 +29,14 @@ public class RegistrationIssue {
     public void setItems(List<RegistrationIssueItem> items) {
         this.items = items;
     }
+
+    public List<String> getItemDescriptions(){
+        ArrayList<String> list = new ArrayList<String>();
+        for (RegistrationIssueItem item: items) {
+            list.add(item.getDescription());
+        }
+
+        return list;
+    }
+
 }

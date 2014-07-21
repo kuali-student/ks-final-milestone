@@ -23,12 +23,23 @@ import org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo;
 import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
 import org.kuali.student.enrollment.courseregistration.dto.ActivityRegistrationInfo;
 import org.kuali.student.enrollment.courseregistration.dto.CourseRegistrationInfo;
+import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestInfo;
+import org.kuali.student.enrollment.courseregistration.infc.RegistrationRequest;
+import org.kuali.student.enrollment.lpr.dto.LprTransactionInfo;
+import org.kuali.student.enrollment.lpr.dto.LprTransactionItemInfo;
+import org.kuali.student.enrollment.registration.client.service.dto.RegistrationResponseItemResult;
+import org.kuali.student.enrollment.registration.client.service.dto.RegistrationResponseResult;
+import org.kuali.student.enrollment.registration.client.service.impl.util.CourseRegistrationAndScheduleOfClassesUtil;
+import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.dto.ValidationResultInfo;
+import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.util.TimeOfDayHelper;
+import org.kuali.student.r2.common.util.constants.LprServiceConstants;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
 import org.kuali.student.r2.core.room.dto.BuildingInfo;
 import org.kuali.student.r2.core.room.dto.RoomInfo;
@@ -40,6 +51,7 @@ import org.kuali.student.r2.core.scheduling.util.SchedulingServiceUtil;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -159,7 +171,6 @@ public class AdminRegistrationViewHelperServiceImpl extends KSViewHelperServiceI
      * Based on the CourseRegistrationInfo, CourseInfo is retrieved
      *
      * @param courseRegistrationListInfo
-     *
      * @return registrationCourse
      * @throws DoesNotExistException
      * @throws InvalidParameterException
@@ -260,16 +271,15 @@ public class AdminRegistrationViewHelperServiceImpl extends KSViewHelperServiceI
             }
 
             //Check if the input section matches a registration group.
-            RegistrationGroupInfo registrationGroup = null;
             for (RegistrationGroupInfo regGroup : regGroups) {
                 if (course.getSection().equals(regGroup.getName())) {
-                    course.setActivityOfferingIds(regGroup.getActivityOfferingIds());
-                    registrationGroup = regGroup;
+                    course.setRegGroup(regGroup);
+                    break;
                 }
             }
 
             //Add error message when no registration group was found for given section.
-            if (registrationGroup == null) {
+            if (course.getRegGroup() == null) {
                 GlobalVariables.getMessageMap().putError(AdminRegConstants.PENDING_COURSES + "[" + i + "]" + AdminRegConstants.SECTION,
                         AdminRegConstants.ADMIN_REG_MSG_ERROR_SECTION_CODE_INVALID);
             }
@@ -282,7 +292,7 @@ public class AdminRegistrationViewHelperServiceImpl extends KSViewHelperServiceI
         List<RegistrationActivity> registrationActivities = new ArrayList<RegistrationActivity>();
         try {
             List<ActivityOfferingInfo> activityOfferings = AdminRegistrationUtil.getCourseOfferingService().getActivityOfferingsByIds(
-                    registrationCourse.getActivityOfferingIds(), createContextInfo());
+                    registrationCourse.getRegGroup().getActivityOfferingIds(), createContextInfo());
             for (ActivityOfferingInfo activityOffering : activityOfferings) {
                 registrationActivities.add(createRegistrationActivity(activityOffering));
             }
@@ -356,12 +366,7 @@ public class AdminRegistrationViewHelperServiceImpl extends KSViewHelperServiceI
     }
 
     @Override
-    public void getRegistrationStatus() {
-
-    }
-
-    @Override
-    public void submitRegistrationRequest() {
+    public String submitRegistrationRequest(String studentId, String termId, List<RegistrationCourse> registrationCourses) {
 
         // get the regGroup
         //RegGroupSearchResult rg = CourseRegistrationAndScheduleOfClassesUtil.getRegGroup(null, termCode, courseCode, regGroupCode, regGroupId, contextInfo);
@@ -373,13 +378,31 @@ public class AdminRegistrationViewHelperServiceImpl extends KSViewHelperServiceI
         //credits = verifyRegistrationRequestCreditsGradingOption(courseOfferingInfo, credits, gradingOptionId, contextInfo);
 
         //Create the request object
-        //RegistrationRequestInfo regReqInfo = createRegistrationRequest(contextInfo.getPrincipalId(), rg.getTermId(), rg.getRegGroupId(), null, credits, gradingOptionId, LprServiceConstants.LPRTRANS_REGISTER_TYPE_KEY, LprServiceConstants.LPRTRANS_NEW_STATE_KEY, LprServiceConstants.REQ_ITEM_ADD_TYPE_KEY, LprServiceConstants.LPRTRANS_ITEM_NEW_STATE_KEY, okToWaitlist);
+        RegistrationRequestInfo regRequest = AdminRegistrationUtil.createRegistrationRequest(studentId, termId, registrationCourses);
 
-        // persist the request object in the service
-        //RegistrationRequestInfo newRegReq = CourseRegistrationAndScheduleOfClassesUtil.getCourseRegistrationService().createRegistrationRequest(LprServiceConstants.LPRTRANS_REGISTER_TYPE_KEY, regReqInfo, contextInfo);
+        try {
+            // persist the request object in the service
+            regRequest = AdminRegistrationUtil.getCourseRegistrationService().createRegistrationRequest(LprServiceConstants.LPRTRANS_REGISTRATION_TYPE_KEY, regRequest, createContextInfo());
 
-        // submit the request to the registration engine.
-        //return CourseRegistrationAndScheduleOfClassesUtil.getCourseRegistrationService().submitRegistrationRequest(newRegReq.getId(), contextInfo);
+            // submit the request to the registration engine.
+            return CourseRegistrationAndScheduleOfClassesUtil.getCourseRegistrationService().submitRegistrationRequest(regRequest.getId(), createContextInfo()).getId();
+        } catch (Exception e) {
+            convertServiceExceptionsToUI(e);
+        }
+
+        return null;
+    }
+
+    @Override
+    public RegistrationRequest getRegistrationRequest(String regRequestId) {
+
+        try {
+            return AdminRegistrationUtil.getCourseRegistrationService().getRegistrationRequest(regRequestId, createContextInfo());
+        } catch (Exception e) {
+            convertServiceExceptionsToUI(e);
+        }
+
+        return null;
     }
 
     /**
@@ -401,7 +424,7 @@ public class AdminRegistrationViewHelperServiceImpl extends KSViewHelperServiceI
         }
 
         TermInfo term = getTermByCode(termCode);
-        if(term==null){
+        if (term == null) {
             return new ArrayList<String>(); // cannot do search on an invalid term code
         }
 

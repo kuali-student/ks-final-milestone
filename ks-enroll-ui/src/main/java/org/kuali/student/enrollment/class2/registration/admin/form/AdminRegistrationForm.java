@@ -62,13 +62,14 @@ public class AdminRegistrationForm extends UifFormBase implements Serializable {
      * Pending Courses are course codes and sections added in the input section but not yet move registered or
      * added to the registration cart.
      */
-    private List<RegistrationCourse> pendingCourses;
+    private List<RegistrationCourse> pendingCourses = new ArrayList<RegistrationCourse>();
 
     /**
      * Courses In Process are courses that has been sent to the registration engine but the registration
      * is not yet completed.
      */
     private List<RegistrationCourse> coursesInProcess = new ArrayList<RegistrationCourse>();
+    private String regRequestId;
 
     /**
      * Registration Issues contain courses that did not pass the course eligibility checks. Administrative
@@ -113,13 +114,13 @@ public class AdminRegistrationForm extends UifFormBase implements Serializable {
 
     public void clearCourseRegistrationValues() {
         this.resetPendingCourseValues();
-        this.registrationIssues = new ArrayList<RegistrationIssue>();
-        this.registeredCourses = new ArrayList<RegistrationCourse>();
-        this.waitlistedCourses = new ArrayList<RegistrationCourse>();
+        this.registrationIssues.clear();
+        this.registeredCourses.clear();
+        this.waitlistedCourses.clear();
     }
 
     public void resetPendingCourseValues(){
-        this.pendingCourses = new ArrayList<RegistrationCourse>();
+        this.pendingCourses.clear();
         this.pendingCourses.add(new RegistrationCourse());
     }
 
@@ -201,6 +202,14 @@ public class AdminRegistrationForm extends UifFormBase implements Serializable {
 
     public void setCoursesInProcess(List<RegistrationCourse> coursesInProcess) {
         this.coursesInProcess = coursesInProcess;
+    }
+
+    public String getRegRequestId() {
+        return regRequestId;
+    }
+
+    public void setRegRequestId(String regRequestId) {
+        this.regRequestId = regRequestId;
     }
 
     public List<RegistrationIssue> getRegistrationIssues() {

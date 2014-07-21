@@ -16,6 +16,8 @@
 
 package org.kuali.student.enrollment.class2.registration.admin.form;
 
+import org.kuali.student.enrollment.courseoffering.infc.RegistrationGroup;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
@@ -41,7 +43,7 @@ public class RegistrationCourse implements Serializable{
     private Date dropDate;
     private Date effectiveDate;
 
-    private List<String> activityOfferingIds = new ArrayList<String>();
+    private RegistrationGroup regGroup;
     private List<RegistrationActivity> activities = new ArrayList<RegistrationActivity>();
     private boolean subterm;
 
@@ -111,12 +113,12 @@ public class RegistrationCourse implements Serializable{
         this.effectiveDate = effectiveDate;
     }
 
-    public List<String> getActivityOfferingIds() {
-        return activityOfferingIds;
+    public RegistrationGroup getRegGroup() {
+        return regGroup;
     }
 
-    public void setActivityOfferingIds(List<String> activityOfferingIds) {
-        this.activityOfferingIds = activityOfferingIds;
+    public void setRegGroup(RegistrationGroup regGroup) {
+        this.regGroup = regGroup;
     }
 
     public List<RegistrationActivity> getActivities() {
