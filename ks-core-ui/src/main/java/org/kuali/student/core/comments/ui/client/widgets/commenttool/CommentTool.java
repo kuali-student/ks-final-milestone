@@ -53,7 +53,7 @@ public class CommentTool implements HasReferenceId {
     private KSButton submitCommentButton = new KSButton("Submit");
     private FlexTable commentsTableLayout = new FlexTable();
     //private static final DateFormat df = new SimpleDateFormat("MMMM dd, yyyy - hh:mmaaa");
-    private Controller controller;    
+    private Controller controller;
     private Enum<?> viewEnum;
     private String viewName;    //View name is being used as menu item label   
     VerticalFlowPanel loggedInLabelsPanel = new VerticalFlowPanel();
@@ -77,16 +77,16 @@ public class CommentTool implements HasReferenceId {
     public enum EditMode {
         ADD_COMMENT, UPDATE_COMMENT, VIEW_COMMENT
     }
-    
+
     public CommentTool(Enum<?> viewEnum, String viewName, String commentTypeKey, String title) {
         this.viewName = viewName;
         this.viewEnum = viewEnum;
         this.commentTypeKey = commentTypeKey;
         this.title = title;
         init();
-        
+
     }
-    
+
     public Controller getController() {
         return this.controller;
     }
@@ -96,11 +96,11 @@ public class CommentTool implements HasReferenceId {
         this.controller = controller;
     }
 
-    
+
     public Widget asWidget(){
         return commentLightBox.getWidget();
     }
-    
+
     private OkGroup buttonPanel = new OkGroup(new Callback<OkEnum>(){
 
         @Override
@@ -111,20 +111,20 @@ public class CommentTool implements HasReferenceId {
 
         }
     });
-    
+
     protected void setCommentsWarningText(VerticalFlowPanel contentPanel)
     {
         htmlLabel = new HTML("<b>All comments posted here will be visible to authors, and " +
                 "to reviewers after you submit the proposal.</b>");
         contentPanel.add(htmlLabel);
     }
-    
+
     //Used to get the number of comments that will be used in the Comments(x) row 
     protected int getDecisionsCommentsCount(List<CommentInfo> commentInfos)
     {
         return commentInfos.size();
     }
-    
+
     protected KSLabel commentTextLabelProperties(RichTextInfo commentRT)
     {
         String commentText = commentRT.getPlain();
@@ -135,7 +135,7 @@ public class CommentTool implements HasReferenceId {
         commentTextLabel.getElement().getStyle().setProperty("wordWrap", "break-word");
         return commentTextLabel;
     }
-    
+
     private void init() {
         commentLightBox = new KSLightBox();
         VerticalFlowPanel contentPanel = new VerticalFlowPanel();
@@ -147,13 +147,13 @@ public class CommentTool implements HasReferenceId {
         contentPanel.add(proposalTitle);
         commentLightBox.setNonCaptionHeader(title);
         setCommentsWarningText(contentPanel);
-        
+
         // comments section title
         leaveACommentTitle = SectionTitle.generateH3Title("Leave a Comment");
         leaveACommentTitle.getElement().getStyle().setProperty("borderBottom", "1px solid #D8D8D8");
         leaveACommentTitle.getElement().getStyle().setProperty("marginTop", "2em");
         contentPanel.add(leaveACommentTitle);
-        
+
         // comments section
         HTML loggedInAsLabel = new HTML("<b>Logged in as:<b/>");
         loggedInLabelsPanel.add(loggedInAsLabel);
@@ -172,7 +172,7 @@ public class CommentTool implements HasReferenceId {
                 }
             }
         });
-        
+
         loggedInUserId = userId;
         loggedInLabelsPanel.add(loggedInUserNameHTML);
         commentTextArea.setSize("500", "100");
@@ -189,14 +189,14 @@ public class CommentTool implements HasReferenceId {
         submitCommentButton.setEnabled(false);
         commentEditPanel.add(buttonsPanel);
         buttonsPanel.addStyleName("KS-Comment-Button-Panel");
-        
+
         commentTextArea.addKeyUpHandler(new KeyUpHandler() {
             @Override
             public void onKeyUp(KeyUpEvent event) {
                 submitCommentButton.setEnabled(true);
             }
         });
-        
+
         // if edit mode is add coment call addComment
         // if edit mode is edit comment call updateComment
         submitCommentButton.addClickHandler(new ClickHandler() {
@@ -210,8 +210,8 @@ public class CommentTool implements HasReferenceId {
                         text.setFormatted(commentTextArea.getText());
                         text.setPlain(commentTextArea.getText());
                         newComment.setType(commentTypeKey);
-                        newComment.setReferenceId(referenceId);
-                        newComment.setReferenceTypeKey(referenceTypeKey);
+                        newComment.setRefObjectUri(referenceId);
+                        newComment.setRefObjectUri(referenceTypeKey);
                         newComment.setState(DtoState.ACTIVE.toString());
                         newComment.setCommentText(text);
 
@@ -238,8 +238,8 @@ public class CommentTool implements HasReferenceId {
                             RichTextInfo text = new RichTextInfo();
                             text.setFormatted(commentTextArea.getText());
                             text.setPlain(commentTextArea.getText());
-                            selectedComment.setReferenceId(referenceId);
-                            selectedComment.setReferenceTypeKey(referenceTypeKey);
+                            selectedComment.setRefObjectUri(referenceId);
+                            selectedComment.setRefObjectUri(referenceTypeKey);
                             selectedComment.setCommentText(text);
 //                            selectedComment.setType("commentType." + referenceType + "." + referenceState);
                             selectedComment.setType(commentTypeKey);
@@ -267,23 +267,23 @@ public class CommentTool implements HasReferenceId {
                 }
             }
         });
-        
+
         commentSectionPanel = new HorizontalPanel();
         commentSectionPanel.add(loggedInLabelsPanel);
         commentSectionPanel.add(commentEditPanel);
         commentSectionPanel.add(notAuthorizedToAddComments);
         contentPanel.add(commentSectionPanel);
-        
+
         // comments table
         contentPanel.add(commentsTableLayout);
-        
-        
+
+
 //        scrollPanel.setHeight(height)
-        
+
         commentLightBox.setWidget(contentPanel);
         setEditMode(EditMode.ADD_COMMENT);
     }
-    
+
     private void checkPermissionsAndRedrawTable(final List<CommentInfo> commentInfos) {
         // check permission to see if user can comment
         commentServiceAsync.isAuthorizedAddComment(referenceId, referenceTypeKey, new KSAsyncCallback<Boolean>() {
@@ -296,7 +296,7 @@ public class CommentTool implements HasReferenceId {
 
             @Override
             public void onSuccess(Boolean result) {
-                GWT.log("User is " + ((result) ? "" : "not ") + 
+                GWT.log("User is " + ((result) ? "" : "not ") +
                         "authorized to add comment.", null);
                 if(referenceId != null && !(referenceId.isEmpty())){
                     notAuthorizedToAddComments.setVisible(false);
@@ -313,11 +313,11 @@ public class CommentTool implements HasReferenceId {
 
         });
     }
-    
+
     protected void redrawCommentsTable(List<CommentInfo> commentInfos) {
         commentsTableLayout.clear();
         editControlsCallbacks.clear();
-        
+
         if (commentInfos != null) {
             int rowIndex = 0;
             int commentCounter = 0;
@@ -325,7 +325,7 @@ public class CommentTool implements HasReferenceId {
                 int columnIndex = 0;
                 final KSButton editButton = new KSButton("Edit", ButtonStyle.DEFAULT_ANCHOR);
                 final KSButton deleteButton = new KSButton("Delete", ButtonStyle.DEFAULT_ANCHOR);
-                if (commentInfo.getType() != null && 
+                if (commentInfo.getType() != null &&
                         commentInfo.getType().startsWith("kuali.comment.type.workflowDecisionRationale")) {
                     // do not display comments for workflow decision rationale.
                     continue;
@@ -393,13 +393,13 @@ public class CommentTool implements HasReferenceId {
                         }
                     }
                 });
-                
+
                 editButton.addClickHandler(new ClickHandler() {
                     @Override
                     public void onClick(ClickEvent event) {
                         String commentText = (commentInfo == null ||
                                 commentInfo.getCommentText() == null)? "" :
-                                    commentInfo.getCommentText().getPlain();
+                                commentInfo.getCommentText().getPlain();
                         selectedComment = commentInfo;
                         commentTextArea.setText(commentText);
                         commentTextArea.setFocus(true);
@@ -409,35 +409,35 @@ public class CommentTool implements HasReferenceId {
                 deleteButton.addClickHandler(new ClickHandler() {
                     @Override
                     public void onClick(ClickEvent event) {
-                            final ConfirmationDialog confirmDeletion =
-                                new ConfirmationDialog("Delete Comment",  
-                                    "You are about to delete a comment.  Are you sure?");
-                            confirmDeletion.getConfirmButton().addClickHandler(new ClickHandler(){
-                                @Override
-                                public void onClick(ClickEvent event) {
-                                    try {
-                                        commentServiceAsync.removeComment(commentInfo.getId(), 
-                                                referenceId, referenceTypeKey, 
-                                                new KSAsyncCallback<StatusInfo>(){
+                        final ConfirmationDialog confirmDeletion =
+                                new ConfirmationDialog("Delete Comment",
+                                        "You are about to delete a comment.  Are you sure?");
+                        confirmDeletion.getConfirmButton().addClickHandler(new ClickHandler(){
+                            @Override
+                            public void onClick(ClickEvent event) {
+                                try {
+                                    commentServiceAsync.removeComment(commentInfo.getId(),
+                                            referenceId, referenceTypeKey,
+                                            new KSAsyncCallback<StatusInfo>(){
 
-                                            @Override
-                                            public void handleFailure(Throwable caught) {
-                                                GWT.log("remove Comment Failed", caught);
-                                            }
+                                                @Override
+                                                public void handleFailure(Throwable caught) {
+                                                    GWT.log("remove Comment Failed", caught);
+                                                }
 
-                                            @Override
-                                            public void onSuccess(StatusInfo result) {
-                                                confirmDeletion.hide();
-                                                refreshComments();
-                                            }
+                                                @Override
+                                                public void onSuccess(StatusInfo result) {
+                                                    confirmDeletion.hide();
+                                                    refreshComments();
+                                                }
 
-                                        });
-                                    } catch (Exception e) {
-                                        GWT.log("remove Comment Failed", e);
-                                    }
+                                            });
+                                } catch (Exception e) {
+                                    GWT.log("remove Comment Failed", e);
                                 }
-                            });
-                            confirmDeletion.show();
+                            }
+                        });
+                        confirmDeletion.show();
                     }
                 });
                 commentsTableLayout.setWidget(rowIndex, columnIndex, editButton);
@@ -446,12 +446,12 @@ public class CommentTool implements HasReferenceId {
                 commentsTableLayout.setWidget(rowIndex, columnIndex, deleteButton);
                 deleteButtonMap.put(commentCounter, deleteButton);
                 columnIndex++;
-                
+
                 commentServiceAsync.getPrincipalNameByPrincipalId(principalId, new AsyncCallback<String>() {
                     @Override
                     public void onFailure(Throwable caught) {
                         // What do we do here?
-                        String warning = "Unable to find PrincipalName via PrincipalId["+principalId+"]";                        
+                        String warning = "Unable to find PrincipalName via PrincipalId["+principalId+"]";
                     }
                     @Override
                     public void onSuccess(String principalName) {
@@ -461,15 +461,15 @@ public class CommentTool implements HasReferenceId {
                         }
                     }
                 });
-                
+
                 rowIndex++;
-                
+
                 commentCounter++;
             }
             setEditMode(EditMode.ADD_COMMENT);
         }
     }
-    
+
     public void setEditMode(EditMode editMode) {
         this.editMode = editMode;
         switch (editMode) {
@@ -494,18 +494,18 @@ public class CommentTool implements HasReferenceId {
                 htmlLabel.setVisible(false);
                 leaveACommentTitle.setVisible(false);
                 commentSectionPanel.setVisible(false);
-                
+
                 for (int i = 0; i < editButtonMap.size(); i++) {
-                    editButtonMap.get(i).setVisible(false);                    
+                    editButtonMap.get(i).setVisible(false);
                 }
                 for (int i = 0; i < deleteButtonMap.size(); i++) {
-                    deleteButtonMap.get(i).setVisible(false);                    
+                    deleteButtonMap.get(i).setVisible(false);
                 }
 
                 break;
         }
     }
-    
+
     public void refreshComments(){
         //rpc call to get all current comments and populate into comment list
         try {
@@ -556,7 +556,7 @@ public class CommentTool implements HasReferenceId {
 //        tableLayout.setWidget(rowIndex, columnIndex, uploadedFileSectionHeader);
 //        tableLayout.getFlexCellFormatter().setColSpan(rowIndex, columnIndex, 3);
 //    }
-    
+
     @Override
     public String getReferenceId() {
         return referenceId;
@@ -596,40 +596,40 @@ public class CommentTool implements HasReferenceId {
     public void setReferenceTypeKey(String key) {
         this.referenceTypeKey = key;
     }
-    
+
     public void setReferenceAttributes(Map<String, String> referenceAttributes) {
         this.referenceAttributes = referenceAttributes;
     }
-    
-    public void show() {
-        controller.requestModel(ReferenceModel.class, 
-                new ModelRequestCallback<ReferenceModel>(){
-            public void onModelReady(ReferenceModel model) {
-                String proposalTitleString = null;
-                setReferenceId(model.getReferenceId());
-                setReferenceTypeKey(model.getReferenceTypeKey());
-                setReferenceType(model.getReferenceType());
-                setReferenceState(model.getReferenceState());
-                setReferenceAttributes(model.getReferenceAttributes());
-                proposalTitleString = (model.getReferenceAttributes() == null)? null : 
-                    model.getReferenceAttributes().get("name");
-                if (proposalTitleString != null && !proposalTitleString.trim().isEmpty()) {
-                    proposalTitle.setText(proposalTitleString);
-                    proposalTitle.setVisible(true);
-                } else {
-                    proposalTitle.setText("");
-                    proposalTitle.setVisible(false);
-                }
-                refreshComments();
-                commentLightBox.show();
-            }
 
-            public void onRequestFail(Throwable cause) {
-                Window.alert(cause.toString());
-            }
-        });
+    public void show() {
+        controller.requestModel(ReferenceModel.class,
+                new ModelRequestCallback<ReferenceModel>(){
+                    public void onModelReady(ReferenceModel model) {
+                        String proposalTitleString = null;
+                        setReferenceId(model.getReferenceId());
+                        setReferenceTypeKey(model.getReferenceTypeKey());
+                        setReferenceType(model.getReferenceType());
+                        setReferenceState(model.getReferenceState());
+                        setReferenceAttributes(model.getReferenceAttributes());
+                        proposalTitleString = (model.getReferenceAttributes() == null)? null :
+                                model.getReferenceAttributes().get("name");
+                        if (proposalTitleString != null && !proposalTitleString.trim().isEmpty()) {
+                            proposalTitle.setText(proposalTitleString);
+                            proposalTitle.setVisible(true);
+                        } else {
+                            proposalTitle.setText("");
+                            proposalTitle.setVisible(false);
+                        }
+                        refreshComments();
+                        commentLightBox.show();
+                    }
+
+                    public void onRequestFail(Throwable cause) {
+                        Window.alert(cause.toString());
+                    }
+                });
     }
-    
+
     public String getLoggedInUserId() {
         return loggedInUserId;
     }

@@ -1366,8 +1366,8 @@ public class WorkflowUtilities{
         RichTextInfo text = new RichTextInfo();
         text.setFormatted(rationaleEditor.getHTML());
         text.setPlain(rationaleEditor.getText());
-        newDecisionRationale.setReferenceTypeKey(PROPOSAL_REF_TYPE_KEY);
-        newDecisionRationale.setReferenceId(proposalId);
+        newDecisionRationale.setRefObjectUri(PROPOSAL_REF_TYPE_KEY);
+        newDecisionRationale.setRefObjectId(proposalId);
         newDecisionRationale.setState(DtoState.ACTIVE.toString());
         newDecisionRationale.setCommentText(text);
         newDecisionRationale.setType(rationaleType);

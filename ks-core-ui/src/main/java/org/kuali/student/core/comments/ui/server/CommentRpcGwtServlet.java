@@ -46,48 +46,48 @@ public class CommentRpcGwtServlet extends BaseRpcGwtServletAbstract<CommentServi
     }
 
     @Override
-	public CommentInfo addComment(String referenceId, String referenceTypeKey,
+	public CommentInfo addComment(String refObjectId, String refObjectUri,
 			CommentInfo commentInfo) throws Exception {
-    	return service.createComment(referenceId, referenceTypeKey, commentInfo.getType(), commentInfo, ContextUtils.getContextInfo());
+    	return service.createComment(refObjectId, refObjectUri, commentInfo.getType(), commentInfo, ContextUtils.getContextInfo());
 	}
 
 	@Override
-	public List<CommentInfo> getComments(String referenceId,
-			String referenceTypeKey) throws Exception {
-		return service.getCommentsByReferenceAndType(referenceId, referenceTypeKey, ContextUtils.getContextInfo());
+	public List<CommentInfo> getComments(String refObjectId,
+			String refObjectUri) throws Exception {
+		return service.getCommentsByReferenceAndType(refObjectId, refObjectUri, ContextUtils.getContextInfo());
 	}
 
 	@Override
-	public List<CommentInfo> getCommentsByType(String referenceId,
-			String referenceTypeKey, String commentTypeKey) throws Exception {
-		return service.getCommentsByReferenceAndType(referenceId, referenceTypeKey, ContextUtils.getContextInfo());
+	public List<CommentInfo> getCommentsByType(String refObjectId,
+			String refObjectUri, String commentTypeKey) throws Exception {
+		return service.getCommentsByReferenceAndType(refObjectId, refObjectUri, ContextUtils.getContextInfo());
 	}
 
 	@Override
-	public CommentInfo updateComment(String referenceId,
-			String referenceTypeKey, CommentInfo commentInfo) throws Exception {
+	public CommentInfo updateComment(String refObjectId,
+			String refObjectUri, CommentInfo commentInfo) throws Exception {
 		return service.updateComment(commentInfo.getId(), commentInfo, ContextUtils.getContextInfo());
 	}
 
 	@Override
-	public StatusInfo removeComment(String commentId, String referenceId,
-			String referenceTypeKey) throws Exception {
+	public StatusInfo removeComment(String commentId, String refObjectId,
+			String refObjectUri) throws Exception {
 		return service.deleteComment(commentId, ContextUtils.getContextInfo());
 	}
 
 //	@Override
-//	public List<TypeInfo> getCommentTypesForReferenceType(String referenceTypeKey) throws Exception {
-//		// return service.getCommentTypesForReferenceType(referenceTypeKey);
+//	public List<TypeInfo> getCommentTypesForReferenceType(String refObjectUri) throws Exception {
+//		// return service.getCommentTypesForReferenceType(refObjectUri);
 //        throw new OperationNotSupportedException("This method has been dropped in R2");
 //	}
 
-	@Override    public Boolean isAuthorizedAddComment(String id, String referenceTypeKey) {
+	@Override    public Boolean isAuthorizedAddComment(String id, String refObjectUri) {
 		if (id != null && (!"".equals(id.trim()))) {
 			Map<String,String> permissionDetails = new LinkedHashMap<String,String>();
-                        permissionDetails.put (StudentIdentityConstants.KS_REFERENCE_TYPE_KEY, referenceTypeKey);
+                        permissionDetails.put (StudentIdentityConstants.KS_REFERENCE_TYPE_KEY, refObjectUri);
 			if (getPermissionService().isPermissionDefinedByTemplate(PermissionTypeGwt.ADD_COMMENT.getPermissionNamespace(), PermissionTypeGwt.ADD_COMMENT.getPermissionTemplateName(), permissionDetails)) {
 	            Map<String,String> roleQuals = new LinkedHashMap<String,String>();
-	            roleQuals.put(referenceTypeKey, id);
+	            roleQuals.put(refObjectUri, id);
 	            return Boolean.valueOf(getPermissionService().isAuthorizedByTemplate(getCurrentUser(), PermissionTypeGwt.ADD_COMMENT.getPermissionNamespace(), PermissionTypeGwt.ADD_COMMENT.getPermissionTemplateName(), permissionDetails, roleQuals));
 			}
 		}

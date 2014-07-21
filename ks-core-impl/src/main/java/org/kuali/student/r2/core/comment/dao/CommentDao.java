@@ -29,10 +29,10 @@ public class CommentDao extends GenericEntityDao<CommentEntity> {
         return query.getResultList();
     }
 
-    public List<CommentEntity> getCommentsByRefObjectIdAndRefObjectType(String id, String type) {
-        Query query = em.createNamedQuery(CommentEntity.COMMENT_QUERY_GET_COMMENTS_BY_REFERENCE_ID_REFERENCE_TYPE);
-        query.setParameter("id", id);
-        query.setParameter("type", type);
+    public List<CommentEntity> getCommentsByRefObjectIdAndRefObjectUri(String refObjectId, String refObjectUri) {
+        Query query = em.createNamedQuery(CommentEntity.COMMENT_QUERY_GET_COMMENTS_BY_REFERENCE_ID_REFERENCE_OBJECT_URI);
+        query.setParameter("refObjectId", refObjectId);
+        query.setParameter("refObjectUri", refObjectUri);
         return query.getResultList();
     }
 

@@ -95,7 +95,7 @@ public abstract class TestCommentServiceImplConformanceBaseCrud {
         new AttributeTester().add2ForCreate(expected.getAttributes());
 
         // code to create actual
-        CommentInfo actual = testService.createComment(expected.getReferenceId(), expected.getReferenceTypeKey(), expected.getTypeKey(), expected, contextInfo);
+        CommentInfo actual = testService.createComment(expected.getRefObjectId(), expected.getRefObjectUri(), expected.getTypeKey(), expected, contextInfo);
 
         assertNotNull(actual.getId());
         check(expected, actual);
@@ -171,7 +171,7 @@ public abstract class TestCommentServiceImplConformanceBaseCrud {
 
         betaDTO.setTypeKey("typeKeyBeta");
         betaDTO.setStateKey("stateKeyBeta");
-        betaDTO = testService.createComment(betaDTO.getReferenceId(), betaDTO.getReferenceTypeKey(), betaDTO.getTypeKey(), betaDTO, contextInfo);
+        betaDTO = testService.createComment(betaDTO.getRefObjectId(), betaDTO.getRefObjectUri(), betaDTO.getTypeKey(), betaDTO, contextInfo);
 
         // -------------------------------------
         // test bulk get with no ids supplied

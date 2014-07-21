@@ -65,7 +65,7 @@ public class CommentServiceValidationDecorator extends CommentServiceDecorator {
     }
 
     @Override
-    public CommentInfo createComment(String referenceId, String referenceTypeKey, String commentTypeKey, CommentInfo commentInfo, ContextInfo contextInfo)
+    public CommentInfo createComment(String refObjectId, String refObjectUri, String commentTypeKey, CommentInfo commentInfo, ContextInfo contextInfo)
             throws DataValidationErrorException
             , DoesNotExistException
             , InvalidParameterException
@@ -76,14 +76,14 @@ public class CommentServiceValidationDecorator extends CommentServiceDecorator {
         // create
         try {
             List<ValidationResultInfo> errors =
-                    this.validateComment(DataDictionaryValidator.ValidationType.FULL_VALIDATION.toString(), referenceId, referenceTypeKey, commentTypeKey, commentInfo, contextInfo);
+                    this.validateComment(DataDictionaryValidator.ValidationType.FULL_VALIDATION.toString(), refObjectId, refObjectUri, commentTypeKey, commentInfo, contextInfo);
             if (!errors.isEmpty()) {
                 throw new DataValidationErrorException("Error(s) occurred validating", errors);
             }
         } catch (DoesNotExistException ex) {
             throw new OperationFailedException("Error validating", ex);
         }
-        return getNextDecorator().createComment(referenceId, referenceTypeKey, commentTypeKey, commentInfo, contextInfo);
+        return getNextDecorator().createComment(refObjectId, refObjectUri, commentTypeKey, commentInfo, contextInfo);
     }
 
     @Override
@@ -99,7 +99,7 @@ public class CommentServiceValidationDecorator extends CommentServiceDecorator {
         // update
         try {
             List<ValidationResultInfo> errors =
-                    this.validateComment(DataDictionaryValidator.ValidationType.FULL_VALIDATION.toString(), commentInfo.getReferenceId(), commentInfo.getReferenceTypeKey(), commentInfo.getTypeKey(), commentInfo, contextInfo);
+                    this.validateComment(DataDictionaryValidator.ValidationType.FULL_VALIDATION.toString(), commentInfo.getRefObjectId(), commentInfo.getRefObjectUri(), commentInfo.getTypeKey(), commentInfo, contextInfo);
             if (!errors.isEmpty()) {
                 throw new DataValidationErrorException("Error(s) occurred validating", errors);
             }
@@ -110,7 +110,7 @@ public class CommentServiceValidationDecorator extends CommentServiceDecorator {
     }
 
     @Override
-    public List<ValidationResultInfo> validateComment(String validationTypeKey, String referenceId, String referenceTypeKey, String commentTypeKey, CommentInfo commentInfo, ContextInfo contextInfo)
+    public List<ValidationResultInfo> validateComment(String validationTypeKey, String refObjectId, String refObjectUri, String commentTypeKey, CommentInfo commentInfo, ContextInfo contextInfo)
             throws DoesNotExistException
             , InvalidParameterException
             , MissingParameterException
@@ -120,7 +120,7 @@ public class CommentServiceValidationDecorator extends CommentServiceDecorator {
         try {
             errors = ValidationUtils.validateTypeKey(commentInfo.getTypeKey(), CommentServiceConstants.REF_OBJECT_URI_COMMENT, getTypeService(), contextInfo);
             errors.addAll(ValidationUtils.validateInfo(validator, validationTypeKey, commentInfo, contextInfo));
-            errors.addAll(getNextDecorator().validateComment(validationTypeKey, referenceId, referenceTypeKey, commentTypeKey, commentInfo, contextInfo));
+            errors.addAll(getNextDecorator().validateComment(validationTypeKey, refObjectId, refObjectUri, commentTypeKey, commentInfo, contextInfo));
         } catch (DoesNotExistException ex) {
             throw new OperationFailedException("Error validating", ex);
         } catch (PermissionDeniedException ex) {

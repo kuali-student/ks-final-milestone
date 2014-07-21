@@ -85,8 +85,8 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public List<CommentInfo> getCommentsByReferenceAndType(String referenceId, String referenceTypeKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        List<CommentEntity> entities = commentDao.getCommentsByRefObjectIdAndRefObjectType(referenceId, referenceTypeKey);
+    public List<CommentInfo> getCommentsByReferenceAndType(String refObjectId, String refObjectUri, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        List<CommentEntity> entities = commentDao.getCommentsByRefObjectIdAndRefObjectUri(refObjectId, refObjectUri);
         List<CommentInfo> infoList = new ArrayList<CommentInfo>();
         for(CommentEntity entity : entities) {
             infoList.add(entity.toDto());
@@ -120,12 +120,12 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
-    public CommentInfo createComment(String referenceId, String referenceTypeKey, String commentTypeKey, CommentInfo commentInfo, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
-        if(!referenceId.equals(commentInfo.getReferenceId())) {
-            throw new InvalidParameterException(referenceId + " does not match the corresponding value in the object " + commentInfo.getReferenceId());
+    public CommentInfo createComment(String refObjectId, String refObjectUri, String commentTypeKey, CommentInfo commentInfo, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
+        if(!refObjectId.equals(commentInfo.getRefObjectId())) {
+            throw new InvalidParameterException(refObjectId + " does not match the corresponding value in the object " + commentInfo.getRefObjectId());
         }
-        if(!referenceTypeKey.equals(commentInfo.getReferenceTypeKey())) {
-            throw new InvalidParameterException(referenceTypeKey + " does not match the corresponding value in the object " + commentInfo.getReferenceTypeKey());
+        if(!refObjectUri.equals(commentInfo.getRefObjectUri())) {
+            throw new InvalidParameterException(refObjectUri + " does not match the corresponding value in the object " + commentInfo.getRefObjectUri());
         }
         if(!commentTypeKey.equals(commentInfo.getTypeKey())) {
             throw new InvalidParameterException(commentTypeKey + " does not match the corresponding value in the object " + commentInfo.getTypeKey());
@@ -154,21 +154,21 @@ public class CommentServiceImpl implements CommentService {
             throw new ReadOnlyException(commentInfo.getTypeKey() + " does not match the type key in the entity " + entity.getTypeKey());
         }
 
-        if(!commentInfo.getReferenceTypeKey().equals(entity.getRefObjectTypeKey())) {
-            throw new ReadOnlyException(commentInfo.getReferenceTypeKey() + " does not match the reference type key in the entity " + entity.getRefObjectTypeKey());
+        if(!commentInfo.getRefObjectUri().equals(entity.getRefObjectUri())) {
+            throw new ReadOnlyException(commentInfo.getRefObjectUri() + " does not match the reference type key in the entity " + entity.getRefObjectUri());
         }
 
-        if(!commentInfo.getReferenceId().equals(entity.getRefObjectId())) {
-            throw new ReadOnlyException(commentInfo.getReferenceId() + " does not match the ref object id in the entity " + entity.getRefObjectId());
+        if(!commentInfo.getRefObjectId().equals(entity.getRefObjectId())) {
+            throw new ReadOnlyException(commentInfo.getRefObjectId() + " does not match the ref object id in the entity " + entity.getRefObjectId());
         }
 
         entity.fromDto(commentInfo);
         entity.setEntityUpdated(contextInfo);
 
         entity = commentDao.merge(entity);
-        
+
         commentDao.getEm().flush();
-        
+
         return entity.toDto();
     }
 
@@ -186,8 +186,8 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
-    public StatusInfo deleteCommentsByReference(String referenceId, String referenceTypeKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        List<CommentEntity> entities = commentDao.getCommentsByRefObjectIdAndRefObjectType(referenceId, referenceTypeKey);
+    public StatusInfo deleteCommentsByReference(String refObjectId, String refObjectUri, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        List<CommentEntity> entities = commentDao.getCommentsByRefObjectIdAndRefObjectUri(refObjectId, refObjectUri);
         for(CommentEntity entity : entities) {
             commentDao.remove(entity);
         }
@@ -195,7 +195,7 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public List<ValidationResultInfo> validateComment(String validationTypeKey, String referenceId, String referenceTypeKey, String commentTypeKey, CommentInfo commentInfo, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+    public List<ValidationResultInfo> validateComment(String validationTypeKey, String refObjectId, String refObjectUri, String commentTypeKey, CommentInfo commentInfo, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         return new ArrayList<ValidationResultInfo>();
     }
 

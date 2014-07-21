@@ -103,7 +103,7 @@ public class CommentServiceMapImpl implements MockService, CommentService
 	}
 	
 	@Override
-	public List<CommentInfo> getCommentsByReferenceAndType(String referenceId, String referenceTypeKey, ContextInfo contextInfo)
+	public List<CommentInfo> getCommentsByReferenceAndType(String refObjectId, String refObjectUri, ContextInfo contextInfo)
 		throws DoesNotExistException
 		      ,InvalidParameterException
 		      ,MissingParameterException
@@ -113,8 +113,8 @@ public class CommentServiceMapImpl implements MockService, CommentService
 		// GET_INFOS_BY_OTHER
 		List<CommentInfo> list = new ArrayList<CommentInfo> ();
 		for (CommentInfo info: commentMap.values ()) {
-			if (referenceId.equals(info.getReferenceId())) {
-				if (referenceTypeKey.equals(info.getReferenceTypeKey())) {
+			if (refObjectId.equals(info.getRefObjectId())) {
+				if (refObjectUri.equals(info.getRefObjectUri())) {
 				    list.add (new CommentInfo(info));
 				}
 			}
@@ -145,7 +145,7 @@ public class CommentServiceMapImpl implements MockService, CommentService
 	}
 	
 	@Override
-	public CommentInfo createComment(String referenceId, String referenceTypeKey, String commentTypeKey, CommentInfo commentInfo, ContextInfo contextInfo)
+	public CommentInfo createComment(String refObjectId, String refObjectUri, String commentTypeKey, CommentInfo commentInfo, ContextInfo contextInfo)
 		throws DataValidationErrorException
 		      ,DoesNotExistException
 		      ,InvalidParameterException
@@ -155,10 +155,10 @@ public class CommentServiceMapImpl implements MockService, CommentService
 		      ,ReadOnlyException
 	{
 		// CREATE
-        if (!referenceId.equals (commentInfo.getReferenceId())) {
+        if (!refObjectId.equals (commentInfo.getRefObjectId())) {
             throw new InvalidParameterException ("The reference id parameter does not match the reference id on the info object");
         }
-		if (!referenceTypeKey.equals (commentInfo.getReferenceTypeKey())) {
+		if (!refObjectUri.equals (commentInfo.getRefObjectUri())) {
 		    throw new InvalidParameterException ("The reference type parameter does not match the reference type on the info object");
 		}
         if (!commentTypeKey.equals (commentInfo.getTypeKey())) {
@@ -194,10 +194,10 @@ public class CommentServiceMapImpl implements MockService, CommentService
 		if (!old.getMeta().getVersionInd().equals(copy.getMeta().getVersionInd())) {
 		    throw new VersionMismatchException(old.getMeta().getVersionInd());
 		}
-        if (!old.getReferenceId().equals(commentInfo.getReferenceId())) {
+        if (!old.getRefObjectId().equals(commentInfo.getRefObjectId())) {
             throw new ReadOnlyException("The new reference id does not match the existing value");
         }
-        if (!old.getReferenceTypeKey().equals(commentInfo.getReferenceTypeKey())) {
+        if (!old.getRefObjectUri().equals(commentInfo.getRefObjectUri())) {
             throw new ReadOnlyException("The new reference type parameter does not match the existing value");
         }
         if (!old.getTypeKey().equals(commentInfo.getTypeKey())) {
@@ -225,7 +225,7 @@ public class CommentServiceMapImpl implements MockService, CommentService
 	}
 	
 	@Override
-	public StatusInfo deleteCommentsByReference(String referenceId, String referenceTypeKey, ContextInfo contextInfo)
+	public StatusInfo deleteCommentsByReference(String refObjectId, String refObjectUri, ContextInfo contextInfo)
 		throws DoesNotExistException
 		      ,InvalidParameterException
 		      ,MissingParameterException
@@ -234,7 +234,7 @@ public class CommentServiceMapImpl implements MockService, CommentService
 	{
         List<String> idsToRemove = new ArrayList<String>();
         for(CommentInfo info : commentMap.values()) {
-            if (referenceId.equals(info.getReferenceId()) && referenceTypeKey.equals(info.getReferenceTypeKey())) {
+            if (refObjectId.equals(info.getRefObjectId()) && refObjectUri.equals(info.getRefObjectUri())) {
                 idsToRemove.add(info.getId());
             }
         }
@@ -245,8 +245,8 @@ public class CommentServiceMapImpl implements MockService, CommentService
 	}
 	
 	@Override
-	public List<ValidationResultInfo> validateComment(String validationTypeKey, String referenceId,
-                                                      String referenceTypeKey, String commentTypeKey, CommentInfo commentInfo, ContextInfo contextInfo)
+	public List<ValidationResultInfo> validateComment(String validationTypeKey, String refObjectId,
+                                                      String refObjectUri, String commentTypeKey, CommentInfo commentInfo, ContextInfo contextInfo)
 		throws DoesNotExistException
 		      ,InvalidParameterException
 		      ,MissingParameterException

@@ -62,9 +62,9 @@ public class CommentDataLoader extends AbstractMockServicesAwareDataLoader {
             comment.setExpirationDate(dateFormat.parse("21100111"));
             comment.setStateKey(ACTIVE_COMMENT_STATE);
             comment.setTypeKey(SCHEDULING_COMMENT_TYPE);
-            comment.setReferenceId(String.valueOf(i + 1));
-            comment.setReferenceTypeKey(REF_OBJECT_ONE_COMMENT_TYPE);
-            commentService.createComment(comment.getReferenceId(), comment.getReferenceTypeKey(), comment.getTypeKey(), comment, context);
+            comment.setRefObjectId(String.valueOf(i + 1));
+            comment.setRefObjectUri(REF_OBJECT_ONE_COMMENT_TYPE);
+            commentService.createComment(comment.getRefObjectId(), comment.getRefObjectUri(), comment.getTypeKey(), comment, context);
         }
 
         for(int i = 0; i < 2; i++) {
@@ -76,9 +76,9 @@ public class CommentDataLoader extends AbstractMockServicesAwareDataLoader {
                 comment.setExpirationDate(dateFormat.parse("21100111"));
                 comment.setStateKey(ACTIVE_COMMENT_STATE);
                 comment.setTypeKey(SCHEDULING_COMMENT_TYPE);
-                comment.setReferenceId(String.valueOf(j + 1));
-                comment.setReferenceTypeKey(REF_OBJECT_TWO_COMMENT_TYPE);
-                commentService.createComment(comment.getReferenceId(), comment.getReferenceTypeKey(), comment.getTypeKey(), comment, context);
+                comment.setRefObjectId(String.valueOf(j + 1));
+                comment.setRefObjectUri(REF_OBJECT_TWO_COMMENT_TYPE);
+                commentService.createComment(comment.getRefObjectId(), comment.getRefObjectUri(), comment.getTypeKey(), comment, context);
             }
         }
     }

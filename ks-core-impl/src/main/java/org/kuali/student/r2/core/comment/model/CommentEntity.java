@@ -44,13 +44,13 @@ import java.util.Set;
 @NamedQueries({
         @NamedQuery(name = CommentEntity.COMMENT_QUERY_GET_IDS_BY_TYPE,
                 query = "select id from CommentEntity where typeKey = :type"),
-        @NamedQuery(name = CommentEntity.COMMENT_QUERY_GET_COMMENTS_BY_REFERENCE_ID_REFERENCE_TYPE,
-                query = "select comment from CommentEntity comment where comment.refObjectId = :id AND comment.refObjectTypeKey = :type order by createTime desc")
+        @NamedQuery(name = CommentEntity.COMMENT_QUERY_GET_COMMENTS_BY_REFERENCE_ID_REFERENCE_OBJECT_URI,
+                query = "select comment from CommentEntity comment where comment.refObjectId = :refObjectId AND comment.refObjectUri = :refObjectUri order by createTime desc")
 })
 public class CommentEntity extends MetaEntity implements AttributeOwner<CommentAttributeEntity> {
 
     public static final String COMMENT_QUERY_GET_IDS_BY_TYPE = "CommentEntity.getIdsByType";
-    public static final String COMMENT_QUERY_GET_COMMENTS_BY_REFERENCE_ID_REFERENCE_TYPE = "CommentEntity.getCommentsByReferenceIdAndReferenceType";
+    public static final String COMMENT_QUERY_GET_COMMENTS_BY_REFERENCE_ID_REFERENCE_OBJECT_URI = "CommentEntity.getCommentsByReferenceIdAndReferenceObjectUri";
 
     @Column(name = "COMMENT_TYPE", nullable=false)
     private String typeKey;
@@ -67,8 +67,8 @@ public class CommentEntity extends MetaEntity implements AttributeOwner<CommentA
     @Column(name="COMMENTER_ID")
     private String commenterId;
 
-    @Column(name = "REF_OBJECT_TYPE", nullable=false)
-    private String refObjectTypeKey;
+    @Column(name = "REF_OBJECT_URI", nullable=false)
+    private String refObjectUri;
 
     @Column(name = "REF_OBJECT_ID", nullable=false)
     private String refObjectId;
@@ -92,8 +92,8 @@ public class CommentEntity extends MetaEntity implements AttributeOwner<CommentA
         super(comment);
         setId(comment.getId());
         setTypeKey(comment.getTypeKey());
-        setRefObjectTypeKey(comment.getReferenceTypeKey());
-        setRefObjectId(comment.getReferenceId());
+        setRefObjectUri(comment.getRefObjectUri());
+        setRefObjectId(comment.getRefObjectId());
         fromDto(comment);
     }
 
@@ -137,12 +137,12 @@ public class CommentEntity extends MetaEntity implements AttributeOwner<CommentA
         this.commenterId = commenterId;
     }
 
-    public String getRefObjectTypeKey() {
-        return refObjectTypeKey;
+    public String getRefObjectUri() {
+        return refObjectUri;
     }
 
-    public void setRefObjectTypeKey(String refObjectTypeKey) {
-        this.refObjectTypeKey = refObjectTypeKey;
+    public void setRefObjectUri(String refObjectUri) {
+        this.refObjectUri = refObjectUri;
     }
 
     public String getRefObjectId() {
@@ -180,9 +180,9 @@ public class CommentEntity extends MetaEntity implements AttributeOwner<CommentA
     }
 
     public void fromDto(Comment comment) {
-    	
-    	super.fromDTO(comment);
-    	
+
+        super.fromDTO(comment);
+
         setStateKey(comment.getStateKey());
         if(null != comment.getCommentText()) {
             setCommentFormatted(comment.getCommentText().getFormatted());
@@ -207,8 +207,8 @@ public class CommentEntity extends MetaEntity implements AttributeOwner<CommentA
         comment.setTypeKey(getTypeKey());
         comment.setCommentText(RichTextHelper.buildRichTextInfo(getCommentPlain(), getCommentFormatted()));
         comment.setCommenterId(getCommenterId());
-        comment.setReferenceTypeKey(getRefObjectTypeKey());
-        comment.setReferenceId(getRefObjectId());
+        comment.setRefObjectUri(getRefObjectUri());
+        comment.setRefObjectId(getRefObjectId());
         comment.setEffectiveDate(getEffectiveDate());
         comment.setExpirationDate(getExpirationDate());
 

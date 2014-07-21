@@ -68,8 +68,8 @@ public abstract class TestCommentServiceImplConformanceExtendedCrud extends Test
         expected.setStateKey("stateKey01");
         expected.setCommentText(RichTextHelper.buildRichTextInfo("plain text updated", "formatted text!!!"));
         expected.setCommenterId("commenterId01");
-        expected.setReferenceTypeKey("referenceTypeKey01");
-        expected.setReferenceId("referenceId01");
+        expected.setRefObjectUri("referenceTypeKey01");
+        expected.setRefObjectId("referenceId01");
         expected.setEffectiveDate(dateFormat.parse("20130611"));
         expected.setExpirationDate(dateFormat.parse("21000101"));
     }
@@ -85,8 +85,8 @@ public abstract class TestCommentServiceImplConformanceExtendedCrud extends Test
         assertEquals(expected.getStateKey(), actual.getStateKey());
         new RichTextTester().check(expected.getCommentText(), expected.getCommentText());
         assertEquals(expected.getCommenterId(), actual.getCommenterId());
-        assertEquals(expected.getReferenceTypeKey(), actual.getReferenceTypeKey());
-        assertEquals(expected.getReferenceId(), actual.getReferenceId());
+        assertEquals(expected.getRefObjectUri(), actual.getRefObjectUri());
+        assertEquals(expected.getRefObjectId(), actual.getRefObjectId());
         assertEquals(expected.getEffectiveDate(), actual.getEffectiveDate());
         assertEquals(expected.getExpirationDate(), actual.getExpirationDate());
     }
@@ -111,8 +111,8 @@ public abstract class TestCommentServiceImplConformanceExtendedCrud extends Test
         assertEquals(expected.getStateKey(), actual.getStateKey());
         new RichTextTester().check(expected.getCommentText(), expected.getCommentText());
         assertEquals(expected.getCommenterId(), actual.getCommenterId());
-        assertEquals(expected.getReferenceTypeKey(), actual.getReferenceTypeKey());
-        assertEquals(expected.getReferenceId(), actual.getReferenceId());
+        assertEquals(expected.getRefObjectUri(), actual.getRefObjectUri());
+        assertEquals(expected.getRefObjectId(), actual.getRefObjectId());
         assertEquals(expected.getEffectiveDate(), actual.getEffectiveDate());
         assertEquals(expected.getExpirationDate(), actual.getExpirationDate());
     }
@@ -125,8 +125,8 @@ public abstract class TestCommentServiceImplConformanceExtendedCrud extends Test
         expected.setStateKey("stateKey_Updated2");
         expected.setCommentText(RichTextHelper.buildRichTextInfo("plain text updated2", "formatted text updated2!!!"));
         expected.setCommenterId("commenterId_Updated2");
-        expected.setReferenceTypeKey("referenceTypeKey05");
-        expected.setReferenceId("referenceId06");
+        expected.setRefObjectUri("referenceTypeKey05");
+        expected.setRefObjectId("referenceId06");
         expected.setEffectiveDate(dateFormat.parse("20100610"));
         expected.setExpirationDate(dateFormat.parse("21100111"));
     }
