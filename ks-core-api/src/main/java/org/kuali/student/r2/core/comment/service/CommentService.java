@@ -118,19 +118,19 @@ public interface CommentService {
      * is authorized to view are included in the returned commentInfoList; comments that the caller is unauthorized
      * to view are filtered out of the return parameter.
      *
-     * @param referenceId      reference identifier
-     * @param referenceTypeKey reference type
+     * @param refObjectId      reference object identifier
+     * @param refObjectUri     reference object Uri
      * @param contextInfo      Context information containing the principalId and locale
      *                         information about the caller of service operation
      * @return Comment information
-     * @throws DoesNotExistException     specified referenceId, referenceTypeKey not found
-     * @throws InvalidParameterException invalid referenceId, referenceTypeKey
-     * @throws MissingParameterException referenceId, referenceTypeKey, contextInfo not specified
+     * @throws DoesNotExistException     specified refObjectId, refObjectUri not found
+     * @throws InvalidParameterException invalid refObjectId, refObjectUri
+     * @throws MissingParameterException refObjectId, refObjectUri, contextInfo not specified
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public List<CommentInfo> getCommentsByReferenceAndType(@WebParam(name = "referenceId") String referenceId,
-                                                           @WebParam(name = "referenceTypeKey") String referenceTypeKey,
+    public List<CommentInfo> getCommentsByReferenceAndType(@WebParam(name = "refObjectId") String refObjectId,
+                                                           @WebParam(name = "refObjectUri") String refObjectUri,
                                                            @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws DoesNotExistException,
             InvalidParameterException,
@@ -181,8 +181,8 @@ public interface CommentService {
     /**
      * Adds a comment to a reference.
      *
-     * @param referenceId      identifier of reference
-     * @param referenceTypeKey reference type
+     * @param refObjectId      reference object id
+     * @param refObjectUri     reference object Uri
      * @param commentTypeKey   comment type
      * @param commentInfo      detailed information about the comment
      * @param contextInfo      Context information containing the principalId and locale
@@ -196,8 +196,8 @@ public interface CommentService {
      * @throws PermissionDeniedException    authorization failure
      * @throws ReadOnlyException            attempted update of readonly data
      */
-    public CommentInfo createComment(@WebParam(name = "referenceId") String referenceId,
-                                     @WebParam(name = "referenceTypeKey") String referenceTypeKey,
+    public CommentInfo createComment(@WebParam(name = "refObjectId") String refObjectId,
+                                     @WebParam(name = "refObjectUri") String refObjectUri,
                                      @WebParam(name = "commentTypeKey") String commentTypeKey,
                                      @WebParam(name = "commentInfo") CommentInfo commentInfo,
                                      @WebParam(name = "contextInfo") ContextInfo contextInfo)
@@ -245,7 +245,7 @@ public interface CommentService {
      * @param contextInfo Context information containing the principalId and locale
      *                    information about the caller of service operation
      * @return status of the operation (success, failed)
-     * @throws DoesNotExistException     commentId, referenceId does not exist
+     * @throws DoesNotExistException     commentId, refObjectId does not exist
      * @throws InvalidParameterException One or more parameters invalid
      * @throws MissingParameterException commentId, contextInfo not specified
      * @throws OperationFailedException  unable to complete request
@@ -262,19 +262,19 @@ public interface CommentService {
     /**
      * Removes all comments associated with a single reference
      *
-     * @param referenceId      identifier of the reference
-     * @param referenceTypeKey reference type
+     * @param refObjectId      reference object id
+     * @param refObjectUri     reference object Uri
      * @param contextInfo      Context information containing the principalId and locale
      *                         information about the caller of service operation
      * @return status of the operation (success, failed)
-     * @throws DoesNotExistException     referenceId does not exist
+     * @throws DoesNotExistException     refObjectId does not exist
      * @throws InvalidParameterException One or more parameters invalid
-     * @throws MissingParameterException referenceId, referenceTypeKey not specified
+     * @throws MissingParameterException refObjectId, refObjectUri not specified
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public StatusInfo deleteCommentsByReference(@WebParam(name = "referenceId") String referenceId,
-                                                @WebParam(name = "referenceTypeKey") String referenceTypeKey,
+    public StatusInfo deleteCommentsByReference(@WebParam(name = "refObjectId") String refObjectId,
+                                                @WebParam(name = "refObjectUri") String refObjectUri,
                                                 @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws DoesNotExistException,
             InvalidParameterException,
@@ -292,8 +292,8 @@ public interface CommentService {
      * performed by setting the validationType to the current object.
      *
      * @param validationTypeKey identifier of the extent of validation
-     * @param referenceId      identifier of reference
-     * @param referenceTypeKey reference type
+     * @param refObjectId       reference object id
+     * @param refObjectUri      reference object Uri
      * @param commentTypeKey    the identifier for the Comment
      *                          Type to be validated
      * @param commentInfo       comment information to be tested
@@ -306,8 +306,8 @@ public interface CommentService {
      * @throws OperationFailedException  unable to complete request
      */
     public List<ValidationResultInfo> validateComment(@WebParam(name = "validationTypeKey") String validationTypeKey,
-                                                      @WebParam(name = "referenceId") String referenceId,
-                                                      @WebParam(name = "referenceTypeKey") String referenceTypeKey,
+                                                      @WebParam(name = "refObjectId") String refObjectId,
+                                                      @WebParam(name = "refObjectUri") String refObjectUri,
                                                       @WebParam(name = "commentTypeKey") String commentTypeKey,
                                                       @WebParam(name = "commentInfo") CommentInfo commentInfo,
                                                       @WebParam(name = "contextInfo") ContextInfo contextInfo)

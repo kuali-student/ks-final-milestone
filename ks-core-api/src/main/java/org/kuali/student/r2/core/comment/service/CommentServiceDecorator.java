@@ -60,8 +60,8 @@ public class CommentServiceDecorator implements CommentService {
     }
 
     @Override
-    public List<CommentInfo> getCommentsByReferenceAndType(String referenceId, String referenceTypeKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return getNextDecorator().getCommentsByReferenceAndType(referenceId, referenceTypeKey, contextInfo);
+    public List<CommentInfo> getCommentsByReferenceAndType(String refObjectId, String refObjectUri, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().getCommentsByReferenceAndType(refObjectId, refObjectUri, contextInfo);
     }
 
     @Override
@@ -85,8 +85,8 @@ public class CommentServiceDecorator implements CommentService {
     }
 
     @Override
-    public CommentInfo createComment(String referenceId, String referenceTypeKey, String commentTypeKey, CommentInfo commentInfo, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
-        return getNextDecorator().createComment(referenceId, referenceTypeKey, commentTypeKey, commentInfo, contextInfo);
+    public CommentInfo createComment(String refObjectId, String refObjectUri, String commentTypeKey, CommentInfo commentInfo, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
+        return getNextDecorator().createComment(refObjectId, refObjectUri, commentTypeKey, commentInfo, contextInfo);
     }
 
     @Override
@@ -100,17 +100,17 @@ public class CommentServiceDecorator implements CommentService {
     }
 
     @Override
-    public StatusInfo deleteCommentsByReference(String referenceId, String referenceTypeKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return getNextDecorator().deleteCommentsByReference(referenceId, referenceTypeKey, contextInfo);
+    public StatusInfo deleteCommentsByReference(String refObjectId, String refObjectUri, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().deleteCommentsByReference(refObjectId, refObjectUri, contextInfo);
     }
 
 	@Override
 	public List<ValidationResultInfo> validateComment(String validationTypeKey,
-			String referenceId, String referenceTypeKey, String commentTypeKey,
+			String refObjectId, String refObjectUri, String commentTypeKey,
 			CommentInfo commentInfo, ContextInfo contextInfo)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
-		return getNextDecorator().validateComment(validationTypeKey, referenceId, referenceTypeKey, commentTypeKey, commentInfo, contextInfo);
+		return getNextDecorator().validateComment(validationTypeKey, refObjectId, refObjectUri, commentTypeKey, commentInfo, contextInfo);
 	}
 
 
