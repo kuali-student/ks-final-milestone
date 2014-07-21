@@ -952,6 +952,9 @@ function validateNewLoCategoryAndType(value, element) {
     return true;
 }
 
+/* This method checks all checkboxes when selectAll is true
+ * otherwise uncheck all the checkboxes on the Category lookup lightbox
+ */
 function categoryTypeSelection(selectAll) {
     if (selectAll == 'true') {
         jQuery('#KS-LoListedType-Checkbox-Group').find('input').each(function (index) {
@@ -971,6 +974,10 @@ function filterCategoriesByName() {
     jQuery("#uLookupResults_layout").dataTable().fnFilter(inputVal);
 }
 
+/* This method filters all the types selected in the checkbox group
+ * Step1 construct the filter text as type1 | type2 ...  where type1 and type2 are checked types
+ * Step2 apply the filter text to the type column in the data table
+ */
 function filterCategoriesByTypes() {
     var labels = '';
     var i = 0;
@@ -1005,7 +1012,7 @@ function loCategoryAutocomplete(ui, control) {
     return false;
 }
 
-function filterObjectivesByName(){
+function filterObjectivesByName() {
     var inputVal = jQuery('#LoDisplayInfoWrapper-LookupView-Filter-Input_control').val().trim();
     jQuery("#uLookupResults_layout").dataTable().fnFilter(inputVal);
 }
@@ -1019,6 +1026,6 @@ function hideCategoryTypeAndInfoMsg(index) {
     jQuery('#KS-LearningObjective-CategoryType_line' + index + '_add').closest('div[id^="learning_objective_section"]').find('p.ks-informational-message-for-field').hide();
 }
 
-function setDirtyManually (dirtyFlag) {
+function setDirtyManually(dirtyFlag) {
     dirtyFormState.dirtyFormInput.val(dirtyFlag);
 }
