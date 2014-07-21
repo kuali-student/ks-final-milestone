@@ -235,6 +235,26 @@ public class CourseController extends CourseRuleEditorController {
     public ModelAndView route(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result, HttpServletRequest request, HttpServletResponse response) {
         // manually call the view validation service as this validation cannot be run client-side in current setup
 //        KRADServiceLocatorWeb.getViewValidationService().validateView(form.getPostedView(), form, KewApiConstants.ROUTE_HEADER_ENROUTE_CD);
+
+        String dialog = CurriculumManagementConstants.COURSE_SUBMIT_CONFIRMATION_DIALOG;
+        if (!hasDialogBeenDisplayed(dialog, form)) {
+
+            //redirect back to client to display lightbox
+            return showDialog(dialog, form, request, response);
+        }else{
+            if(hasDialogBeenAnswered(dialog,form)){
+                boolean confirmDelete = getBooleanDialogResponse(dialog, form, request, response);
+                form.getDialogManager().resetDialogStatus(dialog);
+                if(!confirmDelete){
+                    return getUIFModelAndView(form);
+                }
+            } else {
+
+                //redirect back to client to display lightbox
+                return showDialog(dialog, form, request, response);
+            }
+        }
+
         KSViewAttributeValueReader reader = new KSViewAttributeValueReader(form);
         KRADServiceLocatorWeb.getDictionaryValidationService().validate(reader, true, KewApiConstants.ROUTE_HEADER_ENROUTE_CD, form.getView().getStateMapping());
         if (!GlobalVariables.getMessageMap().hasErrors()) {

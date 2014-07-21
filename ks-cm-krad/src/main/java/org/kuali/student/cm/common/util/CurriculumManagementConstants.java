@@ -160,6 +160,8 @@ public class CurriculumManagementConstants {
 
     public final static String FILE_SIZE_CONSTRAINT = "Maximum File Size - 7.5MB";
 
+    public final static String COURSE_SUBMIT_CONFIRMATION_DIALOG = "KS-CourseSubmit-ConfirmDelete-Dialog";
+
     /**
      * This delimiter to use when rendering collections as a String.
      */
