@@ -275,6 +275,13 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
         return searchForCourseOfferings(searchRequest);
     }
 
+    protected List<CourseCompleteInfoSearchResult> searchForCourseOfferingsCompleteInfoByCriteriaLocal(String termId, String termCode, String criteria) throws InvalidParameterException, MissingParameterException, PermissionDeniedException, OperationFailedException {
+        termId = CourseRegistrationAndScheduleOfClassesUtil.getTermId(termId, termCode);
+        SearchRequestInfo searchRequest = createSearchRequest(termId, null, criteria);
+
+        return searchForCourseOfferingsCompleteInfo(searchRequest);
+    }
+
     protected List<CourseAndPrimaryAOSearchResult> searchForCourseOfferingsAndPrimaryAosByTermAndCourseLocal(String termId, String termCode, String courseCode) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException {
 
         List<CourseAndPrimaryAOSearchResult> resultList = new ArrayList<CourseAndPrimaryAOSearchResult>();
@@ -545,6 +552,47 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
 
         for (SearchResultRowInfo row : searchResult.getRows()) {
             CourseSearchResult courseSearchResult = new CourseSearchResult();
+
+            for (SearchResultCellInfo cellInfo : row.getCells()) {
+
+                String value = StringUtils.EMPTY;
+                if (cellInfo.getValue() != null) {
+                    value = cellInfo.getValue();
+                }
+
+                if (CourseOfferingManagementSearchImpl.SearchResultColumns.CODE.equals(cellInfo.getKey())) {
+                    courseSearchResult.setCourseOfferingCode(value);
+                } else if (CourseOfferingManagementSearchImpl.SearchResultColumns.DESC.equals(cellInfo.getKey())) {
+                    courseSearchResult.setCourseOfferingDesc(value);
+                } else if (CourseOfferingManagementSearchImpl.SearchResultColumns.GRADING_OPTION_NAME.equals(cellInfo.getKey())) {
+                    courseSearchResult.setCourseOfferingGradingOptionDisplay(cellInfo.getValue());
+                } else if (CourseOfferingManagementSearchImpl.SearchResultColumns.CREDIT_OPTION_NAME.equals(cellInfo.getKey())) {
+                    courseSearchResult.setCourseOfferingCreditOptionDisplay(cellInfo.getValue());
+                } else if (CourseOfferingManagementSearchImpl.SearchResultColumns.CO_ID.equals(cellInfo.getKey())) {
+                    courseSearchResult.setCourseOfferingId(value);
+                } else if (CourseOfferingManagementSearchImpl.SearchResultColumns.HAS_STUDENT_SELECTABLE_PASSFAIL.equals(cellInfo.getKey())) {
+                    courseSearchResult.setStudentSelectablePassFail(BooleanUtils.toBoolean(value));
+                } else if (CourseOfferingManagementSearchImpl.SearchResultColumns.CAN_AUDIT_COURSE.equals(cellInfo.getKey())) {
+                    courseSearchResult.setAuditCourse(BooleanUtils.toBoolean(value));
+                } else if (CourseOfferingManagementSearchImpl.SearchResultColumns.IS_HONORS_COURSE.equals(cellInfo.getKey())) {
+                    courseSearchResult.setHonorsCourse(BooleanUtils.toBoolean(value));
+                }
+
+            }
+
+            results.add(courseSearchResult);
+        }
+
+        return results;
+    }
+
+    private List<CourseCompleteInfoSearchResult> searchForCourseOfferingsCompleteInfo (SearchRequestInfo searchRequest) throws InvalidParameterException, MissingParameterException, PermissionDeniedException, OperationFailedException {
+        SearchResultInfo searchResult = CourseRegistrationAndScheduleOfClassesUtil.getSearchService().search(searchRequest, ContextUtils.createDefaultContextInfo());
+
+        List<CourseCompleteInfoSearchResult> results = new ArrayList<CourseCompleteInfoSearchResult>();
+
+        for (SearchResultRowInfo row : searchResult.getRows()) {
+            CourseCompleteInfoSearchResult courseSearchResult = new CourseCompleteInfoSearchResult();
 
             for (SearchResultCellInfo cellInfo : row.getCells()) {
 

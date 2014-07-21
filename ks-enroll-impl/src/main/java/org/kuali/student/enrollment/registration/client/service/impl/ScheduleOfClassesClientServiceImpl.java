@@ -23,7 +23,7 @@ public class ScheduleOfClassesClientServiceImpl extends ScheduleOfClassesService
         Response.ResponseBuilder response;
 
         try {
-            List<CourseSearchResult> courseSearchResults = searchForCourseOfferingsByCriteriaLocal(termId, termCode, criteria);
+            List<CourseCompleteInfoSearchResult> courseSearchResults = searchForCourseOfferingsCompleteInfoByCriteriaLocal(termId, termCode, criteria);
             response = Response.ok(courseSearchResults);
         } catch (Exception e) {
             LOGGER.warn(EXCEPTION_MSG, e);
