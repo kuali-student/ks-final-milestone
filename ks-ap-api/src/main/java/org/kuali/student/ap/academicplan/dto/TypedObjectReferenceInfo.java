@@ -2,6 +2,7 @@ package org.kuali.student.ap.academicplan.dto;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.UUID;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -42,11 +43,16 @@ public class TypedObjectReferenceInfo implements TypedObjectReference,
 	public TypedObjectReferenceInfo() {
 	}
 
+	public TypedObjectReferenceInfo(String refObjectType, String refObjectId) {
+		this.id = UUID.randomUUID().toString();
+		this.refObjectId = refObjectId;
+		this.refObjectType = refObjectType;
+	}
+
 	public TypedObjectReferenceInfo(TypedObjectReference copy) {
 		id = copy.getId();
 		refObjectId = copy.getRefObjectId();
 		refObjectType = copy.getRefObjectType();
-
 	}
 
 	public String getId() {

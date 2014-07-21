@@ -19,7 +19,6 @@ import java.util.List;
 
 import org.kuali.student.ap.academicplan.constants.AcademicPlanServiceConstants;
 import org.kuali.student.r2.common.infc.IdEntity;
-import org.kuali.student.r2.common.infc.RichText;
 
 /**
  * A single plan item. Plan items can link to different entities in the system based on the refObjectType.
@@ -27,21 +26,7 @@ import org.kuali.student.r2.common.infc.RichText;
  * @author Kuali Student Team  (ks-collab@kuali.org)
  * @version 1.0 (Dev)
  */
-public interface PlanItem extends IdEntity {
-
-    /**
-     * Id to the reference object e.g Course, Requirements etc
-     * @name Reference Object Id
-     * @required
-     */
-    public String getRefObjectId();
-
-    /**
-     * Type of the Reference Object
-     * @name Reference Object Type
-     * @required
-     */
-    public String getRefObjectType();
+public interface PlanItem extends IdEntity, TypedObjectReference {
 
     /**
      * Time Periods for which the item is planned for

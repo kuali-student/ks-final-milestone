@@ -22,5 +22,4 @@ public interface TypedObjectReference  extends HasId {
      */
     public String getRefObjectType();
     
-  
 }
