@@ -102,24 +102,24 @@ public class CommentServiceMockTest implements CommentService {
      * is authorized to view are included in the returned commentInfoList; comments that the caller is unauthorized
      * to view are filtered out of the return parameter.
      *
-     * @param referenceId      reference identifier
-     * @param referenceTypeKey reference type
+     * @param refObjectId      reference object id
+     * @param refObjectUri     reference object Uri
      * @param contextInfo      Context information containing the principalId and locale
      *                         information about the caller of service operation
      * @return Comment information
      * @throws org.kuali.student.r2.common.exceptions.DoesNotExistException
-     *          specified referenceId, referenceTypeKey not found
+     *          specified refObjectId, refObjectUri not found
      * @throws org.kuali.student.r2.common.exceptions.InvalidParameterException
-     *          invalid referenceId, referenceTypeKey
+     *          invalid refObjectId, refObjectUri
      * @throws org.kuali.student.r2.common.exceptions.MissingParameterException
-     *          referenceId, referenceTypeKey, contextInfo not specified
+     *          refObjectId, refObjectUri, contextInfo not specified
      * @throws org.kuali.student.r2.common.exceptions.OperationFailedException
      *          unable to complete request
      * @throws org.kuali.student.r2.common.exceptions.PermissionDeniedException
      *          authorization failure
      */
     @Override
-    public List<CommentInfo> getCommentsByReferenceAndType(@WebParam(name = "referenceId") String referenceId, @WebParam(name = "referenceTypeKey") String referenceTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<CommentInfo> getCommentsByReferenceAndType(@WebParam(name = "refObjectId") String refObjectId, @WebParam(name = "refObjectUri") String refObjectUri, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
@@ -170,8 +170,8 @@ public class CommentServiceMockTest implements CommentService {
     /**
      * Adds a comment to a reference.
      *
-     * @param referenceId      identifier of reference
-     * @param referenceTypeKey reference type
+     * @param refObjectId      reference object id
+     * @param refObjectUri     reference object Uri
      * @param commentTypeKey   comment type
      * @param commentInfo      detailed information about the comment
      * @param contextInfo      Context information containing the principalId and locale
@@ -193,7 +193,7 @@ public class CommentServiceMockTest implements CommentService {
      *          attempted update of readonly data
      */
     @Override
-    public CommentInfo createComment(@WebParam(name = "referenceId") String referenceId, @WebParam(name = "referenceTypeKey") String referenceTypeKey, @WebParam(name = "commentTypeKey") String commentTypeKey, @WebParam(name = "commentInfo") CommentInfo commentInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
+    public CommentInfo createComment(@WebParam(name = "refObjectId") String refObjectId, @WebParam(name = "refObjectUri") String refObjectUri, @WebParam(name = "commentTypeKey") String commentTypeKey, @WebParam(name = "commentInfo") CommentInfo commentInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
@@ -235,7 +235,7 @@ public class CommentServiceMockTest implements CommentService {
      *                    information about the caller of service operation
      * @return status of the operation (success, failed)
      * @throws org.kuali.student.r2.common.exceptions.DoesNotExistException
-     *          commentId, referenceId does not exist
+     *          commentId, refObjectId does not exist
      * @throws org.kuali.student.r2.common.exceptions.InvalidParameterException
      *          One or more parameters invalid
      * @throws org.kuali.student.r2.common.exceptions.MissingParameterException
@@ -253,24 +253,24 @@ public class CommentServiceMockTest implements CommentService {
     /**
      * Removes all comments associated with a single reference
      *
-     * @param referenceId      identifier of the reference
-     * @param referenceTypeKey reference type
+     * @param refObjectId      reference object id
+     * @param refObjectUri     reference object Uri
      * @param contextInfo      Context information containing the principalId and locale
      *                         information about the caller of service operation
      * @return status of the operation (success, failed)
      * @throws org.kuali.student.r2.common.exceptions.DoesNotExistException
-     *          referenceId does not exist
+     *          refObjectId does not exist
      * @throws org.kuali.student.r2.common.exceptions.InvalidParameterException
      *          One or more parameters invalid
      * @throws org.kuali.student.r2.common.exceptions.MissingParameterException
-     *          referenceId, referenceTypeKey not specified
+     *          refObjectId, refObjectUri not specified
      * @throws org.kuali.student.r2.common.exceptions.OperationFailedException
      *          unable to complete request
      * @throws org.kuali.student.r2.common.exceptions.PermissionDeniedException
      *          authorization failure
      */
     @Override
-    public StatusInfo deleteCommentsByReference(@WebParam(name = "referenceId") String referenceId, @WebParam(name = "referenceTypeKey") String referenceTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public StatusInfo deleteCommentsByReference(@WebParam(name = "refObjectId") String refObjectId, @WebParam(name = "refObjectUri") String refObjectUri, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
@@ -284,8 +284,8 @@ public class CommentServiceMockTest implements CommentService {
      * performed by setting the validationType to the current object.
      *
      * @param validationTypeKey identifier of the extent of validation
-     * @param referenceId       identifier of reference
-     * @param referenceTypeKey  reference type
+     * @param refObjectId       reference object id
+     * @param refObjectUri      reference object Uri
      * @param commentTypeKey    the identifier for the Comment
      *                          Type to be validated
      * @param commentInfo       comment information to be tested
@@ -302,7 +302,7 @@ public class CommentServiceMockTest implements CommentService {
      *          unable to complete request
      */
     @Override
-    public List<ValidationResultInfo> validateComment(@WebParam(name = "validationTypeKey") String validationTypeKey, @WebParam(name = "referenceId") String referenceId, @WebParam(name = "referenceTypeKey") String referenceTypeKey, @WebParam(name = "commentTypeKey") String commentTypeKey, @WebParam(name = "commentInfo") CommentInfo commentInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+    public List<ValidationResultInfo> validateComment(@WebParam(name = "validationTypeKey") String validationTypeKey, @WebParam(name = "refObjectId") String refObjectId, @WebParam(name = "refObjectUri") String refObjectUri, @WebParam(name = "commentTypeKey") String commentTypeKey, @WebParam(name = "commentInfo") CommentInfo commentInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 }

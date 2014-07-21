@@ -290,8 +290,8 @@ public class PlannerController extends KsapControllerBase {
 			CommentInfo newComment = new CommentInfo();
 			newComment.setCommentText(newNote);
 			newComment.setEffectiveDate(KsapHelperUtil.getCurrentDate());
-			newComment.setReferenceId(plan.getId());
-			newComment.setReferenceTypeKey(PlanConstants.TERM_NOTE_COMMENT_TYPE);
+			newComment.setRefObjectId(plan.getId());
+			newComment.setRefObjectUri(PlanConstants.TERM_NOTE_COMMENT_TYPE);
 			newComment.setTypeKey(PlanConstants.TERM_NOTE_COMMENT_TYPE);
 			newComment.setStateKey("ACTIVE");
 			AttributeInfo atpIdAttr = new AttributeInfo();
@@ -299,7 +299,7 @@ public class PlannerController extends KsapControllerBase {
 			atpIdAttr.setValue(termId);
 			newComment.getAttributes().add(atpIdAttr);
 			try {
-				commentService.createComment(newComment.getReferenceId(), newComment.getReferenceTypeKey(),
+				commentService.createComment(newComment.getRefObjectId(), newComment.getRefObjectUri(),
 						PlanConstants.TERM_NOTE_COMMENT_TYPE, newComment, KsapFrameworkServiceLocator.getContext()
 								.getContextInfo());
 			} catch (DataValidationErrorException e) {
