@@ -33,7 +33,7 @@ import org.kuali.student.enrollment.class2.registration.admin.form.RegistrationI
 import org.kuali.student.enrollment.class2.registration.admin.form.RegistrationIssueItem;
 import org.kuali.student.enrollment.class2.registration.admin.service.AdminRegistrationViewHelperService;
 import org.kuali.student.enrollment.class2.registration.admin.util.AdminRegConstants;
-import org.kuali.student.enrollment.class2.registration.admin.util.AdminRegistrationUtil;
+import org.kuali.student.enrollment.class2.registration.admin.util.AdminRegResourceLoader;
 import org.kuali.student.enrollment.courseregistration.infc.RegistrationRequest;
 import org.kuali.student.enrollment.courseregistration.infc.RegistrationRequestItem;
 import org.kuali.student.r2.common.infc.ValidationResult;
@@ -147,7 +147,7 @@ public class AdminRegistrationController extends UifControllerBase {
 
         //KSENROLL-13558 :work around for incorrect Data
         String studentID = StringUtils.EMPTY;
-        List<Principal> principals = AdminRegistrationUtil.getIdentityService().getPrincipalsByEntityId(form.getPerson().getId().toUpperCase());
+        List<Principal> principals = AdminRegResourceLoader.getIdentityService().getPrincipalsByEntityId(form.getPerson().getId().toUpperCase());
         for (Principal principalID : principals) {
             studentID = principalID.getPrincipalId();
         }
@@ -244,7 +244,7 @@ public class AdminRegistrationController extends UifControllerBase {
                         form.getWaitlistedCourses().add(processedCourse);
                     } else if (LprServiceConstants.LPRTRANS_ITEM_WAITLIST_AVAILABLE_STATE_KEY.equals(item.getStateKey()) ||
                             LprServiceConstants.LPRTRANS_ITEM_FAILED_STATE_KEY.equals(item.getStateKey())) {
-                        // Create a new registation issue with the course in error.
+                        // Create a new registration issue with the course in error.
                         RegistrationIssue regIssue = new RegistrationIssue();
                         regIssue.setCourse(processedCourse);
 

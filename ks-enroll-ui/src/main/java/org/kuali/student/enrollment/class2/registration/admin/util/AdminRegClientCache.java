@@ -26,7 +26,7 @@ import java.util.List;
  * Date: 17 July 2014
  * Utility Class for common auto generated reg group functions
  */
-public class AdminRegistrationClientCache {
+public class AdminRegClientCache {
 
     private final static String CACHE_NAME = "AdminRegistrationCodeCache";
 
@@ -154,7 +154,7 @@ public class AdminRegistrationClientCache {
                 PredicateFactory.equalIgnoreCase(CourseOfferingConstants.ATP_ID, termId)));
         QueryByCriteria criteria = qbcBuilder.build();
 
-        List<CourseOfferingInfo> results = AdminRegistrationUtil.getCourseOfferingService().searchForCourseOfferings(criteria, context);
+        List<CourseOfferingInfo> results = AdminRegResourceLoader.getCourseOfferingService().searchForCourseOfferings(criteria, context);
         for (CourseOfferingInfo result : results) {
             MultiKey cacheKey = new MultiKey(TERMID_COURSECODE_TO_CO, termId, result.getCourseOfferingCode());
             getCache().put(new Element(cacheKey, result));
@@ -202,7 +202,7 @@ public class AdminRegistrationClientCache {
         qbcBuilder.setPredicates(PredicateFactory.equal(CourseOfferingConstants.ATP_CODE, termCode));
         QueryByCriteria criteria = qbcBuilder.build();
 
-        List<TermInfo> terms = AdminRegistrationUtil.getAcademicCalendarService().searchForTerms(criteria, context);
+        List<TermInfo> terms = AdminRegResourceLoader.getAcademicCalendarService().searchForTerms(criteria, context);
         for (TermInfo result : terms) {
             MultiKey cacheKey = new MultiKey(TERMCODE_TO_TERMINFO_KEY, result.getCode());
             getCache().put(new Element(cacheKey, result));
