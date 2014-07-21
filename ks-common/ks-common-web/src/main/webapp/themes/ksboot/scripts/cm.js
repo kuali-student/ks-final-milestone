@@ -1022,12 +1022,3 @@ function hideCategoryTypeAndInfoMsg(index) {
 function setDirtyManually (dirtyFlag) {
     dirtyFormState.dirtyFormInput.val(dirtyFlag);
 }
-
-
-/**
- * Displays the submit confirmation dialog
- */
-function showCourseProposalSubmitConfirmation() {
-    var overrideOptions = { autoDimensions:false, width:600 };
-    showLightboxComponent('submitCourseProposalConfirmationDialog-lightbox', overrideOptions);
-}
