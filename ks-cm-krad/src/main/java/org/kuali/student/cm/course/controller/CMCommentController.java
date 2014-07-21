@@ -318,7 +318,7 @@ public class CMCommentController extends KsUifControllerBase {
         form.getComments().clear();
 
         try {
-            comments = getCommentService().getCommentsByReferenceAndType(proposal.getId(), StudentIdentityConstants.QUALIFICATION_PROPOSAL_REF_TYPE, ContextUtils.createDefaultContextInfo());
+            comments = getCommentService().getCommentsByRefObject(proposal.getId(), StudentIdentityConstants.QUALIFICATION_PROPOSAL_REF_TYPE, ContextUtils.createDefaultContextInfo());
             LOG.debug("Retrieved " + comments.size() + " comments for proposal " + proposal.getId());
         } catch (Exception e) {
             throw new RuntimeException("Error retrieving comment(s) for the proposal [id=" + proposal.getId() + "]", e);
