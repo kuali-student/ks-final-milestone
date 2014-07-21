@@ -522,6 +522,14 @@ function requestBookmarkCountRefresh(e) {
 }
 
 function refreshBookmarkCount(data) {
+    var boomarkCountLink=jQuery("#Ksap-Header-Bookmark-Count");
     var bookmarkCountValue=jQuery("#Ksap-Header-Bookmark-Count-Value");
     bookmarkCountValue.html(data.bookmarkCount);
+    if (data.bookmarkCount !=null && data.bookmarkCount <=0) {
+        boomarkCountLink.addClass("disabled");
+        boomarkCountLink.attr("disabled","disabled");
+    } else {
+        boomarkCountLink.removeClass("disabled");
+        boomarkCountLink.removeAttr("disabled")
+    }
 }
