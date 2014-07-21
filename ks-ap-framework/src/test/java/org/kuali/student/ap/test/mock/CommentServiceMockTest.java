@@ -97,8 +97,8 @@ public class CommentServiceMockTest implements CommentService {
 
     /**
      * Retrieves comment information for a reference. The expected behavior is that if the caller is not authorized
-     * to invoke the getCommentsByReferenceAndType operation, a PERMISSION_DENIED error is returned.
-     * Assuming that the caller is authorized to invoke getCommentsByReferenceAndType, only comments that the caller
+     * to invoke the getCommentsByRefObject operation, a PERMISSION_DENIED error is returned.
+     * Assuming that the caller is authorized to invoke getCommentsByRefObject, only comments that the caller
      * is authorized to view are included in the returned commentInfoList; comments that the caller is unauthorized
      * to view are filtered out of the return parameter.
      *
@@ -119,7 +119,7 @@ public class CommentServiceMockTest implements CommentService {
      *          authorization failure
      */
     @Override
-    public List<CommentInfo> getCommentsByReferenceAndType(@WebParam(name = "refObjectId") String refObjectId, @WebParam(name = "refObjectUri") String refObjectUri, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<CommentInfo> getCommentsByRefObject(@WebParam(name = "refObjectId") String refObjectId, @WebParam(name = "refObjectUri") String refObjectUri, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 

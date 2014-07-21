@@ -228,7 +228,7 @@ public class PlannerController extends KsapControllerBase {
 		CommentService commentService = KsapFrameworkServiceLocator.getCommentService();
 		List<CommentInfo> commentInfos;
 		try {
-			commentInfos = commentService.getCommentsByReferenceAndType(plan.getId(),
+			commentInfos = commentService.getCommentsByRefObject(plan.getId(),
 					PlanConstants.TERM_NOTE_COMMENT_TYPE, KsapFrameworkServiceLocator.getContext().getContextInfo());
 		} catch (DoesNotExistException e) {
 			throw new IllegalArgumentException("Comment lookup failure", e);

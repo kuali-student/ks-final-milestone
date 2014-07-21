@@ -76,7 +76,7 @@ public class CommentQueryHelper {
 	public static List<MessageDataObject> getMessages(String studentId) {
 		List<CommentInfo> commentInfos;
         try {
-			commentInfos = KsapFrameworkServiceLocator.getCommentService().getCommentsByReferenceAndType(studentId,
+			commentInfos = KsapFrameworkServiceLocator.getCommentService().getCommentsByRefObject(studentId,
 						CommentConstants.MESSAGE_REF_TYPE, KsapFrameworkServiceLocator.getContext().getContextInfo());
 		} catch (DoesNotExistException e) {
 			throw new IllegalArgumentException("Comment lookup failure", e);
@@ -101,7 +101,7 @@ public class CommentQueryHelper {
 	private static List<CommentDataObject> getComments(String messageId) {
 		List<CommentInfo> commentInfos;
         try {
-			commentInfos = KsapFrameworkServiceLocator.getCommentService().getCommentsByReferenceAndType(messageId,
+			commentInfos = KsapFrameworkServiceLocator.getCommentService().getCommentsByRefObject(messageId,
 					CommentConstants.COMMENT_REF_TYPE, KsapFrameworkServiceLocator.getContext().getContextInfo());
 		} catch (DoesNotExistException e) {
 			throw new IllegalArgumentException("Comment lookup failure", e);

@@ -119,7 +119,7 @@ public class PlanItemLookupableHelperBase extends MyPlanLookupableImpl {
                             CommentConstants.SERVICE_NAME));
             List<CommentInfo> commentInfos = new ArrayList<CommentInfo>();
             try{
-                commentInfos = commentService.getCommentsByReferenceAndType(learningPlanID,PlanConstants.TERM_NOTE_COMMENT_TYPE,KsapFrameworkServiceLocator.getContext().getContextInfo());
+                commentInfos = commentService.getCommentsByRefObject(learningPlanID,PlanConstants.TERM_NOTE_COMMENT_TYPE,KsapFrameworkServiceLocator.getContext().getContextInfo());
             }catch(Exception e){
                 LOG.error("Unable to load term notes",e);
             }

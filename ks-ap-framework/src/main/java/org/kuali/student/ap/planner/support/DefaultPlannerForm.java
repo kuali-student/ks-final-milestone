@@ -253,7 +253,7 @@ public class DefaultPlannerForm extends AbstractPlanItemForm implements
 					.getCommentService();
 			List<CommentInfo> commentInfos;
 			try {
-				commentInfos = commentService.getCommentsByReferenceAndType(
+				commentInfos = commentService.getCommentsByRefObject(
 						getLearningPlan().getId(),
 						PlanConstants.TERM_NOTE_COMMENT_TYPE,
 						KsapFrameworkServiceLocator.getContext()
@@ -490,7 +490,7 @@ public class DefaultPlannerForm extends AbstractPlanItemForm implements
 					.getCommentService();
 			List<CommentInfo> commentInfos;
 			try {
-				commentInfos = commentService.getCommentsByReferenceAndType(
+				commentInfos = commentService.getCommentsByRefObject(
 						learningPlan.getId(),
 						PlanConstants.TERM_NOTE_COMMENT_TYPE,
 						KsapFrameworkServiceLocator.getContext()
