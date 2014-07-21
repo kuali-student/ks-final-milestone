@@ -232,8 +232,8 @@ public class CMCommentController extends KsUifControllerBase {
 
         if (commentWrapper.isNewDto()) {
 
-            comment.setReferenceId(proposalInfo.getId());
-            comment.setReferenceTypeKey(StudentIdentityConstants.QUALIFICATION_PROPOSAL_REF_TYPE);
+            comment.setRefObjectId(proposalInfo.getId());
+            comment.setRefObjectUri(StudentIdentityConstants.QUALIFICATION_PROPOSAL_REF_TYPE);
             comment.setTypeKey(CommentServiceConstants.COMMENT_GENERAL_REMARKS_TYPE_KEY);
             comment.setCommenterId(GlobalVariables.getUserSession().getPrincipalId());
             comment.setStateKey(CommentServiceConstants.COMMENT_ACTIVE_STATE_KEY);
