@@ -10443,7 +10443,7 @@
         <column name="REF_OBJECT_ID" nullable="false" type="STRING">
             <size value="255"/>
         </column>
-        <column name="REF_OBJECT_TYPE" nullable="false" type="STRING">
+        <column name="REF_OBJECT_URI" nullable="false" type="STRING">
             <size value="255"/>
         </column>
         <column name="UPDATEID" type="STRING">
@@ -10460,7 +10460,7 @@
         </index>
         <index name="KSEN_COMMENT_I2">
             <column>REF_OBJECT_ID</column>
-            <column>REF_OBJECT_TYPE</column>
+            <column>REF_OBJECT_URI</column>
         </index>
     </table>
     <table name="KSEN_COMMENT_ATTR">
