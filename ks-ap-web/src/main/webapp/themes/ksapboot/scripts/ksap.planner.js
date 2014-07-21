@@ -299,6 +299,18 @@ function ksapBookmarkUpdateTotal (data) {
         item.attr("title","View all "+data.bookmarkTotal+" courses in full details");
         item.html("View all "+data.bookmarkTotal+" courses in full details");
     }
+
+    //update the count in the secondary navigation
+    if (jQuery("#Ksap-Header-Bookmark-Count-Value").length) {
+        var bookmarkCountValue=jQuery("#Ksap-Header-Bookmark-Count-Value");
+        bookmarkCountValue.html(data.bookmarkTotal);
+    }
+
+    //update the count in the sidebar
+    if (jQuery("#bookmarkSidebarHeaderCount").length) {
+        var bookmarkSidebarCountValue=jQuery("#bookmarkSidebarHeaderCount");
+        bookmarkSidebarCountValue.html(data.bookmarkTotal);
+    }
 }
 
 /**

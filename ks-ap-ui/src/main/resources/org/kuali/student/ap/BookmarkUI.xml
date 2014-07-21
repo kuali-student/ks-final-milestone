@@ -96,7 +96,7 @@
         </property>
     </bean>
 
-    <bean id="bookmark_summary_list" parent="Uif-ListCollectionSection" p:headerText="Bookmarked Courses @{(lookupResults eq null or lookupResults.size() eq 0) ? '(0)' : '('+lookupResults.size()+')'}">
+    <bean id="bookmark_summary_list" parent="Uif-ListCollectionSection" p:headerText="Bookmarked Courses @{(lookupResults eq null or lookupResults.size() eq 0) ? '([span id=&quot;bookmarkSidebarHeaderCount&quot;]0[/span])' : '([span id=&quot;bookmarkSidebarHeaderCount&quot;]'+lookupResults.size()+'[/span])'}">
         <property name="header">
             <bean p:id="bookmark_summary_list_header" parent="Uif-HeaderFive"/>
         </property>
@@ -155,6 +155,14 @@
                                     </list>
                                 </property>
                                 <property name="actionScript" value="ksapOpenPlanDialog('bookmark_add_course_page','planner','startDialog', this, e);"/>
+                                <property name="dataAttributes">
+                                    <map>
+                                        <entry key="courseid" value="@{#line.courseId}" />
+                                        <entry key="learningplanid" value="@{#line.learningPlanId}" />
+                                        <entry key="planitemid" value="@{#line.planItemId}" />
+                                        <entry key="uniqueid" value="@{#line.uniqueId}" />
+                                    </map>
+                                </property>
                             </bean>
                             <bean parent="Uif-ActionLink" p:render="true">
                                 <property name="id" value="@{#line.planItemId}_deleteLink"/>
@@ -399,6 +407,14 @@
                                     </list>
                                 </property>
                                 <property name="actionScript" value="ksapOpenPlanDialog('bookmark_add_course_page','planner','startDialog', this, e);"/>
+                                <property name="dataAttributes">
+                                    <map>
+                                        <entry key="courseid" value="@{#line.courseDetailsWrapper.courseId}" />
+                                        <entry key="learningplanid" value="@{#line.learningPlanId}" />
+                                        <entry key="planitemid" value="@{#line.planItemId}" />
+                                        <entry key="uniqueid" value="@{#line.uniqueId}" />
+                                    </map>
+                                </property>
                             </bean>
                             <bean parent="Uif-ActionLink" p:render="true">
                                 <property name="id" value="@{#line.planItemId}_deleteLink"/>

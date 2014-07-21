@@ -1,32 +1,16 @@
 package org.kuali.student.ap.planner.util;
 
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.List;
-import java.util.UUID;
-
-import javax.json.Json;
-import javax.json.JsonObjectBuilder;
-import javax.json.JsonWriter;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletResponse;
-
-import org.kuali.student.ap.academicplan.dto.LearningPlanInfo;
+import org.kuali.student.ap.academicplan.constants.AcademicPlanServiceConstants;
 import org.kuali.student.ap.academicplan.dto.PlanItemInfo;
 import org.kuali.student.ap.academicplan.infc.PlanItem;
-import org.kuali.student.ap.academicplan.constants.AcademicPlanServiceConstants;
+import org.kuali.student.ap.coursesearch.CreditsFormatter;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
 import org.kuali.student.ap.framework.context.CourseHelper;
 import org.kuali.student.ap.framework.context.PlanConstants;
 import org.kuali.student.ap.framework.context.TermHelper;
-import org.kuali.student.ap.coursesearch.CreditsFormatter;
-import org.kuali.student.ap.coursesearch.CreditsFormatter.Range;
 import org.kuali.student.ap.framework.util.KsapHelperUtil;
 import org.kuali.student.common.collection.KSCollectionUtils;
-import org.kuali.student.r2.common.exceptions.InvalidParameterException;
-import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
-import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.infc.Attribute;
 import org.kuali.student.r2.core.acal.infc.Term;
 import org.kuali.student.r2.lum.course.infc.Course;
@@ -34,6 +18,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.transaction.support.TransactionSynchronizationAdapter;
 import org.springframework.transaction.support.TransactionSynchronizationManager;
+
+import javax.json.Json;
+import javax.json.JsonObjectBuilder;
+import javax.json.JsonWriter;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.util.List;
+import java.util.UUID;
 
 /**
  * Utility class for thread-local building of planner update events.
@@ -580,18 +573,30 @@ public class PlanEventUtils {
     }
 
     /**
-     * Creates an add plan item event on the current transaction.
+     * Creates an update bookmark total count event on the current transaction.
      *
      * @param planItem
-     *            The plan item to report as added.
+     *            The plan item to use to get the plan id, containing the bookmarks
      * @return The transactional events builder, with the add plan item event
      *         added.
      */
     public static JsonObjectBuilder makeUpdateBookmarkTotalEvent(PlanItem planItem, JsonObjectBuilder eventList) {
+        return makeUpdateBookmarkTotalEvent(planItem.getLearningPlanId(), eventList);
+    }
+
+    /**
+     * Creates an update bookmark total count event on the current transaction.
+     *
+     * @param learningPlanId
+     *            The plan id to use to get the bookmark count from
+     * @return The transactional events builder, with the add plan item event
+     *         added.
+     */
+    public static JsonObjectBuilder makeUpdateBookmarkTotalEvent(String learningPlanId, JsonObjectBuilder eventList) {
         List<PlanItemInfo> bookmarks;
         try{
             bookmarks = KsapFrameworkServiceLocator.getAcademicPlanService().getPlanItemsInPlanByCategory(
-                    planItem.getLearningPlanId(), AcademicPlanServiceConstants.ItemCategory.WISHLIST,
+                    learningPlanId, AcademicPlanServiceConstants.ItemCategory.WISHLIST,
                     KsapFrameworkServiceLocator.getContext().getContextInfo());
         }catch (Exception e){
             return eventList;

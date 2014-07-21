@@ -489,7 +489,7 @@ jQuery(function(){
 function initBookmarkCount(evenObject,bookMarkLabelText,e){
     //Register BM refresh event
     jQuery(evenObject)
-        .on('REFRESH_BOOKMARK_COUNT', function(event, data) {
+        .on('UPDATE_BOOKMARK_TOTAL', function(event, data) {
             refreshBookmarkCount(data);
         });
 

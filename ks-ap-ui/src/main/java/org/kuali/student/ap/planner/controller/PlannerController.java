@@ -4,10 +4,10 @@ import org.kuali.rice.krad.uif.view.ViewAuthorizerBase;
 import org.kuali.rice.krad.web.controller.MethodAccessible;
 import org.kuali.rice.krad.web.controller.extension.KsapControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
+import org.kuali.student.ap.academicplan.constants.AcademicPlanServiceConstants;
 import org.kuali.student.ap.academicplan.dto.PlanItemInfo;
 import org.kuali.student.ap.academicplan.infc.LearningPlan;
 import org.kuali.student.ap.academicplan.infc.PlanItem;
-import org.kuali.student.ap.academicplan.constants.AcademicPlanServiceConstants;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
 import org.kuali.student.ap.framework.context.PlanConstants;
 import org.kuali.student.ap.framework.util.KsapHelperUtil;
@@ -50,7 +50,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -824,6 +823,7 @@ public class PlannerController extends KsapControllerBase {
         // Create json strings for displaying action's response and updating the planner screen.
         eventList = PlanEventUtils.makeAddEvent(planItemInfo, eventList);
         eventList = PlanEventUtils.updateTotalCreditsEvent(true, termId, eventList);
+        eventList = PlanEventUtils.makeUpdateBookmarkTotalEvent(planItemInfo, eventList);
         PlanEventUtils.sendJsonEvents(true, course.getCode() + " was successfully added to your plan.",
                 response, eventList);
     }
