@@ -506,7 +506,7 @@ function initBookmarkCount(evenObject,bookMarkLabelText,e){
  */
 function requestBookmarkCountRefresh(e) {
     stopEvent(e);
-    var form = jQuery('<form />').attr("id", "refreshBookmarkFormId").attr("action", "course/details").attr("method", "post");
+    var form = jQuery('<form />').attr("id", "refreshBookmarkFormId").attr("action", "bookmark").attr("method", "post");
     jQuery("body").append(form);
     var additionalFormData = {
         methodToCall:"refreshBookmarkCount"

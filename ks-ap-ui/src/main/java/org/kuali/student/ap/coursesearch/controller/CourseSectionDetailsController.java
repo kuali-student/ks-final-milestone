@@ -201,48 +201,6 @@ public class CourseSectionDetailsController extends KsapControllerBase {
         return null;
     }
 
-    @MethodAccessible
-    @RequestMapping(params = "methodToCall=refreshBookmarkCount")
-    public ModelAndView refreshBookmarkCount(@ModelAttribute("KualiForm") CourseSectionDetailsForm form,
-            HttpServletRequest request,
-            HttpServletResponse response) throws IOException, ServletException {
-
-
-        // Gather information about the registration group
-        // Create the new plan item
-        LearningPlan learningPlan = KsapFrameworkServiceLocator.getPlanHelper().getDefaultLearningPlan();
-        PlanItemInfo newPlanItem = new PlanItemInfo();
-
-        List<PlanItemInfo> bookmarkItems=null;
-
-        // Save the new plan item to the database
-        try{
-            bookmarkItems = KsapFrameworkServiceLocator.getAcademicPlanService()
-                    .getPlanItemsInPlanByCategory
-                    (learningPlan.getId(),AcademicPlanServiceConstants.ItemCategory.WISHLIST,KsapFrameworkServiceLocator.getContext().getContextInfo());
-        } catch (OperationFailedException e) {
-            throw new IllegalArgumentException("Academic Plan Service lookup error", e);
-        } catch (MissingParameterException e) {
-            throw new IllegalArgumentException("Academic Plan Service lookup error", e);
-        } catch (InvalidParameterException e) {
-            throw new IllegalArgumentException("Academic Plan Service lookup error", e);
-        } catch (PermissionDeniedException e) {
-            throw new IllegalArgumentException("Academic Plan Service lookup error", e);
-        }
-
-
-        JsonObjectBuilder eventList = Json.createObjectBuilder();
-        JsonObjectBuilder refreshEventData = Json.createObjectBuilder();
-        int bookmarkCount = bookmarkItems.size();
-        refreshEventData.add("bookmarkCount", bookmarkCount);
-        eventList.add("REFRESH_BOOKMARK_COUNT", refreshEventData);
-        PlanEventUtils.sendJsonEvents(true,"refresh bookmark count (val="+bookmarkCount+")", response, eventList);
-        return null;
-    }
-
-
-
-
     /**
      * Handles the filtering of activities when one is selected on the page
      * Requires the activity id of the one selected
