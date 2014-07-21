@@ -188,38 +188,11 @@ public class AdminRegistrationViewHelperServiceImpl extends KSViewHelperServiceI
         registrationCourse.setCode(coInfo.getCourseOfferingCode());
         registrationCourse.setTitle(coInfo.getCourseOfferingTitle());
         registrationCourse.setCredits(Integer.parseInt(coInfo.getCreditCnt()));
-        registrationCourse.setTransactionalDate(generateFormattedDate(courseRegistrationListInfo.getMeta().getCreateTime()));
-        registrationCourse.setEffectiveDate(generateFormattedDate(courseRegistrationListInfo.getEffectiveDate()));
-
+        registrationCourse.setTransactionalDate(courseRegistrationListInfo.getMeta().getCreateTime());
+        registrationCourse.setEffectiveDate(courseRegistrationListInfo.getEffectiveDate());
         registrationCourse.setSection(AdminRegistrationUtil.getCourseOfferingService().getRegistrationGroup(
                 courseRegistrationListInfo.getRegistrationGroupId(), createContextInfo()).getRegistrationCode());
         return registrationCourse;
-    }
-
-    /**
-     * Method was created to formatted and parse the date in
-     * the correct way. If SimpleDateFormat is used it parses the
-     * day in the month and gets an exception.
-     *
-     * @param date
-     * @return foramttedDate
-     */
-    private Date generateFormattedDate(Date date) {
-        StringBuilder formattedDate = new StringBuilder();
-        SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
-        String formattedStringDate = sdf.format(date);
-        formattedDate.append(formattedStringDate.substring(3, 5));
-        formattedDate.append("/");
-        formattedDate.append(formattedStringDate.substring(0, 2));
-        formattedDate.append("/");
-        formattedDate.append(formattedStringDate.substring(6, 10));
-
-        try {
-            return sdf.parse(formattedDate.toString());
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        return new Date();
     }
 
     /**
@@ -336,18 +309,19 @@ public class AdminRegistrationViewHelperServiceImpl extends KSViewHelperServiceI
              */
             ScheduleComponentInfo componentInfo = KSCollectionUtils.getOptionalZeroElement(scheduleInfo.getScheduleComponents());
 
-            List<TimeSlotInfo> timeSlotInfos = AdminRegistrationUtil.getSchedulingService().getTimeSlotsByIds(componentInfo.getTimeSlotIds(), createContextInfo());
-            // Assume only zero or one (should never be more than 1 until we support partial colo)
-            TimeSlotInfo timeSlotInfo = KSCollectionUtils.getOptionalZeroElement(timeSlotInfos);
+            if(!componentInfo.getIsTBA()){
+                List<TimeSlotInfo> timeSlotInfos = AdminRegistrationUtil.getSchedulingService().getTimeSlotsByIds(componentInfo.getTimeSlotIds(), createContextInfo());
+                // Assume only zero or one (should never be more than 1 until we support partial colo)
+                TimeSlotInfo timeSlotInfo = KSCollectionUtils.getOptionalZeroElement(timeSlotInfos);
 
-            dateTimeSchedule.append(SchedulingServiceUtil.weekdaysList2WeekdaysString(timeSlotInfo.getWeekdays()));
-            dateTimeSchedule.append(" ");
+                dateTimeSchedule.append(SchedulingServiceUtil.weekdaysList2WeekdaysString(timeSlotInfo.getWeekdays()));
+                dateTimeSchedule.append(" ");
 
-            dateTimeSchedule.append(TimeOfDayHelper.makeFormattedTimeForAOSchedules(timeSlotInfo.getStartTime()));
-            dateTimeSchedule.append(" - ");
-            dateTimeSchedule.append(TimeOfDayHelper.makeFormattedTimeForAOSchedules(timeSlotInfo.getEndTime()));
-            regActivity.setDateTime(dateTimeSchedule.toString());
-
+                dateTimeSchedule.append(TimeOfDayHelper.makeFormattedTimeForAOSchedules(timeSlotInfo.getStartTime()));
+                dateTimeSchedule.append(" - ");
+                dateTimeSchedule.append(TimeOfDayHelper.makeFormattedTimeForAOSchedules(timeSlotInfo.getEndTime()));
+                regActivity.setDateTime(dateTimeSchedule.toString());
+            }
             try {
                 RoomInfo room = AdminRegistrationUtil.getRoomService().getRoom(componentInfo.getRoomId(), createContextInfo());
                 //retrieve the buildingInfo from the Room.

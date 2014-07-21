@@ -18,6 +18,9 @@ package org.kuali.student.enrollment.class2.registration.admin.form;
 
 import org.kuali.student.enrollment.courseoffering.infc.RegistrationGroup;
 
+import org.kuali.student.r2.common.util.date.DateFormatters;
+import org.kuali.student.r2.common.util.date.KSDateTimeFormatter;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
@@ -47,7 +50,10 @@ public class RegistrationCourse implements Serializable{
     private List<RegistrationActivity> activities = new ArrayList<RegistrationActivity>();
     private boolean subterm;
 
-    public RegistrationCourse(){}
+    public RegistrationCourse(){
+        this.setTransactionalDate(new Date());
+        this.setEffectiveDate(new Date());
+    }
 
     public String getCode() {
         return code;
@@ -107,6 +113,10 @@ public class RegistrationCourse implements Serializable{
 
     public Date getEffectiveDate() {
         return effectiveDate;
+    }
+
+    public String getEffectiveDateFormatted(){
+        return DateFormatters.MONTH_DAY_YEAR_DATE_FORMATTER.format(effectiveDate);
     }
 
     public void setEffectiveDate(Date effectiveDate) {

@@ -319,8 +319,9 @@
                             <bean parent="Uif-ConditionalBeanPropertyReplacer" p:propertyName="toolTip"
                                   p:condition="@{#line.transactionalDate != #line.effectiveDate}">
                                 <property name="replacement">
-                                    <bean parent="Uif-KS-TooltipFocus"  p:onMouseHover="true"
-                                          p:tooltipContent="Effective Date: @{#line.effectiveDate}"/>
+                                    <bean parent="Uif-KS-TooltipFocus"  p:onMouseHover="true">
+                                          <property name="tooltipContent" value="Effective Date: @{#line.effectiveDateFormatted}"/>
+                                    </bean>
                                 </property>
                             </bean>
                         </list>
@@ -525,7 +526,7 @@
                                     <list>
                                         <bean parent="Uif-Message" p:style="font-weight: bold;"
                                               p:messageText="@{#line.code} (@{#line.section})"/>
-                                        <bean parent="Uif-DataField" p:propertyName="activityTypeDateTimes"
+                                        <bean parent="Uif-DataField" p:propertyName="activityTypeDateTimes"  p:additionalCssClasses="nowrap"
                                               p:readOnlyListDisplayType="UL"/>
                                     </list>
                                 </property>
