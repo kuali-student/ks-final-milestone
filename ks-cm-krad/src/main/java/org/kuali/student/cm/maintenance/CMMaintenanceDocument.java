@@ -161,7 +161,7 @@ public class CMMaintenanceDocument extends MaintenanceDocumentBase {
     /*
         This method is copied from KualiStudentPostProcessorBase
      */
-
+    @Override
     public void doActionTaken(ActionTakenEvent actionTakenEvent)  {
         boolean success = true;
         ActionTaken actionTaken = actionTakenEvent.getActionTaken();
@@ -231,6 +231,7 @@ public class CMMaintenanceDocument extends MaintenanceDocumentBase {
     /*
         This method is copied from KualiStudentPostProcessorBase
     */
+    @Override
     public void doRouteLevelChange(DocumentRouteLevelChange documentRouteLevelChange) {
 
         ProposalInfo proposalInfo = null;
@@ -274,7 +275,7 @@ public class CMMaintenanceDocument extends MaintenanceDocumentBase {
     /*
         This method is copied from KualiStudentPostProcessorBase
     */
-
+    @Override
     public void doRouteStatusChange(DocumentRouteStatusChange documentRouteStatusChange) {
         boolean success = true;
         // if document is transitioning from INITIATED to SAVED then transaction prevents us from retrieving the proposal
