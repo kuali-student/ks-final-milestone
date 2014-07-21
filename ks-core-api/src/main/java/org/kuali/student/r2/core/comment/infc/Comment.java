@@ -46,6 +46,8 @@ public interface Comment extends IdNamelessEntity {
      * Gets the reference object Uri.
      *
      * @name Reference Object Uri
+     * @readOnly
+     * @required
      */
     public String getRefObjectUri();
 

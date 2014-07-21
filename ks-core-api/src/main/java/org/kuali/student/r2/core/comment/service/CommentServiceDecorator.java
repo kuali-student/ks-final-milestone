@@ -60,8 +60,8 @@ public class CommentServiceDecorator implements CommentService {
     }
 
     @Override
-    public List<CommentInfo> getCommentsByReferenceAndType(String refObjectId, String refObjectUri, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return getNextDecorator().getCommentsByReferenceAndType(refObjectId, refObjectUri, contextInfo);
+    public List<CommentInfo> getCommentsByRefObject(String refObjectId, String refObjectUri, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().getCommentsByRefObject(refObjectId, refObjectUri, contextInfo);
     }
 
     @Override
