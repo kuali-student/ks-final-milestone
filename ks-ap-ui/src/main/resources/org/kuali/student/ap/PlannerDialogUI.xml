@@ -581,11 +581,6 @@
                                             </list>
                                         </property>
                                     </bean>
-                                    <!--<bean parent="Uif-Message"-->
-                                          <!--p:messageText="Added to @{plannedMessage}"-->
-                                          <!--p:render="@{!#empty(plannedT)}"-->
-                                          <!--p:cssClasses="bold">-->
-                                    <!--</bean>-->
                                 </list>
                             </property>
                         </bean>
