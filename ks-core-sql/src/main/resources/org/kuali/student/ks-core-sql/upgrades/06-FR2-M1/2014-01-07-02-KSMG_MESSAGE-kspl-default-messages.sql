@@ -29,7 +29,7 @@ INSERT INTO KSMG_MESSAGE (GRP_NAME,ID,LOCALE,MSG_ID,MSG_VALUE,OBJ_ID,VER_NBR)
 	        SUBSTR(sys_guid(),9,4) || '-' ||
 	        SUBSTR(sys_guid(),13,4) || '-' ||
 	        SUBSTR(sys_guid(),17,4) || '-' ||
-	        SUBSTR(sys_guid(),21),'en','DETAILS_TERMS_TOOLTIP_TEXT','Projected courses indicate which term the course might be offered next. Contact the department for verification. Scheduled courses appear in the current Time Schedule.',
+	        SUBSTR(sys_guid(),21),'en','DETAILS_TERMS_TOOLTIP_TEXT','Projected courses indicate which term the course might be offered next. Contact the department for verification. Scheduled courses appear in the current Schedule of Classes.',
 	        SUBSTR(sys_guid(),1,8) || '-' ||
 	        SUBSTR(sys_guid(),9,4) || '-' ||
 	        SUBSTR(sys_guid(),13,4) || '-' ||
@@ -184,7 +184,7 @@ INSERT INTO KSMG_MESSAGE (GRP_NAME,ID,LOCALE,MSG_ID,MSG_VALUE,OBJ_ID,VER_NBR)
 	        SUBSTR(sys_guid(),9,4) || '-' ||
 	        SUBSTR(sys_guid(),13,4) || '-' ||
 	        SUBSTR(sys_guid(),17,4) || '-' ||
-	        SUBSTR(sys_guid(),21),'en','DETAILS_TERMS_TOOLTIP_TEXT','Projected courses indicate which term the course might be offered next. Contact the department for verification. Scheduled courses appear in the current Time Schedule.',
+	        SUBSTR(sys_guid(),21),'en','DETAILS_TERMS_TOOLTIP_TEXT','Projected courses indicate which term the course might be offered next. Contact the department for verification. Scheduled courses appear in the current Schedule of Classes.',
 	        SUBSTR(sys_guid(),1,8) || '-' ||
 	        SUBSTR(sys_guid(),9,4) || '-' ||
 	        SUBSTR(sys_guid(),13,4) || '-' ||
