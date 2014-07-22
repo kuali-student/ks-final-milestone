@@ -313,13 +313,16 @@ public class AdminRegistrationViewHelperServiceImpl extends KSViewHelperServiceI
                 regActivity.setDateTime(dateTimeSchedule.toString());
             }
             try {
-                RoomInfo room = AdminRegResourceLoader.getRoomService().getRoom(componentInfo.getRoomId(), createContextInfo());
-                //retrieve the buildingInfo from the Room.
-                BuildingInfo buildingInfo = AdminRegResourceLoader.getRoomService().getBuilding(room.getBuildingId(), createContextInfo());
-                roomBuildInfo.append(buildingInfo.getBuildingCode());
-                roomBuildInfo.append(" ");
-                roomBuildInfo.append(room.getRoomCode());
-                regActivity.setRoom(roomBuildInfo.toString());
+                //Check if the room ID is null, if not get the buildingInfo from the room
+                if(componentInfo.getRoomId() != null) {
+                    RoomInfo room = AdminRegResourceLoader.getRoomService().getRoom(componentInfo.getRoomId(), createContextInfo());
+                    //retrieve the buildingInfo from the Room.
+                    BuildingInfo buildingInfo = AdminRegResourceLoader.getRoomService().getBuilding(room.getBuildingId(), createContextInfo());
+                    roomBuildInfo.append(buildingInfo.getBuildingCode());
+                    roomBuildInfo.append(" ");
+                    roomBuildInfo.append(room.getRoomCode());
+                    regActivity.setRoom(roomBuildInfo.toString());
+                }
 
             } catch (Exception e) {
                 throw new RuntimeException("Could not retrieve Room RoomService for " + e);
