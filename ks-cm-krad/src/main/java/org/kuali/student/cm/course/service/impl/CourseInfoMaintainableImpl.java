@@ -1070,7 +1070,9 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
             courseInfoWrapper.setPreviousSubjectCode(savedCourseInfo.getSubjectArea());
         }
         // add logic to set the missing required element correctly. The default is false
-        reviewData.getCourseSection().setProposalName(courseInfoWrapper.getProposalInfo().getName());
+        if (proposalInfo != null) {
+            reviewData.getCourseSection().setProposalName(courseInfoWrapper.getProposalInfo().getName());
+        }
         reviewData.getCourseSection().setCourseTitle(savedCourseInfo.getCourseTitle());
         reviewData.getCourseSection().setTranscriptTitle(savedCourseInfo.getTranscriptTitle());
         reviewData.getCourseSection().setSubjectArea(savedCourseInfo.getSubjectArea());
@@ -1078,7 +1080,7 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
         if (savedCourseInfo.getDescr() != null) {
             reviewData.getCourseSection().setDescription(savedCourseInfo.getDescr().getPlain());
         }
-        if (proposalInfo.getRationale() != null) {
+        if (proposalInfo != null && proposalInfo.getRationale() != null) {
             reviewData.getCourseSection().setRationale(proposalInfo.getRationale().getPlain());
         }
 
@@ -1302,6 +1304,9 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
 
     protected void updateCollaborators(CourseInfoWrapper courseInfoWrapper) {
         ProposalInfo proposalInfo = courseInfoWrapper.getProposalInfo();
+        if (proposalInfo == null){
+            return;
+        }
         try {
             courseInfoWrapper.getCollaboratorWrappers().clear();
             for (CollaboratorWrapper collaboratorWrapper : DocumentCollaboratorHelper.getCollaborators(proposalInfo.getWorkflowId(), proposalInfo.getId(), StudentIdentityConstants.QUALIFICATION_PROPOSAL_REF_TYPE)) {
@@ -2080,66 +2085,71 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
             ProposalInfo proposal = getProposalService().getProposalByWorkflowId(getDocumentNumber(), ContextUtils.getContextInfo());
             dataObject.setProposalInfo(proposal);
 
-            CourseInfo course = getCourseService().getCourse(proposal.getProposalReference().get(0), createContextInfo());
-            dataObject.setCourseInfo(course);
-
-            dataObject.getUnitsContentOwner().clear();
-
-            for (String orgId : course.getUnitsContentOwner()) {
-                CourseCreateUnitsContentOwner orgWrapper = new CourseCreateUnitsContentOwner();
-                orgWrapper.setOrgId(orgId);
-                populateOrgName(course.getSubjectArea(), orgWrapper);
-                dataObject.getUnitsContentOwner().add(orgWrapper);
-            }
-
-            dataObject.getInstructorWrappers().clear();
-
-            for (CluInstructorInfo instructorInfo : course.getInstructors()) {
-                List<CluInstructorInfoWrapper> cluInstructorInfoWrapperList = getInstructorsById(instructorInfo.getPersonId());
-                CluInstructorInfoWrapper cluInstructorInfoWrapper = KSCollectionUtils.getRequiredZeroElement(cluInstructorInfoWrapperList);
-                cluInstructorInfoWrapper.setId(instructorInfo.getId());
-                dataObject.getInstructorWrappers().add(cluInstructorInfoWrapper);
-            }
-
-            dataObject.getAdministeringOrganizations().clear();
-
-            for (String unitDeployment : course.getUnitsDeployment()) {
-                OrgInfo org = getOrganizationService().getOrg(unitDeployment, createContextInfo());
-                OrganizationInfoWrapper organizationInfoWrapper = new OrganizationInfoWrapper(org);
-                dataObject.getAdministeringOrganizations().add(organizationInfoWrapper);
-            }
-
-            if (dataObject.getAdministeringOrganizations().isEmpty()) {
-                dataObject.getAdministeringOrganizations().add(new OrganizationInfoWrapper());
-            }
-
-            // Initialize Author & Collaborator
-            if (dataObject.getCollaboratorWrappers().isEmpty()) {
-                dataObject.getCollaboratorWrappers().add(new CollaboratorWrapper());
-            }
-
-            populateCollaborators();
-
-            populateAuditOnWrapper();
-            populateFinalExamOnWrapper();
-            populatePassFailOnWrapper();
-            populateOutComesOnWrapper();
-            populateFormatOnWrapper();
-            populateJointCourseOnWrapper();
-
-            populateLearningObjectives();
-            if (dataObject.getSupportingDocs().isEmpty()) {
-                populateSupportingDocuments();
-            }
-
-            updateReview(false);
-
-            populateRequisities();
+            populateCourseAndReviewData(proposal.getProposalReference().get(0),dataObject);
 
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
 
+    }
+
+    public void populateCourseAndReviewData(String courseId, CourseInfoWrapper courseWrapper) throws Exception {
+
+        CourseInfo course = getCourseService().getCourse(courseId, createContextInfo());
+        courseWrapper.setCourseInfo(course);
+
+        courseWrapper.getUnitsContentOwner().clear();
+
+        for (String orgId : course.getUnitsContentOwner()) {
+            CourseCreateUnitsContentOwner orgWrapper = new CourseCreateUnitsContentOwner();
+            orgWrapper.setOrgId(orgId);
+            populateOrgName(course.getSubjectArea(), orgWrapper);
+            courseWrapper.getUnitsContentOwner().add(orgWrapper);
+        }
+
+        courseWrapper.getInstructorWrappers().clear();
+
+        for (CluInstructorInfo instructorInfo : course.getInstructors()) {
+            List<CluInstructorInfoWrapper> cluInstructorInfoWrapperList = getInstructorsById(instructorInfo.getPersonId());
+            CluInstructorInfoWrapper cluInstructorInfoWrapper = KSCollectionUtils.getRequiredZeroElement(cluInstructorInfoWrapperList);
+            cluInstructorInfoWrapper.setId(instructorInfo.getId());
+            courseWrapper.getInstructorWrappers().add(cluInstructorInfoWrapper);
+        }
+
+        courseWrapper.getAdministeringOrganizations().clear();
+
+        for (String unitDeployment : course.getUnitsDeployment()) {
+            OrgInfo org = getOrganizationService().getOrg(unitDeployment, createContextInfo());
+            OrganizationInfoWrapper organizationInfoWrapper = new OrganizationInfoWrapper(org);
+            courseWrapper.getAdministeringOrganizations().add(organizationInfoWrapper);
+        }
+
+        if (courseWrapper.getAdministeringOrganizations().isEmpty()) {
+            courseWrapper.getAdministeringOrganizations().add(new OrganizationInfoWrapper());
+        }
+
+        // Initialize Author & Collaborator
+        if (courseWrapper.getCollaboratorWrappers().isEmpty()) {
+            courseWrapper.getCollaboratorWrappers().add(new CollaboratorWrapper());
+        }
+
+        populateCollaborators();
+
+        populateAuditOnWrapper();
+        populateFinalExamOnWrapper();
+        populatePassFailOnWrapper();
+        populateOutComesOnWrapper();
+        populateFormatOnWrapper();
+        populateJointCourseOnWrapper();
+
+        populateLearningObjectives();
+        if (courseWrapper.getSupportingDocs().isEmpty()) {
+            populateSupportingDocuments();
+        }
+
+        updateReview(false);
+
+        populateRequisities();
     }
 
     protected void populateSupportingDocuments() {

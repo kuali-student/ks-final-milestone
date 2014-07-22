@@ -24,7 +24,7 @@ limitations under the License.
         <property name="viewName" value="CoursesOnlyLookup"/>
         <property name="headerText" value="Find a Course" />
         <property name="dataObjectClassName" value="org.kuali.student.lum.lu.ui.krms.dto.CluInformation" />
-        <property name="viewHelperServiceClass" value="org.kuali.student.lum.lu.ui.krms.service.impl.CourseInfoLookupableImpl" />
+        <property name="viewHelperServiceClass" value="org.kuali.student.cm.course.service.impl.CourseInfoLookupableImpl" />
         <property name="cssClasses">
             <list>
                 <value>ks-cm-find-course-proposal</value>
@@ -83,7 +83,7 @@ limitations under the License.
 
         <property name="resultFields">
             <list>
-                <bean parent="KS-Uif-DataField-Simple" p:propertyName="code" p:label="Code" />
+                <bean parent="KS-Uif-DataField-Simple" p:propertyName="code" p:label="Code"/>
                 <bean parent="KS-Uif-DataField-Simple" p:propertyName="title" p:label="Title"/>
                 <bean parent="KS-Uif-DataField-Simple" p:propertyName="description" p:label="Description"/>
             </list>
@@ -105,7 +105,11 @@ limitations under the License.
 
         <property name="resultsGroup.lineActions">
             <list>
-                <bean parent="KS-Uif-View-NavigationActionLink"/>
+                <bean parent="KS-Uif-View-NavigationActionLink">
+                    <property name="id" value="@{#lp.code}_view"/>
+                    <property name="actionLabel" value="Course View"/>
+                    <property name="finalizeMethodToCall" value="buildCourseDetailedViewUrl"/>
+                </bean>
             </list>
         </property>
 

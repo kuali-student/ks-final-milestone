@@ -28,6 +28,7 @@ public class CurriculumManagementConstants {
         public final static String CREATE_COURSE_INITIAL = "/createcourse_initial";
         public final static String CREATE_COURSE = "/courses";
         public final static String CM_COMMENT = "/cm_comment";
+        public final static String COURSE_DETAIL = "/course_detail";
     }
 
     public static class DocumentTypeNames {
@@ -176,5 +177,22 @@ public class CurriculumManagementConstants {
      */
     public static class LoProperties {
         public static final String SEQUENCE = "sequence";
+    }
+
+    public enum CourseViewType {
+
+        COURSE_VIEW("COURSE_VIEW"),
+        COURSE_COMPARE_VIEW("COURSE_COMPARE_VIEW");
+
+        private String viewType;
+
+        CourseViewType(String viewType) {
+            this.viewType = viewType;
+        }
+
+        public String getViewType() {
+            return this.viewType;
+        }
+
     }
 }

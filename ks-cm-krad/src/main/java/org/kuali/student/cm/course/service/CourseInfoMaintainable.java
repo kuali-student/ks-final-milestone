@@ -17,11 +17,13 @@ package org.kuali.student.cm.course.service;
 
 import org.kuali.rice.krms.dto.AgendaEditor;
 import org.kuali.student.cm.course.form.CluInstructorInfoWrapper;
+import org.kuali.student.cm.course.form.CourseInfoWrapper;
 import org.kuali.student.cm.course.form.CourseJointInfoWrapper;
 import org.kuali.student.cm.course.form.LoCategoryInfoWrapper;
 import org.kuali.student.cm.course.form.OrganizationInfoWrapper;
 import org.kuali.student.cm.course.form.SubjectCodeWrapper;
 import org.kuali.student.cm.course.form.SupportingDocumentInfoWrapper;
+import org.kuali.student.common.uif.service.KSMaintainable;
 import org.kuali.student.lum.lu.ui.krms.dto.CluInformation;
 import org.kuali.student.r2.lum.clu.dto.MembershipQueryInfo;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
@@ -33,7 +35,7 @@ import java.util.List;
  *
  * @author OpenCollab/rSmart KRAD CM Conversion Alliance!
  */
-public interface CourseInfoMaintainable {
+public interface CourseInfoMaintainable extends KSMaintainable {
 
     /**
      * Method called when queryMethodToCall is executed for Administering Organizations in order 
@@ -66,5 +68,7 @@ public interface CourseInfoMaintainable {
     public void populateSupportingDocBytes(SupportingDocumentInfoWrapper supportingDoc);
 
     public List<CluInformation> getCoursesInRange(MembershipQueryInfo membershipQuery);
+
+    public void populateCourseAndReviewData(String courseId, CourseInfoWrapper courseWrapper) throws Exception;
 
 }
