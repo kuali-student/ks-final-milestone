@@ -243,9 +243,9 @@ public class CourseController extends CourseRuleEditorController {
             return showDialog(dialog, form, request, response);
         }else{
             if(hasDialogBeenAnswered(dialog,form)){
-                boolean confirmDelete = getBooleanDialogResponse(dialog, form, request, response);
+                boolean confirmSubmit = getBooleanDialogResponse(dialog, form, request, response);
                 form.getDialogManager().resetDialogStatus(dialog);
-                if(!confirmDelete){
+                if(!confirmSubmit){
                     return getUIFModelAndView(form);
                 }
             } else {

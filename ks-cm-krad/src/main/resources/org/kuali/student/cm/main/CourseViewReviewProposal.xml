@@ -67,8 +67,12 @@
                 </bean>
             </list>
         </property>
-        <property name="footer">
-            <bean parent="KS-CourseView-ReviewProposal-Footer"/>
+        <property name="footer.items">
+            <list>
+                <bean parent="KS-CourseView-ReviewProposal-Footer" p:render="@{!#uiHelper.curriculumSpecialistUser}"/>
+                <bean parent="KS-CourseView-ReviewProposal-CurriculumSpecialistFooter"
+                      p:render="@{#uiHelper.curriculumSpecialistUser}"/>
+            </list>
         </property>
     </bean>
 
@@ -737,6 +741,25 @@
                                   p:performClientSideValidation="true"
                                   p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}"/>
                             <bean id="CourseView-ReviewProposal-cancel"
+                                  parent="Uif-ActionLink"
+                                  p:actionLabel="Cancel"
+                                  p:methodToCall="back"
+                                  p:style="margin-right: 100px;"
+                                  p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_CLOSE]}"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KS-CourseView-ReviewProposal-CurriculumSpecialistFooter" parent="Uif-FooterBase">
+        <property name="items">
+            <list>
+                <bean parent="Uif-HorizontalBoxGroup">
+                    <property name="items">
+                        <list>
+                            <bean id="CourseView-ReviewProposal-CurriculumSpecialist-cancel"
                                   parent="Uif-ActionLink"
                                   p:actionLabel="Cancel"
                                   p:methodToCall="back"
