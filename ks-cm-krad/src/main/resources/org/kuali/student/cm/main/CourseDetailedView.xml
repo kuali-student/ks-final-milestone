@@ -98,10 +98,7 @@
                             <!--<ref bean="CourseLogistics-Review-section"/>
                             <ref bean="LearningObjectives-Review-section"/>
                             <ref bean="CourseRequisitesPage-Review-section"/>
-                            <ref bean="ActiveDates-Review-section"/>
-                            <ref bean="Financials-Review-section"/>
-                            <ref bean="AuthorsAndCollaborators-Review-section"/>
-                            <ref bean="SupportingDocuments-Review-section"/>-->
+                            <ref bean="ActiveDates-Review-section"/>-->
                         </list>
                     </property>
                 </bean>
@@ -175,7 +172,7 @@
 
     <bean id="KS-CourseDetailedView-ReviewConstraint-PropertyReplacer" parent="Uif-ConditionalBeanPropertyReplacer"
             p:propertyName="simpleConstraint"
-            p:condition="@{#form.viewId eq 'KS-CourseView'}">
+            p:condition="@{#form.viewId eq T(org.kuali.student.cm.common.util.CurriculumManagementConstants$CourseViewPageIds).COURSE_VIEW_ID}">
             <property name="replacement">
                 <bean parent="CM-RequiredConstraints-Enroute"/>
             </property>
@@ -183,7 +180,7 @@
 
     <bean id="KS-CourseDetailedView-ReviewConstraintMaxLength-PropertyReplacer" parent="Uif-ConditionalBeanPropertyReplacer"
             p:propertyName="simpleConstraint"
-            p:condition="@{#form.viewId eq 'KS-CourseView'}">
+            p:condition="@{#form.viewId eq T(org.kuali.student.cm.common.util.CurriculumManagementConstants$CourseViewPageIds).COURSE_VIEW_ID}">
             <property name="replacement">
                 <bean parent="CM-RequiredConstraints-Enroute" p:maxLength="1000"/>
             </property>
@@ -198,7 +195,7 @@
                     <property name="items">
                         <list>
                             <bean parent="CM-ReadOnlyInput" p:label="Proposal Title" id="proposalInfo_name"
-                                  p:propertyName="proposalInfo.name" p:render="@{#form.viewId eq 'KS-CourseView'}"/>
+                                  p:propertyName="proposalInfo.name" p:render="@{#form.viewId eq T(org.kuali.student.cm.common.util.CurriculumManagementConstants$CourseViewPageIds).COURSE_VIEW_ID}"/>
                             <bean parent="CM-ReadOnlyInput" p:label="Course Title" id="courseInfo_courseTitle"
                                   p:propertyName="courseInfo.courseTitle"/>
                             <bean parent="CM-ReadOnlyInput" p:label="Transcript Course Title"
@@ -227,12 +224,10 @@
                                 </property>
                             </bean>
                             <bean parent="CM-ReadOnlyInput" p:label="Proposal Rationale" id="proposalInfo_rationale"
-                                  p:propertyName="proposalInfo.rationale.plain">
+                                  p:propertyName="proposalInfo.rationale.plain" p:render="@{#form.viewId eq T(org.kuali.student.cm.common.util.CurriculumManagementConstants$CourseViewPageIds).COURSE_VIEW_ID}">
                                 <!-- TODO:KSCM-2099 This is a temporary fix till the KRAD Data Dictionary works properly -->
-                                <property name="propertyReplacers">
-                                    <list>
-                                        <bean parent="KS-CourseDetailedView-ReviewConstraintMaxLength-PropertyReplacer"/>
-                                    </list>
+                                <property name="simpleConstraint">
+                                    <bean parent="CM-RequiredConstraints-Enroute" p:maxLength="1000"/>
                                 </property>
                             </bean>
                         </list>

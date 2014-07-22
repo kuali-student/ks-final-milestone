@@ -33,11 +33,11 @@
                             <!--<ref bean="CourseLogistics-Review-section"/>
                             <ref bean="LearningObjectives-Review-section"/>
                             <ref bean="CourseRequisitesPage-Review-section"/>
-                            <ref bean="ActiveDates-Review-section"/>
-                            <ref bean="Financials-Review-section"/>
-                            <ref bean="AuthorsAndCollaborators-Review-section"/>
-                            <ref bean="SupportingDocuments-Review-section"/>
-                            <ref bean="KS-CourseSubmit-ConfirmDelete-Dialog"/>  -->
+                            <ref bean="ActiveDates-Review-section"/>  -->
+                            <ref bean="KS-CourseView-ReviewProposal-FinancialsSection"/>
+                            <ref bean="KS-CourseView-ReviewProposal-AuthorsAndCollaboratorsSection"/>
+                            <ref bean="KS-CourseView-ReviewProposal-SupportingDocumentsSection"/>
+                            <ref bean="KS-CourseSubmit-ConfirmDelete-Dialog"/>
                         </list>
                     </property>
                 </bean>
@@ -61,7 +61,7 @@
         </property>
     </bean>
 
-    <!--<bean id="CM-ReviewProposal-GridGroup" parent="Uif-GridGroup" p:layoutManager.numberOfColumns="4" abstract="true">
+    <!--<bean id="KS-CourseDetailedView-GridGroup" parent="Uif-GridGroup" p:layoutManager.numberOfColumns="4" abstract="true">
         <property name="cssClasses">
             <list merge="true">
                 <value>review_proposal_details-grid</value>
@@ -188,7 +188,7 @@
         </property>
         <property name="items">
             <list>
-                <bean parent="CM-ReviewProposal-GridGroup">
+                <bean parent="KS-CourseDetailedView-GridGroup">
                     <property name="items">
                         <list>
                             <bean parent="CM-ReadOnlyInput" p:label="Campus Locations"
@@ -228,7 +228,7 @@
         </property>
         <property name="items">
             <list>
-                <bean parent="CM-ReviewProposal-GridGroup">
+                <bean parent="KS-CourseDetailedView-GridGroup">
                     <property name="items">
                         <list>
                             <bean parent="CM-ReadOnlyInput" p:label="Terms" id="courseLogisticsSection_terms"
@@ -401,7 +401,7 @@
         </property>
         <property name="items">
             <list>
-                <bean parent="CM-ReviewProposal-GridGroup">
+                <bean parent="KS-CourseDetailedView-GridGroup">
                     <property name="items">
                         <list>
                             <bean parent="Uif-VerticalFieldGroup" p:label="Learning Objectives" p:colSpan="3" p:fieldLabel.renderColon="false">
@@ -461,7 +461,7 @@
         </property>
         <property name="items">
             <list>
-                <bean parent="CM-ReviewProposal-GridGroup">
+                <bean parent="KS-CourseDetailedView-GridGroup">
                     <property name="items">
                         <list>
                             <bean id="CourseRequisites-CollectionSection" parent="Uif-VerticalBoxSection" p:headerText="">
@@ -509,7 +509,7 @@
         </property>
         <property name="items">
             <list>
-                <bean parent="CM-ReviewProposal-GridGroup">
+                <bean parent="KS-CourseDetailedView-GridGroup">
                     <property name="items">
                         <list>
                             <bean parent="CM-ReadOnlyInput" p:label="Start Term" id="activeDatesSection_startTerm"
@@ -530,9 +530,9 @@
                 </bean>
             </list>
         </property>
-    </bean>
+    </bean>    -->
 
-    <bean id="Financials-Review-section" parent="ReviewProposal-VerticalBoxSection">
+    <bean id="KS-CourseView-ReviewProposal-FinancialsSection" parent="KS-CourseDetailedView-VerticalBoxSection">
         <property name="headerText" value="Financials"/>
         <property name="header.rightGroup.items">
             <list>
@@ -547,7 +547,7 @@
         </property>
         <property name="items">
             <list>
-                <bean parent="CM-ReviewProposal-GridGroup">
+                <bean parent="KS-CourseDetailedView-GridGroup">
                     <property name="items">
                         <list>
                             <bean parent="CM-ReadOnlyInput" p:label="Justification of Fees"
@@ -560,7 +560,7 @@
         </property>
     </bean>
 
-    <bean id="AuthorsAndCollaborators-Review-section" parent="ReviewProposal-VerticalBoxSection">
+    <bean id="KS-CourseView-ReviewProposal-AuthorsAndCollaboratorsSection" parent="KS-CourseDetailedView-VerticalBoxSection">
         <property name="headerText" value="Authors and Collaborators"/>
         <property name="header.rightGroup.items">
             <list>
@@ -575,7 +575,7 @@
         </property>
         <property name="items">
             <list>
-                <bean parent="CM-ReviewProposal-GridGroup">
+                <bean parent="KS-CourseDetailedView-GridGroup">
                     <property name="items">
                         <list>
                             <bean parent="Uif-VerticalFieldGroup" p:label="Authors and Collaborators" p:colSpan="3"
@@ -610,7 +610,7 @@
                     </property>
                     <property name="propertyReplacers">
                         <list>
-                            &lt;!&ndash; If there are no authors and collaborators then just show a label alone &ndash;&gt;
+                            <!-- If there are no authors and collaborators then just show a label alone -->
                             <bean parent="Uif-ConditionalBeanPropertyReplacer" p:propertyName="items"
                                   p:condition="@{#emptyList(#dataObject.reviewProposalDisplay.collaboratorSection.collaboratorWrappers)}">
                                 <property name="replacement">
@@ -627,7 +627,7 @@
         </property>
     </bean>
 
-    <bean id="SupportingDocuments-Review-section" parent="ReviewProposal-VerticalBoxSection">
+    <bean id="KS-CourseView-ReviewProposal-SupportingDocumentsSection" parent="KS-CourseDetailedView-VerticalBoxSection">
         <property name="headerText" value="Supporting Documents"/>
         <property name="header.rightGroup.items">
             <list>
@@ -642,7 +642,7 @@
         </property>
         <property name="items">
             <list>
-                <bean parent="CM-ReviewProposal-GridGroup">
+                <bean parent="KS-CourseDetailedView-GridGroup">
                     <property name="items">
                         <list>
                             <bean parent="Uif-VerticalFieldGroup" p:label="Supporting Documents" p:colSpan="3" p:fieldLabel.renderColon="false">
@@ -687,7 +687,7 @@
                 </bean>
             </list>
         </property>
-    </bean> -->
+    </bean>
 
     <bean id="KS-ProposalReviewView-Footer" parent="Uif-FooterBase">
         <property name="items">
