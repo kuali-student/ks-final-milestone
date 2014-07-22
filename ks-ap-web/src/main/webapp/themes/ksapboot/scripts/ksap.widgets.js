@@ -524,8 +524,8 @@ function requestBookmarkCountRefresh(e) {
 function refreshBookmarkCount(data) {
     var boomarkCountLink=jQuery("#Ksap-Header-Bookmark-Count");
     var bookmarkCountValue=jQuery("#Ksap-Header-Bookmark-Count-Value");
-    bookmarkCountValue.html(data.bookmarkCount);
-    if (data.bookmarkCount !=null && data.bookmarkCount <=0) {
+    bookmarkCountValue.html(data.bookmarkTotal);
+    if (data.bookmarkTotal !=null && data.bookmarkTotal <=0) {
         boomarkCountLink.addClass("disabled ks-fontello-icon-star-empty");
         boomarkCountLink.removeClass("ks-fontello-icon-star");
         boomarkCountLink.attr("disabled","disabled");
