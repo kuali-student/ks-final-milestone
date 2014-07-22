@@ -606,17 +606,17 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
                 } else if (CourseOfferingManagementSearchImpl.SearchResultColumns.DESC.equals(cellInfo.getKey())) {
                     courseSearchResult.setCourseOfferingDesc(value);
                 } else if (CourseOfferingManagementSearchImpl.SearchResultColumns.GRADING_OPTION_NAME.equals(cellInfo.getKey())) {
-                    courseSearchResult.setCourseOfferingGradingOptionDisplay(cellInfo.getValue());
+//                    courseSearchResult.setCourseOfferingGradingOptionDisplay(cellInfo.getValue());
                 } else if (CourseOfferingManagementSearchImpl.SearchResultColumns.CREDIT_OPTION_NAME.equals(cellInfo.getKey())) {
-                    courseSearchResult.setCourseOfferingCreditOptionDisplay(cellInfo.getValue());
+//                    courseSearchResult.setCourseOfferingCreditOptionDisplay(cellInfo.getValue());
                 } else if (CourseOfferingManagementSearchImpl.SearchResultColumns.CO_ID.equals(cellInfo.getKey())) {
                     courseSearchResult.setCourseOfferingId(value);
                 } else if (CourseOfferingManagementSearchImpl.SearchResultColumns.HAS_STUDENT_SELECTABLE_PASSFAIL.equals(cellInfo.getKey())) {
-                    courseSearchResult.setStudentSelectablePassFail(BooleanUtils.toBoolean(value));
+//                    courseSearchResult.setStudentSelectablePassFail(BooleanUtils.toBoolean(value));
                 } else if (CourseOfferingManagementSearchImpl.SearchResultColumns.CAN_AUDIT_COURSE.equals(cellInfo.getKey())) {
-                    courseSearchResult.setAuditCourse(BooleanUtils.toBoolean(value));
+//                    courseSearchResult.setAuditCourse(BooleanUtils.toBoolean(value));
                 } else if (CourseOfferingManagementSearchImpl.SearchResultColumns.IS_HONORS_COURSE.equals(cellInfo.getKey())) {
-                    courseSearchResult.setHonorsCourse(BooleanUtils.toBoolean(value));
+//                    courseSearchResult.setHonorsCourse(BooleanUtils.toBoolean(value));
                 }
 
             }
