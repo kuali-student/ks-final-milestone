@@ -143,4 +143,9 @@ public class CourseSearchStrategyMockTest implements CourseSearchStrategy {
     public QueryTokenizer getQueryTokenizer() {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
+
+    @Override
+    public void loadPlanStatus(String sessionId, String studentId, List<? extends CourseSearchItem> courses) {
+        //To change body of implemented methods use File | Settings | File Templates.
+    }
 }

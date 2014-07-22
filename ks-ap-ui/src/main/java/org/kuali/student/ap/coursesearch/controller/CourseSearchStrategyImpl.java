@@ -394,8 +394,6 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
         loadScheduledTerms(listOfCourses);
         loadTermsOffered(listOfCourses, courseIDs);
         loadGenEduReqs(listOfCourses);
-        // Load the plan status of each course and set its session id
-        loadPlanStatus(form.getSessionId(),studentId, listOfCourses);
 
         LOG.debug("End of method getCourseInfo of CourseSearchController: {}",
                 System.currentTimeMillis());
@@ -1302,14 +1300,10 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
     }
 
     /**
-     * Load the plan status and session id for each course found in the search
-     *
-     * @param sessionId - Form's session id
-     * @param studentId - Id of the user the search is being ran under
-     * @param courses - List of courses found in the search
-     * @return A list of courses with the plan status and session id filled in.
+     * @see org.kuali.student.ap.coursesearch.CourseSearchStrategy#loadPlanStatus(String, String, java.util.List)
      */
-    private void loadPlanStatus(String sessionId, String studentId, List<? extends CourseSearchItem> courses){
+    @Override
+    public void loadPlanStatus(String sessionId, String studentId, List<? extends CourseSearchItem> courses){
         Map<String, String> courseStatusMap = getCourseStatusMap(studentId);
         for (CourseSearchItem course : courses) {
             String courseId = course.getCourseId();

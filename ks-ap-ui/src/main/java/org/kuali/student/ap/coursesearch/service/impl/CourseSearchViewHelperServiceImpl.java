@@ -33,6 +33,7 @@ import javax.json.Json;
 import javax.json.JsonArrayBuilder;
 import javax.json.JsonObjectBuilder;
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
@@ -65,6 +66,15 @@ public class CourseSearchViewHelperServiceImpl extends ViewHelperServiceImpl imp
                         return new SessionSearchInfo(request, form);
                     }
                 }, request);
+
+        //Loading status information here to put it outside the cache since status can change often
+        List<SearchInfo> searchResults = table.getSearchResults();
+        List<CourseSearchItem> courseSearchItems = new ArrayList<CourseSearchItem>();
+        for(SearchInfo searchInfo : searchResults){
+            courseSearchItems.add(searchInfo.getItem());
+        }
+        KsapFrameworkServiceLocator.getCourseSearchStrategy().loadPlanStatus(form.getSessionId(),KsapFrameworkServiceLocator.getUserSessionHelper().getStudentId(),courseSearchItems);
+
         return table;
     }
 

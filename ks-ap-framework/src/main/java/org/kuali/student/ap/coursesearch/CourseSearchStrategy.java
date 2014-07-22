@@ -141,6 +141,16 @@ public interface CourseSearchStrategy {
      * Retrieves the configured QueryTokenizer
      * @return QueryTokenizer
      */
-    QueryTokenizer getQueryTokenizer();
+    public QueryTokenizer getQueryTokenizer();
+
+    /**
+     * Load the plan status and session id for each course found in the search
+     *
+     * @param sessionId - Form's session id
+     * @param studentId - Id of the user the search is being ran under
+     * @param courses - List of courses found in the search
+     * @return A list of courses with the plan status and session id filled in.
+     */
+    public void loadPlanStatus(String sessionId, String studentId, List<? extends CourseSearchItem> courses);
 
 }
