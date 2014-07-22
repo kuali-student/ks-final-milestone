@@ -111,7 +111,7 @@
             <bean parent="KS-Uif-FooterBase">
                 <property name="items">
                     <list>
-                        <bean parent="Uif-HorizontalBoxGroup">
+                        <bean parent="Uif-HorizontalBoxGroup" p:additionalCssClasses="ks-enrollment-footer-link">
                             <property name="items">
                                 <list>
                                     <!--<bean parent="KS-Uif-PrimaryActionButton" p:id="saveExamOfferingRSI" p:methodToCall="saveExamOfferingRSI" p:actionLabel="Save" p:performClientSideValidation="true" p:render="@{!#view.readOnly}"/>-->
