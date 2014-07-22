@@ -131,7 +131,8 @@ public class CourseDetailsInquiryHelperImpl2 extends KualiInquirableImpl {
 
         //Load plan status information
         List<PlanItem> planItems = KsapFrameworkServiceLocator.getPlanHelper().loadStudentsPlanItemsForCourse(course);
-        courseDetails.setPlanStatusMessage(createPlanningStatusMessages(planItems));
+        courseDetails.setPlanStatusMessage(KsapFrameworkServiceLocator.getPlanHelper().createPlanningStatusMessages
+                (planItems));
         courseDetails.setBookmarkStatusMessage(createBookmarkStatusMessages(planItems));
 
         return courseDetails;
@@ -186,67 +187,12 @@ public class CourseDetailsInquiryHelperImpl2 extends KualiInquirableImpl {
 
         //Load plan status information
         List<PlanItem> planItems = KsapFrameworkServiceLocator.getPlanHelper().loadStudentsPlanItemsForCourse(course);
-        courseDetails.setPlannedMessage(createPlanningStatusMessages(planItems));
+        courseDetails.setPlannedMessage(KsapFrameworkServiceLocator.getPlanHelper().createPlanningStatusMessages
+                (planItems));
         courseDetails.setBookmarkMessage(createBookmarkStatusMessages(planItems));
         courseDetails.setBookmarked(KsapFrameworkServiceLocator.getCourseHelper().isCourseBookmarked(course, planItems));
 
         return courseDetails;
-    }
-
-    /**
-     * Creates a message regarding the Planned status of the course to be displayed on the page
-     *
-     * @param planItems - The list of plan items related to the course
-     * @return - Formated message if bookmarked, "" if not planned
-     */
-    protected String createPlanningStatusMessages(List<PlanItem> planItems){
-        List<String> plannedStatus = new ArrayList<String>();
-
-        // Create message segments for each planned instance
-        for(PlanItem item : planItems){
-            StringBuilder message = new StringBuilder("<b>");
-            switch (item.getCategory()){
-                case PLANNED:
-                    for(String termId : item.getPlanTermIds()){
-                        message.append(KsapFrameworkServiceLocator.getTermHelper().getYearTerm(termId)
-                                .getLongName()+ " ");
-                    }
-                    message.append("plan</b> on " + DateFormatters.MONTH_DAY_YEAR_DATE_FORMATTER.format(item.getMeta().getUpdateTime()));
-                    plannedStatus.add(message.toString());
-                    break;
-                case BACKUP:
-                    for(String termId : item.getPlanTermIds()){
-                        message.append(KsapFrameworkServiceLocator.getTermHelper().getYearTerm(termId)
-                                .getLongName()+ " ");
-                    }
-                    message.append("backup</b> on " + DateFormatters.MONTH_DAY_YEAR_DATE_FORMATTER.format(item.getMeta().getUpdateTime()));
-                    plannedStatus.add(message.toString());
-                    break;
-                default:
-                    break;
-            }
-        }
-
-        // If not planned return empty
-        if(plannedStatus.isEmpty()) return "";
-
-        // Compile segments into a single planned summary message
-        StringBuilder plannedMessages = new StringBuilder();
-        plannedMessages.append("Added to ");
-        for(int i=0;i<plannedStatus.size();i++){
-            String message = plannedStatus.get(i);
-            if(i==0){
-                plannedMessages.append(message);
-            }else{
-                if(i == plannedStatus.size()-1){
-                    plannedMessages.append(" and "+message);
-                }else{
-                    plannedMessages.append(", "+message);
-                }
-            }
-        }
-
-        return plannedMessages.toString();
     }
 
     /**

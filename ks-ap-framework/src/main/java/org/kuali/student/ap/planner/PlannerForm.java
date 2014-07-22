@@ -28,4 +28,6 @@ public interface PlannerForm extends PlanItemForm {
 
 	List<PlannerTerm> getTerms();
 
+    String getPlannedMessage();
+    void setPlannedMessage(String plannedMessage);
 }

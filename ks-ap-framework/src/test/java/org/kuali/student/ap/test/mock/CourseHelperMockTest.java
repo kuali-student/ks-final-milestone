@@ -47,7 +47,7 @@ public class CourseHelperMockTest implements CourseHelper {
     /**
      * Get a list of offerings for a list of courses in a given list of terms
      *
-     * @param courseIds - List of courses
+     * @param courses - List of courses
      * @return List of all offerings for each course id that occurs during one of the listed terms
      */
     @Override

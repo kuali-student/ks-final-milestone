@@ -58,4 +58,9 @@ public class PlanHelperMockTest implements PlanHelper{
         return null; //To change body of implemented methods use File | Settings | File Templates.
     }
 
+    @Override
+    public String createPlanningStatusMessages(List<PlanItem> planItems) {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
 }

@@ -43,5 +43,12 @@ public interface PlanHelper {
      */
     public List<PlanItem> loadStudentsPlanItemsForCourse(Course course);
 
+    /**
+     * Creates a message regarding the Planned status of the course to be displayed on the page
+     *
+     * @param planItems - The list of plan items related to the course
+     * @return - Formated message if bookmarked, "" if not planned
+     */
+    String createPlanningStatusMessages(List<PlanItem> planItems);
 
 }

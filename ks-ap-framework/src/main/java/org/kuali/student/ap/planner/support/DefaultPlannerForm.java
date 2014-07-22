@@ -79,6 +79,12 @@ public class DefaultPlannerForm extends AbstractPlanItemForm implements
     //      we have to define two separate fields
     @RequestAccessible
     private boolean bookmarked;
+    //used to indicated if the course has been planned already in KSAP
+    //Note: because when it is planned already, we need to display
+    //      a msg indicating it on the bookmark add to plan dialog
+    @RequestAccessible
+    private String plannedMessage;
+
     //used to hold the checkbox value in "Add to Plan" popover form
     @RequestAccessible
     private boolean keepBookmarked;
@@ -323,7 +329,15 @@ public class DefaultPlannerForm extends AbstractPlanItemForm implements
 		this.focusTermIndex = focusTermIndex;
 	}
 
-	@Override
+    public String getPlannedMessage() {
+        return this.plannedMessage;
+    }
+
+    public void setPlannedMessage(String plannedMessage) {
+        this.plannedMessage = plannedMessage;
+    }
+
+    @Override
 	public void populateFromPlanItem() {
 		PlanItem planItem = getPlanItem();
 		setCourseId(planItem.getRefObjectId());

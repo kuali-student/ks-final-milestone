@@ -191,6 +191,10 @@ public class PlannerController extends KsapControllerBase {
             //Load course related planItems to identify if the course has been bookmarked
             List<PlanItem> planItems = KsapFrameworkServiceLocator.getPlanHelper().loadStudentsPlanItemsForCourse(course);
             form.setBookmarked(KsapFrameworkServiceLocator.getCourseHelper().isCourseBookmarked(course, planItems));
+            if (ADD_BOOKMARK_PAGE.equals(pageId)) {
+                form.setPlannedMessage(
+                        KsapFrameworkServiceLocator.getPlanHelper().createPlanningStatusMessages(planItems));
+            }
         }
 
 		uifForm.setViewId(DIALOG_FORM);
@@ -229,7 +233,7 @@ public class PlannerController extends KsapControllerBase {
 		List<CommentInfo> commentInfos;
 		try {
 			commentInfos = commentService.getCommentsByRefObject(plan.getId(),
-					PlanConstants.TERM_NOTE_COMMENT_TYPE, KsapFrameworkServiceLocator.getContext().getContextInfo());
+                    PlanConstants.TERM_NOTE_COMMENT_TYPE, KsapFrameworkServiceLocator.getContext().getContextInfo());
 		} catch (DoesNotExistException e) {
 			throw new IllegalArgumentException("Comment lookup failure", e);
 		} catch (InvalidParameterException e) {
