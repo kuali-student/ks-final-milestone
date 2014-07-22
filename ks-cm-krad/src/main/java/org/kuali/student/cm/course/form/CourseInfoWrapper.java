@@ -21,6 +21,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.krad.web.bind.RequestProtected;
 import org.kuali.student.cm.common.util.CurriculumManagementConstants;
 import org.kuali.student.cm.course.util.CourseProposalUtil;
+import org.kuali.student.lum.lu.ui.krms.dto.CluGroup;
 import org.kuali.student.lum.lu.ui.krms.dto.LURuleManagementWrapper;
 import org.kuali.student.r1.core.workflow.dto.CollaboratorWrapper;
 import org.kuali.student.r2.core.comment.dto.DecisionInfo;
@@ -71,6 +72,8 @@ public class CourseInfoWrapper extends LURuleManagementWrapper implements Serial
 
     private Date effectiveDate;
     private Date expirationDate;
+
+    private CluGroup cluGroups;
 
     private boolean agendaDirty;
 
@@ -219,6 +222,14 @@ public class CourseInfoWrapper extends LURuleManagementWrapper implements Serial
 
     public void setRequiredWorkflowMode(final String requiredWorkflowMode) {
         this.requiredWorkflowMode = requiredWorkflowMode;
+    }
+
+    public CluGroup getCluGroups() {
+        return cluGroups;
+    }
+
+    public void setCluGroups(CluGroup cluGroups) {
+        this.cluGroups = cluGroups;
     }
 
     public void setUnitsContentOwner(List<CourseCreateUnitsContentOwner> unitsContentOwner) {

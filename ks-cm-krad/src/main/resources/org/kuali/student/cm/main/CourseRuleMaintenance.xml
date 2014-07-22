@@ -97,6 +97,7 @@ limitations under the License.
 
     <bean id="Course-ListItems-DataGroup-parent" parent="Uif-StackedCollectionGroup" p:renderAddLine="false"
           p:style="width: 600px; padding: 0; margin-bottom: 0px;">
+        <property name="collectionObjectClass" value="org.kuali.student.lum.lu.ui.krms.dto.CluGroup"/>
         <property name="layoutManager">
             <bean parent="Uif-StackedCollectionLayout-WithBoxItems"
                   p:additionalCssClasses="krms-stackedCollectionLayout">
@@ -114,7 +115,6 @@ limitations under the License.
             </bean>
         </property>
         <property name="propertyName" value="cluGroups"/>
-        <property name="collectionObjectClass" value="org.kuali.student.lum.lu.ui.krms.dto.CluGroup"/>
         <property name="items">
             <list>
                 <bean parent="Uif-MessageField" p:messageText="@{#line.title}" p:render="@{#line.showTitle}"/>
