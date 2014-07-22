@@ -124,7 +124,7 @@
                                                 </list>
                                             </property>
                                         </bean>
-                                        <bean parent="Uif-VerticalBoxGroup">
+                                        <bean parent="Uif-VerticalBoxGroup" p:id="planStatusMessageHolder">
                                             <property name="items">
                                                 <list>
                                                     <bean p:id="plannedMessage" parent="Uif-Message">
@@ -144,6 +144,7 @@
                                         </bean>
                                     </list>
                                 </property>
+                                <property name="onDocumentReadyScript" value="registerPlanStatusUpdateEvent('#planStatusMessages');"/>
                             </bean>
                             <ref bean="course_details_overview"/>
                         </list>
@@ -175,6 +176,7 @@
             </list>
         </property>
         <property name="actionScript" value="bookmarkCourse('@{dataObject.courseId}', e);"/>
+        <property name="onDocumentReadyScript" value="registerBookmarkAddButtonChangeEvent(this);" />
     </bean>
 
     <bean id="ksapDeleteSavedCourse" parent="ksapDeleteSavedCourse-parent"/>
@@ -186,6 +188,7 @@
             </list>
         </property>
         <property name="actionScript" value=""/>
+        <property name="onDocumentReadyScript" value="registerBookmarkRemoveButtonChangeEvent(this);" />
     </bean>
 
 

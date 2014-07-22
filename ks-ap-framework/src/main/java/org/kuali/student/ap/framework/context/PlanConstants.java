@@ -107,6 +107,7 @@ public class PlanConstants extends AcademicPlanServiceConstants {
         TERM_NOTE_UPDATED,
         COURSE_ADDED,
         BOOKMARK_ADDED,
-        UPDATE_BOOKMARK_TOTAL
+        UPDATE_BOOKMARK_TOTAL,
+        UPDATE_PLAN_ITEM_STATUS
 	}
 }

@@ -3,7 +3,6 @@ package org.kuali.student.ap.coursesearch.service.impl;
 import org.apache.cxf.common.util.StringUtils;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.kns.inquiry.KualiInquirableImpl;
-import org.kuali.student.ap.academicplan.constants.AcademicPlanServiceConstants;
 import org.kuali.student.ap.academicplan.infc.PlanItem;
 import org.kuali.student.ap.coursesearch.CreditsFormatter;
 import org.kuali.student.ap.coursesearch.dataobject.CourseDetailsPopoverWrapper;
@@ -18,7 +17,6 @@ import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.infc.RichText;
-import org.kuali.student.r2.common.util.date.DateFormatters;
 import org.kuali.student.r2.core.acal.infc.Term;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
@@ -131,9 +129,8 @@ public class CourseDetailsInquiryHelperImpl2 extends KualiInquirableImpl {
 
         //Load plan status information
         List<PlanItem> planItems = KsapFrameworkServiceLocator.getPlanHelper().loadStudentsPlanItemsForCourse(course);
-        courseDetails.setPlanStatusMessage(KsapFrameworkServiceLocator.getPlanHelper().createPlanningStatusMessages
-                (planItems));
-        courseDetails.setBookmarkStatusMessage(createBookmarkStatusMessages(planItems));
+        courseDetails.setPlanStatusMessage(KsapFrameworkServiceLocator.getPlanHelper().createPlanningStatusMessages(planItems));
+        courseDetails.setBookmarkStatusMessage(KsapFrameworkServiceLocator.getPlanHelper().createBookmarkStatusMessages(planItems));
 
         return courseDetails;
     }
@@ -187,29 +184,11 @@ public class CourseDetailsInquiryHelperImpl2 extends KualiInquirableImpl {
 
         //Load plan status information
         List<PlanItem> planItems = KsapFrameworkServiceLocator.getPlanHelper().loadStudentsPlanItemsForCourse(course);
-        courseDetails.setPlannedMessage(KsapFrameworkServiceLocator.getPlanHelper().createPlanningStatusMessages
-                (planItems));
-        courseDetails.setBookmarkMessage(createBookmarkStatusMessages(planItems));
+        courseDetails.setPlannedMessage(KsapFrameworkServiceLocator.getPlanHelper().createPlanningStatusMessages(planItems));
+        courseDetails.setBookmarkMessage(KsapFrameworkServiceLocator.getPlanHelper().createBookmarkStatusMessages(planItems));
         courseDetails.setBookmarked(KsapFrameworkServiceLocator.getCourseHelper().isCourseBookmarked(course, planItems));
 
         return courseDetails;
-    }
-
-    /**
-     * Creates a message regarding the Bookmark status of the course to be displayed on the page
-     *
-     * @param planItems - The list of plan items related to the course
-     * @return - Formated message if bookmarked, "" if not bookmarked
-     */
-    protected String createBookmarkStatusMessages(List<PlanItem> planItems){
-        for(PlanItem item : planItems){
-            // Return message based on first bookmarked entry found (there should be only one).
-            if(item.getCategory().equals(AcademicPlanServiceConstants.ItemCategory.WISHLIST)){
-                return "<b>Bookmarked on</b> " + DateFormatters.MONTH_DAY_YEAR_DATE_FORMATTER.format(item.getMeta().getUpdateTime());
-            }
-        }
-
-        return "";
     }
 
     /**

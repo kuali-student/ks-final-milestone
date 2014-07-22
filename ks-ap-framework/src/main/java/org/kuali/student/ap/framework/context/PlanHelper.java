@@ -47,8 +47,17 @@ public interface PlanHelper {
      * Creates a message regarding the Planned status of the course to be displayed on the page
      *
      * @param planItems - The list of plan items related to the course
-     * @return - Formated message if bookmarked, "" if not planned
+     * @return - Formatted message if bookmarked, "" if not planned
      */
-    String createPlanningStatusMessages(List<PlanItem> planItems);
+    public String createPlanningStatusMessages(List<PlanItem> planItems);
+
+    /**
+     * Creates a message regarding the Bookmark status of the course to be displayed on the page
+     *
+     * @param planItems - The list of plan items related to the course
+     * @return - Formatted message if bookmarked, "" if not bookmarked
+     */
+    public String createBookmarkStatusMessages(List<PlanItem> planItems);
+
 
 }

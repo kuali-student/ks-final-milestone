@@ -58,9 +58,25 @@ public class PlanHelperMockTest implements PlanHelper{
         return null; //To change body of implemented methods use File | Settings | File Templates.
     }
 
+    /**
+     * Creates a message regarding the Planned status of the course to be displayed on the page
+     *
+     * @param planItems - The list of plan items related to the course
+     * @return - Formatted message if bookmarked, "" if not planned
+     */
     @Override
     public String createPlanningStatusMessages(List<PlanItem> planItems) {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
+    /**
+     * Creates a message regarding the Bookmark status of the course to be displayed on the page
+     *
+     * @param planItems - The list of plan items related to the course
+     * @return - Formatted message if bookmarked, "" if not bookmarked
+     */
+    @Override
+    public String createBookmarkStatusMessages(List<PlanItem> planItems) {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
 }

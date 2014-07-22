@@ -828,6 +828,9 @@ public class PlannerController extends KsapControllerBase {
         eventList = PlanEventUtils.makeAddEvent(planItemInfo, eventList);
         eventList = PlanEventUtils.updateTotalCreditsEvent(true, termId, eventList);
         eventList = PlanEventUtils.makeUpdateBookmarkTotalEvent(planItemInfo, eventList);
+
+        List<PlanItem> planItems = KsapFrameworkServiceLocator.getPlanHelper().loadStudentsPlanItemsForCourse(course);
+        eventList = PlanEventUtils.makeUpdatePlanItemStatusMessage(planItems, eventList);
         PlanEventUtils.sendJsonEvents(true, course.getCode() + " was successfully added to your plan.",
                 response, eventList);
     }
@@ -964,6 +967,10 @@ public class PlannerController extends KsapControllerBase {
         }
         eventList = PlanEventUtils.makeAddBookmarkEvent(newBookmark, eventList);
         eventList = PlanEventUtils.makeUpdateBookmarkTotalEvent(newBookmark, eventList);
+
+        List<PlanItem> planItems = KsapFrameworkServiceLocator.getPlanHelper().loadStudentsPlanItemsForCourse(course);
+        eventList = PlanEventUtils.makeUpdatePlanItemStatusMessage(planItems, eventList);
+
         PlanEventUtils.sendJsonEvents(true, "Course " + course.getCode() + " added to bookmarks",
                 response, eventList);
         return null;

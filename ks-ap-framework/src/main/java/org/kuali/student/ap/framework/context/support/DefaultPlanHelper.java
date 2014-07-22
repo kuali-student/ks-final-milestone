@@ -1,8 +1,8 @@
 package org.kuali.student.ap.framework.context.support;
 
 import org.kuali.rice.core.api.config.property.ConfigContext;
-import org.kuali.student.ap.academicplan.dto.LearningPlanInfo;
 import org.kuali.student.ap.academicplan.constants.AcademicPlanServiceConstants;
+import org.kuali.student.ap.academicplan.dto.LearningPlanInfo;
 import org.kuali.student.ap.academicplan.dto.PlanItemInfo;
 import org.kuali.student.ap.academicplan.infc.PlanItem;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
@@ -181,6 +181,9 @@ public class DefaultPlanHelper implements PlanHelper {
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String createPlanningStatusMessages(List<PlanItem> planItems){
         List<String> plannedStatus = new ArrayList<String>();
@@ -230,5 +233,20 @@ public class DefaultPlanHelper implements PlanHelper {
         }
 
         return plannedMessages.toString();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String createBookmarkStatusMessages(List<PlanItem> planItems){
+        for(PlanItem item : planItems){
+            // Return message based on first bookmarked entry found (there should be only one).
+            if(item.getCategory().equals(AcademicPlanServiceConstants.ItemCategory.WISHLIST)){
+                return "<b>Bookmarked on</b> " + DateFormatters.MONTH_DAY_YEAR_DATE_FORMATTER.format(item.getMeta().getUpdateTime());
+            }
+        }
+
+        return "";
     }
 }

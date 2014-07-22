@@ -485,3 +485,78 @@ function addRegGroupToPlanQuick(regGroupId, e) {
     jQuery("form#popupForm").remove();
 }
 
+/**
+ * Register the event to handle updating the planned and bookmarked status messages
+ * @param jqObject
+ */
+function registerPlanStatusUpdateEvent (jqObject) {
+    jQuery(jqObject)
+        .on('UPDATE_PLAN_ITEM_STATUS', function(event, data) {
+            ksapUpdatePlanStatusMessages(data);
+        })
+}
+
+/**
+ * Handle updating of the planned and bookmarked status messages on the CDP
+ * @param data
+ */
+function ksapUpdatePlanStatusMessages (data) {
+    var planStatusMessageHolder = jQuery('#planStatusMessageHolder');
+    var planStatusMessage = jQuery('#plannedMessage');
+    if (planStatusMessage.length) {
+        planStatusMessage.html(data.plannedStatusMessage);
+    }
+    else {
+        var plannedMessageElement = jQuery('<div />').attr("id", "plannedMessage").attr("class", "uif-message uif-boxLayoutVerticalItem clearfix").html(data.plannedStatusMessage);
+        planStatusMessageHolder.append(plannedMessageElement);
+    }
+
+    var bookmarkStatusMessage = jQuery('#bookmarkMessage');
+    if (bookmarkStatusMessage.length) {
+        bookmarkStatusMessage.html(data.bookmarkedStatusMessage);
+    }
+    else {
+        var bookmarkMessageElement = jQuery('<div />').attr("id", "bookmarkMessage").attr("class", "uif-message uif-boxLayoutVerticalItem clearfix").html(data.bookmarkedStatusMessage);
+        planStatusMessageHolder.append(bookmarkMessageElement);
+    }
+}
+
+/**
+ * Register the event to handle the clicking of the bookmark button
+ * @param obj
+ */
+function registerBookmarkAddButtonChangeEvent(obj) {
+    jQuery(obj)
+        .on('BOOKMARK_ADDED', function(event, data) {
+            ksapUpdateBookmarkButton(true, data);
+        });
+}
+
+/**
+ * Register the event to handle the clicking of the remove bookmark button
+ * @param obj
+ */
+function registerBookmarkRemoveButtonChangeEvent(obj) {
+    jQuery(obj)
+        .on('PLAN_ITEM_DELETED', function(event, data) {
+            ksapUpdateBookmarkButton(false, data);
+        });
+}
+
+/**
+ * Handle updating the visibility of the add and remove bookmark buttons
+ * @param bookmarkAdded True if this was the add event, false otherwise
+ * @param data
+ */
+function ksapUpdateBookmarkButton(bookmarkAdded, data) {
+    var addButton = jQuery("#" + data.courseId + "_addSavedCourse");
+    var removeButton = jQuery("#" + data.courseId + "_deleteSavedCourse");
+    if (bookmarkAdded) {
+        addButton.addClass('ksap-hide');
+        removeButton.removeClass('ksap-hide');
+    }
+    else {
+        addButton.removeClass('ksap-hide');
+        removeButton.addClass('ksap-hide');
+    }
+}

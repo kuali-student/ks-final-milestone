@@ -405,6 +405,13 @@ public class PlanEventUtils {
 		removeEvent.add("planItemId", planItem.getId());
 		removeEvent.add("category", planItem.getCategory().toString().toLowerCase());
 
+        Course course = KsapFrameworkServiceLocator
+                .getCourseHelper().getCourseInfo(planItem.getRefObjectId());
+        assert course != null : "Missing course for plan item "
+                + planItem.getId() + ", ref ID " + planItem.getRefObjectId();
+
+        removeEvent.add("courseId", course.getId());
+
 		// Only planned or backup items get an atpId attribute.
 		if (planItem.getCategory().equals(
 				AcademicPlanServiceConstants.ItemCategory.PLANNED)
@@ -605,6 +612,19 @@ public class PlanEventUtils {
         addEvent.add("bookmarkTotal",bookmarks.size());
 
         eventList.add(PlanConstants.JS_EVENT_NAME.UPDATE_BOOKMARK_TOTAL.name(), addEvent);
+        return eventList;
+    }
+
+    public static JsonObjectBuilder makeUpdatePlanItemStatusMessage(List<PlanItem> planItems, JsonObjectBuilder eventList) {
+
+        String plannedStatusMessage = KsapFrameworkServiceLocator.getPlanHelper().createPlanningStatusMessages(planItems);
+        String bookmarkStatusMessage = KsapFrameworkServiceLocator.getPlanHelper().createBookmarkStatusMessages(planItems);
+
+        JsonObjectBuilder event = Json.createObjectBuilder();
+        event.add("plannedStatusMessage",plannedStatusMessage);
+        event.add("bookmarkedStatusMessage",bookmarkStatusMessage);
+
+        eventList.add(PlanConstants.JS_EVENT_NAME.UPDATE_PLAN_ITEM_STATUS.name(), event);
         return eventList;
     }
 
