@@ -32,8 +32,8 @@
                             <ref bean="KS-CourseView-ReviewProposal-GovernanceSection"/>
                             <!--<ref bean="CourseLogistics-Review-section"/>
                             <ref bean="LearningObjectives-Review-section"/>
-                            <ref bean="CourseRequisitesPage-Review-section"/>
-                            <ref bean="ActiveDates-Review-section"/>  -->
+                            <ref bean="CourseRequisitesPage-Review-section"/>  -->
+                            <ref bean="KS-CourseView-ReviewProposal-ActiveDatesSection"/>
                             <ref bean="KS-CourseView-ReviewProposal-FinancialsSection"/>
                             <ref bean="KS-CourseView-ReviewProposal-AuthorsAndCollaboratorsSection"/>
                             <ref bean="KS-CourseView-ReviewProposal-SupportingDocumentsSection"/>
@@ -488,14 +488,9 @@
                 </bean>
             </list>
         </property>
-    </bean>
+    </bean> -->
 
-
-
-
-
-    <bean id="ActiveDates-Review-section" parent="ReviewProposal-VerticalBoxSection">
-        <property name="headerText" value="Active Dates"/>
+    <bean id="KS-CourseView-ReviewProposal-ActiveDatesSection" parent="KS-CourseDetailedView-ActiveDatesSection">
         <property name="header.rightGroup.items">
             <list>
                 <bean p:id="Governance-Review-Edit-link" parent="Uif-ActionLink-Course-Proposal-Review-Page-Edit-Link">
@@ -507,30 +502,7 @@
                 </bean>
             </list>
         </property>
-        <property name="items">
-            <list>
-                <bean parent="KS-CourseDetailedView-GridGroup">
-                    <property name="items">
-                        <list>
-                            <bean parent="CM-ReadOnlyInput" p:label="Start Term" id="activeDatesSection_startTerm"
-                                  p:propertyName="reviewProposalDisplay.activeDatesSection.startTerm"/>
-                            <bean parent="CM-ReadOnlyInput" p:label="End Term" id="activeDatesSection_endTerm"
-                                  p:propertyName="reviewProposalDisplay.activeDatesSection.endTerm"/>
-                            <bean parent="CM-ReadOnlyInput" p:label="Pilot Course" id="activeDatesSection_pilotCourse"
-                                  p:propertyName="reviewProposalDisplay.activeDatesSection.pilotCourse">
-                                <property name="control.cssClasses">
-                                    <list merge="true">
-                                        <value>ks-review-captialize</value>
-                                        <value>review_readonly_control</value>
-                                    </list>
-                                </property>
-                            </bean>
-                        </list>
-                    </property>
-                </bean>
-            </list>
-        </property>
-    </bean>    -->
+    </bean>
 
     <bean id="KS-CourseView-ReviewProposal-FinancialsSection" parent="KS-CourseDetailedView-VerticalBoxSection">
         <property name="headerText" value="Financials"/>

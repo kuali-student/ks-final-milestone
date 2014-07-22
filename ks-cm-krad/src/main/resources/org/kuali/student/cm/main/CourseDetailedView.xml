@@ -97,8 +97,8 @@
                             <ref bean="KS-CourseDetailedView-GovernanceSection"/>
                             <!--<ref bean="CourseLogistics-Review-section"/>
                             <ref bean="LearningObjectives-Review-section"/>
-                            <ref bean="CourseRequisitesPage-Review-section"/>
-                            <ref bean="ActiveDates-Review-section"/>-->
+                            <ref bean="CourseRequisitesPage-Review-section"/>-->
+                            <ref bean="KS-CourseDetailedView-ActiveDatesSection"/>
                         </list>
                     </property>
                 </bean>
@@ -172,7 +172,7 @@
 
     <bean id="KS-CourseDetailedView-ReviewConstraint-PropertyReplacer" parent="Uif-ConditionalBeanPropertyReplacer"
             p:propertyName="simpleConstraint"
-            p:condition="@{#form.viewId eq T(org.kuali.student.cm.common.util.CurriculumManagementConstants$CourseViewPageIds).COURSE_VIEW_ID}">
+            p:condition="@{#form.viewId eq T(org.kuali.student.cm.common.util.CurriculumManagementConstants$CourseViewPageIds).CREATE_COURSE_ID}">
             <property name="replacement">
                 <bean parent="CM-RequiredConstraints-Enroute"/>
             </property>
@@ -180,7 +180,7 @@
 
     <bean id="KS-CourseDetailedView-ReviewConstraintMaxLength-PropertyReplacer" parent="Uif-ConditionalBeanPropertyReplacer"
             p:propertyName="simpleConstraint"
-            p:condition="@{#form.viewId eq T(org.kuali.student.cm.common.util.CurriculumManagementConstants$CourseViewPageIds).COURSE_VIEW_ID}">
+            p:condition="@{#form.viewId eq T(org.kuali.student.cm.common.util.CurriculumManagementConstants$CourseViewPageIds).CREATE_COURSE_ID}">
             <property name="replacement">
                 <bean parent="CM-RequiredConstraints-Enroute" p:maxLength="1000"/>
             </property>
@@ -195,7 +195,7 @@
                     <property name="items">
                         <list>
                             <bean parent="CM-ReadOnlyInput" p:label="Proposal Title" id="proposalInfo_name"
-                                  p:propertyName="proposalInfo.name" p:render="@{#form.viewId eq T(org.kuali.student.cm.common.util.CurriculumManagementConstants$CourseViewPageIds).COURSE_VIEW_ID}"/>
+                                  p:propertyName="proposalInfo.name" p:render="@{#form.viewId eq T(org.kuali.student.cm.common.util.CurriculumManagementConstants$CourseViewPageIds).CREATE_COURSE_ID}"/>
                             <bean parent="CM-ReadOnlyInput" p:label="Course Title" id="courseInfo_courseTitle"
                                   p:propertyName="courseInfo.courseTitle"/>
                             <bean parent="CM-ReadOnlyInput" p:label="Transcript Course Title"
@@ -224,7 +224,7 @@
                                 </property>
                             </bean>
                             <bean parent="CM-ReadOnlyInput" p:label="Proposal Rationale" id="proposalInfo_rationale"
-                                  p:propertyName="proposalInfo.rationale.plain" p:render="@{#form.viewId eq T(org.kuali.student.cm.common.util.CurriculumManagementConstants$CourseViewPageIds).COURSE_VIEW_ID}">
+                                  p:propertyName="proposalInfo.rationale.plain" p:render="@{#form.viewId eq T(org.kuali.student.cm.common.util.CurriculumManagementConstants$CourseViewPageIds).CREATE_COURSE_ID}">
                                 <!-- TODO:KSCM-2099 This is a temporary fix till the KRAD Data Dictionary works properly -->
                                 <property name="simpleConstraint">
                                     <bean parent="CM-RequiredConstraints-Enroute" p:maxLength="1000"/>
@@ -324,6 +324,7 @@
                                   p:propertyName="reviewProposalDisplay.courseLogisticsSection.finalExamStatus"/>
                             <bean parent="CM-ReadOnlyInput" p:label="Final Exam Rationale"
                                   id="courseLogisticsSection_finalExamStatusRationale"
+                                  p:render="@{#form.viewId eq T(org.kuali.student.cm.common.util.CurriculumManagementConstants$CourseViewPageIds).CREATE_COURSE_ID}"
                                   p:propertyName="reviewProposalDisplay.courseLogisticsSection.finalExamStatusRationale"/>
 
                             <!-- This bean gets rendered if the outComes collection has items. Otherwise, the one below does. -->
@@ -542,7 +543,7 @@
         </property>
     </bean>
 
-    <bean id="ActiveDates-Review-section" parent="KS-CourseDetailedView-VerticalBoxSection">
+    <bean id="KS-CourseDetailedView-ActiveDatesSection" parent="KS-CourseDetailedView-VerticalBoxSection">
         <property name="headerText" value="Active Dates"/>
         <property name="header.rightGroup.items">
             <list>
@@ -580,230 +581,8 @@
         </property>
     </bean>
 
-    <bean id="Financials-Review-section" parent="KS-CourseDetailedView-VerticalBoxSection">
-        <property name="headerText" value="Financials"/>
-        <property name="header.rightGroup.items">
-            <list>
-                <bean p:id="Governance-Review-Edit-link" parent="Uif-ActionLink-Course-Proposal-Review-Page-Edit-Link">
-                    <property name="actionParameters">
-                        <map>
-                            <entry key="displaySection" value="KS-CourseView-Financials-Section"/>
-                        </map>
-                    </property>
-                </bean>
-            </list>
-        </property>
-        <property name="items">
-            <list>
-                <bean parent="KS-CourseDetailedView-GridGroup">
-                    <property name="items">
-                        <list>
-                            <bean parent="CM-ReadOnlyInput" p:label="Justification of Fees"
-                                  id="financialsSection_justificationOfFees"
-                                  p:propertyName="reviewProposalDisplay.financialsSection.justificationOfFees"/>
-                        </list>
-                    </property>
-                </bean>
-            </list>
-        </property>
-    </bean>
-
-    <bean id="AuthorsAndCollaborators-Review-section" parent="KS-CourseDetailedView-VerticalBoxSection">
-        <property name="headerText" value="Authors and Collaborators"/>
-        <property name="header.rightGroup.items">
-            <list>
-                <bean p:id="Governance-Review-Edit-link" parent="Uif-ActionLink-Course-Proposal-Review-Page-Edit-Link">
-                    <property name="actionParameters">
-                        <map>
-                            <entry key="displaySection" value="KS-CourseView-AuthorsAndCollaborators-Section"/>
-                        </map>
-                    </property>
-                </bean>
-            </list>
-        </property>
-        <property name="items">
-            <list>
-                <bean parent="KS-CourseDetailedView-GridGroup">
-                    <property name="items">
-                        <list>
-                            <bean parent="Uif-VerticalFieldGroup" p:label="Authors and Collaborators" p:colSpan="3"
-                                  p:fieldLabel.renderColon="false">
-                                <property name="items">
-                                    <list>
-                                        <bean id="course_review_authors_and_collaborators_details" parent="Uif-StackedCollectionSection"
-                                              p:propertyName="reviewProposalDisplay.collaboratorSection.collaboratorWrappers"
-                                              p:collectionObjectClass="org.kuali.student.r1.core.workflow.dto.CollaboratorWrapper"
-                                              p:colSpan="3">
-                                            <property name="layoutManager.lineGroupPrototype.header.headerText"
-                                                      value="@{(#line.author==true) ? (#line.lastName) + ', ' + (#line.firstName) + ' (Author)' : (#line.lastName) + ', ' + (#line.firstName)}"/>
-                                            <property name="layoutManager.lineGroupPrototype.header.style"
-                                                      value="border-bottom : 1px solid black;"/>
-                                            <property name="renderLineActions" value="false"/>
-                                            <property name="renderAddLine" value="false"/>
-                                            <property name="items">
-                                                <list>
-                                                    <bean parent="CM-ReadOnlyInput" p:label="Permissions"
-                                                          p:fieldLabel.style="white-space : nowrap; float:left;"
-                                                          p:propertyName="permission" p:colSpan="1" p:style="padding-top: 5px"/>
-                                                    <bean parent="CM-ReadOnlyInput" p:label="Action Request"
-                                                          p:fieldLabel.style="white-space : nowrap; float:left;"
-                                                          p:propertyName="action" p:colSpan="1" p:style="padding-top: 5px"/>
-                                                </list>
-                                            </property>
-                                        </bean>
-                                    </list>
-                                </property>
-                            </bean>
-                        </list>
-                    </property>
-                    <property name="propertyReplacers">
-                        <list>
-                            <!-- If there are no authors and collaborators then just show a label alone -->
-                            <bean parent="Uif-ConditionalBeanPropertyReplacer" p:propertyName="items"
-                                  p:condition="@{#emptyList(#dataObject.reviewProposalDisplay.collaboratorSection.collaboratorWrappers)}">
-                                <property name="replacement">
-                                    <list>
-                                        <bean parent="CM-ReadOnlyInput" p:label="Authors and Collaborators" id="emptyStringAuthorsAndCollaborators"
-                                              p:propertyName="reviewProposalDisplay.collaboratorSection.emptyStringAuthorAndCollaborator"/>
-                                    </list>
-                                </property>
-                            </bean>
-                        </list>
-                    </property>
-                </bean>
-            </list>
-        </property>
-    </bean>
-
-    <bean id="SupportingDocuments-Review-section" parent="KS-CourseDetailedView-VerticalBoxSection">
-        <property name="headerText" value="Supporting Documents"/>
-        <property name="header.rightGroup.items">
-            <list>
-                <bean p:id="Governance-Review-Edit-link" parent="Uif-ActionLink-Course-Proposal-Review-Page-Edit-Link">
-                    <property name="actionParameters">
-                        <map>
-                            <entry key="displaySection" value="KS-CourseView-SupportingDocuments-Section"/>
-                        </map>
-                    </property>
-                </bean>
-            </list>
-        </property>
-        <property name="items">
-            <list>
-                <bean parent="KS-CourseDetailedView-GridGroup">
-                    <property name="items">
-                        <list>
-                            <bean parent="Uif-VerticalFieldGroup" p:label="Supporting Documents" p:colSpan="3" p:fieldLabel.renderColon="false">
-                                <property name="items">
-                                    <list>
-                                        <bean id="supporting_document_review_section" parent="KS-Uif-StackedCollectionSection-HorizontalSubCollectionFieldGroup"
-                                              p:propertyName="reviewProposalDisplay.supportingDocumentsSection.supportingDocuments"
-                                              p:collectionObjectClass="org.kuali.student.cm.course.form.SupportingDocumentInfoWrapper"
-                                              p:colSpan="3">
-                                            <property name="renderLineActions" value="false"/>
-                                            <property name="renderAddLine" value="false"/>
-                                            <property name="items">
-                                                <list>
-                                                    <bean id="supporting_document_group" parent="Uif-HorizontalFieldGroup" p:showLabel="false">
-                                                         <property name="items">
-                                                             <list>
-                                                                 <bean id="supporting_document_@{#index}" parent="Uif-ActionLinkField" p:actionLabel="@{#line.documentName}" p:methodToCall="downloadSupportingDoc"
-                                                                       p:ajaxSubmit="false"
-                                                                       p:disableBlocking="true"
-                                                                       p:onClickScript="writeHiddenToForm(&quot;ajaxReturnType&quot;, &quot;update-none&quot;);">
-                                                                     <property name="fieldLabel.render" value="false"/>
-                                                                     <property name="id" value="supporting_document_@{#index}"/>
-                                                                     <property name="cssClasses">
-                                                                         <list merge="true">
-                                                                             <value>review_readonly</value>
-                                                                         </list>
-                                                                     </property>
-                                                                 </bean>
-                                                                 <bean id="supporting_document_description" parent="Uif-DataField"
-                                                                       p:propertyName="description"/>
-                                                             </list>
-                                                         </property>
-                                                    </bean>
-                                                </list>
-                                            </property>
-                                        </bean>
-                                    </list>
-                                </property>
-                            </bean>
-                        </list>
-                    </property>
-                </bean>
-            </list>
-        </property>
-    </bean>
-
-    <!--<bean id="KS-CourseView-ReviewProposal-Footer" parent="Uif-FooterBase">
-        <property name="items">
-            <list>
-                <bean parent="Uif-HorizontalBoxGroup">
-                    <property name="items">
-                        <list>
-                            <bean parent="Uif-PrimaryActionButton"
-                                  p:ajaxSubmit="false"
-                                  p:methodToCall="route"
-                                  p:actionLabel="Submit"
-                                  p:actionScript="showCourseProposalSubmitConfirmation();"
-                                  p:performClientSideValidation="true"
-                                  p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}"/>
-                            <bean id="CourseView-ReviewProposal-cancel"
-                                  parent="Uif-ActionLink"
-                                  p:actionLabel="Cancel"
-                                  p:methodToCall="back"
-                                  p:style="margin-right: 100px;"
-                                  p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_CLOSE]}"/>
-                        </list>
-                    </property>
-                </bean>
-            </list>
-        </property>
-    </bean>-->
-
-    <bean id="submitCourseProposalConfirmationDialog-lightbox" parent="Uif-VerticalBoxSection">
-        <property name="headerText" value="Submit Proposal"/>
-        <property name="hidden" value="true"/>
-        <property name="items">
-            <list>
-                <bean parent="Uif-Message" p:messageText="Are you sure you want to submit the proposal to workflow.[br]"
-                      p:style="margin-top:10px;margin-bottom-10px;white-space:nowrap;"/>
-                <bean parent="Uif-HorizontalBoxSection">
-                    <property name="items">
-                        <list>
-                            <bean id="courseproposal_submit_confirm" parent="Uif-PrimaryActionButton" p:preSubmitCall="closeLightbox(); return true;"
-                                  p:methodToCall="" p:actionLabel="Submit" />
-                            <bean id="courseproposal_submit_button_close"
-                                  parent="Uif-ActionLink"
-                                  p:actionLabel="Cancel"
-                                  p:actionScript="closeLightbox();"
-                                  p:additionalCssClasses="cancel_link"/>
-                        </list>
-                    </property>
-                </bean>
-            </list>
-        </property>
-    </bean>
-
-
     <bean id="KS-HomewardPathBreadcrumbs-CourseDetailedView" parent="Uif-BreadcrumbItem">
         <property name="label" value="@{courseInfoWrapper.courseInfo.courseTitle}"/>
     </bean>
-
-    <bean id="KS-CourseView-ReviewLink" parent="Uif-VerticalBoxGroup">
-        <property name="cssClasses">
-            <list merge="true">
-                <value>ks-header</value>
-            </list>
-        </property>
-    </bean>
-
-    <bean id="Uif-ActionLink-Course-Proposal-Review-Page-Edit-Link" parent="Uif-ActionLink" abstract="true"
-          p:ajaxSubmit="false"
-          p:methodToCall="editCourseProposalPage"
-          p:actionLabel="Edit"
-          p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_EDIT]}"/>
 
 </beans>

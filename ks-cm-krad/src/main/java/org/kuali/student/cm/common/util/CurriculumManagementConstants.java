@@ -56,7 +56,7 @@ public class CurriculumManagementConstants {
     public static class CourseViewPageIds {
         public final static String REVIEW_PROPOSAL = "KS-CourseView-ReviewProposalPage";
         public final static String CREATE_COURSE = "KS-CourseView-CoursePage";
-        public final static String COURSE_VIEW_ID = "KS-CourseView";
+        public final static String CREATE_COURSE_ID = "KS-CourseView";
     }
 
     /**
