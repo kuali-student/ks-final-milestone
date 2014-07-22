@@ -145,6 +145,9 @@
         </property>
     </bean>
 
+<!-- TODO This is a work around for KRAD filter bug as in KULRICE-8451. After the KRAD bug is fixed please use the KRAD feature
+     and remove this piece of code.
+ -->
     <bean id="LoCategoryInfoWrapper-Category-Filter" parent="Uif-HorizontalFieldGroup">
         <property name="items">
             <list>
