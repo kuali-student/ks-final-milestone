@@ -33,7 +33,7 @@ var polling = false;
 var delay = null;
 
 /**
- *
+ * This method starts the polling action if it is not already running
  * @param time
  */
 function startPolling(time) {
@@ -53,7 +53,8 @@ function stopPolling() {
 }
 
 /**
- *
+ * This method polls the course registration status at set intervals,
+ * until all the courses have been processed
  */
 function sendPoll() {
 
@@ -85,6 +86,7 @@ function sendPoll() {
 
                 // if no more updates expected, stop polling
                 if (!stop) {
+                    //using recursive setTimeout instead of setInterval so that long running polls don't interfere with subsequent polls
                     setTimeout(sendPoll, delay);
                 } else {
                     stopPolling();
