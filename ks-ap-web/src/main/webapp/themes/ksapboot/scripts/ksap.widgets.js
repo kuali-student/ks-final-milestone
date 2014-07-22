@@ -303,7 +303,7 @@ function ksapGetSectionEnrollment(url, retrieveOptions, componentId) {
  */
 function bookmarkCourse(courseId, e) {
     stopEvent(e);
-    var form = jQuery('<form />').attr("id", "popupForm").attr("action", "planner").attr("method", "post");
+    var form = jQuery('<form />').attr("id", "popupForm").attr("action", "bookmark").attr("method", "post");
     jQuery("body").append(form);
     var additionalFormData = {
         methodToCall:"addBookmark",

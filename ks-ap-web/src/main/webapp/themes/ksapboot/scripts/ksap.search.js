@@ -542,21 +542,8 @@ function registerCourseSearchResultsEvents(jqObject) {
                 fnRestoreSearchAddButton(data.courseDetails.courseId);
             }
         })
-        .on('PLAN_ITEM_ADDED', function(event, data){
-            // REwrite when add action functionality is completed
-            /*if (data.category === 'wishlist') {
-                fnDisplayMessage('Bookmarked', 'bookmarked', data.courseDetails.courseId+'_status', false);
-            }*/
-        })
-        .on('PLAN_ITEM_ADDED', function(event, data){
-            /*if (data.category === 'planned') {
-                fnDisplayMessage('Planned', 'planned', data.courseDetails.courseId+'_status', false);
-            }*/
-        })
-        .on('PLAN_ITEM_ADDED', function(event, data){
-            /*if (data.category === 'backup') {
-                fnDisplayMessage('Planned', 'planned', data.courseDetails.courseId+'_status', false);
-            }*/
+        .on('BOOKMARK_ADDED', function(event, data){
+            ksapBookmarkAddOnSearch(data);
         });
 }
 
@@ -599,4 +586,19 @@ function updateTermsOfferedDisplay(jqObject){
         newList.append(newDD);
     }
     baseDL.find('dd.projected').empty().append(newList);
+}
+
+/**
+ * Handles the dynamic updating when a bookmark is added on the course search page.
+ *
+ * @param data - Data for the event
+ */
+function ksapBookmarkAddOnSearch(data){
+    // Change status on course search page
+    var item = jQuery("#"+data.courseId+"_bookmark_anchor");
+    if(item.length){
+        item.addClass("ks-fontello-icon-star");
+        item.removeClass("ks-fontello-icon-star-empty");
+    }
+
 }

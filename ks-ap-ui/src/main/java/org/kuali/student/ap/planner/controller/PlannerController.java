@@ -918,65 +918,6 @@ public class PlannerController extends KsapControllerBase {
     }
 
     /**
-     * Handles the additions of items to the bookmark list.
-     * Creates a plan item for a course and adds it as a bookmarrk.
-     */
-    @MethodAccessible
-    @RequestMapping(params = "methodToCall=addBookmark")
-    public ModelAndView addBookmark(@ModelAttribute("KualiForm") PlannerForm form, BindingResult result,
-                                       HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException{
-
-        JsonObjectBuilder eventList = Json.createObjectBuilder();
-        LearningPlan plan = PlanItemControllerHelper.getAuthorizedLearningPlan(form, request, response);
-
-        Course course = form.getCourse();
-        if (course == null) {
-            LOG.warn("Missing course for summary ");
-            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Missing course for summary ");
-            return null;
-        }
-
-        // Add the course to the plan
-        PlanItemInfo newBookmark = new PlanItemInfo();
-        newBookmark.setRefObjectId(course.getId());
-        newBookmark.setTypeKey(AcademicPlanServiceConstants.LEARNING_PLAN_ITEM_TYPE);
-        newBookmark.setStateKey(PlanConstants.LEARNING_PLAN_ITEM_ACTIVE_STATE_KEY);
-        newBookmark.setRefObjectType(PlanConstants.COURSE_TYPE);
-        newBookmark.setCategory(AcademicPlanServiceConstants.ItemCategory.WISHLIST);
-        newBookmark.setLearningPlanId(plan.getId());
-
-        try {
-                // If creating new add it to the database
-            newBookmark = KsapFrameworkServiceLocator.getAcademicPlanService().createPlanItem(newBookmark,
-                        KsapFrameworkServiceLocator.getContext().getContextInfo());
-        } catch (AlreadyExistsException e) {
-            LOG.warn(String.format("Course %s is already bookmarked", course.getCode()), e);
-            PlanEventUtils.sendJsonEvents(false,
-                    "Course " + course.getCode() + " is already bookmarked", response, eventList);
-            return null;
-        } catch (DataValidationErrorException e) {
-            throw new IllegalArgumentException("LP service failure", e);
-        } catch (InvalidParameterException e) {
-            throw new IllegalArgumentException("LP service failure", e);
-        } catch (MissingParameterException e) {
-            throw new IllegalArgumentException("LP service failure", e);
-        } catch (OperationFailedException e) {
-            throw new IllegalStateException("LP service failure", e);
-        } catch (PermissionDeniedException e) {
-            throw new IllegalStateException("LP service failure", e);
-        }
-        eventList = PlanEventUtils.makeAddBookmarkEvent(newBookmark, eventList);
-        eventList = PlanEventUtils.makeUpdateBookmarkTotalEvent(newBookmark, eventList);
-
-        List<PlanItem> planItems = KsapFrameworkServiceLocator.getPlanHelper().loadStudentsPlanItemsForCourse(course);
-        eventList = PlanEventUtils.makeUpdatePlanItemStatusMessage(planItems, eventList);
-
-        PlanEventUtils.sendJsonEvents(true, "Course " + course.getCode() + " added to bookmarks",
-                response, eventList);
-        return null;
-    }
-
-    /**
      * Handles submissions from the course add dialog.
      * Validates the course and adds it to the students plan.
      */
