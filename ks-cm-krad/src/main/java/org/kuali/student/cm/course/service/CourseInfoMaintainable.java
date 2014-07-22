@@ -17,13 +17,13 @@ package org.kuali.student.cm.course.service;
 
 import org.kuali.rice.krms.dto.AgendaEditor;
 import org.kuali.student.cm.course.form.CluInstructorInfoWrapper;
-import org.kuali.student.cm.course.form.CommentWrapper;
 import org.kuali.student.cm.course.form.CourseJointInfoWrapper;
-import org.kuali.student.cm.course.form.CourseRuleManagementWrapper;
 import org.kuali.student.cm.course.form.LoCategoryInfoWrapper;
 import org.kuali.student.cm.course.form.OrganizationInfoWrapper;
 import org.kuali.student.cm.course.form.SubjectCodeWrapper;
 import org.kuali.student.cm.course.form.SupportingDocumentInfoWrapper;
+import org.kuali.student.lum.lu.ui.krms.dto.CluInformation;
+import org.kuali.student.r2.lum.clu.dto.MembershipQueryInfo;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
 
 import java.util.List;
@@ -64,5 +64,7 @@ public interface CourseInfoMaintainable {
     public void setLOActions();
 
     public void populateSupportingDocBytes(SupportingDocumentInfoWrapper supportingDoc);
+
+    public List<CluInformation> getCoursesInRange(MembershipQueryInfo membershipQuery);
 
 }

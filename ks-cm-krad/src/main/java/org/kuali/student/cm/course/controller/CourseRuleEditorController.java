@@ -38,6 +38,15 @@ import org.kuali.student.cm.common.util.CurriculumManagementConstants;
 import org.kuali.student.cm.course.form.CourseInfoWrapper;
 import org.kuali.student.cm.course.form.CourseRuleManagementWrapper;
 import org.kuali.student.cm.course.service.CourseInfoMaintainable;
+import org.kuali.student.cm.course.service.impl.CourseInfoMaintainableImpl;
+import org.kuali.student.common.uif.util.KSControllerHelper;
+import org.kuali.student.lum.lu.ui.krms.dto.CluSetRangeInformation;
+import org.kuali.student.lum.lu.ui.krms.dto.CluSetRangeWrapper;
+import org.kuali.student.lum.lu.ui.krms.dto.LUPropositionEditor;
+import org.kuali.student.lum.lu.ui.krms.dto.LURuleEditor;
+import org.kuali.student.lum.lu.ui.krms.service.impl.LURuleViewHelperServiceImpl;
+import org.kuali.student.lum.lu.ui.krms.util.CluSetRangeHelper;
+import org.kuali.student.r2.lum.clu.dto.MembershipQueryInfo;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -156,7 +165,6 @@ public class CourseRuleEditorController extends RuleEditorController {
     public ModelAndView deleteRule(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result, HttpServletRequest request,
             HttpServletResponse response) {
         MaintenanceDocumentForm documentForm = (MaintenanceDocumentForm) form;
-        CourseInfoMaintainable courseInfoMaintainable = (CourseInfoMaintainable)documentForm.getDocument().getNewMaintainableObject();
         RuleManager ruleWrapper = AgendaUtilities.getRuleWrapper(documentForm);
         String ruleKey = AgendaUtilities.getRuleKey(documentForm);
 
@@ -279,6 +287,48 @@ public class CourseRuleEditorController extends RuleEditorController {
      */
     protected CourseInfoMaintainable getCourseMaintainableFrom(final MaintenanceDocumentForm form) {
         return (CourseInfoMaintainable) form.getDocument().getNewMaintainableObject();
+    }
+
+    /**
+     * Controller method used to add a new course range to the list of course ranges.
+     *
+     * @param form
+     * @param result
+     * @param request
+     * @param response
+     * @return
+     */
+    @RequestMapping(params = "methodToCall=addRange")
+    public ModelAndView addRange(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
+                                 HttpServletRequest request, HttpServletResponse response) {
+
+        RuleEditor rule = getRuleEditor(form);
+        LUPropositionEditor prop = (LUPropositionEditor) PropositionTreeUtil.getProposition(rule);
+
+        //Build the membershipquery
+        CluSetRangeWrapper range = prop.getCluSetRange();
+        if(!CluSetRangeHelper.validateCourseRange(prop, range)){
+            return getUIFModelAndView(form);
+        }
+
+        MembershipQueryInfo membershipQueryInfo = CluSetRangeHelper.buildMembershipQuery(range);
+
+        //Build the cluset range wrapper object
+        CluSetRangeInformation cluSetRange = new CluSetRangeInformation();
+        cluSetRange.setCluSetRangeLabel(CluSetRangeHelper.buildLabelFromQuery(membershipQueryInfo));
+        cluSetRange.setMembershipQueryInfo(membershipQueryInfo);
+        cluSetRange.setClusInRange(((CourseInfoMaintainableImpl)this.getViewHelper(form)).getCoursesInRange(membershipQueryInfo));
+
+        if(!CluSetRangeHelper.validateCoursesInRange(prop, range, cluSetRange)) {
+            return getUIFModelAndView(form);
+        }
+
+        prop.getCourseSet().getCluSetRanges().add(cluSetRange);
+
+        //Reset range helper to clear values on screen.
+        range.reset();
+
+        return getUIFModelAndView(form);
     }
 
 }

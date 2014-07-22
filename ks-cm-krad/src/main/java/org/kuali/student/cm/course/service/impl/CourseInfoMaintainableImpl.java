@@ -78,9 +78,11 @@ import org.kuali.student.common.util.security.ContextUtils;
 import org.kuali.student.core.krms.tree.KSRuleViewTreeBuilder;
 import org.kuali.student.core.rice.authorization.DocumentCollaboratorHelper;
 import org.kuali.student.lum.lu.ui.course.keyvalues.OrgsBySubjectCodeValuesFinder;
+import org.kuali.student.lum.lu.ui.krms.dto.CluInformation;
 import org.kuali.student.lum.lu.ui.krms.dto.LUAgendaEditor;
 import org.kuali.student.lum.lu.ui.krms.dto.LURuleEditor;
 import org.kuali.student.lum.lu.ui.krms.tree.LURuleViewTreeBuilder;
+import org.kuali.student.lum.lu.ui.krms.util.CluInformationHelper;
 import org.kuali.student.lum.program.client.ProgramConstants;
 import org.kuali.student.r1.common.rice.StudentIdentityConstants;
 import org.kuali.student.r1.common.rice.StudentWorkflowConstants.ActionRequestType;
@@ -125,6 +127,7 @@ import org.kuali.student.r2.core.search.dto.SearchResultInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultRowInfo;
 import org.kuali.student.r2.core.search.service.SearchService;
 import org.kuali.student.r2.lum.clu.dto.CluInstructorInfo;
+import org.kuali.student.r2.lum.clu.dto.MembershipQueryInfo;
 import org.kuali.student.r2.lum.clu.service.CluService;
 import org.kuali.student.r2.lum.course.dto.ActivityInfo;
 import org.kuali.student.r2.lum.course.dto.CourseCrossListingInfo;
@@ -202,6 +205,8 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
     private transient DocumentService documentService;
 
     private PersonService personService;
+
+    private CluInformationHelper cluInfoHelper;
 
     /**
      * Method called when queryMethodToCall is executed for Administering Organizations in order to suggest back to the user an Administering Organization
@@ -2378,5 +2383,19 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
             documentService = (DocumentService) GlobalResourceLoader.getService(new QName(DocumentServiceConstants.NAMESPACE, "DocumentService"));
         }
         return documentService;
+    }
+
+    public List<CluInformation> getCoursesInRange(MembershipQueryInfo membershipQuery) {
+        return this.getCluInfoHelper().getCluInfosWithDetailForQuery(membershipQuery);
+    }
+
+    protected CluInformationHelper getCluInfoHelper() {
+        if (cluInfoHelper == null) {
+            cluInfoHelper = new CluInformationHelper();
+            cluInfoHelper.setCluService(this.getCluService());
+            LRCService lrcService = GlobalResourceLoader.getService(new QName(LrcServiceConstants.NAMESPACE, LrcServiceConstants.SERVICE_NAME_LOCAL_PART));
+            cluInfoHelper.setLrcService(lrcService);
+        }
+        return cluInfoHelper;
     }
 }
