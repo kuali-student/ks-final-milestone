@@ -55,31 +55,35 @@ public class CreditsFacet extends AbstractFacet {
         float max = course.getCreditMax();
 
 		List<Float> list = new ArrayList<Float>();
-		switch (course.getCreditType()) {
-		case Range:
-			for (float x = min; x <= max; x++) {
-				list.add(x);
-			}
-			break;
-		case Fixed:
-			list.add(min);
-			break;
-		case Multiple:
-            if (course.getMultipleCredits() != null) {
-                for (float credit : course.getMultipleCredits()) {
-                    list.add(credit);
-                }
-            }
-            else {
-                list.add(min);
-            }
-			break;
-		case Unknown:
-		default:
+        if(course.getCreditType()==null){
             list.add(min);
-			break;
+        }else{
+		switch (course.getCreditType()) {
+            case Range:
+                for (float x = min; x <= max; x++) {
+                    list.add(x);
+                }
+                break;
+            case Fixed:
+                list.add(min);
+                break;
+            case Multiple:
+                if (course.getMultipleCredits() != null) {
+                    for (float credit : course.getMultipleCredits()) {
+                        list.add(credit);
+                    }
+                }
+                else {
+                    list.add(min);
+                }
+                break;
+            case Unknown:
+            default:
+                list.add(min);
+                break;
 
-		}
+            }
+        }
 
 		creditFacetSet.addAll(list);
 

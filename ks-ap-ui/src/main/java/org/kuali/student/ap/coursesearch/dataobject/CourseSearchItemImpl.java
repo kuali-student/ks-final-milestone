@@ -148,6 +148,9 @@ public class CourseSearchItemImpl implements CourseSearchItem {
 	}
 
 	public String getCredit() {
+        if(credit==null){
+            credit="";
+        }
 		return credit;
 	}
 
