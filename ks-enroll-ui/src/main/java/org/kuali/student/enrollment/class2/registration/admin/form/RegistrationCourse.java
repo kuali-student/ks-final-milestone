@@ -19,7 +19,6 @@ package org.kuali.student.enrollment.class2.registration.admin.form;
 import org.kuali.student.enrollment.courseoffering.infc.RegistrationGroup;
 
 import org.kuali.student.r2.common.util.date.DateFormatters;
-import org.kuali.student.r2.common.util.date.KSDateTimeFormatter;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -40,7 +39,7 @@ public class RegistrationCourse implements Serializable{
     private String title;
 
     private Integer credits;
-    private String regOptions;
+    private String gradingOption;
 
     private Date transactionalDate;
     private Date dropDate;
@@ -87,12 +86,12 @@ public class RegistrationCourse implements Serializable{
         return credits;
     }
 
-    public String getRegOptions() {
-        return regOptions;
+    public String getGradingOption() {
+        return gradingOption;
     }
 
-    public void setRegOptions(String regOptions) {
-        this.regOptions = regOptions;
+    public void setGradingOption(String gradingOption) {
+        this.gradingOption = gradingOption;
     }
 
     public Date getTransactionalDate() {

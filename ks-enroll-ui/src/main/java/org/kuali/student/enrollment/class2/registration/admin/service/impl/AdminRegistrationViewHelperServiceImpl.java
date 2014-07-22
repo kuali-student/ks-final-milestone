@@ -160,7 +160,7 @@ public class AdminRegistrationViewHelperServiceImpl extends KSViewHelperServiceI
     /**
      * Creates Registration Course info based on CourseRegistrationInfo.
      *
-     * @param courseRegistrationListInfo
+     * @param courseRegistrationInfo
      * @return registrationCourse
      * @throws DoesNotExistException
      * @throws InvalidParameterException
@@ -169,19 +169,20 @@ public class AdminRegistrationViewHelperServiceImpl extends KSViewHelperServiceI
      * @throws PermissionDeniedException
      * @throws ParseException
      */
-    private RegistrationCourse createRegistrationCourse(CourseRegistrationInfo courseRegistrationListInfo)
+    private RegistrationCourse createRegistrationCourse(CourseRegistrationInfo courseRegistrationInfo)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ParseException {
 
-        CourseOfferingInfo coInfo = AdminRegResourceLoader.getCourseOfferingService().getCourseOffering(courseRegistrationListInfo.getCourseOfferingId(), createContextInfo());
+        CourseOfferingInfo coInfo = AdminRegResourceLoader.getCourseOfferingService().getCourseOffering(courseRegistrationInfo.getCourseOfferingId(), createContextInfo());
 
         RegistrationCourse registrationCourse = new RegistrationCourse();
         registrationCourse.setCode(coInfo.getCourseOfferingCode());
         registrationCourse.setTitle(coInfo.getCourseOfferingTitle());
         registrationCourse.setCredits(Integer.parseInt(coInfo.getCreditCnt()));
-        registrationCourse.setTransactionalDate(courseRegistrationListInfo.getMeta().getCreateTime());
-        registrationCourse.setEffectiveDate(courseRegistrationListInfo.getEffectiveDate());
+        registrationCourse.setTransactionalDate(courseRegistrationInfo.getMeta().getCreateTime());
+        registrationCourse.setEffectiveDate(courseRegistrationInfo.getEffectiveDate());
         registrationCourse.setSection(AdminRegResourceLoader.getCourseOfferingService().getRegistrationGroup(
-                courseRegistrationListInfo.getRegistrationGroupId(), createContextInfo()).getRegistrationCode());
+                courseRegistrationInfo.getRegistrationGroupId(), createContextInfo()).getRegistrationCode());
+        registrationCourse.setGradingOption(CourseRegistrationAndScheduleOfClassesUtil.translateGradingOptionKeyToName(courseRegistrationInfo.getGradingOptionId()));
         return registrationCourse;
     }
 
