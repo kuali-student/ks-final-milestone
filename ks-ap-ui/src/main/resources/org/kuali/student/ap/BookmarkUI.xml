@@ -324,6 +324,7 @@
 
             </list>
         </property>
+        <property name="onDocumentReadyScript" value="registerPlannerEvents('#bookmark_detail_page');"/>
     </bean>
 
     <bean id="bookmark_detail" parent="Uif-VerticalBoxSubSection">

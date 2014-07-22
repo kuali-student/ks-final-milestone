@@ -490,7 +490,7 @@ function initBookmarkCount(evenObject,bookMarkLabelText,e){
     //Register BM refresh event
     jQuery(evenObject)
         .on('UPDATE_BOOKMARK_TOTAL', function(event, data) {
-            refreshBookmarkCount(data);
+            ksapBookmarkUpdateTotal(data);
         });
 
     //Set bookmark count label text
@@ -519,19 +519,4 @@ function requestBookmarkCountRefresh(e) {
     });
     fnClosePopup();
     jQuery("form#refreshBookmarkFormId").remove();
-}
-
-function refreshBookmarkCount(data) {
-    var boomarkCountLink=jQuery("#Ksap-Header-Bookmark-Count");
-    var bookmarkCountValue=jQuery("#Ksap-Header-Bookmark-Count-Value");
-    bookmarkCountValue.html(data.bookmarkTotal);
-    if (data.bookmarkTotal !=null && data.bookmarkTotal <=0) {
-        boomarkCountLink.addClass("disabled ks-fontello-icon-star-empty");
-        boomarkCountLink.removeClass("ks-fontello-icon-star");
-        boomarkCountLink.attr("disabled","disabled");
-    } else {
-        boomarkCountLink.addClass("ks-fontello-icon-star");
-        boomarkCountLink.removeClass("disabled ks-fontello-icon-star-empty");
-        boomarkCountLink.removeAttr("disabled")
-    }
 }
