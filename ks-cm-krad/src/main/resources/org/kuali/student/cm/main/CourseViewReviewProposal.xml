@@ -519,7 +519,7 @@
                                 </property>
                                 <property name="items">
                                     <list>
-                                        <bean id="CourseRequisitesPreview-DisclosureLinks-AgendaMaintenance" parent="KRMS-AgendaMaintenance-DisclosureLinks"/>
+
                                         <bean parent="KRMS-AgendaManage-Section" class="org.kuali.student.cm.course.service.util.CourseAgendaSection">
                                             <property name="rulePrototype">
                                                 <ref bean="CoursePreview-AgendaManage-RulePrototype"/>
@@ -532,33 +532,10 @@
                         </list>
                     </property>
                 </bean>
-                <!--old code goes here - - -->
-            </list>
+           </list>
         </property>
     </bean>
 
-    <bean id="CoursePreview-AgendaManage-RulePrototype" parent="KRMS-AgendaManage-RulePrototype">
-        <property name="items">
-            <list>
-                <ref bean="Course-AgendaManage-ViewRule"/>
-            </list>
-        </property>
-    </bean>
-
-    <bean id="Course-AgendaManage-ViewRule" parent="KRMS-AgendaManage-EditRule">
-        <property name="items">
-            <list>
-                <bean id="Course-ViewTree-Group" parent="Uif-VerticalBoxGroup"
-                      p:cssClasses="ks-form-panel">
-                    <property name="items">
-                        <list>
-                            <ref bean="Course-ViewTree-Section"/>
-                        </list>
-                    </property>
-                </bean>
-            </list>
-        </property>
-    </bean>
 
 
 

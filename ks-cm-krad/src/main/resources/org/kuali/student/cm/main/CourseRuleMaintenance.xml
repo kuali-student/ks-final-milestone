@@ -408,5 +408,35 @@ limitations under the License.
             </list>
         </property>
     </bean>
-    
+
+    <!--
+     Custom RulePrototype for Requisites on Course Review screen.
+    -->
+    <bean id="CoursePreview-AgendaManage-RulePrototype" parent="KRMS-AgendaManage-RulePrototype-CoursePreview">
+        <property name="items">
+            <list>
+                <ref bean="Course-AgendaManage-ViewRule"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KRMS-AgendaManage-RulePrototype-CoursePreview" parent="KSCM-Uif-VerticalBoxSubSection">
+    </bean>
+
+    <bean id="Course-AgendaManage-ViewRule" parent="KRMS-AgendaManage-EditRule">
+        <property name="items">
+            <list>
+                <bean id="Course-ReviewTree-Group" parent="Uif-VerticalBoxGroup"
+                      p:cssClasses="ks-form-panel">
+                    <property name="items">
+                        <list>
+                            <ref bean="Course-ViewTree-Section"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+
 </beans>

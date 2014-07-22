@@ -198,6 +198,35 @@
        </property>
     </bean>
 
+    <!--
+       The vertical subsection header font needs to be H5 on Course review section for Requisites so
+       overriding the parent.
+   -->
+    <bean id="KSCM-Uif-VerticalBoxSubSection" parent="KSCM-Uif-VerticalBoxSubSection-parentBean"/>
+    <bean id="KSCM-Uif-VerticalBoxSubSection-parentBean" abstract="true" parent="Uif-VerticalBoxGroup" scope="prototype">
+        <property name="cssClasses">
+            <list merge="true">
+                <value>uif-boxSubSection</value>
+            </list>
+        </property>
+        <property name="header">
+            <bean parent="KSCM-Uif-SubSectionHeader"/>
+        </property>
+        <property name="help">
+            <bean parent="Uif-Help"/>
+        </property>
+    </bean>
+
+    <bean id="KSCM-Uif-SubSectionHeader" parent="KSCM-Uif-SubSectionHeader-parentBean"/>
+    <bean id="KSCM-Uif-SubSectionHeader-parentBean" abstract="true" parent="Uif-HeaderFive">
+        <property name="cssClasses">
+            <list merge="true">
+                <value>uif-subSectionHeader</value>
+            </list>
+        </property>
+    </bean>
+
+
 </beans>
 
 
