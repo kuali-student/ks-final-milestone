@@ -55,7 +55,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
 
 /**
  * Created with IntelliJ IDEA.
@@ -115,6 +114,7 @@ public class AdminRegistrationController extends UifControllerBase {
         form.clearTermValues();
         PersonInfo person = this.getViewHelper(form).getStudentById(form.getPerson().getId());
         if (GlobalVariables.getMessageMap().hasErrors()) {
+            form.getPerson().setName(null);
             form.setClientState(AdminRegConstants.ClientStates.OPEN);
             return getUIFModelAndView(form);
         } else {
