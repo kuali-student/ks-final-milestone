@@ -510,7 +510,7 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
         } else if (newLine instanceof SupportingDocumentInfoWrapper) {
             MaintenanceDocumentForm modelForm = (MaintenanceDocumentForm) viewModel;
             CourseInfoWrapper courseInfoWrapper = (CourseInfoWrapper) modelForm.getDocument().getNewMaintainableObject().getDataObject();
-            for (SupportingDocumentInfoWrapper doc : courseInfoWrapper.getSupportingDocs()){
+            for (SupportingDocumentInfoWrapper doc : courseInfoWrapper.getSupportingDocs()) {
                 populateSupportingDocBytes(doc);
             }
         }
@@ -735,7 +735,7 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
      */
     @Override
     public List<ReferenceObjectBinding> getParentRefOjbects(String refObjectId) {
-        if (StringUtils.isBlank(refObjectId)){
+        if (StringUtils.isBlank(refObjectId)) {
             return Collections.EMPTY_LIST;
         }
         return this.getRuleManagementService().findReferenceObjectBindingsByReferenceObject(CourseServiceConstants.REF_OBJECT_URI_COURSE, refObjectId);
@@ -980,7 +980,7 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
             } else if ((deleteLine != null) && (deleteLine instanceof SupportingDocumentInfoWrapper)) {
                 SupportingDocumentInfoWrapper supportingDocumentInfoWrapper = (SupportingDocumentInfoWrapper) deleteLine;
                 supportingDocumentInfoWrapper.setDocumentUpload(null);
-                if (!supportingDocumentInfoWrapper.isNewDto()){
+                if (!supportingDocumentInfoWrapper.isNewDto()) {
                     courseInfoWrapper.getSupportingDocsToDelete().add(supportingDocumentInfoWrapper);
                 }
             }
@@ -997,9 +997,7 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
         final SearchRequestInfo searchRequest = new SearchRequestInfo();
         searchRequest.setSearchKey("subjectCode.search.orgsForSubjectCode");
 
-        if(subjectArea != null) {
-            searchRequest.addParam("subjectCode.queryParam.code", subjectArea);
-        }
+        searchRequest.addParam("subjectCode.queryParam.code", subjectArea);
         searchRequest.addParam("subjectCode.queryParam.optionalOrgId", unitsContentOwner.getOrgId());
 
         List<KeyValue> departments = new ArrayList<KeyValue>();
@@ -1012,7 +1010,19 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
                 throw new RuntimeException("Invalid Org Id");
             }
 
-            SearchResultRowInfo row = KSCollectionUtils.getOptionalZeroElement(result.getRows(), true);
+            SearchResultRowInfo row = null;
+            if (subjectArea != null) {
+                // This for loop is kind of get(0) this is to avid sonar violation.
+                // without giving subjectArea Organization cannot be added. this is tricky scenario where subjectArea ia added and Orgs is chosen, but before "save" subjectArea is removed.
+                // search result returns multiple values without subjectArea.
+                // for all return result "subjectCode.resultColumn.orgLongName" will be the same.
+                for (SearchResultRowInfo resultCell : result.getRows()) {
+                    row = resultCell;
+                    break;
+                }
+            } else {
+                row = KSCollectionUtils.getOptionalZeroElement(result.getRows(), true);
+            }
 
             for (final SearchResultCellInfo resultCell : row.getCells()) {
                 if ("subjectCode.resultColumn.orgLongName".equals(resultCell.getKey())) {
@@ -1075,7 +1085,7 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
         reviewData.getSupportingDocumentsSection().getSupportingDocuments().clear();
 
         for (SupportingDocumentInfoWrapper supportingDoc : courseInfoWrapper.getSupportingDocs()) {
-            if (supportingDoc.isNewDto() && supportingDoc.getDocumentUpload() != null){
+            if (supportingDoc.isNewDto() && supportingDoc.getDocumentUpload() != null) {
                 reviewData.getSupportingDocumentsSection().getSupportingDocuments().add(supportingDoc);
             }
         }
@@ -1567,15 +1577,16 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
     /**
      * This method transfers the content from MultipartFile to a byte array. MultipartFile's content will be
      * cleared out once the request
+     *
      * @param supportingDoc
      */
-    public void populateSupportingDocBytes(SupportingDocumentInfoWrapper supportingDoc){
+    public void populateSupportingDocBytes(SupportingDocumentInfoWrapper supportingDoc) {
         try {
-            if (supportingDoc.isNewDto() && supportingDoc.getUploadedDoc() == null && supportingDoc.getDocumentUpload() != null && supportingDoc.getDocumentUpload().getBytes() != null){
+            if (supportingDoc.isNewDto() && supportingDoc.getUploadedDoc() == null && supportingDoc.getDocumentUpload() != null && supportingDoc.getDocumentUpload().getBytes() != null) {
                 supportingDoc.setDocumentName(supportingDoc.getDocumentUpload().getOriginalFilename());
                 supportingDoc.setUploadedDoc(supportingDoc.getDocumentUpload().getBytes());
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
@@ -1587,7 +1598,7 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
      */
     protected void persistSupportingDocuments(CourseInfoWrapper courseInfoWrapper) {
 
-        for (SupportingDocumentInfoWrapper supportingDoc : courseInfoWrapper.getSupportingDocs()){
+        for (SupportingDocumentInfoWrapper supportingDoc : courseInfoWrapper.getSupportingDocs()) {
 
             populateSupportingDocBytes(supportingDoc);
 
@@ -1636,8 +1647,8 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
 
                 } catch (Exception ex) {
                     LOG.error("Unable to add supporting document to the course for file: " +
-                              supportingDoc.getDocumentUpload().getName(), ex);
-                    throw new RuntimeException("Error persisting supporting document.",ex);
+                            supportingDoc.getDocumentUpload().getName(), ex);
+                    throw new RuntimeException("Error persisting supporting document.", ex);
                 }
             }
         }
@@ -1645,7 +1656,7 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
         /**
          * Now, remove all the docs marked for delete by user
          */
-        for (SupportingDocumentInfoWrapper docToDelete : courseInfoWrapper.getSupportingDocsToDelete()){
+        for (SupportingDocumentInfoWrapper docToDelete : courseInfoWrapper.getSupportingDocsToDelete()) {
             try {
                 // Deletes the document and its Ref doc relations
                 List<RefDocRelationInfo> refDocRelationInfoList = getSupportingDocumentService().getRefDocRelationsByDocument(docToDelete.getDocumentId(), ContextUtils.createDefaultContextInfo());
@@ -2137,10 +2148,10 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
 
         try {
             if (StringUtils.isNotBlank(courseInfoWrapper.getCourseInfo().getId())) {
-                List<DocumentHeaderDisplayInfo> documentInfoList =  getSupportingDocumentService().getDocumentHeaderDisplay(
-                                                                        courseInfoWrapper.getCourseInfo().getId(),
-                                                                        CurriculumManagementConstants.DEFAULT_DOC_TYPE_KEY,
-                                                                        ContextUtils.createDefaultContextInfo());
+                List<DocumentHeaderDisplayInfo> documentInfoList = getSupportingDocumentService().getDocumentHeaderDisplay(
+                        courseInfoWrapper.getCourseInfo().getId(),
+                        CurriculumManagementConstants.DEFAULT_DOC_TYPE_KEY,
+                        ContextUtils.createDefaultContextInfo());
                 courseInfoWrapper.getSupportingDocs().clear();
                 SupportingDocumentInfoWrapper supportingDocumentInfoWrapper = null;
                 for (final DocumentHeaderDisplayInfo documentHeaderDisplayInfo : documentInfoList) {
@@ -2155,13 +2166,13 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
                     courseInfoWrapper.getSupportingDocs().add(new SupportingDocumentInfoWrapper());
                 }
             }
-        } catch(Exception ex) {
+        } catch (Exception ex) {
             LOG.error("Error occurred while loading the supporting documents" + ex);
             throw new RuntimeException(ex);
         }
     }
 
-    protected void populateRequisities(){
+    protected void populateRequisities() {
 
         CourseInfoWrapper courseInfoWrapper = (CourseInfoWrapper) getDataObject();
 
@@ -2171,6 +2182,7 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
 
         courseInfoWrapper.setAgendas(this.getAgendasForRef(CourseServiceConstants.REF_OBJECT_URI_COURSE, courseId, null));
     }
+
     /**
      * This method creates <class>LoDisplayWrapperModel</class> instances from <class>LoDisplayInfoWrapper</class> instances
      */
