@@ -12,8 +12,8 @@
 // Main heading container
 .kscr-MainHeading {
     background-color: @sectionColor;
-    border: 0px;
-    padding: 10px;
+    border: 0;
+    padding: 1rem;
     .util-transitions-browserHelper();
 
     * {
@@ -81,7 +81,7 @@
         .kscr-Mainheading-styles();
         .spinner-big-icon; // Processing icon mixin
         font-weight: normal;
-        padding: 18px 18px 18px 45px;
+        padding: 1.8rem 1.8rem 1.8rem 4.5rem;
     }
 }
 
@@ -122,7 +122,7 @@
 
     // Main Cart heading in small format
     .kscr-MainHeading-CartHeading {
-        padding: 0 0.5em;
+        padding: 0 0.5rem;
 
         // Styles for when stuck
         &.util-sticky--stuck {
@@ -145,22 +145,22 @@
 
     // Main heading container
     .kscr-MainHeading {
-        padding-bottom: 0px; // No bottom padding in large-format, allows sibling elements to sit flush against bottom of heading
+        padding-bottom: 0; // No bottom padding in large-format, allows sibling elements to sit flush against bottom of heading
     }
 
     // Cart heading-specific styles in large format
     .kscr-MainHeading-CartHeading .kscr-MainHeading {
         // Styles need a bit of tweaking to maintain the alignment of the Cart heading to the Schedule/Waitlist sections
-        padding-bottom: 8px;
-        padding-top: 10px;
+        padding-bottom: 0.8rem;
+        padding-top: 1rem;
 
         .kscr-MainHeading-header--processing {
-            padding: 10px 8px 8px 35px;
+            padding: 1rem 0.8rem 0.8rem 3.5rem;
         }
     }
 
     // Schedule heading-specific styles in large format
     .kscr-Responsive-scheduleWrapper .kscr-MainHeading-header {
-        margin-left: 10px; // Additional margins needed to inset from left edge in large format
+        margin-left: 1rem; // Additional margins needed to inset from left edge in large format
     }
 }

@@ -2,8 +2,8 @@
 
 // Facet list container
 .kscr-SearchFacets {
-    margin: 10px;
-    width: 200px;
+    margin: 1rem;
+    width: 20rem;
 }
 
 
@@ -12,18 +12,18 @@
 .kscr-SearchFacet-headerContainer {
     background: @cardBorderColor;
     font-family: @secondaryFontFamily;
-    margin-bottom: 1px;
+    margin-bottom: 0.1rem;
 }
 
 // Facet header (chevron & text)
 .kscr-SearchFacet-header {
     cursor: pointer;
-    padding-left: 30px;
+    padding-left: 3rem;
     position: relative;
 
     // Chevron icon
     & .kscr-Card-icon {
-        left: 10px;
+        left: 1rem;
     }
 }
 
@@ -31,7 +31,7 @@
 .kscr-SearchFacet-heading {
     color: @cardTextColor;
     font-weight: bold;
-    padding: 0.65em 10px 0.65em 0;
+    padding: 0.65rem 1rem 0.65rem 0;
 }
 
 // Clear button
@@ -39,7 +39,7 @@
     border-left: @horizontalLineBorder;
     color: @optionText;
     cursor: pointer;
-    padding: 0.65em 15px;
+    padding: 0.65rem 1.5rem;
 }
 
 
@@ -48,7 +48,7 @@
 // Facet options container
 .kscr-SearchFacet-options {
     list-style: none;
-    margin: 2px 1px 0; // Fix up the margins so the options line up with the heading
+    margin: 0.2rem 0.1rem 0; // Fix up the margins so the options line up with the heading
     padding: 0;
 }
 
@@ -57,20 +57,20 @@
     .kscr-Edit-control();
 
     display: block;
-    padding-left: 30px;
+    padding-left: 3rem;
     position: relative;
 
     &:last-child {
         // Cut the margin on the last item a bit so it sits flush against the facet below it
-        margin-bottom: 2px;
+        margin-bottom: 0.2rem;
     }
 
     // Checkbox icon styles
     & .kscr-SearchFacet-option-icon {
         .checkbox-icon();
-        left: 5px;
+        left: 0.5rem;
         position: absolute;
-        top: 8px;
+        top: 0.8rem;
     }
     &--Selected .kscr-SearchFacet-option-icon {
         .checkbox-icon--checked();

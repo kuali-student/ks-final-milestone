@@ -7,13 +7,13 @@
 // Transaction results sub-heading
 .kscr-Heading-sub.kscr-cartResult-responseHeading {
     // Update sub-heading in the cart (results heading) to have better spacing from sibling elements
-    padding: 0 0.3em 0.3em;
+    padding: 0 0.3rem 0.3rem;
 }
 
 // Transaction results label (e.g. Results)
 .kscr-cartResult-responseLabel {
     float: left;
-    margin-right: 10px;
+    margin-right: 1rem;
     text-transform: uppercase;
 }
 
@@ -29,8 +29,8 @@
         // Set up the space and alignment of the icons
         background-position: left center;
         background-repeat: no-repeat;
-        margin-left: 10px;
-        padding-left: 20px;
+        margin-left: 1rem;
+        padding-left: 2rem;
     }
 
     // Transaction results icons
@@ -57,11 +57,11 @@
 .kscr-cartResult-icon {
     background-repeat: no-repeat;
     background-position: @iconPosition;
-    height: 30px;
+    height: 3rem;
     left: 0;
     position: absolute;
     top: 0;
-    width: 30px;
+    width: 3rem;
 }
 
 // Content of cart results (all but status icon, remove icon, & credit count in large-format)
@@ -71,7 +71,7 @@
 
 // Cart result heading
 .kscr-cartResult-heading {
-    padding-right: 20px;
+    padding-right: 2rem;
 }
 
 // Remove icon (X) for cart results
@@ -83,7 +83,7 @@
 .kscr-cartResult-content .kscr-Card-detailsText {
     .util-transitions-browserHelper(); // Transition to ease the text colors in with the rest of the text
 
-    margin-top: 0.3em;
+    margin-top: 0.3rem;
     padding-bottom: 0;
 
     .kscr-Card-text-alert {
@@ -100,7 +100,7 @@
 
 // Status styles for cart result cards
 .kscr-cartResult-status {
-    padding: 10px 10px 10px 35px;
+    padding: 1rem 1rem 1rem 3.5rem;
     position: relative;
 
     // Processing styles
@@ -190,7 +190,7 @@
         &--error {
             // Add to Waitlist & Error reason messages
             // Margin to push border down
-            margin-top: 0.3em;
+            margin-top: 0.3rem;
         }
     }
 }
@@ -201,7 +201,7 @@
     // Cart results sub-heading
     .kscr-Heading-sub.kscr-cartResult-responseHeading {
         // Update sub-heading in the cart (results heading) to have better spacing from sibling elements
-        padding: 10px 0;
+        padding: 1rem 0;
     }
 
     // Cart results response counts (e.g. Success, Fail)
@@ -244,7 +244,7 @@
 
         // Update items in the cart results to have a top border
         border-top: @horizontalLineBorder !important; // Important to override the styles on .kscr-Responsive-cart .panel-group .panel
-        padding: 10px 0 10px 25px;
+        padding: 1rem 0 1rem 2.5rem;
 
         // No button bar border in large-format
         .kscr-Card-buttons {
@@ -259,12 +259,12 @@
     }
 
     .kscr-cartResult-icon {
-        background-position: 0 10px;
+        background-position: 0 1rem;
     }
 
     .kscr-cartResult-content .kscr-Card-detailsText {
         border-top: none;
-        margin-top: 0.3em;
+        margin-top: 0.3rem;
         padding-top: 0;
     }
 }

@@ -16,14 +16,14 @@
     font-weight: bold;
     margin-left: auto;
     margin-right: auto;
-    padding: 0 0.2em;
+    padding: 0 0.2rem;
     position: relative;
 }
 
 .kscr-Header-logo {
     background: url('../images/logo_kuali_k_only.png') no-repeat 5px center;
     height: @headerHeight;
-    padding: 0 0.2em 0 40px;
+    padding: 0 0.2rem 0 4rem;
 }
 
 .kscr-Header-title {
@@ -34,21 +34,21 @@
     border-left: 2px solid @lightGray;
     border-right: 2px solid @lightGray;
     display: none;
-    height: 1.5em;
-    margin: 0 0.7em;
-    width: 8px;
+    height: 1.5rem;
+    margin: 0 0.7rem;
+    width: 0.8rem;
 }
 
 .kscr-Header-termName {
     display: block;
     font-weight: normal;
-    line-height: 14px;
+    line-height: 1.4rem;
     position: relative;
 
     &-icon {
         float: left;
         .font-size(12);
-        margin-right: 5px;
+        margin-right: 0.5rem;
     }
 
     &-selector {
@@ -76,7 +76,7 @@
             height: 100%;
             outline: none; // Outline shows when element is focused in some browsers (clicked or tabbed into)
             text-indent: -999em; // Offsets the text in the select to a non-visible portion of the screen so that it won't conflict with the styled label
-            width: calc(~'100% + 20px'); // Force the select arrow to be hidden by the parent div overflow
+            width: calc(~'100% + 2rem'); // Force the select arrow to be hidden by the parent div overflow
             -webkit-appearance: none;
 
             & option {
@@ -92,8 +92,8 @@
     font-family: @secondaryFontFamily;
     .font-size(13);
     font-weight: normal;
-    line-height: 13px;
-    margin-top: 3px;
+    line-height: 1.3rem;
+    margin-top: 0.3rem;
 }
 
 .kscr-Header-user {
@@ -105,8 +105,8 @@
   cursor: pointer;
   border: 1px solid @black;
   border-radius: 4px;
-  padding: 5px;
-  margin-right: 15px;
+  padding: 0.5rem;
+  margin-right: 1.5rem;
 
   &:hover, &--clicked {
     border-color: @white;
@@ -116,14 +116,14 @@
 .kscr-Header-moreOptions {
   .arrow-down-icon;
   margin-bottom: 0;
-  padding-right: 16px;
+  padding-right: 1.6rem;
 }
 
 .kscr-Header-userMenu {
   background: @white;
   position: absolute;
-  right: 21px;
-  top: 36px;
+  right: 2.1rem;
+  top: 3.6rem;
 
   & ul {
     padding: 0;
@@ -138,7 +138,7 @@
     border-radius: 4px;
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.176);
     cursor: pointer;
-    padding: 0px 15px 0px 15px;
+    padding: 0 1.5rem 0 1.5rem;
 
     &:hover {
       background-color: @blue;
