@@ -162,11 +162,11 @@
                                                           p:methodToCall="cancelEditComment"
                                                           p:actionScript="toggleCommentButtons(this);"
                                                           p:actionLabel="Cancel"/>
-                                                    <bean id="KS-CommentDeleteAction_ID" parent="Uif-ActionLink" p:style="display:none;" p:additionalCssClasses="ks-toggle-delete"
+                                                    <bean id="KS-CommentDeleteAction_ID" parent="Uif-PrimaryActionButton" p:style="display:none;" p:additionalCssClasses="ks-toggle-delete"
                                                           p:ajaxSubmit="true"
                                                           p:methodToCall="deleteComment"
                                                           p:actionLabel="Confirm Delete"/>
-                                                    <bean id="KS-CommentCancelDeleteAction_ID" parent="Uif-ActionLink" p:style="display:none;" p:additionalCssClasses="ks-toggle-delete"
+                                                    <bean id="KS-CommentCancelDeleteAction_ID" parent="Uif-CancelAction" p:style="display:none;" p:additionalCssClasses="ks-toggle-delete"
                                                           p:actionScript="toggleDeleteElements(this);"
                                                           p:actionLabel="Cancel"/>
                                                 </list>
@@ -189,11 +189,11 @@
                                                                                 <property name="items">
                                                                                     <list>
                                                                                         <bean id="creator-title-id" parent="Uif-Message"
-                                                                                              p:messageText="Creator" p:additionalCssClasses="ks-comment-metaData-item" />
+                                                                                              p:messageText="Creator" p:additionalCssClasses="ks-comment-metaData-item,ks-comment-metadata-title" />
                                                                                         <bean id="creator-name-id" parent="Uif-Message"
                                                                                               p:messageText="@{#line.creatorName}" p:additionalCssClasses="ks-comment-metaData-item" />
                                                                                         <bean id="creator-date-id" parent="Uif-Message"
-                                                                                              p:messageText="@{#line.createdDate}" p:additionalCssClasses="ks-comment-metaData-item" />
+                                                                                              p:messageText="@{#line.createdDate}" p:additionalCssClasses="ks-comment-metaData-item,ks-comment-metadata-date" />
                                                                                     </list>
                                                                                 </property>
                                                                             </bean>
@@ -219,11 +219,11 @@
                                                                                 <property name="items">
                                                                                     <list>
                                                                                         <bean id="lastEditor-title-id" parent="Uif-Message"
-                                                                                              p:messageText="Last Editor" p:additionalCssClasses="ks-comment-metaData-item" />
+                                                                                              p:messageText="Last Editor" p:additionalCssClasses="ks-comment-metaData-item,ks-comment-metadata-title" />
                                                                                         <bean id="lastEditor-name-id" parent="Uif-Message"
                                                                                               p:messageText="@{#line.lastEditorName}" p:additionalCssClasses="ks-comment-metaData-item" />
                                                                                         <bean id="lastEditor-date-id" parent="Uif-Message"
-                                                                                              p:messageText="@{#line.lastEditedDate}"  p:additionalCssClasses="ks-comment-metaData-item" />
+                                                                                              p:messageText="@{#line.lastEditedDate}"  p:additionalCssClasses="ks-comment-metaData-item,ks-comment-metadata-date" />
                                                                                     </list>
                                                                                 </property>
                                                                             </bean>
