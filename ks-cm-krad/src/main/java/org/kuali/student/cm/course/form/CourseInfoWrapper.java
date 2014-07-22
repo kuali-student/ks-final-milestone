@@ -73,8 +73,6 @@ public class CourseInfoWrapper extends LURuleManagementWrapper implements Serial
     private Date effectiveDate;
     private Date expirationDate;
 
-    private CluGroup cluGroups;
-
     private boolean agendaDirty;
 
     public boolean isAgendaDirty() {
@@ -222,14 +220,6 @@ public class CourseInfoWrapper extends LURuleManagementWrapper implements Serial
 
     public void setRequiredWorkflowMode(final String requiredWorkflowMode) {
         this.requiredWorkflowMode = requiredWorkflowMode;
-    }
-
-    public CluGroup getCluGroups() {
-        return cluGroups;
-    }
-
-    public void setCluGroups(CluGroup cluGroups) {
-        this.cluGroups = cluGroups;
     }
 
     public void setUnitsContentOwner(List<CourseCreateUnitsContentOwner> unitsContentOwner) {

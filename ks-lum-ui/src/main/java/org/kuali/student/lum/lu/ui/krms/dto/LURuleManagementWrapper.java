@@ -30,6 +30,7 @@ public class LURuleManagementWrapper extends RuleManagementWrapper {
     private String cluTermCode;
     private List<CluInformation> clusInRange;
     private String courseOfferingTitle;
+    private CluGroup cluGroups;
 
     private String adminOrg;
 
@@ -54,6 +55,14 @@ public class LURuleManagementWrapper extends RuleManagementWrapper {
 
     public void setClusInRange(List<CluInformation> clusInRange) {
         this.clusInRange = clusInRange;
+    }
+
+    public CluGroup getCluGroups() {
+        return cluGroups;
+    }
+
+    public void setCluGroups(CluGroup cluGroups) {
+        this.cluGroups = cluGroups;
     }
 
     public int getClusInRangeSize(){
