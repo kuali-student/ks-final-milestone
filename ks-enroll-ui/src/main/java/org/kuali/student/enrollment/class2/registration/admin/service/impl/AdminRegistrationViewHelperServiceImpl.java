@@ -159,7 +159,6 @@ public class AdminRegistrationViewHelperServiceImpl extends KSViewHelperServiceI
 
     /**
      * Creates Registration Course info based on CourseRegistrationInfo.
-     * Based on the CourseRegistrationInfo, CourseInfo is retrieved
      *
      * @param courseRegistrationListInfo
      * @return registrationCourse

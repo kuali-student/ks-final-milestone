@@ -101,6 +101,7 @@ public class AdminRegistrationController extends UifControllerBase {
     }
 
     /**
+     * This method is called when the user has entered a student id to get the studentInfo
      * @param form
      * @param result
      * @param request
@@ -125,6 +126,7 @@ public class AdminRegistrationController extends UifControllerBase {
     }
 
     /**
+     * This method is called when the user has entered a term code to get the termInfo
      * @param form
      * @param result
      * @param request
