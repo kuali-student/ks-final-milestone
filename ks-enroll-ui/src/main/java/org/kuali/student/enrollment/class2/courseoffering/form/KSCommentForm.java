@@ -34,7 +34,6 @@ public class KSCommentForm extends KsUifFormBase {
     private String referenceType;
     private String referenceName;
 
-//    protected KSCommentWrapper deletedComment;
     protected boolean canAddComment = true;
 
     public KSCommentForm(){

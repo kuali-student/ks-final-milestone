@@ -40,7 +40,6 @@ public class KSCommentWrapper implements Comparable<KSCommentWrapper> {
     private String deletedCommentLastEditorId;
     private String deletedCommentLastEditedDate;
     private String deletedCommentText;
-//    protected CreateCourseRenderHelper renderHelper;
 
     public KSCommentWrapper(){
         commentInfo = new CommentInfo();

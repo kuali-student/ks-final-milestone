@@ -277,8 +277,10 @@
                 <bean parent="KS-Uif-Edit-NavigationActionLink" p:methodToCall="edit" p:actionLabel="Edit"
                       p:render="@{#line.isEnableEditAOActionLink()}" p:actionEvent="editAOonManageAOsPage">
                 </bean>
+                <bean parent="KS-Uif-ActionLink" p:cssClasses="ks-fontello-icon-comment" p:actionLabel="(@{#lp.commentCount})"
+                      p:actionScript="showLightboxUrl('@{#ConfigProperties['application.url']}/kr-krad/ksComment?viewId=KS-Comment-FormView&amp;methodToCall=start&amp;refId=@{#lp.aoInfo.id}&amp;refType=@{#lp.activityOfferingRefUri}&amp;refName=@{currentCourseOfferingWrapper.courseOfferingCode}, Activity Offering: @{#lp.aoInfo.activityCode}');">
+                </bean>
                 <bean parent="KS-Uif-Requisite-NavigationActionLink" p:methodToCall="manageAORules" p:actionLabel="Requisites"/>
-                <bean parent="KS-Uif-ActionLink" p:cssClasses="ks-fontello-icon-comment" p:actionScript="showLightboxUrl('@{#ConfigProperties['application.url']}/kr-krad/ksComment?viewId=KS-Comment-FormView&amp;methodToCall=start&amp;refId=@{#lp.aoInfo.id}&amp;refType=@{#lp.aoInfo.typeKey}&amp;refName=@{currentCourseOfferingWrapper.courseOfferingCode}, Activity Offering: @{#lp.aoInfo.activityCode}');"/>
             </list>
         </property>
     </bean>

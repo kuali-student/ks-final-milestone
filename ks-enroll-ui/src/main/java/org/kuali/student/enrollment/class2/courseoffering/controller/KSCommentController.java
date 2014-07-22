@@ -29,15 +29,20 @@ import org.kuali.rice.krad.uif.UifParameters;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.web.controller.KsUifControllerBase;
 import org.kuali.rice.krad.web.controller.MethodAccessible;
+import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.rice.student.StudentWorkflowConstants;
 //import org.kuali.student.cm.course.form.CMCommentForm;
 //import org.kuali.student.cm.course.form.KSCommentWrapper;
+import org.kuali.student.common.uif.util.KSControllerHelper;
 import org.kuali.student.common.util.security.ContextUtils;
+import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.form.KSCommentForm;
 import org.kuali.student.enrollment.class2.courseoffering.form.KSCommentWrapper;
+import org.kuali.student.enrollment.class2.courseoffering.service.ActivityOfferingMaintainable;
 import org.kuali.student.lum.kim.KimIdentityServiceConstants;
 import org.kuali.student.r1.common.rice.StudentIdentityConstants;
+import org.kuali.student.r2.common.dto.MetaInfo;
 import org.kuali.student.r2.common.util.date.DateFormatters;
 import org.kuali.student.r2.core.comment.dto.CommentInfo;
 import org.kuali.student.r2.core.comment.service.CommentService;
@@ -50,12 +55,14 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.xml.namespace.QName;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
@@ -142,40 +149,66 @@ public class KSCommentController extends KsUifControllerBase {
     @RequestMapping(params = "methodToCall=undeleteComment")
     public ModelAndView undeleteComment(@ModelAttribute("KualiForm") KSCommentForm form) throws Exception {
 
-//        String collectionPath = form.getActionParamaterValue(UifParameters.SELECTED_COLLECTION_PATH);
-//        int index = Integer.parseInt(form.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX));
-//
-//        KSCommentWrapper wrapper = new KSCommentWrapper();
-//        wrapper.getCommentInfo().getCommentText().setPlain(form.getComments().get(index).getDeletedCommentText());
-//        wrapper.getCommentInfo().getMeta().setCreateId(form.getComments().get(index).getDeletedCommentCreatorId());
-//        wrapper.getCommentInfo().getMeta().setCreateTime(DateFormatters.COURSE_OFFERING_VIEW_HELPER_DATE_TIME_FORMATTER.parse(form.getComments().get(index).getDeletedCommentCreatedDate()));
-//        wrapper.getCommentInfo().getMeta().setUpdateId(form.getComments().get(index).getDeletedCommentLastEditorId());
-//        wrapper.getCommentInfo().getMeta().setUpdateTime(DateFormatters.COURSE_OFFERING_VIEW_HELPER_DATE_TIME_FORMATTER.parse(form.getComments().get(index).getDeletedCommentLastEditedDate()));
-//        saveComment(form, wrapper);
-//        form.getComments().add(0, wrapper);
+        int index = Integer.parseInt(form.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX));
+
+        KSCommentWrapper wrapper = new KSCommentWrapper();
+        wrapper.setCommentInfo(form.getComments().get(index).getCommentInfo());
+        wrapper.getCommentInfo().setId(null);
+
+        saveComment(form, wrapper);
+        form.getComments().add(0, wrapper);
 
         return getUIFModelAndView(form);
+    }
+
+    @MethodAccessible
+    @RequestMapping(params = "methodToCall=ajaxUndeleteComment")
+    public @ResponseBody List<String> ajaxUndeleteComment(@ModelAttribute("KualiForm") KSCommentForm form, HttpServletRequest request) throws Exception {
+
+//        String collectionPath = form.getActionParamaterValue(UifParameters.SELECTED_COLLECTION_PATH);
+        int index = Integer.parseInt(request.getParameter(UifParameters.SELECTED_LINE_INDEX));
+
+        KSCommentWrapper wrapper = new KSCommentWrapper();
+        wrapper.setCommentInfo(form.getComments().get(index).getCommentInfo());
+        wrapper.getCommentInfo().setId(null);
+        saveComment(form, wrapper);
+        form.getComments().add(0, wrapper);
+        return new ArrayList<String>();
     }
 
     @MethodAccessible
     @RequestMapping(params = "methodToCall=deleteComment")
     public ModelAndView deleteComment(@ModelAttribute("KualiForm") KSCommentForm form) throws Exception {
 
-//        int index = Integer.parseInt(form.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX));
-//        KSCommentWrapper commentWrapper = form.getComments().get(index);
-//
-//        // verify that current user is able to delete this comment
+        int index = Integer.parseInt(form.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX));
+        KSCommentWrapper commentWrapper = form.getComments().get(index);
+
+        // verify that current user is able to delete this comment
 //        if (!canDeleteComment(form.getProposal(),commentWrapper)) {
 //            throw new RuntimeException("Current user '" + GlobalVariables.getUserSession().getPrincipalId() + "' is not authorized to delete comment id '" + commentWrapper.getCommentInfo().getId() + "'");
 //        }
-//        form.getComments().remove(commentWrapper);
-//        getCommentService().deleteComment(commentWrapper.getCommentInfo().getId(), ContextUtils.createDefaultContextInfo());
+        form.getComments().remove(commentWrapper);
+        getCommentService().deleteComment(commentWrapper.getCommentInfo().getId(), ContextUtils.createDefaultContextInfo());
 
-//        commentWrapper.getCommentInfo().setId(null); //Clear out the ID so that we can add that to DB if user decided to undo later
+        commentWrapper.getCommentInfo().setId(null); //Clear out the ID so that we can add that to DB if user decided to undo later
 //        form.setDeletedComment(commentWrapper);
 
         return getUIFModelAndView(form);
 
+    }
+
+    @MethodAccessible
+    @RequestMapping(params = "methodToCall=ajaxDeleteComment")
+    public @ResponseBody List<String> ajaxDeleteComment(@ModelAttribute("KualiForm") KSCommentForm form, HttpServletRequest request) throws Exception {
+
+        int index = Integer.parseInt(request.getParameter(UifParameters.SELECTED_LINE_INDEX));
+        KSCommentWrapper commentWrapper = form.getComments().get(index);
+
+        form.getComments().remove(commentWrapper);
+        getCommentService().deleteComment(commentWrapper.getCommentInfo().getId(), ContextUtils.createDefaultContextInfo());
+
+        commentWrapper.getCommentInfo().setId(null); //Clear out the ID so that we can add that to DB if user decided to undo later
+        return new ArrayList<String>();
     }
 
     protected void saveComment(KSCommentForm form, KSCommentWrapper commentWrapper) {

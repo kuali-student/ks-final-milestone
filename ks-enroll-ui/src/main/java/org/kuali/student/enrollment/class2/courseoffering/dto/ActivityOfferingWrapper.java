@@ -20,6 +20,7 @@ import org.kuali.student.r2.core.acal.dto.TermInfo;
 import org.kuali.student.r2.core.population.dto.PopulationInfo;
 import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestSetInfo;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
+import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -121,7 +122,8 @@ public class ActivityOfferingWrapper implements Serializable, ComparatorModel{
     private boolean isSendRDLsToSchedulerAfterMSE;
     private boolean isRemovedFromColoSet;
     private String reinstateStateName;
-
+    private int commentCount;
+    private String activityOfferingRefUri = CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING;
     protected String viewId;
 
     private CourseOfferingContextBar contextBar = CourseOfferingContextBar.NULL_SAFE_INSTANCE;
@@ -1521,5 +1523,17 @@ public class ActivityOfferingWrapper implements Serializable, ComparatorModel{
 
     public void setTimeSlotType(String timeSlotType) {
         this.timeSlotType = timeSlotType;
+    }
+
+    public int getCommentCount() {
+        return commentCount;
+    }
+
+    public void setCommentCount(int commentCount) {
+        this.commentCount = commentCount;
+    }
+
+    public String getActivityOfferingRefUri() {
+        return activityOfferingRefUri;
     }
 }
