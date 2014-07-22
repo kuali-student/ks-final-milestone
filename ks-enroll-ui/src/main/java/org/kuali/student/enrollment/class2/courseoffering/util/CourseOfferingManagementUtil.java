@@ -84,7 +84,9 @@ import org.kuali.student.r2.core.atp.service.AtpService;
 import org.kuali.student.r2.core.class1.state.dto.StateInfo;
 import org.kuali.student.r2.core.class1.state.service.StateService;
 import org.kuali.student.r2.core.class1.type.service.TypeService;
+import org.kuali.student.r2.core.comment.service.CommentService;
 import org.kuali.student.r2.core.constants.AcademicCalendarServiceConstants;
+import org.kuali.student.r2.core.constants.CommentServiceConstants;
 import org.kuali.student.r2.core.constants.FeeServiceConstants;
 import org.kuali.student.r2.core.constants.PopulationServiceConstants;
 import org.kuali.student.r2.core.enumerationmanagement.service.EnumerationManagementService;
@@ -168,6 +170,7 @@ public class CourseOfferingManagementUtil {
     private static PersonService personService;
     private static CourseSeatCountService courseSeatCountService;
     private static KrmsTypeRepositoryService krmsTypeRepositoryService;
+    private static CommentService commentService;
     private static BatchScheduler batchScheduler;
 
     private static HashMap<String, String> scheduleStateHm = null;
@@ -474,6 +477,13 @@ public class CourseOfferingManagementUtil {
             krmsTypeRepositoryService = GlobalResourceLoader.getService(new QName(KrmsConstants.Namespaces.KRMS_NAMESPACE_2_0, "krmsTypeRepositoryService"));
         }
         return krmsTypeRepositoryService;
+    }
+
+    public static CommentService getCommentService() {
+        if (commentService == null) {
+            commentService = (CommentService) GlobalResourceLoader.getService(new QName(CommentServiceConstants.NAMESPACE, CommentService.class.getSimpleName()));
+        }
+        return commentService;
     }
 
     public static BatchScheduler getBatchScheduler() {

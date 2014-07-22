@@ -17,6 +17,7 @@ package org.kuali.student.enrollment.class2.courseoffering.service.impl;
 
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
+import org.kuali.rice.core.api.criteria.Predicate;
 import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.kim.api.KimConstants;
@@ -1346,7 +1347,22 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
                         aoWrapperStored = aoWrapper; //update for next comparison
                     }
                     // end sub-terms
+
+                    //retrieve comment count for each AO
+                    //TODO: performance can be further optimized by using a sub-select or join query to retrieve comment count for all the AOs instead of placing the count retrieval inside this loop. https://jira.kuali.org/browse/KSENROLL-13744
+                    List<Predicate> predicates = new ArrayList<Predicate>();
+                    predicates.add(PredicateFactory.equal("refObjectId", aoWrapper.getAoInfo().getId()));
+                    predicates.add(PredicateFactory.and(PredicateFactory.equal("refObjectUri", CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING)));
+                    QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
+                    qbcBuilder.setPredicates(predicates.toArray(new Predicate[predicates.size()]));
+                    QueryByCriteria qbc = qbcBuilder.build();
+                    List<String> commentIds = CourseOfferingManagementUtil.getCommentService().searchForCommentIds(qbc, contextInfo);
+
+                    aoWrapper.setCommentCount(commentIds.size());
                     activityOfferingWrappers.add(aoWrapper);
+
+
+
                 }
             }
 
