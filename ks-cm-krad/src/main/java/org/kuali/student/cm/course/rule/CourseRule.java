@@ -252,7 +252,7 @@ public class CourseRule extends KsMaintenanceDocumentRuleBase {
         int index = 0;
         for (LoDisplayInfoWrapper loDisplayInfoWrapper : dataObject.getLoDisplayWrapperModel().getLoWrappers()) {
             // description is always required for an LoDisplayInfo object
-            if (StringUtils.isBlank(loDisplayInfoWrapper.getLoInfo().getDescr().getPlain())) {
+            if (StringUtils.isBlank(loDisplayInfoWrapper.getLoInfo().getDescr().getPlain()) && !(loDisplayInfoWrapper.getLoCategoryInfoList().isEmpty())) {
                 String propertyKey = DATA_OBJECT_PATH + ".loDisplayWrapperModel.loWrappers[" + index + "]" + ".loInfo.descr.plain";
                 GlobalVariables.getMessageMap().putError(propertyKey,CurriculumManagementConstants.MessageKeys.ERROR_COURSE_LO_DESC_REQUIRED);
                 result = false;

@@ -1447,6 +1447,9 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
 
             for (int i = 0; i < loWrappers.size(); i++) {
                 LoDisplayInfoWrapper currentLo = loWrappers.get(i);
+                if (StringUtils.isBlank(currentLo.getLoInfo().getDescr().getPlain()) && (currentLo.getLoCategoryInfoList().isEmpty())) {
+                    continue;
+                }
 
                 //  (Re)Set the sequence in the LoInfo dynamic attributes.
                 new AttributeHelper(currentLo.getLoInfo().getAttributes())
