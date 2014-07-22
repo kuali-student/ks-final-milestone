@@ -306,7 +306,7 @@
                                               p:messageText="Source: @{#textHelper.getText('DETAILS_REQUISITE_SOURCE_NAME')}">
                                             <property name="cssClasses">
                                                 <list merge="true">
-                                                    <value>ksap-course-detail-source</value>
+                                                    <value>ksap-source</value>
                                                 </list>
                                             </property>
                                         </bean>
@@ -354,7 +354,7 @@
                                               p:messageText="Source: @{#textHelper.getText('DETAILS_TERMS_SCHEDULED_SOURCE_NAME')}">
                                             <property name="cssClasses">
                                                 <list merge="true">
-                                                    <value>ksap-course-detail-source</value>
+                                                    <value>ksap-source</value>
                                                 </list>
                                             </property>
                                         </bean>
@@ -397,7 +397,7 @@
                                               p:messageText="Source: @{#textHelper.getText('DETAILS_TERMS_SCHEDULED_SOURCE_NAME')}">
                                             <property name="cssClasses">
                                                 <list merge="true">
-                                                    <value>ksap-course-detail-source</value>
+                                                    <value>ksap-source</value>
                                                 </list>
                                             </property>
                                         </bean>
@@ -445,7 +445,7 @@
                                               p:messageText="Source: @{#textHelper.getText('DETAILS_TERMS_TYPICALLYOFFERED_SOURCE_NAME')}">
                                             <property name="cssClasses">
                                                 <list merge="true">
-                                                    <value>ksap-course-detail-source</value>
+                                                    <value>ksap-source</value>
                                                 </list>
                                             </property>
                                         </bean>

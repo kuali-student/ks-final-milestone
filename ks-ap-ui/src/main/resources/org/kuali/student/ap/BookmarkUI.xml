@@ -147,21 +147,27 @@
                                 </property>
                             </bean>
                             <bean parent="Uif-Message" p:messageText="(@{#line.credits} cr)" />
-                            <bean parent="Uif-ActionLink" p:render="true">
-                                <property name="id" value="@{#line.planItemId}_addLink"/>
-                                <property name="cssClasses">
+                            <bean parent="Uif-FieldGroupBase">
+                                <property name="items">
                                     <list>
-                                        <value>ks-fontello-icon-hollow-circled-plus</value>
+                                        <bean parent="Uif-ActionLink" p:render="true">
+                                            <property name="id" value="@{#line.planItemId}_addLink"/>
+                                            <property name="cssClasses">
+                                                <list>
+                                                    <value>ks-fontello-icon-hollow-circled-plus</value>
+                                                </list>
+                                            </property>
+                                            <property name="actionScript" value="ksapOpenPlanDialog('bookmark_add_course_page','planner','startDialog', this, e);"/>
+                                            <property name="dataAttributes">
+                                                <map>
+                                                    <entry key="courseid" value="@{#line.courseId}" />
+                                                    <entry key="learningplanid" value="@{#line.learningPlanId}" />
+                                                    <entry key="planitemid" value="@{#line.planItemId}" />
+                                                    <entry key="uniqueid" value="@{#line.uniqueId}" />
+                                                </map>
+                                            </property>
+                                        </bean>
                                     </list>
-                                </property>
-                                <property name="actionScript" value="ksapOpenPlanDialog('bookmark_add_course_page','planner','startDialog', this, e);"/>
-                                <property name="dataAttributes">
-                                    <map>
-                                        <entry key="courseid" value="@{#line.courseId}" />
-                                        <entry key="learningplanid" value="@{#line.learningPlanId}" />
-                                        <entry key="planitemid" value="@{#line.planItemId}" />
-                                        <entry key="uniqueid" value="@{#line.uniqueId}" />
-                                    </map>
                                 </property>
                             </bean>
                             <bean parent="Uif-ActionLink" p:render="true">
@@ -291,6 +297,11 @@
         <property name="page.header.render" value="false"/>
         <property name="header.render" value="false"/>
         <property name="renderCriteriaActions" value="false" />
+        <property name="additionalCssFiles">
+            <list>
+                <value>themes/ksapboot/stylesheets/ksap.bookmarkdetails.css</value>
+            </list>
+        </property>
         <property name="cssClasses">
             <list merge="true">
                 <value>ksap-view</value>
@@ -356,9 +367,12 @@
     </bean>
 
     <!-- TODO: Change to CSS Grid -->
-    <bean id="bookmark_detail_list" parent="Uif-ListCollectionSection" p:style="clear:both;">
+    <bean id="bookmark_detail_list" parent="Uif-ListCollectionSection">
         <property name="headerText"
                   value="@{#textHelper.getFormattedMessage('bookmarks.header', new Object[]{lookupResults.size()})}"/>
+        <property name="header">
+            <bean parent="Uif-HeaderTwo"/>
+        </property>
         <property name="collectionObjectClass"
                   value="org.kuali.student.ap.bookmark.dto.BookmarkDetailWrapper"/>
         <property name="propertyName" value="lookupResults"/>
@@ -371,7 +385,7 @@
         </property>
         <property name="items">
             <list>
-                <bean parent="Uif-HorizontalFieldGroup"  p:style="display:block;">
+                <bean parent="Uif-HorizontalFieldGroup">
                     <property name="fieldLabel.render" value="false"/>
                     <property name="group.validationMessages.displayMessages" value="false"/>
                     <property name="cssClasses">
@@ -389,6 +403,11 @@
                                           value="false"/>
                                 <property name="href"
                                           value="inquiry?methodToCall=start&amp;viewId=CourseDetails-InquiryView&amp;courseId=@{#line.courseDetailsWrapper.courseId}"/>
+                                <property name="cssClasses">
+                                    <list merge="true">
+                                        <value>ksap-bookmark-title</value>
+                                    </list>
+                                </property>
                             </bean>
                             <bean parent="KS-Uif-DataField" p:label="@{#textHelper.getText('bookmarks.item.addedOn')}"
                                   p:propertyName="dateAdded">
@@ -397,34 +416,46 @@
                                 <property name="cssClasses">
                                     <list merge="true">
                                         <value>ksap-text-italic</value>
+                                        <value>ksap-bookmark-date</value>
                                     </list>
                                 </property>
                             </bean>
-                            <bean parent="Uif-ActionLink" p:render="true">
-                                <property name="id" value="@{#line.planItemId}_addLink"/>
+                            <bean parent="Uif-HorizontalBoxGroup">
                                 <property name="cssClasses">
-                                    <list>
-                                        <value>ks-fontello-icon-hollow-circled-plus</value>
+                                    <list merge="true">
+                                        <value>ksap-bookmark-buttons</value>
                                     </list>
                                 </property>
-                                <property name="actionScript" value="ksapOpenPlanDialog('bookmark_add_course_page','planner','startDialog', this, e);"/>
-                                <property name="dataAttributes">
-                                    <map>
-                                        <entry key="courseid" value="@{#line.courseDetailsWrapper.courseId}" />
-                                        <entry key="learningplanid" value="@{#line.learningPlanId}" />
-                                        <entry key="planitemid" value="@{#line.planItemId}" />
-                                        <entry key="uniqueid" value="@{#line.uniqueId}" />
-                                    </map>
-                                </property>
-                            </bean>
-                            <bean parent="Uif-ActionLink" p:render="true">
-                                <property name="id" value="@{#line.planItemId}_deleteLink"/>
-                                <property name="cssClasses">
+                                <property name="items">
                                     <list>
-                                        <value>ks-fontello-icon-cancel</value>
+                                        <bean parent="Uif-ActionLink" p:render="true">
+                                            <property name="id" value="@{#line.planItemId}_addLink"/>
+                                            <property name="cssClasses">
+                                                <list>
+                                                    <value>ks-fontello-icon-hollow-circled-plus</value>
+                                                </list>
+                                            </property>
+                                            <property name="actionScript" value="ksapOpenPlanDialog('bookmark_add_course_page','planner','startDialog', this, e);"/>
+                                            <property name="dataAttributes">
+                                                <map>
+                                                    <entry key="courseid" value="@{#line.courseDetailsWrapper.courseId}" />
+                                                    <entry key="learningplanid" value="@{#line.learningPlanId}" />
+                                                    <entry key="planitemid" value="@{#line.planItemId}" />
+                                                    <entry key="uniqueid" value="@{#line.uniqueId}" />
+                                                </map>
+                                            </property>
+                                        </bean>
+                                        <bean parent="Uif-ActionLink" p:render="true">
+                                            <property name="id" value="@{#line.planItemId}_deleteLink"/>
+                                            <property name="cssClasses">
+                                                <list>
+                                                    <value>ks-fontello-icon-cancel</value>
+                                                </list>
+                                            </property>
+                                            <property name="actionScript" value=""/>
+                                        </bean>
                                     </list>
                                 </property>
-                                <property name="actionScript" value=""/>
                             </bean>
                         </list>
                     </property>
@@ -444,19 +475,17 @@
                                   p:messageText="@{#line.courseDetailsWrapper.courseDescription}">
                                 <property name="cssClasses">
                                     <list merge="true">
-                                        <value>courseDescription</value>
+                                        <value>ksap-bookmark-description</value>
                                     </list>
                                 </property>
-                                <property name="render"
-                                          value="@{#line.courseDetailsWrapper.courseDescription ne null}"/>
+                                <property name="render" value="@{#line.courseDetailsWrapper.courseDescription ne null}"/>
                             </bean>
                             <!-- If Course Description is empty-->
                             <bean parent="Uif-MessageField" p:label="@{#textHelper.getText('bookmarks.item.label.courseDescription')}">
                                 <property name="message">
                                     <bean parent="Uif-Message" p:messageText="@{#textHelper.getText('bookmarks.item.noDescription')}"/>
                                 </property>
-                                <property name="render"
-                                          value="@{#line.courseDetailsWrapper.courseDescription ne null ? false : true}"/>
+                                <property name="render" value="@{#line.courseDetailsWrapper.courseDescription ne null ? false : true}"/>
                             </bean>
                         </list>
                     </property>
@@ -469,6 +498,12 @@
                             <bean parent="Uif-VerticalBoxSection" p:headerText="@{#textHelper.getText('bookmarks.item.label.more')}">
                                 <property name="disclosure.render" value="true"/>
                                 <property name="disclosure.defaultOpen" value="false"/>
+                                <property name="disclosure">
+                                    <bean parent="Uif-Disclosure">
+                                        <property name="collapsedIconClass" value="icon-chevron-right"/>
+                                        <property name="expandedIconClass" value="icon-chevron-down"/>
+                                    </bean>
+                                </property>
                                 <property name="items">
                                     <list>
 
@@ -476,7 +511,7 @@
                                         <bean parent="Uif-CssGridGroup">
                                             <property name="items">
                                                 <list>
-                                                    <bean parent="Uif-VerticalBoxSection" p:colSpan="2" p:wrapperCssClasses="ksap-right-labels">
+                                                    <bean parent="Uif-VerticalBoxSection" p:colSpan="2" p:wrapperCssClasses="ksap-left-labels">
                                                         <property name="items">
                                                             <list>
                                                                 <bean parent="Uif-Message" p:messageText="@{#textHelper.getText('bookmarks.item.label.courseRequisites')}">
@@ -519,7 +554,7 @@
                                                                       p:messageText="@{#textHelper.getText('bookmarks.item.source')} @{#textHelper.getText('DETAILS_REQUISITE_SOURCE_NAME')}">
                                                                     <property name="cssClasses">
                                                                         <list merge="true">
-                                                                            <value>ksap-course-detail-source</value>
+                                                                            <value>ksap-source</value>
                                                                         </list>
                                                                     </property>
                                                                 </bean>
@@ -534,7 +569,7 @@
                                         <bean parent="Uif-CssGridGroup">
                                             <property name="items">
                                                 <list>
-                                                    <bean parent="Uif-VerticalBoxSection" p:colSpan="2" p:wrapperCssClasses="ksap-right-labels">
+                                                    <bean parent="Uif-VerticalBoxSection" p:colSpan="2" p:wrapperCssClasses="ksap-left-labels">
                                                         <property name="items">
                                                             <list>
                                                                 <bean parent="Uif-Message" p:messageText="@{#textHelper.getText('bookmarks.item.label.scheduledTerms')}">
@@ -568,7 +603,7 @@
                                                                       p:messageText="@{#textHelper.getText('bookmarks.item.source')} @{#textHelper.getText('DETAILS_TERMS_SCHEDULED_SOURCE_NAME')}">
                                                                     <property name="cssClasses">
                                                                         <list merge="true">
-                                                                            <value>ksap-course-detail-source</value>
+                                                                            <value>ksap-source</value>
                                                                         </list>
                                                                     </property>
                                                                 </bean>
@@ -584,7 +619,7 @@
                                               p:render="@{#line.courseDetailsWrapper.scheduledTerms.size() gt 0 ? false : #line.courseDetailsWrapper.lastOffered ne null ? true : false}">
                                             <property name="items">
                                                 <list>
-                                                    <bean parent="Uif-VerticalBoxSection" p:colSpan="2" p:wrapperCssClasses="ksap-right-labels">
+                                                    <bean parent="Uif-VerticalBoxSection" p:colSpan="2" p:wrapperCssClasses="ksap-left-labels">
                                                         <property name="items">
                                                             <list>
                                                                 <bean parent="Uif-Message" p:messageText="@{#textHelper.getText('bookmarks.item.label.lastOffered')}">
@@ -612,7 +647,7 @@
                                                                       p:messageText="@{#textHelper.getText('bookmarks.item.source')} @{#textHelper.getText('DETAILS_TERMS_SCHEDULED_SOURCE_NAME')}">
                                                                     <property name="cssClasses">
                                                                         <list merge="true">
-                                                                            <value>ksap-course-detail-source</value>
+                                                                            <value>ksap-source</value>
                                                                         </list>
                                                                     </property>
                                                                 </bean>
@@ -626,7 +661,7 @@
                                         <bean parent="Uif-CssGridGroup">
                                             <property name="items">
                                                 <list>
-                                                    <bean parent="Uif-VerticalBoxSection" p:colSpan="2" p:wrapperCssClasses="ksap-right-labels">
+                                                    <bean parent="Uif-VerticalBoxSection" p:colSpan="2" p:wrapperCssClasses="ksap-left-labels">
                                                         <property name="items">
                                                             <list>
                                                                 <bean parent="Uif-Message" p:messageText="@{#textHelper.getText('bookmarks.item.label.projectedTerms')}">
@@ -660,7 +695,7 @@
                                                                       p:messageText="@{#textHelper.getText('bookmarks.item.source')} @{#textHelper.getText('DETAILS_TERMS_TYPICALLYOFFERED_SOURCE_NAME')}">
                                                                     <property name="cssClasses">
                                                                         <list merge="true">
-                                                                            <value>ksap-course-detail-source</value>
+                                                                            <value>ksap-source</value>
                                                                         </list>
                                                                     </property>
                                                                 </bean>
@@ -674,7 +709,7 @@
                                         <bean parent="Uif-CssGridGroup">
                                             <property name="items">
                                                 <list>
-                                                    <bean parent="Uif-VerticalBoxSection" p:colSpan="2" p:wrapperCssClasses="ksap-right-labels">
+                                                    <bean parent="Uif-VerticalBoxSection" p:colSpan="2" p:wrapperCssClasses="ksap-left-labels">
                                                         <property name="items">
                                                             <list>
                                                                 <bean parent="Uif-Message" p:messageText="@{#textHelper.getText('bookmarks.item.label.genEduReq')}">
@@ -715,7 +750,7 @@
                                         <bean parent="Uif-CssGridGroup">
                                             <property name="items">
                                                 <list>
-                                                    <bean parent="Uif-VerticalBoxSection" p:colSpan="2" p:wrapperCssClasses="ksap-right-labels">
+                                                    <bean parent="Uif-VerticalBoxSection" p:colSpan="2" p:wrapperCssClasses="ksap-left-labels">
                                                         <property name="items">
                                                             <list>
                                                                 <bean parent="Uif-Message"

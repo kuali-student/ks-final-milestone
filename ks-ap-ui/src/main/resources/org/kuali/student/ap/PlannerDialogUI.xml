@@ -722,7 +722,7 @@
                                         <bean parent="Uif-Message" p:messageText="Note: Not all courses are offered every term.">
                                             <property name="cssClasses">
                                                 <list merge="true">
-                                                    <value>ksap-course-detail-source</value>
+                                                    <value>ksap-source</value>
                                                 </list>
                                             </property>
                                         </bean>

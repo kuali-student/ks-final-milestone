@@ -88,44 +88,11 @@
   background-color: #e3f0fe;
 } */
 
-/* Saved Courses Summary Styles ########################################################################### */
 
-/* Saved Courses Detail Styles ########################################################################### */
-.ksap-saved-courses-detail {
-  line-height: 1.8em;
-}
+// Messaging and Comments
+// --------------------------------------------------
+//TODO: Cleanup messaging and comments CSS
 
-.ksap-saved-courses-detail ul,
-.ksap-saved-courses-detail ul li,
-.ksap-saved-courses-detail ul li dl,
-.ksap-saved-courses-detail ul li dl dd {
-  margin: 0;
-  padding: 0;
-}
-
-.ksap-saved-courses-detail .uif-sectionHeader .uif-headerText {
-  font-size: 1.25em;
-  font-weight: normal;
-  margin: 1em 0;
-  border: none;
-}
-
-.ksap-saved-courses-detail .uif-sectionHeader .uif-headerText strong {
-  font-weight: bold;
-}
-
-.ksap-saved-courses-detail ul li {
-  border-top: dotted 1px #aaaaaa;
-  padding: 10px;
-  display: block;
-}
-
-.ksap-saved-courses-detail .ksap-saved-courses-detail-heading .uif-verticalBoxLayout {
-  float: none !important;
-}
-
-
-/* Messaging and Comments ################################################################################### */
 .ksap-messages-detail .dataTables_wrapper {
   width: 710px;
   float: none;
@@ -268,26 +235,4 @@
   text-align: center;
   font-weight: bold;
   font-size: 90%;
-}
-
-
-/*
-    @TODO cleanup when we get to bookmarks list page. Only include when needed. Change layout to CSS Grid.
-*/
-#bookmark_detail_list {
-  .ksap-data-list {
-    margin-bottom: 10px;
-  }
-  .uif-label,
-  .uif-message,
-  dl,
-  dd {
-    display: inline; //CSS Grid layout will make this null
-  }
-  .courseDescription label {
-    display: block; //CSS Grid layout will make this null
-  }
-  .ksap-bookmark-buttons {
-    margin: 10px 0;
-  }
 }
