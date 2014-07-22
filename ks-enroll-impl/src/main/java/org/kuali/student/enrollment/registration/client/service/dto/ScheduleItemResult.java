@@ -24,7 +24,7 @@ import java.util.List;
 
 /**
  * This class is a data structure used to return the output of
- * the updateScheduleItem REST service
+ * the createAndSubmitUpdateCourseRegistrationRequest REST service
  *
  * @author Kuali Student Team
  */

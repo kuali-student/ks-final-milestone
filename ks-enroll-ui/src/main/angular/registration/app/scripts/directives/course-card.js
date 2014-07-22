@@ -45,8 +45,8 @@ angular.module('regCartApp')
     The CartCtrl controller handles various operations for both the course-card and
     course-accordion directives.
      */
-    .controller('CardCtrl', ['$scope', '$timeout', 'GlobalVarsService', 'CartService', 'ScheduleService', 'STATUS', 'GRADING_OPTION',
-        function($scope, $timeout, GlobalVarsService, CartService, ScheduleService, STATUS, GRADING_OPTION) {
+    .controller('CardCtrl', ['$scope', '$timeout', 'GlobalVarsService', 'TermsService', 'CartService', 'ScheduleService', 'STATUS', 'GRADING_OPTION',
+        function($scope, $timeout, GlobalVarsService, TermsService, CartService, ScheduleService, STATUS, GRADING_OPTION) {
             /*
              Utility function for providing configuration variables based on
              whether the course in scope is registered, waitlist, or cart.
@@ -237,11 +237,12 @@ angular.module('regCartApp')
                 console.log('Updating registered course:');
                 console.log(course.newCredits);
                 console.log(course.newGrading);
+                console.log(TermsService.getTermId());
                 ScheduleService.updateScheduleItem().query({
                     courseCode: course.courseCode,
                     regGroupCode: course.regGroupCode,
                     masterLprId: course.masterLprId,
-                    termId: $scope.termId,
+                    termId: TermsService.getTermId(),
                     credits: course.newCredits,
                     gradingOptionId: course.newGrading
                 }, function (itemResult) {
@@ -263,7 +264,7 @@ angular.module('regCartApp')
                     courseCode: course.courseCode,
                     regGroupCode: course.regGroupCode,
                     masterLprId: course.masterLprId,
-                    termId: $scope.termId,
+                    termId: TermsService.getTermId(),
                     credits: course.newCredits,
                     gradingOptionId: course.newGrading
                 }, function (itemResult) {

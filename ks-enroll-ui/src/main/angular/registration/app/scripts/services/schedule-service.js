@@ -35,31 +35,31 @@ angular.module('regCartApp')
         // Server API Methods
 
         this.getScheduleFromServer = function () {
-            return ServiceUtilities.getData(URLS.courseRegistration + '/personschedule');
-        };
-
-        this.updateScheduleItem = function () {
-            return ServiceUtilities.putData(URLS.courseRegistration + '/updateScheduleItem');
-        };
-
-        this.updateWaitlistItem = function () {
-            return ServiceUtilities.putData(URLS.courseRegistration + '/updateWaitlistEntry');
+            return ServiceUtilities.getData(URLS.courseRegistration + '/studentSchedule');
         };
 
         this.dropRegistrationGroup = function () {
-            return ServiceUtilities.deleteData(URLS.courseRegistration + '/dropRegistrationGroup');
-        };
-
-        this.dropFromWaitlist = function () {
-            return ServiceUtilities.deleteData(URLS.courseRegistration + '/dropFromWaitlistEntry');
+            return ServiceUtilities.deleteData(URLS.courseRegistration + '/registrationRequest');
         };
 
         this.registerForRegistrationGroup = function () {
-            return ServiceUtilities.getData(URLS.courseRegistration + '/registerreggroup');
+            return ServiceUtilities.postData(URLS.courseRegistration + '/registrationRequest');
+        };
+
+        this.updateScheduleItem = function () {
+            return ServiceUtilities.putData(URLS.courseRegistration + '/registrationRequest');
+        };
+
+        this.dropFromWaitlist = function () {
+            return ServiceUtilities.deleteData(URLS.courseRegistration + '/waitlistRegistrationRequest');
+        };
+
+        this.updateWaitlistItem = function () {
+            return ServiceUtilities.putData(URLS.courseRegistration + '/waitlistRegistrationRequest');
         };
 
         this.getRegistrationStatus = function () {
-            return ServiceUtilities.getData(URLS.courseRegistration + '/getRegistrationStatus');
+            return ServiceUtilities.getData(URLS.courseRegistration + '/registrationStatus');
         };
 
     }]);
