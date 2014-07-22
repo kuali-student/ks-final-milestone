@@ -20,30 +20,26 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
+import java.util.List;
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "CourseCompleteInfoSearchResult", propOrder = {
-        "courseOfferingId", "courseOfferingCode", "courseOfferingDesc", "courseOfferingCreditOptionDisplay",
-        "courseOfferingGradingOptionDisplay", "studentSelectablePassFail", "auditCourse", "honorsCourse"})
+        "courseOfferingId", "courseOfferingCode", "courseOfferingNumber", "courseOfferingPrefix", "courseOfferingDesc",
+        "courseOfferingLongName", "courseOfferingCreditOptions", "courseOfferingGradingOptions",
+        "courseOfferingCrossListedCourses", "courseOfferingPrerequisites", "activityOfferingTypes"})
 public class CourseCompleteInfoSearchResult {
     private String courseOfferingId;
     private String courseOfferingCode;
     private String courseOfferingDesc;
-    private String courseOfferingCreditOptionDisplay;
-    private String courseOfferingGradingOptionDisplay;
-
-    private boolean studentSelectablePassFail;
-    private boolean auditCourse;
-    private boolean honorsCourse;
-
-    public boolean isAuditCourse() {
-        return auditCourse;
-    }
-
-    public void setAuditCourse(boolean auditCourse) {
-        this.auditCourse = auditCourse;
-    }
+    private String courseOfferingNumber;
+    private String courseOfferingPrefix;
+    private String courseOfferingLongName;
+    private List<String> courseOfferingCreditOptions;
+    private List<String> courseOfferingGradingOptions;
+    private List<CourseShortInfoSearchResult> courseOfferingCrossListedCourses;
+    private List<String> courseOfferingPrerequisites;
+    private List<ActivityOfferingTypesSearchResult> activityOfferingTypes;
 
     public String getCourseOfferingCode() {
         return courseOfferingCode;
@@ -51,14 +47,6 @@ public class CourseCompleteInfoSearchResult {
 
     public void setCourseOfferingCode(String courseOfferingCode) {
         this.courseOfferingCode = courseOfferingCode;
-    }
-
-    public String getCourseOfferingCreditOptionDisplay() {
-        return courseOfferingCreditOptionDisplay;
-    }
-
-    public void setCourseOfferingCreditOptionDisplay(String courseOfferingCreditOptionDisplay) {
-        this.courseOfferingCreditOptionDisplay = courseOfferingCreditOptionDisplay;
     }
 
     public String getCourseOfferingDesc() {
@@ -69,14 +57,6 @@ public class CourseCompleteInfoSearchResult {
         this.courseOfferingDesc = courseOfferingDesc;
     }
 
-    public String getCourseOfferingGradingOptionDisplay() {
-        return courseOfferingGradingOptionDisplay;
-    }
-
-    public void setCourseOfferingGradingOptionDisplay(String courseOfferingGradingOptionDisplay) {
-        this.courseOfferingGradingOptionDisplay = courseOfferingGradingOptionDisplay;
-    }
-
     public String getCourseOfferingId() {
         return courseOfferingId;
     }
@@ -85,19 +65,59 @@ public class CourseCompleteInfoSearchResult {
         this.courseOfferingId = courseOfferingId;
     }
 
-    public boolean isHonorsCourse() {
-        return honorsCourse;
+    public String getCourseOfferingNumber() {
+        return courseOfferingNumber;
     }
 
-    public void setHonorsCourse(boolean honorsCourse) {
-        this.honorsCourse = honorsCourse;
+    public void setCourseOfferingNumber(String courseOfferingNumber) {
+        this.courseOfferingNumber = courseOfferingNumber;
     }
 
-    public boolean isStudentSelectablePassFail() {
-        return studentSelectablePassFail;
+    public String getCourseOfferingPrefix() {
+        return courseOfferingPrefix;
     }
 
-    public void setStudentSelectablePassFail(boolean studentSelectablePassFail) {
-        this.studentSelectablePassFail = studentSelectablePassFail;
+    public void setCourseOfferingPrefix(String courseOfferingPrefix) {
+        this.courseOfferingPrefix = courseOfferingPrefix;
+    }
+
+    public String getCourseOfferingLongName() {
+        return courseOfferingLongName;
+    }
+
+    public void setCourseOfferingLongName(String courseOfferingLongName) {
+        this.courseOfferingLongName = courseOfferingLongName;
+    }
+
+    public List<String> getCourseOfferingCreditOptions() {
+        return courseOfferingCreditOptions;
+    }
+
+    public void setCourseOfferingCreditOptions(List<String> courseOfferingCreditOptions) {
+        this.courseOfferingCreditOptions = courseOfferingCreditOptions;
+    }
+
+    public List<String> getCourseOfferingGradingOptions() {
+        return courseOfferingGradingOptions;
+    }
+
+    public void setCourseOfferingGradingOptions(List<String> courseOfferingGradingOptions) {
+        this.courseOfferingGradingOptions = courseOfferingGradingOptions;
+    }
+
+    public List<CourseShortInfoSearchResult> getCourseOfferingCrossListedCourses() {
+        return courseOfferingCrossListedCourses;
+    }
+
+    public void setCourseOfferingCrossListedCourses(List<CourseShortInfoSearchResult> courseOfferingCrossListedCourses) {
+        this.courseOfferingCrossListedCourses = courseOfferingCrossListedCourses;
+    }
+
+    public List<String> getCourseOfferingPrerequisites() {
+        return courseOfferingPrerequisites;
+    }
+
+    public void setCourseOfferingPrerequisites(List<String> courseOfferingPrerequisites) {
+        this.courseOfferingPrerequisites = courseOfferingPrerequisites;
     }
 }
