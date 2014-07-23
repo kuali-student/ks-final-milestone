@@ -509,7 +509,7 @@
     <bean id="bookmark_add_course_page-parent" abstract="true" parent="KSAP-PopoverPage">
         <property name="id" value="bookmark_add_course_page" />
         <property name="innerViewWrapperId" value="bookmark_add_course_page_inner" />
-        <property name="headerText" value="Add Bookmark Course" />
+        <property name="headerText" value="Add to Plan" />
         <property name="items">
             <list merge="true">
                 <bean parent="Uif-Message" p:messageText="@{course.code} @{course.courseTitle} (@{creditString})"  p:cssClasses="bold"/>
