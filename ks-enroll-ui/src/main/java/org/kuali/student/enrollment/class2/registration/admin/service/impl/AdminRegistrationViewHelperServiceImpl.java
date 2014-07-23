@@ -367,16 +367,6 @@ public class AdminRegistrationViewHelperServiceImpl extends KSViewHelperServiceI
 
     @Override
     public String submitRegistrationRequest(String studentId, String termId, List<RegistrationCourse> registrationCourses) {
-
-        // get the regGroup
-        //RegGroupSearchResult rg = CourseRegistrationAndScheduleOfClassesUtil.getRegGroup(null, termCode, courseCode, regGroupCode, regGroupId, contextInfo);
-
-        // get the registration group, returns default (from Course Offering) credits (as creditId) and grading options (as a string of options)
-        //CourseOfferingInfo courseOfferingInfo = CourseRegistrationAndScheduleOfClassesUtil.getCourseOfferingIdCreditGrading(rg.getCourseOfferingId(), courseCode, rg.getTermId(), termCode);
-
-        // verify passed credits (must be non-empty unless fixed) and grading option (can be null)
-        //credits = verifyRegistrationRequestCreditsGradingOption(courseOfferingInfo, credits, gradingOptionId, contextInfo);
-
         //Create the request object
         RegistrationRequestInfo regRequest = AdminRegistrationUtil.createRegistrationRequest(studentId, termId, registrationCourses);
 

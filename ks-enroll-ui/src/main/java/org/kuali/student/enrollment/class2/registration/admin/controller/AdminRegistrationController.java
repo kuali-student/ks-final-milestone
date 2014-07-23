@@ -151,15 +151,18 @@ public class AdminRegistrationController extends UifControllerBase {
             form.setTerm(term);
         }
 
+        List<RegistrationCourse> registrationCourses = getViewHelper(form).getCourseRegForStudentAndTerm(form.getPerson().getId(), form.getTerm().getId());
+        List<RegistrationCourse> waitlistedCourses = getViewHelper(form).getCourseWaitListForStudentAndTerm(form.getPerson().getId(), form.getTerm().getId());
         //KSENROLL-13558 :work around for incorrect Data
-        String studentID = StringUtils.EMPTY;
         List<Principal> principals = AdminRegResourceLoader.getIdentityService().getPrincipalsByEntityId(form.getPerson().getId().toUpperCase());
         for (Principal principalID : principals) {
-            studentID = principalID.getPrincipalId();
+            registrationCourses.addAll(getViewHelper(form).getCourseRegForStudentAndTerm(principalID.getPrincipalId(), form.getTerm().getId()));
+            waitlistedCourses.addAll(getViewHelper(form).getCourseWaitListForStudentAndTerm(principalID.getPrincipalId(), form.getTerm().getId()));
         }
-        //method needs to change to pass form.getStudentId and not studentID
-        form.setRegisteredCourses(getViewHelper(form).getCourseRegForStudentAndTerm(studentID, form.getTerm().getId()));
-        form.setWaitlistedCourses(getViewHelper(form).getCourseWaitListForStudentAndTerm(studentID, form.getTerm().getId()));
+        //end workaround
+
+        form.setRegisteredCourses(registrationCourses);
+        form.setWaitlistedCourses(waitlistedCourses);
 
         form.setClientState(AdminRegConstants.ClientStates.READY);
         return getUIFModelAndView(form);
