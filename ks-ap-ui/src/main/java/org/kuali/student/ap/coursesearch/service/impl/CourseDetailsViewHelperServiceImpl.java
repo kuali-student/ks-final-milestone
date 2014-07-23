@@ -455,7 +455,7 @@ public class CourseDetailsViewHelperServiceImpl extends ViewHelperServiceImpl im
         try {
             SeatCount seatCount = KsapFrameworkServiceLocator.getCourseSeatCountService()
                     .getSeatCountForActivityOffering(aoInfo.getId(), contextInfo);
-            if(seatCount!=null){
+            if(seatCount!=null && seatCount.getAvailableSeats() != null){
                 wrapper.setCurrentEnrollment(seatCount.getAvailableSeats());
             }else{
                 LOG.error("Unable to get seat counts as returned value is null for Activity: "+aoInfo.getActivityId());
