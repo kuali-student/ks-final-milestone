@@ -207,7 +207,6 @@ public class BookmarkController extends KsapControllerBase {
         Course course = KsapFrameworkServiceLocator.getCourseHelper().getCourseInfo(courseId);
         List<PlanItem> items = KsapFrameworkServiceLocator.getPlanHelper().loadStudentsPlanItemsForCourse(course);
         eventList = PlanEventUtils.makeUpdatePlanItemStatusMessage(items, eventList);
-        eventList = PlanEventUtils.makeUpdateBookmarkTotalEvent(itemToDelete, eventList);
         PlanEventUtils.sendJsonEvents(true, "Course " + itemToDelete + " removed from Bookmarks",
                 response, eventList);
         return null;
