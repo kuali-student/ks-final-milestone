@@ -95,8 +95,8 @@
                         <list>
                             <ref bean="KS-CourseDetailedView-CourseInfoSection"/>
                             <ref bean="KS-CourseDetailedView-GovernanceSection"/>
-                            <!--<ref bean="CourseLogistics-Review-section"/>
-                            <ref bean="LearningObjectives-Review-section"/>
+                            <ref bean="KS-CourseDetailedView-CourseLogisticsSection"/>
+                            <!--<ref bean="LearningObjectives-Review-section"/>
                             <ref bean="CourseRequisitesPage-Review-section"/>-->
                             <ref bean="KS-CourseDetailedView-ActiveDatesSection"/>
                         </list>
@@ -172,7 +172,7 @@
 
     <bean id="KS-CourseDetailedView-ReviewConstraint-PropertyReplacer" parent="Uif-ConditionalBeanPropertyReplacer"
             p:propertyName="simpleConstraint"
-            p:condition="@{#form.viewId eq T(org.kuali.student.cm.common.util.CurriculumManagementConstants$CourseViewPageIds).CREATE_COURSE_ID}">
+            p:condition="@{#form.viewId eq T(org.kuali.student.cm.common.util.CurriculumManagementConstants$CourseViewPageIds).CREATE_COURSE_VIEW}">
             <property name="replacement">
                 <bean parent="CM-RequiredConstraints-Enroute"/>
             </property>
@@ -180,7 +180,7 @@
 
     <bean id="KS-CourseDetailedView-ReviewConstraintMaxLength-PropertyReplacer" parent="Uif-ConditionalBeanPropertyReplacer"
             p:propertyName="simpleConstraint"
-            p:condition="@{#form.viewId eq T(org.kuali.student.cm.common.util.CurriculumManagementConstants$CourseViewPageIds).CREATE_COURSE_ID}">
+            p:condition="@{#form.viewId eq T(org.kuali.student.cm.common.util.CurriculumManagementConstants$CourseViewPageIds).CREATE_COURSE_VIEW}">
             <property name="replacement">
                 <bean parent="CM-RequiredConstraints-Enroute" p:maxLength="1000"/>
             </property>
@@ -195,7 +195,7 @@
                     <property name="items">
                         <list>
                             <bean parent="CM-ReadOnlyInput" p:label="Proposal Title" id="proposalInfo_name"
-                                  p:propertyName="proposalInfo.name" p:render="@{#form.viewId eq T(org.kuali.student.cm.common.util.CurriculumManagementConstants$CourseViewPageIds).CREATE_COURSE_ID}"/>
+                                  p:propertyName="proposalInfo.name" p:render="@{#form.viewId eq T(org.kuali.student.cm.common.util.CurriculumManagementConstants$CourseViewPageIds).CREATE_COURSE_VIEW}"/>
                             <bean parent="CM-ReadOnlyInput" p:label="Course Title" id="courseInfo_courseTitle"
                                   p:propertyName="courseInfo.courseTitle"/>
                             <bean parent="CM-ReadOnlyInput" p:label="Transcript Course Title"
@@ -224,7 +224,7 @@
                                 </property>
                             </bean>
                             <bean parent="CM-ReadOnlyInput" p:label="Proposal Rationale" id="proposalInfo_rationale"
-                                  p:propertyName="proposalInfo.rationale.plain" p:render="@{#form.viewId eq T(org.kuali.student.cm.common.util.CurriculumManagementConstants$CourseViewPageIds).CREATE_COURSE_ID}">
+                                  p:propertyName="proposalInfo.rationale.plain" p:render="@{#form.viewId eq T(org.kuali.student.cm.common.util.CurriculumManagementConstants$CourseViewPageIds).CREATE_COURSE_VIEW}">
                                 <!-- TODO:KSCM-2099 This is a temporary fix till the KRAD Data Dictionary works properly -->
                                 <property name="simpleConstraint">
                                     <bean parent="CM-RequiredConstraints-Enroute" p:maxLength="1000"/>
@@ -268,7 +268,7 @@
         </property>
     </bean>
 
-    <bean id="CourseLogistics-Review-section" parent="KS-CourseDetailedView-VerticalBoxSection">
+    <bean id="KS-CourseDetailedView-CourseLogisticsSection" parent="KS-CourseDetailedView-VerticalBoxSection">
         <property name="headerText" value="Course Logistics"/>
         <property name="header.rightGroup.items">
             <list>
@@ -295,8 +295,10 @@
                                   id="courseLogisticsSection_gradingOptions"
                                   p:propertyName="reviewProposalDisplay.courseLogisticsSection.gradingOptionsAsString">
                                 <!-- Make required for state enroute -->
-                                <property name="simpleConstraint">
-                                    <bean parent="CM-RequiredConstraints-Enroute"/>
+                                <property name="propertyReplacers">
+                                    <list>
+                                        <bean parent="KS-CourseDetailedView-ReviewConstraint-PropertyReplacer"/>
+                                    </list>
                                 </property>
                             </bean>
 
@@ -324,13 +326,14 @@
                                   p:propertyName="reviewProposalDisplay.courseLogisticsSection.finalExamStatus"/>
                             <bean parent="CM-ReadOnlyInput" p:label="Final Exam Rationale"
                                   id="courseLogisticsSection_finalExamStatusRationale"
-                                  p:render="@{#form.viewId eq T(org.kuali.student.cm.common.util.CurriculumManagementConstants$CourseViewPageIds).CREATE_COURSE_ID}"
+                                  p:render="@{#form.viewId eq T(org.kuali.student.cm.common.util.CurriculumManagementConstants$CourseViewPageIds).CREATE_COURSE_VIEW}"
                                   p:propertyName="reviewProposalDisplay.courseLogisticsSection.finalExamStatusRationale"/>
 
                             <!-- This bean gets rendered if the outComes collection has items. Otherwise, the one below does. -->
                             <bean parent="Uif-VerticalFieldGroup" p:label="Outcomes" p:colSpan="3"
                                   p:fieldLabel.renderColon="false"
-                                  p:render="@{!#emptyList(#dataObject.reviewProposalDisplay.courseLogisticsSection.outcomes)}">
+                                  p:render="@{#form.viewId eq T(org.kuali.student.cm.common.util.CurriculumManagementConstants$CourseViewPageIds).COURSE_DETAILED_VIEW or
+                                            !#emptyList(#dataObject.reviewProposalDisplay.courseLogisticsSection.outcomes)}">
                                 <property name="items">
                                     <list>
                                         <bean id="course_review_outcome_details" parent="Uif-StackedCollectionSection"
@@ -360,17 +363,21 @@
                             <!-- This bean gets rendered if the outComes collection is empty. Otherwise, the one above does. -->
                             <bean parent="CM-ReadOnlyInput" p:label="Outcomes"
                                   p:propertyName="reviewProposalDisplay.courseLogisticsSection.emptyStringOutcomes"
-                                  p:render="@{#emptyList(#dataObject.reviewProposalDisplay.courseLogisticsSection.outcomes)}">
+                                  p:render="@{#form.viewId eq T(org.kuali.student.cm.common.util.CurriculumManagementConstants$CourseViewPageIds).CREATE_COURSE_VIEW and
+                                              #emptyList(#dataObject.reviewProposalDisplay.courseLogisticsSection.outcomes)}">
                                 <!-- Make required for state enroute  -->
-                                <property name="simpleConstraint">
-                                    <bean parent="CM-RequiredConstraints-Enroute"/>
+                                <property name="propertyReplacers">
+                                    <list>
+                                        <bean parent="KS-CourseDetailedView-ReviewConstraint-PropertyReplacer"/>
+                                    </list>
                                 </property>
                             </bean>
 
                             <!-- This bean gets rendered if the formats collection has items. Otherwise, the one below does. -->
-                            <bean parent="Uif-VerticalFieldGroup" p:label="Course Formats" p:colSpan="3"
+                            <!--<bean parent="Uif-VerticalFieldGroup" p:label="Course Formats" p:colSpan="3"
                                   p:fieldLabel.renderColon="false"
-                                  p:render="@{!#emptyList(#dataObject.reviewProposalDisplay.courseLogisticsSection.formatInfoWrappers)}">
+                                  p:render="@{#form.viewId eq T(org.kuali.student.cm.common.util.CurriculumManagementConstants$CourseViewPageIds).COURSE_DETAILED_VIEW or
+                                             !#emptyList(#dataObject.reviewProposalDisplay.courseLogisticsSection.formatInfoWrappers)}">
                                 <property name="items">
                                     <list>
                                         <bean id="course_review_format_details" parent="Uif-StackedCollectionSection"
@@ -418,12 +425,13 @@
                                         </bean>
                                     </list>
                                 </property>
-                            </bean>
+                            </bean>-->
 
                             <!-- This bean gets rendered if the outComes collection is empty. Otherwise, the one above does. -->
                             <bean parent="CM-ReadOnlyInput" p:label="Course Formats" id="emptyStringFormats"
                                   p:propertyName="reviewProposalDisplay.courseLogisticsSection.emptyStringFormats"
-                                  p:render="@{#emptyList(#dataObject.reviewProposalDisplay.courseLogisticsSection.formatInfoWrappers)}">
+                                  p:render="@{#form.viewId eq T(org.kuali.student.cm.common.util.CurriculumManagementConstants$CourseViewPageIds).CREATE_COURSE_VIEW and 
+                                            #emptyList(#dataObject.reviewProposalDisplay.courseLogisticsSection.formatInfoWrappers)}">
                                 <!-- Make required for state enroute  -->
                                 <property name="simpleConstraint">
                                     <bean parent="RequiredConstraint">

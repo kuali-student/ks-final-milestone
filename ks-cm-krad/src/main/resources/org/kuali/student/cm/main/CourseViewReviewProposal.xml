@@ -30,8 +30,8 @@
                             <ref bean="KS-CourseView-ReviewProposal-ReviewErrorMessageLink"/>
                             <ref bean="KS-CourseView-ReviewProposal-CourseSection"/>
                             <ref bean="KS-CourseView-ReviewProposal-GovernanceSection"/>
-                            <!--<ref bean="CourseLogistics-Review-section"/>
-                            <ref bean="LearningObjectives-Review-section"/>
+                            <ref bean="KS-CourseView-ReviewProposal-CourseLogisticsSection"/>
+                            <!--<ref bean="LearningObjectives-Review-section"/>
                             <ref bean="CourseRequisitesPage-Review-section"/>  -->
                             <ref bean="KS-CourseView-ReviewProposal-ActiveDatesSection"/>
                             <ref bean="KS-CourseView-ReviewProposal-FinancialsSection"/>
@@ -173,48 +173,7 @@
         </property>
     </bean>
 
-    <!--<bean id="Governance-Review-section" parent="ReviewProposal-VerticalBoxSection">
-        <property name="headerText" value="Governance"/>
-        <property name="header.rightGroup.items">
-            <list>
-                <bean p:id="Governance-Review-Edit-link" parent="Uif-ActionLink-Course-Proposal-Review-Page-Edit-Link">
-                    <property name="actionParameters">
-                        <map>
-                            <entry key="displaySection" value="KS-CourseView-Governance-Section"/>
-                        </map>
-                    </property>
-                </bean>
-            </list>
-        </property>
-        <property name="items">
-            <list>
-                <bean parent="KS-CourseDetailedView-GridGroup">
-                    <property name="items">
-                        <list>
-                            <bean parent="CM-ReadOnlyInput" p:label="Campus Locations"
-                                  id="governanceSection_campusLocations"
-                                  p:propertyName="reviewProposalDisplay.governanceSection.campusLocationsAsString"/>
-
-                            <bean parent="CM-ReadOnlyInput" p:label="Curriculum Oversight"
-                                  id="governanceSection_curriculumOversightAsString"
-                                  p:propertyName="reviewProposalDisplay.governanceSection.curriculumOversightAsString">
-                                &lt;!&ndash; Make required for state enroute &ndash;&gt;
-                                <property name="simpleConstraint">
-                                    <bean parent="CM-RequiredConstraints-Enroute"/>
-                                </property>
-                            </bean>
-                            <bean parent="CM-ReadOnlyInput" p:label="Administering Organization"
-                                  id="governanceSection_administeringOrganization"
-                                  p:propertyName="reviewProposalDisplay.governanceSection.administeringOrganizationAsString"/>
-                        </list>
-                    </property>
-                </bean>
-            </list>
-        </property>
-    </bean>
-
-    <bean id="CourseLogistics-Review-section" parent="ReviewProposal-VerticalBoxSection">
-        <property name="headerText" value="Course Logistics"/>
+    <bean id="KS-CourseView-ReviewProposal-CourseLogisticsSection" parent="KS-CourseDetailedView-CourseLogisticsSection">
         <property name="header.rightGroup.items">
             <list>
                 <bean p:id="Governance-Review-Edit-link" parent="Uif-ActionLink-Course-Proposal-Review-Page-Edit-Link">
@@ -226,167 +185,9 @@
                 </bean>
             </list>
         </property>
-        <property name="items">
-            <list>
-                <bean parent="KS-CourseDetailedView-GridGroup">
-                    <property name="items">
-                        <list>
-                            <bean parent="CM-ReadOnlyInput" p:label="Terms" id="courseLogisticsSection_terms"
-                                  p:propertyName="reviewProposalDisplay.courseLogisticsSection.termsAsString"/>
-                            <bean parent="CM-ReadOnlyInput" p:label="Duration"
-                                  id="courseLogisticsSection_atpDurationType"
-                                  p:propertyName="reviewProposalDisplay.courseLogisticsSection.durationDisplay"/>
-                            <bean parent="CM-ReadOnlyInput" p:label="Assessment Scale"
-                                  id="courseLogisticsSection_gradingOptions"
-                                  p:propertyName="reviewProposalDisplay.courseLogisticsSection.gradingOptionsAsString">
-                                &lt;!&ndash; Make required for state enroute &ndash;&gt;
-                                <property name="simpleConstraint">
-                                    <bean parent="CM-RequiredConstraints-Enroute"/>
-                                </property>
-                            </bean>
-
-                            <bean parent="CM-ReadOnlyInput" p:label="Audit" id="courseLogisticsSection_audit"
-                                  p:propertyName="reviewProposalDisplay.courseLogisticsSection.audit">
-                                <property name="control.cssClasses">
-                                    <list merge="true">
-                                        <value>ks-review-captialize</value>
-                                        <value>review_readonly_control</value>
-                                    </list>
-                                </property>
-                            </bean>
-                            <bean parent="CM-ReadOnlyInput" p:label="Pass Fail Transcript Grade"
-                                  id="courseLogisticsSection_passFail"
-                                  p:propertyName="reviewProposalDisplay.courseLogisticsSection.passFail">
-                                <property name="control.cssClasses">
-                                    <list merge="true">
-                                        <value>ks-review-captialize</value>
-                                        <value>review_readonly_control</value>
-                                    </list>
-                                </property>
-                            </bean>
-                            <bean parent="CM-ReadOnlyInput" p:label="Final Exam Status"
-                                  id="courseLogisticsSection_finalExamStatus"
-                                  p:propertyName="reviewProposalDisplay.courseLogisticsSection.finalExamStatus"/>
-                            <bean parent="CM-ReadOnlyInput" p:label="Final Exam Rationale"
-                                  id="courseLogisticsSection_finalExamStatusRationale"
-                                  p:propertyName="reviewProposalDisplay.courseLogisticsSection.finalExamStatusRationale"/>
-
-                            &lt;!&ndash; This bean gets rendered if the outComes collection has items. Otherwise, the one below does. &ndash;&gt;
-                            <bean parent="Uif-VerticalFieldGroup" p:label="Outcomes" p:colSpan="3"
-                                  p:fieldLabel.renderColon="false"
-                                  p:render="@{!#emptyList(#dataObject.reviewProposalDisplay.courseLogisticsSection.outcomes)}">
-                                <property name="items">
-                                    <list>
-                                        <bean id="course_review_outcome_details" parent="Uif-StackedCollectionSection"
-                                              p:propertyName="reviewProposalDisplay.courseLogisticsSection.outcomes"
-                                              p:collectionObjectClass="org.kuali.student.cm.course.form.OutcomeReviewSection">
-                                            <property name="layoutManager.lineGroupPrototype.header.headerText"
-                                                      value="Outcome @{(#index + 1)}"/>
-                                            <property name="layoutManager.lineGroupPrototype.header.style"
-                                                      value="border-bottom : 1px solid black;"/>
-                                            <property name="renderLineActions" value="false"/>
-                                            <property name="renderAddLine" value="false"/>
-                                            <property name="items">
-                                                <list>
-                                                    <bean parent="CM-ReadOnlyInput" p:label="Type"
-                                                          p:propertyName="outComeType" p:colSpan="1"
-                                                          p:fieldLabel.style="margin-left:-4px;"/>
-                                                    <bean parent="CM-ReadOnlyInput" p:label="Credit Value"
-                                                          p:fieldLabel.style="white-space : nowrap;margin-top:-9px;"
-                                                          p:propertyName="outComeValue" p:colSpan="1"
-                                                          p:additionalCssClasses="ks-stackedcollection-table-outcome"/>
-                                                </list>
-                                            </property>
-                                        </bean>
-                                    </list>
-                                </property>
-                            </bean>
-                            &lt;!&ndash; This bean gets rendered if the outComes collection is empty. Otherwise, the one above does. &ndash;&gt;
-                            <bean parent="CM-ReadOnlyInput" p:label="Outcomes"
-                                  p:propertyName="reviewProposalDisplay.courseLogisticsSection.emptyStringOutcomes"
-                                  p:render="@{#emptyList(#dataObject.reviewProposalDisplay.courseLogisticsSection.outcomes)}">
-                                &lt;!&ndash; Make required for state enroute  &ndash;&gt;
-                                <property name="simpleConstraint">
-                                    <bean parent="CM-RequiredConstraints-Enroute"/>
-                                </property>
-                            </bean>
-
-                            &lt;!&ndash; This bean gets rendered if the formats collection has items. Otherwise, the one below does. &ndash;&gt;
-                            <bean parent="Uif-VerticalFieldGroup" p:label="Course Formats" p:colSpan="3"
-                                  p:fieldLabel.renderColon="false"
-                                  p:render="@{!#emptyList(#dataObject.reviewProposalDisplay.courseLogisticsSection.formatInfoWrappers)}">
-                                <property name="items">
-                                    <list>
-                                        <bean id="course_review_format_details" parent="Uif-StackedCollectionSection"
-                                              p:propertyName="reviewProposalDisplay.courseLogisticsSection.formatInfoWrappers"
-                                              p:collectionObjectClass="org.kuali.student.cm.course.form.FormatInfoWrapper"
-                                              p:colSpan="3">
-                                            <property name="layoutManager.lineGroupPrototype.header.headerText"
-                                                      value="Format @{(#index + 1)}"/>
-                                            <property name="layoutManager.lineGroupPrototype.header.style"
-                                                      value="border-bottom : 1px solid black;"/>
-                                            <property name="renderLineActions" value="false"/>
-                                            <property name="renderAddLine" value="false"/>
-                                            <property name="subCollections">
-                                                <list>
-                                                    <bean id="course_review_activity_details"
-                                                          parent="Uif-StackedSubCollection-WithinSection"
-                                                          p:collectionObjectClass="org.kuali.student.cm.course.form.ActivityInfoWrapper"
-                                                          p:propertyName="activities" p:colSpan="3" p:align="left"
-                                                          p:layoutManager.style="padding-left:0px;">
-                                                        <property
-                                                                name="layoutManager.lineGroupPrototype.header.headerText"
-                                                                value="Activity @{(#index + 1)} (@{#line.activityType}) "/>
-                                                        <property name="layoutManager.lineGroupPrototype.header.style"
-                                                                  value="border-bottom : 1px dotted black;"/>
-                                                        <property name="renderLineActions" value="false"/>
-                                                        <property name="renderAddLine" value="false"/>
-                                                        <property name="items">
-                                                            <list>
-                                                                <bean parent="CM-ReadOnlyInput" p:label="Contact Hours"
-                                                                      p:fieldLabel.style="white-space : nowrap; margin-left : -4px;"
-                                                                      p:propertyName="contactHours" p:colSpan="1"/>
-                                                                <bean parent="CM-ReadOnlyInput" p:label="Duration"
-                                                                      p:fieldLabel.style="white-space : nowrap; margin-left : -4px;"
-                                                                      p:propertyName="durationCount" p:colSpan="1"/>
-                                                                <bean parent="CM-ReadOnlyInput"
-                                                                      p:label="Anticipated Class Size"
-                                                                      p:fieldLabel.style="white-space : nowrap; margin-left : -4px;"
-                                                                      p:propertyName="anticipatedClassSize"
-                                                                      p:colSpan="1"/>
-                                                            </list>
-                                                        </property>
-                                                    </bean>
-                                                </list>
-                                            </property>
-                                        </bean>
-                                    </list>
-                                </property>
-                            </bean>
-
-                            &lt;!&ndash; This bean gets rendered if the outComes collection is empty. Otherwise, the one above does. &ndash;&gt;
-                            <bean parent="CM-ReadOnlyInput" p:label="Course Formats" id="emptyStringFormats"
-                                  p:propertyName="reviewProposalDisplay.courseLogisticsSection.emptyStringFormats"
-                                  p:render="@{#emptyList(#dataObject.reviewProposalDisplay.courseLogisticsSection.formatInfoWrappers)}">
-                                &lt;!&ndash; Make required for state enroute  &ndash;&gt;
-                                <property name="simpleConstraint">
-                                    <bean parent="RequiredConstraint">
-                                        <property name="states">
-                                            <list>
-                                                <value>P</value>
-                                            </list>
-                                        </property>
-                                    </bean>
-                                </property>
-                            </bean>
-                        </list>
-                    </property>
-                </bean>
-            </list>
-        </property>
     </bean>
 
-    <bean id="LearningObjectives-Review-section" parent="ReviewProposal-VerticalBoxSection">
+    <!--<bean id="LearningObjectives-Review-section" parent="ReviewProposal-VerticalBoxSection">
         <property name="headerText" value="Learning Objectives"/>
         <property name="header.rightGroup.items">
             <list>
