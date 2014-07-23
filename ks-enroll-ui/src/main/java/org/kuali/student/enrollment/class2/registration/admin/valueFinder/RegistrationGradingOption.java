@@ -31,11 +31,12 @@ public class RegistrationGradingOption extends UifKeyValuesFinderBase implements
 
         if (adminRegForm.getPerson().getId() != null && adminRegForm.getTerm() != null) {
             List<RegistrationCourse> registrationCourses = new ArrayList<RegistrationCourse>();
-            //if (adminRegForm.getCoursesInProcess() != null) {
-                registrationCourses = adminRegForm.getCoursesInProcess();
+            registrationCourses = adminRegForm.getPendingCourses();
             /*TODO To be Implemented with the table Edit inline action is clicked.
-            }else if(adminRegForm.getPendingCourses() != null) {
-                registrationCourses = adminRegForm.getPendingCourses();
+            if(adminRegForm.getPendingCourses() != null) {
+               registrationCourses = adminRegForm.getPendingCourses();
+            }else if (adminRegForm.getCoursesInProcess() != null) {
+                registrationCourses = adminRegForm.getCoursesInProcess();
             }
             */
             for (RegistrationCourse registrationCourse : registrationCourses) {
