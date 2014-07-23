@@ -182,7 +182,7 @@
                                         <value>ks-fontello-icon-cancel</value>
                                     </list>
                                 </property>
-                                <property name="actionScript" value=""/>
+                                <property name="actionScript" value="deleteBookmarkCourse('@{#line.uniqueId}', '@{#line.courseId}', e);"/>
                             </bean>
                         </list>
                     </property>

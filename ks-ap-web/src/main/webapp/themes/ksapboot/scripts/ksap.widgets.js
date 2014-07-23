@@ -322,15 +322,17 @@ function bookmarkCourse(courseId, e) {
 /**
  * Deletes a bookmarked course using an ajax call to the controller
  *
- * @param courseid - Id of the course being bookmarked
+ * @param uniqueId - Id used to identify the bookmark item record
+ * @param courseId - Id of the course being bookmarked
  * @param e - An object containing data that will be passed to the event handler.
  */
-function deleteBookmarkCourse(courseId, e) {
+function deleteBookmarkCourse(uniqueId, courseId, e) {
     stopEvent(e);
     var form = jQuery('<form />').attr("id", "popupForm").attr("action", "bookmark").attr("method", "post");
     jQuery("body").append(form);
     var additionalFormData = {
         methodToCall:"deleteBookmark",
+        uniqueId:uniqueId,
         courseId:courseId
     }
     form.ajaxSubmit({

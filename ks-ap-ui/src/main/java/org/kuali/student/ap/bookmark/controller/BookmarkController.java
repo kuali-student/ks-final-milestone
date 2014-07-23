@@ -24,8 +24,6 @@ import org.kuali.student.ap.academicplan.infc.PlanItem;
 import org.kuali.student.ap.bookmark.form.BookmarkForm;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
 import org.kuali.student.ap.framework.context.PlanConstants;
-import org.kuali.student.ap.planner.PlannerForm;
-import org.kuali.student.ap.planner.support.PlanItemControllerHelper;
 import org.kuali.student.ap.planner.util.PlanEventUtils;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
@@ -150,6 +148,7 @@ public class BookmarkController extends KsapControllerBase {
         LearningPlan learningPlan = KsapFrameworkServiceLocator.getPlanHelper().getDefaultLearningPlan();
 
         String courseId = request.getParameter("courseId");
+        String uniqueId = request.getParameter("uniqueId");
 
         // Delete plan item from the database
         PlanItemInfo itemToDelete = null;
@@ -193,7 +192,8 @@ public class BookmarkController extends KsapControllerBase {
         }
 
         // Create json strings for displaying action's response and updating the planner screen.
-        eventList = PlanEventUtils.makeRemoveEvent("", itemToDelete, eventList);
+        eventList = PlanEventUtils.makeRemoveEvent(uniqueId, itemToDelete, eventList);
+        eventList = PlanEventUtils.makeUpdateBookmarkTotalEvent(learningPlan.getId(), eventList);
         PlanEventUtils.sendJsonEvents(true, "Course " + itemToDelete + " removed from Bookmarks",
                 response, eventList);
         return null;
