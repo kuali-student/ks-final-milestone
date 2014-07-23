@@ -50,6 +50,7 @@ import org.kuali.student.enrollment.class2.courseoffering.form.CourseOfferingMan
 import org.kuali.student.enrollment.class2.courseoffering.service.CourseOfferingManagementViewHelperService;
 import org.kuali.student.enrollment.class2.courseoffering.service.decorators.PermissionServiceConstants;
 import org.kuali.student.enrollment.class2.courseoffering.service.facade.ActivityOfferingResult;
+import org.kuali.student.enrollment.class2.courseoffering.util.CommentUtil;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingConstants;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingManagementToolbarUtil;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingManagementUtil;
@@ -1350,15 +1351,7 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
 
                     //retrieve comment count for each AO
                     //TODO: performance can be further optimized by using a sub-select or join query to retrieve comment count for all the AOs instead of placing the count retrieval inside this loop. https://jira.kuali.org/browse/KSENROLL-13744
-                    List<Predicate> predicates = new ArrayList<Predicate>();
-                    predicates.add(PredicateFactory.equal("refObjectId", aoWrapper.getAoInfo().getId()));
-                    predicates.add(PredicateFactory.and(PredicateFactory.equal("refObjectUri", CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING)));
-                    QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
-                    qbcBuilder.setPredicates(predicates.toArray(new Predicate[predicates.size()]));
-                    QueryByCriteria qbc = qbcBuilder.build();
-                    List<String> commentIds = CourseOfferingManagementUtil.getCommentService().searchForCommentIds(qbc, contextInfo);
-
-                    aoWrapper.setCommentCount(commentIds.size());
+                    aoWrapper.setCommentCount(CommentUtil.getCommentsCount(aoWrapper.getAoInfo().getId(), CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING, contextInfo));
                     activityOfferingWrappers.add(aoWrapper);
 
 
