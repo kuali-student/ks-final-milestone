@@ -366,7 +366,7 @@
         </property>
     </bean>
 
-    <!-- TODO: Change to CSS Grid -->
+
     <bean id="bookmark_detail_list" parent="Uif-ListCollectionSection">
         <property name="headerText"
                   value="@{#textHelper.getFormattedMessage('bookmarks.header', new Object[]{lookupResults.size()})}"/>
@@ -856,40 +856,25 @@
     <bean id="bookmark_detail_list_empty" parent="Uif-VerticalBoxGroup">
         <property name="validationMessages.displayMessages" value="false"/>
         <property name="headerText"
-                  value="You have &lt;strong&gt;@{lookupResults.size()}&lt;/strong&gt; courses bookmarked"/>
-        <property name="render" value="@{lookupResults.size() gt 0 ? false : true}"/>
-        <property name="items">
-            <list>
-                <bean parent="Uif-Message" p:style="padding-bottom: 10px;"
-                      p:messageText="Your List Is Empty. &lt;a href=&quot;@{#ConfigProperties['application.url']}/kr-krad/course?methodToCall=start&amp;viewId=CourseSearch-FormView&quot;&gt;Find Courses&lt;/a&gt; and bookmark them.">
-                </bean>
-                <ref bean="empty_bookmark_section"/>
-
-            </list>
+                  value="@{#textHelper.getFormattedMessage('bookmarks.header', new Object[]{lookupResults.size()})}"/>
+        <property name="header">
+            <bean parent="Uif-HeaderTwo"/>
         </property>
-    </bean>
-
-    <bean id="empty_bookmark_section" parent="Uif-VerticalFieldGroup" p:style="padding: 10px;">
+        <property name="render" value="@{lookupResults.size() gt 0 ? false : true}"/>
         <property name="cssClasses">
             <list merge="true">
-                <value>ksap-carousel-list</value>
+                <value>ksap-bookmark-empty</value>
             </list>
         </property>
         <property name="items">
             <list>
-                <bean parent="Uif-Message" p:style="padding: 5px;">
-                    <property name="messageText" value="With Bookmarked Courses, you can: "/>
+                <bean parent="Uif-Message"
+                      p:messageText="@{#textHelper.getText('bookmarks.empty.message')}">
                 </bean>
-                <bean parent="Uif-Message" p:style="padding-left: 20px;">
-                    <property name="messageText"
-                              value="&lt;li style=&quot;list-style: disc;&quot;&gt; Save courses before adding to your Plan &lt;/li&gt;"/>
-                </bean>
-                <bean parent="Uif-Message" p:style="padding-left: 20px;">
-                    <property name="messageText"
-                              value="&lt;li style=&quot;list-style: disc;&quot;&gt;Share your list with advisers&lt;/li&gt;"/>
-                </bean>
+
             </list>
         </property>
     </bean>
+
 
 </beans>
