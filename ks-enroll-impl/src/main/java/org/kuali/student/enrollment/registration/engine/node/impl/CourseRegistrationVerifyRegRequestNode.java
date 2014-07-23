@@ -20,6 +20,7 @@ import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.util.constants.CourseRegistrationServiceConstants;
 import org.kuali.student.r2.common.util.constants.LprServiceConstants;
@@ -89,8 +90,11 @@ public class CourseRegistrationVerifyRegRequestNode extends AbstractCourseRegist
                 message = courseRegistrationErrorProcessor.processRequest(message); // roll back the entire transaction
             } else {
                 //Error out the items
-                RegistrationRequestInfo updatedRequestInfo = new RegistrationRequestInfo(message.getRegistrationRequest());
-                updateLprTransactionWithErrors(regRequest.getId(), errors, contextInfo);
+                LprTransactionInfo trans = updateLprTransactionWithErrors(regRequest.getId(), errors, contextInfo);
+
+                // the operation above has changed the registration request. Pull from the database and update existing
+                // message.
+                RegistrationRequestInfo updatedRequestInfo = getCourseRegistrationService().getRegistrationRequest(trans.getId(), contextInfo);
                 updateRegRequestWithErrors(updatedRequestInfo, errors);
                 message.setRegistrationRequest(updatedRequestInfo);
             }
@@ -104,7 +108,7 @@ public class CourseRegistrationVerifyRegRequestNode extends AbstractCourseRegist
     }
 
     @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
-    protected void updateLprTransactionWithErrors(String lprTransactionId, List<ValidationResultInfo> errors, ContextInfo contextInfo) throws PermissionDeniedException, MissingParameterException, InvalidParameterException, OperationFailedException, DoesNotExistException, VersionMismatchException, DataValidationErrorException {
+    protected LprTransactionInfo updateLprTransactionWithErrors(String lprTransactionId, List<ValidationResultInfo> errors, ContextInfo contextInfo) throws PermissionDeniedException, MissingParameterException, InvalidParameterException, OperationFailedException, DoesNotExistException, VersionMismatchException, DataValidationErrorException, ReadOnlyException {
 
         LprTransactionInfo trans = getLprService().getLprTransaction(lprTransactionId, contextInfo);
 
@@ -119,7 +123,7 @@ public class CourseRegistrationVerifyRegRequestNode extends AbstractCourseRegist
                 }
             }
         }
-        getLprService().updateLprTransaction(lprTransactionId, trans, contextInfo);
+        return getLprService().updateLprTransaction(lprTransactionId, trans, contextInfo);
 
 
     }
