@@ -514,7 +514,7 @@ function initBookmarkCount(evenObject,bookMarkLabelText,e){
     //Register BM refresh event
     jQuery(evenObject)
         .on('UPDATE_BOOKMARK_TOTAL', function(event, data) {
-            ksapBookmarkUpdateTotal(data);
+            refreshBookmarkCount(data);
         });
 
     //Set bookmark count label text
@@ -543,4 +543,33 @@ function requestBookmarkCountRefresh(e) {
     });
     fnClosePopup();
     jQuery("form#refreshBookmarkFormId").remove();
+}
+
+/**
+ * Updates the html object containing the total number of bookmarks for the secondary navigation
+ *
+ * @param data - Data for the new object
+ */
+function refreshBookmarkCount (data) {
+    var bookmarkCountLink=jQuery("#Ksap-Header-Bookmark-Count");
+    var bookmarkCountValue=jQuery("#Ksap-Header-Bookmark-Count-Value");
+    var bookmarkDetailsPageCountValue=jQuery("#bookmarkHeaderCount");
+
+    //update the count in the secondary navigation
+    if (bookmarkCountValue.length) {
+        bookmarkCountValue.html(data.bookmarkTotal);
+    }
+
+    //update the styling and clickability of the link
+    if (bookmarkCountLink.length) {
+        if (data.bookmarkTotal !=null && data.bookmarkTotal <=0) {
+            bookmarkCountLink.addClass("disabled ks-fontello-icon-star-empty");
+            bookmarkCountLink.removeClass("ks-fontello-icon-star");
+            bookmarkCountLink.attr("disabled","disabled");
+        } else {
+            bookmarkCountLink.addClass("ks-fontello-icon-star");
+            bookmarkCountLink.removeClass("disabled ks-fontello-icon-star-empty");
+            bookmarkCountLink.removeAttr("disabled")
+        }
+    }
 }

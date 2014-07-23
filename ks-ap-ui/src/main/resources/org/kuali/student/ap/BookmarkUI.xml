@@ -75,6 +75,11 @@
                 <value>ksap-view</value>
             </list>
         </property>
+        <property name="additionalScriptFiles">
+            <list>
+                <value>themes/ksapboot/scripts/ksap.bookmark.js</value>
+            </list>
+        </property>
         <property name="criteriaFields">
             <list/>
         </property>
@@ -193,10 +198,15 @@
         <property name="header.render" value="false"/>
         <property name="items">
             <list>
-                <bean parent="Uif-HorizontalBoxGroup">
+                <bean parent="Uif-HorizontalBoxGroup" p:id="bookmarkSidebarEmptyResults">
                     <property name="validationMessages.displayMessages" value="false"/>
-                    <property name="render"
-                              value="@{lookupResults ne null and lookupResults.size() gt 0 ? false : true}"/>
+                    <!--<property name="render"-->
+                              <!--value="@{lookupResults ne null and lookupResults.size() gt 0 ? false : true}"/>-->
+                    <property name="cssClasses">
+                        <list>
+                            <value>@{lookupResults.size() gt 0 ? 'ksap-hide' : ''}</value>
+                        </list>
+                    </property>
                     <property name="items">
                         <list>
                             <bean parent="Uif-Message"
@@ -305,6 +315,11 @@
         <property name="cssClasses">
             <list merge="true">
                 <value>ksap-view</value>
+            </list>
+        </property>
+        <property name="additionalScriptFiles">
+            <list>
+                <value>themes/ksapboot/scripts/ksap.bookmark.js</value>
             </list>
         </property>
 
@@ -853,17 +868,18 @@
     </bean>
 
     <!-- Group for Empty Result Set -->
-    <bean id="bookmark_detail_list_empty" parent="Uif-VerticalBoxGroup">
+    <bean id="bookmark_detail_list_empty" parent="Uif-VerticalBoxGroup" p:id="bookmarkDetailEmptyList">
         <property name="validationMessages.displayMessages" value="false"/>
         <property name="headerText"
-                  value="@{#textHelper.getFormattedMessage('bookmarks.header', new Object[]{lookupResults.size()})}"/>
+                  value="@{#textHelper.getFormattedMessage('bookmarks.header', new Object[]{'0'})}"/>
         <property name="header">
             <bean parent="Uif-HeaderTwo"/>
         </property>
-        <property name="render" value="@{lookupResults.size() gt 0 ? false : true}"/>
+        <!--<property name="render" value="@{lookupResults.size() gt 0 ? false : true}"/>-->
         <property name="cssClasses">
             <list merge="true">
                 <value>ksap-bookmark-empty</value>
+                <value>@{lookupResults.size() gt 0 ? 'ksap-hide' : ''}</value>
             </list>
         </property>
         <property name="items">
