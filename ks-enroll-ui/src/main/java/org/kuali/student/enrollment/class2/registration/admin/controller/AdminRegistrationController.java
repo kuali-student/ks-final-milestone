@@ -34,6 +34,8 @@ import org.kuali.student.enrollment.class2.registration.admin.form.RegistrationI
 import org.kuali.student.enrollment.class2.registration.admin.service.AdminRegistrationViewHelperService;
 import org.kuali.student.enrollment.class2.registration.admin.util.AdminRegConstants;
 import org.kuali.student.enrollment.class2.registration.admin.util.AdminRegResourceLoader;
+import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestInfo;
+import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestItemInfo;
 import org.kuali.student.enrollment.courseregistration.infc.RegistrationRequest;
 import org.kuali.student.enrollment.courseregistration.infc.RegistrationRequestItem;
 import org.kuali.student.r2.common.infc.ValidationResult;
@@ -53,8 +55,10 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Created with IntelliJ IDEA.
@@ -205,16 +209,16 @@ public class AdminRegistrationController extends UifControllerBase {
     public Map queryForRegistrationStatus(@ModelAttribute("KualiForm") AdminRegistrationForm form) {
 
         Map<String, Object> result = new HashMap<String, Object>();
-        List<String> updateIds = new ArrayList<String>();
+        Set<String> updateIds = new HashSet<String>();
 
         // Check if any courses is being processed by the registration engine.
         if (form.getRegRequestId() == null || form.getCoursesInProcess().isEmpty()) {
-            result.put("stop", true);
+            result.put(AdminRegConstants.POLLING_STOP, true);
             return result;
         }
 
         // Retrieve registration request and check the state.
-        RegistrationRequest regRequest = this.getViewHelper(form).getRegistrationRequest(form.getRegRequestId());
+        RegistrationRequestInfo regRequest = this.getViewHelper(form).getRegistrationRequest(form.getRegRequestId());
         if (regRequest.getStateKey().equals(LprServiceConstants.LPRTRANS_PROCESSING_STATE_KEY)) {
             return result;
         }
@@ -222,7 +226,7 @@ public class AdminRegistrationController extends UifControllerBase {
         synchronized (form) {
 
             if (regRequest.getStateKey().equals(LprServiceConstants.LPRTRANS_SUCCEEDED_STATE_KEY)) {
-                for (RegistrationRequestItem item : regRequest.getRegistrationRequestItems()) {
+                for (RegistrationRequestItemInfo item : regRequest.getRegistrationRequestItems()) {
 
                     //Check for LPRTRANS_ITEM_NEW_STATE_KEY and LPRTRANS_ITEM_PROCESSING_STATE_KEY if any
                     //and handle appropriately.
@@ -242,22 +246,21 @@ public class AdminRegistrationController extends UifControllerBase {
                     // Move item to appropriate list based on the item state.
                     if (LprServiceConstants.LPRTRANS_ITEM_SUCCEEDED_STATE_KEY.equals(item.getStateKey())) {
                         form.getRegisteredCourses().add(processedCourse);
+                        updateIds.add(AdminRegConstants.REG_COLL_ID);
                     } else if (LprServiceConstants.LPRTRANS_ITEM_WAITLIST_STATE_KEY.equals(item.getStateKey())) {
                         form.getWaitlistedCourses().add(processedCourse);
+                        updateIds.add(AdminRegConstants.WAITLIST_COLL_ID);
                     } else if (LprServiceConstants.LPRTRANS_ITEM_WAITLIST_AVAILABLE_STATE_KEY.equals(item.getStateKey()) ||
                             LprServiceConstants.LPRTRANS_ITEM_FAILED_STATE_KEY.equals(item.getStateKey())) {
                         // Create a new registration issue with the course in error.
                         RegistrationIssue regIssue = new RegistrationIssue();
                         regIssue.setCourse(processedCourse);
+                        regIssue.setItems(getViewHelper(form).createIssueItemsFromResults(item.getValidationResults()));
 
-                        // Add the messages to the issue items list.
-                        for (ValidationResult validationResult : item.getValidationResults()) {
-                            regIssue.getItems().add(new RegistrationIssueItem(validationResult.getMessage()));
-                        }
                         form.getRegistrationIssues().add(regIssue);
+                        updateIds.add(AdminRegConstants.ISSUES_COLL_ID);
                     }
                 }
-                updateIds.add(AdminRegConstants.ISSUES_COLL_ID);
             }
 
             // Reset the form to ready state.
@@ -267,7 +270,7 @@ public class AdminRegistrationController extends UifControllerBase {
         }
 
         // Return updateIds to UI, to refresh selected collections.
-        result.put("updateIds", updateIds);
+        result.put(AdminRegConstants.POLLING_UPDATE_IDS, updateIds);
         return result;
     }
 

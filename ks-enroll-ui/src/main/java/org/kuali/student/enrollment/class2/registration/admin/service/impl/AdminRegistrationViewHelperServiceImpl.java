@@ -1,7 +1,11 @@
 package org.kuali.student.enrollment.class2.registration.admin.service.impl;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.rice.krad.messages.MessageService;
+import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.GrowlMessage;
+import org.kuali.rice.krad.util.MessageMap;
 import org.kuali.student.common.collection.KSCollectionUtils;
 import org.kuali.student.common.uif.service.impl.KSViewHelperServiceImpl;
 import org.kuali.student.common.util.security.ContextUtils;
@@ -12,6 +16,7 @@ import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingVie
 import org.kuali.student.enrollment.class2.registration.admin.form.AdminRegistrationForm;
 import org.kuali.student.enrollment.class2.registration.admin.form.RegistrationActivity;
 import org.kuali.student.enrollment.class2.registration.admin.form.RegistrationCourse;
+import org.kuali.student.enrollment.class2.registration.admin.form.RegistrationIssueItem;
 import org.kuali.student.enrollment.class2.registration.admin.service.AdminRegistrationViewHelperService;
 import org.kuali.student.enrollment.class2.registration.admin.util.AdminRegClientCache;
 import org.kuali.student.enrollment.class2.registration.admin.util.AdminRegConstants;
@@ -26,12 +31,18 @@ import org.kuali.student.enrollment.courseregistration.dto.ActivityRegistrationI
 import org.kuali.student.enrollment.courseregistration.dto.CourseRegistrationInfo;
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestInfo;
 import org.kuali.student.enrollment.courseregistration.infc.RegistrationRequest;
+import org.kuali.student.enrollment.registration.client.service.dto.ConflictCourseResult;
+import org.kuali.student.enrollment.registration.client.service.dto.RegistrationValidationConflictCourseResult;
+import org.kuali.student.enrollment.registration.client.service.dto.RegistrationValidationResult;
 import org.kuali.student.enrollment.registration.client.service.impl.util.CourseRegistrationAndScheduleOfClassesUtil;
+import org.kuali.student.enrollment.registration.client.service.impl.util.RegistrationValidationResultsUtil;
+import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.common.infc.ValidationResult;
 import org.kuali.student.r2.common.util.TimeOfDayHelper;
 import org.kuali.student.r2.common.util.constants.LprServiceConstants;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
@@ -42,6 +53,7 @@ import org.kuali.student.r2.core.scheduling.dto.ScheduleInfo;
 import org.kuali.student.r2.core.scheduling.dto.TimeSlotInfo;
 import org.kuali.student.r2.core.scheduling.util.SchedulingServiceUtil;
 
+import java.text.MessageFormat;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
@@ -362,7 +374,7 @@ public class AdminRegistrationViewHelperServiceImpl extends KSViewHelperServiceI
     }
 
     @Override
-    public RegistrationRequest getRegistrationRequest(String regRequestId) {
+    public RegistrationRequestInfo getRegistrationRequest(String regRequestId) {
 
         try {
             return AdminRegResourceLoader.getCourseRegistrationService().getRegistrationRequest(regRequestId, createContextInfo());
@@ -371,6 +383,33 @@ public class AdminRegistrationViewHelperServiceImpl extends KSViewHelperServiceI
         }
 
         return null;
+    }
+
+    public List<RegistrationIssueItem> createIssueItemsFromResults(List<ValidationResultInfo> results) {
+        List<RegistrationIssueItem> issueItems = new ArrayList<RegistrationIssueItem>();
+        // Add the messages to the issue items list.
+        for (ValidationResult validationResult : results) {
+            RegistrationValidationResult result = RegistrationValidationResultsUtil.unmarshallResult(validationResult.getMessage());
+
+            MessageService messageService = KRADServiceLocatorWeb.getMessageService();
+
+            String message = messageService.getMessageText(null, null, result.getMessageKey());
+
+            if (result instanceof RegistrationValidationConflictCourseResult) {
+                RegistrationValidationConflictCourseResult conflictCourseResult = (RegistrationValidationConflictCourseResult)result;
+                StringBuilder conflictCourses = new StringBuilder();
+                for(ConflictCourseResult conflictCourse : conflictCourseResult.getConflictingCourses()){
+                    if(conflictCourses.length()>0){
+                        conflictCourses.append(", ");
+                    }
+                    conflictCourses.append(conflictCourse.getCourseCode());
+                }
+                message = MessageFormat.format(message, conflictCourses.toString());
+            }
+
+            issueItems.add(new RegistrationIssueItem(message));
+        }
+        return issueItems;
     }
 
     /**

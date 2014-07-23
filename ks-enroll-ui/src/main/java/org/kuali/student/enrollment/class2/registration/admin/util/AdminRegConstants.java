@@ -22,6 +22,10 @@ public class AdminRegConstants {
     public static final String WAITLIST_COLL_ID = "KS-AdminRegistration-Waitlist";
     public static final String ISSUES_COLL_ID = "KS-AdminRegistration-Issues";
 
+    // Collection component ids.
+    public static final String POLLING_STOP = "stop";
+    public static final String POLLING_UPDATE_IDS = "updateIds";
+
     // Dialog ids.
     public static final String REG_CONFIRM_DIALOG = "registerConfirmDialog";
     public static final String DROP_COURSE_DIALOG = "dropCourseDialog";
