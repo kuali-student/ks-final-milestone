@@ -1,6 +1,7 @@
 package org.kuali.student.enrollment.class2.registration.admin.service.impl;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.krad.messages.MessageService;
 import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -234,6 +235,8 @@ public class AdminRegistrationViewHelperServiceImpl extends KSViewHelperServiceI
                             AdminRegConstants.ADMIN_REG_MSG_ERROR_COURSE_CODE_TERM_INVALID);
                     continue;
                 }
+                course.setGradingOption(courseOffering.getGradingOptionId());
+                course.setGradingOptions(courseOffering.getStudentRegistrationGradingOptions());
 
                 //First get the format offerings for the course offering to get the registration groups linked to the FO.
                 List<FormatOfferingInfo> formatOfferings = AdminRegResourceLoader.getCourseOfferingService().getFormatOfferingsByCourseOffering(

@@ -40,6 +40,7 @@ public class RegistrationCourse implements Serializable{
 
     private Integer credits;
     private String gradingOption;
+    private List<String> gradingOptions;
 
     private Date transactionalDate;
     private Date dropDate;
@@ -191,4 +192,11 @@ public class RegistrationCourse implements Serializable{
         return list;
     }
 
+    public List<String> getGradingOptions() {
+        return gradingOptions;
+    }
+
+    public void setGradingOptions(List<String> gradingOptions) {
+        this.gradingOptions = gradingOptions;
+    }
 }

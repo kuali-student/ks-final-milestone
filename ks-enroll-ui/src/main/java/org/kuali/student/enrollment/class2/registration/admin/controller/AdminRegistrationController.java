@@ -180,6 +180,7 @@ public class AdminRegistrationController extends UifControllerBase {
         // Set the necessary attributes on the pending courses.
         for (RegistrationCourse course : form.getPendingCourses()) {
             course.setActivities(getViewHelper(form).getRegistrationActivitiesForRegistrationCourse(course, form.getTerm().getCode()));
+
         }
 
         return showDialog(AdminRegConstants.REG_CONFIRM_DIALOG, form, request, response);

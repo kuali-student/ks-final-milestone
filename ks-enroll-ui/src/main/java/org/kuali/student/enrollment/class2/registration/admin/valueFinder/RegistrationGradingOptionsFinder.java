@@ -43,9 +43,13 @@ public class RegistrationGradingOptionsFinder extends UifKeyValuesFinderBase imp
 
         try {
             // Get the course offering from the cache for given term id and course code and create keyvalues form student registration options.
-            CourseOfferingInfo coInfo = AdminRegClientCache.getCourseOfferingByCodeAndTerm(form.getTerm().getId(), course.getCode());
-            for (String studRegGradOpt : coInfo.getStudentRegistrationGradingOptions()) {
-                keyValues.add(new ConcreteKeyValue(studRegGradOpt, CourseRegistrationAndScheduleOfClassesUtil.translateGradingOptionKeyToName(studRegGradOpt)));
+            if(course.getGradingOptions().isEmpty()){
+                keyValues.add(new ConcreteKeyValue(course.getGradingOption(), CourseRegistrationAndScheduleOfClassesUtil.translateGradingOptionKeyToName(course.getGradingOption())));
+            }
+            else{
+                for (String studRegGradOpt : course.getGradingOptions()) {
+                    keyValues.add(new ConcreteKeyValue(studRegGradOpt, CourseRegistrationAndScheduleOfClassesUtil.translateGradingOptionKeyToName(studRegGradOpt)));
+                }
             }
         } catch (Exception e) {
             throw new RuntimeException(e);

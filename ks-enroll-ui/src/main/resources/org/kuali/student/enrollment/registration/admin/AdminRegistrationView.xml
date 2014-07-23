@@ -515,7 +515,7 @@
                     <property name="renderLineActions" value="false"/>
                     <property name="items">
                         <list>
-                            <bean parent="Uif-VerticalFieldGroup" p:label="Course">
+                            <bean parent="Uif-VerticalFieldGroup" p:label="Course Code (Section)">
                                 <property name="group.items">
                                     <list>
                                         <bean parent="Uif-Message" p:style="font-weight: bold;"
@@ -539,7 +539,8 @@
                                     </bean>
                                 </property>
                             </bean>
-                            <bean parent="Uif-InputField" p:label="Reg Options" p:propertyName="gradingOption">
+                            <bean parent="Uif-InputField" p:label="Reg Options" p:propertyName="gradingOption"
+                                  p:readOnly="@{!#empty(#line.gradingOptions)}">
                                 <property name="control">
                                     <bean parent="Uif-DropdownControl"/>
                                 </property>
