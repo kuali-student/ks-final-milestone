@@ -28,6 +28,10 @@ public class RegistrationValidationConflictCourseResult extends RegistrationVali
 
     private List<ConflictCourseResult> conflictingCourses;
 
+    public RegistrationValidationConflictCourseResult() {
+        super();
+    }
+
     public RegistrationValidationConflictCourseResult(String messageKey, List<ConflictCourseResult> conflictingCourses) {
         super(messageKey);
         if(this.conflictingCourses==null){

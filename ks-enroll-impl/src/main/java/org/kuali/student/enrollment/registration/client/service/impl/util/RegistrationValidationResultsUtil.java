@@ -60,4 +60,20 @@ public class RegistrationValidationResultsUtil {
         }
         return json;
     }
+
+    public static RegistrationValidationResult unmarshallResult(String result) {
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            if(result.contains("conflictingCourses")) {
+                return mapper.readValue(result, RegistrationValidationConflictCourseResult.class);
+            } else if(result.contains("maxCredits")) {
+                return mapper.readValue(result, RegistrationValidationMaxCreditResult.class);
+            } else {
+                return mapper.readValue(result, RegistrationValidationResult.class);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 }

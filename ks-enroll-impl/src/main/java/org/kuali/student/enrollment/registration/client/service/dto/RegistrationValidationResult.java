@@ -25,6 +25,10 @@ public class RegistrationValidationResult {
 
     private String messageKey;
 
+    public RegistrationValidationResult() {
+        super();
+    }
+
     public RegistrationValidationResult(String messageKey) {
         this.messageKey=messageKey;
     }

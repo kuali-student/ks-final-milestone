@@ -164,6 +164,7 @@ public class RegistrationRequestTransformer {
         requestItem.setRegistrationRequestId(item.getTransactionId());
         requestItem.setRegistrationGroupId(item.getNewLuiId());
         requestItem.setExistingCourseRegistrationId(item.getExistingLprId());
+        requestItem.setValidationResults(item.getValidationResults());
 
         // Admittedly, a hacky way of doing things, so open for better ways to do this
         for (String s : item.getResultValuesGroupKeys()) {
