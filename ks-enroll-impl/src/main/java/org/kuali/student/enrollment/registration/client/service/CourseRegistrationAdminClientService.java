@@ -21,6 +21,7 @@ import javax.ws.rs.core.Response;
  * Time: 4:02 PM
  * To change this template use File | Settings | File Templates.
  */
+@Path("/")
 public interface CourseRegistrationAdminClientService {
 
 

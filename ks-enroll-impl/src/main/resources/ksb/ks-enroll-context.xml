@@ -26,7 +26,7 @@
     <!-- Top Level Alias -->
     <alias name="socServiceAft" alias="CourseOfferingSetService" />
     <alias name="coServiceValidation" alias="CourseOfferingService" />
-    <alias name="courseOfferingServiceCached" alias="CourseOfferingServiceCached" />
+    <alias name="courseOfferingServiceCache" alias="CourseOfferingServiceCached" />
     <alias name="luiServiceValidationDecorator" alias="LuiService" />
     <alias name="lprServiceValidationDecorator" alias="LprService"/>
     <alias name="lrcServiceValidation" alias="LRCService" />
@@ -372,7 +372,7 @@
         <property name="searchService" ref="searchService" />
     </bean>
 
-    <bean id="courseOfferingServiceCached" class="org.kuali.student.enrollment.class2.courseoffering.service.decorators.CourseOfferingServiceCacheDecorator">
+    <bean id="courseOfferingServiceCache" class="org.kuali.student.enrollment.class2.courseoffering.service.decorators.CourseOfferingServiceCacheDecorator">
         <property name="cacheManager" ref="ksCacheManager"/>
         <property name="nextDecorator" ref="coServiceValidation"/>
     </bean>
@@ -533,7 +533,7 @@
         <property name="serviceDefinition">
             <bean class="org.kuali.rice.ksb.api.bus.support.SoapServiceDefinition">
                 <property name="jaxWsService" value="true" />
-                <property name="service" ref="CourseOfferingServiceCached" />
+                <property name="service" ref="CourseOfferingService" />
                 <property name="serviceInterface" value="org.kuali.student.enrollment.courseoffering.service.CourseOfferingService" />
                 <property name="localServiceName" value="CourseOfferingServiceCached" />
                 <property name="serviceNameSpaceURI" value="http://student.kuali.org/wsdl/courseOffering" />
@@ -1588,6 +1588,33 @@
                 <property name="service" ref="courseRegistrationCartClientService" />
                 <property name="resourceClass" value="org.kuali.student.enrollment.registration.client.service.CourseRegistrationCartClientService" />
                 <property name="localServiceName" value="CourseRegistrationCartClientService" />
+                <property name="providers">
+                    <list>
+                        <bean class="org.kuali.student.enrollment.registration.client.service.impl.CustomHeaderJacksonJsonProvider">
+                            <property name="headers">
+                                <map>
+                                    <entry key="Access-Control-Allow-Origin" value="http://127.0.0.1:9000"/>
+                                    <entry key="Access-Control-Allow-Methods" value="POST, GET, OPTIONS"/>
+                                    <entry key="Access-Control-Allow-Header" value="Content-Type"/>
+                                </map>
+                            </property>
+                        </bean>
+                    </list>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="courseRegistrationAdminClientService" class="org.kuali.student.enrollment.registration.client.service.impl.CourseRegistrationAdminClientServiceImpl">
+    </bean>
+
+    <bean id="ks.exp.courseRegistrationAdminClientService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
+        <property name="serviceDefinition">
+            <bean class="org.kuali.rice.ksb.api.bus.support.RestServiceDefinition">
+                <property name="serviceNameSpaceURI" value="http://student.kuali.org/wsdl/courseRegistrationAdminClient" />
+                <property name="service" ref="courseRegistrationAdminClientService" />
+                <property name="resourceClass" value="org.kuali.student.enrollment.registration.client.service.CourseRegistrationAdminClientService" />
+                <property name="localServiceName" value="CourseRegistrationAdminClientService" />
                 <property name="providers">
                     <list>
                         <bean class="org.kuali.student.enrollment.registration.client.service.impl.CustomHeaderJacksonJsonProvider">
