@@ -227,42 +227,55 @@ public class AdminRegistrationViewHelperServiceImpl extends KSViewHelperServiceI
         for (int i = 0; i < form.getPendingCourses().size(); i++) {
             RegistrationCourse course = form.getPendingCourses().get(i);
 
-            List<RegistrationGroupInfo> regGroups = new ArrayList<RegistrationGroupInfo>();
+            CourseOfferingInfo courseOffering = null;
             try {
-                CourseOfferingInfo courseOffering = AdminRegClientCache.getCourseOfferingByCodeAndTerm(form.getTerm().getId(), course.getCode());
-                if (courseOffering == null) {
-                    GlobalVariables.getMessageMap().putError(AdminRegConstants.PENDING_COURSES + "[" + i + "]." + AdminRegConstants.CODE,
-                            AdminRegConstants.ADMIN_REG_MSG_ERROR_COURSE_CODE_TERM_INVALID);
-                    continue;
-                }
-                course.setGradingOption(courseOffering.getGradingOptionId());
-                course.setGradingOptions(courseOffering.getStudentRegistrationGradingOptions());
-
-                //First get the format offerings for the course offering to get the registration groups linked to the FO.
-                List<FormatOfferingInfo> formatOfferings = AdminRegResourceLoader.getCourseOfferingService().getFormatOfferingsByCourseOffering(
-                        courseOffering.getId(), ContextUtils.createDefaultContextInfo());
-                for (FormatOfferingInfo formatOffering : formatOfferings) {
-                    regGroups.addAll(AdminRegResourceLoader.getCourseOfferingService().getRegistrationGroupsByFormatOffering(
-                            formatOffering.getId(), ContextUtils.createDefaultContextInfo()));
-                }
+                courseOffering = AdminRegClientCache.getCourseOfferingByCodeAndTerm(form.getTerm().getId(), course.getCode());
             } catch (Exception e) {
                 throw convertServiceExceptionsToUI(e);
             }
 
-            //Check if the input section matches a registration group.
-            for (RegistrationGroupInfo regGroup : regGroups) {
-                if (course.getSection().equals(regGroup.getName())) {
-                    course.setRegGroup(regGroup);
-                    break;
-                }
+            if (courseOffering == null) {
+                GlobalVariables.getMessageMap().putError(AdminRegConstants.PENDING_COURSES + "[" + i + "]." + AdminRegConstants.CODE,
+                        AdminRegConstants.ADMIN_REG_MSG_ERROR_COURSE_CODE_TERM_INVALID);
+                continue;
             }
 
+            course.setGradingOption(courseOffering.getGradingOptionId());
+            course.setGradingOptions(courseOffering.getStudentRegistrationGradingOptions());
+
             //Add error message when no registration group was found for given section.
+            course.setRegGroup(getRegistrationGroupForCourseOfferingIdAndSection(courseOffering.getId(), course.getSection()));
             if (course.getRegGroup() == null) {
-                GlobalVariables.getMessageMap().putError(AdminRegConstants.PENDING_COURSES + "[" + i + "]" + AdminRegConstants.SECTION,
+                GlobalVariables.getMessageMap().putError(AdminRegConstants.PENDING_COURSES + "[" + i + "]." + AdminRegConstants.SECTION,
                         AdminRegConstants.ADMIN_REG_MSG_ERROR_SECTION_CODE_INVALID);
             }
         }
+    }
+
+    private RegistrationGroupInfo getRegistrationGroupForCourseOfferingIdAndSection(String courseOfferingId, String section) {
+        try {
+
+            //First get the format offerings for the course offering to get the registration groups linked to the FO.
+            List<FormatOfferingInfo> formatOfferings = AdminRegResourceLoader.getCourseOfferingService().getFormatOfferingsByCourseOffering(
+                    courseOfferingId, ContextUtils.createDefaultContextInfo());
+
+            List<RegistrationGroupInfo> regGroups = new ArrayList<RegistrationGroupInfo>();
+            for (FormatOfferingInfo formatOffering : formatOfferings) {
+                regGroups.addAll(AdminRegResourceLoader.getCourseOfferingService().getRegistrationGroupsByFormatOffering(
+                        formatOffering.getId(), ContextUtils.createDefaultContextInfo()));
+            }
+
+            //Check if the input section matches a registration group.
+            for (RegistrationGroupInfo regGroup : regGroups) {
+                if (section.equals(regGroup.getName())) {
+                    return regGroup;
+                }
+            }
+        } catch (Exception e) {
+            throw convertServiceExceptionsToUI(e);
+        }
+
+        return null;
     }
 
     @Override
@@ -403,10 +416,10 @@ public class AdminRegistrationViewHelperServiceImpl extends KSViewHelperServiceI
             String message = messageService.getMessageText(null, null, result.getMessageKey());
 
             if (result instanceof RegistrationValidationConflictCourseResult) {
-                RegistrationValidationConflictCourseResult conflictCourseResult = (RegistrationValidationConflictCourseResult)result;
+                RegistrationValidationConflictCourseResult conflictCourseResult = (RegistrationValidationConflictCourseResult) result;
                 StringBuilder conflictCourses = new StringBuilder();
-                for(ConflictCourseResult conflictCourse : conflictCourseResult.getConflictingCourses()){
-                    if(conflictCourses.length()>0){
+                for (ConflictCourseResult conflictCourse : conflictCourseResult.getConflictingCourses()) {
+                    if (conflictCourses.length() > 0) {
                         conflictCourses.append(", ");
                     }
                     conflictCourses.append(conflictCourse.getCourseCode());

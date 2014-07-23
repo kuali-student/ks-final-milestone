@@ -31,26 +31,25 @@ public class RegistrationGradingOptionsFinder extends UifKeyValuesFinderBase imp
 
         // Get the term id required to retrieve the grading options.
         AdminRegistrationForm form = (AdminRegistrationForm) model;
-        if(form.getTerm()==null||form.getTerm().getId()==null){
+        if (form.getTerm() == null || form.getTerm().getId() == null) {
             return keyValues;
         }
 
         // Get the course code required to retrieve the grading options.
         RegistrationCourse course = (RegistrationCourse) field.getContext().get(UifConstants.ContextVariableNames.LINE);
-        if(course.getCode()==null||course.getCode().isEmpty()){
+        if (course.getCode() == null || course.getCode().isEmpty()) {
             return keyValues;
         }
 
         try {
-            // Get the course offering from the cache for given term id and course code and create keyvalues form student registration options.
-            if(course.getGradingOptions().isEmpty()){
+            // Create keyvalues from grading options for registration course.
+            if (!course.getGradingOptions().contains(course.getGradingOption())) {
                 keyValues.add(new ConcreteKeyValue(course.getGradingOption(), CourseRegistrationAndScheduleOfClassesUtil.translateGradingOptionKeyToName(course.getGradingOption())));
             }
-            else{
-                for (String studRegGradOpt : course.getGradingOptions()) {
-                    keyValues.add(new ConcreteKeyValue(studRegGradOpt, CourseRegistrationAndScheduleOfClassesUtil.translateGradingOptionKeyToName(studRegGradOpt)));
-                }
+            for (String studRegGradOpt : course.getGradingOptions()) {
+                keyValues.add(new ConcreteKeyValue(studRegGradOpt, CourseRegistrationAndScheduleOfClassesUtil.translateGradingOptionKeyToName(studRegGradOpt)));
             }
+
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

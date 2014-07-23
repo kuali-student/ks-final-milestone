@@ -153,6 +153,7 @@
             <list>
                 <ref bean="KS-AdminRegistration-RegisterGroup"/>
                 <ref bean="KS-AdminRegistration-Registered"/>
+                <ref bean="Uif-SpaceField"/>
                 <ref bean="KS-AdminRegistration-Waitlist"/>
             </list>
         </property>
@@ -540,7 +541,7 @@
                                 </property>
                             </bean>
                             <bean parent="Uif-InputField" p:label="Reg Options" p:propertyName="gradingOption"
-                                  p:readOnly="@{!#empty(#line.gradingOptions)}">
+                                  p:readOnly="@{#empty(#line.gradingOptions)}">
                                 <property name="control">
                                     <bean parent="Uif-DropdownControl"/>
                                 </property>
