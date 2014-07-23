@@ -327,16 +327,10 @@
                 <bean parent="Uif-InputField" p:label="Cr" p:propertyName="credits"
                       p:readOnly="@{(#collectionGroup.id == 'KS-AdminRegistration-Registered' and #index != editRegisteredIndex)}">
                     <property name="control">
-                        <!-- Key value finders would be used to populate the options here in real implementation-->
-                        <bean parent="Uif-DropdownControl">
-                            <property name="options">
-                                <list>
-                                    <bean parent="Uif-KeyLabelPair" p:key="1" p:value="1.0"/>
-                                    <bean parent="Uif-KeyLabelPair" p:key="2" p:value="2.0"/>
-                                    <bean parent="Uif-KeyLabelPair" p:key="3" p:value="3.0"/>
-                                </list>
-                            </property>
-                        </bean>
+                        <bean parent="Uif-DropdownControl"/>
+                    </property>
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.student.enrollment.class2.registration.admin.valueFinder.RegistrationCreditsOptionsFinder" p:addBlankOption="false"/>
                     </property>
                 </bean>
                 <bean parent="Uif-InputField" p:label="Reg Options" p:propertyName="gradingOption"
@@ -423,16 +417,10 @@
                 <bean parent="Uif-InputField" p:label="Cr" p:propertyName="credits"
                       p:readOnly="@{(#collectionGroup.id == 'KS-AdminRegistration-Waitlist' and #index != editWaitlistedIndex) || (!#empty(#line.gradingOptions))}">
                     <property name="control">
-                        <!-- Key value finders would be used to populate the options here in real implementation-->
-                        <bean parent="Uif-DropdownControl">
-                            <property name="options">
-                                <list>
-                                    <bean parent="Uif-KeyLabelPair" p:key="1" p:value="1.0"/>
-                                    <bean parent="Uif-KeyLabelPair" p:key="2" p:value="2.0"/>
-                                    <bean parent="Uif-KeyLabelPair" p:key="3" p:value="3.0"/>
-                                </list>
-                            </property>
-                        </bean>
+                        <bean parent="Uif-DropdownControl"/>
+                    </property>
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.student.enrollment.class2.registration.admin.valueFinder.RegistrationCreditsOptionsFinder" p:addBlankOption="false"/>
                     </property>
                 </bean>
                 <bean parent="Uif-InputField" p:label="Reg Options" p:propertyName="gradingOption"
@@ -570,16 +558,10 @@
                             </bean>
                             <bean parent="Uif-InputField" p:label="Credits" p:propertyName="credits">
                                 <property name="control">
-                                    <!-- Key value finders would be used to populate the options here in real implementation-->
-                                    <bean parent="Uif-DropdownControl">
-                                        <property name="options">
-                                            <list>
-                                                <bean parent="Uif-KeyLabelPair" p:key="1" p:value="1.0"/>
-                                                <bean parent="Uif-KeyLabelPair" p:key="2" p:value="2.0"/>
-                                                <bean parent="Uif-KeyLabelPair" p:key="3" p:value="3.0"/>
-                                            </list>
-                                        </property>
-                                    </bean>
+                                    <bean parent="Uif-DropdownControl"/>
+                                </property>
+                                <property name="optionsFinder">
+                                    <bean class="org.kuali.student.enrollment.class2.registration.admin.valueFinder.RegistrationCreditsOptionsFinder" p:addBlankOption="false"/>
                                 </property>
                             </bean>
                             <bean parent="Uif-InputField" p:label="Reg Options" p:propertyName="gradingOption"

@@ -195,7 +195,8 @@ public class AdminRegistrationViewHelperServiceImpl extends KSViewHelperServiceI
         registrationCourse.setEffectiveDate(courseRegistrationInfo.getEffectiveDate());
         registrationCourse.setSection(AdminRegResourceLoader.getCourseOfferingService().getRegistrationGroup(
                 courseRegistrationInfo.getRegistrationGroupId(), createContextInfo()).getRegistrationCode());
-        registrationCourse.setGradingOption(CourseRegistrationAndScheduleOfClassesUtil.translateGradingOptionKeyToName(courseRegistrationInfo.getGradingOptionId()));
+        registrationCourse.setGradingOptions(coInfo.getStudentRegistrationGradingOptions());
+        registrationCourse.setGradingOption(courseRegistrationInfo.getGradingOptionId());
         return registrationCourse;
     }
 
