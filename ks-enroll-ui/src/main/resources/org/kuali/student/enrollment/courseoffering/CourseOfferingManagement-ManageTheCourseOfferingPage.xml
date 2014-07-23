@@ -166,6 +166,10 @@
                                               p:performActionAuthz="true" p:actionEvent="deleteCO" />
                                         <bean parent="Uif-ActionLink" p:actionLabel=" | View All Registration Groups (@{rgResultList.size()})"
                                               p:actionScript = "showLightboxComponent( 'KS-CourseOfferingManagement-AllRegistrationGroupsForACourseOffering' );"/>
+
+                                        <bean parent="Uif-ActionLink" p:actionLabel=" | Comments (@{currentCourseOfferingWrapper.commentCount})"
+                                              p:actionScript="showLightboxUrl('@{#ConfigProperties['application.url']}/kr-krad/ksComment?viewId=KS-Comment-FormView&amp;methodToCall=start&amp;refId=@{currentCourseOfferingWrapper.courseOfferingId}&amp;refType=@{currentCourseOfferingWrapper.courseOfferingRefUri}&amp;refName=@{currentCourseOfferingWrapper.courseOfferingCode}');"/>
+
                                         <bean parent="Uif-Link" p:linkText="| Course Offering Requisites "
                                               p:href="@{#ConfigProperties['application.url']}/kr-krad/courseOfferingRules?methodToCall=maintenanceEdit&amp;viewTypeName=MAINTENANCE&amp;viewName=COAgendaManagementView&amp;dataObjectClassName=org.kuali.student.enrollment.class1.krms.dto.CORuleManagementWrapper&amp;refObjectId=@{currentCourseOfferingWrapper.courseOfferingId}"/>
                                         <bean id="view_eo" parent="Uif-NavigationActionLink" p:methodToCall="viewExamOfferings" p:actionLabel=" | Manage Exam Offerings"

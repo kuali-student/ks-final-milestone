@@ -158,7 +158,7 @@
                                                           p:ajaxSubmit="false"
                                                           p:methodToCall="updateComment"
                                                           p:actionLabel="Save"/>
-                                                    <bean id="KS-CommentCancelAction_ID" parent="Uif-CancelAction" p:style="display:none;" p:additionalCssClasses="ks-toggleable"
+                                                    <bean id="KS-CommentCancelAction_ID" p:id="KS-CommentCancelAction_ID" parent="Uif-CancelAction" p:style="display:none;" p:additionalCssClasses="ks-toggleable"
                                                           p:methodToCall="cancelEditComment"
                                                           p:actionScript="toggleCommentButtons(this);"
                                                           p:actionLabel="Cancel"/>
@@ -166,7 +166,7 @@
                                                           p:ajaxSubmit="true"
                                                           p:methodToCall="deleteComment"
                                                           p:actionLabel="Confirm Delete"/>
-                                                    <bean id="KS-CommentCancelDeleteAction_ID" parent="Uif-CancelAction" p:style="display:none;" p:additionalCssClasses="ks-toggle-delete"
+                                                    <bean id="KS-CommentCancelDeleteAction_ID" p:id="KS-CommentCancelDeleteAction_ID" parent="Uif-CancelAction" p:style="display:none;" p:additionalCssClasses="ks-toggle-delete"
                                                           p:actionScript="toggleDeleteElements(this);"
                                                           p:actionLabel="Cancel"/>
                                                 </list>

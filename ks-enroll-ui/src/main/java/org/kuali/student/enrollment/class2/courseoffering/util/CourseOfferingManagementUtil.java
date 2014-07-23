@@ -530,6 +530,7 @@ public class CourseOfferingManagementUtil {
         }
 
         ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
+        currentCOWrapper.setCommentCount(CommentUtil.getCommentsCount(currentCOWrapper.getCourseOfferingId(), CourseOfferingServiceConstants.REF_OBJECT_URI_COURSE_OFFERING, ContextUtils.createDefaultContextInfo()));
         List<String> orgIds = coInfo.getUnitsDeploymentOrgIds();
         if (orgIds != null && !orgIds.isEmpty()) {
             OrgInfo org = getOrganizationService().getOrg(orgIds.get(0), contextInfo);

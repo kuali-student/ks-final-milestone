@@ -34,6 +34,7 @@ import org.kuali.student.enrollment.class2.scheduleofclasses.form.ActivityOfferi
 import org.kuali.student.enrollment.class2.scheduleofclasses.form.CourseOfferingDisplayUI;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.enrollment.examoffering.dto.ExamOfferingRelationInfo;
+import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.core.acal.dto.ExamPeriodInfo;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
 

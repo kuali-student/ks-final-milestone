@@ -71,6 +71,9 @@ public class CourseOfferingWrapper implements Serializable{
     private boolean matrixOveridableAODriven;
     private boolean matrixOveridableCODriven;
 
+    private int commentCount;
+    private String courseOfferingRefUri = CourseOfferingServiceConstants.REF_OBJECT_URI_COURSE_OFFERING;
+
     /**
      * Usage of this property only in create and edit CO screens. Basically, this is whether to
      * allow the user to select cross lists or not. If it's false, then the cross
@@ -517,5 +520,21 @@ public class CourseOfferingWrapper implements Serializable{
             }
         }
         return isValid;
+    }
+
+    public int getCommentCount() {
+        return commentCount;
+    }
+
+    public void setCommentCount(int commentCount) {
+        this.commentCount = commentCount;
+    }
+
+    public String getCourseOfferingRefUri() {
+        return courseOfferingRefUri;
+    }
+
+    public void setCourseOfferingRefUri(String courseOfferingRefUri) {
+        this.courseOfferingRefUri = courseOfferingRefUri;
     }
 }

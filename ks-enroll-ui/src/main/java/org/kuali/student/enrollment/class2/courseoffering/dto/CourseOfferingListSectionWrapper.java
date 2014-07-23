@@ -18,6 +18,7 @@ package org.kuali.student.enrollment.class2.courseoffering.dto;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.student.enrollment.class2.scheduleofclasses.dto.ActivityOfferingDisplayWrapper;
+import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 
 import java.io.Serializable;
@@ -454,6 +455,5 @@ public class CourseOfferingListSectionWrapper implements Serializable{
     public void setHonorsCourse(boolean honorsCourse) {
         this.honorsCourse = honorsCourse;
     }
-
 }
 
