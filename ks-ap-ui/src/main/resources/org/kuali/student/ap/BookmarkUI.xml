@@ -62,7 +62,7 @@
     </bean>
 
     <bean id="BookmarkSideBar-LookupView" parent="KSAPBaseLookupView">
-        <property name="headerText" value="Bookmarks"/>
+        <property name="headerText" value="@{#textHelper.getText('bookmarks.widget.header')}"/>
         <property name="page.header.render" value="false"/>
         <property name="header.render" value="false"/>
         <property name="footer.render" value="false"/>
@@ -227,7 +227,7 @@
                             <bean p:id="bookmark_widget_footer" parent="Uif-Link">
                                 <!-- Text helper not working here-->
                                 <property name="linkText"
-                                          value="View more details"/>
+                                          value="@{#textHelper.getText('bookmarks.widget.footer')}"/>
                                 <property name="href"
                                           value="lookup?methodToCall=search&amp;viewId=BookmarkDetail-LookupView"/>
                                 <property name="render"
@@ -340,7 +340,7 @@
     <bean id="bookmark_detail_page" parent="bookmark_detail_page-parent" />
     <bean id="bookmark_detail_page-parent" abstract="true"
           parent="Uif-LookupPage" p:id="bookmark_detail_page"
-          p:headerText="Bookmarked Courses">
+          p:headerText="@{#textHelper.getText('bookmarks.widget.header')}">
         <property name="layoutManager">
             <bean parent="Uif-HorizontalBoxLayout" />
         </property>
