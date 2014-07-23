@@ -124,7 +124,6 @@
         </property>
 
         <property name="collectionLookup">
-
             <bean id="KS-LearningObjective-QuickFinder" parent="Uif-CollectionQuickFinder"
                   p:dataObjectClassName="org.kuali.student.cm.course.form.LoDisplayInfoWrapper"
                   p:fieldConversions="descr.plain:loInfo.descr.plain"
@@ -139,10 +138,7 @@
                           p:methodToCall="performLookup"/>
                 </property>
             </bean>
-
         </property>
-
-
 
         <property name="items">
             <list>
@@ -211,7 +207,8 @@
                     <property name="addLineActions">
                         <list>
                             <bean parent="Uif-SecondaryActionButton" p:id="KS-LearningObjective-Category-Add"
-                                  p:actionLabel="Add" p:methodToCall="addLine" p:performClientSideValidation="true"/>
+                                  p:actionLabel="Add" p:methodToCall="addLine" p:performClientSideValidation="true"
+                                  p:focusOnIdAfterSubmit="KS-LearningObjective-Category_line0_add_control" />
                         </list>
                     </property>
                     <property name="lineActions">
@@ -245,7 +242,7 @@
                                                 <entry key="select">
                                                     <value>
                                                         function (event, ui) {
-                                                        return loCategoryAutocomplete(ui, jQuery(this));
+                                                            return loCategoryAutocomplete(ui, jQuery(this));
                                                         }
                                                     </value>
                                                 </entry>
