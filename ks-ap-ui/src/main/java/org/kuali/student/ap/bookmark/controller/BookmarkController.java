@@ -24,10 +24,12 @@ import org.kuali.student.ap.academicplan.infc.PlanItem;
 import org.kuali.student.ap.bookmark.form.BookmarkForm;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
 import org.kuali.student.ap.framework.context.PlanConstants;
+import org.kuali.student.ap.planner.PlannerForm;
 import org.kuali.student.ap.planner.support.PlanItemControllerHelper;
 import org.kuali.student.ap.planner.util.PlanEventUtils;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
@@ -39,6 +41,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.json.Json;
@@ -134,6 +137,64 @@ public class BookmarkController extends KsapControllerBase {
         List<PlanItem> planItems = KsapFrameworkServiceLocator.getPlanHelper().loadStudentsPlanItemsForCourse(course);
         eventList = PlanEventUtils.makeUpdatePlanItemStatusMessage(planItems, eventList);
         PlanEventUtils.sendJsonEvents(true, "Course " + course.getCode() + " added to bookmarks",
+                response, eventList);
+        return null;
+    }
+
+    @MethodAccessible
+    @RequestMapping(method = RequestMethod.POST, params = "methodToCall=deleteBookmark")
+    public ModelAndView deleteBookmark(@ModelAttribute("KualiForm") BookmarkForm form, BindingResult result,
+                                       HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+
+        JsonObjectBuilder eventList = Json.createObjectBuilder();
+        LearningPlan learningPlan = KsapFrameworkServiceLocator.getPlanHelper().getDefaultLearningPlan();
+
+        String courseId = request.getParameter("courseId");
+
+        // Delete plan item from the database
+        PlanItemInfo itemToDelete = null;
+        try {
+            // Retrieve valid plan item
+            List<PlanItemInfo> planItems = KsapFrameworkServiceLocator.getAcademicPlanService()
+                    .getPlanItemsInPlanByRefObjectIdByRefObjectType(learningPlan.getId(),courseId,
+                            PlanConstants.COURSE_TYPE,KsapFrameworkServiceLocator.getContext().getContextInfo());
+            if (planItems == null){
+                LOG.warn(String.format("Plan Item for %s cannot be found", courseId));
+                PlanEventUtils.sendJsonEvents(false,"Plan Item cannot be found ", response, eventList);
+                return null;
+            }
+
+            for(PlanItemInfo planItem : planItems){
+                if(planItem.getCategory().equals(AcademicPlanServiceConstants.ItemCategory.WISHLIST)){
+                    itemToDelete = planItem;
+                    break;
+                }
+            }
+
+            if (itemToDelete == null){
+                LOG.warn(String.format("Plan Item for %s cannot be found in wish list", courseId));
+                PlanEventUtils.sendJsonEvents(false,"Plan Item cannot be found ", response, eventList);
+                return null;
+            }
+
+            KsapFrameworkServiceLocator.getAcademicPlanService().deletePlanItem(itemToDelete.getId(),
+                    KsapFrameworkServiceLocator.getContext().getContextInfo());
+
+        } catch (InvalidParameterException e) {
+            throw new IllegalArgumentException("LP service failure", e);
+        } catch (MissingParameterException e) {
+            throw new IllegalArgumentException("LP service failure", e);
+        } catch (DoesNotExistException e) {
+            throw new IllegalArgumentException("LP service failure", e);
+        } catch (OperationFailedException e) {
+            throw new IllegalStateException("LP service failure", e);
+        } catch (PermissionDeniedException e) {
+            throw new IllegalStateException("LP service failure", e);
+        }
+
+        // Create json strings for displaying action's response and updating the planner screen.
+        eventList = PlanEventUtils.makeRemoveEvent("", itemToDelete, eventList);
+        PlanEventUtils.sendJsonEvents(true, "Course " + itemToDelete + " removed from Bookmarks",
                 response, eventList);
         return null;
     }

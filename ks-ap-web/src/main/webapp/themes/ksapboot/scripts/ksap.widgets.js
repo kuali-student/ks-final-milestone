@@ -320,6 +320,30 @@ function bookmarkCourse(courseId, e) {
 }
 
 /**
+ * Deletes a bookmarked course using an ajax call to the controller
+ *
+ * @param courseid - Id of the course being bookmarked
+ * @param e - An object containing data that will be passed to the event handler.
+ */
+function deleteBookmarkCourse(courseId, e) {
+    stopEvent(e);
+    var form = jQuery('<form />').attr("id", "popupForm").attr("action", "bookmark").attr("method", "post");
+    jQuery("body").append(form);
+    var additionalFormData = {
+        methodToCall:"deleteBookmark",
+        courseId:courseId
+    }
+    form.ajaxSubmit({
+        data : ksapAdditionalFormData(additionalFormData),
+        dataType : 'json',
+        success : ksapAjaxSubmitSuccessCallback,
+        error : ksapAjaxSubmitErrorCallback
+    });
+    fnClosePopup();
+    jQuery("form#popupForm").remove();
+}
+
+/**
  * Sets up character counting functionality for notes
  */
 (function ($) {
