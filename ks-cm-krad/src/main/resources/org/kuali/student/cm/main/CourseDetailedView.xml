@@ -62,14 +62,13 @@
     </bean>
 
     <bean id="KS-CourseDetailedView-Page" parent="Uif-Page" p:style="margin-left: -18px;"
-          p:headerText="@{(#form.viewId eq 'KS-CourseView') ? 'Review Proposal' : 'View Course'} "
+          p:headerText="View Course"
           p:disclosure.render="false">
 
         <!-- Don't show validation messages at the top of the page. Instead we want the yellow bar. -->
         <property name="validationMessages" ref="KS-ValidationMessages-Off"/>
 
-        <!-- Initialize the page -->
-       <!-- <property name="onDocumentReadyScript" value="onProposalReviewLoad();"/>-->
+        <property name="onDocumentReadyScript" value="fixReadOnlyInputSizes();"/>
 
         <property name="breadcrumbOptions.homewardPathBreadcrumbs">
             <list>

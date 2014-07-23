@@ -22,6 +22,10 @@
     <bean id="KS-CourseView-ReviewProposalPage" parent="KS-CourseDetailedView-Page"
           p:headerText="Review Proposal">
 
+        <!-- Initialize the page. This intervenes with the validation message behavior by removing the popovers, and
+             also sizes the text areas. -->
+        <property name="onDocumentReadyScript" value="onProposalReviewLoad();"/>
+
         <property name="items">
             <list>
                 <bean id="KS-CourseView-ReviewProposal-Section" parent="KS-CourseView-VerticalBoxSection">
@@ -39,6 +43,7 @@
                             <ref bean="KS-CourseView-ReviewProposal-AuthorsAndCollaboratorsSection"/>
                             <ref bean="KS-CourseView-ReviewProposal-SupportingDocumentsSection"/>
                             <ref bean="KS-CourseSubmit-ConfirmDelete-Dialog"/>
+
                         </list>
                     </property>
                 </bean>
