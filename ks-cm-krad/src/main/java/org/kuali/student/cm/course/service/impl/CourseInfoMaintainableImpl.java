@@ -1011,7 +1011,7 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
             }
 
             SearchResultRowInfo row = null;
-            if (subjectArea != null) {
+            if (subjectArea == null) {
                 // This for loop is kind of get(0) this is to avid sonar violation.
                 // without giving subjectArea Organization cannot be added. this is tricky scenario where subjectArea ia added and Orgs is chosen, but before "save" subjectArea is removed.
                 // search result returns multiple values without subjectArea.
