@@ -101,7 +101,7 @@
         </property>
     </bean>
 
-    <bean id="bookmark_summary_list" parent="Uif-ListCollectionSection" p:headerText="Bookmarked Courses @{(lookupResults eq null or lookupResults.size() eq 0) ? '([span id=&quot;bookmarkSidebarHeaderCount&quot;]0[/span])' : '([span id=&quot;bookmarkSidebarHeaderCount&quot;]'+lookupResults.size()+'[/span])'}">
+    <bean id="bookmark_summary_list" parent="Uif-ListCollectionSection" p:headerText="@{#textHelper.getFormattedMessage('bookmarks.widget.headerWithCount', new Object[]{(lookupResults eq null or lookupResults.size() eq 0) ? '0' : lookupResults.size()})}">
         <property name="header">
             <bean p:id="bookmark_summary_list_header" parent="Uif-HeaderFive"/>
         </property>
@@ -210,7 +210,7 @@
                     <property name="items">
                         <list>
                             <bean parent="Uif-Message"
-                                  p:messageText="[p]You have no bookmarked courses.[/p][p]&lt;a href=&quot;course?methodToCall=start&amp;viewId=CourseSearch-FormView&quot;&gt;Find courses&lt;/a&gt; and add them to your bookmarked courses list.[/p]"
+                                  p:messageText="@{#textHelper.getText('bookmarks.widget.empty.bookmarks')}"
                                   p:additionalCssClasses="ksap-bookmark-widget-empty">
                             </bean>
                         </list>
