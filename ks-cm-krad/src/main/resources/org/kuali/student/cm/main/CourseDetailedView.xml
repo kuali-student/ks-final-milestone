@@ -96,6 +96,7 @@
                             <ref bean="KS-CourseDetailedView-CourseInfoSection"/>
                             <ref bean="KS-CourseDetailedView-GovernanceSection"/>
                             <ref bean="KS-CourseDetailedView-CourseLogisticsSection"/>
+                            <ref bean="KS-CourseDetailedView-LearningObjectivesSection"/>
                             <!--<ref bean="LearningObjectives-Review-section"/>
                             <ref bean="CourseRequisitesPage-Review-section"/>-->
                             <ref bean="KS-CourseDetailedView-ActiveDatesSection"/>
@@ -450,19 +451,8 @@
         </property>
     </bean>
 
-    <bean id="LearningObjectives-Review-section" parent="KS-CourseDetailedView-VerticalBoxSection">
+    <bean id="KS-CourseDetailedView-LearningObjectivesSection" parent="KS-CourseDetailedView-VerticalBoxSection">
         <property name="headerText" value="Learning Objectives"/>
-        <property name="header.rightGroup.items">
-            <list>
-                <bean p:id="Governance-Review-Edit-link" parent="Uif-ActionLink-Course-Proposal-Review-Page-Edit-Link">
-                    <property name="actionParameters">
-                        <map>
-                            <entry key="displaySection" value="KS-CourseView-LearningObjectives-Section"/>
-                        </map>
-                    </property>
-                </bean>
-            </list>
-        </property>
         <property name="items">
             <list>
                 <bean parent="KS-CourseDetailedView-GridGroup">
@@ -495,7 +485,7 @@
                         <list>
                             <!-- If there are no LOs then just show a label alone -->
                             <bean parent="Uif-ConditionalBeanPropertyReplacer" p:propertyName="items"
-                                  p:condition="@{#emptyList(#dataObject.loDisplayWrapperModel.loWrappers)}">
+                                  p:condition="@{#form.viewId eq T(org.kuali.student.cm.common.util.CurriculumManagementConstants$CourseViewPageIds).CREATE_COURSE_VIEW and #emptyList(#dataObject.loDisplayWrapperModel.loWrappers)}">
                                 <property name="replacement">
                                     <list>
                                         <bean parent="CM-ReadOnlyInput" p:label="Learning Objectives" id="emptyStringLOs"

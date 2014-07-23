@@ -31,6 +31,7 @@
                             <ref bean="KS-CourseView-ReviewProposal-CourseSection"/>
                             <ref bean="KS-CourseView-ReviewProposal-GovernanceSection"/>
                             <ref bean="KS-CourseView-ReviewProposal-CourseLogisticsSection"/>
+                            <ref bean="KS-CourseView-ReviewProposal-LearningObjectivesSection"/>
                             <!--<ref bean="LearningObjectives-Review-section"/>
                             <ref bean="CourseRequisitesPage-Review-section"/>  -->
                             <ref bean="KS-CourseView-ReviewProposal-ActiveDatesSection"/>
@@ -180,6 +181,21 @@
                     <property name="actionParameters">
                         <map>
                             <entry key="displaySection" value="KS-CourseView-Logistics-Section"/>
+                        </map>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KS-CourseView-ReviewProposal-LearningObjectivesSection" parent="KS-CourseDetailedView-LearningObjectivesSection">
+        <property name="headerText" value="Learning Objectives"/>
+        <property name="header.rightGroup.items">
+           <list>
+                <bean p:id="LearningObjectives-Review-Edit-link" parent="Uif-ActionLink-Course-Proposal-Review-Page-Edit-Link">
+                    <property name="actionParameters">
+                        <map>
+                            <entry key="displaySection" value="KS-CourseView-LearningObjectives-Section"/>
                         </map>
                     </property>
                 </bean>
