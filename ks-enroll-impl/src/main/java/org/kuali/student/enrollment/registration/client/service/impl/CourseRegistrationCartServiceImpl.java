@@ -78,7 +78,6 @@ public class CourseRegistrationCartServiceImpl implements CourseRegistrationCart
 
 
     @Override
-    @Transactional
     public RegistrationRequestInfo submitCart(ContextInfo contextInfo, String cartId) throws InvalidParameterException, MissingParameterException, DoesNotExistException, OperationFailedException, PermissionDeniedException, AlreadyExistsException, LoginException {
 
         //Make sure that the user is the owner of the cart!

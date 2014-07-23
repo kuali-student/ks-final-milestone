@@ -689,8 +689,9 @@ public class LprServiceImpl implements LprService {
         throw new UnsupportedOperationException("Operation not implemented");
     }
 
-    @Transactional
+
     @Override
+    @Transactional
     public LprTransactionInfo updateLprTransaction(String lprTransactionId, LprTransactionInfo lprTransactionInfo, ContextInfo context) throws
             DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
@@ -758,8 +759,9 @@ public class LprServiceImpl implements LprService {
 //        }
 //    }
 
-    @Transactional
+
     @Override
+    @Transactional
     public StatusInfo changeLprTransactionItemState(@WebParam(name = "lprTransactionItemId") String lprTransactionItemId, @WebParam(name = "nextStateKey") String nextStateKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         LprTransactionItemEntity lprTransItem = lprTransactionItemDao.find(lprTransactionItemId);
 
