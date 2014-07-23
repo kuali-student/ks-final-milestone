@@ -421,7 +421,7 @@
                         <bean parent="Uif-DropdownControl"/>
                     </property>
                     <property name="optionsFinder">
-                        <bean class="org.kuali.student.enrollment.class2.registration.admin.valueFinder.RegistrationGradingOption" p:addBlankOption="false"/>
+                        <bean class="org.kuali.student.enrollment.class2.registration.admin.valueFinder.RegistrationGradingOptionsFinder" p:addBlankOption="false"/>
                     </property>
                 </bean>
                 <bean parent="Uif-DataField" p:label="Activity" p:propertyName="activityTypes"
@@ -544,7 +544,7 @@
                                     <bean parent="Uif-DropdownControl"/>
                                 </property>
                                 <property name="optionsFinder">
-                                    <bean class="org.kuali.student.enrollment.class2.registration.admin.valueFinder.RegistrationGradingOption" p:addBlankOption="false"/>
+                                    <bean class="org.kuali.student.enrollment.class2.registration.admin.valueFinder.RegistrationGradingOptionsFinder" p:addBlankOption="false"/>
                                 </property>
                             </bean>
                             <bean parent="Uif-InputField" p:label="Effective Reg Date" p:propertyName="effectiveDate">
