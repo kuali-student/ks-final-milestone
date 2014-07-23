@@ -402,11 +402,25 @@
                               value="border-bottom : 1px solid black;"/>
                     <property name="renderLineActions" value="false"/>
                     <property name="renderAddLine" value="false"/>
-                    <!--<property name="subCollections">
+                    <property name="subCollections">
                         <list>
-                            <ref bean="KS-CourseDetailedView-ActivitySection"/>
+                            <bean parent="KS-CourseDetailedView-ActivitySection"/>
                         </list>
-                    </property>-->
+                    </property>
+                    <property name="propertyReplacers">
+                        <list>
+                            <bean parent="Uif-ConditionalBeanPropertyReplacer" p:propertyName="subCollections"
+                                  p:condition="@{#form.viewId eq T(org.kuali.student.cm.common.util.CurriculumManagementConstants$CourseViewPageIds).COURSE_DETAILED_VIEW}">
+                                <property name="replacement">
+                                    <list>
+                                        <bean parent="KS-CourseDetailedView-ActivitySection">
+                                            <property name="bindingInfo.bindingObjectPath" value="courseInfoWrapper"/>
+                                        </bean>
+                                    </list>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
                 </bean>
             </list>
         </property>
@@ -417,9 +431,7 @@
           p:collectionObjectClass="org.kuali.student.cm.course.form.ActivityInfoWrapper"
           p:propertyName="activities" p:colSpan="3" p:align="left"
           p:layoutManager.style="padding-left:0px;">
-        <property name="bindingInfo.bindingObjectPath" value="courseInfoWrapper"/>
-        <property
-                name="layoutManager.lineGroupPrototype.header.headerText"
+        <property name="layoutManager.lineGroupPrototype.header.headerText"
                 value="Activity @{(#index + 1)} (@{#line.activityType}) "/>
         <property name="layoutManager.lineGroupPrototype.header.style"
                   value="border-bottom : 1px dotted black;"/>
