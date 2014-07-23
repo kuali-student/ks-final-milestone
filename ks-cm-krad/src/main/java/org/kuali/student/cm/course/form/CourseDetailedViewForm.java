@@ -20,6 +20,7 @@ import org.kuali.student.cm.common.util.CurriculumManagementConstants;
 import org.kuali.student.common.uif.form.KSUifForm;
 
 /**
+ * Base model for the course detailed view. This is being used at CourseDetailedView.xml
  *
  * @author Kuali Student Team
  */
@@ -32,26 +33,51 @@ public class CourseDetailedViewForm extends KSUifForm {
         viewType = CurriculumManagementConstants.CourseViewType.COURSE_VIEW;
     }
 
+    /**
+     * @see #setViewType(org.kuali.student.cm.common.util.CurriculumManagementConstants.CourseViewType)
+     * @return
+     */
     public CurriculumManagementConstants.CourseViewType getViewType() {
         return viewType;
     }
 
+    /**
+     * Sets the View type, list of valid types defined at <class>CurriculumManagementConstants.CourseViewType</class>
+     * @param viewType
+     */
     public void setViewType(CurriculumManagementConstants.CourseViewType viewType) {
         this.viewType = viewType;
     }
 
+    /**
+     * Returns true if it's a detailed course view
+     * @return
+     */
     public boolean isCourseView(){
         return getViewType() == CurriculumManagementConstants.CourseViewType.COURSE_VIEW;
     }
 
+    /**
+     * Returns true if it's a compare course view
+     * @return
+     */
     public boolean isCourseCompareView(){
        return getViewType() == CurriculumManagementConstants.CourseViewType.COURSE_COMPARE_VIEW;
     }
 
+    /**
+     * @see #setCourseInfoWrapper(CourseInfoWrapper)
+     * @return
+     */
     public CourseInfoWrapper getCourseInfoWrapper() {
         return courseInfoWrapper;
     }
 
+    /**
+     * Model to display the course details at the ui.
+     *
+     * @param courseInfoWrapper
+     */
     public void setCourseInfoWrapper(CourseInfoWrapper courseInfoWrapper) {
         this.courseInfoWrapper = courseInfoWrapper;
     }

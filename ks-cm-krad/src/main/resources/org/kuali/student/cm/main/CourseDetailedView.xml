@@ -22,6 +22,7 @@
     <bean id="KS-CourseDetailedView" parent="KS-Uif-FormView">
         <property name="id" value="CourseDetailedView" />
         <property name="headerText" value="@{courseInfoWrapper.courseInfo.courseTitle}" />
+        <property name="viewSourceFile" value="CourseDetailedView.xml" />
         <property name="formClass" value="org.kuali.student.cm.course.form.CourseDetailedViewForm" />
         <property name="viewHelperServiceClass"
                           value="org.kuali.student.cm.course.service.impl.CourseDetailedViewHelperImpl"/>

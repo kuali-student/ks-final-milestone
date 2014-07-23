@@ -39,6 +39,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.xml.namespace.QName;
 
 /**
+ * This controller maps to 'Course Detailed' View.
+ * XML: CourseDetailedView.xml
  *
  * @author Kuali Student Team
  */
@@ -51,10 +53,17 @@ public class CourseDetailedViewController extends KsUifControllerBase{
         return new CourseDetailedViewForm();
     }
 
+    /**
+     * This method populates the course details model to be displayed at 'course view'.
+     *
+     * @param form
+     * @param request
+     * @return
+     */
     @MethodAccessible
     @RequestMapping(params = "methodToCall=start")
     public ModelAndView start(@ModelAttribute("KualiForm") UifFormBase form, HttpServletRequest request,
-                             HttpServletResponse response) {
+                              HttpServletResponse response) {
 
         CourseDetailedViewForm detailedViewForm = (CourseDetailedViewForm) form;
 
