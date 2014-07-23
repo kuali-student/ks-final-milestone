@@ -14,10 +14,8 @@
  */
 package org.kuali.student.ap.coursesearch.controller;
 
-import org.codehaus.jackson.map.ObjectMapper;
 import org.kuali.rice.krad.web.controller.UifControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
-import org.kuali.student.ap.coursesearch.CourseFacetStrategy;
 import org.kuali.student.ap.coursesearch.CourseSearchStrategy;
 import org.kuali.student.ap.coursesearch.form.CourseSearchFormImpl;
 import org.kuali.student.ap.coursesearch.service.CourseSearchViewHelperService;
