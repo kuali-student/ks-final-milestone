@@ -51,7 +51,7 @@ import java.io.IOException;
 import java.util.List;
 
 /**
- * Controller handling the interactions of the course section portion of the Course Details Page.
+ * Controller handling the interactions of the bookmarks.
  */
 @Controller
 @RequestMapping(value = "/bookmark/**")
@@ -67,6 +67,9 @@ public class BookmarkController extends KsapControllerBase {
         return new BookmarkForm();
     }
 
+    /**
+     * Controller method handling the updating of the bookmark count
+     */
     @MethodAccessible
     @RequestMapping(params = "methodToCall=refreshBookmarkCount")
     public ModelAndView refreshBookmarkCount(@ModelAttribute("KualiForm") BookmarkForm form,
@@ -83,7 +86,10 @@ public class BookmarkController extends KsapControllerBase {
         return null;
     }
 
-
+    /**
+     * Controller method that handles the adding of courses as bookmarks and related events for dynamically updating
+     * the page
+     */
     @MethodAccessible
     @RequestMapping(params = "methodToCall=addBookmark")
     public ModelAndView addBookmark(@ModelAttribute("KualiForm") BookmarkForm form, BindingResult result,
@@ -139,6 +145,9 @@ public class BookmarkController extends KsapControllerBase {
         return null;
     }
 
+    /**
+     *  Controller method that handles the deletion of bookmark plan items and related events needed to update the page.
+     */
     @MethodAccessible
     @RequestMapping(method = RequestMethod.POST, params = "methodToCall=deleteBookmark")
     public ModelAndView deleteBookmark(@ModelAttribute("KualiForm") BookmarkForm form, BindingResult result,
@@ -152,9 +161,10 @@ public class BookmarkController extends KsapControllerBase {
 
         // Delete plan item from the database
         PlanItemInfo itemToDelete = null;
+        List<PlanItemInfo> planItems = null;
         try {
             // Retrieve valid plan item
-            List<PlanItemInfo> planItems = KsapFrameworkServiceLocator.getAcademicPlanService()
+            planItems = KsapFrameworkServiceLocator.getAcademicPlanService()
                     .getPlanItemsInPlanByRefObjectIdByRefObjectType(learningPlan.getId(),courseId,
                             PlanConstants.COURSE_TYPE,KsapFrameworkServiceLocator.getContext().getContextInfo());
             if (planItems == null){
@@ -194,6 +204,10 @@ public class BookmarkController extends KsapControllerBase {
         // Create json strings for displaying action's response and updating the planner screen.
         eventList = PlanEventUtils.makeRemoveEvent(uniqueId, itemToDelete, eventList);
         eventList = PlanEventUtils.makeUpdateBookmarkTotalEvent(learningPlan.getId(), eventList);
+        Course course = KsapFrameworkServiceLocator.getCourseHelper().getCourseInfo(courseId);
+        List<PlanItem> items = KsapFrameworkServiceLocator.getPlanHelper().loadStudentsPlanItemsForCourse(course);
+        eventList = PlanEventUtils.makeUpdatePlanItemStatusMessage(items, eventList);
+        eventList = PlanEventUtils.makeUpdateBookmarkTotalEvent(itemToDelete, eventList);
         PlanEventUtils.sendJsonEvents(true, "Course " + itemToDelete + " removed from Bookmarks",
                 response, eventList);
         return null;

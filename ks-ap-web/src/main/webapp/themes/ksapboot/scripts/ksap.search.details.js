@@ -503,7 +503,21 @@ function registerPlanStatusUpdateEvent (jqObject) {
 function ksapUpdatePlanStatusMessages (data) {
     var planStatusMessageHolder = jQuery('#planStatusMessageHolder');
     var planStatusMessage = jQuery('#plannedMessage');
+    var planStatusMessages = jQuery('#planStatusMessages');
+    if (planStatusMessages.length) {
+        if(data.plannedStatusMessage == "" && data.bookmarkedStatusMessage == ""){
+            planStatusMessages.addClass("ksap-hide")
+        }else{
+            planStatusMessages.removeClass("ksap-hide")
+        }
+    }
+
     if (planStatusMessage.length) {
+        if(data.plannedStatusMessage == ""){
+            planStatusMessage.addClass("ksap-hide")
+        }else{
+            planStatusMessage.removeClass("ksap-hide")
+        }
         planStatusMessage.html(data.plannedStatusMessage);
     }
     else {
@@ -513,6 +527,11 @@ function ksapUpdatePlanStatusMessages (data) {
 
     var bookmarkStatusMessage = jQuery('#bookmarkMessage');
     if (bookmarkStatusMessage.length) {
+        if(data.bookmarkedStatusMessage == ""){
+            bookmarkStatusMessage.addClass("ksap-hide")
+        }else{
+            bookmarkStatusMessage.removeClass("ksap-hide")
+        }
         bookmarkStatusMessage.html(data.bookmarkedStatusMessage);
     }
     else {
