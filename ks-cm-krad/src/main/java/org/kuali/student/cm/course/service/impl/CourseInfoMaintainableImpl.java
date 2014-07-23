@@ -1580,6 +1580,7 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
         courseInfoWrapper.setRefObjectId(courseInfoWrapper.getCourseInfo().getId());
 
         super.saveDataObject();
+        courseInfoWrapper.setAgendaDirty(false);
     }
 
     /**
