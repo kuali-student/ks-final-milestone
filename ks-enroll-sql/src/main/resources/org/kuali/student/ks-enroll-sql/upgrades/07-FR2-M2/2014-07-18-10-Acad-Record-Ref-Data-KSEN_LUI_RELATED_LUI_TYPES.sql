@@ -524,10 +524,10 @@ INSERT INTO KSEN_LUI_RELATED_LUI_TYPES (LUI_ID,RELATED_LUI_TYPE)
   VALUES ('65593956-bd40-4616-a68b-e289f03e9f00','kuali.lui.type.activity.offering.lectureorseminar')
 /
 INSERT INTO KSEN_LUI_RELATED_LUI_TYPES (LUI_ID,RELATED_LUI_TYPE)
-  VALUES ('7c79f225-9eaa-4047-9d4e-82887f253c4b','kuali.lui.type.activity.offering.lectureorseminar')
+  VALUES ('1ffc8a71-2ef8-4586-8470-0770d8619a90','kuali.lui.type.activity.offering.lectureorseminar')
 /
 INSERT INTO KSEN_LUI_RELATED_LUI_TYPES (LUI_ID,RELATED_LUI_TYPE)
-  VALUES ('1ffc8a71-2ef8-4586-8470-0770d8619a90','kuali.lui.type.activity.offering.lectureorseminar')
+  VALUES ('7c79f225-9eaa-4047-9d4e-82887f253c4b','kuali.lui.type.activity.offering.lectureorseminar')
 /
 INSERT INTO KSEN_LUI_RELATED_LUI_TYPES (LUI_ID,RELATED_LUI_TYPE)
   VALUES ('a224ec9d-9d15-41a1-a032-6438b5af389d','kuali.lui.type.activity.offering.lectureorseminar')
@@ -578,10 +578,10 @@ INSERT INTO KSEN_LUI_RELATED_LUI_TYPES (LUI_ID,RELATED_LUI_TYPE)
   VALUES ('0930bb58-4e0e-4909-a435-351594adce4e','kuali.lui.type.activity.offering.lectureorseminar')
 /
 INSERT INTO KSEN_LUI_RELATED_LUI_TYPES (LUI_ID,RELATED_LUI_TYPE)
-  VALUES ('19e150c4-27aa-456b-a4e5-bd55714f1805','kuali.lui.type.activity.offering.lectureorseminar')
+  VALUES ('092cd947-b8ee-4f7f-80ae-38517d64a292','kuali.lui.type.activity.offering.lectureorseminar')
 /
 INSERT INTO KSEN_LUI_RELATED_LUI_TYPES (LUI_ID,RELATED_LUI_TYPE)
-  VALUES ('092cd947-b8ee-4f7f-80ae-38517d64a292','kuali.lui.type.activity.offering.lectureorseminar')
+  VALUES ('19e150c4-27aa-456b-a4e5-bd55714f1805','kuali.lui.type.activity.offering.lectureorseminar')
 /
 INSERT INTO KSEN_LUI_RELATED_LUI_TYPES (LUI_ID,RELATED_LUI_TYPE)
   VALUES ('711d71ed-3ab7-4373-a5fb-aabe7b422e20','kuali.lui.type.activity.offering.lectureorseminar')
@@ -695,13 +695,13 @@ INSERT INTO KSEN_LUI_RELATED_LUI_TYPES (LUI_ID,RELATED_LUI_TYPE)
   VALUES ('62b38b66-f861-40f4-881f-218ecb4928e0','kuali.lui.type.activity.offering.lectureorseminar')
 /
 INSERT INTO KSEN_LUI_RELATED_LUI_TYPES (LUI_ID,RELATED_LUI_TYPE)
-  VALUES ('7355f2a5-7c18-4cfe-a3d9-cad44bf0a509','kuali.lui.type.activity.offering.lectureorseminar')
+  VALUES ('0e65ba06-68ad-49c2-8839-bf65a5d56954','kuali.lui.type.activity.offering.lectureorseminar')
 /
 INSERT INTO KSEN_LUI_RELATED_LUI_TYPES (LUI_ID,RELATED_LUI_TYPE)
   VALUES ('46626dc8-d2bf-4465-b0a2-4c4df9770aca','kuali.lui.type.activity.offering.lectureorseminar')
 /
 INSERT INTO KSEN_LUI_RELATED_LUI_TYPES (LUI_ID,RELATED_LUI_TYPE)
-  VALUES ('0e65ba06-68ad-49c2-8839-bf65a5d56954','kuali.lui.type.activity.offering.lectureorseminar')
+  VALUES ('7355f2a5-7c18-4cfe-a3d9-cad44bf0a509','kuali.lui.type.activity.offering.lectureorseminar')
 /
 INSERT INTO KSEN_LUI_RELATED_LUI_TYPES (LUI_ID,RELATED_LUI_TYPE)
   VALUES ('e1b6f769-1ceb-4024-9a7c-b37fb417a07c','kuali.lui.type.activity.offering.lectureorseminar')
@@ -1865,10 +1865,10 @@ INSERT INTO KSEN_LUI_RELATED_LUI_TYPES (LUI_ID,RELATED_LUI_TYPE)
   VALUES ('4f4095b5-6bf3-4ea5-9bfe-55d29404be01','kuali.lui.type.activity.offering.lectureorseminar')
 /
 INSERT INTO KSEN_LUI_RELATED_LUI_TYPES (LUI_ID,RELATED_LUI_TYPE)
-  VALUES ('d57db216-61b8-4289-a557-4399ae93e37e','kuali.lui.type.activity.offering.lectureorseminar')
+  VALUES ('65217fbd-a81e-4f47-8d29-7c2877bf46c9','kuali.lui.type.activity.offering.lectureorseminar')
 /
 INSERT INTO KSEN_LUI_RELATED_LUI_TYPES (LUI_ID,RELATED_LUI_TYPE)
-  VALUES ('65217fbd-a81e-4f47-8d29-7c2877bf46c9','kuali.lui.type.activity.offering.lectureorseminar')
+  VALUES ('d57db216-61b8-4289-a557-4399ae93e37e','kuali.lui.type.activity.offering.lectureorseminar')
 /
 INSERT INTO KSEN_LUI_RELATED_LUI_TYPES (LUI_ID,RELATED_LUI_TYPE)
   VALUES ('501f566b-8040-47a5-b682-9fda146c7e36','kuali.lui.type.activity.offering.lab')

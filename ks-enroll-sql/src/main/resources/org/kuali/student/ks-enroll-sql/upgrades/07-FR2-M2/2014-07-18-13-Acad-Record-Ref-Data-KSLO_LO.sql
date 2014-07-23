@@ -29,10 +29,10 @@ INSERT INTO KSLO_LO (ID,LOTYPE_ID,LO_REPO_ID,NAME,OBJ_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('5d946706-91eb-4dfd-ab0b-fc5c5d89ebbc','kuali.lo.type.singleUse','kuali.loRepository.key.singleUse','SINGLE USE LO','c3664fa3-9045-4305-a74c-570239eba6d1','cad6e8b7-cb5a-4da3-b3f6-b006ce2785cc','Active',2)
 /
 INSERT INTO KSLO_LO (ID,LOTYPE_ID,LO_REPO_ID,NAME,OBJ_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('970a2fde-f92b-41dd-857b-8f42312f4c41','kuali.lo.type.singleUse','kuali.loRepository.key.singleUse','SINGLE USE LO','5bed7d0b-216b-4d94-b9e3-ed848f4c94ca','a33d54fc-a86c-4cd4-a0e7-04664bce2c3d','Superseded',4)
+  VALUES ('44b2e513-e087-420f-8bdc-e9bfa6198585','kuali.lo.type.singleUse','kuali.loRepository.key.singleUse','SINGLE USE LO','0da0454b-6e39-441e-be20-394de1792cc2','30bda7de-0542-4a13-8a95-6f88409506ed','Active',16)
 /
 INSERT INTO KSLO_LO (ID,LOTYPE_ID,LO_REPO_ID,NAME,OBJ_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('44b2e513-e087-420f-8bdc-e9bfa6198585','kuali.lo.type.singleUse','kuali.loRepository.key.singleUse','SINGLE USE LO','0da0454b-6e39-441e-be20-394de1792cc2','30bda7de-0542-4a13-8a95-6f88409506ed','Active',16)
+  VALUES ('970a2fde-f92b-41dd-857b-8f42312f4c41','kuali.lo.type.singleUse','kuali.loRepository.key.singleUse','SINGLE USE LO','5bed7d0b-216b-4d94-b9e3-ed848f4c94ca','a33d54fc-a86c-4cd4-a0e7-04664bce2c3d','Superseded',4)
 /
 INSERT INTO KSLO_LO (ID,LOTYPE_ID,LO_REPO_ID,NAME,OBJ_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('f230559a-40af-456b-b94e-1d5f15a6d4bc','kuali.lo.type.singleUse','kuali.loRepository.key.singleUse','SINGLE USE LO','ef72b76f-c98b-48d1-9af0-34ff90c5ba86','ca9113e0-fa64-4f1f-b76a-e80e19303c05','Superseded',4)
@@ -44,10 +44,10 @@ INSERT INTO KSLO_LO (ID,LOTYPE_ID,LO_REPO_ID,OBJ_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('20197b21-ee13-4a87-87f3-b04e20d6b07a','kuali.lo.type.singleUse','kuali.loRepository.key.singleUse','6ae3752b-fbba-4140-ba00-bbe905a9268c','c99b7fa5-2a12-45a4-bf9d-25feb28f7fb0','Superseded',2)
 /
 INSERT INTO KSLO_LO (ID,LOTYPE_ID,LO_REPO_ID,NAME,OBJ_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('ba96ba99-4e25-481f-9256-9b77d9d4b968','kuali.lo.type.singleUse','kuali.loRepository.key.singleUse','SINGLE USE LO','96121d2e-3365-4322-a9e2-b10981b8ef7e','48162da8-b61b-4fa9-8b2f-4cff922261ed','Active',14)
+  VALUES ('902291c0-5333-481f-9b21-fb3b52cf29ac','kuali.lo.type.singleUse','kuali.loRepository.key.singleUse','SINGLE USE LO','eee3ebf8-988c-4e72-9ffa-5a4026a4c757','4f65e644-040f-4ed6-908c-d4f16d9cf8a4','Superseded',15)
 /
 INSERT INTO KSLO_LO (ID,LOTYPE_ID,LO_REPO_ID,NAME,OBJ_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('902291c0-5333-481f-9b21-fb3b52cf29ac','kuali.lo.type.singleUse','kuali.loRepository.key.singleUse','SINGLE USE LO','eee3ebf8-988c-4e72-9ffa-5a4026a4c757','4f65e644-040f-4ed6-908c-d4f16d9cf8a4','Superseded',15)
+  VALUES ('ba96ba99-4e25-481f-9256-9b77d9d4b968','kuali.lo.type.singleUse','kuali.loRepository.key.singleUse','SINGLE USE LO','96121d2e-3365-4322-a9e2-b10981b8ef7e','48162da8-b61b-4fa9-8b2f-4cff922261ed','Active',14)
 /
 INSERT INTO KSLO_LO (ID,LOTYPE_ID,LO_REPO_ID,OBJ_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('b9b9431b-d260-4d9c-a4d5-241d4dae8ab9','kuali.lo.type.singleUse','kuali.loRepository.key.singleUse','1b2a4736-c936-4835-85a1-e996eda4e424','351135eb-ef8d-48cf-8376-c5d8638ae2e7','Superseded',2)
@@ -133,11 +133,11 @@ INSERT INTO KSLO_LO (ID,LOTYPE_ID,LO_REPO_ID,NAME,OBJ_ID,RT_DESCR_ID,ST,VER_NBR)
 INSERT INTO KSLO_LO (ID,LOTYPE_ID,LO_REPO_ID,NAME,OBJ_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('142e35d1-e631-4986-8283-7b22b0cbed0d','kuali.lo.type.singleUse','kuali.loRepository.key.singleUse','SINGLE USE LO','dba322fa-264f-4442-9671-e1c3f9d1e5a6','39dae7de-2a1f-4c0d-8723-bb1f162f96eb','Active',3)
 /
-INSERT INTO KSLO_LO (ID,LOTYPE_ID,LO_REPO_ID,OBJ_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('0cf513ed-f74c-4679-abc6-96e72f2ef738','kuali.lo.type.singleUse','kuali.loRepository.key.singleUse','2d18bab2-6b1e-4db4-947d-0bb5d6a75556','96556e77-60ac-4817-a6bf-f875349b7cb6','Superseded',1)
-/
 INSERT INTO KSLO_LO (ID,LOTYPE_ID,LO_REPO_ID,NAME,OBJ_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('a6952399-5f5a-4607-af7e-36c20364c3b0','kuali.lo.type.singleUse','kuali.loRepository.key.singleUse','SINGLE USE LO','6859d271-c5e6-4e98-8396-d0116284df66','b61fad9d-2620-42c3-baaa-0f019fbce96b','Active',16)
+/
+INSERT INTO KSLO_LO (ID,LOTYPE_ID,LO_REPO_ID,OBJ_ID,RT_DESCR_ID,ST,VER_NBR)
+  VALUES ('0cf513ed-f74c-4679-abc6-96e72f2ef738','kuali.lo.type.singleUse','kuali.loRepository.key.singleUse','2d18bab2-6b1e-4db4-947d-0bb5d6a75556','96556e77-60ac-4817-a6bf-f875349b7cb6','Superseded',1)
 /
 INSERT INTO KSLO_LO (ID,LOTYPE_ID,LO_REPO_ID,NAME,OBJ_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('9fb773c1-330f-4fc0-8327-2882b40de7e2','kuali.lo.type.singleUse','kuali.loRepository.key.singleUse','SINGLE USE LO','efe36514-32e1-40a7-a5a7-0e59800f1c08','2466c3aa-9cdc-4510-a1a6-e314c58f0437','Active',6)
@@ -155,10 +155,10 @@ INSERT INTO KSLO_LO (ID,LOTYPE_ID,LO_REPO_ID,OBJ_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('6e9d809b-5056-4413-a883-38943c501766','kuali.lo.type.singleUse','kuali.loRepository.key.singleUse','27950313-f194-4a57-bd51-88563424e6ab','ff030f7f-e4f9-41d2-b0e1-61d1165d059e','Superseded',2)
 /
 INSERT INTO KSLO_LO (ID,LOTYPE_ID,LO_REPO_ID,OBJ_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('e59b7eee-2d99-4fca-8f9a-29e798f59e6c','kuali.lo.type.singleUse','kuali.loRepository.key.singleUse','52cd02b1-bc4d-49f3-a45f-9838ca6c626f','6cf94bb5-42df-4ea9-a5e6-22a6172edb0a','Superseded',1)
+  VALUES ('adc6974d-0348-45a9-b7fe-d5730fbc3788','kuali.lo.type.singleUse','kuali.loRepository.key.singleUse','70c8259e-fce2-4ce5-83a2-12f76f56cf6d','416264b1-b102-4cb5-9e8e-d25579e86b0a','Active',0)
 /
 INSERT INTO KSLO_LO (ID,LOTYPE_ID,LO_REPO_ID,OBJ_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('adc6974d-0348-45a9-b7fe-d5730fbc3788','kuali.lo.type.singleUse','kuali.loRepository.key.singleUse','70c8259e-fce2-4ce5-83a2-12f76f56cf6d','416264b1-b102-4cb5-9e8e-d25579e86b0a','Active',0)
+  VALUES ('e59b7eee-2d99-4fca-8f9a-29e798f59e6c','kuali.lo.type.singleUse','kuali.loRepository.key.singleUse','52cd02b1-bc4d-49f3-a45f-9838ca6c626f','6cf94bb5-42df-4ea9-a5e6-22a6172edb0a','Superseded',1)
 /
 INSERT INTO KSLO_LO (ID,LOTYPE_ID,LO_REPO_ID,OBJ_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('cf861048-a1fe-444b-a796-b87cfef9e85b','kuali.lo.type.singleUse','kuali.loRepository.key.singleUse','a9683b5d-02b7-450f-9cc6-c063dcdb1bd1','9d7cb4d0-e8ab-49c5-bad8-56f6ec1242eb','Active',0)
@@ -275,10 +275,10 @@ INSERT INTO KSLO_LO (ID,LOTYPE_ID,LO_REPO_ID,OBJ_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('47710c04-f8ff-41b3-bb28-5f0a55565a8d','kuali.lo.type.singleUse','kuali.loRepository.key.singleUse','5768c77a-d339-4e8d-a5c6-57b4be564c90','a855c6d7-260e-4d95-9dd9-bbfc61ffedc3','Active',1)
 /
 INSERT INTO KSLO_LO (ID,LOTYPE_ID,LO_REPO_ID,NAME,OBJ_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('004a9c28-c404-4239-b1cb-6db35c13f5f3','kuali.lo.type.singleUse','kuali.loRepository.key.singleUse','SINGLE USE LO','fc787b44-d1b2-4840-b44b-303ed5050086','72b667c5-248c-4f14-807a-08ab4d7de7cc','Superseded',15)
+  VALUES ('6b6bfe46-21ec-43d4-a16f-b1d301c5cb80','kuali.lo.type.singleUse','kuali.loRepository.key.singleUse','SINGLE USE LO','eb3e0b54-c9a3-43f7-8e67-4fc8c9a22048','2b51f348-9007-4cbc-a7c5-83f307eda94e','Active',19)
 /
 INSERT INTO KSLO_LO (ID,LOTYPE_ID,LO_REPO_ID,NAME,OBJ_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('6b6bfe46-21ec-43d4-a16f-b1d301c5cb80','kuali.lo.type.singleUse','kuali.loRepository.key.singleUse','SINGLE USE LO','eb3e0b54-c9a3-43f7-8e67-4fc8c9a22048','2b51f348-9007-4cbc-a7c5-83f307eda94e','Active',19)
+  VALUES ('004a9c28-c404-4239-b1cb-6db35c13f5f3','kuali.lo.type.singleUse','kuali.loRepository.key.singleUse','SINGLE USE LO','fc787b44-d1b2-4840-b44b-303ed5050086','72b667c5-248c-4f14-807a-08ab4d7de7cc','Superseded',15)
 /
 INSERT INTO KSLO_LO (ID,LOTYPE_ID,LO_REPO_ID,OBJ_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('6d6464ce-9977-4b63-b1d1-0ba63993efb1','kuali.lo.type.singleUse','kuali.loRepository.key.singleUse','08bc6e52-9de5-4289-aeed-e3419777c86f','c7ba30ce-12a6-4ba2-9d67-4a1729b77315','Superseded',2)
@@ -368,10 +368,10 @@ INSERT INTO KSLO_LO (ID,LOTYPE_ID,LO_REPO_ID,OBJ_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('30e7e9fd-5f85-4ea1-8e98-84accde271ea','kuali.lo.type.singleUse','kuali.loRepository.key.singleUse','edc52d96-e534-494f-a312-6e956a15c83f','9ca00ea8-40f0-4844-babe-9c2bf271f739','Active',1)
 /
 INSERT INTO KSLO_LO (ID,LOTYPE_ID,LO_REPO_ID,NAME,OBJ_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('5d626447-8a8a-480e-8f58-c8b33b8f5b38','kuali.lo.type.singleUse','kuali.loRepository.key.singleUse','SINGLE USE LO','c85da847-5cc0-48be-8041-33cbc0735fb0','1d6734f1-dbc4-40a2-ac55-001de8192f02','Superseded',5)
+  VALUES ('2c4e618e-700e-477e-ad0e-7f06163aaab6','kuali.lo.type.singleUse','kuali.loRepository.key.singleUse','SINGLE USE LO','389bbe1d-adb2-4dcf-b57c-2b6374a8fb0f','1e71ee29-b086-4b4d-ba61-605396cc42e7','Active',14)
 /
 INSERT INTO KSLO_LO (ID,LOTYPE_ID,LO_REPO_ID,NAME,OBJ_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('2c4e618e-700e-477e-ad0e-7f06163aaab6','kuali.lo.type.singleUse','kuali.loRepository.key.singleUse','SINGLE USE LO','389bbe1d-adb2-4dcf-b57c-2b6374a8fb0f','1e71ee29-b086-4b4d-ba61-605396cc42e7','Active',14)
+  VALUES ('5d626447-8a8a-480e-8f58-c8b33b8f5b38','kuali.lo.type.singleUse','kuali.loRepository.key.singleUse','SINGLE USE LO','c85da847-5cc0-48be-8041-33cbc0735fb0','1d6734f1-dbc4-40a2-ac55-001de8192f02','Superseded',5)
 /
 INSERT INTO KSLO_LO (ID,LOTYPE_ID,LO_REPO_ID,OBJ_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('5740c860-0a55-48e0-879d-b9c6e8a75b99','kuali.lo.type.singleUse','kuali.loRepository.key.singleUse','d32c2dea-bac6-4975-9b72-016a08b10edf','eeb82499-4db2-458c-a7b2-34b90bdff8a2','Superseded',1)
@@ -379,11 +379,11 @@ INSERT INTO KSLO_LO (ID,LOTYPE_ID,LO_REPO_ID,OBJ_ID,RT_DESCR_ID,ST,VER_NBR)
 INSERT INTO KSLO_LO (ID,LOTYPE_ID,LO_REPO_ID,OBJ_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('5bf6e643-c0ed-44dd-9899-1ae43641d155','kuali.lo.type.singleUse','kuali.loRepository.key.singleUse','35811f8b-d3cb-4bd8-9f3e-17f08be52802','9aa88ce9-68f8-42a5-b420-19b3ea6e973d','Active',0)
 /
-INSERT INTO KSLO_LO (ID,LOTYPE_ID,LO_REPO_ID,OBJ_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('2deb8c4f-ad83-4d90-8510-0261e95ec0c9','kuali.lo.type.singleUse','kuali.loRepository.key.singleUse','071fa7ba-d716-4c27-8a5c-621a23ebed55','1e6b13db-e4b8-412b-8e84-f24889134f38','Active',0)
-/
 INSERT INTO KSLO_LO (ID,LOTYPE_ID,LO_REPO_ID,NAME,OBJ_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('d19dc694-35d9-4bd3-95c4-1c23bd334f88','kuali.lo.type.singleUse','kuali.loRepository.key.singleUse','SINGLE USE LO','29df6986-9b6a-4ada-a286-d30c4ecdbd06','b5a67b17-80c9-4dc9-ad3f-c14e1e0bbc37','Active',18)
+/
+INSERT INTO KSLO_LO (ID,LOTYPE_ID,LO_REPO_ID,OBJ_ID,RT_DESCR_ID,ST,VER_NBR)
+  VALUES ('2deb8c4f-ad83-4d90-8510-0261e95ec0c9','kuali.lo.type.singleUse','kuali.loRepository.key.singleUse','071fa7ba-d716-4c27-8a5c-621a23ebed55','1e6b13db-e4b8-412b-8e84-f24889134f38','Active',0)
 /
 INSERT INTO KSLO_LO (ID,LOTYPE_ID,LO_REPO_ID,OBJ_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('1b433cf5-6b6e-4be1-b851-5a3dd9489a10','kuali.lo.type.singleUse','kuali.loRepository.key.singleUse','a9d516e6-546a-49ba-9f6d-e6fcf2506af4','1038e96e-4760-41bf-9e5e-5a666159f3bd','Superseded',1)
@@ -463,11 +463,11 @@ INSERT INTO KSLO_LO (ID,LOTYPE_ID,LO_REPO_ID,NAME,OBJ_ID,RT_DESCR_ID,ST,VER_NBR)
 INSERT INTO KSLO_LO (ID,LOTYPE_ID,LO_REPO_ID,NAME,OBJ_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('747a3cf3-4872-453d-b8c8-56009c77a275','kuali.lo.type.singleUse','kuali.loRepository.key.singleUse','SINGLE USE LO','29de359d-2130-43dc-a605-d44b9bffff0a','41c0a3ea-3809-47d1-bd2d-9a208aab6f44','Active',9)
 /
-INSERT INTO KSLO_LO (ID,LOTYPE_ID,LO_REPO_ID,OBJ_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('4e5364a0-101e-4073-b20a-16ec6995cf2d','kuali.lo.type.singleUse','kuali.loRepository.key.singleUse','2d091ab0-e60d-4b3f-828d-eba2e03e564a','fc9ea3d2-40ad-4caf-8429-e2431dc3024b','Superseded',1)
-/
 INSERT INTO KSLO_LO (ID,LOTYPE_ID,LO_REPO_ID,NAME,OBJ_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('edc432f0-36a8-49ee-a1e3-dfe23da0e472','kuali.lo.type.singleUse','kuali.loRepository.key.singleUse','SINGLE USE LO','fbd328a4-f3b9-462d-a13d-2f55a056fc77','5087bdc1-394a-4d08-9020-0d18b4379c94','Active',4)
+/
+INSERT INTO KSLO_LO (ID,LOTYPE_ID,LO_REPO_ID,OBJ_ID,RT_DESCR_ID,ST,VER_NBR)
+  VALUES ('4e5364a0-101e-4073-b20a-16ec6995cf2d','kuali.lo.type.singleUse','kuali.loRepository.key.singleUse','2d091ab0-e60d-4b3f-828d-eba2e03e564a','fc9ea3d2-40ad-4caf-8429-e2431dc3024b','Superseded',1)
 /
 INSERT INTO KSLO_LO (ID,LOTYPE_ID,LO_REPO_ID,OBJ_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('ac18a967-bfc6-4992-80a0-bd907c314f41','kuali.lo.type.singleUse','kuali.loRepository.key.singleUse','84119e63-82f6-4b7f-92ff-66c488803804','16f34443-e131-4f73-bb4d-395c6f86dc52','Active',1)
@@ -493,11 +493,11 @@ INSERT INTO KSLO_LO (ID,LOTYPE_ID,LO_REPO_ID,OBJ_ID,RT_DESCR_ID,ST,VER_NBR)
 INSERT INTO KSLO_LO (ID,LOTYPE_ID,LO_REPO_ID,NAME,OBJ_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('fddcff29-5c84-4b16-a2c5-b9eb530b47e3','kuali.lo.type.singleUse','kuali.loRepository.key.singleUse','SINGLE USE LO','8446fb06-0632-429d-af28-266339439da7','8b22fe86-d4d6-4b3a-9708-a9a7308d7c1d','Active',4)
 /
-INSERT INTO KSLO_LO (ID,LOTYPE_ID,LO_REPO_ID,NAME,OBJ_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('4391c853-eda1-4d14-9266-43aaa029436a','kuali.lo.type.singleUse','kuali.loRepository.key.singleUse','SINGLE USE LO','c413f8ec-8985-4826-8d1b-fd25ac27a5d3','395f5ba3-ed93-4af4-847c-c2a220e698f6','Active',2)
-/
 INSERT INTO KSLO_LO (ID,LOTYPE_ID,LO_REPO_ID,OBJ_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('877cee00-a660-4eb9-8514-92b9cea342f2','kuali.lo.type.singleUse','kuali.loRepository.key.singleUse','d7320340-0934-4505-962d-005e9b11bee8','c5fa371c-4665-46b8-9ee4-2279817bec0c','Superseded',2)
+/
+INSERT INTO KSLO_LO (ID,LOTYPE_ID,LO_REPO_ID,NAME,OBJ_ID,RT_DESCR_ID,ST,VER_NBR)
+  VALUES ('4391c853-eda1-4d14-9266-43aaa029436a','kuali.lo.type.singleUse','kuali.loRepository.key.singleUse','SINGLE USE LO','c413f8ec-8985-4826-8d1b-fd25ac27a5d3','395f5ba3-ed93-4af4-847c-c2a220e698f6','Active',2)
 /
 INSERT INTO KSLO_LO (ID,LOTYPE_ID,LO_REPO_ID,NAME,OBJ_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('5a11f896-fbb3-4558-879b-37438602e02c','kuali.lo.type.singleUse','kuali.loRepository.key.singleUse','SINGLE USE LO','c4275277-1885-49d0-9998-71f7dae785b3','8c7c5cc9-8c79-4380-8847-ded2e2b47b96','Active',9)
@@ -617,10 +617,10 @@ INSERT INTO KSLO_LO (ID,LOTYPE_ID,LO_REPO_ID,OBJ_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('1ba6115c-75c1-4bf8-9de3-1c8ae7917bb1','kuali.lo.type.singleUse','kuali.loRepository.key.singleUse','dd89aade-09f7-4bc5-922d-da7846b7d6af','71919030-203c-4cd5-9e10-6aa75f49d272','Active',1)
 /
 INSERT INTO KSLO_LO (ID,LOTYPE_ID,LO_REPO_ID,NAME,OBJ_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('c88b1c5e-fdd1-4f7d-bb49-c1a5ddcc0249','kuali.lo.type.singleUse','kuali.loRepository.key.singleUse','SINGLE USE LO','d2e6835d-446b-4618-b6ed-78c6d410e9d6','a10f769d-6a3c-4d93-b622-8ba7f692c9b4','Active',2)
+  VALUES ('b9cca6bf-2846-4ebe-abdf-73005881c65c','kuali.lo.type.singleUse','kuali.loRepository.key.singleUse','SINGLE USE LO','555192a1-f4f3-46ca-8294-0a104aef54d0','75bcb2b9-a125-4043-a7bb-8930d6bc21b4','Active',14)
 /
 INSERT INTO KSLO_LO (ID,LOTYPE_ID,LO_REPO_ID,NAME,OBJ_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('b9cca6bf-2846-4ebe-abdf-73005881c65c','kuali.lo.type.singleUse','kuali.loRepository.key.singleUse','SINGLE USE LO','555192a1-f4f3-46ca-8294-0a104aef54d0','75bcb2b9-a125-4043-a7bb-8930d6bc21b4','Active',14)
+  VALUES ('c88b1c5e-fdd1-4f7d-bb49-c1a5ddcc0249','kuali.lo.type.singleUse','kuali.loRepository.key.singleUse','SINGLE USE LO','d2e6835d-446b-4618-b6ed-78c6d410e9d6','a10f769d-6a3c-4d93-b622-8ba7f692c9b4','Active',2)
 /
 INSERT INTO KSLO_LO (ID,LOTYPE_ID,LO_REPO_ID,NAME,OBJ_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('69db927c-ea0c-47f0-ada4-309c4fd0fd21','kuali.lo.type.singleUse','kuali.loRepository.key.singleUse','SINGLE USE LO','5c26ad43-d146-4a62-8c5b-c4c323e0f070','c9d6f962-068b-4fe8-ad43-a33d2a3a7b39','Active',16)
@@ -656,10 +656,10 @@ INSERT INTO KSLO_LO (ID,LOTYPE_ID,LO_REPO_ID,NAME,OBJ_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('32a14703-6a77-4883-938d-72cd5be0ee74','kuali.lo.type.singleUse','kuali.loRepository.key.singleUse','SINGLE USE LO','2a4bf590-18d8-4d5e-8510-01c83262fcb2','4def819b-2301-4722-86ef-93bdfa2c38b8','Superseded',3)
 /
 INSERT INTO KSLO_LO (ID,LOTYPE_ID,LO_REPO_ID,NAME,OBJ_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('d313a76b-65d0-418e-af38-21db41d9557d','kuali.lo.type.singleUse','kuali.loRepository.key.singleUse','SINGLE USE LO','b5614639-4be5-4db7-8d85-58e308d985bb','6129dfa8-7330-4545-838f-f44940f704f7','Active',5)
+  VALUES ('7c57985b-936f-4b05-aef4-61bfea8de69a','kuali.lo.type.singleUse','kuali.loRepository.key.singleUse','SINGLE USE LO','537a1393-de08-462e-8185-b03ad155b8e0','da43549d-8709-4e96-83b8-bebb88dcd5a7','Superseded',4)
 /
 INSERT INTO KSLO_LO (ID,LOTYPE_ID,LO_REPO_ID,NAME,OBJ_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('7c57985b-936f-4b05-aef4-61bfea8de69a','kuali.lo.type.singleUse','kuali.loRepository.key.singleUse','SINGLE USE LO','537a1393-de08-462e-8185-b03ad155b8e0','da43549d-8709-4e96-83b8-bebb88dcd5a7','Superseded',4)
+  VALUES ('d313a76b-65d0-418e-af38-21db41d9557d','kuali.lo.type.singleUse','kuali.loRepository.key.singleUse','SINGLE USE LO','b5614639-4be5-4db7-8d85-58e308d985bb','6129dfa8-7330-4545-838f-f44940f704f7','Active',5)
 /
 INSERT INTO KSLO_LO (ID,LOTYPE_ID,LO_REPO_ID,OBJ_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('5bd5b35b-2963-4cfc-a240-31c8993daf2d','kuali.lo.type.singleUse','kuali.loRepository.key.singleUse','500c2d50-6c40-4557-a0a9-ecbd27bc9236','9904889c-686a-4521-8c06-d47370a58ecb','Active',0)
@@ -917,10 +917,10 @@ INSERT INTO KSLO_LO (ID,LOTYPE_ID,LO_REPO_ID,NAME,OBJ_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('09bab83f-e36f-41ab-9681-2c6c4e5da7ff','kuali.lo.type.singleUse','kuali.loRepository.key.singleUse','SINGLE USE LO','ae5ce054-ffd2-4277-8972-8b8330053e0b','b22a0d1d-2bf7-42d8-8ffa-efb9f11f6b77','Active',7)
 /
 INSERT INTO KSLO_LO (ID,LOTYPE_ID,LO_REPO_ID,NAME,OBJ_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('2b9edf3b-94da-4180-b1e9-a7c95f5e75d4','kuali.lo.type.singleUse','kuali.loRepository.key.singleUse','SINGLE USE LO','8ef127c6-1fd2-4388-8f17-aea4363335f4','d7de84e1-ef4f-41e8-9eaf-b9afdbb527a5','Active',3)
+  VALUES ('e213e0e8-39d7-48b0-bf69-a1177198acd9','kuali.lo.type.singleUse','kuali.loRepository.key.singleUse','SINGLE USE LO','1c45a48b-00d1-46f0-b038-c2f03099de62','2d741358-3a87-4c92-845e-e3c253bbbb2c','Active',3)
 /
 INSERT INTO KSLO_LO (ID,LOTYPE_ID,LO_REPO_ID,NAME,OBJ_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('e213e0e8-39d7-48b0-bf69-a1177198acd9','kuali.lo.type.singleUse','kuali.loRepository.key.singleUse','SINGLE USE LO','1c45a48b-00d1-46f0-b038-c2f03099de62','2d741358-3a87-4c92-845e-e3c253bbbb2c','Active',3)
+  VALUES ('2b9edf3b-94da-4180-b1e9-a7c95f5e75d4','kuali.lo.type.singleUse','kuali.loRepository.key.singleUse','SINGLE USE LO','8ef127c6-1fd2-4388-8f17-aea4363335f4','d7de84e1-ef4f-41e8-9eaf-b9afdbb527a5','Active',3)
 /
 INSERT INTO KSLO_LO (ID,LOTYPE_ID,LO_REPO_ID,OBJ_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('1d798d49-c8e6-4202-888b-ebe0fa675a17','kuali.lo.type.singleUse','kuali.loRepository.key.singleUse','2fc53e75-5c42-4bdd-b903-4b8a95514f21','9e95cae2-af4d-4f49-96f3-b65d48781b1a','Active',2)
@@ -953,10 +953,10 @@ INSERT INTO KSLO_LO (ID,LOTYPE_ID,LO_REPO_ID,OBJ_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('7bdb6e1f-6df3-4bb6-87e4-7cfdbeaf8926','kuali.lo.type.singleUse','kuali.loRepository.key.singleUse','a65c1729-6978-4aab-92d3-880a0ba38345','5e26e055-0ce8-45af-ac2a-779ca8800d6a','Active',0)
 /
 INSERT INTO KSLO_LO (ID,LOTYPE_ID,LO_REPO_ID,NAME,OBJ_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('d4379699-72bb-492c-999c-34284e81d5c1','kuali.lo.type.singleUse','kuali.loRepository.key.singleUse','SINGLE USE LO','39e92324-64ff-4521-abf9-516edca29485','ab964540-755c-41cf-bd31-d9b6887c5d18','Active',14)
+  VALUES ('bbc81ce7-ebb8-41a8-b92d-30e730b45ad0','kuali.lo.type.singleUse','kuali.loRepository.key.singleUse','SINGLE USE LO','83b8b366-d80f-4d87-b956-0a74055b270b','6f4ff741-e66b-4795-a7d2-2c75e4f455a0','Active',17)
 /
 INSERT INTO KSLO_LO (ID,LOTYPE_ID,LO_REPO_ID,NAME,OBJ_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('bbc81ce7-ebb8-41a8-b92d-30e730b45ad0','kuali.lo.type.singleUse','kuali.loRepository.key.singleUse','SINGLE USE LO','83b8b366-d80f-4d87-b956-0a74055b270b','6f4ff741-e66b-4795-a7d2-2c75e4f455a0','Active',17)
+  VALUES ('d4379699-72bb-492c-999c-34284e81d5c1','kuali.lo.type.singleUse','kuali.loRepository.key.singleUse','SINGLE USE LO','39e92324-64ff-4521-abf9-516edca29485','ab964540-755c-41cf-bd31-d9b6887c5d18','Active',14)
 /
 INSERT INTO KSLO_LO (ID,LOTYPE_ID,LO_REPO_ID,OBJ_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('08600082-1b29-4af4-886f-9107a2ddd758','kuali.lo.type.singleUse','kuali.loRepository.key.singleUse','1260835a-461f-41ca-afa4-6657c5235264','728c83d9-0fac-4c8a-9f9a-a029f6a5d269','Active',0)
@@ -1132,11 +1132,11 @@ INSERT INTO KSLO_LO (ID,LOTYPE_ID,LO_REPO_ID,NAME,OBJ_ID,RT_DESCR_ID,ST,VER_NBR)
 INSERT INTO KSLO_LO (ID,LOTYPE_ID,LO_REPO_ID,OBJ_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('34a19b81-9f74-4c38-b4ed-ab466ee09e32','kuali.lo.type.singleUse','kuali.loRepository.key.singleUse','29cf7fe3-2a38-486b-a406-af4eb6fbfdd2','f619474b-cf43-49cf-ad11-410a2012ac2b','Superseded',1)
 /
-INSERT INTO KSLO_LO (ID,LOTYPE_ID,LO_REPO_ID,OBJ_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('9ab333ec-f9b7-48be-b8bb-1c0a3e445055','kuali.lo.type.singleUse','kuali.loRepository.key.singleUse','193ad3d0-4c2a-4917-927e-ac5a40d9cfc1','5c56831a-81a2-46e2-bd2d-b60c5d008353','Active',0)
-/
 INSERT INTO KSLO_LO (ID,LOTYPE_ID,LO_REPO_ID,NAME,OBJ_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('0228d1ca-6071-45e5-b9f5-77567ab054c6','kuali.lo.type.singleUse','kuali.loRepository.key.singleUse','SINGLE USE LO','d07b450e-7e72-4d7b-8a2f-2d09e4b734b1','8027d3ce-bf23-4724-902c-c8396eb80c2f','Superseded',13)
+/
+INSERT INTO KSLO_LO (ID,LOTYPE_ID,LO_REPO_ID,OBJ_ID,RT_DESCR_ID,ST,VER_NBR)
+  VALUES ('9ab333ec-f9b7-48be-b8bb-1c0a3e445055','kuali.lo.type.singleUse','kuali.loRepository.key.singleUse','193ad3d0-4c2a-4917-927e-ac5a40d9cfc1','5c56831a-81a2-46e2-bd2d-b60c5d008353','Active',0)
 /
 INSERT INTO KSLO_LO (ID,LOTYPE_ID,LO_REPO_ID,NAME,OBJ_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('5c1dae61-8e91-4216-8e05-d6fba56c8d69','kuali.lo.type.singleUse','kuali.loRepository.key.singleUse','SINGLE USE LO','13a693cb-f0a5-4d06-a26c-c73af15febc7','8a24df24-7d5d-4689-a2fe-d06239616cd6','Active',6)
@@ -1328,10 +1328,10 @@ INSERT INTO KSLO_LO (ID,LOTYPE_ID,LO_REPO_ID,NAME,OBJ_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('b9ac1d9e-57a5-4ef9-a9cb-e07985921699','kuali.lo.type.singleUse','kuali.loRepository.key.singleUse','SINGLE USE LO','564f191f-6680-4ed6-aa9e-3861b526bbf9','197341e7-5500-4e6a-9b45-3c4ac23450f4','Superseded',12)
 /
 INSERT INTO KSLO_LO (ID,LOTYPE_ID,LO_REPO_ID,OBJ_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('b7b0fd84-c1df-444f-92d4-7e441411212c','kuali.lo.type.singleUse','kuali.loRepository.key.singleUse','2ff6c237-f84a-4a48-849f-4dac58bfc95d','02066dae-b13e-4276-b441-f40cd73facf2','Superseded',2)
+  VALUES ('7518a552-e1e5-4fdd-b128-486b103df533','kuali.lo.type.singleUse','kuali.loRepository.key.singleUse','54ee956a-688c-4a20-9600-4b4c188c28ae','585a22c1-2f00-49a6-aabb-ada03db78334','Active',0)
 /
 INSERT INTO KSLO_LO (ID,LOTYPE_ID,LO_REPO_ID,OBJ_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('7518a552-e1e5-4fdd-b128-486b103df533','kuali.lo.type.singleUse','kuali.loRepository.key.singleUse','54ee956a-688c-4a20-9600-4b4c188c28ae','585a22c1-2f00-49a6-aabb-ada03db78334','Active',0)
+  VALUES ('b7b0fd84-c1df-444f-92d4-7e441411212c','kuali.lo.type.singleUse','kuali.loRepository.key.singleUse','2ff6c237-f84a-4a48-849f-4dac58bfc95d','02066dae-b13e-4276-b441-f40cd73facf2','Superseded',2)
 /
 INSERT INTO KSLO_LO (ID,LOTYPE_ID,LO_REPO_ID,OBJ_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('a7d44a39-aa38-4e47-ab50-f1fe7477018f','kuali.lo.type.singleUse','kuali.loRepository.key.singleUse','d9df26bf-a775-44df-8185-91a412b2911d','f6f28bba-2a6c-4116-bb91-8e6de0e4af43','Active',0)
@@ -1478,10 +1478,10 @@ INSERT INTO KSLO_LO (ID,LOTYPE_ID,LO_REPO_ID,NAME,OBJ_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('f8b00c68-d683-40db-855d-a0fd79846015','kuali.lo.type.singleUse','kuali.loRepository.key.singleUse','SINGLE USE LO','df348421-69dc-4767-b023-4aff5ce0b94f','7ab34d23-018b-4a63-996a-f6baa4d11cad','Active',24)
 /
 INSERT INTO KSLO_LO (ID,LOTYPE_ID,LO_REPO_ID,OBJ_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('577b37ad-fc23-4932-9abc-7e5df6ad51e9','kuali.lo.type.singleUse','kuali.loRepository.key.singleUse','2ba602f6-61ee-4240-893b-814514e099e2','42303211-0014-408a-867c-e5a90b29c13d','Active',0)
+  VALUES ('a32c687a-1453-46f4-a9c7-8f6039b9e2e5','kuali.lo.type.singleUse','kuali.loRepository.key.singleUse','3437cead-b1c7-49dc-a042-7f1aa3bca8a7','da145e28-6695-4772-aab8-9b9049992a47','Superseded',1)
 /
 INSERT INTO KSLO_LO (ID,LOTYPE_ID,LO_REPO_ID,OBJ_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('a32c687a-1453-46f4-a9c7-8f6039b9e2e5','kuali.lo.type.singleUse','kuali.loRepository.key.singleUse','3437cead-b1c7-49dc-a042-7f1aa3bca8a7','da145e28-6695-4772-aab8-9b9049992a47','Superseded',1)
+  VALUES ('577b37ad-fc23-4932-9abc-7e5df6ad51e9','kuali.lo.type.singleUse','kuali.loRepository.key.singleUse','2ba602f6-61ee-4240-893b-814514e099e2','42303211-0014-408a-867c-e5a90b29c13d','Active',0)
 /
 INSERT INTO KSLO_LO (ID,LOTYPE_ID,LO_REPO_ID,OBJ_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('94d9f2ef-8f93-4ced-865a-f09a9053e72e','kuali.lo.type.singleUse','kuali.loRepository.key.singleUse','9835458b-85c2-43ee-9fce-18dc4288464f','ac9eed31-f6f6-4490-a9d4-ade7fae9f8b6','Active',0)
@@ -1807,11 +1807,11 @@ INSERT INTO KSLO_LO (ID,LOTYPE_ID,LO_REPO_ID,OBJ_ID,RT_DESCR_ID,ST,VER_NBR)
 INSERT INTO KSLO_LO (ID,LOTYPE_ID,LO_REPO_ID,OBJ_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('87c07e94-fe5b-4105-b9be-2e16ffd31b93','kuali.lo.type.singleUse','kuali.loRepository.key.singleUse','df96f2ce-e936-4bc9-b376-dcbd09607d3c','69464ca0-7b9f-4184-80e4-534454088bd9','Active',1)
 /
-INSERT INTO KSLO_LO (ID,LOTYPE_ID,LO_REPO_ID,NAME,OBJ_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('0a6c000f-4275-4b42-87ad-3e16441a3020','kuali.lo.type.singleUse','kuali.loRepository.key.singleUse','SINGLE USE LO','2fd853cd-9418-48e8-b58c-374512a9ab72','c0c9513e-7367-4912-ad72-47eae24cf696','Active',16)
-/
 INSERT INTO KSLO_LO (ID,LOTYPE_ID,LO_REPO_ID,OBJ_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('f7c15dd1-c8d8-4dc0-8d5b-82d6d794eaae','kuali.lo.type.singleUse','kuali.loRepository.key.singleUse','78f5a55d-fef9-4fee-99be-29a011fea41d','0c461663-a360-4954-9539-b067add6e7e8','Superseded',1)
+/
+INSERT INTO KSLO_LO (ID,LOTYPE_ID,LO_REPO_ID,NAME,OBJ_ID,RT_DESCR_ID,ST,VER_NBR)
+  VALUES ('0a6c000f-4275-4b42-87ad-3e16441a3020','kuali.lo.type.singleUse','kuali.loRepository.key.singleUse','SINGLE USE LO','2fd853cd-9418-48e8-b58c-374512a9ab72','c0c9513e-7367-4912-ad72-47eae24cf696','Active',16)
 /
 INSERT INTO KSLO_LO (ID,LOTYPE_ID,LO_REPO_ID,OBJ_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('0443132f-596d-476c-80cd-11da3a5f8b60','kuali.lo.type.singleUse','kuali.loRepository.key.singleUse','c719e4e8-9644-4a8e-99db-8eaec6d9ec60','6e8d77ee-e8e3-4e7d-bfc7-848cf9048619','Superseded',1)
@@ -1819,11 +1819,11 @@ INSERT INTO KSLO_LO (ID,LOTYPE_ID,LO_REPO_ID,OBJ_ID,RT_DESCR_ID,ST,VER_NBR)
 INSERT INTO KSLO_LO (ID,LOTYPE_ID,LO_REPO_ID,NAME,OBJ_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('2a13db2c-e1a9-4e7a-a2f2-814c583a408f','kuali.lo.type.singleUse','kuali.loRepository.key.singleUse','SINGLE USE LO','01bde8ff-19b6-440e-988e-7ebfa43d9480','cff30215-51b5-45af-afc9-5c17d38421ae','Active',14)
 /
-INSERT INTO KSLO_LO (ID,LOTYPE_ID,LO_REPO_ID,NAME,OBJ_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('98e7d830-81d7-417d-9524-9ae6376e0008','kuali.lo.type.singleUse','kuali.loRepository.key.singleUse','SINGLE USE LO','774a3ce0-82b1-4dd7-ac22-ee564a866521','b56146fa-5048-4f44-b9ba-ac300d29bab2','Superseded',5)
-/
 INSERT INTO KSLO_LO (ID,LOTYPE_ID,LO_REPO_ID,OBJ_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('0be1fa3a-d667-4f3a-8980-6332d3118af5','kuali.lo.type.singleUse','kuali.loRepository.key.singleUse','31cb9f35-9538-4a47-8ef3-560e36a2ffc0','0849a0cc-e660-49c9-88e2-326dbfdf740c','Active',0)
+/
+INSERT INTO KSLO_LO (ID,LOTYPE_ID,LO_REPO_ID,NAME,OBJ_ID,RT_DESCR_ID,ST,VER_NBR)
+  VALUES ('98e7d830-81d7-417d-9524-9ae6376e0008','kuali.lo.type.singleUse','kuali.loRepository.key.singleUse','SINGLE USE LO','774a3ce0-82b1-4dd7-ac22-ee564a866521','b56146fa-5048-4f44-b9ba-ac300d29bab2','Superseded',5)
 /
 INSERT INTO KSLO_LO (ID,LOTYPE_ID,LO_REPO_ID,NAME,OBJ_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('b22f536e-61d5-4cac-bf97-af6a853e38a5','kuali.lo.type.singleUse','kuali.loRepository.key.singleUse','SINGLE USE LO','c03e1cf6-52e4-4e08-94ce-2e3b630fd893','1a95c9d3-bfef-406c-9c1e-2aa24b263606','Active',4)

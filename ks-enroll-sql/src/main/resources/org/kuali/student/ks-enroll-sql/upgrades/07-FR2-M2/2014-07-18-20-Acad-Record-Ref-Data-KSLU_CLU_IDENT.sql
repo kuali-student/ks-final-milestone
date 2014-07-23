@@ -1,8 +1,8 @@
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
-  VALUES ('ENES100','ENES','2f5fc091-a7b1-40c9-80a7-9219d7c67785','Basic Technological Literacy','100','59a02d56-3a6e-48e3-bc1c-79fb5dfe2968','BASIC TECH LIT','Superseded','100','kuali.lu.type.CreditCourse.identifier.official',1)
+  VALUES ('BUMO753','BUMO','6b602765-527b-497e-af35-b14037090c63','Emerging Business Formation','700','88e03572-0bc6-4acc-ba1e-fdd6f156e91d','EMERGING BUS FORMATION','Active','753','kuali.lu.type.CreditCourse.identifier.official',0)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
-  VALUES ('BUMO753','BUMO','6b602765-527b-497e-af35-b14037090c63','Emerging Business Formation','700','88e03572-0bc6-4acc-ba1e-fdd6f156e91d','EMERGING BUS FORMATION','Active','753','kuali.lu.type.CreditCourse.identifier.official',0)
+  VALUES ('ENES100','ENES','2f5fc091-a7b1-40c9-80a7-9219d7c67785','Basic Technological Literacy','100','59a02d56-3a6e-48e3-bc1c-79fb5dfe2968','BASIC TECH LIT','Superseded','100','kuali.lu.type.CreditCourse.identifier.official',1)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
   VALUES ('ENES474','ENES','3951dbca-f288-4195-991d-8b5f7b917256','Global Perspectives of Engineering','400','f2064080-60c0-4d74-ba19-dee3b780798f','GLBL PERSPECTIVES ENGR','Active','474','kuali.lu.type.CreditCourse.identifier.official',0)
@@ -38,16 +38,16 @@ INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX
   VALUES ('MATH482','MATH','ddaa223d-4978-47fa-8741-3709c512ed64','Introduction to Algebra','400','2b291688-a912-443b-808f-96567859b938','INTRO TO ALGEBRA','Superseded','482','kuali.lu.type.CreditCourse.identifier.official',1)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
-  VALUES ('ENEE312','ENEE','b6f7d716-587a-44f9-8cd4-7db8ed68d318','Digital Electronic Circuits','300','b9f77be7-2616-46af-9a3a-b7baaef36566','DIGITAL ELECTRON','Superseded','312','kuali.lu.type.CreditCourse.identifier.official',1)
-/
-INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
   VALUES ('BUSI605','BUSI','336d63a0-2457-4088-9690-2c12f7042529','Culture, Ethics and Communication','600','28f917ba-43ff-48f8-a9da-2567a412750a','CULTURE, ETHICS & COMM','Active','605','kuali.lu.type.CreditCourse.identifier.official',0)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
-  VALUES ('BUAC787','BUAC','832aef96-0d95-4103-8a4d-6d52dd79d26c','Internal Auditing II: Internal Audit Application and Practice','700','19b579c2-8548-4b68-8865-270430c87a5f','INTERNAL AUDIT II','Active','787','kuali.lu.type.CreditCourse.identifier.official',0)
+  VALUES ('ENEE312','ENEE','b6f7d716-587a-44f9-8cd4-7db8ed68d318','Digital Electronic Circuits','300','b9f77be7-2616-46af-9a3a-b7baaef36566','DIGITAL ELECTRON','Superseded','312','kuali.lu.type.CreditCourse.identifier.official',1)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
   VALUES ('BMGT620','BMGT','ec407cad-1928-4517-95f8-c12ccab09994','Strategic Information Systems','600','61aa03b5-9dee-4380-9a17-304984a60e5c','STRAT INFO SYSTEMS','Superseded','620','kuali.lu.type.CreditCourse.identifier.official',3)
+/
+INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
+  VALUES ('BUAC787','BUAC','832aef96-0d95-4103-8a4d-6d52dd79d26c','Internal Auditing II: Internal Audit Application and Practice','700','19b579c2-8548-4b68-8865-270430c87a5f','INTERNAL AUDIT II','Active','787','kuali.lu.type.CreditCourse.identifier.official',0)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
   VALUES ('MATH452','MATH','40c11ef1-f93c-4c59-b32b-daf978690d95','Introduction to Dynamics and Chaos','400','f79495d3-6b57-4214-8b29-3789b1af22c2','INTRO TO DYNAMICS&CHAOS','Active','452','kuali.lu.type.CreditCourse.identifier.official',5)
@@ -197,10 +197,10 @@ INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX
   VALUES ('ENES663','ENES','2ddaecc7-0c00-4abf-ac8f-9a34a28a115e','Strategies for Managing Innovation','600','c233a504-b3c8-48af-9ddd-98a457c33bd5','STRATEGIES MNGNG INNVTN','Active','663','kuali.lu.type.CreditCourse.identifier.official',19)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
-  VALUES ('BULM758','BULM','e9a28da4-d598-48b9-bc82-6ac36bfa4be3','Special Topics in Logistics, Business and Public Policy','700','c666891a-6a20-46da-8415-38e96d1af1cb','SPEC TOPICS: LBPP','Active','758','kuali.lu.type.CreditCourse.identifier.official',2)
+  VALUES ('MATH742','MATH','f80f26fb-07e6-4299-a48f-a3152e70a0a3','Geometric Analysis','700','ab1ecf58-31e7-47f3-9394-34a01306a94e','GEOMETRIC ANALYSIS','Active','742','kuali.lu.type.CreditCourse.identifier.official',5)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
-  VALUES ('MATH742','MATH','f80f26fb-07e6-4299-a48f-a3152e70a0a3','Geometric Analysis','700','ab1ecf58-31e7-47f3-9394-34a01306a94e','GEOMETRIC ANALYSIS','Active','742','kuali.lu.type.CreditCourse.identifier.official',5)
+  VALUES ('BULM758','BULM','e9a28da4-d598-48b9-bc82-6ac36bfa4be3','Special Topics in Logistics, Business and Public Policy','700','c666891a-6a20-46da-8415-38e96d1af1cb','SPEC TOPICS: LBPP','Active','758','kuali.lu.type.CreditCourse.identifier.official',2)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
   VALUES ('MATH483','MATH','a5f9cf0f-164b-487e-a410-580e4e6017c0','Algebra for School Teachers','400','637f5462-066b-4a85-9d06-6f6d7bb509d4','ALGEBRA FOR HS TEACHERS','Active','483','kuali.lu.type.CreditCourse.identifier.official',5)
@@ -296,10 +296,10 @@ INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX
   VALUES ('ENEE419','ENEE','cd5e060f-2652-4496-8ebe-8121d5b072f1','Topics in Microelectronics','400','2ecdb269-a2cf-47b6-8407-9cbc03b420d7','TOPICS IN MICROELECTRONC','Superseded','419','kuali.lu.type.CreditCourse.identifier.official',3)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
-  VALUES ('ENES389','ENES','3252c7e1-c465-4a98-88d2-3e520151aca8','Special Topics in Engineering','300','988e0229-f4d6-48e0-b072-155dac4b8758','SPEC TOP IN ENGINEERING','Superseded','389','kuali.lu.type.CreditCourse.identifier.official',3)
+  VALUES ('ENEE245','ENEE','252fea2b-d1ab-4143-8ccb-136367487876','Digital Circuits and Systems Laboratory','200','2f91e6ef-09e4-4946-bea1-cab90f28fec3','DIGITAL CIRCUIT SOPH LAB','Active','245','kuali.lu.type.CreditCourse.identifier.official',0)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
-  VALUES ('ENEE245','ENEE','252fea2b-d1ab-4143-8ccb-136367487876','Digital Circuits and Systems Laboratory','200','2f91e6ef-09e4-4946-bea1-cab90f28fec3','DIGITAL CIRCUIT SOPH LAB','Active','245','kuali.lu.type.CreditCourse.identifier.official',0)
+  VALUES ('ENES389','ENES','3252c7e1-c465-4a98-88d2-3e520151aca8','Special Topics in Engineering','300','988e0229-f4d6-48e0-b072-155dac4b8758','SPEC TOP IN ENGINEERING','Superseded','389','kuali.lu.type.CreditCourse.identifier.official',3)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
   VALUES ('BMGT457','BMGT','b33142a6-9646-4a86-bcab-be7ec5d3045b','Marketing Policies and Strategies','400','724b949c-33d3-4c1f-87d2-6662a6f943f3','MRKTNG POLCY+STRAT','Superseded','457','kuali.lu.type.CreditCourse.identifier.official',3)
@@ -374,10 +374,10 @@ INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX
   VALUES ('MATH411','MATH','34286e67-b52f-42b1-b6f8-ab83ac589ce2','Advanced Calculus II','400','35d3d520-323e-4dde-91df-d0fbe2c7474f','ADV CALCULUS II','Superseded','411','kuali.lu.type.CreditCourse.identifier.official',3)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
-  VALUES ('ECON703','ECON','4e7b3f65-aafa-4cff-ad64-a8ab4f7e1810','Advanced Microeconomics I','700','0b371087-def5-4e44-9f20-aa1a47037f9d','ADVANCED MICRO I','Superseded','703','kuali.lu.type.CreditCourse.identifier.official',3)
+  VALUES ('BUDT775','BUDT','a9556769-fd5e-4908-ad94-d321bb673165','Pricing and Revenue Management','700','583307d1-cc78-40e3-9863-2eb4d11a2cf6','PRICING & REVENUE MGT','Superseded','775','kuali.lu.type.CreditCourse.identifier.official',1)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
-  VALUES ('BUDT775','BUDT','a9556769-fd5e-4908-ad94-d321bb673165','Pricing and Revenue Management','700','583307d1-cc78-40e3-9863-2eb4d11a2cf6','PRICING & REVENUE MGT','Superseded','775','kuali.lu.type.CreditCourse.identifier.official',1)
+  VALUES ('ECON703','ECON','4e7b3f65-aafa-4cff-ad64-a8ab4f7e1810','Advanced Microeconomics I','700','0b371087-def5-4e44-9f20-aa1a47037f9d','ADVANCED MICRO I','Superseded','703','kuali.lu.type.CreditCourse.identifier.official',3)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
   VALUES ('MATH431','MATH','2c34412a-b53c-468f-8432-c40745b608da','Foundations of Geometry','400','8b502f60-bf32-4adc-a173-e83ca4af484c','FOUNDATIONS GEOM','Superseded','431','kuali.lu.type.CreditCourse.identifier.official',1)
@@ -488,10 +488,10 @@ INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX
   VALUES ('ENEE450','ENEE','3d80b2e9-fdf4-44d6-bac9-236bf308311d','Discrete Structures','400','b49c4e03-9350-416b-a42b-a2fce7d5971a','DISCRETE STRUCTURE','Superseded','450','kuali.lu.type.CreditCourse.identifier.official',1)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
-  VALUES ('MATH406','MATH','0eb94d53-617b-4a78-b6ff-c917547955fc','Introduction to Number Theory','400','69b60020-de00-406a-b64a-355736280168','INTRO NUMBER THEORY','Active','406','kuali.lu.type.CreditCourse.identifier.official',4)
+  VALUES ('MATH141','MATH','e4da5b62-791b-439a-a403-51fa92efae3d','Calculus II','100','42cd54da-5b61-4d00-8470-7e8b512fa040','CALCULUS II','Active','141','kuali.lu.type.CreditCourse.identifier.official',2)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
-  VALUES ('MATH141','MATH','e4da5b62-791b-439a-a403-51fa92efae3d','Calculus II','100','42cd54da-5b61-4d00-8470-7e8b512fa040','CALCULUS II','Active','141','kuali.lu.type.CreditCourse.identifier.official',2)
+  VALUES ('MATH406','MATH','0eb94d53-617b-4a78-b6ff-c917547955fc','Introduction to Number Theory','400','69b60020-de00-406a-b64a-355736280168','INTRO NUMBER THEORY','Active','406','kuali.lu.type.CreditCourse.identifier.official',4)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
   VALUES ('BMGT864','BMGT','4c12025f-6ba4-447d-a6c3-06fda584da9c','Seminar in Leadership','800','cb12b778-de22-4ec8-903e-8e640b7c0056','LEADERSHIP','Active','864','kuali.lu.type.CreditCourse.identifier.official',2)
@@ -548,10 +548,10 @@ INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX
   VALUES ('ENAE311','ENAE','e471e09b-20a3-4b19-bfbe-d14ee108fb8f','Aerodynamics I','300','b35b6878-438c-4028-b84d-72f74fb8eecc','AERODYNAMICS I','Active','311','kuali.lu.type.CreditCourse.identifier.official',4)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
-  VALUES ('BMGT201','BMGT','94a2a94e-4cc7-4704-9b37-b41e01d8e2b1','Introduction to Business Computing','200','a957c5f1-ccaf-4d29-b496-05740a895e57','INTRO TO BUSN COMPUTING','Superseded','201','kuali.lu.type.CreditCourse.identifier.official',1)
+  VALUES ('ENEE611','ENEE','c388aaab-f947-479e-a8af-10a13b4a2d7b','Integrated Circuit Design and Analysis','600','1c994fcf-6700-404f-af9a-2047a186dc12','INTGR CIRC DESGN & ANAL','Active','611','kuali.lu.type.CreditCourse.identifier.official',0)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
-  VALUES ('ENEE611','ENEE','c388aaab-f947-479e-a8af-10a13b4a2d7b','Integrated Circuit Design and Analysis','600','1c994fcf-6700-404f-af9a-2047a186dc12','INTGR CIRC DESGN & ANAL','Active','611','kuali.lu.type.CreditCourse.identifier.official',0)
+  VALUES ('BMGT201','BMGT','94a2a94e-4cc7-4704-9b37-b41e01d8e2b1','Introduction to Business Computing','200','a957c5f1-ccaf-4d29-b496-05740a895e57','INTRO TO BUSN COMPUTING','Superseded','201','kuali.lu.type.CreditCourse.identifier.official',1)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
   VALUES ('MATH603','MATH','06aeec39-6cc7-435f-a910-9a1ad10761c9','Commutative Algebra','600','dcfad0f3-8801-461f-bb2b-2d8df043f4cf','COMMUTATIVE ALGEBRA','Active','603','kuali.lu.type.CreditCourse.identifier.official',0)
@@ -575,10 +575,10 @@ INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX
   VALUES ('ECON314','ECON','fc37ff80-a6c7-42a3-b77d-09a272cc7857','Economic History, Development and Policy','300','1f3b35b6-3ed9-4cd5-823b-46f599e1e6b7','ECON HIST DVLPMNT POLICY','Active','314','kuali.lu.type.CreditCourse.identifier.official',20)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
-  VALUES ('ECON554','ECON','b2d252a9-fbaf-4eb0-b068-6230bf3854f1','Program Analysis and Evaluation','500','4f7387c3-8b7b-4235-ac99-19724ded6999','PROGRAM ANALYS AND EVAL','Active','554','kuali.lu.type.CreditCourse.identifier.official',19)
+  VALUES ('ENES102','ENES','aba53311-3088-4c02-85da-d1410e00e111','Statics','100','d8d45431-1863-417a-886f-c362306a6d54','STATICS','Superseded','102','kuali.lu.type.CreditCourse.identifier.official',1)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
-  VALUES ('ENES102','ENES','aba53311-3088-4c02-85da-d1410e00e111','Statics','100','d8d45431-1863-417a-886f-c362306a6d54','STATICS','Superseded','102','kuali.lu.type.CreditCourse.identifier.official',1)
+  VALUES ('ECON554','ECON','b2d252a9-fbaf-4eb0-b068-6230bf3854f1','Program Analysis and Evaluation','500','4f7387c3-8b7b-4235-ac99-19724ded6999','PROGRAM ANALYS AND EVAL','Active','554','kuali.lu.type.CreditCourse.identifier.official',19)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
   VALUES ('ECON808','ECON','5dcd3410-75bc-42a9-8d58-3d060eb26a02','Workshop on Macroeconomics and Growth','800','6ada63b3-6816-486e-a171-b80b9a44756f','MACRO WORKSHOP','Active','808','kuali.lu.type.CreditCourse.identifier.official',5)
@@ -704,10 +704,10 @@ INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX
   VALUES ('BMGT301','BMGT','6add95ea-5f71-43ca-9dee-fad7fdb5f9b5','Survey of Business Information Systems and Technology','300','5530daa5-a042-4fcb-bff8-2d5966883107','BUS INFO SYS & TECH','Superseded','301','kuali.lu.type.CreditCourse.identifier.official',3)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
-  VALUES ('ENEE244','ENEE','47b5393f-559e-4a0a-9b38-e945f8a36366','Digital Logic Design','200','694cca73-79bb-4cac-affc-6cb936546b11','DIG LOGIC DESIGN','Superseded','244','kuali.lu.type.CreditCourse.identifier.official',3)
+  VALUES ('ENEE651','ENEE','0b74afd0-9b5e-4a82-8412-60c4f357e39f','Parallel Algorithms','600','5ed3cccf-517e-4c36-8279-3090044ca208','PARALLEL ALGORITHMS','Active','651','kuali.lu.type.CreditCourse.identifier.official',2)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
-  VALUES ('ENEE651','ENEE','0b74afd0-9b5e-4a82-8412-60c4f357e39f','Parallel Algorithms','600','5ed3cccf-517e-4c36-8279-3090044ca208','PARALLEL ALGORITHMS','Active','651','kuali.lu.type.CreditCourse.identifier.official',2)
+  VALUES ('ENEE244','ENEE','47b5393f-559e-4a0a-9b38-e945f8a36366','Digital Logic Design','200','694cca73-79bb-4cac-affc-6cb936546b11','DIG LOGIC DESIGN','Superseded','244','kuali.lu.type.CreditCourse.identifier.official',3)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
   VALUES ('BUSI785','BUSI','0dc58a91-9254-4e17-ad05-8a13f7f951b3','Project Management in Dynamic Environments','700','0992b5f6-f163-4a7b-a315-9cb5fd15cd3f','PROJECT MANAGEMENT','Superseded','785','kuali.lu.type.CreditCourse.identifier.official',1)
@@ -722,10 +722,10 @@ INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX
   VALUES ('ECON772','ECON','7b96e6c9-a315-4ad5-97ba-1cd61781d793','Population Economics','700','47d63c2f-8176-4a7e-9e8a-59833addce3b','POPULATION ECONOMICS','Active','772','kuali.lu.type.CreditCourse.identifier.official',2)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
-  VALUES ('BMGT481','BMGT','382b149b-80d6-451d-8136-55d014cd597b','Public Utilities','400','228f74e5-017d-4cb2-b827-f35642ccfb52','PUBLIC UTILITIES','Superseded','481','kuali.lu.type.CreditCourse.identifier.official',1)
+  VALUES ('ECON441','ECON','2e67a382-a41b-4781-ab16-6b48e31eeea3','Theory of International Economics','400','f043e7b6-4664-40f9-acd6-0520869069c9','THRY INTERNAT ECON','Active','441','kuali.lu.type.CreditCourse.identifier.official',2)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
-  VALUES ('ECON441','ECON','2e67a382-a41b-4781-ab16-6b48e31eeea3','Theory of International Economics','400','f043e7b6-4664-40f9-acd6-0520869069c9','THRY INTERNAT ECON','Active','441','kuali.lu.type.CreditCourse.identifier.official',2)
+  VALUES ('BMGT481','BMGT','382b149b-80d6-451d-8136-55d014cd597b','Public Utilities','400','228f74e5-017d-4cb2-b827-f35642ccfb52','PUBLIC UTILITIES','Superseded','481','kuali.lu.type.CreditCourse.identifier.official',1)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
   VALUES ('ENEE241','ENEE','950ec340-bfae-49c3-ab11-1ec25d22a89c','Numerical Techniques in Engineering','200','7713f9bc-003e-4fd4-97f7-ee4961455ad0','NUMERICAL TECH IN ENGR','Superseded','241','kuali.lu.type.CreditCourse.identifier.official',1)
@@ -869,13 +869,13 @@ INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX
   VALUES ('ECON430','ECON','8428849f-9922-4b1b-8e98-3c02dd00fc09','Money and Banking','400','3275d224-1424-4a33-b461-9a87a1dc1f12','MONEY AND BANKING','Superseded','430','kuali.lu.type.CreditCourse.identifier.official',1)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
+  VALUES ('BMGT370','BMGT','4abdfe7d-518e-4a8d-9df9-1ef209fc3aca','Introduction to Transportation Management','300','78850c53-e8e3-42ab-b8dd-13ff0a23c1e3','INTRO TRANSP MANAGEMENT','Superseded','370','kuali.lu.type.CreditCourse.identifier.official',3)
+/
+INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
   VALUES ('BUMO759','BUMO','7c1bcc8f-f93e-4eba-bcbd-59f5c5de4065','Independent Study in Management and Organization','700','ca3de964-764a-454b-a883-af6f5137eb76','IND STUDY -MGT & ORANZTN','Active','759','kuali.lu.type.CreditCourse.identifier.official',0)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
   VALUES ('ENES141','ENES','d39de2b3-a8cd-46f6-827b-1ae76c7da9e6','Introduction to Technology Marketing and Product Development','100','6a867940-ca13-48de-80d5-e9b5c7083a37','TCHNLGY MARKT & PROD DEV','Superseded','141','kuali.lu.type.CreditCourse.identifier.official',1)
-/
-INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
-  VALUES ('BMGT370','BMGT','4abdfe7d-518e-4a8d-9df9-1ef209fc3aca','Introduction to Transportation Management','300','78850c53-e8e3-42ab-b8dd-13ff0a23c1e3','INTRO TRANSP MANAGEMENT','Superseded','370','kuali.lu.type.CreditCourse.identifier.official',3)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
   VALUES ('MATH240','MATH','6c6cc395-42a6-42a9-a95c-7cac1de4a5e5','Linear Algebra','200','ef03e4a9-e683-4984-9e6b-f2682f988ddd','LINEAR ALGEBRA','Superseded','240','kuali.lu.type.CreditCourse.identifier.official',1)
@@ -989,10 +989,10 @@ INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX
   VALUES ('ENEE429','ENEE','1737183a-a336-4731-a757-a7897aee5202','Topics in Communications','400','4493492c-d29b-4cf4-9b69-4a0b49155378','TOPICS IN COMMUNICATIONS','Superseded','429','kuali.lu.type.CreditCourse.identifier.official',1)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
-  VALUES ('BMGT713','BMGT','7d3f8322-757b-4f77-8805-54773b1378dc','The Impact of Taxation On Business Decisions','700','6e154fed-bd68-44d0-841c-0ac15bf1bbff','TAX+BUSNS DECISION','Superseded','713','kuali.lu.type.CreditCourse.identifier.official',1)
+  VALUES ('ENEE578','ENEE','b33deb4a-4585-48d3-aa37-2cc256715f9f','Internship','500','9a9955b2-4f80-4926-8a7d-4165254e58a9','INTERNSHIP','Active','578','kuali.lu.type.CreditCourse.identifier.official',3)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
-  VALUES ('ENEE578','ENEE','b33deb4a-4585-48d3-aa37-2cc256715f9f','Internship','500','9a9955b2-4f80-4926-8a7d-4165254e58a9','INTERNSHIP','Active','578','kuali.lu.type.CreditCourse.identifier.official',3)
+  VALUES ('BMGT713','BMGT','7d3f8322-757b-4f77-8805-54773b1378dc','The Impact of Taxation On Business Decisions','700','6e154fed-bd68-44d0-841c-0ac15bf1bbff','TAX+BUSNS DECISION','Superseded','713','kuali.lu.type.CreditCourse.identifier.official',1)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
   VALUES ('BMGT788','BMGT','2ae9cde2-22ae-42bd-b9c7-31b457776da8','Mastery Topic for EMBA','700','fae8942f-1a0f-42d0-b255-6886f2920a1d','MASTERY TOPICS FOR EMBA','Active','788','kuali.lu.type.CreditCourse.identifier.official',0)
@@ -1037,10 +1037,10 @@ INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX
   VALUES ('ENAE661','ENAE','e1d5ac33-837d-4372-92db-8c9bf7af760c','Advanced Propulsion I','600','47389f5e-a53d-4990-a523-a10706498fe8','ADV PROPULSION I','Superseded','661','kuali.lu.type.CreditCourse.identifier.official',3)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
-  VALUES ('MATH130','MATH','b0e99589-2906-49d6-aa26-a6d5a96c0357','Calculus for Life Sciences I','100','0065fd5f-9ea8-4873-be2c-74cff087cc0d','CALC FOR LIFE SCIENCES I','Superseded','130','kuali.lu.type.CreditCourse.identifier.official',1)
+  VALUES ('MATH240','MATH','763632bc-61b6-4e6b-83a0-88e713e3d88d','Introduction to Linear Algebra','200','d8e3ac87-cc18-4061-ac2c-6726e2321fda','INTRO LNEAR ALGBRA','Superseded','240','kuali.lu.type.CreditCourse.identifier.official',3)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
-  VALUES ('MATH240','MATH','763632bc-61b6-4e6b-83a0-88e713e3d88d','Introduction to Linear Algebra','200','d8e3ac87-cc18-4061-ac2c-6726e2321fda','INTRO LNEAR ALGBRA','Superseded','240','kuali.lu.type.CreditCourse.identifier.official',3)
+  VALUES ('MATH130','MATH','b0e99589-2906-49d6-aa26-a6d5a96c0357','Calculus for Life Sciences I','100','0065fd5f-9ea8-4873-be2c-74cff087cc0d','CALC FOR LIFE SCIENCES I','Superseded','130','kuali.lu.type.CreditCourse.identifier.official',1)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
   VALUES ('ENAE426','ENAE','463dee1c-03db-4f5d-a396-d8c7695cbd35','Computer Aided Structural Analysis and Design','400','d1c51a96-7f97-4804-a751-2d5c17b92760','COMP STR ANALYSIS DESN','Superseded','426','kuali.lu.type.CreditCourse.identifier.official',1)
@@ -1067,10 +1067,10 @@ INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX
   VALUES ('ECON603','ECON','563689fb-91f2-4288-b860-4540a6e360ec','Microeconomic Analysis I','600','45d31f81-d83d-43cf-8305-4b72bb4750ad','MICROECON ANLYS I','Active','603','kuali.lu.type.CreditCourse.identifier.official',2)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
-  VALUES ('ECON374','ECON','9af31e14-f1cd-44d3-adb2-a34dc8b535ef','Economic Problems of Women','300','b744fd33-f343-41fc-87b9-25a079feb8e4','ECON PROBS WOMEN','Superseded','374','kuali.lu.type.CreditCourse.identifier.official',1)
+  VALUES ('ENES269','ENES','08d2173c-aaba-457e-87fb-6957d839f5fa','Topics in Grand Challenges for Engineering in a Global Context','200','77cadd5e-202f-4c53-bef2-9dc87ef9b9f3','ENGR GRAND CHAL GLOBAL','Active','269','kuali.lu.type.CreditCourse.identifier.official',23)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
-  VALUES ('ENES269','ENES','08d2173c-aaba-457e-87fb-6957d839f5fa','Topics in Grand Challenges for Engineering in a Global Context','200','77cadd5e-202f-4c53-bef2-9dc87ef9b9f3','ENGR GRAND CHAL GLOBAL','Active','269','kuali.lu.type.CreditCourse.identifier.official',23)
+  VALUES ('ECON374','ECON','9af31e14-f1cd-44d3-adb2-a34dc8b535ef','Economic Problems of Women','300','b744fd33-f343-41fc-87b9-25a079feb8e4','ECON PROBS WOMEN','Superseded','374','kuali.lu.type.CreditCourse.identifier.official',1)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
   VALUES ('MATH246','MATH','b4445df7-8538-4a19-b088-7aa868f3e9f1','Differential Equations for Scientists and Engineers','200','8014eeb2-9b23-4dc6-80d0-36d930b4bacb','DIFF EQN FOR SCI & ENGRS','Superseded','246','kuali.lu.type.CreditCourse.identifier.official',3)
@@ -1196,10 +1196,10 @@ INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX
   VALUES ('ENEE889','ENEE','aec573a5-803f-4394-9e0b-55f7d1a59a07','Teaching Workshop','800','ad80cdce-9ab3-45f3-ab41-18bffc5ee46f','TEACHING WORKSHOP','Active','889','kuali.lu.type.CreditCourse.identifier.official',0)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
-  VALUES ('BMGT777','BMGT','c52765d2-9dd1-4de0-8166-77e47690cdcf','Policy Issues in Public Utilities','700','9170d55d-8332-43cb-9048-c66e5adcceda','POL ISSUE PUB UTIL','Superseded','777','kuali.lu.type.CreditCourse.identifier.official',1)
+  VALUES ('BMGT708','BMGT','fefb146f-bf80-47b2-9da0-6b86b1d90d0d','Special Topics in Business and Management','700','d20fd2d2-e42a-475d-9c16-418d096dca4d','SPECIAL TOPICS','Superseded','708','kuali.lu.type.CreditCourse.identifier.official',1)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
-  VALUES ('BMGT708','BMGT','fefb146f-bf80-47b2-9da0-6b86b1d90d0d','Special Topics in Business and Management','700','d20fd2d2-e42a-475d-9c16-418d096dca4d','SPECIAL TOPICS','Superseded','708','kuali.lu.type.CreditCourse.identifier.official',1)
+  VALUES ('BMGT777','BMGT','c52765d2-9dd1-4de0-8166-77e47690cdcf','Policy Issues in Public Utilities','700','9170d55d-8332-43cb-9048-c66e5adcceda','POL ISSUE PUB UTIL','Superseded','777','kuali.lu.type.CreditCourse.identifier.official',1)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
   VALUES ('ECON754','ECON','5d1e0a7a-f27d-4eca-bcb2-7944d06e4464','Topics in Political Economy I','700','0c8cc753-6abe-4f4d-bb27-8698d5d8b8d3','TOPICS POL ECONOMY I','Active','754','kuali.lu.type.CreditCourse.identifier.official',2)
@@ -1349,10 +1349,10 @@ INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX
   VALUES ('BMGT455','BMGT','507f9a49-53dc-4114-9032-70b344c105cb','Sales Management','400','4c0e83f3-240f-4395-a245-13e018fcd25d','SALES MANAGEMENT','Active','455','kuali.lu.type.CreditCourse.identifier.official',2)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
-  VALUES ('ECON624','ECON','542321e5-86da-4d48-9486-559732bb55d7','Econometrics II','600','a77fdef9-594c-4f6a-af64-899d664bfbff','ECONOMETRICS II','Superseded','624','kuali.lu.type.CreditCourse.identifier.official',1)
+  VALUES ('ENES602','ENES','2061b5af-da21-4ff9-a762-6fa327d58b21','Future Faculty Program Seminar II','600','e225e5b8-755d-44c7-b1df-c95f8c1f6401','FUTURE FCLTY SEM II','Superseded','602','kuali.lu.type.CreditCourse.identifier.official',1)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
-  VALUES ('ENES602','ENES','2061b5af-da21-4ff9-a762-6fa327d58b21','Future Faculty Program Seminar II','600','e225e5b8-755d-44c7-b1df-c95f8c1f6401','FUTURE FCLTY SEM II','Superseded','602','kuali.lu.type.CreditCourse.identifier.official',1)
+  VALUES ('ECON624','ECON','542321e5-86da-4d48-9486-559732bb55d7','Econometrics II','600','a77fdef9-594c-4f6a-af64-899d664bfbff','ECONOMETRICS II','Superseded','624','kuali.lu.type.CreditCourse.identifier.official',1)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
   VALUES ('BUDT710','BUDT','139be927-c1d7-471d-afcb-0655d8c85e26','Information Technology and Organizational Transformation','700','35baad52-21d5-4889-ae73-b173b5926c9d','IT & ORG TRANSFORMATION','Superseded','710','kuali.lu.type.CreditCourse.identifier.official',3)
@@ -1367,10 +1367,10 @@ INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX
   VALUES ('ENEE686','ENEE','828eeba8-e53a-4a92-bc24-603861cbeb93','Charged Particle Dynamics, Electron and Ion Beams','600','fd6b5112-ba2a-4e27-8299-dd0593a7ef01','CH PART DYN,EL+ION','Active','686','kuali.lu.type.CreditCourse.identifier.official',0)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
-  VALUES ('BMGT449','BMGT','03ee7f7e-a91b-45b8-8ef1-621280e1775f','Investment Fund Management: Lemma Senbet Fund','400','be6f39d4-14d4-4e8e-a21a-90083a375d55','INVESTMENT FUND MGT','Active','449','kuali.lu.type.CreditCourse.identifier.official',11)
+  VALUES ('BUDT759','BUDT','ea3cef8c-26b5-45c5-af35-7f5ed07029c2','Independent Study in Decision and Information Technologies','700','6f91ae88-ce6d-4bca-98d2-5ad10cae2025','IND STUDY - D & IT','Active','759','kuali.lu.type.CreditCourse.identifier.official',0)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
-  VALUES ('BUDT759','BUDT','ea3cef8c-26b5-45c5-af35-7f5ed07029c2','Independent Study in Decision and Information Technologies','700','6f91ae88-ce6d-4bca-98d2-5ad10cae2025','IND STUDY - D & IT','Active','759','kuali.lu.type.CreditCourse.identifier.official',0)
+  VALUES ('BMGT449','BMGT','03ee7f7e-a91b-45b8-8ef1-621280e1775f','Investment Fund Management: Lemma Senbet Fund','400','be6f39d4-14d4-4e8e-a21a-90083a375d55','INVESTMENT FUND MGT','Active','449','kuali.lu.type.CreditCourse.identifier.official',11)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
   VALUES ('BMGT321','BMGT','cc4a7bd7-b27e-4fed-a5e7-d5be15e46e7b','Managerial Accounting','300','7e8355cd-fc67-4d71-a4a5-e61f02b7a0ac','MANAGERIAL ACCOUNTING','Active','321','kuali.lu.type.CreditCourse.identifier.official',2)
@@ -1412,10 +1412,10 @@ INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX
   VALUES ('MATH607','MATH','ee744cf2-f85d-4bb3-8990-6d8e968e918b','Algebraic Geometry II','600','a619e2d9-b152-4d7b-82f0-9f99b944f35d','ALGEBRIC GEOMTR II','Active','607','kuali.lu.type.CreditCourse.identifier.official',0)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
-  VALUES ('ECON401','ECON','9723ac0c-5437-4175-8a53-de10136877a9','Current Issues in American Economic Policy','400','5e64b8ab-b5ea-4d20-b6ae-78fc9f872f6f','CURRENT ISSUES ECON','Active','401','kuali.lu.type.CreditCourse.identifier.official',2)
+  VALUES ('ENES389','ENES','8a8e08f0-75a7-4c08-9f9e-456d3a0f98e1','Selected Topics','300','644e6880-186d-4561-8235-219401f817be','SELECTED TOPICS','Superseded','389','kuali.lu.type.CreditCourse.identifier.official',3)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
-  VALUES ('ENES389','ENES','8a8e08f0-75a7-4c08-9f9e-456d3a0f98e1','Selected Topics','300','644e6880-186d-4561-8235-219401f817be','SELECTED TOPICS','Superseded','389','kuali.lu.type.CreditCourse.identifier.official',3)
+  VALUES ('ECON401','ECON','9723ac0c-5437-4175-8a53-de10136877a9','Current Issues in American Economic Policy','400','5e64b8ab-b5ea-4d20-b6ae-78fc9f872f6f','CURRENT ISSUES ECON','Active','401','kuali.lu.type.CreditCourse.identifier.official',2)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
   VALUES ('ENEE765','ENEE','6ed67004-12b8-4b42-8f1a-32265347b0e2','Adaptive Control','700','4aba655c-37ed-43fb-8f85-1bef0dcdc17b','ADAPTIVE CONTROL','Active','765','kuali.lu.type.CreditCourse.identifier.official',0)
@@ -1454,10 +1454,10 @@ INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX
   VALUES ('BMGT672','BMGT','149ce0a6-05e8-4cb7-9335-3e473ff124f8','Physical Distribution Management','600','312b5868-6236-4c4f-b27e-cb596dda4448','PHYS DISTRIB MNGT','Superseded','672','kuali.lu.type.CreditCourse.identifier.official',1)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
-  VALUES ('MATH315','MATH','3a89032d-8b9e-410b-a267-445697cc99f6','Algebra for Preservice Middle School Teachers','300','9167bef0-7504-466e-b75f-fdf77b4e8c3f','ALGEBRA FOR MDL SCHOOL','Superseded','315','kuali.lu.type.CreditCourse.identifier.official',1)
+  VALUES ('ECON652','ECON','18114778-3c92-4fbc-893a-54dd13c3ae22','Public Economics I','600','2590f99d-6fd5-496a-8e17-d4cdc6ab30e3','PUBLIC ECONOMICS I','Active','652','kuali.lu.type.CreditCourse.identifier.official',2)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
-  VALUES ('ECON652','ECON','18114778-3c92-4fbc-893a-54dd13c3ae22','Public Economics I','600','2590f99d-6fd5-496a-8e17-d4cdc6ab30e3','PUBLIC ECONOMICS I','Active','652','kuali.lu.type.CreditCourse.identifier.official',2)
+  VALUES ('MATH315','MATH','3a89032d-8b9e-410b-a267-445697cc99f6','Algebra for Preservice Middle School Teachers','300','9167bef0-7504-466e-b75f-fdf77b4e8c3f','ALGEBRA FOR MDL SCHOOL','Superseded','315','kuali.lu.type.CreditCourse.identifier.official',1)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
   VALUES ('ENAE420','ENAE','5cfd8294-a206-4990-b09e-c39e2ac41abb','Computational Structural Mechanics','400','9cc5ccb7-eb2c-4b7b-b2ea-de82906bdc18','CMPTNL STRUCTURAL MECH','Active','420','kuali.lu.type.CreditCourse.identifier.official',0)
@@ -1718,10 +1718,10 @@ INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX
   VALUES ('ENEE440','ENEE','f17cf4ab-29dd-4726-93d1-af8c18d46a2f','Microprocessors','400','bb2845b7-b9d4-4602-a3cf-e3103605b8b0','MICROPROCESSORS','Active','440','kuali.lu.type.CreditCourse.identifier.official',2)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
-  VALUES ('BUFN771','BUFN','44ecac5c-d33e-4848-adfb-8ade62b979ec','International Corporate and Project Finance','700','990fe659-c371-4e1a-96a0-54f44dab6ec7','INT''L CORP & PROJ FIN','Active','771','kuali.lu.type.CreditCourse.identifier.official',0)
+  VALUES ('BMGT446','BMGT','244fc91c-348e-49a2-a19c-edd8a1e8e59d','International Finance','400','8d3faa87-4840-4620-8223-8bd4f82bccae','INTERNATIONAL FINANCE','Active','446','kuali.lu.type.CreditCourse.identifier.official',0)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
-  VALUES ('BMGT446','BMGT','244fc91c-348e-49a2-a19c-edd8a1e8e59d','International Finance','400','8d3faa87-4840-4620-8223-8bd4f82bccae','INTERNATIONAL FINANCE','Active','446','kuali.lu.type.CreditCourse.identifier.official',0)
+  VALUES ('BUFN771','BUFN','44ecac5c-d33e-4848-adfb-8ade62b979ec','International Corporate and Project Finance','700','990fe659-c371-4e1a-96a0-54f44dab6ec7','INT''L CORP & PROJ FIN','Active','771','kuali.lu.type.CreditCourse.identifier.official',0)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
   VALUES ('ENEE691','ENEE','26e8b613-88df-4266-a52b-8397214485c0','Optical Communication Systems','600','c41eb82f-551d-436c-9923-08df458e229d','OPTICAL COMM SYSTEMS','Active','691','kuali.lu.type.CreditCourse.identifier.official',2)
@@ -1814,10 +1814,10 @@ INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX
   VALUES ('ECON615','ECON','dac79437-ebd2-4f41-9365-e87e6ada274e','Economic Development of Less-Developed Areas','600','d6f0e612-f271-4167-b9d3-49f0ecd4f2f9','ECON DEV LES-DV AREA','Active','615','kuali.lu.type.CreditCourse.identifier.official',2)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
-  VALUES ('ENAE661','ENAE','4179a7eb-13a0-4ec9-82bc-e016819c9b7d','Advanced Propulsion I','600','f07e59be-f83c-44b1-9cd0-86ebe8f8e442','ADV PROPULSION I','Active','661','kuali.lu.type.CreditCourse.identifier.official',2)
+  VALUES ('BMGT442','BMGT','fc6f261b-c598-4a15-94ba-5658a2fc53cb','Advanced Portfolio Management','400','f21902d0-cd3a-4deb-a8d5-033e8344fa5b','ADVANCED PORTFOLIO MGMT','Active','442','kuali.lu.type.CreditCourse.identifier.official',14)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
-  VALUES ('BMGT442','BMGT','fc6f261b-c598-4a15-94ba-5658a2fc53cb','Advanced Portfolio Management','400','f21902d0-cd3a-4deb-a8d5-033e8344fa5b','ADVANCED PORTFOLIO MGMT','Active','442','kuali.lu.type.CreditCourse.identifier.official',14)
+  VALUES ('ENAE661','ENAE','4179a7eb-13a0-4ec9-82bc-e016819c9b7d','Advanced Propulsion I','600','f07e59be-f83c-44b1-9cd0-86ebe8f8e442','ADV PROPULSION I','Active','661','kuali.lu.type.CreditCourse.identifier.official',2)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
   VALUES ('ECON645','ECON','35facf6a-ccf9-45b2-91c5-0c472027717e','Empirical Analysis III: Econometric Modeling and Forecasting','500','5b019ad3-8ed7-4ee0-b02d-97354d6b54bf','ECON MDLING & FORECASTNG','Active','645','kuali.lu.type.CreditCourse.identifier.official',16)
@@ -1826,10 +1826,10 @@ INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX
   VALUES ('MATH674','MATH','7a7178e1-ed32-4ca3-927d-f0876dc299f0','Partial Differential Equations II','600','4bdddbdd-1289-4777-91b5-434745b8ec51','PARTIAL DIFF EQUAT II','Active','674','kuali.lu.type.CreditCourse.identifier.official',4)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
-  VALUES ('MATH446','MATH','19b3eb1e-2aa5-4f80-8161-175ae4a70ecc','Axiomatic Set Theory','400','8178b05c-07dd-438e-8355-e80a87e9ef05','AXIOMATIC SET THEORY','Active','446','kuali.lu.type.CreditCourse.identifier.official',2)
+  VALUES ('MATH140','MATH','ecdf2152-7cd2-4e80-9fdb-4d62bfb1f434','Calculus I','100','1d2f6a82-c49c-496f-bd70-a095a4a011eb','CALCULUS I','Superseded','140','kuali.lu.type.CreditCourse.identifier.official',3)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
-  VALUES ('MATH140','MATH','ecdf2152-7cd2-4e80-9fdb-4d62bfb1f434','Calculus I','100','1d2f6a82-c49c-496f-bd70-a095a4a011eb','CALCULUS I','Superseded','140','kuali.lu.type.CreditCourse.identifier.official',3)
+  VALUES ('MATH446','MATH','19b3eb1e-2aa5-4f80-8161-175ae4a70ecc','Axiomatic Set Theory','400','8178b05c-07dd-438e-8355-e80a87e9ef05','AXIOMATIC SET THEORY','Active','446','kuali.lu.type.CreditCourse.identifier.official',2)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
   VALUES ('BMGT771','BMGT','0132ac6e-fedc-4e79-a1f3-5a48629bcb34','Transport and Public Policy','700','954a4521-a07d-4204-96ef-62c9fc3a9372','TRANSPORT+PUB POLC','Superseded','771','kuali.lu.type.CreditCourse.identifier.official',1)
@@ -1844,10 +1844,10 @@ INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX
   VALUES ('ENES390','ENES','3c013647-4d2e-4536-acee-09eea00ef502','Competing on Quality in a Global Economy','300','de8fafc5-0b7a-4c02-bb67-649b115749e6','QUAL IN GLOBAL ECON','Superseded','390','kuali.lu.type.CreditCourse.identifier.official',1)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
-  VALUES ('BMGT440','BMGT','97e26458-3a10-4525-b9bb-eaf6954fbd88','Financial Management','400','8001cf4b-f11f-4026-8001-69ea3a622f78','FINANCIAL MANAGEMENT','Superseded','440','kuali.lu.type.CreditCourse.identifier.official',1)
+  VALUES ('ENAE457','ENAE','f5e900f4-d044-4604-a182-2e36714303ab','Flight Structures III','400','05da865e-6101-409b-8315-9bfe226afc9d','FLIGHT STRUCT III','Superseded','457','kuali.lu.type.CreditCourse.identifier.official',1)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
-  VALUES ('ENAE457','ENAE','f5e900f4-d044-4604-a182-2e36714303ab','Flight Structures III','400','05da865e-6101-409b-8315-9bfe226afc9d','FLIGHT STRUCT III','Superseded','457','kuali.lu.type.CreditCourse.identifier.official',1)
+  VALUES ('BMGT440','BMGT','97e26458-3a10-4525-b9bb-eaf6954fbd88','Financial Management','400','8001cf4b-f11f-4026-8001-69ea3a622f78','FINANCIAL MANAGEMENT','Superseded','440','kuali.lu.type.CreditCourse.identifier.official',1)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
   VALUES ('BUMO720','BUMO','ea342863-8b27-40b5-b4e9-3e5f7dc47d54','Organizational Change','700','d0b9b8be-353b-428d-8114-4aadce46a852','ORGANIZATIONAL CHANGE','Superseded','720','kuali.lu.type.CreditCourse.identifier.official',3)
@@ -2020,20 +2020,20 @@ INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
   VALUES ('ECON386','ECON','e3fdac05-7592-4b3e-b8bf-3738fcfe00a7','Field Work','300','e212edbc-5375-4c48-a19a-d9cede717ab5','FIELD WORK','Superseded','386','kuali.lu.type.CreditCourse.identifier.official',1)
 /
-INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
-  VALUES ('AMSC420','AMSC','07b1093a-a37b-4305-886c-319f9c177f17','Mathematical Modeling','23eff2a6-13be-48f4-adac-7275b0d8800f','MATHEMATICAL MODELING','Active','420','kuali.lu.type.CreditCourse.identifier.crosslisting',5)
-/
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
   VALUES ('ECON721','ECON','a8afcadf-ca03-45c6-b3c6-9e8da927b811','Econometrics III','700','f8854710-fdc7-42ac-8536-c0ebc4979b02','ECONOMETRICS III','Active','721','kuali.lu.type.CreditCourse.identifier.official',2)
+/
+INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
+  VALUES ('AMSC420','AMSC','07b1093a-a37b-4305-886c-319f9c177f17','Mathematical Modeling','23eff2a6-13be-48f4-adac-7275b0d8800f','MATHEMATICAL MODELING','Active','420','kuali.lu.type.CreditCourse.identifier.crosslisting',5)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
   VALUES ('BUMK736','BUMK','6883a539-1604-49fc-b39d-6998e6fabde1','Service Marketing','700','4482b916-89f6-4487-9224-5abf368079bf','SERVICE MARKETING','Superseded','736','kuali.lu.type.CreditCourse.identifier.official',3)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
-  VALUES ('ENEE322','ENEE','9747fd7c-5500-43b1-8b21-7502b0a7da3f','Signal and System Theory','300','3c8e4032-9d71-40e6-a1f5-7e3fd12642e6','SIGNAL & SYSTEM THEORY','Active','322','kuali.lu.type.CreditCourse.identifier.official',0)
+  VALUES ('ECON442','ECON','a7fc518c-e770-4123-8f24-a49c85f33f25','Globalization and Capital Markets','400','19fce1ae-1fe7-49ed-aead-223dfee1fc6a','GLBLZTN & CAPITAL MRKTS','Active','442','kuali.lu.type.CreditCourse.identifier.official',4)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
-  VALUES ('ECON442','ECON','a7fc518c-e770-4123-8f24-a49c85f33f25','Globalization and Capital Markets','400','19fce1ae-1fe7-49ed-aead-223dfee1fc6a','GLBLZTN & CAPITAL MRKTS','Active','442','kuali.lu.type.CreditCourse.identifier.official',4)
+  VALUES ('ENEE322','ENEE','9747fd7c-5500-43b1-8b21-7502b0a7da3f','Signal and System Theory','300','3c8e4032-9d71-40e6-a1f5-7e3fd12642e6','SIGNAL & SYSTEM THEORY','Active','322','kuali.lu.type.CreditCourse.identifier.official',0)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
   VALUES ('BMGT455','BMGT','e3a2afe7-e450-4e4a-a5a1-0d5626b511ff','Sales Management','400','b73c5b42-9d3c-40da-9fbe-21ad0cc26b0a','SALES MANAGEMENT','Superseded','455','kuali.lu.type.CreditCourse.identifier.official',1)
@@ -2072,10 +2072,10 @@ INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX
   VALUES ('BUDT705','BUDT','c8012445-ae80-4543-a8f2-1e981588ab76','Data Networks and Infrastructures','700','cdfaf18e-7e5c-4955-b2f4-ce32f777e588','DATA NTWRK & INFRSTRCTRS','Active','705','kuali.lu.type.CreditCourse.identifier.official',2)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
-  VALUES ('BMGT451','BMGT','3d341f51-95f7-422d-a894-e946982a37cc','Consumer Analysis','400','03541a5e-1d67-424e-a3cc-4d0da99b4d33','CONSUMER ANALYSIS','Superseded','451','kuali.lu.type.CreditCourse.identifier.official',1)
+  VALUES ('ENAE281','ENAE','77aca5a0-cc1e-4b00-a808-1d42574450db','Fundamentals of Aeronautical Systems','200','bdf4bda6-fa45-4629-b62c-26cf4c92ce23','FUND AERONAUTIC SYSTEMS','Superseded','281','kuali.lu.type.CreditCourse.identifier.official',1)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
-  VALUES ('ENAE281','ENAE','77aca5a0-cc1e-4b00-a808-1d42574450db','Fundamentals of Aeronautical Systems','200','bdf4bda6-fa45-4629-b62c-26cf4c92ce23','FUND AERONAUTIC SYSTEMS','Superseded','281','kuali.lu.type.CreditCourse.identifier.official',1)
+  VALUES ('BMGT451','BMGT','3d341f51-95f7-422d-a894-e946982a37cc','Consumer Analysis','400','03541a5e-1d67-424e-a3cc-4d0da99b4d33','CONSUMER ANALYSIS','Superseded','451','kuali.lu.type.CreditCourse.identifier.official',1)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
   VALUES ('BMGT578','BMGT','e637cdfb-5469-4fce-b677-6f9508f700dc','Internship','500','e4c6bfaa-d6f1-418f-8f7a-d148b4435386','INTERNSHIP','Active','578','kuali.lu.type.CreditCourse.identifier.official',3)
@@ -2087,10 +2087,10 @@ INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX
   VALUES ('BMGT302','BMGT','65a43893-c511-47cf-ae26-d1c6c14e8716','Business Computer Application Programming','300','cb5a105e-6b7f-48a1-b8d9-a75c80d32a24','BUSN COMP APPLIC PROGRAM','Superseded','302','kuali.lu.type.CreditCourse.identifier.official',3)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
-  VALUES ('ECON456','ECON','38901298-fcea-411d-bfa6-37ebaa50bf85','Law and Economics','400','2c3f11cf-4d6c-451b-943d-b2f4235eae6e','LAW & ECONOMICS','Active','456','kuali.lu.type.CreditCourse.identifier.official',0)
+  VALUES ('ENAE631','ENAE','0c344bea-8b93-4f61-97c5-2e4935b2add8','Helicopter Aerodynamics I','600','21d63fd9-843c-408b-ad9b-00e17091dec8','HELICOPTER AERODYN I','Superseded','631','kuali.lu.type.CreditCourse.identifier.official',1)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
-  VALUES ('ENAE631','ENAE','0c344bea-8b93-4f61-97c5-2e4935b2add8','Helicopter Aerodynamics I','600','21d63fd9-843c-408b-ad9b-00e17091dec8','HELICOPTER AERODYN I','Superseded','631','kuali.lu.type.CreditCourse.identifier.official',1)
+  VALUES ('ECON456','ECON','38901298-fcea-411d-bfa6-37ebaa50bf85','Law and Economics','400','2c3f11cf-4d6c-451b-943d-b2f4235eae6e','LAW & ECONOMICS','Active','456','kuali.lu.type.CreditCourse.identifier.official',0)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
   VALUES ('ECON747','ECON','449c48b8-597a-4be8-80b5-df6cb0d868d5','The Macreconomics of Imperfect Capital Markets','700','782561b4-0d3f-49d0-b937-5942f75dd075','MACRO IMPERFECT CAP MKTS','Active','747','kuali.lu.type.CreditCourse.identifier.official',0)
@@ -2150,10 +2150,10 @@ INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX
   VALUES ('BMGT410','BMGT','7f7b9361-4032-409c-b99b-bfb0e2de32dd','Government Accounting','400','e66820bc-46f1-430a-a922-1261fb8cf7c1','GOVERNMENT ACCOUNTING','Active','410','kuali.lu.type.CreditCourse.identifier.official',2)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
-  VALUES ('ENES465','ENES','35e061d9-586e-4ecb-a77b-8cfc3e82a7d2','Entrepreneurial Design Thinking','400','0059f0d0-b496-4a0e-be46-32123540b104','DESIGN THINKING','Active','465','kuali.lu.type.CreditCourse.identifier.official',1)
+  VALUES ('ECON621','ECON','a4fcd0f3-7250-47b4-b4e3-9c9a41c6a6ce','Quantitative Methods I','600','026e1450-401b-4554-b35a-48df26aee584','QUANT METH I','Superseded','621','kuali.lu.type.CreditCourse.identifier.official',3)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
-  VALUES ('ECON621','ECON','a4fcd0f3-7250-47b4-b4e3-9c9a41c6a6ce','Quantitative Methods I','600','026e1450-401b-4554-b35a-48df26aee584','QUANT METH I','Superseded','621','kuali.lu.type.CreditCourse.identifier.official',3)
+  VALUES ('ENES465','ENES','35e061d9-586e-4ecb-a77b-8cfc3e82a7d2','Entrepreneurial Design Thinking','400','0059f0d0-b496-4a0e-be46-32123540b104','DESIGN THINKING','Active','465','kuali.lu.type.CreditCourse.identifier.official',1)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
   VALUES ('MATH818','MATH','5e9780e8-dd2a-4c33-8a31-f1b982031b7c','Selected Topics in Logic','800','5e8137b1-7ce1-47d1-bc19-cd65330ff9f4','SEL TPCS IN LOGIC','Active','818','kuali.lu.type.CreditCourse.identifier.official',3)
@@ -2240,10 +2240,10 @@ INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX
   VALUES ('BMGT611','BMGT','cab18a37-e331-4b40-adb8-ec764cdd0fd6','Managerial Accounting','600','297e8b47-755b-47d9-84cf-971800f76e91','MANAGERIAL ACTNG','Superseded','611','kuali.lu.type.CreditCourse.identifier.official',3)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
-  VALUES ('ECON311','ECON','3036728f-8419-4280-a802-7c0b195770fd','American Economic Development','300','83c47ff9-48d6-44a0-8838-0d376d9be7b1','AMER ECON DEVELOP','Superseded','311','kuali.lu.type.CreditCourse.identifier.official',3)
+  VALUES ('BMGT611','BMGT','70d8a45f-4fa5-49fa-80fd-7a427b89935d','Managerial Accounting I','600','fd6dc3fd-54f8-4c61-8645-71f5d04fd21d','MANAGERIAL ACTNG I','Superseded','611','kuali.lu.type.CreditCourse.identifier.official',1)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
-  VALUES ('BMGT611','BMGT','70d8a45f-4fa5-49fa-80fd-7a427b89935d','Managerial Accounting I','600','fd6dc3fd-54f8-4c61-8645-71f5d04fd21d','MANAGERIAL ACTNG I','Superseded','611','kuali.lu.type.CreditCourse.identifier.official',1)
+  VALUES ('ECON311','ECON','3036728f-8419-4280-a802-7c0b195770fd','American Economic Development','300','83c47ff9-48d6-44a0-8838-0d376d9be7b1','AMER ECON DEVELOP','Superseded','311','kuali.lu.type.CreditCourse.identifier.official',3)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
   VALUES ('ENEE769','ENEE','bdcd37e1-bef4-49ec-87b0-52ba33d42522','Advanced Topics in Control Theory','700','6c6043dc-fd62-461c-b936-d846865f5e2d','ADV TOP CNTRL THRY','Superseded','769','kuali.lu.type.CreditCourse.identifier.official',1)
@@ -2345,10 +2345,10 @@ INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX
   VALUES ('ENEE749','ENEE','6617008b-faf7-4d75-8100-946fa9683c84','Advanced Digital Systems Design','700','c38b17ae-2038-44bd-9d40-1faaecc0acc7','ADV DIG SYS DESIGN','Active','749','kuali.lu.type.CreditCourse.identifier.official',0)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
-  VALUES ('ENEE204','ENEE','440b3f31-b795-4b2c-886f-472d49694380','Basic Circuit Theory','200','4a72b982-301a-4e21-bbf0-df547ff3bc60','BASIC CIRCUIT THEO','Active','204','kuali.lu.type.CreditCourse.identifier.official',2)
+  VALUES ('BMGT457','BMGT','1cd3dc93-3b07-49d9-a25a-7efc463a1865','Marketing Policies and Strategies','400','ae03f0fa-51b6-4e6c-8829-8f2f84ae387b','MKTG POLICY & STRATEGY','Active','457','kuali.lu.type.CreditCourse.identifier.official',2)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
-  VALUES ('BMGT457','BMGT','1cd3dc93-3b07-49d9-a25a-7efc463a1865','Marketing Policies and Strategies','400','ae03f0fa-51b6-4e6c-8829-8f2f84ae387b','MKTG POLICY & STRATEGY','Active','457','kuali.lu.type.CreditCourse.identifier.official',2)
+  VALUES ('ENEE204','ENEE','440b3f31-b795-4b2c-886f-472d49694380','Basic Circuit Theory','200','4a72b982-301a-4e21-bbf0-df547ff3bc60','BASIC CIRCUIT THEO','Active','204','kuali.lu.type.CreditCourse.identifier.official',2)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
   VALUES ('BMGT321','BMGT','0b1d25fe-d539-4bfa-a4bb-2a3c37a4cf65','Cost Accounting','300','dd76601e-afa2-4625-bad8-fedb1646ce4c','COST ACCOUNTING','Superseded','321','kuali.lu.type.CreditCourse.identifier.official',1)
@@ -2420,10 +2420,10 @@ INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX
   VALUES ('ECON507','ECON','2fc9fd56-e880-49ce-90a1-6e6531e9d99d','Topics in Applied Macroeconomics','500','98b253e7-4fec-43c3-83b4-fe8d8970e22a','TOPICS IN APPLIED MACRO','Active','507','kuali.lu.type.CreditCourse.identifier.official',4)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
-  VALUES ('BUSI604','BUSI','448dde83-5359-4341-98b4-068a1f32020f','Business Case Competition','600','4e4f9a7f-e10f-4ec5-89b2-bd30a0c38778','CASE COMPETITION','Active','604','kuali.lu.type.CreditCourse.identifier.official',2)
+  VALUES ('ECON741','ECON','721acbaa-4e05-4127-a8c9-c1594ac55597','Advanced International Economics I','700','3dc60890-4d23-4e2c-9d44-31277fc11969','ADV INTRNTL ECON I','Active','741','kuali.lu.type.CreditCourse.identifier.official',2)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
-  VALUES ('ECON741','ECON','721acbaa-4e05-4127-a8c9-c1594ac55597','Advanced International Economics I','700','3dc60890-4d23-4e2c-9d44-31277fc11969','ADV INTRNTL ECON I','Active','741','kuali.lu.type.CreditCourse.identifier.official',2)
+  VALUES ('BUSI604','BUSI','448dde83-5359-4341-98b4-068a1f32020f','Business Case Competition','600','4e4f9a7f-e10f-4ec5-89b2-bd30a0c38778','CASE COMPETITION','Active','604','kuali.lu.type.CreditCourse.identifier.official',2)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
   VALUES ('MATH400','MATH','9d71cc4d-897b-4bfd-8209-9fe8931a838e','Vectors and Matrices','400','54c02b7f-1765-4d06-835b-04c4d91481d4','VECTORS + MATRICES','Superseded','400','kuali.lu.type.CreditCourse.identifier.official',1)
@@ -2450,28 +2450,28 @@ INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX
   VALUES ('BUSI671','BUSI','79db1ef8-7a12-4961-9c79-f4af092f6941','Supply Chain Logistics and Operations Management','600','289d6867-b86a-4cd6-9463-d6422cf131ee','SUPPLY CHAIN & OPER MGT','Active','671','kuali.lu.type.CreditCourse.identifier.official',0)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
-  VALUES ('BUAC788','BUAC','9acb13b8-c290-4431-be48-b44c9f5c6325','Action Learning Project','700','b5abfca9-1927-455c-89fd-2444c73d0c39','ACTION LEARNING PROJECT','Active','788','kuali.lu.type.CreditCourse.identifier.official',0)
+  VALUES ('BMGT848','BMGT','139c967d-50a9-427f-be91-2295ecf5edfb','Special Topics in Finance','800','44071b85-ef68-4b37-9f58-c48b2d41c812','SPECIAL TOPICS IN FIN','Active','848','kuali.lu.type.CreditCourse.identifier.official',2)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
-  VALUES ('BMGT848','BMGT','139c967d-50a9-427f-be91-2295ecf5edfb','Special Topics in Finance','800','44071b85-ef68-4b37-9f58-c48b2d41c812','SPECIAL TOPICS IN FIN','Active','848','kuali.lu.type.CreditCourse.identifier.official',2)
+  VALUES ('BUAC788','BUAC','9acb13b8-c290-4431-be48-b44c9f5c6325','Action Learning Project','700','b5abfca9-1927-455c-89fd-2444c73d0c39','ACTION LEARNING PROJECT','Active','788','kuali.lu.type.CreditCourse.identifier.official',0)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
   VALUES ('BMGT231','BMGT','906dabba-8e40-4422-9635-c4924172a8ea','Statistical Models For Business','200','ef878af0-ffe1-4720-9242-cfa67f8e0049','STAT MODELS BUSINESS','Superseded','231','kuali.lu.type.CreditCourse.identifier.official',1)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
-  VALUES ('ECON374','ECON','9d026291-c316-4005-8445-1c5e27c1db0a','Sex Roles in Economic Life','300','de89ef3c-71c4-442c-a450-99de1f6c0944','SEX ROLE ECON LIFE','Superseded','374','kuali.lu.type.CreditCourse.identifier.official',3)
+  VALUES ('ECON662','ECON','52d380e8-d337-4378-ab88-44dfbd0dcf44','Industry Structure, Conduct, and Performance','600','cdb8ac46-66df-4423-b166-fa065ad399e4','IND STRUC,COND,PERF','Superseded','662','kuali.lu.type.CreditCourse.identifier.official',3)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
-  VALUES ('ECON662','ECON','52d380e8-d337-4378-ab88-44dfbd0dcf44','Industry Structure, Conduct, and Performance','600','cdb8ac46-66df-4423-b166-fa065ad399e4','IND STRUC,COND,PERF','Superseded','662','kuali.lu.type.CreditCourse.identifier.official',3)
+  VALUES ('ECON374','ECON','9d026291-c316-4005-8445-1c5e27c1db0a','Sex Roles in Economic Life','300','de89ef3c-71c4-442c-a450-99de1f6c0944','SEX ROLE ECON LIFE','Superseded','374','kuali.lu.type.CreditCourse.identifier.official',3)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
   VALUES ('BMGT708','BMGT','4f7a98ff-c723-4198-b2f9-6883daab8960','Special Topics in Cybersecurity','700','a7f80fb5-3263-4f80-af49-4cf77eaa85f5','SP TPCS IN CYBERSECURITY','Active','708','kuali.lu.type.CreditCourse.identifier.official',6)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
-  VALUES ('ECON701','ECON','0b30617f-407e-4429-b6cd-0323e9f858ec','Advanced Macroeconomics I','700','26c376e4-cd9c-4547-881c-124a3c2c4437','ADVANCED MACRO I','Active','701','kuali.lu.type.CreditCourse.identifier.official',0)
+  VALUES ('BMGT449','BMGT','eed4e36d-fe0a-48e2-82f1-8b9a65551f76','Investment Fund Management: Lemma Senbet Fund','400','69ae929c-aea5-4211-9f3d-0bc3d0de75de','INVESTMENT FUND MGT','Superseded','449','kuali.lu.type.CreditCourse.identifier.official',1)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
-  VALUES ('BMGT449','BMGT','eed4e36d-fe0a-48e2-82f1-8b9a65551f76','Investment Fund Management: Lemma Senbet Fund','400','69ae929c-aea5-4211-9f3d-0bc3d0de75de','INVESTMENT FUND MGT','Superseded','449','kuali.lu.type.CreditCourse.identifier.official',1)
+  VALUES ('ECON701','ECON','0b30617f-407e-4429-b6cd-0323e9f858ec','Advanced Macroeconomics I','700','26c376e4-cd9c-4547-881c-124a3c2c4437','ADVANCED MACRO I','Active','701','kuali.lu.type.CreditCourse.identifier.official',0)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
   VALUES ('BUSI604','BUSI','4186aa06-43fb-4523-9bff-1e0196f7538a','Part-Time MBA Case Competition','600','ebf4772f-8722-4428-b789-1cc43461fcbe','CASE COMPETITION','Superseded','604','kuali.lu.type.CreditCourse.identifier.official',1)
@@ -2555,10 +2555,10 @@ INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX
   VALUES ('ECON673','ECON','2552ef9f-501c-4694-b004-549110b4038e','Information, Game Theory and Market Design','500','4cd58455-e7d6-4831-8dcf-43d560426988','INFORMATION, GAME THEORY','Active','673','kuali.lu.type.CreditCourse.identifier.official',17)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
-  VALUES ('CONS680','CONS','d1281a82-18f6-4cdb-8f96-b1e3bc8c262e','Problem Solving in Conservation/Development','600','ef56a05b-ef49-4dd8-bbb5-2b8922a79df1','CONS PRBLM SOLVNG','Active','680','kuali.lu.type.CreditCourse.identifier.official',0)
+  VALUES ('MATH312','MATH','9aba7493-cba3-415a-8232-029e18f86590','Mathematical Reasoning and Proof for Pre-Service Middle School Teachers','300','c48aca22-d9ed-45b4-a365-6d33bf1440e3','MATH REASONING & PRFRDNG','Active','312','kuali.lu.type.CreditCourse.identifier.official',2)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
-  VALUES ('MATH312','MATH','9aba7493-cba3-415a-8232-029e18f86590','Mathematical Reasoning and Proof for Pre-Service Middle School Teachers','300','c48aca22-d9ed-45b4-a365-6d33bf1440e3','MATH REASONING & PRFRDNG','Active','312','kuali.lu.type.CreditCourse.identifier.official',2)
+  VALUES ('CONS680','CONS','d1281a82-18f6-4cdb-8f96-b1e3bc8c262e','Problem Solving in Conservation/Development','600','ef56a05b-ef49-4dd8-bbb5-2b8922a79df1','CONS PRBLM SOLVNG','Active','680','kuali.lu.type.CreditCourse.identifier.official',0)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
   VALUES ('BMGT392','BMGT','b43d0757-3631-4899-a144-9e4c998e77a3','Introduction to International Business Management','300','ca2a1cfb-f168-42c1-89cc-48665ddef0d0','INTRO INTERNATIONAL BMGT','Active','392','kuali.lu.type.CreditCourse.identifier.official',2)
@@ -2603,10 +2603,10 @@ INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX
   VALUES ('BMGT630','BMGT','a18da1ea-ddd2-4516-9f4f-56d7874b0d84','Managerial Statistics I','600','9a2bcc55-6283-4a0d-8b1d-72eb0838af62','MANAGERIAL STATS I','Superseded','630','kuali.lu.type.CreditCourse.identifier.official',3)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
-  VALUES ('ECON627','ECON','ec2ceb2e-d07e-4e1c-9443-920331ab79af','Empirical Macroeconomics','600','4d8e8228-e0cc-4b01-ad04-44bc8589b38a','EMPIRICAL MACROECONOMICS','Active','627','kuali.lu.type.CreditCourse.identifier.official',0)
+  VALUES ('BMGT661','BMGT','4fe07abe-2f8e-482a-876d-747f32ed7d97','Human Resources Management','600','da957023-7778-4b9b-835f-e7d4248c94bd','HUM RESOURCES MNGT','Superseded','661','kuali.lu.type.CreditCourse.identifier.official',1)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
-  VALUES ('BMGT661','BMGT','4fe07abe-2f8e-482a-876d-747f32ed7d97','Human Resources Management','600','da957023-7778-4b9b-835f-e7d4248c94bd','HUM RESOURCES MNGT','Superseded','661','kuali.lu.type.CreditCourse.identifier.official',1)
+  VALUES ('ECON627','ECON','ec2ceb2e-d07e-4e1c-9443-920331ab79af','Empirical Macroeconomics','600','4d8e8228-e0cc-4b01-ad04-44bc8589b38a','EMPIRICAL MACROECONOMICS','Active','627','kuali.lu.type.CreditCourse.identifier.official',0)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
   VALUES ('ENEE605','ENEE','9245191f-b28b-49c2-9879-8bf0c00cafca','Graph Theory and Network Analysis','600','7b0742d0-eea6-4b5a-b8fa-46d323f7877c','GRAPH THRY NTWK AN','Superseded','605','kuali.lu.type.CreditCourse.identifier.official',1)
@@ -2615,10 +2615,10 @@ INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX
   VALUES ('ENEE448','ENEE','f620ed4c-a41e-40b5-a508-930a4bce0521','Microprocessor Systems Design','400','11b326be-904c-4884-b641-a8e2a1e5dd9f','MICROPROCESS SYSTEMS DES','Superseded','448','kuali.lu.type.CreditCourse.identifier.official',1)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
-  VALUES ('BUSI630','BUSI','4bfc3026-1b44-43d8-b1fa-a273c6d00b35','Data Models and Decisions','600','68435387-5359-4247-9f38-d7478c22446b','DATA MODELS & DECISIONS','Superseded','630','kuali.lu.type.CreditCourse.identifier.official',1)
+  VALUES ('ECON361','ECON','ffd83092-8ede-45ff-a8b0-a2e3d320e18a','Economics of American Industries','300','552a2180-fd8d-457a-b511-6a2a2d9f1c73','AMERICAN INDUSTRES','Superseded','361','kuali.lu.type.CreditCourse.identifier.official',1)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
-  VALUES ('ECON361','ECON','ffd83092-8ede-45ff-a8b0-a2e3d320e18a','Economics of American Industries','300','552a2180-fd8d-457a-b511-6a2a2d9f1c73','AMERICAN INDUSTRES','Superseded','361','kuali.lu.type.CreditCourse.identifier.official',1)
+  VALUES ('BUSI630','BUSI','4bfc3026-1b44-43d8-b1fa-a273c6d00b35','Data Models and Decisions','600','68435387-5359-4247-9f38-d7478c22446b','DATA MODELS & DECISIONS','Superseded','630','kuali.lu.type.CreditCourse.identifier.official',1)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
   VALUES ('ENEE132','ENEE','8b28ebce-84e6-4fbb-bd8d-98cc888dcfcd','Engineering and Modern Medicine','100','283f23e1-8e1d-4db5-96e4-584b3fe6f29f','ENGR & MODERN MEDICINE','Active','132','kuali.lu.type.CreditCourse.identifier.official',2)
@@ -2750,10 +2750,10 @@ INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX
   VALUES ('ENAE432','ENAE','d1a4cd8e-14af-42cb-b113-aed099b3453a','Control of Aerospace Systems','400','14d4bc37-47a7-4e21-9da7-63628480340c','CONTROL AEROSPACE SYSTEM','Superseded','432','kuali.lu.type.CreditCourse.identifier.official',3)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
-  VALUES ('ENAE653','ENAE','2d394b3b-539c-40e7-a543-5d40c995aaf7','Nonlinear Finite Element Analysis of Continua','600','6d4ad505-c73e-4a6a-837f-9a3ef9342fae','NONLINR ELE ANALY','Active','653','kuali.lu.type.CreditCourse.identifier.official',2)
+  VALUES ('BUFN752','BUFN','a6dbf93a-f34d-4d76-9a1a-c78b2e68c3fa','Financial Restructuring','700','5c08a3ae-4f20-4e0e-9e17-6fb3bb65d7af','FINANCIAL RESTRUCTURING','Active','752','kuali.lu.type.CreditCourse.identifier.official',0)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
-  VALUES ('BUFN752','BUFN','a6dbf93a-f34d-4d76-9a1a-c78b2e68c3fa','Financial Restructuring','700','5c08a3ae-4f20-4e0e-9e17-6fb3bb65d7af','FINANCIAL RESTRUCTURING','Active','752','kuali.lu.type.CreditCourse.identifier.official',0)
+  VALUES ('ENAE653','ENAE','2d394b3b-539c-40e7-a543-5d40c995aaf7','Nonlinear Finite Element Analysis of Continua','600','6d4ad505-c73e-4a6a-837f-9a3ef9342fae','NONLINR ELE ANALY','Active','653','kuali.lu.type.CreditCourse.identifier.official',2)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
   VALUES ('MATH110','MATH','2140b324-b4d4-4bb4-ba73-6542669542ed','Elementary Mathematical Models','100','bc649dc4-10dc-4d85-876b-8c2090c6b8aa','ELEM MATH MODELS','Active','110','kuali.lu.type.CreditCourse.identifier.official',4)
@@ -2765,10 +2765,10 @@ INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX
   VALUES ('BUFN716','BUFN','d2beb7e1-1738-4fd6-ae36-9fcc3c5d43fd','Financial Restructuring and Strategy','700','7a8624f8-0e82-486d-993e-d2b4c187f2c9','FIN RESTRUCTURNG & STRAT','Active','716','kuali.lu.type.CreditCourse.identifier.official',0)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
-  VALUES ('BMGT417','BMGT','5831b4e5-cfa5-4482-8ff2-ee900a1a84bf','Advanced Tax Accounting','400','4fbda0e2-bf62-455a-95ad-dd14c86395d0','ADV TAX ACCOUNTNG','Superseded','417','kuali.lu.type.CreditCourse.identifier.official',1)
+  VALUES ('MATH437','MATH','afce3492-2798-4512-ae2f-722ce1916447','Differential Geometry of Curves and Surfaces II','400','9527258a-151b-4b6a-ae3f-dcd34445f32b','DIFF GEOMETRY II','Superseded','437','kuali.lu.type.CreditCourse.identifier.official',1)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
-  VALUES ('MATH437','MATH','afce3492-2798-4512-ae2f-722ce1916447','Differential Geometry of Curves and Surfaces II','400','9527258a-151b-4b6a-ae3f-dcd34445f32b','DIFF GEOMETRY II','Superseded','437','kuali.lu.type.CreditCourse.identifier.official',1)
+  VALUES ('BMGT417','BMGT','5831b4e5-cfa5-4482-8ff2-ee900a1a84bf','Advanced Tax Accounting','400','4fbda0e2-bf62-455a-95ad-dd14c86395d0','ADV TAX ACCOUNTNG','Superseded','417','kuali.lu.type.CreditCourse.identifier.official',1)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
   VALUES ('ECON306','ECON','b2b276dd-e98a-4519-95c8-898e3673eeb8','Intermediate Microeconomic Theory','300','c29f385d-c166-4860-8284-ca220c27e7b8','INTERMED MICROECON THRY','Active','306','kuali.lu.type.CreditCourse.identifier.official',2)
@@ -2783,10 +2783,10 @@ INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX
   VALUES ('MATH643','MATH','d4bc8aa4-5459-4d58-98dd-8ecd5e23c114','Dynamical Systems II','600','846d7f33-4424-49b3-9837-746d2d5c4e43','DYNAMICAL SYSTM II','Active','643','kuali.lu.type.CreditCourse.identifier.official',0)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
-  VALUES ('MATH452','MATH','f5c57694-7734-45ef-aa5b-e05404e2b6d8','Introduction to Dynamics and Chaos','400','3d6d4240-7a03-4a06-a14e-a85812769352','INTRO TO DYNAMICS&CHAOS','Superseded','452','kuali.lu.type.CreditCourse.identifier.official',4)
+  VALUES ('ENES508','ENES','4ccc8d39-3418-46d6-b550-9db9409607a2','Engineering Professional Development for Teachers','500','e0ad811d-e738-4ed1-8ded-4e6a525bd485','ENES PRFSNL DVLP FR TCHR','Active','508','kuali.lu.type.CreditCourse.identifier.official',2)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
-  VALUES ('ENES508','ENES','4ccc8d39-3418-46d6-b550-9db9409607a2','Engineering Professional Development for Teachers','500','e0ad811d-e738-4ed1-8ded-4e6a525bd485','ENES PRFSNL DVLP FR TCHR','Active','508','kuali.lu.type.CreditCourse.identifier.official',2)
+  VALUES ('MATH452','MATH','f5c57694-7734-45ef-aa5b-e05404e2b6d8','Introduction to Dynamics and Chaos','400','3d6d4240-7a03-4a06-a14e-a85812769352','INTRO TO DYNAMICS&CHAOS','Superseded','452','kuali.lu.type.CreditCourse.identifier.official',4)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
   VALUES ('ENEE150','ENEE','ac8a9a0a-16bd-4b20-b98a-7912021332ba','Intermediate Programming Concepts for Engineers','100','cd524ad7-d972-493e-8f99-4fd3aeca2c1c','INT PRG CONCEPTS FOR EE','Active','150','kuali.lu.type.CreditCourse.identifier.official',3)
@@ -2837,10 +2837,10 @@ INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX
   VALUES ('MATH211','MATH','387b1aad-dd8c-40f7-a178-4f4a101ec8ce','Elements of Geometry','200','a396ff7c-d5dd-4bf5-b23b-3f5316dd5215','ELEMENTS OF GEOM','Superseded','211','kuali.lu.type.CreditCourse.identifier.official',1)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
-  VALUES ('MATH482','MATH','50916658-df9c-440c-bf72-b3a834ad6d3d','Geometry for Middle School Teachers','400','294344a1-de07-4325-a053-99d7cc638515','GEOMETRY FOR MS TEACHERS','Superseded','482','kuali.lu.type.CreditCourse.identifier.official',3)
+  VALUES ('BMGT470','BMGT','c52f1ec9-136d-498e-836a-89e6f212f62c','Carrier Management','400','c3a67aff-716b-4ebd-8e9c-0dd4f6364ac3','CARRIER MNGMNT','Superseded','470','kuali.lu.type.CreditCourse.identifier.official',3)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
-  VALUES ('BMGT470','BMGT','c52f1ec9-136d-498e-836a-89e6f212f62c','Carrier Management','400','c3a67aff-716b-4ebd-8e9c-0dd4f6364ac3','CARRIER MNGMNT','Superseded','470','kuali.lu.type.CreditCourse.identifier.official',3)
+  VALUES ('MATH482','MATH','50916658-df9c-440c-bf72-b3a834ad6d3d','Geometry for Middle School Teachers','400','294344a1-de07-4325-a053-99d7cc638515','GEOMETRY FOR MS TEACHERS','Superseded','482','kuali.lu.type.CreditCourse.identifier.official',3)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
   VALUES ('BMGT474','BMGT','47796ff9-efb6-4efd-9e86-28cd09dfdb15','Urban Transport and Urban Development','400','19b29ab8-df2e-4c1b-b81c-96a783f35c3c','URBAN TRANS+DEVEL','Superseded','474','kuali.lu.type.CreditCourse.identifier.official',1)
@@ -2852,10 +2852,10 @@ INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX
   VALUES ('ENEE750','ENEE','236f6100-610a-48e0-b1d6-f10be749affa','VLSI Design Automation','700','a359eec8-aa8e-4f0c-a57d-a82eee911abb','VLSI DESIGN AUTOMATION','Superseded','750','kuali.lu.type.CreditCourse.identifier.official',1)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
-  VALUES ('ENES107','ENES','1ef115f9-4e98-48f5-b104-bf3613237561','Achieving College Excellence','100','1a9089cb-e2ea-472f-9b21-fc2a4317b4b0','COLLEGE EXCELLENCE','Superseded','107','kuali.lu.type.CreditCourse.identifier.official',1)
+  VALUES ('ENES142','ENES','4c5bed60-6984-48c7-b404-a3cf3bcf1e94','Introduction to Innovative Thinking and Creativity','100','14a5e63d-3931-44df-a2f3-02a35011e0dc','INTRO THNKNG & CREATVTY','Superseded','142','kuali.lu.type.CreditCourse.identifier.official',1)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
-  VALUES ('ENES142','ENES','4c5bed60-6984-48c7-b404-a3cf3bcf1e94','Introduction to Innovative Thinking and Creativity','100','14a5e63d-3931-44df-a2f3-02a35011e0dc','INTRO THNKNG & CREATVTY','Superseded','142','kuali.lu.type.CreditCourse.identifier.official',1)
+  VALUES ('ENES107','ENES','1ef115f9-4e98-48f5-b104-bf3613237561','Achieving College Excellence','100','1a9089cb-e2ea-472f-9b21-fc2a4317b4b0','COLLEGE EXCELLENCE','Superseded','107','kuali.lu.type.CreditCourse.identifier.official',1)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
   VALUES ('ENES140','ENES','8e131c8a-69a2-44ce-8fc2-81d322cc6b10','Discovering New Ventures','100','2b9e3753-7094-463c-ba9e-002e7b37f661','DISCOVERING NEW VENTURES','Active','140','kuali.lu.type.CreditCourse.identifier.official',5)
@@ -2921,10 +2921,10 @@ INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX
   VALUES ('BMGT632','BMGT','775c0832-4581-4496-a566-4d39f16e54f0','Decision Modeling and Analysis','600','fcbee44d-17e4-41a7-ab52-2b610dee3f56','DEC MODELING & ANALYSIS','Superseded','632','kuali.lu.type.CreditCourse.identifier.official',1)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
-  VALUES ('ENAE261','ENAE','400d0d3b-055f-4360-95ef-da1ea7ff9d5f','Aerospace Analysis and Computation','200','c87631dc-895e-4e26-a606-cbc64682f6a7','AERO ANALYSIS & COMP','Superseded','261','kuali.lu.type.CreditCourse.identifier.official',3)
+  VALUES ('BUSI758','BUSI','584ef64a-45d2-4a5a-b71c-b23c8fb91e27','Special Topics in Business','700','94738522-56e1-42c5-a36f-2c4339731dbd','SPEC TOPICS:BUSINESS','Active','758','kuali.lu.type.CreditCourse.identifier.official',2)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
-  VALUES ('BUSI758','BUSI','584ef64a-45d2-4a5a-b71c-b23c8fb91e27','Special Topics in Business','700','94738522-56e1-42c5-a36f-2c4339731dbd','SPEC TOPICS:BUSINESS','Active','758','kuali.lu.type.CreditCourse.identifier.official',2)
+  VALUES ('ENAE261','ENAE','400d0d3b-055f-4360-95ef-da1ea7ff9d5f','Aerospace Analysis and Computation','200','c87631dc-895e-4e26-a606-cbc64682f6a7','AERO ANALYSIS & COMP','Superseded','261','kuali.lu.type.CreditCourse.identifier.official',3)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
   VALUES ('ENES143','ENES','48ae8944-b158-4f39-b3e9-0106d2cd0650','Communication Essentials for Entrepreneurs','100','d1a39efd-c2a9-4b5e-a686-6c2765350f39','COMM FOR ENTREPRENEURS','Retired','143','kuali.lu.type.CreditCourse.identifier.official',2)
@@ -2981,10 +2981,10 @@ INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX
   VALUES ('ENAE898','ENAE','0a07ed93-c544-4b9d-8dac-8b7a11b0507f','Pre-Candidacy Research','800','ed4757e7-b088-4745-bf0e-979401035b60','PRE-CANDIDACY RESEARCH','Active','898','kuali.lu.type.CreditCourse.identifier.official',3)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
-  VALUES ('BUFN751','BUFN','42de3551-12c7-43dc-9327-49458406fb2c','Financial Strategy For Corporations','700','b8305b83-6cfb-47e3-b41e-d1be0a058049','FINANCL STRAT CORPORATNS','Active','751','kuali.lu.type.CreditCourse.identifier.official',0)
+  VALUES ('BUAC786','BUAC','5b2cd4a1-e793-4c5d-9d15-c2acc29e87f6','Internal Auditing I: Conceptual and Institutional Framework','700','4d3456b6-c195-43fc-a3ff-ace970c5f259','INTERNAL AUDIT I','Active','786','kuali.lu.type.CreditCourse.identifier.official',0)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
-  VALUES ('BUAC786','BUAC','5b2cd4a1-e793-4c5d-9d15-c2acc29e87f6','Internal Auditing I: Conceptual and Institutional Framework','700','4d3456b6-c195-43fc-a3ff-ace970c5f259','INTERNAL AUDIT I','Active','786','kuali.lu.type.CreditCourse.identifier.official',0)
+  VALUES ('BUFN751','BUFN','42de3551-12c7-43dc-9327-49458406fb2c','Financial Strategy For Corporations','700','b8305b83-6cfb-47e3-b41e-d1be0a058049','FINANCL STRAT CORPORATNS','Active','751','kuali.lu.type.CreditCourse.identifier.official',0)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
   VALUES ('ENAE414','ENAE','a9909d48-078e-4e3f-adbc-ffbb13b346e0','Aerodynamics II','400','ed67068b-e647-4922-ad2c-ab7c3feb4f0c','AERODYNAMICS II','Superseded','414','kuali.lu.type.CreditCourse.identifier.official',1)
@@ -3029,10 +3029,10 @@ INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX
   VALUES ('MATH401','MATH','2cb77e2c-a23b-4f5c-abb8-674768055403','Applications of Linear Algebra','400','1375a7e7-c547-48b1-8466-4162563b23f1','APPLIC LINEAR ALGEBRA','Active','401','kuali.lu.type.CreditCourse.identifier.official',5)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
-  VALUES ('BMGT702','BMGT','c4e5bb9e-fada-4562-9e47-d7ab78adfe37','Systems & Design Thinking','700','8fba3761-318d-4f07-b28f-d0c7a7fbc81b','SYSTEMS & DSGN THINKING','Active','702','kuali.lu.type.CreditCourse.identifier.official',4)
+  VALUES ('BMGT457','BMGT','449b0292-7d3e-4215-9fa6-d84ae9f13258','Marketing Policies and Strategies','400','10a639e7-9724-440e-90c8-8b0d343df28a','MRKTNG POLCY+STRAT','Superseded','457','kuali.lu.type.CreditCourse.identifier.official',3)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
-  VALUES ('BMGT457','BMGT','449b0292-7d3e-4215-9fa6-d84ae9f13258','Marketing Policies and Strategies','400','10a639e7-9724-440e-90c8-8b0d343df28a','MRKTNG POLCY+STRAT','Superseded','457','kuali.lu.type.CreditCourse.identifier.official',3)
+  VALUES ('BMGT702','BMGT','c4e5bb9e-fada-4562-9e47-d7ab78adfe37','Systems & Design Thinking','700','8fba3761-318d-4f07-b28f-d0c7a7fbc81b','SYSTEMS & DSGN THINKING','Active','702','kuali.lu.type.CreditCourse.identifier.official',4)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
   VALUES ('MATH240','MATH','8bac5f48-60e4-44d7-aeff-f712f7e44f04','Introduction to Linear Algebra','200','548598a8-cc49-40af-8e9b-8f0100b3f099','INTRO LNEAR ALGBRA','Superseded','240','kuali.lu.type.CreditCourse.identifier.official',3)
@@ -3104,13 +3104,13 @@ INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX
   VALUES ('ECON306','ECON','0c74be2b-0b15-4d77-b864-4825677d3992','Intermediate Microeconomic Theory','300','658285b6-52d3-4560-b44c-5c2bd7f5005a','INTERMED MICROEC THRY','Superseded','306','kuali.lu.type.CreditCourse.identifier.official',1)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
-  VALUES ('ECON311','ECON','19a35b04-d383-497d-9c22-daaadab0f973','American Economic History Before the Civil War','300','d4755a3d-87cf-43a3-943e-c2d01deb71c8','US ECON HIST PRE CIV WAR','Superseded','311','kuali.lu.type.CreditCourse.identifier.official',3)
+  VALUES ('BMGT872','BMGT','4a563761-2e6e-45fb-b102-235aa1b896cd','Business Logistics','800','df29aab9-4d17-43b4-832e-bf0d7892fafc','BUSINESS LOGISTICS','Active','872','kuali.lu.type.CreditCourse.identifier.official',0)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
   VALUES ('ENES220','ENES','285a7547-d849-4374-bc1b-8b3dd9e6d58e','Mechanics of Materials','200','f60b6b3c-605a-4b55-9521-4cb30f5e34b3','MECH OF MATRLS','Superseded','220','kuali.lu.type.CreditCourse.identifier.official',3)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
-  VALUES ('BMGT872','BMGT','4a563761-2e6e-45fb-b102-235aa1b896cd','Business Logistics','800','df29aab9-4d17-43b4-832e-bf0d7892fafc','BUSINESS LOGISTICS','Active','872','kuali.lu.type.CreditCourse.identifier.official',0)
+  VALUES ('ECON311','ECON','19a35b04-d383-497d-9c22-daaadab0f973','American Economic History Before the Civil War','300','d4755a3d-87cf-43a3-943e-c2d01deb71c8','US ECON HIST PRE CIV WAR','Superseded','311','kuali.lu.type.CreditCourse.identifier.official',3)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
   VALUES ('ECON300','ECON','75e0fc10-2f5f-4238-a9b1-537f87aa0da6','Methods and Tools for Economic Analysis','300','2acc4801-3557-4f15-9fd5-fb63759eeaef','MTHDS ECON ANALYSIS','Superseded','300','kuali.lu.type.CreditCourse.identifier.official',1)
@@ -3143,19 +3143,19 @@ INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX
   VALUES ('BUDT775','BUDT','93583829-797e-4b46-ba36-1d89e0bf3993','Pricing and Revenue Management','700','cda04bfb-5a7c-4508-a751-a75890bb9449','PRICING & REVENUE MGT','Active','775','kuali.lu.type.CreditCourse.identifier.official',5)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
-  VALUES ('MATH431','MATH','4908ea3a-13bb-4144-a2bf-ac18e3da8b75','Geometry for Computer Graphics','400','1d9823d4-1859-4085-9717-f114f7f02795','GEOMETRY COMPTR GRAPHICS','Superseded','431','kuali.lu.type.CreditCourse.identifier.official',3)
+  VALUES ('BMGT611','BMGT','1bc49619-26dd-4567-beec-86ffaf5c8f4b','Managerial Accounting','600','bfbf56c2-d0df-41cb-817f-a31a37dd9f2d','MANAGERIAL ACTNG','Superseded','611','kuali.lu.type.CreditCourse.identifier.official',3)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
-  VALUES ('BMGT611','BMGT','1bc49619-26dd-4567-beec-86ffaf5c8f4b','Managerial Accounting','600','bfbf56c2-d0df-41cb-817f-a31a37dd9f2d','MANAGERIAL ACTNG','Superseded','611','kuali.lu.type.CreditCourse.identifier.official',3)
+  VALUES ('MATH431','MATH','4908ea3a-13bb-4144-a2bf-ac18e3da8b75','Geometry for Computer Graphics','400','1d9823d4-1859-4085-9717-f114f7f02795','GEOMETRY COMPTR GRAPHICS','Superseded','431','kuali.lu.type.CreditCourse.identifier.official',3)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
   VALUES ('BUSI738','BUSI','db896c47-f93b-46a4-8ac9-37db6d3d1247','Sustainable Systems Practicum','700','51536418-d2e1-438c-aeb7-d1e8f0c4ac6b','SUSTAINABLE SYSTEMS','Superseded','738','kuali.lu.type.CreditCourse.identifier.official',3)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
-  VALUES ('MATH110','MATH','0d42ff03-dded-4f06-bc37-b90727770ace','Elementary Mathematical Models','100','05801317-e5eb-4d08-90d0-440b434827cb','ELEM MATH MODELS','Superseded','110','kuali.lu.type.CreditCourse.identifier.official',3)
+  VALUES ('BMGT470','BMGT','4469b48b-461d-413e-b9f9-efa0819ef353','Carrier Management','400','cc6c24cf-8e94-44db-b932-5095e2f09d84','CARRIER MANAGEMENT','Active','470','kuali.lu.type.CreditCourse.identifier.official',2)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
-  VALUES ('BMGT470','BMGT','4469b48b-461d-413e-b9f9-efa0819ef353','Carrier Management','400','cc6c24cf-8e94-44db-b932-5095e2f09d84','CARRIER MANAGEMENT','Active','470','kuali.lu.type.CreditCourse.identifier.official',2)
+  VALUES ('MATH110','MATH','0d42ff03-dded-4f06-bc37-b90727770ace','Elementary Mathematical Models','100','05801317-e5eb-4d08-90d0-440b434827cb','ELEM MATH MODELS','Superseded','110','kuali.lu.type.CreditCourse.identifier.official',3)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
   VALUES ('ECON381','ECON','807d88b4-0eda-4f17-8e90-767f5b3003d6','Environmental Economics','300','25a63c80-969c-4afa-89ca-3404539d27f0','ENVIRONMENTAL ECON','Superseded','381','kuali.lu.type.CreditCourse.identifier.official',1)
@@ -3248,19 +3248,19 @@ INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX
   VALUES ('ENEE790','ENEE','8c37f8c1-315d-400d-9c19-bc85d86c579c','Quantum Electronics I','700','95b38d56-ca39-40c4-bf54-9f561f6ce60d','QUANT ELECTRNCS I','Active','790','kuali.lu.type.CreditCourse.identifier.official',0)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
-  VALUES ('BMGT393','BMGT','9b5c9d3f-cb18-4126-8085-c1d92b3fbb11','Real Estate Principles','300','7e04dba0-117f-495e-ab51-d26d6597b4da','REAL ESTATE PRINC','Superseded','393','kuali.lu.type.CreditCourse.identifier.official',1)
+  VALUES ('BMGT230','BMGT','a9781234-757d-44d0-a864-c6373406c7c5','Business Statistics','200','1a53d42f-c4bb-4b01-8b4a-2d17e0ab489b','BUSINESS STATISTICS','Superseded','230','kuali.lu.type.CreditCourse.identifier.official',1)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
-  VALUES ('BMGT230','BMGT','a9781234-757d-44d0-a864-c6373406c7c5','Business Statistics','200','1a53d42f-c4bb-4b01-8b4a-2d17e0ab489b','BUSINESS STATISTICS','Superseded','230','kuali.lu.type.CreditCourse.identifier.official',1)
+  VALUES ('BMGT393','BMGT','9b5c9d3f-cb18-4126-8085-c1d92b3fbb11','Real Estate Principles','300','7e04dba0-117f-495e-ab51-d26d6597b4da','REAL ESTATE PRINC','Superseded','393','kuali.lu.type.CreditCourse.identifier.official',1)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
   VALUES ('MATH664','MATH','984b7f18-0e7f-45a2-87e0-d90f9d78b9e5','Interpolation and Approximation: Complex Domain','600','2e4cefbe-f4d7-40f5-9487-2bbc5a8396d8','INTRPL APX-CPLX DO','Superseded','664','kuali.lu.type.CreditCourse.identifier.official',1)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
-  VALUES ('BMGT606','BMGT','983f8f24-d2a8-4f2a-acee-3ddef07e5b69','Information Systems Technology','600','4dd52323-e649-44b6-a807-537231ad22ba','INFORMATN SYS TECH','Superseded','606','kuali.lu.type.CreditCourse.identifier.official',1)
+  VALUES ('ECON412','ECON','a4377c72-7de4-4646-9bce-e833130950bf','Economic History and Modern Development','400','20bd26e8-6958-4269-ad6b-dee61c32fc22','ECON HIST & MDRN DVLPMNT','Superseded','412','kuali.lu.type.CreditCourse.identifier.official',3)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
-  VALUES ('ECON412','ECON','a4377c72-7de4-4646-9bce-e833130950bf','Economic History and Modern Development','400','20bd26e8-6958-4269-ad6b-dee61c32fc22','ECON HIST & MDRN DVLPMNT','Superseded','412','kuali.lu.type.CreditCourse.identifier.official',3)
+  VALUES ('BMGT606','BMGT','983f8f24-d2a8-4f2a-acee-3ddef07e5b69','Information Systems Technology','600','4dd52323-e649-44b6-a807-537231ad22ba','INFORMATN SYS TECH','Superseded','606','kuali.lu.type.CreditCourse.identifier.official',1)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
   VALUES ('MATH220','MATH','b1e97795-8dc6-40f2-8e9d-22f62198fe33','Elementary Calculus I','200','aed33d6f-7ede-4ec2-8b20-71bf76ecfede','ELEMNTRY CALCULS I','Superseded','220','kuali.lu.type.CreditCourse.identifier.official',3)
@@ -3287,10 +3287,10 @@ INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX
   VALUES ('BUFN750','BUFN','71e3e6eb-160e-4b7d-92b0-b0b936268c7f','Valuation in Corporate Finance','700','71924883-2c35-44bb-a1ae-9aa51762d74e','VALUATION CORP FINANCE','Active','750','kuali.lu.type.CreditCourse.identifier.official',0)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
-  VALUES ('MATH251','MATH','4f527145-d0df-4902-88ba-24665126d845','Calculus IV (Honors)','200','f45e9fab-1080-41f1-bc8b-ea113e8923fc','CALCULUS IV HONORS','Superseded','251','kuali.lu.type.CreditCourse.identifier.official',1)
+  VALUES ('ECON708','ECON','fde2d039-3fbc-4d10-bc26-a46dbe3b3d9d','Advanced Topics in Applied and Theoretical Microeconomics','700','6bf844c9-01c0-4a0f-9575-a8dedcb14037','ADV TOP APPL&THEOR MICRO','Superseded','708','kuali.lu.type.CreditCourse.identifier.official',1)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
-  VALUES ('ECON708','ECON','fde2d039-3fbc-4d10-bc26-a46dbe3b3d9d','Advanced Topics in Applied and Theoretical Microeconomics','700','6bf844c9-01c0-4a0f-9575-a8dedcb14037','ADV TOP APPL&THEOR MICRO','Superseded','708','kuali.lu.type.CreditCourse.identifier.official',1)
+  VALUES ('MATH251','MATH','4f527145-d0df-4902-88ba-24665126d845','Calculus IV (Honors)','200','f45e9fab-1080-41f1-bc8b-ea113e8923fc','CALCULUS IV HONORS','Superseded','251','kuali.lu.type.CreditCourse.identifier.official',1)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
   VALUES ('ENAE261','ENAE','95daf089-d370-4a30-9df5-227f4ee1ed14','Aerospace Analysis and Computation','200','7b3e1746-4482-4d4a-bcda-3dbc21e55b36','AERO ANALYSIS & COMP','Superseded','261','kuali.lu.type.CreditCourse.identifier.official',1)
@@ -3359,10 +3359,10 @@ INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX
   VALUES ('BMGT733','BMGT','bdce2923-b2d4-43c9-9bc8-e417515df440','Managerial Statistics II','700','13244c21-4e5d-49e8-a611-82521486377e','MANAGERIAL STAT II','Superseded','733','kuali.lu.type.CreditCourse.identifier.official',3)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
-  VALUES ('ENES100','ENES','4281c9ab-ba25-4ab2-92bf-bd795e229047','Introduction to Engineering Design','100','fc4577f3-c311-4283-be73-0ed3fcf9cbeb','INTRO ENGR DESIGN','Superseded','100','kuali.lu.type.CreditCourse.identifier.official',3)
+  VALUES ('MATH241','MATH','7f66a583-0238-4769-b1c8-b0a33a558726','Calculus III','200','c46d25dd-0446-4b40-95a3-748b20edeb02','CALCULUS III','Superseded','241','kuali.lu.type.CreditCourse.identifier.official',3)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
-  VALUES ('MATH241','MATH','7f66a583-0238-4769-b1c8-b0a33a558726','Calculus III','200','c46d25dd-0446-4b40-95a3-748b20edeb02','CALCULUS III','Superseded','241','kuali.lu.type.CreditCourse.identifier.official',3)
+  VALUES ('ENES100','ENES','4281c9ab-ba25-4ab2-92bf-bd795e229047','Introduction to Engineering Design','100','fc4577f3-c311-4283-be73-0ed3fcf9cbeb','INTRO ENGR DESIGN','Superseded','100','kuali.lu.type.CreditCourse.identifier.official',3)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
   VALUES ('ECON752','ECON','7cbea696-e04e-4460-a516-3ca4e0fb5994','Seminar in Public Finance','700','923144a0-3054-45ab-8f9c-c905da4f622a','SEM PUBLIC FINANCE','Superseded','752','kuali.lu.type.CreditCourse.identifier.official',1)
@@ -3386,10 +3386,10 @@ INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX
   VALUES ('BULM758','BULM','ebf5048b-01ff-4035-9d2f-f85d51609a15','Special Topics in Logistics, Business and Public Policy','700','126005ae-3656-4825-a94e-753adaff2ee6','SPEC TOPICS: LBPP','Superseded','758','kuali.lu.type.CreditCourse.identifier.official',1)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
-  VALUES ('MATH452','MATH','c725b4ac-d30f-4c60-b1dd-5994b3df237d','Introduction to Dynamics and Chaos','400','1e99926b-ed67-40db-939b-bf7389ebf379','DYNAMICS+CHAOS','Superseded','452','kuali.lu.type.CreditCourse.identifier.official',1)
+  VALUES ('ENAE663','ENAE','8e37f2fc-b980-4e02-8f03-1b00078caf6b','Introduction to Plasmas for Space Propulsion and Power','600','bcdccd8c-cf59-407b-8141-a77f226b216a','PLASMAS FOR PROP & POWER','Active','663','kuali.lu.type.CreditCourse.identifier.official',2)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
-  VALUES ('ENAE663','ENAE','8e37f2fc-b980-4e02-8f03-1b00078caf6b','Introduction to Plasmas for Space Propulsion and Power','600','bcdccd8c-cf59-407b-8141-a77f226b216a','PLASMAS FOR PROP & POWER','Active','663','kuali.lu.type.CreditCourse.identifier.official',2)
+  VALUES ('MATH452','MATH','c725b4ac-d30f-4c60-b1dd-5994b3df237d','Introduction to Dynamics and Chaos','400','1e99926b-ed67-40db-939b-bf7389ebf379','DYNAMICS+CHAOS','Superseded','452','kuali.lu.type.CreditCourse.identifier.official',1)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
   VALUES ('AMSC674','AMSC','51cb0cc7-6549-48a4-a55a-6d61727ee84e','Partial Differential Equations II','455dd180-bd82-4c00-809c-bc01b3ef275b','PARTIAL DIFF EQUAT II','Superseded','674','kuali.lu.type.CreditCourse.identifier.crosslisting',2)
@@ -3401,10 +3401,10 @@ INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX
   VALUES ('ECON522','ECON','a5fae2b0-e59d-4b14-82f5-2adf43fbd3d0','Empirical Analysis II: Introduction to Economic Models','500','9b88d4cd-dced-4a03-a6f6-8f92026b98da','INTRO TO ECON MODELS','Active','522','kuali.lu.type.CreditCourse.identifier.official',4)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
-  VALUES ('BMGT363','BMGT','e9442e26-14ef-4293-8513-e5c659f8bef7','Leadership and Teamwork in Organizations','300','67c1ae5a-b556-41de-93f1-075170655688','LEADERSHIP & TEAMWORK','Active','363','kuali.lu.type.CreditCourse.identifier.official',2)
+  VALUES ('MATH141','MATH','2c93ffbb-e936-468e-8022-9a1344f7dcf5','Calculus II','100','842e9ba8-8d79-4af2-bd96-c0cde1feb103','CALCULUS II','Superseded','141','kuali.lu.type.CreditCourse.identifier.official',3)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
-  VALUES ('MATH141','MATH','2c93ffbb-e936-468e-8022-9a1344f7dcf5','Calculus II','100','842e9ba8-8d79-4af2-bd96-c0cde1feb103','CALCULUS II','Superseded','141','kuali.lu.type.CreditCourse.identifier.official',3)
+  VALUES ('BMGT363','BMGT','e9442e26-14ef-4293-8513-e5c659f8bef7','Leadership and Teamwork in Organizations','300','67c1ae5a-b556-41de-93f1-075170655688','LEADERSHIP & TEAMWORK','Active','363','kuali.lu.type.CreditCourse.identifier.official',2)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
   VALUES ('BMGT471','BMGT','5a3d4a16-7ed8-4a83-9a21-ce31ae371414','Seminar in Supply Chain Management: An Executive Perspective','400','208383a6-60e1-497a-bed2-819534e6ceec','EXEC SEM SUPPLY CHN MGMT','Active','471','kuali.lu.type.CreditCourse.identifier.official',2)
@@ -3476,10 +3476,10 @@ INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX
   VALUES ('BMGT398','BMGT','8e1e0a43-f7d9-4173-8226-f2453ba6a71a','Individual Study in Business and Management','300','44ef93fa-2b7d-4365-ad68-ca2e36f09098','INDV STUDY IN BMGT','Superseded','398','kuali.lu.type.CreditCourse.identifier.official',3)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
-  VALUES ('ENAE282','ENAE','34f257ce-bd20-405f-a324-4f1d52f8de73','Fundamentals of Astronautical Systems','200','0837f173-bc51-4d8c-b407-bccdfc75880d','FUND ASTRO SYSTEMS','Superseded','282','kuali.lu.type.CreditCourse.identifier.official',3)
+  VALUES ('ENEE646','ENEE','2d6d686c-d208-491f-b8a3-592d4fe0b13c','Digital Computer Design','600','737cfb2c-08bb-40b0-92d8-3e3e513bdb23','DIGITL COMPUTR DSN','Superseded','646','kuali.lu.type.CreditCourse.identifier.official',1)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
-  VALUES ('ENEE646','ENEE','2d6d686c-d208-491f-b8a3-592d4fe0b13c','Digital Computer Design','600','737cfb2c-08bb-40b0-92d8-3e3e513bdb23','DIGITL COMPUTR DSN','Superseded','646','kuali.lu.type.CreditCourse.identifier.official',1)
+  VALUES ('ENAE282','ENAE','34f257ce-bd20-405f-a324-4f1d52f8de73','Fundamentals of Astronautical Systems','200','0837f173-bc51-4d8c-b407-bccdfc75880d','FUND ASTRO SYSTEMS','Superseded','282','kuali.lu.type.CreditCourse.identifier.official',3)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
   VALUES ('BMGT477','BMGT','03ccbc05-f27a-4a1f-af8a-ee2856952db6','International Logistics and Transportation Management','400','ea595490-5792-4953-9f73-0edd78aa9225','INTRNTL LOGISTCS&TRAN','Superseded','477','kuali.lu.type.CreditCourse.identifier.official',3)
@@ -3494,10 +3494,10 @@ INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX
   VALUES ('ENES602','ENES','4a64f5b9-86aa-4a7f-9c4f-721a9a19df14','Future Faculty Program Seminar II','600','388bb927-cfd0-474b-8fc1-e89c54230440','FUTURE FCLTY PRGM SEM I','Active','602','kuali.lu.type.CreditCourse.identifier.official',2)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
-  VALUES ('ENEE752','ENEE','f8fd6ea3-5a26-4554-9f54-37565a14f6e1','Computational Intelligence and Knowledge Engineering','700','8580e8a2-21a3-4fa7-8cc3-f8f6a8e311bb','COMPTNL INTELL&KNOWL ENG','Active','752','kuali.lu.type.CreditCourse.identifier.official',2)
+  VALUES ('ECON825','ECON','b07f50d4-6baf-457f-a454-682355584cb6','Advanced Economic Welfare Analysis','800','48ade8b5-e6e1-4a61-884d-576c5005a940','ADV ECON WELFARE ANALYS','Active','825','kuali.lu.type.CreditCourse.identifier.official',0)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
-  VALUES ('ECON825','ECON','b07f50d4-6baf-457f-a454-682355584cb6','Advanced Economic Welfare Analysis','800','48ade8b5-e6e1-4a61-884d-576c5005a940','ADV ECON WELFARE ANALYS','Active','825','kuali.lu.type.CreditCourse.identifier.official',0)
+  VALUES ('ENEE752','ENEE','f8fd6ea3-5a26-4554-9f54-37565a14f6e1','Computational Intelligence and Knowledge Engineering','700','8580e8a2-21a3-4fa7-8cc3-f8f6a8e311bb','COMPTNL INTELL&KNOWL ENG','Active','752','kuali.lu.type.CreditCourse.identifier.official',2)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
   VALUES ('ENEE763','ENEE','672c2c2e-8008-4dc5-93cb-3d6e6d2101ac','Advanced Nonlinear Control Systems','700','6dd54a83-535c-45f7-9751-4a7932c7a7f2','ADV NONLINEAR CONT SYS','Active','763','kuali.lu.type.CreditCourse.identifier.official',0)
@@ -3533,10 +3533,10 @@ INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX
   VALUES ('ENES658','ENES','82da52c0-407a-4fa9-b473-e1487da80349','Special Topics in Engineering in a Global Context','600','2c83761e-e649-44ac-af57-a56d97b66ec0','SP TPCS ENGR GLBL CNTXT','Active','658','kuali.lu.type.CreditCourse.identifier.official',20)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
-  VALUES ('BMGT365','BMGT','e9968a5f-ec27-47dc-a54d-78711fe23217','Entrepreneurial Finance and Private Equity','300','21a8d614-58f5-42aa-a12f-14292b40d39d','ENTREPRENEURIAL FINANCE','Active','365','kuali.lu.type.CreditCourse.identifier.official',2)
+  VALUES ('BMGT301','BMGT','c006e7b0-e8f5-40ea-a5e9-dc2edf945725','Introduction to Management Information Systems','300','515adfb9-9d0e-47b6-b431-bc8151339c05','INTRO MNGT INFO SYSTMS','Superseded','301','kuali.lu.type.CreditCourse.identifier.official',3)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
-  VALUES ('BMGT301','BMGT','c006e7b0-e8f5-40ea-a5e9-dc2edf945725','Introduction to Management Information Systems','300','515adfb9-9d0e-47b6-b431-bc8151339c05','INTRO MNGT INFO SYSTMS','Superseded','301','kuali.lu.type.CreditCourse.identifier.official',3)
+  VALUES ('BMGT365','BMGT','e9968a5f-ec27-47dc-a54d-78711fe23217','Entrepreneurial Finance and Private Equity','300','21a8d614-58f5-42aa-a12f-14292b40d39d','ENTREPRENEURIAL FINANCE','Active','365','kuali.lu.type.CreditCourse.identifier.official',2)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
   VALUES ('CMSC206','CMSC','c34e3737-3861-4444-b92b-0a66a6a949cf','introduction to Matlab','9f66ac71-e5a5-4785-91da-0e868952a44b','INTRODUCTION TO MATLAB','Superseded','206','kuali.lu.type.CreditCourse.identifier.crosslisting',2)
@@ -3653,16 +3653,16 @@ INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX
   VALUES ('ENEE131','ENEE','623f0db7-5213-4472-969d-2487d637c68a','Technology Choices','100','1236079f-eb7c-46d6-9f58-132fe12e8b4b','TECHNOLOGY CHOICES','Active','131','kuali.lu.type.CreditCourse.identifier.official',0)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
-  VALUES ('BMGT386','BMGT','4ea0817d-2295-4f0a-bfa4-03c7df6fe1b1','Field Work','300','6d1b8475-d00f-407a-8f4f-5d5e6388b299','FIELD WORK','Superseded','386','kuali.lu.type.CreditCourse.identifier.official',1)
-/
-INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
   VALUES ('BMGT370','BMGT','c6308f98-d2ea-4297-9022-74bc5a44af83','Introduction to Transportation','300','36326d75-b0bc-40cd-b43d-f657f474f111','INTRO TO TRANSPORTATION','Active','370','kuali.lu.type.CreditCourse.identifier.official',2)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
-  VALUES ('ECON465','ECON','8ebaacb1-439a-43cd-ad0a-212e29d7f35c','Health Care Economics','400','339424be-f313-4d7b-891a-356953a3f12a','HLTH CARE ECON','Superseded','465','kuali.lu.type.CreditCourse.identifier.official',1)
+  VALUES ('BMGT386','BMGT','4ea0817d-2295-4f0a-bfa4-03c7df6fe1b1','Field Work','300','6d1b8475-d00f-407a-8f4f-5d5e6388b299','FIELD WORK','Superseded','386','kuali.lu.type.CreditCourse.identifier.official',1)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
   VALUES ('BMGT326','BMGT','4c02d4a8-482f-4118-ae0b-b7afd66882e5','Accounting Systems','300','2e0486ce-0f9a-4228-ae7f-1c890e79798b','ACCOUNTING SYSTEMS','Superseded','326','kuali.lu.type.CreditCourse.identifier.official',1)
+/
+INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
+  VALUES ('ECON465','ECON','8ebaacb1-439a-43cd-ad0a-212e29d7f35c','Health Care Economics','400','339424be-f313-4d7b-891a-356953a3f12a','HLTH CARE ECON','Superseded','465','kuali.lu.type.CreditCourse.identifier.official',1)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
   VALUES ('BUAC713','BUAC','e40d7195-e9fe-4bff-8bd4-de6cf2efe00a','The Impact of Taxation on Business Decisions','700','32e0c835-8475-4ae1-ad74-0fbb417983de','IMPACT-TAXATION BUS DEC','Active','713','kuali.lu.type.CreditCourse.identifier.official',0)
@@ -3737,10 +3737,10 @@ INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX
   VALUES ('ECON888','ECON','e4c9a067-3d08-4317-8790-0868a0426d6d','Workshop in Comparative Institutional Economics','800','5dd1e914-bad0-4aa5-b343-80c3307afed1','COMP INSTITUTNL WRKSHP','Superseded','888','kuali.lu.type.CreditCourse.identifier.official',1)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
-  VALUES ('BMGT899','BMGT','a7880119-1ebb-4195-96d6-ef829d85c83a','Doctoral Dissertation Research','800','a03a9894-e64c-484d-adf6-1ee96ecff71b','DOC DISSERTATN RES','Active','899','kuali.lu.type.CreditCourse.identifier.official',3)
+  VALUES ('BUDT703','BUDT','6fee0755-c146-47ae-8ace-9a5bdbfabeb3','Modeling and Designing IT Systems','700','4a51b7aa-8a72-424b-8d53-1493ee3b91e5','MODEL & DESIGN IT SYSTEM','Superseded','703','kuali.lu.type.CreditCourse.identifier.official',1)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
-  VALUES ('BUDT703','BUDT','6fee0755-c146-47ae-8ace-9a5bdbfabeb3','Modeling and Designing IT Systems','700','4a51b7aa-8a72-424b-8d53-1493ee3b91e5','MODEL & DESIGN IT SYSTEM','Superseded','703','kuali.lu.type.CreditCourse.identifier.official',1)
+  VALUES ('BMGT899','BMGT','a7880119-1ebb-4195-96d6-ef829d85c83a','Doctoral Dissertation Research','800','a03a9894-e64c-484d-adf6-1ee96ecff71b','DOC DISSERTATN RES','Active','899','kuali.lu.type.CreditCourse.identifier.official',3)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
   VALUES ('BUSI780','BUSI','8ef38c75-4416-47d7-81a9-7cabd9531040','Electronic Commerce: Business Models and Technology','700','1a11f8d4-12ec-461f-b15c-e6bedc9b6f48','E-COMM:BUS MODELS & TECH','Superseded','780','kuali.lu.type.CreditCourse.identifier.official',1)
@@ -3749,10 +3749,10 @@ INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX
   VALUES ('BMGT791','BMGT','ba370655-bef1-4a00-b0a2-a08677fd9c4e','MBA Field Project','700','1854ef49-dd03-4e73-afd5-9716460a91a8','MBA FIELD PROJECT','Superseded','791','kuali.lu.type.CreditCourse.identifier.official',3)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
-  VALUES ('ENAE693','ENAE','f6c25772-acf2-4682-b08b-4a26b8d2deaa','Space Simulation','600','944aee3f-66e5-4651-95a5-9210857cdd06','SPACE SIMULATION','Superseded','693','kuali.lu.type.CreditCourse.identifier.official',1)
+  VALUES ('BMGT465','BMGT','94322619-1e2b-44c1-b347-d9b614388216','Business Plan For The New Venture','400','9751ea4b-0dbc-4e66-9043-65b4f6f2763b','BUSINESS PLAN','Active','465','kuali.lu.type.CreditCourse.identifier.official',0)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
-  VALUES ('BMGT465','BMGT','94322619-1e2b-44c1-b347-d9b614388216','Business Plan For The New Venture','400','9751ea4b-0dbc-4e66-9043-65b4f6f2763b','BUSINESS PLAN','Active','465','kuali.lu.type.CreditCourse.identifier.official',0)
+  VALUES ('ENAE693','ENAE','f6c25772-acf2-4682-b08b-4a26b8d2deaa','Space Simulation','600','944aee3f-66e5-4651-95a5-9210857cdd06','SPACE SIMULATION','Superseded','693','kuali.lu.type.CreditCourse.identifier.official',1)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
   VALUES ('BMGT370','BMGT','bfcdd678-05f6-4939-8145-cf35c46857bb','Principles of Transportation','300','1bcd108e-8c5f-43d3-8689-ef7d9d5f03b8','PRIN OF TRANSPORT','Superseded','370','kuali.lu.type.CreditCourse.identifier.official',1)
@@ -3803,10 +3803,10 @@ INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX
   VALUES ('BMGT690','BMGT','56917b64-cded-4b3a-b119-de131508b15e','Strategic Management','600','836c610a-75ae-4fc6-a1b8-f81df76515c0','STRATEGIC MNGMT','Superseded','690','kuali.lu.type.CreditCourse.identifier.official',3)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
-  VALUES ('BMGT301','BMGT','752dd52c-fb9f-4e60-93b2-827c564867eb','Introduction to Information Systems','300','827b8184-86b0-44d6-afe2-1733dee0331c','INTRO TO INFO SYSTEMS','Active','301','kuali.lu.type.CreditCourse.identifier.official',3)
+  VALUES ('MATH241','MATH','4078e3c3-5406-4d57-849a-ec4d608e4774','Calculus III','200','a0df846b-a224-48ae-84c6-ddb308869f74','CALCULUS III','Superseded','241','kuali.lu.type.CreditCourse.identifier.official',3)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
-  VALUES ('MATH241','MATH','4078e3c3-5406-4d57-849a-ec4d608e4774','Calculus III','200','a0df846b-a224-48ae-84c6-ddb308869f74','CALCULUS III','Superseded','241','kuali.lu.type.CreditCourse.identifier.official',3)
+  VALUES ('BMGT301','BMGT','752dd52c-fb9f-4e60-93b2-827c564867eb','Introduction to Information Systems','300','827b8184-86b0-44d6-afe2-1733dee0331c','INTRO TO INFO SYSTEMS','Active','301','kuali.lu.type.CreditCourse.identifier.official',3)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
   VALUES ('ECON386','ECON','b47c44f3-7f84-49f5-b9d4-4db0b2a0a6c3','Experiential Learning','300','760d1c92-5c2c-4056-8369-89cbcf32393c','EXPER LEARNING','Active','386','kuali.lu.type.CreditCourse.identifier.official',3)
@@ -3839,25 +3839,25 @@ INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX
   VALUES ('BMGT110','BMGT','4cf7428b-febc-4cfb-b243-168661a97441','Introduction to Business and Management','100','4cfd2756-7a6d-4cd2-bfce-0e58c387072e','INTRO TO BUSINESS & MGMT','Superseded','110','kuali.lu.type.CreditCourse.identifier.official',3)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
-  VALUES ('ENEE798','ENEE','a8a083b5-c6c7-4411-a4ec-68e30419ba49','Advanced Topics in Electrical Engineering','700','49276cb9-74ce-481c-9e6a-c39f822169ab','ADV TOP ELECTRICAL ENGR','Active','798','kuali.lu.type.CreditCourse.identifier.official',0)
-/
-INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
   VALUES ('BUMO743','BUMO','c47922c9-f244-486e-971b-8efdacb48ac4','Technology Transfer Commercialization Strategies','700','872ce187-ceef-41b9-9c67-8aa157e3c674','TECH TRANSFER COMM STRAT','Active','743','kuali.lu.type.CreditCourse.identifier.official',0)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
-  VALUES ('BUSI611','BUSI','b91f8be5-096d-47db-9323-e6c4fbcda86e','Managerial Accounting','600','7683e334-7b00-4239-b1ac-15a5074e20d3','MANAGERIAL ACCT','Active','611','kuali.lu.type.CreditCourse.identifier.official',0)
+  VALUES ('ENEE798','ENEE','a8a083b5-c6c7-4411-a4ec-68e30419ba49','Advanced Topics in Electrical Engineering','700','49276cb9-74ce-481c-9e6a-c39f822169ab','ADV TOP ELECTRICAL ENGR','Active','798','kuali.lu.type.CreditCourse.identifier.official',0)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
   VALUES ('BUFN758','BUFN','33b93159-ade5-4ee1-9397-bbf87cf6ae8e','Special Topics in Finance','700','39c59502-e041-4fae-8414-c09744dc06cf','SPEC TOPICS: FINANCE','Superseded','758','kuali.lu.type.CreditCourse.identifier.official',1)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
+  VALUES ('BUSI611','BUSI','b91f8be5-096d-47db-9323-e6c4fbcda86e','Managerial Accounting','600','7683e334-7b00-4239-b1ac-15a5074e20d3','MANAGERIAL ACCT','Active','611','kuali.lu.type.CreditCourse.identifier.official',0)
+/
+INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
   VALUES ('ECON375','ECON','46dae569-777d-45ff-b078-7e9c85ed5634','Economics of Poverty and Discrimination','300','c09550d2-7106-4cf4-9507-dadba3577453','ECON POVRTY+DISCRM','Superseded','375','kuali.lu.type.CreditCourse.identifier.official',1)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
-  VALUES ('ENAE441','ENAE','79e135a5-3b76-4102-8c7e-10bbbcbab129','Space Navigation and Guidance','400','2f0b9c34-4982-4b1d-9463-4a4f728f8b54','SPACE NAVIGATION & GUID','Superseded','441','kuali.lu.type.CreditCourse.identifier.official',1)
+  VALUES ('BUDT705','BUDT','37d604fa-1fbe-4833-ba34-0f79efe86942','Telecommunications and the Internet','700','c2ae195f-440c-4a00-a860-500e764f2e7d','TELECOMM & THE INTERNET','Superseded','705','kuali.lu.type.CreditCourse.identifier.official',1)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
-  VALUES ('BUDT705','BUDT','37d604fa-1fbe-4833-ba34-0f79efe86942','Telecommunications and the Internet','700','c2ae195f-440c-4a00-a860-500e764f2e7d','TELECOMM & THE INTERNET','Superseded','705','kuali.lu.type.CreditCourse.identifier.official',1)
+  VALUES ('ENAE441','ENAE','79e135a5-3b76-4102-8c7e-10bbbcbab129','Space Navigation and Guidance','400','2f0b9c34-4982-4b1d-9463-4a4f728f8b54','SPACE NAVIGATION & GUID','Superseded','441','kuali.lu.type.CreditCourse.identifier.official',1)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
   VALUES ('ENES113','ENES','efdb7d76-6edd-4777-a15e-869bda4ca18b','Virtus Living and Learning Community Seminar I','100','e635f495-c778-41a4-8e78-00cff03d6015','VIRTUS SEMINAR I','Active','113','kuali.lu.type.CreditCourse.identifier.official',12)
@@ -4010,10 +4010,10 @@ INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX
   VALUES ('BUMO722','BUMO','5588f615-bd3b-4026-a829-04238cb256c5','Organizational Behavior: A Multicultural Perspective','700','55dafe1d-f573-43b2-85db-a23d658acffc','ORG BEHVR:MULTICULTURAL','Active','722','kuali.lu.type.CreditCourse.identifier.official',0)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
-  VALUES ('BUAC758','BUAC','efdd0480-7d87-4d71-8a14-13d3cef17a47','Special Topics in Accounting and Information Assurance','700','8436ea69-e374-4ae6-bf5e-c4eb1e10afff','SPEC TOPICS:ACCOUNTING','Active','758','kuali.lu.type.CreditCourse.identifier.official',2)
+  VALUES ('ENES190','ENES','837d64ca-72ed-4c70-a2de-d4803aad3450','Introduction to Design and Quality','100','0e2f64a0-72f9-4ffa-9e91-96bb2e86a88b','INTRO DESIGN & QUALITY','Superseded','190','kuali.lu.type.CreditCourse.identifier.official',3)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
-  VALUES ('ENES190','ENES','837d64ca-72ed-4c70-a2de-d4803aad3450','Introduction to Design and Quality','100','0e2f64a0-72f9-4ffa-9e91-96bb2e86a88b','INTRO DESIGN & QUALITY','Superseded','190','kuali.lu.type.CreditCourse.identifier.official',3)
+  VALUES ('BUAC758','BUAC','efdd0480-7d87-4d71-8a14-13d3cef17a47','Special Topics in Accounting and Information Assurance','700','8436ea69-e374-4ae6-bf5e-c4eb1e10afff','SPEC TOPICS:ACCOUNTING','Active','758','kuali.lu.type.CreditCourse.identifier.official',2)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
   VALUES ('ENAE398','ENAE','962ebf22-3f30-46b8-932f-86a5c66ca9b5','Honors Research Project','300','cbf92d34-db4a-495b-8a09-3b9b49f005e2','HONORS RSRCH PROJECT','Active','398','kuali.lu.type.CreditCourse.identifier.official',2)
@@ -4103,10 +4103,10 @@ INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX
   VALUES ('MATH315','MATH','4a8d443c-a2a6-48d1-9f17-cb42deb06bb8','Algebra for Preservice Middle School Teachers','300','33f00762-6623-4491-9505-8d39168abc57','ALGEBRA FOR MDL SCHOOL','Active','315','kuali.lu.type.CreditCourse.identifier.official',4)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
-  VALUES ('BMGT474','BMGT','a9ce1195-7b1b-4fc5-8051-237434fb17b5','Urban Transport and Urban Development','400','1b3dff9c-5c32-43c4-965e-a5fe43d9b39d','URBAN TRANS+DEVEL','Superseded','474','kuali.lu.type.CreditCourse.identifier.official',3)
+  VALUES ('ENAE641','ENAE','50e51dbe-e1d2-4111-ae41-dc16bc9c4b44','Flight Mechanics II','600','593513c6-5d29-4e56-829f-08b6f138fcc3','FLIGHT MECHANCS II','Superseded','641','kuali.lu.type.CreditCourse.identifier.official',1)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
-  VALUES ('ENAE641','ENAE','50e51dbe-e1d2-4111-ae41-dc16bc9c4b44','Flight Mechanics II','600','593513c6-5d29-4e56-829f-08b6f138fcc3','FLIGHT MECHANCS II','Superseded','641','kuali.lu.type.CreditCourse.identifier.official',1)
+  VALUES ('BMGT474','BMGT','a9ce1195-7b1b-4fc5-8051-237434fb17b5','Urban Transport and Urban Development','400','1b3dff9c-5c32-43c4-965e-a5fe43d9b39d','URBAN TRANS+DEVEL','Superseded','474','kuali.lu.type.CreditCourse.identifier.official',3)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
   VALUES ('ENEE417','ENEE','df7f86b3-5172-4229-a9fe-20db238dfa3f','Microelectronics Design Laboratory','400','7cd0a7b9-9142-4121-946e-a15fadf9ba8b','MICROELECT DESIGN LAB','Active','417','kuali.lu.type.CreditCourse.identifier.official',0)
@@ -4127,13 +4127,13 @@ INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX
   VALUES ('ECON642','ECON','2314b178-a885-429b-b721-f4a82b03431e','Topics in Applied Macroeconomics','500','6aa9ac54-fddb-48d8-a29b-d2523b7562a1','TOPICS IN APPLIED MACROE','Active','642','kuali.lu.type.CreditCourse.identifier.official',19)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
+  VALUES ('BMGT365','BMGT','401d81a2-97b1-4761-99a9-dca9cdbcb581','Financing The Entrepreneurial Venture','300','c4d4e6df-8dc3-4cef-b30d-15fced368f24','VENTURE FINANCING','Superseded','365','kuali.lu.type.CreditCourse.identifier.official',1)
+/
+INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
   VALUES ('BUMO752','BUMO','65372bd6-459a-40c3-8775-31fb64250df9','Strategic Growth for Emerging Companies','700','5ffd2707-ae49-4d34-ad26-ef79c50fa0b5','STRATEGIC GROWTH','Superseded','752','kuali.lu.type.CreditCourse.identifier.official',1)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
   VALUES ('MATH206','MATH','1bcce347-66bb-426b-b798-037997fabd7b','Introduction to Matlab','200','2a17d1f3-9ff0-49f9-bb57-6473b82dd724','INTRODUCTION TO MATLAB','Active','206','kuali.lu.type.CreditCourse.identifier.official',4)
-/
-INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
-  VALUES ('BMGT365','BMGT','401d81a2-97b1-4761-99a9-dca9cdbcb581','Financing The Entrepreneurial Venture','300','c4d4e6df-8dc3-4cef-b30d-15fced368f24','VENTURE FINANCING','Superseded','365','kuali.lu.type.CreditCourse.identifier.official',1)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
   VALUES ('BUFN760','BUFN','7acb90f0-58c5-4c0a-80be-d6fe6b9f9637','Applied Equity Analysis','700','e9bcc7b2-8c3e-431b-a48b-574dbc976510','APPLIED EQUITY ANALYSIS','Active','760','kuali.lu.type.CreditCourse.identifier.official',2)
@@ -4187,22 +4187,22 @@ INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX
   VALUES ('MATH695','MATH','d6b915da-9e19-4d1d-90c0-03984a8dcf43','Teaching Seminar','600','2df1b35a-99e8-466d-b070-2c30127bc0ff','TEACHING SEMINAR','Active','695','kuali.lu.type.CreditCourse.identifier.official',0)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
-  VALUES ('BMGT190','BMGT','e7a3d61f-c2f2-4f34-a283-d9533ca682b3','Introduction to Design and Quality','100','66078faa-bd90-4044-860c-21419b7d5c25','INTRO DESIGN & QUALITY','Superseded','190','kuali.lu.type.CreditCourse.identifier.official',1)
-/
-INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
   VALUES ('MATH400','MATH','48a3cbf0-b1bf-492d-bc0c-e25cbcfcfd9c','Vectors and Matrices','400','e5b4006b-33a5-4cf5-99b0-c1a1aef2b166','VECTORS + MATRICES','Superseded','400','kuali.lu.type.CreditCourse.identifier.official',3)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
-  VALUES ('ENEE445','ENEE','23f3c8ba-3589-4c94-9313-a680c003db05','Computer Laboratory','400','22fb755d-b39b-4fcf-ba29-0010eb44b067','COMPUTER LABORATORY','Superseded','445','kuali.lu.type.CreditCourse.identifier.official',3)
+  VALUES ('BMGT190','BMGT','e7a3d61f-c2f2-4f34-a283-d9533ca682b3','Introduction to Design and Quality','100','66078faa-bd90-4044-860c-21419b7d5c25','INTRO DESIGN & QUALITY','Superseded','190','kuali.lu.type.CreditCourse.identifier.official',1)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
   VALUES ('ECON370','ECON','2e0b4e17-c09f-445c-813f-fd888c9eb867','Labor Markets, Human Resources, and Trade Unions','300','555dbc0f-4d49-4ffb-ad3d-b4f4b21012ec','LABR MKTS+TRADE UN','Superseded','370','kuali.lu.type.CreditCourse.identifier.official',1)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
-  VALUES ('BMGT730','BMGT','71616d5b-2a37-4975-a547-56ff6280c518','Manufacturing Strategies and Operations','700','10d9bde7-8f23-45d5-b55b-4f4b04af7be7','MANUF STRAT & OPERATIONS','Superseded','730','kuali.lu.type.CreditCourse.identifier.official',3)
+  VALUES ('ENEE445','ENEE','23f3c8ba-3589-4c94-9313-a680c003db05','Computer Laboratory','400','22fb755d-b39b-4fcf-ba29-0010eb44b067','COMPUTER LABORATORY','Superseded','445','kuali.lu.type.CreditCourse.identifier.official',3)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
   VALUES ('ENAE692','ENAE','39ae3f95-a955-4a8e-aab4-56759a169c8c','Introduction to Space Robotics','600','25d227dc-b1cd-42f4-903f-c5d33bf35f77','INTRO SPACE ROBOTICS','Active','692','kuali.lu.type.CreditCourse.identifier.official',0)
+/
+INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
+  VALUES ('BMGT730','BMGT','71616d5b-2a37-4975-a547-56ff6280c518','Manufacturing Strategies and Operations','700','10d9bde7-8f23-45d5-b55b-4f4b04af7be7','MANUF STRAT & OPERATIONS','Superseded','730','kuali.lu.type.CreditCourse.identifier.official',3)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
   VALUES ('BMGT302','BMGT','e14b4111-a32e-409f-a878-4c49d72c734c','Programming for Business Information Systems','300','e79e3bd1-afd9-49af-85f3-707b1e2bfba2','PRGRM BSN INFO SYSTMS','Superseded','302','kuali.lu.type.CreditCourse.identifier.official',3)
@@ -4283,10 +4283,10 @@ INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX
   VALUES ('BUMO712','BUMO','41c43c40-614e-42fe-991e-29e6a4ff52b3','Leadership Development','700','dc143a50-2ebc-49df-868e-4803ea27eeee','LEADERSHIP DEVELOPMENT','Active','712','kuali.lu.type.CreditCourse.identifier.official',2)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
-  VALUES ('BMGT341','BMGT','ee489631-1705-41f2-9db3-b31643b96c2e','Financial Markets','300','fd3b7b41-f119-45e1-8c64-5a030544dbbf','FINANCIAL MARKETS','Active','341','kuali.lu.type.CreditCourse.identifier.official',18)
+  VALUES ('ENAE432','ENAE','26532043-524e-4297-9af1-32fb000290fb','Control of Aerospace Systems','400','dbc64733-47c9-4f73-996b-6e9e78ce1e6c','CONTROL AEROSPACE SYSTEM','Active','432','kuali.lu.type.CreditCourse.identifier.official',4)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
-  VALUES ('ENAE432','ENAE','26532043-524e-4297-9af1-32fb000290fb','Control of Aerospace Systems','400','dbc64733-47c9-4f73-996b-6e9e78ce1e6c','CONTROL AEROSPACE SYSTEM','Active','432','kuali.lu.type.CreditCourse.identifier.official',4)
+  VALUES ('BMGT341','BMGT','ee489631-1705-41f2-9db3-b31643b96c2e','Financial Markets','300','fd3b7b41-f119-45e1-8c64-5a030544dbbf','FINANCIAL MARKETS','Active','341','kuali.lu.type.CreditCourse.identifier.official',18)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
   VALUES ('ECON682','ECON','f0806a6c-22a2-4518-905a-eab7588dbc7e','Comparative Institutional Economics II','600','a565302c-5b54-4cd6-ad1d-dbb92cebe89f','COMP INST ECON II','Active','682','kuali.lu.type.CreditCourse.identifier.official',2)
@@ -4322,10 +4322,10 @@ INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX
   VALUES ('BMGT490','BMGT','bd0ed0a2-9000-4377-9b2f-1428b66e66ca','The Total Quality Practicum','400','e609c349-5712-48a0-b0c6-63dcb920b1fe','TOTAL QUALITY PRACTICUM','Superseded','490','kuali.lu.type.CreditCourse.identifier.official',3)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
-  VALUES ('ENEE609','ENEE','3b615f17-dd56-4ccf-92c7-0817b203b1df','Projects and Independent Study','600','59749339-bbcb-4a8f-8731-0fb0dd497dc7','PROJ & IND STUDY','Superseded','609','kuali.lu.type.CreditCourse.identifier.official',3)
+  VALUES ('ECON630','ECON','47247288-c208-4006-a913-952c34d6e539','Computational Methods in Macroeconomics','600','3ee43b35-df3c-4de3-833c-ce1bc9d092ab','CMPTNL METHODS MACRO','Active','630','kuali.lu.type.CreditCourse.identifier.official',2)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
-  VALUES ('ECON630','ECON','47247288-c208-4006-a913-952c34d6e539','Computational Methods in Macroeconomics','600','3ee43b35-df3c-4de3-833c-ce1bc9d092ab','CMPTNL METHODS MACRO','Active','630','kuali.lu.type.CreditCourse.identifier.official',2)
+  VALUES ('ENEE609','ENEE','3b615f17-dd56-4ccf-92c7-0817b203b1df','Projects and Independent Study','600','59749339-bbcb-4a8f-8731-0fb0dd497dc7','PROJ & IND STUDY','Superseded','609','kuali.lu.type.CreditCourse.identifier.official',3)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
   VALUES ('MATH606','MATH','03231fbe-a773-404c-a5f6-470106fa4076','Algebraic Geometry I','600','b851229a-102d-4118-94a5-7641a587d42b','ALGEBRIC GEOMTRY I','Active','606','kuali.lu.type.CreditCourse.identifier.official',0)
@@ -4454,10 +4454,10 @@ INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX
   VALUES ('BMGT490','BMGT','d324bbca-025b-45e9-9268-77e2dc796b99','Urban Land Management','400','cc12351f-2502-45aa-815e-254f9f0a4794','URBAN LAND MANAGE','Superseded','490','kuali.lu.type.CreditCourse.identifier.official',1)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
-  VALUES ('ECON756','ECON','c99309af-3d2d-4cc9-98e3-7c70a8f6ce5a','Theory of Public Choice II','700','d44c1397-deb2-4bd0-9f16-e68e3a3bb877','THRY PUB CHOICE II','Superseded','756','kuali.lu.type.CreditCourse.identifier.official',3)
+  VALUES ('ENES221','ENES','e0ac8116-e63d-4a4a-b601-9f885e91dfe2','Dynamics','200','054e81ff-8f46-4061-9fce-ec4a605136e3','DYNAMICS','Active','221','kuali.lu.type.CreditCourse.identifier.official',5)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
-  VALUES ('ENES221','ENES','e0ac8116-e63d-4a4a-b601-9f885e91dfe2','Dynamics','200','054e81ff-8f46-4061-9fce-ec4a605136e3','DYNAMICS','Active','221','kuali.lu.type.CreditCourse.identifier.official',5)
+  VALUES ('ECON756','ECON','c99309af-3d2d-4cc9-98e3-7c70a8f6ce5a','Theory of Public Choice II','700','d44c1397-deb2-4bd0-9f16-e68e3a3bb877','THRY PUB CHOICE II','Superseded','756','kuali.lu.type.CreditCourse.identifier.official',3)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
   VALUES ('BUFN722','BUFN','83a18cee-0d16-40e0-881d-15332bbf6564','Banking and Financial Institutions','700','7577b86a-5835-42e3-8ba9-858037f60499','BANKING & FIN INSTITUTNS','Active','722','kuali.lu.type.CreditCourse.identifier.official',0)
@@ -4523,10 +4523,10 @@ INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX
   VALUES ('ENES102','ENES','8f436591-bc51-4523-b11f-cf7ce285b7ea','Mechanics I','100','a7ec4ac8-fe72-412b-aaf1-20dd4a86f733','MECHANICS I','Active','102','kuali.lu.type.CreditCourse.identifier.official',2)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
-  VALUES ('MATH113','MATH','f87efd38-38da-4e0e-8a1b-57a186e7f6fc','College Algebra with Applications','100','8970877d-609f-4f48-bbe0-95754a3dd0e5','COLL ALGEBRA APPLICATNS','Superseded','113','kuali.lu.type.CreditCourse.identifier.official',3)
+  VALUES ('ENAE457','ENAE','b0bea20d-260d-4723-8382-231a6a07ced0','Space Propulsion and Power','400','85e6a481-4057-4ddb-9ebe-3ba7acddc446','SPACE PROPULSION','Active','457','kuali.lu.type.CreditCourse.identifier.official',2)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
-  VALUES ('ENAE457','ENAE','b0bea20d-260d-4723-8382-231a6a07ced0','Space Propulsion and Power','400','85e6a481-4057-4ddb-9ebe-3ba7acddc446','SPACE PROPULSION','Active','457','kuali.lu.type.CreditCourse.identifier.official',2)
+  VALUES ('MATH113','MATH','f87efd38-38da-4e0e-8a1b-57a186e7f6fc','College Algebra with Applications','100','8970877d-609f-4f48-bbe0-95754a3dd0e5','COLL ALGEBRA APPLICATNS','Superseded','113','kuali.lu.type.CreditCourse.identifier.official',3)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
   VALUES ('BMGT357','BMGT','b2f92f13-c078-4914-99ee-49bd9f6db434','Retailing and Marketing Internship','300','08930092-a04f-4b1b-a430-233c0ef8f188','RETAIL/MKTG INTERNSHIP','Superseded','357','kuali.lu.type.CreditCourse.identifier.official',3)
@@ -4571,10 +4571,10 @@ INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX
   VALUES ('ENAE757','ENAE','643a0bed-12a5-436c-882a-d02723021cea','Advanced Structural Dynamics','700','6da21554-5708-49f6-bdd5-6e933df32cf3','ADV STRUCT DYN','Superseded','757','kuali.lu.type.CreditCourse.identifier.official',3)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
-  VALUES ('BMGT372','BMGT','a064d7da-8faa-4d24-9251-7d93012dcd1e','Introduction to Logistics Management','300','25d76210-586c-4f93-b8a0-0d7dceccfca3','INTRO LOGISTICS MNGMT','Superseded','372','kuali.lu.type.CreditCourse.identifier.official',3)
+  VALUES ('BUSI683','BUSI','80017a09-b040-4458-8f6a-956da0164478','The Global Economic Environment','600','215decf3-9d29-435b-af24-65679e61bdd9','GLOBAL ECON ENVIRONMENT','Active','683','kuali.lu.type.CreditCourse.identifier.official',0)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
-  VALUES ('BUSI683','BUSI','80017a09-b040-4458-8f6a-956da0164478','The Global Economic Environment','600','215decf3-9d29-435b-af24-65679e61bdd9','GLOBAL ECON ENVIRONMENT','Active','683','kuali.lu.type.CreditCourse.identifier.official',0)
+  VALUES ('BMGT372','BMGT','a064d7da-8faa-4d24-9251-7d93012dcd1e','Introduction to Logistics Management','300','25d76210-586c-4f93-b8a0-0d7dceccfca3','INTRO LOGISTICS MNGMT','Superseded','372','kuali.lu.type.CreditCourse.identifier.official',3)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
   VALUES ('BMGT683','BMGT','3e5fa280-b975-48c9-b912-695d210c839f','The Global Economic Environment','600','e6042787-223f-43e9-a28f-1f5650ec7b34','GLOBAL ECON ENVIRN','Superseded','683','kuali.lu.type.CreditCourse.identifier.official',1)
@@ -4583,10 +4583,10 @@ INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX
   VALUES ('BMGT364','BMGT','d16c7931-cb98-4938-bec1-21e789631a88','Managing People and Organizations','300','654f83df-8599-4118-ab35-8f0ac7872b07','MANAGING PEOPLE AND ORGS','Active','364','kuali.lu.type.CreditCourse.identifier.official',5)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
-  VALUES ('ENEE720','ENEE','a9ea5097-88b1-4573-9c6d-a27f48fc561a','Wireless Communication Theory','700','9703bd97-e247-41d5-93e3-d61d13ca1047','WIRELESS COMM THEORY','Active','720','kuali.lu.type.CreditCourse.identifier.official',0)
+  VALUES ('MATH748','MATH','651714d6-a5f2-4564-a8eb-0f3e7856a8c2','Selected Topics in Geometry and Topology','700','52d55bc4-a861-4c5c-9f04-364b632973d0','SEL TOP GEOM TOPOL','Superseded','748','kuali.lu.type.CreditCourse.identifier.official',1)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
-  VALUES ('MATH748','MATH','651714d6-a5f2-4564-a8eb-0f3e7856a8c2','Selected Topics in Geometry and Topology','700','52d55bc4-a861-4c5c-9f04-364b632973d0','SEL TOP GEOM TOPOL','Superseded','748','kuali.lu.type.CreditCourse.identifier.official',1)
+  VALUES ('ENEE720','ENEE','a9ea5097-88b1-4573-9c6d-a27f48fc561a','Wireless Communication Theory','700','9703bd97-e247-41d5-93e3-d61d13ca1047','WIRELESS COMM THEORY','Active','720','kuali.lu.type.CreditCourse.identifier.official',0)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
   VALUES ('ENES508','ENES','57897457-ebf0-41bb-94ca-d74bb44744de','Engineering Professional Development for Teachers','500','042b7447-c06b-4003-9a6c-e35a3ed531be','ENES PRFSNL DVLP FR TCHR','Superseded','508','kuali.lu.type.CreditCourse.identifier.official',3)
@@ -4616,13 +4616,13 @@ INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX
   VALUES ('BMGT367','BMGT','1d7a3efc-a384-4039-9e75-dbe1b05eea6e','Career Search Strategies in Business','300','593cea70-0c95-4aca-9306-8fa374dc27ec','CAREER SEARCHS IN BMGT','Superseded','367','kuali.lu.type.CreditCourse.identifier.official',3)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
-  VALUES ('ECON461','ECON','e6b3b9d3-6c67-47ad-b9cb-a7548e2a4d5a','Economics of Regulation and Anti-trust','400','2a1cf589-d54d-4b1b-b1da-c90ac63d99ac','ECON OF REG & ANTI-TRUST','Active','461','kuali.lu.type.CreditCourse.identifier.official',4)
-/
-INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
   VALUES ('ECON630','ECON','0b2279ca-b214-47a5-ae98-f7ce1649d165','Macroeconomic Computation','600','2755442d-3b33-424d-af3d-ed3c99c68119','MACROECON COMPUTATION','Superseded','630','kuali.lu.type.CreditCourse.identifier.official',1)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
   VALUES ('ENAE799','ENAE','93b58882-ea67-4222-b379-2cfc56b8c4b8','Master''s Thesis Research','700','f38cfbc8-6278-4b25-a572-65592bee3495','MASTERS THESIS RES','Active','799','kuali.lu.type.CreditCourse.identifier.official',3)
+/
+INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
+  VALUES ('ECON461','ECON','e6b3b9d3-6c67-47ad-b9cb-a7548e2a4d5a','Economics of Regulation and Anti-trust','400','2a1cf589-d54d-4b1b-b1da-c90ac63d99ac','ECON OF REG & ANTI-TRUST','Active','461','kuali.lu.type.CreditCourse.identifier.official',4)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
   VALUES ('BUSI768','BUSI','4d83ef5b-b5f1-4ac9-a1ec-28357e748034','Global Business Experience: CIBER Global Business Project','700','0c136ddc-234b-4528-a7fd-d04093d38a88','GLOBAL BUSINESS PROJECT','Superseded','768','kuali.lu.type.CreditCourse.identifier.official',3)
@@ -4748,10 +4748,10 @@ INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX
   VALUES ('MATH241','MATH','22a4d60b-cb72-4179-ad53-a8e571eedf02','Calculus III','200','16387027-f000-4707-a137-2995d7b11b7d','CALCULUS III','Active','241','kuali.lu.type.CreditCourse.identifier.official',4)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
-  VALUES ('BMGT866','BMGT','da1766cd-039e-4ea1-a4d4-39c88ee8a056','Seminar in Group Processes, Organizational Conflict and Change','800','64400b8d-11d2-4c38-84e7-90743e84748e','GROUP PROCESSES','Active','866','kuali.lu.type.CreditCourse.identifier.official',2)
+  VALUES ('BMGT818','BMGT','502ffe47-07bf-4d81-93ad-cc05f2d5e097','Special Topics in Accounting and Information Assurance','800','e9a54e68-60f0-43ea-910d-fbe5741e077e','SPECIAL TOPICS IN AIA','Active','818','kuali.lu.type.CreditCourse.identifier.official',2)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
-  VALUES ('BMGT818','BMGT','502ffe47-07bf-4d81-93ad-cc05f2d5e097','Special Topics in Accounting and Information Assurance','800','e9a54e68-60f0-43ea-910d-fbe5741e077e','SPECIAL TOPICS IN AIA','Active','818','kuali.lu.type.CreditCourse.identifier.official',2)
+  VALUES ('BMGT866','BMGT','da1766cd-039e-4ea1-a4d4-39c88ee8a056','Seminar in Group Processes, Organizational Conflict and Change','800','64400b8d-11d2-4c38-84e7-90743e84748e','GROUP PROCESSES','Active','866','kuali.lu.type.CreditCourse.identifier.official',2)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
   VALUES ('BUFN770','BUFN','c66db235-8ae4-4f57-9b25-946c6b79fb5b','International Investment','700','47609b73-085b-4fb7-8b5d-400ec8ca0563','INTERNATIONAL INVSTMNTS','Superseded','770','kuali.lu.type.CreditCourse.identifier.official',1)
@@ -4820,19 +4820,19 @@ INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX
   VALUES ('ECON808','ECON','63772010-b9e0-4a1f-9cf3-0bf4a2d01673','Workshop on Macroeconomics and Growth','800','99f1633c-3ef5-4b1a-ba8f-51006f6b5fc2','MACRO WORKSHOP','Superseded','808','kuali.lu.type.CreditCourse.identifier.official',1)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
-  VALUES ('ECON523','ECON','7f3a96cf-b242-4a56-ac5a-56656435bae5','Empirical Analysis III: Econometric Modeling and Forecasting','500','2864863c-bb12-4ea5-9571-7a879fe90c2e','ECON MDLING & FORECASTNG','Superseded','523','kuali.lu.type.CreditCourse.identifier.official',5)
+  VALUES ('BMGT773','BMGT','4958ead0-eb8d-48f2-9c6d-ef004f312e82','Transportation Strategies','700','cc2976c9-6ae5-44bd-912b-2971a11738a2','TRANSPRTN STRATEGS','Superseded','773','kuali.lu.type.CreditCourse.identifier.official',1)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
-  VALUES ('BMGT773','BMGT','4958ead0-eb8d-48f2-9c6d-ef004f312e82','Transportation Strategies','700','cc2976c9-6ae5-44bd-912b-2971a11738a2','TRANSPRTN STRATEGS','Superseded','773','kuali.lu.type.CreditCourse.identifier.official',1)
+  VALUES ('ECON523','ECON','7f3a96cf-b242-4a56-ac5a-56656435bae5','Empirical Analysis III: Econometric Modeling and Forecasting','500','2864863c-bb12-4ea5-9571-7a879fe90c2e','ECON MDLING & FORECASTNG','Superseded','523','kuali.lu.type.CreditCourse.identifier.official',5)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
   VALUES ('ENES221','ENES','afc5626d-55ca-4199-982e-26abc6a97ddb','Dynamics','200','9cf36de3-91fe-4cf6-bf97-11335ed198f4','DYNAMICS','Superseded','221','kuali.lu.type.CreditCourse.identifier.official',1)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
-  VALUES ('ENAE657','ENAE','e82fa136-3eaa-45ec-92e8-afc491db36f9','Theory of Structural Stability','600','d09332e5-8451-4ff5-a55e-809ed44eeb56','THRY STRUC STABLTY','Superseded','657','kuali.lu.type.CreditCourse.identifier.official',1)
+  VALUES ('ENEE632','ENEE','e935102b-51e4-4b7d-9558-b293a62832ed','Speech and Audio Processing','600','7add3d9f-21d8-4338-8b61-f7b0f941feed','SPEECH & AUDIO PROCESSNG','Active','632','kuali.lu.type.CreditCourse.identifier.official',2)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
-  VALUES ('ENEE632','ENEE','e935102b-51e4-4b7d-9558-b293a62832ed','Speech and Audio Processing','600','7add3d9f-21d8-4338-8b61-f7b0f941feed','SPEECH & AUDIO PROCESSNG','Active','632','kuali.lu.type.CreditCourse.identifier.official',2)
+  VALUES ('ENAE657','ENAE','e82fa136-3eaa-45ec-92e8-afc491db36f9','Theory of Structural Stability','600','d09332e5-8451-4ff5-a55e-809ed44eeb56','THRY STRUC STABLTY','Superseded','657','kuali.lu.type.CreditCourse.identifier.official',1)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
   VALUES ('ECON681','ECON','bf08e80d-19e0-4156-95a8-01ed80ca1982','Comparative Institutional Economics I','600','ecee0ad7-2c70-4289-97c5-4c59ab545f21','COMP INST ECON I','Active','681','kuali.lu.type.CreditCourse.identifier.official',2)
@@ -4952,6 +4952,9 @@ INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX
   VALUES ('MATH899','MATH','936cdc17-ff04-40fa-acd4-de010587806c','Doctoral Dissertation Research','800','ea8ad0f1-343e-4195-9e3c-fa1d0fac820b','DOC DISSERTATN RES','Active','899','kuali.lu.type.CreditCourse.identifier.official',3)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
+  VALUES ('ECON721','ECON','f892e237-fdc1-4a69-bff2-35d52cfadbd8','Econometrics III','700','8058a005-5538-4461-984b-167975acf27d','ECONOMETRICS III','Superseded','721','kuali.lu.type.CreditCourse.identifier.official',1)
+/
+INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
   VALUES ('BMGT426','BMGT','ce2accb3-ca51-40db-85b0-7ddd9a2cbdaf','Advanced Managerial Accounting','400','e2b4f194-345f-4497-831b-8f2750058382','ADV MANAGERIAL ACCTG','Active','426','kuali.lu.type.CreditCourse.identifier.official',2)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
@@ -4959,9 +4962,6 @@ INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
   VALUES ('ENAE202','ENAE','1fbbff74-8a17-42dc-aba9-b7b0572165db','Aerospace Computing','200','e812dfc9-7777-456e-af9f-c789b924beca','AEROSPACE COMPUTING','Active','202','kuali.lu.type.CreditCourse.identifier.official',2)
-/
-INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
-  VALUES ('ECON721','ECON','f892e237-fdc1-4a69-bff2-35d52cfadbd8','Econometrics III','700','8058a005-5538-4461-984b-167975acf27d','ECONOMETRICS III','Superseded','721','kuali.lu.type.CreditCourse.identifier.official',1)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
   VALUES ('BUSI667','BUSI','d6b2543a-b557-4cf5-a0f5-78a8f2792886','Cross-Cultural Communication and Teamwork','600','c2cfc5ee-265a-417d-95df-86d1679d9908','CROSS-CLTRL COMM & TMWRK','Superseded','667','kuali.lu.type.CreditCourse.identifier.official',6)
@@ -5012,10 +5012,10 @@ INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX
   VALUES ('ENES210','ENES','04e399b9-f0e8-429e-9bb7-7c5f57450402','Entrepreneurial Opportunity Analysis and Decision-Making in 21st Century Technology Ventures','200','6df9d6a5-4efb-4721-9d04-ff0a1a710751','ENT OPPORTUNITY ANALYSIS','Superseded','210','kuali.lu.type.CreditCourse.identifier.official',1)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
-  VALUES ('ENEE241','ENEE','071cef61-ae90-4e0f-93f9-b1d0b94995fe','Numerical Techniques in Engineering','200','28551b3c-10c4-460b-8ffc-0c8b2ae3d896','NUMERICAL TECH IN ENGR','Superseded','241','kuali.lu.type.CreditCourse.identifier.official',3)
+  VALUES ('BMGT703','BMGT','3e565560-0287-45ec-9139-29b2a303bf5a','ICT Supply Chain Risk Management','700','ebf9dff0-6527-4ea0-9b9b-7afaa74f0454','SUPPLY CHAIN RISK MGMT','Active','703','kuali.lu.type.CreditCourse.identifier.official',7)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
-  VALUES ('BMGT703','BMGT','3e565560-0287-45ec-9139-29b2a303bf5a','ICT Supply Chain Risk Management','700','ebf9dff0-6527-4ea0-9b9b-7afaa74f0454','SUPPLY CHAIN RISK MGMT','Active','703','kuali.lu.type.CreditCourse.identifier.official',7)
+  VALUES ('ENEE241','ENEE','071cef61-ae90-4e0f-93f9-b1d0b94995fe','Numerical Techniques in Engineering','200','28551b3c-10c4-460b-8ffc-0c8b2ae3d896','NUMERICAL TECH IN ENGR','Superseded','241','kuali.lu.type.CreditCourse.identifier.official',3)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
   VALUES ('MATH221','MATH','1bed3a72-72b2-4ea3-8748-d0f09d920209','Elementary Calculus II','200','6864aaa8-c178-4562-9bc4-91f2f029b357','ELEM CALCULUS II','Superseded','221','kuali.lu.type.CreditCourse.identifier.official',3)
@@ -5099,10 +5099,10 @@ INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX
   VALUES ('ECON415','ECON','0419e553-e896-4143-9eea-7ba92adc9f03','Strategic Behavior and Incentives','400','7632ae10-360d-4264-be60-5a836a201cb5','STRATEGIC BEHAVIOR','Superseded','415','kuali.lu.type.CreditCourse.identifier.official',3)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
-  VALUES ('BMGT355','BMGT','38def39a-36fe-4e8b-b674-b9533e3677f4','Fundamentals of Marketing','300','da303cc4-86d7-4f16-af54-596d5e5e9593','FUND OF MARKETING','Superseded','355','kuali.lu.type.CreditCourse.identifier.official',1)
+  VALUES ('ENEE204','ENEE','6833e088-dea4-4def-a3fc-17b15e1ca6e6','Systems and Circuits I','200','297ccdeb-13a2-4634-b5b6-2696a7da295b','SYSTEMS+CIRCUITS I','Superseded','204','kuali.lu.type.CreditCourse.identifier.official',1)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
-  VALUES ('ENEE204','ENEE','6833e088-dea4-4def-a3fc-17b15e1ca6e6','Systems and Circuits I','200','297ccdeb-13a2-4634-b5b6-2696a7da295b','SYSTEMS+CIRCUITS I','Superseded','204','kuali.lu.type.CreditCourse.identifier.official',1)
+  VALUES ('BMGT355','BMGT','38def39a-36fe-4e8b-b674-b9533e3677f4','Fundamentals of Marketing','300','da303cc4-86d7-4f16-af54-596d5e5e9593','FUND OF MARKETING','Superseded','355','kuali.lu.type.CreditCourse.identifier.official',1)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
   VALUES ('BUFN735','BUFN','8a4b98c8-8f98-4177-86fe-3992fee7e96d','Computational Finance','700','52b1379b-53ef-4c0c-be91-b6ea13cbd9dc','COMPUTATIONAL FINANCE','Active','735','kuali.lu.type.CreditCourse.identifier.official',0)
@@ -5192,13 +5192,13 @@ INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX
   VALUES ('MATH461','MATH','9a738266-2f6c-40fb-895c-93e1139a4fc9','Linear Algebra for Scientists and Engineers','400','36cad4df-e475-4e15-a965-698f6a3af109','LIN ALG FOR SCI & ENGRS','Active','461','kuali.lu.type.CreditCourse.identifier.official',4)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
-  VALUES ('BUMO725','BUMO','2a0959e3-e612-41cf-8323-f0cdb4ec0ac7','Networks and Influence','700','a9e2176a-b1ca-4053-ba70-9afa5ddf277c','NETWORKS & INFLUENCE','Active','725','kuali.lu.type.CreditCourse.identifier.official',0)
+  VALUES ('ECON745','ECON','afa0accb-e9fc-4aab-870e-4aa6efdbe9e1','Advanced Topics in International Trade','700','5db9ae0f-954e-4791-a139-f231dae5389a','ADV TOPICS IN INTL TRADE','Active','745','kuali.lu.type.CreditCourse.identifier.official',2)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
   VALUES ('BMGT833','BMGT','a1668215-a8dc-4ce8-9329-f7d1eb1b67c2','Operations Research: Integer Programming','800','8f25df85-2ab8-4bdb-956e-2dbc7c34dc68','INTEGER PROG','Active','833','kuali.lu.type.CreditCourse.identifier.official',0)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
-  VALUES ('ECON745','ECON','afa0accb-e9fc-4aab-870e-4aa6efdbe9e1','Advanced Topics in International Trade','700','5db9ae0f-954e-4791-a139-f231dae5389a','ADV TOPICS IN INTL TRADE','Active','745','kuali.lu.type.CreditCourse.identifier.official',2)
+  VALUES ('BUMO725','BUMO','2a0959e3-e612-41cf-8323-f0cdb4ec0ac7','Networks and Influence','700','a9e2176a-b1ca-4053-ba70-9afa5ddf277c','NETWORKS & INFLUENCE','Active','725','kuali.lu.type.CreditCourse.identifier.official',0)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
   VALUES ('ECON752','ECON','2f3ae7fb-c314-48e7-9705-a25abecc964a','Public Economics II','700','61b24b1b-d6a1-48f6-81fa-6fd92c11c780','PUBLIC ECONOMICS II','Active','752','kuali.lu.type.CreditCourse.identifier.official',2)
@@ -5237,13 +5237,13 @@ INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX
   VALUES ('ENES496','ENES','76cccc70-0d8b-4031-a2f5-91a03ac29d99','NASA Academy','400','de236c11-178b-49e9-ac73-0d2a2e4f9167','NASA ACADEMY','Active','496','kuali.lu.type.CreditCourse.identifier.official',1)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
+  VALUES ('BMGT710','BMGT','f1cb9441-21ce-4947-a2bb-d8acee6b10f2','Advanced Accounting Theory','700','aaea3ba7-23a8-4ac7-a7c2-0fe6f370a47d','ADV ACCOUNT THERY','Superseded','710','kuali.lu.type.CreditCourse.identifier.official',1)
+/
+INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
   VALUES ('BMGT404','BMGT','e48d7559-71a5-4df4-89a9-8aede76c03cc','Seminar in Decision Support Systems','400','f6d3326b-7ae8-42d2-914f-cf29d5bab583','SEM DEC SUPPRT SYS','Superseded','404','kuali.lu.type.CreditCourse.identifier.official',3)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
   VALUES ('ENAE415','ENAE','b9c745be-1a4b-4398-b938-cf5dd0a8636d','Computer-Aided Structural Design Analysis','400','9a8b83d0-9873-480a-a4c5-4bd6398070b4','COMPTR-AIDED ANALY','Superseded','415','kuali.lu.type.CreditCourse.identifier.official',1)
-/
-INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
-  VALUES ('BMGT710','BMGT','f1cb9441-21ce-4947-a2bb-d8acee6b10f2','Advanced Accounting Theory','700','aaea3ba7-23a8-4ac7-a7c2-0fe6f370a47d','ADV ACCOUNT THERY','Superseded','710','kuali.lu.type.CreditCourse.identifier.official',1)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
   VALUES ('ECON424','ECON','e0a50fbf-9610-43c8-ae01-29bcfd9656a1','Computer Methods in Economics','400','c0b585d3-a1fd-49d9-a6ca-fb4d41a3bd8c','COMPUTR METH ECON','Superseded','424','kuali.lu.type.CreditCourse.identifier.official',1)
@@ -5348,10 +5348,10 @@ INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX
   VALUES ('MATH386','MATH','93371d55-f482-4087-a4fe-f1585a3997de','Field Work','300','28dbbbfa-1097-4cb9-9520-fd55db132274','FIELD WORK','Superseded','386','kuali.lu.type.CreditCourse.identifier.official',1)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
-  VALUES ('ECON615','ECON','00dc0a5d-e057-4ce3-92b8-ec7dc19072a3','Economic Development of Underdeveloped Areas','600','16b9523d-da2c-4b4d-b234-3a69fc486a2c','EC DEV UNDRDV AREA','Superseded','615','kuali.lu.type.CreditCourse.identifier.official',1)
+  VALUES ('ENEE627','ENEE','e7f771ce-407f-492d-9e00-d4a25ab89ea6','Information Theory','600','6f120174-66d8-4f73-a916-22fd430ba17c','INFORMATION THEORY','Active','627','kuali.lu.type.CreditCourse.identifier.official',0)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
-  VALUES ('ENEE627','ENEE','e7f771ce-407f-492d-9e00-d4a25ab89ea6','Information Theory','600','6f120174-66d8-4f73-a916-22fd430ba17c','INFORMATION THEORY','Active','627','kuali.lu.type.CreditCourse.identifier.official',0)
+  VALUES ('ECON615','ECON','00dc0a5d-e057-4ce3-92b8-ec7dc19072a3','Economic Development of Underdeveloped Areas','600','16b9523d-da2c-4b4d-b234-3a69fc486a2c','EC DEV UNDRDV AREA','Superseded','615','kuali.lu.type.CreditCourse.identifier.official',1)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
   VALUES ('ECON490','ECON','24d8c8d1-1014-4303-a07a-32b2a88165e5','Survey of Urban Economic Problems and Policies','400','619464d0-5a83-49c1-9562-87ffc589914a','SURVEY URBAN ECON','Superseded','490','kuali.lu.type.CreditCourse.identifier.official',1)
@@ -5381,10 +5381,10 @@ INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX
   VALUES ('ECON773','ECON','ab7e1374-7c5f-4545-9b31-13d68f1653c4','Econometric Approaches for Research in Applied Microeconomics','700','7e670b50-070b-4a9c-9429-e723c156dd87','ECONOMETRIC APPRCH RSRCH','Active','773','kuali.lu.type.CreditCourse.identifier.official',2)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
-  VALUES ('ENEE440','ENEE','6748dc86-869d-40da-836f-608fc222cfdd','Microprocessors','400','cbf6bd62-292d-4547-a16f-ea644d2b47c5','MICROPROCESSORS','Superseded','440','kuali.lu.type.CreditCourse.identifier.official',1)
+  VALUES ('BMGT398','BMGT','6d071954-5482-4df6-a20b-63d39d7d453a','Individual Study in Business and Management','300','259b111f-3bb9-429b-aa14-2797a6d2c65e','INDV STUDY IN BMGT','Superseded','398','kuali.lu.type.CreditCourse.identifier.official',1)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
-  VALUES ('BMGT398','BMGT','6d071954-5482-4df6-a20b-63d39d7d453a','Individual Study in Business and Management','300','259b111f-3bb9-429b-aa14-2797a6d2c65e','INDV STUDY IN BMGT','Superseded','398','kuali.lu.type.CreditCourse.identifier.official',1)
+  VALUES ('ENEE440','ENEE','6748dc86-869d-40da-836f-608fc222cfdd','Microprocessors','400','cbf6bd62-292d-4547-a16f-ea644d2b47c5','MICROPROCESSORS','Superseded','440','kuali.lu.type.CreditCourse.identifier.official',1)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
   VALUES ('MATH716','MATH','6678cf05-b816-4358-97d2-442c3a1c9c55','Recursive Function Theory','700','d7620cfb-9a68-4d9d-8281-dcebce9333ba','RECURSIV FUNC THRY','Superseded','716','kuali.lu.type.CreditCourse.identifier.official',1)
@@ -5456,16 +5456,16 @@ INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX
   VALUES ('BUAC743','BUAC','a03a841a-e3c4-44cd-93b9-143c0657ff72','Financial Statement Analysis','700','23cabb41-56e2-4601-b270-de00fb52a92f','FIN STATEMENT ANALYSIS','Active','743','kuali.lu.type.CreditCourse.identifier.official',0)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
-  VALUES ('BMGT470','BMGT','f093e8be-4585-4ad0-b4f1-ba6cbd1e92d6','Advanced Transportation Management','400','cf35fc7a-8100-4c01-9528-966520fe7a70','ADV TRANSPORT MANAGEMENT','Superseded','470','kuali.lu.type.CreditCourse.identifier.official',3)
-/
-INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
   VALUES ('MATH274','MATH','bd1e18a2-059b-4c2b-9bc6-29640ca23435','History of Mathematics','200','6528ed15-4d55-4cd4-870e-1b6012d7fc4d','HISTORY OF MATHEMATICS','Superseded','274','kuali.lu.type.CreditCourse.identifier.official',1)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
-  VALUES ('ENAE414','ENAE','6a4a6b18-be9c-4151-8265-d195e275620d','Aerodynamics II','400','24f0d2ce-c5ee-4885-afaf-eeba2de80312','AERODYNAMICS II','Active','414','kuali.lu.type.CreditCourse.identifier.official',4)
+  VALUES ('BMGT470','BMGT','f093e8be-4585-4ad0-b4f1-ba6cbd1e92d6','Advanced Transportation Management','400','cf35fc7a-8100-4c01-9528-966520fe7a70','ADV TRANSPORT MANAGEMENT','Superseded','470','kuali.lu.type.CreditCourse.identifier.official',3)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
   VALUES ('BMGT390','BMGT','7178c221-9e0b-4dfa-91ca-f0c8df076aec','Competing on Quality in a Global Economy','300','22bd49e3-21aa-42be-9e5b-d8d71d3e8c2e','QUALITY IN GLOBAL ECON','Superseded','390','kuali.lu.type.CreditCourse.identifier.official',1)
+/
+INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
+  VALUES ('ENAE414','ENAE','6a4a6b18-be9c-4151-8265-d195e275620d','Aerodynamics II','400','24f0d2ce-c5ee-4885-afaf-eeba2de80312','AERODYNAMICS II','Active','414','kuali.lu.type.CreditCourse.identifier.official',4)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
   VALUES ('BMGT391','BMGT','f1d62c1b-1744-451b-a2f6-71de3d34f55c','Leadership in Action','300','ddadcde8-657d-4a61-b0a4-e6504923aa1f','LEADERSHIP IN ACTION','Active','391','kuali.lu.type.CreditCourse.identifier.official',0)
@@ -5495,16 +5495,16 @@ INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX
   VALUES ('BMGT380','BMGT','7ae79d25-6876-48ad-98eb-1f1c8eb9ea7b','Business Law I','300','39a23df7-2d0d-4abb-b711-35179797c9b7','BUSINESS LAW I','Active','380','kuali.lu.type.CreditCourse.identifier.official',2)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
-  VALUES ('ECON201','ECON','f41c8787-cf61-40f7-91d8-02709ba3ff49','Principles of Macro-Economics','200','f59b3012-8762-4552-9eac-8763a83edf6b','PRIN MACRO-ECONOMICS','Superseded','201','kuali.lu.type.CreditCourse.identifier.official',3)
+  VALUES ('MATH642','MATH','a41f31b7-4c3e-42f3-a918-6b8a0134e72f','Dynamical Systems I','600','14c0d155-31d3-474d-9bb0-0cbb189b22ce','DYNAMICAL SYSTEMS I','Active','642','kuali.lu.type.CreditCourse.identifier.official',0)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
-  VALUES ('MATH642','MATH','a41f31b7-4c3e-42f3-a918-6b8a0134e72f','Dynamical Systems I','600','14c0d155-31d3-474d-9bb0-0cbb189b22ce','DYNAMICAL SYSTEMS I','Active','642','kuali.lu.type.CreditCourse.identifier.official',0)
+  VALUES ('ECON454','ECON','c762e0bf-eb5b-4893-981d-f22c13ae0c34','Theory of Public Finance and Fiscal Federalism','400','5ae6cbd1-09fd-4395-8ec1-f50fda80b13f','THRY PUB FIN&FIS FED','Superseded','454','kuali.lu.type.CreditCourse.identifier.official',1)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
   VALUES ('BUDT732','BUDT','c2aa5250-92de-4b73-847e-b069f86e454c','Decision Modeling with Spreadsheets','700','3e4028a9-69df-4945-b92f-1f5438ad972d','DECISION MODELING','Superseded','732','kuali.lu.type.CreditCourse.identifier.official',3)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
-  VALUES ('ECON454','ECON','c762e0bf-eb5b-4893-981d-f22c13ae0c34','Theory of Public Finance and Fiscal Federalism','400','5ae6cbd1-09fd-4395-8ec1-f50fda80b13f','THRY PUB FIN&FIS FED','Superseded','454','kuali.lu.type.CreditCourse.identifier.official',1)
+  VALUES ('ECON201','ECON','f41c8787-cf61-40f7-91d8-02709ba3ff49','Principles of Macro-Economics','200','f59b3012-8762-4552-9eac-8763a83edf6b','PRIN MACRO-ECONOMICS','Superseded','201','kuali.lu.type.CreditCourse.identifier.official',3)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
   VALUES ('ENEE206','ENEE','520485f1-beeb-4561-9069-adf467c5317c','Fundamental Electric and Digital Circuit Laboratory','200','4f49f5e9-e8dd-43f8-9465-14c36d84f57e','FUND ELECT&DIG CIRC LAB','Active','206','kuali.lu.type.CreditCourse.identifier.official',0)

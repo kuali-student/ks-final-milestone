@@ -68,10 +68,10 @@ INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
   VALUES ('1f8b3dba-9143-44f8-b006-50834d8fbb37','cf649d7d-8482-4f7b-885a-e6dbbca3ef9a','Grading options',0)
 /
 INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
-  VALUES ('ae0ba35c-8eb8-4be3-882c-353fb94fa0bd','3ea35366-e061-468a-8e70-b1b79c7f383b','Grading option',0)
+  VALUES ('2d01cd9b-f2b4-4fec-b261-4568d5bc9f29','ad26b426-7e33-4078-92c2-a64350718572','Grading option',0)
 /
 INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
-  VALUES ('2d01cd9b-f2b4-4fec-b261-4568d5bc9f29','ad26b426-7e33-4078-92c2-a64350718572','Grading option',0)
+  VALUES ('ae0ba35c-8eb8-4be3-882c-353fb94fa0bd','3ea35366-e061-468a-8e70-b1b79c7f383b','Grading option',0)
 /
 INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
   VALUES ('88c90d36-6b24-4b4b-b32b-adcf7b27abef','d0bbadd5-81e0-4af5-8d53-b305adc29b3f','Grading option',0)
@@ -401,10 +401,10 @@ INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
   VALUES ('8e4bb4f5-1607-442d-9a1d-4b9714c86bde','a832e890-d615-464a-a855-01db54ef0cb4','Grading option',0)
 /
 INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
-  VALUES ('05f75a0a-0735-4831-bfaf-703a3b920676','7cc39296-6e9b-4164-b8f1-13dfc9f01817','Grading option',0)
+  VALUES ('7e2aeb76-27cf-4f1b-80f8-6dd5ce75aca3','7085281a-f2d1-4fa9-82ac-f2cc93680503','Grading option',0)
 /
 INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
-  VALUES ('7e2aeb76-27cf-4f1b-80f8-6dd5ce75aca3','7085281a-f2d1-4fa9-82ac-f2cc93680503','Grading option',0)
+  VALUES ('05f75a0a-0735-4831-bfaf-703a3b920676','7cc39296-6e9b-4164-b8f1-13dfc9f01817','Grading option',0)
 /
 INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
   VALUES ('4e92271f-946b-42de-b391-47f861161f2c','5451b6ed-f119-4998-923c-555c31534377','Grading options',0)
@@ -1082,10 +1082,10 @@ INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
   VALUES ('1e7e0da0-877f-4b80-a0be-c5d13fe67b81','8e3abba6-ec40-465a-9e41-ed7406c13d1b','Grading option',0)
 /
 INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
-  VALUES ('5a07c410-faae-433f-b4e6-a9214180ebf9','00af180a-3e3a-43ff-87a3-ef3727f2e502','A history of rotary-wing aircraft, introduction to hovering theory, hovering and axial flight performance, factors affecting hovering and vertical flight performance, autorotation in vertical descent, concepts of blade motion and control, aerodynamics of forward flight, forward flight performance, operational envelope, and introduction to rotor acoustics.',0)
+  VALUES ('e72da559-86f9-4bc3-9a41-f8215f58cedf','2217912d-c4b1-46fc-907c-a296a3b5bc69','Grading option',0)
 /
 INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
-  VALUES ('e72da559-86f9-4bc3-9a41-f8215f58cedf','2217912d-c4b1-46fc-907c-a296a3b5bc69','Grading option',0)
+  VALUES ('5a07c410-faae-433f-b4e6-a9214180ebf9','00af180a-3e3a-43ff-87a3-ef3727f2e502','A history of rotary-wing aircraft, introduction to hovering theory, hovering and axial flight performance, factors affecting hovering and vertical flight performance, autorotation in vertical descent, concepts of blade motion and control, aerodynamics of forward flight, forward flight performance, operational envelope, and introduction to rotor acoustics.',0)
 /
 INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
   VALUES ('1f4efb5e-fe6a-428a-8c4f-31b57b72c993','219e57bb-bce5-4012-8c5a-4a122e8dca0a','Grading option',0)
@@ -1280,13 +1280,13 @@ INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
   VALUES ('35984990-3c0c-421a-8ec7-18024ddbedee','94a08d41-c39d-492b-9cea-f9a312953b3f','Grading option',0)
 /
 INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
+  VALUES ('4fa1aa7d-fa13-4507-9e92-a970447f4583','035383b2-7ec2-4a4d-bf3b-9559066f8e85','Grading option',0)
+/
+INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
   VALUES ('ea4262ca-bc06-4f62-9bd0-c9743d18b21f','695032c6-6123-4f0c-b872-3e4996e184dd','Grading options',0)
 /
 INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
   VALUES ('e328c6a7-5619-4aec-b9e6-549b519d1242','5994a6e9-c12e-42ca-9eb5-82a477dfa397','Grading option',0)
-/
-INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
-  VALUES ('4fa1aa7d-fa13-4507-9e92-a970447f4583','035383b2-7ec2-4a4d-bf3b-9559066f8e85','Grading option',0)
 /
 INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
   VALUES ('717786c6-335c-4427-8a0d-20a5f182996d','47f0e54d-c545-496f-850d-9b4f9c701eb7','Grading option',0)
@@ -1403,10 +1403,10 @@ INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
   VALUES ('e611a86f-9289-415f-aa3b-45945d108146','af01605a-9e94-4f59-ab8b-a7a35885b8c1','Integration and extension of financial theory and principles to analyze financial, asset and ownership restructuring decisions. A valuation framework is used to study strategic decisions such as mergers and acquisitions, share repurchases, exchange offers, leveraged recapitalization, joint ventures, employee stock option plans, divestitures and spin-offs.',0)
 /
 INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
-  VALUES ('213c727a-66f8-4144-bbfd-849bd5619e61','9d199adc-b211-400c-85d2-098b4eb7f9c9','Grading option',0)
+  VALUES ('5ce08ce6-f027-4494-8b8e-841607662fb9','a422792c-c7b5-44a9-8753-d626fa302b89','Grading options',0)
 /
 INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
-  VALUES ('5ce08ce6-f027-4494-8b8e-841607662fb9','a422792c-c7b5-44a9-8753-d626fa302b89','Grading options',0)
+  VALUES ('213c727a-66f8-4144-bbfd-849bd5619e61','9d199adc-b211-400c-85d2-098b4eb7f9c9','Grading option',0)
 /
 INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
   VALUES ('a99a8dac-d91d-4e11-8d45-9992f800d62f','fef40fdb-54ea-4d24-8361-4e2a940303e1','Grading option',0)
@@ -1811,10 +1811,10 @@ INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
   VALUES ('89440e77-b18d-4a8f-9b23-458e2fd74e2b','1c7b5b5d-98ed-46bc-9d3d-c94a8964cb55','Grading option',0)
 /
 INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
-  VALUES ('2f8a4dc9-0223-4cf8-b2c2-3357daa5a4e9','dddcfdb6-0eab-4821-874e-9bcae3ac0865','Grading option',0)
+  VALUES ('c7ad1a67-4ec4-4f0e-b90e-25e62d5cdde7','3c2c6d51-03c3-4bfa-b835-e1ddc9e96363','Logic, Boolean algebra, counting, probability, random variables, expectation, applications of the normal probability distribution.',0)
 /
 INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
-  VALUES ('c7ad1a67-4ec4-4f0e-b90e-25e62d5cdde7','3c2c6d51-03c3-4bfa-b835-e1ddc9e96363','Logic, Boolean algebra, counting, probability, random variables, expectation, applications of the normal probability distribution.',0)
+  VALUES ('2f8a4dc9-0223-4cf8-b2c2-3357daa5a4e9','dddcfdb6-0eab-4821-874e-9bcae3ac0865','Grading option',0)
 /
 INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
   VALUES ('a05050e6-b087-4060-9669-9326d77609b8','4247de0d-1167-4cea-a870-b7f6b9e0b8e8','Grading option',0)
@@ -1871,10 +1871,10 @@ INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
   VALUES ('49b8ba93-6cb3-4871-9443-f62a65ba2928','a0eeb4cc-4544-4e49-b537-9b32c463501a','Grading option',0)
 /
 INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
-  VALUES ('1f5226e8-970e-4d25-b508-eaea7bce6645','8ad262dc-1267-4449-8570-930c448a84c3','Grading options',0)
+  VALUES ('c0f4246e-64a6-4145-97b7-b56ef7c3abb5','e9b8e3d2-e420-4270-92f9-c57394f4db83','Grading option',0)
 /
 INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
-  VALUES ('c0f4246e-64a6-4145-97b7-b56ef7c3abb5','e9b8e3d2-e420-4270-92f9-c57394f4db83','Grading option',0)
+  VALUES ('1f5226e8-970e-4d25-b508-eaea7bce6645','8ad262dc-1267-4449-8570-930c448a84c3','Grading options',0)
 /
 INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
   VALUES ('c86fcdb8-74fd-4b7c-8945-5e1fedfd19bf','68b18cc1-9df5-4ecb-978e-e8d1c6c4a273','Grading option',0)
@@ -2456,10 +2456,10 @@ INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
   VALUES ('049d2447-48f0-49d9-92c0-65ab5ed7562e','dc03b8bb-7abc-4ad3-904d-6472b99bd607','Creating a new technology, nanotechnology, biotechnology, or plastic electronics requires developing the materials first. In this class we''ll explore materials science and engineering where engineers change the properties and/or behavior of a material to make them more useful. The course covers the chemical composition, phase transformations, corrosion and mechanical properties of materials as well as their electrical, thermal, magnetic and optical properties. Learn about the unlimited possibilities for innovation and adaption through the exciting field of nanotechnology.',0)
 /
 INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
-  VALUES ('608ab4d4-e2ee-4104-93e6-2a7c30e1b16c','4f16dfed-257e-42a0-80e0-0a5703b35439','Grading option',0)
+  VALUES ('19611fd2-8ced-4327-b334-6869ec435fd6','06c25b5a-9a2f-480b-9ebd-fd00381d2e8f','Grading options',0)
 /
 INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
-  VALUES ('19611fd2-8ced-4327-b334-6869ec435fd6','06c25b5a-9a2f-480b-9ebd-fd00381d2e8f','Grading options',0)
+  VALUES ('608ab4d4-e2ee-4104-93e6-2a7c30e1b16c','4f16dfed-257e-42a0-80e0-0a5703b35439','Grading option',0)
 /
 INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
   VALUES ('cefdcfd3-e2c5-4aa7-b645-2324a9acb1b9','dfc4588b-3aa7-433b-9be1-85d1e9dfa962','Grading options',0)
@@ -3422,13 +3422,13 @@ INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
   VALUES ('7578eaca-798f-4765-aac2-ba3d7eed3eaa','f18593ca-2e00-49cf-86cd-4819931a721b','Grading options',0)
 /
 INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
-  VALUES ('22df1f01-08bf-4ebc-9619-1ba6714c99a9','f093446d-150f-4162-b37f-6505b5553050','Integration and extension of financial theory and principles to analyze financial, asset and ownership restructuring decisions. A valuation framework is used to study strategic decisions such as mergers and acquisitions, share repurchases, exchange offers, leveraged recapitalization, joint ventures, employee stock option plans, divestitures and spin-offs.',0)
-/
-INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
   VALUES ('a556961d-cb7e-4ed8-96f6-ea7f513cab2a','1057c982-71f0-462a-85df-0d7e62cea2b6','Grading option',0)
 /
 INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
   VALUES ('783addb2-cfff-41c7-b2b7-d85c0dfc65ea','c1d32fe8-b629-4e03-9418-4fa853c6428b','Inverse and implicit function theorems, Sard''s theorem, orientability, degrees, smooth vector bundles, imbeddings and immersions, transversality approximation theorems and applications, isotopy extension theorem, tubular neighborhoods.',0)
+/
+INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
+  VALUES ('22df1f01-08bf-4ebc-9619-1ba6714c99a9','f093446d-150f-4162-b37f-6505b5553050','Integration and extension of financial theory and principles to analyze financial, asset and ownership restructuring decisions. A valuation framework is used to study strategic decisions such as mergers and acquisitions, share repurchases, exchange offers, leveraged recapitalization, joint ventures, employee stock option plans, divestitures and spin-offs.',0)
 /
 INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
   VALUES ('66a26035-10e6-41b9-90d7-d224da704358','3c58bcfb-7a23-4600-9515-8913b8ef2241','Grading option',0)
@@ -3473,10 +3473,10 @@ INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
   VALUES ('b3f6cd88-8056-4203-9225-597774ac4d94','39d6a019-aa95-4a55-b001-33ee71557adf','Grading options',0)
 /
 INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
-  VALUES ('ceb17142-b391-4fd0-a349-7cde7d87847a','1c318f6e-378a-412f-9461-4f43f12891c2','Grading option',0)
+  VALUES ('38d71b66-39fd-4219-9e31-db770f4f7243','d778f1c5-a23c-4db9-a5ed-509a343f6c35','Grading option',0)
 /
 INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
-  VALUES ('38d71b66-39fd-4219-9e31-db770f4f7243','d778f1c5-a23c-4db9-a5ed-509a343f6c35','Grading option',0)
+  VALUES ('ceb17142-b391-4fd0-a349-7cde7d87847a','1c318f6e-378a-412f-9461-4f43f12891c2','Grading option',0)
 /
 INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
   VALUES ('b6044f3f-de00-449f-afdc-4c3a938c205d','b1cd46d5-15ba-473b-99d8-a53a2bfe7885','Grading option',0)
@@ -3848,10 +3848,10 @@ INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
   VALUES ('6e150439-a7ff-4acb-a379-cc6c4d3ec557','cc24bde6-69b4-4991-9b2a-735a2be3cbdd','Introduction to error analysis, conditioning and stability of algorithms. Numerical solution of nonlinear equations. Vector spaces and linear transformations. Matrix algebra. Gaussian elimination. LU factorization, matrix inversion. Similarity transformations and diagonalization. Iterative computation of eigenvalues. Interpolation; splines; data fitting. Numerical integration.',0)
 /
 INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
-  VALUES ('9f9cd967-334d-4ba0-b49c-5e0da1570d42','d18f04e2-43b9-4540-9251-1f819f6eeb33','Grading option',0)
+  VALUES ('e89ed8d1-4596-4d72-8852-bf1d1a0c554f','e1180e33-40a8-42a7-b7e0-cc799f4c8474','A detailed treatment of the theory of the consumer and of the firm, particularly emphasizing the duality approach. Topics include the household production model, imperfect competition, monopolistic and oligopolistic markets.',0)
 /
 INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
-  VALUES ('e89ed8d1-4596-4d72-8852-bf1d1a0c554f','e1180e33-40a8-42a7-b7e0-cc799f4c8474','A detailed treatment of the theory of the consumer and of the firm, particularly emphasizing the duality approach. Topics include the household production model, imperfect competition, monopolistic and oligopolistic markets.',0)
+  VALUES ('9f9cd967-334d-4ba0-b49c-5e0da1570d42','d18f04e2-43b9-4540-9251-1f819f6eeb33','Grading option',0)
 /
 INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
   VALUES ('0c0e4ce0-fb4e-4265-b1ed-3878114795d3','17e05ec9-1995-4cdc-8771-fa32aa6fc8ea','Exposes engineering and business students to the principles of total quality, using experiential team-learning and technology-aided approaches. The first of four courses in total quality.',0)
@@ -4238,10 +4238,10 @@ INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
   VALUES ('34c87cd9-6428-49f9-be54-e50dc0e02f0b','3486c215-12e7-4144-8f1f-cc38089f0bce','Grading options',0)
 /
 INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
-  VALUES ('69e5e440-21fe-4211-a249-0bd97a418726','83dd8cf3-1758-4774-9270-6fbfdf2747f8','Multi-disciplinary course covers basic concepts in technology marketing business, engineering, and entrepreneurship in the context of developing and marketing innovative technology products and services. Mix of lectures, experiential learning, and hands-on team projects, culminating in student team presentations of high-tech product concepts and marketing plans.',0)
+  VALUES ('0c561f95-a657-44bc-952d-8d5c39d0e435','bafe9464-5a7d-4a98-b8bc-66de34d4bf3d','Independent study for Masters students in Marketing.',0)
 /
 INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
-  VALUES ('0c561f95-a657-44bc-952d-8d5c39d0e435','bafe9464-5a7d-4a98-b8bc-66de34d4bf3d','Independent study for Masters students in Marketing.',0)
+  VALUES ('69e5e440-21fe-4211-a249-0bd97a418726','83dd8cf3-1758-4774-9270-6fbfdf2747f8','Multi-disciplinary course covers basic concepts in technology marketing business, engineering, and entrepreneurship in the context of developing and marketing innovative technology products and services. Mix of lectures, experiential learning, and hands-on team projects, culminating in student team presentations of high-tech product concepts and marketing plans.',0)
 /
 INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
   VALUES ('7848899b-8482-41d0-9270-b50a70be1721','b986deb8-d23e-4bf6-aac8-9482e725d893','Grading option',0)
@@ -4457,19 +4457,19 @@ INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
   VALUES ('33f72a6f-367f-4010-90b3-afe7e190dbdd','df164910-7609-41c5-a26a-988f7b1f1dcd','Grading options',0)
 /
 INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
-  VALUES ('e33c2fd5-ff7a-4398-91ae-0d91757afc47','7366e7b4-9111-4fc7-aa88-d26e7007ab74','This entrepreneurship seminar and case study-based course will explore technology entrepreneurship with a focus on leadership, marketing, team-building, and management of new technology ventures and assumes baseline knowledge of entrepreneurship. Students will learn skills needed to succeed as a technology entrepreneur and how to apply best practices for planning, launching, and growing new companies. This course is a requirement of the Hinman CEOs program.',0)
+  VALUES ('a26ac6d8-ac29-4f52-a81d-8b2f4c1974e9','30d7ec11-d797-4060-abca-cb15695a97ad','Creating a new technology, nanotechnology, biotechnology, or plastic electronics requires developing the materials first. In this class we''ll explore materials science and engineering where engineers change the properties and/or behavior of a material to make them more useful. The course covers the chemical composition, phase transformations, corrosion and mechanical properties of materials as well as their electrical, thermal, magnetic and optical properties. Learn about the unlimited possibilities for innovation and adaption through the exciting field of nanotechnology.',0)
 /
 INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
-  VALUES ('a26ac6d8-ac29-4f52-a81d-8b2f4c1974e9','30d7ec11-d797-4060-abca-cb15695a97ad','Creating a new technology, nanotechnology, biotechnology, or plastic electronics requires developing the materials first. In this class we''ll explore materials science and engineering where engineers change the properties and/or behavior of a material to make them more useful. The course covers the chemical composition, phase transformations, corrosion and mechanical properties of materials as well as their electrical, thermal, magnetic and optical properties. Learn about the unlimited possibilities for innovation and adaption through the exciting field of nanotechnology.',0)
+  VALUES ('e33c2fd5-ff7a-4398-91ae-0d91757afc47','7366e7b4-9111-4fc7-aa88-d26e7007ab74','This entrepreneurship seminar and case study-based course will explore technology entrepreneurship with a focus on leadership, marketing, team-building, and management of new technology ventures and assumes baseline knowledge of entrepreneurship. Students will learn skills needed to succeed as a technology entrepreneur and how to apply best practices for planning, launching, and growing new companies. This course is a requirement of the Hinman CEOs program.',0)
 /
 INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
   VALUES ('40ea5109-d8ab-46c0-a696-da3bb2c1c23f','4f78a0ec-a4f2-4273-b1a9-cdaebb233586','Grading options',0)
 /
 INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
-  VALUES ('2a708613-b504-4772-bb71-bb073a8554f6','bfdac38b-897e-46ce-9326-4725a09ee6c0','Introduction to calculus, including functions, limits, continuity, derivatives and applications of the derivative, sketching of graphs of functions, definite and indefinite integrals, and calculation of area. The course is especially recommended for science, engineering and mathematics majors.',0)
+  VALUES ('8c4f3486-4b60-470f-9b2c-f5e00d60eb74','49f60336-0772-423e-83b6-aa43e732998e','Grading options',0)
 /
 INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
-  VALUES ('8c4f3486-4b60-470f-9b2c-f5e00d60eb74','49f60336-0772-423e-83b6-aa43e732998e','Grading options',0)
+  VALUES ('2a708613-b504-4772-bb71-bb073a8554f6','bfdac38b-897e-46ce-9326-4725a09ee6c0','Introduction to calculus, including functions, limits, continuity, derivatives and applications of the derivative, sketching of graphs of functions, definite and indefinite integrals, and calculation of area. The course is especially recommended for science, engineering and mathematics majors.',0)
 /
 INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
   VALUES ('e8de6691-db17-4882-9a49-60542d84d978','26f60fc6-3e33-4f65-9d80-2bf4e8cc9c20','Grading option',0)
@@ -4589,10 +4589,10 @@ INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
   VALUES ('c0bedd01-eff3-4094-885b-b80851cc5ef7','557b3ccb-abc2-415c-bb53-9a247f0c8c0b','Grading options',0)
 /
 INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
-  VALUES ('b059c57a-4305-4fbf-99cf-09149980a479','e8bf66cd-b462-4537-accd-d706ad674c6c','Grading option',0)
+  VALUES ('4aa0750c-50c4-4f37-8d5a-3d265521a2fe','a2d7af27-d58a-4169-bd23-b06daa0de7b9','Grading option',0)
 /
 INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
-  VALUES ('4aa0750c-50c4-4f37-8d5a-3d265521a2fe','a2d7af27-d58a-4169-bd23-b06daa0de7b9','Grading option',0)
+  VALUES ('b059c57a-4305-4fbf-99cf-09149980a479','e8bf66cd-b462-4537-accd-d706ad674c6c','Grading option',0)
 /
 INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
   VALUES ('3d2a373b-8271-4aae-9c51-432bd79ed9da','ad95501c-9257-420a-94ab-e7ef3fc15e6d','Calculus of Variations, Bochner technique, Morse theory, weak solutions and elliptic regularity, maximum principle for elliptic and parabolic equations, Green''s function of the Laplacian, isoperimetric and Sobolev inequalities, continuity method, curvature and comparison results, harmonic maps, curvature prescription problems.',1)
@@ -5198,16 +5198,16 @@ INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
   VALUES ('e01e18a6-a2cf-440b-9af9-4ab7948e71f3','3f0e6ef7-c57b-4e77-98d9-c16ea7f71d3f','Data collection methods for academic research with an emphasis on a Web environment. Designing and executing surveys, collecting web data, and designing and analyzing experiments. Discussion of ethics, statistical theory, practical considerations, and technical issues.',0)
 /
 INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
-  VALUES ('d5c925ae-b983-42b4-bca4-de42088498ca','3d0d0398-eeb2-4c9a-a959-5d871338255a','Grading option',0)
-/
-INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
   VALUES ('05c9038b-0bcd-4e68-9fd6-c39c6710f80d','6b59307e-a39c-4412-a543-0676bed0382a','An introduction to the feedback control of dynamic systems. Laplace transforms and transfer function techniques; frequency response and Bode diagrams. Stability analysis via root locus and Nyquist techniques. Performance specifications in time and frequency domains, and design of compensation strategies to meet performance goals.',0)
 /
 INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
-  VALUES ('272543b1-d128-4c02-8881-b5229e41a57f','a954e02f-cadb-4cfd-ab13-5a18ffd98c90','Grading options',0)
+  VALUES ('d5c925ae-b983-42b4-bca4-de42088498ca','3d0d0398-eeb2-4c9a-a959-5d871338255a','Grading option',0)
 /
 INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
   VALUES ('a4ec95df-0fff-4949-9a9a-5964dc27b6ac','52ff2a4c-cca7-4c26-a310-8c324e0c1507','.',0)
+/
+INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
+  VALUES ('272543b1-d128-4c02-8881-b5229e41a57f','a954e02f-cadb-4cfd-ab13-5a18ffd98c90','Grading options',0)
 /
 INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
   VALUES ('d3a48786-3568-4591-b882-c7576ce33ca6','a34f606f-39f7-43e7-b705-607b5b8b0ade','Grading option',0)
@@ -6242,10 +6242,10 @@ INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
   VALUES ('c8434953-9b7f-441c-8532-a8d95a5fd3e3','0ec90552-c21b-43c9-9775-fec3406196cd','Grading option',0)
 /
 INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
-  VALUES ('2f53cda7-5bc3-478e-89ef-a06f4897b565','03ab4e04-e36d-4adf-a5f0-2cb95d02d01d','Modern analytical and quantitative labor economics. Labor supply decisions of individuals and households; human capital model and distribution of income. Demand for labor; marginal productivity theory, imperfect information and screening. Interaction of labor demand and supply; unemployment; relative and absolute wages; macroeconomic aspects of the labor market.',0)
+  VALUES ('d143501e-6615-4684-a974-84ebb4d8d197','1926daa8-d439-4c88-ae49-4618edbd1d87','Grading options',0)
 /
 INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
-  VALUES ('d143501e-6615-4684-a974-84ebb4d8d197','1926daa8-d439-4c88-ae49-4618edbd1d87','Grading options',0)
+  VALUES ('2f53cda7-5bc3-478e-89ef-a06f4897b565','03ab4e04-e36d-4adf-a5f0-2cb95d02d01d','Modern analytical and quantitative labor economics. Labor supply decisions of individuals and households; human capital model and distribution of income. Demand for labor; marginal productivity theory, imperfect information and screening. Interaction of labor demand and supply; unemployment; relative and absolute wages; macroeconomic aspects of the labor market.',0)
 /
 INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
   VALUES ('206c8e37-0c7c-4535-b3b8-e94fb33cff57','f61cce2b-b831-4e53-b79c-5c5d37e43935','Grading options',0)
@@ -6509,10 +6509,10 @@ INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
   VALUES ('c27b67b7-9c77-4576-ac43-cce05ed4b25b','883e7967-8ba8-44d1-8baf-418e90ad3a11','Grading option',0)
 /
 INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
-  VALUES ('0786d92c-b5db-463b-b908-b55f8a50a109','893bc189-63e2-47ab-b5b8-4f09991340d9','Grading options',0)
+  VALUES ('6aab4c16-8853-405f-bda9-e33bd949de1d','7001dad8-ead4-41e1-914d-9646ae172476','Grading option',0)
 /
 INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
-  VALUES ('6aab4c16-8853-405f-bda9-e33bd949de1d','7001dad8-ead4-41e1-914d-9646ae172476','Grading option',0)
+  VALUES ('0786d92c-b5db-463b-b908-b55f8a50a109','893bc189-63e2-47ab-b5b8-4f09991340d9','Grading options',0)
 /
 INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
   VALUES ('d9cf7b72-d4ad-476d-8e46-3c72d4076efa','b6527339-9dae-4d31-8de0-ca356296bdda','Grading option',0)
@@ -6665,10 +6665,10 @@ INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
   VALUES ('db3ff000-d2f4-4728-9994-4974c114cd74','a012cf68-2bc0-4a51-8f96-d598a6a24447','Grading option',0)
 /
 INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
-  VALUES ('22409996-64f6-4bbc-8583-2defc22b41e1','cd0c85f4-3c5f-4986-9d37-f0692d29f281','Grading option',0)
+  VALUES ('9be8bad8-dbe7-4884-b339-3daea5703b87','92e428ba-6cca-42be-ac49-7106e838149d','Grading options',0)
 /
 INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
-  VALUES ('9be8bad8-dbe7-4884-b339-3daea5703b87','92e428ba-6cca-42be-ac49-7106e838149d','Grading options',0)
+  VALUES ('22409996-64f6-4bbc-8583-2defc22b41e1','cd0c85f4-3c5f-4986-9d37-f0692d29f281','Grading option',0)
 /
 INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
   VALUES ('505dd810-3f75-4aa4-8e17-6ee7d8cd65e8','ec249430-7ded-422e-8d57-ba31a2ab9cce','Grading option',0)
@@ -6722,10 +6722,10 @@ INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
   VALUES ('bf4a1885-5ca8-4c8a-beee-e3b5fac6eb19','c5188937-8be0-46f1-8cf5-326af846ee16','Grading option',0)
 /
 INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
-  VALUES ('a804832a-c727-4c8f-b351-fdf39d699de5','98d68251-0ad9-4d10-8366-49aa42abf910','Introductory course in probabilistic and statistical concepts including descriptive statistics, set-theoretic development of probability, the properties of discrete and continuous random variables, sampling theory, estimation, hypothesis testing, regression and decision theory and the application of these concepts to problem solving in business and the application of these concepts to problem solving in business and management. This course does not meet requirements for management science and statistics majors.',0)
+  VALUES ('06e62dee-21c2-4867-b58a-927a08df5d56','9e5e06cf-72e4-4259-b67d-5bc9a1df60bf','Grading option',0)
 /
 INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
-  VALUES ('06e62dee-21c2-4867-b58a-927a08df5d56','9e5e06cf-72e4-4259-b67d-5bc9a1df60bf','Grading option',0)
+  VALUES ('a804832a-c727-4c8f-b351-fdf39d699de5','98d68251-0ad9-4d10-8366-49aa42abf910','Introductory course in probabilistic and statistical concepts including descriptive statistics, set-theoretic development of probability, the properties of discrete and continuous random variables, sampling theory, estimation, hypothesis testing, regression and decision theory and the application of these concepts to problem solving in business and the application of these concepts to problem solving in business and management. This course does not meet requirements for management science and statistics majors.',0)
 /
 INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
   VALUES ('6f4ca639-d218-4580-89a5-a7e7aabdba02','2560007f-44f6-4f47-9560-8dba388047f1','Grading option',0)
@@ -7187,10 +7187,10 @@ INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
   VALUES ('de693f83-5405-4b2e-9fbd-61457cd1b19b','a1038ef1-8309-4486-bbc2-9f4b79cb8c99','Grading option',0)
 /
 INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
-  VALUES ('afd8417a-a49f-4d2b-ba0c-51a9ab4af33a','4884c629-19dc-448c-9ab5-93f8d7415e2c','Grading option',0)
+  VALUES ('2efdf885-3479-47a2-9a71-31bf993b96ba','f1674412-dac2-4325-9ba8-a8a869fc759f','Grading options',0)
 /
 INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
-  VALUES ('2efdf885-3479-47a2-9a71-31bf993b96ba','f1674412-dac2-4325-9ba8-a8a869fc759f','Grading options',0)
+  VALUES ('afd8417a-a49f-4d2b-ba0c-51a9ab4af33a','4884c629-19dc-448c-9ab5-93f8d7415e2c','Grading option',0)
 /
 INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
   VALUES ('414102a5-d6ae-45c6-94bf-ef7e4458d696','408cf77f-5418-4c3a-9ef8-11f1196b6669','General systems models. State variables and state space. Linearity and its implications. Controllability and observability. State space structure and representation. Realization theory and algorithmic solutions. Parameterizations of linear systems; canonical forms. Basic results from stability theory. Stabilizability. Fine structure of linear multivariable systems; minimal indices and polynomial matrices. Interplay between frequency domain and state space.',0)
@@ -7298,10 +7298,10 @@ INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
   VALUES ('10f8d68e-ccaa-4622-ba49-9fedde7e1a02','72c5e371-5fa9-4361-8dae-bfd0c7c1f8c8','Grading option',0)
 /
 INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
-  VALUES ('a728892c-68e4-4be0-bac2-cb94b7d138c1','d96e309d-d0b4-439f-93f0-6894e0b203a6','Grading option',0)
+  VALUES ('a9e67b7f-ba7b-4e61-8ccb-bca49949668e','331eaa96-ae6b-4dde-b65e-64d681984ef9','Grading option',0)
 /
 INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
-  VALUES ('a9e67b7f-ba7b-4e61-8ccb-bca49949668e','331eaa96-ae6b-4dde-b65e-64d681984ef9','Grading option',0)
+  VALUES ('a728892c-68e4-4be0-bac2-cb94b7d138c1','d96e309d-d0b4-439f-93f0-6894e0b203a6','Grading option',0)
 /
 INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
   VALUES ('2af977f5-803e-4fc4-bc8c-e87176a2aa94','106a57c6-3147-4bc3-b25c-63af3f38b10a','Grading option',0)
@@ -7709,10 +7709,10 @@ INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
   VALUES ('ec57b5bd-ec6e-4ad3-a4f7-fff6da5891bd','9bb3fd79-3466-40d5-805d-63acbd6510ea','Grading option',0)
 /
 INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
-  VALUES ('1a30001e-d125-44ee-b112-c2972f528a05','fe06363c-2c6e-488e-8344-b04b21287554','Grading option',0)
+  VALUES ('7a4a3f7d-ed1b-4657-b5c9-bbfb802da3ae','1eafa7c0-ad3b-42ad-acd9-92f4a002c783','Legal aspects of business relationships. Examination of torts and business crimes, contracts and agency. The law of personal property and bailment relationships. Survey of public policy issues.',0)
 /
 INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
-  VALUES ('7a4a3f7d-ed1b-4657-b5c9-bbfb802da3ae','1eafa7c0-ad3b-42ad-acd9-92f4a002c783','Legal aspects of business relationships. Examination of torts and business crimes, contracts and agency. The law of personal property and bailment relationships. Survey of public policy issues.',0)
+  VALUES ('1a30001e-d125-44ee-b112-c2972f528a05','fe06363c-2c6e-488e-8344-b04b21287554','Grading option',0)
 /
 INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
   VALUES ('7a8d2cf4-e2d3-40cd-85e4-af01ae0647e7','377abd82-2915-4e24-8f2d-423a91dc7aee','Grading option',0)
@@ -7940,10 +7940,10 @@ INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
   VALUES ('2529ca2b-d50b-46f4-a70c-0700f389ccc0','d6f93dc5-8537-44c9-9b4c-5363b5aea313','Grading option',0)
 /
 INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
-  VALUES ('c4d1ff39-b79b-4ab1-b157-508b77c0b636','faa9530e-144f-46e5-8ebb-fbe6edf5a247','Grading option',0)
+  VALUES ('249671d8-397b-4d3c-a011-0746b720925a','62cffbd3-d1e7-4985-a80d-e70afc7b21bd','Estimation of unknown parameters, Cramer-Rao lower bound; optimum (map) demodulation; filtering, amplitude and angle modulation, comparison with conventional systems; statistical decision theory Bayes, minimax, Neyman/Pearson, Criteria-68 simple and composite hypotheses; application to coherent and incoherent signal detection; M-ary hypotheses; application to uncoded and coded digital communication systems.',0)
 /
 INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
-  VALUES ('249671d8-397b-4d3c-a011-0746b720925a','62cffbd3-d1e7-4985-a80d-e70afc7b21bd','Estimation of unknown parameters, Cramer-Rao lower bound; optimum (map) demodulation; filtering, amplitude and angle modulation, comparison with conventional systems; statistical decision theory Bayes, minimax, Neyman/Pearson, Criteria-68 simple and composite hypotheses; application to coherent and incoherent signal detection; M-ary hypotheses; application to uncoded and coded digital communication systems.',0)
+  VALUES ('c4d1ff39-b79b-4ab1-b157-508b77c0b636','faa9530e-144f-46e5-8ebb-fbe6edf5a247','Grading option',0)
 /
 INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
   VALUES ('120b7928-8853-4a25-8841-1c08697951e4','36bb2526-a62e-4be1-8e1f-6cbe7c4e19a9','Grading option',0)
@@ -8546,10 +8546,10 @@ INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
   VALUES ('991e7f5b-3ca0-4089-88aa-c3695f6b24f6','a3f6edf1-58e1-4fe9-9c51-ef9aa6b523ba','Grading option',0)
 /
 INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
-  VALUES ('2fed112f-b588-43c3-936c-a064ab9d2c07','2336a5a7-c711-4d82-bfb5-be28833cb711','This multi-disciplinary course helps students learn the principles of entrepreneurial opportunity analysis and decision-making in an increasingly dynamic and technically-inclined society. Emphasis is placed on how aspiring technology entrepreneurs can develop their entrepreneurial perspectives to develop winning entrepreneurial plans for their future ventures.',0)
+  VALUES ('6783376a-7ee4-49cf-a5aa-37b8c3211758','80ac3522-d773-4062-9400-6a48a50cd3e3','Analyze and identify profit opportunities and threats in different industry and competitive environments; Analyze and identify a firm''s valuable assets, resources and capabilities and how they might be protected, leveraged, and extended in the market; Learn how to organize your company to be the best prepared to adapt its strategy over time as the market environment changes; and how to use organic growth as well as mergers, acquisitions, joint ventures, alliances, and divestitures to ensure that the firm maintians the proper scale and scope to compete effectively over time.',0)
 /
 INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
-  VALUES ('6783376a-7ee4-49cf-a5aa-37b8c3211758','80ac3522-d773-4062-9400-6a48a50cd3e3','Analyze and identify profit opportunities and threats in different industry and competitive environments; Analyze and identify a firm''s valuable assets, resources and capabilities and how they might be protected, leveraged, and extended in the market; Learn how to organize your company to be the best prepared to adapt its strategy over time as the market environment changes; and how to use organic growth as well as mergers, acquisitions, joint ventures, alliances, and divestitures to ensure that the firm maintians the proper scale and scope to compete effectively over time.',0)
+  VALUES ('2fed112f-b588-43c3-936c-a064ab9d2c07','2336a5a7-c711-4d82-bfb5-be28833cb711','This multi-disciplinary course helps students learn the principles of entrepreneurial opportunity analysis and decision-making in an increasingly dynamic and technically-inclined society. Emphasis is placed on how aspiring technology entrepreneurs can develop their entrepreneurial perspectives to develop winning entrepreneurial plans for their future ventures.',0)
 /
 INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
   VALUES ('a34fb612-1df6-4d97-b329-cd7267d903d4','f7fabd1c-ec80-4800-a38e-5548a36a33ed','Grading option',0)
@@ -8999,10 +8999,10 @@ INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
   VALUES ('b910be73-3821-4c6e-9b06-c0959669ac86','0f7350e2-267a-45aa-91f6-c64a2d4ec939','Grading option',0)
 /
 INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
-  VALUES ('4d353e43-5891-4ab9-9a4d-8a6d102a1dd0','500e46ee-ac2a-4e4f-8ca8-f55b7495ac84','Grading option',0)
+  VALUES ('ece2aadd-d133-4442-a78c-4b37b7647f69','1d1ff410-3d43-4bf0-9116-cae57f9ab8db','Selected topics of current importance in signal processing.',0)
 /
 INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
-  VALUES ('ece2aadd-d133-4442-a78c-4b37b7647f69','1d1ff410-3d43-4bf0-9116-cae57f9ab8db','Selected topics of current importance in signal processing.',0)
+  VALUES ('4d353e43-5891-4ab9-9a4d-8a6d102a1dd0','500e46ee-ac2a-4e4f-8ca8-f55b7495ac84','Grading option',0)
 /
 INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
   VALUES ('149c1e45-887f-49ee-b63a-ec9e3f58c19a','2fa68b68-5622-42de-a3c1-8e54206d6e9b','Grading options',0)
@@ -9227,10 +9227,10 @@ INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
   VALUES ('6102ef29-4ca9-47b8-bedf-bde3ecf25ba1','2c078703-fb40-4133-816f-a0bf991c9639','Grading options',0)
 /
 INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
-  VALUES ('e55e8f7f-9a63-480c-bc9f-97f5fb17808a','2195a490-1f66-4616-bdca-e80551d0d78e','Grading option',0)
+  VALUES ('0d7b7282-90da-459f-aa3c-f907a7839291','dff046bc-d763-470a-9bad-4ca88f97e927','Grading options',0)
 /
 INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
-  VALUES ('0d7b7282-90da-459f-aa3c-f907a7839291','dff046bc-d763-470a-9bad-4ca88f97e927','Grading options',0)
+  VALUES ('e55e8f7f-9a63-480c-bc9f-97f5fb17808a','2195a490-1f66-4616-bdca-e80551d0d78e','Grading option',0)
 /
 INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
   VALUES ('795bcdd0-399c-4f61-b427-0dc795a2db82','9ebeca58-1a85-4de4-80aa-097e1befd8b3','Grading option',0)
@@ -9812,10 +9812,10 @@ INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
   VALUES ('d406a33f-babd-4136-8af7-cfec7e12b534','b85e3f1b-2095-455d-aaba-85770e869ac1','Grading option',0)
 /
 INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
-  VALUES ('085b9abd-4105-4dca-9cee-e0ec2c8c0f9e','108a817e-9403-4e8e-8dbf-766558e4feb2','Thermodynamic cycle analysis, aerothermochemistry of fuels and propellants, operating principles of rocket, ion, and other exoatmospheric power units.',0)
+  VALUES ('974a70c8-7511-411d-a8bf-5ad2fca60838','13af2c41-e471-4733-8cf0-ce2f1923ab63','Grading option',0)
 /
 INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
-  VALUES ('974a70c8-7511-411d-a8bf-5ad2fca60838','13af2c41-e471-4733-8cf0-ce2f1923ab63','Grading option',0)
+  VALUES ('085b9abd-4105-4dca-9cee-e0ec2c8c0f9e','108a817e-9403-4e8e-8dbf-766558e4feb2','Thermodynamic cycle analysis, aerothermochemistry of fuels and propellants, operating principles of rocket, ion, and other exoatmospheric power units.',0)
 /
 INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
   VALUES ('49c505e5-0042-4868-8b2d-4d1aec3c14db','069661d8-0a56-4674-abb1-ea5774671bec','Grading option',0)
@@ -9896,10 +9896,10 @@ INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
   VALUES ('61d1c84c-caeb-4396-afa4-254c83c6df07','a11b3d48-983b-4c3e-b17a-c6c4fd6fb573','Grading option',0)
 /
 INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
-  VALUES ('e630dbbb-35fd-4819-bb0d-21fe907a5103','733034f0-7f9f-4214-8d42-570f2f03b37d','Grading options',0)
+  VALUES ('5053d653-3f85-4da7-8b0f-290f53ee71d2','28770c80-ef9b-4806-aed8-1cb354f24d5b','Grading option',0)
 /
 INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
-  VALUES ('5053d653-3f85-4da7-8b0f-290f53ee71d2','28770c80-ef9b-4806-aed8-1cb354f24d5b','Grading option',0)
+  VALUES ('e630dbbb-35fd-4819-bb0d-21fe907a5103','733034f0-7f9f-4214-8d42-570f2f03b37d','Grading options',0)
 /
 INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
   VALUES ('3e33a6ea-efb0-494d-a414-28fcf3ce2580','35dc9127-74d5-460c-ac8b-afe7e36f200e','Grading options',0)
@@ -10088,10 +10088,10 @@ INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
   VALUES ('61c74d87-3620-411f-acc1-a683fce162b4','88bccf29-49f4-44ee-bc6b-96a2cba29941','Grading option',0)
 /
 INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
-  VALUES ('8c19c38a-eb51-4c4f-8615-350be5c8bff0','756b5400-5ab3-466b-b908-17a6f30eb20e','Grading option',0)
+  VALUES ('9d8257a6-7f6f-4b5d-9140-456a47502c60','e2ee69a8-39f5-4817-8e4f-f4ae63d652d7','Grading option',0)
 /
 INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
-  VALUES ('9d8257a6-7f6f-4b5d-9140-456a47502c60','e2ee69a8-39f5-4817-8e4f-f4ae63d652d7','Grading option',0)
+  VALUES ('8c19c38a-eb51-4c4f-8615-350be5c8bff0','756b5400-5ab3-466b-b908-17a6f30eb20e','Grading option',0)
 /
 INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
   VALUES ('51ed5d36-c075-4a40-9a48-6d07bddfb707','1a5d5991-66b8-407d-8864-bed9e9ee4b1c','Grading option',0)
@@ -10136,10 +10136,10 @@ INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
   VALUES ('518b07fd-e62c-44b4-905f-ebc280e464d7','7a8f3fa0-3c00-43ad-a44a-47afd1c1036e','Grading option',0)
 /
 INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
-  VALUES ('9f831a44-c78b-49b0-93b1-95be5c43e134','981b849d-e46c-41ea-bc92-b224eb085362','Grading options',0)
+  VALUES ('260a8766-d663-4ff8-aef9-7aa98d8865ce','ec325f2f-3d8c-4282-8036-d7bf8fbd5e6e','Grading options',0)
 /
 INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
-  VALUES ('260a8766-d663-4ff8-aef9-7aa98d8865ce','ec325f2f-3d8c-4282-8036-d7bf8fbd5e6e','Grading options',0)
+  VALUES ('9f831a44-c78b-49b0-93b1-95be5c43e134','981b849d-e46c-41ea-bc92-b224eb085362','Grading options',0)
 /
 INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
   VALUES ('4e9f4a1a-29fd-4cbf-b9ba-a5501b6f8a1b','6d85e54f-c90d-4062-b5d7-ecc20cc1fd12','Grading options',0)
@@ -10307,10 +10307,10 @@ INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
   VALUES ('9410d8c4-9b68-4947-855c-7b0618b1f304','b54b4fd7-7022-409a-8ede-8dfd8dc75bba','Grading option',0)
 /
 INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
-  VALUES ('556321c4-0f23-4ece-b9da-1a9c0755ab3c','496acc2a-45ff-4ebb-a644-4c9861829f2f','Grading options',0)
+  VALUES ('5c79c48d-1075-4294-b967-8159080ccaf3','3ced3f75-9f33-48b1-9caf-432042c2f83d','Grading option',0)
 /
 INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
-  VALUES ('5c79c48d-1075-4294-b967-8159080ccaf3','3ced3f75-9f33-48b1-9caf-432042c2f83d','Grading option',0)
+  VALUES ('556321c4-0f23-4ece-b9da-1a9c0755ab3c','496acc2a-45ff-4ebb-a644-4c9861829f2f','Grading options',0)
 /
 INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
   VALUES ('acf3bee6-31c2-4896-8554-d4abacb8b0b0','0dde8ddd-aca2-4d5d-baab-7a10bf30bce8','Grading option',0)
@@ -12194,10 +12194,10 @@ INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
   VALUES ('a4d7c1fb-4b8d-496d-af38-f82d8ce38214','2023dbda-94a6-4fef-b681-4428a6833b10','Grading options',0)
 /
 INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
-  VALUES ('aeff6c09-8f45-4fa9-b685-b43a45acfe80','59fd5433-55c3-451c-a452-785020730264','Grading options',0)
+  VALUES ('19b5700f-6047-4c66-aa3a-7cbc2e643e47','bffd3541-36f4-4a1b-a114-4687f973e799','An introduction to University life for new transfer engineering students. Students will explore how to successfully bridge the gap between the community college and the university. Students will explore campus resources and learn about internships, undergraduate research, study abroad and other academic opportunities. During the semester we will focus on areas that promote academic success and time management, effective study skills, career decision-making, and student development processes will also be explored.',1)
 /
 INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
-  VALUES ('19b5700f-6047-4c66-aa3a-7cbc2e643e47','bffd3541-36f4-4a1b-a114-4687f973e799','An introduction to University life for new transfer engineering students. Students will explore how to successfully bridge the gap between the community college and the university. Students will explore campus resources and learn about internships, undergraduate research, study abroad and other academic opportunities. During the semester we will focus on areas that promote academic success and time management, effective study skills, career decision-making, and student development processes will also be explored.',1)
+  VALUES ('aeff6c09-8f45-4fa9-b685-b43a45acfe80','59fd5433-55c3-451c-a452-785020730264','Grading options',0)
 /
 INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
   VALUES ('73b7374e-8d82-4dbe-934f-ef293e92e40f','47583588-e117-4d6e-a466-deb0ec5045ad','Grading option',0)
@@ -12245,10 +12245,10 @@ INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
   VALUES ('adb00cc3-2c5e-4f6f-89d7-9c2b9498748b','979e8fb0-f0d7-4572-9c56-602346eaf898','Grading option',0)
 /
 INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
-  VALUES ('eae4b1c7-bd8e-4496-823d-a9a6fc4e3127','186a4c4f-4fe3-46f2-a18b-8b4f4e7f3559','Grading option',0)
+  VALUES ('04a60807-5619-4440-9943-3265a14e9d7b','86363b32-01b7-4ff6-8264-1f6e29b10e26','Grading options',0)
 /
 INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
-  VALUES ('04a60807-5619-4440-9943-3265a14e9d7b','86363b32-01b7-4ff6-8264-1f6e29b10e26','Grading options',0)
+  VALUES ('eae4b1c7-bd8e-4496-823d-a9a6fc4e3127','186a4c4f-4fe3-46f2-a18b-8b4f4e7f3559','Grading option',0)
 /
 INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
   VALUES ('6d8fef46-b309-475e-8b4e-9e973d1daeaa','536a279f-33d4-4def-9321-e401311e6c32','Grading option',0)
@@ -12635,10 +12635,10 @@ INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
   VALUES ('334df211-f4f3-4b32-b47c-9a28fe29b9a9','ff38aacd-c25c-4df6-bb3f-9b4d055fad45','Structure and organization of digital computers. Registers, memory, control and I/O. Data and instruction formats, addressing modes, assembly language programming. Elements of system software, subroutines and their linkages.',0)
 /
 INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
-  VALUES ('b9f54696-8bf2-4d8d-b07e-da755bbdae13','dabbdb04-1132-438f-944b-b965c958f8bd','Grading option',0)
+  VALUES ('19f3ad82-d8a5-4651-b8f3-a6d468fd009b','13e5aeb2-3071-4237-8ef3-a8244836ef53','.',0)
 /
 INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
-  VALUES ('19f3ad82-d8a5-4651-b8f3-a6d468fd009b','13e5aeb2-3071-4237-8ef3-a8244836ef53','.',0)
+  VALUES ('b9f54696-8bf2-4d8d-b07e-da755bbdae13','dabbdb04-1132-438f-944b-b965c958f8bd','Grading option',0)
 /
 INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
   VALUES ('409c56d8-265f-4672-bbaa-2f1278e6f960','7c10431a-ecea-4421-86c9-a1793b9bec18','Grading option',0)
@@ -12881,10 +12881,10 @@ INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
   VALUES ('7d93a53e-74c2-426b-b64d-af4911dd89c6','40b5548c-d454-48ab-932b-64cf921b80ab','Grading option',0)
 /
 INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
-  VALUES ('e8bd3d78-3a05-44f8-bb1d-fe13737e3448','e966d2ca-af4d-4279-b6c4-98ed5ccf1706','Grading option',0)
+  VALUES ('0baf2b63-f428-44df-ab5c-a832b8527060','4796a6d6-19d4-47bb-9db2-e9da749c9648','Grading options',0)
 /
 INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
-  VALUES ('0baf2b63-f428-44df-ab5c-a832b8527060','4796a6d6-19d4-47bb-9db2-e9da749c9648','Grading options',0)
+  VALUES ('e8bd3d78-3a05-44f8-bb1d-fe13737e3448','e966d2ca-af4d-4279-b6c4-98ed5ccf1706','Grading option',0)
 /
 INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
   VALUES ('76fe03e5-5f63-4be9-a548-56ef26f833d2','b61bfde8-4904-4677-b885-d7b72744ee72','Analysis of major corporate financial decisions using a market-oriented framework. Introduction to value techniques, capital budgeting principles and problems, asset valuation, operation and efficiency of financial markets, financing decisions, dividend policy and international finance. Additional topics, such as mergers and acquisitions may be covered.',0)
@@ -12971,10 +12971,10 @@ INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
   VALUES ('bc9bc3f0-107b-4e7d-b733-7b9c7ba9590f','0f5e75de-a2e7-49aa-9418-1278c0e53b83','Exposes engineering and business students to the principles of total quality, using experiential team-learning and technology-aided approaches. The first of four courses in total quality.',0)
 /
 INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
-  VALUES ('d237273a-a225-4f4a-b854-7b87da906814','aafe64dc-4a62-49fa-87ff-18b0978cb03f','This capstone course ties together various marketing concepts using the fundamentals of strategic market planning as the framework. Application of these principles is accomplished by analyzing and discussing cases and by playing a marketing strategy computer simulation game. Analysis of current business articles to understand the link between theory and real-world problem solving.',0)
+  VALUES ('dcd43b48-7388-4df2-af2f-ffd1c3a5e3fb','561baf05-ebef-4d48-8986-fd24966a496b','Completion of a research paper on an approved accounting topic. Supervised sponsored internship in an entity outside the University.',0)
 /
 INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
-  VALUES ('dcd43b48-7388-4df2-af2f-ffd1c3a5e3fb','561baf05-ebef-4d48-8986-fd24966a496b','Completion of a research paper on an approved accounting topic. Supervised sponsored internship in an entity outside the University.',0)
+  VALUES ('d237273a-a225-4f4a-b854-7b87da906814','aafe64dc-4a62-49fa-87ff-18b0978cb03f','This capstone course ties together various marketing concepts using the fundamentals of strategic market planning as the framework. Application of these principles is accomplished by analyzing and discussing cases and by playing a marketing strategy computer simulation game. Analysis of current business articles to understand the link between theory and real-world problem solving.',0)
 /
 INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
   VALUES ('685d8520-c3d7-43de-b6f5-99afa4f82111','96f8ddd2-8a7f-461a-af52-2d456b36d128','Grading option',0)
@@ -13826,10 +13826,10 @@ INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
   VALUES ('f602dc57-9fef-4205-b916-8df2eafb6433','62305382-7045-47b5-bf70-30ae4d5fdb09','Grading option',0)
 /
 INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
-  VALUES ('3c4bb484-27a9-4888-bae7-336254f4c3f0','64a5051f-abfb-4829-a16c-593f4a8c2d66','Grading options',0)
+  VALUES ('e1bd6e71-5047-4eae-b1c1-773563ba6c01','476298e3-89f0-4903-9b13-023961db0a0b','Grading options',0)
 /
 INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
-  VALUES ('e1bd6e71-5047-4eae-b1c1-773563ba6c01','476298e3-89f0-4903-9b13-023961db0a0b','Grading options',0)
+  VALUES ('3c4bb484-27a9-4888-bae7-336254f4c3f0','64a5051f-abfb-4829-a16c-593f4a8c2d66','Grading options',0)
 /
 INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
   VALUES ('42614c72-a642-46b2-86af-e5e824c92c22','2e7ca655-126e-444d-865b-1774aa918337','Grading option',0)
@@ -13994,10 +13994,10 @@ INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
   VALUES ('fa978f33-8599-4172-8561-cf8321decaaa','2631ff06-bdd8-428c-b890-e5747324fb00','Grading option',0)
 /
 INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
-  VALUES ('d305a9a3-7efa-4e7e-96ff-0360967d746a','fdeb24ff-f04f-4052-9864-3edb0bcab18d','Grading option',0)
+  VALUES ('522097e7-8722-46de-a870-0ca4892e7cbd','83ea777c-43e0-4928-9846-812c0057e93a','Grading options',0)
 /
 INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
-  VALUES ('522097e7-8722-46de-a870-0ca4892e7cbd','83ea777c-43e0-4928-9846-812c0057e93a','Grading options',0)
+  VALUES ('d305a9a3-7efa-4e7e-96ff-0360967d746a','fdeb24ff-f04f-4052-9864-3edb0bcab18d','Grading option',0)
 /
 INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
   VALUES ('adb3f052-4271-4844-89f0-3af9732acf08','6a02ca17-124c-47f9-87d4-9e7f30d0578a','Grading option',0)
@@ -14546,10 +14546,10 @@ INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
   VALUES ('a0af1d80-6bb0-4edd-8bb3-a87c4ee664b8','568b204d-22cc-42ea-adf4-97ff164b3544','Grading options',0)
 /
 INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
-  VALUES ('21c6fe37-16ea-47ed-8ba2-4ae3062cec4c','cb582ef7-4f9c-4d5b-92a3-12215aa69a84','Grading option',0)
+  VALUES ('54bb2386-3d83-4184-9b9b-a642bfab93f0','fb43f215-cffa-47e2-a4fe-d960b5b5ccd9','Grading option',0)
 /
 INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
-  VALUES ('54bb2386-3d83-4184-9b9b-a642bfab93f0','fb43f215-cffa-47e2-a4fe-d960b5b5ccd9','Grading option',0)
+  VALUES ('21c6fe37-16ea-47ed-8ba2-4ae3062cec4c','cb582ef7-4f9c-4d5b-92a3-12215aa69a84','Grading option',0)
 /
 INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
   VALUES ('ee0ef266-66f1-4bee-96ad-5c1df4123185','644f21f8-38e9-48d1-8d96-6e2b6d741243','Grading option',0)
@@ -14939,10 +14939,10 @@ INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
   VALUES ('ad386f21-f7c7-4048-8b1e-f224349705f1','c89c1623-cf23-4bac-845a-f55b19ea8710','Grading option',0)
 /
 INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
-  VALUES ('58b8e1af-ab45-4e37-9ec9-ebde8a63f0ab','b2b49d0f-7a91-4e93-9264-ac2a821ca8ba','Study of motion of aircraft, equations of motion, aerodynamic force representation, longitudinal and lateral motions, response to controls and to atmospheric disturbances, handling qualities criteria and other figures of merit.',0)
+  VALUES ('33c891c3-77c0-4852-85a4-fa654f2e2d13','69579cbe-1778-4f42-af0c-545da80fc34e','Grading option',0)
 /
 INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
-  VALUES ('33c891c3-77c0-4852-85a4-fa654f2e2d13','69579cbe-1778-4f42-af0c-545da80fc34e','Grading option',0)
+  VALUES ('58b8e1af-ab45-4e37-9ec9-ebde8a63f0ab','b2b49d0f-7a91-4e93-9264-ac2a821ca8ba','Study of motion of aircraft, equations of motion, aerodynamic force representation, longitudinal and lateral motions, response to controls and to atmospheric disturbances, handling qualities criteria and other figures of merit.',0)
 /
 INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
   VALUES ('973a3f2f-3ef7-4b29-ab53-1d3a7931018d','f9454f42-9a53-47cd-8d11-f90668a2a234','Grading option',0)
@@ -16199,10 +16199,10 @@ INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
   VALUES ('f58c82bc-4885-496c-8fe6-6777d9360daa','61fc9b0f-792b-4d70-a6bf-436603517e9c','Systems of heavy particles and rigid bodies at rest and in motion. Force-acceleration, work-energy and impulse-momentum relationships. Motion of one body relative to another in a plane and in space.',0)
 /
 INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
-  VALUES ('ab17c167-3660-41f3-bd2d-0bf2479a0ce1','5f5cef38-7bdb-4ede-93ef-07abebb2d405','Grading option',0)
+  VALUES ('533e972b-50dd-4c17-b75b-ea8da5d47bfe','633d1db3-aabe-4d5f-a494-71a29d667b43','Grading option',0)
 /
 INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
-  VALUES ('533e972b-50dd-4c17-b75b-ea8da5d47bfe','633d1db3-aabe-4d5f-a494-71a29d667b43','Grading option',0)
+  VALUES ('ab17c167-3660-41f3-bd2d-0bf2479a0ce1','5f5cef38-7bdb-4ede-93ef-07abebb2d405','Grading option',0)
 /
 INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
   VALUES ('a67d6caf-e01d-499f-8d10-22d61659f1bf','782207ff-4942-4715-99e2-e5644199f1e9','Grading options',0)
@@ -16754,10 +16754,10 @@ INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
   VALUES ('1a3dd0d1-400e-416e-b84c-12f34721968a','b8d67280-008b-4a8b-ad0c-314b675a3230','Grading option',0)
 /
 INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
-  VALUES ('3ba124b3-3dff-464c-ad4d-d6de3deb245e','296faec6-4799-4a94-8503-bc4e9a40dcf4','Grading option',0)
+  VALUES ('a991bdb6-57f9-4f92-88c1-b7385405a5eb','1cfd9d97-0ab0-4086-8793-8e4e79bf7b73','Grading option',0)
 /
 INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
-  VALUES ('a991bdb6-57f9-4f92-88c1-b7385405a5eb','1cfd9d97-0ab0-4086-8793-8e4e79bf7b73','Grading option',0)
+  VALUES ('3ba124b3-3dff-464c-ad4d-d6de3deb245e','296faec6-4799-4a94-8503-bc4e9a40dcf4','Grading option',0)
 /
 INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
   VALUES ('4a070eb9-20b9-4b9a-873d-e0436b60f0bc','c44105a4-576b-438c-abd3-56a8f9a372d9','Grading option',0)
@@ -17054,10 +17054,10 @@ INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
   VALUES ('8ce5e3bb-3fc2-4ee9-b429-8fd787890f00','48b49956-c076-4381-95f2-44c0f96541c0','Grading option',0)
 /
 INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
-  VALUES ('cf0f3409-87bb-4772-9292-ccb64e6e5cb0','d72a1140-dd3c-4cb7-aa3c-f6855b8c702a','.',0)
+  VALUES ('bc93391f-9d03-4c54-b68d-7d2dbd34eb2b','d79ba37f-cdca-4a4b-9bde-2038d1654b5a','Understanding of the dynamics of how competitors interact in the marketplace. Understanding economic and behavioral motivations of industry players to design more effective strategies.',0)
 /
 INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
-  VALUES ('bc93391f-9d03-4c54-b68d-7d2dbd34eb2b','d79ba37f-cdca-4a4b-9bde-2038d1654b5a','Understanding of the dynamics of how competitors interact in the marketplace. Understanding economic and behavioral motivations of industry players to design more effective strategies.',0)
+  VALUES ('cf0f3409-87bb-4772-9292-ccb64e6e5cb0','d72a1140-dd3c-4cb7-aa3c-f6855b8c702a','.',0)
 /
 INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
   VALUES ('58960436-407f-44a3-b103-be38db8c085b','fa049952-530c-40d6-9498-1a8b256ea761','A one-semester course designed to give students tools for numerical dynamic programming and computation of related general equilibrium and game-theoretic problems.',0)
@@ -17222,10 +17222,10 @@ INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
   VALUES ('e11014c0-a43e-48ba-bdfe-218ef353f933','bda81bb1-6fe4-40a0-8e7e-bf5eb7b9c5df','Grading option',0)
 /
 INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
-  VALUES ('da1b7022-2bee-4e25-804d-dc0aba805df3','7a38b8e0-2429-432c-b80e-4159dc64613b','Grading option',0)
+  VALUES ('02a4246c-ceca-4892-b1d3-092243c3d8a3','a2ae8a47-12a7-4835-aa74-b6a320129f61','Grading option',0)
 /
 INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
-  VALUES ('02a4246c-ceca-4892-b1d3-092243c3d8a3','a2ae8a47-12a7-4835-aa74-b6a320129f61','Grading option',0)
+  VALUES ('da1b7022-2bee-4e25-804d-dc0aba805df3','7a38b8e0-2429-432c-b80e-4159dc64613b','Grading option',0)
 /
 INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
   VALUES ('1f1dd5fa-23e8-42cd-937b-f17d16afc1f4','bb52b268-9428-4cbb-9421-7a7af9712a48','Grading option',0)
@@ -18011,10 +18011,10 @@ INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
   VALUES ('9e32bca9-ad2d-4a8a-be9f-dc44c8eca485','4e2e3261-3d4e-42b3-bea7-9935285eaddb','Grading option',0)
 /
 INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
-  VALUES ('0455979f-5bba-4441-be0b-b31aa9263722','05495d7a-833d-480d-9711-9f1a89ee9a49','Grading option',0)
+  VALUES ('77dedd17-ab58-4d10-b6b3-9b79e7740434','6fc9544c-b858-49aa-aa90-66b3f119b0a3','Grading option',0)
 /
 INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
-  VALUES ('77dedd17-ab58-4d10-b6b3-9b79e7740434','6fc9544c-b858-49aa-aa90-66b3f119b0a3','Grading option',0)
+  VALUES ('0455979f-5bba-4441-be0b-b31aa9263722','05495d7a-833d-480d-9711-9f1a89ee9a49','Grading option',0)
 /
 INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
   VALUES ('4c0105d8-ce55-49c1-baa9-8fc637bbf4c9','a5f1a38a-01ea-407e-8407-9bf6e2f89852','Grading option',0)
@@ -18068,10 +18068,10 @@ INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
   VALUES ('ccb23a21-39c5-4eb2-8c9e-8434605ce6a3','260e3763-5462-4bff-9f43-25cc98aa31cd','Grading option',0)
 /
 INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
-  VALUES ('018ed08e-8882-4100-9f8e-f2add209300a','4a422751-6258-443e-80a8-41300aaf2af9','Grading option',0)
+  VALUES ('a7d94162-4e1e-4663-8c7c-600a6daf36a7','cf08a2c8-a8c0-4ff1-99e7-102f1eb67509','Grading option',0)
 /
 INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
-  VALUES ('a7d94162-4e1e-4663-8c7c-600a6daf36a7','cf08a2c8-a8c0-4ff1-99e7-102f1eb67509','Grading option',0)
+  VALUES ('018ed08e-8882-4100-9f8e-f2add209300a','4a422751-6258-443e-80a8-41300aaf2af9','Grading option',0)
 /
 INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
   VALUES ('62dfb521-aeb7-4885-9e63-6ef016364157','42a8c5ec-59e0-4b82-99f6-7e9640b88191','Grading option',0)
@@ -18395,10 +18395,10 @@ INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
   VALUES ('458bf776-a6fe-4956-9888-06724a224bf3','5e15c96e-bdc9-4ba0-a703-6f343508f22f','Grading option',0)
 /
 INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
-  VALUES ('d4d19d63-a24f-4408-a29d-c6740288eb15','c8345f7d-8cc0-4a57-b08a-276d23c9e21b','Continuation of MATH130, including an introduction to autonomous differential equations, probability (including conditional probability and the normal and binomial distributions), and statistical reasoning (including confidence intervals). Alongside the mathematical concepts will be applications in biology.',0)
+  VALUES ('a02da604-af27-49e3-a071-ab3b92deded8','49d048f5-33f1-4ca6-9d15-e8240e7a09bc','Develops the fundamental change knowledge and skills of MBA students who plan to work with organizations as change agents, whether internally as managerial employees or externally as outside consultants. Draws on literatures from organizational behavior, human resource management and strategic management to identify models as prescriptions of change.',0)
 /
 INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
-  VALUES ('a02da604-af27-49e3-a071-ab3b92deded8','49d048f5-33f1-4ca6-9d15-e8240e7a09bc','Develops the fundamental change knowledge and skills of MBA students who plan to work with organizations as change agents, whether internally as managerial employees or externally as outside consultants. Draws on literatures from organizational behavior, human resource management and strategic management to identify models as prescriptions of change.',0)
+  VALUES ('d4d19d63-a24f-4408-a29d-c6740288eb15','c8345f7d-8cc0-4a57-b08a-276d23c9e21b','Continuation of MATH130, including an introduction to autonomous differential equations, probability (including conditional probability and the normal and binomial distributions), and statistical reasoning (including confidence intervals). Alongside the mathematical concepts will be applications in biology.',0)
 /
 INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
   VALUES ('9ee5adef-acc5-4754-80c2-9e765a2c6144','6497e012-f6ea-458f-9b93-0489f5b07c7d','Grading options',0)
@@ -18803,10 +18803,10 @@ INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
   VALUES ('bae60866-9af5-403e-8425-0fc413a65ec7','d8e1042c-f430-45e2-bb1a-c09a556bf545','Grading option',0)
 /
 INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
-  VALUES ('5f6fff82-f232-40d9-a623-70181ce3bc46','9b2b4bdb-06d3-469f-a5fd-c5308fb57890','An abstract treatment of finite dimensional vector spaces. Linear transformations and their invariants.',0)
+  VALUES ('62df3beb-8c41-4aef-9129-2b95d8ff0fad','477b28a5-20bd-464b-a705-b881a48ab30c','Grading options',0)
 /
 INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
-  VALUES ('62df3beb-8c41-4aef-9129-2b95d8ff0fad','477b28a5-20bd-464b-a705-b881a48ab30c','Grading options',0)
+  VALUES ('5f6fff82-f232-40d9-a623-70181ce3bc46','9b2b4bdb-06d3-469f-a5fd-c5308fb57890','An abstract treatment of finite dimensional vector spaces. Linear transformations and their invariants.',0)
 /
 INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
   VALUES ('ad2b5f2a-bd33-4b84-8498-644fd9f1bfc9','9fe8e446-f187-4f31-8262-479acb894116','Grading option',0)
@@ -18926,10 +18926,10 @@ INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
   VALUES ('87967a86-0f0d-4115-bc62-af2c76e60f99','18c193f2-e30e-41b8-b74c-747691d90958','Grading option',0)
 /
 INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
-  VALUES ('cac49093-271e-45f4-a470-a08d0dbfa34f','a6620436-8d8a-41d5-95f9-9df333f2fce9','Develops skills in constructing effective advertising. Examines how to formulate an advertising message, which creative tactics to use in communicating that message and which media uses to ensure that the target receives the message. In addition, the role of advertising agencies, measuring advertising effectiveness, and regulatory and ethical issues in advertising will be discussed.',0)
+  VALUES ('e0eb3481-8f2b-4cf5-b862-836b3d1afb5f','57d1f0f9-7f19-471f-bb1f-11b3f4cb42e3','Grading option',0)
 /
 INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
-  VALUES ('e0eb3481-8f2b-4cf5-b862-836b3d1afb5f','57d1f0f9-7f19-471f-bb1f-11b3f4cb42e3','Grading option',0)
+  VALUES ('cac49093-271e-45f4-a470-a08d0dbfa34f','a6620436-8d8a-41d5-95f9-9df333f2fce9','Develops skills in constructing effective advertising. Examines how to formulate an advertising message, which creative tactics to use in communicating that message and which media uses to ensure that the target receives the message. In addition, the role of advertising agencies, measuring advertising effectiveness, and regulatory and ethical issues in advertising will be discussed.',0)
 /
 INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
   VALUES ('dd570600-d320-4a4d-98a6-ad5a5111dfa0','4a7d5989-b496-48cb-8f32-cd8ae643cc83','Grading option',0)
@@ -19223,10 +19223,10 @@ INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
   VALUES ('88416a78-1557-43cf-8c22-fcd6a662a8f2','81843f54-20ac-4a4c-9c67-ba682f4b7fde','Selected topics of current importance in controls.',0)
 /
 INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
-  VALUES ('1317b248-726a-4b8c-a7c2-2aed91ca731f','1dcd2d20-5721-4ec8-8f97-66453433490d','Develops skills in constructing effective advertising. Examines how to formulate an advertising message, which creative tactics to use in communicating that message and which media uses to ensure that the target receives the message. In addition, the role of advertising agencies, measuring advertising effectiveness, and regulatory and ethical issues in advertising will be discussed.',0)
+  VALUES ('bef5d515-090d-4682-9e7c-e30a7e877833','5c8c1794-7f48-4432-9f6f-ba2b6c01693a','Review of theories and research on leadership, especially executive leadership.',0)
 /
 INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
-  VALUES ('bef5d515-090d-4682-9e7c-e30a7e877833','5c8c1794-7f48-4432-9f6f-ba2b6c01693a','Review of theories and research on leadership, especially executive leadership.',0)
+  VALUES ('1317b248-726a-4b8c-a7c2-2aed91ca731f','1dcd2d20-5721-4ec8-8f97-66453433490d','Develops skills in constructing effective advertising. Examines how to formulate an advertising message, which creative tactics to use in communicating that message and which media uses to ensure that the target receives the message. In addition, the role of advertising agencies, measuring advertising effectiveness, and regulatory and ethical issues in advertising will be discussed.',0)
 /
 INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
   VALUES ('44c57f55-1c46-4057-9c50-dc73fe08da0c','9a331919-19d8-46ad-a22e-4213e32e5600','Grading option',0)
@@ -19454,10 +19454,10 @@ INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
   VALUES ('664abe21-6306-449f-94d5-921f58c55f0b','9370942d-94e1-48f9-8674-5494308d2a2d','Grading option',0)
 /
 INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
-  VALUES ('32a69e8f-f571-4da1-b74e-2481af736752','1f5215d4-c53a-4140-8d9a-647757a021ee','Grading option',0)
+  VALUES ('a8a06ea2-e34d-4175-b342-fe797cf1aa09','f8307ba5-f26d-4451-8faa-4311d78395d9','Grading option',0)
 /
 INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
-  VALUES ('a8a06ea2-e34d-4175-b342-fe797cf1aa09','f8307ba5-f26d-4451-8faa-4311d78395d9','Grading option',0)
+  VALUES ('32a69e8f-f571-4da1-b74e-2481af736752','1f5215d4-c53a-4140-8d9a-647757a021ee','Grading option',0)
 /
 INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
   VALUES ('042b49d5-55ff-4763-8e15-d2bb5811605c','81fded2b-2a11-4646-a596-06e0cfb77ec5','The study of the wide range of issues facing managers in transportation This includes decisions on market entry, pricing, competitive responses, service levels, marketing strategies, capital structure, and growth objectives. Specific management decisions and overall strategies pursued by management are examined.',0)
@@ -19490,10 +19490,10 @@ INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
   VALUES ('da1b0a64-9aef-4299-a4f9-81f75051f9d9','5aa7c043-7161-47df-8eee-bdea4dc68934','Grading option',0)
 /
 INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
-  VALUES ('64f39d49-bc6b-49de-88c0-b50624da8666','35a64df0-6e76-42e9-9818-ae8326fb1be6','Grading option',0)
+  VALUES ('1e6b06af-62e2-4863-84ff-369000494205','6526bdf4-e213-4947-a245-95833a2158b5','Grading option',0)
 /
 INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
-  VALUES ('1e6b06af-62e2-4863-84ff-369000494205','6526bdf4-e213-4947-a245-95833a2158b5','Grading option',0)
+  VALUES ('64f39d49-bc6b-49de-88c0-b50624da8666','35a64df0-6e76-42e9-9818-ae8326fb1be6','Grading option',0)
 /
 INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
   VALUES ('159a182e-a405-42be-95a7-68777c8296c9','74fa6d3a-1d2e-42d9-8ac6-95cfef03a006','Grading options',0)
@@ -19694,10 +19694,10 @@ INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
   VALUES ('105aebae-b1b4-43a5-81a3-22a240611f6b','1728e972-a1cc-409a-bf3b-fa859b59eeee','Grading option',0)
 /
 INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
-  VALUES ('4966e8f9-6cf4-40b1-bc5c-cf966a7c44f7','e25c5e8f-141a-405c-b99f-bcae88eff45a','Grading option',0)
+  VALUES ('d04ca36f-bd1a-4294-aa0e-29c5b34aa6b6','74a310af-5dcf-4663-8bc6-0bf109867dac','Grading option',0)
 /
 INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
-  VALUES ('d04ca36f-bd1a-4294-aa0e-29c5b34aa6b6','74a310af-5dcf-4663-8bc6-0bf109867dac','Grading option',0)
+  VALUES ('4966e8f9-6cf4-40b1-bc5c-cf966a7c44f7','e25c5e8f-141a-405c-b99f-bcae88eff45a','Grading option',0)
 /
 INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
   VALUES ('f28ba52f-567e-4348-93d1-b111df07309d','85587a75-0b8a-4554-b621-1c6f5680f73f','Grading options',0)
@@ -20714,10 +20714,10 @@ INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
   VALUES ('afefe122-28cf-4478-83e8-17819c274de3','1663c2bd-f4e2-4a10-a127-8af8bd18f1fc','Design, analysis, simulation, construction and evaluation of electric circuits. Terminal Relationships. Kirchoff''s laws. DC and AC steady state analysis. Node and mesh methods. Thevenin and Nortor equivalent circuits. Transient behavior of first- and second-order circuits. Frequency response and transfer functions. Ideal op-amp circuits. Diode and transistor circuits.',0)
 /
 INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
-  VALUES ('94c5d112-38c0-45df-8246-fa8c2b94a2d9','32a73532-1fb5-4c57-8588-7b76e134fe6d','Grading options',0)
+  VALUES ('14ce3e46-3e31-4cdb-82ff-e2259e3f1850','8e5de802-4766-437a-a366-a12f5992c404','Grading options',0)
 /
 INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
-  VALUES ('14ce3e46-3e31-4cdb-82ff-e2259e3f1850','8e5de802-4766-437a-a366-a12f5992c404','Grading options',0)
+  VALUES ('94c5d112-38c0-45df-8246-fa8c2b94a2d9','32a73532-1fb5-4c57-8588-7b76e134fe6d','Grading options',0)
 /
 INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
   VALUES ('619d2260-ac9d-4fde-a820-d0fbc5b833fd','991a0f35-c16f-45e9-9c02-b145d4ef6e5b','Part II of the Communications Mastery Program is a continuation of Phas I, with the goal of assisting students in demonstrating mastery in their communication skills. The phase will allow students fo further integrate these skills into the Smith curriculum, including course electives, career development activities and the Group Consulting Project.',0)
@@ -20981,10 +20981,10 @@ INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
   VALUES ('56aef491-1a2d-4793-afac-5efe60116283','c40b3995-c6fc-453f-a922-bbf6edb15080','Grading option',0)
 /
 INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
-  VALUES ('c6c55455-d7b2-4405-b81c-7ba7d236df83','fa77870b-02a6-444d-b548-4c1335a20235','Selected advanced topics in the various fields of graduate study in logistics, business and public policy.',0)
+  VALUES ('43db18d5-d046-4f92-b43c-4a39889556cb','c2893ed2-5783-4c98-9761-147556512f23','Kinematics and dynamics of three dimensional motion of point masses and rigid bodies with introduction to more general systems. Primary emphasis on Newtonian methods. Practice in numerical solutions and computer animation of equations of motion using MATLAB.',0)
 /
 INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
-  VALUES ('43db18d5-d046-4f92-b43c-4a39889556cb','c2893ed2-5783-4c98-9761-147556512f23','Kinematics and dynamics of three dimensional motion of point masses and rigid bodies with introduction to more general systems. Primary emphasis on Newtonian methods. Practice in numerical solutions and computer animation of equations of motion using MATLAB.',0)
+  VALUES ('c6c55455-d7b2-4405-b81c-7ba7d236df83','fa77870b-02a6-444d-b548-4c1335a20235','Selected advanced topics in the various fields of graduate study in logistics, business and public policy.',0)
 /
 INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
   VALUES ('6707c1b2-ec15-4859-8758-f3518505dbb4','65e1a9ac-03df-4f8f-b028-e22eb208af2f','Topics selected, as announced every semester, from the field of compute engineering and its applications.',0)
@@ -21107,10 +21107,10 @@ INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
   VALUES ('275656ac-6cb7-44ef-8e39-7f06b3508ad5','95d813e1-216d-4523-917d-514a522a79b8','Grading option',0)
 /
 INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
-  VALUES ('073c1437-66b3-454f-bfeb-9a02749f596b','d4c4c5a3-0760-4118-ba76-1c0a7b33cfef','Grading options',0)
+  VALUES ('7ef29194-647b-46be-aa07-45f0763d030e','44c69c80-4600-439a-9075-badc68b97305','Grading option',0)
 /
 INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
-  VALUES ('7ef29194-647b-46be-aa07-45f0763d030e','44c69c80-4600-439a-9075-badc68b97305','Grading option',0)
+  VALUES ('073c1437-66b3-454f-bfeb-9a02749f596b','d4c4c5a3-0760-4118-ba76-1c0a7b33cfef','Grading options',0)
 /
 INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
   VALUES ('623833b2-eae4-40ad-bfa7-080596dfb12a','cae8a02a-123d-43d9-8440-af32d1114a0f','Grading option',0)
@@ -21563,10 +21563,10 @@ INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
   VALUES ('cd4b4a63-3555-4c6b-b2b0-57bc7a58c08e','997e6768-3ea6-43a5-b9dc-ca2500b02232','Grading option',0)
 /
 INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
-  VALUES ('867c2b9d-7fd5-4ae3-982d-f711025d8b76','5d5f241a-6fd6-4218-a163-20b89daf5be6','Grading option',0)
+  VALUES ('53a98d17-5e53-4059-8e63-6281c90a9a7e','9625b22c-9776-4ac8-a93c-f0387a632cfc','Grading option',0)
 /
 INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
-  VALUES ('53a98d17-5e53-4059-8e63-6281c90a9a7e','9625b22c-9776-4ac8-a93c-f0387a632cfc','Grading option',0)
+  VALUES ('867c2b9d-7fd5-4ae3-982d-f711025d8b76','5d5f241a-6fd6-4218-a163-20b89daf5be6','Grading option',0)
 /
 INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
   VALUES ('c4e6628a-bfda-4891-94d6-949ee6f1a62b','319291e2-ae30-43a1-8be1-5453fd181f27','Grading option',0)
@@ -21920,10 +21920,10 @@ INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
   VALUES ('8d8f9125-21b9-485b-bc28-a37abc516693','fb56f4f7-8533-4ca1-ad30-bc5ae071cee0','Theoretical and case material is used to analyze managerial decisions related to business logistics. The many trade-offs faced by a logistics manager are examined such as the trade-off between inventory levels and mode of transportation used, the trade-off between inventory levels and customer service, and the trade-offs that should be made if they reduce total logistics costs or increase company profits.',0)
 /
 INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
-  VALUES ('97d0f5e5-4394-4efe-b666-fc694365c1fb','8d5769d6-8a92-4fb1-9525-82b65fa34fc7','Grading option',0)
+  VALUES ('6c687222-12b7-4e99-ab49-67506dd28df3','6f6c415f-4429-44cb-a7c0-ab4667dae1f3','Grading options',0)
 /
 INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
-  VALUES ('6c687222-12b7-4e99-ab49-67506dd28df3','6f6c415f-4429-44cb-a7c0-ab4667dae1f3','Grading options',0)
+  VALUES ('97d0f5e5-4394-4efe-b666-fc694365c1fb','8d5769d6-8a92-4fb1-9525-82b65fa34fc7','Grading option',0)
 /
 INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
   VALUES ('50d0f562-e058-4299-94b4-6071a8ff2dc5','ecca8e93-6acf-44dc-b9e0-cb0b5f866d86','Grading option',0)
@@ -22190,10 +22190,10 @@ INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
   VALUES ('b84f4a9f-1d7f-42b8-9575-3c9f1226e6a5','1cdc87f3-36dc-4e1a-9eec-dce6e2a576d4','.',0)
 /
 INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
-  VALUES ('c0c53e88-c00e-4cb5-acf9-b7b06dbe3809','2e919272-79ae-424b-ba43-c0b4202d6e1a','Grading option',0)
+  VALUES ('ebbad192-bb87-4b3e-a90c-f7b2e5db1ac1','d585289b-60b2-4896-b028-c90aa34417e4','Grading option',0)
 /
 INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
-  VALUES ('ebbad192-bb87-4b3e-a90c-f7b2e5db1ac1','d585289b-60b2-4896-b028-c90aa34417e4','Grading option',0)
+  VALUES ('c0c53e88-c00e-4cb5-acf9-b7b06dbe3809','2e919272-79ae-424b-ba43-c0b4202d6e1a','Grading option',0)
 /
 INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
   VALUES ('3ad22a47-91cc-4f89-a36b-017e76a80a61','081da6fa-cbb2-4e8e-bd20-9dafb97b1300','Grading option',0)
@@ -23126,10 +23126,10 @@ INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
   VALUES ('dbe358cf-7974-491e-bfee-bd5322d0e7a9','ce7c4d27-3fb3-4cb0-a37c-342e0c9de430','Grading option',0)
 /
 INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
-  VALUES ('d608ff10-ec44-46cd-b7a9-d83ab58f7d69','1dbfee89-2977-4454-bdc6-b1526b26ba4b','Grading option',0)
+  VALUES ('02d56f2b-b6cd-4038-95c4-1fba63d49cb5','f3097efc-9c46-4d0f-95dc-252fb5f7e52e','Curves in the plane and Euclidean space, moving frames, surfaces in Euclidean space, orientability of surfaces; Gaussian and mean curvatures; surfaces of revolution, ruled surfaces, minimal surfaces, special curves on surfaces, "Theorema Egregium"; the intrinsic geometry of surfaces.',0)
 /
 INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
-  VALUES ('02d56f2b-b6cd-4038-95c4-1fba63d49cb5','f3097efc-9c46-4d0f-95dc-252fb5f7e52e','Curves in the plane and Euclidean space, moving frames, surfaces in Euclidean space, orientability of surfaces; Gaussian and mean curvatures; surfaces of revolution, ruled surfaces, minimal surfaces, special curves on surfaces, "Theorema Egregium"; the intrinsic geometry of surfaces.',0)
+  VALUES ('d608ff10-ec44-46cd-b7a9-d83ab58f7d69','1dbfee89-2977-4454-bdc6-b1526b26ba4b','Grading option',0)
 /
 INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
   VALUES ('b3b0370c-dc98-432b-aa92-697cb0839954','fc9e478a-3fd6-40fb-88b8-24234ac5ed68','Basic concepts of linear algebra. This course is similar to MATH 240, but with more extensive coverage of the topics needed in applied linear algebra: change of basis, complex eigenvalues, diagonalization, the Jordan canonical form.',0)
@@ -23363,10 +23363,10 @@ INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
   VALUES ('d3aa805c-8c9c-4d80-9ce3-5bc873442d6f','1f0a2955-5f15-4b5a-a30e-daeea8ea2d0b','Grading option',0)
 /
 INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
-  VALUES ('aa100b21-a957-43e9-816b-56d286b9bc59','492562ae-8118-465f-9ee2-ea9460725004','Grading option',0)
+  VALUES ('0bbfa363-6d54-4b44-84e1-b2513f41fda7','0e9bea52-c8c2-4ffd-8d36-f3a6547586ab','Grading options',0)
 /
 INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
-  VALUES ('0bbfa363-6d54-4b44-84e1-b2513f41fda7','0e9bea52-c8c2-4ffd-8d36-f3a6547586ab','Grading options',0)
+  VALUES ('aa100b21-a957-43e9-816b-56d286b9bc59','492562ae-8118-465f-9ee2-ea9460725004','Grading option',0)
 /
 INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
   VALUES ('67f4491a-2b93-4571-ad19-8dda0888eb53','ea9be8e6-74ab-4ff0-899f-8680102d89e3','Focuses on aiding marketing decision-making through exploratory, descriptive and casual research. Develops student skills in designing market research studies, including selection of data collection method, development of data collection instrument, sample design, collection and statistical analysis of data and reporting the results.',0)

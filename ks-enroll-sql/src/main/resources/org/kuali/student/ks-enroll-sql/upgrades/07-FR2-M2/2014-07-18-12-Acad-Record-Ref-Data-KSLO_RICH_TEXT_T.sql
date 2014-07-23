@@ -71,14 +71,14 @@ INSERT INTO KSLO_RICH_TEXT_T (FORMATTED,ID,OBJ_ID,PLAIN,VER_NBR)
 INSERT INTO KSLO_RICH_TEXT_T (FORMATTED,ID,OBJ_ID,PLAIN,VER_NBR)
   VALUES ('Design and execute a cost benefit analysis on a sample public sector program','1a63bfa8-0402-438c-9627-804c55c7ea98','e73e9182-9dfb-4ab0-9e6a-1b97ff2905ba','Design and execute a cost benefit analysis on a sample public sector program',0)
 /
-INSERT INTO KSLO_RICH_TEXT_T (FORMATTED,ID,OBJ_ID,PLAIN,VER_NBR)
-  VALUES ('Develop the firm''s innovative capabilities','75bcb2b9-a125-4043-a7bb-8930d6bc21b4','dadab5d8-fb33-44f4-a9c9-34fc57a9520b','Develop the firm''s innovative capabilities',0)
-/
 INSERT INTO KSLO_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
   VALUES ('044f3864-9d1a-4ee3-a7f3-8166c7dd2a95','5bf54d59-2dd8-442d-9706-2a90dd2ba597','"	Develop the skills to implement design thinking strategies effectively.',0)
 /
 INSERT INTO KSLO_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
   VALUES ('389f2f92-3d25-47a9-b4d3-14fdf86d1c0a','37726ab4-ebbc-4a5c-bd93-6c051a64e9dc','1) Acquire a broad overview of the nature and magnitude of economic fraud, and the role the accounting profession plays in preventing, detecting, and investigating it. ',0)
+/
+INSERT INTO KSLO_RICH_TEXT_T (FORMATTED,ID,OBJ_ID,PLAIN,VER_NBR)
+  VALUES ('Develop the firm''s innovative capabilities','75bcb2b9-a125-4043-a7bb-8930d6bc21b4','dadab5d8-fb33-44f4-a9c9-34fc57a9520b','Develop the firm''s innovative capabilities',0)
 /
 INSERT INTO KSLO_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
   VALUES ('7abf27e2-d0da-4c42-ad61-cb53cfa12e15','5e06e0e5-155a-448e-b11e-92e8c012eaa6','"	Understand the importance and components of effective leadership practices for organizations;',0)
@@ -237,10 +237,10 @@ INSERT INTO KSLO_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
   VALUES ('a9c996b9-1a37-4566-b05a-46ea35edcdd7','90563877-f666-45c9-9be7-46e1a0db2cdd','- financial securities found in equity, fixed-income and derivatives markets',0)
 /
 INSERT INTO KSLO_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
-  VALUES ('f1afb696-ccb6-40a8-81b4-eb21b1dc0a10','4ae1c585-de90-40a2-9a55-769999861d75','			*	Challenges to intra-organizational and inter-organizational coordination',0)
+  VALUES ('1ed95eae-dbf4-49a3-aabe-7fe006ff61bf','676fa535-d476-46ff-8d58-89186cecf694','			*	Concepts of value creation, value-added processes, and efficiency and effectiveness',0)
 /
 INSERT INTO KSLO_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
-  VALUES ('1ed95eae-dbf4-49a3-aabe-7fe006ff61bf','676fa535-d476-46ff-8d58-89186cecf694','			*	Concepts of value creation, value-added processes, and efficiency and effectiveness',0)
+  VALUES ('f1afb696-ccb6-40a8-81b4-eb21b1dc0a10','4ae1c585-de90-40a2-9a55-769999861d75','			*	Challenges to intra-organizational and inter-organizational coordination',0)
 /
 INSERT INTO KSLO_RICH_TEXT_T (FORMATTED,ID,OBJ_ID,PLAIN,VER_NBR)
   VALUES ('1.  	Prepare a resume and cover letter.','39a1aaf5-60f1-4e3d-afc4-c973c20bc06b','a0c59b0e-3ddf-46fa-9fb0-ab879850fbbb','1.  	Prepare a resume and cover letter.',0)
@@ -251,11 +251,11 @@ INSERT INTO KSLO_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
 INSERT INTO KSLO_RICH_TEXT_T (FORMATTED,ID,OBJ_ID,PLAIN,VER_NBR)
   VALUES ('The student will be able to explain the rules used to simplify algebraic expressions, and be able to justify why they are reasonable. The student will be able to explain how to add, subtract, multiply, and factor polynomials, and be able to justify the procedures. The student will be able to explain how to solve equations and inequalities, and be able to justify the solution methods. The student will be able to identify common student misconceptions, their possible sources, and ways to make sense of the correct approach. The student will be able to represent quantitative problems with algebraic formulas, graphs, tables, and sample  scenarios. The student will be able to compare and contrast linear, quadratic, exponential, logarithmic, and power functions. The student will be able to represent a problem with a system of equations or inequalities, use algebraic and graphical approaches to represent the solution, and justify the steps used in each solution approach.','f9ffce69-c561-42df-b493-17ff29d8b830','039b04a5-4fd2-4286-97db-2d9a89bb29b9','The student will be able to explain the rules used to simplify algebraic expressions, and be able to justify why they are reasonable. The student will be able to explain how to add, subtract, multiply, and factor polynomials, and be able to justify the procedures. The student will be able to explain how to solve equations and inequalities, and be able to justify the solution methods. The student will be able to identify common student misconceptions, their possible sources, and ways to make sense of the correct approach. The student will be able to represent quantitative problems with algebraic formulas, graphs, tables, and sample  scenarios. The student will be able to compare and contrast linear, quadratic, exponential, logarithmic, and power functions. The student will be able to represent a problem with a system of equations or inequalities, use algebraic and graphical approaches to represent the solution, and justify the steps used in each solution approach.',0)
 /
-INSERT INTO KSLO_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
-  VALUES ('6658e0ab-dac1-4b63-aaed-2710bd7a65d8','9a04e2d2-b2f3-4058-b276-78c7dd9c51e4','" The role of an integrated marketing communication strategy in building a service brand',0)
-/
 INSERT INTO KSLO_RICH_TEXT_T (FORMATTED,ID,OBJ_ID,PLAIN,VER_NBR)
   VALUES ('Understanding the key elements of a Web application. ','48cb3a90-162c-4263-ac16-8ff474f0e819','08b68182-ac19-4048-8c6f-424b0f639bd2','Understanding the key elements of a Web application. ',0)
+/
+INSERT INTO KSLO_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
+  VALUES ('6658e0ab-dac1-4b63-aaed-2710bd7a65d8','9a04e2d2-b2f3-4058-b276-78c7dd9c51e4','" The role of an integrated marketing communication strategy in building a service brand',0)
 /
 INSERT INTO KSLO_RICH_TEXT_T (FORMATTED,ID,OBJ_ID,PLAIN,VER_NBR)
   VALUES ('Review of Web 2.0 applications and platforms.','876b708d-95ba-4bed-9cd2-ac6b486887b9','76675cca-8e86-4c0d-a471-78e63b0cf64f','Review of Web 2.0 applications and platforms.',0)
@@ -297,10 +297,10 @@ INSERT INTO KSLO_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
   VALUES ('8e420813-14b6-48c8-8a0d-9cefa99f77ce','79749b66-6039-43a6-b3a9-bd9eac14541d','The course objectives are to introduce foundational ideas and terms in entrepreneurship and innovation, with attention to developing students understanding of:',0)
 /
 INSERT INTO KSLO_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
-  VALUES ('82b4a86a-7cad-4667-8889-6083fe0f0148','5b887582-42e5-40a9-8b9b-33067bc3dda4','* Take an international business idea from a concept to an actual business',0)
+  VALUES ('01b3cef5-6029-4f86-857d-bfcc8ad8e42a','ef7e3ffa-797f-43f4-a6a1-f999f080d040','" how marketing in service-producing organizations differs from marketing in manufacturing organizations;',0)
 /
 INSERT INTO KSLO_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
-  VALUES ('01b3cef5-6029-4f86-857d-bfcc8ad8e42a','ef7e3ffa-797f-43f4-a6a1-f999f080d040','" how marketing in service-producing organizations differs from marketing in manufacturing organizations;',0)
+  VALUES ('82b4a86a-7cad-4667-8889-6083fe0f0148','5b887582-42e5-40a9-8b9b-33067bc3dda4','* Take an international business idea from a concept to an actual business',0)
 /
 INSERT INTO KSLO_RICH_TEXT_T (FORMATTED,ID,OBJ_ID,PLAIN,VER_NBR)
   VALUES ('Students will synthesize and apply new knowledge and skills through directed self-reflection and group activities. ','3d8c5efc-397b-4fac-8686-c58d8b7d3c8c','4a7cf63b-9770-4794-b30d-9a1b3ad96e29','Students will synthesize and apply new knowledge and skills through directed self-reflection and group activities. ',0)
@@ -314,11 +314,11 @@ INSERT INTO KSLO_RICH_TEXT_T (FORMATTED,ID,OBJ_ID,PLAIN,VER_NBR)
 INSERT INTO KSLO_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
   VALUES ('e960c98a-078e-4445-84df-af322f658a72','6c5468a6-1d7b-4c1b-b67b-576132bd3c21','- It will familiarize the student with the corporate drivers and business case for  cradle to grave   executive supply chain  stewardship;',0)
 /
-INSERT INTO KSLO_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
-  VALUES ('3fd2dfd0-1474-46e5-9e83-d81e5a5a8786','a61556d9-4aa3-44ca-a4e3-344a2233c9c0','			*	The basic functions, methods and structures of business management',0)
-/
 INSERT INTO KSLO_RICH_TEXT_T (FORMATTED,ID,OBJ_ID,PLAIN,VER_NBR)
   VALUES ('Demonstrate an ability to listen carefully.','4c03551e-3eb2-45b4-9776-b86a20ce0456','53ac2196-e55e-4af0-9d31-8979db8d5f54','Demonstrate an ability to listen carefully.',0)
+/
+INSERT INTO KSLO_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
+  VALUES ('3fd2dfd0-1474-46e5-9e83-d81e5a5a8786','a61556d9-4aa3-44ca-a4e3-344a2233c9c0','			*	The basic functions, methods and structures of business management',0)
 /
 INSERT INTO KSLO_RICH_TEXT_T (FORMATTED,ID,OBJ_ID,PLAIN,VER_NBR)
   VALUES ('Macroeconomics is both a theoretical and empirical subject. Economic theories are supplemented with relevant empirical studies to illustrate how theories demonstrate working knowledge of the construction and use of structural economic models, macroeconomic forecasting techniques and industry analysis. Students should be well-versed in macroeconomic data collection and management techniques, standard models of growth, fiscal and monetary policy and business cycle theory.','242efe39-c290-40e0-ac3f-77c8418cde4d','6bca4836-5357-4d23-94c1-6c318f99c609','Macroeconomics is both a theoretical and empirical subject. Economic theories are supplemented with relevant empirical studies to illustrate how theories demonstrate working knowledge of the construction and use of structural economic models, macroeconomic forecasting techniques and industry analysis. Students should be well-versed in macroeconomic data collection and management techniques, standard models of growth, fiscal and monetary policy and business cycle theory.',0)
@@ -496,13 +496,13 @@ INSERT INTO KSLO_RICH_TEXT_T (FORMATTED,ID,OBJ_ID,PLAIN,VER_NBR)
   VALUES ('Communicate results of a cost benefit analysis to interested parties so as to facilitate policy decision-making and implementation','34ce42f6-af0f-433c-8b2e-7e25132816e0','c5b86315-ece0-4022-9f77-cbc579737549','Communicate results of a cost benefit analysis to interested parties so as to facilitate policy decision-making and implementation',0)
 /
 INSERT INTO KSLO_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
-  VALUES ('06300518-6d78-4bc7-bd6f-bf467d414750','0144cc29-fb0e-4cc1-b771-dc4b233cc003','- Learn to recognize and think through organizational issues that are often critical in determining business success.  ',0)
+  VALUES ('f1c11047-e40a-4c72-88a8-50f5c80f972e','b9798e6e-b09c-4076-9149-25856dd08dd7','" Recognizing regulatory and ethical considerations in technological arenas',0)
 /
 INSERT INTO KSLO_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
   VALUES ('06a4a1aa-0bd8-4ee4-8f97-0e645a413edd','6f55af9f-94f5-42d4-b75b-5528ae5486f9','"	Understand the key internal and external factors influencing the characteristics of organizational change processes',0)
 /
 INSERT INTO KSLO_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
-  VALUES ('f1c11047-e40a-4c72-88a8-50f5c80f972e','b9798e6e-b09c-4076-9149-25856dd08dd7','" Recognizing regulatory and ethical considerations in technological arenas',0)
+  VALUES ('06300518-6d78-4bc7-bd6f-bf467d414750','0144cc29-fb0e-4cc1-b771-dc4b233cc003','- Learn to recognize and think through organizational issues that are often critical in determining business success.  ',0)
 /
 INSERT INTO KSLO_RICH_TEXT_T (FORMATTED,ID,OBJ_ID,PLAIN,VER_NBR)
   VALUES ('Use empirical studies to evaluate the effectiveness of certain health care policy options','cab1d992-c270-4efb-9b27-72f3c4e78aa8','9ee59d59-eb05-43f1-939e-bf899a39797c','Use empirical studies to evaluate the effectiveness of certain health care policy options',0)
@@ -529,10 +529,10 @@ INSERT INTO KSLO_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
   VALUES ('29b2d5a2-3187-4e85-9c7f-6ebb570d111a','28d99277-3b0b-4dc0-b4b3-d8ef2958eaf5','- Describe conceptual frameworks of Industry Analysis such as Porter s Five Forces and Value Net',0)
 /
 INSERT INTO KSLO_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
-  VALUES ('f47ee183-91a3-4618-8d65-0cd86cda9ccb','1398a984-f7d7-4536-84b6-02cef23e919a','This initial internal audit course will provide students with an overview and understanding of the broad context within which internal auditing processes and functions. Internal auditing will be presented as an integral part of effective corporate governance. Critical knowledge areas include the profession s conceptual framework (IIA Professional Practices Framework), role and responsibilities of management, corporate governance, external audit, and the audit committee (i.e., the four pillars of corporate governance as described by the IIA). ',0)
+  VALUES ('4989f0b6-56fb-4bdd-988f-6bf0269b1db7','7fe53a65-e34b-47df-ae0f-3ddf69bfe25f','" strategies for satisfying your customers and creating customer loyalty; ',0)
 /
 INSERT INTO KSLO_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
-  VALUES ('4989f0b6-56fb-4bdd-988f-6bf0269b1db7','7fe53a65-e34b-47df-ae0f-3ddf69bfe25f','" strategies for satisfying your customers and creating customer loyalty; ',0)
+  VALUES ('f47ee183-91a3-4618-8d65-0cd86cda9ccb','1398a984-f7d7-4536-84b6-02cef23e919a','This initial internal audit course will provide students with an overview and understanding of the broad context within which internal auditing processes and functions. Internal auditing will be presented as an integral part of effective corporate governance. Critical knowledge areas include the profession s conceptual framework (IIA Professional Practices Framework), role and responsibilities of management, corporate governance, external audit, and the audit committee (i.e., the four pillars of corporate governance as described by the IIA). ',0)
 /
 INSERT INTO KSLO_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
   VALUES ('520dd731-b536-4e8c-944b-789df1bab5f7','3230334b-862f-4559-b183-0831b6990ce8','" Using strategic alliances and partnerships in marketing technology',0)
@@ -839,10 +839,10 @@ INSERT INTO KSLO_RICH_TEXT_T (FORMATTED,ID,OBJ_ID,PLAIN,VER_NBR)
   VALUES ('Learning outcomes will vary depending on the topic.','fac26b5a-c0c7-41f9-be8f-da06d7a3cfd2','9eb0b22c-d23f-4ea5-a398-948b42809412','Learning outcomes will vary depending on the topic.',0)
 /
 INSERT INTO KSLO_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
-  VALUES ('0c461663-a360-4954-9539-b067add6e7e8','e6c0a078-87fd-4391-a262-5fa5eb7ab0dc','"	Interpret the competitive environment facing emerging companies. ',0)
+  VALUES ('65771b83-a822-491e-91e9-eb7f08776cd6','2934651e-c5d1-4855-bb2f-e71ebeb89d61','			*	Core business processes driving value creation',0)
 /
 INSERT INTO KSLO_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
-  VALUES ('65771b83-a822-491e-91e9-eb7f08776cd6','2934651e-c5d1-4855-bb2f-e71ebeb89d61','			*	Core business processes driving value creation',0)
+  VALUES ('0c461663-a360-4954-9539-b067add6e7e8','e6c0a078-87fd-4391-a262-5fa5eb7ab0dc','"	Interpret the competitive environment facing emerging companies. ',0)
 /
 INSERT INTO KSLO_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
   VALUES ('f944ec5a-0b5a-4e2e-b869-8caefd11cc86','c3784d81-b045-490c-a6c9-295fd72a74c2','			- Identify strategies for preventing negotiation breakdowns;',0)
@@ -889,11 +889,11 @@ INSERT INTO KSLO_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
 INSERT INTO KSLO_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
   VALUES ('43f3f2f5-8cc7-473c-8607-3bfb7d684f56','eb21a11d-38ff-412a-a5b6-95e273f53179','4. To enhance students  understanding of supply chains today: volatility, rapid change, complexity and need for new managerial approaches and skills to address these dynamics',0)
 /
-INSERT INTO KSLO_RICH_TEXT_T (FORMATTED,ID,OBJ_ID,PLAIN,VER_NBR)
-  VALUES ('This course contains a detailed treatment of the behavior of the consumer and the firm. Topics include benefit-cost analysis, externalities, game theory, imperfect competition, asymmetric information, and public goods. At the end of the course, students should be able to identify policy issues that relate to microeconomic analysis, evaluate relative strengths and weaknesses of economic arguments of policy debates and apply microeconomic modeling skills to a variety of policy issues. ','5244466d-b5c3-480c-962a-3a4598f45020','d0698b53-0099-4043-903b-33178794a718','This course contains a detailed treatment of the behavior of the consumer and the firm. Topics include benefit-cost analysis, externalities, game theory, imperfect competition, asymmetric information, and public goods. At the end of the course, students should be able to identify policy issues that relate to microeconomic analysis, evaluate relative strengths and weaknesses of economic arguments of policy debates and apply microeconomic modeling skills to a variety of policy issues. ',0)
-/
 INSERT INTO KSLO_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
   VALUES ('42303211-0014-408a-867c-e5a90b29c13d','69597cdb-0034-4dfd-ad2c-8ce5fec4b7da','This course will explore ethics in accounting and business, with an emphasis on internal auditing, and is intended to help you to identify, address, if sometimes resolve, ethical dilemmas you may face in your professional (and therefore personal) life.',0)
+/
+INSERT INTO KSLO_RICH_TEXT_T (FORMATTED,ID,OBJ_ID,PLAIN,VER_NBR)
+  VALUES ('This course contains a detailed treatment of the behavior of the consumer and the firm. Topics include benefit-cost analysis, externalities, game theory, imperfect competition, asymmetric information, and public goods. At the end of the course, students should be able to identify policy issues that relate to microeconomic analysis, evaluate relative strengths and weaknesses of economic arguments of policy debates and apply microeconomic modeling skills to a variety of policy issues. ','5244466d-b5c3-480c-962a-3a4598f45020','d0698b53-0099-4043-903b-33178794a718','This course contains a detailed treatment of the behavior of the consumer and the firm. Topics include benefit-cost analysis, externalities, game theory, imperfect competition, asymmetric information, and public goods. At the end of the course, students should be able to identify policy issues that relate to microeconomic analysis, evaluate relative strengths and weaknesses of economic arguments of policy debates and apply microeconomic modeling skills to a variety of policy issues. ',0)
 /
 INSERT INTO KSLO_RICH_TEXT_T (FORMATTED,ID,OBJ_ID,PLAIN,VER_NBR)
   VALUES ('Understand network management technology and approaches.','a0aa57d2-1095-4e22-afda-59fd494861d4','150381d9-4d74-41f3-85f6-9c4d06f4786d','Understand network management technology and approaches.',0)
@@ -905,10 +905,10 @@ INSERT INTO KSLO_RICH_TEXT_T (FORMATTED,ID,OBJ_ID,PLAIN,VER_NBR)
   VALUES ('Students will increase their awareness of issues related to engineering students','bb0ebbb0-8e42-4062-8abc-d844a4d8d06c','8b736379-f052-48c7-9cff-846445005464','Students will increase their awareness of issues related to engineering students',0)
 /
 INSERT INTO KSLO_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
-  VALUES ('4feed026-338b-4239-bb52-6481bb96e0e2','5094ec89-46c9-4769-92fb-bca2485ff347','" Defining characteristics of high-technology industries ',0)
+  VALUES ('20a7e8b7-ea75-440e-a3be-fac46372c83c','eccf4214-8511-4834-a71b-c5e1c0ec015f','In this course you will learn: ',0)
 /
 INSERT INTO KSLO_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
-  VALUES ('20a7e8b7-ea75-440e-a3be-fac46372c83c','eccf4214-8511-4834-a71b-c5e1c0ec015f','In this course you will learn: ',0)
+  VALUES ('4feed026-338b-4239-bb52-6481bb96e0e2','5094ec89-46c9-4769-92fb-bca2485ff347','" Defining characteristics of high-technology industries ',0)
 /
 INSERT INTO KSLO_RICH_TEXT_T (FORMATTED,ID,OBJ_ID,PLAIN,VER_NBR)
   VALUES ('Make predictions about what choices societies will make in specific real-world situations.','eba60de2-5dd4-4dee-a3d6-3539bd0157d0','2a17d545-4590-4f4a-9bc4-4bfa7162c72f','Make predictions about what choices societies will make in specific real-world situations.',0)
@@ -1055,10 +1055,10 @@ INSERT INTO KSLO_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
   VALUES ('df1fc2d2-980c-497a-bfd3-cc57022cb99e','c579668a-d52f-49a0-bbeb-4aa26c61cf37','-	Build study skills and habits to ensure a successful first year at the University of Maryland',0)
 /
 INSERT INTO KSLO_RICH_TEXT_T (FORMATTED,ID,OBJ_ID,PLAIN,VER_NBR)
-  VALUES ('Develop a working knowledge of basic research methodologies, data analysis and interpretation','efd4205d-4278-4e42-96fc-98c88936181b','bdcdea60-70fc-45e9-89fa-41bec47605a4','Develop a working knowledge of basic research methodologies, data analysis and interpretation',0)
+  VALUES ('Propose changes to the market design that could improve the market''s performance toward a particular objective','ec3dc7df-7c6c-4434-a0bf-321fdcb59b06','85365ac6-a049-4ceb-a543-733c2a40b206','Propose changes to the market design that could improve the market''s performance toward a particular objective',0)
 /
 INSERT INTO KSLO_RICH_TEXT_T (FORMATTED,ID,OBJ_ID,PLAIN,VER_NBR)
-  VALUES ('Propose changes to the market design that could improve the market''s performance toward a particular objective','ec3dc7df-7c6c-4434-a0bf-321fdcb59b06','85365ac6-a049-4ceb-a543-733c2a40b206','Propose changes to the market design that could improve the market''s performance toward a particular objective',0)
+  VALUES ('Develop a working knowledge of basic research methodologies, data analysis and interpretation','efd4205d-4278-4e42-96fc-98c88936181b','bdcdea60-70fc-45e9-89fa-41bec47605a4','Develop a working knowledge of basic research methodologies, data analysis and interpretation',0)
 /
 INSERT INTO KSLO_RICH_TEXT_T (FORMATTED,ID,OBJ_ID,PLAIN,VER_NBR)
   VALUES ('Students will continue to increase their awareness of campus resources and support services.','8e0d4c78-7cb2-413e-844c-da9d298cb616','cf1382d1-6132-484d-8f76-258197b0b0c1','Students will continue to increase their awareness of campus resources and support services.',0)
@@ -1293,11 +1293,11 @@ INSERT INTO KSLO_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
 INSERT INTO KSLO_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
   VALUES ('8e17f729-95cd-4414-8861-9f5e99657aef','dfc5e27e-9bb7-44ef-b2de-7affc0662efd','" Learning tools used to gather marketing research/intelligence in technology-driven industries ',0)
 /
-INSERT INTO KSLO_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
-  VALUES ('f619474b-cf43-49cf-ad11-410a2012ac2b','913376b2-6d72-42e4-817f-e0ccf6cf0aa8','BUSI 640 is both an introduction to finance and a gateway prerequisite for all finance electives. ',0)
-/
 INSERT INTO KSLO_RICH_TEXT_T (FORMATTED,ID,OBJ_ID,PLAIN,VER_NBR)
   VALUES ('This capstone course in Empirical Analysis emphasizes advanced topics in econometric methods and modeling. At the end of the course, students should be able to use linear regressions to answer economic questions, detect the presence of (and correct for) multicollinearity, heteroskedasticity, serial correlation, and endogeneity, and design and conduct an empirical research project. ','f61c75e1-6213-4443-aac1-85abda7f5fdf','d8a3c4fa-edfc-44ed-9e56-135caacc9e93','This capstone course in Empirical Analysis emphasizes advanced topics in econometric methods and modeling. At the end of the course, students should be able to use linear regressions to answer economic questions, detect the presence of (and correct for) multicollinearity, heteroskedasticity, serial correlation, and endogeneity, and design and conduct an empirical research project. ',0)
+/
+INSERT INTO KSLO_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
+  VALUES ('f619474b-cf43-49cf-ad11-410a2012ac2b','913376b2-6d72-42e4-817f-e0ccf6cf0aa8','BUSI 640 is both an introduction to finance and a gateway prerequisite for all finance electives. ',0)
 /
 INSERT INTO KSLO_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
   VALUES ('4502f31a-3bb4-4e5d-9f0c-fecce0350bda','7083fc89-e653-4fc5-a022-2cbb8fad0790','- Understand the challenges of converting strategic intentions into reality. ',0)
@@ -1398,11 +1398,11 @@ INSERT INTO KSLO_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
 INSERT INTO KSLO_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
   VALUES ('265ab3e5-8bfd-4817-a04b-07e96c98a406','9140086f-a3ce-4730-b3a4-73ebfe827d5d','The intent of this course is to rigorously examine the activities associated with fulfilling the firm''s raw materials requirements.  The primary area of interest will be materials management this includes determining materials requirements, sourcing and obtaining materials, and monitoring materials usage.  Purchasing policies and procedures (such as the negotiation of new supply arrangements and the management of existing vendor relationships) will be considered as will other issues associated with resupply including transportation planning and inventory control.  Procurement s fit within the organization and its financial impacts will also be explored.',0)
 /
-INSERT INTO KSLO_RICH_TEXT_T (FORMATTED,ID,OBJ_ID,PLAIN,VER_NBR)
-  VALUES ('Value benefits and costs in primary markets','431f81cd-2ee5-43f8-98c3-f3ddd4d60f8a','a31a8cd4-fa7f-4176-9bf2-3b553eedb37b','Value benefits and costs in primary markets',0)
-/
 INSERT INTO KSLO_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
   VALUES ('f0f477a3-dcca-43d6-a67a-82fced6e5de5','92681304-8453-4ad6-be8f-8c5a8ee0188e','			*	Concepts of value creation, value-added processes, and efficiency and effectiveness',0)
+/
+INSERT INTO KSLO_RICH_TEXT_T (FORMATTED,ID,OBJ_ID,PLAIN,VER_NBR)
+  VALUES ('Value benefits and costs in primary markets','431f81cd-2ee5-43f8-98c3-f3ddd4d60f8a','a31a8cd4-fa7f-4176-9bf2-3b553eedb37b','Value benefits and costs in primary markets',0)
 /
 INSERT INTO KSLO_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
   VALUES ('4e06a540-7fa4-476c-9137-f83ee424d567','86e1990a-73c6-45c4-af12-e839940d18ab','3.	Gain practice negotiating in groups.',0)
@@ -1603,10 +1603,10 @@ INSERT INTO KSLO_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
   VALUES ('97f4d433-221c-438b-b3f7-663f42d14031','fc2214c2-292e-4610-8c20-8d786b055ac8','-	Gain awareness of postgraduate opportunities such as graduate school and careers in industry',0)
 /
 INSERT INTO KSLO_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
-  VALUES ('6eb94801-f4e6-495d-99ee-52fd5f4bcf0f','e7135ef3-98de-4cec-a393-296642d69547','" Techniques for designing new services and improving existing services ',0)
+  VALUES ('fa09c559-6a55-4daa-a043-1988839c3821','a1213898-e70d-47b9-961a-66437e6554f8','"	Understand and analyze the essential steps and processes of planned organizational change',0)
 /
 INSERT INTO KSLO_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
-  VALUES ('fa09c559-6a55-4daa-a043-1988839c3821','a1213898-e70d-47b9-961a-66437e6554f8','"	Understand and analyze the essential steps and processes of planned organizational change',0)
+  VALUES ('6eb94801-f4e6-495d-99ee-52fd5f4bcf0f','e7135ef3-98de-4cec-a393-296642d69547','" Techniques for designing new services and improving existing services ',0)
 /
 INSERT INTO KSLO_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
   VALUES ('b738581f-95ba-4952-95a4-30ae124b9318','2247e069-4dfc-4666-9ec7-80233c91f7da','* Develop best mode of entry (e.g., export/import, international franchising, international alliances, off-shoring) in international markets',0)
@@ -1851,11 +1851,11 @@ INSERT INTO KSLO_RICH_TEXT_T (FORMATTED,ID,OBJ_ID,PLAIN,VER_NBR)
 INSERT INTO KSLO_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
   VALUES ('0271153c-dcc1-4e15-afd1-5b3bf3a11c37','a17990f5-0011-472c-a2c2-2bba4a85952e',' - To allow students to learn, develop, and apply new concepts, tools, and skills',0)
 /
-INSERT INTO KSLO_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
-  VALUES ('840bf6e7-e4cc-4fa3-b79b-2558df15cca4','a9a81e0f-fc8e-4f24-b87e-9be9a6bc0d74','*Learn how to plan, develop, and market a technology product ',0)
-/
 INSERT INTO KSLO_RICH_TEXT_T (FORMATTED,ID,OBJ_ID,PLAIN,VER_NBR)
   VALUES ('Students will synthesize and apply new knowledge and skills through directed self-reflection and group activities. ','0f7bdd2c-c608-4926-be50-f3ea17cd61ec','53de2db8-5bc2-4e37-b43b-6d083a796cc0','Students will synthesize and apply new knowledge and skills through directed self-reflection and group activities. ',0)
+/
+INSERT INTO KSLO_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
+  VALUES ('840bf6e7-e4cc-4fa3-b79b-2558df15cca4','a9a81e0f-fc8e-4f24-b87e-9be9a6bc0d74','*Learn how to plan, develop, and market a technology product ',0)
 /
 INSERT INTO KSLO_RICH_TEXT_T (FORMATTED,ID,OBJ_ID,PLAIN,VER_NBR)
   VALUES ('Analyze optimal construction of portfolios with these models','4616908c-c4f3-4d35-9c25-379a16bfab68','9590ccf0-c7ec-4819-910c-3ee53058c36d','Analyze optimal construction of portfolios with these models',0)
@@ -1902,11 +1902,11 @@ INSERT INTO KSLO_RICH_TEXT_T (FORMATTED,ID,OBJ_ID,PLAIN,VER_NBR)
 INSERT INTO KSLO_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
   VALUES ('ccc5f577-4c7d-4601-9225-0bd8e7e43fd1','17d0f2a2-c2c1-4e28-bb00-746985d70a03','" Adapting the marketing mix in a high-tech environment',0)
 /
-INSERT INTO KSLO_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
-  VALUES ('16f34443-e131-4f73-bb4d-395c6f86dc52','fbef9f4c-51e7-4466-aa27-407028fb81e0','" How to use hard and soft customer metrics in evaluating service performance',0)
-/
 INSERT INTO KSLO_RICH_TEXT_T (FORMATTED,ID,OBJ_ID,PLAIN,VER_NBR)
   VALUES ('Describe the requirements of and the difference between centralized and distributed data processing. ','79cc5020-792e-4150-9cd2-46e2b8f2869c','f7f01202-2c04-4cdc-bf09-ee41a5b27599','Describe the requirements of and the difference between centralized and distributed data processing. ',0)
+/
+INSERT INTO KSLO_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
+  VALUES ('16f34443-e131-4f73-bb4d-395c6f86dc52','fbef9f4c-51e7-4466-aa27-407028fb81e0','" How to use hard and soft customer metrics in evaluating service performance',0)
 /
 INSERT INTO KSLO_RICH_TEXT_T (FORMATTED,ID,OBJ_ID,PLAIN,VER_NBR)
   VALUES ('Understanding how to connect from a PHP script to a MySQL database. ','e0256d94-0e79-4466-8e24-ed557208b20e','f2b090b3-b94e-4583-851b-bea3dfdd2def','Understanding how to connect from a PHP script to a MySQL database. ',0)
@@ -2002,10 +2002,10 @@ INSERT INTO KSLO_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
   VALUES ('6048f2e4-6faf-488f-9cfd-35ac2fd9607b','2631f8da-619d-4ab6-82e0-0f5520146e12','4.	To ensure students can effectively present sustained, critical analyses through both oral and written communication.',0)
 /
 INSERT INTO KSLO_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
-  VALUES ('f053f5f3-bec8-4a2b-aec9-3cbade7ecd44','869381cc-d19d-4b82-a713-708138b2da8d','- Perform an Industry Analysis using class concepts',0)
+  VALUES ('358da1d9-b0b4-4c13-a24b-d52d150e0007','fc63d15f-abb0-444f-b4fb-c391eda76d08','-Develop ability to work effectively in teams in both classroom and co-curricular settings',0)
 /
 INSERT INTO KSLO_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
-  VALUES ('358da1d9-b0b4-4c13-a24b-d52d150e0007','fc63d15f-abb0-444f-b4fb-c391eda76d08','-Develop ability to work effectively in teams in both classroom and co-curricular settings',0)
+  VALUES ('f053f5f3-bec8-4a2b-aec9-3cbade7ecd44','869381cc-d19d-4b82-a713-708138b2da8d','- Perform an Industry Analysis using class concepts',0)
 /
 INSERT INTO KSLO_RICH_TEXT_T (FORMATTED,ID,OBJ_ID,PLAIN,VER_NBR)
   VALUES ('Propose changes to the market design that could improve the market''s performance toward a particular objective','3cb39347-adac-4f50-a094-bd9f52fa8673','9f4f522c-c50e-4492-add4-857e3c0bc649','Propose changes to the market design that could improve the market''s performance toward a particular objective',0)
@@ -2022,11 +2022,11 @@ INSERT INTO KSLO_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
 INSERT INTO KSLO_RICH_TEXT_T (FORMATTED,ID,OBJ_ID,PLAIN,VER_NBR)
   VALUES ('The Business Consulting Practicum affords MBA students the opportunity to hone a wide range of skills in a "living case" environment. While working in cross-functional teams, students will accomplish the following:','58158ba2-906b-4f56-8b3a-53abd9b9b038','83452a11-f1f1-4312-a12b-78ec95914e20','The Business Consulting Practicum affords MBA students the opportunity to hone a wide range of skills in a "living case" environment. While working in cross-functional teams, students will accomplish the following:',0)
 /
-INSERT INTO KSLO_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
-  VALUES ('6723983f-c81a-4ae5-b427-a5c563da97e3','2c07d3ec-b231-44c0-afd8-acd86fe808e4','			*	The basic functions, methods and structures of business management',0)
-/
 INSERT INTO KSLO_RICH_TEXT_T (FORMATTED,ID,OBJ_ID,PLAIN,VER_NBR)
   VALUES ('the process of organizing innovation to produce new technology that satisfies the needs of customers','4def819b-2301-4722-86ef-93bdfa2c38b8','34078715-8c30-40a3-be84-4708bd66338b','the process of organizing innovation to produce new technology that satisfies the needs of customers',0)
+/
+INSERT INTO KSLO_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
+  VALUES ('6723983f-c81a-4ae5-b427-a5c563da97e3','2c07d3ec-b231-44c0-afd8-acd86fe808e4','			*	The basic functions, methods and structures of business management',0)
 /
 INSERT INTO KSLO_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR)
   VALUES ('9f59e322-ae7e-4dd8-919a-ac2bdcbf2ad4','c9e57851-190a-4412-849d-4d1a7bba32e9','"	Select and apply the appropriate interventions and actions in certain phases of organizational change ',0)

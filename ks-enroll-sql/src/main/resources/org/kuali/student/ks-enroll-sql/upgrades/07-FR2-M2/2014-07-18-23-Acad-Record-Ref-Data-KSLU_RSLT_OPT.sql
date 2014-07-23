@@ -26,10 +26,10 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('e17656c4-66ed-462d-b05c-7c27c2576558','b4bc57e6-95c5-4c1a-b6a5-d2d8cfa3f140','kuali.creditType.credit.degree.3.0','Draft',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('9034c42f-613d-45fb-b3f4-9e2eed4e2625','d3308605-ffc6-4bbc-a196-313198f72ef3','kuali.creditType.credit.degree.2.0','Active',0)
+  VALUES ('1a13afe8-9b27-4eab-a787-d0077c695d15','f269b108-f976-43f5-a464-e70424e1bf9c','kuali.creditType.credit.degree.3.0','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('1a13afe8-9b27-4eab-a787-d0077c695d15','f269b108-f976-43f5-a464-e70424e1bf9c','kuali.creditType.credit.degree.3.0','Active',0)
+  VALUES ('9034c42f-613d-45fb-b3f4-9e2eed4e2625','d3308605-ffc6-4bbc-a196-313198f72ef3','kuali.creditType.credit.degree.2.0','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('cf0fa18b-7b76-4c44-b983-b2bacd1d1e96','3fdec180-0463-48a4-88b8-2e40d28dea53','kuali.resultComponent.grade.letter','8c9a8119-bec5-4b21-ae25-f36d2901400d','Draft',2)
@@ -124,20 +124,20 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('12da6e32-7106-4c6b-bfc2-32c7259dd134','d5772124-806d-4f23-9fc5-34bc50beaa0a','kuali.creditType.credit.degree.3.0','Active',0)
 /
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
+  VALUES ('f4478725-03da-47ac-8c63-b58208314b37','a97df62d-077d-4f9f-bd76-fd5a161091e1','kuali.creditType.credit.degree.0.0','Active',0)
+/
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('54bdfd6f-549f-47a0-a753-60ad0e9b9043','3076db3d-73b2-4f9a-b891-9bef7f519652','kuali.resultComponent.grade.audit','f5beef5e-3d6c-4faa-b46d-18f870f712bd','Active',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('f4478725-03da-47ac-8c63-b58208314b37','a97df62d-077d-4f9f-bd76-fd5a161091e1','kuali.creditType.credit.degree.0.0','Active',0)
-/
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('09aea056-db7a-4c15-af25-58b9af49b2e0','52878e48-ff3d-45e2-abe8-951a877cdb97','kuali.creditType.credit.degree.3.0','Draft',0)
-/
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('b8a796a9-3330-4aa0-8193-062a200d7790','d301b3c2-53d3-4363-aded-1e5061a0546b','kuali.resultComponent.grade.audit','02c20ae5-ddbf-4ce4-9006-9550cfb699b8','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('65407dc7-415d-4bd0-814a-0e27c1ca8a18','b3b69365-a5f6-4389-9714-ee0d81028b53','kuali.creditType.credit.degree.3.0','Active',0)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
+  VALUES ('b8a796a9-3330-4aa0-8193-062a200d7790','d301b3c2-53d3-4363-aded-1e5061a0546b','kuali.resultComponent.grade.audit','02c20ae5-ddbf-4ce4-9006-9550cfb699b8','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('eb9ad5fe-e646-4dec-b939-296ed87bcd52','0230a40a-9ca6-4e6d-a72c-bb6f1a8439f0','kuali.resultComponent.grade.letter','2c2dc382-26f1-40d9-954c-5280e85d99d7','Draft',16)
@@ -254,19 +254,19 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('c8c15857-086a-49b7-80d2-f35377233b55','83719755-6b5a-4743-b06d-f47a286cd5e2','kuali.resultComponent.grade.letter','d12e2370-1104-4349-a5fe-272b7ef12870','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('4fbcd946-bbf8-459f-ac5a-07c325a6baf6','d7baad96-58d9-4016-8c68-f71214b749ca','kuali.resultComponent.grade.letter','07ba8b91-43be-4e80-bda2-2044e2690a46','Draft',2)
+  VALUES ('eae10fe1-c495-45fc-bc48-e5a1bcb8477b','dcc0257d-2233-4b99-afc1-1717db7705a9','kuali.resultComponent.grade.letter','a2df32a7-42a6-41e1-b008-64687c7384dd','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('eae10fe1-c495-45fc-bc48-e5a1bcb8477b','dcc0257d-2233-4b99-afc1-1717db7705a9','kuali.resultComponent.grade.letter','a2df32a7-42a6-41e1-b008-64687c7384dd','Draft',2)
+  VALUES ('4fbcd946-bbf8-459f-ac5a-07c325a6baf6','d7baad96-58d9-4016-8c68-f71214b749ca','kuali.resultComponent.grade.letter','07ba8b91-43be-4e80-bda2-2044e2690a46','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('65e19a9b-df17-4831-8f89-934dac83cb35','cf1b6639-261a-4817-8419-436890203eed','kuali.resultComponent.grade.letter','ac1aca08-9dbb-4534-8103-a06cf0eadd2c','Retired',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('93dd1016-3786-4494-a78e-ea3938182c75','4b7cff4e-c69c-4e06-8cac-c4dc96468782','kuali.resultComponent.grade.letter','4345a7ba-652a-4277-b1bc-56ddc41dad57','Draft',2)
+  VALUES ('1214d2d1-a03a-4368-9f6a-ff5c0605ece2','2dc7c89a-68b8-42af-9ee8-fead02b336a6','kuali.resultComponent.grade.letter','faaeb1e8-a821-41bc-a623-3fa6da8bd6fd','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('1214d2d1-a03a-4368-9f6a-ff5c0605ece2','2dc7c89a-68b8-42af-9ee8-fead02b336a6','kuali.resultComponent.grade.letter','faaeb1e8-a821-41bc-a623-3fa6da8bd6fd','Active',0)
+  VALUES ('93dd1016-3786-4494-a78e-ea3938182c75','4b7cff4e-c69c-4e06-8cac-c4dc96468782','kuali.resultComponent.grade.letter','4345a7ba-652a-4277-b1bc-56ddc41dad57','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('679928df-ef97-43e5-88f6-83af22540761','ba77f3fd-ee8f-4e8b-ac6b-af1b4d00b45b','kuali.resultComponent.grade.letter','528faf58-4193-4ace-a92a-97eca7363d30','Draft',2)
@@ -284,10 +284,10 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('e4b31ebb-9d34-4a7c-a675-8684cd99e96c','6e34ffa1-fb88-47eb-a406-41a39d7b5b36','kuali.resultComponent.grade.passFail','42f5ed31-cc2e-4f6b-850b-dc818ab4a782','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('55f50dee-4efb-4408-aabf-349e90ef208d','9f7e9e18-020c-4b9d-ab40-721be00e12dc','kuali.resultComponent.grade.audit','5e056175-199b-41be-89c7-7134cf8de179','Active',0)
+  VALUES ('0a9945b6-ea13-443b-8b66-eaf6bc737fce','4757b648-24b3-4a20-a619-7af9e51c4297','kuali.resultComponent.grade.audit','bc1574f6-9f5d-40c8-892e-2e1bd208cfd5','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('0a9945b6-ea13-443b-8b66-eaf6bc737fce','4757b648-24b3-4a20-a619-7af9e51c4297','kuali.resultComponent.grade.audit','bc1574f6-9f5d-40c8-892e-2e1bd208cfd5','Draft',2)
+  VALUES ('55f50dee-4efb-4408-aabf-349e90ef208d','9f7e9e18-020c-4b9d-ab40-721be00e12dc','kuali.resultComponent.grade.audit','5e056175-199b-41be-89c7-7134cf8de179','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('f60b8379-66cb-4d84-a126-4f706339aad4','96bbe54c-025e-4fda-b87b-5757460ea239','kuali.resultComponent.grade.audit','8f98da6a-85a0-41e4-a137-0aef76c1d3f0','Active',1)
@@ -316,11 +316,11 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('d0b52594-03d2-485c-a140-fa8894ad1c72','13d50d4d-0e49-4ae5-bd26-c27bfc336ce9','kuali.resultComponent.grade.passFail','b5e9e1b8-737e-4e0d-a450-24a20798c4c7','Draft',1)
 /
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('0d74f99f-df39-464d-827b-2d00a931c980','700f2fad-12f3-4532-930a-0e0d9cf8231a','kuali.creditType.credit.degree.3.0','Draft',0)
-/
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('b804462d-d4b4-44cc-af53-cc76886b440c','9afe0b2e-d0a7-4555-8d99-8bfe00abc31f','kuali.resultComponent.grade.audit','2a012fcc-8385-43ee-bcd8-8581ce74347c','Active',1)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
+  VALUES ('0d74f99f-df39-464d-827b-2d00a931c980','700f2fad-12f3-4532-930a-0e0d9cf8231a','kuali.creditType.credit.degree.3.0','Draft',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('cbf448b9-2044-412f-973d-0a88658911f1','43eb8749-da6d-4ec6-b454-9f48f101faae','kuali.creditType.credit.degree.3.0','Draft',0)
@@ -335,10 +335,10 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('2d4c5696-7d92-4234-a5bb-668d95567b35','0af8bc40-5b3c-4e10-b104-91868275db5f','kuali.resultComponent.grade.audit','5f13d15e-caa5-4784-9bb7-63fa6302157f','Retired',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('a95546bd-8117-448d-92db-255617807f2c','18d29f05-c0a9-402f-9545-e5d49f77e297','kuali.creditType.credit.degree.3.0','Active',0)
+  VALUES ('391dcfbd-5def-412b-ad1a-e6d679d86011','2b9345e1-a21a-4c0d-bf31-fd0df7b70b50','kuali.creditType.credit.degree.3.0','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('391dcfbd-5def-412b-ad1a-e6d679d86011','2b9345e1-a21a-4c0d-bf31-fd0df7b70b50','kuali.creditType.credit.degree.3.0','Active',0)
+  VALUES ('a95546bd-8117-448d-92db-255617807f2c','18d29f05-c0a9-402f-9545-e5d49f77e297','kuali.creditType.credit.degree.3.0','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('7a5ecaa5-16a5-4914-94d2-e56121931c88','541e9956-37d4-4a55-ab00-9ef5aa9a50a2','kuali.creditType.credit.degree.2.0','Retired',0)
@@ -347,40 +347,40 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('2bfae0cb-e14e-4271-966d-d3be4feaccd3','dd9ae494-1086-4356-8afc-aecab6cc1625','kuali.resultComponent.grade.letter','1f24e8df-976d-42e9-9b58-0ecd15666e16','Draft',4)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('87619f5a-f38f-4e52-813b-3e5f0ca043b2','532acefa-de6e-410a-bb4a-04d24d57aed7','kuali.resultComponent.grade.passFail','b3163982-10e6-4ced-a304-3f8283fee1e9','Active',1)
+  VALUES ('a580c7ab-5964-4938-a06c-dfe6d588b8b3','72f0ebad-3668-4af4-aa9b-265b95607fc3','kuali.resultComponent.grade.audit','90b1794a-a019-4cc8-8af6-6683b39db6b1','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('a580c7ab-5964-4938-a06c-dfe6d588b8b3','72f0ebad-3668-4af4-aa9b-265b95607fc3','kuali.resultComponent.grade.audit','90b1794a-a019-4cc8-8af6-6683b39db6b1','Active',1)
+  VALUES ('87619f5a-f38f-4e52-813b-3e5f0ca043b2','532acefa-de6e-410a-bb4a-04d24d57aed7','kuali.resultComponent.grade.passFail','b3163982-10e6-4ced-a304-3f8283fee1e9','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('22debc78-871e-4e6b-b405-4e968186269f','5c50ac0a-ca86-4132-88d7-a9d775bf14c3','kuali.resultComponent.grade.letter','22535a09-bda3-41f1-bf9d-3c3682e7d195','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('789766d8-9c67-46b5-9131-641de0dcb17b','1c39464b-ab1a-42a5-86b6-468e68161cf7','kuali.creditType.credit.degree.3.0','Active',0)
-/
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('74563553-c6f1-4dec-8627-076e84830575','0112d4c4-466b-4d65-a569-0f7f3942570b','kuali.creditType.credit.degree.3.0','Draft',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('af80645c-c0cf-48d6-b95e-d0b1fcade38a','4c895420-98b4-480f-855b-af78522ee291','kuali.creditType.credit.degree.3.0','Active',0)
+  VALUES ('789766d8-9c67-46b5-9131-641de0dcb17b','1c39464b-ab1a-42a5-86b6-468e68161cf7','kuali.creditType.credit.degree.3.0','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('58ad64ab-68e2-4725-aaf5-a54f347c1b63','2c53dc30-020c-426f-8904-035c96e43f8c','kuali.creditType.credit.degree.3.0','Active',0)
+  VALUES ('af80645c-c0cf-48d6-b95e-d0b1fcade38a','4c895420-98b4-480f-855b-af78522ee291','kuali.creditType.credit.degree.3.0','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('cd162c17-7a47-43df-afbb-45c1e7a5a0e8','fffd87e0-679b-48c5-8fba-716cd9f5b850','kuali.resultComponent.grade.letter','bfc2372c-6237-4948-8256-1cdb2c3bb467','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('1e3ea622-28ab-4748-8ba5-0002d8b494cb','a8ebdb19-a21b-4f81-a3ca-a8dc8a502687','kuali.creditType.credit.degree.3.0','Draft',0)
+  VALUES ('58ad64ab-68e2-4725-aaf5-a54f347c1b63','2c53dc30-020c-426f-8904-035c96e43f8c','kuali.creditType.credit.degree.3.0','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('eb82130e-46ea-469f-8f18-6b96ee5dcbff','85228d51-d226-4516-90fd-ed1fde0db868','kuali.creditType.credit.degree.4.0','Draft',0)
 /
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('a68ee34e-666b-4d37-a1e5-fabc5cde44ac','08983661-887e-4084-96e7-f06ecbfffd92','kuali.resultComponent.grade.audit','5880009c-8532-45fa-a071-be33c3864f12','Retired',1)
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
+  VALUES ('1e3ea622-28ab-4748-8ba5-0002d8b494cb','a8ebdb19-a21b-4f81-a3ca-a8dc8a502687','kuali.creditType.credit.degree.3.0','Draft',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('eaa88258-a6e6-47cf-8357-5e762e528dd5','5565a1a2-d113-48c7-830d-758f3a48673d','kuali.creditType.credit.degree.2.0','Draft',0)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
+  VALUES ('a68ee34e-666b-4d37-a1e5-fabc5cde44ac','08983661-887e-4084-96e7-f06ecbfffd92','kuali.resultComponent.grade.audit','5880009c-8532-45fa-a071-be33c3864f12','Retired',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('308b52e9-51be-4565-b1ee-422f9dbb326b','555c5f5d-18eb-4a83-bf62-ae8b308806f0','kuali.creditType.credit.degree.3.0','Draft',0)
@@ -400,14 +400,14 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('48182e45-8a28-4792-81eb-95b7ae31c1c2','a4d5eed7-ed12-433c-a916-04d6b5efd9b9','kuali.resultComponent.grade.passFail','923c6ae8-7484-4697-ad7a-ebe8f5a12f4f','Draft',2)
 /
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
+  VALUES ('60412f20-d424-44b1-b1fc-10cc45a2108e','f9cc89e4-d177-4824-bc18-8c9c55bbf89e','kuali.resultComponent.grade.passFail','ffa573ff-c8ed-4d08-a92f-4618fd12a5be','Retired',1)
+/
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('ee183770-945a-4741-8b82-7b77cbb83d73','dd1d2779-4f0c-4b32-bd91-8ae1c7bb888c','kuali.creditType.credit.degree.1.0','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('340f0837-7508-4249-a7e2-8c8fc2963bcc','034e71a4-7806-473c-96e2-3080918495a3','kuali.resultComponent.grade.letter','0c481de3-a7d0-44d2-b648-8e1886f31638','Draft',3)
-/
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('60412f20-d424-44b1-b1fc-10cc45a2108e','f9cc89e4-d177-4824-bc18-8c9c55bbf89e','kuali.resultComponent.grade.passFail','ffa573ff-c8ed-4d08-a92f-4618fd12a5be','Retired',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('8e1225a3-2232-4b00-bb62-ffaef5ac14e3','df68effc-971f-40c5-ba60-934378fbde94','kuali.resultComponent.grade.audit','03d9075f-32e7-4d5e-b8fc-54a3f8bf51f3','Draft',3)
@@ -452,10 +452,10 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('9be95258-6a97-4b09-bc83-5dd828a02cf7','b8d23481-2c63-4f77-992e-42643858ddac','kuali.resultComponent.grade.audit','db94c8ac-e387-4c9d-877f-b0353b98c30a','Draft',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('c6a761d1-e2b3-4d3b-9382-76051cd5382e','a775dc47-00d2-47b0-ab69-30968ecfd265','kuali.resultComponent.grade.letter','6d8fef46-b309-475e-8b4e-9e973d1daeaa','Active',0)
+  VALUES ('2809776e-44a2-442f-b2e7-754af8f7f1fc','1423fb62-90db-435b-9270-c8c6a5a22afb','kuali.resultComponent.grade.audit','685d8520-c3d7-43de-b6f5-99afa4f82111','Draft',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('2809776e-44a2-442f-b2e7-754af8f7f1fc','1423fb62-90db-435b-9270-c8c6a5a22afb','kuali.resultComponent.grade.audit','685d8520-c3d7-43de-b6f5-99afa4f82111','Draft',1)
+  VALUES ('c6a761d1-e2b3-4d3b-9382-76051cd5382e','a775dc47-00d2-47b0-ab69-30968ecfd265','kuali.resultComponent.grade.letter','6d8fef46-b309-475e-8b4e-9e973d1daeaa','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('f23abb7a-c27b-42d1-b0e7-63ca33968d2f','80a47518-dae6-4e38-8701-31d8895ce522','kuali.creditType.credit.degree.3.0','Active',0)
@@ -482,19 +482,16 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('84e17c46-cd17-46f7-942d-aa1e6284453e','86cb0ce5-0e1f-4bf5-9be4-31587a44de52','kuali.resultComponent.grade.letter','01478d9f-e504-4982-9c7d-93bab8871f53','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('a4b6e348-0369-42ba-b7ff-06276a229c11','32510a7f-6bed-43b7-8929-8b1d46d5b7ff','kuali.creditType.credit.degree.3.0','Active',0)
-/
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('07354a7b-3b19-40a6-ab5d-ed9db5647589','b74e840c-f578-4954-ab75-c4b49341498b','kuali.creditType.credit.degree.3.0','Draft',0)
 /
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('d6769c70-7292-4a5b-838b-d4e235dd739d','0c8a7667-f996-471a-ae21-bd76406cf221','kuali.resultComponent.grade.letter','2383d522-91cc-4f49-b09b-96d212a5d825','Draft',3)
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
+  VALUES ('a4b6e348-0369-42ba-b7ff-06276a229c11','32510a7f-6bed-43b7-8929-8b1d46d5b7ff','kuali.creditType.credit.degree.3.0','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('1befbe7a-b54e-41b1-8741-0783700e97e6','13c9349c-d3e6-4d96-b504-c6de5d7c795f','kuali.resultComponent.grade.passFail','3432fe7d-b9cc-4c9d-9ec0-d46d766df794','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('5f39a33e-2b6a-402f-bf75-69afd8e146ff','87979d2a-f118-4fd6-99b0-415dd9682ad2','kuali.resultComponent.grade.audit','ae1bd15f-70d9-4dd9-97fc-f34948da3fd9','Active',1)
+  VALUES ('d6769c70-7292-4a5b-838b-d4e235dd739d','0c8a7667-f996-471a-ae21-bd76406cf221','kuali.resultComponent.grade.letter','2383d522-91cc-4f49-b09b-96d212a5d825','Draft',3)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('078f755f-9cf8-4394-b069-09fe33e73ae3','179b05b1-ae69-4d52-a8b7-ece64b304cb8','kuali.creditType.credit.degree.1-3','Active',0)
@@ -503,10 +500,13 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('027ea104-49db-454a-819d-3bc72499ab39','59fd24d0-bddb-4b30-ae3b-90f1c0a9176d','kuali.creditType.credit.degree.3.0','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('38b48122-e5e6-4401-b38d-942e66ad234f','7affbd78-ca04-4c10-9692-a23bef5a3024','kuali.resultComponent.grade.passFail','e895608e-9d4a-479b-85de-97991e0fc363','Draft',2)
+  VALUES ('5f39a33e-2b6a-402f-bf75-69afd8e146ff','87979d2a-f118-4fd6-99b0-415dd9682ad2','kuali.resultComponent.grade.audit','ae1bd15f-70d9-4dd9-97fc-f34948da3fd9','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('e178ff7f-ae42-407b-bf8d-97c1cdfb67dd','f17becd0-a45a-4388-a001-367680f0754b','kuali.resultComponent.grade.letter','f9731300-3488-4f47-bdfb-3bd29720d882','Draft',1)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
+  VALUES ('38b48122-e5e6-4401-b38d-942e66ad234f','7affbd78-ca04-4c10-9692-a23bef5a3024','kuali.resultComponent.grade.passFail','e895608e-9d4a-479b-85de-97991e0fc363','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('e7c97bb6-6640-4019-aa2a-fc81a8e137d8','8ac4be92-d871-4129-a657-2fbe927dcc56','kuali.resultComponent.grade.letter','1b3349c8-b62e-4193-a64a-c3cc467319cf','Active',1)
@@ -515,10 +515,10 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('941fbad2-1d32-4299-abee-8adca030513d','554909a6-24ff-41f4-8a0d-48799d810594','kuali.resultComponent.grade.letter','0c65aa59-34d7-4e3f-ad53-95ed25b3ef64','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('54ae8f57-adce-4d9d-9148-0d24897a0f97','3de0884c-a46d-4e50-8fef-bd81ee9a1ff5','kuali.creditType.credit.degree.3.0','Draft',0)
+  VALUES ('d7a17740-0396-4a24-97bf-528c4dfdbc59','19eb63d0-c12a-4536-8829-6b1d1c7a980a','kuali.creditType.credit.degree.3.0','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('d7a17740-0396-4a24-97bf-528c4dfdbc59','19eb63d0-c12a-4536-8829-6b1d1c7a980a','kuali.creditType.credit.degree.3.0','Active',0)
+  VALUES ('54ae8f57-adce-4d9d-9148-0d24897a0f97','3de0884c-a46d-4e50-8fef-bd81ee9a1ff5','kuali.creditType.credit.degree.3.0','Draft',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('8191dfc8-1a69-4fc7-9ad5-8b64b339f7e9','62ecaa67-8fc6-4b82-ae41-3ade1a94373f','kuali.creditType.credit.degree.3.0','Active',0)
@@ -532,23 +532,23 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('620daa13-0e94-475e-9f75-8d3439eb73b0','c4eb81d2-8a3b-425a-8273-731f23e06a1c','kuali.resultComponent.grade.audit','f5210e56-5c23-4650-a30a-3173620e8d4d','Active',0)
 /
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('81c281d0-f1cb-4dec-882a-55e5d6e9390d','4c0b7043-651a-4d90-83e1-406dc8a3303f','kuali.resultComponent.grade.passFail','bd7e5c7f-fb8c-4205-b64a-fe220c6d7ab3','Draft',1)
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
+  VALUES ('7b9fbf48-1ebd-4f39-b899-014b5ba916db','04634f87-10b0-49e5-93d8-5460d1991484','kuali.creditType.credit.degree.3.0','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('886e0d7e-30f6-495d-82e7-dfcb6702c6f0','1baa2732-1ffb-4e2b-a2ce-b2a0a1c3069e','kuali.creditType.credit.degree.1-3','Draft',0)
 /
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('7b9fbf48-1ebd-4f39-b899-014b5ba916db','04634f87-10b0-49e5-93d8-5460d1991484','kuali.creditType.credit.degree.3.0','Active',0)
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
+  VALUES ('81c281d0-f1cb-4dec-882a-55e5d6e9390d','4c0b7043-651a-4d90-83e1-406dc8a3303f','kuali.resultComponent.grade.passFail','bd7e5c7f-fb8c-4205-b64a-fe220c6d7ab3','Draft',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('d870b070-ea92-4ee4-9ad4-2407d77fdac7','e1e80f20-ab5e-47da-9c76-9f541ba08b0b','kuali.resultComponent.grade.audit','4fa1aa7d-fa13-4507-9e92-a970447f4583','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('20a80948-0df6-4e18-9133-5101853568e2','255bc4cd-5a45-46b5-9b3e-4b12895c3cba','kuali.resultComponent.grade.passFail','32f4e93e-fcab-478f-b1d4-c24fd03bc57e','Draft',2)
+  VALUES ('b18d1c8f-9750-4716-9165-485499f4e49f','becc6345-5abc-437f-a527-02c9fb1ec0d5','kuali.resultComponent.grade.passFail','8224ed61-df8d-4a41-a96a-ea3e237aefea','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('b18d1c8f-9750-4716-9165-485499f4e49f','becc6345-5abc-437f-a527-02c9fb1ec0d5','kuali.resultComponent.grade.passFail','8224ed61-df8d-4a41-a96a-ea3e237aefea','Active',1)
+  VALUES ('20a80948-0df6-4e18-9133-5101853568e2','255bc4cd-5a45-46b5-9b3e-4b12895c3cba','kuali.resultComponent.grade.passFail','32f4e93e-fcab-478f-b1d4-c24fd03bc57e','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('f313f573-44bb-4f65-82ef-ebc738bf0948','78c093f9-1cd1-49ae-a392-a5f73c6b53c6','kuali.resultComponent.grade.letter','3b1d5b91-973b-43d6-9d45-a930e83d99b6','Active',1)
@@ -566,13 +566,13 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('222c3b05-3d3e-41b7-8836-1980072d7451','3dbdff83-0a14-4f4e-b35d-67dbe76a6085','kuali.creditType.credit.degree.1-6','Draft',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('66a506e4-edcc-4047-a7cb-2f3aaf556ec7','ef5450f0-61a3-4f15-821e-20ae6b905d48','kuali.resultComponent.grade.audit','15d0ab45-898b-47ad-8551-dbaf1809125c','Draft',1)
+  VALUES ('0e8a6234-c600-410e-ba18-48b7ff1896a5','32ec4292-1097-4ae4-a939-6b65561c4a07','kuali.resultComponent.grade.passFail','7c33f098-e643-42fb-8276-40adcf137717','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('a38313c1-4978-4f32-85d9-a94d90ae83a4','adbe1dc1-d308-4053-844f-0a8e6ee15dde','kuali.resultComponent.grade.letter','6d8920db-6551-47fd-a09b-7b4cd049c329','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('0e8a6234-c600-410e-ba18-48b7ff1896a5','32ec4292-1097-4ae4-a939-6b65561c4a07','kuali.resultComponent.grade.passFail','7c33f098-e643-42fb-8276-40adcf137717','Active',0)
+  VALUES ('66a506e4-edcc-4047-a7cb-2f3aaf556ec7','ef5450f0-61a3-4f15-821e-20ae6b905d48','kuali.resultComponent.grade.audit','15d0ab45-898b-47ad-8551-dbaf1809125c','Draft',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('811fc5ec-1da9-4ef6-ad9f-685991a11cb8','970c582f-2431-435b-8428-7d9e29af2505','kuali.resultComponent.grade.letter','823120d0-9628-42ed-96bd-954083dac1f4','Active',1)
@@ -586,20 +586,20 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('12156e4a-740f-445d-b4c4-b257dd4c1bd8','aa8d4a67-a1a1-4781-8fc8-6b03a0bc2c50','kuali.resultComponent.grade.passFail','be53d25a-65bf-401e-929e-dcbc663317a2','Active',1)
 /
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('d9b0c851-0111-4ec3-b92d-ccfed4d3fb56','fcfff311-c71a-49c0-a62c-413e59089ac6','kuali.resultComponent.grade.letter','f831c94c-bb17-4fc0-99a1-f0c9e3e25247','Retired',1)
-/
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('19f4ad4a-0070-4abc-b7e6-9d2da55eb12a','951fc8d0-d3ff-4d8f-88d1-101124b74a71','kuali.creditType.credit.degree.3.0','Active',0)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
+  VALUES ('d9b0c851-0111-4ec3-b92d-ccfed4d3fb56','fcfff311-c71a-49c0-a62c-413e59089ac6','kuali.resultComponent.grade.letter','f831c94c-bb17-4fc0-99a1-f0c9e3e25247','Retired',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('45b63b88-bc81-43ed-980b-62d97e7d35fa','367c2679-8e55-49b4-aca0-a24afa20ccbd','kuali.resultComponent.grade.audit','e67349c6-b309-4ad5-b7e4-754f657fd86d','Active',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('7dd792a7-526e-4589-8d4a-2939effa56f9','b4e72403-6d03-48a5-a669-6f09bcb2d227','kuali.resultComponent.grade.letter','254533d1-ab51-4329-b479-8a14badb2e95','Active',0)
+  VALUES ('d5969ea4-5237-4394-a9c1-63e2fd598b48','867d65f2-32df-48c8-a3da-ed027c048fad','kuali.resultComponent.grade.letter','9d6c7cb8-1b36-4c5d-bf4e-6855ef1a6ef8','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('d5969ea4-5237-4394-a9c1-63e2fd598b48','867d65f2-32df-48c8-a3da-ed027c048fad','kuali.resultComponent.grade.letter','9d6c7cb8-1b36-4c5d-bf4e-6855ef1a6ef8','Active',1)
+  VALUES ('7dd792a7-526e-4589-8d4a-2939effa56f9','b4e72403-6d03-48a5-a669-6f09bcb2d227','kuali.resultComponent.grade.letter','254533d1-ab51-4329-b479-8a14badb2e95','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('ca961d76-893c-4056-8b46-9c78a092f62c','047eabce-85fd-4ea5-9cca-9ec448343b31','kuali.resultComponent.grade.audit','f19e3f0c-d6fd-4254-abf4-dc4f83104342','Active',1)
@@ -631,11 +631,11 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('ea865a2a-3200-4d4b-986d-fed485d95705','ec4a820a-16f9-46b6-bd55-0b49089d9ef4','kuali.resultComponent.grade.letter','5a9a0582-87ae-4996-90ea-546b011d7e21','Draft',1)
 /
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('1be82fe7-3f77-41fc-a93d-2ca5e5c4ccfd','a7de04fc-2ee0-4d17-a8eb-01632f9f52cf','kuali.resultComponent.grade.audit','78ed9850-be42-4414-a081-a247656dcc9b','Draft',2)
-/
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('746a1735-77c6-4d80-9669-802b11b70dca','ed4e73e8-3021-48f4-8831-c4c363873e57','kuali.creditType.credit.degree.3.0','Active',0)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
+  VALUES ('1be82fe7-3f77-41fc-a93d-2ca5e5c4ccfd','a7de04fc-2ee0-4d17-a8eb-01632f9f52cf','kuali.resultComponent.grade.audit','78ed9850-be42-4414-a081-a247656dcc9b','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('496c519d-fdd4-4c72-b71c-8d2a70af73ab','c940f2a1-8c5a-4010-8c13-06132878a3a2','kuali.creditType.credit.degree.3.0','Draft',0)
@@ -665,19 +665,19 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('042d4de5-3b8e-4c60-8d38-d84b7ede5c56','eb7a660d-8a7c-4ab9-b301-ff97e620c6d0','kuali.resultComponent.grade.letter','1a8fdea9-12e5-4960-b4ad-550cfe972f2a','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('07c29b17-3f6d-4f68-941e-50fbaaedff2a','dd6973b3-a508-459f-84b9-14bb84b4c82e','kuali.resultComponent.grade.letter','3fd64713-15f8-4495-9735-c1e4e0c961d8','Draft',2)
+  VALUES ('03981390-6113-4d81-86a7-160bba3faf97','ff3ef795-8db1-4ae4-bf7e-3013e954204f','kuali.resultComponent.grade.letter','8f9e74fc-a770-4ad4-aa07-9b0174843769','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('03981390-6113-4d81-86a7-160bba3faf97','ff3ef795-8db1-4ae4-bf7e-3013e954204f','kuali.resultComponent.grade.letter','8f9e74fc-a770-4ad4-aa07-9b0174843769','Active',1)
+  VALUES ('07c29b17-3f6d-4f68-941e-50fbaaedff2a','dd6973b3-a508-459f-84b9-14bb84b4c82e','kuali.resultComponent.grade.letter','3fd64713-15f8-4495-9735-c1e4e0c961d8','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('a6233d02-2cb5-42c4-9961-0d572fb31f33','7a9b05ec-bbe3-4a74-9461-86afff468592','kuali.resultComponent.grade.letter','7f8081a6-3cab-45f5-b12c-fac659ecaed6','Draft',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('9b621d6b-8dfa-4a05-8a61-c75ec17c5e7e','cb7df78b-c82b-4a41-a25b-93718057ff20','kuali.resultComponent.grade.letter','ebbe0c41-7576-481d-8897-c71397157575','Active',1)
+  VALUES ('8f1c19bd-3d62-4fee-9aea-876a682cc517','f4305b5f-5f0d-47d0-ba7e-dbb391506ef1','kuali.resultComponent.grade.satisfactory','6440dcea-4e65-4053-8fbe-dbab0f549515','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('8f1c19bd-3d62-4fee-9aea-876a682cc517','f4305b5f-5f0d-47d0-ba7e-dbb391506ef1','kuali.resultComponent.grade.satisfactory','6440dcea-4e65-4053-8fbe-dbab0f549515','Active',0)
+  VALUES ('9b621d6b-8dfa-4a05-8a61-c75ec17c5e7e','cb7df78b-c82b-4a41-a25b-93718057ff20','kuali.resultComponent.grade.letter','ebbe0c41-7576-481d-8897-c71397157575','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('4b7eecb8-b247-478d-b8e0-7aedf6723126','a414bfd9-b94b-45c0-bbeb-58878bf9033d','kuali.resultComponent.grade.letter','eccbe2a2-e57b-4110-8237-713bf496468d','Active',1)
@@ -701,13 +701,13 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('dca56619-fc57-4b96-bc03-0a59e5621d09','342b9473-ea60-4a59-9088-a1ff51eb8b5d','kuali.resultComponent.grade.audit','6c7f190c-bf09-4a57-987d-5b87156e2ea9','Draft',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('c64c658b-e6d5-472e-9035-2ba8502cd0f1','adb47623-b4e5-4ff0-a96f-06e128eef330','kuali.resultComponent.grade.letter','f8a7c91b-5f00-4a55-b7bd-fc09a1c6549b','Draft',2)
-/
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('66665811-27b0-49af-83eb-bc14f344248c','a55a63a9-18c5-4c55-8f30-69f690cd590c','kuali.resultComponent.grade.letter','d1916761-84a6-44eb-93e9-2983eb8df7e4','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('4041eccd-a1fa-4d1d-934d-1b24054ac141','323e14ea-8c34-4be3-8e6d-17c6ca117ae2','kuali.resultComponent.grade.audit','d1a19ec7-d8ef-4d4a-b6b6-db8f428b6fab','Draft',2)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
+  VALUES ('c64c658b-e6d5-472e-9035-2ba8502cd0f1','adb47623-b4e5-4ff0-a96f-06e128eef330','kuali.resultComponent.grade.letter','f8a7c91b-5f00-4a55-b7bd-fc09a1c6549b','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('f60cbac5-387e-423a-93f5-fc0b5b33db9d','9368469d-9009-41eb-9424-d2b72fc447ac','kuali.resultComponent.grade.passFail','91a7b977-e89c-4565-ab1c-60d098f32a6e','Retired',1)
@@ -785,13 +785,13 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('fdb3b20a-c102-4514-831b-79e016e6364d','79b72219-9648-4a4b-ba88-eb5ac4e71d1f','kuali.resultComponent.grade.letter','c90bc6f9-5a07-4a94-8820-d92464acb232','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('a99ea4cb-0780-4d70-b632-0f75f2fbbbc6','db9251d5-840a-4a81-9c7c-12ec93b92418','kuali.resultComponent.grade.audit','e6fa2efe-6c2d-4333-97d0-c04762fb4339','Draft',2)
+  VALUES ('3c4f4586-190a-4e3b-9f1a-69a3fa46b40c','11a6ac73-3e38-4981-9dde-24ba99216fb5','kuali.resultComponent.grade.letter','699f76d6-bb5e-4f79-b450-000685985e8e','Draft',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('e4e956c7-b3b2-42f5-a87e-5f7a83b40766','310e827e-33e4-49b5-8faa-59b7f9ee34ce','kuali.resultComponent.grade.audit','28ee85e3-04eb-40be-b80e-bcbd0cd4a115','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('3c4f4586-190a-4e3b-9f1a-69a3fa46b40c','11a6ac73-3e38-4981-9dde-24ba99216fb5','kuali.resultComponent.grade.letter','699f76d6-bb5e-4f79-b450-000685985e8e','Draft',1)
+  VALUES ('a99ea4cb-0780-4d70-b632-0f75f2fbbbc6','db9251d5-840a-4a81-9c7c-12ec93b92418','kuali.resultComponent.grade.audit','e6fa2efe-6c2d-4333-97d0-c04762fb4339','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('b7cfaddb-4dcd-4272-90f4-93613f3a96f2','9520e8af-4cfb-42fd-9077-f8da46bb43c6','kuali.creditType.credit.degree.1-3','Active',0)
@@ -844,11 +844,11 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('0b50e26f-c0c4-4719-99ac-8dd40cd77d0e','ffab7c50-e97c-488e-b4c5-f96f65e19dfc','kuali.creditType.credit.degree.3.0','Draft',0)
 /
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('9c824c93-a241-44af-9242-c9b91c4ac615','ec9a2bcb-7785-48a6-995b-2dad1b2aee73','kuali.creditType.credit.degree.3.0','Draft',0)
-/
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('2764dd89-3a47-4b27-943f-92818896de13','ce9731e0-c8e3-4a7c-9988-c7bc3eb55241','kuali.resultComponent.grade.passFail','1a6398c7-4cbd-4ac0-abf7-a8cb76183ee9','Draft',2)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
+  VALUES ('9c824c93-a241-44af-9242-c9b91c4ac615','ec9a2bcb-7785-48a6-995b-2dad1b2aee73','kuali.creditType.credit.degree.3.0','Draft',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('5af23e6a-ebb5-4dde-9fcc-429d76e104fe','d269ac36-23a6-474f-951a-d51bf1540221','kuali.resultComponent.grade.passFail','5b35718f-5a8a-471c-803c-4f9d33552901','Active',1)
@@ -863,10 +863,10 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('2e791477-551d-4724-8cc9-baa9ff026190','4a1926b4-23d5-40e2-866e-3865c82a0f83','kuali.resultComponent.grade.letter','c9e43d48-89d1-4e2d-995e-f87308451ecd','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('7f1da3e2-64cf-4304-806b-b71e27ea3c01','cac89dad-dd20-463b-a7ef-3978f0a783f4','kuali.resultComponent.grade.passFail','1fcfb5b2-6f36-4d9f-882e-0bfac2a1eac9','Draft',1)
+  VALUES ('c863151a-245e-476e-a700-3342d5f68378','15b4a5e1-456e-4150-b40b-a09b13c9f194','kuali.resultComponent.grade.audit','0455979f-5bba-4441-be0b-b31aa9263722','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('c863151a-245e-476e-a700-3342d5f68378','15b4a5e1-456e-4150-b40b-a09b13c9f194','kuali.resultComponent.grade.audit','0455979f-5bba-4441-be0b-b31aa9263722','Draft',2)
+  VALUES ('7f1da3e2-64cf-4304-806b-b71e27ea3c01','cac89dad-dd20-463b-a7ef-3978f0a783f4','kuali.resultComponent.grade.passFail','1fcfb5b2-6f36-4d9f-882e-0bfac2a1eac9','Draft',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('c8edbf4f-31d3-48da-a268-8eeca4768491','b366ac88-ca08-48f0-a6d4-3453bc4a16a1','kuali.creditType.credit.degree.1.0','Draft',0)
@@ -938,10 +938,10 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('87cd65d9-6ac4-41d5-96bb-91e4e507dd7c','20717bc9-0fee-422e-aad1-a96b2641d54a','kuali.resultComponent.grade.letter','10229f40-2542-4059-8e2c-4b13257c3809','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('6d3b2f4f-2917-4673-8001-e40a1cdd5bac','0d7ccfe6-c287-437e-8c1e-232cd7d4b62d','kuali.resultComponent.grade.passFail','2017a996-3c87-41c5-9c49-b07b12f88bd3','Active',0)
+  VALUES ('29ac2c2b-099c-4f74-9f5a-87a6021d6ab6','99f64b28-b6bd-4d18-857f-834d9874a0d9','kuali.resultComponent.grade.passFail','9ce75e27-d7a2-4dbb-9562-aa061a56615a','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('29ac2c2b-099c-4f74-9f5a-87a6021d6ab6','99f64b28-b6bd-4d18-857f-834d9874a0d9','kuali.resultComponent.grade.passFail','9ce75e27-d7a2-4dbb-9562-aa061a56615a','Active',1)
+  VALUES ('6d3b2f4f-2917-4673-8001-e40a1cdd5bac','0d7ccfe6-c287-437e-8c1e-232cd7d4b62d','kuali.resultComponent.grade.passFail','2017a996-3c87-41c5-9c49-b07b12f88bd3','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('25654b2f-896b-4335-b8b1-710fa288a04e','c594b7e1-d67f-4a96-af33-53eb58f59798','kuali.creditType.credit.degree.3.0','Active',0)
@@ -977,13 +977,13 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('c8328cc6-a8b6-4058-9ec6-2fc9ca9a431e','99b50e75-5015-45f9-bcd9-991e033078c4','kuali.resultComponent.grade.passFail','d86ec020-ae92-40d5-9026-f9998e91ff5a','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
+  VALUES ('f9a238ef-1743-4ffe-93b2-266aa5e04f35','c5856cc3-8433-4d10-90d1-e003a02e4c73','kuali.resultComponent.grade.letter','f602dc57-9fef-4205-b916-8df2eafb6433','Draft',2)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('f8362054-8273-4030-8a0f-3522f700dca5','b94e1d31-4e96-4b33-b28b-f42585451b3b','kuali.resultComponent.grade.letter','cbb687ef-7bed-4445-81fb-9acf840fc1d0','Retired',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('8cfa44c7-5681-4929-9ced-a604ce2e6906','c83e9d7b-f143-4c32-997e-3325772585a5','kuali.resultComponent.grade.audit','f5bbcdfc-3bb6-4ddb-a2e2-149d64b8eb5e','Draft',15)
-/
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('f9a238ef-1743-4ffe-93b2-266aa5e04f35','c5856cc3-8433-4d10-90d1-e003a02e4c73','kuali.resultComponent.grade.letter','f602dc57-9fef-4205-b916-8df2eafb6433','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('f93e3a55-0dec-48fa-8432-48d67f44e73a','9aa9b4f4-9f7f-434f-a14b-204d0655d087','kuali.resultComponent.grade.audit','d8dab69f-c4da-4b09-9fd8-04a9f18d614d','Retired',1)
@@ -1007,10 +1007,10 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('ff03978a-d70c-4a05-a185-654e16111b1f','a3245deb-560f-414a-8d7f-4f72f58b464b','kuali.resultComponent.grade.letter','e9fe0a96-2985-4471-a309-6db6dd837787','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('8167c7bd-8946-4c4a-a3dd-c7715d786223','800cd863-4ac9-4d39-84cf-051f0d9d3ea3','kuali.resultComponent.grade.letter','b65beb82-5aee-4cec-80af-ccfc6a52abee','Draft',2)
+  VALUES ('86570763-6fac-4cf1-bee5-a10c6160b44e','a87081ee-c940-48b6-9d8f-91e58d47027c','kuali.resultComponent.grade.letter','34039547-2578-4277-a922-2eb98fc88d01','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('86570763-6fac-4cf1-bee5-a10c6160b44e','a87081ee-c940-48b6-9d8f-91e58d47027c','kuali.resultComponent.grade.letter','34039547-2578-4277-a922-2eb98fc88d01','Draft',2)
+  VALUES ('8167c7bd-8946-4c4a-a3dd-c7715d786223','800cd863-4ac9-4d39-84cf-051f0d9d3ea3','kuali.resultComponent.grade.letter','b65beb82-5aee-4cec-80af-ccfc6a52abee','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('19f79fef-f678-4fbd-8e3f-e7bf2515e656','5cacc439-74f3-4175-9c26-7b11a325d568','kuali.resultComponent.grade.audit','d48a5793-9a66-4bbf-816b-dc17637d292a','Draft',1)
@@ -1085,19 +1085,19 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('b2b2d664-e39f-4038-a403-fe2d46cbb9c2','891dd5ab-093f-4093-af62-aee0e61625ea','kuali.resultComponent.grade.audit','0b908f8f-515e-4b0c-8077-67858b398fc0','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('0739da49-a5ff-45a4-9da7-65ee9cd5b5f9','ad1faeca-471a-4ca2-8a8c-47c3213d0257','kuali.resultComponent.grade.audit','64e97faa-6209-417a-bec3-a82372955b6f','Draft',1)
+  VALUES ('513b1aaa-5edd-47ef-87e4-6a70bb5277b1','af03973c-2547-4312-8833-a8a7ba5ffa92','kuali.resultComponent.grade.audit','8a0ea42e-badf-431f-96a9-a454a8ae968a','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('513b1aaa-5edd-47ef-87e4-6a70bb5277b1','af03973c-2547-4312-8833-a8a7ba5ffa92','kuali.resultComponent.grade.audit','8a0ea42e-badf-431f-96a9-a454a8ae968a','Active',1)
+  VALUES ('0739da49-a5ff-45a4-9da7-65ee9cd5b5f9','ad1faeca-471a-4ca2-8a8c-47c3213d0257','kuali.resultComponent.grade.audit','64e97faa-6209-417a-bec3-a82372955b6f','Draft',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('85fd1483-c68a-44a3-a67a-c73e4306686e','06fe1f86-6107-426e-b96c-1a2d2ddc524d','kuali.resultComponent.grade.passFail','71daa3a7-798d-4d63-b0a1-95e0c975cceb','Active',1)
 /
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('da3d9c8f-8e17-40bd-8f39-8b697e4553eb','819ba0b5-e97f-47f8-b64e-e2880cf9302c','kuali.creditType.credit.degree.3.0','Draft',0)
-/
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('0fca3439-afee-4cf7-a369-03d691e55ecd','9f1d6b74-9def-4915-8825-16602be42cb0','kuali.resultComponent.grade.letter','1731a76f-b9a6-497e-a5c9-6ae119bce947','Retired',1)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
+  VALUES ('da3d9c8f-8e17-40bd-8f39-8b697e4553eb','819ba0b5-e97f-47f8-b64e-e2880cf9302c','kuali.creditType.credit.degree.3.0','Draft',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('476d8291-094e-4085-b2eb-e6d23934be38','80e624ed-3a42-4b7b-a53b-19538b6ad47c','kuali.resultComponent.grade.passFail','cf42408e-98c5-4907-a489-f8c83290a4fb','Active',0)
@@ -1105,11 +1105,11 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('d69deaa1-b151-49ed-9394-5fc5070b3850','7b734002-c35b-41c2-8d26-c10d70034f2d','kuali.creditType.credit.degree.2.0','Retired',0)
 /
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('91069b89-742a-44a8-9610-efa6562efec5','876b9485-40b5-437c-8693-59b490a4e300','kuali.creditType.credit.degree.3.0','Draft',0)
-/
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('85540027-2f7f-4779-829b-23c384e9dcc5','27d41b16-97bf-4fba-b0ae-6d51c97fc24f','kuali.resultComponent.grade.audit','6d0436bd-5e07-4dda-85a1-6749494faf0c','Active',0)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
+  VALUES ('91069b89-742a-44a8-9610-efa6562efec5','876b9485-40b5-437c-8693-59b490a4e300','kuali.creditType.credit.degree.3.0','Draft',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('b0e58fab-7c84-4136-bbb6-ecdec3f189ea','9bd81489-606f-49d6-8064-f3f4a5276089','kuali.resultComponent.grade.audit','1bac2ccd-e486-4bd6-bf3b-2a20b4298170','Active',1)
@@ -1117,11 +1117,11 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('9750fcc1-c589-4265-be31-aae2f8832881','c78c6c04-7f47-4be6-962e-d2344d1db41e','kuali.resultComponent.grade.letter','09dc532e-c80e-456c-b83f-63d78c7ce872','Draft',1)
 /
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('deec64b0-3fb7-4e9a-8f06-8452ae334f8a','056427ce-3038-4346-a308-a07ccdec150e','kuali.resultComponent.grade.passFail','cd7440d6-8a9b-483d-a887-a7a13dfb2df8','Active',0)
-/
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('ee7b0c40-6c89-48c5-8a45-f331003286e5','4318cfa3-3c30-45da-baf2-23f6cd5ea9f7','kuali.creditType.credit.degree.1-6','Active',0)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
+  VALUES ('deec64b0-3fb7-4e9a-8f06-8452ae334f8a','056427ce-3038-4346-a308-a07ccdec150e','kuali.resultComponent.grade.passFail','cd7440d6-8a9b-483d-a887-a7a13dfb2df8','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('334c6548-ee2b-4b69-b48a-e7853150ee9f','7d36c2cf-2e05-436e-9b50-62507e97520b','kuali.resultComponent.grade.letter','cb159eba-20a2-46f0-a860-45ec7f9bb679','Draft',2)
@@ -1163,10 +1163,10 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('0ca2d640-a7fb-4d46-9ffd-b513c199da8c','18844edc-bddc-4e50-a3d9-0b63ab58319e','kuali.resultComponent.grade.passFail','f5f285f4-fba8-455c-a856-a5a766a3586c','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('21a175f0-8f3d-4ec0-b4b3-19c66abc194a','75b3301b-9736-43a0-a887-598a2ccde4f9','kuali.resultComponent.grade.passFail','5053d653-3f85-4da7-8b0f-290f53ee71d2','Draft',2)
+  VALUES ('06484732-cd8c-45f9-8edf-53d087c8819e','bd54c145-b6b0-458d-8785-aa7c05634d6f','kuali.resultComponent.grade.letter','b1fc4c82-53ff-47c2-8a25-502415b18195','Draft',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('06484732-cd8c-45f9-8edf-53d087c8819e','bd54c145-b6b0-458d-8785-aa7c05634d6f','kuali.resultComponent.grade.letter','b1fc4c82-53ff-47c2-8a25-502415b18195','Draft',1)
+  VALUES ('21a175f0-8f3d-4ec0-b4b3-19c66abc194a','75b3301b-9736-43a0-a887-598a2ccde4f9','kuali.resultComponent.grade.passFail','5053d653-3f85-4da7-8b0f-290f53ee71d2','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('2c00ee43-cc33-4e74-af75-a83edf727141','9f73df40-b540-4cd8-84dc-023828c83215','kuali.creditType.credit.degree.3.0','Active',0)
@@ -1184,10 +1184,10 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('881ab00b-77b6-4537-8087-258ec27e7298','3de18edb-03f1-4a1b-8d83-6a4c25f7da34','kuali.resultComponent.grade.passFail','93bbb62c-9cbc-4a20-aee1-a521514d1181','Draft',3)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('8935ffc3-553f-4ce4-950a-bc6b62ea8e77','57185895-fa0a-412a-9535-bb64567ae6f1','kuali.resultComponent.grade.passFail','07623087-f268-40fc-91fc-38fac6a6b0f5','Retired',1)
+  VALUES ('78f9ed56-3a9f-4fc9-b335-d4d915ff8ba9','39d150fa-ebc8-4495-95d9-a9a3894f5d2a','kuali.resultComponent.grade.audit','88d08d8f-a986-4546-93ac-1ecc48123f71','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('78f9ed56-3a9f-4fc9-b335-d4d915ff8ba9','39d150fa-ebc8-4495-95d9-a9a3894f5d2a','kuali.resultComponent.grade.audit','88d08d8f-a986-4546-93ac-1ecc48123f71','Active',1)
+  VALUES ('8935ffc3-553f-4ce4-950a-bc6b62ea8e77','57185895-fa0a-412a-9535-bb64567ae6f1','kuali.resultComponent.grade.passFail','07623087-f268-40fc-91fc-38fac6a6b0f5','Retired',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('5fe59a7f-29f7-4d3e-b8a9-935dcd97063c','07c6e590-c737-4cbb-9d27-d88e06ac01bb','kuali.creditType.credit.degree.2.0','Active',0)
@@ -1229,10 +1229,10 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('fbc9f345-1c4f-4437-9da2-f12f530cb672','6cff2288-de9e-439e-9e56-87372779738b','kuali.creditType.credit.degree.2-3','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('afeb492d-b59f-43a2-b04d-c840d8772ad2','cf104094-a317-4d0c-864d-5a6d56e9fc42','kuali.resultComponent.grade.audit','17a7d967-71f2-4dac-978b-8d14e8b9280c','Draft',2)
+  VALUES ('c94ab28d-a7c5-4602-b340-572af1fdcbb9','3684d380-5bd4-40df-a64b-4c45fd2b7ffa','kuali.resultComponent.grade.letter','760cc248-b345-4bdc-95a7-e1a3d6364ea6','Retired',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('c94ab28d-a7c5-4602-b340-572af1fdcbb9','3684d380-5bd4-40df-a64b-4c45fd2b7ffa','kuali.resultComponent.grade.letter','760cc248-b345-4bdc-95a7-e1a3d6364ea6','Retired',1)
+  VALUES ('afeb492d-b59f-43a2-b04d-c840d8772ad2','cf104094-a317-4d0c-864d-5a6d56e9fc42','kuali.resultComponent.grade.audit','17a7d967-71f2-4dac-978b-8d14e8b9280c','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('e6418e28-67ce-4d0a-8b13-434e7fd393cc','3557b558-d7e6-4c01-a477-673b07d96f9f','kuali.resultComponent.grade.audit','d4517b0b-b24a-4444-900d-5dbd1db25425','Active',1)
@@ -1249,35 +1249,35 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('e3d9c7aa-181b-48a2-8a75-73bff84809db','75741981-bc03-4da7-8975-7fc8b3f76e2c','kuali.creditType.credit.degree.3.0','Draft',0)
 /
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('534b1251-88e7-47a1-9510-ce5e019426d3','b3474a96-d5f8-4dc3-8309-8130c6177830','kuali.creditType.credit.degree.3.0','Draft',0)
-/
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('c3892e1c-201e-40e4-9af0-b418632d917f','4c578fe0-b76d-4d99-a018-0b70370515f4','kuali.resultComponent.grade.audit','a44e155c-7ffb-4acf-b706-207bb081d65e','Active',0)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
+  VALUES ('534b1251-88e7-47a1-9510-ce5e019426d3','b3474a96-d5f8-4dc3-8309-8130c6177830','kuali.creditType.credit.degree.3.0','Draft',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('2708ef6f-0f22-4b71-861b-6dc6918d3613','28758d07-8951-4481-ad02-02328b7c5dd6','kuali.resultComponent.grade.audit','03a68571-34de-4afd-b033-aa5da7827d85','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
+  VALUES ('f7a63da6-61f2-4c17-b97d-67f07677f8f7','efb58e4b-cb32-4eb3-a9a2-0c94687bd9d2','kuali.resultComponent.grade.letter','606d8588-5e3d-4406-b5a6-323f1d178214','Draft',2)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('05df8f6c-24ff-4be6-bde1-30beab505ab3','1cc7d419-eb3c-452b-b4bb-4eb03771cfdb','kuali.resultComponent.grade.letter','84971eea-f951-4285-a6ce-711b974fc3ea','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('f7a63da6-61f2-4c17-b97d-67f07677f8f7','efb58e4b-cb32-4eb3-a9a2-0c94687bd9d2','kuali.resultComponent.grade.letter','606d8588-5e3d-4406-b5a6-323f1d178214','Draft',2)
+  VALUES ('bc935021-5795-44c0-83ac-a8bb86e56928','f9f5e894-2a8a-417e-bbe0-67b67c61fe66','kuali.resultComponent.grade.letter','4a070eb9-20b9-4b9a-873d-e0436b60f0bc','Draft',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('5ada7194-30eb-4881-9a77-097b33379ad0','2a43783d-0a13-40b1-897f-519f25333083','kuali.creditType.credit.degree.3.0','Draft',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('bc935021-5795-44c0-83ac-a8bb86e56928','f9f5e894-2a8a-417e-bbe0-67b67c61fe66','kuali.resultComponent.grade.letter','4a070eb9-20b9-4b9a-873d-e0436b60f0bc','Draft',1)
-/
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('34d4a036-09c8-4123-b851-35593f7211c4','054801f1-18f6-4867-bac9-b2dc5240ecb7','kuali.resultComponent.grade.letter','e482e793-2df9-4669-a333-1068603905f1','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('3fa44f13-b1a3-4196-a4c1-86407db16efe','c4834a32-8073-4694-b6fb-f44ea6248d3c','kuali.resultComponent.grade.letter','ae5b6b2f-120e-4000-a1b4-18540cd08fc0','Active',3)
+  VALUES ('a29d9108-a0b5-4959-a076-36a03dccf52f','de3a7306-cd2a-414c-b454-48f133aa9d2e','kuali.resultComponent.grade.letter','fcfd3feb-81ee-4727-afb2-3b780459ba85','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('a29d9108-a0b5-4959-a076-36a03dccf52f','de3a7306-cd2a-414c-b454-48f133aa9d2e','kuali.resultComponent.grade.letter','fcfd3feb-81ee-4727-afb2-3b780459ba85','Draft',2)
+  VALUES ('3fa44f13-b1a3-4196-a4c1-86407db16efe','c4834a32-8073-4694-b6fb-f44ea6248d3c','kuali.resultComponent.grade.letter','ae5b6b2f-120e-4000-a1b4-18540cd08fc0','Active',3)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('67349b35-139a-41c8-99b1-9628428203f7','5cf907bc-1362-4fb2-842a-20249ff8e576','kuali.creditType.credit.degree.2.0','Draft',0)
@@ -1307,10 +1307,10 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('dd3be1ac-592f-49e6-986f-4d1891e0f5d3','f0a601da-469f-4fcb-8b3a-9a01496120b4','kuali.resultComponent.grade.passFail','3bb18b3a-79f5-42c2-8fca-cc912f62cfdf','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('641c3fd2-7b2e-405b-af11-c6e0d3c10f57','b054cec9-7563-4a11-85e3-6a2ede202347','kuali.resultComponent.grade.audit','6f820a8f-1d11-449b-8d06-bf0e9146ce35','Draft',16)
+  VALUES ('b6e8a1bd-0a6b-4823-85eb-ba519c33642c','06c7ac56-b4e3-4ec6-a278-de3502bce9ec','kuali.resultComponent.grade.passFail','0b505910-2a55-4c21-9b33-1fd5eff834d8','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('b6e8a1bd-0a6b-4823-85eb-ba519c33642c','06c7ac56-b4e3-4ec6-a278-de3502bce9ec','kuali.resultComponent.grade.passFail','0b505910-2a55-4c21-9b33-1fd5eff834d8','Active',1)
+  VALUES ('641c3fd2-7b2e-405b-af11-c6e0d3c10f57','b054cec9-7563-4a11-85e3-6a2ede202347','kuali.resultComponent.grade.audit','6f820a8f-1d11-449b-8d06-bf0e9146ce35','Draft',16)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('f69f874a-1d03-4112-9d9f-1b7e4a99f368','ef4f5123-1362-4f04-a379-d8d2bd202d50','kuali.creditType.credit.degree.3.0','Draft',0)
@@ -1327,11 +1327,14 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('f223088e-ba6d-4eff-bf68-2f80ec880226','000c07de-f677-4a08-8b55-aa93596296de','kuali.creditType.credit.degree.3.0','Active',0)
 /
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
+  VALUES ('0f4a3de7-ab8e-4bcc-87e0-b600d8e28fcb','b86329be-e7f0-4cf2-837d-0a7b46ef0c5e','kuali.creditType.credit.degree.2.0','Active',0)
+/
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('6f1b3824-ccea-412e-831a-56322728aa3b','888124ef-124e-48aa-876b-48ae0fd3671a','kuali.resultComponent.grade.passFail','23d89207-4d5d-4117-a31b-2f6323fdc733','Active',0)
 /
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('0f4a3de7-ab8e-4bcc-87e0-b600d8e28fcb','b86329be-e7f0-4cf2-837d-0a7b46ef0c5e','kuali.creditType.credit.degree.2.0','Active',0)
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
+  VALUES ('0cd7eefb-a611-4e16-8a68-6666da0a2af4','c14a4cc2-62a4-42e3-9e70-d8773aa89860','kuali.resultComponent.grade.audit','eaa95cfc-f814-4d73-b7de-805ef1b3b93d','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('79d51952-fb01-431d-9e07-462b2f948180','b772b25e-a932-43bb-8153-b4e588f7e7a3','kuali.creditType.credit.degree.4.0','Draft',0)
@@ -1339,14 +1342,11 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('9cbdefd7-5486-42c5-9568-509dab83c84c','185869e6-c160-48ee-84b3-be22c13266b7','kuali.resultComponent.grade.letter','4a51b432-1d4e-485c-bb9f-4569c4dcb997','Active',1)
 /
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('0cd7eefb-a611-4e16-8a68-6666da0a2af4','c14a4cc2-62a4-42e3-9e70-d8773aa89860','kuali.resultComponent.grade.audit','eaa95cfc-f814-4d73-b7de-805ef1b3b93d','Active',0)
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
+  VALUES ('9e68b63e-ab0c-4ba7-a16a-9e9cce378815','86a35894-3df7-4945-8b18-c3fa7bb730c9','kuali.creditType.credit.degree.3.0','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('e3ef9773-8402-4cca-b10e-18ae8ff620ff','f3906557-ffc3-4078-ba32-a978a3e9717a','kuali.resultComponent.grade.letter','caeccb96-4566-48aa-82b7-37e3dfe8b388','Active',0)
-/
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('9e68b63e-ab0c-4ba7-a16a-9e9cce378815','86a35894-3df7-4945-8b18-c3fa7bb730c9','kuali.creditType.credit.degree.3.0','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('ee540943-138d-49c7-a105-dadb663b8795','664edba8-3294-478f-ac03-73bc8a050125','kuali.resultComponent.grade.passFail','b85fce02-71a4-46fb-9fe4-2bce984b1d2e','Draft',2)
@@ -1354,14 +1354,14 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('8183f38a-65a7-4d3e-a5a5-fc1d2b3d71e0','291074ad-17f6-4297-ba50-e8043b1f3485','kuali.resultComponent.grade.audit','08525460-abc7-4606-b986-adcade5aaacd','Draft',1)
 /
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('a325d871-8f72-4433-8595-832b13b8210c','53adaedb-89b1-4221-89fe-15a612e88015','kuali.resultComponent.grade.letter','42483d01-1beb-4b98-ba23-562cd3e325f3','Active',1)
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
+  VALUES ('0dcd0ce1-3f9c-4b5d-8832-1b8b6193313d','be1a6966-f579-461d-b87e-259a5540d4c3','kuali.creditType.credit.degree.1-6','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('ababa752-ab23-407e-b493-2a50c8fc25fc','ea70718b-2e68-4162-84ec-00b364d2c796','kuali.resultComponent.grade.audit','fae7f61e-a654-48ac-90b8-ef062ffa02bf','Draft',2)
 /
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('0dcd0ce1-3f9c-4b5d-8832-1b8b6193313d','be1a6966-f579-461d-b87e-259a5540d4c3','kuali.creditType.credit.degree.1-6','Active',0)
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
+  VALUES ('a325d871-8f72-4433-8595-832b13b8210c','53adaedb-89b1-4221-89fe-15a612e88015','kuali.resultComponent.grade.letter','42483d01-1beb-4b98-ba23-562cd3e325f3','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('29da1d6d-e53a-4f82-a48e-3fe81c8e3210','6d78c58e-bb36-49fd-8217-c35d05c8f849','kuali.resultComponent.grade.passFail','5b9fdf3a-6b70-4f9b-9470-87b7a85997d1','Active',1)
@@ -1391,10 +1391,10 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('be344eb2-d0df-4426-8176-56f1ccb40619','32eb141b-793c-4783-87ff-fa2baeaa3c0b','kuali.resultComponent.grade.passFail','b533ce3b-ebab-48cd-b791-cd57ef1617d0','Retired',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('67379bb8-1a54-4d40-88c5-6c16f3df390e','47ab4af9-c7c1-41e1-89bc-84cd3e11bef6','kuali.resultComponent.grade.passFail','91ee100b-4a7b-4b3b-90e8-0505004e2163','Active',0)
+  VALUES ('413341d6-5116-4f67-800b-c513a41e3648','f1d1bb1d-315e-4573-8738-4b216e00d6f2','kuali.resultComponent.grade.letter','af472fb0-a8ba-4920-8d09-8ff544fcbd51','Draft',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('413341d6-5116-4f67-800b-c513a41e3648','f1d1bb1d-315e-4573-8738-4b216e00d6f2','kuali.resultComponent.grade.letter','af472fb0-a8ba-4920-8d09-8ff544fcbd51','Draft',1)
+  VALUES ('67379bb8-1a54-4d40-88c5-6c16f3df390e','47ab4af9-c7c1-41e1-89bc-84cd3e11bef6','kuali.resultComponent.grade.passFail','91ee100b-4a7b-4b3b-90e8-0505004e2163','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('b6b5831a-cfd1-4c2a-8973-f8f36fdf89b2','9f33e4d5-90b5-4d6d-9402-4b4de259b526','kuali.creditType.credit.degree.1-3','Active',0)
@@ -1486,11 +1486,11 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('fc04b3d5-48d0-47cd-9398-db0e2b4579ca','ed0e828a-24dc-47e5-963a-8573b4704291','kuali.resultComponent.grade.letter','e885bfb2-dfc7-45ca-b4ae-1eea6aa048db','Draft',2)
 /
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('c2867462-3996-4f97-aa67-495bc1d771f1','508bcb7f-f2eb-40f7-96fe-40f6779295dd','kuali.creditType.credit.degree.1-6','Active',0)
-/
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('3ecc5701-808d-45a3-8805-e3d1c0dc1eaa','5fc27cb1-71ae-41dd-86b7-a1b4860f181b','kuali.resultComponent.grade.audit','f0d24cc9-b313-4a42-9e1c-9fc9f3522bff','Draft',2)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
+  VALUES ('c2867462-3996-4f97-aa67-495bc1d771f1','508bcb7f-f2eb-40f7-96fe-40f6779295dd','kuali.creditType.credit.degree.1-6','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('d2c03329-37b6-4753-adde-85b7245305ff','7a9a1e8d-20c8-40c1-b318-4d5704ad2351','kuali.resultComponent.grade.letter','bcd4a313-a10c-4fc0-96a8-6b263e0de17c','Retired',1)
@@ -1538,10 +1538,10 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('6a608ce5-298a-4c8b-99d9-619f2ed4f455','2226ac3a-e7b9-4066-88de-41f9e0fd85de','kuali.resultComponent.grade.audit','2994c855-51c8-42f7-b783-7b88fa316e63','Draft',4)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('529cfd33-2f33-4299-9e28-52fcc4f2909b','0953ba86-8ba8-4335-ac5f-d27d5c82d443','kuali.creditType.credit.degree.3.0','Active',0)
+  VALUES ('3e5e9076-38a5-47cd-b415-4b1bffd5feaa','03e922d3-6d1a-40a1-b29d-d6bafbd85be1','kuali.creditType.credit.degree.3.0','Draft',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('3e5e9076-38a5-47cd-b415-4b1bffd5feaa','03e922d3-6d1a-40a1-b29d-d6bafbd85be1','kuali.creditType.credit.degree.3.0','Draft',0)
+  VALUES ('529cfd33-2f33-4299-9e28-52fcc4f2909b','0953ba86-8ba8-4335-ac5f-d27d5c82d443','kuali.creditType.credit.degree.3.0','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('6fb794f0-284a-4ed3-9435-b5ad0c9e503d','65883b46-92a5-4387-becb-bf0c6614e407','kuali.resultComponent.grade.passFail','95045db7-3ebf-4c1e-bafd-508e338811ab','Active',1)
@@ -1568,10 +1568,10 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('a8ac4f6b-7db2-4463-8306-349221ce35c9','15493482-76d0-43b8-8cb1-e3d922f61e46','kuali.resultComponent.grade.letter','339cd35e-5d2a-4d97-8f9a-6dd30d52a655','Draft',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('eaf22df6-7f17-44bc-8579-84ad0d2f9869','583751fc-afd4-41c0-a8f6-63f5d467613d','kuali.resultComponent.grade.audit','95535365-b984-4791-b428-9d46db7473a1','Active',1)
+  VALUES ('324b21c6-53da-4e54-bb9b-4836c8083135','7776e182-98b6-4af1-a7b7-47d5edee9cf7','kuali.resultComponent.grade.letter','9a0b9bf4-c169-4fd1-8852-a05453c5a55f','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('324b21c6-53da-4e54-bb9b-4836c8083135','7776e182-98b6-4af1-a7b7-47d5edee9cf7','kuali.resultComponent.grade.letter','9a0b9bf4-c169-4fd1-8852-a05453c5a55f','Active',1)
+  VALUES ('eaf22df6-7f17-44bc-8579-84ad0d2f9869','583751fc-afd4-41c0-a8f6-63f5d467613d','kuali.resultComponent.grade.audit','95535365-b984-4791-b428-9d46db7473a1','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('625108c1-395e-4a48-a78a-8d43b51ce105','8f3e92a3-c430-41b3-9d95-9c0a9333bd40','kuali.resultComponent.grade.passFail','de1ca9ca-378e-403d-bbf2-0fbb8374db1e','Active',1)
@@ -1595,10 +1595,10 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('57baf962-0403-4ab8-ac5e-0b105179cacf','b377c3d2-1731-4604-ad69-2ffd1416c952','kuali.resultComponent.grade.audit','09d78e57-b732-4beb-ab35-1b585d231238','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('3c6ec648-c391-4348-9b5c-6ad12602bdc1','102ea2db-4c23-45ca-a18a-7b16eded54f7','kuali.resultComponent.grade.letter','6e1086d4-1265-4365-9f17-c3edceff9bfd','Active',1)
+  VALUES ('7fe4fcd5-591c-4ee2-abc4-38fbd7fd5676','6a3d7208-c4c3-48d0-af8e-c920f2549b62','kuali.resultComponent.grade.letter','9d5a74aa-165b-402a-ab0d-6cf57766fec2','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('7fe4fcd5-591c-4ee2-abc4-38fbd7fd5676','6a3d7208-c4c3-48d0-af8e-c920f2549b62','kuali.resultComponent.grade.letter','9d5a74aa-165b-402a-ab0d-6cf57766fec2','Draft',2)
+  VALUES ('3c6ec648-c391-4348-9b5c-6ad12602bdc1','102ea2db-4c23-45ca-a18a-7b16eded54f7','kuali.resultComponent.grade.letter','6e1086d4-1265-4365-9f17-c3edceff9bfd','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('64d11e92-59ba-4d41-bd7b-653d3b577285','152901df-9373-4d8d-8a1a-93297c2fa95f','kuali.creditType.credit.degree.2.0','Active',0)
@@ -1606,11 +1606,11 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('49d962d5-ab05-47ec-bded-c56174860421','25b5e5bb-a5ff-428a-a2bf-e93bc4736bd8','kuali.resultComponent.grade.letter','ef6229a7-dac6-476e-9c26-1b71fe666584','Active',1)
 /
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('c77247ab-d43c-46ea-a31c-b1ffd5f85123','8780f44a-74ce-478f-bb26-4317fb46d083','kuali.creditType.credit.degree.3.0','Retired',0)
-/
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('5869ef93-0188-47d8-998c-d0087d8ab578','c63d6a91-d699-4d36-984e-2f770f994595','kuali.resultComponent.grade.letter','d6997c2a-0697-4c26-a704-7a5732e63132','Draft',1)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
+  VALUES ('c77247ab-d43c-46ea-a31c-b1ffd5f85123','8780f44a-74ce-478f-bb26-4317fb46d083','kuali.creditType.credit.degree.3.0','Retired',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('d7abb1ca-4191-4822-bc6d-41190963d363','aa348e2a-e861-41ae-beb1-26c52b8299ae','kuali.creditType.credit.degree.3.0','Active',0)
@@ -1625,10 +1625,10 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('19144693-6812-4a10-8eb4-a5608410bea7','b14b5163-5c88-4428-9350-1bb5a1ee7fe5','kuali.resultComponent.grade.letter','c18e027f-cb05-455c-84dd-b0eb52b3dc52','Draft',3)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('239daa90-72a0-4d8e-a179-c358cb63c848','7088fce5-48c1-4629-ba19-6edc7b6369e7','kuali.resultComponent.grade.passFail','4c0105d8-ce55-49c1-baa9-8fc637bbf4c9','Draft',2)
+  VALUES ('1ccadebf-4932-4298-a586-31ca95444624','7fc2ab5a-7415-4317-bf2d-0f87df61b3c7','kuali.resultComponent.grade.passFail','31d811b5-6e40-4513-ba77-cd7243199e11','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('1ccadebf-4932-4298-a586-31ca95444624','7fc2ab5a-7415-4317-bf2d-0f87df61b3c7','kuali.resultComponent.grade.passFail','31d811b5-6e40-4513-ba77-cd7243199e11','Draft',2)
+  VALUES ('239daa90-72a0-4d8e-a179-c358cb63c848','7088fce5-48c1-4629-ba19-6edc7b6369e7','kuali.resultComponent.grade.passFail','4c0105d8-ce55-49c1-baa9-8fc637bbf4c9','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('1d6f6d8c-eb90-4c28-bf63-97251f0d8d36','d9e6f769-1bc4-4b94-8f8b-4e2e078ab5ce','kuali.creditType.credit.degree.1.0','Active',0)
@@ -1646,13 +1646,13 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('272b1417-263f-4331-8234-ef8c408a4628','94aa361e-39f0-4a9f-9c31-1af81ee80a01','kuali.resultComponent.grade.letter','0a0a957a-ccf4-421c-9fde-ee9ce1967130','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('578547e1-a5b7-4152-8a74-c7fc3a43fda7','31158834-43bb-4df4-af25-c46e991e734b','kuali.resultComponent.grade.letter','07fb6289-27f5-4f35-813b-7540112457d3','Draft',4)
-/
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('df137704-34ba-44ac-8e0c-0af4266c3faa','ae632d2b-5075-4db7-8226-bb704da49d7e','kuali.resultComponent.grade.audit','f8492b24-2ac1-488e-b829-b001975e79ae','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('2e752228-46a0-43a0-ac11-b0ea8bc60eed','9a5bc796-07a0-4dec-bfe2-3ef6afb7c18e','kuali.resultComponent.grade.passFail','4faffd44-4fe9-4c4e-b5e1-d10769dded6f','Draft',2)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
+  VALUES ('578547e1-a5b7-4152-8a74-c7fc3a43fda7','31158834-43bb-4df4-af25-c46e991e734b','kuali.resultComponent.grade.letter','07fb6289-27f5-4f35-813b-7540112457d3','Draft',4)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('2e2c7b1e-d893-4927-87c3-3b0f074958de','6beaad2e-53d5-4951-a866-ee7e1dee3ef2','kuali.resultComponent.grade.audit','a5980bea-1bae-4986-b192-40d99dfe2e91','Active',1)
@@ -1742,13 +1742,13 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('dc248723-5de7-41ff-a284-ae9f1170e2ef','ce49d4e1-5b00-4384-9541-5027a26d7fc1','kuali.resultComponent.grade.passFail','bb68f0e8-9008-4ea2-b28b-a69d12529154','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
+  VALUES ('29c1ccec-82f1-413e-b0ce-ca166c7e8023','1327fdd8-917d-4613-9c18-cfa26bdff2d1','kuali.resultComponent.grade.audit','e3ddf0e3-3130-449d-ab57-90bc0ae5e269','Draft',3)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('f019d05f-82b5-44bb-afe5-3a596b1c82c2','696bc159-2934-4c4c-9620-fad6a8b0dd60','kuali.resultComponent.grade.letter','d04e7fd8-5b7b-498f-8048-5916fdb1bc1b','Draft',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('1e3ecce4-7b60-40b4-84de-686422d8eb1d','938fb46a-572f-48a9-8970-3d9309de4cfa','kuali.resultComponent.grade.letter','12cf851e-4d27-4742-af07-abd469cdcb02','Active',2)
-/
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('29c1ccec-82f1-413e-b0ce-ca166c7e8023','1327fdd8-917d-4613-9c18-cfa26bdff2d1','kuali.resultComponent.grade.audit','e3ddf0e3-3130-449d-ab57-90bc0ae5e269','Draft',3)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('aa5f802c-945a-4f84-9152-3ec27bb55c9b','eadc5924-5ed2-4093-b950-248a4746d621','kuali.resultComponent.grade.letter','3b51b871-25eb-4e89-a0e1-b66e4e453be2','Draft',2)
@@ -1771,11 +1771,11 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('86c754e6-974b-4059-8a5f-ccb70a330a40','4eb7e229-e95e-4ba6-94d3-1f8316b745b2','kuali.resultComponent.grade.passFail','07568b36-c5e0-4286-a0bd-39b7c232e31e','Draft',1)
 /
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('ebdabf5a-4407-40f9-8f1d-7829158954af','d3b224e0-0d90-4007-a83b-f0a0e309d480','kuali.resultComponent.grade.audit','7f71bd4a-e46e-4780-bbce-d87143f923d6','Draft',1)
-/
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('c622a64a-5957-44c9-98f3-a1d73699d27c','5225140b-b896-4e32-ab36-9a3df25715b4','kuali.creditType.credit.degree.3.0','Draft',0)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
+  VALUES ('ebdabf5a-4407-40f9-8f1d-7829158954af','d3b224e0-0d90-4007-a83b-f0a0e309d480','kuali.resultComponent.grade.audit','7f71bd4a-e46e-4780-bbce-d87143f923d6','Draft',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('18743c08-b795-4f1b-bfe1-6dcf5aa0875f','fce00222-bfff-487f-b05b-9a31784e017f','kuali.resultComponent.grade.audit','623833b2-eae4-40ad-bfa7-080596dfb12a','Active',1)
@@ -1790,34 +1790,34 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('06a7d671-b663-4083-86a9-42f10a7127f7','43394906-a2e3-430b-8645-5a449378a514','kuali.resultComponent.grade.letter','647f7b63-b05e-4fd2-a55b-8b1932a87251','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('a0668e27-0262-4f6f-8a1f-d37fbec9b687','b6489705-edd8-4a1b-99ab-c208e9d64d53','kuali.resultComponent.grade.letter','6fc016f3-60ac-4192-bd8d-620257e2a312','Active',0)
-/
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('872bd45a-a06c-4617-84ce-5a26d3f72c3f','170d58a7-82ad-4b8b-a04e-a90d43744df7','kuali.resultComponent.grade.letter','fd962b47-4952-4a52-bca0-db084bf306cd','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('95898f98-29e4-4b39-8cac-4d4b3cecd271','dbfdcce0-3ad1-4720-96fa-9916dec950af','kuali.creditType.credit.degree.3.0','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('7b04e431-9719-4e23-a46a-2cb692b144dc','33202535-6341-4236-be98-26a86f48915f','kuali.resultComponent.grade.audit','9bcd98f2-f39d-4b4e-9cbf-07f8660705b2','Active',1)
+  VALUES ('a0668e27-0262-4f6f-8a1f-d37fbec9b687','b6489705-edd8-4a1b-99ab-c208e9d64d53','kuali.resultComponent.grade.letter','6fc016f3-60ac-4192-bd8d-620257e2a312','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('1b089284-39ee-420e-a3bb-49827d78ad47','6d605454-3c1a-454f-8e51-66b9efca1663','kuali.creditType.credit.degree.1-6','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('7cb75027-b277-41b5-91ac-f595c5b774f7','61b3854b-3aec-44af-a37d-d7f82d61f7bb','kuali.resultComponent.grade.letter','e7402a7e-a2f0-4733-8af3-a45b73bddda8','Active',1)
+  VALUES ('7b04e431-9719-4e23-a46a-2cb692b144dc','33202535-6341-4236-be98-26a86f48915f','kuali.resultComponent.grade.audit','9bcd98f2-f39d-4b4e-9cbf-07f8660705b2','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('1b3a136c-8cd6-4153-aa9a-0fbf8a2cef0e','65b57ade-f483-498b-812b-04b4e88351c7','kuali.creditType.credit.degree.3.0','Draft',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
+  VALUES ('7cb75027-b277-41b5-91ac-f595c5b774f7','61b3854b-3aec-44af-a37d-d7f82d61f7bb','kuali.resultComponent.grade.letter','e7402a7e-a2f0-4733-8af3-a45b73bddda8','Active',1)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('72e000ae-6a75-4cdd-aebf-b51eb2c81484','a36d1509-4ab5-42ef-b5da-26e9f7066905','kuali.resultComponent.grade.audit','5cea653d-ea23-4f3d-bbab-dc23d6b55687','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('8fe6c05d-a155-4d1f-bb9e-9d12e530fd9e','dceaf7d4-f175-4541-a6f7-970b5225ce67','kuali.resultComponent.grade.letter','08c2c08d-1834-415f-81ed-7bd41ba75484','Active',1)
+  VALUES ('41a16591-3db4-49af-b92b-9d8b8aa31bb0','943a258f-d45c-40b8-be27-db670f22bb9f','kuali.resultComponent.grade.letter','748058da-7645-4617-ae5b-dab68250e73f','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('41a16591-3db4-49af-b92b-9d8b8aa31bb0','943a258f-d45c-40b8-be27-db670f22bb9f','kuali.resultComponent.grade.letter','748058da-7645-4617-ae5b-dab68250e73f','Active',0)
+  VALUES ('8fe6c05d-a155-4d1f-bb9e-9d12e530fd9e','dceaf7d4-f175-4541-a6f7-970b5225ce67','kuali.resultComponent.grade.letter','08c2c08d-1834-415f-81ed-7bd41ba75484','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('c079b5ff-821f-4848-808c-137865afafed','983cbdda-935f-4572-b355-1e895a4ab996','kuali.creditType.credit.degree.3.0','draft',0)
@@ -1831,11 +1831,11 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('97558219-3b52-4142-9b03-ad8af4b6fa52','c7bf9bfe-a3b2-4966-bd86-b653ac680a53','kuali.resultComponent.grade.letter','c8fcc6b3-c6a2-4698-97ca-8f997e7fc7d5','Active',0)
 /
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('d33f9b3b-cd5c-4f52-8aa6-b8ee3671e8b7','c87a4a2f-88f1-4342-bc63-613a9db8e793','kuali.creditType.credit.degree.1.0','Retired',0)
-/
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('fc43ecee-7177-409c-8eaa-322603992afc','64cb92fd-c84b-4485-ad55-4deb27d9111f','kuali.resultComponent.grade.letter','387c71d1-9f24-46d5-b65f-0962fc116f43','Retired',1)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
+  VALUES ('d33f9b3b-cd5c-4f52-8aa6-b8ee3671e8b7','c87a4a2f-88f1-4342-bc63-613a9db8e793','kuali.creditType.credit.degree.1.0','Retired',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('ef08f08f-4bd2-45b7-9971-ad159f29aba0','00461716-3a2d-4210-9a8a-bd0acdc49003','kuali.resultComponent.grade.audit','431d4a11-9827-49f2-8a2b-b22c5bfed94b','Draft',2)
@@ -1868,10 +1868,10 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('6a453fe2-9375-4038-8761-6a62e3e112b2','22291343-4543-4d29-8294-497bf2bd782e','kuali.resultComponent.grade.audit','40688456-3655-44fb-94b2-5380ac02ddf4','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('250dba8b-6016-43b5-b726-be392ed6a960','c57bac72-739f-420c-be86-5e3e6d4e5c36','kuali.creditType.credit.degree.3.0','Draft',0)
+  VALUES ('e95a3d8a-48c3-4bd4-b316-7a26b5c5e33b','2e8df20c-a3b8-4991-93bf-6e7463c9b88e','kuali.creditType.credit.degree.2.0','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('e95a3d8a-48c3-4bd4-b316-7a26b5c5e33b','2e8df20c-a3b8-4991-93bf-6e7463c9b88e','kuali.creditType.credit.degree.2.0','Active',0)
+  VALUES ('250dba8b-6016-43b5-b726-be392ed6a960','c57bac72-739f-420c-be86-5e3e6d4e5c36','kuali.creditType.credit.degree.3.0','Draft',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('06432309-6952-4c19-973c-0a8ee0cac739','d56ae9b7-a0f5-49de-aa98-ab037c665d8a','kuali.creditType.credit.degree.3.0','Draft',0)
@@ -1978,14 +1978,14 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('64653747-d054-4aeb-afff-b4cc3e082e5d','7849051a-627a-47a9-8a05-6e181a69a965','kuali.creditType.credit.degree.3.0','Draft',0)
 /
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
+  VALUES ('ff735506-c5b6-4bb1-9a11-714a89e89765','bec688e7-9b25-4e2f-bc40-388214136d30','kuali.creditType.credit.degree.3.0','Draft',0)
+/
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('ce5c7a3f-4402-44d8-81db-f5dc1bf0a809','556b23de-b9dd-4b7d-83bb-317db6c51cb5','kuali.resultComponent.grade.passFail','0bb65d9d-18ad-403b-b443-937b82e156bc','Draft',3)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('f65967fe-9344-4735-a5fc-82208230cbd6','79f8f639-3607-4eed-ab67-52e454caf678','kuali.resultComponent.grade.audit','b53adea8-fabd-4737-912c-0bbbca5728ae','Active',2)
-/
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('ff735506-c5b6-4bb1-9a11-714a89e89765','bec688e7-9b25-4e2f-bc40-388214136d30','kuali.creditType.credit.degree.3.0','Draft',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('c134af50-fa88-4ac9-8fe2-4063a71ec3f2','6ce64a41-d568-4e68-80cb-ca898a328cb6','kuali.creditType.credit.degree.3.0','Active',0)
@@ -2021,16 +2021,16 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('848303c5-a4f7-4328-9d14-153d0cbdffbf','5154f031-7ddd-4e93-93a2-28f08ecb094f','kuali.resultComponent.grade.audit','455cdf28-09d9-412f-9f66-cef0c75f6f80','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('bc962d73-c81a-436f-97f8-1a6de81f103e','1f44e514-3d61-4974-8edf-dae1cddb7b4a','kuali.resultComponent.grade.letter','c768c35a-4552-4166-8ad7-076012279408','Active',1)
-/
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('552f14fd-c57a-4ddd-a56d-aee7316e9449','6038712f-14dd-4de3-a128-ffbc06f6c420','kuali.resultComponent.grade.letter','588e575d-cbb3-40da-a26b-f7037d147bda','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('8b077145-2769-45ee-9e2c-71606ee592d6','4b3d653e-21f2-4098-8645-fd177b6030f7','kuali.resultComponent.grade.audit','af2246d4-d727-4fe7-b94a-268e1c323b33','Retired',2)
+  VALUES ('bc962d73-c81a-436f-97f8-1a6de81f103e','1f44e514-3d61-4974-8edf-dae1cddb7b4a','kuali.resultComponent.grade.letter','c768c35a-4552-4166-8ad7-076012279408','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('0ececd92-56a1-4fef-9623-722fc11440b5','96ff1ad8-97f5-475b-8b46-a6473c93e0d6','kuali.creditType.credit.degree.3-6','Active',0)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
+  VALUES ('8b077145-2769-45ee-9e2c-71606ee592d6','4b3d653e-21f2-4098-8645-fd177b6030f7','kuali.resultComponent.grade.audit','af2246d4-d727-4fe7-b94a-268e1c323b33','Retired',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('2496eb45-ae30-478c-9b8c-3e398fe58b1e','91f595fb-16b0-4cef-8aa6-35ea68e720dd','kuali.resultComponent.grade.letter','922e51c6-58e7-4954-b030-5512876e20dc','Draft',1)
@@ -2051,10 +2051,10 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('42aac747-09dc-491d-9e68-2f1a7691c1a8','f587b109-f24a-4509-acdd-b0806d6beffd','kuali.creditType.credit.degree.3.0','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('e0094152-6d4c-46d5-8e81-8e06acec74c3','bef7869d-dd52-4407-968c-4a757e915471','kuali.resultComponent.grade.audit','d1d5cd77-6cd5-4e0b-951a-968deb850b72','Draft',4)
+  VALUES ('c0c9b438-cb81-47ad-9e62-305c2f679e38','70dd92c6-a451-4424-a644-0a5cbd5290ee','kuali.resultComponent.grade.audit','eabdd8f3-4139-4078-8578-01a801468152','Draft',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('c0c9b438-cb81-47ad-9e62-305c2f679e38','70dd92c6-a451-4424-a644-0a5cbd5290ee','kuali.resultComponent.grade.audit','eabdd8f3-4139-4078-8578-01a801468152','Draft',1)
+  VALUES ('e0094152-6d4c-46d5-8e81-8e06acec74c3','bef7869d-dd52-4407-968c-4a757e915471','kuali.resultComponent.grade.audit','d1d5cd77-6cd5-4e0b-951a-968deb850b72','Draft',4)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('b9b4d774-0e3b-482b-a3c8-7a41b0e5a724','2860976d-4170-495a-9ca7-05fed27c8c0f','kuali.resultComponent.grade.audit','524bf110-de44-4e22-b4fe-a50925a9f1f0','Retired',1)
@@ -2090,22 +2090,22 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('d4a4e8fb-d5a8-4066-9866-a28ab08bdd9d','1b807e72-ebcb-4cda-a6e9-85f8ae59307f','kuali.creditType.credit.degree.1-3','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('82632d99-a49b-4167-a051-f4a629ae7cbf','9ee38970-bd0a-43cb-866e-13b1a2e87fba','kuali.resultComponent.grade.audit','9e9e8610-b0a7-4531-83f3-8e9f22c1a3df','Draft',2)
+  VALUES ('465bcd20-a2d6-481e-b97e-2a38c6b0b465','aaf0a87f-8644-4c08-98e5-75bfd2cb607a','kuali.resultComponent.grade.audit','472a140c-b4e1-4634-b7c8-001cd729d2c9','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('465bcd20-a2d6-481e-b97e-2a38c6b0b465','aaf0a87f-8644-4c08-98e5-75bfd2cb607a','kuali.resultComponent.grade.audit','472a140c-b4e1-4634-b7c8-001cd729d2c9','Active',1)
+  VALUES ('82632d99-a49b-4167-a051-f4a629ae7cbf','9ee38970-bd0a-43cb-866e-13b1a2e87fba','kuali.resultComponent.grade.audit','9e9e8610-b0a7-4531-83f3-8e9f22c1a3df','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('d9a3ff10-cb5a-474d-ae5e-07d37a225cfb','c82fce64-c419-41b1-ab95-fe7adb8d1afc','kuali.creditType.credit.degree.2.0','Active',0)
 /
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('7ca944da-f7e4-47e7-9f8b-90f4a5196dc6','097f74cf-27f6-46d1-8d46-66e6aae166d2','kuali.resultComponent.grade.letter','d592ae38-263d-45b9-b971-25240a466f3f','Active',0)
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
+  VALUES ('8ce14c1e-cc40-4eb4-82c6-873ea4d839f7','fa2bdbf2-95ab-42af-ac22-7a3309dae159','kuali.creditType.credit.degree.3.0','Draft',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('0f22ce78-474b-4c24-b5fa-59f237b9efbf','6116fb1f-f1dd-48b5-8916-863cb2c37557','kuali.resultComponent.grade.audit','93cd7d3f-82b2-4205-8fa8-d55429bbf8f7','Draft',2)
 /
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('8ce14c1e-cc40-4eb4-82c6-873ea4d839f7','fa2bdbf2-95ab-42af-ac22-7a3309dae159','kuali.creditType.credit.degree.3.0','Draft',0)
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
+  VALUES ('7ca944da-f7e4-47e7-9f8b-90f4a5196dc6','097f74cf-27f6-46d1-8d46-66e6aae166d2','kuali.resultComponent.grade.letter','d592ae38-263d-45b9-b971-25240a466f3f','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('e87edc04-e289-4f2b-a54d-2e3119a1a081','e311ed54-36be-430e-82a2-012fd238b639','kuali.creditType.credit.degree.3.0','Active',0)
@@ -2144,10 +2144,10 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('61a985f6-152e-4d1b-933b-fdccfa31e972','ca0e9260-3a85-4e0a-8d2f-8d1ea53864a6','kuali.resultComponent.grade.satisfactory','0b68b5bb-513d-43ef-a437-c1772b6dd4fc','Active',3)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('168fdb25-edfa-4ba9-a9b6-c33bb8465833','edf57211-f027-4541-9e5b-80dc793a9ddc','kuali.resultComponent.grade.audit','d8f2388a-937d-4bde-ad12-8555ce9e7991','Active',0)
+  VALUES ('94be1d47-01f3-4bc4-b63c-51d4bba111b5','2f17aefb-b312-4516-9560-7a6f2a7d034b','kuali.resultComponent.grade.letter','cbe640fd-6d1e-44d7-a56a-844eabb01a46','Active',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('94be1d47-01f3-4bc4-b63c-51d4bba111b5','2f17aefb-b312-4516-9560-7a6f2a7d034b','kuali.resultComponent.grade.letter','cbe640fd-6d1e-44d7-a56a-844eabb01a46','Active',2)
+  VALUES ('168fdb25-edfa-4ba9-a9b6-c33bb8465833','edf57211-f027-4541-9e5b-80dc793a9ddc','kuali.resultComponent.grade.audit','d8f2388a-937d-4bde-ad12-8555ce9e7991','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('b990d87b-c6d3-4c26-9258-94b3405d415c','b2239017-b747-4cf8-86af-781603bf9876','kuali.resultComponent.grade.audit','af65cc1b-c1aa-49e0-af4f-f2cf4c5580c2','Draft',2)
@@ -2183,31 +2183,31 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('75ac1872-09aa-4487-aeab-64ac7ba76370','3d5d9899-1c8e-4dde-82ca-55bc828d8849','kuali.resultComponent.grade.audit','9bddcb26-cdc9-43b3-b279-bbd53eed2ab6','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('bb158a9c-76de-4847-92d1-a04af28745a0','faea4159-5f70-4e61-90c5-473490c28c8c','kuali.resultComponent.grade.letter','18e35ade-1f75-4753-a04a-927315615ea0','Active',1)
-/
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('e6d9c6fb-b07e-4cbf-878d-4463a737dff0','2eefd7bf-4abb-4ceb-9c01-8fbe6fce04a2','kuali.resultComponent.grade.letter','b88da738-fbac-4fab-ba55-0c5cb650bc84','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('ac37760b-f2c2-4f51-b3f2-0f01a159a2d6','638ce8a6-88e0-4689-baa3-46770dd16482','kuali.resultComponent.grade.passFail','a82e1ef4-4be5-4b4a-9215-8b5ce962a996','Draft',1)
+  VALUES ('bb158a9c-76de-4847-92d1-a04af28745a0','faea4159-5f70-4e61-90c5-473490c28c8c','kuali.resultComponent.grade.letter','18e35ade-1f75-4753-a04a-927315615ea0','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('020bbe48-f546-4418-9e8e-d55dae15e181','58e272a2-a943-4fa7-a3c0-772546e0a338','kuali.resultComponent.grade.audit','a91e30ad-8403-410c-bd56-4afb8937122f','Draft',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('e4526fe5-a537-46c3-b015-74eedfe34bb4','3b891b41-2602-40d4-afad-3f8469567ddf','kuali.resultComponent.grade.audit','2b239de8-dd04-465f-93fd-7fca9c152bf5','Draft',1)
+  VALUES ('ac37760b-f2c2-4f51-b3f2-0f01a159a2d6','638ce8a6-88e0-4689-baa3-46770dd16482','kuali.resultComponent.grade.passFail','a82e1ef4-4be5-4b4a-9215-8b5ce962a996','Draft',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('3211d99e-7e8a-4491-afba-2055635d4e92','5d2aa710-5589-4115-aca1-cfa1658b7739','kuali.resultComponent.grade.audit','8d1b6369-5e6d-4359-a21e-056477b4df75','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('b4e5df19-2064-4d50-8ddf-33ca5b0d1983','bd7a98e5-a787-443c-a750-834f6baf8782','kuali.resultComponent.grade.letter','479e6308-2d13-4f05-86f0-208f19807f19','Draft',1)
+  VALUES ('e4526fe5-a537-46c3-b015-74eedfe34bb4','3b891b41-2602-40d4-afad-3f8469567ddf','kuali.resultComponent.grade.audit','2b239de8-dd04-465f-93fd-7fca9c152bf5','Draft',1)
 /
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('38169ea6-0184-42cf-8da8-5fb7cdfaa530','d46a37b7-25fa-4f8d-9559-2c9a87b65bf5','kuali.creditType.credit.degree.3.0','Retired',0)
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
+  VALUES ('b4e5df19-2064-4d50-8ddf-33ca5b0d1983','bd7a98e5-a787-443c-a750-834f6baf8782','kuali.resultComponent.grade.letter','479e6308-2d13-4f05-86f0-208f19807f19','Draft',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('4294f1bd-c539-434e-a3b3-df0c2778fc8e','82467604-dd6e-4f52-af04-c616e2fad873','kuali.resultComponent.grade.letter','b19e92a3-fff1-480c-b137-e013740fd456','Active',0)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
+  VALUES ('38169ea6-0184-42cf-8da8-5fb7cdfaa530','d46a37b7-25fa-4f8d-9559-2c9a87b65bf5','kuali.creditType.credit.degree.3.0','Retired',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('63a1b05f-be53-4063-847f-bd338d6117bd','d13cf8a0-b012-4486-96ec-ac256a3bbdb5','kuali.resultComponent.grade.audit','e535a249-4265-4c83-8516-4f2f66e5fe27','Draft',1)
@@ -2284,11 +2284,11 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('ff1f601d-69e9-4459-9c36-d6e76aaa215a','b40b8af5-00f5-4c3f-ab1b-21b17f0cfa9a','kuali.resultComponent.grade.letter','eb744107-3948-47c9-a94a-bdc6b4788c85','Retired',1)
 /
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('8e4937c2-0c3a-436c-9884-5997ee5ef6d1','b407734b-f756-43a5-8952-d083c4348b96','kuali.creditType.credit.degree.3.0','Draft',0)
-/
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('4baf4b6f-9abc-4416-a0c3-384ce9d73d6b','fff39ad3-3174-4e0f-a8f4-e9cd6ac56f32','kuali.resultComponent.grade.letter','170ba540-079d-405e-9173-0bd1fd0e2c0a','Active',1)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
+  VALUES ('8e4937c2-0c3a-436c-9884-5997ee5ef6d1','b407734b-f756-43a5-8952-d083c4348b96','kuali.creditType.credit.degree.3.0','Draft',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('29658fe0-5bd3-4e21-874a-2ea90df504e6','28812113-7502-4471-9f98-dd953818c650','kuali.resultComponent.grade.passFail','0e8a992d-596e-46cf-8e92-db417dd30f30','Draft',1)
@@ -2297,10 +2297,10 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('0bfc2591-0153-40f2-b987-e0fef51c2ad3','4e7934eb-a15e-4f52-abf2-12c8d13b1d1c','kuali.resultComponent.grade.letter','95e154c7-fff0-4540-ade3-efdf6f8f2b48','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('cdd5a479-064f-4a8a-aabf-3faf217e684c','c0afe877-105c-4da5-985e-de69f9bbbbd9','kuali.resultComponent.grade.passFail','311f333e-5d14-46ec-90eb-85043d60c9b3','Active',3)
+  VALUES ('b572e38a-6fb1-4748-b283-349c4c94ad20','dcc9f301-3e8c-458a-b930-c04708d8636a','kuali.resultComponent.grade.audit','c8138b17-b9d1-44bb-a26a-212008782ed5','Draft',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('b572e38a-6fb1-4748-b283-349c4c94ad20','dcc9f301-3e8c-458a-b930-c04708d8636a','kuali.resultComponent.grade.audit','c8138b17-b9d1-44bb-a26a-212008782ed5','Draft',1)
+  VALUES ('cdd5a479-064f-4a8a-aabf-3faf217e684c','c0afe877-105c-4da5-985e-de69f9bbbbd9','kuali.resultComponent.grade.passFail','311f333e-5d14-46ec-90eb-85043d60c9b3','Active',3)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('de3c0e92-b655-4102-83d2-375933ce2bb8','874a181a-f0f6-4ded-9ca0-917876e5bf63','kuali.resultComponent.grade.letter','368c11ec-92e4-41f3-856c-e04b308ae5ed','Draft',2)
@@ -2323,20 +2323,20 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('a8c22168-08a8-406b-8927-d64d6513e5ca','c383c6fd-1067-4bcf-bbbe-079a21443e87','kuali.resultComponent.grade.audit','0ea2ccee-3696-477e-90cb-a4be392075ef','Retired',1)
 /
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('c7a923b2-2fc2-4abb-9da8-2ad142727a35','94e59b59-94ad-4a3a-bac7-34f1b3827d63','kuali.creditType.credit.degree.3.0','Active',0)
-/
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('f6ae9bef-496a-4058-85bb-92a2359e61ce','f7cf8ddc-b9f0-43aa-8fd8-a2065390590e','kuali.resultComponent.grade.audit','f0f4370e-0986-473d-b129-380a2a53b8ef','Active',1)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
+  VALUES ('c7a923b2-2fc2-4abb-9da8-2ad142727a35','94e59b59-94ad-4a3a-bac7-34f1b3827d63','kuali.creditType.credit.degree.3.0','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('f1612bc4-b926-447f-b43b-a0a54ab7da29','db66696e-c5bf-4b6b-81a8-4843f72d599f','kuali.creditType.credit.degree.3.0','Draft',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('7a54ba76-ac98-4292-9328-10d31e2aa8ba','ec1bbe30-d710-4e1b-8d16-2f19e5f296ea','kuali.creditType.credit.degree.3.0','Active',0)
+  VALUES ('cd736f1a-8cbe-47d7-8271-9ab77a509c1e','14e35bf3-6975-4c44-a4f6-99a918bc729f','kuali.creditType.credit.degree.3.0','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('cd736f1a-8cbe-47d7-8271-9ab77a509c1e','14e35bf3-6975-4c44-a4f6-99a918bc729f','kuali.creditType.credit.degree.3.0','Active',0)
+  VALUES ('7a54ba76-ac98-4292-9328-10d31e2aa8ba','ec1bbe30-d710-4e1b-8d16-2f19e5f296ea','kuali.creditType.credit.degree.3.0','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('ec6728e0-e381-4533-a444-f0b9c5fb58a3','2f2a9866-d668-48a6-9862-f4018eb74d04','kuali.creditType.credit.degree.3.0','Active',0)
@@ -2345,13 +2345,13 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('12d774f6-c07c-4471-a198-b80b348f3667','49663883-b540-4ffb-baaf-a8f2255c03ae','kuali.creditType.credit.degree.3.0','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
+  VALUES ('b5c18c2e-b99a-4a38-81e1-2ac9d04a1528','cd770abd-2b17-4bae-a263-4e6e436a66f8','kuali.resultComponent.grade.audit','34eaf0fa-44b3-4e55-91e9-065a4b1c8381','Draft',1)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('4fccc8b1-f417-43f8-9b9f-26dbcf1a58be','b7cb3db1-4b20-4f36-8ffb-21264f7ee6f3','kuali.resultComponent.grade.letter','499aacee-3892-4c23-aefe-47ee50b7b8fe','Draft',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('d85c9e02-8790-4170-b5ca-0c9139dd92cb','d90ead36-3d83-42e0-806f-f13415091475','kuali.resultComponent.grade.audit','451b998e-bb98-4f08-aa83-2719e73729a4','Draft',2)
-/
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('b5c18c2e-b99a-4a38-81e1-2ac9d04a1528','cd770abd-2b17-4bae-a263-4e6e436a66f8','kuali.resultComponent.grade.audit','34eaf0fa-44b3-4e55-91e9-065a4b1c8381','Draft',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('0c03ddf5-fa18-42ff-a3cb-b53eb327a17b','246e9379-aa38-4a08-bba5-6ae3c092ebce','kuali.creditType.credit.degree.3.0','Draft',0)
@@ -2366,13 +2366,13 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('d63d9dcd-164c-4393-ab16-cb72fc24c688','03a5933f-bc7f-4f9d-ad2f-89d7b956535c','kuali.resultComponent.grade.audit','ce29a795-7f34-47bd-b3b4-83d2049901c2','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('488ce5fe-ac42-44dd-bd34-50543b99997c','e72a1930-ccd5-4c3c-8cab-92371b153751','kuali.creditType.credit.degree.3.0','Active',0)
+  VALUES ('d8378ca5-575c-42da-97fd-ae622555de59','afd789bf-aec1-47a2-b124-cd0338f3f2ed','kuali.creditType.credit.degree.3.0','Retired',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('b6d09252-3670-4525-bdb9-d55e2562c26f','95b3d2de-6e78-426f-a6e6-19662a5bbec5','kuali.resultComponent.grade.letter','82ed8235-d251-406f-a519-c3f85afd31aa','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('d8378ca5-575c-42da-97fd-ae622555de59','afd789bf-aec1-47a2-b124-cd0338f3f2ed','kuali.creditType.credit.degree.3.0','Retired',0)
+  VALUES ('488ce5fe-ac42-44dd-bd34-50543b99997c','e72a1930-ccd5-4c3c-8cab-92371b153751','kuali.creditType.credit.degree.3.0','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('0981c6c5-96c5-4ff0-9b1d-c8f7401b8fd6','35192424-7ef2-4b19-abb3-19c3c26925af','kuali.creditType.credit.degree.3.0','Draft',0)
@@ -2393,10 +2393,10 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('1f166c3c-b41a-466f-8253-9ddc02100bdd','83496d45-19a5-4e27-a5f5-94b7eecc732e','kuali.resultComponent.grade.audit','ccc173e0-da13-4a72-9f4d-d0a528490d07','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('cbf2f017-63c3-4fff-a452-d643dd077177','be8b50fb-c0ab-4f6e-a004-0517e096b702','kuali.resultComponent.grade.letter','f718700a-32aa-4083-947b-5d6bfeb654b3','Active',1)
+  VALUES ('8f2be82d-cbf2-469a-b509-91b327554f06','5d45e0e7-fa37-4b54-af50-52339a865624','kuali.resultComponent.grade.audit','c06bc6f5-a1f3-4d5a-8ad8-5bb2f01ed50f','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('8f2be82d-cbf2-469a-b509-91b327554f06','5d45e0e7-fa37-4b54-af50-52339a865624','kuali.resultComponent.grade.audit','c06bc6f5-a1f3-4d5a-8ad8-5bb2f01ed50f','Draft',2)
+  VALUES ('cbf2f017-63c3-4fff-a452-d643dd077177','be8b50fb-c0ab-4f6e-a004-0517e096b702','kuali.resultComponent.grade.letter','f718700a-32aa-4083-947b-5d6bfeb654b3','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('5f53a5f6-cbc6-4fd1-ba03-a5573e12b0c5','9d5c6ac1-dad4-4f9d-af24-4a0d532e9712','kuali.resultComponent.grade.audit','ce05f92e-598e-486a-8859-9cac80441880','Active',1)
@@ -2408,10 +2408,10 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('9de1a160-57b3-4c42-baf5-ff469117ccd3','0d80c021-8906-4ed6-8f09-75c734bc4d5f','kuali.creditType.credit.degree.3.0','Draft',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('a79af1a2-c74c-45f7-a8c0-12981f997eb4','13764f98-9aa8-473c-a6fa-6c140eaa1491','kuali.resultComponent.grade.audit','3e72df07-797f-4f41-aa64-f5e4c00904c6','Active',1)
+  VALUES ('22545e4a-137e-4164-a3d5-281532dad9f3','d4e4f426-05b7-4c8a-a8c5-c02f2db89e7d','kuali.resultComponent.grade.audit','5b007fef-bf89-4100-9e67-b6caa176874e','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('22545e4a-137e-4164-a3d5-281532dad9f3','d4e4f426-05b7-4c8a-a8c5-c02f2db89e7d','kuali.resultComponent.grade.audit','5b007fef-bf89-4100-9e67-b6caa176874e','Active',1)
+  VALUES ('a79af1a2-c74c-45f7-a8c0-12981f997eb4','13764f98-9aa8-473c-a6fa-6c140eaa1491','kuali.resultComponent.grade.audit','3e72df07-797f-4f41-aa64-f5e4c00904c6','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('0e09eb47-68e0-41ff-8e35-e9ab0eb197d1','e2002f65-029c-4726-b83a-ebecf56d20cf','kuali.resultComponent.grade.letter','0ed4d852-018c-43c8-8c57-4d381aaabe72','Active',0)
@@ -2423,19 +2423,19 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('9439acc7-a1cd-4099-852a-ebe86f68206e','a1c801bc-e41a-4a2a-bd04-f15c72224f21','kuali.resultComponent.grade.letter','0e631b7a-ff79-428c-81ed-54b1273e0eb6','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('9fb79c83-c970-41c7-8b10-f643f5d1a3aa','444d5746-4b26-4395-847a-e2b843797cca','kuali.resultComponent.grade.audit','b441f0e4-1875-42bc-adbc-fe55ff8ddef2','Draft',4)
+  VALUES ('c58844a8-616d-4c1b-8231-c6fa4e074965','0385878e-e3f1-4bc4-908c-cf49391f2abe','kuali.resultComponent.grade.letter','243be091-914a-44cd-91d0-f77943fb37d7','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('c58844a8-616d-4c1b-8231-c6fa4e074965','0385878e-e3f1-4bc4-908c-cf49391f2abe','kuali.resultComponent.grade.letter','243be091-914a-44cd-91d0-f77943fb37d7','Active',1)
+  VALUES ('9fb79c83-c970-41c7-8b10-f643f5d1a3aa','444d5746-4b26-4395-847a-e2b843797cca','kuali.resultComponent.grade.audit','b441f0e4-1875-42bc-adbc-fe55ff8ddef2','Draft',4)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('4cafa654-c4a9-4488-8cef-a8601afcc313','f49ae8f3-ab57-4e4d-b4b5-97a0aec14c42','kuali.resultComponent.grade.audit','fd47b1fc-4b9d-443b-a0a2-36f5c10c097a','Active',1)
 /
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('3d18e8cc-7054-47a4-bfd8-5e867773956d','8f9f1d8b-cb05-48ef-aa32-3fb70619ecb8','kuali.creditType.credit.degree.2.0','Active',0)
-/
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('bae481b5-b072-4f4e-a7bb-1e02ecef48bd','13657dc9-8426-40dd-82bb-6e09414785c3','kuali.resultComponent.grade.audit','302927ea-fc13-45f5-b86a-b9d367aaa1c7','Draft',1)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
+  VALUES ('3d18e8cc-7054-47a4-bfd8-5e867773956d','8f9f1d8b-cb05-48ef-aa32-3fb70619ecb8','kuali.creditType.credit.degree.2.0','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('9b00033c-02a8-47c8-8dc7-721a594ef72c','7394f9b0-32ae-447b-83b0-e3cf6df8a765','kuali.resultComponent.grade.audit','4a434f12-9243-44f4-b02a-5d7887bf8b32','Draft',2)
@@ -2450,10 +2450,10 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('224de33b-8faa-41a4-b0d8-2720b595df92','fe041d08-9cd5-4090-a0d8-4234eca21235','kuali.resultComponent.grade.passFail','3a146aad-f13a-4492-9582-2b37e710e957','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('c066bcc6-1945-4d68-9369-01825c8acb7a','53ad5ebc-3310-4b71-b863-c637dd97f3f3','kuali.resultComponent.grade.letter','1d51d086-f071-45f0-a431-e0e3c371cd62','Draft',1)
+  VALUES ('5cd42cda-cdd1-42e0-999d-0702e89790a7','eb51c417-e7d1-4ec4-8427-9f11115362ad','kuali.resultComponent.grade.passFail','32d44ad4-af7c-4e81-a96d-266f7e4b98f9','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('5cd42cda-cdd1-42e0-999d-0702e89790a7','eb51c417-e7d1-4ec4-8427-9f11115362ad','kuali.resultComponent.grade.passFail','32d44ad4-af7c-4e81-a96d-266f7e4b98f9','Draft',2)
+  VALUES ('c066bcc6-1945-4d68-9369-01825c8acb7a','53ad5ebc-3310-4b71-b863-c637dd97f3f3','kuali.resultComponent.grade.letter','1d51d086-f071-45f0-a431-e0e3c371cd62','Draft',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('6f14a5dd-514a-48b4-bfc7-85ddb1b824df','201b9273-a4da-4502-a2a7-091c04e947c4','kuali.resultComponent.grade.audit','54bb2386-3d83-4184-9b9b-a642bfab93f0','Active',1)
@@ -2480,10 +2480,10 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('9cd7e5c4-15e6-4760-9b1c-f54715dcb56e','2cdd95c4-bcd5-48f1-97ac-8207bbc30f4a','kuali.resultComponent.grade.letter','4966e8f9-6cf4-40b1-bc5c-cf966a7c44f7','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('3180be52-00ee-4634-80fe-434ec09611b3','e91138aa-522d-4b10-9d1d-cb5486e17af3','kuali.creditType.credit.degree.0.5','Active',0)
+  VALUES ('0db01d7d-9908-46e1-a868-be1eea17deec','493276e7-c8b8-4ba0-b3d2-943aaebf7fff','kuali.creditType.credit.degree.1.0','Retired',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('0db01d7d-9908-46e1-a868-be1eea17deec','493276e7-c8b8-4ba0-b3d2-943aaebf7fff','kuali.creditType.credit.degree.1.0','Retired',0)
+  VALUES ('3180be52-00ee-4634-80fe-434ec09611b3','e91138aa-522d-4b10-9d1d-cb5486e17af3','kuali.creditType.credit.degree.0.5','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('5ad47378-0585-47a7-b1c2-f8cc7f5dfcdc','5ec017de-85fe-467d-8b1f-a550b92603bf','kuali.resultComponent.grade.letter','e81a5ed6-5259-42e3-aac3-9308f5ef674b','Active',0)
@@ -2524,11 +2524,11 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('5ff3a13e-6f87-4bbc-8ae9-ea5a8ca92e43','ccb509d7-fdd3-487d-a925-2dbdff28c15a','kuali.resultComponent.grade.audit','9645f519-21f1-435e-87d3-7423d39ba346','Draft',1)
 /
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('2f05bb51-d140-4025-ad78-268a50980547','cd939400-f86a-4756-9b59-7e6fcee940b1','kuali.creditType.credit.degree.2.0','Active',0)
-/
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('aa707d04-fc71-491d-9773-7f06337daee3','c60ee1e1-9027-4065-967a-2eb3e2007f44','kuali.resultComponent.grade.passFail','bf6e1d09-4a46-40b6-a321-c0326f696d57','Draft',2)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
+  VALUES ('2f05bb51-d140-4025-ad78-268a50980547','cd939400-f86a-4756-9b59-7e6fcee940b1','kuali.creditType.credit.degree.2.0','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('7024e09d-96a7-4c37-b203-3c1ee6cdb968','61770216-564a-4b44-a59d-6f7cc5173c47','kuali.resultComponent.grade.letter','cfb4508c-d3bd-4895-a9b7-3bdf37f56dfe','Draft',1)
@@ -2573,19 +2573,19 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('6b1f3586-288e-4232-ac45-e0ac06110831','90662a41-cd0c-4171-af71-6f7caba423ca','kuali.creditType.credit.degree.1-3','Retired',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('d3a893a2-7fa7-404c-a9a3-90adaaae90c2','fb2ea250-5689-4191-91f6-c9db4b59c56d','kuali.creditType.credit.degree.3.0','Active',0)
+  VALUES ('3e2f0d1c-8c08-4b73-b8dd-f25180a191f9','87ba4031-8bd3-45ef-ba76-2d6d10a1dc98','kuali.creditType.credit.degree.3.0','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('3e2f0d1c-8c08-4b73-b8dd-f25180a191f9','87ba4031-8bd3-45ef-ba76-2d6d10a1dc98','kuali.creditType.credit.degree.3.0','Active',0)
+  VALUES ('d3a893a2-7fa7-404c-a9a3-90adaaae90c2','fb2ea250-5689-4191-91f6-c9db4b59c56d','kuali.creditType.credit.degree.3.0','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('bca13832-a2b3-40a8-8146-2e0c23bf51b7','2ad88d42-bc44-44f9-b91e-0a2b56e64025','kuali.resultComponent.grade.audit','ef09c270-a017-4bd5-a666-af6da5c03a37','Draft',4)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('dd9c8ef7-fc73-46ff-a7f5-cb06f52e1b81','b8c7be04-841e-43c0-8b4c-40091adf1e8b','kuali.resultComponent.grade.letter','fd2e7a01-7897-4b26-94bf-09035dc21e37','Active',1)
+  VALUES ('e2222270-727b-4338-b7ed-82d4f4e526a1','e9f6c5d7-8b4d-416c-abfa-609dbe5f8dc7','kuali.resultComponent.grade.audit','c24cd1dc-6477-4e8d-9b60-9a8936803b5f','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('e2222270-727b-4338-b7ed-82d4f4e526a1','e9f6c5d7-8b4d-416c-abfa-609dbe5f8dc7','kuali.resultComponent.grade.audit','c24cd1dc-6477-4e8d-9b60-9a8936803b5f','Active',1)
+  VALUES ('dd9c8ef7-fc73-46ff-a7f5-cb06f52e1b81','b8c7be04-841e-43c0-8b4c-40091adf1e8b','kuali.resultComponent.grade.letter','fd2e7a01-7897-4b26-94bf-09035dc21e37','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('7b68118d-b23f-4190-8412-642b9aa942a4','a2e67f30-423d-4237-ba57-29be7b4d2c81','kuali.resultComponent.grade.letter','e4e5e3ac-fa3d-4bf7-9cc5-7f5e41079e51','draft',19)
@@ -2606,13 +2606,13 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('e96565a9-2a9f-41c3-b140-e14d07e74d5b','805362bc-1769-4ef0-9cc9-1126ea974385','kuali.resultComponent.grade.letter','eca8db42-4fb4-4adf-a486-ad6cb1e55034','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('81de870f-e623-4128-b737-124f03f8587e','8800b1cb-06b0-425a-a63d-61edffd5a497','kuali.resultComponent.grade.passFail','cd75ee2e-0af8-40f8-b714-a18089f26830','Draft',1)
+  VALUES ('4398e275-d7f4-4724-8f2a-94f5146e1e6d','07169720-cecf-40a5-b092-95f83e56908c','kuali.resultComponent.grade.passFail','83b2f1a1-738e-499c-b197-9efb903f1d7d','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('d8bdf563-399f-4445-b71c-03175f2703b1','509c2797-b9d5-4974-a6ed-033ef91b7e16','kuali.resultComponent.grade.passFail','79090d10-a75f-451d-b989-e9c4e8f80ef9','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('4398e275-d7f4-4724-8f2a-94f5146e1e6d','07169720-cecf-40a5-b092-95f83e56908c','kuali.resultComponent.grade.passFail','83b2f1a1-738e-499c-b197-9efb903f1d7d','Draft',2)
+  VALUES ('81de870f-e623-4128-b737-124f03f8587e','8800b1cb-06b0-425a-a63d-61edffd5a497','kuali.resultComponent.grade.passFail','cd75ee2e-0af8-40f8-b714-a18089f26830','Draft',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('35c322f2-9cf0-4d58-b928-2c65732f5a64','5c58a571-b787-42e4-8eaa-f39626dea7bd','kuali.resultComponent.grade.passFail','3abff90e-7c81-448a-8e06-8c1d9482e8e3','Draft',1)
@@ -2624,13 +2624,13 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('dd13a847-74cc-4f12-9b40-88dc3c081752','5d4af9a3-b0ed-4b61-bf46-728474206428','kuali.resultComponent.grade.letter','e8ba8d72-3f76-42d7-963f-15cfb1e0be87','Draft',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('825bbb3c-31c3-44b4-8188-bb60de47d925','b4a67447-ef71-4cac-b3c0-470da356dc32','kuali.resultComponent.grade.passFail','e0856706-e05a-4c0f-aafe-17857fd2c49f','Active',1)
+  VALUES ('690b9701-4ae5-45f7-8174-60b4cbc78430','9510a733-1185-4f2c-b7b2-ee8845a6f30d','kuali.resultComponent.grade.letter','98f14237-8066-4e34-a587-c8cfee1210be','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('1fe12906-85b0-4831-bd75-40637fd660f7','ee062079-0048-4ca5-8d7d-22ea8d43643e','kuali.resultComponent.grade.letter','9c0dda8f-4cd5-435c-9f40-0b433627d12f','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('690b9701-4ae5-45f7-8174-60b4cbc78430','9510a733-1185-4f2c-b7b2-ee8845a6f30d','kuali.resultComponent.grade.letter','98f14237-8066-4e34-a587-c8cfee1210be','Active',0)
+  VALUES ('825bbb3c-31c3-44b4-8188-bb60de47d925','b4a67447-ef71-4cac-b3c0-470da356dc32','kuali.resultComponent.grade.passFail','e0856706-e05a-4c0f-aafe-17857fd2c49f','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('f1a8789a-21a0-4f70-b1f0-455b92714e42','f7cd1b1d-a34d-407a-a27b-d3dd2e128440','kuali.creditType.credit.degree.3.0','Retired',0)
@@ -2674,11 +2674,11 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('808d220e-9041-4c06-ae90-5b81e760042e','e014e6aa-7edc-43ce-aeb2-5eed41bcb1d5','kuali.creditType.credit.degree.3.0','Draft',0)
 /
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('8afd9f9d-fd8b-45cb-be14-6ab28859e6c4','a50aff61-ee09-4529-aa69-ee6b0551cb7d','kuali.resultComponent.grade.letter','33c88538-2a3c-4175-865e-676a0780f884','Active',1)
-/
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('89ad3a6d-0ba0-4f38-b4db-f27f02a6f6fe','7002bc5d-ff6a-40cf-9f56-7f3f33e484ac','kuali.creditType.credit.degree.3.0','Active',0)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
+  VALUES ('8afd9f9d-fd8b-45cb-be14-6ab28859e6c4','a50aff61-ee09-4529-aa69-ee6b0551cb7d','kuali.resultComponent.grade.letter','33c88538-2a3c-4175-865e-676a0780f884','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('92e754be-7d95-4b53-9b84-0245ed320095','0c633c11-7aca-4308-8f01-2f33da19f247','kuali.creditType.credit.degree.1-8','Active',0)
@@ -2707,11 +2707,11 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('d38e186d-a007-4698-bcc6-e4d4c98df3da','b3fc4756-460e-4bf9-9349-c689074a379e','kuali.creditType.credit.degree.3.0','Draft',0)
 /
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('3ef51b80-c9ff-4314-9620-050d21bc60ea','5dfea28a-c12f-4db9-a045-bc46b0164ad2','kuali.creditType.credit.degree.3.0','Retired',0)
-/
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('c29b7753-6656-4d93-9936-06380d32b94d','56d420e6-9587-4e01-bde1-b99927315e55','kuali.resultComponent.grade.audit','17250dc5-2372-42ee-85d9-defab8d8e75e','Active',1)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
+  VALUES ('3ef51b80-c9ff-4314-9620-050d21bc60ea','5dfea28a-c12f-4db9-a045-bc46b0164ad2','kuali.creditType.credit.degree.3.0','Retired',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('357092d6-15de-478c-8e28-5fb77a76433f','caee594b-3d45-4196-8ded-4a7b84a6af7b','kuali.creditType.credit.degree.3.0','Active',0)
@@ -2719,11 +2719,11 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('dd13aeb2-259c-413d-a035-8509ddafb70c','269d5d60-7344-4a27-adab-dced02ba75a9','kuali.resultComponent.grade.audit','341e04d0-1a58-4077-bd39-c885c381fce5','Draft',4)
 /
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('35137132-45e1-4eaf-9bf5-23d199c80a6e','2a52e7b5-c709-4bd2-8297-09eec91ef732','kuali.resultComponent.grade.passFail','32860420-1a4c-4551-9ed1-942a182c3e84','Active',1)
-/
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('ae17b12c-63bb-40a7-ade0-a7354f2dcf60','795bf2b9-815a-42e6-bf27-0ef9d645ebd3','kuali.creditType.credit.degree.3.0','Draft',0)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
+  VALUES ('35137132-45e1-4eaf-9bf5-23d199c80a6e','2a52e7b5-c709-4bd2-8297-09eec91ef732','kuali.resultComponent.grade.passFail','32860420-1a4c-4551-9ed1-942a182c3e84','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('467f9b81-9c1d-429c-89cf-8d2eeac69f02','d4874a85-9ce9-4ce4-bb73-479607af276b','kuali.resultComponent.grade.passFail','b6044f3f-de00-449f-afdc-4c3a938c205d','Draft',1)
@@ -2782,11 +2782,11 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('ff9e2867-a39c-4134-9948-f01e8d91f4da','66240510-fa4c-4c3e-b254-584308fc0a25','kuali.resultComponent.grade.letter','ff933b82-85bd-4a56-b294-ed2e89ebf78d','Draft',2)
 /
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('fd0e237d-6bc8-41eb-ab90-ae53438390ed','8d54c35e-7950-4b4f-b694-4208ddad7331','kuali.creditType.credit.degree.3.0','Draft',0)
-/
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('0f6a0a17-3b25-40ef-a68e-35f0fb723d30','d90901e8-04be-4680-b4fe-77aa75d62f61','kuali.resultComponent.grade.letter','9751e28b-3da8-457a-90bb-cf8e656d8bf6','Active',1)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
+  VALUES ('fd0e237d-6bc8-41eb-ab90-ae53438390ed','8d54c35e-7950-4b4f-b694-4208ddad7331','kuali.creditType.credit.degree.3.0','Draft',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('e88d8b23-914c-4ce8-8369-920502e42dab','ac842d3f-b6b4-47b2-a20f-e3c1862599de','kuali.resultComponent.grade.audit','dff063f4-d78d-41de-b609-b28ccbb8c9b4','Draft',1)
@@ -2816,16 +2816,16 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('6d8b0b75-c13e-4a73-994b-b1d4f3b32d5b','f20a3d90-fdbe-466d-8993-5f327d454aa9','kuali.resultComponent.grade.audit','d0f3e044-96fa-4b39-bddf-979c182d6471','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('86890e91-4ed9-4f86-a1cc-990be2eea513','26db8d42-84d2-43b4-94b3-a3b460eb2ed3','kuali.resultComponent.grade.audit','543f191b-bcf0-498d-9a37-5ff047bd00db','Draft',1)
-/
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('29a11b05-7efd-4ab4-b092-241694ef039d','0f3bc469-5382-4293-8911-77190d054abc','kuali.resultComponent.grade.letter','306b42da-2b75-446e-8ae4-a4eb257bc62a','Retired',4)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('2f705485-d49f-4cf1-b16b-6f633223fb50','16c98a7b-0cc0-4df8-a069-04432762b1f1','kuali.resultComponent.grade.audit','f3d6fd48-1ff7-4aeb-bc3b-77399c29ade4','Draft',2)
+  VALUES ('86890e91-4ed9-4f86-a1cc-990be2eea513','26db8d42-84d2-43b4-94b3-a3b460eb2ed3','kuali.resultComponent.grade.audit','543f191b-bcf0-498d-9a37-5ff047bd00db','Draft',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('60fe7e13-05dc-4c2d-9e10-e71b591a2f21','e7a69a75-862c-4ca0-ad36-1cd75e8ef09d','kuali.resultComponent.grade.letter','ab65df0c-24ce-440a-ad77-d425847a2101','Draft',12)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
+  VALUES ('2f705485-d49f-4cf1-b16b-6f633223fb50','16c98a7b-0cc0-4df8-a069-04432762b1f1','kuali.resultComponent.grade.audit','f3d6fd48-1ff7-4aeb-bc3b-77399c29ade4','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('84fe2c26-81ac-4dee-adb8-2b08cc2b96a1','dc367c38-7fc3-460a-abde-0eadd7a153a4','kuali.resultComponent.grade.letter','8828f9a1-6d81-4fb5-ac97-6840870a3d7f','Draft',3)
@@ -2840,10 +2840,10 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('d46200ae-ef5a-4d69-8ce7-a4c265878556','13089225-8522-4abb-af5d-a0e1b36088eb','kuali.resultComponent.grade.passFail','3ce98c18-e0d9-477c-a414-fbecd39b0d16','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('d4d1fbff-c64b-4667-a1be-9bee71977459','aa04f3f8-6a2e-40bd-9028-cdb1266fb6a9','kuali.resultComponent.grade.audit','fe833f44-8a8b-4a6c-a24a-5babac1ddabb','Draft',2)
+  VALUES ('11d19b08-479e-4e36-b494-daeec5add418','ae0c0bcc-2180-40cb-9901-931046d2056f','kuali.resultComponent.grade.audit','7c116fce-b1bf-4f30-a061-801de75cff76','Draft',3)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('11d19b08-479e-4e36-b494-daeec5add418','ae0c0bcc-2180-40cb-9901-931046d2056f','kuali.resultComponent.grade.audit','7c116fce-b1bf-4f30-a061-801de75cff76','Draft',3)
+  VALUES ('d4d1fbff-c64b-4667-a1be-9bee71977459','aa04f3f8-6a2e-40bd-9028-cdb1266fb6a9','kuali.resultComponent.grade.audit','fe833f44-8a8b-4a6c-a24a-5babac1ddabb','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('24ce4823-b7a9-441a-affe-035264a790ed','015d85ab-ad2f-457b-a871-f456b09358cd','kuali.resultComponent.grade.letter','b356beb5-86a8-4606-a56a-6e0f13b266b4','Retired',1)
@@ -2908,14 +2908,14 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('fca91788-9ce9-4986-a602-e1c8a7d2295f','fe893bf4-3b70-48d3-be37-95d82ea47037','kuali.resultComponent.grade.audit','2cabcc10-faab-4991-8f92-db2559c66803','Active',0)
 /
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
+  VALUES ('2823ff27-3246-4fca-9a05-777e8042e9c8','2a1d03d0-e2b5-40f3-8326-bfebd24de793','kuali.creditType.credit.degree.3.0','Active',0)
+/
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('2d8caa41-7f21-4838-95f5-a5586e029fe1','fed7f666-93af-4cc9-bf74-30d2a090cc99','kuali.resultComponent.grade.audit','2652ed8b-572d-493f-8dc0-6a5fa0155156','Draft',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('d72cea3a-de11-4c6c-8a9e-4e1bfbf323d1','a195ff3c-7931-4b95-ac76-a069c88dc18c','kuali.creditType.credit.degree.3.0','Draft',0)
-/
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('2823ff27-3246-4fca-9a05-777e8042e9c8','2a1d03d0-e2b5-40f3-8326-bfebd24de793','kuali.creditType.credit.degree.3.0','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('c31205b0-f291-42a5-b830-d17959df8728','a4d81961-22b4-450d-8620-d580d5010257','kuali.creditType.credit.degree.3.0','Draft',0)
@@ -2975,10 +2975,10 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('d50047f7-0c29-4ae0-83e1-255ee8b8d509','17b5b57e-89f7-45e2-bed5-4cf9f0bf8c7f','kuali.resultComponent.grade.letter','96071fe7-b250-4be4-80d1-adcc6ace183e','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('dd451302-64e2-4470-ae6a-dbd9fe84c676','5e30814f-648d-4a2b-a3fe-2469ac8b38b7','kuali.resultComponent.grade.audit','2dc81cee-5e30-4341-8e6e-03593e6fba96','Draft',1)
+  VALUES ('4369ab93-a1f7-4ce3-9225-309228b2a87f','fc920b2a-a6b0-4274-9104-ec43d461447a','kuali.resultComponent.grade.passFail','e95ab8f6-aa78-4705-905c-c03a8481f852','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('4369ab93-a1f7-4ce3-9225-309228b2a87f','fc920b2a-a6b0-4274-9104-ec43d461447a','kuali.resultComponent.grade.passFail','e95ab8f6-aa78-4705-905c-c03a8481f852','Active',1)
+  VALUES ('dd451302-64e2-4470-ae6a-dbd9fe84c676','5e30814f-648d-4a2b-a3fe-2469ac8b38b7','kuali.resultComponent.grade.audit','2dc81cee-5e30-4341-8e6e-03593e6fba96','Draft',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('a79a4bf9-055c-43d5-8556-abcf7d6d61e7','7d63ea56-25a0-4e31-ae37-06c9d11165d2','kuali.resultComponent.grade.passFail','8e3fcc8a-e4a6-4867-ad15-6e61047bb819','Draft',2)
@@ -2993,10 +2993,10 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('d4f9c36d-9f36-40b0-bf70-ef87262ddfba','5eacea01-81e7-4f09-8cce-34af110dfa91','kuali.creditType.credit.degree.1.0','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('e902919a-1612-40a5-bf4b-0d99d23743e3','5f285a40-3e5d-45e7-82c8-e39474d1ae5d','kuali.resultComponent.grade.letter','955be804-0ffb-4f53-a34f-9036cf953441','Draft',2)
+  VALUES ('f7ddbe5c-fc10-4492-bbe5-2bf325f7efe3','8e160bd6-cf54-44b3-adf8-edd963981617','kuali.resultComponent.grade.letter','3d2092c2-e4f1-465b-a213-26b19fa5d924','Draft',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('f7ddbe5c-fc10-4492-bbe5-2bf325f7efe3','8e160bd6-cf54-44b3-adf8-edd963981617','kuali.resultComponent.grade.letter','3d2092c2-e4f1-465b-a213-26b19fa5d924','Draft',1)
+  VALUES ('e902919a-1612-40a5-bf4b-0d99d23743e3','5f285a40-3e5d-45e7-82c8-e39474d1ae5d','kuali.resultComponent.grade.letter','955be804-0ffb-4f53-a34f-9036cf953441','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('35aeb556-d6a9-43f9-8616-4a2d6f9a31d0','886cd239-b532-4fe8-a177-1730aa50235e','kuali.resultComponent.grade.letter','cefff285-76e7-4399-86b0-43604ed49b6c','Draft',5)
@@ -3046,11 +3046,11 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('4ff792c2-dda5-4a47-bbb5-ca6f5424471e','c9db1370-ce76-490d-ba33-8f2ba4e9a3fc','kuali.resultComponent.grade.satisfactory','7dd35b7d-ade6-4f05-b71b-e1df768ee310','Active',1)
 /
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('3dcb4a2b-276e-4e84-8ef7-abcce7bb63fd','0472dbcc-67b2-4b14-8600-570b9f94bd67','kuali.creditType.credit.degree.1.5-2.by.0.5','Active',0)
-/
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('73da79cb-8883-47a0-8cba-0e110b921a22','715dab3e-6e52-4482-a89c-23ad8167f9e0','kuali.resultComponent.grade.audit','a239c341-28f3-41bc-bbb3-217cd6c67113','Active',0)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
+  VALUES ('3dcb4a2b-276e-4e84-8ef7-abcce7bb63fd','0472dbcc-67b2-4b14-8600-570b9f94bd67','kuali.creditType.credit.degree.1.5-2.by.0.5','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('850333e8-fa0e-412a-bea9-cdfa2545063b','70cd2483-0878-4a04-903f-e25af7df8cea','kuali.creditType.credit.degree.3.0','Draft',0)
@@ -3064,11 +3064,11 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('fb2169f5-3f67-4307-9d1b-00fd633f48a1','1e1d0c33-ac1c-4848-896b-0c657e0b614e','kuali.resultComponent.grade.passFail','4f408a95-2ae3-4952-b139-f498fb5a6bf8','Draft',2)
 /
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('a62b8004-b400-4a65-8d01-a2a7903ae0a1','bb73d706-075a-419e-b054-b44ce821015f','kuali.creditType.credit.degree.3.0','Active',0)
-/
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('8dab72d7-7dd6-46f8-b752-62822b33e1b6','f0a644cb-4a69-46e2-a524-eeabcf074c7c','kuali.resultComponent.grade.letter','0b323a77-1fa7-426b-a765-15f79a4c0a2b','Active',1)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
+  VALUES ('a62b8004-b400-4a65-8d01-a2a7903ae0a1','bb73d706-075a-419e-b054-b44ce821015f','kuali.creditType.credit.degree.3.0','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('2b219eac-d4db-4b12-9490-27154562bc8b','9477527a-9c30-4d92-945d-6c48d0c93589','kuali.resultComponent.grade.letter','608513e4-ac46-48b3-bd67-90af06478c3e','Draft',1)
@@ -3170,28 +3170,28 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('c9106af6-88ee-4646-93aa-62bdc05f6ee1','0092c3aa-f986-48c5-9454-04c267f271c1','kuali.creditType.credit.degree.3.0','Draft',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('9ba0fa3c-dae3-4a4e-bee7-8f4a6fab73d8','59e004b1-a2cf-4da6-b3f4-9e145c46de01','kuali.resultComponent.grade.audit','7be51d82-f2a7-48fd-ae87-8e6f73e3064f','Draft',1)
+  VALUES ('38c950f0-d415-49e4-9b1b-6fe9d35108e8','3a7159c9-5b0c-4973-a094-be71117e1d05','kuali.resultComponent.grade.passFail','31b64e2b-933f-4a55-9c75-2a53addc0f69','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('38c950f0-d415-49e4-9b1b-6fe9d35108e8','3a7159c9-5b0c-4973-a094-be71117e1d05','kuali.resultComponent.grade.passFail','31b64e2b-933f-4a55-9c75-2a53addc0f69','Active',1)
+  VALUES ('9ba0fa3c-dae3-4a4e-bee7-8f4a6fab73d8','59e004b1-a2cf-4da6-b3f4-9e145c46de01','kuali.resultComponent.grade.audit','7be51d82-f2a7-48fd-ae87-8e6f73e3064f','Draft',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('be349daa-8468-444e-8fd5-fc9f14cdde4c','8c2e3e7e-429b-40aa-bd43-de7a9c49c6f0','kuali.resultComponent.grade.letter','d700749b-3d63-4c58-93d9-a91fdd42cd33','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('30ee89b0-fda0-4952-ad38-8aa794dcd5e8','99e656d2-e2cc-41ed-a13e-4b04abe195a4','kuali.resultComponent.grade.audit','669696e0-704c-4ee3-bbcd-a523664e0964','Draft',2)
+  VALUES ('b57f32c4-8acb-4356-b227-6edaf4eaf893','de78cc14-6066-458b-a889-fc58415d4183','kuali.resultComponent.grade.audit','b779cb5e-b027-4f54-8c2f-38b12b9cf46c','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('b57f32c4-8acb-4356-b227-6edaf4eaf893','de78cc14-6066-458b-a889-fc58415d4183','kuali.resultComponent.grade.audit','b779cb5e-b027-4f54-8c2f-38b12b9cf46c','Draft',2)
+  VALUES ('30ee89b0-fda0-4952-ad38-8aa794dcd5e8','99e656d2-e2cc-41ed-a13e-4b04abe195a4','kuali.resultComponent.grade.audit','669696e0-704c-4ee3-bbcd-a523664e0964','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('9f21ca3b-aa69-4db5-b4b8-cc59eee429d1','31219a3b-3d02-414b-b266-bcf8c5d4c29a','kuali.creditType.credit.degree.3.0','Active',0)
 /
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('f6214410-3ce2-4ae6-bcc7-5cc2f054d087','7eb3ef80-065b-44be-95ed-e238f78ca4c6','kuali.creditType.credit.degree.2.0','Active',0)
-/
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('e7b56a97-8cf8-4433-a5ce-bbe0ab0429f7','598668f6-91ef-4de4-a1a4-c3d7f92e1832','kuali.resultComponent.grade.passFail','0fa65374-01ab-4118-9eb3-a874a58a353a','Draft',1)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
+  VALUES ('f6214410-3ce2-4ae6-bcc7-5cc2f054d087','7eb3ef80-065b-44be-95ed-e238f78ca4c6','kuali.creditType.credit.degree.2.0','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('951efec8-bb24-4e6c-b52c-27851e042760','c8c79606-25f6-435f-b129-dd1abc954fa7','kuali.resultComponent.grade.audit','d041458b-bfa6-414c-a119-09964ef7ad9b','Draft',2)
@@ -3200,13 +3200,13 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('b8030567-1fea-4594-81ce-6a7859916da8','82b823e0-b53a-4121-8fff-69a718290dff','kuali.creditType.credit.degree.3.0','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('999e2c28-2bf7-4e16-a099-96b0daadaeaa','3783c25a-8db4-4a52-94e2-b36b2ddfcf12','kuali.resultComponent.grade.passFail','4deee34f-41c2-472e-9162-4b2c2a1f8908','Active',0)
+  VALUES ('a032fafd-3609-44f3-8d7d-2702b8218aa3','6139b100-9079-4b65-bc81-bae9e34df4fb','kuali.resultComponent.grade.letter','c60a61ea-8457-4240-adb9-29b2f685f543','Draft',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('8bb0d65a-40bd-4ec2-af45-f94f3a163825','d72066a1-316f-4536-95bb-cb33cb327901','kuali.resultComponent.grade.passFail','1fc60983-8bac-40ee-acbb-a801b75f315f','Draft',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('a032fafd-3609-44f3-8d7d-2702b8218aa3','6139b100-9079-4b65-bc81-bae9e34df4fb','kuali.resultComponent.grade.letter','c60a61ea-8457-4240-adb9-29b2f685f543','Draft',1)
+  VALUES ('999e2c28-2bf7-4e16-a099-96b0daadaeaa','3783c25a-8db4-4a52-94e2-b36b2ddfcf12','kuali.resultComponent.grade.passFail','4deee34f-41c2-472e-9162-4b2c2a1f8908','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('63085adf-9736-462c-bec2-5f465ae81d7b','b456d2e1-5e79-47fd-b3c6-0be1331ab530','kuali.resultComponent.grade.passFail','5dcba32f-06f6-4b84-83ad-074d9f5259b2','Draft',2)
@@ -3268,11 +3268,11 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('11aa9674-35f8-46cd-872a-503b2730e850','e79ad846-a524-4787-8db3-cb1c3318adf0','kuali.resultComponent.grade.audit','d5c925ae-b983-42b4-bca4-de42088498ca','Active',1)
 /
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('729d9922-548c-4ecb-b16d-bb6850ef8aa8','69e2166c-42d3-461c-9b6d-cddc1398e64f','kuali.resultComponent.grade.audit','5603d208-9df5-4c0d-a7e8-27c7155edd72','Draft',2)
-/
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('18ecec0c-1207-4a00-9643-59a089e7d100','4d19a62d-eba2-46d2-bc42-6c382d4e847a','kuali.creditType.credit.degree.3.0','Active',0)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
+  VALUES ('729d9922-548c-4ecb-b16d-bb6850ef8aa8','69e2166c-42d3-461c-9b6d-cddc1398e64f','kuali.resultComponent.grade.audit','5603d208-9df5-4c0d-a7e8-27c7155edd72','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('33cc1642-f259-45b8-a1b3-3d2337b1d520','695200a3-17a9-4e95-a265-18688c493079','kuali.resultComponent.grade.letter','2a4c24df-c758-4d37-a453-737bf7c153f2','Draft',2)
@@ -3286,11 +3286,11 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('977a1463-8bbd-4fca-b021-f7f98d5c8a4b','a73c102f-6396-4f8f-84c6-ae410bd77d58','kuali.resultComponent.grade.passFail','e340376c-563c-42c4-bb00-4256ed7076f9','Superseded',0)
 /
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('d11098c1-6a54-4573-9389-92d677c26aa2','fa99b8ae-6228-4a0a-8382-eeb1b481e482','kuali.resultComponent.grade.audit','fd1e61a8-8386-4435-af12-ca4af9f9fe19','Active',0)
-/
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('6c834d8b-c108-40d2-8319-7c04ff146363','0e64631c-4251-43e8-b585-703453ac061f','kuali.creditType.credit.degree.2.0','Draft',0)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
+  VALUES ('d11098c1-6a54-4573-9389-92d677c26aa2','fa99b8ae-6228-4a0a-8382-eeb1b481e482','kuali.resultComponent.grade.audit','fd1e61a8-8386-4435-af12-ca4af9f9fe19','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('22d2ecc1-e36e-497b-aeb1-1fdba58f0bd5','414feeee-54dd-41bf-9325-b3376c5ee825','kuali.creditType.credit.degree.3.0','Active',0)
@@ -3299,10 +3299,10 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('4e1334ff-01eb-4221-8871-f4b005cf26ad','8033b09d-bab4-486e-866e-a6603bd1e6d7','kuali.resultComponent.grade.letter','395228e1-f2dc-446f-a2a2-91cc78a1197b','Draft',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('defbb73c-45c7-41e2-b1c8-63fd1e96864f','239827e6-a20b-494f-bd3b-0905f819c785','kuali.resultComponent.grade.letter','06ee5ebd-9037-4ccc-8848-347211cc8723','Draft',2)
+  VALUES ('a26bed5a-763d-4f9d-9340-d513b4c1f4a1','97c2a89c-d610-41b6-94cc-f7edf41f623f','kuali.resultComponent.grade.passFail','db157db6-ea51-49b1-8714-02537463bfe7','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('a26bed5a-763d-4f9d-9340-d513b4c1f4a1','97c2a89c-d610-41b6-94cc-f7edf41f623f','kuali.resultComponent.grade.passFail','db157db6-ea51-49b1-8714-02537463bfe7','Draft',2)
+  VALUES ('defbb73c-45c7-41e2-b1c8-63fd1e96864f','239827e6-a20b-494f-bd3b-0905f819c785','kuali.resultComponent.grade.letter','06ee5ebd-9037-4ccc-8848-347211cc8723','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('7fa919cc-bedb-407e-966e-f566fb05138c','159a6f8c-4e9b-4977-8cc3-075f69d336ee','kuali.resultComponent.grade.letter','6aacdfbc-83aa-40f2-8490-0af66bfaaa20','Active',1)
@@ -3310,11 +3310,11 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('70dff0c4-5100-4398-98bf-38a544548198','aad527e1-d772-4344-aba9-8175ac96581e','kuali.resultComponent.grade.letter','1887e462-275c-48eb-83be-f3ae675479f1','Draft',2)
 /
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('7e7266ea-388e-47ca-ab4d-830d36dd4cb0','8e47dc15-7dec-451d-9784-57eaff81c1ac','kuali.creditType.credit.degree.2.0','Active',0)
-/
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('83db1006-4ec3-4ae5-b925-5978dc3c9ad9','b52dfa6b-b0b0-4517-8ca0-66cc57ef75df','kuali.resultComponent.grade.audit','3466a5cd-7931-4410-bc06-89e50dfde170','Active',1)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
+  VALUES ('7e7266ea-388e-47ca-ab4d-830d36dd4cb0','8e47dc15-7dec-451d-9784-57eaff81c1ac','kuali.creditType.credit.degree.2.0','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('6d8f75fe-8ac5-47fe-88c3-a9a4b3165dc3','720eee4a-e2ca-461b-ba26-60fd52544ec4','kuali.resultComponent.grade.passFail','a03f67f4-9d77-4b3d-9b5f-53648aafced9','Draft',2)
@@ -3344,10 +3344,10 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('49ce3cfb-2656-4a46-b6f7-26c762b7d913','7e72421a-3bc3-474b-9161-8d2bc28f7473','kuali.resultComponent.grade.letter','946631de-94d6-41d9-b403-4942b7ccdc50','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('d8f1933f-6b6c-456d-9cc7-3ab4267371a8','2413f1ba-f347-4abd-aabd-e60cfd04e513','kuali.resultComponent.grade.audit','a5c4277d-0b20-4344-ae14-f3b7f934d4fe','Active',1)
+  VALUES ('d1cfe7e2-3ab6-4442-8349-15e6a3324fde','453b0153-c3f1-4775-9416-d00df7eb61b5','kuali.resultComponent.grade.passFail','8db50ff7-feb4-4c68-ae18-d72a7f2bf0d3','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('d1cfe7e2-3ab6-4442-8349-15e6a3324fde','453b0153-c3f1-4775-9416-d00df7eb61b5','kuali.resultComponent.grade.passFail','8db50ff7-feb4-4c68-ae18-d72a7f2bf0d3','Active',0)
+  VALUES ('d8f1933f-6b6c-456d-9cc7-3ab4267371a8','2413f1ba-f347-4abd-aabd-e60cfd04e513','kuali.resultComponent.grade.audit','a5c4277d-0b20-4344-ae14-f3b7f934d4fe','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('612fba85-0fe9-4bb9-ab4e-686a084a6932','b68a2568-4055-452c-a2c9-5fd292055f1e','kuali.resultComponent.grade.audit','9501a8b4-5c9d-41b1-8465-1678e3186f4f','Draft',2)
@@ -3359,10 +3359,10 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('c8fbcb20-f031-4d89-be49-f6747ea03284','8be2b917-7695-4591-83d1-2744292f5ebd','kuali.resultComponent.grade.letter','f7595525-bb55-4dc6-9f1a-3dd3ac74e1bc','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('c9a41344-2257-429b-9d18-5e6510cc79a0','3b7baae2-cead-42a0-b4d3-ee104842655a','kuali.resultComponent.grade.audit','0a3b3ccd-7438-4ef8-9070-3d1f591ccfe2','Draft',1)
+  VALUES ('7e16909a-810b-498a-9071-3a74eec13022','fa653973-353c-4e01-b451-c45be4140d46','kuali.resultComponent.grade.passFail','477ef846-0305-4241-92e9-b667cc61e899','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('7e16909a-810b-498a-9071-3a74eec13022','fa653973-353c-4e01-b451-c45be4140d46','kuali.resultComponent.grade.passFail','477ef846-0305-4241-92e9-b667cc61e899','Active',0)
+  VALUES ('c9a41344-2257-429b-9d18-5e6510cc79a0','3b7baae2-cead-42a0-b4d3-ee104842655a','kuali.resultComponent.grade.audit','0a3b3ccd-7438-4ef8-9070-3d1f591ccfe2','Draft',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('c5758aa1-4487-4aec-b400-237345ee8133','a4f1d1f9-2564-41f6-8623-f63d76710df7','kuali.creditType.credit.degree.3.0','Active',0)
@@ -3394,11 +3394,11 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('905ddee9-4077-4688-83ef-433bfb0ba285','44476e38-110e-43df-99f4-14f78865ccf5','kuali.resultComponent.grade.audit','993536c7-9c57-42d3-922b-f13077335452','Draft',1)
 /
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('e2391641-e3c5-474e-8c45-a8cc755eea19','ca280063-33f3-4c95-b8c5-a346cde297f9','kuali.resultComponent.grade.audit','71d18170-5d64-46d9-9f2b-f8b0cbd53222','Draft',1)
-/
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('6b649c51-1a09-4daa-9619-af9e8692bbe0','1cca2565-a85b-4e35-bf82-56760f5e9de2','kuali.creditType.credit.degree.3.0','Active',0)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
+  VALUES ('e2391641-e3c5-474e-8c45-a8cc755eea19','ca280063-33f3-4c95-b8c5-a346cde297f9','kuali.resultComponent.grade.audit','71d18170-5d64-46d9-9f2b-f8b0cbd53222','Draft',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('adb99c2c-ab47-4309-a0b6-e746b1fd0360','481bdbc9-d83e-425b-8fb8-babc48c2f52c','kuali.creditType.credit.degree.1.0','Draft',0)
@@ -3413,10 +3413,10 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('9f6e23f5-b4a8-4b5b-864f-cef1d7b4e37f','bfdcb86d-3cd5-42d8-a69a-a7d3d49ef781','kuali.resultComponent.grade.audit','5b7e99af-9d31-4f6a-9490-3d0c6e854abc','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('5fd2ac30-aae4-46ca-a542-b0c705e18b41','c0674d1c-a470-4702-8447-14ef6df70baf','kuali.creditType.credit.degree.3.0','Retired',0)
+  VALUES ('44329fff-d8aa-4b85-a426-196bb1d6715f','9f99d653-48f9-4071-9946-bef556bcda2d','kuali.creditType.credit.degree.3.0','Draft',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('44329fff-d8aa-4b85-a426-196bb1d6715f','9f99d653-48f9-4071-9946-bef556bcda2d','kuali.creditType.credit.degree.3.0','Draft',0)
+  VALUES ('5fd2ac30-aae4-46ca-a542-b0c705e18b41','c0674d1c-a470-4702-8447-14ef6df70baf','kuali.creditType.credit.degree.3.0','Retired',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('369bfe41-9a06-4012-b6bb-a3209995167f','7bf9bc18-6c8e-47de-8713-85e01b55e264','kuali.resultComponent.grade.passFail','1bef0edb-071b-4696-87f1-266c10e10b74','Draft',1)
@@ -3449,10 +3449,10 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('a6c8a45b-ebd3-4ed9-b766-259375446733','f4cceb93-89f2-4c9d-9b9c-0dfa52d70838','kuali.resultComponent.grade.passFail','80280a2f-eda1-4920-a65e-6408118ea04d','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('c4ae6d0e-4d4e-4afa-97cc-b7034fb76b12','e635cc71-177e-4d11-98d7-e183b0622f9f','kuali.creditType.credit.degree.3.0','Retired',0)
+  VALUES ('2e7239e4-9619-42b9-8d94-574ab9c9d57c','cb4bd433-1ee4-4de6-a310-f725e06f7c18','kuali.creditType.credit.degree.3.0','Draft',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('2e7239e4-9619-42b9-8d94-574ab9c9d57c','cb4bd433-1ee4-4de6-a310-f725e06f7c18','kuali.creditType.credit.degree.3.0','Draft',0)
+  VALUES ('c4ae6d0e-4d4e-4afa-97cc-b7034fb76b12','e635cc71-177e-4d11-98d7-e183b0622f9f','kuali.creditType.credit.degree.3.0','Retired',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('8465b532-1e2a-43ef-8e2b-9eb91f288565','5e154bd8-88c5-48c7-a90d-334a0a1c54f0','kuali.resultComponent.grade.letter','cb613aec-ce46-40e5-895b-9317f1eadb92','Draft',2)
@@ -3461,10 +3461,10 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('88e00d51-9171-439f-aa94-9f32e753f708','035f0ac2-8a5d-4c78-9e1c-1657a9c3c22d','kuali.resultComponent.grade.letter','885fd86b-616f-46b0-b728-a2cd763b4836','Retired',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('f1c7a88e-6615-4c00-8944-314e1e4d668e','6f2861ff-a0bb-496b-80bc-42e65f05060b','kuali.resultComponent.grade.passFail','e88d1241-db0f-4182-b51b-dd99f299aecd','Active',1)
+  VALUES ('ff143af6-af54-4d21-9d04-5f0ec3d51e04','faa50bf7-079e-49ee-83a1-93a31dc20943','kuali.resultComponent.grade.passFail','09fa203f-184d-465d-bd0d-db7e349d3e45','Draft',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('ff143af6-af54-4d21-9d04-5f0ec3d51e04','faa50bf7-079e-49ee-83a1-93a31dc20943','kuali.resultComponent.grade.passFail','09fa203f-184d-465d-bd0d-db7e349d3e45','Draft',1)
+  VALUES ('f1c7a88e-6615-4c00-8944-314e1e4d668e','6f2861ff-a0bb-496b-80bc-42e65f05060b','kuali.resultComponent.grade.passFail','e88d1241-db0f-4182-b51b-dd99f299aecd','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('9c4ed996-0215-494e-94e1-9e8d38508464','4767a8c0-4e1a-4e6f-9d9b-9e2a6a621518','kuali.resultComponent.grade.passFail','28e439be-d4f8-4c6b-bfc2-24c62509d0bb','Draft',1)
@@ -3476,10 +3476,10 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('30c6ac83-2d7e-4186-9837-adb0f84296a5','e450c162-d296-4d27-a54a-f8c7bbb5c732','kuali.resultComponent.grade.audit','88d3afd7-235a-478e-ba45-a2293fc538e0','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('d6528bf6-aa1b-4ed6-a71f-0c7cedef7d21','8b26e9dd-108b-48b7-9d63-924dfdbdd683','kuali.resultComponent.grade.audit','2e9d34ae-7819-491c-92ef-a37cf89219b0','Draft',1)
+  VALUES ('dbaefa39-b861-4e14-8c4a-d620f3749819','ee15a518-d4d0-4d79-8ec5-b790ecdb2d4d','kuali.resultComponent.grade.letter','df2055b4-478f-43bd-908b-2ce45552741d','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('dbaefa39-b861-4e14-8c4a-d620f3749819','ee15a518-d4d0-4d79-8ec5-b790ecdb2d4d','kuali.resultComponent.grade.letter','df2055b4-478f-43bd-908b-2ce45552741d','Active',1)
+  VALUES ('d6528bf6-aa1b-4ed6-a71f-0c7cedef7d21','8b26e9dd-108b-48b7-9d63-924dfdbdd683','kuali.resultComponent.grade.audit','2e9d34ae-7819-491c-92ef-a37cf89219b0','Draft',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('d03ee246-e07a-4f4a-a6cd-8e28e45fabb5','f772944f-e559-442f-90f0-8d69175d35d0','kuali.creditType.credit.degree.3.0','Active',0)
@@ -3505,11 +3505,11 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('6c50f9bb-d17a-436e-ac3f-f36ce84610e9','794f1f61-f719-48d1-8838-2d4dbbb688f1','kuali.creditType.credit.degree.3.0','Active',0)
 /
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('3e16d21b-0408-4b6e-af66-489cc10e8b3d','f1629604-217c-4fa9-b77a-8fa1b3b80b82','kuali.creditType.credit.degree.3.0','Active',0)
-/
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('45c2605f-0349-4e67-a677-ef7204166dec','cbefb9cf-ba59-40c5-b649-2c082e573127','kuali.resultComponent.grade.letter','1092952b-4040-4a28-90c2-6d839846947e','Active',3)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
+  VALUES ('3e16d21b-0408-4b6e-af66-489cc10e8b3d','f1629604-217c-4fa9-b77a-8fa1b3b80b82','kuali.creditType.credit.degree.3.0','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('4040fdcc-546d-430d-a7ba-23db10f24397','b1ea8b76-3a89-4026-ba1d-6d403eaf6e38','kuali.resultComponent.grade.audit','0c33727e-5c7d-441a-8935-614e718b99f0','Retired',1)
@@ -3526,11 +3526,11 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('c83450c8-f141-46f6-aee3-713f34fbbe44','f1a0bf3c-a25a-415c-8601-495c6435046a','kuali.resultComponent.grade.letter','8cbbe164-e581-44e7-8081-d8729fcef6a6','Active',0)
 /
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('daaea982-cd14-408b-9744-776a76e75b05','8bc73358-e442-4093-9fbc-202c600b3036','kuali.resultComponent.grade.letter','de32af91-db81-4c3a-86cb-d32590b67281','Draft',1)
-/
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('2b8ba813-2e9a-4736-92d3-bd3bd193e28d','61b9f8eb-1a74-4782-ab7d-416c5cd28bb8','kuali.creditType.credit.degree.3.0','Active',0)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
+  VALUES ('daaea982-cd14-408b-9744-776a76e75b05','8bc73358-e442-4093-9fbc-202c600b3036','kuali.resultComponent.grade.letter','de32af91-db81-4c3a-86cb-d32590b67281','Draft',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('d6e256a4-36ee-4c5d-8614-444776194583','ee60be4f-795b-4bf5-ac6c-b2a9eaa896c3','kuali.resultComponent.grade.letter','8e205778-27ba-4bea-9f86-42716155681e','Active',0)
@@ -3545,10 +3545,10 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('76c97dae-d44a-4fe0-869d-42db207f4ec6','7f987007-74c1-4ec3-8111-bc1ea23d6532','kuali.resultComponent.grade.letter','50d0f562-e058-4299-94b4-6071a8ff2dc5','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('2dab9058-657d-489e-ab5d-fd21be3ade6d','6e03d920-a7a6-455b-bc10-aff1158d9d9c','kuali.resultComponent.grade.passFail','bb2b1371-efa2-44ea-8cd0-c8b330e5fc8c','Draft',2)
+  VALUES ('995a2b4a-efbb-4e7e-8496-a15026689582','0b151487-1c12-48bf-bbda-f64470614104','kuali.resultComponent.grade.passFail','3e2f5276-8e13-412c-81d5-f28c388f141b','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('995a2b4a-efbb-4e7e-8496-a15026689582','0b151487-1c12-48bf-bbda-f64470614104','kuali.resultComponent.grade.passFail','3e2f5276-8e13-412c-81d5-f28c388f141b','Active',1)
+  VALUES ('2dab9058-657d-489e-ab5d-fd21be3ade6d','6e03d920-a7a6-455b-bc10-aff1158d9d9c','kuali.resultComponent.grade.passFail','bb2b1371-efa2-44ea-8cd0-c8b330e5fc8c','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('715c2d7d-2ed7-4551-8e10-938c679b82f2','4ae55b27-8b7d-42b5-a3d8-23b5332ce1fa','kuali.resultComponent.grade.audit','2a22f1cb-89fe-4703-b42f-75e0336029c1','Active',0)
@@ -3574,11 +3574,11 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('1528fdfd-881c-4d53-8802-b7f91d534ac1','aca5c5c9-deaa-4e1d-b84d-db7fae12deb6','kuali.resultComponent.grade.letter','a34fb612-1df6-4d97-b329-cd7267d903d4','Retired',1)
 /
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('1cb0e140-d5e1-44ba-97da-1d781d3e680e','c39b3a07-1074-4a18-be81-7846cc835ed1','kuali.creditType.credit.degree.4.0','Retired',0)
-/
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('f3b85815-c756-4358-a095-fcc13f60f183','9628a9bc-1e40-40f0-8ad3-54b8e28a0ad9','kuali.resultComponent.grade.audit','e9b01e2c-c660-4e4f-98bb-62fdf7705a15','Active',1)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
+  VALUES ('1cb0e140-d5e1-44ba-97da-1d781d3e680e','c39b3a07-1074-4a18-be81-7846cc835ed1','kuali.creditType.credit.degree.4.0','Retired',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('73a7cffc-59e9-4986-a30d-529ca21db3b6','03d33acd-2f0e-4bd7-b11c-02dd94eed9a8','kuali.resultComponent.grade.audit','95406758-1169-4944-8040-9edebfbd31f0','Draft',3)
@@ -3590,10 +3590,10 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('c0f49142-058e-4c58-b5e6-410451b6b197','76650320-2b83-453f-8811-b27c2e4384f7','kuali.creditType.credit.degree.3.0','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('351fedeb-d2a3-4747-9bca-2d4ef5927df1','fe6b2ad9-dd93-4c41-b486-d79f41c7e12d','kuali.resultComponent.grade.letter','7c4e51e8-6f0c-45b8-a629-29e89c16b683','Retired',1)
+  VALUES ('8d9f82b2-f8ce-4795-9f04-6d7198df5f54','d4a14157-05b9-4321-bb80-73744c0cdaf1','kuali.resultComponent.grade.letter','38d71b66-39fd-4219-9e31-db770f4f7243','Retired',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('8d9f82b2-f8ce-4795-9f04-6d7198df5f54','d4a14157-05b9-4321-bb80-73744c0cdaf1','kuali.resultComponent.grade.letter','38d71b66-39fd-4219-9e31-db770f4f7243','Retired',1)
+  VALUES ('351fedeb-d2a3-4747-9bca-2d4ef5927df1','fe6b2ad9-dd93-4c41-b486-d79f41c7e12d','kuali.resultComponent.grade.letter','7c4e51e8-6f0c-45b8-a629-29e89c16b683','Retired',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('27535d9a-7d1a-4e09-981d-015d2c325d0b','37aed296-eeab-46fc-82b9-4a2ac8c8f530','kuali.creditType.credit.degree.3-4','Active',0)
@@ -3613,11 +3613,11 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('0b4d335b-c7fd-4f0f-8bd3-92321e968f87','024fb852-a057-4cdd-bb25-3e3eab1be9ef','kuali.creditType.credit.degree.1-3','Active',0)
 /
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('4edd6e02-f959-4d24-a799-7dbf1075ce82','fdc2c9ca-bc8a-4aab-93e1-6eef6244537b','kuali.creditType.credit.degree.3.0','Draft',0)
-/
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('5b08333e-7f3f-468f-b224-703d456146cf','1f266de4-f3b3-4d77-92c3-25badb1b3dda','kuali.resultComponent.grade.audit','59388e3e-2f57-46ea-921d-48d96995f964','Active',0)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
+  VALUES ('4edd6e02-f959-4d24-a799-7dbf1075ce82','fdc2c9ca-bc8a-4aab-93e1-6eef6244537b','kuali.creditType.credit.degree.3.0','Draft',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('b1ca559c-d99c-4485-8f20-74c49ba8f570','cad91b71-afe6-4f4d-bfaf-4a8613fdb53f','kuali.resultComponent.grade.letter','70bc4eb1-44b9-4700-ac5b-82f570160817','Active',0)
@@ -3641,16 +3641,16 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('205a58af-c7ff-44f7-bf02-c4e7ebcebd42','18c5d640-1d07-44bd-b97e-c61aa056748b','kuali.resultComponent.grade.letter','d32278cd-a1cb-4338-a7df-f7148d1c7c3b','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('96916d1c-33c4-4e48-b869-c8b1992c0af9','0ab77d1d-6c0a-42b8-92a0-7e9795b588c6','kuali.resultComponent.grade.passFail','b14212ae-0a4c-466e-9a11-e40f81bc5a8c','Retired',1)
-/
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('60cc5db0-8d1c-4745-9016-1691268afba8','403e9975-3222-4bbd-98be-aba3ce80f0fa','kuali.resultComponent.grade.passFail','aa100b21-a957-43e9-816b-56d286b9bc59','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('3fda925b-a623-4521-8e6d-879e79b9379d','4f4d4a5c-b4a2-4d0c-b397-852b1ac47a50','kuali.resultComponent.grade.letter','e0089a7c-0176-4529-8284-7d11b98ec1a9','Active',1)
+  VALUES ('96916d1c-33c4-4e48-b869-c8b1992c0af9','0ab77d1d-6c0a-42b8-92a0-7e9795b588c6','kuali.resultComponent.grade.passFail','b14212ae-0a4c-466e-9a11-e40f81bc5a8c','Retired',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('8971372c-9391-4fcc-8958-6db5d4b24f20','68257d15-8e17-488e-8f7d-d6b6b3a5bc30','kuali.creditType.credit.degree.1.0','Draft',0)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
+  VALUES ('3fda925b-a623-4521-8e6d-879e79b9379d','4f4d4a5c-b4a2-4d0c-b397-852b1ac47a50','kuali.resultComponent.grade.letter','e0089a7c-0176-4529-8284-7d11b98ec1a9','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('fe1084a0-c5f8-4eab-aa9e-4237eb70c5e7','b1602931-beb4-4943-bd26-4b0a607dc8ea','kuali.creditType.credit.degree.3.0','Draft',0)
@@ -3712,11 +3712,11 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('b2c0a3e1-ef70-4df2-8790-01d45ecf4379','87b94535-fd71-4df9-9e57-328df169e414','kuali.resultComponent.grade.passFail','e3eaa99a-ceda-4c68-94aa-3c3cdf399713','draft',13)
 /
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('88d9cef1-d02d-4dab-a5a1-6ddad970962e','fe9de9ea-e212-4e5c-9f01-9a5108358c45','kuali.resultComponent.grade.letter','22e0a0ca-d92c-41ca-a898-2b1509b983e2','Active',1)
-/
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('6b88ec06-e2b8-4459-b832-397ece92ee27','71305728-fab5-4531-830e-0a6401bec728','kuali.creditType.credit.degree.3.0','Active',0)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
+  VALUES ('88d9cef1-d02d-4dab-a5a1-6ddad970962e','fe9de9ea-e212-4e5c-9f01-9a5108358c45','kuali.resultComponent.grade.letter','22e0a0ca-d92c-41ca-a898-2b1509b983e2','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('a3b1b711-4c56-4a10-b136-bec28389def7','e4e458b9-bb49-4aba-8e15-6eafbd439674','kuali.creditType.credit.degree.3.0','Draft',0)
@@ -3776,13 +3776,13 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('e85a6c48-dd0e-4b65-af7f-603cc81aab24','965d72d7-d6ca-4ef2-96eb-f7990e7d1d8b','kuali.resultComponent.grade.audit','839a5356-6390-44bb-b754-0652117e1daf','draft',17)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('458c635a-a3c0-4a5e-9d88-c745d3e16bae','c4abfac3-57c7-42eb-9f66-3e858c0ea181','kuali.resultComponent.grade.letter','500fc539-25d4-4bf3-9ad5-c9aad89dc3f6','Active',1)
+  VALUES ('7498e45c-2839-4390-ba47-9e524e9bdbd4','7b60b645-67ba-4acd-9de4-62e2aa07c5eb','kuali.resultComponent.grade.letter','225efa71-a77c-4508-ad7b-085054692328','Active',3)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('bfdbdda1-7f61-43e9-945c-e8aac5af13e0','bb933cd7-3fcb-4bad-943e-ca1fa5466d66','kuali.creditType.credit.degree.1-4','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('7498e45c-2839-4390-ba47-9e524e9bdbd4','7b60b645-67ba-4acd-9de4-62e2aa07c5eb','kuali.resultComponent.grade.letter','225efa71-a77c-4508-ad7b-085054692328','Active',3)
+  VALUES ('458c635a-a3c0-4a5e-9d88-c745d3e16bae','c4abfac3-57c7-42eb-9f66-3e858c0ea181','kuali.resultComponent.grade.letter','500fc539-25d4-4bf3-9ad5-c9aad89dc3f6','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('9561c6e4-781a-46bd-a8d9-24e61ef636c6','43e3f84e-9120-431e-9df7-0b21eaaf9f6f','kuali.resultComponent.grade.letter','85e9568e-42ce-4e59-901b-c8e4e1933531','Active',1)
@@ -3806,10 +3806,10 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('3f7e50d6-7dbd-4e42-adc8-89943fcda866','c8c141f6-1cd3-4d76-85f4-ab1abc656756','kuali.resultComponent.grade.audit','af67457c-4fcf-4259-8950-3d03d20c542b','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('ee5593f6-57f8-4691-ada5-87bdf3582853','fec386c5-50a9-4c36-9b92-2f65fe6ed04b','kuali.resultComponent.grade.satisfactory','3c758443-ac3d-4414-910e-bba1ef76cd3b','Draft',1)
+  VALUES ('e5b67503-cccb-4287-95d0-adbd7ad109ea','780b9395-45a6-4348-927f-5a1441c149be','kuali.resultComponent.grade.passFail','f1d26845-2870-47a3-8972-9042a22a6896','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('e5b67503-cccb-4287-95d0-adbd7ad109ea','780b9395-45a6-4348-927f-5a1441c149be','kuali.resultComponent.grade.passFail','f1d26845-2870-47a3-8972-9042a22a6896','Active',1)
+  VALUES ('ee5593f6-57f8-4691-ada5-87bdf3582853','fec386c5-50a9-4c36-9b92-2f65fe6ed04b','kuali.resultComponent.grade.satisfactory','3c758443-ac3d-4414-910e-bba1ef76cd3b','Draft',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('0c3d4047-c9a4-4cd7-974c-c2b67d57e4a3','eb4621be-122b-40b7-bcdc-ed484c5a57c5','kuali.creditType.credit.degree.4.0','Active',0)
@@ -3832,11 +3832,11 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('b1bcb375-35d0-4b23-a375-bf16939ff8ec','160a8e1f-e032-466c-b9ed-2a68642c583f','kuali.creditType.credit.degree.3.0','Active',0)
 /
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('3ceda235-a908-4d99-a0a5-47535fc7e390','ae5b3bd3-8be3-492d-8836-f76b1d5fe4da','kuali.resultComponent.grade.audit','e87d0bd0-5794-4203-a164-e4231289b31a','Draft',2)
-/
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('9cea97f7-9365-4954-8c80-c7b33edf7a53','be347dcf-3a43-4919-bf8b-26c0e16a470c','kuali.creditType.credit.degree.3.0','Retired',0)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
+  VALUES ('3ceda235-a908-4d99-a0a5-47535fc7e390','ae5b3bd3-8be3-492d-8836-f76b1d5fe4da','kuali.resultComponent.grade.audit','e87d0bd0-5794-4203-a164-e4231289b31a','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('73f2606e-cb3e-4925-a2c7-b209aceb0ea1','4a20e91f-a088-4aaa-bb64-595bc636c9dd','kuali.resultComponent.grade.audit','daa36f96-1bfc-4ecf-822b-2e1c251b9321','Active',0)
@@ -3896,10 +3896,10 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('b92d205a-b01c-41fd-b96d-242ac4588b9f','47a1bb67-6485-44ad-8431-04ee94c7a1b9','kuali.resultComponent.grade.satisfactory','28c9dced-a097-48b6-bf71-08c70f10f454','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('4d263fdb-264a-415f-9fb7-1a850b0c29f7','4f493a27-f2b2-450d-a48e-dd153426bcba','kuali.resultComponent.grade.audit','2311fe50-39df-4242-a63e-96f454681412','Retired',1)
+  VALUES ('61225e00-9bfd-4b4b-abfa-b0fb6fff8afa','2d595c80-a52d-43f0-bac5-9a08a43a8ee1','kuali.resultComponent.grade.letter','4d895762-a214-4546-844a-46ac69f15a69','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('61225e00-9bfd-4b4b-abfa-b0fb6fff8afa','2d595c80-a52d-43f0-bac5-9a08a43a8ee1','kuali.resultComponent.grade.letter','4d895762-a214-4546-844a-46ac69f15a69','Draft',2)
+  VALUES ('4d263fdb-264a-415f-9fb7-1a850b0c29f7','4f493a27-f2b2-450d-a48e-dd153426bcba','kuali.resultComponent.grade.audit','2311fe50-39df-4242-a63e-96f454681412','Retired',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('51989153-cc1f-4a14-a1a4-d1a42b6ff3b8','f7b0ae13-75bd-4a31-b81a-dabfa5dcfc93','kuali.resultComponent.grade.letter','59c28372-b10c-422e-b727-39573ebc5c53','Active',1)
@@ -3919,11 +3919,11 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('d0c67289-1d26-415d-841f-e385ec52e69d','58e8a23c-c7c9-4bc0-a821-6b05b50738a2','kuali.creditType.credit.degree.3.0','Draft',0)
 /
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('254878a7-ea72-4b31-97e6-ace44c19a2e4','6c5c2ffd-6e48-417c-9c57-03961e432f38','kuali.resultComponent.grade.audit','4aa0750c-50c4-4f37-8d5a-3d265521a2fe','Active',3)
-/
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('518a46f4-8c04-4cc4-8007-c99550bc9c53','2cc61523-4e7a-45ed-af4a-c175a167883b','kuali.creditType.credit.degree.3.0','Draft',0)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
+  VALUES ('254878a7-ea72-4b31-97e6-ace44c19a2e4','6c5c2ffd-6e48-417c-9c57-03961e432f38','kuali.resultComponent.grade.audit','4aa0750c-50c4-4f37-8d5a-3d265521a2fe','Active',3)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('ae6513a5-ff0a-4499-a087-622cdc536013','4953a30b-4d2f-4d3a-901e-43d2d722c3d5','kuali.resultComponent.grade.audit','421ad752-8c67-410b-8b74-a3b3702cefb7','Draft',3)
@@ -3953,19 +3953,19 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('9ce35bf9-8822-452f-9965-62bd5c41fa0b','35fb7615-96cb-47b3-bce1-0fc0bea022b2','kuali.resultComponent.grade.letter','b1067557-d93a-4957-9e39-9f115b7ff00d','Draft',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('de52da0a-b6a3-406b-a40e-2105afea3a0e','5b53a921-b056-42c7-b36a-99b229d059fe','kuali.resultComponent.grade.letter','dd77c2fa-c3a7-4bbf-805f-99e01004b904','Draft',2)
+  VALUES ('1387efe0-6548-48ca-bad3-42d8d0d1d32a','6aa00859-d7b2-4d6d-b29e-8b290588575b','kuali.resultComponent.grade.letter','93a56b76-5583-4323-b22a-6c7a08506b90','Retired',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('1387efe0-6548-48ca-bad3-42d8d0d1d32a','6aa00859-d7b2-4d6d-b29e-8b290588575b','kuali.resultComponent.grade.letter','93a56b76-5583-4323-b22a-6c7a08506b90','Retired',1)
+  VALUES ('de52da0a-b6a3-406b-a40e-2105afea3a0e','5b53a921-b056-42c7-b36a-99b229d059fe','kuali.resultComponent.grade.letter','dd77c2fa-c3a7-4bbf-805f-99e01004b904','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('80ed8f37-5648-43ad-93e7-81aa4c58866a','44449b75-de79-4907-9df3-aed84ee102fb','kuali.resultComponent.grade.audit','ee07a69d-a006-4a6f-915f-158cffa231b9','Retired',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('09d35304-f988-4ad7-a57e-320852dff02c','e46696d9-6b35-4642-9070-ad58747d98e5','kuali.resultComponent.grade.passFail','53a98d17-5e53-4059-8e63-6281c90a9a7e','Draft',2)
+  VALUES ('aedd6214-19bc-4db7-8f52-7f7b53d4f123','27ba1202-e3c9-4882-b954-cc0e83dd5d2c','kuali.resultComponent.grade.letter','e347fd32-04f8-48eb-80ce-d1237801fc25','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('aedd6214-19bc-4db7-8f52-7f7b53d4f123','27ba1202-e3c9-4882-b954-cc0e83dd5d2c','kuali.resultComponent.grade.letter','e347fd32-04f8-48eb-80ce-d1237801fc25','Draft',2)
+  VALUES ('09d35304-f988-4ad7-a57e-320852dff02c','e46696d9-6b35-4642-9070-ad58747d98e5','kuali.resultComponent.grade.passFail','53a98d17-5e53-4059-8e63-6281c90a9a7e','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('77bf124b-d8a8-4136-bc89-e28ab24115f6','2f319bc1-3257-48ad-8228-d1ceae6e8579','kuali.resultComponent.grade.audit','22409996-64f6-4bbc-8583-2defc22b41e1','Active',1)
@@ -3989,10 +3989,10 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('4f10242a-2840-442d-94ba-4136093361a6','5b375202-45cc-4ea4-b9f0-a191695f410b','kuali.resultComponent.grade.passFail','341d72ac-4492-47fb-b6d9-6cbe73e19d49','Retired',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('487839db-fe19-4cbf-8dbb-0e7ce938c23f','403c9c02-bf57-4b87-a01d-0bf41bbf1413','kuali.resultComponent.grade.audit','bae2ad2b-580a-4ea0-8ae9-07781d4c11e6','Active',1)
+  VALUES ('9f3e7564-e5a5-4da4-bda1-6e064d0b8058','cf9f3737-3187-45b2-b3af-40a75eab338f','kuali.resultComponent.grade.letter','2d682587-edff-4b3e-9d9c-abe8f9545096','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('9f3e7564-e5a5-4da4-bda1-6e064d0b8058','cf9f3737-3187-45b2-b3af-40a75eab338f','kuali.resultComponent.grade.letter','2d682587-edff-4b3e-9d9c-abe8f9545096','Active',0)
+  VALUES ('487839db-fe19-4cbf-8dbb-0e7ce938c23f','403c9c02-bf57-4b87-a01d-0bf41bbf1413','kuali.resultComponent.grade.audit','bae2ad2b-580a-4ea0-8ae9-07781d4c11e6','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('1447a73e-0cf4-4f2d-8d9c-fafc1f5e08bc','453e8dff-e14a-4d77-b695-ed4437cbd5fc','kuali.resultComponent.grade.letter','3837db71-c1eb-4924-9683-cf629dd9cefa','Draft',1)
@@ -4085,10 +4085,10 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('406e772f-08b2-4900-9b57-7cd1cd898f65','efb9286d-2a20-4bab-ba60-40b7c972d346','kuali.creditType.credit.degree.3.0','Draft',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('e7b3de36-df6e-4028-8ed5-664830cd1e41','0d22ff7e-6bdd-4813-b55f-abf0b6618604','kuali.resultComponent.grade.audit','0aba1255-ea09-41a0-b5c0-885e5e71088f','Active',1)
+  VALUES ('5dd52872-ae4a-448c-8e97-a6e578282698','39fc4c4b-9b1a-40cc-9fe2-4c8ce197171d','kuali.resultComponent.grade.letter','1a050398-30ae-43d0-82ed-6868068ba39f','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('5dd52872-ae4a-448c-8e97-a6e578282698','39fc4c4b-9b1a-40cc-9fe2-4c8ce197171d','kuali.resultComponent.grade.letter','1a050398-30ae-43d0-82ed-6868068ba39f','Active',1)
+  VALUES ('e7b3de36-df6e-4028-8ed5-664830cd1e41','0d22ff7e-6bdd-4813-b55f-abf0b6618604','kuali.resultComponent.grade.audit','0aba1255-ea09-41a0-b5c0-885e5e71088f','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('151da7bd-e9b5-46eb-8917-59f00307b5d3','626e0b03-4bd8-461d-bca0-5f2bc284f945','kuali.resultComponent.grade.letter','87b740b7-5b23-47cd-abd5-2becdf238325','Draft',2)
@@ -4112,10 +4112,10 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('400b3de0-72f0-4236-8b72-397ceaaa66ed','c354a2cc-461d-4245-89bf-a7f79b9e1010','kuali.resultComponent.grade.audit','99ad6c65-88cb-4bf7-82b2-c1f486520def','Active',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('d57eb4ad-6ca2-4eda-9337-6f6b82395f70','8b7c71c1-f485-4c84-9b60-d2930dc9e8e1','kuali.resultComponent.grade.audit','320d3ce4-eb79-4f15-bac5-03dd177a79c3','Draft',2)
+  VALUES ('1ec53ccf-a861-4384-a402-50c628ac337a','60fa09d1-9879-4e9f-9865-07f1cfaacec5','kuali.resultComponent.grade.audit','dbe70c8a-2ac6-4e0b-a740-afa8bf40736a','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('1ec53ccf-a861-4384-a402-50c628ac337a','60fa09d1-9879-4e9f-9865-07f1cfaacec5','kuali.resultComponent.grade.audit','dbe70c8a-2ac6-4e0b-a740-afa8bf40736a','Active',1)
+  VALUES ('d57eb4ad-6ca2-4eda-9337-6f6b82395f70','8b7c71c1-f485-4c84-9b60-d2930dc9e8e1','kuali.resultComponent.grade.audit','320d3ce4-eb79-4f15-bac5-03dd177a79c3','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('f7ae415f-facc-4d33-aa46-e94c16e55b44','bdcb15fb-c97f-495d-aea6-96b975ec8c98','kuali.resultComponent.grade.audit','42b991ed-aa16-47ef-8c15-9f8942064379','Active',0)
@@ -4126,20 +4126,20 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('e0b74bd6-a761-45d6-91c7-95e50e707491','23ea81d6-1cba-41bd-adf6-820f74ceaaee','kuali.resultComponent.grade.letter','e963121a-d2c7-4f5a-9e0c-de71f41c97c3','Active',0)
 /
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('e710fee1-e45e-46d1-869c-9660357d6989','64f9355e-f4af-40b6-a1d9-00cdff9d55b4','kuali.creditType.credit.degree.3.0','Active',0)
-/
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('304fb40e-042c-4de7-b1d0-2635e5caec7a','c0462beb-2704-47f6-8253-845a6a569041','kuali.resultComponent.grade.letter','cb939754-0ffe-4c0a-af5f-c1c2501c2d47','Draft',1)
 /
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('2a96b8e3-d914-4457-a745-e1676a5708ef','b24af5ed-8674-4767-a58d-2daed31122b4','kuali.resultComponent.grade.letter','914b4e2b-58b2-43dd-963f-1932990731d0','Retired',1)
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
+  VALUES ('e710fee1-e45e-46d1-869c-9660357d6989','64f9355e-f4af-40b6-a1d9-00cdff9d55b4','kuali.creditType.credit.degree.3.0','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('be47e876-484b-43d7-be40-fd7dba92377a','e7067da0-dd8f-4bd4-968c-f1873b3cb70e','kuali.resultComponent.grade.letter','608ab4d4-e2ee-4104-93e6-2a7c30e1b16c','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('4c66b97c-aff3-4167-ab64-5e708f061e56','828853f8-8b48-40de-a216-5ad2c360f68b','kuali.resultComponent.grade.passFail','5a8c6793-b145-4dfe-ad11-2b68accc64fb','Draft',2)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
+  VALUES ('2a96b8e3-d914-4457-a745-e1676a5708ef','b24af5ed-8674-4767-a58d-2daed31122b4','kuali.resultComponent.grade.letter','914b4e2b-58b2-43dd-963f-1932990731d0','Retired',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('1d0062b9-ca1b-4d5b-8291-cb4756dc56ea','3d6551cd-b5d5-434f-96fe-e9d8f1c15400','kuali.resultComponent.grade.passFail','4af7785a-3a6d-4570-9fca-0de2114127c1','Active',1)
@@ -4163,13 +4163,13 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('28ff1297-9046-427b-90a2-3ae1e0aa1052','de644df0-d656-40e9-854a-499a982c38c7','kuali.resultComponent.grade.letter','6aab4c16-8853-405f-bda9-e33bd949de1d','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('e5f21474-1edb-4a0c-b47e-0fcb1330f8a9','0bf2fd97-a49a-40ac-8359-987e71ce19ae','kuali.creditType.credit.degree.3.0','Retired',0)
+  VALUES ('22fa797c-1da3-45f7-b28f-d52671073cce','286cbd2e-d4d8-4224-b1e7-eccc4e273466','kuali.creditType.credit.degree.2.0','Draft',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('3f470ccd-4068-4405-8cab-f530f5ccdc8c','d0f337c0-2f8b-4117-abac-c805f6ecb5df','kuali.resultComponent.grade.letter','e4512823-28db-42a9-ac26-c0fc44379fa3','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('22fa797c-1da3-45f7-b28f-d52671073cce','286cbd2e-d4d8-4224-b1e7-eccc4e273466','kuali.creditType.credit.degree.2.0','Draft',0)
+  VALUES ('e5f21474-1edb-4a0c-b47e-0fcb1330f8a9','0bf2fd97-a49a-40ac-8359-987e71ce19ae','kuali.creditType.credit.degree.3.0','Retired',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('75ca43ad-c49b-4d24-a675-7a5ee1fcd3f3','4f812325-a6a7-4406-8604-4f1257b9aa11','kuali.creditType.credit.degree.3.0','Active',0)
@@ -4205,10 +4205,10 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('3d2b9a3f-8eb2-4cd6-8a63-2411c0a5b0d6','732f36b2-b8e2-4468-aa2b-5e1ba3813751','kuali.creditType.credit.degree.3.0','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('b30b4041-2217-43df-b041-d40f3709efd6','bc35f2ef-f441-4595-be24-c558cca865ec','kuali.resultComponent.grade.letter','8c39af63-2835-4954-81f0-192b48e1d430','Retired',1)
+  VALUES ('27ff7dbe-f11d-4a53-9e19-cb08f4fd9e98','68536e09-5466-4396-88d2-b56267600051','kuali.resultComponent.grade.audit','67ae7eb2-9793-4562-a38d-7cc80476f6fb','Draft',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('27ff7dbe-f11d-4a53-9e19-cb08f4fd9e98','68536e09-5466-4396-88d2-b56267600051','kuali.resultComponent.grade.audit','67ae7eb2-9793-4562-a38d-7cc80476f6fb','Draft',1)
+  VALUES ('b30b4041-2217-43df-b041-d40f3709efd6','bc35f2ef-f441-4595-be24-c558cca865ec','kuali.resultComponent.grade.letter','8c39af63-2835-4954-81f0-192b48e1d430','Retired',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('76e3415d-b40f-461c-bf2f-b85eb5957744','c04f96b8-dc81-4c5c-90b1-1cf28a7c5ac3','kuali.resultComponent.grade.audit','b4ca7a73-856e-4ff4-9da1-663162f30463','Draft',3)
@@ -4277,10 +4277,10 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('9fa39443-c5ff-4007-bbbb-dc6b685a9b2a','1f14a271-d099-42d4-8095-58678cec257b','kuali.resultComponent.grade.audit','390b6b8e-bea6-45de-ac99-f564ff89bcba','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('d380face-be80-4b5d-9e92-f8b66b35eb6e','da75b654-4165-4125-b467-b495817b4411','kuali.resultComponent.grade.audit','418bebf2-4da2-47c6-85fd-4d669a64b9c8','Draft',2)
+  VALUES ('6df1158b-8dc0-4723-a91e-f4cf0a780242','b8909d86-0cb1-4616-8405-d7cae241b3ae','kuali.resultComponent.grade.audit','ec57b5bd-ec6e-4ad3-a4f7-fff6da5891bd','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('6df1158b-8dc0-4723-a91e-f4cf0a780242','b8909d86-0cb1-4616-8405-d7cae241b3ae','kuali.resultComponent.grade.audit','ec57b5bd-ec6e-4ad3-a4f7-fff6da5891bd','Active',0)
+  VALUES ('d380face-be80-4b5d-9e92-f8b66b35eb6e','da75b654-4165-4125-b467-b495817b4411','kuali.resultComponent.grade.audit','418bebf2-4da2-47c6-85fd-4d669a64b9c8','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('89dc02e3-4c43-4a70-801c-aa77530806e6','cf40efa8-8b9b-4ef1-9b03-6f5915a429e6','kuali.resultComponent.grade.audit','5c7f1bbf-4982-4474-ad38-1ddd83f6d546','Draft',2)
@@ -4298,16 +4298,22 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('1429a4a6-97e2-48ce-9b2b-ef881378f965','41cae55c-e602-44a7-a9b8-6ab4a7b8f428','kuali.resultComponent.grade.passFail','dfeb0161-24d2-4ea3-932b-48e17631d317','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('ba51a394-b041-4d41-8462-dda02ca839c4','47c03fd3-079a-47d6-b550-dfe95e5aa280','kuali.resultComponent.grade.passFail','f455b5f0-8ad5-41a4-8fbe-f9dd57301b20','Active',0)
+  VALUES ('f1cf6687-6b8b-4b5e-9e6d-64af0b16e9c0','59c85811-b6ee-47e7-9c45-bf821c13bd19','kuali.resultComponent.grade.letter','15c8804d-5a90-45b4-a7c1-8ffa6f32fa13','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('f1cf6687-6b8b-4b5e-9e6d-64af0b16e9c0','59c85811-b6ee-47e7-9c45-bf821c13bd19','kuali.resultComponent.grade.letter','15c8804d-5a90-45b4-a7c1-8ffa6f32fa13','Active',0)
+  VALUES ('ba51a394-b041-4d41-8462-dda02ca839c4','47c03fd3-079a-47d6-b550-dfe95e5aa280','kuali.resultComponent.grade.passFail','f455b5f0-8ad5-41a4-8fbe-f9dd57301b20','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('550afd04-c356-4462-ab8b-073fbf009c0c','67e66c0e-57f9-4376-bf00-1a48830d0295','kuali.resultComponent.grade.audit','08f5ff2e-c871-4f4b-9d6c-c24dcce5d691','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('c7d3b8a7-8d33-455f-a690-6519e321ad2e','de91eef8-6059-43d7-a4c1-30f858f76d0e','kuali.creditType.credit.degree.3.0','Draft',0)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
+  VALUES ('7c8a026e-6918-48c5-b604-4ec874e5d634','0ad102d4-6693-404f-9c1d-669fa7ad2b81','kuali.creditType.credit.degree.3.0','Draft',0)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
+  VALUES ('63d57aef-b53a-4a9f-a2c8-c9f883a3e591','87e2a06e-8eef-40db-ad35-2d6e94f6c900','kuali.resultComponent.grade.audit','bae60866-9af5-403e-8425-0fc413a65ec7','Retired',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('77976d2a-c38c-4eb6-8c7b-a5976a10be54','01034efe-6374-4ba0-9303-7720054cdc8d','kuali.resultComponent.grade.audit','53d0030d-c2b5-4812-b9c9-95009fef5183','Retired',1)
@@ -4319,16 +4325,10 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('21b0709e-12b5-41c3-a955-59a7258f62e1','b396a749-c826-49b7-b4c8-14a6f976b93f','kuali.resultComponent.grade.letter','cd4b4a63-3555-4c6b-b2b0-57bc7a58c08e','Draft',14)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('63d57aef-b53a-4a9f-a2c8-c9f883a3e591','87e2a06e-8eef-40db-ad35-2d6e94f6c900','kuali.resultComponent.grade.audit','bae60866-9af5-403e-8425-0fc413a65ec7','Retired',1)
-/
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('7c8a026e-6918-48c5-b604-4ec874e5d634','0ad102d4-6693-404f-9c1d-669fa7ad2b81','kuali.creditType.credit.degree.3.0','Draft',0)
+  VALUES ('7f33d213-f87f-4eb2-af13-ec5b4d1fc446','a834e4b4-7841-4183-acc0-383a739d0365','kuali.resultComponent.grade.letter','f767ea79-5c81-42fa-93e7-1a96560404c5','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('4203f139-6d45-4d44-977d-da8f65d52b04','68593feb-3d83-4618-aefc-5699b94ed336','kuali.resultComponent.grade.audit','b83f8939-16c4-4882-9ebf-10314a5a153b','Draft',2)
-/
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('7f33d213-f87f-4eb2-af13-ec5b4d1fc446','a834e4b4-7841-4183-acc0-383a739d0365','kuali.resultComponent.grade.letter','f767ea79-5c81-42fa-93e7-1a96560404c5','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('8dd30616-29a8-417c-8b37-1944c5a35924','279672c9-6a31-4934-9948-bb278547b462','kuali.resultComponent.grade.audit','ca9839c2-10ab-4268-99ff-fff54af06ee3','Active',0)
@@ -4346,10 +4346,10 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('24c8dc88-256c-427c-8c63-032500de62ad','57132271-33b2-4d38-9d78-ba792049dc81','kuali.resultComponent.grade.letter','3cb5e16a-0e59-49ef-adc9-f44eac491ae2','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('c04515e1-7c20-41a2-865b-1ca135ef882b','046db642-d529-4451-ade0-8551edb3ee81','kuali.resultComponent.grade.passFail','34a40c35-e8b9-47ad-bd81-05006b361917','Draft',2)
+  VALUES ('9b839fef-f7a9-42e7-8ccc-36ccfca0e0d7','74ea1931-903d-4302-b212-32d18df26c62','kuali.resultComponent.grade.audit','31619efd-8077-43e3-a570-1e5ea21b1cf1','Draft',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('9b839fef-f7a9-42e7-8ccc-36ccfca0e0d7','74ea1931-903d-4302-b212-32d18df26c62','kuali.resultComponent.grade.audit','31619efd-8077-43e3-a570-1e5ea21b1cf1','Draft',1)
+  VALUES ('c04515e1-7c20-41a2-865b-1ca135ef882b','046db642-d529-4451-ade0-8551edb3ee81','kuali.resultComponent.grade.passFail','34a40c35-e8b9-47ad-bd81-05006b361917','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('bac1dc35-20d6-4614-9739-7369e8e1beed','91f07452-e120-4a6f-8f31-720c7f41aca3','kuali.resultComponent.grade.audit','1590bbe6-986a-4105-a9f0-49db5501c8bd','Draft',2)
@@ -4402,11 +4402,11 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('652f33c6-e8ea-4bf4-a423-27b6e008f3fb','5d5cc958-c46b-4b87-b66e-60b60daa8ce0','kuali.resultComponent.grade.letter','523a334b-07c6-462e-bbc5-1421ed4c7cab','Retired',1)
 /
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('8c7db052-857c-40fc-aba6-a9f0ecb40e0d','f8eb52d4-8390-4578-8a9f-75117227e1ff','kuali.resultComponent.grade.letter','15b945e2-fa60-4660-92be-504c757d048c','Draft',3)
-/
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('ae4b25e9-d916-4de7-89da-1d366453e2f1','7a2cfcac-f8f1-4698-b16b-9286173a4139','kuali.creditType.credit.degree.3.0','Draft',0)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
+  VALUES ('8c7db052-857c-40fc-aba6-a9f0ecb40e0d','f8eb52d4-8390-4578-8a9f-75117227e1ff','kuali.resultComponent.grade.letter','15b945e2-fa60-4660-92be-504c757d048c','Draft',3)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('c51e62af-04f3-4546-a82c-752403edf717','565241c6-3ada-40c2-acce-3657ff83b713','kuali.resultComponent.grade.passFail','5f88abf1-ac67-42ee-a59a-b41ee539e13f','Active',1)
@@ -4418,10 +4418,10 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('19109b3f-1114-4ba0-bad8-c051a676cc93','755791fe-2a48-4aeb-8526-226c4c10149d','kuali.resultComponent.grade.passFail','4c997fb0-1cb0-4537-b197-7028d8610f09','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('979b2db9-4770-4b20-9c05-f8080c09328f','c007365e-f1a0-4b2e-af11-3c0c9dc8fee5','kuali.resultComponent.grade.audit','66cf95ed-d265-4bb9-a676-bbe02beb0ec9','Active',0)
+  VALUES ('2f9448c9-950b-4a08-a73b-84873fd85861','13b6ed67-8617-4c85-9235-62deaaaffca4','kuali.resultComponent.grade.letter','ffa9cbbe-e14e-4ae8-af76-12f1c209335e','Draft',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('2f9448c9-950b-4a08-a73b-84873fd85861','13b6ed67-8617-4c85-9235-62deaaaffca4','kuali.resultComponent.grade.letter','ffa9cbbe-e14e-4ae8-af76-12f1c209335e','Draft',1)
+  VALUES ('979b2db9-4770-4b20-9c05-f8080c09328f','c007365e-f1a0-4b2e-af11-3c0c9dc8fee5','kuali.resultComponent.grade.audit','66cf95ed-d265-4bb9-a676-bbe02beb0ec9','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('c44453ee-54b3-4046-b7c3-a7f103b51dfc','398e64e0-4267-4e8b-9709-53b883f3aeff','kuali.resultComponent.grade.letter','02909480-7e1c-4f90-87b0-349ac0ad96f1','Active',1)
@@ -4430,19 +4430,19 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('85a90fcc-b552-4fd5-8bda-45cb24e3bf45','73947e0f-1e1c-4a2a-b1b8-a175f2162afe','kuali.resultComponent.grade.letter','209e45d5-4401-4652-981f-c05195c5753e','Draft',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('bb009f93-5f5d-41e4-bdcf-7cf7d9aab19f','3761e500-22cf-4273-8684-60ff7e3f76aa','kuali.resultComponent.grade.letter','b65a4fd9-f919-407b-9b72-7f811dff26db','Draft',2)
-/
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('c3dfb581-3b3d-42eb-aa93-85654995569d','f3e5b097-67d4-4908-b935-b146c87cde2f','kuali.resultComponent.grade.audit','5ac90cce-52ba-4799-b2b4-24f3b75e06e3','Draft',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('5a3fce5b-b3d6-4ce8-b3e1-ed6878eb178b','544d616d-5e9b-4017-b1fe-8470a85414dc','kuali.resultComponent.grade.audit','87c8f9fc-0e25-47dd-bdef-dd766a89f31b','Draft',1)
+  VALUES ('bb009f93-5f5d-41e4-bdcf-7cf7d9aab19f','3761e500-22cf-4273-8684-60ff7e3f76aa','kuali.resultComponent.grade.letter','b65a4fd9-f919-407b-9b72-7f811dff26db','Draft',2)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
+  VALUES ('23e04356-4b30-4e04-a1a7-d69f1326c417','84602128-161a-4f7b-904d-ce2dbb637668','kuali.resultComponent.grade.audit','dfd4694a-1c85-4536-9def-199f00abd27f','Draft',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('a646b31d-0d17-46f4-89c3-5861d3184c55','6ea56d48-337d-4044-a562-0cbbc1d6e629','kuali.resultComponent.grade.audit','59bfbd22-e397-49a1-a35d-b101cdbf7546','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('23e04356-4b30-4e04-a1a7-d69f1326c417','84602128-161a-4f7b-904d-ce2dbb637668','kuali.resultComponent.grade.audit','dfd4694a-1c85-4536-9def-199f00abd27f','Draft',1)
+  VALUES ('5a3fce5b-b3d6-4ce8-b3e1-ed6878eb178b','544d616d-5e9b-4017-b1fe-8470a85414dc','kuali.resultComponent.grade.audit','87c8f9fc-0e25-47dd-bdef-dd766a89f31b','Draft',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('51359fba-b7d5-4483-be1a-882b32d9930f','bbce9a1d-2da1-4ef4-9987-0220b5ac64f2','kuali.resultComponent.grade.passFail','83e43959-0aa5-48d5-b734-98385a71f5c6','Retired',4)
@@ -4457,19 +4457,19 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('079b6faa-98ef-491b-97ed-2f84aff65c33','8543437c-86d7-45bf-abf1-0e555eaf9aed','kuali.resultComponent.grade.audit','93888839-333f-4584-889b-7db284d0e281','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('b1974c5b-6e55-4361-a23f-e6fcfb5c1516','4dd855db-2eaa-4130-81dc-803b3fc2c71d','kuali.resultComponent.grade.passFail','aea89430-52b4-41ac-b71b-7037ddaa1c82','Draft',2)
+  VALUES ('26efca31-1113-4602-8d3f-3edab0c494d3','ff9f6102-e794-4442-8286-bac728dc808e','kuali.resultComponent.grade.audit','0d140fea-26bb-44d3-b0d3-e456d1745165','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('26efca31-1113-4602-8d3f-3edab0c494d3','ff9f6102-e794-4442-8286-bac728dc808e','kuali.resultComponent.grade.audit','0d140fea-26bb-44d3-b0d3-e456d1745165','Active',1)
+  VALUES ('b1974c5b-6e55-4361-a23f-e6fcfb5c1516','4dd855db-2eaa-4130-81dc-803b3fc2c71d','kuali.resultComponent.grade.passFail','aea89430-52b4-41ac-b71b-7037ddaa1c82','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('3738ebfc-e4fe-4782-a9b7-69350547140a','c3c2758d-6249-4649-a55b-84241fb8081c','kuali.resultComponent.grade.audit','51f3ca1d-bea6-439d-b783-9782896dd744','Draft',1)
 /
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('397eff4c-a8f8-4eaa-8853-c6790567c25e','bf1dac9a-a5d4-488f-9e71-303424369c00','kuali.resultComponent.grade.audit','df98a67f-6244-4500-901c-70a2cdc9b9b1','Active',0)
-/
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('4123789d-adc2-4046-a313-95b2d0c6affe','08dd62c2-44f1-4858-a85f-5edf512efc67','kuali.creditType.credit.degree.3.0','Draft',0)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
+  VALUES ('397eff4c-a8f8-4eaa-8853-c6790567c25e','bf1dac9a-a5d4-488f-9e71-303424369c00','kuali.resultComponent.grade.audit','df98a67f-6244-4500-901c-70a2cdc9b9b1','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('578cfecc-ad6c-427c-a9dd-6264f32cda64','e61d54cf-cf1a-491d-a1f2-25b2dd05f7cd','kuali.resultComponent.grade.letter','2ce4aa36-0574-4692-a4da-290bef9f238f','Draft',2)
@@ -4550,16 +4550,16 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('a5ad8cef-3845-4e4a-8956-c685f4d77e0b','796e9cdd-dd86-4c86-b7eb-c5092e78989f','kuali.resultComponent.grade.audit','a0a54b72-45e4-48b0-8ea1-bf5821b1d455','Draft',3)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('2928fdb5-9fab-44cb-acb6-59224b07b908','8bd1caf4-b9e7-4d02-a6eb-77c05bb8c0eb','kuali.resultComponent.grade.audit','c11e91a0-d07f-469b-afed-15ee59bb57e0','Draft',2)
-/
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('17f1af0b-1ef7-4581-b58e-d7eeca848654','578360b4-3b0b-4be6-ab0d-752e64af225e','kuali.resultComponent.grade.letter','c42c9f5f-df6b-419a-a5f5-544374d7105a','Draft',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('b90d385a-895f-4b12-a927-4090945939ab','084b515d-7474-4eda-8d6c-335a9a80d12f','kuali.resultComponent.grade.audit','c55305a7-12c6-4298-9c21-132f55c8df8a','Active',1)
+  VALUES ('2928fdb5-9fab-44cb-acb6-59224b07b908','8bd1caf4-b9e7-4d02-a6eb-77c05bb8c0eb','kuali.resultComponent.grade.audit','c11e91a0-d07f-469b-afed-15ee59bb57e0','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('c42f99b7-e400-46ba-bccb-71c5052f0334','52949202-a63f-436e-8d3b-abb210ea533f','kuali.creditType.credit.degree.3.0','Active',0)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
+  VALUES ('b90d385a-895f-4b12-a927-4090945939ab','084b515d-7474-4eda-8d6c-335a9a80d12f','kuali.resultComponent.grade.audit','c55305a7-12c6-4298-9c21-132f55c8df8a','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('25114ce7-4683-4389-9b4c-e2d1ba05325e','6d0b6e49-bbf7-4aa9-873c-894824e33a01','kuali.resultComponent.grade.letter','505dd810-3f75-4aa4-8e17-6ee7d8cd65e8','Active',1)
@@ -4586,10 +4586,10 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('cbd757c4-d606-4e75-897c-0499a4bb3be7','1e79bdc3-96d9-4043-bb5c-9b0eabb1b4db','kuali.resultComponent.grade.audit','217dd0ac-2888-4386-9f8b-78e44f801fcc','Retired',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('8ecfed6d-7294-429f-afcf-4af47b091e50','cfdeaea9-0130-48f7-b4d7-79b2309fdb11','kuali.resultComponent.grade.letter','758e3121-302f-45f7-9a6a-cfc58d1b4a26','Active',1)
+  VALUES ('39a3244d-0849-452e-8775-cced92bab48f','0c13679f-7fe2-4d1d-b61b-347a6cf0bfa7','kuali.resultComponent.grade.audit','66b13d58-a76b-4546-8414-a5f69af26aa1','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('39a3244d-0849-452e-8775-cced92bab48f','0c13679f-7fe2-4d1d-b61b-347a6cf0bfa7','kuali.resultComponent.grade.audit','66b13d58-a76b-4546-8414-a5f69af26aa1','Active',1)
+  VALUES ('8ecfed6d-7294-429f-afcf-4af47b091e50','cfdeaea9-0130-48f7-b4d7-79b2309fdb11','kuali.resultComponent.grade.letter','758e3121-302f-45f7-9a6a-cfc58d1b4a26','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('fd3ef44b-6c25-4fcb-9a99-ec74027fa69a','9d573a1c-fd31-460a-a1f0-48fdddcc6cd9','kuali.resultComponent.grade.letter','fa978f33-8599-4172-8561-cf8321decaaa','Active',1)
@@ -4598,10 +4598,10 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('e8c97411-0d90-40cf-a766-45db7f55316b','6b5cac4d-2647-46b6-a126-c8e50bcef7df','kuali.resultComponent.grade.audit','20b5d981-7a8e-400a-80a4-beafa1212baf','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('c4627f46-13b9-4309-bca3-43548a8f9ba9','bceaf795-6667-45a4-9d10-cb5c39864878','kuali.creditType.credit.degree.3-6','Active',0)
+  VALUES ('8ab8f57e-1f9f-4653-9a6f-0416fb0c6fa0','dfb3b9c8-38c8-47dc-82e6-c758940d0949','kuali.creditType.credit.degree.1.0','Draft',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('8ab8f57e-1f9f-4653-9a6f-0416fb0c6fa0','dfb3b9c8-38c8-47dc-82e6-c758940d0949','kuali.creditType.credit.degree.1.0','Draft',0)
+  VALUES ('c4627f46-13b9-4309-bca3-43548a8f9ba9','bceaf795-6667-45a4-9d10-cb5c39864878','kuali.creditType.credit.degree.3-6','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('0efcddf4-e002-4313-9838-65a8d38e1306','882725c4-d00a-4c19-82dd-6d0d7d013742','kuali.creditType.credit.degree.3.0','Active',0)
@@ -4651,11 +4651,11 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('5114a53f-fbb9-44fc-bd1f-c345f7891277','9dcbf460-9ba5-44f3-bd08-a3fe4721b9ca','kuali.creditType.credit.degree.3.0','Retired',0)
 /
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('c7b1b232-4035-4916-9b0b-ddae20da67ad','9009b6e4-8098-4cef-8619-a07f6d1da13f','kuali.resultComponent.grade.letter','ae9e59dd-83f4-4a8d-866a-ce602b4f16ec','Active',0)
-/
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('4d22d845-2673-4917-9d38-5f0abc830390','ef840634-8288-419d-9512-8963196fc541','kuali.creditType.credit.degree.2-3','Active',0)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
+  VALUES ('c7b1b232-4035-4916-9b0b-ddae20da67ad','9009b6e4-8098-4cef-8619-a07f6d1da13f','kuali.resultComponent.grade.letter','ae9e59dd-83f4-4a8d-866a-ce602b4f16ec','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('15d55ee5-7502-4242-8b87-ef382d47b2b2','6e699a48-0136-421a-9e90-14daff233662','kuali.resultComponent.grade.audit','d284ce56-67b0-4752-b02e-05c5acf1dab1','Active',0)
@@ -4687,17 +4687,17 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('5bd36a96-c4dd-41ee-86b0-631b661504ca','84aea55e-2fca-4c72-b81a-89500486ae24','kuali.resultComponent.grade.audit','2a885a1c-36d9-4845-9633-e40e3259dbde','Draft',1)
 /
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('07217e74-c7d8-464a-a679-ad1533192597','aae35db2-1b98-4479-87cc-6853f812dda5','kuali.creditType.credit.degree.3.0','Draft',0)
-/
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('b2c9777c-a6ba-4d89-b5b1-1e9437db5df0','98c4fa1d-d069-4725-8f05-1fb0bd943329','kuali.resultComponent.grade.audit','7819020c-e340-4dc0-bdc2-ed6b409dcfe9','Active',1)
 /
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('7146d865-213c-4c00-b491-98c56088667b','799f92ef-ff26-4a69-a266-dcb335a58c6d','kuali.resultComponent.grade.letter','dbf6a93a-9015-421e-9f2a-afe78e11b01b','Active',0)
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
+  VALUES ('07217e74-c7d8-464a-a679-ad1533192597','aae35db2-1b98-4479-87cc-6853f812dda5','kuali.creditType.credit.degree.3.0','Draft',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('40343edc-fced-4b8c-926a-e77139048a61','1cfceb66-9370-4201-8535-173f149360f5','kuali.creditType.credit.degree.3.0','Draft',0)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
+  VALUES ('7146d865-213c-4c00-b491-98c56088667b','799f92ef-ff26-4a69-a266-dcb335a58c6d','kuali.resultComponent.grade.letter','dbf6a93a-9015-421e-9f2a-afe78e11b01b','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('00125231-dc5b-4c3b-ad43-ce6e333126b5','4b3733f4-16ac-4d9f-bf31-b0d7ed616e9d','kuali.resultComponent.grade.audit','bf729d4c-74a1-4d55-b9be-cb7fb0249e6b','Draft',1)
@@ -4733,25 +4733,25 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('843372e2-bb35-4618-806d-5eb8083f2556','f38698c9-fc54-4a99-a899-75caa5ee3e64','kuali.resultComponent.grade.letter','abefd70f-98f1-47a7-b230-f746da7cbc23','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('c6cf7fc1-802f-443c-8ba4-7cb226e97cc3','640167d3-5980-4f66-b874-9e5a21ef4e64','kuali.resultComponent.grade.letter','a0af1dee-0eba-4024-af98-fa474100778a','Draft',1)
-/
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('57c541a2-88d6-4f13-a359-eef708457e24','e2a9d440-2e71-472c-aba6-6db01f075286','kuali.resultComponent.grade.letter','5d1d85a2-1d18-44f4-acca-6dc14d30951b','Draft',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('ab47cb7c-e3f2-4e4e-82ff-094a8699256a','900df3d3-babd-44ef-b8e7-0686af24e364','kuali.resultComponent.grade.audit','60045ef6-63d9-4676-ac3f-1818e84783c0','Draft',2)
+  VALUES ('c6cf7fc1-802f-443c-8ba4-7cb226e97cc3','640167d3-5980-4f66-b874-9e5a21ef4e64','kuali.resultComponent.grade.letter','a0af1dee-0eba-4024-af98-fa474100778a','Draft',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('ec75b3d5-6646-47a9-ba32-889014d350f9','2e7e0b0d-80d3-401b-a068-be6beb51790e','kuali.resultComponent.grade.letter','2ddb9dd2-da77-427a-9eda-e9a88aac819b','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
+  VALUES ('ab47cb7c-e3f2-4e4e-82ff-094a8699256a','900df3d3-babd-44ef-b8e7-0686af24e364','kuali.resultComponent.grade.audit','60045ef6-63d9-4676-ac3f-1818e84783c0','Draft',2)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('8952bd1d-d2ce-4a5a-8606-efe5ff1cb8b0','f98d25f6-a3e4-4872-8626-62bc041a828d','kuali.resultComponent.grade.letter','e56ba66c-0b04-4162-8e20-8007422005c1','Draft',4)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('29b4322a-4986-4b52-a8a5-50ef32a42cf2','663c6c5f-91dc-432c-86b2-167e20463010','kuali.resultComponent.grade.letter','0be05760-f435-4118-b5ad-87dcff9f8739','Active',1)
+  VALUES ('c6dc53b0-94f1-4213-9984-d84f88b3ff26','305c07bd-71c7-443b-a703-5c2a87d23b6f','kuali.resultComponent.grade.audit','f463d675-498f-4158-9152-17e6002bd35c','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('c6dc53b0-94f1-4213-9984-d84f88b3ff26','305c07bd-71c7-443b-a703-5c2a87d23b6f','kuali.resultComponent.grade.audit','f463d675-498f-4158-9152-17e6002bd35c','Active',1)
+  VALUES ('29b4322a-4986-4b52-a8a5-50ef32a42cf2','663c6c5f-91dc-432c-86b2-167e20463010','kuali.resultComponent.grade.letter','0be05760-f435-4118-b5ad-87dcff9f8739','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('b4400a79-8ac6-45b3-81d5-1223f54319b9','d29aa6e8-4f84-4afe-a703-7ff6bb61532a','kuali.creditType.credit.degree.3.0','Draft',0)
@@ -4759,11 +4759,11 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('497c3722-3f3b-4743-8390-3722d76bd550','9f345ae5-e41f-4bbc-91d3-30420b6e0733','kuali.resultComponent.grade.passFail','c79f1390-d3c2-4c5a-a917-54110de7c93d','Draft',3)
 /
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('5d98933e-1e6e-4a21-a7dc-d4beb09e127e','9dae6b1f-98c3-48dc-85de-b65ea55f8702','kuali.resultComponent.grade.audit','d1105abd-6b51-4015-a31c-756c8c761f5e','Draft',3)
-/
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('3370045f-29d7-4ba2-995a-8cca9327c99f','40b1436e-fac4-49d7-a364-2e49f7888605','kuali.creditType.credit.degree.3.0','Active',0)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
+  VALUES ('5d98933e-1e6e-4a21-a7dc-d4beb09e127e','9dae6b1f-98c3-48dc-85de-b65ea55f8702','kuali.resultComponent.grade.audit','d1105abd-6b51-4015-a31c-756c8c761f5e','Draft',3)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('88793915-36fa-4ac1-8426-aefc841807ae','1fdef1e2-eaee-48fe-b24e-f79e2244fd71','kuali.resultComponent.grade.letter','9ba28a03-1800-4c1e-879c-07238063ab64','Active',1)
@@ -4772,10 +4772,10 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('dcab6eeb-2ac0-4d50-9d22-67db9cf80154','0b275ce9-3998-4980-af2d-00843eb459e5','kuali.resultComponent.grade.passFail','e27ef166-4f39-49a6-8d7a-e787c5c0fff6','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('f9b38bf2-50fa-4a6a-a838-f07652135806','00f9795f-60c6-459c-847a-08c0f3e42c96','kuali.resultComponent.grade.letter','8f81ab2d-dd63-4b87-9334-de4512fcf4c7','Draft',2)
+  VALUES ('9b38a6cd-67a3-4c43-9e62-a538e9c1b746','e820f5d4-8dda-4e9a-b74f-cae66d7984f0','kuali.resultComponent.grade.letter','2efba3f8-2cae-4b00-b850-8b4354bcbdaf','Draft',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('9b38a6cd-67a3-4c43-9e62-a538e9c1b746','e820f5d4-8dda-4e9a-b74f-cae66d7984f0','kuali.resultComponent.grade.letter','2efba3f8-2cae-4b00-b850-8b4354bcbdaf','Draft',1)
+  VALUES ('f9b38bf2-50fa-4a6a-a838-f07652135806','00f9795f-60c6-459c-847a-08c0f3e42c96','kuali.resultComponent.grade.letter','8f81ab2d-dd63-4b87-9334-de4512fcf4c7','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('76feb590-215c-41a5-aee6-282edd31033b','0fb50b4f-3752-448c-8c17-c85bcfe65c47','kuali.resultComponent.grade.passFail','9ce6e599-d11c-4ad8-93f0-2d80e510bc33','Active',0)
@@ -4789,11 +4789,11 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('d569fb45-b6b7-4c3c-af2d-bcc2a6db7529','b924ced4-11e9-4929-9735-3f58481fbf33','kuali.resultComponent.grade.letter','4b3a7058-e1fe-434d-af78-b37362fcbde6','Active',1)
 /
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('a7e4b890-6317-44f6-a590-dcec86678382','5ae5fc60-4037-4614-b37a-49f087aa8d05','kuali.creditType.credit.degree.3.0','Draft',0)
-/
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('154683e2-3d69-4207-b3d9-47b7cabe3d22','b0be3880-3556-40f6-8a68-0ebccd3a935e','kuali.resultComponent.grade.passFail','1f8d630b-80be-4994-975b-8c9621d26772','Draft',2)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
+  VALUES ('a7e4b890-6317-44f6-a590-dcec86678382','5ae5fc60-4037-4614-b37a-49f087aa8d05','kuali.creditType.credit.degree.3.0','Draft',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('f133e07b-bff5-489a-9c8b-78c19491c235','91f2010a-a27f-454a-beed-dceaf278b1d0','kuali.resultComponent.grade.audit','093b48a7-7a3a-435c-95e0-be2b85c88d42','Active',1)
@@ -4802,25 +4802,25 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('5ab29d9b-d41e-48a0-8b28-ceb5464bdd21','8a3c6500-e1b2-45d6-b24c-2ef8adcfe905','kuali.creditType.credit.degree.3.0','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('f0fdbad8-1ad8-426e-a482-8c04d92090af','fedb7cb0-3a03-4304-9a7e-3fc1d5df88d9','kuali.resultComponent.grade.letter','fc8ebe36-815a-44dd-917d-97415dba03ad','Draft',3)
-/
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('78833448-ce33-4614-b840-8ec99e2a322e','eb7ebbd4-9046-4e7c-8554-6ac04b4cf4a3','kuali.resultComponent.grade.letter','4fad5641-2dd8-435e-99f1-78905a9d365e','Draft',2)
 /
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('36161960-cb6d-4b7c-aa47-b763b0f7023f','3187e3f8-a5cf-46c7-acd1-8f1506e5a8e7','kuali.creditType.credit.degree.3.0','Draft',0)
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
+  VALUES ('f0fdbad8-1ad8-426e-a482-8c04d92090af','fedb7cb0-3a03-4304-9a7e-3fc1d5df88d9','kuali.resultComponent.grade.letter','fc8ebe36-815a-44dd-917d-97415dba03ad','Draft',3)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('02809223-d1d3-4fc2-94e7-ad4043683961','8fdb3edd-33df-450a-8e4f-121471eb8df8','kuali.creditType.credit.degree.3.0','Draft',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('50dc086d-ad37-48b9-81ce-215ec87f3561','a58001f5-6141-4135-9478-1beda39133b4','kuali.creditType.credit.degree.1.5','Active',0)
+  VALUES ('36161960-cb6d-4b7c-aa47-b763b0f7023f','3187e3f8-a5cf-46c7-acd1-8f1506e5a8e7','kuali.creditType.credit.degree.3.0','Draft',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('90b15244-5dc2-4f09-aa60-fc8f74d756c6','a31cfb76-766b-4e27-94f4-f3dae2a0ee5f','kuali.creditType.credit.degree.3.0','Active',0)
+  VALUES ('50dc086d-ad37-48b9-81ce-215ec87f3561','a58001f5-6141-4135-9478-1beda39133b4','kuali.creditType.credit.degree.1.5','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('1a8835ac-9ff6-4e51-aef6-fdbb2ff2f84e','62b83bff-cd6e-48d0-ab2a-65d051afd187','kuali.resultComponent.grade.letter','b9d9d24c-e60e-407e-a75a-0e82cdb77c19','Draft',2)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
+  VALUES ('90b15244-5dc2-4f09-aa60-fc8f74d756c6','a31cfb76-766b-4e27-94f4-f3dae2a0ee5f','kuali.creditType.credit.degree.3.0','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('8c591f9a-1ef4-42e2-a0a8-5d35be0e61a6','c077bbd3-ce53-4c23-93f2-e0c69946b19e','kuali.resultComponent.grade.audit','5d450cfb-6ed2-434c-9812-4dcf3bac3635','Active',1)
@@ -4835,10 +4835,10 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('57cec8ed-fc80-4b97-9188-b1d941045e01','a201c1d3-3e24-4057-a777-3dbaf6433198','kuali.creditType.credit.degree.3.0','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('b030535d-15a7-486a-a039-90dfe28f2c96','de00a6cd-c464-49ec-9591-d438ac8262df','kuali.resultComponent.grade.audit','b215b292-73d4-4f7c-954b-b9528b852e0c','Active',2)
+  VALUES ('04b404fd-ce60-492c-81a6-786a13671077','863a6fd2-b59d-4672-a027-553f215f63d2','kuali.resultComponent.grade.audit','61bfebc9-e35b-48ad-b14a-fbee64e515e3','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('04b404fd-ce60-492c-81a6-786a13671077','863a6fd2-b59d-4672-a027-553f215f63d2','kuali.resultComponent.grade.audit','61bfebc9-e35b-48ad-b14a-fbee64e515e3','Draft',2)
+  VALUES ('b030535d-15a7-486a-a039-90dfe28f2c96','de00a6cd-c464-49ec-9591-d438ac8262df','kuali.resultComponent.grade.audit','b215b292-73d4-4f7c-954b-b9528b852e0c','Active',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('9b714801-2f2f-45ab-883e-f54a0d24e220','dabf3b12-f70b-4493-a4a3-62afc435d06d','kuali.creditType.credit.degree.4.0','Retired',0)
@@ -4855,11 +4855,11 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('985fd5ad-3e44-4448-be45-a1f758910963','85235af4-f83a-45b9-9727-88b9dcd04975','kuali.resultComponent.grade.passFail','bdd55572-b08d-4f2b-b9a5-874a1ef01aac','Active',0)
 /
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('0c7fa3df-0340-44a9-a06d-b03d299d3b8e','a87cb7c5-a220-4750-8f4b-40f92ffc9a8d','kuali.creditType.credit.degree.3.0','Draft',0)
-/
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('25683bab-243c-4d28-82b1-2efb6fa45b73','ada6bcda-e846-4fe2-84e3-7129627a43fe','kuali.resultComponent.grade.audit','8bf977ae-d249-4999-aa90-7e0a424885c6','Draft',2)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
+  VALUES ('0c7fa3df-0340-44a9-a06d-b03d299d3b8e','a87cb7c5-a220-4750-8f4b-40f92ffc9a8d','kuali.creditType.credit.degree.3.0','Draft',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('70687ff3-975c-469f-8e72-27bee613fa60','cbfe282b-f054-4464-84e9-29b5091b0ac8','kuali.creditType.credit.degree.3.0','Active',0)
@@ -4870,11 +4870,11 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('a544a56f-a3f5-4560-ad87-c15f2f11a34e','869594a7-f3eb-41a9-ad7a-9e3373ccea61','kuali.resultComponent.grade.letter','2c64eb61-f856-48a2-bc5d-775221f386ef','Active',3)
 /
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('3d1d395a-c367-4f81-a7bd-6c9ca47f2076','bf8f22ca-fed8-4667-bad4-051c9b955834','kuali.creditType.credit.degree.3.0','Draft',0)
-/
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('d4ad21f5-e030-4e65-bf5c-79a3e6a3dd0f','ca50811a-6842-46d6-ab93-078ab8574226','kuali.resultComponent.grade.passFail','3ba124b3-3dff-464c-ad4d-d6de3deb245e','Active',0)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
+  VALUES ('3d1d395a-c367-4f81-a7bd-6c9ca47f2076','bf8f22ca-fed8-4667-bad4-051c9b955834','kuali.creditType.credit.degree.3.0','Draft',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('ffa2313c-7fef-44e0-a8eb-dccbd2ed5e83','202ff776-a6ee-47dc-9b5b-2388bb9adc26','kuali.creditType.credit.degree.1-3','Active',0)
@@ -4885,11 +4885,11 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('3b53d2c5-f790-4d13-a401-321bf8da0cf6','43657e61-ab7a-442e-bfcd-892c676c7ab9','kuali.resultComponent.grade.passFail','11ff5421-6fa1-4a20-8694-1e0523a898e1','Active',1)
 /
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('af404556-d57c-4b5a-9cf7-258283e01ad7','d2ae1778-43cf-433d-a3d1-3086af78ac90','kuali.creditType.credit.degree.3.0','draft',0)
-/
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('ca5abe81-a8b5-4be6-be25-5e88b3076384','e01479be-7c2f-4fd9-b8ae-dbadc909209f','kuali.resultComponent.grade.passFail','e4509faa-c769-435a-a5e1-4d923f8b6383','Draft',2)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
+  VALUES ('af404556-d57c-4b5a-9cf7-258283e01ad7','d2ae1778-43cf-433d-a3d1-3086af78ac90','kuali.creditType.credit.degree.3.0','draft',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('f6c5c1fd-feac-4e23-9f10-ff77c31297fd','f130d92e-0340-480e-be0f-310b66ace664','kuali.resultComponent.grade.letter','ebe807b2-8481-4ce1-ac38-4c34b1a62586','Active',0)
@@ -4897,11 +4897,11 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('b173a640-61f3-4ea3-9dbd-7a61301c5437','b9fc340d-72c3-4e37-90d3-524132207413','kuali.resultComponent.grade.passFail','33c429d8-05c4-4ea1-b52e-bd2add32ce5b','Active',1)
 /
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('2be4cef4-ed23-4213-9a27-f37c433327c4','582bd8cb-5765-4e24-b06c-c14c7be11c2b','kuali.resultComponent.grade.passFail','52708a88-4f26-47af-8f25-cfbceaa1b420','Active',0)
-/
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('31536975-4451-416c-9391-c89f347a46c5','25252431-ad49-4fd8-ada6-9213a9b5f5ff','kuali.creditType.credit.degree.2.0','Active',0)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
+  VALUES ('2be4cef4-ed23-4213-9a27-f37c433327c4','582bd8cb-5765-4e24-b06c-c14c7be11c2b','kuali.resultComponent.grade.passFail','52708a88-4f26-47af-8f25-cfbceaa1b420','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('be8433a1-977a-4f2b-b06c-95d7f308e9b1','bd403421-2e02-4f9a-8ac7-d5f2c3b4a9b5','kuali.resultComponent.grade.letter','2da5a603-39e9-41a3-99c8-4ee58f1489c7','Active',0)
@@ -4949,19 +4949,19 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('671b8229-e88b-46da-9bfe-eb4b996c36d9','0e83011f-d55e-4a32-8af9-b7f8d0903c3e','kuali.resultComponent.grade.audit','dd072e3a-5102-4f49-820b-e9a308b4b1e7','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('fd06f47d-2cb9-4491-8044-14072c572c64','6b2925b7-3849-446d-8f16-14e1f2f2d6e0','kuali.resultComponent.grade.audit','425a4bcb-2a78-40b9-816e-7ea68de8ef24','Draft',1)
+  VALUES ('9d1e7929-26b6-460e-a154-d955c8350e46','a0d8e8b5-06a1-40db-8b8d-cb05699ab2a6','kuali.resultComponent.grade.letter','495b3143-38eb-4479-a7a7-45baa5b034d9','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('9d1e7929-26b6-460e-a154-d955c8350e46','a0d8e8b5-06a1-40db-8b8d-cb05699ab2a6','kuali.resultComponent.grade.letter','495b3143-38eb-4479-a7a7-45baa5b034d9','Active',1)
+  VALUES ('fd06f47d-2cb9-4491-8044-14072c572c64','6b2925b7-3849-446d-8f16-14e1f2f2d6e0','kuali.resultComponent.grade.audit','425a4bcb-2a78-40b9-816e-7ea68de8ef24','Draft',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('7a86e238-65a3-411e-9e91-9c1e20448f68','784163b0-9e89-4a7d-a3c1-36d60b8163fd','kuali.resultComponent.grade.audit','3bd987df-9565-4e6f-a38d-6f396a296c7e','Retired',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('134d960b-e9dd-4a9e-9271-21191a32c0bc','e9c8a486-572d-4af7-a78a-783b93203aa7','kuali.resultComponent.grade.audit','87967a86-0f0d-4115-bc62-af2c76e60f99','Draft',2)
+  VALUES ('54243a88-20da-4536-ab88-cc43e14a155a','ef95f4a5-bd83-45b8-844b-d507874f051b','kuali.resultComponent.grade.letter','cdc20c63-af15-4077-bca1-6e9182e9195c','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('54243a88-20da-4536-ab88-cc43e14a155a','ef95f4a5-bd83-45b8-844b-d507874f051b','kuali.resultComponent.grade.letter','cdc20c63-af15-4077-bca1-6e9182e9195c','Active',1)
+  VALUES ('134d960b-e9dd-4a9e-9271-21191a32c0bc','e9c8a486-572d-4af7-a78a-783b93203aa7','kuali.resultComponent.grade.audit','87967a86-0f0d-4115-bc62-af2c76e60f99','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('75ecd1d4-7f5c-4444-acad-9e672d995af0','5b50a87a-ed60-4b2b-9e9c-feff98af477e','kuali.creditType.credit.degree.2.0','Active',0)
@@ -4970,16 +4970,16 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('4fb65401-1d7c-4820-943f-82063bc1f7ef','7368c8ba-1222-4419-a07f-00be1b2ad900','kuali.resultComponent.grade.letter','30961246-0f0c-4fc5-85a6-b1b8275f54a3','Draft',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('69fb32d5-0313-4232-bb55-9130b6593d82','f8609706-c254-44c8-97bd-76c75bd0898f','kuali.creditType.credit.degree.3.0','Active',0)
-/
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('216f2825-b1e8-4e2b-a130-5a6a291d0f8c','f45ba68b-0cb8-4791-83e0-63eefb6c88ce','kuali.creditType.credit.degree.2.0','Active',0)
 /
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('560d6f19-3e50-4af3-8998-02a9c1d63d05','15eff499-463a-4173-9050-60827c46c8e5','kuali.resultComponent.grade.passFail','74989115-1d7a-4af1-861d-dfa66f55a96c','Active',1)
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
+  VALUES ('69fb32d5-0313-4232-bb55-9130b6593d82','f8609706-c254-44c8-97bd-76c75bd0898f','kuali.creditType.credit.degree.3.0','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('92af20ed-d746-4f20-8830-0fb5ae9ae994','ba00f185-a570-4b5f-bed1-15116c12e8cf','kuali.resultComponent.grade.letter','8cd23dc3-7017-4771-bc15-20955ee3dbee','Active',0)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
+  VALUES ('560d6f19-3e50-4af3-8998-02a9c1d63d05','15eff499-463a-4173-9050-60827c46c8e5','kuali.resultComponent.grade.passFail','74989115-1d7a-4af1-861d-dfa66f55a96c','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('5e6b99e3-6d61-48e7-8e75-8781a75c9232','14467561-12b6-4077-a2d7-0be76b5274fd','kuali.resultComponent.grade.letter','b1af2bd5-17a1-439e-8695-a6fe785fc2f3','Draft',1)
@@ -4994,10 +4994,10 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('b19a3cb3-cfbd-4a98-9b82-87f9a3e327da','23c9416a-cadf-4b1d-a6ef-f5e30379bbd0','kuali.resultComponent.grade.audit','e5526bd6-4844-4acc-8100-7a387bda8dc2','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('af92a37f-be3a-43dd-89cb-bd618b31d1ca','78ecdf45-2e52-4ce6-ac8d-95371c1d8516','kuali.resultComponent.grade.audit','465f0091-4136-447e-8dde-4d6aac5f95d5','Active',1)
+  VALUES ('32871ddc-c981-4e64-980f-94c5c96f74e6','0f57b62f-0fe5-4669-839e-0d6171c82a92','kuali.resultComponent.grade.letter','8713a82e-4b15-4a95-8160-0f776bcf596f','Retired',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('32871ddc-c981-4e64-980f-94c5c96f74e6','0f57b62f-0fe5-4669-839e-0d6171c82a92','kuali.resultComponent.grade.letter','8713a82e-4b15-4a95-8160-0f776bcf596f','Retired',1)
+  VALUES ('af92a37f-be3a-43dd-89cb-bd618b31d1ca','78ecdf45-2e52-4ce6-ac8d-95371c1d8516','kuali.resultComponent.grade.audit','465f0091-4136-447e-8dde-4d6aac5f95d5','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('d60c2067-7a97-4698-bf07-763cb400f10e','b6ccfa17-3b6b-4523-9b9a-5583a2811a8b','kuali.resultComponent.grade.letter','afaf7ac8-0206-40a2-86c5-bf8fa4d75f19','Active',0)
@@ -5005,17 +5005,17 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('06fab977-7d3c-4560-99b5-31d2254ae89b','25b36f85-98aa-442e-beef-ac6848961117','kuali.resultComponent.grade.audit','2d79580c-86e5-4dc3-880f-5957b7eaaf53','Active',1)
 /
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('4a816abe-c3f6-4af1-bcd0-93fd7c9ccacd','0a636f8a-74ac-4814-8742-39305d48e289','kuali.resultComponent.grade.letter','d74a32ac-8726-40b0-b583-a10f0bd3fc18','Draft',1)
-/
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('8cf90862-7fb7-45e2-972d-ae260dcfe11f','42ec3749-cb93-4e19-bfb6-e8f782308a9d','kuali.creditType.credit.degree.3.0','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('16e04234-8e6f-4271-ad1a-01cd2a90334a','7bed06f6-3b1c-468d-a822-77b531583509','kuali.resultComponent.grade.passFail','ecadb585-d56a-44bc-9e05-c45f5b70947a','Active',0)
+  VALUES ('4a816abe-c3f6-4af1-bcd0-93fd7c9ccacd','0a636f8a-74ac-4814-8742-39305d48e289','kuali.resultComponent.grade.letter','d74a32ac-8726-40b0-b583-a10f0bd3fc18','Draft',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('307abb66-062c-4dce-8063-aedcd12834d0','f5328c42-77a3-43f4-8c19-5eb869dfcdf7','kuali.resultComponent.grade.audit','d6824c6c-5190-42eb-afd5-68b913682feb','Draft',1)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
+  VALUES ('16e04234-8e6f-4271-ad1a-01cd2a90334a','7bed06f6-3b1c-468d-a822-77b531583509','kuali.resultComponent.grade.passFail','ecadb585-d56a-44bc-9e05-c45f5b70947a','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('c3b1262c-d16f-4a41-b862-635fd371d7f7','6e55f74e-afea-49d9-bd0a-2fd5e75cabe8','kuali.resultComponent.grade.letter','1de80606-e26b-4013-897a-213e87c6e176','Active',0)
@@ -5059,17 +5059,17 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('a14ff068-5e51-4868-8598-5279e4e647e6','7f8561b0-8303-49f3-90d2-d42095c05ed3','kuali.resultComponent.grade.letter','b8c06a8c-222e-4c94-bcf4-bea964691ee9','Draft',3)
 /
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('952e1f3e-37c3-4f9d-8b93-ae5098feed73','03eaa086-83b3-4e48-8c20-5b1248efb2e6','kuali.resultComponent.grade.letter','4d6b5224-e725-4146-b738-c72353d360af','Active',0)
-/
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('f2a1f449-0114-481a-9ec3-50e14ba00a1d','aab9385f-b9f4-44be-af87-79650704fc65','kuali.creditType.credit.degree.3.0','Draft',0)
 /
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('526f4d1f-b8e5-42b3-9fc8-f297779c5748','86fc3060-44b2-4d40-9069-63e0b4b23352','kuali.creditType.credit.degree.3.0','Draft',0)
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
+  VALUES ('952e1f3e-37c3-4f9d-8b93-ae5098feed73','03eaa086-83b3-4e48-8c20-5b1248efb2e6','kuali.resultComponent.grade.letter','4d6b5224-e725-4146-b738-c72353d360af','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('7ae80e6d-07f8-4dfb-890d-cb7667006b9d','b5f943f7-5847-4ce7-8c5a-1d78fe9c5dff','kuali.resultComponent.grade.letter','2ad3539d-2f4e-445e-aabe-324a6feaa71d','Draft',2)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
+  VALUES ('526f4d1f-b8e5-42b3-9fc8-f297779c5748','86fc3060-44b2-4d40-9069-63e0b4b23352','kuali.creditType.credit.degree.3.0','Draft',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('72b76330-340c-4d13-b41c-2a1e5a5d7585','c87d66e9-af2c-48d1-9d1e-3c83fd9dc395','kuali.resultComponent.grade.audit','35b78521-c55d-417d-84a6-14cd18b14a27','Active',0)
@@ -5135,10 +5135,10 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('5a1391e6-8d83-41ef-9bd5-23f4dd805975','1b7a956c-ccc9-4866-b5c8-a7636bd50c6c','kuali.resultComponent.grade.letter','9175cee6-4ff5-474a-9926-a8c0ff74a250','Draft',5)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('a916a560-29ed-4ef0-af1a-97064064d197','3f0e4ba1-4461-477a-9f0b-d7904609ee03','kuali.resultComponent.grade.letter','4fa4b8d0-4323-4ca7-8a66-150e432e4e90','Active',0)
+  VALUES ('ea2c2f5f-ef51-49cb-95cc-d874973bcd15','b1f5ca96-acac-436e-a481-2f9bd5288d09','kuali.resultComponent.grade.audit','ee27c03f-c06d-4ec4-97de-686017c8f3ed','Retired',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('ea2c2f5f-ef51-49cb-95cc-d874973bcd15','b1f5ca96-acac-436e-a481-2f9bd5288d09','kuali.resultComponent.grade.audit','ee27c03f-c06d-4ec4-97de-686017c8f3ed','Retired',1)
+  VALUES ('a916a560-29ed-4ef0-af1a-97064064d197','3f0e4ba1-4461-477a-9f0b-d7904609ee03','kuali.resultComponent.grade.letter','4fa4b8d0-4323-4ca7-8a66-150e432e4e90','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('5c6f5b59-08fb-4434-b329-f6eaff573e4c','5a5eb313-3687-4d87-8c73-3c43d7ac2dcb','kuali.creditType.credit.degree.3.0','Draft',0)
@@ -5156,10 +5156,10 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('a272772d-efa8-4f11-8f81-9fb9930603d4','65259f39-4f37-4d67-820e-1dd0f0a22246','kuali.resultComponent.grade.letter','3648b3a6-9eff-48b0-82d2-c444995b3d09','Retired',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('b9fd8d5f-a22a-41f9-9154-6310bf810061','7547e018-04ad-45b8-9da8-2cd9c2f7b99d','kuali.resultComponent.grade.letter','b6f3b96c-5790-4c18-ac22-46bfe0901292','Active',0)
+  VALUES ('4592a685-d2c0-4169-87be-3587c2c68499','6ab5e541-5213-4903-9b57-46bd26efed4e','kuali.resultComponent.grade.passFail','dbd4fa62-a610-4430-9ab7-039db686375e','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('4592a685-d2c0-4169-87be-3587c2c68499','6ab5e541-5213-4903-9b57-46bd26efed4e','kuali.resultComponent.grade.passFail','dbd4fa62-a610-4430-9ab7-039db686375e','Active',1)
+  VALUES ('b9fd8d5f-a22a-41f9-9154-6310bf810061','7547e018-04ad-45b8-9da8-2cd9c2f7b99d','kuali.resultComponent.grade.letter','b6f3b96c-5790-4c18-ac22-46bfe0901292','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('a4336f32-afc6-42f9-9dc0-adbbbd16123b','9ec5dd6e-9c50-4fed-8a07-abc8b0413975','kuali.resultComponent.grade.letter','42ca8bdf-b99b-4595-a98f-9aca08cf7bc6','Active',1)
@@ -5180,10 +5180,10 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('a524f143-0ace-4fc5-be47-68b0abd31f87','c34a0486-1165-40d7-8897-b0c3cfbea9e8','kuali.resultComponent.grade.letter','05949beb-e4db-48bb-97f4-015fd11a213e','Draft',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('56e30662-5124-4892-b6f0-2030125fea20','0bc8dd6f-b393-42a3-944e-32d8cf565387','kuali.resultComponent.grade.audit','70bbec9e-a1c4-4383-b34a-d1b3c4683de5','Draft',1)
+  VALUES ('551abc75-21b8-4f07-b87d-878997cf1993','31a05653-1850-44f7-b82a-21b8c1b81a7a','kuali.resultComponent.grade.letter','b6f189d3-45a3-4918-ad5d-9b3c1bfaac38','Draft',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('551abc75-21b8-4f07-b87d-878997cf1993','31a05653-1850-44f7-b82a-21b8c1b81a7a','kuali.resultComponent.grade.letter','b6f189d3-45a3-4918-ad5d-9b3c1bfaac38','Draft',1)
+  VALUES ('56e30662-5124-4892-b6f0-2030125fea20','0bc8dd6f-b393-42a3-944e-32d8cf565387','kuali.resultComponent.grade.audit','70bbec9e-a1c4-4383-b34a-d1b3c4683de5','Draft',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('4368604f-2fe8-42cc-a67a-b3fc37c9a9a5','f827da8d-4991-4eae-9779-a6c5a1bdc220','kuali.resultComponent.grade.passFail','129c6350-f7b5-42ca-a41d-e589245ba39c','Active',0)
@@ -5270,10 +5270,10 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('ff73966d-c9e3-47a9-9b82-83ba9731f3c4','a662c504-9a31-4bac-86ae-6aed7125fa7b','kuali.creditType.credit.degree.3.0','Retired',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('0dd6373b-d8cd-4705-b104-dc17ffed1fe3','1ca3d561-a956-43c1-907e-ca2082cc38b8','kuali.resultComponent.grade.letter','3b3eeb0f-4689-478b-9297-2acae4e313d2','Draft',1)
+  VALUES ('85d63659-d24d-444a-9995-6dd44b6b31e4','8077f94d-db73-4b76-b738-658607501ef8','kuali.resultComponent.grade.audit','e638db32-0b7d-4fc0-88b8-7215567fcc79','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('85d63659-d24d-444a-9995-6dd44b6b31e4','8077f94d-db73-4b76-b738-658607501ef8','kuali.resultComponent.grade.audit','e638db32-0b7d-4fc0-88b8-7215567fcc79','Active',0)
+  VALUES ('0dd6373b-d8cd-4705-b104-dc17ffed1fe3','1ca3d561-a956-43c1-907e-ca2082cc38b8','kuali.resultComponent.grade.letter','3b3eeb0f-4689-478b-9297-2acae4e313d2','Draft',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('545cf0b0-086f-42e0-a10e-b6c860e42fa0','d8524d61-652b-4c25-ade5-0dcb7e8002cb','kuali.resultComponent.grade.passFail','5965d4cf-0205-4c0c-bf37-79b3683cbcdf','Active',0)
@@ -5290,11 +5290,11 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('4860c7b9-f511-4fad-9db9-f0bcf0fad7a3','e7b0369e-ad0e-4e0e-b7e5-12bc9aca0b2c','kuali.resultComponent.grade.passFail','49c505e5-0042-4868-8b2d-4d1aec3c14db','Draft',1)
 /
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('46e482d3-3ec1-4b9e-b28e-97d746d17cf8','0084498b-b695-47a7-90a5-6accf62f50af','kuali.resultComponent.grade.audit','e52822b0-4e53-4a37-b105-12063185dd15','Draft',1)
-/
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('806e32a4-ce95-4d4c-99ff-dfb7c898c5ac','fba3fe1a-6e07-47bd-84fb-92fdc7cbc9b4','kuali.creditType.credit.degree.3.0','Draft',0)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
+  VALUES ('46e482d3-3ec1-4b9e-b28e-97d746d17cf8','0084498b-b695-47a7-90a5-6accf62f50af','kuali.resultComponent.grade.audit','e52822b0-4e53-4a37-b105-12063185dd15','Draft',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('d1583f99-6a2c-4c1c-9dd7-0ce5ac616a76','ee2adfef-b68f-4767-9494-03174cf4f9ac','kuali.resultComponent.grade.letter','4156c0fb-d504-4a85-84e8-e9a57b85de6d','Draft',2)
@@ -5317,11 +5317,11 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('efca7db0-e942-44c6-b8b7-5cc8759c59e8','71ef8cb2-dd5d-4a35-853b-6db1c09aabf9','kuali.resultComponent.grade.letter','589140f0-9083-43c7-9abf-22796f012da7','Draft',2)
 /
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('15500194-0624-4894-a7cb-f446cc3a7cd9','da1d2b79-e61d-4865-95ae-541199f9b5a9','kuali.creditType.credit.degree.4.0','Active',0)
-/
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('ac98946f-eff6-42de-8646-a932e5cc7de4','544de9a7-5aa4-4ce3-b892-17722cad6dc7','kuali.resultComponent.grade.letter','04699607-0ccf-43dd-888c-85105b5290e1','Retired',1)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
+  VALUES ('15500194-0624-4894-a7cb-f446cc3a7cd9','da1d2b79-e61d-4865-95ae-541199f9b5a9','kuali.creditType.credit.degree.4.0','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('ce7dd7b8-7256-4127-a849-8228be3f6819','c66ddc59-b274-4242-8d35-4a7516716a92','kuali.creditType.credit.degree.3.0','Retired',0)
@@ -5416,14 +5416,14 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('bdf54991-726d-48da-bf61-0e543b4de641','eafef501-87a6-48d4-a860-930bc64d5fdd','kuali.creditType.credit.degree.3.0','Retired',0)
 /
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('5aa13c83-c359-4874-ae82-6af4a7ac56b0','8414570a-6bb9-46c2-b9fb-16ee3148c0d7','kuali.resultComponent.grade.letter','9eebb3d5-ff14-4496-bbef-251109ac369a','Retired',4)
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
+  VALUES ('7d040604-9578-4f47-a7c8-a2c70c5b5c48','020e09ab-06d9-4265-9fdb-1202e7c925ad','kuali.creditType.credit.degree.3.0','Draft',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('c69f5efc-5f45-4a4d-ba75-14532e59e7df','78274529-867d-4668-a085-448dcea96c60','kuali.resultComponent.grade.audit','2618bee1-9f93-4b57-a7d5-37a24e51c952','Active',0)
 /
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('7d040604-9578-4f47-a7c8-a2c70c5b5c48','020e09ab-06d9-4265-9fdb-1202e7c925ad','kuali.creditType.credit.degree.3.0','Draft',0)
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
+  VALUES ('5aa13c83-c359-4874-ae82-6af4a7ac56b0','8414570a-6bb9-46c2-b9fb-16ee3148c0d7','kuali.resultComponent.grade.letter','9eebb3d5-ff14-4496-bbef-251109ac369a','Retired',4)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('6e0ad8aa-75b9-4ad8-af60-ad2ccabbcd72','b5e1969b-41c5-4c6c-a38b-fb256680baa7','kuali.resultComponent.grade.letter','7b23802c-95a8-47ca-a9a8-7a555ab532bf','Retired',1)
@@ -5441,10 +5441,10 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('9645a0aa-a61d-48d6-845d-64c2502d3070','ce30a6fa-7372-4864-8481-b93a2d7eb9fc','kuali.creditType.credit.degree.3.0','Draft',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('64c7eae8-f5e3-452d-bd1b-6c2d0526001c','f5105795-0226-4987-99d7-8b6d41187f9a','kuali.creditType.credit.degree.3.0','Active',0)
+  VALUES ('6193affe-de92-4c0b-92cc-93f4c32b29a7','6db9c89e-fa6a-4db2-8b29-2b4a9455a0ed','kuali.creditType.credit.degree.2.0','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('6193affe-de92-4c0b-92cc-93f4c32b29a7','6db9c89e-fa6a-4db2-8b29-2b4a9455a0ed','kuali.creditType.credit.degree.2.0','Active',0)
+  VALUES ('64c7eae8-f5e3-452d-bd1b-6c2d0526001c','f5105795-0226-4987-99d7-8b6d41187f9a','kuali.creditType.credit.degree.3.0','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('c07a7f80-0013-433b-aae0-39dab42c091a','ff0ad9be-9733-4279-9785-fb8ab085d648','kuali.resultComponent.grade.passFail','f0be0af2-6ab4-4bbb-beb4-2b592acf5c13','Draft',2)
@@ -5459,10 +5459,10 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('d5e0ad31-b880-47ff-968e-ffd215f0bc8f','3c9f47fb-bf57-4d83-8bcc-9110c5067349','kuali.resultComponent.grade.letter','97bbec12-7cc2-4d3e-ab21-9c55a6d4ed80','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('fa7dfb42-7a7a-49f6-8d14-f3d28bd74101','917a0af7-c9f3-4b93-9774-3ecd70b011c5','kuali.creditType.credit.degree.3.0','Retired',0)
+  VALUES ('b16cb91e-f3df-4b38-bf17-048dbebb5103','6266bcb1-993f-4616-bb1b-755e91c45e2c','kuali.creditType.credit.degree.1-3','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('b16cb91e-f3df-4b38-bf17-048dbebb5103','6266bcb1-993f-4616-bb1b-755e91c45e2c','kuali.creditType.credit.degree.1-3','Active',0)
+  VALUES ('fa7dfb42-7a7a-49f6-8d14-f3d28bd74101','917a0af7-c9f3-4b93-9774-3ecd70b011c5','kuali.creditType.credit.degree.3.0','Retired',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('6d7ea372-facc-4876-9a61-84f37bfda27b','449b3dbd-cfda-48e9-a1a9-0d1cdb63033c','kuali.resultComponent.grade.audit','3f764fba-010b-469d-a47f-7d52ad906472','Active',0)
@@ -5488,11 +5488,11 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('cbb4d266-34eb-4ea3-8380-733385248ada','e8e2e1d8-0694-4f34-a3b7-b31197835256','kuali.creditType.credit.degree.1-3','Active',0)
 /
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('3cbaf386-1307-4c0f-b530-0614191f7e88','f1ba42d2-0205-4a50-8283-b2c979618f21','kuali.resultComponent.grade.audit','be2e5de7-a398-4803-9488-9a11e7f9aba2','Draft',1)
-/
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('a161f8ea-e576-4f47-a7f2-10913c346f1f','e8ddb7a2-a9f1-4ad5-9ad1-bed80c4635f3','kuali.creditType.credit.degree.3.0','Retired',0)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
+  VALUES ('3cbaf386-1307-4c0f-b530-0614191f7e88','f1ba42d2-0205-4a50-8283-b2c979618f21','kuali.resultComponent.grade.audit','be2e5de7-a398-4803-9488-9a11e7f9aba2','Draft',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('225d4e0d-98bc-4fad-9797-c57f886c4534','d3baff9e-305a-44a9-8d65-6f3e046c91af','kuali.resultComponent.grade.letter','86af901b-4f25-477c-a3cd-3eafd1439a8c','Active',4)
@@ -5525,10 +5525,10 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('a4bb70d6-ee56-4297-b5a7-d8be8edf7b12','4efd0942-9fe3-4fb0-97c7-fa06a6722a5e','kuali.resultComponent.grade.letter','597f1434-9370-4e5d-9dcd-a5d8ac04db04','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('9fdc21d2-1fea-4819-9562-663c6221eaac','66194ec5-362c-46b6-aff2-a8d1bf1792e7','kuali.resultComponent.grade.letter','739ebf7d-0a9b-43b2-95c3-a392b90ac30f','Draft',2)
+  VALUES ('5b7714c4-8e27-4c6b-89d5-ff07533d278a','73c8b660-0b00-4c15-82d3-f7027e5d516c','kuali.resultComponent.grade.audit','334da4b7-569e-460b-99e9-51feedf0de64','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('5b7714c4-8e27-4c6b-89d5-ff07533d278a','73c8b660-0b00-4c15-82d3-f7027e5d516c','kuali.resultComponent.grade.audit','334da4b7-569e-460b-99e9-51feedf0de64','Active',0)
+  VALUES ('9fdc21d2-1fea-4819-9562-663c6221eaac','66194ec5-362c-46b6-aff2-a8d1bf1792e7','kuali.resultComponent.grade.letter','739ebf7d-0a9b-43b2-95c3-a392b90ac30f','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('8b3f36b5-9c2e-4897-9b45-cc4546c0378f','5c0a5918-3071-45dc-8df3-4d1c9c53fa25','kuali.resultComponent.grade.audit','83988fe3-583b-4a90-b084-232a0cf3994a','Draft',2)
@@ -5540,10 +5540,10 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('c8f8ffdd-9670-43f6-8408-bdd5b3ffe2f7','17b872f9-6fc2-4a69-9827-8a1f52cec2dd','kuali.resultComponent.grade.letter','738b3473-8187-4af8-9fcd-4000592f7c45','Draft',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('99125f15-51c7-44b8-ac93-dd7b0cc5ff7c','f6ef5501-33db-402b-816c-4e4b11de0609','kuali.resultComponent.grade.letter','0e222efb-0b12-4fb5-a552-b407a5849da1','Active',2)
+  VALUES ('3efa1d33-4c53-43d9-b0e8-3917aeedc2e0','413b3e3f-f267-4e45-98dd-1ec92f95f776','kuali.resultComponent.grade.letter','7417db25-e70f-4f91-8920-cef9c4c28ce5','Retired',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('3efa1d33-4c53-43d9-b0e8-3917aeedc2e0','413b3e3f-f267-4e45-98dd-1ec92f95f776','kuali.resultComponent.grade.letter','7417db25-e70f-4f91-8920-cef9c4c28ce5','Retired',1)
+  VALUES ('99125f15-51c7-44b8-ac93-dd7b0cc5ff7c','f6ef5501-33db-402b-816c-4e4b11de0609','kuali.resultComponent.grade.letter','0e222efb-0b12-4fb5-a552-b407a5849da1','Active',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('2d19ed1e-eb6f-448c-8e2d-a52d62f8a065','c607ae4f-4314-4b56-939c-fdfc1efa86e6','kuali.resultComponent.grade.letter','6cea81b6-53b8-484c-bc77-ac14f8d348ec','Retired',1)
@@ -5605,11 +5605,11 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('38bf3f1f-42c1-4d05-a996-9caeac17b0d0','0fb0040b-5204-420e-8a22-2069adcf4033','kuali.resultComponent.grade.satisfactory','19579047-5460-4977-b627-52632ade9be6','Active',1)
 /
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('0dd15ae6-fc42-47fd-90a0-7075d24004e1','3224fd1b-c125-480f-b88c-a7fdce26bf69','kuali.resultComponent.grade.audit','1612e6d9-daab-4160-bc4e-64da5ed5c684','Active',1)
-/
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('651e2455-61d3-43e6-a9a2-68ddc1a5feb6','10260db3-13f6-43f2-9c35-d1d4cda9ea2c','kuali.creditType.credit.degree.3.0','Active',0)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
+  VALUES ('0dd15ae6-fc42-47fd-90a0-7075d24004e1','3224fd1b-c125-480f-b88c-a7fdce26bf69','kuali.resultComponent.grade.audit','1612e6d9-daab-4160-bc4e-64da5ed5c684','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('40ddedb0-d984-4043-a3f1-026ffb7ee8d9','5157e364-3597-41ac-9131-a855c2e0c3ef','kuali.resultComponent.grade.audit','acc35021-bb69-43df-90df-42a67bfd06c0','Draft',1)
@@ -5629,11 +5629,11 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('c816945c-059e-4c5d-8ab2-2f8826367fb4','625a86a2-e005-437b-bd0c-9d602f5efbee','kuali.creditType.credit.degree.3.0','Draft',0)
 /
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('72da77a1-1ef0-4be4-aa07-650d623b86b7','28fe64ca-f45e-4cf2-8271-fc6c05d8d478','kuali.creditType.credit.degree.3.0','Active',0)
-/
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('ac469876-dc63-4f63-acb3-eddae4639c7a','e9ac9794-21b3-4dde-b698-f25831bcfcb9','kuali.resultComponent.grade.audit','01088f78-2e69-4bb1-8c12-7c1fa9cb116b','Retired',1)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
+  VALUES ('72da77a1-1ef0-4be4-aa07-650d623b86b7','28fe64ca-f45e-4cf2-8271-fc6c05d8d478','kuali.creditType.credit.degree.3.0','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('8a825c92-4099-4d54-a488-231884a1f623','dc874511-9486-42ed-985d-a8eae3f8db7e','kuali.resultComponent.grade.letter','742b5048-3b82-41d9-a370-4eea91253c46','Draft',2)
@@ -5645,10 +5645,10 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('e66370e8-6391-49b6-a0cd-432a37eae941','4f9d3aa9-412c-4553-ab07-834419cac220','kuali.resultComponent.grade.audit','5237edd2-5648-4c2e-a649-f4c5fff66e35','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('6fc185a4-d1e9-44f1-a9b2-dea8f83b49c1','5d6ed462-156d-4e62-9243-4c8a95babbe3','kuali.resultComponent.grade.letter','8b184615-7429-4e7c-8603-35a0452f5cb2','Active',0)
+  VALUES ('0544bfa1-6b77-43fb-aa8f-5fa98c0f9116','daae6805-d386-4212-9fdb-8996df32daee','kuali.resultComponent.grade.letter','1e7e0da0-877f-4b80-a0be-c5d13fe67b81','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('0544bfa1-6b77-43fb-aa8f-5fa98c0f9116','daae6805-d386-4212-9fdb-8996df32daee','kuali.resultComponent.grade.letter','1e7e0da0-877f-4b80-a0be-c5d13fe67b81','Active',0)
+  VALUES ('6fc185a4-d1e9-44f1-a9b2-dea8f83b49c1','5d6ed462-156d-4e62-9243-4c8a95babbe3','kuali.resultComponent.grade.letter','8b184615-7429-4e7c-8603-35a0452f5cb2','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('deed2d58-3019-4274-ab86-d7f55e25d1ab','dc6ed746-3c86-4bfc-a536-30937242becc','kuali.resultComponent.grade.letter','d9cbf647-a2d0-4cbc-8b91-d0ff182ce75d','Draft',2)
@@ -5669,13 +5669,13 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('6e1f6113-8e96-4760-ae61-f19745a4f5c5','737d35d8-f07c-4637-93ea-05a039043657','kuali.creditType.credit.degree.1-6','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
+  VALUES ('bb23326d-3a5e-4de2-880f-cb3888f2409c','f0d6ddc1-17e6-473f-a022-2cfad100e5b0','kuali.resultComponent.grade.letter','15efe071-d9c6-40ef-9fb4-fe3d8f577a68','Draft',1)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('3d48e54e-09f9-4bbe-aec0-7e39edac572a','e6e33f48-6390-462d-acd3-1e8778023600','kuali.resultComponent.grade.passFail','65f810f9-a9ba-4cc2-b891-99288ea7323d','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('7bc93bd7-2e54-4216-98c7-1c3195e7488a','7e34f1d9-6619-4304-bea2-b9159c44a683','kuali.creditType.credit.degree.3.0','Active',0)
-/
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('bb23326d-3a5e-4de2-880f-cb3888f2409c','f0d6ddc1-17e6-473f-a022-2cfad100e5b0','kuali.resultComponent.grade.letter','15efe071-d9c6-40ef-9fb4-fe3d8f577a68','Draft',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('2f7bb775-5f57-4dbb-b90c-fb5036ccccfb','acd6fe09-f1d6-4cd0-8427-b573e08f1430','kuali.creditType.credit.degree.3.0','Draft',0)
@@ -5690,10 +5690,10 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('d1568222-8c9d-4e92-86b0-84147976a168','d17e8402-95fd-4234-98b5-2b12fa003e97','kuali.creditType.credit.degree.3.0','Retired',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('503431af-1dd7-4bc0-abef-702f64200303','903c9c2f-6f23-4024-8b30-bb14bc16ad33','kuali.creditType.credit.degree.3.0','Draft',0)
+  VALUES ('a9d51cb3-83bc-4f55-866e-13e4a5d51295','32f30c53-ff87-40e1-a86e-f9ee9f57d5da','kuali.creditType.credit.degree.1.5','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('a9d51cb3-83bc-4f55-866e-13e4a5d51295','32f30c53-ff87-40e1-a86e-f9ee9f57d5da','kuali.creditType.credit.degree.1.5','Active',0)
+  VALUES ('503431af-1dd7-4bc0-abef-702f64200303','903c9c2f-6f23-4024-8b30-bb14bc16ad33','kuali.creditType.credit.degree.3.0','Draft',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('5c4a4a6d-8f11-4a28-b039-3c8ebf63559c','b8ede251-3f55-4a1a-85fe-287a62a1fc81','kuali.creditType.credit.degree.3.0','Active',0)
@@ -5734,20 +5734,20 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('f612e4d1-3770-48c4-95ca-ee5062f21476','400a659f-1dee-442d-9167-7cce81fb6330','kuali.resultComponent.grade.audit','b6b6f3d7-8782-40fa-98ae-4616287f594f','Active',1)
 /
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('0d0c07b2-c026-4a73-ab17-34109137f3ff','70b6a465-b838-4189-bdee-eb48ac5df944','kuali.resultComponent.grade.passFail','542f9a89-1758-498d-9dd1-06ebddb29fb0','Draft',2)
-/
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('2d0356ab-0999-44e0-bcdc-72bd8e620406','7ec79dcf-435a-4038-a67d-f7cc3702866c','kuali.creditType.credit.degree.2.0','Active',0)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
+  VALUES ('0d0c07b2-c026-4a73-ab17-34109137f3ff','70b6a465-b838-4189-bdee-eb48ac5df944','kuali.resultComponent.grade.passFail','542f9a89-1758-498d-9dd1-06ebddb29fb0','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('d12b2891-ae8a-4861-b8d1-811a7ac56f89','7db1870d-597f-4b41-a363-899f24b365c6','kuali.resultComponent.grade.letter','7ea13d56-c47a-496c-9ba0-254514b032f9','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('5751972d-90c4-47f5-96c1-77b13c4c04fa','a6a84e6b-b669-45d3-9374-1af0a04428a4','kuali.creditType.credit.degree.3.0','Draft',0)
+  VALUES ('b7732e1d-7ea0-4370-adfc-4b10640c7dc2','256f3dca-b1e3-4104-adc7-6b276377da5e','kuali.creditType.credit.degree.3.0','Draft',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('b7732e1d-7ea0-4370-adfc-4b10640c7dc2','256f3dca-b1e3-4104-adc7-6b276377da5e','kuali.creditType.credit.degree.3.0','Draft',0)
+  VALUES ('5751972d-90c4-47f5-96c1-77b13c4c04fa','a6a84e6b-b669-45d3-9374-1af0a04428a4','kuali.creditType.credit.degree.3.0','Draft',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('0e0a3d02-6e44-4b81-a163-b8978982e3a4','3d796153-c157-4e1a-ab63-174dbf873de9','kuali.resultComponent.grade.passFail','417cadc0-c8dc-429b-a757-98181b532b9e','Retired',1)
@@ -5779,11 +5779,11 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('24c95fae-95d3-44f3-94b7-f739a5c6f377','6ba7717e-5375-495c-9843-3e19e5fef51f','kuali.resultComponent.grade.audit','5776120a-8f21-4f7e-849a-a194f6535520','Retired',1)
 /
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('374e31fc-08d0-4193-9aac-0387e14436ff','7556737d-b086-4f73-8c97-695c7db1803c','kuali.creditType.credit.degree.3.0','Active',0)
-/
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('56025c4d-665b-4dd4-88af-1a8cd781dd3d','26fa0aa1-23c0-4555-8a36-d6235517c7a6','kuali.resultComponent.grade.audit','42672a39-b797-45b4-be2b-02b5e2b26815','Active',1)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
+  VALUES ('374e31fc-08d0-4193-9aac-0387e14436ff','7556737d-b086-4f73-8c97-695c7db1803c','kuali.creditType.credit.degree.3.0','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('42a453df-cf66-40dc-ba64-da7e356d21e7','aecf5943-f7ba-4764-89e3-dd7f3d0ab7f6','kuali.resultComponent.grade.letter','61aeb28e-43b5-4d92-838f-7d8086fa8e12','Active',1)
@@ -5831,10 +5831,10 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('1c15fcde-99ee-486f-a1cc-5bf6d4767271','1b8f86ad-a4b6-4047-b8a0-662b3385ef01','kuali.resultComponent.grade.audit','a8959c42-2b3d-4af6-b60d-7fb3cd4c1f96','Draft',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('13893e23-74d8-4a05-8ddb-ad326124c4c4','03b63c74-a0b1-464c-a8e3-372514d248de','kuali.resultComponent.grade.passFail','3cf14574-32f2-4bd1-ae3a-bbd467722cff','Retired',1)
+  VALUES ('cd67ac08-dedf-4def-bcb4-cf083a0a600e','07d1bdc2-f7ea-4877-85b9-1505b0e323bf','kuali.resultComponent.grade.audit','2c5aa21d-6094-4801-9800-4e1854e5f64e','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('cd67ac08-dedf-4def-bcb4-cf083a0a600e','07d1bdc2-f7ea-4877-85b9-1505b0e323bf','kuali.resultComponent.grade.audit','2c5aa21d-6094-4801-9800-4e1854e5f64e','Draft',2)
+  VALUES ('13893e23-74d8-4a05-8ddb-ad326124c4c4','03b63c74-a0b1-464c-a8e3-372514d248de','kuali.resultComponent.grade.passFail','3cf14574-32f2-4bd1-ae3a-bbd467722cff','Retired',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('e23945e9-3ab6-4f7e-95af-54231ad9e886','1ee251a0-068c-40f9-b162-3abef46a47fa','kuali.creditType.credit.degree.3.0','Draft',0)
@@ -5848,26 +5848,26 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('c8f4dbf6-2092-469c-8be3-6a6b54d6c1db','22d7c128-c17c-4fb9-85fa-dab8e1132496','kuali.resultComponent.grade.letter','e8c7b0e1-131b-4df2-b8db-74eb40f58af4','Active',0)
 /
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('296174c1-715d-44de-8595-c7e8b4694d24','fd6d7ebb-0b8b-4ee3-b400-45a56da53e6a','kuali.creditType.credit.degree.4.0','Draft',0)
-/
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('fc98e041-2788-4165-bf5a-c3aab9102517','d5b49675-1dbf-42f6-b0b9-aa9a314bdc86','kuali.resultComponent.grade.letter','56ad5051-c55e-47a8-a30e-5742e78e1a53','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('e52f81bc-5439-40f2-a877-26da9bd0dbd3','59df81fc-d1a4-463c-874d-31555cf665a5','kuali.resultComponent.grade.passFail','6c7bc53a-7e99-4e37-b741-6647d463b626','Draft',1)
 /
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
+  VALUES ('296174c1-715d-44de-8595-c7e8b4694d24','fd6d7ebb-0b8b-4ee3-b400-45a56da53e6a','kuali.creditType.credit.degree.4.0','Draft',0)
+/
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('e0039e58-10e1-4298-bfcd-c2f4f5b3d85b','ab8c6d60-2f42-4901-a24b-781c31a827a5','kuali.resultComponent.grade.letter','5e917ef6-5546-4442-b7cb-4db9e0159a7a','Draft',3)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
+  VALUES ('fd9852cc-b1eb-4aba-90ce-666c80e0ac73','01339bae-b8d4-45d9-aecf-115a2ebb9777','kuali.resultComponent.grade.audit','8c9ad24e-0686-4876-ba4b-20255598cce0','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('fa7a720e-5408-483f-ad56-3860a682a7a1','c5d4b34c-8f50-47b1-bfb6-fedd87ed9e80','kuali.resultComponent.grade.audit','416d0f33-e36f-4787-a368-cdc6c046cb80','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('dd063834-61dd-47c1-be08-bb959ef8fbf6','08fa8691-b7e8-458c-bc57-64259182a4ac','kuali.resultComponent.grade.letter','9825d073-e7b8-40d8-9646-302af4153dec','Draft',2)
-/
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('fd9852cc-b1eb-4aba-90ce-666c80e0ac73','01339bae-b8d4-45d9-aecf-115a2ebb9777','kuali.resultComponent.grade.audit','8c9ad24e-0686-4876-ba4b-20255598cce0','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('b9a73203-a7ef-4f81-9e88-e63459bfe0d4','e485da74-b402-4380-92c3-e8ddd39dbdd3','kuali.creditType.credit.degree.3.0','Draft',0)
@@ -5899,11 +5899,11 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('403a5b20-ea98-4aad-af9e-34299fede055','9d52583f-7409-4e7c-b2a5-2f50b5db8550','kuali.resultComponent.grade.letter','9bbffb5d-c887-433f-a763-3ed09d13bb42','Draft',2)
 /
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('3de11e4f-973d-4d34-abd4-db13afc57b1a','b558e43e-7840-4118-97b0-297d9d001894','kuali.creditType.credit.degree.3.0','Retired',0)
-/
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('74cbfd03-4efc-4051-832c-938b8d0d94dd','799dccad-d1a5-4560-902f-23ccea210224','kuali.resultComponent.grade.letter','688cb578-59ca-430d-9a1a-3e901c9a1d3d','Active',1)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
+  VALUES ('3de11e4f-973d-4d34-abd4-db13afc57b1a','b558e43e-7840-4118-97b0-297d9d001894','kuali.creditType.credit.degree.3.0','Retired',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('9c890b73-49db-43a6-83b9-0333a6221922','43e2c0d3-de52-45d1-9ef1-ec7145aaff30','kuali.resultComponent.grade.audit','f8ef14f6-5c31-4775-9f07-e3ee03d3ff6a','Active',1)
@@ -5960,10 +5960,10 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('860fbf1f-9e97-4439-8fa9-55a3918213da','0f0f4454-1b92-418b-90bd-b925651a4455','kuali.resultComponent.grade.letter','cfe8c088-6712-4498-a7ab-603578b2f0e9','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('baa2d265-b5e2-4b98-9850-16ff200cbb5f','4d12e879-7f03-4f8a-8aa5-0816dc9143bc','kuali.resultComponent.grade.audit','3f894665-3314-486f-9bf7-b52f1a91aec3','Draft',2)
+  VALUES ('5496684f-0b26-4f71-9684-26184f2b6ec0','66744738-ea8e-453e-b801-06a7f8d7c681','kuali.resultComponent.grade.audit','450d81e8-00b0-4b37-a1d9-dcfd0d78f647','Draft',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('5496684f-0b26-4f71-9684-26184f2b6ec0','66744738-ea8e-453e-b801-06a7f8d7c681','kuali.resultComponent.grade.audit','450d81e8-00b0-4b37-a1d9-dcfd0d78f647','Draft',1)
+  VALUES ('baa2d265-b5e2-4b98-9850-16ff200cbb5f','4d12e879-7f03-4f8a-8aa5-0816dc9143bc','kuali.resultComponent.grade.audit','3f894665-3314-486f-9bf7-b52f1a91aec3','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('a4e3b3ca-696f-45f8-a8a2-9b018d742235','6af9db67-554c-47e2-a115-e2b0b6b6962c','kuali.creditType.credit.degree.3.0','Draft',0)
@@ -6008,19 +6008,19 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('c0d9318f-34b1-4e08-8f0b-42c1c8595444','e2b0d901-9320-4f3e-b362-90b6f7ad8d46','kuali.resultComponent.grade.audit','8754d275-995f-4a89-8bd0-23cfc0c4d742','Draft',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('1eb837a4-c9da-4e48-b521-d4aff537adea','7c11c3b0-61f9-49a5-a35d-5e9a812a3845','kuali.resultComponent.grade.passFail','5d484c90-4e25-42aa-acf6-6611c7b27607','Draft',2)
+  VALUES ('e8f5583a-98d1-48fa-a68e-53e506c75ab2','2fdd4e2a-9d53-4b3d-b2db-10b0290f8ae5','kuali.resultComponent.grade.passFail','621c39b4-9bc1-482d-919c-b3736cad50ae','Draft',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('e8f5583a-98d1-48fa-a68e-53e506c75ab2','2fdd4e2a-9d53-4b3d-b2db-10b0290f8ae5','kuali.resultComponent.grade.passFail','621c39b4-9bc1-482d-919c-b3736cad50ae','Draft',1)
+  VALUES ('1eb837a4-c9da-4e48-b521-d4aff537adea','7c11c3b0-61f9-49a5-a35d-5e9a812a3845','kuali.resultComponent.grade.passFail','5d484c90-4e25-42aa-acf6-6611c7b27607','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('a2f97718-97c1-4ab5-bea4-adb68767fc6d','0d936b9a-a7df-4881-8bb9-b065ecd91a2e','kuali.resultComponent.grade.passFail','86bce37c-0f07-4927-9c56-8264adb00cfc','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('6508e728-e8c1-4b58-8ca0-130920fcc9eb','3ccf9f69-abf7-4830-b2b7-1b410fd7d6a3','kuali.resultComponent.grade.audit','e9e04726-ac1e-4304-beb5-f669f16c1c76','Active',1)
+  VALUES ('b74b04d4-12e4-427c-b519-c1df70304ad9','b28e92de-85a9-471a-888d-8615615a5dd4','kuali.resultComponent.grade.audit','38a25097-28eb-4755-8338-cc08ee582a34','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('b74b04d4-12e4-427c-b519-c1df70304ad9','b28e92de-85a9-471a-888d-8615615a5dd4','kuali.resultComponent.grade.audit','38a25097-28eb-4755-8338-cc08ee582a34','Draft',2)
+  VALUES ('6508e728-e8c1-4b58-8ca0-130920fcc9eb','3ccf9f69-abf7-4830-b2b7-1b410fd7d6a3','kuali.resultComponent.grade.audit','e9e04726-ac1e-4304-beb5-f669f16c1c76','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('b678cab1-33c9-4503-9e35-456ec17d0319','3c40e21d-4e12-4700-b012-f8c63f21ce0b','kuali.resultComponent.grade.audit','6d0981f7-2891-474c-ad06-dbb4bfa1314c','Draft',1)
@@ -6037,11 +6037,11 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('003c869e-a555-480c-abef-72f1b95af9af','28b4383f-23a9-4fe4-ac03-62d0ba6118fc','kuali.resultComponent.grade.passFail','a642be2d-1a4c-4397-996c-6bc03cc2faaf','Active',0)
 /
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('09d31373-aca4-44d0-9237-b90afd73c4c5','6bbe69c6-6628-4c96-ac6a-3d03035338ae','kuali.resultComponent.grade.passFail','0400c86f-2f6c-455d-9400-36b0b9f72c26','Active',1)
-/
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('6c2b723b-fbdc-4788-ae3f-8dac4ecc7d88','534cde5d-30bb-4b99-a537-003e52f33c2e','kuali.creditType.credit.degree.3.0','Active',0)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
+  VALUES ('09d31373-aca4-44d0-9237-b90afd73c4c5','6bbe69c6-6628-4c96-ac6a-3d03035338ae','kuali.resultComponent.grade.passFail','0400c86f-2f6c-455d-9400-36b0b9f72c26','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('d8964803-b983-4b1c-b445-94417f981ef3','3c0d9adf-05ea-4379-a31a-8e02612b6e75','kuali.creditType.credit.degree.3.0','Draft',0)
@@ -6055,6 +6055,9 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('e2bf8ddf-5624-48ce-9b55-47100631111f','24ee9ed5-eae1-4888-b92f-5b1b80ec57d1','kuali.resultComponent.grade.passFail','5e782fa5-4b91-430d-b454-6b752b2b0afd','Active',1)
 /
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
+  VALUES ('e34a86ff-e570-44e5-854e-152c29024610','3f53335e-30e8-48e8-a79e-3cf22dd07578','kuali.resultComponent.grade.audit','b7e37c71-8487-4a69-b55a-dae18f4110e9','Draft',2)
+/
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('1ab696f2-02bb-44b3-b0df-796b9408fc0f','2ea4669a-60aa-4009-a1e6-81844d6f47f6','kuali.creditType.credit.degree.1.0','Active',0)
 /
@@ -6062,16 +6065,13 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('080cea8f-4843-4a1a-8d31-808fbf10d79b','c3d35dbb-3cbf-4987-99c8-d2f32cc257fc','kuali.resultComponent.grade.letter','7ee22380-c58b-4917-a3d5-749d5bb994ea','Draft',3)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('e34a86ff-e570-44e5-854e-152c29024610','3f53335e-30e8-48e8-a79e-3cf22dd07578','kuali.resultComponent.grade.audit','b7e37c71-8487-4a69-b55a-dae18f4110e9','Draft',2)
-/
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('4d79a19b-272c-43d4-8bb2-663ad058dfa0','76cdc0e0-4328-4319-9ca2-f74441469585','kuali.resultComponent.grade.letter','82db09f1-1a97-4de1-97a6-2b59ec9cbcb4','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('29a33550-8c2e-4331-8759-f7f8b79b73ee','8f77bad8-d2c8-415a-9beb-531d4598a099','kuali.resultComponent.grade.audit','c8ea6c66-d80f-483f-84bb-2c3531b4ccc0','Draft',1)
+  VALUES ('f523bbf7-bb29-4e24-b4be-7f7a6c1d8bdc','a4c8cc98-f257-44e8-816a-41c5935c7a30','kuali.resultComponent.grade.letter','746957b1-e353-4fc9-b4a7-6fe239fc4f9f','Draft',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('f523bbf7-bb29-4e24-b4be-7f7a6c1d8bdc','a4c8cc98-f257-44e8-816a-41c5935c7a30','kuali.resultComponent.grade.letter','746957b1-e353-4fc9-b4a7-6fe239fc4f9f','Draft',1)
+  VALUES ('29a33550-8c2e-4331-8759-f7f8b79b73ee','8f77bad8-d2c8-415a-9beb-531d4598a099','kuali.resultComponent.grade.audit','c8ea6c66-d80f-483f-84bb-2c3531b4ccc0','Draft',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('7e789f2c-0b9b-4604-8fae-db93a9dd8663','4c2fcce3-2b98-4d26-8149-b4ea43319acd','kuali.resultComponent.grade.letter','a7d94162-4e1e-4663-8c7c-600a6daf36a7','Draft',3)
@@ -6083,10 +6083,10 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('7aba8f4e-9ccd-4cd3-8ab3-b030870a1c76','20b87e0f-eb18-4523-8740-dc96f7690280','kuali.resultComponent.grade.letter','90858496-ecee-4205-ad2b-806b62b4220d','Draft',4)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('e43a1765-8a89-469a-8963-d8d0e10d2e7f','8e11ec47-640d-4d37-bd49-f4ae0e3d9070','kuali.resultComponent.grade.letter','dc671058-b9a6-4a9e-a438-bf1ad29f6691','Draft',4)
+  VALUES ('fb68b74c-adf3-41cd-8d1f-9f68c75f0bbb','9d6400d8-2557-4d17-8ad2-d7e8f73ec4d7','kuali.resultComponent.grade.letter','b2017bf8-9a1a-47e2-bb01-3d624cac4f00','Draft',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('fb68b74c-adf3-41cd-8d1f-9f68c75f0bbb','9d6400d8-2557-4d17-8ad2-d7e8f73ec4d7','kuali.resultComponent.grade.letter','b2017bf8-9a1a-47e2-bb01-3d624cac4f00','Draft',1)
+  VALUES ('e43a1765-8a89-469a-8963-d8d0e10d2e7f','8e11ec47-640d-4d37-bd49-f4ae0e3d9070','kuali.resultComponent.grade.letter','dc671058-b9a6-4a9e-a438-bf1ad29f6691','Draft',4)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('7d8c7c78-fd08-4c94-a9ff-0570a423676f','f511bf04-1fc9-4964-b976-1c7dfea51ce7','kuali.resultComponent.grade.audit','fea50d2b-befc-4aec-ae5c-dc131bcb025b','Retired',1)
@@ -6110,10 +6110,10 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('9d877e07-1c78-4798-8b58-63d3995bde6b','f260a57e-177e-4855-b943-12b67730271a','kuali.creditType.credit.degree.3.0','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('d86e642c-45ba-4dca-963b-cfd786f6fdba','3666a5d9-d8dc-4d1e-9e9c-45750c660410','kuali.resultComponent.grade.audit','2529ca2b-d50b-46f4-a70c-0700f389ccc0','Active',1)
+  VALUES ('eb0e824b-4735-422f-b02f-bbf8f0b228ae','5ebd36df-c1fa-4da6-9fef-5803f844a174','kuali.resultComponent.grade.passFail','5fd09a4d-1d1b-4961-8335-6156243c0984','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('eb0e824b-4735-422f-b02f-bbf8f0b228ae','5ebd36df-c1fa-4da6-9fef-5803f844a174','kuali.resultComponent.grade.passFail','5fd09a4d-1d1b-4961-8335-6156243c0984','Draft',2)
+  VALUES ('d86e642c-45ba-4dca-963b-cfd786f6fdba','3666a5d9-d8dc-4d1e-9e9c-45750c660410','kuali.resultComponent.grade.audit','2529ca2b-d50b-46f4-a70c-0700f389ccc0','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('b98ad7ee-4304-456c-ad67-5aad1688ce39','5b55b55a-c447-4297-8e19-7bf34e812ea0','kuali.resultComponent.grade.passFail','37766347-3481-4c34-a9ed-273f47b102fa','Draft',1)
@@ -6137,10 +6137,10 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('2862b07c-0d34-45f7-9cdb-e1ee12e0a563','669aee96-ade3-4724-9fc2-a15af0839e7e','kuali.resultComponent.grade.letter','ebe413fd-9bbc-45e9-92c0-7a658fa0100a','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('de958c19-ec0e-4423-8894-62cba61b8698','3ce461bd-0ac1-4b2c-98c8-8e5f4a0f11f3','kuali.creditType.credit.degree.4.0','Draft',0)
+  VALUES ('f61cba18-72b7-4779-8083-d04f78b7d97e','9e070460-01e0-48de-b3ae-c7b712bd8ae4','kuali.creditType.credit.degree.3.0','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('f61cba18-72b7-4779-8083-d04f78b7d97e','9e070460-01e0-48de-b3ae-c7b712bd8ae4','kuali.creditType.credit.degree.3.0','Active',0)
+  VALUES ('de958c19-ec0e-4423-8894-62cba61b8698','3ce461bd-0ac1-4b2c-98c8-8e5f4a0f11f3','kuali.creditType.credit.degree.4.0','Draft',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('7ce42161-2a3d-484a-ba26-3130c52289e2','35f034fc-ee44-4f50-99ee-91105b2a7e00','kuali.resultComponent.grade.letter','54179b5b-7826-4d26-aa69-990ad2acf490','Active',1)
@@ -6151,11 +6151,11 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('e0a95ab0-015e-45cb-b256-9895822b7678','af9c139a-ad63-4607-b0a1-c2578f490afc','kuali.creditType.credit.degree.3.0','Active',0)
 /
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('eff37dfb-b6c5-4929-85f0-ea52152d3adc','69407a67-28e2-47b1-b158-b3479143229b','kuali.resultComponent.grade.audit','974a70c8-7511-411d-a8bf-5ad2fca60838','Draft',16)
-/
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('64563d36-4dc0-4f18-9fba-14709af97656','7d6337bf-46d8-4d1a-a1c0-17f28376e606','kuali.creditType.credit.degree.3.0','Active',0)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
+  VALUES ('eff37dfb-b6c5-4929-85f0-ea52152d3adc','69407a67-28e2-47b1-b158-b3479143229b','kuali.resultComponent.grade.audit','974a70c8-7511-411d-a8bf-5ad2fca60838','Draft',16)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('504be6cb-eb4c-4189-b7d2-b8d861625c67','f936cb84-57c8-4477-bad6-8cb31716ebdb','kuali.creditType.credit.degree.3.0','Active',0)
@@ -6167,10 +6167,10 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('455dc5ba-1c28-4bb5-b27e-df9a54306e77','8d3ac442-2de3-49c3-b910-54c7e645cf37','kuali.resultComponent.grade.audit','dd116e8b-f65a-41ca-9167-6ad3dee2ab65','Draft',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('37e9a59e-2b2a-4bb5-97fa-e7f7d6a6cc4e','f00cd5d1-9a12-4a89-99bd-906d12f1e044','kuali.resultComponent.grade.passFail','18192302-00e1-4dee-b7c8-1eb64d4eed2e','Draft',1)
+  VALUES ('edc9cadc-4673-468f-9dfe-b5087cf65e56','f8cf7e59-f26f-4643-9350-e1cd41df0931','kuali.resultComponent.grade.letter','0ce53315-f969-49ec-b633-7ddf61c48e31','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('edc9cadc-4673-468f-9dfe-b5087cf65e56','f8cf7e59-f26f-4643-9350-e1cd41df0931','kuali.resultComponent.grade.letter','0ce53315-f969-49ec-b633-7ddf61c48e31','Active',1)
+  VALUES ('37e9a59e-2b2a-4bb5-97fa-e7f7d6a6cc4e','f00cd5d1-9a12-4a89-99bd-906d12f1e044','kuali.resultComponent.grade.passFail','18192302-00e1-4dee-b7c8-1eb64d4eed2e','Draft',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('cb9fe8c0-d0cb-4ff9-9b94-f4202a58c279','41b0d720-1e13-4382-8667-f34d23c78584','kuali.resultComponent.grade.audit','45d36c66-c59b-4f0b-9924-2e8ca20cd2a2','Draft',2)
@@ -6187,11 +6187,11 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('9cdd11c2-e50e-4433-b08d-b15134b33eb0','7aa12f37-06be-41cb-ab00-351e43de6406','kuali.creditType.credit.degree.3.0','Active',0)
 /
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('e3952f7f-e01d-4fee-b1c2-2dbb5f22a5f3','13da37bb-13d6-49e6-93ac-c16c075087c8','kuali.creditType.credit.degree.3.0','Draft',0)
-/
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('9f2f140b-7baf-4a81-a14c-4bf5afb95bfa','7ebecb4f-0d56-4711-aa58-127cf3238c58','kuali.resultComponent.grade.letter','9fdcc934-58a9-430a-8bdc-3da29f8ca63c','Active',1)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
+  VALUES ('e3952f7f-e01d-4fee-b1c2-2dbb5f22a5f3','13da37bb-13d6-49e6-93ac-c16c075087c8','kuali.creditType.credit.degree.3.0','Draft',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('f1628d0c-8a5a-4c44-825c-ff48ca419f11','a956a65c-ca9c-42a2-b005-7b1a2f9a737e','kuali.resultComponent.grade.letter','ff22f637-4a78-46c5-ba5a-7e7fc2ccc001','Active',0)
@@ -6241,14 +6241,14 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('3b38f531-6812-404a-a1fb-3562a3258095','b2141443-6712-41d2-b4db-fef4b4deeac7','kuali.creditType.credit.degree.3.0','Active',0)
 /
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('8025f243-45bc-4d7e-8b13-cc6be713c700','e15d8469-4109-4d30-82fe-ca1e9279e274','kuali.resultComponent.grade.satisfactory','c8985d1d-d5c5-4c86-99c2-d76f3766dc1c','Active',1)
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
+  VALUES ('9465de43-d308-42bd-bd5f-a5ab7f077cd1','d8dadd35-bfe3-42f6-bda7-80c9581df7c0','kuali.creditType.credit.degree.3.0','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('f4023796-f21b-4164-90bf-76b44562fc17','5c972445-16ba-4353-96cf-ce5b6cfe7883','kuali.resultComponent.grade.letter','2dfb70f4-8211-4b0b-acf3-2efcd4460f61','Draft',2)
 /
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('9465de43-d308-42bd-bd5f-a5ab7f077cd1','d8dadd35-bfe3-42f6-bda7-80c9581df7c0','kuali.creditType.credit.degree.3.0','Active',0)
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
+  VALUES ('8025f243-45bc-4d7e-8b13-cc6be713c700','e15d8469-4109-4d30-82fe-ca1e9279e274','kuali.resultComponent.grade.satisfactory','c8985d1d-d5c5-4c86-99c2-d76f3766dc1c','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('07a44768-f305-460c-9639-8b3642e01bbf','aff11e40-4681-4bf9-9a44-4b43a2131970','kuali.resultComponent.grade.audit','cfb4322c-c43c-445d-a091-4146ab1a2645','Active',1)
@@ -6292,17 +6292,17 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('af96bf52-de02-4b41-aeb4-d557706b95aa','26512e90-a7e5-4108-a80d-f696f9f32927','kuali.resultComponent.grade.letter','33c891c3-77c0-4852-85a4-fa654f2e2d13','Active',1)
 /
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('aa8b4335-b12d-4c9d-ae26-066c8d981a82','1bd40395-51a5-44f4-95a1-05de9a901187','kuali.resultComponent.grade.passFail','e52f3596-03c1-4079-841f-84f3c837dfa9','Active',1)
-/
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('4ac0da62-f016-41d2-aefc-ee8f7aa24646','64ab98ce-2374-4113-b4cd-e249a71a7ea9','kuali.creditType.credit.degree.2.0','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('abdc54fc-c86d-4257-b9c8-c5074045431c','c852b380-c50a-4aa0-ac6e-7a929e4e1984','kuali.resultComponent.grade.audit','73eb37f9-e6ea-4f77-be7e-95486d9525e8','Draft',2)
+  VALUES ('aa8b4335-b12d-4c9d-ae26-066c8d981a82','1bd40395-51a5-44f4-95a1-05de9a901187','kuali.resultComponent.grade.passFail','e52f3596-03c1-4079-841f-84f3c837dfa9','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('f7fac34b-5048-45b6-8a64-3dc2aaab3c67','cc3a7616-d550-4b06-9444-f07150c0b65c','kuali.creditType.credit.degree.3.0','Retired',0)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
+  VALUES ('abdc54fc-c86d-4257-b9c8-c5074045431c','c852b380-c50a-4aa0-ac6e-7a929e4e1984','kuali.resultComponent.grade.audit','73eb37f9-e6ea-4f77-be7e-95486d9525e8','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('9eed5b05-47e2-4ccf-9b1a-717109c577eb','9485c617-9571-4415-bebc-c69cd9456173','kuali.resultComponent.grade.letter','5819233c-86a7-49ca-900d-7b8a0c7f9128','Active',1)
@@ -6320,10 +6320,10 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('7db422c3-335f-4726-9b82-a47ebc50ea03','f87cf47d-3965-4935-afa8-4b253395bcf1','kuali.resultComponent.grade.passFail','15807e54-32c3-47cd-8d49-eb3761bcb472','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('911f8aaf-eb13-432e-962f-e5b942158f4e','0c414267-5d2c-472c-be52-44fcf21a9332','kuali.resultComponent.grade.letter','436a0bf8-04b0-4744-8dc6-4d8c0ed52c5d','Retired',1)
+  VALUES ('720e85e9-de0d-4ee8-a7eb-b7f2922a4890','52b64817-c4f3-4aaa-9dd7-05b41ed33183','kuali.resultComponent.grade.audit','ecfd0906-4e17-45d9-a518-5b2bac3dcfd6','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('720e85e9-de0d-4ee8-a7eb-b7f2922a4890','52b64817-c4f3-4aaa-9dd7-05b41ed33183','kuali.resultComponent.grade.audit','ecfd0906-4e17-45d9-a518-5b2bac3dcfd6','Draft',2)
+  VALUES ('911f8aaf-eb13-432e-962f-e5b942158f4e','0c414267-5d2c-472c-be52-44fcf21a9332','kuali.resultComponent.grade.letter','436a0bf8-04b0-4744-8dc6-4d8c0ed52c5d','Retired',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('41a8e949-8d2f-4be9-a6e8-347dd95051cc','455ef220-0ed8-4b35-8e24-9ef519e416d9','kuali.resultComponent.grade.letter','a098c099-8e68-4a1c-8f28-9e6103f2b85e','Active',0)
@@ -6343,14 +6343,14 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('63cec6e5-21d0-4351-84c0-7dbf6c310b38','8b447274-dc61-47a2-826b-e4958d2f822d','kuali.resultComponent.grade.letter','f98827ac-c7ba-42b7-b1af-d1c604828d0d','Draft',2)
 /
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
+  VALUES ('9e982929-7a1f-4b78-80d9-faadbb4e5841','6b4ecdee-a6f8-4619-a72d-f35e73bf9c97','kuali.resultComponent.grade.audit','6d8c4760-935c-41ef-af04-09f4a030563d','Active',0)
+/
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('8d17f846-2e2d-4da9-a6d0-c558559e4cba','53571468-c94c-45c1-82ca-b20f5a053ac0','kuali.creditType.credit.degree.3.0','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('092b26cb-bc3c-4229-9a71-33f5afb477c0','105b21ec-3c18-446b-83f5-fc5f3ea2d105','kuali.resultComponent.grade.audit','2d0ecded-946c-4510-93b4-a0771b4ad1d7','Draft',8)
-/
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('9e982929-7a1f-4b78-80d9-faadbb4e5841','6b4ecdee-a6f8-4619-a72d-f35e73bf9c97','kuali.resultComponent.grade.audit','6d8c4760-935c-41ef-af04-09f4a030563d','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('339ef5e6-9945-44c9-ac2e-c9937eec1ffe','4f58e673-56c3-4cfe-93fa-fcd683181175','kuali.resultComponent.grade.audit','61973e73-0fce-46b3-aa9e-4beafae936de','Draft',1)
@@ -6397,14 +6397,14 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('406c3edc-7ac5-4437-9ce9-f4dc4f139e3d','2c96e81f-7873-4be1-a56a-4924b4606a31','kuali.creditType.credit.degree.3.0','Active',0)
 /
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
+  VALUES ('6092326f-6c18-4316-a5bc-d1402c8ef26e','da8892cb-b521-4c03-9acd-5a88eb7d604c','kuali.resultComponent.grade.audit','bac534fe-29fd-4c97-aa0c-cbbfd7ac4d20','Draft',2)
+/
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('544e3c3e-7f34-4202-83d6-413104e05ab1','6c56ec73-05c2-4f97-9928-3247edb4c63b','kuali.creditType.credit.degree.2.0','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('714498a3-c098-4ede-beed-6a46eaa9fc8f','5a0b5aed-715f-40b7-af5a-9089d9e27db7','kuali.creditType.credit.degree.3.0','Draft',0)
-/
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('6092326f-6c18-4316-a5bc-d1402c8ef26e','da8892cb-b521-4c03-9acd-5a88eb7d604c','kuali.resultComponent.grade.audit','bac534fe-29fd-4c97-aa0c-cbbfd7ac4d20','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('0e488f08-b88e-4573-8406-9bb2bdd783cc','7050429d-218d-4907-a52c-b2fcb0bd4172','kuali.resultComponent.grade.audit','e2b4475f-ad5b-483f-bcf4-c82bfe854b1b','Active',0)
@@ -6446,10 +6446,10 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('8378f503-bb10-416b-b659-112eda5aab78','95d282d0-737d-46a4-a972-d71287ca07c2','kuali.resultComponent.grade.passFail','b5aef95d-941f-4011-b454-7c82fa141711','Draft',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('e0025ae9-93b6-4e82-bee7-aa9b11f06857','5192ead7-762b-49a7-bb25-dc77dc896c36','kuali.resultComponent.grade.passFail','a80faaf1-8160-4cd4-b580-148ebcc64435','Active',1)
+  VALUES ('66f37df8-b377-4d64-ab24-d4cb62b975af','0f8c7ee0-76b7-4c22-bd89-4fc3511ba1fb','kuali.resultComponent.grade.letter','c9ea0bfe-aaae-49e1-a62b-a9f4b202d2bd','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('66f37df8-b377-4d64-ab24-d4cb62b975af','0f8c7ee0-76b7-4c22-bd89-4fc3511ba1fb','kuali.resultComponent.grade.letter','c9ea0bfe-aaae-49e1-a62b-a9f4b202d2bd','Active',0)
+  VALUES ('e0025ae9-93b6-4e82-bee7-aa9b11f06857','5192ead7-762b-49a7-bb25-dc77dc896c36','kuali.resultComponent.grade.passFail','a80faaf1-8160-4cd4-b580-148ebcc64435','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('91da380b-3925-4d1f-8663-42d150b1e9ba','9db0abbe-c6ab-48cf-a219-b23896c465fc','kuali.resultComponent.grade.letter','d9fc434e-2d19-4914-a728-06569a43f8c3','Active',0)
@@ -6464,10 +6464,10 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('89e89d42-436d-448d-aa9c-09f586872223','a25df575-828e-41a9-8f45-8c194977751d','kuali.creditType.credit.degree.3.0','Draft',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('ac5899cf-31b0-4a00-8616-979cb6e11f16','5e9089f1-dcef-4735-9591-6153a117d86d','kuali.resultComponent.grade.audit','907738f5-f625-4a8b-a586-233eec0420c9','Active',3)
+  VALUES ('2d5839b8-829c-4c74-bfae-50f7467e4b78','40206852-974a-47d9-9e24-11a1943296a3','kuali.resultComponent.grade.audit','4d76ca05-2c14-4739-909f-d1765de97a33','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('2d5839b8-829c-4c74-bfae-50f7467e4b78','40206852-974a-47d9-9e24-11a1943296a3','kuali.resultComponent.grade.audit','4d76ca05-2c14-4739-909f-d1765de97a33','Draft',2)
+  VALUES ('ac5899cf-31b0-4a00-8616-979cb6e11f16','5e9089f1-dcef-4735-9591-6153a117d86d','kuali.resultComponent.grade.audit','907738f5-f625-4a8b-a586-233eec0420c9','Active',3)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('6d38be30-186a-4369-a7fe-9e3f29365931','a65d1399-c43a-488e-af47-80fbb8b6a72a','kuali.resultComponent.grade.passFail','19fd3996-11b1-48e4-a8c2-e68e31fbe8c8','Active',1)
@@ -6476,10 +6476,10 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('1530e182-9a5d-49f3-accb-eff098e11a6b','20a8692b-8071-4435-9e1f-8eae732b9bec','kuali.resultComponent.grade.passFail','ad476122-da1d-41ae-981c-82fdef4c3cab','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('95359e20-95d5-450e-b78d-98b16c86870a','31ec4692-b2e5-45ec-aa27-4f16c0d15cba','kuali.creditType.credit.degree.3.0','Draft',0)
+  VALUES ('98b6f59b-db8a-4c0d-9656-d3b9021bdf4f','5800dac0-1ffe-4e59-913b-a3a9a616d58c','kuali.creditType.credit.degree.2.0','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('98b6f59b-db8a-4c0d-9656-d3b9021bdf4f','5800dac0-1ffe-4e59-913b-a3a9a616d58c','kuali.creditType.credit.degree.2.0','Active',0)
+  VALUES ('95359e20-95d5-450e-b78d-98b16c86870a','31ec4692-b2e5-45ec-aa27-4f16c0d15cba','kuali.creditType.credit.degree.3.0','Draft',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('f9849679-0715-4e19-88e0-8117300f1544','3072ddea-bde0-4bd6-ae84-bb7294311a2b','kuali.resultComponent.grade.letter','f7a463fd-8e23-4908-931b-3a8eb2bf4ece','Active',0)
@@ -6491,10 +6491,10 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('487035a3-d3f4-40be-9964-7f3f327388df','9ccf4225-02ce-48dd-8909-204ab8f01303','kuali.resultComponent.grade.letter','26c2fc6c-be77-4eb6-903c-8b1a3cf01b48','Retired',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('19bebe66-d752-43a5-be33-d0d2b63336ea','e1a1346c-96cf-4d8c-9b84-80ef6b63b513','kuali.resultComponent.grade.audit','51bb37a4-d9fe-408a-98cb-74fe7a81674b','Draft',2)
+  VALUES ('83a677d8-3307-4df3-89c9-60c5865e2cf0','94368d7b-4699-4e70-a388-c25b4ea12315','kuali.resultComponent.grade.audit','893da588-f868-4c2e-b691-0f61bb97c1bc','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('83a677d8-3307-4df3-89c9-60c5865e2cf0','94368d7b-4699-4e70-a388-c25b4ea12315','kuali.resultComponent.grade.audit','893da588-f868-4c2e-b691-0f61bb97c1bc','Active',0)
+  VALUES ('19bebe66-d752-43a5-be33-d0d2b63336ea','e1a1346c-96cf-4d8c-9b84-80ef6b63b513','kuali.resultComponent.grade.audit','51bb37a4-d9fe-408a-98cb-74fe7a81674b','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('a2514799-5ac6-47cb-a6e8-808f5cbeb839','4df3a917-fdd7-44ea-bd03-172c6f230cd2','kuali.resultComponent.grade.passFail','e6f22635-bdcc-4df0-a4fa-0a8a2c60c8de','Retired',1)
@@ -6506,10 +6506,10 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('19758eb5-ba1c-4d75-9d90-2cdcd5a69452','a6f06709-bef6-4c9f-b527-ff1cb5bfb2d2','kuali.resultComponent.grade.letter','b0c25f72-ddfc-4937-8d9f-6d384f046e5b','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('63d0995f-21db-416c-9f53-74b768b70916','c87a0f60-ee0b-41d1-af7a-a17ad833d7d1','kuali.resultComponent.grade.audit','a87d38e3-3a15-49a2-8b50-2db03d3d15fe','Draft',1)
+  VALUES ('8ae59a8e-e25d-4799-9f20-72544a43e89b','39ffe440-9868-45c1-abad-c6663e9ec3e7','kuali.resultComponent.grade.audit','959505b3-0b0e-4eb3-9f54-0cdacc2a7e16','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('8ae59a8e-e25d-4799-9f20-72544a43e89b','39ffe440-9868-45c1-abad-c6663e9ec3e7','kuali.resultComponent.grade.audit','959505b3-0b0e-4eb3-9f54-0cdacc2a7e16','Active',0)
+  VALUES ('63d0995f-21db-416c-9f53-74b768b70916','c87a0f60-ee0b-41d1-af7a-a17ad833d7d1','kuali.resultComponent.grade.audit','a87d38e3-3a15-49a2-8b50-2db03d3d15fe','Draft',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('7d3d05e6-10f4-43a2-8a3e-46c0bcae5b53','849b9500-7de1-4831-a5b3-de0935eb94ec','kuali.creditType.credit.degree.3.0','Draft',0)
@@ -6526,11 +6526,11 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('0751ff7e-2ad5-4ec1-a8ac-42dd3da93e4d','b5a14f3b-c05e-4d21-aad0-428a886edee3','kuali.creditType.credit.degree.3.0','Draft',0)
 /
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('65b59a69-4d0d-42b6-bd0d-b8a6648504da','d3932192-8fe6-4307-af6e-1d07bfa182d4','kuali.creditType.credit.degree.3.0','Active',0)
-/
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('5899eb3b-ecd1-4bfc-9dc0-f302fe3b1ce9','97688e2a-19df-486b-9747-a4f4576159dd','kuali.resultComponent.grade.audit','f5e9ad7e-8741-4b93-8887-8646b1914de3','Active',1)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
+  VALUES ('65b59a69-4d0d-42b6-bd0d-b8a6648504da','d3932192-8fe6-4307-af6e-1d07bfa182d4','kuali.creditType.credit.degree.3.0','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('c5a9730d-9b21-481d-80ac-f78049608e53','bf8f62a6-db13-4187-b35a-3a59f32ce998','kuali.creditType.credit.degree.3.0','Active',0)
@@ -6560,19 +6560,19 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('b32295e0-7e9a-40f9-805e-c938d84b54ed','992d034e-65e9-432e-a3d6-29f8a0c50cdd','kuali.creditType.credit.degree.3.0','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('4e0a46ed-1ff7-4de2-9aeb-aa3bd08452fb','4ed78e35-3c63-42d1-9865-2b6b943ddbe3','kuali.resultComponent.grade.letter','233156ca-543b-4873-b8d8-a3ce68737cb6','Draft',1)
+  VALUES ('d25a85ee-06aa-463c-9678-9e54fd816b20','4843ac9c-27a8-4154-a492-cb4ef23e8afa','kuali.resultComponent.grade.letter','6edb4bff-3a48-4af2-b5ca-639d59e197da','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('d25a85ee-06aa-463c-9678-9e54fd816b20','4843ac9c-27a8-4154-a492-cb4ef23e8afa','kuali.resultComponent.grade.letter','6edb4bff-3a48-4af2-b5ca-639d59e197da','Active',0)
+  VALUES ('4e0a46ed-1ff7-4de2-9aeb-aa3bd08452fb','4ed78e35-3c63-42d1-9865-2b6b943ddbe3','kuali.resultComponent.grade.letter','233156ca-543b-4873-b8d8-a3ce68737cb6','Draft',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('018f4f26-af2b-4a15-b135-5029c727df35','3cc1132f-ed4c-4d9a-b90d-4b60871b1154','kuali.creditType.credit.degree.3.0','Active',0)
 /
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('7ce486f0-8925-481f-8149-2b50a870ca0b','e366bd67-6f9c-4282-83bd-54c4265599c4','kuali.creditType.credit.degree.3.0','Draft',0)
-/
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('7d963f13-716e-4bb6-b147-34fd5031165f','7bfd8b10-41c0-4e97-aff2-65b35f95c0da','kuali.resultComponent.grade.audit','a36ebaec-c312-4554-bf8c-e4ab75208c6b','Draft',2)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
+  VALUES ('7ce486f0-8925-481f-8149-2b50a870ca0b','e366bd67-6f9c-4282-83bd-54c4265599c4','kuali.creditType.credit.degree.3.0','Draft',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('41241761-cbee-426a-9d65-1c5037054af1','c90f7739-e10e-4dbd-9122-188348500fb3','kuali.creditType.credit.degree.3.0','Active',0)
@@ -6601,17 +6601,17 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('a30c6405-da6b-498d-aeb3-8250a096a894','7ac32bea-6458-47af-884c-a0cb15ffbc0d','kuali.resultComponent.grade.letter','f0fb3ec2-29f6-45dc-a1e4-dd7d0ff13b44','Retired',1)
 /
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('172b5a57-4eda-457d-a29c-8ff4a0b90a61','8bb21cd7-74b3-459e-b0ce-0fbd185a41c6','kuali.resultComponent.grade.passFail','83152d5c-39f6-4eee-8f2d-6a484bf0d6c7','Active',1)
-/
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('88c5f6fb-73a2-4a79-b9d6-af5bbd9f1fac','6476aa0f-ff9b-442e-8029-8a60a188f19c','kuali.creditType.credit.degree.3.0','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('1aaf4559-fa85-46c6-b801-7058141ade9f','5e57ec97-ceb5-4866-a621-d9d07c76c044','kuali.resultComponent.grade.letter','4df1882e-83ef-47c2-a9d5-ce443d6176ec','Draft',1)
+  VALUES ('172b5a57-4eda-457d-a29c-8ff4a0b90a61','8bb21cd7-74b3-459e-b0ce-0fbd185a41c6','kuali.resultComponent.grade.passFail','83152d5c-39f6-4eee-8f2d-6a484bf0d6c7','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('945bc969-6f36-4f5d-a6d2-ce5b09b4d107','08ea12d5-807a-405b-90c1-d7d63daf524e','kuali.resultComponent.grade.audit','33d77377-343b-4574-add1-1b5654f85c9b','Draft',3)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
+  VALUES ('1aaf4559-fa85-46c6-b801-7058141ade9f','5e57ec97-ceb5-4866-a621-d9d07c76c044','kuali.resultComponent.grade.letter','4df1882e-83ef-47c2-a9d5-ce443d6176ec','Draft',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('b62da00c-5dbe-46bc-acad-9c2f504bfc49','fff4dd0d-5b98-4ec2-ae15-64280dbddfdf','kuali.resultComponent.grade.audit','9822a779-f63b-4c81-b67e-9ef2c21616b2','Active',0)
@@ -6632,10 +6632,10 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('6761e70a-d2b2-4575-95d1-c7d6c61a5995','336480af-7a0a-4571-9907-f43a321c0cff','kuali.resultComponent.grade.letter','8cf33df7-9325-49ba-811e-2ac3244e556e','Draft',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('a2e51c2f-887d-4bee-9105-a899709c241e','2438a3ce-e6ca-4683-9290-c92ab61c51d3','kuali.resultComponent.grade.passFail','bfa9f2d8-2aff-46e0-b945-4915a5506107','Active',1)
+  VALUES ('37cba11f-67f3-4fa3-93d6-a0a7f61dd464','fdc9538f-7c77-4148-845a-16a4924211aa','kuali.resultComponent.grade.letter','45e1b3a5-5056-49f8-8b69-c096657da19e','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('37cba11f-67f3-4fa3-93d6-a0a7f61dd464','fdc9538f-7c77-4148-845a-16a4924211aa','kuali.resultComponent.grade.letter','45e1b3a5-5056-49f8-8b69-c096657da19e','Active',0)
+  VALUES ('a2e51c2f-887d-4bee-9105-a899709c241e','2438a3ce-e6ca-4683-9290-c92ab61c51d3','kuali.resultComponent.grade.passFail','bfa9f2d8-2aff-46e0-b945-4915a5506107','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('29a24221-f4c8-439e-b271-1fab0f228237','08be7102-965a-48f4-a5d3-e62350f5129f','kuali.creditType.credit.degree.3.0','Draft',0)
@@ -6721,14 +6721,14 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('1bbcfa35-404d-4c2a-b885-2c868fd34a5f','9a6c94e0-69f4-4511-bebc-753968918e37','kuali.resultComponent.grade.letter','40935176-72af-43b3-9203-e8cccedca1b8','Draft',2)
 /
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('d2375a0c-e09e-4e75-a1e9-3d5ff1f6befc','0087311d-8bf4-4939-b12b-3d56641c358a','kuali.creditType.credit.degree.3.0','Draft',0)
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
+  VALUES ('4ca3b288-d890-4916-8efe-fcf075bd3ae5','e6e6a26d-8caf-4b5c-b9b9-2537e8cdf6da','kuali.resultComponent.grade.letter','2b410630-bc49-427a-9ba4-44aa37ba3686','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('e99e816a-4d76-4a93-ad5a-ded2e0bf3026','6cd6ead6-ea55-45ca-a40a-970d70cd418e','kuali.creditType.credit.degree.3.0','Draft',0)
 /
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('4ca3b288-d890-4916-8efe-fcf075bd3ae5','e6e6a26d-8caf-4b5c-b9b9-2537e8cdf6da','kuali.resultComponent.grade.letter','2b410630-bc49-427a-9ba4-44aa37ba3686','Active',0)
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
+  VALUES ('d2375a0c-e09e-4e75-a1e9-3d5ff1f6befc','0087311d-8bf4-4939-b12b-3d56641c358a','kuali.creditType.credit.degree.3.0','Draft',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('fea010d1-65cd-4c46-8b29-0551b3d9ed60','dd137f84-5106-4e17-81c1-d62c39daa17c','kuali.resultComponent.grade.letter','a42485ed-d20f-41e3-98e4-b7c8af179093','Draft',26)
@@ -6757,11 +6757,11 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('b44f4f36-26d6-4492-9e64-ca96905b52c3','7eb4e0e8-6f6d-4895-9961-3b2372e2de34','kuali.resultComponent.grade.audit','66753bbe-7daf-40df-8b41-4e5d2403b75f','Active',1)
 /
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('27209e0f-ff03-459b-8eb5-5a07df3f7d0f','d478e40b-f6e1-48b8-9306-f7b6667a3523','kuali.resultComponent.grade.audit','7d00c217-1465-416b-af4a-33ead6c8f79f','Retired',1)
-/
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('04c05877-1dd5-42dd-9c18-dd627a113424','65e1239c-e93d-4500-875e-29e784824270','kuali.creditType.credit.degree.3.0','Draft',0)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
+  VALUES ('27209e0f-ff03-459b-8eb5-5a07df3f7d0f','d478e40b-f6e1-48b8-9306-f7b6667a3523','kuali.resultComponent.grade.audit','7d00c217-1465-416b-af4a-33ead6c8f79f','Retired',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('a9410053-b68c-41b3-812e-150898503e00','6b19cc62-574d-46a4-9aad-fd28d2372f2d','kuali.resultComponent.grade.audit','51cb6ec5-077f-43c6-8828-297abac7d279','Draft',1)
@@ -6791,16 +6791,16 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('f237b549-8a09-4133-a31e-933f903bdb21','c5c60e17-cb2e-4d39-a5f1-766845cca2c2','kuali.resultComponent.grade.passFail','36d30297-c46a-459f-9dd2-0dd93197ab46','Draft',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('0897673a-870c-48ed-8dff-6ad5a1a15ff5','be551cfa-ac1e-4f69-bac0-8925e773a16c','kuali.resultComponent.grade.audit','a8a06ea2-e34d-4175-b342-fe797cf1aa09','Active',1)
-/
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('71ae8e36-fb54-4d61-89a2-b9542d3377f6','b7dc282b-78f4-487a-9fb7-11c2af1efb11','kuali.resultComponent.grade.passFail','c9bfe00f-5a4f-479f-9483-95751f573fb3','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('02e61e89-217e-4465-bea2-0493950f81ed','79f66066-e695-4d5a-8633-3754590c481d','kuali.resultComponent.grade.passFail','b5287958-fc4d-4e32-8ada-cac80521e107','Active',1)
+  VALUES ('0897673a-870c-48ed-8dff-6ad5a1a15ff5','be551cfa-ac1e-4f69-bac0-8925e773a16c','kuali.resultComponent.grade.audit','a8a06ea2-e34d-4175-b342-fe797cf1aa09','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('f31ce78b-30a7-4eec-af2a-d7bcc3700967','3a2d6207-96b5-4862-8476-b97b6bcdecd8','kuali.creditType.credit.degree.1-3','Active',0)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
+  VALUES ('02e61e89-217e-4465-bea2-0493950f81ed','79f66066-e695-4d5a-8633-3754590c481d','kuali.resultComponent.grade.passFail','b5287958-fc4d-4e32-8ada-cac80521e107','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('f28ea043-9edb-4256-99e8-60ab6ce9f642','d2c6d1e9-6efc-44fd-8ec9-61d7a6845a49','kuali.resultComponent.grade.audit','2aac602c-ab3a-4cfb-a4d2-7b5b23a0bfa6','Active',1)
@@ -6827,10 +6827,10 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('4d820df0-e7a3-4f1c-b8ad-3bcab7574781','b4bcf213-e056-4c35-9c0d-96da8c1848fc','kuali.creditType.credit.degree.3.0','Draft',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('7776afb1-9b67-4f6a-adb2-a6e2ee0183b5','c501d0c5-8123-4216-9abd-4cc965c345b5','kuali.creditType.credit.degree.3.0','Draft',0)
+  VALUES ('c8f6db57-0915-40e2-9da4-716c0e6849ba','270aa3a2-91e0-4896-bb52-ac6ce5f44bb2','kuali.creditType.credit.degree.3.0','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('c8f6db57-0915-40e2-9da4-716c0e6849ba','270aa3a2-91e0-4896-bb52-ac6ce5f44bb2','kuali.creditType.credit.degree.3.0','Active',0)
+  VALUES ('7776afb1-9b67-4f6a-adb2-a6e2ee0183b5','c501d0c5-8123-4216-9abd-4cc965c345b5','kuali.creditType.credit.degree.3.0','Draft',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('04090f7a-cdfb-44be-92b1-6b1c8398cd9e','6a84fab6-5dd8-4805-8e90-dbebb5eb2a67','kuali.resultComponent.grade.audit','dbd1b2ae-7b74-4e00-ac1d-8262d2d61453','Active',0)
@@ -6842,16 +6842,16 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('9d29f11f-c033-4912-8476-4df16b11a857','1a2a5df7-469c-4519-87e1-99d52d073fe7','kuali.creditType.credit.degree.3.0','Draft',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('9bb7188e-fc3e-4248-99a7-820e857941f9','1155cc26-2504-4eae-b03d-11ccee677479','kuali.resultComponent.grade.audit','0c59c82d-0a9c-4b7c-ba36-9b444ff4676f','Active',1)
-/
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('67e5d399-080f-4561-a42d-d91c4d73c606','73684cf4-7df1-4741-8ca0-3b6f2624e28d','kuali.resultComponent.grade.letter','6686d9fd-3361-4ffe-ab99-e29dc558f0ec','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('b63f8e52-3acb-410e-9245-576f7b548c82','92224682-8889-4b6a-ad39-c4ff6cbade34','kuali.resultComponent.grade.letter','433e575e-9551-4862-8b28-b2946fbfa4f8','Active',1)
+  VALUES ('9bb7188e-fc3e-4248-99a7-820e857941f9','1155cc26-2504-4eae-b03d-11ccee677479','kuali.resultComponent.grade.audit','0c59c82d-0a9c-4b7c-ba36-9b444ff4676f','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('733be6b2-b15d-493b-9993-73bf2cec943c','8f475eea-fd0b-4ee9-a42d-145e369c6be6','kuali.resultComponent.grade.passFail','f120a0c6-c347-43f2-93df-9f2201176943','Draft',1)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
+  VALUES ('b63f8e52-3acb-410e-9245-576f7b548c82','92224682-8889-4b6a-ad39-c4ff6cbade34','kuali.resultComponent.grade.letter','433e575e-9551-4862-8b28-b2946fbfa4f8','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('3adaa502-2378-45bf-8779-78d400c466a6','a40e403e-1627-4947-abe2-13a43240803f','kuali.resultComponent.grade.letter','1440ba10-5464-4b15-a864-d58b6dc616d1','Draft',2)
@@ -6860,16 +6860,16 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('226954d3-17ad-415a-a9e6-ea98abfd3430','1e8a03bb-13c3-4768-b546-70500ebd5558','kuali.creditType.credit.degree.4.0','Draft',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
+  VALUES ('bb9c1ffc-da75-49ab-8d75-0f0edde5a406','195b45ac-af96-4a9b-80fe-9a7d33bedd1a','kuali.resultComponent.grade.letter','00eb18fa-8040-4a26-bd41-642f02c69e01','Draft',1)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('6d513285-fe26-48c6-ae1a-6cb4a703becc','06c5da90-328c-4419-8f4e-2eff15df89f2','kuali.resultComponent.grade.letter','71dfb32b-c777-45f4-a3e3-6d25eaa0428c','Draft',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('bb9c1ffc-da75-49ab-8d75-0f0edde5a406','195b45ac-af96-4a9b-80fe-9a7d33bedd1a','kuali.resultComponent.grade.letter','00eb18fa-8040-4a26-bd41-642f02c69e01','Draft',1)
+  VALUES ('5671df7a-6cb9-458c-8ebf-178476ef82f2','205cd925-f249-469f-89a1-05178f568c0e','kuali.resultComponent.grade.audit','a67738ac-3104-4792-a77d-6adfe2bbc5bf','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('63f140ba-2ed0-4a70-9a61-547d937aadeb','74e76a5e-00ff-4e5a-ae20-c6ac1a192865','kuali.creditType.credit.degree.2.0','Draft',0)
-/
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('5671df7a-6cb9-458c-8ebf-178476ef82f2','205cd925-f249-469f-89a1-05178f568c0e','kuali.resultComponent.grade.audit','a67738ac-3104-4792-a77d-6adfe2bbc5bf','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('9f36e852-8bb4-4d45-9347-25d049649b09','eb70d5f0-e8c2-4e47-a891-91fb4a441e30','kuali.resultComponent.grade.letter','a0efb661-b671-4560-8f53-ebddb8db66e9','Draft',2)
@@ -6901,11 +6901,11 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('7f70562d-f4e2-415f-bb80-fc841aa1b0fc','ee076ab2-f9c9-42ce-8825-63ff43eda069','kuali.resultComponent.grade.audit','fbe2561c-2ad4-4aea-9ac8-0d8bc8138c43','Draft',1)
 /
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('32cb881b-15d3-493e-ac5f-b23ff15b081c','c674a9cf-72b8-4196-8f14-d240f0780147','kuali.resultComponent.grade.letter','b74c480b-c75a-4f3f-b68d-da5311b552f7','Active',0)
-/
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('11068ae2-1745-4bad-a078-c075de5fc132','0ecf026b-c18a-451f-b980-abf9eba9f3c3','kuali.creditType.credit.degree.3.0','Retired',0)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
+  VALUES ('32cb881b-15d3-493e-ac5f-b23ff15b081c','c674a9cf-72b8-4196-8f14-d240f0780147','kuali.resultComponent.grade.letter','b74c480b-c75a-4f3f-b68d-da5311b552f7','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('19d4393a-a541-4180-977d-415efa474e33','35cfb298-10bc-4480-83bf-b08fc80e8a63','kuali.resultComponent.grade.letter','cfb49f81-83bc-4436-967e-1cba0d246375','Active',2)
@@ -6944,10 +6944,10 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('647adde1-1a0c-4cf0-8e24-5fd93a0c61b3','4a7dfcc6-17d2-459b-8166-0f487c5d3d4f','kuali.resultComponent.grade.passFail','29e4b9e8-7dc4-4347-9da1-225a83f79b0c','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('af318b6a-ba2b-44b9-bf8b-5a3a4f1f413a','5691079e-f486-490f-a1aa-cc4806adcd45','kuali.resultComponent.grade.letter','8490d4b7-9862-4717-9bc7-9a511b2480ed','Active',0)
+  VALUES ('3b91903d-e916-4394-877e-6d97d2ee0717','fdad575a-5769-4e23-a1b3-d7c2645e96d8','kuali.resultComponent.grade.passFail','c3fdcea4-2784-45ea-a0bb-0232f088b013','Draft',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('3b91903d-e916-4394-877e-6d97d2ee0717','fdad575a-5769-4e23-a1b3-d7c2645e96d8','kuali.resultComponent.grade.passFail','c3fdcea4-2784-45ea-a0bb-0232f088b013','Draft',1)
+  VALUES ('af318b6a-ba2b-44b9-bf8b-5a3a4f1f413a','5691079e-f486-490f-a1aa-cc4806adcd45','kuali.resultComponent.grade.letter','8490d4b7-9862-4717-9bc7-9a511b2480ed','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('426911dd-1a39-4f79-9d1e-93ea7e213c5e','194e82a8-474c-4a5c-ada4-3760dbaaed81','kuali.creditType.credit.degree.3.0','Retired',0)
@@ -6977,10 +6977,10 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('fcda3d99-a9b1-4038-96d1-9d443b251f7e','67ce110e-308e-44f2-a3b2-4f2661be09d6','kuali.creditType.credit.degree.3.0','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('c818e591-70d0-4d97-9d0c-7aad01377e2b','51a61cea-172b-419c-807a-ce5a05b3d5ef','kuali.resultComponent.grade.letter','ad861580-e1fe-4fff-a727-315b32fec86f','Draft',2)
+  VALUES ('4ce11a17-9fd2-4724-b895-c2b5f47ad9e3','bcda9281-9670-4f8c-8847-96ddb8bed46b','kuali.resultComponent.grade.passFail','59045ba6-6a1b-4dd1-9ef5-d21da98057fe','Draft',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('4ce11a17-9fd2-4724-b895-c2b5f47ad9e3','bcda9281-9670-4f8c-8847-96ddb8bed46b','kuali.resultComponent.grade.passFail','59045ba6-6a1b-4dd1-9ef5-d21da98057fe','Draft',1)
+  VALUES ('c818e591-70d0-4d97-9d0c-7aad01377e2b','51a61cea-172b-419c-807a-ce5a05b3d5ef','kuali.resultComponent.grade.letter','ad861580-e1fe-4fff-a727-315b32fec86f','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('28cba25f-de90-4538-8e73-477b8cc973bc','0c69c66c-2358-4cbf-8e1c-bb19b522a651','kuali.resultComponent.grade.letter','3e7971d5-eb7a-4ca3-9ad6-ed25d3fce204','Draft',2)
@@ -7040,16 +7040,16 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('3bf24868-9a18-4c0d-b9f0-eec9d3da7278','0705bf1d-d114-4b1c-bf80-e6d5a65d4bb1','kuali.resultComponent.grade.audit','f68ea049-f394-4933-bf12-564c995b7c74','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('8aebd9b6-0f3a-46ca-a716-b21943cbef3c','2fe793a5-f099-4c63-97d0-cad1c7f2046a','kuali.creditType.credit.degree.3.0','Draft',0)
-/
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('5538eeeb-1b34-4467-9c9c-26403ba19b7e','caa9c280-f807-4734-ab44-a456fdb14c6d','kuali.creditType.credit.degree.2.0','Active',0)
 /
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('d2b0a26e-fdbb-4ada-b76e-57835e3798ec','b7f37386-3c45-457b-abfc-9d6660e32f47','kuali.resultComponent.grade.letter','25a7c758-44c5-4ae5-9c15-d789a5b7396e','Retired',1)
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
+  VALUES ('8aebd9b6-0f3a-46ca-a716-b21943cbef3c','2fe793a5-f099-4c63-97d0-cad1c7f2046a','kuali.creditType.credit.degree.3.0','Draft',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('fe0f079d-b41d-4391-a1b9-3672657966af','16aa5650-cc83-4e33-be0c-2dd0a2fc3baa','kuali.resultComponent.grade.passFail','bfff5809-2af4-4174-bd46-b9fc13d67aaf','Active',1)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
+  VALUES ('d2b0a26e-fdbb-4ada-b76e-57835e3798ec','b7f37386-3c45-457b-abfc-9d6660e32f47','kuali.resultComponent.grade.letter','25a7c758-44c5-4ae5-9c15-d789a5b7396e','Retired',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('7f6f9a48-e14c-4be3-9702-581f9603c91d','77a5ca51-4afc-4827-9eb5-368c32b29d8c','kuali.resultComponent.grade.audit','b8b77808-9a36-493e-a1ed-a0bbefbbc842','Active',0)
@@ -7076,10 +7076,10 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('b8db0535-1174-4727-8999-aaff91b95a7c','182b1921-fab0-4d14-a24f-5f0f41525d66','kuali.resultComponent.grade.letter','43cdd7a5-0f7e-465f-a505-38a4e375ec67','Draft',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('1e371030-516a-4ae4-b4ab-4c64cfd8b790','5694c745-12a2-4370-8764-6fc395efe84c','kuali.resultComponent.grade.audit','8e1292eb-34ce-42e0-9a45-4e7913e879b0','Draft',1)
+  VALUES ('4b64a5bc-f1c3-4684-9254-606d7eb81277','147d03e8-6b98-48c2-b963-d4eebe9ccfe9','kuali.resultComponent.grade.letter','6eb1d2f8-7f04-467e-890d-f9f4e1c0c5a2','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('4b64a5bc-f1c3-4684-9254-606d7eb81277','147d03e8-6b98-48c2-b963-d4eebe9ccfe9','kuali.resultComponent.grade.letter','6eb1d2f8-7f04-467e-890d-f9f4e1c0c5a2','Draft',2)
+  VALUES ('1e371030-516a-4ae4-b4ab-4c64cfd8b790','5694c745-12a2-4370-8764-6fc395efe84c','kuali.resultComponent.grade.audit','8e1292eb-34ce-42e0-9a45-4e7913e879b0','Draft',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('09306eeb-370c-49fd-8dfd-501174176038','24b63076-7b34-4afd-9844-85d5bd8d2160','kuali.creditType.credit.degree.3.0','Active',0)
@@ -7121,25 +7121,25 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('59d8f411-5c76-4c78-bde0-04ae1752edd2','aab07b10-8c83-4c4e-b2f3-72761bc1adbb','kuali.resultComponent.grade.letter','14a8b4aa-8094-4d5a-9aa3-ff00943341dd','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('329e625c-3ea0-4377-8d3c-d8b24e0c5682','4b550c38-dd06-44dd-8870-a2383524bb26','kuali.creditType.credit.degree.3.0','Draft',0)
+  VALUES ('778085a3-da87-48fb-a767-e79c65c20fae','09470d7f-5d9d-4f2c-8a65-b7f49476bcd5','kuali.creditType.credit.degree.3.0','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('778085a3-da87-48fb-a767-e79c65c20fae','09470d7f-5d9d-4f2c-8a65-b7f49476bcd5','kuali.creditType.credit.degree.3.0','Active',0)
+  VALUES ('329e625c-3ea0-4377-8d3c-d8b24e0c5682','4b550c38-dd06-44dd-8870-a2383524bb26','kuali.creditType.credit.degree.3.0','Draft',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('ea8d0198-3c2c-4e4f-8050-4bc0bdc4dd76','1dc5cc60-6038-4b49-95b8-b1e673e23788','kuali.resultComponent.grade.letter','e1267b25-1f01-4566-b845-b45729ac3756','Draft',1)
-/
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('6f4ca4ec-4545-4a29-b7c6-8c3276655491','30daee08-3f0a-4d12-ac11-c3b7f6af8d82','kuali.resultComponent.grade.passFail','9799181e-3610-4000-8588-4559d780382f','Draft',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('ca04cc85-58e2-4741-b9ee-c31341bcfffd','c7411aab-cf93-4bfb-972e-ed0cad98d59c','kuali.creditType.credit.degree.3.0','Draft',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('cb1c73b1-a6dd-4bec-bb01-065f35b185cb','62d9e6fd-9c15-4689-9209-7e2abf692cd3','kuali.resultComponent.grade.passFail','1203910b-a3bc-430f-bef1-bedda23a0655','Draft',2)
+  VALUES ('6f4ca4ec-4545-4a29-b7c6-8c3276655491','30daee08-3f0a-4d12-ac11-c3b7f6af8d82','kuali.resultComponent.grade.passFail','9799181e-3610-4000-8588-4559d780382f','Draft',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('2771cbd0-5733-4d22-bf42-4d9610be5f55','c6b05209-aaf2-4c35-9d41-dc0e26222a1c','kuali.creditType.credit.degree.2.0','Active',0)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
+  VALUES ('cb1c73b1-a6dd-4bec-bb01-065f35b185cb','62d9e6fd-9c15-4689-9209-7e2abf692cd3','kuali.resultComponent.grade.passFail','1203910b-a3bc-430f-bef1-bedda23a0655','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('1b600faf-c1cd-41c6-9be4-08bee7de3446','8a462c6f-cd30-4a31-b4bb-0dac0b70a6f0','kuali.resultComponent.grade.passFail','bc06559e-96e1-4a9c-9d50-96bd9eb77916','Draft',2)
@@ -7252,11 +7252,11 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('2bbf89ed-4883-4d93-866d-0f45ca245883','8133aeae-3633-47f1-bcaf-f8fcd6f128ad','kuali.resultComponent.grade.passFail','5c1bdde6-fd9b-4290-ab07-851bd1ccecd2','Active',0)
 /
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('87c5b246-c0e8-41a5-824a-15ed60259929','b46616c0-f726-4e60-8eb9-71ba484c1c7b','kuali.creditType.credit.degree.3.0','Draft',0)
-/
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('d4c72f38-bf48-4ce6-800b-a2b60e338317','4ff660be-3c09-46bc-9db2-2dcc63e36e1e','kuali.resultComponent.grade.passFail','62cda002-0087-4892-a869-b1dc97b82e1c','Draft',2)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
+  VALUES ('87c5b246-c0e8-41a5-824a-15ed60259929','b46616c0-f726-4e60-8eb9-71ba484c1c7b','kuali.creditType.credit.degree.3.0','Draft',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('9e9406dd-e91c-4932-8ac9-593fd0186654','ba92ca27-cfd2-47f4-a135-44abdc525a08','kuali.creditType.credit.degree.3.0','Active',0)
@@ -7273,11 +7273,11 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('df7f246e-0be9-407a-8241-5fdd0ad13816','50dab642-647d-405b-9d4b-ec11d684ecc6','kuali.resultComponent.grade.passFail','986cafb1-a197-4190-b398-312bfad7264b','Retired',2)
 /
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('b90b293d-f9c1-4a7a-b8cf-56d97ce937c4','31142622-8344-479b-983c-15da5f1130c6','kuali.resultComponent.grade.satisfactory','d7771d7b-a387-43e4-97a4-b4885d92b123','Active',3)
-/
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('0eb80ca9-c9f9-445a-a7a0-532d6c706d2e','26d63f79-efdb-409c-b33e-66b4d7f52c88','kuali.creditType.credit.degree.3.0','Active',0)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
+  VALUES ('b90b293d-f9c1-4a7a-b8cf-56d97ce937c4','31142622-8344-479b-983c-15da5f1130c6','kuali.resultComponent.grade.satisfactory','d7771d7b-a387-43e4-97a4-b4885d92b123','Active',3)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('f235cc80-051b-4a31-8c4e-4d856a12dc99','1ff7b63b-7c46-444f-a780-8798e4883208','kuali.resultComponent.grade.letter','a07b806f-bea9-42dd-9ef6-728e1bab8766','Draft',1)
@@ -7313,10 +7313,10 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('54b8c52a-1c92-4cdb-bdb1-9b4c11fa2578','50e96a53-740f-4c6c-99c3-12f5b5812a5d','kuali.resultComponent.grade.audit','45535b09-06d5-41dd-ada0-9c60bddcffd4','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('6584805c-3dea-4278-88b0-cad2b56675de','7e2cf41b-4628-4995-ac20-3b723b1a13b6','kuali.resultComponent.grade.audit','d0d1c157-581a-4884-b5ff-8606416334b8','draft',15)
+  VALUES ('c634f4b4-d031-47ff-b0e4-f071d54e3440','f044fc6c-7d52-46b7-a043-622856f7e30b','kuali.resultComponent.grade.audit','afbe2131-46de-43a1-8efe-e059451bd18d','Retired',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('c634f4b4-d031-47ff-b0e4-f071d54e3440','f044fc6c-7d52-46b7-a043-622856f7e30b','kuali.resultComponent.grade.audit','afbe2131-46de-43a1-8efe-e059451bd18d','Retired',1)
+  VALUES ('6584805c-3dea-4278-88b0-cad2b56675de','7e2cf41b-4628-4995-ac20-3b723b1a13b6','kuali.resultComponent.grade.audit','d0d1c157-581a-4884-b5ff-8606416334b8','draft',15)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('20f80fb6-86d2-499b-b3c8-45a7ffb5a3d1','2cd8a745-0723-458e-be47-5aca9a7af9ba','kuali.resultComponent.grade.audit','867fe5a7-4690-45da-a9a0-3990ac51fa32','Active',1)
@@ -7336,17 +7336,17 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('d44147f2-463e-42ba-a9de-b8a746c0e5f8','9cfac600-de19-4f66-a5fa-fc1ac177db38','kuali.resultComponent.grade.letter','7d6c7726-9522-4df6-b525-90c3056630bf','Draft',2)
 /
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('527885d8-ef4e-4d24-899f-13933583d146','060b27b4-69af-47cd-ae23-58ba241c971e','kuali.creditType.credit.degree.3.0','Active',0)
-/
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('ef7e82b7-a30e-4ded-960d-51a95395dd72','991d2a3d-9591-48a8-98b4-ef26728f559e','kuali.resultComponent.grade.letter','3873001d-97f1-4434-bb7f-5341e17bf5cf','Active',1)
 /
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('028a1133-210f-4a31-afed-84e9b5d89d55','58f0c07e-899d-4554-94e9-38a181d45af9','kuali.resultComponent.grade.passFail','34388f4d-690a-49be-ba73-25328b7ffe22','Active',0)
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
+  VALUES ('527885d8-ef4e-4d24-899f-13933583d146','060b27b4-69af-47cd-ae23-58ba241c971e','kuali.creditType.credit.degree.3.0','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('076bbf21-6e89-4cf9-a0b9-7d175173545f','704e8bf6-f968-442a-a747-de2a7c236fc7','kuali.creditType.credit.degree.3.0','Active',0)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
+  VALUES ('028a1133-210f-4a31-afed-84e9b5d89d55','58f0c07e-899d-4554-94e9-38a181d45af9','kuali.resultComponent.grade.passFail','34388f4d-690a-49be-ba73-25328b7ffe22','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('79b53c4f-a42d-446f-a1ca-f9da0204a049','4e959c25-38ee-4cb7-a3df-02bb7d7f7e4e','kuali.resultComponent.grade.passFail','1ba28e6d-af88-4b6f-a0a2-de1ffe723267','Active',1)
@@ -7378,20 +7378,23 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('6df153af-1a08-43a4-99f2-9c78b16cf023','87908898-03f9-44f2-b0d3-da34c29d3f99','kuali.resultComponent.grade.audit','fe2cae41-f252-4adb-9133-a1a5063055b5','Active',1)
 /
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('9ea8313c-c418-4be8-847c-462dd4a998ca','03ac2697-72d7-4836-b9fc-cb337b954112','kuali.creditType.credit.degree.3.0','Draft',0)
-/
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('32afc7a8-a1f6-49a6-af03-49834161d66f','fa817c0d-8c2c-4e32-843b-bdbb107933e2','kuali.resultComponent.grade.audit','916dc3b2-6cfd-4641-9cd7-d9e8b71e87d7','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('c1a6e401-c87f-49bc-8860-30793fe93151','d50bb75b-f408-42bd-b6e0-f0d8a1d7c75b','kuali.creditType.credit.degree.3.0','Active',0)
+  VALUES ('9ea8313c-c418-4be8-847c-462dd4a998ca','03ac2697-72d7-4836-b9fc-cb337b954112','kuali.creditType.credit.degree.3.0','Draft',0)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
+  VALUES ('284e76c0-5574-42e3-8791-cead1b6f1fa6','daea13d1-ce1e-4764-b2e4-13f0835e9943','kuali.resultComponent.grade.letter','00e520c0-13dd-4fbb-8ce8-d213fde42ace','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('847fc4d2-fa6e-43fb-a1f4-41f0908ab205','4a135ec6-e0ac-4e9e-b2fb-ddbf6237f727','kuali.creditType.credit.degree.1.5','Active',0)
 /
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
+  VALUES ('c1a6e401-c87f-49bc-8860-30793fe93151','d50bb75b-f408-42bd-b6e0-f0d8a1d7c75b','kuali.creditType.credit.degree.3.0','Active',0)
+/
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('284e76c0-5574-42e3-8791-cead1b6f1fa6','daea13d1-ce1e-4764-b2e4-13f0835e9943','kuali.resultComponent.grade.letter','00e520c0-13dd-4fbb-8ce8-d213fde42ace','Active',1)
+  VALUES ('58fbeb02-85f7-4ca3-afe6-f9379a53b61f','1c8cc991-1ac7-4b8f-845e-fd59e6e8315f','kuali.resultComponent.grade.letter','046bdefa-87ac-4315-a061-6a0ad7bccadf','Draft',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('afa1fa13-b55f-4e30-b54c-71882c3d2665','1b18ecc2-fe4f-4ab6-99b0-3ba719b62691','kuali.resultComponent.grade.letter','dd28c71a-6717-4d3f-be99-3bd77272cc38','Draft',2)
@@ -7400,25 +7403,22 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('5a487364-a957-4df6-a8bd-a04b27c445c4','c9bda6d2-4b78-4427-9e12-2aab86fadc52','kuali.creditType.credit.degree.3.0','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('58fbeb02-85f7-4ca3-afe6-f9379a53b61f','1c8cc991-1ac7-4b8f-845e-fd59e6e8315f','kuali.resultComponent.grade.letter','046bdefa-87ac-4315-a061-6a0ad7bccadf','Draft',1)
+  VALUES ('d1a7c9f9-9fb3-4e0c-b901-c7027d335b2e','160f6f22-2ddd-4e26-922d-3e930d5de0eb','kuali.resultComponent.grade.audit','deaa2d6f-0714-4a6f-8d42-f1036dd03fc2','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('d1a7c9f9-9fb3-4e0c-b901-c7027d335b2e','160f6f22-2ddd-4e26-922d-3e930d5de0eb','kuali.resultComponent.grade.audit','deaa2d6f-0714-4a6f-8d42-f1036dd03fc2','Active',1)
+  VALUES ('9b59548c-3961-4627-896c-4ddaba2e8412','966555a0-a9f1-4e00-9077-9b7a870b75c0','kuali.resultComponent.grade.letter','bf28dc48-1da9-477f-81bb-d90dc49f214d','Draft',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('274bfc72-0821-4c96-80af-c74d16913e72','126c3139-adbe-4762-8383-e627529e4412','kuali.creditType.credit.degree.3.0','Draft',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('9b59548c-3961-4627-896c-4ddaba2e8412','966555a0-a9f1-4e00-9077-9b7a870b75c0','kuali.resultComponent.grade.letter','bf28dc48-1da9-477f-81bb-d90dc49f214d','Draft',1)
-/
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('c5eebe8c-a3fd-4932-b53a-a0cecca9981f','418135b7-d415-484f-b990-1d6fedee5f4a','kuali.resultComponent.grade.passFail','c0e44063-7936-4ab6-b565-a2cb0419c1c8','Retired',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('9182c49a-a187-49ed-9792-803a29c5fd97','9ef64da2-e4b8-4716-92a1-82a1439e897b','kuali.resultComponent.grade.audit','2efb6c48-9618-4b38-8d70-76c2e0a0fd63','Draft',1)
+  VALUES ('19453e3c-1413-4770-a990-1e8d3dca1673','01ba20e0-18a5-4df1-b02b-3daaa2f3d382','kuali.resultComponent.grade.letter','dfa0cb1b-2279-4b71-b785-70a470ddf40c','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('19453e3c-1413-4770-a990-1e8d3dca1673','01ba20e0-18a5-4df1-b02b-3daaa2f3d382','kuali.resultComponent.grade.letter','dfa0cb1b-2279-4b71-b785-70a470ddf40c','Draft',2)
+  VALUES ('9182c49a-a187-49ed-9792-803a29c5fd97','9ef64da2-e4b8-4716-92a1-82a1439e897b','kuali.resultComponent.grade.audit','2efb6c48-9618-4b38-8d70-76c2e0a0fd63','Draft',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('71db16f7-d690-42ab-b92b-f65c6fa45108','1bae595e-9228-41bd-8549-3e9ff42443d7','kuali.creditType.credit.degree.3.0','Draft',0)
@@ -7448,10 +7448,10 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('6ecd1e33-73a7-4e19-9262-148b417de705','c9ea82e3-197d-4223-a4ea-014403be7f46','kuali.creditType.credit.degree.3.0','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('dea45585-e978-4c5d-990e-0531c3f6f04e','73d89f2a-5460-425c-9393-ffcf292b0272','kuali.resultComponent.grade.letter','c62e1093-0865-418c-86cc-214397c7023a','Active',1)
+  VALUES ('ae6388f7-9776-424e-868a-5acaf78e1899','eeb4f5fc-0d36-42b7-a01f-6530f150c9d1','kuali.resultComponent.grade.passFail','1b7ef48e-6950-4641-a9d0-64f0c3b627f1','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('ae6388f7-9776-424e-868a-5acaf78e1899','eeb4f5fc-0d36-42b7-a01f-6530f150c9d1','kuali.resultComponent.grade.passFail','1b7ef48e-6950-4641-a9d0-64f0c3b627f1','Draft',2)
+  VALUES ('dea45585-e978-4c5d-990e-0531c3f6f04e','73d89f2a-5460-425c-9393-ffcf292b0272','kuali.resultComponent.grade.letter','c62e1093-0865-418c-86cc-214397c7023a','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('4d37ebba-9dad-44de-8050-35fa5fdb8aaf','18f53b1a-1181-4f62-9ddd-287abc0f9605','kuali.resultComponent.grade.letter','f091643a-dfe1-4d84-8bc4-3ff6654085a8','Draft',2)
@@ -7472,10 +7472,10 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('84d94e2a-0910-410f-9343-8af3b5659576','1523a035-a19a-42fe-ae84-63ae42928992','kuali.resultComponent.grade.audit','0ba32eb0-f313-461b-9728-47596ed56077','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('2d9bf7d6-4749-4988-8af9-9fc938f1c59c','79fe72d9-59dc-4d40-833e-19792eed4328','kuali.resultComponent.grade.passFail','520ee756-3146-45ab-bc60-9b965120ce5f','Active',0)
+  VALUES ('c1dbadd0-3454-4631-ba7d-140f277f4571','0f5bfe37-a31b-4c00-b187-435a881da198','kuali.resultComponent.grade.passFail','ddabba1d-fac1-4da6-85ca-fa133625d87d','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('c1dbadd0-3454-4631-ba7d-140f277f4571','0f5bfe37-a31b-4c00-b187-435a881da198','kuali.resultComponent.grade.passFail','ddabba1d-fac1-4da6-85ca-fa133625d87d','Draft',2)
+  VALUES ('2d9bf7d6-4749-4988-8af9-9fc938f1c59c','79fe72d9-59dc-4d40-833e-19792eed4328','kuali.resultComponent.grade.passFail','520ee756-3146-45ab-bc60-9b965120ce5f','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('8cd859ea-f0a5-4132-a40d-fca5c938bacd','01c984c7-4c07-4fa9-a0c9-a97981f38c64','kuali.resultComponent.grade.letter','5405b5d5-ebaa-4511-878a-2667b8744150','Retired',1)
@@ -7486,11 +7486,11 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('27fb48a3-be96-4bc5-87db-cd65992437af','eedc6d25-e1fa-4780-9b89-05643f99ae2b','kuali.resultComponent.grade.audit','be1942d7-6ec3-4ba6-9316-093a15a01bce','Draft',6)
 /
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('188c41a5-38e2-4b3a-b511-80e7df3260f5','431d795c-ded6-416e-a2da-5c2d7501931a','kuali.resultComponent.grade.audit','d0f6794a-510c-452a-ab9a-9957e621c541','Draft',1)
-/
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('59661d3e-f766-4afa-a981-834c067b8849','fd531f9a-1559-4598-a518-3540ba5928ea','kuali.creditType.credit.degree.2.0','Active',0)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
+  VALUES ('188c41a5-38e2-4b3a-b511-80e7df3260f5','431d795c-ded6-416e-a2da-5c2d7501931a','kuali.resultComponent.grade.audit','d0f6794a-510c-452a-ab9a-9957e621c541','Draft',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('52bede9d-1a9c-48fc-9fc7-796060eedce5','d717782f-5e53-48c2-8acc-7a02c5770623','kuali.resultComponent.grade.audit','2488b987-e746-4fc3-b334-7b1576ca61d1','Retired',1)
@@ -7514,10 +7514,10 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('cecd1b8f-af9c-479c-8cc9-40ccd86fe5ca','bef44f06-3e8d-4cc0-a32e-475b0571dd28','kuali.resultComponent.grade.audit','e74fb6fb-725a-4c72-85e0-8ca0469a867d','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('db82ec5b-4c77-4939-8177-06a086fdb269','5375cf09-b032-44d1-9003-c87e9113daad','kuali.resultComponent.grade.audit','a0cf3bfb-68f4-4a3b-9924-fe8200531d02','Active',1)
+  VALUES ('32a42c59-b9b3-4d1f-81dc-ed14f9ba0717','aba9e811-fce7-4af2-8b36-8c98ad2897fd','kuali.resultComponent.grade.passFail','898d7dd2-cc8d-42b6-ad60-6f2708eeca01','Retired',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('32a42c59-b9b3-4d1f-81dc-ed14f9ba0717','aba9e811-fce7-4af2-8b36-8c98ad2897fd','kuali.resultComponent.grade.passFail','898d7dd2-cc8d-42b6-ad60-6f2708eeca01','Retired',1)
+  VALUES ('db82ec5b-4c77-4939-8177-06a086fdb269','5375cf09-b032-44d1-9003-c87e9113daad','kuali.resultComponent.grade.audit','a0cf3bfb-68f4-4a3b-9924-fe8200531d02','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('14dfb816-38b0-4e16-b275-452044c8260e','2d043d2d-aadb-436d-9c6d-16d70db1bbcc','kuali.resultComponent.grade.audit','8e4dcd18-834f-4b75-8da2-e5b473382315','Active',0)
@@ -7538,22 +7538,22 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('3c5283ba-fad8-43dc-93c0-13744249a056','a7001f1d-5995-40aa-9583-8ae3289f673c','kuali.resultComponent.grade.audit','e6747381-e384-40a0-ac21-b143f651b1d1','Active',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('b47cdbdb-5324-40e8-b85e-4390edc8aa63','3bd20b75-5e0b-488d-b234-b4aeec271a1f','kuali.resultComponent.grade.letter','13b09aa4-f7ee-4406-9c50-4a6e70bd0bdb','Draft',1)
-/
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('f647eb3b-c90f-4516-9a43-8a270b61d459','280aa524-f4af-486b-ad98-d6f5d29f51f2','kuali.resultComponent.grade.letter','dee24f67-4193-4ef5-bc12-a75f5af8fdf3','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('6bdd157e-5e94-4a32-890a-c92b4cb8f13a','0d4c0211-df70-4065-8166-6d4e490820eb','kuali.resultComponent.grade.audit','cdda0a38-d868-4d09-bdf6-cee858a5f69f','Draft',3)
+  VALUES ('b47cdbdb-5324-40e8-b85e-4390edc8aa63','3bd20b75-5e0b-488d-b234-b4aeec271a1f','kuali.resultComponent.grade.letter','13b09aa4-f7ee-4406-9c50-4a6e70bd0bdb','Draft',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('099a8cc9-1c64-4d0f-8597-6fdc3c0985f5','313e99ad-b378-4bad-ae6d-07283aa0ed9c','kuali.resultComponent.grade.letter','dd49f944-6b31-406f-b249-a19f7b470694','Active',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('1a187156-984c-4bb1-8621-f291549f1665','f62b88be-22cc-46cc-8559-50d7a5492e33','kuali.resultComponent.grade.letter','6fdde853-13fa-4ae5-b3b7-f2cbd7a31de6','Active',2)
+  VALUES ('6bdd157e-5e94-4a32-890a-c92b4cb8f13a','0d4c0211-df70-4065-8166-6d4e490820eb','kuali.resultComponent.grade.audit','cdda0a38-d868-4d09-bdf6-cee858a5f69f','Draft',3)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('2a3b2b22-52b7-4ac8-ba13-0971a02a2ac4','1268ed88-87a4-4841-8e55-07c5ef8e2466','kuali.creditType.credit.degree.2.0','Active',0)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
+  VALUES ('1a187156-984c-4bb1-8621-f291549f1665','f62b88be-22cc-46cc-8559-50d7a5492e33','kuali.resultComponent.grade.letter','6fdde853-13fa-4ae5-b3b7-f2cbd7a31de6','Active',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('22c00d02-e351-413d-afb4-e4defbf97751','831a2c12-ddda-42b8-810e-450c1db48753','kuali.resultComponent.grade.passFail','81fb2b5f-ee50-461d-8cdd-2ad16617a143','Active',0)
@@ -7571,13 +7571,13 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('5138bbd9-412a-4436-bd3c-f7030f422466','e2a1f9bd-ab7e-457a-9c53-8c8beb3adde8','kuali.resultComponent.grade.audit','102725b6-e535-463e-b113-995d8983ae07','Draft',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
+  VALUES ('5b0a0a19-4036-4f72-9ca5-81feb4f739dd','97108e43-5977-405d-8e44-f5a7a82968d5','kuali.resultComponent.grade.passFail','b25149db-e4b1-4357-891e-6fe6bd97ef7c','Draft',2)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('a3a04d99-c6cd-487a-9ad8-b753155bb2ef','37f2abc4-7982-4188-91e4-fa496939479b','kuali.resultComponent.grade.letter','123e4078-a99c-4bcf-b6e5-095bb750ec07','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('1ea75360-cc76-4967-b710-d4b15bc5634d','87788b68-ec93-4b2b-b2b2-ef17bc4e9a3b','kuali.creditType.credit.degree.3.0','Draft',0)
-/
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('5b0a0a19-4036-4f72-9ca5-81feb4f739dd','97108e43-5977-405d-8e44-f5a7a82968d5','kuali.resultComponent.grade.passFail','b25149db-e4b1-4357-891e-6fe6bd97ef7c','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('9aeaf402-e586-4cb5-abcb-2f9ff5ccad0f','ce4c293e-a938-4733-b70e-1af50f5b4015','kuali.creditType.credit.degree.3.0','Active',0)
@@ -7592,13 +7592,13 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('fd5f0c81-21c2-4209-8660-298d89bba3e5','6291366a-034f-4d13-8adf-486b44e07fa4','kuali.resultComponent.grade.letter','94f093c5-2920-49e9-979f-535c3b18c92b','Draft',3)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('e4d02d0a-4f8a-4f5d-b61c-59e7f7a29059','0c1c59e6-a28c-4b84-8738-fd562b2b5ee2','kuali.creditType.credit.degree.3.0','Draft',0)
+  VALUES ('d4de7173-4de9-4661-9c51-b85f31a30abe','83dc89b5-295c-42e1-b214-cb297f370a63','kuali.creditType.credit.degree.3.0','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('8995cb74-5cd9-4ffb-ab9a-7e9e00dc7dc8','d15463be-92df-4b7e-9a8d-f3f43ae2f20e','kuali.resultComponent.grade.audit','1eca62cc-a7a3-4ab9-b7d5-655d84e93f02','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('d4de7173-4de9-4661-9c51-b85f31a30abe','83dc89b5-295c-42e1-b214-cb297f370a63','kuali.creditType.credit.degree.3.0','Active',0)
+  VALUES ('e4d02d0a-4f8a-4f5d-b61c-59e7f7a29059','0c1c59e6-a28c-4b84-8738-fd562b2b5ee2','kuali.creditType.credit.degree.3.0','Draft',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('15baefd6-1f95-4960-9d34-1be967e914c7','a89b46f0-6f07-481f-9705-6e068b4172c1','kuali.resultComponent.grade.audit','53b07ce0-ee8e-44a4-94e0-cdeaa9481dfe','Draft',2)
@@ -7667,10 +7667,10 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('78b87ef9-15da-4a73-99bd-84f7340855e5','1a498331-97a4-4744-82e2-c018c5e601e5','kuali.creditType.credit.degree.2.0','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('25e5c8ef-dbc9-463a-899b-2e083d5aaaf3','921a218a-a569-4776-bb25-037674fb32aa','kuali.resultComponent.grade.letter','69120cf1-2dd6-4e41-8752-f69ca251f79e','Draft',2)
+  VALUES ('b23de5c5-362a-4d51-bfb1-229228bc8d87','87824e71-3b1f-4fe7-82ba-31d410366cd7','kuali.resultComponent.grade.letter','fa46467c-87da-4d84-8397-4ad40de42cfa','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('b23de5c5-362a-4d51-bfb1-229228bc8d87','87824e71-3b1f-4fe7-82ba-31d410366cd7','kuali.resultComponent.grade.letter','fa46467c-87da-4d84-8397-4ad40de42cfa','Active',1)
+  VALUES ('25e5c8ef-dbc9-463a-899b-2e083d5aaaf3','921a218a-a569-4776-bb25-037674fb32aa','kuali.resultComponent.grade.letter','69120cf1-2dd6-4e41-8752-f69ca251f79e','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('d43528e0-3669-4b6f-a32d-2a3a8049bdea','201e0c12-2be3-4326-89dd-c1f99b2cf219','kuali.resultComponent.grade.audit','a7516f53-e29a-44d7-a183-db91bc745808','Active',0)
@@ -7684,17 +7684,17 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('a51772c7-3e6e-420d-94b3-4e7ef042eec2','ad77090d-db7f-4d80-9663-50d3793674bf','kuali.resultComponent.grade.letter','9129c133-8b9c-48bc-8fcd-5f7867b6c4f8','Draft',11)
 /
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
+  VALUES ('340b5179-0b50-45b6-9ae0-ffbc55fa61af','40521eb5-0773-4133-867b-00451c901d45','kuali.resultComponent.grade.audit','28cfc9cb-7a70-4756-afa4-a0037239d3df','Draft',1)
+/
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('7a0e5b0c-7396-44f5-a2d1-cec17fef4573','eb5c9a21-d643-4ecb-9f68-fe8ff90ead9f','kuali.creditType.credit.degree.1-4','Retired',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('340b5179-0b50-45b6-9ae0-ffbc55fa61af','40521eb5-0773-4133-867b-00451c901d45','kuali.resultComponent.grade.audit','28cfc9cb-7a70-4756-afa4-a0037239d3df','Draft',1)
+  VALUES ('b60798a0-6735-4c11-afc4-7938260bd2ce','aa6e2abd-fc44-4192-8cbe-eac96dad121e','kuali.resultComponent.grade.audit','f0a82765-b178-4a8b-93db-aa9d202a68f9','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('f0f1a400-071c-4bd6-8939-066c72b377b4','3ec52075-6579-42ba-aca4-099b184c3456','kuali.resultComponent.grade.passFail','5390ccd6-b764-41d0-9e3d-701e345caaa0','Draft',2)
-/
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('b60798a0-6735-4c11-afc4-7938260bd2ce','aa6e2abd-fc44-4192-8cbe-eac96dad121e','kuali.resultComponent.grade.audit','f0a82765-b178-4a8b-93db-aa9d202a68f9','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('9ca76139-9952-4b5e-af34-a8517198d304','e1aa4f79-b1d9-4c25-aaff-a1a6c6f477b3','kuali.resultComponent.grade.audit','032f97ea-bf78-44ae-84a7-f61612b4e375','Draft',2)
@@ -7706,13 +7706,13 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('af4fb987-63c7-4891-afbb-e8abb89c8895','45d63c4a-2b20-4800-8000-9bbea3006c90','kuali.resultComponent.grade.audit','d0d42f37-1978-4805-b701-882877d4ceac','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
+  VALUES ('4ba2ed77-3f62-4d31-941e-218722de6811','76adee64-39b3-4fc5-8c89-5006c85960a7','kuali.resultComponent.grade.letter','18430153-0e8b-41c8-a084-0215e6f36a16','Active',1)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('d77a910e-7095-4353-aa54-c01eb58d4c70','ab9881fe-c020-4fa9-8d6b-a0e4900e2cb4','kuali.resultComponent.grade.audit','103212b5-491d-46c8-bf43-869dbbe07e47','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('9c75c07f-736f-4787-9d04-4e7afe3fee44','6f9a8630-a0bb-41f5-893d-5a5657e77ef3','kuali.resultComponent.grade.letter','43218f66-a127-47d7-b24e-ebc86ba62853','Retired',1)
-/
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('4ba2ed77-3f62-4d31-941e-218722de6811','76adee64-39b3-4fc5-8c89-5006c85960a7','kuali.resultComponent.grade.letter','18430153-0e8b-41c8-a084-0215e6f36a16','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('3d167b16-8888-4664-bc98-6110abef298e','f9117232-bcfd-428f-828b-633b59062fd7','kuali.resultComponent.grade.audit','28f3defb-edb0-405c-90c4-0f4330602037','Draft',4)
@@ -7762,11 +7762,11 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('d2cbbe6f-2b03-4ff7-8d0c-6503b741a721','378a1146-94af-495e-a496-0fd7378f082f','kuali.resultComponent.grade.passFail','869d84d1-1dd3-4ff7-916d-effc1a2aa696','Draft',2)
 /
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('5dace9b3-5e2f-4388-8f22-397982ae1236','e12c9b8f-925c-43e4-9df2-80893dc8d6d6','kuali.resultComponent.grade.letter','9f34c4be-afd9-45df-a5fa-496732a5b5b5','Draft',2)
-/
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('ea82e8b8-fd83-4522-9fd4-7ca0a333153a','b781bc8b-da0a-44c0-8ee7-5674024c2d82','kuali.creditType.credit.degree.3.0','Retired',0)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
+  VALUES ('5dace9b3-5e2f-4388-8f22-397982ae1236','e12c9b8f-925c-43e4-9df2-80893dc8d6d6','kuali.resultComponent.grade.letter','9f34c4be-afd9-45df-a5fa-496732a5b5b5','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('48639797-44fd-4767-9ecc-9f5744e4bf18','ccd04f77-54fb-4f0c-a109-b6b70a738c26','kuali.resultComponent.grade.passFail','84f1ac13-702f-4a5e-8ef3-7913dcb4eb8c','Active',1)
@@ -7778,10 +7778,10 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('9aa0bc0f-c74f-4fbe-a25f-eefcd0a8ba7e','d1100ef4-5184-42d3-bd2f-48ec337ef25e','kuali.creditType.credit.degree.3.0','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('eb5aacce-c4a4-42a9-b7e2-cc7eb170044e','3fe7d522-c278-4058-9521-a4c679e5cd32','kuali.creditType.credit.degree.3.0','Draft',0)
+  VALUES ('50d21eeb-aa54-4ffe-bb07-02ad8e5fc091','5fab02a3-97f4-4a51-824d-16748967fb21','kuali.creditType.credit.degree.3.0','Draft',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('50d21eeb-aa54-4ffe-bb07-02ad8e5fc091','5fab02a3-97f4-4a51-824d-16748967fb21','kuali.creditType.credit.degree.3.0','Draft',0)
+  VALUES ('eb5aacce-c4a4-42a9-b7e2-cc7eb170044e','3fe7d522-c278-4058-9521-a4c679e5cd32','kuali.creditType.credit.degree.3.0','Draft',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('51880806-0357-4c76-8d96-d37bf26327b8','7fe17837-848a-4432-adfb-c752d3aab231','kuali.resultComponent.grade.audit','41363d56-e225-4973-a123-b8bdd4ed6c91','Draft',1)
@@ -7804,20 +7804,20 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('de56d42c-501e-4af7-a830-df257ec0e73b','7bb16848-f7bb-4e7c-99b2-a2db917df295','kuali.resultComponent.grade.passFail','d3d03740-e1b2-4de5-a855-398e7dfe6c15','Draft',2)
 /
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('d14fe4c0-e9c6-4744-97a0-7a6cb5638647','ba51df1c-5718-41ab-b7eb-1079cb235588','kuali.creditType.credit.degree.3.0','Active',0)
-/
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('cdc2240b-b457-46c7-bfa4-779b596df1f3','be2e423f-97df-4caf-b058-47b06b3997b2','kuali.resultComponent.grade.letter','6207baaa-38e6-4937-8306-ea05ac21f129','Draft',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('24945a19-037a-46ec-b1ea-57dc419bdcbd','cc7b4a7a-e16f-4052-a058-4c4309797d21','kuali.creditType.credit.degree.3.0','Retired',0)
+  VALUES ('d14fe4c0-e9c6-4744-97a0-7a6cb5638647','ba51df1c-5718-41ab-b7eb-1079cb235588','kuali.creditType.credit.degree.3.0','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('5338b411-3746-4169-bca6-a5ddd85e22fe','4dd49ce0-1b6b-40b9-bfe2-c80623fffe8e','kuali.creditType.credit.degree.3.0','Draft',0)
+  VALUES ('24945a19-037a-46ec-b1ea-57dc419bdcbd','cc7b4a7a-e16f-4052-a058-4c4309797d21','kuali.creditType.credit.degree.3.0','Retired',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('5117473d-acc0-4033-9ff8-0ec732d422c2','14d4adf6-d169-48d8-b23c-c90a0b18d322','kuali.resultComponent.grade.passFail','40156ee5-f677-43e6-bb22-36eec4cf033f','Draft',2)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
+  VALUES ('5338b411-3746-4169-bca6-a5ddd85e22fe','4dd49ce0-1b6b-40b9-bfe2-c80623fffe8e','kuali.creditType.credit.degree.3.0','Draft',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('1aaa23e9-45a2-46bb-8ba3-45d91e089991','2e17e711-d7f2-4869-bfea-abb2aa91180f','kuali.resultComponent.grade.audit','3ac51344-8ac8-4d62-9db7-f823556dfe84','Active',1)
@@ -7853,10 +7853,10 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('83d175bf-bf3f-489d-a523-8761d8b4933f','ab6985bd-92a8-408e-8a56-af9a652ee95b','kuali.resultComponent.grade.passFail','5a68e70f-c85b-4b70-8747-5b48e4b52ad7','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('17992437-72ef-483e-a159-7416eca4eeac','3f405a00-60cc-4f58-8433-0de13b7225d7','kuali.resultComponent.grade.audit','81e6e4e4-51ac-4300-b4bb-01d6a7a9e84a','Retired',1)
+  VALUES ('d069d48f-e580-4481-8787-c87af9308795','835a96c5-0664-43a7-adc0-08234d12e2f8','kuali.resultComponent.grade.audit','55b5ee35-e7be-4f41-aa50-83a0b27bca49','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('d069d48f-e580-4481-8787-c87af9308795','835a96c5-0664-43a7-adc0-08234d12e2f8','kuali.resultComponent.grade.audit','55b5ee35-e7be-4f41-aa50-83a0b27bca49','Draft',2)
+  VALUES ('17992437-72ef-483e-a159-7416eca4eeac','3f405a00-60cc-4f58-8433-0de13b7225d7','kuali.resultComponent.grade.audit','81e6e4e4-51ac-4300-b4bb-01d6a7a9e84a','Retired',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('47efb2d2-d141-4c55-9aaa-6ae51c55f8c1','a6952991-6873-4312-9183-8e81b63e2f29','kuali.resultComponent.grade.passFail','f9e5b836-6165-4449-8666-456938ad9e61','draft',12)
@@ -7907,13 +7907,13 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('97fad280-7930-48e2-a35f-a37e102ae0b7','e1df6493-5185-4f50-a07d-62f6651e7fa4','kuali.creditType.credit.degree.1.0','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
+  VALUES ('f8de50de-bea1-478c-bbbe-770187a9dc2e','740e013b-19c9-497c-bf5f-833e7734a310','kuali.creditType.credit.degree.2.0','Retired',0)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('cbf1e96f-d60f-4966-b34b-09f249de2f49','4e6d2c69-bfa8-4707-9c4e-a1620bea5497','kuali.creditType.credit.degree.2.0','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('97f6dfc0-fbdc-43f2-9bb7-5ea6116f4228','419d3dcb-82c6-4378-8817-7b93be623d8d','kuali.creditType.credit.degree.3.0','Retired',0)
-/
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('f8de50de-bea1-478c-bbbe-770187a9dc2e','740e013b-19c9-497c-bf5f-833e7734a310','kuali.creditType.credit.degree.2.0','Retired',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('1dbe59f3-60b1-49a6-a976-034ea7b917ad','9252ab6b-7446-4d5c-bbe4-792e8e60443b','kuali.resultComponent.grade.audit','2cea16c8-cd14-4f69-bca4-de5ae830489f','Active',2)
@@ -7930,20 +7930,20 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('78fd7cb7-149a-40e7-a4a2-c23972875318','bd6feaa2-a311-496f-9ed0-2846fc0d1234','kuali.resultComponent.grade.letter','d84453fe-2267-45b3-8f2d-4df6186ca0ad','Draft',2)
 /
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('f66e6612-3c3c-4df8-a351-ae25c21b0355','2692dc64-db40-4c65-8108-b3c9822229be','kuali.resultComponent.grade.letter','a8e7c7f5-ae64-4b60-8790-478620505fcc','Draft',3)
-/
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('e28fc446-19f7-45c6-8cbb-9d4596e954eb','d0133b2b-27aa-4694-8e27-7d96d44db29b','kuali.creditType.credit.degree.3.0','Draft',0)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
+  VALUES ('f66e6612-3c3c-4df8-a351-ae25c21b0355','2692dc64-db40-4c65-8108-b3c9822229be','kuali.resultComponent.grade.letter','a8e7c7f5-ae64-4b60-8790-478620505fcc','Draft',3)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('455f8821-f7f4-4525-8310-a0107eebbaa1','dc25b9d6-0386-4105-84ae-303c9b4ff4aa','kuali.resultComponent.grade.audit','ce484825-f1b0-4b22-9bc5-d409435cdc47','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('70acbec0-54d8-4607-a4fa-4fa68ab35bb7','a30be9ce-3ab5-4ee4-81e9-d2fc89f3fa8b','kuali.resultComponent.grade.letter','edaca178-ecae-43d6-b5f8-2175cd33dbea','Active',0)
+  VALUES ('1d99d0d9-3638-4b81-a85d-663a3721fe34','e6619032-dfff-41da-b48b-af40072ad0a4','kuali.resultComponent.grade.audit','fdf2fd09-42ee-4f2b-9aee-25744bf984f8','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('1d99d0d9-3638-4b81-a85d-663a3721fe34','e6619032-dfff-41da-b48b-af40072ad0a4','kuali.resultComponent.grade.audit','fdf2fd09-42ee-4f2b-9aee-25744bf984f8','Active',1)
+  VALUES ('70acbec0-54d8-4607-a4fa-4fa68ab35bb7','a30be9ce-3ab5-4ee4-81e9-d2fc89f3fa8b','kuali.resultComponent.grade.letter','edaca178-ecae-43d6-b5f8-2175cd33dbea','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('36ce0031-c225-43c5-929d-5b8444bed2e7','270beb98-86fa-45cb-af4d-532dc349ad3a','kuali.resultComponent.grade.letter','c342c411-2e34-4c48-a4fe-1dfee29c5d07','Active',1)
@@ -7979,10 +7979,10 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('83a6de80-6993-4dc7-b256-76a5068233cb','2fcc5dec-560c-4969-b0b0-bc3ff078e675','kuali.resultComponent.grade.audit','d3fd8fca-751a-44d9-aa3f-0fed997f8bf1','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('e24dd97e-1011-4674-98fc-44d39ec3e2a7','cebfacff-14b6-4375-af1e-3b00f4073aa2','kuali.resultComponent.grade.letter','a3212d95-44ec-429f-92a4-06daf54052ba','Draft',1)
+  VALUES ('bb5bf5df-eb1e-4465-a544-cdd0cdd08b7f','cb1c15c8-e131-469d-9eb0-09641e8d5a61','kuali.resultComponent.grade.audit','552b8f27-fb1d-4e59-9184-5325a4ec99b0','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('bb5bf5df-eb1e-4465-a544-cdd0cdd08b7f','cb1c15c8-e131-469d-9eb0-09641e8d5a61','kuali.resultComponent.grade.audit','552b8f27-fb1d-4e59-9184-5325a4ec99b0','Active',0)
+  VALUES ('e24dd97e-1011-4674-98fc-44d39ec3e2a7','cebfacff-14b6-4375-af1e-3b00f4073aa2','kuali.resultComponent.grade.letter','a3212d95-44ec-429f-92a4-06daf54052ba','Draft',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('f76f1a0f-2a52-40ef-8b56-2ec9ac0d79d6','8bcbcf44-2674-4efa-8c13-2f8960c2221a','kuali.creditType.credit.degree.3.0','Draft',0)
@@ -8014,17 +8014,17 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('47a84a67-0741-42b2-bf54-0a6f92f5955c','13c585ad-c3a6-43bb-a61f-2e278bf39df9','kuali.resultComponent.grade.letter','d974b46a-8afb-400d-8217-94242f702b78','Draft',2)
 /
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
+  VALUES ('e73168a6-c3ce-402f-a41f-2fcd4b3538d1','2e1e7652-0837-41fa-a1e1-28034e945ea4','kuali.resultComponent.grade.letter','56aef491-1a2d-4793-afac-5efe60116283','Draft',4)
+/
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('5d488ee7-77e2-45d5-839d-a6ff14109298','42dcbab8-522c-4987-97dd-764904935c6f','kuali.creditType.credit.degree.3.0','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('e73168a6-c3ce-402f-a41f-2fcd4b3538d1','2e1e7652-0837-41fa-a1e1-28034e945ea4','kuali.resultComponent.grade.letter','56aef491-1a2d-4793-afac-5efe60116283','Draft',4)
+  VALUES ('1c60fcc1-b8b2-4913-9703-7da34061e08e','c33e9b7d-414c-4e51-8566-08e0d5a3a5cc','kuali.resultComponent.grade.audit','62a42e78-939c-48be-b9e3-54fdd5a6ecb1','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('8d2cd6c7-6b79-43b5-9cc6-ae0fdfb07068','e064deee-c67f-45bb-ab22-acfcfc326d58','kuali.resultComponent.grade.letter','be5ba644-f993-485d-9ba3-7fd362ee5e65','Active',1)
-/
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('1c60fcc1-b8b2-4913-9703-7da34061e08e','c33e9b7d-414c-4e51-8566-08e0d5a3a5cc','kuali.resultComponent.grade.audit','62a42e78-939c-48be-b9e3-54fdd5a6ecb1','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('a39867b4-2dd1-4514-a300-82bff093a897','25bd0e12-4902-4758-8b15-c79881954cb9','kuali.creditType.credit.degree.3.0','Active',0)
@@ -8080,6 +8080,9 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('dbf4ed81-dee1-4c85-9076-72f2722110ec','a5477a78-44e2-4f2d-96e6-fa367ea9c778','kuali.resultComponent.grade.passFail','97ba734c-e616-448d-97ec-0185712bc2d2','Draft',2)
 /
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
+  VALUES ('3595de2c-905a-4cfe-af8e-636b2e98111e','df87ebdf-25c3-4449-a369-a78783ea41b6','kuali.creditType.credit.degree.3.0','Active',0)
+/
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('b9a1fdc5-ca1b-4ef7-8db1-7d836f04d2a9','c310acde-b822-45da-b145-3af80461b74d','kuali.resultComponent.grade.audit','9ae4cefc-994a-4246-884d-71bf3660a49c','Draft',2)
 /
@@ -8087,10 +8090,10 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('af8ad690-1e85-42de-90da-1efe5cb4bcb9','ec3fcc78-03bb-4fdc-a778-00d9ad392385','kuali.resultComponent.grade.audit','ed8b7b93-5ad9-4ad1-9ee2-254cd6f9519e','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('3595de2c-905a-4cfe-af8e-636b2e98111e','df87ebdf-25c3-4449-a369-a78783ea41b6','kuali.creditType.credit.degree.3.0','Active',0)
-/
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('edffcb0e-5cd0-40c9-9e89-d0ff480a30f5','3c3ff986-47ac-4673-bb0a-034a31e3a745','kuali.creditType.credit.degree.3.0','Active',0)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
+  VALUES ('07857aeb-5390-45b0-a4ec-738139b7d222','5e062818-2f8a-4397-a11a-415d826315ef','kuali.resultComponent.grade.audit','8cbf6a12-8f22-41f6-a7dc-2874c019f409','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('a65fddfb-1f3e-4e42-bb9f-b7a8ab8fe30c','189b14ed-9557-493f-aec3-7a4e8df5529f','kuali.creditType.credit.degree.3.0','Draft',0)
@@ -8100,9 +8103,6 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('90e81a64-f567-497a-9db3-e4842bc6add8','b0ea3567-6831-4c30-859f-9d2eefc7cf39','kuali.resultComponent.grade.letter','d798e47a-a099-4907-9260-6ae6e582a0ac','Active',3)
-/
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('07857aeb-5390-45b0-a4ec-738139b7d222','5e062818-2f8a-4397-a11a-415d826315ef','kuali.resultComponent.grade.audit','8cbf6a12-8f22-41f6-a7dc-2874c019f409','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('6601c358-0090-455f-a36a-f8c314f38487','f9b43861-7437-4ff5-9f17-bcd423b36bb0','kuali.resultComponent.grade.letter','6a6f87c1-7608-4d3b-a628-665e37f5041c','Draft',2)
@@ -8131,11 +8131,11 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('4236382f-fb7e-468b-9bc3-0ae2e4ff4c8e','08a1b8d6-2957-47ba-aaf8-a1d1ba8234c4','kuali.resultComponent.grade.passFail','e8de6691-db17-4882-9a49-60542d84d978','Active',1)
 /
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('cda11c17-1186-4d7f-9d88-cf101059e8d3','5b261f6e-bd88-4175-a6cc-279ef028f1ac','kuali.creditType.credit.degree.1.0','Active',0)
-/
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('9d4b0894-39d8-45e7-aaba-2d1c9f94d2d0','e5269518-684d-4e80-adcf-0106a58cc6ee','kuali.resultComponent.grade.audit','2f4ce7e7-a897-4cd7-b10b-d3fbeab4c863','Active',1)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
+  VALUES ('cda11c17-1186-4d7f-9d88-cf101059e8d3','5b261f6e-bd88-4175-a6cc-279ef028f1ac','kuali.creditType.credit.degree.1.0','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('e6cb9a47-f60d-4af3-9cca-4d1a5314e7ac','5b76ea8f-888d-4d37-b8fd-af0ea5a5163d','kuali.creditType.credit.degree.3.0','Active',0)
@@ -8162,10 +8162,10 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('f6fe580c-badd-4c55-a827-a2d536fea65e','a0678865-9a8f-4d8a-a013-e0ce9a7f4809','kuali.resultComponent.grade.audit','8c3d50c5-ea0d-49a2-8717-db3dbc3dfba1','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('eb707f01-0baf-4f6d-8c86-3b001c94bd7e','5f57e868-29f9-45e8-b6de-028cb9042740','kuali.resultComponent.grade.passFail','87e9d5a1-64d3-4ff6-98d4-4b59dc9ecd38','Draft',8)
+  VALUES ('728a5785-c12b-4b85-b38f-4a4f20998b8e','c2f8fded-9b15-42ae-a4f9-ce5b2d42e5b0','kuali.resultComponent.grade.audit','ac7c3ab9-098b-43b9-aecd-f0d66e37c5b1','Draft',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('728a5785-c12b-4b85-b38f-4a4f20998b8e','c2f8fded-9b15-42ae-a4f9-ce5b2d42e5b0','kuali.resultComponent.grade.audit','ac7c3ab9-098b-43b9-aecd-f0d66e37c5b1','Draft',1)
+  VALUES ('eb707f01-0baf-4f6d-8c86-3b001c94bd7e','5f57e868-29f9-45e8-b6de-028cb9042740','kuali.resultComponent.grade.passFail','87e9d5a1-64d3-4ff6-98d4-4b59dc9ecd38','Draft',8)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('0ee159a0-8908-4d82-8bf4-9f8064a4eb08','47ddf757-7350-4ec8-9142-cfbfd4032207','kuali.resultComponent.grade.audit','36f810e8-ac5b-41cc-9f6f-a0e0b5a7e65e','Retired',1)
@@ -8173,11 +8173,11 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('3b5d567c-b60a-45b9-a592-f2316851bd7c','5b0977d6-dd9c-4173-a685-2455ea546198','kuali.resultComponent.grade.letter','0219cb36-a1c0-4c26-82fe-2c41d7ee747a','Active',0)
 /
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('9575f186-6b74-4ecc-b3f1-e75eb3dfae7a','31c614c0-7bdb-4c32-b8b9-3db0be165d00','kuali.creditType.credit.degree.3.0','Draft',0)
-/
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('ba066df7-e32a-42d1-858f-58e124980040','61f37a82-eabe-4f81-bb4e-31404444a55c','kuali.resultComponent.grade.audit','8ab89aa7-6532-4bd9-b823-cb469d2a5981','Retired',1)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
+  VALUES ('9575f186-6b74-4ecc-b3f1-e75eb3dfae7a','31c614c0-7bdb-4c32-b8b9-3db0be165d00','kuali.creditType.credit.degree.3.0','Draft',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('6e0d1967-e6bc-43de-ba6e-cc7e92f5e698','6a37ae6a-10dc-4049-9765-b09fb489140e','kuali.creditType.credit.degree.1-9','Active',0)
@@ -8195,16 +8195,16 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('2e1cd020-3d37-4e24-95fe-ed728d76e052','ff5ff007-8bc9-4cb4-afa6-bc06f8e5c1d4','kuali.resultComponent.grade.passFail','5721e1c3-32bd-4aa0-9433-af385aa9bc6f','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('16cedd1b-0882-4e57-91ff-586716f1200a','3349a503-6c57-4ce9-8d1a-0bee015b7691','kuali.resultComponent.grade.letter','83e5a561-d6c4-4d2b-b8f8-fa00680bd733','Draft',1)
-/
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('7149487a-a1d3-4b97-a855-4eee844bccb3','8e8576be-048f-4c5c-8af9-899782434e19','kuali.resultComponent.grade.letter','f29e2bb9-0fc4-46ea-9325-0a85536ba914','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('fe611f94-4d00-4556-8063-57fa9a7a7aa6','a5ebd6bf-420c-4f0f-bb1c-4b46806c8b4f','kuali.resultComponent.grade.audit','cff0bb22-ab44-4a95-ae98-8cd241315a93','Active',1)
+  VALUES ('16cedd1b-0882-4e57-91ff-586716f1200a','3349a503-6c57-4ce9-8d1a-0bee015b7691','kuali.resultComponent.grade.letter','83e5a561-d6c4-4d2b-b8f8-fa00680bd733','Draft',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('95916b05-55bb-48dc-871a-3e59adac7d07','68734903-d06c-4d5b-a543-95a1394ccc92','kuali.resultComponent.grade.letter','b97a2bca-dbb9-4097-b2f7-5cb99bba6a55','Active',1)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
+  VALUES ('fe611f94-4d00-4556-8063-57fa9a7a7aa6','a5ebd6bf-420c-4f0f-bb1c-4b46806c8b4f','kuali.resultComponent.grade.audit','cff0bb22-ab44-4a95-ae98-8cd241315a93','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('62286f00-abbd-4e66-96f6-877f05c3a88d','97ef7180-8b6d-4c99-823f-a9273dc2d244','kuali.creditType.credit.degree.1.0','Retired',0)
@@ -8324,10 +8324,10 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('4d878867-42ea-432b-aac7-34b086ce0810','261c3140-76c4-45a8-bea0-5e960e48672b','kuali.creditType.credit.degree.3.0','Draft',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('7ad85e80-dca6-4269-bd7d-4d2d27c042ec','5d642e48-514b-4c70-8a0f-05015e4b0d99','kuali.resultComponent.grade.audit','8ff4586b-35ba-4b4c-812c-6208617bfacc','draft',19)
+  VALUES ('1c433536-8fae-42e8-86fd-2ded6bfc3c9a','973abf18-c3a2-4524-9496-709ee9e8bf81','kuali.resultComponent.grade.letter','c0f4246e-64a6-4145-97b7-b56ef7c3abb5','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('1c433536-8fae-42e8-86fd-2ded6bfc3c9a','973abf18-c3a2-4524-9496-709ee9e8bf81','kuali.resultComponent.grade.letter','c0f4246e-64a6-4145-97b7-b56ef7c3abb5','Active',1)
+  VALUES ('7ad85e80-dca6-4269-bd7d-4d2d27c042ec','5d642e48-514b-4c70-8a0f-05015e4b0d99','kuali.resultComponent.grade.audit','8ff4586b-35ba-4b4c-812c-6208617bfacc','draft',19)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('ecf2e2f4-00c9-4b43-a33f-a059720f8b90','8db9b084-13e3-4b93-9a5a-e0a1a0c570d0','kuali.resultComponent.grade.letter','1568b580-0ed6-46ec-b49d-bfa29b7fe295','Active',1)
@@ -8351,10 +8351,10 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('ca45e62d-b74b-487b-bf1f-72c386626d7e','0ba040dc-a715-4a55-86d0-1c9846269ce0','kuali.resultComponent.grade.letter','b2da6cea-269d-4830-8781-e18409080b36','Draft',3)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('cf1e93fa-e78e-478c-a100-b31840cb9f9e','04b59346-8dff-46dc-927d-2830fd186ef7','kuali.resultComponent.grade.letter','7c7b7b53-7d15-4da0-8793-9e94e686141a','Draft',1)
+  VALUES ('77bfe1f5-d134-4e06-b2d1-dc1fe3172092','9f56ce55-cdf6-40ba-ba4b-ef88611d8dcb','kuali.resultComponent.grade.audit','080a090a-0e77-4ddc-a7fd-18c050b85fad','Draft',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('77bfe1f5-d134-4e06-b2d1-dc1fe3172092','9f56ce55-cdf6-40ba-ba4b-ef88611d8dcb','kuali.resultComponent.grade.audit','080a090a-0e77-4ddc-a7fd-18c050b85fad','Draft',1)
+  VALUES ('cf1e93fa-e78e-478c-a100-b31840cb9f9e','04b59346-8dff-46dc-927d-2830fd186ef7','kuali.resultComponent.grade.letter','7c7b7b53-7d15-4da0-8793-9e94e686141a','Draft',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('aa609982-067f-4430-a31e-fdae742addcb','f5307ea6-0c1b-4cf7-bcfa-a5b5629483bd','kuali.resultComponent.grade.passFail','529c1f35-f52b-4e19-86df-229261ae4528','Draft',2)
@@ -8395,11 +8395,11 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('3427e7b9-1a63-43c4-90f1-75bbbfba5f59','6264c4dc-660c-44dc-8c85-3c09a6936f87','kuali.resultComponent.grade.audit','349fd430-a084-4fdd-8704-579df68ff6c2','Active',1)
 /
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('66cf1c44-a0d8-441d-9a90-97c3d20a8d27','18d5c8b3-8d11-423f-ad3a-9d5adbf9e91e','kuali.resultComponent.grade.audit','08359498-3f62-4881-a88e-8ba727fbb391','Draft',1)
-/
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('d2295063-3c8c-43b9-9d4a-111f99b39772','6f77c86d-34f1-4df6-b98d-15e861571243','kuali.creditType.credit.degree.3.0','Draft',0)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
+  VALUES ('66cf1c44-a0d8-441d-9a90-97c3d20a8d27','18d5c8b3-8d11-423f-ad3a-9d5adbf9e91e','kuali.resultComponent.grade.audit','08359498-3f62-4881-a88e-8ba727fbb391','Draft',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('7288647a-de0a-4ee4-92d0-33965d44c023','eb41cbf1-0115-47f2-8588-5d928555b3f5','kuali.resultComponent.grade.letter','5198c225-5134-4149-87aa-bcd558f47584','Draft',11)
@@ -8417,13 +8417,13 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('419e8e1f-d67c-4a59-b2a9-f334e6f75db4','1207c247-2ee6-4884-8e3c-e4aa84713f94','kuali.resultComponent.grade.letter','a7a307b7-3bf2-492f-872e-3ade766b3bed','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('da920328-e5a1-42be-b47a-1fdbd52dd0f9','98913d20-c810-4656-8d54-2ba2b2287831','kuali.creditType.credit.degree.3.0','Draft',0)
+  VALUES ('15e9aeb5-4d13-4eb2-b27e-f2f689723cb5','ee3241bb-33a4-4b8c-a684-ee6f972ee5a7','kuali.creditType.credit.degree.3.0','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('2f7dcb12-3100-43ce-9907-d1efb5d1e163','d9f47658-427a-4794-ae32-3e45dcc5ba4b','kuali.creditType.credit.degree.3.0','Draft',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('15e9aeb5-4d13-4eb2-b27e-f2f689723cb5','ee3241bb-33a4-4b8c-a684-ee6f972ee5a7','kuali.creditType.credit.degree.3.0','Active',0)
+  VALUES ('da920328-e5a1-42be-b47a-1fdbd52dd0f9','98913d20-c810-4656-8d54-2ba2b2287831','kuali.creditType.credit.degree.3.0','Draft',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('7e16cdeb-dbf9-4f24-840e-63f1ae630155','638c41c9-fbe7-43e4-9b56-13e121dde4a5','kuali.creditType.credit.degree.3.0','Active',0)
@@ -8432,13 +8432,13 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('c18fcd75-259a-4de6-aa5a-91fd75c29a4a','0f2f79f2-5655-49e3-8a39-205952e29d6c','kuali.creditType.credit.degree.3.0','Draft',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('8923fc60-4c3c-468f-82ba-bc7995b19d91','dc4fc383-2f80-4897-9de0-4829c94b2ad4','kuali.resultComponent.grade.audit','e1bc61f5-8822-4b4a-b863-b4f18bab602c','Active',1)
-/
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('f2146728-d706-40e1-8505-c41c77cf20c4','78a8131a-91f6-4533-8dd3-630907db5a1d','kuali.resultComponent.grade.passFail','6b80ce1d-84fd-4a00-9f07-28570c07d2ca','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('a1e7ee87-1253-4f59-b431-bbabcbb9ceb6','69a83956-43a9-41b8-a997-e16a9d9151f3','kuali.creditType.credit.degree.3.0','Draft',0)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
+  VALUES ('8923fc60-4c3c-468f-82ba-bc7995b19d91','dc4fc383-2f80-4897-9de0-4829c94b2ad4','kuali.resultComponent.grade.audit','e1bc61f5-8822-4b4a-b863-b4f18bab602c','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('34b7b17e-3248-42bc-94f9-d154eafa7d39','3705e4cf-640f-4e7c-9b70-c8f27ea3a747','kuali.creditType.credit.degree.3.0','Active',0)
@@ -8468,10 +8468,10 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('beba53a4-4d7e-4531-959a-33cf37c5015f','80a7b57e-6b95-4d3a-b563-ca385bed1b8a','kuali.resultComponent.grade.passFail','2dcca965-383c-4edc-b7cb-3b0f18d51239','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('16923bfc-44b9-431b-9640-39551c7d6a5d','87b3c3a7-f5f0-45bc-a02c-491862d110f8','kuali.creditType.credit.degree.1-3','Active',0)
+  VALUES ('5954f5bd-a519-4de7-87e3-ba7f42b37c40','192e2b51-3f20-44d3-9ef9-6e77e1431224','kuali.creditType.credit.degree.3.0','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('5954f5bd-a519-4de7-87e3-ba7f42b37c40','192e2b51-3f20-44d3-9ef9-6e77e1431224','kuali.creditType.credit.degree.3.0','Active',0)
+  VALUES ('16923bfc-44b9-431b-9640-39551c7d6a5d','87b3c3a7-f5f0-45bc-a02c-491862d110f8','kuali.creditType.credit.degree.1-3','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('92af9162-4191-433a-a8ae-a6ec006c6f5d','7a594c38-314f-46a9-99c8-4cd6b220cadf','kuali.resultComponent.grade.passFail','5e1087f2-2558-483f-a675-552d79aec3d8','Active',0)
@@ -8504,10 +8504,10 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('854dd1f6-e577-4a6c-82a3-def09dc9be84','b1943c84-e152-488f-9c7c-71a5b8353a65','kuali.resultComponent.grade.audit','b45f3e37-333d-4c09-99e9-c7a421f0b9a7','draft',20)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('58854f96-da13-4c07-8ffc-1fed9584b77e','bcc842cd-7aef-4dbc-a3c4-eae65de98d44','kuali.resultComponent.grade.letter','e0307a23-2c1f-4cd2-9798-368b4b0244db','Draft',2)
+  VALUES ('bcd1de82-b3db-4597-8258-b751cb9f1da8','1d9dba03-2ca3-433d-9f7d-8abb8934d5aa','kuali.resultComponent.grade.letter','7a7ba039-7591-4c1d-8ee0-dd248d854fd1','Draft',3)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('bcd1de82-b3db-4597-8258-b751cb9f1da8','1d9dba03-2ca3-433d-9f7d-8abb8934d5aa','kuali.resultComponent.grade.letter','7a7ba039-7591-4c1d-8ee0-dd248d854fd1','Draft',3)
+  VALUES ('58854f96-da13-4c07-8ffc-1fed9584b77e','bcc842cd-7aef-4dbc-a3c4-eae65de98d44','kuali.resultComponent.grade.letter','e0307a23-2c1f-4cd2-9798-368b4b0244db','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('b8d4e09c-eac9-465b-8b3b-5540c042c96d','3e5c8165-2747-4ece-8409-71c1d132ebfc','kuali.resultComponent.grade.letter','a86102d2-340f-42b2-9a46-83ac22269a71','Active',6)
@@ -8533,20 +8533,20 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('37ec9d35-50b1-4fd6-8331-5691a220dd05','679a56ec-ea54-4a66-a9b4-ddf2073c0115','kuali.creditType.credit.degree.3.0','Draft',0)
 /
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('bd50f644-c111-4487-b076-13f5f2a38248','a45e2539-95dd-46c0-9d15-b2a9b103d0ae','kuali.resultComponent.grade.passFail','2d037bba-90b1-4cae-b30a-d181f367fb1d','Active',1)
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
+  VALUES ('d98ee939-f402-43f0-aac0-9db6ddb001e6','e4376393-4034-4705-b9a4-4d55d63bd447','kuali.creditType.credit.degree.3.0','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('1af28dc4-5284-44c4-9638-d97fcfa0cd6f','723e4a59-286c-43e4-bdbc-e5ad468b4709','kuali.creditType.credit.degree.3.0','Active',0)
 /
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('d98ee939-f402-43f0-aac0-9db6ddb001e6','e4376393-4034-4705-b9a4-4d55d63bd447','kuali.creditType.credit.degree.3.0','Active',0)
-/
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('0f7ca992-d4af-4981-aec6-9ef15719ffbf','6170b69d-70f8-457e-adc7-2ec77ab59eb5','kuali.resultComponent.grade.letter','a314acfc-a37e-4a2c-9f25-a7d498b35812','Active',0)
+  VALUES ('bd50f644-c111-4487-b076-13f5f2a38248','a45e2539-95dd-46c0-9d15-b2a9b103d0ae','kuali.resultComponent.grade.passFail','2d037bba-90b1-4cae-b30a-d181f367fb1d','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('dc0c87db-ae94-43c7-af0b-0ffcd80fd13b','93394494-6af0-4eec-a710-8758f0dbbbf9','kuali.resultComponent.grade.letter','e693ce9e-05df-49d3-99d8-f560b5ff407f','Draft',2)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
+  VALUES ('0f7ca992-d4af-4981-aec6-9ef15719ffbf','6170b69d-70f8-457e-adc7-2ec77ab59eb5','kuali.resultComponent.grade.letter','a314acfc-a37e-4a2c-9f25-a7d498b35812','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('d5ecb300-c764-4a20-91a7-79454a584b58','8fe9b144-4fa8-4306-ac7f-f18e0241aa45','kuali.resultComponent.grade.letter','3113bfc6-2523-404b-b8d6-d62c2d67cef8','Draft',5)
@@ -8639,10 +8639,10 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('ec4bb28e-ebd6-4a2f-847a-7b81f936a537','9779fe84-eb2c-4471-a53d-29fba101082d','kuali.resultComponent.grade.audit','f184f67a-a8e1-47f8-b35b-e86b7a4563b8','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('28243d5f-3454-4063-9ff2-4c344ecb7459','9920507a-de9f-4026-982d-a3acc1d9d098','kuali.resultComponent.grade.passFail','9b0ec681-84be-4b2b-97f9-0b426cc649cf','Active',0)
+  VALUES ('27b2e973-c798-4b49-af5d-e53275120b6a','1a5e2364-fc4d-4455-89b4-99d0a4ec6b81','kuali.resultComponent.grade.passFail','b619e608-3e2c-442e-8b86-164ae7a849fd','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('27b2e973-c798-4b49-af5d-e53275120b6a','1a5e2364-fc4d-4455-89b4-99d0a4ec6b81','kuali.resultComponent.grade.passFail','b619e608-3e2c-442e-8b86-164ae7a849fd','Draft',2)
+  VALUES ('28243d5f-3454-4063-9ff2-4c344ecb7459','9920507a-de9f-4026-982d-a3acc1d9d098','kuali.resultComponent.grade.passFail','9b0ec681-84be-4b2b-97f9-0b426cc649cf','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('547b76d3-598b-42df-99b2-0ecb8c5c263c','dee2a5c2-cb2e-4ddb-9fb4-c43bed6fdb7f','kuali.resultComponent.grade.letter','3c10c8bb-5af0-45ac-b07b-b798e584142e','Active',1)
@@ -8678,10 +8678,10 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('f8943f97-561b-4e46-ab59-0317b9ec3830','e66c6d04-2113-4319-bfa0-df7b294888bd','kuali.creditType.credit.degree.3.0','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('fa70b1c7-c86a-4362-a848-9e48509db0f7','0436bb18-270e-4f5a-b4fc-f60afaf89721','kuali.resultComponent.grade.letter','f094c0da-dc26-48ff-84f8-88eb9140c28d','Active',1)
+  VALUES ('5519ba5a-2b92-453a-b145-5b625e6bead6','4a53067f-ea13-4703-8293-ff15a9da71ee','kuali.resultComponent.grade.letter','af9d1995-d10c-435b-91f4-d886b87aef16','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('5519ba5a-2b92-453a-b145-5b625e6bead6','4a53067f-ea13-4703-8293-ff15a9da71ee','kuali.resultComponent.grade.letter','af9d1995-d10c-435b-91f4-d886b87aef16','Draft',2)
+  VALUES ('fa70b1c7-c86a-4362-a848-9e48509db0f7','0436bb18-270e-4f5a-b4fc-f60afaf89721','kuali.resultComponent.grade.letter','f094c0da-dc26-48ff-84f8-88eb9140c28d','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('d3796080-7774-4638-bda5-889acfa5e0cb','41998e1e-34c5-4176-86a3-ecc5a6c0ad25','kuali.resultComponent.grade.passFail','c414f4ba-24c4-4198-8ab3-ac6417705d7d','Active',1)
@@ -8773,11 +8773,11 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('088b0408-8fb7-4196-9ca2-90e7d5ee75a0','303927cc-0f6b-48cc-aaf8-2f6752a7a626','kuali.creditType.credit.degree.3.0','Active',0)
 /
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('f9d98401-fb32-403e-b472-deddcbba064b','e173d986-c692-425c-abcb-ef4590f6059f','kuali.creditType.credit.degree.3.0','Active',0)
-/
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('986fe032-e4d9-44aa-9a57-1b4cee4f8adf','e071d045-b607-48f6-b78a-386a5825e784','kuali.resultComponent.grade.letter','c885233c-f68d-41cc-a6f8-6ff10773331a','Draft',2)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
+  VALUES ('f9d98401-fb32-403e-b472-deddcbba064b','e173d986-c692-425c-abcb-ef4590f6059f','kuali.creditType.credit.degree.3.0','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('060c3462-0264-48dd-ab82-c6d6adaa079d','0f39288d-88a7-464c-b260-43fd939720b8','kuali.resultComponent.grade.letter','1d6d1939-9869-4cd0-af7e-47ee95905777','Active',0)
@@ -8798,10 +8798,10 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('36a3d81a-113a-4fc7-9031-62a3b382a6f7','a94ce75c-bdb6-4a8c-bc29-fcbe95cef7a5','kuali.resultComponent.grade.letter','68df7259-ee6e-4639-be63-d29756c9bfeb','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('b17e5cd0-bec9-4b7b-90ea-05cb34d6106c','71266cab-89e7-44bc-beda-67545809ecef','kuali.resultComponent.grade.passFail','037ecf3a-63bc-413b-8a0d-298c627945c2','Active',0)
+  VALUES ('6ee56824-da7b-46c7-b738-f1397abb3eaa','7a18c9d7-6ce5-43ad-9f3c-c1db9a4596ae','kuali.resultComponent.grade.letter','8cc6e002-4acd-439f-9d84-6918549d3ae8','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('6ee56824-da7b-46c7-b738-f1397abb3eaa','7a18c9d7-6ce5-43ad-9f3c-c1db9a4596ae','kuali.resultComponent.grade.letter','8cc6e002-4acd-439f-9d84-6918549d3ae8','Draft',2)
+  VALUES ('b17e5cd0-bec9-4b7b-90ea-05cb34d6106c','71266cab-89e7-44bc-beda-67545809ecef','kuali.resultComponent.grade.passFail','037ecf3a-63bc-413b-8a0d-298c627945c2','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('831149d1-4fd2-4cae-a7f4-31b8da8a2256','968b4f95-74c3-4935-af9c-a0763ae9e1a1','kuali.creditType.credit.degree.3.0','Draft',0)
@@ -8828,16 +8828,16 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('30d6bf23-98ab-476d-b657-c47612209f2c','87e3cebc-49db-4f37-9f56-b36f00154ce6','kuali.creditType.credit.degree.3.0','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('46c30f3b-c2ff-4bdf-9cdf-11565b397d41','57d23d06-847c-4219-b0ab-6555838ee5f5','kuali.resultComponent.grade.audit','9d510c70-b634-44cf-8113-06c7e5c1fbc5','Active',1)
-/
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('8abd0db3-5757-4e83-8bb8-baeb9573a2f1','31d24edd-3f60-4313-a839-410c5aef191e','kuali.resultComponent.grade.audit','eb556d78-a722-412a-9ea8-55c8aa3ccd71','Draft',4)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('7a9d7c25-e2e8-4ba9-b019-aa8284a83a8c','8f453e5c-4f74-44a0-85e5-ea075f7de17a','kuali.resultComponent.grade.letter','9d627e3b-ceb1-47eb-ae65-1ce9704830b3','Active',0)
+  VALUES ('46c30f3b-c2ff-4bdf-9cdf-11565b397d41','57d23d06-847c-4219-b0ab-6555838ee5f5','kuali.resultComponent.grade.audit','9d510c70-b634-44cf-8113-06c7e5c1fbc5','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('dd131567-f67d-42d6-9806-6e9858f973e9','7ebe50d4-a10f-46e9-aa52-6dcd00b3eb88','kuali.resultComponent.grade.letter','35892dc7-4308-47fb-92dd-75a532e98b8a','Active',1)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
+  VALUES ('7a9d7c25-e2e8-4ba9-b019-aa8284a83a8c','8f453e5c-4f74-44a0-85e5-ea075f7de17a','kuali.resultComponent.grade.letter','9d627e3b-ceb1-47eb-ae65-1ce9704830b3','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('4d5c8eb3-5efc-4d9a-a530-5141661672d4','b36233ce-5884-4a44-9801-98c04f80531f','kuali.resultComponent.grade.letter','53022441-d73e-413e-9a83-13b760985781','Draft',2)
@@ -8852,22 +8852,22 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('ed1f7046-da5a-4a94-82e7-f239239fd9e7','5c0df559-9d67-4f46-94fc-2e4d5dee29d6','kuali.resultComponent.grade.passFail','8decda5c-d0d9-4dff-b3b7-1eb3ef48f19d','Draft',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('8dc14ac4-74fd-4118-afed-624fd66db368','aadee44e-df5b-4316-9a38-4eabb7e3910e','kuali.creditType.credit.degree.1-3','Active',0)
-/
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('489dcc7f-d80c-4fe4-8b3e-a5e6f25ba15d','903a3426-297a-4232-a6e0-d25fcf1baff9','kuali.creditType.credit.degree.3.0','Draft',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('c451be6e-bb7c-4375-bcec-25568586c3eb','3f08e25f-eb4f-47c0-9c01-3c4553c0218b','kuali.resultComponent.grade.letter','186b79bf-99d9-4928-bc87-918dff2d7a4a','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
+  VALUES ('8dc14ac4-74fd-4118-afed-624fd66db368','aadee44e-df5b-4316-9a38-4eabb7e3910e','kuali.creditType.credit.degree.1-3','Active',0)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('f5296d52-7225-48a7-9577-6b0d1194ef75','e4d3685e-6e3c-4aaf-a566-b5564fc37abd','kuali.creditType.credit.degree.3.0','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('75880269-724c-418f-ad1d-60d1513ced1a','5df27c17-ae5c-44bd-bf75-70d07bc4c773','kuali.resultComponent.grade.letter','aa3b820a-03fc-47b3-a434-60d67667a9b5','Draft',2)
+  VALUES ('cf47915a-9966-450c-8de1-455f6285e5bb','c67234b0-9ee1-48aa-bc17-170c8d791faa','kuali.resultComponent.grade.passFail','fe36c094-4354-4908-8c37-fad209702770','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('cf47915a-9966-450c-8de1-455f6285e5bb','c67234b0-9ee1-48aa-bc17-170c8d791faa','kuali.resultComponent.grade.passFail','fe36c094-4354-4908-8c37-fad209702770','Draft',2)
+  VALUES ('75880269-724c-418f-ad1d-60d1513ced1a','5df27c17-ae5c-44bd-bf75-70d07bc4c773','kuali.resultComponent.grade.letter','aa3b820a-03fc-47b3-a434-60d67667a9b5','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('a9fd9647-f856-4ce4-ba4d-62404e7bdf22','ca2142c8-353b-4fed-a1ce-60b5eaf9e0bd','kuali.resultComponent.grade.letter','333597d5-6632-4893-83ad-b89b13661331','Active',0)
@@ -8897,10 +8897,10 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('76160c66-55e1-4a6e-887b-5b9eedd3bd67','eb30c4fd-59ba-4489-a52f-856e9ec9d5d5','kuali.resultComponent.grade.audit','cffbd553-8b2d-4d6f-ac5d-3623f25cfe9f','Draft',4)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('418a2be2-b692-4b67-a502-d771fc91c6ee','3f51689f-4815-44db-af68-c48e62b8f01d','kuali.resultComponent.grade.passFail','c1ad1f29-3a30-4213-899d-67c42deebc6b','Active',1)
+  VALUES ('7128de5a-1919-4108-94f1-361f10949ac8','66b6e049-2f0d-4ea3-8a35-5da73fb5379b','kuali.resultComponent.grade.audit','4249d934-86f0-49f2-ab70-73b897b3a213','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('7128de5a-1919-4108-94f1-361f10949ac8','66b6e049-2f0d-4ea3-8a35-5da73fb5379b','kuali.resultComponent.grade.audit','4249d934-86f0-49f2-ab70-73b897b3a213','Active',1)
+  VALUES ('418a2be2-b692-4b67-a502-d771fc91c6ee','3f51689f-4815-44db-af68-c48e62b8f01d','kuali.resultComponent.grade.passFail','c1ad1f29-3a30-4213-899d-67c42deebc6b','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('dcbffc82-b9e4-4273-8db0-4e14c4745570','de6a6e88-b3b8-498d-89ff-6d3964f1af4e','kuali.creditType.credit.degree.3.0','Draft',0)
@@ -8950,11 +8950,11 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('71826203-1fe5-4cd8-8ec8-6924078007dc','4497bbdd-61b6-4b85-9337-58769cb4fc8a','kuali.creditType.credit.degree.3.0','Active',0)
 /
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('37b8f433-053e-433c-a5bf-c379e2d10a7d','9bc39e36-68ba-474f-b7d0-46c718a2904f','kuali.creditType.credit.degree.3.0','Active',0)
-/
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('0fc464af-c5af-4441-84fd-2262c5c7b3ee','d0b6b322-39e9-4397-875a-db7d161054ba','kuali.resultComponent.grade.passFail','f82f2f88-4a5e-4bbc-b1dd-22655979106d','Active',1)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
+  VALUES ('37b8f433-053e-433c-a5bf-c379e2d10a7d','9bc39e36-68ba-474f-b7d0-46c718a2904f','kuali.creditType.credit.degree.3.0','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('2aa8177b-023a-4b02-99fa-e067e3a52caf','d270d33d-2da1-4fe2-862b-ab463b6f8f5a','kuali.creditType.credit.degree.3.0','Active',0)
@@ -8972,10 +8972,10 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('83eab769-3021-4d7f-92c9-99cfd8542169','33968bc9-21e7-4295-8e47-7738470c6366','kuali.resultComponent.grade.audit','0111c157-53c1-47b6-8ae6-647ffa7cd0ca','Draft',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('85c67696-30e5-4c38-9cca-7944d908ba18','e8f89283-9154-47f1-b35a-9d32f9109524','kuali.resultComponent.grade.letter','3e2a276b-7800-4a04-87e0-a0d2f42be2fe','Draft',1)
+  VALUES ('a7d3153f-001e-4a77-88ae-3292d5c08fb5','4cc73d72-14b5-4062-a26b-58af2002e429','kuali.resultComponent.grade.audit','c28b945c-43db-408c-a538-7d38a08c39f0','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('a7d3153f-001e-4a77-88ae-3292d5c08fb5','4cc73d72-14b5-4062-a26b-58af2002e429','kuali.resultComponent.grade.audit','c28b945c-43db-408c-a538-7d38a08c39f0','Active',0)
+  VALUES ('85c67696-30e5-4c38-9cca-7944d908ba18','e8f89283-9154-47f1-b35a-9d32f9109524','kuali.resultComponent.grade.letter','3e2a276b-7800-4a04-87e0-a0d2f42be2fe','Draft',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('7065e31c-9625-4919-a9eb-b706da299c55','4334c9f1-8df1-4b38-bc9e-b43c469fff8b','kuali.resultComponent.grade.audit','0c68207e-3e5e-4f99-bacb-1b20d52d0c4f','Active',1)
@@ -9035,10 +9035,10 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('aec0e3ae-ca8c-49f0-9e72-ddf2fb879bd4','3706c1b1-1fda-4a00-aa5b-71854f02744f','kuali.resultComponent.grade.letter','f8d44a55-1cd1-4eae-95e1-3e884768ced2','Draft',17)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('94371d18-cb2b-4c9a-95d8-b67278eb6eca','c310d380-10d8-4038-9c12-95336f3bd3f7','kuali.resultComponent.grade.passFail','4d353e43-5891-4ab9-9a4d-8a6d102a1dd0','Retired',1)
+  VALUES ('1e105084-27c1-4a52-a95e-180215049ee2','698e1f4c-d595-442a-ab2b-d5ca477e8b66','kuali.resultComponent.grade.passFail','ceacdfc6-749a-4053-9068-f963c4aa2e59','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('1e105084-27c1-4a52-a95e-180215049ee2','698e1f4c-d595-442a-ab2b-d5ca477e8b66','kuali.resultComponent.grade.passFail','ceacdfc6-749a-4053-9068-f963c4aa2e59','Draft',2)
+  VALUES ('94371d18-cb2b-4c9a-95d8-b67278eb6eca','c310d380-10d8-4038-9c12-95336f3bd3f7','kuali.resultComponent.grade.passFail','4d353e43-5891-4ab9-9a4d-8a6d102a1dd0','Retired',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('5605eaac-5a2f-4be8-93c8-3925ab05b9a5','2acc8cad-fdea-4d55-a707-68337ca9fbb9','kuali.resultComponent.grade.letter','e356d089-deae-44b6-a546-dc460c7dfd33','Active',1)
@@ -9050,10 +9050,10 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('7209a1a6-132e-4c0c-a17a-f12c6ae14ab3','c27c68bf-7e31-4fa9-aeb4-b823702eda7f','kuali.resultComponent.grade.letter','413b532b-6fa3-4515-b802-7d723fb4594d','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('16550cbe-477f-4e3a-9bf5-aebce1ded511','8c28fa0f-25d7-4fa7-8922-6b4c4494a6cc','kuali.resultComponent.grade.letter','e54fae5c-9d35-456e-b8ab-0283d09d62b6','Active',2)
+  VALUES ('d2e3768b-cab9-432f-b033-107d41d53ed3','de9792a2-cf20-4263-a9d8-51cd1d6c7317','kuali.resultComponent.grade.audit','79c5c7f7-58f8-42af-81d8-e7453631bb33','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('d2e3768b-cab9-432f-b033-107d41d53ed3','de9792a2-cf20-4263-a9d8-51cd1d6c7317','kuali.resultComponent.grade.audit','79c5c7f7-58f8-42af-81d8-e7453631bb33','Active',0)
+  VALUES ('16550cbe-477f-4e3a-9bf5-aebce1ded511','8c28fa0f-25d7-4fa7-8922-6b4c4494a6cc','kuali.resultComponent.grade.letter','e54fae5c-9d35-456e-b8ab-0283d09d62b6','Active',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('a0f5fc8a-6805-44e9-96c1-40a4c69cbc0a','a28e74b6-cba1-4258-a4f3-9484a086c421','kuali.resultComponent.grade.passFail','4693435c-a479-468d-9b56-2ef4dcfcf22d','Active',0)
@@ -9079,11 +9079,11 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('7af31c46-4db3-43de-99da-b8aa37f715c0','1023ae35-4c6b-413c-ba4d-26ab8bd97929','kuali.resultComponent.grade.audit','7f354753-a766-4d70-af9e-d170074fb441','Retired',1)
 /
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('e76ca223-b7e9-44f1-a3c6-6a682c106f8c','f8389578-dfc7-4e26-bcd0-42ee74db30b4','kuali.resultComponent.grade.letter','bf4a1885-5ca8-4c8a-beee-e3b5fac6eb19','Draft',1)
-/
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('8581a46a-3a48-4558-bd43-5e08857468ca','2cabd109-1134-4c7a-9b36-bfd6942b226c','kuali.creditType.credit.degree.2.0','Active',0)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
+  VALUES ('e76ca223-b7e9-44f1-a3c6-6a682c106f8c','f8389578-dfc7-4e26-bcd0-42ee74db30b4','kuali.resultComponent.grade.letter','bf4a1885-5ca8-4c8a-beee-e3b5fac6eb19','Draft',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('4c9de6d7-1433-44a3-a07e-ab10c8a2f577','8988cb0a-f359-463a-a1db-1870eba4be0b','kuali.resultComponent.grade.audit','fdf9d4bc-3559-46b9-bd1d-d57db5d7d40e','Draft',2)
@@ -9097,11 +9097,11 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('faff54be-29c5-45ea-a07c-6132315e9913','b9bb804f-2d83-4495-a066-ac5153d0d3d6','kuali.resultComponent.grade.audit','8a98a723-afa3-4438-a298-cb8fbb58f76c','Draft',1)
 /
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('1cc8b31f-8fcf-459b-858b-48eea9a9b911','ef93bd41-b834-4740-8273-3eaa1c986360','kuali.resultComponent.grade.audit','c694e387-9057-4c64-a1df-5378a047e704','Draft',1)
-/
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('e8b7d59a-0b6f-440f-a87e-8b025317a46c','a58f6d87-2981-4e9f-b46c-8905056a055d','kuali.creditType.credit.degree.3.0','Draft',0)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
+  VALUES ('1cc8b31f-8fcf-459b-858b-48eea9a9b911','ef93bd41-b834-4740-8273-3eaa1c986360','kuali.resultComponent.grade.audit','c694e387-9057-4c64-a1df-5378a047e704','Draft',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('8dbd3e02-1a9a-4ed2-afb4-2fb455325e87','43b40fad-6728-48c6-898e-682c6e51a806','kuali.resultComponent.grade.audit','2dd8f00a-8689-44b8-9302-9f8415c7ac66','Draft',4)
@@ -9119,13 +9119,13 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('5c0fd2af-4410-4313-9bb8-dd22e150afe4','d65f6093-c9de-43d7-927f-8d775737d60d','kuali.creditType.credit.degree.3.0','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
+  VALUES ('9a513695-8f6a-4660-9ae0-21b6214e2018','de3a646d-a7da-47da-a01a-0b33512923b6','kuali.resultComponent.grade.passFail','799eba86-bf50-4410-9909-f5ddaebeda89','Draft',2)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('1ca5e789-fc89-4fb6-8916-032a371b0713','6dc92a29-4ec7-4bb8-b7c2-003d069d380d','kuali.resultComponent.grade.audit','c01047e8-062b-44b1-a87b-8b139a4e6c2a','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('335d2c53-b9e8-4524-8122-ebbe17a21461','db7230bd-182c-4102-9df9-fadf340cba76','kuali.creditType.credit.degree.1.0','Active',0)
-/
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('9a513695-8f6a-4660-9ae0-21b6214e2018','de3a646d-a7da-47da-a01a-0b33512923b6','kuali.resultComponent.grade.passFail','799eba86-bf50-4410-9909-f5ddaebeda89','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('f4cf2e6c-4315-48e2-937f-004cbdcfc60d','c70d7fc9-2b32-41c0-a38f-11c04e782018','kuali.resultComponent.grade.letter','043704ef-a058-4088-9bd2-71ff24770452','draft',13)
@@ -9139,11 +9139,11 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('ee41248c-e1b2-42de-81d4-7bbef44e2726','04d10478-e973-4e21-b4a2-55168f0a0934','kuali.creditType.credit.degree.3.0','Active',0)
 /
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('2cc66a0b-9d5c-4222-bccb-fc6d279c1f09','6f5e090f-eaba-495c-8501-0d8bf06c77af','kuali.resultComponent.grade.letter','d73e6ffc-f60e-48be-8a8c-2305eab6663c','Active',0)
-/
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('d51b616d-4dec-41ab-b2ac-31fb2c1dc7ca','04f1f591-90ce-4bbd-968c-e5c8e0d3ed67','kuali.creditType.credit.degree.3.0','Active',0)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
+  VALUES ('2cc66a0b-9d5c-4222-bccb-fc6d279c1f09','6f5e090f-eaba-495c-8501-0d8bf06c77af','kuali.resultComponent.grade.letter','d73e6ffc-f60e-48be-8a8c-2305eab6663c','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('d22fde35-c2b4-4cc1-9c87-a60b825704b9','3f4f621c-fa0c-4ead-b66c-8ab93a696f49','kuali.creditType.credit.degree.3.0','Draft',0)
@@ -9196,26 +9196,26 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('5af2c62a-bdc7-479c-bea4-5f984625bcdb','2225e87f-0a52-4fc7-9616-ea1dc706b353','kuali.resultComponent.grade.passFail','93e59f13-05e5-4212-b33f-f2ff2cce31fe','Draft',2)
 /
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('5ecd31f1-31af-4603-b6b8-0d0a454d8057','a753e796-c76d-4511-8d63-4d73c9738277','kuali.resultComponent.grade.letter','e0ff59f5-6253-4b6b-b7f9-f094f76b119d','Draft',3)
-/
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('0fa83f2d-8fdd-422a-971a-6fe0d44586b8','1b03611c-ac88-4e01-ac15-5a3bebdfa691','kuali.creditType.credit.degree.3.0','Draft',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('27663f6c-dd91-4047-8aa3-c90400ad8dff','5dae7ff4-f80e-420b-8f2c-1b5f618af927','kuali.resultComponent.grade.letter','c6532458-a086-46b9-8971-034d328f18de','Draft',2)
+  VALUES ('5ecd31f1-31af-4603-b6b8-0d0a454d8057','a753e796-c76d-4511-8d63-4d73c9738277','kuali.resultComponent.grade.letter','e0ff59f5-6253-4b6b-b7f9-f094f76b119d','Draft',3)
 /
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('e93a63a1-250c-48bd-ab28-8c52ba49f503','8875b89f-714d-4032-a881-ca0ebd82741f','kuali.creditType.credit.degree.2.0','Active',0)
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
+  VALUES ('27663f6c-dd91-4047-8aa3-c90400ad8dff','5dae7ff4-f80e-420b-8f2c-1b5f618af927','kuali.resultComponent.grade.letter','c6532458-a086-46b9-8971-034d328f18de','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('ef21d1b7-7ba5-4fd0-9926-9eb9d1b85d9c','77ce0327-af48-4347-96b3-b3443703a8d0','kuali.resultComponent.grade.audit','1bfed63b-d09c-4eae-b07e-45a2c4fde188','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('2330940f-f517-489d-a39f-8509de3fcab3','72ed1a9f-f541-41ef-80f7-6e56698728be','kuali.creditType.credit.degree.3.0','Draft',0)
+  VALUES ('e93a63a1-250c-48bd-ab28-8c52ba49f503','8875b89f-714d-4032-a881-ca0ebd82741f','kuali.creditType.credit.degree.2.0','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('b7a2e341-3a0d-4c19-ad37-c5eee42e5101','94c7c57d-774f-4a9e-916c-58ca00a4382a','kuali.resultComponent.grade.letter','27478874-7f23-47a2-99f0-edabb727e149','Active',0)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
+  VALUES ('2330940f-f517-489d-a39f-8509de3fcab3','72ed1a9f-f541-41ef-80f7-6e56698728be','kuali.creditType.credit.degree.3.0','Draft',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('65201b04-2c7f-4184-bd22-86b9229e5d91','acd3538e-f571-4381-ab24-77f52d0c42dc','kuali.resultComponent.grade.passFail','1a3dd0d1-400e-416e-b84c-12f34721968a','Retired',1)
@@ -9248,13 +9248,13 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('9d666fae-4f15-4ab6-a798-5194fb882f38','4ac8f167-da43-4e65-9b47-c9f6c0de7e27','kuali.creditType.credit.degree.3.0','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('138c39f3-0905-43c8-9288-65654e99db0f','a37fcdbe-8916-4a0e-b571-2ccd9bdbf2c9','kuali.resultComponent.grade.audit','ebbad192-bb87-4b3e-a90c-f7b2e5db1ac1','Draft',1)
-/
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('afb0ef37-9974-474a-8c0e-584ee92a1986','6951f06b-11d5-42b8-a582-41657e092562','kuali.resultComponent.grade.audit','4c913ccc-33bc-4bbc-a72e-bd6520b31ff9','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('e9dd596d-b226-4a3b-b983-be74b5a6fb5b','d0a07104-7528-4887-80cd-b1dc3b100325','kuali.creditType.credit.degree.3.0','Draft',0)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
+  VALUES ('138c39f3-0905-43c8-9288-65654e99db0f','a37fcdbe-8916-4a0e-b571-2ccd9bdbf2c9','kuali.resultComponent.grade.audit','ebbad192-bb87-4b3e-a90c-f7b2e5db1ac1','Draft',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('bba5194b-a7db-409e-99bc-c6acd2ba098f','5fa1e3df-9261-472e-9eef-aa50297801a4','kuali.resultComponent.grade.letter','b35dad14-a07e-45ee-aa2c-d5c2eb71cf25','Draft',2)
@@ -9272,10 +9272,10 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('a95d9951-edeb-4521-be9e-2c7f77ce6c0b','9e436f89-e8d9-4908-8825-a8614995752c','kuali.resultComponent.grade.audit','200573e9-1776-48d0-be85-9d73d73c4b1a','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('4a767f90-5310-4793-8a26-3c7d4551c2f2','b51ed9db-8deb-48ec-9f90-b4f91dca223a','kuali.resultComponent.grade.passFail','eb2aeb62-0396-44a1-9e74-738c11e7a951','Active',1)
+  VALUES ('a8b0c627-d7f2-476b-9c98-5d2583a67a8f','a01b7be5-ede0-416e-8ee9-f63a882010df','kuali.resultComponent.grade.letter','bc9b8530-f784-479a-9879-75dc0ccf1a11','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('a8b0c627-d7f2-476b-9c98-5d2583a67a8f','a01b7be5-ede0-416e-8ee9-f63a882010df','kuali.resultComponent.grade.letter','bc9b8530-f784-479a-9879-75dc0ccf1a11','Active',0)
+  VALUES ('4a767f90-5310-4793-8a26-3c7d4551c2f2','b51ed9db-8deb-48ec-9f90-b4f91dca223a','kuali.resultComponent.grade.passFail','eb2aeb62-0396-44a1-9e74-738c11e7a951','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('f7c28621-041f-47dd-b56f-b937a6d75457','0357af35-3e18-4178-a80a-9a2654e5d7d6','kuali.resultComponent.grade.audit','7ca08ecc-d03f-4808-8e5b-c3524d08250f','Active',1)
@@ -9301,11 +9301,11 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('95858d56-e085-4754-b035-221317862a92','3feacf2c-40b4-4b7e-a8bd-f65e6cdd2297','kuali.creditType.credit.degree.3.0','Active',0)
 /
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('da098c8d-e24c-4ea3-b220-45239f6008e8','93e556fb-1497-4d2b-be75-75140a307f5e','kuali.creditType.credit.degree.3.0','Active',0)
-/
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('ed4a6a68-9b76-4412-aedb-77221da3a6f3','b85a45dd-b252-4e08-89bf-f947f163f252','kuali.resultComponent.grade.letter','a9af074d-4d04-4e7e-92c3-b42ffe068347','Draft',2)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
+  VALUES ('da098c8d-e24c-4ea3-b220-45239f6008e8','93e556fb-1497-4d2b-be75-75140a307f5e','kuali.creditType.credit.degree.3.0','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('846b9d91-4c08-4db7-a4af-c05aaf21d37b','b9b6fc66-8731-4571-8d06-91695a851eb7','kuali.creditType.credit.degree.1-9','Active',0)
@@ -9359,10 +9359,10 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('a911c9f8-90cc-4185-a7e5-9b632c998f04','2ad4b91f-fd76-4c64-b063-3567e8b9c520','kuali.resultComponent.grade.passFail','514c1042-e482-46de-a198-365571913ad9','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('f05ca67b-b32c-43b1-8288-1ad0e7e3fe30','0fc2fbb9-8677-41dd-bf33-836327dfa03c','kuali.resultComponent.grade.passFail','5f3ff45c-bc5c-4c25-a9f0-9fcda80477df','Retired',1)
+  VALUES ('0fbb82e3-abf2-408e-bbf3-d0a31d0569b9','a9df48f9-b422-4ccc-8fc0-329c20ab2afd','kuali.resultComponent.grade.letter','51ba54a1-1fdf-4df2-9603-0a5f295ca1f4','Retired',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('0fbb82e3-abf2-408e-bbf3-d0a31d0569b9','a9df48f9-b422-4ccc-8fc0-329c20ab2afd','kuali.resultComponent.grade.letter','51ba54a1-1fdf-4df2-9603-0a5f295ca1f4','Retired',1)
+  VALUES ('f05ca67b-b32c-43b1-8288-1ad0e7e3fe30','0fc2fbb9-8677-41dd-bf33-836327dfa03c','kuali.resultComponent.grade.passFail','5f3ff45c-bc5c-4c25-a9f0-9fcda80477df','Retired',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('2a0ed5a1-45c9-4ea8-8450-dad38b53731f','933e5e97-e7f7-450c-9183-58e0818a622a','kuali.resultComponent.grade.letter','b4def4b9-b343-41b1-8b9d-307e5bc8e123','Active',0)
@@ -9395,10 +9395,10 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('a237d5ca-51f1-4790-a990-998d62d0e78c','22b4125a-e5cc-4b87-a01c-7ffe5cddfe7d','kuali.resultComponent.grade.letter','b299c6c7-01c0-48ab-9173-ba9c7ea20a97','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('71a3fb52-83cb-4900-a5d7-06805bb07a39','a122e95c-5d15-48c2-869d-23e63bf0d798','kuali.resultComponent.grade.letter','d01be076-43b3-45b2-8ce1-bd0454029d46','Draft',2)
+  VALUES ('ee995500-598c-49d1-a0ff-0a4273e3ce63','726b5834-41b4-4d74-b2b8-8f58760342c1','kuali.resultComponent.grade.audit','c811e728-1cfe-4690-90b4-2835a5737baa','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('ee995500-598c-49d1-a0ff-0a4273e3ce63','726b5834-41b4-4d74-b2b8-8f58760342c1','kuali.resultComponent.grade.audit','c811e728-1cfe-4690-90b4-2835a5737baa','Draft',2)
+  VALUES ('71a3fb52-83cb-4900-a5d7-06805bb07a39','a122e95c-5d15-48c2-869d-23e63bf0d798','kuali.resultComponent.grade.letter','d01be076-43b3-45b2-8ce1-bd0454029d46','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('3588a2f3-9b94-4247-9d65-ab61d0f1a034','386164b4-0e8a-43ac-8d56-8f630da5e8ca','kuali.resultComponent.grade.letter','8c798754-7b97-4e6d-940b-d13fa6ab52c2','Draft',2)
@@ -9419,10 +9419,10 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('9cdf400a-18d3-4078-8923-25307e267ea1','f521cd48-28f0-4ea4-b921-fc976fe69f7d','kuali.resultComponent.grade.audit','8c3175e4-c0af-496d-987a-42aa31741014','Draft',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('f16d4d40-f0a0-48b0-92ed-9243a1118268','b804a509-80d8-4f7e-96b7-f0956efe4da7','kuali.resultComponent.grade.letter','b001fb5a-9e61-4037-821b-339bf7e880e0','Active',1)
+  VALUES ('252c24c4-85a1-47b9-aca9-097f5622d56a','0e10b13c-27a9-4f52-a41a-89d5fcc2d885','kuali.resultComponent.grade.audit','08e46ae6-edc5-47cc-8dea-12b287740b44','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('252c24c4-85a1-47b9-aca9-097f5622d56a','0e10b13c-27a9-4f52-a41a-89d5fcc2d885','kuali.resultComponent.grade.audit','08e46ae6-edc5-47cc-8dea-12b287740b44','Draft',2)
+  VALUES ('f16d4d40-f0a0-48b0-92ed-9243a1118268','b804a509-80d8-4f7e-96b7-f0956efe4da7','kuali.resultComponent.grade.letter','b001fb5a-9e61-4037-821b-339bf7e880e0','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('aad287ac-1bef-4e1f-bae1-460447456268','cf52985a-dbc6-4b01-a5ee-9d7815e682a9','kuali.resultComponent.grade.audit','3e0a8659-29f2-48aa-94e8-944bbe054eef','Active',0)
@@ -9464,10 +9464,10 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('e56e653f-f670-4b89-810b-57ffda5dadd8','4e8b9fde-b26b-468f-a2ba-a98b52602ffa','kuali.resultComponent.grade.letter','8c19c38a-eb51-4c4f-8615-350be5c8bff0','Retired',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('7d2d298c-4088-4c2c-80cd-e06a66744f2f','f765e99a-6b01-4558-80f4-6027db79b9c1','kuali.resultComponent.grade.audit','ea83b991-ac51-4fab-8075-0e653c904bc9','Draft',1)
+  VALUES ('7e703402-f3e9-41a7-870d-38f1e5fb1285','d9f41f96-aea4-4b1c-9e61-8e821540ec94','kuali.resultComponent.grade.letter','2189cb81-5ec4-43a3-a8be-7634cad61af3','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('7e703402-f3e9-41a7-870d-38f1e5fb1285','d9f41f96-aea4-4b1c-9e61-8e821540ec94','kuali.resultComponent.grade.letter','2189cb81-5ec4-43a3-a8be-7634cad61af3','Active',1)
+  VALUES ('7d2d298c-4088-4c2c-80cd-e06a66744f2f','f765e99a-6b01-4558-80f4-6027db79b9c1','kuali.resultComponent.grade.audit','ea83b991-ac51-4fab-8075-0e653c904bc9','Draft',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('19245a39-4046-4ffe-9296-bc024048e5f1','e62dc40b-6e53-4557-8636-0e37d5de0d23','kuali.creditType.credit.degree.1-9','Active',0)
@@ -9491,19 +9491,19 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('cd81d94c-6b29-4cec-9916-3b35916ac93b','4778acd4-11fd-43d5-b710-ef7823da924f','kuali.creditType.credit.degree.3.0','Draft',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('070b8f3f-5135-45c6-a54d-1be434a7dfbf','91f20f2c-e176-49f0-b1c1-64434474cc9f','kuali.resultComponent.grade.audit','f041a73f-4b4f-4bbc-9f33-2573dcb10f9c','Draft',2)
+  VALUES ('2f78cdca-23d1-4a04-b761-e56ac992d32f','9f2bfc50-cdb5-43a0-a458-9535427d8fa3','kuali.resultComponent.grade.audit','90bd605c-0a4c-47ad-bdb1-4e699acafa53','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('2f78cdca-23d1-4a04-b761-e56ac992d32f','9f2bfc50-cdb5-43a0-a458-9535427d8fa3','kuali.resultComponent.grade.audit','90bd605c-0a4c-47ad-bdb1-4e699acafa53','Draft',2)
+  VALUES ('070b8f3f-5135-45c6-a54d-1be434a7dfbf','91f20f2c-e176-49f0-b1c1-64434474cc9f','kuali.resultComponent.grade.audit','f041a73f-4b4f-4bbc-9f33-2573dcb10f9c','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('e03637d7-9aef-4e13-bc95-a757ec2db21c','50d06239-c99b-40ee-890f-b5831fb026d2','kuali.resultComponent.grade.letter','2bf41add-b14a-4f13-8f4c-28616f43b502','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('82805b12-fb96-48e1-8f33-939e3506edd3','b4a861b1-dcc6-4663-a9e7-ccd16db17aea','kuali.resultComponent.grade.passFail','d22b4945-72db-420c-8d4f-148571de2935','Active',1)
+  VALUES ('18361356-d9bf-466e-a0a7-b2a198c55070','48de406c-7e37-49e9-a2c4-6dc15cba552a','kuali.resultComponent.grade.passFail','7aa97455-5cf5-457d-b6b3-26965d9e078f','Draft',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('18361356-d9bf-466e-a0a7-b2a198c55070','48de406c-7e37-49e9-a2c4-6dc15cba552a','kuali.resultComponent.grade.passFail','7aa97455-5cf5-457d-b6b3-26965d9e078f','Draft',1)
+  VALUES ('82805b12-fb96-48e1-8f33-939e3506edd3','b4a861b1-dcc6-4663-a9e7-ccd16db17aea','kuali.resultComponent.grade.passFail','d22b4945-72db-420c-8d4f-148571de2935','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('0ba72fa0-1049-4871-9dd2-43fffcdfcaae','4e6cf10a-322e-45a1-b125-7f86d3b7fa5f','kuali.resultComponent.grade.audit','0ebeb8ab-7dac-48f3-bd64-695c88200c5b','Retired',1)
@@ -9566,10 +9566,10 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('85e4cde0-30e6-477a-8de6-8712e7af99dc','d9c9b1a2-7d94-4741-ac59-ea5f87d5dfbc','kuali.resultComponent.grade.letter','c7e79a92-d2ff-4db4-96ad-b37754f22b17','Retired',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('1460d149-538c-467b-8488-7a183de2b55f','bb6832a8-03ce-4cd9-8eb8-f0b347cccd21','kuali.resultComponent.grade.letter','7f38a04b-c668-4247-9863-8fc2eb736719','Draft',2)
+  VALUES ('faab3c2c-6337-4697-b01a-0e50219a066c','26a4ece7-ac5c-4195-ab8a-2e4eb87bccc2','kuali.resultComponent.grade.letter','67448ed1-9298-4ce4-a1c3-7b5ea5277a31','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('faab3c2c-6337-4697-b01a-0e50219a066c','26a4ece7-ac5c-4195-ab8a-2e4eb87bccc2','kuali.resultComponent.grade.letter','67448ed1-9298-4ce4-a1c3-7b5ea5277a31','Active',0)
+  VALUES ('1460d149-538c-467b-8488-7a183de2b55f','bb6832a8-03ce-4cd9-8eb8-f0b347cccd21','kuali.resultComponent.grade.letter','7f38a04b-c668-4247-9863-8fc2eb736719','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('d0cbbf94-fdf7-4e5f-94f5-3907761ca5aa','b03095e7-6e0f-44af-8645-a46c23f4af43','kuali.resultComponent.grade.letter','0ec07b9e-d7c9-4942-a32f-7c8c34c7e36e','Active',1)
@@ -9583,20 +9583,20 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('d64973a5-f3b1-4f55-9c70-60d28776bace','aa7d00c5-b08e-4160-b13e-f4e55243ee90','kuali.resultComponent.grade.letter','621e10ee-e46a-4e32-8eef-ef2b1f497b68','Retired',1)
 /
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('2919894c-26a5-4283-b299-e748fcc2e580','f7392b35-5674-4a0a-8dd6-83acffdd36b5','kuali.creditType.credit.degree.3.0','Active',0)
-/
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('da794afb-30b2-41dd-b086-55a90e67b269','6c33ef3a-8b2b-40b7-b2fb-0f9cfd70fd33','kuali.resultComponent.grade.letter','738b269c-1dc0-423a-853e-58ce7ada079d','Retired',1)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
+  VALUES ('2919894c-26a5-4283-b299-e748fcc2e580','f7392b35-5674-4a0a-8dd6-83acffdd36b5','kuali.creditType.credit.degree.3.0','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('3318b9bb-8482-4926-aee3-2fc18b99d70a','06774977-740c-4d2e-b888-9f8762f79db1','kuali.resultComponent.grade.passFail','1520053f-9eaa-4021-93a3-27f4eb82ae16','Draft',16)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('70ee440a-1e24-49ce-8ce0-7ec07c9cc85e','42bf4412-eb2c-4a59-b5bd-7378c9e50a8a','kuali.resultComponent.grade.audit','922acf36-f5ce-4592-b851-f4a9e03dd78b','Draft',2)
+  VALUES ('250aeeed-f20e-4f2e-b465-c04a2277394b','d8b34a98-58a9-442b-b625-4e0fb5b24270','kuali.resultComponent.grade.passFail','98a1255b-741c-4a66-82f3-fb11e7b28ae2','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('250aeeed-f20e-4f2e-b465-c04a2277394b','d8b34a98-58a9-442b-b625-4e0fb5b24270','kuali.resultComponent.grade.passFail','98a1255b-741c-4a66-82f3-fb11e7b28ae2','Active',0)
+  VALUES ('70ee440a-1e24-49ce-8ce0-7ec07c9cc85e','42bf4412-eb2c-4a59-b5bd-7378c9e50a8a','kuali.resultComponent.grade.audit','922acf36-f5ce-4592-b851-f4a9e03dd78b','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('07cd3270-f6a0-4b3c-a5d5-ef3af916621d','1e76afe9-becb-4a2d-9064-90f10d85a488','kuali.creditType.credit.degree.3.0','Active',0)
@@ -9613,26 +9613,26 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('68ef1c78-76e8-41af-8e9c-ded4592b0f4f','19de9436-ec4e-4be1-8fc0-0e3803b70979','kuali.creditType.credit.degree.3.0','Draft',0)
 /
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
+  VALUES ('df081692-0d8e-4b98-8fdb-7d5d21b2cfc0','719004e8-82c7-4e30-9726-492cb9a10e49','kuali.creditType.credit.degree.3.0','Draft',0)
+/
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('a439f98c-afa9-43ae-8573-7f8d1d85e2ed','f5029f0b-b904-40e9-b07e-61aacff40743','kuali.resultComponent.grade.audit','8eecad75-bcc8-4420-9c99-fcbc5f06b2bd','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('5f9d547f-f17e-48dc-86fc-c112af3a5e72','6fe0e56d-b1b7-4611-ae56-9555d1ab0a6a','kuali.resultComponent.grade.audit','143259e5-f3f8-4440-83b2-09ddf47844b9','Active',0)
 /
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('df081692-0d8e-4b98-8fdb-7d5d21b2cfc0','719004e8-82c7-4e30-9726-492cb9a10e49','kuali.creditType.credit.degree.3.0','Draft',0)
-/
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('4a6c5e7c-b318-48b4-a6cc-fa482a251326','cf4bd837-84c4-4e45-a1b2-ff0cb14de950','kuali.resultComponent.grade.audit','9ccf7553-dc33-42bc-8c15-0b598da22d51','Draft',1)
 /
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('7d38bfc9-e682-4e4a-9678-ec3233bbe928','b4eedbdd-e64e-47a6-bc57-73219398a6e1','kuali.resultComponent.grade.audit','ec9651c0-03c8-4c3b-bfa3-fc4d51f46046','Retired',1)
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
+  VALUES ('eccb2b85-81b5-4182-8116-70441219acbb','bc0bb563-7e1a-4753-908a-484496cd3ad8','kuali.creditType.credit.degree.3.0','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('1dc3492f-147d-4cff-9eef-df36fb2e4989','fe1623d9-9546-4385-90cd-ba416956a281','kuali.creditType.credit.degree.3.0','Draft',0)
 /
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('eccb2b85-81b5-4182-8116-70441219acbb','bc0bb563-7e1a-4753-908a-484496cd3ad8','kuali.creditType.credit.degree.3.0','Active',0)
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
+  VALUES ('7d38bfc9-e682-4e4a-9678-ec3233bbe928','b4eedbdd-e64e-47a6-bc57-73219398a6e1','kuali.resultComponent.grade.audit','ec9651c0-03c8-4c3b-bfa3-fc4d51f46046','Retired',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('579be7cc-3aa7-4cce-be88-d1d4c2b55ac5','2d0c961e-4f13-44fc-ad63-237a1c43e86d','kuali.creditType.credit.degree.3.0','Draft',0)
@@ -9641,10 +9641,10 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('424c325a-db6d-49d4-adeb-a7a9f25996e6','63167e67-e3d1-411c-877d-21a94f3a97d4','kuali.resultComponent.grade.passFail','9d9c8443-f7f9-479a-99d2-ad74082c4ef6','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('2b6b1152-481f-4338-b7b3-74986c7dcd8d','8e5c6be2-8e82-4895-8373-232baae19ca1','kuali.resultComponent.grade.letter','f5ad3f3f-6df6-4a4b-bb6f-1c0ffde9bf26','Active',0)
+  VALUES ('328156ed-5c65-496b-b493-d445b62a8084','53d64291-0082-4795-aca0-044f72247bc4','kuali.resultComponent.grade.letter','e328c6a7-5619-4aec-b9e6-549b519d1242','draft',12)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('328156ed-5c65-496b-b493-d445b62a8084','53d64291-0082-4795-aca0-044f72247bc4','kuali.resultComponent.grade.letter','e328c6a7-5619-4aec-b9e6-549b519d1242','draft',12)
+  VALUES ('2b6b1152-481f-4338-b7b3-74986c7dcd8d','8e5c6be2-8e82-4895-8373-232baae19ca1','kuali.resultComponent.grade.letter','f5ad3f3f-6df6-4a4b-bb6f-1c0ffde9bf26','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('7b0f82e4-457c-4191-8006-88b72150d147','f4526ac0-371d-443f-a00d-0d013136f0fe','kuali.resultComponent.grade.audit','e06f0c6d-5416-46ba-b730-46fdfc0e76dd','Active',1)
@@ -9655,11 +9655,11 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('2ebd91c1-1c25-4e88-9602-287dbcbee715','61bc5df4-9400-434c-91df-1b13efbbcc23','kuali.resultComponent.grade.passFail','2cece9ac-84e1-45d6-8739-db169b0de2f5','Draft',2)
 /
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('e89f8b06-f71d-4ea7-8eeb-8eb293dd2864','15337ec7-6c05-407e-be4a-53fdf970101a','kuali.resultComponent.grade.letter','6fb2e1d1-a72e-453f-afc9-c39e72769c25','Draft',6)
-/
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('726924ae-1277-4c18-b45b-2b14c40f88f3','afa9f640-44cc-4d99-8345-04fbb912d20e','kuali.creditType.credit.degree.3.0','Draft',0)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
+  VALUES ('e89f8b06-f71d-4ea7-8eeb-8eb293dd2864','15337ec7-6c05-407e-be4a-53fdf970101a','kuali.resultComponent.grade.letter','6fb2e1d1-a72e-453f-afc9-c39e72769c25','Draft',6)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('e3af29b9-1ab0-4ab8-8795-21780816e46e','9e9e77aa-d072-4b55-bef2-755a24089370','kuali.resultComponent.grade.passFail','569f4ed3-721b-4c12-b564-bc0ad7fd3a15','Draft',1)
@@ -9685,11 +9685,11 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('dddb7320-e2b7-4dd0-8492-a8b709c03140','65250f7d-6132-4a80-867e-97cdad13da1c','kuali.resultComponent.grade.passFail','7607eba9-dda8-4364-9e95-b4da6ea8127c','Active',0)
 /
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('24684101-faf5-47cc-9981-a775a1047fd7','98ca02ae-c6ed-495f-a383-745febc2a116','kuali.resultComponent.grade.audit','0e4e486b-f8b9-4d64-bd45-d1a8b26da621','Draft',2)
-/
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('e044e060-2989-4928-a4db-6ba84bdb54f1','078f5ba3-82d9-4517-b257-8d589d128c3d','kuali.creditType.credit.degree.1-3','Active',0)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
+  VALUES ('24684101-faf5-47cc-9981-a775a1047fd7','98ca02ae-c6ed-495f-a383-745febc2a116','kuali.resultComponent.grade.audit','0e4e486b-f8b9-4d64-bd45-d1a8b26da621','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('c3acc8ed-cd63-47fe-8a08-f509c5769a06','6c4f4bc1-c2a5-4aea-9206-98925fea74b4','kuali.resultComponent.grade.letter','b577aa88-597b-4639-a03c-f1cf59c19a36','Draft',2)
@@ -9709,35 +9709,35 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('c154e465-0b88-4b3d-a75c-61f854893811','a20a850b-913a-481a-95b5-b82adfaf3b49','kuali.resultComponent.grade.letter','a32fb81b-fc41-4822-99ef-a197990187e1','Active',1)
 /
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
+  VALUES ('15aac1a3-b86e-4d85-ba35-814ad02093ca','930a21d0-8472-4fbd-bb79-da6a67d7581c','kuali.resultComponent.grade.audit','5b7ba648-d006-42ce-a1d8-49a806a9d107','Active',1)
+/
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('81374cb1-41b9-44d4-9a77-5f5fbefe1437','7e11527e-ecaa-4f2d-b355-3fbc39c76f34','kuali.creditType.credit.degree.3.0','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('15aac1a3-b86e-4d85-ba35-814ad02093ca','930a21d0-8472-4fbd-bb79-da6a67d7581c','kuali.resultComponent.grade.audit','5b7ba648-d006-42ce-a1d8-49a806a9d107','Active',1)
+  VALUES ('97007354-8512-4a22-afe2-f64fbc4b6d3e','0c43b534-90d4-464e-8aa9-d06a31296732','kuali.resultComponent.grade.letter','d2f5ae2b-5d48-4fde-b5cc-6503ac93b685','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('97007354-8512-4a22-afe2-f64fbc4b6d3e','0c43b534-90d4-464e-8aa9-d06a31296732','kuali.resultComponent.grade.letter','d2f5ae2b-5d48-4fde-b5cc-6503ac93b685','Draft',2)
+  VALUES ('8abf4d63-3188-4cfb-b46c-1af6743fb7c2','ea79b977-d18e-4e42-b1ad-46b335b8c554','kuali.resultComponent.grade.audit','abea4af0-8f27-4e4c-afbd-07b4f626f77e','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('947b35ff-ecc5-40f4-8b8c-2889827bbe56','01c8a354-d231-499d-9f8c-f1d9dfa88725','kuali.creditType.credit.degree.3.0','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('8abf4d63-3188-4cfb-b46c-1af6743fb7c2','ea79b977-d18e-4e42-b1ad-46b335b8c554','kuali.resultComponent.grade.audit','abea4af0-8f27-4e4c-afbd-07b4f626f77e','Active',0)
+  VALUES ('ab07cf1d-81e0-4acd-927c-3b75a442d35f','863e9ec0-2a05-40c1-82a1-397b12be58c0','kuali.resultComponent.grade.letter','975bdd21-9bf6-46a9-a780-4d32d5d3d54c','Draft',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('ab07cf1d-81e0-4acd-927c-3b75a442d35f','863e9ec0-2a05-40c1-82a1-397b12be58c0','kuali.resultComponent.grade.letter','975bdd21-9bf6-46a9-a780-4d32d5d3d54c','Draft',1)
+  VALUES ('7d1fdfdf-a3d6-4ec6-9667-5a2001d72b35','812a1c48-449c-4720-9660-776fff17685c','kuali.resultComponent.grade.letter','2a0a62db-2b94-4181-9ca6-8333f13b764d','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('7df0f256-6454-4f67-8984-a2e68c45636b','9d378738-3b7e-4ed3-9e88-30b4b964f4e2','kuali.resultComponent.grade.audit','1f82b8da-a98f-4d12-9af1-f52b9a282023','Draft',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('7d1fdfdf-a3d6-4ec6-9667-5a2001d72b35','812a1c48-449c-4720-9660-776fff17685c','kuali.resultComponent.grade.letter','2a0a62db-2b94-4181-9ca6-8333f13b764d','Active',1)
+  VALUES ('d63737ec-b57c-42b2-9798-c2f1a2d9b999','84465493-d68d-4628-b2e7-b80d86ade4d7','kuali.resultComponent.grade.letter','072ee700-832f-4163-8ea6-63842424cde4','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('dce0d6ba-1c06-4671-8675-212f955c9258','d40a0cbc-cf21-4ab8-bbd7-2d4dd8632e7a','kuali.creditType.credit.degree.3.0','Draft',0)
-/
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('d63737ec-b57c-42b2-9798-c2f1a2d9b999','84465493-d68d-4628-b2e7-b80d86ade4d7','kuali.resultComponent.grade.letter','072ee700-832f-4163-8ea6-63842424cde4','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('05e592cb-84ab-4cbc-a873-742ae36782cf','1ccab982-8d09-451f-9bcc-abd3e3abd1e9','kuali.creditType.credit.degree.3.0','Active',0)
@@ -9745,11 +9745,11 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('a82af745-895b-4e75-9246-10d9657b1715','1618be6d-8630-42d3-a126-b2de874378ed','kuali.resultComponent.grade.audit','25ec51c5-625d-49c1-ba14-4f0577999676','Draft',1)
 /
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('ae8158f6-0bde-45c6-aff1-3256b6938aa2','81755340-4c0e-416d-92df-17a810ee0d90','kuali.resultComponent.grade.passFail','b8a008c0-c001-4363-b920-f736b734bc4b','Active',1)
-/
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('ba3019c3-95be-495a-8b79-4861a3f70fac','731ff306-13de-4240-a6eb-62fdaa181a92','kuali.creditType.credit.degree.3.0','Draft',0)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
+  VALUES ('ae8158f6-0bde-45c6-aff1-3256b6938aa2','81755340-4c0e-416d-92df-17a810ee0d90','kuali.resultComponent.grade.passFail','b8a008c0-c001-4363-b920-f736b734bc4b','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('1c6ecdbb-43b6-426a-9556-dd692053388a','12542f05-1ff0-417c-ad44-28cfc5c96daf','kuali.resultComponent.grade.passFail','019d6b06-0db1-4cf4-aba3-9d46777b9e01','Draft',6)
@@ -9766,11 +9766,11 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('f85d952d-b996-41c5-935a-2425a74413db','0e8009d8-ec8a-4c1d-8aef-0534ed2cfaba','kuali.creditType.credit.degree.3.0','Draft',0)
 /
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('40943d9e-13d3-4e3f-98ab-33dd4a5bb44a','7e6fcc63-10ce-40ef-abf3-5b120be50db8','kuali.creditType.credit.degree.3.0','Draft',0)
-/
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('b1fd1452-0cc9-4152-8d31-8d79305895f1','09ad14a3-d8cf-4d2a-83ff-932f70a0a185','kuali.resultComponent.grade.audit','d02c728a-5e13-490a-922d-bfedd964b78b','Active',1)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
+  VALUES ('40943d9e-13d3-4e3f-98ab-33dd4a5bb44a','7e6fcc63-10ce-40ef-abf3-5b120be50db8','kuali.creditType.credit.degree.3.0','Draft',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('6bbcbdaa-a018-4d8c-875c-4d176d60c217','2feec923-c94d-41db-ad6c-618ceee53481','kuali.creditType.credit.degree.1-3','Active',0)
@@ -9794,13 +9794,13 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('13a994d8-ff74-4e75-b520-7986bcb2c15a','7107befd-da0c-46d8-b561-408c7215c305','kuali.creditType.credit.degree.3.0','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('8be02152-1173-476f-b965-b6114be6130a','24e0ac24-2cf5-4800-b7be-306caa3c2562','kuali.resultComponent.grade.audit','cb349b4f-5457-4d45-b2c4-701d987eceea','Draft',2)
-/
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('0b3c3011-dfb5-4cab-823b-36610301a751','b36c7400-5eed-48fe-91d5-d650a2352504','kuali.resultComponent.grade.audit','429c0a94-6558-4466-96d1-d103744c1c61','Draft',12)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('911b1ce1-abe6-4b9f-8cdf-4b2ef4a1ad33','5e4417a0-6060-4175-95e1-70858b3f9b64','kuali.resultComponent.grade.letter','5765fcd9-0157-46dd-8e30-c444ef70d5af','Active',1)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
+  VALUES ('8be02152-1173-476f-b965-b6114be6130a','24e0ac24-2cf5-4800-b7be-306caa3c2562','kuali.resultComponent.grade.audit','cb349b4f-5457-4d45-b2c4-701d987eceea','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('c5411cee-420b-4a57-8bc3-3eaa8d5b5bcc','a198c6c0-0362-4850-bdd9-da0d04313868','kuali.resultComponent.grade.audit','dfed6e44-b39d-4ce9-b5a4-5912a211bd82','Active',0)
@@ -9809,25 +9809,25 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('0a0d4ec1-9f6d-40a1-bb13-9eb9970c5a08','73e46ed6-3293-41b7-9482-ed151d4d09b2','kuali.creditType.credit.degree.3.0','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('742b626a-abb8-4f8f-8080-b3b22883a097','ddad7578-9f85-4898-870e-091548272e4e','kuali.resultComponent.grade.letter','e43ae65e-7886-45cb-9b06-d4bc81865df8','Draft',3)
-/
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('ca809c7e-e669-4291-ae61-cd9af30076b0','b6a83030-f25c-4f9c-8e9d-efb032b5d05d','kuali.resultComponent.grade.letter','d608ff10-ec44-46cd-b7a9-d83ab58f7d69','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('3d324b4f-8432-45fd-8a1a-2c944cfbba63','cb0783b1-1e75-4622-aac8-90669ce3d73f','kuali.resultComponent.grade.audit','99ecb273-1788-4865-8dcf-3ce42f5c3125','Retired',1)
+  VALUES ('742b626a-abb8-4f8f-8080-b3b22883a097','ddad7578-9f85-4898-870e-091548272e4e','kuali.resultComponent.grade.letter','e43ae65e-7886-45cb-9b06-d4bc81865df8','Draft',3)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('7e586235-f45b-4f03-adf6-0e9538bbcccd','30ce523b-0a17-4c94-b94b-ce06e4bf8fd9','kuali.creditType.credit.degree.3.0','Draft',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('6ed591e7-9148-4f43-92ab-0fa00088ddc0','4ee168bb-7a5b-4052-8b00-3e3ce36440dc','kuali.resultComponent.grade.audit','23b6febc-b4b8-4baa-8fbc-7d82e91b2f47','Retired',1)
+  VALUES ('3d324b4f-8432-45fd-8a1a-2c944cfbba63','cb0783b1-1e75-4622-aac8-90669ce3d73f','kuali.resultComponent.grade.audit','99ecb273-1788-4865-8dcf-3ce42f5c3125','Retired',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('6a829eff-ff12-4f40-b75a-e2ba5a18f582','12b03863-eeef-4688-8665-e04c3d3f808d','kuali.resultComponent.grade.audit','7d74b4fe-5398-4ad3-9e17-64f397e22433','Active',1)
+  VALUES ('6ed591e7-9148-4f43-92ab-0fa00088ddc0','4ee168bb-7a5b-4052-8b00-3e3ce36440dc','kuali.resultComponent.grade.audit','23b6febc-b4b8-4baa-8fbc-7d82e91b2f47','Retired',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('c68ec6d1-dd30-45b8-a89c-2ec58903e3f7','2954d2e2-8108-4ee6-9764-83e854ed3359','kuali.creditType.credit.degree.1-6','Active',0)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
+  VALUES ('6a829eff-ff12-4f40-b75a-e2ba5a18f582','12b03863-eeef-4688-8665-e04c3d3f808d','kuali.resultComponent.grade.audit','7d74b4fe-5398-4ad3-9e17-64f397e22433','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('b453482e-c834-4c41-8a24-a137e5e765a5','17d9a0cd-0691-4374-b6fd-498aaf202a18','kuali.resultComponent.grade.passFail','98a1e1b7-e7df-4681-952a-78502293c13a','Retired',1)
@@ -9860,10 +9860,10 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('c6e0d447-0849-43a9-9e14-003a2a95fc24','cb5e6d8b-3dff-4f6c-9181-b271ccbe200d','kuali.resultComponent.grade.audit','f423d1b0-3a73-420f-95bb-12a815e67e7c','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('f4d62201-a8dc-4654-b224-d663e49ec625','3e85685f-9db7-41a6-8250-fae432236909','kuali.resultComponent.grade.letter','be14c726-5613-4ba5-b91b-85b2c5eab29c','Active',1)
+  VALUES ('03dcfe52-ee98-4bbe-a4f8-90d0e02f58ec','eb4bbe41-bd33-484a-847a-00aec096b344','kuali.resultComponent.grade.passFail','dc1bfb1a-627a-4a56-946e-a25234362bfb','Draft',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('03dcfe52-ee98-4bbe-a4f8-90d0e02f58ec','eb4bbe41-bd33-484a-847a-00aec096b344','kuali.resultComponent.grade.passFail','dc1bfb1a-627a-4a56-946e-a25234362bfb','Draft',1)
+  VALUES ('f4d62201-a8dc-4654-b224-d663e49ec625','3e85685f-9db7-41a6-8250-fae432236909','kuali.resultComponent.grade.letter','be14c726-5613-4ba5-b91b-85b2c5eab29c','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('cb936767-8f12-44a4-9d60-60d58248b2ca','a3b944df-495a-4a24-adeb-c31f90deabc5','kuali.creditType.credit.degree.3.0','Draft',0)
@@ -9887,10 +9887,10 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('41a19752-eb2b-4994-94e8-b44077668a63','4cda2557-7944-4fc1-bb78-ba071b29b1bb','kuali.resultComponent.grade.audit','a26376d9-b002-45e8-b91c-a2b2d5b89181','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('0e364b35-dd9e-4190-86d5-f77f66b04fe6','7d86297a-160e-4633-8efe-58b130a3b8da','kuali.resultComponent.grade.audit','8aa65caf-630c-4cb3-be14-55bad2364feb','Retired',1)
+  VALUES ('14bd4b6c-43da-476a-ae6a-0180c736eaf0','cd0e9ebc-c379-4951-b356-4198c5b8ab20','kuali.resultComponent.grade.letter','92cd0423-4d91-4903-9b37-97d9117cc275','Draft',4)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('14bd4b6c-43da-476a-ae6a-0180c736eaf0','cd0e9ebc-c379-4951-b356-4198c5b8ab20','kuali.resultComponent.grade.letter','92cd0423-4d91-4903-9b37-97d9117cc275','Draft',4)
+  VALUES ('0e364b35-dd9e-4190-86d5-f77f66b04fe6','7d86297a-160e-4633-8efe-58b130a3b8da','kuali.resultComponent.grade.audit','8aa65caf-630c-4cb3-be14-55bad2364feb','Retired',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('ffbae216-8cb4-48c0-b633-bbb0779b2798','8bdeebff-d41c-4ba2-9726-cee0e47f2532','kuali.resultComponent.grade.letter','7e07a5a8-1bf4-403f-9207-5a7181e88ce5','Active',1)
@@ -9902,13 +9902,13 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('b8c91635-1a8f-45f7-b6ab-c155e401ceec','cb142990-01a9-42e8-8fab-c2dd2b5089fc','kuali.creditType.credit.degree.3.0','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('c928412d-56bc-4462-bb26-f5bd0b186abe','0483409a-0210-4f33-b3a5-38c596690199','kuali.resultComponent.grade.letter','2577e546-7765-4f92-9fd8-66e9733babd6','Active',1)
+  VALUES ('57ce5c91-5c20-4277-a48d-b635ccfdcb69','92ccb290-306a-4f64-8bea-6359fd236109','kuali.resultComponent.grade.letter','30cb73c6-ed10-459a-96f8-f72be6bf77bc','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('93dee145-82cf-4b3f-a4b7-959aa610b148','77ff543a-5846-428d-b4ae-6bc870186cb9','kuali.resultComponent.grade.letter','535e78bc-2ae6-4d7c-837e-f565363bd3d2','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('57ce5c91-5c20-4277-a48d-b635ccfdcb69','92ccb290-306a-4f64-8bea-6359fd236109','kuali.resultComponent.grade.letter','30cb73c6-ed10-459a-96f8-f72be6bf77bc','Active',1)
+  VALUES ('c928412d-56bc-4462-bb26-f5bd0b186abe','0483409a-0210-4f33-b3a5-38c596690199','kuali.resultComponent.grade.letter','2577e546-7765-4f92-9fd8-66e9733babd6','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('9d1cbe83-4f1f-4a2b-80cc-a8123b61cec5','806bb90c-5bd6-4fe2-a933-0bc557810b85','kuali.resultComponent.grade.audit','c693abe0-416d-4080-b9ed-8c05af6d9a93','Draft',1)
@@ -9916,11 +9916,11 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('ccb17264-e5f2-45a6-90a3-919af243543c','036d1f12-433a-4280-874d-1d77085b9aea','kuali.resultComponent.grade.letter','f70636da-1e7d-4944-958e-5edb14b363d2','Active',0)
 /
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('32808d3b-d276-41d4-bd42-1a6c7f94e06a','2e613f1a-e184-44fb-b39d-a934f98713ae','kuali.resultComponent.grade.audit','f7e4b936-6c24-4a16-8f7a-cd4afb3c8898','Active',0)
-/
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('fc086728-902f-4d0a-a8d4-fd2bc8c658cf','341d7869-6836-414d-a24b-1a128165ee74','kuali.creditType.credit.degree.3.0','Draft',0)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
+  VALUES ('32808d3b-d276-41d4-bd42-1a6c7f94e06a','2e613f1a-e184-44fb-b39d-a934f98713ae','kuali.resultComponent.grade.audit','f7e4b936-6c24-4a16-8f7a-cd4afb3c8898','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('86997c2d-d71e-4bea-933e-9a99829b6341','44393f7b-1fd8-42a0-b64b-aad376ad47f3','kuali.resultComponent.grade.passFail','04efe08a-e986-4d54-9a09-bdb300676e13','Retired',1)
@@ -9937,11 +9937,11 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('9784fcbd-2a3f-4b63-9348-93a91287f678','bdf44f46-d831-437e-a11a-e5056c7c0531','kuali.resultComponent.grade.letter','1410e813-caec-4d70-8347-9bf9c0bc7c87','Active',1)
 /
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('17e298d6-8ebf-4e3e-ab0b-9036400f3dff','ab567750-5f67-4cb4-83cf-303f32b59794','kuali.creditType.credit.degree.3.0','Draft',0)
-/
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('e78f1ef2-3690-4d66-aa6e-1149fe39c921','7b2fd745-f5ac-4bf0-8cab-cd95a403651e','kuali.resultComponent.grade.letter','51ad5cf8-f84d-4dfb-a634-b826333a436b','Active',1)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
+  VALUES ('17e298d6-8ebf-4e3e-ab0b-9036400f3dff','ab567750-5f67-4cb4-83cf-303f32b59794','kuali.creditType.credit.degree.3.0','Draft',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('d2cb7501-65b1-473b-9eef-d7e8b39dd268','75ead587-e96e-4f68-be9d-6fe6372bffb4','kuali.resultComponent.grade.passFail','0ba666cb-0091-4148-a157-d633b14afb24','Retired',1)
@@ -9953,28 +9953,28 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('dccf7003-31f5-467e-97ef-77c07372f68e','3e587d25-82db-4e99-baa4-0c126bfbafea','kuali.resultComponent.grade.letter','e2e77117-6d13-4291-a186-37676ff77fba','Draft',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('901fc8a8-322e-4495-878e-d8d49a3ba097','b9dcfbae-a84b-48cf-9d61-656325a6a7ce','kuali.resultComponent.grade.letter','7e3ea109-f301-410e-a25f-48852a43f9ad','Active',0)
+  VALUES ('cc8316ef-8751-435f-adf4-fb3759370865','0a09f1eb-978f-4c94-91de-c8b3eaeacfc7','kuali.resultComponent.grade.audit','62f250e2-d926-43a2-a28f-9ac408f7d34f','Draft',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('79249a14-33d2-476b-8cb5-7bbb2f4fc8de','af000dc1-8dad-4130-bcee-6edc4980dacb','kuali.resultComponent.grade.letter','881a4d73-0dfc-4102-927c-5283465ed67d','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('cc8316ef-8751-435f-adf4-fb3759370865','0a09f1eb-978f-4c94-91de-c8b3eaeacfc7','kuali.resultComponent.grade.audit','62f250e2-d926-43a2-a28f-9ac408f7d34f','Draft',1)
+  VALUES ('901fc8a8-322e-4495-878e-d8d49a3ba097','b9dcfbae-a84b-48cf-9d61-656325a6a7ce','kuali.resultComponent.grade.letter','7e3ea109-f301-410e-a25f-48852a43f9ad','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('37fbb728-5ed7-40ce-b7f4-d7e24de635ae','5112a036-d60e-44c9-9f1e-decdb6830c4f','kuali.resultComponent.grade.audit','d969fad1-cad7-418f-9246-c65508f0a6c8','Draft',4)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('49f16cec-c247-4415-8576-926ff71ab40c','13ab647e-845d-4d4f-9034-bf28f13602af','kuali.resultComponent.grade.letter','d3aa805c-8c9c-4d80-9ce3-5bc873442d6f','Draft',1)
-/
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('23efac82-d9ab-47f3-ac41-99e79b3ed39e','18d76127-5635-475b-9ca3-881b0b3f6259','kuali.resultComponent.grade.letter','92e1cea1-4559-4193-ab69-01d2d011c2f7','Retired',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('d560b911-a004-4ada-b703-34df1b1b0d9f','15bd5281-ec46-4241-a021-06f5451eae11','kuali.resultComponent.grade.letter','2f866324-cb01-48cc-8b84-c484b7d21aac','Draft',2)
+  VALUES ('49f16cec-c247-4415-8576-926ff71ab40c','13ab647e-845d-4d4f-9034-bf28f13602af','kuali.resultComponent.grade.letter','d3aa805c-8c9c-4d80-9ce3-5bc873442d6f','Draft',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('48c54074-0a35-489a-aa70-e31e80dd740d','357b8f66-5b4f-4ee2-98fd-10421c93b991','kuali.creditType.credit.degree.3.0','Draft',0)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
+  VALUES ('d560b911-a004-4ada-b703-34df1b1b0d9f','15bd5281-ec46-4241-a021-06f5451eae11','kuali.resultComponent.grade.letter','2f866324-cb01-48cc-8b84-c484b7d21aac','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('97a52910-bf7c-4bfc-9bcd-8d25b36ccfb6','86b8d473-f080-4ab6-9eab-366938fee68b','kuali.resultComponent.grade.letter','934379fc-b71d-4d92-b5b5-5a4cee6f4723','Retired',1)
@@ -10048,11 +10048,11 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('c1e8ee0f-a418-4683-9399-b648b29fbab6','968c416c-e5fb-40b1-811b-05517f75fa95','kuali.resultComponent.grade.passFail','50c7c59a-00ad-44f7-8ac1-e4100543e30a','Retired',1)
 /
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('e33a9d2a-c29b-4aad-9c8b-ccf699f307cd','25453c4f-7723-4a27-aa92-b9a9a5866c66','kuali.resultComponent.grade.audit','71fe7138-d2c1-40a4-bc89-e5aaff7bb441','Draft',3)
-/
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('feda7060-c0a3-4f97-a574-7e4d7bd440e1','a3669907-e26a-423c-8684-bfa8ab883344','kuali.creditType.credit.degree.3.0','Draft',0)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
+  VALUES ('e33a9d2a-c29b-4aad-9c8b-ccf699f307cd','25453c4f-7723-4a27-aa92-b9a9a5866c66','kuali.resultComponent.grade.audit','71fe7138-d2c1-40a4-bc89-e5aaff7bb441','Draft',3)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('fc0ed3fc-ade6-45ed-8885-6081a7008a41','4f3ca53c-f69f-469a-9354-6a7405aea2c5','kuali.resultComponent.grade.audit','718eda55-10a2-433f-bf8c-401ee2c58d57','Active',0)
@@ -10081,11 +10081,11 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('31a9527a-2c85-417b-9a4a-6f724a259da8','42f696cf-b9ab-4d47-8744-7322e153ae99','kuali.resultComponent.grade.letter','8de8d1e1-6802-4cfa-8a89-60643c7827c0','Active',1)
 /
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('0b3c66c1-aa87-4243-8b21-a159d25d266d','af9981e9-7089-442c-8539-095c42bd1371','kuali.creditType.credit.degree.3.0','Active',0)
-/
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('3ada1545-271d-4fde-9c8b-77d2e91a2b8f','ebd07e1d-03fb-4dbd-80ae-fac4159728a9','kuali.resultComponent.grade.passFail','1bb55814-b51c-4a50-a6b7-1ff891af083a','Active',1)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
+  VALUES ('0b3c66c1-aa87-4243-8b21-a159d25d266d','af9981e9-7089-442c-8539-095c42bd1371','kuali.creditType.credit.degree.3.0','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('8c599d54-8866-455b-b918-6210812d2a93','ab7ec46a-cb27-4088-8e04-824e1fd700e2','kuali.resultComponent.grade.audit','8c2ef5dd-d13b-4e45-9bba-3d2fa07151e0','Active',0)
@@ -10130,10 +10130,10 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('d64f7076-f137-49a6-9025-8c00b3f16641','c82cd989-da65-40d4-bc31-31e794aeed1d','kuali.resultComponent.grade.audit','fb97f47e-7782-4ec5-a2e2-0f67dabc3577','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('2a9d3f9f-7581-47ba-a730-53210bbc09e4','b9353923-a9e5-4092-8a8c-2aa2d5de7e31','kuali.creditType.credit.degree.3.0','Active',0)
+  VALUES ('16b076be-5164-46ce-ac85-aa909bd1f1e8','aa3eaecf-915d-4593-bbc9-04c3ed3a4eff','kuali.creditType.credit.degree.3.0','Draft',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('16b076be-5164-46ce-ac85-aa909bd1f1e8','aa3eaecf-915d-4593-bbc9-04c3ed3a4eff','kuali.creditType.credit.degree.3.0','Draft',0)
+  VALUES ('2a9d3f9f-7581-47ba-a730-53210bbc09e4','b9353923-a9e5-4092-8a8c-2aa2d5de7e31','kuali.creditType.credit.degree.3.0','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('b6e3e699-9ced-4322-85be-92bbb05dbeb8','af7be6dc-933f-4ea1-ad70-902da9f20008','kuali.resultComponent.grade.letter','71afccff-36a0-4e3a-8533-57feaea0abe9','Active',1)
@@ -10159,11 +10159,11 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('02ddabc3-8541-4bb9-b59b-639e2b66cae9','bd17345e-e1ad-4297-bf05-fe1226eb88c2','kuali.resultComponent.grade.letter','c8434953-9b7f-441c-8532-a8d95a5fd3e3','Active',1)
 /
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('180fbdc1-3e4b-48c6-b033-66e5ee2ebc1b','662e2aea-5a85-42a8-90ad-72555018509e','kuali.resultComponent.grade.passFail','cb62e2b4-39e4-4fe8-8e95-432a8d6a0c21','Draft',3)
-/
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('a28a3496-25aa-4f8a-a733-eea16dea56d9','f853ffc7-6af4-43ce-b3bb-df5e6807ab9e','kuali.creditType.credit.degree.3.0','Active',0)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
+  VALUES ('180fbdc1-3e4b-48c6-b033-66e5ee2ebc1b','662e2aea-5a85-42a8-90ad-72555018509e','kuali.resultComponent.grade.passFail','cb62e2b4-39e4-4fe8-8e95-432a8d6a0c21','Draft',3)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('3a265ef8-a3ed-4287-afbf-0bc3600139a1','e7daf1c9-311f-45c8-946e-393545ff5202','kuali.resultComponent.grade.audit','0abb641b-9e14-4132-94e6-7244ae5d5ea8','Active',1)
@@ -10183,11 +10183,11 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('be983ff8-0c49-40f1-a0c8-07046afa9ac9','12b980dd-ccd9-4578-8955-a4e456294b48','kuali.resultComponent.grade.audit','db3c2ae0-b713-466f-8211-4b97d42558dc','Draft',2)
 /
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('d4b145f8-ed30-4f13-976e-f5a0967eefb6','7d2172c4-5020-4e7a-8138-ace2b0d140eb','kuali.creditType.credit.degree.1-3','Active',0)
-/
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('f14fa176-d44b-4748-a0ea-62d33dc241f8','25bd510a-170c-4d65-8288-0df292b6c74b','kuali.resultComponent.grade.passFail','9227b6d5-78ea-4da6-97d3-c94fc931c331','Draft',4)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
+  VALUES ('d4b145f8-ed30-4f13-976e-f5a0967eefb6','7d2172c4-5020-4e7a-8138-ace2b0d140eb','kuali.creditType.credit.degree.1-3','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('7e8885ff-3954-4de6-b741-e688e28f9205','6603bd80-1f1a-4e86-801b-14545723a899','kuali.creditType.credit.degree.3.0','Active',0)
@@ -10207,23 +10207,23 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('00f52326-d780-4bea-8143-f82b76225e7d','530b7732-86ac-44a4-bfcb-6aa6728fd70a','kuali.resultComponent.grade.letter','a7303f16-037d-4175-94ab-e947b1873c71','Draft',1)
 /
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
+  VALUES ('339fddeb-383a-4afc-a1ae-804893c9539d','3480d5a8-f1d6-4d36-936e-be3f77c730e6','kuali.resultComponent.grade.letter','2e74ab72-9216-45aa-9536-43b83d67932f','Draft',2)
+/
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('923d3007-c1a7-49ef-bda6-a35071b3ef99','151d340b-2910-4bc7-88e0-b3e407f1641a','kuali.creditType.credit.degree.3.0','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('339fddeb-383a-4afc-a1ae-804893c9539d','3480d5a8-f1d6-4d36-936e-be3f77c730e6','kuali.resultComponent.grade.letter','2e74ab72-9216-45aa-9536-43b83d67932f','Draft',2)
-/
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('ae7c40d2-9c2b-4cf9-90da-650ebebc8fad','0739da62-2870-4abb-8413-e21c82194dd3','kuali.resultComponent.grade.audit','3e0f6f16-3c7a-4da0-aa60-9306fc1ae2e9','Draft',2)
-/
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('07996e84-e202-444a-b92b-ebc8d0ef411d','1c55df78-2481-464a-b525-61cee6b1f714','kuali.resultComponent.grade.audit','bae6d11f-5ba6-4464-8fc8-bbd1a785a60c','Retired',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('fc68f42a-a613-4ffa-81e8-0897752242f7','1f9a949e-6894-4160-a5e5-a7ed2ea3e7b6','kuali.resultComponent.grade.letter','fe7e13ae-e05c-4f6f-93eb-902969bc15ee','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('8e332217-45d3-4f40-8f60-8f263883dd9d','f0d43001-db9d-4216-9fd0-a8b7d6309fc1','kuali.resultComponent.grade.letter','33419993-6113-4559-ab42-62ea23869844','Active',1)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
+  VALUES ('07996e84-e202-444a-b92b-ebc8d0ef411d','1c55df78-2481-464a-b525-61cee6b1f714','kuali.resultComponent.grade.audit','bae6d11f-5ba6-4464-8fc8-bbd1a785a60c','Retired',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('e8fdf43a-a971-4cd7-a20c-2ea81f53e1c0','6d26029e-502b-438b-8448-e1d6afe2dd6d','kuali.resultComponent.grade.letter','e248fc97-b8d3-4530-923c-23ef087e409c','Active',0)
@@ -10258,14 +10258,14 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('b6452e0f-9db8-4ba1-910b-a206e5ce2404','fe159ec8-1d6c-4201-a28b-e0c80be3305a','kuali.creditType.credit.degree.3.0','Draft',0)
 /
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('1b55a825-346e-438d-98c6-1ff975b1ab77','2f04dc18-2499-4924-850d-3e7384395755','kuali.resultComponent.grade.letter','8fc83e50-ba85-4fa9-a93c-dbd54bf37cf1','Draft',2)
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
+  VALUES ('fe4f5c09-2658-4548-a1e4-ac237127efb3','bc86d48a-00c3-48dc-89f2-889597214a52','kuali.creditType.credit.degree.3.0','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('4163bad1-9804-44e8-9a82-6c87ab6be7a0','a5d76622-e66c-422a-94d8-050b016a7ef5','kuali.resultComponent.grade.audit','dd4a89f3-4a29-4553-8cf8-53becab5c582','Draft',2)
 /
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('fe4f5c09-2658-4548-a1e4-ac237127efb3','bc86d48a-00c3-48dc-89f2-889597214a52','kuali.creditType.credit.degree.3.0','Active',0)
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
+  VALUES ('1b55a825-346e-438d-98c6-1ff975b1ab77','2f04dc18-2499-4924-850d-3e7384395755','kuali.resultComponent.grade.letter','8fc83e50-ba85-4fa9-a93c-dbd54bf37cf1','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('ff20b018-3194-4caa-960c-117c841c8194','2f167bb0-35e3-459b-867c-f6021a218cad','kuali.resultComponent.grade.audit','a0303164-67fd-460c-811c-efa1d1376f74','Draft',1)
@@ -10273,11 +10273,11 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('fadd5491-6fc2-4546-98a6-851e50011cb7','d717fdc2-1ed6-48ce-83ab-b53b3466be94','kuali.resultComponent.grade.letter','c4224d7f-89d7-4691-b9f3-b163420ce4e7','Draft',4)
 /
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('d8f55030-43cd-424e-95d6-91157c1e11ff','210c87d6-549a-40ee-8319-13c85bcb457e','kuali.resultComponent.grade.passFail','73390486-230a-472c-93e0-3b24067dda67','Active',1)
-/
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('6df7e18b-a96d-41f5-8842-0e4aee535a3b','f419a5d9-6c94-4058-b08c-87e820555e4e','kuali.creditType.credit.degree.3.0','Draft',0)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
+  VALUES ('d8f55030-43cd-424e-95d6-91157c1e11ff','210c87d6-549a-40ee-8319-13c85bcb457e','kuali.resultComponent.grade.passFail','73390486-230a-472c-93e0-3b24067dda67','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('5b7302a3-f89e-4aa9-8fdb-3550f31e2267','1e7dcec5-06d5-4755-a936-1fff776c7f0c','kuali.resultComponent.grade.passFail','5fe18e2c-c188-487e-957d-1fc7950c7888','Active',1)
@@ -10346,10 +10346,10 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('e768d410-ccd0-43c4-9519-92b094c814b2','916c5a59-2709-4446-b7fd-30bde83ca35a','kuali.creditType.credit.degree.1-3','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('638d5ea5-7ca6-42b1-bfda-d11112791236','010ff450-94aa-4c59-9b4a-1cdd7e983534','kuali.resultComponent.grade.letter','44c57f55-1c46-4057-9c50-dc73fe08da0c','Draft',1)
+  VALUES ('f4320b2d-ed26-4441-8ce0-55b00523c59b','73816f67-90e3-4403-9493-30e24e9a9151','kuali.resultComponent.grade.letter','3334c142-500a-43e3-a82a-5fcd035dd8a2','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('f4320b2d-ed26-4441-8ce0-55b00523c59b','73816f67-90e3-4403-9493-30e24e9a9151','kuali.resultComponent.grade.letter','3334c142-500a-43e3-a82a-5fcd035dd8a2','Draft',2)
+  VALUES ('638d5ea5-7ca6-42b1-bfda-d11112791236','010ff450-94aa-4c59-9b4a-1cdd7e983534','kuali.resultComponent.grade.letter','44c57f55-1c46-4057-9c50-dc73fe08da0c','Draft',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('73f0abb3-acf5-4f10-a666-39d05ba0fb81','c574fd4a-7742-40fe-8f4f-bbfb4ddaaba3','kuali.resultComponent.grade.letter','17616e58-9f53-4121-a144-be6167cfee7c','Active',1)
@@ -10363,14 +10363,14 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('a8dc2c4b-1a33-4914-9b08-16738584ceca','dfec6790-6f59-4802-817a-9309ba970cec','kuali.resultComponent.grade.letter','34222306-0d58-400a-8fd6-85384343f7cc','Draft',1)
 /
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('c46091ad-1c88-4e6f-9ce6-a24d7590f7df','fa067f23-21e4-470b-9cc6-12e3361f6657','kuali.resultComponent.grade.audit','609ad58a-c4ef-492c-a245-b3c8d80941f8','Draft',2)
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
+  VALUES ('5dc0db86-0bb0-4293-bfe5-c721d71d7a49','d9acae48-8a26-4120-97fe-17274c01422c','kuali.creditType.credit.degree.4.0','Draft',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('840e0f42-7505-4315-b422-a35fe526f544','4f7f0be4-0376-46b3-a532-5cb362444f43','kuali.creditType.credit.degree.3.0','Active',0)
 /
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('5dc0db86-0bb0-4293-bfe5-c721d71d7a49','d9acae48-8a26-4120-97fe-17274c01422c','kuali.creditType.credit.degree.4.0','Draft',0)
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
+  VALUES ('c46091ad-1c88-4e6f-9ce6-a24d7590f7df','fa067f23-21e4-470b-9cc6-12e3361f6657','kuali.resultComponent.grade.audit','609ad58a-c4ef-492c-a245-b3c8d80941f8','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('15b214db-4cbf-4734-bd3c-f495e4bfd8f8','af6f3e21-010e-48c8-9366-e014e531ee4a','kuali.resultComponent.grade.passFail','9c575aee-9869-4919-a8e7-7d9f0ec99c44','Draft',2)
@@ -10387,11 +10387,11 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('005adb81-3c43-40b4-9e10-77a7dab5ae4e','64405222-e320-423c-8c1c-98fd4df8e6ba','kuali.resultComponent.grade.letter','7d53cd2e-9527-4047-ad4d-58b80e261aff','Active',0)
 /
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('1fe45cdd-5f0a-4011-a474-a47dab661cb8','1f0f099b-7069-4fef-8112-56f8836654ae','kuali.resultComponent.grade.audit','fb7fc3fe-744f-49ad-905a-c3d7dead8067','Retired',1)
-/
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('093c2e76-7f24-4fb0-9e9d-a2e52be5fb42','49b9b62b-5137-4a04-a9fe-aa3c7088bab0','kuali.creditType.credit.degree.2-3','Active',0)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
+  VALUES ('1fe45cdd-5f0a-4011-a474-a47dab661cb8','1f0f099b-7069-4fef-8112-56f8836654ae','kuali.resultComponent.grade.audit','fb7fc3fe-744f-49ad-905a-c3d7dead8067','Retired',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('6efdfa7f-8078-49b0-8b44-60f667f427fe','2857263f-57bb-4d4f-9862-1ff511f33c0c','kuali.resultComponent.grade.audit','7db9da74-8675-4b33-bffb-3388438c3a91','Draft',2)
@@ -10399,11 +10399,11 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('4f7d3345-0ec3-43b9-a09a-f8eab4f9c3ac','e2a87759-a686-4910-8639-d69853598a16','kuali.resultComponent.grade.letter','c6d76423-0a7b-4b2b-87c2-d0c8dcc0c846','Draft',1)
 /
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('2f0170b3-360e-4d43-bdf4-64c76a4c4765','8b28f9e6-afbe-4360-a183-8627074ba597','kuali.resultComponent.grade.letter','f6aa4071-3668-43c4-a6f0-b6a21d3ad33d','Active',1)
-/
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('e07a3b53-7e88-4f61-a489-9d2793de13e9','925e9018-ee69-4715-922e-91d942fa1b82','kuali.creditType.credit.degree.3.0','Draft',0)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
+  VALUES ('2f0170b3-360e-4d43-bdf4-64c76a4c4765','8b28f9e6-afbe-4360-a183-8627074ba597','kuali.resultComponent.grade.letter','f6aa4071-3668-43c4-a6f0-b6a21d3ad33d','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('23cb0e92-65d9-4507-b8e1-c161a3a8cdde','6b5ab208-ae0e-47e6-9e06-7cf45ef63fe0','kuali.resultComponent.grade.audit','4a88944d-32e1-408e-82dd-cf3cbc74ed67','Active',0)
@@ -10421,13 +10421,13 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('ed6fab84-0943-4aeb-92e9-757dd40e680c','86c3ed04-abbb-47b1-bb1f-06f58ea96236','kuali.resultComponent.grade.letter','8b7e0d9c-9ed6-472c-8719-e57996dcce00','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
+  VALUES ('d7b469b7-d40d-40d0-bc88-6b32b1650c6f','4db9d409-fed2-462b-9030-0f70992b6890','kuali.creditType.credit.degree.3.0','Active',0)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('08f19389-9a0e-4c28-8c31-7cd31cb947f6','c6a3dd33-2600-469b-91a0-87c94d9c636f','kuali.creditType.credit.degree.3.0','Draft',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('380953c2-e44f-42da-8b9f-a2a3b6241636','e4a2446c-995b-40ac-bd5f-7c55c744f579','kuali.creditType.credit.degree.2.0','Draft',0)
-/
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('d7b469b7-d40d-40d0-bc88-6b32b1650c6f','4db9d409-fed2-462b-9030-0f70992b6890','kuali.creditType.credit.degree.3.0','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('d47bca03-3944-4e54-90df-071d71dd3f3f','65b6100e-5c40-4e7c-8f80-2474b981def5','kuali.creditType.credit.degree.3.0','Active',0)
@@ -10441,11 +10441,11 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('1d9748c1-dcb9-4877-be41-e2f4bb5f0680','e8ce3f78-a7e1-41d7-8fbb-be65c51d76f1','kuali.resultComponent.grade.letter','3ed4f64f-dcc4-4539-8368-89950c059264','Draft',2)
 /
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('1a675647-8915-4e16-b7fb-34ce9afdd5a9','11bb2cd4-0798-4dbd-826a-0a381d4129cc','kuali.resultComponent.grade.audit','370d3391-6a35-4cad-8a26-bb0641a7436c','Active',1)
-/
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('9b18f76e-874c-4969-8d12-cf4d6eb8df7d','73a8b9c3-cd87-421f-97da-3952d5c59e16','kuali.creditType.credit.degree.3.0','Draft',0)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
+  VALUES ('1a675647-8915-4e16-b7fb-34ce9afdd5a9','11bb2cd4-0798-4dbd-826a-0a381d4129cc','kuali.resultComponent.grade.audit','370d3391-6a35-4cad-8a26-bb0641a7436c','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('d955884e-7417-480d-bce8-4cdf39ca0a98','cbb5e5dd-d877-41f8-b8f4-10a74cd06886','kuali.resultComponent.grade.letter','ed96c52a-6c46-4ebb-8bde-4acd2686d552','Draft',14)
@@ -10489,11 +10489,11 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('ab043d85-8edc-4cd8-bedf-59a859ebfbbd','2cc57ddf-e12e-43a6-be9b-4d0be6b85d9d','kuali.resultComponent.grade.letter','929eee95-6586-4eff-bda4-67461f942a37','Active',0)
 /
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('691da2b9-947e-43a3-9dab-f751b91ca559','12d090b8-8118-47e4-ba20-85f6aae0cb94','kuali.resultComponent.grade.audit','886b0488-6fc3-4a56-a58b-7e392226d9f0','Active',1)
-/
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('1146095c-f173-4b68-9c81-873a76b7e99c','64a6df53-6369-4b7c-b807-94a1cac965db','kuali.creditType.credit.degree.3.0','Active',0)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
+  VALUES ('691da2b9-947e-43a3-9dab-f751b91ca559','12d090b8-8118-47e4-ba20-85f6aae0cb94','kuali.resultComponent.grade.audit','886b0488-6fc3-4a56-a58b-7e392226d9f0','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('1dad984c-d59a-4f2a-84e1-ecbd00d5351a','57dd8fbd-361f-4a88-b4e1-0dfbbce54cc2','kuali.resultComponent.grade.passFail','ea1656c1-505c-4c1b-b76b-99dfd363175f','Active',0)
@@ -10535,10 +10535,10 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('d2c49591-fab9-4c1f-8831-3655d5487b9c','12262634-c0bd-4239-8376-2721b4b96e4c','kuali.resultComponent.grade.audit','2771bdb3-08b9-437e-97f7-f982d0341582','Retired',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('d97ea52e-555f-4e0c-8418-6a54f9961140','fa9cb743-cce9-4563-8406-3a784250058a','kuali.resultComponent.grade.letter','85aa08b5-228a-4857-9d11-441a753dee08','Active',1)
+  VALUES ('126efe9b-e570-45a9-89e2-1dec4fb945d1','cf2e3ff3-f2fc-4d7b-85c7-f06b41b92c48','kuali.resultComponent.grade.audit','acfee883-b1b6-48fd-ba53-be53c826e484','Draft',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('126efe9b-e570-45a9-89e2-1dec4fb945d1','cf2e3ff3-f2fc-4d7b-85c7-f06b41b92c48','kuali.resultComponent.grade.audit','acfee883-b1b6-48fd-ba53-be53c826e484','Draft',1)
+  VALUES ('d97ea52e-555f-4e0c-8418-6a54f9961140','fa9cb743-cce9-4563-8406-3a784250058a','kuali.resultComponent.grade.letter','85aa08b5-228a-4857-9d11-441a753dee08','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('1d4832a2-23f8-4b92-9263-07a5f2b3fa93','788459dd-9600-4477-bbef-3a8d37c4d3d0','kuali.resultComponent.grade.audit','3865c6c6-3682-4a0c-9a17-b281f86c5d36','Draft',2)
@@ -10547,10 +10547,10 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('864e098f-c577-4b42-9b7e-daf10656ec47','c517ab9c-6d37-4e25-8c4a-4242a99b30e2','kuali.creditType.credit.degree.3.0','Draft',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('b0bdfd97-ab41-4c11-aa04-4e004c2dec21','3f04c6b8-eb87-43d7-8016-0f1e68556c38','kuali.resultComponent.grade.letter','5a23f364-2122-4341-a95b-e16e842f1656','Active',3)
+  VALUES ('869e433e-fd03-4460-8cf6-9c4d7705b2f4','54d021f7-ee64-41ab-ba05-7b1655c4e5a6','kuali.resultComponent.grade.audit','84842000-c518-4fae-a838-16729f06c1d4','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('869e433e-fd03-4460-8cf6-9c4d7705b2f4','54d021f7-ee64-41ab-ba05-7b1655c4e5a6','kuali.resultComponent.grade.audit','84842000-c518-4fae-a838-16729f06c1d4','Draft',2)
+  VALUES ('b0bdfd97-ab41-4c11-aa04-4e004c2dec21','3f04c6b8-eb87-43d7-8016-0f1e68556c38','kuali.resultComponent.grade.letter','5a23f364-2122-4341-a95b-e16e842f1656','Active',3)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('4c52d860-ccfb-4203-9f09-0b11d738e622','0f018e9e-7ac3-4fe6-8c3d-7f4a6307e7b4','kuali.resultComponent.grade.letter','913a03c4-65d5-4763-88cf-355096a4ac69','Active',2)
@@ -10570,14 +10570,14 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('dde2a642-e5ee-4735-90f7-0dc46ed1144a','7061db53-fe67-49ad-b9e0-7ea2fb43ad77','kuali.resultComponent.grade.letter','28c8bab1-2633-47cf-b6fc-2ddc82a00567','Draft',2)
 /
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
+  VALUES ('d705892d-4a7f-4541-907f-05dd994baefe','748e75e0-8b14-48cf-b2f0-34ad17540af0','kuali.resultComponent.grade.passFail','c6f3b109-f938-45fd-8236-d3c056cb6e41','Active',1)
+/
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('74693482-6d6f-4836-b9ec-35e9239657ba','a34f90ff-4ffa-4014-97ea-1a4e91c591ae','kuali.creditType.credit.degree.4.0','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('a9812638-b67a-4adb-b33c-8764d72dbca5','75b8259d-0f20-439e-be1a-5ced48f02159','kuali.resultComponent.grade.passFail','02cb9e18-bb12-4876-acb0-241e352df7d7','Draft',2)
-/
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('d705892d-4a7f-4541-907f-05dd994baefe','748e75e0-8b14-48cf-b2f0-34ad17540af0','kuali.resultComponent.grade.passFail','c6f3b109-f938-45fd-8236-d3c056cb6e41','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('ab67eb32-c231-46a2-9a0f-38102b4f7204','ea4c384c-0a0b-49dd-bcea-d79097cc5e68','kuali.resultComponent.grade.letter','a2e9e9d4-e835-49a7-a0c2-dc0323a072f8','Active',1)
@@ -10612,17 +10612,17 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('d791a2c7-41da-4324-9218-2fefef203ef0','313e0e85-3434-4064-86b9-b00aa910252e','kuali.creditType.credit.degree.3.0','Active',0)
 /
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
+  VALUES ('65c09c1e-5a0c-4a6c-b8eb-c9734feae8bf','b72975f1-074c-4431-aa75-a2179c9ad244','kuali.resultComponent.grade.audit','de693f83-5405-4b2e-9fbd-61457cd1b19b','Active',1)
+/
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('bf738d55-16a5-4619-bbd5-8b03c3e904d7','5550dad3-6ff7-4901-b500-3c45fae11e05','kuali.creditType.credit.degree.3.0','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('65c09c1e-5a0c-4a6c-b8eb-c9734feae8bf','b72975f1-074c-4431-aa75-a2179c9ad244','kuali.resultComponent.grade.audit','de693f83-5405-4b2e-9fbd-61457cd1b19b','Active',1)
+  VALUES ('a1d1718e-9f15-4e06-866c-b3d273e7fa22','521c0299-2d27-4123-a415-3db9b21aca88','kuali.resultComponent.grade.passFail','b3031786-52dd-410e-8a80-23c946c47fc6','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('7d3b4ef4-d581-431b-b5f7-2185e1f148c0','8454c44c-8bbf-4a0f-9ddf-66f1df6e8b45','kuali.resultComponent.grade.passFail','3ad22a47-91cc-4f89-a36b-017e76a80a61','Draft',2)
-/
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('a1d1718e-9f15-4e06-866c-b3d273e7fa22','521c0299-2d27-4123-a415-3db9b21aca88','kuali.resultComponent.grade.passFail','b3031786-52dd-410e-8a80-23c946c47fc6','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('73b11453-9249-4555-93b1-8709b70423b1','62505ff2-8e41-4cac-aae8-5f511ef0942d','kuali.resultComponent.grade.audit','a78a93c6-f4b9-4095-970a-5f9b52c5c40f','Draft',3)
@@ -10652,10 +10652,10 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('4bdccefa-b07d-48f7-b789-fabd91e22bcd','61ccab95-d140-4874-a0c7-ea5f5559ea8b','kuali.creditType.credit.degree.3.0','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('81e269a3-e8b0-43a9-b9e3-4d58dafa139d','216af416-927d-4a14-a84a-a817c186477d','kuali.resultComponent.grade.letter','a1aece14-10af-4cc0-93fa-24e01dd18c70','Active',0)
+  VALUES ('be7d3d22-ed4a-4c3d-acea-4da33c1281ac','149bbf4c-f0da-40b3-8d9d-5ce4914afcea','kuali.resultComponent.grade.letter','f203e4e4-95d7-47f1-b7d6-875b101b1666','Retired',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('be7d3d22-ed4a-4c3d-acea-4da33c1281ac','149bbf4c-f0da-40b3-8d9d-5ce4914afcea','kuali.resultComponent.grade.letter','f203e4e4-95d7-47f1-b7d6-875b101b1666','Retired',1)
+  VALUES ('81e269a3-e8b0-43a9-b9e3-4d58dafa139d','216af416-927d-4a14-a84a-a817c186477d','kuali.resultComponent.grade.letter','a1aece14-10af-4cc0-93fa-24e01dd18c70','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('06521796-27ff-4141-9d43-882ea462b72a','c58e7212-2982-4190-b19c-beefaf53245a','kuali.creditType.credit.degree.2.0','Active',0)
@@ -10682,10 +10682,10 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('f9d3fede-7336-4d74-a363-432bb7ec19db','e4ae7024-a574-4af6-95d2-b33bda7ef1a6','kuali.creditType.credit.degree.4.0','Draft',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('bd2ba9be-5498-495c-bcc9-f85e51b6a7bc','965acfc7-36f3-43b9-bcbc-bf53c588ffbd','kuali.resultComponent.grade.audit','29f04b44-3a2a-443c-9ee6-ea091849ed9a','Active',0)
+  VALUES ('2e65cbc7-bd7b-417c-a0d0-10e05cd7b79f','1610dee5-17ab-4ec0-acf5-6d6ae5adda96','kuali.resultComponent.grade.letter','0c0b4ad8-cb43-4f08-b58b-d0169a88377d','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('2e65cbc7-bd7b-417c-a0d0-10e05cd7b79f','1610dee5-17ab-4ec0-acf5-6d6ae5adda96','kuali.resultComponent.grade.letter','0c0b4ad8-cb43-4f08-b58b-d0169a88377d','Draft',2)
+  VALUES ('bd2ba9be-5498-495c-bcc9-f85e51b6a7bc','965acfc7-36f3-43b9-bcbc-bf53c588ffbd','kuali.resultComponent.grade.audit','29f04b44-3a2a-443c-9ee6-ea091849ed9a','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('9c5aebf8-5501-404f-9b03-bddf6b970706','d5b2b3c7-046d-45f6-ba64-9e8664e46564','kuali.resultComponent.grade.letter','b5137250-d249-4697-9cc4-88d45c9466bd','Active',1)
@@ -10699,14 +10699,14 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('f3493bce-774c-4e3d-b5ec-84c020bbd3da','470dbf09-5c76-409f-85f4-96683964cbe3','kuali.creditType.credit.degree.3.0','Draft',0)
 /
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('fb798a35-84d1-466f-b75d-848dac67f0f8','75d5f7dd-54f2-4169-ba4e-0d9ef65df391','kuali.creditType.credit.degree.3.0','Active',0)
-/
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('a82ca484-30f9-406f-9a15-2365295339f8','b555e6d7-bef1-4ab8-aa6b-de27501c3ca8','kuali.resultComponent.grade.audit','8a2ab07a-c8d6-42ea-aeee-157896550f33','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('fbad3177-d1b8-4b1f-97f0-44627ded23c3','f3915030-030b-4ae0-b8f0-b03ae6e8c626','kuali.resultComponent.grade.letter','195cc1b1-91ea-497d-ad5e-e4a6b7a2a7b5','Retired',1)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
+  VALUES ('fb798a35-84d1-466f-b75d-848dac67f0f8','75d5f7dd-54f2-4169-ba4e-0d9ef65df391','kuali.creditType.credit.degree.3.0','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('c9bfe3f5-c152-4455-b2ba-cda28ae00ebd','0a40226c-e543-4054-95bd-465dfcdf61f8','kuali.resultComponent.grade.passFail','8edb6a62-8956-4682-b163-282fa1a1f771','Retired',1)
@@ -10741,11 +10741,11 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('c8f1977e-346b-47d1-b08e-fc96cd2144d1','703e761c-52fa-47b1-80f3-bfa3a47da148','kuali.resultComponent.grade.letter','40e8755b-da42-4d13-9a03-c2d1f9ffdfa7','Active',1)
 /
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('9e0d1260-fadb-4b77-b39f-3048deb4a625','9b424901-589d-44a4-8f1b-a9fcf46e09f3','kuali.resultComponent.grade.letter','ec2a775d-4c6a-4840-98e9-d96ff5717119','Draft',4)
-/
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('83d03ef5-b0bf-49da-ba24-5c5c7703633d','59d34661-84a3-4cc7-999b-c4ac4b5d5355','kuali.creditType.credit.degree.3.0','Active',0)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
+  VALUES ('9e0d1260-fadb-4b77-b39f-3048deb4a625','9b424901-589d-44a4-8f1b-a9fcf46e09f3','kuali.resultComponent.grade.letter','ec2a775d-4c6a-4840-98e9-d96ff5717119','Draft',4)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('20d5bc0e-7dc0-4ee1-8043-046139a95906','dd048ce6-dbc8-44a8-b28b-8b9ce3d84885','kuali.creditType.credit.degree.1-4','Active',0)
@@ -10769,10 +10769,10 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('a8fe5ba1-ed37-46be-8a7a-64eac6912800','b6689ffe-b7f0-4baa-9ffc-5b37210ddfad','kuali.resultComponent.grade.audit','c4afe916-e048-4a6b-9615-f12181eb3f98','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('d5e30364-3095-427a-9d12-a8c3206ce4de','899771b7-1404-4855-93ce-adf287187b0b','kuali.creditType.credit.degree.3.0','Active',0)
+  VALUES ('61b75a48-2bb3-450b-8830-efde9d622c16','627a86a1-150c-4ab4-ad10-d4ae1a4dc222','kuali.creditType.credit.degree.3.0','Draft',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('61b75a48-2bb3-450b-8830-efde9d622c16','627a86a1-150c-4ab4-ad10-d4ae1a4dc222','kuali.creditType.credit.degree.3.0','Draft',0)
+  VALUES ('d5e30364-3095-427a-9d12-a8c3206ce4de','899771b7-1404-4855-93ce-adf287187b0b','kuali.creditType.credit.degree.3.0','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('8b941952-c68b-4849-89c9-85d671f21c6b','9407e895-22f6-4f85-8fd1-9cbf5111afee','kuali.resultComponent.grade.audit','c3e9e046-7a26-407c-a8f9-6160ff1801e9','Active',1)
@@ -10808,16 +10808,16 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('8e97a89a-bed3-47d1-b2ca-bdabc4b385cd','339e305d-2690-4df6-a155-c8c31b61b9d9','kuali.resultComponent.grade.letter','c360f821-1e9d-42fd-8fc0-14004404e84e','Active',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('70ac638e-1dbe-40b3-bdba-726ad32e2ca5','9af01f7f-2fda-4beb-abdd-d9f284e4a5f8','kuali.resultComponent.grade.audit','e3eeafb8-7bdd-4245-999b-7deefab22edc','Draft',2)
+  VALUES ('90510a0c-931e-4c39-805f-95bb505b37d8','909bea86-f1d8-4ffe-a9e3-203b1f4e6e6a','kuali.resultComponent.grade.audit','17e6cda3-5b96-4d96-9e2e-0fe2d6f01b97','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('a4eea9be-a064-4e0b-a32c-23406a7ac6a4','551a6c47-50aa-42ad-ae04-8731869c77f5','kuali.resultComponent.grade.passFail','669f1dda-1980-42cc-92e1-25e00f1b71a9','Draft',16)
+  VALUES ('70ac638e-1dbe-40b3-bdba-726ad32e2ca5','9af01f7f-2fda-4beb-abdd-d9f284e4a5f8','kuali.resultComponent.grade.audit','e3eeafb8-7bdd-4245-999b-7deefab22edc','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('3a3fe5db-9ed8-44a0-8617-89212a40c0da','b0b01a35-b1f1-4107-8ee2-38e19fb9478d','kuali.resultComponent.grade.letter','8b75bdaf-edbf-4dde-a92a-2bf8511ce990','Retired',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('90510a0c-931e-4c39-805f-95bb505b37d8','909bea86-f1d8-4ffe-a9e3-203b1f4e6e6a','kuali.resultComponent.grade.audit','17e6cda3-5b96-4d96-9e2e-0fe2d6f01b97','Active',1)
+  VALUES ('a4eea9be-a064-4e0b-a32c-23406a7ac6a4','551a6c47-50aa-42ad-ae04-8731869c77f5','kuali.resultComponent.grade.passFail','669f1dda-1980-42cc-92e1-25e00f1b71a9','Draft',16)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('09e4e8e9-4219-40b1-a510-ec96c1811621','b83c6c2e-3a94-4340-b3ce-f396e95a0892','kuali.resultComponent.grade.audit','f58b845a-1f9d-4ec9-93f7-039dd444f4f2','Draft',1)
@@ -10838,10 +10838,10 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('749c7635-e43a-480a-bebc-af4e382282d6','829d4373-f243-4e72-9f40-8b6593ae1dea','kuali.resultComponent.grade.audit','b5ef5775-6ef4-4394-839c-626477b8c997','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('7efe56fd-7f5b-4ad7-a4dc-3e413f227efa','e0ef879d-a0cf-46e1-9d3e-da7bd3c5f6f8','kuali.creditType.credit.degree.3.0','Retired',0)
+  VALUES ('2ce3a14c-790b-45c8-af69-77b9cd91f664','75c45f6f-ecbc-4eac-b0a8-0caa448f2da8','kuali.creditType.credit.degree.3.0','Draft',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('2ce3a14c-790b-45c8-af69-77b9cd91f664','75c45f6f-ecbc-4eac-b0a8-0caa448f2da8','kuali.creditType.credit.degree.3.0','Draft',0)
+  VALUES ('7efe56fd-7f5b-4ad7-a4dc-3e413f227efa','e0ef879d-a0cf-46e1-9d3e-da7bd3c5f6f8','kuali.creditType.credit.degree.3.0','Retired',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('1c18bebb-bbd6-47f9-bd7e-036583a976b2','270f020d-9e46-483a-ad2a-fd713e945639','kuali.resultComponent.grade.letter','afe4064a-7bdf-4018-a541-02edc027fb88','Active',2)
@@ -10867,11 +10867,11 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('31e94a99-5840-4ef8-b46b-5e6c2b3a1578','d4eaf81c-2cb8-4647-8046-5316fd68da34','kuali.creditType.credit.degree.3.0','Active',0)
 /
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('72048e3c-ca5a-4664-8342-5be682372879','14967754-08f0-4a74-9b27-6ae52f6263fc','kuali.resultComponent.grade.letter','b5c275ff-4842-42d4-a2dd-6ed6511397a8','Active',1)
-/
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('dde51485-52b7-4d6e-b52a-8759aba5f61e','acc24edc-66be-4627-bfd0-7818e9efb229','kuali.creditType.credit.degree.3.0','Draft',0)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
+  VALUES ('72048e3c-ca5a-4664-8342-5be682372879','14967754-08f0-4a74-9b27-6ae52f6263fc','kuali.resultComponent.grade.letter','b5c275ff-4842-42d4-a2dd-6ed6511397a8','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('e869619c-1dea-48b9-9f53-3ab00d0044f5','c80d5ba4-01fc-48b4-832d-34c1a9366a00','kuali.resultComponent.grade.audit','b989e44b-3d26-45f4-8bf3-23c32401aac6','Draft',2)
@@ -10895,10 +10895,10 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('3caa083c-72ac-4966-9a54-9c18ecccf7c1','aeed8bf5-8582-4576-ab42-592b450f753c','kuali.resultComponent.grade.passFail','dd60df0f-bb9f-44d7-b71a-bdd72d15f931','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('ac8b7aca-1da8-4545-a281-c02a7bef3b0e','25834490-dc45-4bda-8000-aa86a0520963','kuali.resultComponent.grade.letter','b5885887-f76f-42a2-a4e9-351e9c0b7788','Draft',1)
+  VALUES ('1c301cfb-fa84-4c61-93d3-ce9f979e674d','619ad425-468a-44f6-81b9-219092e92324','kuali.resultComponent.grade.letter','5611dd77-43ea-47d2-a104-1c16065fedd7','Draft',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('1c301cfb-fa84-4c61-93d3-ce9f979e674d','619ad425-468a-44f6-81b9-219092e92324','kuali.resultComponent.grade.letter','5611dd77-43ea-47d2-a104-1c16065fedd7','Draft',1)
+  VALUES ('ac8b7aca-1da8-4545-a281-c02a7bef3b0e','25834490-dc45-4bda-8000-aa86a0520963','kuali.resultComponent.grade.letter','b5885887-f76f-42a2-a4e9-351e9c0b7788','Draft',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('2294f402-932d-43d3-b473-c470c06351b7','be74e10b-e76e-4e98-b15b-c38092b188ac','kuali.resultComponent.grade.audit','8340e8d0-f01f-4ba2-b459-f3360ab77fe8','Draft',1)
@@ -10931,16 +10931,16 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('ff53995c-36d4-4dee-af4b-9f46ed7be7ab','7cf49658-b94a-4ce0-b198-a23a7048069a','kuali.creditType.credit.degree.2-3','Retired',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('66c4bfbe-87ee-4933-be63-7f426808bcd0','e10495dc-7c1e-48a1-b5bb-aa0ff969c6a0','kuali.resultComponent.grade.audit','2ed83802-84b0-43b5-86a3-0d79d8302793','Draft',3)
-/
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('f92a285b-79c1-4760-9b55-09a845357fa2','db3d549c-ed19-4f5d-9775-e8628288f224','kuali.resultComponent.grade.passFail','da1143b7-2e50-4291-b99e-7fe07eab2e84','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('2c457c84-1e79-4f58-80e6-b5584f9470ea','4a76d50f-25e7-48a2-ad94-b446bf35ccdc','kuali.resultComponent.grade.letter','72d93ceb-fcf5-45e0-bf3a-ee882f80fdd2','Active',0)
+  VALUES ('66c4bfbe-87ee-4933-be63-7f426808bcd0','e10495dc-7c1e-48a1-b5bb-aa0ff969c6a0','kuali.resultComponent.grade.audit','2ed83802-84b0-43b5-86a3-0d79d8302793','Draft',3)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('f6be6bcf-7bae-4452-8b90-d31f71e8b61d','d0967bfd-bb5a-444d-a9d5-cb0bb6d98ac4','kuali.resultComponent.grade.passFail','c02b372f-9fd3-41a9-a296-3b41f555cea8','Draft',6)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
+  VALUES ('2c457c84-1e79-4f58-80e6-b5584f9470ea','4a76d50f-25e7-48a2-ad94-b446bf35ccdc','kuali.resultComponent.grade.letter','72d93ceb-fcf5-45e0-bf3a-ee882f80fdd2','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('a42f8fc8-b0a2-4843-a32c-28e9785527bc','467fc204-fb22-46e1-9d81-0ed9785c1dd4','kuali.creditType.credit.degree.3.0','Active',0)
@@ -11014,11 +11014,11 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('e4c8dae7-cf59-4384-aec1-c4d8fe171650','79773ef8-4317-4963-a902-30048d77a8bf','kuali.creditType.credit.degree.3.0','Active',0)
 /
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('0ac35ebf-f266-4f38-82db-d49a31fa6556','4679fa27-afe0-415f-8d34-c9bd58f754cc','kuali.creditType.credit.degree.3.0','Active',0)
-/
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('780b4bbe-9c0b-44a0-8f93-3a4a30b32b00','05694053-9291-4171-9e69-7a4fbde30cbd','kuali.resultComponent.grade.letter','925803ac-90fc-4524-a32a-ca8821adadf2','Draft',2)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
+  VALUES ('0ac35ebf-f266-4f38-82db-d49a31fa6556','4679fa27-afe0-415f-8d34-c9bd58f754cc','kuali.creditType.credit.degree.3.0','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('e7cae746-3b74-45de-a3e6-bc343a25e3ef','7a4c7329-1ec9-489d-8890-f4ef9f2f4522','kuali.resultComponent.grade.audit','dd48a270-4b21-44c2-962f-48f66732018a','Active',1)
@@ -11102,10 +11102,10 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('1de15e62-3998-42bc-8f45-14180a9a61c7','aaac33ee-b90e-4a0e-ade7-88682d0322f2','kuali.resultComponent.grade.letter','9f9f5f5a-8ddf-4575-aad5-10eecf4f88bd','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('7f8d21c4-a77c-406a-8908-d6952516810f','611d2408-320f-4d6a-bd28-9a8396aad017','kuali.resultComponent.grade.audit','ca38ff56-9abf-4382-b880-0d2846e1b87b','Draft',3)
+  VALUES ('d76b0d6d-39ca-4c21-9d1d-b3c2988d389f','af38255f-fad9-4292-b97e-659243b0dd43','kuali.resultComponent.grade.letter','9046fa23-5da9-4f77-b0ef-1d76c14cef5c','Draft',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('d76b0d6d-39ca-4c21-9d1d-b3c2988d389f','af38255f-fad9-4292-b97e-659243b0dd43','kuali.resultComponent.grade.letter','9046fa23-5da9-4f77-b0ef-1d76c14cef5c','Draft',1)
+  VALUES ('7f8d21c4-a77c-406a-8908-d6952516810f','611d2408-320f-4d6a-bd28-9a8396aad017','kuali.resultComponent.grade.audit','ca38ff56-9abf-4382-b880-0d2846e1b87b','Draft',3)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('fecbc94f-eca3-4eda-b793-75c275ef39d4','95428784-5a22-4a0f-80d8-33ea42ea3024','kuali.resultComponent.grade.audit','518b07fd-e62c-44b4-905f-ebc280e464d7','Active',0)
@@ -11120,10 +11120,10 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('58b9dd10-c76e-4f83-93da-01a31960d1d6','e00fe4a8-37c1-4db8-ba91-c3d377d0543a','kuali.resultComponent.grade.audit','79f07aa4-b3e3-4d36-afef-04d6c00b31dd','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('23e2d4fd-90e0-438c-b8b4-130438d27ebc','c98eab71-9051-4cd9-9559-4e3f666e4561','kuali.resultComponent.grade.audit','9341aa06-a530-4738-81b7-303143535eed','Draft',3)
+  VALUES ('a675b951-d49a-4f9b-8290-054c0566e5de','c27b5da1-f849-42c0-8d3f-3865da2fbbd1','kuali.resultComponent.grade.audit','f33a436d-28f7-4eec-aa90-a5582985fdee','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('a675b951-d49a-4f9b-8290-054c0566e5de','c27b5da1-f849-42c0-8d3f-3865da2fbbd1','kuali.resultComponent.grade.audit','f33a436d-28f7-4eec-aa90-a5582985fdee','Active',1)
+  VALUES ('23e2d4fd-90e0-438c-b8b4-130438d27ebc','c98eab71-9051-4cd9-9559-4e3f666e4561','kuali.resultComponent.grade.audit','9341aa06-a530-4738-81b7-303143535eed','Draft',3)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('55143222-9596-4d5b-9aa8-f6bcdba7393f','42cc9f5d-15d2-42d5-aa2f-7c1aaf76c3b0','kuali.resultComponent.grade.letter','d4de16f7-969f-448d-ba80-34d395575e15','Active',2)
@@ -11147,16 +11147,16 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('f6609837-db10-4b0e-986d-c3a3a1cf5106','1abe5509-1080-4d31-8d02-b8412a1a3254','kuali.creditType.credit.degree.3.0','Draft',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('13f9ddf4-77a2-465c-abe1-092b88b3ebe7','13ddad5a-194d-48fe-ab14-0fe27ecc3793','kuali.resultComponent.grade.passFail','3b7658eb-1841-46b4-9bac-9615e853474f','Draft',2)
-/
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('49dc192b-d135-4019-bff3-7e3c270ef513','08771e10-96ff-407c-81ad-bed5207f0d4c','kuali.resultComponent.grade.letter','d5360d48-f889-4a86-ad4a-9d4107223fe2','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('3e1fc527-c3c0-42b9-af3d-06f083fa9bda','c2dffd86-5692-4c50-a29f-ccfa072355e1','kuali.resultComponent.grade.passFail','8c05b808-dabe-4faa-b909-e8590be5b7cb','Draft',2)
+  VALUES ('13f9ddf4-77a2-465c-abe1-092b88b3ebe7','13ddad5a-194d-48fe-ab14-0fe27ecc3793','kuali.resultComponent.grade.passFail','3b7658eb-1841-46b4-9bac-9615e853474f','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('e4b6352a-aea9-4e4e-8481-073effefd2fd','604883ef-d47a-45f6-b744-239c6c41178f','kuali.resultComponent.grade.passFail','a9aa72d0-0008-4532-9d9f-b1bd31a7de61','Draft',2)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
+  VALUES ('3e1fc527-c3c0-42b9-af3d-06f083fa9bda','c2dffd86-5692-4c50-a29f-ccfa072355e1','kuali.resultComponent.grade.passFail','8c05b808-dabe-4faa-b909-e8590be5b7cb','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('86121ec8-9d46-467b-b9ba-647047cf397a','ef3784c9-271a-4cff-a7b6-c91b0b60c39a','kuali.resultComponent.grade.passFail','b82c0389-ba1a-4b01-bf51-8f0d3437a86b','Draft',2)
@@ -11183,10 +11183,10 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('bf5b58a1-127e-4a2b-bae9-8bfd01646839','f71edafc-a5b3-400b-8b5b-1f576ad26c98','kuali.resultComponent.grade.passFail','88c90d36-6b24-4b4b-b32b-adcf7b27abef','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('ea86b285-57ac-4b49-b109-58a3e716fdb6','c352ef6a-1b14-4811-90e0-3d8b17efdd7f','kuali.resultComponent.grade.passFail','6ca5a3ec-7b9f-4f1f-aeb2-25bf04112a1a','Active',1)
+  VALUES ('ca1309e9-45f9-4d06-9254-f98f40110bca','e64d38ba-914a-43a4-8806-18f403eca8fd','kuali.resultComponent.grade.letter','fa6277bc-0f3c-4228-afeb-a12ffb45d03f','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('ca1309e9-45f9-4d06-9254-f98f40110bca','e64d38ba-914a-43a4-8806-18f403eca8fd','kuali.resultComponent.grade.letter','fa6277bc-0f3c-4228-afeb-a12ffb45d03f','Draft',2)
+  VALUES ('ea86b285-57ac-4b49-b109-58a3e716fdb6','c352ef6a-1b14-4811-90e0-3d8b17efdd7f','kuali.resultComponent.grade.passFail','6ca5a3ec-7b9f-4f1f-aeb2-25bf04112a1a','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('530c499a-c85e-4b1c-8181-9decdf2d2af8','faf6b9d8-61fb-48f0-8c65-0b68124a8825','kuali.creditType.credit.degree.3.0','Active',0)
@@ -11224,11 +11224,11 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('f6446844-129f-4ee5-ac73-054c53254746','31796a21-3443-4d68-8fa3-298432aaea66','kuali.resultComponent.grade.audit','5e401c7c-b18b-4ced-86e2-534cdcf174fe','Retired',1)
 /
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('2c9e9990-561c-41d7-90d6-6809c7792041','a973df7c-746a-4d02-a63c-26d260c60590','kuali.creditType.credit.degree.3.0','Draft',0)
-/
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('faad4e0a-860a-4777-8995-4c71bde80dad','6887606c-3ccb-4d9e-b1b3-f01c5a8ae747','kuali.resultComponent.grade.passFail','fdad9893-5bec-4f89-9a87-9d624539afe6','Active',1)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
+  VALUES ('2c9e9990-561c-41d7-90d6-6809c7792041','a973df7c-746a-4d02-a63c-26d260c60590','kuali.creditType.credit.degree.3.0','Draft',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('0b1818f4-f49a-4aef-b651-63a56ca24faf','5db56f02-82f5-498b-b0cd-733f58f643e8','kuali.resultComponent.grade.letter','5ba062d1-2b81-4e07-8304-11c7f766a5b7','Active',0)
@@ -11242,14 +11242,14 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('3ed31bb7-07da-4cbb-b822-8c0e696d0f78','65dfce07-3cfc-4690-9cbe-a4fabd1b73f2','kuali.resultComponent.grade.audit','c03907cb-a127-4ee3-8d95-fbbc3bafedf3','Active',0)
 /
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
+  VALUES ('c3dc2e11-e8e2-41a0-94ee-80eea2d46651','c85dd841-a5b5-4f77-bb52-e3d8b8a5add4','kuali.resultComponent.grade.letter','f988e8bf-821a-49c8-8d07-bb839811a291','Draft',2)
+/
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('0acda392-7e38-4534-93ce-3ae071d39df6','4a4cb574-cbaa-430a-950f-c22a1e998d14','kuali.creditType.credit.degree.3.0','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('327b939c-1f4b-4de9-95db-e2a10d5a6521','3124886a-027e-4e1f-bc2b-887ded76d7ba','kuali.resultComponent.grade.passFail','2f1f3784-7558-4808-93f2-61d086f5bfcb','Retired',1)
-/
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('c3dc2e11-e8e2-41a0-94ee-80eea2d46651','c85dd841-a5b5-4f77-bb52-e3d8b8a5add4','kuali.resultComponent.grade.letter','f988e8bf-821a-49c8-8d07-bb839811a291','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('70537c71-fb27-47d8-9ade-c49b29048d32','a5d5b0f3-6c1b-4098-b45b-1ab7905a7335','kuali.resultComponent.grade.audit','75ee774e-688b-4352-944b-a1b6ea383fe8','Draft',2)
@@ -11315,10 +11315,10 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('2255fc43-e43d-424f-a3b3-7cef22892276','678a5a22-aabc-45a5-8773-340a6d53cc9a','kuali.creditType.credit.degree.3.0','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('c8eca11c-f9a0-4dfe-98fd-bceb71d368b8','79845d71-dff8-4560-b0c9-b5b022619c0a','kuali.resultComponent.grade.passFail','5440bdfa-8600-4bed-9b34-a8ecfb360166','Draft',2)
+  VALUES ('8920afff-f071-467c-b09b-9f9bdb8b1089','b52cb797-d23b-469f-9078-fcc557a22578','kuali.resultComponent.grade.letter','84b93f7f-ebfe-4353-8cbf-fc2751c6ca2f','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('8920afff-f071-467c-b09b-9f9bdb8b1089','b52cb797-d23b-469f-9078-fcc557a22578','kuali.resultComponent.grade.letter','84b93f7f-ebfe-4353-8cbf-fc2751c6ca2f','Draft',2)
+  VALUES ('c8eca11c-f9a0-4dfe-98fd-bceb71d368b8','79845d71-dff8-4560-b0c9-b5b022619c0a','kuali.resultComponent.grade.passFail','5440bdfa-8600-4bed-9b34-a8ecfb360166','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('f9ad8acb-3f2f-4780-9d92-5a4917a38c95','5ddaf41a-bef4-48e3-82d1-8e83d77d20b8','kuali.resultComponent.grade.letter','5d538695-d871-46fc-ba71-07c5e1e04337','Active',1)
@@ -11341,11 +11341,11 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('075ed605-7d10-4708-b56d-e6274bd56064','01225260-ba78-4301-9d09-4acb89c4ba05','kuali.resultComponent.grade.audit','bf5c91a6-4f05-4af5-ab29-4654696e2dae','Active',1)
 /
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('6d63639d-d6c6-461c-8994-5f3a87ac0f89','8a0dbd25-8d1e-475a-aa76-b71184b0d243','kuali.creditType.credit.degree.3-6','Active',0)
-/
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('1054d162-0f9e-4aef-94cd-0408958e9c56','29085236-2d98-47a7-8b7b-a71ec1900329','kuali.resultComponent.grade.letter','d0e33dbb-1507-4d0b-858b-7bb9d6e353b0','Draft',1)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
+  VALUES ('6d63639d-d6c6-461c-8994-5f3a87ac0f89','8a0dbd25-8d1e-475a-aa76-b71184b0d243','kuali.creditType.credit.degree.3-6','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('b6a1f93d-40c8-4a67-ae39-b2bbc2c1fdf7','3e9574c1-157b-466d-931e-a1c2d6db297c','kuali.resultComponent.grade.letter','7c555ea6-0072-40ce-ac07-54b7071728bf','Active',1)
@@ -11362,11 +11362,11 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('f9554fe4-fe11-41bf-93de-f8c9bdd3de2b','78f203d6-439d-4751-9e73-e688de35864b','kuali.creditType.credit.degree.2.0','Draft',0)
 /
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('42fa4ecc-c042-477e-a062-810ba406da01','3a819962-918e-4aa4-a895-a62c51f3994c','kuali.creditType.credit.degree.3.0','Draft',0)
-/
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('5c625a4d-c77f-4218-951c-1a48703c61dd','bc8b11e5-4154-45c5-b094-c955d438f4d6','kuali.resultComponent.grade.audit','6335d848-504c-49c8-8329-4ef229bcec36','Active',0)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
+  VALUES ('42fa4ecc-c042-477e-a062-810ba406da01','3a819962-918e-4aa4-a895-a62c51f3994c','kuali.creditType.credit.degree.3.0','Draft',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('b0e31c5e-8ef2-40ce-9c78-956bee31d609','15deaafd-c914-4f1f-a462-a2dc7b9f81ca','kuali.resultComponent.grade.letter','f16718a8-4ea8-4cd3-8d14-63dccae6c80e','Active',0)
@@ -11396,10 +11396,10 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('7a81bd87-821d-4f41-9a85-4615d0203fc7','519cfee4-d39e-47d3-bc08-0a69a67b0cc3','kuali.resultComponent.grade.letter','40d28cfb-bd92-4259-89c6-840f3fa92d71','Draft',3)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('d8ada244-6dfb-452f-aa32-73a8c744d596','5b796188-8589-4ad2-bf13-bb09dd554550','kuali.resultComponent.grade.letter','4c7f3312-b2d1-41dd-abaf-8e28d4279bc8','Draft',12)
+  VALUES ('b651800c-7a3a-46eb-9636-7b59a6039fc0','5601a060-4332-4463-bf17-bea5b5a3b701','kuali.resultComponent.grade.audit','a884e843-6de3-4996-8e67-d6475cb39704','Draft',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('b651800c-7a3a-46eb-9636-7b59a6039fc0','5601a060-4332-4463-bf17-bea5b5a3b701','kuali.resultComponent.grade.audit','a884e843-6de3-4996-8e67-d6475cb39704','Draft',1)
+  VALUES ('d8ada244-6dfb-452f-aa32-73a8c744d596','5b796188-8589-4ad2-bf13-bb09dd554550','kuali.resultComponent.grade.letter','4c7f3312-b2d1-41dd-abaf-8e28d4279bc8','Draft',12)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('cf3459f7-10a2-47c5-81db-7a4a4d507b2d','d53eb77b-31a1-4c05-a656-a145d0ddf03a','kuali.resultComponent.grade.audit','56f6dead-f09d-495c-aff5-8b5b5652d18a','Active',2)
@@ -11507,19 +11507,19 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('479a669b-8ae5-462b-9870-e2fa865eebf0','6394b20b-e2f7-4388-956e-cb5b63bf4c72','kuali.resultComponent.grade.passFail','8e031b70-8390-4f49-9e88-02080ac95e07','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('8534666a-5d7d-4563-a485-506ff7530375','af246932-98ae-4be3-9188-9250a72d9407','kuali.resultComponent.grade.audit','40e9fded-7146-475d-a91f-790d48346a57','Draft',2)
+  VALUES ('3e00c62a-7f58-4847-b9a7-c650474ad721','57feff5a-2503-41f3-b0de-bbfa5bc8b80b','kuali.resultComponent.grade.audit','682eb189-ef7f-4d67-9090-b75f02bbcb57','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('3e00c62a-7f58-4847-b9a7-c650474ad721','57feff5a-2503-41f3-b0de-bbfa5bc8b80b','kuali.resultComponent.grade.audit','682eb189-ef7f-4d67-9090-b75f02bbcb57','Active',0)
+  VALUES ('8534666a-5d7d-4563-a485-506ff7530375','af246932-98ae-4be3-9188-9250a72d9407','kuali.resultComponent.grade.audit','40e9fded-7146-475d-a91f-790d48346a57','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('f5112276-3d29-4b97-8b08-63dc34f21349','6e5e527f-4d0f-4833-a1e3-bc2b7c78b7e1','kuali.resultComponent.grade.passFail','52a47759-58a0-4fe8-9133-b9e4b9b16171','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('5b915b90-2c00-414e-911f-d0c6110b3a6c','ab1e1535-06bf-409e-946e-91f2df036e0b','kuali.resultComponent.grade.audit','c939c935-bd58-42b1-889e-87fd9100a92a','Active',1)
+  VALUES ('521b4e5f-4cb7-4d8b-b6b2-baff2ad82cd7','739a1cfd-198e-4e06-8af3-168582654020','kuali.resultComponent.grade.letter','11066b15-331f-49eb-80a0-a195c76f048c','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('521b4e5f-4cb7-4d8b-b6b2-baff2ad82cd7','739a1cfd-198e-4e06-8af3-168582654020','kuali.resultComponent.grade.letter','11066b15-331f-49eb-80a0-a195c76f048c','Active',1)
+  VALUES ('5b915b90-2c00-414e-911f-d0c6110b3a6c','ab1e1535-06bf-409e-946e-91f2df036e0b','kuali.resultComponent.grade.audit','c939c935-bd58-42b1-889e-87fd9100a92a','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('7f4196f3-0b82-499d-9dc6-b8f6e892975a','95b8fb69-fffd-4968-83bf-0f3153683766','kuali.resultComponent.grade.letter','e4a13885-cc66-4b9a-bfa1-7405aa5f46ca','Active',1)
@@ -11597,10 +11597,10 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('bda7c9e6-0930-4ff9-af0a-59ea19d1daea','5b2a6db5-149b-49df-873c-0ddcbe1f72ca','kuali.creditType.credit.degree.1-3','Retired',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('40f3ada8-df92-4839-ad4a-66a882a36611','d96d0e54-116c-4ad9-8a6b-babd50bd6b91','kuali.resultComponent.grade.audit','36f44c46-5996-4100-8be8-93716dd9c0fe','Draft',1)
+  VALUES ('6ff922d7-670d-4a32-ae9e-1d80afa494b3','0df70598-2bbf-4e60-88c8-3d28e4e99389','kuali.resultComponent.grade.letter','798deea0-760a-43a6-964c-07b7093026cb','Retired',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('6ff922d7-670d-4a32-ae9e-1d80afa494b3','0df70598-2bbf-4e60-88c8-3d28e4e99389','kuali.resultComponent.grade.letter','798deea0-760a-43a6-964c-07b7093026cb','Retired',1)
+  VALUES ('40f3ada8-df92-4839-ad4a-66a882a36611','d96d0e54-116c-4ad9-8a6b-babd50bd6b91','kuali.resultComponent.grade.audit','36f44c46-5996-4100-8be8-93716dd9c0fe','Draft',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('a166d136-6bb4-4a10-9cf4-592040ef9972','da30c498-14e4-4843-9ffe-53e3c6402013','kuali.creditType.credit.degree.3.0','Active',0)
@@ -11623,11 +11623,11 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('3f9b7b73-c536-42c0-8e69-719a20ff5da7','ae99eb8e-abc7-45f3-9e14-532cbf2e7093','kuali.creditType.credit.degree.3.0','Active',0)
 /
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('66c3d09f-53d1-48cb-a65b-0c626d96e7c4','eae44e97-c00a-4893-9b59-62040c37bc1a','kuali.resultComponent.grade.passFail','22eda757-8280-425d-8d74-3d1654398c24','Draft',14)
-/
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('39b11db7-bcf6-4349-aa0a-ae10264ad52b','e47143b3-479c-479e-ae5a-704deb6af500','kuali.creditType.credit.degree.3.0','Draft',0)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
+  VALUES ('66c3d09f-53d1-48cb-a65b-0c626d96e7c4','eae44e97-c00a-4893-9b59-62040c37bc1a','kuali.resultComponent.grade.passFail','22eda757-8280-425d-8d74-3d1654398c24','Draft',14)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('feee8c27-b4ef-40bf-b506-4753d468e264','cddce0d4-8fd8-4e9e-85d4-a3964415e69d','kuali.resultComponent.grade.letter','3499d6a6-34cd-46fc-a845-e21af0a70dc3','Active',0)
@@ -11656,11 +11656,11 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('a3c0a9d9-9ff4-4ed0-8e2b-db28ac0fb6eb','5997e94a-1e8d-46a3-ae68-2bfaf1bb3499','kuali.creditType.credit.degree.3.0','Active',0)
 /
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('ce0890fc-fe80-4d29-85c0-41af854986ec','280846ca-924a-4376-b068-a22932d8f440','kuali.resultComponent.grade.passFail','b09e2194-d6ac-41c3-ac63-33aea71b1b45','Active',0)
-/
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('70ce7933-7365-4005-bc96-5a95cef25fc5','b433df74-59ae-434a-b5d8-dc854c04e7d0','kuali.creditType.credit.degree.3.0','Draft',0)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
+  VALUES ('ce0890fc-fe80-4d29-85c0-41af854986ec','280846ca-924a-4376-b068-a22932d8f440','kuali.resultComponent.grade.passFail','b09e2194-d6ac-41c3-ac63-33aea71b1b45','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('fdab1893-eac0-40dd-906f-093dbaabb0ab','a9f20401-bc54-44e5-aa25-4246c226571d','kuali.resultComponent.grade.letter','b50449cc-a175-4bc1-8989-42f107004ea4','Active',0)
@@ -11669,10 +11669,10 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('3710b8d2-dd51-4c39-973e-e8ffec9d7805','d899c673-eb86-4f7d-bc04-e74d12080e10','kuali.resultComponent.grade.letter','55de2da9-697c-428d-a1a2-b3b8bc9bd407','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('fd49de3d-4e76-43c2-89e0-f87e656606de','101f02b3-b705-4848-86ca-789a9b3c61f0','kuali.resultComponent.grade.passFail','bc0e695d-9029-4cb9-b2b1-3f9b9e8b321d','Draft',2)
+  VALUES ('1752e7a1-f585-4c5f-9dcb-c4ee34605690','5fe9678e-e9e4-42dc-8e8e-fa05366b480d','kuali.resultComponent.grade.passFail','d6e612d5-af89-455e-a296-e1f106f051d1','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('1752e7a1-f585-4c5f-9dcb-c4ee34605690','5fe9678e-e9e4-42dc-8e8e-fa05366b480d','kuali.resultComponent.grade.passFail','d6e612d5-af89-455e-a296-e1f106f051d1','Active',0)
+  VALUES ('fd49de3d-4e76-43c2-89e0-f87e656606de','101f02b3-b705-4848-86ca-789a9b3c61f0','kuali.resultComponent.grade.passFail','bc0e695d-9029-4cb9-b2b1-3f9b9e8b321d','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('2dd6b5e5-6a8b-4bd2-ac63-8f2c206f25ce','560c2231-3467-468e-ba22-35ff705d34d3','kuali.resultComponent.grade.passFail','3665f368-d511-4172-b476-069d388c8729','Draft',2)
@@ -11687,16 +11687,16 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('62766bff-c475-4e23-941f-fd6a84034ebd','88187f98-60ab-4a0c-bebe-d78b3e33d2e1','kuali.creditType.credit.degree.3.0','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('da43e760-9594-409a-be45-e8d3a986f216','1636e32d-0afe-4de9-98c7-32598334a5da','kuali.resultComponent.grade.letter','c40a8690-b053-4114-bb66-face80e11fc0','Active',1)
-/
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('662fec21-503c-45ed-8600-a7a8c3cac382','a51e71a8-78d6-43f4-9c58-50f7e6f37006','kuali.resultComponent.grade.letter','4bf9817c-709e-405a-b038-483f346d036d','Draft',3)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('471cc17a-6053-4f2e-8fd8-0def7801c7e7','e4cc9379-ba9b-4e5c-8c37-7592c1ad3b3d','kuali.resultComponent.grade.passFail','ceb8e28f-4333-48f4-922b-9190a843234b','Retired',1)
+  VALUES ('da43e760-9594-409a-be45-e8d3a986f216','1636e32d-0afe-4de9-98c7-32598334a5da','kuali.resultComponent.grade.letter','c40a8690-b053-4114-bb66-face80e11fc0','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('10a7b438-f9ae-431e-a3e1-6d6ae7c48edb','36b98490-026e-44a1-afc0-59c0565f865d','kuali.creditType.credit.degree.3.0','Draft',0)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
+  VALUES ('471cc17a-6053-4f2e-8fd8-0def7801c7e7','e4cc9379-ba9b-4e5c-8c37-7592c1ad3b3d','kuali.resultComponent.grade.passFail','ceb8e28f-4333-48f4-922b-9190a843234b','Retired',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('1a36550d-19d4-4ceb-8b17-d8e192a53421','59cbfd9b-ff15-47a1-b424-e2bbc76bbb96','kuali.resultComponent.grade.audit','bd4bd4ac-50ba-43bc-917f-4ea1e3e44627','Draft',2)
@@ -11719,9 +11719,6 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('e2ef8203-c58d-4075-bdc1-90374b08f484','cf3cd3f2-14d5-4940-b6ff-9c6336664853','kuali.resultComponent.grade.passFail','941d5cf0-0925-4bf5-a148-00b9e3263ac0','Draft',2)
 /
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('6e28072b-9bd1-4733-9494-56fe787c7644','5d316d0b-124f-4551-9539-033db98afe6c','kuali.creditType.credit.degree.3.0','Active',0)
-/
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('2bee119b-714d-4426-a3e7-ce0dadc62b90','069e210f-9d89-47d9-8ed3-2864606fd113','kuali.resultComponent.grade.audit','4cfce617-73f9-4b06-a9d6-4dd3fbb96152','Active',1)
 /
@@ -11729,16 +11726,19 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('f327f6c2-7832-4c6d-8eee-58a8ed8ea082','fcecca98-f925-42a8-9800-be7ec22e18da','kuali.resultComponent.grade.letter','96d907ef-9d5c-4f06-b22a-98dad5983fb3','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('44216d8a-b727-4f64-928f-fba9f2b18468','5e9d6469-3526-4d17-9dc3-1de6077e4dac','kuali.creditType.credit.degree.3.0','Active',0)
+  VALUES ('6e28072b-9bd1-4733-9494-56fe787c7644','5d316d0b-124f-4551-9539-033db98afe6c','kuali.creditType.credit.degree.3.0','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('b916ec58-5bcc-46af-bc15-672f8f122f1b','08c85050-c268-4d93-8370-6c6ec650e8a0','kuali.creditType.credit.degree.2-3','Active',0)
 /
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('df1790cc-529d-49a6-99e8-e42681905b37','2f73303d-23d9-4092-9c94-3bfb6da467f8','kuali.resultComponent.grade.letter','8f939012-9235-4358-bc0c-01aed406c8d4','Draft',2)
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
+  VALUES ('44216d8a-b727-4f64-928f-fba9f2b18468','5e9d6469-3526-4d17-9dc3-1de6077e4dac','kuali.creditType.credit.degree.3.0','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('173c0071-ca4d-49c6-ad00-7ec70a4bd156','969212c9-97dc-4301-9dd7-eb6eb406dc4c','kuali.resultComponent.grade.letter','fd85b61d-8d3e-4fda-af9a-5f60aed00131','Active',1)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
+  VALUES ('df1790cc-529d-49a6-99e8-e42681905b37','2f73303d-23d9-4092-9c94-3bfb6da467f8','kuali.resultComponent.grade.letter','8f939012-9235-4358-bc0c-01aed406c8d4','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('40bc1175-34fd-4923-8001-2265c43f34b7','1d2e2f0e-5a20-480b-a705-7292e8f47dc9','kuali.resultComponent.grade.letter','7c710ee5-d3b6-4f4c-ba37-e84b676d7dd7','Active',1)
@@ -11869,11 +11869,11 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('2422ebe4-bc91-49d3-9fad-2066cc68887d','eff6c02e-3666-4dab-be4c-30c7d6a20acd','kuali.resultComponent.grade.letter','afe53ce0-a648-4344-93d6-fbce97c4f910','Draft',2)
 /
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('5fa523d3-f575-40d6-b518-8d89a8bc15dc','605ece49-1b81-46b8-8210-1a1434d39587','kuali.resultComponent.grade.letter','c31ed137-6ac5-4eee-a426-2648544c42bb','Retired',1)
-/
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('45fc1b52-3ed3-4c43-92f0-96b1cbecd8d8','c5fb96a5-0575-482e-b5cf-21754979c071','kuali.creditType.credit.degree.3.0','Active',0)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
+  VALUES ('5fa523d3-f575-40d6-b518-8d89a8bc15dc','605ece49-1b81-46b8-8210-1a1434d39587','kuali.resultComponent.grade.letter','c31ed137-6ac5-4eee-a426-2648544c42bb','Retired',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('7412d8fa-7418-451d-b7b9-71a091fae91c','4576ec37-4224-4b46-b4b5-4c63e765be31','kuali.creditType.credit.degree.3.0','Draft',0)
@@ -11924,10 +11924,10 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('3b04b070-ace8-483f-90f4-8e29cec07de8','88472859-a6c4-48b9-a7d5-6c4b761e3092','kuali.resultComponent.grade.passFail','d45c63cb-64dc-47ab-9aca-b7d53ceffb88','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('3488f166-a884-4fb6-aeec-ef5d98595f9f','31118cf6-d8f6-4238-80a4-756e53b3ce63','kuali.creditType.credit.degree.3.0','Draft',0)
+  VALUES ('f5502faf-2288-4cb2-9b4e-1da786eaa856','6a5a9e67-a7bf-44a1-8e6e-36545bc843d2','kuali.creditType.credit.degree.3.0','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('f5502faf-2288-4cb2-9b4e-1da786eaa856','6a5a9e67-a7bf-44a1-8e6e-36545bc843d2','kuali.creditType.credit.degree.3.0','Active',0)
+  VALUES ('3488f166-a884-4fb6-aeec-ef5d98595f9f','31118cf6-d8f6-4238-80a4-756e53b3ce63','kuali.creditType.credit.degree.3.0','Draft',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('4a2393aa-3626-4566-9de7-ce97a40e8163','609dabb8-cfbe-4938-8267-27f2cb468945','kuali.resultComponent.grade.letter','714efa86-469d-4d99-a4b8-5dc63fab9d2e','Draft',1)
@@ -11957,10 +11957,10 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('1395d1cd-f5c8-40eb-8104-721626ba3d16','fd1256bb-d0a8-474e-a875-1a3f0fd7ac1a','kuali.resultComponent.grade.letter','ead9714a-edd2-421d-9388-eb1a5a5cbe4d','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('a7d89f27-f6b3-4e09-a3bf-6c634e0ae233','2a8fb683-29a6-446a-bbc7-02ad6b2727b9','kuali.resultComponent.grade.letter','6cf821f6-111f-4e68-982a-102df2b56517','Active',0)
+  VALUES ('b0ddb7cc-9327-4bee-bd04-319d3d79d624','d64b353b-94f6-44b8-a465-654390931888','kuali.resultComponent.grade.audit','1adbe9e9-5fff-4c0e-a925-7db42066d854','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('b0ddb7cc-9327-4bee-bd04-319d3d79d624','d64b353b-94f6-44b8-a465-654390931888','kuali.resultComponent.grade.audit','1adbe9e9-5fff-4c0e-a925-7db42066d854','Active',1)
+  VALUES ('a7d89f27-f6b3-4e09-a3bf-6c634e0ae233','2a8fb683-29a6-446a-bbc7-02ad6b2727b9','kuali.resultComponent.grade.letter','6cf821f6-111f-4e68-982a-102df2b56517','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('3c61d339-4232-4011-a015-417ca139359a','947695f7-cff1-4bb4-a9cc-0a5532a00164','kuali.resultComponent.grade.letter','ca53e78c-a976-464a-ac94-c5513cc13d78','Draft',3)
@@ -11972,10 +11972,10 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('40e241d7-3621-42e6-b174-295bdb5204f9','11a7be74-313d-47e8-b0ae-6c6997a436fd','kuali.creditType.credit.degree.3.0','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('a9f8e816-0fb9-49cb-a56a-92fbf8834d77','0c7cc6a5-3d6e-456f-bc2f-d53260315d11','kuali.resultComponent.grade.passFail','72f18711-c557-4e92-90c0-e131bc4f2997','Active',1)
+  VALUES ('6c6c470c-2b90-4dda-ae15-1071a1bd099d','41648876-2e5e-43f4-81b8-f52ba2863a1b','kuali.resultComponent.grade.letter','a8e41ed6-d42c-4cf9-9902-3e3523981c7e','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('6c6c470c-2b90-4dda-ae15-1071a1bd099d','41648876-2e5e-43f4-81b8-f52ba2863a1b','kuali.resultComponent.grade.letter','a8e41ed6-d42c-4cf9-9902-3e3523981c7e','Active',0)
+  VALUES ('a9f8e816-0fb9-49cb-a56a-92fbf8834d77','0c7cc6a5-3d6e-456f-bc2f-d53260315d11','kuali.resultComponent.grade.passFail','72f18711-c557-4e92-90c0-e131bc4f2997','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('cf338c38-6fbe-490e-9a9c-524a4f83a8b3','5a008bfa-4651-46bd-a835-de0817f8b3e7','kuali.resultComponent.grade.passFail','89440e77-b18d-4a8f-9b23-458e2fd74e2b','Active',0)
@@ -11984,10 +11984,10 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('24e0cd21-c169-4bdf-8290-5423a29e2590','8b76321a-d0bb-493e-a788-b14413fd7926','kuali.creditType.credit.degree.3.0','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('e8c3a773-7e26-43cf-bd4a-543b88769064','e4061149-1fc3-4d99-add4-199013639d02','kuali.resultComponent.grade.passFail','db0de254-de81-4b2d-b40b-aa7667a983d0','Active',1)
+  VALUES ('9cbace1d-bd27-49ae-8f65-027722db3592','c890ed47-10ef-48cc-85e7-440be013b103','kuali.resultComponent.grade.letter','8c8ba914-0e9e-4ec3-997c-a45a96283f41','Retired',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('9cbace1d-bd27-49ae-8f65-027722db3592','c890ed47-10ef-48cc-85e7-440be013b103','kuali.resultComponent.grade.letter','8c8ba914-0e9e-4ec3-997c-a45a96283f41','Retired',1)
+  VALUES ('e8c3a773-7e26-43cf-bd4a-543b88769064','e4061149-1fc3-4d99-add4-199013639d02','kuali.resultComponent.grade.passFail','db0de254-de81-4b2d-b40b-aa7667a983d0','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('362a046e-15b2-45ee-91e2-79db9a06c162','9163c7a2-29ad-4539-a136-f2cc1dc7c798','kuali.resultComponent.grade.letter','2a4acb18-bdb9-4feb-8375-8570ec983a77','Draft',2)
@@ -11995,20 +11995,20 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('06881f5b-8382-42a2-8b76-dd37dc62dfde','b273b1b6-6b7d-43b0-b014-92d9c7ca0af7','kuali.resultComponent.grade.letter','3d0df387-c021-4e44-8a06-df41bc26bde1','Draft',2)
 /
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('9eb9be6e-8abc-43ee-8749-0e6b09a4ed58','7205e814-f2ff-4071-9802-e45835071843','kuali.creditType.credit.degree.3.0','Draft',0)
-/
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('e88f1178-7a5e-46f5-875f-a94ad4903ac4','e8ce62d4-5950-4d62-bae6-df0225992d50','kuali.resultComponent.grade.letter','18184119-f0b6-4216-a751-343e46073e0f','Draft',4)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('1c4c2336-227b-4774-b300-f5a281a5d159','8c4d649d-f5f7-4ac2-8368-4d7ed135ac65','kuali.creditType.credit.degree.3.0','Active',0)
+  VALUES ('9eb9be6e-8abc-43ee-8749-0e6b09a4ed58','7205e814-f2ff-4071-9802-e45835071843','kuali.creditType.credit.degree.3.0','Draft',0)
 /
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('c5eca660-6967-436a-aadf-bcfdf52b5c5d','565f4116-d233-47ce-b457-bd255cff7fc4','kuali.resultComponent.grade.letter','de3267ac-949f-4c7e-944c-8329518be1f9','Draft',2)
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
+  VALUES ('1c4c2336-227b-4774-b300-f5a281a5d159','8c4d649d-f5f7-4ac2-8368-4d7ed135ac65','kuali.creditType.credit.degree.3.0','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('5e6d7a3f-6c99-4dd5-bd75-482fa64f1a79','f408c419-5b81-4c9a-9a12-c65b791aa8f7','kuali.creditType.credit.degree.3.0','Active',0)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
+  VALUES ('c5eca660-6967-436a-aadf-bcfdf52b5c5d','565f4116-d233-47ce-b457-bd255cff7fc4','kuali.resultComponent.grade.letter','de3267ac-949f-4c7e-944c-8329518be1f9','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('05049bad-e1ff-4025-8fbb-61d53495bb6e','ded00560-4a26-46d3-ae86-a7b0d8876832','kuali.resultComponent.grade.passFail','22a6066a-9d5f-4ce3-a9d8-cee65253fec4','Draft',2)
@@ -12047,10 +12047,10 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('06fbdb16-c607-4aba-99f2-6d5510cec2c6','f2845645-a8d0-42ba-82a0-1f2c69ffab3c','kuali.creditType.credit.degree.3.0','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('4ddd45df-b658-4f6b-81d5-62bb8b3c6cb6','fab99bb8-e701-4d6d-84b6-a367bcc5b7af','kuali.resultComponent.grade.audit','6443c247-6878-4729-b18e-294ed0ccd3d3','Draft',1)
+  VALUES ('81f53233-610b-42ff-84dd-b06f67cb165a','f607cfc0-ffe6-475a-85f7-e9f0d6dbfc71','kuali.resultComponent.grade.audit','abf29795-7a15-4bb9-8048-fe37dabfec9c','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('81f53233-610b-42ff-84dd-b06f67cb165a','f607cfc0-ffe6-475a-85f7-e9f0d6dbfc71','kuali.resultComponent.grade.audit','abf29795-7a15-4bb9-8048-fe37dabfec9c','Draft',2)
+  VALUES ('4ddd45df-b658-4f6b-81d5-62bb8b3c6cb6','fab99bb8-e701-4d6d-84b6-a367bcc5b7af','kuali.resultComponent.grade.audit','6443c247-6878-4729-b18e-294ed0ccd3d3','Draft',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('0a394954-9202-426b-bc2b-f776dc1a5a97','7137d8b0-872a-4dda-96eb-65a05c2e06da','kuali.creditType.credit.degree.1.0','Active',0)
@@ -12131,13 +12131,13 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('20f7db0b-9208-4e28-96ce-b38842197eb6','6b752b4a-c958-4e04-8317-43a53a95b265','kuali.resultComponent.grade.audit','d3e5bb24-570c-43c3-818c-d3e61b9d6ce3','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('99206607-04c6-46ff-84bb-a461ccf856ae','a4f77bb5-b354-4854-b7b5-b5438c0e0bdd','kuali.resultComponent.grade.audit','0e2118f5-1346-4ea9-b586-20d496a2fc00','Draft',2)
-/
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('3439b977-910d-41f6-9287-28d96c96e22c','375c1211-94d2-48c8-b783-fcc1093355ed','kuali.resultComponent.grade.audit','16fc38e8-1ea7-4b9d-b8bd-d5ffd38cadb5','Retired',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('410fa4d9-95f8-4ab0-941d-3cbac06210b8','6e742941-b500-4aad-a848-5edc359fd9f2','kuali.resultComponent.grade.audit','755d0bb3-a231-4308-851b-bdb79f24936a','Active',1)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
+  VALUES ('99206607-04c6-46ff-84bb-a461ccf856ae','a4f77bb5-b354-4854-b7b5-b5438c0e0bdd','kuali.resultComponent.grade.audit','0e2118f5-1346-4ea9-b586-20d496a2fc00','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('90d50b55-7dbb-434e-8510-12922d902d74','d47fe2e8-e28d-4239-b7eb-b2e5bd7314bb','kuali.resultComponent.grade.letter','6327485e-62ae-49ec-b768-7e84918c2a88','Active',1)
@@ -12178,11 +12178,11 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('b2250b0e-f16c-40cb-8939-5838631a5460','499d110b-0cd2-4cf1-a9d5-a0d34e43b994','kuali.resultComponent.grade.letter','4fa155c4-9efb-46f3-8129-59cfcff6b7e8','Draft',1)
 /
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('92d9ad49-539b-4162-b45e-8729d9a835ed','a67b9c63-dee3-4541-9a91-2b2e2ef65b35','kuali.creditType.credit.degree.3.0','Draft',0)
-/
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('359f507d-74c9-4a14-bf16-2ad445972433','65d4fffe-ba40-43c0-8f17-9c45d857d032','kuali.resultComponent.grade.audit','1b22ce48-a7fc-464e-84dc-7dec90a01654','Draft',2)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
+  VALUES ('92d9ad49-539b-4162-b45e-8729d9a835ed','a67b9c63-dee3-4541-9a91-2b2e2ef65b35','kuali.creditType.credit.degree.3.0','Draft',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('ec70adee-8fdf-43cf-880c-745184c84576','f2067a33-301d-43ee-ab88-6e4dde9a7948','kuali.resultComponent.grade.letter','f495ad5d-a7cd-41cc-b591-de9f47698732','Active',1)
@@ -12227,28 +12227,28 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('3d8bec2f-ca18-4c12-b1ec-30230ee3ccbd','3e14e10d-bcdd-48a1-8263-1b76e653b1b3','kuali.resultComponent.grade.audit','e6410681-543d-46d2-ac2c-b91c990cdb8e','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('9def4280-abcf-4c2b-bcfb-b87379338d1f','914c9110-6fa2-4772-9ef9-1ee85013d0e6','kuali.resultComponent.grade.passFail','dbe358cf-7974-491e-bfee-bd5322d0e7a9','Draft',2)
-/
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('30f6e339-2298-4d82-9055-d3164ac43cd8','85bbedf5-3941-4d48-aadf-23eaef68bc69','kuali.resultComponent.grade.passFail','698ac90e-d1ee-4f71-b3a9-42d683da68a2','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('cf61963d-3dfa-4060-b148-d7e1f49aabd8','64ba9ec6-7f72-49f3-9765-bf47f52d3972','kuali.resultComponent.grade.audit','ce7d5b27-029e-4407-8f8a-4ec46a023c4f','Active',0)
+  VALUES ('9def4280-abcf-4c2b-bcfb-b87379338d1f','914c9110-6fa2-4772-9ef9-1ee85013d0e6','kuali.resultComponent.grade.passFail','dbe358cf-7974-491e-bfee-bd5322d0e7a9','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('30e85c5e-a14f-4e8e-8687-8aee8003c847','047196ed-3ce6-4c28-a5e0-af72f5004640','kuali.resultComponent.grade.audit','3a3aa66f-c3d6-47c1-9bb6-30c1c1b4ccaf','Active',0)
 /
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('34be5707-ccd3-4a03-8619-a19c97b5dbc4','e22f827c-3d93-4804-90e9-a3033fad4bda','kuali.creditType.credit.degree.3.0','Draft',0)
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
+  VALUES ('cf61963d-3dfa-4060-b148-d7e1f49aabd8','64ba9ec6-7f72-49f3-9765-bf47f52d3972','kuali.resultComponent.grade.audit','ce7d5b27-029e-4407-8f8a-4ec46a023c4f','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('cf0f6ddc-4a20-49cf-b4e3-71b82284566f','eb5a4a04-a8fd-421c-b179-51467ac5a24b','kuali.creditType.credit.degree.3.0','Retired',0)
 /
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('cf8ca055-fb74-48c7-bcbb-803b886796db','ed286953-1c46-48fd-87a2-8dfd9f379ef4','kuali.resultComponent.grade.passFail','63505358-4e90-4553-8704-cf2c8ea64e80','Active',1)
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
+  VALUES ('34be5707-ccd3-4a03-8619-a19c97b5dbc4','e22f827c-3d93-4804-90e9-a3033fad4bda','kuali.creditType.credit.degree.3.0','Draft',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('65cc61a7-0595-4a00-b785-2bd10d6bbb12','d0a84e47-0412-474f-ab4c-0d8980168f86','kuali.resultComponent.grade.audit','8c106d75-c2a5-476f-9898-85a0cf4f6017','Active',0)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
+  VALUES ('cf8ca055-fb74-48c7-bcbb-803b886796db','ed286953-1c46-48fd-87a2-8dfd9f379ef4','kuali.resultComponent.grade.passFail','63505358-4e90-4553-8704-cf2c8ea64e80','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('b6e9d80e-7a50-4a44-a079-08e0d703cde6','c6dc10b6-2bff-453e-b916-0d64141c07ca','kuali.resultComponent.grade.letter','d0703125-efec-46ce-a3e1-6f09cdc870db','Active',1)
@@ -12259,11 +12259,11 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('b5ff5597-e8f2-48ae-9155-45cc62a6a100','c4964422-ee74-4104-93ed-27e788338a38','kuali.creditType.credit.degree.3.0','Active',0)
 /
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('173584f4-98d6-4974-9f42-c349d3a43c76','cbd30a78-ab5a-45be-9e46-8aff912b72da','kuali.creditType.credit.degree.3.0','Active',0)
-/
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('a5d69eea-b589-4ed4-b526-ad40b0467a42','6439aa46-6f97-4e8a-be7e-8d4ee11a5c9d','kuali.resultComponent.grade.letter','5bfed6ac-ebb1-4c1b-afa0-73ac4f6829f1','Draft',1)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
+  VALUES ('173584f4-98d6-4974-9f42-c349d3a43c76','cbd30a78-ab5a-45be-9e46-8aff912b72da','kuali.creditType.credit.degree.3.0','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('02c2de0a-fb05-4610-8ac2-09f0d212ce1f','8cd7fa1e-56e3-40c9-982e-35dc4ec98612','kuali.creditType.credit.degree.3.0','Active',0)
@@ -12281,13 +12281,13 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('7db7562e-e410-44bd-99bc-35bc1d7351f8','51f5a7d2-eacd-4991-a686-ac3fd27840a1','kuali.resultComponent.grade.letter','4870dbfc-8bab-48bd-8fdf-25a5a4e2a5ab','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('91fc4584-68d6-4cd4-a246-2b6242ba137a','6cf4141c-995c-41f9-8915-efe423a22f34','kuali.resultComponent.grade.letter','5df27683-0c71-4798-9bd9-54e4f46d9ce0','Active',0)
+  VALUES ('3c76c11d-5b4c-401c-b482-8149e0ca5abf','103cc796-8044-47cf-9f4e-29452ec9a333','kuali.resultComponent.grade.letter','3f5b295a-383e-4eaf-9e2c-789d24859324','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('1be4a50e-3aad-4c06-9f7b-119b3419fe09','317e3820-8c56-4475-998f-b3add8032834','kuali.resultComponent.grade.letter','05c99395-e64b-4a13-90ef-01ebe6dadd70','Draft',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('3c76c11d-5b4c-401c-b482-8149e0ca5abf','103cc796-8044-47cf-9f4e-29452ec9a333','kuali.resultComponent.grade.letter','3f5b295a-383e-4eaf-9e2c-789d24859324','Draft',2)
+  VALUES ('91fc4584-68d6-4cd4-a246-2b6242ba137a','6cf4141c-995c-41f9-8915-efe423a22f34','kuali.resultComponent.grade.letter','5df27683-0c71-4798-9bd9-54e4f46d9ce0','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('ceb617ec-9c2a-462e-a73d-92fd9e87f2e0','47ae2df5-9e7d-4883-b530-65d64be1c111','kuali.creditType.credit.degree.3.0','Active',0)
@@ -12394,11 +12394,11 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('51315804-56ed-4f73-bd72-54487720509f','17b9892e-fbe1-4c30-986e-db850c020e02','kuali.resultComponent.grade.audit','efaed430-20bf-4ff9-9650-0215d95edeec','Active',1)
 /
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('537537ea-d28f-4cec-adbb-cce048fb23f3','a031b41d-cbf2-4de4-92d6-2938b7de83d6','kuali.creditType.credit.degree.3.0','Active',0)
-/
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('6c789e59-2234-4571-b13d-4742ee1a48f1','f21857ec-0189-413a-9cc2-41f9826c91cd','kuali.resultComponent.grade.letter','6bc316a0-5957-4447-a1ea-3c45645329b9','Draft',5)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
+  VALUES ('537537ea-d28f-4cec-adbb-cce048fb23f3','a031b41d-cbf2-4de4-92d6-2938b7de83d6','kuali.creditType.credit.degree.3.0','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('9903465c-16e2-458a-8cdc-f27a3e32b32c','2749b691-884d-42c0-b7e8-89fe7abcdba9','kuali.resultComponent.grade.letter','8bce28af-e199-4b4d-8cec-08cd832c76e7','Draft',3)
@@ -12413,10 +12413,10 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('070e2fdf-17db-487b-b48a-f591c94e0b61','3c0ab069-da4b-4ef8-88c7-d93644d1c74f','kuali.resultComponent.grade.letter','afb62359-bdce-4bd2-b125-30b454b2bdda','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('97368551-2144-4e5f-bada-c5c9f886cd76','20479952-4f50-4bd4-ac13-e79dc1cb2d49','kuali.resultComponent.grade.audit','d764d534-fda0-46b2-b42f-a5aac149b90f','Active',1)
+  VALUES ('281f3a2e-85bb-4680-97c3-3c6795f578c9','d97ae9f2-a4c0-499d-b69e-cb6513143305','kuali.resultComponent.grade.letter','d99fa6b4-9e4f-4fbb-8a17-acc720d61594','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('281f3a2e-85bb-4680-97c3-3c6795f578c9','d97ae9f2-a4c0-499d-b69e-cb6513143305','kuali.resultComponent.grade.letter','d99fa6b4-9e4f-4fbb-8a17-acc720d61594','Active',1)
+  VALUES ('97368551-2144-4e5f-bada-c5c9f886cd76','20479952-4f50-4bd4-ac13-e79dc1cb2d49','kuali.resultComponent.grade.audit','d764d534-fda0-46b2-b42f-a5aac149b90f','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('dd8feb62-1f22-4930-93b3-34f700550b53','dcf3f5ca-2dd6-4951-8435-60e12ce8fb44','kuali.resultComponent.grade.letter','5b200279-4299-4696-993d-5a95fa55a982','Active',0)
@@ -12425,19 +12425,19 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('a8c357ad-4bef-4487-8e08-91def4d420bd','cbb046de-a535-4bd7-9160-8f2834b4d89d','kuali.resultComponent.grade.passFail','329675d4-549c-445f-8e3b-cd0a25da6dd1','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('737a36fc-e6fc-44fe-b140-b141d7be04c5','f31b47d7-1138-405c-aa0e-b7ee7dcb3a05','kuali.resultComponent.grade.audit','8653ae6c-c73c-4ee0-8180-0ec568c87ff7','Draft',3)
+  VALUES ('dc28f0f2-80eb-4169-9608-84847b2040c0','b2882670-90ab-4240-aafc-54ea4b5afad0','kuali.resultComponent.grade.letter','ccfcf18e-6277-45ec-adac-fa7d2e5225eb','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('dc28f0f2-80eb-4169-9608-84847b2040c0','b2882670-90ab-4240-aafc-54ea4b5afad0','kuali.resultComponent.grade.letter','ccfcf18e-6277-45ec-adac-fa7d2e5225eb','Draft',2)
+  VALUES ('737a36fc-e6fc-44fe-b140-b141d7be04c5','f31b47d7-1138-405c-aa0e-b7ee7dcb3a05','kuali.resultComponent.grade.audit','8653ae6c-c73c-4ee0-8180-0ec568c87ff7','Draft',3)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('e6de7af6-457a-4a23-a9e9-0c364bb71aa9','c9b24855-9ac8-452f-8b84-62a48f17c0b0','kuali.resultComponent.grade.letter','2a022562-9f14-41ed-a3da-27ec0e01049d','Retired',1)
 /
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('6b0b32f6-7b62-4b2e-b4f6-2417fd57f1e8','0dfe6876-1d86-4c4f-9557-35e968f2b796','kuali.resultComponent.grade.passFail','b628c38f-ea2f-4c92-989f-1a713a1faa48','Draft',2)
-/
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('1a684dba-86ac-492d-adc6-8d50652d1d0e','5d45e9e5-3124-40d5-9876-6e0f9162ea0d','kuali.creditType.credit.degree.3.0','Active',0)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
+  VALUES ('6b0b32f6-7b62-4b2e-b4f6-2417fd57f1e8','0dfe6876-1d86-4c4f-9557-35e968f2b796','kuali.resultComponent.grade.passFail','b628c38f-ea2f-4c92-989f-1a713a1faa48','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('7678c6d1-424a-4fb3-8d07-91ea965dfbfd','ff52e5a7-b7f2-4f57-ae95-56fad8e1b8d0','kuali.resultComponent.grade.audit','c3ab4ece-465b-4b4f-b22e-1dd1cad70472','Active',3)
@@ -12449,10 +12449,10 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('aa8f157e-ec25-463f-a045-02f83575c4f8','9200965a-964d-4bb9-898e-f89cf371b822','kuali.resultComponent.grade.audit','16a9b9e6-abc2-44c4-be6d-cf652d72464f','Draft',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('a100cd36-9c2d-4009-9b5f-4e2ccab247c9','47dff94a-3430-42a8-9da8-4f6acdb46ea7','kuali.creditType.credit.degree.3.0','Active',0)
+  VALUES ('a3aca08a-db1f-4962-ae08-106cea04e093','8a55cb66-a311-4fd8-9eeb-b93dfd577303','kuali.creditType.credit.degree.3.0','Draft',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('a3aca08a-db1f-4962-ae08-106cea04e093','8a55cb66-a311-4fd8-9eeb-b93dfd577303','kuali.creditType.credit.degree.3.0','Draft',0)
+  VALUES ('a100cd36-9c2d-4009-9b5f-4e2ccab247c9','47dff94a-3430-42a8-9da8-4f6acdb46ea7','kuali.creditType.credit.degree.3.0','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('80ddf81b-386e-4b4f-9a15-84bd2c0d2147','b4e1bc3c-5b8d-4eeb-baf3-269f4ff5e6b8','kuali.resultComponent.grade.passFail','0a1cc10b-b0ec-4e4f-a59f-0beeb43e3a65','Active',1)
@@ -12467,10 +12467,10 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('26b20691-a142-43d8-bd8d-4339c3896659','3cd8527b-598e-4e6d-b05d-4ff477089ae6','kuali.resultComponent.grade.audit','ec3f672a-9eab-4752-a126-c565a29d2043','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('88969823-10f6-4c80-abe1-1ca76d340159','a6207f4e-1a75-49c9-93fc-2894b3c0d61e','kuali.resultComponent.grade.letter','415e0fb6-56dc-4219-8d00-294f691cdfde','Active',0)
+  VALUES ('760db399-7403-4120-a4b2-c0cac083a99b','20cc2b46-d8bc-44bc-9b6d-6f5a5a4a6aa0','kuali.resultComponent.grade.audit','1799db36-fdd4-4ccd-b3f5-b6fcccc5fc74','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('760db399-7403-4120-a4b2-c0cac083a99b','20cc2b46-d8bc-44bc-9b6d-6f5a5a4a6aa0','kuali.resultComponent.grade.audit','1799db36-fdd4-4ccd-b3f5-b6fcccc5fc74','Draft',2)
+  VALUES ('88969823-10f6-4c80-abe1-1ca76d340159','a6207f4e-1a75-49c9-93fc-2894b3c0d61e','kuali.resultComponent.grade.letter','415e0fb6-56dc-4219-8d00-294f691cdfde','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('2b777c09-ac0d-491d-b3a9-17d9da0b9a8e','6990e140-2f07-45d8-875c-f1a6969e36d6','kuali.resultComponent.grade.passFail','a7eb6dd7-59d7-4096-8322-0b5ae40b26f7','Active',1)
@@ -12479,13 +12479,13 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('40c3b941-b3f7-4001-a032-001cc15dbfc2','cbc4760e-577d-45c1-bbd8-4c2e75acb984','kuali.creditType.credit.degree.3.0','Draft',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('1f6ce0e1-8fd4-4bef-8306-bed323ea2b6e','0621702c-d973-438a-961e-4e1a8acde368','kuali.resultComponent.grade.letter','4e17d08f-46c1-445b-9e7d-12f1dc0d8fb0','Draft',2)
+  VALUES ('cfdc9fbf-ff60-4870-93d9-e4ffd87d7f9a','58da48c6-ec0f-419d-a241-6688cdf4c361','kuali.resultComponent.grade.audit','018ed08e-8882-4100-9f8e-f2add209300a','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('145ac2ce-f651-4e20-b75e-cd89ec96d706','fcf16f86-0eb3-4c15-80cf-838e4fb87c53','kuali.resultComponent.grade.audit','f4897f09-2a37-4f93-abaa-f701339d4cfd','Retired',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('cfdc9fbf-ff60-4870-93d9-e4ffd87d7f9a','58da48c6-ec0f-419d-a241-6688cdf4c361','kuali.resultComponent.grade.audit','018ed08e-8882-4100-9f8e-f2add209300a','Draft',2)
+  VALUES ('1f6ce0e1-8fd4-4bef-8306-bed323ea2b6e','0621702c-d973-438a-961e-4e1a8acde368','kuali.resultComponent.grade.letter','4e17d08f-46c1-445b-9e7d-12f1dc0d8fb0','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('472cb492-1bb1-4d10-bd34-fd1d7449fd82','8240aa20-e421-47fe-98b5-b7aa36ede33a','kuali.resultComponent.grade.passFail','7e88616f-29fa-43c6-b699-f1b804813399','Active',0)
@@ -12493,11 +12493,11 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('0f056fd5-1aeb-4687-996e-2e5afcc15aca','afb78671-881d-4e52-b421-5c2bfa0ae015','kuali.resultComponent.grade.letter','78f508aa-41c3-4bf0-a072-bcdf2df80120','Active',1)
 /
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('466b114a-a46d-4107-b4f8-449196206549','c26e84ca-ec9b-4c05-9057-affaec56cab0','kuali.creditType.credit.degree.3.0','Draft',0)
-/
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('edf948ba-d48c-4b6c-990b-68033ddd36f1','3a247b60-f484-4ce1-82a6-65dcfdff6cae','kuali.resultComponent.grade.letter','77c5a21d-ffce-45f8-88a1-6950edb517ba','Active',1)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
+  VALUES ('466b114a-a46d-4107-b4f8-449196206549','c26e84ca-ec9b-4c05-9057-affaec56cab0','kuali.creditType.credit.degree.3.0','Draft',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('92bf6b70-a70e-47be-a52c-980c3a8c2824','c78bd97e-a086-43b6-9074-c8dfc789e808','kuali.resultComponent.grade.audit','c55bd597-2c0d-4365-9a8a-14c92547cd44','Active',0)
@@ -12506,19 +12506,19 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('5ea691cd-a01b-4438-9127-a1d83bbd596a','2b042cdb-c5e5-4a0e-aec9-c4d6e52291c0','kuali.resultComponent.grade.audit','6b6662e1-fe2f-44cd-a54b-8d470d077893','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('2c483f1e-a3db-4ac4-9174-3763c0230296','01a0c702-38ef-4869-bbeb-17ad9539823b','kuali.resultComponent.grade.letter','c05a2b1c-8c36-4448-8297-30c8c89900c6','Draft',1)
+  VALUES ('66ba33a9-a7c6-4610-a123-eeaffe18a256','a0e3ad92-3111-422e-9bd2-384b8616653d','kuali.resultComponent.grade.audit','88d145a1-7561-4099-97b0-ae49a2fdf666','Draft',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('66ba33a9-a7c6-4610-a123-eeaffe18a256','a0e3ad92-3111-422e-9bd2-384b8616653d','kuali.resultComponent.grade.audit','88d145a1-7561-4099-97b0-ae49a2fdf666','Draft',1)
+  VALUES ('2c483f1e-a3db-4ac4-9174-3763c0230296','01a0c702-38ef-4869-bbeb-17ad9539823b','kuali.resultComponent.grade.letter','c05a2b1c-8c36-4448-8297-30c8c89900c6','Draft',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('ce33b4a7-eab0-49aa-bc3e-2b8fb61be0f6','27345915-93b0-431f-a732-78c2e9840efa','kuali.resultComponent.grade.letter','01d0598f-39f3-48d2-a4c7-fcdcb3fc296e','Active',1)
 /
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('a142cc97-eaed-44f7-ad30-19cb9b160110','ae6c80d2-1459-4092-a7e8-a27d1c6e9554','kuali.creditType.credit.degree.3.0','Active',0)
-/
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('49c15ca0-b7c4-4e03-9615-11685c7825b2','9078e0dd-c548-4e2f-a938-ec8676713877','kuali.resultComponent.grade.letter','578f4ce3-ea9b-4fcc-9dde-7d8fce4c39ba','Active',0)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
+  VALUES ('a142cc97-eaed-44f7-ad30-19cb9b160110','ae6c80d2-1459-4092-a7e8-a27d1c6e9554','kuali.creditType.credit.degree.3.0','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('3afd5c05-dc2e-40cc-b826-5a9a3b280fc2','0d88d863-cdbe-42c9-bdbc-6550e99eaa98','kuali.resultComponent.grade.passFail','e8eb8a4e-6151-475e-89e9-f79ee20b282c','Active',0)
@@ -12548,16 +12548,16 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('a8235372-47c2-4831-9b01-df3bc8d992fb','9133bcea-8dae-4a4a-9b7c-11d1d3da1349','kuali.resultComponent.grade.letter','a3601835-54c7-4e4d-b777-61f620967b9b','Draft',3)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
+  VALUES ('bd15f699-6bb1-40d5-923a-db2f0ad32b58','12c55e2e-0a63-4dc6-b332-3e2383e24465','kuali.resultComponent.grade.letter','e88695ab-3be5-4c4a-a275-b7ffdad84d5d','Retired',1)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('ae9b6f76-7b6d-4415-a212-fdfc16a7c90b','902b5fba-b1e8-45dc-bb2c-c5eae2e2afc9','kuali.resultComponent.grade.audit','61330cfe-319a-4baf-a38d-448d3237642c','Draft',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('bd15f699-6bb1-40d5-923a-db2f0ad32b58','12c55e2e-0a63-4dc6-b332-3e2383e24465','kuali.resultComponent.grade.letter','e88695ab-3be5-4c4a-a275-b7ffdad84d5d','Retired',1)
+  VALUES ('6b2462ca-d0aa-4729-8a16-4d95d36009f9','9a7ac017-7b69-4ae9-a554-e8f7bc192e5b','kuali.resultComponent.grade.audit','7b8939f5-1568-4df6-8c7f-8fd501655d0a','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('81c99d50-8bc6-4b9a-839d-6f24feb88a98','2f56cd04-69fb-4a0b-95dd-85a5f4368a03','kuali.creditType.credit.degree.3.0','Draft',0)
-/
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('6b2462ca-d0aa-4729-8a16-4d95d36009f9','9a7ac017-7b69-4ae9-a554-e8f7bc192e5b','kuali.resultComponent.grade.audit','7b8939f5-1568-4df6-8c7f-8fd501655d0a','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('f73a4e46-e4c0-46c7-80a9-a2ab94518853','301111c6-6cad-4042-b869-a1f51ff5996f','kuali.creditType.credit.degree.3.0','Active',0)
@@ -12581,10 +12581,10 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('9b6bc659-0ddf-4866-a26f-488cbbe8af19','7862608f-05a9-4b39-bed2-20310cbcacd6','kuali.resultComponent.grade.letter','bf898886-b998-43f4-ab0b-1b29392a462d','Draft',20)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('58d2658b-aa05-4965-a57a-cdbc1a5eccd7','e24c5f27-bb32-4ce1-8b56-bd31ddf63268','kuali.resultComponent.grade.audit','b72a2a7f-51fb-4155-b040-40173c508dd1','Retired',1)
+  VALUES ('23b69f4a-6121-464a-bc96-dbc3ce194691','9de8f32f-ba4d-4006-aa01-c3cfa0adaf9d','kuali.resultComponent.grade.audit','de043723-9a9c-4fbc-aec4-afe0329050d7','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('23b69f4a-6121-464a-bc96-dbc3ce194691','9de8f32f-ba4d-4006-aa01-c3cfa0adaf9d','kuali.resultComponent.grade.audit','de043723-9a9c-4fbc-aec4-afe0329050d7','Draft',2)
+  VALUES ('58d2658b-aa05-4965-a57a-cdbc1a5eccd7','e24c5f27-bb32-4ce1-8b56-bd31ddf63268','kuali.resultComponent.grade.audit','b72a2a7f-51fb-4155-b040-40173c508dd1','Retired',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('86144cf1-63d6-4aa6-8472-72c197645b5b','53eeda1c-4884-4bde-afd8-770a68262e53','kuali.resultComponent.grade.letter','3a786599-31dd-44a8-945e-7e56bdb7414e','Draft',4)
@@ -12596,10 +12596,10 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('ab74bcdd-a7fd-46ce-b70b-f13e912e9e42','a9f17028-064a-4f2e-b4ff-bf398a3cacda','kuali.creditType.credit.degree.3.0','Draft',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('4c8691bd-496b-43d5-9082-5db346d5d5c2','12492a0c-21d0-4f62-86d9-a13abd183431','kuali.creditType.credit.degree.3.0','Active',0)
+  VALUES ('fd3d7cd7-a9d2-43bf-8a2c-340b05a1a4cd','f673bf51-8f22-406f-b56d-4646c1348cf4','kuali.creditType.credit.degree.3.0','Draft',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('fd3d7cd7-a9d2-43bf-8a2c-340b05a1a4cd','f673bf51-8f22-406f-b56d-4646c1348cf4','kuali.creditType.credit.degree.3.0','Draft',0)
+  VALUES ('4c8691bd-496b-43d5-9082-5db346d5d5c2','12492a0c-21d0-4f62-86d9-a13abd183431','kuali.creditType.credit.degree.3.0','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('857c0686-77de-4e28-9094-8e516b480029','d43d3edd-636a-40a8-90a9-280d6d735930','kuali.resultComponent.grade.audit','be057300-48a8-4571-9c2a-561371c61a51','Active',0)
@@ -12631,14 +12631,14 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('e76a1e35-c9ce-4a16-b794-20cb0ccc0577','c606a1df-d014-449a-94ad-0bb77d985197','kuali.resultComponent.grade.audit','a1ee4b4c-0441-4429-85f1-a0aee64747df','Retired',1)
 /
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
+  VALUES ('f372fc72-5158-4f21-843e-9c57ee8a7875','382aefc6-f9eb-478c-a124-a5c9e2cbe2d5','kuali.creditType.credit.degree.3.0','Active',0)
+/
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('c1a0019e-9b72-4f8c-89de-a81ade85680e','895f92a7-6c6e-468f-a92e-36cbf52aa6b3','kuali.resultComponent.grade.letter','a70766f9-8f26-4012-8e36-279caa7f674e','Retired',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('11db82f2-2cf0-4ceb-9287-f5043a9f83ee','1e796b55-9bb5-4e3b-b56a-86cca0d12d33','kuali.resultComponent.grade.letter','c49bd7db-7561-416b-8fa4-10ab57c31741','Active',1)
-/
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('f372fc72-5158-4f21-843e-9c57ee8a7875','382aefc6-f9eb-478c-a124-a5c9e2cbe2d5','kuali.creditType.credit.degree.3.0','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('e23193c7-91e3-4b48-9e1d-6f07f37de3e6','df5e42d8-246b-4682-8ffc-2a203f18b40c','kuali.creditType.credit.degree.1.0','Retired',0)
@@ -12695,10 +12695,10 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('27e2b36d-67f6-40c5-ac5f-11945107c1da','0eaeec9f-1fc3-48b1-8f34-a6718968d592','kuali.resultComponent.grade.audit','a5d6777c-e337-4eef-98f0-224cb7c28033','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('70d8b606-e1e1-42d7-ba20-c0d2864e6a0a','376ce058-1b5e-4b4e-9425-a4f6c99c3af4','kuali.creditType.credit.degree.3.0','Draft',0)
+  VALUES ('648ba02e-8892-4e6c-ba8b-cc8dfb642f77','143ab6f0-c69a-43e8-aa3b-d114785010ab','kuali.creditType.credit.degree.1.0','Draft',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('648ba02e-8892-4e6c-ba8b-cc8dfb642f77','143ab6f0-c69a-43e8-aa3b-d114785010ab','kuali.creditType.credit.degree.1.0','Draft',0)
+  VALUES ('70d8b606-e1e1-42d7-ba20-c0d2864e6a0a','376ce058-1b5e-4b4e-9425-a4f6c99c3af4','kuali.creditType.credit.degree.3.0','Draft',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('690afdcb-688a-4cb9-9614-e431fa635492','8b2370a9-fcbb-4fc6-91b1-dae6cff53998','kuali.creditType.credit.degree.2.0','Retired',0)
@@ -12710,13 +12710,13 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('a0a9000a-c9be-46fb-b2d9-d29a440f082a','32303b75-2752-4352-80b4-f7d986398f35','kuali.resultComponent.grade.audit','c8150262-811f-42f2-8048-7c70a9ae0d75','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
+  VALUES ('e59d8ad0-bdcc-4c91-918e-61fc39def99b','46b4dd79-fc1e-44d5-b2d2-7520df3ea46c','kuali.resultComponent.grade.letter','d5b5e034-49ff-4a48-a050-f69f1ffb7259','Draft',2)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('2d2a24e0-f746-4a2a-8509-9ba3bc5d73a3','8f4fe7b3-2824-4e0c-9ca3-fc70bbd00703','kuali.resultComponent.grade.passFail','fcd59d75-1031-4d59-9cc0-70a5db9ddfed','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('c6d7fec5-3587-49d3-93d5-cddb3ec999f3','49854e92-313b-419a-aef7-2a755f1ae828','kuali.resultComponent.grade.letter','f5bc6e35-ac6f-4973-a5b7-1fc400753ef2','Active',1)
-/
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('e59d8ad0-bdcc-4c91-918e-61fc39def99b','46b4dd79-fc1e-44d5-b2d2-7520df3ea46c','kuali.resultComponent.grade.letter','d5b5e034-49ff-4a48-a050-f69f1ffb7259','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('359ba737-1e4e-4960-919e-e1b30e8634b1','e09cc00a-5e61-4dd1-bb52-d233b1e90b36','kuali.resultComponent.grade.audit','1869e286-e2a4-46ad-b08e-e836c822c74c','Draft',2)
@@ -12724,11 +12724,11 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('bd80ef16-9988-451e-bcde-e5d93fe2d2b9','452b3661-bced-4abf-a80f-7fe5266c8f14','kuali.resultComponent.grade.audit','0fb49d27-faa3-4021-9d05-74cb43faeb8d','Draft',2)
 /
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('e77b7f10-cfdb-4ae8-9839-5dc526f85a80','804bb63a-687f-4407-bf2a-444960e8fd47','kuali.creditType.credit.degree.4.0','Active',0)
-/
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('8dd29a68-9f42-4e9a-b54b-7f2f47aef540','8fb1077c-efb0-4ed2-aca0-eaddbae03b21','kuali.resultComponent.grade.passFail','22f2dc97-72f5-48ae-8113-92430296c4aa','Retired',1)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
+  VALUES ('e77b7f10-cfdb-4ae8-9839-5dc526f85a80','804bb63a-687f-4407-bf2a-444960e8fd47','kuali.creditType.credit.degree.4.0','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('d788c1cf-4e4a-48f4-a535-bb5feca81b1e','7c72949e-b0a2-4e19-8e65-0704c1e25e2e','kuali.resultComponent.grade.letter','a4c18d2e-eec2-4539-86fe-3caebe2f6227','Active',0)
@@ -12773,13 +12773,13 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('718d9d07-59d6-4195-b4b9-46bb85fa41f3','7511b958-0d7d-45cc-8f23-6860f3f1fcc8','kuali.resultComponent.grade.audit','8d62c123-e66e-42e6-9243-a252cd2e165e','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
+  VALUES ('6a442f9d-8f2c-4f4c-a1e4-774cfaa989e1','59159c17-b8c5-47b5-9ac4-659bc2926490','kuali.resultComponent.grade.audit','fd1c21c4-f902-4b83-a276-6148f49748b9','Active',1)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('587a0569-e40c-4f58-99c0-59fbdafd9439','4c4b4adf-57f0-4d49-831f-d54d8fa881d4','kuali.resultComponent.grade.letter','49889b08-e735-4239-9122-ff4606f39d78','Draft',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('217578e5-d1da-4ed5-8998-163fee3567ad','06946380-5c8e-4fc7-b09b-ec1922966eec','kuali.creditType.credit.degree.3.0','Draft',0)
-/
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('6a442f9d-8f2c-4f4c-a1e4-774cfaa989e1','59159c17-b8c5-47b5-9ac4-659bc2926490','kuali.resultComponent.grade.audit','fd1c21c4-f902-4b83-a276-6148f49748b9','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('095fd0ba-836d-4ed4-8a70-cd27a359801f','d3f7181d-61c4-4811-9b89-7376fdfcccc8','kuali.resultComponent.grade.passFail','4359a839-8e2b-41f3-a4ba-dcbd9b462352','Active',0)
@@ -12854,10 +12854,10 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('14fd171b-7c50-4cf5-9a13-adfc283ec9bc','21accfb1-bfd4-4332-812f-eb0e1254ebe1','kuali.resultComponent.grade.audit','07b5ff4a-eccf-424c-aed6-825a5a7d02dd','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('554272ca-6a5d-40c3-a6db-ccdd6f7bc846','c25095bc-3caa-41b7-bd7c-5db131dc213e','kuali.resultComponent.grade.letter','914910b3-ba49-4bb1-a4e6-0d1054ab07ce','Draft',1)
+  VALUES ('81b6d992-e70d-40ff-89b8-eb45a22a5b91','faa85f8e-9e8d-4da8-9c77-be0e2a2f5679','kuali.resultComponent.grade.audit','428227ae-78f8-4a97-920f-95a9d2f1a2a9','Draft',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('81b6d992-e70d-40ff-89b8-eb45a22a5b91','faa85f8e-9e8d-4da8-9c77-be0e2a2f5679','kuali.resultComponent.grade.audit','428227ae-78f8-4a97-920f-95a9d2f1a2a9','Draft',1)
+  VALUES ('554272ca-6a5d-40c3-a6db-ccdd6f7bc846','c25095bc-3caa-41b7-bd7c-5db131dc213e','kuali.resultComponent.grade.letter','914910b3-ba49-4bb1-a4e6-0d1054ab07ce','Draft',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('590f1432-fec5-4f7f-917f-77ce536d3363','8dd652d5-4e92-4f9d-b276-b9f9e0ce4e9a','kuali.creditType.credit.degree.3.0','Draft',0)
@@ -12893,10 +12893,10 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('9623f2bb-403c-460b-ab73-dd85c0657696','4c55679b-c499-47f0-9bed-315464090b7c','kuali.creditType.credit.degree.2.0','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('c4c6c3c8-9ca4-4d4c-bd42-fa11a39aac70','8efb0330-0e37-4c1b-9e5a-cd3ab53753e9','kuali.resultComponent.grade.letter','7f5a5093-a4e0-482b-bdf7-6f1110bb2ed3','Active',0)
+  VALUES ('8b82ce37-d068-43ac-a2d8-f9d8934ec02d','efbf1276-cf24-4fc7-8ef7-696f26663b73','kuali.resultComponent.grade.letter','f0d74c3e-dd04-451c-ba14-aa1b6031f9ec','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('8b82ce37-d068-43ac-a2d8-f9d8934ec02d','efbf1276-cf24-4fc7-8ef7-696f26663b73','kuali.resultComponent.grade.letter','f0d74c3e-dd04-451c-ba14-aa1b6031f9ec','Active',0)
+  VALUES ('c4c6c3c8-9ca4-4d4c-bd42-fa11a39aac70','8efb0330-0e37-4c1b-9e5a-cd3ab53753e9','kuali.resultComponent.grade.letter','7f5a5093-a4e0-482b-bdf7-6f1110bb2ed3','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('1b59ded9-e7cf-4f57-8a4c-8f7bdbacbf4f','084fea22-5e9e-4f64-859d-cd7ed7aa08a2','kuali.creditType.credit.degree.1.0','Retired',0)
@@ -12904,11 +12904,11 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('47cf785a-3710-4c8f-b04d-08be772e0768','45cbf0fa-c114-4210-bd47-1772b9411648','kuali.resultComponent.grade.audit','4285a2fa-d6ec-486e-9909-11c3d73aa984','Draft',1)
 /
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('d34a773d-51c3-42e6-bd51-bb464b93d835','c13d016e-0620-4b37-87ed-db92a2955490','kuali.resultComponent.grade.audit','b3fc0e00-3bba-4077-b2e9-31a05ea29a56','Draft',1)
-/
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('7ed0e423-e06c-4937-a3e0-241609d8d595','ba08bf06-e00e-4015-9cda-82e27501c004','kuali.creditType.credit.degree.3.0','Retired',0)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
+  VALUES ('d34a773d-51c3-42e6-bd51-bb464b93d835','c13d016e-0620-4b37-87ed-db92a2955490','kuali.resultComponent.grade.audit','b3fc0e00-3bba-4077-b2e9-31a05ea29a56','Draft',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('5c3e5429-cbfc-49ff-8330-da5f5ce022e0','6c39cc79-ea7b-4580-a2df-8996a85bd10f','kuali.resultComponent.grade.audit','996511e7-ae79-4914-a0ad-fe345ba3e716','Draft',1)
@@ -12928,11 +12928,11 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('64e99673-68ca-42fc-b91b-0ab292a3c0d9','74dcda85-0fb0-40ce-8c1c-c2f82d78b352','kuali.resultComponent.grade.audit','89e9c063-6b2a-4ebc-9ff2-0500a177093d','Retired',1)
 /
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('c762b860-a291-43d9-9b4c-04541e513f47','83d81366-7830-41c9-8a9c-4653d7669fb1','kuali.resultComponent.grade.letter','b7ac5ee3-5a58-4e84-8224-2008a59a5bb7','Draft',2)
-/
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('cbfb3cc4-c7a5-404c-ab0d-115eca0bd37c','a8b953d9-4bbc-4f29-84a1-695976c612d7','kuali.creditType.credit.degree.2.0','Draft',0)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
+  VALUES ('c762b860-a291-43d9-9b4c-04541e513f47','83d81366-7830-41c9-8a9c-4653d7669fb1','kuali.resultComponent.grade.letter','b7ac5ee3-5a58-4e84-8224-2008a59a5bb7','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('a0e08d35-3f29-4028-9b76-c06278b0b7da','47fa8e68-21ec-465d-ac06-5868a1e19bc8','kuali.creditType.credit.degree.3.0','Draft',0)
@@ -12944,10 +12944,10 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('7685061d-116d-45cc-939c-0749286f7502','5c51659b-9694-4f8f-904e-2a027f7536c2','kuali.resultComponent.grade.letter','237ea64d-8c5d-49f0-93a2-f9b37feb7126','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('bc0e3dd3-43f4-4318-ad9e-32bd794ae854','9963dbfc-6080-463c-bbba-d2199c01141f','kuali.resultComponent.grade.audit','d383a36a-b4f7-4c42-bd4d-843bb1864827','Active',1)
+  VALUES ('dddf164e-6c6b-4fbc-9710-a58b735501c4','468cfdb5-5dd3-45c7-ba76-16d5220ebdd3','kuali.resultComponent.grade.letter','4e2f85fc-daf5-4fa1-a79b-a2233940dd05','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('dddf164e-6c6b-4fbc-9710-a58b735501c4','468cfdb5-5dd3-45c7-ba76-16d5220ebdd3','kuali.resultComponent.grade.letter','4e2f85fc-daf5-4fa1-a79b-a2233940dd05','Draft',2)
+  VALUES ('bc0e3dd3-43f4-4318-ad9e-32bd794ae854','9963dbfc-6080-463c-bbba-d2199c01141f','kuali.resultComponent.grade.audit','d383a36a-b4f7-4c42-bd4d-843bb1864827','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('c266f300-859a-4e34-8e2e-7b6179b916ea','c7c394db-79e1-4a73-8662-aaf0753e92c2','kuali.resultComponent.grade.letter','dea617c4-8334-4aaf-a2f3-10b877e8b8eb','Draft',2)
@@ -12989,13 +12989,13 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('64a86a50-2d70-437e-b864-fe0077db4700','920d47a5-306a-478f-9940-36b7b64bcc6c','kuali.resultComponent.grade.passFail','0018df85-8988-4fcc-8cf2-1d2f13fceac6','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('f43f9e72-c539-49d1-a881-14eafdb3c6dd','3d725948-bf4a-4810-8c3b-5855d77bd0b6','kuali.creditType.credit.degree.3.0','Active',0)
+  VALUES ('cec43283-0f85-4b65-8747-95880ff5e906','fcae3e2d-0fed-4332-bf2b-afb4fa0edf93','kuali.creditType.credit.degree.4.0','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('0d9ce9f3-1677-4ea4-b291-a890cff87f1a','426b2e3f-4b0d-4efc-a4d0-d0892e57e0e4','kuali.creditType.credit.degree.2.0','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('cec43283-0f85-4b65-8747-95880ff5e906','fcae3e2d-0fed-4332-bf2b-afb4fa0edf93','kuali.creditType.credit.degree.4.0','Active',0)
+  VALUES ('f43f9e72-c539-49d1-a881-14eafdb3c6dd','3d725948-bf4a-4810-8c3b-5855d77bd0b6','kuali.creditType.credit.degree.3.0','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('55503cad-665c-4869-86ed-0290c09dad3e','9fed67b9-7043-4488-9016-6463a51b26c0','kuali.resultComponent.grade.audit','962c0e96-b7c0-411c-b0ac-baa64fb86ed8','Active',1)
@@ -13040,10 +13040,10 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('c95fddf5-50c0-4470-9abc-5beb3a169c29','c8fd755e-838e-44bf-a648-b4647f46166d','kuali.resultComponent.grade.letter','9473da7d-4b03-45f2-97c2-10bfacf6e821','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('d31d4a25-116a-4b2b-a4a1-3ff1d06fb8c5','5a9b8fb0-e6c1-44b2-82be-9b8a1ad425a6','kuali.creditType.credit.degree.3.0','Draft',0)
+  VALUES ('2faf0a0b-5a4f-4211-bf34-22b67e6f97a0','f1e0a4f4-1c2f-4cad-9927-c52da3e638c5','kuali.creditType.credit.degree.3.0','Draft',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('2faf0a0b-5a4f-4211-bf34-22b67e6f97a0','f1e0a4f4-1c2f-4cad-9927-c52da3e638c5','kuali.creditType.credit.degree.3.0','Draft',0)
+  VALUES ('d31d4a25-116a-4b2b-a4a1-3ff1d06fb8c5','5a9b8fb0-e6c1-44b2-82be-9b8a1ad425a6','kuali.creditType.credit.degree.3.0','Draft',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('cdf1df98-76c1-483a-ada6-aee4c86766c9','20e928e1-622a-4e36-ad2d-e1261a5404ff','kuali.resultComponent.grade.passFail','b4101ea5-b6bb-465c-a91a-d348fa569e64','Active',1)
@@ -13052,10 +13052,10 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('a504319c-098a-4945-aade-6e4cf6dddfd5','8d4e7911-2d13-4d16-a9bb-10a69f94960d','kuali.resultComponent.grade.letter','97ceaf58-b9ed-4700-95c5-202219d8d718','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('04485a02-533c-4d3c-9e49-b4b30a02955b','92647160-7a61-4fa1-8adb-e23396fd26bf','kuali.creditType.credit.degree.3.0','Active',0)
+  VALUES ('5e79aac6-7966-4f29-b1ac-4876d6564387','c99ca1b6-d24c-4939-a538-2a5ce260dd96','kuali.creditType.credit.degree.3.0','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('5e79aac6-7966-4f29-b1ac-4876d6564387','c99ca1b6-d24c-4939-a538-2a5ce260dd96','kuali.creditType.credit.degree.3.0','Active',0)
+  VALUES ('04485a02-533c-4d3c-9e49-b4b30a02955b','92647160-7a61-4fa1-8adb-e23396fd26bf','kuali.creditType.credit.degree.3.0','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('3f35c9e4-222a-492d-9f64-76f165b83985','eb6c9357-791f-4e80-8762-706af75eeae3','kuali.resultComponent.grade.letter','582091ca-7125-4329-a8de-bd9be7face70','Draft',1)
@@ -13114,20 +13114,20 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('a4e2d24e-2c7c-45b3-8753-6464578254a5','6adff66d-6a8a-48ee-b3e8-5779dbdc2cd8','kuali.creditType.credit.degree.3.0','Draft',0)
 /
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
+  VALUES ('60ace04d-0b43-4129-ab9b-ca967404f849','1bb23942-7057-47db-a294-65c10418401b','kuali.creditType.credit.degree.3.0','Active',0)
+/
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('624dfdef-35be-4c82-94ad-4e6633f9f403','82a795c9-b608-467e-a399-929ba81d1d44','kuali.resultComponent.grade.satisfactory','d949c484-d1bc-4555-b2c4-4de37c9efc5d','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('60ace04d-0b43-4129-ab9b-ca967404f849','1bb23942-7057-47db-a294-65c10418401b','kuali.creditType.credit.degree.3.0','Active',0)
-/
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('b26b43ff-13d1-48a7-ae4b-551b38b1e405','ac2c6ee3-c656-4854-bebb-c6f772c6dae0','kuali.creditType.credit.degree.3.0','Active',0)
-/
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('446ab3f5-0b88-4fb2-ae2d-7ddc529cca2c','671b56f1-4e78-4829-bb52-73a3ad19dd2a','kuali.creditType.credit.degree.3.0','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('54669043-c54c-4093-9337-f4f1cc4e6f03','5c3b51ec-cdcd-44ce-ac82-1a9bd7c724f9','kuali.resultComponent.grade.letter','c7489889-4073-427b-a92a-ca44da6c9afe','Active',1)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
+  VALUES ('446ab3f5-0b88-4fb2-ae2d-7ddc529cca2c','671b56f1-4e78-4829-bb52-73a3ad19dd2a','kuali.creditType.credit.degree.3.0','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('1dd83d84-3d11-467a-8e5d-0a12e309b5b3','ee6f5671-c0f1-4c7a-93fc-f784a69dbe5d','kuali.creditType.credit.degree.3.0','Active',0)
@@ -13217,10 +13217,10 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('2bb10bcc-2b99-4739-bfa2-be25fbb0f996','2c50ca80-feef-46b0-8bac-8bb3e01e9aa8','kuali.resultComponent.grade.passFail','5c434be0-191c-4f04-9bc4-581beb822154','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('e52d3035-65de-430e-aa52-8b50f2b1cf29','4d3ac4f0-9592-4d73-ba61-14677926851f','kuali.resultComponent.grade.audit','3878aa2d-bf8d-4644-8062-5f8e672e5a9e','Draft',1)
+  VALUES ('d9a4a930-b005-480b-ba14-7e059ff3b8ca','024f915c-db97-4f0b-a4ec-870d8bb35a35','kuali.resultComponent.grade.audit','87de04e1-a582-4283-90b4-c1abd330f030','Draft',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('d9a4a930-b005-480b-ba14-7e059ff3b8ca','024f915c-db97-4f0b-a4ec-870d8bb35a35','kuali.resultComponent.grade.audit','87de04e1-a582-4283-90b4-c1abd330f030','Draft',1)
+  VALUES ('e52d3035-65de-430e-aa52-8b50f2b1cf29','4d3ac4f0-9592-4d73-ba61-14677926851f','kuali.resultComponent.grade.audit','3878aa2d-bf8d-4644-8062-5f8e672e5a9e','Draft',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('c8773a12-daf7-463b-b397-474308f193b2','5afe54ac-c845-46ec-b908-9d0ce2811c81','kuali.creditType.credit.degree.2.0','Active',0)
@@ -13241,22 +13241,22 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('04b52d0e-d33c-4236-9132-b1740d5dc28d','97441190-a1d2-4a45-8c14-f4ad5fcebbc4','kuali.resultComponent.grade.audit','806a95d8-b17e-4f96-8244-268b084c79ca','Draft',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
+  VALUES ('d8492a1b-7541-4f1c-b7b8-4851a44358ba','d40a871b-588c-46c1-8dce-4ca68668e590','kuali.resultComponent.grade.audit','428b3d5d-d070-4cdc-a1fe-442d422a2ec0','Active',0)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('5f5e7acd-1f8e-4c5d-8232-778094e85030','1323cc51-b064-4dad-ac6d-f324be07a420','kuali.resultComponent.grade.passFail','dbade89c-a909-4aac-adb6-e35177052dfa','Draft',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('999e11f9-76c9-478d-aaf9-d7a2fdf28fdd','10258bcc-e686-47ed-9fee-1d178cc9724c','kuali.resultComponent.grade.audit','35337d64-0e01-4ff3-9ed2-146699e03b77','Active',1)
 /
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('d8492a1b-7541-4f1c-b7b8-4851a44358ba','d40a871b-588c-46c1-8dce-4ca68668e590','kuali.resultComponent.grade.audit','428b3d5d-d070-4cdc-a1fe-442d422a2ec0','Active',0)
-/
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('c9a57f71-193a-4946-a8e3-fcf17de62c54','8abb88bf-52f5-412d-b26a-7d497c26b70d','kuali.creditType.credit.degree.1-3','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('935fa8d2-de35-4b72-ac2f-8ae6c716b0d4','8c944bbd-3fc1-4dc4-ab7e-874fbb964555','kuali.resultComponent.grade.letter','e4e81a46-1c1a-401c-832a-9fb78ae13b00','Active',1)
+  VALUES ('fbb5730e-24b3-48ea-bdce-d5ff01c1ea81','5e4a0b81-e63d-472d-be9c-e3ce19329776','kuali.resultComponent.grade.letter','42758bba-48d8-4e70-823d-f77bc92ec12a','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('fbb5730e-24b3-48ea-bdce-d5ff01c1ea81','5e4a0b81-e63d-472d-be9c-e3ce19329776','kuali.resultComponent.grade.letter','42758bba-48d8-4e70-823d-f77bc92ec12a','Active',0)
+  VALUES ('935fa8d2-de35-4b72-ac2f-8ae6c716b0d4','8c944bbd-3fc1-4dc4-ab7e-874fbb964555','kuali.resultComponent.grade.letter','e4e81a46-1c1a-401c-832a-9fb78ae13b00','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('139d00e4-45d7-42cb-aa5c-917e0769b60d','1c95d319-a868-4abd-8ebd-e0f87ca36a93','kuali.resultComponent.grade.audit','0a470bec-92fa-421f-8cab-3c4a69d171fd','Draft',2)
@@ -13270,20 +13270,20 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('3a5e8067-29d5-4b39-9a4e-beec5961ba08','f93b9f18-7213-4610-a15b-6bbc5a26727c','kuali.resultComponent.grade.audit','127954ff-55d3-4de2-9fa3-a0a3bf133d6f','Draft',1)
 /
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('60207ad3-b6c6-4d7c-afc1-89bc0e070995','6a122406-6a68-4204-8905-e4403d5f7047','kuali.resultComponent.grade.passFail','f030a6b6-1910-4042-aab6-1e286f03af24','Active',1)
-/
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('26fe42ab-cab7-43eb-b329-1348ad991329','f5dc64b8-48c3-4f57-b3e9-93e738dba4f8','kuali.creditType.credit.degree.3.0','Active',0)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
+  VALUES ('60207ad3-b6c6-4d7c-afc1-89bc0e070995','6a122406-6a68-4204-8905-e4403d5f7047','kuali.resultComponent.grade.passFail','f030a6b6-1910-4042-aab6-1e286f03af24','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('645896af-f635-438d-99b0-d0d0cb980222','3c768226-967a-4055-8c84-57481c719e0d','kuali.resultComponent.grade.passFail','5619cef3-c025-4a3a-ae8f-00493fa44a48','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('3e6f1d53-0a02-4268-bd48-3cbb0aaaba87','fb3d8980-9f71-4361-93fa-9408674e1d86','kuali.resultComponent.grade.audit','ba3721fe-5511-4a4d-a296-bb5d7727dc10','Active',3)
+  VALUES ('9895a433-ea63-40f2-b3ef-6586ed32e749','23e63c29-31e6-4514-aa16-0e5d57b64449','kuali.resultComponent.grade.audit','16b3de0e-aec2-487d-adca-560a67478911','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('9895a433-ea63-40f2-b3ef-6586ed32e749','23e63c29-31e6-4514-aa16-0e5d57b64449','kuali.resultComponent.grade.audit','16b3de0e-aec2-487d-adca-560a67478911','Active',1)
+  VALUES ('3e6f1d53-0a02-4268-bd48-3cbb0aaaba87','fb3d8980-9f71-4361-93fa-9408674e1d86','kuali.resultComponent.grade.audit','ba3721fe-5511-4a4d-a296-bb5d7727dc10','Active',3)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('24b607ce-9d78-4bec-beb1-6ed79725c950','c26e20d7-5029-4821-94ce-d49b5864acb4','kuali.resultComponent.grade.letter','e15d1da7-ce53-4f6b-ac68-4a57e8ccc333','Active',0)
@@ -13297,11 +13297,11 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('700a819b-2dd4-4455-8d4b-8d8c785f07d5','6dbaf08b-8c2f-41c4-8c82-310cc6af9636','kuali.resultComponent.grade.audit','8d4af938-4239-4bce-8ac5-6a5e35562b10','Active',2)
 /
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('8a9478a6-999a-4ce5-9df1-d460b95b05fd','ce23c0f9-ce5b-4d13-be20-7df8a2464dc9','kuali.creditType.credit.degree.2.0','Draft',0)
-/
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('05e1c46c-36ca-47e1-b629-8bb6764170e7','4e293368-22dc-4988-98df-0c6bf547000b','kuali.resultComponent.grade.letter','449ec2f4-508c-43d9-9ea9-927a1f190b8d','Active',0)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
+  VALUES ('8a9478a6-999a-4ce5-9df1-d460b95b05fd','ce23c0f9-ce5b-4d13-be20-7df8a2464dc9','kuali.creditType.credit.degree.2.0','Draft',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('c1ad4571-0c4b-4d8d-b918-bb5357deb195','41d0328f-cc2f-4236-8a5d-0907fa1217cb','kuali.resultComponent.grade.letter','7a32c79a-0361-469d-8011-e88936b5b3ec','Draft',5)
@@ -13324,11 +13324,11 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('31a0616c-42f1-4746-8ee4-339df3a7db9f','be89a920-1a7c-409b-9713-ad39ccbfa74e','kuali.resultComponent.grade.letter','22e31f52-0190-4ec9-8372-00651d7e14ae','Active',0)
 /
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('23f7de69-174b-405a-8006-ec78363f2270','e4d00ab9-f457-41dc-9afc-387ede22582b','kuali.creditType.credit.degree.1-8','Active',0)
-/
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('8a2e5843-8eaf-479d-b903-a7abfd024985','1b05fa11-1203-41a7-824b-7ce655e3d8f3','kuali.resultComponent.grade.audit','98d06156-9fe3-4950-b360-b2d694e80fad','Active',1)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
+  VALUES ('23f7de69-174b-405a-8006-ec78363f2270','e4d00ab9-f457-41dc-9afc-387ede22582b','kuali.creditType.credit.degree.1-8','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('5335d88b-6444-4d24-9266-5c707738c6d1','3e9deabd-9668-4d02-be71-68d0e5fe52c7','kuali.resultComponent.grade.letter','d5009f5a-e1d3-4213-a65f-41122bcaa77e','Active',1)
@@ -13348,11 +13348,11 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('005812ef-ce24-4f8d-8d98-e2f8456447c8','5ac62cb1-9b31-48b8-b937-754af55db357','kuali.creditType.credit.degree.1.0','Active',0)
 /
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('96802e08-5026-40aa-b12e-af4042afdd73','f8b8cf4f-397e-46be-835a-c06e2f162b35','kuali.creditType.credit.degree.3.0','Draft',0)
-/
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('9c5984a1-c403-492c-8894-870b4578e99a','464a3db0-d1d3-4eda-9f2d-9820e8834418','kuali.resultComponent.grade.audit','03669096-f463-42f2-bd89-8a33e66e537c','Active',1)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
+  VALUES ('96802e08-5026-40aa-b12e-af4042afdd73','f8b8cf4f-397e-46be-835a-c06e2f162b35','kuali.creditType.credit.degree.3.0','Draft',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('12939098-d39b-4e54-ae9a-51f920dba849','15b478cb-acb7-4449-b93b-27843e01d9c8','kuali.creditType.credit.degree.3.0','Active',0)
@@ -13376,10 +13376,10 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('0ebb5d70-ab71-4ad2-8e1e-3cd38cd86d1d','cecb2853-23f6-45d2-8a4b-42f8b29a72e1','kuali.resultComponent.grade.letter','949bc5c0-0877-4294-8923-b93c08b9b015','Draft',4)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('f7c51352-89a9-474b-bcd4-0e9233549eb7','5781e07b-3d88-42ef-aa4f-b17ccd024076','kuali.resultComponent.grade.letter','15eb2e9d-daee-49c8-9164-8a12998da5d9','Active',1)
+  VALUES ('694f47cc-5a35-421e-994c-690697edf27d','027c37e9-c51f-4f4e-8c3c-b7836bc0d8cd','kuali.resultComponent.grade.letter','cabe36a8-c5e7-4f8a-b34a-3d998c3f0d7a','Draft',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('694f47cc-5a35-421e-994c-690697edf27d','027c37e9-c51f-4f4e-8c3c-b7836bc0d8cd','kuali.resultComponent.grade.letter','cabe36a8-c5e7-4f8a-b34a-3d998c3f0d7a','Draft',1)
+  VALUES ('f7c51352-89a9-474b-bcd4-0e9233549eb7','5781e07b-3d88-42ef-aa4f-b17ccd024076','kuali.resultComponent.grade.letter','15eb2e9d-daee-49c8-9164-8a12998da5d9','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('4ad7fbb1-33d9-4089-a218-2ef819532679','ce219741-2924-4acf-ab9d-c1f9f288cac5','kuali.resultComponent.grade.audit','0506ed15-92a4-47b0-8356-cc9ef411123d','Active',1)
@@ -13421,10 +13421,10 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('74362c5d-4e31-41e0-9984-132a1ccdb142','c2de954f-2015-4b23-8dd0-3430b2f496bd','kuali.resultComponent.grade.letter','a13ac7c0-5acf-4775-b15f-f869b0ee9273','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('c8b9f18a-f3c8-46b1-a654-ef3dbc4d5e44','ab060820-c35f-4ccb-a82d-8d2854ca15b1','kuali.resultComponent.grade.passFail','83558f2c-95d2-4945-b7e2-b93b9050129e','Draft',2)
+  VALUES ('ef921a89-4fa8-4c73-97ea-d16b198ef3a8','61b5c287-ec51-466b-8b2c-85b2b9de483f','kuali.resultComponent.grade.passFail','daa7a3e3-b43b-462b-8b02-abe8dca9654b','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('ef921a89-4fa8-4c73-97ea-d16b198ef3a8','61b5c287-ec51-466b-8b2c-85b2b9de483f','kuali.resultComponent.grade.passFail','daa7a3e3-b43b-462b-8b02-abe8dca9654b','Draft',2)
+  VALUES ('c8b9f18a-f3c8-46b1-a654-ef3dbc4d5e44','ab060820-c35f-4ccb-a82d-8d2854ca15b1','kuali.resultComponent.grade.passFail','83558f2c-95d2-4945-b7e2-b93b9050129e','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('b6b9f2e0-9372-4889-9c96-5fcbc362db8b','a81a0e8e-b7e3-4423-8c09-addd0d886a82','kuali.resultComponent.grade.letter','ae50107a-ec23-457d-b890-cfa644ef6954','Draft',2)
@@ -13454,10 +13454,10 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('98d2086b-726c-4a41-9747-25b5ea58afa5','b3d6aad0-b183-47f6-b2c1-a0ae24c53604','kuali.creditType.credit.degree.3.0','Draft',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('faff816f-fe59-4a5e-950e-610f7447decb','b21e45c7-d640-40b5-8663-19179b373c80','kuali.resultComponent.grade.letter','8476a3a2-5a8e-4d50-be68-8c79d761be7a','Active',1)
+  VALUES ('f5d6d6aa-9d69-4ad3-93cb-6fb485ade5f1','85f5c614-c1fb-4c15-89d4-bd6baf3ad7a5','kuali.resultComponent.grade.letter','77dc85df-225f-4217-8db2-e93d557b0778','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('f5d6d6aa-9d69-4ad3-93cb-6fb485ade5f1','85f5c614-c1fb-4c15-89d4-bd6baf3ad7a5','kuali.resultComponent.grade.letter','77dc85df-225f-4217-8db2-e93d557b0778','Active',0)
+  VALUES ('faff816f-fe59-4a5e-950e-610f7447decb','b21e45c7-d640-40b5-8663-19179b373c80','kuali.resultComponent.grade.letter','8476a3a2-5a8e-4d50-be68-8c79d761be7a','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('6607c227-edab-4b15-8659-d90926a57b07','baa73b7f-1d68-4658-9807-50f882e9b206','kuali.resultComponent.grade.audit','4d107159-4b75-4985-8684-e345f90dc6f3','Active',1)
@@ -13502,16 +13502,16 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('29c89528-7dff-42b7-8c24-9cb1bcec529e','65c222fc-23e4-429b-9d82-99e2e2de789c','kuali.resultComponent.grade.letter','d932fd8b-e7c7-46c2-99a7-1287fa56c988','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('1d21e9cd-0ded-4e6a-9c5c-693069b637a6','e3b30e35-6ed4-4a88-b2ab-9d7d9d60bb12','kuali.resultComponent.grade.letter','74849a45-cb38-462d-b40d-3652c7525bed','Active',1)
-/
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('0812cf52-8799-4aab-8193-8773f337c045','ce231d06-4029-4c6c-bbc8-1b6d6926ba1c','kuali.resultComponent.grade.audit','61ff9204-da64-4ab9-b6fe-e945f89ef760','Active',1)
-/
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('98089758-5053-4d24-aff4-f0fb3c1562d3','f7f03d89-12c8-4686-8dcb-19af0af20703','kuali.resultComponent.grade.audit','18d22aa6-1887-45da-9635-14060aca0bb1','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('205bd2df-84df-4616-836c-ac5dfce5e827','ece58e9a-8f03-4206-9d6a-8e1af231f69b','kuali.creditType.credit.degree.3.0','Active',0)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
+  VALUES ('1d21e9cd-0ded-4e6a-9c5c-693069b637a6','e3b30e35-6ed4-4a88-b2ab-9d7d9d60bb12','kuali.resultComponent.grade.letter','74849a45-cb38-462d-b40d-3652c7525bed','Active',1)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
+  VALUES ('0812cf52-8799-4aab-8193-8773f337c045','ce231d06-4029-4c6c-bbc8-1b6d6926ba1c','kuali.resultComponent.grade.audit','61ff9204-da64-4ab9-b6fe-e945f89ef760','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('1108813c-1abc-4cc3-b989-b81bed345ee8','2f6ffe00-a9da-427c-b7c4-97b3268cd01e','kuali.creditType.credit.degree.3.0','Active',0)
@@ -13577,10 +13577,10 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('c6e08544-a421-4625-a806-a0febc4ebae6','539ec0aa-3dc6-45cc-9da2-7be189cbabf6','kuali.resultComponent.grade.letter','1859c5cd-80b5-4108-89e7-15af8cae8528','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('6bb9f782-a24e-44fb-8105-116f25ed7886','03985a5b-4191-417c-a65a-b94c37a2c7f4','kuali.resultComponent.grade.letter','eabc2609-b847-44b4-80ef-cfb109c209e0','Retired',1)
+  VALUES ('808513b3-858b-479f-ac69-039c33014df1','cc6dbb77-a7d8-4925-b542-1fa12a9cc6f9','kuali.resultComponent.grade.letter','4dcf6be2-5017-4779-b845-928c2f9da1af','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('808513b3-858b-479f-ac69-039c33014df1','cc6dbb77-a7d8-4925-b542-1fa12a9cc6f9','kuali.resultComponent.grade.letter','4dcf6be2-5017-4779-b845-928c2f9da1af','Draft',2)
+  VALUES ('6bb9f782-a24e-44fb-8105-116f25ed7886','03985a5b-4191-417c-a65a-b94c37a2c7f4','kuali.resultComponent.grade.letter','eabc2609-b847-44b4-80ef-cfb109c209e0','Retired',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('8e2e7265-37c5-4474-9446-f825a3eff9ae','c5303838-b79e-40e9-92fe-229be5adac84','kuali.resultComponent.grade.audit','f18e6ca3-32a0-4b23-a52f-74be8d0b2b99','Active',1)
@@ -13589,10 +13589,10 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('819d9dbd-d4a1-49d0-a06d-84227dac934b','8322e4c8-be8f-46bd-804b-683a77977308','kuali.resultComponent.grade.audit','0cc5d1fa-b5ec-4f18-ab8c-954b810b7366','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('c13f9cb6-5161-4261-ac02-82164545956d','ac2f5ae5-9c6d-4f5f-95ce-665dbe4b8a97','kuali.resultComponent.grade.passFail','f5cfd541-70af-4b74-aa07-32ee65880c91','Active',0)
+  VALUES ('75e512d2-4beb-4f0a-b079-3026bfde9ebf','5b6f50e0-f609-4535-b839-e6812ef5d529','kuali.resultComponent.grade.letter','7a2483c4-0859-40c2-b982-2774c62bca82','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('75e512d2-4beb-4f0a-b079-3026bfde9ebf','5b6f50e0-f609-4535-b839-e6812ef5d529','kuali.resultComponent.grade.letter','7a2483c4-0859-40c2-b982-2774c62bca82','Active',0)
+  VALUES ('c13f9cb6-5161-4261-ac02-82164545956d','ac2f5ae5-9c6d-4f5f-95ce-665dbe4b8a97','kuali.resultComponent.grade.passFail','f5cfd541-70af-4b74-aa07-32ee65880c91','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('6b72be9a-2fb9-42e0-a591-757981722873','0b0f01c4-e529-4df3-a5df-b6503ac6e97f','kuali.resultComponent.grade.audit','8e97e3ca-a2b3-409f-b02f-2c1ff1ed120e','Draft',1)
@@ -13627,11 +13627,11 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('85ed8583-2b88-4a98-8e52-98732bb3c34d','09e2744a-431a-449d-9fa6-266919e34386','kuali.creditType.credit.degree.3.0','Active',0)
 /
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('f291f82e-d242-4c51-9748-632eeee505a1','4093da51-6ad5-45a1-bdee-f219b084195f','kuali.resultComponent.grade.passFail','e84bd581-79b4-44b7-bfd4-bb8ce0dc7dd5','Active',0)
-/
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('b6abfb91-ad52-4782-9529-db0b671599db','be83c59e-6f64-45da-ade0-3936297e7543','kuali.creditType.credit.degree.3.0','Draft',0)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
+  VALUES ('f291f82e-d242-4c51-9748-632eeee505a1','4093da51-6ad5-45a1-bdee-f219b084195f','kuali.resultComponent.grade.passFail','e84bd581-79b4-44b7-bfd4-bb8ce0dc7dd5','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('fb742f1d-9553-4c46-b1b3-a552ae13226e','7cd88546-b716-4276-9b3d-d7419c301b86','kuali.creditType.credit.degree.3.0','Draft',0)
@@ -13640,10 +13640,10 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('e186cd84-d712-4478-81d4-7d89309620d9','d1c57daf-7de5-4fae-a1f4-76fe090d4d94','kuali.resultComponent.grade.letter','abc197c3-8930-427e-8cb5-a0ed89462433','Draft',3)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('62ce9269-fafb-452f-a43a-783c3bd31f24','01a1883e-d2d0-437b-b98b-796a047e30c8','kuali.resultComponent.grade.passFail','db1a7127-deb2-498c-b361-d3227315376e','Active',1)
+  VALUES ('931c9605-39a8-4e6e-aae7-f581bfa072bf','b0abfbdd-b2d9-4e65-b140-169bb7f9372d','kuali.resultComponent.grade.letter','07c2adfe-9c01-42b0-9e56-a11182a77e99','Retired',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('931c9605-39a8-4e6e-aae7-f581bfa072bf','b0abfbdd-b2d9-4e65-b140-169bb7f9372d','kuali.resultComponent.grade.letter','07c2adfe-9c01-42b0-9e56-a11182a77e99','Retired',1)
+  VALUES ('62ce9269-fafb-452f-a43a-783c3bd31f24','01a1883e-d2d0-437b-b98b-796a047e30c8','kuali.resultComponent.grade.passFail','db1a7127-deb2-498c-b361-d3227315376e','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('e693091d-7d5f-4c32-a35a-5bacda06ac4f','ef36b3bc-7590-4b5f-829b-f3f6c5f86c9c','kuali.resultComponent.grade.letter','986943bd-d826-4abe-a295-6f793c168e5b','Active',0)
@@ -13673,19 +13673,19 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('76ab35e5-5523-4aad-bda7-596f748b5348','bf6c4239-9d52-466a-955c-0200a0135892','kuali.creditType.credit.degree.3.0','Draft',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('8415e833-263f-4aa4-a8aa-19ed3c45323b','0e6fedf9-9adb-452e-9cfa-be955d3a457b','kuali.resultComponent.grade.passFail','21b8d8cb-6ff2-4dca-bdc9-c5c7bc56a59a','Active',0)
+  VALUES ('27cf1c02-4487-4903-9338-895a3fdd346d','8a7a5c06-df28-4590-9d08-bf37072dee3b','kuali.resultComponent.grade.letter','b2e6a696-674c-4a8c-bc30-a7a40b55d4c7','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('27cf1c02-4487-4903-9338-895a3fdd346d','8a7a5c06-df28-4590-9d08-bf37072dee3b','kuali.resultComponent.grade.letter','b2e6a696-674c-4a8c-bc30-a7a40b55d4c7','Active',0)
+  VALUES ('8415e833-263f-4aa4-a8aa-19ed3c45323b','0e6fedf9-9adb-452e-9cfa-be955d3a457b','kuali.resultComponent.grade.passFail','21b8d8cb-6ff2-4dca-bdc9-c5c7bc56a59a','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('2af470a9-e219-49fa-abed-c322e17a2efb','2e865c74-49a7-4bc4-8627-9785a4cc4c81','kuali.resultComponent.grade.letter','984a0cd5-d870-4cb2-91da-21aa30ad9ed5','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('08e99826-78d6-45d7-9bf6-26c5469dccc2','b4fe371a-a1ab-443e-8b76-f7463f138349','kuali.resultComponent.grade.passFail','a764a1a4-e2f8-43df-ada6-717a867411de','Retired',1)
+  VALUES ('2a4af364-1815-4336-b619-e3bcbf1715da','8c537c8b-170b-4142-81fc-d9e2695b22f7','kuali.resultComponent.grade.letter','db683368-31cf-4318-93d8-88d7e2517806','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('2a4af364-1815-4336-b619-e3bcbf1715da','8c537c8b-170b-4142-81fc-d9e2695b22f7','kuali.resultComponent.grade.letter','db683368-31cf-4318-93d8-88d7e2517806','Active',0)
+  VALUES ('08e99826-78d6-45d7-9bf6-26c5469dccc2','b4fe371a-a1ab-443e-8b76-f7463f138349','kuali.resultComponent.grade.passFail','a764a1a4-e2f8-43df-ada6-717a867411de','Retired',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('36b77f60-b468-4379-a99e-fc441ebcaf0b','05feabe5-72d7-4141-8d8a-351ac63486d5','kuali.resultComponent.grade.letter','0376f9c7-150d-4843-be8e-0c003ebf84e4','Draft',1)
@@ -13718,13 +13718,13 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('660ee772-b768-4df2-a36b-fb4f3418aec9','469add19-fd70-4815-a9ae-b7847b5778c3','kuali.creditType.credit.degree.3.0','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('0fb37d93-3d34-46b5-8a6c-a6071efd6994','84863c2d-9ae0-4365-87cd-7c4da7e5683f','kuali.resultComponent.grade.letter','37b62584-f1e1-4bdf-9887-b81d39909244','Draft',1)
+  VALUES ('8d10a92e-9998-47ef-a3a2-ea1aa4bd400e','bda847eb-41e9-4bfb-bd6d-b8cebd3ccf14','kuali.resultComponent.grade.letter','ebbc91f5-f794-4b7f-a936-0e9177f496d4','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('65e69e95-1dc9-4f57-9c47-b05c7b693c99','bbaec33b-bdf3-44d9-8e00-6998563d6b7b','kuali.resultComponent.grade.letter','f259d017-0445-43cc-bf93-7432cc7d9aac','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('8d10a92e-9998-47ef-a3a2-ea1aa4bd400e','bda847eb-41e9-4bfb-bd6d-b8cebd3ccf14','kuali.resultComponent.grade.letter','ebbc91f5-f794-4b7f-a936-0e9177f496d4','Active',0)
+  VALUES ('0fb37d93-3d34-46b5-8a6c-a6071efd6994','84863c2d-9ae0-4365-87cd-7c4da7e5683f','kuali.resultComponent.grade.letter','37b62584-f1e1-4bdf-9887-b81d39909244','Draft',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('ada030d6-0027-4c31-a9d1-b64d7071a451','d63c722e-e6b7-4927-89cb-934a1b0d0e29','kuali.resultComponent.grade.audit','a51c765e-2e79-44e5-a9d9-e15c8cb7dec9','Active',1)
@@ -13787,10 +13787,10 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('af2051e1-6b2f-44ae-bf1d-3d18b62e9c80','101713c0-f95b-40ba-9078-b64d97d3baec','kuali.resultComponent.grade.audit','cb9f4a69-b10a-4769-aa63-7610bd4d278e','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('8732fc5e-45d0-4511-b27d-cbbedc80ae41','e65a4300-93c5-4265-918f-d623b1a20e9e','kuali.resultComponent.grade.audit','81ae0a28-de4b-48eb-8ef0-d0043aea4557','Draft',2)
+  VALUES ('b3cd169b-f2d3-41a7-b6ce-e7d26d41761b','e2a597f5-f83a-4543-85b4-9cfe85ae8a81','kuali.resultComponent.grade.satisfactory','9a01f53b-5aeb-4fcd-a845-ab6684835aa0','Active',3)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('b3cd169b-f2d3-41a7-b6ce-e7d26d41761b','e2a597f5-f83a-4543-85b4-9cfe85ae8a81','kuali.resultComponent.grade.satisfactory','9a01f53b-5aeb-4fcd-a845-ab6684835aa0','Active',3)
+  VALUES ('8732fc5e-45d0-4511-b27d-cbbedc80ae41','e65a4300-93c5-4265-918f-d623b1a20e9e','kuali.resultComponent.grade.audit','81ae0a28-de4b-48eb-8ef0-d0043aea4557','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('3edc25e5-e552-4936-a918-a127580a67ac','ec041a1b-f03e-4b59-b0bf-29b772d9182a','kuali.resultComponent.grade.audit','d44b3f07-123a-4f6f-a8b6-65609a4eb6c7','Active',1)
@@ -13801,11 +13801,11 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('a6909a2d-07ce-4500-bf57-df7255babb61','f53fe987-d648-4f85-9827-42efc25dc2c2','kuali.resultComponent.grade.passFail','be58adee-8865-4930-a6e9-3d88ceb13821','Draft',1)
 /
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('5551dc2e-0ab9-4029-bf6f-d662497bfb50','f0d254c4-3cda-431e-a05d-e94e9b16d6b4','kuali.creditType.credit.degree.3.0','Draft',0)
-/
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('9c7b9dbc-1824-4337-ad93-c1f137feb111','dc121a68-ae74-4fcd-9e2b-8dc010917230','kuali.resultComponent.grade.letter','33c85b17-f511-48f3-a833-759f42343ada','Draft',2)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
+  VALUES ('5551dc2e-0ab9-4029-bf6f-d662497bfb50','f0d254c4-3cda-431e-a05d-e94e9b16d6b4','kuali.creditType.credit.degree.3.0','Draft',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('3cda93cd-0613-460e-b4da-1beb0f55a76f','933e9dbb-8548-4121-9ae3-3117154e6556','kuali.creditType.credit.degree.3.0','Draft',0)
@@ -13856,10 +13856,10 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('46513ba2-69a2-4a45-a78e-ce41556e46bc','e7f39e90-c4a8-4cfe-9104-421ea6e148ca','kuali.creditType.credit.degree.4.0','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('bd21e8fb-9757-4a25-9c32-c02e37535262','e5cfda90-ef0c-49f4-9a24-772f434118d7','kuali.resultComponent.grade.passFail','05163c75-545c-45c7-bfe0-9b3f7c16a9fc','Retired',1)
+  VALUES ('6ffc1c23-e637-482e-95f6-4f2e93dad0b2','a3ef156e-374a-4e71-8a84-c97e31b2f766','kuali.resultComponent.grade.letter','eb25a30e-4b5e-4d91-8f30-30cd16dc2607','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('6ffc1c23-e637-482e-95f6-4f2e93dad0b2','a3ef156e-374a-4e71-8a84-c97e31b2f766','kuali.resultComponent.grade.letter','eb25a30e-4b5e-4d91-8f30-30cd16dc2607','Active',1)
+  VALUES ('bd21e8fb-9757-4a25-9c32-c02e37535262','e5cfda90-ef0c-49f4-9a24-772f434118d7','kuali.resultComponent.grade.passFail','05163c75-545c-45c7-bfe0-9b3f7c16a9fc','Retired',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('ec07f6cb-ef04-42c0-a253-d63d60f84a53','578dc31d-423c-4508-b560-b2effc4aba94','kuali.resultComponent.grade.audit','dc5fa24c-40b6-445b-906a-4bc86772f256','Draft',1)
@@ -13907,10 +13907,10 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('4bde834f-19ba-450a-8ef5-7a76cac7f8cc','961632f0-9ab2-4d71-8458-c2b68bd214e2','kuali.resultComponent.grade.letter','0744a85d-7a65-40d8-931d-8a8c7e25512f','Draft',3)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('939e0036-eaf2-43ae-8b03-217f04296f17','50fcb889-213d-4d38-b470-a367bdfe4caa','kuali.resultComponent.grade.letter','448c68d2-c36d-4770-8f4b-842a1f861c40','Draft',2)
+  VALUES ('e2a88168-5276-44fb-bb7f-041c9e24c610','f51ede2c-2e3e-42d5-9c61-041df8579794','kuali.resultComponent.grade.letter','92ea0e15-36b7-4f36-bb12-a0f4ee5148b9','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('e2a88168-5276-44fb-bb7f-041c9e24c610','f51ede2c-2e3e-42d5-9c61-041df8579794','kuali.resultComponent.grade.letter','92ea0e15-36b7-4f36-bb12-a0f4ee5148b9','Active',1)
+  VALUES ('939e0036-eaf2-43ae-8b03-217f04296f17','50fcb889-213d-4d38-b470-a367bdfe4caa','kuali.resultComponent.grade.letter','448c68d2-c36d-4770-8f4b-842a1f861c40','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('467b4211-68d5-4475-936d-433fbd98bf7a','4c810b5b-77d9-42cd-a897-5032ab3c8f3d','kuali.creditType.credit.degree.3.0','Draft',0)
@@ -13919,10 +13919,10 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('a22fba7d-63f5-4543-a66d-e4c1025e096e','a5ff12c7-c6d1-4f2d-8e2c-7f66317364d8','kuali.resultComponent.grade.audit','28567b34-2365-44f6-9c95-f111000eee5d','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('dd59bb31-c1c9-4134-9991-68a814dcdc5f','a5f56a97-eaa8-4c6c-a215-d9f1c6dc6b5a','kuali.resultComponent.grade.passFail','17d542f6-5c0e-416f-9d30-b8bc2e08b7e1','Draft',2)
+  VALUES ('587eddf6-1695-40ca-a0b3-b96d80b4d83f','105a4faa-6d65-40de-9f87-9da4fbba36dd','kuali.resultComponent.grade.letter','35984990-3c0c-421a-8ec7-18024ddbedee','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('587eddf6-1695-40ca-a0b3-b96d80b4d83f','105a4faa-6d65-40de-9f87-9da4fbba36dd','kuali.resultComponent.grade.letter','35984990-3c0c-421a-8ec7-18024ddbedee','Active',1)
+  VALUES ('dd59bb31-c1c9-4134-9991-68a814dcdc5f','a5f56a97-eaa8-4c6c-a215-d9f1c6dc6b5a','kuali.resultComponent.grade.passFail','17d542f6-5c0e-416f-9d30-b8bc2e08b7e1','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('c06c8c51-7e06-4c24-ba1f-e0cd3f7b85ca','c8620439-c29d-4adb-9f68-2ea789a728cb','kuali.resultComponent.grade.letter','cde85749-fead-4901-b6a4-e0b4da51d639','Active',0)
@@ -13936,11 +13936,11 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('2ff17e1b-5f40-494a-bd07-d05ae79dd7c9','7bdf6bd4-c197-4f9b-9463-4f0be02771e0','kuali.creditType.credit.degree.3.0','Active',0)
 /
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('ec09fcb9-540e-4881-96e3-737fdd2ecc01','479d7cec-df50-4224-bf52-78caefab90f6','kuali.creditType.credit.degree.3.0','Active',0)
-/
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('5f0e74b9-0323-470a-a902-9e7315b7aa3b','491d3561-98ea-4193-af36-296c75ce6044','kuali.resultComponent.grade.letter','ce8d79d9-8f83-4eca-8df6-4c3676332360','Active',1)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
+  VALUES ('ec09fcb9-540e-4881-96e3-737fdd2ecc01','479d7cec-df50-4224-bf52-78caefab90f6','kuali.creditType.credit.degree.3.0','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('a04bd51e-abae-4608-bcb4-8c4aed5f038d','e2f283a7-cbad-4aa8-a8d1-c61d6a86bf77','kuali.resultComponent.grade.passFail','68190481-6095-4524-b398-2730b44e0c52','Active',1)
@@ -13979,19 +13979,19 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('0c2c0424-1b69-4503-9aab-2cba86646302','e6a6540e-4438-4047-abda-707729f06660','kuali.resultComponent.grade.audit','e2134852-d99e-41e0-9ab2-54b13db328b0','Active',3)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('40adea4f-1355-4edf-ad79-d581f0db984c','acb47d97-3203-4a8c-8d42-121a1f39c96d','kuali.creditType.credit.degree.3.0-6.0','Superseded',0)
+  VALUES ('f3c80248-d462-4548-8c6b-b452d17cfa0d','40a17669-44db-43b1-a103-2b4d6a607205','kuali.creditType.credit.degree.3.0','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('f3c80248-d462-4548-8c6b-b452d17cfa0d','40a17669-44db-43b1-a103-2b4d6a607205','kuali.creditType.credit.degree.3.0','Active',0)
+  VALUES ('40adea4f-1355-4edf-ad79-d581f0db984c','acb47d97-3203-4a8c-8d42-121a1f39c96d','kuali.creditType.credit.degree.3.0-6.0','Superseded',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('80920709-b454-4096-8193-31bd5301089a','0cc9769c-10cb-43b5-bbc8-c90264cc21c4','kuali.creditType.credit.degree.3.0','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('4f07ae59-48d9-4cfe-85af-9ae39e282340','e6804cff-5a80-4673-b767-4cc8fbd1302d','kuali.resultComponent.grade.letter','141a5297-a53a-401e-821b-858508752d51','Draft',3)
+  VALUES ('c6584733-38e1-4f10-acef-4419ca88de4d','b8847a9e-8a69-47a1-9b9e-07006f73da6a','kuali.resultComponent.grade.passFail','a103c557-6b47-4947-9cce-ae56aa91819c','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('c6584733-38e1-4f10-acef-4419ca88de4d','b8847a9e-8a69-47a1-9b9e-07006f73da6a','kuali.resultComponent.grade.passFail','a103c557-6b47-4947-9cce-ae56aa91819c','Draft',2)
+  VALUES ('4f07ae59-48d9-4cfe-85af-9ae39e282340','e6804cff-5a80-4673-b767-4cc8fbd1302d','kuali.resultComponent.grade.letter','141a5297-a53a-401e-821b-858508752d51','Draft',3)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('135fede5-a603-4f75-b055-b241ce75743d','d5ab07b9-f65b-4bc2-8eff-eb1756398f15','kuali.resultComponent.grade.letter','23b4c1e2-4479-49f8-af1c-6d7cebcc1214','Retired',1)
@@ -14033,10 +14033,10 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('e27d32da-11e6-4f00-a07a-8e73a1c576fa','9c428a0b-b126-4735-a6ac-2576f8522ae2','kuali.creditType.credit.degree.3.0','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('29f0836d-9a11-4437-9418-56ff5f3544a7','e4a4fa1c-5579-4afa-b0d4-83a0b9e7b63b','kuali.resultComponent.grade.letter','2dd754c1-701e-45e6-9576-ce539f9900ea','Draft',1)
+  VALUES ('05c8ec9e-3393-4186-8848-04d5a5d46011','f0939495-7835-4bbe-88f2-af9d225c0a50','kuali.resultComponent.grade.audit','47d2a6ce-c07f-45be-8038-8db76798e3ae','Retired',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('05c8ec9e-3393-4186-8848-04d5a5d46011','f0939495-7835-4bbe-88f2-af9d225c0a50','kuali.resultComponent.grade.audit','47d2a6ce-c07f-45be-8038-8db76798e3ae','Retired',1)
+  VALUES ('29f0836d-9a11-4437-9418-56ff5f3544a7','e4a4fa1c-5579-4afa-b0d4-83a0b9e7b63b','kuali.resultComponent.grade.letter','2dd754c1-701e-45e6-9576-ce539f9900ea','Draft',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('dcf97fb9-2b48-41c6-be25-48033e5124f8','ba9cdb18-7b36-4374-bbfe-4892aaf56fc4','kuali.creditType.credit.degree.3.0','Draft',0)
@@ -14045,16 +14045,16 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('3c2795b8-da1f-42ca-9a2f-84b5c8625624','3a1bcb69-dbe7-4350-a21d-b7ade1aaa2a6','kuali.creditType.credit.degree.2.0','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('3596a36b-c9dc-4b09-8d8c-805d1cb1f910','215ed110-eb06-41ee-9ddc-f63c27c87c37','kuali.resultComponent.grade.audit','18596b56-ad85-46cd-a7a4-d53f194e4bf4','Active',0)
-/
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('0cbbd34d-9fb0-4d6d-b24f-f22a643c59f3','f20eff61-c9f8-494d-8b3f-7ff63d81f24a','kuali.resultComponent.grade.letter','472de6b6-2ea6-41fd-a266-c7490a111e66','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('c4418a6c-08ea-4ff0-bf0a-76216ce275b6','b62fb651-4153-4ea3-accb-1d9579bdd701','kuali.resultComponent.grade.audit','61cf6ffd-029b-49c4-893a-cf8b204b5631','Draft',1)
+  VALUES ('3596a36b-c9dc-4b09-8d8c-805d1cb1f910','215ed110-eb06-41ee-9ddc-f63c27c87c37','kuali.resultComponent.grade.audit','18596b56-ad85-46cd-a7a4-d53f194e4bf4','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('5d62c575-0b70-478a-8f5f-83551751d0f2','8c9cd1da-1ace-469a-88fc-525049252eb9','kuali.resultComponent.grade.audit','91db31c9-25e0-4ccc-b98c-bbd519f0621d','Draft',1)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
+  VALUES ('c4418a6c-08ea-4ff0-bf0a-76216ce275b6','b62fb651-4153-4ea3-accb-1d9579bdd701','kuali.resultComponent.grade.audit','61cf6ffd-029b-49c4-893a-cf8b204b5631','Draft',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('f93e823d-baf9-4037-b89e-5f5ec8659059','98a320d1-69e2-4681-bb55-7a80efad95ee','kuali.creditType.credit.degree.3.0','Active',0)
@@ -14075,10 +14075,10 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('78c95b34-af77-4c44-8a6b-b4d264173b8d','8350bb70-b291-4d1c-aff9-441109668ae1','kuali.resultComponent.grade.passFail','74f6a642-9543-4c0a-839c-08672c6cbe07','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('d97eb16c-426c-4a6f-8baf-7ee27807eb16','ec5ede63-65d1-4cde-83c7-00eeb4ee74c9','kuali.resultComponent.grade.audit','69c0f666-6f94-431a-8e99-892a180bec5e','Draft',2)
+  VALUES ('bbf120eb-48b4-408d-ad3d-80048c394643','9b796b84-c580-4512-84b2-bec36c4b5175','kuali.resultComponent.grade.audit','e21d928f-ad8d-47f4-a1f7-cabf09b3d5b0','Draft',5)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('bbf120eb-48b4-408d-ad3d-80048c394643','9b796b84-c580-4512-84b2-bec36c4b5175','kuali.resultComponent.grade.audit','e21d928f-ad8d-47f4-a1f7-cabf09b3d5b0','Draft',5)
+  VALUES ('d97eb16c-426c-4a6f-8baf-7ee27807eb16','ec5ede63-65d1-4cde-83c7-00eeb4ee74c9','kuali.resultComponent.grade.audit','69c0f666-6f94-431a-8e99-892a180bec5e','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('621db072-b0d2-4815-9efb-fbf341c25dc9','b4d97056-b299-42a2-8556-0f3e62d6d641','kuali.resultComponent.grade.audit','c8f049d9-361c-414e-8016-d8f04adbb2ee','Active',1)
@@ -14089,11 +14089,11 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('05f96846-eac1-435e-add8-b34e4699e57a','1f30c1ba-f325-49dc-a5f5-ec5f0c3d6452','kuali.resultComponent.grade.letter','dd570600-d320-4a4d-98a6-ad5a5111dfa0','Active',1)
 /
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('cb8a1070-5e28-4f09-95f0-34962438b6f5','49e055b2-2c77-4b69-bde9-061dd9e97c2b','kuali.creditType.credit.degree.3.0','Draft',0)
-/
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('d7f4f487-957d-4bbc-88b0-5ffc707a5bce','e93f0b6e-b388-4192-bfe2-b250357ec964','kuali.resultComponent.grade.audit','71d92b81-1fe0-493a-ba27-d4b144d81feb','Active',1)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
+  VALUES ('cb8a1070-5e28-4f09-95f0-34962438b6f5','49e055b2-2c77-4b69-bde9-061dd9e97c2b','kuali.creditType.credit.degree.3.0','Draft',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('ddd8d3c8-b228-454e-9694-5e3655c23377','7678f62b-110e-4b8a-b8b6-54f376c82a45','kuali.resultComponent.grade.passFail','6f34bffc-ec0d-417a-950d-682b0c6ebe6d','Draft',1)
@@ -14108,10 +14108,10 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('b0288c6e-9b78-4a53-a5a7-ea3b7d0a43db','50181f1d-0d36-4eb9-8c98-b32b6c8e9099','kuali.resultComponent.grade.letter','a005965a-615d-4964-ac54-06324a6914f5','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('2042b51a-89b8-476a-99ba-d774aebba727','e2b889f5-14b6-43a5-8314-a7e0a866eee3','kuali.creditType.credit.degree.3.0','Active',0)
+  VALUES ('c2925a38-828e-48b4-91e0-8813191ee6e7','8eb8e174-5133-48b9-a6ef-272c67a9759a','kuali.creditType.credit.degree.3.0','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('c2925a38-828e-48b4-91e0-8813191ee6e7','8eb8e174-5133-48b9-a6ef-272c67a9759a','kuali.creditType.credit.degree.3.0','Active',0)
+  VALUES ('2042b51a-89b8-476a-99ba-d774aebba727','e2b889f5-14b6-43a5-8314-a7e0a866eee3','kuali.creditType.credit.degree.3.0','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('e2c3c8fc-f264-4359-a2ec-cff5a91c91f9','8a6d82f8-4fe2-424d-b80f-da5fbe731a07','kuali.resultComponent.grade.letter','f8c99dba-e009-4b68-936d-a17823e53356','Active',1)
@@ -14173,11 +14173,11 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('f30bf410-ab4a-468e-8dbe-1db82db75269','1496945a-c669-4ad2-ad27-dd8f5afbd922','kuali.resultComponent.grade.audit','87b62137-2f3c-4c87-890f-30de606b2388','Draft',1)
 /
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('f76e17ab-65e2-464d-8214-8aac58f5febc','707d314d-7b45-4df9-8323-a5aadcf2f818','kuali.creditType.credit.degree.1.0','Active',0)
-/
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('93ba2a60-80dc-4652-adb4-1a91587bc2bf','17d3228d-df57-463c-8b6b-e06b30f9f7d4','kuali.resultComponent.grade.letter','f715ea62-4d17-4092-ad4a-d91a35709e94','Active',1)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
+  VALUES ('f76e17ab-65e2-464d-8214-8aac58f5febc','707d314d-7b45-4df9-8323-a5aadcf2f818','kuali.creditType.credit.degree.1.0','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('e3443b2c-f8c7-4d69-83fb-09bdd8256f64','570c16dc-2c78-4b7c-87e2-4d0a91958a64','kuali.resultComponent.grade.letter','a6a0f2e2-c074-4020-bdb3-fd0af3ba15c0','Active',1)
@@ -14206,11 +14206,11 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('656034d2-bdf7-4cd0-975d-0a0e82c0623e','d0c714b4-ef52-4e3e-b7be-ba05659a3e4d','kuali.resultComponent.grade.audit','bd0b18b8-82c9-4a51-8e4e-9806cd5e1bfa','Draft',2)
 /
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('89ab233b-7069-43f7-a762-860238c88f14','b26e8167-e281-44a5-9731-ee21d4d190bf','kuali.resultComponent.grade.passFail','53441ba8-caf6-445c-964b-c8c7a8d991fd','Draft',16)
-/
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('fd4654cb-607e-4eca-a0dc-72f434cfa1e6','008c76ec-f1e9-46a3-87c1-6c8ae18c1e65','kuali.creditType.credit.degree.3.0','Active',0)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
+  VALUES ('89ab233b-7069-43f7-a762-860238c88f14','b26e8167-e281-44a5-9731-ee21d4d190bf','kuali.resultComponent.grade.passFail','53441ba8-caf6-445c-964b-c8c7a8d991fd','Draft',16)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('9627d7bf-f152-4a5b-b176-5c58279fa0f4','7d8364c8-f63a-442c-bc09-7fa0bef5fb39','kuali.resultComponent.grade.passFail','795bcdd0-399c-4f61-b427-0dc795a2db82','Retired',1)
@@ -14234,10 +14234,10 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('c84f138e-eb96-44ac-8e74-7c51cd34a648','ca2a5c5a-2ec9-41a7-95ed-17a36bd71e45','kuali.resultComponent.grade.letter','9b1116f0-610f-4354-b9a1-18a1d8c89f23','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('3ef4c90e-55cb-403c-a4a3-af77e2a0ca02','ec32861e-d77b-402b-95a2-184a560ab54f','kuali.resultComponent.grade.passFail','47d022e6-8a48-41d7-836b-4b0ac9ba5c1b','Retired',1)
+  VALUES ('8f663311-6758-49ce-b4c2-5b40a3bccca9','2664d986-2828-4282-bf70-d1b86ecfdf8b','kuali.resultComponent.grade.letter','6f54d51a-272b-48f3-89a2-a3116015cc5b','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('8f663311-6758-49ce-b4c2-5b40a3bccca9','2664d986-2828-4282-bf70-d1b86ecfdf8b','kuali.resultComponent.grade.letter','6f54d51a-272b-48f3-89a2-a3116015cc5b','Active',1)
+  VALUES ('3ef4c90e-55cb-403c-a4a3-af77e2a0ca02','ec32861e-d77b-402b-95a2-184a560ab54f','kuali.resultComponent.grade.passFail','47d022e6-8a48-41d7-836b-4b0ac9ba5c1b','Retired',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('97c056e3-6008-423a-b2d6-80661ae37833','ffb572a6-edb9-4591-a7db-151c2af8644d','kuali.creditType.credit.degree.3.0','Retired',0)
@@ -14249,10 +14249,10 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('88703aff-30d9-44a4-a679-52f41bec21a7','9d0a4659-c691-429a-b040-b596df0bc310','kuali.resultComponent.grade.passFail','098bc93d-bed3-43e6-8568-1842a8713008','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('bdc14c4c-f21c-419f-b2ff-bceef2bb41cf','4c52c27f-38f0-44e4-8f03-370cb8661d2d','kuali.resultComponent.grade.letter','ad386f21-f7c7-4048-8b1e-f224349705f1','Active',0)
+  VALUES ('c66ee692-e3fd-40f3-a925-ea48facb9699','57cf45ca-e7ee-4ef3-bb7a-cec76a2c5502','kuali.resultComponent.grade.audit','ae3e156f-ae2e-45a5-bc9f-4986cd7f44b1','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('c66ee692-e3fd-40f3-a925-ea48facb9699','57cf45ca-e7ee-4ef3-bb7a-cec76a2c5502','kuali.resultComponent.grade.audit','ae3e156f-ae2e-45a5-bc9f-4986cd7f44b1','Draft',2)
+  VALUES ('bdc14c4c-f21c-419f-b2ff-bceef2bb41cf','4c52c27f-38f0-44e4-8f03-370cb8661d2d','kuali.resultComponent.grade.letter','ad386f21-f7c7-4048-8b1e-f224349705f1','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('53e84a59-fb55-4797-b487-66d01ab91b16','c197eccf-d8b3-4935-b39f-d5b82637aaa2','kuali.resultComponent.grade.letter','e61b7285-ad0a-4dfb-a5d4-9e69f27fad77','Draft',2)
@@ -14261,22 +14261,22 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('9b38340b-9194-4fcc-8931-cd6ef219ae95','4a255d02-55bc-42e3-ae01-cc7b6f85fe57','kuali.resultComponent.grade.audit','1743d993-e60c-47f9-8c23-ff4e739227b4','Draft',9)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('e49b1279-dc6a-4768-82ca-6bb6f64c7c12','eddbf49e-9e35-4552-a43b-f4798404594b','kuali.resultComponent.grade.audit','806bf4be-1fd7-4ed4-8e7d-761c2a026891','Draft',2)
+  VALUES ('2d492b6b-672d-4ee2-8249-8a67b7dfaa4f','ecc175fa-e852-4731-ac40-578137d332a8','kuali.resultComponent.grade.letter','db58c905-c2f3-48f4-b18c-b980e3831278','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('2d492b6b-672d-4ee2-8249-8a67b7dfaa4f','ecc175fa-e852-4731-ac40-578137d332a8','kuali.resultComponent.grade.letter','db58c905-c2f3-48f4-b18c-b980e3831278','Active',1)
+  VALUES ('e49b1279-dc6a-4768-82ca-6bb6f64c7c12','eddbf49e-9e35-4552-a43b-f4798404594b','kuali.resultComponent.grade.audit','806bf4be-1fd7-4ed4-8e7d-761c2a026891','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('d63a9ba7-6528-4b81-9fb5-43f630f1764e','00bd2049-0681-404a-9258-399369e9f050','kuali.creditType.credit.degree.3.0','Active',0)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
+  VALUES ('8a1ec23e-f542-4f95-9098-cd583d338725','af8059e7-55e3-487a-994e-1cc1b003cef1','kuali.resultComponent.grade.letter','ef44b44d-0c50-4f63-974c-d8793804187c','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('b665d812-43dd-4cce-a59f-82332c300c66','c148fed1-d9df-4d3e-8133-2fbc2c320fad','kuali.creditType.credit.degree.3.0','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('de20e266-33a4-490c-9ac5-af340a8ba0d5','85802593-8df2-412b-a3de-6822fdcfa14e','kuali.creditType.credit.degree.3.0','Draft',0)
-/
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('8a1ec23e-f542-4f95-9098-cd583d338725','af8059e7-55e3-487a-994e-1cc1b003cef1','kuali.resultComponent.grade.letter','ef44b44d-0c50-4f63-974c-d8793804187c','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('8e5745b1-0a27-484f-84b0-06caf012edf2','42721d5b-5a74-437b-995e-b15dd187a23a','kuali.resultComponent.grade.letter','d2a02bd6-d0c0-4fb3-85b5-eef8394a75ca','Draft',2)
@@ -14308,23 +14308,23 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('d66d0444-cbb6-47ad-ae06-44e583b81306','e220ad25-dc8a-4a0a-97ea-889bff26b4e1','kuali.creditType.credit.degree.1.0','Draft',0)
 /
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('86615473-a939-4e03-beca-20feb01333ea','891c926a-5d8c-46a8-a686-009e004a09e3','kuali.creditType.credit.degree.3.0','Active',0)
-/
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('80507c1f-8aee-44f6-b0d9-992776e29cab','dd092e01-3ae5-483a-974e-61a9d7e4a905','kuali.resultComponent.grade.audit','75e48bd8-1346-4e0d-acdb-cacc6dcebcc4','Draft',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('feec97de-477c-43ed-bb9b-30ab27ad9830','13484019-e0d6-4e97-b171-aaaff8e8d5c1','kuali.creditType.credit.degree.3.0','Active',0)
+  VALUES ('86615473-a939-4e03-beca-20feb01333ea','891c926a-5d8c-46a8-a686-009e004a09e3','kuali.creditType.credit.degree.3.0','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('238012c9-66a4-456a-a04b-5f322b547d8c','0d59e83e-d689-4fb3-ac7f-c984a71111e8','kuali.resultComponent.grade.passFail','831680ed-e1ea-4c99-89c5-07296c2e8bd3','Active',0)
 /
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('dec5a0e3-b23a-4e3d-8c3a-6d136bc9b145','d4f98cd0-d3e3-4e1b-bbb2-6644240c2e20','kuali.resultComponent.grade.letter','cc48cbb5-97e0-4634-bf2e-55d7f316a65c','Draft',1)
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
+  VALUES ('feec97de-477c-43ed-bb9b-30ab27ad9830','13484019-e0d6-4e97-b171-aaaff8e8d5c1','kuali.creditType.credit.degree.3.0','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('3b4ae413-65e4-4ab7-83dd-67882e68e825','43a8a2f0-cd98-4c9a-b00f-f778f744a05b','kuali.creditType.credit.degree.3.0','Draft',0)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
+  VALUES ('dec5a0e3-b23a-4e3d-8c3a-6d136bc9b145','d4f98cd0-d3e3-4e1b-bbb2-6644240c2e20','kuali.resultComponent.grade.letter','cc48cbb5-97e0-4634-bf2e-55d7f316a65c','Draft',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('61479f0e-da0d-4d68-8216-054da83fe88f','e63160d8-f6d2-4928-a04d-95ba7af033b5','kuali.creditType.credit.degree.2.0','Active',0)
@@ -14405,22 +14405,22 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('c1d96894-dcfc-4872-aa16-5ba2835e7545','ac21df9c-a262-4263-b684-bdd6b5f2b9a0','kuali.resultComponent.grade.passFail','81de6192-8c9a-46e4-80d4-f8a930680214','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
+  VALUES ('e1839505-d77e-4685-883e-35e47afba7ad','0d76e371-acb8-46af-aa44-e3113ee10e78','kuali.resultComponent.grade.passFail','ea8dc221-64b1-4a15-b7e4-8402ed7cd10f','Active',1)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('3b57dbe0-3a0e-428c-8302-9251d7a21e34','e50641c3-80e5-44d5-8cf8-252167087215','kuali.resultComponent.grade.letter','f820634b-5ae0-45d4-a598-5f754f4ae0ca','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('85750cb4-8d65-43a0-be00-a5d131b35044','7608742d-126b-465c-b78c-6ccd58adbb62','kuali.resultComponent.grade.audit','a0ddf734-09ca-48cb-a479-0ada887ec9f0','Retired',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('e1839505-d77e-4685-883e-35e47afba7ad','0d76e371-acb8-46af-aa44-e3113ee10e78','kuali.resultComponent.grade.passFail','ea8dc221-64b1-4a15-b7e4-8402ed7cd10f','Active',1)
-/
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('24f10297-b16d-4f9c-a720-c0b91b8833ab','87f226b4-adad-49a9-bb0b-2f4a0ccb0ba7','kuali.resultComponent.grade.letter','120b7928-8853-4a25-8841-1c08697951e4','Active',1)
-/
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('b2678a05-78be-4be9-96a9-098a41a2b346','2505e7e1-e538-41ad-9297-06a8eedc6b72','kuali.creditType.credit.degree.3.0','Draft',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('661b5cdb-954a-4260-b615-8647ac79fad6','1e1e6387-fc89-40b4-ac1b-1370773bbf14','kuali.resultComponent.grade.letter','c1b002e5-6f6e-48c9-a7cc-be07a452310a','Active',3)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
+  VALUES ('b2678a05-78be-4be9-96a9-098a41a2b346','2505e7e1-e538-41ad-9297-06a8eedc6b72','kuali.creditType.credit.degree.3.0','Draft',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('85edbb32-989d-4363-aa94-a92e901ec7a2','53b5efe6-48af-4691-ba70-9f5d98e05622','kuali.resultComponent.grade.passFail','c5a22c95-88b2-49b0-a9fa-3c4dc18d0ff4','Draft',2)
@@ -14474,10 +14474,10 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('4fc4695e-c564-4f14-89e6-88cfaad98005','17ced4b6-dac7-4b99-b571-9ce70fffda46','kuali.resultComponent.grade.passFail','901591d2-d0b6-4d81-bb2f-738d5e3cba18','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('8e72f73e-af64-4cf1-b62c-8fe5056d12e7','3a151c45-1953-4087-b7ef-fd3d77925f6f','kuali.creditType.credit.degree.3.0','Draft',0)
+  VALUES ('d87d6af6-a1a0-4e26-bbbe-ce87b25580f1','5c8f6e90-b256-4e3f-9238-8414dfc8b982','kuali.creditType.credit.degree.3.0','Draft',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('d87d6af6-a1a0-4e26-bbbe-ce87b25580f1','5c8f6e90-b256-4e3f-9238-8414dfc8b982','kuali.creditType.credit.degree.3.0','Draft',0)
+  VALUES ('8e72f73e-af64-4cf1-b62c-8fe5056d12e7','3a151c45-1953-4087-b7ef-fd3d77925f6f','kuali.creditType.credit.degree.3.0','Draft',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('69a520d2-6a51-4f15-9c3a-a539ca457a64','9e4d6079-723f-4fa0-b170-0454b495dd89','kuali.creditType.credit.degree.3.0','Active',0)
@@ -14530,14 +14530,14 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('4353e894-e975-4992-961e-cede988ddaa5','affcd54d-c8bb-4f13-932d-92e17821cffa','kuali.resultComponent.grade.passFail','c92e3544-e710-4284-ab71-88572ab8b983','Draft',1)
 /
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
+  VALUES ('764ffa59-4a57-4b0d-a06d-8143641513a0','60e49d60-a95f-4f65-918a-bf0bd238eff8','kuali.creditType.credit.degree.4.0','Active',0)
+/
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('e2c3f758-a3bd-4984-ae75-55c7e310408b','53bfc3d0-256c-4521-a033-e6e9c1c6a08f','kuali.resultComponent.grade.audit','5bcf0911-1bff-49e6-9a4e-b07487495c1f','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('c29b99f8-679d-4b8e-9d7f-5102b9c257b7','0889ce4f-985d-4528-9c8f-c03447294cfa','kuali.creditType.credit.degree.3.0','Draft',0)
-/
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('764ffa59-4a57-4b0d-a06d-8143641513a0','60e49d60-a95f-4f65-918a-bf0bd238eff8','kuali.creditType.credit.degree.4.0','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('0fd1c940-4a4c-40cb-8dc5-4c8b31c771bd','c3f61115-58a5-43b8-9aa0-f9852bb081a6','kuali.resultComponent.grade.audit','58ead476-cc0d-472c-ba2e-d346d8b66aa5','Active',1)
@@ -14566,11 +14566,11 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('8eb7a2a4-d2dd-4369-aaf3-9af35042c337','5dbb6768-2d56-48b5-ad84-29f316c88d50','kuali.resultComponent.grade.passFail','3cf59855-79a6-4f22-b842-67f18270bbae','Retired',1)
 /
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('9aa8b70c-99d9-47ff-a485-92caac6c95f0','a19d4c1f-c786-42b1-bbbc-70cfc026f239','kuali.resultComponent.grade.letter','8693f7d2-984f-4e79-b8ec-d8eede5f56ac','Active',1)
-/
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('2a21e78e-acba-45ef-829e-7fd708c1052a','fde1871c-c20a-40b8-a21c-07fb33a2869c','kuali.creditType.credit.degree.1-3','Active',0)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
+  VALUES ('9aa8b70c-99d9-47ff-a485-92caac6c95f0','a19d4c1f-c786-42b1-bbbc-70cfc026f239','kuali.resultComponent.grade.letter','8693f7d2-984f-4e79-b8ec-d8eede5f56ac','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('6ae8fa57-ac5a-4212-ae8e-e6af63645925','c6f5facf-0f3e-4d75-8e37-2f04c7b2bbe3','kuali.resultComponent.grade.passFail','52a37205-6993-46dd-a48d-2c7fec921db8','Draft',1)
@@ -14593,11 +14593,11 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('98dfb28f-a295-4006-89ee-b970c515b1a2','99576918-d33d-491c-82e3-7b6e18f36e83','kuali.resultComponent.grade.letter','2b359882-1e7b-4472-b4fd-c44b7518e58f','Active',0)
 /
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('a0e10d68-21f5-44ad-bd74-39e5b7ab583d','b2ee06b0-07b1-417d-a009-c7d8b6f49dd9','kuali.resultComponent.grade.audit','08bb188e-379f-487d-a053-3ff151290898','Draft',2)
-/
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('3fa13515-04c9-44af-914f-1dba96be36cc','8f014172-52e2-41e2-9963-f43f9cbb53aa','kuali.creditType.credit.degree.3.0','Retired',0)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
+  VALUES ('a0e10d68-21f5-44ad-bd74-39e5b7ab583d','b2ee06b0-07b1-417d-a009-c7d8b6f49dd9','kuali.resultComponent.grade.audit','08bb188e-379f-487d-a053-3ff151290898','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('af09b672-9df8-4018-b8d2-7217b262162a','4f60d964-fbdb-4ff0-9d78-f55193681e06','kuali.resultComponent.grade.letter','8798beef-2894-4764-9ad9-75a214be4a9f','Active',1)
@@ -14608,11 +14608,11 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('bd6e12bc-0430-45e7-974e-d344199b8f92','738802d7-7d50-4d66-88a6-defc12e45a84','kuali.creditType.credit.degree.3.0','Active',0)
 /
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('a8ca94ba-0e77-41bc-9acc-c4cc03f279a2','26d6c54a-1220-4e2b-9933-13071104f959','kuali.creditType.credit.degree.3.0','Active',0)
-/
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('01d6d79b-fb16-48ff-a3a8-3747687e0eb3','d6bab474-ea9e-47b7-8a96-7707fd529f74','kuali.resultComponent.grade.letter','ddf44318-fa57-4720-bf14-4e9a2bb1e933','Active',0)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
+  VALUES ('a8ca94ba-0e77-41bc-9acc-c4cc03f279a2','26d6c54a-1220-4e2b-9933-13071104f959','kuali.creditType.credit.degree.3.0','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('e6acca85-9779-4555-bee9-ccc1dc33f407','69930fd9-af07-42ce-ac8f-0fb1b5662b8c','kuali.resultComponent.grade.letter','efdf8763-c721-4c22-a268-6b819da722ee','Draft',14)
@@ -14648,10 +14648,10 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('d63de26b-058a-44b3-831d-87d25876c3c4','6558032a-fa29-44a3-8acf-d0e9fed8ac47','kuali.resultComponent.grade.audit','8f4be2b7-e93d-4cd4-9182-c79b5df284ca','Draft',3)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('79a40061-336c-4dfe-80ec-7595c1c170a3','2f59072f-8ef4-4d29-9466-98647e59339e','kuali.resultComponent.grade.letter','fe1d9ab1-4955-4088-b2b3-63a57f6307ad','Draft',2)
+  VALUES ('ef87a966-682f-4d74-8d37-a3a0493fe28d','5ebe6fa7-3633-4957-be80-6426068602cc','kuali.resultComponent.grade.letter','b50eda24-7855-4fba-827c-26e01690eb01','Retired',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('ef87a966-682f-4d74-8d37-a3a0493fe28d','5ebe6fa7-3633-4957-be80-6426068602cc','kuali.resultComponent.grade.letter','b50eda24-7855-4fba-827c-26e01690eb01','Retired',1)
+  VALUES ('79a40061-336c-4dfe-80ec-7595c1c170a3','2f59072f-8ef4-4d29-9466-98647e59339e','kuali.resultComponent.grade.letter','fe1d9ab1-4955-4088-b2b3-63a57f6307ad','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('68c9f484-0d1c-45da-86e5-db4f38d03f77','312004d3-ae70-4a7b-8a06-5ec541eab9b0','kuali.creditType.credit.degree.1.0','Active',0)
@@ -14678,10 +14678,10 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('48389600-87b6-4822-9450-c6ecceb9c482','6e7d1f72-5579-4a11-8c8f-0a26b3d82a62','kuali.resultComponent.grade.audit','f95061e2-0642-49ca-bd13-b20062a2c101','Active',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('8714990f-9856-4816-8690-eebf4a8fa80c','6b10b8f7-c600-474d-b5eb-9863d09e8871','kuali.resultComponent.grade.letter','f6433b86-f843-4e27-b49d-f608b634d7c7','Draft',2)
+  VALUES ('dd555ce0-e05a-49c4-ab83-8410a35d31d2','7812ebf7-42f4-4aec-be28-1e0cc51c1f66','kuali.resultComponent.grade.audit','5cd2cc5b-f7c5-4482-bb0b-c86069a089c5','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('dd555ce0-e05a-49c4-ab83-8410a35d31d2','7812ebf7-42f4-4aec-be28-1e0cc51c1f66','kuali.resultComponent.grade.audit','5cd2cc5b-f7c5-4482-bb0b-c86069a089c5','Active',1)
+  VALUES ('8714990f-9856-4816-8690-eebf4a8fa80c','6b10b8f7-c600-474d-b5eb-9863d09e8871','kuali.resultComponent.grade.letter','f6433b86-f843-4e27-b49d-f608b634d7c7','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('39cafcaf-1dc2-4f49-9f6d-9780faef7c92','064d8c58-c29a-44de-af46-01f9c9af8454','kuali.creditType.credit.degree.1.0','Active',0)
@@ -14702,13 +14702,13 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('f80400fb-5329-454f-b43a-b22e67b4a7a1','71932b36-938a-4b40-85a9-31ca2557ef25','kuali.creditType.credit.degree.3.0','Draft',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('b295032d-4aaf-4bf0-9120-7efa27120e07','d063932b-8978-48a8-aef4-fc0ac5277f83','kuali.resultComponent.grade.audit','47e9f23a-de60-4036-88f9-0f51fffb0aa2','Active',6)
-/
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('9e96c3c7-572c-428c-aefa-c1c861e56368','ea318923-2cfd-492c-a475-d1fbd220f03c','kuali.resultComponent.grade.letter','724135f2-67f9-43ed-8c1c-f55b13aeb697','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('e683a6d5-6c71-4c67-9be1-1aec5ecdb7d6','3114e06a-f998-490b-93d1-318585d72cea','kuali.creditType.credit.degree.3.0','Active',0)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
+  VALUES ('b295032d-4aaf-4bf0-9120-7efa27120e07','d063932b-8978-48a8-aef4-fc0ac5277f83','kuali.resultComponent.grade.audit','47e9f23a-de60-4036-88f9-0f51fffb0aa2','Active',6)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('a3600996-94ac-4a89-9ec2-57c00fe4a26b','46342d8e-889a-4333-a2a4-58bf2cc904a6','kuali.resultComponent.grade.letter','4fd17939-5fce-4c90-844c-8cd7532cc12d','Active',0)
@@ -14731,11 +14731,11 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('0a93056c-6991-4fe0-a620-46d9e86da2be','544962fe-f4f0-4aa0-afc7-a27023ecd025','kuali.resultComponent.grade.audit','514e485e-94c1-493f-8913-116b0e5b53f2','Active',1)
 /
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('9238fca4-b5e7-453b-96f2-1a4eeee89dad','112a1541-c6d0-4a45-8f96-13af564e2302','kuali.creditType.credit.degree.3.0','Draft',0)
-/
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('964abc4e-af96-45a5-a632-6c275c45959c','3e0f4dde-60e9-4eba-bb08-ea2dba09b1c1','kuali.resultComponent.grade.passFail','b8c6f38a-1a22-4541-8c9b-4263c3c8de15','Active',1)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
+  VALUES ('9238fca4-b5e7-453b-96f2-1a4eeee89dad','112a1541-c6d0-4a45-8f96-13af564e2302','kuali.creditType.credit.degree.3.0','Draft',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('1a670763-8bfc-4d2b-b1ac-c000cf267b84','86597ff9-b55d-4e24-bd27-0dd4688e670e','kuali.resultComponent.grade.audit','20b6e5d1-de8d-4e9f-994b-98bdbf29bd22','Retired',1)
@@ -14771,10 +14771,10 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('062772a6-e693-4009-ac13-8dee972c6946','f3603ccc-55df-4484-8e68-08acacbb5e71','kuali.resultComponent.grade.audit','29d73ece-e4fe-47d7-ace7-210d78ed3449','Retired',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('eaffd2f1-45f3-41f4-928e-62993cdeb1b6','e15a34c8-64ec-44bd-910e-f929d0d7f706','kuali.resultComponent.grade.letter','f162c690-6aaf-4d46-9218-eb0e2ab24591','Active',1)
+  VALUES ('f541bff2-3d52-4049-8713-c118fc5f0e78','eebcf130-951a-4eb8-93db-54e6a2b8f18d','kuali.resultComponent.grade.audit','7dc0d4b0-2a52-40ec-b459-b7164dd08738','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('f541bff2-3d52-4049-8713-c118fc5f0e78','eebcf130-951a-4eb8-93db-54e6a2b8f18d','kuali.resultComponent.grade.audit','7dc0d4b0-2a52-40ec-b459-b7164dd08738','Draft',2)
+  VALUES ('eaffd2f1-45f3-41f4-928e-62993cdeb1b6','e15a34c8-64ec-44bd-910e-f929d0d7f706','kuali.resultComponent.grade.letter','f162c690-6aaf-4d46-9218-eb0e2ab24591','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('bc4c0b3f-a53b-4081-81cf-96478a2266c0','88d7f87e-5d0a-4ecd-9b91-8c50a12f62e4','kuali.resultComponent.grade.letter','a53de899-7b02-4d61-a4a1-9fd3c63eb0e1','Active',1)
@@ -14792,10 +14792,10 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('0e799f2f-c852-41f0-befb-ff39d75ca412','12489704-1731-4f77-bf29-2c322c9401ff','kuali.creditType.credit.degree.3.0','Draft',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('26455916-5a0f-4175-ae2c-f83cd4da4ca9','7534ffcf-a90c-4b36-b996-b311d19cf8b8','kuali.creditType.credit.degree.3.0','Draft',0)
+  VALUES ('4ac2762b-3321-4bf8-874e-115957aa9278','7b622213-7a0e-4819-8f7c-a76a83c70d94','kuali.creditType.credit.degree.3.0','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('4ac2762b-3321-4bf8-874e-115957aa9278','7b622213-7a0e-4819-8f7c-a76a83c70d94','kuali.creditType.credit.degree.3.0','Active',0)
+  VALUES ('26455916-5a0f-4175-ae2c-f83cd4da4ca9','7534ffcf-a90c-4b36-b996-b311d19cf8b8','kuali.creditType.credit.degree.3.0','Draft',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('ab99347a-2463-4430-a8ef-7e1ff6ad83e3','0c28431a-89f3-495e-94b9-11f2e926e4d8','kuali.resultComponent.grade.audit','4681d86d-59e0-4b6f-820c-cfd1b09dba49','Active',1)
@@ -14809,11 +14809,11 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('590fa4f5-8bb5-4e3e-aa21-894bbe061cc0','2f36e0d6-9d4b-46e4-bff4-b00573be6ffb','kuali.creditType.credit.degree.3.0','Draft',0)
 /
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('266d62e4-068d-4d6f-8d0e-b2eed502742c','8f8f6265-3d23-4ade-a615-002ee8ca100d','kuali.resultComponent.grade.audit','598af16b-db4c-4d1a-9c11-5d5d3e33dbc4','Active',1)
-/
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('874183e5-bb26-4d53-a7be-8e9b39e87eb8','dfce0150-1f9d-420b-b6bf-90d759e4628b','kuali.creditType.credit.degree.1.0','Active',0)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
+  VALUES ('266d62e4-068d-4d6f-8d0e-b2eed502742c','8f8f6265-3d23-4ade-a615-002ee8ca100d','kuali.resultComponent.grade.audit','598af16b-db4c-4d1a-9c11-5d5d3e33dbc4','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('60c0d2d9-12f5-4f41-ae45-b01bd8b47c4e','ac23abe8-ec77-4166-ba3d-6dc4a69a974e','kuali.resultComponent.grade.passFail','c75adef7-f5dc-4503-8900-e416cd664a88','Active',1)
@@ -14827,23 +14827,23 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('28be9a9b-cb3a-4fa4-af70-53637acc1139','9ba92584-7683-4769-9eba-5a8f87614445','kuali.resultComponent.grade.passFail','24da842d-edb3-4106-9914-0119967abbc1','Draft',1)
 /
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('74190c82-fdab-42cf-a24b-8b0467311198','6e814ee1-cd6b-4dd9-9710-eb2a35eebc10','kuali.resultComponent.grade.passFail','b4822ac2-dd03-4f66-9479-155234e133f1','Active',1)
-/
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('45d507dc-325f-4f2e-b5aa-604ba23405df','b70c0844-6518-4cb0-9557-5499343a0ddf','kuali.creditType.credit.degree.1.0','Draft',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
+  VALUES ('74190c82-fdab-42cf-a24b-8b0467311198','6e814ee1-cd6b-4dd9-9710-eb2a35eebc10','kuali.resultComponent.grade.passFail','b4822ac2-dd03-4f66-9479-155234e133f1','Active',1)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('3fe760c9-883a-4dad-b742-069eb0faf092','b7327a75-656b-421f-b527-da07cbb237ca','kuali.resultComponent.grade.audit','3081d33b-d663-45bc-9da5-58212af1fa7f','Draft',4)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
+  VALUES ('1ce52b19-cbe8-4b8c-80c8-78c5db322c87','43de04f2-b8da-4dcb-abca-594bd5594f61','kuali.resultComponent.grade.letter','cd7fb4f2-8ff8-41d6-8258-84520e1ee2d9','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('beb2e438-1a9a-429a-9f60-ef17b0c30da2','6289b95e-ab61-4eec-98ad-b897d633049e','kuali.resultComponent.grade.letter','6a5e5fc7-0b9b-4b6c-a76d-e833addad9b0','Active',3)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('6be760a7-ff73-458d-b358-ee1ff13c2af5','15ca610f-5538-485e-811a-2b3e4e0fa0bc','kuali.resultComponent.grade.audit','48a64e5f-1cc4-4a4e-9a2d-3f2bd2005f6e','Draft',9)
-/
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('1ce52b19-cbe8-4b8c-80c8-78c5db322c87','43de04f2-b8da-4dcb-abca-594bd5594f61','kuali.resultComponent.grade.letter','cd7fb4f2-8ff8-41d6-8258-84520e1ee2d9','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('15872000-5823-40f8-85c9-d2309251d798','abf40491-1440-495f-8e24-1bde2705ec4f','kuali.creditType.credit.degree.3.0','Draft',0)
@@ -14870,10 +14870,10 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('cee678dc-3114-4b19-a442-3de1be34f749','933ceed9-d5db-4fa7-af97-f05c39c604c9','kuali.creditType.credit.degree.3.0','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('0e414ed5-9eff-4efc-854a-a312fa8614ac','fee4244d-13d2-4c46-b7c3-50728a8e4776','kuali.creditType.credit.degree.2.0','Active',0)
+  VALUES ('75d89370-f4ac-426c-9331-816c8f902e77','3b2d3ee3-e143-42ca-8000-7ed7dab36c5f','kuali.creditType.credit.degree.3.0','Draft',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('75d89370-f4ac-426c-9331-816c8f902e77','3b2d3ee3-e143-42ca-8000-7ed7dab36c5f','kuali.creditType.credit.degree.3.0','Draft',0)
+  VALUES ('0e414ed5-9eff-4efc-854a-a312fa8614ac','fee4244d-13d2-4c46-b7c3-50728a8e4776','kuali.creditType.credit.degree.2.0','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('ef2c39a7-d105-4b34-a32d-644b70674041','4cfab093-1e98-4434-91c0-40dd80b1ba48','kuali.resultComponent.grade.audit','bc31eadf-e917-4e8f-aaf5-e28396d12417','Draft',1)
@@ -14888,25 +14888,25 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('32e0f644-86d5-4995-81ce-1d9f2b087f92','a3b44190-0a41-4acd-adcb-d66c59fc1c2e','kuali.resultComponent.grade.audit','5d4d8896-184c-46e6-a4b5-92d2f3f8a6ec','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('ca739743-ce94-4f7c-b33e-87530d622a0f','4b9bb003-efd3-4ff5-a246-c8c3fbffcab4','kuali.creditType.credit.degree.3.0','Active',0)
+  VALUES ('3fcd0899-d19d-4392-bd8c-f5b8705e31ba','262a0124-4337-40b5-81ca-6ec2c706d105','kuali.creditType.credit.degree.3.0','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('3fcd0899-d19d-4392-bd8c-f5b8705e31ba','262a0124-4337-40b5-81ca-6ec2c706d105','kuali.creditType.credit.degree.3.0','Active',0)
+  VALUES ('ca739743-ce94-4f7c-b33e-87530d622a0f','4b9bb003-efd3-4ff5-a246-c8c3fbffcab4','kuali.creditType.credit.degree.3.0','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('8845863c-f26f-4ced-84cb-a3bb3fbe8327','458ccee6-c8f5-4f78-ac2b-c64a77eb4c19','kuali.resultComponent.grade.passFail','301875da-6251-4fc7-9568-01d920dbb003','Superseded',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('264601ea-a901-4981-9eda-c2a73b9da8c0','1e88e48d-5eea-4e24-adc5-919b0b88b131','kuali.resultComponent.grade.audit','8e4bb4f5-1607-442d-9a1d-4b9714c86bde','Active',1)
-/
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('2316c794-3c70-49b6-b074-c1d1cf6bdb88','2f582a28-d615-423e-994b-bf77470e69cf','kuali.resultComponent.grade.audit','7a69e61c-7971-4772-9a01-236aeba2bb7a','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('413dd8da-0922-49c8-a14c-8e81cee61b1b','7ff61466-3973-4ccd-9ac4-b4346534ddef','kuali.resultComponent.grade.letter','b29c2e60-ba50-43cf-9ab9-ec1a0409e7f6','Draft',2)
+  VALUES ('264601ea-a901-4981-9eda-c2a73b9da8c0','1e88e48d-5eea-4e24-adc5-919b0b88b131','kuali.resultComponent.grade.audit','8e4bb4f5-1607-442d-9a1d-4b9714c86bde','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('5806c06b-80e6-49b4-b645-e4c6699fa64e','1f393bb3-685b-470d-bfad-9a191cd1bb44','kuali.resultComponent.grade.letter','39e38bbd-7fa0-43fb-8c9f-2deb3386eb37','Draft',2)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
+  VALUES ('413dd8da-0922-49c8-a14c-8e81cee61b1b','7ff61466-3973-4ccd-9ac4-b4346534ddef','kuali.resultComponent.grade.letter','b29c2e60-ba50-43cf-9ab9-ec1a0409e7f6','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('8c2f6e01-b09b-43c0-b5bd-8362bccfb272','5963046a-e09b-4a06-ae97-bb29002d641b','kuali.resultComponent.grade.audit','d6ada6c4-2fa8-49b2-8ea8-9ac2b36fd075','Active',1)
@@ -14954,10 +14954,10 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('50badaeb-8270-4ab2-b190-ddfbcffd555b','85a22159-0486-44ba-af94-312fb046f3d6','kuali.resultComponent.grade.letter','a6c5a847-9173-4c83-847b-d8ee5dd01057','Draft',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('bba5d844-67d0-4ab9-a161-5cc2ba001a08','2af96795-ed70-42f8-8e78-bb37225d03b3','kuali.resultComponent.grade.letter','ad8162d9-a5ba-418e-acbf-7654c6e1e636','Active',0)
+  VALUES ('777bc528-aed0-4a58-9d73-077f072ad165','f7e82cd5-ee37-4e09-919f-e0569eed7502','kuali.resultComponent.grade.audit','f501db76-ab8a-4b41-b9ec-b00ca73c84df','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('777bc528-aed0-4a58-9d73-077f072ad165','f7e82cd5-ee37-4e09-919f-e0569eed7502','kuali.resultComponent.grade.audit','f501db76-ab8a-4b41-b9ec-b00ca73c84df','Active',0)
+  VALUES ('bba5d844-67d0-4ab9-a161-5cc2ba001a08','2af96795-ed70-42f8-8e78-bb37225d03b3','kuali.resultComponent.grade.letter','ad8162d9-a5ba-418e-acbf-7654c6e1e636','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('31bb2821-2f3b-474e-8746-5eb81df139f0','cf9bbfa1-2850-44b2-a86a-afe065ef9624','kuali.resultComponent.grade.letter','034173fc-f3fa-4332-a8de-93ad965541fc','Active',2)
@@ -15001,11 +15001,11 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('c974686f-52c9-4dd9-a9ea-00bb5fac5d80','0f60d1a1-c6aa-4ecb-b405-f234eeed8ea9','kuali.resultComponent.grade.letter','84b1f18f-6db8-4efe-be89-7145bd1a99ab','Active',1)
 /
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('422d407f-626b-495d-8cda-e59b918d7cdc','74034a7a-14cc-410e-a451-cb02be701739','kuali.resultComponent.grade.audit','64c4b14c-43e8-4e20-a02c-446b4d35fbae','Active',0)
-/
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('ac4607fb-0457-4858-bf6e-82b4c13e55c6','b8756fe2-6389-469e-919d-3668806c2d05','kuali.creditType.credit.degree.3.0','Retired',0)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
+  VALUES ('422d407f-626b-495d-8cda-e59b918d7cdc','74034a7a-14cc-410e-a451-cb02be701739','kuali.resultComponent.grade.audit','64c4b14c-43e8-4e20-a02c-446b4d35fbae','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('7e9d879c-5e46-416e-8a4e-d9e95aa6ae50','47c2492b-a098-441e-baa9-6964e044ffd9','kuali.resultComponent.grade.audit','f4702a7b-d39a-4a16-9d99-5a43b2e0558a','draft',19)
@@ -15037,11 +15037,11 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('2ca7e020-a107-4d4d-ace5-7bb0da15a38f','9da22dcb-d57b-4344-a2d0-e4e6504edd0f','kuali.resultComponent.grade.passFail','6bf09066-8fb5-4c32-ade4-8c49da36ad32','Active',1)
 /
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('f5c3067e-8137-4caf-b6f0-740f7d84c6dd','22664c07-ec37-455a-8591-78193bd0ed0b','kuali.resultComponent.grade.audit','733e88bf-69b9-4e64-b8a5-12a234fb1ddd','Draft',2)
-/
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('57ea08ec-8db0-43a0-8837-8712084d28e8','68b58af5-8838-4ac6-a5d4-6e9cba78554c','kuali.creditType.credit.degree.3.0','Draft',0)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
+  VALUES ('f5c3067e-8137-4caf-b6f0-740f7d84c6dd','22664c07-ec37-455a-8591-78193bd0ed0b','kuali.resultComponent.grade.audit','733e88bf-69b9-4e64-b8a5-12a234fb1ddd','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('c85a7085-137c-4b48-acfa-a4fc4116eb62','b03676c2-13c7-469f-bd58-b984dc626cf5','kuali.resultComponent.grade.audit','58a3bd0e-06c5-442d-8771-75e95f63bff9','Draft',3)
@@ -15061,11 +15061,11 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('96961df7-ba26-479c-979f-9169d5ecdec8','6b38a6e8-e31b-4127-94a6-0ed32d239b84','kuali.creditType.credit.degree.3.0','Active',0)
 /
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('0150a2b6-3bfc-4744-a3bc-dd0b79428ef8','ea7d18d7-cfef-4d8d-9b1d-e4308719d303','kuali.resultComponent.grade.passFail','6f3cfb41-c30b-4268-9fb2-3faba3da07dd','Active',1)
-/
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('67734363-df39-4636-bf57-7c0c17821a8a','d5812738-4421-43b0-b7ab-c9b82988bc25','kuali.creditType.credit.degree.3.0','Active',0)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
+  VALUES ('0150a2b6-3bfc-4744-a3bc-dd0b79428ef8','ea7d18d7-cfef-4d8d-9b1d-e4308719d303','kuali.resultComponent.grade.passFail','6f3cfb41-c30b-4268-9fb2-3faba3da07dd','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('e8d7b433-80f8-4af4-848d-42b6f5c54ca3','6ec47ccf-925d-4cb9-a1c7-03026f971607','kuali.resultComponent.grade.audit','f7dc1268-f31c-499d-a25a-6ab3a0dc9333','Draft',2)
@@ -15077,10 +15077,10 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('eb2a589f-5e55-4f97-adb0-69e9a4e38ef8','93b2f81a-02dd-4174-a988-46a3f1cf0ca6','kuali.creditType.credit.degree.3.0','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('c6938ef4-5fbf-4c6b-bf40-e494643d48b9','0768d31f-635f-4c74-9045-5de89ce53d3e','kuali.resultComponent.grade.passFail','9c26a48d-dc3a-4a44-b12c-39e27cc1e958','Active',1)
+  VALUES ('cc8d9e2f-2d97-4567-a4b3-77eee22a871b','ce10b657-fc63-4a04-bbdc-bcb9f4f5c991','kuali.resultComponent.grade.audit','19110080-9b36-40e7-912c-00f41f1b7def','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('cc8d9e2f-2d97-4567-a4b3-77eee22a871b','ce10b657-fc63-4a04-bbdc-bcb9f4f5c991','kuali.resultComponent.grade.audit','19110080-9b36-40e7-912c-00f41f1b7def','Active',0)
+  VALUES ('c6938ef4-5fbf-4c6b-bf40-e494643d48b9','0768d31f-635f-4c74-9045-5de89ce53d3e','kuali.resultComponent.grade.passFail','9c26a48d-dc3a-4a44-b12c-39e27cc1e958','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('3af58fea-24c1-4980-a49f-5ea98b053d76','303e0963-36bc-4adf-9f0e-285340cf2b4a','kuali.resultComponent.grade.audit','da210467-eef8-4994-b4a5-c2b922e88787','Active',1)
@@ -15163,11 +15163,11 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('d9f36987-76c2-4e9c-b4b1-ec8f1db61f84','e44036d0-719e-4374-a7ea-a13730d91571','kuali.resultComponent.grade.passFail','6562c9f8-44b0-4917-9b47-186a9883de55','Draft',2)
 /
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('a686c8e6-968c-499e-acee-d4a6ac468c63','924e8fe2-78c1-47db-bccf-617e6521d514','kuali.resultComponent.grade.audit','178e8dca-f1ad-4eb4-8976-ad1b581f5ccc','Active',1)
-/
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('49422250-8615-4856-bb59-19084add0cb8','67b25f8e-ac1a-4403-8b6f-6daa4ed56d72','kuali.creditType.credit.degree.3.0','Active',0)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
+  VALUES ('a686c8e6-968c-499e-acee-d4a6ac468c63','924e8fe2-78c1-47db-bccf-617e6521d514','kuali.resultComponent.grade.audit','178e8dca-f1ad-4eb4-8976-ad1b581f5ccc','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('f165669c-4409-4b15-ada6-f6b934a1498a','73462a67-3ca8-4598-a4bc-a3c4ac282d99','kuali.resultComponent.grade.audit','5a1b5807-8694-4514-a3f7-dcfadfb05dce','Draft',2)
@@ -15206,10 +15206,10 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('a1b286dc-1aed-4bae-91fe-bf6c0f82bd92','eb974729-0dbb-4824-ade9-c98fcf652efc','kuali.resultComponent.grade.audit','581a4038-0a4b-498a-b97e-f16bbaaa25d7','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('053a7369-2033-4109-b215-7b1be3d0c66c','870e65d2-a595-4acf-aeb4-4c61ac646992','kuali.resultComponent.grade.audit','ea5706d9-ba72-4d50-820a-e5bf98039bba','Active',0)
+  VALUES ('3daeca8c-d2af-41cd-8452-e883223d2ea1','bb7707cb-16ef-4dcc-86d8-2ad385a12dd1','kuali.resultComponent.grade.letter','2480bd6c-f708-4030-8c55-a09f81241451','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('3daeca8c-d2af-41cd-8452-e883223d2ea1','bb7707cb-16ef-4dcc-86d8-2ad385a12dd1','kuali.resultComponent.grade.letter','2480bd6c-f708-4030-8c55-a09f81241451','Draft',2)
+  VALUES ('053a7369-2033-4109-b215-7b1be3d0c66c','870e65d2-a595-4acf-aeb4-4c61ac646992','kuali.resultComponent.grade.audit','ea5706d9-ba72-4d50-820a-e5bf98039bba','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('8eaaa71c-d5c6-45db-a9c0-d97e7f6bbecc','b931f938-f87c-470b-915e-27465cdd234d','kuali.resultComponent.grade.audit','8ba1c851-c19b-4ea8-a74e-1f5851dd3665','Active',3)
@@ -15229,11 +15229,11 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('df8f7dd9-802c-45be-9389-122a10981127','f6cbdfaa-8f73-4034-aff8-f20faa3881ba','kuali.creditType.credit.degree.3.0','Draft',0)
 /
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('a4fa5701-d08d-45aa-a6aa-ed33c1d09968','9f106e23-ab4e-4c20-a6d8-3a5451ee899c','kuali.resultComponent.grade.passFail','9f769dda-1d46-4898-bf4c-c123c4a02735','Draft',2)
-/
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('ad4e2061-86bd-4460-8720-5a4cfc02e84c','bdfb64cf-1eb5-4a26-b505-da90ff5d23aa','kuali.creditType.credit.degree.3.0','Retired',0)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
+  VALUES ('a4fa5701-d08d-45aa-a6aa-ed33c1d09968','9f106e23-ab4e-4c20-a6d8-3a5451ee899c','kuali.resultComponent.grade.passFail','9f769dda-1d46-4898-bf4c-c123c4a02735','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('a572e236-45ff-40be-ad13-835630fd070c','0fa89977-ca06-4ca4-a81e-2ee39fd3193c','kuali.resultComponent.grade.audit','1f450ae4-d039-4d9e-9af9-26dbf5eb68d3','Active',0)
@@ -15271,11 +15271,11 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('f30e31a2-1782-4d32-b647-a24ea3d5265e','ddeb22e6-5570-4547-bdc2-70201e661cb2','kuali.resultComponent.grade.letter','44e8f7ae-6b87-4604-8944-bfb84f36ee09','Draft',2)
 /
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('a3b8c455-10a0-4734-8f47-ce68be28b643','e01e7034-1a8c-4065-ab90-e729b9884cf1','kuali.resultComponent.grade.audit','b31c13a8-0b4a-40bd-ad04-5669f417a370','Draft',5)
-/
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('e70e438b-af92-4ee3-9598-8b011c202c36','e6c37f45-6b32-445d-8415-7efbf0910213','kuali.creditType.credit.degree.2.0','Active',0)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
+  VALUES ('a3b8c455-10a0-4734-8f47-ce68be28b643','e01e7034-1a8c-4065-ab90-e729b9884cf1','kuali.resultComponent.grade.audit','b31c13a8-0b4a-40bd-ad04-5669f417a370','Draft',5)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('2e0f5b46-6d98-4045-b01a-d434bb803210','52556e57-c93d-4ae8-a3be-11b6243ea688','kuali.resultComponent.grade.letter','d7a06a77-8d46-496c-8139-5776bb32f075','Active',2)
@@ -15332,10 +15332,10 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('7c759659-8d3e-45c7-8e74-2b458a90f0e7','013838d1-1473-4024-bb2a-09a2a0f8a0c4','kuali.resultComponent.grade.passFail','bfc36a2e-248a-46a5-9244-3488d5f8c9d9','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('88cec159-49f4-4709-b472-6ea1f94a2a85','3b4618af-dace-49fa-a081-478843e725ac','kuali.resultComponent.grade.audit','22a0a3e2-6cc8-453a-8aa1-9183390c5c6a','Retired',1)
+  VALUES ('4001663f-b885-4f47-9a8d-4560cc026cf8','19fe00fb-6efa-44a7-8bc0-408c01f9e53f','kuali.resultComponent.grade.audit','41961416-770e-4717-99fd-eec44fca3bd7','draft',11)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('4001663f-b885-4f47-9a8d-4560cc026cf8','19fe00fb-6efa-44a7-8bc0-408c01f9e53f','kuali.resultComponent.grade.audit','41961416-770e-4717-99fd-eec44fca3bd7','draft',11)
+  VALUES ('88cec159-49f4-4709-b472-6ea1f94a2a85','3b4618af-dace-49fa-a081-478843e725ac','kuali.resultComponent.grade.audit','22a0a3e2-6cc8-453a-8aa1-9183390c5c6a','Retired',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('88942249-c948-413f-99d8-f775f1b7d978','21f7e775-d957-4b2a-ae8d-4f7a06507eba','kuali.resultComponent.grade.letter','c230a74b-b871-4963-880e-10a024ebe649','Active',0)
@@ -15406,23 +15406,23 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('eedc0e9a-d4ed-4d1d-97fa-c8cddbda076e','f2ce253b-29be-4ab4-bf53-0f123f9dee1c','kuali.resultComponent.grade.letter','79c0e235-bf30-4c8d-8409-3f5e32a1c512','Active',0)
 /
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('b8a383e4-f4d1-4ef1-800c-7d8360fbb92a','fec0d193-7c60-4c40-9281-5ced4fae1640','kuali.creditType.credit.degree.2.0','Draft',0)
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
+  VALUES ('9c7d40a9-fdef-450e-a180-810f4cfb9df0','bdd7cf0b-a663-40c2-b432-6d9a9beda007','kuali.resultComponent.grade.audit','57f23a91-9544-476f-8c86-832a137e6d3f','Draft',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('0bae51fe-14ed-4027-ba83-b6cf6ff07330','49f946ad-ead1-46a5-bd1a-249db759b30a','kuali.creditType.credit.degree.1.0','Active',0)
 /
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('9c7d40a9-fdef-450e-a180-810f4cfb9df0','bdd7cf0b-a663-40c2-b432-6d9a9beda007','kuali.resultComponent.grade.audit','57f23a91-9544-476f-8c86-832a137e6d3f','Draft',1)
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
+  VALUES ('b8a383e4-f4d1-4ef1-800c-7d8360fbb92a','fec0d193-7c60-4c40-9281-5ced4fae1640','kuali.creditType.credit.degree.2.0','Draft',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('e8d52b61-746e-4320-943a-2b1997a62cb8','1a2c1fc5-4833-4acb-874c-6f4b94381761','kuali.resultComponent.grade.audit','9cb676dc-9a92-430b-9792-4a1b2a7df6bf','Draft',2)
+  VALUES ('fbae1ded-9eb4-4726-ac78-3f5ebc4fdcba','546bd3b7-1fd0-4fbe-b8dd-fcdd39d5e43d','kuali.resultComponent.grade.letter','0620ee1c-cc5f-4381-831a-d4a705a327a9','Retired',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('7dfcda71-9fbb-480a-9962-ec08af582558','72f33e31-7412-4f5f-9749-390aa8c23b5e','kuali.resultComponent.grade.passFail','c541b942-edc9-48fb-87a4-36e39100d55b','Draft',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('fbae1ded-9eb4-4726-ac78-3f5ebc4fdcba','546bd3b7-1fd0-4fbe-b8dd-fcdd39d5e43d','kuali.resultComponent.grade.letter','0620ee1c-cc5f-4381-831a-d4a705a327a9','Retired',1)
+  VALUES ('e8d52b61-746e-4320-943a-2b1997a62cb8','1a2c1fc5-4833-4acb-874c-6f4b94381761','kuali.resultComponent.grade.audit','9cb676dc-9a92-430b-9792-4a1b2a7df6bf','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('be2d3ee8-4db9-40e8-8453-ecfed2880488','c31266cd-864c-4511-8427-1c99afc91a13','kuali.creditType.credit.degree.3.0','Active',0)
@@ -15437,10 +15437,10 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('82178df0-9a5b-44d9-bcf9-d40f442da8a5','4cc94c0c-8920-4501-930e-ac8a3a7786da','kuali.resultComponent.grade.audit','880723a3-5c85-4329-8aa3-06b133d064a1','Draft',4)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('0b9fd1a8-fb02-47d3-a6f4-1eab4437f195','cbb2c11a-d809-41dd-acf8-737bb6831a80','kuali.creditType.credit.degree.2.0','Active',0)
+  VALUES ('645e1fba-5b74-4d22-92af-fdd279734da9','35432b4f-4e9d-4317-8dc5-368f04f33c8d','kuali.creditType.credit.degree.3.0','Draft',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('645e1fba-5b74-4d22-92af-fdd279734da9','35432b4f-4e9d-4317-8dc5-368f04f33c8d','kuali.creditType.credit.degree.3.0','Draft',0)
+  VALUES ('0b9fd1a8-fb02-47d3-a6f4-1eab4437f195','cbb2c11a-d809-41dd-acf8-737bb6831a80','kuali.creditType.credit.degree.2.0','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('b0ea522b-f9ea-4b19-b435-9af9f815ce30','ac770085-5b1c-4bd0-9e40-c537fc117c76','kuali.resultComponent.grade.audit','0a44a42e-de59-4ffe-882b-03d124509cc9','Draft',1)
@@ -15451,11 +15451,11 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('f12874ae-36a2-470e-9909-903d22560120','37f11ad5-b030-441a-8fd5-7eb04fae2ba2','kuali.creditType.credit.degree.3.0','Active',0)
 /
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('4bdd7532-3433-4934-92af-278bc10d542c','55eab620-ac17-42ea-ba0e-735900c6264b','kuali.creditType.credit.degree.3.0','Draft',0)
-/
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('0d2eb7e1-09fc-4cd0-a899-e8bbcd32f896','983e149a-3456-4c81-a855-a21fb40bb223','kuali.resultComponent.grade.letter','2d7bcce8-dcf0-4491-8c89-262d19f377d9','Active',0)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
+  VALUES ('4bdd7532-3433-4934-92af-278bc10d542c','55eab620-ac17-42ea-ba0e-735900c6264b','kuali.creditType.credit.degree.3.0','Draft',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('2ed2d5af-6ac2-4236-8a83-8769b1d26880','9c8e3213-7e7a-4464-b98e-27157ef6f48f','kuali.resultComponent.grade.letter','7d93a53e-74c2-426b-b64d-af4911dd89c6','Active',0)
@@ -15470,13 +15470,13 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('636a9ace-21d8-403b-87f1-043e5a37d371','7be9c2f5-5e78-4589-9a93-8a7c8a568399','kuali.resultComponent.grade.passFail','e70f40ce-8aa7-4a4f-b4f7-92609da212df','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
+  VALUES ('5697f139-84b8-47fc-94eb-7c2556aa5f69','5f21c9d7-594b-47bb-895e-3f40abd33b30','kuali.resultComponent.grade.audit','7e30ff80-886d-4e97-84da-5093d0dd6a4e','Active',0)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('cc373cd1-9583-47a8-a60f-2483a03ed5a6','9c2b4d1d-c546-4ecb-a0e8-230c8c87cb03','kuali.resultComponent.grade.audit','d23b88fa-8caf-4508-adf2-9353599d65b9','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('230372de-7ca7-4c71-adfa-1e8a35827e4e','1a734dcf-9b67-499c-a5c1-e34d239d0962','kuali.resultComponent.grade.letter','79f6cdbd-2914-48a1-8e7a-845fccf6a376','Active',0)
-/
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('5697f139-84b8-47fc-94eb-7c2556aa5f69','5f21c9d7-594b-47bb-895e-3f40abd33b30','kuali.resultComponent.grade.audit','7e30ff80-886d-4e97-84da-5093d0dd6a4e','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('4eb65a8d-a798-48ae-a431-8dcfc97ffb44','6ce0a0fb-35da-49f0-8c75-e75088ae74e6','kuali.creditType.credit.degree.3.0','Draft',0)
@@ -15494,10 +15494,10 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('5926087f-66de-49b7-88dd-6392dd008404','3f4ef09c-f640-4356-bff8-c4871b596c2d','kuali.resultComponent.grade.audit','b67e38e3-490f-4ef0-90fe-f09400da5b5a','Draft',4)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('c52a28b8-b05e-4c1a-9253-f03a54944fbc','811580e1-36b0-48f6-bcdc-41de2a87c724','kuali.resultComponent.grade.passFail','275656ac-6cb7-44ef-8e39-7f06b3508ad5','Active',0)
+  VALUES ('51eb5e69-102c-4069-9956-f3bcd4a4e955','ebd23dfd-14f0-46f0-b9b9-d337488f3ab1','kuali.resultComponent.grade.audit','ee895508-76b8-48c2-874b-af7a68490259','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('51eb5e69-102c-4069-9956-f3bcd4a4e955','ebd23dfd-14f0-46f0-b9b9-d337488f3ab1','kuali.resultComponent.grade.audit','ee895508-76b8-48c2-874b-af7a68490259','Active',1)
+  VALUES ('c52a28b8-b05e-4c1a-9253-f03a54944fbc','811580e1-36b0-48f6-bcdc-41de2a87c724','kuali.resultComponent.grade.passFail','275656ac-6cb7-44ef-8e39-7f06b3508ad5','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('8c98f4c0-2748-4a22-81e3-8aeeb604525b','38cc30e1-12b0-4119-a5a2-dcae2202806d','kuali.resultComponent.grade.letter','96f1f2d4-0187-464c-a42d-531256041f89','Draft',1)
@@ -15545,10 +15545,10 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('0d5d438e-71eb-4816-bfe8-852719fc84f7','ca9b85a6-ff2a-4e12-a326-b58b0ce420fe','kuali.creditType.credit.degree.3.0','Draft',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('4019194e-4ea4-4aae-a19d-c2116e92c4e7','8f137eed-22d9-4259-bc1c-1430e0382e22','kuali.resultComponent.grade.letter','54f6925b-1c67-4acb-b08d-42bc0bf0b117','Retired',1)
+  VALUES ('8cb6e691-06d2-4a40-820f-f3032bd9eb25','d2f03890-49fa-4de9-b1ea-b3ae1f27068c','kuali.resultComponent.grade.audit','ef782a6d-7940-4e7d-8490-76e6d5d19a6b','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('8cb6e691-06d2-4a40-820f-f3032bd9eb25','d2f03890-49fa-4de9-b1ea-b3ae1f27068c','kuali.resultComponent.grade.audit','ef782a6d-7940-4e7d-8490-76e6d5d19a6b','Draft',2)
+  VALUES ('4019194e-4ea4-4aae-a19d-c2116e92c4e7','8f137eed-22d9-4259-bc1c-1430e0382e22','kuali.resultComponent.grade.letter','54f6925b-1c67-4acb-b08d-42bc0bf0b117','Retired',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('f05c56b6-7fd8-40d1-9669-3a830c8ff040','31ed5215-a358-4123-989f-5da86856e787','kuali.resultComponent.grade.audit','2e041bec-5073-49ae-9942-1353fe261ce7','Retired',1)
@@ -15592,11 +15592,11 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('07386521-89cc-4bb1-83bb-20c5bba267b9','3ac108bc-a90b-47af-bb0a-19f80475dff3','kuali.resultComponent.grade.audit','3d475f88-fc7c-435f-b88f-6c7a33fc235c','Draft',2)
 /
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('9768017c-11bb-459c-b634-d25a2a1a6941','a90462cf-68c1-42da-a8bf-3f224c5f52a2','kuali.creditType.credit.degree.3.0','Active',0)
-/
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('7f0f5e2f-482e-4d6d-b040-065b2d2d73d8','cff3a38b-a25a-47cb-886d-1a9d7f6268fb','kuali.resultComponent.grade.letter','04767a90-a3b6-419f-b40c-26cf0e1637d8','Draft',1)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
+  VALUES ('9768017c-11bb-459c-b634-d25a2a1a6941','a90462cf-68c1-42da-a8bf-3f224c5f52a2','kuali.creditType.credit.degree.3.0','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('9e528f13-42fa-4000-a367-8b2012956e01','d2df75a2-5643-4457-aec9-df0e0d8262a8','kuali.creditType.credit.degree.3.0','Active',0)
@@ -15623,10 +15623,10 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('b321790c-1bad-4cf4-b889-d71a4c37e54e','b25bac77-30d7-4d21-b74e-06b9957ae648','kuali.resultComponent.grade.passFail','2880be64-360d-476a-8bc5-3a3fd23ec638','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('2969be69-934a-4619-ae88-a564f19feae4','33cce811-437b-4fdc-bb49-f0a1d12fbc25','kuali.resultComponent.grade.audit','0608fb05-0f7e-42d3-8872-d963b2bbab70','Draft',2)
+  VALUES ('f43a96b7-300f-4993-a7b3-d6f582d0a643','3a1ab96b-31d7-498e-b3e7-99b679cc2c78','kuali.resultComponent.grade.passFail','8ec02da8-099a-49d3-ab40-30e98bbf2a8c','Draft',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('f43a96b7-300f-4993-a7b3-d6f582d0a643','3a1ab96b-31d7-498e-b3e7-99b679cc2c78','kuali.resultComponent.grade.passFail','8ec02da8-099a-49d3-ab40-30e98bbf2a8c','Draft',1)
+  VALUES ('2969be69-934a-4619-ae88-a564f19feae4','33cce811-437b-4fdc-bb49-f0a1d12fbc25','kuali.resultComponent.grade.audit','0608fb05-0f7e-42d3-8872-d963b2bbab70','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('14b88c2b-bf59-41e9-9bb1-18148f57e780','2e8544ed-6321-49b3-bb28-8c355805bf8d','kuali.creditType.credit.degree.3.0','Active',0)
@@ -15644,16 +15644,16 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('4e3e6e42-8d10-40b0-a0f4-838448b183aa','8b0fe347-15a9-4552-828d-6846d0c65c34','kuali.resultComponent.grade.letter','164e7e79-92f3-41d7-81a6-2bebd1a26954','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('5a7188ec-2600-49c3-a609-03500456f813','ce00192a-fdbf-45eb-b76c-8c63ea68bc00','kuali.creditType.credit.degree.3.0','Active',0)
-/
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('ed5abe67-1840-4a1e-a1db-deae69f890ca','c2156f4f-32ad-479f-98b2-27f197ec64f5','kuali.creditType.credit.degree.1-3','Active',0)
 /
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('eaa2f25e-39eb-4d48-a409-c2c7a6922e1c','7c88cd39-54c1-4c58-9ee5-075fad925d56','kuali.resultComponent.grade.passFail','cec37059-8181-4a18-862d-89766ca52acc','Active',0)
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
+  VALUES ('5a7188ec-2600-49c3-a609-03500456f813','ce00192a-fdbf-45eb-b76c-8c63ea68bc00','kuali.creditType.credit.degree.3.0','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('870e3b86-6383-423b-8241-1380775addb4','e2f9c52a-3d45-4ea6-a2cc-2b70ce9f5cbf','kuali.resultComponent.grade.satisfactory','129947f6-a659-484d-b29b-fcb6e42e07c4','Active',3)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
+  VALUES ('eaa2f25e-39eb-4d48-a409-c2c7a6922e1c','7c88cd39-54c1-4c58-9ee5-075fad925d56','kuali.resultComponent.grade.passFail','cec37059-8181-4a18-862d-89766ca52acc','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('d9bba014-a1d6-4898-a2f5-1363cca495e7','d55a1728-ce1e-4039-bb79-41aeef56b456','kuali.resultComponent.grade.audit','a28a8f5a-7299-4a22-962d-a86ff1a053f3','Draft',19)
@@ -15661,11 +15661,11 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('d3b4a468-0dfa-483b-bf30-80fdd65ba5de','1213e1c7-670e-441e-ab69-618a9856755c','kuali.resultComponent.grade.letter','daa87bae-516e-4159-a635-a879e85e793c','Draft',1)
 /
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('ddfd6eac-4036-4f57-a2ee-cb7ff5be2371','7aec3eae-3eea-42f6-aa24-4032f31ff9c5','kuali.resultComponent.grade.audit','3adfc72c-40f7-43b0-bd27-b4dbf2ea381b','Active',1)
-/
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('b694070e-bfd2-4ad5-b031-2c37aede5044','d98214dd-2281-49f1-9c0f-a6af673e76f9','kuali.creditType.credit.degree.3.0','Active',0)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
+  VALUES ('ddfd6eac-4036-4f57-a2ee-cb7ff5be2371','7aec3eae-3eea-42f6-aa24-4032f31ff9c5','kuali.resultComponent.grade.audit','3adfc72c-40f7-43b0-bd27-b4dbf2ea381b','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('060b78d8-146e-4f7d-a623-33b8033cc174','6973c2bf-547a-4d3d-921d-104b6b15ce98','kuali.resultComponent.grade.letter','46457306-2e32-49c5-b19e-dd8784cde9d5','Draft',2)
@@ -15680,13 +15680,13 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('44ce3131-c223-4b5a-ac5a-a476a98995e8','6add113b-5b2c-4e52-be25-8eacec2da684','kuali.resultComponent.grade.letter','c81f8f7d-1ddd-42e2-8d68-e2fd10cdc583','Draft',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
+  VALUES ('9af91caf-120b-45bf-b75a-094bc7163048','74c2c7be-fd67-4c58-8b89-fba29f29eb05','kuali.creditType.credit.degree.3.0','Active',0)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('49e22ab5-2833-4c4f-af8e-ab4945404702','06f81e21-16a5-4952-9105-77b889b254e3','kuali.creditType.credit.degree.3.0','Draft',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('cccd14bc-be32-4d4e-a0f3-4499b88c45b2','e3914a5b-6634-4554-abd8-af66047e0b17','kuali.resultComponent.grade.letter','b86393d2-f8e7-4f19-906b-724dbf2b20bc','Retired',1)
-/
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('9af91caf-120b-45bf-b75a-094bc7163048','74c2c7be-fd67-4c58-8b89-fba29f29eb05','kuali.creditType.credit.degree.3.0','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('43aaff03-8693-433d-91dd-a46cd7864589','c435c4ed-6fdf-44f5-8040-11fcb5840fee','kuali.resultComponent.grade.letter','cee4ac59-a5df-496a-82c0-7310c8ab714c','Draft',1)
@@ -15709,11 +15709,11 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('f7a7d19c-2816-432d-be68-5a00fc6e1554','50a988f2-1dba-47b1-a93a-7a7b56e41584','kuali.resultComponent.grade.passFail','1c05512c-5a6b-4241-afe3-6a5fbdbbb2f6','Draft',2)
 /
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('8e585fb0-8334-4b2e-a467-4d7854891206','e41c2966-6231-4ae6-9b2e-af305bb310dc','kuali.resultComponent.grade.letter','3fe8d22c-eded-4d33-8a0f-2e750afe010e','Active',1)
-/
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('343aaf70-980a-4d6e-8fe5-0dfbf17859c4','b8091926-ee02-4aa6-8d65-54ab332d5bd5','kuali.creditType.credit.degree.3.0','Draft',0)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
+  VALUES ('8e585fb0-8334-4b2e-a467-4d7854891206','e41c2966-6231-4ae6-9b2e-af305bb310dc','kuali.resultComponent.grade.letter','3fe8d22c-eded-4d33-8a0f-2e750afe010e','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('88662ad3-c250-4c71-a060-2a740c60aa9b','49cd1c87-0809-49f4-bbcd-875ca87c58fd','kuali.creditType.credit.degree.4.0','Draft',0)
@@ -15817,23 +15817,23 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('794d2eb7-fddb-4ccf-993f-7101a71ddeaf','6328ef65-3268-4b58-8a3a-83103b9d27b5','kuali.creditType.credit.degree.3.0','Draft',0)
 /
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('ec03e668-5aec-41cf-a168-04b8e720271a','6bbeff19-7bcb-44f1-95b9-12f29278674f','kuali.resultComponent.grade.passFail','1580b8d0-faeb-49d2-84c8-7661dbc7369a','Draft',2)
-/
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('7200547d-d8fc-4a90-8ad5-457fb6c63c3f','b9e417fa-7b74-4083-8d54-2d67b6910229','kuali.creditType.credit.degree.3.0','Draft',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('0a07d91e-200e-44c4-8568-e072f68f99df','1c60d838-6a73-4ce0-981f-5c67fb84410a','kuali.resultComponent.grade.passFail','e0e20d56-4122-40c6-b314-2f12ad9f68c2','Retired',1)
 /
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
+  VALUES ('ec03e668-5aec-41cf-a168-04b8e720271a','6bbeff19-7bcb-44f1-95b9-12f29278674f','kuali.resultComponent.grade.passFail','1580b8d0-faeb-49d2-84c8-7661dbc7369a','Draft',2)
+/
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('5a4d303d-c064-448e-afd5-7fd089c1f231','27ff17f9-2705-47d6-8293-c83e2b5cb5ba','kuali.creditType.credit.degree.3.0','Active',0)
 /
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('be47790b-f93c-4bd2-9197-d2b082c44f1d','ed3560ab-9ca5-45ce-a38f-88ead6b21a15','kuali.resultComponent.grade.audit','4c873ad6-4452-4f30-a5d8-da08827c3f60','Retired',1)
-/
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('855049cc-849a-4a22-8d22-68b1761ab390','82ca3957-3556-4791-b354-8ff848152671','kuali.creditType.credit.degree.2.0','Retired',0)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
+  VALUES ('be47790b-f93c-4bd2-9197-d2b082c44f1d','ed3560ab-9ca5-45ce-a38f-88ead6b21a15','kuali.resultComponent.grade.audit','4c873ad6-4452-4f30-a5d8-da08827c3f60','Retired',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('88febdb4-3d65-4717-8d66-61714d39f064','308b8b6b-fc2c-400d-ac2b-5fe1be98beea','kuali.creditType.credit.degree.3.0','Active',0)
@@ -15902,10 +15902,10 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('e48769dd-9a5d-43af-88f9-724f6e40719d','6570f9a5-fa43-48ad-a82c-4ac78e9dfffe','kuali.resultComponent.grade.audit','211132d8-94fe-4ea7-9a2f-fb474d6c39b8','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('9c9ab944-3038-4d6d-a448-3ec6b9970161','a1c667ff-260d-4297-bac9-cddbde5fa93e','kuali.resultComponent.grade.audit','dce67577-fa81-4820-905d-78de618da4de','Active',1)
+  VALUES ('e0ec0161-0a04-4044-905a-62ed43077725','14115213-88cb-4db6-aaea-a8ee9ef7549c','kuali.resultComponent.grade.audit','b6623e69-2637-487b-945a-3366e5cf5b8a','Draft',3)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('e0ec0161-0a04-4044-905a-62ed43077725','14115213-88cb-4db6-aaea-a8ee9ef7549c','kuali.resultComponent.grade.audit','b6623e69-2637-487b-945a-3366e5cf5b8a','Draft',3)
+  VALUES ('9c9ab944-3038-4d6d-a448-3ec6b9970161','a1c667ff-260d-4297-bac9-cddbde5fa93e','kuali.resultComponent.grade.audit','dce67577-fa81-4820-905d-78de618da4de','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('b61f6b58-610f-4dc2-9726-41404c1dabdc','ca55d838-b47c-44d2-b482-69c4ea90dfe2','kuali.resultComponent.grade.audit','34b579d5-2b8b-4642-bfb3-2d32d499ce01','Draft',2)
@@ -15932,22 +15932,22 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('e2c1cab5-9781-4afc-b477-abfbdecbb828','ffaed43f-ac45-481e-9d42-4ce955703009','kuali.resultComponent.grade.letter','385c6f29-e46e-4f3c-a282-b5bb69b16183','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('bbbe63fc-a2da-4edf-a99c-d344f265ca5a','ce77e12c-5eee-4898-80a8-ef3282176637','kuali.resultComponent.grade.audit','72044e38-ff0d-492b-8e80-042b2a9464eb','Draft',2)
-/
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('c8c4aa67-ccd6-43e2-9ed7-5018885c1caa','983bbd86-bf1b-4b1c-ba95-5f73ced9bb18','kuali.resultComponent.grade.letter','0e61c36f-9fbd-47b1-980c-9071480b060c','Draft',15)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('b2bedf8d-759d-44e8-8262-f1f876159613','09cf8a5c-cb3e-427f-9e8a-8ea1c3f1d4c2','kuali.resultComponent.grade.audit','a67f9f80-9f79-43bc-9d3e-43c36b80e194','Draft',1)
+  VALUES ('bbbe63fc-a2da-4edf-a99c-d344f265ca5a','ce77e12c-5eee-4898-80a8-ef3282176637','kuali.resultComponent.grade.audit','72044e38-ff0d-492b-8e80-042b2a9464eb','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('0a98a6ab-06ce-44d2-a448-bc366dccaeb7','5d850763-744c-47be-acdc-d4bc15c5436d','kuali.resultComponent.grade.passFail','f5f032c8-1f37-4797-8ba8-fa536fdbfa17','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('f8b1a37e-72da-4e79-ac2b-82310be913fa','15a947f5-37d7-4e32-b043-d3029819deca','kuali.resultComponent.grade.letter','d8f21ab8-da93-4580-90b6-277cc3e9acc1','Active',1)
+  VALUES ('b2bedf8d-759d-44e8-8262-f1f876159613','09cf8a5c-cb3e-427f-9e8a-8ea1c3f1d4c2','kuali.resultComponent.grade.audit','a67f9f80-9f79-43bc-9d3e-43c36b80e194','Draft',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('d65f8d48-24d0-44bf-803e-e32c493b55d9','c04f9a93-783f-44ab-9699-cc162295d572','kuali.resultComponent.grade.audit','a3401b5d-098a-4e6a-84ed-5af2cc39662a','Draft',2)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
+  VALUES ('f8b1a37e-72da-4e79-ac2b-82310be913fa','15a947f5-37d7-4e32-b043-d3029819deca','kuali.resultComponent.grade.letter','d8f21ab8-da93-4580-90b6-277cc3e9acc1','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('d3ebbedc-aef4-420e-bd64-53c2f918348f','81fb89e4-98d8-4a12-b5b3-ddb331d2f716','kuali.creditType.credit.degree.1.0','Active',0)
@@ -15982,11 +15982,11 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('1ad861eb-65c0-4a92-95ae-f8b3ad43b17d','ea23d378-499d-4692-a391-373162d35c37','kuali.resultComponent.grade.letter','61b70ad5-0587-45e8-8878-f558c7fe3756','Draft',19)
 /
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('bc996225-c2c3-485d-a3d4-dd1449affe92','a888dd6f-801d-482e-b87b-45b32b90c6b8','kuali.creditType.credit.degree.3.0','Active',0)
-/
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('26dd5a74-346f-4748-a744-888bbb6fd169','949ee946-6c6b-43b6-812c-528d42f9e434','kuali.resultComponent.grade.letter','c2b41c89-3660-4957-a3f7-288f5db9050f','Draft',16)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
+  VALUES ('bc996225-c2c3-485d-a3d4-dd1449affe92','a888dd6f-801d-482e-b87b-45b32b90c6b8','kuali.creditType.credit.degree.3.0','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('67179036-f88c-45af-9521-e32fbfe2e859','3dfcf013-a43b-4872-b479-b6c4fcd26b81','kuali.creditType.credit.degree.3.0','Active',0)
@@ -16010,16 +16010,16 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('a14ae9e3-3202-4851-97e7-f290d14de9ea','5f113046-b60e-4d06-a0b1-46cc0f5de83d','kuali.creditType.credit.degree.3.0','Draft',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('a8267db9-1c00-4b48-bf21-1746814eeb9c','e3b652f0-d947-4626-bd37-b760367828af','kuali.resultComponent.grade.passFail','e1f28148-bc2c-45cb-8be7-2c70576ef0b9','Draft',2)
-/
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('1a432aaa-2a34-4f92-a582-d9ed7f6bce72','a3858f4d-b2af-4c62-8306-2aea4ae85155','kuali.creditType.credit.degree.3.0','Active',0)
+  VALUES ('bf0e07a2-3c51-404b-aa04-3d7896f59fca','c23c62a6-4686-47b6-9fa3-ff2e423ae357','kuali.resultComponent.grade.letter','05e321f7-79fb-405a-af80-ee294c88efb7','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('e0f1ba91-5201-491b-8525-c078d462bc06','83f352c2-81df-4bb1-be06-4d78be09c4f9','kuali.resultComponent.grade.audit','4ad60e1b-2b7d-47b5-bc69-b58eb0ee276d','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('bf0e07a2-3c51-404b-aa04-3d7896f59fca','c23c62a6-4686-47b6-9fa3-ff2e423ae357','kuali.resultComponent.grade.letter','05e321f7-79fb-405a-af80-ee294c88efb7','Draft',2)
+  VALUES ('a8267db9-1c00-4b48-bf21-1746814eeb9c','e3b652f0-d947-4626-bd37-b760367828af','kuali.resultComponent.grade.passFail','e1f28148-bc2c-45cb-8be7-2c70576ef0b9','Draft',2)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
+  VALUES ('1a432aaa-2a34-4f92-a582-d9ed7f6bce72','a3858f4d-b2af-4c62-8306-2aea4ae85155','kuali.creditType.credit.degree.3.0','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('c8245a05-3d1e-4191-b2d6-a8a65997e4ed','8ea414da-cb84-4d12-b549-a8066234991e','kuali.resultComponent.grade.letter','e0eb3481-8f2b-4cf5-b862-836b3d1afb5f','Draft',1)
@@ -16078,17 +16078,17 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('7d162679-61e2-4b63-8e5d-a07d27625be9','6169921d-03bb-482b-ba0a-771ddc7bf337','kuali.resultComponent.grade.letter','b5658d92-8178-488e-83b2-6d8c10eb3ef6','Draft',4)
 /
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
+  VALUES ('f4306c32-605f-4ce8-ba53-4430c6e61c3d','2efc4cd1-994a-4806-a3ca-a79c7bef4e61','kuali.resultComponent.grade.letter','dafa78d9-3a5d-4221-a787-2a2df13d9811','Draft',1)
+/
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('161c51b4-c4bd-4ba9-9885-9f90de93c1e3','03fc5e96-9dda-4292-b61e-c26ff4e38f6b','kuali.creditType.credit.degree.3.0','Draft',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('f4306c32-605f-4ce8-ba53-4430c6e61c3d','2efc4cd1-994a-4806-a3ca-a79c7bef4e61','kuali.resultComponent.grade.letter','dafa78d9-3a5d-4221-a787-2a2df13d9811','Draft',1)
+  VALUES ('7a2e407c-0e6a-4aca-bb7e-5c38b1682cf7','04448f5f-4910-4bcf-b436-a44e055e8f83','kuali.resultComponent.grade.audit','98ede85d-9c4f-4081-a3be-e263a7e835c5','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('3dac097c-7d10-4fc6-a750-7ab230aa8eb7','2413c858-bce4-4399-906d-f2046f4b700d','kuali.resultComponent.grade.audit','ddf6993d-825a-4bab-b65f-c64a7f71f511','Draft',5)
-/
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('7a2e407c-0e6a-4aca-bb7e-5c38b1682cf7','04448f5f-4910-4bcf-b436-a44e055e8f83','kuali.resultComponent.grade.audit','98ede85d-9c4f-4081-a3be-e263a7e835c5','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('7775b3d2-a892-4b30-bdcc-c0307aead12c','4bb931bc-8305-4f75-8612-cf952c57c896','kuali.resultComponent.grade.passFail','3235b5d6-6b96-4c74-8ba4-e29278c45229','Active',0)
@@ -16106,25 +16106,25 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('d9cc1279-dbf8-4f75-bd79-0e9d8d3bfac2','356ae5b5-8ed0-4bdd-9abc-326d7984622a','kuali.creditType.credit.degree.3.0','Draft',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('fedebcaf-f085-40ee-8788-4c78c50fe535','a9141ec0-3b74-4b10-ba29-1dfaa3abf176','kuali.resultComponent.grade.audit','80c286e0-a5e1-42b3-adc3-91e534c6b9ee','Draft',3)
+  VALUES ('b301f7da-67ea-41db-8856-6def41a368e4','11824b9e-ff1d-4044-8178-41f3cdfbb519','kuali.resultComponent.grade.passFail','b2d576fc-ae7e-445b-846f-99fa46bda18e','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('b301f7da-67ea-41db-8856-6def41a368e4','11824b9e-ff1d-4044-8178-41f3cdfbb519','kuali.resultComponent.grade.passFail','b2d576fc-ae7e-445b-846f-99fa46bda18e','Draft',2)
+  VALUES ('fedebcaf-f085-40ee-8788-4c78c50fe535','a9141ec0-3b74-4b10-ba29-1dfaa3abf176','kuali.resultComponent.grade.audit','80c286e0-a5e1-42b3-adc3-91e534c6b9ee','Draft',3)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('b6ae35b1-8849-40b6-8200-82463a78fda1','f8e06fc0-e28e-43ee-a329-72e298b7f2e9','kuali.resultComponent.grade.letter','1e6b06af-62e2-4863-84ff-369000494205','Draft',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('6968e25f-f3e7-453e-a1e9-dbd3d03cd6bc','a4934230-0f10-4ab0-af85-056b4ac9d0d7','kuali.resultComponent.grade.passFail','4454d9d7-c1ad-4d7f-8025-e469b97eb859','Active',0)
-/
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('822e5e8b-a000-4078-b7c2-3de84c0873d7','a8e7963b-3b36-480c-a4cc-f3f85da18d27','kuali.resultComponent.grade.letter','d73fa536-365e-499b-a0b8-9a48bb35516e','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('d5a78043-9ad1-4b42-9f54-b6454c20319b','c5930a7c-bff9-482d-9a74-2d4760e71fc8','kuali.resultComponent.grade.audit','481a61e5-11e8-45df-b92d-00951a5dc414','Active',0)
+  VALUES ('6968e25f-f3e7-453e-a1e9-dbd3d03cd6bc','a4934230-0f10-4ab0-af85-056b4ac9d0d7','kuali.resultComponent.grade.passFail','4454d9d7-c1ad-4d7f-8025-e469b97eb859','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('4a3edc37-fafd-4890-b041-4bd4b3a1a38d','80211bfc-a943-4995-8a01-5f6fadd77c11','kuali.resultComponent.grade.letter','791d1b87-778d-4bdc-b59d-4087e4dba68f','Active',1)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
+  VALUES ('d5a78043-9ad1-4b42-9f54-b6454c20319b','c5930a7c-bff9-482d-9a74-2d4760e71fc8','kuali.resultComponent.grade.audit','481a61e5-11e8-45df-b92d-00951a5dc414','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('03ddccb6-c4be-46f3-bdf1-047f161b3487','c836761b-0030-45ab-91ea-b068951861b5','kuali.creditType.credit.degree.3.0','Active',0)
@@ -16139,10 +16139,10 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('2046de2f-d90c-4f2a-a7c8-cb7b9327d56e','794df9f6-924f-423f-8ebf-c088a16c0417','kuali.resultComponent.grade.audit','c5858c80-93e1-49d4-95af-4927f654896d','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('b89fd8b8-4808-4ab7-9e79-6899fca96a3c','ed5c83f4-526e-4a72-9993-bd86a6b9c360','kuali.resultComponent.grade.audit','64a28ea0-e250-4985-b152-e374f2ed0da3','Draft',2)
+  VALUES ('6f71a977-202a-4c04-9f4e-ba4ee5eb4e10','2eb561fb-b376-4906-9fee-32fb2dc595f6','kuali.resultComponent.grade.letter','00bdb9e8-f359-4ed7-b707-a8ad1a9aeef0','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('6f71a977-202a-4c04-9f4e-ba4ee5eb4e10','2eb561fb-b376-4906-9fee-32fb2dc595f6','kuali.resultComponent.grade.letter','00bdb9e8-f359-4ed7-b707-a8ad1a9aeef0','Active',0)
+  VALUES ('b89fd8b8-4808-4ab7-9e79-6899fca96a3c','ed5c83f4-526e-4a72-9993-bd86a6b9c360','kuali.resultComponent.grade.audit','64a28ea0-e250-4985-b152-e374f2ed0da3','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('f4380f33-c423-49fb-abda-d742c661fd80','781da05e-2902-47e9-bb15-a1ca7a33b5ca','kuali.resultComponent.grade.letter','ad22a7b5-c719-4d52-8eda-15a967dddac3','Draft',1)
@@ -16165,11 +16165,11 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('611c717f-f585-41b7-8b3f-38fdf2e31674','5df5e280-1fa9-4706-9161-f61fa190b072','kuali.resultComponent.grade.audit','17c7933e-8936-4408-ad48-dff1a59591ce','Active',0)
 /
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('c562a5cc-3081-4dc1-bf3a-3047fa74f929','2252cd63-5b74-446c-b044-503cfff59fae','kuali.creditType.credit.degree.3.0','Active',0)
-/
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('9790379f-c00d-4d16-8155-35796d5c4bf0','f5ea646c-5c19-4478-ac76-8a527f0d2cac','kuali.resultComponent.grade.letter','012193bd-dbdf-4e45-8fe2-ac351a78f9d4','Retired',1)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
+  VALUES ('c562a5cc-3081-4dc1-bf3a-3047fa74f929','2252cd63-5b74-446c-b044-503cfff59fae','kuali.creditType.credit.degree.3.0','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('fabdd907-8e18-4ba8-8c25-6e772870ec3f','d2175501-8dfd-4512-af19-84414a4e1772','kuali.creditType.credit.degree.3.0','Draft',0)
@@ -16184,10 +16184,10 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('39c250a8-71d6-4c51-8529-7b19e15368e9','31878173-93b8-4bc5-9645-1091504bf0c4','kuali.creditType.credit.degree.3.0','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('3a03f65c-c372-4030-bd70-45b4abc9856d','c9e919cc-63dc-4cbf-be30-ba3fd1b518ca','kuali.resultComponent.grade.letter','bb5a71ab-b8d6-4a93-b6cc-bdab5f7e2417','Draft',1)
+  VALUES ('86ff4782-71ae-4c0b-ad5b-d3bf9bacd319','975a31cf-4901-4161-972f-dabbc2f2bd37','kuali.resultComponent.grade.letter','06e62dee-21c2-4867-b58a-927a08df5d56','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('86ff4782-71ae-4c0b-ad5b-d3bf9bacd319','975a31cf-4901-4161-972f-dabbc2f2bd37','kuali.resultComponent.grade.letter','06e62dee-21c2-4867-b58a-927a08df5d56','Active',0)
+  VALUES ('3a03f65c-c372-4030-bd70-45b4abc9856d','c9e919cc-63dc-4cbf-be30-ba3fd1b518ca','kuali.resultComponent.grade.letter','bb5a71ab-b8d6-4a93-b6cc-bdab5f7e2417','Draft',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('25fba837-6eb8-4e7d-8907-a667f48c0385','213790d5-314d-40db-8495-4140cff0fc33','kuali.resultComponent.grade.letter','1777723a-5449-4e75-9aaf-cd3442cfc1cc','Draft',1)
@@ -16220,10 +16220,10 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('12d90f59-17c7-49b9-a966-d1e4241e2e03','249573cd-dc37-494e-9588-b6c6e9ed27ab','kuali.resultComponent.grade.audit','045ed3af-7604-47a1-8468-bdb78346125f','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('044f3fda-2b52-430e-a784-059dc48d2520','cc458798-4061-4896-a1ec-c9c0ab3d02a3','kuali.resultComponent.grade.letter','bf546769-8ba7-478b-8c65-3e3a2ec6189b','Draft',2)
+  VALUES ('7eb6dbd7-3f9d-4bc2-b6fa-e1fb2824c16a','e3833fd8-a38c-4340-81d7-7389b689113d','kuali.resultComponent.grade.letter','3a84770a-b768-4ebf-8049-c5b725ee7f99','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('7eb6dbd7-3f9d-4bc2-b6fa-e1fb2824c16a','e3833fd8-a38c-4340-81d7-7389b689113d','kuali.resultComponent.grade.letter','3a84770a-b768-4ebf-8049-c5b725ee7f99','Active',1)
+  VALUES ('044f3fda-2b52-430e-a784-059dc48d2520','cc458798-4061-4896-a1ec-c9c0ab3d02a3','kuali.resultComponent.grade.letter','bf546769-8ba7-478b-8c65-3e3a2ec6189b','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('d07e80d0-86f1-46e6-8075-18bf10a9e07e','150d8a24-8e94-4952-98df-796925e318fc','kuali.resultComponent.grade.audit','a38605ae-55e7-41da-8b57-49cb1527ce80','Active',0)
@@ -16270,17 +16270,17 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('1d82fa6d-3de1-4636-8846-7b174ca6b6cb','926a91ee-4dde-40cc-93cf-e1b47fe18eb9','kuali.resultComponent.grade.letter','98dfbe78-35fe-4a64-b7c3-707e45d16f5f','Draft',2)
 /
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
+  VALUES ('88538b1e-641a-4f30-91e9-b834ec51f03a','c09d7fc2-4ba0-41d4-9206-2b35f8dc39c8','kuali.creditType.credit.degree.3.0','Draft',0)
+/
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('aba3d557-63af-4fe3-96d4-14e1a79607db','4dfb6756-1a04-44b9-a77e-e9994d279241','kuali.resultComponent.grade.letter','4422020b-7b4b-4015-aaa3-b842ee2bfcc6','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('88538b1e-641a-4f30-91e9-b834ec51f03a','c09d7fc2-4ba0-41d4-9206-2b35f8dc39c8','kuali.creditType.credit.degree.3.0','Draft',0)
+  VALUES ('cf8c83e5-d3c4-4be8-8870-b11cd1c60bea','25360b3b-bb58-4238-9ac0-3ece9858cda4','kuali.creditType.credit.degree.3.0','Draft',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('4611f8e2-0555-44d5-8e0c-45c20ab88189','dedd4877-5a25-4329-803a-9d0bcd45e015','kuali.creditType.credit.degree.3.0','Active',0)
-/
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('cf8c83e5-d3c4-4be8-8870-b11cd1c60bea','25360b3b-bb58-4238-9ac0-3ece9858cda4','kuali.creditType.credit.degree.3.0','Draft',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('4df138ee-a546-4cd8-99e7-5cf9c06eccb6','f972f4dc-2301-4f33-87c2-8381b427f7df','kuali.resultComponent.grade.audit','3c8f001e-f534-46ec-9bbf-f714198179db','Draft',2)
@@ -16298,10 +16298,10 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('cf326b6c-b3c2-41f6-940c-c5551e45fc5f','1c10965b-046c-49c9-a384-31a52542649b','kuali.resultComponent.grade.letter','8309679b-3218-4235-96ed-8d8f078e51c4','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('45adb874-8f38-4c09-ba0e-22d1c329dabc','960bf1df-0b93-41e9-ac43-167c248ceafa','kuali.resultComponent.grade.letter','34bf7b89-4a70-406e-b67c-8e82f37e04b1','Active',0)
+  VALUES ('112ac012-7177-44ae-b78b-e0c7f378447a','ba7ccba8-b997-4efc-aa3a-573060d351bd','kuali.resultComponent.grade.audit','8f6569e9-cd5d-4199-8593-49c5d9f52b85','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('112ac012-7177-44ae-b78b-e0c7f378447a','ba7ccba8-b997-4efc-aa3a-573060d351bd','kuali.resultComponent.grade.audit','8f6569e9-cd5d-4199-8593-49c5d9f52b85','Draft',2)
+  VALUES ('45adb874-8f38-4c09-ba0e-22d1c329dabc','960bf1df-0b93-41e9-ac43-167c248ceafa','kuali.resultComponent.grade.letter','34bf7b89-4a70-406e-b67c-8e82f37e04b1','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('056e039d-a500-48fd-88e3-0e960bce9571','2fabf39f-d482-4537-a4aa-7afdc8feb874','kuali.resultComponent.grade.letter','7234fa29-3383-46e4-b3a5-56c83a9f6e49','Active',0)
@@ -16357,11 +16357,11 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('1dde4005-294e-46dc-bad5-8e4d54dc2bbc','ff552288-aa89-41c2-9b59-31110a77a5cf','kuali.creditType.credit.degree.3.0','Retired',0)
 /
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('60e4819f-d29f-4266-aaa6-83e2339c6b7f','8caf053c-e21e-4326-b468-6c260ba8f593','kuali.resultComponent.grade.audit','8ec5ac24-553f-417e-9771-8a1cfa9f8976','Draft',4)
-/
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('c428f4da-97f9-4b12-9211-c8c51d31f6ee','bf35101f-ccb4-462e-a520-0c8e198bea14','kuali.creditType.credit.degree.3.0','Draft',0)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
+  VALUES ('60e4819f-d29f-4266-aaa6-83e2339c6b7f','8caf053c-e21e-4326-b468-6c260ba8f593','kuali.resultComponent.grade.audit','8ec5ac24-553f-417e-9771-8a1cfa9f8976','Draft',4)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('f52ae47a-0eeb-4cb1-97aa-c36ff15b1509','7236429b-48db-4841-98c8-0bafe3f012e6','kuali.resultComponent.grade.audit','5e714525-fec0-4fe7-bf38-30c5494fdb4c','Retired',1)
@@ -16375,11 +16375,11 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('d571a27f-bdc3-4205-b110-df9b406777e3','1563eb68-8fb7-41eb-957c-a2c7f1addaa0','kuali.creditType.credit.degree.2.0','Draft',0)
 /
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('323bb0e0-0142-4d79-99cb-e8a76887d1ee','3efe62fa-67e4-4787-a949-a6b06d95e333','kuali.creditType.credit.degree.3.0','Retired',0)
-/
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('8d43a42c-016e-4b72-b47a-c6d2bb19398b','19b033ba-e320-4798-b64b-28dd6761bc21','kuali.resultComponent.grade.audit','7ddc9342-c949-42f4-be73-582134797ea5','Draft',4)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
+  VALUES ('323bb0e0-0142-4d79-99cb-e8a76887d1ee','3efe62fa-67e4-4787-a949-a6b06d95e333','kuali.creditType.credit.degree.3.0','Retired',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('4380145e-1126-4eef-b4c9-e15d5605365d','ce6e9ad5-e14c-41db-ae2e-c6a4c47b7164','kuali.resultComponent.grade.audit','daf7c30b-bcc5-4135-9d1f-53cc74601e62','Retired',1)
@@ -16415,13 +16415,13 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('723460a5-0fac-47af-9e4b-6de8fe038441','0d5a4eaf-951f-4891-8496-31649a5e2145','kuali.resultComponent.grade.letter','21662ddd-e7cd-4ce7-9e47-b4a8a39d1e54','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('be86b5e2-f277-4c36-9ca2-65191c56f07d','3dd59a5b-4c2b-4211-9e10-e4739eeba176','kuali.resultComponent.grade.letter','02fa86b1-1a67-4f9f-a4f5-ea0354e69b50','Draft',4)
+  VALUES ('425dd900-d159-4d18-9f09-bef8cb3737d6','2b034aa0-68d3-4429-8cb9-c4c712416671','kuali.resultComponent.grade.audit','217166be-f31f-407d-9e8d-845f70e3ed29','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('47488d4e-67d9-4d26-ac35-97aec76b22f6','aa6009ff-4e7c-48cf-99c5-84737b170e6a','kuali.resultComponent.grade.passFail','74ad9c51-af03-42e2-92e8-f6032d681954','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('425dd900-d159-4d18-9f09-bef8cb3737d6','2b034aa0-68d3-4429-8cb9-c4c712416671','kuali.resultComponent.grade.audit','217166be-f31f-407d-9e8d-845f70e3ed29','Active',1)
+  VALUES ('be86b5e2-f277-4c36-9ca2-65191c56f07d','3dd59a5b-4c2b-4211-9e10-e4739eeba176','kuali.resultComponent.grade.letter','02fa86b1-1a67-4f9f-a4f5-ea0354e69b50','Draft',4)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('3bca53b4-8f78-4660-9c56-b1fa8bb0aae3','30a57a87-0da5-42d5-a0cb-75cfd691b293','kuali.resultComponent.grade.audit','6e85f591-1da4-4f98-ba08-71dbb910720f','Active',3)
@@ -16441,11 +16441,11 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('9e7bce9a-b120-4e03-a513-612c4452b5a1','b35350b9-5810-4382-8018-5690bafc8fd7','kuali.resultComponent.grade.audit','db8941a5-72c4-4219-bcf4-e890bd53b698','Draft',2)
 /
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('24f09b7f-cdd9-43e1-9399-6195342d3411','d9f3fee2-5233-4086-8acf-2d94cc71f94c','kuali.resultComponent.grade.letter','20699b5a-5fa3-47f2-9078-29a3ad18393e','Active',0)
-/
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('77f68e57-3829-462a-815f-02a22c7d4a3f','da9dc376-7d5f-4ac5-a1f0-373ef51265c0','kuali.creditType.credit.degree.3.0','Draft',0)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
+  VALUES ('24f09b7f-cdd9-43e1-9399-6195342d3411','d9f3fee2-5233-4086-8acf-2d94cc71f94c','kuali.resultComponent.grade.letter','20699b5a-5fa3-47f2-9078-29a3ad18393e','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('13c028ff-e5f6-4165-a754-c8b890e0e6e6','349a1240-a785-4af2-8667-ba1ab7a41b3c','kuali.resultComponent.grade.letter','c9f8803e-3e61-472b-b9e7-61949b3397fb','Draft',2)
@@ -16489,11 +16489,11 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('08600ad9-9ad4-4ebb-8777-3d8d46667ec6','cceb265a-7b75-4d62-81a8-f30de4d352e0','kuali.resultComponent.grade.audit','3b106485-8995-4f61-9005-c235dff854f4','Active',1)
 /
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('d4a5ef76-5acf-4ca0-95b7-34cd7f79e79e','2c75352e-50fe-4fc2-a8e7-25ef65c22b42','kuali.creditType.credit.degree.3.0','Draft',0)
-/
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('8b1f6680-0298-43a4-a67e-e176200c896d','38a9c4ac-0c0b-4a61-99b4-0f19a613fa59','kuali.resultComponent.grade.letter','a23acb91-5d82-4407-a318-993f7a1b8c9b','Active',1)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
+  VALUES ('d4a5ef76-5acf-4ca0-95b7-34cd7f79e79e','2c75352e-50fe-4fc2-a8e7-25ef65c22b42','kuali.creditType.credit.degree.3.0','Draft',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('e0f3d5b2-4e69-4b06-b422-ba2b662d646b','d41f5b5b-a37d-47c6-85d7-147d8b1cbf6b','kuali.resultComponent.grade.letter','7984d7a3-85e3-4318-a8c6-76aa8ad45fbb','Draft',3)
@@ -16522,11 +16522,11 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('89577b3b-4860-4fc2-8b5f-de9f69539b82','ae483f48-d189-4709-84fe-140d52c3dfb4','kuali.resultComponent.grade.audit','2c5a7f95-3511-41bc-b854-49ab46a1550e','Draft',17)
 /
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('6c6977cf-1d33-4ae2-991c-aec268f21266','879bd209-bb63-4ca9-ad4e-8b63ba52ed4d','kuali.creditType.credit.degree.3.0','Retired',0)
-/
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('785fb480-df08-4d00-807d-1f3d70b1b65f','141fd7ec-b550-418c-b94b-e35f4ab0c48a','kuali.resultComponent.grade.passFail','1d889a8e-43c8-44a7-82b9-14affd368620','Active',1)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
+  VALUES ('6c6977cf-1d33-4ae2-991c-aec268f21266','879bd209-bb63-4ca9-ad4e-8b63ba52ed4d','kuali.creditType.credit.degree.3.0','Retired',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('30580762-dec4-486d-8912-bcd51b1bfb86','51b694fa-8979-41f3-b8f3-9f8383feddc0','kuali.creditType.credit.degree.3.0','Draft',0)
@@ -16547,25 +16547,25 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('fe1a8b21-bb1a-40b5-b041-89b0a2a55689','4ae27e71-fa3c-482a-bb61-d439592ea76e','kuali.resultComponent.grade.letter','b394ac4d-bd90-43f0-a8f0-da2094100bdc','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('ac373c29-f008-4eed-b3eb-ff4ca4d6f9ee','bab91e02-9b18-48de-88e3-b95d73db08a0','kuali.resultComponent.grade.letter','3ed18f73-6298-4a5b-8bf1-840c0ec06037','Draft',1)
+  VALUES ('f3e7db05-4f5e-4ace-a32a-ded734e92e18','5558a448-0a14-4a47-a3a9-25b8c6f9c6e6','kuali.resultComponent.grade.audit','38a8ca93-b698-4e1f-a4ee-28bc7cc2c4ac','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('f3e7db05-4f5e-4ace-a32a-ded734e92e18','5558a448-0a14-4a47-a3a9-25b8c6f9c6e6','kuali.resultComponent.grade.audit','38a8ca93-b698-4e1f-a4ee-28bc7cc2c4ac','Active',1)
+  VALUES ('ac373c29-f008-4eed-b3eb-ff4ca4d6f9ee','bab91e02-9b18-48de-88e3-b95d73db08a0','kuali.resultComponent.grade.letter','3ed18f73-6298-4a5b-8bf1-840c0ec06037','Draft',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('7f594a8a-dfd1-45d2-a056-2baa926ab76f','8f030602-8b4d-46ce-885e-24b62a759e2a','kuali.creditType.credit.degree.3.0','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('c8eeae85-9b82-42d1-9841-e10bde36bed1','d56e2746-5010-4c17-af64-027f62e4595b','kuali.resultComponent.grade.audit','dbc54215-2e70-44d9-9e75-0342d43489ed','Draft',2)
-/
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('1f20fe81-5a95-4e79-8b64-f1185a7fb22a','51e14131-e854-4ebf-a205-12579ec9bc87','kuali.resultComponent.grade.audit','99d759bc-040a-4654-bfe7-dc348a745c37','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('5ff59b10-3d01-409c-9b9e-838f51ea5cd0','8ba65a9d-0c57-4141-9d6c-c3cd865e0211','kuali.resultComponent.grade.passFail','18d45bcb-28f5-4e9e-8700-e1aa900f8033','Draft',1)
+  VALUES ('c8eeae85-9b82-42d1-9841-e10bde36bed1','d56e2746-5010-4c17-af64-027f62e4595b','kuali.resultComponent.grade.audit','dbc54215-2e70-44d9-9e75-0342d43489ed','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('1d37bd92-2d63-4dca-9426-20cec93bcab1','e7e9a149-3499-4d46-ac4b-97273c1b55bd','kuali.resultComponent.grade.letter','4513ced6-4571-46b9-9d07-4934cf09b0f2','Active',0)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
+  VALUES ('5ff59b10-3d01-409c-9b9e-838f51ea5cd0','8ba65a9d-0c57-4141-9d6c-c3cd865e0211','kuali.resultComponent.grade.passFail','18d45bcb-28f5-4e9e-8700-e1aa900f8033','Draft',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('4e07c0c4-e56b-400c-8a88-158f93154641','f30eff79-59a1-48eb-9af1-e076646ddb69','kuali.resultComponent.grade.passFail','125b55e7-a53c-4f12-b30c-c5631cb872f8','Active',1)
@@ -16694,10 +16694,10 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('f5525cf2-501d-4bfc-a972-cb0d031996d3','45d93510-3c96-4582-95b9-92fa319c920d','kuali.creditType.credit.degree.2.0','Draft',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('f6784c5e-027b-4ab0-b1c5-93ab5fb2a3a3','26208c7e-dbf6-4a01-a5c3-740a7af2ab18','kuali.resultComponent.grade.audit','99dfbf5a-4dd6-4d57-a230-f56512ad390d','Active',0)
+  VALUES ('eebc88d2-79db-4048-80ed-ad5236037feb','b1d72166-bd4a-4afd-bb92-61c64fcb53d9','kuali.resultComponent.grade.passFail','a4bf1dc0-7aa7-45f0-8891-cdd242311a2c','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('eebc88d2-79db-4048-80ed-ad5236037feb','b1d72166-bd4a-4afd-bb92-61c64fcb53d9','kuali.resultComponent.grade.passFail','a4bf1dc0-7aa7-45f0-8891-cdd242311a2c','Draft',2)
+  VALUES ('f6784c5e-027b-4ab0-b1c5-93ab5fb2a3a3','26208c7e-dbf6-4a01-a5c3-740a7af2ab18','kuali.resultComponent.grade.audit','99dfbf5a-4dd6-4d57-a230-f56512ad390d','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('b521198d-bd0b-478f-bca3-00a56ca25f2e','2fa6d75d-c208-4e6a-a817-4a7abd082666','kuali.resultComponent.grade.passFail','87c3b3ef-403d-4877-8c1c-bb23f4c975b4','Draft',2)
@@ -16717,11 +16717,11 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('15360695-3e1a-44e0-a419-43ccd9fde9d4','81bcf71e-ba01-4ea3-9f10-3e469707639e','kuali.resultComponent.grade.letter','10ede623-4772-483c-add5-8a8f8c97f051','Draft',2)
 /
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('a6b9f34c-ef62-48fd-8188-72a6a06ce17f','65f11298-c96a-436d-a28a-c7b8b2d3dc34','kuali.creditType.credit.degree.0.0','Active',0)
-/
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('4a2e6f79-0ea8-462d-920e-b3961d7dc947','b7582d93-eb61-453e-bd89-a4962e2631e2','kuali.resultComponent.grade.letter','f1c0a095-c2b6-4eeb-918f-1cc424c6f6fc','Draft',1)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
+  VALUES ('a6b9f34c-ef62-48fd-8188-72a6a06ce17f','65f11298-c96a-436d-a28a-c7b8b2d3dc34','kuali.creditType.credit.degree.0.0','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('65a15d67-e77c-4b35-b617-b1364e1a047f','9c98bb7e-d540-4a32-8cf5-1dd66356abc6','kuali.creditType.credit.degree.2.0','Draft',0)
@@ -16753,11 +16753,11 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('bb43135b-d6ee-469c-b864-7340e6312994','067f5edb-ba8d-4e2f-86a4-77cdff43ce45','kuali.resultComponent.grade.audit','b5defc02-1fb4-4964-aea4-667c9b60d112','Active',0)
 /
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('74e30c33-097d-49f9-84d8-7ad3a3553210','6ca67eb5-acff-481c-9037-7138337c655d','kuali.resultComponent.grade.passFail','9a12c051-c32c-41ec-9f02-c6af542c9487','Active',1)
-/
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('b4eeadfa-cd9e-45f4-84fc-397f789784c6','307f2003-19cc-462e-95df-24ec7cd9cce0','kuali.creditType.credit.degree.3.0','Active',0)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
+  VALUES ('74e30c33-097d-49f9-84d8-7ad3a3553210','6ca67eb5-acff-481c-9037-7138337c655d','kuali.resultComponent.grade.passFail','9a12c051-c32c-41ec-9f02-c6af542c9487','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('f741b854-2c4b-4842-ae3e-c2d3efc43146','25ee5cab-2ea6-4d33-bf7c-54a5e9c007d1','kuali.resultComponent.grade.letter','2d01cd9b-f2b4-4fec-b261-4568d5bc9f29','Active',0)
@@ -16768,14 +16768,14 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('6cdfb261-8b6a-4df0-a03a-78e5bbdc987a','812a0bfe-ab09-4289-809a-1b3690754948','kuali.resultComponent.grade.passFail','89ff422c-9386-4385-a737-8ffd84ac1abb','Active',1)
 /
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('c13878f2-2e85-45fd-97f2-3aee17716227','63388146-46bb-4c1f-aee4-f2855fcfaa7a','kuali.creditType.credit.degree.3.0','Active',0)
-/
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('48b67584-449e-4431-9e27-a658c490e5b0','0ecdc492-b847-4ddf-976b-c742bc230cb8','kuali.resultComponent.grade.audit','82d61491-8807-416e-a3d3-e052f6d49e29','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('3a18f664-1f99-4ee9-98b7-ab3d5c93d65d','144ee7b8-21fb-4b3d-8b0c-ebde7f9eaeb4','kuali.resultComponent.grade.letter','1028d8fb-7aca-4941-bb8d-74e1266b04f0','Active',1)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
+  VALUES ('c13878f2-2e85-45fd-97f2-3aee17716227','63388146-46bb-4c1f-aee4-f2855fcfaa7a','kuali.creditType.credit.degree.3.0','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('f38d77f8-2199-4971-8662-e6f11712b4cd','eab1a797-c262-434d-a357-f1638b6e164a','kuali.resultComponent.grade.letter','9df9003b-a870-486d-89e1-a32eb0a652ef','Active',0)
@@ -16820,10 +16820,10 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('91b5cb8a-f7af-404a-81e7-b43972cac504','b52de3dd-77cb-4d30-a75a-4bc2f2d679ad','kuali.resultComponent.grade.audit','85698b8c-b007-4a3d-929a-4a1e985ff16e','Draft',4)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('fbb663a6-c83d-48ba-b3b8-6c47ea9ba866','c9ba8ec3-4254-4fcf-8c6b-88a63a242195','kuali.resultComponent.grade.audit','7ad40759-d4c5-4dac-a508-4057d38069d7','Active',0)
+  VALUES ('3eca85a9-e9d4-4b89-be15-c79ff4c9369c','d2ea1bc6-1cf0-44e0-847d-065c71e1c5a3','kuali.resultComponent.grade.letter','cae51577-c4de-428f-8efe-41c2d95efbce','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('3eca85a9-e9d4-4b89-be15-c79ff4c9369c','d2ea1bc6-1cf0-44e0-847d-065c71e1c5a3','kuali.resultComponent.grade.letter','cae51577-c4de-428f-8efe-41c2d95efbce','Active',0)
+  VALUES ('fbb663a6-c83d-48ba-b3b8-6c47ea9ba866','c9ba8ec3-4254-4fcf-8c6b-88a63a242195','kuali.resultComponent.grade.audit','7ad40759-d4c5-4dac-a508-4057d38069d7','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('26ef57ac-c356-440e-be82-bc61a978b425','69a36d2b-1299-4669-bcdf-ed17d2488c26','kuali.resultComponent.grade.audit','9780f2d4-520f-4b81-8ea4-e53aba1820af','Active',1)
@@ -16862,10 +16862,10 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('b0f2b146-c8b9-4073-bd9c-cfd0da2d3205','feb66f39-4a61-4142-b3b7-ac872c0b530b','kuali.resultComponent.grade.passFail','72910294-697a-4b0e-a195-2488c6f07403','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('1ab24b58-8cde-481b-a039-c4765abf2a68','910b4042-6d20-47b9-b9bb-de96ecce6e4f','kuali.resultComponent.grade.letter','801805cd-7c95-43e4-a528-dc70828a7d1c','Draft',1)
+  VALUES ('b67369c0-4ed8-4849-a5f9-19116fb53340','1c405503-eb2e-4f0c-ab4b-b0e28f5c510a','kuali.resultComponent.grade.passFail','b0bfc5a3-abe5-4340-856f-b6d65652d1f7','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('b67369c0-4ed8-4849-a5f9-19116fb53340','1c405503-eb2e-4f0c-ab4b-b0e28f5c510a','kuali.resultComponent.grade.passFail','b0bfc5a3-abe5-4340-856f-b6d65652d1f7','Active',0)
+  VALUES ('1ab24b58-8cde-481b-a039-c4765abf2a68','910b4042-6d20-47b9-b9bb-de96ecce6e4f','kuali.resultComponent.grade.letter','801805cd-7c95-43e4-a528-dc70828a7d1c','Draft',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('ef9c1c43-a412-4c73-b808-ebdc8af15aa8','59326c01-8541-4878-b7d2-7f7b10d82bf8','kuali.resultComponent.grade.audit','e1246f21-fbbe-4e70-af9c-ae22094b01ce','Draft',1)
@@ -16900,11 +16900,11 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('40770e2d-8ff6-4a8e-89c7-dd10e12487f7','56bfbacb-221a-4187-bb2b-df8c6395effb','kuali.resultComponent.grade.letter','7d2e85f2-7ccb-4c59-8669-5c6e232926bc','Retired',1)
 /
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('3fb99720-2a9d-400b-a579-34a5fc427458','df266a18-0364-4e91-9dc9-dfcf53f1a71c','kuali.creditType.credit.degree.3.0','Active',0)
-/
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('e5c54ab8-c926-48c9-865f-0fe5ce25a6f6','e46dc32f-52e7-4a21-8e1e-f7e44e87dadf','kuali.resultComponent.grade.letter','e635ab79-da0d-4bba-87f8-fae71c62548f','Active',0)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
+  VALUES ('3fb99720-2a9d-400b-a579-34a5fc427458','df266a18-0364-4e91-9dc9-dfcf53f1a71c','kuali.creditType.credit.degree.3.0','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('6a792c0a-8cd9-4f74-9dad-55c533d31104','e0456ef3-b31c-40d3-b7a8-cdd1caaf2c66','kuali.resultComponent.grade.audit','c2f4ffc1-ff34-4270-941e-36f8b465c6e6','Active',1)
@@ -16952,10 +16952,10 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('78af5146-0c86-483c-aba4-d1ecf4e5605b','c9153710-d4f9-4412-8dfd-109d9963e673','kuali.creditType.credit.degree.2.0','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('670aadf8-41f3-4aa0-953e-474a4796f187','b8879a0b-1bc8-4204-b03b-58ea48586981','kuali.resultComponent.grade.audit','08f60ab4-6ffe-47de-a49f-2e12e67a22da','Active',1)
+  VALUES ('8d7d4e14-7608-4d5a-94f3-0f386105e026','aa2f8cb8-4dff-419d-be01-dc045d86314f','kuali.resultComponent.grade.audit','2ef412ec-3a55-4ed6-81b6-98ffdcb99a07','Retired',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('8d7d4e14-7608-4d5a-94f3-0f386105e026','aa2f8cb8-4dff-419d-be01-dc045d86314f','kuali.resultComponent.grade.audit','2ef412ec-3a55-4ed6-81b6-98ffdcb99a07','Retired',1)
+  VALUES ('670aadf8-41f3-4aa0-953e-474a4796f187','b8879a0b-1bc8-4204-b03b-58ea48586981','kuali.resultComponent.grade.audit','08f60ab4-6ffe-47de-a49f-2e12e67a22da','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('51a41b32-14a8-439b-907f-8166d9c747f5','7f161239-66fb-4f1b-a550-106518823c33','kuali.resultComponent.grade.letter','207b585f-6dc5-4f21-8261-5e728fd75519','Active',1)
@@ -16964,10 +16964,10 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('efee6db1-46b1-4481-b0e2-6c02000826a2','ac82614e-bdb0-4e97-bab6-f8e546865071','kuali.resultComponent.grade.letter','04c95723-b7cc-45d0-8cf0-223645dfc145','Draft',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('fe2ee02f-2a28-4f65-b3f3-a77358d2a507','8315edba-0715-4ab8-850e-3f116c676d50','kuali.resultComponent.grade.audit','e0b4930c-2a51-4bc0-8bff-deb983917561','Draft',1)
+  VALUES ('f11e8222-be01-4b1f-8964-ad426112a9d2','819463e9-eb7a-4bef-9b8a-731519cd089c','kuali.resultComponent.grade.letter','7e505930-9cf8-4baf-a1b3-7a6b0d827617','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('f11e8222-be01-4b1f-8964-ad426112a9d2','819463e9-eb7a-4bef-9b8a-731519cd089c','kuali.resultComponent.grade.letter','7e505930-9cf8-4baf-a1b3-7a6b0d827617','Draft',2)
+  VALUES ('fe2ee02f-2a28-4f65-b3f3-a77358d2a507','8315edba-0715-4ab8-850e-3f116c676d50','kuali.resultComponent.grade.audit','e0b4930c-2a51-4bc0-8bff-deb983917561','Draft',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('43bed054-d5b7-461d-b035-610299a8112f','af5f9530-0933-493b-8216-26aa02bc79a2','kuali.resultComponent.grade.letter','08685dde-8057-44e7-8839-6bdba56bdaf5','Draft',2)
@@ -17051,19 +17051,19 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('23b404fe-22f4-40bd-8575-8c7e41539e67','fb0a15ce-be74-4145-bad4-a4d8a9174d9a','kuali.resultComponent.grade.passFail','f37db631-aaa3-411e-b2c7-3f02d7457b3c','Draft',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('0d1727bd-28a9-4433-8be8-6125bfac2501','e2372cc8-7f8a-4bfc-8385-6e56f4cc699a','kuali.resultComponent.grade.passFail','dac0ad86-344e-4522-a7e5-4605482f9af1','Active',0)
+  VALUES ('731c3d4c-6012-4725-b59b-7896d68a15a0','d26706ef-e586-4942-82e1-2b7e82cfd7ce','kuali.resultComponent.grade.letter','29312e9f-51bb-4601-8c9f-36932fb55f02','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('731c3d4c-6012-4725-b59b-7896d68a15a0','d26706ef-e586-4942-82e1-2b7e82cfd7ce','kuali.resultComponent.grade.letter','29312e9f-51bb-4601-8c9f-36932fb55f02','Draft',2)
+  VALUES ('0d1727bd-28a9-4433-8be8-6125bfac2501','e2372cc8-7f8a-4bfc-8385-6e56f4cc699a','kuali.resultComponent.grade.passFail','dac0ad86-344e-4522-a7e5-4605482f9af1','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('65c3188a-97c6-4b9a-a8e2-fa6bfcab542c','19a697b7-798b-44c3-8103-82dbd227b593','kuali.resultComponent.grade.audit','522a14d0-c50a-45ed-a276-b9ee6962b872','Active',0)
 /
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('4b990f67-6e76-479e-8990-d349868b8dd9','d5ddea61-66ba-4181-bd8e-0d3990dbf4f8','kuali.creditType.credit.degree.3.0','Draft',0)
-/
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('714c9f55-61e6-45da-b50f-c0497debce55','2d55c5ac-f7a6-487c-a7a5-7f872be8e79c','kuali.resultComponent.grade.audit','bd44454f-c25e-4518-826d-82d080014fd5','Draft',1)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
+  VALUES ('4b990f67-6e76-479e-8990-d349868b8dd9','d5ddea61-66ba-4181-bd8e-0d3990dbf4f8','kuali.creditType.credit.degree.3.0','Draft',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('f9ee64f7-a2a3-4e5e-a46d-1566ac53b185','948242bb-b8ff-466d-ac74-79a4fc3ac463','kuali.resultComponent.grade.letter','1fc02e5f-7382-448f-a4f4-e87b0cc37c11','Retired',4)
@@ -17090,28 +17090,28 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('4618ef0d-2216-455d-aa2b-de5b4f1cd8fd','0dc6ad12-55f1-402d-9690-1ac9b20fba8d','kuali.creditType.credit.degree.3.0','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('360ed1cb-a102-49e3-a418-676d21681353','75212dc5-8b3b-4cfd-a0a6-63f8625cfb02','kuali.resultComponent.grade.passFail','1adde041-ccb7-4ae8-89bc-467afb36aacf','Active',1)
+  VALUES ('ac4c0d4f-71cc-4987-94cd-ad3742549ab1','558304bf-2321-409a-83ce-292b70fb7746','kuali.resultComponent.grade.letter','f3137058-1aeb-46e4-a535-2814d8c7ea22','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('ac4c0d4f-71cc-4987-94cd-ad3742549ab1','558304bf-2321-409a-83ce-292b70fb7746','kuali.resultComponent.grade.letter','f3137058-1aeb-46e4-a535-2814d8c7ea22','Active',1)
+  VALUES ('360ed1cb-a102-49e3-a418-676d21681353','75212dc5-8b3b-4cfd-a0a6-63f8625cfb02','kuali.resultComponent.grade.passFail','1adde041-ccb7-4ae8-89bc-467afb36aacf','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('d85a0429-8b5f-4128-826a-5037e5773738','4ba49a80-e631-429b-a68f-4b6acc96a0b2','kuali.creditType.credit.degree.3.0','Draft',0)
-/
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('0546da98-8821-4be8-be98-a5890b6da316','5f39ef4e-4284-454e-8b9b-8d2542b568a0','kuali.resultComponent.grade.audit','59671dc6-6bbf-40a7-bffc-fd35054ccffd','Active',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('6f859c80-642b-467d-9b70-378316778c1f','d3632f93-dd45-4980-84c4-d65c88bc7dea','kuali.creditType.credit.degree.3.0','Draft',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('c78d24ea-00a7-495b-8dc8-416bf08a0e75','784e713f-364e-4c95-af09-0e13a476e982','kuali.resultComponent.grade.passFail','58c87b07-1750-4fd3-b8a2-2d8e0ebad840','Active',0)
+  VALUES ('0546da98-8821-4be8-be98-a5890b6da316','5f39ef4e-4284-454e-8b9b-8d2542b568a0','kuali.resultComponent.grade.audit','59671dc6-6bbf-40a7-bffc-fd35054ccffd','Active',2)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
+  VALUES ('a2da66d0-0f48-4cf8-baa1-d680e6c517b3','6493d0cb-69d4-4455-a1d3-e8ca5fb05ccd','kuali.resultComponent.grade.letter','519f4563-07db-4e30-bfe8-0b373b493895','Draft',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('250ded1a-0ed9-4440-9384-d53b50e90987','299bac78-1410-4c04-9a0c-648896ea75bc','kuali.creditType.credit.degree.3.0','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('a2da66d0-0f48-4cf8-baa1-d680e6c517b3','6493d0cb-69d4-4455-a1d3-e8ca5fb05ccd','kuali.resultComponent.grade.letter','519f4563-07db-4e30-bfe8-0b373b493895','Draft',1)
+  VALUES ('c78d24ea-00a7-495b-8dc8-416bf08a0e75','784e713f-364e-4c95-af09-0e13a476e982','kuali.resultComponent.grade.passFail','58c87b07-1750-4fd3-b8a2-2d8e0ebad840','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('bcd4bd8a-8a3c-414c-bf4a-ea4186bb599e','7b0432f2-4e95-48c5-8396-6f9bd8ef0ba4','kuali.creditType.credit.degree.0.0','Active',0)
@@ -17141,28 +17141,28 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('59667b1e-c455-4f94-9468-f330a876eaca','9c6664ba-5527-45cf-830f-4f081e2fa386','kuali.creditType.credit.degree.3.0','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('d689fa52-5b01-46e4-a55a-acad7920865e','5d7ccfb1-ec10-478e-a259-a0e7a66b44db','kuali.resultComponent.grade.letter','5b706b9e-a14e-49f2-9d06-c09d949361bb','Draft',3)
-/
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('cd7aafe9-0b00-4d19-9532-c8a63a52dd46','3a4121cb-b25a-4ddb-83ff-b403aef12b0f','kuali.resultComponent.grade.letter','4dc55167-7a8a-4a25-8a65-9a5463c1c7c7','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('55df8f5e-b5ee-49a5-88a8-49bec019f904','927d28d9-bfa3-4d83-acd5-c0b58c6e5fd7','kuali.resultComponent.grade.audit','9fab095a-68a2-4445-a561-cc53c553959e','Active',2)
-/
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('7077f19c-785f-46c8-9fda-cd7ddf3b8d52','cb74bbfc-f2d5-4b28-a6d5-bf978307e20b','kuali.resultComponent.grade.audit','b77918bb-28c8-4748-9823-e3b31c1de196','Draft',1)
+  VALUES ('d689fa52-5b01-46e4-a55a-acad7920865e','5d7ccfb1-ec10-478e-a259-a0e7a66b44db','kuali.resultComponent.grade.letter','5b706b9e-a14e-49f2-9d06-c09d949361bb','Draft',3)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('86e18fd1-d758-4bb7-a737-ccfee5dc16da','97307172-d385-4db8-9ec0-975aa5f21a39','kuali.resultComponent.grade.passFail','c7dbfea9-aa5b-4ecd-9258-1524d790ce68','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
+  VALUES ('7077f19c-785f-46c8-9fda-cd7ddf3b8d52','cb74bbfc-f2d5-4b28-a6d5-bf978307e20b','kuali.resultComponent.grade.audit','b77918bb-28c8-4748-9823-e3b31c1de196','Draft',1)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
+  VALUES ('55df8f5e-b5ee-49a5-88a8-49bec019f904','927d28d9-bfa3-4d83-acd5-c0b58c6e5fd7','kuali.resultComponent.grade.audit','9fab095a-68a2-4445-a561-cc53c553959e','Active',2)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('45c1945b-6bf9-4506-96b9-8b9a2535b16a','1dd7f082-a4d1-47d5-83d2-02bc76f9cff4','kuali.resultComponent.grade.audit','eadcc13f-b493-45f9-bbe2-47b37bd079e4','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('c2c253e9-aa61-42d1-9fbd-5b03224904fc','3d3f434e-2722-4b9b-842c-9666bde404ad','kuali.resultComponent.grade.letter','67875ad2-5f7f-481b-923e-3c155c4a3b17','Active',3)
+  VALUES ('67f7b65b-36c2-4aae-a8fc-0ace8f68f73f','ee8ebf21-568a-4396-8a59-da28c6ce1df4','kuali.resultComponent.grade.passFail','f89a7112-7e43-454d-b0f8-c64fc8e9036a','Draft',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('67f7b65b-36c2-4aae-a8fc-0ace8f68f73f','ee8ebf21-568a-4396-8a59-da28c6ce1df4','kuali.resultComponent.grade.passFail','f89a7112-7e43-454d-b0f8-c64fc8e9036a','Draft',1)
+  VALUES ('c2c253e9-aa61-42d1-9fbd-5b03224904fc','3d3f434e-2722-4b9b-842c-9666bde404ad','kuali.resultComponent.grade.letter','67875ad2-5f7f-481b-923e-3c155c4a3b17','Active',3)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('bba3a69e-041c-4588-98f4-a66c4a9ed2ac','920e846f-0dca-4942-b7e7-3c9ed809236d','kuali.resultComponent.grade.letter','aa5516f0-ae00-456f-9571-9818ec618885','Active',1)
@@ -17237,10 +17237,10 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('4d94d3cd-fbcf-4150-a7ad-229394a6b038','85249683-012d-488b-b34a-efed878525c0','kuali.creditType.credit.degree.3.0','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('8a36ab81-f688-4597-8a48-b005c0994f51','24e46576-b17f-411c-b40a-b5e05292b609','kuali.resultComponent.grade.audit','459d7687-daf6-4b53-a668-ce04ec9df200','draft',22)
+  VALUES ('8d9b25fa-fd76-4b94-b4fb-5aa2875f20e6','eb654995-1646-4150-ad81-eff86e3d02f0','kuali.resultComponent.grade.letter','4515b731-1a21-4d82-bf09-6d4559d2065b','Draft',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('8d9b25fa-fd76-4b94-b4fb-5aa2875f20e6','eb654995-1646-4150-ad81-eff86e3d02f0','kuali.resultComponent.grade.letter','4515b731-1a21-4d82-bf09-6d4559d2065b','Draft',1)
+  VALUES ('8a36ab81-f688-4597-8a48-b005c0994f51','24e46576-b17f-411c-b40a-b5e05292b609','kuali.resultComponent.grade.audit','459d7687-daf6-4b53-a668-ce04ec9df200','draft',22)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('66a29369-8d35-4057-a413-63f6b10d6a1a','8fd238ad-0605-480b-8468-11e2127b4dcd','kuali.resultComponent.grade.audit','d3def404-321e-4759-821a-83c30528983c','Active',0)
@@ -17257,11 +17257,11 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('a4438c27-4118-4b84-8eeb-1d9e54cc595b','5ca8ecd8-7cd0-4930-9905-607a76a2c1fb','kuali.resultComponent.grade.letter','c2ee6f12-b3b2-4e3a-906d-483415e27dbb','Draft',2)
 /
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('0629b0c1-194d-4d40-84c4-50854bc37005','9befa9c3-8804-4f19-850a-3a86a6eb3b11','kuali.creditType.credit.degree.4.0','Active',0)
-/
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('22c79489-9124-41b7-b118-b373ed51c1b3','309bd99f-2e5d-4886-899e-40f47a4bd751','kuali.resultComponent.grade.audit','735d0105-762c-4ef5-ad9f-90512b66fff6','Draft',2)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
+  VALUES ('0629b0c1-194d-4d40-84c4-50854bc37005','9befa9c3-8804-4f19-850a-3a86a6eb3b11','kuali.creditType.credit.degree.4.0','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('b0e2e53e-3b84-4ed2-9702-1f705095f71a','95c8c2b9-32f7-4dcd-9b7c-9292fcdd0ccc','kuali.creditType.credit.degree.3.0','Draft',0)
@@ -17339,19 +17339,19 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('92d2f9a1-9009-41d4-97fb-fb150cc1c766','2e36af66-ee50-4f45-b74a-cb1149bfa9c9','kuali.resultComponent.grade.audit','a0c4b6fc-2668-44d6-8cf3-1df90c70833b','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('9ceda390-efe4-4628-99fc-e32964638d1f','c50f6709-148e-40de-a013-a3e8e3babbcf','kuali.resultComponent.grade.letter','55709863-ec55-474f-ba38-2000764817cf','Active',0)
+  VALUES ('01e4098b-1d13-454b-874d-54a3e0075d88','6cafae0f-5a24-46f9-857c-9db8d33e0922','kuali.resultComponent.grade.letter','8d2b7c5f-4e67-40d3-a8f1-a345b34ad229','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('01e4098b-1d13-454b-874d-54a3e0075d88','6cafae0f-5a24-46f9-857c-9db8d33e0922','kuali.resultComponent.grade.letter','8d2b7c5f-4e67-40d3-a8f1-a345b34ad229','Draft',2)
+  VALUES ('9ceda390-efe4-4628-99fc-e32964638d1f','c50f6709-148e-40de-a013-a3e8e3babbcf','kuali.resultComponent.grade.letter','55709863-ec55-474f-ba38-2000764817cf','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('0d6303b5-408f-458b-9e4e-b1bc6bc0be0f','2d859746-c6d3-48f5-b80d-0ff52cdd7829','kuali.resultComponent.grade.audit','2e5fcdfd-6809-4aab-861d-c582a2c09537','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('7eb8405e-4f75-4b00-8bf5-902ac6bbcc79','860c72f0-c942-4624-a250-a76c342f704a','kuali.resultComponent.grade.letter','ee64789b-07ed-4c89-b5fa-881b28aaa2c0','Active',1)
+  VALUES ('7b5f7f08-b829-46dc-87b1-c82c8066fd81','8363f006-df8d-4f10-9d35-2125a0550360','kuali.resultComponent.grade.audit','985be456-1881-49d4-9e14-d57183aff25f','Draft',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('7b5f7f08-b829-46dc-87b1-c82c8066fd81','8363f006-df8d-4f10-9d35-2125a0550360','kuali.resultComponent.grade.audit','985be456-1881-49d4-9e14-d57183aff25f','Draft',1)
+  VALUES ('7eb8405e-4f75-4b00-8bf5-902ac6bbcc79','860c72f0-c942-4624-a250-a76c342f704a','kuali.resultComponent.grade.letter','ee64789b-07ed-4c89-b5fa-881b28aaa2c0','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('9130fc13-4207-4bea-b414-933b5afd0c1a','2cd44420-0cc9-4522-91df-0d3fab8acdaa','kuali.creditType.credit.degree.3.0','Draft',0)
@@ -17368,14 +17368,14 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('b4054501-3573-4223-9fc1-690f7da3d26f','31d41129-6bfe-4790-9d9d-44cc4de2706a','kuali.resultComponent.grade.audit','bab0d616-17d9-485a-9cd2-2dc7b171d393','Retired',1)
 /
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('22281290-d281-4798-a60c-c51e29fd0d73','52eb0c5a-393a-45d6-b0ea-a866e5d257db','kuali.creditType.credit.degree.3.0','Active',0)
-/
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('9ea6157b-dc91-4b0d-8288-5e945397f6b6','f9145eb4-5c1a-4157-868f-3e62259d9413','kuali.resultComponent.grade.letter','5fea8474-7a6d-4d3f-9479-cfedc8498cad','Retired',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('223b86fc-813a-4b07-b9f6-cb9b02a1d69e','dcf58608-c9bf-42d3-b521-6dec5c67deaa','kuali.resultComponent.grade.passFail','b0df2c24-2a6a-4828-a1e5-aedcb7c3b112','Draft',2)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
+  VALUES ('22281290-d281-4798-a60c-c51e29fd0d73','52eb0c5a-393a-45d6-b0ea-a866e5d257db','kuali.creditType.credit.degree.3.0','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('3d4621b8-dfa7-498e-b9dc-efbefacfe1f4','3ac1062e-67f4-493a-a220-d1051c111474','kuali.resultComponent.grade.audit','5f6ff1a1-cfd9-44b0-94f5-f00e84ee9d3c','Active',0)
@@ -17408,10 +17408,10 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('9f4d3fe6-8477-4857-b4ca-49777bfb96c3','4d34f152-d3b3-4a50-b89e-0fc036fdbdc6','kuali.resultComponent.grade.letter','e38c5980-709e-4bc8-956e-84d83c8dc4cb','Draft',3)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('0214a626-bd7f-46b5-9c98-47b3942de347','7777e71e-ff71-43f2-8e16-9161288f6c67','kuali.creditType.credit.degree.3.0','Active',0)
+  VALUES ('f1352b4b-7315-4c2d-94ee-60733e423fac','215c2e0a-c231-4041-acb5-7d5a6353e422','kuali.creditType.credit.degree.3.0','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('f1352b4b-7315-4c2d-94ee-60733e423fac','215c2e0a-c231-4041-acb5-7d5a6353e422','kuali.creditType.credit.degree.3.0','Active',0)
+  VALUES ('0214a626-bd7f-46b5-9c98-47b3942de347','7777e71e-ff71-43f2-8e16-9161288f6c67','kuali.creditType.credit.degree.3.0','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('76b94036-0caa-4bee-a582-af4ae8bed868','f4042f37-788a-4fda-a5df-c31bf746fac8','kuali.creditType.credit.degree.3.0','Active',0)
@@ -17473,11 +17473,11 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('6433a880-740e-446a-a0c0-8113a5724d05','1f3be01d-9e86-48d6-89b3-078ecc148604','kuali.resultComponent.grade.passFail','308a5936-b245-4e51-beb0-b9e4405da6ea','Draft',2)
 /
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('d777e377-f98d-4e3d-9829-b0822000fcff','a5a66b5f-7759-47af-9681-7129d86dedf0','kuali.creditType.credit.degree.3.0','Active',0)
-/
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('cb8c6128-ed3d-476a-ab15-e4a7e0d5f41f','9339e767-c760-4adb-88b8-3739398efdd0','kuali.resultComponent.grade.letter','afb0a656-a830-4de0-a2ff-9e0ed67635ca','Draft',2)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
+  VALUES ('d777e377-f98d-4e3d-9829-b0822000fcff','a5a66b5f-7759-47af-9681-7129d86dedf0','kuali.creditType.credit.degree.3.0','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('54a0f548-3ae3-440f-b9bb-9db641c54425','6d82dbe2-08e9-465e-a04b-0c77d5ec27f7','kuali.creditType.credit.degree.4.0','Retired',0)
@@ -17557,14 +17557,17 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('d0c4ca2b-6a3c-4fd0-8aa1-054c31354c42','7e081f9f-9815-4226-a478-b4846478f030','kuali.resultComponent.grade.audit','a5bb61f2-f80a-4818-8e78-b8fa9d146307','Active',0)
 /
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
+  VALUES ('c9a420aa-1bd9-44ed-a587-ee1dcdfca566','28c17110-c7a8-404b-87d8-27f7aec8727c','kuali.resultComponent.grade.audit','4c4556af-e0aa-4046-87e5-34c8422e481d','Draft',3)
+/
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('46ff9299-73c7-4ab8-be09-b508bcb2f57e','6435fb7e-1303-4a56-9102-015825fcd872','kuali.creditType.credit.degree.3.0','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('c9a420aa-1bd9-44ed-a587-ee1dcdfca566','28c17110-c7a8-404b-87d8-27f7aec8727c','kuali.resultComponent.grade.audit','4c4556af-e0aa-4046-87e5-34c8422e481d','Draft',3)
+  VALUES ('5be359fb-2a7e-417c-88f9-750dbc4d0324','fe25c6a7-dec3-4f48-8f84-74fd3a91c475','kuali.resultComponent.grade.audit','77da1e9c-d08e-4681-aebe-52a54e6438b9','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('5be359fb-2a7e-417c-88f9-750dbc4d0324','fe25c6a7-dec3-4f48-8f84-74fd3a91c475','kuali.resultComponent.grade.audit','77da1e9c-d08e-4681-aebe-52a54e6438b9','Active',1)
+  VALUES ('aaa08b60-8cbf-4867-90de-c0b448f6fabf','969b8852-8490-424a-bbbe-b97ec90ecce9','kuali.resultComponent.grade.passFail','afdaabe9-57f4-4c82-9908-67af14e95bb5','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('2ec90f42-75e0-41c8-a102-0815a2459540','57060bcb-f1e2-4b69-9e74-c18af7d70b4d','kuali.creditType.credit.degree.3.0','Active',0)
@@ -17573,19 +17576,16 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('af6e377f-504c-44b9-9d2f-de8de58f7587','58d80d54-5604-486a-a381-a0b95a826928','kuali.resultComponent.grade.audit','62805880-62ce-4003-a7df-a433b7f0818c','Draft',4)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('aaa08b60-8cbf-4867-90de-c0b448f6fabf','969b8852-8490-424a-bbbe-b97ec90ecce9','kuali.resultComponent.grade.passFail','afdaabe9-57f4-4c82-9908-67af14e95bb5','Active',1)
-/
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('4ab848b1-3e1f-4ab3-82cd-1189af7972ad','37003b58-7222-4bae-b3ea-3bfdfce54066','kuali.resultComponent.grade.passFail','e5c2e6df-eb3b-4259-8be6-8c971c99af14','Draft',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('3f01419c-509e-46fc-8e65-734cdee65029','f122febd-f1ac-402f-905f-8ef127b0a342','kuali.resultComponent.grade.audit','fd75f62d-1b73-4bd2-afb3-35e0e3f30231','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('cb801dfb-324e-41bc-8bf8-9c11d6396ace','14d807fa-2a85-4adf-a68b-29bcdd5e383f','kuali.creditType.credit.degree.1-3','Draft',0)
+  VALUES ('d20c5143-55fc-4d7c-b817-6cd56aca599c','6d487f97-01f6-4810-a3e6-789a7f2389f0','kuali.creditType.credit.degree.3.0','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('d20c5143-55fc-4d7c-b817-6cd56aca599c','6d487f97-01f6-4810-a3e6-789a7f2389f0','kuali.creditType.credit.degree.3.0','Active',0)
+  VALUES ('cb801dfb-324e-41bc-8bf8-9c11d6396ace','14d807fa-2a85-4adf-a68b-29bcdd5e383f','kuali.creditType.credit.degree.1-3','Draft',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('de1a79e3-06f4-4aad-bd8c-913f190f7480','a5d9be2f-0e5e-4b32-93a6-b4d341643e45','kuali.creditType.credit.degree.3.0','Draft',0)
@@ -17617,14 +17617,14 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('016b8d27-f73b-4104-9ccb-c0f7f8afbbfb','694eefc9-12d7-48bc-8e52-37ddc76e6f0b','kuali.resultComponent.grade.audit','242b14af-d540-448d-aa4a-5b66302bd4fb','Active',0)
 /
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('6b9527a1-7327-437e-8d93-81434f396091','a9b2c9a4-0d64-4825-93fe-b563f67ea373','kuali.creditType.credit.degree.1-6','Retired',0)
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
+  VALUES ('7f08f935-b9d5-4dbc-bdb6-5eb7575184e0','57605a85-cc6c-4c61-b3b3-270e09c2a90d','kuali.resultComponent.grade.letter','470fd6e2-92be-4063-a23d-7fff56858463','Draft',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('33eddc01-5aa1-4bdb-8ee9-e62fdfdd244b','3f4c2046-8eab-4545-abde-e3251663e761','kuali.resultComponent.grade.passFail','69577024-124e-482c-9277-dfaa0e4122ad','Draft',2)
 /
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('7f08f935-b9d5-4dbc-bdb6-5eb7575184e0','57605a85-cc6c-4c61-b3b3-270e09c2a90d','kuali.resultComponent.grade.letter','470fd6e2-92be-4063-a23d-7fff56858463','Draft',1)
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
+  VALUES ('6b9527a1-7327-437e-8d93-81434f396091','a9b2c9a4-0d64-4825-93fe-b563f67ea373','kuali.creditType.credit.degree.1-6','Retired',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('6bae7c2a-5efd-4306-815d-b272325c0fd7','aec66569-32dd-43f8-b9d5-1bf8e1eabe92','kuali.creditType.credit.degree.3.0','draft',0)
@@ -17648,10 +17648,10 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('11d3319b-3f0a-4c1c-8419-e6668a7081d1','33a1f183-0cee-4a91-8ce8-7fae5d087fbf','kuali.resultComponent.grade.audit','ee3a974d-ee35-4dcb-86bd-3d2ca34276c0','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('bc8bdfe6-631f-4b3f-a750-3a24e1e85b75','f276e6f0-1ccb-41b3-88a7-df711b804ab5','kuali.resultComponent.grade.passFail','155ae13a-5a5b-40fc-8355-586a4a6ca3be','Draft',16)
+  VALUES ('79c012b6-2886-4b7e-9936-ef2b1e0a5ae2','e9ffd9c9-8973-4a79-b9b4-da7d879d6a19','kuali.resultComponent.grade.audit','e73f62e0-a40b-4e58-8382-724073e7c881','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('79c012b6-2886-4b7e-9936-ef2b1e0a5ae2','e9ffd9c9-8973-4a79-b9b4-da7d879d6a19','kuali.resultComponent.grade.audit','e73f62e0-a40b-4e58-8382-724073e7c881','Active',0)
+  VALUES ('bc8bdfe6-631f-4b3f-a750-3a24e1e85b75','f276e6f0-1ccb-41b3-88a7-df711b804ab5','kuali.resultComponent.grade.passFail','155ae13a-5a5b-40fc-8355-586a4a6ca3be','Draft',16)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('9d74e5c8-c8d4-4ed6-a193-56aed2bebba9','b0d605bb-4429-4d36-aa1d-88d63be63fbf','kuali.creditType.credit.degree.3.0','Active',0)
@@ -17659,11 +17659,11 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('b52364dc-53fa-4f4d-add4-c6507b71b034','8dcb3753-b245-4854-ab96-16e86c2ae2d9','kuali.creditType.credit.degree.3.0','Draft',0)
 /
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('8178d129-fbc9-4096-83d2-8c42819c6bb1','0a16d239-2250-42a1-a9dc-4694d9f8ee48','kuali.resultComponent.grade.passFail','30cbbb07-7046-4a4c-b475-cf1ccafb4036','Active',0)
-/
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('7e37556c-04e3-479f-b96a-2553da069437','3eb7beae-ffe8-4813-a6a0-affee53c86db','kuali.creditType.credit.degree.2.0','Active',0)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
+  VALUES ('8178d129-fbc9-4096-83d2-8c42819c6bb1','0a16d239-2250-42a1-a9dc-4694d9f8ee48','kuali.resultComponent.grade.passFail','30cbbb07-7046-4a4c-b475-cf1ccafb4036','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('47c4f78d-61bd-43a9-83f7-87c633c3ca7e','c1792512-28e5-4a6f-91b6-b4e0aeef265f','kuali.resultComponent.grade.audit','c1f7f37a-68da-469a-a40d-d11ada6cd8a7','Active',0)
@@ -17692,17 +17692,17 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('1b564884-d7bb-47a5-b37e-c3b51b6a9fd5','04de6c30-ce60-416a-8fca-78505a67816d','kuali.resultComponent.grade.audit','6c3db21d-fa06-40f2-941e-35ccf90fa457','Active',1)
 /
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('11aba8d3-074a-4a60-9435-277210cd6e14','9c8c8fe7-170d-4604-85e9-6ec9f2b494ac','kuali.creditType.credit.degree.3.0','Active',0)
-/
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('2b91bf0b-3305-44b4-ad68-c7934946ebd0','ad3c7528-294b-4b9f-b0fd-463bb0d767d5','kuali.resultComponent.grade.audit','54cbbc52-b327-47de-903b-c6bb95beb7d9','Draft',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('cf22f44f-b13e-435a-bfb5-f3d0fcfda396','e7eadab6-702a-404e-90ea-d8557b1ff575','kuali.creditType.credit.degree.3.0','Active',0)
+  VALUES ('11aba8d3-074a-4a60-9435-277210cd6e14','9c8c8fe7-170d-4604-85e9-6ec9f2b494ac','kuali.creditType.credit.degree.3.0','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('6ce37f15-10c4-42ab-be6a-c1af9e8b7e32','4615bbaa-f343-4558-9539-7118e9fab7b7','kuali.resultComponent.grade.letter','f45419f9-35d1-4caf-98ef-969d921a38f0','Draft',2)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
+  VALUES ('cf22f44f-b13e-435a-bfb5-f3d0fcfda396','e7eadab6-702a-404e-90ea-d8557b1ff575','kuali.creditType.credit.degree.3.0','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('f19508e1-43a5-4ea5-9212-eba549fda879','b4daea7f-7b55-484c-beb1-8227b3c9880a','kuali.creditType.credit.degree.3.0','Active',0)
@@ -17729,10 +17729,10 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('3f99da52-890e-4817-aaed-e207d8c93a02','29051576-416e-423b-8f8f-84d0621e9176','kuali.resultComponent.grade.audit','dde50b43-43fd-4367-8792-e8fec1afd29a','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('385aa864-6e09-4930-a2fa-8df7eec104b5','b1a17bd5-5d4c-4e16-98d9-0efe091c2c2b','kuali.resultComponent.grade.letter','1ad0a368-0f73-4487-b0ad-00d06c7c993c','Active',0)
+  VALUES ('0ecdfab4-8488-45c4-9a16-b61ced32ae50','7bfdf4e2-57b0-4ded-804a-c5e7dfdb66e0','kuali.resultComponent.grade.audit','e84b170a-b9f0-47a5-885c-f7aceed04041','Draft',5)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('0ecdfab4-8488-45c4-9a16-b61ced32ae50','7bfdf4e2-57b0-4ded-804a-c5e7dfdb66e0','kuali.resultComponent.grade.audit','e84b170a-b9f0-47a5-885c-f7aceed04041','Draft',5)
+  VALUES ('385aa864-6e09-4930-a2fa-8df7eec104b5','b1a17bd5-5d4c-4e16-98d9-0efe091c2c2b','kuali.resultComponent.grade.letter','1ad0a368-0f73-4487-b0ad-00d06c7c993c','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('acb957ae-67a1-4f6b-91cc-02c905634ebe','cfcd1866-6e22-4bf8-863f-cd82dc8e5b8a','kuali.resultComponent.grade.audit','5be0083d-be92-4a04-b3cc-d72a31191c0c','Active',1)
@@ -17881,17 +17881,17 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('d285cb7b-df24-4bee-99b3-4eb1a3cef36c','d52b31ae-c454-452d-9271-8397327e2394','kuali.resultComponent.grade.audit','7e6498e0-1869-47c0-b8d7-14c4948413b7','Retired',1)
 /
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('3b1617e6-da5a-4f91-875e-fb04f71609aa','619812ca-901d-4f7c-bfbe-35a7c7b26496','kuali.resultComponent.grade.audit','d0ef0571-0c3a-470d-ab2c-4c711243bf5d','Active',0)
-/
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('6fe5d867-2075-40c4-bdf6-f29257fc06a7','92afa0ce-9c95-45b9-9fdb-bf4837bd95cc','kuali.creditType.credit.degree.2.0','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('1a289208-46c2-4d96-baa4-011e485506d1','38dd50cc-a414-4721-be34-3c1dc3036fad','kuali.resultComponent.grade.letter','e064c7a7-3083-4e42-8cb5-070a2c23c35b','Active',1)
+  VALUES ('3b1617e6-da5a-4f91-875e-fb04f71609aa','619812ca-901d-4f7c-bfbe-35a7c7b26496','kuali.resultComponent.grade.audit','d0ef0571-0c3a-470d-ab2c-4c711243bf5d','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('a61506fd-25d2-4aff-ab87-57966b785f65','f10c2d2f-2225-4f5a-ab81-04bb21c81159','kuali.resultComponent.grade.audit','d6c3567c-de2e-466f-aa65-4ba4fb728db1','Active',0)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
+  VALUES ('1a289208-46c2-4d96-baa4-011e485506d1','38dd50cc-a414-4721-be34-3c1dc3036fad','kuali.resultComponent.grade.letter','e064c7a7-3083-4e42-8cb5-070a2c23c35b','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('49960be8-7da1-477d-8af3-300b8286e12a','e09bc6a5-c81d-487f-87be-6240ca733241','kuali.creditType.credit.degree.3.0','Draft',0)
@@ -17911,11 +17911,11 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('7d8e6eb6-922a-45f5-a180-625904200470','e36588fc-1942-48f0-a0a8-334f771c32f1','kuali.creditType.credit.degree.4.0','Draft',0)
 /
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('e9c82b66-ef9a-4327-800c-0206d8cb9170','9857fd3e-07fd-4cd4-9eec-e658475e042a','kuali.resultComponent.grade.letter','c904db5c-d884-4332-926e-665f49558b87','Draft',16)
-/
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('15c8d1bd-d7f6-4a43-9438-4276eeb9e266','0c58efb8-68b3-42ce-a7b8-23e65940a505','kuali.creditType.credit.degree.3.0','Active',0)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
+  VALUES ('e9c82b66-ef9a-4327-800c-0206d8cb9170','9857fd3e-07fd-4cd4-9eec-e658475e042a','kuali.resultComponent.grade.letter','c904db5c-d884-4332-926e-665f49558b87','Draft',16)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('aac862c4-b9cb-4b64-8f78-43c108750a04','f0dac409-44c7-4965-b60d-34c3af76aab6','kuali.resultComponent.grade.audit','e7027edc-bfd3-47d3-b386-69d31cab5192','Draft',1)
@@ -17927,10 +17927,10 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('d410bdef-bad1-4c88-b207-25c53f960203','9b2c3c94-3171-45c3-a2cc-8510e00c23f7','kuali.resultComponent.grade.letter','510107c7-9be2-4169-867c-1d53cad63962','Retired',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('dcf8b33a-6304-4658-bce7-f95995ded279','b762c053-7eba-43fc-ae79-5898d73d3c94','kuali.resultComponent.grade.letter','1264004c-f2f0-4917-ab20-37330b64f4aa','Active',1)
+  VALUES ('9236afd4-47dd-467c-a95f-42a95c262e34','de8523d6-47bd-41fc-bc7f-9d11e676b756','kuali.resultComponent.grade.audit','6b4804b6-27bf-4ae0-86d4-d2200ccabebf','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('9236afd4-47dd-467c-a95f-42a95c262e34','de8523d6-47bd-41fc-bc7f-9d11e676b756','kuali.resultComponent.grade.audit','6b4804b6-27bf-4ae0-86d4-d2200ccabebf','Active',1)
+  VALUES ('dcf8b33a-6304-4658-bce7-f95995ded279','b762c053-7eba-43fc-ae79-5898d73d3c94','kuali.resultComponent.grade.letter','1264004c-f2f0-4917-ab20-37330b64f4aa','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('af813ff9-b371-4ac6-a1ef-a8a00c3f758e','6713b355-82dd-4c4b-871e-c107521daf70','kuali.creditType.credit.degree.2.0','Active',0)
@@ -17945,10 +17945,10 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('d9f78de2-802a-4267-99bb-f396be117f92','10e39fee-3ba6-49af-9d9c-c322409a8f65','kuali.resultComponent.grade.passFail','b331ee0e-b4a9-4f9c-9c1a-9c5504816120','Draft',4)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('55ae5c80-571f-4c2d-ba23-6a109e31505c','f663e724-5b74-41a5-b422-17677041aa8c','kuali.resultComponent.grade.letter','26b05a3e-2afc-464d-a992-7615f80e5f2d','Active',3)
+  VALUES ('bfcdfa8f-aecf-4a7c-a888-f434a7058723','0f91d439-db59-4746-8f93-ad7c6c321a28','kuali.resultComponent.grade.audit','3d4fc1b4-cc7d-48e6-937c-cf45e1edc748','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('bfcdfa8f-aecf-4a7c-a888-f434a7058723','0f91d439-db59-4746-8f93-ad7c6c321a28','kuali.resultComponent.grade.audit','3d4fc1b4-cc7d-48e6-937c-cf45e1edc748','Active',1)
+  VALUES ('55ae5c80-571f-4c2d-ba23-6a109e31505c','f663e724-5b74-41a5-b422-17677041aa8c','kuali.resultComponent.grade.letter','26b05a3e-2afc-464d-a992-7615f80e5f2d','Active',3)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('b4e386b1-1ba8-44db-9dde-9de846962828','a1b932cf-4d1f-4430-8718-af695f66cbc3','kuali.resultComponent.grade.letter','db90d552-97c7-4683-96e4-278862a10d07','Draft',1)
@@ -17975,10 +17975,10 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('2ff07658-cf9f-41b6-b2d3-6062810f1c85','db6147af-b9ff-44a2-9fa4-4f5304336f2c','kuali.creditType.credit.degree.3.0','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('ff336139-7cbe-4e0d-bdb0-bded98b708af','8c70228c-1e46-474f-b15c-34ab7add3ae4','kuali.resultComponent.grade.letter','bf6908cf-2d2d-40a7-b6d0-d722643d8a89','Draft',2)
+  VALUES ('038fa839-9d1d-4ece-b9c9-9e73712cf0be','6b156df5-f804-4a6f-950a-158060be4b36','kuali.resultComponent.grade.letter','fb6dd9f4-e690-48d5-a1a2-89d79ca18b48','Draft',3)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('038fa839-9d1d-4ece-b9c9-9e73712cf0be','6b156df5-f804-4a6f-950a-158060be4b36','kuali.resultComponent.grade.letter','fb6dd9f4-e690-48d5-a1a2-89d79ca18b48','Draft',3)
+  VALUES ('ff336139-7cbe-4e0d-bdb0-bded98b708af','8c70228c-1e46-474f-b15c-34ab7add3ae4','kuali.resultComponent.grade.letter','bf6908cf-2d2d-40a7-b6d0-d722643d8a89','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('64610ee4-f0e7-4569-a242-954224815e67','4b4f5d66-4e43-4ba0-a6f1-573120839a24','kuali.resultComponent.grade.audit','83793c21-2554-46a4-a112-95053a65720b','Active',1)
@@ -18017,10 +18017,10 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('3fc6353a-d1f9-4989-9575-1b8dbadfc892','74d983ae-cd05-45f9-a0a5-93216128018b','kuali.resultComponent.grade.audit','2ea20f67-51c7-46b8-91c7-21867f5c4c4b','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('196e9b79-ffe8-45bf-b008-3c2e0ffad3f5','c6332bc9-e686-45c2-8868-556ef0265123','kuali.creditType.credit.degree.3.0','Retired',0)
+  VALUES ('9fc544c2-ba12-4222-9715-9f00f11172f5','672b3858-a22a-4392-bc08-c2751f43b32e','kuali.creditType.credit.degree.1-3','Retired',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('9fc544c2-ba12-4222-9715-9f00f11172f5','672b3858-a22a-4392-bc08-c2751f43b32e','kuali.creditType.credit.degree.1-3','Retired',0)
+  VALUES ('196e9b79-ffe8-45bf-b008-3c2e0ffad3f5','c6332bc9-e686-45c2-8868-556ef0265123','kuali.creditType.credit.degree.3.0','Retired',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('5d24aed2-84ad-49f8-9789-fe54ed001d0d','0face61b-df7a-4421-a496-4e623077eb6e','kuali.resultComponent.grade.letter','cbeb5e7f-7947-4b00-8e5c-c454d92770a5','Draft',2)
@@ -18043,17 +18043,17 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('900dab39-0879-4eab-b915-f0f9fb89ad06','1fe813a0-e54d-40d7-81bd-a0656e193053','kuali.resultComponent.grade.audit','89654856-6715-4711-8cdc-d282cd2b497f','Draft',2)
 /
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('abc6ece1-7949-4083-83fe-74cfe01764ef','813e27b2-86b1-4b10-843c-a998539a8806','kuali.resultComponent.grade.letter','f0160655-5155-4d67-8154-d18a27463a49','Draft',4)
-/
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('8ca3954f-8873-4dfd-997c-49cfc2a1c786','80bc37bc-39dd-4a11-a9c0-8506d2021bd8','kuali.creditType.credit.degree.3.0','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('7d7951bf-a2c1-475a-9956-b2d40ba9f1f4','7a30dae0-8d40-4a9f-afe7-a2428d4c48f0','kuali.resultComponent.grade.audit','5d4e30d1-c055-4445-9e8e-b34d008f4308','Active',1)
+  VALUES ('abc6ece1-7949-4083-83fe-74cfe01764ef','813e27b2-86b1-4b10-843c-a998539a8806','kuali.resultComponent.grade.letter','f0160655-5155-4d67-8154-d18a27463a49','Draft',4)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('533caad3-09c4-4632-869e-fbfa124ec979','a5310d39-d521-44b0-85b0-9d6f9b3c30f0','kuali.creditType.credit.degree.3.0','Draft',0)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
+  VALUES ('7d7951bf-a2c1-475a-9956-b2d40ba9f1f4','7a30dae0-8d40-4a9f-afe7-a2428d4c48f0','kuali.resultComponent.grade.audit','5d4e30d1-c055-4445-9e8e-b34d008f4308','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('edbaa3f9-e9a7-492e-818a-e91225e193f8','43851105-ad52-43ea-a253-0cc239fa3e0d','kuali.creditType.credit.degree.3.0','Draft',0)
@@ -18068,10 +18068,10 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('d311348c-7b74-4a4b-98fb-baacd756bc77','859aafb1-eb56-49a4-81d8-e8cbe16e5123','kuali.creditType.credit.degree.3.0','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('6025e1f5-f7fb-432c-ac39-0531a1d2ceee','2d96bf23-2331-4a7f-9845-16bb97340617','kuali.resultComponent.grade.passFail','84714bf0-18a3-4ce5-80a5-4b34a78991f7','Draft',2)
+  VALUES ('c55c5186-f28e-45e3-8761-ebffe4bfdfbc','48fc65d0-bc06-4bd1-ac37-e8d4186f23c0','kuali.resultComponent.grade.letter','76078756-d14c-4b43-a6cc-938340efb342','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('c55c5186-f28e-45e3-8761-ebffe4bfdfbc','48fc65d0-bc06-4bd1-ac37-e8d4186f23c0','kuali.resultComponent.grade.letter','76078756-d14c-4b43-a6cc-938340efb342','Active',0)
+  VALUES ('6025e1f5-f7fb-432c-ac39-0531a1d2ceee','2d96bf23-2331-4a7f-9845-16bb97340617','kuali.resultComponent.grade.passFail','84714bf0-18a3-4ce5-80a5-4b34a78991f7','Draft',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('312d9c91-abb4-41c1-98f7-0c55d0303365','4c292908-a9ee-4cf1-bdaa-d1c0a1b316de','kuali.resultComponent.grade.letter','8f4cdbcd-2e77-4b9b-b600-7a117d46ba66','Active',0)
@@ -18106,11 +18106,11 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('215cdf4e-73aa-400c-80d6-87d1c0247478','b2d763f9-b9b3-4f9e-9be4-4312cac59008','kuali.resultComponent.grade.audit','255340a0-5741-473a-9c31-f29290bf4853','Active',1)
 /
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('d980b84c-39eb-492c-8373-ef626b47ba72','2dfa8e09-58c5-44d6-96da-933a5109f75d','kuali.creditType.credit.degree.3.0','Retired',0)
-/
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('94e6a4ce-dcc1-4083-99d3-6090fa827a10','f6251740-7196-4ac6-bc83-ee45d7c1dbca','kuali.resultComponent.grade.audit','1d462c58-1fda-44a4-8be8-095a9dc27c0e','Draft',2)
+/
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
+  VALUES ('d980b84c-39eb-492c-8373-ef626b47ba72','2dfa8e09-58c5-44d6-96da-933a5109f75d','kuali.creditType.credit.degree.3.0','Retired',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('5e10a31d-da18-4dd1-b5b4-ed7ad590986b','d7a6d872-f468-402f-94d5-6cb1d505b67e','kuali.resultComponent.grade.passFail','9ef1bcc3-7102-44ba-8c50-1090d21f60ab','Draft',1)
@@ -18128,10 +18128,10 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('2db415b7-3b73-40e9-9832-be61afed39da','11a27d35-b016-4de7-b3d6-b9c52b49fb91','kuali.resultComponent.grade.passFail','36928b7a-ee36-4b10-8fd9-5b7cdaa749c2','Draft',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('0cb4e607-2992-457b-a6a7-a950858d40b1','4131988b-f4f0-4da5-aa2d-726fd3f627bc','kuali.resultComponent.grade.letter','2b426c63-8722-4f40-ba6e-0df13bf7ff90','Active',1)
+  VALUES ('207b6574-fdfb-4d54-bec9-d4e06cd3442e','f5fab05d-8cfb-4ddf-a141-10ddca9ab12c','kuali.resultComponent.grade.audit','07b4a0d3-60b6-4ec9-96c7-be12aa34cbdf','Draft',6)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
-  VALUES ('207b6574-fdfb-4d54-bec9-d4e06cd3442e','f5fab05d-8cfb-4ddf-a141-10ddca9ab12c','kuali.resultComponent.grade.audit','07b4a0d3-60b6-4ec9-96c7-be12aa34cbdf','Draft',6)
+  VALUES ('0cb4e607-2992-457b-a6a7-a950858d40b1','4131988b-f4f0-4da5-aa2d-726fd3f627bc','kuali.resultComponent.grade.letter','2b426c63-8722-4f40-ba6e-0df13bf7ff90','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('914e3028-fe9d-4025-a53e-ac8cb957d1a8','29203be2-a4e1-453f-96a0-6fe474779609','kuali.resultComponent.grade.letter','b919aa5c-6dbb-4f98-96ab-7e11327bfcae','Draft',1)
@@ -18158,10 +18158,10 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('42f7b346-061e-4be2-b8c5-eb05c764be46','8bfefb7a-7060-4bac-80ea-c5891bb3443f','kuali.resultComponent.grade.audit','94f3481f-805a-4e0d-8d71-d55285a71c96','Active',1)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('04c1b714-0237-4ba6-8496-56492d5b61ba','4f3be5eb-c7e2-4b59-ac70-b58f2b9ebdb8','kuali.creditType.credit.degree.3.0','Draft',0)
+  VALUES ('c15380f2-f380-4da2-a82c-40e36c794aaa','d36e852f-16df-4307-a993-4f1478d836a6','kuali.creditType.credit.degree.1-6','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('c15380f2-f380-4da2-a82c-40e36c794aaa','d36e852f-16df-4307-a993-4f1478d836a6','kuali.creditType.credit.degree.1-6','Active',0)
+  VALUES ('04c1b714-0237-4ba6-8496-56492d5b61ba','4f3be5eb-c7e2-4b59-ac70-b58f2b9ebdb8','kuali.creditType.credit.degree.3.0','Draft',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('fae9c3b3-af1d-47d0-be23-9750bf73e2aa','0fd89b6a-991d-424e-ac30-2ec653a4e08e','kuali.resultComponent.grade.letter','9bfde701-41ff-4c34-adde-9afe28f5bdba','Active',0)
@@ -18178,17 +18178,17 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('d73b0eb1-5fd2-44b1-b547-f0742313c474','d74e1e1a-29c4-4447-ba9e-767764fb0e51','kuali.resultComponent.grade.letter','baab7e1b-3024-4e84-ba9a-70211547ff0d','Draft',2)
 /
+INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
+  VALUES ('9fa709df-c32c-40c4-abef-dbf431635360','bb9fbea8-caf7-41bf-9327-3d74b042742c','kuali.creditType.credit.degree.3.0','Draft',0)
+/
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('6542a07d-d325-49e8-ab6d-135d7fccd35b','7a462776-d336-4f94-93c5-6bf7a40a5136','kuali.resultComponent.grade.letter','881dfc9f-5db0-406d-a40a-5b3b2340f45b','Active',2)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('9fa709df-c32c-40c4-abef-dbf431635360','bb9fbea8-caf7-41bf-9327-3d74b042742c','kuali.creditType.credit.degree.3.0','Draft',0)
+  VALUES ('dab8fc51-f341-4a61-abf9-860f8906e4d8','19e9b327-8fdb-40d7-ab95-9295eda4a9d0','kuali.creditType.credit.degree.3.0','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('6a4dc5f5-1848-4541-b134-f0c2d53394d9','1025f519-c88c-4338-a9ed-dd87e1452964','kuali.creditType.credit.degree.3.0','Active',0)
-/
-INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('dab8fc51-f341-4a61-abf9-860f8906e4d8','19e9b327-8fdb-40d7-ab95-9295eda4a9d0','kuali.creditType.credit.degree.3.0','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('9c59ed2e-2124-44b6-923c-b21ba6e36b8e','814a6747-f793-4958-8d1f-92fcdfbf3bab','kuali.resultComponent.grade.audit','d07b8c13-17b3-4de4-8ff4-ffbf7b3af4eb','Active',0)
@@ -18209,10 +18209,10 @@ INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
   VALUES ('cf4c59ee-9c57-411b-b08f-231275d34f88','c065b855-c4c2-4d87-b38c-8e4862a25de7','kuali.creditType.credit.degree.3.0','Draft',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('98f4fee0-0d58-405f-882b-a1149182c268','62f92923-5d93-415e-8674-8e8a0608e1fa','kuali.creditType.credit.degree.0.0','Active',0)
+  VALUES ('91917eb2-6002-4819-b180-fe2f1581dcb0','4407f91c-edb4-4e9f-a4ea-219e165223da','kuali.creditType.credit.degree.3.0','Retired',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,ST,VER_NBR)
-  VALUES ('91917eb2-6002-4819-b180-fe2f1581dcb0','4407f91c-edb4-4e9f-a4ea-219e165223da','kuali.creditType.credit.degree.3.0','Retired',0)
+  VALUES ('98f4fee0-0d58-405f-882b-a1149182c268','62f92923-5d93-415e-8674-8e8a0608e1fa','kuali.creditType.credit.degree.0.0','Active',0)
 /
 INSERT INTO KSLU_RSLT_OPT (ID,OBJ_ID,RES_COMP_ID,RT_DESCR_ID,ST,VER_NBR)
   VALUES ('73f4f38d-b08d-44c4-b938-bfbb1b615248','82a0cd71-0a9d-4788-825f-185b40e0aebe','kuali.resultComponent.grade.letter','fc80ae4a-5cc8-458f-80e1-abb343c0cf3a','Active',0)

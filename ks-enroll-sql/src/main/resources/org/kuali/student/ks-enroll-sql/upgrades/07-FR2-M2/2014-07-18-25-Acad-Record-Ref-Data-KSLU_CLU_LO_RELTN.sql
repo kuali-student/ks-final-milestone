@@ -26,10 +26,10 @@ INSERT INTO KSLU_CLU_LO_RELTN (CLU_ID,ID,LO_ID,OBJ_ID,ST,TYPE,VER_NBR)
   VALUES ('ee35453b-6454-4f8d-95d5-5afc4f9d8c1f','a52f94ea-fd44-4457-90c4-be544856e4e5','042bab41-0d9f-4a02-85be-2d216aef6866','4010f3b8-29a3-471a-8100-17ad28579d1a','draft','kuali.lu.lo.relation.type.includes',0)
 /
 INSERT INTO KSLU_CLU_LO_RELTN (CLU_ID,ID,LO_ID,OBJ_ID,ST,TYPE,VER_NBR)
-  VALUES ('CLUID-BUMO796-201101000000','5d702eab-1836-4299-b4a1-083dabcf90aa','157870ba-90b9-4147-9e9f-04ae6430a061','519477ac-18a6-47d0-a64f-c75f6bdbd94e','Active','kuali.lu.lo.relation.type.includes',0)
+  VALUES ('001127a9-5db6-4cf1-8c43-d3a321571329','7e71c0dc-855c-452f-b7c3-1b424c961ce7','fcd02019-4e5a-48d2-836e-3be09da2cacd','7b4ae5e9-9d45-4328-a9db-b7d508e41ddd','Draft','kuali.lu.lo.relation.type.includes',0)
 /
 INSERT INTO KSLU_CLU_LO_RELTN (CLU_ID,ID,LO_ID,OBJ_ID,ST,TYPE,VER_NBR)
-  VALUES ('001127a9-5db6-4cf1-8c43-d3a321571329','7e71c0dc-855c-452f-b7c3-1b424c961ce7','fcd02019-4e5a-48d2-836e-3be09da2cacd','7b4ae5e9-9d45-4328-a9db-b7d508e41ddd','Draft','kuali.lu.lo.relation.type.includes',0)
+  VALUES ('CLUID-BUMO796-201101000000','5d702eab-1836-4299-b4a1-083dabcf90aa','157870ba-90b9-4147-9e9f-04ae6430a061','519477ac-18a6-47d0-a64f-c75f6bdbd94e','Active','kuali.lu.lo.relation.type.includes',0)
 /
 INSERT INTO KSLU_CLU_LO_RELTN (CLU_ID,ID,LO_ID,OBJ_ID,ST,TYPE,VER_NBR)
   VALUES ('fcf09798-ff2e-472b-ae26-d96d8a244e49','1d19405a-bdc8-445f-b036-1e2206d0534f','29115bf0-f881-4592-b52f-37fe4a5744bd','efa6525e-ad82-4ad9-89f9-85e8e84d35c0','Draft','kuali.lu.lo.relation.type.includes',0)
@@ -413,10 +413,10 @@ INSERT INTO KSLU_CLU_LO_RELTN (CLU_ID,ID,LO_ID,OBJ_ID,ST,TYPE,VER_NBR)
   VALUES ('57d2ab4d-34d1-4dbc-a931-26b01c50e5c3','0e9b80e3-2480-475a-8eb9-eaea7a38868a','9c26eb75-37ab-48e2-a824-2b5ac63a3d78','54737e8b-fd8b-4455-b576-514f658f9c9c','draft','kuali.lu.lo.relation.type.includes',0)
 /
 INSERT INTO KSLU_CLU_LO_RELTN (CLU_ID,ID,LO_ID,OBJ_ID,ST,TYPE,VER_NBR)
-  VALUES ('CLUID-BUMK736-200408000000','a03d7b11-b8f3-4443-978f-0bbedc9854a6','baffaece-e037-442d-bdd1-4aa3b7234f5a','0ee76f6c-8e37-486e-9326-31356c71a273','Active','kuali.lu.lo.relation.type.includes',0)
+  VALUES ('CLUID-BMGT110-198001000000','0567643d-7c63-4a63-b671-32591748ab6e','9c1f080b-ff28-4c10-9ec3-8640ece304ba','d3d00b3c-1418-447e-b2e9-f54551ab09b7','Active','kuali.lu.lo.relation.type.includes',0)
 /
 INSERT INTO KSLU_CLU_LO_RELTN (CLU_ID,ID,LO_ID,OBJ_ID,ST,TYPE,VER_NBR)
-  VALUES ('CLUID-BMGT110-198001000000','0567643d-7c63-4a63-b671-32591748ab6e','9c1f080b-ff28-4c10-9ec3-8640ece304ba','d3d00b3c-1418-447e-b2e9-f54551ab09b7','Active','kuali.lu.lo.relation.type.includes',0)
+  VALUES ('CLUID-BUMK736-200408000000','a03d7b11-b8f3-4443-978f-0bbedc9854a6','baffaece-e037-442d-bdd1-4aa3b7234f5a','0ee76f6c-8e37-486e-9326-31356c71a273','Active','kuali.lu.lo.relation.type.includes',0)
 /
 INSERT INTO KSLU_CLU_LO_RELTN (CLU_ID,ID,LO_ID,OBJ_ID,ST,TYPE,VER_NBR)
   VALUES ('6219eed7-3e8e-4d74-810d-24ef86ce4a7f','9cd03a71-a98f-49dc-8ec9-9724139bf7ca','31335e80-c0e6-45a8-9200-60323a9dcdbd','f25549f8-4f14-4135-850f-d61496478867','Active','kuali.lu.lo.relation.type.includes',0)
@@ -572,10 +572,10 @@ INSERT INTO KSLU_CLU_LO_RELTN (CLU_ID,ID,LO_ID,OBJ_ID,ST,TYPE,VER_NBR)
   VALUES ('b1269e53-33d4-491d-80e9-54c0976d313c','3b99dc38-5bfb-4314-91b3-ee3ccae24730','3541aa67-5b7d-4ec5-a897-e3ed25e16c40','82bdb848-28bb-4951-8a3c-211fd64c2576','draft','kuali.lu.lo.relation.type.includes',0)
 /
 INSERT INTO KSLU_CLU_LO_RELTN (CLU_ID,ID,LO_ID,OBJ_ID,ST,TYPE,VER_NBR)
-  VALUES ('CLUID-BUMK736-200408000000','96e91cda-cb6f-46bf-9583-60d181d35cda','9201a70d-9115-4e27-91e1-6747fcd26a6b','b9147d3c-3061-4c72-b390-233ed9e6599a','Active','kuali.lu.lo.relation.type.includes',0)
+  VALUES ('b1269e53-33d4-491d-80e9-54c0976d313c','5813781c-98fc-46ed-b091-6314ad3fda9c','2cb29529-bece-4351-b05a-1216b6539d3c','0f659b1d-a2fc-48e5-bdbb-ce938434216c','draft','kuali.lu.lo.relation.type.includes',0)
 /
 INSERT INTO KSLU_CLU_LO_RELTN (CLU_ID,ID,LO_ID,OBJ_ID,ST,TYPE,VER_NBR)
-  VALUES ('b1269e53-33d4-491d-80e9-54c0976d313c','5813781c-98fc-46ed-b091-6314ad3fda9c','2cb29529-bece-4351-b05a-1216b6539d3c','0f659b1d-a2fc-48e5-bdbb-ce938434216c','draft','kuali.lu.lo.relation.type.includes',0)
+  VALUES ('CLUID-BUMK736-200408000000','96e91cda-cb6f-46bf-9583-60d181d35cda','9201a70d-9115-4e27-91e1-6747fcd26a6b','b9147d3c-3061-4c72-b390-233ed9e6599a','Active','kuali.lu.lo.relation.type.includes',0)
 /
 INSERT INTO KSLU_CLU_LO_RELTN (CLU_ID,ID,LO_ID,OBJ_ID,ST,TYPE,VER_NBR)
   VALUES ('6eabf098-a5a0-4b5a-b520-56408646024f','99cdfa2e-e0ed-486a-bb9d-053232e58a01','edc432f0-36a8-49ee-a1e3-dfe23da0e472','bd965bff-af15-41c9-a0b2-da342d39dc35','Active','kuali.lu.lo.relation.type.includes',0)
@@ -599,10 +599,10 @@ INSERT INTO KSLU_CLU_LO_RELTN (CLU_ID,ID,LO_ID,OBJ_ID,ST,TYPE,VER_NBR)
   VALUES ('CLUID-MATH314-201008000000','57fad482-dce9-4dfe-8144-cef101868cf6','ddd9f270-2bcd-443a-abe9-c9b382c780dd','01b33179-43c0-48e8-a4cd-abc5d9d4d090','Active','kuali.lu.lo.relation.type.includes',0)
 /
 INSERT INTO KSLU_CLU_LO_RELTN (CLU_ID,ID,LO_ID,OBJ_ID,ST,TYPE,VER_NBR)
-  VALUES ('6972e59e-32bb-4ced-b77f-a0309a14cbcc','2a9d3162-e926-4aa1-9300-5dc66a1fdeac','56118ba1-9367-4737-adeb-611551d95a22','dfda61db-2118-494f-b23e-2c410c27cb7e','Draft','kuali.lu.lo.relation.type.includes',0)
+  VALUES ('001127a9-5db6-4cf1-8c43-d3a321571329','fea5e397-dfe8-4a24-a677-f4afa2aa61f9','516696d0-df73-41a9-b9a4-798d6ac29867','7766b705-cb5c-489c-b338-d9139be269d9','Draft','kuali.lu.lo.relation.type.includes',0)
 /
 INSERT INTO KSLU_CLU_LO_RELTN (CLU_ID,ID,LO_ID,OBJ_ID,ST,TYPE,VER_NBR)
-  VALUES ('001127a9-5db6-4cf1-8c43-d3a321571329','fea5e397-dfe8-4a24-a677-f4afa2aa61f9','516696d0-df73-41a9-b9a4-798d6ac29867','7766b705-cb5c-489c-b338-d9139be269d9','Draft','kuali.lu.lo.relation.type.includes',0)
+  VALUES ('6972e59e-32bb-4ced-b77f-a0309a14cbcc','2a9d3162-e926-4aa1-9300-5dc66a1fdeac','56118ba1-9367-4737-adeb-611551d95a22','dfda61db-2118-494f-b23e-2c410c27cb7e','Draft','kuali.lu.lo.relation.type.includes',0)
 /
 INSERT INTO KSLU_CLU_LO_RELTN (CLU_ID,ID,LO_ID,OBJ_ID,ST,TYPE,VER_NBR)
   VALUES ('CLUID-BUMO721-201108000000','b80a5a61-2cf3-4fd7-a530-426e4597966a','1e046262-f778-4974-a33e-7969224afe03','b4a70da6-8ad8-4c1c-99b8-35411b422b02','Active','kuali.lu.lo.relation.type.includes',0)
@@ -611,10 +611,10 @@ INSERT INTO KSLU_CLU_LO_RELTN (CLU_ID,ID,LO_ID,OBJ_ID,ST,TYPE,VER_NBR)
   VALUES ('ddab37dd-b83b-40b8-bb2c-fed1ceb8daf2','d36695f3-47bd-4ef2-b9fe-24eac1f04f2d','72cc33d9-2fbd-49c9-860f-bbc9a37ed3b9','81b9a105-7f9f-4744-a3b7-ca162e78e0d9','Draft','kuali.lu.lo.relation.type.includes',0)
 /
 INSERT INTO KSLU_CLU_LO_RELTN (CLU_ID,ID,LO_ID,OBJ_ID,ST,TYPE,VER_NBR)
-  VALUES ('5b0eac4f-ad02-41ce-91d3-f101d135c657','c9cb8f24-536c-4d15-bf29-3c409d5baaf8','43870332-dcaa-4aef-a97d-43b16d167d19','8828a9ab-1e8b-4ce6-abaf-0313dcbf4f77','Active','kuali.lu.lo.relation.type.includes',0)
+  VALUES ('a32e5538-37e3-4d98-bb18-91246d0fd166','7cb8be34-0a55-435e-bd46-5f30553386e6','c57df124-23e6-47d6-9961-ec483ba8cb77','91fd0e39-53db-4b01-8b2c-d9a6358570e3','Draft','kuali.lu.lo.relation.type.includes',0)
 /
 INSERT INTO KSLU_CLU_LO_RELTN (CLU_ID,ID,LO_ID,OBJ_ID,ST,TYPE,VER_NBR)
-  VALUES ('a32e5538-37e3-4d98-bb18-91246d0fd166','7cb8be34-0a55-435e-bd46-5f30553386e6','c57df124-23e6-47d6-9961-ec483ba8cb77','91fd0e39-53db-4b01-8b2c-d9a6358570e3','Draft','kuali.lu.lo.relation.type.includes',0)
+  VALUES ('5b0eac4f-ad02-41ce-91d3-f101d135c657','c9cb8f24-536c-4d15-bf29-3c409d5baaf8','43870332-dcaa-4aef-a97d-43b16d167d19','8828a9ab-1e8b-4ce6-abaf-0313dcbf4f77','Active','kuali.lu.lo.relation.type.includes',0)
 /
 INSERT INTO KSLU_CLU_LO_RELTN (CLU_ID,ID,LO_ID,OBJ_ID,ST,TYPE,VER_NBR)
   VALUES ('4df6f2dc-fa5c-4a57-ad5f-7f8c81ddb1d2','39f53b12-ec9b-4b07-abb7-c1c4d0948ee9','0d6307e3-437f-4cc1-a063-3bb1affe8bcc','721956ca-0ddc-4d77-aa94-4d71739f62ff','Draft','kuali.lu.lo.relation.type.includes',0)
@@ -734,10 +734,10 @@ INSERT INTO KSLU_CLU_LO_RELTN (CLU_ID,ID,LO_ID,OBJ_ID,ST,TYPE,VER_NBR)
   VALUES ('51e42de9-ff6c-488f-8f03-d5a98cfce635','319dd3ec-36f5-4a5e-9987-aba14efc80da','6b6bfe46-21ec-43d4-a16f-b1d301c5cb80','b2963b73-f160-4e9a-975c-2e89f2b1daf9','draft','kuali.lu.lo.relation.type.includes',0)
 /
 INSERT INTO KSLU_CLU_LO_RELTN (CLU_ID,ID,LO_ID,OBJ_ID,ST,TYPE,VER_NBR)
-  VALUES ('CLUID-BUMO794-201101000000','22443008-e8d3-4c7d-8cc9-8a55cdb97a7a','94d9f2ef-8f93-4ced-865a-f09a9053e72e','d3193a22-9f8b-40a7-8496-848fc2064f0f','Active','kuali.lu.lo.relation.type.includes',0)
+  VALUES ('CLUID-BMGT391-201101000000','2f8685cf-ad88-4aa0-b168-8722c301d4f8','5472fb2d-fbab-491d-bf0d-308fb2878cdc','c5327c81-1556-4c4f-b8b0-6e5cb1318868','Active','kuali.lu.lo.relation.type.includes',0)
 /
 INSERT INTO KSLU_CLU_LO_RELTN (CLU_ID,ID,LO_ID,OBJ_ID,ST,TYPE,VER_NBR)
-  VALUES ('CLUID-BMGT391-201101000000','2f8685cf-ad88-4aa0-b168-8722c301d4f8','5472fb2d-fbab-491d-bf0d-308fb2878cdc','c5327c81-1556-4c4f-b8b0-6e5cb1318868','Active','kuali.lu.lo.relation.type.includes',0)
+  VALUES ('CLUID-BUMO794-201101000000','22443008-e8d3-4c7d-8cc9-8a55cdb97a7a','94d9f2ef-8f93-4ced-865a-f09a9053e72e','d3193a22-9f8b-40a7-8496-848fc2064f0f','Active','kuali.lu.lo.relation.type.includes',0)
 /
 INSERT INTO KSLU_CLU_LO_RELTN (CLU_ID,ID,LO_ID,OBJ_ID,ST,TYPE,VER_NBR)
   VALUES ('76f8b69e-0ceb-4ec2-99e3-cd39c5c3bb7d','24baee4c-d2d4-42ea-a25e-b2c5270998c4','1ec63537-dfb6-450f-b031-23741e7e5b15','b83253b8-edf4-4e2e-9c0e-01aa06ee6986','Active','kuali.lu.lo.relation.type.includes',0)
@@ -863,10 +863,10 @@ INSERT INTO KSLU_CLU_LO_RELTN (CLU_ID,ID,LO_ID,OBJ_ID,ST,TYPE,VER_NBR)
   VALUES ('a32e5538-37e3-4d98-bb18-91246d0fd166','cf27755b-577d-4307-820a-3c3d178ffb2b','65adef26-2225-4d87-b93a-64ebddb681ce','16913a59-6480-4add-abbd-bf7f800282d0','Draft','kuali.lu.lo.relation.type.includes',0)
 /
 INSERT INTO KSLU_CLU_LO_RELTN (CLU_ID,ID,LO_ID,OBJ_ID,ST,TYPE,VER_NBR)
-  VALUES ('CLUID-BUAC792-201101000000','844aa19d-4d62-4151-9049-e9c213511889','5bf6e643-c0ed-44dd-9899-1ae43641d155','ca24d042-625f-444d-9e0e-e8e4f7157b92','Active','kuali.lu.lo.relation.type.includes',0)
+  VALUES ('a481e801-7c02-4d8c-98f4-86bb96337bbd','44bf59b5-9134-414d-a8a8-b59dbc32539d','2125fa0f-5487-4ebb-b0cf-946d74f821e8','3d73c767-91c2-403c-9140-852f48fd7c8a','Draft','kuali.lu.lo.relation.type.includes',0)
 /
 INSERT INTO KSLU_CLU_LO_RELTN (CLU_ID,ID,LO_ID,OBJ_ID,ST,TYPE,VER_NBR)
-  VALUES ('a481e801-7c02-4d8c-98f4-86bb96337bbd','44bf59b5-9134-414d-a8a8-b59dbc32539d','2125fa0f-5487-4ebb-b0cf-946d74f821e8','3d73c767-91c2-403c-9140-852f48fd7c8a','Draft','kuali.lu.lo.relation.type.includes',0)
+  VALUES ('CLUID-BUAC792-201101000000','844aa19d-4d62-4151-9049-e9c213511889','5bf6e643-c0ed-44dd-9899-1ae43641d155','ca24d042-625f-444d-9e0e-e8e4f7157b92','Active','kuali.lu.lo.relation.type.includes',0)
 /
 INSERT INTO KSLU_CLU_LO_RELTN (CLU_ID,ID,LO_ID,OBJ_ID,ST,TYPE,VER_NBR)
   VALUES ('e916d710-652e-4fa9-86e4-8d8520fcdf7f','2a538ceb-9db6-44d0-a073-c7dfe9b5e718','450764dd-4bc7-46b4-9434-c2ec309c786f','b20bc553-ac94-468f-bbdf-35066c4f226c','Draft','kuali.lu.lo.relation.type.includes',0)
@@ -1193,10 +1193,10 @@ INSERT INTO KSLU_CLU_LO_RELTN (CLU_ID,ID,LO_ID,OBJ_ID,ST,TYPE,VER_NBR)
   VALUES ('CLUID-BUFN740-201108000000','c0fe8c91-7706-4a6d-a758-4d98ed1d4582','135c75aa-c749-4148-8b08-bfb1113f7ae6','0f4ea0b6-009c-4af9-b54c-f4560894938d','Active','kuali.lu.lo.relation.type.includes',0)
 /
 INSERT INTO KSLU_CLU_LO_RELTN (CLU_ID,ID,LO_ID,OBJ_ID,ST,TYPE,VER_NBR)
-  VALUES ('CLUID-BUAC784-201101000000','cdbcfb17-1081-4437-b33b-a765a5db3573','4391c853-eda1-4d14-9266-43aaa029436a','906859af-c011-420e-bc7e-20160aea26c0','Active','kuali.lu.lo.relation.type.includes',0)
+  VALUES ('7acd9f04-a8b9-4f25-b454-c329158cb6ff','029a8467-383e-4b6b-a1f1-41989f245d5c','5c1e91ca-fa19-43fd-b7e2-c1f5a22ba04f','344e349f-2798-4649-b3b2-36a1e26dc988','Draft','kuali.lu.lo.relation.type.includes',0)
 /
 INSERT INTO KSLU_CLU_LO_RELTN (CLU_ID,ID,LO_ID,OBJ_ID,ST,TYPE,VER_NBR)
-  VALUES ('7acd9f04-a8b9-4f25-b454-c329158cb6ff','029a8467-383e-4b6b-a1f1-41989f245d5c','5c1e91ca-fa19-43fd-b7e2-c1f5a22ba04f','344e349f-2798-4649-b3b2-36a1e26dc988','Draft','kuali.lu.lo.relation.type.includes',0)
+  VALUES ('CLUID-BUAC784-201101000000','cdbcfb17-1081-4437-b33b-a765a5db3573','4391c853-eda1-4d14-9266-43aaa029436a','906859af-c011-420e-bc7e-20160aea26c0','Active','kuali.lu.lo.relation.type.includes',0)
 /
 INSERT INTO KSLU_CLU_LO_RELTN (CLU_ID,ID,LO_ID,OBJ_ID,ST,TYPE,VER_NBR)
   VALUES ('CLUID-BUMO794-201101000000','2ca0efd0-1d50-4af2-a03b-c2fa8cb09867','8783f0e6-1fb8-4b73-a62d-33b80f195050','22cc94a1-f2c0-4003-9ea3-efe5d52db176','Active','kuali.lu.lo.relation.type.includes',0)
@@ -1211,25 +1211,25 @@ INSERT INTO KSLU_CLU_LO_RELTN (CLU_ID,ID,LO_ID,OBJ_ID,ST,TYPE,VER_NBR)
   VALUES ('CLUID-ENES141-200905200907','96c20c7c-d8c2-40ed-88c1-28146779a406','7c50b80e-5678-4060-97af-4a969eb7be00','36e17831-9783-4b07-bc68-08085829761d','Retired','kuali.lu.lo.relation.type.includes',0)
 /
 INSERT INTO KSLU_CLU_LO_RELTN (CLU_ID,ID,LO_ID,OBJ_ID,ST,TYPE,VER_NBR)
-  VALUES ('6972e59e-32bb-4ced-b77f-a0309a14cbcc','628ef4ad-d3d3-43fa-9bd4-289a9e797505','10af1ea6-55fd-476e-9095-b1db94cf6a9f','0204e283-b2c5-410b-9e95-7e45551b1a4d','Draft','kuali.lu.lo.relation.type.includes',0)
-/
-INSERT INTO KSLU_CLU_LO_RELTN (CLU_ID,ID,LO_ID,OBJ_ID,ST,TYPE,VER_NBR)
   VALUES ('ef19d7bc-7814-4200-9fac-79684fa99551','0ffe0156-14b2-4fd0-8030-330990df95e2','e6c54ed0-8e4c-465c-8696-3c6c0581ec8e','4fdffe97-8df9-43c4-8bba-a459cb2e3049','Draft','kuali.lu.lo.relation.type.includes',0)
 /
 INSERT INTO KSLU_CLU_LO_RELTN (CLU_ID,ID,LO_ID,OBJ_ID,ST,TYPE,VER_NBR)
-  VALUES ('44dde7cd-dd67-464d-9419-46a3d04995c6','51538c37-c9a5-4ff9-8cdc-b0794c136cda','f6d7ca41-4137-4c69-8761-2d176526f7ce','38aa44bf-019c-46d7-8d80-0dd684af121f','Active','kuali.lu.lo.relation.type.includes',0)
+  VALUES ('6972e59e-32bb-4ced-b77f-a0309a14cbcc','628ef4ad-d3d3-43fa-9bd4-289a9e797505','10af1ea6-55fd-476e-9095-b1db94cf6a9f','0204e283-b2c5-410b-9e95-7e45551b1a4d','Draft','kuali.lu.lo.relation.type.includes',0)
 /
 INSERT INTO KSLU_CLU_LO_RELTN (CLU_ID,ID,LO_ID,OBJ_ID,ST,TYPE,VER_NBR)
   VALUES ('CLUID-BULM724-201108000000','8657317f-ca4a-4b23-9681-e08e5308da8d','0a531ff0-6de0-4820-9e59-29ba3ab3cbbb','75b71ae9-fd3d-4122-a0dc-712a54e88cee','Active','kuali.lu.lo.relation.type.includes',0)
 /
 INSERT INTO KSLU_CLU_LO_RELTN (CLU_ID,ID,LO_ID,OBJ_ID,ST,TYPE,VER_NBR)
+  VALUES ('44dde7cd-dd67-464d-9419-46a3d04995c6','51538c37-c9a5-4ff9-8cdc-b0794c136cda','f6d7ca41-4137-4c69-8761-2d176526f7ce','38aa44bf-019c-46d7-8d80-0dd684af121f','Active','kuali.lu.lo.relation.type.includes',0)
+/
+INSERT INTO KSLU_CLU_LO_RELTN (CLU_ID,ID,LO_ID,OBJ_ID,ST,TYPE,VER_NBR)
   VALUES ('41a4dbb3-e204-471a-95d8-35347ba1f42d','dd80d779-f2b9-45c6-9580-d4ec8b550971','67ced722-2a6c-41b5-b3d5-1d182787cbcb','16fdd83f-8e6d-4951-8b21-4185cd53dd74','Active','kuali.lu.lo.relation.type.includes',0)
 /
 INSERT INTO KSLU_CLU_LO_RELTN (CLU_ID,ID,LO_ID,OBJ_ID,ST,TYPE,VER_NBR)
-  VALUES ('78b43cc6-0f06-42dc-8386-784cb8849912','c1080d96-2784-4e3b-8b01-429413eb48e8','45abe912-4a3a-4ce3-82a3-6dd98409d8ee','dd5b96b5-e537-4fc4-bc96-3e5818ef573e','draft','kuali.lu.lo.relation.type.includes',0)
+  VALUES ('f7ddd435-aadf-4ad2-8d9e-1a8fa14879fc','99632a24-f03b-4598-b6d4-e5d5fef4881b','14d23af9-a3bd-4bd8-848f-f1a490eeb218','1121d348-58be-46f5-95eb-ec8b6a6fa948','Draft','kuali.lu.lo.relation.type.includes',0)
 /
 INSERT INTO KSLU_CLU_LO_RELTN (CLU_ID,ID,LO_ID,OBJ_ID,ST,TYPE,VER_NBR)
-  VALUES ('f7ddd435-aadf-4ad2-8d9e-1a8fa14879fc','99632a24-f03b-4598-b6d4-e5d5fef4881b','14d23af9-a3bd-4bd8-848f-f1a490eeb218','1121d348-58be-46f5-95eb-ec8b6a6fa948','Draft','kuali.lu.lo.relation.type.includes',0)
+  VALUES ('78b43cc6-0f06-42dc-8386-784cb8849912','c1080d96-2784-4e3b-8b01-429413eb48e8','45abe912-4a3a-4ce3-82a3-6dd98409d8ee','dd5b96b5-e537-4fc4-bc96-3e5818ef573e','draft','kuali.lu.lo.relation.type.includes',0)
 /
 INSERT INTO KSLU_CLU_LO_RELTN (CLU_ID,ID,LO_ID,OBJ_ID,ST,TYPE,VER_NBR)
   VALUES ('df82e77b-c26e-459f-a579-12f35a6dacb7','18ccdb1a-ac4e-4cd2-a963-165af79ac0f7','fe9d8382-464f-4f43-bc81-1465a93700b1','a84e9c4f-fbeb-44fe-b20b-f6f3143c56bc','Draft','kuali.lu.lo.relation.type.includes',0)
@@ -1439,10 +1439,10 @@ INSERT INTO KSLU_CLU_LO_RELTN (CLU_ID,ID,LO_ID,OBJ_ID,ST,TYPE,VER_NBR)
   VALUES ('96f22e24-e450-4b25-b2ba-b68bbf7c9fb3','8b87f51a-9e18-4066-89ff-52215626ee5e','de9b4c6c-9b89-42fc-8fad-70598b33aba3','950420de-0bc1-4a17-ae0a-886a3e6e661f','Draft','kuali.lu.lo.relation.type.includes',0)
 /
 INSERT INTO KSLU_CLU_LO_RELTN (CLU_ID,ID,LO_ID,OBJ_ID,ST,TYPE,VER_NBR)
-  VALUES ('8e2b8942-961e-49d2-8093-c371898e7f02','6c14e4bd-c93f-4bc7-9680-0ebb1f118fbe','dca0d077-0adb-47bd-88e6-86e350d81978','88ee9f62-26bc-4735-8640-a6a3a55cbe41','Active','kuali.lu.lo.relation.type.includes',0)
+  VALUES ('CLUID-ENES462-201008000000','c0529ea6-88ae-4f3e-b80b-9f3d7c5e2723','6cdb63cd-ddb6-45d7-bcc0-b5d6de083948','601952c0-fd57-4d3a-b3d5-dd72d3367fe0','Active','kuali.lu.lo.relation.type.includes',0)
 /
 INSERT INTO KSLU_CLU_LO_RELTN (CLU_ID,ID,LO_ID,OBJ_ID,ST,TYPE,VER_NBR)
-  VALUES ('CLUID-ENES462-201008000000','c0529ea6-88ae-4f3e-b80b-9f3d7c5e2723','6cdb63cd-ddb6-45d7-bcc0-b5d6de083948','601952c0-fd57-4d3a-b3d5-dd72d3367fe0','Active','kuali.lu.lo.relation.type.includes',0)
+  VALUES ('8e2b8942-961e-49d2-8093-c371898e7f02','6c14e4bd-c93f-4bc7-9680-0ebb1f118fbe','dca0d077-0adb-47bd-88e6-86e350d81978','88ee9f62-26bc-4735-8640-a6a3a55cbe41','Active','kuali.lu.lo.relation.type.includes',0)
 /
 INSERT INTO KSLU_CLU_LO_RELTN (CLU_ID,ID,LO_ID,OBJ_ID,ST,TYPE,VER_NBR)
   VALUES ('f7ddd435-aadf-4ad2-8d9e-1a8fa14879fc','17011b31-7bd9-4ba2-b447-0be90cbb181f','b9b9431b-d260-4d9c-a4d5-241d4dae8ab9','dbe3cd26-2eb3-458b-8b14-affced591b27','Draft','kuali.lu.lo.relation.type.includes',0)
@@ -1796,16 +1796,16 @@ INSERT INTO KSLU_CLU_LO_RELTN (CLU_ID,ID,LO_ID,OBJ_ID,ST,TYPE,VER_NBR)
   VALUES ('232f83a6-8955-4b9d-8188-500de568469a','7c233a9f-67b8-4832-9555-d9e0e02b0201','dcc1ade9-53f2-4059-b03b-a8446d337963','fedc6013-9927-4e3a-b4ce-1ddc8f34c65c','draft','kuali.lu.lo.relation.type.includes',0)
 /
 INSERT INTO KSLU_CLU_LO_RELTN (CLU_ID,ID,LO_ID,OBJ_ID,ST,TYPE,VER_NBR)
-  VALUES ('CLUID-BUMO796-201101000000','e7e982ff-7e1e-4c1f-81cb-4990627c6912','49cd95ba-37be-476b-9732-dad389f8a66b','b245fe04-2c5c-4470-b3af-0c52d875bf92','Active','kuali.lu.lo.relation.type.includes',0)
-/
-INSERT INTO KSLU_CLU_LO_RELTN (CLU_ID,ID,LO_ID,OBJ_ID,ST,TYPE,VER_NBR)
   VALUES ('8cafdf09-4ec8-4b1d-832d-36fed919dd06','cff299f2-a78f-4724-96d1-500ae362d1e7','8c81b9b2-f49f-4356-a99b-8537a3b9179a','1fa26d78-37ca-4dec-a606-106f3b7329d3','Draft','kuali.lu.lo.relation.type.includes',0)
 /
 INSERT INTO KSLU_CLU_LO_RELTN (CLU_ID,ID,LO_ID,OBJ_ID,ST,TYPE,VER_NBR)
-  VALUES ('CLUID-BUSI640-200308000000','2d44fad7-b0cf-4d21-9835-5bf00a5e619a','34a19b81-9f74-4c38-b4ed-ab466ee09e32','a532dfed-6e07-48c9-8f00-eca833df2cc4','Active','kuali.lu.lo.relation.type.includes',0)
+  VALUES ('CLUID-BUMO796-201101000000','e7e982ff-7e1e-4c1f-81cb-4990627c6912','49cd95ba-37be-476b-9732-dad389f8a66b','b245fe04-2c5c-4470-b3af-0c52d875bf92','Active','kuali.lu.lo.relation.type.includes',0)
 /
 INSERT INTO KSLU_CLU_LO_RELTN (CLU_ID,ID,LO_ID,OBJ_ID,ST,TYPE,VER_NBR)
   VALUES ('6e7b9c8a-d83d-4a39-bd2b-11c1cc83b388','5a44db4e-1057-4681-a4f5-db84c72b3979','4a808e40-3492-4220-bf6c-2b9ee98d469a','d741fd95-4a4f-40a0-9a98-c706ff30d47f','Draft','kuali.lu.lo.relation.type.includes',0)
+/
+INSERT INTO KSLU_CLU_LO_RELTN (CLU_ID,ID,LO_ID,OBJ_ID,ST,TYPE,VER_NBR)
+  VALUES ('CLUID-BUSI640-200308000000','2d44fad7-b0cf-4d21-9835-5bf00a5e619a','34a19b81-9f74-4c38-b4ed-ab466ee09e32','a532dfed-6e07-48c9-8f00-eca833df2cc4','Active','kuali.lu.lo.relation.type.includes',0)
 /
 INSERT INTO KSLU_CLU_LO_RELTN (CLU_ID,ID,LO_ID,OBJ_ID,ST,TYPE,VER_NBR)
   VALUES ('CLUID-ENAE667-201008000000','cc474230-8a7b-4e48-80e9-7f6a68473b9f','b054d1ff-0322-4aa7-84c0-ce4f0c4c6626','e2ec46a6-2c8a-448d-a511-bf57250ba530','Active','kuali.lu.lo.relation.type.includes',0)
@@ -1814,10 +1814,10 @@ INSERT INTO KSLU_CLU_LO_RELTN (CLU_ID,ID,LO_ID,OBJ_ID,ST,TYPE,VER_NBR)
   VALUES ('CLUID-BULM724-201108000000','0d7f89c7-644a-40c5-a687-43fa5cfeaaa2','5e7f4816-2467-489e-9915-38b6ab3c5624','08bdeae6-92e7-4497-b94f-2302edb7fbe8','Active','kuali.lu.lo.relation.type.includes',0)
 /
 INSERT INTO KSLU_CLU_LO_RELTN (CLU_ID,ID,LO_ID,OBJ_ID,ST,TYPE,VER_NBR)
-  VALUES ('CLUID-BULM736-201108000000','666ddbc7-d203-4276-a7c8-b8399f0dbd0f','ca62d705-2479-4528-9912-0d7780e2d935','987c2858-4987-4c28-b410-3a33b0c7d500','Active','kuali.lu.lo.relation.type.includes',0)
+  VALUES ('dfbe1588-2ffe-487b-83c5-2ae6586735a2','1ab50445-464e-4542-b139-dfbf31c4df96','61f4d202-76ab-4386-ac7a-799a064c9690','d257e20e-e612-49b7-ada5-d378cbca72cb','Draft','kuali.lu.lo.relation.type.includes',0)
 /
 INSERT INTO KSLU_CLU_LO_RELTN (CLU_ID,ID,LO_ID,OBJ_ID,ST,TYPE,VER_NBR)
-  VALUES ('dfbe1588-2ffe-487b-83c5-2ae6586735a2','1ab50445-464e-4542-b139-dfbf31c4df96','61f4d202-76ab-4386-ac7a-799a064c9690','d257e20e-e612-49b7-ada5-d378cbca72cb','Draft','kuali.lu.lo.relation.type.includes',0)
+  VALUES ('CLUID-BULM736-201108000000','666ddbc7-d203-4276-a7c8-b8399f0dbd0f','ca62d705-2479-4528-9912-0d7780e2d935','987c2858-4987-4c28-b410-3a33b0c7d500','Active','kuali.lu.lo.relation.type.includes',0)
 /
 INSERT INTO KSLU_CLU_LO_RELTN (CLU_ID,ID,LO_ID,OBJ_ID,ST,TYPE,VER_NBR)
   VALUES ('ddab37dd-b83b-40b8-bb2c-fed1ceb8daf2','e33609d5-3f4d-47f1-8ae6-ce98d38e8022','686fbce7-326b-4086-90bb-43086f8b25af','7d0fea8e-a007-4d81-96aa-76cdd7a4a996','Draft','kuali.lu.lo.relation.type.includes',0)
@@ -1841,10 +1841,10 @@ INSERT INTO KSLU_CLU_LO_RELTN (CLU_ID,ID,LO_ID,OBJ_ID,ST,TYPE,VER_NBR)
   VALUES ('e32d0813-7540-4b26-a6d3-55664d9d86ad','b1e717aa-96f6-4930-b0a0-cb64a4922772','ac335765-1849-4990-a05c-122c96c85145','649657dd-0ec6-4e05-b52f-5a29a31c25ea','Draft','kuali.lu.lo.relation.type.includes',0)
 /
 INSERT INTO KSLU_CLU_LO_RELTN (CLU_ID,ID,LO_ID,OBJ_ID,ST,TYPE,VER_NBR)
-  VALUES ('6972e59e-32bb-4ced-b77f-a0309a14cbcc','9817bbe9-8e2e-45c7-92d7-7742af832459','7305ed49-4969-40f1-b1cf-4df667e60881','b9376584-8efd-4ff4-9320-d8e6ddef9453','Draft','kuali.lu.lo.relation.type.includes',0)
+  VALUES ('CLUID-ENES141-200905200907','1a4e4401-3be5-4881-bc1e-8cb1147dfbfe','2812f040-1201-4fe5-992c-c912df0b1b6a','37f6fc45-5d5e-403a-864b-57e8477af61a','Retired','kuali.lu.lo.relation.type.includes',0)
 /
 INSERT INTO KSLU_CLU_LO_RELTN (CLU_ID,ID,LO_ID,OBJ_ID,ST,TYPE,VER_NBR)
-  VALUES ('CLUID-ENES141-200905200907','1a4e4401-3be5-4881-bc1e-8cb1147dfbfe','2812f040-1201-4fe5-992c-c912df0b1b6a','37f6fc45-5d5e-403a-864b-57e8477af61a','Retired','kuali.lu.lo.relation.type.includes',0)
+  VALUES ('6972e59e-32bb-4ced-b77f-a0309a14cbcc','9817bbe9-8e2e-45c7-92d7-7742af832459','7305ed49-4969-40f1-b1cf-4df667e60881','b9376584-8efd-4ff4-9320-d8e6ddef9453','Draft','kuali.lu.lo.relation.type.includes',0)
 /
 INSERT INTO KSLU_CLU_LO_RELTN (CLU_ID,ID,LO_ID,OBJ_ID,ST,TYPE,VER_NBR)
   VALUES ('b904453a-1d6d-405d-9522-e7151eeac1ce','94eace1a-0414-4575-ac4e-826b699450ee','44b2e513-e087-420f-8bdc-e9bfa6198585','2d4d9ed4-caf7-4155-817d-db7ac2154cd9','Draft','kuali.lu.lo.relation.type.includes',0)
