@@ -28,31 +28,13 @@
 
         <property name="items">
             <list>
-                <bean id="KS-CourseView-ReviewProposal-Section" parent="KS-CourseView-VerticalBoxSection">
-                    <property name="items">
-                        <list>
-                            <ref bean="KS-CourseView-ReviewProposal-ReviewErrorMessageLink"/>
-                            <ref bean="KS-CourseView-ReviewProposal-CourseSection"/>
-                            <ref bean="KS-CourseView-ReviewProposal-GovernanceSection"/>
-                            <ref bean="KS-CourseView-ReviewProposal-CourseLogisticsSection"/>
-                            <ref bean="KS-CourseView-ReviewProposal-LearningObjectivesSection"/>
-                            <!--<ref bean="LearningObjectives-Review-section"/>
-                            <ref bean="CourseRequisitesPage-Review-section"/>  -->
-                            <ref bean="KS-CourseView-ReviewProposal-ActiveDatesSection"/>
-                            <ref bean="KS-CourseView-ReviewProposal-FinancialsSection"/>
-                            <ref bean="KS-CourseView-ReviewProposal-AuthorsAndCollaboratorsSection"/>
-                            <ref bean="KS-CourseView-ReviewProposal-SupportingDocumentsSection"/>
-                            <ref bean="KS-CourseSubmit-ConfirmDelete-Dialog"/>
-
-                        </list>
-                    </property>
-                </bean>
+                <ref bean="KS-CourseView-ReviewProposal-PageSections"/>
             </list>
         </property>
         <property name="footer.items">
             <list>
-                <bean parent="KS-ProposalReviewView-Footer" p:render="@{!#uiHelper.curriculumSpecialistUser}"/>
-                <bean parent="KS-ProposalReviewView-CurriculumSpecialistFooter" p:render="@{#uiHelper.curriculumSpecialistUser}"/>
+                <bean parent="KS-CourseView-ReviewProposal-Footer" p:render="@{!#uiHelper.curriculumSpecialistUser}"/>
+                <bean parent="KS-CourseView-ReviewProposal-CurriculumSpecialist-Footer" p:render="@{#uiHelper.curriculumSpecialistUser}"/>
             </list>
         </property>
         <property name="breadcrumbOptions.homewardPathBreadcrumbs">
@@ -67,15 +49,23 @@
         </property>
     </bean>
 
-    <!--<bean id="KS-CourseDetailedView-GridGroup" parent="Uif-GridGroup" p:layoutManager.numberOfColumns="4" abstract="true">
-        <property name="cssClasses">
-            <list merge="true">
-                <value>review_proposal_details-grid</value>
-                <value>ks-no-margins</value>
-                <value>ks-subSection</value>
+    <bean id="KS-CourseView-ReviewProposal-PageSections" parent="KS-CourseView-VerticalBoxSection">
+        <property name="items">
+            <list>
+                <ref bean="KS-CourseView-ReviewProposal-ReviewErrorMessageLink"/>
+                <ref bean="KS-CourseView-ReviewProposal-CourseSection"/>
+                <ref bean="KS-CourseView-ReviewProposal-GovernanceSection"/>
+                <ref bean="KS-CourseView-ReviewProposal-CourseLogisticsSection"/>
+                <ref bean="KS-CourseView-ReviewProposal-LearningObjectivesSection"/>
+                <!--<ref bean="CourseRequisitesPage-Review-section"/>  -->
+                <ref bean="KS-CourseView-ReviewProposal-ActiveDatesSection"/>
+                <ref bean="KS-CourseView-ReviewProposal-FinancialsSection"/>
+                <ref bean="KS-CourseView-ReviewProposal-AuthorsAndCollaboratorsSection"/>
+                <ref bean="KS-CourseView-ReviewProposal-SupportingDocumentsSection"/>
+                <ref bean="KS-CourseSubmit-ConfirmDelete-Dialog"/>
             </list>
         </property>
-    </bean>-->
+    </bean>
 
     <bean id="KS-CourseView-ReviewProposal-ReviewErrorMessageLink" parent="Uif-VerticalBoxGroup"
           p:render="@{#dataObject.missingRequiredFields}" p:additionalCssClasses="ks-cm-reviewproposal-validation-spacing">
@@ -105,50 +95,6 @@
             </list>
         </property>
     </bean>
-
-    <!-- A read-only text field. Don't need escapeHtml since this is an HTML input. -->
-    <!--<bean id="CM-ReadOnlyInput" parent="KS-Uif-InputField" p:colSpan="3" p:escapeHtmlInPropertyValue="false"
-          class="org.kuali.student.cm.uif.element.InputFieldWithNonClobberableFieldLabel" abstract="true">
-        <property name="fieldLabel.renderColon" value="false"/>
-        <property name="cssClasses">
-            <list merge="true">
-                <value>review_readonly</value>
-            </list>
-        </property>
-        <property name="control">
-            <bean parent="Uif-LargeTextAreaControl" p:readOnly="true">
-                <property name="cssClasses">
-                    <list merge="true">
-                        &lt;!&ndash; This is really just used by the jQuery selector. &ndash;&gt;
-                        <value>review_readonly_control</value>
-                    </list>
-                </property>
-            </bean>
-        </property>
-    </bean>-->
-
-    <!-- The parent all of the vertical box sections -->
-   <!-- <bean id="ReviewProposal-VerticalBoxSection" parent="Uif-VerticalBoxSection" abstract="true">
-        <property name="validationMessages" ref="KS-ValidationMessages-Off"/>
-        <property name="cssClasses">
-            <list merge="true">
-                <value>review_proposal-section</value>
-            </list>
-        </property>
-        <property name="header">
-            <bean parent="Uif-HeaderTwo">
-                <property name="cssClasses">
-                    <list merge="true">
-                        <value>ks-dottedHeaderActions</value>
-                        <value>cm_dottedHeaderActions</value>
-                    </list>
-                </property>
-                <property name="rightGroup">
-                    <bean parent="KS-CourseView-ReviewLink"/>
-                </property>
-            </bean>
-        </property>
-    </bean>-->
 
     <bean id="KS-CourseView-ReviewProposal-CourseSection" parent="KS-CourseDetailedView-CourseInfoSection">
         <property name="headerText" value="Course Information"/>
@@ -194,7 +140,6 @@
     </bean>
 
     <bean id="KS-CourseView-ReviewProposal-LearningObjectivesSection" parent="KS-CourseDetailedView-LearningObjectivesSection">
-        <property name="headerText" value="Learning Objectives"/>
         <property name="header.rightGroup.items">
            <list>
                 <bean p:id="LearningObjectives-Review-Edit-link" parent="Uif-ActionLink-Course-Proposal-Review-Page-Edit-Link">
@@ -207,110 +152,6 @@
             </list>
         </property>
     </bean>
-
-    <!--<bean id="LearningObjectives-Review-section" parent="ReviewProposal-VerticalBoxSection">
-        <property name="headerText" value="Learning Objectives"/>
-        <property name="header.rightGroup.items">
-            <list>
-                <bean p:id="Governance-Review-Edit-link" parent="Uif-ActionLink-Course-Proposal-Review-Page-Edit-Link">
-                    <property name="actionParameters">
-                        <map>
-                            <entry key="displaySection" value="KS-CourseView-LearningObjectives-Section"/>
-                        </map>
-                    </property>
-                </bean>
-            </list>
-        </property>
-        <property name="items">
-            <list>
-                <bean parent="KS-CourseDetailedView-GridGroup">
-                    <property name="items">
-                        <list>
-                            <bean parent="Uif-VerticalFieldGroup" p:label="Learning Objectives" p:colSpan="3" p:fieldLabel.renderColon="false">
-                                <property name="items">
-                                    <list>
-                                        <bean id="course_review_learning_objectives" parent="Uif-StackedCollectionSection"
-                                              p:propertyName="loDisplayWrapperModel.loWrappers"
-                                              p:collectionObjectClass="org.kuali.student.cm.course.form.LoDisplayInfoWrapper"
-                                              p:colSpan="3">
-                                            <property name="renderLineActions" value="false"/>
-                                            <property name="renderAddLine" value="false"/>
-                                            <property name="items">
-                                                <list>
-                                                    <bean id="learning_objective_item" parent="Uif-DataField"
-                                                        p:propertyName="titleAndCategoriesAsString" p:colSpan="1"
-                                                        p:style="display: list-item; margin-left: @{#line.indentLevel * 30}px;"/>
-                                                </list>
-                                            </property>
-
-                                        </bean>
-                                    </list>
-                                </property>
-                            </bean>
-                        </list>
-                    </property>
-                    <property name="propertyReplacers">
-                        <list>
-                            &lt;!&ndash; If there are no LOs then just show a label alone &ndash;&gt;
-                            <bean parent="Uif-ConditionalBeanPropertyReplacer" p:propertyName="items"
-                                  p:condition="@{#emptyList(#dataObject.loDisplayWrapperModel.loWrappers)}">
-                                <property name="replacement">
-                                    <list>
-                                        <bean parent="CM-ReadOnlyInput" p:label="Learning Objectives" id="emptyStringLOs"
-                                              p:propertyName="loDisplayWrapperModel.emptyStringLO"/>
-                                    </list>
-                                </property>
-                            </bean>
-                        </list>
-                    </property>
-                </bean>
-            </list>
-        </property>
-    </bean>
-
-    <bean id="CourseRequisitesPage-Review-section" parent="ReviewProposal-VerticalBoxSection">
-        <property name="headerText" value="Course Requisites"/>
-        <property name="header.rightGroup.items">
-            <list>
-                <bean p:id="Governance-Review-Edit-link" parent="Uif-ActionLink-Course-Proposal-Review-Page-Edit-Link">
-                    <property name="actionParameters">
-                        <map>
-                            <entry key="displaySection" value="KS-CourseView-CourseRequisites-Section"/>
-                        </map>
-                    </property>
-                </bean>
-            </list>
-        </property>
-        <property name="items">
-            <list>
-                <bean parent="KS-CourseDetailedView-GridGroup">
-                    <property name="items">
-                        <list>
-                            <bean id="CourseRequisites-CollectionSection" parent="Uif-VerticalBoxSection" p:headerText="">
-                                <property name="cssClasses">
-                                    <list merge="true">
-                                        <value>admin-not-required-field</value>
-                                        <value>CourseRequisites-DisclosureLinks</value>
-                                    </list>
-                                </property>
-                                <property name="items">
-                                    <list>
-
-                                        <bean parent="KRMS-AgendaManage-Section" class="org.kuali.student.cm.course.service.util.CourseAgendaSection">
-                                            <property name="rulePrototype">
-                                                <ref bean="CoursePreview-AgendaManage-RulePrototype"/>
-
-                                            </property>
-                                        </bean>
-                                    </list>
-                                </property>
-                            </bean>
-                        </list>
-                    </property>
-                </bean>
-            </list>
-        </property>
-    </bean> -->
 
     <bean id="KS-CourseView-ReviewProposal-ActiveDatesSection" parent="KS-CourseDetailedView-ActiveDatesSection">
         <property name="header.rightGroup.items">
@@ -483,7 +324,7 @@
         </property>
     </bean>
 
-    <bean id="KS-ProposalReviewView-Footer" parent="Uif-FooterBase">
+    <bean id="KS-CourseView-ReviewProposal-Footer" parent="Uif-FooterBase">
         <property name="items">
             <list>
                 <bean parent="Uif-HorizontalBoxGroup">
@@ -508,7 +349,7 @@
         </property>
     </bean>
 
-    <bean id="KS-ProposalReviewView-CurriculumSpecialistFooter" parent="Uif-FooterBase">
+    <bean id="KS-CourseView-ReviewProposal-CurriculumSpecialist-Footer" parent="Uif-FooterBase">
         <property name="items">
             <list>
                 <bean parent="Uif-HorizontalBoxGroup">

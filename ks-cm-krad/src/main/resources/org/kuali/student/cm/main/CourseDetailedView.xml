@@ -42,23 +42,6 @@
         <property name="footer">
             <bean parent="Uif-FooterBase" />
         </property>
-        <!--<property name="cssClasses">
-            <list merge="true">
-                <value>ks-curriculum-home</value>
-            </list>
-        </property>-->
-        <!-- Custom JavaScript -->
-        <!--<property name="additionalScriptFiles">
-            <list merge="true">
-                <value>themes/ksboot/scripts/course-proposal-view.js</value>
-            </list>
-        </property>
-        <property name="additionalCssFiles">
-            <list>
-                <value>themes/ksboot/stylesheets/course-proposal-view.less</value>
-                <value>themes/ksboot/stylesheets/cm.less</value>
-            </list>
-        </property>-->
     </bean>
 
     <bean id="KS-CourseDetailedView-Page" parent="Uif-Page" p:style="margin-left: -18px;"
@@ -88,21 +71,22 @@
         </property>
         <property name="items">
             <list>
-                <bean id="KS-CourseDetailedView-Section" parent="KS-CourseView-VerticalBoxSection"
-                      p:headerText="">
-                    <property name="fieldBindingObjectPath" value="courseInfoWrapper"/>
-                    <property name="items">
-                        <list>
-                            <ref bean="KS-CourseDetailedView-CourseInfoSection"/>
-                            <ref bean="KS-CourseDetailedView-GovernanceSection"/>
-                            <ref bean="KS-CourseDetailedView-CourseLogisticsSection"/>
-                            <ref bean="KS-CourseDetailedView-LearningObjectivesSection"/>
-                            <!--<ref bean="LearningObjectives-Review-section"/>
-                            <ref bean="CourseRequisitesPage-Review-section"/>-->
-                            <ref bean="KS-CourseDetailedView-ActiveDatesSection"/>
-                        </list>
-                    </property>
-                </bean>
+                <ref bean="KS-CourseDetailedView-PageSections"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KS-CourseDetailedView-PageSections" parent="KS-CourseView-VerticalBoxSection"
+          p:headerText="">
+        <property name="fieldBindingObjectPath" value="courseInfoWrapper"/>
+        <property name="items">
+            <list>
+                <ref bean="KS-CourseDetailedView-CourseInfoSection"/>
+                <ref bean="KS-CourseDetailedView-GovernanceSection"/>
+                <ref bean="KS-CourseDetailedView-CourseLogisticsSection"/>
+                <ref bean="KS-CourseDetailedView-LearningObjectivesSection"/>
+                <!--<ref bean="CourseRequisitesPage-Review-section"/>-->
+                <ref bean="KS-CourseDetailedView-ActiveDatesSection"/>
             </list>
         </property>
     </bean>
@@ -331,102 +315,21 @@
                                   p:propertyName="reviewProposalDisplay.courseLogisticsSection.finalExamStatusRationale"/>
 
                             <!-- This bean gets rendered if the outComes collection has items. Otherwise, the one below does. -->
-                            <bean parent="Uif-VerticalFieldGroup" p:label="Outcomes" p:colSpan="3"
-                                  p:fieldLabel.renderColon="false"
-                                  p:render="@{#form.viewId eq T(org.kuali.student.cm.common.util.CurriculumManagementConstants$CourseViewPageIds).COURSE_DETAILED_VIEW or
-                                            !#emptyList(#dataObject.reviewProposalDisplay.courseLogisticsSection.outcomes)}">
-                                <property name="items">
-                                    <list>
-                                        <bean id="course_review_outcome_details" parent="Uif-StackedCollectionSection"
-                                              p:propertyName="reviewProposalDisplay.courseLogisticsSection.outcomes"
-                                              p:collectionObjectClass="org.kuali.student.cm.course.form.OutcomeReviewSection">
-                                            <property name="layoutManager.lineGroupPrototype.header.headerText"
-                                                      value="Outcome @{(#index + 1)}"/>
-                                            <property name="layoutManager.lineGroupPrototype.header.style"
-                                                      value="border-bottom : 1px solid black;"/>
-                                            <property name="renderLineActions" value="false"/>
-                                            <property name="renderAddLine" value="false"/>
-                                            <property name="items">
-                                                <list>
-                                                    <bean parent="CM-ReadOnlyInput" p:label="Type"
-                                                          p:propertyName="outComeType" p:colSpan="1"
-                                                          p:fieldLabel.style="margin-left:-4px;"/>
-                                                    <bean parent="CM-ReadOnlyInput" p:label="Credit Value"
-                                                          p:fieldLabel.style="white-space : nowrap;margin-top:-9px;"
-                                                          p:propertyName="outComeValue" p:colSpan="1"
-                                                          p:additionalCssClasses="ks-stackedcollection-table-outcome"/>
-                                                </list>
-                                            </property>
-                                        </bean>
-                                    </list>
-                                </property>
-                            </bean>
+                            <ref bean="KS-CourseDetailedView-OutcomeSection"/>
+
                             <!-- This bean gets rendered if the outComes collection is empty. Otherwise, the one above does. -->
                             <bean parent="CM-ReadOnlyInput" p:label="Outcomes"
                                   p:propertyName="reviewProposalDisplay.courseLogisticsSection.emptyStringOutcomes"
                                   p:render="@{#form.viewId eq T(org.kuali.student.cm.common.util.CurriculumManagementConstants$CourseViewPageIds).CREATE_COURSE_VIEW and
                                               #emptyList(#dataObject.reviewProposalDisplay.courseLogisticsSection.outcomes)}">
                                 <!-- Make required for state enroute  -->
-                                <property name="propertyReplacers">
-                                    <list>
-                                        <bean parent="KS-CourseDetailedView-ReviewConstraint-PropertyReplacer"/>
-                                    </list>
+                                <property name="simpleConstraint">
+                                    <bean parent="CM-RequiredConstraints-Enroute"/>
                                 </property>
                             </bean>
 
                             <!-- This bean gets rendered if the formats collection has items. Otherwise, the one below does. -->
-                            <!--<bean parent="Uif-VerticalFieldGroup" p:label="Course Formats" p:colSpan="3"
-                                  p:fieldLabel.renderColon="false"
-                                  p:render="@{#form.viewId eq T(org.kuali.student.cm.common.util.CurriculumManagementConstants$CourseViewPageIds).COURSE_DETAILED_VIEW or
-                                             !#emptyList(#dataObject.reviewProposalDisplay.courseLogisticsSection.formatInfoWrappers)}">
-                                <property name="items">
-                                    <list>
-                                        <bean id="course_review_format_details" parent="Uif-StackedCollectionSection"
-                                              p:propertyName="reviewProposalDisplay.courseLogisticsSection.formatInfoWrappers"
-                                              p:collectionObjectClass="org.kuali.student.cm.course.form.FormatInfoWrapper"
-                                              p:colSpan="3">
-                                            <property name="layoutManager.lineGroupPrototype.header.headerText"
-                                                      value="Format @{(#index + 1)}"/>
-                                            <property name="layoutManager.lineGroupPrototype.header.style"
-                                                      value="border-bottom : 1px solid black;"/>
-                                            <property name="renderLineActions" value="false"/>
-                                            <property name="renderAddLine" value="false"/>
-                                            <property name="subCollections">
-                                                <list>
-                                                    <bean id="course_review_activity_details"
-                                                          parent="Uif-StackedSubCollection-WithinSection"
-                                                          p:collectionObjectClass="org.kuali.student.cm.course.form.ActivityInfoWrapper"
-                                                          p:propertyName="activities" p:colSpan="3" p:align="left"
-                                                          p:layoutManager.style="padding-left:0px;">
-                                                        <property
-                                                                name="layoutManager.lineGroupPrototype.header.headerText"
-                                                                value="Activity @{(#index + 1)} (@{#line.activityType}) "/>
-                                                        <property name="layoutManager.lineGroupPrototype.header.style"
-                                                                  value="border-bottom : 1px dotted black;"/>
-                                                        <property name="renderLineActions" value="false"/>
-                                                        <property name="renderAddLine" value="false"/>
-                                                        <property name="items">
-                                                            <list>
-                                                                <bean parent="CM-ReadOnlyInput" p:label="Contact Hours"
-                                                                      p:fieldLabel.style="white-space : nowrap; margin-left : -4px;"
-                                                                      p:propertyName="contactHours" p:colSpan="1"/>
-                                                                <bean parent="CM-ReadOnlyInput" p:label="Duration"
-                                                                      p:fieldLabel.style="white-space : nowrap; margin-left : -4px;"
-                                                                      p:propertyName="durationCount" p:colSpan="1"/>
-                                                                <bean parent="CM-ReadOnlyInput"
-                                                                      p:label="Anticipated Class Size"
-                                                                      p:fieldLabel.style="white-space : nowrap; margin-left : -4px;"
-                                                                      p:propertyName="anticipatedClassSize"
-                                                                      p:colSpan="1"/>
-                                                            </list>
-                                                        </property>
-                                                    </bean>
-                                                </list>
-                                            </property>
-                                        </bean>
-                                    </list>
-                                </property>
-                            </bean>-->
+                            <ref bean="KS-CourseDetailedView-FormatSection"/>
 
                             <!-- This bean gets rendered if the outComes collection is empty. Otherwise, the one above does. -->
                             <bean parent="CM-ReadOnlyInput" p:label="Course Formats" id="emptyStringFormats"
@@ -447,6 +350,93 @@
                         </list>
                     </property>
                 </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KS-CourseDetailedView-OutcomeSection" parent="Uif-VerticalFieldGroup" p:label="Outcomes" p:colSpan="3"
+          p:fieldLabel.renderColon="false"
+          p:render="@{#form.viewId eq T(org.kuali.student.cm.common.util.CurriculumManagementConstants$CourseViewPageIds).COURSE_DETAILED_VIEW or
+                    !#emptyList(#dataObject.reviewProposalDisplay.courseLogisticsSection.outcomes)}">
+        <property name="items">
+            <list>
+                <bean id="course_review_outcome_details" parent="Uif-StackedCollectionSection"
+                      p:propertyName="reviewProposalDisplay.courseLogisticsSection.outcomes"
+                      p:collectionObjectClass="org.kuali.student.cm.course.form.OutcomeReviewSection">
+                    <property name="layoutManager.lineGroupPrototype.header.headerText"
+                              value="Outcome @{(#index + 1)}"/>
+                    <property name="layoutManager.lineGroupPrototype.header.style"
+                              value="border-bottom : 1px solid black;"/>
+                    <property name="renderLineActions" value="false"/>
+                    <property name="renderAddLine" value="false"/>
+                    <property name="items">
+                        <list>
+                            <bean parent="CM-ReadOnlyInput" p:label="Type"
+                                  p:propertyName="outComeType" p:colSpan="1"
+                                  p:fieldLabel.style="margin-left:-4px;"/>
+                            <bean parent="CM-ReadOnlyInput" p:label="Credit Value"
+                                  p:fieldLabel.style="white-space : nowrap;margin-top:-9px;"
+                                  p:propertyName="outComeValue" p:colSpan="1"
+                                  p:additionalCssClasses="ks-stackedcollection-table-outcome"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KS-CourseDetailedView-FormatSection" parent="Uif-VerticalFieldGroup" p:label="Course Formats" p:colSpan="3"
+          p:fieldLabel.renderColon="false"
+          p:render="@{#form.viewId eq T(org.kuali.student.cm.common.util.CurriculumManagementConstants$CourseViewPageIds).COURSE_DETAILED_VIEW or
+                     !#emptyList(#dataObject.reviewProposalDisplay.courseLogisticsSection.formatInfoWrappers)}">
+        <property name="items">
+            <list>
+                <bean id="course_review_format_details" parent="Uif-StackedCollectionSection"
+                      p:propertyName="reviewProposalDisplay.courseLogisticsSection.formatInfoWrappers"
+                      p:collectionObjectClass="org.kuali.student.cm.course.form.FormatInfoWrapper"
+                      p:colSpan="3">
+                    <property name="layoutManager.lineGroupPrototype.header.headerText"
+                              value="Format @{(#index + 1)}"/>
+                    <property name="layoutManager.lineGroupPrototype.header.style"
+                              value="border-bottom : 1px solid black;"/>
+                    <property name="renderLineActions" value="false"/>
+                    <property name="renderAddLine" value="false"/>
+                    <!--<property name="subCollections">
+                        <list>
+                            <ref bean="KS-CourseDetailedView-ActivitySection"/>
+                        </list>
+                    </property>-->
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+
+    <bean id="KS-CourseDetailedView-ActivitySection" parent="Uif-StackedSubCollection-WithinSection"
+          p:collectionObjectClass="org.kuali.student.cm.course.form.ActivityInfoWrapper"
+          p:propertyName="activities" p:colSpan="3" p:align="left"
+          p:layoutManager.style="padding-left:0px;">
+        <property name="bindingInfo.bindingObjectPath" value="courseInfoWrapper"/>
+        <property
+                name="layoutManager.lineGroupPrototype.header.headerText"
+                value="Activity @{(#index + 1)} (@{#line.activityType}) "/>
+        <property name="layoutManager.lineGroupPrototype.header.style"
+                  value="border-bottom : 1px dotted black;"/>
+        <property name="renderLineActions" value="false"/>
+        <property name="renderAddLine" value="false"/>
+        <property name="items">
+            <list>
+                <bean parent="CM-ReadOnlyInput" p:label="Contact Hours"
+                      p:fieldLabel.style="white-space : nowrap; margin-left : -4px;"
+                      p:propertyName="contactHours" p:colSpan="1"/>
+                <bean parent="CM-ReadOnlyInput" p:label="Duration"
+                      p:fieldLabel.style="white-space : nowrap; margin-left : -4px;"
+                      p:propertyName="durationCount" p:colSpan="1"/>
+                <bean parent="CM-ReadOnlyInput"
+                      p:label="Anticipated Class Size"
+                      p:fieldLabel.style="white-space : nowrap; margin-left : -4px;"
+                      p:propertyName="anticipatedClassSize"
+                      p:colSpan="1"/>
             </list>
         </property>
     </bean>
