@@ -14,7 +14,7 @@
  *
  * Created by venkat on 5/23/14
  */
-package org.kuali.student.cm.comment.form;
+package org.kuali.student.cm.comment.form.wrapper;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.student.cm.uif.util.DTOWrapper;

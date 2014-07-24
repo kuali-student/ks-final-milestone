@@ -17,6 +17,7 @@
 package org.kuali.student.cm.course.form;
 
 import org.kuali.student.cm.common.util.CurriculumManagementConstants;
+import org.kuali.student.cm.course.form.wrapper.CourseInfoWrapper;
 import org.kuali.student.common.uif.form.KSUifForm;
 
 /**

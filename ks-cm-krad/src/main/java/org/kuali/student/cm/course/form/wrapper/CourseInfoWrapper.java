@@ -15,13 +15,12 @@
  * @author Kuali Student Team
  */
 
-package org.kuali.student.cm.course.form;
+package org.kuali.student.cm.course.form.wrapper;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.krad.web.bind.RequestProtected;
 import org.kuali.student.cm.common.util.CurriculumManagementConstants;
 import org.kuali.student.cm.course.util.CourseProposalUtil;
-import org.kuali.student.lum.lu.ui.krms.dto.CluGroup;
 import org.kuali.student.lum.lu.ui.krms.dto.LURuleManagementWrapper;
 import org.kuali.student.r1.core.workflow.dto.CollaboratorWrapper;
 import org.kuali.student.r2.core.comment.dto.DecisionInfo;

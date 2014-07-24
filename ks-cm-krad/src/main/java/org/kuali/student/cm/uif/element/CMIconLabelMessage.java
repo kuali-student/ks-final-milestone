@@ -47,7 +47,7 @@ import java.util.List;
  *    In the case of Header it will also pull content from rightGroup. This is useful for displaying a required indicator.
  * </p>
  */
-public class KSIconLabelMessage extends Message {
+public class CMIconLabelMessage extends Message {
 
     protected String iconToolTipText;
 

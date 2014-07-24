@@ -15,7 +15,7 @@
  * @author Kuali Student Team
  */
 
-package org.kuali.student.cm.course.form;
+package org.kuali.student.cm.course.form.wrapper;
 
 import org.apache.commons.lang.StringUtils;
 

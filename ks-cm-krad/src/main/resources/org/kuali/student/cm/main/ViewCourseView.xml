@@ -366,7 +366,7 @@
             <list>
                 <bean id="course_review_outcome_details" parent="Uif-StackedCollectionSection"
                       p:propertyName="reviewProposalDisplay.courseLogisticsSection.outcomes"
-                      p:collectionObjectClass="org.kuali.student.cm.course.form.OutcomeReviewSection">
+                      p:collectionObjectClass="org.kuali.student.cm.course.form.wrapper.OutcomeReviewSection">
                     <property name="layoutManager.lineGroupPrototype.header.headerText"
                               value="Outcome @{(#index + 1)}"/>
                     <property name="layoutManager.lineGroupPrototype.header.style"
@@ -397,7 +397,7 @@
             <list>
                 <bean id="course_review_format_details" parent="Uif-StackedCollectionSection"
                       p:propertyName="reviewProposalDisplay.courseLogisticsSection.formatInfoWrappers"
-                      p:collectionObjectClass="org.kuali.student.cm.course.form.FormatInfoWrapper"
+                      p:collectionObjectClass="org.kuali.student.cm.course.form.wrapper.FormatInfoWrapper"
                       p:colSpan="3">
                     <property name="layoutManager.lineGroupPrototype.header.headerText"
                               value="Format @{(#index + 1)}"/>
@@ -431,7 +431,7 @@
 
 
     <bean id="KS-ViewCourseView-ActivitySection" parent="Uif-StackedSubCollection-WithinSection"
-          p:collectionObjectClass="org.kuali.student.cm.course.form.ActivityInfoWrapper"
+          p:collectionObjectClass="org.kuali.student.cm.course.form.wrapper.ActivityInfoWrapper"
           p:propertyName="activities" p:colSpan="3" p:align="left"
           p:layoutManager.style="padding-left:0px;">
         <property name="layoutManager.lineGroupPrototype.header.headerText"
@@ -469,7 +469,7 @@
                                     <list>
                                         <bean id="course_review_learning_objectives" parent="Uif-StackedCollectionSection"
                                               p:propertyName="loDisplayWrapperModel.loWrappers"
-                                              p:collectionObjectClass="org.kuali.student.cm.course.form.LoDisplayInfoWrapper"
+                                              p:collectionObjectClass="org.kuali.student.cm.course.form.wrapper.LoDisplayInfoWrapper"
                                               p:colSpan="3">
                                             <property name="renderLineActions" value="false"/>
                                             <property name="renderAddLine" value="false"/>

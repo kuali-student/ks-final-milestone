@@ -30,7 +30,7 @@ import org.kuali.rice.krad.web.controller.KsUifControllerBase;
 import org.kuali.rice.krad.web.controller.MethodAccessible;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.rice.student.StudentWorkflowConstants;
-import org.kuali.student.cm.comment.form.CMCommentWrapper;
+import org.kuali.student.cm.comment.form.wrapper.CMCommentWrapper;
 import org.kuali.student.cm.common.util.CurriculumManagementConstants;
 import org.kuali.student.cm.comment.form.CMCommentForm;
 import org.kuali.student.common.util.security.ContextUtils;

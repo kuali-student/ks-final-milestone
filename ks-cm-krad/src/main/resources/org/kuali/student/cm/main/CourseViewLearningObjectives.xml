@@ -72,7 +72,7 @@
 
     <bean id="LearningObjective-CollectionSection" parent="Uif-StackedCollectionSection"
           p:propertyName="loDisplayWrapperModel.loWrappers"
-          p:collectionObjectClass="org.kuali.student.cm.course.form.LoDisplayInfoWrapper">
+          p:collectionObjectClass="org.kuali.student.cm.course.form.wrapper.LoDisplayInfoWrapper">
         <property name="cssClasses">
             <list merge="true">
                 <value>admin-not-required-field</value>
@@ -125,7 +125,7 @@
 
         <property name="collectionLookup">
             <bean id="KS-LearningObjective-QuickFinder" parent="Uif-CollectionQuickFinder"
-                  p:dataObjectClassName="org.kuali.student.cm.course.form.LoDisplayInfoWrapper"
+                  p:dataObjectClassName="org.kuali.student.cm.course.form.wrapper.LoDisplayInfoWrapper"
                   p:fieldConversions="descr.plain:loInfo.descr.plain"
                   p:viewName="KS-LoDisplayInfoWrapper-LookupView"
                   p:additionalCssClasses="learning_objective_section_header">
@@ -194,7 +194,7 @@
                                 <bean parent="Uif-LightBox" p:lookupReturnByScript="false"/>
                             </property>
                             <property name="dataObjectClassName"
-                                      value="org.kuali.student.cm.course.form.LoCategoryInfoWrapper"/>
+                                      value="org.kuali.student.cm.course.form.wrapper.LoCategoryInfoWrapper"/>
                             <property name="fieldConversions">
                                 <map>
                                     <entry key="catNameAndType" value="name"/>
@@ -255,7 +255,7 @@
                                     </bean>
                                 </property>
                                 <property name="fieldLabel.richLabelMessage">
-                                    <bean id="KS-LearningObjective-Category-Tooltip" parent="Uif-KS-IconLabelMessage">
+                                    <bean id="KS-LearningObjective-Category-Tooltip" parent="CM-IconLabelMessage">
                                         <property name="iconToolTipText"
                                                   value="Add a category to classify your learning objectives. The categories will be used for administrative analysis."/>
                                     </bean>

@@ -14,7 +14,7 @@
  *
  * Created by Adi Rajesh on 6/7/12
  */
-package org.kuali.student.cm.course.form;
+package org.kuali.student.cm.course.form.wrapper;
 
 import org.kuali.student.r2.core.organization.dto.OrgInfo;
 

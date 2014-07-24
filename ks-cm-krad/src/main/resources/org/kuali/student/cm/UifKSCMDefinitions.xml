@@ -89,14 +89,14 @@
         </property>
     </bean>
 
-    <bean id="Uif-KS-IconLabelMessage" parent="Uif-KS-IconLabelMessage-parentBean"/>
-    <bean id="Uif-KS-IconLabelMessage-parentBean" parent="Uif-Message-parentBean" abstract="true"
-          class="org.kuali.student.cm.uif.element.KSIconLabelMessage" scope="prototype" />
+    <bean id="CM-IconLabelMessage" parent="CM-IconLabelMessage-parentBean"/>
+    <bean id="CM-IconLabelMessage-parentBean" parent="Uif-Message-parentBean" abstract="true"
+          class="org.kuali.student.cm.uif.element.CMIconLabelMessage" scope="prototype" />
 
     <!-- A section header that can display and info icon with a tooltip. -->
     <bean id="Uif-KS-IconHeader" parent="Uif-SectionHeader">
         <property name="richHeaderMessage">
-            <bean parent="Uif-KS-IconLabelMessage"/>
+            <bean parent="CM-IconLabelMessage"/>
         </property>
     </bean>
 
@@ -157,9 +157,9 @@
     <bean id="CM-RequiredIndicatorForApprove" parent="CM-RightGroupConditionalRequiredIndicator-Base"
         p:condition="@{#workflowDoc.enroute}"/>
 
-    <!-- This is used within org.kuali.student.cm.uif.element.KSIconLabelMessage -->
-    <bean id="Uif-KS-IconImage" parent="Uif-KS-IconImage-parentBean"/>
-    <bean id="Uif-KS-IconImage-parentBean" parent="Uif-ImageField" abstract="true"
+    <!-- This is used within org.kuali.student.cm.uif.element.CMIconLabelMessage -->
+    <bean id="CM-IconImage" parent="CM-IconImage-parentBean"/>
+    <bean id="CM-IconImage-parentBean" parent="Uif-ImageField" abstract="true"
           p:source="@{#ConfigProperties['ks.externalizable.images.url']}/validation/info.png">
         <property name="image.style" value="vertical-align:top;"/>
         <property name="toolTip">
@@ -202,23 +202,23 @@
        The vertical subsection header font needs to be H5 on Course review section for Requisites so
        overriding the parent.
    -->
-    <bean id="KSCM-Uif-VerticalBoxSubSection" parent="KSCM-Uif-VerticalBoxSubSection-parentBean"/>
-    <bean id="KSCM-Uif-VerticalBoxSubSection-parentBean" abstract="true" parent="Uif-VerticalBoxGroup" scope="prototype">
+    <bean id="CM-VerticalBoxSubSection" parent="CM-VerticalBoxSubSection-parentBean"/>
+    <bean id="CM-VerticalBoxSubSection-parentBean" abstract="true" parent="Uif-VerticalBoxGroup" scope="prototype">
         <property name="cssClasses">
             <list merge="true">
                 <value>uif-boxSubSection</value>
             </list>
         </property>
         <property name="header">
-            <bean parent="KSCM-Uif-SubSectionHeader"/>
+            <bean parent="CM-SubSectionHeader"/>
         </property>
         <property name="help">
             <bean parent="Uif-Help"/>
         </property>
     </bean>
 
-    <bean id="KSCM-Uif-SubSectionHeader" parent="KSCM-Uif-SubSectionHeader-parentBean"/>
-    <bean id="KSCM-Uif-SubSectionHeader-parentBean" abstract="true" parent="Uif-HeaderFive">
+    <bean id="CM-SubSectionHeader" parent="CM-SubSectionHeader-parentBean"/>
+    <bean id="CM-SubSectionHeader-parentBean" abstract="true" parent="Uif-HeaderFive">
         <property name="cssClasses">
             <list merge="true">
                 <value>uif-subSectionHeader</value>

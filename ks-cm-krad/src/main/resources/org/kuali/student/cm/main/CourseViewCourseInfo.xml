@@ -36,7 +36,7 @@
                 <bean id="KS-Instructors-Section" parent="KS-TableCollectionSubSection-BottomAddLine"
                       p:layoutManager.style="width: 100%;"
                       p:headerText="Instructor(s)">
-                    <property name="collectionObjectClass" value="org.kuali.student.cm.course.form.CluInstructorInfoWrapper" />
+                    <property name="collectionObjectClass" value="org.kuali.student.cm.course.form.wrapper.CluInstructorInfoWrapper" />
                     <property name="propertyName" value="instructorWrappers" />
                     <property name="addBlankLineAction.actionLabel" value="Add Instructor"/>
                     <property name="addBlankLineAction.id" value="addInstructor"/>
@@ -173,7 +173,7 @@
                 <bean parent="KS-Uif-InputField" p:label="Proposal Title" p:id="CreateCourseProposalTitleInputField"
                       p:propertyName="proposalInfo.name">
                     <property name="fieldLabel.richLabelMessage">
-                        <bean parent="Uif-KS-IconLabelMessage">
+                        <bean parent="CM-IconLabelMessage">
                             <property name="iconToolTipText" value="Avoid naming your proposal &quot;my proposal&quot; or &quot;Sarah's Proposal&quot; so that it can be easily identified later."/>
                         </bean>
                     </property>
@@ -241,7 +241,7 @@
                                 </property>
 
                                 <property name="fieldLabel.richLabelMessage">
-                                    <bean parent="Uif-KS-IconLabelMessage">
+                                    <bean parent="CM-IconLabelMessage">
                                         <property name="iconToolTipText" value="The department will determine the course number based on: course format, restrictions, available numbers, and other factors"/>
                                     </bean>
                                 </property>
@@ -354,7 +354,7 @@
                       p:id="jointlyOffered-section" p:layoutManager.style="width: 100%;"
                       p:headerText="Jointly Offered Courses">
                     <property name="header.headerLevel" value="h4"/>
-                    <property name="collectionObjectClass" value="org.kuali.student.cm.course.form.CourseJointInfoWrapper" />
+                    <property name="collectionObjectClass" value="org.kuali.student.cm.course.form.wrapper.CourseJointInfoWrapper" />
                     <property name="propertyName" value="courseJointWrappers" />
                     <property name="addBlankLineAction.actionLabel" value="Add Course"/>
                     <property name="addBlankLineAction.id" value="addJointlyOfferedCourse"/>
@@ -416,7 +416,7 @@
                                 </property>
                                 <property name="quickfinder">
                                     <bean parent="Uif-QuickFinder" p:returnByScript="true">
-                                        <property name="dataObjectClassName" value="org.kuali.student.cm.course.form.CourseJointInfoWrapper"/>
+                                        <property name="dataObjectClassName" value="org.kuali.student.cm.course.form.wrapper.CourseJointInfoWrapper"/>
                                         <property name="fieldConversions">
                                             <map>
                                                 <entry key="courseCode" value="courseCode"/>

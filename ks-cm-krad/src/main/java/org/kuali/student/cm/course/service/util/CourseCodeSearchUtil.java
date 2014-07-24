@@ -1,7 +1,7 @@
 package org.kuali.student.cm.course.service.util;
 
 import org.apache.commons.beanutils.BeanUtils;
-import org.kuali.student.cm.course.form.CourseJointInfoWrapper;
+import org.kuali.student.cm.course.form.wrapper.CourseJointInfoWrapper;
 import org.kuali.student.common.util.security.ContextUtils;
 import org.kuali.student.r2.core.search.dto.SearchParamInfo;
 import org.kuali.student.r2.core.search.dto.SearchRequestInfo;

@@ -44,7 +44,7 @@
                       p:layoutManager.style="width: 100%;"
                       p:instructionalText="This is the organization(s) responsible for the content of the course. This selection will determine the workflow/approval process for this proposal."
                       p:headerText="Curriculum Oversight">
-        <property name="collectionObjectClass" value="org.kuali.student.cm.course.form.CourseCreateUnitsContentOwner" />
+        <property name="collectionObjectClass" value="org.kuali.student.cm.course.form.wrapper.CourseCreateUnitsContentOwner" />
         <property name="refreshWhenChangedPropertyNames" value="#dp.dataObject.courseInfo.subjectArea"/>
         <property name="methodToCallOnRefresh" value="refreshOversightSection"/>
         <property name="propertyName" value="unitsContentOwner" />
@@ -112,7 +112,7 @@
                       p:id="administering-organization" p:layoutManager.style="width: 100%;"
                       p:instructionalText="List the organization(s) that can administer, or offer, this course. In most cases this will be the same as the Curriculum Oversight organization, but additional and/or alternate organizations can also be listed as administering organizations."
                       p:headerText="Administering Organization(s)">
-        <property name="collectionObjectClass" value="org.kuali.student.cm.course.form.OrganizationInfoWrapper" />
+        <property name="collectionObjectClass" value="org.kuali.student.cm.course.form.wrapper.OrganizationInfoWrapper" />
         <property name="propertyName" value="administeringOrganizations" />
         <property name="addBlankLineAction.actionLabel" value="Add Organization"/>
         <property name="addBlankLineAction.id" value="addAdministeringOrganization"/>

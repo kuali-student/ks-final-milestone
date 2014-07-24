@@ -24,7 +24,7 @@
     -->
     <bean id="CourseInfoWrapper" parent="CourseInfoWrapper-parentBean"/>
     <bean id="CourseInfoWrapper-parentBean" abstract="true" parent="DataObjectEntry">
-        <property name="dataObjectClass" value="org.kuali.student.cm.course.form.CourseInfoWrapper"/>
+        <property name="dataObjectClass" value="org.kuali.student.cm.course.form.wrapper.CourseInfoWrapper"/>
         <property name="titleAttribute" value="courseInfo.id"/>
         <property name="attributes">
             <list/>
@@ -158,7 +158,7 @@
         This view has couple of pages (edit and copy) with all the beans defined at 1. CourseViewCourseInfoPage.xml -->
 
     <bean id="KS-CourseView" parent="KS-Uif-MaintenanceView">
-        <property name="dataObjectClassName" value="org.kuali.student.cm.course.form.CourseInfoWrapper"/>
+        <property name="dataObjectClassName" value="org.kuali.student.cm.course.form.wrapper.CourseInfoWrapper"/>
         <!-- New Course header requires static string therefore below string construction is not required.
         commenting below code in case required in future.
          @{!#empty(document.newMaintainableObject.proposal.name) ? document.newMaintainableObject.proposal.name + ' (Proposal)': 'New Course (Proposal)'} -->
@@ -272,7 +272,7 @@
     <bean id="CourseInfoMaintenanceDocument-Base" parent="CourseInfoMaintenanceDocument-Base-parent" abstract="true"/>
 
     <bean id="CourseInfoMaintenanceDocument-Base-parent" parent="uifMaintenanceDocumentEntry" abstract="true">
-        <property name="dataObjectClass" value="org.kuali.student.cm.course.form.CourseInfoWrapper"/>
+        <property name="dataObjectClass" value="org.kuali.student.cm.course.form.wrapper.CourseInfoWrapper"/>
         <property name="maintainableClass" value="org.kuali.student.cm.course.service.impl.CourseMaintainableImpl"/>
         <property name="documentClass" value="org.kuali.student.cm.maintenance.CMMaintenanceDocument"/>
         <property name="documentAuthorizerClass"

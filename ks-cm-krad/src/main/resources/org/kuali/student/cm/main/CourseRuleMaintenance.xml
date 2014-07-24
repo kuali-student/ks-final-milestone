@@ -180,7 +180,7 @@ limitations under the License.
                     <property name="url.requestParameters">
                         <map key-type="java.lang.String" merge="true">
                             <entry key="methodToCall" value="saveProposal"/>
-                            <entry key="dataObjectClassName" value="org.kuali.student.cm.course.form.CourseInfoWrapper"/>
+                            <entry key="dataObjectClassName" value="org.kuali.student.cm.course.form.wrapper.CourseInfoWrapper"/>
                             <entry key="hideReturnLink" value="true"/>
                             <entry key="formKey" value="@{formKey}"/>
                             <entry key="pageId" value="KS-CourseView-CoursePage"/>
@@ -420,7 +420,7 @@ limitations under the License.
         </property>
     </bean>
 
-    <bean id="KRMS-AgendaManage-RulePrototype-CoursePreview" parent="KSCM-Uif-VerticalBoxSubSection">
+    <bean id="KRMS-AgendaManage-RulePrototype-CoursePreview" parent="CM-VerticalBoxSubSection">
     </bean>
 
     <bean id="Course-AgendaManage-ViewRule" parent="KRMS-AgendaManage-EditRule">

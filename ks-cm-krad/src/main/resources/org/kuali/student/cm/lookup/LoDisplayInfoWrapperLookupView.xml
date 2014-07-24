@@ -22,7 +22,7 @@
     <bean id="KS-LoDisplayInfoWrapper-DataObjectEntry" parent="DataObjectEntry">
         <property name="objectLabel" value="Learning Objective Display Information Wrapper"/>
         <property name="dataObjectClass"
-                  value="org.kuali.student.cm.course.form.LoDisplayInfoWrapper"/>
+                  value="org.kuali.student.cm.course.form.wrapper.LoDisplayInfoWrapper"/>
     </bean>
 
     <bean id="KS-LoDisplayInfoWrapper-LookupCriteriaGroup" parent="Uif-HorizontalBoxGroup">
@@ -38,7 +38,7 @@
         <property name="id" value="LoDisplayInfoWrapperLookupView"/>
         <property name="headerText" value="Find Learning Objectives"/>
         <property name="dataObjectClassName"
-                  value="org.kuali.student.cm.course.form.LoDisplayInfoWrapper"/>
+                  value="org.kuali.student.cm.course.form.wrapper.LoDisplayInfoWrapper"/>
         <property name="viewHelperServiceClass"
                   value="org.kuali.student.cm.course.service.impl.LoDisplayInfoLookupableImpl"/>
         <property name="multipleValuesSelect" value="true"/>

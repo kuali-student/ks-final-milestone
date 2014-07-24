@@ -14,7 +14,7 @@
  *
  * Created by venkat on 3/25/14
  */
-package org.kuali.student.cm.course.form;
+package org.kuali.student.cm.course.form.wrapper;
 /**
  *
  * @author Kuali Student Team

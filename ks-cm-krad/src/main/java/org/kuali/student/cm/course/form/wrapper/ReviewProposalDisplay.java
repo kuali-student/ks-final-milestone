@@ -13,13 +13,11 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package org.kuali.student.cm.course.form;
+package org.kuali.student.cm.course.form.wrapper;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.student.cm.common.util.CurriculumManagementConstants;
 import org.kuali.student.r1.core.workflow.dto.CollaboratorWrapper;
-import org.kuali.student.r2.lum.course.dto.LoDisplayInfo;
-import org.kuali.student.r2.lum.lo.dto.LoCategoryInfo;
 
 import java.util.ArrayList;
 import java.util.LinkedList;

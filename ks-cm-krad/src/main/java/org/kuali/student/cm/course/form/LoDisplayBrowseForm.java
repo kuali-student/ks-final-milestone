@@ -18,6 +18,7 @@
 package org.kuali.student.cm.course.form;
 
 import org.kuali.rice.krad.lookup.LookupForm;
+import org.kuali.student.cm.course.form.wrapper.LoDisplayInfoWrapper;
 
 import java.util.List;
 

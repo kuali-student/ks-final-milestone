@@ -53,21 +53,21 @@ import org.kuali.rice.krms.tree.node.CompareTreeNode;
 import org.kuali.rice.krms.util.NaturalLanguageHelper;
 import org.kuali.student.cm.common.util.CurriculumManagementConstants;
 import org.kuali.student.cm.course.controller.CourseController;
-import org.kuali.student.cm.course.form.ActivityInfoWrapper;
-import org.kuali.student.cm.course.form.CluInstructorInfoWrapper;
-import org.kuali.student.cm.course.form.CourseCreateUnitsContentOwner;
-import org.kuali.student.cm.course.form.CourseInfoWrapper;
-import org.kuali.student.cm.course.form.CourseJointInfoWrapper;
-import org.kuali.student.cm.course.form.FormatInfoWrapper;
-import org.kuali.student.cm.course.form.LoCategoryInfoWrapper;
-import org.kuali.student.cm.course.form.LoDisplayInfoWrapper;
-import org.kuali.student.cm.course.form.LoDisplayWrapperModel;
-import org.kuali.student.cm.course.form.OrganizationInfoWrapper;
-import org.kuali.student.cm.course.form.OutcomeReviewSection;
-import org.kuali.student.cm.course.form.ResultValuesGroupInfoWrapper;
-import org.kuali.student.cm.course.form.ReviewProposalDisplay;
-import org.kuali.student.cm.course.form.SubjectCodeWrapper;
-import org.kuali.student.cm.course.form.SupportingDocumentInfoWrapper;
+import org.kuali.student.cm.course.form.wrapper.ActivityInfoWrapper;
+import org.kuali.student.cm.course.form.wrapper.CluInstructorInfoWrapper;
+import org.kuali.student.cm.course.form.wrapper.CourseCreateUnitsContentOwner;
+import org.kuali.student.cm.course.form.wrapper.CourseInfoWrapper;
+import org.kuali.student.cm.course.form.wrapper.CourseJointInfoWrapper;
+import org.kuali.student.cm.course.form.wrapper.FormatInfoWrapper;
+import org.kuali.student.cm.course.form.wrapper.LoCategoryInfoWrapper;
+import org.kuali.student.cm.course.form.wrapper.LoDisplayInfoWrapper;
+import org.kuali.student.cm.course.form.wrapper.LoDisplayWrapperModel;
+import org.kuali.student.cm.course.form.wrapper.OrganizationInfoWrapper;
+import org.kuali.student.cm.course.form.wrapper.OutcomeReviewSection;
+import org.kuali.student.cm.course.form.wrapper.ResultValuesGroupInfoWrapper;
+import org.kuali.student.cm.course.form.wrapper.ReviewProposalDisplay;
+import org.kuali.student.cm.course.form.wrapper.SubjectCodeWrapper;
+import org.kuali.student.cm.course.form.wrapper.SupportingDocumentInfoWrapper;
 import org.kuali.student.cm.course.service.CourseMaintainable;
 import org.kuali.student.cm.course.service.util.CourseCodeSearchUtil;
 import org.kuali.student.cm.course.service.util.LoCategorySearchUtil;
@@ -2462,9 +2462,7 @@ public class CourseMaintainableImpl extends RuleEditorMaintainableImpl implement
 
 
     /**
-     * As we're extending from <code>CourseMaintainableImpl</code>, we dont want any of the
-     * maintenance document related logics here. Overriding to avoid all the maintenance document
-     * related logic and to avoid form type casting issue (form to maintenaceform)
+     * We're overriding this method and provide empty
      *
      * @param element
      * @param model

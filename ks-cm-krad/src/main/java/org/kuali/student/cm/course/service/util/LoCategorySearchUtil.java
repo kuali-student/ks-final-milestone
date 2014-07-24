@@ -1,7 +1,7 @@
 package org.kuali.student.cm.course.service.util;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.student.cm.course.form.LoCategoryInfoWrapper;
+import org.kuali.student.cm.course.form.wrapper.LoCategoryInfoWrapper;
 import org.kuali.student.common.util.security.ContextUtils;
 import org.kuali.student.r2.core.search.dto.SearchParamInfo;
 import org.kuali.student.r2.core.search.dto.SearchRequestInfo;

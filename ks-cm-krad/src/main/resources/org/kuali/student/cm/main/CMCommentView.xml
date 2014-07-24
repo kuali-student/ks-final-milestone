@@ -122,7 +122,7 @@
                                         <bean parent="Uif-StackedCollectionSection"
                                               p:onDocumentReadyScript="setReadonlyTextWidthForComment();">
                                             <property name="collectionObjectClass"
-                                                      value="org.kuali.student.cm.comment.form.CMCommentWrapper"/>
+                                                      value="org.kuali.student.cm.comment.form.wrapper.CMCommentWrapper"/>
                                             <property name="propertyName" value="comments"/>
                                             <property name="layoutManager.summaryTitle"
                                                       value="@{#line.renderHelper.displayName} on @{#line.renderHelper.creationTime}"/>

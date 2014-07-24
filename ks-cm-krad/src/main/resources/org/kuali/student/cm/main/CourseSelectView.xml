@@ -23,7 +23,7 @@ limitations under the License.
     <bean id="KS-Course-SelectView" parent="KS-Uif-MaintenanceView">
         <property name="viewName" value="CourseSelectView" />
         <property name="defaultBindingObjectPath" value="document.newMaintainableObject" />
-        <property name="dataObjectClassName" value="org.kuali.student.cm.course.form.CourseInfoWrapper"/>
+        <property name="dataObjectClassName" value="org.kuali.student.cm.course.form.wrapper.CourseInfoWrapper"/>
         <!--
         <property name="headerText" value="@{!#empty(document.newMaintainableObject.proposal.name) ? document.newMaintainableObject.proposal.name + ' (Proposal)': 'New Course (Proposal)'}" />
         -->

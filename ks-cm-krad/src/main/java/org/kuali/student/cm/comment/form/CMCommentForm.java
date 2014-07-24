@@ -17,6 +17,7 @@
 package org.kuali.student.cm.comment.form;
 
 import org.kuali.rice.krad.web.form.KsUifFormBase;
+import org.kuali.student.cm.comment.form.wrapper.CMCommentWrapper;
 import org.kuali.student.r2.core.proposal.dto.ProposalInfo;
 
 import java.util.ArrayList;

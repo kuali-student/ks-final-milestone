@@ -104,7 +104,7 @@
                     </property>
 
                     <property name="fieldLabel.richLabelMessage">
-                        <bean parent="Uif-KS-IconLabelMessage">
+                        <bean parent="CM-IconLabelMessage">
                             <property name="iconToolTipText" value="&lt;b&gt;Letter, Standard Values&lt;b&gt;&lt;br&gt;
                                     A,B,C,D,F&lt;br&gt;&lt;br&gt;&lt;b&gt;Satisfactory, unsatisfactory&lt;br&gt;&lt;br&gt;&lt;b&gt;Recital
                                     Values&lt;b&gt; >60% pass&lt;br&gt;&lt;br&gt;&lt;b&gt;Recital Review&lt;b&gt;&lt;br&gt;Lorem
@@ -175,7 +175,7 @@
     <bean id="KS-CourseView-CourseLogisticsPage-Outcome-Widgets" parent="KS-TableCollectionSubSection-BottomAddLine"
                       p:layoutManager.style="width: 100%;"
                       p:headerText="Outcome">
-        <property name="collectionObjectClass" value="org.kuali.student.cm.course.form.ResultValuesGroupInfoWrapper" />
+        <property name="collectionObjectClass" value="org.kuali.student.cm.course.form.wrapper.ResultValuesGroupInfoWrapper" />
         <property name="propertyName" value="creditOptionWrappers" />
         <property name="addBlankLineAction">
             <bean parent="KS-BottomAddLine">

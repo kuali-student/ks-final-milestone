@@ -285,7 +285,7 @@
                                     <list>
                                         <bean id="supporting_document_review_section" parent="KS-Uif-StackedCollectionSection-HorizontalSubCollectionFieldGroup"
                                               p:propertyName="reviewProposalDisplay.supportingDocumentsSection.supportingDocuments"
-                                              p:collectionObjectClass="org.kuali.student.cm.course.form.SupportingDocumentInfoWrapper"
+                                              p:collectionObjectClass="org.kuali.student.cm.course.form.wrapper.SupportingDocumentInfoWrapper"
                                               p:colSpan="3">
                                             <property name="renderLineActions" value="false"/>
                                             <property name="renderAddLine" value="false"/>

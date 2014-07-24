@@ -1,6 +1,6 @@
 package org.kuali.student.cm.course.service.util;
 
-import org.kuali.student.cm.course.form.OrganizationInfoWrapper;
+import org.kuali.student.cm.course.form.wrapper.OrganizationInfoWrapper;
 import org.kuali.student.cm.common.util.CurriculumManagementConstants;
 import org.kuali.student.common.util.security.ContextUtils;
 import org.kuali.student.r2.core.constants.OrganizationServiceConstants;

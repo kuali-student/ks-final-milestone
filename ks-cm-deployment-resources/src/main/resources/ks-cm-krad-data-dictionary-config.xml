@@ -40,7 +40,6 @@
                 <value>classpath:org/kuali/student/cm/main/CourseViewReviewProposal.xml</value>
                 <value>classpath:org/kuali/student/cm/main/CourseViewAuthorsAndCollaborators.xml</value>
                 <value>classpath:org/kuali/student/cm/main/LoCategoryMaintenanceView.xml</value>
-                <value>classpath:org/kuali/student/cm/main/CreateCourseInitialView.xml</value>
                 <value>classpath:org/kuali/student/cm/lookup/CluInstructorInfoWrapperLookupView.xml</value>
                 <value>classpath:org/kuali/student/cm/lookup/CourseJointInfoWrapperLookupView.xml</value>
                 <value>classpath:org/kuali/student/cm/lookup/OrganizationInfoWrapperLookupView.xml</value>
@@ -51,7 +50,7 @@
                 <value>classpath:ks-CourseInfo-dictionary.xml</value>
                 <value>classpath:ks-ProposalInfo-dictionary.xml</value>
                 <value>classpath:ks-ActivityInfo-dictionary.xml</value>
-                <value>classpath:org/kuali/student/cm/UifKsCmDefinitions.xml</value>
+                <value>classpath:org/kuali/student/cm/UifKSCMDefinitions.xml</value>
 
                 <!-- <value>classpath:org/kuali/student/cm/CMFunctionalHomeView.xml</value>  This file currently doesn't exist -->
                 <value>classpath:org/kuali/student/cm/main/CurriculumHomeView.xml</value> <!-- KSCM-727 Curriculum Management Course -->

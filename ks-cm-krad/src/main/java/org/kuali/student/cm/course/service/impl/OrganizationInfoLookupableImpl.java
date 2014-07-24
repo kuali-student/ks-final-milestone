@@ -19,7 +19,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.lookup.LookupableImpl;
 import org.kuali.rice.krad.lookup.LookupForm;
-import org.kuali.student.cm.course.form.OrganizationInfoWrapper;
+import org.kuali.student.cm.course.form.wrapper.OrganizationInfoWrapper;
 import org.kuali.student.cm.common.util.CurriculumManagementConstants;
 import org.kuali.student.common.util.security.ContextUtils;
 import org.kuali.student.r2.core.organization.service.OrganizationService;

@@ -22,7 +22,7 @@
 	<bean id="CluInstructorInfoWrapper-DataObjectEntry" parent="DataObjectEntry">
 		<property name="objectLabel" value="Instructor Info Display" />
 		<property name="dataObjectClass"
-			value="org.kuali.student.cm.course.form.CluInstructorInfoWrapper" />
+			value="org.kuali.student.cm.course.form.wrapper.CluInstructorInfoWrapper" />
 		<property name="titleAttribute" value="cluInstructorInfo.id" />
 		<property name="attributes">
 			<list>
@@ -98,7 +98,7 @@
 		<property name="id" value="CluInstructorInfoWrapperLookupView" />
 		<property name="headerText" value="Advanced Search: Person" />
 		<property name="dataObjectClassName"
-			value="org.kuali.student.cm.course.form.CluInstructorInfoWrapper" />
+			value="org.kuali.student.cm.course.form.wrapper.CluInstructorInfoWrapper" />
 		<property name="viewHelperServiceClass"
 			value="org.kuali.student.cm.course.service.impl.CluInstructorInfoLookupableImpl" />
 		<property name="criteriaFields">

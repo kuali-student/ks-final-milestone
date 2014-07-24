@@ -21,7 +21,7 @@
 
     <bean id="LoCategoryInfoWrapper-DataObjectEntry" parent="DataObjectEntry">
         <property name="objectLabel" value="LoCategoryInfoWrapper"/>
-        <property name="dataObjectClass" value="org.kuali.student.cm.course.form.LoCategoryInfoWrapper"/>
+        <property name="dataObjectClass" value="org.kuali.student.cm.course.form.wrapper.LoCategoryInfoWrapper"/>
     </bean>
 
     <bean id="KS-LoCategoryInfoWrapper-LookupView" parent="Uif-LookupView"
@@ -33,7 +33,7 @@
         </property>
         <property name="onLoadScript" value="jQuery(&quot;#Uif-BreadcrumbWrapper&quot;).remove();"/>
         <property name="dataObjectClassName"
-                  value="org.kuali.student.cm.course.form.LoCategoryInfoWrapper"/>
+                  value="org.kuali.student.cm.course.form.wrapper.LoCategoryInfoWrapper"/>
         <property name="viewHelperServiceClass"
                   value="org.kuali.student.cm.course.service.impl.LoCategoryInfoLookupableImpl"/>
         <property name="multipleValuesSelect" value="true"/>

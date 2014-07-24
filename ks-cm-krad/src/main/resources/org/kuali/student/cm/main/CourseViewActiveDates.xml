@@ -16,7 +16,7 @@
             <list>
                 <bean parent="CM-InputField" p:propertyName="courseInfo.startTerm" p:label="Start Term">
                     <property name="fieldLabel.richLabelMessage">
-                        <bean parent="Uif-KS-IconLabelMessage">
+                        <bean parent="CM-IconLabelMessage">
                             <property name="iconToolTipText" value="New Courses: This course will not necessarily be activated or offered this term, but will be
                                     eligible for scheduling on or after this term. Course Modifications: Any instances of the course
                                     offered on or after this term will reflect modifications."/>
@@ -49,7 +49,7 @@
                         </list>
                     </property>
                     <property name="fieldLabel.richLabelMessage">
-                        <bean parent="Uif-KS-IconLabelMessage">
+                        <bean parent="CM-IconLabelMessage">
                             <property name="iconToolTipText" value="If this is a pilot course, you must select an End Term"/>
                         </bean>
                     </property>
@@ -95,7 +95,7 @@
                               p:addBlankOption="true" />
                     </property>
                     <property name="fieldLabel.richLabelMessage">
-                        <bean parent="Uif-KS-IconLabelMessage">
+                        <bean parent="CM-IconLabelMessage">
                             <property name="iconToolTipText" value="Most courses will not have an explicit end date. Exceptions are pilot courses or visiting instructor specific courses"/>
                         </bean>
                     </property>

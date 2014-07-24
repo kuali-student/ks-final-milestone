@@ -26,7 +26,7 @@ public class CurriculumManagementConstants {
 
     public static class ControllerRequestMappings {
         public final static String START_PROPOSAL = "/start_proposal";
-        //KSAP uses 'course' as their mapping for Course search. so, please
+        //KSAP uses 'course' as their mapping for Course search. so, please aware of that before changing this mapping.
         public final static String COURSE_MAINTENANCE = "/courses";
         public final static String CM_COMMENT = "/cm_comment";
         public final static String VIEW_COURSE = "/view_course";
@@ -155,7 +155,7 @@ public class CurriculumManagementConstants {
 
     public final static String KS_LO_CAT_TABLE = "KS-LoCatTable";
 
-    public final static String KS_MESSAGE_ICON_IMAGE_ID = "[id=Uif-KS-IconImage]";
+    public final static String KS_MESSAGE_ICON_IMAGE_ID = "[id=CM-IconImage]";
 
     public final static String SUPPORTING_DOC_MIME_TYPE = "application/octet-stream";
 

@@ -16,13 +16,13 @@
 package org.kuali.student.cm.course.service;
 
 import org.kuali.rice.krms.dto.AgendaEditor;
-import org.kuali.student.cm.course.form.CluInstructorInfoWrapper;
-import org.kuali.student.cm.course.form.CourseInfoWrapper;
-import org.kuali.student.cm.course.form.CourseJointInfoWrapper;
-import org.kuali.student.cm.course.form.LoCategoryInfoWrapper;
-import org.kuali.student.cm.course.form.OrganizationInfoWrapper;
-import org.kuali.student.cm.course.form.SubjectCodeWrapper;
-import org.kuali.student.cm.course.form.SupportingDocumentInfoWrapper;
+import org.kuali.student.cm.course.form.wrapper.CluInstructorInfoWrapper;
+import org.kuali.student.cm.course.form.wrapper.CourseInfoWrapper;
+import org.kuali.student.cm.course.form.wrapper.CourseJointInfoWrapper;
+import org.kuali.student.cm.course.form.wrapper.LoCategoryInfoWrapper;
+import org.kuali.student.cm.course.form.wrapper.OrganizationInfoWrapper;
+import org.kuali.student.cm.course.form.wrapper.SubjectCodeWrapper;
+import org.kuali.student.cm.course.form.wrapper.SupportingDocumentInfoWrapper;
 import org.kuali.student.common.uif.service.KSMaintainable;
 import org.kuali.student.lum.lu.ui.krms.dto.CluInformation;
 import org.kuali.student.r2.lum.clu.dto.MembershipQueryInfo;

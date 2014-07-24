@@ -1,4 +1,4 @@
-package org.kuali.student.cm.course.form;
+package org.kuali.student.cm.course.form.wrapper;
 
 import java.util.ArrayList;
 import java.util.List;
