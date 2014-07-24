@@ -104,4 +104,19 @@ angular.module('regCartApp')
         personRegistered: 'kuali.lpr.trans.message.person.registered'           //"Registered"
     })
 
+    /*
+    This constant determines how days are displayed, and the order that they
+    are displayed in the calendar
+     */
+    .constant('DAY_CONSTANTS', {
+        monday: 'M',
+        tuesday: 'Tu',
+        wednesday: 'W',
+        thursday: 'Th',
+        friday: 'F',
+        saturday: 'Sa',
+        sunday: 'Su',
+        dayArray: ['M', 'Tu', 'W', 'Th', 'F', 'Sa', 'Su']
+    })
+
 ;

@@ -11,6 +11,8 @@ angular.module('regCartApp')
         var waitlistedCourseCount = 0;
         var schedule;
         var userId;
+        var courseIndexes = {};
+        var courseIndexPointer = 1;
 
 
         this.getCartCredits = function () {
@@ -151,5 +153,23 @@ angular.module('regCartApp')
 
             return statusMessage;
         };
+
+        /*
+        Return the course index based on the course details position in the array.
+
+        If no course index is found, add the course details to the array and
+        return the new index.
+         */
+        this.getCourseIndex = function (courseDetails) {
+            var courseDetailsString = courseDetails.courseCode+courseDetails.regGroup;
+            var index = courseIndexes[courseDetailsString];
+
+            if (isNaN(index)) {
+                index = courseIndexPointer++;
+                courseIndexes[courseDetailsString] = index;
+            }
+
+            return index;
+        }
 
     }]);
