@@ -325,7 +325,7 @@
                 </bean>
                 <bean parent="Uif-DataField" p:label="Course Name" p:propertyName="title"/>
                 <bean parent="Uif-InputField" p:label="Cr" p:propertyName="credits"
-                      p:readOnly="@{(#collectionGroup.id == 'KS-AdminRegistration-Registered' and #index != editRegisteredIndex)}">
+                      p:readOnly="@{#index != editRegisteredIndex}">
                     <property name="control">
                         <bean parent="Uif-DropdownControl"/>
                     </property>
@@ -334,7 +334,7 @@
                     </property>
                 </bean>
                 <bean parent="Uif-InputField" p:label="Reg Options" p:propertyName="gradingOption"
-                      p:readOnly="@{(#collectionGroup.id == 'KS-AdminRegistration-Registered' and #index != editRegisteredIndex) || (!#empty(#line.gradingOptions))}">
+                      p:readOnly="@{(#index != editRegisteredIndex || #emptyList(#line.gradingOptions))}">
                     <property name="control">
                         <bean parent="Uif-DropdownControl"/>
                     </property>
@@ -415,7 +415,7 @@
                 </bean>
                 <bean parent="Uif-DataField" p:label="Course Name" p:propertyName="title"/>
                 <bean parent="Uif-InputField" p:label="Cr" p:propertyName="credits"
-                      p:readOnly="@{(#collectionGroup.id == 'KS-AdminRegistration-Waitlist' and #index != editWaitlistedIndex) || (!#empty(#line.gradingOptions))}">
+                      p:readOnly="@{(#index != editWaitlistedIndex)}">
                     <property name="control">
                         <bean parent="Uif-DropdownControl"/>
                     </property>
@@ -424,7 +424,7 @@
                     </property>
                 </bean>
                 <bean parent="Uif-InputField" p:label="Reg Options" p:propertyName="gradingOption"
-                      p:readOnly="@{(#collectionGroup.id == 'KS-AdminRegistration-Waitlist' and #index != editWaitlistedIndex)}">
+                      p:readOnly="@{(#index != editWaitlistedIndex || !#emptyList(#line.gradingOptions))}">
                     <property name="control">
                         <bean parent="Uif-DropdownControl"/>
                     </property>
@@ -565,7 +565,7 @@
                                 </property>
                             </bean>
                             <bean parent="Uif-InputField" p:label="Reg Options" p:propertyName="gradingOption"
-                                  p:readOnly="@{#empty(#line.gradingOptions)}">
+                                  p:readOnly="@{#emptyList(#line.gradingOptions)}">
                                 <property name="control">
                                     <bean parent="Uif-DropdownControl"/>
                                 </property>

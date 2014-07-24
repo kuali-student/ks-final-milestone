@@ -340,9 +340,8 @@ public class AdminRegistrationViewHelperServiceImpl extends KSViewHelperServiceI
                 dateTimeSchedule.append(TimeOfDayHelper.makeFormattedTimeForAOSchedules(timeSlotInfo.getStartTime()));
                 dateTimeSchedule.append(" - ");
                 dateTimeSchedule.append(TimeOfDayHelper.makeFormattedTimeForAOSchedules(timeSlotInfo.getEndTime()));
-            } else {
-                dateTimeSchedule.append(" ");
             }
+
             try {
                 //Check if the room ID is null, if not get the buildingInfo from the room
                 if (componentInfo.getRoomId() != null) {
@@ -352,17 +351,15 @@ public class AdminRegistrationViewHelperServiceImpl extends KSViewHelperServiceI
                     roomBuildInfo.append(buildingInfo.getBuildingCode());
                     roomBuildInfo.append(" ");
                     roomBuildInfo.append(room.getRoomCode());
-                } else {
-                    roomBuildInfo.append(" ");
                 }
-                regActivity.setDateTime(dateTimeSchedule.toString());
-                regActivity.setRoom(roomBuildInfo.toString());
 
             } catch (Exception e) {
                 throw new RuntimeException("Could not retrieve Room RoomService for " + e);
             }
-
         }
+
+        regActivity.setDateTime(dateTimeSchedule.toString());
+        regActivity.setRoom(roomBuildInfo.toString());
         return regActivity;
     }
 

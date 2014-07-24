@@ -8,8 +8,6 @@ import org.kuali.rice.krad.uif.field.InputField;
 import org.kuali.rice.krad.uif.view.ViewModel;
 import org.kuali.student.enrollment.class2.registration.admin.form.AdminRegistrationForm;
 import org.kuali.student.enrollment.class2.registration.admin.form.RegistrationCourse;
-import org.kuali.student.enrollment.class2.registration.admin.util.AdminRegClientCache;
-import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.registration.client.service.impl.util.CourseRegistrationAndScheduleOfClassesUtil;
 
 import java.io.Serializable;
@@ -43,7 +41,7 @@ public class RegistrationGradingOptionsFinder extends UifKeyValuesFinderBase imp
 
         try {
             // Create keyvalues from grading options for registration course.
-            if (!course.getGradingOptions().contains(course.getGradingOption())) {
+            if ((course.getGradingOption()!=null)&&(!course.getGradingOptions().contains(course.getGradingOption()))) {
                 keyValues.add(new ConcreteKeyValue(course.getGradingOption(), CourseRegistrationAndScheduleOfClassesUtil.translateGradingOptionKeyToName(course.getGradingOption())));
             }
             for (String studRegGradOpt : course.getGradingOptions()) {
