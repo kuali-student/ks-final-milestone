@@ -49,6 +49,7 @@
 
     <bean id="KS-ViewCourseView-Page" parent="Uif-Page" p:style="margin-left: -18px;"
           p:headerText="View Course"
+          p:header.render="false"
           p:disclosure.render="false">
 
         <!-- Don't show validation messages at the top of the page. Instead we want the yellow bar. -->

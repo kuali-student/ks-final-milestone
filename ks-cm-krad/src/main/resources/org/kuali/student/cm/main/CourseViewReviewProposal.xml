@@ -19,8 +19,7 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
                            http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-    <bean id="KS-CourseView-ReviewProposalPage" parent="KS-ViewCourseView-Page"
-          p:headerText="Review Proposal">
+    <bean id="KS-CourseView-ReviewProposalPage" parent="KS-ViewCourseView-Page">
 
         <!-- Initialize the page. This intervenes with the validation message behavior by removing the popovers, and
              also sizes the text areas. -->
