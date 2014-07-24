@@ -76,6 +76,23 @@ public interface ProgramService extends  SearchService,  VersionManagementServic
             throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
+     * Retrieves a list of CredentialPrograms Ids by CredentialProgram Type.
+     * @param credentialProgramTypeKey an identifier for a CredentialProgram Type
+     * @param contextInfo information containing the principalId and locale information about the caller of the service operation
+     * @return a list of CredentialProgram identifiers matching credentialProgramTypeKey or an empty list if none found
+     * @throws InvalidParameterException credentialProgramTypeKey or contextInfo is not valid
+     * @throws MissingParameterException credentialProgramTypeKey or context is missing or null
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public List<String> getCredentialProgramIdsByType(@WebParam(name = "credentialProgramTypeKey") String credentialProgramTypeKey,
+                                                    @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
+
+    /**
      * Retrieves a list of CredentialPrograms corresponding to the given list of
      * CredentialProgram Ids
      * 
@@ -260,7 +277,24 @@ public interface ProgramService extends  SearchService,  VersionManagementServic
             throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
-     * Retrieves a list of MajorDiscipline corresponding to the given list of
+     * Retrieves a list of MajorDiscipline Ids by MajorDiscipline Type.
+     * @param majorDisciplineTypeKey an identifier for a MajorDiscipline Type
+     * @param contextInfo information containing the principalId and locale information about the caller of the service operation
+     * @return a list of MajorDiscipline identifiers matching majorDisciplineTypeKey or an empty list if none found
+     * @throws InvalidParameterException majorDisciplineTypeKey or contextInfo is not valid
+     * @throws MissingParameterException majorDisciplineTypeKey or context is missing or null
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public List<String> getMajorDisciplineIdsByType(@WebParam(name = "majorDisciplineTypeKey") String majorDisciplineTypeKey,
+                                                    @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
+
+    /**
+     * Retrieves a list of MajorDisciplines corresponding to the given list of
      * major discipline Ids
      * 
      * @param majorDisciplineIds list of MajorDisciplines to be retrieved
@@ -446,6 +480,23 @@ public interface ProgramService extends  SearchService,  VersionManagementServic
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
+     * Retrieves a list of HonorsPrograms Ids by HonorsProgram Type.
+     * @param honorsProgramTypeKey an identifier for a HonorsProgram Type
+     * @param contextInfo information containing the principalId and locale information about the caller of the service operation
+     * @return a list of HonorsProgram identifiers matching honorsProgramTypeKey or an empty list if none found
+     * @throws InvalidParameterException honorsProgramTypeKey or contextInfo is not valid
+     * @throws MissingParameterException honorsProgramTypeKey or context is missing or null
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public List<String> getHonorsProgramIdsByType(@WebParam(name = "honorsProgramTypeKey") String honorsProgramTypeKey,
+                                                      @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
+
+    /**
      * 
      * Retrieves a list of honors program by Ids
      * 
@@ -587,6 +638,23 @@ public interface ProgramService extends  SearchService,  VersionManagementServic
      */
     public CoreProgramInfo getCoreProgram(@WebParam(name = "coreProgramId") String coreProgramId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
+     * Retrieves a list of CoreProgram Ids by CoreProgram Type.
+     * @param coreProgramTypeKey an identifier for a CoreProgram Type
+     * @param contextInfo information containing the principalId and locale information about the caller of the service operation
+     * @return a list of CoreProgram identifiers matching coreProgramTypeKey or an empty list if none found
+     * @throws InvalidParameterException coreProgramTypeKey or contextInfo is not valid
+     * @throws MissingParameterException coreProgramTypeKey or context is missing or null
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public List<String> getCoreProgramIdsByType(@WebParam(name = "coreProgramTypeKey") String coreProgramTypeKey,
+                                                    @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
 
     /**
      * 
@@ -766,6 +834,23 @@ public interface ProgramService extends  SearchService,  VersionManagementServic
      */
     public ProgramRequirementInfo getProgramRequirement(@WebParam(name = "programRequirementId") String programRequirementId, @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
+     * Retrieves a list of ProgramRequirement Ids by ProgramRequirement Type.
+     * @param programRequirementTypeKey an identifier for a ProgramRequirement Type
+     * @param contextInfo information containing the principalId and locale information about the caller of the service operation
+     * @return a list of ProgramRequirement identifiers matching programRequirementTypeKey or an empty list if none found
+     * @throws InvalidParameterException programRequirementTypeKey or contextInfo is not valid
+     * @throws MissingParameterException programRequirementTypeKey or context is missing or null
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public List<String> getProgramRequirementIdsByType(@WebParam(name = "programRequirementTypeKey") String programRequirementTypeKey,
+                                                @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
 
     /**
      * 

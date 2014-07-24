@@ -50,6 +50,11 @@ public class ProgramServiceDecorator implements ProgramService {
     }
 
     @Override
+    public List<String> getCredentialProgramIdsByType(String credentialProgramTypeKey, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return this.getNextDecorator().getCredentialProgramIdsByType(credentialProgramTypeKey, contextInfo);
+    }
+
+    @Override
     public List<CredentialProgramInfo> getCredentialProgramsByIds(List<String> credentialProgramId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return this.getNextDecorator().getCredentialProgramsByIds(credentialProgramId, contextInfo);
     }
@@ -98,6 +103,12 @@ public class ProgramServiceDecorator implements ProgramService {
     public MajorDisciplineInfo getMajorDiscipline(String majorDisciplineId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return this.getNextDecorator().getMajorDiscipline(majorDisciplineId, contextInfo);
     }
+
+    @Override
+    public List<String> getMajorDisciplineIdsByType(String majorDisciplineTypeKey, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return this.getNextDecorator().getMajorDisciplineIdsByType(majorDisciplineTypeKey, contextInfo);
+    }
+
     @Override
     public List<MinorDisciplineInfo> getMinorDisciplinesByIds(List<String> minorDisciplineIds, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return getNextDecorator().getMinorDisciplinesByIds(minorDisciplineIds,contextInfo);
@@ -161,6 +172,11 @@ public class ProgramServiceDecorator implements ProgramService {
     }
 
     @Override
+    public List<String> getHonorsProgramIdsByType(String honorsProgramTypeKey, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return this.getNextDecorator().getHonorsProgramIdsByType(honorsProgramTypeKey, contextInfo);
+    }
+
+    @Override
     public List<String> getHonorProgramIdsByCredentialProgramType(String programType, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         return this.getNextDecorator().getHonorProgramIdsByCredentialProgramType(programType, contextInfo);
     }
@@ -199,6 +215,11 @@ public class ProgramServiceDecorator implements ProgramService {
     @Override
     public CoreProgramInfo getCoreProgram(String coreProgramId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return this.getNextDecorator().getCoreProgram(coreProgramId, contextInfo);
+    }
+
+    @Override
+    public List<String> getCoreProgramIdsByType(String coreProgramTypeKey, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return this.getNextDecorator().getCoreProgramIdsByType(coreProgramTypeKey, contextInfo);
     }
 
     @Override
@@ -244,6 +265,11 @@ public class ProgramServiceDecorator implements ProgramService {
     @Override
     public ProgramRequirementInfo getProgramRequirement(String programRequirementId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return this.getNextDecorator().getProgramRequirement(programRequirementId, contextInfo);
+    }
+
+    @Override
+    public List<String> getProgramRequirementIdsByType(String programRequirementTypeKey, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return this.getNextDecorator().getProgramRequirementIdsByType(programRequirementTypeKey, contextInfo);
     }
 
     @Override
