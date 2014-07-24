@@ -38,11 +38,14 @@ import org.kuali.student.enrollment.registration.client.service.dto.Registration
 import org.kuali.student.enrollment.registration.client.service.impl.util.CourseRegistrationAndScheduleOfClassesUtil;
 import org.kuali.student.enrollment.registration.client.service.impl.util.RegistrationValidationResultsUtil;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
+import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.common.infc.ValidationResult;
 import org.kuali.student.r2.common.infc.ValidationResult;
 import org.kuali.student.r2.common.util.TimeOfDayHelper;
 import org.kuali.student.r2.common.util.constants.LprServiceConstants;
@@ -117,6 +120,37 @@ public class AdminRegistrationViewHelperServiceImpl extends KSViewHelperServiceI
         } catch (Exception e) {
             throw convertServiceExceptionsToUI(e);
         }
+    }
+
+    @Override
+    public List<ValidationResultInfo> checkStudentEligibilityForTermLocal(String studentId, String termId) {
+        ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
+        List<ValidationResultInfo> reasons = new ArrayList<ValidationResultInfo>();
+
+        try {
+         /*
+         * If we are configured to use static dates for registration date testing, get the date for this user
+         * (if it exists) and set it in the context.
+         */
+//            DateTime staticDate = StaticUserDateUtil.getDateTimeForUser(studentId);
+//            if (staticDate != null) {
+//                contextInfo.setCurrentDate(staticDate.toDate());
+//            }
+
+            List<ValidationResultInfo> validationResults = AdminRegResourceLoader.getCourseRegistrationService()
+                    .checkStudentEligibilityForTerm(studentId, termId, contextInfo);
+
+            // Filter out anything that isn't an error
+            for (ValidationResultInfo vr : validationResults) {
+                if (ValidationResult.ErrorLevel.ERROR.equals(vr.getLevel())) {
+                    reasons.add(vr);
+                }
+            }
+
+        } catch (Exception e) {
+            throw convertServiceExceptionsToUI(e);
+        }
+        return reasons;
     }
 
     @Override

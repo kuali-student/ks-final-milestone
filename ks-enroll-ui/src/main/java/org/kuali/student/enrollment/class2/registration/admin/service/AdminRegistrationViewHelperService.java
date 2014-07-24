@@ -8,6 +8,13 @@ import org.kuali.student.enrollment.class2.registration.admin.form.RegistrationI
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestInfo;
 import org.kuali.student.enrollment.courseregistration.infc.RegistrationRequest;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
+import org.kuali.student.enrollment.registration.client.service.dto.EligibilityCheckResult;
+import org.kuali.student.r2.common.dto.ValidationResultInfo;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.exceptions.MissingParameterException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
 
 import java.util.List;
@@ -36,6 +43,17 @@ public interface AdminRegistrationViewHelperService {
      * @return
      */
     public TermInfo getTermByCode(String termCode);
+
+
+    /**
+     * Returns whether or not the student is eligible for the term.
+     *
+     *
+     * @param studentId      required
+     * @param termId      required
+     * @return Returns a list of validation results
+     */
+    public List<ValidationResultInfo> checkStudentEligibilityForTermLocal(String studentId,String termId);
 
     /**
      * Using the Student ID and term entered to get the registered courses for that student

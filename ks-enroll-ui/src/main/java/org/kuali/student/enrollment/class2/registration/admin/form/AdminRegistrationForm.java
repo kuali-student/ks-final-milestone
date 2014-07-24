@@ -19,6 +19,7 @@ package org.kuali.student.enrollment.class2.registration.admin.form;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.core.person.dto.PersonInfo;
 import org.kuali.student.enrollment.class2.registration.admin.util.AdminRegConstants;
+import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
 
 import java.io.Serializable;
@@ -78,6 +79,12 @@ public class AdminRegistrationForm extends UifFormBase implements Serializable {
     private List<RegistrationIssue> registrationIssues = new ArrayList<RegistrationIssue>();
 
     /**
+     * Term Issues contain issues that did not pass the Term eligibility checks. Administrative
+     * users has the option to continue or cancel.
+     */
+    private List<ValidationResultInfo> termIssues = new ArrayList<ValidationResultInfo>();
+
+    /**
      * Registered Courses contain courses that the student is currently enrolled for.
      */
     private List<RegistrationCourse> registeredCourses = new ArrayList<RegistrationCourse>();
@@ -92,6 +99,8 @@ public class AdminRegistrationForm extends UifFormBase implements Serializable {
     private RegistrationCourse tempWaitlistCourseEdit;
 
     private RegistrationCourse pendingDropCourse = new RegistrationCourse();
+
+    private boolean termEligible = false;
 
     public AdminRegistrationForm(){
         this.clientState = AdminRegConstants.ClientStates.OPEN;
@@ -109,6 +118,7 @@ public class AdminRegistrationForm extends UifFormBase implements Serializable {
 
     public void clearTermValues() {
         this.term = new TermInfo();
+        this.termEligible = false;
         this.clearCourseRegistrationValues();
     }
 
@@ -117,6 +127,7 @@ public class AdminRegistrationForm extends UifFormBase implements Serializable {
         this.registrationIssues.clear();
         this.registeredCourses.clear();
         this.waitlistedCourses.clear();
+        this.termIssues.clear();
     }
 
     public void resetPendingCourseValues(){
@@ -220,6 +231,14 @@ public class AdminRegistrationForm extends UifFormBase implements Serializable {
         this.registrationIssues = registrationIssues;
     }
 
+    public List<ValidationResultInfo>  getTermIssues() {
+        return termIssues;
+    }
+
+    public void setTermIssues(List<ValidationResultInfo> termIssues) {
+        this.termIssues = termIssues;
+    }
+
     public List<RegistrationCourse> getRegisteredCourses() {
         return registeredCourses;
     }
@@ -300,4 +319,11 @@ public class AdminRegistrationForm extends UifFormBase implements Serializable {
         this.pendingDropCourse = pendingDropCourse;
     }
 
+    public boolean isTermEligible() {
+        return termEligible;
+    }
+
+    public void setTermEligible(boolean termEligible) {
+        this.termEligible = termEligible;
+    }
 }

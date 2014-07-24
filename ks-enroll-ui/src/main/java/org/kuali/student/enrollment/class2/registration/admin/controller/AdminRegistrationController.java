@@ -30,15 +30,11 @@ import org.kuali.student.core.person.dto.PersonInfo;
 import org.kuali.student.enrollment.class2.registration.admin.form.AdminRegistrationForm;
 import org.kuali.student.enrollment.class2.registration.admin.form.RegistrationCourse;
 import org.kuali.student.enrollment.class2.registration.admin.form.RegistrationIssue;
-import org.kuali.student.enrollment.class2.registration.admin.form.RegistrationIssueItem;
 import org.kuali.student.enrollment.class2.registration.admin.service.AdminRegistrationViewHelperService;
 import org.kuali.student.enrollment.class2.registration.admin.util.AdminRegConstants;
 import org.kuali.student.enrollment.class2.registration.admin.util.AdminRegResourceLoader;
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestInfo;
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestItemInfo;
-import org.kuali.student.enrollment.courseregistration.infc.RegistrationRequest;
-import org.kuali.student.enrollment.courseregistration.infc.RegistrationRequestItem;
-import org.kuali.student.r2.common.infc.ValidationResult;
 import org.kuali.student.r2.common.util.constants.LprServiceConstants;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
 import org.springframework.stereotype.Controller;
@@ -51,7 +47,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
@@ -164,6 +159,14 @@ public class AdminRegistrationController extends UifControllerBase {
         form.setRegisteredCourses(registrationCourses);
         form.setWaitlistedCourses(waitlistedCourses);
 
+        form.getTermIssues().addAll(getViewHelper(form).checkStudentEligibilityForTermLocal(form.getPerson().getId().toUpperCase(),term.getId()));
+
+        if (!form.getTermIssues().isEmpty()) {
+           form.setTermEligible(true);
+        }
+        if(form.getRegisteredCourses().isEmpty() && form.getWaitlistedCourses().isEmpty()){
+             showDialog(AdminRegConstants.TERM_ELIGIBILITY_DIALOG, form, request, response);
+        }
         form.setClientState(AdminRegConstants.ClientStates.READY);
         return getUIFModelAndView(form);
     }
