@@ -26,7 +26,7 @@ public class CurriculumManagementConstants {
 
     public static class ControllerRequestMappings {
         public final static String START_PROPOSAL = "/start_proposal";
-        public final static String COURSE_MAINTENANCE = "/course";
+        public final static String COURSE_MAINTENANCE = "/courses";
         public final static String CM_COMMENT = "/cm_comment";
         public final static String VIEW_COURSE = "/view_course";
         public final static String CM_HOME = "/cmHome";
