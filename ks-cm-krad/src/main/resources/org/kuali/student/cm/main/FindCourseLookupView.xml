@@ -85,6 +85,7 @@ limitations under the License.
             <list>
                 <bean parent="KS-Uif-DataField-Simple" p:propertyName="code" p:label="Code"/>
                 <bean parent="KS-Uif-DataField-Simple" p:propertyName="title" p:label="Title"/>
+                <bean parent="KS-Uif-DataField-Simple" p:propertyName="state" p:label="State"/>
                 <bean parent="KS-Uif-DataField-Simple" p:propertyName="description" p:label="Description"/>
             </list>
         </property>
