@@ -89,7 +89,8 @@ public class MinorDisciplineInfo extends IdNamelessEntityInfo implements MinorDi
     
     private static final long serialVersionUID = 1L;
 
-    // ProgramIdentifierAssembly
+    @XmlElement
+    private String descr;
     @XmlElement
     private String code;
     @XmlElement
@@ -101,7 +102,6 @@ public class MinorDisciplineInfo extends IdNamelessEntityInfo implements MinorDi
     @XmlElement
     private String diplomaTitle;
 
-    // ProgramCodeAssembly
     @XmlElement
     private String cip2000Code;
     @XmlElement
@@ -113,7 +113,6 @@ public class MinorDisciplineInfo extends IdNamelessEntityInfo implements MinorDi
     @XmlElement
     private String selectiveEnrollmentCode;
 
-    // CommonWithProgramVariationInfo
     @XmlElement
     private String intensity;
     @XmlElement
@@ -125,7 +124,6 @@ public class MinorDisciplineInfo extends IdNamelessEntityInfo implements MinorDi
     @XmlElement
     private TimeAmount stdDuration;
 
-    // ProgramFullOrgAssembly
     @XmlElement
     private List<String> divisionsDeployment;
     @XmlElement
@@ -139,16 +137,12 @@ public class MinorDisciplineInfo extends IdNamelessEntityInfo implements MinorDi
     @XmlElement
     private List<String> unitsDeployment;
 
-    // ProgramCredentialAssembly
-    // MajorDisciplineInfo
     @XmlElement
     private String credentialProgramId;
 
-    // ProgramRequirementAssembly
     @XmlElement
     private List<String> programRequirements;
 
-    // MajorDisciplineInfo
     @XmlElement
     private String nextReviewPeriod;
     @XmlElement
@@ -156,7 +150,6 @@ public class MinorDisciplineInfo extends IdNamelessEntityInfo implements MinorDi
     @XmlElement
     private List<AccreditationInfo> accreditingAgencies;
 
-    // ProgramAtpAssembly
     @XmlElement
     private String startTerm;
     @XmlElement
@@ -164,7 +157,6 @@ public class MinorDisciplineInfo extends IdNamelessEntityInfo implements MinorDi
     @XmlElement
     private String endProgramEntryTerm;
 
-    // CommonWithCredentialProgramInfo
     @XmlElement
     private List<String> divisionsContentOwner;
     @XmlElement
@@ -176,7 +168,6 @@ public class MinorDisciplineInfo extends IdNamelessEntityInfo implements MinorDi
     @XmlElement
     private List<LoDisplayInfo> learningObjectives;
 
-    // ProgramPublicationAssembly
     @XmlElement
     private RichText catalogDescr;
     @XmlElement
@@ -196,6 +187,7 @@ public class MinorDisciplineInfo extends IdNamelessEntityInfo implements MinorDi
         super(minorDiscipline);
 
         this.code = minorDiscipline.getCode();
+        this.descr = minorDiscipline.getDescr();
         this.shortTitle = minorDiscipline.getShortTitle();
         this.longTitle = minorDiscipline.getLongTitle();
         this.transcriptTitle = minorDiscipline.getTranscriptTitle();
@@ -327,6 +319,11 @@ public class MinorDisciplineInfo extends IdNamelessEntityInfo implements MinorDi
     @Override
     public String getCode() {
         return code;
+    }
+
+    @Override
+    public String getDescr() {
+        return descr;
     }
 
     @Override
@@ -567,6 +564,10 @@ public class MinorDisciplineInfo extends IdNamelessEntityInfo implements MinorDi
 
     public void setCode(String code) {
         this.code = code;
+    }
+
+    public void setDescr(String descr) {
+        this.descr = descr;
     }
 
     @Override

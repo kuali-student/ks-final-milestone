@@ -88,9 +88,10 @@ public class TrackInfo extends IdNamelessEntityInfo implements Track {
     @XmlElement
     private String minorDisciplineId;
 
-    // ProgramIdentifierAssembly
     @XmlElement
     private String code;
+    @XmlElement
+    private String descr;
     @XmlElement
     private String shortTitle;
     @XmlElement
@@ -100,13 +101,11 @@ public class TrackInfo extends IdNamelessEntityInfo implements Track {
     @XmlElement
     private String diplomaTitle;
 
-    // ProgramCodeAssembly
     @XmlElement
     private String universityClassification;
     @XmlElement
     private String selectiveEnrollmentCode;
 
-    // CommonWithProgramVariationInfo
     @XmlElement
     private String intensity;
     @XmlElement
@@ -118,7 +117,6 @@ public class TrackInfo extends IdNamelessEntityInfo implements Track {
     @XmlElement
     private TimeAmount stdDuration;
 
-    // ProgramFullOrgAssembly
     @XmlElement
     private List<String> divisionsDeployment;
     @XmlElement
@@ -132,16 +130,12 @@ public class TrackInfo extends IdNamelessEntityInfo implements Track {
     @XmlElement
     private List<String> unitsDeployment;
 
-    // ProgramCredentialAssembly
-    // MajorDisciplineInfo
     @XmlElement
     private String credentialProgramId;
 
-    // ProgramRequirementAssembly
     @XmlElement
     private List<String> programRequirements;
 
-    // MajorDisciplineInfo
     @XmlElement
     private String nextReviewPeriod;
     @XmlElement
@@ -149,7 +143,6 @@ public class TrackInfo extends IdNamelessEntityInfo implements Track {
     @XmlElement
     private List<AccreditationInfo> accreditingAgencies;
 
-    // ProgramAtpAssembly
     @XmlElement
     private String startTerm;
     @XmlElement
@@ -157,7 +150,6 @@ public class TrackInfo extends IdNamelessEntityInfo implements Track {
     @XmlElement
     private String endProgramEntryTerm;
 
-    // CommonWithCredentialProgramInfo
     @XmlElement
     private List<String> divisionsContentOwner;
     @XmlElement
@@ -169,7 +161,6 @@ public class TrackInfo extends IdNamelessEntityInfo implements Track {
     @XmlElement
     private List<LoDisplayInfo> learningObjectives;
 
-    // ProgramPublicationAssembly
     @XmlElement
     private RichText catalogDescr;
     @XmlElement
@@ -189,6 +180,7 @@ public class TrackInfo extends IdNamelessEntityInfo implements Track {
         super(track);
 
         this.code = track.getCode();
+        this.descr = track.getDescr();
         this.shortTitle = track.getShortTitle();
         this.longTitle = track.getLongTitle();
         this.transcriptTitle = track.getTranscriptTitle();
@@ -318,6 +310,11 @@ public class TrackInfo extends IdNamelessEntityInfo implements Track {
     @Override
     public String getCode() {
         return code;
+    }
+
+    @Override
+    public String getDescr() {
+        return descr;
     }
 
     @Override
@@ -531,6 +528,10 @@ public class TrackInfo extends IdNamelessEntityInfo implements Track {
 
     public void setCode(String code) {
         this.code = code;
+    }
+
+    public void setDescr(String descr) {
+        this.descr = descr;
     }
 
     @Override

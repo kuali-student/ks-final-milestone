@@ -172,6 +172,11 @@ public interface MinorDiscipline extends IdNamelessEntity {
     public String getCode();
 
     /**
+     * @name Descr
+     */
+    public String getDescr();
+
+    /**
      * @name Short Title
      */
     public String getShortTitle();
