@@ -109,7 +109,7 @@
             <bean p:id="bookmark_summary_list_header" parent="Uif-HeaderUpperGroup">
                 <property name="items">
                     <list>
-                        <bean parent="Uif-Message" p:messageText="@{#textHelper.getFormattedMessage('bookmarks.widget.headerWithCount', new Object[]{(lookupResults eq null or lookupResults.size() eq 0) ? '0' : lookupResults.size()})}">
+                        <bean parent="Uif-HeaderFive" p:headerText="@{#textHelper.getFormattedMessage('bookmarks.widget.headerWithCount', new Object[]{(lookupResults eq null or lookupResults.size() eq 0) ? '0' : lookupResults.size()})}">
                             <property name="toolTip">
                                 <ref bean="bookmarks_help_tooltip"/>
                             </property>
