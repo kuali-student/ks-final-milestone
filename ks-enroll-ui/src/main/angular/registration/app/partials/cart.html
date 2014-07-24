@@ -10,7 +10,7 @@
         </div>
         <!-- Sticky Cart Summary & Registration Action -->
         <div sticky class="kscr-MainHeading-CartHeading">
-            <div class="kscr-MainHeading util-Grid util-Grid--center" ng-hide="showConfirmation || cartResults.state==states.processing">
+            <div class="kscr-MainHeading util-Grid util-Grid--center" ng-hide="showConfirmation || states.processing.indexOf(cartResults.state) !== -1">
                 <div class="util-Grid-cell">
                     <div class="kscr-MainHeading-header kscr-MainHeading-stickyHeader">My Cart</div>
                     <div id="credit_count_title" class="kscr-MainHeading-support">
@@ -25,7 +25,7 @@
                     <button id="register" ng-disabled="cart.items.length < 1" class="kscr-MainHeading-button kscr-Button--primary" type="button" ng-click="showConfirmation =!showConfirmation">Register</button>
                 </div>
             </div>
-            <div class="kscr-MainHeading" ng-show="cartResults.state == states.processing">
+            <div class="kscr-MainHeading" ng-show="states.processing.indexOf(cartResults.state) !== -1">
                 <div id="registering_message" class="kscr-MainHeading-header--processing">
                     Registering for courses...
                 </div>
