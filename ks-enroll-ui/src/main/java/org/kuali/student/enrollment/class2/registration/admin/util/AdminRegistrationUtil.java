@@ -74,7 +74,7 @@ public class AdminRegistrationUtil {
         //registrationRequestItem.setExistingCourseRegistrationId(); only doing add for now.
         registrationRequestItem.setPersonId(personId);
         registrationRequestItem.setCredits(new KualiDecimal(registrationCourse.getCredits()));
-        //registrationRequestItem.setGradingOptionId(registrationCourse.getGradingOption()); make sure about what we set here.
+        registrationRequestItem.setGradingOptionId(registrationCourse.getGradingOption());
         registrationRequestItem.setOkToWaitlist(Boolean.TRUE);
         return registrationRequestItem;
     }
