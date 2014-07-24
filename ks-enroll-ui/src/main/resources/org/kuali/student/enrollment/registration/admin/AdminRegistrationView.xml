@@ -217,7 +217,7 @@
         </property>
         <property name="items">
             <list>
-                <bean parent="Uif-InputField" p:propertyName="code" p:label="Course Code"
+                <bean parent="Uif-InputField" p:propertyName="code" p:label="Course Code" p:id="courseCodeField"
                       p:onDocumentReadyScript="setValidation('pendingCourses[@{#index}].code', ['kuali.admin.reg.state.ready'], 'Course Code is required.');">
                     <property name="control">
                         <bean parent="KS-Uif-TextControl" p:size="9" p:watermarkText="ENGL101"
@@ -244,7 +244,7 @@
                         </bean>
                     </property>
                 </bean>
-                <bean parent="Uif-InputField" p:propertyName="section" p:label="Section"
+                <bean parent="Uif-InputField" p:propertyName="section" p:label="Section" p:id="sectionField"
                       p:onDocumentReadyScript="setValidation('pendingCourses[@{#index}].section', ['kuali.admin.reg.state.ready'], 'Section is required.');">
                     <property name="control">
                         <bean parent="KS-Uif-TextControl" p:size="5" p:watermarkText="1001"
@@ -266,7 +266,7 @@
             <bean parent="Uif-HorizontalBoxGroup">
                 <property name="items">
                     <list>
-                        <bean parent="Uif-SecondaryActionButton" p:methodToCall="addBlankLine"
+                        <bean parent="Uif-SecondaryActionButton" p:methodToCall="addBlankLine" p:id="addLineButton"
                               p:successCallback="jQuery(&quot;[name='pendingCourses[@{pendingCourses.size()}].code']&quot;).focus()"
                               p:refreshId="KS-AdminRegistration-RegFor" p:ajaxReturnType="update-component"
                               p:actionLabel=" + " p:actionEvent="addBlankLine" p:performClientSideValidation="true">
@@ -278,7 +278,7 @@
                             </property>
                         </bean>
                         <bean parent="Uif-PrimaryActionButton" p:actionLabel="Register" p:methodToCall="register"
-                              p:refreshId="KS-AdminRegistration-RegistrationTabs"
+                              p:id="registerButton" p:refreshId="KS-AdminRegistration-RegistrationTabs"
                               p:ajaxReturnType="update-component" p:performClientSideValidation="true"/>
                     </list>
                 </property>
@@ -612,11 +612,11 @@
                             <bean parent="Uif-HorizontalBoxSection">
                                 <property name="items">
                                     <list>
-                                        <bean parent="Uif-PrimaryActionButton"
+                                        <bean parent="Uif-PrimaryActionButton" p:id="confirmRegistrationButton"
                                               p:preSubmitCall="closeLightbox(); return true;"
                                               p:methodToCall="submit" p:actionLabel="Confirm Registration"/>
                                         <bean parent="Uif-ActionLink" p:actionLabel="Cancel"
-                                              p:actionScript="closeLightbox();"
+                                              p:actionScript="closeLightbox();" p:id="cancelRegistrationLink"
                                               p:additionalCssClasses="cancel_link"/>
                                     </list>
                                 </property>
