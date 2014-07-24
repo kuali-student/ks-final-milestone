@@ -99,6 +99,6 @@ public class BookmarkSideBarWrapper implements HasUniqueId, Comparable<BookmarkS
 
     @Override
     public int compareTo(BookmarkSideBarWrapper o) {
-        return this.getDateAdded().compareTo(o.getDateAdded());
+        return this.getCourseCd().compareTo(o.getCourseCd());
     }
 }

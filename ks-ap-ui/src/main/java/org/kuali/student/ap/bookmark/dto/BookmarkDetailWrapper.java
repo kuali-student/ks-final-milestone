@@ -63,6 +63,6 @@ public class BookmarkDetailWrapper implements HasUniqueId, Comparable<BookmarkDe
 
     @Override
     public int compareTo(BookmarkDetailWrapper o) {
-        return this.getDateAdded().compareTo(o.getDateAdded());
+        return this.getCourseDetailsWrapper().getCourseCode().compareTo(o.getCourseDetailsWrapper().getCourseCode());
     }
 }
