@@ -11,7 +11,7 @@
             </div>
         </div>
 
-        <course-calendar></course-calendar>
+        <course-calendar schedules="getSchedules()" cart="cart"></course-calendar>
 
         <div class="kscr-Responsive-schedule" ng-if="registeredCredits() > 0 || waitlistedCredits() > 0 || showRegisteredMessages || showWaitlistMessages">
             <!-- display registered courses via the course-card directive -->

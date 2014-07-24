@@ -1,0 +1,196 @@
+/*** Course Calendar ***/
+
+// Main calendar container
+.kscr-CourseCalendar {
+    background-color: @whiteBackground;
+    border: 1px @cardBorderColor solid;
+    border-bottom-width: 2px;
+    color: @cardTextColor;
+    font-family: @secondaryFontFamily;
+    margin: 1rem 1rem 2rem;
+    padding: 1rem;
+}
+
+// Header/Top row of course calendar (including the legend)
+.kscr-CourseCalendar-header {
+
+}
+
+.kscr-CourseCalendar-legend {
+    // Legend For course types (registered, waitlisted, in cart)
+    .kscr-CourseCalendar-courseBlock {
+        cursor: pointer;
+        padding-left: 0.3rem;
+
+        &-label {
+            padding-left: 0;
+        }
+
+        .courseBlock(#333);
+
+        &--deselected {
+            .courseBlock(#666);
+        }
+    }
+}
+
+
+// Content area for calendar view
+.kscr-CourseCalendar-calendar {
+
+}
+
+// Time labels
+.kscr-CourseCalendar-times {
+    display: block;
+    margin: 1rem 0 1rem 3rem;
+}
+
+.kscr-CourseCalendar-time {
+    text-align: center;
+
+    &-label {
+        font-size: 1.3rem;
+    }
+
+    &-label-period {
+        font-size: 80%;
+        text-transform: lowercase;
+    }
+}
+
+
+// Day Containers
+.kscr-CourseCalendar-days {
+
+}
+
+// Single day row
+.kscr-CourseCalendar-day {
+    margin-top: 1px;
+    &:first-child {
+        margin-top: 0;
+    }
+
+    &:nth-child(odd) &-content {
+        background-color: #F2F2F2;
+    }
+    &:nth-child(even) &-content {
+        background-color: #D7D7D7;
+    }
+}
+
+// Background striping elements
+.kscr-CourseCalendar-day-content {
+    padding: 0 1px 0 0;
+    position: relative;
+
+    &-bgs {
+        height: 100%;
+        left: 0;
+        position: absolute;
+        top: 0;
+        width: 100%;
+    }
+
+    &-bg {
+        border-left: 1px solid #FFF;
+        height: 100%;
+
+        &:first-child {
+            border-left: none;
+        }
+    }
+}
+
+
+
+.kscr-CourseCalendar-day-row {
+    margin-top: 1px;
+    position: relative;
+    &:first-child {
+        margin-top: 0;
+    }
+
+    .kscr-CourseCalendar-courseBlock {
+        left: -999em; // Initialize offset to the left. This prevents them popping into place while the browser is rendering.
+        position: absolute;
+        top: 0;
+    }
+}
+
+.kscr-CourseCalendar-day-label {
+    margin-right: 1rem;
+    text-align: right;
+    width: 2rem;
+}
+
+
+
+
+
+// Course block
+.kscr-CourseCalendar-courseBlock {
+    .Rounded(0.5rem);
+    border-style: solid;
+    border-width: 1px;
+    display: inline-block;
+    font-size: 1rem;
+    margin-left: 1px;
+    padding: 0.1rem;
+
+    // Course block label
+    &-label {
+        padding: 0 0.2rem;
+    }
+}
+
+.generate-courseBlocks(10);
+
+.generate-courseBlocks(@n, @i: 1) when (@i =< @n) {
+    @baseColor: #344d5b;
+    .kscr-CourseCalendar-courseBlock--@{i} {
+        .courseBlock(spin(@baseColor, 150 * @i));
+    }
+    .generate-courseBlocks(@n, (@i + 1));
+}
+
+
+// Course Block Mixin
+.courseBlock(@color) {
+    &.kscr-CourseCalendar-courseBlock--registered {
+        background-color: @color;
+        border-color: @color;
+    }
+
+    &.kscr-CourseCalendar-courseBlock--waitlisted,
+    &.kscr-CourseCalendar-courseBlock--inCart {
+        background-color: @whiteBackground;
+        border-color: @color;
+        color: @color;
+
+        // Course block label
+        .kscr-CourseCalendar-courseBlock-label {
+            background: rgba(255, 255, 255, 0.65);
+            .Rounded(0.3rem);
+        }
+    }
+
+    &.kscr-CourseCalendar-courseBlock--waitlisted {
+        background-color: lighten(@color, 50%);
+        background-image: repeating-linear-gradient(90deg, @whiteBackground 0rem, @whiteBackground 0.5rem, transparent 0.5rem, transparent 1rem);
+    }
+}
+
+// Course Block Mixin when Lightness of color is greater than 50% (light background)
+.courseBlock(@color) when (lightness(@color) >= 50%) {
+    &.kscr-CourseCalendar-courseBlock--registered {
+        color: darken(@color, 20%); // Set the text color to a darker shade of the color
+    }
+}
+// Course Block Mixin when Lightness of color is less than 50% (dark background)
+.courseBlock(@color) when (lightness(@color) < 50%) {
+    &.kscr-CourseCalendar-courseBlock--registered {
+        color: @whiteBackground; // Set the color to white so it sits well off of the dark background
+    }
+}
