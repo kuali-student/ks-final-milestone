@@ -33,7 +33,8 @@
 
     <bean id="KS-CourseView-AuthorsAndCollaboratorsSubSection"  parent="KS-CourseView-AuthorsAndCollaboratorsSubSection-parent"/>
     <bean id="KS-CourseView-AuthorsAndCollaboratorsSubSection-parent" parent="KS-TableCollectionSubSection-BottomAddLine"
-          p:layoutManager.id="cc-authorsandcollaboratorsgroup-table" p:layoutManager.style="width: 60em;">
+          p:layoutManager.id="cc-authorsandcollaboratorsgroup-table" p:layoutManager.style="width: 60em;"
+          class="org.kuali.student.cm.uif.container.CMCollectionGroupBase">
         <property name="collectionObjectClass" value="org.kuali.student.r1.core.workflow.dto.CollaboratorWrapper"/>
         <property name="propertyName" value="collaboratorWrappers"/>
         <property name="addBlankLineAction.actionLabel" value="Add Person"/>
@@ -46,6 +47,23 @@
         <property name="layoutManager.separateAddLine" value="false"/>
         <property name="layoutManager.richTable.disableTableSort" value="true"/>
         <property name="layoutManager.richTable.render" value="false"/>
+        <property name="header.lowerGroup">
+            <bean parent="Uif-VerticalBoxGroup">
+                <property name="render" value="@{#workflowDoc.initiated}"/>
+                <property name="items">
+                    <list>
+                        <bean parent="Uif-Message"
+                              p:messageText="[image src=&quot;@{#ConfigProperties['krad.externalizable.images.url']}/validation/info.png&quot;]  The proposal must be saved before authors and collaborators can be added.">
+                            <property name="additionalCssClasses">
+                                <list merge="true">
+                                    <value>ks-informational-message-for-field</value>
+                                </list>
+                            </property>
+                        </bean>
+                    </list>
+                </property>
+            </bean>
+        </property>
 
         <property name="lineActions">
             <list>
