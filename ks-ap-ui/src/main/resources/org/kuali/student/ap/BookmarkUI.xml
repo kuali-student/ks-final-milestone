@@ -518,8 +518,8 @@
                                 <property name="disclosure.defaultOpen" value="false"/>
                                 <property name="disclosure">
                                     <bean parent="Uif-Disclosure">
-                                        <property name="collapsedIconClass" value="icon-chevron-right"/>
-                                        <property name="expandedIconClass" value="icon-chevron-down"/>
+                                        <property name="collapsedIconClass" value="ks-fontello-icon-right-open"/>
+                                        <property name="expandedIconClass" value="ks-fontello-icon-down-open"/>
                                     </bean>
                                 </property>
                                 <property name="items">
