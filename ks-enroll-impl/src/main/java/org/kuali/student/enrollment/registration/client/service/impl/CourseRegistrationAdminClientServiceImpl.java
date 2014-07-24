@@ -23,15 +23,14 @@ import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.student.common.util.security.ContextUtils;
-import org.kuali.student.enrollment.class2.courseregistration.service.impl.CourseRegistrationServiceImpl;
 import org.kuali.student.enrollment.lpr.dto.LprInfo;
 import org.kuali.student.enrollment.lpr.service.LprService;
 import org.kuali.student.enrollment.registration.client.service.CourseRegistrationAdminClientService;
 import org.kuali.student.enrollment.registration.client.service.ScheduleOfClassesService;
 import org.kuali.student.enrollment.registration.client.service.ScheduleOfClassesServiceConstants;
 import org.kuali.student.enrollment.registration.client.service.dto.RegGroupSearchResult;
-import org.kuali.student.enrollment.registration.client.service.dto.RegistrationCountResult;
 import org.kuali.student.enrollment.registration.client.service.dto.WaitlistEntryResult;
+import org.kuali.student.enrollment.registration.client.service.dto.WaitlistPositionResult;
 import org.kuali.student.enrollment.registration.client.service.impl.util.CourseRegistrationAndScheduleOfClassesUtil;
 import org.kuali.student.enrollment.registration.client.service.impl.util.statistics.RegEngineMqStatisticsGenerator;
 import org.kuali.student.enrollment.registration.engine.util.MQPerformanceCounter;
@@ -48,6 +47,8 @@ import org.slf4j.LoggerFactory;
 import javax.jms.JMSException;
 import javax.ws.rs.core.Response;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -64,6 +65,22 @@ public class CourseRegistrationAdminClientServiceImpl extends CourseRegistration
 
     private LprService lprService;
     private ScheduleOfClassesService scheduleOfClassesService;
+
+    // this comparator is used to sort the reg req items in the order they are displayed on the screen.
+    // allows us to validate in order.
+    protected static Comparator<LprInfo> LPR_INFO_CREATE_DATE = new Comparator<LprInfo>() {
+
+        @Override
+        public int compare(LprInfo o1, LprInfo o2) {
+            int ret = 0;
+            try {
+                ret = o1.getMeta().getCreateTime().compareTo(o2.getMeta().getCreateTime());
+            } catch (NullPointerException ex) {
+                LOGGER.error("Error comparing reg request meta data", ex);
+            }
+            return ret;
+        }
+    };
 
     @Override
     public Response getRegEngineStats() {
@@ -219,15 +236,15 @@ public class CourseRegistrationAdminClientServiceImpl extends CourseRegistration
                 // The primary and remaining need to be seperated.
                 if (PRIMARY_WAITLIST_TYPE.equals(lprInfo.getTypeKey())) {
                     WaitlistEntryResult wlEntry = resultHelperMap.get(lprInfo.getPersonId());
-                    wlEntry.setOrder(count);
+                    wlEntry.setPosition(count);
                     wlEntry.setPrimaryActivityType(lprInfo.getTypeKey());
                     wlEntry.setPrimaryLprId(lprInfo.getMasterLprId()); // I believe this is the same as the lprId.
                     wlEntry.setPrimaryLuiId(lprInfo.getLuiId());
 
                     results.add(wlEntry);  // add entry to return list. Only happens here bc it's primary
                 } else {
-                    RegistrationCountResult countResult = new RegistrationCountResult();
-                    countResult.setCount(count);
+                    WaitlistPositionResult countResult = new WaitlistPositionResult();
+                    countResult.setPosition(count);
                     countResult.setCountType(lprInfo.getTypeKey());
                     countResult.setLuiId(lprInfo.getLuiId());
 
@@ -267,16 +284,26 @@ public class CourseRegistrationAdminClientServiceImpl extends CourseRegistration
 
         OrderByField.Builder orderByFieldBuilder = OrderByField.Builder.create();
         orderByFieldBuilder.setFieldName("createTime");
-        orderByFieldBuilder.setOrderDirection(OrderDirection.ASCENDING);
+        orderByFieldBuilder.setOrderDirection(OrderDirection.DESCENDING);
         qbcBuilder.setOrderByFields(orderByFieldBuilder.build());
-
 
         QueryByCriteria criteria = qbcBuilder.build();
 
         List<LprInfo> lprInfos =  getLprService().searchForLprs(criteria, contextInfo);
 
+        sortLprsForWaitlistProcessing(lprInfos);
+
         return lprInfos;
     }
+
+    /**
+     * pass by ref sorting helper method. defaults to decending order by create date
+     * @param lprInfos
+     */
+    protected void sortLprsForWaitlistProcessing(List<LprInfo> lprInfos){
+        Collections.sort(lprInfos,LPR_INFO_CREATE_DATE);
+    }
+
 
     protected ScheduleOfClassesService getScheduleOfClassesService() {
         if (scheduleOfClassesService == null) {
@@ -285,4 +312,7 @@ public class CourseRegistrationAdminClientServiceImpl extends CourseRegistration
 
         return scheduleOfClassesService;
     }
+
+
+
 }

@@ -15,12 +15,12 @@ import java.util.List;
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "WaitlistEntryResult", propOrder = {
-        "personId", "order", "primaryActivityType", "primaryLuiId", "primaryLprId", "aoWaitlistOrder"})
+        "personId", "position", "primaryActivityType", "primaryLuiId", "primaryLprId", "aoWaitlistOrder"})
 public class WaitlistEntryResult {
 
     String personId;
 
-    int order = 0;  // current position for the primary activity (in this case the registration group)
+    int position = 0;  // current position for the primary activity (in this case the registration group)
 
     // each system can be configured differently. In our implementation the Registration Group is the primary WL activity
     String primaryActivityType;
@@ -28,7 +28,7 @@ public class WaitlistEntryResult {
     String primaryLuiId;    // in this case the luiId of the registration group
     String primaryLprId;    // in this case the lprId of the registration group that ties the user to the lui
 
-    List<RegistrationCountResult> aoWaitlistOrder; // gives the position for the non-primary ao's (lec, lab, disc, etc)
+    List<WaitlistPositionResult> aoWaitlistOrder; // gives the position for the non-primary ao's (lec, lab, disc, etc)
 
     public String getPersonId() {
         return personId;
@@ -38,12 +38,12 @@ public class WaitlistEntryResult {
         this.personId = personId;
     }
 
-    public int getOrder() {
-        return order;
+    public int getPosition() {
+        return position;
     }
 
-    public void setOrder(int order) {
-        this.order = order;
+    public void setPosition(int position) {
+        this.position = position;
     }
 
     public String getPrimaryActivityType() {
@@ -70,13 +70,13 @@ public class WaitlistEntryResult {
         this.primaryLprId = primaryLprId;
     }
 
-    public List<RegistrationCountResult> getAoWaitlistOrder() {
-        if(aoWaitlistOrder == null) aoWaitlistOrder = new ArrayList<RegistrationCountResult>();
+    public List<WaitlistPositionResult> getAoWaitlistOrder() {
+        if(aoWaitlistOrder == null) aoWaitlistOrder = new ArrayList<WaitlistPositionResult>();
 
         return aoWaitlistOrder;
     }
 
-    public void setAoWaitlistOrder(List<RegistrationCountResult> aoWaitlistOrder) {
+    public void setAoWaitlistOrder(List<WaitlistPositionResult> aoWaitlistOrder) {
         this.aoWaitlistOrder = aoWaitlistOrder;
     }
 }
