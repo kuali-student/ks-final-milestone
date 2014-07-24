@@ -1,21 +1,16 @@
 package org.kuali.student.cm.rice;
 
-import org.apache.commons.beanutils.BeanUtils;
 import org.kuali.rice.krad.data.metadata.DataObjectMetadata;
 import org.kuali.rice.krad.document.Document;
-import org.kuali.rice.krad.maintenance.Maintainable;
 import org.kuali.rice.krad.maintenance.MaintainableImpl;
-import org.kuali.rice.krad.maintenance.MaintenanceDocument;
 import org.kuali.rice.krad.maintenance.MaintenanceDocumentBase;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.kuali.rice.krad.service.impl.KRADLegacyDataAdapterImpl;
 import org.kuali.rice.krad.util.KRADUtils;
-import org.kuali.student.cm.course.form.CourseInfoWrapper;
-import org.kuali.student.cm.course.service.impl.CourseInfoMaintainableImpl;
+import org.kuali.student.cm.course.service.impl.CourseMaintainableImpl;
 import org.kuali.student.cm.maintenance.CMMaintenanceDocument;
 import org.springframework.beans.PropertyAccessorUtils;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -66,7 +61,7 @@ public class KSKRADLegacyDataAdapterImpl extends KRADLegacyDataAdapterImpl {
 
             Document result = super.findByDocumentHeaderId(c, id);
 
-            CMMaintenanceDocument newDoc = new CMMaintenanceDocument(CourseInfoMaintainableImpl.class.getName());
+            CMMaintenanceDocument newDoc = new CMMaintenanceDocument(CourseMaintainableImpl.class.getName());
             newDoc.setDocumentNumber(result.getDocumentNumber());
             newDoc.setDocumentHeader(result.getDocumentHeader());
             newDoc.setVersionNumber(result.getVersionNumber());

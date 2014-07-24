@@ -25,7 +25,7 @@ import org.kuali.rice.krad.uif.view.ViewModel;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 import org.kuali.student.cm.course.form.CourseCreateUnitsContentOwner;
 import org.kuali.student.cm.course.form.CourseInfoWrapper;
-import org.kuali.student.cm.course.service.CourseInfoMaintainable;
+import org.kuali.student.cm.course.service.CourseMaintainable;
 import org.kuali.student.r1.core.subjectcode.service.SubjectCodeService;
 import org.kuali.student.common.util.security.ContextUtils;
 import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
@@ -64,7 +64,7 @@ public class OrgsBySubjectCodeValuesFinder extends UifKeyValuesFinderBase {
         final CourseInfo course = ((CourseInfoWrapper) form.getDocument().getNewMaintainableObject().getDataObject()).getCourseInfo();
         searchRequest.addParam("subjectCode.queryParam.code", course.getSubjectArea());
 
-        final CourseInfoMaintainable maintainable = (CourseInfoMaintainable) form.getDocument().getNewMaintainableObject();
+        final CourseMaintainable maintainable = (CourseMaintainable) form.getDocument().getNewMaintainableObject();
         CourseInfoWrapper courseInfoWrapper = (CourseInfoWrapper) form.getDocument().getNewMaintainableObject().getDataObject();
 
         List<KeyValue> returnedOrgs = getAvailableOrgs(courseInfoWrapper);

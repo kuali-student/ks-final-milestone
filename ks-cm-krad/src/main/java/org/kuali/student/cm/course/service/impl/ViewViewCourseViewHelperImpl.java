@@ -17,11 +17,11 @@
 package org.kuali.student.cm.course.service.impl;
 
 import org.kuali.rice.krad.uif.util.LifecycleElement;
-import org.kuali.student.cm.course.service.CourseDetailedViewHelper;
+import org.kuali.student.cm.course.service.ViewCourseViewHelper;
 
 /**
  * This is the view helper service used at Course Detailed view. To avoid code duplication and proposal review
- * and course view are pretty much same, we're extending from <class>CourseInfoMaintainableImpl</class>
+ * and course view are pretty much same, we're extending from <class>CourseMaintainableImpl</class>
  * to retrieve the course information and populate all the information to the <class>ReviewProposalDisplay</class>,
  * which is the one being used by course view and proposal review as the model to display all the information at the ui.
  * The down side of this approach is we're using a <class>Maintainable</class> at the regular view but it's really
@@ -29,10 +29,10 @@ import org.kuali.student.cm.course.service.CourseDetailedViewHelper;
  *
  * @author Kuali Student Team
  */
-public class CourseDetailedViewHelperImpl extends CourseInfoMaintainableImpl implements CourseDetailedViewHelper {
+public class ViewViewCourseViewHelperImpl extends CourseMaintainableImpl implements ViewCourseViewHelper {
 
     /**
-     * As we're extending from <code>CourseInfoMaintainableImpl</code>, we dont want any of the
+     * As we're extending from <code>CourseMaintainableImpl</code>, we dont want any of the
      * maintenance document related logics here. Overriding to avoid all the maintenance document
      * related logic and to avoid form type casting issue (form to maintenaceform)
      *

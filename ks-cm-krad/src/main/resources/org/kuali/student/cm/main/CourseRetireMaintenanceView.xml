@@ -29,7 +29,7 @@
         <property name="header.render" value="false" />
         <property name="singlePageView" value="false"/><!-- Override the default to allow for navigation -->
         <property name="entryPageId" value="KS-CourseView-CourseInfoPage" />
-        <property name="viewHelperServiceClass" value="org.kuali.student.cm.course.service.impl.CourseInfoMaintainableImpl" />
+        <property name="viewHelperServiceClass" value="org.kuali.student.cm.course.service.impl.CourseMaintainableImpl" />
         <property name="breadcrumbOptions.homewardPathBreadcrumbs">
             <list>
                 <ref bean="KS-HomewardPathBreadcrumbs-Home"/>
@@ -78,7 +78,7 @@
 
     <bean id="CourseInfoRetireMaintenanceDocument" parent="uifMaintenanceDocumentEntry">
         <property name="dataObjectClass" value="org.kuali.student.cm.course.form.CourseInfoWrapper" />
-        <property name="maintainableClass" value="org.kuali.student.cm.course.service.impl.CourseInfoMaintainableImpl"/>
+        <property name="maintainableClass" value="org.kuali.student.cm.course.service.impl.CourseMaintainableImpl"/>
         <property name="documentTypeName" value="kuali.proposal.type.course.retire"/>
         <property name="documentAuthorizerClass" value="org.kuali.student.cm.course.auth.CMMaintenanceDocumentAuthorizer"/>
         <property name="lockingKeys">

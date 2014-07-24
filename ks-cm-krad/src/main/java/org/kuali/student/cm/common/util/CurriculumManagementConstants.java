@@ -25,10 +25,11 @@ import org.apache.commons.lang.StringUtils;
 public class CurriculumManagementConstants {
 
     public static class ControllerRequestMappings {
-        public final static String CREATE_COURSE_INITIAL = "/createcourse_initial";
-        public final static String CREATE_COURSE = "/courses";
+        public final static String START_PROPOSAL = "/start_proposal";
+        public final static String COURSE_MAINTENANCE = "/course";
         public final static String CM_COMMENT = "/cm_comment";
-        public final static String COURSE_DETAIL = "/course_detail";
+        public final static String VIEW_COURSE = "/view_course";
+        public final static String CM_HOME = "/cmHome";
     }
 
     public static class DocumentTypeNames {
@@ -57,7 +58,8 @@ public class CurriculumManagementConstants {
         public final static String REVIEW_PROPOSAL = "KS-CourseView-ReviewProposalPage";
         public final static String CREATE_COURSE = "KS-CourseView-CoursePage";
         public final static String CREATE_COURSE_VIEW = "KS-CourseView";
-        public final static String COURSE_DETAILED_VIEW = "CourseDetailedView";
+        public final static String VIEW_COURSE_VIEW = "ViewCourseView";
+        public final static String CM_HOME_VIEW = "curriculumHomeView";
     }
 
     /**
@@ -181,14 +183,14 @@ public class CurriculumManagementConstants {
         public static final String SEQUENCE = "sequence";
     }
 
-    public enum CourseViewType {
+    public enum ViewCourseType {
 
         COURSE_VIEW("COURSE_VIEW"),
         COURSE_COMPARE_VIEW("COURSE_COMPARE_VIEW");
 
         private String viewType;
 
-        CourseViewType(String viewType) {
+        ViewCourseType(String viewType) {
             this.viewType = viewType;
         }
 

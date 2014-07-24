@@ -168,7 +168,7 @@
         <property name="singlePageView" value="false"/>
         <!-- Override the default to allow for navigation -->
         <property name="viewHelperServiceClass"
-                  value="org.kuali.student.cm.course.service.impl.CourseInfoMaintainableImpl"/>
+                  value="org.kuali.student.cm.course.service.impl.CourseMaintainableImpl"/>
         <property name="applyDirtyCheck" value="true"/>
         <property name="breadcrumbOptions.homewardPathBreadcrumbs">
             <list>
@@ -256,7 +256,7 @@
     <bean id="KS-HomewardPathBreadcrumbs-ProposalName" parent="Uif-BreadcrumbItem">
         <property name="label" value="@{#htmlUtils.htmlEscape(#uiHelper.headerText)}"/>
         <property name="url.viewId" value="createCourseInitialView"/>
-        <property name="url.controllerMapping" value="createcourse_initial"/>
+        <property name="url.controllerMapping" value="@{T(org.kuali.student.cm.common.util.CurriculumManagementConstants$ControllerRequestMappings).START_PROPOSAL}"/>
         <property name="url.requestParameters">
             <map key-type="java.lang.String" merge="true">
                 <entry key="methodToCall" value="start"/>
@@ -273,7 +273,7 @@
 
     <bean id="CourseInfoMaintenanceDocument-Base-parent" parent="uifMaintenanceDocumentEntry" abstract="true">
         <property name="dataObjectClass" value="org.kuali.student.cm.course.form.CourseInfoWrapper"/>
-        <property name="maintainableClass" value="org.kuali.student.cm.course.service.impl.CourseInfoMaintainableImpl"/>
+        <property name="maintainableClass" value="org.kuali.student.cm.course.service.impl.CourseMaintainableImpl"/>
         <property name="documentClass" value="org.kuali.student.cm.maintenance.CMMaintenanceDocument"/>
         <property name="documentAuthorizerClass"
                   value="org.kuali.student.cm.course.auth.CMMaintenanceDocumentAuthorizer"/>

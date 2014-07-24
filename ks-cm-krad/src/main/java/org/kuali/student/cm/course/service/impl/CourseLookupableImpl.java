@@ -24,8 +24,9 @@ import org.kuali.rice.krad.uif.element.Action;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.UrlFactory;
 import org.kuali.student.cm.common.util.CurriculumManagementConstants;
+import org.kuali.student.cm.course.service.CourseLookupable;
+import org.kuali.student.cm.course.util.CourseProposalUtil;
 import org.kuali.student.common.uif.service.impl.KSLookupableImpl;
-import org.kuali.student.cm.course.service.CourseInfoLookupable;
 import org.kuali.student.common.util.security.ContextUtils;
 import org.kuali.student.lum.lu.ui.krms.dto.CluInformation;
 import org.kuali.student.lum.lu.ui.krms.util.CluSearchUtil;
@@ -47,7 +48,7 @@ import static org.apache.commons.lang.StringUtils.isEmpty;
  *
  * @author Kuali Student Team
  */
-public class CourseInfoLookupableImpl extends KSLookupableImpl implements CourseInfoLookupable {
+public class CourseLookupableImpl extends KSLookupableImpl implements CourseLookupable {
 
     private static final long serialVersionUID = 1L;
 
@@ -105,13 +106,13 @@ public class CourseInfoLookupableImpl extends KSLookupableImpl implements Course
         }
     }
 
-    public void buildCourseDetailedViewUrl(Action actionLink, Object model) {
+    public void buildViewCourseUrl(Action actionLink, Object model) {
 
         Object dataObject = actionLink.getContext().get(UifConstants.ContextVariableNames.LINE);
 
         String cluId = ((CluInformation)dataObject).getCluId();
 
-        String href = buildCourseDetailedViewUrl(cluId);
+        String href = buildViewCourseUrl(cluId);
 
         if (StringUtils.isBlank(href)) {
             actionLink.setRender(false);
@@ -121,15 +122,15 @@ public class CourseInfoLookupableImpl extends KSLookupableImpl implements Course
         actionLink.setActionScript("window.open('" + href + "', '_self');");
     }
 
-    protected String buildCourseDetailedViewUrl(String cluId){
+    protected String buildViewCourseUrl(String cluId){
 
         Properties props = new Properties();
         props.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, KRADConstants.START_METHOD);
-        props.put(UifConstants.UrlParams.VIEW_ID, "CourseDetailedView");
+        props.put(UifConstants.UrlParams.VIEW_ID, CurriculumManagementConstants.CourseViewPageIds.VIEW_COURSE_VIEW);
         props.put("courseId", cluId);
-        props.put(KRADConstants.RETURN_LOCATION_PARAMETER, "cmHome?methodToCall=start&viewId=curriculumHomeView");
+        props.put(KRADConstants.RETURN_LOCATION_PARAMETER, CourseProposalUtil.getCMHomeUrl());
 
-        String courseBaseUrl = CurriculumManagementConstants.ControllerRequestMappings.COURSE_DETAIL.replaceFirst("/", "");
+        String courseBaseUrl = CurriculumManagementConstants.ControllerRequestMappings.VIEW_COURSE.replaceFirst("/", "");
         return UrlFactory.parameterizeUrl(courseBaseUrl, props);
     }
 

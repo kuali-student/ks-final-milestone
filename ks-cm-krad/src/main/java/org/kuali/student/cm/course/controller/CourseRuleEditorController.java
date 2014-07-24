@@ -29,22 +29,17 @@ import org.kuali.rice.krms.controller.RuleEditorController;
 import org.kuali.rice.krms.dto.AgendaEditor;
 import org.kuali.rice.krms.dto.PropositionEditor;
 import org.kuali.rice.krms.dto.RuleEditor;
-import org.kuali.rice.krms.dto.RuleManagementWrapper;
 import org.kuali.rice.krms.dto.RuleManager;
 import org.kuali.rice.krms.util.AgendaUtilities;
 import org.kuali.rice.krms.util.KRMSConstants;
 import org.kuali.rice.krms.util.PropositionTreeUtil;
 import org.kuali.student.cm.common.util.CurriculumManagementConstants;
 import org.kuali.student.cm.course.form.CourseInfoWrapper;
-import org.kuali.student.cm.course.form.CourseRuleManagementWrapper;
-import org.kuali.student.cm.course.service.CourseInfoMaintainable;
-import org.kuali.student.cm.course.service.impl.CourseInfoMaintainableImpl;
-import org.kuali.student.common.uif.util.KSControllerHelper;
+import org.kuali.student.cm.course.service.CourseMaintainable;
+import org.kuali.student.cm.course.service.impl.CourseMaintainableImpl;
 import org.kuali.student.lum.lu.ui.krms.dto.CluSetRangeInformation;
 import org.kuali.student.lum.lu.ui.krms.dto.CluSetRangeWrapper;
 import org.kuali.student.lum.lu.ui.krms.dto.LUPropositionEditor;
-import org.kuali.student.lum.lu.ui.krms.dto.LURuleEditor;
-import org.kuali.student.lum.lu.ui.krms.service.impl.LURuleViewHelperServiceImpl;
 import org.kuali.student.lum.lu.ui.krms.util.CluSetRangeHelper;
 import org.kuali.student.r2.lum.clu.dto.MembershipQueryInfo;
 import org.springframework.stereotype.Controller;
@@ -280,13 +275,13 @@ public class CourseRuleEditorController extends RuleEditorController {
     }
     
     /**
-     * Retrieves the {@link CourseInfoMaintainable} instance from the {@link MaintenanceDocumentForm} in session
+     * Retrieves the {@link org.kuali.student.cm.course.service.CourseMaintainable} instance from the {@link MaintenanceDocumentForm} in session
      * 
      * @param form {@link MaintenanceDocumentForm}
-     * @param {@link CourseInfoMaintainable}
+     * @param {@link CourseMaintainable}
      */
-    protected CourseInfoMaintainable getCourseMaintainableFrom(final MaintenanceDocumentForm form) {
-        return (CourseInfoMaintainable) form.getDocument().getNewMaintainableObject();
+    protected CourseMaintainable getCourseMaintainableFrom(final MaintenanceDocumentForm form) {
+        return (CourseMaintainable) form.getDocument().getNewMaintainableObject();
     }
 
     /**
@@ -317,7 +312,7 @@ public class CourseRuleEditorController extends RuleEditorController {
         CluSetRangeInformation cluSetRange = new CluSetRangeInformation();
         cluSetRange.setCluSetRangeLabel(CluSetRangeHelper.buildLabelFromQuery(membershipQueryInfo));
         cluSetRange.setMembershipQueryInfo(membershipQueryInfo);
-        cluSetRange.setClusInRange(((CourseInfoMaintainableImpl)this.getViewHelper(form)).getCoursesInRange(membershipQueryInfo));
+        cluSetRange.setClusInRange(((CourseMaintainableImpl)this.getViewHelper(form)).getCoursesInRange(membershipQueryInfo));
 
         if(!CluSetRangeHelper.validateCoursesInRange(prop, range, cluSetRange)) {
             return getUIFModelAndView(form);

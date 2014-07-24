@@ -43,10 +43,8 @@ import java.util.Properties;
  */
 
 @Controller
-@RequestMapping(value = CurriculumManagementConstants.ControllerRequestMappings.CREATE_COURSE_INITIAL)
-public class CreateCourseInitialController extends UifControllerBase {
-
-    private final String RETURN_LOCATION_PARAMETER = "cmHome?" + KRADConstants.DISPATCH_REQUEST_PARAMETER + "=" + KRADConstants.START_METHOD + "&" + UifConstants.UrlParams.VIEW_ID + "=curriculumHomeView";
+@RequestMapping(value = CurriculumManagementConstants.ControllerRequestMappings.START_PROPOSAL)
+public class StartProposalController extends UifControllerBase {
 
     @Override
     protected UifFormBase createInitialForm(HttpServletRequest httpServletRequest) {
@@ -76,8 +74,8 @@ public class CreateCourseInitialController extends UifControllerBase {
         urlParameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, KRADConstants.DOC_HANDLER_METHOD);
         urlParameters.put(KRADConstants.PARAMETER_COMMAND, KewApiConstants.INITIATE_COMMAND);
         urlParameters.put(KRADConstants.DATA_OBJECT_CLASS_ATTRIBUTE, CourseInfoWrapper.class.getName());
-        urlParameters.put(KRADConstants.RETURN_LOCATION_PARAMETER, RETURN_LOCATION_PARAMETER );
-        String uri = request.getRequestURL().toString().replace(CurriculumManagementConstants.ControllerRequestMappings.CREATE_COURSE_INITIAL,CurriculumManagementConstants.ControllerRequestMappings.CREATE_COURSE);
+        urlParameters.put(KRADConstants.RETURN_LOCATION_PARAMETER, CourseProposalUtil.getCMHomeUrl() );
+        String uri = request.getRequestURL().toString().replace(CurriculumManagementConstants.ControllerRequestMappings.START_PROPOSAL,CurriculumManagementConstants.ControllerRequestMappings.COURSE_MAINTENANCE);
 
         return performRedirect(form, uri, urlParameters);
     }

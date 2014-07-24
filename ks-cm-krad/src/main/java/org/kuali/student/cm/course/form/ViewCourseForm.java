@@ -20,32 +20,32 @@ import org.kuali.student.cm.common.util.CurriculumManagementConstants;
 import org.kuali.student.common.uif.form.KSUifForm;
 
 /**
- * Base model for the course detailed view. This is being used at CourseDetailedView.xml
+ * Base model for the course detailed view. This is being used at ViewCourseView.xml
  *
  * @author Kuali Student Team
  */
-public class CourseDetailedViewForm extends KSUifForm {
+public class ViewCourseForm extends KSUifForm {
 
-    private CurriculumManagementConstants.CourseViewType viewType;
+    private CurriculumManagementConstants.ViewCourseType viewType;
     private CourseInfoWrapper courseInfoWrapper;
 
-    public CourseDetailedViewForm(){
-        viewType = CurriculumManagementConstants.CourseViewType.COURSE_VIEW;
+    public ViewCourseForm(){
+        viewType = CurriculumManagementConstants.ViewCourseType.COURSE_VIEW;
     }
 
     /**
-     * @see #setViewType(org.kuali.student.cm.common.util.CurriculumManagementConstants.CourseViewType)
+     * @see #setViewType(org.kuali.student.cm.common.util.CurriculumManagementConstants.ViewCourseType)
      * @return
      */
-    public CurriculumManagementConstants.CourseViewType getViewType() {
+    public CurriculumManagementConstants.ViewCourseType getViewType() {
         return viewType;
     }
 
     /**
-     * Sets the View type, list of valid types defined at <class>CurriculumManagementConstants.CourseViewType</class>
+     * Sets the View type, list of valid types defined at <class>CurriculumManagementConstants.ViewCourseType</class>
      * @param viewType
      */
-    public void setViewType(CurriculumManagementConstants.CourseViewType viewType) {
+    public void setViewType(CurriculumManagementConstants.ViewCourseType viewType) {
         this.viewType = viewType;
     }
 
@@ -54,7 +54,7 @@ public class CourseDetailedViewForm extends KSUifForm {
      * @return
      */
     public boolean isCourseView(){
-        return getViewType() == CurriculumManagementConstants.CourseViewType.COURSE_VIEW;
+        return getViewType() == CurriculumManagementConstants.ViewCourseType.COURSE_VIEW;
     }
 
     /**
@@ -62,7 +62,7 @@ public class CourseDetailedViewForm extends KSUifForm {
      * @return
      */
     public boolean isCourseCompareView(){
-       return getViewType() == CurriculumManagementConstants.CourseViewType.COURSE_COMPARE_VIEW;
+       return getViewType() == CurriculumManagementConstants.ViewCourseType.COURSE_COMPARE_VIEW;
     }
 
     /**

@@ -24,7 +24,7 @@ limitations under the License.
         <property name="viewName" value="CoursesOnlyLookup"/>
         <property name="headerText" value="Find a Course" />
         <property name="dataObjectClassName" value="org.kuali.student.lum.lu.ui.krms.dto.CluInformation" />
-        <property name="viewHelperServiceClass" value="org.kuali.student.cm.course.service.impl.CourseInfoLookupableImpl" />
+        <property name="viewHelperServiceClass" value="org.kuali.student.cm.course.service.impl.CourseLookupableImpl" />
         <property name="cssClasses">
             <list>
                 <value>ks-cm-find-course-proposal</value>
@@ -109,7 +109,7 @@ limitations under the License.
                 <bean parent="KS-Uif-View-NavigationActionLink">
                     <property name="id" value="@{#lp.code}_view"/>
                     <property name="actionLabel" value="Course View"/>
-                    <property name="finalizeMethodToCall" value="buildCourseDetailedViewUrl"/>
+                    <property name="finalizeMethodToCall" value="buildViewCourseUrl"/>
                 </bean>
             </list>
         </property>

@@ -48,7 +48,7 @@ import org.kuali.student.cm.course.form.LoDisplayWrapperModel;
 import org.kuali.student.cm.course.form.RecentlyViewedDocsUtil;
 import org.kuali.student.cm.course.form.ResultValuesGroupInfoWrapper;
 import org.kuali.student.cm.course.form.SupportingDocumentInfoWrapper;
-import org.kuali.student.cm.course.service.CourseInfoMaintainable;
+import org.kuali.student.cm.course.service.CourseMaintainable;
 import org.kuali.student.cm.course.util.CourseProposalUtil;
 import org.kuali.student.common.uif.util.GrowlIcon;
 import org.kuali.student.common.uif.util.KSUifUtils;
@@ -98,7 +98,7 @@ import java.util.Properties;
  * This controller handles all the requests from the 'Create a Course' UI.
  */
 @Controller
-@RequestMapping(value = CurriculumManagementConstants.ControllerRequestMappings.CREATE_COURSE)
+@RequestMapping(value = CurriculumManagementConstants.ControllerRequestMappings.COURSE_MAINTENANCE)
 public class CourseController extends CourseRuleEditorController {
 
     private static final Logger LOG = LoggerFactory.getLogger(CourseController.class);
@@ -223,7 +223,7 @@ public class CourseController extends CourseRuleEditorController {
              * discarded in UifControllerHandlerInterceptor#afterCompletion(). If the postedView isn't available the
              * validation in the reviewCourseProposal handler method will fail.
              */
-            String courseBaseUrl = CurriculumManagementConstants.ControllerRequestMappings.CREATE_COURSE.replaceFirst("/", "");
+            String courseBaseUrl = CurriculumManagementConstants.ControllerRequestMappings.COURSE_MAINTENANCE.replaceFirst("/", "");
             ModelAndView mv = performRedirect(formBase, courseBaseUrl, urlParameters);
             formBase.setRequestRedirected(false);
             return mv;
@@ -271,7 +271,7 @@ public class CourseController extends CourseRuleEditorController {
     public ModelAndView reviewCourseProposal(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result,
                                              HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-        ((CourseInfoMaintainable) ((MaintenanceDocumentForm) form).getDocument().getNewMaintainableObject()).updateReview();
+        ((CourseMaintainable) ((MaintenanceDocumentForm) form).getDocument().getNewMaintainableObject()).updateReview();
 
         //  Validate
         KRADServiceLocatorWeb.getViewValidationService().validateViewAgainstNextState(form);
@@ -320,7 +320,7 @@ public class CourseController extends CourseRuleEditorController {
     @RequestMapping(method = RequestMethod.POST, params = "methodToCall=addLearningObjective")
     public ModelAndView addLearningObjective(@ModelAttribute("KualiForm") MaintenanceDocumentForm form, BindingResult result,
                                              HttpServletRequest request, HttpServletResponse response) {
-        final CourseInfoMaintainable maintainable = getCourseMaintainableFrom(form);
+        final CourseMaintainable maintainable = getCourseMaintainableFrom(form);
 
         CourseInfoWrapper courseInfoWrapper = getCourseInfoWrapper(form);
 
@@ -747,7 +747,7 @@ public class CourseController extends CourseRuleEditorController {
         LoDisplayWrapperModel loModel = setupLoModel(form);
         loModel.moveUpCurrent();
 
-        CourseInfoMaintainable maintainable = getCourseMaintainableFrom(form);
+        CourseMaintainable maintainable = getCourseMaintainableFrom(form);
         maintainable.setLOActions();
 
         return getUIFModelAndView(form);
@@ -761,7 +761,7 @@ public class CourseController extends CourseRuleEditorController {
         LoDisplayWrapperModel loItemModel = setupLoModel(form);
         loItemModel.moveDownCurrent();
 
-        CourseInfoMaintainable maintainable = getCourseMaintainableFrom(form);
+        CourseMaintainable maintainable = getCourseMaintainableFrom(form);
         maintainable.setLOActions();
 
         return getUIFModelAndView(form);
@@ -775,7 +775,7 @@ public class CourseController extends CourseRuleEditorController {
         LoDisplayWrapperModel loItemModel = setupLoModel(form);
         loItemModel.indentCurrent();
 
-        CourseInfoMaintainable maintainable = getCourseMaintainableFrom(form);
+        CourseMaintainable maintainable = getCourseMaintainableFrom(form);
         maintainable.setLOActions();
 
         return getUIFModelAndView(form);
@@ -789,9 +789,9 @@ public class CourseController extends CourseRuleEditorController {
     public ModelAndView navigate(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
                                  HttpServletRequest request, HttpServletResponse response) {
         final ModelAndView retval = super.navigate(form, result, request, response);
-        final CourseInfoMaintainable maintainable = getCourseMaintainableFrom((MaintenanceDocumentForm) form);
+        final CourseMaintainable maintainable = getCourseMaintainableFrom((MaintenanceDocumentForm) form);
 
-        ((CourseInfoMaintainable) ((MaintenanceDocumentForm) form).getDocument().getNewMaintainableObject()).updateReview();
+        ((CourseMaintainable) ((MaintenanceDocumentForm) form).getDocument().getNewMaintainableObject()).updateReview();
 
         return retval;
     }
@@ -804,7 +804,7 @@ public class CourseController extends CourseRuleEditorController {
         LoDisplayWrapperModel loItemModel = setupLoModel(form);
         loItemModel.outdentCurrent();
 
-        CourseInfoMaintainable maintainable = getCourseMaintainableFrom(form);
+        CourseMaintainable maintainable = getCourseMaintainableFrom(form);
         maintainable.setLOActions();
 
         return getUIFModelAndView(form);
@@ -818,7 +818,7 @@ public class CourseController extends CourseRuleEditorController {
 
         loModel.deleteLearningObjective(loModel.getCurrentLoWrapper());
 
-        CourseInfoMaintainable maintainable = getCourseMaintainableFrom(form);
+        CourseMaintainable maintainable = getCourseMaintainableFrom(form);
         maintainable.setLOActions();
 
         return getUIFModelAndView(form);

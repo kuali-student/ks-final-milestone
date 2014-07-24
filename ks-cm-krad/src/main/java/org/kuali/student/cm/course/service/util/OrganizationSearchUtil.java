@@ -1,7 +1,6 @@
 package org.kuali.student.cm.course.service.util;
 
 import org.kuali.student.cm.course.form.OrganizationInfoWrapper;
-import org.kuali.student.cm.course.service.CourseInfoMaintainable;
 import org.kuali.student.cm.common.util.CurriculumManagementConstants;
 import org.kuali.student.common.util.security.ContextUtils;
 import org.kuali.student.r2.core.constants.OrganizationServiceConstants;
@@ -29,7 +28,7 @@ public class OrganizationSearchUtil {
      *
      * @param organizationName  
      * @return {@link List} of wrapper instances which get added to the {@link CourseForm}
-     * @see CourseInfoMaintainable#getOrganizationsForSuggest(String)
+     * @see org.kuali.student.cm.course.service.CourseMaintainable#getOrganizationsForSuggest(String)
      */
     public static List<OrganizationInfoWrapper> searchForOrganizations(final String organizationName, OrganizationService organizationService) {
         final List<OrganizationInfoWrapper> cluOrgInfoDisplays = new ArrayList<OrganizationInfoWrapper>();

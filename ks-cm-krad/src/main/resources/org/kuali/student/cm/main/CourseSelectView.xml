@@ -29,7 +29,7 @@ limitations under the License.
         -->
         <property name="singlePageView" value="false"/><!-- Override the default to allow for navigation -->
         <property name="header.render" value="false" />
-        <property name="viewHelperServiceClass" value="org.kuali.student.cm.course.service.impl.CourseInfoMaintainableImpl" />
+        <property name="viewHelperServiceClass" value="org.kuali.student.cm.course.service.impl.CourseMaintainableImpl" />
         <property name="breadcrumbOptions.homewardPathBreadcrumbs">
             <list>
                 <ref bean="KS-HomewardPathBreadcrumbs-Home"/>

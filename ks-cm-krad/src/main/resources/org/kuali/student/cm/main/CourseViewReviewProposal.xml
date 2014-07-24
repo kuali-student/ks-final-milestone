@@ -19,7 +19,7 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
                            http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-    <bean id="KS-CourseView-ReviewProposalPage" parent="KS-CourseDetailedView-Page"
+    <bean id="KS-CourseView-ReviewProposalPage" parent="KS-ViewCourseView-Page"
           p:headerText="Review Proposal">
 
         <!-- Initialize the page. This intervenes with the validation message behavior by removing the popovers, and
@@ -96,7 +96,7 @@
         </property>
     </bean>
 
-    <bean id="KS-CourseView-ReviewProposal-CourseSection" parent="KS-CourseDetailedView-CourseInfoSection">
+    <bean id="KS-CourseView-ReviewProposal-CourseSection" parent="KS-ViewCourseView-CourseInfoSection">
         <property name="headerText" value="Course Information"/>
         <property name="header.rightGroup.items">
             <list>
@@ -111,7 +111,7 @@
         </property>
     </bean>
 
-    <bean id="KS-CourseView-ReviewProposal-GovernanceSection" parent="KS-CourseDetailedView-GovernanceSection">
+    <bean id="KS-CourseView-ReviewProposal-GovernanceSection" parent="KS-ViewCourseView-GovernanceSection">
         <property name="header.rightGroup.items">
             <list>
                 <bean p:id="Governance-Review-Edit-link" parent="Uif-ActionLink-Course-Proposal-Review-Page-Edit-Link">
@@ -125,7 +125,7 @@
         </property>
     </bean>
 
-    <bean id="KS-CourseView-ReviewProposal-CourseLogisticsSection" parent="KS-CourseDetailedView-CourseLogisticsSection">
+    <bean id="KS-CourseView-ReviewProposal-CourseLogisticsSection" parent="KS-ViewCourseView-CourseLogisticsSection">
         <property name="header.rightGroup.items">
             <list>
                 <bean p:id="Governance-Review-Edit-link" parent="Uif-ActionLink-Course-Proposal-Review-Page-Edit-Link">
@@ -139,7 +139,7 @@
         </property>
     </bean>
 
-    <bean id="KS-CourseView-ReviewProposal-LearningObjectivesSection" parent="KS-CourseDetailedView-LearningObjectivesSection">
+    <bean id="KS-CourseView-ReviewProposal-LearningObjectivesSection" parent="KS-ViewCourseView-LearningObjectivesSection">
         <property name="header.rightGroup.items">
            <list>
                 <bean p:id="LearningObjectives-Review-Edit-link" parent="Uif-ActionLink-Course-Proposal-Review-Page-Edit-Link">
@@ -153,7 +153,7 @@
         </property>
     </bean>
 
-    <bean id="KS-CourseView-ReviewProposal-ActiveDatesSection" parent="KS-CourseDetailedView-ActiveDatesSection">
+    <bean id="KS-CourseView-ReviewProposal-ActiveDatesSection" parent="KS-ViewCourseView-ActiveDatesSection">
         <property name="header.rightGroup.items">
             <list>
                 <bean p:id="Governance-Review-Edit-link" parent="Uif-ActionLink-Course-Proposal-Review-Page-Edit-Link">
@@ -167,7 +167,7 @@
         </property>
     </bean>
 
-    <bean id="KS-CourseView-ReviewProposal-FinancialsSection" parent="KS-CourseDetailedView-VerticalBoxSection">
+    <bean id="KS-CourseView-ReviewProposal-FinancialsSection" parent="KS-ViewCourseView-VerticalBoxSection">
         <property name="headerText" value="Financials"/>
         <property name="header.rightGroup.items">
             <list>
@@ -182,7 +182,7 @@
         </property>
         <property name="items">
             <list>
-                <bean parent="KS-CourseDetailedView-GridGroup">
+                <bean parent="KS-ViewCourseView-GridGroup">
                     <property name="items">
                         <list>
                             <bean parent="CM-ReadOnlyInput" p:label="Justification of Fees"
@@ -195,7 +195,7 @@
         </property>
     </bean>
 
-    <bean id="KS-CourseView-ReviewProposal-AuthorsAndCollaboratorsSection" parent="KS-CourseDetailedView-VerticalBoxSection">
+    <bean id="KS-CourseView-ReviewProposal-AuthorsAndCollaboratorsSection" parent="KS-ViewCourseView-VerticalBoxSection">
         <property name="headerText" value="Authors and Collaborators"/>
         <property name="header.rightGroup.items">
             <list>
@@ -210,7 +210,7 @@
         </property>
         <property name="items">
             <list>
-                <bean parent="KS-CourseDetailedView-GridGroup">
+                <bean parent="KS-ViewCourseView-GridGroup">
                     <property name="items">
                         <list>
                             <bean parent="Uif-VerticalFieldGroup" p:label="Authors and Collaborators" p:colSpan="3"
@@ -262,7 +262,7 @@
         </property>
     </bean>
 
-    <bean id="KS-CourseView-ReviewProposal-SupportingDocumentsSection" parent="KS-CourseDetailedView-VerticalBoxSection">
+    <bean id="KS-CourseView-ReviewProposal-SupportingDocumentsSection" parent="KS-ViewCourseView-VerticalBoxSection">
         <property name="headerText" value="Supporting Documents"/>
         <property name="header.rightGroup.items">
             <list>
@@ -277,7 +277,7 @@
         </property>
         <property name="items">
             <list>
-                <bean parent="KS-CourseDetailedView-GridGroup">
+                <bean parent="KS-ViewCourseView-GridGroup">
                     <property name="items">
                         <list>
                             <bean parent="Uif-VerticalFieldGroup" p:label="Supporting Documents" p:colSpan="3" p:fieldLabel.renderColon="false">

@@ -16,11 +16,15 @@
  */
 package org.kuali.student.cm.course.service;
 
+import org.kuali.rice.krad.uif.element.Action;
+import org.kuali.student.common.uif.service.KSLookupable;
+
 /**
  *
  * @author Kuali Student Team
  */
+public interface CourseLookupable extends KSLookupable{
 
-public interface CourseDetailedViewHelper extends CourseInfoMaintainable{
+    public void buildViewCourseUrl(Action actionLink, Object model);
 
 }

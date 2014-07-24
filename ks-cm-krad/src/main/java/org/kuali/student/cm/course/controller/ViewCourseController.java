@@ -22,9 +22,9 @@ import org.kuali.rice.krad.web.controller.KsUifControllerBase;
 import org.kuali.rice.krad.web.controller.MethodAccessible;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.cm.common.util.CurriculumManagementConstants;
-import org.kuali.student.cm.course.form.CourseDetailedViewForm;
+import org.kuali.student.cm.course.form.ViewCourseForm;
 import org.kuali.student.cm.course.form.CourseInfoWrapper;
-import org.kuali.student.cm.course.service.CourseDetailedViewHelper;
+import org.kuali.student.cm.course.service.ViewCourseViewHelper;
 import org.kuali.student.r2.core.constants.ProposalServiceConstants;
 import org.kuali.student.r2.core.proposal.service.ProposalService;
 import org.kuali.student.r2.lum.course.service.CourseService;
@@ -39,18 +39,18 @@ import javax.servlet.http.HttpServletResponse;
 import javax.xml.namespace.QName;
 
 /**
- * This controller maps to 'Course Detailed' View.
- * XML: CourseDetailedView.xml
+ * This controller maps to 'View Course' View.
+ * XML: ViewCourseView.xml
  *
  * @author Kuali Student Team
  */
 @Controller
-@RequestMapping(value = CurriculumManagementConstants.ControllerRequestMappings.COURSE_DETAIL)
-public class CourseDetailedViewController extends KsUifControllerBase{
+@RequestMapping(value = CurriculumManagementConstants.ControllerRequestMappings.VIEW_COURSE)
+public class ViewCourseController extends KsUifControllerBase{
 
     @Override
     protected UifFormBase createInitialForm(HttpServletRequest request) {
-        return new CourseDetailedViewForm();
+        return new ViewCourseForm();
     }
 
     /**
@@ -65,7 +65,7 @@ public class CourseDetailedViewController extends KsUifControllerBase{
     public ModelAndView start(@ModelAttribute("KualiForm") UifFormBase form, HttpServletRequest request,
                               HttpServletResponse response) {
 
-        CourseDetailedViewForm detailedViewForm = (CourseDetailedViewForm) form;
+        ViewCourseForm detailedViewForm = (ViewCourseForm) form;
 
         String courseId = request.getParameter("courseId");
 
@@ -75,8 +75,8 @@ public class CourseDetailedViewController extends KsUifControllerBase{
 
         try {
             CourseInfoWrapper courseWrapper = new CourseInfoWrapper();
-            ((CourseDetailedViewHelper)form.getViewHelperService()).setDataObject(courseWrapper);
-            ((CourseDetailedViewHelper)form.getViewHelperService()).populateCourseAndReviewData(courseId, courseWrapper);
+            ((ViewCourseViewHelper)form.getViewHelperService()).setDataObject(courseWrapper);
+            ((ViewCourseViewHelper)form.getViewHelperService()).populateCourseAndReviewData(courseId, courseWrapper);
             detailedViewForm.setCourseInfoWrapper(courseWrapper);
 
         }catch (Exception e){

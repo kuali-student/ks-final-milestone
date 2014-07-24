@@ -5,6 +5,7 @@ import org.kuali.rice.krad.uif.UifParameters;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.UrlFactory;
 import org.kuali.student.cm.course.form.CourseInfoWrapper;
+import org.kuali.student.cm.course.util.CourseProposalUtil;
 
 import java.util.Properties;
 
@@ -25,7 +26,7 @@ public class ProposalLinkBuilder {
         Properties props = new Properties();
         props.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, methodToCall);
         props.put(KRADConstants.PARAMETER_COMMAND, KRADConstants.METHOD_DISPLAY_DOC_SEARCH_VIEW);
-        props.put(KRADConstants.RETURN_LOCATION_PARAMETER, "cmHome?methodToCall=start&viewId=curriculumHomeView");
+        props.put(KRADConstants.RETURN_LOCATION_PARAMETER, CourseProposalUtil.getCMHomeUrl());
 
         props.put(UifParameters.DATA_OBJECT_CLASS_NAME, CourseInfoWrapper.class.getCanonicalName());
         if (StringUtils.isNotBlank(pageId)) {
@@ -33,7 +34,7 @@ public class ProposalLinkBuilder {
         }
         props.put(KRADConstants.PARAMETER_DOC_ID, workflowDocId);
 
-        String courseBaseUrl = CurriculumManagementConstants.ControllerRequestMappings.CREATE_COURSE.replaceFirst("/", "");
+        String courseBaseUrl = CurriculumManagementConstants.ControllerRequestMappings.COURSE_MAINTENANCE.replaceFirst("/", "");
         return UrlFactory.parameterizeUrl(courseBaseUrl, props);
     }
 }

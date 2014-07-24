@@ -68,7 +68,7 @@ import org.kuali.student.cm.course.form.ResultValuesGroupInfoWrapper;
 import org.kuali.student.cm.course.form.ReviewProposalDisplay;
 import org.kuali.student.cm.course.form.SubjectCodeWrapper;
 import org.kuali.student.cm.course.form.SupportingDocumentInfoWrapper;
-import org.kuali.student.cm.course.service.CourseInfoMaintainable;
+import org.kuali.student.cm.course.service.CourseMaintainable;
 import org.kuali.student.cm.course.service.util.CourseCodeSearchUtil;
 import org.kuali.student.cm.course.service.util.LoCategorySearchUtil;
 import org.kuali.student.cm.course.service.util.OrganizationSearchUtil;
@@ -163,10 +163,10 @@ import java.util.Map;
  *
  * @author OpenCollab/rSmart KRAD CM Conversion Alliance!
  */
-public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl implements CourseInfoMaintainable, RuleViewHelperService, CMMaintainable {
+public class CourseMaintainableImpl extends RuleEditorMaintainableImpl implements CourseMaintainable, RuleViewHelperService, CMMaintainable {
 
 
-    private static final Logger LOG = LoggerFactory.getLogger(CourseInfoMaintainableImpl.class);
+    private static final Logger LOG = LoggerFactory.getLogger(CourseMaintainableImpl.class);
 
     protected transient static final String DEFAULT_REQUIRED_WORKFLOW_MODE = "Submit";
 
@@ -212,7 +212,7 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
      * Method called when queryMethodToCall is executed for Administering Organizations in order to suggest back to the user an Administering Organization
      *
      * @param organizationName
-     * @see CourseInfoMaintainable#getOrganizationsForSuggest(String)
+     * @see org.kuali.student.cm.course.service.CourseMaintainable#getOrganizationsForSuggest(String)
      */
     public List<OrganizationInfoWrapper> getOrganizationsForSuggest(final String organizationName) {
         return OrganizationSearchUtil.searchForOrganizations(organizationName, getOrganizationService());
@@ -278,7 +278,7 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
 
 
     /**
-     * @see CourseInfoMaintainable#getInstructorsForSuggest(String)
+     * @see org.kuali.student.cm.course.service.CourseMaintainable#getInstructorsForSuggest(String)
      */
     public List<CluInstructorInfoWrapper> getInstructorsForSuggest(
             String instructorName) {
@@ -313,7 +313,7 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
     private LoDisplayWrapperModel loDisplayWrapperModel;
 
     /**
-     * @see CourseInfoMaintainable#getSubjectCodesForSuggest(String)
+     * @see org.kuali.student.cm.course.service.CourseMaintainable#getSubjectCodesForSuggest(String)
      */
     public List<SubjectCodeWrapper> getSubjectCodesForSuggest(String subjectCode) {
         List<SubjectCodeWrapper> retrievedCodes = new ArrayList<SubjectCodeWrapper>();
@@ -430,7 +430,7 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
             if (viewModel instanceof MaintenanceDocumentForm) {
                 MaintenanceDocumentForm modelForm = (MaintenanceDocumentForm) viewModel;
                 CourseInfoWrapper courseInfoWrapper = (CourseInfoWrapper) modelForm.getDocument().getNewMaintainableObject().getDataObject();
-                CourseInfoMaintainable courseInfoMaintainable = (CourseInfoMaintainable) modelForm.getDocument().getNewMaintainableObject();
+                CourseMaintainable courseInfoMaintainable = (CourseMaintainable) modelForm.getDocument().getNewMaintainableObject();
                 if (courseInfoWrapper.getCollaboratorWrappers().size() == 0) {
                     return true;
                 }
@@ -1043,7 +1043,7 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
     }
 
     /**
-     * @see org.kuali.student.cm.course.service.CourseInfoMaintainable#updateReview()
+     * @see org.kuali.student.cm.course.service.CourseMaintainable#updateReview()
      */
     public void updateReview() {
         updateReview(true);
