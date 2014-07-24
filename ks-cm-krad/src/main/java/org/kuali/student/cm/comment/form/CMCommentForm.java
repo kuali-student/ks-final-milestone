@@ -14,7 +14,7 @@
  *
  * Created by venkat on 6/9/14
  */
-package org.kuali.student.cm.course.form;
+package org.kuali.student.cm.comment.form;
 
 import org.kuali.rice.krad.web.form.KsUifFormBase;
 import org.kuali.student.r2.core.proposal.dto.ProposalInfo;
@@ -29,21 +29,21 @@ import java.util.List;
  */
 public class CMCommentForm extends KsUifFormBase {
 
-    protected List<CommentWrapper> comments = new ArrayList<CommentWrapper>();
+    protected List<CMCommentWrapper> comments = new ArrayList<CMCommentWrapper>();
     protected String newComment;
     protected ProposalInfo proposal;
-    protected CommentWrapper deletedComment;
+    protected CMCommentWrapper deletedComment;
     protected boolean canAddComment = true;
 
     public CMCommentForm(){
 
     }
 
-    public List<CommentWrapper> getComments() {
+    public List<CMCommentWrapper> getComments() {
         return comments;
     }
 
-    public void setComments(List<CommentWrapper> comments) {
+    public void setComments(List<CMCommentWrapper> comments) {
         this.comments = comments;
     }
 
@@ -63,11 +63,11 @@ public class CMCommentForm extends KsUifFormBase {
         this.newComment = newComment;
     }
 
-    public CommentWrapper getDeletedComment() {
+    public CMCommentWrapper getDeletedComment() {
         return deletedComment;
     }
 
-    public void setDeletedComment(CommentWrapper deletedComment) {
+    public void setDeletedComment(CMCommentWrapper deletedComment) {
         this.deletedComment = deletedComment;
     }
 

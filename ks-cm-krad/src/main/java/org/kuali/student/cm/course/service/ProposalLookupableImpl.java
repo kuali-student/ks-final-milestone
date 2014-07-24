@@ -32,7 +32,7 @@ import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 import org.kuali.rice.krad.uif.UifConstants;
 import org.kuali.rice.krad.uif.element.Action;
 import org.kuali.rice.krad.util.GlobalVariables;
-import org.kuali.student.cm.common.util.ProposalLinkBuilder;
+import org.kuali.student.cm.course.util.CourseProposalUtil;
 import org.kuali.student.cm.maintenance.CMMaintenanceDocument;
 import org.kuali.student.common.uif.service.impl.KSLookupableImpl;
 import org.kuali.student.common.util.security.ContextUtils;
@@ -239,7 +239,7 @@ public class ProposalLookupableImpl extends KSLookupableImpl {
 
         String workflowDocId = ((ProposalInfo)dataObject).getWorkflowId();
 
-        String href = ProposalLinkBuilder.buildCourseProposalUrl(maintenanceMethodToCall, pageId, workflowDocId);
+        String href = CourseProposalUtil.buildCourseProposalUrl(maintenanceMethodToCall, pageId, workflowDocId);
 
         if (StringUtils.isBlank(href)) {
             actionLink.setRender(false);

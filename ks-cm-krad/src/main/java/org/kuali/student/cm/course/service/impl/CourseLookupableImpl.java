@@ -23,9 +23,9 @@ import org.kuali.rice.krad.uif.UifConstants;
 import org.kuali.rice.krad.uif.element.Action;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.UrlFactory;
+import org.kuali.student.cm.common.util.CMUtils;
 import org.kuali.student.cm.common.util.CurriculumManagementConstants;
 import org.kuali.student.cm.course.service.CourseLookupable;
-import org.kuali.student.cm.course.util.CourseProposalUtil;
 import org.kuali.student.common.uif.service.impl.KSLookupableImpl;
 import org.kuali.student.common.util.security.ContextUtils;
 import org.kuali.student.lum.lu.ui.krms.dto.CluInformation;
@@ -128,7 +128,7 @@ public class CourseLookupableImpl extends KSLookupableImpl implements CourseLook
         props.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, KRADConstants.START_METHOD);
         props.put(UifConstants.UrlParams.VIEW_ID, CurriculumManagementConstants.CourseViewPageIds.VIEW_COURSE_VIEW);
         props.put("courseId", cluId);
-        props.put(KRADConstants.RETURN_LOCATION_PARAMETER, CourseProposalUtil.getCMHomeUrl());
+        props.put(KRADConstants.RETURN_LOCATION_PARAMETER, CMUtils.getCMHomeUrl());
 
         String courseBaseUrl = CurriculumManagementConstants.ControllerRequestMappings.VIEW_COURSE.replaceFirst("/", "");
         return UrlFactory.parameterizeUrl(courseBaseUrl, props);

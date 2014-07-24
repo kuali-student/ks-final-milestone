@@ -52,7 +52,6 @@ import org.kuali.rice.krms.tree.RuleViewTreeBuilder;
 import org.kuali.rice.krms.tree.node.CompareTreeNode;
 import org.kuali.rice.krms.util.NaturalLanguageHelper;
 import org.kuali.student.cm.common.util.CurriculumManagementConstants;
-import org.kuali.student.cm.common.util.ProposalLinkBuilder;
 import org.kuali.student.cm.course.controller.CourseController;
 import org.kuali.student.cm.course.form.ActivityInfoWrapper;
 import org.kuali.student.cm.course.form.CluInstructorInfoWrapper;
@@ -73,6 +72,7 @@ import org.kuali.student.cm.course.service.CourseMaintainable;
 import org.kuali.student.cm.course.service.util.CourseCodeSearchUtil;
 import org.kuali.student.cm.course.service.util.LoCategorySearchUtil;
 import org.kuali.student.cm.course.service.util.OrganizationSearchUtil;
+import org.kuali.student.cm.course.util.CourseProposalUtil;
 import org.kuali.student.cm.maintenance.CMMaintainable;
 import org.kuali.student.common.collection.KSCollectionUtils;
 import org.kuali.student.common.util.security.ContextUtils;
@@ -2383,7 +2383,7 @@ public class CourseMaintainableImpl extends RuleEditorMaintainableImpl implement
     protected void buildProposalActionLink(Action actionLink, MaintenanceDocumentForm form, String methodToCall, String pageId) {
         String docId = form.getDocument().getDocumentNumber();
 
-        String href = ProposalLinkBuilder.buildCourseProposalUrl(methodToCall, pageId, docId);
+        String href = CourseProposalUtil.buildCourseProposalUrl(methodToCall, pageId, docId);
 
         if (StringUtils.isBlank(href)) {
             actionLink.setRender(false);

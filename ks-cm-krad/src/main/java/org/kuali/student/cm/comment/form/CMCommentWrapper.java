@@ -14,7 +14,7 @@
  *
  * Created by venkat on 5/23/14
  */
-package org.kuali.student.cm.course.form;
+package org.kuali.student.cm.comment.form;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.student.cm.uif.util.DTOWrapper;
@@ -26,12 +26,12 @@ import org.kuali.student.r2.core.comment.dto.CommentInfo;
  *
  * @author Kuali Student Team
  */
-public class CommentWrapper implements DTOWrapper, Comparable<CommentWrapper> {
+public class CMCommentWrapper implements DTOWrapper, Comparable<CMCommentWrapper> {
 
     protected CommentInfo commentInfo;
     protected CreateCourseRenderHelper renderHelper;
 
-    public CommentWrapper(){
+    public CMCommentWrapper(){
         commentInfo = new CommentInfo();
         commentInfo.setCommentText(new RichTextInfo());
         renderHelper = new CreateCourseRenderHelper();
@@ -63,7 +63,7 @@ public class CommentWrapper implements DTOWrapper, Comparable<CommentWrapper> {
     }
 
     @Override
-    public int compareTo(CommentWrapper o) {
+    public int compareTo(CMCommentWrapper o) {
         if (o.getCommentInfo().getMeta() != null &&
             o.getCommentInfo().getMeta().getCreateTime() != null &&
             getCommentInfo().getMeta() != null &&

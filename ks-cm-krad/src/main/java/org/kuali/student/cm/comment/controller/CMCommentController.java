@@ -13,7 +13,7 @@
  * permissions and limitations under the License.
  *
  */
-package org.kuali.student.cm.course.controller;
+package org.kuali.student.cm.comment.controller;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
@@ -30,9 +30,9 @@ import org.kuali.rice.krad.web.controller.KsUifControllerBase;
 import org.kuali.rice.krad.web.controller.MethodAccessible;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.rice.student.StudentWorkflowConstants;
+import org.kuali.student.cm.comment.form.CMCommentWrapper;
 import org.kuali.student.cm.common.util.CurriculumManagementConstants;
-import org.kuali.student.cm.course.form.CMCommentForm;
-import org.kuali.student.cm.course.form.CommentWrapper;
+import org.kuali.student.cm.comment.form.CMCommentForm;
 import org.kuali.student.common.util.security.ContextUtils;
 import org.kuali.student.lum.kim.KimIdentityServiceConstants;
 import org.kuali.student.r1.common.rice.StudentIdentityConstants;
@@ -124,7 +124,7 @@ public class CMCommentController extends KsUifControllerBase {
          */
         if (StringUtils.isBlank(collectionPath)) {
 
-            CommentWrapper wrapper = new CommentWrapper();
+            CMCommentWrapper wrapper = new CMCommentWrapper();
             wrapper.getCommentInfo().getCommentText().setPlain(form.getNewComment());
             saveComment(form.getProposal(), wrapper);
             form.getComments().add(0,wrapper);
@@ -138,7 +138,7 @@ public class CMCommentController extends KsUifControllerBase {
         }
 
         //Reset edit in progress flag from all the comments.
-        for (CommentWrapper commentWrapper : form.getComments()) {
+        for (CMCommentWrapper commentWrapper : form.getComments()) {
             commentWrapper.getRenderHelper().setEditInProgress(false);
         }
 
@@ -151,7 +151,7 @@ public class CMCommentController extends KsUifControllerBase {
     @RequestMapping(params = "methodToCall=cancelEditComment")
     public ModelAndView cancelEditComment(@ModelAttribute("KualiForm") CMCommentForm form) throws Exception {
 
-        for (CommentWrapper commentWrapper : form.getComments()) {
+        for (CMCommentWrapper commentWrapper : form.getComments()) {
             commentWrapper.getRenderHelper().setEditInProgress(false);
         }
 
@@ -167,7 +167,7 @@ public class CMCommentController extends KsUifControllerBase {
         }
 
         int index = Integer.parseInt(form.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX));
-        CommentWrapper commentWrapper = form.getComments().get(index);
+        CMCommentWrapper commentWrapper = form.getComments().get(index);
 
         // verify that current user is able to delete this comment
         if (!canEditComment(form.getProposal(),commentWrapper)) {
@@ -188,7 +188,7 @@ public class CMCommentController extends KsUifControllerBase {
         }
 
         int index = Integer.parseInt(form.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX));
-        CommentWrapper commentWrapper = form.getComments().get(index);
+        CMCommentWrapper commentWrapper = form.getComments().get(index);
 
         // verify that current user is able to delete this comment
         if (!canDeleteComment(form.getProposal(),commentWrapper)) {
@@ -208,7 +208,7 @@ public class CMCommentController extends KsUifControllerBase {
     @RequestMapping(params = "methodToCall=undoDeleteComment")
     public ModelAndView undoDeleteComment(@ModelAttribute("KualiForm") CMCommentForm form) throws Exception {
 
-        CommentWrapper deletedComment = form.getDeletedComment();
+        CMCommentWrapper deletedComment = form.getDeletedComment();
         saveComment(form.getProposal(), deletedComment);
         form.getComments().add(deletedComment);
         form.setDeletedComment(null);
@@ -224,7 +224,7 @@ public class CMCommentController extends KsUifControllerBase {
      * @param proposalInfo
      * @param commentWrapper
      */
-    protected void saveComment(ProposalInfo proposalInfo, CommentWrapper commentWrapper) {
+    protected void saveComment(ProposalInfo proposalInfo, CMCommentWrapper commentWrapper) {
 
         LOG.trace("Saving comment - " + commentWrapper.getCommentInfo().getCommentText());
 
@@ -259,12 +259,12 @@ public class CMCommentController extends KsUifControllerBase {
 
     }
 
-    protected void setupAuthorizations(ProposalInfo proposalInfo, CommentWrapper commentWrapper) {
+    protected void setupAuthorizations(ProposalInfo proposalInfo, CMCommentWrapper commentWrapper) {
         commentWrapper.getRenderHelper().setCanEdit(canEditComment(proposalInfo,commentWrapper));
         commentWrapper.getRenderHelper().setCanDelete(canDeleteComment(proposalInfo, commentWrapper));
     }
 
-    protected boolean canEditComment(ProposalInfo proposalInfo, CommentWrapper commentWrapper) {
+    protected boolean canEditComment(ProposalInfo proposalInfo, CMCommentWrapper commentWrapper) {
         Map<String,String> permDetails = new HashMap<String, String>();
         permDetails.put(StudentIdentityConstants.KS_REFERENCE_TYPE_KEY, StudentIdentityConstants.QUALIFICATION_PROPOSAL_REF_TYPE);
         Map<String,String> roleQualifications = new HashMap<String, String>();
@@ -272,7 +272,7 @@ public class CMCommentController extends KsUifControllerBase {
         return KimApiServiceLocator.getPermissionService().isAuthorizedByTemplate(GlobalVariables.getUserSession().getPrincipalId(), StudentIdentityConstants.PERMISSION_TEMPLATE_NAMESPACE_COMMENTS, StudentIdentityConstants.PERMISSION_TEMPLATE_NAME_COMMENTS_EDIT, permDetails, roleQualifications);
     }
 
-    protected boolean canDeleteComment(ProposalInfo proposalInfo, CommentWrapper commentWrapper) {
+    protected boolean canDeleteComment(ProposalInfo proposalInfo, CMCommentWrapper commentWrapper) {
         Map<String,String> permDetails = new HashMap<String, String>();
         permDetails.put(StudentIdentityConstants.KS_REFERENCE_TYPE_KEY, StudentIdentityConstants.QUALIFICATION_PROPOSAL_REF_TYPE);
         Map<String,String> roleQualifications = new HashMap<String, String>();
@@ -326,21 +326,21 @@ public class CMCommentController extends KsUifControllerBase {
 
         if (comments != null) {
             for (CommentInfo comment : comments) {
-                CommentWrapper wrapper = new CommentWrapper();
+                CMCommentWrapper wrapper = new CMCommentWrapper();
                 setupCommentWrapper(wrapper,comment,proposal);
                 form.getComments().add(wrapper);
             }
         }
     }
 
-    protected void setupCommentWrapper(CommentWrapper commentWrapper, CommentInfo commentInfo, ProposalInfo proposalInfo) {
+    protected void setupCommentWrapper(CMCommentWrapper commentWrapper, CommentInfo commentInfo, ProposalInfo proposalInfo) {
         commentWrapper.setCommentInfo(commentInfo);
         setupAuthorizations(proposalInfo, commentWrapper);
         setupDisplayNameForComment(commentWrapper);
         commentWrapper.getRenderHelper().setCreationTime(DateFormatters.COURSE_OFFERING_VIEW_HELPER_DATE_TIME_FORMATTER.format(commentInfo.getMeta().getCreateTime()));
     }
 
-    protected void setupDisplayNameForComment(CommentWrapper commentWrapper) {
+    protected void setupDisplayNameForComment(CMCommentWrapper commentWrapper) {
         Person person = getPersonService().getPerson(commentWrapper.getCommentInfo().getCommenterId());
         if (person == null) {
             throw new RuntimeException("Error fetching person for principal id '" + commentWrapper.getCommentInfo().getCommenterId() + "'");

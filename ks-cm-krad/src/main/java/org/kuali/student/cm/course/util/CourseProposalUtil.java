@@ -16,15 +16,21 @@
  */
 package org.kuali.student.cm.course.util;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.krad.uif.UifConstants;
+import org.kuali.rice.krad.uif.UifParameters;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.krad.util.UrlFactory;
+import org.kuali.student.cm.common.util.CMUtils;
 import org.kuali.student.cm.common.util.CurriculumManagementConstants;
+import org.kuali.student.cm.course.form.CourseInfoWrapper;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Properties;
 
 /**
  * This class is a Util class designed to hold common code that should be shared across multiple classes
@@ -42,15 +48,23 @@ public class CourseProposalUtil {
         return KimApiServiceLocator.getPermissionService().hasPermissionByTemplate(GlobalVariables.getUserSession().getPrincipalId(), KRADConstants.KUALI_RICE_SYSTEM_NAMESPACE, KewApiConstants.INITIATE_PERMISSION, permDetails);
     }
 
-    public static String getCMHomeUrl(){
+    /**
+     * Constructs a text URL for a particular course proposal.
+     */
+    public static String buildCourseProposalUrl(String methodToCall, String pageId, String workflowDocId) {
+        Properties props = new Properties();
+        props.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, methodToCall);
+        props.put(KRADConstants.PARAMETER_COMMAND, KRADConstants.METHOD_DISPLAY_DOC_SEARCH_VIEW);
+        props.put(KRADConstants.RETURN_LOCATION_PARAMETER, CMUtils.getCMHomeUrl());
 
-        String cmHomeControllerMapping = CurriculumManagementConstants.ControllerRequestMappings.CM_HOME.replaceFirst("/", "");
+        props.put(UifParameters.DATA_OBJECT_CLASS_NAME, CourseInfoWrapper.class.getCanonicalName());
+        if (StringUtils.isNotBlank(pageId)) {
+            props.put(UifParameters.PAGE_ID, pageId);
+        }
+        props.put(KRADConstants.PARAMETER_DOC_ID, workflowDocId);
 
-        StringBuilder cmHomeUrl = new StringBuilder(cmHomeControllerMapping);
-        cmHomeUrl.append("?" + KRADConstants.DISPATCH_REQUEST_PARAMETER + "=").append(KRADConstants.START_METHOD);
-        cmHomeUrl.append("&" + UifConstants.UrlParams.VIEW_ID + "=").append(CurriculumManagementConstants.CourseViewPageIds.CM_HOME_VIEW);
-
-        return cmHomeUrl.toString();
+        String courseBaseUrl = CurriculumManagementConstants.ControllerRequestMappings.COURSE_MAINTENANCE.replaceFirst("/", "");
+        return UrlFactory.parameterizeUrl(courseBaseUrl, props);
     }
 
 }
