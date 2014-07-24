@@ -20,7 +20,7 @@
 
     <ul class="chan">
         <h3>KSAP Main</h3>
-        <li><a href="${ConfigProperties.lum.application.url}/kr-krad/coursesearch?methodToCall=start&amp;viewId=CourseSearch-FormView">KSAP Course Search</a></li>
+        <li><a href="${ConfigProperties.lum.application.url}/kr-krad/course?methodToCall=start&amp;viewId=CourseSearch-FormView">KSAP Course Search</a></li>
         <li><a href="${ConfigProperties.lum.application.url}/kr-krad/planner?methodToCall=start&amp;viewId=Planner-FormView">KSAP Planner</a></li>
         <h3>0.75 Merge Other Ongoing Screens</h3>
         <li><a href="${ConfigProperties.lum.application.url}/kr-krad/sb?termId=kuali.atp.2013Fall&requestedLearningPlanId=testPlan1">KSAP Schedule Builder</a></li>
