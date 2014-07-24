@@ -34,7 +34,7 @@ public class CourseDetailedViewHelperImpl extends CourseInfoMaintainableImpl imp
     /**
      * As we're extending from <code>CourseInfoMaintainableImpl</code>, we dont want any of the
      * maintenance document related logics here. Overriding to avoid all the maintenance document
-     * related logic
+     * related logic and to avoid form type casting issue (form to maintenaceform)
      *
      * @param element
      * @param model
@@ -45,9 +45,7 @@ public class CourseDetailedViewHelperImpl extends CourseInfoMaintainableImpl imp
     }
 
     /**
-     * As we're extending from <code>CourseInfoMaintainableImpl</code>, we dont want any of the
-     * maintenance document related logics here. Overriding to avoid all the maintenance document
-     * related logic
+     * @see #performCustomApplyModel(org.kuali.rice.krad.uif.util.LifecycleElement, Object)
      * @param element
      * @param model
      * @param parent
@@ -58,9 +56,7 @@ public class CourseDetailedViewHelperImpl extends CourseInfoMaintainableImpl imp
     }
 
     /**
-     * As we're extending from <code>CourseInfoMaintainableImpl</code>, we dont want any of the
-     * maintenance document related logics here. Overriding to avoid all the maintenance document
-     * related logic
+     * @see #performCustomApplyModel(org.kuali.rice.krad.uif.util.LifecycleElement, Object)
      * @param model
      */
     @Override
