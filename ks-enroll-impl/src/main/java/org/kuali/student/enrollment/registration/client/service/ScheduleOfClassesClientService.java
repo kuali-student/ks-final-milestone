@@ -212,4 +212,15 @@ public interface ScheduleOfClassesClientService {
     @Path("/terms")
     Response searchForTerms(@QueryParam("termCode") String termCode,
                                      @QueryParam("active") boolean isActiveTerms);
+
+    /**
+     * Returns a list of term details.
+     *
+     * @param courseOfferingId required
+     * @return Returns info for given CO such as desc, name, AOs, etc.
+     */
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/courseOfferingInfo")
+    Response searchForCourseOfferingInfo(@QueryParam("courseOfferingId") String courseOfferingId);
 }

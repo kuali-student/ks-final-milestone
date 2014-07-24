@@ -23,7 +23,7 @@ public class ScheduleOfClassesClientServiceImpl extends ScheduleOfClassesService
         Response.ResponseBuilder response;
 
         try {
-            List<CourseCompleteInfoSearchResult> courseSearchResults = searchForCourseOfferingsCompleteInfoByCriteriaLocal(termId, termCode, criteria);
+            List<CourseSearchResult> courseSearchResults = searchForCourseOfferingsByCriteriaLocal(termId, termCode, criteria);
             response = Response.ok(courseSearchResults);
         } catch (Exception e) {
             LOGGER.warn(EXCEPTION_MSG, e);
@@ -173,4 +173,22 @@ public class ScheduleOfClassesClientServiceImpl extends ScheduleOfClassesService
         return response.build();
     }
 
+    /**
+     * COURSE OFFERING INFO *
+     */
+
+    @Override
+    public Response searchForCourseOfferingInfo(String courseOfferingId) {
+        Response.ResponseBuilder response;
+
+        try {
+            CourseOfferingInfoSearchResult courseOfferingSearchResults = searchForCourseOfferingInfoLocal(courseOfferingId);
+            response = Response.ok(courseOfferingSearchResults);
+        } catch (Exception e) {
+            LOGGER.warn(EXCEPTION_MSG, e);
+            response = Response.serverError().entity(e.getMessage());
+        }
+
+        return response.build();
+    }
 }

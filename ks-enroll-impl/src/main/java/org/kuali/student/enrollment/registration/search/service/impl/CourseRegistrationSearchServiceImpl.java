@@ -88,6 +88,8 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
             "kuali.search.type.lui.searchForSeatCountsByRGIds";
     public static final String WL_BY_AO_IDS_SEARCH_KEY =
             "kuali.search.type.lui.searchForWaitlistByAoIds";
+    public static final String CO_AND_AO_INFO_BY_CO_ID_SEARCH_KEY =
+            "kuali.search.type.lui.searchForCoAndAoInfoByCoId";
 
     public static final TypeInfo REG_INFO_BY_PERSON_TERM_SEARCH_TYPE;
     public static final TypeInfo REG_CART_BY_PERSON_TERM_SEARCH_TYPE;
@@ -102,6 +104,7 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
     public static final TypeInfo REG_AND_WL_INFO_BY_PERSON_TERM_SEARCH_TYPE;
     public static final TypeInfo SEAT_COUNT_INFO_BY_REG_GROUPS_SEARCH_TYPE;
     public static final TypeInfo WL_BY_AO_IDS_SEARCH_TYPE;
+    public static final TypeInfo CO_AND_AO_INFO_BY_CO_ID_SEARCH_TYPE;
 
     public static final String DEFAULT_EFFECTIVE_DATE = "01/01/2012";
 
@@ -166,8 +169,18 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
         public static final String AO_IDS_ACTUAL_COUNT = "aoIdsActualCount";
         public static final String AO_IDS_EXPECTED_COUNT = "aoIdsExpectedCount";
         public static final String AO_WAITLIST_COUNT = "waitlistCount";
+        public static final String AO_SCHEDULE_ID = "activityOfferingScheduleId";
         public static final String CWL_MAX_SIZE = "courseWaitlistMaxSize";
         public static final String CWL_ID = "courseWaitlistId";
+
+        public static final String CO_ID = "courseOfferingId";
+        public static final String CO_CODE = "courseOfferingCode";
+        public static final String CO_SUBJECT_AREA = "courseOfferingSubjectArea";
+        public static final String CO_LONG_NAME = "courseOfferingLongName";
+        public static final String CO_DESC_FORMATTED = "courseOfferingDescFormatted";
+        public static final String CO_CROSSLISTED_ID = "coCrossListedId";
+        public static final String CO_CROSSLISTED_CODE = "coCrossListedCode";
+        public static final String CO_CROSSLISTED_SUBJECT_AREA = "coCrossListedSubjectArea";
 
         public static final String SEAT_COUNT = "seatCount";
 
@@ -263,6 +276,7 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
                 createTypeInfo(SEAT_COUNT_INFO_BY_REG_GROUPS_SEARCH_KEY,
                         "(regGroupId, registeredCount, waitlistedCount) for a list of reg group ids",
                         "Returns (regGroupId, registeredCount, waitlistedCount) for a list of reg group ids");
+
         WL_BY_AO_IDS_SEARCH_TYPE =
                 createTypeInfo(WL_BY_AO_IDS_SEARCH_KEY,
                         "waitlist information (aoid, rgid, atpid, lprid, personid, effectiveDate, numRegisteredForAo, " +
@@ -273,6 +287,13 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
                                 "numRegisteredForAo, maxAoSeats)  for a list of activity offering ids. The activity ids passed in will match" +
                                 "against all of the RGs that contain those AOs, and the search itself will be matched against" +
                                 "all AOs that exist in those RGs");
+
+        CO_AND_AO_INFO_BY_CO_ID_SEARCH_TYPE =
+                createTypeInfo(CO_AND_AO_INFO_BY_CO_ID_SEARCH_KEY,
+                        "Course Offering and Activity Offerings Info (coId, coCode, coDivision, coLongName, coDescription, coGradingOptions, coCreditOptions, " +
+                                "aoId, aoType, aoName, maxAoSeats, numRegisteredForAo, aoScheduleId) for given Course Offering ID",
+                        "Course Offering and Activity Offerings Info (coId, coCode, coDivision, coLongName, coDescription, coGradingOptions, coCreditOptions, " +
+                                "aoId, aoType, aoName, maxAoSeats, numRegisteredForAo, aoScheduleId) for given Course Offering ID");
     }
 
     @Override
@@ -307,32 +328,34 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
     public SearchResultInfo search(SearchRequestInfo searchRequestInfo, ContextInfo contextInfo)
             throws MissingParameterException, OperationFailedException, PermissionDeniedException {
         String searchKey = searchRequestInfo.getSearchKey();
-        if (REG_INFO_BY_PERSON_TERM_SEARCH_TYPE.getKey().equals(searchKey)) {
+        if (StringUtils.equals(REG_INFO_BY_PERSON_TERM_SEARCH_TYPE.getKey(), searchKey)) {
             return searchForCourseRegistrationByPersonAndTerm(searchRequestInfo);
-        } else if (LPR_TRANS_IDS_BY_PERSON_TERM_TYPE_KEY_SEARCH_TYPE.getKey().equals(searchKey)) {
+        } else if (StringUtils.equals(LPR_TRANS_IDS_BY_PERSON_TERM_TYPE_KEY_SEARCH_TYPE.getKey(), searchKey)) {
             return searchForLprTransIdsByAtpAndPersonAndTypeKey(searchRequestInfo);
-        } else if (AO_SCHEDULES_CO_CREDITS_GRADING_OPTIONS_BY_IDS_SEARCH_TYPE.getKey().equals(searchRequestInfo.getSearchKey())) {
+        } else if (StringUtils.equals(AO_SCHEDULES_CO_CREDITS_GRADING_OPTIONS_BY_IDS_SEARCH_TYPE.getKey(), searchRequestInfo.getSearchKey())) {
             return searchForAOSchedulesAndCOCreditAndGradingOptionsByIds(searchRequestInfo);
-        } else if (REG_CART_BY_PERSON_TERM_SEARCH_TYPE.getKey().equals(searchKey)) {
+        } else if (StringUtils.equals(REG_CART_BY_PERSON_TERM_SEARCH_TYPE.getKey(), searchKey)) {
             return searchForCourseRegistrationCartByPersonAndTerm(searchRequestInfo);
-        } else if (RVGS_BY_LUI_IDS_SEARCH_TYPE.getKey().equals(searchKey)) {
+        } else if (StringUtils.equals(RVGS_BY_LUI_IDS_SEARCH_TYPE.getKey(), searchKey)) {
             return searchForRVGsByLuiIds(searchRequestInfo);
-        } else if (AOIDS_COUNT_SEARCH_TYPE.getKey().equals(searchKey)) {
+        } else if (StringUtils.equals(AOIDS_COUNT_SEARCH_TYPE.getKey(), searchKey)) {
             return countValidAos(searchRequestInfo);
-        } else if (AOIDS_TYPE_MAXSEATS_SEARCH_TYPE.getKey().equals(searchKey)) {
+        } else if (StringUtils.equals(AOIDS_TYPE_MAXSEATS_SEARCH_TYPE.getKey(), searchKey)) {
             return searchForAoIdsTypeAndMaxSeats(searchRequestInfo);
-        } else if (LPRS_BY_AOIDS_LPR_STATE_TYPE.getKey().equals(searchKey)) {
+        } else if (StringUtils.equals(LPRS_BY_AOIDS_LPR_STATE_TYPE.getKey(), searchKey)) {
             return searchForAoLprs(searchRequestInfo);
-        } else if (LPRIDS_BY_MASTER_LPR_ID_SEARCH_TYPE.getKey().equals(searchKey)) {
+        } else if (StringUtils.equals(LPRIDS_BY_MASTER_LPR_ID_SEARCH_TYPE.getKey(), searchKey)) {
             return searchForLprIdsByMasterLprId(searchRequestInfo);
-        } else if (SEAT_COUNT_INFO_BY_AOIDS_SEARCH_TYPE.getKey().equals(searchKey)) {
+        } else if (StringUtils.equals(SEAT_COUNT_INFO_BY_AOIDS_SEARCH_TYPE.getKey(), searchKey)) {
             return searchForSeatCountInfoByAOIds(searchRequestInfo);
-        } else if (REG_AND_WL_INFO_BY_PERSON_TERM_SEARCH_TYPE.getKey().equals(searchKey)) {
+        } else if (StringUtils.equals(REG_AND_WL_INFO_BY_PERSON_TERM_SEARCH_TYPE.getKey(), searchKey)) {
             return searchForCourseRegistrationAndWaitlistByStudentAndTerm(searchRequestInfo);
-        } else if (SEAT_COUNT_INFO_BY_REG_GROUPS_SEARCH_TYPE.getKey().equals(searchKey)) {
+        } else if (StringUtils.equals(SEAT_COUNT_INFO_BY_REG_GROUPS_SEARCH_TYPE.getKey(), searchKey)) {
             return searchForSeatCountsByRGIds(searchRequestInfo);
-        } else if (WL_BY_AO_IDS_SEARCH_TYPE.getKey().equals(searchKey)) {
+        } else if (StringUtils.equals(WL_BY_AO_IDS_SEARCH_TYPE.getKey(), searchKey)) {
             return searchForWaitlistByAoIds(searchRequestInfo);
+        } else if (StringUtils.equals(CO_AND_AO_INFO_BY_CO_ID_SEARCH_TYPE.getKey(), searchRequestInfo.getSearchKey())) {
+            return searchForCoAndAoInfoByCoId(searchRequestInfo);
         } else {
             throw new OperationFailedException("Unsupported search type: " + searchRequestInfo.getSearchKey());
         }
@@ -1244,6 +1267,91 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
         for (String resultRow : results) {
             SearchResultRowInfo row = new SearchResultRowInfo();
             row.addCell(SearchResultColumns.LPR_ID, resultRow);
+            resultInfo.getRows().add(row);
+        }
+
+        return resultInfo;
+    }
+
+    private SearchResultInfo searchForCoAndAoInfoByCoId(SearchRequestInfo searchRequestInfo)
+            throws MissingParameterException, OperationFailedException
+    {
+        SearchRequestHelper requestHelper = new SearchRequestHelper(searchRequestInfo);
+        SearchResultInfo resultInfo = new SearchResultInfo();
+
+        String queryStr =
+                "SELECT co.ID coId, coId.LUI_CD coCode, coId.DIVISION coDivision, coId.LNG_NAME, " +
+                        "co.DESCR_FORMATTED, coRes.RESULT_VAL_GRP_ID, " +
+                        "coClId.LUI_ID coClId, coClId.LUI_CD coClCode, coClId.DIVISION coClDivision, " +
+                        "ao.ID aoId, ao.LUI_TYPE, ao.NAME, ao.MAX_SEATS, " +
+                        "(SELECT COUNT(*) FROM KSEN_LPR lpr " +
+                        "  WHERE lpr.LUI_ID = ao.ID " +
+                        "    AND lpr.LPR_TYPE='" + LprServiceConstants.REGISTRANT_AO_LPR_TYPE_KEY + "' " +
+                        "    AND lpr.LPR_STATE='" + LprServiceConstants.ACTIVE_STATE_KEY + "') numRegisteredForAo, " +
+                        "ao2sched.SCHED_ID " +
+                        "FROM KSEN_LUI co, KSEN_LUI_IDENT coId, KSEN_LUILUI_RELTN co2fo " +
+                        // looking for grading and credit options for given CO
+                        "LEFT OUTER JOIN KSEN_LUI_RESULT_VAL_GRP coRes " +
+                        "ON coRes.LUI_ID = coId.LUI_ID " +
+                        "AND (coRes.RESULT_VAL_GRP_ID in (" + getStudentRegGradingOptionsStr() + ")" +
+                        "     OR coRes.RESULT_VAL_GRP_ID LIKE 'kuali.creditType.credit%') " +
+                        // looking for cross-listed courses for given CO
+                        "LEFT OUTER JOIN KSEN_LUI_IDENT coClId " +
+                        "ON coClId.LUI_ID = coId.LUI_ID " +
+                        "AND coClId.LUI_ID_TYPE = '" + LuiServiceConstants.LUI_IDENTIFIER_CROSSLISTED_TYPE_KEY + "' " +
+                        "AND coClId.LUI_ID_STATE = '" + LuiServiceConstants.LUI_IDENTIFIER_ACTIVE_STATE_KEY + "' " +
+                        // finding all AOs for the given CO
+                        "LEFT OUTER JOIN KSEN_LUILUI_RELTN fo2ao " +
+                        "ON fo2ao.LUI_ID = co2fo.RELATED_LUI_ID " +
+                        "AND fo2ao.LUILUI_RELTN_TYPE = '" + LuiServiceConstants.LUI_LUI_RELATION_DELIVERED_VIA_FO_TO_AO_TYPE_KEY + "' " +
+                        "LEFT OUTER JOIN KSEN_LUI ao " +
+                        "ON ao.ID = fo2ao.RELATED_LUI_ID " +
+                        "AND ao.LUI_STATE = '" + LuiServiceConstants.LUI_AO_STATE_OFFERED_KEY + "'" +
+                        // Schedule IDs for AOs
+                        "LEFT OUTER JOIN KSEN_LUI_SCHEDULE ao2sched " +
+                        "ON ao2sched.LUI_ID = ao.ID " +
+                        "AND aoIdent.LUI_ID_TYPE='" + LuiServiceConstants.LUI_IDENTIFIER_OFFICIAL_TYPE_KEY + "' " +
+                        "WHERE coId.LUI_ID = co.ID " +
+                        "  AND co.LUI_TYPE = 'kuali.lui.type.course.offering' " +
+                        "  AND co.ID = :courseOfferingId " +
+                        "  AND co2fo.LUI_ID = lui.ID " +
+                        "  AND co2fo.LUILUI_RELTN_TYPE = '" + LuiServiceConstants.LUI_LUI_RELATION_DELIVERED_VIA_CO_TO_FO_TYPE_KEY + "'" +
+                        " ORDER BY coId.LUI_CD";
+
+
+        Query query = getEntityManager().createNativeQuery(queryStr);
+        query.setParameter(SearchParameters.CO_ID, requestHelper.getParamAsString(SearchParameters.CO_ID));
+        List<Object[]> results = query.getResultList();
+
+        for(Object[] resultRow : results){
+            int i = 0;
+            SearchResultRowInfo row = new SearchResultRowInfo();
+            row.addCell(SearchResultColumns.CO_ID, (String)resultRow[i++]);
+            row.addCell(SearchResultColumns.CO_CODE, (String)resultRow[i++]);
+            row.addCell(SearchResultColumns.CO_SUBJECT_AREA, (String)resultRow[i++]);
+            row.addCell(SearchResultColumns.CO_LONG_NAME, (String)resultRow[i++]);
+            row.addCell(SearchResultColumns.CO_DESC_FORMATTED, (String)resultRow[i++]);
+            row.addCell(SearchResultColumns.RES_VAL_GROUP_KEY, (String)resultRow[i++]);
+            row.addCell(SearchResultColumns.CO_CROSSLISTED_ID, (String)resultRow[i++]);
+            row.addCell(SearchResultColumns.CO_CROSSLISTED_CODE, (String)resultRow[i++]);
+            row.addCell(SearchResultColumns.CO_CROSSLISTED_SUBJECT_AREA, (String)resultRow[i++]);
+            row.addCell(SearchResultColumns.AO_ID, (String)resultRow[i++]);
+            row.addCell(SearchResultColumns.AO_TYPE, (String)resultRow[i++]);
+            row.addCell(SearchResultColumns.AO_NAME, (String)resultRow[i++]);
+            BigDecimal maxSeats = (BigDecimal) resultRow[i++];
+            if (maxSeats != null) {
+                row.addCell(SearchResultColumns.AO_MAX_SEATS, String.valueOf(maxSeats.intValue()));
+            } else {
+                row.addCell(SearchResultColumns.AO_MAX_SEATS, null);
+            }
+            BigDecimal seatCount = (BigDecimal) resultRow[i++];
+            if (seatCount != null) {
+                row.addCell(SearchResultColumns.SEAT_COUNT, String.valueOf(seatCount.intValue()));
+            } else {
+                row.addCell(SearchResultColumns.SEAT_COUNT, null);
+            }
+            row.addCell(SearchResultColumns.AO_SCHEDULE_ID, (String)resultRow[i]);
+
             resultInfo.getRows().add(row);
         }
 

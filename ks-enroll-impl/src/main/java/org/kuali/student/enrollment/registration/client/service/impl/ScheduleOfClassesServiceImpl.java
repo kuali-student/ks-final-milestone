@@ -8,6 +8,7 @@ import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.common.collection.KSCollectionUtils;
 import org.kuali.student.common.util.security.ContextUtils;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
+import org.kuali.student.enrollment.courseoffering.infc.CourseOffering;
 import org.kuali.student.enrollment.courseofferingset.dto.SocInfo;
 import org.kuali.student.enrollment.registration.client.service.ScheduleOfClassesService;
 import org.kuali.student.enrollment.registration.client.service.dto.*;
@@ -156,6 +157,12 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
         return emptyIfNull(instructors);
     }
 
+    protected CourseOfferingInfoSearchResult searchForCourseOfferingInfoLocal(String courseOfferingId) throws MissingParameterException, InvalidParameterException, OperationFailedException, PermissionDeniedException {
+        CourseOfferingInfoSearchResult courseOfferingInfo = searchForCourseOfferingInfo(courseOfferingId);
+
+        return courseOfferingInfo;
+    }
+
     protected List<ActivityTypeSearchResult> searchForActivityTypesLocal(String courseOfferingId, String termId, String termCode, String courseCode) throws InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException {
         courseOfferingId = getCourseOfferingId(courseOfferingId, courseCode, termId, termCode);
 
@@ -273,13 +280,6 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
         SearchRequestInfo searchRequest = createSearchRequest(termId, null, criteria);
 
         return searchForCourseOfferings(searchRequest);
-    }
-
-    protected List<CourseCompleteInfoSearchResult> searchForCourseOfferingsCompleteInfoByCriteriaLocal(String termId, String termCode, String criteria) throws InvalidParameterException, MissingParameterException, PermissionDeniedException, OperationFailedException {
-        termId = CourseRegistrationAndScheduleOfClassesUtil.getTermId(termId, termCode);
-        SearchRequestInfo searchRequest = createSearchRequest(termId, null, criteria);
-
-        return searchForCourseOfferingsCompleteInfo(searchRequest);
     }
 
     protected List<CourseAndPrimaryAOSearchResult> searchForCourseOfferingsAndPrimaryAosByTermAndCourseLocal(String termId, String termCode, String courseCode) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException {
@@ -586,13 +586,17 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
         return results;
     }
 
-    private List<CourseCompleteInfoSearchResult> searchForCourseOfferingsCompleteInfo (SearchRequestInfo searchRequest) throws InvalidParameterException, MissingParameterException, PermissionDeniedException, OperationFailedException {
+    private CourseOfferingInfoSearchResult searchForCourseOfferingInfo(String courseOfferingId) throws InvalidParameterException, MissingParameterException, PermissionDeniedException, OperationFailedException {
+        SearchRequestInfo searchRequest = new SearchRequestInfo(CourseRegistrationSearchServiceImpl.CO_AND_AO_INFO_BY_CO_ID_SEARCH_TYPE.getKey());
+
+        searchRequest.addParam(CourseOfferingManagementSearchImpl.SearchParameters.CO_ID, courseOfferingId);
+
         SearchResultInfo searchResult = CourseRegistrationAndScheduleOfClassesUtil.getSearchService().search(searchRequest, ContextUtils.createDefaultContextInfo());
 
-        List<CourseCompleteInfoSearchResult> results = new ArrayList<CourseCompleteInfoSearchResult>();
+        List<CourseOfferingInfoSearchResult> results = new ArrayList<CourseOfferingInfoSearchResult>();
 
         for (SearchResultRowInfo row : searchResult.getRows()) {
-            CourseCompleteInfoSearchResult courseSearchResult = new CourseCompleteInfoSearchResult();
+            CourseOfferingInfoSearchResult courseSearchResult = new CourseOfferingInfoSearchResult();
 
             for (SearchResultCellInfo cellInfo : row.getCells()) {
 
@@ -624,7 +628,7 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
             results.add(courseSearchResult);
         }
 
-        return results;
+        return results.get(0);
     }
 
     private List<RegGroupSearchResult> searchForRegGroups(String courseOfferingId) throws InvalidParameterException, MissingParameterException, PermissionDeniedException, OperationFailedException {

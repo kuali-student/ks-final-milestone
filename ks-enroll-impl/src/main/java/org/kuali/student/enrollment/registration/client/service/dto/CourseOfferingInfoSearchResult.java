@@ -24,11 +24,11 @@ import java.util.List;
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "CourseCompleteInfoSearchResult", propOrder = {
+@XmlType(name = "CourseOfferingInfoSearchResult", propOrder = {
         "courseOfferingId", "courseOfferingCode", "courseOfferingNumber", "courseOfferingPrefix", "courseOfferingDesc",
         "courseOfferingLongName", "courseOfferingCreditOptions", "courseOfferingGradingOptions",
         "courseOfferingCrossListedCourses", "courseOfferingPrerequisites", "activityOfferingTypes"})
-public class CourseCompleteInfoSearchResult {
+public class CourseOfferingInfoSearchResult {
     private String courseOfferingId;
     private String courseOfferingCode;
     private String courseOfferingDesc;
@@ -37,7 +37,7 @@ public class CourseCompleteInfoSearchResult {
     private String courseOfferingLongName;
     private List<String> courseOfferingCreditOptions;
     private List<String> courseOfferingGradingOptions;
-    private List<CourseShortInfoSearchResult> courseOfferingCrossListedCourses;
+    private List<CourseOfferingLimitedInfoSearchResult> courseOfferingCrossListedCourses;
     private List<String> courseOfferingPrerequisites;
     private List<ActivityOfferingTypesSearchResult> activityOfferingTypes;
 
@@ -105,11 +105,11 @@ public class CourseCompleteInfoSearchResult {
         this.courseOfferingGradingOptions = courseOfferingGradingOptions;
     }
 
-    public List<CourseShortInfoSearchResult> getCourseOfferingCrossListedCourses() {
+    public List<CourseOfferingLimitedInfoSearchResult> getCourseOfferingCrossListedCourses() {
         return courseOfferingCrossListedCourses;
     }
 
-    public void setCourseOfferingCrossListedCourses(List<CourseShortInfoSearchResult> courseOfferingCrossListedCourses) {
+    public void setCourseOfferingCrossListedCourses(List<CourseOfferingLimitedInfoSearchResult> courseOfferingCrossListedCourses) {
         this.courseOfferingCrossListedCourses = courseOfferingCrossListedCourses;
     }
 

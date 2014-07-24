@@ -23,9 +23,9 @@ import javax.xml.bind.annotation.XmlType;
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "CourseShortInfoSearchResult", propOrder = {
+@XmlType(name = "CourseOfferingLimitedInfoSearchResult", propOrder = {
         "courseOfferingId", "courseOfferingCode", "courseOfferingNumber", "courseOfferingPrefix"})
-public class CourseShortInfoSearchResult {
+public class CourseOfferingLimitedInfoSearchResult {
     private String courseOfferingId;
     private String courseOfferingCode;
     private String courseOfferingNumber;
