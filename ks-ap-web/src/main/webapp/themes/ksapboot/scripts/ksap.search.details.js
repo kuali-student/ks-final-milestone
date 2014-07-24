@@ -6,7 +6,7 @@ function detectReferrerForBackLinkText() {
     if (document.referrer != null && document.referrer.length > 0) {
         var referrer = document.referrer.split('kr-krad/')[1].split('?')[0];
 
-        if ( referrer == "coursesearch" ) {
+        if ( referrer == "course" ) {
             //from course search, change link text
             backLink.text('Return to search results');
         } else if ( referrer == "planner" ) {

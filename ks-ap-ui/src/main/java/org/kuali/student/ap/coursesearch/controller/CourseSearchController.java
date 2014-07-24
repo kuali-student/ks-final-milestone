@@ -36,7 +36,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @Controller
-@RequestMapping(value = "/coursesearch/**")
+@RequestMapping(value = "/course/**")
 public class CourseSearchController extends UifControllerBase {
 
 	private static final Logger LOG = LoggerFactory.getLogger(CourseSearchController.class);
@@ -68,7 +68,7 @@ public class CourseSearchController extends UifControllerBase {
     /**
      * Execute a search on information supplied by the user
      */
-	@RequestMapping(value = "/coursesearch/search")
+	@RequestMapping(value = "/course/search")
 	public void getJsonResponse(
 			@ModelAttribute("KualiForm") final CourseSearchFormImpl form,
 			HttpServletResponse response, final HttpServletRequest request)
@@ -103,7 +103,7 @@ public class CourseSearchController extends UifControllerBase {
      * Load the facets values of the search
      * This also executes the search but only returns facet information.
      */
-	@RequestMapping(value = "/coursesearch/facetValues")
+	@RequestMapping(value = "/course/facetValues")
 	public void getFacetValues(HttpServletResponse response,
 			@ModelAttribute("KualiForm") final CourseSearchFormImpl form,
 			final HttpServletRequest request) throws IOException {

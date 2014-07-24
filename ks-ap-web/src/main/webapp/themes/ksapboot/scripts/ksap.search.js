@@ -294,7 +294,7 @@ function searchForCourses(id, parentId) {
                                 "sLast" : "&#8250;"
                             }
 						},
-						sAjaxSource : 'coursesearch/search' + ksapGetSearchParams(),
+						sAjaxSource : 'course/search' + ksapGetSearchParams(),
 						sCookiePrefix : "ksap_",
 						sDom : "ilrtSp",
 						sPaginationType : "full_numbers"
@@ -310,7 +310,7 @@ function fnLoadFacets() {
 			.ajax({
 				dataType : 'json',
 				type : "GET",
-				url : 'coursesearch/facetValues' + ksapGetSearchParams(),
+				url : 'course/facetValues' + ksapGetSearchParams(),
 				success : function(data, textStatus, jqXHR) {
 					oFacets = data;
                     var facets = data.oFacetState;
@@ -355,7 +355,7 @@ function fnClickFacet(sFilter, fcol, e) {
 	jQuery.ajax({
 		dataType : 'json',
 		type : "GET",
-		url : 'coursesearch/facetValues' + ksapGetSearchParams() + '&fclick=' + encodeURIComponent(sFilter) + '&fcol=' + fcol,
+		url : 'course/facetValues' + ksapGetSearchParams() + '&fclick=' + encodeURIComponent(sFilter) + '&fcol=' + fcol,
 		success : function(data, textStatus, jqXHR) {
 			var i = data.oSearchColumn[fcol];
 			oFacets = data;
