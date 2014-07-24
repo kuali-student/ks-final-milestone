@@ -539,7 +539,7 @@ function registerCourseSearchResultsEvents(jqObject) {
     jQuery(jqObject)
         .on('PLAN_ITEM_DELETED', function(event, data){
             if (data.category === 'wishlist') {
-                fnRestoreSearchAddButton(data.courseDetails.courseId);
+                ksapBookmarkRemoveOnSearch(data);
             }
         })
         .on('BOOKMARK_ADDED', function(event, data){
@@ -598,7 +598,24 @@ function ksapBookmarkAddOnSearch(data){
     var item = jQuery("#"+data.courseId+"_bookmark_anchor");
     if(item.length){
         item.addClass("ks-fontello-icon-star");
+        item.addClass("saved");
         item.removeClass("ks-fontello-icon-star-empty");
+        item.attr('onclick', "deleteBookmarkCourse('', jQuery(this).data('courseid'), event);");
     }
+}
 
+/**
+ * Handles the dynamic updating when a bookmark is removed on the course search page.
+ *
+ * @param data - Data for the event
+ */
+function ksapBookmarkRemoveOnSearch(data){
+    // Change status on course search page
+    var item = jQuery("#"+data.courseId+"_bookmark_anchor");
+    if(item.length){
+        item.removeClass("ks-fontello-icon-star");
+        item.removeClass("saved");
+        item.addClass("ks-fontello-icon-star-empty");
+        item.attr('onclick', "bookmarkCourse(jQuery(this).data('courseid'), event);");
+    }
 }

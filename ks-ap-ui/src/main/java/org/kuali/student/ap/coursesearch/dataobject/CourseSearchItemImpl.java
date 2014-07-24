@@ -514,6 +514,7 @@ public class CourseSearchItemImpl implements CourseSearchItem {
         if (isSaved()) {
             //Currently bookmarked
             addBookmarkLink.addAttribute("class", "ks-fontello-icon-star saved");
+            addBookmarkLink.addAttribute("onclick", "deleteBookmarkCourse('', jQuery(this).data('courseid'), event);");
         } else {
             //Not bookmarked
             addBookmarkLink.addAttribute("class", "ks-fontello-icon-star-empty");
