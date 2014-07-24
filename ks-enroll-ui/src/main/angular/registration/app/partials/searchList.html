@@ -1,12 +1,12 @@
 <div class="kscr-Search-results-heading">
-    <div class="kscr-Search-results-summary">Showing {{displayRange((searchResults|filter:facetFilter).length)}} results for "{{searchCriteria}}" in {{termName}}</div>
+    <div id="search_results_summary" class="kscr-Search-results-summary">Showing {{displayRange((searchResults|filter:facetFilter).length)}} results for "{{searchCriteria}}" in {{termName}}</div>
     <div class="kscr-Search-results-picker">
         <span>Show</span>
-        <select ng-model="displayLimit" ng-options="limit as limit for limit in displayLimits" class="kscr-Search-results-limits"></select>
+        <select id="display_limit_select" ng-model="displayLimit" ng-options="limit as limit for limit in displayLimits" class="kscr-Search-results-limits"></select>
     </div>
     <div class="util-Grid--clearfix"></div>
 </div>
-<table class="kscr-Search-results-table">
+<table id="search_results_table" class="kscr-Search-results-table">
     <thead>
         <tr>
             <th class="kscr-Search-results-header" ng-repeat="searchColumn in searchColumns">
