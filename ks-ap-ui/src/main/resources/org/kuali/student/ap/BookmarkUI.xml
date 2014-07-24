@@ -101,13 +101,24 @@
         </property>
     </bean>
 
-    <bean id="bookmark_summary_list" parent="Uif-ListCollectionSection" p:headerText="@{#textHelper.getFormattedMessage('bookmarks.widget.headerWithCount', new Object[]{(lookupResults eq null or lookupResults.size() eq 0) ? '0' : lookupResults.size()})}">
-        <property name="header">
-            <bean p:id="bookmark_summary_list_header" parent="Uif-HeaderFive"/>
+    <bean id="bookmark_summary_list" parent="Uif-ListCollectionSection">
+        <!--<property name="header">-->
+            <!--<bean parent="Uif-HeaderFive"/>-->
+        <!--</property>-->
+        <property name="header.upperGroup">
+            <bean p:id="bookmark_summary_list_header" parent="Uif-HeaderUpperGroup">
+                <property name="items">
+                    <list>
+                        <bean parent="Uif-Message" p:messageText="@{#textHelper.getFormattedMessage('bookmarks.widget.headerWithCount', new Object[]{(lookupResults eq null or lookupResults.size() eq 0) ? '0' : lookupResults.size()})}">
+                            <property name="toolTip">
+                                <ref bean="bookmarks_help_tooltip"/>
+                            </property>
+                        </bean>
+                    </list>
+                </property>
+            </bean>
         </property>
-        <property name="header.toolTip">
-            <ref bean="bookmarks_help_tooltip"/>
-        </property>
+
         <property name="cssClasses">
             <list merge="true">
                 <value>ksap-saved-courses-summary</value>
