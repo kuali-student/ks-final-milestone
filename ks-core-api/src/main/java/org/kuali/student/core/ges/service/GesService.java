@@ -659,7 +659,6 @@ public interface GesService {
             PermissionDeniedException;
 
     /**
-
      * Retrieves a value with the highest priority associated with a particular parameter
      * that is applicable based on the evaluation of the given criteria, and date.
      * Empty or null fields within the criteria are treated as a wild card and will not restrict values that are returned.

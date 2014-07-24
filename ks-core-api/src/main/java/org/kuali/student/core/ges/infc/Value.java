@@ -94,12 +94,6 @@ public interface Value extends IdNamelessEntity, HasEffectiveDates {
     String getCluId();
 
     /**
-     * An optional LUI (Learning Unit Instance) Id that restricts the applicability of this value.
-     * @name LUI ID
-     */
-    String getLuiId();
-
-    /**
      * An optional SOC (Set of Courses) Id that restricts the applicability of this value.
      * @name SOC ID
      */
@@ -110,12 +104,6 @@ public interface Value extends IdNamelessEntity, HasEffectiveDates {
      * @name Subject Code
      */
     String getSubjectCode();
-
-    /**
-     * An optional Building Id that restricts the applicability of this value.
-     * @name Building Id
-     */
-    String getBuildingId();
 
     //////////////////////////////////
     // Value Variables

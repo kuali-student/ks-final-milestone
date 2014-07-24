@@ -12,7 +12,7 @@ import java.util.List;
 
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "ParameterInfo", propOrder = {"personId", "courseId", "courseOfferingId",
+@XmlType(name = "ParameterInfo", propOrder = {"personId", "courseId",
         "atpId", "attributes","_futureElements" })
 public class GesCriteriaInfo extends HasAttributesInfo implements GesCriteria {
 
@@ -28,9 +28,6 @@ public class GesCriteriaInfo extends HasAttributesInfo implements GesCriteria {
 
     @XmlElement
     private String courseId;
-
-    @XmlElement
-    private String courseOfferingId;
 
     @XmlAnyElement
     private List<Object> _futureElements;
@@ -65,14 +62,6 @@ public class GesCriteriaInfo extends HasAttributesInfo implements GesCriteria {
         this.courseId = courseId;
     }
 
-    public String getCourseOfferingId() {
-        return courseOfferingId;
-    }
-
-    public void setCourseOfferingId(String courseOfferingId) {
-        this.courseOfferingId = courseOfferingId;
-    }
-
     ///////////////////////////
     // FUNCTIONALS
     ///////////////////////////
@@ -87,7 +76,6 @@ public class GesCriteriaInfo extends HasAttributesInfo implements GesCriteria {
         if (atpId != null ? !atpId.equals(that.atpId) : that.atpId != null) return false;
         if (personId != null ? !personId.equals(that.personId) : that.personId != null) return false;
         if (courseId != null ? !courseId.equals(that.courseId) : that.courseId != null) return false;
-        if (courseOfferingId != null ? !courseOfferingId.equals(that.courseOfferingId) : that.courseOfferingId != null) return false;
 
         return true;
     }
@@ -97,7 +85,6 @@ public class GesCriteriaInfo extends HasAttributesInfo implements GesCriteria {
         int result = personId != null ? personId.hashCode() : 0;
         result = 31 * result + (atpId != null ? atpId.hashCode() : 0);
         result = 31 * result + (courseId != null ? courseId.hashCode() : 0);
-        result = 31 * result + (courseOfferingId != null ? courseOfferingId.hashCode() : 0);
         return result;
     }
 

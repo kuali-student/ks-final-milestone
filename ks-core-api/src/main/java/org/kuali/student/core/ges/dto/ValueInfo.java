@@ -38,7 +38,7 @@ import java.util.List;
 @XmlType(name = "ValueInfo", propOrder = {"id", "typeKey", "stateKey", "effectiveDate", "expirationDate",
         "parameterKey","priority","atpTypeKeys","ruleId","orgId",
         "populationId",
-        "cluId","luiId","socId","subjectCode","buildingId",
+        "cluId","socId","subjectCode",
         "stringValue","numericValue","dateValue","booleanValue",
         "decimalValue","amountValue","currencyAmountValue","timeAmountValue","timeOfDayValue","customValue",
         "meta", "attributes", "_futureElements" })
@@ -75,13 +75,9 @@ public class ValueInfo extends IdNamelessEntityInfo implements Value, HasEffecti
     @XmlElement
     private String cluId;
     @XmlElement
-    private String luiId;
-    @XmlElement
     private String socId;
     @XmlElement
     private String subjectCode;
-    @XmlElement
-    private String buildingId;
 
     // Value Variables
     // -----------------------
@@ -137,10 +133,8 @@ public class ValueInfo extends IdNamelessEntityInfo implements Value, HasEffecti
             populationId = value.getPopulationId();
 
             cluId = value.getCluId();
-            luiId = value.getLuiId();
             socId = value.getSocId();
             subjectCode = value.getSubjectCode();
-            buildingId = value.getBuildingId();
 
             stringValue = value.getStringValue();
             numericValue = value.getNumericValue();
@@ -246,14 +240,6 @@ public class ValueInfo extends IdNamelessEntityInfo implements Value, HasEffecti
         this.cluId = cluId;
     }
 
-    public String getLuiId() {
-        return luiId;
-    }
-
-    public void setLuiId(String luiId) {
-        this.luiId = luiId;
-    }
-
     public String getSocId() {
         return socId;
     }
@@ -268,14 +254,6 @@ public class ValueInfo extends IdNamelessEntityInfo implements Value, HasEffecti
 
     public void setSubjectCode(String subjectCode) {
         this.subjectCode = subjectCode;
-    }
-
-    public String getBuildingId() {
-        return buildingId;
-    }
-
-    public void setBuildingId(String buildingId) {
-        this.buildingId = buildingId;
     }
 
     @Override
