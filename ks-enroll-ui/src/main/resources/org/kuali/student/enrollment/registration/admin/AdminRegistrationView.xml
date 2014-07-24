@@ -557,6 +557,7 @@
     <!--bean id="KS-AdminRegistration-RegisterDialogResponse" parent="Uif-DialogGroup" p:modalLarge="true"-->
     <bean id="KS-AdminRegistration-RegisterDialogResponse" parent="Uif-DialogGroup">
         <property name="headerText" value="Confirm Registration"/>
+        <property name="style" value="width:650px;"/>
         <property name="items">
             <list>
                 <bean id="KS-AdminRegistration-DialogCollection" parent="Uif-TableCollectionGroup"
@@ -597,7 +598,7 @@
                                     <bean class="org.kuali.student.enrollment.class2.registration.admin.valueFinder.RegistrationGradingOptionsFinder" p:addBlankOption="false"/>
                                 </property>
                             </bean>
-                            <bean parent="Uif-InputField" p:label="Effective Reg Date" p:propertyName="effectiveDate">
+                            <bean parent="Uif-InputField" p:label="Effective Reg Date" p:propertyName="effectiveDate" p:additionalCssClasses="nowrap">
                                 <property name="control">
                                     <bean parent="Uif-DateControl"/>
                                 </property>
@@ -605,13 +606,21 @@
                         </list>
                     </property>
                 </bean>
-                <bean parent="Uif-HorizontalBoxSection">
+                <bean parent="KS-Uif-FooterBase">
                     <property name="items">
                         <list>
-                            <bean parent="Uif-PrimaryActionButton" p:preSubmitCall="closeLightbox(); return true;"
-                                  p:methodToCall="submit" p:actionLabel="Confirm Registration"/>
-                            <bean parent="Uif-ActionLink" p:actionLabel="Cancel" p:actionScript="closeLightbox();"
-                                  p:additionalCssClasses="cancel_link"/>
+                            <bean parent="Uif-HorizontalBoxSection">
+                                <property name="items">
+                                    <list>
+                                        <bean parent="Uif-PrimaryActionButton"
+                                              p:preSubmitCall="closeLightbox(); return true;"
+                                              p:methodToCall="submit" p:actionLabel="Confirm Registration"/>
+                                        <bean parent="Uif-ActionLink" p:actionLabel="Cancel"
+                                              p:actionScript="closeLightbox();"
+                                              p:additionalCssClasses="cancel_link"/>
+                                    </list>
+                                </property>
+                            </bean>
                         </list>
                     </property>
                 </bean>
