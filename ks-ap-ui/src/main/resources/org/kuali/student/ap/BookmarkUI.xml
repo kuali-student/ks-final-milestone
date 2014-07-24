@@ -487,7 +487,8 @@
                     <property name="items">
                         <list>
                             <bean parent="Uif-MessageField" p:label="@{#textHelper.getText('bookmarks.item.label.courseDescription')}"
-                                  p:messageText="@{#line.courseDetailsWrapper.courseDescription}">
+                                  p:messageText="@{#line.courseDetailsWrapper.courseDescription}"
+                                  p:id="@{#line.courseDetailsWrapper.courseCode}_courseDetails">
                                 <property name="cssClasses">
                                     <list merge="true">
                                         <value>ksap-bookmark-description</value>
@@ -496,7 +497,8 @@
                                 <property name="render" value="@{#line.courseDetailsWrapper.courseDescription ne null}"/>
                             </bean>
                             <!-- If Course Description is empty-->
-                            <bean parent="Uif-MessageField" p:label="@{#textHelper.getText('bookmarks.item.label.courseDescription')}">
+                            <bean parent="Uif-MessageField" p:label="@{#textHelper.getText('bookmarks.item.label.courseDescription')}"
+                                  p:id="@{#line.courseDetailsWrapper.courseCode}_courseDetails">
                                 <property name="message">
                                     <bean parent="Uif-Message" p:messageText="@{#textHelper.getText('bookmarks.item.noDescription')}"/>
                                 </property>
@@ -510,7 +512,8 @@
                 <bean parent="Uif-VerticalFieldGroup">
                     <property name="items">
                         <list>
-                            <bean parent="Uif-VerticalBoxSection" p:headerText="@{#textHelper.getText('bookmarks.item.label.more')}">
+                            <bean parent="Uif-VerticalBoxSection" p:headerText="@{#textHelper.getText('bookmarks.item.label.more')}"
+                                    p:id="@{#line.courseDetailsWrapper.courseCode}_more">
                                 <property name="disclosure.render" value="true"/>
                                 <property name="disclosure.defaultOpen" value="false"/>
                                 <property name="disclosure">
