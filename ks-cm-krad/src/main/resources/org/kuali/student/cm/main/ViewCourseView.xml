@@ -27,7 +27,7 @@
         <property name="viewSourceFile" value="ViewCourseView.xml" />
         <property name="formClass" value="org.kuali.student.cm.course.form.ViewCourseForm" />
         <property name="viewHelperServiceClass"
-                          value="org.kuali.student.cm.course.service.impl.ViewViewCourseViewHelperImpl"/>
+                          value="org.kuali.student.cm.course.service.impl.CourseMaintainableImpl"/>
         <property name="singlePageView" value="true" />
         <property name="breadcrumbOptions.homewardPathBreadcrumbs">
             <list>

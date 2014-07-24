@@ -24,7 +24,7 @@ import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.cm.common.util.CurriculumManagementConstants;
 import org.kuali.student.cm.course.form.ViewCourseForm;
 import org.kuali.student.cm.course.form.CourseInfoWrapper;
-import org.kuali.student.cm.course.service.ViewCourseViewHelper;
+import org.kuali.student.cm.course.service.CourseMaintainable;
 import org.kuali.student.r2.core.constants.ProposalServiceConstants;
 import org.kuali.student.r2.core.proposal.service.ProposalService;
 import org.kuali.student.r2.lum.course.service.CourseService;
@@ -75,8 +75,8 @@ public class ViewCourseController extends KsUifControllerBase{
 
         try {
             CourseInfoWrapper courseWrapper = new CourseInfoWrapper();
-            ((ViewCourseViewHelper)form.getViewHelperService()).setDataObject(courseWrapper);
-            ((ViewCourseViewHelper)form.getViewHelperService()).populateCourseAndReviewData(courseId, courseWrapper, true);
+            ((CourseMaintainable)form.getViewHelperService()).setDataObject(courseWrapper);
+            ((CourseMaintainable)form.getViewHelperService()).populateCourseAndReviewData(courseId, courseWrapper, true);
             detailedViewForm.setCourseInfoWrapper(courseWrapper);
 
         }catch (Exception e){
@@ -86,11 +86,4 @@ public class ViewCourseController extends KsUifControllerBase{
         return getUIFModelAndView(form);
     }
 
-    protected CourseService getCourseService() {
-        return (CourseService) GlobalResourceLoader.getService(new QName(CourseServiceConstants.COURSE_NAMESPACE, CourseServiceConstants.SERVICE_NAME_LOCAL_PART));
-    }
-
-    protected ProposalService getProposalService() {
-        return (ProposalService) GlobalResourceLoader.getService(new QName(ProposalServiceConstants.NAMESPACE, ProposalServiceConstants.SERVICE_NAME_LOCAL_PART));
-    }
 }

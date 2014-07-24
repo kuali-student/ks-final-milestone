@@ -1047,19 +1047,20 @@ public class CourseMaintainableImpl extends RuleEditorMaintainableImpl implement
      * @see org.kuali.student.cm.course.service.CourseMaintainable#updateReview()
      */
     public void updateReview() {
-        updateReview(true);
+        updateReview(true,false);
     }
 
     /**
      * Updates the ReviewProposalDisplay object for the Course Proposal and refreshes remote data elements based on passed in @shouldRepopulateRemoteData param
      *
      * @param shouldRepopulateRemoteData identifies whether remote data elements like Collaborators should be refreshed
+     * @param isCourseView if true, loads only course info. if false, loads proposal review data too like 'financials',
+     *                     'supporting docs' and 'collaborators'
      */
-    protected void updateReview(boolean shouldRepopulateRemoteData) {
+    protected void updateReview(boolean shouldRepopulateRemoteData, boolean isCourseView) {
 
         CourseInfoWrapper courseInfoWrapper = (CourseInfoWrapper) getDataObject();
         CourseInfo savedCourseInfo = courseInfoWrapper.getCourseInfo();
-        ProposalInfo proposalInfo = courseInfoWrapper.getProposalInfo();
 
         // Update course section
         ReviewProposalDisplay reviewData = courseInfoWrapper.getReviewProposalDisplay();
@@ -1070,19 +1071,13 @@ public class CourseMaintainableImpl extends RuleEditorMaintainableImpl implement
         if (StringUtils.isBlank(courseInfoWrapper.getPreviousSubjectCode()) && StringUtils.isNotBlank(savedCourseInfo.getSubjectArea())) {
             courseInfoWrapper.setPreviousSubjectCode(savedCourseInfo.getSubjectArea());
         }
-        // add logic to set the missing required element correctly. The default is false
-        if (proposalInfo != null) {
-            reviewData.getCourseSection().setProposalName(courseInfoWrapper.getProposalInfo().getName());
-        }
+
         reviewData.getCourseSection().setCourseTitle(savedCourseInfo.getCourseTitle());
         reviewData.getCourseSection().setTranscriptTitle(savedCourseInfo.getTranscriptTitle());
         reviewData.getCourseSection().setSubjectArea(savedCourseInfo.getSubjectArea());
         reviewData.getCourseSection().setCourseNumberSuffix(savedCourseInfo.getCourseNumberSuffix());
         if (savedCourseInfo.getDescr() != null) {
             reviewData.getCourseSection().setDescription(savedCourseInfo.getDescr().getPlain());
-        }
-        if (proposalInfo != null && proposalInfo.getRationale() != null) {
-            reviewData.getCourseSection().setRationale(proposalInfo.getRationale().getPlain());
         }
 
         reviewData.getSupportingDocumentsSection().getSupportingDocuments().clear();
@@ -1165,7 +1160,6 @@ public class CourseMaintainableImpl extends RuleEditorMaintainableImpl implement
         reviewData.getCourseLogisticsSection().setPassFail(BooleanUtils.toStringYesNo(courseInfoWrapper.isPassFail()));
         reviewData.getCourseLogisticsSection().setGradingOptions(buildGradingOptionsList());
         reviewData.getCourseLogisticsSection().setFinalExamStatus(getFinalExamString());
-        reviewData.getCourseLogisticsSection().setFinalExamStatusRationale(courseInfoWrapper.getFinalExamRationale());
 
         reviewData.getCourseLogisticsSection().getOutcomes().clear();
 
@@ -1250,6 +1244,34 @@ public class CourseMaintainableImpl extends RuleEditorMaintainableImpl implement
         reviewData.getActiveDatesSection().setEndTerm(getTermDesc(courseInfoWrapper.getCourseInfo().getEndTerm()));
         reviewData.getActiveDatesSection().setPilotCourse(BooleanUtils.toStringYesNo(courseInfoWrapper.getCourseInfo().isPilotCourse()));
 
+        /**
+         * Populate 'Proposal' specific model
+         */
+        if (!isCourseView){
+            updateProposalReviewModel(reviewData,shouldRepopulateRemoteData);
+        }
+
+    }
+
+    /**
+     * This method populates the proposal related model which can be displayed at review proposal page
+     * @param reviewData
+     * @param shouldRepopulateRemoteData
+     */
+    protected void updateProposalReviewModel(ReviewProposalDisplay reviewData,boolean shouldRepopulateRemoteData){
+
+        CourseInfoWrapper courseInfoWrapper = (CourseInfoWrapper) getDataObject();
+        CourseInfo savedCourseInfo = courseInfoWrapper.getCourseInfo();
+        ProposalInfo proposalInfo = courseInfoWrapper.getProposalInfo();
+
+        reviewData.getCourseSection().setProposalName(courseInfoWrapper.getProposalInfo().getName());
+
+        if (proposalInfo.getRationale() != null) {
+            reviewData.getCourseSection().setRationale(proposalInfo.getRationale().getPlain());
+        }
+
+        reviewData.getCourseLogisticsSection().setFinalExamStatusRationale(courseInfoWrapper.getFinalExamRationale());
+
         // update financials section
         if (savedCourseInfo.getFeeJustification() != null) {
             reviewData.getFinancialsSection().setJustificationOfFees(savedCourseInfo.getFeeJustification().getPlain());
@@ -1301,6 +1323,7 @@ public class CourseMaintainableImpl extends RuleEditorMaintainableImpl implement
             supportingDocReviewObj.setDocumentName(supportingDocumentInfoWrapper.getDocumentName());
             reviewData.getSupportingDocumentsSection().getSupportingDocuments().add(supportingDocReviewObj);
         }
+
     }
 
     protected void updateCollaborators(CourseInfoWrapper courseInfoWrapper) {
@@ -2098,6 +2121,15 @@ public class CourseMaintainableImpl extends RuleEditorMaintainableImpl implement
 
     }
 
+    /**
+     * This method loads course information and populate to <class>CourseInfoWrapper</class> and also to
+     * <class>ReviewProposalDisplay</class> for display purpose at 'review proposal' and 'view course'.
+     *
+     * @param courseId
+     * @param courseWrapper
+     * @param isCourseView if true, skips loading proposal model
+     * @throws Exception
+     */
     public void populateCourseAndReviewData(String courseId, CourseInfoWrapper courseWrapper, boolean isCourseView) throws Exception {
 
         CourseInfo course = getCourseService().getCourse(courseId, createContextInfo());
@@ -2154,7 +2186,7 @@ public class CourseMaintainableImpl extends RuleEditorMaintainableImpl implement
 
         populateLearningObjectives();
 
-        updateReview(false);
+        updateReview(false,isCourseView);
 
         populateRequisities();
     }
