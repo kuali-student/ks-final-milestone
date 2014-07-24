@@ -69,6 +69,6 @@ public interface CourseMaintainable extends KSMaintainable {
 
     public List<CluInformation> getCoursesInRange(MembershipQueryInfo membershipQuery);
 
-    public void populateCourseAndReviewData(String courseId, CourseInfoWrapper courseWrapper) throws Exception;
+    public void populateCourseAndReviewData(String courseId, CourseInfoWrapper courseWrapper, boolean isCourseView ) throws Exception;
 
 }

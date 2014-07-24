@@ -76,7 +76,7 @@ public class ViewCourseController extends KsUifControllerBase{
         try {
             CourseInfoWrapper courseWrapper = new CourseInfoWrapper();
             ((ViewCourseViewHelper)form.getViewHelperService()).setDataObject(courseWrapper);
-            ((ViewCourseViewHelper)form.getViewHelperService()).populateCourseAndReviewData(courseId, courseWrapper);
+            ((ViewCourseViewHelper)form.getViewHelperService()).populateCourseAndReviewData(courseId, courseWrapper, true);
             detailedViewForm.setCourseInfoWrapper(courseWrapper);
 
         }catch (Exception e){

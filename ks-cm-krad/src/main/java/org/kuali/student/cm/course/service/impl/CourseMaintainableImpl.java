@@ -33,6 +33,7 @@ import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
 import org.kuali.rice.krad.uif.container.Container;
 import org.kuali.rice.krad.uif.element.Action;
+import org.kuali.rice.krad.uif.util.LifecycleElement;
 import org.kuali.rice.krad.uif.util.ObjectPropertyUtils;
 import org.kuali.rice.krad.uif.view.ViewModel;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
@@ -2089,7 +2090,7 @@ public class CourseMaintainableImpl extends RuleEditorMaintainableImpl implement
             ProposalInfo proposal = getProposalService().getProposalByWorkflowId(getDocumentNumber(), ContextUtils.getContextInfo());
             dataObject.setProposalInfo(proposal);
 
-            populateCourseAndReviewData(proposal.getProposalReference().get(0),dataObject);
+            populateCourseAndReviewData(proposal.getProposalReference().get(0),dataObject, false);
 
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -2097,7 +2098,7 @@ public class CourseMaintainableImpl extends RuleEditorMaintainableImpl implement
 
     }
 
-    public void populateCourseAndReviewData(String courseId, CourseInfoWrapper courseWrapper) throws Exception {
+    public void populateCourseAndReviewData(String courseId, CourseInfoWrapper courseWrapper, boolean isCourseView) throws Exception {
 
         CourseInfo course = getCourseService().getCourse(courseId, createContextInfo());
         courseWrapper.setCourseInfo(course);
@@ -2137,7 +2138,12 @@ public class CourseMaintainableImpl extends RuleEditorMaintainableImpl implement
             courseWrapper.getCollaboratorWrappers().add(new CollaboratorWrapper());
         }
 
-        populateCollaborators();
+        if(!isCourseView){
+            populateCollaborators();
+            if (courseWrapper.getSupportingDocs().isEmpty()) {
+                populateSupportingDocuments();
+            }
+        }
 
         populateAuditOnWrapper();
         populateFinalExamOnWrapper();
@@ -2147,9 +2153,6 @@ public class CourseMaintainableImpl extends RuleEditorMaintainableImpl implement
         populateJointCourseOnWrapper();
 
         populateLearningObjectives();
-        if (courseWrapper.getSupportingDocs().isEmpty()) {
-            populateSupportingDocuments();
-        }
 
         updateReview(false);
 
@@ -2423,5 +2426,39 @@ public class CourseMaintainableImpl extends RuleEditorMaintainableImpl implement
             cluInfoHelper.setLrcService(lrcService);
         }
         return cluInfoHelper;
+    }
+
+
+    /**
+     * As we're extending from <code>CourseMaintainableImpl</code>, we dont want any of the
+     * maintenance document related logics here. Overriding to avoid all the maintenance document
+     * related logic and to avoid form type casting issue (form to maintenaceform)
+     *
+     * @param element
+     * @param model
+     */
+    @Override
+    public void performCustomApplyModel(LifecycleElement element, Object model) {
+
+    }
+
+    /**
+     * @see #performCustomApplyModel(org.kuali.rice.krad.uif.util.LifecycleElement, Object)
+     * @param element
+     * @param model
+     * @param parent
+     */
+    @Override
+    public void performCustomFinalize(LifecycleElement element, Object model, LifecycleElement parent) {
+
+    }
+
+    /**
+     * @see #performCustomApplyModel(org.kuali.rice.krad.uif.util.LifecycleElement, Object)
+     * @param model
+     */
+    @Override
+    public void performCustomViewFinalize(Object model) {
+
     }
 }
