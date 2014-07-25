@@ -99,7 +99,7 @@
     <bean id="KS-ViewCourseView-HomewardPathBreadcrumbs" parent="Uif-BreadcrumbItem">
         <property name="label" value="Find a Course"/>
         <property name="url.baseUrl" value="lookup"/>
-        <property name="url.viewId" value="KS-Course-FindACourse"/>
+        <property name="url.viewId" value="CM-Proposal-Course-FindCourse"/>
     </bean>
 
     <bean id="CM-Proposal-View-Course-GridGroup" parent="Uif-GridGroup" p:layoutManager.numberOfColumns="4" abstract="true">
