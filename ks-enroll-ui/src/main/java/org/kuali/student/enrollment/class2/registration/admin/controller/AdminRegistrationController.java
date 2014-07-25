@@ -171,7 +171,7 @@ public class AdminRegistrationController extends UifControllerBase {
                 form.setDisplayRegistrationTabs(true);
             }
         } else {
-            form.setTermEligible(true);
+            form.setTermEligible(false);
             form.setDisplayRegistrationTabs(true);
         }
         form.setClientState(AdminRegConstants.ClientStates.READY);
