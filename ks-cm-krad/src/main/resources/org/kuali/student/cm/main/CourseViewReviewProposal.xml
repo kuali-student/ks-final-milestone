@@ -301,7 +301,7 @@
                                                                      <property name="id" value="supporting_document_@{#index}"/>
                                                                      <property name="cssClasses">
                                                                          <list merge="true">
-                                                                             <value>review_readonly</value>
+                                                                             <value>cm_readonly_input</value>
                                                                          </list>
                                                                      </property>
                                                                  </bean>

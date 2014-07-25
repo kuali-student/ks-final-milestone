@@ -118,14 +118,14 @@
         <property name="fieldLabel.renderColon" value="false"/>
         <property name="cssClasses">
             <list merge="true">
-                <value>review_readonly</value>
+                <value>cm_readonly_input</value>
             </list>
         </property>
         <property name="control">
             <bean parent="Uif-LargeTextAreaControl" p:readOnly="true">
                 <property name="cssClasses">
                     <list merge="true">
-                        <value>review_readonly_control</value>
+                        <value>cm_readonly_control</value>
                     </list>
                 </property>
             </bean>
@@ -146,7 +146,7 @@
             </list>
         </property>
         <property name="header">
-            <bean parent="Uif-HeaderTwo">
+            <bean parent="Uif-HeaderThree">
                 <property name="cssClasses">
                     <list merge="true">
                         <value>ks-dottedHeaderActions</value>
@@ -297,7 +297,7 @@
                                 <property name="control.cssClasses">
                                     <list merge="true">
                                         <value>ks-review-captialize</value>
-                                        <value>review_readonly_control</value>
+                                        <value>cm_readonly_control</value>
                                     </list>
                                 </property>
                             </bean>
@@ -307,7 +307,7 @@
                                 <property name="control.cssClasses">
                                     <list merge="true">
                                         <value>ks-review-captialize</value>
-                                        <value>review_readonly_control</value>
+                                        <value>cm_readonly_control</value>
                                     </list>
                                 </property>
                             </bean>
@@ -575,7 +575,7 @@
                                 <property name="control.cssClasses">
                                     <list merge="true">
                                         <value>ks-review-captialize</value>
-                                        <value>review_readonly_control</value>
+                                        <value>cm_readonly_control</value>
                                     </list>
                                 </property>
                             </bean>
