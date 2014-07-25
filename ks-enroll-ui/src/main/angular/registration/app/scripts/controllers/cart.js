@@ -29,6 +29,8 @@ angular.module('regCartApp')
             }
 
             GlobalVarsService.setCartCourses(items);
+
+            $scope.$emit('updateCart', $scope.cart);
         });
 
         // this method loads the cart and kicks off polling if needed
