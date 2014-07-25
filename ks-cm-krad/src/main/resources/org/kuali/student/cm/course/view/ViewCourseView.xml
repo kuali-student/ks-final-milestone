@@ -90,7 +90,7 @@
                 <ref bean="CM-Proposal-View-Course-GovernanceSection"/>
                 <ref bean="CM-Proposal-View-Course-CourseLogisticsSection"/>
                 <ref bean="CM-Proposal-View-Course-LearningObjectivesSection"/>
-                <!--<ref bean="CM-Proposal-View-Course-CourseRequisitesSection"/>-->
+                <ref bean="CM-Proposal-View-Course-CourseRequisitesSection"/>
                 <ref bean="CM-Proposal-View-Course-ActiveDatesSection"/>
             </list>
         </property>
@@ -507,46 +507,57 @@
         </property>
     </bean>
 
-    <bean id="CM-Proposal-View-Course-CourseRequisitesSection" parent="CM-Proposal-View-Course-VerticalBoxSection">
-        <property name="headerText" value="Course Requisites"/>
-        <property name="header.rightGroup.items">
-            <list>
-                <bean p:id="Governance-Review-Edit-link" parent="CM-Proposal-Review-Course-Edit-Link">
-                    <property name="actionParameters">
-                        <map>
-                            <entry key="displaySection" value="KS-CourseView-CourseRequisites-Section"/>
-                        </map>
-                    </property>
-                </bean>
-            </list>
-        </property>
+    <bean id="CM-Proposal-View-Course-CourseRequisitesSection"  parent="CM-Proposal-View-Course-VerticalBoxSection" >
+       <property name="headerText" value="Course Requisites"/>
+
         <property name="items">
             <list>
                 <bean parent="CM-Proposal-View-Course-GridGroup">
                     <property name="items">
                         <list>
-                            <bean parent="CM-ReadOnlyInput" p:label="Student Eligibility + Prerequisite"
-                                  id="courseLogisticsSection.terms_1"
-                                  p:propertyName="reviewProposalDisplay.courseRequisitesSection.dummyString"/>
-                            <bean parent="CM-ReadOnlyInput" p:label="Corequisite" id="courseLogisticsSection.terms_2"
-                                  p:propertyName="reviewProposalDisplay.courseRequisitesSection.dummyString"/>
-                            <bean parent="CM-ReadOnlyInput" p:label="Recommended Preparation"
-                                  id="courseLogisticsSection.terms_3"
-                                  p:propertyName="reviewProposalDisplay.courseRequisitesSection.dummyString"/>
-                            <bean parent="CM-ReadOnlyInput" p:label="Antirequisite" id="courseLogisticsSection.terms_4"
-                                  p:propertyName="reviewProposalDisplay.courseRequisitesSection.dummyString"/>
-                            <bean parent="CM-ReadOnlyInput" p:label="Course that Restricts Credits"
-                                  id="courseLogisticsSection.terms_5"
-                                  p:propertyName="reviewProposalDisplay.courseRequisitesSection.dummyString"/>
-                            <bean parent="CM-ReadOnlyInput" p:label="Repeatable for Credit"
-                                  id="courseLogisticsSection.terms_6"
-                                  p:propertyName="reviewProposalDisplay.courseRequisitesSection.dummyString"/>
+                            <bean id="CM-Proposal-Course-Requisites-CollectionSection" parent="Uif-VerticalFieldGroup" p:colSpan="3" p:fieldLabel.renderColon="false" >
+
+                                <property name="items">
+                                    <list>
+                                        <bean id="CM-Proposal-Course-Requisites-AgendaSection" parent="CM-Proposal-Course-AgendaManage-Section" class="org.kuali.student.cm.course.service.util.CourseAgendaSection">
+
+                                            <property name="rulePrototype">
+                                                <bean id="CM-Proposal-CoursePreview-AgendaManage-RulePrototype" parent="CM-Proposal-Course-AgendaManage-RulePrototype-CoursePreview">
+                                                    <property name="items">
+                                                        <list>
+                                                            <ref bean="CM-Proposal-Course-AgendaManage-ViewRule"/>
+                                                        </list>
+                                                    </property>
+                                                </bean>
+                                            </property>
+
+                                        </bean>
+                                    </list>
+                                </property>
+                                <property name="propertyReplacers">
+                                    <list>
+                                        <bean parent="Uif-ConditionalBeanPropertyReplacer" p:propertyName="items"
+                                              p:condition="@{#form.viewId eq T(org.kuali.student.cm.common.util.CurriculumManagementConstants$CourseViewPageIds).VIEW_COURSE_VIEW}">
+                                            <property name="replacement">
+                                                <list>
+                                                    <bean parent="CM-Proposal-Course-Requisites-AgendaSection">
+                                                        <property name="bindingInfo.bindingObjectPath" value="courseInfoWrapper.agendas"/>
+                                                    </bean>
+                                                </list>
+                                            </property>
+                                        </bean>
+                                    </list>
+                                </property>
+                            </bean>
                         </list>
                     </property>
                 </bean>
             </list>
         </property>
     </bean>
+
+
+
 
     <bean id="CM-Proposal-View-Course-ActiveDatesSection" parent="CM-Proposal-View-Course-VerticalBoxSection">
         <property name="headerText" value="Active Dates"/>

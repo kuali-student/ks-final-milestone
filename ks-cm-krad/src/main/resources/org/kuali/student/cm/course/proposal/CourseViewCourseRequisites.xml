@@ -68,4 +68,63 @@
             </list>
         </property>
     </bean>
+
+
+    <!--
+Custom RulePrototype for Requisites on Course Review screen.
+-->
+    <bean id="CM-Proposal-CoursePreview-AgendaManage-RulePrototype" parent="CM-Proposal-Course-AgendaManage-RulePrototype-CoursePreview">
+        <property name="items">
+            <list>
+                <ref bean="CM-Proposal-Course-AgendaManage-ViewRule"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="CM-Proposal-Course-AgendaManage-RulePrototype-CoursePreview" parent="CM-VerticalBoxSubSection">
+    </bean>
+
+    <bean id="CM-Proposal-Course-AgendaManage-ViewRule" parent="KRMS-AgendaManage-EditRule">
+        <property name="items">
+            <list>
+                <bean id="CM-Proposal-Course-ReviewTree-Group" parent="Uif-VerticalBoxGroup"
+                      p:cssClasses="ks-form-panel">
+                    <property name="items">
+                        <list>
+                            <ref bean="CM-Proposal-Course-ViewTree-Section"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="CM-Proposal-Course-AgendaManage-Section" parent="Uif-VerticalBoxSection"
+          class="org.kuali.rice.krms.util.AgendaSection">
+        <property name="validationMessages.displayMessages" value="false"/>
+        <property name="bindingInfo">
+            <ref bean="Uif-BindingInfo"/>
+        </property>
+        <property name="propertyName" value="agendas"/>
+        <property name="agendaPrototype">
+            <ref bean="CM-Proposal-Course-AgendaManage-AgendaPrototype"/>
+        </property>
+        <property name="rulePrototype">
+            <ref bean="KRMS-AgendaManage-RulePrototype"/>
+        </property>
+    </bean>
+
+    <bean id="CM-Proposal-Course-AgendaManage-AgendaPrototype" parent="Uif-VerticalBoxSection">
+        <property name="validationMessages.displayMessages" value="false"/>
+        <property name="header">
+            <bean parent="Uif-HeaderFour" p:additionalCssClasses="krms-agendaHeader">
+            </bean>
+        </property>
+    </bean>
+
+
+
+
+
+
 </beans>

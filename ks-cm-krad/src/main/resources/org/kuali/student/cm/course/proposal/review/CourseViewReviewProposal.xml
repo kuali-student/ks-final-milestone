@@ -56,7 +56,7 @@
                 <ref bean="CM-Proposal-Review-Course-GovernanceSection"/>
                 <ref bean="CM-Proposal-Review-Course-CourseLogisticsSection"/>
                 <ref bean="CM-Proposal-Review-Course-LearningObjectivesSection"/>
-                <!--<ref bean="CM-Proposal-View-Course-CourseRequisitesSection"/>  -->
+                <ref bean="CM-Proposal-Review-Course-CourseRequisitesSection"/>
                 <ref bean="CM-Proposal-Review-Course-ActiveDatesSection"/>
                 <ref bean="CM-Proposal-Review-Course-FinancialsSection"/>
                 <ref bean="CM-Proposal-Review-Course-AuthorsAndCollaboratorsSection"/>
@@ -145,6 +145,20 @@
                     <property name="actionParameters">
                         <map>
                             <entry key="displaySection" value="CM-Proposal-Course-LearningObjectives-Page"/>
+                        </map>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="CM-Proposal-Review-Course-CourseRequisitesSection" parent="CM-Proposal-View-Course-CourseRequisitesSection">
+        <property name="header.rightGroup.items">
+            <list>
+                <bean p:id="CourseRequisites-Review-Edit-link" parent="CM-Proposal-Review-Course-Edit-Link">
+                    <property name="actionParameters">
+                        <map>
+                            <entry key="displaySection" value="CM-Proposal-Course-Requisites-Page"/>
                         </map>
                     </property>
                 </bean>
