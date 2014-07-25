@@ -56,6 +56,9 @@ import org.kuali.student.r2.core.scheduling.dto.ScheduleComponentInfo;
 import org.kuali.student.r2.core.scheduling.dto.ScheduleInfo;
 import org.kuali.student.r2.core.scheduling.dto.TimeSlotInfo;
 import org.kuali.student.r2.core.scheduling.util.SchedulingServiceUtil;
+import org.kuali.student.r2.lum.lrc.dto.ResultValueInfo;
+import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
+import org.kuali.student.r2.lum.util.constants.LrcServiceConstants;
 
 import java.text.MessageFormat;
 import java.text.ParseException;
@@ -224,7 +227,7 @@ public class AdminRegistrationViewHelperServiceImpl extends KSViewHelperServiceI
         RegistrationCourse registrationCourse = new RegistrationCourse();
         registrationCourse.setCode(coInfo.getCourseOfferingCode());
         registrationCourse.setTitle(coInfo.getCourseOfferingTitle());
-        registrationCourse.setCredits(Integer.parseInt(coInfo.getCreditCnt()));
+        registrationCourse.setCredits(courseRegistrationInfo.getCredits().toString());
         registrationCourse.setTransactionalDate(courseRegistrationInfo.getMeta().getCreateTime());
         registrationCourse.setEffectiveDate(courseRegistrationInfo.getEffectiveDate());
         registrationCourse.setSection(AdminRegResourceLoader.getCourseOfferingService().getRegistrationGroup(
@@ -277,6 +280,19 @@ public class AdminRegistrationViewHelperServiceImpl extends KSViewHelperServiceI
 
             course.setGradingOption(courseOffering.getGradingOptionId());
             course.setGradingOptions(courseOffering.getStudentRegistrationGradingOptions());
+            try{
+                course.setCreditOptions(getCourseOfferingCreditOptionValues(courseOffering.getCreditOptionId(), createContextInfo()));
+                if(course.getCreditOptions().size() == 1){
+                    course.setCreditType(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_FIXED);
+                    course.setCredits((course.getCreditOptions().get(0)));
+                }else{
+                    course.setCreditType( LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_MULTIPLE);
+                }
+
+
+            }catch(Exception e) {
+                throw convertServiceExceptionsToUI(e);
+            }
 
             //Add error message when no registration group was found for given section.
             course.setRegGroup(getRegistrationGroupForCourseOfferingIdAndSection(courseOffering.getId(), course.getSection()));
@@ -311,6 +327,34 @@ public class AdminRegistrationViewHelperServiceImpl extends KSViewHelperServiceI
         }
 
         return null;
+    }
+
+    private List<String> getCourseOfferingCreditOptionValues(String creditOptionId, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException {
+        int firstValue = 0;
+        List<String> creditOptions = new ArrayList<String>();
+
+        //Lookup the selected credit option and set from persisted values
+        if (!creditOptionId.isEmpty()) {
+            //Lookup the resultValueGroup Information
+            ResultValuesGroupInfo resultValuesGroupInfo = CourseRegistrationAndScheduleOfClassesUtil.getLrcService().getResultValuesGroup(creditOptionId, contextInfo);
+            String typeKey = resultValuesGroupInfo.getTypeKey();
+
+            //Get the actual values
+            List<ResultValueInfo> resultValueInfos = CourseRegistrationAndScheduleOfClassesUtil.getLrcService().getResultValuesByKeys(resultValuesGroupInfo.getResultValueKeys(), contextInfo);
+
+            if (!resultValueInfos.isEmpty()) {
+                if (typeKey.equals(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_FIXED)) {
+                    creditOptions.add(resultValueInfos.get(firstValue).getValue()); // fixed credits
+                } else if (typeKey.equals(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_MULTIPLE) ||
+                        typeKey.equals(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_RANGE)) {  // multiple or range
+                    for (ResultValueInfo resultValueInfo : resultValueInfos) {
+                        creditOptions.add(resultValueInfo.getValue());
+                    }
+                }
+            }
+        }
+
+        return creditOptions;
     }
 
     @Override

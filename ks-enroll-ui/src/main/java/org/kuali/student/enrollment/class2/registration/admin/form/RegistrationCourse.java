@@ -38,7 +38,9 @@ public class RegistrationCourse implements Serializable{
     private String section;
     private String title;
 
-    private Integer credits;
+    private String creditType;
+    private List<String> creditOptions;
+    private String credits;
     private String gradingOption;
     private List<String> gradingOptions;
 
@@ -79,11 +81,11 @@ public class RegistrationCourse implements Serializable{
         this.title = title;
     }
 
-    public void setCredits(Integer credits) {
+    public void setCredits(String credits) {
         this.credits = credits;
     }
 
-    public Integer getCredits() {
+    public String getCredits() {
         return credits;
     }
 
@@ -198,5 +200,21 @@ public class RegistrationCourse implements Serializable{
 
     public void setGradingOptions(List<String> gradingOptions) {
         this.gradingOptions = gradingOptions;
+    }
+
+    public List<String> getCreditOptions() {
+        return creditOptions;
+    }
+
+    public void setCreditOptions(List<String> creditOptions) {
+        this.creditOptions = creditOptions;
+    }
+
+    public String getCreditType() {
+        return creditType;
+    }
+
+    public void setCreditType(String creditType) {
+        this.creditType = creditType;
     }
 }

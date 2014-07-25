@@ -581,12 +581,13 @@
                                     </list>
                                 </property>
                             </bean>
-                            <bean parent="Uif-InputField" p:label="Credits" p:propertyName="credits">
+                            <bean parent="Uif-InputField" p:label="Credits" p:propertyName="credits"
+                                  p:readOnly="@{#line.creditType eq 'kuali.result.values.group.type.fixed'}">
                                 <property name="control">
                                     <bean parent="Uif-DropdownControl"/>
                                 </property>
                                 <property name="optionsFinder">
-                                    <bean class="org.kuali.student.enrollment.class2.registration.admin.valueFinder.RegistrationCreditsOptionsFinder" p:addBlankOption="false"/>
+                                    <bean class="org.kuali.student.enrollment.class2.registration.admin.valueFinder.RegistrationCreditsOptionsFinder"/>
                                 </property>
                             </bean>
                             <bean parent="Uif-InputField" p:label="Reg Options" p:propertyName="gradingOption"

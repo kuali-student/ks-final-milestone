@@ -250,13 +250,13 @@ public class AdminRegistrationForm extends UifFormBase implements Serializable {
     /**
      * @return the total number of credits for all registered courses.
      */
-    public int getRegisteredCredits() {
-        int credits = 0;
+    public String getRegisteredCredits() {
+        double credits = 0;
         for (RegistrationCourse course: registeredCourses) {
-            credits += course.getCredits();
+            credits += Double.parseDouble(course.getCredits());
         }
 
-        return credits;
+        return String.valueOf(credits);
     }
 
     public int getEditRegisteredIndex() {
@@ -286,13 +286,13 @@ public class AdminRegistrationForm extends UifFormBase implements Serializable {
     /**
      * @return The total number of credits for waitlisted courses.
      */
-    public int getWaitlistedCredits() {
-        int credits = 0;
+    public String getWaitlistedCredits() {
+        double credits = 0;
         for (RegistrationCourse course: waitlistedCourses) {
-            credits += course.getCredits();
+            credits += Double.parseDouble(course.getCredits());
         }
 
-        return credits;
+        return String.valueOf(credits);
     }
 
     public int getEditWaitlistedIndex() {
