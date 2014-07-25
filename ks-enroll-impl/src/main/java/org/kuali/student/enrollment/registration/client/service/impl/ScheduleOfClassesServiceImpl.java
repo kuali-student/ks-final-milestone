@@ -291,7 +291,7 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
         if (courseOfferingList != null && !courseOfferingList.isEmpty()) {   // if we found course offerings
             for (CourseSearchResult csr : courseOfferingList) {
                 CourseAndPrimaryAOSearchResult resultElement = new CourseAndPrimaryAOSearchResult(); // this is the element in the list we will return
-                List<ActivityOfferingSearchResult> activityOfferingList = getPrimaryActivityOfferingsByCo(csr.getCourseOfferingId(), contextInfo);
+                List<ActivityOfferingSearchResult> activityOfferingList = getPrimaryActivityOfferingsByCo(csr.getCourseId(), contextInfo);
 
                 resultElement.setCourseOfferingInfo(csr);
                 resultElement.setPrimaryActivityOfferingInfo(activityOfferingList);
@@ -561,21 +561,9 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
                 }
 
                 if (CourseOfferingManagementSearchImpl.SearchResultColumns.CODE.equals(cellInfo.getKey())) {
-                    courseSearchResult.setCourseOfferingCode(value);
-                } else if (CourseOfferingManagementSearchImpl.SearchResultColumns.DESC.equals(cellInfo.getKey())) {
-                    courseSearchResult.setCourseOfferingDesc(value);
-                } else if (CourseOfferingManagementSearchImpl.SearchResultColumns.GRADING_OPTION_NAME.equals(cellInfo.getKey())) {
-                    courseSearchResult.setCourseOfferingGradingOptionDisplay(cellInfo.getValue());
-                } else if (CourseOfferingManagementSearchImpl.SearchResultColumns.CREDIT_OPTION_NAME.equals(cellInfo.getKey())) {
-                    courseSearchResult.setCourseOfferingCreditOptionDisplay(cellInfo.getValue());
+                    courseSearchResult.setCourseCode(value);
                 } else if (CourseOfferingManagementSearchImpl.SearchResultColumns.CO_ID.equals(cellInfo.getKey())) {
-                    courseSearchResult.setCourseOfferingId(value);
-                } else if (CourseOfferingManagementSearchImpl.SearchResultColumns.HAS_STUDENT_SELECTABLE_PASSFAIL.equals(cellInfo.getKey())) {
-                    courseSearchResult.setStudentSelectablePassFail(BooleanUtils.toBoolean(value));
-                } else if (CourseOfferingManagementSearchImpl.SearchResultColumns.CAN_AUDIT_COURSE.equals(cellInfo.getKey())) {
-                    courseSearchResult.setAuditCourse(BooleanUtils.toBoolean(value));
-                } else if (CourseOfferingManagementSearchImpl.SearchResultColumns.IS_HONORS_COURSE.equals(cellInfo.getKey())) {
-                    courseSearchResult.setHonorsCourse(BooleanUtils.toBoolean(value));
+                    courseSearchResult.setCourseId(value);
                 }
 
             }

@@ -166,26 +166,6 @@ public class CourseRegistrationCartClientServiceImpl extends CourseRegistrationC
     }
 
     @Override
-    public Response getStudentRegistrationOptionsRS(String courseCode, String termId, String regGroupId) {
-        Response.ResponseBuilder response;
-
-        try {
-            response = Response.ok(getStudentRegistrationOptions(courseCode, termId, regGroupId));
-        } catch (Exception e) {
-            LOGGER.warn("Exception occurred", e);
-            // Convert the generic user message into something useful to the UI.
-            UserMessageResult userMessage = new UserMessageResult();
-            userMessage.setGenericMessage("Unable to get student registration options.");
-            String technicalInfo = String.format("Technical Info:(termId:[%s] courseCode[%s] regGroupId[%s] )", termId, courseCode, regGroupId);
-
-            userMessage.setConsoleMessage(technicalInfo);
-            response = getResponse(Response.Status.INTERNAL_SERVER_ERROR, userMessage);
-        }
-
-        return response.build();
-    }
-
-    @Override
     public Response searchForCartRS(String termId) {
         Response.ResponseBuilder response;
 

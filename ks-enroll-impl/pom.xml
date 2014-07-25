@@ -107,6 +107,11 @@
             <groupId>org.codehaus.jackson</groupId>
             <artifactId>jackson-jaxrs</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.codehaus.jackson</groupId>
+            <artifactId>jackson-xc</artifactId>
+            <version>1.9.13</version>
+        </dependency>
         <!-- Rabbit MQ is being evaluated as an MQ solution-->
         <dependency>
             <groupId>org.springframework</groupId>
@@ -162,6 +167,12 @@
         <dependency>
             <groupId>org.springframework.batch</groupId>
             <artifactId>spring-batch-infrastructure</artifactId>
+        </dependency>
+        <!-- Playing with elastic search -->
+        <dependency>
+            <groupId>org.elasticsearch</groupId>
+            <artifactId>elasticsearch</artifactId>
+            <version>1.2.2</version>
         </dependency>
     </dependencies>
 </project>

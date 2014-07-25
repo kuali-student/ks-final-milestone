@@ -33,10 +33,6 @@ angular.module('regCartApp')
             return ServiceUtilities.getData(URLS.courseRegistrationCart + '/searchForCart');
         };
 
-        this.getGradingOptions = function () {
-            return ServiceUtilities.getData(URLS.courseRegistrationCart + '/getStudentRegistrationOptions');
-        };
-
         this.addCourseToCart = function () {
             return ServiceUtilities.postData(URLS.courseRegistrationCart + '/addCourseToCart');
         };

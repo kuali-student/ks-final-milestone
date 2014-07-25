@@ -29,6 +29,7 @@ import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.util.RichTextHelper;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.CourseWaitListServiceConstants;
+import org.kuali.student.r2.common.util.constants.LprRosterServiceConstants;
 import org.kuali.student.r2.common.util.constants.LprServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.common.util.date.DateFormatters;
@@ -37,6 +38,7 @@ import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultRowInfo;
 import org.kuali.student.r2.core.search.util.SearchRequestHelper;
+import org.kuali.student.r2.lum.util.constants.LrcServiceConstants;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
@@ -90,6 +92,8 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
             "kuali.search.type.lui.searchForWaitlistByAoIds";
     public static final String CO_AND_AO_INFO_BY_CO_ID_SEARCH_KEY =
             "kuali.search.type.lui.searchForCoAndAoInfoByCoId";
+    public static final String CO_SEARCH_INFO_SEARCH_KEY =
+            "kuali.search.type.lui.searchForCOSearchInfo";
 
     public static final TypeInfo REG_INFO_BY_PERSON_TERM_SEARCH_TYPE;
     public static final TypeInfo REG_CART_BY_PERSON_TERM_SEARCH_TYPE;
@@ -105,6 +109,7 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
     public static final TypeInfo SEAT_COUNT_INFO_BY_REG_GROUPS_SEARCH_TYPE;
     public static final TypeInfo WL_BY_AO_IDS_SEARCH_TYPE;
     public static final TypeInfo CO_AND_AO_INFO_BY_CO_ID_SEARCH_TYPE;
+    public static final TypeInfo CO_SEARCH_INFO_SEARCH_TYPE;
 
     public static final String DEFAULT_EFFECTIVE_DATE = "01/01/2012";
 
@@ -120,6 +125,7 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
         public static final String CART_ID = "cartId";
         public static final String CART_ITEM_ID = "cartItemId";
         public static final String ATP_ID = "atpId";
+        public static final String ATP_IDS = "atpIds";
         public static final String TYPE_KEY = "typeKey";
         public static final String MASTER_LPR_ID = "masterLprId";
         public static final String LPRT_TYPE = "lprtType";
@@ -132,6 +138,7 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
         public static final String PERSON_LUI_TYPE = "personLuiType";
         public static final String LUI_NAME = "luiName";
         public static final String LUI_LONG_NAME = "luiLongName";
+        public static final String LUI_LEVEL = "luiLevel";
         public static final String LUI_CODE = "luiCode";
         public static final String LUI_TYPE = "luiType";
         public static final String LUI_DESC = "luiDesc";
@@ -154,6 +161,8 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
         public static final String CART_STATE = "cartState";
         public static final String CART_ITEM_STATE = "cartItemState";
         public static final String COURSE_CODE = "courseCode";
+        public static final String COURSE_NUMBER = "courseNumber";
+        public static final String COURSE_DIVISION = "courseDivision";
         public static final String COURSE_ID = "courseId";
         public static final String RG_CODE = "regGroupCode";
         public static final String RG_ID = "regGroupId";
@@ -183,6 +192,7 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
         public static final String CO_CROSSLISTED_SUBJECT_AREA = "coCrossListedSubjectArea";
 
         public static final String SEAT_COUNT = "seatCount";
+        public static final String SEATS_AVAILABLE = "seatsAvailable";
 
         public static final String LPR_ID = "lprId";
         public static final String LPR_TYPE = "lprType";
@@ -288,6 +298,16 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
                                 "against all of the RGs that contain those AOs, and the search itself will be matched against" +
                                 "all AOs that exist in those RGs");
 
+        CO_SEARCH_INFO_SEARCH_TYPE =
+                createTypeInfo(CO_SEARCH_INFO_SEARCH_KEY,
+                        "Course Offering Search information (luiId, atpid, description, title, code, level, division, number, credits, " +
+                                "seatsAvailable) for all COs. This may be modified to only process COs for specified term ids or " +
+                                "a list of CO Ids",
+                        "ReturnsCourse Offering Search information (luiId, atpid, description, title, code, level, division, number, credits, " +
+                                "seatsAvailable) for all COs. This may be modified to only process COs for specified term ids or " +
+                                "a list of CO Ids");
+
+
         CO_AND_AO_INFO_BY_CO_ID_SEARCH_TYPE =
                 createTypeInfo(CO_AND_AO_INFO_BY_CO_ID_SEARCH_KEY,
                         "Course Offering and Activity Offerings Info (coId, coCode, coDivision, coLongName, coDescription, coGradingOptions, coCreditOptions, " +
@@ -356,9 +376,124 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
             return searchForWaitlistByAoIds(searchRequestInfo);
         } else if (StringUtils.equals(CO_AND_AO_INFO_BY_CO_ID_SEARCH_TYPE.getKey(), searchRequestInfo.getSearchKey())) {
             return searchForCoAndAoInfoByCoId(searchRequestInfo);
+        } else if (CO_SEARCH_INFO_SEARCH_TYPE.getKey().equals(searchKey)) {
+            return searchForCOSearchInfo(searchRequestInfo);
         } else {
             throw new OperationFailedException("Unsupported search type: " + searchRequestInfo.getSearchKey());
         }
+    }
+
+    /**
+     * Grabs a view of Course Offering information that is the basis for the registration course search
+     * Optional search parameters of term ids and lui ids can be passed in to limit the search.
+     *
+     * @param searchRequestInfo
+     * @return search results
+     * @throws OperationFailedException
+     */
+    private SearchResultInfo searchForCOSearchInfo(SearchRequestInfo searchRequestInfo) {
+        SearchResultInfo resultInfo = new SearchResultInfo();
+        SearchRequestHelper requestHelper = new SearchRequestHelper(searchRequestInfo);
+        List<String> luiIds = requestHelper.getParamAsList(SearchParameters.LUI_IDS);
+        List<String> atpIds = requestHelper.getParamAsList(SearchParameters.ATP_ID);
+        String queryStr =
+                "SELECT\n" +
+                        "    lui.id                    luiid,\n" +
+                        "    lui.ATP_ID                atpid,\n" +
+                        "    lui.DESCR_FORMATTED       description,\n" +
+                        "    luii.LNG_NAME             title,\n" +
+                        "    luii.LUI_CD               code,\n" +
+                        "    clui.LVL                  crsLevel,\n" +
+                        "    clui.DIVISION             division,\n" +
+                        "    clui.SUFX_CD              suffix,\n" +
+                        "    credits.RESULT_VAL_GRP_ID credits,\n" +
+                        "    freeseats.sumao -\n" +
+                        "    (\n" +
+                        "        SELECT\n" +
+                        "            COUNT(*)\n" +
+                        "        FROM\n" +
+                        "            KSEN_LPR lpr\n" +
+                        "        WHERE\n" +
+                        "            lpr.LUI_ID=lui.id\n" +
+                        "        AND lpr.LPR_STATE='" + LprServiceConstants.ACTIVE_STATE_KEY + "'\n" +
+                        "        AND lpr.LPR_TYPE='" + LprServiceConstants.REGISTRANT_CO_LPR_TYPE_KEY + "') seatsAvailable\n" +
+                        "FROM\n" +
+                        "    KSEN_LUI lui,\n" +
+                        "    KSLU_CLU clu,\n" +
+                        "    KSLU_CLU_IDENT clui,\n" +
+                        "    KSEN_LUI_IDENT luii,\n" +
+                        "    (\n" +
+                        "        SELECT\n" +
+                        "            luiid      luiid,\n" +
+                        "            SUM(aomax) sumao\n" +
+                        "        FROM\n" +
+                        "            (\n" +
+                        "                SELECT\n" +
+                        "                    co2fo.LUI_ID      luiid,\n" +
+                        "                    rg2ao.LUI_ID      rgid,\n" +
+                        "                    MIN(ao.MAX_SEATS) aomax\n" +
+                        "                FROM\n" +
+                        "                    KSEN_LUI ao,\n" +
+                        "                    KSEN_LUILUI_RELTN co2fo,\n" +
+                        "                    KSEN_LUILUI_RELTN fo2rg,\n" +
+                        "                    KSEN_LUILUI_RELTN rg2ao\n" +
+                        "                WHERE\n" +
+                        "                    co2fo.LUILUI_RELTN_TYPE='" + LuiServiceConstants.LUI_LUI_RELATION_DELIVERED_VIA_CO_TO_FO_TYPE_KEY + "'\n" +
+                        "                AND co2fo.LUILUI_RELTN_STATE='" + LuiServiceConstants.LUI_LUI_RELATION_ACTIVE_STATE_KEY + "'\n" +
+                        "                AND fo2rg.LUILUI_RELTN_TYPE='" + LuiServiceConstants.LUI_LUI_RELATION_DELIVERED_VIA_FO_TO_RG_TYPE_KEY + "'\n" +
+                        "                AND fo2rg.LUILUI_RELTN_STATE='" + LuiServiceConstants.LUI_LUI_RELATION_ACTIVE_STATE_KEY + "'\n" +
+                        "                AND rg2ao.LUILUI_RELTN_TYPE='" + LuiServiceConstants.LUI_LUI_RELATION_REGISTERED_FOR_VIA_RG_TO_AO_TYPE_KEY + "'\n" +
+                        "                AND rg2ao.LUILUI_RELTN_STATE='" + LuiServiceConstants.LUI_LUI_RELATION_ACTIVE_STATE_KEY + "'\n" +
+                        "                AND co2fo.RELATED_LUI_ID=fo2rg.LUI_ID\n" +
+                        "                AND fo2rg.RELATED_LUI_ID=rg2ao.LUI_ID\n" +
+                        "                AND rg2ao.RELATED_LUI_ID=ao.id\n" +
+                        "                GROUP BY\n" +
+                        "                    co2fo.LUI_ID,\n" +
+                        "                    rg2ao.LUI_ID )\n" +
+                        "        GROUP BY\n" +
+                        "            luiid) freeseats,\n" +
+                        "    KSEN_LUI_RESULT_VAL_GRP credits\n" +
+                        "WHERE\n" +
+                        "    lui.LUI_TYPE='" + LuiServiceConstants.COURSE_OFFERING_TYPE_KEY + "'\n" +
+                        "AND lui.LUI_STATE='" + LuiServiceConstants.LUI_CO_STATE_OFFERED_KEY + "'\n" +
+                        "AND clu.ID = lui.CLU_ID\n" +
+                        "AND clui.id = clu.OFFIC_CLU_ID\n" +
+                        "AND luii.LUI_ID = lui.ID\n" +
+                        "AND freeseats.luiid=lui.id\n" +
+                        "AND credits.LUI_ID = lui.id\n" +
+                        "AND credits.RESULT_VAL_GRP_ID LIKE 'kuali.creditType.credit.degree.%'\n" +
+                        (atpIds == null || atpIds.isEmpty() ? "" : "AND lui.ATP_ID IN(:atpIds)\n") + //Optional parameter to filter by luiids
+                        (luiIds == null || luiIds.isEmpty() ? "" : "AND lui.ID IN(:luiIds)\n");//Optional parameter to filter my term
+
+        Query query = entityManager.createNativeQuery(queryStr);
+
+        if (atpIds != null) {
+            query.setParameter(SearchParameters.ATP_IDS, atpIds);
+        }
+        if (luiIds != null) {
+            query.setParameter(SearchParameters.LUI_IDS, luiIds);
+        }
+
+        List<Object[]> results = query.getResultList();
+
+        for (Object[] resultRow : results) {
+            int i = 0;
+            SearchResultRowInfo row = new SearchResultRowInfo();
+            row.addCell(SearchResultColumns.LUI_ID, (String) resultRow[i++]);
+            row.addCell(SearchResultColumns.ATP_ID, (String) resultRow[i++]);
+            row.addCell(SearchResultColumns.LUI_DESC, (String) resultRow[i++]);
+            row.addCell(SearchResultColumns.LUI_LONG_NAME, (String) resultRow[i++]);
+            row.addCell(SearchResultColumns.LUI_CODE, (String) resultRow[i++]);
+            row.addCell(SearchResultColumns.LUI_LEVEL, (String) resultRow[i++]);
+            row.addCell(SearchResultColumns.COURSE_DIVISION, (String) resultRow[i++]);
+            row.addCell(SearchResultColumns.COURSE_NUMBER, (String) resultRow[i++]);
+            row.addCell(SearchResultColumns.CREDITS, (String) resultRow[i++]);
+            row.addCell(SearchResultColumns.SEATS_AVAILABLE, resultRow[i].toString());
+            resultInfo.getRows().add(row);
+        }
+
+        return resultInfo;
+
     }
 
     /**
@@ -366,17 +501,17 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
      * along with any associated waitlist information per AO, including the number of people already registered, the
      * max seats for the AO, and the person currently waiting for that AO.
      * Given:
-     *  RG1      | RG2     | RG3
-     *  AO1 AO2  | AO1 AO3 | AO4 AO3
+     * RG1      | RG2     | RG3
+     * AO1 AO2  | AO1 AO3 | AO4 AO3
      * If AO1 is passed in, the search will match with all the RGs that contain AO1 (RG1,RG2)
      * Then all the AOs contained in those RGs are matched (AO1, AO2, AO3)
-     *
+     * <p/>
      * The results will have:
      * AOID  RGID ATPID  LPRID PERSONID  EFFECTIVE_DATE NUM_REGISTERED_FOR_AO MAX_AO_SEATS
      * AO1   RG1  Fall12 123   Bob.Smith 1-1-2011 11:24 3                     3
      * AO2   RG1  Fall12 123   Jane.Doe  1-1-2011 11:25 1                     2
      * AO2   RG1  Fall12 123   Sue.Allen 1-1-2011 11:26 1                     2
-     *
+     * <p/>
      * Using this information you can go line by line to see who gets in the AO and who does not.
      *
      * @param searchRequestInfo

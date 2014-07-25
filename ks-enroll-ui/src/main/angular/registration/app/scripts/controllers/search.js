@@ -83,9 +83,6 @@ angular.module('regCartApp')
             lastSearchCriteria = criteria;
             SearchService.searchForCourses().query({termId: $scope.termId, criteria: criteria}, function(results) {
                 if (lastSearchCriteria === criteria) {
-                    // REMOVE THIS AFTER MOCK IS REMOVED
-                    results = SearchService.filterResults(results, criteria);
-
                     // This search matches the last one ran - it's current.
                     console.log('Search for "' + criteria + '" complete. Results: ' + results.length);
                     $scope.searchResults = results;

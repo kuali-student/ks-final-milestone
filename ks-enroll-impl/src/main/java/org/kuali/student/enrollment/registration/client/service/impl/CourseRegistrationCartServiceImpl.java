@@ -363,29 +363,6 @@ public class CourseRegistrationCartServiceImpl implements CourseRegistrationCart
         throw new DoesNotExistException("No matching cart item was found.");
     }
 
-
-    public RegistrationOptionResult getStudentRegistrationOptions(String courseCode, String termId, String regGroupId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        List<CourseSearchResult> courses = CourseRegistrationAndScheduleOfClassesUtil.getScheduleOfClassesService().searchForCourseOfferingsByTermIdAndCourse(termId, courseCode);
-        CourseSearchResult exactMatch = new CourseSearchResult();
-        for (CourseSearchResult courseSearchResult : courses) {
-            if (courseSearchResult.getCourseOfferingCode().equalsIgnoreCase(courseCode)) {
-                exactMatch = courseSearchResult;
-            }
-        }
-
-        CourseOfferingInfo courseOfferingInfo = CourseRegistrationAndScheduleOfClassesUtil.getCourseOfferingIdCreditGrading(exactMatch.getCourseOfferingId(), courseCode, termId, null);
-        RegistrationOptionResult registrationOptionResult = new RegistrationOptionResult();
-        registrationOptionResult.setCourseCode(courseCode);
-        registrationOptionResult.setTermId(termId);
-        registrationOptionResult.setRegGroupId(regGroupId);
-        registrationOptionResult.setGradingOptions(courseOfferingInfo.getStudentRegistrationGradingOptions());
-        registrationOptionResult.setCredits(courseOfferingInfo.getCreditOptionId());
-
-        return registrationOptionResult;
-
-    }
-
-
     public CartResult searchForCart(ContextInfo contextInfo, String termId) throws LoginException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException, DataValidationErrorException, ReadOnlyException {
         if (termId == null) {
             throw new InvalidParameterException("Term Id cannot be null.");

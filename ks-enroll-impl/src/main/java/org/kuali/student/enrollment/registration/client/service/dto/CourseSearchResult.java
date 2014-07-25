@@ -4,84 +4,106 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
+import java.util.ArrayList;
+import java.util.List;
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "CourseSearchResult", propOrder = {
-        "courseOfferingId", "courseOfferingCode", "courseOfferingDesc", "courseOfferingCreditOptionDisplay",
-        "courseOfferingGradingOptionDisplay", "studentSelectablePassFail", "auditCourse", "honorsCourse"})
+        "courseId", "courseCode", "courseLevel", "courseNumber",
+        "coursePrefix", "creditOptions", "longName", "seatsAvailable", "termId"})
 public class CourseSearchResult {
-    private String courseOfferingId;
-    private String courseOfferingCode;
-    private String courseOfferingDesc;
-    private String courseOfferingCreditOptionDisplay;
-    private String courseOfferingGradingOptionDisplay;
+    private String courseId;
+    private String courseCode;
+    private String courseLevel;
+    private String courseNumber;
+    private String coursePrefix;
+    private String courseDescription;
+    private List<String> creditOptions;
+    private String longName;
+    private int seatsAvailable;
+    private String termId;
 
-    private boolean studentSelectablePassFail;
-    private boolean auditCourse;
-    private boolean honorsCourse;
-
-    public boolean isAuditCourse() {
-        return auditCourse;
+    public String getCourseId() {
+        return courseId;
     }
 
-    public void setAuditCourse(boolean auditCourse) {
-        this.auditCourse = auditCourse;
+    public void setCourseId(String courseId) {
+        this.courseId = courseId;
     }
 
-    public String getCourseOfferingCode() {
-        return courseOfferingCode;
+    public String getCourseCode() {
+        return courseCode;
     }
 
-    public void setCourseOfferingCode(String courseOfferingCode) {
-        this.courseOfferingCode = courseOfferingCode;
+    public void setCourseCode(String courseCode) {
+        this.courseCode = courseCode;
     }
 
-    public String getCourseOfferingCreditOptionDisplay() {
-        return courseOfferingCreditOptionDisplay;
+    public String getCourseLevel() {
+        return courseLevel;
     }
 
-    public void setCourseOfferingCreditOptionDisplay(String courseOfferingCreditOptionDisplay) {
-        this.courseOfferingCreditOptionDisplay = courseOfferingCreditOptionDisplay;
+    public void setCourseLevel(String courseLevel) {
+        this.courseLevel = courseLevel;
     }
 
-    public String getCourseOfferingDesc() {
-        return courseOfferingDesc;
+    public String getCourseNumber() {
+        return courseNumber;
     }
 
-    public void setCourseOfferingDesc(String courseOfferingDesc) {
-        this.courseOfferingDesc = courseOfferingDesc;
+    public void setCourseNumber(String courseNumber) {
+        this.courseNumber = courseNumber;
     }
 
-    public String getCourseOfferingGradingOptionDisplay() {
-        return courseOfferingGradingOptionDisplay;
+    public String getCoursePrefix() {
+        return coursePrefix;
     }
 
-    public void setCourseOfferingGradingOptionDisplay(String courseOfferingGradingOptionDisplay) {
-        this.courseOfferingGradingOptionDisplay = courseOfferingGradingOptionDisplay;
+    public void setCoursePrefix(String coursePrefix) {
+        this.coursePrefix = coursePrefix;
     }
 
-    public String getCourseOfferingId() {
-        return courseOfferingId;
+    public List<String> getCreditOptions() {
+        if (creditOptions == null) {
+            creditOptions = new ArrayList<>();
+        }
+        return creditOptions;
     }
 
-    public void setCourseOfferingId(String courseOfferingId) {
-        this.courseOfferingId = courseOfferingId;
+    public void setCreditOptions(List<String> creditOptions) {
+        this.creditOptions = creditOptions;
     }
 
-    public boolean isHonorsCourse() {
-        return honorsCourse;
+    public String getLongName() {
+        return longName;
     }
 
-    public void setHonorsCourse(boolean honorsCourse) {
-        this.honorsCourse = honorsCourse;
+    public void setLongName(String longName) {
+        this.longName = longName;
     }
 
-    public boolean isStudentSelectablePassFail() {
-        return studentSelectablePassFail;
+    public int getSeatsAvailable() {
+        return seatsAvailable;
     }
 
-    public void setStudentSelectablePassFail(boolean studentSelectablePassFail) {
-        this.studentSelectablePassFail = studentSelectablePassFail;
+    public void setSeatsAvailable(int seatsAvailable) {
+        this.seatsAvailable = seatsAvailable;
+    }
+
+    public String getTermId() {
+        return termId;
+    }
+
+    public void setTermId(String termId) {
+        this.termId = termId;
+    }
+
+    public String getCourseDescription() {
+        return courseDescription;
+    }
+
+    public void setCourseDescription(String courseDescription) {
+        this.courseDescription = courseDescription;
     }
 }

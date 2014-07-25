@@ -1509,6 +1509,7 @@
     </bean>
 
     <bean id="scheduleOfClassesClientService" class="org.kuali.student.enrollment.registration.client.service.impl.ScheduleOfClassesClientServiceImpl">
+        <property name="elasticEmbedded" ref="elasticEmbedded"/>
     </bean>
 
     <bean id="ks.exp.scheduleOfClassesClientService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
@@ -1847,6 +1848,13 @@
         <property name="parameterDao" ref="parameterDao" />
         <property name="valueDao" ref="valueDao" />
     </bean>
+    
+    <bean id="elasticEmbedded" class="org.kuali.student.enrollment.registration.search.elastic.ElasticEmbedded" init-method="init" destroy-method="shutdown">
+        <property name="lrcService" ref="LRCService"/>
+        <property name="searchService" ref="CourseRegistrationSearchServiceImpl"/>
+    </bean>
+    
+
 
  </beans>
 

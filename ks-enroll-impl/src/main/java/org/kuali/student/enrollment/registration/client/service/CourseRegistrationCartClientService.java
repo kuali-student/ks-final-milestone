@@ -130,27 +130,6 @@ public interface CourseRegistrationCartClientService {
     @Path("/searchForCart")
     public Response searchForCartRS(@QueryParam("termId") String termId);
 
-
-    /**
-     * Gets the registration options of the for the course term and reg group id
-     *
-     * @param courseCode course code
-     * @param termId     term key
-     * @param regGroupId registration group id
-     * @return a registration result option
-     * @throws DoesNotExistException
-     * @throws InvalidParameterException
-     * @throws MissingParameterException
-     * @throws OperationFailedException
-     * @throws PermissionDeniedException
-     */
-    @GET
-    @Produces({MediaType.APPLICATION_JSON})
-    @Path("/getStudentRegistrationOptions")
-    public Response getStudentRegistrationOptionsRS(@QueryParam("courseCode") String courseCode,
-                                                                  @QueryParam("termId") String termId,
-                                                                  @QueryParam("regGroupId") String regGroupId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
-
 }
 
 

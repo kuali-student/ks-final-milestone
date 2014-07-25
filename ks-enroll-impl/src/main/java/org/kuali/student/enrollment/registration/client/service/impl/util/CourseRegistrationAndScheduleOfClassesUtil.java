@@ -115,6 +115,10 @@ public class CourseRegistrationAndScheduleOfClassesUtil {
             return termId;
         }
 
+        if(StringUtils.isEmpty(termCode)){
+            return null;
+        }
+
         return KSCollectionUtils.getRequiredZeroElement(getTermsByTermCode(termCode)).getTermId();
     }
 

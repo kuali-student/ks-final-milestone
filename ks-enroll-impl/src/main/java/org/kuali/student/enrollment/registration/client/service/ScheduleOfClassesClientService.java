@@ -1,12 +1,18 @@
 package org.kuali.student.enrollment.registration.client.service;
 
 
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.exceptions.MissingParameterException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.io.IOException;
 
 /**
  * Note that common parameters used by this object's methods have the following meaning:
@@ -56,39 +62,8 @@ public interface ScheduleOfClassesClientService {
     @Path("/search")
     Response searchForCourseOfferings(@QueryParam("termId") String termId,
                                       @QueryParam("termCode") String termCode,
-                                      @QueryParam("criteria") String criteria);
+                                      @QueryParam("criteria") String criteria) throws MissingParameterException, InvalidParameterException, OperationFailedException, PermissionDeniedException, IOException;
 
-    /**
-     * Returns a list of course offering details.  Must provide either termId or termCode.
-     *
-     * @param termId     optional; if provided, overrides termCode
-     * @param termCode   optional; required if termId not provided
-     * @param courseCode required
-     * @return Returns a list of course offerings
-     */
-    @GET
-    @Produces(MediaType.APPLICATION_JSON)
-    @Path("/courseofferings")
-    Response searchForCourseOfferingsByTermAndCourse(@QueryParam("termId") String termId,
-                                               @QueryParam("termCode") String termCode,
-                                               @QueryParam("courseCode") String courseCode);
-
-    /**
-     * In order to support the UI we have been asked to provide a course offering search that will return course offering information as well as
-     * a list of primary activity offerings. There is a default order of activity offering types. Ex: lecture, lab, discussion.
-     * In that case the search will return the course offering information and a list of lectures.
-     *
-     * @param termCode   optional; required if both courseOfferingId & termId are not provided
-     * @param termId     optional; if provided, overrides termCode
-     * @param courseCode required
-     * @return Returns a list of objects that each contain a course offering and a list of primary activity offerings
-     */
-    @GET
-    @Produces(MediaType.APPLICATION_JSON)
-    @Path("/courseofferings/primaryactivities")
-    Response searchForCourseOfferingsAndPrimaryAosByTermAndCourse(@QueryParam("termId") String termId,
-                                                                           @QueryParam("termCode") String termCode,
-                                                                           @QueryParam("courseCode") String courseCode);
 
 /** REGISTRATION GROUPS **/
 
