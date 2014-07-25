@@ -224,7 +224,7 @@ public class CluInformationHelper {
                                 ResultValuesGroupInfo resultComponentInfo = this.getLrcService().getResultValuesGroup(resultOption.getResultComponentId(), ContextUtils.getContextInfo());
                                 return resultComponentInfo.getName();
                             } catch (Exception e) {
-                                throw new RuntimeException("Could not retrieve result values group for " + resultOption.getResultComponentId());
+                                throw new RuntimeException("Could not retrieve result values group for " + resultOption.getResultComponentId(), e);
                             }
                         }
                     }

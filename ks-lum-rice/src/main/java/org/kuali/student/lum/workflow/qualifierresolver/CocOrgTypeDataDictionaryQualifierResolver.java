@@ -24,6 +24,7 @@ import org.kuali.rice.krad.datadictionary.DocumentEntry;
 import org.kuali.rice.krad.datadictionary.RoutingTypeDefinition;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.student.common.util.security.ContextUtils;
+import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.core.organization.dto.OrgInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultRowInfo;
 import org.slf4j.Logger;
@@ -136,15 +137,15 @@ public class CocOrgTypeDataDictionaryQualifierResolver extends AbstractOrganizat
     protected List<Map<String,String>> cocAttributeSetsFromAncestors(String orgId, String orgType, String orgIdKey) {
 
         List<Map<String,String>> returnAttributeSets = new ArrayList<Map<String,String>>();
-        List<OrgInfo> orgsForRouting = null;
+        List<OrgInfo> orgsForRouting;
         if (orgId != null) {
             try {
                 List<String> orgIds = new ArrayList<String>();
                 // add the existing org in to the list to check for the given type
                 orgIds.add(orgId);
-                orgIds.addAll(getOrganizationService().getAllAncestors(orgId, getOrganizationHierarchyTypeCode(), ContextUtils.getContextInfo()));
-                orgsForRouting = null;
-                orgsForRouting = getOrganizationService().getOrgsByIds(orgIds, null);
+                ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
+                orgIds.addAll(getOrganizationService().getAllAncestors(orgId, getOrganizationHierarchyTypeCode(), contextInfo));
+                orgsForRouting = getOrganizationService().getOrgsByIds(orgIds, contextInfo);
             } catch (Exception e) {
                 LOG.error("Error calling org service");
                 throw new RuntimeException(e);

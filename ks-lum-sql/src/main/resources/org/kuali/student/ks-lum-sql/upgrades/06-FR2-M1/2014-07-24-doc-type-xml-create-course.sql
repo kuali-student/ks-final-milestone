@@ -196,9 +196,9 @@ INSERT INTO KREW_RTE_NODE_CFG_PARM_T (RTE_NODE_CFG_PARM_ID, KEY_CD, VAL, RTE_NOD
 /
 INSERT INTO KREW_RTE_NODE_CFG_PARM_T (RTE_NODE_CFG_PARM_ID, KEY_CD, VAL, RTE_NODE_ID) VALUES ('KS-2571', 'contentFragment', '<role name="College Review"><activationType>P</activationType><qualifierResolverClass>org.kuali.student.lum.workflow.qualifierresolver.CocOrgTypeDataDictionaryQualifierResolver</qualifierResolverClass><organizationTypeCode>kuali.org.College</organizationTypeCode><organizationIdQualifierKey>college</organizationIdQualifierKey></role>', 'KS-2950')
 /
-INSERT INTO KREW_RTE_NODE_CFG_PARM_T (RTE_NODE_CFG_PARM_ID, KEY_CD, VAL, RTE_NODE_ID) VALUES ('KS-2577', 'contentFragment', '<role name="Senate Review"><activationType>P</activationType><qualifierResolverClass>org.kuali.student.lum.workflow.qualifierresolver.StaticOrgDataDictionaryQualifierResolver</qualifierResolverClass><organizationId>141</organizationId></role>', 'KS-2951')
+INSERT INTO KREW_RTE_NODE_CFG_PARM_T (RTE_NODE_CFG_PARM_ID, KEY_CD, VAL, RTE_NODE_ID) VALUES ('KS-2577', 'contentFragment', '<role name="Senate Review"><activationType>P</activationType><qualifierResolverClass>org.kuali.student.lum.workflow.qualifierresolver.StaticOrgDataDictionaryQualifierResolver</qualifierResolverClass><organizationId>ORGID-141</organizationId></role>', 'KS-2951')
 /
-INSERT INTO KREW_RTE_NODE_CFG_PARM_T (RTE_NODE_CFG_PARM_ID, KEY_CD, VAL, RTE_NODE_ID) VALUES ('KS-2582', 'contentFragment', '<role name="Publication Review"><activationType>P</activationType><qualifierResolverClass>org.kuali.student.lum.workflow.qualifierresolver.StaticOrgDataDictionaryQualifierResolver</qualifierResolverClass><organizationId>176</organizationId></role>', 'KS-2952')
+INSERT INTO KREW_RTE_NODE_CFG_PARM_T (RTE_NODE_CFG_PARM_ID, KEY_CD, VAL, RTE_NODE_ID) VALUES ('KS-2582', 'contentFragment', '<role name="Publication Review"><activationType>P</activationType><qualifierResolverClass>org.kuali.student.lum.workflow.qualifierresolver.StaticOrgDataDictionaryQualifierResolver</qualifierResolverClass><organizationId>ORGID-176</organizationId></role>', 'KS-2952')
 /
 INSERT INTO KREW_RTE_NODE_CFG_PARM_T (RTE_NODE_CFG_PARM_ID, KEY_CD, VAL, RTE_NODE_ID) VALUES ('KS-2557', 'organizationId', 'ORGID-141', 'KS-2951')
 /

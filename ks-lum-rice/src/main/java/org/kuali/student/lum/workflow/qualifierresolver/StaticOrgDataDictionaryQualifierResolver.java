@@ -19,7 +19,7 @@ package org.kuali.student.lum.workflow.qualifierresolver;
 import org.kuali.rice.kew.engine.RouteContext;
 import org.kuali.rice.kew.rule.xmlrouting.XPathHelper;
 import org.kuali.rice.student.bo.KualiStudentKimAttributes;
-import org.kuali.student.common.util.ContextBuilder;
+import org.kuali.student.common.util.security.ContextUtils;
 import org.kuali.student.r2.core.organization.dto.OrgInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -89,7 +89,7 @@ public class StaticOrgDataDictionaryQualifierResolver extends AbstractOrganizati
                 Node organizationElement = organizationElements.item(i);
                 orgId = "";
                 orgId = organizationElement.getTextContent();
-                OrgInfo orgInfo = getOrganizationService().getOrg(orgId, ContextBuilder.loadContextInfo());
+                OrgInfo orgInfo = getOrganizationService().getOrg(orgId, ContextUtils.createDefaultContextInfo());
                 Map<String,String> attrSet = new LinkedHashMap<String,String>();
                 attrSet.put(KualiStudentKimAttributes.QUALIFICATION_ORG_ID, orgInfo.getId());
                 attributeSets.add(attrSet);

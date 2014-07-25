@@ -27,6 +27,7 @@ import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.identity.IdentityService;
 import org.kuali.rice.kim.api.identity.entity.Entity;
 import org.kuali.rice.kim.api.identity.name.EntityNameContract;
+import org.kuali.rice.krad.rules.rule.event.RouteDocumentEvent;
 import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 import org.kuali.rice.krad.uif.UifConstants;
 import org.kuali.rice.krad.uif.UifParameters;
@@ -239,31 +240,29 @@ public class CourseController extends CourseRuleEditorController {
     @Override
     public ModelAndView route(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result, HttpServletRequest request, HttpServletResponse response) {
         // manually call the view validation service as this validation cannot be run client-side in current setup
-//        KRADServiceLocatorWeb.getViewValidationService().validateView(form.getPostedView(), form, KewApiConstants.ROUTE_HEADER_ENROUTE_CD);
+        KRADServiceLocatorWeb.getViewValidationService().validateView(form, KewApiConstants.ROUTE_HEADER_ENROUTE_CD);
+        KRADServiceLocatorWeb.getKualiRuleService().applyRules(new RouteDocumentEvent(form.getDocument()));
+        if (GlobalVariables.getMessageMap().hasErrors()) {
+            return getUIFModelAndView(form);
+        }
 
         String dialog = CurriculumManagementConstants.COURSE_SUBMIT_CONFIRMATION_DIALOG;
         if (!hasDialogBeenDisplayed(dialog, form)) {
 
             //redirect back to client to display lightbox
             return showDialog(dialog, form, request, response);
-        }else{
+        } else {
             if(hasDialogBeenAnswered(dialog,form)){
                 boolean confirmSubmit = getBooleanDialogResponse(dialog, form, request, response);
                 form.getDialogManager().resetDialogStatus(dialog);
-                if(!confirmSubmit){
-                    return getUIFModelAndView(form);
+                if(confirmSubmit){
+                    return super.route(form, result, request, response);    //To change body of overridden methods use File | Settings | File Templates.
                 }
             } else {
 
                 //redirect back to client to display lightbox
                 return showDialog(dialog, form, request, response);
             }
-        }
-
-        KSViewAttributeValueReader reader = new KSViewAttributeValueReader(form);
-        KRADServiceLocatorWeb.getDictionaryValidationService().validate(reader, true, KewApiConstants.ROUTE_HEADER_ENROUTE_CD, form.getView().getStateMapping());
-        if (!GlobalVariables.getMessageMap().hasErrors()) {
-            return super.route(form, result, request, response);    //To change body of overridden methods use File | Settings | File Templates.
         }
         return getUIFModelAndView(form);
     }
