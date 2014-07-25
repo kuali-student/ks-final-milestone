@@ -96,7 +96,7 @@ function onProposalReviewLoad() {
  */
 function fixReadOnlyInputSizes() {
     var textAreaEmptyHeight = 18;
-    jQuery(".review_readonly_control").each(function (index) {
+    jQuery(".cm_readonly_control").each(function (index) {
         var element = jQuery(this);
         if (element.is("textarea")) {
             element.height(textAreaEmptyHeight);

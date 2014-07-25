@@ -62,7 +62,7 @@ h3.uif-headerText a {
 }
 
 .ks-cm-reviewproposal-validation-spacing {
-    padding-top: 25px;
+    padding-top: 5px;
 }
 
 .ks-cm-reviewproposal-validation {
@@ -356,7 +356,7 @@ a[id *= "LearningObjectives-Icon-"]:hover {
 }
 
 /* Remove the input styling */
-.review_readonly textarea:focus {
+.cm_readonly_input textarea:focus {
     outline: none;
     -webkit-box-shadow: none;
     -moz-box-shadow: none;
@@ -364,7 +364,10 @@ a[id *= "LearningObjectives-Icon-"]:hover {
     color: black;
 }
 
-.review_readonly textarea {
+.cm_readonly_input textarea {
+    font-size: 1em;
+    line-height: 1em; /* Scroll bars appear if this isn't set */
+    color: black;
     background-color: #ffffff !important;
     border: none;
     -webkit-box-sizing: content-box;
