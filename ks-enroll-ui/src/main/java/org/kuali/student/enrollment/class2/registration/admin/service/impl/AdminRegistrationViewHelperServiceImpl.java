@@ -13,6 +13,7 @@ import org.kuali.student.common.util.security.ContextUtils;
 import org.kuali.student.core.person.dto.PersonAffiliationInfo;
 import org.kuali.student.core.person.dto.PersonInfo;
 import org.kuali.student.core.person.service.impl.PersonServiceConstants;
+import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingConstants;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingViewHelperUtil;
 import org.kuali.student.enrollment.class2.registration.admin.form.AdminRegistrationForm;
 import org.kuali.student.enrollment.class2.registration.admin.form.RegistrationActivity;
@@ -49,6 +50,7 @@ import org.kuali.student.r2.common.infc.ValidationResult;
 import org.kuali.student.r2.common.infc.ValidationResult;
 import org.kuali.student.r2.common.util.TimeOfDayHelper;
 import org.kuali.student.r2.common.util.constants.LprServiceConstants;
+import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
 import org.kuali.student.r2.core.room.dto.BuildingInfo;
 import org.kuali.student.r2.core.room.dto.RoomInfo;
@@ -299,6 +301,10 @@ public class AdminRegistrationViewHelperServiceImpl extends KSViewHelperServiceI
             if (course.getRegGroup() == null) {
                 GlobalVariables.getMessageMap().putError(AdminRegConstants.PENDING_COURSES + "[" + i + "]." + AdminRegConstants.SECTION,
                         AdminRegConstants.ADMIN_REG_MSG_ERROR_SECTION_CODE_INVALID);
+            }
+            if (course.getRegGroup().getStateKey().equals(LuiServiceConstants.REGISTRATION_GROUP_CANCELED_STATE_KEY)){
+                GlobalVariables.getMessageMap().putErrorForSectionId(AdminRegConstants.PENDING_COURSES + "[" + i + "]." + AdminRegConstants.SECTION,
+                        AdminRegConstants.ADMIN_REG_MSG_ERROR_REGISTRATION_GROUP_CANCELED,course.getCode(),course.getSection());
             }
         }
     }

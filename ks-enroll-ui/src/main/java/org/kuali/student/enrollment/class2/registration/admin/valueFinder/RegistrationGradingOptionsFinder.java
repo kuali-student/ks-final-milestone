@@ -40,6 +40,9 @@ public class RegistrationGradingOptionsFinder extends UifKeyValuesFinderBase imp
         }
 
         try {
+            if((course.getGradingOptions()==null)){
+                course.setGradingOptions(new ArrayList<String>());
+            }
             // Create keyvalues from grading options for registration course.
             if ((course.getGradingOption()!=null)&&(!course.getGradingOptions().contains(course.getGradingOption()))) {
                 keyValues.add(new ConcreteKeyValue(course.getGradingOption(), CourseRegistrationAndScheduleOfClassesUtil.translateGradingOptionKeyToName(course.getGradingOption())));
