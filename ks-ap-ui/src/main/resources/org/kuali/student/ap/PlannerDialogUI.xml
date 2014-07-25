@@ -598,7 +598,7 @@
         <property name="items">
             <list merge="true">
                 <bean parent="Uif-Message" p:messageText="@{course.code} @{course.courseTitle} (@{creditString} cr)"/>
-                <bean parent="Uif-Message" p:messageText="Are you sure that you want to remove [b]@{course.code}[/b] from your Bookmarked Courses list?"/>
+                <bean parent="Uif-Message" p:messageText="Are you sure that you want to remove &lt;strong&gt;@{course.code}&lt;/strong&gt; from your Bookmarked Courses list?"/>
             </list>
         </property>
         <property name="footer">
