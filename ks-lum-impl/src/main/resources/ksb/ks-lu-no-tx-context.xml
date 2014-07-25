@@ -812,7 +812,7 @@
     </bean>
     
     <!-- Setup natural language template information service -->
-    <import resource="classpath:org/kuali/student/cm/main/PropositionTypeTemplateData.xml"/>
+    <import resource="classpath:org/kuali/student/cm/krms/PropositionTypeTemplateData.xml"/>
     
     <bean id="templateResolverService" class="org.kuali.rice.krms.service.impl.TemplateRegistryImpl">
         <property name="templatesMap" ref="templatesMap"/>

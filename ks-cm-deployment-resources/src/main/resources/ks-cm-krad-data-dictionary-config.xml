@@ -25,21 +25,21 @@
 			<list>
 				<!-- KSCM Application Bean Files -->
 				<!-- Curriculum Management Course Info -->
-				<value>classpath:org/kuali/student/cm/main/CourseMaintenanceView.xml</value>
-                <value>classpath:org/kuali/student/cm/main/CreateCourseInitialView.xml</value>
-                <value>classpath:org/kuali/student/cm/main/ViewCourseView.xml</value>
-                <value>classpath:org/kuali/student/cm/main/CourseRuleMaintenance.xml</value>
-				<value>classpath:org/kuali/student/cm/main/CourseViewCourseInfo.xml</value>
-				<value>classpath:org/kuali/student/cm/main/CourseViewGovernance.xml</value>
-				<value>classpath:org/kuali/student/cm/main/CourseViewCourseLogistics.xml</value>
-				<value>classpath:org/kuali/student/cm/main/CourseViewLearningObjectives.xml</value>
-                <value>classpath:org/kuali/student/cm/main/CourseViewCourseRequisites.xml</value>
-                <value>classpath:org/kuali/student/cm/main/CourseViewActiveDates.xml</value>
-                <value>classpath:org/kuali/student/cm/main/CourseViewFinancials.xml</value>
-                <value>classpath:org/kuali/student/cm/main/CourseViewSupportingDocuments.xml</value>
-                <value>classpath:org/kuali/student/cm/main/CourseViewReviewProposal.xml</value>
-                <value>classpath:org/kuali/student/cm/main/CourseViewAuthorsAndCollaborators.xml</value>
-                <value>classpath:org/kuali/student/cm/main/LoCategoryMaintenanceView.xml</value>
+				<value>classpath:org/kuali/student/cm/course/proposal/CourseMaintenanceView.xml</value>
+                <value>classpath:org/kuali/student/cm/course/proposal/CreateCourseInitialView.xml</value>
+                <value>classpath:org/kuali/student/cm/course/view/ViewCourseView.xml</value>
+                <value>classpath:org/kuali/student/cm/krms/CourseRuleMaintenance.xml</value>
+				<value>classpath:org/kuali/student/cm/course/proposal/CourseViewCourseInfo.xml</value>
+				<value>classpath:org/kuali/student/cm/course/proposal/CourseViewGovernance.xml</value>
+				<value>classpath:org/kuali/student/cm/course/proposal/CourseViewCourseLogistics.xml</value>
+				<value>classpath:org/kuali/student/cm/course/proposal/CourseViewLearningObjectives.xml</value>
+                <value>classpath:org/kuali/student/cm/course/proposal/CourseViewCourseRequisites.xml</value>
+                <value>classpath:org/kuali/student/cm/course/proposal/CourseViewActiveDates.xml</value>
+                <value>classpath:org/kuali/student/cm/course/proposal/CourseViewFinancials.xml</value>
+                <value>classpath:org/kuali/student/cm/course/proposal/CourseViewSupportingDocuments.xml</value>
+                <value>classpath:org/kuali/student/cm/course/proposal/review/CourseViewReviewProposal.xml</value>
+                <value>classpath:org/kuali/student/cm/course/proposal/CourseViewAuthorsAndCollaborators.xml</value>
+                <value>classpath:org/kuali/student/cm/lo/LoCategoryMaintenanceView.xml</value>
                 <value>classpath:org/kuali/student/cm/lookup/CluInstructorInfoWrapperLookupView.xml</value>
                 <value>classpath:org/kuali/student/cm/lookup/CourseJointInfoWrapperLookupView.xml</value>
                 <value>classpath:org/kuali/student/cm/lookup/OrganizationInfoWrapperLookupView.xml</value>
@@ -55,10 +55,10 @@
                 <!-- <value>classpath:org/kuali/student/cm/CMFunctionalHomeView.xml</value>  This file currently doesn't exist -->
                 <value>classpath:org/kuali/student/cm/main/CurriculumHomeView.xml</value> <!-- KSCM-727 Curriculum Management Course -->
                 <value>classpath:org/kuali/student/cm/main/CourseSelectView.xml</value>
-                <value>classpath:org/kuali/student/cm/main/FindCourseLookupView.xml</value>
-                <value>classpath:org/kuali/student/cm/main/CMLUCustomComponents.xml</value>
+                <value>classpath:org/kuali/student/cm/lookup/FindCourseLookupView.xml</value>
+                <value>classpath:org/kuali/student/cm/krms/CMLUCustomComponents.xml</value>
                 <value>classpath:org/kuali/student/cm/lookup/ProposalLookup.xml</value>
-                <value>classpath:org/kuali/student/cm/main/CMCommentView.xml</value>
+                <value>classpath:org/kuali/student/cm/comment/CMCommentView.xml</value>
 			</list>
 			</constructor-arg>
 		</bean>  
