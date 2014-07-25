@@ -202,7 +202,7 @@ public class ScheduleOfClassesClientServiceImpl extends ScheduleOfClassesService
      * PREREQUISITES
      */
 
-    public Response searchForPrerequisitesByCourseOfffering(String courseOfferingId){
+    public Response searchForPrerequisitesByCourseOffering(String courseOfferingId){
         Response.ResponseBuilder response;
         List<String> prerequisites = new ArrayList<String>();
         ruleManagementService = getRuleManagementService();

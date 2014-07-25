@@ -206,6 +206,7 @@ public interface ScheduleOfClassesClientService {
      */
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    @Path("/prereqs")
-    Response searchForPrerequisitesByCourseOfffering(@QueryParam("courseOfferingId") String courseOfferingId);
+    @Path("/prerequisites")
+    Response searchForPrerequisitesByCourseOffering(@QueryParam("courseOfferingId") String courseOfferingId);
+
 }
