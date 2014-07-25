@@ -18,7 +18,7 @@ import java.util.List;
  * User: Blue Team (SA)
  * Date: 23 July 2014
  * <p/>
- * Implementation of the RegistrationCreditsOptionsFinder .... that support the AdminRegistrationView.xml.
+ * Implementation of the RegistrationCreditsOptionsFinder used to retrieve the Course Offering Credit Options that support the AdminRegistrationView.xml.
  */
 public class RegistrationCreditsOptionsFinder extends UifKeyValuesFinderBase implements Serializable {
 
@@ -40,7 +40,7 @@ public class RegistrationCreditsOptionsFinder extends UifKeyValuesFinderBase imp
 
         try {
             // Create keyvalues from grading options for registration course.
-            if (!course.getCreditOptions().isEmpty()) {
+            if (course.getCreditOptions() != null && !course.getCreditOptions().isEmpty()) {
                 this.setAddBlankOption(false);
                 if(course.getCreditOptions().size() > 1){
                     this.setAddBlankOption(true);
