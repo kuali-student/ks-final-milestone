@@ -21,6 +21,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kim.api.KimConstants;
@@ -51,13 +52,14 @@ import org.kuali.student.cm.course.form.wrapper.ResultValuesGroupInfoWrapper;
 import org.kuali.student.cm.course.form.wrapper.SupportingDocumentInfoWrapper;
 import org.kuali.student.cm.course.service.CourseMaintainable;
 import org.kuali.student.cm.course.util.CourseProposalUtil;
+import org.kuali.student.common.object.KSObjectUtils;
 import org.kuali.student.common.uif.util.GrowlIcon;
 import org.kuali.student.common.uif.util.KSUifUtils;
-import org.kuali.student.common.uif.util.KSViewAttributeValueReader;
 import org.kuali.student.common.util.security.ContextUtils;
 import org.kuali.student.r1.core.subjectcode.service.SubjectCodeService;
 import org.kuali.student.r1.core.workflow.dto.CollaboratorWrapper;
 import org.kuali.student.r2.common.constants.CommonServiceConstants;
+import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.core.class1.type.service.TypeService;
 import org.kuali.student.r2.core.comment.service.CommentService;
 import org.kuali.student.r2.core.constants.DocumentServiceConstants;
@@ -239,29 +241,43 @@ public class CourseController extends CourseRuleEditorController {
 
     @Override
     public ModelAndView route(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result, HttpServletRequest request, HttpServletResponse response) {
-        // manually call the view validation service as this validation cannot be run client-side in current setup
-        KRADServiceLocatorWeb.getViewValidationService().validateView(form, KewApiConstants.ROUTE_HEADER_ENROUTE_CD);
-        KRADServiceLocatorWeb.getKualiRuleService().applyRules(new RouteDocumentEvent(form.getDocument()));
-        if (GlobalVariables.getMessageMap().hasErrors()) {
-            return getUIFModelAndView(form);
-        }
 
         String dialog = CurriculumManagementConstants.COURSE_SUBMIT_CONFIRMATION_DIALOG;
         if (!hasDialogBeenDisplayed(dialog, form)) {
 
-            //redirect back to client to display lightbox
-            return showDialog(dialog, form, request, response);
-        } else {
+            CourseInfoWrapper courseInfoWrapper = getCourseInfoWrapper(form);
+
+            //Perform KRAD UI Data Dictionary Validation
+            // manually call the view validation service as this validation cannot be run client-side in current setup
+            KRADServiceLocatorWeb.getViewValidationService().validateView(form, KewApiConstants.ROUTE_HEADER_ENROUTE_CD);
+
+            //Perform Rules validation
+            KRADServiceLocatorWeb.getKualiRuleService().applyRules(new RouteDocumentEvent(form.getDocument()));
+
+            List<ValidationResultInfo> validationResultInfoList = null;
+
+            try {
+                //Perform Service Layer Data Dictionary validation
+                validationResultInfoList = getCourseService().validateCourse("OBJECT", courseInfoWrapper.getCourseInfo(), ContextUtils.createDefaultContextInfo());
+            } catch (Exception ex) {
+                LOG.error("Error occurred while performing service layer validation for Submit", ex);
+                GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, KSObjectUtils.unwrapException(20, ex).getMessage());
+            }
+
+            bindValidationErrosToPath(validationResultInfoList);
+
+            if (!GlobalVariables.getMessageMap().hasErrors()) {
+                //redirect back to client to display confirm dialog
+                return showDialog(dialog, form, request, response);
+            }
+        }else{
             if(hasDialogBeenAnswered(dialog,form)){
                 boolean confirmSubmit = getBooleanDialogResponse(dialog, form, request, response);
                 form.getDialogManager().resetDialogStatus(dialog);
                 if(confirmSubmit){
-                    return super.route(form, result, request, response);    //To change body of overridden methods use File | Settings | File Templates.
+                    //route the document
+                    return super.route(form,result, request,response);
                 }
-            } else {
-
-                //redirect back to client to display lightbox
-                return showDialog(dialog, form, request, response);
             }
         }
         return getUIFModelAndView(form);
@@ -840,6 +856,44 @@ public class CourseController extends CourseRuleEditorController {
         loDisplayWrapperModel.setCurrentLoWrapper(selectedLoWrapper);
 
         return loDisplayWrapperModel;
+    }
+
+    /**
+     *  Binds the each validation errors with its property path
+     * @param validationResultInfoList
+     */
+    protected void bindValidationErrosToPath(List<ValidationResultInfo> validationResultInfoList) {
+        if (validationResultInfoList != null && !validationResultInfoList.isEmpty()) {
+            for( ValidationResultInfo error : validationResultInfoList ) {
+                String element = error.getElement().replace("/0","").replace("/","");
+                String elementPath = null;
+                final String DATA_OBJECT_NAME = "document.newMaintainableObject.dataObject.";
+
+                if( StringUtils.equals(element, "courseTitle") ) {
+                    elementPath = DATA_OBJECT_NAME + "courseInfo.courseTitle";
+                } else if( StringUtils.equals(element, "subjectArea") ) {
+                    elementPath = DATA_OBJECT_NAME + "courseInfo.subjectArea";
+                } else if( StringUtils.equals(element, "courseNumberSuffix") ) {
+                    elementPath = DATA_OBJECT_NAME + "courseInfo.courseNumberSuffix";
+                } else if( StringUtils.equals(element, "campusLocations") ) {
+                    elementPath = DATA_OBJECT_NAME + "reviewProposalDisplay.governanceSection.campusLocationsAsString";
+                } else if( StringUtils.equals(element, "startTerm") ) {
+                    elementPath = DATA_OBJECT_NAME + "reviewProposalDisplay.activeDatesSection.startTerm";
+                } else if( StringUtils.equals(element, "transcriptTitle") ) {
+                    elementPath = DATA_OBJECT_NAME + "courseInfo.transcriptTitle";
+                } else if( StringUtils.equals(element, "finalExamStatus") ) {
+                    elementPath = DATA_OBJECT_NAME + "reviewProposalDisplay.courseLogisticsSection.finalExamStatus";
+                } else if( StringUtils.equals(element, "gradingOptions") ) {
+                    elementPath = DATA_OBJECT_NAME + "reviewProposalDisplay.courseLogisticsSection.gradingOptionsAsString";
+                } else if( StringUtils.equals(element, "unitsContentOwner") ) {
+                    elementPath = DATA_OBJECT_NAME + "reviewProposalDisplay.governanceSection.curriculumOversightAsString";
+                }
+
+                if (elementPath != null) {
+                    GlobalVariables.getMessageMap().putError(elementPath, RiceKeyConstants.ERROR_CUSTOM, error.getMessage());
+                }
+            }
+        }
     }
 
     protected CluService getCluService() {

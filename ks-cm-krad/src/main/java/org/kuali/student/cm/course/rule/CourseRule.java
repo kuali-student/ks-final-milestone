@@ -60,9 +60,9 @@ public class CourseRule extends KsMaintenanceDocumentRuleBase {
             + KRADPropertyConstants.NEW_MAINTAINABLE_OBJECT + ".dataObject";
 
     @Override
-    public boolean processSaveDocument(Document document) {
+    protected boolean processCustomSaveDocumentBusinessRules(MaintenanceDocument document) {
 
-        boolean success = super.processSaveDocument(document);
+        boolean success = super.processCustomSaveDocumentBusinessRules(document);
 
         if (!success) {
             return success;
