@@ -65,7 +65,7 @@
                 <ref bean="CoreSearchServiceImpl"/> <!-- This bean lives in ks-core-no-tx-context.xml  -->
                 <ref bean="InstructorSearchServiceImpl"/>
                 <ref bean="CourseRegistrationSearchServiceImpl"/>
-                <ref bean="AcademicPlanCourseSearchImpl"/>
+                <ref bean="AcademicPlanCourseSearchCacheDecorator"/>
             </list>
         </property>
     </bean>
@@ -353,6 +353,12 @@
 
     <bean id="AcademicPlanCourseSearchImpl" class="org.kuali.student.ap.search.AcademicPlanCourseSearchImpl">
         <property name="entityManager" ref="enrollEntityManager"/>
+    </bean>
+
+    <bean id="AcademicPlanCourseSearchCacheDecorator" class="org.kuali.student.ap.search.decorator.AcademicPlanCourseSearchCacheDecorator">
+        <property name="nextDecorator" ref="AcademicPlanCourseSearchImpl"/>
+        <property name="cacheManager" ref="ksCacheManager"/>
+
     </bean>
 
 </beans>
