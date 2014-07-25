@@ -6,20 +6,33 @@ import org.elasticsearch.index.query.FilterBuilders;
 import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.SearchHit;
+import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
+import org.kuali.rice.krms.api.KrmsConstants;
+import org.kuali.rice.krms.api.repository.RuleManagementService;
+import org.kuali.rice.krms.api.repository.reference.ReferenceObjectBinding;
 import org.kuali.student.enrollment.registration.client.service.ScheduleOfClassesClientService;
-import org.kuali.student.enrollment.registration.client.service.dto.*;
+import org.kuali.student.enrollment.registration.client.service.dto.ActivityOfferingSearchResult;
+import org.kuali.student.enrollment.registration.client.service.dto.ActivityTypeSearchResult;
+import org.kuali.student.enrollment.registration.client.service.dto.CourseOfferingInfoSearchResult;
+import org.kuali.student.enrollment.registration.client.service.dto.EligibilityCheckResult;
+import org.kuali.student.enrollment.registration.client.service.dto.InstructorSearchResult;
+import org.kuali.student.enrollment.registration.client.service.dto.RegGroupSearchResult;
+import org.kuali.student.enrollment.registration.client.service.dto.TermSearchResult;
 import org.kuali.student.enrollment.registration.client.service.impl.util.CourseRegistrationAndScheduleOfClassesUtil;
 import org.kuali.student.enrollment.registration.search.elastic.ElasticEmbedded;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
+import javax.xml.namespace.QName;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class ScheduleOfClassesClientServiceImpl extends ScheduleOfClassesServiceImpl implements ScheduleOfClassesClientService {
@@ -28,6 +41,8 @@ public class ScheduleOfClassesClientServiceImpl extends ScheduleOfClassesService
 
     private static final String EXCEPTION_MSG="Exception Thrown";
     private ElasticEmbedded elasticEmbedded;
+
+    private RuleManagementService ruleManagementService;
 
     /**
      * COURSE SEARCH *
@@ -181,6 +196,45 @@ public class ScheduleOfClassesClientServiceImpl extends ScheduleOfClassesService
 
         return response.build();
     }
+
+
+    /**
+     * PREREQUISITES
+     */
+
+    public Response searchForPrerequisitesByCourseOfffering(String courseOfferingId){
+        Response.ResponseBuilder response;
+        List<String> prerequisites = new ArrayList<String>();
+        ruleManagementService = getRuleManagementService();
+
+        try{
+            List<ReferenceObjectBinding> referenceObjectBindings = ruleManagementService.findReferenceObjectBindingsByReferenceObject(CourseOfferingServiceConstants.REF_OBJECT_URI_COURSE_OFFERING, courseOfferingId);
+            for(ReferenceObjectBinding referenceObjectBinding: referenceObjectBindings){
+                try{
+                    String prerequisite = ruleManagementService.translateNaturalLanguageForObject("KS-KRMS-NL-USAGE-1005", "agenda", referenceObjectBinding.getKrmsObjectId(), "en");
+                    prerequisites.add(prerequisite);
+                } catch(Exception e){
+                    LOGGER.warn(EXCEPTION_MSG, e);
+                    response = Response.serverError().entity(e.getMessage());
+                }
+            }
+        }catch(Exception e){
+            LOGGER.warn(EXCEPTION_MSG, e);
+            response = Response.serverError().entity(e.getMessage());
+        }
+        response = Response.ok(prerequisites);
+        return  response.build();
+    }
+
+    public RuleManagementService getRuleManagementService() {
+        if (ruleManagementService == null) {
+            ruleManagementService = (RuleManagementService) GlobalResourceLoader.getService(new QName(KrmsConstants.Namespaces.KRMS_NAMESPACE_2_0, "ruleManagementService"));
+        }
+        return ruleManagementService;
+    }
+
+
+
 
     /**
      * COURSE OFFERING INFO *

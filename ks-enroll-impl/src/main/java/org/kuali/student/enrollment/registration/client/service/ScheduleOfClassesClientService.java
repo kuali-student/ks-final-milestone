@@ -1,7 +1,6 @@
 package org.kuali.student.enrollment.registration.client.service;
 
 
-import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
@@ -13,6 +12,7 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.io.IOException;
+import java.security.InvalidParameterException;
 
 /**
  * Note that common parameters used by this object's methods have the following meaning:
@@ -62,7 +62,7 @@ public interface ScheduleOfClassesClientService {
     @Path("/search")
     Response searchForCourseOfferings(@QueryParam("termId") String termId,
                                       @QueryParam("termCode") String termCode,
-                                      @QueryParam("criteria") String criteria) throws MissingParameterException, InvalidParameterException, OperationFailedException, PermissionDeniedException, IOException;
+                                      @QueryParam("criteria") String criteria) throws MissingParameterException, InvalidParameterException, OperationFailedException, PermissionDeniedException, IOException, org.kuali.student.r2.common.exceptions.InvalidParameterException;
 
 
 /** REGISTRATION GROUPS **/
@@ -198,4 +198,14 @@ public interface ScheduleOfClassesClientService {
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/courseOfferingInfo")
     Response searchForCourseOfferingInfo(@QueryParam("courseOfferingId") String courseOfferingId);
+
+    /** Prerequisites **/
+
+    /**
+     * Returns a list of prerequisites
+     */
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/prereqs")
+    Response searchForPrerequisitesByCourseOfffering(@QueryParam("courseOfferingId") String courseOfferingId);
 }
