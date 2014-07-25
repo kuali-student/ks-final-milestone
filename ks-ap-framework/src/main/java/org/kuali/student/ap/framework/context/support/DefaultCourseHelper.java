@@ -181,7 +181,8 @@ public class DefaultCourseHelper implements CourseHelper, Serializable {
 
 			CourseOfferingService courseOfferingService = KsapFrameworkServiceLocator.getCourseOfferingService();
 			QueryByCriteria query = QueryByCriteria.Builder.fromPredicates(PredicateFactory.and(
-					PredicateFactory.in("cluId", courseIds.toArray()), PredicateFactory.in("atpId", termId)));
+					PredicateFactory.in("cluId", courseIds.toArray()), PredicateFactory.in("atpId", termId)),
+                    equal("luiState", LuiServiceConstants.LUI_CO_STATE_OFFERED_KEY));
 			List<CourseOfferingInfo> cos = courseOfferingService.searchForCourseOfferings(query, context);
 			if (cos == null)
 				return;
@@ -326,16 +327,18 @@ public class DefaultCourseHelper implements CourseHelper, Serializable {
 					msg = new StringBuilder("CO cache miss ").append(courseId).append(" ").append(termId);
 				for (CourseOfferingInfo co : courseOfferingService.getCourseOfferingsByCourseAndTerm(courseId, termId,
 						context)) {
-					if (msg != null)
-						msg.append("\n  CO ").append(co.getId());
-					List<ActivityOfferingDisplayInfo> aol = KsapFrameworkServiceLocator.getCourseOfferingService()
-							.getActivityOfferingDisplaysForCourseOffering(co.getId(),
-									KsapFrameworkServiceLocator.getContext().getContextInfo());
-					for (ActivityOfferingDisplayInfo aodi : aol) {
-						if (msg != null)
-							msg.append("\n    AO ").append(aodi.getId());
-						rv.add(aodi);
-					}
+                    if (LuiServiceConstants.LUI_CO_STATE_OFFERED_KEY.equalsIgnoreCase(co.getStateKey())) {
+                        if (msg != null)
+                            msg.append("\n  CO ").append(co.getId());
+                        List<ActivityOfferingDisplayInfo> aol = KsapFrameworkServiceLocator.getCourseOfferingService()
+                                .getActivityOfferingDisplaysForCourseOffering(co.getId(),
+                                        KsapFrameworkServiceLocator.getContext().getContextInfo());
+                        for (ActivityOfferingDisplayInfo aodi : aol) {
+                            if (msg != null)
+                                msg.append("\n    AO ").append(aodi.getId());
+                            rv.add(aodi);
+                        }
+                    }
 				}
 				if (msg != null)
 					LOG.debug(msg.toString());
@@ -368,10 +371,12 @@ public class DefaultCourseHelper implements CourseHelper, Serializable {
             if(futureScheduled!=null) terms.addAll(futureScheduled);
 
             for(CourseOfferingInfo offering : offerings){
-                for(Term t : terms) {
-                    if(offering.getTermId().equals(t.getId())){
-                        if(!scheduledTerms.contains(t.getId())){
-                            scheduledTerms.add(t.getId());
+                if (LuiServiceConstants.LUI_CO_STATE_OFFERED_KEY.equalsIgnoreCase(offering.getStateKey())) {
+                    for(Term t : terms) {
+                        if(offering.getTermId().equals(t.getId())){
+                            if(!scheduledTerms.contains(t.getId())){
+                                scheduledTerms.add(t.getId());
+                            }
                         }
                     }
                 }
@@ -405,7 +410,8 @@ public class DefaultCourseHelper implements CourseHelper, Serializable {
             List<CourseSearchItem> tempCourses = new ArrayList<CourseSearchItem>(courses);
             Predicate coursePredicates[] = KsapHelperUtil.getCoursePredicates(tempCourses);
             QueryByCriteria query = QueryByCriteria.Builder.fromPredicates(or(coursePredicates),
-                    or(termPredicates), equal("luiType", LuiServiceConstants.COURSE_OFFERING_TYPE_KEY));
+                    or(termPredicates), equal("luiType", LuiServiceConstants.COURSE_OFFERING_TYPE_KEY),
+                    equal("luiState", LuiServiceConstants.LUI_CO_STATE_OFFERED_KEY));
             offerings = KsapFrameworkServiceLocator.getCourseOfferingService()
                     .searchForCourseOfferings(query,KsapFrameworkServiceLocator.getContext().getContextInfo());
         } catch (InvalidParameterException e) {
@@ -431,7 +437,8 @@ public class DefaultCourseHelper implements CourseHelper, Serializable {
             List<String> tempCourseIds = new ArrayList<String>(courseIds);
             Predicate coursePredicates[] = KsapHelperUtil.getCourseIdPredicates(tempCourseIds);
             QueryByCriteria query = QueryByCriteria.Builder.fromPredicates(or(coursePredicates),
-                    or(termPredicates), equal("luiType", LuiServiceConstants.COURSE_OFFERING_TYPE_KEY));
+                    or(termPredicates), equal("luiType", LuiServiceConstants.COURSE_OFFERING_TYPE_KEY),
+                    equal("luiState", LuiServiceConstants.LUI_CO_STATE_OFFERED_KEY));
             offerings = KsapFrameworkServiceLocator.getCourseOfferingService()
                     .searchForCourseOfferings(query,KsapFrameworkServiceLocator.getContext().getContextInfo());
         } catch (InvalidParameterException e) {
@@ -579,7 +586,12 @@ public class DefaultCourseHelper implements CourseHelper, Serializable {
 		try {
 			CourseOfferingInfo courseOfferingInfo = KsapFrameworkServiceLocator.getCourseOfferingService()
 					.getCourseOffering(courseOfferingId, KsapFrameworkServiceLocator.getContext().getContextInfo());
-			return courseOfferingInfo != null ? courseOfferingInfo.getCourseCode() : null;
+			if (courseOfferingInfo != null
+                    && LuiServiceConstants.LUI_CO_STATE_OFFERED_KEY.equalsIgnoreCase(courseOfferingInfo.getStateKey())) {
+                return courseOfferingInfo.getCourseCode();
+            } else {
+                return null;
+            }
 		} catch (DoesNotExistException e) {
 			throw new IllegalArgumentException("CO lookup error", e);
 		} catch (MissingParameterException e) {
@@ -595,10 +607,16 @@ public class DefaultCourseHelper implements CourseHelper, Serializable {
 
     @Override
     public boolean isCourseOffered(Term term, Course course) {
+        List<CourseOfferingInfo> cos = new ArrayList<CourseOfferingInfo>();
         try {
-            List<CourseOfferingInfo> cos = KsapFrameworkServiceLocator.getCourseOfferingService()
+            List<CourseOfferingInfo> temp_cos = KsapFrameworkServiceLocator.getCourseOfferingService()
                     .getCourseOfferingsByCourseAndTerm(course.getId(), term.getId(),
                             KsapFrameworkServiceLocator.getContext().getContextInfo());
+            for (CourseOfferingInfo co : temp_cos) {
+                if (LuiServiceConstants.LUI_CO_STATE_OFFERED_KEY.equalsIgnoreCase(co.getStateKey())){
+                    cos.add(co);
+                }
+            }
             return cos != null && !cos.isEmpty();
         } catch (DoesNotExistException e) {
             return false;

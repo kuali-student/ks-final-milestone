@@ -942,7 +942,8 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
             Predicate termPredicates[] = KsapHelperUtil.getTermPredicates(terms);
             Predicate coursePredicates[] = KsapHelperUtil.getCourseIdPredicates(courseIds);
             QueryByCriteria query = QueryByCriteria.Builder.fromPredicates(or(coursePredicates),
-                    or(termPredicates), equal("luiType", LuiServiceConstants.COURSE_OFFERING_TYPE_KEY));
+                    or(termPredicates), equal("luiType", LuiServiceConstants.COURSE_OFFERING_TYPE_KEY),
+                    equal("luiState", LuiServiceConstants.LUI_CO_STATE_OFFERED_KEY));
             List<CourseOfferingInfo> offerings = KsapFrameworkServiceLocator.getCourseOfferingService()
                     .searchForCourseOfferings(query, KsapFrameworkServiceLocator.getContext().getContextInfo());
 
