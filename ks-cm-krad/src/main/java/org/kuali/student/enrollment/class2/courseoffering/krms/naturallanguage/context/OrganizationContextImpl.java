@@ -70,7 +70,7 @@ public class OrganizationContextImpl extends BasicContextImpl {
      */
     @Override
     public Map<String, Object> createContextMap(Map<String, Object> parameters) {
-        ContextInfo contextInfo = ContextUtils.getContextInfo();
+        ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
         Map<String, Object> contextMap = super.createContextMap(parameters);
 
         String orgId = (String) parameters.get(TermParameterTypes.ORGANIZATION_KEY.getId());

@@ -716,7 +716,7 @@ public class CourseController extends CourseRuleEditorController {
 
         try {
             for (final SearchResultRowInfo result
-                    : getSubjectCodeService().search(searchRequest, ContextUtils.getContextInfo()).getRows()) {
+                    : getSubjectCodeService().search(searchRequest, ContextUtils.createDefaultContextInfo()).getRows()) {
 
                 String subjectCodeId = "";
                 String subjectCodeOptionalLongName = "";

@@ -92,7 +92,7 @@ public class LrcContextImpl extends BasicContextImpl {
      */
     @Override
     public Map<String, Object> createContextMap(Map<String, Object> parameters) {
-        ContextInfo contextInfo = ContextUtils.getContextInfo();
+        ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
         Map<String, Object> contextMap = super.createContextMap(parameters);
 
         String gradeId = (String) parameters.get(TermParameterTypes.GRADE_KEY.getId());

@@ -32,8 +32,6 @@ import org.kuali.rice.krad.uif.util.LifecycleElement;
 import org.kuali.rice.krad.uif.view.ExpressionEvaluator;
 import org.kuali.rice.krad.uif.view.View;
 import org.kuali.student.cm.common.util.CurriculumManagementConstants;
-import org.kuali.student.common.collection.KSCollectionUtils;
-import org.kuali.student.r2.common.exceptions.OperationFailedException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -61,7 +59,7 @@ public class CMIconLabelMessage extends Message {
             Label parentLabel = (Label) parent;
             labelText.append(parentLabel.getLabelText());
             if (StringUtils.isNotBlank(iconToolTipText)) {
-                labelText.append(CurriculumManagementConstants.KS_MESSAGE_ICON_IMAGE_ID);
+                labelText.append(CurriculumManagementConstants.CM_MESSAGE_ICON_IMAGE_ID);
             }
         } else if (parent instanceof Header){
             labelText.append(((Header) parent).getHeaderText());
@@ -87,7 +85,7 @@ public class CMIconLabelMessage extends Message {
                 Group groupCopy = ComponentUtils.copy(rightGroup);
                 rightGroup.setRender(false);
                 if (StringUtils.isNotBlank(iconToolTipText)) {
-                    labelText.append(CurriculumManagementConstants.KS_MESSAGE_ICON_IMAGE_ID);
+                    labelText.append(CurriculumManagementConstants.CM_MESSAGE_ICON_IMAGE_ID);
                 }
                 labelText.append(" [0] ");
                 List<Component> inlineComponents = new ArrayList<Component>();

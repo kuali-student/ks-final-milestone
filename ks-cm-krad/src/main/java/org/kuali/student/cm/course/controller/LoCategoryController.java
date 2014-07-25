@@ -51,7 +51,7 @@ public class LoCategoryController extends UifControllerBase {
         List<LoCategoryInfo> loCategories = new ArrayList<LoCategoryInfo>();
         try {
             List<LoCategoryInfo> retrievedCategories = getLoService().getLoCategoriesByLoRepository(
-                    "kuali.loRepository.key.singleUse", ContextUtils.getContextInfo());
+                    "kuali.loRepository.key.singleUse", ContextUtils.createDefaultContextInfo());
             for (LoCategoryInfo loCat : retrievedCategories) {
                 if ("Active".equalsIgnoreCase(loCat.getStateKey())) {
                     loCategories.add(loCat);

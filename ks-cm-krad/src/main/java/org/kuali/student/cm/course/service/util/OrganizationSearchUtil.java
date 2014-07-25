@@ -55,7 +55,7 @@ public class OrganizationSearchUtil {
         
         SearchResultInfo searchResult = null;
         try {
-            searchResult = organizationService.search(searchRequest, ContextUtils.getContextInfo());
+            searchResult = organizationService.search(searchRequest, ContextUtils.createDefaultContextInfo());
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -87,7 +87,7 @@ public class ProposalLookupableImpl extends KSLookupableImpl {
 
         List<ProposalInfo> proposalInfos;
         try {
-            SearchResultInfo searchResult = getProposalService().search(searchRequest, ContextUtils.getContextInfo());
+            SearchResultInfo searchResult = getProposalService().search(searchRequest, ContextUtils.createDefaultContextInfo());
             proposalInfos = resolveProposalSearchResultSet(searchResult);
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -111,7 +111,7 @@ public class ProposalLookupableImpl extends KSLookupableImpl {
         }
 
         if (!proposalIds.isEmpty()){
-            proposals = getProposalService().getProposalsByIds(proposalIds,ContextUtils.getContextInfo());
+            proposals = getProposalService().getProposalsByIds(proposalIds,ContextUtils.createDefaultContextInfo());
             populateProposalCreatorName(proposals);
             populateProposalAllowedActions(proposals);
         }

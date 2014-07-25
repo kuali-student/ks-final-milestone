@@ -155,7 +155,7 @@ public class CurriculumManagementConstants {
 
     public final static String KS_LO_CAT_TABLE = "KS-LoCatTable";
 
-    public final static String KS_MESSAGE_ICON_IMAGE_ID = "[id=CM-IconImage]";
+    public final static String CM_MESSAGE_ICON_IMAGE_ID = "[id=CM-IconImage]";
 
     public final static String SUPPORTING_DOC_MIME_TYPE = "application/octet-stream";
 

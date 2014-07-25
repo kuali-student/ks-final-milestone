@@ -82,7 +82,7 @@ public class CollaboratorLookupableImpl extends LookupableImpl {
         
         SearchResultInfo searchResult = null;
         try {
-        	searchResult = getSearchService().search(searchRequest, ContextUtils.getContextInfo());
+        	searchResult = getSearchService().search(searchRequest, ContextUtils.createDefaultContextInfo());
         	for (SearchResultRowInfo result : searchResult.getRows()) {
                 List<SearchResultCellInfo> cells = result.getCells();
                 CollaboratorWrapper collaboratorDisplay = new CollaboratorWrapper();
@@ -101,7 +101,7 @@ public class CollaboratorLookupableImpl extends LookupableImpl {
                     	collaboratorDisplay.setDisplayName(cell.getValue());
                     }
                 }
-                if(!ContextUtils.getContextInfo().getPrincipalId().equals(collaboratorDisplay.getPrincipalId())){
+                if(!ContextUtils.createDefaultContextInfo().getPrincipalId().equals(collaboratorDisplay.getPrincipalId())){
                     collaboratorDisplays.add(collaboratorDisplay);
                 }
         	}

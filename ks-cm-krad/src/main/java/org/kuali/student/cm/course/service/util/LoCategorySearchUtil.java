@@ -44,7 +44,7 @@ public class LoCategorySearchUtil {
 
         try {
             SearchResultInfo searchResult = learningObjectiveService.search(searchRequest,
-                    ContextUtils.getContextInfo());
+                    ContextUtils.createDefaultContextInfo());
             for (SearchResultRowInfo result : searchResult.getRows()) {
                 List<SearchResultCellInfo> cells = result.getCells();
                 LoCategoryInfoWrapper newCat = new LoCategoryInfoWrapper();

@@ -152,7 +152,7 @@ public class LoDisplayInfoLookupableImpl extends KSLookupableImpl {
         
         searchRequest.setParams(queryParamValueList);
         try {
-            SearchResultInfo searchResult = getLearningObjectiveService().search(searchRequest, ContextUtils.getContextInfo());
+            SearchResultInfo searchResult = getLearningObjectiveService().search(searchRequest, ContextUtils.createDefaultContextInfo());
 
             HashMap<String,TreeSet<String>> categories = new HashMap<String, TreeSet<String>>();
             HashMap<String,Integer> indexes = new HashMap<String, Integer>();

@@ -58,7 +58,7 @@ public class CourseCodeSearchUtil {
         
         SearchResultInfo searchResult = null;
         try {
-            searchResult = cluService.search(searchRequest, ContextUtils.getContextInfo());
+            searchResult = cluService.search(searchRequest, ContextUtils.createDefaultContextInfo());
             
             for (SearchResultRowInfo result : searchResult.getRows()) {
                 List<SearchResultCellInfo> cells = result.getCells();

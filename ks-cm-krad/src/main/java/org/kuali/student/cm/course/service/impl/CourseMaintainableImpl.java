@@ -73,7 +73,6 @@ import org.kuali.student.cm.course.service.util.CourseCodeSearchUtil;
 import org.kuali.student.cm.course.service.util.LoCategorySearchUtil;
 import org.kuali.student.cm.course.service.util.OrganizationSearchUtil;
 import org.kuali.student.cm.course.util.CourseProposalUtil;
-import org.kuali.student.cm.maintenance.CMMaintainable;
 import org.kuali.student.common.collection.KSCollectionUtils;
 import org.kuali.student.common.util.security.ContextUtils;
 import org.kuali.student.core.krms.tree.KSRuleViewTreeBuilder;
@@ -164,12 +163,10 @@ import java.util.Map;
  *
  * @author OpenCollab/rSmart KRAD CM Conversion Alliance!
  */
-public class CourseMaintainableImpl extends RuleEditorMaintainableImpl implements CourseMaintainable, RuleViewHelperService, CMMaintainable {
+public class CourseMaintainableImpl extends RuleEditorMaintainableImpl implements CourseMaintainable, RuleViewHelperService {
 
 
     private static final Logger LOG = LoggerFactory.getLogger(CourseMaintainableImpl.class);
-
-    protected transient static final String DEFAULT_REQUIRED_WORKFLOW_MODE = "Submit";
 
     protected transient static final String CREDIT_COURSE_CLU_TYPE_KEY = "kuali.lu.typeKey.CreditCourse";
 
@@ -229,7 +226,7 @@ public class CourseMaintainableImpl extends RuleEditorMaintainableImpl implement
         searchRequest.setSortColumn(QuickViewByGivenName.DISPLAY_NAME_RESULT);
 
         SearchResultInfo searchResult = null;
-        searchResult = getSearchService().search(searchRequest, ContextUtils.getContextInfo());
+        searchResult = getSearchService().search(searchRequest, ContextUtils.createDefaultContextInfo());
 
         return searchResult;
     }
@@ -335,7 +332,7 @@ public class CourseMaintainableImpl extends RuleEditorMaintainableImpl implement
 
         SearchResultInfo searchResult = null;
         try {
-            searchResult = getSubjectCodeService().search(searchRequest, ContextUtils.getContextInfo());
+            searchResult = getSubjectCodeService().search(searchRequest, ContextUtils.createDefaultContextInfo());
             for (SearchResultRowInfo result : searchResult.getRows()) {
                 List<SearchResultCellInfo> cells = result.getCells();
                 String id = "";
@@ -388,7 +385,7 @@ public class CourseMaintainableImpl extends RuleEditorMaintainableImpl implement
 
         SearchResultInfo searchResult = null;
         try {
-            searchResult = getSearchService().search(searchRequest, ContextUtils.getContextInfo());
+            searchResult = getSearchService().search(searchRequest, ContextUtils.createDefaultContextInfo());
             for (SearchResultRowInfo result : searchResult.getRows()) {
                 List<SearchResultCellInfo> cells = result.getCells();
                 CollaboratorWrapper theCollaboratorWrapper = new CollaboratorWrapper();
@@ -485,7 +482,7 @@ public class CourseMaintainableImpl extends RuleEditorMaintainableImpl implement
                             loCategoryInfo.setLoRepositoryKey(CurriculumManagementConstants.KUALI_LO_REPOSITORY_KEY_SINGLE_USE);
                             try {
                                 LoCategoryInfo savedLoCat = getLearningObjectiveService().createLoCategory(loCategoryInfo.getTypeKey(), loCategoryInfo,
-                                        ContextUtils.getContextInfo());
+                                        ContextUtils.createDefaultContextInfo());
                                 BeanUtils.copyProperties(savedLoCat, loCategoryInfo);
                             } catch (DataValidationErrorException e) {
                                 LOG.error("An error occurred while trying to create a duplicate Learning Objective Category", e);
@@ -813,7 +810,7 @@ public class CourseMaintainableImpl extends RuleEditorMaintainableImpl implement
         CourseInfoWrapper courseInfoWrapper = (CourseInfoWrapper) getDataObject();
 
         // We can actually get this from the workflow document initiator id. It doesn't need to be stored in the form.
-        courseInfoWrapper.setUserId(ContextUtils.getContextInfo().getPrincipalId());
+        courseInfoWrapper.setUserId(ContextUtils.createDefaultContextInfo().getPrincipalId());
 
         // Initialize Course Requisites
         courseInfoWrapper.setNamespace(KSKRMSServiceConstants.NAMESPACE_CODE);
@@ -1005,7 +1002,7 @@ public class CourseMaintainableImpl extends RuleEditorMaintainableImpl implement
 
         try {
 
-            SearchResultInfo result = getSubjectCodeService().search(searchRequest, ContextUtils.getContextInfo());
+            SearchResultInfo result = getSubjectCodeService().search(searchRequest, ContextUtils.createDefaultContextInfo());
 
             if (result.getRows().isEmpty()) {
                 throw new RuntimeException("Invalid Org Id");
@@ -1136,7 +1133,7 @@ public class CourseMaintainableImpl extends RuleEditorMaintainableImpl implement
         reviewData.getCourseLogisticsSection().getTerms().clear();
         try {
             for (String termType : savedCourseInfo.getTermsOffered()) {
-                TypeInfo term = getTypeService().getType(termType, ContextUtils.getContextInfo());
+                TypeInfo term = getTypeService().getType(termType, ContextUtils.createDefaultContextInfo());
                 reviewData.getCourseLogisticsSection().getTerms().add(term.getName());
             }
         } catch (Exception e) {
@@ -1145,7 +1142,7 @@ public class CourseMaintainableImpl extends RuleEditorMaintainableImpl implement
 
         if (savedCourseInfo.getDuration() != null && StringUtils.isNotBlank(savedCourseInfo.getDuration().getAtpDurationTypeKey())) {
             try {
-                TypeInfo type = getTypeService().getType(savedCourseInfo.getDuration().getAtpDurationTypeKey(), ContextUtils.getContextInfo());
+                TypeInfo type = getTypeService().getType(savedCourseInfo.getDuration().getAtpDurationTypeKey(), ContextUtils.createDefaultContextInfo());
                 reviewData.getCourseLogisticsSection().setAtpDurationType(type.getName());
             } catch (Exception e) {
                 throw new RiceIllegalStateException(e);
@@ -1656,7 +1653,7 @@ public class CourseMaintainableImpl extends RuleEditorMaintainableImpl implement
                     DocumentInfo doc = getSupportingDocumentService().createDocument(
                             CurriculumManagementConstants.DEFAULT_DOC_TYPE_KEY,
                             CurriculumManagementConstants.DOCUMENT_CATEGORY_PROPOSAL_TYPE_KEY,
-                            toAdd, ContextUtils.getContextInfo());
+                            toAdd, ContextUtils.createDefaultContextInfo());
 
                     // Now relate the document to the course
                     RefDocRelationInfo docRelation = new RefDocRelationInfo();
@@ -1671,7 +1668,7 @@ public class CourseMaintainableImpl extends RuleEditorMaintainableImpl implement
                             toAdd.getId(),
                             CurriculumManagementConstants.REF_DOC_RELATION_TYPE_KEY,
                             docRelation,
-                            ContextUtils.getContextInfo());
+                            ContextUtils.createDefaultContextInfo());
                     supportingDoc.setDocumentId(doc.getId());
                     supportingDoc.setDocumentName(toAdd.getFileName());
                     //Free up memory
@@ -2040,7 +2037,7 @@ public class CourseMaintainableImpl extends RuleEditorMaintainableImpl implement
             List<EnumeratedValueInfo> enumerationInfos = null;
             try {
                 enumerationInfos = getEnumerationManagementService().getEnumeratedValues(
-                        CluServiceConstants.FINAL_EXAM_STATUS_ENUM_KEY, null, null, null, ContextUtils.getContextInfo());
+                        CluServiceConstants.FINAL_EXAM_STATUS_ENUM_KEY, null, null, null, ContextUtils.createDefaultContextInfo());
 
                 for (EnumeratedValueInfo enumerationInfo : enumerationInfos) {
                     if (StringUtils.equals(courseInfoWrapper.getFinalExamStatus(), enumerationInfo.getCode())) {
@@ -2110,7 +2107,7 @@ public class CourseMaintainableImpl extends RuleEditorMaintainableImpl implement
         CourseInfoWrapper dataObject = (CourseInfoWrapper) getDataObject();
 
         try {
-            ProposalInfo proposal = getProposalService().getProposalByWorkflowId(getDocumentNumber(), ContextUtils.getContextInfo());
+            ProposalInfo proposal = getProposalService().getProposalByWorkflowId(getDocumentNumber(), ContextUtils.createDefaultContextInfo());
             dataObject.setProposalInfo(proposal);
 
             populateCourseAndReviewData(proposal.getProposalReference().get(0),dataObject, false);
@@ -2350,9 +2347,9 @@ public class CourseMaintainableImpl extends RuleEditorMaintainableImpl implement
             variation.setTypeKey(ProgramConstants.VARIATION_TYPE_KEY);
         }
         if (StringUtils.isBlank(course.getId())) {
-            courseInfoWrapper.setCourseInfo(getCourseService().createCourse(course, ContextUtils.getContextInfo()));
+            courseInfoWrapper.setCourseInfo(getCourseService().createCourse(course, ContextUtils.createDefaultContextInfo()));
         } else {
-            courseInfoWrapper.setCourseInfo(getCourseService().updateCourse(course.getId(), course, ContextUtils.getContextInfo()));
+            courseInfoWrapper.setCourseInfo(getCourseService().updateCourse(course.getId(), course, ContextUtils.createDefaultContextInfo()));
         }
 
         LOG.info("Saving Proposal for course {}", courseInfoWrapper.getCourseInfo().getId());
@@ -2369,9 +2366,9 @@ public class CourseMaintainableImpl extends RuleEditorMaintainableImpl implement
         }
 
         if (StringUtils.isBlank(proposal.getId())) {
-            proposal = getProposalService().createProposal(ProposalServiceConstants.PROPOSAL_TYPE_COURSE_CREATE_KEY, proposal, ContextUtils.getContextInfo());
+            proposal = getProposalService().createProposal(ProposalServiceConstants.PROPOSAL_TYPE_COURSE_CREATE_KEY, proposal, ContextUtils.createDefaultContextInfo());
         } else {
-            proposal = getProposalService().updateProposal(proposal.getId(), proposal, ContextUtils.getContextInfo());
+            proposal = getProposalService().updateProposal(proposal.getId(), proposal, ContextUtils.createDefaultContextInfo());
         }
         courseInfoWrapper.setProposalInfo(proposal);
     }
@@ -2462,7 +2459,10 @@ public class CourseMaintainableImpl extends RuleEditorMaintainableImpl implement
 
 
     /**
-     * We're overriding this method and provide empty
+     * As we're using this maintainable in course maintenace document (CourseMaintenanceView.xml) as well as
+     * in regular view 'view course' (ViewCourseView.xml), we dont want any of the maintenance document specific
+     * logics here to avoid form type casting issues. Also, we dont really need any of the logic here as our functionalities
+     * are different than the out of the box logic.
      *
      * @param element
      * @param model

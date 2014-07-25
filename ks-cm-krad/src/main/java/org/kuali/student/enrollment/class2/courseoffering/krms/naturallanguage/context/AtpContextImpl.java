@@ -63,7 +63,7 @@ public class AtpContextImpl extends BasicContextImpl {
 			return null;
 		}
 		try {
-			return this.getTypeService().getType(atpDurationTypeKey, ContextUtils.getContextInfo());
+			return this.getTypeService().getType(atpDurationTypeKey, ContextUtils.createDefaultContextInfo());
 		} catch (Exception e) {
                    throw new RiceIllegalStateException (e);
 		}
@@ -73,7 +73,6 @@ public class AtpContextImpl extends BasicContextImpl {
      * Creates the context map (template data) for the requirement component.
      *
      * @param parameters
-     * @param contextInfo
      * @throws org.kuali.student.r2.common.exceptions.OperationFailedException Creating context map fails
      */
     @Override

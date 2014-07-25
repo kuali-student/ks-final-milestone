@@ -79,7 +79,7 @@ public class CluInstructorInfoLookupableImpl extends LookupableImpl {
         
         SearchResultInfo searchResult = null;
         try {
-        	searchResult = getSearchService().search(searchRequest, ContextUtils.getContextInfo());
+        	searchResult = getSearchService().search(searchRequest, ContextUtils.createDefaultContextInfo());
         	for (SearchResultRowInfo result : searchResult.getRows()) {
                 List<SearchResultCellInfo> cells = result.getCells();
                 CluInstructorInfoWrapper cluInstructorInfoDisplay = new CluInstructorInfoWrapper();

@@ -126,7 +126,7 @@ public class CourseJointInfoLookupableImpl extends LookupableImpl {
         searchRequest.setParams(queryParamValueList);
         SearchResultInfo clus = null;
         try {
-            clus = getCluService().search(searchRequest, ContextUtils.getContextInfo());
+            clus = getCluService().search(searchRequest, ContextUtils.createDefaultContextInfo());
             for (SearchResultRowInfo result : clus.getRows()) {
                 List<SearchResultCellInfo> cells = result.getCells();
                 CourseJointInfoWrapper courseJointInfoDisplay = new CourseJointInfoWrapper();

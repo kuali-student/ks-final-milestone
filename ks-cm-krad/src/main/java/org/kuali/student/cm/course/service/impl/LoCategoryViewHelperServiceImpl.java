@@ -34,7 +34,7 @@ public class LoCategoryViewHelperServiceImpl extends ViewHelperServiceImpl {
         loCategory.setLoRepositoryKey(CurriculumManagementConstants.KUALI_LO_REPOSITORY_KEY_SINGLE_USE);
         try {
             LoCategoryInfo savedLoCat = getLoService().createLoCategory(loCategory.getTypeKey(), loCategory,
-                    ContextUtils.getContextInfo());
+                    ContextUtils.createDefaultContextInfo());
             BeanUtils.copyProperties(loCategory, savedLoCat);
         } catch (DataValidationErrorException e) {
             GlobalVariables.getMessageMap().putErrorForSectionId(CurriculumManagementConstants.KS_LO_CAT_TABLE, CurriculumManagementConstants.MessageKeys.ERROR_LO_CATEGORY_DUPLICATE);
@@ -50,7 +50,7 @@ public class LoCategoryViewHelperServiceImpl extends ViewHelperServiceImpl {
         loCategory.setLoRepositoryKey(CurriculumManagementConstants.KUALI_LO_REPOSITORY_KEY_SINGLE_USE);
         try {
             LoCategoryInfo updatedLoCat = getLoService().updateLoCategory(loCategory.getId(), loCategory,
-                    ContextUtils.getContextInfo());
+                    ContextUtils.createDefaultContextInfo());
             BeanUtils.copyProperties(loCategory, updatedLoCat);
         } catch (DataValidationErrorException e) {
             GlobalVariables.getMessageMap().putErrorForSectionId(CurriculumManagementConstants.KS_LO_CAT_TABLE, CurriculumManagementConstants.MessageKeys.ERROR_LO_CATEGORY_DUPLICATE);
@@ -92,7 +92,7 @@ public class LoCategoryViewHelperServiceImpl extends ViewHelperServiceImpl {
                 //This part was altered to include the database delete method call.
                 LoCategoryInfo loCategory = (LoCategoryInfo) deleteLine;
                 try {
-                    getLoService().deleteLoCategory(loCategory.getId(), ContextUtils.getContextInfo());
+                    getLoService().deleteLoCategory(loCategory.getId(), ContextUtils.createDefaultContextInfo());
                 } catch (Exception e) {
                     LOG.error("An error occurred while trying to delete a Learning Objective Category", e);
                 }

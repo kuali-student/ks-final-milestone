@@ -23,7 +23,7 @@ import org.kuali.student.cm.course.form.wrapper.LoCategoryInfoWrapper;
 import org.kuali.student.cm.course.form.wrapper.OrganizationInfoWrapper;
 import org.kuali.student.cm.course.form.wrapper.SubjectCodeWrapper;
 import org.kuali.student.cm.course.form.wrapper.SupportingDocumentInfoWrapper;
-import org.kuali.student.common.uif.service.KSMaintainable;
+import org.kuali.student.cm.maintenance.CMMaintainable;
 import org.kuali.student.lum.lu.ui.krms.dto.CluInformation;
 import org.kuali.student.r2.lum.clu.dto.MembershipQueryInfo;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
@@ -35,7 +35,7 @@ import java.util.List;
  *
  * @author OpenCollab/rSmart KRAD CM Conversion Alliance!
  */
-public interface CourseMaintainable extends KSMaintainable {
+public interface CourseMaintainable extends CMMaintainable {
 
     /**
      * Method called when queryMethodToCall is executed for Administering Organizations in order 

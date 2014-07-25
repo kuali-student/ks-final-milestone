@@ -34,7 +34,6 @@ import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.krad.maintenance.MaintenanceDocumentBase;
 import org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent;
 import org.kuali.rice.krad.rules.rule.event.SaveEvent;
-import org.kuali.rice.krad.util.NoteType;
 import org.kuali.rice.student.StudentWorkflowConstants;
 import org.kuali.rice.student.bo.KualiStudentKimAttributes;
 import org.kuali.student.common.util.security.ContextUtils;
@@ -172,7 +171,7 @@ public class CMMaintenanceDocument extends MaintenanceDocumentBase {
         try{
         // on a save action we may not have access to the proposal object because the transaction may not have committed
         if (!StringUtils.equals(KewApiConstants.ROUTE_HEADER_SAVED_CD, actionTakeCode)) {
-            ProposalInfo proposalInfo = getProposalService().getProposalByWorkflowId(actionTakenEvent.getDocumentId().toString(), ContextUtils.getContextInfo());
+            ProposalInfo proposalInfo = getProposalService().getProposalByWorkflowId(actionTakenEvent.getDocumentId().toString(), ContextUtils.createDefaultContextInfo());
             if (actionTaken == null) {
                 throw new RuntimeException("No action taken found for document id " + actionTakenEvent.getDocumentId());
             }
@@ -214,7 +213,7 @@ public class CMMaintenanceDocument extends MaintenanceDocumentBase {
     */
 
     protected void processActionTakenOnAdhocRequest(ActionTakenEvent actionTakenEvent, ActionRequest actionRequest) throws Exception {
-        ProposalInfo proposalInfo = getProposalService().getProposalByWorkflowId(actionTakenEvent.getDocumentId(), ContextUtils.getContextInfo());
+        ProposalInfo proposalInfo = getProposalService().getProposalByWorkflowId(actionTakenEvent.getDocumentId(), ContextUtils.createDefaultContextInfo());
         WorkflowDocument doc = WorkflowDocumentFactory.loadDocument(getPrincipalIdForSystemUser(), proposalInfo.getWorkflowId());
         LOG.info("Clearing EDIT permissions added via adhoc requests to principal id: {}", actionRequest.getPrincipalId());
         removeEditAdhocPermissions(actionRequest.getPrincipalId(), doc);
@@ -239,7 +238,7 @@ public class CMMaintenanceDocument extends MaintenanceDocumentBase {
 
         ProposalInfo proposalInfo = null;
         try{
-        proposalInfo = getProposalService().getProposalByWorkflowId(documentRouteLevelChange.getDocumentId(), ContextUtils.getContextInfo());
+        proposalInfo = getProposalService().getProposalByWorkflowId(documentRouteLevelChange.getDocumentId(), ContextUtils.createDefaultContextInfo());
         }
         catch(Exception e){
             throw new RuntimeException("Error in route level change ", e);
@@ -271,7 +270,7 @@ public class CMMaintenanceDocument extends MaintenanceDocumentBase {
             ProposalInfo proposalInfo) throws Exception {
         //Update the proposal with the new node name
         new AttributeHelper(proposalInfo.getAttributes()).put("workflowNode", documentRouteLevelChange.getNewNodeName());
-        getProposalService().updateProposal(proposalInfo.getId(), proposalInfo, ContextUtils.getContextInfo());
+        getProposalService().updateProposal(proposalInfo.getId(), proposalInfo, ContextUtils.createDefaultContextInfo());
         return true;
     }
 
@@ -292,7 +291,7 @@ public class CMMaintenanceDocument extends MaintenanceDocumentBase {
             }
         } else {
             try {
-                ProposalInfo proposalInfo = getProposalService().getProposalByWorkflowId(documentRouteStatusChange.getDocumentId(), ContextUtils.getContextInfo());
+                ProposalInfo proposalInfo = getProposalService().getProposalByWorkflowId(documentRouteStatusChange.getDocumentId(), ContextUtils.createDefaultContextInfo());
                 // update the proposal state if the proposalState value is not null (allows for clearing of the state)
                 String proposalState = getProposalStateForRouteStatus(proposalInfo.getState(), documentRouteStatusChange.getNewRouteStatus());
                 updateProposal(documentRouteStatusChange, proposalState, proposalInfo);
@@ -408,7 +407,7 @@ public class CMMaintenanceDocument extends MaintenanceDocumentBase {
         }
         requiresSave |= preProcessProposalSave(iDocumentEvent, proposalInfo);
         if (requiresSave) {
-            getProposalService().updateProposal(proposalInfo.getId(), proposalInfo, ContextUtils.getContextInfo());
+            getProposalService().updateProposal(proposalInfo.getId(), proposalInfo, ContextUtils.createDefaultContextInfo());
         }
     }
 
@@ -459,7 +458,7 @@ public class CMMaintenanceDocument extends MaintenanceDocumentBase {
                 LOG.info("Will set CLU state to '{}'", DtoConstants.STATE_NOT_APPROVED);
                 // Get Clu
                 CourseInfo courseInfo = getCourseService().getCourse(
-                        getCourseId(proposalInfo), ContextUtils.getContextInfo());
+                        getCourseId(proposalInfo), ContextUtils.createDefaultContextInfo());
                 // Update Clu
                 updateCourse(actionTakenEvent, DtoConstants.STATE_NOT_APPROVED,
                         courseInfo, proposalInfo);
@@ -477,7 +476,7 @@ public class CMMaintenanceDocument extends MaintenanceDocumentBase {
 
     protected boolean processCustomActionTaken(ActionTakenEvent actionTakenEvent, ActionTaken actionTaken, ProposalInfo proposalInfo) throws Exception {
         String cluId = getCourseId(proposalInfo);
-        CourseInfo courseInfo = getCourseService().getCourse(cluId, ContextUtils.getContextInfo());
+        CourseInfo courseInfo = getCourseService().getCourse(cluId, ContextUtils.createDefaultContextInfo());
         // submit, blanket approve action taken comes through here.
         updateCourse(actionTakenEvent, null, courseInfo, proposalInfo);
         return true;
@@ -494,7 +493,7 @@ public class CMMaintenanceDocument extends MaintenanceDocumentBase {
         String prevEndTermAtpId = new AttributeHelper(proposalInfo.getAttributes()).get("prevEndTerm");
 
         // Get the current "existing" courseInfo
-        CourseInfo courseInfo = getCourseService().getCourse(courseId, ContextUtils.getContextInfo());
+        CourseInfo courseInfo = getCourseService().getCourse(courseId, ContextUtils.createDefaultContextInfo());
 
         // Get the new state the course should now change to
         String newCourseState = getCluStateForRouteStatus(courseInfo.getStateKey(), statusChangeEvent.getNewRouteStatus(), proposalInfo.getType());
@@ -505,7 +504,7 @@ public class CMMaintenanceDocument extends MaintenanceDocumentBase {
 
                 // Change the state using the effective date as the version start date
                 // update course and save it for retire if state = retire
-                getCourseStateChangeService().changeState(courseId, newCourseState, prevEndTermAtpId, ContextUtils.getContextInfo());
+                getCourseStateChangeService().changeState(courseId, newCourseState, prevEndTermAtpId, ContextUtils.createDefaultContextInfo());
             } else
 
                 // Retire By Proposal will come through here, extra data will need
@@ -513,7 +512,7 @@ public class CMMaintenanceDocument extends MaintenanceDocumentBase {
                 // the save happens.
                 if (DtoConstants.STATE_RETIRED.equals(newCourseState)) {
                     retireCourseByProposalCopyAndSave(newCourseState, courseInfo, proposalInfo);
-                    getCourseStateChangeService().changeState(courseId, newCourseState, prevEndTermAtpId, ContextUtils.getContextInfo());
+                    getCourseStateChangeService().changeState(courseId, newCourseState, prevEndTermAtpId, ContextUtils.createDefaultContextInfo());
                 } else { // newCourseState of null comes here, is this desired?
                     updateCourse(statusChangeEvent, newCourseState, courseInfo, proposalInfo);
                 }
@@ -577,7 +576,7 @@ public class CMMaintenanceDocument extends MaintenanceDocumentBase {
             }
         }
         // Save the Data to the DB
-        getCourseService().updateCourse(courseInfo.getId(), courseInfo, ContextUtils.getContextInfo());
+        getCourseService().updateCourse(courseInfo.getId(), courseInfo, ContextUtils.createDefaultContextInfo());
     }
 
     protected String getCourseId(ProposalInfo proposalInfo) throws OperationFailedException {
@@ -654,7 +653,7 @@ public class CMMaintenanceDocument extends MaintenanceDocumentBase {
         requiresSave |= preProcessCourseSave(iDocumentEvent, courseInfo);
 
         if (requiresSave) {
-            getCourseService().updateCourse(courseInfo.getId(), courseInfo, ContextUtils.getContextInfo());
+            getCourseService().updateCourse(courseInfo.getId(), courseInfo, ContextUtils.createDefaultContextInfo());
 
             //For a newly approved course (w/no prior active versions), make the new course the current version.
             if (DtoConstants.STATE_ACTIVE.equals(courseState) && courseInfo.getVersion().getCurrentVersionStart() == null) {
@@ -662,17 +661,17 @@ public class CMMaintenanceDocument extends MaintenanceDocumentBase {
 
                 // if current version's state is not active then we can set this course as the active course
                 //if (!DtoConstants.STATE_ACTIVE.equals(getCourseService().getCourse(getCourseService().getCurrentVersion(CourseServiceConstants.COURSE_NAMESPACE_URI, courseInfo.getVersion().getVersionIndId()).getId()).getState())) {
-                getCourseService().setCurrentCourseVersion(courseInfo.getId(), null, ContextUtils.getContextInfo());
+                getCourseService().setCurrentCourseVersion(courseInfo.getId(), null, ContextUtils.createDefaultContextInfo());
                 //}
             }
 
-            List<StatementTreeViewInfo> statementTreeViewInfos = courseService.getCourseStatements(courseInfo.getId(), null, null, ContextUtils.getContextInfo());
+            List<StatementTreeViewInfo> statementTreeViewInfos = courseService.getCourseStatements(courseInfo.getId(), null, null, ContextUtils.createDefaultContextInfo());
             if (statementTreeViewInfos != null) {
                 statementTreeViewInfoStateSetter(courseInfo.getStateKey(), statementTreeViewInfos.iterator());
 
                 for (Iterator<StatementTreeViewInfo> it = statementTreeViewInfos.iterator(); it.hasNext(); )
 
-                    courseService.updateCourseStatement(courseInfo.getId(), courseState, it.next(), ContextUtils.getContextInfo());
+                    courseService.updateCourseStatement(courseInfo.getId(), courseState, it.next(), ContextUtils.createDefaultContextInfo());
             }
         }
 

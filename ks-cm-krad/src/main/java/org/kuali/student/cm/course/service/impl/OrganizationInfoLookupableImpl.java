@@ -101,7 +101,7 @@ public class OrganizationInfoLookupableImpl extends LookupableImpl {
 
         SearchResultInfo searchResult = null;
         try {
-        	searchResult = getOrganizationService().search(searchRequest, ContextUtils.getContextInfo());
+        	searchResult = getOrganizationService().search(searchRequest, ContextUtils.createDefaultContextInfo());
 		} catch (Exception e) {
             LOG.error("An error occurred in getting search result.", e);
 		}

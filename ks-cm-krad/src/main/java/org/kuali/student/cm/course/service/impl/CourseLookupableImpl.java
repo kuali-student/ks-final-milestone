@@ -99,7 +99,7 @@ public class CourseLookupableImpl extends KSLookupableImpl implements CourseLook
         searchRequest.setSortColumn("lu.resultColumn.luOptionalCode");
 
         try {
-            SearchResultInfo searchResult = getCluService().search(searchRequest, ContextUtils.getContextInfo());
+            SearchResultInfo searchResult = getCluService().search(searchRequest, ContextUtils.createDefaultContextInfo());
             return CluSearchUtil.resolveCluSearchResultSet(searchResult);
         } catch (Exception e) {
             throw new RuntimeException(e);
