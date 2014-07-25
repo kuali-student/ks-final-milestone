@@ -148,7 +148,7 @@ public class AdminRegistrationController extends UifControllerBase {
 
         List<RegistrationCourse> registrationCourses = getViewHelper(form).getCourseRegForStudentAndTerm(form.getPerson().getId(), form.getTerm().getId());
         List<RegistrationCourse> waitlistedCourses = getViewHelper(form).getCourseWaitListForStudentAndTerm(form.getPerson().getId(), form.getTerm().getId());
-        //KSENROLL-13558 :work around for incorrect Data
+        //TODO: KSENROLL-13558 :work around for incorrect Data
         List<Principal> principals = AdminRegResourceLoader.getIdentityService().getPrincipalsByEntityId(form.getPerson().getId().toUpperCase());
         for (Principal principalID : principals) {
             registrationCourses.addAll(getViewHelper(form).getCourseRegForStudentAndTerm(principalID.getPrincipalId(), form.getTerm().getId()));
