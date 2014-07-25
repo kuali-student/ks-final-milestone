@@ -50,7 +50,31 @@
         <property name="shoppingCartStrategy" ref="shoppingCartStrategy"/>
         <property name="courseRegistrationService" ref="courseRegistrationServiceMock"/>
         <property name="courseSeatCountService" ref ="ksCourseSeatCountService"/>
+        <property name="searchService" ref ="ksSearchService"/>
+
     </bean>
+
+    <bean id="ksSearchService" class="org.kuali.student.r2.common.class1.search.SearchServiceDispatcherImpl">
+        <property name="searchServices">
+            <list>
+                <ref bean="apptWindowCountsSearchImpl" />
+                <ref bean="courseOfferingHistorySearchImpl"/>
+                <ref bean="CourseOfferingManagementSearchImpl"/>
+                <ref bean="AutogenCountSearchServiceImpl"/>
+                <ref bean="ActivityOfferingSearchServiceImpl"/>
+                <ref bean="CoreSearchServiceImpl"/> <!-- This bean lives in ks-core-no-tx-context.xml  -->
+                <ref bean="InstructorSearchServiceImpl"/>
+                <ref bean="CourseRegistrationSearchServiceImpl"/>
+                <ref bean="AcademicPlanCourseSearchImpl"/>
+            </list>
+        </property>
+    </bean>
+
+    <!--<bean id="ksSearchService" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
+        <property name="serviceEndpointInterface" value="org.kuali.student.r2.core.search.service.SearchService"/>
+        <property name="serviceQName" value="{http://student.kuali.org/wsdl/search}SearchService"/>
+    </bean>-->
+
     <bean id="ksLumLrcService" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
         <property name="serviceEndpointInterface"
                   value="org.kuali.student.r2.lum.lrc.service.LRCService"/>
@@ -326,5 +350,9 @@
 
     <bean id="shoppingCartStrategy"
           class="org.kuali.student.ap.schedulebuilder.support.DefaultShoppingCartStrategy"/>
+
+    <bean id="AcademicPlanCourseSearchImpl" class="org.kuali.student.ap.search.AcademicPlanCourseSearchImpl">
+        <property name="entityManager" ref="enrollEntityManager"/>
+    </bean>
 
 </beans>

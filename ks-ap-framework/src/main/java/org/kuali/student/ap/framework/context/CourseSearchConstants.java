@@ -73,6 +73,25 @@ public class CourseSearchConstants {
     public static final String COURSE_SEARCH_PARAM_TERMLIST = "termList";
     public static final String COURSE_SEARCH_PARAM_QUERYTEXT = "queryText";
 
+    // Custom Search Keys
+    public static final String KSAP_COURSE_SEARCH_KEY = "kuali.search.type.ksap.coursesearch";
+    public static final String KSAP_COURSE_SEARCH_COURSEIDS_BY_TERM_SCHEDULED_KEY = "kuali.search.type.ksap.coursesearch.cluid.by.term.scheduled";
+    public static final String KSAP_COURSE_SEARCH_COURSEIDS_BY_TERM_OFFERED_KEY = "kuali.search.type.ksap.coursesearch.cluid.by.term.offered";
 
+    // Custom Search Result Column Keys
+    public static final class SearchResultColumns {
+        public static final String CLU_ID = "cluId";
+    }
+
+    // Custom Search Parameter Keys
+    public static final class SearchParameters {
+        public static final String ATP_ID = "atpId";
+        public static final String ATP_TYPE_KEY = "atpTypeKey";
+    }
+
+    /**
+     * Key to look up a configuration value to determine the sorted terms offered
+     */
+    public static final String TERMS_OFFERED_SORTED_KEY = "ks.ap.search.terms.offered.sorted";
 
 }

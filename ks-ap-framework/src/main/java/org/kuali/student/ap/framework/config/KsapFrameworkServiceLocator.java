@@ -1,3 +1,18 @@
+/*
+ * Copyright 2014 The Kuali Foundation Licensed under the
+ * Educational Community License, Version 2.0 (the "License"); you may
+ * not use this file except in compliance with the License. You may
+ * obtain a copy of the License at
+ *
+ * http://www.osedu.org/licenses/ECL-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an "AS IS"
+ * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing
+ * permissions and limitations under the License.
+ */
+
 package org.kuali.student.ap.framework.config;
 
 import org.kuali.rice.krms.api.repository.RuleManagementService;
@@ -32,6 +47,7 @@ import org.kuali.student.r2.core.enumerationmanagement.service.EnumerationManage
 import org.kuali.student.r2.core.organization.service.OrganizationService;
 import org.kuali.student.r2.core.scheduling.service.SchedulingService;
 import org.kuali.student.r2.core.room.service.RoomService;
+import org.kuali.student.r2.core.search.service.SearchService;
 import org.kuali.student.r2.lum.clu.service.CluService;
 import org.kuali.student.r2.lum.course.service.CourseService;
 import org.kuali.student.r2.lum.lrc.service.LRCService;
@@ -535,6 +551,14 @@ public final class KsapFrameworkServiceLocator {
         getInstance().courseFacetStrategy = courseFacetStrategy;
     }
 
+    public static SearchService getSearchService() {
+        return getInstance().searchService;
+    }
+
+    public void setSearchService(SearchService searchService) {
+        getInstance().searchService = searchService;
+    }
+
     @EJB
     private transient AtpService atpService;
     @EJB
@@ -576,6 +600,8 @@ public final class KsapFrameworkServiceLocator {
     @EJB
     private transient RuleManagementService ruleManagementService;
     @EJB
+    private transient SearchService searchService;
+    @EJB
     private transient KsapContext ksapContext;
     @EJB
     private transient UserSessionHelper ksapUserSessionHelper;
@@ -597,6 +623,7 @@ public final class KsapFrameworkServiceLocator {
     private transient ShoppingCartHelper shoppingCartHelper;
     @EJB
     private transient PlanHelper planHelper;
+
 
     // provided by ks-ap-ui or institution override
     @EJB

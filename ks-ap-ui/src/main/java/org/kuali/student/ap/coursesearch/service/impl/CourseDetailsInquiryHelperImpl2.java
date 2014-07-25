@@ -9,6 +9,7 @@ import org.kuali.student.ap.coursesearch.dataobject.CourseDetailsPopoverWrapper;
 import org.kuali.student.ap.coursesearch.dataobject.CourseDetailsWrapper;
 import org.kuali.student.ap.coursesearch.util.CourseDetailsUtil;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
+import org.kuali.student.ap.framework.context.CourseSearchConstants;
 import org.kuali.student.ap.framework.context.PlanConstants;
 import org.kuali.student.ap.framework.util.KsapHelperUtil;
 import org.kuali.student.ap.utils.CourseLinkBuilder;
@@ -44,11 +45,6 @@ public class CourseDetailsInquiryHelperImpl2 extends KualiInquirableImpl {
 
     private final String COURSE_DETAILS_INQUIRY_VIEW = "CourseDetails-InquiryView";
     private final String COURSE_DETAILS_POPOVER_INQUIRY_VIEW = "CourseDetailsPopover-InquiryView";
-
-    /**
-     * Key to look up a configuration value to determine the sorted terms offered
-     */
-    private final String TERMS_OFFERED_SORTED_KEY = "ks.ap.search.terms.offered.sorted";
 
     /**
      * @see org.kuali.rice.kns.inquiry.KualiInquirableImpl#retrieveDataObject(java.util.Map)
@@ -289,7 +285,7 @@ public class CourseDetailsInquiryHelperImpl2 extends KualiInquirableImpl {
      */
     private List<String> sortTerms(Map<String, String> projectedTerms) {
         List<String> sortedTerms = new ArrayList<String>();
-        String[] terms = ConfigContext.getCurrentContextConfig().getProperty(TERMS_OFFERED_SORTED_KEY).split(",");
+        String[] terms = ConfigContext.getCurrentContextConfig().getProperty(CourseSearchConstants.TERMS_OFFERED_SORTED_KEY).split(",");
         for (int i = 0; i < terms.length; i++) {
             String typeKey = terms[i];
             if (projectedTerms.containsKey(typeKey))
