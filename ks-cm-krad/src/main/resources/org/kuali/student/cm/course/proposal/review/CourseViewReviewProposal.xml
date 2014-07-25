@@ -80,7 +80,7 @@
                                   p:style="margin-right: 0pt; margin-top: 5px;">
                             </bean>
                             <bean parent="KS-Uif-ActionLink" p:id="ReviewProposal-Error-Message-expand-optional-link"
-                                  p:actionScript="showHideReviewProposalErrorFields('KS-CourseView-ReviewProposal-Section');"
+                                  p:actionScript="showHideReviewProposalErrorFields('CM-Proposal-Review-Course-PageSections');"
                                   p:actionLabel="Hide missing-fields indicator.">
                                 <property name="cssClasses">
                                     <list merge="true">
