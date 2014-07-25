@@ -486,6 +486,9 @@ public class AdminRegistrationViewHelperServiceImpl extends KSViewHelperServiceI
             MessageService messageService = KRADServiceLocatorWeb.getMessageService();
 
             String message = messageService.getMessageText(null, null, result.getMessageKey());
+            if(message==null){
+                message = StringUtils.EMPTY;
+            }
 
             if (result instanceof RegistrationValidationConflictCourseResult) {
                 RegistrationValidationConflictCourseResult conflictCourseResult = (RegistrationValidationConflictCourseResult) result;

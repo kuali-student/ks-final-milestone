@@ -13,6 +13,9 @@ public class RegistrationIssueItem {
     private String description;
 
     public RegistrationIssueItem(String description) {
+        if(description==null){
+            throw new IllegalArgumentException("Description can not be null.");
+        }
         this.description = description;
     }
 
