@@ -18,6 +18,8 @@ import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -80,9 +82,9 @@ public class AdminRegClientCache {
         MultiKey cacheKey = new MultiKey(TERMID_CODEPARM_TO_COURSECODES, termId, courseCode);
         Element cachedResult = getCache().get(cacheKey);
 
-        // only one character. This is the base search.
+        // This is the base search.
         if (cachedResult == null) {
-            if (courseCode.length() == 1) {
+            if (courseCode.length() == 3) {
                 List<CourseOfferingInfo> searchResult = searchCourseOfferingsByCodeAndTerm(termId, courseCode, true);
                 for (CourseOfferingInfo courseOffering : searchResult) {
                     results.add(courseOffering.getCourseOfferingCode());
@@ -90,18 +92,18 @@ public class AdminRegClientCache {
                 getCache().put(new Element(cacheKey, results));
                 return results;
             }
-
-            // This is where the recursion happens. If you entered CHEM and it didn't find anything it will
-            // recurse and search for CHE -> CH -> C (C is the base). Each time building up the cache.
-            // This for loop is the worst part of this method. I'd love to use some logic to remove the for loop.
-            for (String searchedCode : retrieveCourseCodes(termId, courseCode.substring(0, courseCode.length() - 1))) {
-                // for every course code, see if it's part of the Match.
-                if (searchedCode.startsWith(courseCode)) {
-                    results.add(searchedCode);
+            if(courseCode.length() > 3) {
+                // This is where the recursion happens. If you entered CHEM and it didn't find anything it will
+                // recurse and search for CHE.
+                for (String searchedCode : retrieveCourseCodes(termId, courseCode.substring(0, courseCode.length() - 1))) {
+                    // for every course code, see if it's part of the Match.
+                    if (searchedCode.startsWith(courseCode)) {
+                        results.add(searchedCode);
+                    }
                 }
-            }
 
-            getCache().put(new Element(cacheKey, results));
+                getCache().put(new Element(cacheKey, results));
+            }
         } else {
             return (List<String>) cachedResult.getValue();
         }
@@ -159,6 +161,8 @@ public class AdminRegClientCache {
             MultiKey cacheKey = new MultiKey(TERMID_COURSECODE_TO_CO, termId, result.getCourseOfferingCode());
             getCache().put(new Element(cacheKey, result));
         }
+
+        Collections.sort(results, CourseOfferingInfoComparator.getInstance());
         return results;
     }
 
@@ -208,5 +212,16 @@ public class AdminRegClientCache {
             getCache().put(new Element(cacheKey, result));
         }
         return terms;
+    }
+
+    public static class CourseOfferingInfoComparator implements Comparator<CourseOfferingInfo>{
+        private static CourseOfferingInfoComparator instance = new CourseOfferingInfoComparator();
+
+        public int compare(final CourseOfferingInfo co1, final CourseOfferingInfo co2) {
+            return co1.getCourseOfferingCode().compareTo(co2.getCourseOfferingCode());
+        }
+        public static CourseOfferingInfoComparator getInstance() {
+            return instance;
+        }
     }
 }
