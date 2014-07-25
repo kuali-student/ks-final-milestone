@@ -77,7 +77,11 @@ public class ActivityOfferingTransformer {
         }
 
         //Bulk load a list a lprs by a list of lui ids. Cache the results set in a map.
-        List<LprInfo> lprs = lprService.getLprsByLuis(luiIds, context);
+        QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
+        qbcBuilder.setPredicates(PredicateFactory.in("luiId", luiIds.toArray()),
+                PredicateFactory.in("personRelationTypeId", LprServiceConstants.COURSE_INSTRUCTOR_TYPE_KEYS));
+        QueryByCriteria criteria = qbcBuilder.build();
+        List<LprInfo> lprs = lprService.searchForLprs(criteria, context);
         List<OfferingInstructorInfo> coInstructors = OfferingInstructorTransformer.lprs2InstructorsBulk(lprs);
 
         //construct map for lpr to OfferingInstructorInfo
