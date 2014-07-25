@@ -25,10 +25,10 @@ angular.module('regCartApp')
         $scope.$watchCollection('cart.items', function(items) {
             $scope.creditTotal = creditTotal();
             if (items) {
-                GlobalVarsService.setCartCourseCount(items.length);
                 GlobalVarsService.setCartCredits($scope.creditTotal);
             }
-            $scope.$emit('updateCart', $scope.cart);
+
+            GlobalVarsService.setCartCourses(items);
         });
 
         // this method loads the cart and kicks off polling if needed
@@ -196,7 +196,7 @@ angular.module('regCartApp')
             // call the backend service here to persist something
             CartService.removeItemFromCart(deleteUri).query({},
                 function (response) {
-                    $scope.cart.items.splice(index, 1);
+                    $scope.cart.items.splice($scope.cart.items.indexOf(item), 1);
 
                     var actionUri = null;
                     angular.forEach(response.actionLinks, function (actionLink) {

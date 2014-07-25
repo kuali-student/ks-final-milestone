@@ -103,16 +103,10 @@ angular.module('regCartApp')
 
                             // After all the processing is complete, update the new Schedule counts.
                             if (course.waitlisted) {
-                                // can't use splice (which would remove the success message, so updating counts manually
-                                GlobalVarsService.setWaitlistedCredits(parseFloat(GlobalVarsService.getWaitlistedCredits()) - parseFloat(course.credits));
-                                GlobalVarsService.setWaitlistedCourseCount(parseInt(GlobalVarsService.getWaitlistedCourseCount()) - 1);
-
+                                GlobalVarsService.removeWaitlistedCourse(course);
                                 message = 'Removed from waitlist for <strong>' + course.courseCode + ' (' + course.regGroupCode + ')</strong> successfully';
                             } else {
-                                // can't use splice (which would remove the success message, so updating counts manually
-                                GlobalVarsService.setRegisteredCredits(parseFloat(GlobalVarsService.getRegisteredCredits()) - parseFloat(course.credits));
-                                GlobalVarsService.setRegisteredCourseCount(parseInt(GlobalVarsService.getRegisteredCourseCount()) - 1);
-
+                                GlobalVarsService.removeRegisteredCourse(course);
                                 message = '<strong>' + course.courseCode + ' (' + course.regGroupCode + ')</strong> dropped successfully';
                             }
 

@@ -14,6 +14,10 @@ angular.module('regCartApp')
         var courseIndexes = {};
         var courseIndexPointer = 1;
 
+        var cartCourses = [];
+        var registeredCourses = [];
+        var waitlistedCourses = [];
+
 
         this.getCartCredits = function () {
             return cartCredits;
@@ -63,6 +67,44 @@ angular.module('regCartApp')
             waitlistedCourseCount = value;
         };
 
+        this.getCartCourses = function() {
+            return cartCourses;
+        };
+
+        this.setCartCourses = function(courses) {
+            cartCourses.splice(0, cartCourses.length);
+
+            if (courses) {
+                angular.forEach(courses, function(course) {
+                    cartCourses.push(course);
+                });
+
+                this.setCartCourseCount(courses.length);
+            }
+        };
+
+        this.getRegisteredCourses = function() {
+            return registeredCourses;
+        };
+
+        this.getWaitlistedCourses = function() {
+            return waitlistedCourses;
+        };
+
+        this.removeRegisteredCourse = function(course) {
+            this.getRegisteredCourses().splice(this.getRegisteredCourses().indexOf(course), 1);
+
+            this.setRegisteredCredits(parseFloat(this.getRegisteredCredits()) - parseFloat(course.credits));
+            this.setRegisteredCourseCount(parseInt(this.getRegisteredCourseCount()) - 1);
+        };
+
+        this.removeWaitlistedCourse = function(course) {
+            this.getWaitlistedCourses().splice(this.getWaitlistedCourses().indexOf(course), 1);
+
+            this.setWaitlistedCredits(parseFloat(this.getWaitlistedCredits()) - parseFloat(course.credits));
+            this.setWaitlistedCourseCount(this.getWaitlistedCourses().length);
+        };
+
         this.getSchedule = function () {
             return schedule;
         };
@@ -109,15 +151,17 @@ angular.module('regCartApp')
 
             //Calculate credit count, course count and grading option count
             var creditCount = 0;
-            var courses = 0;
             var waitlistCreditCount = 0;
-            var waitlistCourses = 0;
+
+            registeredCourses.splice(0, registeredCourses.length);
+            waitlistedCourses.splice(0, waitlistedCourses.length);
 
             this.setSchedule(scheduleList);
             angular.forEach(scheduleList, function (schedule) {
                 angular.forEach(schedule.registeredCourseOfferings, function (course) {
                     creditCount += parseFloat(course.credits);
-                    courses++;
+                    registeredCourses.push(course);
+
                     var gradingOptionCount = 0;
                     //grading options are an object (map) so there's no easy way to get the object size without this code
                     angular.forEach(course.gradingOptions, function () {
@@ -127,7 +171,8 @@ angular.module('regCartApp')
                 });
                 angular.forEach(schedule.waitlistCourseOfferings, function (course) {
                     waitlistCreditCount += parseFloat(course.credits);
-                    waitlistCourses++;
+                    waitlistedCourses.push(course);
+
                     var gradingOptionCount = 0;
                     //grading options are an object (map) so there's no easy way to get the object size without this code
                     angular.forEach(course.gradingOptions, function () {
@@ -137,10 +182,10 @@ angular.module('regCartApp')
                 });
             });
 
-            this.setRegisteredCourseCount(courses);
+            this.setRegisteredCourseCount(registeredCourses.length);
             this.setRegisteredCredits(creditCount);
             this.setWaitlistedCredits(waitlistCreditCount);
-            this.setWaitlistedCourseCount(waitlistCourses);
+            this.setWaitlistedCourseCount(waitlistedCourses.length);
             this.setUserId(userId);
         };
 
