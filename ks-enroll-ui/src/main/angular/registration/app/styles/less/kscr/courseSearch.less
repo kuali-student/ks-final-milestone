@@ -1,0 +1,28 @@
+/*
+Custom styles for course search results.
+
+This is seperate from the main searchResults.less file as we want to keep those styles generic,
+and apply more specific styling here based on the field name.
+*/
+
+.kscr-Search-result {
+  position: relative;
+  .font-size(14);
+  font-family: @secondaryFontFamily;
+  color: @cardTextColor;
+  font-weight: normal;
+}
+
+.kscr-Search-result-column-courseCode {
+  font-weight: bold;
+}
+
+.kscr-Search-result-column-creditOptions {
+  position: absolute;
+  right: 0.5rem;
+  top: 0.5rem;
+}
+
+.kscr-Search-result-column-longName {
+  color: @primaryTextColor;
+}

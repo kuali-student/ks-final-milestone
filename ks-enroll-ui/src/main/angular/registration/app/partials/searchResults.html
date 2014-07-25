@@ -1,4 +1,4 @@
-<div class="kscr-Search-results-container util-Grid">
+<div class="kscr-Search-results-container">
 
     <!-- Search Facets -->
     <div class="kscr-SearchFacets">
@@ -8,13 +8,13 @@
     </div>
 
     <!-- Search Results -->
-    <div class="kscr-Search-columns">
-        <search-column name="Code" field="courseCode" order="1" default="true"></search-column>
-        <search-column name="Title" field="longName" order="2" url="#"></search-column>
-        <search-column name="Credits" field="creditOptions" order="3" filter="creditRangeFormatter"></search-column>
-    </div>
     <div class="kscr-Search-results" ng-show="searchCriteria">
-        <search-list></search-list>
+        <search-results>
+            <search-column name="Code" field="courseCode" order="1" default="true"></search-column>
+            <search-column name="Title" field="longName" order="2" url="#"></search-column>
+            <search-column name="Credits" field="creditOptions" order="3" filter="creditRangeFormatter"></search-column>
+            <search-list details-id="courseId"></search-list>
+        </search-results>
     </div>
 
 </div>

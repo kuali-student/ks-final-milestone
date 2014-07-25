@@ -15,6 +15,7 @@ angular.module('regCartApp')
     .directive('searchColumn', ['$filter', function($filter) {
         return {
             restrict: 'E',
+            require: '^searchResults',
             link:function(scope,element,attrs) {
                 if (attrs.name || attrs.field || attrs.filter) {
                     var searchColumn = {name: attrs.name,
@@ -39,7 +40,25 @@ angular.module('regCartApp')
     .directive('searchList', function() {
         return {
             restrict: 'E',
+            require: '^searchResults',
             templateUrl: 'partials/searchList.html',
+            link:function(scope,element,attrs) {
+                if (attrs.detailsId) {
+                    scope.detailsId = attrs.detailsId;
+                }
+            }
+        };
+    })
+
+    /*
+    The parent directive for search results. Can contain:
+
+    -- search-column(s) -- defines the column(s) for display in the results
+    -- search-list -- the actual list of results
+     */
+    .directive('searchResults', function() {
+        return {
+            restrict: 'E',
             controller: 'SearchResultsCtrl'
         };
     })
@@ -58,6 +77,9 @@ angular.module('regCartApp')
 
         // holds the last page
         $scope.lastPage = 1;
+
+        // holds the customizable id for linking to search details
+        $scope.detailsId = {};
 
         // returns a the full range of pages
         $scope.pageRange = function() {
@@ -82,8 +104,6 @@ angular.module('regCartApp')
             }
             // set the last page
             $scope.lastPage = Math.ceil (length / $scope.displayLimit);
-            console.log('page starts as: '+$scope.page);
-            console.log('last page starts as: '+$scope.lastPage);
             if ($scope.page > $scope.lastPage) {
                 $scope.page = 1;
             }
@@ -102,6 +122,11 @@ angular.module('regCartApp')
                 return value;
             }
         };
+
+        // returns the customizable id for the given search result
+        $scope.getId = function(searchResult) {
+            return searchResult[$scope.detailsId];
+        }
     }])
 
 ;

@@ -10,6 +10,9 @@
 
 .kscr-Search-results-heading {
   padding: 1rem 0 0.5rem 1.5rem;
+  &--small {
+    text-align: right;
+  }
 }
 
 .kscr-Search-results-summary {
@@ -35,6 +38,7 @@
 
 .kscr-Search-results-sortIcon {
   float: right;
+  cursor: pointer;
 }
 
 .kscr-Search-results-card {
@@ -63,7 +67,7 @@
   .util-Grid-cell;
   border-style: solid;
   border-color: @cardBorderColor;
-  border-width: 0 0.1rem 0 0;
+  border-width: 0 1px 0 0;
   width: 2.5rem;
   height: 2.5rem;
   text-align: center;
@@ -75,4 +79,45 @@
 
 .kscr-Search-results-limits {
   margin-left: 0.5rem;
+}
+
+.kscr-Search-result {
+  .kscr-Search-results-card;
+  margin: 1rem 0rem 0rem 1rem;
+  padding: 0.5rem;
+  cursor: pointer;
+}
+
+.kscr-Search-row {
+  cursor: pointer;
+}
+
+// small/medium format styling
+@media screen and (max-width: @smallFormatMax) {
+  .kscr-Search-results-heading {
+    display: none;
+  }
+
+  .kscr-Search-results-table, .kscr-Search-results-paginate {
+    display: none;
+  }
+
+  .kscr-Search-results {
+    margin-bottom: 1rem;
+  }
+}
+
+// large format styling
+@media screen and (min-width: @largeFormatMin) {
+  .kscr-Search-results-container {
+    .util-Grid;
+  }
+
+  .kscr-Search-results-heading--small {
+    display: none;
+  }
+
+  .kscr-Search-results-list {
+    display: none;
+  }
 }

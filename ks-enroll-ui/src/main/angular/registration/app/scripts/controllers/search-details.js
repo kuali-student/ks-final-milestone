@@ -20,8 +20,8 @@ angular.module('regCartApp')
                 $scope.searchCriteria = toParams.searchCriteria;
             }
 
-            if (angular.isDefined(toParams.courseId)) {
-                loadCourse(toParams.courseId);
+            if (angular.isDefined(toParams.id)) {
+                loadCourse(toParams.id);
             }
         });
 
