@@ -15,20 +15,18 @@ angular.module('regCartApp')
             },
             controller: ['$scope', function($scope) {
 
+                $scope.dayMap = {};
+
                 /*
                  Monday through Friday are always shown, so they should be initialized
                  with an empty array
                  */
                 function initDayMap() {
-                    var dayMap = {};
-
-                    dayMap[DAY_CONSTANTS.monday] = [];
-                    dayMap[DAY_CONSTANTS.tuesday] = [];
-                    dayMap[DAY_CONSTANTS.wednesday] = [];
-                    dayMap[DAY_CONSTANTS.thursday] = [];
-                    dayMap[DAY_CONSTANTS.friday] = [];
-
-                    return dayMap;
+                    $scope.dayMap[DAY_CONSTANTS.monday] = [];
+                    $scope.dayMap[DAY_CONSTANTS.tuesday] = [];
+                    $scope.dayMap[DAY_CONSTANTS.wednesday] = [];
+                    $scope.dayMap[DAY_CONSTANTS.thursday] = [];
+                    $scope.dayMap[DAY_CONSTANTS.friday] = [];
                 }
 
                 /*
@@ -36,31 +34,31 @@ angular.module('regCartApp')
                  */
                 function initCourseCalendar(schedules, cart) {
                     // First, we split the data up by days
-                    var dayMap = initDayMap();
+                   initDayMap();
 
                     if (angular.isArray(schedules)) {
                         angular.forEach(schedules, function(schedule) {
                             // iterate over registered courses
-                            dayMap = iterateCourseList(dayMap, schedule.registeredCourseOfferings, 'REG');
+                            iterateCourseList(schedule.registeredCourseOfferings, 'REG');
 
                             // iterate over waitlisted courses
-                            dayMap = iterateCourseList(dayMap, schedule.waitlistCourseOfferings, 'WAIT');
+                            iterateCourseList(schedule.waitlistCourseOfferings, 'WAIT');
                         });
                     }
 
                     if (cart) {
                         // iterate over cart
-                        dayMap = iterateCourseList(dayMap, cart.items, 'CART');
+                        iterateCourseList(cart.items, 'CART');
                     }
 
                     // Finally, convert all of the day data to the calendar format
-                    return convertMapToCalendar(dayMap);
+                    return convertMapToCalendar();
                 }
 
                 /*
                  Iterate over each course in the list and group the AOs by day
                  */
-                function iterateCourseList(dayMap, courseList, type) {
+                function iterateCourseList(courseList, type) {
                     angular.forEach(courseList, function(course) {
                         // do not show dropped courses on the calendar
                         if (!course.dropped) {
@@ -75,21 +73,19 @@ angular.module('regCartApp')
                                     angular.forEach(course.schedule, function(ao) {
                                         angular.forEach(ao.activityOfferingLocationTime, function (locationTime) {
                                             var scheduleComponent = locationTime.time;
-                                            dayMap = updateDayMap(dayMap, courseDetails, scheduleComponent, type);
+                                            updateDayMap(courseDetails, scheduleComponent, type);
                                         });
                                     });
                                     break;
                                 default: // registered and waitlisted courses
                                     angular.forEach(course.activityOfferings, function(ao) {
                                         angular.forEach(ao.scheduleComponents, function (scheduleComponent) {
-                                            dayMap = updateDayMap(dayMap, courseDetails, scheduleComponent, type);
+                                            updateDayMap(courseDetails, scheduleComponent, type);
                                         });
                                     });
                             }
                         }
                     });
-
-                    return dayMap;
                 }
 
                 /*
@@ -99,31 +95,30 @@ angular.module('regCartApp')
                  We are using the days String to determine this as it is more reliable than
                  the booleans.
                  */
-                function updateDayMap(dayMap, courseDetails, scheduleComponent, type) {
+                function updateDayMap(courseDetails, scheduleComponent, type) {
                     angular.forEach(DAY_CONSTANTS.dayArray, function(day) {
                         if (scheduleComponent.days.indexOf(day) > -1) {
-                            dayMap = addToDayMap(dayMap, courseDetails, scheduleComponent, day, type);
+                            addToDayMap(courseDetails, scheduleComponent, day, type);
                         }
                     });
-                    return dayMap;
                 }
 
                 /*
                  Add the AO to the day map
                  */
-                function addToDayMap(dayMap, courseDetails, scheduleComponent, day, type) {
-                    if (!angular.isArray(dayMap[day])) {
-                        dayMap[day] = [];
+                function addToDayMap(courseDetails, scheduleComponent, day, type) {
+                    if (!angular.isArray($scope.dayMap[day])) {
+                        $scope.dayMap[day] = [];
 
                         /*
                          If the student has any classes on saturday or sunday,
                          add both days to the calendar
                          */
-                        if (day === DAY_CONSTANTS.saturday && (!angular.isArray(dayMap[DAY_CONSTANTS.sunday]))) {
-                            dayMap[DAY_CONSTANTS.sunday] = [];
+                        if (day === DAY_CONSTANTS.saturday && (!angular.isArray($scope.dayMap[DAY_CONSTANTS.sunday]))) {
+                            $scope.dayMap[DAY_CONSTANTS.sunday] = [];
                         }
-                        if (day === DAY_CONSTANTS.sunday && (!angular.isArray(dayMap[DAY_CONSTANTS.saturday]))) {
-                            dayMap[DAY_CONSTANTS.saturday] = [];
+                        if (day === DAY_CONSTANTS.sunday && (!angular.isArray($scope.dayMap[DAY_CONSTANTS.saturday]))) {
+                            $scope.dayMap[DAY_CONSTANTS.saturday] = [];
                         }
                     }
 
@@ -147,23 +142,21 @@ angular.module('regCartApp')
                         type: type
                     };
 
-                    dayMap[day].push(course);
-
-                    return dayMap;
+                    $scope.dayMap[day].push(course);
                 }
 
                 /*
                  Take the full day map and convert to the full calendar format,
                  looking for conflicts along the way.
                  */
-                function convertMapToCalendar(dayMap) {
+                function convertMapToCalendar() {
                     var typeArray = ['REG', 'WAIT', 'CART'];
                     var days = [];
                     var startTime = null; // 7 am
                     var endTime = null; // 7 pm
                     var buffer = 60; // the amount of buffer (in minutes) to give to either side of the calendar.
                     angular.forEach(DAY_CONSTANTS.dayArray, function(dayString) {
-                        var courses = dayMap[dayString];
+                        var courses = $scope.dayMap[dayString];
                         if (angular.isArray(courses)) {
                             var rows = [];
                             var courseMap = {};
@@ -299,8 +292,6 @@ angular.module('regCartApp')
                     return GlobalVarsService.getCourseIndex(courseDetails);
                 }
 
-
-
                 /*
                  Filter used by view to show courses based on the toggles in the legend
                  */
@@ -330,20 +321,17 @@ angular.module('regCartApp')
                     return ($scope.timeRange[0] / 60) <= h && h <= ($scope.timeRange[1] / 60);
                 };
 
-
                 $scope.hideRegistered = false;
                 $scope.hideWaitlisted = false;
                 $scope.hideCart = false;
 
                 $scope.timeRange = [];
 
-
                 // Create the list of times (date objects) to be shown in the view
                 $scope.times = [];
                 for (var i = 0; i < 24; i++) {
                     $scope.times.push(new Date(0, 0, 0, i, 0, 0, 0));
                 }
-
 
                 var init = function() {
                     if ($scope.schedules && $scope.cart) {
@@ -357,10 +345,15 @@ angular.module('regCartApp')
                 $scope.$watch('schedules', init);
                 $scope.$watch('cart', init);
 
-                //if a course is dropped, redraw the calendar
+                // if a course is dropped, redraw the calendar
                 $scope.$on('courseDropped', function(event, newValue) {
                     init();
-                })
+                });
+
+                // if the cart is updated, redraw the calendar
+                $scope.$on('updateCart', function(event, newValue) {
+                    init();
+                });
             }]
         };
     }])

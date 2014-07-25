@@ -66,6 +66,7 @@ angular.module('regCartApp')
         // Listen for the updated cart event and update the cart in scope
         $scope.$on('updateCart', function(event, newValue) {
             $scope.cart = newValue;
+            $scope.$broadcast('updateCart', newValue);
         });
 
         // Load up the available terms
