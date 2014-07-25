@@ -14,11 +14,14 @@
  * limitations under the License.
  */
 
+var CLIENT_STATE_PROPERTY_NAME = "clientState";
+var POLLING_QUERY_METHOD_NAME = "queryForRegistrationStatus";
+var REGISTERING_BARS_ID = "KS-AdminRegistration-Registering";
+var REGISTER_BUTTON_ID = "KS-AdminRegistration-RegisterButton";
+
 //////////////////////////////////////
 // Polling Functions
 //////////////////////////////////////
-
-var POLLING_QUERY_METHOD_NAME = "queryForRegistrationStatus";
 
 /**
  *
@@ -41,6 +44,11 @@ function startPolling(time) {
         delay = time;
         polling = true;
         sendPoll();
+
+        var registerButton = jQuery("#" + REGISTER_BUTTON_ID);
+        if (registerButton) {
+            registerButton.hide();
+        }
     }
 }
 
@@ -50,6 +58,16 @@ function startPolling(time) {
 function stopPolling() {
     polling = false;
     delay = null;
+
+    var busyIndicator = jQuery("#" + REGISTERING_BARS_ID);
+    if (busyIndicator) {
+        busyIndicator.hide();
+    }
+
+    var registerButton = jQuery("#" + REGISTER_BUTTON_ID);
+    if (registerButton) {
+        registerButton.show();
+    }
 }
 
 /**
@@ -77,19 +95,24 @@ function sendPoll() {
             error: null,
             data: queryData,
             success: function (data) {
-                var updateIds = data.updateIds;
-                var stop = data.stop;
 
+                var updateIds = data.updateIds;
                 jQuery(updateIds).each(function (index, id) {
                     retrieveComponent(id);
                 });
 
                 // if no more updates expected, stop polling
+                var stop = data.stop;
                 if (!stop) {
                     //using recursive setTimeout instead of setInterval so that long running polls don't interfere with subsequent polls
                     setTimeout(sendPoll, delay);
                 } else {
                     stopPolling();
+                }
+
+                var state = data.clientState;
+                if (state) {
+                    jQuery("input[name='" + CLIENT_STATE_PROPERTY_NAME + "']").val(state);
                 }
 
             }
@@ -101,8 +124,6 @@ function sendPoll() {
 // State Validation Functions
 //////////////////////////////////////
 
-var CLIENT_STATE_PROPERTY_NAME = "clientState";
-
 /**
  * Called when a 'Go' button is clicked on the admin registration screen to set client state to an earlier state
  * for validation purposes.
@@ -111,7 +132,7 @@ var CLIENT_STATE_PROPERTY_NAME = "clientState";
  * @param state
  */
 function goAction(component, state) {
-    if(state) {
+    if (state) {
         jQuery("input[name='" + CLIENT_STATE_PROPERTY_NAME + "']").val(state);
     }
 
@@ -134,22 +155,22 @@ function goAction(component, state) {
  */
 function setValidation(requiredName, states, message) {
 
-    var check = function(){
+    var check = function () {
         var i;
         for (i = 0; i < states.length; i++) {
-            if((coerceValue(CLIENT_STATE_PROPERTY_NAME) == states[i])){
+            if ((coerceValue(CLIENT_STATE_PROPERTY_NAME) == states[i])) {
                 return true;
             }
         }
         return false;
     };
 
-    runValidationScript(function(){
+    runValidationScript(function () {
         setupShowReqIndicatorCheck(CLIENT_STATE_PROPERTY_NAME, requiredName, check);
     });
 
-    runValidationScript(function(){
-        jQuery('[name="'+requiredName+'"]').rules("add", {
+    runValidationScript(function () {
+        jQuery('[name="' + requiredName + '"]').rules("add", {
             required: check,
             messages: {
                 required: message
