@@ -140,9 +140,26 @@
                                   p:label="Change Term" p:readOnly="false" p:id="termCodeField"
                                   p:onDocumentReadyScript="setValidation('term.code', ['kuali.admin.reg.state.initialized', 'kuali.admin.reg.state.ready'], 'Term is required.');">
                                 <!-- Constrain to 6 digits and use a custom message. -->
-                                <property name="validCharactersConstraint">
-                                    <bean parent="NumericPatternConstraint"
-                                          p:messageKey="error.admin.reg.termcode.invalid" p:value="^\d{6}$"/>
+                                <property name="caseConstraint">
+                                    <bean parent="CaseConstraint">
+                                        <property name="propertyName" value="clientState"/>
+                                        <property name="whenConstraint">
+                                            <list>
+                                                <bean parent="WhenConstraint">
+                                                    <property name="values">
+                                                        <list>
+                                                            <value>kuali.admin.reg.state.initialized</value>
+                                                            <value>kuali.admin.reg.state.ready</value>
+                                                        </list>
+                                                    </property>
+                                                    <property name="constraint">
+                                                        <bean parent="AlphaNumericPatternConstraint"
+                                                              p:messageKey="error.admin.reg.termcode.invalid" p:value="^\d{6}$"/>
+                                                    </property>
+                                                </bean>
+                                            </list>
+                                        </property>
+                                    </bean>
                                 </property>
                                 <property name="control">
                                     <bean parent="KS-Uif-TextControl" p:size="6" p:watermarkText="201301"
@@ -223,11 +240,26 @@
                         <bean parent="KS-Uif-TextControl" p:size="9" p:watermarkText="ENGL101"
                               p:minLength="7" p:maxLength="8"/>
                     </property>
-                    <property name="validCharactersConstraint">
-                        <bean parent="AlphaNumericPatternConstraint"
-                              p:messageKey="error.admin.reg.courseoffering.code.invalid" p:value="^\w{4}\d{3}.?$"/>
+                    <property name="caseConstraint">
+                        <bean parent="CaseConstraint">
+                            <property name="propertyName" value="#form.clientState"/>
+                            <property name="whenConstraint">
+                                <list>
+                                    <bean parent="WhenConstraint">
+                                        <property name="values">
+                                            <list>
+                                                <value>kuali.admin.reg.state.ready</value>
+                                            </list>
+                                        </property>
+                                        <property name="constraint">
+                                            <bean parent="AlphaNumericPatternConstraint"
+                                                  p:messageKey="error.admin.reg.courseoffering.code.invalid" p:value="^\w{4}\d{3}.?$"/>
+                                        </property>
+                                    </bean>
+                                </list>
+                            </property>
+                        </bean>
                     </property>
-
                     <!-- The course code auto-complete -->
                     <property name="suggest">
                         <bean parent="Uif-Suggest" p:render="true" p:valuePropertyName="code">
@@ -250,9 +282,25 @@
                         <bean parent="KS-Uif-TextControl" p:size="5" p:watermarkText="1001"
                               p:minLength="4" p:maxLength="4"/>
                     </property>
-                    <property name="validCharactersConstraint">
-                        <bean parent="NumericPatternConstraint"
-                              p:messageKey="error.admin.reg.section.code.invalid" p:value="^\d{4}$"/>
+                    <property name="caseConstraint">
+                        <bean parent="CaseConstraint">
+                            <property name="propertyName" value="#form.clientState"/>
+                            <property name="whenConstraint">
+                                <list>
+                                    <bean parent="WhenConstraint">
+                                        <property name="values">
+                                            <list>
+                                                <value>kuali.admin.reg.state.ready</value>
+                                            </list>
+                                        </property>
+                                        <property name="constraint">
+                                            <bean parent="NumericPatternConstraint"
+                                                  p:messageKey="error.admin.reg.section.code.invalid" p:value="^\d{4}$"/>
+                                        </property>
+                                    </bean>
+                                </list>
+                            </property>
+                        </bean>
                     </property>
                 </bean>
                 <bean parent="Uif-MessageField" p:refreshWhenChangedPropertyNames="#lp.code" p:valign="middle">
