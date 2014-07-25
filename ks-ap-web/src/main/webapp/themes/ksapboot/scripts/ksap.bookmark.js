@@ -1,5 +1,5 @@
 
-function registerPlannerEvents(jqObjects){
+function registerPlannerEventsForBookmarks(jqObjects){
     jQuery(jqObjects)
         .on('PLAN_ITEM_DELETED', function(event, data) {
             removeBookmarkedItem(data);

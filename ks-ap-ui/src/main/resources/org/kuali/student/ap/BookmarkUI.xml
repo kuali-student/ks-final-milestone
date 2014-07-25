@@ -173,7 +173,7 @@
                                                     <value>ks-fontello-icon-hollow-circled-plus</value>
                                                 </list>
                                             </property>
-                                            <property name="actionScript" value="ksapOpenPlanDialog('bookmark_add_course_page','planner','startDialog', this, e);"/>
+                                            <property name="actionScript" value="ksapOpenPlanDialog('course_add_course_page','planner','startDialog', this, e);"/>
                                             <property name="dataAttributes">
                                                 <map>
                                                     <entry key="courseid" value="@{#line.courseId}" />
@@ -369,7 +369,7 @@
 
             </list>
         </property>
-        <property name="onDocumentReadyScript" value="registerPlannerEvents('#bookmark_detail_page');"/>
+        <property name="onDocumentReadyScript" value="registerPlannerEventsForBookmarks('#bookmark_detail_page');"/>
     </bean>
 
     <bean id="bookmark_detail" parent="Uif-VerticalBoxSubSection">
@@ -469,7 +469,7 @@
                                                     <value>ks-fontello-icon-hollow-circled-plus</value>
                                                 </list>
                                             </property>
-                                            <property name="actionScript" value="ksapOpenPlanDialog('bookmark_add_course_page','planner','startDialog', this, e);"/>
+                                            <property name="actionScript" value="ksapOpenPlanDialog('course_add_course_page','planner','startDialog', this, e);"/>
                                             <property name="dataAttributes">
                                                 <map>
                                                     <entry key="courseid" value="@{#line.courseDetailsWrapper.courseId}" />
