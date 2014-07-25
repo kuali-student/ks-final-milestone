@@ -54,8 +54,7 @@
     <bean id="CM-Proposal-Course-LoCategory-Filters" parent="Uif-VerticalBoxSection">
     </bean>
     
-    <bean id="CM-Proposal-Course-LoCategory-TableKS-CourseJointInfoWrapper-DataObjectEntry
-    " parent="Uif-TableCollectionSection">
+    <bean id="CM-Proposal-Course-LoCategory-Table" parent="Uif-TableCollectionSection">
         <property name="collectionObjectClass" value="org.kuali.student.r2.lum.lo.dto.LoCategoryInfo" />
         <property name="propertyName" value="loCategories" />
         <property name="layoutManager.renderSequenceField" value="false" />
