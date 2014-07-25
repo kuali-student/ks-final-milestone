@@ -912,6 +912,7 @@ public class PlannerController extends KsapControllerBase {
         // Create json strings for displaying action's response and updating the planner screen.
         JsonObjectBuilder eventList = Json.createObjectBuilder();
         eventList = PlanEventUtils.makeRemoveEvent(form.getUniqueId(), planItem, eventList);
+        eventList = PlanEventUtils.makeUpdateBookmarkTotalEvent(planItem, eventList);
         PlanEventUtils.sendJsonEvents(true, "Course " + form.getCourse().getCode() + " removed from Bookmarks",
                 response, eventList);
         return null;

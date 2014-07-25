@@ -193,7 +193,15 @@
                                         <value>ks-fontello-icon-cancel</value>
                                     </list>
                                 </property>
-                                <property name="actionScript" value="deleteBookmarkCourse('@{#line.uniqueId}', '@{#line.courseId}', e);"/>
+                                <property name="actionScript" value="ksapOpenPlanDialog('bookmark_delete_course_page','planner','startDialog', this, e);"/>
+                                <property name="dataAttributes">
+                                    <map>
+                                        <entry key="courseid" value="@{#line.courseId}" />
+                                        <entry key="learningplanid" value="@{#line.learningPlanId}" />
+                                        <entry key="planitemid" value="@{#line.planItemId}" />
+                                        <entry key="uniqueid" value="@{#line.uniqueId}" />
+                                    </map>
+                                </property>
                             </bean>
                         </list>
                     </property>
@@ -478,7 +486,15 @@
                                                     <value>ks-fontello-icon-cancel</value>
                                                 </list>
                                             </property>
-                                            <property name="actionScript"  value="deleteBookmarkCourse('@{#line.uniqueId}', '@{#line.courseDetailsWrapper.courseId}', e);"/>
+                                            <property name="actionScript" value="ksapOpenPlanDialog('bookmark_delete_course_page','planner','startDialog', this, e);"/>
+                                            <property name="dataAttributes">
+                                                <map>
+                                                    <entry key="courseid" value="@{#line.courseDetailsWrapper.courseId}" />
+                                                    <entry key="learningplanid" value="@{#line.learningPlanId}" />
+                                                    <entry key="planitemid" value="@{#line.planItemId}" />
+                                                    <entry key="uniqueid" value="@{#line.uniqueId}" />
+                                                </map>
+                                            </property>
                                         </bean>
                                     </list>
                                 </property>

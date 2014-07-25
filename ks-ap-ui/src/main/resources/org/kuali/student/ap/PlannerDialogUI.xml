@@ -594,11 +594,11 @@
     <bean id="bookmark_delete_course_page-parent" abstract="true" parent="planner_dialog_page">
         <property name="id" value="bookmark_delete_course_page" />
         <property name="innerViewWrapperId" value="bookmark_delete_course_page_inner" />
-        <property name="headerText" value="Delete @{course.code} bookmark" />
+        <property name="headerText" value="Remove Bookmarked Course" />
         <property name="items">
             <list merge="true">
-                <bean parent="Uif-Message" p:cssClasses="ks-Popover-bodyLabel"
-                      p:messageText="Are you sure that you want to delete &lt;strong&gt;@{course.code}&lt;/strong&gt;? Once deleted, you cannot undo."/>
+                <bean parent="Uif-Message" p:messageText="@{course.code} @{course.courseTitle} (@{creditString} cr)"/>
+                <bean parent="Uif-Message" p:messageText="Are you sure that you want to remove [b]@{course.code}[/b] from your Bookmarked Courses list?"/>
             </list>
         </property>
         <property name="footer">
@@ -611,7 +611,7 @@
                                     <bean parent="Uif-HorizontalBoxGroup">
                                         <property name="items">
                                             <list>
-                                                <bean parent="planner_submit_button" p:actionLabel="Delete"
+                                                <bean parent="planner_submit_button" p:actionLabel="Remove"
                                                       p:actionScript="ksapSubmitDialog('bookmark_delete_course_page',e);"/>
                                                 <bean parent="planner_cancel_button" />
                                             </list>
