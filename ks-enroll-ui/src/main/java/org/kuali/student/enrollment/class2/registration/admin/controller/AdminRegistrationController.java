@@ -165,9 +165,14 @@ public class AdminRegistrationController extends UifControllerBase {
 
         if (!form.getTermIssues().isEmpty()) {
             form.setTermEligible(true);
-        }
-        if (form.getRegisteredCourses().isEmpty() && form.getWaitlistedCourses().isEmpty()) {
-            showDialog(AdminRegConstants.TERM_ELIGIBILITY_DIALOG, form, request, response);
+            if (form.getRegisteredCourses().isEmpty() && form.getWaitlistedCourses().isEmpty()) {
+                showDialog(AdminRegConstants.TERM_ELIGIBILITY_DIALOG, form, request, response);
+            } else {
+                form.setDisplayRegistrationTabs(true);
+            }
+        } else {
+            form.setTermEligible(true);
+            form.setDisplayRegistrationTabs(true);
         }
         form.setClientState(AdminRegConstants.ClientStates.READY);
         return getUIFModelAndView(form);
@@ -442,6 +447,26 @@ public class AdminRegistrationController extends UifControllerBase {
             form.setEditRegisteredIndex(-1);
         }
     }
+
+    @MethodAccessible
+    @RequestMapping(method = RequestMethod.POST, params = "methodToCall=cancelFailedEligibilityTerm")
+    public ModelAndView cancelFailedEligibilityTerm(@ModelAttribute("KualiForm") AdminRegistrationForm form, BindingResult result,
+                                                    HttpServletRequest request, HttpServletResponse response) {
+        form.clearCourseRegistrationValues();
+        form.setDisplayRegistrationTabs(false);
+        form.setClientState(AdminRegConstants.ClientStates.READY);
+        return getUIFModelAndView(form);
+    }
+
+    @MethodAccessible
+    @RequestMapping(method = RequestMethod.POST, params = "methodToCall=continueFailedEligibilityTerm")
+    public ModelAndView continueFailedEligibilityTerm(@ModelAttribute("KualiForm") AdminRegistrationForm form, BindingResult result,
+                                                      HttpServletRequest request, HttpServletResponse response) {
+        form.setDisplayRegistrationTabs(true);
+        form.setClientState(AdminRegConstants.ClientStates.READY);
+        return getUIFModelAndView(form);
+    }
+
 
     /**
      * @param form

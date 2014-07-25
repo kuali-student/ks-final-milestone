@@ -102,6 +102,8 @@ public class AdminRegistrationForm extends UifFormBase implements Serializable {
 
     private boolean termEligible = false;
 
+    private boolean displayRegistrationTabs = false;
+
     public AdminRegistrationForm(){
         this.clientState = AdminRegConstants.ClientStates.OPEN;
         this.editRegisteredIndex = -1;
@@ -119,6 +121,7 @@ public class AdminRegistrationForm extends UifFormBase implements Serializable {
     public void clearTermValues() {
         this.term = new TermInfo();
         this.termEligible = false;
+        this.displayRegistrationTabs = false;
         this.clearCourseRegistrationValues();
     }
 
@@ -325,5 +328,13 @@ public class AdminRegistrationForm extends UifFormBase implements Serializable {
 
     public void setTermEligible(boolean termEligible) {
         this.termEligible = termEligible;
+    }
+
+    public boolean isDisplayRegistrationTabs() {
+        return displayRegistrationTabs;
+    }
+
+    public void setDisplayRegistrationTabs(boolean displayRegistrationTabs) {
+        this.displayRegistrationTabs = displayRegistrationTabs;
     }
 }

@@ -123,7 +123,7 @@
                     <property name="items">
                         <list>
                             <bean parent="Uif-Message"
-                                  p:messageText="Registration for @{term.name} is not currently open."/>
+                                  p:id="changeTermEligibilityWarning" p:messageText="Registration for @{term.name} is not currently open."/>
                         </list>
                     </property>
                 </bean>
@@ -160,7 +160,7 @@
         </property>
     </bean>
 
-    <bean id="KS-AdminRegistration-RegistrationTabs" p:render="@{term.name != null}" parent="Uif-TabSection">
+    <bean id="KS-AdminRegistration-RegistrationTabs" p:render="@{displayRegistrationTabs}" parent="Uif-TabSection">
         <property name="items">
             <list>
                 <ref bean="KS-AdminRegistration-RegisteredTab"/>
@@ -763,8 +763,8 @@
                         <list>
 
                             <bean parent="Uif-PrimaryActionButton" p:preSubmitCall="closeLightbox(); return true;"
-                                  p:methodToCall="" p:actionLabel="Continue" p:id="termContinue_btn"/>
-                            <bean parent="Uif-ActionLink" p:actionLabel="Cancel" p:id="cancelTerm_link" p:actionScript="closeLightbox();"
+                                  p:methodToCall="continueFailedEligibilityTerm" p:actionLabel="Continue" p:id="termContinue_btn"/>
+                            <bean parent="Uif-ActionLink" p:actionLabel="Cancel"  p:methodToCall="cancelFailedEligibilityTerm" p:id="cancelTerm_link"  p:preSubmitCall="closeLightbox(); return true;"
                                   p:additionalCssClasses="cancel_link"/>
                         </list>
                     </property>
