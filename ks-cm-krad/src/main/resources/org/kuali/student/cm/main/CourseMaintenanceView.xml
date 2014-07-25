@@ -283,6 +283,93 @@
                 <value>courseInfo.id</value>
             </list>
         </property>
+        <property name="workflowAttributes">
+            <ref bean="CourseInfoMaintenanceDocument-workflowAttributes"/>
+        </property>
+    </bean>
+
+    <!-- Workflow Elements -->
+    <bean id="CourseInfoMaintenanceDocument-workflowAttributes" parent="CourseInfoMaintenanceDocument-workflowAttributes-parentBean"/>
+    <bean id="CourseInfoMaintenanceDocument-workflowAttributes-parentBean" abstract="true" parent="WorkflowAttributes">
+        <property name="routingTypeDefinitions">
+            <map>
+                <entry key="Department Review" value-ref="RoutingType-CourseInfoMaintenanceDocument-DepartmentReview"/>
+                <entry key="Division Review" value-ref="RoutingType-CourseInfoMaintenanceDocument-DepartmentReview"/>
+                <entry key="College Review" value-ref="RoutingType-CourseInfoMaintenanceDocument-DepartmentReview"/>
+                <entry key="Senate Review" value-ref="RoutingType-CourseInfoMaintenanceDocument-DepartmentReview"/>
+                <entry key="Publication Review" value-ref="RoutingType-CourseInfoMaintenanceDocument-DepartmentReview"/>
+            </map>
+        </property>
+        <property name="searchingTypeDefinitions">
+            <ref bean="CourseInfoMaintenanceDocument-searchingTypeDefinitions"/>
+        </property>
+    </bean>
+
+    <bean id="RoutingType-CourseInfoMaintenanceDocument-DepartmentReview" parent="RoutingType-CourseInfoMaintenanceDocument-DepartmentReview-parentBean"/>
+    <bean id="RoutingType-CourseInfoMaintenanceDocument-DepartmentReview-parentBean" abstract="true" parent="RoutingTypeDefinition">
+        <property name="routingAttributes">
+            <ref bean="RoutingAttributes-CourseInfoMaintenanceDocument-DepartmentReview" />
+        </property>
+        <property name="documentValuePathGroups">
+            <list>
+                <bean class="org.kuali.rice.krad.datadictionary.DocumentValuePathGroup">
+                    <property name="documentValues">
+                        <list>
+                            <value>newMaintainableObject.dataObject.courseInfo.unitsContentOwner</value>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="RoutingAttributes-CourseInfoMaintenanceDocument-DepartmentReview" parent="RoutingAttributes-CourseInfoMaintenanceDocument-DepartmentReview-parentBean"/>
+    <bean id="RoutingAttributes-CourseInfoMaintenanceDocument-DepartmentReview-parentBean" abstract="true" class="org.springframework.beans.factory.config.ListFactoryBean">
+        <property name="sourceList">
+            <list>
+                <bean parent="RoutingAttribute">
+                    <property name="qualificationAttributeName" value="orgId" />
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="CourseInfoMaintenanceDocument-searchingTypeDefinitions" parent="CourseInfoMaintenanceDocument-searchingTypeDefinitions-parentBean"/>
+    <bean id="CourseInfoMaintenanceDocument-searchingTypeDefinitions-parentBean" abstract="true" class="org.springframework.beans.factory.config.ListFactoryBean">
+        <property name="sourceList">
+            <list>
+                <bean parent="SearchingTypeDefinition">
+                    <property name="searchingAttribute">
+                        <bean parent="SearchingAttribute">
+                            <property name="businessObjectClassName" value="org.kuali.student.cm.course.form.CourseCreateUnitsContentOwner"/>
+                            <property name="attributeName" value="orgId"/>
+                            <property name="showAttributeInSearchCriteria" value="true"/>
+                            <property name="showAttributeInResultSet" value="true"/>
+                        </bean>
+                    </property>
+                    <property name="documentValues">
+                        <list>
+                            <value>orgId</value>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="CourseInfoMaintenanceDocument-workflowProperties" parent="CourseInfoMaintenanceDocument-workflowProperties-parentBean"/>
+    <bean id="CourseInfoMaintenanceDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties">
+        <property name="workflowPropertyGroups">
+            <list>
+                <bean parent="WorkflowPropertyGroup">
+                    <property name="workflowProperties">
+                        <list>
+                            <bean parent="WorkflowProperty" p:path="newMaintainableObject.dataObject.courseInfo.unitsContentOwner"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
     </bean>
 
     <bean id="CourseInfoCreateMaintenanceDocument" parent="CourseInfoMaintenanceDocument-Base">

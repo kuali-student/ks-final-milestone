@@ -44,7 +44,9 @@ import java.util.Map;
  * }
  * </pre>
  *
+ * @deprecated - This QualifierResolver class is not being used by the KRAD version of CM (deprecated since CM 3.0)
  */
+@Deprecated
 public class StaticOrganizationQualifierResolver extends AbstractOrganizationServiceQualifierResolver {
     private static final Logger LOG = LoggerFactory.getLogger(StaticOrganizationQualifierResolver.class);
 

@@ -41,7 +41,7 @@ import org.w3c.dom.NodeList;
  *   <activationType>P</activationType>
  *   <qualifierResolverClass>org.kuali.student.lum.workflow.qualifierresolver.CocOrgTypeQualifierResolver</qualifierResolverClass>
  *   <useNonDerivedRoles>true</useNonDerivedRoles>
- *   <organizationTypeCode>orgId</organizationTypeCode>
+ *   <organizationTypeCode>kuali.org.Department</organizationTypeCode>
  *   <organizationIdQualifierKey>orgId</organizationIdQualifierKey>
  *   <organizationIdDocumentContentKey>orgId</organizationIdDocumentContentKey>
  * </role>
@@ -60,8 +60,10 @@ import org.w3c.dom.NodeList;
  * </info>
  * }
  * </pre>
- * 
+ *
+ * @deprecated - This QualifierResolver class is not being used by the KRAD version of CM (deprecated since CM 3.0)
  */
+@Deprecated
 public class CocOrgTypeQualifierResolver extends AbstractOrganizationServiceQualifierResolver {
     private static final Logger LOG = LoggerFactory.getLogger(CocOrgTypeQualifierResolver.class);
 

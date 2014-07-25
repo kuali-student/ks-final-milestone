@@ -13,19 +13,29 @@ import javax.xml.xpath.XPathExpressionException;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.core.api.util.xml.XmlJotter;
+import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kew.engine.RouteContext;
 import org.kuali.rice.kew.engine.node.RouteNodeUtils;
 import org.kuali.rice.kew.role.QualifierResolver;
 import org.kuali.rice.kew.rule.xmlrouting.XPathHelper;
 import org.kuali.rice.kew.api.KewApiConstants;
+import org.kuali.rice.kim.api.KimConstants;
+import org.kuali.rice.krad.UserSession;
+import org.kuali.rice.krad.datadictionary.DocumentEntry;
+import org.kuali.rice.krad.datadictionary.RoutingTypeDefinition;
+import org.kuali.rice.krad.datadictionary.WorkflowAttributes;
+import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.student.bo.KualiStudentKimAttributes;
-import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.common.util.ContextBuilder;
 import org.kuali.student.r2.core.search.dto.*;
 import org.kuali.student.r2.core.search.dto.SearchParamInfo;
 import org.kuali.student.r2.core.organization.service.OrganizationService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -53,6 +63,7 @@ public abstract class AbstractOrganizationServiceQualifierResolver implements Qu
     public static final String KUALI_ORG_PROGRAM                  = "kuali.org.Program";
 
     private OrganizationService organizationService;
+    private DocumentService documentService;
 
     protected OrganizationService getOrganizationService() {
         if (null == organizationService) {
@@ -65,6 +76,16 @@ public abstract class AbstractOrganizationServiceQualifierResolver implements Qu
         organizationService = orgSvc;
     }
 
+    protected DocumentService getDocumentService() {
+        if ( documentService == null ) {
+            documentService = KRADServiceLocatorWeb.getDocumentService();
+        }
+        return documentService;
+    }
+
+    protected void setDocumentService(DocumentService docService) {
+        documentService = docService;
+    }
     /**
      * Method to fetch the organization ids from the KEW document content XML
      * 
@@ -76,7 +97,7 @@ public abstract class AbstractOrganizationServiceQualifierResolver implements Qu
     protected Set<String> getOrganizationIdsFromDocumentContent(RouteContext context) {
         String baseXpathExpression = "/" + KewApiConstants.DOCUMENT_CONTENT_ELEMENT + "/" + KewApiConstants.APPLICATION_CONTENT_ELEMENT + "/" + DOCUMENT_CONTENT_XML_ROOT_ELEMENT_NAME;
         String orgXpathExpression = "./" + getOrganizationIdDocumentContentFieldKey(context);
-        Document xmlContent = context.getDocumentContent().getDocument();
+        org.w3c.dom.Document xmlContent = context.getDocumentContent().getDocument();
         XPath xPath = XPathHelper.newXPath();
         try {
             NodeList baseElements = (NodeList) xPath.evaluate(baseXpathExpression, xmlContent, XPathConstants.NODESET);
@@ -132,7 +153,7 @@ public abstract class AbstractOrganizationServiceQualifierResolver implements Qu
             try {
                 SearchResultInfo result = null;
                 // TODO: Fix the ContextInfo.
-                result = getOrganizationService().search(searchRequest, new ContextInfo());
+                result = getOrganizationService().search(searchRequest, ContextBuilder.loadContextInfo());
                 results = result.getRows();
             } catch (Exception e) {
                 LOG.error("Error calling org service");
@@ -167,6 +188,98 @@ public abstract class AbstractOrganizationServiceQualifierResolver implements Qu
             }
         }
         return returnAttrSetList;
+    }
+
+    /**
+     * Retrieves the document that the current route context is operating on
+     * @param context the current route context
+     * @return the document
+     */
+    protected Document getDocument(RouteContext context) {
+        String documentID = getDocumentId(context);
+
+        if (documentID != null) {
+            try {
+                // below setup of user session is so no NPE is thrown by Exception Routing
+                if (GlobalVariables.getUserSession() == null) {
+                    GlobalVariables.setUserSession(new UserSession(KRADConstants.SYSTEM_USER));
+                }
+
+                return getDocumentService().getByDocumentHeaderIdSessionless(documentID);
+            }
+            catch (WorkflowException e) {
+                LOG.error("Unable to retrieve document.", e);
+                return null;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Retrieves the id of the current document from the RouteContext
+     * @param context the current route context
+     * @return the id of the document
+     */
+    protected String getDocumentId(RouteContext context) {
+        final String documentID = context.getNodeInstance().getDocumentId();
+        return documentID != null ? documentID.toString() : null;
+    }
+
+
+    /**
+     * Retrieves the data dictionary entry for the document being operated on by the given route context
+     * @param context the current route context
+     * @return the data dictionary document entry
+     */
+    protected DocumentEntry getDocumentEntry(RouteContext context) {
+        return KRADServiceLocatorWeb.getDataDictionaryService().getDataDictionary().getDocumentEntry(context.getDocument().getDocumentType().getName());
+    }
+
+    /**
+     * Retrieves the proper List of WorkflowAttributes for the given route level from the data dictionary
+     * document entry
+     * @param documentEntry the data dictionary document entry for the currently routed document
+     * @param routeLevelName the name of the route level
+     * @return a WorkflowAttributeDefinition if one could be found for the route level; otherwise, nothing
+     */
+    protected RoutingTypeDefinition getWorkflowAttributeDefintion(DocumentEntry documentEntry, String routeLevelName) {
+        final WorkflowAttributes workflowAttributes = documentEntry.getWorkflowAttributes();
+        if ( workflowAttributes == null ) {
+            return null;
+        }
+        final Map<String, RoutingTypeDefinition> routingTypeMap = workflowAttributes.getRoutingTypeDefinitions();
+        if (routingTypeMap.containsKey(routeLevelName)) return routingTypeMap.get(routeLevelName);
+        return null;
+    }
+
+    /**
+     * Add common qualifiers to every Map<String, String> in the given List of Map<String, String>
+     * @param qualifiers a List of Map<String, String>s to add common qualifiers to
+     * @param document the document currently being routed
+     * @param documentEntry the data dictionary entry of the type of document currently being routed
+     * @param routeLevel the document's current route level
+     */
+    protected void decorateWithCommonQualifiers(List<Map<String, String>> qualifiers, org.kuali.rice.krad.document.Document document, DocumentEntry documentEntry, String routeLevel) {
+        for (Map<String, String> qualifier : qualifiers) {
+            addCommonQualifiersToMap(qualifier, document, documentEntry, routeLevel);
+        }
+    }
+
+    /**
+     * Adds common qualifiers to a given Map<String, String>
+     * @param qualifier an Map<String, String> to add common qualifiers to
+     * @param document the document currently being routed
+     * @param documentEntry the data dictionary entry of the type of document currently being routed
+     * @param routeLevel the document's current route level
+     */
+    protected void addCommonQualifiersToMap(Map<String, String> qualifier, org.kuali.rice.krad.document.Document document, DocumentEntry documentEntry, String routeLevel) {
+        if ( document != null ) {
+            qualifier.put(KimConstants.AttributeConstants.DOCUMENT_NUMBER, document.getDocumentNumber());
+        }
+        if ( documentEntry != null ) {
+            qualifier.put(KimConstants.AttributeConstants.DOCUMENT_TYPE_NAME, documentEntry.getDocumentTypeName());
+        }
+        qualifier.put(KimConstants.AttributeConstants.ROUTE_NODE_NAME, routeLevel);
     }
 
 }

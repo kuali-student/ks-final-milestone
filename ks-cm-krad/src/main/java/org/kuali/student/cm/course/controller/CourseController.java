@@ -205,6 +205,11 @@ public class CourseController extends CourseRuleEditorController {
                                    HttpServletResponse response) throws Exception {
         ModelAndView modelAndView = super.docHandler(formBase, result, request, response);
 
+        // if page id is empty, assume we want the REVIEW page (used by workflow)
+        if (StringUtils.isBlank(formBase.getPageId())) {
+            formBase.setPageId(CurriculumManagementConstants.CourseViewPageIds.REVIEW_PROPOSAL);
+        }
+
         if (formBase.getPageId().equals(CurriculumManagementConstants.CourseViewPageIds.REVIEW_PROPOSAL)) {
             //  Build a redirect to the reviewCourseProposal handler for validation.
             java.util.Map requestParameterMap = request.getParameterMap();

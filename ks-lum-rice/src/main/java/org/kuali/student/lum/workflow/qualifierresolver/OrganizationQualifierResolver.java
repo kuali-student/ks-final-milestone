@@ -10,6 +10,10 @@ import org.kuali.rice.kew.engine.RouteContext;
 import org.kuali.rice.kew.engine.node.RouteNodeUtils;
 import org.kuali.rice.student.bo.KualiStudentKimAttributes;
 
+/**
+ * @deprecated - this is unused in the system
+ */
+@Deprecated
 public class OrganizationQualifierResolver extends
 		AbstractOrganizationServiceQualifierResolver {
     protected static final String ROUTE_NODE_XML_ORG_ID_QUALIFIER_KEY = "organizationIdQualifierKey";

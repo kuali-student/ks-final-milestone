@@ -45,8 +45,10 @@ import org.kuali.student.r2.core.search.dto.SearchResultRowInfo;
  * </info>
  * }
  * </pre>
- * 
+ *
+ * @deprecated - This QualifierResolver class is not being used by the KRAD version of CM (deprecated since CM 3.0)
  */
+@Deprecated
 public class CocOrganizationQualifierResolver extends AbstractOrganizationServiceQualifierResolver {
 
     protected static final String ROUTE_NODE_XML_ORG_ID_QUALIFIER_KEY = "organizationIdQualifierKey";

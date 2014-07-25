@@ -35,7 +35,9 @@ import org.slf4j.LoggerFactory;
  * {@link AbstractOrganizationServiceQualifierResolver.KUALI_ORG_TYPE_CURRICULUM_PARENT} then this class will use the organization
  * found on the current route node instance as the qualification returned.
  *
+ * @deprecated - this was written as a test case that was never implemented (see also {@link OrganizationDynamicNode})
  */
+@Deprecated
 public class OrganizationCurriculumCommitteeQualifierResolver extends AbstractOrganizationServiceQualifierResolver {
     protected static final Logger LOG = LoggerFactory.getLogger(OrganizationCurriculumCommitteeQualifierResolver.class);
 

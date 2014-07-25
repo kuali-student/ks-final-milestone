@@ -9,6 +9,10 @@ import org.kuali.rice.kew.engine.RouteContext;
 import org.kuali.rice.kew.engine.node.RouteNodeUtils;
 import org.kuali.student.r2.core.search.dto.SearchResultRowInfo;
 
+/**
+ * @deprecated - This is unused in the system
+ */
+@Deprecated
 public class ParentOrganizationQualifierResolver extends
 		AbstractOrganizationServiceQualifierResolver {
     protected static final String ROUTE_NODE_XML_ORG_ID_QUALIFIER_KEY = "organizationIdQualifierKey";
