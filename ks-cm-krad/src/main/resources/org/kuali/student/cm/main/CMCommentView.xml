@@ -20,7 +20,7 @@
                            http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 
-    <bean id="KSCM-Comment-FormView" parent="KS-Uif-FormView">
+    <bean id="CM-Proposal-Course-Comment-View" parent="KS-Uif-FormView">
         <property name="header.render" value="false"/>
         <property name="singlePageView" value="true"/>
         <property name="viewSourceFile" value="CMCommentView.xml"/>
@@ -34,18 +34,18 @@
             <bean parent="Uif-Page">
                 <property name="items">
                     <list>
-                        <ref bean="KSCM-CommentSection"/>
+                        <ref bean="CM-Proposal-Course-Comment-Section"/>
                     </list>
                 </property>
             </bean>
         </property>
 
         <property name="footer">
-            <ref bean="KSCM-CommentFooter"/>
+            <ref bean="CM-Proposal-Course-Comment-Footer"/>
         </property>
     </bean>
 
-    <bean id="KSCM-CommentSection" parent="Uif-VerticalBoxSection" p:style="width:600px;padding:10px">
+    <bean id="CM-Proposal-Course-Comment-Section" parent="Uif-VerticalBoxSection" p:style="width:600px;padding:10px">
         <property name="header">
             <bean parent="Uif-HeaderOne" p:headerText="Comments for @{proposal.name}"
                   p:cssClasses="ks-dottedHeaderActions"/>
@@ -204,7 +204,7 @@
         </property>
     </bean>
 
-    <bean id="KSCM-CommentFooter" parent="KS-Uif-FooterBase" p:style="border-top: 1px solid;border-color:lightgray"
+    <bean id="CM-Proposal-Course-Comment-Footer" parent="KS-Uif-FooterBase" p:style="border-top: 1px solid;border-color:lightgray"
           p:onDocumentReadyScript="setReadonlyTextWidthForComment(); setCommentEditFieldFocus();">
         <property name="items">
             <list>

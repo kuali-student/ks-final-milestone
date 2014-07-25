@@ -20,7 +20,7 @@ limitations under the License.
        xsi:schemaLocation="http://www.springframework.org/schema/beans
                            http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-    <bean id="KS-Course-FindACourse" parent="KS-Uif-LookupView">
+    <bean id="CM-Proposal-Course-FindCourse" parent="KS-Uif-LookupView">
         <property name="viewName" value="CoursesOnlyLookup"/>
         <property name="headerText" value="Find a Course" />
         <property name="dataObjectClassName" value="org.kuali.student.lum.lu.ui.krms.dto.CluInformation" />

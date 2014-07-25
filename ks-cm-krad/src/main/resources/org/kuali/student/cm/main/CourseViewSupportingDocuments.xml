@@ -19,7 +19,7 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
                            http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-    <bean id="KS-CourseView-SupportingDocuments-Section" parent="KS-CourseView-VerticalBoxSection">
+    <bean id="CM-Proposal-Course-SupportingDocuments-Page" parent="KS-CourseView-VerticalBoxSection">
         <property name="headerText" value="Supporting Documents"/>
         <property name="header">
             <bean parent="Uif-KS-IconHeader">
@@ -30,15 +30,15 @@
         <property name="header.headerLevel" value="h2"/>
         <property name="items">
             <list>
-                <ref bean="SupportingDocuments-NoRequiredMessageLink" />
-                <ref bean="KS-CourseView-SupportingDocumentsSubSection" />
+                <ref bean="CM-Proposal-Course-SupportingDocuments-NoRequiredMessageLink" />
+                <ref bean="CM-Proposal-Course-SupportingDocuments-Section" />
             </list>
         </property>
     </bean>
 
-    <bean id="KS-CourseView-SupportingDocumentsSubSection"  parent="KS-CourseView-SupportingDocumentsSubSection-parent"/>
+    <bean id="CM-Proposal-Course-SupportingDocuments-Section"  parent="CM-Proposal-Course-SupportingDocuments-Section-Parent"/>
 
-    <bean id="KS-CourseView-SupportingDocumentsSubSection-parent" parent="KS-TableCollectionSubSection-BottomAddLine"
+    <bean id="CM-Proposal-Course-SupportingDocuments-Section-Parent" parent="KS-TableCollectionSubSection-BottomAddLine"
           p:layoutManager.id="cc-supportingdocumentsgroup-table" p:layoutManager.style="width: 60em;"
           class="org.kuali.student.cm.uif.container.CMCollectionGroupBase" abstract="true">
         <property name="collectionObjectClass" value="org.kuali.student.cm.course.form.wrapper.SupportingDocumentInfoWrapper"/>
@@ -123,7 +123,7 @@
         </property>
     </bean>
 
-    <bean id="SupportingDocuments-NoRequiredMessageLink" parent="Uif-HorizontalFieldGroup" >
+    <bean id="CM-Proposal-Course-SupportingDocuments-NoRequiredMessageLink" parent="Uif-HorizontalFieldGroup" >
         <property name="style" value="display: none;" />
         <property name="cssClasses">
             <list merge="true">
@@ -136,7 +136,7 @@
                       p:messageText="No required fields." p:style="margin-top: 5px; margin-right: 0px;">
                 </bean>
                 <bean parent="KS-Uif-ActionLink" p:id="SupportingDocuments-NoRequiredMessage-expand-link"
-                      p:actionScript="createCourseShowHideObjectiveElements('SupportingDocuments-NoRequiredMessageLink', 'KS-SupportingDocuments-Section');"
+                      p:actionScript="createCourseShowHideObjectiveElements('CM-Proposal-Course-SupportingDocuments-NoRequiredMessageLink', 'KS-SupportingDocuments-Section');"
                       p:actionLabel="Show all fields" p:style="margin-right: 15pt; margin-top: 0px;">
                 </bean>
             </list>

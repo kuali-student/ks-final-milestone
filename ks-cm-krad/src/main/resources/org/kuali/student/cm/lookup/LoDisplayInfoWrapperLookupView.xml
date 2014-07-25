@@ -19,13 +19,13 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
                            http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-    <bean id="KS-LoDisplayInfoWrapper-DataObjectEntry" parent="DataObjectEntry">
+    <bean id="CM-Proposal-Course-LearningObjective-DataObjectEntry" parent="DataObjectEntry">
         <property name="objectLabel" value="Learning Objective Display Information Wrapper"/>
         <property name="dataObjectClass"
                   value="org.kuali.student.cm.course.form.wrapper.LoDisplayInfoWrapper"/>
     </bean>
 
-    <bean id="KS-LoDisplayInfoWrapper-LookupCriteriaGroup" parent="Uif-HorizontalBoxGroup">
+    <bean id="CM-Proposal-Course-LearningObjective-LookupCriteriaGroup" parent="Uif-HorizontalBoxGroup">
         <property name="headerText" value="Lookup Criteria"/>
         <property name="fieldBindingObjectPath" value="lookupCriteria"/>
         <property name="footer">
@@ -33,8 +33,8 @@
         </property>
     </bean>
 
-    <bean id="KS-LoDisplayInfoWrapper-LookupView" parent="KS-Uif-LookupView">
-        <property name="viewName" value="KS-LoDisplayInfoWrapper-LookupView"/>
+    <bean id="CM-Proposal-Course-LearningObjective-LookupView" parent="KS-Uif-LookupView">
+        <property name="viewName" value="CM-Proposal-Course-LearningObjective-LookupView"/>
         <property name="id" value="LoDisplayInfoWrapperLookupView"/>
         <property name="headerText" value="Find Learning Objectives"/>
         <property name="dataObjectClassName"
@@ -56,7 +56,7 @@
             </bean>
         </property>
         <property name="criteriaGroup">
-            <bean parent="KS-LoDisplayInfoWrapper-LookupCriteriaGroup"/>
+            <bean parent="CM-Proposal-Course-LearningObjective-LookupCriteriaGroup"/>
         </property>
         <property name="criteriaFields">
             <list>
@@ -128,7 +128,7 @@
 
         <property name="page.items">
             <list>
-                <ref bean="KS-LoDisplayInfoWrapper-LookupView-Filter"/>
+                <ref bean="CM-Proposal-Course-LearningObjective-LookupView-Filter"/>
             </list>
         </property>
 
@@ -184,7 +184,7 @@
         </property>
     </bean>
 
-    <bean id="KS-LoDisplayInfoWrapper-LookupView-Filter" parent="Uif-HorizontalFieldGroup">
+    <bean id="CM-Proposal-Course-LearningObjective-LookupView-Filter" parent="Uif-HorizontalFieldGroup">
         <property name="items">
             <list>
                 <bean id="LoDisplayInfoWrapper-LookupView-Filter-Input" parent="KS-Uif-InputField-LabelLeft"

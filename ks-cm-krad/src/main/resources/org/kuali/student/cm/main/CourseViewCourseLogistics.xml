@@ -12,24 +12,24 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
                            http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-    <bean id="KS-CourseView-Logistics-Section" parent="KS-CourseView-VerticalBoxSection">
+    <bean id="CM-Proposal-Course-Logistics-Page" parent="KS-CourseView-VerticalBoxSection">
         <property name="validationMessages" ref="KS-ValidationMessages-Off"/>
         <property name="headerText" value="Course Logistics"/>
         <property name="items">
             <list>
-                <ref bean="KS-CourseView-CourseLogisticsPage-Scheduling-Widgets" />
-                <ref bean="KS-CourseView-CourseLogisticsPage-DurationCount-Widgets" />
-                <ref bean="KS-CourseView-CourseLogisticsPage-LearningResults-Widgets" />
-                <ref bean="KS-CourseView-CourseLogisticsPage-GradesAssessments-Widgets" />
-                <ref bean="KS-CourseView-CourseLogisticsPage-StudentRegistrationOptions-Widgets" />
-                <ref bean="KS-CourseView-CourseLogisticsPage-FinalExam-Widgets" />
-                <ref bean="KS-CourseView-CourseLogisticsPage-Outcome-Widgets" />
-                <ref bean="KS-CourseView-CourseLogisticsPage-CourseFormats-Widgets" />
+                <ref bean="CM-Proposal-Course-Logistics-Scheduling-Section" />
+                <ref bean="CM-Proposal-Course-Logistics-DurationCount-Section" />
+                <ref bean="CM-Proposal-Course-Logistics-LearningResults-Section" />
+                <ref bean="CM-Proposal-Course-Logistics-GradesAssessments-Section" />
+                <ref bean="CM-Proposal-Course-Logistics-StudentRegistrationOptions-Section" />
+                <ref bean="CM-Proposal-Course-Logistics-FinalExam-Section" />
+                <ref bean="CM-Proposal-Course-Logistics-Outcome-Section" />
+                <ref bean="CM-Proposal-Course-Logistics-Formats-Section" />
             </list>
         </property>
     </bean>
 
-    <bean id="KS-CourseView-CourseLogisticsPage-Scheduling-Widgets" parent="Uif-VerticalBoxSection" p:headerText="Scheduling">
+    <bean id="CM-Proposal-Course-Logistics-Scheduling-Section" parent="Uif-VerticalBoxSection" p:headerText="Scheduling">
         <property name="cssClasses">
             <list merge="true">
                 <value>admin-not-required-field</value>
@@ -51,7 +51,7 @@
             </list>
         </property>
     </bean>
-    <bean id="KS-CourseView-CourseLogisticsPage-DurationCount-Widgets"
+    <bean id="CM-Proposal-Course-Logistics-DurationCount-Section"
           parent="Uif-HorizontalBoxSection" p:headerText="Duration Count"
           p:instructionalText="First select the duration type (term, month, week, weekend, day) then select the count of the duration for the course.
 			Most courses will have 1 or 2 terms, for example.">
@@ -83,13 +83,13 @@
             </list>
         </property>
     </bean>
-    <bean id="KS-CourseView-CourseLogisticsPage-LearningResults-Widgets"
+    <bean id="CM-Proposal-Course-Logistics-LearningResults-Section"
           parent="Uif-HorizontalBoxSection" p:headerText="Learning Results">
         <property name="instructionalText" value="There are two types of learning results, Grades/Assessments and Credits/Outcomes. You can add multiple options
 			    for either type, which can be used for multiple course formats, or to account for variations in course offerings."/>
     </bean>
 
-    <bean id="KS-CourseView-CourseLogisticsPage-GradesAssessments-Widgets" parent="Uif-VerticalBoxSection"
+    <bean id="CM-Proposal-Course-Logistics-GradesAssessments-Section" parent="Uif-VerticalBoxSection"
           p:headerText="Grades/Assessments">
         <property name="validationMessages" ref="KS-ValidationMessages-Off"/>
         <property name="items">
@@ -121,7 +121,7 @@
             </list>
         </property>
     </bean>
-    <bean id="KS-CourseView-CourseLogisticsPage-StudentRegistrationOptions-Widgets" parent="Uif-VerticalBoxSection"
+    <bean id="CM-Proposal-Course-Logistics-StudentRegistrationOptions-Section" parent="Uif-VerticalBoxSection"
           p:headerText="Student Registration Options" >
         <property name="cssClasses">
             <list merge="true">
@@ -144,7 +144,7 @@
         </property>
     </bean>
 
-    <bean id="KS-CourseView-CourseLogisticsPage-FinalExam-Widgets"
+    <bean id="CM-Proposal-Course-Logistics-FinalExam-Section"
           parent="Uif-VerticalBoxSection" p:headerText="Final Exam">
         <property name="validationMessages" ref="KS-ValidationMessages-Off"/>
         <property name="items">
@@ -172,7 +172,7 @@
         </property>
     </bean>
 
-    <bean id="KS-CourseView-CourseLogisticsPage-Outcome-Widgets" parent="KS-TableCollectionSubSection-BottomAddLine"
+    <bean id="CM-Proposal-Course-Logistics-Outcome-Section" parent="KS-TableCollectionSubSection-BottomAddLine"
                       p:layoutManager.style="width: 100%;"
                       p:headerText="Outcome">
         <property name="collectionObjectClass" value="org.kuali.student.cm.course.form.wrapper.ResultValuesGroupInfoWrapper" />
@@ -300,7 +300,7 @@
     <bean id="KSCM-Uif-AddBlankLineAction" parent="Uif-PrimaryActionButton-Small" p:methodToCall="addBlankLine" p:actionLabel="Add"
           p:actionEvent="addBlankLine" p:id="addBlankLine-outcome-multiple"/>
 
-    <bean id="KS-CourseView-CourseLogisticsPage-CourseFormats-Widgets"
+    <bean id="CM-Proposal-Course-Logistics-Formats-Section"
               parent="Uif-StackedCollectionSection" p:headerText="Course Format(s)"
           p:propertyName="formats" p:collectionObjectClass="org.kuali.student.r2.lum.course.dto.FormatInfo">
         <property name="instructionalText"
@@ -348,7 +348,7 @@
                               p:actionScript="actionInvokeHandler(this);"
                               p:render="@{!#view.readOnly}"
                               p:ajaxReturnType="update-component"
-                              p:refreshId="KS-CourseView-CourseLogisticsPage-CourseFormats-Widgets"
+                              p:refreshId="CM-Proposal-Course-Logistics-Formats-Section"
                               p:additionalCssClasses="course-format-right-group"
                               p:actionEvent="deleteLine" p:dirtyOnAction="true"/>
                     </list>

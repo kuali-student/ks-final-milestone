@@ -28,7 +28,7 @@
         <property name="headerText" value="@{!#empty(document.newMaintainableObject.dataObject.ProposalInfo.name) ? document.newMaintainableObject.dataObject.ProposalInfo.name + ' (Proposal)': 'New Course (Proposal)'}" />
         <property name="header.render" value="false" />
         <property name="singlePageView" value="false"/><!-- Override the default to allow for navigation -->
-        <property name="entryPageId" value="KS-CourseView-CourseInfoPage" />
+        <property name="entryPageId" value="CM-Proposal-Course-CourseInfo-Page" />
         <property name="viewHelperServiceClass" value="org.kuali.student.cm.course.service.impl.CourseMaintainableImpl" />
         <property name="breadcrumbOptions.homewardPathBreadcrumbs">
             <list>
@@ -48,7 +48,7 @@
         <property name="dialogs">
             <list>
                 <ref bean="commentsLightBox" />
-                <ref bean="decisionsDialog" />
+                <ref bean="CM-Proposal-Course-DecisionDialog" />
                 <!-- <bean id="compareRuleLightBox" parent="KS-KRMS-CompareRule">
                     <property name="headerText" value="Compare Catalog and Course Offering Rules"/>
                 </bean> -->

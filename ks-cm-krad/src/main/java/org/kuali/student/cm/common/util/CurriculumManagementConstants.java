@@ -56,9 +56,9 @@ public class CurriculumManagementConstants {
      * The bean ids of the pages within the view.
      */
     public static class CourseViewPageIds {
-        public final static String REVIEW_PROPOSAL = "KS-CourseView-ReviewProposalPage";
-        public final static String CREATE_COURSE = "KS-CourseView-CoursePage";
-        public final static String CREATE_COURSE_VIEW = "KS-CourseView";
+        public final static String REVIEW_PROPOSAL = "CM-Proposal-Review-Course-Page";
+        public final static String CREATE_COURSE = "CM-Proposal-Course-Create-Page";
+        public final static String CREATE_COURSE_VIEW = "CM-Proposal-Course-Create-View";
         public final static String VIEW_COURSE_VIEW = "ViewCourseView";
         public final static String CM_HOME_VIEW = "curriculumHomeView";
     }
@@ -67,17 +67,17 @@ public class CurriculumManagementConstants {
      * The bean ids of the tab sections.
      */
     public enum CourseViewSections {
-        CREATE_COURSE_ENTRY("KS-CourseView-createCourseInitialPage"),
-        COURSE_INFO("KS-CourseView-CourseInfo-Section"),
-        GOVERNANCE("KS-CourseView-Governance-Section"),
-        COURSE_LOGISTICS("KS-CourseView-Logistics-Section"),
-        LEARNING_OBJECTIVES("KS-CourseView-LearningObjectives-Section"),
-        COURSE_REQUISITES("KS-CourseView-CourseRequisites-Section"),
-        ACTIVE_DATES("KS-CourseView-ActiveDates-Section"),
-        FINANCIALS("KS-CourseView-Financials-Section"),
-        AUTHORS_AND_COLLABORATORS("KS-CourseView-AuthorsAndCollaborators-Section"),
-        SUPPORTING_DOCUMENTS("KS-CourseView-SupportingDocuments-Section"),
-        REVIEW_PROPOSAL("KS-CourseView-ReviewProposalPage");
+        CREATE_COURSE_ENTRY("CM-Proposal-Course-Create-Start-Page"),
+        COURSE_INFO("CM-Proposal-Course-CourseInfo-Page"),
+        GOVERNANCE("CM-Proposal-Course-Governance-Page"),
+        COURSE_LOGISTICS("CM-Proposal-Course-Logistics-Page"),
+        LEARNING_OBJECTIVES("CM-Proposal-Course-LearningObjectives-Page"),
+        COURSE_REQUISITES("CM-Proposal-Course-Requisites-Page"),
+        ACTIVE_DATES("CM-Proposal-Course-ActiveDates-Page"),
+        FINANCIALS("CM-Proposal-Course-Financials-Page"),
+        AUTHORS_AND_COLLABORATORS("CM-Proposal-Course-AuthorsAndCollaborators-Page"),
+        SUPPORTING_DOCUMENTS("CM-Proposal-Course-SupportingDocuments-Page"),
+        REVIEW_PROPOSAL("CM-Proposal-Review-Course-Page");
 
         private String sectionId;
 
@@ -153,7 +153,7 @@ public class CurriculumManagementConstants {
 
     public final static String L0_MSG_ERROR_NO_LO_IS_FOUND = "error.course.lo.noLoIsFound";
 
-    public final static String KS_LO_CAT_TABLE = "KS-LoCatTable";
+    public final static String KS_LO_CAT_TABLE = "CM-Proposal-Course-LoCategory-Table";
 
     public final static String CM_MESSAGE_ICON_IMAGE_ID = "[id=CM-IconImage]";
 
@@ -166,7 +166,7 @@ public class CurriculumManagementConstants {
 
     public final static String FILE_SIZE_CONSTRAINT = "Maximum File Size - 7.5MB";
 
-    public final static String COURSE_SUBMIT_CONFIRMATION_DIALOG = "KS-CourseSubmit-ConfirmDelete-Dialog";
+    public final static String COURSE_SUBMIT_CONFIRMATION_DIALOG = "CM-Proposal-Review-Course-ConfirmSubmit-Dialog";
 
     /**
      * This delimiter to use when rendering collections as a String.

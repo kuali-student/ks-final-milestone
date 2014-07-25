@@ -157,7 +157,7 @@
     <!-- Controller Class: CourseController.java View Helper Class: CourseViewHelperServiceImpl.java UX : http://ux.ks.kuali.org.s3.amazonaws.com/wireframes/ENR/Scheduling_Interface/v3/start.html 
         This view has couple of pages (edit and copy) with all the beans defined at 1. CourseViewCourseInfoPage.xml -->
 
-    <bean id="KS-CourseView" parent="KS-Uif-MaintenanceView">
+    <bean id="CM-Proposal-Course-Create-View" parent="KS-Uif-MaintenanceView">
         <property name="dataObjectClassName" value="org.kuali.student.cm.course.form.wrapper.CourseInfoWrapper"/>
         <!-- New Course header requires static string therefore below string construction is not required.
         commenting below code in case required in future.
@@ -182,7 +182,7 @@
                 <ref bean="KS-HomewardPathBreadcrumbs-CreateCourse"/>
             </list>
         </property>
-        <property name="header.id" value="KS-CourseView-Header"/>
+        <property name="header.id" value="CM-Proposal-Course-Create-Header"/>
         <property name="header.lowerGroup">
             <bean id="KS-CourseView-LinkGroup" parent="Uif-LinkGroup" p:linkSeparator="|"
                   p:additionalCssClasses="cm-StickyHeader-links">
@@ -191,7 +191,7 @@
                         <bean parent="KS-Uif-DataField" p:label="Proposal Status"
                               p:shortLabel="Status" p:propertyName="proposalInfo.stateKey"/>
                         <bean id="CourseView-LinkGroup-Comments" parent="Uif-ActionLink" p:actionLabel="Comments"
-                              p:actionScript="showCommentLightBox('@{#ConfigProperties['application.url']}/kr-krad/cm_comment?viewId=KSCM-Comment-FormView&amp;methodToCall=start&amp;proposalId=@{#dataObject.proposalInfo.id}');"
+                              p:actionScript="showCommentLightBox('@{#ConfigProperties['application.url']}/kr-krad/cm_comment?viewId=CM-Proposal-Course-Comment-View&amp;methodToCall=start&amp;proposalId=@{#dataObject.proposalInfo.id}');"
                               p:disabled="@{#workflowDoc.initiated}"/>
                         <bean id="CourseView-LinkGroup-Decisions" parent="Uif-ActionLink" p:actionLabel="Decisions"
                               p:methodToCall="showDecisions"/>
@@ -218,7 +218,7 @@
 
         <property name="dialogs">
             <list>
-                <ref bean="decisionsDialog"/>
+                <ref bean="CM-Proposal-Course-DecisionDialog"/>
                 <!-- <bean id="compareRuleLightBox" parent="KS-KRMS-CompareRule">
                     <property name="headerText" value="Compare Catalog and Course Offering Rules"/>
                 </bean> -->
@@ -228,8 +228,8 @@
         </property>
         <property name="items">
             <list>
-                <ref bean="KS-CourseView-CoursePage"/>
-                <ref bean="KS-CourseView-ReviewProposalPage"/>
+                <ref bean="CM-Proposal-Course-Create-Page"/>
+                <ref bean="CM-Proposal-Review-Course-Page"/>
                 <ref bean="KS-RuleMaintenance-Page-Parent"/>
             </list>
         </property>
@@ -406,13 +406,13 @@
 
     <bean id="KS-CourseView-HorizontalBoxSection" parent="Uif-HorizontalBoxSection" abstract="true"/>
 
-    <bean id="KS-CourseView-CoursePage" parent="Uif-MaintenancePage" p:disclosure.render="false">
-        <property name="header" ref="KS-CourseView-Header"/>
+    <bean id="CM-Proposal-Course-Create-Page" parent="Uif-MaintenancePage" p:disclosure.render="false">
+        <property name="header" ref="CM-Proposal-Course-Create-Header"/>
         <property name="headerText" value="Create Course"/>
         <property name="footer.items">
             <list>
-                <bean parent="KS-CourseView-Footer" p:render="@{!#uiHelper.curriculumSpecialistUser}"/>
-                <bean parent="KS-CourseView-CurriculumSpecialistFooter"
+                <bean parent="CM-Proposal-Course-Create-Footer" p:render="@{!#uiHelper.curriculumSpecialistUser}"/>
+                <bean parent="CM-Proposal-Course-Create-CurriculumSpecialistFooter"
                       p:render="@{#uiHelper.curriculumSpecialistUser}"/>
             </list>
         </property>
@@ -425,15 +425,15 @@
                     <property name="validationMessages" ref="KS-ValidationMessages-Off"/>
                     <property name="items">
                         <list>
-                            <ref bean="KS-CourseView-CourseInfo-Section"/>
-                            <ref bean="KS-CourseView-Governance-Section"/>
-                            <ref bean="KS-CourseView-Logistics-Section"/>
-                            <ref bean="KS-CourseView-LearningObjectives-Section"/>
-                            <ref bean="KS-CourseView-CourseRequisites-Section"/>
-                            <ref bean="KS-CourseView-ActiveDates-Section"/>
-                            <ref bean="KS-CourseView-Financials-Section"/>
-                            <ref bean="KS-CourseView-AuthorsAndCollaborators-Section"/>
-                            <ref bean="KS-CourseView-SupportingDocuments-Section"/>
+                            <ref bean="CM-Proposal-Course-CourseInfo-Page"/>
+                            <ref bean="CM-Proposal-Course-Governance-Page"/>
+                            <ref bean="CM-Proposal-Course-Logistics-Page"/>
+                            <ref bean="CM-Proposal-Course-LearningObjectives-Page"/>
+                            <ref bean="CM-Proposal-Course-Requisites-Page"/>
+                            <ref bean="CM-Proposal-Course-ActiveDates-Page"/>
+                            <ref bean="CM-Proposal-Course-Financials-Page"/>
+                            <ref bean="CM-Proposal-Course-AuthorsAndCollaborators-Page"/>
+                            <ref bean="CM-Proposal-Course-SupportingDocuments-Page"/>
                         </list>
                     </property>
                     <property name="tabsWidget.templateOptionsJSString">
@@ -481,12 +481,12 @@
                                 <property name="finalizeMethodAdditionalArguments">
                                     <list>
                                         <value>docHandler</value>
-                                        <value>KS-CourseView-ReviewProposalPage</value>
+                                        <value>CM-Proposal-Review-Course-Page</value>
                                     </list>
                                 </property>
                                 <property name="actionParameters">
                                     <map>
-                                        <entry key="pageId" value="KS-CourseView-ReviewProposalPage"/>
+                                        <entry key="pageId" value="CM-Proposal-Review-Course-Page"/>
                                     </map>
                                 </property>
                                 <property name="render" value="@{#actionFlags[#Constants.KUALI_ACTION_CAN_EDIT]}"/>
@@ -498,7 +498,7 @@
         </property>
     </bean>
 
-    <bean id="KS-CourseView-SectionHeader" parent="Uif-HeaderTwo">
+    <bean id="CM-Proposal-Course-Create-SectionHeader" parent="Uif-HeaderTwo">
         <property name="cssClasses">
             <list merge="true">
                 <value>ks-header</value>
@@ -506,7 +506,7 @@
         </property>
     </bean>
 
-    <bean id="KS-CourseView-Header" parent="Uif-HeaderTwo">
+    <bean id="CM-Proposal-Course-Create-Header" parent="Uif-HeaderTwo">
         <property name="lowerGroup">
             <ref bean="Uif-HeaderLowerGroup"/>
         </property>
@@ -536,7 +536,7 @@
         </property>
     </bean>
 
-    <bean id="KS-CourseView-CurriculumSpecialistFooter" parent="Uif-FooterBase">
+    <bean id="CM-Proposal-Course-Create-CurriculumSpecialistFooter" parent="Uif-FooterBase">
         <property name="items">
             <list>
                 <!--<bean parent="Uif-PrimaryActionButton"
@@ -560,7 +560,7 @@
                       p:methodToCall="route"
                       p:actionLabel="Submit"
                       p:performClientSideValidation="true"
-                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE] and #form.pageId eq 'KS-CourseView-ReviewProposalPage'}"/>
+                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE] and #form.pageId eq 'CM-Proposal-Review-Course-Page'}"/>
                 <bean parent="Uif-SecondaryActionButton"
                       p:ajaxSubmit="false"
                       p:methodToCall="saveProposal"
@@ -616,7 +616,7 @@
         </property>
     </bean>
 
-    <bean id="KS-CourseView-Footer" parent="Uif-FooterBase">
+    <bean id="CM-Proposal-Course-Create-Footer" parent="Uif-FooterBase">
         <property name="items">
             <list>
                 <bean parent="Uif-HorizontalBoxGroup">
@@ -653,7 +653,7 @@
         </property>
     </bean>
 
-    <bean id="decisionsDialog" parent="Uif-VerticalBoxSection">
+    <bean id="CM-Proposal-Course-DecisionDialog" parent="Uif-VerticalBoxSection">
         <property name="hidden" value="true"/>
         <property name="headerText" value="Decisions"/>
         <property name="items">
@@ -684,7 +684,7 @@
     </bean>
     <bean id="KS-HomewardPathBreadcrumbs-NewCourse" parent="Uif-BreadcrumbItem">
         <property name="label"
-                  value=" @{(#form.pageId eq 'KS-CourseView-CoursePage') ? #uiHelper.headerText : 'Create Course'}"/>
+                  value=" @{(#form.pageId eq 'CM-Proposal-Course-Create-Page') ? #uiHelper.headerText : 'Create Course'}"/>
         <property name="url.baseUrl" value="cmHome"/>
         <property name="url.viewId" value="curriculumHomeView"/>
     </bean>

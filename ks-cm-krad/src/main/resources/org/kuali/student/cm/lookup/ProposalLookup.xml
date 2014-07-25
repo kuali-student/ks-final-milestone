@@ -26,7 +26,7 @@ limitations under the License.
             class="org.kuali.student.cm.uif.view.ProposalLookupView" parent="KS-Uif-LookupView">
     </bean>
 
-    <bean id="KS-CM-ProposalLookup" parent="Uif-ProposalLookupView">
+    <bean id="CM-Proposal-Course-FindProposal-LookupView" parent="Uif-ProposalLookupView">
         <property name="id" value="ksCMProposalLookup"/>
         <property name="viewName" value="ProposalLookup"/>
         <property name="headerText" value="Find a Proposal" />
@@ -116,12 +116,12 @@ limitations under the License.
                 <property name="finalizeMethodAdditionalArguments">
                   <list>
                     <value>docHandler</value>
-                    <value>KS-CourseView-ReviewProposalPage</value>
+                    <value>CM-Proposal-Review-Course-Page</value>
                   </list>
                 </property>
                 <property name="actionParameters">
                     <map>
-                      <entry key="pageId" value="KS-CourseView-ReviewProposalPage"/>
+                      <entry key="pageId" value="CM-Proposal-Review-Course-Page"/>
                     </map>
                 </property>
                 <property name="render" value="@{#ViewHelper.allowsProposalOpenAction(#line)}"/>
@@ -133,7 +133,7 @@ limitations under the License.
                 <property name="finalizeMethodAdditionalArguments">
                   <list>
                     <value>docHandler</value>
-                    <value>KS-CourseView-CoursePage</value>
+                    <value>CM-Proposal-Course-Create-Page</value>
                   </list>
                 </property>
                 <property name="render" value="@{#ViewHelper.allowsProposalEditAction(#line) and view.renderMaintenanceLinks}"/>

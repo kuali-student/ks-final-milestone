@@ -20,25 +20,25 @@ limitations under the License.
        xsi:schemaLocation="http://www.springframework.org/schema/beans
                       http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
-    <bean id="Course-AgendaManage-RulePrototype" parent="KRMS-AgendaManage-RulePrototype">
+    <bean id="CM-Proposal-Course-AgendaManage-RulePrototype" parent="KRMS-AgendaManage-RulePrototype">
         <property name="items">
             <list>
-                <ref bean="Course-AgendaManage-EditRule"/>
-                <ref bean="Course-AgendaManage-AddRule"/>
+                <ref bean="CM-Proposal-Course-AgendaManage-EditRule"/>
+                <ref bean="CM-Proposal-Course-AgendaManage-AddRule"/>
             </list>
         </property>
     </bean>
 
-    <bean id="Course-AgendaManage-EditRule" parent="KRMS-AgendaManage-EditRule">
+    <bean id="CM-Proposal-Course-AgendaManage-EditRule" parent="KRMS-AgendaManage-EditRule">
         <property name="items">
             <list>
-                <bean id="Course-RuleEdit-ActionLinks" parent="Course-RuleEdit-Links" p:style="margin-left:-12px;"/>
+                <bean id="Course-RuleEdit-ActionLinks" parent="CM-Proposal-Course-RuleEdit-Links" p:style="margin-left:-12px;"/>
                 <bean parent="Uif-MessageField" p:messageText="@{#line.ruleTypeInfo.instruction}"/>
                 <bean id="Course-ViewTree-Group" parent="Uif-VerticalBoxGroup"
                       p:cssClasses="ks-form-panel">
                     <property name="items">
                         <list>
-                            <ref bean="Course-ViewTree-Section"/>
+                            <ref bean="CM-Proposal-Course-ViewTree-Section"/>
                         </list>
                     </property>
                 </bean>
@@ -46,16 +46,16 @@ limitations under the License.
         </property>
     </bean>
 
-    <bean id="Course-AgendaManage-AddRule" parent="KRMS-AgendaManage-AddRule">
+    <bean id="CM-Proposal-Course-AgendaManage-AddRule" parent="KRMS-AgendaManage-AddRule">
         <property name="items">
             <list>
-                <bean id="Course-RuleAdd-ActionLink" parent="Course-RuleAdd-Links" p:style="margin-left:-12px;"/>
+                <bean id="Course-RuleAdd-ActionLink" parent="CM-Proposal-Course-RuleAdd-Links" p:style="margin-left:-12px;"/>
                 <bean parent="Uif-MessageField" p:messageText="@{#line.ruleTypeInfo.instruction}"/>
             </list>
         </property>
     </bean>
 
-    <bean id="Course-RuleAdd-Links" parent="KRMS-RuleAdd-Links">
+    <bean id="CM-Proposal-Course-RuleAdd-Links" parent="KRMS-RuleAdd-Links">
         <property name="items">
             <list>
                 <!--bean parent="KS-Uif-NavigationActionLink" p:actionLabel="Add Rule" p:methodToCall="addRule"
@@ -67,7 +67,7 @@ limitations under the License.
         </property>
     </bean>
 
-    <bean id="Course-RuleEdit-Links" parent="KRMS-RuleEdit-Links">
+    <bean id="CM-Proposal-Course-RuleEdit-Links" parent="KRMS-RuleEdit-Links">
         <property name="items">
             <list>
                 <!--bean parent="KS-Uif-NavigationActionLink" p:actionLabel="Edit Rule" p:methodToCall="goToRuleView"
@@ -81,7 +81,7 @@ limitations under the License.
         </property>
     </bean>
 
-    <bean id="Course-ViewTree-Section" parent="KRMS-ViewTree-Section">
+    <bean id="CM-Proposal-Course-ViewTree-Section" parent="KRMS-ViewTree-Section">
         <property name="propertyName" value="viewTree"/>
         <property name="defaultNodePrototype">
             <bean class="org.kuali.rice.krad.uif.container.NodePrototype">
@@ -89,13 +89,13 @@ limitations under the License.
                     <bean parent="Uif-Message"/>
                 </property>
                 <property name="dataGroupPrototype">
-                    <ref bean="Course-ListItems-DataGroup"/>
+                    <ref bean="CM-Proposal-Course-ListItems-DataGroup"/>
                 </property>
             </bean>
         </property>
     </bean>
 
-    <bean id="Course-ListItems-DataGroup-parent" parent="Uif-StackedCollectionGroup" p:renderAddLine="false"
+    <bean id="CM-Proposal-Course-ListItems-DataGroup-parent" parent="Uif-StackedCollectionGroup" p:renderAddLine="false"
           p:style="width: 600px; padding: 0; margin-bottom: 0px;">
         <property name="collectionObjectClass" value="org.kuali.student.lum.lu.ui.krms.dto.CluGroup"/>
         <property name="layoutManager">
@@ -138,15 +138,15 @@ limitations under the License.
         </property>
         <property name="subCollections">
             <list>
-                <bean parent="Course-ListItems-SubGroup" p:render="@{!#line.showTitle}"/>
-                <bean parent="Course-ListItems-SubGroup" p:render="@{#line.showTitle}" p:additionalCssClasses="subGroup">
+                <bean parent="CM-Proposal-Course-ListItems-SubGroup" p:render="@{!#line.showTitle}"/>
+                <bean parent="CM-Proposal-Course-ListItems-SubGroup" p:render="@{#line.showTitle}" p:additionalCssClasses="subGroup">
                 </bean>
             </list>
         </property>
     </bean>
-    <bean id="Course-ListItems-DataGroup" parent="Course-ListItems-DataGroup-parent"/>
+    <bean id="CM-Proposal-Course-ListItems-DataGroup" parent="CM-Proposal-Course-ListItems-DataGroup-parent"/>
 
-    <bean id="Course-ListItems-SubGroup" parent="Uif-TableCollectionGroup" p:style="width: 550px; padding: 0;"
+    <bean id="CM-Proposal-Course-ListItems-SubGroup" parent="Uif-TableCollectionGroup" p:style="width: 550px; padding: 0;"
           p:renderAddLine="false">
         <property name="collectionObjectClass" value="org.kuali.student.lum.lu.ui.krms.dto.CluCore"/>
         <property name="propertyName" value="clus"/>
@@ -169,7 +169,7 @@ limitations under the License.
         </property>
     </bean>
 
-    <bean name="Course-RuleMaintenance-Page-Parent" parent="KRMS-RuleMaintenance-Page-Parent">
+    <bean name="CM-Proposal-Course-RuleMaintenance-Page-Parent" parent="KRMS-RuleMaintenance-Page-Parent">
         <property name="headerText"
                   value="@{#dp.ruleEditor.dummy == true ? 'Add' : 'Edit'} @{#dp.ruleEditor.ruleTypeInfo.description}"/>
         <property name="breadcrumbOptions.breadcrumbOverrides">
@@ -183,7 +183,7 @@ limitations under the License.
                             <entry key="dataObjectClassName" value="org.kuali.student.cm.course.form.wrapper.CourseInfoWrapper"/>
                             <entry key="hideReturnLink" value="true"/>
                             <entry key="formKey" value="@{formKey}"/>
-                            <entry key="pageId" value="KS-CourseView-CoursePage"/>
+                            <entry key="pageId" value="CM-Proposal-Course-Create-Page"/>
                         </map>
                     </property>
                 </bean>
@@ -195,7 +195,7 @@ limitations under the License.
         </property>
         <property name="items">
             <list>
-                <ref bean="Course-Rules-ManageSection"/>
+                <ref bean="CM-Proposal-Course-Rules-ManageSection"/>
             </list>
         </property>
         <property name="footer">
@@ -223,18 +223,18 @@ limitations under the License.
             </bean>
         </property>
     </bean>
-    <bean name="KS-RuleMaintenance-Page-Parent" parent="Course-RuleMaintenance-Page-Parent"/>
+    <bean name="KS-RuleMaintenance-Page-Parent" parent="CM-Proposal-Course-RuleMaintenance-Page-Parent"/>
 
-    <bean id="Course-Rules-ManageSection" parent="KRMS-Rules-ManageSection">
+    <bean id="CM-Proposal-Course-Rules-ManageSection" parent="KRMS-Rules-ManageSection">
         <property name="items">
             <list>
-                <ref bean="Course-RuleHeader-BoxSection"/>
-                <ref bean="Course-RuleEdit-TabSection"/>
+                <ref bean="CM-Proposal-Course-RuleHeader-BoxSection"/>
+                <ref bean="CM-Proposal-Course-RuleEdit-TabSection"/>
             </list>
         </property>
     </bean>
 
-    <bean id="Course-RuleHeader-BoxSection" parent="KRMS-RuleHeader-BoxSection">
+    <bean id="CM-Proposal-Course-RuleHeader-BoxSection" parent="KRMS-RuleHeader-BoxSection">
         <property name="items">
             <list>
                 <ref bean="KRMS-RuleHeader-Section"/>
@@ -242,49 +242,49 @@ limitations under the License.
         </property>
     </bean>
 
-    <bean id="Course-RuleEdit-TabSection" parent="KRMS-RuleEdit-TabSection">
+    <bean id="CM-Proposal-Course-RuleEdit-TabSection" parent="KRMS-RuleEdit-TabSection">
         <property name="items">
             <list>
-                <ref bean="Course-EditWithObject-EditSection"/>
+                <ref bean="CM-Proposal-Course-EditWithObject-EditSection"/>
                 <!-- Commenting out since this Edit rule logic is not in our current userstory-->
                 <!--<ref bean="Course-EditWithLogic-EditSection"/>-->
             </list>
         </property>
         <property name="tabsWidget">
-            <ref bean="Course-TabsWidget"/>
+            <ref bean="CM-Proposal-Course-TabsWidget"/>
         </property>
     </bean>
 
-    <bean id="Course-TabsWidget" parent="KRMS-TabsWidget">
+    <bean id="CM-Proposal-Course-TabsWidget" parent="KRMS-TabsWidget">
         <property name="templateOptions">
             <map>
                 <entry key="selected" value="0"/>
                 <entry key="select"
-                       value="function(event, ui) {ajaxCallOnTabSelect(event, ui, 'KRMS-RuleEditor-TreeGroup', 'Course-EditWithLogic-EditGroup', 'refreshLogicArea', 'KRMS-LogicArea-InputField');}"/>
+                       value="function(event, ui) {ajaxCallOnTabSelect(event, ui, 'KRMS-RuleEditor-TreeGroup', 'CM-Proposal-Course-EditWithLogic-EditGroup', 'refreshLogicArea', 'KRMS-LogicArea-InputField');}"/>
             </map>
         </property>
     </bean>
 
-    <bean id="Course-EditWithObject-EditSection" parent="KRMS-EditWithObject-EditSection-parent">
+    <bean id="CM-Proposal-Course-EditWithObject-EditSection" parent="KRMS-EditWithObject-EditSection-parent">
         <property name="items">
             <list>
-                <bean parent="Course-EditWithObject-EditGroup"/>
+                <bean parent="CM-Proposal-Course-EditWithObject-EditGroup"/>
             </list>
         </property>
     </bean>
 
-    <bean id="Course-EditWithObject-EditGroup" parent="KRMS-EditWithObject-EditGroup">
+    <bean id="CM-Proposal-Course-EditWithObject-EditGroup" parent="KRMS-EditWithObject-EditGroup">
         <property name="headerText" value="Proposition Tree"/>
         <property name="items">
             <list>
-                <ref bean="Course-EditRule-ToolbarSection"/>
+                <ref bean="CM-Proposal-Course-EditRule-ToolbarSection"/>
                 <ref bean="KRMS-RuleEditor-TreeExpandCollapse"/>
                 <ref bean="KRMS-RuleEditor-TreeGroup"/>
             </list>
         </property>
     </bean>
 
-    <bean id="Course-EditRule-ToolbarSection" parent="KS-Uif-HorizontalBoxSection-ToolbarSection">
+    <bean id="CM-Proposal-Course-EditRule-ToolbarSection" parent="KS-Uif-HorizontalBoxSection-ToolbarSection">
         <property name="items">
             <list>
 
@@ -356,55 +356,55 @@ limitations under the License.
     <!--<bean id="Course-EditWithLogic-EditSection" parent="KRMS-EditWithLogic-EditSection-parent">
         <property name="items">
             <list>
-                <ref bean="Course-EditWithLogic-EditGroup"/>
+                <ref bean="CM-Proposal-Course-EditWithLogic-EditGroup"/>
             </list>
         </property>
     </bean>-->
 
-    <bean id="Course-EditWithLogic-EditGroup" parent="KRMS-EditWithLogic-EditGroup">
+    <bean id="CM-Proposal-Course-EditWithLogic-EditGroup" parent="KRMS-EditWithLogic-EditGroup">
         <property name="items">
             <list>
-                <ref bean="Course-EditWithLogic-TreeGroup"/>
+                <ref bean="CM-Proposal-Course-EditWithLogic-TreeGroup"/>
             </list>
         </property>
     </bean>
 
-    <bean id="Course-EditWithLogic-TreeGroup" parent="KRMS-EditWithLogic-TreeGroup" p:editAuthz="true">
+    <bean id="CM-Proposal-Course-EditWithLogic-TreeGroup" parent="KRMS-EditWithLogic-TreeGroup" p:editAuthz="true">
         <property name="items">
             <list>
                 <ref bean="KRMS-LogicArea-InputField"/>
                 <ref bean="KRMS-LogicPreview-Button"/>
-                <ref bean="Course-LogicPreview-Tree"/>
+                <ref bean="CM-Proposal-Course-LogicPreview-Tree"/>
             </list>
         </property>
     </bean>
 
-    <bean id="Course-LogicPreview-Tree" parent="KRMS-LogicPreview-Tree">
+    <bean id="CM-Proposal-Course-LogicPreview-Tree" parent="KRMS-LogicPreview-Tree">
         <property name="items">
             <list>
-                <ref bean="Course-PreviewTree-Section"/>
+                <ref bean="CM-Proposal-Course-PreviewTree-Section"/>
             </list>
         </property>
     </bean>
 
-    <bean id="Course-PreviewTree-Section" parent="KRMS-PreviewTree-Section">
+    <bean id="CM-Proposal-Course-PreviewTree-Section" parent="KRMS-PreviewTree-Section">
         <property name="defaultNodePrototype">
             <bean class="org.kuali.rice.krad.uif.container.NodePrototype">
                 <property name="labelPrototype">
                     <bean parent="Uif-Message"/>
                 </property>
                 <property name="dataGroupPrototype">
-                    <ref bean="Course-PreviewPrototype-BoxGroup"/>
+                    <ref bean="CM-Proposal-Course-PreviewPrototype-BoxGroup"/>
                 </property>
             </bean>
         </property>
     </bean>
 
-    <bean id="Course-PreviewPrototype-BoxGroup" parent="KRMS-PreviewPrototype-BoxGroup">
+    <bean id="CM-Proposal-Course-PreviewPrototype-BoxGroup" parent="KRMS-PreviewPrototype-BoxGroup">
         <property name="items">
             <list>
                 <ref bean="KRMS-PrototypeHeader-BoxGroup"/>
-                <ref bean="Course-ListItems-DataGroup"/>
+                <ref bean="CM-Proposal-Course-ListItems-DataGroup"/>
             </list>
         </property>
     </bean>
@@ -412,10 +412,10 @@ limitations under the License.
     <!--
      Custom RulePrototype for Requisites on Course Review screen.
     -->
-    <bean id="CoursePreview-AgendaManage-RulePrototype" parent="KRMS-AgendaManage-RulePrototype-CoursePreview">
+    <bean id="CM-Proposal-Course-Preview-AgendaManage-RulePrototype" parent="KRMS-AgendaManage-RulePrototype-CoursePreview">
         <property name="items">
             <list>
-                <ref bean="Course-AgendaManage-ViewRule"/>
+                <ref bean="CM-Proposal-Course-AgendaManage-ViewRule"/>
             </list>
         </property>
     </bean>
@@ -423,14 +423,14 @@ limitations under the License.
     <bean id="KRMS-AgendaManage-RulePrototype-CoursePreview" parent="CM-VerticalBoxSubSection">
     </bean>
 
-    <bean id="Course-AgendaManage-ViewRule" parent="KRMS-AgendaManage-EditRule">
+    <bean id="CM-Proposal-Course-AgendaManage-ViewRule" parent="KRMS-AgendaManage-EditRule">
         <property name="items">
             <list>
                 <bean id="Course-ReviewTree-Group" parent="Uif-VerticalBoxGroup"
                       p:cssClasses="ks-form-panel">
                     <property name="items">
                         <list>
-                            <ref bean="Course-ViewTree-Section"/>
+                            <ref bean="CM-Proposal-Course-ViewTree-Section"/>
                         </list>
                     </property>
                 </bean>

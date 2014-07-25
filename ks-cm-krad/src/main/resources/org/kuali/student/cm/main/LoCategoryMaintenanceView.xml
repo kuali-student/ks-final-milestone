@@ -19,7 +19,7 @@
     xsi:schemaLocation="http://www.springframework.org/schema/beans
                            http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-    <bean id="KS-LoCatMaintenance-View" parent="KS-Uif-FormView">
+    <bean id="CM-Proposal-Course-LoCategory-Maintenance-View" parent="KS-Uif-FormView">
         <property name="id" value="loCatMaintenanceView" />
         <property name="headerText" value="Learning Objective Categories" />
         <property name="formClass" value="org.kuali.student.cm.course.form.LoCategoryForm" />
@@ -35,26 +35,27 @@
             <bean parent="Uif-Page">
                 <property name="items">
                     <list>
-                        <ref bean="KS-LoCatSection" />
+                        <ref bean="CM-Proposal-Course-LoCategory-Section" />
                     </list>
                 </property>
             </bean>
         </property>
     </bean>
     
-    <bean id="KS-LoCatSection" parent="Uif-HorizontalBoxSection">
+    <bean id="CM-Proposal-Course-LoCategory-Section" parent="Uif-HorizontalBoxSection">
         <property name="items">
             <list>
-                <ref bean="KS-LoCatFilters" />
-                <ref bean="KS-LoCatTable" />
+                <ref bean="CM-Proposal-Course-LoCategory-Filters" />
+                <ref bean="CM-Proposal-Course-LoCategory-Table" />
             </list>
         </property>
     </bean>
     
-    <bean id="KS-LoCatFilters" parent="Uif-VerticalBoxSection">
+    <bean id="CM-Proposal-Course-LoCategory-Filters" parent="Uif-VerticalBoxSection">
     </bean>
     
-    <bean id="KS-LoCatTable" parent="Uif-TableCollectionSection">
+    <bean id="CM-Proposal-Course-LoCategory-TableKS-CourseJointInfoWrapper-DataObjectEntry
+    " parent="Uif-TableCollectionSection">
         <property name="collectionObjectClass" value="org.kuali.student.r2.lum.lo.dto.LoCategoryInfo" />
         <property name="propertyName" value="loCategories" />
         <property name="layoutManager.renderSequenceField" value="false" />

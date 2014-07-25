@@ -19,7 +19,7 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
                            http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-    <bean id="KS-CourseView-Governance-Section" parent="KS-CourseView-VerticalBoxSection">
+    <bean id="CM-Proposal-Course-Governance-Page" parent="KS-CourseView-VerticalBoxSection">
         <property name="headerText" value="Governance"/>
         <property name="items">
             <list>
@@ -34,13 +34,13 @@
 
                     </property>
                 </bean>
-                <ref bean="KS-Course-CurriculumOversight-Section" />
-                <ref bean="KS-AdministeringOrganization-Section" />
+                <ref bean="CM-Proposal-Course-Governance-CurriculumOversight-Section" />
+                <ref bean="CM-Proposal-Course-Governance-AdministeringOrganization-Section" />
             </list>
         </property>
     </bean>
 
-    <bean id="KS-Course-CurriculumOversight-Section" parent="KS-TableCollectionSubSection-BottomAddLine" p:forceSessionPersistence="true"
+    <bean id="CM-Proposal-Course-Governance-CurriculumOversight-Section" parent="KS-TableCollectionSubSection-BottomAddLine" p:forceSessionPersistence="true"
                       p:layoutManager.style="width: 100%;"
                       p:instructionalText="This is the organization(s) responsible for the content of the course. This selection will determine the workflow/approval process for this proposal."
                       p:headerText="Curriculum Oversight">
@@ -108,7 +108,7 @@
         </property>
     </bean>
 
-    <bean id="KS-AdministeringOrganization-Section" parent="KS-TableCollectionSubSection-BottomAddLine"
+    <bean id="CM-Proposal-Course-Governance-AdministeringOrganization-Section" parent="KS-TableCollectionSubSection-BottomAddLine"
                       p:id="administering-organization" p:layoutManager.style="width: 100%;"
                       p:instructionalText="List the organization(s) that can administer, or offer, this course. In most cases this will be the same as the Curriculum Oversight organization, but additional and/or alternate organizations can also be listed as administering organizations."
                       p:headerText="Administering Organization(s)">

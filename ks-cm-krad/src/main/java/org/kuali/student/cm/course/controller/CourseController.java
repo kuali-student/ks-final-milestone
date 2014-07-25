@@ -104,7 +104,7 @@ public class CourseController extends CourseRuleEditorController {
     private static final Logger LOG = LoggerFactory.getLogger(CourseController.class);
 
     public static final String URL_PARAM_USE_CURRICULUM_REVIEW = "useCurriculumReview";
-    private static final String DECISIONS_DIALOG_KEY = "decisionsDialog";
+    private static final String DECISIONS_DIALOG_KEY = "CM-Proposal-Course-DecisionDialog";
 
     private CourseService courseService;
     private CommentService commentService;

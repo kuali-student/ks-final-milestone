@@ -19,14 +19,14 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
                            http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-    <bean id="LoCategoryInfoWrapper-DataObjectEntry" parent="DataObjectEntry">
+    <bean id="CM-Proposal-Course-LoCategory-DataObjectEntry" parent="DataObjectEntry">
         <property name="objectLabel" value="LoCategoryInfoWrapper"/>
         <property name="dataObjectClass" value="org.kuali.student.cm.course.form.wrapper.LoCategoryInfoWrapper"/>
     </bean>
 
-    <bean id="KS-LoCategoryInfoWrapper-LookupView" parent="Uif-LookupView"
+    <bean id="CM-Proposal-Course-LoCategory-LookupView" parent="Uif-LookupView"
           p:onDocumentReadyScript="categoryTypeSelection('true'); jQuery('#LoCategoryInfoWrapper-Category-Filter_fieldset').find('legend').attr('style', 'display: block');">
-        <property name="viewName" value="KS-LoCategoryInfoWrapper-LookupView"/>
+        <property name="viewName" value="CM-Proposal-Course-LoCategory-LookupView"/>
         <property name="headerText" value="Select Categories"/>
         <property name="theme">
             <bean parent="KSTheme"/>
@@ -59,9 +59,9 @@
         </property>
         <property name="page.items">
             <list>
-                <ref bean="LoCategoryInfoWrapper-type-selection"/>
-                <ref bean="LoCategoryInfoWrapper-type-checkboxes"/>
-                <ref bean="LoCategoryInfoWrapper-Category-Filter"/>
+                <ref bean="CM-Proposal-Course-LoCategory-Type-Selection"/>
+                <ref bean="CM-Proposal-Course-LoCategory-Type-Checkboxes"/>
+                <ref bean="CM-Proposal-Course-LoCategory-LookupView-Filter"/>
             </list>
         </property>
         <property name="resultFields">
@@ -75,7 +75,7 @@
         <property name="resultsGroup.layoutManager.actionColumnPlacement" value="RIGHT"/>
         <property name="resultsGroup.footer.items">
             <list>
-                <bean id="LoCategoryInfoWrapper-type-selection" parent="Uif-HorizontalFieldGroup"
+                <bean id="LoCategoryInfoWrapper-type-footer" parent="Uif-HorizontalFieldGroup"
                       p:style="float: right;">
                     <property name="items">
                         <list>
@@ -101,7 +101,7 @@
 
     </bean>
 
-    <bean id="LoCategoryInfoWrapper-type-selection" parent="Uif-HorizontalFieldGroup">
+    <bean id="CM-Proposal-Course-LoCategory-Type-Selection" parent="Uif-HorizontalFieldGroup">
         <property name="items">
             <list>
                 <bean parent="Uif-Message" p:id="type-selection-Message"
@@ -128,7 +128,7 @@
         </property>
     </bean>
 
-    <bean id="LoCategoryInfoWrapper-type-checkboxes" parent="Uif-VerticalBoxSection">
+    <bean id="CM-Proposal-Course-LoCategory-Type-Checkboxes" parent="Uif-VerticalBoxSection">
         <property name="items">
             <list>
                 <bean id="KS-LoListedType-Checkbox-Group" parent="KS-Uif-InputField" p:propertyName="typeList"
@@ -148,7 +148,7 @@
 <!-- TODO This is a work around for KRAD filter bug as in KULRICE-8451. After the KRAD bug is fixed please use the KRAD feature
      and remove this piece of code.
  -->
-    <bean id="LoCategoryInfoWrapper-Category-Filter" parent="Uif-HorizontalFieldGroup">
+    <bean id="CM-Proposal-Course-LoCategory-LookupView-Filter" parent="Uif-HorizontalFieldGroup">
         <property name="items">
             <list>
                 <bean id="LoCategory-Category-Filter-Input" parent="KS-Uif-InputField-LabelLeft" p:label="Filter"

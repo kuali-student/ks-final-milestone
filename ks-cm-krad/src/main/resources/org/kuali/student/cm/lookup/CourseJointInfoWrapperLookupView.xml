@@ -19,13 +19,13 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
                            http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<bean id="KS-CourseJointInfoWrapper-DataObjectEntry" parent="DataObjectEntry">
+	<bean id="CM-Proposal-Course-JointlyOffered-DataObjectEntry" parent="DataObjectEntry">
 		<property name="objectLabel" value="Jointly Offered Courses Information Display" />
 		<property name="dataObjectClass"
 			value="org.kuali.student.cm.course.form.wrapper.CourseJointInfoWrapper" />
 	</bean>
 
-	<bean id="KS-CourseJointInfoWrapper-LookupView" parent="KS-Uif-LookupView">
+	<bean id="CM-Proposal-Course-JointlyOffered-LookupView" parent="KS-Uif-LookupView">
 		<property name="id" value="CourseJointInfoWrapperLookupView" />
 		<property name="headerText" value="Advanced Search: Courses and Proposals" />
 		<property name="dataObjectClassName"

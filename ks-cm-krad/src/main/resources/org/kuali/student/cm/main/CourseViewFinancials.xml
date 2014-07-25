@@ -9,17 +9,17 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
                            http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-    <bean id="KS-CourseView-Financials-Section" parent="KS-CourseView-VerticalBoxSection">
+    <bean id="CM-Proposal-Course-Financials-Page" parent="KS-CourseView-VerticalBoxSection">
         <property name="headerText" value="Financials"/>
         <property name="items">
             <list>
-                <ref bean="CourseView-Financials-NoRequiredMessageLink"/>
-                <ref bean="CourseView-Financials-CollectionSection"/>
+                <ref bean="CM-Proposal-Course-Financials-NoRequiredMessageLink"/>
+                <ref bean="CM-Proposal-Course-Financials-Section"/>
             </list>
         </property>
     </bean>
 
-    <bean id="CourseView-Financials-CollectionSection" parent="Uif-VerticalBoxSection" p:headerText="">
+    <bean id="CM-Proposal-Course-Financials-Section" parent="Uif-VerticalBoxSection" p:headerText="">
         <property name="cssClasses">
             <list merge="true">
                 <value>admin-not-required-field</value>
@@ -27,13 +27,13 @@
         </property>
         <property name="items">
             <list>
-                <ref bean="KS-CourseView-Financials-CourseFees-Widgets"/>
-                <ref bean="KS-CourseView-Financials-Widgets"/>
+                <ref bean="CM-Proposal-Course-Financials-CourseFees-Widget"/>
+                <ref bean="CM-Proposal-Course-Financials-FeesJustification-Widget"/>
             </list>
         </property>
     </bean>
 
-    <bean id="CourseView-Financials-NoRequiredMessageLink" parent="Uif-HorizontalFieldGroup">
+    <bean id="CM-Proposal-Course-Financials-NoRequiredMessageLink" parent="Uif-HorizontalFieldGroup">
         <property name="style" value="display: none;"/>
         <property name="cssClasses">
             <list merge="true">
@@ -46,19 +46,19 @@
                       p:messageText="No required fields." p:style="margin-top: 5px; margin-right: 0px;">
                 </bean>
                 <bean parent="KS-Uif-ActionLink" p:id="CourseRequisites-NoRequiredMessage-expand-link"
-                      p:actionScript="createCourseShowHideObjectiveElements('CourseView-Financials-NoRequiredMessageLink', 'CourseView-Financials-CollectionSection');"
+                      p:actionScript="createCourseShowHideObjectiveElements('CM-Proposal-Course-Financials-NoRequiredMessageLink', 'CM-Proposal-Course-Financials-Section');"
                       p:actionLabel="Show all fields" p:style="margin-right: 15pt; margin-top: 0px;">
                 </bean>
             </list>
         </property>
     </bean>
 
-    <bean id="KS-CourseView-Financials-CourseFees-Widgets" parent="Uif-HorizontalBoxSection" p:headerText="Course Fees">
+    <bean id="CM-Proposal-Course-Financials-CourseFees-Widget" parent="Uif-HorizontalBoxSection" p:headerText="Course Fees">
         <property name="instructionalText"
                   value="These are the required fees for the course, for example lab, material, field trips."/>
     </bean>
 
-    <bean id="KS-CourseView-Financials-Widgets" parent="Uif-VerticalBoxSection">
+    <bean id="CM-Proposal-Course-Financials-FeesJustification-Widget" parent="Uif-VerticalBoxSection">
         <property name="items">
             <list>
                 <bean p:id="CourseView-Financials-Fee-Text" parent="CM-InputField" p:label="Justification of Fees"

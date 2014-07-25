@@ -19,17 +19,17 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
                            http://www.springframework.org/schema/beans/spring-beans.xsd ">
 
-    <bean id="KS-CourseView-LearningObjectives-Section" parent="KS-CourseView-VerticalBoxSection">
+    <bean id="CM-Proposal-Course-LearningObjectives-Page" parent="KS-CourseView-VerticalBoxSection">
         <property name="headerText" value="Learning Objectives"/>
         <property name="items">
             <list>
-                <ref bean="LearningObjective-NoRequiredMessageLink"/>
-                <ref bean="LearningObjective-CollectionSection"/>
+                <ref bean="CM-Proposal-Course-LearningObjectives-NoRequiredMessageLink"/>
+                <ref bean="CM-Proposal-Course-LearningObjectives-Section"/>
             </list>
         </property>
     </bean>
 
-    <bean id="LearningObjective-NoRequiredMessageLink" parent="Uif-HorizontalFieldGroup">
+    <bean id="CM-Proposal-Course-LearningObjectives-NoRequiredMessageLink" parent="Uif-HorizontalFieldGroup">
         <property name="style" value="display: none;"/>
         <property name="cssClasses">
             <list merge="true">
@@ -42,7 +42,7 @@
                       p:messageText="No required fields." p:style="margin-top: 5px; margin-right: 0px;">
                 </bean>
                 <bean parent="KS-Uif-ActionLink" p:id="LearningObjective-NoRequiredMessage-expand-link"
-                      p:actionScript="createCourseShowHideObjectiveElements('LearningObjective-NoRequiredMessageLink', 'LearningObjective-CollectionSection');"
+                      p:actionScript="createCourseShowHideObjectiveElements('CM-Proposal-Course-LearningObjectives-NoRequiredMessageLink', 'CM-Proposal-Course-LearningObjectives-Section');"
                       p:actionLabel="Show all fields" p:style="margin-right: 15pt; margin-top: 0px;">
                 </bean>
             </list>
@@ -50,18 +50,18 @@
     </bean>
 
 
-    <bean id="LearningObjective-ToolBar-Button-parent" parent="KS-Uif-ToolBar-Button" p:disabled="false">
+    <bean id="CM-Proposal-Course-LearningObjectives-ToolBar-Button-parent" parent="KS-Uif-ToolBar-Button" p:disabled="false">
         <property name="style" value="min-width: 117px;"/>
     </bean>
 
-    <bean id="LearningObjective-ToolBar-AddNewObjective-parent" parent="LearningObjective-ToolBar-Button-parent">
+    <bean id="CM-Proposal-Course-LearningObjectives-ToolBar-AddNewObjective-parent" parent="CM-Proposal-Course-LearningObjectives-ToolBar-Button-parent">
         <property name="actionLabel" value="Add New Objective"/>
         <property name="actionImage">
             <bean parent="Uif-Image" p:source="" p:cssClasses="ks-fontello-icon-plus-1"/>
         </property>
     </bean>
 
-    <bean id="LearningObjective-ToolBar-FindObjectives-parent" parent="LearningObjective-ToolBar-Button-parent">
+    <bean id="CM-Proposal-Course-LearningObjectives-ToolBar-FindObjective-parent" parent="CM-Proposal-Course-LearningObjectives-ToolBar-Button-parent">
         <property name="actionLabel" value="Find Objective(s)"/>
         <property name="actionImage">
             <bean parent="Uif-Image" p:source="@{#ConfigProperties['krad.externalizable.images.url']+'/searchicon.png'}"
@@ -70,7 +70,7 @@
     </bean>
 
 
-    <bean id="LearningObjective-CollectionSection" parent="Uif-StackedCollectionSection"
+    <bean id="CM-Proposal-Course-LearningObjectives-Section" parent="Uif-StackedCollectionSection"
           p:propertyName="loDisplayWrapperModel.loWrappers"
           p:collectionObjectClass="org.kuali.student.cm.course.form.wrapper.LoDisplayInfoWrapper">
         <property name="cssClasses">
@@ -98,7 +98,7 @@
             <bean parent="Uif-VerticalBoxGroup">
                 <property name="items">
                     <list>
-                        <ref bean="LearningObjectives-ToolBarSection"/>
+                        <ref bean="CM-Proposal-Course-LearningObjectives-ToolBarSection"/>
                         <bean parent="Uif-Message" p:style="display:none"
                               p:messageText="[image src=&quot;@{#ConfigProperties['krad.externalizable.images.url']}/validation/info.png&quot;]  You must add a category type to create the new category.">
                             <property name="additionalCssClasses">
@@ -117,8 +117,8 @@
         <property name="renderAddBlankLineButton" value="true"/>
         <property name="addBlankLineAction">
             <bean id="LearningObjective-ToolBar-AddNewObjective"
-                  parent="LearningObjective-ToolBar-AddNewObjective-parent"
-                  p:refreshId="LearningObjective-CollectionSection">
+                  parent="CM-Proposal-Course-LearningObjectives-ToolBar-AddNewObjective-parent"
+                  p:refreshId="CM-Proposal-Course-LearningObjectives-Section">
                 <property name="methodToCall" value="addLearningObjective"/>
             </bean>
         </property>
@@ -127,14 +127,14 @@
             <bean id="KS-LearningObjective-QuickFinder" parent="Uif-CollectionQuickFinder"
                   p:dataObjectClassName="org.kuali.student.cm.course.form.wrapper.LoDisplayInfoWrapper"
                   p:fieldConversions="descr.plain:loInfo.descr.plain"
-                  p:viewName="KS-LoDisplayInfoWrapper-LookupView"
+                  p:viewName="CM-Proposal-Course-LearningObjective-LookupView"
                   p:additionalCssClasses="learning_objective_section_header">
                 <property name="baseLookupUrl"
                           value="@{#ConfigProperties['application.url']}/kr-krad/LoDisplaylookup"/>
                 <property name="autoSearch" value="false"/>
                 <property name="quickfinderAction">
                     <bean id="LearningObjective-ToolBar-FindObjectives"
-                          parent="LearningObjective-ToolBar-FindObjectives-parent"
+                          parent="CM-Proposal-Course-LearningObjectives-ToolBar-FindObjective-parent"
                           p:methodToCall="performLookup"/>
                 </property>
             </bean>
@@ -200,7 +200,7 @@
                                     <entry key="catNameAndType" value="name"/>
                                 </map>
                             </property>
-                            <property name="viewName" value="KS-LoCategoryInfoWrapper-LookupView"/>
+                            <property name="viewName" value="CM-Proposal-Course-LoCategory-LookupView"/>
                         </bean>
                     </property>
 
@@ -292,23 +292,23 @@
         </property>
     </bean>
 
-    <bean id="LearningObjectives-Icon-MoveUp" parent="Uif-ActionLink" p:iconClass="ks-fontello-icon-up"
+    <bean id="CM-Proposal-Course-LearningObjectives-Icon-MoveUp" parent="Uif-ActionLink" p:iconClass="ks-fontello-icon-up"
           p:title="Move learning objective up" p:methodToCall="moveLearningObjectiveUp"/>
 
-    <bean id="LearningObjectives-Icon-MoveDown" parent="Uif-ActionLink" p:iconClass="ks-fontello-icon-down"
+    <bean id="CM-Proposal-Course-LearningObjectives-Icon-MoveDown" parent="Uif-ActionLink" p:iconClass="ks-fontello-icon-down"
           p:title="Move learning objective down" p:methodToCall="moveLearningObjectiveDown"/>
 
-    <bean id="LearningObjectives-Icon-IncreaseIndent" parent="Uif-ActionLink" p:iconClass="ks-fontello-icon-right"
+    <bean id="CM-Proposal-Course-LearningObjectives-Icon-IncreaseIndent" parent="Uif-ActionLink" p:iconClass="ks-fontello-icon-right"
           p:title="Indent learning objective" p:methodToCall="moveLearningObjectiveRight"/>
 
-    <bean id="LearningObjectives-Icon-DecreaseIndent" parent="Uif-ActionLink" p:iconClass="ks-fontello-icon-left"
+    <bean id="CM-Proposal-Course-LearningObjectives-Icon-decreaseIndent" parent="Uif-ActionLink" p:iconClass="ks-fontello-icon-left"
           p:title="Outdent learning objective" p:methodToCall="moveLearningObjectiveLeft"/>
 
-    <bean id="LearningObjectives-Icon-Delete" parent="Uif-ActionLink" p:iconClass="ks-fontello-icon-cancel"
+    <bean id="CM-Proposal-Course-LearningObjectives-Icon-delete" parent="Uif-ActionLink" p:iconClass="ks-fontello-icon-cancel"
           p:title="Delete learning objective" p:methodToCall="deleteLO"/>
 
 
-    <bean id="LearningObjectives-ToolBarSection" parent="Uif-HorizontalBoxSection"
+    <bean id="CM-Proposal-Course-LearningObjectives-ToolBarSection" parent="Uif-HorizontalBoxSection"
           p:additionalCssClasses="learning_objective_section_header">
         <property name="items">
             <list>
@@ -319,7 +319,7 @@
                 <bean parent="Uif-HorizontalBoxGroup">
                     <property name="items">
                         <list>
-                            <ref bean="LearningObjectives-Icon-MoveUp"/>
+                            <ref bean="CM-Proposal-Course-LearningObjectives-Icon-MoveUp"/>
                         </list>
                     </property>
                     <property name="propertyReplacers">
@@ -340,7 +340,7 @@
                 <bean parent="Uif-HorizontalBoxGroup">
                     <property name="items">
                         <list>
-                            <ref bean="LearningObjectives-Icon-MoveDown"/>
+                            <ref bean="CM-Proposal-Course-LearningObjectives-Icon-MoveDown"/>
                         </list>
                     </property>
                     <property name="propertyReplacers">
@@ -361,7 +361,7 @@
                 <bean parent="Uif-HorizontalBoxGroup">
                     <property name="items">
                         <list>
-                            <ref bean="LearningObjectives-Icon-IncreaseIndent"/>
+                            <ref bean="CM-Proposal-Course-LearningObjectives-Icon-IncreaseIndent"/>
                         </list>
                     </property>
                     <property name="propertyReplacers">
@@ -382,7 +382,7 @@
                 <bean parent="Uif-HorizontalBoxGroup">
                     <property name="items">
                         <list>
-                            <ref bean="LearningObjectives-Icon-DecreaseIndent"/>
+                            <ref bean="CM-Proposal-Course-LearningObjectives-Icon-decreaseIndent"/>
                         </list>
                     </property>
                     <property name="propertyReplacers">
@@ -403,7 +403,7 @@
                 <bean parent="Uif-HorizontalBoxGroup" id="LearningObjectives-Container-DeleteIcon">
                     <property name="items">
                         <list>
-                            <ref bean="LearningObjectives-Icon-Delete"/>
+                            <ref bean="CM-Proposal-Course-LearningObjectives-Icon-delete"/>
                         </list>
                     </property>
                 </bean>

@@ -19,7 +19,7 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
                            http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-    <bean id="KS-CourseView-createCourseInitialPage" parent="KS-Uif-Page">
+    <bean id="CM-Proposal-Course-Create-Start-Page" parent="KS-Uif-Page">
         <property name="breadcrumbOptions.breadcrumbOverrides">
             <list>
                 <ref bean="KS-HomewardPathBreadcrumbs-Home"/>
@@ -30,27 +30,27 @@
 
         <property name="items">
             <list>
-                <ref bean="KS-CourseCreate-InitialView-Page-Widgets"/>
+                <ref bean="CM-Proposal-Course-Create-Start-Widgets"/>
             </list>
         </property>
         <property name="footer">
-            <bean parent="KS-CourseCreate-InitialView-Footer"/>
+            <bean parent="CM-Proposal-Course-Create-Start-Footer"/>
         </property>
     </bean>
 
-    <bean id="KS-CourseView-createCourseInitialView" parent="KS-Uif-FormView">
+    <bean id="CM-Proposal-Course-Create-Start-View" parent="KS-Uif-FormView">
         <property name="id" value="createCourseInitialView"/>
         <property name="headerText"  value="Create Course " />
         <property name="formClass" value="org.kuali.student.cm.course.form.CourseInitialForm"/>
         <property name="viewSourceFile" value="CreateCourseInitialView.xml" /> <!-- Shows up in HTML so devs can find the code -->
         <property name="items">
             <list>
-                <ref bean="KS-CourseView-createCourseInitialPage"/>
+                <ref bean="CM-Proposal-Course-Create-Start-Page"/>
             </list>
         </property>
     </bean>
 
-    <bean id="KS-CourseCreate-InitialView-Page-Widgets" parent="Uif-VerticalBoxSection">
+    <bean id="CM-Proposal-Course-Create-Start-Widgets" parent="Uif-VerticalBoxSection">
         <property name="header">  <bean parent="Uif-HeaderThree"/>  </property>
         <property name="headerText" value="How would you like to start?"/>
         <property name="instructionalMessage">
@@ -95,13 +95,13 @@
                     </property>
                 </bean>
 
-                <ref bean="KS-CreateCourse-Review-Section" />
+                <ref bean="CM-Proposal-Course-Create-Start-ReviewSection" />
 
             </list>
         </property>
     </bean>
 
-    <bean id="KS-CreateCourse-Review-Section" parent="Uif-VerticalBoxSubSection"  p:render="@{#form.curriculumSpecialistUser}">
+    <bean id="CM-Proposal-Course-Create-Start-ReviewSection" parent="Uif-VerticalBoxSubSection"  p:render="@{#form.curriculumSpecialistUser}">
         <property name="headerText" value="Review Process"/>
         <property name="cssClasses">
             <list merge="true">
@@ -122,7 +122,7 @@
         </property>
     </bean>
 
-    <bean id="KS-CourseCreate-InitialView-Footer" parent="Uif-FooterBase">
+    <bean id="CM-Proposal-Course-Create-Start-Footer" parent="Uif-FooterBase">
         <property name="items">
             <list>
                 <bean parent="Uif-HorizontalBoxGroup">

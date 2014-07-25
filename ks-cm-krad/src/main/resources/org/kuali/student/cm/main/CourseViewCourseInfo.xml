@@ -20,18 +20,18 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
                            http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-    <bean id="KS-CourseView-CourseInfo-Section" parent="KS-CourseView-VerticalBoxSection">
+    <bean id="CM-Proposal-Course-CourseInfo-Page" parent="KS-CourseView-VerticalBoxSection">
         <!-- The header text for this section has to be set for the tabs to initialize properly.
-             And, we don't want "KS-CourseInfoData-Section" (aka the Titles) sub-section to have a header.
+             And, we don't want "CM-Proposal-Course-CourseInfo-CourseData-Section" (aka the Titles) sub-section to have a header.
              But since the validation messaging is weird in the sub-section without a header we are actually
              displaying this header in the sub-section. -->
         <property name="headerText" value="Course Information"/>
         <property name="header.render" value="false" />
         <property name="items">
             <list>
-                <ref bean="KS-CourseInfoData-Section" /> <!-- Course Information -->
+                <ref bean="CM-Proposal-Course-CourseInfo-CourseData-Section" /> <!-- Course Information -->
 
-                <ref bean="KS-CrossListingEtcDisclosure-Section" /> <!-- Cross listings, etc -->
+                <ref bean="CM-Proposal-Course-CourseInfo-CrossListingEtcDisclosure-Section" /> <!-- Cross listings, etc -->
 
                 <bean id="KS-Instructors-Section" parent="KS-TableCollectionSubSection-BottomAddLine"
                       p:layoutManager.style="width: 100%;"
@@ -154,7 +154,7 @@
         </property>
     </bean>
 
-    <bean id="KS-CourseInfoData-Section" parent="Uif-VerticalBoxSubSection">
+    <bean id="CM-Proposal-Course-CourseInfo-CourseData-Section" parent="Uif-VerticalBoxSubSection">
         <!-- The validation messaging is weird if this sub-section doesn't have a header, so we are displaying the
              tab/section header here. -->
         <property name="headerText" value="Course Information" />
@@ -253,7 +253,7 @@
         </property>
     </bean>
 
-    <bean id="KS-CrossListingEtcDisclosure-Section" parent="Uif-Disclosure-VerticalBoxSubSection">
+    <bean id="CM-Proposal-Course-CourseInfo-CrossListingEtcDisclosure-Section" parent="Uif-Disclosure-VerticalBoxSubSection">
         <property name="disclosure.defaultOpen"
                   value="false"/>
         <property name="headerText" value="Cross List, Offer Jointly, Add Version Codes"/>
