@@ -119,7 +119,7 @@ var previousAnchorBottom = 0;
  */
 function fixLeftNavElementPositioning(initial) {
     //  Get the position of the element that the nav components need to align under.
-    var anchorElement = jQuery("#KS-CourseView > header.uif-viewHeader-contentWrapper");
+    var anchorElement = jQuery("#CM-Proposal-Course-Create-View > header.uif-viewHeader-contentWrapper");
     if (anchorElement.length == 0) {
         console.error('Unable to find an anchor element. Nav elements were not positioned correctly.');
         return;
@@ -165,7 +165,7 @@ function fixLeftNavElementPositioning(initial) {
 //remove the stacked collection
 
 function removeCurrciulumOversight() {
-    var oversightComponent = jQuery("#KS-Course-CurriculumOversight-Section");
+    var oversightComponent = jQuery("#CM-Proposal-Course-Governance-CurriculumOversight-Section");
     if (oversightComponent != null) {
         oversightComponent.remove();
     }
@@ -266,7 +266,7 @@ function initializeForCurriculumSpecialist(currentSectionId) {
      * Scroll to the appropriate section unless it is the top one. Scrolling in that case causes the top part of the
      * header to disappear
      */
-    if (currentSectionId && currentSectionId !== "KS-CourseView-CourseInfo-Section") {
+    if (currentSectionId && currentSectionId !== "CM-Proposal-Course-CourseInfo-Page") {
         scrollToSection("#" + currentSectionId, true);
     }
 }
@@ -450,7 +450,7 @@ function setupCharCounters() {
 }
 
 function applyIndentationStyling() {
-    jQuery(".uif-collectionItem[data-parent='LearningObjective-CollectionSection']").each(function (index) {
+    jQuery(".uif-collectionItem[data-parent='CM-Proposal-Course-LearningObjectives-Section']").each(function (index) {
         var indentString = jQuery('#KS-LoDisplayInfoWrapper-indentLevel_line' + index + '_control').prop('value');
         var indentLevel = parseInt(indentString);
 
@@ -535,7 +535,7 @@ function createCourseShowHideObjectiveElements(hideId, showId) {
 }
 
 function updateStickyHeaderText() {
-    jQuery("#KS-CourseView").find('.uif-viewHeader-supportTitle').text("Review Proposal");
+    jQuery("#CM-Proposal-Course-Create-View").find('.uif-viewHeader-supportTitle').text("Review Proposal");
 }
 
 /**
@@ -555,7 +555,7 @@ function refreshOutcome(index) {
     };
     // When outcome type changes it affects the credit value input field also. The retrieveComponent
     // is used to refresh the outcome component to apply the type changes to the component
-    retrieveComponent('KS-CourseView-CourseLogisticsPage-Outcome-Widgets', 'refreshCourseLogistics', successFunction, {outComeIndex:index});
+    retrieveComponent('CM-Proposal-Course-Logistics-Outcome-Section', 'refreshCourseLogistics', successFunction, {outComeIndex:index});
 
 }
 
@@ -572,7 +572,7 @@ function compareSubjectCodeInput(value, element) {
             jQuery("#" + element.id).attr('value', data.resultData[0].value);
             isValid = true;
             if (element.id.indexOf('KS-SubjectArea-Field') == 0) {
-                retrieveComponent('KS-Course-CurriculumOversight-Section', 'refreshOversightSection');
+                retrieveComponent('CM-Proposal-Course-Governance-CurriculumOversight-Section', 'refreshOversightSection');
             }
         }
     };
