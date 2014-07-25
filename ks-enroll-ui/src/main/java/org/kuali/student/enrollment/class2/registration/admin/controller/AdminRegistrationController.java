@@ -100,6 +100,7 @@ public class AdminRegistrationController extends UifControllerBase {
 
     /**
      * This method is called when the user has entered a student id to get the studentInfo
+     *
      * @param form
      * @param result
      * @param request
@@ -126,6 +127,7 @@ public class AdminRegistrationController extends UifControllerBase {
 
     /**
      * This method is called when the user has entered a term code to get the termInfo
+     *
      * @param form
      * @param result
      * @param request
@@ -159,13 +161,13 @@ public class AdminRegistrationController extends UifControllerBase {
         form.setRegisteredCourses(registrationCourses);
         form.setWaitlistedCourses(waitlistedCourses);
 
-        form.getTermIssues().addAll(getViewHelper(form).checkStudentEligibilityForTermLocal(form.getPerson().getId().toUpperCase(),term.getId()));
+        form.getTermIssues().addAll(getViewHelper(form).checkStudentEligibilityForTermLocal(form.getPerson().getId().toUpperCase(), term.getId()));
 
         if (!form.getTermIssues().isEmpty()) {
-           form.setTermEligible(true);
+            form.setTermEligible(true);
         }
-        if(form.getRegisteredCourses().isEmpty() && form.getWaitlistedCourses().isEmpty()){
-             showDialog(AdminRegConstants.TERM_ELIGIBILITY_DIALOG, form, request, response);
+        if (form.getRegisteredCourses().isEmpty() && form.getWaitlistedCourses().isEmpty()) {
+            showDialog(AdminRegConstants.TERM_ELIGIBILITY_DIALOG, form, request, response);
         }
         form.setClientState(AdminRegConstants.ClientStates.READY);
         return getUIFModelAndView(form);
@@ -226,47 +228,46 @@ public class AdminRegistrationController extends UifControllerBase {
 
         // Retrieve registration request and check the state.
         RegistrationRequestInfo regRequest = this.getViewHelper(form).getRegistrationRequest(form.getRegRequestId());
-        if (regRequest.getStateKey().equals(LprServiceConstants.LPRTRANS_PROCESSING_STATE_KEY)) {
+        if ((regRequest.getStateKey().equals(LprServiceConstants.LPRTRANS_PROCESSING_STATE_KEY)) ||
+                (regRequest.getStateKey().equals(LprServiceConstants.LPRTRANS_NEW_STATE_KEY))){
             return result;
         }
 
         synchronized (form) {
 
-            if (regRequest.getStateKey().equals(LprServiceConstants.LPRTRANS_SUCCEEDED_STATE_KEY)) {
-                for (RegistrationRequestItemInfo item : regRequest.getRegistrationRequestItems()) {
+            for (RegistrationRequestItemInfo item : regRequest.getRegistrationRequestItems()) {
 
-                    //Check for LPRTRANS_ITEM_NEW_STATE_KEY and LPRTRANS_ITEM_PROCESSING_STATE_KEY if any
-                    //and handle appropriately.
+                //Check for LPRTRANS_ITEM_NEW_STATE_KEY and LPRTRANS_ITEM_PROCESSING_STATE_KEY if any
+                //and handle appropriately.
 
-                    // Get the corresponding registration course from the courses in process list.
-                    RegistrationCourse processedCourse = null;
-                    for (RegistrationCourse regCourse : form.getCoursesInProcess()) {
-                        if (regCourse.getRegGroup().getId().equals(item.getRegistrationGroupId())) {
-                            processedCourse = regCourse;
-                            break;
-                        }
+                // Get the corresponding registration course from the courses in process list.
+                RegistrationCourse processedCourse = null;
+                for (RegistrationCourse regCourse : form.getCoursesInProcess()) {
+                    if (regCourse.getRegGroup().getId().equals(item.getRegistrationGroupId())) {
+                        processedCourse = regCourse;
+                        break;
                     }
+                }
 
-                    // Remove the item from the courses in process list.
-                    form.getCoursesInProcess().remove(processedCourse);
+                // Remove the item from the courses in process list.
+                form.getCoursesInProcess().remove(processedCourse);
 
-                    // Move item to appropriate list based on the item state.
-                    if (LprServiceConstants.LPRTRANS_ITEM_SUCCEEDED_STATE_KEY.equals(item.getStateKey())) {
-                        form.getRegisteredCourses().add(processedCourse);
-                        updateIds.add(AdminRegConstants.REG_COLL_ID);
-                    } else if (LprServiceConstants.LPRTRANS_ITEM_WAITLIST_STATE_KEY.equals(item.getStateKey())) {
-                        form.getWaitlistedCourses().add(processedCourse);
-                        updateIds.add(AdminRegConstants.WAITLIST_COLL_ID);
-                    } else if (LprServiceConstants.LPRTRANS_ITEM_WAITLIST_AVAILABLE_STATE_KEY.equals(item.getStateKey()) ||
-                            LprServiceConstants.LPRTRANS_ITEM_FAILED_STATE_KEY.equals(item.getStateKey())) {
-                        // Create a new registration issue with the course in error.
-                        RegistrationIssue regIssue = new RegistrationIssue();
-                        regIssue.setCourse(processedCourse);
-                        regIssue.setItems(getViewHelper(form).createIssueItemsFromResults(item.getValidationResults()));
+                // Move item to appropriate list based on the item state.
+                if (LprServiceConstants.LPRTRANS_ITEM_SUCCEEDED_STATE_KEY.equals(item.getStateKey())) {
+                    form.getRegisteredCourses().add(processedCourse);
+                    updateIds.add(AdminRegConstants.REG_COLL_ID);
+                } else if (LprServiceConstants.LPRTRANS_ITEM_WAITLIST_STATE_KEY.equals(item.getStateKey())) {
+                    form.getWaitlistedCourses().add(processedCourse);
+                    updateIds.add(AdminRegConstants.WAITLIST_COLL_ID);
+                } else if (LprServiceConstants.LPRTRANS_ITEM_WAITLIST_AVAILABLE_STATE_KEY.equals(item.getStateKey()) ||
+                        LprServiceConstants.LPRTRANS_ITEM_FAILED_STATE_KEY.equals(item.getStateKey())) {
+                    // Create a new registration issue with the course in error.
+                    RegistrationIssue regIssue = new RegistrationIssue();
+                    regIssue.setCourse(processedCourse);
+                    regIssue.setItems(getViewHelper(form).createIssueItemsFromResults(item.getValidationResults()));
 
-                        form.getRegistrationIssues().add(regIssue);
-                        updateIds.add(AdminRegConstants.ISSUES_COLL_ID);
-                    }
+                    form.getRegistrationIssues().add(regIssue);
+                    updateIds.add(AdminRegConstants.ISSUES_COLL_ID);
                 }
             }
 
@@ -274,6 +275,7 @@ public class AdminRegistrationController extends UifControllerBase {
             form.setRegRequestId(null);
             form.getCoursesInProcess().clear();
             form.setClientState(AdminRegConstants.ClientStates.READY);
+            result.put(AdminRegConstants.POLLING_CLIENT_STATE, form.getClientState());
         }
 
         // Return updateIds to UI, to refresh selected collections.

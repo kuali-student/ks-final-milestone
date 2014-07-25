@@ -277,9 +277,13 @@
                                 </map>
                             </property>
                         </bean>
-                        <bean parent="Uif-PrimaryActionButton" p:actionLabel="Register" p:methodToCall="register"
-                              p:id="registerButton" p:refreshId="KS-AdminRegistration-RegistrationTabs"
-                              p:ajaxReturnType="update-component" p:performClientSideValidation="true"/>
+                        <bean id="KS-AdminRegistration-RegisterButton" parent="Uif-PrimaryActionButton" p:actionLabel="Register"
+                              p:methodToCall="register" p:refreshId="KS-AdminRegistration-RegistrationTabs"
+                              p:ajaxReturnType="update-component" p:performClientSideValidation="true"
+                              p:progressiveRender="@{#dp.clientState ne 'kuali.admin.reg.state.registering'}"/>
+                        <bean id="KS-AdminRegistration-Registering" parent="Uif-ImageField" p:image.altText="Registration in progress....."
+                              p:source="@{#ConfigProperties['ks.externalizable.images.url']}/loading-bars.gif"
+                              p:progressiveRender="@{#dp.clientState eq 'kuali.admin.reg.state.registering'}"/>
                     </list>
                 </property>
             </bean>

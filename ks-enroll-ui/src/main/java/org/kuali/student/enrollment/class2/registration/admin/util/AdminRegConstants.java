@@ -17,14 +17,17 @@ public class AdminRegConstants {
         public static final String REGISTERING = "kuali.admin.reg.state.registering";
     }
 
-    // Collection component ids.
+    // Component ids.
     public static final String REG_COLL_ID = "KS-AdminRegistration-Registered";
     public static final String WAITLIST_COLL_ID = "KS-AdminRegistration-Waitlist";
     public static final String ISSUES_COLL_ID = "KS-AdminRegistration-Issues";
+    public static final String REGISTER_GROUP_ID = "KS-AdminRegistration-RegisterGroup";
+    public static final String CLIENT_STATE_ID = "KS-AdminRegistration-State";
 
     // Collection component ids.
     public static final String POLLING_STOP = "stop";
     public static final String POLLING_UPDATE_IDS = "updateIds";
+    public static final String POLLING_CLIENT_STATE = "clientState";
 
     // Dialog ids.
     public static final String REG_CONFIRM_DIALOG = "registerConfirmDialog";
