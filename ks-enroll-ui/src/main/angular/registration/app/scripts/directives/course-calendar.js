@@ -62,27 +62,30 @@ angular.module('regCartApp')
                  */
                 function iterateCourseList(dayMap, courseList, type) {
                     angular.forEach(courseList, function(course) {
-                        var courseDetails = {
-                            courseCode: course.courseCode,
-                            regGroup: course.regGroupCode
-                        };
+                        // do not show dropped courses on the calendar
+                        if (!course.dropped) {
+                            var courseDetails = {
+                                courseCode: course.courseCode,
+                                regGroup: course.regGroupCode
+                            };
 
-                        // iterate over activity offerings
-                        switch (type) {
-                            case 'CART': // courses in the cart;
-                                angular.forEach(course.schedule, function(ao) {
-                                    angular.forEach(ao.activityOfferingLocationTime, function (locationTime) {
-                                        var scheduleComponent = locationTime.time;
-                                        dayMap = updateDayMap(dayMap, courseDetails, scheduleComponent, type);
+                            // iterate over activity offerings
+                            switch (type) {
+                                case 'CART': // courses in the cart;
+                                    angular.forEach(course.schedule, function(ao) {
+                                        angular.forEach(ao.activityOfferingLocationTime, function (locationTime) {
+                                            var scheduleComponent = locationTime.time;
+                                            dayMap = updateDayMap(dayMap, courseDetails, scheduleComponent, type);
+                                        });
                                     });
-                                });
-                                break;
-                            default: // registered and waitlisted courses
-                                angular.forEach(course.activityOfferings, function(ao) {
-                                    angular.forEach(ao.scheduleComponents, function (scheduleComponent) {
-                                        dayMap = updateDayMap(dayMap, courseDetails, scheduleComponent, type);
+                                    break;
+                                default: // registered and waitlisted courses
+                                    angular.forEach(course.activityOfferings, function(ao) {
+                                        angular.forEach(ao.scheduleComponents, function (scheduleComponent) {
+                                            dayMap = updateDayMap(dayMap, courseDetails, scheduleComponent, type);
+                                        });
                                     });
-                                });
+                            }
                         }
                     });
 
@@ -353,6 +356,11 @@ angular.module('regCartApp')
                 init();
                 $scope.$watch('schedules', init);
                 $scope.$watch('cart', init);
+
+                //if a course is dropped, redraw the calendar
+                $scope.$on('courseDropped', function(event, newValue) {
+                    init();
+                })
             }]
         };
     }])

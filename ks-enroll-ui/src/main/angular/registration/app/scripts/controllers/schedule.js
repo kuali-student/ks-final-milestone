@@ -99,6 +99,8 @@ angular.module('regCartApp')
                             course.dropped = true; // used to display course details vs success to drop message
                             course.dropProcessing = false;
 
+                            $scope.$broadcast('courseDropped', course);
+
                             // After all the processing is complete, update the new Schedule counts.
                             if (course.waitlisted) {
                                 // can't use splice (which would remove the success message, so updating counts manually
