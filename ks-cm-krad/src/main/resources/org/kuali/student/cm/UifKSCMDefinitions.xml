@@ -108,6 +108,8 @@
                 <value>uif-requiredMessage</value>
             </list>
         </property>
+        <property name="messageText" value="DEFAULT: Initiated @{#workflowDoc.initiated}  Saved @{#workflowDoc.saved} Enroute @{#workflowDoc.enroute} Approved @{#workflowDoc.approved}"/>
+
         <property name="propertyReplacers">
             <list>
                 <bean parent="Uif-ConditionalBeanPropertyReplacer"

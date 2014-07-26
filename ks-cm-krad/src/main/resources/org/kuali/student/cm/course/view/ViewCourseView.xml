@@ -105,7 +105,7 @@
     <bean id="CM-Proposal-View-Course-GridGroup" parent="Uif-GridGroup" p:layoutManager.numberOfColumns="4" abstract="true">
         <property name="cssClasses">
             <list merge="true">
-                <value>review_proposal_details-grid</value>
+                <value>course_details-grid</value>
                 <value>ks-no-margins</value>
                 <value>ks-subSection</value>
             </list>
@@ -142,7 +142,7 @@
         <property name="validationMessages" ref="KS-ValidationMessages-Off"/>
         <property name="cssClasses">
             <list merge="true">
-                <value>review_proposal-section</value>
+                <value>ks-cm-course_detail-section</value>
             </list>
         </property>
         <property name="header">
@@ -177,7 +177,7 @@
     </bean>
 
     <bean id="CM-Proposal-View-Course-CourseInfoSection" parent="CM-Proposal-View-Course-VerticalBoxSection"
-          p:additionalCssClasses="ks-cm-reviewproposal-validation">
+          p:additionalCssClasses="ks-cm-course_detail-section">
         <property name="headerText" value="Course Information"/>
         <property name="items">
             <list>
@@ -368,19 +368,27 @@
                 <bean id="course_review_outcome_details" parent="Uif-StackedCollectionSection"
                       p:propertyName="reviewProposalDisplay.courseLogisticsSection.outcomes"
                       p:collectionObjectClass="org.kuali.student.cm.course.form.wrapper.OutcomeReviewSection">
+                    <property name="cssClasses">
+                        <list merge="true">
+                            <value>course_detail_subsection</value>
+                        </list>
+                    </property>
+                    <property name="layoutManager.lineGroupPrototype.header.headerLevel"
+                              value="h5"/>
+                    <property name="layoutManager.lineGroupPrototype.header.headerTagCssClasses">
+                        <list merge="true">
+                            <value>course_detail_subsection_header</value>
+                        </list>
+                    </property>
                     <property name="layoutManager.lineGroupPrototype.header.headerText"
                               value="Outcome @{(#index + 1)}"/>
-                    <property name="layoutManager.lineGroupPrototype.header.style"
-                              value="border-bottom : 1px solid black;"/>
                     <property name="renderLineActions" value="false"/>
                     <property name="renderAddLine" value="false"/>
                     <property name="items">
                         <list>
                             <bean parent="CM-ReadOnlyInput" p:label="Type"
-                                  p:propertyName="outComeType" p:colSpan="1"
-                                  p:fieldLabel.style="margin-left:-4px;"/>
+                                  p:propertyName="outComeType" p:colSpan="1" />
                             <bean parent="CM-ReadOnlyInput" p:label="Credit Value"
-                                  p:fieldLabel.style="white-space : nowrap;margin-top:-9px;"
                                   p:propertyName="outComeValue" p:colSpan="1"
                                   p:additionalCssClasses="ks-stackedcollection-table-outcome"/>
                         </list>
@@ -400,10 +408,20 @@
                       p:propertyName="reviewProposalDisplay.courseLogisticsSection.formatInfoWrappers"
                       p:collectionObjectClass="org.kuali.student.cm.course.form.wrapper.FormatInfoWrapper"
                       p:colSpan="3">
+                    <property name="cssClasses">
+                        <list merge="true">
+                            <value>course_detail_subsection</value>
+                        </list>
+                    </property>
+                    <property name="layoutManager.lineGroupPrototype.header.headerLevel"
+                              value="h5"/>
                     <property name="layoutManager.lineGroupPrototype.header.headerText"
                               value="Format @{(#index + 1)}"/>
-                    <property name="layoutManager.lineGroupPrototype.header.style"
-                              value="border-bottom : 1px solid black;"/>
+                    <property name="layoutManager.lineGroupPrototype.header.headerTagCssClasses">
+                        <list merge="true">
+                            <value>course_detail_subsection_header</value>
+                        </list>
+                    </property>
                     <property name="renderLineActions" value="false"/>
                     <property name="renderAddLine" value="false"/>
                     <property name="subCollections">
@@ -430,28 +448,19 @@
         </property>
     </bean>
 
-
     <bean id="CM-Proposal-View-Course-ActivitySection" parent="Uif-StackedSubCollection-WithinSection"
           p:collectionObjectClass="org.kuali.student.cm.course.form.wrapper.ActivityInfoWrapper"
           p:propertyName="activities" p:colSpan="3" p:align="left"
           p:layoutManager.style="padding-left:0px;">
         <property name="layoutManager.lineGroupPrototype.header.headerText"
                 value="Activity @{(#index + 1)} (@{#line.activityType}) "/>
-        <property name="layoutManager.lineGroupPrototype.header.style"
-                  value="border-bottom : 1px dotted black;"/>
         <property name="renderLineActions" value="false"/>
         <property name="renderAddLine" value="false"/>
         <property name="items">
             <list>
-                <bean parent="CM-ReadOnlyInput" p:label="Contact Hours"
-                      p:fieldLabel.style="white-space : nowrap; margin-left : -4px;"
-                      p:propertyName="contactHours" p:colSpan="1"/>
-                <bean parent="CM-ReadOnlyInput" p:label="Duration"
-                      p:fieldLabel.style="white-space : nowrap; margin-left : -4px;"
-                      p:propertyName="durationCount" p:colSpan="1"/>
-                <bean parent="CM-ReadOnlyInput"
-                      p:label="Anticipated Class Size"
-                      p:fieldLabel.style="white-space : nowrap; margin-left : -4px;"
+                <bean parent="CM-ReadOnlyInput" p:label="Contact Hours" p:propertyName="contactHours" p:colSpan="1"/>
+                <bean parent="CM-ReadOnlyInput" p:label="Duration" p:propertyName="durationCount" p:colSpan="1"/>
+                <bean parent="CM-ReadOnlyInput" p:label="Anticipated Class Size"
                       p:propertyName="anticipatedClassSize"
                       p:colSpan="1"/>
             </list>
@@ -468,10 +477,15 @@
                             <bean parent="Uif-VerticalFieldGroup" p:label="Learning Objectives" p:colSpan="3" p:fieldLabel.renderColon="false">
                                 <property name="items">
                                     <list>
-                                        <bean id="course_review_learning_objectives" parent="Uif-StackedCollectionSection"
+                                        <bean id="course_details_learning_objectives" parent="Uif-StackedCollectionSection"
                                               p:propertyName="loDisplayWrapperModel.loWrappers"
                                               p:collectionObjectClass="org.kuali.student.cm.course.form.wrapper.LoDisplayInfoWrapper"
                                               p:colSpan="3">
+                                            <property name="cssClasses">
+                                                <list merge="true">
+                                                    <value>course_details_learning_objectives</value>
+                                                </list>
+                                            </property>
                                             <property name="renderLineActions" value="false"/>
                                             <property name="renderAddLine" value="false"/>
                                             <property name="items">
@@ -481,7 +495,6 @@
                                                         p:style="display: list-item; margin-left: @{#line.indentLevel * 30}px;"/>
                                                 </list>
                                             </property>
-
                                         </bean>
                                     </list>
                                 </property>
