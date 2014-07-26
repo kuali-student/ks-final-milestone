@@ -65,8 +65,12 @@ h3.uif-headerText a {
     padding-top: 5px;
 }
 
-.ks-cm-reviewproposal-validation {
-    padding-top: 15px;
+.ks-cm-course_detail-section {
+    padding-top: 15px; /* Padding around the sections used on view course, review proposal, etc */
+}
+
+.ks-cm-course_detail-section h3 {
+  padding-bottom: 3px; /* Reduce the bottom padding of headers within sections used on view course, review proposal, etc  */
 }
 
 /* end */
@@ -116,19 +120,6 @@ h3.uif-headerText a {
     text-align: center;
     padding-right: 0em;
     padding-left: 0em;
-}
-
-/* Empty marker classes for the character counter */
-.cm-charcount-max-24 {
-}
-
-.cm-charcount-max-255 {
-}
-
-.cm-charcount-max-500 {
-}
-
-.cm-charcount-max-1000 {
 }
 
 /* Generate classes like cm-lo-indent-0,cm-lo-indent-50 etc for LO:*/
@@ -213,19 +204,12 @@ section.uif-disclosure .uif-headerText .uif-headerText-span [class*='icon-caret-
 }
 
 /*  The required message text on course details */
-.cm_requiredMessage_text > .uif-requiredMessage
-
-{
-    color: #ABABAB
-;
-    font-style: italic
-;
-    font-size: 13px
-;
-    font-weight: normal
-;
-    margin: 0
-;
+.cm_requiredMessage_text > .uif-requiredMessage {
+    color: #ABABAB;
+    font-style: italic;
+    font-size: 13px;
+    font-weight: normal;
+    margin: 0;
 }
 
 /*  Allow the required message to in the rightGroup to align adjacent to the label text */
@@ -312,29 +296,32 @@ a[id *= "LearningObjectives-Icon-"]:hover {
     float: left;
 }
 
-.review_proposal_details-grid {
+.course_details-grid {
     border: none;
     padding: 10px;
 }
 
-.review_proposal_details-grid table,
-.review_proposal_details-grid table th,
-.review_proposal_details-grid table td {
+.course_details-grid table.uif-gridLayout th[scope="row"] label {
+    padding-top: 0px;
+}
+
+.course_details-grid table,
+.course_details-grid table th,
+.course_details-grid table td {
     background-color: #ffffff !important;
     border: none !important;
 }
 
-.review_proposal_details-grid table th,
-.review_proposal_details-grid td {
-    padding: 2px 5px 0px 5px;
+.course_details-grid table th,
+.course_details-grid td {
+    padding: 2px 5px 0px 5px !important;
 }
 
-/* Move the labels down a smidge */
-.review_proposal_details-grid .uif-gridLayout th[scope="row"] {
-    padding-top: 1px;
+.course_details-grid table.uif-gridLayout th {
+    width: 250px; /* Controls the width of the labels column in the section grid layouts */
 }
 
-#course_review_outcome_details .uif-gridLayout td {
+#course_details-grid .uif-gridLayout td {
     padding-top: 5px;
 }
 
@@ -366,7 +353,8 @@ a[id *= "LearningObjectives-Icon-"]:hover {
 
 .cm_readonly_input textarea {
     font-size: 1em;
-    line-height: 1em; /* Scroll bars appear if this isn't set */
+    line-height: 1.5em; /* Adjust where the text in the text area falls in relation to the label */
+    overflow: hidden; /* Don't show scrollbars */
     color: black;
     background-color: #ffffff !important;
     border: none;
@@ -381,6 +369,26 @@ a[id *= "LearningObjectives-Icon-"]:hover {
     cursor: default !important;
 
     padding: 0px 6px;
+}
+
+.course_detail_subsection {
+    padding: 4px; /* Padding for the sub-sections on view course and review proposal */
+}
+
+.course_detail_subsection section {
+    padding-bottom: 10px; /* Put some padding at the bottom on sub subsections (i.e. Activities) */
+}
+
+.course_detail_subsection tbody tr th[scope="row"] {
+     width: 200px; /* Don't indent the sub-section labels as much as the section labels */
+}
+
+/* The headers used within course details sections: Outcomes, Formats, etc. */
+.course_detail_subsection_header {
+    border-bottom-color: @gray-light;
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
+    padding-bottom: 0px;
 }
 
 [id^="course_format_table_"] > tbody> tr > td:first-child {
@@ -400,10 +408,6 @@ a[id *= "LearningObjectives-Icon-"]:hover {
     font-size: 1em;
     line-height: 18px;
     color: #000000;
-}
-
-.ks-stackedcollection-table-outcome {
-    margin-top: -9px;
 }
 
 [id^="course_format_activities_table_line"] td:nth-child(4) {
@@ -464,17 +468,15 @@ a[id *= "LearningObjectives-Icon-"]:hover {
 }
 
 /* Review Proposal LO styling */
-#course_review_learning_objectives table tr {
+#course_details_learning_objectives table tr {
   display: inline-block;
 }
 
-#course_review_learning_objectives table td {
-  padding: 0px;
+.course_details_learning_objectives th[scope="row"] {
+    width: 15px !important; /* Override the width set by course_details-grid th */
+    margin-right: 10px !important;
 }
 
-#course_review_learning_objectives {
-  margin-left: 5px;
-}
 
 /* Review End */
 
@@ -679,15 +681,6 @@ div {
     margin-right: 15pt;
     margin-top: 0px;
     box-shadow: none;
-}
-
-#review_proposal_details-grid .table-condensed thead>tr>th,
-#review_proposal_details-grid .table-condensed tbody>tr>th,
-#review_proposal_details-grid .table-condensed tfoot>tr>th,
-#review_proposal_details-grid .table-condensed thead>tr>td,
-#review_proposal_details-grid .table-condensed tbody>tr>td,
-#review_proposal_details-grid .table-condensed tfoot>tr>td {
-    padding: 1px;
 }
 
 .lo_lightbox_name {
