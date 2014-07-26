@@ -121,11 +121,11 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
     }
 
     @Override
-    public Response createAndSubmitUpdateCourseRegistrationRequest(String courseCode, String regGroupCode, String masterLprId, String termId, String credits, String gradingOptionId) {
+    public Response createAndSubmitUpdateCourseRegistrationRequest(String courseCode, String regGroupId, String regGroupCode, String masterLprId, String termId, String credits, String gradingOptionId) {
         Response.ResponseBuilder response;
 
         try {
-            response = Response.ok(updateScheduleItem(courseCode, regGroupCode, masterLprId, termId, credits, gradingOptionId,
+            response = Response.ok(updateScheduleItem(courseCode, regGroupId, regGroupCode, masterLprId, termId, credits, gradingOptionId,
                     ContextUtils.createDefaultContextInfo()));
         } catch (Exception e) {
             LOGGER.warn("Exception occurred", e);
@@ -136,11 +136,11 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
     }
 
     @Override
-    public Response createAndSubmitUpdateWaitlistRegistrationRequest(String courseCode, String regGroupCode, String masterLprId, String termId, String credits, String gradingOptionId) {
+    public Response createAndSubmitUpdateWaitlistRegistrationRequest(String courseCode, String regGroupId, String regGroupCode, String masterLprId, String termId, String credits, String gradingOptionId) {
         Response.ResponseBuilder response;
 
         try {
-            response = Response.ok(updateWaitlistEntry(courseCode, regGroupCode, masterLprId, termId, credits, gradingOptionId,
+            response = Response.ok(updateWaitlistEntry(courseCode, regGroupId, regGroupCode, masterLprId, termId, credits, gradingOptionId,
                     ContextUtils.createDefaultContextInfo()));
         } catch (Exception e) {
             LOGGER.warn("Exception occurred", e);
@@ -371,6 +371,7 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
                     }
                 } else if (StringUtils.equals(personLuiType, LprServiceConstants.REGISTRANT_RG_LPR_TYPE_KEY) || StringUtils.equals(personLuiType, LprServiceConstants.WAITLIST_RG_LPR_TYPE_KEY)) {
                     studentScheduleCourseResult.setRegGroupCode(luiName);
+                    studentScheduleCourseResult.setRegGroupId(luiId);
                 } else if (StringUtils.equals(personLuiType, LprServiceConstants.REGISTRANT_AO_LPR_TYPE_KEY) || StringUtils.equals(personLuiType, LprServiceConstants.WAITLIST_AO_LPR_TYPE_KEY)) {
                     // Scheduling info
                     ActivityOfferingScheduleComponentResult scheduleComponent = CourseRegistrationAndScheduleOfClassesUtil.getActivityOfferingScheduleComponent(isTBA, roomCode, buildingCode,
@@ -663,22 +664,22 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
         return credits;
     }
 
-    private ScheduleItemResult updateScheduleItem(String courseCode, String regGroupCode, String masterLprId, String termId, String credits, String gradingOptionId, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, DoesNotExistException, OperationFailedException, PermissionDeniedException, DataValidationErrorException, ReadOnlyException, AlreadyExistsException {
+    private ScheduleItemResult updateScheduleItem(String courseCode, String regGroupId, String regGroupCode, String masterLprId, String termId, String credits, String gradingOptionId, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, DoesNotExistException, OperationFailedException, PermissionDeniedException, DataValidationErrorException, ReadOnlyException, AlreadyExistsException {
 
-        return updateRegistrationItem(courseCode, regGroupCode, masterLprId, termId, credits, gradingOptionId, contextInfo, LprServiceConstants.REQ_ITEM_UPDATE_TYPE_KEY);
+        return updateRegistrationItem(courseCode, regGroupId, regGroupCode, masterLprId, termId, credits, gradingOptionId, contextInfo, LprServiceConstants.REQ_ITEM_UPDATE_TYPE_KEY);
 
     }
 
-    private ScheduleItemResult updateWaitlistEntry(String courseCode, String regGroupCode, String masterLprId, String termId, String credits, String gradingOptionId, ContextInfo contextInfo) throws DoesNotExistException, PermissionDeniedException, OperationFailedException, InvalidParameterException, ReadOnlyException, MissingParameterException, DataValidationErrorException, AlreadyExistsException {
+    private ScheduleItemResult updateWaitlistEntry(String courseCode, String regGroupId, String regGroupCode, String masterLprId, String termId, String credits, String gradingOptionId, ContextInfo contextInfo) throws DoesNotExistException, PermissionDeniedException, OperationFailedException, InvalidParameterException, ReadOnlyException, MissingParameterException, DataValidationErrorException, AlreadyExistsException {
 
-        return updateRegistrationItem(courseCode, regGroupCode, masterLprId, termId, credits, gradingOptionId, contextInfo, LprServiceConstants.REQ_ITEM_UPDATE_WAITLIST_TYPE_KEY);
+        return updateRegistrationItem(courseCode,regGroupId, regGroupCode, masterLprId, termId, credits, gradingOptionId, contextInfo, LprServiceConstants.REQ_ITEM_UPDATE_WAITLIST_TYPE_KEY);
 
     }
 
     /*
      * Utility method to update any kind of schedule item (registered, waitlisted, etc)
      */
-    private ScheduleItemResult updateRegistrationItem(String courseCode, String regGroupCode, String masterLprId, String termId, String credits,
+    private ScheduleItemResult updateRegistrationItem(String courseCode, String regGroupId, String regGroupCode, String masterLprId, String termId, String credits,
                                                       String gradingOptionId, ContextInfo contextInfo, String typeKey)
             throws DoesNotExistException, PermissionDeniedException, OperationFailedException,
             InvalidParameterException, ReadOnlyException, MissingParameterException, DataValidationErrorException,
@@ -692,7 +693,7 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
         registrationRequestInfo.setTypeKey(LprServiceConstants.LPRTRANS_REGISTRATION_TYPE_KEY);
 
         //Create Reg Request Item
-        RegistrationRequestItemInfo registrationRequestItem = CourseRegistrationAndScheduleOfClassesUtil.createNewRegistrationRequestItem(userId, null,
+        RegistrationRequestItemInfo registrationRequestItem = CourseRegistrationAndScheduleOfClassesUtil.createNewRegistrationRequestItem(userId, regGroupId,
                 masterLprId, credits, gradingOptionId, typeKey, LprServiceConstants.LPRTRANS_ITEM_NEW_STATE_KEY, false);
         List<RegistrationRequestItemInfo> registrationRequestItemInfos = new ArrayList<RegistrationRequestItemInfo>();
         registrationRequestItemInfos.add(registrationRequestItem);

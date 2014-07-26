@@ -12,7 +12,7 @@ import java.util.Map;
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "StudentScheduleCourseResult", propOrder = {
-        "courseCode", "description", "credits", "longName", "activityOfferings"})
+        "courseCode", "description", "credits", "longName","regGroupId", "activityOfferings"})
 public class StudentScheduleCourseResult {
     private String courseCode;
     private String description;
@@ -20,6 +20,7 @@ public class StudentScheduleCourseResult {
     private String gradingOptionId;
     private String longName;
     private String regGroupCode;
+    private String regGroupId;
     private String masterLprId;
     private List<String> creditOptions;
     private Map<String, String> gradingOptions;
@@ -102,4 +103,12 @@ public class StudentScheduleCourseResult {
     public boolean isWaitlisted() { return isWaitlisted; }
 
     public void setWaitlisted(boolean isWaitlisted) { this.isWaitlisted = isWaitlisted; }
+
+    public String getRegGroupId() {
+        return regGroupId;
+    }
+
+    public void setRegGroupId(String regGroupId) {
+        this.regGroupId = regGroupId;
+    }
 }

@@ -82,6 +82,7 @@ public interface CourseRegistrationClientService {
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Path("/registrationRequest")
     Response createAndSubmitUpdateCourseRegistrationRequest(@FormParam("courseCode") String courseCode,
+                                                            @FormParam("regGroupId") String regGroupId,
                                                             @FormParam("regGroupCode") String regGroupCode,
                                                             @FormParam("masterLprId") String masterLprId,
                                                             @FormParam("termId") String termId,
@@ -104,6 +105,7 @@ public interface CourseRegistrationClientService {
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Path("/waitlistRegistrationRequest")
     Response createAndSubmitUpdateWaitlistRegistrationRequest(@FormParam("courseCode") String courseCode,
+                                                              @FormParam("regGroupId") String regGroupId,
                                                               @FormParam("regGroupCode") String regGroupCode,
                                                               @FormParam("masterLprId") String masterLprId,
                                                               @FormParam("termId") String termId,

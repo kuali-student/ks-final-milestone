@@ -240,6 +240,7 @@ angular.module('regCartApp')
                 console.log(TermsService.getTermId());
                 ScheduleService.updateScheduleItem().query({
                     courseCode: course.courseCode,
+                    regGroupId: course.regGroupId,
                     regGroupCode: course.regGroupCode,
                     masterLprId: course.masterLprId,
                     termId: TermsService.getTermId(),
@@ -262,6 +263,7 @@ angular.module('regCartApp')
                 console.log(course.newGrading);
                 ScheduleService.updateWaitlistItem().query({
                     courseCode: course.courseCode,
+                    regGroupId: course.regGroupId,
                     regGroupCode: course.regGroupCode,
                     masterLprId: course.masterLprId,
                     termId: TermsService.getTermId(),

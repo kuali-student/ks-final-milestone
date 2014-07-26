@@ -449,7 +449,9 @@ public class CourseRegistrationEngineServiceImpl implements CourseRegistrationEn
         LprInfo updatedCoLpr = new LprInfo(expiredCoLpr); // Make a copy
         updatedCoLpr.setId(null);
         updatedCoLpr.setMeta(null);
+        updatedCoLpr.setExpirationDate(null);
         updatedCoLpr.setEffectiveDate(now);
+        updatedCoLpr.setStateKey(LprServiceConstants.ACTIVE_STATE_KEY);
 
         updatedCoLpr.setResultValuesGroupKeys(new ArrayList<String>());
         if (!StringUtils.isEmpty(credits)) {
