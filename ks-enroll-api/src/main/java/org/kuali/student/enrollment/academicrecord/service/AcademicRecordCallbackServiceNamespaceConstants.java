@@ -17,7 +17,7 @@ package org.kuali.student.enrollment.academicrecord.service;
 
 import org.kuali.student.r2.common.constants.CommonServiceConstants;
 
-public class AcademicRecordCallbackNamespaceConstants {
+public class AcademicRecordCallbackServiceNamespaceConstants {
 
     public static final String NAMESPACE = CommonServiceConstants.REF_OBJECT_URI_GLOBAL_PREFIX + "academicRecordCallbackService";
     public static final String SERVICE_NAME_LOCAL_PART = AcademicRecordCallbackService.class.getSimpleName();

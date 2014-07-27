@@ -41,7 +41,7 @@ public class AcademicRecordServiceSubscriptionDecoratorTest {
     public void tearDown() {
     }
 
-    private static class AcademicRecordCallbackServiceImpl implements AcademicRecordCallbackService {
+    private static class TestArCallbackServiceImpl implements AcademicRecordCallbackService {
 
         private String method;
         private List<String> studentCourseRecordIds;
@@ -63,8 +63,8 @@ public class AcademicRecordServiceSubscriptionDecoratorTest {
         }
 
         @Override
-        public StatusInfo newStudentCourseRecords(List<String> studentCourseRecordIds, ContextInfo contextInfo) {
-            this.method = "newStudentCourseRecords";
+        public StatusInfo createStudentCourseRecords(List<String> studentCourseRecordIds, ContextInfo contextInfo) {
+            this.method = "createStudentCourseRecords";
             this.studentCourseRecordIds = studentCourseRecordIds;
             System.out.println(method + "=" + studentCourseRecordIds);
             StatusInfo status = new StatusInfo();
@@ -103,13 +103,13 @@ public class AcademicRecordServiceSubscriptionDecoratorTest {
         AcademicRecordServiceMapImpl mapImpl = new AcademicRecordServiceMapImpl();
         instance.setNextDecorator(mapImpl);
 
-        StudentCourseRecordInfo rec1 = this.createStudentCourseRecord(instance, "term1", "person1", "typeKey1", contextInfo);
-        AcademicRecordCallbackServiceImpl academicRecordCallbackService = new AcademicRecordCallbackServiceImpl();
+        StudentCourseRecordInfo rec1 = this.createStudentCourseRecord(instance, "term1", "person1", "typeKey1", contextInfo);        
+        TestArCallbackServiceImpl academicRecordCallbackService = new TestArCallbackServiceImpl();
         
-        String result = instance.subscribeToNewStudentCourseRecords(academicRecordCallbackService, contextInfo);
+        String result = instance.subscribeToStudentCourseRecords(SubscriptionActionEnum.CREATE, academicRecordCallbackService, contextInfo);
         
         StudentCourseRecordInfo rec2 = this.createStudentCourseRecord(instance, "term2", "person2", "typeKey2", contextInfo);
-        assertEquals ("newStudentCourseRecords", academicRecordCallbackService.getMethod());
+        assertEquals ("createStudentCourseRecords", academicRecordCallbackService.getMethod());
 
     }
 

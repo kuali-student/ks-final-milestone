@@ -31,270 +31,101 @@ import org.kuali.student.r2.common.exceptions.VersionMismatchException;
  * @author nwright
  */
 public class AcademicRecordServiceSubscriptionDecorator extends AcademicRecordServiceDecorator
-        implements AcademicRecordSubscribeService {
+        implements AcademicRecordSubscrptionService {
 
-    private transient Map<String, AcademicRecordCallbackService> subscribeToNewStudentCourseRecords
-            = new LinkedHashMap<String, AcademicRecordCallbackService>();
+    private static class Selector {
+
+        public Selector(SubscriptionActionEnum action, AcademicRecordCallbackService callback) {
+            this.action = action;
+            this.callback = callback;
+        }
+
+        String studentCourseRecordId = null;
+        String termId = null;
+        String courseCode = null;
+        String studentCourseRecordTypeKey = null;
+        SubscriptionActionEnum action;
+        AcademicRecordCallbackService callback;
+    }
+    private final transient Map<String, Selector> callbacks
+            = new LinkedHashMap<String, Selector>();
 
     @Override
-    public String subscribeToNewStudentCourseRecords(AcademicRecordCallbackService academicRecordCallbackService,
+    public String subscribeToStudentCourseRecords(
+            SubscriptionActionEnum action,
+            AcademicRecordCallbackService academicRecordCallbackService,
             ContextInfo contextInfo) throws DoesNotExistException,
             InvalidParameterException,
             MissingParameterException,
             OperationFailedException,
             PermissionDeniedException {
         String id = UUID.randomUUID().toString();
-        subscribeToNewStudentCourseRecords.put(id, academicRecordCallbackService);
+        Selector selector = new Selector(action, academicRecordCallbackService);
+        callbacks.put(id, selector);
         return id;
     }
-    private final Map<String, Map<String, AcademicRecordCallbackService>> subscribeToNewStudentCourseRecordsByTerm
-            = new LinkedHashMap<String, Map<String, AcademicRecordCallbackService>>();
 
     @Override
-    public String subscribeToNewStudentCourseRecordsByTerm(String termId,
+    public String subscribeToStudentCourseRecordsByTerm(
+            SubscriptionActionEnum action,
+            String termId,
             AcademicRecordCallbackService academicRecordCallbackService, ContextInfo contextInfo) throws DoesNotExistException,
             InvalidParameterException,
             MissingParameterException,
             OperationFailedException,
             PermissionDeniedException {
-        Map<String, AcademicRecordCallbackService> map = subscribeToNewStudentCourseRecordsByTerm.get(termId);
-        if (map == null) {
-            map = new LinkedHashMap<String, AcademicRecordCallbackService>();
-            subscribeToNewStudentCourseRecordsByTerm.put(termId, map);
-        }
         String id = UUID.randomUUID().toString();
-        map.put(id, academicRecordCallbackService);
+        Selector selector = new Selector(action, academicRecordCallbackService);
+        selector.termId = termId;
+        callbacks.put(id, selector);
         return id;
     }
 
-    private final Map<String, Map<String, AcademicRecordCallbackService>> subscribeToNewStudentCourseRecordsByCourse
-            = new LinkedHashMap<String, Map<String, AcademicRecordCallbackService>>();
-
     @Override
-    public String subscribeToNewStudentCourseRecordsByCourse(String courseId,
+    public String subscribeToStudentCourseRecordsByCourse(
+            SubscriptionActionEnum action,
+            String courseCode,
             AcademicRecordCallbackService academicRecordCallbackService, ContextInfo contextInfo) throws DoesNotExistException,
             InvalidParameterException,
             MissingParameterException,
             OperationFailedException,
             PermissionDeniedException {
-        Map<String, AcademicRecordCallbackService> map = subscribeToNewStudentCourseRecordsByCourse.get(courseId);
-        if (map == null) {
-            map = new LinkedHashMap<String, AcademicRecordCallbackService>();
-            subscribeToNewStudentCourseRecordsByCourse.put(courseId, map);
-        }
         String id = UUID.randomUUID().toString();
-        map.put(id, academicRecordCallbackService);
+        Selector selector = new Selector(action, academicRecordCallbackService);
+        selector.courseCode = courseCode;
+        callbacks.put(id, selector);
         return id;
     }
 
-    private final Map<String, Map<String, AcademicRecordCallbackService>> subscribeToNewStudentCourseRecordsByType
-            = new LinkedHashMap<String, Map<String, AcademicRecordCallbackService>>();
-
     @Override
-    public String subscribeToNewStudentCourseRecordsByType(String studentCourseRecordTypeKey,
+    public String subscribeToStudentCourseRecordsByType(
+            SubscriptionActionEnum action,
+            String studentCourseRecordTypeKey,
             AcademicRecordCallbackService academicRecordCallbackService, ContextInfo contextInfo) throws DoesNotExistException,
             InvalidParameterException,
             MissingParameterException,
             OperationFailedException,
             PermissionDeniedException {
-        Map<String, AcademicRecordCallbackService> map = subscribeToNewStudentCourseRecordsByType.get(studentCourseRecordTypeKey);
-        if (map == null) {
-            map = new LinkedHashMap<String, AcademicRecordCallbackService>();
-            subscribeToNewStudentCourseRecordsByType.put(studentCourseRecordTypeKey, map);
-        }
         String id = UUID.randomUUID().toString();
-        map.put(id, academicRecordCallbackService);
+        Selector selector = new Selector(action, academicRecordCallbackService);
+        selector.studentCourseRecordTypeKey = studentCourseRecordTypeKey;
+        callbacks.put(id, selector);
         return id;
     }
 
-    private final Map<String, Map<String, AcademicRecordCallbackService>> subscribeToUpdateStudentCourseRecord
-            = new LinkedHashMap<String, Map<String, AcademicRecordCallbackService>>();
-
     @Override
-    public String subscribeToUpdateStudentCourseRecord(String studentCourseRecordId,
+    public String subscribeToStudentCourseRecord(
+            SubscriptionActionEnum action,
+            String studentCourseRecordId,
             AcademicRecordCallbackService academicRecordCallbackService, ContextInfo contextInfo) throws DoesNotExistException,
             InvalidParameterException,
             MissingParameterException,
             OperationFailedException,
             PermissionDeniedException {
-        Map<String, AcademicRecordCallbackService> map = subscribeToUpdateStudentCourseRecord.get(studentCourseRecordId);
-        if (map == null) {
-            map = new LinkedHashMap<String, AcademicRecordCallbackService>();
-            subscribeToUpdateStudentCourseRecord.put(studentCourseRecordId, map);
-        }
         String id = UUID.randomUUID().toString();
-        map.put(id, academicRecordCallbackService);
-        return id;
-    }
-
-    private transient Map<String, AcademicRecordCallbackService> subscribeToUpdateStudentCourseRecords
-            = new LinkedHashMap<String, AcademicRecordCallbackService>();
-
-    @Override
-    public String subscribeToUpdateStudentCourseRecords(AcademicRecordCallbackService academicRecordCallbackService,
-            ContextInfo contextInfo) throws DoesNotExistException,
-            InvalidParameterException,
-            MissingParameterException,
-            OperationFailedException,
-            PermissionDeniedException {
-        String id = UUID.randomUUID().toString();
-        subscribeToUpdateStudentCourseRecords.put(id, academicRecordCallbackService);
-        return id;
-    }
-
-    private final Map<String, Map<String, AcademicRecordCallbackService>> subscribeToUpdateStudentCourseRecordsByTerm
-            = new LinkedHashMap<String, Map<String, AcademicRecordCallbackService>>();
-
-    @Override
-    public String subscribeToUpdateStudentCourseRecordsByTerm(String termId,
-            AcademicRecordCallbackService academicRecordCallbackService, ContextInfo contextInfo) throws DoesNotExistException,
-            InvalidParameterException,
-            MissingParameterException,
-            OperationFailedException,
-            PermissionDeniedException {
-        Map<String, AcademicRecordCallbackService> map = subscribeToUpdateStudentCourseRecordsByTerm.get(termId);
-        if (map == null) {
-            map = new LinkedHashMap<String, AcademicRecordCallbackService>();
-            subscribeToUpdateStudentCourseRecordsByTerm.put(termId, map);
-        }
-        String id = UUID.randomUUID().toString();
-        map.put(id, academicRecordCallbackService);
-        return id;
-    }
-
-    private final Map<String, Map<String, AcademicRecordCallbackService>> subscribeToUpdateStudentCourseRecordsByCourse
-            = new LinkedHashMap<String, Map<String, AcademicRecordCallbackService>>();
-
-    @Override
-    public String subscribeToUpdateStudentCourseRecordsByCourse(String courseId,
-            AcademicRecordCallbackService academicRecordCallbackService, ContextInfo contextInfo) throws DoesNotExistException,
-            InvalidParameterException,
-            MissingParameterException,
-            OperationFailedException,
-            PermissionDeniedException {
-        Map<String, AcademicRecordCallbackService> map = subscribeToUpdateStudentCourseRecordsByCourse.get(courseId);
-        if (map == null) {
-            map = new LinkedHashMap<String, AcademicRecordCallbackService>();
-            subscribeToUpdateStudentCourseRecordsByCourse.put(courseId, map);
-        }
-        String id = UUID.randomUUID().toString();
-        map.put(id, academicRecordCallbackService);
-        return id;
-    }
-
-    private final Map<String, Map<String, AcademicRecordCallbackService>> subscribeToUpdateStudentCourseRecordsByType
-            = new LinkedHashMap<String, Map<String, AcademicRecordCallbackService>>();
-
-    @Override
-    public String subscribeToUpdateStudentCourseRecordsByType(String studentCourseRecordTypeKey,
-            AcademicRecordCallbackService academicRecordCallbackService, ContextInfo contextInfo) throws DoesNotExistException,
-            InvalidParameterException,
-            MissingParameterException,
-            OperationFailedException,
-            PermissionDeniedException {
-        Map<String, AcademicRecordCallbackService> map = subscribeToUpdateStudentCourseRecordsByType.get(
-                studentCourseRecordTypeKey);
-        if (map == null) {
-            map = new LinkedHashMap<String, AcademicRecordCallbackService>();
-            subscribeToUpdateStudentCourseRecordsByType.put(studentCourseRecordTypeKey, map);
-        }
-        String id = UUID.randomUUID().toString();
-        map.put(id, academicRecordCallbackService);
-        return id;
-    }
-
-    private final Map<String, Map<String, AcademicRecordCallbackService>> subscribeToDeleteStudentCourseRecord
-            = new LinkedHashMap<String, Map<String, AcademicRecordCallbackService>>();
-
-    @Override
-    public String subscribeToDeleteStudentCourseRecord(String studentCourseRecordId,
-            AcademicRecordCallbackService academicRecordCallbackService, ContextInfo contextInfo) throws DoesNotExistException,
-            InvalidParameterException,
-            MissingParameterException,
-            OperationFailedException,
-            PermissionDeniedException {
-        Map<String, AcademicRecordCallbackService> map = subscribeToDeleteStudentCourseRecord.get(studentCourseRecordId);
-        if (map == null) {
-            map = new LinkedHashMap<String, AcademicRecordCallbackService>();
-            subscribeToDeleteStudentCourseRecord.put(studentCourseRecordId, map);
-        }
-        String id = UUID.randomUUID().toString();
-        map.put(id, academicRecordCallbackService);
-        return id;
-    }
-
-    private transient Map<String, AcademicRecordCallbackService> subscribeToDeleteStudentCourseRecords
-            = new LinkedHashMap<String, AcademicRecordCallbackService>();
-
-    @Override
-    public String subscribeToDeleteStudentCourseRecords(AcademicRecordCallbackService academicRecordCallbackService,
-            ContextInfo contextInfo) throws DoesNotExistException,
-            InvalidParameterException,
-            MissingParameterException,
-            OperationFailedException,
-            PermissionDeniedException {
-        String id = UUID.randomUUID().toString();
-        subscribeToDeleteStudentCourseRecords.put(id, academicRecordCallbackService);
-        return id;
-    }
-
-    private final Map<String, Map<String, AcademicRecordCallbackService>> subscribeToDeleteStudentCourseRecordsByTerm
-            = new LinkedHashMap<String, Map<String, AcademicRecordCallbackService>>();
-
-    @Override
-    public String subscribeToDeleteStudentCourseRecordsByTerm(String termId,
-            AcademicRecordCallbackService academicRecordCallbackService, ContextInfo contextInfo) throws DoesNotExistException,
-            InvalidParameterException,
-            MissingParameterException,
-            OperationFailedException,
-            PermissionDeniedException {
-        Map<String, AcademicRecordCallbackService> map = subscribeToDeleteStudentCourseRecordsByTerm.get(termId);
-        if (map == null) {
-            map = new LinkedHashMap<String, AcademicRecordCallbackService>();
-            subscribeToDeleteStudentCourseRecordsByTerm.put(termId, map);
-        }
-        String id = UUID.randomUUID().toString();
-        map.put(id, academicRecordCallbackService);
-        return id;
-    }
-
-    private final Map<String, Map<String, AcademicRecordCallbackService>> subscribeToDeleteStudentCourseRecordsByCourse
-            = new LinkedHashMap<String, Map<String, AcademicRecordCallbackService>>();
-
-    @Override
-    public String subscribeToDeleteStudentCourseRecordsByCourse(String courseId,
-            AcademicRecordCallbackService academicRecordCallbackService, ContextInfo contextInfo) throws DoesNotExistException,
-            InvalidParameterException,
-            MissingParameterException,
-            OperationFailedException,
-            PermissionDeniedException {
-        Map<String, AcademicRecordCallbackService> map = subscribeToDeleteStudentCourseRecordsByCourse.get(courseId);
-        if (map == null) {
-            map = new LinkedHashMap<String, AcademicRecordCallbackService>();
-            subscribeToDeleteStudentCourseRecordsByCourse.put(courseId, map);
-        }
-        String id = UUID.randomUUID().toString();
-        map.put(id, academicRecordCallbackService);
-        return id;
-    }
-
-    private final Map<String, Map<String, AcademicRecordCallbackService>> subscribeToDeleteStudentCourseRecordsByType
-            = new LinkedHashMap<String, Map<String, AcademicRecordCallbackService>>();
-
-    @Override
-    public String subscribeToDeleteStudentCourseRecordsByType(String courseOfferingTypeKey,
-            AcademicRecordCallbackService academicRecordCallbackService, ContextInfo contextInfo) throws DoesNotExistException,
-            InvalidParameterException,
-            MissingParameterException,
-            OperationFailedException,
-            PermissionDeniedException {
-        Map<String, AcademicRecordCallbackService> map = subscribeToDeleteStudentCourseRecordsByType.get(courseOfferingTypeKey);
-        if (map == null) {
-            map = new LinkedHashMap<String, AcademicRecordCallbackService>();
-            subscribeToDeleteStudentCourseRecordsByType.put(courseOfferingTypeKey, map);
-        }
-        String id = UUID.randomUUID().toString();
-        map.put(id, academicRecordCallbackService);
+        Selector selector = new Selector(action, academicRecordCallbackService);
+        selector.studentCourseRecordId = studentCourseRecordId;
+        callbacks.put(id, selector);
         return id;
     }
 
@@ -304,51 +135,76 @@ public class AcademicRecordServiceSubscriptionDecorator extends AcademicRecordSe
             MissingParameterException,
             OperationFailedException,
             PermissionDeniedException {
-        this.subscribeToNewStudentCourseRecords.remove(subscriptionId);
-        for (Map<String, AcademicRecordCallbackService> map : this.subscribeToNewStudentCourseRecordsByCourse.values()) {
-            map.remove(subscriptionId);
-        }
-        for (Map<String, AcademicRecordCallbackService> map : this.subscribeToNewStudentCourseRecordsByTerm.values()) {
-            map.remove(subscriptionId);
-        }
-        for (Map<String, AcademicRecordCallbackService> map : this.subscribeToNewStudentCourseRecordsByType.values()) {
-            map.remove(subscriptionId);
-        }
-        this.subscribeToUpdateStudentCourseRecords.remove(subscriptionId);
-        for (Map<String, AcademicRecordCallbackService> map : this.subscribeToUpdateStudentCourseRecord.values()) {
-            map.remove(subscriptionId);
-        }
-        for (Map<String, AcademicRecordCallbackService> map : this.subscribeToUpdateStudentCourseRecordsByCourse.values()) {
-            map.remove(subscriptionId);
-        }
-        for (Map<String, AcademicRecordCallbackService> map : this.subscribeToUpdateStudentCourseRecordsByTerm.values()) {
-            map.remove(subscriptionId);
-        }
-        for (Map<String, AcademicRecordCallbackService> map : this.subscribeToUpdateStudentCourseRecordsByType.values()) {
-            map.remove(subscriptionId);
-        }
-        this.subscribeToDeleteStudentCourseRecords.remove(subscriptionId);
-        for (Map<String, AcademicRecordCallbackService> map : this.subscribeToDeleteStudentCourseRecord.values()) {
-            map.remove(subscriptionId);
-        }
-        for (Map<String, AcademicRecordCallbackService> map : this.subscribeToDeleteStudentCourseRecordsByCourse.values()) {
-            map.remove(subscriptionId);
-        }
-        for (Map<String, AcademicRecordCallbackService> map : this.subscribeToDeleteStudentCourseRecordsByTerm.values()) {
-            map.remove(subscriptionId);
-        }
-        for (Map<String, AcademicRecordCallbackService> map : this.subscribeToDeleteStudentCourseRecordsByType.values()) {
-            map.remove(subscriptionId);
-        }
+        this.callbacks.remove(subscriptionId);
         StatusInfo status = new StatusInfo();
         status.setSuccess(Boolean.TRUE);
         return status;
     }
 
-    protected void callCreateCallback(AcademicRecordCallbackService callback, String id, ContextInfo contextInfo) {
-        callback.newStudentCourseRecords(Arrays.asList(id), contextInfo);
+    protected void fireSelectedCallbacks(Selector target, String id, ContextInfo contextInfo) {
+        // consider running this in a different thread so it does not block the main call
+        for (Selector selector : this.callbacks.values()) {
+            if (matches(selector, target)) {
+                callCallback(selector.callback, target.action, id, contextInfo);
+            }
+        }
     }
 
+    protected void callCallback(AcademicRecordCallbackService callback,
+            SubscriptionActionEnum action,
+            String id,
+            ContextInfo contextInfo) {
+        switch (action) {
+            case CREATE:
+                callback.createStudentCourseRecords(Arrays.asList(id), contextInfo);
+                break;
+            case UPDATE:
+                callback.updateStudentCourseRecords(Arrays.asList(id), contextInfo);
+                break;
+            case DELETE:
+                callback.deleteStudentCourseRecords(Arrays.asList(id), contextInfo);
+                break;
+        }
+    }
+
+    protected boolean matches(Selector selector, Selector target) {
+        if (!matches(selector.action, target.action)) {
+            return true;
+        }
+        if (selector.termId != null) {
+            if (!selector.termId.equals(target.termId)) {
+                return false;
+            }
+        }
+        if (selector.courseCode != null) {
+            if (!selector.courseCode.equals(target.courseCode)) {
+                return false;
+            }
+        }
+        if (selector.studentCourseRecordTypeKey != null) {
+            if (!selector.studentCourseRecordTypeKey.equals(target.studentCourseRecordTypeKey)) {
+                return false;
+            }
+        }
+        if (selector.studentCourseRecordId != null) {
+            if (!selector.studentCourseRecordId.equals(target.studentCourseRecordId)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    protected boolean matches(SubscriptionActionEnum selector, SubscriptionActionEnum target) {
+        if (selector.equals(target)) {
+            return true;
+        }
+        if (selector.equals(SubscriptionActionEnum.ANY)) {
+            return true;
+        }
+        return false;
+    }
+
+    // now override methods to actually call the callbacks
     @Override
     public StudentCourseRecordInfo createStudentCourseRecord(String studentCourseRecordTypeKey, String personId,
             StudentCourseRecordInfo studentCourseRecord, ContextInfo contextInfo) throws DataValidationErrorException,
@@ -360,36 +216,14 @@ public class AcademicRecordServiceSubscriptionDecorator extends AcademicRecordSe
             ReadOnlyException {
         StudentCourseRecordInfo info = this.getNextDecorator().createStudentCourseRecord(studentCourseRecordTypeKey, personId,
                 studentCourseRecord, contextInfo);
-        String studentCourseRecordId = info.getId();
-
-        for (AcademicRecordCallbackService callback : this.subscribeToNewStudentCourseRecords.values()) {
-            callCreateCallback(callback, studentCourseRecordId, contextInfo);
-        }
-        Map<String, AcademicRecordCallbackService> map = null;
-        // commented out because course id does not exist on the record!!!!
-//        map = this.subscribeToUpdateStudentCourseRecordsByCourse.get(info.getCourseId());
-//        if (map != null) {
-//            for (AcademicRecordCallbackService callback : map.values()) {
-//                callCreateCallback(callback, studentCourseRecordId, contextInfo);
-//            }
-//        }
-        map = this.subscribeToNewStudentCourseRecordsByTerm.get(info.getTermId());
-        if (map != null) {
-            for (AcademicRecordCallbackService callback : map.values()) {
-                callCreateCallback(callback, studentCourseRecordId, contextInfo);
-            }
-        }
-        map = this.subscribeToNewStudentCourseRecordsByType.get(info.getTypeKey());
-        if (map != null) {
-            for (AcademicRecordCallbackService callback : map.values()) {
-                callCreateCallback(callback, studentCourseRecordId, contextInfo);
-            }
-        }
+        String id = info.getId();
+        Selector target = new Selector(SubscriptionActionEnum.CREATE, null);
+        target.courseCode = info.getCourseCode();
+        target.studentCourseRecordId = id;
+        target.studentCourseRecordTypeKey = info.getTypeKey();
+        target.termId = info.getTermId();
+        this.fireSelectedCallbacks(target, id, contextInfo);
         return info;
-    }
-
-    protected void callUpdateCallback(AcademicRecordCallbackService callback, String id, ContextInfo contextInfo) {
-        callback.updateStudentCourseRecords(Arrays.asList(id), contextInfo);
     }
 
     @Override
@@ -404,41 +238,14 @@ public class AcademicRecordServiceSubscriptionDecorator extends AcademicRecordSe
             VersionMismatchException {
         StudentCourseRecordInfo info = this.getNextDecorator().updateStudentCourseRecord(studentCourseRecordId,
                 studentCourseRecord, contextInfo);
-
-        for (AcademicRecordCallbackService callback : this.subscribeToUpdateStudentCourseRecords.values()) {
-            callUpdateCallback(callback, studentCourseRecordId, contextInfo);
-        }
-        Map<String, AcademicRecordCallbackService> map = null;
-        map = subscribeToUpdateStudentCourseRecord.get(studentCourseRecordId);
-        if (map != null) {
-            for (AcademicRecordCallbackService callback : map.values()) {
-                callUpdateCallback(callback, studentCourseRecordId, contextInfo);
-            }
-        }
-        // commented out because course id does not exist on the record!!!!
-//        map = this.subscribeToUpdateStudentCourseRecordsByCourse.get(info.getCourseId());
-//        if (map != null) {
-//            for (AcademicRecordCallbackService callback : map.values()) {
-//                callUpdateCallback(callback, studentCourseRecordId, contextInfo);
-//            }
-//        }
-        map = this.subscribeToUpdateStudentCourseRecordsByTerm.get(info.getTermId());
-        if (map != null) {
-            for (AcademicRecordCallbackService callback : map.values()) {
-                callUpdateCallback(callback, studentCourseRecordId, contextInfo);
-            }
-        }
-        map = this.subscribeToUpdateStudentCourseRecordsByType.get(info.getTypeKey());
-        if (map != null) {
-            for (AcademicRecordCallbackService callback : map.values()) {
-                callUpdateCallback(callback, studentCourseRecordId, contextInfo);
-            }
-        }
+        String id = info.getId();
+        Selector target = new Selector(SubscriptionActionEnum.UPDATE, null);
+        target.courseCode = info.getCourseCode();
+        target.studentCourseRecordId = id;
+        target.studentCourseRecordTypeKey = info.getTypeKey();
+        target.termId = info.getTermId();
+        this.fireSelectedCallbacks(target, id, contextInfo);
         return info;
-    }
-
-    protected void callDeleteCallback(AcademicRecordCallbackService callback, String id, ContextInfo contextInfo) {
-        callback.deleteStudentCourseRecords(Arrays.asList(id), contextInfo);
     }
 
     @Override
@@ -451,36 +258,13 @@ public class AcademicRecordServiceSubscriptionDecorator extends AcademicRecordSe
             PermissionDeniedException {
         StudentCourseRecordInfo info = this.getNextDecorator().getStudentCourseRecord(studentCourseRecordId, contextInfo);
         StatusInfo status = this.getNextDecorator().deleteStudentCourseRecord(studentCourseRecordId, contextInfo);
-
-        for (AcademicRecordCallbackService callback : this.subscribeToDeleteStudentCourseRecords.values()) {
-            callDeleteCallback(callback, studentCourseRecordId, contextInfo);
-        }
-        Map<String, AcademicRecordCallbackService> map = null;
-        map = subscribeToDeleteStudentCourseRecord.get(studentCourseRecordId);
-        if (map != null) {
-            for (AcademicRecordCallbackService callback : map.values()) {
-                callDeleteCallback(callback, studentCourseRecordId, contextInfo);
-            }
-        }
-        // commented out because course id does not exist on the record!!!!
-//        map = this.subscribeToDeleteStudentCourseRecordsByCourse.get(info.getCourseId());
-//        if (map != null) {
-//            for (AcademicRecordCallbackService callback : map.values()) {
-//                callDeleteCallback(callback, studentCourseRecordId, contextInfo);
-//            }
-//        }
-        map = this.subscribeToDeleteStudentCourseRecordsByTerm.get(info.getTermId());
-        if (map != null) {
-            for (AcademicRecordCallbackService callback : map.values()) {
-                callDeleteCallback(callback, studentCourseRecordId, contextInfo);
-            }
-        }
-        map = this.subscribeToDeleteStudentCourseRecordsByType.get(info.getTypeKey());
-        if (map != null) {
-            for (AcademicRecordCallbackService callback : map.values()) {
-                callDeleteCallback(callback, studentCourseRecordId, contextInfo);
-            }
-        }
+        Selector target = new Selector(SubscriptionActionEnum.UPDATE, null);
+        String id = info.getId();
+        target.courseCode = info.getCourseCode();
+        target.studentCourseRecordId = id;
+        target.studentCourseRecordTypeKey = info.getTypeKey();
+        target.termId = info.getTermId();
+        this.fireSelectedCallbacks(target, id, contextInfo);
         return status;
     }
 

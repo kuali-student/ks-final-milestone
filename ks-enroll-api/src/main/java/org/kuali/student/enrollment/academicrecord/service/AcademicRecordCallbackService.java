@@ -24,7 +24,7 @@ import javax.jws.soap.SOAPBinding;
 import java.util.List;
 import org.kuali.student.r2.common.dto.ContextInfo;
 
-@WebService(name = "AcademicRecordCallbackService", targetNamespace = AcademicRecordCallbackNamespaceConstants.NAMESPACE)
+@WebService(name = "AcademicRecordCallbackService", targetNamespace = AcademicRecordCallbackServiceNamespaceConstants.NAMESPACE)
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
 public interface AcademicRecordCallbackService {
 
@@ -36,7 +36,7 @@ public interface AcademicRecordCallbackService {
      * @param contextInfo context of the caller
      * @return statusInfo
      */
-    public StatusInfo newStudentCourseRecords(@WebParam(name = "studentCourseRecordIds") List<String> studentCourseRecordIds,
+    public StatusInfo createStudentCourseRecords(@WebParam(name = "studentCourseRecordIds") List<String> studentCourseRecordIds,
            @WebParam(name = "contextInfo")  ContextInfo contextInfo);
 
     /**
