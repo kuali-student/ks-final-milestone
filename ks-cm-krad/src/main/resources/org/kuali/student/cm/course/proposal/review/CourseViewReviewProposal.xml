@@ -234,6 +234,11 @@
                                               p:propertyName="reviewProposalDisplay.collaboratorSection.collaboratorWrappers"
                                               p:collectionObjectClass="org.kuali.student.r1.core.workflow.dto.CollaboratorWrapper"
                                               p:colSpan="3">
+                                            <property name="cssClasses">
+                                                <list merge="true">
+                                                    <value>course_detail_subsection</value>
+                                                </list>
+                                            </property>
                                             <property name="layoutManager.lineGroupPrototype.header.headerLevel"
                                                       value="h5"/>
                                             <property name="layoutManager.lineGroupPrototype.header.headerTagCssClasses">
