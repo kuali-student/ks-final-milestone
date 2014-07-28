@@ -513,25 +513,26 @@ public class ExamOfferingServiceFacadeImpl implements ExamOfferingServiceFacade 
      * update the ExamOfferingInfo dynamic attribute after a matrix error slotting
      */
     private void updateExamOfferingSchedulingStateAfterSlotting(ExamOfferingResult slottingResult, ExamOfferingInfo eo, ContextInfo context) {
-        boolean matrixError = false;
+        boolean updateExamOfferingSchedulingState = false;
 
         if (slottingResult != null) {
             if (StringUtils.equals(ExamOfferingServiceConstants.EXAM_OFFERING_AO_MATRIX_MATCH_NOT_FOUND, slottingResult.getKey())
                     || StringUtils.equals(ExamOfferingServiceConstants.EXAM_OFFERING_CO_MATRIX_MATCH_NOT_FOUND, slottingResult.getKey())
                     || StringUtils.equals(ExamOfferingServiceConstants.EXAM_OFFERING_MATRIX_NOT_FOUND, slottingResult.getKey())
                     || StringUtils.equals(ExamOfferingServiceConstants.EXAM_OFFERING_ACTIVITY_OFFERING_TIMESLOTS_NOT_FOUND, slottingResult.getKey())) {
-                matrixError = true;
+                updateExamOfferingSchedulingState = updateSchedulingStateAttribute(eo.getAttributes(), ExamOfferingServiceConstants.EXAM_OFFERING_SCHEDULING_STATE_ATTR, ExamOfferingServiceConstants.EXAM_OFFERING_SCHEDULING_MATRIX_ERROR_STATE_KEY);
+                eo.setSchedulingStateKey(ExamOfferingServiceConstants.EXAM_OFFERING_SCHEDULING_MATRIX_ERROR_STATE_KEY);
+            } else if (StringUtils.equals(ExamOfferingServiceConstants.EXAM_OFFERING_SLOTTED_SUCCESS, slottingResult.getKey())) {
+                updateExamOfferingSchedulingState = updateSchedulingStateAttribute(eo.getAttributes(), ExamOfferingServiceConstants.EXAM_OFFERING_SCHEDULING_STATE_ATTR, ExamOfferingServiceConstants.EXAM_OFFERING_SCHEDULING_UNSCHEDULED_STATE_KEY);
+                eo.setSchedulingStateKey(ExamOfferingServiceConstants.EXAM_OFFERING_SCHEDULING_UNSCHEDULED_STATE_KEY);
             }
         }
 
-        if (matrixError) {
-            if (updateSchedulingStateAttribute(eo.getAttributes(), ExamOfferingServiceConstants.EXAM_OFFERING_SCHEDULING_STATE_ATTR, ExamOfferingServiceConstants.EXAM_OFFERING_SCHEDULING_MATRIX_ERROR_STATE_KEY)) {
-                try {
-                    eo.setSchedulingStateKey(ExamOfferingServiceConstants.EXAM_OFFERING_SCHEDULING_MATRIX_ERROR_STATE_KEY);
-                    this.getExamOfferingService().updateExamOffering(eo.getId(), eo, context);
-                } catch (Exception e) {
-                    throw new RuntimeException(e);
-                }
+        if (updateExamOfferingSchedulingState) {
+            try {
+                this.getExamOfferingService().updateExamOffering(eo.getId(), eo, context);
+            } catch (Exception e) {
+                throw new RuntimeException(e);
             }
         }
     }
@@ -540,7 +541,7 @@ public class ExamOfferingServiceFacadeImpl implements ExamOfferingServiceFacade 
         AttributeInfo attributeInfo = getAttributeForKey(attributes, attrKey);
 
         if (attributeInfo != null) {
-            if (StringUtils.equals(ExamOfferingServiceConstants.EXAM_OFFERING_SCHEDULING_MATRIX_ERROR_STATE_KEY, attributeInfo.getValue())) {
+            if (StringUtils.equals(attrValue, attributeInfo.getValue())) {
                 return false;
             } else {
                 attributeInfo.setValue(attrValue);

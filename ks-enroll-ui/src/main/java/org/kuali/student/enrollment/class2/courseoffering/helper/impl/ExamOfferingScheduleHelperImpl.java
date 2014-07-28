@@ -341,19 +341,21 @@ public class ExamOfferingScheduleHelperImpl implements ExamOfferingScheduleHelpe
      */
     public void buildScheduleWrapper(ScheduleWrapper scheduleWrapper, ScheduleRequestComponentInfo componentInfo,
                                         CourseOfferingManagementForm theForm, ContextInfo defaultContextInfo){
+        if (!componentInfo.getTimeSlotIds().isEmpty()) {
+            try {
+                //There should be only one timeslot per ScheduleRequestComponentInfo
+                String timeSlotId = KSCollectionUtils.getOptionalZeroElement(componentInfo.getTimeSlotIds());
+                TimeSlotInfo timeSlot = CourseOfferingManagementUtil.getSchedulingService().getTimeSlot(timeSlotId, defaultContextInfo);
+                scheduleWrapper.setTimeSlot(timeSlot);
 
-        try {
-            //There should be only one timeslot per ScheduleRequestComponentInfo
-            String timeSlotId = KSCollectionUtils.getOptionalZeroElement(componentInfo.getTimeSlotIds());
-            TimeSlotInfo timeSlot = CourseOfferingManagementUtil.getSchedulingService().getTimeSlot(timeSlotId, defaultContextInfo);
-            scheduleWrapper.setTimeSlot(timeSlot);
+                setScheduleTimeSlotInfo(scheduleWrapper, theForm.getExamPeriodWrapper());
+                setScheduleRoomAndBuilding(scheduleWrapper, componentInfo, defaultContextInfo);
 
-            setScheduleTimeSlotInfo(scheduleWrapper, theForm.getExamPeriodWrapper());
-            setScheduleRoomAndBuilding(scheduleWrapper, componentInfo, defaultContextInfo);
-
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
         }
+
     }
 
     /**
@@ -364,28 +366,30 @@ public class ExamOfferingScheduleHelperImpl implements ExamOfferingScheduleHelpe
      */
     public void setScheduleTimeSlotInfo(ScheduleWrapper scheduleWrapper, ExamPeriodWrapper examPeriodWrapper)
             throws OperationFailedException {
+        if (scheduleWrapper.getTimeSlot() != null) {
+            TimeOfDayInfo startTime = scheduleWrapper.getTimeSlot().getStartTime();
+            if (startTime != null && startTime.getHour() != null) {
+                String startTimeUI = TimeOfDayHelper.makeFormattedTimeForAOSchedules(startTime);
+                scheduleWrapper.setStartTimeUI(startTimeUI);
+                scheduleWrapper.setStartTime(startTimeUI);
+                //scheduleWrapper.setStartTimeAmPm(org.apache.commons.lang.StringUtils.substringAfter(startTimeUI, " "));
+            }
 
-        TimeOfDayInfo startTime = scheduleWrapper.getTimeSlot().getStartTime();
-        if (startTime != null && startTime.getHour() != null) {
-            String startTimeUI = TimeOfDayHelper.makeFormattedTimeForAOSchedules(startTime);
-            scheduleWrapper.setStartTimeUI(startTimeUI);
-            scheduleWrapper.setStartTime(startTimeUI);
-            //scheduleWrapper.setStartTimeAmPm(org.apache.commons.lang.StringUtils.substringAfter(startTimeUI, " "));
+            TimeOfDayInfo endTime = scheduleWrapper.getTimeSlot().getEndTime();
+            if (endTime != null && endTime.getHour() != null) {
+                String endTimeUI = TimeOfDayHelper.makeFormattedTimeForAOSchedules(endTime);
+                scheduleWrapper.setEndTimeUI(endTimeUI);
+                scheduleWrapper.setEndTime(endTimeUI);
+                //scheduleWrapper.setEndTimeAmPm(org.apache.commons.lang.StringUtils.substringAfter(endTimeUI, " "));
+            }
+
+            List<Integer> days = scheduleWrapper.getTimeSlot().getWeekdays();
+            if (days != null && days.size() > 0) {
+                scheduleWrapper.setDaysUI(ExamOfferingManagementUtil.examPeriodDaysDisplay(days, examPeriodWrapper));
+                scheduleWrapper.setDayInExamPeriod(KSCollectionUtils.getOptionalZeroElement(days).toString());
+            }
         }
 
-        TimeOfDayInfo endTime = scheduleWrapper.getTimeSlot().getEndTime();
-        if (endTime != null && endTime.getHour() != null) {
-            String endTimeUI = TimeOfDayHelper.makeFormattedTimeForAOSchedules(endTime);
-            scheduleWrapper.setEndTimeUI(endTimeUI);
-            scheduleWrapper.setEndTime(endTimeUI);
-            //scheduleWrapper.setEndTimeAmPm(org.apache.commons.lang.StringUtils.substringAfter(endTimeUI, " "));
-        }
-
-        List<Integer> days = scheduleWrapper.getTimeSlot().getWeekdays();
-        if (days != null && days.size() > 0) {
-            scheduleWrapper.setDaysUI(ExamOfferingManagementUtil.examPeriodDaysDisplay(days, examPeriodWrapper));
-            scheduleWrapper.setDayInExamPeriod(KSCollectionUtils.getOptionalZeroElement(days).toString());
-        }
     }
 
     /**

@@ -380,8 +380,6 @@ public class ExamOfferingSlottingEvaluatorImpl extends KRMSEvaluator implements 
      * This method creates the schedule request for the exam offering in error state,
      * so that the EO gets a state of 'matrix error'
      *
-     * @param componentInfo
-     * @param timeSlot
      * @param examOfferingId
      * @param context
      */
@@ -413,6 +411,11 @@ public class ExamOfferingSlottingEvaluatorImpl extends KRMSEvaluator implements 
             scheduleRequest.setTypeKey(SchedulingServiceConstants.SCHEDULE_REQUEST_TYPE_SCHEDULE_REQUEST);
             scheduleRequest.setStateKey(SchedulingServiceConstants.SCHEDULE_REQUEST_STATE_ERROR);
             scheduleRequest.setScheduleRequestSetId(requestSet.getId());
+
+            ScheduleRequestComponentInfo componentInfo = new ScheduleRequestComponentInfo();
+            componentInfo.setIsTBA(false);
+            scheduleRequest.getScheduleRequestComponents().clear();
+            scheduleRequest.getScheduleRequestComponents().add(componentInfo);
 
             try {
                 this.getSchedulingService().createScheduleRequest(
@@ -523,7 +526,11 @@ public class ExamOfferingSlottingEvaluatorImpl extends KRMSEvaluator implements 
                 for (ScheduleRequestSetInfo scheduleRequestSetInfo : scheduleRequestSetInfoList) {
                     List<ScheduleRequestInfo> scheduleRequestInfoList = getSchedulingService().getScheduleRequestsByScheduleRequestSet(scheduleRequestSetInfo.getId(), context);
                     for (ScheduleRequestInfo scheduleRequestInfo : scheduleRequestInfoList) {
+                        ScheduleRequestComponentInfo componentInfo = new ScheduleRequestComponentInfo();
+                        componentInfo.setIsTBA(false);
                         scheduleRequestInfo.getScheduleRequestComponents().clear();
+                        scheduleRequestInfo.getScheduleRequestComponents().add(componentInfo);
+
                         scheduleRequestInfo.setStateKey(SchedulingServiceConstants.SCHEDULE_REQUEST_STATE_ERROR);
                         getSchedulingService().updateScheduleRequest(scheduleRequestInfo.getId(), scheduleRequestInfo, context);
                     }
