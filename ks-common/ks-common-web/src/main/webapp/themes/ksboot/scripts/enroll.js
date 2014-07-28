@@ -1926,3 +1926,8 @@ function refreshCommentCountOnCloseLightbox(targetUrl, formData, callbackFunctio
         }
     });
 }
+
+function showCommentLightboxUrl(href,overrideProps){
+    var url = href + "&refreshLightboxDate=" + Date.now();
+    showLightboxUrl(url, overrideProps);
+}
