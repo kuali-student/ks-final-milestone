@@ -19,48 +19,49 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
                            http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
 
-	<beans profile="ks-cm">
-		<bean id="ks-cm-krad-data-dictionary-config"  class="java.util.ArrayList">
-		<constructor-arg index="0">	
-			<list>
-				<!-- KSCM Application Bean Files -->
-				<!-- Curriculum Management Course Info -->
-				<value>classpath:org/kuali/student/cm/course/proposal/CourseMaintenanceView.xml</value>
-                <value>classpath:org/kuali/student/cm/course/proposal/CreateCourseInitialView.xml</value>
-                <value>classpath:org/kuali/student/cm/course/view/ViewCourseView.xml</value>
-                <value>classpath:org/kuali/student/cm/krms/CourseRuleMaintenance.xml</value>
-				<value>classpath:org/kuali/student/cm/course/proposal/CourseViewCourseInfo.xml</value>
-				<value>classpath:org/kuali/student/cm/course/proposal/CourseViewGovernance.xml</value>
-				<value>classpath:org/kuali/student/cm/course/proposal/CourseViewCourseLogistics.xml</value>
-				<value>classpath:org/kuali/student/cm/course/proposal/CourseViewLearningObjectives.xml</value>
-                <value>classpath:org/kuali/student/cm/course/proposal/CourseViewCourseRequisites.xml</value>
-                <value>classpath:org/kuali/student/cm/course/proposal/CourseViewActiveDates.xml</value>
-                <value>classpath:org/kuali/student/cm/course/proposal/CourseViewFinancials.xml</value>
-                <value>classpath:org/kuali/student/cm/course/proposal/CourseViewSupportingDocuments.xml</value>
-                <value>classpath:org/kuali/student/cm/course/proposal/review/CourseViewReviewProposal.xml</value>
-                <value>classpath:org/kuali/student/cm/course/proposal/CourseViewAuthorsAndCollaborators.xml</value>
-                <value>classpath:org/kuali/student/cm/lo/LoCategoryMaintenanceView.xml</value>
-                <value>classpath:org/kuali/student/cm/lookup/CluInstructorInfoWrapperLookupView.xml</value>
-                <value>classpath:org/kuali/student/cm/lookup/CourseJointInfoWrapperLookupView.xml</value>
-                <value>classpath:org/kuali/student/cm/lookup/OrganizationInfoWrapperLookupView.xml</value>
-                <value>classpath:org/kuali/student/cm/lookup/CollaboratorWrapperLookupView.xml</value>
-                <value>classpath:org/kuali/student/cm/lookup/LoCategoryInfoWrapperLookupView.xml</value>
-                <value>classpath:org/kuali/student/cm/lookup/LoDisplayInfoWrapperLookupView.xml</value>
+    <beans profile="ks-cm">
+        <bean id="ks-cm-krad-data-dictionary-config" class="java.util.ArrayList">
+            <constructor-arg index="0">
+                <list>
+                    <!-- KSCM Application Bean Files -->
+                    <!-- Curriculum Management Course Info -->
+                    <value>classpath:org/kuali/student/cm/course/proposal/CourseMaintenanceView.xml</value>
+                    <value>classpath:org/kuali/student/cm/course/proposal/CreateCourseInitialView.xml</value>
+                    <value>classpath:org/kuali/student/cm/course/view/ViewCourseView.xml</value>
+                    <value>classpath:org/kuali/student/cm/krms/CourseRuleMaintenance.xml</value>
+                    <value>classpath:org/kuali/student/cm/course/proposal/CourseViewCourseInfo.xml</value>
+                    <value>classpath:org/kuali/student/cm/course/proposal/CourseViewGovernance.xml</value>
+                    <value>classpath:org/kuali/student/cm/course/proposal/CourseViewCourseLogistics.xml</value>
+                    <value>classpath:org/kuali/student/cm/course/proposal/CourseViewLearningObjectives.xml</value>
+                    <value>classpath:org/kuali/student/cm/course/proposal/CourseViewCourseRequisites.xml</value>
+                    <value>classpath:org/kuali/student/cm/course/proposal/CourseViewActiveDates.xml</value>
+                    <value>classpath:org/kuali/student/cm/course/proposal/CourseViewFinancials.xml</value>
+                    <value>classpath:org/kuali/student/cm/course/proposal/CourseViewSupportingDocuments.xml</value>
+                    <value>classpath:org/kuali/student/cm/course/proposal/review/CourseViewReviewProposal.xml</value>
+                    <value>classpath:org/kuali/student/cm/course/proposal/CourseViewAuthorsAndCollaborators.xml</value>
+                    <value>classpath:org/kuali/student/cm/lo/LoCategoryMaintenanceView.xml</value>
+                    <value>classpath:org/kuali/student/cm/lookup/CluInstructorInfoWrapperLookupView.xml</value>
+                    <value>classpath:org/kuali/student/cm/lookup/CourseJointInfoWrapperLookupView.xml</value>
+                    <value>classpath:org/kuali/student/cm/lookup/OrganizationInfoWrapperLookupView.xml</value>
+                    <value>classpath:org/kuali/student/cm/lookup/CollaboratorWrapperLookupView.xml</value>
+                    <value>classpath:org/kuali/student/cm/lookup/LoCategoryInfoWrapperLookupView.xml</value>
+                    <value>classpath:org/kuali/student/cm/lookup/LoDisplayInfoWrapperLookupView.xml</value>
 
-                <value>classpath:ks-CourseInfo-dictionary.xml</value>
-                <value>classpath:ks-ProposalInfo-dictionary.xml</value>
-                <value>classpath:ks-ActivityInfo-dictionary.xml</value>
-                <value>classpath:org/kuali/student/cm/UifKSCMDefinitions.xml</value>
+                    <value>classpath:ks-CourseInfo-dictionary.xml</value>
+                    <value>classpath:ks-ProposalInfo-dictionary.xml</value>
+                    <value>classpath:ks-ActivityInfo-dictionary.xml</value>
+                    <value>classpath:org/kuali/student/cm/UifKSCMDefinitions.xml</value>
 
-                <!-- <value>classpath:org/kuali/student/cm/CMFunctionalHomeView.xml</value>  This file currently doesn't exist -->
-                <value>classpath:org/kuali/student/cm/main/CurriculumHomeView.xml</value> <!-- KSCM-727 Curriculum Management Course -->
-                <value>classpath:org/kuali/student/cm/main/CourseSelectView.xml</value>
-                <value>classpath:org/kuali/student/cm/lookup/FindCourseLookupView.xml</value>
-                <value>classpath:org/kuali/student/cm/krms/CMLUCustomComponents.xml</value>
-                <value>classpath:org/kuali/student/cm/lookup/ProposalLookup.xml</value>
-                <value>classpath:org/kuali/student/cm/comment/CMCommentView.xml</value>
-			</list>
-			</constructor-arg>
-		</bean>  
-	</beans>              
+                    <!-- <value>classpath:org/kuali/student/cm/CMFunctionalHomeView.xml</value>  This file currently doesn't exist -->
+                    <value>classpath:org/kuali/student/cm/main/CurriculumHomeView.xml</value>
+                    <!-- KSCM-727 Curriculum Management Course -->
+                    <value>classpath:org/kuali/student/cm/main/CourseSelectView.xml</value>
+                    <value>classpath:org/kuali/student/cm/lookup/FindCourseLookupView.xml</value>
+                    <value>classpath:org/kuali/student/cm/krms/CMLUCustomComponents.xml</value>
+                    <value>classpath:org/kuali/student/cm/lookup/ProposalLookup.xml</value>
+                    <value>classpath:org/kuali/student/cm/comment/CMCommentView.xml</value>
+                </list>
+            </constructor-arg>
+        </bean>
+    </beans>
 </beans>
