@@ -24,12 +24,12 @@ import javax.xml.bind.annotation.XmlType;
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "CourseOfferingLimitedInfoSearchResult", propOrder = {
-        "courseOfferingId", "courseOfferingCode", "courseOfferingNumber", "courseOfferingPrefix"})
+        "courseOfferingId", "courseOfferingCode", "courseOfferingNumber", "courseOfferingSubjectArea"})
 public class CourseOfferingLimitedInfoSearchResult {
     private String courseOfferingId;
     private String courseOfferingCode;
     private String courseOfferingNumber;
-    private String courseOfferingPrefix;
+    private String courseOfferingSubjectArea;
 
     public String getCourseOfferingId() {
         return courseOfferingId;
@@ -55,11 +55,11 @@ public class CourseOfferingLimitedInfoSearchResult {
         this.courseOfferingNumber = courseOfferingNumber;
     }
 
-    public String getCourseOfferingPrefix() {
-        return courseOfferingPrefix;
+    public String getCourseOfferingSubjectArea() {
+        return courseOfferingSubjectArea;
     }
 
-    public void setCourseOfferingPrefix(String courseOfferingPrefix) {
-        this.courseOfferingPrefix = courseOfferingPrefix;
+    public void setCourseOfferingSubjectArea(String courseOfferingSubjectArea) {
+        this.courseOfferingSubjectArea = courseOfferingSubjectArea;
     }
 }

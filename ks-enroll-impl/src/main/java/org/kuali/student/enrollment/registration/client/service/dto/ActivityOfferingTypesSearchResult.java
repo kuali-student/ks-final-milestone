@@ -30,7 +30,7 @@ public class ActivityOfferingTypesSearchResult {
     private String activityOfferingCode;
     private String activityOfferingTypeName;
     private String activityOfferingType;
-    private List<ActivityOfferingScheduleResult> activityOfferings;
+    private List<StudentScheduleActivityOfferingResult> activityOfferings;
 
     public String getActivityOfferingCode() {
         return activityOfferingCode;
@@ -56,11 +56,11 @@ public class ActivityOfferingTypesSearchResult {
         this.activityOfferingTypeName = activityOfferingTypeName;
     }
 
-    public List<ActivityOfferingScheduleResult> getActivityOfferings() {
+    public List<StudentScheduleActivityOfferingResult> getActivityOfferings() {
         return activityOfferings;
     }
 
-    public void setActivityOfferings(List<ActivityOfferingScheduleResult> activityOfferings) {
+    public void setActivityOfferings(List<StudentScheduleActivityOfferingResult> activityOfferings) {
         this.activityOfferings = activityOfferings;
     }
 }

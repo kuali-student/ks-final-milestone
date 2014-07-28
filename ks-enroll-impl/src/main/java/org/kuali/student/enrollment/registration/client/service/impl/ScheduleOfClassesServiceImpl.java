@@ -13,6 +13,7 @@ import org.kuali.student.enrollment.courseofferingset.dto.SocInfo;
 import org.kuali.student.enrollment.registration.client.service.ScheduleOfClassesService;
 import org.kuali.student.enrollment.registration.client.service.dto.*;
 import org.kuali.student.enrollment.registration.client.service.impl.util.CourseRegistrationAndScheduleOfClassesUtil;
+import org.kuali.student.enrollment.registration.client.service.impl.util.SearchResultHelper;
 import org.kuali.student.enrollment.registration.client.service.impl.util.StaticUserDateUtil;
 import org.kuali.student.enrollment.registration.search.service.impl.CourseRegistrationSearchServiceImpl;
 import org.kuali.student.r2.common.dto.ContextInfo;
@@ -22,6 +23,7 @@ import org.kuali.student.r2.common.exceptions.*;
 import org.kuali.student.r2.common.infc.ValidationResult;
 import org.kuali.student.r2.common.util.TimeOfDayHelper;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
+import org.kuali.student.r2.common.util.constants.LprServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.core.atp.dto.AtpInfo;
 import org.kuali.student.r2.core.class1.search.ActivityOfferingSearchServiceImpl;
@@ -34,6 +36,9 @@ import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultCellInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultRowInfo;
+import org.kuali.student.r2.lum.lrc.dto.ResultValueInfo;
+import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
+import org.kuali.student.r2.lum.util.constants.LrcServiceConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -157,7 +162,7 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
         return emptyIfNull(instructors);
     }
 
-    protected CourseOfferingInfoSearchResult searchForCourseOfferingInfoLocal(String courseOfferingId) throws MissingParameterException, InvalidParameterException, OperationFailedException, PermissionDeniedException {
+    protected CourseOfferingInfoSearchResult searchForCourseOfferingInfoLocal(String courseOfferingId) throws MissingParameterException, InvalidParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException {
         CourseOfferingInfoSearchResult courseOfferingInfo = searchForCourseOfferingInfo(courseOfferingId);
 
         return courseOfferingInfo;
@@ -574,49 +579,154 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
         return results;
     }
 
-    private CourseOfferingInfoSearchResult searchForCourseOfferingInfo(String courseOfferingId) throws InvalidParameterException, MissingParameterException, PermissionDeniedException, OperationFailedException {
+    private CourseOfferingInfoSearchResult searchForCourseOfferingInfo(String courseOfferingId) throws InvalidParameterException, MissingParameterException, PermissionDeniedException, OperationFailedException, DoesNotExistException {
+        ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
+
         SearchRequestInfo searchRequest = new SearchRequestInfo(CourseRegistrationSearchServiceImpl.CO_AND_AO_INFO_BY_CO_ID_SEARCH_TYPE.getKey());
-
         searchRequest.addParam(CourseOfferingManagementSearchImpl.SearchParameters.CO_ID, courseOfferingId);
+        SearchResultInfo searchResult = CourseRegistrationAndScheduleOfClassesUtil.getSearchService().search(searchRequest, contextInfo);
 
-        SearchResultInfo searchResult = CourseRegistrationAndScheduleOfClassesUtil.getSearchService().search(searchRequest, ContextUtils.createDefaultContextInfo());
+        CourseOfferingInfoSearchResult courseSearchResult = new CourseOfferingInfoSearchResult();
+        Map<String, CourseOfferingLimitedInfoSearchResult> hmCOCrossListed = new HashMap<>();
+        Map<String, StudentScheduleActivityOfferingResult> hmActivityOfferings = new HashMap<>();
 
-        List<CourseOfferingInfoSearchResult> results = new ArrayList<CourseOfferingInfoSearchResult>();
+        for (SearchResultHelper.KeyValue row : SearchResultHelper.wrap(searchResult)) {
+            String coId = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.CO_ID);
+            String coCode = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.CO_CODE);
+            String coSubjectArea = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.CO_SUBJECT_AREA);
+            String coLongName = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.CO_LONG_NAME);
+            String coDesc = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.CO_DESC_FORMATTED);
+            String resultValuesGroupKey = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.RES_VAL_GROUP_KEY);
+            String coClId = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.CO_CROSSLISTED_ID);
+            String coClCode = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.CO_CROSSLISTED_CODE);
+            String coClSubjectArea = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.CO_CROSSLISTED_SUBJECT_AREA);
+            String aoId = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.AO_ID);
+            String aoType = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.AO_TYPE);
+            String aoName = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.AO_NAME);
+            String aoCode = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.AO_CODE);
+            int aoMaxSeats = Integer.parseInt(row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.AO_MAX_SEATS));
+            int aoSeatCount = Integer.parseInt(row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.SEAT_COUNT));
+            String isTBA = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.TBA_IND);
+            String roomCode = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.ROOM_CODE);
+            String buildingCode = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.BUILDING_CODE);
+            String weekdays = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.WEEKDAYS);
+            String startTimeMs = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.START_TIME_MS);
+            String endTimeMs = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.END_TIME_MS);
 
-        for (SearchResultRowInfo row : searchResult.getRows()) {
-            CourseOfferingInfoSearchResult courseSearchResult = new CourseOfferingInfoSearchResult();
+            // general CO info
+            courseSearchResult.setCourseOfferingId(coId);
+            courseSearchResult.setCourseOfferingCode(coCode);
+            courseSearchResult.setCourseOfferingSubjectArea(coSubjectArea);
+            courseSearchResult.setCourseOfferingLongName(coLongName);
+            courseSearchResult.setCourseOfferingDesc(coDesc);
 
-            for (SearchResultCellInfo cellInfo : row.getCells()) {
-
-                String value = StringUtils.EMPTY;
-                if (cellInfo.getValue() != null) {
-                    value = cellInfo.getValue();
+            // Grading and credit options
+            if (resultValuesGroupKey != null && resultValuesGroupKey.startsWith(LrcServiceConstants.RESULT_GROUP_KEY_KUALI_CREDITTYPE_CREDIT_BASE_OLD)) {
+                courseSearchResult.setCreditOptions(getCourseOfferingCreditOptionValues(resultValuesGroupKey, contextInfo));
+            } else {
+                if (!courseSearchResult.getGradingOptions().containsKey(resultValuesGroupKey)) {
+                    String gradingOptionName = CourseRegistrationAndScheduleOfClassesUtil.translateGradingOptionKeyToName(resultValuesGroupKey);
+                    if (!StringUtils.isEmpty(gradingOptionName)) {
+                        courseSearchResult.getGradingOptions().put(resultValuesGroupKey, gradingOptionName);
+                    }
                 }
-
-                if (CourseOfferingManagementSearchImpl.SearchResultColumns.CODE.equals(cellInfo.getKey())) {
-                    courseSearchResult.setCourseOfferingCode(value);
-                } else if (CourseOfferingManagementSearchImpl.SearchResultColumns.DESC.equals(cellInfo.getKey())) {
-                    courseSearchResult.setCourseOfferingDesc(value);
-                } else if (CourseOfferingManagementSearchImpl.SearchResultColumns.GRADING_OPTION_NAME.equals(cellInfo.getKey())) {
-//                    courseSearchResult.setCourseOfferingGradingOptionDisplay(cellInfo.getValue());
-                } else if (CourseOfferingManagementSearchImpl.SearchResultColumns.CREDIT_OPTION_NAME.equals(cellInfo.getKey())) {
-//                    courseSearchResult.setCourseOfferingCreditOptionDisplay(cellInfo.getValue());
-                } else if (CourseOfferingManagementSearchImpl.SearchResultColumns.CO_ID.equals(cellInfo.getKey())) {
-                    courseSearchResult.setCourseOfferingId(value);
-                } else if (CourseOfferingManagementSearchImpl.SearchResultColumns.HAS_STUDENT_SELECTABLE_PASSFAIL.equals(cellInfo.getKey())) {
-//                    courseSearchResult.setStudentSelectablePassFail(BooleanUtils.toBoolean(value));
-                } else if (CourseOfferingManagementSearchImpl.SearchResultColumns.CAN_AUDIT_COURSE.equals(cellInfo.getKey())) {
-//                    courseSearchResult.setAuditCourse(BooleanUtils.toBoolean(value));
-                } else if (CourseOfferingManagementSearchImpl.SearchResultColumns.IS_HONORS_COURSE.equals(cellInfo.getKey())) {
-//                    courseSearchResult.setHonorsCourse(BooleanUtils.toBoolean(value));
-                }
-
             }
 
-            results.add(courseSearchResult);
+            // running over the list of results returned. One CO can have multiple Cross-Listed COs
+            if (!hmCOCrossListed.containsKey(coClCode)) {
+                CourseOfferingLimitedInfoSearchResult coCL = new CourseOfferingLimitedInfoSearchResult();
+                coCL.setCourseOfferingId(coClId);
+                coCL.setCourseOfferingCode(coClCode);
+                coCL.setCourseOfferingSubjectArea(coClSubjectArea);
+                coCL.setCourseOfferingNumber(coClCode.replaceFirst(coClSubjectArea, ""));
+                hmCOCrossListed.put(coClCode, coCL);
+            }
+
+            // running over the list of results returned. One CO can have multiple AOs
+            // Scheduling info
+            ActivityOfferingScheduleComponentResult scheduleComponent = CourseRegistrationAndScheduleOfClassesUtil.getActivityOfferingScheduleComponent(isTBA, roomCode, buildingCode,
+                    weekdays, startTimeMs, endTimeMs);
+            // have to check if we already have the AO in our list, because we can have multiple schedules for the same AO
+            if (!hmActivityOfferings.containsKey(aoId)) {
+                StudentScheduleActivityOfferingResult ao = new StudentScheduleActivityOfferingResult();
+                ao.setActivityOfferingId(aoId);
+                ao.setActivityOfferingTypeName(aoName);
+                ao.setActivityOfferingType(aoType);
+                ao.setActivityOfferingCode(aoCode);
+                ao.setSeatsAvailable(aoMaxSeats);
+                ao.setSeatsOpen(aoSeatCount);
+                List<ActivityOfferingScheduleComponentResult> scheduleComponents = new ArrayList<>();
+                scheduleComponents.add(scheduleComponent);
+                ao.setScheduleComponents(scheduleComponents);
+                hmActivityOfferings.put(aoId, ao);
+            } else {
+                boolean sameScheduleComponent = false;
+                for (ActivityOfferingScheduleComponentResult scheduleComponentResult : hmActivityOfferings.get(aoId).getScheduleComponents()) {
+                    if (StringUtils.equals(scheduleComponentResult.getBuildingCode(), scheduleComponent.getBuildingCode()) && StringUtils.equals(scheduleComponentResult.getRoomCode(), scheduleComponent.getRoomCode()) &&
+                            StringUtils.equals(scheduleComponentResult.getDays(), scheduleComponent.getDays()) && (scheduleComponentResult.getIsTBA() == scheduleComponent.getIsTBA()) &&
+                            StringUtils.equals(scheduleComponentResult.getStartTime(), scheduleComponent.getStartTime()) && StringUtils.equals(scheduleComponentResult.getEndTime(), scheduleComponent.getEndTime())) {
+                        sameScheduleComponent = true;
+                        break;
+                    }
+                }
+                if (!sameScheduleComponent) {
+                    hmActivityOfferings.get(aoId).getScheduleComponents().add(scheduleComponent);
+                }
+            }
         }
 
-        return results.get(0);
+        courseSearchResult.setCourseOfferingNumber(courseSearchResult.getCourseOfferingCode().replaceFirst(courseSearchResult.getCourseOfferingSubjectArea(), ""));
+
+        // setting Cross-Listed COs
+        if (!hmCOCrossListed.isEmpty()) {
+            List<CourseOfferingLimitedInfoSearchResult> coCrossListed = new ArrayList<>();
+            for (String key: hmCOCrossListed.keySet()) {
+                coCrossListed.add(hmCOCrossListed.get(key));
+            }
+            courseSearchResult.setCrossListedCourses(coCrossListed);
+        }
+
+        // setting AOs
+        if (!hmActivityOfferings.isEmpty()) {
+            List<String> aoIDs = new ArrayList<>();
+//            List<StudentScheduleActivityOfferingResult> activityOfferings = new ArrayList<>();
+            for (String key: hmActivityOfferings.keySet()) {
+//                activityOfferings.add(hmActivityOfferings.get(key));
+                aoIDs.add(hmActivityOfferings.get(key).getActivityOfferingId());
+            }
+
+            // getting instructor info for AOs
+            Map<String, List<InstructorSearchResult>> hmAOInstructors = CourseRegistrationAndScheduleOfClassesUtil.searchForInstructorsByAoIds(aoIDs, contextInfo);
+            for (String key: hmActivityOfferings.keySet()) {
+                hmActivityOfferings.get(key).setInstructors(hmAOInstructors.get(key));
+            }
+
+            // Creating ActivityOfferingTypesSearchResult types
+            Map<String, ActivityOfferingTypesSearchResult> hmActivityOfferingTypes = new HashMap<>();
+            for (String key: hmActivityOfferings.keySet()) {
+                StudentScheduleActivityOfferingResult activityOffering = hmActivityOfferings.get(key);
+                if (!hmActivityOfferingTypes.containsKey(activityOffering.getActivityOfferingType())) {
+                    ActivityOfferingTypesSearchResult activityOfferingType = new ActivityOfferingTypesSearchResult();
+                    activityOfferingType.setActivityOfferingType(activityOffering.getActivityOfferingType());
+                    activityOfferingType.setActivityOfferingTypeName(activityOffering.getActivityOfferingTypeName());
+                    activityOfferingType.setActivityOfferingCode(activityOffering.getActivityOfferingTypeName().substring(0, 3));
+                    List<StudentScheduleActivityOfferingResult> activityOfferings = new ArrayList<>();
+                    activityOfferings.add(activityOffering);
+                    activityOfferingType.setActivityOfferings(activityOfferings);
+                    hmActivityOfferingTypes.put(activityOffering.getActivityOfferingType(), activityOfferingType);
+                } else {
+                    hmActivityOfferingTypes.get(activityOffering.getActivityOfferingType()).getActivityOfferings().add(activityOffering);
+                }
+            }
+
+            List<ActivityOfferingTypesSearchResult> activityOfferingTypes = new ArrayList<>();
+            for (String key: hmActivityOfferingTypes.keySet()) {
+                activityOfferingTypes.add(hmActivityOfferingTypes.get(key));
+            }
+            courseSearchResult.setActivityOfferingTypes(activityOfferingTypes);
+        }
+
+        return courseSearchResult;
     }
 
     private List<RegGroupSearchResult> searchForRegGroups(String courseOfferingId) throws InvalidParameterException, MissingParameterException, PermissionDeniedException, OperationFailedException {
@@ -1065,6 +1175,34 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
         }
 
         return  resultMap;
+    }
+
+    private List<String> getCourseOfferingCreditOptionValues(String creditOptionId, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException {
+        int firstValue = 0;
+        List<String> creditOptions = new ArrayList<String>();
+
+        //Lookup the selected credit option and set from persisted values
+        if (!creditOptionId.isEmpty()) {
+            //Lookup the resultValueGroup Information
+            ResultValuesGroupInfo resultValuesGroupInfo = CourseRegistrationAndScheduleOfClassesUtil.getLrcService().getResultValuesGroup(creditOptionId, contextInfo);
+            String typeKey = resultValuesGroupInfo.getTypeKey();
+
+            //Get the actual values
+            List<ResultValueInfo> resultValueInfos = CourseRegistrationAndScheduleOfClassesUtil.getLrcService().getResultValuesByKeys(resultValuesGroupInfo.getResultValueKeys(), contextInfo);
+
+            if (!resultValueInfos.isEmpty()) {
+                if (typeKey.equals(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_FIXED)) {
+                    creditOptions.add(resultValueInfos.get(firstValue).getValue()); // fixed credits
+                } else if (typeKey.equals(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_MULTIPLE) ||
+                        typeKey.equals(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_RANGE)) {  // multiple or range
+                    for (ResultValueInfo resultValueInfo : resultValueInfos) {
+                        creditOptions.add(resultValueInfo.getValue());
+                    }
+                }
+            }
+        }
+
+        return creditOptions;
     }
 
     private EntityManager getEntityManager() {

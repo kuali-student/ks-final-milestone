@@ -20,25 +20,27 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "CourseOfferingInfoSearchResult", propOrder = {
-        "courseOfferingId", "courseOfferingCode", "courseOfferingNumber", "courseOfferingPrefix", "courseOfferingDesc",
-        "courseOfferingLongName", "courseOfferingCreditOptions", "courseOfferingGradingOptions",
-        "courseOfferingCrossListedCourses", "courseOfferingPrerequisites", "activityOfferingTypes"})
+        "courseOfferingId", "courseOfferingCode", "courseOfferingNumber", "courseOfferingSubjectArea", "courseOfferingDesc",
+        "courseOfferingLongName", "creditOptions", "gradingOptions",
+        "crossListedCourses", "prerequisites", "activityOfferingTypes"})
 public class CourseOfferingInfoSearchResult {
     private String courseOfferingId;
     private String courseOfferingCode;
     private String courseOfferingDesc;
     private String courseOfferingNumber;
-    private String courseOfferingPrefix;
+    private String courseOfferingSubjectArea;
     private String courseOfferingLongName;
-    private List<String> courseOfferingCreditOptions;
-    private List<String> courseOfferingGradingOptions;
-    private List<CourseOfferingLimitedInfoSearchResult> courseOfferingCrossListedCourses;
-    private List<String> courseOfferingPrerequisites;
+    private List<String> creditOptions;
+    private Map<String, String> gradingOptions;
+    private List<CourseOfferingLimitedInfoSearchResult> crossListedCourses;
+    private List<String> prerequisites;
     private List<ActivityOfferingTypesSearchResult> activityOfferingTypes;
 
     public String getCourseOfferingCode() {
@@ -73,12 +75,12 @@ public class CourseOfferingInfoSearchResult {
         this.courseOfferingNumber = courseOfferingNumber;
     }
 
-    public String getCourseOfferingPrefix() {
-        return courseOfferingPrefix;
+    public String getCourseOfferingSubjectArea() {
+        return courseOfferingSubjectArea;
     }
 
-    public void setCourseOfferingPrefix(String courseOfferingPrefix) {
-        this.courseOfferingPrefix = courseOfferingPrefix;
+    public void setCourseOfferingSubjectArea(String courseOfferingSubjectArea) {
+        this.courseOfferingSubjectArea = courseOfferingSubjectArea;
     }
 
     public String getCourseOfferingLongName() {
@@ -89,35 +91,44 @@ public class CourseOfferingInfoSearchResult {
         this.courseOfferingLongName = courseOfferingLongName;
     }
 
-    public List<String> getCourseOfferingCreditOptions() {
-        return courseOfferingCreditOptions;
+    public List<String> getCreditOptions() {
+        return creditOptions;
     }
 
-    public void setCourseOfferingCreditOptions(List<String> courseOfferingCreditOptions) {
-        this.courseOfferingCreditOptions = courseOfferingCreditOptions;
+    public void setCreditOptions(List<String> creditOptions) {
+        this.creditOptions = creditOptions;
     }
 
-    public List<String> getCourseOfferingGradingOptions() {
-        return courseOfferingGradingOptions;
+    public Map<String, String> getGradingOptions() {
+        if(gradingOptions == null){
+            gradingOptions = new HashMap<String, String>();
+        }
+        return gradingOptions;
     }
 
-    public void setCourseOfferingGradingOptions(List<String> courseOfferingGradingOptions) {
-        this.courseOfferingGradingOptions = courseOfferingGradingOptions;
+    public void setGradingOptions(Map<String, String> gradingOptions) { this.gradingOptions = gradingOptions; }
+
+    public List<CourseOfferingLimitedInfoSearchResult> getCrossListedCourses() {
+        return crossListedCourses;
     }
 
-    public List<CourseOfferingLimitedInfoSearchResult> getCourseOfferingCrossListedCourses() {
-        return courseOfferingCrossListedCourses;
+    public void setCrossListedCourses(List<CourseOfferingLimitedInfoSearchResult> crossListedCourses) {
+        this.crossListedCourses = crossListedCourses;
     }
 
-    public void setCourseOfferingCrossListedCourses(List<CourseOfferingLimitedInfoSearchResult> courseOfferingCrossListedCourses) {
-        this.courseOfferingCrossListedCourses = courseOfferingCrossListedCourses;
+    public List<ActivityOfferingTypesSearchResult> getActivityOfferingTypes() {
+        return activityOfferingTypes;
     }
 
-    public List<String> getCourseOfferingPrerequisites() {
-        return courseOfferingPrerequisites;
+    public void setActivityOfferingTypes(List<ActivityOfferingTypesSearchResult> activityOfferingTypes) {
+        this.activityOfferingTypes = activityOfferingTypes;
     }
 
-    public void setCourseOfferingPrerequisites(List<String> courseOfferingPrerequisites) {
-        this.courseOfferingPrerequisites = courseOfferingPrerequisites;
+    public List<String> getPrerequisites() {
+        return prerequisites;
+    }
+
+    public void setPrerequisites(List<String> prerequisites) {
+        this.prerequisites = prerequisites;
     }
 }

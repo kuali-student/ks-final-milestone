@@ -168,6 +168,7 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
         public static final String RG_ID = "regGroupId";
         public static final String AO_NAME = "aoName";
         public static final String AO_TYPE = "aoType";
+        public static final String AO_CODE = "aoCode";
         public static final String GRADING = "grading";
         public static final String RVG_ID = "rvgId";
         public static final String RVG_NAME = "rvgName";
@@ -1418,12 +1419,13 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
                 "SELECT co.ID coId, coId.LUI_CD coCode, coId.DIVISION coDivision, coId.LNG_NAME, " +
                         "co.DESCR_FORMATTED, coRes.RESULT_VAL_GRP_ID, " +
                         "coClId.LUI_ID coClId, coClId.LUI_CD coClCode, coClId.DIVISION coClDivision, " +
-                        "ao.ID aoId, ao.LUI_TYPE, ao.NAME, ao.MAX_SEATS, " +
+                        "ao.ID aoId, ao.LUI_TYPE, ao.NAME, aoId.LUI_CD aoCode, ao.MAX_SEATS, " +
                         "(SELECT COUNT(*) FROM KSEN_LPR lpr " +
                         "  WHERE lpr.LUI_ID = ao.ID " +
                         "    AND lpr.LPR_TYPE='" + LprServiceConstants.REGISTRANT_AO_LPR_TYPE_KEY + "' " +
                         "    AND lpr.LPR_STATE='" + LprServiceConstants.ACTIVE_STATE_KEY + "') numRegisteredForAo, " +
-                        "ao2sched.SCHED_ID " +
+                        "schedCmp.TBA_IND, room.ROOM_CD, rBldg.BUILDING_CD, " +
+                        "schedTmslt.WEEKDAYS, schedTmslt.START_TIME_MS, schedTmslt.END_TIME_MS " +
                         "FROM KSEN_LUI co, KSEN_LUI_IDENT coId, KSEN_LUILUI_RELTN co2fo " +
                         // looking for grading and credit options for given CO
                         "LEFT OUTER JOIN KSEN_LUI_RESULT_VAL_GRP coRes " +
@@ -1442,16 +1444,27 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
                         "LEFT OUTER JOIN KSEN_LUI ao " +
                         "ON ao.ID = fo2ao.RELATED_LUI_ID " +
                         "AND ao.LUI_STATE = '" + LuiServiceConstants.LUI_AO_STATE_OFFERED_KEY + "'" +
-                        // Schedule IDs for AOs
-                        "LEFT OUTER JOIN KSEN_LUI_SCHEDULE ao2sched " +
-                        "ON ao2sched.LUI_ID = ao.ID " +
-                        "AND aoIdent.LUI_ID_TYPE='" + LuiServiceConstants.LUI_IDENTIFIER_OFFICIAL_TYPE_KEY + "' " +
+                        "LEFT OUTER JOIN KSEN_LUI_IDENT aoId " +
+                        "ON aoId.LUI_ID = ao.ID " +
+                        // Schedules for AOs
+                        "LEFT OUTER JOIN KSEN_LUI_SCHEDULE aoSched " +
+                        "ON aoSched.LUI_ID = ao.ID " +
+                        "LEFT OUTER JOIN KSEN_SCHED_CMP schedCmp " +
+                        "ON schedCmp.SCHED_ID = aoSched.SCHED_ID " +
+                        "LEFT OUTER JOIN KSEN_ROOM room " +
+                        "ON room.ID = schedCmp.ROOM_ID " +
+                        "LEFT OUTER JOIN KSEN_ROOM_BUILDING rBldg " +
+                        "ON rBldg.ID = room.BUILDING_ID " +
+                        "LEFT OUTER JOIN KSEN_SCHED_CMP_TMSLOT schedCmpTmslt " +
+                        "ON schedCmpTmslt.SCHED_CMP_ID = schedCmp.ID " +
+                        "LEFT OUTER JOIN KSEN_SCHED_TMSLOT schedTmslt " +
+                        "ON schedTmslt.ID = schedCmpTmslt.TM_SLOT_ID " +
                         "WHERE coId.LUI_ID = co.ID " +
                         "  AND co.LUI_TYPE = 'kuali.lui.type.course.offering' " +
                         "  AND co.ID = :courseOfferingId " +
                         "  AND co2fo.LUI_ID = lui.ID " +
                         "  AND co2fo.LUILUI_RELTN_TYPE = '" + LuiServiceConstants.LUI_LUI_RELATION_DELIVERED_VIA_CO_TO_FO_TYPE_KEY + "'" +
-                        " ORDER BY coId.LUI_CD";
+                        " ORDER BY aoId.LUI_CD";
 
 
         Query query = getEntityManager().createNativeQuery(queryStr);
@@ -1473,6 +1486,7 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
             row.addCell(SearchResultColumns.AO_ID, (String)resultRow[i++]);
             row.addCell(SearchResultColumns.AO_TYPE, (String)resultRow[i++]);
             row.addCell(SearchResultColumns.AO_NAME, (String)resultRow[i++]);
+            row.addCell(SearchResultColumns.AO_CODE, (String)resultRow[i++]);
             BigDecimal maxSeats = (BigDecimal) resultRow[i++];
             if (maxSeats != null) {
                 row.addCell(SearchResultColumns.AO_MAX_SEATS, String.valueOf(maxSeats.intValue()));
@@ -1485,7 +1499,15 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
             } else {
                 row.addCell(SearchResultColumns.SEAT_COUNT, null);
             }
-            row.addCell(SearchResultColumns.AO_SCHEDULE_ID, (String)resultRow[i]);
+            BigDecimal tbaInd = (BigDecimal) resultRow[i++];
+            row.addCell(SearchResultColumns.TBA_IND, (tbaInd == null) ? "" : tbaInd.toString());
+            row.addCell(SearchResultColumns.ROOM_CODE, (String) resultRow[i++]);
+            row.addCell(SearchResultColumns.BUILDING_CODE, (String) resultRow[i++]);
+            row.addCell(SearchResultColumns.WEEKDAYS, (String) resultRow[i++]);
+            BigDecimal startTimeMs = (BigDecimal) resultRow[i++];
+            row.addCell(SearchResultColumns.START_TIME_MS, (startTimeMs == null) ? "" : startTimeMs.toString());
+            BigDecimal endTimeMs = (BigDecimal) resultRow[i];
+            row.addCell(SearchResultColumns.END_TIME_MS, (endTimeMs == null) ? "" : endTimeMs.toString());
 
             resultInfo.getRows().add(row);
         }
