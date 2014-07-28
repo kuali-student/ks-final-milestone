@@ -52,6 +52,7 @@
 .kscr-Search-results-table {
   .kscr-Search-results-card;
   width: 100%;
+  margin-bottom: 4rem;
 }
 
 .kscr-Search-results-paginate {
@@ -93,7 +94,7 @@
 }
 
 // small/medium format styling
-@media screen and (max-width: @smallFormatMax) {
+@media screen and (max-width: @midFormatMax) {
   .kscr-Search-results-heading {
     display: none;
   }
@@ -108,7 +109,7 @@
 }
 
 // large format styling
-@media screen and (min-width: @largeFormatMin) {
+@media screen and (min-width: @wideFormatMin) {
   .kscr-Search-results-container {
     .util-Grid;
   }
