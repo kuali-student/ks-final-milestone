@@ -20,7 +20,7 @@
                  course-card type="waitlist" credits="waitlistedCredits()" schedules="getSchedules()"></div>
         </div>
 
-        <course-calendar ng-if="registeredCredits() > 0 || waitlistedCredits() > 0 || showRegisteredMessages || showWaitlistMessages || cart.items"></course-calendar>
+        <course-calendar ng-if="registeredCredits() > 0 || waitlistedCredits() > 0 || showRegisteredMessages || showWaitlistMessages || cart.items.length > 0"></course-calendar>
 
         <div class="kscr-Splash" ng-if="registeredCredits() === 0 && waitlistedCredits() === 0 && !showRegisteredMessages && !showWaitlistMessages">
             <div class="kscr-Splash-card">
