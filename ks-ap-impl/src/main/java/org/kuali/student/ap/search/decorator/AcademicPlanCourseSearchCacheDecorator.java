@@ -28,28 +28,29 @@ import org.kuali.student.r2.core.search.dto.SearchResultInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ *  Cache Decorator for the custom sql statements used in the academic plan course search
+ *  Cache uses time base invalidation as it is not connected directly to service that modify the tables used in
+ *  custom sqls.
+ */
 public class AcademicPlanCourseSearchCacheDecorator extends AcademicPlanCourseSearchImpl {
     private static final Logger LOG = LoggerFactory.getLogger(AcademicPlanCourseSearchCacheDecorator.class);
 
     private static final String ACADEMIC_PLAN_SEARCH_CACHE = "academicPlanSearchCache";
     private static final String ACADEMIC_PLAN_SEARCH_KEY_PREFIX = "ksapsearch";
 
+    // Cache manager used in storing search results for sqls
     private CacheManager cacheManager;
 
+    // Next academic plan course search object decorator to reference
     private AcademicPlanCourseSearchImpl nextDecorator;
 
-    public AcademicPlanCourseSearchImpl getNextDecorator() throws OperationFailedException {
-        if (null == nextDecorator) {
-            throw new OperationFailedException("Misconfigured application: nextDecorator is null");
-        }
-
-        return nextDecorator;
-    }
-
-    public void setNextDecorator(AcademicPlanCourseSearchImpl nextDecorator) {
-        this.nextDecorator = nextDecorator;
-    }
-
+    /**
+     * Uses SearchCacheDecoratorUtil to attempt to retrieve cache results for the search.
+     * If results can not be found using the cache delegates responsibility to next decorator
+     *
+     * @see org.kuali.student.ap.search.AcademicPlanCourseSearchImpl#search(org.kuali.student.r2.core.search.dto.SearchRequestInfo, org.kuali.student.r2.common.dto.ContextInfo)
+     */
     @Override
     public SearchResultInfo search(SearchRequestInfo searchRequestInfo, ContextInfo contextInfo) throws MissingParameterException, OperationFailedException, PermissionDeniedException {
         try {
@@ -69,5 +70,17 @@ public class AcademicPlanCourseSearchCacheDecorator extends AcademicPlanCourseSe
 
     public void setCacheManager(CacheManager cacheManager) {
         this.cacheManager = cacheManager;
+    }
+
+    public AcademicPlanCourseSearchImpl getNextDecorator() throws OperationFailedException {
+        if (null == nextDecorator) {
+            throw new OperationFailedException("Misconfigured application: nextDecorator is null");
+        }
+
+        return nextDecorator;
+    }
+
+    public void setNextDecorator(AcademicPlanCourseSearchImpl nextDecorator) {
+        this.nextDecorator = nextDecorator;
     }
 }

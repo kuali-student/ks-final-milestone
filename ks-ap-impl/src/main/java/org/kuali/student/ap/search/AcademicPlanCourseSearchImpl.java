@@ -40,6 +40,9 @@ import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import java.util.List;
 
+/**
+ * Creates and manages custom sqls used by the academic plan course search for searching and data loading
+ */
 public class AcademicPlanCourseSearchImpl extends SearchServiceAbstractHardwiredImpl {
     private static final Logger LOG = LoggerFactory.getLogger(AcademicPlanCourseSearchImpl.class);
 
@@ -50,11 +53,10 @@ public class AcademicPlanCourseSearchImpl extends SearchServiceAbstractHardwired
     public static final TypeInfo KSAP_COURSE_SEARCH_COURSEIDS_BY_TERM_SCHEDULED;
     public static final TypeInfo KSAP_COURSE_SEARCH_COURSEIDS_BY_TERM_OFFERED;
 
-
-
     public static final String DEFAULT_EFFECTIVE_DATE = "01/01/2012";
 
     static {
+        // Create default search type
         TypeInfo info = new TypeInfo();
         info.setKey(CourseSearchConstants.KSAP_COURSE_SEARCH_KEY);
         info.setName("KSAP Course Search");
@@ -67,6 +69,7 @@ public class AcademicPlanCourseSearchImpl extends SearchServiceAbstractHardwired
         }
         KSAP_COURSE_SEARCH = info;
 
+        // Create search that retrieves a list of clu ids based on whether the clu entry has a CO offered in a term
         info = new TypeInfo();
         info.setKey(CourseSearchConstants.KSAP_COURSE_SEARCH_COURSEIDS_BY_TERM_SCHEDULED_KEY);
         info.setName("Course Id Search By COs Scheduled In Term");
@@ -74,6 +77,7 @@ public class AcademicPlanCourseSearchImpl extends SearchServiceAbstractHardwired
         info.setEffectiveDate(DateFormatters.MONTH_DAY_YEAR_DATE_FORMATTER.parse(DEFAULT_EFFECTIVE_DATE));
         KSAP_COURSE_SEARCH_COURSEIDS_BY_TERM_SCHEDULED = info;
 
+        // Creates search that retrieves a list of clu ids based on whether the clu entry has a relation to a term key
         info = new TypeInfo();
         info.setKey(CourseSearchConstants.KSAP_COURSE_SEARCH_COURSEIDS_BY_TERM_OFFERED_KEY);
         info.setName("Course Id Search By Terms Offered");
@@ -92,20 +96,29 @@ public class AcademicPlanCourseSearchImpl extends SearchServiceAbstractHardwired
         return KSAP_COURSE_SEARCH;
     }
 
+    /**
+     * @see org.kuali.student.r2.core.search.service.SearchService#getSearchType(String, org.kuali.student.r2.common.dto.ContextInfo)
+     */
     @Override
     public TypeInfo getSearchType(String searchTypeKey, ContextInfo contextInfo)
             throws DoesNotExistException,
             InvalidParameterException,
             MissingParameterException,
             OperationFailedException {
+
         if (CourseSearchConstants.KSAP_COURSE_SEARCH_COURSEIDS_BY_TERM_SCHEDULED_KEY.equals(searchTypeKey)) {
             return KSAP_COURSE_SEARCH_COURSEIDS_BY_TERM_SCHEDULED;
         } else if (CourseSearchConstants.KSAP_COURSE_SEARCH_COURSEIDS_BY_TERM_OFFERED_KEY.equals(searchTypeKey)) {
             return KSAP_COURSE_SEARCH_COURSEIDS_BY_TERM_OFFERED;
         }
+
+        // If no matching search type is found throw exception
         throw new DoesNotExistException("No Search Type Found for key:"+searchTypeKey);
     }
 
+    /**
+     * @see org.kuali.student.r2.core.search.service.SearchService#search(org.kuali.student.r2.core.search.dto.SearchRequestInfo, org.kuali.student.r2.common.dto.ContextInfo)
+     */
     @Override
     public SearchResultInfo search(SearchRequestInfo searchRequestInfo, ContextInfo contextInfo) throws MissingParameterException, OperationFailedException, PermissionDeniedException {
         SearchResultInfo resultInfo;
@@ -115,37 +128,44 @@ public class AcademicPlanCourseSearchImpl extends SearchServiceAbstractHardwired
         }else if (StringUtils.equals(searchRequestInfo.getSearchKey(), KSAP_COURSE_SEARCH_COURSEIDS_BY_TERM_OFFERED.getKey())) {
             resultInfo =  searchForCluIdsOfferedForTerms(searchRequestInfo, contextInfo);
         }else {
+            // If no matching search is found throw exception
             throw new OperationFailedException("Unsupported search type: " + searchRequestInfo.getSearchKey());
         }
 
         return resultInfo;
     }
 
+    /**
+     * Routed To from search method based on search type key pasted in the search request.
+     * Used to create and execute for search type key KSAP_COURSE_SEARCH_COURSEIDS_BY_TERM_SCHEDULED_KEY.
+     *
+     * @see #search(org.kuali.student.r2.core.search.dto.SearchRequestInfo, org.kuali.student.r2.common.dto.ContextInfo)
+     */
     protected SearchResultInfo searchForCluIdsScheduledForTerms(SearchRequestInfo searchRequestInfo, ContextInfo contextInfo)
             throws MissingParameterException, OperationFailedException {
+
         SearchRequestHelper requestHelper = new SearchRequestHelper(searchRequestInfo);
-
         String searchAtpId = requestHelper.getParamAsString(CourseSearchConstants.SearchParameters.ATP_ID);
-
         SearchResultInfo resultInfo = new SearchResultInfo();
 
+        // Create sql string
         String queryStr = "SELECT" +
                 "    DISTINCT" +
                 "    lui.cluId";
-
         queryStr = queryStr +
                 "    FROM" +
                 "    LuiEntity lui ";
-
         queryStr = queryStr +
                 "    WHERE" +
                 "    lui.atpId = :atpId " +
                 "    AND lui.luiState = '"+ LuiServiceConstants.LUI_CO_STATE_OFFERED_KEY+"'";
 
+        // Set params and execute search
         TypedQuery<Object[]> query = getEntityManager().createQuery(queryStr, Object[].class);
         query.setParameter(CourseSearchConstants.SearchParameters.ATP_ID, searchAtpId);
         List<Object[]> results = query.getResultList();
 
+        // Compile results
         for(Object resultRow : results){
             int i = 0;
             SearchResultRowInfo row = new SearchResultRowInfo();
@@ -156,22 +176,26 @@ public class AcademicPlanCourseSearchImpl extends SearchServiceAbstractHardwired
         return resultInfo;
     }
 
+    /**
+     * Routed To from search method based on search type key pasted in the search request.
+     * Used to create and execute for search type key KSAP_COURSE_SEARCH_COURSEIDS_BY_TERM_OFFERED_KEY.
+     *
+     * @see #search(org.kuali.student.r2.core.search.dto.SearchRequestInfo, org.kuali.student.r2.common.dto.ContextInfo)
+     */
     protected SearchResultInfo searchForCluIdsOfferedForTerms(SearchRequestInfo searchRequestInfo, ContextInfo contextInfo)
             throws MissingParameterException, OperationFailedException {
+
         SearchRequestHelper requestHelper = new SearchRequestHelper(searchRequestInfo);
-
         String searchAtpType = requestHelper.getParamAsString(CourseSearchConstants.SearchParameters.ATP_TYPE_KEY);
-
         SearchResultInfo resultInfo = new SearchResultInfo();
 
+        // Create sql string
         String queryStr = "SELECT" +
                 "    cluAtp.CLU_ID";
-
         queryStr = queryStr +
                 "    FROM" +
                 "    KSLU_CLU_ATP_TYPE_KEY cluAtp, " +
                 "    KSLU_CLU clu ";
-
         queryStr = queryStr +
                 "    WHERE" +
                 "    cluAtp.ATP_TYPE_KEY = :atpTypeKey " +
@@ -179,10 +203,12 @@ public class AcademicPlanCourseSearchImpl extends SearchServiceAbstractHardwired
                 "    AND clu.ST = 'Active'" +
                 "    AND clu.LUTYPE_ID = '"+ CluServiceConstants.CREDIT_COURSE_LU_TYPE_KEY+"'";
 
+        // Set params and execute search
         Query query = getEntityManager().createNativeQuery(queryStr);
         query.setParameter(CourseSearchConstants.SearchParameters.ATP_TYPE_KEY, searchAtpType);
         List<Object> results = query.getResultList();
 
+        // Compile results
         for(Object resultRow : results){
             int i = 0;
             SearchResultRowInfo row = new SearchResultRowInfo();
@@ -192,4 +218,6 @@ public class AcademicPlanCourseSearchImpl extends SearchServiceAbstractHardwired
 
         return resultInfo;
     }
+
+
 }
