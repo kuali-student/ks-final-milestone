@@ -378,6 +378,12 @@
                 <bean parent="Uif-HorizontalBoxGroup">
                     <property name="items">
                         <list>
+                            <bean parent="Uif-PrimaryActionButton"
+                                  p:ajaxSubmit="false"
+                                  p:actionLabel="Submit"
+                                  p:methodToCall="route"
+                                  p:performClientSideValidation="true"
+                                  p:render="@{(!#uiHelper.curriculumSpecialistUser or #uiHelper.useReviewProcess) and (#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE])}"/>
                             <bean id="CM-Proposal-Review-CurriculumSpecialist-Cancel"
                                   parent="Uif-ActionLink"
                                   p:actionLabel="Cancel"
