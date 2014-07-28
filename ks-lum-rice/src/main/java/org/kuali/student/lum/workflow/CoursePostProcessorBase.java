@@ -253,7 +253,6 @@ public class CoursePostProcessorBase extends KualiStudentPostProcessorBase {
         return getStateFromNewState(currentCourseState, newCourseState);
     }
 
-    @Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
     protected void updateCourse(IDocumentEvent iDocumentEvent, String courseState, CourseInfo courseInfo, ProposalInfo proposalInfo) throws Exception {
         // only change the state if the course is not currently set to that state
         boolean requiresSave = false;

@@ -195,7 +195,6 @@ public class CourseStateChangeServiceImpl {
 	 *            the end term for the previous version to end on
 	 * @throws Exception
 	 */
-	@Transactional(readOnly = false)
 	private void updateCourseVersionStates(CourseInfo thisVerCourse,
 			String thisVerNewState, CourseInfo currVerCourse,
 			String currVerNewState, boolean makeCurrent,
