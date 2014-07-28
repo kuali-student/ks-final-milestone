@@ -37,7 +37,7 @@ angular.module('regCartApp')
             console.log('Loading course "' + courseId + '"');
 
             lastCourseId = courseId;
-            SearchService.getCourse().query({courseId: courseId}, function(result) {
+            SearchService.getCourse().query({courseOfferingId: courseId}, function(result) {
                 if (lastCourseId === courseId) {
                     // This query matches the last one ran - it's current.
 

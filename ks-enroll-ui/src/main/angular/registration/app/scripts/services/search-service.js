@@ -9,22 +9,7 @@ angular.module('regCartApp')
         };
 
         this.getCourse = function() {
-            return localGetCourse();
-
-            // This is the actual query to the server
-            // return ServiceUtilities.getData(URLS.scheduleOfClasses + '/search');
+            return ServiceUtilities.getData(URLS.scheduleOfClasses + '/courseOfferingInfo');
         };
-
-        /**
-         * REMOVE AFTER MOCK IS PULLED
-         *
-         * Mock getting the static course details.
-         */
-        function localGetCourse () {
-            return $resource('json/static-search-details.json', {}, {
-                query: { method: 'GET', cache: false, isArray: false }
-            });
-        }
-
 
     }]);

@@ -8,12 +8,12 @@
     <!-- Search Details Content -->
     <div class="kscr-SearchDetails-container">
         <div class="kscr-SearchDetails-header util-Grid util-Grid--center">
-            <span class="kscr-SearchDetails-courseCode">{{course.courseCode}}</span>
-            <span class="kscr-SearchDetails-courseTitle util-Grid-cell">{{course.longName}}</span>
+            <span class="kscr-SearchDetails-courseCode">{{course.courseOfferingCode}}</span>
+            <span class="kscr-SearchDetails-courseTitle util-Grid-cell">{{course.courseOfferingLongName}}</span>
             <span class="kscr-SearchDetails-credits">{{course.creditOptions | creditRangeFormatter}}</span>
         </div>
 
-        <div class="kscr-SearchDetails-description">{{course.description}}</div>
+        <div class="kscr-SearchDetails-description">{{course.courseOfferingDesc}}</div>
 
         <!-- Cross-listed courses -->
         <div class="kscr-SearchDetails-crosslists" ng-if="course.crossListedCourses.length > 0">
@@ -21,7 +21,7 @@
             <span class="kscr-SearchDetails-label">Crosslisted as</span>
             <ul>
                 <li ng-repeat="crosslist in course.crossListedCourses">
-                    <a>{{crosslist.courseCode}}</a>
+                    <a>{{crosslist.courseOfferingCode}}</a>
                 </li>
             </ul>
         </div>
