@@ -93,7 +93,7 @@
                                               p:label="Type Of Search"
                                               p:required="true" p:id="searchByCriteria">
                                             <property name="control">
-                                                <bean parent="KS-Uif-DropdownControl" p:onChangeScript="hideName();"/>
+                                                <bean parent="KS-Uif-DropdownControl"/>
                                             </property>
                                             <property name="optionsFinder">
                                                 <bean class="org.kuali.student.lum.lu.ui.course.keyvalues.LoSearchByValuesFinder"
@@ -101,15 +101,15 @@
                                             </property>
                                         </bean>
                                         <bean parent="Uif-LookupCriteriaInputField" p:propertyName="name"
-                                              p:id="searchByField">
+                                              p:id="CM-Proposal-Course-Lo-SearchByName">
                                             <property name="control">
                                                 <bean parent="KS-Uif-TextControl"
                                                       p:additionalCssClasses="lo_lightbox_name"/>
                                             </property>
                                         </bean>
-                                        <bean p:id="show_learning_objectives_button" parent="Uif-SecondaryActionButton"
+                                        <bean p:id="CM-Proposal-Course-Lo-Show" parent="Uif-SecondaryActionButton"
                                               p:actionLabel="Show" p:additionalCssClasses="lo_lightbox_name"
-                                              p:methodToCall="search" p:onClickScript="hideName();"/>
+                                              p:methodToCall="search"/>
                                     </list>
                                 </property>
                             </bean>
@@ -146,7 +146,7 @@
 
         <property name="resultsGroup.footer.items">
             <list>
-                <bean id="KS-AddLo-Button1" parent="Uif-PrimaryActionButton" p:methodToCall="returnSelected"
+                <bean id="CM-Proposal-Course-AddCategories" parent="Uif-PrimaryActionButton" p:methodToCall="returnSelected"
                       p:actionLabel="Add Categories"
                       p:preSubmitCall="setupMultiValueReturn();return true;"
                       p:disabled="true"
@@ -165,7 +165,7 @@
             <bean parent="KS-Uif-FooterBase">
                 <property name="items">
                     <list>
-                        <bean id="KS-AddLo-Button" parent="KS-Uif-PrimaryActionButton"
+                        <bean id="CM-Proposal-Course-AddLo" parent="KS-Uif-PrimaryActionButton"
                               p:preSubmitCall="setupMultiValueReturn();return true;"
                               p:disabled="@{#form.selectedLookupResultsCache.size() == 0}" p:ajaxSubmit="false">
                             <property name="actionLabel" value="Add Learning Objective(s)"/>
@@ -176,7 +176,7 @@
                                 </list>
                             </property>
                         </bean>
-                        <bean id="KS-CancelLo-Button" parent="Uif-CancelAction"
+                        <bean id="CM-Proposal-Course-CancelLo" parent="Uif-CancelAction"
                               p:onClickScript="closeLightbox();return false;"/>
                     </list>
                 </property>
@@ -187,7 +187,7 @@
     <bean id="CM-Proposal-Course-LearningObjective-LookupView-Filter" parent="Uif-HorizontalFieldGroup">
         <property name="items">
             <list>
-                <bean id="LoDisplayInfoWrapper-LookupView-Filter-Input" parent="KS-Uif-InputField-LabelLeft"
+                <bean id="CM-Proposal-Course-Lo-Filter-Input" parent="KS-Uif-InputField-LabelLeft"
                       p:label="Filter"
                       p:style="float: right;"
                       p:propertyName="findObjectivesFilter" p:fieldLabel.style="float:left;"

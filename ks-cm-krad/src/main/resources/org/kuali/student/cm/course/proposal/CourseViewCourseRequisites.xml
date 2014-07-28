@@ -19,7 +19,7 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
                            http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-    <bean id="CM-Proposal-Course-Requisites-Page" parent="KS-CourseView-VerticalBoxSection">
+    <bean id="CM-Proposal-Course-Requisites-Page" parent="CM-Proposal-Course-View-VerticalBoxSection">
         <property name="headerText" value="Course Requisites"/>
         <property name="items">
             <list>
@@ -37,10 +37,10 @@
         </property>
         <property name="items">
             <list>
-                <bean parent="Uif-Message" p:id="CourseRequisites-NoRequiredMessage"
+                <bean parent="Uif-Message" p:id="CM-Proposal-Course-CourseRequisites-NoRequiredMessage"
                       p:messageText="No required fields." p:style="margin-top: 5px; margin-right: 0px;">
                 </bean>
-                <bean parent="KS-Uif-ActionLink" p:id="CourseRequisites-NoRequiredMessage-expand-link"
+                <bean parent="KS-Uif-ActionLink" p:id="CM-Proposal-Course-CourseRequisites-NoRequiredMessage-ExpandLink"
                       p:actionScript="createCourseShowHideObjectiveElements('CM-Proposal-Course-Requisites-NoRequiredMessageLink', 'CM-Proposal-Course-Requisites-Section');"
                       p:actionLabel="Show all fields" p:style="margin-right: 15pt; margin-top: 0px;">
                 </bean>
@@ -58,7 +58,7 @@
         <property name="onDocumentReadyScript" value="setDirtyManually(@{#dp.agendaDirty});" />
         <property name="items">
             <list>
-                <bean id="CourseRequisites-DisclosureLinks-AgendaMaintenance" parent="KRMS-AgendaMaintenance-DisclosureLinks"/>
+                <bean id="CM-Proposal-Course-CourseRequisites-DisclosureLinks-AgendaMaintenance" parent="KRMS-AgendaMaintenance-DisclosureLinks"/>
                 <!-- KSCM-1727 - Move the Rules wrapper within CourseInfoWrapper-->
                 <bean parent="KRMS-AgendaManage-Section" class="org.kuali.student.cm.course.service.util.CourseAgendaSection">
                     <property name="rulePrototype">

@@ -37,7 +37,7 @@ public class LoCategoryViewHelperServiceImpl extends ViewHelperServiceImpl {
                     ContextUtils.createDefaultContextInfo());
             BeanUtils.copyProperties(loCategory, savedLoCat);
         } catch (DataValidationErrorException e) {
-            GlobalVariables.getMessageMap().putErrorForSectionId(CurriculumManagementConstants.KS_LO_CAT_TABLE, CurriculumManagementConstants.MessageKeys.ERROR_LO_CATEGORY_DUPLICATE);
+            GlobalVariables.getMessageMap().putErrorForSectionId(CurriculumManagementConstants.CM_LO_CAT_TABLE, CurriculumManagementConstants.MessageKeys.ERROR_LO_CATEGORY_DUPLICATE);
         } catch (Exception e) {
             LOG.error("An error occurred while trying to create a new Learning Objective Category", e);
         }
@@ -53,7 +53,7 @@ public class LoCategoryViewHelperServiceImpl extends ViewHelperServiceImpl {
                     ContextUtils.createDefaultContextInfo());
             BeanUtils.copyProperties(loCategory, updatedLoCat);
         } catch (DataValidationErrorException e) {
-            GlobalVariables.getMessageMap().putErrorForSectionId(CurriculumManagementConstants.KS_LO_CAT_TABLE, CurriculumManagementConstants.MessageKeys.ERROR_LO_CATEGORY_DUPLICATE);
+            GlobalVariables.getMessageMap().putErrorForSectionId(CurriculumManagementConstants.CM_LO_CAT_TABLE, CurriculumManagementConstants.MessageKeys.ERROR_LO_CATEGORY_DUPLICATE);
         } catch (Exception e) {
             LOG.error("An error occurred while updating the Learning Objective Category", e);
         }

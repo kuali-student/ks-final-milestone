@@ -19,7 +19,7 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
                            http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-    <bean id="CM-Proposal-Course-SupportingDocuments-Page" parent="KS-CourseView-VerticalBoxSection">
+    <bean id="CM-Proposal-Course-SupportingDocuments-Page" parent="CM-Proposal-Course-View-VerticalBoxSection">
         <property name="headerText" value="Supporting Documents"/>
         <property name="header">
             <bean parent="Uif-KS-IconHeader">
@@ -45,7 +45,7 @@
         <property name="propertyName" value="supportingDocs"/>
         <property name="addBlankLineAction.actionLabel" value="Add Document"/>
         <property name="addBlankLineAction.render" value="true"/>
-        <property name="addBlankLineAction.id" value="KS-CourseView-SupportingDocument-Section_add"/>
+        <property name="addBlankLineAction.id" value="CM-Proposal-Course-AddSupportingDocument"/>
         <property name="addBlankLineAction.dirtyOnAction" value="true"/>
         <property name="validationMessages" ref="KS-ValidationMessages-Off"/>
         <property name="layoutManager.renderSequenceField" value="false"/>

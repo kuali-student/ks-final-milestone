@@ -19,7 +19,7 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
                            http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-    <bean id="CM-Proposal-Review-Course-Page" parent="CM-Proposal-View-Course-Page">
+    <bean id="CM-Proposal-Review-Course-Page" parent="CM-ViewCourse-View-Course-Page">
 
         <!-- Initialize the page. This intervenes with the validation message behavior by removing the popovers, and
              also sizes the text areas. -->
@@ -48,7 +48,7 @@
         </property>
     </bean>
 
-    <bean id="CM-Proposal-Review-Course-PageSections" parent="KS-CourseView-VerticalBoxSection">
+    <bean id="CM-Proposal-Review-Course-PageSections" parent="CM-Proposal-Course-View-VerticalBoxSection">
         <property name="items">
             <list>
                 <ref bean="CM-Proposal-Review-Course-Page-ReviewErrorMessageLink"/>
@@ -70,16 +70,16 @@
           p:render="@{#dataObject.missingRequiredFields}" p:additionalCssClasses="ks-cm-reviewproposal-validation-spacing">
         <property name="items">
             <list>
-                <bean id="KS-CourseView-Admin-Message-TreeExpandCollapse" parent="Uif-HorizontalFieldGroup"
+                <bean id="CM-Proposal-Course-View-AdminMessage-TreeExpandCollapse" parent="Uif-HorizontalFieldGroup"
                       p:showLabel="false"
                       p:additionalCssClasses="uif-validationMessages,uif-groupValidationMessages,uif-pageValidationMessages-warning,ks-subSection">
                     <property name="items">
                         <list>
-                            <bean parent="Uif-Message" p:id="ReviewProposal-Error-Message"
+                            <bean parent="Uif-Message" p:id="CM-Proposal-Review-Error-Message"
                                   p:messageText="This proposal is incomplete."
                                   p:style="margin-right: 0pt; margin-top: 5px;">
                             </bean>
-                            <bean parent="KS-Uif-ActionLink" p:id="ReviewProposal-Error-Message-expand-optional-link"
+                            <bean parent="KS-Uif-ActionLink" p:id="CM-Proposal-Review-Error-Message-Expand-Option-Link"
                                   p:actionScript="showHideReviewProposalErrorFields('CM-Proposal-Review-Course-PageSections');"
                                   p:actionLabel="Hide missing-fields indicator.">
                                 <property name="cssClasses">
@@ -95,11 +95,11 @@
         </property>
     </bean>
 
-    <bean id="CM-Proposal-Review-Course-CourseSection" parent="CM-Proposal-View-Course-CourseInfoSection">
+    <bean id="CM-Proposal-Review-Course-CourseSection" parent="CM-ViewCourse-View-Course-CourseInfoSection">
         <property name="headerText" value="Course Information"/>
         <property name="header.rightGroup.items">
             <list>
-                <bean p:id="CourseInfo-Review-Edit-link" parent="CM-Proposal-Review-Course-Edit-Link">
+                <bean p:id="CM-Proposal-Review-CourseInfo-Edit-Link" parent="CM-Proposal-Review-Course-Edit-Link">
                     <property name="actionParameters">
                         <map>
                             <entry key="displaySection" value="CM-Proposal-Course-CourseInfo-Page"/>
@@ -110,10 +110,10 @@
         </property>
     </bean>
 
-    <bean id="CM-Proposal-Review-Course-GovernanceSection" parent="CM-Proposal-View-Course-GovernanceSection">
+    <bean id="CM-Proposal-Review-Course-GovernanceSection" parent="CM-ViewCourse-View-Course-GovernanceSection">
         <property name="header.rightGroup.items">
             <list>
-                <bean p:id="Governance-Review-Edit-link" parent="CM-Proposal-Review-Course-Edit-Link">
+                <bean p:id="CM-Proposal-Review-Governance-Edit-Link" parent="CM-Proposal-Review-Course-Edit-Link">
                     <property name="actionParameters">
                         <map>
                             <entry key="displaySection" value="CM-Proposal-Course-Governance-Page"/>
@@ -124,10 +124,10 @@
         </property>
     </bean>
 
-    <bean id="CM-Proposal-Review-Course-CourseLogisticsSection" parent="CM-Proposal-View-Course-CourseLogisticsSection">
+    <bean id="CM-Proposal-Review-Course-CourseLogisticsSection" parent="CM-ViewCourse-View-Course-CourseLogisticsSection">
         <property name="header.rightGroup.items">
             <list>
-                <bean p:id="Governance-Review-Edit-link" parent="CM-Proposal-Review-Course-Edit-Link">
+                <bean p:id="CM-Proposal-Review-CourseLogistics-Edit-Link" parent="CM-Proposal-Review-Course-Edit-Link">
                     <property name="actionParameters">
                         <map>
                             <entry key="displaySection" value="CM-Proposal-Course-Logistics-Page"/>
@@ -138,10 +138,10 @@
         </property>
     </bean>
 
-    <bean id="CM-Proposal-Review-Course-LearningObjectivesSection" parent="CM-Proposal-View-Course-LearningObjectivesSection">
+    <bean id="CM-Proposal-Review-Course-LearningObjectivesSection" parent="CM-ViewCourse-View-Course-LearningObjectivesSection">
         <property name="header.rightGroup.items">
            <list>
-                <bean p:id="LearningObjectives-Review-Edit-link" parent="CM-Proposal-Review-Course-Edit-Link">
+                <bean p:id="CM-Proposal-Review-LearningObjectives-Edit-Link" parent="CM-Proposal-Review-Course-Edit-Link">
                     <property name="actionParameters">
                         <map>
                             <entry key="displaySection" value="CM-Proposal-Course-LearningObjectives-Page"/>
@@ -152,10 +152,10 @@
         </property>
     </bean>
 
-    <bean id="CM-Proposal-Review-Course-CourseRequisitesSection" parent="CM-Proposal-View-Course-CourseRequisitesSection">
+    <bean id="CM-Proposal-Review-Course-CourseRequisitesSection" parent="CM-ViewCourse-View-Course-CourseRequisitesSection">
         <property name="header.rightGroup.items">
             <list>
-                <bean p:id="CourseRequisites-Review-Edit-link" parent="CM-Proposal-Review-Course-Edit-Link">
+                <bean p:id="CM-Proposal-Review-Requisites-Edit-Link" parent="CM-Proposal-Review-Course-Edit-Link">
                     <property name="actionParameters">
                         <map>
                             <entry key="displaySection" value="CM-Proposal-Course-Requisites-Page"/>
@@ -166,10 +166,10 @@
         </property>
     </bean>
 
-    <bean id="CM-Proposal-Review-Course-ActiveDatesSection" parent="CM-Proposal-View-Course-ActiveDatesSection">
+    <bean id="CM-Proposal-Review-Course-ActiveDatesSection" parent="CM-ViewCourse-View-Course-ActiveDatesSection">
         <property name="header.rightGroup.items">
             <list>
-                <bean p:id="Governance-Review-Edit-link" parent="CM-Proposal-Review-Course-Edit-Link">
+                <bean p:id="CM-Proposal-Review-ActiveDates-Edit-Link" parent="CM-Proposal-Review-Course-Edit-Link">
                     <property name="actionParameters">
                         <map>
                             <entry key="displaySection" value="CM-Proposal-Course-ActiveDates-Page"/>
@@ -180,11 +180,11 @@
         </property>
     </bean>
 
-    <bean id="CM-Proposal-Review-Course-FinancialsSection" parent="CM-Proposal-View-Course-VerticalBoxSection">
+    <bean id="CM-Proposal-Review-Course-FinancialsSection" parent="CM-ViewCourse-View-Course-VerticalBoxSection">
         <property name="headerText" value="Financials"/>
         <property name="header.rightGroup.items">
             <list>
-                <bean p:id="Governance-Review-Edit-link" parent="CM-Proposal-Review-Course-Edit-Link">
+                <bean p:id="CM-Proposal-Review-Financials-Edit-Link" parent="CM-Proposal-Review-Course-Edit-Link">
                     <property name="actionParameters">
                         <map>
                             <entry key="displaySection" value="CM-Proposal-Course-Financials-Page"/>
@@ -195,11 +195,11 @@
         </property>
         <property name="items">
             <list>
-                <bean parent="CM-Proposal-View-Course-GridGroup">
+                <bean parent="CM-ViewCourse-View-Course-GridGroup">
                     <property name="items">
                         <list>
                             <bean parent="CM-ReadOnlyInput" p:label="Justification of Fees"
-                                  id="financialsSection_justificationOfFees"
+                                  id="CM-Proposal-Review-Financials-FeeJustification"
                                   p:propertyName="reviewProposalDisplay.financialsSection.justificationOfFees"/>
                         </list>
                     </property>
@@ -208,11 +208,11 @@
         </property>
     </bean>
 
-    <bean id="CM-Proposal-Review-Course-AuthorsAndCollaboratorsSection" parent="CM-Proposal-View-Course-VerticalBoxSection">
+    <bean id="CM-Proposal-Review-Course-AuthorsAndCollaboratorsSection" parent="CM-ViewCourse-View-Course-VerticalBoxSection">
         <property name="headerText" value="Authors and Collaborators"/>
         <property name="header.rightGroup.items">
             <list>
-                <bean p:id="Governance-Review-Edit-link" parent="CM-Proposal-Review-Course-Edit-Link">
+                <bean p:id="CM-Proposal-Review-AuthorsCollaborators-Edit-Link" parent="CM-Proposal-Review-Course-Edit-Link">
                     <property name="actionParameters">
                         <map>
                             <entry key="displaySection" value="CM-Proposal-Course-AuthorsAndCollaborators-Page"/>
@@ -223,14 +223,14 @@
         </property>
         <property name="items">
             <list>
-                <bean parent="CM-Proposal-View-Course-GridGroup">
+                <bean parent="CM-ViewCourse-View-Course-GridGroup">
                     <property name="items">
                         <list>
                             <bean parent="Uif-VerticalFieldGroup" p:label="Authors and Collaborators" p:colSpan="3"
                                   p:fieldLabel.renderColon="false">
                                 <property name="items">
                                     <list>
-                                        <bean id="course_review_authors_and_collaborators_details" parent="Uif-StackedCollectionSection"
+                                        <bean id="CM-Proposal-Review-AuthorsCollaborators-Section" parent="Uif-StackedCollectionSection"
                                               p:propertyName="reviewProposalDisplay.collaboratorSection.collaboratorWrappers"
                                               p:collectionObjectClass="org.kuali.student.r1.core.workflow.dto.CollaboratorWrapper"
                                               p:colSpan="3">
@@ -285,11 +285,11 @@
         </property>
     </bean>
 
-    <bean id="CM-Proposal-Review-Course-SupportingDocumentsSection" parent="CM-Proposal-View-Course-VerticalBoxSection">
+    <bean id="CM-Proposal-Review-Course-SupportingDocumentsSection" parent="CM-ViewCourse-View-Course-VerticalBoxSection">
         <property name="headerText" value="Supporting Documents"/>
         <property name="header.rightGroup.items">
             <list>
-                <bean p:id="Governance-Review-Edit-link" parent="CM-Proposal-Review-Course-Edit-Link">
+                <bean p:id="CM-Proposal-Review-SupportingDocuments-Edit-Link" parent="CM-Proposal-Review-Course-Edit-Link">
                     <property name="actionParameters">
                         <map>
                             <entry key="displaySection" value="CM-Proposal-Course-SupportingDocuments-Page"/>
@@ -300,13 +300,13 @@
         </property>
         <property name="items">
             <list>
-                <bean parent="CM-Proposal-View-Course-GridGroup">
+                <bean parent="CM-ViewCourse-View-Course-GridGroup">
                     <property name="items">
                         <list>
                             <bean parent="Uif-VerticalFieldGroup" p:label="Supporting Documents" p:colSpan="3" p:fieldLabel.renderColon="false">
                                 <property name="items">
                                     <list>
-                                        <bean id="supporting_document_review_section" parent="KS-Uif-StackedCollectionSection-HorizontalSubCollectionFieldGroup"
+                                        <bean id="CM-Proposal-Review-SupportingDocuments-Section" parent="KS-Uif-StackedCollectionSection-HorizontalSubCollectionFieldGroup"
                                               p:propertyName="reviewProposalDisplay.supportingDocumentsSection.supportingDocuments"
                                               p:collectionObjectClass="org.kuali.student.cm.course.form.wrapper.SupportingDocumentInfoWrapper"
                                               p:colSpan="3">
@@ -314,22 +314,22 @@
                                             <property name="renderAddLine" value="false"/>
                                             <property name="items">
                                                 <list>
-                                                    <bean id="supporting_document_group" parent="Uif-HorizontalFieldGroup" p:showLabel="false">
+                                                    <bean id="CM-Proposal-Review-SupportingDocuments-Group" parent="Uif-HorizontalFieldGroup" p:showLabel="false">
                                                          <property name="items">
                                                              <list>
-                                                                 <bean id="supporting_document_@{#index}" parent="Uif-ActionLinkField" p:actionLabel="@{#line.documentName}" p:methodToCall="downloadSupportingDoc"
+                                                                 <bean id="CM-Proposal-Review-SupportingDocuments_@{#index}" parent="Uif-ActionLinkField" p:actionLabel="@{#line.documentName}" p:methodToCall="downloadSupportingDoc"
                                                                        p:ajaxSubmit="false"
                                                                        p:disableBlocking="true"
                                                                        p:onClickScript="writeHiddenToForm(&quot;ajaxReturnType&quot;, &quot;update-none&quot;);">
                                                                      <property name="fieldLabel.render" value="false"/>
-                                                                     <property name="id" value="supporting_document_@{#index}"/>
+                                                                     <property name="id" value="CM-Proposal-Review-SupportingDocuments_@{#index}"/>
                                                                      <property name="cssClasses">
                                                                          <list merge="true">
                                                                              <value>cm_readonly_input</value>
                                                                          </list>
                                                                      </property>
                                                                  </bean>
-                                                                 <bean id="supporting_document_description" parent="Uif-DataField"
+                                                                 <bean id="CM-Proposal-Review-SupportingDocuments-Description" parent="Uif-DataField"
                                                                        p:propertyName="description"/>
                                                              </list>
                                                          </property>
@@ -359,7 +359,7 @@
                                   p:methodToCall="route"
                                   p:performClientSideValidation="true"
                                   p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}"/>
-                            <bean id="CourseView-ReviewProposal-cancel"
+                            <bean id="CM-Proposal-Review-Cancel"
                                   parent="Uif-ActionLink"
                                   p:actionLabel="Cancel"
                                   p:methodToCall="back"
@@ -378,7 +378,7 @@
                 <bean parent="Uif-HorizontalBoxGroup">
                     <property name="items">
                         <list>
-                            <bean id="CourseView-ReviewProposal-CurriculumSpecialist-cancel"
+                            <bean id="CM-Proposal-Review-CurriculumSpecialist-Cancel"
                                   parent="Uif-ActionLink"
                                   p:actionLabel="Cancel"
                                   p:methodToCall="back"

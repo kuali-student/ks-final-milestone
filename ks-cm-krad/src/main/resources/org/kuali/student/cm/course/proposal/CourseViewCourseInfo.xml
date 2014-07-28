@@ -20,7 +20,7 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
                            http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-    <bean id="CM-Proposal-Course-CourseInfo-Page" parent="KS-CourseView-VerticalBoxSection">
+    <bean id="CM-Proposal-Course-CourseInfo-Page" parent="CM-Proposal-Course-View-VerticalBoxSection">
         <!-- The header text for this section has to be set for the tabs to initialize properly.
              And, we don't want "CM-Proposal-Course-CourseInfo-CourseData-Section" (aka the Titles) sub-section to have a header.
              But since the validation messaging is weird in the sub-section without a header we are actually
@@ -33,13 +33,13 @@
 
                 <ref bean="CM-Proposal-Course-CourseInfo-CrossListingEtcDisclosure-Section" /> <!-- Cross listings, etc -->
 
-                <bean id="KS-Instructors-Section" parent="KS-TableCollectionSubSection-BottomAddLine"
+                <bean id="CM-Proposal-Course-CourseInfo-Instructor-Section" parent="KS-TableCollectionSubSection-BottomAddLine"
                       p:layoutManager.style="width: 100%;"
                       p:headerText="Instructor(s)">
                     <property name="collectionObjectClass" value="org.kuali.student.cm.course.form.wrapper.CluInstructorInfoWrapper" />
                     <property name="propertyName" value="instructorWrappers" />
                     <property name="addBlankLineAction.actionLabel" value="Add Instructor"/>
-                    <property name="addBlankLineAction.id" value="addInstructor"/>
+                    <property name="addBlankLineAction.id" value="CM-Proposal-Course-CourseInfo-AddInstructor"/>
                     <property name="addBlankLineAction.onDocumentReadyScript" value="reDisplayInstructor();"/>
                     <property name="addBlankLineAction.dirtyOnAction" value="true" />
                     <property name="layoutManager.renderSequenceField" value="false"/>
@@ -64,7 +64,7 @@
                     </property>
                     <property name="items">
                         <list>
-                            <bean id="KS-Instructor-displayName" parent="KS-Uif-InputField" p:propertyName="displayName">
+                            <bean id="CM-Proposal-Course-CourseInfo-Instructor-Name" parent="KS-Uif-InputField" p:propertyName="displayName">
                                 <property name="control">
                                     <bean parent="KS-Uif-TextControl" p:size="50" p:cssClasses="validInstructorNameAndID" />
                                 </property>
@@ -97,7 +97,7 @@
                     </property>
                     <property name="lineActions">
                         <list>
-                            <bean parent="KS-Uif-Delete-ActionLink" p:id="delete_instructor" p:methodToCall="deleteLine" p:actionLabel="Delete"
+                            <bean parent="KS-Uif-Delete-ActionLink" p:id="CM-Proposal-Course-CourseInfo-Instructor-Delete" p:methodToCall="deleteLine" p:actionLabel="Delete"
                                   p:actionEvent="deleteLine" p:dirtyOnAction="true"/>
                         </list>
                     </property>
@@ -110,7 +110,7 @@
                     <property name="validationMessages" ref="KS-ValidationMessages-Off"/>
                     <property name="items">
                         <list>
-                            <bean id="KS-CourseDescription" parent="CM-InputField"
+                            <bean id="CM-Proposal-Course-CourseInfo-Description" parent="CM-InputField"
                                 p:label="Description" p:propertyName="courseInfo.descr.plain" >
                                 <property name="instructionalText" value="This description will appear in the catalog." />
                                 <!-- TODO:KSCM-2099 This is a temporary fix till the KRAD Data Dictionary works properly -->
@@ -128,7 +128,7 @@
                                 </property>
                             </bean>
 
-                            <bean id="KS-ProposalRationale" parent="CM-InputField"
+                            <bean id="CM-Proposal-Course-CourseInfo-Rationale" parent="CM-InputField"
                                 p:label="Proposal Rationale" p:propertyName="proposalInfo.rationale.plain">
 
                                 <property name="instructionalText"
@@ -170,7 +170,7 @@
         <property name="items">
             <list>
                 <!-- Not using CM-InputField here because this one is always required and doesn't get the custom requiredness indicator. -->
-                <bean parent="KS-Uif-InputField" p:label="Proposal Title" p:id="CreateCourseProposalTitleInputField"
+                <bean parent="KS-Uif-InputField" p:label="Proposal Title" p:id="CM-Proposal-Course-CourseInfo-ProposalTitle"
                       p:propertyName="proposalInfo.name">
                     <property name="fieldLabel.richLabelMessage">
                         <bean parent="CM-IconLabelMessage">
@@ -194,7 +194,7 @@
                     </property>
                 </bean>
 
-                <bean id="KS-TranscriptTitle" parent="CM-InputField" p:label="Transcript Course Title"
+                <bean id="CM-Proposal-Course-CourseInfo-TranscriptTitle" parent="CM-InputField" p:label="Transcript Course Title"
                       p:propertyName="courseInfo.transcriptTitle" >
                     <property name="instructionalText"
                               value="This is the truncated title that will appear on the printed transcript."/>
@@ -209,10 +209,10 @@
                     </property>
                 </bean>
 
-                <bean id="KS-CM-SubjectCode-CourseNumberSuffix" parent="Uif-HorizontalBoxSection" >
+                <bean id="CM-Proposal-Course-CourseInfo-SubjectCode-CourseNum" parent="Uif-HorizontalBoxSection" >
                     <property name="items">
                         <list>
-                            <bean  id="KS-SubjectArea-Field" parent="CM-InputField"
+                            <bean  id="CM-Proposal-Course-CourseInfo-SubjectCode" parent="CM-InputField"
                                 p:label="Subject Code" p:propertyName="courseInfo.subjectArea" >
 
                                 <property name="constraintText" value="Must be a 4 letter code"/>
@@ -232,7 +232,7 @@
                                 </property>
                             </bean>
 
-                            <bean id="KS-CourseNumberSuffix-Field" parent="CM-InputField"
+                            <bean id="CM-Proposal-Course-CourseInfo-CourseNumSuffix" parent="CM-InputField"
                                   p:label="Course Number" p:propertyName="courseInfo.courseNumberSuffix"
                                   p:minLength="3">
                                 <property name="constraintText" value="Must be a 3 digit number"/>
@@ -271,14 +271,14 @@
         </property>
         <property name="items">
             <list>
-                <bean id="KS-CrossListed-Section" parent="KS-TableCollectionSubSection-BottomAddLine"
-                      p:id="crosslisted-course" p:layoutManager.style="width: 100%;"
+                <bean id="CM-Proposal-Course-CourseInfo-CrossList-Section" parent="KS-TableCollectionSubSection-BottomAddLine"
+                      p:id="CM-Proposal-Course-CourseInfo-CrossList" p:layoutManager.style="width: 100%;"
                       p:headerText="Cross Listed Courses">
                     <property name="header.headerLevel" value="h4"/>
                     <property name="collectionObjectClass" value="org.kuali.student.r2.lum.course.dto.CourseCrossListingInfo" />
                     <property name="propertyName" value="courseInfo.crossListings" />
                     <property name="addBlankLineAction.actionLabel" value="Add Course"/>
-                    <property name="addBlankLineAction.id" value="addCrosslistedCourse"/>
+                    <property name="addBlankLineAction.id" value="CM-Proposal-Course-CourseInfo-AddCrossList"/>
                     <property name="addBlankLineAction.onDocumentReadyScript" value="reDisplayCrosslistedCourse();"/>
                     <property name="addBlankLineAction.dirtyOnAction" value="true" />
                     <property name="layoutManager.renderSequenceField" value="false"/>
@@ -310,7 +310,7 @@
                     </property>
                     <property name="items">
                         <list>
-                            <bean parent="KS-Uif-InputField" p:propertyName="subjectArea" p:id="subjectArea" p:label="Subject Code" p:required="false" >
+                            <bean parent="KS-Uif-InputField" p:propertyName="subjectArea" p:id="CM-Proposal-Course-CourseInfo-CrossList-SubjectCode" p:label="Subject Code" p:required="false" >
                                 <property name="refreshWhenChangedPropertyNames" value="subjectArea"/>
                                 <property name="constraintText" value="Must be a 4 letter code"/>
                                 <property name="control">
@@ -331,7 +331,7 @@
                                 </property>
                             </bean>
 
-                            <bean parent="KS-Uif-InputField" p:propertyName="courseNumberSuffix" p:id="courseNumberSuffix" p:label="Course Number" p:required="false" >
+                            <bean parent="KS-Uif-InputField" p:propertyName="courseNumberSuffix" p:id="CM-Proposal-Course-CourseInfo-CrossList-CourseNumSuffix" p:label="Course Number" p:required="false" >
                                 <property name="refreshWhenChangedPropertyNames" value="subjectArea"/>
                                 <property name="constraintText" value="Must be a 3 digit number"/>
                                 <property name="control">
@@ -344,20 +344,20 @@
                     </property>
                     <property name="lineActions">
                         <list>
-                            <bean parent="KS-Uif-Delete-ActionLink" p:id="delete_crosslistedcourse" p:methodToCall="deleteLine" p:actionLabel="Delete"
+                            <bean parent="KS-Uif-Delete-ActionLink" p:id="CM-Proposal-Course-CourseInfo-CrossList-Delete" p:methodToCall="deleteLine" p:actionLabel="Delete"
                                   p:actionEvent="deleteLine" p:dirtyOnAction="true"/>
                         </list>
                     </property>
                 </bean>
 
-                <bean id="KS-JointlyOffered-Section" parent="KS-TableCollectionSubSection-BottomAddLine"
-                      p:id="jointlyOffered-section" p:layoutManager.style="width: 100%;"
+                <bean id="CM-Proposal-Course-CourseInfo-JointlyOffered-Section" parent="KS-TableCollectionSubSection-BottomAddLine"
+                      p:id="CM-Proposal-Course-CourseInfo-JointlyOffered" p:layoutManager.style="width: 100%;"
                       p:headerText="Jointly Offered Courses">
                     <property name="header.headerLevel" value="h4"/>
                     <property name="collectionObjectClass" value="org.kuali.student.cm.course.form.wrapper.CourseJointInfoWrapper" />
                     <property name="propertyName" value="courseJointWrappers" />
                     <property name="addBlankLineAction.actionLabel" value="Add Course"/>
-                    <property name="addBlankLineAction.id" value="addJointlyOfferedCourse"/>
+                    <property name="addBlankLineAction.id" value="CM-Proposal-Course-CourseInfo-AddJointlyOffered"/>
                     <property name="addBlankLineAction.dirtyOnAction" value="true" />
                     <property name="layoutManager.renderSequenceField" value="false"/>
                     <property name="layoutManager.generateAutoSequence" value="false"/>
@@ -386,7 +386,7 @@
                     </property>
                     <property name="items">
                         <list>
-                            <bean id="KS-CourseCode-Field" parent="CM-InputField" p:label="Course Code"
+                            <bean id="CM-Proposal-Course-CourseInfo-JointOffer-CourseCode" parent="CM-InputField" p:label="Course Code"
                                   p:propertyName="courseCode" p:additionalHiddenPropertyNames="courseId">
                                 <property name="control">
                                     <bean parent="KS-Uif-TextControl" p:cssClasses="validCourseCode"/>
@@ -431,20 +431,20 @@
                     </property>
                     <property name="lineActions">
                         <list>
-                            <bean parent="KS-Uif-Delete-ActionLink" p:id="delete_jointofferedcourse" p:methodToCall="deleteLine" p:actionLabel="Delete"
+                            <bean parent="KS-Uif-Delete-ActionLink" p:id="CM-Proposal-Course-CourseInfo-JointOffer-Delete" p:methodToCall="deleteLine" p:actionLabel="Delete"
                                   p:actionEvent="deleteLine" p:dirtyOnAction="true"/>
                         </list>
                     </property>
                 </bean>
 
-                <bean id="KS-VersionCode-Section" parent="KS-TableCollectionSubSection-BottomAddLine"
+                <bean id="CM-Proposal-Course-CourseInfo-VersionCode-Section" parent="KS-TableCollectionSubSection-BottomAddLine"
                       p:id="version-code" p:layoutManager.style="width: 100%;"
                       p:headerText="Version Codes">
                     <property name="header.headerLevel" value="h4"/>
                     <property name="collectionObjectClass" value="org.kuali.student.r2.lum.course.dto.CourseVariationInfo" />
                     <property name="propertyName" value="courseInfo.variations" />
                     <property name="addBlankLineAction.actionLabel" value="Add Version Code"/>
-                    <property name="addBlankLineAction.id" value="addVersionCode"/>
+                    <property name="addBlankLineAction.id" value="CM-Proposal-Course-CourseInfo-AddVersionCode"/>
                     <property name="addBlankLineAction.onDocumentReadyScript" value="reDisplayVersionCode();"/>
                     <property name="addBlankLineAction.dirtyOnAction" value="true" />
                     <property name="layoutManager.renderSequenceField" value="false"/>
@@ -474,7 +474,7 @@
                     </property>
                     <property name="items">
                         <list>
-                            <bean parent="KS-Uif-InputField" p:propertyName="variationCode" p:id="variationCode" p:label="Version Code">
+                            <bean parent="KS-Uif-InputField" p:propertyName="variationCode" p:id="CM-Proposal-Course-CourseInfo-VariationCode" p:label="Version Code">
                                 <property name="refreshWhenChangedPropertyNames" value="subjectArea"/>
                                 <property name="constraintText" value="Must be a capital letter"/>
                                 <property name="control">
@@ -493,7 +493,7 @@
                                 </property>
                             </bean>
 
-                            <bean parent="KS-Uif-InputField" p:propertyName="variationTitle" p:id="variationTitle" p:label="Course Title" >
+                            <bean parent="KS-Uif-InputField" p:propertyName="variationTitle" p:id="CM-Proposal-Course-CourseInfo-VariationTitle" p:label="Course Title" >
                                 <property name="control">
                                     <bean parent="KS-Uif-TextControl"   p:size="70" />
                                 </property>
@@ -502,7 +502,7 @@
                     </property>
                     <property name="lineActions">
                         <list>
-                            <bean parent="KS-Uif-Delete-ActionLink" p:id="delete_versioncode" p:methodToCall="deleteLine" p:actionLabel="Delete"
+                            <bean parent="KS-Uif-Delete-ActionLink" p:id="CM-Proposal-Course-CourseInfo-VersionCode-Delete" p:methodToCall="deleteLine" p:actionLabel="Delete"
                                   p:actionEvent="deleteLine" p:dirtyOnAction="true"/>
                         </list>
                     </property>

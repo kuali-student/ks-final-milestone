@@ -190,10 +190,10 @@
                     <list>
                         <bean parent="KS-Uif-DataField" p:label="Proposal Status"
                               p:shortLabel="Status" p:propertyName="proposalInfo.stateKey"/>
-                        <bean id="CourseView-LinkGroup-Comments" parent="Uif-ActionLink" p:actionLabel="Comments"
+                        <bean id="CM-Proposal-Course-LinkGroup-Comments" parent="Uif-ActionLink" p:actionLabel="Comments"
                               p:actionScript="showCommentLightBox('@{#ConfigProperties['application.url']}/kr-krad/cm_comment?viewId=CM-Proposal-Course-Comment-View&amp;methodToCall=start&amp;proposalId=@{#dataObject.proposalInfo.id}');"
                               p:disabled="@{#workflowDoc.initiated}"/>
-                        <bean id="CourseView-LinkGroup-Decisions" parent="Uif-ActionLink" p:actionLabel="Decisions"
+                        <bean id="CM-Proposal-Course-LinkGroup-Decisions" parent="Uif-ActionLink" p:actionLabel="Decisions"
                               p:methodToCall="showDecisions"/>
                         <bean parent="Uif-Space"/>
                         <bean parent="KS-Uif-DataField" p:label="Last Updated"
@@ -222,8 +222,8 @@
                 <!-- <bean id="compareRuleLightBox" parent="KS-KRMS-CompareRule">
                     <property name="headerText" value="Compare Catalog and Course Offering Rules"/>
                 </bean> -->
-                <bean id="courseRangeLookup" parent="KRMS-CourseRangeResult-Lookup"/>
-                <bean id="warningMessagedYesNo" parent="KRMS-WarningMessagedYesNo"/>
+                <bean id="CM-Proposal-Course-Rule-CourseRangeLookup" parent="KRMS-CourseRangeResult-Lookup"/>
+                <bean id="CM-Proposal-Course-Rule-WarningMessage" parent="KRMS-WarningMessagedYesNo"/>
             </list>
         </property>
         <property name="items">
@@ -391,7 +391,7 @@
     <!--
         Each course details tab/section extends this
     -->
-    <bean id="KS-CourseView-VerticalBoxSection" parent="Uif-VerticalBoxSection" abstract="true">
+    <bean id="CM-Proposal-Course-View-VerticalBoxSection" parent="Uif-VerticalBoxSection" abstract="true">
         <property name="cssClasses">
             <list merge="true">
                 <value>course_details_tab_section</value>
@@ -404,7 +404,7 @@
         <property name="validationMessages" ref="KS-ValidationMessages-Off"/>
     </bean>
 
-    <bean id="KS-CourseView-HorizontalBoxSection" parent="Uif-HorizontalBoxSection" abstract="true"/>
+    <bean id="CM-Proposal-Course-View-HorizontalBoxSection" parent="Uif-HorizontalBoxSection" abstract="true"/>
 
     <bean id="CM-Proposal-Course-Create-Page" parent="Uif-MaintenancePage" p:disclosure.render="false">
         <property name="header" ref="CM-Proposal-Course-Create-Header"/>
@@ -445,7 +445,7 @@
                 </bean>
 
                 <!-- The text above the tab panel. This gets fixed positioning via JS. -->
-                <bean id="course_tabs_header" parent="Uif-VerticalBoxGroup"
+                <bean id="CM-Proposal-Course-View-TabHeader" parent="Uif-VerticalBoxGroup"
                       p:render="@{!#uiHelper.curriculumSpecialistUser or #uiHelper.useReviewProcess}">
                     <property name="header">
                         <bean parent="Uif-HeaderFour">
@@ -460,10 +460,10 @@
                 </bean>
 
                 <!-- The text and link below the tab panel. This gets fixed positioning via JS. -->
-                <bean id="KS-CourseView-ReviewProposalLink" parent="Uif-VerticalBoxGroup"
+                <bean id="CM-Proposal-Course-View-ReviewProposalLink" parent="Uif-VerticalBoxGroup"
                       p:render="@{(!#uiHelper.curriculumSpecialistUser or #uiHelper.useReviewProcess) and !#workflowDoc.initiated}">
                     <property name="header">
-                        <bean id="course_tabs_footer_header" parent="Uif-HeaderFour">
+                        <bean id="CM-Proposal-Course-View-Tab-ReviewHeader" parent="Uif-HeaderFour">
                             <property name="cssClasses">
                                 <list merge="true">
                                     <value>course_tabs_header_text</value>
@@ -475,7 +475,7 @@
                     <property name="items">
                         <list>
                             <bean parent="Uif-NavigationActionLink">
-                                <property name="id" value="course_details_review_proposal_link"/>
+                                <property name="id" value="CM-Proposal-Course-ReviewProposalLink"/>
                                 <property name="actionLabel" value="Review Proposal"/>
                                 <property name="finalizeMethodToCall" value="buildProposalActionLink"/>
                                 <property name="finalizeMethodAdditionalArguments">
@@ -511,19 +511,19 @@
             <ref bean="Uif-HeaderLowerGroup"/>
         </property>
         <property name="upperGroup">
-            <bean id="KS-CourseView-AdminMessageGroup" parent="Uif-VerticalBoxGroup">
+            <bean id="CM-Proposal-Course-View-AdminMessageGroup" parent="Uif-VerticalBoxGroup">
                 <property name="items">
                     <list>
-                        <bean id="KS-CourseView-Admin-Message-TreeExpandCollapse" parent="Uif-HorizontalFieldGroup"
+                        <bean id="CM-Proposal-Course-View-AdminMessage-TreeExpandCollapse" parent="Uif-HorizontalFieldGroup"
                               p:showLabel="false" p:render="@{#uiHelper.curriculumSpecialistUser}"
                               p:additionalCssClasses="uif-validationMessages,uif-groupValidationMessages,uif-pageValidationMessages-warning,ks-subSection">
                             <property name="items">
                                 <list>
-                                    <bean parent="Uif-Message" p:id="Create-CourseView-Admin-Message"
+                                    <bean parent="Uif-Message" p:id="CM-Proposal-Course-View-Admin-Message"
                                           p:messageText="Showing required and optional fields.">
                                     </bean>
                                     <bean parent="KS-Uif-ActionLink"
-                                          p:id="Create-CourseView-Admin-Message-expand-optional-link"
+                                          p:id="CM-Proposal-Course-View-Admin-Message-Expand-Optional-Link"
                                           p:actionScript="showHideCreateCourseOptionalElements();"
                                           p:actionLabel="Show only required fields">
                                     </bean>
@@ -574,7 +574,7 @@
                       p:methodToCall="reload" 
                       p:actionLabel="Reload"
                       p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_RELOAD]}"/> -->
-                <bean parent="Uif-ActionLink" p:id="ucancel"
+                <bean parent="Uif-ActionLink" p:id="CM-Proposal-Course-View-Admin-Cancel"
                       p:actionLabel="Cancel"
                       p:methodToCall="back"
                       p:style="margin-top:5px;"
@@ -641,7 +641,7 @@
                                   p:performClientSideValidation="true"
                                   p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_SAVE]}">
                             </bean>
-                            <bean parent="Uif-ActionLink" p:id="ucancel"
+                            <bean parent="Uif-ActionLink" p:id="CM-Proposal-Course-View-Cancel"
                                   p:actionLabel="Cancel"
                                   p:methodToCall="back"
                                   p:style="margin-top:5px;"

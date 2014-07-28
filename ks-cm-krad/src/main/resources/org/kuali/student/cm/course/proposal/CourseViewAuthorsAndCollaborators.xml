@@ -39,7 +39,7 @@
         <property name="propertyName" value="collaboratorWrappers"/>
         <property name="addBlankLineAction.actionLabel" value="Add Person"/>
         <property name="addBlankLineAction.render" value="true"/>
-        <property name="addBlankLineAction.id" value="KS-CourseView-AuthorsAndCollaborators-Section_add"/>
+        <property name="addBlankLineAction.id" value="CM-Proposal-Course-AddAuthorsAndCollaborators"/>
         <property name="addBlankLineAction.dirtyOnAction" value="true"/>
         <property name="validationMessages" ref="KS-ValidationMessages-Off"/>
         <property name="layoutManager.renderSequenceField" value="false"/>
@@ -77,7 +77,7 @@
         </property>
         <property name="Items">
             <list>
-                <bean id="KS-Author-displayName" parent="KS-Uif-InputField" p:label="Name"
+                <bean id="CM-Proposal-Course-AuthorsAndCollaborators-Name" parent="KS-Uif-InputField" p:label="Name"
                       p:propertyName="displayName">
                     <property name="readOnly" value="@{!#empty(#line.actionRequestId)}"/>
                     <property name="control">
@@ -109,7 +109,7 @@
                         </bean>
                     </property>
                 </bean>
-                <bean id="KS-PermissionDropDown" parent="KS-Uif-InputField-LabelTop" p:propertyName="permission"
+                <bean id="CM-Proposal-Course-AuthorsAndCollaborator-Permission" parent="KS-Uif-InputField-LabelTop" p:propertyName="permission"
                       p:label="Permission" p:required="true">
                     <property name="readOnly" value="@{!#empty(#line.actionRequestId)}"/>
                     <property name="control">
@@ -124,7 +124,7 @@
                         </bean>
                     </property>
                 </bean>
-                <bean id="KS-ActionRequestDropDown" parent="KS-Uif-InputField-LabelTop" p:propertyName="action"
+                <bean id="CM-Proposal-Course-AuthorsAndCollaborator-ActionRequest" parent="KS-Uif-InputField-LabelTop" p:propertyName="action"
                       p:label="Action Required" p:required="true" p:style="width:10em">
                     <property name="readOnly" value="@{!#empty(#line.actionRequestId)}"/>
                     <property name="control">
@@ -160,10 +160,10 @@
         </property>
         <property name="items">
             <list>
-                <bean parent="Uif-Message" p:id="AuthorsAndCollaborators-NoRequiredMessage"
+                <bean parent="Uif-Message" p:id="CM-Proposal-Course-AuthorsAndCollaborators-NoRequiredMessage"
                       p:messageText="No required fields." p:style="margin-top: 5px; margin-right: 0px;">
                 </bean>
-                <bean parent="KS-Uif-ActionLink" p:id="AuthorsAndCollaborators-NoRequiredMessage-expand-link"
+                <bean parent="KS-Uif-ActionLink" p:id="CM-Proposal-Course-AuthorsAndCollaborators-NoRequiredMessage-ExpandLink"
                       p:actionScript="createCourseShowHideObjectiveElements('CM-Proposal-Course-AuthorsAndCollaborators-NoRequiredMessageLink', 'CourseView-AuthorsAndCollaborators-TableCollectionSection');"
                       p:actionLabel="Show all fields" p:style="margin-right: 15pt; margin-top: 0px;">
                 </bean>

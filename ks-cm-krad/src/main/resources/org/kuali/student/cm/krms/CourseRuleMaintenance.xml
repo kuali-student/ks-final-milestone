@@ -32,9 +32,9 @@ limitations under the License.
     <bean id="CM-Proposal-Course-AgendaManage-EditRule" parent="KRMS-AgendaManage-EditRule">
         <property name="items">
             <list>
-                <bean id="Course-RuleEdit-ActionLinks" parent="CM-Proposal-Course-RuleEdit-Links" p:style="margin-left:-12px;"/>
+                <bean id="CM-Proposal-Course-Requisites-RuleEdit-ActionLinks" parent="CM-Proposal-Course-RuleEdit-Links" p:style="margin-left:-12px;"/>
                 <bean parent="Uif-MessageField" p:messageText="@{#line.ruleTypeInfo.instruction}"/>
-                <bean id="Course-ViewTree-Group" parent="Uif-VerticalBoxGroup"
+                <bean id="CM-Proposal-Course-Requisites-ViewTree-Group" parent="Uif-VerticalBoxGroup"
                       p:cssClasses="ks-form-panel">
                     <property name="items">
                         <list>
@@ -49,7 +49,7 @@ limitations under the License.
     <bean id="CM-Proposal-Course-AgendaManage-AddRule" parent="KRMS-AgendaManage-AddRule">
         <property name="items">
             <list>
-                <bean id="Course-RuleAdd-ActionLink" parent="CM-Proposal-Course-RuleAdd-Links" p:style="margin-left:-12px;"/>
+                <bean id="CM-Proposal-Course-Requisites-RuleAdd-ActionLinks" parent="CM-Proposal-Course-RuleAdd-Links" p:style="margin-left:-12px;"/>
                 <bean parent="Uif-MessageField" p:messageText="@{#line.ruleTypeInfo.instruction}"/>
             </list>
         </property>
@@ -205,12 +205,12 @@ limitations under the License.
                         <bean parent="Uif-HorizontalBoxGroup">
                             <property name="items">
                                 <list>
-                                    <bean id="Course-UpdateRule-Button" parent="KS-Uif-PrimaryActionButton"
+                                    <bean id="CM-Proposal-Course-Requisites-UpdateRule-Button" parent="KS-Uif-PrimaryActionButton"
                                           p:performClientSideValidation="true" p:ajaxSubmit="false">
                                         <property name="actionLabel" value="Update Rule"/>
                                         <property name="methodToCall" value="updateRule"/>
                                     </bean>
-                                    <bean id="Course-CancelRule-Button" parent="KS-Uif-NavigationActionLink"
+                                    <bean id="CM-Proposal-Course-Requisites-CancelRule-Button" parent="KS-Uif-NavigationActionLink"
                                           p:performDirtyValidation="true">
                                         <property name="actionLabel" value="Cancel"/>
                                         <property name="methodToCall" value="cancelEditRule"/>
@@ -426,7 +426,7 @@ limitations under the License.
     <bean id="CM-Proposal-Course-AgendaManage-ViewRule" parent="KRMS-AgendaManage-EditRule">
         <property name="items">
             <list>
-                <bean id="Course-ReviewTree-Group" parent="Uif-VerticalBoxGroup"
+                <bean id="CM-Proposal-Course-Requisites-ReviewTree-Group" parent="Uif-VerticalBoxGroup"
                       p:cssClasses="ks-form-panel">
                     <property name="items">
                         <list>

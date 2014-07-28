@@ -21,7 +21,7 @@
 
     <!-- This view mapped to ViewCourseController controller -->
 
-    <bean id="CM-Proposal-View-Course" parent="KS-Uif-FormView">
+    <bean id="CM-ViewCourse-View-Course" parent="KS-Uif-FormView">
         <property name="id" value="ViewCourseView" />
         <property name="headerText" value="@{courseInfoWrapper.courseInfo.courseTitle}" />
         <property name="viewSourceFile" value="ViewCourseView.xml" />
@@ -33,21 +33,21 @@
             <list>
                 <ref bean="KS-HomewardPathBreadcrumbs-Home"/>
                 <ref bean="KS-HomewardPathBreadcrumbs-CurriculumManagement"/>
-                <ref bean="KS-ViewCourseView-HomewardPathBreadcrumbs"/>
+                <ref bean="CM-ViewCourse-View-HomewardPathBreadcrumbs"/>
             </list>
         </property>
         <property name="breadcrumbItem.siblingBreadcrumbComponent">
             <bean parent="KS-Uif-Dynamic-BreadCrumb"/>
         </property>
         <property name="page">
-            <bean parent="CM-Proposal-View-Course-Page"/>
+            <bean parent="CM-ViewCourse-View-Course-Page"/>
         </property>
         <property name="footer">
             <bean parent="Uif-FooterBase" />
         </property>
     </bean>
 
-    <bean id="CM-Proposal-View-Course-Page" parent="Uif-Page" p:style="margin-left: -18px;"
+    <bean id="CM-ViewCourse-View-Course-Page" parent="Uif-Page" p:style="margin-left: -18px;"
           p:headerText="View Course"
           p:header.render="false"
           p:disclosure.render="false">
@@ -66,43 +66,43 @@
         </property>
         <property name="breadcrumbOptions.breadcrumbOverrides">
             <list>
-                <ref bean="KS-ViewCourseView-HomewardPathBreadcrumbs"/>
-                <ref bean="KS-HomewardPathBreadcrumbs-ViewCourseView"/>
+                <ref bean="CM-ViewCourse-View-HomewardPathBreadcrumbs"/>
+                <ref bean="CM-HomewardPathBreadcrumbs-ViewCourseView"/>
             </list>
         </property>
         <property name="header">
-            <bean id="KS-ViewCourseView-Header" parent="Uif-HeaderOne" p:style="margin-bottom: 20px;"
+            <bean id="CM-ViewCourse-View-Header" parent="Uif-HeaderOne" p:style="margin-bottom: 20px;"
                   p:render="true"/>
         </property>
         <property name="items">
             <list>
-                <ref bean="CM-Proposal-View-Course-PageSections"/>
+                <ref bean="CM-ViewCourse-View-Course-PageSections"/>
             </list>
         </property>
     </bean>
 
-    <bean id="CM-Proposal-View-Course-PageSections" parent="KS-CourseView-VerticalBoxSection"
+    <bean id="CM-ViewCourse-View-Course-PageSections" parent="CM-Proposal-Course-View-VerticalBoxSection"
           p:headerText="">
         <property name="fieldBindingObjectPath" value="courseInfoWrapper"/>
         <property name="items">
             <list>
-                <ref bean="CM-Proposal-View-Course-CourseInfoSection"/>
-                <ref bean="CM-Proposal-View-Course-GovernanceSection"/>
-                <ref bean="CM-Proposal-View-Course-CourseLogisticsSection"/>
-                <ref bean="CM-Proposal-View-Course-LearningObjectivesSection"/>
-                <ref bean="CM-Proposal-View-Course-CourseRequisitesSection"/>
-                <ref bean="CM-Proposal-View-Course-ActiveDatesSection"/>
+                <ref bean="CM-ViewCourse-View-Course-CourseInfoSection"/>
+                <ref bean="CM-ViewCourse-View-Course-GovernanceSection"/>
+                <ref bean="CM-ViewCourse-View-Course-CourseLogisticsSection"/>
+                <ref bean="CM-ViewCourse-View-Course-LearningObjectivesSection"/>
+                <ref bean="CM-ViewCourse-View-Course-CourseRequisitesSection"/>
+                <ref bean="CM-ViewCourse-View-Course-ActiveDatesSection"/>
             </list>
         </property>
     </bean>
 
-    <bean id="KS-ViewCourseView-HomewardPathBreadcrumbs" parent="Uif-BreadcrumbItem">
+    <bean id="CM-ViewCourse-View-HomewardPathBreadcrumbs" parent="Uif-BreadcrumbItem">
         <property name="label" value="Find a Course"/>
         <property name="url.baseUrl" value="lookup"/>
         <property name="url.viewId" value="CM-Proposal-Course-FindCourse"/>
     </bean>
 
-    <bean id="CM-Proposal-View-Course-GridGroup" parent="Uif-GridGroup" p:layoutManager.numberOfColumns="4" abstract="true">
+    <bean id="CM-ViewCourse-View-Course-GridGroup" parent="Uif-GridGroup" p:layoutManager.numberOfColumns="4" abstract="true">
         <property name="cssClasses">
             <list merge="true">
                 <value>course_details-grid</value>
@@ -138,7 +138,7 @@
     </bean>
 
     <!-- The parent all of the vertical box sections -->
-    <bean id="CM-Proposal-View-Course-VerticalBoxSection" parent="Uif-VerticalBoxSection" abstract="true">
+    <bean id="CM-ViewCourse-View-Course-VerticalBoxSection" parent="Uif-VerticalBoxSection" abstract="true">
         <property name="validationMessages" ref="KS-ValidationMessages-Off"/>
         <property name="cssClasses">
             <list merge="true">
@@ -160,7 +160,7 @@
         </property>
     </bean>
 
-    <bean id="KS-ViewCourseView-ReviewConstraint-PropertyReplacer" parent="Uif-ConditionalBeanPropertyReplacer"
+    <bean id="CM-ViewCourseView-ReviewConstraint-PropertyReplacer" parent="Uif-ConditionalBeanPropertyReplacer"
             p:propertyName="simpleConstraint"
             p:condition="@{#form.viewId eq T(org.kuali.student.cm.common.util.CurriculumManagementConstants$CourseViewPageIds).CREATE_COURSE_VIEW}">
             <property name="replacement">
@@ -168,7 +168,7 @@
             </property>
     </bean>
 
-    <bean id="KS-ViewCourseView-ReviewConstraintMaxLength-PropertyReplacer" parent="Uif-ConditionalBeanPropertyReplacer"
+    <bean id="CM-ViewCourseView-ReviewConstraintMaxLength-PropertyReplacer" parent="Uif-ConditionalBeanPropertyReplacer"
             p:propertyName="simpleConstraint"
             p:condition="@{#form.viewId eq T(org.kuali.student.cm.common.util.CurriculumManagementConstants$CourseViewPageIds).CREATE_COURSE_VIEW}">
             <property name="replacement">
@@ -176,44 +176,44 @@
             </property>
     </bean>
 
-    <bean id="CM-Proposal-View-Course-CourseInfoSection" parent="CM-Proposal-View-Course-VerticalBoxSection"
+    <bean id="CM-ViewCourse-View-Course-CourseInfoSection" parent="CM-ViewCourse-View-Course-VerticalBoxSection"
           p:additionalCssClasses="ks-cm-course_detail-section">
         <property name="headerText" value="Course Information"/>
         <property name="items">
             <list>
-                <bean parent="CM-Proposal-View-Course-GridGroup">
+                <bean parent="CM-ViewCourse-View-Course-GridGroup">
                     <property name="items">
                         <list>
-                            <bean parent="CM-ReadOnlyInput" p:label="Proposal Title" id="proposalInfo_name"
+                            <bean parent="CM-ReadOnlyInput" p:label="Proposal Title" id="CM-ViewCourseView-CourseInfo-Proposal-Name"
                                   p:propertyName="proposalInfo.name" p:render="@{#form.viewId eq T(org.kuali.student.cm.common.util.CurriculumManagementConstants$CourseViewPageIds).CREATE_COURSE_VIEW}"/>
-                            <bean parent="CM-ReadOnlyInput" p:label="Course Title" id="courseInfo_courseTitle"
+                            <bean parent="CM-ReadOnlyInput" p:label="Course Title" id="CM-ViewCourseView-CourseInfo-Course-Title"
                                   p:propertyName="courseInfo.courseTitle"/>
                             <bean parent="CM-ReadOnlyInput" p:label="Transcript Course Title"
                                   p:propertyName="courseInfo.transcriptTitle"/>
-                            <bean parent="CM-ReadOnlyInput" p:label="Subject Code" id="courseInfo_subjectArea"
+                            <bean parent="CM-ReadOnlyInput" p:label="Subject Code" id="CM-ViewCourseView-CourseInfo-Subject-Area"
                                   p:propertyName="courseInfo.subjectArea"/>
-                            <bean parent="CM-ReadOnlyInput" p:label="Course Number" id="courseInfo_courseNumberSuffix"
+                            <bean parent="CM-ReadOnlyInput" p:label="Course Number" id="CM-ViewCourseView-CourseInfo-CourseNumberSuffix"
                                   p:propertyName="courseInfo.courseNumberSuffix"/>
                             <bean parent="CM-ReadOnlyInput" p:label="Cross Listed Courses"
-                                  id="courseSection_crossListings"
+                                  id="CM-ViewCourseView-CourseInfo-CrossListings"
                                   p:propertyName="reviewProposalDisplay.courseSection.crossListingsAsString"/>
                             <bean parent="CM-ReadOnlyInput" p:label="Jointly Offered Courses"
-                                  id="courseSection_jointly_offered_courses"
+                                  id="CM-ViewCourseView-CourseInfo-JointlyOfferedCourses"
                                   p:propertyName="reviewProposalDisplay.courseSection.jointlyOfferedCoursesAsString"/>
-                            <bean parent="CM-ReadOnlyInput" p:label="Version Codes" id="courseSection_Version_Codes"
+                            <bean parent="CM-ReadOnlyInput" p:label="Version Codes" id="CM-ViewCourseView-CourseInfo-Version-Codes"
                                   p:propertyName="reviewProposalDisplay.courseSection.variationsAsString"/>
-                            <bean parent="CM-ReadOnlyInput" p:label="Instructor(s)" id="courseSection_instructors"
+                            <bean parent="CM-ReadOnlyInput" p:label="Instructor(s)" id="CM-ViewCourseView-CourseInfo-Instructors"
                                   p:propertyName="reviewProposalDisplay.courseSection.instructorsAsString"/>
-                            <bean parent="CM-ReadOnlyInput" p:label="Description" id="courseInfo_descr"
+                            <bean parent="CM-ReadOnlyInput" p:label="Description" id="CM-ViewCourseView-CourseInfo-Descr"
                                   p:propertyName="courseInfo.descr.plain">
                                 <!-- TODO:KSCM-2099 This is a temporary fix till the KRAD Data Dictionary works properly -->
                                 <property name="propertyReplacers">
                                     <list>
-                                        <bean parent="KS-ViewCourseView-ReviewConstraintMaxLength-PropertyReplacer"/>
+                                        <bean parent="CM-ViewCourseView-ReviewConstraintMaxLength-PropertyReplacer"/>
                                     </list>
                                 </property>
                             </bean>
-                            <bean parent="CM-ReadOnlyInput" p:label="Proposal Rationale" id="proposalInfo_rationale"
+                            <bean parent="CM-ReadOnlyInput" p:label="Proposal Rationale" id="CM-ViewCourseView-CourseInfo-Rationale"
                                   p:propertyName="proposalInfo.rationale.plain" p:render="@{#form.viewId eq T(org.kuali.student.cm.common.util.CurriculumManagementConstants$CourseViewPageIds).CREATE_COURSE_VIEW}">
                                 <!-- TODO:KSCM-2099 This is a temporary fix till the KRAD Data Dictionary works properly -->
                                 <property name="simpleConstraint">
@@ -227,29 +227,29 @@
         </property>
     </bean>
 
-    <bean id="CM-Proposal-View-Course-GovernanceSection" parent="CM-Proposal-View-Course-VerticalBoxSection">
+    <bean id="CM-ViewCourse-View-Course-GovernanceSection" parent="CM-ViewCourse-View-Course-VerticalBoxSection">
         <property name="headerText" value="Governance"/>
         <property name="items">
             <list>
-                <bean parent="CM-Proposal-View-Course-GridGroup">
+                <bean parent="CM-ViewCourse-View-Course-GridGroup">
                     <property name="items">
                         <list>
                             <bean parent="CM-ReadOnlyInput" p:label="Campus Locations"
-                                  id="governanceSection_campusLocations"
+                                  id="CM-ViewCourseView-Governance-CampusLocations"
                                   p:propertyName="reviewProposalDisplay.governanceSection.campusLocationsAsString"/>
 
                             <bean parent="CM-ReadOnlyInput" p:label="Curriculum Oversight"
-                                  id="governanceSection_curriculumOversightAsString"
+                                  id="CM-ViewCourseView-Governance-CurriculumOversight"
                                   p:propertyName="reviewProposalDisplay.governanceSection.curriculumOversightAsString">
                                 <!-- Make required for state enroute -->
                                 <property name="propertyReplacers">
                                     <list>
-                                        <bean parent="KS-ViewCourseView-ReviewConstraint-PropertyReplacer"/>
+                                        <bean parent="CM-ViewCourseView-ReviewConstraint-PropertyReplacer"/>
                                     </list>
                                 </property>
                             </bean>
                             <bean parent="CM-ReadOnlyInput" p:label="Administering Organization"
-                                  id="governanceSection_administeringOrganization"
+                                  id="CM-ViewCourseView-Governance-AdministeringOrganization"
                                   p:propertyName="reviewProposalDisplay.governanceSection.administeringOrganizationAsString"/>
                         </list>
                     </property>
@@ -258,11 +258,11 @@
         </property>
     </bean>
 
-    <bean id="CM-Proposal-View-Course-CourseLogisticsSection" parent="CM-Proposal-View-Course-VerticalBoxSection">
+    <bean id="CM-ViewCourse-View-Course-CourseLogisticsSection" parent="CM-ViewCourse-View-Course-VerticalBoxSection">
         <property name="headerText" value="Course Logistics"/>
         <property name="header.rightGroup.items">
             <list>
-                <bean p:id="Governance-Review-Edit-link" parent="CM-Proposal-Review-Course-Edit-Link">
+                <bean p:id="CM-ViewCourseView-Logistics-Edit-Link" parent="CM-Proposal-Review-Course-Edit-Link">
                     <property name="actionParameters">
                         <map>
                             <entry key="displaySection" value="KS-CourseView-Logistics-Section"/>
@@ -273,26 +273,26 @@
         </property>
         <property name="items">
             <list>
-                <bean parent="CM-Proposal-View-Course-GridGroup">
+                <bean parent="CM-ViewCourse-View-Course-GridGroup">
                     <property name="items">
                         <list>
-                            <bean parent="CM-ReadOnlyInput" p:label="Terms" id="courseLogisticsSection_terms"
+                            <bean parent="CM-ReadOnlyInput" p:label="Terms" id="CM-ViewCourseView-Logistics-Terms"
                                   p:propertyName="reviewProposalDisplay.courseLogisticsSection.termsAsString"/>
                             <bean parent="CM-ReadOnlyInput" p:label="Duration"
-                                  id="courseLogisticsSection_atpDurationType"
+                                  id="CM-ViewCourseView-Logistics-DurationType"
                                   p:propertyName="reviewProposalDisplay.courseLogisticsSection.durationDisplay"/>
                             <bean parent="CM-ReadOnlyInput" p:label="Assessment Scale"
-                                  id="courseLogisticsSection_gradingOptions"
+                                  id="CM-ViewCourseView-Logistics-GradingOptions"
                                   p:propertyName="reviewProposalDisplay.courseLogisticsSection.gradingOptionsAsString">
                                 <!-- Make required for state enroute -->
                                 <property name="propertyReplacers">
                                     <list>
-                                        <bean parent="KS-ViewCourseView-ReviewConstraint-PropertyReplacer"/>
+                                        <bean parent="CM-ViewCourseView-ReviewConstraint-PropertyReplacer"/>
                                     </list>
                                 </property>
                             </bean>
 
-                            <bean parent="CM-ReadOnlyInput" p:label="Audit" id="courseLogisticsSection_audit"
+                            <bean parent="CM-ReadOnlyInput" p:label="Audit" id="CM-ViewCourseView-Logistics-Audit"
                                   p:propertyName="reviewProposalDisplay.courseLogisticsSection.audit">
                                 <property name="control.cssClasses">
                                     <list merge="true">
@@ -302,7 +302,7 @@
                                 </property>
                             </bean>
                             <bean parent="CM-ReadOnlyInput" p:label="Pass Fail Transcript Grade"
-                                  id="courseLogisticsSection_passFail"
+                                  id="CM-ViewCourseView-Logistics-PassFail"
                                   p:propertyName="reviewProposalDisplay.courseLogisticsSection.passFail">
                                 <property name="control.cssClasses">
                                     <list merge="true">
@@ -312,15 +312,15 @@
                                 </property>
                             </bean>
                             <bean parent="CM-ReadOnlyInput" p:label="Final Exam Status"
-                                  id="courseLogisticsSection_finalExamStatus"
+                                  id="CM-ViewCourseView-Logistics-FinalExamStatus"
                                   p:propertyName="reviewProposalDisplay.courseLogisticsSection.finalExamStatus"/>
                             <bean parent="CM-ReadOnlyInput" p:label="Final Exam Rationale"
-                                  id="courseLogisticsSection_finalExamStatusRationale"
+                                  id="CM-ViewCourseView-Logistics-FinalExamRationale"
                                   p:render="@{#form.viewId eq T(org.kuali.student.cm.common.util.CurriculumManagementConstants$CourseViewPageIds).CREATE_COURSE_VIEW}"
                                   p:propertyName="reviewProposalDisplay.courseLogisticsSection.finalExamStatusRationale"/>
 
                             <!-- This bean gets rendered if the outComes collection has items. Otherwise, the one below does. -->
-                            <ref bean="CM-Proposal-View-Course-OutcomeSection"/>
+                            <ref bean="CM-ViewCourse-View-Course-OutcomeSection"/>
 
                             <!-- This bean gets rendered if the outComes collection is empty. Otherwise, the one above does. -->
                             <bean parent="CM-ReadOnlyInput" p:label="Outcomes"
@@ -334,7 +334,7 @@
                             </bean>
 
                             <!-- This bean gets rendered if the formats collection has items. Otherwise, the one below does. -->
-                            <ref bean="CM-Proposal-View-Course-FormatSection"/>
+                            <ref bean="CM-ViewCourse-View-Course-FormatSection"/>
 
                             <!-- This bean gets rendered if the outComes collection is empty. Otherwise, the one above does. -->
                             <bean parent="CM-ReadOnlyInput" p:label="Course Formats" id="emptyStringFormats"
@@ -359,13 +359,13 @@
         </property>
     </bean>
 
-    <bean id="CM-Proposal-View-Course-OutcomeSection" parent="Uif-VerticalFieldGroup" p:label="Outcomes" p:colSpan="3"
+    <bean id="CM-ViewCourse-View-Course-OutcomeSection" parent="Uif-VerticalFieldGroup" p:label="Outcomes" p:colSpan="3"
           p:fieldLabel.renderColon="false"
           p:render="@{#form.viewId eq T(org.kuali.student.cm.common.util.CurriculumManagementConstants$CourseViewPageIds).VIEW_COURSE_VIEW or
                     !#emptyList(#dataObject.reviewProposalDisplay.courseLogisticsSection.outcomes)}">
         <property name="items">
             <list>
-                <bean id="course_review_outcome_details" parent="Uif-StackedCollectionSection"
+                <bean id="CM-ViewCourseView-Outcome-Details" parent="Uif-StackedCollectionSection"
                       p:propertyName="reviewProposalDisplay.courseLogisticsSection.outcomes"
                       p:collectionObjectClass="org.kuali.student.cm.course.form.wrapper.OutcomeReviewSection">
                     <property name="cssClasses">
@@ -398,13 +398,13 @@
         </property>
     </bean>
 
-    <bean id="CM-Proposal-View-Course-FormatSection" parent="Uif-VerticalFieldGroup" p:label="Course Formats" p:colSpan="3"
+    <bean id="CM-ViewCourse-View-Course-FormatSection" parent="Uif-VerticalFieldGroup" p:label="Course Formats" p:colSpan="3"
           p:fieldLabel.renderColon="false"
           p:render="@{#form.viewId eq T(org.kuali.student.cm.common.util.CurriculumManagementConstants$CourseViewPageIds).VIEW_COURSE_VIEW or
                      !#emptyList(#dataObject.reviewProposalDisplay.courseLogisticsSection.formatInfoWrappers)}">
         <property name="items">
             <list>
-                <bean id="course_review_format_details" parent="Uif-StackedCollectionSection"
+                <bean id="CM-ViewCourseView-Format-Details" parent="Uif-StackedCollectionSection"
                       p:propertyName="reviewProposalDisplay.courseLogisticsSection.formatInfoWrappers"
                       p:collectionObjectClass="org.kuali.student.cm.course.form.wrapper.FormatInfoWrapper"
                       p:colSpan="3">
@@ -426,7 +426,7 @@
                     <property name="renderAddLine" value="false"/>
                     <property name="subCollections">
                         <list>
-                            <bean parent="CM-Proposal-View-Course-ActivitySection"/>
+                            <bean parent="CM-ViewCourse-View-Course-ActivitySection"/>
                         </list>
                     </property>
                     <property name="propertyReplacers">
@@ -435,7 +435,7 @@
                                   p:condition="@{#form.viewId eq T(org.kuali.student.cm.common.util.CurriculumManagementConstants$CourseViewPageIds).VIEW_COURSE_VIEW}">
                                 <property name="replacement">
                                     <list>
-                                        <bean parent="CM-Proposal-View-Course-ActivitySection">
+                                        <bean parent="CM-ViewCourse-View-Course-ActivitySection">
                                             <property name="bindingInfo.bindingObjectPath" value="courseInfoWrapper"/>
                                         </bean>
                                     </list>
@@ -448,7 +448,7 @@
         </property>
     </bean>
 
-    <bean id="CM-Proposal-View-Course-ActivitySection" parent="Uif-StackedSubCollection-WithinSection"
+    <bean id="CM-ViewCourse-View-Course-ActivitySection" parent="Uif-StackedSubCollection-WithinSection"
           p:collectionObjectClass="org.kuali.student.cm.course.form.wrapper.ActivityInfoWrapper"
           p:propertyName="activities" p:colSpan="3" p:align="left"
           p:layoutManager.style="padding-left:0px;">
@@ -467,30 +467,30 @@
         </property>
     </bean>
 
-    <bean id="CM-Proposal-View-Course-LearningObjectivesSection" parent="CM-Proposal-View-Course-VerticalBoxSection">
+    <bean id="CM-ViewCourse-View-Course-LearningObjectivesSection" parent="CM-ViewCourse-View-Course-VerticalBoxSection">
         <property name="headerText" value="Learning Objectives"/>
         <property name="items">
             <list>
-                <bean parent="CM-Proposal-View-Course-GridGroup">
+                <bean parent="CM-ViewCourse-View-Course-GridGroup">
                     <property name="items">
                         <list>
                             <bean parent="Uif-VerticalFieldGroup" p:label="Learning Objectives" p:colSpan="3" p:fieldLabel.renderColon="false">
                                 <property name="items">
                                     <list>
-                                        <bean id="course_details_learning_objectives" parent="Uif-StackedCollectionSection"
+                                        <bean id="CM-ViewCourseView-LearningObjectives-Details" parent="Uif-StackedCollectionSection"
                                               p:propertyName="loDisplayWrapperModel.loWrappers"
                                               p:collectionObjectClass="org.kuali.student.cm.course.form.wrapper.LoDisplayInfoWrapper"
                                               p:colSpan="3">
                                             <property name="cssClasses">
                                                 <list merge="true">
-                                                    <value>course_details_learning_objectives</value>
+                                                    <value>CM-ViewCourseView-LearningObjectives-Details</value>
                                                 </list>
                                             </property>
                                             <property name="renderLineActions" value="false"/>
                                             <property name="renderAddLine" value="false"/>
                                             <property name="items">
                                                 <list>
-                                                    <bean id="learning_objective_item" parent="Uif-DataField"
+                                                    <bean id="CM-ViewCourseView-LearningObjectives-Item" parent="Uif-DataField"
                                                         p:propertyName="titleAndCategoriesAsString" p:colSpan="1"
                                                         p:style="display: list-item; margin-left: @{#line.indentLevel * 30}px;"/>
                                                 </list>
@@ -520,12 +520,12 @@
         </property>
     </bean>
 
-    <bean id="CM-Proposal-View-Course-CourseRequisitesSection"  parent="CM-Proposal-View-Course-VerticalBoxSection" >
+    <bean id="CM-ViewCourse-View-Course-CourseRequisitesSection"  parent="CM-ViewCourse-View-Course-VerticalBoxSection" >
        <property name="headerText" value="Course Requisites"/>
 
         <property name="items">
             <list>
-                <bean parent="CM-Proposal-View-Course-GridGroup">
+                <bean parent="CM-ViewCourse-View-Course-GridGroup">
                     <property name="items">
                         <list>
                             <bean id="CM-Proposal-Course-Requisites-CollectionSection" parent="Uif-VerticalFieldGroup" p:colSpan="3" p:fieldLabel.renderColon="false" >
@@ -572,11 +572,11 @@
 
 
 
-    <bean id="CM-Proposal-View-Course-ActiveDatesSection" parent="CM-Proposal-View-Course-VerticalBoxSection">
+    <bean id="CM-ViewCourse-View-Course-ActiveDatesSection" parent="CM-ViewCourse-View-Course-VerticalBoxSection">
         <property name="headerText" value="Active Dates"/>
         <property name="header.rightGroup.items">
             <list>
-                <bean p:id="Governance-Review-Edit-link" parent="CM-Proposal-Review-Course-Edit-Link">
+                <bean p:id="CM-ViewCourseView-ActiveDates-Edit-Link" parent="CM-Proposal-Review-Course-Edit-Link">
                     <property name="actionParameters">
                         <map>
                             <entry key="displaySection" value="KS-CourseView-ActiveDates-Section"/>
@@ -587,14 +587,14 @@
         </property>
         <property name="items">
             <list>
-                <bean parent="CM-Proposal-View-Course-GridGroup">
+                <bean parent="CM-ViewCourse-View-Course-GridGroup">
                     <property name="items">
                         <list>
-                            <bean parent="CM-ReadOnlyInput" p:label="Start Term" id="activeDatesSection_startTerm"
+                            <bean parent="CM-ReadOnlyInput" p:label="Start Term" id="CM-ViewCourseView-ActiveDates-StartTerm"
                                   p:propertyName="reviewProposalDisplay.activeDatesSection.startTerm"/>
-                            <bean parent="CM-ReadOnlyInput" p:label="End Term" id="activeDatesSection_endTerm"
+                            <bean parent="CM-ReadOnlyInput" p:label="End Term" id="CM-ViewCourseView-ActiveDates-EndTerm"
                                   p:propertyName="reviewProposalDisplay.activeDatesSection.endTerm"/>
-                            <bean parent="CM-ReadOnlyInput" p:label="Pilot Course" id="activeDatesSection_pilotCourse"
+                            <bean parent="CM-ReadOnlyInput" p:label="Pilot Course" id="CM-ViewCourseView-ActiveDates-PilotCourse"
                                   p:propertyName="reviewProposalDisplay.activeDatesSection.pilotCourse">
                                 <property name="control.cssClasses">
                                     <list merge="true">
@@ -610,7 +610,7 @@
         </property>
     </bean>
 
-    <bean id="KS-HomewardPathBreadcrumbs-ViewCourseView" parent="Uif-BreadcrumbItem">
+    <bean id="CM-HomewardPathBreadcrumbs-ViewCourseView" parent="Uif-BreadcrumbItem">
         <property name="label" value="@{courseInfoWrapper.courseInfo.courseTitle}"/>
     </bean>
 

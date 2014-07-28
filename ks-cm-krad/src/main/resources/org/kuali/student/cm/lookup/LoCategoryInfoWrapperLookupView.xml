@@ -66,21 +66,21 @@
         </property>
         <property name="resultFields">
             <list>
-                <bean id="Category-result-field-name" parent="KS-Uif-DataField" p:propertyName="name"
+                <bean id="CM-Proposal-Course-LoCategory-Result-Name" parent="KS-Uif-DataField" p:propertyName="name"
                       p:label="Category"/>
-                <bean id="Category-result-field-type" parent="KS-Uif-DataField" p:propertyName="typeName"
+                <bean id="CM-Proposal-Course-LoCategory-Result-Type" parent="KS-Uif-DataField" p:propertyName="typeName"
                       p:label="Type"/>
             </list>
         </property>
         <property name="resultsGroup.layoutManager.actionColumnPlacement" value="RIGHT"/>
         <property name="resultsGroup.footer.items">
             <list>
-                <bean id="LoCategoryInfoWrapper-type-footer" parent="Uif-HorizontalFieldGroup"
+                <bean id="CM-Proposal-Course-LoCategory-Footer" parent="Uif-HorizontalFieldGroup"
                       p:style="float: right;">
                     <property name="items">
                         <list>
 
-                            <bean id="KSCM-AddCategoryButton" parent="Uif-PrimaryActionButton"
+                            <bean id="CM-Proposal-Course-LoCategory-AddCategory" parent="Uif-PrimaryActionButton"
                                   p:methodToCall="returnSelected"
                                   p:actionLabel="Add Categories"
                                   p:preSubmitCall="setupMultiValueReturn();return true;"
@@ -91,7 +91,7 @@
                                     </list>
                                 </property>
                             </bean>
-                            <bean id="KS-CancelLo-Button" parent="Uif-CancelAction"
+                            <bean id="CM-Proposal-Course-LoCategory-Cancel" parent="Uif-CancelAction"
                                   p:onClickScript="closeLightbox();return false;"/>
                         </list>
                     </property>
@@ -104,7 +104,7 @@
     <bean id="CM-Proposal-Course-LoCategory-Type-Selection" parent="Uif-HorizontalFieldGroup">
         <property name="items">
             <list>
-                <bean parent="Uif-Message" p:id="type-selection-Message"
+                <bean parent="Uif-Message" p:id="CM-Proposal-Course-LoCategory-TypeSelectMsg"
                       p:messageText="Filter by Category Type (">
                 </bean>
                 <bean parent="KS-Uif-ActionLink"
@@ -112,15 +112,15 @@
                       p:actionScript="categoryTypeSelection('true');"
                       p:actionLabel="Select All">
                 </bean>
-                <bean parent="Uif-Message" p:id="type-selection-Message-deliminator"
+                <bean parent="Uif-Message" p:id="CM-Proposal-Course-LoCategory-TypeSelectMsg-Deliminator"
                       p:messageText="|">
                 </bean>
                 <bean parent="KS-Uif-ActionLink"
-                      p:id="Lo-type-selection-deselect-all-link"
+                      p:id="CM-Proposal-Course-LoCategoryDeselectAll"
                       p:actionScript="categoryTypeSelection('fales');"
                       p:actionLabel="Clear All">
                 </bean>
-                <bean parent="Uif-Message" p:id="type-selection-Message-end"
+                <bean parent="Uif-Message" p:id="CM-Proposal-Course-LoCategory-TypeSelMsgEnd"
                       p:messageText=")">
                 </bean>
 
@@ -131,10 +131,10 @@
     <bean id="CM-Proposal-Course-LoCategory-Type-Checkboxes" parent="Uif-VerticalBoxSection">
         <property name="items">
             <list>
-                <bean id="KS-LoListedType-Checkbox-Group" parent="KS-Uif-InputField" p:propertyName="typeList"
+                <bean id="CM-Proposal-Course-LoCategory-ListTypeGroup" parent="KS-Uif-InputField" p:propertyName="typeList"
                       p:onChangeScript="filterCategoriesByTypes();">
                     <property name="control">
-                        <bean id="KS-LoListedType-Checkbox" parent="Uif-VerticalCheckboxesControl"/>
+                        <bean id="CM-Proposal-Course-LoCategory-ListType" parent="Uif-VerticalCheckboxesControl"/>
                     </property>
                     <property name="optionsFinder">
                         <bean class="org.kuali.student.lum.lu.ui.course.keyvalues.LoCategoryInfoTypeKeyValueFinder"
@@ -151,7 +151,7 @@
     <bean id="CM-Proposal-Course-LoCategory-LookupView-Filter" parent="Uif-HorizontalFieldGroup">
         <property name="items">
             <list>
-                <bean id="LoCategory-Category-Filter-Input" parent="KS-Uif-InputField-LabelLeft" p:label="Filter"
+                <bean id="CM-Proposal-Course-LoCategory-Filter-Input" parent="KS-Uif-InputField-LabelLeft" p:label="Filter"
                       p:style="float: right;"
                       p:propertyName="categoryFilter" p:fieldLabel.style="float:left;"
                       p:fieldLabel.renderColon="true">

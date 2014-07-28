@@ -19,7 +19,7 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
                            http://www.springframework.org/schema/beans/spring-beans.xsd ">
 
-    <bean id="CM-Proposal-Course-LearningObjectives-Page" parent="KS-CourseView-VerticalBoxSection">
+    <bean id="CM-Proposal-Course-LearningObjectives-Page" parent="CM-Proposal-Course-View-VerticalBoxSection">
         <property name="headerText" value="Learning Objectives"/>
         <property name="items">
             <list>
@@ -38,10 +38,10 @@
         </property>
         <property name="items">
             <list>
-                <bean parent="Uif-Message" p:id="LearningObjective-NoRequiredMessage"
+                <bean parent="Uif-Message" p:id="CM-Proposal-Course-LearningObjectives-NoRequiredMessage"
                       p:messageText="No required fields." p:style="margin-top: 5px; margin-right: 0px;">
                 </bean>
-                <bean parent="KS-Uif-ActionLink" p:id="LearningObjective-NoRequiredMessage-expand-link"
+                <bean parent="KS-Uif-ActionLink" p:id="CM-Proposal-Course-LearningObjectives-NoRequiredMessage-ExpandLink"
                       p:actionScript="createCourseShowHideObjectiveElements('CM-Proposal-Course-LearningObjectives-NoRequiredMessageLink', 'CM-Proposal-Course-LearningObjectives-Section');"
                       p:actionLabel="Show all fields" p:style="margin-right: 15pt; margin-top: 0px;">
                 </bean>
@@ -116,7 +116,7 @@
         <property name="addLinePlacement" value="TOP"/>
         <property name="renderAddBlankLineButton" value="true"/>
         <property name="addBlankLineAction">
-            <bean id="LearningObjective-ToolBar-AddNewObjective"
+            <bean id="CM-Proposal-Course-LearningObjectives-ToolBar-AddNewObjective"
                   parent="CM-Proposal-Course-LearningObjectives-ToolBar-AddNewObjective-parent"
                   p:refreshId="CM-Proposal-Course-LearningObjectives-Section">
                 <property name="methodToCall" value="addLearningObjective"/>
@@ -124,7 +124,7 @@
         </property>
 
         <property name="collectionLookup">
-            <bean id="KS-LearningObjective-QuickFinder" parent="Uif-CollectionQuickFinder"
+            <bean id="CM-Proposal-Course-LearningObjectives-QuickFinder" parent="Uif-CollectionQuickFinder"
                   p:dataObjectClassName="org.kuali.student.cm.course.form.wrapper.LoDisplayInfoWrapper"
                   p:fieldConversions="descr.plain:loInfo.descr.plain"
                   p:viewName="CM-Proposal-Course-LearningObjective-LookupView"
@@ -133,7 +133,7 @@
                           value="@{#ConfigProperties['application.url']}/kr-krad/LoDisplaylookup"/>
                 <property name="autoSearch" value="false"/>
                 <property name="quickfinderAction">
-                    <bean id="LearningObjective-ToolBar-FindObjectives"
+                    <bean id="CM-Proposal-Course-LearningObjectives-ToolBar-FindObjective"
                           parent="CM-Proposal-Course-LearningObjectives-ToolBar-FindObjective-parent"
                           p:methodToCall="performLookup"/>
                 </property>
@@ -142,7 +142,7 @@
 
         <property name="items">
             <list>
-                <bean id="KS-LoDisplayInfoWrapper-descr" parent="KS-Uif-InputField" p:label="Objective"
+                <bean id="CM-Proposal-Course-LearningObjectives-Descr" parent="KS-Uif-InputField" p:label="Objective"
                       p:propertyName="loInfo.descr.plain">
                     <property name="control">
                         <bean parent="Uif-MediumTextAreaControl">
@@ -154,12 +154,12 @@
                         </bean>
                     </property>
                 </bean>
-                <bean id="KS-LoDisplayInfoWrapper-selected" parent="KS-Uif-InputField" p:propertyName="selected">
+                <bean id="CM-Proposal-Course-LearningObjectives-Selected" parent="KS-Uif-InputField" p:propertyName="selected">
                     <property name="control">
                         <bean parent="KS-Uif-HiddenControl"/>
                     </property>
                 </bean>
-                <bean id="KS-LoDisplayInfoWrapper-indentLevel" parent="KS-Uif-InputField" p:propertyName="indentLevel">
+                <bean id="CM-Proposal-Course-LearningObjectives-IndentLevel" parent="KS-Uif-InputField" p:propertyName="indentLevel">
                     <property name="control">
                         <bean parent="KS-Uif-HiddenControl"/>
                     </property>
@@ -168,7 +168,7 @@
         </property>
         <property name="subCollections">
             <list>
-                <bean id="KS-LearningObjective-Category-SubSection" parent="Uif-TableCollectionGroup"
+                <bean id="CM-Proposal-Course-LearningObjectives-Category-SubSection" parent="Uif-TableCollectionGroup"
                       p:collectionObjectClass="org.kuali.student.r2.lum.lo.dto.LoCategoryInfo"
                       p:propertyName="loCategoryInfoList"
                       p:onDocumentReadyScript="hideCategoryTypeAndInfoMsg(@{#index})">
@@ -181,7 +181,7 @@
                         </bean>
                     </property>
                     <property name="collectionLookup">
-                        <bean id="KS-LearningObjective-Category-QuickFinder" parent="Uif-CollectionQuickFinder">
+                        <bean id="CM-Proposal-Course-LearningObjectives-Category-QuickFinder" parent="Uif-CollectionQuickFinder">
                             <property name="baseLookupUrl"
                                       value="@{#ConfigProperties['application.url']}/kr-krad/CategoryTypelookup"/>
                             <property name="autoSearch" value="true"/>
@@ -206,14 +206,14 @@
 
                     <property name="addLineActions">
                         <list>
-                            <bean parent="Uif-SecondaryActionButton" p:id="KS-LearningObjective-Category-Add"
+                            <bean parent="Uif-SecondaryActionButton" p:id="CM-Proposal-Course-LearningObjectives-AddCategory"
                                   p:actionLabel="Add" p:methodToCall="addLine" p:performClientSideValidation="true"
-                                  p:focusOnIdAfterSubmit="KS-LearningObjective-Category_line0_add_control" />
+                                  p:focusOnIdAfterSubmit="CM-Proposal-Course-LearningObjectives-Category_line0_add_control" />
                         </list>
                     </property>
                     <property name="lineActions">
                         <list>
-                            <bean parent="KS-Uif-Delete-ActionLink" p:id="KS-LearningObjective-Category-Delete"
+                            <bean parent="KS-Uif-Delete-ActionLink" p:id="CM-Proposal-Course-LearningObjectives-DeleteCategory"
                                   p:methodToCall="deleteLine" p:actionLabel="Delete"
                                   p:actionEvent="deleteLine" p:dirtyOnAction="true"/>
                         </list>
@@ -224,7 +224,7 @@
                     <property name="addLineLabel.render" value="false"/>
                     <property name="addLineItems">
                         <list>
-                            <bean id="KS-LearningObjective-Category" parent="KS-Uif-InputField-LabelTop"
+                            <bean id="CM-Proposal-Course-LearningObjectives-Category" parent="KS-Uif-InputField-LabelTop"
                                   p:label="Category"
                                   p:additionalHiddenPropertyNames="id"
                                   p:propertyName="name" p:render="@{#isAddLine}" p:additionalCssClasses="nowrap">
@@ -232,7 +232,7 @@
                                     <bean parent="KS-Uif-TextControl" p:size="15" p:cssClasses="validLoCategory"/>
                                 </property>
                                 <property name="suggest">
-                                    <bean id="KS-LearningObjective-Category-Suggest" parent="Uif-Suggest">
+                                    <bean id="CM-Proposal-Course-LearningObjectives-Category-Suggest" parent="Uif-Suggest">
                                         <property name="returnFullQueryObject" value="true"/>
                                         <property name="labelPropertyName" value="catNameAndType"/>
                                         <property name="templateOptions">
@@ -255,14 +255,14 @@
                                     </bean>
                                 </property>
                                 <property name="fieldLabel.richLabelMessage">
-                                    <bean id="KS-LearningObjective-Category-Tooltip" parent="CM-IconLabelMessage">
+                                    <bean id="CM-Proposal-Course-LearningObjectives-Category-Tooltip" parent="CM-IconLabelMessage">
                                         <property name="iconToolTipText"
                                                   value="Add a category to classify your learning objectives. The categories will be used for administrative analysis."/>
                                     </bean>
                                 </property>
                             </bean>
                             <!-- Requiredness of Category Type is dynamically handled in cm.js under function validateNewLoCategoryAndType. -->
-                            <bean id="KS-LearningObjective-CategoryType" parent="KS-Uif-InputField"
+                            <bean id="CM-Proposal-Course-LearningObjectives-CategoryType" parent="KS-Uif-InputField"
                                   p:label="Type" p:propertyName="typeKey" p:required="false">
                                 <property name="control">
                                     <bean parent="KS-Uif-DropdownControl"/>
@@ -283,7 +283,7 @@
                     </property>
                     <property name="items">
                         <list>
-                            <bean id="KS-LearningObjective-Category-Items" parent="KS-Uif-DataField" p:showLabel="false"
+                            <bean id="CM-Proposal-Course-LearningObjectives-Categor-Items" parent="KS-Uif-DataField" p:showLabel="false"
                                   p:propertyName="name"/>
                         </list>
                     </property>
@@ -328,7 +328,7 @@
                                   p:condition="@{!#line.moveUpable}">
                                 <property name="replacement">
                                     <list>
-                                        <bean id="LearningObjectives-Icon-MoveUp-disabled" parent="Uif-Icon"
+                                        <bean id="CM-Proposal-Course-LearningObjectives-MoveUp-Disabled" parent="Uif-Icon"
                                               p:iconClass="ks-fontello-icon-up ks-fontello-icon-disabled"/>
                                     </list>
                                 </property>
@@ -349,7 +349,7 @@
                                   p:condition="@{!#line.moveDownable}">
                                 <property name="replacement">
                                     <list>
-                                        <bean id="LearningObjectives-Icon-MoveDown-disabled" parent="Uif-Icon"
+                                        <bean id="CM-Proposal-Course-LearningObjectives-MoveDown-Disabled" parent="Uif-Icon"
                                               p:iconClass="ks-fontello-icon-down ks-fontello-icon-disabled"/>
                                     </list>
                                 </property>
@@ -370,7 +370,7 @@
                                   p:condition="@{!#line.indentable}">
                                 <property name="replacement">
                                     <list>
-                                        <bean id="LearningObjectives-Icon-IncreaseIndent-disabled" parent="Uif-Icon"
+                                        <bean id="CM-Proposal-Course-LearningObjectives-IncreaseIndent-Disabled" parent="Uif-Icon"
                                               p:iconClass="ks-fontello-icon-right ks-fontello-icon-disabled"/>
                                     </list>
                                 </property>
@@ -391,7 +391,7 @@
                                   p:condition="@{!#line.outdentable}">
                                 <property name="replacement">
                                     <list>
-                                        <bean id="LearningObjectives-Icon-DecreaseIndent-disabled" parent="Uif-Icon"
+                                        <bean id="CM-Proposal-Course-LearningObjectives-decreaseIndent-Disabled" parent="Uif-Icon"
                                               p:iconClass="ks-fontello-icon-left ks-fontello-icon-disabled"/>
                                     </list>
                                 </property>
@@ -400,7 +400,7 @@
                     </property>
                 </bean>
 
-                <bean parent="Uif-HorizontalBoxGroup" id="LearningObjectives-Container-DeleteIcon">
+                <bean parent="Uif-HorizontalBoxGroup" id="CM-Proposal-Course-LearningObjectives-Container-Delete">
                     <property name="items">
                         <list>
                             <ref bean="CM-Proposal-Course-LearningObjectives-Icon-delete"/>

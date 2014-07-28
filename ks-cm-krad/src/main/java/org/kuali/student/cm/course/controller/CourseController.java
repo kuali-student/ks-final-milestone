@@ -210,10 +210,10 @@ public class CourseController extends CourseRuleEditorController {
 
         // if page id is empty, assume we want the REVIEW page (used by workflow)
         if (StringUtils.isBlank(formBase.getPageId())) {
-            formBase.setPageId(CurriculumManagementConstants.CourseViewPageIds.REVIEW_PROPOSAL);
+            formBase.setPageId(CurriculumManagementConstants.CourseViewPageIds.REVIEW_COURSE_PROPOSAL);
         }
 
-        if (formBase.getPageId().equals(CurriculumManagementConstants.CourseViewPageIds.REVIEW_PROPOSAL)) {
+        if (formBase.getPageId().equals(CurriculumManagementConstants.CourseViewPageIds.REVIEW_COURSE_PROPOSAL)) {
             //  Build a redirect to the reviewCourseProposal handler for validation.
             java.util.Map requestParameterMap = request.getParameterMap();
             Properties urlParameters = new Properties();
@@ -299,7 +299,7 @@ public class CourseController extends CourseRuleEditorController {
             CourseInfoWrapper wrapper = getCourseInfoWrapper(form);
             wrapper.setMissingRequiredFields(true);
         }
-        return getUIFModelAndView(form, CurriculumManagementConstants.CourseViewPageIds.REVIEW_PROPOSAL);
+        return getUIFModelAndView(form, CurriculumManagementConstants.CourseViewPageIds.REVIEW_COURSE_PROPOSAL);
     }
 
     /**
@@ -460,8 +460,8 @@ public class CourseController extends CourseRuleEditorController {
                 courseInfoWrapper.getUiHelper().setSelectedSection(nextSection);
             }
             return getUIFModelAndView(form);
-        } else if (StringUtils.equalsIgnoreCase(nextOrCurrentPage, "KS-CourseView-ReviewProposalLink")) {
-            return getUIFModelAndView(form, CurriculumManagementConstants.CourseViewPageIds.REVIEW_PROPOSAL);
+        } else if (StringUtils.equalsIgnoreCase(nextOrCurrentPage, "CM-Proposal-Course-View-ReviewProposalLink")) {
+            return getUIFModelAndView(form, CurriculumManagementConstants.CourseViewPageIds.REVIEW_COURSE_PROPOSAL);
         } else {
             return getUIFModelAndView(form);
         }

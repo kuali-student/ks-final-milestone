@@ -9,7 +9,7 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
                            http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-    <bean id="CM-Proposal-Course-Financials-Page" parent="KS-CourseView-VerticalBoxSection">
+    <bean id="CM-Proposal-Course-Financials-Page" parent="CM-Proposal-Course-View-VerticalBoxSection">
         <property name="headerText" value="Financials"/>
         <property name="items">
             <list>
@@ -42,10 +42,10 @@
         </property>
         <property name="items">
             <list>
-                <bean parent="Uif-Message" p:id="CourseView-Financials-NoRequiredMessage"
+                <bean parent="Uif-Message" p:id="CM-Proposal-Course-Financials-NoRequiredMessage"
                       p:messageText="No required fields." p:style="margin-top: 5px; margin-right: 0px;">
                 </bean>
-                <bean parent="KS-Uif-ActionLink" p:id="CourseRequisites-NoRequiredMessage-expand-link"
+                <bean parent="KS-Uif-ActionLink" p:id="CM-Proposal-Course-Financials-NoRequiredMessage-ExpandLink"
                       p:actionScript="createCourseShowHideObjectiveElements('CM-Proposal-Course-Financials-NoRequiredMessageLink', 'CM-Proposal-Course-Financials-Section');"
                       p:actionLabel="Show all fields" p:style="margin-right: 15pt; margin-top: 0px;">
                 </bean>
@@ -61,7 +61,7 @@
     <bean id="CM-Proposal-Course-Financials-FeesJustification-Widget" parent="Uif-VerticalBoxSection">
         <property name="items">
             <list>
-                <bean p:id="CourseView-Financials-Fee-Text" parent="CM-InputField" p:label="Justification of Fees"
+                <bean p:id="CM-Proposal-Course-Financials-FeeText" parent="CM-InputField" p:label="Justification of Fees"
                       p:propertyName="courseInfo.feeJustification.plain">
                     <property name="instructionalText"
                               value="This is for internal use only and will not be seen by students."/>

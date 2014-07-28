@@ -19,7 +19,7 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
                            http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-    <bean id="CM-Proposal-Course-Governance-Page" parent="KS-CourseView-VerticalBoxSection">
+    <bean id="CM-Proposal-Course-Governance-Page" parent="CM-Proposal-Course-View-VerticalBoxSection">
         <property name="headerText" value="Governance"/>
         <property name="items">
             <list>
@@ -49,7 +49,7 @@
         <property name="methodToCallOnRefresh" value="refreshOversightSection"/>
         <property name="propertyName" value="unitsContentOwner" />
         <property name="addBlankLineAction.actionLabel" value="Add Organization"/>
-        <property name="addBlankLineAction.id" value="KS-Course-CurriculumOversight-input-field"/>
+        <property name="addBlankLineAction.id" value="CM-Proposal-Course-Governance-CurriculumOversight-Add"/>
         <property name="addBlankLineAction.dirtyOnAction" value="true" />
         <property name="layoutManager.renderSequenceField" value="false"/>
         <property name="layoutManager.generateAutoSequence" value="false"/>
@@ -78,7 +78,7 @@
         </property>
         <property name="items">
             <list>
-                <bean id="KS-Course-CurriculumOversight-input-field" parent="CM-InputField" p:label="Name"
+                <bean id="CM-Proposal-Course-Governance-CurriculumOversight-Name" parent="CM-InputField" p:label="Name"
                       p:propertyName="orgId" p:readOnly="@{!#lp.renderHelper.newRow and !#empty(#lp.orgId)}" p:readOnlyDisplayReplacementPropertyName="renderHelper.orgLongName">
                     <property name="optionsFinder">
                         <bean class="org.kuali.student.lum.lu.ui.course.keyvalues.OrgsBySubjectCodeValuesFinder"
@@ -92,20 +92,20 @@
         </property>
         <property name="lineActions">
             <list>
-                <bean parent="KS-Uif-Delete-ActionLink" p:id="delete_curriculum_oversight" p:methodToCall="deleteLine" p:actionLabel="Delete"
+                <bean parent="KS-Uif-Delete-ActionLink" p:id="CM-Proposal-Course-Governance-CurriculumOversight-Delete" p:methodToCall="deleteLine" p:actionLabel="Delete"
                                       p:actionEvent="deleteLine" p:dirtyOnAction="true"/>
             </list>
         </property>
     </bean>
 
     <bean id="CM-Proposal-Course-Governance-AdministeringOrganization-Section" parent="KS-TableCollectionSubSection-BottomAddLine"
-                      p:id="administering-organization" p:layoutManager.style="width: 100%;"
+                      p:id="CM-Proposal-Course-Governance-AdministeringOrganization" p:layoutManager.style="width: 100%;"
                       p:instructionalText="List the organization(s) that can administer, or offer, this course. In most cases this will be the same as the Curriculum Oversight organization, but additional and/or alternate organizations can also be listed as administering organizations."
                       p:headerText="Administering Organization(s)">
         <property name="collectionObjectClass" value="org.kuali.student.cm.course.form.wrapper.OrganizationInfoWrapper" />
         <property name="propertyName" value="administeringOrganizations" />
         <property name="addBlankLineAction.actionLabel" value="Add Organization"/>
-        <property name="addBlankLineAction.id" value="addAdministeringOrganization"/>
+        <property name="addBlankLineAction.id" value="CM-Proposal-Course-Governance-AdministeringOrganization-Add"/>
         <property name="addBlankLineAction.onDocumentReadyScript" value="reDisplayAdministeringOrganization();"/>
         <property name="addBlankLineAction.dirtyOnAction" value="true" />
         <property name="layoutManager.renderSequenceField" value="false"/>
@@ -128,7 +128,7 @@
         </property>
         <property name="items">
             <list>
-                <bean parent="KS-Uif-InputField" p:propertyName="organizationName" p:id="organizationName" >
+                <bean parent="KS-Uif-InputField" p:propertyName="organizationName" p:id="CM-Proposal-Course-Governance-OrganizationName" >
                     <property name="refreshWhenChangedPropertyNames" value="organizationName"/>
                     <property name="control">
                         <bean parent="KS-Uif-TextControl" p:size="50" p:cssClasses="validOrganizationName" />
@@ -151,7 +151,7 @@
         </property>
         <property name="lineActions">
             <list>
-                <bean parent="KS-Uif-Delete-ActionLink" p:id="delete_administeringorganization" p:methodToCall="deleteLine" p:actionLabel="Delete"
+                <bean parent="KS-Uif-Delete-ActionLink" p:id="CM-Proposal-Course-Governance-AdministeringOrganization-Delete" p:methodToCall="deleteLine" p:actionLabel="Delete"
                       p:actionEvent="deleteLine" p:dirtyOnAction="true"/>
             </list>
         </property>

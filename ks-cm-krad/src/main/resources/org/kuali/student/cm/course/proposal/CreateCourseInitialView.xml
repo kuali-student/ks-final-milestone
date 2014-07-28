@@ -24,7 +24,7 @@
             <list>
                 <ref bean="KS-HomewardPathBreadcrumbs-Home"/>
                 <ref bean="KS-HomewardPathBreadcrumbs-CurriculumManagement"/>
-                <ref bean="KS-HomewardPathBreadcrumbs-CreateCourseInitial-Page"/>
+                <ref bean="CM-HomewardPathBreadcrumbs-CreateCourseStart-Page"/>
             </list>
         </property>
 
@@ -66,29 +66,29 @@
         </property>
         <property name="items">
             <list>
-                <bean parent="KS-Uif-InputField" id="KS-createCourseInitialPage-CMStartOptions" p:propertyName="createCourseInitialAction"
+                <bean parent="KS-Uif-InputField" id="CM-Proposal-Course-StartOption" p:propertyName="createCourseInitialAction"
                       p:required="true" p:bindingInfo.bindToForm="true" p:defaultValue="startBlankProposal">
                     <property name="control">
                         <bean parent="KS-Uif-VerticalRadioControl">
                             <property name="options">
                                 <list>
-                                    <bean id="createCourse-startBlankProposal" parent="Uif-KeyLabelPair" p:key="startBlankProposal"  p:value="Start a blank proposal" />
+                                    <bean id="CM-Proposal-Course-StartOptions-Blank" parent="Uif-KeyLabelPair" p:key="startBlankProposal"  p:value="Start a blank proposal" />
                                 </list>
                             </property>
                         </bean>
                     </property>
                 </bean>
 
-                <bean parent="KS-Uif-InputField" id="KS-createCourseInitialPage-StartOptions" p:propertyName="createCourseInitialAction"
+                <bean parent="KS-Uif-InputField" id="CM-Proposal-Course-StartOptions" p:propertyName="createCourseInitialAction"
                       p:required="true" p:bindingInfo.bindToForm="true" p:render="false"
                       p:defaultValue="startBlankProposal">
                     <property name="control">
                         <bean parent="KS-Uif-VerticalRadioControl">
                             <property name="options">
                                 <list>
-                                    <bean id="createCourse-startBlankProposal" parent="Uif-KeyLabelPair" p:key="startBlankProposal"  p:value="Start a blank proposal" />
-                                    <bean id="createCourse-copyApprovedCourse" parent="Uif-KeyLabelPair" p:key="copyApprovedCourse" p:value="Copy an approved course"/>
-                                    <bean id="createCourse-copyProposedCourse" parent="Uif-KeyLabelPair" p:key="copyProposedCourse" p:value="Copy a proposed course"/>
+                                    <bean id="CM-Proposal-Course-StartOptions-BlankProposal" parent="Uif-KeyLabelPair" p:key="startBlankProposal"  p:value="Start a blank proposal" />
+                                    <bean id="CM-Proposal-Course-StartOptions-CopyApproved" parent="Uif-KeyLabelPair" p:key="copyApprovedCourse" p:value="Copy an approved course"/>
+                                    <bean id="CM-Proposal-Course-StartOptions-CopyProposed" parent="Uif-KeyLabelPair" p:key="copyProposedCourse" p:value="Copy a proposed course"/>
                                 </list>
                             </property>
                         </bean>
@@ -110,7 +110,7 @@
         </property>
         <property name="items">
             <list>
-                <bean id="createCourseInitial_is_reviewProcess"
+                <bean id="CM-Proposal-Course-Start-ReviewProcess"
                       parent="KS-Uif-InputField"
                       p:propertyName="useReviewProcess" p:bindingInfo.bindToForm="true"
                       p:required="false">
@@ -128,12 +128,12 @@
                 <bean parent="Uif-HorizontalBoxGroup">
                     <property name="items">
                         <list>
-                            <bean id="createCourseInitial-continueCreate"
+                            <bean id="CM-Proposal-Course-Start-ContinueCreate"
                                   parent="Uif-PrimaryActionButton"
                                   p:ajaxSubmit="false"
                                   p:methodToCall="continueCreateCourse"
                                   p:actionLabel="Continue"/>
-                            <bean id="createCourseInitial-cancel"
+                            <bean id="CM-Proposal-Course-Start-Cancel"
                                   parent="Uif-CancelAction"
                                   p:ajaxSubmit="false"
                                   p:methodToCall="cancel"/>
@@ -144,7 +144,7 @@
         </property>
     </bean>
 
-    <bean id="KS-HomewardPathBreadcrumbs-CreateCourseInitial-Page" parent="Uif-BreadcrumbItem">
+    <bean id="CM-HomewardPathBreadcrumbs-CreateCourseStart-Page" parent="Uif-BreadcrumbItem">
         <property name="label" value="Create Course"></property>
     </bean>
 </beans>

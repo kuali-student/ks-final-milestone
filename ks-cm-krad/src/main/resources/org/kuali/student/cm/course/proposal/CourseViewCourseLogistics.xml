@@ -12,7 +12,7 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
                            http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-    <bean id="CM-Proposal-Course-Logistics-Page" parent="KS-CourseView-VerticalBoxSection">
+    <bean id="CM-Proposal-Course-Logistics-Page" parent="CM-Proposal-Course-View-VerticalBoxSection">
         <property name="validationMessages" ref="KS-ValidationMessages-Off"/>
         <property name="headerText" value="Course Logistics"/>
         <property name="items">
@@ -63,14 +63,14 @@
         <property name="validationMessages" ref="KS-ValidationMessages-Off"/>
         <property name="items">
             <list>
-                <bean id="KS-DurationTypeDropDown" parent="KS-Uif-InputField-LabelTop"
+                <bean id="CM-Proposal-Course-Logistics-DurationType" parent="KS-Uif-InputField-LabelTop"
                       p:propertyName="courseInfo.duration.atpDurationTypeKey" p:label="Duration Type"
                       p:optionsFinderClass="org.kuali.student.lum.lu.ui.course.keyvalues.DurationTypeKeyValueFinder">
                     <property name="control">
                         <bean parent="KS-Uif-DropdownControl" />
                     </property>
                 </bean>
-                <bean id="KS-DurationTimeQuantity-Field" parent="KS-Uif-InputField-LabelTop"
+                <bean id="CM-Proposal-Course-Logistics-DurationCount" parent="KS-Uif-InputField-LabelTop"
                       p:label="Duration Count" p:propertyName="courseInfo.duration.timeQuantity">
                     <property name="validCharactersConstraint">
                         <bean parent="NumericPatternConstraint" />
@@ -94,7 +94,7 @@
         <property name="validationMessages" ref="KS-ValidationMessages-Off"/>
         <property name="items">
             <list>
-                <bean id="KS-CourseView-gradingOptions" parent="CM-InputField" p:label="Assessment Scale"
+                <bean id="CM-Proposal-Course-Logistics-GradingOptions" parent="CM-InputField" p:label="Assessment Scale"
                       p:propertyName="courseInfo.gradingOptions" >
                     <property name="control">
                         <bean parent="Uif-VerticalCheckboxesControl" />
@@ -161,7 +161,7 @@
                         <bean parent="CM-RequiredConstraints-Enroute"/>
                     </property>
                 </bean>
-                <bean id="KS-FinalExamRationale" parent="CM-InputField" p:label="Final Exam Rationale" p:required="true"
+                <bean id="CM-Proposal-Course-Logistics-FinalExamRationale" parent="CM-InputField" p:label="Final Exam Rationale" p:required="true"
                       p:progressiveRender="#dp.finalExamStatus eq 'None' or #dp.finalExamStatus eq 'ALT'"
                       p:propertyName="finalExamRationale">
                     <property name="control">
@@ -181,7 +181,7 @@
             <bean parent="KS-BottomAddLine">
                 <property name="actionLabel" value="Add Outcome"/>
                 <property name="additionalCssClasses" value="outcome-addline" />
-                <property name="id" value="outcome-addline"/>
+                <property name="id" value="CM-Proposal-Course-Logistics-AddOutcome"/>
                 <property name="dirtyOnAction" value="true" />
             </bean>
         </property>
@@ -210,7 +210,7 @@
         </property>
         <property name="items">
             <list>
-                <bean id="typeKey" parent="KS-Uif-InputField-LabelTop" p:propertyName="typeKey" p:label="Type" p:required="true" >
+                <bean id="CM-Proposal-Course-Logistics-Outcome-Type" parent="KS-Uif-InputField-LabelTop" p:propertyName="typeKey" p:label="Type" p:required="true" >
                     <property name="control">
                         <bean parent="KS-Uif-DropdownControl" p:onChangeScript="refreshOutcome(@{#index});">
                             <property name="options">
@@ -224,7 +224,7 @@
                         </bean>
                     </property>
                 </bean>
-                <bean id="creditValue" parent="KS-Uif-InputField-LabelTop" p:label="Credits" p:propertyName="uiHelper.resultValue">
+                <bean id="CM-Proposal-Course-Logistics-Outcome-Credit" parent="KS-Uif-InputField-LabelTop" p:label="Credits" p:propertyName="uiHelper.resultValue">
                     <property name="constraintText" value=""/>
                     <property name="constraintMessage">
                         <bean parent="Uif-ConstraintMessage"/>
@@ -291,14 +291,14 @@
         </property>
         <property name="lineActions">
             <list>
-                <bean parent="KS-Uif-Delete-ActionLink" p:id="delete_outcome" p:methodToCall="deleteLine" p:actionLabel="Delete"
+                <bean parent="KS-Uif-Delete-ActionLink" p:id="CM-Proposal-Course-Logistics-Outcome-Delete" p:methodToCall="deleteLine" p:actionLabel="Delete"
                       p:actionEvent="deleteLine" p:dirtyOnAction="true"/>
             </list>
         </property>
     </bean>
 
-    <bean id="KSCM-Uif-AddBlankLineAction" parent="Uif-PrimaryActionButton-Small" p:methodToCall="addBlankLine" p:actionLabel="Add"
-          p:actionEvent="addBlankLine" p:id="addBlankLine-outcome-multiple"/>
+    <bean id="CM-Proposal-Course-Logistics-AddBlankLineAction" parent="Uif-PrimaryActionButton-Small" p:methodToCall="addBlankLine" p:actionLabel="Add"
+          p:actionEvent="addBlankLine" p:id="CM-Proposal-Course-Logistics-AddOutcome-Multiple"/>
 
     <bean id="CM-Proposal-Course-Logistics-Formats-Section"
               parent="Uif-StackedCollectionSection" p:headerText="Course Format(s)"
@@ -314,7 +314,7 @@
         <property name="addBlankLineAction">
             <bean parent="KS-BottomAddLine">
                 <property name="actionLabel" value="Add Format"/>
-                <property name="id" value="format-addline"/>
+                <property name="id" value="CM-Proposal-Course-Logistics-AddFormat"/>
                 <property name="dirtyOnAction" value="true" />
                 <property name="style" value="margin-top:1em;" />
             </bean>
@@ -344,7 +344,7 @@
             <bean parent="Uif-HorizontalBoxGroup" p:additionalCssClasses="right-aligned">
                 <property name="items">
                     <list>
-                        <bean parent="KS-Uif-Delete-ActionLink" p:id="delete_format" p:methodToCall="deleteLine" p:actionLabel="Delete" p:ajaxSubmit="true"
+                        <bean parent="KS-Uif-Delete-ActionLink" p:id="CM-Proposal-Course-Logistics-Format-Delete" p:methodToCall="deleteLine" p:actionLabel="Delete" p:ajaxSubmit="true"
                               p:actionScript="actionInvokeHandler(this);"
                               p:render="@{!#view.readOnly}"
                               p:ajaxReturnType="update-component"
@@ -364,7 +364,7 @@
                     <property name="layoutManager.id" value="course_format_activities_table"/>
                     <property name="addLinePlacement" value="BOTTOM" />
                     <property name="addBlankLineAction.actionLabel" value="Add Activity"/>
-                    <property name="addBlankLineAction.id" value="activity-addline"/>
+                    <property name="addBlankLineAction.id" value="CM-Proposal-Course-Logistics-AddActivity"/>
                     <property name="addBlankLineAction.dirtyOnAction" value="true"/>
                     <property name="renderAddBlankLineButton" value="true" />
                     <property name="layoutManager.applyAlternatingRowStyles" value="false"/>
@@ -381,7 +381,7 @@
                     <property name="layoutManager.renderSequenceField" value="true"/>
                     <property name="lineActions">
                         <list>
-                            <bean parent="KS-Uif-Delete-ActionLink" p:id="delete_activity" p:methodToCall="deleteLine" p:actionLabel="Delete"
+                            <bean parent="KS-Uif-Delete-ActionLink" p:id="CM-Proposal-Course-Logistics-Activity-Delete" p:methodToCall="deleteLine" p:actionLabel="Delete"
                                   p:actionEvent="deleteLine" p:dirtyOnAction="true"/>
                         </list>
                     </property>
@@ -422,7 +422,7 @@
                                     <bean parent="KS-Uif-DropdownControl"  p:disabled="@{#lp.typeKey eq null}"/>
                                 </property>
                             </bean>
-                            <bean id="KS-Logistics-Format-DurationTimeQuantity-Field" parent="KS-Uif-InputField-LabelTop"
+                            <bean id="CM-Proposal-Course-Logistics-Format-DurationCount" parent="KS-Uif-InputField-LabelTop"
                                   p:label="Duration Count" p:propertyName="duration.timeQuantity">
                                 <property name="validCharactersConstraint">
                                     <bean parent="NumericPatternConstraint" />
@@ -440,7 +440,7 @@
                                     <bean parent="KS-Uif-TextControl" p:size="3" p:maxLength="3" p:disabled="@{#lp.typeKey eq null}"/>
                                 </property>
                             </bean>
-                            <bean id="KS-Logistics-Format-DurationTypeDropDown" parent="KS-Uif-InputField-LabelTop"
+                            <bean id="CM-Proposal-Course-Logistics-Format-DurationType" parent="KS-Uif-InputField-LabelTop"
                                   p:propertyName="duration.atpDurationTypeKey" p:label="Duration Type"
                                   p:optionsFinderClass="org.kuali.student.lum.lu.ui.course.keyvalues.DurationTypeKeyValueFinder">
                                 <property name="fieldLabel.render" value="false"/>

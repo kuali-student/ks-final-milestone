@@ -56,7 +56,7 @@ public class CurriculumManagementConstants {
      * The bean ids of the pages within the view.
      */
     public static class CourseViewPageIds {
-        public final static String REVIEW_PROPOSAL = "CM-Proposal-Review-Course-Page";
+        public final static String REVIEW_COURSE_PROPOSAL = "CM-Proposal-Review-Course-Page";
         public final static String CREATE_COURSE = "CM-Proposal-Course-Create-Page";
         public final static String CREATE_COURSE_VIEW = "CM-Proposal-Course-Create-View";
         public final static String VIEW_COURSE_VIEW = "ViewCourseView";
@@ -77,7 +77,7 @@ public class CurriculumManagementConstants {
         FINANCIALS("CM-Proposal-Course-Financials-Page"),
         AUTHORS_AND_COLLABORATORS("CM-Proposal-Course-AuthorsAndCollaborators-Page"),
         SUPPORTING_DOCUMENTS("CM-Proposal-Course-SupportingDocuments-Page"),
-        REVIEW_PROPOSAL("CM-Proposal-Review-Course-Page");
+        REVIEW_COURSE_PROPOSAL("CM-Proposal-Review-Course-Page");
 
         private String sectionId;
 
@@ -153,7 +153,7 @@ public class CurriculumManagementConstants {
 
     public final static String L0_MSG_ERROR_NO_LO_IS_FOUND = "error.course.lo.noLoIsFound";
 
-    public final static String KS_LO_CAT_TABLE = "CM-Proposal-Course-LoCategory-Table";
+    public final static String CM_LO_CAT_TABLE = "CM-Proposal-Course-LoCategory-Table";
 
     public final static String CM_MESSAGE_ICON_IMAGE_ID = "[id=CM-IconImage]";
 

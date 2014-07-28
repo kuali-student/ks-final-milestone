@@ -20,13 +20,13 @@ limitations under the License.
        xsi:schemaLocation="http://www.springframework.org/schema/beans
                            http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-    <bean id="Uif-ProposalLookupView" abstract="true" parent="Uif-ProposalLookupView-parentBean"/>
+    <bean id="CM-FindProposal-LookupView" abstract="true" parent="CM-FindProposal-LookupView-ParentBean"/>
 
-    <bean id="Uif-ProposalLookupView-parentBean" abstract="true"
+    <bean id="CM-FindProposal-LookupView-ParentBean" abstract="true"
             class="org.kuali.student.cm.uif.view.ProposalLookupView" parent="KS-Uif-LookupView">
     </bean>
 
-    <bean id="CM-Proposal-Course-FindProposal-LookupView" parent="Uif-ProposalLookupView">
+    <bean id="CM-FindProposal" parent="CM-FindProposal-LookupView">
         <property name="id" value="ksCMProposalLookup"/>
         <property name="viewName" value="ProposalLookup"/>
         <property name="headerText" value="Find a Proposal" />
@@ -77,9 +77,9 @@ limitations under the License.
                 </property>
                 <property name="items">
                     <list>
-                        <bean id="courseProposalLookup_title" parent="Uif-LookupCriteriaInputField" p:propertyName="title"
+                        <bean id="CM-FindProposal-Lookup-Title" parent="Uif-LookupCriteriaInputField" p:propertyName="title"
                               p:label="Title" p:required="true" p:fieldLabel.renderColon="false"/>
-                        <bean id="courseProposalLookup_searchButton" parent="Uif-SecondaryActionButton" p:methodToCall="search"
+                        <bean id="CM-FindProposal-Lookup-Search" parent="Uif-SecondaryActionButton" p:methodToCall="search"
                               p:actionLabel="Find Course Proposal" p:performClientSideValidation="true"/>
                     </list>
                 </property>

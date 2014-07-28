@@ -57,7 +57,7 @@
                 <bean parent="Uif-VerticalBoxSection" p:onDocumentReadyScript="setReadonlyTextWidthForComment();">
                     <property name="items">
                         <list>
-                            <bean id="KSCM-NewCommentField" parent="Uif-InputField" p:propertyName="newComment"
+                            <bean id="CM-Proposal-Course-Comment-NewComment" parent="Uif-InputField" p:propertyName="newComment"
                                   p:render="@{canAddComment}">
                                 <property name="instructionalText"
                                           value="Comments posted here will be visible to anyone with view access to the proposal."/>
@@ -77,7 +77,7 @@
                                 <property name="header">
                                     <bean parent="Uif-HeaderThree"
                                           p:headerText="Comments (@{comments.size()})"
-                                          p:id="Comment_list_Header"
+                                          p:id="CM-Proposal-Course-Comment-List-Header"
                                           p:cssClasses="ks-dottedHeaderActions"/>
                                 </property>
                                 <property name="propertyReplacers">
@@ -96,14 +96,14 @@
                                 <property name="header.lowerGroup">
                                     <bean parent="Uif-HorizontalBoxGroup">
                                         <property name="render" value="@{deletedComment != null}"/>
-                                        <property name="id" value="KSCM-CloseCommentDeleteUndoInfo"/>
+                                        <property name="id" value="CM-Proposal-Course-Comment-CloseCommentDeleteUndoInfo"/>
                                         <property name="items">
                                             <list>
                                                 <bean parent="Uif-Message"
                                                       p:messageText="[b]Comment has been deleted. [0][/b]">
                                                     <property name="inlineComponents">
                                                         <list>
-                                                            <bean id="KSCM-Comment-undo-delete" parent="Uif-ActionLink"
+                                                            <bean id="CM-Proposal-Course-Comment-Undo-Delete" parent="Uif-ActionLink"
                                                                   p:methodToCall="undoDeleteComment"
                                                                   p:actionLabel="Undo"/>
                                                         </list>
@@ -130,7 +130,7 @@
                                             <property name="renderAddLine" value="false"/>
                                             <property name="items">
                                                 <list>
-                                                    <bean id="KSCM-CommentField" p:id="KSCM-Comment-Add"
+                                                    <bean id="CM-Proposal-Course-Comment-Field" p:id="CM-Proposal-Course-Comment-Add-Field"
                                                           parent="KS-Uif-InputField" p:label=""
                                                           p:propertyName="commentInfo.commentText.plain">
                                                         <property name="control">
@@ -147,12 +147,12 @@
                                             </property>
                                             <property name="lineActions">
                                                 <list>
-                                                    <bean id="KSCM-CommentSaveAction" parent="Uif-PrimaryActionButton"
+                                                    <bean id="CM-Proposal-Course-Comment-Save" parent="Uif-PrimaryActionButton"
                                                           p:methodToCall="saveComment"
                                                           p:render="@{#line.renderHelper.editInProgress}"
                                                           p:actionLabel="Save"/>
 
-                                                    <bean id="KSCM-CommentCancelAction" parent="Uif-CancelAction"
+                                                    <bean id="CM-Proposal-Course-Comment-Cancel" parent="Uif-CancelAction"
                                                           p:methodToCall="cancelEditComment"
                                                           p:render="@{#line.renderHelper.editInProgress}"
                                                           p:actionLabel="Cancel"/>
@@ -165,7 +165,7 @@
                                                         <bean parent="Uif-SimpleLayout"/>
                                                     </property>
                                                     <property name="header">
-                                                        <bean id="KSCM-CommentField-comment-header-id"
+                                                        <bean id="CM-Proposal-Course-Comment-Header"
                                                               parent="Uif-HeaderFive">
                                                             <property name="render"
                                                                       value="@{!#line.renderHelper.editInProgress}"/>
@@ -173,13 +173,13 @@
                                                                 <bean parent="Uif-HorizontalBoxGroup">
                                                                     <property name="items">
                                                                         <list>
-                                                                            <bean id="KSCM-CommentEditAction"
+                                                                            <bean id="CM-Proposal-Course-Comment-Edit"
                                                                                   parent="KS-Uif-Edit-NavigationActionLink"
                                                                                   p:actionLabel="Edit"
                                                                                   p:methodToCall="editComment"
                                                                                   p:dirtyOnAction="false"
                                                                                   p:render="@{#line.renderHelper.canEdit}"/>
-                                                                            <bean id="KSCM-CommentDeleteAction"
+                                                                            <bean id="CM-Proposal-Course-Comment-Delete"
                                                                                   parent="KS-Uif-Delete-NavigationActionLink"
                                                                                   p:methodToCall="deleteComment"
                                                                                   p:actionLabel="Delete"
@@ -211,7 +211,7 @@
                 <bean parent="Uif-HorizontalBoxGroup" p:style="float:right;padding-top:10px">
                     <property name="items">
                         <list>
-                            <bean id="commentsLightBoxContents-cancel"
+                            <bean id="CM-Proposal-Course-CommentsLightBoxContents-cancel"
                                   parent="Uif-PrimaryActionButton"
                                   p:actionLabel="Close"
                                   p:actionScript="e.preventDefault();closeLightbox();"

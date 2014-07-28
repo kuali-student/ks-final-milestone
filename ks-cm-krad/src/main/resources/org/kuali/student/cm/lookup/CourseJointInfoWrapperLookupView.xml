@@ -34,7 +34,7 @@
 			value="org.kuali.student.cm.course.service.impl.CourseJointInfoLookupableImpl" />
 		<property name="criteriaFields">
 			<list>
-                <bean id="joints_search.searchBy" parent="Uif-LookupCriteriaInputField" p:label="Search By" p:propertyName="searchBy">
+                <bean id="CM-Proposal-Course-JointlyOffered-SearchBy" parent="Uif-LookupCriteriaInputField" p:label="Search By" p:propertyName="searchBy">
                     <property name="control">
                         <bean parent="KS-Uif-DropdownControl" />
                     </property>
@@ -42,9 +42,9 @@
                         <bean class="org.kuali.student.lum.lu.ui.course.keyvalues.CourseJointKeyValuesFinder" p:addBlankOption="false"/>
                     </property>
                 </bean>
-                <bean id="joints_search.courseTitle" parent="Uif-LookupCriteriaInputField" p:propertyName="courseTitle" p:label="Given Name" />
-                <bean id="joints_search.courseCode" parent="Uif-LookupCriteriaInputField" p:propertyName="courseCode" p:label="Course Code" />
-                <bean id="joints_search.descr.plain" parent="Uif-LookupCriteriaInputField" p:propertyName="descr.plain" p:label="Plain Text Description" />
+                <bean id="CM-Proposal-Course-JointlyOffered-CourseTitleSearch" parent="Uif-LookupCriteriaInputField" p:propertyName="courseTitle" p:label="Given Name" />
+                <bean id="CM-Proposal-Course-JointlyOffered-CourseCodeSearch" parent="Uif-LookupCriteriaInputField" p:propertyName="courseCode" p:label="Course Code" />
+                <bean id="CM-Proposal-Course-JointlyOffered-Descr" parent="Uif-LookupCriteriaInputField" p:propertyName="descr.plain" p:label="Plain Text Description" />
 			</list>
 		</property>
 		<property name="resultFields">

@@ -72,9 +72,9 @@ limitations under the License.
                 </property>
                 <property name="items">
                     <list>
-                        <bean id="courseLookup_code" parent="Uif-LookupCriteriaInputField" p:propertyName="code"
+                        <bean id="CM-FindCourse-CourseCode" parent="Uif-LookupCriteriaInputField" p:propertyName="code"
                               p:label="Course Code" p:required="true" p:fieldLabel.renderColon="true"/>
-                        <bean id="courseLookup_searchButton" parent="Uif-SecondaryActionButton" p:methodToCall="search"
+                        <bean id="CM-FindCourse-Search" parent="Uif-SecondaryActionButton" p:methodToCall="search"
                               p:actionLabel="Find Courses" p:performClientSideValidation="true"/>
                     </list>
                 </property>
