@@ -8,7 +8,11 @@
 }
 
 .util-Grid-cell {
-  flex: 1;
+  .util-Grid-cell(1);
+}
+
+.util-Grid-cell(@flex) {
+  flex: @flex;
 }
 
 .util-Grid--floatRight {
