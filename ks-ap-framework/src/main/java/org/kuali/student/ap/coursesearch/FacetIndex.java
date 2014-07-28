@@ -7,6 +7,4 @@ import org.kuali.rice.core.api.util.KeyValue;
 
 public interface FacetIndex extends Map<Object,List<KeyValue>> {
 
-    public KeyValue createKeyValue(String value1, String value2);
-
 }

@@ -261,7 +261,7 @@ public class SessionSearchInfo {
                         searchPattern = dataTablesInputs.getPatSearch();
                     }
                     // Here is where data tables column # is tied to internal facet column order.
-                    return current.getFacetColumns().get(facetStrategy.getFacetColumnsReversed()
+                    return current.getFacetColumns().get(facetStrategy.getSortedFacetColumnNames()
                             .get(j));
                 }
 
@@ -317,11 +317,11 @@ public class SessionSearchInfo {
             @Override
             public String toString() {
                 return "Iter [current="
-                        + current.getFacetColumns().get(facetStrategy.getFacetColumnsReversed()
+                        + current.getFacetColumns().get(facetStrategy.getSortedFacetColumnNames()
                                 .get(j)) + ", removed=" + removed
                         + ", searchString=" + searchString
                         + ", searchPattern=" + searchPattern + ", j=" + j
-                        + " (" + facetStrategy.getFacetColumnsReversed().get(j) + ")]";
+                        + " (" + facetStrategy.getSortedFacetColumnNames().get(j) + ")]";
             }
         }
         Iter li = new Iter();

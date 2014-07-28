@@ -36,7 +36,7 @@ public interface CourseFacetStrategy {
      *
      * @return A ordered list of facet group names.
      */
-    List<String> getFacetColumnsReversed();
+    List<String> getSortedFacetColumnNames();
 
     /**
      * Retrieves a static map of facets to their related sort algorithm.

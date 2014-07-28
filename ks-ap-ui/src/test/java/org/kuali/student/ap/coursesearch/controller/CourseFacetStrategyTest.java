@@ -45,8 +45,8 @@ public class CourseFacetStrategyTest {
     }
 
     @Test
-    public void testGetFacetColumnsReversed(){
-        List<String> facets = strategy.getFacetColumnsReversed();
+    public void testGetSortedFacetColumnNames(){
+        List<String> facets = strategy.getSortedFacetColumnNames();
         assertEquals(5,facets.size());
         assertEquals("facet_quarter",facets.get(0));
         assertEquals("facet_genedureq",facets.get(1));

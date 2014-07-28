@@ -76,31 +76,4 @@ public class FacetIndexImpl implements FacetIndex, Serializable {
     public Set<Entry<Object, List<KeyValue>>> entrySet() {
         return this.m.entrySet();
     }
-
-    @Override
-    public KeyValue createKeyValue(String value1, String value2) {
-        return new FacetKeyValue(value1,value2);
-    }
-
-    private static class FacetKeyValue implements KeyValue{
-        private static final long serialVersionUID = 6620894647540404487L;
-
-        private String value1;
-        private String value2;
-
-        public FacetKeyValue(String value1, String value2){
-            this.value1=value1;
-            this.value2=value2;
-        }
-
-        @Override
-        public String getKey() {
-            return value1;
-        }
-
-        @Override
-        public String getValue() {
-            return value2;
-        }
-    }
 }
