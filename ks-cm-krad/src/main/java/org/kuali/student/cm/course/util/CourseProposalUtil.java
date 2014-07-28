@@ -44,6 +44,7 @@ public class CourseProposalUtil {
     public static boolean isUserCurriculumSpecialist() {
         Map<String,String> permDetails = new HashMap<String, String>();
         permDetails.put(KewApiConstants.DOCUMENT_TYPE_NAME_DETAIL, CurriculumManagementConstants.DocumentTypeNames.CourseProposal.COURSE_CREATE_ADMIN);
+        // method below uses 'PermissionService.hasPermissionByTemplate' because we do not use role qualifiers to define who can initiate the ADMIN course document type
         return KimApiServiceLocator.getPermissionService().hasPermissionByTemplate(GlobalVariables.getUserSession().getPrincipalId(), KRADConstants.KUALI_RICE_SYSTEM_NAMESPACE, KewApiConstants.INITIATE_PERMISSION, permDetails);
     }
 

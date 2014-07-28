@@ -293,11 +293,12 @@
     <bean id="CourseInfoMaintenanceDocument-workflowAttributes-parentBean" abstract="true" parent="WorkflowAttributes">
         <property name="routingTypeDefinitions">
             <map>
+                <!-- each node will need an entry here with the key value being the node name -->
                 <entry key="Department Review" value-ref="RoutingType-CourseInfoMaintenanceDocument-DepartmentReview"/>
-                <entry key="Division Review" value-ref="RoutingType-CourseInfoMaintenanceDocument-DepartmentReview"/>
-                <entry key="College Review" value-ref="RoutingType-CourseInfoMaintenanceDocument-DepartmentReview"/>
-                <entry key="Senate Review" value-ref="RoutingType-CourseInfoMaintenanceDocument-DepartmentReview"/>
-                <entry key="Publication Review" value-ref="RoutingType-CourseInfoMaintenanceDocument-DepartmentReview"/>
+                <entry key="Division Review" value-ref="RoutingType-CourseInfoMaintenanceDocument-DivisionReview"/>
+                <entry key="College Review" value-ref="RoutingType-CourseInfoMaintenanceDocument-CollegeReview"/>
+                <entry key="Senate Review" value-ref="RoutingType-CourseInfoMaintenanceDocument-SenateReview"/>
+                <entry key="Publication Review" value-ref="RoutingType-CourseInfoMaintenanceDocument-PublicationReview"/>
             </map>
         </property>
         <property name="searchingTypeDefinitions">
@@ -305,26 +306,137 @@
         </property>
     </bean>
 
+    <!-- this is the routing type definition for the 'Department Review' route level -->
     <bean id="RoutingType-CourseInfoMaintenanceDocument-DepartmentReview" parent="RoutingType-CourseInfoMaintenanceDocument-DepartmentReview-parentBean"/>
     <bean id="RoutingType-CourseInfoMaintenanceDocument-DepartmentReview-parentBean" abstract="true" parent="RoutingTypeDefinition">
+        <!-- this list defines the qualifier key value to 'orgId' but it not being used by KSCM in initial CM 3.0
+        because of the complex Org hierachy processing that we need to perform to resolve route level qualifiers
+        (see org.kuali.student.lum.workflow.qualifierresolver.CocOrgTypeDataDictionaryQualifierResolver for more) -->
         <property name="routingAttributes">
-            <ref bean="RoutingAttributes-CourseInfoMaintenanceDocument-DepartmentReview" />
+            <ref bean="RoutingAttributes-CourseInfoMaintenanceDocument-OrgId" />
         </property>
+        <!-- this list has elements that define the path to the org id set on the course proposal object in the
+        curriculum oversight field, which is then used in the hierarchy processing by the
+        org.kuali.student.lum.workflow.qualifierresolver.CocOrgTypeDataDictionaryQualifierResolver class -->
         <property name="documentValuePathGroups">
             <list>
                 <bean class="org.kuali.rice.krad.datadictionary.DocumentValuePathGroup">
-                    <property name="documentValues">
-                        <list>
-                            <value>newMaintainableObject.dataObject.courseInfo.unitsContentOwner</value>
-                        </list>
+                    <property name="documentCollectionPath">
+                        <bean class="org.kuali.rice.krad.datadictionary.DocumentCollectionPath">
+                            <property name="collectionPath" value="newMaintainableObject.dataObject.unitsContentOwner" />
+                            <property name="documentValues">
+                                <list>
+                                    <value>orgId</value>
+                                </list>
+                            </property>
+                        </bean>
                     </property>
                 </bean>
             </list>
         </property>
     </bean>
 
-    <bean id="RoutingAttributes-CourseInfoMaintenanceDocument-DepartmentReview" parent="RoutingAttributes-CourseInfoMaintenanceDocument-DepartmentReview-parentBean"/>
-    <bean id="RoutingAttributes-CourseInfoMaintenanceDocument-DepartmentReview-parentBean" abstract="true" class="org.springframework.beans.factory.config.ListFactoryBean">
+    <!-- see routing type definition bean for 'Department Review' route level in this file above for explanation of this structure -->
+    <bean id="RoutingType-CourseInfoMaintenanceDocument-DivisionReview" parent="RoutingType-CourseInfoMaintenanceDocument-DivisionReview-parentBean"/>
+    <bean id="RoutingType-CourseInfoMaintenanceDocument-DivisionReview-parentBean" abstract="true" parent="RoutingTypeDefinition">
+        <property name="routingAttributes">
+            <ref bean="RoutingAttributes-CourseInfoMaintenanceDocument-OrgId" />
+        </property>
+        <property name="documentValuePathGroups">
+            <list>
+                <bean class="org.kuali.rice.krad.datadictionary.DocumentValuePathGroup">
+                    <property name="documentCollectionPath">
+                        <bean class="org.kuali.rice.krad.datadictionary.DocumentCollectionPath">
+                            <property name="collectionPath" value="newMaintainableObject.dataObject.unitsContentOwner" />
+                            <property name="documentValues">
+                                <list>
+                                    <value>orgId</value>
+                                </list>
+                            </property>
+                        </bean>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <!-- see routing type definition bean for 'Department Review' route level in this file above for explanation of this structure -->
+    <bean id="RoutingType-CourseInfoMaintenanceDocument-CollegeReview" parent="RoutingType-CourseInfoMaintenanceDocument-CollegeReview-parentBean"/>
+    <bean id="RoutingType-CourseInfoMaintenanceDocument-CollegeReview-parentBean" abstract="true" parent="RoutingTypeDefinition">
+        <property name="routingAttributes">
+            <ref bean="RoutingAttributes-CourseInfoMaintenanceDocument-OrgId" />
+        </property>
+        <property name="documentValuePathGroups">
+            <list>
+                <bean class="org.kuali.rice.krad.datadictionary.DocumentValuePathGroup">
+                    <property name="documentCollectionPath">
+                        <bean class="org.kuali.rice.krad.datadictionary.DocumentCollectionPath">
+                            <property name="collectionPath" value="newMaintainableObject.dataObject.unitsContentOwner" />
+                            <property name="documentValues">
+                                <list>
+                                    <value>orgId</value>
+                                </list>
+                            </property>
+                        </bean>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <!-- see routing type definition bean for 'Department Review' route level in this file above for explanation of this structure -->
+    <bean id="RoutingType-CourseInfoMaintenanceDocument-SenateReview" parent="RoutingType-CourseInfoMaintenanceDocument-SenateReview-parentBean"/>
+    <bean id="RoutingType-CourseInfoMaintenanceDocument-SenateReview-parentBean" abstract="true" parent="RoutingTypeDefinition">
+        <property name="routingAttributes">
+            <ref bean="RoutingAttributes-CourseInfoMaintenanceDocument-OrgId" />
+        </property>
+        <property name="documentValuePathGroups">
+            <list>
+                <bean class="org.kuali.rice.krad.datadictionary.DocumentValuePathGroup">
+                    <property name="documentCollectionPath">
+                        <bean class="org.kuali.rice.krad.datadictionary.DocumentCollectionPath">
+                            <property name="collectionPath" value="newMaintainableObject.dataObject.unitsContentOwner" />
+                            <property name="documentValues">
+                                <list>
+                                    <value>orgId</value>
+                                </list>
+                            </property>
+                        </bean>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <!-- see routing type definition bean for 'Department Review' route level in this file above for explanation of this structure -->
+    <bean id="RoutingType-CourseInfoMaintenanceDocument-PublicationReview" parent="RoutingType-CourseInfoMaintenanceDocument-PublicationReview-parentBean"/>
+    <bean id="RoutingType-CourseInfoMaintenanceDocument-PublicationReview-parentBean" abstract="true" parent="RoutingTypeDefinition">
+        <property name="routingAttributes">
+            <ref bean="RoutingAttributes-CourseInfoMaintenanceDocument-OrgId" />
+        </property>
+        <property name="documentValuePathGroups">
+            <list>
+                <bean class="org.kuali.rice.krad.datadictionary.DocumentValuePathGroup">
+                    <property name="documentCollectionPath">
+                        <bean class="org.kuali.rice.krad.datadictionary.DocumentCollectionPath">
+                            <property name="collectionPath" value="newMaintainableObject.dataObject.unitsContentOwner" />
+                            <property name="documentValues">
+                                <list>
+                                    <value>orgId</value>
+                                </list>
+                            </property>
+                        </bean>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <!-- this bean sets the qualifier key value to 'orgId' but it not being used by KSCM in initial CM 3.0
+    because of the complex Org hierachy processing that we need to perform to resolve route level qualifiers
+    (see org.kuali.student.lum.workflow.qualifierresolver.CocOrgTypeDataDictionaryQualifierResolver for more) -->
+    <bean id="RoutingAttributes-CourseInfoMaintenanceDocument-OrgId" parent="RoutingAttributes-CourseInfoMaintenanceDocument-OrgId-parentBean"/>
+    <bean id="RoutingAttributes-CourseInfoMaintenanceDocument-OrgId-parentBean" abstract="true" class="org.springframework.beans.factory.config.ListFactoryBean">
         <property name="sourceList">
             <list>
                 <bean parent="RoutingAttribute">

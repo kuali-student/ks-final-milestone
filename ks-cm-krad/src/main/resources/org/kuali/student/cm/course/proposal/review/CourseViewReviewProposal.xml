@@ -359,6 +359,12 @@
                                   p:methodToCall="route"
                                   p:performClientSideValidation="true"
                                   p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}"/>
+                            <bean parent="Uif-PrimaryActionButton"
+                                  p:ajaxSubmit="false"
+                                  p:actionLabel="Approve"
+                                  p:methodToCall="approve"
+                                  p:performClientSideValidation="true"
+                                  p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_APPROVE]}"/>
                             <bean id="CM-Proposal-Review-Cancel"
                                   parent="Uif-ActionLink"
                                   p:actionLabel="Cancel"
