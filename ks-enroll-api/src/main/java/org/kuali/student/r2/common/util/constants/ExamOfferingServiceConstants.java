@@ -73,6 +73,7 @@ public class ExamOfferingServiceConstants {
     public static final String EXAM_OFFERING_GENERATED_PER_FO = "success.enroll.examoffering.finalexam.generated.per.fo";
     public static final String EXAM_OFFERING_GENERATED_PER_AO = "success.enroll.examoffering.finalexam.generated.per.ao";
     public static final String EXAM_OFFERING_SLOTTED_SUCCESS = "success.enroll.examoffering.finalexam.slotted";
+    public static final String EXAM_OFFERING_REMOVE_RDL_SUCCESS = "success.enroll.examoffering.finalexam.rdl.removed";
 
     public static final String EXAM_OFFERING_BULK_PROCESS = "error.enroll.examoffering.finalexam.bulk.process";
     public static final String EXAM_OFFERING_BULK_PROCESS_NOT_COMPLETED = "error.enroll.examoffering.finalexam.bulk.process.not.completed";
