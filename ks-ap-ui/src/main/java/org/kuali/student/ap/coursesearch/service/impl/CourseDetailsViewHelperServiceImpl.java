@@ -35,7 +35,9 @@ import org.kuali.student.ap.coursesearch.form.CourseSectionDetailsForm;
 import org.kuali.student.ap.coursesearch.service.CourseDetailsViewHelperService;
 import org.kuali.student.ap.coursesearch.util.CourseDetailsUtil;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
+import org.kuali.student.ap.framework.context.CourseSearchConstants;
 import org.kuali.student.ap.framework.context.PlanConstants;
+import org.kuali.student.ap.framework.util.KsapHelperUtil;
 import org.kuali.student.common.collection.KSCollectionUtils;
 import org.kuali.student.common.util.security.ContextUtils;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
@@ -62,6 +64,8 @@ import org.kuali.student.r2.core.scheduling.constants.SchedulingServiceConstants
 import org.kuali.student.r2.core.scheduling.dto.ScheduleComponentInfo;
 import org.kuali.student.r2.core.scheduling.dto.ScheduleInfo;
 import org.kuali.student.r2.core.scheduling.dto.TimeSlotInfo;
+import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
+import org.kuali.student.r2.core.search.dto.SearchResultRowInfo;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -211,11 +215,28 @@ public class CourseDetailsViewHelperServiceImpl extends ViewHelperServiceImpl im
             List<String> validFormatOfferings = new ArrayList<String>();
             List<String> validActivities = new ArrayList<String>();
             for(String id : validRegGroups){
-                List<String> activityIds = null;
-                List<String> formatIds = null;
+                List<String> activityIds = new ArrayList<String>();
+                List<String> formatIds = new ArrayList<String>();
                 try {
-                    activityIds = KsapFrameworkServiceLocator.getLuiService().getLuiIdsByLuiAndRelationType(id, LuiServiceConstants.LUI_LUI_RELATION_REGISTERED_FOR_VIA_RG_TO_AO_TYPE_KEY, KsapFrameworkServiceLocator.getContext().getContextInfo());
-                    formatIds = KsapFrameworkServiceLocator.getLuiService().getLuiIdsByRelatedLuiAndRelationType(id, LuiServiceConstants.LUI_LUI_RELATION_DELIVERED_VIA_FO_TO_RG_TYPE_KEY, KsapFrameworkServiceLocator.getContext().getContextInfo());
+                    SearchRequestInfo request = new SearchRequestInfo(CourseSearchConstants
+                            .KSAP_COURSE_SEARCH_AO_IDS_BY_OFFERED_REG_GROUP_ID_KEY);
+                    request.addParam(CourseSearchConstants.SearchParameters.REG_GROUP_ID, id);
+                    List<SearchResultRowInfo> rows = KsapFrameworkServiceLocator.getSearchService().search(request,
+                            KsapFrameworkServiceLocator.getContext().getContextInfo()).getRows();
+                    for( SearchResultRowInfo row : rows){
+                        activityIds.add(KsapHelperUtil.getCellValue(row, CourseSearchConstants.SearchResultColumns
+                                .ACTIVITY_OFFERING_ID));
+                    }
+
+                    request = new SearchRequestInfo(CourseSearchConstants
+                            .KSAP_COURSE_SEARCH_FO_IDS_BY_OFFERED_REG_GROUP_ID_KEY);
+                    request.addParam(CourseSearchConstants.SearchParameters.REG_GROUP_ID, id);
+                    rows = KsapFrameworkServiceLocator.getSearchService().search(request,
+                            KsapFrameworkServiceLocator.getContext().getContextInfo()).getRows();
+                    for( SearchResultRowInfo row : rows){
+                        formatIds.add(KsapHelperUtil.getCellValue(row, CourseSearchConstants.SearchResultColumns
+                                .FORMAT_OFFERING_ID));
+                    }
                 } catch (InvalidParameterException e) {
                     throw new IllegalArgumentException("Lui Service lookup error", e);
                 } catch (MissingParameterException e) {
@@ -249,6 +270,11 @@ public class CourseDetailsViewHelperServiceImpl extends ViewHelperServiceImpl im
                 List<PlannedRegistrationGroupDetailsWrapper> plannedActivityOfferings = new ArrayList<PlannedRegistrationGroupDetailsWrapper>();
 
                 for (FormatOfferingInfo formatOffering : formatOfferings) {
+
+                    //Ignore non-offered FO's
+                    if (!LuiServiceConstants.LUI_FO_STATE_OFFERED_KEY.equalsIgnoreCase(formatOffering.getStateKey()))
+                        continue;
+
                     FormatOfferingInfoWrapper formatOfferingInfo = new FormatOfferingInfoWrapper(formatOffering, courseOfferingDetailsWrapper.getCourseOfferingCode());
                     formatOfferingInfo.setValidFormat(validFormatOfferings.contains(formatOfferingInfo.getFormatOfferingId()));
 
@@ -510,9 +536,13 @@ public class CourseDetailsViewHelperServiceImpl extends ViewHelperServiceImpl im
         // Retrieve reg groups for the Course Offering
         List<String> regGroupIds = new ArrayList<String>();
         try {
-            List<String> formatIds = KsapFrameworkServiceLocator.getLuiService().getLuiIdsByLuiAndRelationType(courseOfferingId, LuiServiceConstants.LUI_LUI_RELATION_DELIVERED_VIA_CO_TO_FO_TYPE_KEY, contextInfo);
-            for(String format : formatIds){
-                regGroupIds.addAll(KsapFrameworkServiceLocator.getLuiService().getLuiIdsByLuiAndRelationType(format, LuiServiceConstants.LUI_LUI_RELATION_DELIVERED_VIA_FO_TO_RG_TYPE_KEY, contextInfo));
+            SearchRequestInfo request = new SearchRequestInfo(CourseSearchConstants.KSAP_COURSE_SEARCH_OFFERED_REG_GROUP_IDS_BY_CO_ID_KEY);
+            request.addParam(CourseSearchConstants.SearchParameters.COURSE_OFFERING_ID, courseOfferingId);
+            List<SearchResultRowInfo> rows = KsapFrameworkServiceLocator.getSearchService().search(request,
+                    KsapFrameworkServiceLocator.getContext().getContextInfo()).getRows();
+            for( SearchResultRowInfo row : rows){
+                regGroupIds.add(
+                        KsapHelperUtil.getCellValue(row, CourseSearchConstants.SearchResultColumns.REG_GROUP_ID));
             }
         } catch (InvalidParameterException e) {
             throw new IllegalArgumentException("CO lookup error", e);
@@ -617,11 +647,28 @@ public class CourseDetailsViewHelperServiceImpl extends ViewHelperServiceImpl im
         List<String> validFormatOfferings = new ArrayList<String>();
         List<String> validActivities = new ArrayList<String>();
         for(String id : regGroups){
-            List<String> activityIds = null;
-            List<String> formatIds = null;
+            List<String> activityIds = new ArrayList<>();
+            List<String> formatIds = new ArrayList<>();
             try {
-                activityIds = KsapFrameworkServiceLocator.getLuiService().getLuiIdsByLuiAndRelationType(id, LuiServiceConstants.LUI_LUI_RELATION_REGISTERED_FOR_VIA_RG_TO_AO_TYPE_KEY, KsapFrameworkServiceLocator.getContext().getContextInfo());
-                formatIds = KsapFrameworkServiceLocator.getLuiService().getLuiIdsByRelatedLuiAndRelationType(id, LuiServiceConstants.LUI_LUI_RELATION_DELIVERED_VIA_FO_TO_RG_TYPE_KEY, KsapFrameworkServiceLocator.getContext().getContextInfo());
+                SearchRequestInfo request = new SearchRequestInfo(CourseSearchConstants
+                        .KSAP_COURSE_SEARCH_AO_IDS_BY_OFFERED_REG_GROUP_ID_KEY);
+                request.addParam(CourseSearchConstants.SearchParameters.REG_GROUP_ID, id);
+                List<SearchResultRowInfo> rows = KsapFrameworkServiceLocator.getSearchService().search(request,
+                        KsapFrameworkServiceLocator.getContext().getContextInfo()).getRows();
+                for( SearchResultRowInfo row : rows){
+                    activityIds.add(KsapHelperUtil.getCellValue(row, CourseSearchConstants.SearchResultColumns
+                            .ACTIVITY_OFFERING_ID));
+                }
+
+                request = new SearchRequestInfo(CourseSearchConstants
+                        .KSAP_COURSE_SEARCH_FO_IDS_BY_OFFERED_REG_GROUP_ID_KEY);
+                request.addParam(CourseSearchConstants.SearchParameters.REG_GROUP_ID, id);
+                rows = KsapFrameworkServiceLocator.getSearchService().search(request,
+                        KsapFrameworkServiceLocator.getContext().getContextInfo()).getRows();
+                for( SearchResultRowInfo row : rows){
+                    formatIds.add(KsapHelperUtil.getCellValue(row, CourseSearchConstants.SearchResultColumns
+                            .FORMAT_OFFERING_ID));
+                }
             } catch (InvalidParameterException e) {
                 throw new IllegalArgumentException("Lui Service lookup error", e);
             } catch (MissingParameterException e) {
@@ -719,10 +766,16 @@ public class CourseDetailsViewHelperServiceImpl extends ViewHelperServiceImpl im
             List<String> regGroupIdsFromSelectedAOs = new ArrayList<String>();
             for(String activityId : selectedActivities){
                 try {
-                    List<String> tempIds = KsapFrameworkServiceLocator.getLuiService()
-                            .getLuiIdsByRelatedLuiAndRelationType(activityId,
-                                    LuiServiceConstants.LUI_LUI_RELATION_REGISTERED_FOR_VIA_RG_TO_AO_TYPE_KEY,
-                                    KsapFrameworkServiceLocator.getContext().getContextInfo());
+                    SearchRequestInfo request = new SearchRequestInfo(CourseSearchConstants
+                            .KSAP_COURSE_SEARCH_OFFERED_REG_GROUP_IDS_BY_AO_ID_KEY);
+                    request.addParam(CourseSearchConstants.SearchParameters.ACTIVITY_OFFERING_ID, activityId);
+                    List<SearchResultRowInfo> rows = KsapFrameworkServiceLocator.getSearchService().search(request,
+                            KsapFrameworkServiceLocator.getContext().getContextInfo()).getRows();
+                    List<String> tempIds = new ArrayList<>();
+                    for( SearchResultRowInfo row : rows){
+                        tempIds.add(KsapHelperUtil.getCellValue(row, CourseSearchConstants.SearchResultColumns
+                                .REG_GROUP_ID));
+                    }
                     if(regGroupIdsFromSelectedAOs.isEmpty()){
                         regGroupIdsFromSelectedAOs.addAll(tempIds);
                     }else{
@@ -980,6 +1033,9 @@ public class CourseDetailsViewHelperServiceImpl extends ViewHelperServiceImpl im
         List<PlannedRegistrationGroupDetailsWrapper> plannedRegistrationGroupDetailsWrappers = new ArrayList<PlannedRegistrationGroupDetailsWrapper>();
         for(RegistrationGroupInfo regGroup : regGroups){
 
+            //ignore non-offered Reg Groups
+            if (!LuiServiceConstants.REGISTRATION_GROUP_OFFERED_STATE_KEY.equals(regGroup.getStateKey())) continue;
+
             PlannedRegistrationGroupDetailsWrapper plannedRegistrationGroup = new PlannedRegistrationGroupDetailsWrapper();
             plannedRegistrationGroup.setRegGroupCode(regGroup.getName());
             for(String id : regGroup.getActivityOfferingIds()){
@@ -1009,11 +1065,24 @@ public class CourseDetailsViewHelperServiceImpl extends ViewHelperServiceImpl im
      */
     private Map<String, Map<String, List<ActivityOfferingDetailsWrapper>>> getAOData(String courseOfferingId, List<String> validActivityOfferings, boolean isCourseOfferingVariableCredit) {
         Map<String, Map<String, List<ActivityOfferingDetailsWrapper>>> aoMapByFormatName = new HashMap<String, Map<String, List<ActivityOfferingDetailsWrapper>>>();
-        List<ActivityOfferingInfo>  activityOfferings = null;
+        List<ActivityOfferingInfo>  activityOfferings = new ArrayList<>();
 
         // Retrieve and sort all activities for the CO
         try {
-            activityOfferings = KsapFrameworkServiceLocator.getCourseOfferingService().getActivityOfferingsByCourseOffering(courseOfferingId, KsapFrameworkServiceLocator.getContext().getContextInfo());
+            List<ActivityOfferingInfo>  activityOfferingsTemp = KsapFrameworkServiceLocator
+                    .getCourseOfferingService().getActivityOfferingsByCourseOffering(courseOfferingId, KsapFrameworkServiceLocator.getContext().getContextInfo());
+
+            for (ActivityOfferingInfo ao : activityOfferingsTemp) {
+                SearchRequestInfo request = new SearchRequestInfo(CourseSearchConstants
+                        .KSAP_COURSE_SEARCH_OFFERED_REG_GROUP_IDS_BY_AO_ID_KEY);
+                request.addParam(CourseSearchConstants.SearchParameters.ACTIVITY_OFFERING_ID, ao.getId());
+                List<SearchResultRowInfo> rows = KsapFrameworkServiceLocator.getSearchService().search(request,
+                        KsapFrameworkServiceLocator.getContext().getContextInfo()).getRows();
+                if (!rows.isEmpty()) {
+                    activityOfferings.add(ao);
+                }
+            }
+
             Collections.sort(activityOfferings, new ActivityOfferingInfoComparator());
 
         } catch (DoesNotExistException e) {
