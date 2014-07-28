@@ -28,6 +28,8 @@ import org.kuali.rice.kim.api.identity.entity.EntityDefault;
 import org.kuali.rice.kim.api.identity.entity.EntityDefaultQueryResults;
 import org.kuali.rice.kim.api.identity.principal.Principal;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
+import org.kuali.rice.krms.api.KrmsConstants;
+import org.kuali.rice.krms.api.repository.RuleManagementService;
 import org.kuali.student.common.collection.KSCollectionUtils;
 import org.kuali.student.common.util.security.ContextUtils;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
@@ -107,6 +109,7 @@ public class CourseRegistrationAndScheduleOfClassesUtil {
     private static LRCService lrcService;
     private static ScheduleOfClassesService scheduleOfClassesService;
     private static CourseRegistrationService courseRegistrationService;
+    private static RuleManagementService ruleManagementService;
 
     private static Map<String, Integer> activityPriorityMap = null;
 
@@ -701,4 +704,14 @@ public class CourseRegistrationAndScheduleOfClassesUtil {
     public void setCourseRegistrationService(CourseRegistrationService courseRegistrationService) {
         CourseRegistrationAndScheduleOfClassesUtil.courseRegistrationService = courseRegistrationService;
     }
+
+    public static RuleManagementService getRuleManagementService() {
+        if (ruleManagementService == null) {
+            ruleManagementService = (RuleManagementService) GlobalResourceLoader.getService(new QName(KrmsConstants.Namespaces.KRMS_NAMESPACE_2_0, "ruleManagementService"));
+        }
+        return ruleManagementService;
+    }
+
+   public void setRuleManagementService(RuleManagementService ruleManagementService) { CourseRegistrationAndScheduleOfClassesUtil.ruleManagementService = ruleManagementService; }
+
 }

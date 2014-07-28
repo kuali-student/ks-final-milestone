@@ -199,14 +199,4 @@ public interface ScheduleOfClassesClientService {
     @Path("/courseOfferingInfo")
     Response searchForCourseOfferingInfo(@QueryParam("courseOfferingId") String courseOfferingId);
 
-    /** Prerequisites **/
-
-    /**
-     * Returns a list of prerequisites
-     */
-    @GET
-    @Produces(MediaType.APPLICATION_JSON)
-    @Path("/prerequisites")
-    Response searchForPrerequisitesByCourseOffering(@QueryParam("courseOfferingId") String courseOfferingId);
-
 }

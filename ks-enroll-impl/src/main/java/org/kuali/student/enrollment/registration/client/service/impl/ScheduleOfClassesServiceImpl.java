@@ -5,6 +5,7 @@ import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
 import org.kuali.rice.core.api.criteria.Predicate;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
+import org.kuali.rice.krms.api.repository.reference.ReferenceObjectBinding;
 import org.kuali.student.common.collection.KSCollectionUtils;
 import org.kuali.student.common.util.security.ContextUtils;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
@@ -22,6 +23,7 @@ import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.*;
 import org.kuali.student.r2.common.infc.ValidationResult;
 import org.kuali.student.r2.common.util.TimeOfDayHelper;
+import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
 import org.kuali.student.r2.common.util.constants.LprServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
@@ -621,7 +623,7 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
             courseSearchResult.setCourseOfferingDesc(coDesc);
 
             // Grading and credit options
-            if (resultValuesGroupKey != null && resultValuesGroupKey.startsWith(LrcServiceConstants.RESULT_GROUP_KEY_KUALI_CREDITTYPE_CREDIT_BASE_OLD)) {
+            if (!StringUtils.isEmpty(resultValuesGroupKey) && resultValuesGroupKey.startsWith(LrcServiceConstants.RESULT_GROUP_KEY_KUALI_CREDITTYPE_CREDIT_BASE_OLD)) {
                 courseSearchResult.setCreditOptions(getCourseOfferingCreditOptionValues(resultValuesGroupKey, contextInfo));
             } else {
                 if (!courseSearchResult.getGradingOptions().containsKey(resultValuesGroupKey)) {
@@ -633,7 +635,7 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
             }
 
             // running over the list of results returned. One CO can have multiple Cross-Listed COs
-            if (!hmCOCrossListed.containsKey(coClCode)) {
+            if (!hmCOCrossListed.containsKey(coClCode) && !StringUtils.isEmpty(coClId)) {
                 CourseOfferingLimitedInfoSearchResult coCL = new CourseOfferingLimitedInfoSearchResult();
                 coCL.setCourseOfferingId(coClId);
                 coCL.setCourseOfferingCode(coClCode);
@@ -647,7 +649,7 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
             ActivityOfferingScheduleComponentResult scheduleComponent = CourseRegistrationAndScheduleOfClassesUtil.getActivityOfferingScheduleComponent(isTBA, roomCode, buildingCode,
                     weekdays, startTimeMs, endTimeMs);
             // have to check if we already have the AO in our list, because we can have multiple schedules for the same AO
-            if (!hmActivityOfferings.containsKey(aoId)) {
+            if (!hmActivityOfferings.containsKey(aoId) && !StringUtils.isEmpty(aoId)) {
                 StudentScheduleActivityOfferingResult ao = new StudentScheduleActivityOfferingResult();
                 ao.setActivityOfferingId(aoId);
                 ao.setActivityOfferingTypeName(aoName);
@@ -659,7 +661,7 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
                 scheduleComponents.add(scheduleComponent);
                 ao.setScheduleComponents(scheduleComponents);
                 hmActivityOfferings.put(aoId, ao);
-            } else {
+            } else if (hmActivityOfferings.containsKey(aoId)) {
                 boolean sameScheduleComponent = false;
                 for (ActivityOfferingScheduleComponentResult scheduleComponentResult : hmActivityOfferings.get(aoId).getScheduleComponents()) {
                     if (StringUtils.equals(scheduleComponentResult.getBuildingCode(), scheduleComponent.getBuildingCode()) && StringUtils.equals(scheduleComponentResult.getRoomCode(), scheduleComponent.getRoomCode()) &&
@@ -689,9 +691,7 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
         // setting AOs
         if (!hmActivityOfferings.isEmpty()) {
             List<String> aoIDs = new ArrayList<>();
-//            List<StudentScheduleActivityOfferingResult> activityOfferings = new ArrayList<>();
             for (String key: hmActivityOfferings.keySet()) {
-//                activityOfferings.add(hmActivityOfferings.get(key));
                 aoIDs.add(hmActivityOfferings.get(key).getActivityOfferingId());
             }
 
@@ -726,7 +726,22 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
             courseSearchResult.setActivityOfferingTypes(activityOfferingTypes);
         }
 
+        // setting prerequisites
+        courseSearchResult.setPrerequisites(searchForPrerequisitesByCourseOffering(courseOfferingId));
+
         return courseSearchResult;
+    }
+
+    private List<String> searchForPrerequisitesByCourseOffering(String courseOfferingId){
+        List<String> prerequisites = new ArrayList<String>();
+
+        List<ReferenceObjectBinding> referenceObjectBindings = CourseRegistrationAndScheduleOfClassesUtil.getRuleManagementService().findReferenceObjectBindingsByReferenceObject(CourseOfferingServiceConstants.REF_OBJECT_URI_COURSE_OFFERING, courseOfferingId);
+        for(ReferenceObjectBinding referenceObjectBinding: referenceObjectBindings) {
+            String prerequisite = CourseRegistrationAndScheduleOfClassesUtil.getRuleManagementService().translateNaturalLanguageForObject("KS-KRMS-NL-USAGE-1005", "agenda", referenceObjectBinding.getKrmsObjectId(), "en");
+            prerequisites.add(prerequisite);
+        }
+
+        return prerequisites;
     }
 
     private List<RegGroupSearchResult> searchForRegGroups(String courseOfferingId) throws InvalidParameterException, MissingParameterException, PermissionDeniedException, OperationFailedException {

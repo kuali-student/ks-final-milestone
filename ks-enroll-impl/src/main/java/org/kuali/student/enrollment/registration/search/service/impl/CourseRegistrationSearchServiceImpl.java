@@ -1426,7 +1426,7 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
                         "    AND lpr.LPR_STATE='" + LprServiceConstants.ACTIVE_STATE_KEY + "') numRegisteredForAo, " +
                         "schedCmp.TBA_IND, room.ROOM_CD, rBldg.BUILDING_CD, " +
                         "schedTmslt.WEEKDAYS, schedTmslt.START_TIME_MS, schedTmslt.END_TIME_MS " +
-                        "FROM KSEN_LUI co, KSEN_LUI_IDENT coId, KSEN_LUILUI_RELTN co2fo " +
+                        "FROM KSEN_LUI co, KSEN_LUI_IDENT coId " +
                         // looking for grading and credit options for given CO
                         "LEFT OUTER JOIN KSEN_LUI_RESULT_VAL_GRP coRes " +
                         "ON coRes.LUI_ID = coId.LUI_ID " +
@@ -1438,12 +1438,17 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
                         "AND coClId.LUI_ID_TYPE = '" + LuiServiceConstants.LUI_IDENTIFIER_CROSSLISTED_TYPE_KEY + "' " +
                         "AND coClId.LUI_ID_STATE = '" + LuiServiceConstants.LUI_IDENTIFIER_ACTIVE_STATE_KEY + "' " +
                         // finding all AOs for the given CO
+                        // looking for FO for given CO
+                        "LEFT OUTER JOIN KSEN_LUILUI_RELTN co2fo " +
+                        "ON co2fo.LUI_ID = coId.LUI_ID " +
+                        "AND co2fo.LUILUI_RELTN_TYPE = '" + LuiServiceConstants.LUI_LUI_RELATION_DELIVERED_VIA_CO_TO_FO_TYPE_KEY + "' " +
+                        // looking for AOs for given FO (CO)
                         "LEFT OUTER JOIN KSEN_LUILUI_RELTN fo2ao " +
                         "ON fo2ao.LUI_ID = co2fo.RELATED_LUI_ID " +
                         "AND fo2ao.LUILUI_RELTN_TYPE = '" + LuiServiceConstants.LUI_LUI_RELATION_DELIVERED_VIA_FO_TO_AO_TYPE_KEY + "' " +
                         "LEFT OUTER JOIN KSEN_LUI ao " +
                         "ON ao.ID = fo2ao.RELATED_LUI_ID " +
-                        "AND ao.LUI_STATE = '" + LuiServiceConstants.LUI_AO_STATE_OFFERED_KEY + "'" +
+                        "AND ao.LUI_STATE = '" + LuiServiceConstants.LUI_AO_STATE_OFFERED_KEY + "' " +
                         "LEFT OUTER JOIN KSEN_LUI_IDENT aoId " +
                         "ON aoId.LUI_ID = ao.ID " +
                         // Schedules for AOs
@@ -1462,8 +1467,6 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
                         "WHERE coId.LUI_ID = co.ID " +
                         "  AND co.LUI_TYPE = 'kuali.lui.type.course.offering' " +
                         "  AND co.ID = :courseOfferingId " +
-                        "  AND co2fo.LUI_ID = lui.ID " +
-                        "  AND co2fo.LUILUI_RELTN_TYPE = '" + LuiServiceConstants.LUI_LUI_RELATION_DELIVERED_VIA_CO_TO_FO_TYPE_KEY + "'" +
                         " ORDER BY aoId.LUI_CD";
 
 
