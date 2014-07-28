@@ -17,6 +17,8 @@ package org.kuali.student.ap.coursesearch.controller;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.core.api.criteria.Predicate;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.student.ap.academicplan.constants.AcademicPlanServiceConstants;
 import org.kuali.student.ap.academicplan.dto.LearningPlanInfo;
 import org.kuali.student.ap.academicplan.dto.PlanItemInfo;
@@ -581,7 +583,7 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
      */
     @Override
     public void populateFacets(CourseSearchForm form, List<? extends CourseSearchItem> courses) {
-        LOG.info("Start of method populateFacets of CourseSearchController: {}",
+        LOG.debug("Start of method populateFacets of CourseSearchController: {}",
                 System.currentTimeMillis());
         // Initialize facets.
         CurriculumFacet curriculumFacet = new CurriculumFacet();
@@ -598,6 +600,9 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
             creditsFacet.process(course);
             termsFacet.process(course);
         }
+
+        LOG.debug("End of method populateFacets of CourseSearchController: {}",
+                System.currentTimeMillis());
     }
 
     /**
@@ -976,7 +981,7 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
      * @param courses - List of courses to load information for.
      */
     private void loadScheduledTerms(List<? extends CourseSearchItem> courses) {
-        LOG.info("Start of method loadScheduledTerms of CourseSearchController: {}",
+        LOG.debug("Start of method loadScheduledTerms of CourseSearchController: {}",
                 System.currentTimeMillis());
 
         // Any Scheduled term selected
@@ -1020,7 +1025,7 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
             ((CourseSearchItemImpl)course).setScheduledTerms(offeredCourseIdMap.get(course.getCourseId()));
         }
 
-        LOG.info("End of method loadScheduledTerms of CourseSearchController: {}",
+        LOG.debug("End of method loadScheduledTerms of CourseSearchController: {}",
                 System.currentTimeMillis());
     }
 
@@ -1093,23 +1098,41 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
         LOG.debug("Start of method loadGenEduReqs of CourseSearchController: {}",
                 System.currentTimeMillis());
 
-        // Search for gen ed requirements
-        SearchRequestInfo request = new SearchRequestInfo(
-                "ksap.course.info.gened");
+        Map<String,List<String>> genEdCourses = new HashMap<String,List<String>>();
+        SearchRequestInfo requestGenEdValues = new SearchRequestInfo(
+                CourseSearchConstants.KSAP_COURSE_SEARCH_GENERAL_EDUCATION_VALUES_KEY);
 
-        // Create a list of version Ids for the search
-        List<String> versionIndIds = new ArrayList<String>();
-        for (CourseSearchItem course : courses) {
-            versionIndIds.add(((CourseSearchItem)course).getVersionIndependentId());
-        }
-        request.addParam("courseIDs", versionIndIds);
 
         // Search for the requirements
         SearchResult result;
         try {
-            result = KsapFrameworkServiceLocator.getCluService().search(
-                    request,
-                    KsapFrameworkServiceLocator.getContext().getContextInfo());
+            List<SearchResultRowInfo> genEdRows = KsapFrameworkServiceLocator.getSearchService().search(requestGenEdValues,
+                    KsapFrameworkServiceLocator.getContext().getContextInfo()).getRows();
+            for(SearchResultRowInfo row : genEdRows){
+                String id =  KsapHelperUtil.getCellValue(row, CourseSearchConstants.SearchResultColumns.CLU_SET_ID);
+                String name =  KsapHelperUtil.getCellValue(row, CourseSearchConstants.SearchResultColumns.CLU_SET_NAME);
+                String value =  KsapHelperUtil.getCellValue(row, CourseSearchConstants.SearchResultColumns.CLU_SET_ATTR_VALUE);
+                getGenEdMap().put(value, name);
+
+                // Create map relating course to list of gen ed values
+                SearchRequestInfo requestGenEdCourses = new SearchRequestInfo(
+                        CourseSearchConstants.KSAP_COURSE_SEARCH_COURSEIDS_BY_GENERAL_EDUCATION_KEY);
+                requestGenEdCourses.addParam(CourseSearchConstants.SearchParameters.GENED_KEY, id);
+                List<SearchResultRowInfo> genEdCourseRows = KsapFrameworkServiceLocator.getSearchService().search(requestGenEdCourses,
+                        KsapFrameworkServiceLocator.getContext().getContextInfo()).getRows();
+                for(SearchResultRowInfo courseRow : genEdCourseRows){
+                    String cluId = KsapHelperUtil.getCellValue(courseRow, CourseSearchConstants.SearchResultColumns.CLU_ID);
+                    if(genEdCourses.containsKey(cluId)){
+                        List<String> genIds = genEdCourses.get(cluId);
+                        genIds.add(value);
+                        genEdCourses.put(cluId,genIds);
+                    }else{
+                        List<String> genIds = new ArrayList<String>();
+                        genIds.add(value);
+                        genEdCourses.put(cluId,genIds);
+                    }
+                }
+            }
         } catch (MissingParameterException e) {
             throw new IllegalArgumentException(
                     "Invalid course ID or CLU lookup error", e);
@@ -1122,32 +1145,10 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
             throw new IllegalArgumentException("CLU lookup error", e);
         }
 
-        // Return if no entries found
-        if (result == null) {
-            return;
-        }
-
-        // Create a map of the gen ed entries to its related course
-        Map<String, List<String>> genEdResults = new HashMap<String, List<String>>();
-        for (SearchResultRow row : result.getRows()) {
-            String genEd = KsapHelperUtil.getCellValue(row, "gened.code");
-            String id = KsapHelperUtil.getCellValue(row, "course.owner");
-            String genEdName = KsapHelperUtil.getCellValue(row, "gened.name");
-            if (genEdResults.containsKey(id)) {
-                genEdResults.get(id).add(genEd);
-            } else {
-                List<String> newEntry = new ArrayList<String>();
-                newEntry.add(genEd);
-                genEdResults.put(id, newEntry);
-            }
-            getGenEdMap().put(genEd, genEdName);
-        }
-
         // Fill in the course information
         for (CourseSearchItem course : courses) {
-            if (genEdResults.containsKey(course.getVersionIndependentId())) {
-                List<String> reqs = genEdResults.get(course.getVersionIndependentId());
-                ((CourseSearchItemImpl)course).setGenEduReqs(reqs);
+            if(genEdCourses.containsKey(course.getCourseId())){
+                ((CourseSearchItemImpl)course).setGenEduReqs(genEdCourses.get(course.getCourseId()));
             }
         }
 

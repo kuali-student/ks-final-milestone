@@ -52,6 +52,8 @@ public class AcademicPlanCourseSearchImpl extends SearchServiceAbstractHardwired
     public static final TypeInfo KSAP_COURSE_SEARCH;
     public static final TypeInfo KSAP_COURSE_SEARCH_COURSEIDS_BY_TERM_SCHEDULED;
     public static final TypeInfo KSAP_COURSE_SEARCH_COURSEIDS_BY_TERM_OFFERED;
+    public static final TypeInfo KSAP_COURSE_SEARCH_GENERAL_EDUCATION_VALUES;
+    public static final TypeInfo KSAP_COURSE_SEARCH_COURSEIDS_BY_GENERAL_EDUCATION;
 
     public static final String DEFAULT_EFFECTIVE_DATE = "01/01/2012";
 
@@ -85,6 +87,22 @@ public class AcademicPlanCourseSearchImpl extends SearchServiceAbstractHardwired
         info.setEffectiveDate(DateFormatters.MONTH_DAY_YEAR_DATE_FORMATTER.parse(DEFAULT_EFFECTIVE_DATE));
         KSAP_COURSE_SEARCH_COURSEIDS_BY_TERM_OFFERED = info;
 
+        // Creates search that retrieves a list of clu ids based on whether the clu entry has a relation to a term key
+        info = new TypeInfo();
+        info.setKey(CourseSearchConstants.KSAP_COURSE_SEARCH_GENERAL_EDUCATION_VALUES_KEY);
+        info.setName("General Education Values");
+        info.setDescr(new RichTextHelper().fromPlain("Search for possible values for General Education"));
+        info.setEffectiveDate(DateFormatters.MONTH_DAY_YEAR_DATE_FORMATTER.parse(DEFAULT_EFFECTIVE_DATE));
+        KSAP_COURSE_SEARCH_GENERAL_EDUCATION_VALUES = info;
+
+        // Creates search that retrieves a list of clu ids based on whether the clu entry has a relation to a term key
+        info = new TypeInfo();
+        info.setKey(CourseSearchConstants.KSAP_COURSE_SEARCH_COURSEIDS_BY_GENERAL_EDUCATION_KEY);
+        info.setName("Course Id Search By General Education");
+        info.setDescr(new RichTextHelper().fromPlain("Search for course ids based on General Education values"));
+        info.setEffectiveDate(DateFormatters.MONTH_DAY_YEAR_DATE_FORMATTER.parse(DEFAULT_EFFECTIVE_DATE));
+        KSAP_COURSE_SEARCH_COURSEIDS_BY_GENERAL_EDUCATION = info;
+
 
     }
 
@@ -110,6 +128,10 @@ public class AcademicPlanCourseSearchImpl extends SearchServiceAbstractHardwired
             return KSAP_COURSE_SEARCH_COURSEIDS_BY_TERM_SCHEDULED;
         } else if (CourseSearchConstants.KSAP_COURSE_SEARCH_COURSEIDS_BY_TERM_OFFERED_KEY.equals(searchTypeKey)) {
             return KSAP_COURSE_SEARCH_COURSEIDS_BY_TERM_OFFERED;
+        } else if (CourseSearchConstants.KSAP_COURSE_SEARCH_GENERAL_EDUCATION_VALUES_KEY.equals(searchTypeKey)) {
+            return KSAP_COURSE_SEARCH_GENERAL_EDUCATION_VALUES;
+        } else if (CourseSearchConstants.KSAP_COURSE_SEARCH_COURSEIDS_BY_GENERAL_EDUCATION_KEY.equals(searchTypeKey)) {
+            return KSAP_COURSE_SEARCH_COURSEIDS_BY_GENERAL_EDUCATION;
         }
 
         // If no matching search type is found throw exception
@@ -127,6 +149,10 @@ public class AcademicPlanCourseSearchImpl extends SearchServiceAbstractHardwired
             resultInfo =  searchForCluIdsScheduledForTerms(searchRequestInfo, contextInfo);
         }else if (StringUtils.equals(searchRequestInfo.getSearchKey(), KSAP_COURSE_SEARCH_COURSEIDS_BY_TERM_OFFERED.getKey())) {
             resultInfo =  searchForCluIdsOfferedForTerms(searchRequestInfo, contextInfo);
+        }else if (StringUtils.equals(searchRequestInfo.getSearchKey(), KSAP_COURSE_SEARCH_GENERAL_EDUCATION_VALUES.getKey())) {
+            resultInfo =  searchForGeneralEducationValues(searchRequestInfo, contextInfo);
+        }else if (StringUtils.equals(searchRequestInfo.getSearchKey(), KSAP_COURSE_SEARCH_COURSEIDS_BY_GENERAL_EDUCATION.getKey())) {
+            resultInfo =  searchForCluIdsForGeneralEducation(searchRequestInfo, contextInfo);
         }else {
             // If no matching search is found throw exception
             throw new OperationFailedException("Unsupported search type: " + searchRequestInfo.getSearchKey());
@@ -219,5 +245,86 @@ public class AcademicPlanCourseSearchImpl extends SearchServiceAbstractHardwired
         return resultInfo;
     }
 
+    /**
+     * Routed To from search method based on search type key pasted in the search request.
+     * Used to create and execute for search type key KSAP_COURSE_SEARCH_GENERAL_EDUCATION_VALUES.
+     *
+     * @see #search(org.kuali.student.r2.core.search.dto.SearchRequestInfo, org.kuali.student.r2.common.dto.ContextInfo)
+     */
+    protected SearchResultInfo searchForGeneralEducationValues(SearchRequestInfo searchRequestInfo, ContextInfo contextInfo)
+            throws MissingParameterException, OperationFailedException{
+        SearchResultInfo resultInfo = new SearchResultInfo();
+
+        // Create sql string
+        String queryStr = "SELECT DISTINCT" +
+                "    cluSet.ID," +
+                "    cluSet.NAME," +
+                "    cluSetAttr.ATTR_VALUE";
+        queryStr = queryStr +
+                "    FROM" +
+                "    KSLU_CLU_SET cluSet, " +
+                "    KSLU_CLU_SET_ATTR cluSetAttr, " +
+                "    KSLU_CLU_SET_JN_CLU_SET cluSetJNCluSet ";
+        queryStr = queryStr +
+                "    WHERE" +
+                "    cluSetJNCluSet.CLU_SET_PARENT_ID = ( " +
+                "    SELECT c.ID FROM KSLU_CLU_SET c where c.NAME = 'General Education' "+
+                "    )" +
+                "    AND cluSetAttr.OWNER = cluSet.ID";
+
+        // Set params and execute search
+        Query query = getEntityManager().createNativeQuery(queryStr);
+        List<Object[]> results = query.getResultList();
+
+        // Compile results
+        for(Object[] resultRow : results){
+            SearchResultRowInfo row = new SearchResultRowInfo();
+            row.addCell(CourseSearchConstants.SearchResultColumns.CLU_SET_ID, (String)resultRow[0]);
+            row.addCell(CourseSearchConstants.SearchResultColumns.CLU_SET_NAME, (String)resultRow[1]);
+            row.addCell(CourseSearchConstants.SearchResultColumns.CLU_SET_ATTR_VALUE, (String)resultRow[2]);
+            resultInfo.getRows().add(row);
+        }
+
+        return resultInfo;
+    }
+
+    /**
+     * Routed To from search method based on search type key pasted in the search request.
+     * Used to create and execute for search type key KSAP_COURSE_SEARCH_COURSEIDS_BY_GENERAL_EDUCATION.
+     *
+     * @see #search(org.kuali.student.r2.core.search.dto.SearchRequestInfo, org.kuali.student.r2.common.dto.ContextInfo)
+     */
+    protected SearchResultInfo searchForCluIdsForGeneralEducation(SearchRequestInfo searchRequestInfo, ContextInfo contextInfo)
+            throws MissingParameterException, OperationFailedException{
+        SearchResultInfo resultInfo = new SearchResultInfo();
+        SearchRequestHelper requestHelper = new SearchRequestHelper(searchRequestInfo);
+        String searchGenEd = requestHelper.getParamAsString(CourseSearchConstants.SearchParameters.GENED_KEY);
+
+
+        // Create sql string
+        String queryStr = "SELECT" +
+                "    clu.ID";
+        queryStr = queryStr +
+                "    FROM" +
+                "    KSLU_CLU clu, " +
+                "    KSLU_CLU_SET_JN_CLU setJnClu ";
+        queryStr = queryStr +
+                "    WHERE" +
+                "    setJnClu.CLU_SET_ID = '" +searchGenEd+"'" +
+                "    AND clu.VER_IND_ID = setJnClu.CLU_VER_IND_ID";
+
+        // Set params and execute search
+        Query query = getEntityManager().createNativeQuery(queryStr);
+        List<Object> results = query.getResultList();
+
+        // Compile results
+        for(Object resultRow : results){
+            SearchResultRowInfo row = new SearchResultRowInfo();
+            row.addCell(CourseSearchConstants.SearchResultColumns.CLU_ID, (String)resultRow);
+            resultInfo.getRows().add(row);
+        }
+
+        return resultInfo;
+    }
 
 }
