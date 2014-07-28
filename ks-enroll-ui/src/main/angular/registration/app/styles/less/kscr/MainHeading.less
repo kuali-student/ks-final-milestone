@@ -85,6 +85,12 @@
     }
 }
 
+// Heading link icon (>>)
+.kscr-MainHeading-link-icon {
+    display: none;
+    font-size: 80%;
+}
+
 .kscr-MainHeading-stickyHeader {
     display: block;
     float: none;
@@ -105,6 +111,40 @@
     font-weight: normal;
     line-height: 1.2;
 }
+
+
+// Main Heading Toggles (buttons)
+.kscr-MainHeading-toggles {
+    border: 1px solid @bodyColorDark;
+
+    .kscr-MainHeading-toggle {
+        border-left: 1px solid @bodyColorDark;
+        color: @primaryTextColor;
+        cursor: pointer;
+        display: block;
+        float: left;
+        font-family: @secondaryFontFamily;
+        font-weight: bold;
+        text-decoration: none;
+        text-transform: uppercase;
+
+        &:first-child {
+            border-left: none;
+        }
+
+        & > span {
+            background: @whiteBackground;
+            border: 1px solid @whiteBackground;
+            display: block;
+            padding: 0.5rem;
+        }
+
+        &--selected > span {
+            background: @bodyColorDark;
+        }
+    }
+}
+
 
 
 @media screen and (max-width: @smallFormatMax) {
@@ -143,24 +183,38 @@
         display: none; // Don't show the small-format credit count element in large-format
     }
 
-    // Main heading container
-    .kscr-MainHeading {
-        padding-bottom: 0; // No bottom padding in large-format, allows sibling elements to sit flush against bottom of heading
-    }
-
-    // Cart heading-specific styles in large format
-    .kscr-MainHeading-CartHeading .kscr-MainHeading {
-        // Styles need a bit of tweaking to maintain the alignment of the Cart heading to the Schedule/Waitlist sections
-        padding-bottom: 0.8rem;
-        padding-top: 1rem;
-
-        .kscr-MainHeading-header--processing {
-            padding: 1rem 0.8rem 0.8rem 3.5rem;
+    // Main content area styles
+    .kscr-Responsive-content {
+        // Main heading container
+        .kscr-MainHeading {
+            padding: 0 1rem; // No top or bottom padding in large-format, allows sibling elements to sit flush against bottom of heading
         }
     }
 
-    // Schedule heading-specific styles in large format
-    .kscr-Responsive-scheduleWrapper .kscr-MainHeading-header {
-        margin-left: 1rem; // Additional margins needed to inset from left edge in large format
+    // Sidebar styles
+    .kscr-Responsive-sidebar {
+        // Main headers
+        .kscr-MainHeading {
+            padding-bottom: 0.8rem; // Make sure the heading has enough padding in large-format
+
+            .kscr-MainHeading-header {
+                float: none;
+            }
+        }
+
+        // Cart heading-specific styles in large format
+        .kscr-MainHeading-CartHeading .kscr-MainHeading {
+            // Styles need a bit of tweaking to maintain the alignment of the Cart heading to the Schedule/Waitlist sections
+            padding-top: 1rem;
+
+            .kscr-MainHeading-header--processing {
+                padding: 1rem 0.8rem 0.8rem 3.5rem;
+            }
+        }
+
+        // Show icon link text in large-format
+        .kscr-MainHeading-link-icon {
+            display: inline;
+        }
     }
 }

@@ -110,8 +110,8 @@
             <span class="util-Grid--clearfix"></span>
         </div>
         <div id="resultsSection" class="panel-group">
-            <div ng-repeat="cartResultItem in cartResults.items" is-open="isopen" class="panel kscr-cartResult-item kscr-cartResult-status kscr-cartResult-status--{{cartResultItem.status}}">
-                <div class="kscr-cartResult-icon">&nbsp;</div>
+            <div ng-repeat="cartResultItem in cartResults.items" is-open="isopen" class="panel kscr-cartResult-item kscr-Card-status kscr-Card-status--{{cartResultItem.status}}">
+                <div class="kscr-Card-icon">&nbsp;</div>
 
                 <!-- Displays block with course info if course is not waitlisted -->
                 <div class="kscr-cartResult-content" ng-if="cartResultItem.status != statuses.waitlist">
@@ -177,6 +177,7 @@
                                 <button class="kscr-Button" id="course_remove_{{cartResultItem.courseCode}}_{{cartResultItem.regGroupCode}}" ng-click="removeCartResultItem($index)">Dismiss</button>
                             </span>
                         </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -188,12 +189,12 @@
             <div ng-repeat="item in cartResultItem.schedule">
                 <span class="kscr-Card-courseTimes--results">
                     <div class="kscr-Card-ao-type">{{item.activityOfferingType | limitTo : 3}}</div>
-                        <div ng-repeat="scheduleItem in item.activityOfferingLocationTime" class="kscr-Card-scheduleComponent">
-                            <span ng-hide="scheduleItem.isTBA" class="util-Grid--floatLeft">{{scheduleItem.time.days}} {{scheduleItem.time.displayTime}}</span>
-                            <span ng-hide="scheduleItem.isTBA" class="util-Grid--floatRight">{{scheduleItem.location.building}} {{scheduleItem.location.room}}</span>
-                            <span ng-show="scheduleItem.isTBA" class="util-Grid--floatRight">TBA</span>
-                        </div>
-                        <div class="util-Grid--clearfix"></div>
+                    <div ng-repeat="scheduleItem in item.activityOfferingLocationTime" class="kscr-Card-scheduleComponent">
+                        <span ng-hide="scheduleItem.isTBA" class="util-Grid--floatLeft">{{scheduleItem.time.days}} {{scheduleItem.time.displayTime}}</span>
+                        <span ng-hide="scheduleItem.isTBA" class="util-Grid--floatRight">{{scheduleItem.location.building}} {{scheduleItem.location.room}}</span>
+                        <span ng-show="scheduleItem.isTBA" class="util-Grid--floatRight">TBA</span>
+                    </div>
+                    <div class="util-Grid--clearfix"></div>
                 </span>
             </div>
         </div>

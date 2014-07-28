@@ -52,18 +52,6 @@
 }
 
 
-
-// Primary status icon of cart results (e.g. Success check, Fail, Progressing spinner)
-.kscr-cartResult-icon {
-    background-repeat: no-repeat;
-    background-position: @iconPosition;
-    height: 3rem;
-    left: 0;
-    position: absolute;
-    top: 0;
-    width: 3rem;
-}
-
 // Content of cart results (all but status icon, remove icon, & credit count in large-format)
 .kscr-cartResult-content {
     border-color: @cardBorderColor;
@@ -98,82 +86,6 @@
 }
 
 
-// Status styles for cart result cards
-.kscr-cartResult-status {
-    padding: 1rem 1rem 1rem 3.5rem;
-    position: relative;
-
-    // Processing styles
-    &--processing {
-        .kscr-cartResult-icon {
-            background-image: @processingGif;
-            background-color: inherit;
-            .kscr-Card-icon {
-                display:none;
-            }
-        }
-        .kscr-Card-buttons {
-            display: none;
-        }
-        .kscr-Card-text-alert {
-            // Hide the schedule info in large-format
-            display: none;
-        }
-    }
-
-    // Error styles
-    &--error {
-        .util-Alert-error-mixin();
-        .util-transitions-browserHelper();
-
-        .kscr-cartResult-icon {
-            background-image: @errorImage;
-        }
-        .kscr-Card-buttons {
-            border-color: @errorBorder;
-        }
-    }
-
-    // Action styles (e.g. Add to Waitlist)
-    &--action {
-        .util-Alert-warning-mixin();
-        .util-transitions-browserHelper();
-
-        .kscr-cartResult-icon {
-            background-image: @warningImage;
-        }
-        .kscr-Card-buttons {
-            border-color: @warningBorder;
-            padding-bottom: 0;
-        }
-    }
-
-    // Success & Waitlist (Success) styles
-    &--success, &--waitlist {
-        .util-Alert-success-mixin();
-        .util-transitions-browserHelper();
-
-        .kscr-cartResult-icon {
-            background-image: @successImage;
-            background-color: inherit;
-        }
-        .kscr-Card-buttons {
-            border-color: @successBorder;
-        }
-    }
-
-
-    // Transition styles while styles are being added
-    &--success-add-active,
-    &--error-add-active,
-    &--action-add-active,
-    &--waitlist-add-active {
-        background-color: @cardBackgroundColor;
-        border-color: @cardBorderColor;
-        color: @cardTextColor;
-    }
-}
-
 
 // Credits count text in cart item
 .kscr-cartResult-supportText {
@@ -198,11 +110,6 @@
 
 // Large-format styles
 @media screen and (min-width: @largeFormatMin) {
-    // Cart results sub-heading
-    .kscr-Heading-sub.kscr-cartResult-responseHeading {
-        // Update sub-heading in the cart (results heading) to have better spacing from sibling elements
-        padding: 1rem 0;
-    }
 
     // Cart results response counts (e.g. Success, Fail)
     .kscr-cartResult-responseCount {
@@ -233,33 +140,6 @@
         .kscr-cartResult-responseCount--waitlisted {
             display: inline; // Show the waitlisted success count though
         }
-    }
-
-    // Cart item result w/ status (e.g. processing, error, success)
-    .kscr-cartResult-status {
-        // Don't show background shading when in large-format
-        background: none;
-        box-shadow: none;
-        -webkit-box-shadow: none; // iOS <4.3 & Android <4.1
-
-        // Update items in the cart results to have a top border
-        border-top: @horizontalLineBorder !important; // Important to override the styles on .kscr-Responsive-cart .panel-group .panel
-        padding: 1rem 0 1rem 2.5rem;
-
-        // No button bar border in large-format
-        .kscr-Card-buttons {
-            border-top: none;
-            padding-top: 0;
-        }
-
-        // Hide success messages in large-format
-        &--success {
-            display: none;
-        }
-    }
-
-    .kscr-cartResult-icon {
-        background-position: 0 1rem;
     }
 
     .kscr-cartResult-content .kscr-Card-detailsText {

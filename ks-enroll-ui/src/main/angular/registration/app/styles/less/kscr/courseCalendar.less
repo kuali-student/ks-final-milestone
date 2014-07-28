@@ -148,10 +148,13 @@
 .generate-courseBlocks(10);
 
 .generate-courseBlocks(@n, @i: 1) when (@i =< @n) {
-    @baseColor: #344d5b;
+    // Define the course color for this iteration
+    .defineCourseColor(@i);
+
     .kscr-CourseCalendar-courseBlock--@{i} {
-        .courseBlock(spin(@baseColor, 150 * @i));
+        .courseBlock(@courseColor);
     }
+
     .generate-courseBlocks(@n, (@i + 1));
 }
 

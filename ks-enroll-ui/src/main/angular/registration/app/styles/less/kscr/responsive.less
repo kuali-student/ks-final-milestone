@@ -113,6 +113,7 @@
     .kscr-Responsive-content {
         .flex(1);
         background-color: @sectionColor;
+        padding: 10px 0 0;
 
         // Schedule container (Registered & Waitlist)
         .kscr-Responsive-schedule {
@@ -135,16 +136,18 @@
                 display: none; /* when there is no waitlist information, hide the section so that registered section takes up all of the space */
             }
         }
+
+
+        .kscr-Heading-sub {
+            padding: 0 1rem;
+
+            // Credits count
+            .kscr-Heading-support {
+                padding-right: 0;
+            }
+        }
     }
 
-    .kscr-Responsive-cart .kscr-MainHeading-icons  {
-        display: none;
-    }
-
-    .kscr-Responsive-cart .kscr-addToCart {
-        border: none;
-        margin: 0.1rem 0 0.1rem 0;
-    }
 
     // Move the expand/collapse icon (chevron) 10px from left instead of 5px.
     .kscr-Responsive-sidebar {
@@ -153,14 +156,81 @@
         padding: 0 1rem 1rem;
         width: @largeFormatSidebarWidth; /* fixed width for sidebar */
 
-        .kscr-Card-icon {
-            left: 1rem;
+
+        // Update sub-headings in the sidebar to have better spacing from sibling elements (Cart Results, Registered, Waitlisted)
+        .kscr-Heading-sub {
+            padding: 1rem 0;
         }
-        .kscr-addToCart-heading,
-        .kscr-addToCart-contents,
-        .kscr-Card-course,
-        .panel-body {
-            padding-left: 3rem;
+
+        .kscr-Responsive-cart {
+            .kscr-MainHeading-icons  {
+                display: none;
+            }
+
+            // Add to Cart Form
+            .kscr-addToCart {
+                border: none;
+                margin: 0.1rem 0 0.1rem 0;
+            }
+
+            // Hide success messages in large-format
+            .kscr-Card-status--success {
+                display: none;
+            }
+        }
+
+        // Schedule in sidebar (search only)
+        .kscr-Responsive-scheduleWrapper {
+            margin: 1rem 0 0;
+
+            .kscr-MainHeading-header {
+                cursor: pointer;
+            }
+
+            // Override some styling on the nested elements since a custom heading is being shown
+            .kscr-Responsive-scheduleWrapper {
+                margin: 0;
+                .kscr-MainHeading {
+                    display: none;
+                }
+            }
+
+            // Schedule contents
+            .kscr-Responsive-schedule {
+                background-color: @whiteBackground;
+                margin: 0.1rem 0;
+            }
+
+            // Waitlist container when no courses exist in it
+            .kscr-Responsive-waitlisted--inactive {
+                display: none;
+            }
+
+            // Sub-headings, make sure they are well spaced in the schedule (Registered & Waitlisted)
+            .kscr-Heading-sub {
+                border-bottom: @horizontalLineBorder;
+                margin: 0 1rem;
+
+                // Credits count
+                .kscr-Heading-support {
+                    padding-right: 0;
+                }
+
+                .kscr-Heading-message {
+                    display: block;
+                    padding: 0;
+                }
+            }
+
+            // Course Calendar Container in Sidebar
+            .kscr-CourseCalendar {
+                margin: 0;
+            }
+        }
+
+        // Splash page/message shown in schedule when nothing is registered
+        .kscr-Splash {
+            display: none;
         }
     }
 

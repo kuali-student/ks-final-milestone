@@ -337,54 +337,181 @@
 }
 
 
-@media screen and (min-width: @largeFormatMin) {
-  .kscr-Card {
-    margin: 0.4rem 0 0;
-    border: none;
-  }
 
-  .kscr-Responsive-cart .kscr-Card {
-    margin-top: 0;
-  }
 
-  .kscr-Card-Cart {
-      margin-bottom: 0.1rem;
-  }
+// Status styles for Cards
+.kscr-Card-status {
+    padding: 1rem 1rem 1rem 3.5rem;
+    position: relative;
 
-  .kscr-Responsive-cart .kscr-Card-courseTimes {
-    display: none;
-  }
+    // Primary status icon of cart results (e.g. Success check, Fail, Progressing spinner)
+    .kscr-Card-icon {
+        background-repeat: no-repeat;
+        background-position: @iconPosition;
+        height: 3rem;
+        left: 0;
+        position: absolute;
+        top: 0;
+        width: 3rem;
+    }
 
-  .kscr-Responsive-cart .panel-group .panel {
-    margin: 0;
-    border: none;
-    .Rounded(0);
-  }
-
-  .kscr-Responsive-cart .kscr-Card-detailsText--show {
-    padding: 0;
-  }
-
-  .kscr-Responsive-schedule .panel-group .panel {
-    margin: 0 1rem 1rem;
-  }
-
-    .kscr-Card-heading {
-        margin: 0 1rem; // Main heading in Schedule & Waitlist
-        .panel-heading & {
-            margin: 0; // Course card panel heading
+    // Processing styles
+    &--processing {
+        .kscr-Card-icon {
+            background-image: @processingGif;
+            background-color: inherit;
+        }
+        .kscr-Card-buttons {
+            display: none;
+        }
+        .kscr-Card-text-alert {
+            // Hide the schedule info in large-format
+            display: none;
         }
     }
 
-    // Cart results card
-    .kscr-Card-Results {
-        background-color: @whiteBackground;
-        padding-left: 1rem;
-        padding-right: 1rem;
+    // Error styles
+    &--error {
+        .util-Alert-error-mixin();
+        .util-transitions-browserHelper();
 
-        .kscr-Card-detailsText .kscr-Card-text-alert,
-        .kscr-cartResult-status--waitlist .kscr-Card-text-alert {
-            display: block; // But... show them in the Add to Waitlist success
+        .kscr-Card-icon {
+            background-image: @errorImage;
+        }
+        .kscr-Card-buttons {
+            border-color: @errorBorder;
+        }
+    }
+
+    // Action styles (e.g. Add to Waitlist)
+    &--action {
+        .util-Alert-warning-mixin();
+        .util-transitions-browserHelper();
+
+        .kscr-Card-icon {
+            background-image: @warningImage;
+        }
+        .kscr-Card-buttons {
+            border-color: @warningBorder;
+            padding-bottom: 0;
+        }
+    }
+
+    // Success & Waitlist (Success) styles
+    &--success, &--waitlist {
+        .util-Alert-success-mixin();
+        .util-transitions-browserHelper();
+
+        .kscr-Card-icon {
+            background-image: @successImage;
+            background-color: inherit;
+        }
+        .kscr-Card-buttons {
+            border-color: @successBorder;
+        }
+    }
+
+
+    // Transition styles while styles are being added
+    &--success-add-active,
+    &--error-add-active,
+    &--action-add-active,
+    &--waitlist-add-active {
+        background-color: @cardBackgroundColor;
+        border-color: @cardBorderColor;
+        color: @cardTextColor;
+    }
+}
+
+
+@media screen and (min-width: @largeFormatMin) {
+
+    // Main content area styles
+    .kscr-Responsive-content {
+        .kscr-Card {
+            border: none;
+            margin-top: 0.4rem;
+        }
+
+        .kscr-Responsive-schedule .panel-group .panel {
+            margin: 0 0 1rem;
+        }
+    }
+
+    // Sidebar styles
+    .kscr-Responsive-sidebar {
+        .kscr-Card {
+            border: none;
+            margin: 0;
+        }
+
+        // Cart card
+        .kscr-Card-Cart {
+            margin-bottom: 0.1rem;
+        }
+
+        // Cart results card
+        .kscr-Card-Results {
+            background-color: @whiteBackground;
+            padding-left: 1rem;
+            padding-right: 1rem;
+
+            .kscr-Card-detailsText .kscr-Card-text-alert,
+            .kscr-cartResult-status--waitlist .kscr-Card-text-alert {
+                display: block; // Show the detailsText element in the Add to Waitlist success
+            }
+        }
+
+        .kscr-Card-courseTimes {
+            display: none;
+        }
+        .panel-group .panel {
+            margin: 0;
+            border: none;
+            .Rounded(0);
+        }
+        .kscr-Card-detailsText--show {
+            padding: 0;
+        }
+
+        // Reposition the cart expand/collapse icon when it's in the sidebar
+        .kscr-Card-icon {
+            left: 1rem;
+        }
+
+        // Update padding for cart, cart result, & schedule courses
+        .kscr-Card-accordion-heading,
+        .kscr-addToCart-heading,
+        .kscr-addToCart-contents,
+        .kscr-Card-course,
+        .panel-body {
+            padding-left: 3rem;
+        }
+
+
+        .kscr-Responsive-cart {
+            // Card result w/ status (e.g. processing, error, success)
+            .kscr-Card-status {
+                // Don't show background shading when in large-format
+                background: none;
+                box-shadow: none;
+                -webkit-box-shadow: none; // iOS <4.3 & Android <4.1
+
+                // Update items in the cart results to have a top border
+                border-top: @horizontalLineBorder !important; // Important to override the styles on .kscr-Responsive-cart .panel-group .panel
+                padding: 1rem 0 1rem 2.5rem;
+
+                // No button bar border in large-format
+                .kscr-Card-buttons {
+                    border-top: none;
+                    padding-top: 0;
+                }
+
+                .kscr-Card-icon {
+                    background-position: 0 1rem;
+                    left: 0;
+                }
+            }
         }
     }
 }

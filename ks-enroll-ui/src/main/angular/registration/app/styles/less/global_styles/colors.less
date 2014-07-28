@@ -96,4 +96,10 @@
 #95ab8b
 #809aba
  */
+
+// Algorithm for defining the course color for a given index
+.defineCourseColor(@n: 1, @baseCourseColor: #334D5C) {
+    @courseColor: spin(@baseCourseColor, (@n * 150));
+}
+
 /*-------------------End Calendar Colors -------------------*/
