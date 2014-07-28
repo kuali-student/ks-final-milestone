@@ -26,8 +26,7 @@ angular.module('regCartApp')
                     scope.searchColumns.push(searchColumn);
                     scope.searchColumns = $filter('orderBy')(scope.searchColumns, 'order');
                 }
-                if (attrs.field && attrs.default === 'true') {
-                    scope.predicate = attrs.field;
+                if (attrs.field && attrs.defaultField === 'true') {
                     scope.defaultField = attrs.field;
                 }
             }
