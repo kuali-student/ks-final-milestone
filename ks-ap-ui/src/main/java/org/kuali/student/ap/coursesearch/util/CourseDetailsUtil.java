@@ -32,6 +32,12 @@ import java.util.Map;
  */
 public class CourseDetailsUtil {
 
+    // Text Keys matching the Template values of the Natural Language Templates used in the requisite rules
+    public static final String PREREQUISITE_KEY = "Student Eligibility & Prerequisite";
+    public static final String COREQUISITE_KEY = "Corequisite";
+    public static final String ANTIREQUISITE_KEY = "Antirequisite";
+
+
     /**
      * Retrieve and format the list of course requisites to be displayed on the page
      *
@@ -111,6 +117,32 @@ public class CourseDetailsUtil {
 
     /**
      * Retrieve and format the map of course requisites to be displayed on the page
+     * @param course - course that is being displayed
+     * @return Formatted map of requisites
+     */
+    public static Map<String,List<String>> getCourseRequisitesMap(Course course){
+        Map<String,List<String>> courseRequisitesMap = new HashMap<String, List<String>>();
+        try {
+            TypeInfo typeInfo = KsapFrameworkServiceLocator.getTypeService().getType(
+                course.getTypeKey(), KsapFrameworkServiceLocator.getContext().getContextInfo());
+            courseRequisitesMap = getRequisitesMap(course.getId(), typeInfo.getRefObjectUri());
+        } catch (PermissionDeniedException e) {
+            throw new IllegalArgumentException("Type lookup error", e);
+        } catch (MissingParameterException e) {
+            throw new IllegalArgumentException("Type lookup error", e);
+        } catch (InvalidParameterException e) {
+            throw new IllegalArgumentException("Type lookup error", e);
+        } catch (OperationFailedException e) {
+            throw new IllegalArgumentException("Type lookup error", e);
+        } catch (DoesNotExistException e) {
+            throw new IllegalArgumentException("Type lookup error", e);
+        }
+
+        return courseRequisitesMap;
+    }
+
+    /**
+     * Retrieve and format the map of course requisites to be displayed on the page
      * @param courseOffering - course offering that is being displayed
      * @return Formatted map of requisites
      */
@@ -164,11 +196,12 @@ public class CourseDetailsUtil {
                     if(template.getNaturalLanguageUsageId().equals(nlu.getId())){
                         String description = rms.translateNaturalLanguageForProposition(nlu.getId(),
                                 rule.getProposition(),language);
+                        String formattedDescription = CourseLinkBuilder.makeLinks(description, KsapFrameworkServiceLocator.getContext().getContextInfo());
                         if(requisitiesMap.containsKey(template.getTemplate())) requisitiesMap
-                                .get(template.getTemplate()).add(description);
+                                .get(template.getTemplate()).add(formattedDescription);
                         else{
                             List<String> ruleDescriptions = new ArrayList<String>();
-                            ruleDescriptions.add(description);
+                            ruleDescriptions.add(formattedDescription);
                             requisitiesMap.put(template.getTemplate(),ruleDescriptions);
                         }
                         break;

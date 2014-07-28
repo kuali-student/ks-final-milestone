@@ -282,10 +282,35 @@
                                 <property name="items">
                                     <list>
                                         <bean p:id="@{dataObject.courseCode}_courseRequisites" parent="Uif-MessageField"
-                                              p:messageText=
-                                                      "@{dataObject.courseRequisites.size() gt 0
-                                                                ? dataObject.courseRequisitesForUI
-                                                                : 'None'}">
+                                              p:render="@{dataObject.courseRequisites.size() eq 0}"
+                                              p:messageText="None">
+                                            <property name="cssClasses">
+                                                <list merge="true">
+                                                    <value>ksap-data-list</value>
+                                                </list>
+                                            </property>
+                                        </bean>
+                                        <bean p:id="@{dataObject.courseCode}_coursePreRequisites" parent="Uif-MessageField"
+                                              p:render="@{dataObject.preRequisitesForUI ne null}"
+                                              p:messageText="@{dataObject.preRequisitesForUI}">
+                                            <property name="cssClasses">
+                                                <list merge="true">
+                                                    <value>ksap-data-list</value>
+                                                </list>
+                                            </property>
+                                        </bean>
+                                        <bean p:id="@{dataObject.courseCode}_courseCoRequisites" parent="Uif-MessageField"
+                                              p:render="@{dataObject.coRequisitesForUI ne null}"
+                                              p:messageText="@{dataObject.coRequisitesForUI}">
+                                            <property name="cssClasses">
+                                                <list merge="true">
+                                                    <value>ksap-data-list</value>
+                                                </list>
+                                            </property>
+                                        </bean>
+                                        <bean p:id="@{dataObject.courseCode}_courseAntiRequisites" parent="Uif-MessageField"
+                                              p:render="@{dataObject.antiRequisitesForUI ne null}"
+                                              p:messageText="@{dataObject.antiRequisitesForUI}">
                                             <property name="cssClasses">
                                                 <list merge="true">
                                                     <value>ksap-data-list</value>

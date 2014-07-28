@@ -576,9 +576,35 @@
                                                         <property name="items">
                                                             <list>
                                                                 <bean p:id="@{#line.courseDetailsWrapper.courseCode}_courseRequisites" parent="Uif-MessageField"
-                                                                      p:messageText="@{#line.courseDetailsWrapper.courseRequisites.size() gt 0
-                                                                ? #line.courseDetailsWrapper.courseRequisitesForUI
-                                                                : #textHelper.getText('bookmarks.item.none')}">
+                                                                      p:render="@{#line.courseDetailsWrapper.courseRequisites.size() eq 0}"
+                                                                      p:messageText="@{#textHelper.getText('bookmarks.item.none')}">
+                                                                    <property name="cssClasses">
+                                                                        <list merge="true">
+                                                                            <value>ksap-data-list</value>
+                                                                        </list>
+                                                                    </property>
+                                                                </bean>
+                                                                <bean p:id="@{#line.courseDetailsWrapper.courseCode}_coursePreRequisites" parent="Uif-MessageField"
+                                                                      p:render="@{#line.courseDetailsWrapper.preRequisitesForUI ne null}"
+                                                                      p:messageText="@{#line.courseDetailsWrapper.preRequisitesForUI}">
+                                                                    <property name="cssClasses">
+                                                                        <list merge="true">
+                                                                            <value>ksap-data-list</value>
+                                                                        </list>
+                                                                    </property>
+                                                                </bean>
+                                                                <bean p:id="@{#line.courseDetailsWrapper.courseCode}_courseCoRequisites" parent="Uif-MessageField"
+                                                                      p:render="@{#line.courseDetailsWrapper.coRequisitesForUI ne null}"
+                                                                      p:messageText="@{#line.courseDetailsWrapper.coRequisitesForUI}">
+                                                                    <property name="cssClasses">
+                                                                        <list merge="true">
+                                                                            <value>ksap-data-list</value>
+                                                                        </list>
+                                                                    </property>
+                                                                </bean>
+                                                                <bean p:id="@{#line.courseDetailsWrapper.courseCode}_courseAntiRequisites" parent="Uif-MessageField"
+                                                                      p:render="@{#line.courseDetailsWrapper.antiRequisitesForUI ne null}"
+                                                                      p:messageText="@{#line.courseDetailsWrapper.antiRequisitesForUI}">
                                                                     <property name="cssClasses">
                                                                         <list merge="true">
                                                                             <value>ksap-data-list</value>

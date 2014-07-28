@@ -157,6 +157,7 @@ public class CourseDetailsInquiryHelperImpl2 extends KualiInquirableImpl {
         // Load formated information
         courseDetails.setCourseDescription(getCourseDescription(course));
         courseDetails.setCourseRequisites(CourseDetailsUtil.getCourseRequisites(course));
+        courseDetails.setCourseRequisitesMap(CourseDetailsUtil.getCourseRequisitesMap(course));
         courseDetails.setCourseGenEdRequirements(getCourseGenEdRequirements(course));
 
         // Load Term information

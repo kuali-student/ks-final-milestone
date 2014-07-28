@@ -15,11 +15,11 @@
 package org.kuali.student.ap.coursesearch.dataobject;
 
 import org.kuali.student.ap.coursesearch.util.CollectionListPropertyEditor;
+import org.kuali.student.ap.coursesearch.util.CourseDetailsUtil;
 import org.kuali.student.ap.coursesearch.util.ScheduledTermsPropertyEditor;
-import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * This data object stores the data used in the display of the CourseDetails-InquiryView
@@ -35,6 +35,7 @@ public class CourseDetailsWrapper {
     private String lastOffered;
 
     private List<String> courseRequisites;
+    private Map<String, List<String>> courseRequisitesMap;
     private List<String> scheduledTerms;
     private List<String> projectedTerms;
     private List<String> courseGenEdRequirements;
@@ -108,6 +109,14 @@ public class CourseDetailsWrapper {
         this.courseRequisites = courseRequisites;
     }
 
+    public Map<String, List<String>> getCourseRequisitesMap() {
+        return courseRequisitesMap;
+    }
+
+    public void setCourseRequisitesMap(Map<String, List<String>> courseRequisitesMap) {
+        this.courseRequisitesMap = courseRequisitesMap;
+    }
+
     public List<String> getScheduledTerms() {
         return scheduledTerms;
     }
@@ -177,5 +186,27 @@ public class CourseDetailsWrapper {
         CollectionListPropertyEditor editor = new CollectionListPropertyEditor();
         editor.setValue(this.getCourseRequisites());
         return editor.getAsText();
+    }
+
+    private String getRequisitesForUI(String key) {
+        String returnValue = null;
+        if (courseRequisitesMap.containsKey(key)) {
+            CollectionListPropertyEditor editor = new CollectionListPropertyEditor();
+            editor.setValue(courseRequisitesMap.get(key));
+            returnValue =  key + ": " + editor.getAsText();
+        }
+        return returnValue;
+    }
+
+    public String getPreRequisitesForUI() {
+        return getRequisitesForUI(CourseDetailsUtil.PREREQUISITE_KEY);
+    }
+
+    public String getCoRequisitesForUI() {
+        return getRequisitesForUI(CourseDetailsUtil.COREQUISITE_KEY);
+    }
+
+    public String getAntiRequisitesForUI() {
+        return getRequisitesForUI(CourseDetailsUtil.ANTIREQUISITE_KEY);
     }
 }

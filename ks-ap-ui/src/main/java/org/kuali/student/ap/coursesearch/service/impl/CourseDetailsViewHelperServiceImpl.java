@@ -84,11 +84,6 @@ import java.util.UUID;
 public class CourseDetailsViewHelperServiceImpl extends ViewHelperServiceImpl implements CourseDetailsViewHelperService {
     private static final Logger LOG = LoggerFactory.getLogger(CourseDetailsViewHelperServiceImpl.class);
 
-    // Text Keys matching the Template values of the Natural Language Templates used in the requisite rules
-    private static final String PREREQUISITE_KEY = "Student Eligibility & Prerequisite";
-    private static final String COREQUISITE_KEY = "Corequisite";
-    private static final String ANTIREQUISITE_KEY = "Antirequisite";
-
     /**
      * {@inheritDoc}
      */
@@ -691,18 +686,18 @@ public class CourseDetailsViewHelperServiceImpl extends ViewHelperServiceImpl im
         Map<String,List<String>> requisitesMap = CourseDetailsUtil.getActivityOfferingRequisitesMap(activity);
 
         // Fill in the different types of requisites from the map
-        if(requisitesMap.containsKey(PREREQUISITE_KEY)){
-            form.setPrerequisites(requisitesMap.get(PREREQUISITE_KEY));
+        if(requisitesMap.containsKey(CourseDetailsUtil.PREREQUISITE_KEY)){
+            form.setPrerequisites(requisitesMap.get(CourseDetailsUtil.PREREQUISITE_KEY));
         }else{
             form.setPrerequisites(new ArrayList<String>());
         }
-        if(requisitesMap.containsKey(COREQUISITE_KEY)){
-            form.setCorequisites(requisitesMap.get(COREQUISITE_KEY));
+        if(requisitesMap.containsKey(CourseDetailsUtil.COREQUISITE_KEY)){
+            form.setCorequisites(requisitesMap.get(CourseDetailsUtil.COREQUISITE_KEY));
         }else{
             form.setCorequisites(new ArrayList<String>());
         }
-        if(requisitesMap.containsKey(ANTIREQUISITE_KEY)){
-            form.setAntirequisites(requisitesMap.get(ANTIREQUISITE_KEY));
+        if(requisitesMap.containsKey(CourseDetailsUtil.ANTIREQUISITE_KEY)){
+            form.setAntirequisites(requisitesMap.get(CourseDetailsUtil.ANTIREQUISITE_KEY));
         }else{
             form.setAntirequisites(new ArrayList<String>());
         }
