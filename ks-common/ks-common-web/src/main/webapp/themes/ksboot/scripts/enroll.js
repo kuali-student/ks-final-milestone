@@ -1894,3 +1894,35 @@ function constructKeyDateAddBlankLine(event, keyDateTypesJSON, baseUrl) {
 
 }
 /* ----------- end of KSENROLL-12648: workaround for rice 2.4 upgrade issue. -------------- */
+
+function refreshActivityOfferingOncloseCommentLightbox(baseUrl, elementId) {
+    var targetUrl = baseUrl + "/kr-krad/courseOfferingManagement?methodToCall=ajaxAOCommentCount";
+    var data = jQuery("#" + elementId).data('submit_data');
+    var formData = jQuery('#kualiForm').serialize() + '&' + jQuery.param(data);
+    refreshCommentCountOnCloseLightbox(targetUrl, formData, function(data){
+        jQuery("#" + elementId).text(" (" + data + ")");
+    });
+}
+
+function refreshCourseOfferingOncloseCommentLightbox(baseUrl, elementId) {
+    var targetUrl = baseUrl + "/kr-krad/courseOfferingManagement?methodToCall=ajaxCOCommentCount";
+    var formData = jQuery('#kualiForm').serialize();
+    refreshCommentCountOnCloseLightbox(targetUrl, formData, function(data){
+        jQuery("#" + elementId).text(" | Comments (" + data + ")");
+    });
+}
+
+function refreshCommentCountOnCloseLightbox(targetUrl, formData, callbackFunction){
+    jQuery.ajax({
+        dataType: "json",
+        url: targetUrl,
+        type: "POST",
+        data: formData,
+        success: function (data, textStatus, jqXHR) {
+            callbackFunction(data);
+        },
+        error: function (jqXHR, status, error) {
+            console.log("error occured");
+        }
+    });
+}

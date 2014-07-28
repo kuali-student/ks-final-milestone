@@ -86,54 +86,28 @@ function restoreDeletedObject(){
     deletedObjects.splice(jQuery.inArray(itemtoRemove, deletedObjects), 1);
 }
 
-function deleteComment(baseUrl, elem) {
-    commentAjaxController(elem, baseUrl, 'ajaxDeleteComment', function (data) {
-        toggleDeleteElements(elem);
-        //addDeletedObject(elem);
-    });
-}
-
-function undeleteComment(baseUrl, elem) {
-    var rowContainer = getRowContainer(elem);
-    var deletedComment = getDeletedComment(rowContainer.attr('id'));
-    commentAjaxController(elem, baseUrl, 'ajaxUndeleteComment', function (data) {
-        toggleDeleteElements(elem);
-        restoreDeletedObject(elem);
-//        var rowContainer = getRowContainer(elem);
-//        var rowId = jQuery(rowContainer).attr('id');
-//        var itemtoRemove = deletedObjects[rowId];
-//        deletedObjects.splice(jQuery.inArray(itemtoRemove, deletedObjects), 1);
-    });
-}
+//function deleteComment(baseUrl, elem) {
+//    commentAjaxController(elem, baseUrl, 'ajaxDeleteComment', function (data) {
+//        toggleDeleteElements(elem);
+//        //addDeletedObject(elem);
+//    });
+//}
+//
+//function undeleteComment(baseUrl, elem) {
+//    var rowContainer = getRowContainer(elem);
+//    var deletedComment = getDeletedComment(rowContainer.attr('id'));
+//    commentAjaxController(elem, baseUrl, 'ajaxUndeleteComment', function (data) {
+//        toggleDeleteElements(elem);
+//        restoreDeletedObject(elem);
+////        var rowContainer = getRowContainer(elem);
+////        var rowId = jQuery(rowContainer).attr('id');
+////        var itemtoRemove = deletedObjects[rowId];
+////        deletedObjects.splice(jQuery.inArray(itemtoRemove, deletedObjects), 1);
+//    });
+//}
 
 function getDeletedComment(key) {
     deletedObjects.filter(function () {
         return this.key === key;
-    });
-}
-
-function commentAjaxController(elem, baseUrl, methodToCall, callbackFunction) {
-    var index = -1;
-    var rowContainer = getRowContainer(elem);
-    var input = jQuery(rowContainer).find(':input')[0];
-    if(input !== undefined){
-        var name = jQuery(input).attr('name');
-        index = name.match(/\[(\d+)\]/)[1];
-    }
-    var formData = jQuery('#kualiForm').serialize() + '&' + jQuery.param({"selectedLineIndex" : index});
-    var targetUrl = baseUrl + "/kr-krad/ksComment?methodToCall=" + methodToCall;
-    jQuery.ajax({
-        dataType: "json",
-        url: targetUrl,
-        type: "POST",
-        data: formData,
-        success: function (data, textStatus, jqXHR) {
-            callbackFunction(data);
-        },
-        error: function (jqXHR, status, error) {
-            if (console) {
-                console.log("Error Occured...............");
-            }
-        }
     });
 }
