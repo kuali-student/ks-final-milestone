@@ -17,6 +17,13 @@ public class AdminRegConstants {
         public static final String REGISTERING = "kuali.admin.reg.state.registering";
     }
 
+    // Admin Reg Result levels
+    public static class ResultLevels {
+        public static final String RESULT_LEVEL_SUCCESS = "kuali.admin.reg.result.level.success";
+        public static final String RESULT_LEVEL_WARNING = "kuali.admin.reg.result.level.warning";
+        public static final String RESULT_LEVEL_FAILED = "kuali.admin.reg.result.level.failed";
+    }
+
     // Component ids.
     public static final String REG_COLL_ID = "KS-AdminRegistration-Registered";
     public static final String WAITLIST_COLL_ID = "KS-AdminRegistration-Waitlist";

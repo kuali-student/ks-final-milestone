@@ -4,17 +4,9 @@ import org.kuali.student.core.person.dto.PersonInfo;
 import org.kuali.student.enrollment.class2.registration.admin.form.AdminRegistrationForm;
 import org.kuali.student.enrollment.class2.registration.admin.form.RegistrationActivity;
 import org.kuali.student.enrollment.class2.registration.admin.form.RegistrationCourse;
-import org.kuali.student.enrollment.class2.registration.admin.form.RegistrationIssueItem;
+import org.kuali.student.enrollment.class2.registration.admin.form.RegistrationResultItem;
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestInfo;
-import org.kuali.student.enrollment.courseregistration.infc.RegistrationRequest;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
-import org.kuali.student.enrollment.registration.client.service.dto.EligibilityCheckResult;
-import org.kuali.student.r2.common.dto.ValidationResultInfo;
-import org.kuali.student.r2.common.exceptions.DoesNotExistException;
-import org.kuali.student.r2.common.exceptions.InvalidParameterException;
-import org.kuali.student.r2.common.exceptions.MissingParameterException;
-import org.kuali.student.r2.common.exceptions.OperationFailedException;
-import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
 
 import java.util.List;
@@ -103,6 +95,6 @@ public interface AdminRegistrationViewHelperService {
      * @param results
      * @return
      */
-    public List<RegistrationIssueItem> createIssueItemsFromResults(List<ValidationResultInfo> results);
+    public List<RegistrationResultItem> createIssueItemsFromResults(List<ValidationResultInfo> results);
 
 }

@@ -8,11 +8,11 @@ import java.util.List;
  * Date: 17 July 2014
  * Utility Class for common auto generated reg group functions
  */
-public class RegistrationIssueItem {
+public class RegistrationResultItem {
 
     private String description;
 
-    public RegistrationIssueItem(String description) {
+    public RegistrationResultItem(String description) {
         if(description==null){
             throw new IllegalArgumentException("Description can not be null.");
         }

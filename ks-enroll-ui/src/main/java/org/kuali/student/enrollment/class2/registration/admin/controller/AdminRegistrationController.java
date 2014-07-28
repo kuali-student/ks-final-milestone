@@ -29,7 +29,8 @@ import org.kuali.student.common.uif.util.KSControllerHelper;
 import org.kuali.student.core.person.dto.PersonInfo;
 import org.kuali.student.enrollment.class2.registration.admin.form.AdminRegistrationForm;
 import org.kuali.student.enrollment.class2.registration.admin.form.RegistrationCourse;
-import org.kuali.student.enrollment.class2.registration.admin.form.RegistrationIssue;
+import org.kuali.student.enrollment.class2.registration.admin.form.RegistrationResult;
+import org.kuali.student.enrollment.class2.registration.admin.form.RegistrationResultItem;
 import org.kuali.student.enrollment.class2.registration.admin.service.AdminRegistrationViewHelperService;
 import org.kuali.student.enrollment.class2.registration.admin.util.AdminRegConstants;
 import org.kuali.student.enrollment.class2.registration.admin.util.AdminRegResourceLoader;
@@ -257,23 +258,29 @@ public class AdminRegistrationController extends UifControllerBase {
                 // Remove the item from the courses in process list.
                 form.getCoursesInProcess().remove(processedCourse);
 
+                // Create a new registration issue with the course in error.
+                RegistrationResult regIssue = new RegistrationResult();
+                regIssue.setCourse(processedCourse);
+
                 // Move item to appropriate list based on the item state.
                 if (LprServiceConstants.LPRTRANS_ITEM_SUCCEEDED_STATE_KEY.equals(item.getStateKey())) {
                     form.getRegisteredCourses().add(processedCourse);
+                    regIssue.setLevel(AdminRegConstants.ResultLevels.RESULT_LEVEL_SUCCESS);
+                    regIssue.getItems().add(new RegistrationResultItem("Course was successfully registered."));
                     updateIds.add(AdminRegConstants.REG_COLL_ID);
                 } else if (LprServiceConstants.LPRTRANS_ITEM_WAITLIST_STATE_KEY.equals(item.getStateKey())) {
                     form.getWaitlistedCourses().add(processedCourse);
+                    regIssue.setLevel(AdminRegConstants.ResultLevels.RESULT_LEVEL_WARNING);
+                    regIssue.getItems().add(new RegistrationResultItem("Course was successfully added to waitlist."));
                     updateIds.add(AdminRegConstants.WAITLIST_COLL_ID);
                 } else if (LprServiceConstants.LPRTRANS_ITEM_WAITLIST_AVAILABLE_STATE_KEY.equals(item.getStateKey()) ||
                         LprServiceConstants.LPRTRANS_ITEM_FAILED_STATE_KEY.equals(item.getStateKey())) {
-                    // Create a new registration issue with the course in error.
-                    RegistrationIssue regIssue = new RegistrationIssue();
-                    regIssue.setCourse(processedCourse);
-                    regIssue.setItems(getViewHelper(form).createIssueItemsFromResults(item.getValidationResults()));
-
-                    form.getRegistrationIssues().add(regIssue);
-                    updateIds.add(AdminRegConstants.ISSUES_COLL_ID);
+                    regIssue.setLevel(AdminRegConstants.ResultLevels.RESULT_LEVEL_FAILED);
+                    regIssue.getItems().addAll(getViewHelper(form).createIssueItemsFromResults(item.getValidationResults()));
                 }
+
+                updateIds.add(AdminRegConstants.ISSUES_COLL_ID);
+                form.getRegistrationIssues().add(regIssue);
             }
 
             // Reset the form to ready state.
@@ -416,7 +423,7 @@ public class AdminRegistrationController extends UifControllerBase {
         // would Force registration here
         Collection<Object> collection = ObjectPropertyUtils.getPropertyValue(form, selectedCollectionPath);
         Object item = ((List) collection).get(selectedLineIndex);
-        form.getRegisteredCourses().add(((RegistrationIssue) item).getCourse());
+        form.getRegisteredCourses().add(((RegistrationResult) item).getCourse());
         ((List) collection).remove(selectedLineIndex);
 
         return getUIFModelAndView(form);

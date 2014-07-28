@@ -340,16 +340,22 @@
 
     <bean id="KS-AdminRegistration-Issues" parent="Uif-TableCollectionGroup" p:colSpan="8">
         <property name="collectionObjectClass"
-                  value="org.kuali.student.enrollment.class2.registration.admin.form.RegistrationIssue"/>
+                  value="org.kuali.student.enrollment.class2.registration.admin.form.RegistrationResult"/>
         <property name="propertyName" value="registrationIssues"/>
         <property name="layoutManager.renderSequenceField" value="false"/>
         <property name="layoutManager.richTable.render" value="false"/>
+        <property name="onDocumentReadyScript" value="renderResults();"/>
         <property name="lineActions">
             <list>
                 <bean parent="Uif-PrimaryActionButton" p:actionLabel="Allow"
                       p:successCallback="retrieveComponent('KS-AdminRegistration-Registered')"
-                      p:methodToCall="allowCourse"/>
-                <bean parent="Uif-SecondaryActionButton" p:actionLabel="Deny" p:methodToCall="denyCourse"/>
+                      p:methodToCall="allowCourse" p:render="@{#line.level eq 'kuali.admin.reg.result.level.failed'}"/>
+                <bean parent="Uif-DeleteLineAction" p:actionLabel="Deny" p:render="@{#line.level eq 'kuali.admin.reg.result.level.failed'}"
+                      p:additionalCssClasses="error-result"/>
+                <bean parent="Uif-DeleteLineAction" p:actionLabel="Gotcha" p:render="@{#line.level eq 'kuali.admin.reg.result.level.success'}"
+                      p:additionalCssClasses="success-result"/>
+                <bean parent="Uif-DeleteLineAction" p:actionLabel="Continue" p:render="@{#line.level eq 'kuali.admin.reg.result.level.warning'}"
+                      p:additionalCssClasses="warning-result"/>
             </list>
         </property>
         <property name="renderAddLine" value="false"/>
