@@ -274,6 +274,7 @@ public class ExamOfferingServiceFacadeImpl implements ExamOfferingServiceFacade 
                     foResult = new ExamOfferingResult(ExamOfferingServiceConstants.EXAM_OFFERING_CREATED);
                 } else {
                     foResult = removeExamOfferingRDLIfNeeded(eo, examOfferingContext, context);
+                    updateExamOfferingSchedulingState(foResult, eo, context);
                 }
 
                 //(re)perform slotting if use fe matrix toggle is selected and use did not override timeslot.
@@ -281,7 +282,7 @@ public class ExamOfferingServiceFacadeImpl implements ExamOfferingServiceFacade 
                     ExamOfferingResult childResult = this.getScheduleEvaluator().executeRuleForCOSlotting(coInfo, eo.getId(),
                             examOfferingContext.getTermType(), new ArrayList<String>(), context);
                     foResult.getChildren().add(childResult);
-                    updateExamOfferingSchedulingStateAfterSlotting(childResult, eo, context);
+                    updateExamOfferingSchedulingState(childResult, eo, context);
                 }
 
                 //Create new Exam Offering Relationship
@@ -348,7 +349,7 @@ public class ExamOfferingServiceFacadeImpl implements ExamOfferingServiceFacade 
             }
         }
 
-        return new ExamOfferingResult(ExamOfferingServiceConstants.EXAM_OFFERING_UPDATED);
+        return new ExamOfferingResult(ExamOfferingServiceConstants.EXAM_OFFERING_REMOVE_RDL_SUCCESS);
     }
 
     @Override
@@ -485,6 +486,7 @@ public class ExamOfferingServiceFacadeImpl implements ExamOfferingServiceFacade 
                         aoResult = new ExamOfferingResult(ExamOfferingServiceConstants.EXAM_OFFERING_CREATED);
                     } else {
                         aoResult = removeExamOfferingRDLIfNeeded(eo, examOfferingContext, context);
+                        updateExamOfferingSchedulingState(aoResult, eo, context);
                     }
 
                     //(re)perform slotting if use fe matrix toggle is selected and use did not override timeslot.
@@ -492,7 +494,7 @@ public class ExamOfferingServiceFacadeImpl implements ExamOfferingServiceFacade 
                         ExamOfferingResult childResult = this.getScheduleEvaluator().executeRuleForAOSlotting(aoInfo, eo.getId(),
                                 examOfferingContext.getTermType(), getAOEvaluatorOptions(), context);
                         aoResult.getChildren().add(childResult);
-                        updateExamOfferingSchedulingStateAfterSlotting(childResult, eo, context);
+                        updateExamOfferingSchedulingState(childResult, eo, context);
                     }
 
                     //Update the result.
@@ -512,7 +514,7 @@ public class ExamOfferingServiceFacadeImpl implements ExamOfferingServiceFacade 
     /**
      * update the ExamOfferingInfo dynamic attribute after a matrix error slotting
      */
-    private void updateExamOfferingSchedulingStateAfterSlotting(ExamOfferingResult slottingResult, ExamOfferingInfo eo, ContextInfo context) {
+    private void updateExamOfferingSchedulingState(ExamOfferingResult slottingResult, ExamOfferingInfo eo, ContextInfo context) {
         boolean updateExamOfferingSchedulingState = false;
 
         if (slottingResult != null) {
@@ -523,6 +525,9 @@ public class ExamOfferingServiceFacadeImpl implements ExamOfferingServiceFacade 
                 updateExamOfferingSchedulingState = updateSchedulingStateAttribute(eo.getAttributes(), ExamOfferingServiceConstants.EXAM_OFFERING_SCHEDULING_STATE_ATTR, ExamOfferingServiceConstants.EXAM_OFFERING_SCHEDULING_MATRIX_ERROR_STATE_KEY);
                 eo.setSchedulingStateKey(ExamOfferingServiceConstants.EXAM_OFFERING_SCHEDULING_MATRIX_ERROR_STATE_KEY);
             } else if (StringUtils.equals(ExamOfferingServiceConstants.EXAM_OFFERING_SLOTTED_SUCCESS, slottingResult.getKey())) {
+                updateExamOfferingSchedulingState = updateSchedulingStateAttribute(eo.getAttributes(), ExamOfferingServiceConstants.EXAM_OFFERING_SCHEDULING_STATE_ATTR, ExamOfferingServiceConstants.EXAM_OFFERING_SCHEDULING_UNSCHEDULED_STATE_KEY);
+                eo.setSchedulingStateKey(ExamOfferingServiceConstants.EXAM_OFFERING_SCHEDULING_UNSCHEDULED_STATE_KEY);
+            } else if (StringUtils.equals(ExamOfferingServiceConstants.EXAM_OFFERING_REMOVE_RDL_SUCCESS, slottingResult.getKey())) {
                 updateExamOfferingSchedulingState = updateSchedulingStateAttribute(eo.getAttributes(), ExamOfferingServiceConstants.EXAM_OFFERING_SCHEDULING_STATE_ATTR, ExamOfferingServiceConstants.EXAM_OFFERING_SCHEDULING_UNSCHEDULED_STATE_KEY);
                 eo.setSchedulingStateKey(ExamOfferingServiceConstants.EXAM_OFFERING_SCHEDULING_UNSCHEDULED_STATE_KEY);
             }
@@ -892,14 +897,14 @@ public class ExamOfferingServiceFacadeImpl implements ExamOfferingServiceFacade 
                     ExamOfferingResult childResult = this.getScheduleEvaluator().executeRuleForAOSlotting(activityOfferingInfo,
                             examOfferingInfo.getId(), examOfferingContext.getTermType(), getAOEvaluatorOptions(), context);
                     result.getChildren().add(childResult);
-                    updateExamOfferingSchedulingStateAfterSlotting(childResult, examOfferingInfo, context);
+                    updateExamOfferingSchedulingState(childResult, examOfferingInfo, context);
                 }
             }
             return result;
         } else if (ExamOfferingContext.Driver.PER_CO.equals(examOfferingContext.getDriver())) {
             result = this.getScheduleEvaluator().executeRuleForCOSlotting(examOfferingContext.getCourseOffering(), examOfferingInfo.getId(),
                     examOfferingContext.getTermType(), new ArrayList<String>(), context);
-            updateExamOfferingSchedulingStateAfterSlotting(result, examOfferingInfo, context);
+            updateExamOfferingSchedulingState(result, examOfferingInfo, context);
             return result;
         }
 
