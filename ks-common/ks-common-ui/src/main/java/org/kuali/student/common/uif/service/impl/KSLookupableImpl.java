@@ -41,6 +41,13 @@ public class KSLookupableImpl extends LookupableImpl implements KSLookupable {
         returnLink.setTitle(null);
     }
 
+    /*
+      * This method will validate whether any records are returned for the search done in lookup screen and
+      * generates appropriate message and set it to the Message object passed as argument.
+      *
+      * @param message
+      * @param model
+     */
     public void generateLookupResultsNotFoundMessage(Message message,Object model) {
 
         LookupForm form = (LookupForm) model;
@@ -57,6 +64,13 @@ public class KSLookupableImpl extends LookupableImpl implements KSLookupable {
 
     }
 
+    /*
+      * This method will read values entered in all criteria fields (TextControls alone) to form No records found message and return it.
+      *
+      * @param message
+      * @param model
+      * @param view
+    */
     protected String generateDefaultLookupResultsNotFoundMessage(Message message, Object model, LookupView view){
 
         LookupForm form = (LookupForm) model;
