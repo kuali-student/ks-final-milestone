@@ -50,20 +50,26 @@ public class ScheduleOfClassesClientServiceImpl extends ScheduleOfClassesService
 
     @Override
     public Response searchForCourseOfferings(@QueryParam("termId") String termId, @QueryParam("termCode") String termCode, @QueryParam("criteria") String criteria) throws MissingParameterException, InvalidParameterException, OperationFailedException, PermissionDeniedException, IOException {
+        //Look up the term id if only term code is passed in
         termId = CourseRegistrationAndScheduleOfClassesUtil.getTermId(termId, termCode);
 
+        //Query based on title and description, boost title so it's more important than description
         BoolQueryBuilder boolQuery = QueryBuilders.boolQuery()
                 .should(QueryBuilders.matchQuery("longName", criteria.toLowerCase()).boost(1.5f))
                 .should(QueryBuilders.matchQuery("courseDescription", criteria.toLowerCase()).boost(1f));
+
+        //Parse out course prefixes from the search criteria (CHEM101A) and add them to the Query
         for(String token:criteria.toLowerCase().split("\\s")){
-            if(token.matches("^[a-z]{4}([0-9]{0,3}|[0-9]{3}[a-z]{0,2})$")){
+            if(token.matches("^[a-z]{4}([0-9]{0,3}|[0-9]{3}[a-z]*)$")){
                 boolQuery = boolQuery.should(QueryBuilders.wildcardQuery("courseCode", token + "*").boost(2f));
             }
         }
 
+        //Filter all results based on the term id
         QueryBuilder query = QueryBuilders.filteredQuery(boolQuery,
                 FilterBuilders.termsFilter("termId", termId.toLowerCase().split("\\.")));
 
+        //Perform the search
         SearchResponse sr = elasticEmbedded.getClient()
                 .prepareSearch("ks")
                 .setTypes("courseoffering")
@@ -71,6 +77,7 @@ public class ScheduleOfClassesClientServiceImpl extends ScheduleOfClassesService
                 .setSize(100)
                 .execute().actionGet();
 
+        //Parse the results and add to a JSON array
         StringBuilder sb = new StringBuilder("[");
         int i = 0;
         for (SearchHit hit : sr.getHits().getHits()) {
