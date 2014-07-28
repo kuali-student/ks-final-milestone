@@ -1,6 +1,5 @@
 'use strict';
 
-
 angular.module('regCartApp')
     .service('CourseCalendarDataParser', ['DAY_CONSTANTS', 'GlobalVarsService', function(DAY_CONSTANTS, GlobalVarsService) {
 
@@ -52,7 +51,7 @@ angular.module('regCartApp')
         function iterateCourseList(dayMap, courseList, type) {
             angular.forEach(courseList, function(course) {
                 // do not show dropped courses on the calendar
-                if (!course.dropped && !course.isTBA) {
+                if (!course.dropped) {
                     var courseDetails = {
                         courseCode: course.courseCode,
                         regGroup: course.regGroupCode
@@ -89,11 +88,13 @@ angular.module('regCartApp')
          the booleans.
          */
         function updateDayMap(dayMap, courseDetails, scheduleComponent, type) {
-            angular.forEach(DAY_CONSTANTS.dayArray, function(day) {
-                if (scheduleComponent.days.indexOf(day) > -1) {
-                    dayMap = addToDayMap(dayMap, courseDetails, scheduleComponent, day, type);
-                }
-            });
+            if (!scheduleComponent.isTBA) {
+                angular.forEach(DAY_CONSTANTS.dayArray, function(day) {
+                    if (scheduleComponent.days.indexOf(day) > -1) {
+                        dayMap = addToDayMap(dayMap, courseDetails, scheduleComponent, day, type);
+                    }
+                });
+            }
             return dayMap;
         }
 

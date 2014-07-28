@@ -13,6 +13,82 @@ angular.module('regCartApp')
         $scope.numberOfDroppedCourses = 0;
         $scope.userId = GlobalVarsService.getUserId;
 
+
+        /*
+         Helper method to determine if the waitlist should be shown
+
+         Any of these conditions will return a true:
+         -- Student is waitlisted for more than 0 credits
+         -- A waitlist message is on the screen
+         */
+        $scope.showWaitlist = function() {
+            var showWaitlist = false;
+            if (    $scope.waitlistedCredits() > 0
+                ||  $scope.showWaitlistMessages
+                ) {
+                showWaitlist = true;
+            }
+            return showWaitlist;
+        };
+
+        /*
+        Helper method to determine if the schedule should be shown
+
+        Any of these conditions will return a true:
+        -- The waitlist section is being shown
+        -- Student is registered for more than 0 credits
+        -- A registration message is on the screen
+         */
+        $scope.showSchedule = function() {
+            var showSchedule = false;
+            if (    $scope.showWaitlist()
+                ||  $scope.registeredCredits() > 0
+                ||  $scope.showRegisteredMessages
+               ) {
+                showSchedule = true;
+            }
+            return showSchedule;
+        };
+
+        /*
+         Helper method to determine if the calendar grid should be shown
+
+         Student needs to have at least one non-TBA course: either in the
+         cart, registered, or waitlisted.
+         */
+        $scope.showGrid = function() {
+            var showGrid = false;
+
+            //check the cart
+            angular.forEach(GlobalVarsService.getCartCourses(), function(course) {
+                angular.forEach(course.schedule, function(schedule) {
+                    var locationTime = schedule.activityOfferingLocationTime;
+                    for (var i = 0; i < locationTime.length; i++) {
+                        if (!locationTime[i].isTBA) {
+                            showGrid = true;
+                            break;
+                        }
+                    }
+                });
+            });
+
+            // if no non-TBA courses in the cart, check the schedule
+            if (!showGrid) {
+                angular.forEach(GlobalVarsService.getScheduledCourses(), function(course) {
+                    angular.forEach(course.activityOfferings, function(ao) {
+                        var scheduleComponents = ao.scheduleComponents;
+                        for (var i = 0; i < scheduleComponents.length; i++) {
+                            if (!scheduleComponents[i].isTBA) {
+                                showGrid = true;
+                            }
+                        }
+                    });
+                });
+            }
+
+            return showGrid;
+        };
+
         /*
         Listens for the "removeWaitlistStatusMessage" event and removes the card for the given course.
          */

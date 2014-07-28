@@ -91,6 +91,14 @@ angular.module('regCartApp')
             return waitlistedCourses;
         };
 
+        /*
+        Helper method to concatenate all the courses on the schedule
+        (both registered and waitlisted) into one array
+         */
+        this.getScheduledCourses = function() {
+            return registeredCourses.concat(waitlistedCourses);
+        };
+
         this.removeRegisteredCourse = function(course) {
             this.getRegisteredCourses().splice(this.getRegisteredCourses().indexOf(course), 1);
 
