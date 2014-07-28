@@ -87,7 +87,6 @@ public class CourseRegistrationServiceImpl extends AbstractCourseRegistrationSer
         return regRequestInfo;
     }
 
-    @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     protected RegistrationRequestInfo getRegistrationRequestToSubmit(String registrationRequestId, ContextInfo contextInfo) throws PermissionDeniedException, MissingParameterException, InvalidParameterException, OperationFailedException, DoesNotExistException, AlreadyExistsException {
         RegistrationRequestInfo regRequestInfo =
                 getRegistrationRequest(registrationRequestId, contextInfo);
@@ -105,7 +104,6 @@ public class CourseRegistrationServiceImpl extends AbstractCourseRegistrationSer
      *                           object (with type
      * @param contextInfo The context info
      */
-    @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     private RegistrationRequestInfo convertRegCartToRegRequest(RegistrationRequestInfo cartInfo, ContextInfo contextInfo)
             throws PermissionDeniedException, MissingParameterException, InvalidParameterException,
             OperationFailedException, DoesNotExistException, AlreadyExistsException {

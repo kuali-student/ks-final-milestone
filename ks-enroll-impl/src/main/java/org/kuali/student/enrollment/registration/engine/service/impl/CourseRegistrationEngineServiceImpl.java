@@ -97,7 +97,6 @@ public class CourseRegistrationEngineServiceImpl implements CourseRegistrationEn
         return result;
     }
 
-    @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     protected List<LprInfo> buildLprsCommon(String regGroupLprType,
                                             String courseOfferingLprType,
                                             String activityOfferingLprType,
@@ -237,6 +236,7 @@ public class CourseRegistrationEngineServiceImpl implements CourseRegistrationEn
 
     /**
      * helper method to perform drop in the smallest possible transactional boundary.
+     *
      * @param lprIds
      * @param contextInfo
      * @return
@@ -249,7 +249,6 @@ public class CourseRegistrationEngineServiceImpl implements CourseRegistrationEn
      * @throws DataValidationErrorException
      * @throws VersionMismatchException
      */
-    @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     protected List<LprInfo> dropLprs(List<String> lprIds, ContextInfo contextInfo) throws PermissionDeniedException, MissingParameterException, InvalidParameterException, OperationFailedException, DoesNotExistException, ReadOnlyException, DataValidationErrorException, VersionMismatchException {
         List<LprInfo> resultLprInfos = new ArrayList<LprInfo>();
 
@@ -378,7 +377,6 @@ public class CourseRegistrationEngineServiceImpl implements CourseRegistrationEn
         return registeredLprs;
     }
 
-    @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     protected List<LprInfo> expireWaitlistLprs(List<String> waitlistLprIds, ContextInfo contextInfo) throws PermissionDeniedException, MissingParameterException, InvalidParameterException, OperationFailedException, DoesNotExistException, ReadOnlyException, DataValidationErrorException, VersionMismatchException {
         List<LprInfo> retList = new ArrayList<>();
         List<LprInfo> waitlistLprs = getLprService().getLprsByIds(waitlistLprIds, contextInfo);
@@ -417,7 +415,7 @@ public class CourseRegistrationEngineServiceImpl implements CourseRegistrationEn
 
     /**
      * Common code to update LPRs (registrant and waitlists)
-     *
+     * <p/>
      * Must be transactional to perform rollbacks on the multiple updates
      *
      * @param courseOfferingLprType Either LprServiceConstants.REGISTRANT_CO_LPR_TYPE_KEY
@@ -428,7 +426,6 @@ public class CourseRegistrationEngineServiceImpl implements CourseRegistrationEn
      * @param contextInfo           The context
      * @return List of update LprInfos
      */
-    @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     protected List<LprInfo> updateOptionsOnLprsCommon(String courseOfferingLprType,
                                                       String masterLprId, String credits, String gradingOptionId,
                                                       ContextInfo contextInfo)
@@ -490,6 +487,7 @@ public class CourseRegistrationEngineServiceImpl implements CourseRegistrationEn
 
     /**
      * Transactional helper method to update the masterLpr
+     *
      * @param masterLprId
      * @param credits
      * @param gradingOptionId
@@ -504,7 +502,6 @@ public class CourseRegistrationEngineServiceImpl implements CourseRegistrationEn
      * @throws DataValidationErrorException
      * @throws VersionMismatchException
      */
-    @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     protected LprInfo updateMasterLpr(String masterLprId, String credits, String gradingOptionId, ContextInfo contextInfo) throws PermissionDeniedException, MissingParameterException, InvalidParameterException, OperationFailedException, DoesNotExistException, ReadOnlyException, DataValidationErrorException, VersionMismatchException {
         LprInfo masterLpr = getLprService().getLpr(masterLprId, contextInfo);
         Date now = new Date();
@@ -527,7 +524,6 @@ public class CourseRegistrationEngineServiceImpl implements CourseRegistrationEn
 
     }
 
-    @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     protected LprInfo expireLpr(String lprId, ContextInfo contextInfo) throws PermissionDeniedException, MissingParameterException, InvalidParameterException, OperationFailedException, DoesNotExistException, ReadOnlyException, DataValidationErrorException, VersionMismatchException {
 
         LprInfo lprInfo = getLprService().getLpr(lprId, contextInfo);

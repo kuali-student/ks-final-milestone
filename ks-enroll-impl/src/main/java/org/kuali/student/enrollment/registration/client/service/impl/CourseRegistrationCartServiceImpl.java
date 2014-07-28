@@ -6,7 +6,6 @@ import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.student.common.collection.KSCollectionUtils;
 import org.kuali.student.common.util.security.ContextUtils;
-import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestInfo;
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestItemInfo;
 import org.kuali.student.enrollment.courseregistration.service.CourseRegistrationService;
@@ -17,11 +16,9 @@ import org.kuali.student.enrollment.registration.client.service.dto.ActivityOffe
 import org.kuali.student.enrollment.registration.client.service.dto.ActivityOfferingScheduleResult;
 import org.kuali.student.enrollment.registration.client.service.dto.CartItemResult;
 import org.kuali.student.enrollment.registration.client.service.dto.CartResult;
-import org.kuali.student.enrollment.registration.client.service.dto.CourseSearchResult;
 import org.kuali.student.enrollment.registration.client.service.dto.InstructorSearchResult;
 import org.kuali.student.enrollment.registration.client.service.dto.Link;
 import org.kuali.student.enrollment.registration.client.service.dto.RegGroupSearchResult;
-import org.kuali.student.enrollment.registration.client.service.dto.RegistrationOptionResult;
 import org.kuali.student.enrollment.registration.client.service.dto.ScheduleLocationResult;
 import org.kuali.student.enrollment.registration.client.service.dto.ScheduleTimeResult;
 import org.kuali.student.enrollment.registration.client.service.dto.UserMessageResult;
@@ -66,7 +63,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- *  This class contains methods needed to manage the student registration cart.
+ * This class contains methods needed to manage the student registration cart.
  */
 public class CourseRegistrationCartServiceImpl implements CourseRegistrationCartService {
 
@@ -74,7 +71,6 @@ public class CourseRegistrationCartServiceImpl implements CourseRegistrationCart
     private CourseRegistrationService courseRegistrationService;
     private LprService lprService;
     private AtpService atpService;
-
 
 
     @Override
@@ -144,7 +140,6 @@ public class CourseRegistrationCartServiceImpl implements CourseRegistrationCart
      * @throws DataValidationErrorException
      * @throws VersionMismatchException
      */
-    @Transactional
     protected RegistrationRequestInfo addItemToRegRequest(String cartId, RegistrationRequestItemInfo registrationRequestItem, ContextInfo contextInfo) throws PermissionDeniedException, MissingParameterException, InvalidParameterException, OperationFailedException, DoesNotExistException, ReadOnlyException, DataValidationErrorException, VersionMismatchException {
 
         // getting cart
@@ -158,20 +153,21 @@ public class CourseRegistrationCartServiceImpl implements CourseRegistrationCart
 
     /**
      * Helper method to get the newest (by createDate) reg request item.
+     *
      * @param regRequestItems
      * @return
      */
-    private   RegistrationRequestItemInfo getNewestRegRequestItem(List<RegistrationRequestItemInfo> regRequestItems){
-        if(regRequestItems == null || regRequestItems.isEmpty()) return null;
+    private RegistrationRequestItemInfo getNewestRegRequestItem(List<RegistrationRequestItemInfo> regRequestItems) {
+        if (regRequestItems == null || regRequestItems.isEmpty()) return null;
 
         RegistrationRequestItemInfo newest = null;
-        for(RegistrationRequestItemInfo reqItem : regRequestItems){
-            if(newest == null){
+        for (RegistrationRequestItemInfo reqItem : regRequestItems) {
+            if (newest == null) {
                 newest = reqItem;
             } else {
-               if(reqItem.getMeta().getCreateTime().after(newest.getMeta().getCreateTime())){
-                   newest = reqItem;
-               }
+                if (reqItem.getMeta().getCreateTime().after(newest.getMeta().getCreateTime())) {
+                    newest = reqItem;
+                }
             }
         }
         return newest;
@@ -244,7 +240,7 @@ public class CourseRegistrationCartServiceImpl implements CourseRegistrationCart
 
         //Get the cart result with the item id to trim it down and no reg options since we know these already
         CartResult cartResult = getCartForUserAndTerm(cart.getRequestorId(), cart.getTermId(), null, newCartItemId, false, contextInfo);
-        if(cartResult == null){
+        if (cartResult == null) {
             // we were getting NPE on the next method when under heavy load. Adding additional debug.
             String technicalInfo = String.format("Error: cartResult == null. Technical Info:(cartRequestorId:[%s] cartTermId:[%s] newCartItemId:[%s] )",
                     cart.getRequestorId(), cart.getTermId(), newCartItemId);
@@ -329,7 +325,6 @@ public class CourseRegistrationCartServiceImpl implements CourseRegistrationCart
 
         return optionsCartItem;
     }
-
 
 
     @Override
@@ -581,7 +576,6 @@ public class CourseRegistrationCartServiceImpl implements CourseRegistrationCart
 
         return cartResult;
     }
-
 
 
     /**

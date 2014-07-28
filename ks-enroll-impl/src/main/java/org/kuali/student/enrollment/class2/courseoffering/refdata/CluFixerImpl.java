@@ -328,7 +328,6 @@ public class CluFixerImpl implements CluFixer {
         return listOfMaps;
     }
 
-    @Transactional
     private void _modifyFormatsForCourse(String courseId,
                                         Map<String, List<String>> courseCodeToFormatList,
                                         Map<String, List<String>> shortNameToCluLuiTypes,

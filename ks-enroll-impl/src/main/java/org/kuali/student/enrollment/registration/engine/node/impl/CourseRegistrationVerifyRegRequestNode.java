@@ -26,7 +26,6 @@ import org.kuali.student.r2.common.util.constants.CourseRegistrationServiceConst
 import org.kuali.student.r2.common.util.constants.LprServiceConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.xml.namespace.QName;
 import java.util.ArrayList;
@@ -72,7 +71,7 @@ public class CourseRegistrationVerifyRegRequestNode extends AbstractCourseRegist
         List<ValidationResultInfo> validationResults = new ArrayList<>();
         Exception transactionException = null; // if an exception happens during processing we should fail the entire transaction
         try {
-            if(shouldValidate(regRequest)){
+            if (shouldValidate(regRequest)) {
                 validationResults.addAll(this.getCourseRegistrationService().verifyRegistrationRequestForSubmission(message.
                         getRegistrationRequest().getId(), contextInfo));
             }
@@ -107,7 +106,6 @@ public class CourseRegistrationVerifyRegRequestNode extends AbstractCourseRegist
 
     }
 
-    @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     protected LprTransactionInfo updateLprTransactionWithErrors(String lprTransactionId, List<ValidationResultInfo> errors, ContextInfo contextInfo) throws PermissionDeniedException, MissingParameterException, InvalidParameterException, OperationFailedException, DoesNotExistException, VersionMismatchException, DataValidationErrorException, ReadOnlyException {
 
         LprTransactionInfo trans = getLprService().getLprTransaction(lprTransactionId, contextInfo);
@@ -128,11 +126,11 @@ public class CourseRegistrationVerifyRegRequestNode extends AbstractCourseRegist
 
     }
 
-    protected void updateRegRequestWithErrors(RegistrationRequestInfo updatedRequestInfo, List<ValidationResultInfo> errors){
+    protected void updateRegRequestWithErrors(RegistrationRequestInfo updatedRequestInfo, List<ValidationResultInfo> errors) {
         for (ValidationResultInfo error : errors) {
             //Match each error with the corresponding id.
             String itemId = error.getElement().replaceFirst("registrationRequestItems\\['([^']*)'\\]", "$1");
-            for (RegistrationRequestItemInfo requestItem:updatedRequestInfo.getRegistrationRequestItems()) {
+            for (RegistrationRequestItemInfo requestItem : updatedRequestInfo.getRegistrationRequestItems()) {
                 if (requestItem.getId().equals(itemId)) {
                     requestItem.setStateKey(LprServiceConstants.LPRTRANS_ITEM_FAILED_STATE_KEY);
                     requestItem.getValidationResults().add(new ValidationResultInfo(error));
@@ -145,8 +143,8 @@ public class CourseRegistrationVerifyRegRequestNode extends AbstractCourseRegist
 
     private boolean shouldValidate(RegistrationRequest regRequest) {
         //Check if this is only a drop from waitlist request (if so no need to validate).
-        for(RegistrationRequestItem item:regRequest.getRegistrationRequestItems()){
-            if(!LprServiceConstants.REQ_ITEM_DROP_WAITLIST_TYPE_KEY.equals(item.getTypeKey())){
+        for (RegistrationRequestItem item : regRequest.getRegistrationRequestItems()) {
+            if (!LprServiceConstants.REQ_ITEM_DROP_WAITLIST_TYPE_KEY.equals(item.getTypeKey())) {
                 return true;
             }
         }
