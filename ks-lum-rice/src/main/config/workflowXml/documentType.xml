@@ -17,6 +17,15 @@
 -->
 
 <data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
+  <ruleAttributes xmlns="ns:workflow/RuleAttribute" xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
+    <!-- this attribute should have already been in the system from the Rice base data -->
+    <ruleAttribute>
+      <name>DataDictionarySearchableAttribute</name>
+      <className>org.kuali.rice.krad.workflow.attribute.DataDictionarySearchableAttribute</className>
+      <label>Data Dictionary Searchable Attribute</label>
+      <type>SearchableAttribute</type>
+    </ruleAttribute>
+  </ruleAttributes>
   <documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
     <documentType>
       <name>KualiStudentDocument</name>
@@ -68,9 +77,10 @@
       <active>true</active>
       <attributes>
         <attribute>
-            <name>CluCreditCourse.OrgSearchAttribute</name>
+          <name>DataDictionarySearchableAttribute</name>
         </attribute>
       </attributes>
+      <routingVersion>2</routingVersion>
     </documentType>
 
     <documentType>
@@ -78,8 +88,9 @@
       <parent>CluParentDocument</parent>
       <description>Kuali Student Credit Course Parent Document</description>
       <label>Kuali Student Credit Course Parent Document</label>
-      <docHandler>${lum.application.url}/org.kuali.student.lum.lu.ui.main.LUMMain/LUMMain.jsp?view=COURSE_PROPOSAL&amp;idType=documentNumber</docHandler>
+      <docHandler>${kr.krad.url}/courses?methodToCall=docHandler</docHandler>
       <active>true</active>
+      <routingVersion>2</routingVersion>
     </documentType>
 
     <documentType>
@@ -239,10 +250,17 @@
     <documentType>
       <name>kuali.proposal.type.course.create</name>
       <parent>CluCreditCourseParentDocument</parent>
-      <description>Credit Course Proposal</description>
-      <label>Credit Course Proposal</label>
-      <postProcessorName>org.kuali.student.lum.workflow.CoursePostProcessorBase</postProcessorName>
+      <description>A proposal to create a new credit course</description>
+      <label>Credit Course Create Proposal</label>
       <active>true</active>
+      <policies>
+        <!-- following policy added to make sure document stops at least once ENROUTE so validations will work properly (see Submit tech guide for more) -->
+        <policy>
+          <name>DEFAULT_APPROVE</name>
+          <value>false</value>
+        </policy>
+      </policies>
+      <routingVersion>2</routingVersion>
       <routePaths>
         <routePath>
           <start name="PreRoute" nextNode="Department Review" />
@@ -261,41 +279,41 @@
         </start>
         <role name="Department Review">
           <activationType>P</activationType>
-          <qualifierResolverClass>org.kuali.student.lum.workflow.qualifierresolver.CocOrgTypeQualifierResolver</qualifierResolverClass>
+          <qualifierResolverClass>org.kuali.student.lum.workflow.qualifierresolver.CocOrgTypeDataDictionaryQualifierResolver</qualifierResolverClass>
           <organizationTypeCode>kuali.org.Department</organizationTypeCode>
           <organizationIdQualifierKey>department</organizationIdQualifierKey>
         </role>
         <role name="Division Review">
           <activationType>P</activationType>
-          <qualifierResolverClass>org.kuali.student.lum.workflow.qualifierresolver.CocOrgTypeQualifierResolver</qualifierResolverClass>
+          <qualifierResolverClass>org.kuali.student.lum.workflow.qualifierresolver.CocOrgTypeDataDictionaryQualifierResolver</qualifierResolverClass>
           <organizationTypeCode>kuali.org.Division</organizationTypeCode>
           <organizationIdQualifierKey>division</organizationIdQualifierKey>
         </role>
         <role name="College Review">
           <activationType>P</activationType>
-          <qualifierResolverClass>org.kuali.student.lum.workflow.qualifierresolver.CocOrgTypeQualifierResolver</qualifierResolverClass>
+          <qualifierResolverClass>org.kuali.student.lum.workflow.qualifierresolver.CocOrgTypeDataDictionaryQualifierResolver</qualifierResolverClass>
           <organizationTypeCode>kuali.org.College</organizationTypeCode>
           <organizationIdQualifierKey>college</organizationIdQualifierKey>
-         </role>
+        </role>
         <role name="Senate Review">
           <activationType>P</activationType>
-          <qualifierResolverClass>org.kuali.student.lum.workflow.qualifierresolver.StaticOrganizationQualifierResolver</qualifierResolverClass>
-          <organizationId>141</organizationId>
+          <qualifierResolverClass>org.kuali.student.lum.workflow.qualifierresolver.StaticOrgDataDictionaryQualifierResolver</qualifierResolverClass>
+          <organizationId>ORGID-141</organizationId>
         </role>
         <role name="Publication Review">
           <activationType>P</activationType>
-          <qualifierResolverClass>org.kuali.student.lum.workflow.qualifierresolver.StaticOrganizationQualifierResolver</qualifierResolverClass>
-          <organizationId>176</organizationId>
+          <qualifierResolverClass>org.kuali.student.lum.workflow.qualifierresolver.StaticOrgDataDictionaryQualifierResolver</qualifierResolverClass>
+          <organizationId>ORGID-176</organizationId>
         </role>
       </routeNodes>
     </documentType>
     <documentType>
       <name>kuali.proposal.type.course.create.admin</name>
       <parent>CluCreditCourseParentDocument</parent>
-      <description>Credit Course Admin Proposal</description>
-      <label>Credit Course Admin Proposal</label>
-      <postProcessorName>org.kuali.student.lum.workflow.CoursePostProcessorBase</postProcessorName>
+      <description>A proposal to create a new credit course that will not have curriculum review</description>
+      <label>Credit Course Create Admin Proposal</label>
       <active>true</active>
+      <routingVersion>2</routingVersion>
       <routePaths>
         <routePath>
           <start name="PreRoute" />
