@@ -1766,7 +1766,7 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
 
         // private constructor to prevent the inner class from being instantiated outside the outer class
         // because this inner class doesn't need to be instantiated/accessed outside
-        private SimplifiedAcademicTermWrapper() {
+        public SimplifiedAcademicTermWrapper() {
         }
 
         // private constructor to prevent the inner class from being instantiated outside the outer class
