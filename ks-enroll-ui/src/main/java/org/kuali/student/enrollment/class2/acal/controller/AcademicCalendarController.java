@@ -97,10 +97,10 @@ import java.util.Properties;
 @RequestMapping(value = "/academicCalendar")
 public class AcademicCalendarController extends UifControllerBase {
 
-    private static final Logger LOG = LoggerFactory.getLogger(AcademicCalendarController.class);
+    protected static final Logger LOG = LoggerFactory.getLogger(AcademicCalendarController.class);
 
-    private AcademicCalendarService acalService;
-    private AcademicCalendarServiceFacade academicCalendarServiceFacade;
+    protected AcademicCalendarService acalService;
+    protected AcademicCalendarServiceFacade academicCalendarServiceFacade;
 
     @Override
     protected UifFormBase createInitialForm(HttpServletRequest request) {
@@ -630,7 +630,7 @@ public class AcademicCalendarController extends UifControllerBase {
         return getUIFModelAndView(academicCalendarForm);
     }
 
-    private void setDeleteTermMessageWithContext(AcademicCalendarForm academicCalendarForm){
+    protected void setDeleteTermMessageWithContext(AcademicCalendarForm academicCalendarForm){
         academicCalendarForm.setSelectedCollectionPath(academicCalendarForm.getActionParamaterValue(UifParameters.SELECTED_COLLECTION_PATH));
         academicCalendarForm.setSelectedLineIndex(academicCalendarForm.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX));
         academicCalendarForm.getActionParameters().put(UifParameters.SELECTED_COLLECTION_PATH, academicCalendarForm.getSelectedCollectionPath());
@@ -928,7 +928,7 @@ public class AcademicCalendarController extends UifControllerBase {
      * @param urlParameters - Additional parameters to pass when redirecting
      * @return The Calendar search page.
      */
-    private ModelAndView redirectToSearch(AcademicCalendarForm academicCalendarForm,HttpServletRequest request, Properties urlParameters){
+    protected ModelAndView redirectToSearch(AcademicCalendarForm academicCalendarForm,HttpServletRequest request, Properties urlParameters){
         urlParameters.put("viewId", CalendarConstants.CALENDAR_SEARCH_VIEW);
         urlParameters.put("methodToCall", KRADConstants.SEARCH_METHOD);
         String uri = request.getRequestURL().toString().replace("academicCalendar","calendarSearch");
@@ -942,7 +942,7 @@ public class AcademicCalendarController extends UifControllerBase {
      * @param acalForm - Tee page form
      * @return true if the term was made official successfully, false otherwise.
      */
-    private boolean makeTermOfficial(AcademicTermWrapper term, AcademicCalendarForm acalForm){
+    protected boolean makeTermOfficial(AcademicTermWrapper term, AcademicCalendarForm acalForm){
         AcademicCalendarViewHelperService viewHelperService = getAcalViewHelperService(acalForm);
         StatusInfo statusInfo;
         try {
@@ -987,7 +987,7 @@ public class AcademicCalendarController extends UifControllerBase {
      * @param acalForm - Tee page form
      * @return True if calendar state is successfully changed
      */
-    private boolean makeAcalOfficial(AcademicCalendarForm acalForm){
+    protected boolean makeAcalOfficial(AcademicCalendarForm acalForm){
         AcademicCalendarViewHelperService viewHelperService = getAcalViewHelperService(acalForm);
         try {
             StatusInfo statusInfo = null;
@@ -1017,7 +1017,7 @@ public class AcademicCalendarController extends UifControllerBase {
      * @param academicCalendarForm - Form containing the data from the page.
      * @return The updated calendar after save.
      */
-    private AcademicCalendarForm saveAcademicCalendarDirtyFields(AcademicCalendarForm academicCalendarForm){
+    protected AcademicCalendarForm saveAcademicCalendarDirtyFields(AcademicCalendarForm academicCalendarForm){
         AcademicCalendarViewHelperService viewHelperService = getAcalViewHelperService(academicCalendarForm);
 
         // Convert Raw UI data and prepare it for save.
@@ -1108,7 +1108,7 @@ public class AcademicCalendarController extends UifControllerBase {
      * @param helperService - View Helper service
      * @return The updated form
      */
-    private AcademicCalendarForm saveDirtyFieldChanges(AcademicCalendarForm form, List<String>dirtyFields, AcademicCalendarViewHelperService helperService){
+    protected AcademicCalendarForm saveDirtyFieldChanges(AcademicCalendarForm form, List<String>dirtyFields, AcademicCalendarViewHelperService helperService){
         List<String> updatedFields = new ArrayList<String>();
 
         // Cycle through the dirty field list and save the individual properties.
@@ -1183,7 +1183,7 @@ public class AcademicCalendarController extends UifControllerBase {
      * @param helperService - View Helper service
      * @return The updated calendar with information filled in from the save/create
      */
-    private AcademicCalendarInfo saveAcal(AcademicCalendarInfo acal, AcademicCalendarForm form, AcademicCalendarViewHelperService helperService){
+    protected AcademicCalendarInfo saveAcal(AcademicCalendarInfo acal, AcademicCalendarForm form, AcademicCalendarViewHelperService helperService){
         // Process holiday calendar info and get calendar info base
         AcademicCalendarInfo acalInfo = processHolidayCalendars(form);
 
@@ -1230,7 +1230,7 @@ public class AcademicCalendarController extends UifControllerBase {
      * @param helperService - View Helper service
      * @return The updated form.
      */
-    private AcademicCalendarForm saveTerms(AcademicCalendarForm form, AcademicCalendarViewHelperService helperService){
+    protected AcademicCalendarForm saveTerms(AcademicCalendarForm form, AcademicCalendarViewHelperService helperService){
         // Check for new terms and save them
         List<AcademicTermWrapper> subTermsToSave = new ArrayList<AcademicTermWrapper>();
         for(int i=0;i<form.getTermWrapperList().size();i++){
@@ -1265,7 +1265,7 @@ public class AcademicCalendarController extends UifControllerBase {
      * @param helperService - View Helper service
      * @return The updated term with information filled in from the save/create
      */
-    private AcademicTermWrapper saveTerm(AcademicTermWrapper termWrapper, AcademicCalendarForm form, AcademicCalendarViewHelperService helperService){
+    protected AcademicTermWrapper saveTerm(AcademicTermWrapper termWrapper, AcademicCalendarForm form, AcademicCalendarViewHelperService helperService){
         // Create term info base
         TermInfo term = termWrapper.getTermInfo();
 
@@ -1328,7 +1328,7 @@ public class AcademicCalendarController extends UifControllerBase {
      * @param form - View form containing the Calendar information
      * @param helperService - View Helper service
      */
-    private void deleteTerms(AcademicCalendarForm form, AcademicCalendarViewHelperService helperService){
+    protected void deleteTerms(AcademicCalendarForm form, AcademicCalendarViewHelperService helperService){
         for (AcademicTermWrapper term : form.getTermsToDeleteOnSave()){
             try{
                 getAcademicCalendarServiceFacade().deleteTermCascaded(term.getTermInfo().getId(),helperService.createContextInfo());
@@ -1348,7 +1348,7 @@ public class AcademicCalendarController extends UifControllerBase {
      * @param helperService - View Helper service
      * @return The updated form.
      */
-    private AcademicCalendarForm saveKeyDates(AcademicCalendarForm form, int termIndex, AcademicCalendarViewHelperService helperService){
+    protected AcademicCalendarForm saveKeyDates(AcademicCalendarForm form, int termIndex, AcademicCalendarViewHelperService helperService){
         AcademicTermWrapper term = form.getTermWrapperList().get(termIndex);
         for( int j = 0; j<term.getKeyDatesGroupWrappers().size();j++){
             KeyDatesGroupWrapper keyDateGroup = term.getKeyDatesGroupWrappers().get(j);
@@ -1371,7 +1371,7 @@ public class AcademicCalendarController extends UifControllerBase {
      * @param helperService - View helper service
      * @return The updated keydate with information filled in from the save/create
      */
-    private KeyDateWrapper saveKeyDate(KeyDateWrapper keyDateWrapper, AcademicTermWrapper term, AcademicCalendarViewHelperService helperService){
+    protected KeyDateWrapper saveKeyDate(KeyDateWrapper keyDateWrapper, AcademicTermWrapper term, AcademicCalendarViewHelperService helperService){
         // Create key date info base
         KeyDateInfo keyDate = keyDateWrapper.getKeyDateInfo();
 
@@ -1416,7 +1416,7 @@ public class AcademicCalendarController extends UifControllerBase {
      * @param helperService - View Helper service
      * @return The updated form.
      */
-    private AcademicCalendarForm processExamPeriods(AcademicCalendarForm form, int termIndex, AcademicCalendarViewHelperService helperService){
+    protected AcademicCalendarForm processExamPeriods(AcademicCalendarForm form, int termIndex, AcademicCalendarViewHelperService helperService){
         //process add/update of exam period
         AcademicTermWrapper term = form.getTermWrapperList().get(termIndex);
         for(int i=0; i<term.getExamdates().size(); i++ ) {
@@ -1448,7 +1448,7 @@ public class AcademicCalendarController extends UifControllerBase {
      * @param helperService - View helper service
      * @return The updated keydate with information filled in from the save/create
      */
-    private ExamPeriodWrapper saveExamPeriod(AcademicCalendarForm form, ExamPeriodWrapper examPeriodWrapper, AcademicTermWrapper term, int termIndex, AcademicCalendarViewHelperService helperService){
+    protected ExamPeriodWrapper saveExamPeriod(AcademicCalendarForm form, ExamPeriodWrapper examPeriodWrapper, AcademicTermWrapper term, int termIndex, AcademicCalendarViewHelperService helperService){
         // Create exam period info base
         ExamPeriodInfo examPeriodInfo = examPeriodWrapper.getExamPeriodInfo();
         String examPeriodName = examPeriodWrapper.getExamPeriodNameUI() + " " + term.getName();
@@ -1499,7 +1499,7 @@ public class AcademicCalendarController extends UifControllerBase {
      * @param term - term wrapper from form
      * @param helperService - View Helper service
      */
-    private void deleteKeyDates(AcademicTermWrapper term, AcademicCalendarViewHelperService helperService){
+    protected void deleteKeyDates(AcademicTermWrapper term, AcademicCalendarViewHelperService helperService){
         for(KeyDateWrapper keyDate : term.getKeyDatesToDeleteOnSave()){
             try{
                 getAcalService().deleteKeyDate(keyDate.getKeyDateInfo().getId(),helperService.createContextInfo());
@@ -1518,7 +1518,7 @@ public class AcademicCalendarController extends UifControllerBase {
      * @param helperService - View Helper service
      * @return The updated form.
      */
-    private AcademicCalendarForm saveAcalEvents(AcademicCalendarForm form, AcademicCalendarViewHelperService helperService){
+    protected AcademicCalendarForm saveAcalEvents(AcademicCalendarForm form, AcademicCalendarViewHelperService helperService){
         for(int i=0;i<form.getEvents().size();i++){
             AcalEventWrapper event = form.getEvents().get(i);
             if(event.getAcalEventInfo().getId()==null){
@@ -1537,7 +1537,7 @@ public class AcademicCalendarController extends UifControllerBase {
      * @param helperService - The view helper service
      * @return The updated event with the saved information from its creation.
      */
-    private AcalEventWrapper saveAcalEvent(AcalEventWrapper event, AcademicCalendarForm form, AcademicCalendarViewHelperService helperService){
+    protected AcalEventWrapper saveAcalEvent(AcalEventWrapper event, AcademicCalendarForm form, AcademicCalendarViewHelperService helperService){
         // Create event info base
         AcalEventInfo eventInfo = event.getAcalEventInfo();
 
@@ -1587,7 +1587,7 @@ public class AcademicCalendarController extends UifControllerBase {
      * @param form - View form containing the Calendar information
      * @param helperService - View Helper service
      */
-    private void deleteAcalEvents(AcademicCalendarForm form, AcademicCalendarViewHelperService helperService){
+    protected void deleteAcalEvents(AcademicCalendarForm form, AcademicCalendarViewHelperService helperService){
         for(AcalEventWrapper event : form.getEventsToDeleteOnSave()){
             try{
                 getAcalService().deleteAcalEvent(event.getAcalEventInfo().getId(),helperService.createContextInfo());
@@ -1604,7 +1604,7 @@ public class AcademicCalendarController extends UifControllerBase {
      * @param field - The property field string in the form propertyName[#]
      * @return The index of the array slot referenced in the property.
      */
-    private int processFieldIndex(String field){
+    protected int processFieldIndex(String field){
         String indexChar = field.substring(field.indexOf("[")+1, field.lastIndexOf("]"));
         return Integer.parseInt(indexChar);
     }
@@ -1618,7 +1618,7 @@ public class AcademicCalendarController extends UifControllerBase {
      * @return The term info for the parent term
      * @throws Exception - Exception thrown by the call to the academic calendar service
      */
-    private TermInfo getParentTerm(String acalId, String parentTermTypeKey, AcademicCalendarViewHelperService helperService) throws Exception{
+    protected TermInfo getParentTerm(String acalId, String parentTermTypeKey, AcademicCalendarViewHelperService helperService) throws Exception{
 
         List<TermInfo> termInfoList =  getAcalService().getTermsForAcademicCalendar(acalId, helperService.createContextInfo());
         for(TermInfo termInfo : termInfoList){
@@ -1638,7 +1638,7 @@ public class AcademicCalendarController extends UifControllerBase {
      * @param ampm - A string of whether the time is am or pm
      * @return A completed date object based on isAllDay
      */
-    private Date getDateInfoForKeyDate(boolean isAllDay, Date date, String time, String ampm){
+    protected Date getDateInfoForKeyDate(boolean isAllDay, Date date, String time, String ampm){
         if(!isAllDay){
             return AcalCommonUtils.getDateWithTime(date, time, ampm);
         }
@@ -1651,7 +1651,7 @@ public class AcademicCalendarController extends UifControllerBase {
      * @param academicCalendarForm - View form containing the Calendar information
      * @return An updated academic calendar info with list of hcals
      */
-    private AcademicCalendarInfo processHolidayCalendars(AcademicCalendarForm academicCalendarForm)    {
+    protected AcademicCalendarInfo processHolidayCalendars(AcademicCalendarForm academicCalendarForm)    {
         AcademicCalendarInfo acalInfo = academicCalendarForm.getAcademicCalendarInfo();
         List<HolidayCalendarWrapper> holidayCalendarList = academicCalendarForm.getHolidayCalendarList();
         List<String> holidayCalendarIds = new ArrayList<String>();
@@ -1675,7 +1675,7 @@ public class AcademicCalendarController extends UifControllerBase {
      * @param academicCalendarForm - View form containing the Calendar information
      * @return List of diry fields passed from the screen.
      */
-    private List<String> processDirtyFields(AcademicCalendarForm academicCalendarForm){
+    protected List<String> processDirtyFields(AcademicCalendarForm academicCalendarForm){
         String[] tempFields = new String[0];
         if(academicCalendarForm.getDirtyFields() != null){
             tempFields = academicCalendarForm.getDirtyFields().split(",");
@@ -1777,7 +1777,7 @@ public class AcademicCalendarController extends UifControllerBase {
         return super.addLine(uifForm,result,request,response);
     }
 
-    private void setExamPeriodAttr(ExamPeriodInfo examPeriodInfo, String attrKey, String attrValue) {
+    protected void setExamPeriodAttr(ExamPeriodInfo examPeriodInfo, String attrKey, String attrValue) {
         AttributeInfo attributeInfo = getExamPeriodAttrForKey(examPeriodInfo, attrKey);
         if (attributeInfo != null) {
             attributeInfo.setValue(attrValue);
@@ -1787,7 +1787,7 @@ public class AcademicCalendarController extends UifControllerBase {
         }
     }
 
-    private AttributeInfo getExamPeriodAttrForKey(ExamPeriodInfo examPeriodInfo, String key) {
+    protected AttributeInfo getExamPeriodAttrForKey(ExamPeriodInfo examPeriodInfo, String key) {
         for (AttributeInfo info : examPeriodInfo.getAttributes()) {
             if (info.getKey().equals(key)) {
                 return info;
