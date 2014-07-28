@@ -2153,6 +2153,10 @@ public class CourseMaintainableImpl extends RuleEditorMaintainableImpl implement
             courseWrapper.getInstructorWrappers().add(cluInstructorInfoWrapper);
         }
 
+        if (courseWrapper.getInstructorWrappers().isEmpty()) {
+            courseWrapper.getInstructorWrappers().add(new CluInstructorInfoWrapper());
+        }
+
         courseWrapper.getAdministeringOrganizations().clear();
 
         for (String unitDeployment : course.getUnitsDeployment()) {
