@@ -25,7 +25,6 @@ import org.slf4j.LoggerFactory;
 
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
-import javax.xml.namespace.QName;
 import java.io.IOException;
 import java.util.List;
 
@@ -33,7 +32,7 @@ public class ScheduleOfClassesClientServiceImpl extends ScheduleOfClassesService
 
     public static final Logger LOGGER = LoggerFactory.getLogger(ScheduleOfClassesClientServiceImpl.class);
 
-    private static final String EXCEPTION_MSG="Exception Thrown";
+    private static final String EXCEPTION_MSG = "Exception Thrown";
     private ElasticEmbedded elasticEmbedded;
 
     /**
@@ -46,14 +45,25 @@ public class ScheduleOfClassesClientServiceImpl extends ScheduleOfClassesService
         termId = CourseRegistrationAndScheduleOfClassesUtil.getTermId(termId, termCode);
 
         //Query based on title and description, boost title so it's more important than description
-        BoolQueryBuilder boolQuery = QueryBuilders.boolQuery()
-                .should(QueryBuilders.matchQuery("longName", criteria.toLowerCase()).boost(1.5f))
-                .should(QueryBuilders.matchQuery("courseDescription", criteria.toLowerCase()).boost(1f));
+        BoolQueryBuilder boolQuery = QueryBuilders.boolQuery();
 
         //Parse out course prefixes from the search criteria (CHEM101A) and add them to the Query
-        for(String token:criteria.toLowerCase().split("\\s")){
-            if(token.matches("^[a-z]{4}([0-9]{0,3}|[0-9]{3}[a-z]*)$")){
-                boolQuery = boolQuery.should(QueryBuilders.wildcardQuery("courseCode", token + "*").boost(2f));
+        for (String token : criteria.toLowerCase().split("\\s")) {
+            if (token.matches("^[a-z]{4}[0-9]{1,3}[a-z]*$")) {
+                //DivisionAndCode search (Also Division and level)
+                boolQuery = boolQuery.should(QueryBuilders.wildcardQuery("courseCode", token + "*").boost(8.0f));
+            } else {
+                if (token.matches("^[a-z]{4}$")) {
+                    //Division
+                    boolQuery = boolQuery.should(QueryBuilders.matchQuery("coursePrefix", token.toUpperCase()).boost(7.5f));
+                }
+                if (token.matches("^[0-9]{3}$")) {
+                    //Code
+                    boolQuery = boolQuery.should(QueryBuilders.termQuery("courseNumber", token).boost(0.5f));
+                }
+                //FullText
+                boolQuery = boolQuery.should(QueryBuilders.wildcardQuery("longName", token + "*").boost(1.25f))
+                                     .should(QueryBuilders.wildcardQuery("courseDescription", token + "*").boost(1f));
             }
         }
 
@@ -66,7 +76,7 @@ public class ScheduleOfClassesClientServiceImpl extends ScheduleOfClassesService
                 .prepareSearch("ks")
                 .setTypes("courseoffering")
                 .setQuery(query)
-                .setSize(100)
+                .setSize(200)
                 .execute().actionGet();
 
         //Parse the results and add to a JSON array
@@ -74,7 +84,7 @@ public class ScheduleOfClassesClientServiceImpl extends ScheduleOfClassesService
         int i = 0;
         for (SearchHit hit : sr.getHits().getHits()) {
             sb.append(hit.getSourceAsString());
-            if (i < (sr.getHits().getHits().length-1)) {
+            if (i < (sr.getHits().getHits().length - 1)) {
                 sb.append(",");
             }
             i++;
