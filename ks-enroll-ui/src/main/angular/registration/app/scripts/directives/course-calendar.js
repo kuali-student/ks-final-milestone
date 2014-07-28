@@ -28,7 +28,7 @@ angular.module('regCartApp')
 
             // Finally, convert all of the day data to the calendar format
             return convertMapToCalendar(dayMap);
-        }
+        };
 
         /*
          Monday through Friday are always shown, so they should be initialized
@@ -52,7 +52,7 @@ angular.module('regCartApp')
         function iterateCourseList(dayMap, courseList, type) {
             angular.forEach(courseList, function(course) {
                 // do not show dropped courses on the calendar
-                if (!course.dropped) {
+                if (!course.dropped && !course.isTBA) {
                     var courseDetails = {
                         courseCode: course.courseCode,
                         regGroup: course.regGroupCode
