@@ -190,26 +190,35 @@
     }
 
     &.kscr-CourseCalendar-courseBlock--waitlisted {
-        background-color: lighten(@color, 50%);
         background-image: repeating-linear-gradient(90deg, @whiteBackground 0rem, @whiteBackground 0.5rem, transparent 0.5rem, transparent 1rem); // white 0-0.5rem, transparent 0.5rem-1rem - repeated
     }
 }
+
 
 // Course Block Mixin when Lightness of color is less than 50% (dark background)
 .courseBlock(@color) when (lightness(@color) < 50%) {
     &.kscr-CourseCalendar-courseBlock--registered {
         color: @whiteBackground; // Set the color to white so it sits well off of the dark background
     }
+    &.kscr-CourseCalendar-courseBlock--waitlisted {
+        background-color: lighten(@color, 40%);
+    }
 }
 // Course Block Mixin when Lightness of color is between 50% and 70% (light background)
-.courseBlock(@color) when (50% =< lightness(@color)) and (lightness(@color) < 60%) {
+.courseBlock(@color) when (50% =< lightness(@color)) and (lightness(@color) < 70%) {
     &.kscr-CourseCalendar-courseBlock--registered {
         color: darken(@color, 30%); // Set the text color to a darker shade of the color
     }
+    &.kscr-CourseCalendar-courseBlock--waitlisted {
+        background-color: lighten(@color, 30%);
+    }
 }
 // Course Block Mixin when Lightness of color is greater than 70% (very light background)
-.courseBlock(@color) when (50% =< lightness(@color)) {
+.courseBlock(@color) when (70% =< lightness(@color)) {
     &.kscr-CourseCalendar-courseBlock--registered {
         color: darken(@color, 50%); // Set the text color to a darker shade of the color
+    }
+    &.kscr-CourseCalendar-courseBlock--waitlisted {
+        background-color: lighten(@color, 20%);
     }
 }
