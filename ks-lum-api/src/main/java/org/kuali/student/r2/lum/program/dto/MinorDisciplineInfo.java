@@ -79,7 +79,6 @@ import org.kuali.student.r2.lum.program.infc.MinorDiscipline;
         "catalogDescr",
         "catalogPublicationTargets",
         "referenceURL",
-        "lastAwardedTerm",
         "attributes",
         "meta",
         "_futureElements"  })
@@ -174,8 +173,6 @@ public class MinorDisciplineInfo extends IdNamelessEntityInfo implements MinorDi
     private List<String> catalogPublicationTargets;
     @XmlElement
     private String referenceURL;
-    @XmlElement
-    private String lastAwardedTerm;
 
     @XmlAnyElement
     private List<Object> _futureElements;
@@ -313,7 +310,6 @@ public class MinorDisciplineInfo extends IdNamelessEntityInfo implements MinorDi
             }
         }
         this.referenceURL = minorDiscipline.getReferenceURL();
-        this.lastAwardedTerm = minorDiscipline.getLastAwardedTerm();
     }
 
     @Override
@@ -664,14 +660,5 @@ public class MinorDisciplineInfo extends IdNamelessEntityInfo implements MinorDi
 
     public void setReferenceURL(String referenceURL) {
         this.referenceURL = referenceURL;
-    }
-
-    @Override
-    public String getLastAwardedTerm() {
-        return lastAwardedTerm;
-    }
-
-    public void setLastAwardedTerm(String lastAwardedTerm) {
-        this.lastAwardedTerm = lastAwardedTerm;
     }
 }

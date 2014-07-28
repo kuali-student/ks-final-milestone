@@ -250,9 +250,4 @@ public interface MinorDiscipline extends IdNamelessEntity {
      * @name Learning Objectives
      */
     public List<LoDisplayInfo> getLearningObjectives();
-
-    /**
-     * @name Last Awarded Term
-     */
-    public String getLastAwardedTerm();
 }

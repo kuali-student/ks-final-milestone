@@ -75,7 +75,6 @@ import java.util.List;
         "catalogDescr",
         "catalogPublicationTargets",
         "referenceURL",
-        "lastAwardedTerm",
         "attributes",
         "meta",
         "_futureElements"  })
@@ -167,8 +166,6 @@ public class TrackInfo extends IdNamelessEntityInfo implements Track {
     private List<String> catalogPublicationTargets;
     @XmlElement
     private String referenceURL;
-    @XmlElement
-    private String lastAwardedTerm;
 
     @XmlAnyElement
     private List<Object> _futureElements;
@@ -303,7 +300,6 @@ public class TrackInfo extends IdNamelessEntityInfo implements Track {
             }
         }
         this.referenceURL = track.getReferenceURL();
-        this.lastAwardedTerm = track.getLastAwardedTerm();
         this.minorDisciplineId = track.getMinorDisciplineId();
     }
 
@@ -628,15 +624,6 @@ public class TrackInfo extends IdNamelessEntityInfo implements Track {
 
     public void setReferenceURL(String referenceURL) {
         this.referenceURL = referenceURL;
-    }
-
-    @Override
-    public String getLastAwardedTerm() {
-        return lastAwardedTerm;
-    }
-
-    public void setLastAwardedTerm(String lastAwardedTerm) {
-        this.lastAwardedTerm = lastAwardedTerm;
     }
 
     @Override
