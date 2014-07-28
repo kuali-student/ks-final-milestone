@@ -264,13 +264,16 @@ public class AcademicPlanCourseSearchImpl extends SearchServiceAbstractHardwired
                 "    FROM" +
                 "    KSLU_CLU_SET cluSet, " +
                 "    KSLU_CLU_SET_ATTR cluSetAttr, " +
+                "    KSLU_CLU_SET_JN_CLU setJnClu, " +
                 "    KSLU_CLU_SET_JN_CLU_SET cluSetJNCluSet ";
         queryStr = queryStr +
                 "    WHERE" +
                 "    cluSetJNCluSet.CLU_SET_PARENT_ID = ( " +
                 "    SELECT c.ID FROM KSLU_CLU_SET c where c.NAME = 'General Education' "+
                 "    )" +
-                "    AND cluSetAttr.OWNER = cluSet.ID";
+                "    AND cluSetAttr.OWNER = cluSet.ID" +
+                "    AND cluSetAttr.OWNER = setJnClu.CLU_SET_ID" +
+                "    AND setJnClu.CLU_SET_ID = cluSetJNCluSet.CLU_SET_CHILD_ID";
 
         // Set params and execute search
         Query query = getEntityManager().createNativeQuery(queryStr);
