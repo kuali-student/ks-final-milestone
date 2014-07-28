@@ -96,7 +96,10 @@ public class AgendaSection extends GroupBase {
         // get the collection for this group from the model
         List<Object> modelCollection = ObjectPropertyUtils.getPropertyValue(model,
                 this.getBindingInfo().getBindingPath());
-
+        if (null == modelCollection)
+        {
+            modelCollection = new ArrayList<Object>();
+        }
         View view = ViewLifecycle.getView();
 
         //Set the ruleviewhelperservice on the agendabuilder.
