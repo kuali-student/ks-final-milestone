@@ -18,8 +18,11 @@
             </th>
         </tr>
     </thead>
-    <tbody ng-repeat="searchResult in searchResults | orderBy : predicate : reverse | filter:facetFilter | startFrom:(page-1)*displayLimit | limitTo:displayLimit">
-        <tr ui-sref="root.search.details({searchCriteria: searchCriteria, id: getId(searchResult)})" class="kscr-Search-row">
+    <tbody>
+        <tr ng-repeat="searchResult in searchResults | orderBy : predicate : reverse | filter:facetFilter | startFrom:(page-1)*displayLimit | limitTo:displayLimit"
+            id="course_detail_row_{{applyFilter(searchResult[defaultField], searchColumn.filter)}}"
+            ui-sref="root.search.details({searchCriteria: searchCriteria, id: getId(searchResult)})"
+            class="kscr-Search-row">
             <td ng-repeat="searchColumn in searchColumns" class="kscr-Search-results-cell">
                 <a ng-if="searchColumn.url" src="searchColumn.url">
                     {{applyFilter(searchResult[searchColumn.field], searchColumn.filter)}}
@@ -31,8 +34,11 @@
         </tr>
     </tbody>
 </table>
-<div class="kscr-Search-results-list" ng-repeat="searchResult in searchResults | filter:facetFilter">
-    <div class="kscr-Search-result" ui-sref="root.search.details({searchCriteria: searchCriteria, id: getId(searchResult)})">
+<div class="kscr-Search-results-list">
+    <div class="kscr-Search-result"
+         id="course_detail_result_{{applyFilter(searchResult[defaultField], searchColumn.filter)}}"
+         ui-sref="root.search.details({searchCriteria: searchCriteria, id: getId(searchResult)})"
+         ng-repeat="searchResult in searchResults | filter:facetFilter">
         <div class="kscr-Search-result-column-{{searchColumn.field}}" ng-repeat="searchColumn in searchColumns">{{applyFilter(searchResult[searchColumn.field], searchColumn.filter)}}</div>
     </div>
 </div>

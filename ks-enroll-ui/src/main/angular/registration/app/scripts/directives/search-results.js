@@ -28,6 +28,7 @@ angular.module('regCartApp')
                 }
                 if (attrs.field && attrs.default === 'true') {
                     scope.predicate = attrs.field;
+                    scope.defaultField = attrs.field;
                 }
             }
         };
