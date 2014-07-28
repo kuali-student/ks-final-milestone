@@ -72,6 +72,17 @@ angular.module('regCartApp')
             loadCart($scope.termId);
         }
 
+        /*
+         Returns the course index
+         */
+        $scope.courseIndex = function(course) {
+            if (!angular.isDefined(course.index) || !course.index) {
+                course.index = GlobalVarsService.getCourseIndex(course);
+            }
+
+            return course.index;
+        };
+
 
         $scope.getStatusMessageFromStatus = function (status) {
             var retStatus = '';

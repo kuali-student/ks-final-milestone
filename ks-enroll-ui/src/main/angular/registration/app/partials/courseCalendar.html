@@ -21,16 +21,17 @@
                 <i class="glyphicon" ng-class="{'glyphicon-check' : !hideCart, 'glyphicon-unchecked' : hideCart }"></i>
                 <span class="kscr-CourseCalendar-courseBlock-label">In Cart</span>
             </div>
+            <div class="util-Grid--clearfix"></div>
         </div>
     </div>
 
     <div class="kscr-CourseCalendar-calendar">
         <div class="kscr-CourseCalendar-times util-Grid util-Grid--center">
-            <div class="kscr-CourseCalendar-time util-Grid-cell"
+            <div class="kscr-CourseCalendar-time" ng-class="{'util-Grid-cell' : !$last}"
                  id="course_calendar_time_{{time | date:'ha'}}" ng-repeat="time in times | filter:timeFilter">
                 <span class="kscr-CourseCalendar-time-label">
                     {{time | date:'h'}}
-                    <span class="kscr-CourseCalendar-time-label-period" ng-show="$first || time.getHours() === 12">{{time | date:'a'}}</span>
+                    <span class="kscr-CourseCalendar-time-label-period" ng-if="$first || time.getHours() === 12">{{time | date:'a'}}</span>
                 </span>
             </div>
         </div>
@@ -42,18 +43,19 @@
                      id="course_calendar_day_container_{{day.day}}">
 
                     <div class="kscr-CourseCalendar-day-content-bgs util-Grid">
-                        <div class="kscr-CourseCalendar-day-content-bg util-Grid-cell"
+                        <div class="kscr-CourseCalendar-day-content-bg util-Grid-cell" ng-if="!$last"
                              ng-repeat="time in times | filter:timeFilter"></div>
                     </div>
 
                     <div class="kscr-CourseCalendar-day-row" ng-repeat="row in day.rows">
                         <course-calendar-item course="course" ng-repeat="course in row.courses | filter:courseFilter" id="course_calendar_course_{{course.courseCode}}"
-                             class="kscr-CourseCalendar-courseBlock kscr-CourseCalendar-courseBlock--{{course.index}}"
-                             ng-class="{'kscr-CourseCalendar-courseBlock--registered' : course.type === 'REG',
-                                        'kscr-CourseCalendar-courseBlock--waitlisted' : course.type === 'WAIT',
-                                        'kscr-CourseCalendar-courseBlock--inCart' : course.type === 'CART'}"
-                             ng-style="{left: course.left + '%', width: course.width + '%'}">
-                            <span class="kscr-CourseCalendar-courseBlock-label">{{course.courseCode}}</span>
+                             class="kscr-CourseCalendar-courseBlock-wrap" ng-style="{left: course.left + '%', width: course.width + '%'}">
+                            <div class="kscr-CourseCalendar-courseBlock kscr-CourseCalendar-courseBlock--{{course.index}}"
+                                 ng-class="{'kscr-CourseCalendar-courseBlock--registered' : course.type === 'REG',
+                                            'kscr-CourseCalendar-courseBlock--waitlisted' : course.type === 'WAIT',
+                                            'kscr-CourseCalendar-courseBlock--inCart' : course.type === 'CART'}">
+                                <span class="kscr-CourseCalendar-courseBlock-label">{{course.courseCode}}</span>
+                            </div>
                         </course-calendar-item>
                     </div>
 

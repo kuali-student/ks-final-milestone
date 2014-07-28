@@ -18,7 +18,7 @@
 </div>
 <div class="kscr-Card">
     <div ng-repeat="schedule in schedules">
-        <div ng-repeat="course in courseOfferings(schedule)" class="kscr-Course-container" ng-switch on="type">
+        <div ng-repeat="course in courseOfferings(schedule)" class="kscr-Course-container kscr-Course-course{{courseIndex(course)}}" ng-switch on="type">
             <div ng-switch-when="registered">
                 <!--Drop from Registered section-->
                 <div id="course_status_message" class="kscr-Card-status kscr-Card-status--{{course.statusMessage.type}} util-Alert--{{course.statusMessage.type}}" ng-class="(course.dropped || course.dropProcessing) ? 'util-Alert--card--dropped' : 'util-Alert--card'" ng-if="course.statusMessage.txt">

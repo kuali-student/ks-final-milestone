@@ -330,7 +330,7 @@ angular.module('regCartApp')
                 $scope.timeFilter = function(time) {
                     var h = time.getHours();
 
-                    return ($scope.timeRange[0] / 60) <= h && h <= ($scope.timeRange[1] / 60);
+                    return ($scope.visibleTimeRange[0] / 60) <= h && h <= ($scope.visibleTimeRange[1] / 60);
                 };
 
 
@@ -338,7 +338,7 @@ angular.module('regCartApp')
                 $scope.hideWaitlisted = false;
                 $scope.hideCart = false;
 
-                $scope.timeRange = [];
+                $scope.visibleTimeRange = [];
 
 
                 // Create the list of times (date objects) to be shown in the view
@@ -355,7 +355,11 @@ angular.module('regCartApp')
                 var init = function(list) {
                     if (list) {
                         var calendar = CourseCalendarDataParser.buildCalendar($scope.registered, $scope.waitlisted, $scope.cart);
-                        $scope.timeRange = calendar.timeRange;
+                        $scope.visibleTimeRange = [
+                            Math.floor(calendar.timeRange[0] / 60) * 60,
+                            Math.ceil(calendar.timeRange[1] / 60) * 60
+                        ];
+
                         $scope.days = calendar.days;
                     }
                 };
@@ -379,24 +383,27 @@ angular.module('regCartApp')
             restrict: 'CAE',
             link: function(scope, element) {
                 $timeout(function() {
-                    var timeRange = scope.timeRange,
+                    var timeRange = scope.visibleTimeRange,
                         parent = element.parent(),
+                        height = element[0].offsetHeight,
                         totalRange = timeRange[1] - timeRange[0],
                         duration = scope.course.endTime - scope.course.startTime;
 
                     // Calculate the width & position from the left as a percentage so
                     // it doesn't have to be updated when the window is resized.
-                    var width = duration * 100 / totalRange,
+                    var proportion = duration * 100 / totalRange,
                         left = (scope.course.startTime - timeRange[0]) * 100 / totalRange;
+
+                    console.log(timeRange, parent.width(), totalRange + ' / ' + duration + ' = ' + proportion + '%', totalRange, scope.course.startTime, left);
 
                     // Update the element to be position correctly relative to the parent container
                     element.css({
                         left: left + '%',
-                        width: width + '%'
+                        height: proportion + '%',
+                        width: proportion + '%'
                     });
 
                     // Make sure the parent still knows about the height of its children
-                    var height = element[0].offsetHeight;
                     if (parent.height() < height) {
                         parent.height(height);
                     }

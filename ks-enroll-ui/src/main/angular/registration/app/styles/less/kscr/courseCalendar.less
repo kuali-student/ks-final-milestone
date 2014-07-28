@@ -7,7 +7,7 @@
     border-bottom-width: 2px;
     color: @cardTextColor;
     font-family: @secondaryFontFamily;
-    margin: 1rem 1rem 2rem;
+    margin: 1rem 0.5rem 2rem;
     padding: 1rem;
 }
 
@@ -20,6 +20,8 @@
     // Legend For course types (registered, waitlisted, in cart)
     .kscr-CourseCalendar-courseBlock {
         cursor: pointer;
+        float: left;
+        margin-right: 0.5rem;
         padding-left: 0.3rem;
 
         &-label {
@@ -47,7 +49,7 @@
 }
 
 .kscr-CourseCalendar-time {
-    text-align: center;
+    text-align: left;
 
     &-label {
         font-size: 1.3rem;
@@ -72,10 +74,10 @@
         margin-top: 0;
     }
 
-    &:nth-child(odd) &-content {
+    &:nth-child(odd) &-content-bg {
         background-color: #F2F2F2;
     }
-    &:nth-child(even) &-content {
+    &:nth-child(even) &-content-bg {
         background-color: #D7D7D7;
     }
 }
@@ -94,11 +96,11 @@
     }
 
     &-bg {
-        border-left: 1px solid #FFF;
         height: 100%;
+        margin-left: 1px;
 
         &:first-child {
-            border-left: none;
+            margin-left: 0;
         }
     }
 }
@@ -112,7 +114,7 @@
         margin-top: 0;
     }
 
-    .kscr-CourseCalendar-courseBlock {
+    .kscr-CourseCalendar-courseBlock-wrap {
         left: -999em; // Initialize offset to the left. This prevents them popping into place while the browser is rendering.
         position: absolute;
         top: 0;
@@ -128,15 +130,24 @@
 
 
 
+/*** BEGIN Course Block Styles ***/
 
-// Course block
+// Wrapping element that gets the height & width applied through the directive.
+// Done this way b/c the border is outside of the defined width which artificially
+// inflates the size of the element in relation to the visible schedule.
+.kscr-CourseCalendar-courseBlock-wrap {
+}
+
+// Styled course block element
 .kscr-CourseCalendar-courseBlock {
     .Rounded(0.5rem);
     border-style: solid;
     border-width: 1px;
-    display: inline-block;
     font-size: 1rem;
-    margin-left: 1px;
+    height: auto !important; // Important to override the directive for large-format.
+    margin-bottom: 1px;
+    margin-left: 1px; // Offset to align w/ the bg stripe offset & to give cushion between courses
+    overflow: hidden;
     padding: 0.1rem;
 
     // Course block label
@@ -145,8 +156,7 @@
     }
 }
 
-.generate-courseBlocks(10);
-
+.generate-courseBlocks(@courseCardColorCount);
 .generate-courseBlocks(@n, @i: 1) when (@i =< @n) {
     // Define the course color for this iteration
     .defineCourseColor(@i);
@@ -174,26 +184,32 @@
 
         // Course block label
         .kscr-CourseCalendar-courseBlock-label {
-            background: rgba(255, 255, 255, 0.65);
+            background: rgba(255, 255, 255, 0.75);
             .Rounded(0.3rem);
         }
     }
 
     &.kscr-CourseCalendar-courseBlock--waitlisted {
         background-color: lighten(@color, 50%);
-        background-image: repeating-linear-gradient(90deg, @whiteBackground 0rem, @whiteBackground 0.5rem, transparent 0.5rem, transparent 1rem);
+        background-image: repeating-linear-gradient(90deg, @whiteBackground 0rem, @whiteBackground 0.5rem, transparent 0.5rem, transparent 1rem); // white 0-0.5rem, transparent 0.5rem-1rem - repeated
     }
 }
 
-// Course Block Mixin when Lightness of color is greater than 50% (light background)
-.courseBlock(@color) when (lightness(@color) >= 50%) {
-    &.kscr-CourseCalendar-courseBlock--registered {
-        color: darken(@color, 20%); // Set the text color to a darker shade of the color
-    }
-}
 // Course Block Mixin when Lightness of color is less than 50% (dark background)
 .courseBlock(@color) when (lightness(@color) < 50%) {
     &.kscr-CourseCalendar-courseBlock--registered {
         color: @whiteBackground; // Set the color to white so it sits well off of the dark background
+    }
+}
+// Course Block Mixin when Lightness of color is between 50% and 70% (light background)
+.courseBlock(@color) when (50% =< lightness(@color)) and (lightness(@color) < 60%) {
+    &.kscr-CourseCalendar-courseBlock--registered {
+        color: darken(@color, 30%); // Set the text color to a darker shade of the color
+    }
+}
+// Course Block Mixin when Lightness of color is greater than 70% (very light background)
+.courseBlock(@color) when (50% =< lightness(@color)) {
+    &.kscr-CourseCalendar-courseBlock--registered {
+        color: darken(@color, 50%); // Set the text color to a darker shade of the color
     }
 }

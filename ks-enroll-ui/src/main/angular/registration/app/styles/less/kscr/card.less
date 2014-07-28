@@ -173,8 +173,8 @@
 
 // Container for a single course in a course card
 .kscr-Course-container {
-  position: relative;
   width: 100%;
+
   .util-transitions-browserHelper();
   opacity: 1;
 
@@ -273,25 +273,26 @@
 /**** Override of accordion panel for card section ****/
 
 .panel-default {
-  background-color: @cardBackgroundColor;
-  border-color: @cardBorderColor;
+    background-color: @cardBackgroundColor;
+    border-color: @cardBorderColor;
 }
 
 .panel-default > .panel-heading {
-  background-color: @cardBackgroundColor;
-  border-color: @cardBorderColor;
-  color: @cardTextColor;
-  cursor: pointer;
-  cursor: hand;
-  padding: 0;
+    background-color: @cardBackgroundColor;
+    border-color: @cardBorderColor;
+    color: @cardTextColor;
+    cursor: pointer;
+    cursor: hand;
+    padding: 0;
 }
 
 .panel {
-  background-color: @cardBackgroundColor;
+    background-color: @cardBackgroundColor;
+    position: relative;
 }
 
 .panel-group .panel-heading + .panel-collapse .panel-body {
-  border-top: none;
+    border-top: none;
 }
 
 .panel-body {
@@ -299,27 +300,60 @@
 }
 
 .panel-title {
-  .font-size(14);
-  font-family: @secondaryFontFamily;
+    .font-size(14);
+    font-family: @secondaryFontFamily;
 }
 
-.panel-group  .panel {
-  margin-bottom: 1rem;
-  border-width: 1px 1px 2px 1px;
-  .util-transitions-browserHelper();
-  opacity: 1;
-}
+.panel-group .panel {
+    border-width: 1px 1px 2px 1px;
+    margin-bottom: 1rem;
 
-.panel-group  .panel.ng-leave {
-  display: block!important;
-}
+    .util-transitions-browserHelper();
+    opacity: 1;
 
-.panel-group  .panel.ng-leave-active {
-  line-height: 0;
-  opacity: 0;
+    &.ng-leave {
+        display: block !important;
+    }
+    &.ng-leave-active {
+        line-height: 0;
+        opacity: 0;
+    }
 }
 /**** END of Override of accordion panel for card section ****/
 
+
+/**** BEING Course card Colorings ****/
+.kscr-Course-container {
+    .panel-group .panel {
+        padding-left: 1rem;
+        position: relative;
+
+        .kscr-Course-legendIndicator {
+            height: 100%;
+            left: 0;
+            position: absolute;
+            top: 0;
+            width: 1rem;
+
+            .kscr-Responsive-sidebar & {
+                top: 0.3rem;
+            }
+        }
+    }
+}
+
+.courseCardLegendIndicator(@courseCardColorCount);
+.courseCardLegendIndicator(@n, @i: 1) when (@i =< @n) {
+    // Define the course color for this iteration
+    .defineCourseColor(@i);
+
+    .kscr-Course-course@{i} .kscr-Course-legendIndicator {
+        background-color: @courseColor;
+    }
+
+    .courseCardLegendIndicator(@n, (@i + 1));
+}
+/**** END Course card Colorings ****/
 
 
 
@@ -335,7 +369,6 @@
         .util-Text-highlighter--inset(@distance, @angle, @blur, @spread, @shadowColor);
     }
 }
-
 
 
 

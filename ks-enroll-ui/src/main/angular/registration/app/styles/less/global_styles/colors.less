@@ -72,34 +72,38 @@
 /*------------------- END MISCELLANEOUS VARIABLES DEFINITIONS -------------------*/
 
 /*------------------- Calendar Colors -------------------*/
-/*
-#334D5C
-#3d9c89
-#E27A3F
-#DF4949
-#3498DB
-#BF927D
-#8F6579
-#8E44AD
-#5B7D48
-#3A6394
+@courseCardColor1:  #334D5C;
+@courseCardColor2:  #3d9c89;
+@courseCardColor3:  #E27A3F;
+@courseCardColor4:  #DF4949;
+@courseCardColor5:  #3498DB;
+@courseCardColor6:  #BF927D;
+@courseCardColor7:  #8F6579;
+@courseCardColor8:  #8E44AD;
+@courseCardColor9:  #5B7D48;
+@courseCardColor10: #3A6394;
 
 //Alt colors
-#7b8c96
-#81bfb3
-#eca983
-#ea8989
-#7cbce8
-#d6b8ab
-#b79ba8
-#b686ca
-#95ab8b
-#809aba
- */
+@courseCardColor11: #7b8c96;
+@courseCardColor12: #81bfb3;
+@courseCardColor13: #eca983;
+@courseCardColor14: #ea8989;
+@courseCardColor15: #7cbce8;
+@courseCardColor16: #d6b8ab;
+@courseCardColor17: #b79ba8;
+@courseCardColor18: #b686ca;
+@courseCardColor19: #95ab8b;
+@courseCardColor20: #809aba;
 
 // Algorithm for defining the course color for a given index
-.defineCourseColor(@n: 1, @baseCourseColor: #334D5C) {
-    @courseColor: spin(@baseCourseColor, (@n * 150));
+@courseCardColorCount: 20; // # of colors to calculate for
+.defineCourseColor(@n: 1, @baseCourseColor: #8E44AD) {
+    // This is the hard-coded method
+    @tmp: 'courseCardColor@{n}';
+    @courseColor: @@tmp;
+
+    // This is a sample dynamic mode
+    // @courseColor: spin(@baseCourseColor, (@n * 72));
 }
 
 /*-------------------End Calendar Colors -------------------*/

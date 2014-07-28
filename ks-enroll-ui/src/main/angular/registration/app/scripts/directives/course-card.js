@@ -231,6 +231,17 @@ angular.module('regCartApp')
             };
 
             /*
+            Returns the course index
+             */
+            $scope.courseIndex = function(course) {
+                if (!angular.isDefined(course.index) || !course.index) {
+                    course.index = GlobalVarsService.getCourseIndex(course);
+                }
+
+                return course.index;
+            };
+
+            /*
             Calls the RESTful service to update a registered course on the schedule.
              */
             function updateScheduleItem(course) {

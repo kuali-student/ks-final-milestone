@@ -214,7 +214,7 @@ angular.module('regCartApp')
         return the new index.
          */
         this.getCourseIndex = function (courseDetails) {
-            var courseDetailsString = courseDetails.courseCode + courseDetails.regGroup;
+            var courseDetailsString = courseDetails.courseCode + (courseDetails.regGroup || courseDetails.regGroupCode); // regGroupCode in schedule
             var index = courseIndexes[courseDetailsString];
 
             if (isNaN(index)) {

@@ -85,7 +85,7 @@
     </div>
 
     <div class="kscr-Card kscr-Card-Cart">
-        <div ng-repeat="cartItem in cart.items" is-open="isopen">
+        <div ng-repeat="cartItem in cart.items" is-open="isopen" class="kscr-Course-container kscr-Course-course{{courseIndex(cartItem)}}">
             <div id="cartItem_status_message" class="util-Alert--card util-Alert--{{cartItem.alertMessage.type}}"  ng-if="cartItem.alertMessage.txt">
                 {{cartItem.alertMessage.txt}}
                 <span class="kscr-Card-statusRemove"><a href="" ng-click="removeAlertMessage(cartItem)"></a></span>
