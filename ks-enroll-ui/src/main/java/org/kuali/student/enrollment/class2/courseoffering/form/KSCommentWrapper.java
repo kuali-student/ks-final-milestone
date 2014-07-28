@@ -35,11 +35,8 @@ public class KSCommentWrapper implements Comparable<KSCommentWrapper> {
     private String lastEditedDate;
     private boolean edited;
     private String commentTextUI;
-    private String deletedCommentCreatorId;
-    private String deletedCommentCreatedDate;
-    private String deletedCommentLastEditorId;
-    private String deletedCommentLastEditedDate;
-    private String deletedCommentText;
+    protected boolean canEditComment = true;
+    protected boolean canDeleteComment = true;
 
     public KSCommentWrapper(){
         commentInfo = new CommentInfo();
@@ -103,44 +100,20 @@ public class KSCommentWrapper implements Comparable<KSCommentWrapper> {
         this.commentTextUI = commentTextUI;
     }
 
-    public String getDeletedCommentCreatorId() {
-        return deletedCommentCreatorId;
+    public boolean isCanEditComment() {
+        return canEditComment;
     }
 
-    public void setDeletedCommentCreatorId(String deletedCommentCreatorId) {
-        this.deletedCommentCreatorId = deletedCommentCreatorId;
+    public void setCanEditComment(boolean canEditComment) {
+        this.canEditComment = canEditComment;
     }
 
-    public String getDeletedCommentCreatedDate() {
-        return deletedCommentCreatedDate;
+    public boolean isCanDeleteComment() {
+        return canDeleteComment;
     }
 
-    public void setDeletedCommentCreatedDate(String deletedCommentCreatedDate) {
-        this.deletedCommentCreatedDate = deletedCommentCreatedDate;
-    }
-
-    public String getDeletedCommentLastEditorId() {
-        return deletedCommentLastEditorId;
-    }
-
-    public void setDeletedCommentLastEditorId(String deletedCommentLastEditorId) {
-        this.deletedCommentLastEditorId = deletedCommentLastEditorId;
-    }
-
-    public String getDeletedCommentLastEditedDate() {
-        return deletedCommentLastEditedDate;
-    }
-
-    public void setDeletedCommentLastEditedDate(String deletedCommentLastEditedDate) {
-        this.deletedCommentLastEditedDate = deletedCommentLastEditedDate;
-    }
-
-    public String getDeletedCommentText() {
-        return deletedCommentText;
-    }
-
-    public void setDeletedCommentText(String deletedCommentText) {
-        this.deletedCommentText = deletedCommentText;
+    public void setCanDeleteComment(boolean canDeleteComment) {
+        this.canDeleteComment = canDeleteComment;
     }
 
     @Override

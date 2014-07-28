@@ -20,6 +20,7 @@ import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.krad.uif.UifParameters;
+import org.kuali.rice.krad.uif.util.ObjectPropertyUtils;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.web.controller.MethodAccessible;
@@ -42,6 +43,7 @@ import org.kuali.student.enrollment.class2.courseoffering.dto.ScheduleWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.form.CourseOfferingManagementForm;
 import org.kuali.student.enrollment.class2.courseoffering.json.RSIJSONResponseData;
 import org.kuali.student.enrollment.class2.courseoffering.util.ActivityOfferingConstants;
+import org.kuali.student.enrollment.class2.courseoffering.util.CommentUtil;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingConstants;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingManagementToolbarUtil;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingManagementUtil;
@@ -74,6 +76,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Properties;
@@ -233,6 +236,34 @@ public class CourseOfferingManagementController extends UifControllerBase {
             return getUIFModelAndView(form, CourseOfferingConstants.SEARCH_PAGE);
         }
 
+    }
+
+    @MethodAccessible
+    @RequestMapping(params = "methodToCall=ajaxAOCommentCount")
+    public @ResponseBody int getAOCommentCount(@ModelAttribute("KualiForm") CourseOfferingManagementForm form, HttpServletRequest request) throws Exception {
+        String selectedCollectionPath = form.getActionParamaterValue(UifParameters.SELECTED_COLLECTION_PATH);
+
+        int selectedLineIndex = -1;
+        String selectedLine = form.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX);
+        if (StringUtils.isNotBlank(selectedLine)) {
+            selectedLineIndex = Integer.parseInt(selectedLine);
+        }
+
+        if (selectedLineIndex == -1) {
+            throw new RuntimeException("Selected line index was not set");
+        }
+
+        Collection<Object> collection = ObjectPropertyUtils.getPropertyValue(form, selectedCollectionPath);
+        ActivityOfferingWrapper selectedObject  = (ActivityOfferingWrapper)((List<Object>) collection).get(selectedLineIndex);
+
+        return CommentUtil.getCommentsCount(selectedObject.getId(), CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING, ContextUtils.createDefaultContextInfo());
+    }
+
+    @MethodAccessible
+    @RequestMapping(params = "methodToCall=ajaxCOCommentCount")
+    public @ResponseBody int getCOCommentCount(@ModelAttribute("KualiForm") CourseOfferingManagementForm form, HttpServletRequest request) throws Exception {
+        CourseOfferingWrapper wrapper = form.getCurrentCourseOfferingWrapper();
+        return CommentUtil.getCommentsCount(wrapper.getId(), CourseOfferingServiceConstants.REF_OBJECT_URI_COURSE_OFFERING, ContextUtils.createDefaultContextInfo());
     }
 
     private void validateUserPopulatedTermAndCourseFields( CourseOfferingManagementForm form ) {

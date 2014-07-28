@@ -33,6 +33,7 @@ public class KSCommentForm extends KsUifFormBase {
     private String referenceId;
     private String referenceType;
     private String referenceName;
+    private String parentUrl;
 
     protected boolean canAddComment = true;
 
@@ -86,5 +87,13 @@ public class KSCommentForm extends KsUifFormBase {
 
     public void setCommentText(String commentText) {
         this.commentText = commentText;
+    }
+
+    public String getParentUrl() {
+        return parentUrl;
+    }
+
+    public void setParentUrl(String parentUrl) {
+        this.parentUrl = parentUrl;
     }
 }

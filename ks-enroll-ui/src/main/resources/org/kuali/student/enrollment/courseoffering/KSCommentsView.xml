@@ -51,8 +51,7 @@
                                     <bean id="commentsLightBoxContents-cancel"
                                           parent="KS-Uif-PrimaryActionButton"
                                           p:actionLabel="Close"
-                                          p:actionScript="e.preventDefault();closeLightbox();"
-                                          p:ajaxSubmit="false"/>
+                                          p:actionScript="e.preventDefault();closeLightbox();"/>
                                 </list>
                             </property>
                         </bean>
@@ -65,11 +64,15 @@
     <bean id="KS-CommentSection" parent="Uif-VerticalBoxSection">
         <property name="header">
             <bean parent="Uif-HeaderOne" p:headerText="Comments for @{referenceName}"
-                  p:cssClasses="ks-dottedHeaderActions"/>
+                  p:additionalCssClasses="ks-dottedHeaderActions,ks-subSection,ks-commentHeader"/>
         </property>
         <property name="items">
             <list>
                 <bean parent="Uif-VerticalBoxSection">
+                    <property name="header">
+                        <bean parent="Uif-HeaderOne" p:headerText="Comments"
+                              p:additionalCssClasses="ks-commentHeader"/>
+                    </property>
                     <property name="items">
                         <list>
                             <bean id="KS-NewCommentField" parent="Uif-InputField" p:propertyName="commentText"
@@ -97,7 +100,7 @@
                                     <bean parent="KS-Uif-HiddenControl"/>
                                 </property>
                             </bean>
-                            <bean parent="Uif-SecondaryActionButton"
+                            <bean parent="Uif-SecondaryActionButton" p:additionalCssClasses="ks-section"
                                   p:ajaxSubmit="true"
                                   p:methodToCall="addComment"
                                   p:actionLabel="Add Comment"
@@ -109,7 +112,7 @@
                                     <bean parent="Uif-HeaderThree"
                                           p:headerText="Comments (@{comments.size()})"
                                           p:id="Comment_list_Header"
-                                          p:cssClasses="ks-dottedHeaderActions"/>
+                                          p:cssClasses="ks-dottedHeaderActions,ks-subSection"/>
                                 </property>
                                 <property name="propertyReplacers">
                                     <list>
@@ -172,7 +175,7 @@
                                                 </list>
                                             </property>
                                             <property name="layoutManager.lineGroupPrototype">
-                                                <bean p:id="KS-collection-rowId" parent="Uif-CollectionHorizontalBoxItem"
+                                                <bean p:id="KS-collection-rowId" parent="Uif-CollectionHorizontalBoxItem" p:additionalCssClasses="ks-comment-seperator"
                                                       p:disclosure.render="false">
                                                     <property name="layoutManager">
                                                         <bean parent="Uif-SimpleLayout"/>
@@ -197,7 +200,7 @@
                                                                                     </list>
                                                                                 </property>
                                                                             </bean>
-                                                                            <bean parent="Uif-HorizontalBoxGroup"
+                                                                            <bean parent="Uif-HorizontalBoxGroup" p:additionalCssClasses="ks-right-justified"
                                                                                   p:colSpan="3">
                                                                                 <property name="items">
                                                                                     <list>

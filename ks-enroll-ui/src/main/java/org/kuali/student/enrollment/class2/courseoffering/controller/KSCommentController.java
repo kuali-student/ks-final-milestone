@@ -40,6 +40,7 @@ import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWr
 import org.kuali.student.enrollment.class2.courseoffering.form.KSCommentForm;
 import org.kuali.student.enrollment.class2.courseoffering.form.KSCommentWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.service.ActivityOfferingMaintainable;
+import org.kuali.student.enrollment.class2.courseoffering.util.CommentUtil;
 import org.kuali.student.lum.kim.KimIdentityServiceConstants;
 import org.kuali.student.r1.common.rice.StudentIdentityConstants;
 import org.kuali.student.r2.common.dto.MetaInfo;
@@ -55,6 +56,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -107,9 +109,12 @@ public class KSCommentController extends KsUifControllerBase {
         String refId = getRequestParamValue(request, "refId");
         String refType = getRequestParamValue(request, "refType");
         String refName = getRequestParamValue(request, "refName");
+        // Note that the referer is only used to redirect after the lightbox is closed. No risk is involved.
+        ((KSCommentForm) form).setParentUrl(request.getHeader("referer"));
         commentForm.setReferenceId(refId);
         commentForm.setReferenceType(refType);
         commentForm.setReferenceName(refName);
+        commentForm.setCanAddComment(canAddComment(refType));
         retrieveComments(commentForm);
 
         return super.start(form, request, response);
@@ -211,7 +216,7 @@ public class KSCommentController extends KsUifControllerBase {
         return new ArrayList<String>();
     }
 
-    protected void saveComment(KSCommentForm form, KSCommentWrapper commentWrapper) {
+    private void saveComment(KSCommentForm form, KSCommentWrapper commentWrapper) {
 
 //        LOG.trace("Saving comment - " + commentWrapper.getCommentInfo().getCommentText());
 
@@ -237,7 +242,7 @@ public class KSCommentController extends KsUifControllerBase {
 
     }
 
-    protected void retrieveComments(KSCommentForm form) {
+    private void retrieveComments(KSCommentForm form) {
         List<CommentInfo> comments;
         try {
             comments = getCommentService().getCommentsByRefObject(form.getReferenceId(), form.getReferenceType(), ContextUtils.createDefaultContextInfo());
@@ -255,11 +260,10 @@ public class KSCommentController extends KsUifControllerBase {
         }
     }
 
-    protected void setupCommentWrapper(KSCommentWrapper wrapper, CommentInfo comment) {
+    private void setupCommentWrapper(KSCommentWrapper wrapper, CommentInfo comment) {
         wrapper.setCommentInfo(comment);
         if (comment.getCommentText() != null) {
             wrapper.setCommentTextUI(comment.getCommentText().getPlain());
-            wrapper.setDeletedCommentText(comment.getCommentText().getPlain());
         }
         wrapper.setCreatedDate(DateFormatters.COURSE_OFFERING_VIEW_HELPER_DATE_TIME_FORMATTER.format(comment.getMeta().getCreateTime()));
         Person creator = getPersonService().getPerson(comment.getCommenterId());
@@ -272,25 +276,70 @@ public class KSCommentController extends KsUifControllerBase {
         } else {
             wrapper.setEdited(true);
         }
-        wrapper.setDeletedCommentCreatorId(comment.getCommenterId());
-        wrapper.setDeletedCommentCreatedDate(wrapper.getCreatedDate());
-        wrapper.setDeletedCommentLastEditorId(comment.getMeta().getUpdateId());
-        wrapper.setDeletedCommentLastEditedDate(wrapper.getLastEditedDate());
-//        setupAuthorizations(proposalInfo, commentWrapper);
+        wrapper.setCanDeleteComment(canEditComment(wrapper.getCommentInfo().getId(),comment.getRefObjectUri()));
+        wrapper.setCanEditComment(canEditComment(wrapper.getCommentInfo().getId(),comment.getRefObjectUri()));
     }
 
-    public PersonService getPersonService() {
+    private PersonService getPersonService() {
         if (personService == null) {
             personService = KimApiServiceLocator.getPersonService();
         }
         return personService;
     }
 
-    protected CommentService getCommentService() {
+    private CommentService getCommentService() {
         if (commentService == null) {
             commentService = (CommentService) GlobalResourceLoader.getService(new QName(CommentServiceConstants.NAMESPACE, CommentService.class.getSimpleName()));
         }
         return commentService;
     }
+
+    private boolean canEditComment(String commentId, String referenceType ) {
+        return isOperationPermitted(commentId, referenceType, StudentIdentityConstants.PERMISSION_TEMPLATE_NAME_COMMENTS_EDIT);
+    }
+
+    private boolean canDeleteComment(String commentId, String referenceType) {
+        return isOperationPermitted(commentId, referenceType, StudentIdentityConstants.PERMISSION_TEMPLATE_NAME_COMMENTS_DELETE);
+    }
+
+    private boolean canAddComment(String referenceType) {
+        Map<String,String> permDetails = new HashMap<String, String>();
+        permDetails.put(StudentIdentityConstants.KS_REFERENCE_TYPE_KEY, referenceType);
+//        return KimApiServiceLocator.getPermissionService().isAuthorizedByTemplate(GlobalVariables.getUserSession().getPrincipalId(), StudentIdentityConstants.PERMISSION_TEMPLATE_NAMESPACE_COMMENTS, StudentIdentityConstants.PERMISSION_TEMPLATE_NAME_COMMENTS_ADD, permDetails, Collections.<String,String>emptyMap());
+        return true;
+    }
+
+    private boolean isOperationPermitted(String commentId, String referenceType, String operation) {
+        Map<String,String> permDetails = new HashMap<String, String>();
+        permDetails.put(StudentIdentityConstants.KS_REFERENCE_TYPE_KEY, referenceType);
+        Map<String,String> roleQualifications = new HashMap<String, String>();
+        roleQualifications.put(KimIdentityServiceConstants.COMMENT_ID_QUALIFICATION, commentId);
+        return KimApiServiceLocator.getPermissionService().isAuthorizedByTemplate(GlobalVariables.getUserSession().getPrincipalId(), StudentIdentityConstants.PERMISSION_TEMPLATE_NAMESPACE_COMMENTS, operation, permDetails, roleQualifications);
+    }
+
+//    protected boolean canAddComment(ProposalInfo proposalInfo) throws WorkflowException {
+//        Map<String,String> permDetails = new HashMap<String, String>();
+//        permDetails.put(StudentIdentityConstants.KS_REFERENCE_TYPE_KEY, StudentIdentityConstants.QUALIFICATION_PROPOSAL_REF_TYPE);
+//        return KimApiServiceLocator.getPermissionService().isAuthorizedByTemplate(GlobalVariables.getUserSession().getPrincipalId(), StudentIdentityConstants.PERMISSION_TEMPLATE_NAMESPACE_COMMENTS, StudentIdentityConstants.PERMISSION_TEMPLATE_NAME_COMMENTS_ADD, permDetails, buildAddCommentAuthorizationRoleQualification(proposalInfo));
+//    }
+//
+//    protected Map<String,String> buildAddCommentAuthorizationRoleQualification(ProposalInfo proposalInfo) throws WorkflowException {
+//        Map<String,String> roleQualifications = new HashMap<String, String>();
+//        roleQualifications.put(KimConstants.AttributeConstants.DOCUMENT_NUMBER, proposalInfo.getWorkflowId());
+//        WorkflowDocument workflowDocument = KRADServiceLocatorWeb.getDocumentService().
+//                getByDocumentHeaderId(proposalInfo.getWorkflowId()).getDocumentHeader().getWorkflowDocument();
+//        roleQualifications.put(KimConstants.AttributeConstants.DOCUMENT_TYPE_NAME, workflowDocument.getDocumentTypeName());
+//
+//        if (workflowDocument.isInitiated() || workflowDocument.isSaved()) {
+//            roleQualifications.put(KimConstants.AttributeConstants.ROUTE_NODE_NAME, StudentWorkflowConstants.DEFAULT_WORKFLOW_DOCUMENT_START_NODE_NAME);
+//        } else {
+//            roleQualifications.put(KimConstants.AttributeConstants.ROUTE_NODE_NAME,
+//                    KRADServiceLocatorWeb.getWorkflowDocumentService().getCurrentRouteNodeNames(workflowDocument));
+//        }
+//
+//        roleQualifications.put(KimConstants.AttributeConstants.ROUTE_STATUS_CODE, workflowDocument.getStatus().getCode());
+//        return roleQualifications;
+//    }
+
 
 }
