@@ -4,7 +4,7 @@
     <parent>
         <groupId>org.kuali.student.api</groupId>
         <artifactId>ks-api</artifactId>
-        <version>0.8.1-iu-d11</version>
+        <version>0.8.1-iu-d12</version>
     </parent>
     <artifactId>ks-core-api</artifactId>
     <name>KS Core API</name>
