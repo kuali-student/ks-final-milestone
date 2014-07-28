@@ -2169,10 +2169,6 @@ public class CourseMaintainableImpl extends RuleEditorMaintainableImpl implement
             courseWrapper.getAdministeringOrganizations().add(new OrganizationInfoWrapper());
         }
 
-        // Initialize Author & Collaborator
-        if (courseWrapper.getCollaboratorWrappers().isEmpty()) {
-            courseWrapper.getCollaboratorWrappers().add(new CollaboratorWrapper());
-        }
 
         if(!isCourseView){
             populateCollaborators();
@@ -2191,6 +2187,11 @@ public class CourseMaintainableImpl extends RuleEditorMaintainableImpl implement
         populateLearningObjectives();
 
         updateReview(false,isCourseView);
+
+        // Initialize Author & Collaborator
+        if (courseWrapper.getCollaboratorWrappers().isEmpty()) {
+            courseWrapper.getCollaboratorWrappers().add(new CollaboratorWrapper());
+        }
 
         populateRequisities();
     }
