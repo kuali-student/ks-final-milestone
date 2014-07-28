@@ -2293,25 +2293,6 @@
         </search:searchCriteriaTypeInfo>
     </search:searchType>
 
-    <search:searchType id="ksap.course.info.atp">
-        <search:searchResultTypeInfo>
-            <search:name/>
-            <search:desc/>
-            <search:resultColumns>
-                <search:resultColumn id="course.key">
-                    <search:dataType>string</search:dataType>
-                </search:resultColumn>
-                <search:resultColumn id="atp.id">
-                    <search:dataType>string</search:dataType>
-                </search:resultColumn>
-            </search:resultColumns>
-        </search:searchResultTypeInfo>
-        <search:searchCriteriaTypeInfo>
-            <search:queryParams>
-            </search:queryParams>
-        </search:searchCriteriaTypeInfo>
-    </search:searchType>
-
     <search:searchType id="ksap.course.info.gened">
         <search:searchResultTypeInfo>
             <search:name/>
@@ -3003,17 +2984,6 @@
                         res.TYPE_KEY_ID = 'kuali.resultType.creditCourseResult'
                         AND
                         clu.id IN :courseIDs
-                    </value>
-                </entry>
-
-                <entry key="ksap.course.info.atp">
-                    <value>NATIVE:
-                        SELECT
-                        clu_id,
-                        ATP_TYPE_KEY
-                        FROM KSLU_CLU_ATP_TYPE_KEY
-                        WHERE
-                        clu_id IN :courseIDs
                     </value>
                 </entry>
 
