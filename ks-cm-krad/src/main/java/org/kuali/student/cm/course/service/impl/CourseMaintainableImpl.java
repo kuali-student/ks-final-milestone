@@ -981,6 +981,9 @@ public class CourseMaintainableImpl extends RuleEditorMaintainableImpl implement
                 if (!supportingDocumentInfoWrapper.isNewDto()) {
                     courseInfoWrapper.getSupportingDocsToDelete().add(supportingDocumentInfoWrapper);
                 }
+                for (SupportingDocumentInfoWrapper doc : courseInfoWrapper.getSupportingDocs()) {
+                    populateSupportingDocBytes(doc);
+                }
             }
         }
         super.processCollectionDeleteLine(model, collectionId, collectionPath, lineIndex);
