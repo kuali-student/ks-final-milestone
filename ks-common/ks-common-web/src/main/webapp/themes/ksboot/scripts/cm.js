@@ -60,7 +60,7 @@ function showCommentLightBox(href) {
 }
 
 function closeCommentUndo() {
-    jQuery("#KSCM-CloseCommentDeleteUndoInfo").hide();
+    jQuery("#CM-Proposal-Course-Comment-CloseCommentDeleteUndoInfo").hide();
 }
 
 /**
@@ -137,13 +137,13 @@ function fixLeftNavElementPositioning(initial) {
 
     var tabListId = "#course_tabs_tabList";
 
-    var tabPanelHeader = jQuery("#course_tabs_header");
+    var tabPanelHeader = jQuery("#CM-Proposal-Course-View-TabHeader");
     var tabPanel = jQuery(tabListId);
     if (tabPanel.length == 0) {
         console.error('Unable to find the tab panel. Nav elements may not be positioned correctly.');
         return;
     }
-    var tabPanelFooter = jQuery("#KS-CourseView-ReviewProposalLink");
+    var tabPanelFooter = jQuery("#CM-Proposal-Course-View-ReviewProposalLink");
 
     //  If the header text for the tab exists then position it.
     if (tabPanelHeader.length != 0) {
@@ -172,7 +172,7 @@ function removeCurrciulumOversight() {
 }
 
 function reDisplayAdministeringOrganization() {
-    var administeringOrganizationComponent = jQuery("#administering-organization");
+    var administeringOrganizationComponent = jQuery("#CM-Proposal-Course-Governance-AdministeringOrganization");
     if (administeringOrganizationComponent.css('display') == "none") {
         administeringOrganizationComponent.show();
     }
@@ -186,14 +186,14 @@ function reDisplayInstructor() {
 }
 
 function reDisplayCrosslistedCourse() {
-    var crosslistComponent = jQuery("#crosslisted-course");
+    var crosslistComponent = jQuery("#CM-Proposal-Course-CourseInfo-CrossList");
     if (crosslistComponent.css('display') == "none") {
         crosslistComponent.show();
     }
 }
 
 function reDisplayJointlyOfferedCourse() {
-    var jointlyOfferedComponent = jQuery("#jointlyOffered-section");
+    var jointlyOfferedComponent = jQuery("#CM-Proposal-Course-CourseInfo-JointlyOffered");
     if (jointlyOfferedComponent.css('display') == "none") {
         jointlyOfferedComponent.show();
     }
@@ -451,7 +451,7 @@ function setupCharCounters() {
 
 function applyIndentationStyling() {
     jQuery(".uif-collectionItem[data-parent='CM-Proposal-Course-LearningObjectives-Section']").each(function (index) {
-        var indentString = jQuery('#KS-LoDisplayInfoWrapper-indentLevel_line' + index + '_control').prop('value');
+        var indentString = jQuery('#CM-Proposal-Course-LearningObjectives-IndentLevel_line' + index + '_control').prop('value');
         var indentLevel = parseInt(indentString);
 
         var collectionItem = jQuery(this);
@@ -506,20 +506,20 @@ function showHideCreateCourseOptionalElements() {
     var showingRequired = "Showing only required fields.";
     var showRequired = "Show only required fields.";
 
-    var actualShowMsg = jQuery("#Create-CourseView-Admin-Message").text();
+    var actualShowMsg = jQuery("#CM-Proposal-Course-View-Admin-Message").text();
 
     if (actualShowMsg != null && actualShowMsg == showingRequired) {    // display all
-        jQuery("#Create-CourseView-Admin-Message").text(showingAll);
-        jQuery("#Create-CourseView-Admin-Message-expand-optional-link").text(showRequired);
+        jQuery("#CM-Proposal-Course-View-Admin-Message").text(showingAll);
+        jQuery("#CM-Proposal-Course-View-Admin-Message-Expand-Optional-Link").text(showRequired);
         jQuery(".admin-not-required-field").show();
         jQuery(".hide-when-show-all-fields").hide();
     } else {
-        jQuery("#Create-CourseView-Admin-Message").text(showingRequired);
-        jQuery("#Create-CourseView-Admin-Message-expand-optional-link").text(showAll);
+        jQuery("#CM-Proposal-Course-View-Admin-Message").text(showingRequired);
+        jQuery("#CM-Proposal-Course-View-Admin-Message-Expand-Optional-Link").text(showAll);
         jQuery(".admin-not-required-field").hide();
         jQuery(".hide-when-show-all-fields").show();
     }
-    jQuery("#CreateCourseProposalTitleInputField_control").focus();
+    jQuery("#CM-Proposal-Course-CourseInfo-ProposalTitle_control").focus();
 
 }
 
@@ -546,11 +546,11 @@ function updateStickyHeaderText() {
 function refreshOutcome(index) {
 
     var successFunction = function () {
-        var selected = jQuery('#typeKey_line' + index + '_control').val();
+        var selected = jQuery('#CM-Proposal-Course-Logistics-Outcome-Type_line' + index + '_control').val();
         if (selected != null && selected.length > 2) {
-            jQuery('#creditValue_line' + index + '_control').focus();
+            jQuery('#CM-Proposal-Course-Logistics-Outcome-Credit_line' + index + '_control').focus();
         } else {
-            jQuery('#outcome-addline').focus();
+            jQuery('#CM-Proposal-Course-Logistics-AddOutcome').focus();
         }
     };
     // When outcome type changes it affects the credit value input field also. The retrieveComponent
@@ -571,7 +571,7 @@ function compareSubjectCodeInput(value, element) {
         } else {
             jQuery("#" + element.id).attr('value', data.resultData[0].value);
             isValid = true;
-            if (element.id.indexOf('KS-SubjectArea-Field') == 0) {
+            if (element.id.indexOf('CM-Proposal-Course-CourseInfo-SubjectCode') == 0) {
                 retrieveComponent('CM-Proposal-Course-Governance-CurriculumOversight-Section', 'refreshOversightSection');
             }
         }
@@ -704,8 +704,8 @@ function compareOrganizationNameInput(value, element) {
 
 jQuery.validator.addMethod("validDurationTypeAndCountInput",
     function (value, element) {
-        var durationType = jQuery('#KS-DurationTypeDropDown_control').val();
-        var durationCount = jQuery('#KS-DurationTimeQuantity-Field_control').val();
+        var durationType = jQuery('#CM-Proposal-Course-Logistics-DurationType_control').val();
+        var durationCount = jQuery('#CM-Proposal-Course-Logistics-DurationCount_control').val();
 
         if (durationCount == '') {
             if (durationType != '') {
@@ -719,14 +719,14 @@ jQuery.validator.addMethod("validDurationTypeAndCountInput",
     }, "Must provide a duration type and a duration count")
 
 function durationTypeOnBlur() {
-    var durationType = jQuery('#KS-DurationTypeDropDown_control').val();
-    var durationCount = jQuery('#KS-DurationTimeQuantity-Field_control').val();
+    var durationType = jQuery('#CM-Proposal-Course-Logistics-DurationType_control').val();
+    var durationCount = jQuery('#CM-Proposal-Course-Logistics-DurationCount_control').val();
     if (durationType == '' && durationCount == '') {
         return;
     }
-    if (event.relatedTarget == null || event.relatedTarget.id != "KS-DurationTimeQuantity-Field_control") {
-        validateFieldValue(jQuery("#KS-DurationTypeDropDown_control"));
-        validateFieldValue(jQuery("#KS-DurationTimeQuantity-Field_control"));
+    if (event.relatedTarget == null || event.relatedTarget.id != "CM-Proposal-Course-Logistics-DurationCount_control") {
+        validateFieldValue(jQuery("#CM-Proposal-Course-Logistics-DurationType_control"));
+        validateFieldValue(jQuery("#CM-Proposal-Course-Logistics-DurationCount_control"));
         return;
     }
     return;
@@ -739,8 +739,8 @@ function setupCharCountersForLo() {
 
 
 function durationCountOnBlur() {
-    validateFieldValue(jQuery("#KS-DurationTimeQuantity-Field_control"));
-    validateFieldValue(jQuery("#KS-DurationTypeDropDown_control"));
+    validateFieldValue(jQuery("#CM-Proposal-Course-Logistics-DurationCount_control"));
+    validateFieldValue(jQuery("#CM-Proposal-Course-Logistics-DurationType_control"));
     return;
 }
 
@@ -748,17 +748,17 @@ function showHideReviewProposalErrorFields(sectionId) {
     var hideMissed = "Hide missing-fields indicator.";
     var showMissed = "Show what's missing.";
 
-    var actualShowMsg = jQuery("#ReviewProposal-Error-Message-expand-optional-link").text();
+    var actualShowMsg = jQuery("#CM-Proposal-Review-Error-Message-Expand-Option-Link").text();
 
     if (actualShowMsg != null && actualShowMsg.toString().trim() == showMissed) {
-        jQuery("#ReviewProposal-Error-Message-expand-optional-link").text(hideMissed);
+        jQuery("#CM-Proposal-Review-Error-Message-Expand-Option-Link").text(hideMissed);
         /* highlight the missing element rows */
         highlightMissingElements(sectionId, true);
     } else {
-        jQuery("#ReviewProposal-Error-Message-expand-optional-link").text(showMissed);
+        jQuery("#CM-Proposal-Review-Error-Message-Expand-Option-Link").text(showMissed);
         highlightMissingElements(sectionId, false);
     }
-    jQuery("#CourseInfo-Review-Edit-link").focus();
+    jQuery("#CM-Proposal-Review-CourseInfo-Edit-Link").focus();
 
 }
 
@@ -850,8 +850,8 @@ function compareInputWithAutosuggestFromAjax(value, element, successFunction) {
 }
 
 function refreshEndTerm() {
-    if (jQuery('#CourseView-ActiveDatesPage-PilotCourse_control').prop('checked')) {
-        retrieveComponent('CourseView-ActiveDatesPage-EndTerm');
+    if (jQuery('#CM-Proposal-Course-ActiveDates-PilotCourse_control').prop('checked')) {
+        retrieveComponent('CM-Proposal-Course-ActiveDates-EndTerm');
     }
 }
 
@@ -870,38 +870,38 @@ function hideName() {
 
 function setCommentEditFieldFocus() {
 
-    if (jQuery('#Comment_list_Header') != null && jQuery('#Comment_list_Header').length > 0) {
-        var lpos = jQuery('#Comment_list_Header').text().trim().indexOf("(") + 1;
-        var rpos = jQuery('#Comment_list_Header').text().trim().indexOf(")");
+    if (jQuery('#CM-Proposal-Course-Comment-List-Header') != null && jQuery('#CM-Proposal-Course-Comment-List-Header').length > 0) {
+        var lpos = jQuery('#CM-Proposal-Course-Comment-List-Header').text().trim().indexOf("(") + 1;
+        var rpos = jQuery('#CM-Proposal-Course-Comment-List-Header').text().trim().indexOf(")");
 
-        var total = jQuery('#Comment_list_Header').text().trim().substr(lpos, rpos - lpos);
+        var total = jQuery('#CM-Proposal-Course-Comment-List-Header').text().trim().substr(lpos, rpos - lpos);
         for (i = 0; i < total; i++) {
-            if (jQuery('#KSCM-Comment-Add_line' + i + '_control').length > 0 && jQuery('#KSCM-Comment-Add_line' + i + '_control').attr('readonly') != "readonly") {
-                jQuery('#KSCM-Comment-Add_line' + i + '_control').focus();
+            if (jQuery('#CM-Proposal-Course-Comment-Add-Field_line' + i + '_control').length > 0 && jQuery('#CM-Proposal-Course-Comment-Add-Field_line' + i + '_control').attr('readonly') != "readonly") {
+                jQuery('#CM-Proposal-Course-Comment-Add-Field_line' + i + '_control').focus();
             }
         }
     }
 }
 
 function setReadonlyTextWidthForComment() {
-    if (jQuery('#KSCM-NewCommentField_control') != null) {
-        var editAreaWidth = jQuery('#KSCM-NewCommentField_control').width();
+    if (jQuery('#CM-Proposal-Course-Comment-NewComment_control') != null) {
+        var editAreaWidth = jQuery('#CM-Proposal-Course-Comment-NewComment_control').width();
     }
 
-    if (jQuery('#Comment_list_Header') != null && jQuery('#Comment_list_Header').length > 0) {
-        var lpos = jQuery('#Comment_list_Header').text().trim().indexOf("(") + 1;
-        var rpos = jQuery('#Comment_list_Header').text().trim().indexOf(")");
+    if (jQuery('#CM-Proposal-Course-Comment-List-Header') != null && jQuery('#CM-Proposal-Course-Comment-List-Header').length > 0) {
+        var lpos = jQuery('#CM-Proposal-Course-Comment-List-Header').text().trim().indexOf("(") + 1;
+        var rpos = jQuery('#CM-Proposal-Course-Comment-List-Header').text().trim().indexOf(")");
 
-        var total = jQuery('#Comment_list_Header').text().trim().substr(lpos, rpos - lpos);
+        var total = jQuery('#CM-Proposal-Course-Comment-List-Header').text().trim().substr(lpos, rpos - lpos);
         for (i = 0; i < total; i++) {
-            if (jQuery('#KSCM-Comment-Add_line' + i).length > 0) {
-                if (jQuery('#KSCM-Comment-Add_line' + i + '_control').attr('readonly') == "readonly") {
-                    var width = jQuery('#KSCM-CommentField-comment-header-id_line' + i).width();
+            if (jQuery('#CM-Proposal-Course-Comment-Add-Field_line' + i).length > 0) {
+                if (jQuery('#CM-Proposal-Course-Comment-Add-Field_line' + i + '_control').attr('readonly') == "readonly") {
+                    var width = jQuery('#CM-Proposal-Course-Comment-Header_line' + i).width();
                     if (width < 1) {
                         width = 580;
                         /* set the default value */
                     }
-                    jQuery('#KSCM-Comment-Add_line' + i + '_control').width(width);
+                    jQuery('#CM-Proposal-Course-Comment-Add-Field_line' + i + '_control').width(width);
                 }
             }
         }
@@ -916,7 +916,7 @@ jQuery.validator.addMethod("validLoCategory",
 
 function validateNewLoCategoryAndType(value, element) {
     var loCategoryType_control = element.id;
-    loCategoryType_control = loCategoryType_control.replace('KS-LearningObjective-Category', 'KS-LearningObjective-CategoryType');
+    loCategoryType_control = loCategoryType_control.replace('CM-Proposal-Course-LearningObjectives-Category', 'CM-Proposal-Course-LearningObjectives-CategoryType');
     var items = value.split('-');
     var loCategoryType = jQuery('#' + loCategoryType_control).parent();
     var loCategoryInfoMessage = jQuery('#' + loCategoryType_control).closest('div[id^="learning_objective_section"]').find('p.ks-informational-message-for-field');
@@ -957,20 +957,20 @@ function validateNewLoCategoryAndType(value, element) {
  */
 function categoryTypeSelection(selectAll) {
     if (selectAll == 'true') {
-        jQuery('#KS-LoListedType-Checkbox-Group').find('input').each(function (index) {
-            jQuery('#KS-LoListedType-Checkbox-Group_control_' + index).selected(true);
+        jQuery('#CM-Proposal-Course-LoCategory-ListTypeGroup').find('input').each(function (index) {
+            jQuery('#CM-Proposal-Course-LoCategory-ListTypeGroup_control_' + index).selected(true);
         });
 
     } else {
-        jQuery('#KS-LoListedType-Checkbox-Group').find('input').each(function (index) {
-            jQuery('#KS-LoListedType-Checkbox-Group_control_' + index).selected(false);
+        jQuery('#CM-Proposal-Course-LoCategory-ListTypeGroup').find('input').each(function (index) {
+            jQuery('#CM-Proposal-Course-LoCategory-ListTypeGroup_control_' + index).selected(false);
         });
     }
     filterCategoriesByTypes();
 }
 
 function filterCategoriesByName() {
-    var inputVal = jQuery('#LoCategory-Category-Filter-Input_control').val().trim();
+    var inputVal = jQuery('#CM-Proposal-Course-LoCategory-Filter-Input_control').val().trim();
     jQuery("#uLookupResults_layout").dataTable().fnFilter(inputVal);
 }
 
@@ -981,9 +981,9 @@ function filterCategoriesByName() {
 function filterCategoriesByTypes() {
     var labels = '';
     var i = 0;
-    jQuery('#KS-LoListedType-Checkbox-Group').find('input').each(function (index) {
-        if (jQuery('#KS-LoListedType-Checkbox-Group_control_' + index).is(':checked') == true) {
-            var label = jQuery('#KS-LoListedType-Checkbox-Group_control_' + index).next("label").text();
+    jQuery('#CM-Proposal-Course-LoCategory-ListTypeGroup').find('input').each(function (index) {
+        if (jQuery('#CM-Proposal-Course-LoCategory-ListTypeGroup_control_' + index).is(':checked') == true) {
+            var label = jQuery('#CM-Proposal-Course-LoCategory-ListTypeGroup_control_' + index).next("label").text();
             if (i > 0) {
                 labels = labels + '|' + label;
             } else {
@@ -1013,7 +1013,7 @@ function loCategoryAutocomplete(ui, control) {
 }
 
 function filterObjectivesByName() {
-    var inputVal = jQuery('#LoDisplayInfoWrapper-LookupView-Filter-Input_control').val().trim();
+    var inputVal = jQuery('#CM-Proposal-Course-Lo-Filter-Input_control').val().trim();
     jQuery("#uLookupResults_layout").dataTable().fnFilter(inputVal);
 }
 
@@ -1022,8 +1022,8 @@ function filterObjectivesByName() {
  * @param index
  */
 function hideCategoryTypeAndInfoMsg(index) {
-    jQuery('#KS-LearningObjective-CategoryType_line' + index + '_add').hide();
-    jQuery('#KS-LearningObjective-CategoryType_line' + index + '_add').closest('div[id^="learning_objective_section"]').find('p.ks-informational-message-for-field').hide();
+    jQuery('#CM-Proposal-Course-LearningObjectives-CategoryType_line' + index + '_add').hide();
+    jQuery('#CM-Proposal-Course-LearningObjectives-CategoryType_line' + index + '_add').closest('div[id^="learning_objective_section"]').find('p.ks-informational-message-for-field').hide();
 }
 
 function setDirtyManually(dirtyFlag) {
