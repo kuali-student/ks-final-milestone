@@ -67,7 +67,6 @@ angular.module('regCartApp')
 
         // the choices for limiting display of search results
         $scope.displayLimits = [20, 50, 100];
-//        $scope.displayLimits = [2, 3, 5]; //uncomment this for testing pagination with small data sets
 
         // set the default display limit
         $scope.displayLimit = $scope.displayLimits[0];
@@ -80,6 +79,9 @@ angular.module('regCartApp')
 
         // holds the customizable id for linking to search details
         $scope.detailsId = {};
+
+        // holds the reverse for each column (true = reverse sort)
+        $scope.reverseMap = {};
 
         // returns a the full range of pages
         $scope.pageRange = function() {
@@ -126,6 +128,25 @@ angular.module('regCartApp')
         // returns the customizable id for the given search result
         $scope.getId = function(searchResult) {
             return searchResult[$scope.detailsId];
+        };
+
+        // returns the reverse order of the specified column
+        $scope.getReverse = function(column) {
+            initReverse(column); // initialize the column
+            return $scope.reverseMap[column];
+        };
+
+        // switches the reverse order of the specified column
+        $scope.switchReverse = function(column) {
+            initReverse(column); // initialize the column
+            $scope.reverseMap[column] = !$scope.reverseMap[column]; // switch it
+            return $scope.reverseMap[column];
+        };
+
+        function initReverse(column) {
+            if (angular.isUndefined($scope.reverseMap[column])) {
+                $scope.reverseMap[column] = true; // set the default
+            }
         }
     }])
 

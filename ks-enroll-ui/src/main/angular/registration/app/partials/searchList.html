@@ -14,7 +14,7 @@
         <tr>
             <th class="kscr-Search-results-header" ng-repeat="searchColumn in searchColumns">
                 <span>{{searchColumn.name}}</span>
-                <i class="glyphicon glyphicon-sort kscr-Search-results-sortIcon" ng-click="$parent.predicate = '{{searchColumn.field}}'; $parent.reverse = !$parent.reverse"></i>
+                <i class="glyphicon glyphicon-sort kscr-Search-results-sortIcon" ng-click="$parent.predicate = '{{searchColumn.field}}'; $parent.reverse = switchReverse('{{searchColumn.field}}')"></i>
             </th>
         </tr>
     </thead>
