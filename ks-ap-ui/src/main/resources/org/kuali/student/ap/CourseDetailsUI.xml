@@ -834,7 +834,7 @@
         <property name="items">
             <list>
                 <bean p:id="course_section_placeholder" parent="Uif-VerticalBoxGroup">
-                    <property name="onDocumentReadyScript" value="ksapRetrieveComponent('CourseDetails-InquiryView-CourseSection-Holder','coursedetails-page','startCourseSectionDetails','course/details',{courseId:'@{dataObject.courseId}'}, null, {message:'&lt;p&gt;&lt;img src=&quot;../themes/ksapboot/images/ajaxAuditRunning32.gif&quot; alt=&quot;loading...&quot; /&gt;&lt;/p&gt;&lt;p&gt;Please wait while we are fetching sections...&lt;/p&gt;', fadeIn:0, fadeOut:0, overlayCSS:{backgroundColor:'#fff',opacity:0,cursor:'wait'}, css:{backgroundColor:'#fffdd7', border:'solid 1px #ffd14c', borderRadius:'15px','-webkit-border-radius':'15px','-moz-border-radius':'15px', width:'230px', textAlign:'center', padding:'20px'}});"/>
+                    <property name="onDocumentReadyScript" value="ksapRetrieveComponent('CourseDetails-InquiryView-CourseSection-Holder','coursedetails-page','startCourseSectionDetails','course/details',{courseId:'@{dataObject.courseId}'}, null, {message:'&lt;div class=&quot;ksap-loader&quot;&gt;Loading...&lt;/div&gt;Loading...', fadeIn:0, fadeOut:0, overlayCSS:{backgroundColor:'#fff',opacity:0,cursor:'wait'}, css:{border:'0'}});"/>
                 </bean>
             </list>
         </property>
