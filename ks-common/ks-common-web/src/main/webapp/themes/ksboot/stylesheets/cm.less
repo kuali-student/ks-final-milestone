@@ -314,7 +314,7 @@ a[id *= "LearningObjectives-Icon-"]:hover {
 
 .course_details-grid table th,
 .course_details-grid td {
-    padding: 2px 5px 0px 5px !important;
+    padding: 2px 5px 0px 0px !important;
 }
 
 #CM-ViewCourse-View-Course-CourseInfoSection .course_details-grid table th,
@@ -385,7 +385,11 @@ a[id *= "LearningObjectives-Icon-"]:hover {
 }
 
 .course_detail_subsection tbody tr th[scope="row"] {
-     width: 200px; /* Don't indent the sub-section labels as much as the section labels */
+     width: 180px !important; /* Sub-section labels are more narrow. */
+}
+
+.course_detail_subsection tbody tr th[scope="row"] label {
+     float: left;  /* Sub-section labels float left */
 }
 
 /* The headers used within course details sections: Outcomes, Formats, etc. */
