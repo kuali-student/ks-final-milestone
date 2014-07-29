@@ -154,6 +154,7 @@
 						<bean parent="planner_course_summary_link">
 							<property name="linkText" value="View more details"/>
 							<property name="title" value="View more details about @{courseSummaryDetails.code}"/>
+                            <property name="additionalCssClasses" value="modal-summary-details-link"/>
 						</bean>
 					</list>
 				</property>

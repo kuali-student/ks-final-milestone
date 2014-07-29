@@ -616,13 +616,15 @@
                     <property name="items">
                         <list>
                             <bean parent="Uif-Message"
-                                  p:messageText="@{dataObject.courseCode} @{dataObject.courseTitle} (@{dataObject.courseCredits} cr)"/>
+                                  p:messageText="@{dataObject.courseCode} @{dataObject.courseTitle} (@{dataObject.courseCredits} cr)"
+                                  p:additionalCssClasses="modal-summary-details-title"  />
                             <ref bean="course_details_popover_overview"/>
                             <bean parent="Uif-Link" p:target="">
                                 <property name="linkText" value="View more details"/>
                                 <property name="title" value="View more details"/>
                                 <property name="href"
                                           value="inquiry?methodToCall=start&amp;viewId=CourseDetails-InquiryView&amp;courseId=@{dataObject.courseId}"/>
+                                <property name="additionalCssClasses" value="modal-summary-details-link"/>
                             </bean>
                             <bean parent="Uif-HorizontalBoxGroup">
                                 <property name="cssClasses">
