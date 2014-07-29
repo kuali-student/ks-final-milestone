@@ -618,6 +618,7 @@ function ksapBookmarkAddOnSearch(data){
         item.addClass("saved");
         item.removeClass("ks-fontello-icon-star-empty");
         item.attr('onclick', "deleteBookmarkCourse('', jQuery(this).data('courseid'), event);");
+        item.attr('title', "Remove Bookmark");
     }
 }
 
@@ -634,5 +635,6 @@ function ksapBookmarkRemoveOnSearch(data){
         item.removeClass("saved");
         item.addClass("ks-fontello-icon-star-empty");
         item.attr('onclick', "bookmarkCourse(jQuery(this).data('courseid'), event);");
+        item.attr('title', "Bookmark");
     }
 }

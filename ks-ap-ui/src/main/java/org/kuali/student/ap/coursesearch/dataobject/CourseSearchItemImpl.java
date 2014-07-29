@@ -507,7 +507,6 @@ public class CourseSearchItemImpl implements CourseSearchItem {
 
         addBookmarkLink.addAttribute("id", cid + "_bookmark_anchor");
         addBookmarkLink.addAttribute("class", "add-bookmark-link");
-        addBookmarkLink.addAttribute("title", "Bookmark");
         addBookmarkLink.addAttribute("data-courseid", courseId);
         addBookmarkLink.setText(" ");
 
@@ -515,10 +514,12 @@ public class CourseSearchItemImpl implements CourseSearchItem {
             //Currently bookmarked
             addBookmarkLink.addAttribute("class", "ks-fontello-icon-star saved");
             addBookmarkLink.addAttribute("onclick", "deleteBookmarkCourse('', jQuery(this).data('courseid'), event);");
+            addBookmarkLink.addAttribute("title", "Remove Bookmark");
         } else {
             //Not bookmarked
             addBookmarkLink.addAttribute("class", "ks-fontello-icon-star-empty");
             addBookmarkLink.addAttribute("onclick", "bookmarkCourse(jQuery(this).data('courseid'), event);");
+            addBookmarkLink.addAttribute("title", "Bookmark");
         }
 
         //Add to plan action or status "is planned"
