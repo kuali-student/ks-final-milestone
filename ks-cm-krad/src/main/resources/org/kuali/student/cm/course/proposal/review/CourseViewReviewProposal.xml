@@ -369,7 +369,7 @@
                                   parent="Uif-ActionLink"
                                   p:actionLabel="Cancel"
                                   p:methodToCall="back"
-                                  p:style="margin-right: 100px;"
+                                  p:style="margin-right: 10px;"
                                   p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_CLOSE]}"/>
                         </list>
                     </property>
