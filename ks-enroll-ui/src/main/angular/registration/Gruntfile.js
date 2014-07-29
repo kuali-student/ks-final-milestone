@@ -476,7 +476,7 @@ module.exports = function (grunt) {
 
     grunt.registerTask('build', [
         'checkDependencies',
-        //'karma',
+        'karma',
         'clean:dist',
         'bower-install',
         'less',
