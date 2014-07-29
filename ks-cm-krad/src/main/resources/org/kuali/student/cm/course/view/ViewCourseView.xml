@@ -483,11 +483,11 @@
         <property name="renderAddLine" value="false"/>
         <property name="items">
             <list>
-                <bean parent="CM-ReadOnlyInput" p:label="Contact Hours" p:propertyName="contactHours" p:colSpan="1"/>
-                <bean parent="CM-ReadOnlyInput" p:label="Duration" p:propertyName="durationCount" p:colSpan="1"/>
-                <bean parent="CM-ReadOnlyInput" p:label="Anticipated Class Size"
+                <bean id="activity_contactHours" parent="CM-ReadOnlyInput" p:label="Contact Hours" p:propertyName="contactHours" p:colSpan="1"/>
+                <bean id="activity_durationCount" parent="CM-ReadOnlyInput" p:label="Duration" p:propertyName="durationCount" p:colSpan="1" />
+                <bean id="activity_anticipatedClassSize" parent="CM-ReadOnlyInput" p:label="Anticipated Class Size"
                       p:propertyName="anticipatedClassSize"
-                      p:colSpan="1"/>
+                      p:colSpan="1" />
             </list>
         </property>
     </bean>
@@ -593,9 +593,6 @@
             </list>
         </property>
     </bean>
-
-
-
 
     <bean id="CM-ViewCourse-View-Course-ActiveDatesSection" parent="CM-ViewCourse-View-Course-VerticalBoxSection">
         <property name="headerText" value="Active Dates"/>
