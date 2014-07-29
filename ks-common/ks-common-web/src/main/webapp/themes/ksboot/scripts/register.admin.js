@@ -18,6 +18,8 @@ var CLIENT_STATE_PROPERTY_NAME = "clientState";
 var POLLING_QUERY_METHOD_NAME = "queryForRegistrationStatus";
 var REGISTERING_BARS_ID = "KS-AdminRegistration-Registering";
 var REGISTER_BUTTON_ID = "KS-AdminRegistration-RegisterButton";
+var REGISTRATION_TABS_ID = "KS-AdminRegistration-RegistrationTabs";
+var REGISTERED_TAB_ID = "KS-AdminRegistration-RegisteredTab_tab";
 
 //////////////////////////////////////
 // Polling Functions
@@ -110,9 +112,15 @@ function sendPoll() {
                     stopPolling();
                 }
 
-                var state = data.clientState;
-                if (state) {
+                var refresh = data.refresh;
+                if (refresh) {
+                    var state = data.clientState;
                     jQuery("input[name='" + CLIENT_STATE_PROPERTY_NAME + "']").val(state);
+
+                    var registeredCredits = data.registeredCredits;
+                    var waitlistedCredits = data.waitlistedCredits;
+                    var title = "Registered (" + registeredCredits + ") / Waitlist (" + waitlistedCredits + ")";
+                    jQuery("#" + REGISTRATION_TABS_ID + " a[href=#" + REGISTERED_TAB_ID + "]").text(title);
                 }
 
             }
