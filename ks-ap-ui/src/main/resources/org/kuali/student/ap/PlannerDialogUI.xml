@@ -514,10 +514,8 @@
             <list merge="true">
                 <bean parent="Uif-Message" p:messageText="@{course.code} @{course.courseTitle} (@{creditString})"  p:cssClasses="bold"/>
                 <ref bean="planner_course_summary_details_data"/>
-                <bean parent="planner_term_input">
-                    <property name="propertyName" value="termId" />
-                </bean>
-                <bean parent="planner_course_credit_input" />
+                <bean parent="planner_term_input_field"/>
+                <bean parent="planner_course_credit_input_field" />
                 <bean parent="planner_course_note_input" />
                 <bean parent="planner_backup_input"/>
                 <bean parent="planner_bookmark_input"/>

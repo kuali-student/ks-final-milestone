@@ -260,61 +260,6 @@
         </property>
     </bean>
 
-    <!--  TODO: Possibly remove  -->
-    <!--<bean id="bookmark_sidebar_item_template" parent="bookmark_sidebar_item_template-parent"/>
-    <bean id="bookmark_sidebar_item_template-parent" abstract="true" p:id="bookmark_sidebar_item_template" parent="Uif-VerticalBoxGroup" p:hidden="true">
-        <property name="items">
-            <list>
-                <bean parent="Uif-HorizontalFieldGroup" p:id="__KSAP__UID__" p:style="cursor:pointer;">
-                    <property name="fieldLabel.render" value="false"/>
-                    <property name="group.validationMessages.displayMessages" value="false"/>
-                    <property name="cssClasses">
-                        <list merge="true">
-                            <value>ksap-click</value>
-                            <value>uif-tooltip</value>
-                        </list>
-                    </property>
-                    <property name="onClickScript"
-                              value="ksapOpenPlanDialog('bookmark_add_course_page','planner','startDialog', this, e);" />
-                    <property name="dataAttributes">
-                        <map>
-                            <entry key="courseid" value="__KSAP__COURSEID__" />
-                            <entry key="learningplanid" value="__KSAP__LEARNINGPLANID__" />
-                            <entry key="planitemid" value="__KSAP__PLANITEMID__" />
-                            <entry key="uniqueid" value="__KSAP__UID__" />
-                        </map>
-                    </property>
-                    <property name="items">
-                        <list>
-                            <bean parent="Uif-Message" p:messageText="__KSAP__COURSECD__">
-                                <property name="style" value="margin-right:5px;"/>
-                            </bean>
-                            <bean parent="Uif-Message"
-                                  p:messageText="__KSAP__COURSETITLE__">
-                                <property name="style" value="margin-right:5px;"/>
-                                <property name="cssClasses">
-                                    <list merge="true">
-                                        <value>ksap-text-ellipsis-holder</value>
-                                        <value>ksap-text-gray</value>
-                                    </list>
-                                </property>
-                            </bean>
-                            <bean parent="Uif-Message" p:messageText="(__KSAP__CREDITS__)">
-                                <property name="style" value="margin-right:0px;"/>
-                                <property name="cssClasses">
-                                    <list merge="true">
-                                        <value>ksap-text-gray</value>
-                                    </list>
-                                </property>
-                            </bean>
-                        </list>
-                    </property>
-                </bean>
-            </list>
-        </property>
-    </bean>
-     -->
-
     <!-- Bookmark Detail Page -->
     <bean id="BookmarkDetail-LookupView" parent="KSAPLookupView">
         <property name="headerText" value="Bookmarked Courses"/>
@@ -469,7 +414,7 @@
                                                     <value>ks-fontello-icon-hollow-circled-plus</value>
                                                 </list>
                                             </property>
-                                            <property name="actionScript" value="ksapOpenPlanDialog('course_add_course_page','planner','startDialog', this, e);"/>
+                                            <property name="actionScript" value="ksapOpenPlanDialog('bookmark_add_course_page','planner','startDialog', this, e);"/>
                                             <property name="dataAttributes">
                                                 <map>
                                                     <entry key="courseid" value="@{#line.courseDetailsWrapper.courseId}" />
