@@ -39,11 +39,36 @@
         <property name="breadcrumbItem.siblingBreadcrumbComponent">
             <bean parent="KS-Uif-Dynamic-BreadCrumb"/>
         </property>
+        <property name="header.rightGroup">
+            <ref bean="CM-ViewCourse-View-Header-RightGroup"/>
+        </property>
         <property name="page">
             <bean parent="CM-ViewCourse-View-Course-Page"/>
         </property>
         <property name="footer">
             <bean parent="Uif-FooterBase" />
+        </property>
+    </bean>
+
+    <bean id="CM-ViewCourse-View-Header-RightGroup" parent="KS-Unified-Header-Right-Group" p:additionalCssClasses="viewcourseview-header-status"
+          p:render="@{#form.viewId eq T(org.kuali.student.cm.common.util.CurriculumManagementConstants$CourseViewPageIds).VIEW_COURSE_VIEW}">
+        <property name="items">
+            <list>
+                <bean parent="KS-Unified-Right-Header-Group-Status">
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-VerticalBoxGroup">
+                                <property name="items">
+                                    <list>
+                                        <bean id="CM-ViewCourse-View-CourseStatus-Active-Lozenge" parent="KS-Lozenge-Green-Uif-Message" p:messageText="Active" p:render="@{courseInfoWrapper.courseInfo.stateKey eq 'Active'}"/>
+                                        <bean id="CM-ViewCourse-View-CourseStatus-Retired-Lozenge" parent="KS-Lozenge-Orange-Uif-Message" p:messageText="Retired" p:render="@{courseInfoWrapper.courseInfo.stateKey eq 'Retired'}"/>
+                                    </list>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+            </list>
         </property>
     </bean>
 
