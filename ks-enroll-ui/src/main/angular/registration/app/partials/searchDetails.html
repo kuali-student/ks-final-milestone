@@ -2,7 +2,7 @@
 <div class="kscr-SearchDetails">
     <!-- Search Details Header - Back to Results Link -->
     <div class="kscr-SearchDetails-top">
-        <a ui-sref="root.search.results({ searchCriteria: searchCriteria })"><span>&lt;&lt;</span> Return to Search Results</a>
+        <a id="returnToSearch" ui-sref="root.search.results({ searchCriteria: searchCriteria })"><span>&lt;&lt;</span> Return to Search Results</a>
     </div>
 
     <!-- Search Details Content -->
@@ -13,7 +13,7 @@
             <span class="kscr-SearchDetails-credits">{{course.creditOptions | creditRangeFormatter}}</span>
         </div>
 
-        <div class="kscr-SearchDetails-description">{{course.courseOfferingDesc}}</div>
+        <div id="courseDescription" class="kscr-SearchDetails-description">{{course.courseOfferingDesc}}</div>
 
         <!-- Cross-listed courses -->
         <div class="kscr-SearchDetails-crosslists" ng-if="course.crossListedCourses.length > 0">
