@@ -31,6 +31,13 @@ public class PopulationRuleDao extends GenericEntityDao<PopulationRuleEntity> {
         String query = "SELECT entity.id FROM PopulationRuleEntity entity WHERE entity.populationRuleType = :popRuleType";
         return em.createQuery(query)
                 .setParameter("popRuleType", populationRuleType).getResultList();
+
+    }
+
+    public PopulationRuleEntity getPopulationRuleByPopulationId(String popId) {
+        return (PopulationRuleEntity) em.createNamedQuery("PopulationRule.getPopRuleByPopId")
+                .setParameter("popId", popId).getSingleResult();
+
     }
 
 }

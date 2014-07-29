@@ -16,6 +16,8 @@
  */
 package org.kuali.student.r2.core.population.model;
 
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.StringUtils;
 import org.kuali.student.r1.common.entity.KSEntityConstants;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.entity.AttributeOwner;
@@ -39,6 +41,7 @@ import java.util.Set;
 
 @Entity
 @Table(name = "KSEN_POPULATION_RULE")
+@NamedQueries({@NamedQuery(name = "PopulationRule.getPopRuleByPopId",query = "SELECT popRule FROM PopulationRuleEntity popRule, PopulationEntity pop WHERE pop.populationRuleId = popRule.id AND pop.id = :popId")})
 public class PopulationRuleEntity extends MetaEntity implements AttributeOwner<PopulationRuleAttributeEntity> {
 
     ////////////////////
@@ -74,24 +77,33 @@ public class PopulationRuleEntity extends MetaEntity implements AttributeOwner<P
 
     @ElementCollection
     @CollectionTable(
-            name="KSEN_POPULATION_RULE_AGENDA",
-            joinColumns=@JoinColumn(name="POPULATION_RULE_ID")
+            name = "KSEN_POPULATION_RULE_AGENDA",
+            joinColumns = @JoinColumn(name = "POPULATION_RULE_ID")
     )
-    @Column(name="AGENDA_ID")
+    @Column(name = "AGENDA_ID")
     private Set<String> agendaIds;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner", fetch = FetchType.EAGER)
     private final Set<PopulationRuleAttributeEntity> attributes = new HashSet<PopulationRuleAttributeEntity>();
 
-    @ManyToMany(cascade=CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(name = "KSEN_POPULATION_RULE_CHILD_POP",
             joinColumns = {
-                    @JoinColumn(name="POPULATION_RULE_ID", referencedColumnName = "ID")
+                    @JoinColumn(name = "POPULATION_RULE_ID", referencedColumnName = "ID")
             },
             inverseJoinColumns = {
-                    @JoinColumn(name="CHILD_POPULATION_ID", referencedColumnName = "ID")
+                    @JoinColumn(name = "CHILD_POPULATION_ID", referencedColumnName = "ID")
             })
     private Set<PopulationEntity> childPopulations = new HashSet<PopulationEntity>();
+
+    @ElementCollection
+    @CollectionTable(
+            name = "KSEN_POPULATION_RULE_PERS",
+            joinColumns = @JoinColumn(name = "POPULATION_RULE_ID")
+    )
+    @Column(name = "PERSON_ID")
+    private Set<String> personIds = new HashSet<String>();
+
     //////////////////////////
     // CONSTRUCTORS ETC.
     //////////////////////////
@@ -109,7 +121,7 @@ public class PopulationRuleEntity extends MetaEntity implements AttributeOwner<P
 
     public void fromDTO(PopulationRule infc) {
         super.fromDTO(infc);
-        
+
         // Note: Child populations must be set externally because infc only population IDS, not
         //       PopulationInfo or PopulationEntity (which it wouldn't store anyway).
         this.setPopulationRuleState(infc.getStateKey());
@@ -125,8 +137,14 @@ public class PopulationRuleEntity extends MetaEntity implements AttributeOwner<P
         this.setVariesByTimeIndicator(infc.getVariesByTime());
         this.setSupportsGetMembersIndicator(infc.getSupportsGetMembers());
 
-        this.agendaIds = new HashSet<String>(1);
-        this.agendaIds.add(infc.getRuleId());
+        //Population Rules can be a group, agenda, list of child populations, or list of persons.
+        // Only two of these cases are currently implemented
+        if (StringUtils.isNotEmpty(infc.getRuleId())) {
+            this.agendaIds = new HashSet<String>(1);
+            this.agendaIds.add(infc.getRuleId());
+        } else if (CollectionUtils.isNotEmpty(infc.getPersonIds())) {
+            this.personIds = new HashSet<String>(infc.getPersonIds());
+        }
 
         this.attributes.clear();
         for (Attribute att : infc.getAttributes()) {
@@ -149,11 +167,14 @@ public class PopulationRuleEntity extends MetaEntity implements AttributeOwner<P
         populationRuleInfo.setVariesByTime(variesByTimeIndicator);
         populationRuleInfo.setSupportsGetMembers(supportsGetMembersIndicator);
         // this has to be changed when we redo the underlying data model so there is just one rule ID            
-        if(agendaIds!=null){
+        if (agendaIds != null) {
             for (String agendaId : agendaIds) {
                 populationRuleInfo.setRuleId(agendaId);
                 break;
             }
+        }
+        if (personIds != null) {
+            populationRuleInfo.getPersonIds().addAll(personIds);
         }
         List<AttributeInfo> dtoAttributes = populationRuleInfo.getAttributes();
         dtoAttributes.clear();
@@ -167,7 +188,7 @@ public class PopulationRuleEntity extends MetaEntity implements AttributeOwner<P
         populationRuleInfo.setAttributes(attributes);
         List<String> childIds = new ArrayList<String>();
         if (getChildPopulations() != null) {
-            for (PopulationEntity popEnt: getChildPopulations()) {
+            for (PopulationEntity popEnt : getChildPopulations()) {
                 childIds.add(popEnt.getId());
             }
         }

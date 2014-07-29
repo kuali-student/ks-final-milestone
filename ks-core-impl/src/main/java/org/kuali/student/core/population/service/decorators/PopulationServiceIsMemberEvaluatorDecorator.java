@@ -26,6 +26,7 @@ import org.kuali.student.r2.core.constants.PopulationServiceConstants;
 import org.kuali.student.r2.core.population.dto.PopulationInfo;
 import org.kuali.student.r2.core.population.dto.PopulationRuleInfo;
 
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import org.kuali.student.r2.core.population.service.PopulationService;
@@ -108,9 +109,12 @@ public class PopulationServiceIsMemberEvaluatorDecorator extends PopulationServi
 
     @Override
     public List<String> getMembersAsOfDate(String populationId, Date date, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        PopulationInfo populationInfo = getPopulation(populationId, contextInfo);
-        if (populationInfo.getSupportsGetMembers()) {
-            return (getPopulationRuleForPopulation(populationId, contextInfo)).getPersonIds();
+        PopulationRuleInfo populationRule = getPopulationRuleForPopulation(populationId, contextInfo);
+        if (populationRule.getSupportsGetMembers()) {
+            if (PopulationServiceConstants.POPULATION_RULE_TYPE_PERSON_KEY.equals(populationRule.getTypeKey())) {
+                return populationRule.getPersonIds(); //Right now only person ids are retrieved
+            }
+            throw new UnsupportedOperationException("Only PERSON Rule types are supported.");
         } else {
             throw new OperationFailedException("This population does not support getMembers");
         }

@@ -242,12 +242,11 @@ public class PopulationServiceImpl implements PopulationService {
     @Transactional(readOnly = true)
     public PopulationRuleInfo getPopulationRuleForPopulation(String populationId, ContextInfo contextInfo)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        PopulationEntity popEnt = populationDao.find(populationId);
-        String popRuleId = popEnt.getPopulationRuleId();
-        if (popRuleId == null) {
-            throw new DoesNotExistException("Missing population rule ID for: " + populationId);
+
+        PopulationRuleEntity popRuleEntity = populationRuleDao.getPopulationRuleByPopulationId(populationId);
+        if (popRuleEntity == null) {
+            throw new DoesNotExistException("No Population Rule found for Population: " + populationId);
         }
-        PopulationRuleEntity popRuleEntity = populationRuleDao.find(popRuleId);
         PopulationRuleInfo ruleInfo = popRuleEntity.toDto();
         return ruleInfo;
     }

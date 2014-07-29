@@ -99,6 +99,7 @@ public class PopulationEntity extends MetaEntity implements AttributeOwner<Popul
         populationInfo.setDescr(new RichTextHelper().toRichTextInfo(descrPlain, descrFormatted));
         populationInfo.setName(getName());
 
+        populationInfo.setSupportsGetMembers(false);
         // this rule id is thrown away when creating the dto
 
         List<AttributeInfo> dtoAttributes = populationInfo.getAttributes();
