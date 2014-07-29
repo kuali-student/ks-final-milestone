@@ -394,12 +394,9 @@ angular.module('regCartApp')
                     var proportion = duration * 100 / totalRange,
                         left = (scope.course.startTime - timeRange[0]) * 100 / totalRange;
 
-                    console.log(timeRange, parent.width(), totalRange + ' / ' + duration + ' = ' + proportion + '%', totalRange, scope.course.startTime, left);
-
                     // Update the element to be position correctly relative to the parent container
                     element.css({
                         left: left + '%',
-                        height: proportion + '%',
                         width: proportion + '%'
                     });
 

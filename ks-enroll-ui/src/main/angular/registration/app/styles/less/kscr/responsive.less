@@ -187,29 +187,27 @@
                 cursor: pointer;
             }
 
-            // Override some styling on the nested elements since a custom heading is being shown
-            .kscr-Responsive-scheduleWrapper {
-                margin: 0;
-                .kscr-MainHeading {
-                    display: none;
-                }
-            }
-
             // Schedule contents
             .kscr-Responsive-schedule {
                 background-color: @whiteBackground;
                 margin: 0.1rem 0;
             }
 
-            // Waitlist container when no courses exist in it
-            .kscr-Responsive-waitlisted--inactive {
-                display: none;
+            // Waitlisted course list container
+            .kscr-Responsive-waitlisted {
+                border-top: @horizontalLineBorder;
+                margin-top: 0.35rem;
+
+                // Waitlist container when no courses exist in it
+                &--inactive {
+                    display: none;
+                }
             }
 
             // Sub-headings, make sure they are well spaced in the schedule (Registered & Waitlisted)
             .kscr-Heading-sub {
                 border-bottom: @horizontalLineBorder;
-                margin: 0 1rem;
+                margin: 0 1rem 0.35rem;
 
                 // Credits count
                 .kscr-Heading-support {

@@ -330,14 +330,15 @@
         position: relative;
 
         .kscr-Course-legendIndicator {
-            height: 100%;
+            bottom: 0;
             left: 0;
             position: absolute;
             top: 0;
             width: 1rem;
 
             .kscr-Responsive-sidebar & {
-                top: 0.3rem;
+                bottom: 0.15rem;
+                top: 0.15rem;
             }
         }
     }
@@ -502,6 +503,7 @@
         .panel-group .panel {
             margin: 0;
             border: none;
+            .box-shadow(none);
             .Rounded(0);
         }
         .kscr-Card-detailsText--show {
@@ -520,6 +522,10 @@
         .kscr-Card-course,
         .panel-body {
             padding-left: 3rem;
+        }
+
+        .kscr-Card-accordion-heading {
+            padding-right: 1rem;
         }
 
 
