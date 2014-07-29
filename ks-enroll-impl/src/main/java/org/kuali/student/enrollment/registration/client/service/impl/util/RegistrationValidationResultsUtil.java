@@ -72,7 +72,7 @@ public class RegistrationValidationResultsUtil {
                 return mapper.readValue(result, RegistrationValidationResult.class);
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            LOGGER.error("Unable to marshall result object", e);
         }
         return null;
     }

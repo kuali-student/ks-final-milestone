@@ -31,6 +31,10 @@ public class RegistrationValidationMaxCreditResult extends RegistrationValidatio
      */
     private String maxCredits;
 
+    public RegistrationValidationMaxCreditResult() {
+        super();
+    }
+
     public RegistrationValidationMaxCreditResult(String messageKey, String maxCredits) {
         super(messageKey);
         this.maxCredits = maxCredits;

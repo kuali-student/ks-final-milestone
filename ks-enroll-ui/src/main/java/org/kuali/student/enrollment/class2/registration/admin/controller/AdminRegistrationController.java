@@ -270,12 +270,12 @@ public class AdminRegistrationController extends UifControllerBase {
                     updateIds.add(AdminRegConstants.REG_COLL_ID);
                 } else if (LprServiceConstants.LPRTRANS_ITEM_WAITLIST_STATE_KEY.equals(item.getStateKey())) {
                     form.getWaitlistedCourses().add(processedCourse);
-                    regIssue.setLevel(AdminRegConstants.ResultLevels.RESULT_LEVEL_WARNING);
+                    regIssue.setLevel(AdminRegConstants.ResultLevels.RESULT_LEVEL_SUCCESS);
                     regIssue.getItems().add(new RegistrationResultItem("Course was successfully added to waitlist."));
                     updateIds.add(AdminRegConstants.WAITLIST_COLL_ID);
                 } else if (LprServiceConstants.LPRTRANS_ITEM_WAITLIST_AVAILABLE_STATE_KEY.equals(item.getStateKey()) ||
                         LprServiceConstants.LPRTRANS_ITEM_FAILED_STATE_KEY.equals(item.getStateKey())) {
-                    regIssue.setLevel(AdminRegConstants.ResultLevels.RESULT_LEVEL_FAILED);
+                    regIssue.setLevel(AdminRegConstants.ResultLevels.RESULT_LEVEL_WARNING);
                     regIssue.getItems().addAll(getViewHelper(form).createIssueItemsFromResults(item.getValidationResults()));
                 }
 
