@@ -1,5 +1,6 @@
 package org.kuali.student.ap.test.mock;
 
+import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.r1.common.dictionary.dto.ObjectStructureDefinition;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
@@ -25,6 +26,7 @@ import org.kuali.student.r2.lum.program.dto.MajorDisciplineInfo;
 import org.kuali.student.r2.lum.program.dto.MinorDisciplineInfo;
 import org.kuali.student.r2.lum.program.dto.ProgramRequirementInfo;
 import org.kuali.student.r2.lum.program.dto.ProgramVariationInfo;
+import org.kuali.student.r2.lum.program.dto.TrackInfo;
 import org.kuali.student.r2.lum.program.service.ProgramService;
 
 import javax.jws.WebParam;
@@ -64,6 +66,11 @@ public class ProgramServiceMockTest implements ProgramService {
     @Override
     public CredentialProgramInfo getCredentialProgram(@WebParam(name = "credentialProgramId") String credentialProgramId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public List<String> getCredentialProgramIdsByType(@WebParam(name = "credentialProgramTypeKey") String credentialProgramTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return null;
     }
 
     /**
@@ -250,6 +257,16 @@ public class ProgramServiceMockTest implements ProgramService {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
+    @Override
+    public List<String> searchForCredentialProgramIds(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return null;
+    }
+
+    @Override
+    public List<CredentialProgramInfo> searchForCredentialPrograms(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return null;
+    }
+
     /**
      * Retrieves a MajorDiscipline
      *
@@ -269,6 +286,11 @@ public class ProgramServiceMockTest implements ProgramService {
     @Override
     public MajorDisciplineInfo getMajorDiscipline(@WebParam(name = "majorDisciplineId") String majorDisciplineId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public List<String> getMajorDisciplineIdsByType(@WebParam(name = "majorDisciplineTypeKey") String majorDisciplineTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return null;
     }
 
     /**
@@ -457,6 +479,16 @@ public class ProgramServiceMockTest implements ProgramService {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
+    @Override
+    public List<String> searchForMajorDisciplineIds(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return null;
+    }
+
+    @Override
+    public List<MajorDisciplineInfo> searchForMajorDisciplines(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return null;
+    }
+
     /**
      * Retrieves a HonorsProgram
      *
@@ -476,6 +508,11 @@ public class ProgramServiceMockTest implements ProgramService {
     @Override
     public HonorsProgramInfo getHonorsProgram(@WebParam(name = "honorsProgramId") String honorsProgramId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public List<String> getHonorsProgramIdsByType(@WebParam(name = "honorsProgramTypeKey") String honorsProgramTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return null;
     }
 
     /**
@@ -610,6 +647,16 @@ public class ProgramServiceMockTest implements ProgramService {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
+    @Override
+    public List<String> searchForHonorsProgramIds(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return null;
+    }
+
+    @Override
+    public List<HonorsProgramInfo> searchForHonorsPrograms(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return null;
+    }
+
     /**
      * Retrieves a Core Program
      *
@@ -629,6 +676,11 @@ public class ProgramServiceMockTest implements ProgramService {
     @Override
     public CoreProgramInfo getCoreProgram(@WebParam(name = "coreProgramId") String coreProgramId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public List<String> getCoreProgramIdsByType(@WebParam(name = "coreProgramTypeKey") String coreProgramTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return null;
     }
 
     /**
@@ -809,6 +861,16 @@ public class ProgramServiceMockTest implements ProgramService {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
+    @Override
+    public List<String> searchForCoreProgramIds(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return null;
+    }
+
+    @Override
+    public List<CoreProgramInfo> searchForCorePrograms(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return null;
+    }
+
     /**
      * Retrieves a ProgramRequirement
      *
@@ -829,6 +891,11 @@ public class ProgramServiceMockTest implements ProgramService {
     @Override
     public ProgramRequirementInfo getProgramRequirement(@WebParam(name = "programRequirementId") String programRequirementId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public List<String> getProgramRequirementIdsByType(@WebParam(name = "programRequirementTypeKey") String programRequirementTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return null;
     }
 
     /**
@@ -943,6 +1010,16 @@ public class ProgramServiceMockTest implements ProgramService {
     @Override
     public StatusInfo deleteProgramRequirement(@WebParam(name = "programRequirementId") String programRequirementId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public List<String> searchForProgramRequirementIds(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return null;
+    }
+
+    @Override
+    public List<ProgramRequirementInfo> searchForProgramRequirements(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return null;
     }
 
     /**
@@ -1113,8 +1190,73 @@ public class ProgramServiceMockTest implements ProgramService {
     }
 
     @Override
+    public MinorDisciplineInfo createNewMinorDisciplineVersion(@WebParam(name = "minorDisciplineId") String minorDisciplineId, @WebParam(name = "versionComment") String versionComment, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException, DataValidationErrorException, ReadOnlyException {
+        return null;
+    }
+
+    @Override
     public List<ProgramVariationInfo> getVariationsByMajorDisciplineId(@WebParam(name = "majorDisciplineId") String majorDisciplineId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public List<String> searchForMinorDisciplineIds(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return null;
+    }
+
+    @Override
+    public List<MinorDisciplineInfo> searchForMinorDisciplines(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return null;
+    }
+
+    @Override
+    public TrackInfo getTrack(@WebParam(name = "trackId") String trackId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return null;
+    }
+
+    @Override
+    public List<TrackInfo> getTracksByIds(@WebParam(name = "trackIds") List<String> trackIds, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return null;
+    }
+
+    @Override
+    public List<String> getTrackIdsByType(@WebParam(name = "trackTypeKey") String trackTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return null;
+    }
+
+    @Override
+    public List<TrackInfo> getTracksByMinor(@WebParam(name = "minorDisciplineId") String minorDisciplineId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return null;
+    }
+
+    @Override
+    public TrackInfo createTrack(@WebParam(name = "minorDisciplineId") String minorDisciplineId, @WebParam(name = "trackTypeKey") String trackTypeKey, @WebParam(name = "trackInfo") TrackInfo trackInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return null;
+    }
+
+    @Override
+    public TrackInfo updateTrack(@WebParam(name = "trackId") String trackId, @WebParam(name = "trackTypeKey") String trackTypeKey, @WebParam(name = "trackInfo") TrackInfo trackInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, VersionMismatchException, OperationFailedException, PermissionDeniedException {
+        return null;
+    }
+
+    @Override
+    public StatusInfo deleteTrack(@WebParam(name = "trackId") String trackId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return null;
+    }
+
+    @Override
+    public List<ValidationResultInfo> validateTrack(@WebParam(name = "minorDisciplineId") String minorDisciplineId, @WebParam(name = "validationType") String validationType, @WebParam(name = "trackInfo") TrackInfo trackInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return null;
+    }
+
+    @Override
+    public List<String> searchForTrackIds(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return null;
+    }
+
+    @Override
+    public List<TrackInfo> searchForTracks(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return null;
     }
 
     @Override
@@ -1395,6 +1537,11 @@ public class ProgramServiceMockTest implements ProgramService {
 		// intentionally not implemented
 		return null;
 	}
-    
-    
+
+    @Override
+    public List<String> getMinorDisciplineIdsByType(@WebParam(name = "minorDisciplineTypeKey") String minorDisciplineTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return null;
+    }
+
+
 }
