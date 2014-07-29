@@ -104,14 +104,14 @@ public class CommentServiceDecorator implements CommentService {
         return getNextDecorator().deleteCommentsByReference(refObjectId, refObjectUri, contextInfo);
     }
 
-    @Override
-    public List<ValidationResultInfo> validateComment(String validationTypeKey,
-                                                      String refObjectId, String refObjectUri, String commentTypeKey,
-                                                      CommentInfo commentInfo, ContextInfo contextInfo)
-            throws DoesNotExistException, InvalidParameterException,
-            MissingParameterException, OperationFailedException {
-        return getNextDecorator().validateComment(validationTypeKey, refObjectId, refObjectUri, commentTypeKey, commentInfo, contextInfo);
-    }
+	@Override
+	public List<ValidationResultInfo> validateComment(String validationTypeKey,
+			String refObjectId, String refObjectUri, String commentTypeKey,
+			CommentInfo commentInfo, ContextInfo contextInfo)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException {
+		return getNextDecorator().validateComment(validationTypeKey, refObjectId, refObjectUri, commentTypeKey, commentInfo, contextInfo);
+	}
 
 
 }

@@ -64,4 +64,14 @@ public final class KSObjectUtils {
 		}
 	}
 
+    /**
+     * Find the original cause exception of the given throwable
+     */
+    public static Throwable unwrapException(int maxDepth, Throwable e) {
+        if ((maxDepth > 0) && (e.getCause() != null)) {
+            return unwrapException(--maxDepth, e.getCause());
+        }
+        return e;
+    }
+
 }

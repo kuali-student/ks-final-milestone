@@ -67,15 +67,5 @@ public interface StudentTestScoreRecord extends IdEntity {
      */
     public List<? extends StudentTestScoreRecord> getSubComponents();
 
-    /**
-     * The Id of the Student.
-     *
-     * @name Person Id
-     * @readOnly
-     * @required
-     * @impl retrieved from the Course Registration
-     */
-    public String getPersonId();
-
 }
 

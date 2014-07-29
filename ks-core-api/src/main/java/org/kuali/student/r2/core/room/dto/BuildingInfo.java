@@ -34,7 +34,7 @@ import java.util.List;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "BuildingInfo", propOrder = {"id", "typeKey", "stateKey",
-        "name", "descr", "buildingCode", "campusKey", "meta", "attributes", "_futureElements" }) 
+        "name", "descr", "buildingCode", "campusId", "meta", "attributes", "_futureElements" })
 public class BuildingInfo extends IdEntityInfo implements Building, Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -43,7 +43,7 @@ public class BuildingInfo extends IdEntityInfo implements Building, Serializable
     private String buildingCode;
     
     @XmlElement
-    private String campusKey;
+    private String campusId;
 
     @XmlAnyElement
     private List<Object> _futureElements;  
@@ -55,7 +55,7 @@ public class BuildingInfo extends IdEntityInfo implements Building, Serializable
         super(building);
         if (null != building) {
             this.buildingCode = building.getBuildingCode();
-            this.campusKey = building.getCampusKey();
+            this.campusId = building.getCampusId();
         }
     }
 
@@ -69,11 +69,11 @@ public class BuildingInfo extends IdEntityInfo implements Building, Serializable
     }
 
     @Override
-    public String getCampusKey() {
-        return this.campusKey;
+    public String getCampusId() {
+        return this.campusId;
     }
 
-    public void setCampusKey(String campusKey) {
-        this.campusKey = campusKey;
+    public void setCampusId(String campusId) {
+        this.campusId = campusId;
     }
 }

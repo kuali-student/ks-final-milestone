@@ -15,7 +15,7 @@
  */
 package org.kuali.student.r2.common.datadictionary.util;
 
-import org.kuali.rice.core.api.uif.DataType;
+import org.kuali.rice.core.api.data.DataType;
 import org.kuali.student.r2.common.datadictionary.infc.AttributeDefinitionInfc;
 import org.kuali.student.r2.common.datadictionary.infc.DictionaryEntry;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;

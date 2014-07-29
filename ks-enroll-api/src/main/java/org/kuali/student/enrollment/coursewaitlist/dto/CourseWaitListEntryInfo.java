@@ -33,6 +33,7 @@ import java.util.List;
         "id", "typeKey", "stateKey", "effectiveDate", "expirationDate",
         "courseWaitListId", "studentId", "registrationRequestItemId", "order", "lastCheckIn",
         "meta", "attributes", "_futureElements"})
+
 public class CourseWaitListEntryInfo extends RelationshipInfo implements CourseWaitListEntry, Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -91,7 +92,7 @@ public class CourseWaitListEntryInfo extends RelationshipInfo implements CourseW
     }
 
     public void setRegistrationRequestItemId(String registrationRequestItemId) {
-        this.registrationRequestItemId= registrationRequestItemId;
+        this.registrationRequestItemId = registrationRequestItemId;
     }
 
     @Override

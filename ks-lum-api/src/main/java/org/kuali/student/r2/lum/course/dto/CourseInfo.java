@@ -37,15 +37,12 @@ import org.kuali.student.r2.lum.course.infc.CourseRevenue;
 import org.kuali.student.r2.lum.course.infc.Format;
 import org.kuali.student.r2.lum.course.infc.LoDisplay;
 import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
-//import org.w3c.dom.Element;                             A
 
 /**
- * This is a description of what this class does - sambit don't forget to fill
- * this in.
- *
- * @author Kuali Student Team (sambitpa@kuali.org)
+ * Course data transfer object.
  */
-@XmlType(name = "CourseInfo", propOrder = {"id",
+@XmlType(name = "CourseInfo", propOrder = {
+        "id",
         "typeKey",
         "stateKey",
         "name",

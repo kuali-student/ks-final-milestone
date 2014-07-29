@@ -186,6 +186,9 @@ public class LprTransactionItemInfo
 
     @Override
     public List<ValidationResultInfo> getValidationResults() {
+        if(validationResults == null){
+            validationResults = new ArrayList<ValidationResultInfo>();
+        }
         return validationResults;
     }
 

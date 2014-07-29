@@ -18,7 +18,6 @@ package org.kuali.student.enrollment.courseregistration.dto;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -44,9 +43,7 @@ import org.w3c.dom.Element;
                 "registrationGroupId",
                 "existingCourseRegistrationId", 
                 "credits", 
-                "gradingOptionId",
-                "requestedEffectiveDate",
-                "lastAttendanceDate",
+                "gradingOptionId", 
                 "okToWaitlist", 
                 "okToHoldUntilList", "validationResults",
                 "meta", "attributes", "_futureElements"})
@@ -76,12 +73,6 @@ public class RegistrationRequestItemInfo
     private String gradingOptionId;
 
     @XmlElement
-    private Date requestedEffectiveDate;
-
-    @XmlElement
-    private Date lastAttendanceDate;
-
-    @XmlElement
     private Boolean okToWaitlist;
 
     @XmlElement
@@ -103,7 +94,7 @@ public class RegistrationRequestItemInfo
      * Constructs a new RegistrationRequestItemInfo from another
      * RegistrationRequestItem.
      *
-     * @param reqistrationRequestItem the RegistrationRequestItem to
+     * @param registrationRequestItem the RegistrationRequestItem to
      *        copy
      */
     public RegistrationRequestItemInfo(RegistrationRequestItem registrationRequestItem) {
@@ -118,8 +109,6 @@ public class RegistrationRequestItemInfo
                 this.credits = new KualiDecimal(registrationRequestItem.getCredits().bigDecimalValue());
             }
             this.gradingOptionId = registrationRequestItem.getGradingOptionId();
-            this.requestedEffectiveDate = registrationRequestItem.getRequestedEffectiveDate();
-            this.lastAttendanceDate = registrationRequestItem.getLastAttendanceDate();
             this.okToWaitlist = registrationRequestItem.getOkToWaitlist();
             this.okToHoldUntilList = registrationRequestItem.getOkToHoldUntilList();
             this.validationResults = new ArrayList<ValidationResultInfo>();
@@ -181,24 +170,6 @@ public class RegistrationRequestItemInfo
 
     public void setGradingOptionId(String gradingOptionId) {
         this.gradingOptionId = gradingOptionId;
-    }
-
-    @Override
-    public Date getLastAttendanceDate() {
-        return lastAttendanceDate;
-    }
-
-    public void setLastAttendanceDate(Date lastAttendanceDate) {
-        this.lastAttendanceDate = lastAttendanceDate;
-    }
-
-    @Override
-    public Date getRequestedEffectiveDate() {
-        return requestedEffectiveDate;
-    }
-
-    public void setRequestedEffectiveDate(Date requestedEffectiveDate) {
-        this.requestedEffectiveDate = requestedEffectiveDate;
     }
 
     @Override

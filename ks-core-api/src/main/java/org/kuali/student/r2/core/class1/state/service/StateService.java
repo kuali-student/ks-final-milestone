@@ -50,7 +50,7 @@ import java.util.List;
  * @Author Sri komandur@uw.edu
  */
 
-@WebService(name = "StateService", serviceName = "StateService", portName = "StateService", targetNamespace = StateServiceConstants.NAMESPACE)
+@WebService(name = "StateService", targetNamespace = StateServiceConstants.NAMESPACE)
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
 public interface StateService {
 

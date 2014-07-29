@@ -32,8 +32,6 @@ public class InvalidParameterException
     public InvalidParameterException(String message) {
         super(message);
     }
-
-    @Deprecated
 	public InvalidParameterException(String message, Throwable cause) {
 		super(message, cause);
 		

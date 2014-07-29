@@ -50,7 +50,7 @@ import java.util.List;
  * @version 0.0.7
  * @Author Sri komandur@uw.edu
  */
-@WebService(name = "AppointmentService", serviceName = "AppointmentService", portName = "AppointmentService", targetNamespace = AppointmentServiceConstants.NAMESPACE)
+@WebService(name = "AppointmentService", targetNamespace = AppointmentServiceConstants.NAMESPACE)
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
 public interface AppointmentService extends AppointmentServiceBusinessLogic {
 

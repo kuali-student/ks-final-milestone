@@ -24,6 +24,8 @@ import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService
 import org.kuali.student.r2.common.constants.CommonServiceConstants;
 import org.kuali.student.r2.lum.util.constants.LrcServiceConstants;
 
+import javax.xml.namespace.QName;
+
 /**
  * Course Offering Service Constants
  *
@@ -34,12 +36,16 @@ public class CourseOfferingServiceConstants {
 
     public static final String NAMESPACE = CommonServiceConstants.REF_OBJECT_URI_GLOBAL_PREFIX + "courseOffering";
     public static final String SERVICE_NAME_LOCAL_PART = CourseOfferingService.class.getSimpleName();
+    public static final String CACHED_SERVICE_NAME_LOCAL_PART = CourseOfferingService.class.getSimpleName() + "Cached";
     public static final String REF_OBJECT_URI_COURSE_OFFERING = NAMESPACE + "/" + CourseOfferingInfo.class.getSimpleName();
     public static final String REF_OBJECT_URI_ACTIVITY_OFFERING = NAMESPACE + "/" + ActivityOfferingInfo.class.getSimpleName();
     public static final String REF_OBJECT_URI_REGISTRATION_GROUP = NAMESPACE + "/" + RegistrationGroupInfo.class.getSimpleName();
     public static final String REF_OBJECT_URI_SEAT_POOL_DEFINITION = NAMESPACE + "/" + SeatPoolDefinitionInfo.class.getSimpleName();
     public static final String REF_OBJECT_URI_AO_CLUSTER_DEFINITION = NAMESPACE + "/" + ActivityOfferingClusterInfo.class.getSimpleName();
-
+    // Called as
+    // CourseRegistrationService service =
+    //     (CourseRegistrationService) GlobalResourceLoader.getService(CourseRegistrationServiceConstants.Q_NAME);
+    public static final QName Q_NAME = new QName(NAMESPACE, SERVICE_NAME_LOCAL_PART);
 
     //dynamic attribute keys
     public static final String WAIT_LIST_TYPE_KEY_ATTR = "kuali.attribute.wait.list.type.key"; // Value is in WaitlistLevel enum
@@ -97,6 +103,9 @@ public class CourseOfferingServiceConstants {
     public static final String COURSE_OFFERING_CODE_VALIDATION_ELEMENT = "courseOfferingCode";
     public static final String COURSE_OFFERING_CODE_UNIQUENESS_VALIDATION_MESSAGE = "Course offering code is not unique within the term";
 
+    public static final String CONTEXT_ELEMENT_COURSE_OFFERING_CODE = "courseOfferingCode";
+    public static final String CONTEXT_ELEMENT_ACTIVITY_OFFERING_CODE = "activityOfferingCode";
+
     // Activity Offering Cluster States
     public static final String AOC_ACTIVE_STATE_KEY = "kuali.activity.offering.cluster.state.active";
 
@@ -119,4 +128,5 @@ public class CourseOfferingServiceConstants {
     public static final String AUTOGEN_COUNTS_TOTAL_AOCS = "kuali.search.type.course.offering.autogen.counts.total.aocs";
     public static final String AUTOGEN_COUNTS_TOTAL_RGS = "kuali.search.type.course.offering.autogen.counts.total.rgs";
     public static final String AUTOGEN_COUNTS_TOTAL_INVALID_RGS = "kuali.search.type.course.offering.autogen.counts.total.invalid.rgs";
+
 }

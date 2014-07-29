@@ -1,6 +1,5 @@
 package org.kuali.student.enrollment.academicrecord.dto;
 
-import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.student.enrollment.academicrecord.infc.StudentProgramRecord;
 import org.kuali.student.r2.common.dto.IdEntityInfo;
 
@@ -21,7 +20,7 @@ import java.util.List;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "StudentProgramRecordInfo", propOrder = {
         "id", "typeKey", "stateKey", "name", "descr",
-        "programId", "personId", "programTitle", "programTypeKey", "programCode",
+        "programId", "programTitle", "programTypeKey", "programCode", 
         "admittedDate", "creditsEarned", "classStanding", "childPrograms", "statusKey",
         "meta", "attributes", "_futureElements"})
 public class StudentProgramRecordInfo extends IdEntityInfo implements StudentProgramRecord, Serializable {
@@ -29,8 +28,6 @@ public class StudentProgramRecordInfo extends IdEntityInfo implements StudentPro
 
     @XmlElement
     private String programId;
-    @XmlElement
-    private String personId;
     @XmlElement
     private String programTitle;
     @XmlElement
@@ -40,7 +37,7 @@ public class StudentProgramRecordInfo extends IdEntityInfo implements StudentPro
     @XmlElement
     private String admittedDate;
     @XmlElement
-    private KualiDecimal creditsEarned;
+    private String creditsEarned;
     @XmlElement
     private String classStanding;
     @XmlElement
@@ -59,7 +56,6 @@ public class StudentProgramRecordInfo extends IdEntityInfo implements StudentPro
         if (null != studentProgramRecord) {
 
             this.programId = studentProgramRecord.getProgramId();
-            this.personId = studentProgramRecord.getPersonId();
             this.programTitle = studentProgramRecord.getProgramTitle();
             this.programTypeKey = studentProgramRecord.getProgramTypeKey();
             this.programCode = studentProgramRecord.getProgramCode();
@@ -81,15 +77,6 @@ public class StudentProgramRecordInfo extends IdEntityInfo implements StudentPro
 
     public void setProgramId(String programId) {
         this.programId = programId;
-    }
-
-    @Override
-    public String getPersonId() {
-        return personId;
-    }
-
-    public void setPersonId(String personId) {
-        this.personId = personId;
     }
 
     @Override
@@ -139,9 +126,6 @@ public class StudentProgramRecordInfo extends IdEntityInfo implements StudentPro
 
     @Override
     public List<StudentProgramRecordInfo> getChildPrograms() {
-        if(childPrograms == null) {
-            childPrograms = new ArrayList<StudentProgramRecordInfo>();
-        }
         return childPrograms;
     }
 
@@ -150,11 +134,11 @@ public class StudentProgramRecordInfo extends IdEntityInfo implements StudentPro
     }
 
     @Override
-    public KualiDecimal getCreditsEarned() {
+    public String getCreditsEarned() {
         return creditsEarned;
     }
 
-    public void setCreditsEarned(KualiDecimal creditsEarned) {
+    public void setCreditsEarned(String creditsEarned) {
         this.creditsEarned = creditsEarned;
     }
 

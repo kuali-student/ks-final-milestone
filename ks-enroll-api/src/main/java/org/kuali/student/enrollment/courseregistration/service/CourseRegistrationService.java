@@ -16,27 +16,17 @@
 
 package org.kuali.student.enrollment.courseregistration.service;
 
-import java.util.List;
-
-import javax.jws.WebParam;
-import javax.jws.WebService;
-import javax.jws.soap.SOAPBinding;
-import javax.management.Query;
-
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
-
+import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
 import org.kuali.student.enrollment.courseregistration.dto.ActivityRegistrationInfo;
 import org.kuali.student.enrollment.courseregistration.dto.CourseRegistrationInfo;
+import org.kuali.student.enrollment.courseregistration.dto.CreditLoadInfo;
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestInfo;
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestItemInfo;
-import org.kuali.student.enrollment.courseregistration.dto.CreditLoadInfo;
-import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
-
 import org.kuali.student.enrollment.courseregistration.infc.RegistrationRequestItem;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
-
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
@@ -46,7 +36,12 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
+import org.kuali.student.r2.common.util.constants.CourseRegistrationServiceConstants;
 
+import javax.jws.WebParam;
+import javax.jws.WebService;
+import javax.jws.soap.SOAPBinding;
+import java.util.List;
 
 /**
  * The Course Registration Service is a Class II service supporting
@@ -65,7 +60,7 @@ import org.kuali.student.r2.common.exceptions.VersionMismatchException;
  * @author Kuali Student Team (sambit)
  */
 
-@WebService(name = "CourseRegistrationService", targetNamespace = CourseRegistrationNamespaceConstants.NAMESPACE)
+@WebService(name = "CourseRegistrationService", targetNamespace = CourseRegistrationServiceConstants.NAMESPACE)
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
 public interface CourseRegistrationService  {
 
@@ -1054,7 +1049,7 @@ public interface CourseRegistrationService  {
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public List<RegistrationRequestItem> searchForRegistrationRequestItems(@WebParam(name = "criteria") QueryByCriteria criteria,
+    public List<RegistrationRequestItemInfo> searchForRegistrationRequestItems(@WebParam(name = "criteria") QueryByCriteria criteria,
                                                                            @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws InvalidParameterException,
             MissingParameterException,
@@ -1104,7 +1099,7 @@ public interface CourseRegistrationService  {
      */
     public List<ValidationResultInfo> validateRegistrationRequestItem(@WebParam(name = "validationTypeKey") String validationTypeKey,
                                                                       @WebParam(name = "registrationRequestItemTypeKey") String registrationRequestItemTypeKey,
-                                                                      @WebParam(name = "registrationRequestItemInfo") RegistrationRequestItem registrationRequestItemInfo,
+                                                                      @WebParam(name = "registrationRequestItemInfo") RegistrationRequestItemInfo registrationRequestItemInfo,
                                                                       @WebParam(name = "registrationRequestId") String registrationRequestId,
                                                                       @WebParam(name = "contextInfo") ContextInfo contextInfo)
         throws DoesNotExistException,
@@ -1135,7 +1130,7 @@ public interface CourseRegistrationService  {
      * @throws VersionMismatchException an optimistic locking failure or the action was attempted on an out of date version
      */
     public RegistrationRequestItemInfo changeRegistrationRequestItem(@WebParam(name = "registrationRequestItemId") String registrationRequestItemId,
-                                                                     @WebParam(name = "registrationRequestItemInfo") RegistrationRequestItem registrationRequestItemInfo,
+                                                                     @WebParam(name = "registrationRequestItemInfo") RegistrationRequestItemInfo registrationRequestItemInfo,
                                                                      @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws DataValidationErrorException,
             DoesNotExistException,

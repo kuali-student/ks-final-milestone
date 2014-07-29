@@ -4,8 +4,11 @@ import org.kuali.rice.krms.api.engine.Term;
 
 public class RulesExecutionConstants {
 
+    private static final String personId = "kuali.term.prerequisite.personId";
+    private static final String contextInfo = "kuali.term.prerequisite.contextInfo";
+
     /**
-     * term names TODO: convert these all to TERM's
+     * Rule execution related Term's  
      */
     public static final Term STUDENT_DECEASED_DATE_TERM = new Term("studentDeceasedDate");
     public static final Term COURSE_ID_TO_ENROLL_TERM = new Term("courseIdToEnroll");
@@ -21,34 +24,41 @@ public class RulesExecutionConstants {
     public static final Term MILESTONES_BY_TYPE_TERM = new Term("milestonesByType");
     public static final Term MILESTONE_TERM = new Term("milestone");
     public static final Term STUDENT_REGISTRATION_HOLDS_TERM = new Term("studentRegistrationHolds");
-    public static final String ORG_PERMISSION_TERM = "orgPermission";
-    public static final String ADMIN_ORG_NUMBER_TERM = "adminOrgNumber";
-    public static final String NR_OF_COMPLETED_COURSES_TERM = "numberOfCompletedCourses";
-    public static final String COMPLETED_COURSE_TERM = "completedCourse";
+    public static final Term ORG_PERMISSION_TERM = new Term ("orgPermission");
+    public static final Term ADMIN_ORG_NUMBER_TERM = new Term ("adminOrgNumber");
+    public static final Term NR_OF_COMPLETED_COURSES_TERM = new Term ("numberOfCompletedCourses");
+    public static final Term COMPLETED_COURSE_TERM = new Term("completedCourse");
     // data
     public static final Term PROCESS_KEY_TERM = new Term("processKey");
-    public static final Term CONTEXT_INFO_TERM = new Term("contextInfo");
-    public static final Term PERSON_ID_TERM = new Term("personId");
-    public static final Term GES_CRITERIA_TERM = new Term("gescriteria");
+    public static final Term CONTEXT_INFO_TERM = new Term(contextInfo);
+    public static final Term PERSON_ID_TERM = new Term(personId);
+    public static final Term REG_GROUP_ID_TERM = new Term("registrationGroupId");
     public static final Term REGISTRATION_REQUEST_ID_TERM = new Term("registrationRequestId");
+    public static final Term SIMULATED_REGISTRATIONS_TERM = new Term("simulatedRegistrations");
+    public static final Term EXISTING_REGISTRATIONS_TERM = new Term("existingRegistrations");
+    public static final Term EXISTING_WAITLISTED_REGISTRATIONS_TERM = new Term("existingWaitlistedRegistrations");
+    public static final Term REGISTRATION_REQUEST_ITEM_TERM = new Term("registrationRequestItem");
     public static final Term REGISTRATION_REQUEST_TERM = new Term("registrationRequest");
     public static final Term ATP_ID_TERM = new Term("atpId");
     public static final Term ATP_TERM = new Term("atp");
     public static final Term AS_OF_DATE_TERM = new Term("asOfDate");
     public static final Term RECORD_INSTRUCTION_SUCCESSES_TERM = new Term("shouldRecordInstructionSuccesses");
+    public static final Term REGISTRATION_GROUP_TERM = new Term("registrationGroup");
     // services
     public static final Term PROCESS_SERVICE_TERM = new Term("processService");
     public static final Term IDENTITY_SERVICE_TERM = new Term("identityService");
     public static final Term ATP_SERVICE_TERM = new Term("atpService");
     public static final Term EXEMPTION_SERVICE_TERM = new Term("exemptionService");
     public static final Term COURSE_REGISTRATION_SERVICE_TERM = new Term("courseRegistrationService");
+    public static final Term COURSE_WAIT_LIST_SERVICE_TERM = new Term("courseWaitListService");
     public static final Term COURSE_OFFERING_SERVICE_TERM = new Term("courseOfferingService");
+    public static final Term SCHEDULING_SERVICE_TERM = new Term("schedulingService");
     public static final Term COURSE_SERVICE_TERM = new Term("courseService");
     public static final Term POPULATION_SERVICE_TERM = new Term("populationService");
     public static final Term HOLD_SERVICE_TERM = new Term("holdService");
     public static final Term GES_SERVICE_TERM = new Term("gesService");
-    public static final Term ACADEMIC_RECORD_SERVICE_TERM = new Term("academicRecordService");
     // factories
+    public static final Term RULE_FACTORY_TERM = new Term("ruleFactory");
     public static final Term PROPOSITION_FACTORY_TERM = new Term("propositionFactory");
     public static final Term LOAD_CALCULATOR_RULE_FACTORY_TERM = new Term("loadCalculatorRuleFactory");
     // logic
@@ -77,5 +87,4 @@ public class RulesExecutionConstants {
     // used to tag exceptions
     public static final String PROCESS_EVALUATION_EXCEPTION = "processEvaluationException";
     public static final String PROCESS_EVALUATION_RESULTS = "processEvaluationResults";
-    public static final String POPULATION_EVALUATION_RESULTS = "populationEvaluationResults";
 }

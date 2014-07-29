@@ -65,6 +65,20 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
 	<bean id="CourseCrossListingInfo.subjectArea" parent="CourseCrossListingInfo.subjectArea-parent"/>
 	<bean id="CourseCrossListingInfo.subjectArea-parent" abstract="true" parent="CourseCrossListingInfo.subjectArea-generated">
 	<!-- insert any overrides to the generated attribute definitions here -->
+        <property name="validCharactersConstraint">
+            <bean parent="AlphaPatternConstraint"/>
+        </property>
+
+        <property name="simpleConstraint">
+            <bean parent="RequiredConstraint">
+                <property name="maxLength" value="4" />
+                <property name="states">
+                    <list>
+                        <value>ACTIVE</value>
+                    </list>
+                </property>
+            </bean>
+        </property>
 	</bean>
 
 	<bean id="CourseCrossListingInfo.subjectOrgId" parent="CourseCrossListingInfo.subjectOrgId-parent"/>
@@ -75,6 +89,21 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
 	<bean id="CourseCrossListingInfo.courseNumberSuffix" parent="CourseCrossListingInfo.courseNumberSuffix-parent"/>
 	<bean id="CourseCrossListingInfo.courseNumberSuffix-parent" abstract="true" parent="CourseCrossListingInfo.courseNumberSuffix-generated">
 	<!-- insert any overrides to the generated attribute definitions here -->
+        <property name="validCharactersConstraint">
+            <bean parent="NumericPatternConstraint"/>
+        </property>
+
+        <property name="simpleConstraint">
+            <bean parent="RequiredConstraint">
+                <property name="maxLength" value="3" />
+                <property name="minLength" value="3" />
+                <property name="states">
+                    <list>
+                        <value>ACTIVE</value>
+                    </list>
+                </property>
+            </bean>
+        </property>
 	</bean>
 
 	<bean id="CourseCrossListingInfo.meta" parent="CourseCrossListingInfo.meta-parent"/>

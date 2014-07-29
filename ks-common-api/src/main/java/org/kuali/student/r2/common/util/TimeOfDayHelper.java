@@ -16,20 +16,24 @@
  */
 package org.kuali.student.r2.common.util;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.student.r2.common.dto.TimeOfDayInfo;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.infc.TimeOfDay;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Formats and validates time (only accurate to the minute)
+ * Jan 10, 2014: Cut down the size of this since TimeOfDayInfo was altered to make it easier to use.
  *
  * @author Kuali Student Team
  */
 public class TimeOfDayHelper {
-    public static final long MILLIS_PER_MINUTE = 60000L;
-    public static final int MINUTES_PER_HOUR = 60;
+    public static final Logger LOGGER = LoggerFactory.getLogger(TimeOfDayHelper.class);
 
     public static TimeOfDay createTimeOfDay(int normalHours, int minutes, TimeOfDayAmPmEnum amOrPm) throws InvalidParameterException {
         if (normalHours < 1 || normalHours > 12 || minutes < 0 || minutes > 59) {
@@ -47,26 +51,75 @@ public class TimeOfDayHelper {
                 milHours += 12;
             }
         }
-        return createTimeOfDayInMilitary(milHours, minutes);
+        return new TimeOfDayInfo(milHours, minutes);
     }
 
-    public static TimeOfDay createTimeOfDayInMilitary(int milHours, int minutes) throws InvalidParameterException {
-        if (milHours < 0 || milHours > 23 || minutes < 0 || minutes > 59) {
-            throw new InvalidParameterException("Invalid values for military hours or minutes");
+    public static Long getMillis(TimeOfDay tod) {
+        if (tod == null) {
+            return null;
         }
+        long hourInMillis = 0;
+        if (tod.getHour() != null) {
+            hourInMillis = tod.getHour() * 60L * 60L * 1000L;
+        }
+        long minuteInMillis = 0;
+        if (tod.getMinute() != null) {
+            minuteInMillis = tod.getMinute() * 60L * 1000L;
+        }
+        long secondInMillis = 0;
+        if (tod.getHour() != null) {
+            secondInMillis = tod.getSecond() * 1000L;
+        }
+        Long total = hourInMillis + minuteInMillis + secondInMillis;
+        return total;
+    }
 
-        // Now compute milliseconds
-        long millis = (milHours * MINUTES_PER_HOUR + minutes) * MILLIS_PER_MINUTE;
-        TimeOfDayInfo info = new TimeOfDayInfo();
-        info.setMilliSeconds(millis);
-        return info;
+    public static TimeOfDayInfo setMillis(Long millis) {
+        if (millis == null) {
+            return null;
+        }
+        if (millis > 24L * 60L * 60L * 1000L || millis < 0) {
+            return null; // Not the best solution
+        }
+        long totalSeconds = millis / 1000L;
+        long totalMinutes = totalSeconds / 60;
+        int seconds = (int) (totalSeconds % 60);
+        int minutes = (int) (totalMinutes % 60);
+        int hours = (int) (totalMinutes / 60);
+        return new TimeOfDayInfo(hours, minutes, seconds);
+    }
+
+
+    /**
+     * Creates a time string in hh:mm aa format. Does not suffer from DST issues.
+     * Used to display times in Manage CO screens for each of the activity offerings
+     * (This was refactored from SchedulingServiceUtil::makeFormattedTimeFromMillis
+     * which is why there are two versions of formatting
+     * time of day).
+     *
+     * @param tod Time of day
+     * @return  A time string.
+     */
+    public static String makeFormattedTimeForAOSchedules(TimeOfDayInfo tod) {
+        List<TimeOfDayFormattingEnum> options = new ArrayList<TimeOfDayFormattingEnum>();
+        String result = "error";
+        try {
+            options.add(TimeOfDayFormattingEnum.USE_ALL_CAPS_AM_PM);
+            options.add(TimeOfDayFormattingEnum.USE_TWO_DIGITS_FOR_HOURS);
+            result = formatTimeOfDay(tod, options);
+        } catch (InvalidParameterException e) {
+            LOGGER.warn("Unable to format: ", e);
+            e.printStackTrace();
+        }
+        return result;
     }
 
     public static String formatTimeOfDay(TimeOfDay timeOfDay) throws InvalidParameterException {
         return formatTimeOfDay(timeOfDay, null);
     }
 
-    public static String formatTimeOfDay(TimeOfDay timeOfDay, List<TimeOfDayFormattingEnum> options) throws InvalidParameterException {
+    public static String formatTimeOfDay(TimeOfDay timeOfDay,
+                                         List<TimeOfDayFormattingEnum> options) throws InvalidParameterException {
         int hours = 0;
         boolean isMilitary = false;
         boolean skip = false;
@@ -75,7 +128,7 @@ public class TimeOfDayHelper {
         }
         if (!skip && options.contains(TimeOfDayFormattingEnum.USE_MILITARY_TIME)) {
             isMilitary = true;
-            hours = getHoursInMilitaryTime(timeOfDay);
+            hours = timeOfDay.getHour();
         } else {
             hours = getHours(timeOfDay);
         }
@@ -83,7 +136,7 @@ public class TimeOfDayHelper {
         if (!skip && options.contains(TimeOfDayFormattingEnum.USE_TWO_DIGITS_FOR_HOURS) && hoursStr.length() < 2) {
             hoursStr = "0" + hoursStr;
         }
-        int minutes = getMinutes(timeOfDay);
+        int minutes = timeOfDay.getMinute();
         String minutesStr = minutes + "";
         if (minutesStr.length() < 2) {
             minutesStr = "0" + minutesStr;
@@ -93,7 +146,7 @@ public class TimeOfDayHelper {
         if (!isMilitary) {
             if (!skip && options.contains(TimeOfDayFormattingEnum.USE_ALL_CAPS_AM_PM)) {
                 amOrPm = isAM ? "AM" : "PM";
-            } else if (!skip && options.contains(TimeOfDayFormattingEnum.USE_ALL_CAPS_AM_PM)) {
+            } else if (!skip && options.contains(TimeOfDayFormattingEnum.CAPITALIZE_A_OR_P_ONLY)) {
                 amOrPm = isAM ? "Am" : "Pm";
             } else {
                 amOrPm = isAM ? "am" : "pm";
@@ -111,22 +164,6 @@ public class TimeOfDayHelper {
     }
 
     /**
-     * A non-mutating version that converts time of day to nearest minute (since it stores milliseconds).
-     * Note that it does truncation, not rounding.
-     * @param input A TimeOfDayInfo object
-     * @return A new TimeOfDayInfo object rounded to nearest minute
-     */
-    public static TimeOfDayInfo roundToNearestMinute(TimeOfDay input) {
-        if (input == null) {
-            return null;
-        }
-        long newMillis = (input.getMilliSeconds() / MILLIS_PER_MINUTE) * MILLIS_PER_MINUTE;
-        TimeOfDayInfo newInfo = new TimeOfDayInfo();
-        newInfo.setMilliSeconds(newMillis);
-        return newInfo;
-    }
-
-    /**
      * Returns hour of day in standard time (e.g. from 1-12).  Note that 1 PM and 1 AM would both return 1.
      * @param timeOfDay A TimeOfDayInfo object
      * @return Hours of day in standard time
@@ -134,7 +171,7 @@ public class TimeOfDayHelper {
      */
 
     public static int getHours(TimeOfDay timeOfDay) throws InvalidParameterException {
-        int militaryHours = getHoursInMilitaryTime(timeOfDay); // Guarantees between 0-23 (or exception thrown)
+        int militaryHours = timeOfDay.getHour(); // Guarantees between 0-23 (or exception thrown)
         int normalHours = 0;
         if (militaryHours == 0) {
             normalHours = 12; // midnight
@@ -147,37 +184,6 @@ public class TimeOfDayHelper {
     }
 
     /**
-     * Returns hours from 0-23 in military time.
-     * @param timeOfDay A TimeOfDayInfo object
-     * @return Hours of day in military time
-     * @throws InvalidParameterException If millis is null or negative or too big, then this exception is thrown.
-     */
-    public static int getHoursInMilitaryTime(TimeOfDay timeOfDay) throws InvalidParameterException {
-        validateTimeOfDayInfo(timeOfDay);
-        long timeInMillis = timeOfDay.getMilliSeconds();
-        long hours = timeInMillis / (MILLIS_PER_MINUTE * MINUTES_PER_HOUR);
-        if (hours < 0 || hours > 23) {
-            throw new InvalidParameterException("Contains an invalid time of day");
-        }
-        return (int) hours;
-    }
-
-    /**
-     * Returns hours from 0-59 representing the number of minutes after the hour (thus, 1:24 PM would return
-     * 24).
-     * @param timeOfDay A TimeOfDayInfo object
-     * @return Minutes after the hour
-     * @throws InvalidParameterException If millis is null or negative or too big, then this exception is thrown.
-     */
-    public static int getMinutes(TimeOfDay timeOfDay) throws InvalidParameterException {
-        validateTimeOfDayInfo(timeOfDay);
-        long timeInMillis = timeOfDay.getMilliSeconds();
-        int minutesInDay = (int) (timeInMillis / MILLIS_PER_MINUTE);
-        int minuteOffset = minutesInDay % MINUTES_PER_HOUR;
-        return minuteOffset;
-    }
-
-    /**
      * Returns true if time of day is AM, that is between midnight and 11:59 AM
      * @param timeOfDay A TimeOfDayInfo object
      * @return true, if time is AM.
@@ -185,8 +191,7 @@ public class TimeOfDayHelper {
      */
     public static boolean isAM(TimeOfDay timeOfDay) throws InvalidParameterException {
         validateTimeOfDayInfo(timeOfDay);
-        int milHours = getHoursInMilitaryTime(timeOfDay);
-        return milHours < 12; // 0-11 is AM
+        return timeOfDay.getHour() < 12; // 0-11 is AM
     }
 
     /**
@@ -208,14 +213,71 @@ public class TimeOfDayHelper {
         if (timeOfDay == null) {
             throw new InvalidParameterException("getMilliSeconds() is null");
         }
-        Long timeInMillis = timeOfDay.getMilliSeconds();
-        if (timeInMillis < 0) {
-            throw new InvalidParameterException("getMilliSeconds() is negative");
+        if (timeOfDay.getHour() == null || timeOfDay.getMinute() == null || timeOfDay.getSecond() == null) {
+            throw new InvalidParameterException("Fields in TimeOfDay are null");
         }
-        Long threshold = 24 * MINUTES_PER_HOUR * MILLIS_PER_MINUTE; // Number of milliseconds in a day
-        threshold -= MILLIS_PER_MINUTE; // Remove one minute
-        if (timeInMillis > threshold) {
-            throw new InvalidParameterException("getMilliSeconds() is larger than 11:59 PM");
+        if (timeOfDay.getHour() < 0 || timeOfDay.getHour() > 23) {
+            throw new InvalidParameterException("getHour() has out of range values");
+        }
+        if (timeOfDay.getMinute() < 0 || timeOfDay.getMinute() > 59) {
+            throw new InvalidParameterException("getMinute() has out of range values");
+        }
+        if (timeOfDay.getSecond() < 0 || timeOfDay.getSecond() > 59) {
+            throw new InvalidParameterException("getSecond() has out of range values");
+        }
+    }
+
+    /**
+     * Creates a new TimeOfDayInfo given a time in standard format.
+     * @param time A time string of format HH:MM AM or HH:MM PM
+     * @return  A new TimeOfDayInfo.
+     */
+    public static TimeOfDayInfo makeTimeOfDayInfoFromTimeString(String time) {
+        if (StringUtils.isBlank(time)) {
+            return null;
+        }
+
+        boolean isPM = true;
+        if (time.endsWith("AM")) {
+            isPM = false;
+        }
+
+        String t[] = time.split(":");
+        int hour = Integer.valueOf(t[0]);
+        int min = Integer.valueOf(t[1].substring(0, 2));
+
+        if (isPM) {
+            //  For PM times just add 12
+            hour = (hour % 12) + 12;
+        } else {
+            // For AM times if the hour is 12 then it becomes zero. Otherwise, noop.
+            if (hour == 12) {
+                hour = 0;
+            }
+        }
+
+        return new TimeOfDayInfo(hour, min);
+    }
+
+    /**
+     * Creates a time string as hh:mm-hh:mm{am/pm} or hh:mm{am}-hh:mm{pm}
+     *
+     * @param startTimeMs AO start time
+     * @param endTimeMs AO end time
+     * @return  A time string.
+     */
+    public static String makeFormattedTimeForAOScheduleComponent(String startTimeMs, String endTimeMs) throws InvalidParameterException {
+        TimeOfDay startTimeOfDay = TimeOfDayHelper.setMillis(Long.valueOf(startTimeMs));
+        TimeOfDay endTimeOfDay = TimeOfDayHelper.setMillis(Long.valueOf(endTimeMs));
+        String startTime = TimeOfDayHelper.formatTimeOfDay(startTimeOfDay);
+        String endTime = TimeOfDayHelper.formatTimeOfDay(endTimeOfDay);
+
+        if ((isAM(startTimeOfDay) && isAM(endTimeOfDay)) || (isPM(startTimeOfDay) && isPM(endTimeOfDay))) {
+            // 11:00-11:50am
+            return startTime.substring(0, startTime.length() - 3) + "-" + endTime.substring(0, endTime.length() - 3) + endTime.substring(endTime.length() - 2);
+        } else {
+            // 11:00am-1:50pm
+            return startTime.substring(0, startTime.length() - 3) + startTime.substring(endTime.length() - 2) + "-" + endTime.substring(0, endTime.length() - 3) + endTime.substring(endTime.length() - 2);
         }
     }
 }

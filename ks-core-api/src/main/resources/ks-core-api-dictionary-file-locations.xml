@@ -239,10 +239,8 @@
         </constructor-arg>
     </bean>
 
-    <!--THIS IS USED BY RICE DATA DICTIONARY SERVICE
-     and the Global Student Dictionary Service, dataDictionaryServiceForAllUsedByRice
-     that is used in the rice dictionary validation service impl -->
-    <bean name="allDictionaryFileLocations" class="java.util.ArrayList">
+	<!-- TODO KSENROLL-11535 split enrollment locations out into a seperate ks-enroll-api file -->
+    <bean name="ks-core-dictionary-file-locations" class="java.util.ArrayList">
         <constructor-arg>
             <list>
                 <bean parent="ksBaseDictionaryLocation" />
@@ -290,5 +288,21 @@
         </constructor-arg>
     </bean>
 
-
+    <bean id="krad-uif-dictionary-file-locations" class="java.util.ArrayList">
+        <constructor-arg>
+            <list>
+                <value>classpath:org/kuali/rice/krad/datadictionary/DataDictionaryBaseTypes.xml</value>
+                <value>classpath:org/kuali/rice/krad/uif/UifControlDefinitions.xml</value>
+                <value>classpath:org/kuali/rice/krad/uif/UifConfigurationDefinitions.xml</value>
+                <value>classpath:org/kuali/rice/krad/uif/UifWidgetDefinitions.xml</value>
+                <value>classpath:org/kuali/rice/krad/uif/UifFieldDefinitions.xml</value>
+                <value>classpath:org/kuali/rice/krad/uif/UifElementDefinitions.xml</value>
+                <value>classpath:org/kuali/rice/krad/uif/UifHeaderFooterDefinitions.xml</value>
+                <value>classpath:org/kuali/rice/krad/uif/UifGroupDefinitions.xml</value>
+                <value>classpath:org/kuali/rice/krad/uif/UifLayoutManagerDefinitions.xml</value>
+                <value>classpath:org/kuali/rice/krad/uif/UifMenuDefinitions.xml</value>
+                <value>classpath:org/kuali/rice/krad/uif/UifActionDefinitions.xml</value>
+            </list>
+        </constructor-arg>
+    </bean>
 </beans>

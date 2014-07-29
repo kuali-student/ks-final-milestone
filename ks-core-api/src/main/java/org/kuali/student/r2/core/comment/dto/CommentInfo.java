@@ -33,13 +33,13 @@ import java.util.List;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "CommentInfo", propOrder = {"id", "typeKey", "stateKey",
-        "commentText", "commenterId", "refObjectUri",
-        "refObjectId", "effectiveDate",
-        "expirationDate", "meta", "attributes", "_futureElements" })
+                "commentText", "commenterId", "refObjectUri",
+                "refObjectId", "effectiveDate",
+                "expirationDate", "meta", "attributes", "_futureElements" }) 
 
-public class CommentInfo
-        extends IdNamelessEntityInfo
-        implements Comment, Serializable {
+public class CommentInfo 
+    extends IdNamelessEntityInfo 
+    implements Comment, Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -62,7 +62,7 @@ public class CommentInfo
     private Date expirationDate;
 
     @XmlAnyElement
-    private List<Object> _futureElements;
+    private List<Object> _futureElements;  
 
     public CommentInfo() {
     }

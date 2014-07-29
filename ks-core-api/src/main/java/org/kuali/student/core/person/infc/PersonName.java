@@ -15,8 +15,9 @@
 
 package org.kuali.student.core.person.infc;
 
-import java.util.Date;
 import org.kuali.student.r2.common.infc.IdNamelessEntity;
+
+import java.util.Date;
 
 /**
  * A person's name

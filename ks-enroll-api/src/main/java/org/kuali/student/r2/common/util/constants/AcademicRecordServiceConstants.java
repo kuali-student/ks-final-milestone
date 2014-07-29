@@ -53,6 +53,28 @@ public class AcademicRecordServiceConstants {
      * Types
      */
     public static final String ACADEMIC_RECORD_CALCULATION_GPA_TYPE_KEY = "kuali.academic.record.type.calculation.gpa";
+    
+    
+    // types
+    public static final String LOAD_TYPE_CREDITS = "kuali.academic.record.load.type.credits";
+    public static final String LOAD_TYPE_COURSES = "kuali.academic.record.load.type.courses";
+    public static final String LOAD_TYPE_CODE_4_TIER = "kuali.academic.record.load.type.code.4.tier";
+    // states
+    public static final String LOAD_STATE_PRELIMIARY = "kuali.academic.record.load.state.preliminary";
+    public static final String LOAD_STATE_FINAL = "kuali.academic.record.load.state.final";
+    // Calculation types "LoadLevelType" code
+    public static final String LOAD_CALC_CREDITS_INTEGER = "kuali.academic.record.calculation.type.load.credit.integer";
+    public static final String LOAD_CALC_CREDITS_DECIMAL = "kuali.academic.record.calculation.type.load.credit.decimal";
+    public static final String LOAD_CALC_COURSES_SIMPLE = "kuali.academic.record.calculation.type.load.courses.simple";
+    public static final String LOAD_CALC_COURSES_TIERED = "kuali.academic.record.calculation.type.load.courses.tiered";
+    public static final String LOAD_CALC_CODE_4_TIERS = "kuali.academic.record.calculation.type.load.code.4.tiers";
+    
+    // not sure where these "types" should be stored/managed but they are the possible values from the 4 tier code
+    // These should probably be reviewed these tiers to come up with a scheme that fits most schools OOB
+    public static final String LOAD_CODE_4_TIER_1_NO_LOAD = "kuali.academic.record.load.code.4.tier.0.no.load";
+    public static final String LOAD_CODE_4_TIER_2_LT_HT = "kuali.academic.record.load.code.4.tier.2.less.than.half.time";
+    public static final String LOAD_CODE_4_TIER_3_HT = "kuali.academic.record.load.code.4.tier.3.at.least.half.time";
+    public static final String LOAD_CODE_4_TIER_4_FT = "kuali.academic.record.load.code.4.tier.4.full.time";
 
 }
 

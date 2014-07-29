@@ -35,11 +35,5 @@ public interface GesCriteria extends HasAttributes {
      */
     String getPersonId();
 
-    /**
-     * Course Id used to derive attributes that constrain the applicability of a value.
-     * An empty or null value is treated as a wild card.
-     * @name Course Id
-     */
-    String getCourseId();
 
 }

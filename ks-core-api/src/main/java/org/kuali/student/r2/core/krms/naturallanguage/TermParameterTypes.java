@@ -15,6 +15,8 @@
 
 package org.kuali.student.r2.core.krms.naturallanguage;
 
+import org.kuali.student.r2.core.constants.KSKRMSServiceConstants;
+
 /**
  * <p>Requirement component types are used to map a dot notation field key
  * (e.g. kuali.term.parameter.type.cluSet) to a key without dot notation
@@ -33,31 +35,31 @@ package org.kuali.student.r2.core.krms.naturallanguage;
  * </p>
  */
 public enum TermParameterTypes {
-    GPA_KEY("kuali.term.parameter.type.gpa"),
-    TOTAL_CREDIT_KEY("kuali.term.parameter.type.totalCredits"),
-    INCLUSION_FILTER_TYPE_KEY("kuali.term.parameter.type.inclusionFilter.type"),
-    INCLUSION_FILTER_VALUE_KEY("kuali.term.parameter.type.inclusionFilter.value"),
-    GRADE_TYPE_KEY("kuali.term.parameter.type.gradeType.id"),
-    GRADE_KEY("kuali.term.parameter.type.grade.id"),
-    ORGANIZATION_KEY("kuali.term.parameter.type.org.id"),
-    PERSON_KEY("kuali.term.parameter.type.person.id"),
-    DURATION_KEY("kuali.term.parameter.type.duration"),
-    DURATION_TYPE_KEY("kuali.term.parameter.type.durationType.id"),
-    CLU_KEY("kuali.term.parameter.type.clu.id"),
-    CLUSET_KEY("kuali.term.parameter.type.cluSet.id"),
-    COURSE_CLU_KEY("kuali.term.parameter.type.course.clu.id"),
-    COURSE_CLUSET_KEY("kuali.term.parameter.type.course.cluSet.id"),
-    PROGRAM_CLU_KEY("kuali.term.parameter.type.program.clu.id"),
-    PROGRAM_CLUSET_KEY("kuali.term.parameter.type.program.cluSet.id"),
-    TEST_CLU_KEY("kuali.term.parameter.type.test.clu.id"),//FIXME Why do we have test data in our code?
-    TEST_CLUSET_KEY("kuali.term.parameter.type.test.cluSet.id"),
-    FREE_TEXT_KEY("kuali.term.parameter.type.free.text"),
-    TERM_KEY("kuali.term.parameter.type.Term"),
-    TERM2_KEY("kuali.term.parameter.type.Term2"),
-    POPULATION_KEY("kuali.term.parameter.type.population"),
-    TIMESLOT_WEEKDAY_STRING("kuali.term.parameter.type.timeslot.weekday.string"),
-    TIMESLOT_START("kuali.term.parameter.type.timeslot.start"),
-    TIMESLOT_END("kuali.term.parameter.type.timeslot.end");
+    GPA_KEY(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_GPA_KEY),
+    TOTAL_CREDIT_KEY(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_TOTAL_CREDIT_KEY),
+    INCLUSION_FILTER_TYPE_KEY(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_INCLUSION_FILTER_TYPE_KEY),
+    INCLUSION_FILTER_VALUE_KEY(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_INCLUSION_FILTER_VALUE_KEY),
+    GRADE_TYPE_KEY(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_GRADE_TYPE_KEY),
+    GRADE_KEY(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_GRADE_KEY),
+    ORGANIZATION_KEY(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_ORGANIZATION_KEY),
+    PERSON_KEY(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_PERSON_KEY),
+    DURATION_KEY(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_DURATION_KEY),
+    DURATION_TYPE_KEY(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_DURATION_TYPE_KEY),
+    CLU_KEY(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_CLU_KEY),
+    CLUSET_KEY(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_CLUSET_KEY),
+    COURSE_CLU_KEY(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_COURSE_CLU_KEY),
+    COURSE_CLUSET_KEY(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_COURSE_CLUSET_KEY),
+    PROGRAM_CLU_KEY(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_PROGRAM_CLU_KEY),
+    PROGRAM_CLUSET_KEY(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_PROGRAM_CLUSET_KEY),
+    TEST_CLU_KEY(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_TEST_CLU_KEY),      //note, this is a test as in assessment, not environment
+    TEST_CLUSET_KEY(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_TEST_CLUSET_KEY),  //note, this is a test as in assessment, not environment
+    FREE_TEXT_KEY(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_FREE_TEXT_KEY),
+    TERM_KEY(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_TERM_KEY),
+    TERM2_KEY(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_TERM2_KEY),
+    POPULATION_KEY(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_POPULATION_KEY),
+    TIMESLOT_WEEKDAY_STRING(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_TIMESLOT_WEEKDAY_STRING),
+    TIMESLOT_START(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_TIMESLOT_START),
+    TIMESLOT_END(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_TIMESLOT_END);
 
 	private String id;
 

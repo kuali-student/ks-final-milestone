@@ -25,16 +25,24 @@ public class KSDateFormatterTest {
         printFormat(DateFormatters.DYNAMIC_ATTRIBUTE_DATE_FORMAT, dateTime);
         printFormat(DateFormatters.MONTH_DAY_YEAR_TIME_DATE_FORMAT, dateTime);
         printFormat(DateFormatters.MONTH_DAY_YEAR_DATE_FORMAT, dateTime);
+        printFormat(DateFormatters.MONTH_NOZERO_DAY_YEAR_DATE_FORMAT, dateTime);
         printFormat(DateFormatters.YEAR_MONTH_DAY_CONCAT_DATE_FORMAT, dateTime);
         printFormat(DateFormatters.COURSE_OFFERING_VIEW_HELPER_DATE_FORMAT, dateTime);
         printFormat(DateFormatters.COURSE_OFFERING_VIEW_HELPER_DATE_TIME_FORMAT, dateTime);
         printFormat(DateFormatters.HOUR_MINUTE_TIME_FORMAT, dateTime);
         printFormat(DateFormatters.HOUR_MINUTE_AM_PM_TIME_FORMAT, dateTime);
+        printFormat(DateFormatters.HOUR_NOZERO_MINUTE_AM_PM_TIME_FORMAT, dateTime);
+        printFormat(DateFormatters.HOUR_MINUTE_NOSPACE_AM_PM_TIME_FORMAT, dateTime);
         printFormat(DateFormatters.AM_PM_TIME_FORMAT, dateTime);
         printFormat(DateFormatters.DEFULT_YEAR_FORMAT, dateTime);
         printFormat(DateFormatters.SIMPLE_TIMESTAMP_FORMAT, dateTime);
         printFormat(DateFormatters.DEFAULT_MONTH_YEAR_TIME_DATE_FORMAT, dateTime);
         printFormat(DateFormatters.DEFAULT_YEAR_MONTH_24HOUR_MILLISECONDS_FORMAT, dateTime);
+        printFormat(DateFormatters.SHORTMONTH_DAY_FORMAT, dateTime);
+        printFormat(DateFormatters.DAY_SHORTMONTH_DATE_FORMAT, dateTime);
+        printFormat(DateFormatters.DAY_MONTH_DATE_FORMAT, dateTime);
+        printFormat(DateFormatters.DAY_MONTH_DATE_YEAR_FORMAT, dateTime);
+        printFormat(DateFormatters.MONTH_DAY_FORMAT, dateTime);
 
         // Can only format. Parse does not work with short time zone notation
         printFormatOnly(DateFormatters.DYNAMIC_ATTRIBUTE_SHORT_ZONE_DATE_FORMAT, dateTime);
@@ -43,31 +51,27 @@ public class KSDateFormatterTest {
 
     }
 
+    @Test
+    public void parseTest(){
+        String dateStr = "2014-06-28 16:32:46.368";     // This timestamp was getting errors so we created a test.
+
+        DateFormatters.DEFAULT_YEAR_MONTH_24HOUR_MILLISECONDS_FORMATTER.parse(dateStr);
+
+    }
+
     private void printFormatOnly(String format, Date dateTime){
         KSDateTimeFormatter kdf = new KSDateTimeFormatter(format);
 
-        try{
-            kdf.format(dateTime);
-        }catch (Exception ex){
-            throw new IllegalArgumentException("Could format["+format+"] " + dateTime.toString() );
-        }
+        kdf.format(dateTime);
     }
 
     private void printFormat(String format, Date dateTime)   {
 
         KSDateTimeFormatter kdf = new KSDateTimeFormatter(format);
 
-        try{
-            System.out.println(kdf.format(dateTime));
-        }catch (Exception ex){
-            throw new IllegalArgumentException("Could format["+format+"] " + dateTime.toString() );
-        }
+        kdf.format(dateTime);
 
-        try{
-            kdf.format(kdf.parse(kdf.format(dateTime)));
-        }catch (Exception ex){
-            throw new IllegalArgumentException("Could parse format["+format+"] with String input "+ kdf.format(dateTime) );
-        }
+        kdf.format(kdf.parse(kdf.format(dateTime)));
     }
 
 }

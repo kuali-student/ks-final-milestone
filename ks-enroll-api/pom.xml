@@ -4,7 +4,7 @@
     <parent>
         <groupId>org.kuali.student.api</groupId>
         <artifactId>ks-api</artifactId>
-        <version>2.0.0-services-M9-SNAPSHOT</version>
+        <version>2.1.1-FR2-M1-SNAPSHOT</version>
     </parent>
     <artifactId>ks-enroll-api</artifactId>
     <name>KS Enroll API</name>
@@ -22,6 +22,11 @@
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>ks-common-api</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>ks-ap-api</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
@@ -98,7 +103,7 @@
             </plugin>
             <plugin>
                 <groupId>org.kuali.maven.plugins</groupId>
-                <artifactId>maven-kscontractdoc-plugin</artifactId>
+                <artifactId>kscontractdoc-maven-plugin</artifactId>
                 <version>${ks-contract-docs.plugin.version}</version>
                 <!-- For instructions see https://wiki.kuali.org/display/STUDENT/Using+the+Contract+Doc+Maven+Plugin  -->
                 <executions>
@@ -135,6 +140,7 @@
                                 <sourceDir>${project.basedir}/../ks-core-api/src/main/java</sourceDir>
                                 <sourceDir>${project.basedir}/../ks-common-api/src/main/java</sourceDir>
                                 <sourceDir>${project.basedir}/../ks-lum-api/src/main/java</sourceDir>
+                                <sourceDir>${project.basedir}/../ks-ap-api/src/main/java</sourceDir>
                             </sourceDirs>
                         </configuration>
                     </execution>
@@ -153,6 +159,7 @@
                                 <sourceDir>${project.basedir}/../ks-core-api/src/main/java</sourceDir>
                                 <sourceDir>${project.basedir}/../ks-common-api/src/main/java</sourceDir>
                                 <sourceDir>${project.basedir}/../ks-lum-api/src/main/java</sourceDir>
+                                <sourceDir>${project.basedir}/../ks-ap-api/src/main/java</sourceDir>
                             </sourceDirs>
                         </configuration>
                     </execution>
@@ -170,6 +177,7 @@
                                 <sourceDir>${project.basedir}/../ks-core-api/src/main/java</sourceDir>
                                 <sourceDir>${project.basedir}/../ks-common-api/src/main/java</sourceDir>
                                 <sourceDir>${project.basedir}/../ks-lum-api/src/main/java</sourceDir>
+                                <sourceDir>${project.basedir}/../ks-ap-api/src/main/java</sourceDir>
                             </sourceDirs>
                         </configuration>
                     </execution>
@@ -192,24 +200,6 @@
                         </configuration>
                     </execution>
                     <execution>
-                        <id>generate-conformance-tests</id>
-                        <phase>${ks.conftest.phase}</phase>
-                        <goals>
-                            <goal>kscreateconftest</goal>
-                        </goals>
-                        <configuration>
-                            <!-- generate only on the kuali student api -->
-                            <sourceDirs>
-                                <sourceDir>${project.basedir}/src/main/java</sourceDir>
-                                <sourceDir>${project.basedir}/../ks-core-api/src/main/java</sourceDir>
-                                <sourceDir>${project.basedir}/../ks-common-api/src/main/java</sourceDir>
-                                <sourceDir>${project.basedir}/../ks-lum-api/src/main/java</sourceDir>
-                            </sourceDirs>
-                        </configuration>
-                    </execution>
-                    <!-- generate only on the kuali student api -->
-                    <!-- generate only on the kuali student api -->
-                    <execution>
                         <id>generate-validation-decorators</id>
                         <phase>${ks.vdecorator.phase}</phase>
                         <goals>
@@ -221,6 +211,23 @@
                                 <sourceDir>${project.basedir}/../ks-core-api/src/main/java</sourceDir>
                                 <sourceDir>${project.basedir}/../ks-common-api/src/main/java</sourceDir>
                                 <sourceDir>${project.basedir}/../ks-lum-api/src/main/java</sourceDir>
+                                <sourceDir>${project.basedir}/../ks-ap-api/src/main/java</sourceDir>
+                            </sourceDirs>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>generate-conformance-tests</id>
+                        <phase>${ks.conftest.phase}</phase>
+                        <goals>
+                            <goal>kscreateconftest</goal>
+                        </goals>
+                        <configuration>
+                            <sourceDirs>
+                                <sourceDir>${project.basedir}/src/main/java</sourceDir>
+                                <sourceDir>${project.basedir}/../ks-core-api/src/main/java</sourceDir>
+                                <sourceDir>${project.basedir}/../ks-common-api/src/main/java</sourceDir>
+                                <sourceDir>${project.basedir}/../ks-lum-api/src/main/java</sourceDir>
+                                <sourceDir>${project.basedir}/../ks-ap-api/src/main/java</sourceDir>
                             </sourceDirs>
                         </configuration>
                     </execution>
@@ -340,18 +347,6 @@
                         <phase>${ks.java2ws.phase}</phase>
                         <configuration>
                             <className>org.kuali.student.enrollment.coursewaitlist.service.CourseWaitListService</className>
-                            <genWsdl>true</genWsdl>
-                            <verbose>true</verbose>
-                        </configuration>
-                        <goals>
-                            <goal>java2ws</goal>
-                        </goals>
-                    </execution>
-                    <execution>
-                        <id>dataDictionaryService-wsdl</id>
-                        <phase>${ks.java2ws.phase}</phase>
-                        <configuration>
-                            <className>org.kuali.student.r2.common.datadictionary.service.DataDictionaryService</className>
                             <genWsdl>true</genWsdl>
                             <verbose>true</verbose>
                         </configuration>

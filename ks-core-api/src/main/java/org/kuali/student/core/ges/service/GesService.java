@@ -44,7 +44,7 @@ import java.util.List;
  * @author Kuali Student Services
  */
 
-@WebService(name = "GesService", serviceName = "GesService", portName = "GesService", targetNamespace = GesServiceNamespace.NAMESPACE)
+@WebService(name = "GesService", targetNamespace = GesServiceNamespace.NAMESPACE)
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
 public interface GesService {
 
@@ -659,6 +659,7 @@ public interface GesService {
             PermissionDeniedException;
 
     /**
+
      * Retrieves a value with the highest priority associated with a particular parameter
      * that is applicable based on the evaluation of the given criteria, and date.
      * Empty or null fields within the criteria are treated as a wild card and will not restrict values that are returned.

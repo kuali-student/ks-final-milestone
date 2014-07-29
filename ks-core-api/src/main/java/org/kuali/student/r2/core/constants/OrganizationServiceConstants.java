@@ -50,6 +50,7 @@ public class OrganizationServiceConstants {
      * KSENROLL-3877., KSENROLL-4436
      */
     public static final String ORGANIZATION_COLLEGE_TYPE_KEY = "kuali.org.College";
+    public static final String ORGANIZATION_COC_TYPE_KEY = "kuali.org.COC";
     public static final String ORGANIZATION_DEPARTMENT_TYPE_KEY = "kuali.org.Department";
     public static final String ORGANIZATION_DIVISION_TYPE_KEY = "kuali.org.Division";
     public static final String ORGANIZATION_SENATE_TYPE_KEY = "kuali.org.Senate";

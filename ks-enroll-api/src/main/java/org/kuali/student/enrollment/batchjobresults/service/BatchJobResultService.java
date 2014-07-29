@@ -38,7 +38,7 @@ import java.util.List;
  *
  * @author nwright
  */
-@WebService(name = "BatchJobResultService", serviceName = "BatchJobResultService", portName = "BatchJobResultService", targetNamespace = BatchJobResultServiceConstants.NAMESPACE)
+@WebService(name = "BatchJobResultService", targetNamespace = BatchJobResultServiceConstants.NAMESPACE)
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
 public interface BatchJobResultService {
 

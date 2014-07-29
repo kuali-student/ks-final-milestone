@@ -56,7 +56,7 @@ import org.kuali.student.r2.lum.lrc.dto.ResultValueInfo;
  * @version 0.0.7
  * @author Kuali Student Team (Kamal)
  */
-@WebService(name = "GradingService", serviceName = "GradingService", portName = "GradingService", targetNamespace = GradingServiceConstants.NAMESPACE)
+@WebService(name = "GradingService", targetNamespace = GradingServiceConstants.NAMESPACE)
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
 public interface GradingService {
 

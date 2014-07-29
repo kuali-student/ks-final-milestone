@@ -16,22 +16,20 @@
 
 package org.kuali.student.enrollment.courseregistration.dto;
 
-import java.io.Serializable;
-import java.util.Date;
-import java.util.List;
+import org.kuali.rice.core.api.util.jaxb.KualiDecimalAdapter;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.student.enrollment.courseregistration.infc.CourseRegistration;
+import org.kuali.student.r2.common.dto.RelationshipInfo;
+import org.w3c.dom.Element;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
-
-import org.kuali.rice.core.api.util.type.KualiDecimal;
-
-import org.kuali.student.enrollment.courseregistration.infc.CourseRegistration;
-import org.kuali.student.r2.common.dto.RelationshipInfo;
-
-import org.w3c.dom.Element;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+import java.io.Serializable;
+import java.util.List;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "CourseRegistrationInfo", propOrder = {
@@ -43,10 +41,9 @@ import org.w3c.dom.Element;
         "courseOfferingId", 
         "registrationGroupId", 
         "credits", 
-        "gradingOptionId",
-        "effectiveDate",
-        "lastAttendanceDate",
-        "expirationDate",
+        "gradingOptionId", 
+        "effectiveDate", 
+        "expirationDate", 
         "meta", 
         "attributes", 
         "_futureElements"})
@@ -70,13 +67,11 @@ public class CourseRegistrationInfo
     private String registrationGroupId;
     
     @XmlElement
+    @XmlJavaTypeAdapter(KualiDecimalAdapter.class)
     private KualiDecimal credits;
 
     @XmlElement
     private String gradingOptionId;
-
-    @XmlElement
-    private Date lastAttendanceDate;
 
     @XmlAnyElement
     private List<Element> _futureElements;
@@ -104,7 +99,6 @@ public class CourseRegistrationInfo
             this.registrationGroupId = courseRegistration.getRegistrationGroupId();
             this.credits = new KualiDecimal(courseRegistration.getCredits().bigDecimalValue());
             this.gradingOptionId = courseRegistration.getGradingOptionId();
-            this.lastAttendanceDate = courseRegistration.getLastAttendanceDate();
          }
     }
 
@@ -162,14 +156,5 @@ public class CourseRegistrationInfo
 
     public void setGradingOptionId(String gradingOptionId) {
         this.gradingOptionId = gradingOptionId;
-    }
-
-    @Override
-    public Date getLastAttendanceDate() {
-        return lastAttendanceDate;
-    }
-
-    public void setLastAttendanceDate(Date lastAttendanceDate) {
-        this.lastAttendanceDate = lastAttendanceDate;
     }
 }

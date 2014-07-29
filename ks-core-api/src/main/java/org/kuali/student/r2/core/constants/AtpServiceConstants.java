@@ -1,5 +1,5 @@
 /**
- * Copyright 2011 The Kuali Foundation 
+ * Copyright 2013 The Kuali Foundation 
  *
  * Licensed under the Educational Community License, Version 2.0 (the
  * "License"); you may not use this file except in compliance with the
@@ -49,6 +49,7 @@ public class AtpServiceConstants {
     public static final String ATP_AY_TYPE_KEY = "kuali.atp.type.AY";
     public static final String ATP_FY_TYPE_KEY = "kuali.atp.type.FY";
     // terms
+    public static final String ATP_TERM_ALL_TYPE_KEY = "kuali.atp.season.Any";
     public static final String ATP_TERM_GROUPING_TYPE_KEY = "kuali.atp.type.group.term";
     public static final String ATP_SUBTERM_GROUPING_TYPE_KEY = "kuali.atp.type.group.term.subterm";
     public static final String ATP_PARENT_TERM_GROUPING_TYPE_KEY = "kuali.atp.type.group.term.parent";
@@ -126,6 +127,12 @@ public class AtpServiceConstants {
     // exam periods
     public static final String ATP_EXAM_PERIOD_TYPE_KEY = "kuali.atp.type.ExamPeriod";
 
+    // season types
+    public static final String ATP_SEARCH_SEASONTYPES = "atp.search.atpSeasonTypes";
+    public static final String ATP_RESULTCOLUMN_ID = "atp.resultColumn.atpSeasonType";
+    public static final String ATP_RESULTCOLUMN_NAME = "atp.resultColumn.atpSeasonTypeName";
+    public static final String ATP_RESULTCOLUM_DESC = "atp.resultColumn.atpSeasonTypeDesc";
+
     /**
      * Milstone types
      */
@@ -152,6 +159,10 @@ public class AtpServiceConstants {
     public static final String MILESTONE_FINAL_EXAM_PERIOD_TYPE_KEY = "kuali.atp.milestone.FinalExamPeriod";
     public static final String MILESTONE_GRADES_DUE_TYPE_KEY = "kuali.atp.milestone.GradesDue";
     public static final String MILESTONE_POST_GRADES_TYPE_KEY = "kuali.atp.milestone.PostGrades";
+    //types used for reg date check
+    public static final String MILESTONE_REGISTRATION_SERVICES_OPEN_TYPE_KEY = "kuali.atp.milestone.registrationservicesopen";
+    public static final String MILESTONE_PREREGISTRATION_PERIOD_TYPE_KEY = "kuali.atp.milestone.preregistrationperiod";
+    public static final String MILESTONE_SCHEDULE_ADJUSTMENT_PERIOD_TYPE_KEY = "kuali.atp.milestone.scheduleadjustmentperiod";
     //registration period group type (used in type-type relations to group registration periods)
     public static final String MILESTONE_REGISTRATION_PERIOD_GROUP_TYPE_KEY = "kuali.milestone.type.group.appt.regperiods";
 
@@ -249,6 +260,9 @@ public class AtpServiceConstants {
     public static final String DURATION_HOURS_TYPE_KEY = "kuali.atp.duration.Hours";
     public static final String DURATION_MINUTES_TYPE_KEY = "kuali.atp.duration.Minutes";
     public static final String DURATION_TBD_TYPE_KEY = "kuali.atp.duration.TBD";
+    public static final String DURATION_DAY_TYPE_KEY = "kuali.atp.duration.Day";
+    public static final String DURATION_QUARTER_TYPE_KEY = "kuali.atp.duration.Quarter";
+    
 
 
     /**
@@ -317,4 +331,9 @@ public class AtpServiceConstants {
     public static final String CAMPUS_LOCATION = "CampusLocation";
     
     public static final String MILESTONE_KEYDATE_GROUP = "kuali.milestone.type.group.keydate";
+    
+    /**
+     * OpenCollab/rSmart KRAD CM Conversion Alliance!
+     */
+    public static final String COURSE_SCHEDULING_TERM_ENUM_KEY = "atp.queryParam.atpSeasonType";
 }

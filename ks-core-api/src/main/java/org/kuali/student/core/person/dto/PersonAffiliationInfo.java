@@ -14,15 +14,16 @@
  */
 package org.kuali.student.core.person.dto;
 
+import org.kuali.student.core.person.infc.PersonAffiliation;
+import org.kuali.student.r2.common.dto.RelationshipInfo;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAnyElement;
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 import java.io.Serializable;
 import java.util.List;
-import javax.xml.bind.annotation.XmlElement;
-import org.kuali.student.core.person.infc.PersonAffiliation;
-import org.kuali.student.r2.common.dto.RelationshipInfo;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "PersonAffiliationInfo", propOrder = {"id",

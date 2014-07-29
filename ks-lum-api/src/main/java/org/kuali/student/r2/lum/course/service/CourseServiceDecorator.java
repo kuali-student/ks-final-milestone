@@ -30,7 +30,7 @@ public class CourseServiceDecorator implements CourseService {
     public void setNextDecorator(CourseService nextDecorator) {
         this.nextDecorator = nextDecorator;
     }
-
+    
     @Override
     public List<ValidationResultInfo> validateCourseStatement(String courseId, StatementTreeViewInfo statementTreeViewInfo, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return getNextDecorator().validateCourseStatement(courseId, statementTreeViewInfo, contextInfo);

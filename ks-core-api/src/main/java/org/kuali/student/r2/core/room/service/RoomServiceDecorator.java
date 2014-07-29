@@ -125,8 +125,8 @@ public class RoomServiceDecorator implements RoomService {
     }
 
     @Override
-    public List<String> getBuildingIdsByCampus(String campusKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return getNextDecorator().getBuildingIdsByCampus(campusKey, contextInfo);
+    public List<String> getBuildingIdsByCampus(String campusId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().getBuildingIdsByCampus(campusId, contextInfo);
     }
 
     @Override

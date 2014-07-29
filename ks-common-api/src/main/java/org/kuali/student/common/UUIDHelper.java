@@ -16,11 +16,12 @@
 package org.kuali.student.common;
 
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class UUIDHelper {
 	
-    private static final Logger LOG = Logger.getLogger(UUIDHelper.class);
+    private static final Logger LOG = LoggerFactory.getLogger(UUIDHelper.class);
 	
 	public static String genStringUUID() {
 		return java.util.UUID.randomUUID().toString();
@@ -31,7 +32,7 @@ public class UUIDHelper {
 			try {
 				return java.util.UUID.fromString(originalUUID).toString();
 			} catch (IllegalArgumentException e) {
-				LOG.info("Given ID \""+originalUUID+"\" is not a valid UUID. ");
+				LOG.info("Given ID \"{}\" is not a valid UUID.", originalUUID);
 			}
 			return originalUUID;
 		}

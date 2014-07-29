@@ -15,22 +15,21 @@
 
 package org.kuali.student.r1.core.person.dto;
 
-import java.io.Serializable;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import org.kuali.student.common.ws.binding.JaxbAttributeMapListAdapter;
+import org.kuali.student.r1.common.dto.HasAttributes;
+import org.kuali.student.r1.common.dto.HasTypeState;
+import org.kuali.student.r1.common.dto.Idable;
+import org.kuali.student.r2.common.dto.MetaInfo;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
-
-import org.kuali.student.r1.common.dto.HasAttributes;
-import org.kuali.student.r1.common.dto.HasTypeState;
-import org.kuali.student.r1.common.dto.Idable;
-import org.kuali.student.r2.common.dto.MetaInfo;
-import org.kuali.student.core.ws.binding.JaxbAttributeMapListAdapter;
+import java.io.Serializable;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  *Detailed information about a person to person relationship.

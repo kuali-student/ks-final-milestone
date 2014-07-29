@@ -172,11 +172,11 @@
                 Gets the reference object Uri.
             </value>
         </property>
-        <!-- commented out until KRAD bug gets fixed that requires mask to also be entered
-          <property name="attributeSecurity">
-          <ref bean="BaseKuali.readOnlyAttributeSecurity"/>
-          </property>
-          -->
+		<!-- commented out until KRAD bug gets fixed that requires mask to also be entered
+		<property name="attributeSecurity">
+		<ref bean="BaseKuali.readOnlyAttributeSecurity"/>
+		</property>
+		-->
         <property name="required" value="true"/>
     </bean>
 

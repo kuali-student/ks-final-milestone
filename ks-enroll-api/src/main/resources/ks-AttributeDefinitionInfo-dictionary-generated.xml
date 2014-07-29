@@ -125,7 +125,7 @@ I.e. STRING, INTEGER, DATE, LONG, DATETIME, COMPLEX, etc.
 		<property name="dataObjectEntry">
 			<bean parent="DataObjectEntry">
 				<property name="name" value="dataType"/>
-				<property name="dataObjectClass" value="org.kuali.rice.core.api.uif.DataType"/>
+				<property name="dataObjectClass" value="org.kuali.rice.core.api.data.DataType"/>
 				<property name="objectLabel" value="Data Type"/>
 				<property name="objectDescription">
 					<value>

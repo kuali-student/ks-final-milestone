@@ -105,11 +105,4 @@ public abstract class TypeStateEntityInfo
     public void setState(String stateKey) {
         setStateKey(stateKey);
     }
-
-    @Override
-    public String toString() {
-        return  "typeKey=" + typeKey + ", stateKey=" + stateKey + ", " +  super.toString();
-    }
-    
-    
 }

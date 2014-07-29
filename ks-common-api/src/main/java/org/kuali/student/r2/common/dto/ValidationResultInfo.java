@@ -89,6 +89,12 @@ public class ValidationResultInfo
         }
     }
 
+    public ValidationResultInfo(String element, ErrorLevel level, String message) {
+        this.element = element;
+        this.level = level;
+        this.message = message;
+    }
+
     /**
      * This is for compatibility with R1.
      * Use getLevel instead

@@ -59,7 +59,9 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
 
 	<bean id="ProposalInfo.name" parent="ProposalInfo.name-parent"/>
 	<bean id="ProposalInfo.name-parent" abstract="true" parent="ProposalInfo.name-generated">
-	<!-- insert any overrides to the generated attribute definitions here -->
+	    <!-- insert any overrides to the generated attribute definitions here -->
+        <property name="maxLength" value="150" />
+        <property name="required" value="true" />
 	</bean>
 
 	<bean id="ProposalInfo.descr" parent="ProposalInfo.descr-parent"/>
@@ -104,7 +106,18 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
 
 	<bean id="ProposalInfo.rationale.plain" parent="ProposalInfo.rationale.plain-parent"/>
 	<bean id="ProposalInfo.rationale.plain-parent" abstract="true" parent="ProposalInfo.rationale.plain-generated">
-	<!-- insert any overrides to the generated attribute definitions here -->
+	    <!-- insert any overrides to the generated attribute definitions here -->
+        <property name="simpleConstraint">
+            <bean parent="RequiredConstraint">
+                <property name="maxLength" value="255" />
+                <property name="states">
+                    <list>
+                        <!-- This is a proposal state which will get overridden in the UI with a workflow document state. -->
+                        <value>Enroute+</value>
+                    </list>
+                </property>
+            </bean>
+        </property>
 	</bean>
 
 	<bean id="ProposalInfo.rationale.formatted" parent="ProposalInfo.rationale.formatted-parent"/>

@@ -21,7 +21,6 @@ import org.kuali.rice.core.api.util.type.KualiDecimal;
 @XmlType(name = "LoadInfo", propOrder = {
         "id", "meta", "attributes",
         "totalCredits", "loadLevelTypeKey",
-        "personId", "atpId",
         "typeKey", "stateKey", "_futureElements"})
 public class LoadInfo extends IdNamelessEntityInfo implements Load, Serializable {
     private static final long serialVersionUID = 1L;
@@ -29,10 +28,6 @@ public class LoadInfo extends IdNamelessEntityInfo implements Load, Serializable
     private KualiDecimal totalCredits;
     @XmlElement
     private String loadLevelTypeKey;
-    @XmlElement
-    private String personId;
-    @XmlElement
-    private String atpId;
     @XmlAnyElement
     private List<Element> _futureElements;
 
@@ -44,8 +39,6 @@ public class LoadInfo extends IdNamelessEntityInfo implements Load, Serializable
         super(load);
         if (null != load) {
             this.totalCredits = load.getTotalCredits();
-            this.personId = load.getPersonId();
-            this.atpId = load.getAtpId();
             this.loadLevelTypeKey = load.getLoadLevelTypeKey();
         }
     }
@@ -62,24 +55,6 @@ public class LoadInfo extends IdNamelessEntityInfo implements Load, Serializable
     @Override
     public String getLoadLevelTypeKey() {
         return loadLevelTypeKey;
-    }
-
-    @Override
-    public String getPersonId() {
-        return personId;
-    }
-
-    public void setPersonId(String personId) {
-        this.personId = personId;
-    }
-
-    @Override
-    public String getAtpId() {
-        return atpId;
-    }
-
-    public void setAtpId(String atpId) {
-        this.atpId = atpId;
     }
 
     public void setLoadLevelTypeKey(String loadLevelTypeKey) {

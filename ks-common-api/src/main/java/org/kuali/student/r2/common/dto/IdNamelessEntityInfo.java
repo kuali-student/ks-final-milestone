@@ -68,11 +68,4 @@ public abstract class IdNamelessEntityInfo
     public void setId(String id) {
         this.id = id;
     }
-
-    @Override
-    public String toString() {
-        return  "id=" + id + ", " + super.toString();
-    }
-    
-    
 }

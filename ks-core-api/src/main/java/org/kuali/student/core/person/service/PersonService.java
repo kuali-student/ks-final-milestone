@@ -15,6 +15,11 @@
 package org.kuali.student.core.person.service;
 
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
+import org.kuali.student.core.person.dto.PersonAffiliationInfo;
+import org.kuali.student.core.person.dto.PersonBioDemographicsInfo;
+import org.kuali.student.core.person.dto.PersonIdentifierInfo;
+import org.kuali.student.core.person.dto.PersonInfo;
+import org.kuali.student.core.person.dto.PersonNameInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
@@ -26,16 +31,11 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
-import org.kuali.student.core.person.dto.PersonInfo;
 
+import javax.jws.WebParam;
 import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
 import java.util.List;
-import javax.jws.WebParam;
-import org.kuali.student.core.person.dto.PersonAffiliationInfo;
-import org.kuali.student.core.person.dto.PersonBioDemographicsInfo;
-import org.kuali.student.core.person.dto.PersonIdentifierInfo;
-import org.kuali.student.core.person.dto.PersonNameInfo;
 
 /**
  * Person Service provides access to people.
@@ -58,7 +58,7 @@ public interface PersonService {
      * @throws PermissionDeniedException an authorization failure occurred
      */
     public PersonInfo getPerson(@WebParam(name = "personId") String personId,
-            @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException,
+                                @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException,
             InvalidParameterException,
             MissingParameterException,
             OperationFailedException,
@@ -78,7 +78,7 @@ public interface PersonService {
      * @throws PermissionDeniedException an authorization failure occurred
      */
     public List<PersonInfo> getPersonsByIds(@WebParam(name = "personIds") List<String> personIds,
-            @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException,
+                                            @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException,
             InvalidParameterException,
             MissingParameterException,
             OperationFailedException,
@@ -98,7 +98,7 @@ public interface PersonService {
      * @throws PermissionDeniedException an authorization failure occurred
      */
     public List<String> getPersonIdsByType(@WebParam(name = "personTypeKey") String personTypeKey,
-            @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException,
+                                           @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException,
             InvalidParameterException,
             MissingParameterException,
             OperationFailedException,
@@ -117,7 +117,7 @@ public interface PersonService {
      * @throws PermissionDeniedException an authorization failure occurred
      */
     public List<String> searchForPersonIds(@WebParam(name = "criteria") QueryByCriteria criteria,
-            @WebParam(name = "contextInfo") ContextInfo contextInfo) throws
+                                           @WebParam(name = "contextInfo") ContextInfo contextInfo) throws
             InvalidParameterException,
             MissingParameterException,
             OperationFailedException,
@@ -136,7 +136,7 @@ public interface PersonService {
      * @throws PermissionDeniedException an authorization failure occurred
      */
     public List<PersonInfo> searchForPersons(@WebParam(name = "criteria") QueryByCriteria criteria,
-            @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException,
+                                             @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException,
             InvalidParameterException,
             MissingParameterException,
             OperationFailedException,
@@ -160,9 +160,9 @@ public interface PersonService {
      * @throws PermissionDeniedException an authorization failure occurred
      */
     public List<ValidationResultInfo> validatePerson(@WebParam(name = "validationTypeKey") String validationTypeKey,
-            @WebParam(name = "personTypeKey") String personTypeKey,
-            @WebParam(name = "personInfo") PersonInfo personInfo,
-            @WebParam(name = "contextInfo") ContextInfo contextInfo) throws
+                                                     @WebParam(name = "personTypeKey") String personTypeKey,
+                                                     @WebParam(name = "personInfo") PersonInfo personInfo,
+                                                     @WebParam(name = "contextInfo") ContextInfo contextInfo) throws
             DoesNotExistException,
             InvalidParameterException,
             MissingParameterException,
@@ -186,7 +186,7 @@ public interface PersonService {
      * @throws ReadOnlyException an attempt at supplying information designated as read only
      */
     public PersonInfo createPerson(@WebParam(name = "personTypeKey") String personTypeKey,
-            PersonInfo personInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws
+                                   PersonInfo personInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws
             DataValidationErrorException,
             DoesNotExistException,
             InvalidParameterException,
@@ -214,8 +214,8 @@ public interface PersonService {
      * updating.
      */
     public PersonInfo updatePerson(@WebParam(name = "personId") String personId,
-            @WebParam(name = "personInfo") PersonInfo personInfo,
-            @WebParam(name = "contextInfo") ContextInfo contextInfo) throws
+                                   @WebParam(name = "personInfo") PersonInfo personInfo,
+                                   @WebParam(name = "contextInfo") ContextInfo contextInfo) throws
             DataValidationErrorException,
             DoesNotExistException,
             InvalidParameterException,
@@ -239,7 +239,7 @@ public interface PersonService {
      * @throws PermissionDeniedException an authorization failure occurred
      */
     public StatusInfo deletePerson(@WebParam(name = "personId") String personId,
-            @WebParam(name = "contextInfo") ContextInfo contextInfo) throws
+                                   @WebParam(name = "contextInfo") ContextInfo contextInfo) throws
             DoesNotExistException,
             InvalidParameterException,
             MissingParameterException,
@@ -248,7 +248,7 @@ public interface PersonService {
 
     ////
     //// person name methods
-    //// 
+    ////
     /**
      * Retrieves a Person Name by a Person Name ID
      *
@@ -263,7 +263,7 @@ public interface PersonService {
      * @throws PermissionDeniedException an authorization failure occurred
      */
     public PersonNameInfo getPersonName(@WebParam(name = "personNameId") String personNameId,
-            @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException,
+                                        @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException,
             InvalidParameterException,
             MissingParameterException,
             OperationFailedException,
@@ -283,7 +283,7 @@ public interface PersonService {
      * @throws PermissionDeniedException an authorization failure occurred
      */
     public List<PersonNameInfo> getPersonNamesByIds(@WebParam(name = "personNameIds") List<String> personNameIds,
-            @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException,
+                                                    @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException,
             InvalidParameterException,
             MissingParameterException,
             OperationFailedException,
@@ -303,7 +303,7 @@ public interface PersonService {
      * @throws PermissionDeniedException an authorization failure occurred
      */
     public List<String> getPersonNameIdsByType(@WebParam(name = "personNameTypeKey") String personNameTypeKey,
-            @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException,
+                                               @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException,
             InvalidParameterException,
             MissingParameterException,
             OperationFailedException,
@@ -323,7 +323,7 @@ public interface PersonService {
      * @throws PermissionDeniedException an authorization failure occurred
      */
     public List<String> searchForPersonNameIds(@WebParam(name = "criteria") QueryByCriteria criteria,
-            @WebParam(name = "contextInfo") ContextInfo contextInfo) throws
+                                               @WebParam(name = "contextInfo") ContextInfo contextInfo) throws
             InvalidParameterException,
             MissingParameterException,
             OperationFailedException,
@@ -342,7 +342,7 @@ public interface PersonService {
      * @throws PermissionDeniedException an authorization failure occurred
      */
     public List<PersonNameInfo> searchForPersonNames(@WebParam(name = "criteria") QueryByCriteria criteria,
-            @WebParam(name = "contextInfo") ContextInfo contextInfo) throws
+                                                     @WebParam(name = "contextInfo") ContextInfo contextInfo) throws
             InvalidParameterException,
             MissingParameterException,
             OperationFailedException,
@@ -367,10 +367,10 @@ public interface PersonService {
      * @throws PermissionDeniedException an authorization failure occurred
      */
     public List<ValidationResultInfo> validatePersonName(@WebParam(name = "validationTypeKey") String validationTypeKey,
-            @WebParam(name = "personNameTyhpeKey") String personNameTypeKey,
-            @WebParam(name = "personId") String personId,
-            @WebParam(name = "personInfo") PersonNameInfo personNameInfo,
-            @WebParam(name = "contextInfo") ContextInfo contextInfo) throws
+                                                         @WebParam(name = "personNameTyhpeKey") String personNameTypeKey,
+                                                         @WebParam(name = "personId") String personId,
+                                                         @WebParam(name = "personInfo") PersonNameInfo personNameInfo,
+                                                         @WebParam(name = "contextInfo") ContextInfo contextInfo) throws
             DoesNotExistException,
             InvalidParameterException,
             MissingParameterException,
@@ -395,9 +395,9 @@ public interface PersonService {
      * @throws ReadOnlyException an attempt at supplying information designated as read only
      */
     public PersonNameInfo createPersonName(@WebParam(name = "personNameTypeKey") String personNameTypeKey,
-            @WebParam(name = "personId") String personId,
-            @WebParam(name = "personNameInfo") PersonNameInfo personNameInfo,
-            @WebParam(name = "contextInfo") ContextInfo contextInfo) throws
+                                           @WebParam(name = "personId") String personId,
+                                           @WebParam(name = "personNameInfo") PersonNameInfo personNameInfo,
+                                           @WebParam(name = "contextInfo") ContextInfo contextInfo) throws
             DataValidationErrorException,
             DoesNotExistException,
             InvalidParameterException,
@@ -425,8 +425,8 @@ public interface PersonService {
      * updating.
      */
     public PersonNameInfo updatePersonName(@WebParam(name = "personNamed") String personNameId,
-            @WebParam(name = "personNameInfo") PersonNameInfo personNameInfo,
-            @WebParam(name = "contextInfo") ContextInfo contextInfo) throws
+                                           @WebParam(name = "personNameInfo") PersonNameInfo personNameInfo,
+                                           @WebParam(name = "contextInfo") ContextInfo contextInfo) throws
             DataValidationErrorException,
             DoesNotExistException,
             InvalidParameterException,
@@ -450,7 +450,7 @@ public interface PersonService {
      * @throws PermissionDeniedException an authorization failure occurred
      */
     public StatusInfo deletePersonName(@WebParam(name = "personNameId") String personNameId,
-            @WebParam(name = "contextInfo") ContextInfo contextInfo) throws
+                                       @WebParam(name = "contextInfo") ContextInfo contextInfo) throws
             DoesNotExistException,
             InvalidParameterException,
             MissingParameterException,
@@ -470,7 +470,7 @@ public interface PersonService {
      * @throws PermissionDeniedException an authorization failure occurred
      */
     public List<PersonNameInfo> getPersonNamesByPerson(@WebParam(name = "personId") String personId,
-            @WebParam(name = "contextInfo") ContextInfo contextInfo) throws
+                                                       @WebParam(name = "contextInfo") ContextInfo contextInfo) throws
             InvalidParameterException,
             MissingParameterException,
             OperationFailedException,
@@ -493,7 +493,7 @@ public interface PersonService {
      * @throws PermissionDeniedException an authorization failure occurred
      */
     public PersonIdentifierInfo getPersonIdentifier(@WebParam(name = "personIdentifierId") String personIdentifierId,
-            @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException,
+                                                    @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException,
             InvalidParameterException,
             MissingParameterException,
             OperationFailedException,
@@ -534,7 +534,7 @@ public interface PersonService {
      * @throws PermissionDeniedException an authorization failure occurred
      */
     public List<String> getPersonIdentifierIdsByType(@WebParam(name = "personIdentifierTypeKey") String personIdentifierTypeKey,
-            @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException,
+                                                     @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException,
             InvalidParameterException,
             MissingParameterException,
             OperationFailedException,
@@ -554,7 +554,7 @@ public interface PersonService {
      * @throws PermissionDeniedException an authorization failure occurred
      */
     public List<String> searchForPersonIdentifierIds(@WebParam(name = "criteria") QueryByCriteria criteria,
-            @WebParam(name = "contextInfo") ContextInfo contextInfo) throws
+                                                     @WebParam(name = "contextInfo") ContextInfo contextInfo) throws
             InvalidParameterException,
             MissingParameterException,
             OperationFailedException,
@@ -573,7 +573,7 @@ public interface PersonService {
      * @throws PermissionDeniedException an authorization failure occurred
      */
     public List<PersonIdentifierInfo> searchForPersonIdentifiers(@WebParam(name = "criteria") QueryByCriteria criteria,
-            @WebParam(name = "contextInfo") ContextInfo contextInfo) throws
+                                                                 @WebParam(name = "contextInfo") ContextInfo contextInfo) throws
             InvalidParameterException,
             MissingParameterException,
             OperationFailedException,
@@ -599,10 +599,10 @@ public interface PersonService {
      * @throws PermissionDeniedException an authorization failure occurred
      */
     public List<ValidationResultInfo> validatePersonIdentifier(@WebParam(name = "validationTypeKey") String validationTypeKey,
-            @WebParam(name = "personIdentifierTypeKey") String personIdentifierTypeKey,
-            @WebParam(name = "personId") String personId,
-            @WebParam(name = "personIdentifierInfo") PersonIdentifierInfo personIdentifierInfo,
-            @WebParam(name = "contextInfo") ContextInfo contextInfo) throws
+                                                               @WebParam(name = "personIdentifierTypeKey") String personIdentifierTypeKey,
+                                                               @WebParam(name = "personId") String personId,
+                                                               @WebParam(name = "personIdentifierInfo") PersonIdentifierInfo personIdentifierInfo,
+                                                               @WebParam(name = "contextInfo") ContextInfo contextInfo) throws
             DoesNotExistException,
             InvalidParameterException,
             MissingParameterException,
@@ -627,9 +627,9 @@ public interface PersonService {
      * @throws ReadOnlyException an attempt at supplying information designated as read only
      */
     public PersonIdentifierInfo createPersonIdentifier(@WebParam(name = "personIdentifierTypeKey") String personIdentifierTypeKey,
-            @WebParam(name = "personId") String personId,
-            @WebParam(name = "personIdentifierInfo") PersonIdentifierInfo personIdentifierInfo,
-            @WebParam(name = "contextInfo") ContextInfo contextInfo) throws
+                                                       @WebParam(name = "personId") String personId,
+                                                       @WebParam(name = "personIdentifierInfo") PersonIdentifierInfo personIdentifierInfo,
+                                                       @WebParam(name = "contextInfo") ContextInfo contextInfo) throws
             DataValidationErrorException,
             DoesNotExistException,
             InvalidParameterException,
@@ -657,8 +657,8 @@ public interface PersonService {
      * updating.
      */
     public PersonIdentifierInfo updatePersonIdentifier(@WebParam(name = "personIdentifierId") String personIdentifierId,
-            @WebParam(name = "personIdentifierInfo") PersonIdentifierInfo personIdentifierInfo,
-            @WebParam(name = "contextInfo") ContextInfo contextInfo) throws
+                                                       @WebParam(name = "personIdentifierInfo") PersonIdentifierInfo personIdentifierInfo,
+                                                       @WebParam(name = "contextInfo") ContextInfo contextInfo) throws
             DataValidationErrorException,
             DoesNotExistException,
             InvalidParameterException,
@@ -682,7 +682,7 @@ public interface PersonService {
      * @throws PermissionDeniedException an authorization failure occurred
      */
     public StatusInfo deletePersonIdentifier(@WebParam(name = "personIdentifierId") String personIdentifierId,
-            @WebParam(name = "contextInfo") ContextInfo contextInfo) throws
+                                             @WebParam(name = "contextInfo") ContextInfo contextInfo) throws
             DoesNotExistException,
             InvalidParameterException,
             MissingParameterException,
@@ -703,7 +703,7 @@ public interface PersonService {
      * @throws PermissionDeniedException an authorization failure occurred
      */
     public List<PersonIdentifierInfo> getPersonIdentifiersByPerson(@WebParam(name = "personId") String personId,
-            @WebParam(name = "contextInfo") ContextInfo contextInfo) throws
+                                                                   @WebParam(name = "contextInfo") ContextInfo contextInfo) throws
             DoesNotExistException,
             InvalidParameterException,
             MissingParameterException,
@@ -814,7 +814,7 @@ public interface PersonService {
      * @throws PermissionDeniedException an authorization failure occurred
      */
     public List<String> searchForPersonBioDemographicsIds(@WebParam(name = "criteria") QueryByCriteria criteria,
-            @WebParam(name = "contextInfo") ContextInfo contextInfo) throws
+                                                          @WebParam(name = "contextInfo") ContextInfo contextInfo) throws
             InvalidParameterException,
             MissingParameterException,
             OperationFailedException,
@@ -833,7 +833,7 @@ public interface PersonService {
      * @throws PermissionDeniedException an authorization failure occurred
      */
     public List<PersonBioDemographicsInfo> searchForPersonBioDemographics(@WebParam(name = "criteria") QueryByCriteria criteria,
-            @WebParam(name = "contextInfo") ContextInfo contextInfo) throws
+                                                                          @WebParam(name = "contextInfo") ContextInfo contextInfo) throws
             InvalidParameterException,
             MissingParameterException,
             OperationFailedException,
@@ -857,10 +857,10 @@ public interface PersonService {
      * @throws PermissionDeniedException an authorization failure occurred
      */
     public List<ValidationResultInfo> validatePersonBioDemographics(@WebParam(name = "validationTypeKey") String validationTypeKey,
-            @WebParam(name = "personIdentifierTypeKey") String personIdentifierTypeKey,
-            @WebParam(name = "personId") String personId,
-            @WebParam(name = "personBioDemographicsInfo") PersonBioDemographicsInfo personBioDemographicsInfo,
-            @WebParam(name = "contextInfo") ContextInfo contextInfo) throws
+                                                                    @WebParam(name = "personIdentifierTypeKey") String personIdentifierTypeKey,
+                                                                    @WebParam(name = "personId") String personId,
+                                                                    @WebParam(name = "personBioDemographicsInfo") PersonBioDemographicsInfo personBioDemographicsInfo,
+                                                                    @WebParam(name = "contextInfo") ContextInfo contextInfo) throws
             InvalidParameterException,
             MissingParameterException,
             OperationFailedException,
@@ -942,7 +942,7 @@ public interface PersonService {
      * @throws PermissionDeniedException an authorization failure occurred
      */
     public StatusInfo deletePersonBioDemographics(@WebParam(name = "personBioDemographicsId") String personBioDemographicsId,
-            @WebParam(name = "contextInfo") ContextInfo contextInfo) throws
+                                                  @WebParam(name = "contextInfo") ContextInfo contextInfo) throws
             DoesNotExistException,
             InvalidParameterException,
             MissingParameterException,
@@ -963,7 +963,7 @@ public interface PersonService {
      * @throws PermissionDeniedException an authorization failure occurred
      */
     public PersonBioDemographicsInfo getPersonBioDemographicsByPerson(@WebParam(name = "personId") String personId,
-            @WebParam(name = "contextInfo") ContextInfo contextInfo) throws
+                                                                      @WebParam(name = "contextInfo") ContextInfo contextInfo) throws
             DoesNotExistException,
             InvalidParameterException,
             MissingParameterException,
@@ -987,7 +987,7 @@ public interface PersonService {
      * @throws PermissionDeniedException an authorization failure occurred
      */
     public PersonAffiliationInfo getPersonAffiliation(@WebParam(name = "personAffiliationId") String personAffiliationId,
-            @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException,
+                                                      @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException,
             InvalidParameterException,
             MissingParameterException,
             OperationFailedException,
@@ -1028,7 +1028,7 @@ public interface PersonService {
      * @throws PermissionDeniedException an authorization failure occurred
      */
     public List<String> getPersonAffiliationIdsByType(@WebParam(name = "personAffiliationTypeKey") String personAffiliationTypeKey,
-            @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException,
+                                                      @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException,
             InvalidParameterException,
             MissingParameterException,
             OperationFailedException,
@@ -1048,7 +1048,7 @@ public interface PersonService {
      * @throws PermissionDeniedException an authorization failure occurred
      */
     public List<String> searchForPersonAffiliationIds(@WebParam(name = "criteria") QueryByCriteria criteria,
-            @WebParam(name = "contextInfo") ContextInfo contextInfo) throws
+                                                      @WebParam(name = "contextInfo") ContextInfo contextInfo) throws
             InvalidParameterException,
             MissingParameterException,
             OperationFailedException,
@@ -1067,7 +1067,7 @@ public interface PersonService {
      * @throws PermissionDeniedException an authorization failure occurred
      */
     public List<PersonAffiliationInfo> searchForPersonAffiliations(@WebParam(name = "criteria") QueryByCriteria criteria,
-            @WebParam(name = "contextInfo") ContextInfo contextInfo) throws
+                                                                   @WebParam(name = "contextInfo") ContextInfo contextInfo) throws
             InvalidParameterException,
             MissingParameterException,
             OperationFailedException,
@@ -1094,11 +1094,11 @@ public interface PersonService {
      * @throws PermissionDeniedException an authorization failure occurred
      */
     public List<ValidationResultInfo> validatePersonAffiliation(@WebParam(name = "validationTypeKey") String validationTypeKey,
-            @WebParam(name = "personAffiliationTypeKey") String personAffiliationTypeKey,
-            @WebParam(name = "personId") String personId,
-            @WebParam(name = "organizationId") String organizationId,
-            @WebParam(name = "personAffiliationInfo") PersonAffiliationInfo personAffiliationInfo,
-            @WebParam(name = "contextInfo") ContextInfo contextInfo) throws
+                                                                @WebParam(name = "personAffiliationTypeKey") String personAffiliationTypeKey,
+                                                                @WebParam(name = "personId") String personId,
+                                                                @WebParam(name = "organizationId") String organizationId,
+                                                                @WebParam(name = "personAffiliationInfo") PersonAffiliationInfo personAffiliationInfo,
+                                                                @WebParam(name = "contextInfo") ContextInfo contextInfo) throws
             DoesNotExistException,
             InvalidParameterException,
             MissingParameterException,
@@ -1157,8 +1157,8 @@ public interface PersonService {
      * updating.
      */
     public PersonAffiliationInfo updatePersonAffiliation(@WebParam(name = "personAffiliationId") String personAffiliationId,
-            @WebParam(name = "personAffiliationInfo") PersonAffiliationInfo personAffiliationInfo,
-            @WebParam(name = "contextInfo") ContextInfo contextInfo) throws
+                                                         @WebParam(name = "personAffiliationInfo") PersonAffiliationInfo personAffiliationInfo,
+                                                         @WebParam(name = "contextInfo") ContextInfo contextInfo) throws
             DataValidationErrorException,
             DoesNotExistException,
             InvalidParameterException,
@@ -1182,7 +1182,7 @@ public interface PersonService {
      * @throws PermissionDeniedException an authorization failure occurred
      */
     public StatusInfo deletePersonAffiliation(@WebParam(name = "personAffiliationId") String personAffiliationId,
-            @WebParam(name = "contextInfo") ContextInfo contextInfo) throws
+                                              @WebParam(name = "contextInfo") ContextInfo contextInfo) throws
             DoesNotExistException,
             InvalidParameterException,
             MissingParameterException,
@@ -1203,7 +1203,7 @@ public interface PersonService {
      * @throws PermissionDeniedException an authorization failure occurred
      */
     public List<PersonAffiliationInfo> getPersonAffiliationsByPerson(@WebParam(name = "personId") String personId,
-            @WebParam(name = "contextInfo") ContextInfo contextInfo) throws
+                                                                     @WebParam(name = "contextInfo") ContextInfo contextInfo) throws
             DoesNotExistException,
             InvalidParameterException,
             MissingParameterException,
@@ -1212,7 +1212,7 @@ public interface PersonService {
 
     /**
      * Get active people matching a name name fragment with the specified affiliation to a particular organization.
-     * 
+     *
      * "Active" can be institutionally configured but is intended to select just those whose affiliations are current.
      * I.e. the store my contain many old students who graduated years ago but this method should filter them out.
      *
@@ -1236,11 +1236,11 @@ public interface PersonService {
             MissingParameterException,
             OperationFailedException,
             PermissionDeniedException;
-    
+
 
     /**
      * Get the Organization Id to use for Institutional affiliations
-     * 
+     *
      * This is sort of a default organization id to use when querying affiliations.
      *
      * @param contextInfo Context information containing the principalId and locale information about the caller of service

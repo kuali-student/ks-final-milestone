@@ -48,7 +48,7 @@ import java.util.List;
  * @version 2.0
  *
  */
-@WebService(name = "ProcessService", serviceName = "ProcessService", portName = "ProcessService", targetNamespace = ProcessServiceConstants.NAMESPACE)
+@WebService(name = "ProcessService", targetNamespace = ProcessServiceConstants.NAMESPACE)
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
 public interface ProcessService {
 

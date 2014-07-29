@@ -27,11 +27,12 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
+import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
+import org.kuali.student.r2.core.document.dto.DocumentHeaderDisplayInfo;
 import org.kuali.student.r2.core.document.dto.DocumentInfo;
 import org.kuali.student.r2.core.document.dto.RefDocRelationInfo;
 
 import java.util.List;
-import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 
 /**
  * Refer to service contract javadoc
@@ -54,6 +55,11 @@ public class DocumentServiceDecorator implements DocumentService {
 
     public void setNextDecorator(DocumentService nextDecorator) {
         this.nextDecorator = nextDecorator;
+    }
+
+    @Override
+    public List<DocumentHeaderDisplayInfo> getDocumentHeaderDisplay(String refObjectId, String documentTypeKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().getDocumentHeaderDisplay(refObjectId, documentTypeKey, contextInfo);
     }
 
     @Override

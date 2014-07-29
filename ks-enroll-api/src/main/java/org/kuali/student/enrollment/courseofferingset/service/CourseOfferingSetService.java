@@ -41,7 +41,7 @@ import java.util.List;
  *
  * @author nwright
  */
-@WebService(name = "CourseOfferingSetService", serviceName = "CourseOfferingSetService", portName = "CourseOfferingSetService", targetNamespace = CourseOfferingSetServiceConstants.NAMESPACE)
+@WebService(name = "CourseOfferingSetService", targetNamespace = CourseOfferingSetServiceConstants.NAMESPACE)
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
 public interface CourseOfferingSetService extends CourseOfferingSetServiceBusinessLogic {
 

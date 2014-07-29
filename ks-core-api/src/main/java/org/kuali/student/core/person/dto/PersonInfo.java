@@ -14,6 +14,7 @@
  */
 package org.kuali.student.core.person.dto;
 
+import org.kuali.student.core.person.infc.Person;
 import org.kuali.student.r2.common.dto.IdEntityInfo;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -22,7 +23,6 @@ import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlType;
 import java.io.Serializable;
 import java.util.List;
-import org.kuali.student.core.person.infc.Person;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "PersonInfo", propOrder = {"id",

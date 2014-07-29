@@ -28,10 +28,11 @@ public class StudentIdentityConstants {
 
     public static final String QUALIFICATION_KS_PROPOSAL_ID = "ksProposalIdQualificationKey";
 
+    public static final String QUALIFICATION_PROPOSAL_REF_TYPE = "referenceType.clu.proposal";
     public static final Set<String> QUALIFICATION_PROPOSAL_ID_REF_TYPES = new HashSet<String>();
     static {
         // this must contain all proposal reference types
-        QUALIFICATION_PROPOSAL_ID_REF_TYPES.add("referenceType.clu.proposal");
+        QUALIFICATION_PROPOSAL_ID_REF_TYPES.add(QUALIFICATION_PROPOSAL_REF_TYPE);
     }
 
     public static final String QUALIFICATION_KEW_OBJECT_ID = "kualiStudentObjectWorkflowId";
@@ -61,5 +62,10 @@ public class StudentIdentityConstants {
     public static final String KSCM_USER_ROLE_NAME = "Kuali Student CM User";
     
     public static final String KS_NAMESPACE_CD = "KS-SYS";
+
+    public static final String PERMISSION_TEMPLATE_NAMESPACE_COMMENTS = KS_NAMESPACE_CD;
+    public static final String PERMISSION_TEMPLATE_NAME_COMMENTS_ADD = "Add a Comment";
+    public static final String PERMISSION_TEMPLATE_NAME_COMMENTS_EDIT = "Edit a Comment";
+    public static final String PERMISSION_TEMPLATE_NAME_COMMENTS_DELETE = "Delete a Comment";
 
 }

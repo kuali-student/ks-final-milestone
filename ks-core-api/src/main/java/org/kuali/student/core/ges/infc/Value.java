@@ -62,52 +62,17 @@ public interface Value extends IdNamelessEntity, HasEffectiveDates {
     List<String> getAtpTypeKeys();
 
     /**
-     * An optional Rule Id that restricts the applicability of this value.
-     * @name Rule Id
-     */
-    String getRuleId();
-
-    /**
-     * An optional Organization Id that restricts the applicability of this value.
-     * @name Org Id
-     */
-    String getOrgId();
-
-    //////////////////////////////////
-    // Person Specific Quantifiers
-    //////////////////////////////////
-
-    /**
      *  An optional Population Id that restricts the applicability of this value.
      * @name Population Id
      */
     String getPopulationId();
 
-    //////////////////////////////////
-    // Course Specific Quantifiers
-    //////////////////////////////////
-
     /**
-     * An optional CLU (Canonical Learning Unit) Id that restricts the applicability of this value.
-     * @name CLU ID
+     * An optional Rule Id that restricts the applicability of this value.
+     * @name Rule Id
      */
-    String getCluId();
+    String getRuleId();
 
-    /**
-     * An optional SOC (Set of Courses) Id that restricts the applicability of this value.
-     * @name SOC ID
-     */
-    String getSocId();
-
-    /**
-     * An optional Subject Code that restricts the applicability of this value.
-     * @name Subject Code
-     */
-    String getSubjectCode();
-
-    //////////////////////////////////
-    // Value Variables
-    //////////////////////////////////
 
     /**
      * The Boolean value contained within this entity

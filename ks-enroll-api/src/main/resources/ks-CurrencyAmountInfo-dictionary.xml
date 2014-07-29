@@ -42,11 +42,6 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
 	<!-- insert any overrides to the generated object definitions here -->
 	</bean>
 
-	<bean id="CurrencyAmountInfo.id" parent="CurrencyAmountInfo.id-parent"/>
-	<bean id="CurrencyAmountInfo.id-parent" abstract="true" parent="CurrencyAmountInfo.id-generated">
-	<!-- insert any overrides to the generated attribute definitions here -->
-	</bean>
-
 	<bean id="CurrencyAmountInfo.currencyTypeKey" parent="CurrencyAmountInfo.currencyTypeKey-parent"/>
 	<bean id="CurrencyAmountInfo.currencyTypeKey-parent" abstract="true" parent="CurrencyAmountInfo.currencyTypeKey-generated">
 	<!-- insert any overrides to the generated attribute definitions here -->
@@ -54,36 +49,6 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
 
 	<bean id="CurrencyAmountInfo.currencyQuantity" parent="CurrencyAmountInfo.currencyQuantity-parent"/>
 	<bean id="CurrencyAmountInfo.currencyQuantity-parent" abstract="true" parent="CurrencyAmountInfo.currencyQuantity-generated">
-	<!-- insert any overrides to the generated attribute definitions here -->
-	</bean>
-
-	<bean id="CurrencyAmountInfo.meta" parent="CurrencyAmountInfo.meta-parent"/>
-	<bean id="CurrencyAmountInfo.meta-parent" abstract="true" parent="CurrencyAmountInfo.meta-generated">
-	<!-- insert any overrides to the generated attribute definitions here -->
-	</bean>
-
-	<bean id="CurrencyAmountInfo.meta.versionInd" parent="CurrencyAmountInfo.meta.versionInd-parent"/>
-	<bean id="CurrencyAmountInfo.meta.versionInd-parent" abstract="true" parent="CurrencyAmountInfo.meta.versionInd-generated">
-	<!-- insert any overrides to the generated attribute definitions here -->
-	</bean>
-
-	<bean id="CurrencyAmountInfo.meta.createTime" parent="CurrencyAmountInfo.meta.createTime-parent"/>
-	<bean id="CurrencyAmountInfo.meta.createTime-parent" abstract="true" parent="CurrencyAmountInfo.meta.createTime-generated">
-	<!-- insert any overrides to the generated attribute definitions here -->
-	</bean>
-
-	<bean id="CurrencyAmountInfo.meta.createId" parent="CurrencyAmountInfo.meta.createId-parent"/>
-	<bean id="CurrencyAmountInfo.meta.createId-parent" abstract="true" parent="CurrencyAmountInfo.meta.createId-generated">
-	<!-- insert any overrides to the generated attribute definitions here -->
-	</bean>
-
-	<bean id="CurrencyAmountInfo.meta.updateTime" parent="CurrencyAmountInfo.meta.updateTime-parent"/>
-	<bean id="CurrencyAmountInfo.meta.updateTime-parent" abstract="true" parent="CurrencyAmountInfo.meta.updateTime-generated">
-	<!-- insert any overrides to the generated attribute definitions here -->
-	</bean>
-
-	<bean id="CurrencyAmountInfo.meta.updateId" parent="CurrencyAmountInfo.meta.updateId-parent"/>
-	<bean id="CurrencyAmountInfo.meta.updateId-parent" abstract="true" parent="CurrencyAmountInfo.meta.updateId-generated">
 	<!-- insert any overrides to the generated attribute definitions here -->
 	</bean>
 </beans>

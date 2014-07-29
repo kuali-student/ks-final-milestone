@@ -72,6 +72,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
 	<bean id="LoDisplayInfo.descr.plain" parent="LoDisplayInfo.descr.plain-parent"/>
 	<bean id="LoDisplayInfo.descr.plain-parent" abstract="true" parent="LoDisplayInfo.descr.plain-generated">
 	<!-- insert any overrides to the generated attribute definitions here -->
+        <property name="required" value="true" />
 	</bean>
 
 	<bean id="LoDisplayInfo.descr.formatted" parent="LoDisplayInfo.descr.formatted-parent"/>

@@ -16,8 +16,9 @@
 
 package org.kuali.student.r2.common.exceptions;
 
-import org.apache.log4j.Logger;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.xml.ws.WebFault;
 import java.io.PrintStream;
@@ -29,7 +30,7 @@ import java.util.List;
 public class DataValidationErrorException 
     extends Exception {
 
-    private static final Logger LOG = Logger.getLogger(DataValidationErrorException.class);
+    private static final Logger LOG = LoggerFactory.getLogger(DataValidationErrorException.class);
     
     private static final long serialVersionUID = 1L;
 
@@ -100,6 +101,8 @@ public class DataValidationErrorException
     }
     
     private void logValidationResults() {
-        LOG.debug(toString());	
+        if (LOG.isDebugEnabled()) {
+            LOG.debug(toString());
+        }
     }
 }

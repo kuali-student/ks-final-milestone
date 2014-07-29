@@ -16,9 +16,9 @@
 package org.kuali.student.r2.common.dto;
 
 import java.io.Serializable;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -27,8 +27,8 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
 import org.joda.time.LocalDateTime;
-import org.joda.time.LocalTime;
 import org.kuali.student.r2.common.infc.TimeOfDay;
+import org.kuali.student.r2.common.util.TimeOfDayHelper;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "TimeOfDayInfo", propOrder = {"hour", "minute", "second", "_futureElements" })
@@ -123,16 +123,33 @@ public class TimeOfDayInfo implements TimeOfDay, Comparable<TimeOfDay>, Serializ
 
     /**
      *
-     * @param date a java.util.Date to which timeOfDay is added
+     * @param date a java.util.Date to which timeOfDay is added (the hours, minutes, seconds
+     *             and milliseconds are ignored and treated as 0.  Only the month, day, year
+     *             of date is relevant)
      * @param timeOfDay the TimeOfDay that is added to the date parameter
      * @return a java.util.Date that is the sum of date and timeOfDay
      */
     public static Date getDateWithTimeOfDay(Date date, TimeOfDay timeOfDay) {
-        LocalDateTime localDateTime = new LocalDateTime(date);
-        localDateTime = localDateTime.plusHours(timeOfDay.getHour());
-        localDateTime = localDateTime.plusMinutes(timeOfDay.getMinute() == null ? 0 : timeOfDay.getMinute());
-        localDateTime = localDateTime.plusSeconds(timeOfDay.getSecond() == null ? 0 : timeOfDay.getSecond());
-        return localDateTime.toDate();
+        if (date == null || timeOfDay == null) {
+            return null;
+        }
+        // This is JODA which is the preferred way to deal with time.
+        // One issue: Java's Date class doesn't have a way to store the timezone associated with the date.
+        // Instead, it saves millis since Jan 1, 1970 (GMT), and uses the local machine's timezone to
+        // interpret it (although, it can also handle UTC as a timezone).  To store the timezone, you either
+        // need Joda's LocalDateTime or use the Calendar class.  Thus, it is recommended that you either
+        // pass in the date relative to the current timezone, or perhaps redo this class where you pass
+        // a timezone in, and don't use a Date class, but use a Joda DateTime class. --cclin
+        LocalDateTime time = new LocalDateTime(date);
+        LocalDateTime result =
+                new LocalDateTime(time.getYear(),
+                        time.getMonthOfYear(),
+                        time.getDayOfMonth(),
+                        timeOfDay.getHour() == null ? 0 : timeOfDay.getHour(),
+                        timeOfDay.getMinute() == null ? 0 : timeOfDay.getMinute(),
+                        timeOfDay.getSecond() == null ? 0 : timeOfDay.getSecond(),
+                        0);
+        return result.toDate();
     }
 
     /**
@@ -142,8 +159,8 @@ public class TimeOfDayInfo implements TimeOfDay, Comparable<TimeOfDay>, Serializ
     @Override
     @Deprecated
     public Long getMilliSeconds() {
-        LocalTime localTime = new LocalTime(hour, minute, second);
-        return (long)localTime.getMillisOfDay();
+        // Use TimeOfDayHelper.getMillis(timeOfDayObj) instead
+        return TimeOfDayHelper.getMillis(this);
     }
 
     /**
@@ -154,14 +171,11 @@ public class TimeOfDayInfo implements TimeOfDay, Comparable<TimeOfDay>, Serializ
      */
     @Deprecated
     public void setMilliSeconds(Long milliSeconds) {
-        long hours = TimeUnit.MILLISECONDS.toHours(milliSeconds);
-        long minutes = TimeUnit.MILLISECONDS.toMinutes(milliSeconds) % 60;
-        long seconds = TimeUnit.MILLISECONDS.toSeconds(milliSeconds) % 60;
-
-        LocalTime localTime = new LocalTime((int)hours, (int)minutes, (int)seconds);
-        setHour(localTime.getHourOfDay());
-        setMinute(localTime.getMinuteOfHour());
-        setSecond(localTime.getSecondOfMinute());
+        // Use TimeOfDayHelper.setMillis to create a new TimeOfDayHelper
+        TimeOfDayInfo tod = TimeOfDayHelper.setMillis(milliSeconds);
+        this.setHour(tod.getHour());
+        this.setMinute(tod.getMinute());
+        this.setSecond(tod.getSecond());
     }
 
     /**
