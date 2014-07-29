@@ -34,7 +34,10 @@ public class AdminRegConstants {
     // Collection component ids.
     public static final String POLLING_STOP = "stop";
     public static final String POLLING_UPDATE_IDS = "updateIds";
+    public static final String POLLING_REFRESH = "refresh";
     public static final String POLLING_CLIENT_STATE = "clientState";
+    public static final String POLLING_REGISTERED_CREDITS = "registeredCredits";
+    public static final String POLLING_WAITLISTED_CREDITS = "waitlistedCredits";
 
     // Dialog ids.
     public static final String REG_CONFIRM_DIALOG = "registerConfirmDialog";

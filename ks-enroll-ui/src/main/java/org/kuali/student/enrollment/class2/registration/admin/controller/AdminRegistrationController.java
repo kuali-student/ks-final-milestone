@@ -287,7 +287,12 @@ public class AdminRegistrationController extends UifControllerBase {
             form.setRegRequestId(null);
             form.getCoursesInProcess().clear();
             form.setClientState(AdminRegConstants.ClientStates.READY);
+
+            // Set the ajax return values.
+            result.put(AdminRegConstants.POLLING_REFRESH, true);
             result.put(AdminRegConstants.POLLING_CLIENT_STATE, form.getClientState());
+            result.put(AdminRegConstants.POLLING_REGISTERED_CREDITS, form.getRegisteredCredits());
+            result.put(AdminRegConstants.POLLING_WAITLISTED_CREDITS, form.getWaitlistedCredits());
         }
 
         // Return updateIds to UI, to refresh selected collections.
