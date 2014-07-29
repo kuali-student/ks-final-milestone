@@ -106,6 +106,14 @@ pre { /*Really needed?*/
 
 // Icons
 // --------------------------------------------------
+
+//Override KRAD icon font-smoothing
+[class*="icon-"] {
+  -webkit-font-smoothing: inherit;
+  -moz-osx-font-smoothing: inherit;
+}
+
+//Remove underline on icon hover
 a[class*="ks-fontello-icon-"]:hover {
   text-decoration: none;
 }
