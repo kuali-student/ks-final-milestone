@@ -70,6 +70,9 @@ angular.module('regCartApp')
 
 
         $scope.clearSelectedAOs = function() {
+            angular.forEach($scope.selectedAOs, function (ao) {
+                ao.selected = false;
+            });
             $scope.selectedAOs = [];
         };
 

@@ -77,9 +77,7 @@
                         </a>
                     </span-->
                 </div>
-
-                <!-- TODO: This is where the AOs tables would go -->
-                <div class="kscr-SearchDetails-activityOfferings">
+               <div class="kscr-SearchDetails-activityOfferings">
                     <table id="search_results_table" class="kscr-Search-results-table">
                         <thead class="kscr-Search-results-table-head">
                         <tr>
@@ -109,7 +107,7 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr class="kscr-Search-row" ng-repeat="ao in aoType.activityOfferings">
+                        <tr class="kscr-Search-row" ng-repeat="ao in aoType.activityOfferings" ng-show="isAOSelected(ao) || (!isAOSelected(ao) && !isAOTypeSelected(ao.activityOfferingType)) || !hasSelectedAOs()">
                             <td class="kscr-Search-results-cell">
                                 <div ng-repeat="scheduleComponent in ao.scheduleComponents" class="kscr-Card-scheduleComponent">
                                     {{scheduleComponent.days}}
@@ -131,7 +129,7 @@
                                 </div>
                             </td>
                             <td class="kscr-Search-results-cell">{{ao.seatsOpen}}/{{ao.seatsAvailable}}</td>
-                            <td class="kscr-Search-results-cell"><input type="checkbox"></td>
+                            <td class="kscr-Search-results-cell"><input type="checkbox" ng-model="ao.selected" ng-click="toggleAO(ao.activityOfferingType, ao)"></td>
                         </tr>
                         </tbody>
                     </table>
