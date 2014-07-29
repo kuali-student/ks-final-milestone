@@ -183,14 +183,14 @@ function setValidation(requiredName, states, message) {
 function renderResults() {
 
     jq('.error-result').each(function () {
-        jq(this).parentsUntil("tr").parent().addClass('alert-danger');
+        jq(this).closest("tr").addClass('alert-danger');
     });
 
     jq('.warning-result').each(function () {
-        jq(this).parentsUntil("tr").parent().addClass('alert-warning');
+        jq(this).closest("tr").addClass('alert-warning');
     });
 
     jq('.success-result').each(function () {
-        jq(this).parentsUntil("tr").parent().addClass('alert-success');
+        jq(this).closest("tr").addClass('alert-success');
     });
 }
