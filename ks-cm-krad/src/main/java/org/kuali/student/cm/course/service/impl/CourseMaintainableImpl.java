@@ -165,7 +165,6 @@ import java.util.Map;
  */
 public class CourseMaintainableImpl extends RuleEditorMaintainableImpl implements CourseMaintainable, RuleViewHelperService {
 
-
     private static final Logger LOG = LoggerFactory.getLogger(CourseMaintainableImpl.class);
 
     protected transient static final String CREDIT_COURSE_CLU_TYPE_KEY = "kuali.lu.typeKey.CreditCourse";
@@ -878,14 +877,11 @@ public class CourseMaintainableImpl extends RuleEditorMaintainableImpl implement
             courseInfoWrapper.getSupportingDocs().add(new SupportingDocumentInfoWrapper());
         }
 
-
         if (requestParameters.get(CourseController.URL_PARAM_USE_CURRICULUM_REVIEW) != null &&
                 requestParameters.get(CourseController.URL_PARAM_USE_CURRICULUM_REVIEW).length != 0) {
             Boolean isUseReviewProcess = BooleanUtils.toBoolean(requestParameters.get(CourseController.URL_PARAM_USE_CURRICULUM_REVIEW)[0]);
             courseInfoWrapper.getUiHelper().setUseReviewProcess(isUseReviewProcess);
         }
-
-
     }
 
     /**

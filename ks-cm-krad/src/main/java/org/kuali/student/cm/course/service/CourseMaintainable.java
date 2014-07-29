@@ -70,5 +70,4 @@ public interface CourseMaintainable extends CMMaintainable {
     public List<CluInformation> getCoursesInRange(MembershipQueryInfo membershipQuery);
 
     public void populateCourseAndReviewData(String courseId, CourseInfoWrapper courseWrapper, boolean isCourseView ) throws Exception;
-
 }

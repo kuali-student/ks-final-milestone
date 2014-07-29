@@ -309,7 +309,6 @@ public class CourseController extends CourseRuleEditorController {
     public ModelAndView editCourseProposalPage(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result,
                                                HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-
         String displaySectionId = form.getActionParameters().get("displaySection");
         CourseInfoWrapper wrapper = getCourseInfoWrapper(form);
         if (wrapper.getInstructorWrappers().size() == 0) {
