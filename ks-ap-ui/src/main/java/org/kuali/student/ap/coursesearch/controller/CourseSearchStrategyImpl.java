@@ -150,15 +150,8 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
         if (!courseIDs.isEmpty()) {
             courseIDs = termfilterCourseIds(courseIDs, form.getSearchTerm());
             if (courseIDs.size() > maxCount) {
-                List<String> temp = new ArrayList<String>();
-                for (String id : courseIDs) {
-                    if (temp.size() >= maxCount) {
-                        form.setLimitExceeded(true);
-                        break;
-                    }
-                    temp.add(id);
-                }
-                courseIDs = temp;
+                courseIDs = courseIDs.subList(0,maxCount);
+                form.setLimitExceeded(true);
             }
         }
 
@@ -371,6 +364,7 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
                     if (id.equals(courseId)) {
                         CourseSearchItemImpl course = new CourseSearchItemImpl();
                         course.setCourseId(id);
+                        course.setSearchExceeded(form.isLimitExceeded());
                         course.setSubject(KsapHelperUtil.getCellValue(row, "course.subject"));
                         course.setNumber(KsapHelperUtil.getCellValue(row, "course.number"));
                         course.setLevel(KsapHelperUtil.getCellValue(row, "course.level"));

@@ -154,18 +154,18 @@ public class CourseSearchViewHelperServiceImpl extends ViewHelperServiceImpl imp
         // Validate search results
         if (table.getSearchResults() != null && !table.getSearchResults().isEmpty()) {
 
+            SearchInfo firstRow = table.getSearchResults().iterator().next();
             // Set up Limited Exceeded message
             String maxCountProp = ConfigContext.getCurrentContextConfig()
                     .getProperty("ksap.search.results.max");
             int maxCount = maxCountProp != null && !"".equals(maxCountProp.trim()) ? Integer
                     .valueOf(maxCountProp) : CourseSearchStrategy.MAX_HITS;
-            if(form.isLimitExceeded()){
+            if(firstRow.getItem().isSearchExceeded()){
                 json.add("LimitExceeded", maxCount);
             }else{
                 json.add("LimitExceeded", 0);
             }
 
-            SearchInfo firstRow = table.getSearchResults().iterator().next();
             // Validate incoming jQuery datatables inputs
             assert table != null;
             assert table.getSearchResults().isEmpty()

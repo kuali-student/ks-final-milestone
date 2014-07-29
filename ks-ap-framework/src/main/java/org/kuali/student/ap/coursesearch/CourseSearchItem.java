@@ -144,4 +144,11 @@ public interface CourseSearchItem {
      * @return A identifier for the course not related to a specific version
      */
     public String getVersionIndependentId();
+
+    /**
+     * Flag to indicate if the search was exceeded
+     *
+     * @return True if more courses were found than the allowed, false otherwize
+     */
+    public boolean isSearchExceeded();
 }

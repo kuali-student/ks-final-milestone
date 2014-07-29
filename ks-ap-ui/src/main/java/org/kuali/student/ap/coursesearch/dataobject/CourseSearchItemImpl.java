@@ -68,6 +68,7 @@ public class CourseSearchItemImpl implements CourseSearchItem {
 
     private boolean planned;
     private boolean saved;
+    private boolean searchExceeded;
 
 	/* Facet keys used for filtering in the view. */
 	private Set<String> curriculumFacetKeys = new HashSet<String>();
@@ -633,6 +634,15 @@ public class CourseSearchItemImpl implements CourseSearchItem {
         this.versionIndependentId = versionIndependentId;
     }
 
+    @Override
+    public boolean isSearchExceeded() {
+        return searchExceeded;
+    }
+
+    public void setSearchExceeded(boolean searchExceeded) {
+        this.searchExceeded = searchExceeded;
+    }
+
     /**
      * Creates a formatted string for the display of the general education requirements in the results table.
      *
@@ -661,4 +671,5 @@ public class CourseSearchItemImpl implements CourseSearchItem {
 
         return genEdContainer.asXML();
     }
+
 }
