@@ -16,13 +16,10 @@ angular.module('regCartApp')
                 searchColumns: '=',
                 facetFilter: '=',
                 searchCriteria: '@',
-                termName: '@'
+                termName: '@',
+                detailsId: '@'
             },
             link:function(scope,element,attrs) {
-
-                if (attrs.detailsId) {
-                    scope.detailsId = attrs.detailsId;
-                }
 
                 // the choices for limiting display of search results
                 scope.displayLimits = [20, 50, 100];
@@ -54,6 +51,12 @@ angular.module('regCartApp')
                 // if the display limit changes, reset the page to 1
                 scope.$watch('displayLimit', function() {
                     scope.page = 1;
+                });
+
+                angular.forEach(scope.searchColumns, function(searchColumn) {
+                    if (searchColumn.default) {
+                        scope.defaultField = searchColumn.field;
+                    }
                 });
 
                 // the range of search results being viewed
@@ -144,12 +147,10 @@ angular.module('regCartApp')
                         field: attrs.field,
                         filter: attrs.filter,
                         order: attrs.order,
-                        url: attrs.url};
+                        url: attrs.url,
+                        default: attrs.defaultField};
                     scope.searchColumns.push(searchColumn);
                     scope.sortSearchColumns();
-                }
-                if (attrs.field && attrs.defaultField === 'true') {
-                    scope.defaultField = attrs.field;
                 }
             }
         };
