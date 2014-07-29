@@ -1,6 +1,8 @@
 package org.kuali.student.r2.lum.program.service;
 
-import org.kuali.rice.core.api.criteria.QueryByCriteria;
+import java.util.Date;
+import java.util.List;
+
 import org.kuali.student.r1.common.dictionary.dto.ObjectStructureDefinition;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
@@ -26,11 +28,6 @@ import org.kuali.student.r2.lum.program.dto.MajorDisciplineInfo;
 import org.kuali.student.r2.lum.program.dto.MinorDisciplineInfo;
 import org.kuali.student.r2.lum.program.dto.ProgramRequirementInfo;
 import org.kuali.student.r2.lum.program.dto.ProgramVariationInfo;
-import org.kuali.student.r2.lum.program.dto.TrackInfo;
-
-import javax.jws.WebParam;
-import java.util.Date;
-import java.util.List;
 
 public class ProgramServiceDecorator implements ProgramService {
     private ProgramService nextDecorator;
@@ -47,11 +44,6 @@ public class ProgramServiceDecorator implements ProgramService {
     @Override
     public CredentialProgramInfo getCredentialProgram(String credentialProgramId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return this.getNextDecorator().getCredentialProgram(credentialProgramId, contextInfo);
-    }
-
-    @Override
-    public List<String> getCredentialProgramIdsByType(String credentialProgramTypeKey, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return this.getNextDecorator().getCredentialProgramIdsByType(credentialProgramTypeKey, contextInfo);
     }
 
     @Override
@@ -90,35 +82,12 @@ public class ProgramServiceDecorator implements ProgramService {
     }
 
     @Override
-    public List<String> searchForCredentialProgramIds(QueryByCriteria criteria, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return this.getNextDecorator().searchForCredentialProgramIds(criteria, contextInfo);
-    }
-
-    @Override
-    public List<CredentialProgramInfo> searchForCredentialPrograms(QueryByCriteria criteria, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return this.getNextDecorator().searchForCredentialPrograms(criteria, contextInfo);
-    }
-
-    @Override
     public MajorDisciplineInfo getMajorDiscipline(String majorDisciplineId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return this.getNextDecorator().getMajorDiscipline(majorDisciplineId, contextInfo);
     }
-
-    @Override
-    public List<String> getMajorDisciplineIdsByType(String majorDisciplineTypeKey, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return this.getNextDecorator().getMajorDisciplineIdsByType(majorDisciplineTypeKey, contextInfo);
-    }
-
     @Override
     public List<MinorDisciplineInfo> getMinorDisciplinesByIds(List<String> minorDisciplineIds, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return getNextDecorator().getMinorDisciplinesByIds(minorDisciplineIds,contextInfo);
-    }
-
-    @Override
-    public List<String> getMinorDisciplineIdsByType(String minorDisciplineTypeKey, ContextInfo contextInfo)
-            throws InvalidParameterException, MissingParameterException,
-            OperationFailedException, PermissionDeniedException {
-        return getNextDecorator().getMinorDisciplineIdsByType(minorDisciplineTypeKey, contextInfo);
     }
 
     @Override
@@ -152,28 +121,8 @@ public class ProgramServiceDecorator implements ProgramService {
     }
 
     @Override
-    public List<String> searchForMajorDisciplineIds(QueryByCriteria criteria, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return this.getNextDecorator().searchForMajorDisciplineIds(criteria, contextInfo);
-    }
-
-    @Override
-    public List<MajorDisciplineInfo> searchForMajorDisciplines(QueryByCriteria criteria, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return this.getNextDecorator().searchForMajorDisciplines(criteria, contextInfo);
-    }
-
-    @Override
-    public MinorDisciplineInfo createNewMinorDisciplineVersion(String minorDisciplineId, String versionComment, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException, DataValidationErrorException, ReadOnlyException {
-        return this.getNextDecorator().createNewMinorDisciplineVersion(minorDisciplineId, versionComment, contextInfo);
-    }
-
-    @Override
     public HonorsProgramInfo getHonorsProgram(String honorsProgramId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return this.getNextDecorator().getHonorsProgram(honorsProgramId, contextInfo);
-    }
-
-    @Override
-    public List<String> getHonorsProgramIdsByType(String honorsProgramTypeKey, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return this.getNextDecorator().getHonorsProgramIdsByType(honorsProgramTypeKey, contextInfo);
     }
 
     @Override
@@ -203,23 +152,8 @@ public class ProgramServiceDecorator implements ProgramService {
     }
 
     @Override
-    public List<String> searchForHonorsProgramIds(QueryByCriteria criteria, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return this.getNextDecorator().searchForHonorsProgramIds(criteria, contextInfo);
-    }
-
-    @Override
-    public List<HonorsProgramInfo> searchForHonorsPrograms(QueryByCriteria criteria, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return this.getNextDecorator().searchForHonorsPrograms(criteria, contextInfo);
-    }
-
-    @Override
     public CoreProgramInfo getCoreProgram(String coreProgramId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return this.getNextDecorator().getCoreProgram(coreProgramId, contextInfo);
-    }
-
-    @Override
-    public List<String> getCoreProgramIdsByType(String coreProgramTypeKey, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return this.getNextDecorator().getCoreProgramIdsByType(coreProgramTypeKey, contextInfo);
     }
 
     @Override
@@ -253,23 +187,8 @@ public class ProgramServiceDecorator implements ProgramService {
     }
 
     @Override
-    public List<String> searchForCoreProgramIds(QueryByCriteria criteria, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return this.getNextDecorator().searchForCoreProgramIds(criteria, contextInfo);
-    }
-
-    @Override
-    public List<CoreProgramInfo> searchForCorePrograms(QueryByCriteria criteria, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return this.getNextDecorator().searchForCorePrograms(criteria, contextInfo);
-    }
-
-    @Override
     public ProgramRequirementInfo getProgramRequirement(String programRequirementId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return this.getNextDecorator().getProgramRequirement(programRequirementId, contextInfo);
-    }
-
-    @Override
-    public List<String> getProgramRequirementIdsByType(String programRequirementTypeKey, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return this.getNextDecorator().getProgramRequirementIdsByType(programRequirementTypeKey, contextInfo);
     }
 
     @Override
@@ -293,16 +212,6 @@ public class ProgramServiceDecorator implements ProgramService {
     }
 
     @Override
-    public List<String> searchForProgramRequirementIds(QueryByCriteria criteria, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return this.getNextDecorator().searchForCredentialProgramIds(criteria, contextInfo);
-    }
-
-    @Override
-    public List<ProgramRequirementInfo> searchForProgramRequirements(QueryByCriteria criteria, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return this.getNextDecorator().searchForProgramRequirements(criteria, contextInfo);
-    }
-
-    @Override
     public StatusInfo setCurrentMajorDisciplineVersion(String majorDisciplineId, Date currentVersionStart, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, IllegalVersionSequencingException, OperationFailedException, PermissionDeniedException, DataValidationErrorException {
         return this.getNextDecorator().setCurrentMajorDisciplineVersion(majorDisciplineId, currentVersionStart, contextInfo);
     }
@@ -323,82 +232,6 @@ public class ProgramServiceDecorator implements ProgramService {
     }
 
     @Override
-    public TrackInfo createTrack(String minorDisciplineId, String trackTypeKey, TrackInfo trackInfo, ContextInfo contextInfo)
-            throws AlreadyExistsException, DataValidationErrorException,
-            InvalidParameterException, MissingParameterException,
-            OperationFailedException, PermissionDeniedException {
-        return this.getNextDecorator().createTrack(minorDisciplineId, trackTypeKey, trackInfo, contextInfo);
-    }
-
-    @Override
-    public TrackInfo updateTrack(String trackId, String trackTypeKey, TrackInfo trackInfo, ContextInfo contextInfo)
-            throws DataValidationErrorException, DoesNotExistException,
-            InvalidParameterException, MissingParameterException,
-            VersionMismatchException, OperationFailedException, PermissionDeniedException {
-        return this.getNextDecorator().updateTrack(trackId, trackTypeKey, trackInfo, contextInfo);
-    }
-
-    @Override
-    public StatusInfo deleteTrack(String trackId, ContextInfo contextInfo)
-            throws DoesNotExistException, InvalidParameterException,
-            MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return this.getNextDecorator().deleteTrack(trackId, contextInfo);
-    }
-
-    @Override
-    public TrackInfo getTrack(String trackId,  ContextInfo contextInfo)
-            throws DoesNotExistException,
-            InvalidParameterException,
-            MissingParameterException,
-            OperationFailedException,
-            PermissionDeniedException {
-        return this.getNextDecorator().getTrack(trackId, contextInfo);
-    }
-
-    @Override
-    public List<TrackInfo> getTracksByIds(List<String> trackIds, ContextInfo contextInfo)
-            throws DoesNotExistException,
-            InvalidParameterException,
-            MissingParameterException,
-            OperationFailedException,
-            PermissionDeniedException {
-        return this.getNextDecorator().getTracksByIds(trackIds, contextInfo);
-    }
-
-    @Override
-    public List<String> getTrackIdsByType(String trackTypeKey, ContextInfo contextInfo)
-            throws InvalidParameterException, MissingParameterException,
-            OperationFailedException, PermissionDeniedException {
-        return this.getNextDecorator().getTrackIdsByType(trackTypeKey, contextInfo);
-    }
-
-    @Override
-    public List<TrackInfo> getTracksByMinor(String minorDisciplineId, ContextInfo contextInfo)
-            throws InvalidParameterException,
-            MissingParameterException,
-            OperationFailedException,
-            PermissionDeniedException {
-        return this.getNextDecorator().getTracksByMinor(minorDisciplineId, contextInfo);
-    }
-
-    @Override
-    public List<ValidationResultInfo> validateTrack(String minorDisciplineId, String validationType, TrackInfo trackInfo, ContextInfo contextInfo)
-            throws InvalidParameterException, MissingParameterException,
-            OperationFailedException, PermissionDeniedException {
-        return this.getNextDecorator().validateTrack(minorDisciplineId, validationType, trackInfo, contextInfo);
-    }
-
-    @Override
-    public List<String> searchForTrackIds(QueryByCriteria criteria, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return this.getNextDecorator().searchForTrackIds(criteria, contextInfo);
-    }
-
-    @Override
-    public List<TrackInfo> searchForTracks(QueryByCriteria criteria, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return this.getNextDecorator().searchForTracks(criteria, contextInfo);
-    }
-
-    @Override
     public MinorDisciplineInfo createMinorDiscipline(String minorDisciplineTypeKey, MinorDisciplineInfo minorDisciplineInfo, ContextInfo contextInfo) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return this.getNextDecorator().createMinorDiscipline(minorDisciplineTypeKey, minorDisciplineInfo, contextInfo);
     }
@@ -415,7 +248,8 @@ public class ProgramServiceDecorator implements ProgramService {
 
     @Override
     public List<MajorDisciplineInfo> getMajorDisciplinesByIds(List<String> majorDisciplineIds, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return this.getNextDecorator().getMajorDisciplinesByIds(majorDisciplineIds, contextInfo);
+        // TODO sambit - THIS METHOD NEEDS JAVADOCS
+        return null;
     }
 
     @Override
@@ -525,16 +359,6 @@ public class ProgramServiceDecorator implements ProgramService {
     @Deprecated
     public List<ProgramVariationInfo> getVariationsByMajorDisciplineId(String majorDisciplineId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         return this.getNextDecorator().getVariationsByMajorDisciplineId(majorDisciplineId, contextInfo);
-    }
-
-    @Override
-    public List<String> searchForMinorDisciplineIds(QueryByCriteria criteria, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return this.getNextDecorator().searchForMinorDisciplineIds(criteria, contextInfo);
-    }
-
-    @Override
-    public List<MinorDisciplineInfo> searchForMinorDisciplines(QueryByCriteria criteria, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return this.getNextDecorator().searchForMinorDisciplines(criteria, contextInfo);
     }
 
 }
