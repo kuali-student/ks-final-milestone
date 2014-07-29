@@ -20,9 +20,7 @@
             <i class="kscr-SearchDetails-crosslists-icon">CR</i>
             <span class="kscr-SearchDetails-label">Crosslisted as</span>
             <ul>
-                <li ng-repeat="crosslist in course.crossListedCourses">
-                    <a>{{crosslist.courseOfferingCode}}</a>
-                </li>
+                <li ng-repeat="crosslist in course.crossListedCourses">{{crosslist.courseOfferingCode}}</li>
             </ul>
         </div>
 
@@ -30,9 +28,7 @@
         <div class="kscr-SearchDetails-prerequisites" ng-if="course.prerequisites.length > 0">
             <span class="kscr-SearchDetails-label">Prerequisites:</span>
             <ul>
-                <li ng-repeat="prerequisite in course.prerequisites">
-                    <a>{{prerequisite.courseCode}}</a>
-                </li>
+                <li ng-repeat="prerequisite in course.prerequisites">{{prerequisite}}</li>
             </ul>
         </div>
 
@@ -70,28 +66,82 @@
         <div class="kscr-SearchDetails-activityOfferingGroups">
             <div class="kscr-SearchDetails-activityOfferingGroup" ng-repeat="aoType in course.activityOfferingTypes">
                 <div class="kscr-SearchDetails-label">
-                    {{aoType.activityOfferingTypeName}}
-                    <span ng-if="isAOTypeSelected(aoType)">(Selected)</span>
+                    {{aoType.activityOfferingTypeName}}<ng-pluralize count="aoType.activityOfferings.length" when="{'1' : '', 'other': 's'}">
+                    </ng-pluralize> ({{aoType.activityOfferings.length}})
+                    <!-- span ng-if="isAOTypeSelected(aoType)">(Selected)</span>
                     <span ng-if="!isAOTypeSelected(aoType) && hasSelectedAOs()">
-                        <!-- TODO: Replace 1 with actual count of eligible -->
                         (1 of {{aoType.activityOfferings.length}} eligible)
                         <a ng-click="showAll = !showAll" ng-show="aoType.activityOfferings.length > 1">
                             <span ng-if="!showAll">Show All</span>
                             <span ng-if="showAll">Hide ineligible</span>
                         </a>
-                    </span>
+                    </span-->
                 </div>
-
 
                 <!-- TODO: This is where the AOs tables would go -->
                 <div class="kscr-SearchDetails-activityOfferings">
-                    <div class="kscr-SearchDetails-activityOffering" ng-repeat="ao in aoType.activityOfferings | filter:aoFilter:showAll">
+                    <table id="search_results_table" class="kscr-Search-results-table">
+                        <thead class="kscr-Search-results-table-head">
+                        <tr>
+                            <th class="kscr-Search-results-header">
+                                <span>Days</span>
+                                <i class="glyphicon glyphicon-sort kscr-Search-results-sortIcon" ng-click="$parent.predicate = '{{searchColumn.field}}'; $parent.reverse = !$parent.reverse"></i>
+                            </th>
+                            <th class="kscr-Search-results-header">
+                                <span>Time</span>
+                                <i class="glyphicon glyphicon-sort kscr-Search-results-sortIcon" ng-click="$parent.predicate = '{{searchColumn.field}}'; $parent.reverse = !$parent.reverse"></i>
+                            </th>
+                            <th class="kscr-Search-results-header">
+                                <span>Instructor</span>
+                                <i class="glyphicon glyphicon-sort kscr-Search-results-sortIcon" ng-click="$parent.predicate = '{{searchColumn.field}}'; $parent.reverse = !$parent.reverse"></i>
+                            </th>
+                            <th class="kscr-Search-results-header">
+                                <span>Location</span>
+                                <i class="glyphicon glyphicon-sort kscr-Search-results-sortIcon" ng-click="$parent.predicate = '{{searchColumn.field}}'; $parent.reverse = !$parent.reverse"></i>
+                            </th>
+                            <th class="kscr-Search-results-header">
+                                <span>Seats Open</span>
+                                <i class="glyphicon glyphicon-sort kscr-Search-results-sortIcon" ng-click="$parent.predicate = '{{searchColumn.field}}'; $parent.reverse = !$parent.reverse"></i>
+                            </th>
+                            <th class="kscr-Search-results-header">
+                                <span>Select</span>
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr class="kscr-Search-row" ng-repeat="ao in aoType.activityOfferings">
+                            <td class="kscr-Search-results-cell">
+                                <div ng-repeat="scheduleComponent in ao.scheduleComponents" class="kscr-Card-scheduleComponent">
+                                    {{scheduleComponent.days}}
+                                </div>
+                            </td>
+                            <td class="kscr-Search-results-cell">
+                                <div ng-repeat="scheduleComponent in ao.scheduleComponents" class="kscr-Card-scheduleComponent">
+                                    {{scheduleComponent.displayTime}}
+                                </div>
+                            </td>
+                            <td class="kscr-Search-results-cell">
+                                <div ng-repeat="instructor in ao.instructors" class="kscr-Card-scheduleComponent">
+                                    {{instructor.firstName}} {{instructor.lastName}}
+                                </div>
+                            </td>
+                            <td class="kscr-Search-results-cell">
+                                <div ng-repeat="scheduleComponent in ao.scheduleComponents" class="kscr-Card-scheduleComponent">
+                                    {{scheduleComponent.buildingCode}}  {{scheduleComponent.roomCode}}
+                                </div>
+                            </td>
+                            <td class="kscr-Search-results-cell">{{ao.seatsOpen}}/{{ao.seatsAvailable}}</td>
+                            <td class="kscr-Search-results-cell"><input type="checkbox"></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <!-- div class="kscr-SearchDetails-activityOffering" ng-repeat="ao in aoType.activityOfferings | filter:aoFilter:showAll">
                         <div ng-click="toggleAO(aoType, ao)" ng-class="{'kscr-SearchDetails-activityOffering--selected' : isAOSelected(ao)}">
                             <strong>{{$index}} - Seats Available:</strong>
                             <span ng-class="{'kscr-SearchDetails-activityOffering-seats--noneAvailable' : ao.seatsAvailable === 0}"
                                   class="kscr-SearchDetails-activityOffering-seats">{{ao.seatsAvailable}}/{{ao.seatsOpen}}</span>
                         </div>
-                    </div>
+                    </div -->
                 </div>
             </div>
         </div>

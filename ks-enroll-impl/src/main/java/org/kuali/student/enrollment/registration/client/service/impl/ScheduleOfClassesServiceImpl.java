@@ -656,7 +656,7 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
                 ao.setActivityOfferingType(aoType);
                 ao.setActivityOfferingCode(aoCode);
                 ao.setSeatsAvailable(aoMaxSeats);
-                ao.setSeatsOpen(aoSeatCount);
+                ao.setSeatsOpen(aoMaxSeats-aoSeatCount);
                 List<ActivityOfferingScheduleComponentResult> scheduleComponents = new ArrayList<>();
                 scheduleComponents.add(scheduleComponent);
                 ao.setScheduleComponents(scheduleComponents);
