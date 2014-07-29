@@ -79,7 +79,7 @@
                                   p:additionalCssClasses="ks-comment-textArea-field"
                                   p:render="@{canAddComment}">
                                 <property name="control">
-                                    <bean parent="Uif-LargeTextAreaControl"/>
+                                    <bean parent="Uif-LargeTextAreaControl" p:maxLength="500"/>
                                 </property>
                             </bean>
                             <bean id="hiddenRefId" parent="KS-Uif-InputField" p:propertyName="referenceId"
@@ -143,7 +143,7 @@
                                                           p:propertyName="commentInfo.commentText.plain"
                                                             p:style="display:none">
                                                         <property name="control">
-                                                            <bean parent="Uif-LargeTextAreaControl"/>
+                                                            <bean parent="Uif-LargeTextAreaControl" p:maxLength="500"/>
                                                         </property>
                                                         <property name="cssClasses">
                                                             <list merge="true">
