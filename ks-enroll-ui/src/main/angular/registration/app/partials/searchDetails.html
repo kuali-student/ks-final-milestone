@@ -107,7 +107,7 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr class="kscr-Search-row" ng-repeat="ao in aoType.activityOfferings" ng-show="isAOSelected(ao) || (!isAOSelected(ao) && !isAOTypeSelected(ao.activityOfferingType)) || !hasSelectedAOs()">
+                        <tr class="kscr-Search-row" ng-repeat="ao in aoType.activityOfferings" ng-show="isAOSelected(ao) || (!isAOSelected(ao) && !isAOTypeSelected(ao.activityOfferingType) && ao.isSameRegGroup) || !hasSelectedAOs()">
                             <td class="kscr-Search-results-cell">
                                 <div ng-repeat="scheduleComponent in ao.scheduleComponents" class="kscr-Card-scheduleComponent">
                                     {{scheduleComponent.days}}
@@ -129,7 +129,7 @@
                                 </div>
                             </td>
                             <td class="kscr-Search-results-cell">{{ao.seatsOpen}}/{{ao.seatsAvailable}}</td>
-                            <td class="kscr-Search-results-cell"><input type="checkbox" ng-model="ao.selected" ng-click="toggleAO(ao.activityOfferingType, ao, course.activityOfferingTypes.length)"></td>
+                            <td class="kscr-Search-results-cell"><input type="checkbox" ng-model="ao.selected" ng-click="toggleAO(ao.activityOfferingType, ao, course)"></td>
                         </tr>
                         </tbody>
                     </table>
