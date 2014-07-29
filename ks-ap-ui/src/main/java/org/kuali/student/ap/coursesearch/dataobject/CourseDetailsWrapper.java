@@ -209,4 +209,17 @@ public class CourseDetailsWrapper {
     public String getAntiRequisitesForUI() {
         return getRequisitesForUI(CourseDetailsUtil.ANTIREQUISITE_KEY);
     }
+
+    /**
+     * Determine if there are any requisites by checking the individual parts.
+     * There are some other parts that we ignore.
+     * @return True if none of the parts of interest exist, false otherwise
+     */
+    public boolean displayNone() {
+        boolean hasPre = courseRequisitesMap.containsKey(CourseDetailsUtil.PREREQUISITE_KEY);
+        boolean hasCo = courseRequisitesMap.containsKey(CourseDetailsUtil.COREQUISITE_KEY);
+        boolean hasAnti = courseRequisitesMap.containsKey(CourseDetailsUtil.ANTIREQUISITE_KEY);
+
+        return !hasPre && !hasCo && !hasAnti;
+    }
 }

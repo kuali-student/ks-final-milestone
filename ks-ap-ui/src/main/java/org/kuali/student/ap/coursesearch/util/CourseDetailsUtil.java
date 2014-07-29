@@ -191,6 +191,8 @@ public class CourseDetailsUtil {
 
             // Create a map containing the natural language description for each rule, grouped by the NL template used
             for(RuleDefinition rule : rules){
+                if (rule.getProposition() == null)
+                    continue;
                 List<NaturalLanguageTemplate> templates = rms.findNaturalLanguageTemplatesByType(rule.getTypeId());
                 for(NaturalLanguageTemplate template : templates){
                     if(template.getNaturalLanguageUsageId().equals(nlu.getId())){

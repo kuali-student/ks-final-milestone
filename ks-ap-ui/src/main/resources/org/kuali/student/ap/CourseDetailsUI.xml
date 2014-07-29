@@ -282,7 +282,7 @@
                                 <property name="items">
                                     <list>
                                         <bean p:id="@{dataObject.courseCode}_courseRequisites" parent="Uif-MessageField"
-                                              p:render="@{dataObject.courseRequisites.size() eq 0}"
+                                              p:render="@{dataObject.displayNone()}"
                                               p:messageText="None">
                                             <property name="cssClasses">
                                                 <list merge="true">

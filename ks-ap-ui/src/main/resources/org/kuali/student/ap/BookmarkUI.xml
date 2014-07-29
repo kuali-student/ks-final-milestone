@@ -521,7 +521,7 @@
                                                         <property name="items">
                                                             <list>
                                                                 <bean p:id="@{#line.courseDetailsWrapper.courseCode}_courseRequisites" parent="Uif-MessageField"
-                                                                      p:render="@{#line.courseDetailsWrapper.courseRequisites.size() eq 0}"
+                                                                      p:render="@{#line.courseDetailsWrapper.displayNone()}"
                                                                       p:messageText="@{#textHelper.getText('bookmarks.item.none')}">
                                                                     <property name="cssClasses">
                                                                         <list merge="true">
