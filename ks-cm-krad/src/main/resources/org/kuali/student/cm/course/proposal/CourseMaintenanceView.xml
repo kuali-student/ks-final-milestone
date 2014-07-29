@@ -678,7 +678,7 @@
                       p:methodToCall="route"
                       p:actionLabel="Submit"
                       p:performClientSideValidation="true"
-                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE] and #uiHelper.useReviewProcess}"/>
+                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE] and (!#uiHelper.useReviewProcess)}"/>
                 <bean parent="Uif-SecondaryActionButton"
                       p:ajaxSubmit="false"
                       p:methodToCall="saveProposal"
