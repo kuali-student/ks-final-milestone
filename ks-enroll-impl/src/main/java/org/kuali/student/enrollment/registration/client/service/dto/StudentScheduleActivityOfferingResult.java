@@ -4,7 +4,9 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "StudentScheduleActivityOfferingResult", propOrder = {
@@ -18,6 +20,7 @@ public class StudentScheduleActivityOfferingResult {
     private int seatsOpen;
     private List<ActivityOfferingScheduleComponentResult> scheduleComponents;
     private List<InstructorSearchResult> instructors;
+    private Map<String, String> regGroupInfo;
 
     public String getActivityOfferingId() {
         return activityOfferingId;
@@ -88,4 +91,14 @@ public class StudentScheduleActivityOfferingResult {
     public void setSeatsOpen(int seatsOpen) {
         this.seatsOpen = seatsOpen;
     }
+
+    public Map<String, String> getRegGroupInfo() {
+        if(regGroupInfo == null){
+            regGroupInfo = new HashMap<String, String>();
+        }
+        return regGroupInfo;
+    }
+
+    public void setRegGroupInfo(Map<String, String> regGroupInfo) { this.regGroupInfo = regGroupInfo; }
+
 }

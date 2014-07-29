@@ -54,12 +54,8 @@ import static org.kuali.rice.core.api.criteria.PredicateFactory.equal;
 public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
 
     public static final Logger LOGGER = LoggerFactory.getLogger(ScheduleOfClassesServiceImpl.class);
-
     private static final Comparator<RegGroupSearchResult> REG_RESULT_COMPARATOR = new RegResultComparator();
-
     private EntityManager entityManager;
-
-
 
     /**
      * COURSE OFFERINGS *
@@ -608,6 +604,8 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
             String aoCode = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.AO_CODE);
             int aoMaxSeats = Integer.parseInt(row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.AO_MAX_SEATS));
             int aoSeatCount = Integer.parseInt(row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.SEAT_COUNT));
+            String rgId = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.RG_ID);
+            String rgCode = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.RG_CODE);
             String isTBA = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.TBA_IND);
             String roomCode = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.ROOM_CODE);
             String buildingCode = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.BUILDING_CODE);
@@ -651,17 +649,28 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
             // have to check if we already have the AO in our list, because we can have multiple schedules for the same AO
             if (!hmActivityOfferings.containsKey(aoId) && !StringUtils.isEmpty(aoId)) {
                 StudentScheduleActivityOfferingResult ao = new StudentScheduleActivityOfferingResult();
+                // main info
                 ao.setActivityOfferingId(aoId);
                 ao.setActivityOfferingTypeName(aoName);
                 ao.setActivityOfferingType(aoType);
                 ao.setActivityOfferingCode(aoCode);
                 ao.setSeatsAvailable(aoMaxSeats);
                 ao.setSeatsOpen(aoMaxSeats-aoSeatCount);
+                // reg group
+                Map<String, String> rgGroups = new HashMap<>();
+                rgGroups.put(rgId, rgCode);
+                ao.setRegGroupInfo(rgGroups);
+                // schedule components
                 List<ActivityOfferingScheduleComponentResult> scheduleComponents = new ArrayList<>();
                 scheduleComponents.add(scheduleComponent);
                 ao.setScheduleComponents(scheduleComponents);
                 hmActivityOfferings.put(aoId, ao);
             } else if (hmActivityOfferings.containsKey(aoId)) {
+                // reg group
+                if (!hmActivityOfferings.get(aoId).getRegGroupInfo().containsKey(rgId)) {
+                    hmActivityOfferings.get(aoId).getRegGroupInfo().put(rgId, rgCode);
+                }
+                // schedule components
                 boolean sameScheduleComponent = false;
                 for (ActivityOfferingScheduleComponentResult scheduleComponentResult : hmActivityOfferings.get(aoId).getScheduleComponents()) {
                     if (StringUtils.equals(scheduleComponentResult.getBuildingCode(), scheduleComponent.getBuildingCode()) && StringUtils.equals(scheduleComponentResult.getRoomCode(), scheduleComponent.getRoomCode()) &&

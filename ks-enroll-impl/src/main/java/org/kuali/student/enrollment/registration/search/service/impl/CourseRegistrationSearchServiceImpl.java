@@ -1424,6 +1424,7 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
                         "  WHERE lpr.LUI_ID = ao.ID " +
                         "    AND lpr.LPR_TYPE='" + LprServiceConstants.REGISTRANT_AO_LPR_TYPE_KEY + "' " +
                         "    AND lpr.LPR_STATE='" + LprServiceConstants.ACTIVE_STATE_KEY + "') numRegisteredForAo, " +
+                        "rg.ID as rgId, rg.NAME as rgCode, " +
                         "schedCmp.TBA_IND, room.ROOM_CD, rBldg.BUILDING_CD, " +
                         "schedTmslt.WEEKDAYS, schedTmslt.START_TIME_MS, schedTmslt.END_TIME_MS " +
                         "FROM KSEN_LUI co, KSEN_LUI_IDENT coId " +
@@ -1451,6 +1452,12 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
                         "AND ao.LUI_STATE = '" + LuiServiceConstants.LUI_AO_STATE_OFFERED_KEY + "' " +
                         "LEFT OUTER JOIN KSEN_LUI_IDENT aoId " +
                         "ON aoId.LUI_ID = ao.ID " +
+                        // looking for reg groups for given AO
+                        "LEFT OUTER JOIN KSEN_LUILUI_RELTN rg2ao " +
+                        "ON rg2ao.RELATED_LUI_ID = aoId.LUI_ID " +
+                        "AND rg2ao.LUILUI_RELTN_TYPE = '" + LuiServiceConstants.LUI_LUI_RELATION_REGISTERED_FOR_VIA_RG_TO_AO_TYPE_KEY + "' " +
+                        "LEFT OUTER JOIN KSEN_LUI rg " +
+                        "ON rg.ID = rg2ao.LUI_ID " +
                         // Schedules for AOs
                         "LEFT OUTER JOIN KSEN_LUI_SCHEDULE aoSched " +
                         "ON aoSched.LUI_ID = ao.ID " +
@@ -1502,6 +1509,8 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
             } else {
                 row.addCell(SearchResultColumns.SEAT_COUNT, null);
             }
+            row.addCell(SearchResultColumns.RG_ID, (String) resultRow[i++]);
+            row.addCell(SearchResultColumns.RG_CODE, (String) resultRow[i++]);
             BigDecimal tbaInd = (BigDecimal) resultRow[i++];
             row.addCell(SearchResultColumns.TBA_IND, (tbaInd == null) ? "" : tbaInd.toString());
             row.addCell(SearchResultColumns.ROOM_CODE, (String) resultRow[i++]);
