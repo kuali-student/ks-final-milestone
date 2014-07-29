@@ -16,20 +16,12 @@
 package org.kuali.student.core.krms.tree;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.rice.core.api.util.tree.Node;
-import org.kuali.rice.core.api.util.tree.Tree;
-import org.kuali.rice.krms.api.repository.proposition.PropositionType;
 import org.kuali.rice.krms.dto.PropositionEditor;
-import org.kuali.rice.krms.dto.RuleEditor;
-import org.kuali.rice.krms.tree.AbstractTreeBuilder;
 import org.kuali.rice.krms.tree.RuleViewTreeBuilder;
-import org.kuali.rice.krms.tree.node.TreeNode;
 import org.kuali.rice.krms.util.NaturalLanguageHelper;
-import org.kuali.rice.krms.util.PropositionTreeUtil;
 import org.kuali.student.r1.common.rice.StudentIdentityConstants;
 import org.kuali.student.r2.core.constants.KSKRMSServiceConstants;
 
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -66,7 +58,7 @@ public class KSRuleViewTreeBuilder extends RuleViewTreeBuilder {
 
     @Override
     public String getNaturalLanguageUsageKey() {
-        return KSKRMSServiceConstants.KRMS_NL_PREVIEW;
+        return KSKRMSServiceConstants.KRMS_NL_RULE_EDIT;
     }
 
     public NaturalLanguageHelper getNlHelper() {
