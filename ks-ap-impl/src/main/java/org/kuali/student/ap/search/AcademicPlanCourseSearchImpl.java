@@ -240,7 +240,6 @@ public class AcademicPlanCourseSearchImpl extends SearchServiceAbstractHardwired
 
         // Compile results
         for(Object resultRow : results){
-            int i = 0;
             SearchResultRowInfo row = new SearchResultRowInfo();
             row.addCell(CourseSearchConstants.SearchResultColumns.CLU_ID, (String)resultRow);
             resultInfo.getRows().add(row);
@@ -283,7 +282,6 @@ public class AcademicPlanCourseSearchImpl extends SearchServiceAbstractHardwired
 
         // Compile results
         for(Object resultRow : results){
-            int i = 0;
             SearchResultRowInfo row = new SearchResultRowInfo();
             row.addCell(CourseSearchConstants.SearchResultColumns.CLU_ID, (String)resultRow);
             resultInfo.getRows().add(row);
@@ -336,7 +334,6 @@ public class AcademicPlanCourseSearchImpl extends SearchServiceAbstractHardwired
 
         // Compile results
         for(Object resultRow : results){
-            int i = 0;
             SearchResultRowInfo row = new SearchResultRowInfo();
             row.addCell(CourseSearchConstants.SearchResultColumns.REG_GROUP_ID, (String)resultRow);
             resultInfo.getRows().add(row);
@@ -381,7 +378,6 @@ public class AcademicPlanCourseSearchImpl extends SearchServiceAbstractHardwired
 
         // Compile results
         for(Object resultRow : results){
-            int i = 0;
             SearchResultRowInfo row = new SearchResultRowInfo();
             row.addCell(CourseSearchConstants.SearchResultColumns.REG_GROUP_ID, (String)resultRow);
             resultInfo.getRows().add(row);
@@ -429,7 +425,6 @@ public class AcademicPlanCourseSearchImpl extends SearchServiceAbstractHardwired
 
         // Compile results
         for(Object resultRow : results){
-            int i = 0;
             SearchResultRowInfo row = new SearchResultRowInfo();
             row.addCell(CourseSearchConstants.SearchResultColumns.ACTIVITY_OFFERING_ID, (String)resultRow);
             resultInfo.getRows().add(row);
@@ -477,7 +472,6 @@ public class AcademicPlanCourseSearchImpl extends SearchServiceAbstractHardwired
 
         // Compile results
         for(Object resultRow : results){
-            int i = 0;
             SearchResultRowInfo row = new SearchResultRowInfo();
             row.addCell(CourseSearchConstants.SearchResultColumns.FORMAT_OFFERING_ID, (String)resultRow);
             resultInfo.getRows().add(row);
