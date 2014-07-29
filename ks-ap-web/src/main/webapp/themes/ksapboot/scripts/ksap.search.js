@@ -439,7 +439,7 @@ function fnGenerateFacetGroup(domObj) {
 	for (key in oData) {
 		var jItem = jQuery('<li />').attr('title', oData[key].description).data("facetkey", key)
 				.data("facetid", fcol).html(
-						'<a href="#">' + oData[key].value + '</a><span>(' + oData[key].count
+						'<input type="checkbox"/> <a href="#">' + oData[key].value + '</a><span>(' + oData[key].count
 								+ ')</span>').click(function(e) {
 					var t = jQuery(this);
 					fnClickFacet(t.data("facetkey"), t.data("facetid"), e);
@@ -449,12 +449,17 @@ function fnGenerateFacetGroup(domObj) {
                 jQuery(jItem).addClass("ksap-hide");
             }
         }
-        if (!bAll && oData[key].checked)
+        if (!bAll && oData[key].checked){
             jQuery(jItem).addClass("checked");
-        else
+            jQuery(jItem).find(":checkbox").prop('checked',true);
+        }
+        else{
             jQuery(jItem).removeClass("checked")
-		if (bOne)
-			jItem.addClass("static");
+            jQuery(jItem).find(":checkbox").prop('checked',false);
+        }
+		if (bOne){
+			jItem.addClass("static").find(":checkbox").prop('checked',true);
+        }
 		ful.append(jItem);
 	}
 }
@@ -483,22 +488,34 @@ function fnUpdateFacetList(domObj) {
 			continue;
 		else if (oData.hasOwnProperty(key) && !oData[key].checked)
 			bAll = false;
-	if (bAll)
+	if (bAll){
 		obj.find("ul li.all").addClass("checked");
-	else
+        obj.find("ul li.all").find(":checkbox").prop('checked',true);
+    }
+	else{
 		obj.find("ul li.all").removeClass("checked");
+        obj.find("ul li.all").find(":checkbox").prop('checked',false);
+    }
 	// Update the style (checked/not checked) on facet links and the count view
 	obj.find("li").not(".all").each(function() {
+        if(jQuery(this).hasClass("static")){
+            jQuery(this).find(":checkbox").prop('checked',true);
+        } else{
 		var key = jQuery(this).data("facetkey");
-		if (oData.hasOwnProperty(key)) {
-			var oFcb = oData[key];
-			if (!bAll && oFcb.checked)
-				jQuery(this).addClass("checked");
-			else
-				jQuery(this).removeClass("checked");
-			jQuery(this).find("span").text("(" + oFcb.count + ")");
-		} else
-			jQuery(this).find("span").text("(0)");
+            if (oData.hasOwnProperty(key)) {
+                var oFcb = oData[key];
+                if (!bAll && oFcb.checked){
+                    jQuery(this).addClass("checked");
+                    jQuery(this).find(":checkbox").prop('checked',true);
+                }
+                else{
+                    jQuery(this).removeClass("checked");
+                    jQuery(this).find(":checkbox").prop('checked',false);
+                }
+                jQuery(this).find("span").text("(" + oFcb.count + ")");
+            } else
+                jQuery(this).find("span").text("(0)");
+        }
 	});
 }
 
