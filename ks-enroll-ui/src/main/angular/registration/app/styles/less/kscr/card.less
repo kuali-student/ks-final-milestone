@@ -328,20 +328,15 @@
     .panel-group .panel {
         padding-left: 1rem;
         position: relative;
-
-        .kscr-Course-legendIndicator {
-            bottom: 0;
-            left: 0;
-            position: absolute;
-            top: 0;
-            width: 1rem;
-
-            .kscr-Responsive-sidebar & {
-                bottom: 0.15rem;
-                top: 0.15rem;
-            }
-        }
     }
+}
+
+.kscr-Course-legendIndicator {
+    bottom: 0;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 1rem;
 }
 
 .courseCardLegendIndicator(@courseCardColorCount);
@@ -495,6 +490,11 @@
             .kscr-cartResult-status--waitlist .kscr-Card-text-alert {
                 display: block; // Show the detailsText element in the Add to Waitlist success
             }
+        }
+
+        .kscr-Course-legendIndicator {
+            bottom: 0.15rem;
+            top: 0.15rem;
         }
 
         .kscr-Card-courseTimes {
