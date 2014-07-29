@@ -326,10 +326,18 @@ function resetCheckBoxes(section){
     if(section ===undefined){
         var checkedCheckboxes = jQuery("[type='checkbox']:checked");
         checkedCheckboxes.attr("checked",false);
+        // Also remove highlighting
+        var highlightedRows = jQuery(".ksap-selected-row");
+        highlightedRows.removeClass("ksap-selected-row");
     }else{
         var checkedCheckboxes = section.find("[type='checkbox']:checked");
         checkedCheckboxes.attr("checked",false);
+        // Also remove highlighting
+        var highlightedRows = section.find(".ksap-selected-row");
+        highlightedRows.removeClass("ksap-selected-row");
     }
+
+
 
 }
 
