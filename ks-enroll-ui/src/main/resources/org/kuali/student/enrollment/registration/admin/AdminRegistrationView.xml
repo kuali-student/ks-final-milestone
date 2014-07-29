@@ -23,6 +23,9 @@
     <bean id="KS-AdminRegistration" parent="KS-Uif-FormView">
         <property name="singlePageView" value="true"/>
         <property name="header.render" value="false"/>
+        <property name="authorizer">
+            <bean class="org.kuali.rice.krad.uif.view.ViewAuthorizerBase"/>
+        </property>
         <property name="breadcrumbOptions.homewardPathBreadcrumbs">
             <list>
                 <ref bean="KS-HomewardPathBreadcrumbs-Home"/>
