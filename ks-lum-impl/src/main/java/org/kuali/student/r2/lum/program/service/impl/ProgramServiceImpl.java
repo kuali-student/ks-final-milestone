@@ -1,6 +1,5 @@
 package org.kuali.student.r2.lum.program.service.impl;
 
-import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.common.conversion.util.R1R2ConverterUtil;
 import org.kuali.student.r1.common.assembly.BOAssembler;
 import org.kuali.student.r1.common.assembly.BaseDTOAssemblyNode;
@@ -50,7 +49,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.jws.WebParam;
-import javax.naming.OperationNotSupportedException;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -200,17 +198,7 @@ public class ProgramServiceImpl implements ProgramService{
 			throw new OperationFailedException("Error creating new MajorDiscipline version",e);
 		}
 	}
-
-    @Override
-    public List<String> searchForMajorDisciplineIds(QueryByCriteria criteria, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return null;
-    }
-
-    @Override
-    public List<MajorDisciplineInfo> searchForMajorDisciplines(QueryByCriteria criteria, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return null;
-    }
-
+    
     /**
      * This method will update the requirement state.
      * <p>
@@ -586,39 +574,11 @@ public class ProgramServiceImpl implements ProgramService{
     }
 
     @Override
-    public List<String> searchForCredentialProgramIds(QueryByCriteria criteria, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return null;
-    }
-
-    @Override
-    public List<CredentialProgramInfo> searchForCredentialPrograms(QueryByCriteria criteria, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return null;
-    }
-
-    @Override
     @Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
 	public StatusInfo deleteHonorsProgram( String honorsProgramId, ContextInfo contextInfo) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         throw new UnsupportedOperationException("deleteHonorsProgram");
         //return null;
-    }
-
-    @Override
-    public List<String> searchForHonorsProgramIds(QueryByCriteria criteria, ContextInfo contextInfo) 
-            throws InvalidParameterException, 
-            MissingParameterException, 
-            OperationFailedException, 
-            PermissionDeniedException {
-        throw new UnsupportedOperationException("searchForHonorsProgramIds");
-    }
-
-    @Override
-    public List<HonorsProgramInfo> searchForHonorsPrograms(QueryByCriteria criteria, ContextInfo contextInfo) 
-            throws InvalidParameterException, 
-            MissingParameterException, 
-            OperationFailedException, 
-            PermissionDeniedException {
-        throw new UnsupportedOperationException("searchForHonorsPrograms");
     }
 
     @Override
@@ -652,21 +612,6 @@ public class ProgramServiceImpl implements ProgramService{
     }
 
     @Override
-    public MinorDisciplineInfo createNewMinorDisciplineVersion(String minorDisciplineId, 
-                                                               String versionComment, 
-                                                               ContextInfo contextInfo) 
-            throws DoesNotExistException, 
-            InvalidParameterException, 
-            MissingParameterException, 
-            OperationFailedException, 
-            PermissionDeniedException, 
-            VersionMismatchException, 
-            DataValidationErrorException, 
-            ReadOnlyException {
-        throw new UnsupportedOperationException("createNewMinorDisciplineVersion");
-    }
-
-    @Override
     @Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
 	public StatusInfo deleteProgramRequirement(String programRequirementId,ContextInfo contextInfo)
             throws DoesNotExistException, InvalidParameterException,
@@ -685,26 +630,6 @@ public class ProgramServiceImpl implements ProgramService{
             throw new OperationFailedException("Error disassembling ProgramRequirement", e);
         }
 
-    }
-
-    @Override
-    public List<String> searchForProgramRequirementIds(QueryByCriteria criteria,
-                                                       ContextInfo contextInfo) 
-            throws InvalidParameterException, 
-            MissingParameterException, 
-            OperationFailedException, 
-            PermissionDeniedException {
-        throw new UnsupportedOperationException("searchForProgramRequirementIds");
-    }
-
-    @Override
-    public List<ProgramRequirementInfo> searchForProgramRequirements(QueryByCriteria criteria, 
-                                                                     ContextInfo contextInfo) 
-            throws InvalidParameterException, 
-            MissingParameterException, 
-            OperationFailedException, 
-            PermissionDeniedException {
-        throw new UnsupportedOperationException("searchForProgramRequirements");
     }
 
     @Override
@@ -739,16 +664,6 @@ public class ProgramServiceImpl implements ProgramService{
 //		}
     }
 
-    @Override
-    public List<String> getCredentialProgramIdsByType(String credentialProgramTypeKey, 
-                                                      ContextInfo contextInfo) 
-            throws InvalidParameterException, 
-            MissingParameterException, 
-            OperationFailedException, 
-            PermissionDeniedException {
-        throw new UnsupportedOperationException("getCredentialProgramIdsByType");
-    }
-
 //    @Override
 //    public LuTypeInfo getCredentialProgramType(String credentialProgramTypeKey, ContextInfo contextInfo)
 //            throws DoesNotExistException, InvalidParameterException,
@@ -780,16 +695,6 @@ public class ProgramServiceImpl implements ProgramService{
     }
 
     @Override
-    public List<String> getHonorsProgramIdsByType(String honorsProgramTypeKey, 
-                                                  ContextInfo contextInfo) 
-            throws InvalidParameterException, 
-            MissingParameterException, 
-            OperationFailedException, 
-            PermissionDeniedException {
-        throw new UnsupportedOperationException("getHonorsProgramIdsByType");
-    }
-
-    @Override
     @Transactional(readOnly=true)
     public MajorDisciplineInfo getMajorDiscipline(String majorDisciplineId,ContextInfo contextInfo)
             throws DoesNotExistException, InvalidParameterException,
@@ -818,16 +723,6 @@ public class ProgramServiceImpl implements ProgramService{
 //			return null;
 //		}
 	}
-
-    @Override
-    public List<String> getMajorDisciplineIdsByType(String majorDisciplineTypeKey, 
-                                                    ContextInfo contextInfo) 
-            throws InvalidParameterException, 
-            MissingParameterException, 
-            OperationFailedException, 
-            PermissionDeniedException {
-        throw new UnsupportedOperationException("getMajorDisciplineIdsByType");
-    }
 
 //	@Override
 //	public List<String> getMajorIdsByCredentialProgramType(String programType, ContextInfo contextInfo)
@@ -877,17 +772,7 @@ public class ProgramServiceImpl implements ProgramService{
 		}
 	}
 
-    @Override
-    public List<String> getProgramRequirementIdsByType(String programRequirementTypeKey, 
-                                                       ContextInfo contextInfo) 
-            throws InvalidParameterException, 
-            MissingParameterException, 
-            OperationFailedException, 
-            PermissionDeniedException {
-        throw new UnsupportedOperationException("getProgramRequirementIdsByType");
-    }
-
-    @Override
+	@Override
     @Transactional(readOnly=true)
 	public List<ProgramVariationInfo> getVariationsByMajorDisciplineId(
             String majorDisciplineId, ContextInfo contextInfo) throws DoesNotExistException,
@@ -915,128 +800,6 @@ public class ProgramServiceImpl implements ProgramService{
 			}
 
         return pvInfos;
-    }
-
-    @Override
-    public List<String> searchForMinorDisciplineIds(QueryByCriteria criteria, ContextInfo contextInfo)
-            throws InvalidParameterException,
-            MissingParameterException,
-            OperationFailedException,
-            PermissionDeniedException {
-        throw new UnsupportedOperationException("searchForMinorDisciplineIds");
-    }
-
-    @Override
-    public List<MinorDisciplineInfo> searchForMinorDisciplines(QueryByCriteria criteria,
-                                                               ContextInfo contextInfo)
-            throws InvalidParameterException,
-            MissingParameterException,
-            OperationFailedException,
-            PermissionDeniedException {
-        throw new UnsupportedOperationException("searchForMinorDisciplines");
-    }
-
-    @Override
-    public TrackInfo getTrack(@WebParam(name = "trackId") String trackId, ContextInfo contextInfo)
-            throws DoesNotExistException,
-            InvalidParameterException,
-            MissingParameterException,
-            OperationFailedException,
-            PermissionDeniedException {
-        throw new UnsupportedOperationException("getTrack");
-    }
-
-    @Override
-    public List<TrackInfo> getTracksByIds(List<String> trackIds, ContextInfo contextInfo)
-            throws DoesNotExistException,
-            InvalidParameterException,
-            MissingParameterException,
-            OperationFailedException,
-            PermissionDeniedException {
-        throw new UnsupportedOperationException("getTracksByIds");
-    }
-
-    @Override
-    public List<String> getTrackIdsByType(String trackTypeKey, ContextInfo contextInfo)
-            throws InvalidParameterException,
-            MissingParameterException,
-            OperationFailedException,
-            PermissionDeniedException {
-        throw new UnsupportedOperationException("getTrackIdsByType");
-    }
-
-    @Override
-    public List<TrackInfo> getTracksByMinor(String minorDisciplineId, ContextInfo contextInfo)
-            throws InvalidParameterException,
-            MissingParameterException,
-            OperationFailedException,
-            PermissionDeniedException {
-        throw new UnsupportedOperationException("getTracksByMinor");
-    }
-
-    @Override
-    public TrackInfo createTrack(String minorDisciplineId, String trackTypeKey,
-                                 TrackInfo trackInfo, ContextInfo contextInfo)
-            throws AlreadyExistsException,
-            DataValidationErrorException,
-            InvalidParameterException,
-            MissingParameterException,
-            OperationFailedException,
-            PermissionDeniedException {
-        throw new UnsupportedOperationException("createTrack");
-    }
-
-    @Override
-    public TrackInfo updateTrack(String trackId, String trackTypeKey,
-                                 TrackInfo trackInfo, ContextInfo contextInfo)
-            throws DataValidationErrorException,
-            DoesNotExistException,
-            InvalidParameterException,
-            MissingParameterException,
-            VersionMismatchException,
-            OperationFailedException,
-            PermissionDeniedException {
-        throw new UnsupportedOperationException("updateTrack");
-    }
-
-    @Override
-    public StatusInfo deleteTrack(String trackId, ContextInfo contextInfo)
-            throws DoesNotExistException,
-            InvalidParameterException,
-            MissingParameterException,
-            OperationFailedException,
-            PermissionDeniedException {
-        throw new UnsupportedOperationException("deleteTrack");
-    }
-
-    @Override
-    public List<ValidationResultInfo> validateTrack(String minorDisciplineId,
-                                                    String validationType,
-                                                    TrackInfo trackInfo,
-                                                    ContextInfo contextInfo)
-            throws InvalidParameterException,
-            MissingParameterException,
-            OperationFailedException,
-            PermissionDeniedException {
-        throw new UnsupportedOperationException("validateTrack");
-    }
-
-    @Override
-    public List<String> searchForTrackIds(QueryByCriteria criteria, ContextInfo contextInfo)
-            throws InvalidParameterException,
-            MissingParameterException,
-            OperationFailedException,
-            PermissionDeniedException {
-        throw new UnsupportedOperationException("searchForTrackIds");
-    }
-
-    @Override
-    public List<TrackInfo> searchForTracks(QueryByCriteria criteria, ContextInfo contextInfo)
-            throws InvalidParameterException,
-            MissingParameterException,
-            OperationFailedException,
-            PermissionDeniedException {
-        throw new UnsupportedOperationException("searchForTracks");
     }
 
     @Override
@@ -1447,16 +1210,6 @@ public class ProgramServiceImpl implements ProgramService{
     }
 
     @Override
-    public List<String> searchForCoreProgramIds(QueryByCriteria criteria, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new UnsupportedOperationException("searchForCoreProgramIds");
-    }
-
-    @Override
-    public List<CoreProgramInfo> searchForCorePrograms(QueryByCriteria criteria, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new UnsupportedOperationException("searchForCorePrograms");
-    }
-
-    @Override
     @Transactional(readOnly=true)
     public CoreProgramInfo getCoreProgram(String coreProgramId,ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
     	CoreProgramInfo coreProgramInfo = null;
@@ -1479,11 +1232,6 @@ public class ProgramServiceImpl implements ProgramService{
 //		} catch (Exception e) {
 //			return null;
 //		}
-    }
-
-    @Override
-    public List<String> getCoreProgramIdsByType(@WebParam(name = "coreProgramTypeKey") String coreProgramTypeKey, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new UnsupportedOperationException("getCoreProgramIdsByType");
     }
 
     @Override
@@ -1869,14 +1617,5 @@ public class ProgramServiceImpl implements ProgramService{
 		 throw new UnsupportedOperationException ("not implemented");
 	}
 
-    @Override
-    public List<String> getMinorDisciplineIdsByType(String minorDisciplineTypeKey, ContextInfo contextInfo) 
-            throws InvalidParameterException, 
-            MissingParameterException, 
-            OperationFailedException, 
-            PermissionDeniedException {
-        throw new UnsupportedOperationException("getMinorDisciplineIdsByType");
-    }
-
-
+	
 }
