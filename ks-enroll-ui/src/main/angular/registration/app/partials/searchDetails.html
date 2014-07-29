@@ -49,7 +49,7 @@
             <div class="kscr-SearchDetails-selection kscr-SearchDetails-selection--selected util-Grid-cell" ng-if="!selectedRegGroup && hasSelectedAOs()"
                  ng-class="{'kscr-SearchDetails-selection--complete' : selectedRegGroup }">
                 <div class="kscr-SearchDetails-label" ng-if="!selectedRegGroup">{{selectedAOs.length}} of {{course.activityOfferingTypes.length}} selected</div>
-                <div class="kscr-SearchDetails-label" ng-if="selectedRegGroup">Section {{selectedRegGroup.regGroupId}} Selected</div>
+                <div class="kscr-SearchDetails-label" ng-if="selectedRegGroup">Section {{selectedRegGroupCode}} Selected</div>
                 <a ng-click="clearSelectedAOs()"><ng-pluralize count="selectedAOs.length" when="{'1': 'Clear Selection', 'other': 'Clear Selections'}"></ng-pluralize></a>
             </div>
 
@@ -129,7 +129,7 @@
                                 </div>
                             </td>
                             <td class="kscr-Search-results-cell">{{ao.seatsOpen}}/{{ao.seatsAvailable}}</td>
-                            <td class="kscr-Search-results-cell"><input type="checkbox" ng-model="ao.selected" ng-click="toggleAO(ao.activityOfferingType, ao)"></td>
+                            <td class="kscr-Search-results-cell"><input type="checkbox" ng-model="ao.selected" ng-click="toggleAO(ao.activityOfferingType, ao, course.activityOfferingTypes.length)"></td>
                         </tr>
                         </tbody>
                     </table>

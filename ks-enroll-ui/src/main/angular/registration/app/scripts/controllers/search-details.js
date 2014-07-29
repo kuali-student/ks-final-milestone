@@ -89,7 +89,7 @@ angular.module('regCartApp')
             return selected !== null;
         };
 
-        $scope.toggleAO = function(aoType, ao) {
+        $scope.toggleAO = function(aoType, ao, numOfAOTypes) {
             if ($scope.isAOSelected(ao)) {
                 // Deselect the AO
                 $scope.selectedAOs.splice($scope.selectedAOs.indexOf(ao), 1);
@@ -102,6 +102,21 @@ angular.module('regCartApp')
 
                 // Select the AO
                 $scope.selectedAOs.push(ao);
+
+                // Check if we have reg group
+                if ($scope.selectedAOs.length == numOfAOTypes) {
+//                    $scope.selectedRegGroup = true;
+                    angular.forEach($scope.selectedAOs, function(ao) {
+                        for (var key in ao.regGroupInfo) {
+                                console.log(key + " -> " + ao.regGroupInfo[key]);
+                        }
+
+                    });
+
+//                    console.log('selectedRegGroup ' + course.registrationGroupInfos.length);
+//                    console.log('selectedRegGroupCode ' + $scope.selectedRegGroupCode);
+//                    console.log('selectedRegGroupID ' + $scope.selectedRegGroupId);
+                }
             }
         };
 
