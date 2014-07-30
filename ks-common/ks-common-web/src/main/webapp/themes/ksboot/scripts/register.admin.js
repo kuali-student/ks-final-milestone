@@ -20,6 +20,7 @@ var REGISTERING_BARS_ID = "KS-AdminRegistration-Registering";
 var REGISTER_BUTTON_ID = "KS-AdminRegistration-RegisterButton";
 var REGISTRATION_TABS_ID = "KS-AdminRegistration-RegistrationTabs";
 var REGISTERED_TAB_ID = "KS-AdminRegistration-RegisteredTab_tab";
+var RESULTS_COLL_ID = "KS-AdminRegistration-Results";
 
 //////////////////////////////////////
 // Polling Functions
@@ -98,11 +99,6 @@ function sendPoll() {
             data: queryData,
             success: function (data) {
 
-                var updateIds = data.updateIds;
-                jQuery(updateIds).each(function (index, id) {
-                    retrieveComponent(id);
-                });
-
                 // if no more updates expected, stop polling
                 var stop = data.stop;
                 if (!stop) {
@@ -114,18 +110,30 @@ function sendPoll() {
 
                 var refresh = data.refresh;
                 if (refresh) {
-                    var state = data.clientState;
-                    jQuery("input[name='" + CLIENT_STATE_PROPERTY_NAME + "']").val(state);
-
-                    var registeredCredits = data.registeredCredits;
-                    var waitlistedCredits = data.waitlistedCredits;
-                    var title = "Registered (" + registeredCredits + ") / Waitlist (" + waitlistedCredits + ")";
-                    jQuery("#" + REGISTRATION_TABS_ID + " a[href=#" + REGISTERED_TAB_ID + "]").text(title);
+                    refreshRegistrationDetail(data);
                 }
 
             }
         });
     }
+}
+
+function refreshRegistrationDetail(data){
+
+    var state = data.clientState;
+    jQuery("input[name='" + CLIENT_STATE_PROPERTY_NAME + "']").val(state);
+
+    var registeredCredits = data.registeredCredits;
+    var waitlistedCredits = data.waitlistedCredits;
+    var title = "Registered (" + registeredCredits + ") / Waitlist (" + waitlistedCredits + ")";
+    jQuery("#" + REGISTRATION_TABS_ID + " a[href=#" + REGISTERED_TAB_ID + "]").text(title);
+
+    retrieveComponent(RESULTS_COLL_ID, 'refreshRegistrationResults');
+
+    var updateIds = data.updateIds;
+    jQuery(updateIds).each(function (index, id) {
+        retrieveComponent(id);
+    });
 }
 
 //////////////////////////////////////
