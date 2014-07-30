@@ -1,4 +1,3 @@
-
 <div class="kscr-SearchDetails">
     <!-- Search Details Header - Back to Results Link -->
     <div class="kscr-SearchDetails-top">
@@ -61,87 +60,27 @@
                 <!-- TODO: The success/Failure message needs to be put in here -->
             </div>
         </div>
+        </div>
 
         <!-- Activity Offering Tables -->
         <div class="kscr-SearchDetails-activityOfferingGroups">
             <div class="kscr-SearchDetails-activityOfferingGroup" ng-repeat="aoType in course.activityOfferingTypes">
                 <div class="kscr-SearchDetails-label">
                     {{aoType.activityOfferingTypeName}}<ng-pluralize count="aoType.activityOfferings.length" when="{'1' : '', 'other': 's'}">
-                    </ng-pluralize> ({{aoType.activityOfferings.length}})
-                    <!-- span ng-if="isAOTypeSelected(aoType)">(Selected)</span>
-                    <span ng-if="!isAOTypeSelected(aoType) && hasSelectedAOs()">
-                        (1 of {{aoType.activityOfferings.length}} eligible)
-                        <a ng-click="showAll = !showAll" ng-show="aoType.activityOfferings.length > 1">
-                            <span ng-if="!showAll">Show All</span>
-                            <span ng-if="showAll">Hide ineligible</span>
-                        </a>
-                    </span-->
+                </ng-pluralize> ({{aoType.activityOfferings.length}})
                 </div>
-               <div class="kscr-SearchDetails-activityOfferings">
-                    <table id="search_results_table" class="kscr-Search-results-table">
-                        <thead class="kscr-Search-results-table-head">
-                        <tr>
-                            <th class="kscr-Search-results-header"  ng-click="$parent.predicate = '{{searchColumn.field}}'; $parent.reverse = !$parent.reverse">
-                                <span>Days</span>
-                                <i class="kscr-Search-results-sortIcon"></i>
-                            </th>
-                            <th class="kscr-Search-results-header"  ng-click="$parent.predicate = '{{searchColumn.field}}'; $parent.reverse = !$parent.reverse">
-                                <span>Time</span>
-                                <i class="kscr-Search-results-sortIcon"></i>
-                            </th>
-                            <th class="kscr-Search-results-header" ng-click="$parent.predicate = '{{searchColumn.field}}'; $parent.reverse = !$parent.reverse">
-                                <span>Instructor</span>
-                                <i class="kscr-Search-results-sortIcon"></i>
-                            </th>
-                            <th class="kscr-Search-results-header" ng-click="$parent.predicate = '{{searchColumn.field}}'; $parent.reverse = !$parent.reverse">
-                                <span>Location</span>
-                                <i class="kscr-Search-results-sortIcon"></i>
-                            </th>
-                            <th class="kscr-Search-results-header" ng-click="$parent.predicate = '{{searchColumn.field}}'; $parent.reverse = !$parent.reverse">
-                                <span>Seats Open</span>
-                                <i class="kscr-Search-results-sortIcon"></i>
-                            </th>
-                            <th class="kscr-Search-results-header">
-                                <span>Select</span>
-                            </th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr class="kscr-Search-row" ng-repeat="ao in aoType.activityOfferings" ng-show="isAOSelected(ao) || (!isAOSelected(ao) && !isAOTypeSelected(ao.activityOfferingType) && ao.isSameRegGroup) || !hasSelectedAOs()">
-                            <td class="kscr-Search-results-cell">
-                                <div ng-repeat="scheduleComponent in ao.scheduleComponents" class="kscr-Card-scheduleComponent">
-                                    {{scheduleComponent.days}}
-                                </div>
-                            </td>
-                            <td class="kscr-Search-results-cell">
-                                <div ng-repeat="scheduleComponent in ao.scheduleComponents" class="kscr-Card-scheduleComponent">
-                                    {{scheduleComponent.displayTime}}
-                                </div>
-                            </td>
-                            <td class="kscr-Search-results-cell">
-                                <div ng-repeat="instructor in ao.instructors" class="kscr-Card-scheduleComponent">
-                                    {{instructor.firstName}} {{instructor.lastName}}
-                                </div>
-                            </td>
-                            <td class="kscr-Search-results-cell">
-                                <div ng-repeat="scheduleComponent in ao.scheduleComponents" class="kscr-Card-scheduleComponent">
-                                    {{scheduleComponent.buildingCode}}  {{scheduleComponent.roomCode}}
-                                </div>
-                            </td>
-                            <td class="kscr-Search-results-cell">{{ao.seatsOpen}}/{{ao.seatsAvailable}}</td>
-                            <td class="kscr-Search-results-cell"><input type="checkbox" ng-model="ao.selected" ng-click="toggleAO(ao.activityOfferingType, ao, course)"></td>
-                        </tr>
-                        </tbody>
-                    </table>
-                    <!-- div class="kscr-SearchDetails-activityOffering" ng-repeat="ao in aoType.activityOfferings | filter:aoFilter:showAll">
-                        <div ng-click="toggleAO(aoType, ao)" ng-class="{'kscr-SearchDetails-activityOffering--selected' : isAOSelected(ao)}">
-                            <strong>{{$index}} - Seats Available:</strong>
-                            <span ng-class="{'kscr-SearchDetails-activityOffering-seats--noneAvailable' : ao.seatsAvailable === 0}"
-                                  class="kscr-SearchDetails-activityOffering-seats">{{ao.seatsAvailable}}/{{ao.seatsOpen}}</span>
-                        </div>
-                    </div -->
+                <div class="kscr-SearchDetails-activityOfferings">
+                    <search-results>
+                        <search-column name="Days" field="days" order="1"></search-column>
+                        <search-column name="Time" field="time" order="2"></search-column>
+                        <search-column name="Instructor" field="instructor" order="3"></search-column>
+                        <search-column name="Location" field="location" order="4"></search-column>
+                        <search-column name="Seats Open" field="seatsOpen" order="5"></search-column>
+                        <search-column name="Select" checkbox="toggleAO"></search-column>
+                        <search-list search-data='aoType.activityOfferings' preprocessor='aoFormatter' search-columns='searchColumns' default-field="aoId"></search-list>
+                    </search-results>
                 </div>
             </div>
         </div>
-    </div>
+
 </div>

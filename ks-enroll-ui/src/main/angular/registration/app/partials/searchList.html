@@ -1,11 +1,11 @@
-<div class="kscr-Search-results-heading">
+<div class="kscr-Search-results-heading" ng-if="searchCriteria">
     <div id="search_results_summary" class="kscr-Search-results-summary">Showing {{displayRange((searchResults|filter:facetFilter).length)}} results for "{{searchCriteria}}" in {{termName}}</div>
     <div class="kscr-Search-results-picker">
         <span>Show</span>
         <select id="display_limit_select" ng-model="displayLimit" ng-options="limit as limit for limit in displayLimits" class="kscr-Search-results-limits"></select>
     </div>
 </div>
-<div class="kscr-Search-results-heading--small">
+<div class="kscr-Search-results-heading--small" ng-if="searchCriteria">
     <span>{{searchResults.length}} Results</span>
 </div>
 <table id="search_results_table" class="kscr-Search-results-table">
@@ -15,7 +15,8 @@
                 ng-class="{'kscr-Search-results--selected': (!sorted || sorted) && notSorted }"
                 ng-click="notSorted = ($parent.predicate = '{{searchColumn.field}}'); sorted = ($parent.reverse = switchReverse('{{searchColumn.field}}')) ">
                 <div class="kscr-Search-result-column">{{searchColumn.name}}
-                    <i class="kscr-Search-results-sortIcon" ng-class="{'kscr-Search-results-sortIcon--up': !sorted && notSorted, 'kscr-Search-results-sortIcon--down': sorted && notSorted}"></i>
+                    <i class="kscr-Search-results-sortIcon" ng-show="!searchColumn.checkbox"
+                       ng-class="{'kscr-Search-results-sortIcon--up': !sorted && notSorted, 'kscr-Search-results-sortIcon--down': sorted && notSorted}"></i>
                 </div>
             </th>
         </tr>
@@ -23,8 +24,7 @@
     <tbody>
         <tr ng-repeat="searchResult in searchResults | orderBy : predicate : reverse | filter:facetFilter | startFrom:(page-1)*displayLimit | limitTo:displayLimit"
             id="course_detail_row_{{applyFilter(searchResult[defaultField], searchColumn.filter)}}"
-            ui-sref="root.search.details({searchCriteria: searchCriteria, id: getId(searchResult)})"
-            class="kscr-Search-row">
+            class="kscr-Search-row" ng-show="showResult(searchResult)" ng-click="{{onClick}}">
             <td ng-repeat="searchColumn in searchColumns" class="kscr-Search-results-cell">
                 <a ng-if="searchColumn.url" src="searchColumn.url">
                     {{applyFilter(searchResult[searchColumn.field], searchColumn.filter)}}
@@ -32,6 +32,7 @@
                 <span ng-if="!searchColumn.url" src="searchColumn.url">
                     {{applyFilter(searchResult[searchColumn.field], searchColumn.filter)}}
                 </span>
+                <input ng-if="searchColumn.checkbox" type="checkbox" ng-click="select('{{searchColumn.checkbox}}', searchResult)" ng-model="searchResult.selected" />
             </td>
         </tr>
     </tbody>
@@ -44,7 +45,7 @@
         <div class="kscr-Search-result-column-{{searchColumn.field}}" ng-repeat="searchColumn in searchColumns">{{applyFilter(searchResult[searchColumn.field], searchColumn.filter)}}</div>
     </div>
 </div>
-<div class="kscr-Search-results-paginate">
+<div class="kscr-Search-results-paginate" ng-if="searchCriteria">
     <div class="kscr-Search-results-pageBox">
         <a ng-show="page > 1" ng-click="page = 1;">|&lt;</a>
         <span ng-show="page <= 1">|&lt;</span>

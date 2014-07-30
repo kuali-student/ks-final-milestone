@@ -1,10 +1,11 @@
 'use strict';
 
 angular.module('regCartApp')
-    .controller('SearchDetailsCtrl', ['$scope', '$state', 'SearchService', function SearchDetailsCtrl($scope, $state, SearchService) {
+    .controller('SearchDetailsCtrl', ['$scope', '$state', '$filter', 'SearchService', function SearchDetailsCtrl($scope, $state, $filter, SearchService) {
 
         $scope.searchCriteria = null; // Criteria used to generate the search results.
         $scope.course = null; // Handle on the course
+        $scope.searchColumns = []; // columns for displaying activity offering tables
 
 
         // Push the user back to the search page when the term is changed
@@ -93,6 +94,10 @@ angular.module('regCartApp')
             var selected = getSelectedAOByType(aoType);
             return selected !== null;
         };
+
+        $scope.$on('toggleAO', function (event, searchResult) {
+            $scope.toggleAO(searchResult.ao.activityOfferingType, searchResult.ao, $scope.course);
+        });
 
         $scope.toggleAO = function(aoType, ao, course) {
             $scope.selectedRegGroup = null;

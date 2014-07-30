@@ -6,20 +6,28 @@ angular.module('regCartApp')
      The search-list directive displays a generic list of search results based on the
      columns set by the search-column directive.
      */
-    .directive('searchList', ['$filter', function($filter) {
+    .directive('searchList', ['$filter', '$state', function($filter, $state) {
         return {
             restrict: 'E',
             require: '^searchResults',
             templateUrl: 'partials/searchList.html',
             scope: {
-                searchResults: '=',
+                searchResults: '=?', //optional
                 searchColumns: '=',
-                facetFilter: '=',
+                facetFilter: '=?',   // optional
+                searchData: '=?',    // optional
                 searchCriteria: '@',
                 termName: '@',
-                detailsId: '@'
+                detailsId: '@',
+                defaultField: '@',
+                preprocessor: '@',
+                onClick: '@'
             },
             link:function(scope,element,attrs) {
+
+                if (angular.isUndefined(scope.searchResults)) {
+                    scope.searchResults = $filter(scope.preprocessor)(scope.searchData);
+                }
 
                 // the choices for limiting display of search results
                 scope.displayLimits = [20, 50, 100];
@@ -51,12 +59,6 @@ angular.module('regCartApp')
                 // if the display limit changes, reset the page to 1
                 scope.$watch('displayLimit', function() {
                     scope.page = 1;
-                });
-
-                angular.forEach(scope.searchColumns, function(searchColumn) {
-                    if (searchColumn.default) {
-                        scope.defaultField = searchColumn.field;
-                    }
                 });
 
                 // the range of search results being viewed
@@ -105,6 +107,30 @@ angular.module('regCartApp')
                     return scope.reverseMap[column];
                 };
 
+                // when a row is selected, emit an event with the search result
+                scope.select = function(event, searchResult) {
+                    searchResult.selected = !searchResult.selected;
+                    scope.$emit(event, searchResult);
+                };
+
+                // if one row is selected, only show that row
+                scope.showResult = function(searchResult) {
+                    var showResult = true;
+                    if (!searchResult.selected) {
+                        for (var i=0; i<scope.searchResults.length; i++) {
+                            if (scope.searchResults[i].selected) {
+                                showResult = false;
+                                break;
+                            }
+                        }
+                    }
+                    return showResult;
+                };
+
+                scope.go = function(searchCriteria, id) {
+                    $state.go('root.search.details', {searchCriteria: searchCriteria, id: id});
+                };
+
                 function initReverse(column) {
                     if (angular.isUndefined(scope.reverseMap[column])) {
                         scope.reverseMap[column] = true; // set the default
@@ -148,7 +174,7 @@ angular.module('regCartApp')
                         filter: attrs.filter,
                         order: attrs.order,
                         url: attrs.url,
-                        default: attrs.defaultField};
+                        checkbox: attrs.checkbox};
                     scope.searchColumns.push(searchColumn);
                     scope.sortSearchColumns();
                 }
