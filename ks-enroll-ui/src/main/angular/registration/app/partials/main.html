@@ -44,7 +44,7 @@
             </div>
             <nav class="Navigation kscr-Responsive-navigation">
                 <span>
-                    <button id="reg_menu_button" type="button" ng-model="dropMenu" class="kscr-Menu-button-menu" ng-class="{'kscr-Menu-button-menu--clicked' : dropMenu}" ng-click="dropMenu = !dropMenu">MENU</button>
+                    <button id="reg_menu_button" type="button" class="kscr-Menu-button-menu" ng-class="{'kscr-Menu-button-menu--clicked' : dropMenu}" ng-click="dropMenu = !dropMenu" mask-screen="dropMenu">MENU</button>
                     <!--<button ng-if="uiState=='root.cart'||uiState=='root.schedule'" id="logout_small" class="kscr-Menu-button-menu" ng-click="logout()">LOGOUT</button>-->
                 </span>
             </nav>
@@ -86,7 +86,7 @@
                     <div class="kscr-MainHeading kscr-MainHeading-ScheduleHeading util-Grid util-Grid--center">
                         <div class="kscr-MainHeading-header util-Grid-cell" ui-sref="root.schedule">
                             My Schedule
-                            <span class="kscr-MainHeading-link-icon">&#x00bb</span>
+                            <span class="kscr-MainHeading-link-icon">&#x00bb;</span>
                         </div>
                         <div class="kscr-MainHeading-toggles">
                             <a class="kscr-MainHeading-toggle" ng-click="selectedTab = 'list'"
@@ -123,8 +123,6 @@
         </div>
     </div>
 </div>
-
-<div ng-class="{'kscr-Menu-background--disabled' : dropMenu}" ng-click="dropMenu=false"></div>
 
 <script type="text/ng-template" id="dropMenu.html">
     <ul class="kscr-Menu-container" ng-show="dropMenu">

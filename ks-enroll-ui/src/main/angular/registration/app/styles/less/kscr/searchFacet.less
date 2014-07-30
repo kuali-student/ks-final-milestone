@@ -1,9 +1,54 @@
 /*** Search Form Section  ***/
 
+@facetWidth: 200px;
+
+.kscr-Search-content {
+    // Hide the sticky placeholder within the search content always
+    .util-sticky-placeholder {
+        display: none;
+    }
+}
+
 // Facet list container
 .kscr-SearchFacets {
-    margin: 1rem;
-    width: 20rem;
+    margin: 10px;
+    width: @facetWidth;
+}
+
+// Facet toggle
+.kscr-SearchFacets-toggle {
+    display: none;
+
+    & > a {
+        background: @cardBackgroundColor;
+        border: 1px solid @cardBorderColor;
+        border-left: none;
+        border-bottom-width: 2px;
+        display: block;
+        font-family: @secondaryFontFamily;
+        padding: 0.5rem 1rem;
+        text-decoration: none;
+    }
+
+    &-icon {
+        font-size: 130%;
+        line-height: 0.5;
+    }
+
+    &-hideLabel {
+        display: none;
+        float: right;
+    }
+
+    .kscr-SearchFacets--expanded & {
+        &-hideLabel {
+            display: block;
+        }
+        &-showLabel {
+            display: none;
+        }
+    }
+
 }
 
 
@@ -74,5 +119,65 @@
     }
     &--Selected .kscr-SearchFacet-option-icon {
         .checkbox-icon--checked();
+    }
+}
+
+
+
+
+// Small-format styles
+@media screen and (max-width: @smallFormatMax) {
+    @facetWidth: 240px;
+
+    .kscr-Search-content {
+        padding-top: 1rem;
+        position: relative;
+    }
+
+    .kscr-SearchFacets {
+        margin: 0;
+        left: 0;
+        position: absolute;
+        top: 0;
+        width: auto !important; // Important to override the sticky styles
+        z-index: 100; // Needs to be on top of the search results
+
+        &--expanded {
+            // Give it a box-shadow when stuck at the top
+            .box-shadow(0 0 0.3rem @lightGray);
+
+            max-width: 75%; // Max-width used in case screen width is less than @facetWidth;
+            width: @facetWidth !important; // Important to override the sticky styles
+
+            .kscr-SearchFacets-facetsContainer {
+                display: block;
+            }
+
+            &.util-sticky--stuck {
+                // Give it a box-shadow when stuck at the top
+                .box-shadow(0 0 0.3rem @lightGray);
+
+                max-height: 100%;
+                overflow-y: scroll;
+            }
+        }
+    }
+
+    // Facet toggle
+    .kscr-SearchFacets-toggle {
+        display: block;
+    }
+
+    .kscr-SearchFacets-facetsContainer {
+        background: @whiteBackground;
+        display: none;
+    }
+}
+
+
+@media screen and (min-width: @largeFormatMin) {
+    .kscr-SearchFacets {
+        .util-sticky--disabled();
+        width: @facetWidth !important;
     }
 }

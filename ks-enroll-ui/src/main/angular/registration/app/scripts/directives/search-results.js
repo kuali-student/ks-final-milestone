@@ -14,7 +14,6 @@ angular.module('regCartApp')
             scope: {
                 searchResults: '=?', //optional
                 searchColumns: '=',
-                facetFilter: '=?',   // optional
                 searchData: '=?',    // optional
                 searchCriteria: '@',
                 termName: '@',
@@ -23,7 +22,7 @@ angular.module('regCartApp')
                 preprocessor: '@',
                 onClick: '@'
             },
-            link:function(scope,element,attrs) {
+            link:function(scope) {
 
                 if (angular.isUndefined(scope.searchResults)) {
                     scope.searchResults = $filter(scope.preprocessor)(scope.searchData);
@@ -38,19 +37,22 @@ angular.module('regCartApp')
                 // set the default page #
                 scope.page = 1;
 
-                // holds the last page
-                scope.lastPage = 1;
-
                 // holds the customizable id for linking to search details
                 scope.detailsId = {};
 
                 // holds the reverse for each column (true = reverse sort)
                 scope.reverseMap = {};
 
+                // returns the last page
+                scope.lastPage = function() {
+                    return Math.ceil(scope.searchResults.length / scope.displayLimit);
+                };
+
                 // returns a the full range of pages
                 scope.pageRange = function() {
-                    var pageRange = [];
-                    for (var i = 1; i <= scope.lastPage; i++) {
+                    var pageRange = [],
+                        lastPage = scope.lastPage();
+                    for (var i = 1; i <= lastPage; i++) {
                         pageRange.push(i);
                     }
                     return pageRange;
@@ -61,23 +63,28 @@ angular.module('regCartApp')
                     scope.page = 1;
                 });
 
-                // the range of search results being viewed
-                scope.displayRange = function(length) {
-                    var rangeMin = ((scope.page - 1) * scope.displayLimit) + 1;
-                    var rangeMax = rangeMin + scope.displayLimit - 1;
-                    if (rangeMax > length) {
-                        rangeMax = length;
-                    }
-                    // set the last page
-                    scope.lastPage = Math.ceil (length / scope.displayLimit);
-                    if (scope.page > scope.lastPage) {
+                // if the search results changes and the current page is outside of the page range, reset the page to 1
+                scope.$watch('searchResults', function() {
+                    if (scope.page > scope.lastPage()) {
                         scope.page = 1;
                     }
-                    if (rangeMin === rangeMax) {
-                        return (rangeMax + ' of ' + length);
-                    } else {
-                        return (rangeMin + '-' + rangeMax + ' of ' + length);
+                });
+
+                // returns the index of the first record being displayed
+                scope.displayRangeMin = function() {
+                    return ((scope.page - 1) * scope.displayLimit) + 1;
+                };
+
+                // returns the index of the last record being displayed
+                scope.displayRangeMax = function() {
+                    var min = scope.displayRangeMin(),
+                        max = min + scope.displayLimit - 1;
+
+                    if (max > scope.searchResults.length) {
+                        max = scope.searchResults.length;
                     }
+
+                    return max;
                 };
 
                 // apply the given filter name to the value (if it's an array)
@@ -186,7 +193,7 @@ angular.module('regCartApp')
     .controller('SearchResultsCtrl', ['$scope', '$filter', function SearchResultsCtrl ($scope, $filter) {
         $scope.sortSearchColumns = function() {
             $scope.searchColumns = $filter('orderBy')($scope.searchColumns, 'order');
-        }
+        };
     }])
 
 ;

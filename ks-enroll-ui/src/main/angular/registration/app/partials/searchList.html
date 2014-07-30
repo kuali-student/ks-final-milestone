@@ -1,5 +1,10 @@
 <div class="kscr-Search-results-heading" ng-show="searchCriteria">
-    <div id="search_results_summary" class="kscr-Search-results-summary">Showing {{displayRange((searchResults|filter:facetFilter).length)}} results for "{{searchCriteria}}" in {{termName}}</div>
+    <div id="search_results_summary" class="kscr-Search-results-summary">
+        Showing
+        <span ng-if="displayRangeMin() === displayRangeMax()">{{displayRangeMin()}}</span>
+        <span ng-if="displayRangeMin() !== displayRangeMax()">{{displayRangeMin()}} - {{displayRangeMax()}}</span>
+        of {{searchResults.length}} results for "{{searchCriteria}}" in {{termName}}
+    </div>
     <div class="kscr-Search-results-picker">
         <span>Show</span>
         <select id="display_limit_select" ng-model="displayLimit" ng-options="limit as limit for limit in displayLimits" class="kscr-Search-results-limits"></select>
@@ -22,7 +27,7 @@
         </tr>
     </thead>
     <tbody>
-        <tr ng-repeat="searchResult in searchResults | orderBy : predicate : reverse | filter:facetFilter | startFrom:(page-1)*displayLimit | limitTo:displayLimit"
+        <tr ng-repeat="searchResult in searchResults | orderBy : predicate : reverse | startFrom:(page-1)*displayLimit | limitTo:displayLimit"
             id="course_detail_row_{{applyFilter(searchResult[defaultField], searchColumn.filter)}}"
             class="kscr-Search-row" ng-show="showResult(searchResult)" ng-click="{{onClick}}">
             <td ng-repeat="searchColumn in searchColumns" class="kscr-Search-results-cell">
@@ -41,7 +46,7 @@
     <div class="kscr-Search-result"
          id="course_detail_result_{{applyFilter(searchResult[defaultField], searchColumn.filter)}}"
          ui-sref="root.search.details({searchCriteria: searchCriteria, id: getId(searchResult)})"
-         ng-repeat="searchResult in searchResults | filter:facetFilter">
+         ng-repeat="searchResult in searchResults">
         <div class="kscr-Search-result-column-{{searchColumn.field}}" ng-repeat="searchColumn in searchColumns">{{applyFilter(searchResult[searchColumn.field], searchColumn.filter)}}</div>
     </div>
 </div>
@@ -61,11 +66,11 @@
         </div>
     </div>
     <div class="kscr-Search-results-pageBox">
-        <a id="nextPageLink" ng-click="page = page+1;" ng-show="(page * displayLimit) < (searchResults|filter:facetFilter).length">&gt;</a>
-        <span id="nextPage" ng-show="(page * displayLimit) >= (searchResults|filter:facetFilter).length">&gt;</span>
+        <a id="nextPageLink" ng-click="page = page+1;" ng-show="(page * displayLimit) < searchResults.length">&gt;</a>
+        <span id="nextPage" ng-show="(page * displayLimit) >= searchResults.length">&gt;</span>
     </div>
     <div class="kscr-Search-results-pageBox">
-        <a ng-show="page < lastPage" ng-click="page = lastPage;">&gt;|</a>
-        <span ng-show="page >= lastPage">&gt;|</span>
+        <a ng-show="page < lastPage()" ng-click="page = lastPage();">&gt;|</a>
+        <span ng-show="page >= lastPage()">&gt;|</span>
     </div>
 </div>

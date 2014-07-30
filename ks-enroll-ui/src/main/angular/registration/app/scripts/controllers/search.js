@@ -1,13 +1,14 @@
 'use strict';
 
 angular.module('regCartApp')
-    .controller('SearchCtrl', ['$scope', 'SearchService', 'SEARCH_FACETS', function SearchCtrl($scope, SearchService, SEARCH_FACETS) {
+    .controller('SearchCtrl', ['$scope', '$filter', 'SearchService', 'SEARCH_FACETS', function SearchCtrl($scope, $filter, SearchService, SEARCH_FACETS) {
 
         $scope.facets = SEARCH_FACETS; // Facet definitions
 
         $scope.searchCriteria = null; // Criteria used to generate the search results.
         $scope.searchResults = [];    // Results from the last search request.
-        $scope.searchColumns = [];    // Details about the search columns we want to display
+        $scope.searchColumns = [];    // Details about the search columns we want to display.
+        $scope.filteredResults = [];  // Results that have been filtered through the facets.
 
         $scope.$on('termIdChanged', function() {
             var criteria = $scope.searchCriteria;
@@ -30,23 +31,23 @@ angular.module('regCartApp')
             }
         });
 
-        // Filter to apply facet options to the search results
-        $scope.facetFilter = function(item) {
-            var select = true;
-            angular.forEach($scope.facets, function(facet) {
-                if (select) {
-                    // Only filter on the facet if it has selected options
-                    if (angular.isArray(facet.selectedOptions) && facet.selectedOptions.length > 0) {
-                        if (!facet.filter(item, facet.selectedOptions)) {
-                            // The item does not match the facet filter. Exclude it.
-                            select = false;
-                        }
-                    }
+
+        function filterResults() {
+            var filter = $filter('facetFilter'),
+                filtered = [];
+
+            angular.forEach($scope.searchResults, function(item) {
+                if (filter(item, $scope.facets)) {
+                    filtered.push(item);
                 }
             });
 
-            return select;
-        };
+            $scope.filteredResults = filtered;
+        }
+
+        // Apply the facet filters anytime they change
+        $scope.$watch('facets', filterResults, true);
+
 
         var queuedSearchHandle, // Handle on the queued up search.
             lastSearchCriteria = ''; // Criteria used to execute the most recent search request.
@@ -87,6 +88,7 @@ angular.module('regCartApp')
                     console.log('Search for "' + criteria + '" complete. Results: ' + results.length);
                     $scope.searchResults = results;
                     $scope.searchCriteria = criteria;
+                    filterResults();
                 } else {
                     console.log('Search completed but not the most recent, ignoring results: "' + criteria + '" !== "' + lastSearchCriteria + '"');
                 }
@@ -101,6 +103,25 @@ angular.module('regCartApp')
         return function(input, start) {
             start = +start; //parse to int
             return input.slice(start);
+        };
+    })
+
+    .filter('facetFilter', function() {
+        return function(item, facets) {
+            var select = true;
+            angular.forEach(facets, function(facet) {
+                if (select) {
+                    // Only filter on the facet if it has selected options
+                    if (angular.isArray(facet.selectedOptions) && facet.selectedOptions.length > 0) {
+                        if (!facet.filter(item, facet.selectedOptions)) {
+                            // The item does not match the facet filter. Exclude it.
+                            select = false;
+                        }
+                    }
+                }
+            });
+
+            return select;
         };
     })
 

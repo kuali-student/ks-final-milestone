@@ -11,8 +11,6 @@ angular.module('regCartApp')
     .directive('sticky', ['$timeout', '$window', '$document', function($timeout, $window, $document) {
         return {
             restrict: 'CA',
-            scope: {
-            },
             link: function(scope, elem) {
                 $timeout(function() {
                     var w = angular.element($window),
@@ -29,16 +27,21 @@ angular.module('regCartApp')
                      * Check and sticky/unstick the element depending on the element & scroll position.
                      */
                     function check () {
-                        var scrollTop = ($window.pageYOffset || d.scrollTop()) - (d.clientTop || 0), // Calculate the top of the screen
-                            shouldStick = (scrollTop >= stickyLine); // The element should be stuck if its top is below the 'stickyLine'.
+                        if (!isStuck) {
+                            stickyLine = elem.offset().top;
+                        }
+
+                        var elemLargerThanBrowser = d.height() <= elem.height(),
+                            scrollTop = ($window.pageYOffset || d.scrollTop()) - (d.clientTop || 0), // Calculate the top of the screen
+                            shouldStick = (scrollTop >= stickyLine || elemLargerThanBrowser); // The element should be stuck if its top is below the 'stickyLine'.
 
                         if (!isStuck && shouldStick) {
                             // Element is not stuck but should be.
-                            // console.log('Stick it!', d.scrollTop(), stickyLine, stick);
+                            // console.log('Stick it!', scrollTop, stickyLine);
                             stick();
                         } else if (isStuck && !shouldStick) {
                             // Element is stuck but shouldn't be.
-                            // console.log('Unstick it!', d.scrollTop(), stickyLine, stick);
+                            // console.log('Unstick it!', scrollTop, stickyLine);
                             unstick();
                         } else if (isStuck && shouldStick) {
                             // Element is stuck & should be, nothing to do.
@@ -46,6 +49,12 @@ angular.module('regCartApp')
                         } else {
                             // Element is not stuck & shouldn't be, nothing to do.
                             // console.log('Still unstuck', scrollTop, stickyLine);
+                        }
+
+                        if (isStuck && elemLargerThanBrowser) {
+                            // If the element is larger than the browser, we need to check back to see if it has resized.
+                            // This is the best way I could think to handle a resize of the sticky element.
+                            $timeout(check, 500);
                         }
                     }
 
@@ -89,6 +98,11 @@ angular.module('regCartApp')
                     // Recheck the stickiness when the user scrolls or resizes the window
                     w.on('scroll', check);
                     w.on('resize', function() {
+                        $timeout(check);
+                    });
+
+                    elem.on('resize', function() {
+                        console.log('element resized');
                         $timeout(check);
                     });
 
