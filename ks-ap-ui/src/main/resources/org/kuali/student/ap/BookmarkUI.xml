@@ -738,7 +738,7 @@
                                                             </list>
                                                         </property>
                                                         <property name="toolTip">
-                                                            <ref bean="details_gened_tooltip"/>
+                                                            <ref bean="gened_col_help_tooltip"/>
                                                         </property>
                                                     </bean>
                                                     <bean parent="Uif-VerticalBoxSection" p:colSpan="10">

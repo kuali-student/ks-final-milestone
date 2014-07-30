@@ -763,7 +763,7 @@
                 </bean>
                 <!--@{#textHelper.getText('details.ao.header.additionalDetails')} -->
                 <bean parent="Uif-FieldGroupBase"
-                      p:fieldLabel.labelText="Additional Details"
+                      p:fieldLabel.labelText="Additional Info"
                       p:id="additionalDetails"
                       p:additionalCssClasses="ksap-section-details">
                     <property name="items">

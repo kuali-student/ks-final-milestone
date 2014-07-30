@@ -487,7 +487,7 @@
                             <bean parent="Uif-VerticalBoxSection" p:colSpan="2" p:wrapperCssClasses="ksap-right-labels">
                                 <property name="items">
                                     <list>
-                                        <bean parent="Uif-Message" p:messageText="General Edu. Req.">
+                                        <bean parent="Uif-Message" p:messageText="Gen Ed Requirements">
                                             <property name="cssClasses">
                                                 <list merge="true">
                                                     <value>ksap-label</value>
@@ -497,7 +497,7 @@
                                     </list>
                                 </property>
                                 <property name="toolTip">
-                                    <ref bean="details_gened_tooltip"/>
+                                    <ref bean="gened_col_help_tooltip"/>
                                 </property>
                             </bean>
                             <bean parent="Uif-VerticalBoxSection" p:colSpan="10">
