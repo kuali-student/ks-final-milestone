@@ -61,7 +61,7 @@ public class ElasticEmbedded {
      */
     public void init() throws MissingParameterException, InvalidParameterException, OperationFailedException, PermissionDeniedException, IOException, DoesNotExistException {
         LOG.info("Starting Elastic Client");
-        node = NodeBuilder.nodeBuilder().local(false).clusterName("ks.elastic.cluster").node();
+        node = NodeBuilder.nodeBuilder().local(true).clusterName("ks.elastic.cluster").node();
         client = node.client();
     }
 
@@ -93,7 +93,7 @@ public class ElasticEmbedded {
         //Execute the bulk operation
         BulkResponse bulkResponse = bulkRequest.execute().actionGet();
         if (bulkResponse.hasFailures()) {
-            throw new RuntimeException("Error Bulk Loading elasticsearch courseofferings");
+            throw new RuntimeException("Error Bulk Loading elasticsearch courseofferings: " + bulkResponse.buildFailureMessage());
         }
 
         LOG.info("Done Loading Data - " + (System.currentTimeMillis() - startTime.getTime()) + "ms");
