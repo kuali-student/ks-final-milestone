@@ -22,12 +22,15 @@ import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.krad.uif.UifParameters;
 import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.web.controller.KsUifControllerBase;
 import org.kuali.rice.krad.web.controller.MethodAccessible;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.common.util.security.ContextUtils;
+import org.kuali.student.enrollment.class2.appointment.util.AppointmentConstants;
 import org.kuali.student.enrollment.class2.courseoffering.form.KSCommentForm;
 import org.kuali.student.enrollment.class2.courseoffering.form.KSCommentWrapper;
+import org.kuali.student.enrollment.class2.courseoffering.util.KSCommentsConstants;
 import org.kuali.student.r2.common.util.date.DateFormatters;
 import org.kuali.student.r2.core.comment.dto.CommentInfo;
 import org.kuali.student.r2.core.comment.service.CommentService;
@@ -118,6 +121,10 @@ public abstract class KSCommentController extends KsUifControllerBase {
     @RequestMapping(params = "methodToCall=addComment")
     public ModelAndView addComment(@ModelAttribute("KualiForm") KSCommentForm form, HttpServletRequest request) throws Exception {
 
+        if (StringUtils.isEmpty(form.getCommentText())) {
+            GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, KSCommentsConstants.KSCOMMENT_MSG_ERROR_EMPTY_TEXT_FIELD);
+            return getUIFModelAndView(form);
+        }
         KSCommentWrapper wrapper = new KSCommentWrapper();
         wrapper.getCommentInfo().getCommentText().setPlain(form.getCommentText());
         saveComment(form, wrapper);
