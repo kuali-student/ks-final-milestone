@@ -29,7 +29,8 @@
     <tbody>
         <tr ng-repeat="searchResult in searchResults | orderBy : predicate : reverse | startFrom:(page-1)*displayLimit | limitTo:displayLimit"
             id="course_detail_row_{{applyFilter(searchResult[defaultField], searchColumn.filter)}}"
-            class="kscr-Search-row" ng-show="showResult(searchResult)" ng-click="{{onClick}}">
+            class="kscr-Search-row" ng-class="{'kscr-Search-row--clickable': onClick}"
+            ng-show="showResult(searchResult)" ng-click="{{onClick}}">
             <td ng-repeat="searchColumn in searchColumns" class="kscr-Search-results-cell">
                 <a ng-if="searchColumn.url" src="searchColumn.url">
                     {{applyFilter(searchResult[searchColumn.field], searchColumn.filter)}}
@@ -37,7 +38,7 @@
                 <span ng-if="!searchColumn.url" src="searchColumn.url">
                     {{applyFilter(searchResult[searchColumn.field], searchColumn.filter)}}
                 </span>
-                <input ng-if="searchColumn.checkbox" type="checkbox" ng-click="select('{{searchColumn.checkbox}}', searchResult)" ng-model="searchResult.selected" />
+                <input class="kscr-Search-checkbox" ng-if="searchColumn.checkbox" type="checkbox" ng-click="select('{{searchColumn.checkbox}}', searchResult)" ng-model="searchResult.selected" />
             </td>
         </tr>
     </tbody>

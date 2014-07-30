@@ -78,6 +78,9 @@ angular.module('regCartApp')
                 ao.selected = false;
             });
             $scope.selectedAOs = [];
+
+            // broadcast an event to any child scopes that may need to clear their selection
+            $scope.$broadcast('clearSelected');
         };
 
         $scope.hasSelectedAOs = function() {

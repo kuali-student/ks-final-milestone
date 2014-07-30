@@ -139,6 +139,16 @@ angular.module('regCartApp')
                     $state.go('root.search.details', {searchCriteria: searchCriteria, id: id});
                 };
 
+                /*
+                If a clearSelected event is received from the parent, clear all the selected search
+                results.
+                 */
+                scope.$on('clearSelected', function (event) {
+                    angular.forEach(scope.searchResults, function(searchResult) {
+                        searchResult.selected = false;
+                    });
+                });
+
                 function initReverse(column) {
                     if (angular.isUndefined(scope.reverseMap[column])) {
                         scope.reverseMap[column] = true; // set the default
