@@ -80,7 +80,7 @@
                             </bean>
                             <bean parent="KS-Uif-ActionLink" p:id="CM-Proposal-Review-Error-Message-Expand-Option-Link"
                                   p:actionScript="showHideReviewProposalErrorFields('CM-Proposal-Review-Course-PageSections');"
-                                  p:actionLabel="Hide missing-fields indicator.">
+                                  p:actionLabel="Hide error highlighting.">
                                 <property name="cssClasses">
                                     <list merge="true">
                                         <value>review_proposal_ReviewErrorMessageActionLink</value>
