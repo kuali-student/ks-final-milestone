@@ -294,6 +294,7 @@ public class AdminRegistrationViewHelperServiceImpl extends KSViewHelperServiceI
             if (course.getRegGroup() == null) {
                 GlobalVariables.getMessageMap().putError(AdminRegConstants.PENDING_COURSES + "[" + i + "]." + AdminRegConstants.SECTION,
                         AdminRegConstants.ADMIN_REG_MSG_ERROR_SECTION_CODE_INVALID);
+                continue;
             }
             if (course.getRegGroup().getStateKey().equals(LuiServiceConstants.REGISTRATION_GROUP_CANCELED_STATE_KEY)){
                 GlobalVariables.getMessageMap().putErrorForSectionId(AdminRegConstants.PENDING_COURSES + "[" + i + "]." + AdminRegConstants.SECTION,
