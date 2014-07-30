@@ -507,7 +507,9 @@ jQuery(function(){
     //Under normal circumstances the search input values are saved for later use.  Clear the saved values when clicking
     // the "Find Courses" link in the top application navigation section
     jQuery('#courseSearchNav').on('click', 'a', function(){
-        sessionStorage.removeItem('last_search');
+        var sessionId = jQuery("#formInfo").find("[name='sessionId']").val();
+        var key = sessionId + '_last_search';
+        sessionStorage.removeItem(key);
     });
 });
 

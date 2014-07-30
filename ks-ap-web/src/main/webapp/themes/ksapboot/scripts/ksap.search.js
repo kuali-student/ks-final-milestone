@@ -1,8 +1,10 @@
 jQuery('#course_search #text_searchQuery_control').ready(function(){
-    if(sessionStorage.getItem('last_search') != null) {
+    var sessionId = jQuery("#formInfo").find("[name='sessionId']").val();
+    var key = sessionId + '_last_search';
+    if(sessionStorage.getItem(key) != null) {
         //Coming back to the search page.  Set the values back to the previous search values, pulled from sessionStorage
         if(jQuery('#text_searchQuery_control').val().length == 0){
-            var inputData = JSON.parse( sessionStorage.getItem('last_search') );
+            var inputData = JSON.parse( sessionStorage.getItem(key) );
             jQuery('#text_searchQuery_control').val(inputData.searchQuery);
             jQuery("select[name='searchTerm']").val(inputData.searchTerm);
         }
@@ -134,7 +136,9 @@ function fnSelectAllCampuses() {
 function searchForCourses(id, parentId) {
     //Get the search inputs and save them in sessionStorage for later retrieval
     var inputData = {searchQuery: jQuery('#text_searchQuery_control').val(), searchTerm: jQuery("select[name='searchTerm'] option:selected").val()};
-    sessionStorage.setItem( 'last_search', JSON.stringify(inputData) );
+    var sessionId = jQuery("#formInfo").find("[name='sessionId']").val();
+    var key = sessionId + '_last_search';
+    sessionStorage.setItem( key, JSON.stringify(inputData) );
 
 	var results = jQuery("#" + parentId); // course_search_results_panel
 	results.fadeOut("fast");
