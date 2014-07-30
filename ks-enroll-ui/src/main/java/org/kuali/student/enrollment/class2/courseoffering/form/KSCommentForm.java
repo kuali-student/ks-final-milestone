@@ -34,12 +34,15 @@ public class KSCommentForm extends KsUifFormBase {
     private String referenceType;
     private String referenceName;
     private String parentUrl;
+    private String socState;
+    private String subjectArea;
+    private String offeringAdminOrgId;
 
-    protected boolean canAddComment = true;
+    private boolean canAddComment;
+    private boolean canEditComment;
+    private boolean canDeleteComment;
 
-    public KSCommentForm(){
-
-    }
+    public KSCommentForm(){}
 
     public List<KSCommentWrapper> getComments() {
         return comments;
@@ -47,14 +50,6 @@ public class KSCommentForm extends KsUifFormBase {
 
     public void setComments(List<KSCommentWrapper> comments) {
         this.comments = comments;
-    }
-
-    public boolean isCanAddComment() {
-        return canAddComment;
-    }
-
-    public void setCanAddComment(boolean canAddComment) {
-        this.canAddComment = canAddComment;
     }
 
     public String getReferenceId() {
@@ -95,5 +90,53 @@ public class KSCommentForm extends KsUifFormBase {
 
     public void setParentUrl(String parentUrl) {
         this.parentUrl = parentUrl;
+    }
+
+    public String getSocState() {
+        return socState;
+    }
+
+    public void setSocState(String socState) {
+        this.socState = socState;
+    }
+
+    public String getSubjectArea() {
+        return subjectArea;
+    }
+
+    public void setSubjectArea(String subjectArea) {
+        this.subjectArea = subjectArea;
+    }
+
+    public String getOfferingAdminOrgId() {
+        return offeringAdminOrgId;
+    }
+
+    public void setOfferingAdminOrgId(String offeringAdminOrgId) {
+        this.offeringAdminOrgId = offeringAdminOrgId;
+    }
+
+    public boolean isCanAddComment() {
+        return canAddComment;
+    }
+
+    public void setCanAddComment(boolean canAddComment) {
+        this.canAddComment = canAddComment;
+    }
+
+    public boolean isCanEditComment() {
+        return canEditComment;
+    }
+
+    public void setCanEditComment(boolean canEditComment) {
+        this.canEditComment = canEditComment;
+    }
+
+    public boolean isCanDeleteComment() {
+        return canDeleteComment;
+    }
+
+    public void setCanDeleteComment(boolean canDeleteComment) {
+        this.canDeleteComment = canDeleteComment;
     }
 }

@@ -35,8 +35,6 @@ public class KSCommentWrapper implements Comparable<KSCommentWrapper> {
     private String lastEditedDate;
     private boolean edited;
     private String commentTextUI;
-    protected boolean canEditComment = true;
-    protected boolean canDeleteComment = true;
 
     public KSCommentWrapper(){
         commentInfo = new CommentInfo();
@@ -98,22 +96,6 @@ public class KSCommentWrapper implements Comparable<KSCommentWrapper> {
 
     public void setCommentTextUI(String commentTextUI) {
         this.commentTextUI = commentTextUI;
-    }
-
-    public boolean isCanEditComment() {
-        return canEditComment;
-    }
-
-    public void setCanEditComment(boolean canEditComment) {
-        this.canEditComment = canEditComment;
-    }
-
-    public boolean isCanDeleteComment() {
-        return canDeleteComment;
-    }
-
-    public void setCanDeleteComment(boolean canDeleteComment) {
-        this.canDeleteComment = canDeleteComment;
     }
 
     @Override
