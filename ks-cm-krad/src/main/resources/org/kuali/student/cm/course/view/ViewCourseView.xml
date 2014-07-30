@@ -48,6 +48,16 @@
         <property name="footer">
             <bean parent="Uif-FooterBase" />
         </property>
+        <property name="additionalScriptFiles">
+            <list>
+                <value>themes/ksboot/scripts/ruleMaintenance.js</value>
+            </list>
+        </property>
+        <property name="additionalCssFiles">
+            <list>
+                <value>themes/ksboot/stylesheets/krms.css</value>
+            </list>
+        </property>
     </bean>
 
     <bean id="CM-ViewCourse-View-Header-RightGroup" parent="KS-Unified-Header-Right-Group" p:additionalCssClasses="viewcourseview-header-status">
