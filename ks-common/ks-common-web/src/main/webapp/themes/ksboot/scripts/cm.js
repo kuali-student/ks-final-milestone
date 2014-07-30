@@ -745,7 +745,7 @@ function durationCountOnBlur() {
 }
 
 function showHideReviewProposalErrorFields(sectionId) {
-    var hideMissed = "Hide missing-fields indicator.";
+    var hideMissed = "Hide error highlighting.";
     var showMissed = "Show what's missing.";
 
     var actualShowMsg = jQuery("#CM-Proposal-Review-Error-Message-Expand-Option-Link").text();
