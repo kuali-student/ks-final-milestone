@@ -88,12 +88,12 @@ public class CourseRegistrationEngineServiceImpl implements CourseRegistrationEn
      * @return List of Learning Person Relationships corresponding to the Reg Group, Course, and Activities
      */
     protected List<LprInfo> buildRegisteredLprs(String regGroupId, String termId, String credits,
-                                                String gradingOptionKey, ContextInfo context) {
+                                                String gradingOptionKey, Date effDate, ContextInfo context) {
         // RG LPR type key, CO LPR type key, and AO LPR type key (in that order)
         List<LprInfo> result = buildLprsCommon(LprServiceConstants.REGISTRANT_RG_LPR_TYPE_KEY,
                 LprServiceConstants.REGISTRANT_CO_LPR_TYPE_KEY,
                 LprServiceConstants.REGISTRANT_AO_LPR_TYPE_KEY, regGroupId, termId,
-                credits, gradingOptionKey, context);
+                credits, gradingOptionKey, effDate, context);
         return result;
     }
 
@@ -101,13 +101,12 @@ public class CourseRegistrationEngineServiceImpl implements CourseRegistrationEn
                                             String courseOfferingLprType,
                                             String activityOfferingLprType,
                                             String regGroupId, String termId, String credits,
-                                            String gradingOptionKey, ContextInfo context) {
+                                            String gradingOptionKey, Date effDate, ContextInfo context) {
         List<LprInfo> result = new ArrayList<LprInfo>();
         // Get AO Lui's by reg grup
         //List<LuiInfo> ao1List = getLuiService().getLuisByRelatedLuiAndRelationType(registrationRequestInfo.get);
         LuiService luiServiceLocal = getLuiService();
         try {
-            Date effDate = new Date();
             // Get the CO
             List<String> foIds = luiServiceLocal.getLuiIdsByRelatedLuiAndRelationType(regGroupId,
                     LuiServiceConstants.LUI_LUI_RELATION_DELIVERED_VIA_FO_TO_RG_TYPE_KEY, context);
@@ -202,10 +201,10 @@ public class CourseRegistrationEngineServiceImpl implements CourseRegistrationEn
     }
 
     @Override
-    public List<LprInfo> addRegisteredLprs(String regGroupId, String termId, String credits, String gradingOptionId,
+    public List<LprInfo> addRegisteredLprs(String regGroupId, String termId, String credits, String gradingOptionId, Date effDate,
                                            ContextInfo contextInfo) {
         List<LprInfo> lprInfos =
-                buildRegisteredLprs(regGroupId, termId, credits, gradingOptionId, contextInfo);
+                buildRegisteredLprs(regGroupId, termId, credits, gradingOptionId, effDate, contextInfo);
         return lprInfos;
     }
 
@@ -287,8 +286,8 @@ public class CourseRegistrationEngineServiceImpl implements CourseRegistrationEn
     }
 
     @Override
-    public List<LprInfo> addWaitlistLprs(String regGroupId, String termId, String credits, String gradingOptionId, ContextInfo contextInfo) {
-        List<LprInfo> lprInfos = buildWaitlistLprs(regGroupId, termId, credits, gradingOptionId, contextInfo);
+    public List<LprInfo> addWaitlistLprs(String regGroupId, String termId, String credits, String gradingOptionId, Date effDate, ContextInfo contextInfo) {
+        List<LprInfo> lprInfos = buildWaitlistLprs(regGroupId, termId, credits, gradingOptionId, effDate, contextInfo);
         return lprInfos;
     }
 
@@ -300,13 +299,13 @@ public class CourseRegistrationEngineServiceImpl implements CourseRegistrationEn
      * @return List of Learning Person Relationships corresponding to the Reg Group, Course, and Activities
      */
     protected List<LprInfo> buildWaitlistLprs(String regGroupId, String termId, String credits,
-                                              String gradingOptionKey, ContextInfo context) {
+                                              String gradingOptionKey, Date effDate, ContextInfo context) {
         // RG LPR type key, CO LPR type key, and AO LPR type key (in that order)
         List<LprInfo> result = buildLprsCommon(LprServiceConstants.WAITLIST_RG_LPR_TYPE_KEY,
                 LprServiceConstants.WAITLIST_CO_LPR_TYPE_KEY,
                 LprServiceConstants.WAITLIST_AO_LPR_TYPE_KEY,
                 regGroupId, termId,
-                credits, gradingOptionKey, context);
+                credits, gradingOptionKey, effDate, context);
         return result;
     }
 

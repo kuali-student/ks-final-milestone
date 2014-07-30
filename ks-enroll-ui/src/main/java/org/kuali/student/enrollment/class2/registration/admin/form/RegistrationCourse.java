@@ -105,6 +105,10 @@ public class RegistrationCourse implements Serializable{
         this.transactionalDate = transactionalDate;
     }
 
+    public String getTransactionalDateFormatted(){
+        return DateFormatters.MONTH_DAY_YEAR_DATE_FORMATTER.format(transactionalDate);
+    }
+
     public Date getDropDate() {
         return dropDate;
     }

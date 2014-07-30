@@ -440,14 +440,14 @@
                       p:readOnlyListDisplayType="UL"/>
                 <bean parent="Uif-DataField" p:label="Room" p:propertyName="activityRooms"
                       p:readOnlyListDisplayType="UL"/>
-                <bean parent="Uif-HorizontalFieldGroup" p:label="Reg Date" >
+                <bean parent="Uif-HorizontalFieldGroup" p:label="Effective Date" >
                     <property name="propertyReplacers">
                         <list>
                             <bean parent="Uif-ConditionalBeanPropertyReplacer" p:propertyName="toolTip"
-                                  p:condition="@{#line.transactionalDate != #line.effectiveDate}">
+                                  p:condition="@{#line.transactionalDateFormatted ne #line.effectiveDateFormatted}">
                                 <property name="replacement">
-                                    <bean parent="Uif-KS-TooltipFocus"  p:onMouseHover="true">
-                                          <property name="tooltipContent" value="Effective Date: @{#line.effectiveDateFormatted}"/>
+                                    <bean parent="Uif-KS-TooltipFocus"  p:onMouseHover="true"  >
+                                          <property name="tooltipContent" value="Transaction Date: @{#line.transactionalDateFormatted}"/>
                                     </bean>
                                 </property>
                             </bean>
@@ -455,9 +455,9 @@
                     </property>
                     <property name="items">
                         <list>
-                            <bean parent="Uif-DataField" p:propertyName="transactionalDate"/>
+                            <bean parent="Uif-DataField" p:propertyName="effectiveDate"/>
                             <bean parent="Uif-Icon" p:iconClass="icon-notification"
-                                  p:render="@{#line.transactionalDate != #line.effectiveDate}"/>
+                                  p:render="@{#line.transactionalDateFormatted ne #line.effectiveDateFormatted}"/>
                         </list>
                     </property>
                 </bean>

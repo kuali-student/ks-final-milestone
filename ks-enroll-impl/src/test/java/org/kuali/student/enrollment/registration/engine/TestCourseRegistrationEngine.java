@@ -250,6 +250,7 @@ public class TestCourseRegistrationEngine {
         itemInfo.setStateKey(LprServiceConstants.LPRTRANS_ITEM_NEW_STATE_KEY);
         itemInfo.setCredits(new KualiDecimal("3.5"));
         itemInfo.setGradingOptionId(LETTER_GRADE); // Fill in
+        itemInfo.setRequestedEffectiveDate(new Date());
 
         RegistrationRequestInfo request = new RegistrationRequestInfo();
         request.setTermId(SPRING_2012_TERM);

@@ -72,6 +72,7 @@ public class AdminRegistrationUtil {
         registrationRequestItem.setStateKey(LprServiceConstants.LPRTRANS_ITEM_NEW_STATE_KEY);
         registrationRequestItem.setRegistrationGroupId(registrationCourse.getRegGroup().getId());
         //registrationRequestItem.setExistingCourseRegistrationId(); only doing add for now.
+        registrationRequestItem.setRequestedEffectiveDate(registrationCourse.getEffectiveDate());
         registrationRequestItem.setPersonId(personId);
         registrationRequestItem.setCredits(new KualiDecimal(registrationCourse.getCredits()));
         registrationRequestItem.setGradingOptionId(registrationCourse.getGradingOption());

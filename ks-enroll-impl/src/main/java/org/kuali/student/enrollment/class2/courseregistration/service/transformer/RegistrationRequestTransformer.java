@@ -29,12 +29,14 @@ import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.common.util.date.DateFormatters;
 import org.kuali.student.r2.lum.lrc.dto.ResultValueInfo;
 import org.kuali.student.r2.lum.lrc.service.LRCService;
 import org.kuali.student.r2.lum.util.constants.LrcServiceConstants;
 
 import javax.xml.namespace.QName;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -47,6 +49,7 @@ public class RegistrationRequestTransformer {
 
     public static final String OK_TO_WAITLIST = "kuali.lpr.trans.item.option.oktowaitlist";
     public static final String OK_TO_HOLD_UNTIL_LIST = "kuali.lpr.trans.item.option.oktoholduntillist";
+    public static final String EFF_DATE = "kuali.lpr.trans.item.option.effective.date";
 
     public LprTransactionInfo regRequest2LprTransaction(RegistrationRequestInfo request, ContextInfo context)
             throws OperationFailedException, MissingParameterException, PermissionDeniedException, InvalidParameterException, DoesNotExistException {
@@ -85,6 +88,16 @@ public class RegistrationRequestTransformer {
         item.setNewLuiId(requestItem.getRegistrationGroupId());
         item.setExistingLprId(requestItem.getExistingCourseRegistrationId());
         item.getResultValuesGroupKeys().clear();
+
+        LprTransactionItemRequestOptionInfo effDateOption =
+                findOptionByKey(EFF_DATE, item.getRequestOptions());
+        if (effDateOption == null) {
+            effDateOption = new LprTransactionItemRequestOptionInfo();
+            effDateOption.setOptionKey(EFF_DATE);
+            item.getRequestOptions().add(effDateOption);
+        }
+
+        effDateOption.setOptionValue(DateFormatters.DEFAULT_DATE_FORMATTER.format(requestItem.getRequestedEffectiveDate()));
 
         KualiDecimal credits = requestItem.getCredits(); // For now, assume it's an RVG option with a single credit
         if (credits != null) {
@@ -189,6 +202,8 @@ public class RegistrationRequestTransformer {
                 requestItem.setOkToWaitlist(convertStringToBoolean(option.getOptionValue()));
             } else if (option.getOptionKey().equals(OK_TO_HOLD_UNTIL_LIST)) {
                 requestItem.setOkToHoldUntilList(convertStringToBoolean(option.getOptionValue()));
+            } else if (option.getOptionKey().equals(EFF_DATE)) {
+                 requestItem.setRequestedEffectiveDate(DateFormatters.DEFAULT_DATE_FORMATTER.getFormatter().parseDateTime(option.getOptionValue()).toDate());
             }
         }
         return requestItem;
