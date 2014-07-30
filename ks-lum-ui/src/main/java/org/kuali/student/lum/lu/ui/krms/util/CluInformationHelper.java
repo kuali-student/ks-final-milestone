@@ -112,7 +112,7 @@ public class CluInformationHelper {
 
                     //Retrieve the information from the wrapped membership cluset.
                     if (subCluSet.getMembershipQuery() != null) {
-                        result.getCluSetRanges().add(this.createCluSetRange(cluSetInfo.getMembershipQuery()));
+                        result.getCluSetRanges().add(this.createCluSetRange(subCluSet.getMembershipQuery()));
                     } else {
                         //Retrieve the information from the wrapped clu cluset.
                         if (subCluSet.getCluIds() != null && !subCluSet.getCluIds().isEmpty()) {
