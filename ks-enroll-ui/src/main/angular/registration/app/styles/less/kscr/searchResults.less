@@ -28,6 +28,7 @@
 
 .kscr-Search-results-header {
   color: @secondaryTextColor;
+  cursor: pointer;
   font-family: @secondaryFontFamily;
   .font-size(14);
   font-weight: bold;
@@ -40,9 +41,31 @@
   border-bottom: @horizontalLineBorder;
 }
 
+.kscr-Search-results--selected {
+  background: @table-SelectedBackgroundColor;
+}
+
 .kscr-Search-results-sortIcon {
+  background: url("../images/validation/icon-sort.png") no-repeat center center;
   float: right;
-  cursor: pointer;
+  height: 1.2rem;
+  margin: 0.5rem 0 0 0.5rem;
+  padding: 0 0 0 1.4rem;
+  width: 1.2rem;
+  &--up {
+    background: url("../images/validation/icon-sort-up.png") no-repeat center center;
+  }
+  &--down {
+    background: url("../images/validation/icon-sort-down.png") no-repeat center center;
+  }
+}
+
+.kscr-Search-results-table-head {
+  height: 3rem;
+}
+
+.kscr-Search-result-column {
+  display: inline-flex;
 }
 
 .kscr-Search-results-card {

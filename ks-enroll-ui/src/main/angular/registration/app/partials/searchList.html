@@ -11,9 +11,12 @@
 <table id="search_results_table" class="kscr-Search-results-table">
     <thead class="kscr-Search-results-table-head">
         <tr>
-            <th class="kscr-Search-results-header" ng-repeat="searchColumn in searchColumns">
-                <span>{{searchColumn.name}}</span>
-                <i class="glyphicon glyphicon-sort kscr-Search-results-sortIcon" ng-click="$parent.predicate = '{{searchColumn.field}}'; $parent.reverse = switchReverse('{{searchColumn.field}}')"></i>
+            <th class="kscr-Search-results-header" ng-repeat="searchColumn in searchColumns"
+                ng-class="{'kscr-Search-results--selected': (!sorted || sorted) && notSorted }"
+                ng-click="notSorted = ($parent.predicate = '{{searchColumn.field}}'); sorted = ($parent.reverse = switchReverse('{{searchColumn.field}}')) ">
+                <div class="kscr-Search-result-column">{{searchColumn.name}}
+                    <i class="kscr-Search-results-sortIcon" ng-class="{'kscr-Search-results-sortIcon--up': !sorted && notSorted, 'kscr-Search-results-sortIcon--down': sorted && notSorted}"></i>
+                </div>
             </th>
         </tr>
     </thead>
