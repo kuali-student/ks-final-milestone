@@ -127,7 +127,8 @@ angular.module('regCartApp')
                     return showResult;
                 };
 
-                scope.go = function(searchCriteria, id) {
+                // redirects the view to the search details screen
+                scope.viewDetails = function(searchCriteria, id) {
                     $state.go('root.search.details', {searchCriteria: searchCriteria, id: id});
                 };
 

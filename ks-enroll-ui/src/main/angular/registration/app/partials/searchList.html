@@ -1,4 +1,4 @@
-<div class="kscr-Search-results-heading" ng-if="searchCriteria">
+<div class="kscr-Search-results-heading" ng-show="searchCriteria">
     <div id="search_results_summary" class="kscr-Search-results-summary">Showing {{displayRange((searchResults|filter:facetFilter).length)}} results for "{{searchCriteria}}" in {{termName}}</div>
     <div class="kscr-Search-results-picker">
         <span>Show</span>
@@ -45,7 +45,7 @@
         <div class="kscr-Search-result-column-{{searchColumn.field}}" ng-repeat="searchColumn in searchColumns">{{applyFilter(searchResult[searchColumn.field], searchColumn.filter)}}</div>
     </div>
 </div>
-<div class="kscr-Search-results-paginate" ng-if="searchCriteria">
+<div class="kscr-Search-results-paginate" ng-show="searchCriteria">
     <div class="kscr-Search-results-pageBox">
         <a ng-show="page > 1" ng-click="page = 1;">|&lt;</a>
         <span ng-show="page <= 1">|&lt;</span>
