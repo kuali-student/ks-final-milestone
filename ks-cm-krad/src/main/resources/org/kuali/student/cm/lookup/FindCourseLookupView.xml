@@ -51,15 +51,9 @@ limitations under the License.
         </property>
 
         <property name="page">
-            <bean parent="Uif-LookupPage">
+            <bean parent="Uif-LookupPage" p:style="padding-top: 20px;">
                 <property name="header">
                     <null/>
-                </property>
-                <property name="instructionalMessage">
-                    <bean parent="Uif-Message" p:width="auto">
-                        <property name="messageText"
-                                  value=" Enter search terms in one or more fields" />
-                    </bean>
                 </property>
             </bean>
         </property>
