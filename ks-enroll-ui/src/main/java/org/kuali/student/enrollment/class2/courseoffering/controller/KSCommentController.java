@@ -121,6 +121,7 @@ public abstract class KSCommentController extends KsUifControllerBase {
         KSCommentWrapper wrapper = new KSCommentWrapper();
         wrapper.getCommentInfo().getCommentText().setPlain(form.getCommentText());
         saveComment(form, wrapper);
+        form.setCommentText("");
         form.getComments().add(0, wrapper);
 
         return getUIFModelAndView(form);
