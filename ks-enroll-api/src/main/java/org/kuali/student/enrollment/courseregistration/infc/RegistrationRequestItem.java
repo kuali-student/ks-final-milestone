@@ -16,6 +16,7 @@
 
 package org.kuali.student.enrollment.courseregistration.infc;
 
+import java.util.Date;
 import java.util.List;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 
@@ -30,7 +31,7 @@ import org.kuali.student.r2.common.infc.ValidationResult;
  * or UPDATE. These types represent adding (waitlisting, holdlisting),
  * dropping courses, swapping sections, or changing the registration
  * options.
- * 
+ *
  * The Transaction Item Type indicates if this is for an ADD, DROP,
  * SWAP or UPDATE. 
  *
@@ -48,12 +49,12 @@ import org.kuali.student.r2.common.infc.ValidationResult;
  * @author Kuali Student Team (sambit)
  */
 
-public interface RegistrationRequestItem 
-    extends IdEntity {
+public interface RegistrationRequestItem
+        extends IdEntity {
 
     /**
      * The RegistrationRequest to which this item belongs.
-     * 
+     *
      * @name Registration Request Id
      * @readOnly
      */
@@ -61,7 +62,7 @@ public interface RegistrationRequestItem
 
     /**
      * The Person to which this request item applies.
-     * 
+     *
      * @name Person Id
      * @required
      * @readOnly on update
@@ -71,10 +72,10 @@ public interface RegistrationRequestItem
     /**
      * The RegistrationGroup to which the student will be registered
      * upon a successful submission of this item. 
-     * 
+     *
      * This is populated for ADD, DROP, UPDATE and SWAP types of
      * RegistrationRequestItems.
-     * 
+     *
      * @name Registration Group Id
      * @impl LprTransactionItem.newLuiId
      * @required
@@ -84,9 +85,9 @@ public interface RegistrationRequestItem
     /**
      * In the case of a DROP or SWAP or UPDATE, the "existing" course registration
      * Id in which the student is currently registered. 
-     * 
+     *
      * For an ADD, this field should be null.
-     * 
+     *
      * @name Existing Course Registration Id
      * @impl LprTransactionItem.existingLuiId
      */
@@ -95,7 +96,7 @@ public interface RegistrationRequestItem
     /**
      * The desired number of credits.  This value is a number
      * represented as a string.
-     * 
+     *
      * @name Credits
      * @impl LprTransactionItem.ResultValuesGroups filtering on the
      *       ResultValuesGroup Type for a credit option.
@@ -104,12 +105,19 @@ public interface RegistrationRequestItem
 
     /**
      * The requested grading scheme option (e.g. A-F or Pass/Fail).
-     * 
+     *
      * @name Grading Option Id
      * @impl LprTransactionItem.ResultValuesGroups filtering on the
      *       ResultValuesGroup Type for a grade system
      */
     public String getGradingOptionId();
+
+    /**
+     * The requested effective date of the registrationRequestItem
+     *
+     * @name Requested Effective Date
+     */
+    public Date getRequestedEffectiveDate();
 
     /**
      * If the course is full and there is a waitlist, is it okay to be
@@ -124,14 +132,14 @@ public interface RegistrationRequestItem
      * course but there is a list for such students because the
      * requirement ends at a future date, is it okay to be placed in
      * such a list.
-     * 
+     *
      * @name Ok To HoldUntillist
      */
     public Boolean getOkToHoldUntilList();
 
     /**
      * Validation messages that happen when submitted.
-     * 
+     *
      * @return list of validation results
      */
     public List<? extends ValidationResult> getValidationResults();
