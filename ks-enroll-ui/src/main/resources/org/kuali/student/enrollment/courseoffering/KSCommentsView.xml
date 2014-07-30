@@ -123,7 +123,7 @@
                                   p:ajaxSubmit="true"
                                   p:methodToCall="addComment"
                                   p:actionLabel="Add Comment"
-
+                                  p:performClientSideValidation="true"
                                   p:render="@{canAddComment}"/>
                             <!-- There is a property replacer below which, if there are no comments, replaces it with a Message -->
                             <bean parent="Uif-VerticalBoxSection">
@@ -182,7 +182,7 @@
                                                           p:actionLabel="Save"/>
                                                     <bean id="KS-CommentCancelAction_ID" p:id="KS-CommentCancelAction_ID" parent="Uif-CancelAction" p:style="display:none;" p:additionalCssClasses="ks-toggleable"
                                                           p:actionScript="toggleCommentButtons(this);"
-
+                                                          p:performDirtyValidation="false"
                                                           p:actionLabel="Cancel"/>
                                                     <bean id="KS-CommentDeleteAction_ID" parent="Uif-PrimaryActionButton" p:style="display:none;" p:additionalCssClasses="ks-toggle-delete"
                                                           p:ajaxSubmit="true"
@@ -190,7 +190,7 @@
                                                           p:actionLabel="Confirm Delete"/>
                                                     <bean id="KS-CommentCancelDeleteAction_ID" p:id="KS-CommentCancelDeleteAction_ID" parent="Uif-CancelAction" p:style="display:none;" p:additionalCssClasses="ks-toggle-delete"
                                                           p:actionScript="toggleDeleteElements(this);"
-
+                                                          p:performDirtyValidation="false"
                                                           p:actionLabel="Cancel"/>
                                                 </list>
                                             </property>
@@ -228,12 +228,12 @@
                                                                                               parent="KS-Uif-Edit-NavigationActionLink"
                                                                                               p:actionLabel="Edit"
                                                                                               p:actionScript="toggleCommentButtons(this);"
-
+                                                                                              p:performDirtyValidation="false"
                                                                                               p:render="@{canEditComment}"/>
                                                                                         <bean id="KS-CommentDeleteAction" p:additionalCssClasses="ks-toggleable,ks-toggle-delete"
                                                                                               parent="KS-Uif-Delete-NavigationActionLink"
                                                                                               p:actionScript="toggleDeleteElements(this);"
-
+                                                                                              p:performDirtyValidation="false"
                                                                                               p:render="@{canDeleteComment}"
                                                                                               p:actionLabel="Delete"/>
                                                                                     </list>
