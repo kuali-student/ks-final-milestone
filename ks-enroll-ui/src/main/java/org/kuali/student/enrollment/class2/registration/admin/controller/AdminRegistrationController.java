@@ -100,6 +100,30 @@ public class AdminRegistrationController extends UifControllerBase {
     }
 
     /**
+     * This method is called when the user has added or changed a course code in the input section when adding a new
+     * pending course to update the course title. It is called via AJAX on a conditional property refresh.
+     *
+     * @param form
+     * @param result
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     * @see org.kuali.student.enrollment.class2.registration.admin.service.impl.AdminRegistrationViewHelperServiceImpl#retrieveCourseTitle
+     */
+    @MethodAccessible
+    @RequestMapping(params = "methodToCall=refreshRegistrationResults")
+    public ModelAndView refreshRegistrationResults(@ModelAttribute("KualiForm") AdminRegistrationForm form, BindingResult result, HttpServletRequest request,
+                                           HttpServletResponse response) throws Exception {
+        System.out.println("refreshRegistrationResults");
+        // Reset the form to ready state.
+        form.setRegRequestId(null);
+        form.getCoursesInProcess().clear();
+        form.setClientState(AdminRegConstants.ClientStates.READY);
+        return super.refresh(form, result, request, response);
+    }
+
+    /**
      * This method is called when the user has entered a student id to get the studentInfo
      *
      * @param form
@@ -191,10 +215,12 @@ public class AdminRegistrationController extends UifControllerBase {
             return getUIFModelAndView(form);
         }
 
-        // Set the necessary attributes on the pending courses.
-        for (RegistrationCourse course : form.getPendingCourses()) {
-            course.setActivities(getViewHelper(form).getRegistrationActivitiesForRegistrationCourse(course, form.getTerm().getCode()));
+        // Move courses to "In Process" list
+        form.setCoursesInProcess(form.getPendingCourses());
 
+        // Set the necessary attributes on the pending courses.
+        for (RegistrationCourse course : form.getCoursesInProcess()) {
+            course.setActivities(getViewHelper(form).getRegistrationActivitiesForRegistrationCourse(course, form.getTerm().getCode()));
         }
 
         return showDialog(AdminRegConstants.REG_CONFIRM_DIALOG, form, request, response);
@@ -206,12 +232,8 @@ public class AdminRegistrationController extends UifControllerBase {
                                HttpServletRequest request, HttpServletResponse response) {
 
         // Continue with registration submission
-        List<RegistrationCourse> pendingCourses = form.getPendingCourses();
-        form.setRegRequestId(getViewHelper(form).submitRegistrationRequest(form.getPerson().getId(), form.getTerm().getId(), pendingCourses));
-
-        // Move courses to "In Process" list
-        form.getCoursesInProcess().addAll(pendingCourses);
         form.resetPendingCourseValues();
+        form.setRegRequestId(getViewHelper(form).submitRegistrationRequest(form.getPerson().getId(), form.getTerm().getId(), form.getCoursesInProcess()));
 
         // Set the client state to "Registering" so that we can prevent certain actions on UI.
         form.setClientState(AdminRegConstants.ClientStates.REGISTERING);
@@ -225,6 +247,12 @@ public class AdminRegistrationController extends UifControllerBase {
 
         Map<String, Object> result = new HashMap<String, Object>();
         Set<String> updateIds = new HashSet<String>();
+
+        // Only do polling while registration is in progress.
+        if (!AdminRegConstants.ClientStates.REGISTERING.equals(form.getClientState())) {
+            result.put(AdminRegConstants.POLLING_STOP, true);
+            return result;
+        }
 
         // Check if any courses is being processed by the registration engine.
         if (form.getRegRequestId() == null || form.getCoursesInProcess().isEmpty()) {
@@ -259,43 +287,38 @@ public class AdminRegistrationController extends UifControllerBase {
                 form.getCoursesInProcess().remove(processedCourse);
 
                 // Create a new registration issue with the course in error.
-                RegistrationResult regIssue = new RegistrationResult();
-                regIssue.setCourse(processedCourse);
+                RegistrationResult regResult = new RegistrationResult();
+                regResult.setCourse(processedCourse);
 
                 // Move item to appropriate list based on the item state.
                 if (LprServiceConstants.LPRTRANS_ITEM_SUCCEEDED_STATE_KEY.equals(item.getStateKey())) {
                     form.getRegisteredCourses().add(processedCourse);
-                    regIssue.setLevel(AdminRegConstants.ResultLevels.RESULT_LEVEL_SUCCESS);
-                    regIssue.getItems().add(new RegistrationResultItem("Course was successfully registered."));
+                    regResult.setLevel(AdminRegConstants.ResultLevels.RESULT_LEVEL_SUCCESS);
+                    regResult.getItems().add(new RegistrationResultItem("Course was successfully registered."));
                     updateIds.add(AdminRegConstants.REG_COLL_ID);
                 } else if (LprServiceConstants.LPRTRANS_ITEM_WAITLIST_STATE_KEY.equals(item.getStateKey())) {
                     form.getWaitlistedCourses().add(processedCourse);
-                    regIssue.setLevel(AdminRegConstants.ResultLevels.RESULT_LEVEL_SUCCESS);
-                    regIssue.getItems().add(new RegistrationResultItem("Course was successfully added to waitlist."));
+                    regResult.setLevel(AdminRegConstants.ResultLevels.RESULT_LEVEL_SUCCESS);
+                    regResult.getItems().add(new RegistrationResultItem("Course was successfully added to waitlist."));
                     updateIds.add(AdminRegConstants.WAITLIST_COLL_ID);
                 } else if (LprServiceConstants.LPRTRANS_ITEM_WAITLIST_AVAILABLE_STATE_KEY.equals(item.getStateKey()) ||
                         LprServiceConstants.LPRTRANS_ITEM_FAILED_STATE_KEY.equals(item.getStateKey())) {
-                    regIssue.setLevel(AdminRegConstants.ResultLevels.RESULT_LEVEL_WARNING);
-                    regIssue.getItems().addAll(getViewHelper(form).createIssueItemsFromResults(item.getValidationResults()));
+                    regResult.setLevel(AdminRegConstants.ResultLevels.RESULT_LEVEL_WARNING);
+                    regResult.getItems().addAll(getViewHelper(form).createIssueItemsFromResults(item.getValidationResults()));
                 }
 
-                updateIds.add(AdminRegConstants.ISSUES_COLL_ID);
-                form.getRegistrationIssues().add(regIssue);
+                form.getRegistrationResults().add(regResult);
             }
-
-            // Reset the form to ready state.
-            form.setRegRequestId(null);
-            form.getCoursesInProcess().clear();
-            form.setClientState(AdminRegConstants.ClientStates.READY);
-
-            // Set the ajax return values.
-            result.put(AdminRegConstants.POLLING_REFRESH, true);
-            result.put(AdminRegConstants.POLLING_CLIENT_STATE, form.getClientState());
-            result.put(AdminRegConstants.POLLING_REGISTERED_CREDITS, form.getRegisteredCredits());
-            result.put(AdminRegConstants.POLLING_WAITLISTED_CREDITS, form.getWaitlistedCredits());
         }
 
-        // Return updateIds to UI, to refresh selected collections.
+        // Set the ajax return values.
+        result.put(AdminRegConstants.POLLING_REFRESH, true);
+        result.put(AdminRegConstants.POLLING_CLIENT_STATE, form.getClientState());
+        result.put(AdminRegConstants.POLLING_REGISTERED_CREDITS, form.getRegisteredCredits());
+        result.put(AdminRegConstants.POLLING_WAITLISTED_CREDITS, form.getWaitlistedCredits());
+
+        // Return updateIds to UI, to refresh selected collections and stop the polling.
+        result.put(AdminRegConstants.POLLING_STOP, true);
         result.put(AdminRegConstants.POLLING_UPDATE_IDS, updateIds);
         return result;
     }

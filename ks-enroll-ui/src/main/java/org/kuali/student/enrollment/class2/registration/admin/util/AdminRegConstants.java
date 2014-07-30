@@ -27,7 +27,7 @@ public class AdminRegConstants {
     // Component ids.
     public static final String REG_COLL_ID = "KS-AdminRegistration-Registered";
     public static final String WAITLIST_COLL_ID = "KS-AdminRegistration-Waitlist";
-    public static final String ISSUES_COLL_ID = "KS-AdminRegistration-Issues";
+    public static final String RESULTS_COLL_ID = "KS-AdminRegistration-Issues";
     public static final String REGISTER_GROUP_ID = "KS-AdminRegistration-RegisterGroup";
     public static final String CLIENT_STATE_ID = "KS-AdminRegistration-State";
 

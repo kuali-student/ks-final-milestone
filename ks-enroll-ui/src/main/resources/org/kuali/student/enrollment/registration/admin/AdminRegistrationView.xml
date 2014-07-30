@@ -212,7 +212,7 @@
         <property name="validationMessages.displayMessages" value="false"/>
         <property name="items">
             <list>
-                <ref bean="KS-AdminRegistration-Issues"/>
+                <ref bean="KS-AdminRegistration-Results"/>
                 <ref bean="KS-AdminRegistration-RegFor"/>
             </list>
         </property>
@@ -341,10 +341,10 @@
         </property>
     </bean>
 
-    <bean id="KS-AdminRegistration-Issues" parent="Uif-TableCollectionGroup" p:colSpan="8">
+    <bean id="KS-AdminRegistration-Results" parent="Uif-TableCollectionGroup" p:colSpan="8">
         <property name="collectionObjectClass"
                   value="org.kuali.student.enrollment.class2.registration.admin.form.RegistrationResult"/>
-        <property name="propertyName" value="registrationIssues"/>
+        <property name="propertyName" value="registrationResults"/>
         <property name="layoutManager.renderSequenceField" value="false"/>
         <property name="layoutManager.richTable.render" value="false"/>
         <property name="onDocumentReadyScript" value="renderResults();"/>
@@ -633,7 +633,7 @@
                     <property name="layoutManager.richTable.render" value="false"/>
                     <property name="layoutManager.renderSequenceField" value="false"/>
                     <property name="renderAddLine" value="false"/>
-                    <property name="propertyName" value="pendingCourses"/>
+                    <property name="propertyName" value="coursesInProcess"/>
                     <property name="renderLineActions" value="false"/>
                     <property name="items">
                         <list>

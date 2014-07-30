@@ -68,15 +68,18 @@ public class AdminRegistrationForm extends UifFormBase implements Serializable {
     /**
      * Courses In Process are courses that has been sent to the registration engine but the registration
      * is not yet completed.
+     *
+     * This list is not instantiated becuase it will always be set with the current pendingCourses list when
+     * user register is performed.
      */
-    private List<RegistrationCourse> coursesInProcess = new ArrayList<RegistrationCourse>();
+    private List<RegistrationCourse> coursesInProcess;
     private String regRequestId;
 
     /**
-     * Registration Issues contain courses that did not pass the course eligibility checks. Administrative
-     * users has the option to allow these courses to be registered.
+     * Registration Results contain registration results and courses that did not pass the course eligibility checks.
+     * Administrative users has the option to allow these courses to be registered.
      */
-    private List<RegistrationResult> registrationIssues = new ArrayList<RegistrationResult>();
+    private List<RegistrationResult> registrationResults = new ArrayList<RegistrationResult>();
 
     /**
      * Term Issues contain issues that did not pass the Term eligibility checks. Administrative
@@ -127,14 +130,14 @@ public class AdminRegistrationForm extends UifFormBase implements Serializable {
 
     public void clearCourseRegistrationValues() {
         this.resetPendingCourseValues();
-        this.registrationIssues.clear();
+        this.registrationResults.clear();
         this.registeredCourses.clear();
         this.waitlistedCourses.clear();
         this.termIssues.clear();
     }
 
     public void resetPendingCourseValues(){
-        this.pendingCourses.clear();
+        this.pendingCourses = new ArrayList<>(); //create a new pendingcourses list.
         this.pendingCourses.add(new RegistrationCourse());
     }
 
@@ -226,12 +229,12 @@ public class AdminRegistrationForm extends UifFormBase implements Serializable {
         this.regRequestId = regRequestId;
     }
 
-    public List<RegistrationResult> getRegistrationIssues() {
-        return registrationIssues;
+    public List<RegistrationResult> getRegistrationResults() {
+        return registrationResults;
     }
 
-    public void setRegistrationIssues(List<RegistrationResult> registrationIssues) {
-        this.registrationIssues = registrationIssues;
+    public void setRegistrationResults(List<RegistrationResult> registrationResults) {
+        this.registrationResults = registrationResults;
     }
 
     public List<ValidationResultInfo>  getTermIssues() {
