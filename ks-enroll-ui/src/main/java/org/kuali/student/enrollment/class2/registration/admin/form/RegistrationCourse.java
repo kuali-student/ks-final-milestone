@@ -62,7 +62,7 @@ public class RegistrationCourse implements Serializable{
     }
 
     public void setCode(String course) {
-        this.code = course;
+        this.code = course.toUpperCase();
     }
 
     public String getSection() {
