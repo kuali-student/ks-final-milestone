@@ -609,7 +609,7 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
             String aoCode = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.AO_CODE);
             int aoMaxSeats = 0;
             if (!StringUtils.isEmpty(row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.AO_MAX_SEATS))) {
-                Integer.parseInt(row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.AO_MAX_SEATS));
+                aoMaxSeats = Integer.parseInt(row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.AO_MAX_SEATS));
             }
             int aoSeatCount = 0;
             if (!StringUtils.isEmpty(row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.SEAT_COUNT))) {
