@@ -108,6 +108,8 @@ angular.module('regCartApp')
             if ($scope.isAOSelected(ao)) {
                 // Deselect the AO
                 $scope.selectedAOs.splice($scope.selectedAOs.indexOf(ao), 1);
+                // broadcast an event to show all rows now that this has been unselected
+                $scope.$broadcast('showAllRows');
             } else {
                 if ($scope.isAOTypeSelected(aoType)) {
                     // Deselect the already selected ao of this type
@@ -130,9 +132,13 @@ angular.module('regCartApp')
                                     for (var key in selectedAO.regGroupInfos) {
                                         if ((keyDiff == key) && ((cnt == 0) || ((cnt > 0) && aoDiff.isSameRegGroup == true))) {
                                             aoDiff.isSameRegGroup = true;
+                                            // broadcast an event to show this row
+                                            $scope.$broadcast('showRow', aoDiff.activityOfferingId);
                                             break;
                                         } else {
                                             aoDiff.isSameRegGroup = false;
+                                            // broadcast an event to hide this row
+                                            $scope.$broadcast('hideRow', aoDiff.activityOfferingId);
                                         }
                                     }
                                     cnt++;

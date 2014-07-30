@@ -123,7 +123,10 @@ angular.module('regCartApp')
                 // if one row is selected, only show that row
                 scope.showResult = function(searchResult) {
                     var showResult = true;
-                    if (!searchResult.selected) {
+                    if (searchResult.hidden) {
+                        showResult = false;
+                    }
+                    if (showResult && !searchResult.selected) {
                         for (var i=0; i<scope.searchResults.length; i++) {
                             if (scope.searchResults[i].selected) {
                                 showResult = false;
@@ -146,6 +149,33 @@ angular.module('regCartApp')
                 scope.$on('clearSelected', function (event) {
                     angular.forEach(scope.searchResults, function(searchResult) {
                         searchResult.selected = false;
+                    });
+                });
+
+                // hides the row with the given id
+                scope.$on('hideRow', function (event, id) {
+                    angular.forEach(scope.searchResults, function(searchResult) {
+                        if (searchResult[scope.defaultField] === id) {
+                            searchResult.hidden = true;
+                        }
+                    });
+                });
+
+                // shows the row with the given id
+                scope.$on('showRow', function (event, id) {
+                    angular.forEach(scope.searchResults, function(searchResult) {
+                        if (searchResult[scope.defaultField] === id) {
+                            searchResult.hidden = false;
+                        }
+                    });
+                });
+
+                // shows all rows
+                scope.$on('showAllRows', function (event) {
+                    angular.forEach(scope.searchResults, function(searchResult) {
+                        if (searchResult.hidden) {
+                            searchResult.hidden = false;
+                        }
                     });
                 });
 
