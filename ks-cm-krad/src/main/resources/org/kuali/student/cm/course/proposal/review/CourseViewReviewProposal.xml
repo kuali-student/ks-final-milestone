@@ -357,7 +357,7 @@
                                   p:ajaxSubmit="false"
                                   p:actionLabel="Submit"
                                   p:methodToCall="route"
-                                  p:performClientSideValidation="true"
+                                  p:performClientSideValidation="true"   p:disabled="@{#dataObject.missingRequiredFields}"
                                   p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}"/>
                             <bean parent="Uif-PrimaryActionButton"
                                   p:ajaxSubmit="false"
@@ -388,7 +388,7 @@
                                   p:ajaxSubmit="false"
                                   p:actionLabel="Submit"
                                   p:methodToCall="route"
-                                  p:performClientSideValidation="true"
+                                  p:performClientSideValidation="true"   p:disabled="@{#dataObject.missingRequiredFields}"
                                   p:render="@{(!#uiHelper.curriculumSpecialistUser or #uiHelper.useReviewProcess) and (#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE])}"/>
                             <bean id="CM-Proposal-Review-CurriculumSpecialist-Cancel"
                                   parent="Uif-ActionLink"
