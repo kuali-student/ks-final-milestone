@@ -449,7 +449,10 @@ public class CourseController extends CourseRuleEditorController {
         }
 
         RecentlyViewedDocsUtil.addRecentDoc(form.getDocument().getDocumentHeader().getDocumentDescription(),
-                form.getDocument().getDocumentHeader().getWorkflowDocument().getDocumentHandlerUrl() + "&docId="
+                form.getDocument().getDocumentHeader().getWorkflowDocument().getDocumentHandlerUrl()
+                        + KewApiConstants.COMMAND_PARAMETER + "="
+                        + KewApiConstants.DOCSEARCH_COMMAND + "&"
+                        + KewApiConstants.DOCUMENT_ID_PARAMETER + "="
                         + form.getDocument().getDocumentHeader().getWorkflowDocument().getDocumentId());
 
         String nextOrCurrentPage = form.getActionParameters().get("displayPage");
