@@ -612,7 +612,13 @@
                     <property name="items">
                         <list>
                             <bean parent="CM-ReadOnlyInput" p:label="Start Term" id="CM-ViewCourseView-ActiveDates-StartTerm"
-                                  p:propertyName="reviewProposalDisplay.activeDatesSection.startTerm"/>
+                                  p:propertyName="reviewProposalDisplay.activeDatesSection.startTerm">
+                                <!-- Because we need a formatted startTerm and can't refer to courseInfo.startTerm we
+                                     have to set the explicitly set the requiredness constraint. -->
+                                <property name="simpleConstraint">
+                                    <bean parent="CM-RequiredConstraints-Enroute"/>
+                                </property>
+                            </bean>
                             <bean parent="CM-ReadOnlyInput" p:label="End Term" id="CM-ViewCourseView-ActiveDates-EndTerm"
                                   p:propertyName="reviewProposalDisplay.activeDatesSection.endTerm"/>
                             <bean parent="CM-ReadOnlyInput" p:label="Pilot Course" id="CM-ViewCourseView-ActiveDates-PilotCourse"
