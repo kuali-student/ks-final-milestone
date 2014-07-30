@@ -165,10 +165,8 @@
                                     </bean>
                                 </property>
                                 <property name="control">
-                                    <bean parent="KS-Uif-TextControl" p:size="6" p:watermarkText="201301"
-                                          p:minLength="6" p:maxLength="6"/>
+                                    <bean parent="KS-Uif-TextControl" p:size="6" p:watermarkText="201301"/>
                                 </property>
-
                             </bean>
                             <bean parent="Uif-SecondaryActionButton" p:actionLabel="Go" p:performClientSideValidation="true"
                                   p:id="changeTermGoButton" p:methodToCall="getRegistrationInfo" p:actionScript="goAction(this, 'kuali.admin.reg.state.initialized');"/>
