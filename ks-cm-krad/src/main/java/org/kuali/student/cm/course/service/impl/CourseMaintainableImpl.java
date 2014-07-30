@@ -197,8 +197,6 @@ public class CourseMaintainableImpl extends RuleEditorMaintainableImpl implement
 
     private transient EnumerationManagementService enumerationManagementService;
 
-    private transient AtpService atpService;
-
     private transient DocumentService documentService;
 
     private PersonService personService;
@@ -1234,13 +1232,6 @@ public class CourseMaintainableImpl extends RuleEditorMaintainableImpl implement
         }
 
         /**
-         * Active Dates section
-         */
-        reviewData.getActiveDatesSection().setStartTerm(getTermDesc(courseInfoWrapper.getCourseInfo().getStartTerm()));
-        reviewData.getActiveDatesSection().setEndTerm(getTermDesc(courseInfoWrapper.getCourseInfo().getEndTerm()));
-        reviewData.getActiveDatesSection().setPilotCourse(BooleanUtils.toStringYesNo(courseInfoWrapper.getCourseInfo().isPilotCourse()));
-
-        /**
          * Populate 'Proposal' specific model
          */
         if (!isCourseView){
@@ -1346,34 +1337,6 @@ public class CourseMaintainableImpl extends RuleEditorMaintainableImpl implement
 
     protected void populateCollaborators() {
         updateCollaborators((CourseInfoWrapper) getDataObject());
-    }
-
-    private String getTermDesc(String term) {
-
-        String result = "";
-
-        if (StringUtils.isNotEmpty(term)) {
-
-            QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
-            qbcBuilder.setPredicates(PredicateFactory.in("id", term));
-
-            QueryByCriteria qbc = qbcBuilder.build();
-            try {
-
-                List<AtpInfo> searchResult = this.getAtpService().searchForAtps(qbc, ContextUtils.createDefaultContextInfo());
-
-                AtpInfo atpInfo = KSCollectionUtils.getOptionalZeroElement(searchResult);
-
-                if (atpInfo != null) {
-                    result = atpInfo.getName();
-                }
-
-            } catch (Exception ex) {
-                throw new RuntimeException("Could not retrieve description of Term \"" + term + "\" : " + ex);
-            }
-        }
-
-        return result;
     }
 
     /**
@@ -2430,14 +2393,6 @@ public class CourseMaintainableImpl extends RuleEditorMaintainableImpl implement
                     EnumerationManagementServiceConstants.NAMESPACE, EnumerationManagementServiceConstants.SERVICE_NAME_LOCAL_PART));
         }
         return this.enumerationManagementService;
-    }
-
-    protected AtpService getAtpService() {
-        if (atpService == null) {
-            QName qname = new QName(AtpServiceConstants.NAMESPACE, AtpServiceConstants.SERVICE_NAME_LOCAL_PART);
-            atpService = (AtpService) GlobalResourceLoader.getService(qname);
-        }
-        return atpService;
     }
 
     protected DocumentService getSupportingDocumentService() {

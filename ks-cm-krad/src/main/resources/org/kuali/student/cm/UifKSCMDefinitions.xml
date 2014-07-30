@@ -228,6 +228,13 @@
         </property>
     </bean>
 
+    <!-- Property editor to display Term name.-->
+    <bean id="CM-TermPropertyEditor" parent="CM-TermPropertyEditor-parent"/>
+    <bean id="CM-TermPropertyEditor-parent" class="org.kuali.student.cm.uif.propertyeditors.TermPropertyEditor" abstract="true"/>
+
+    <!-- Boolean to yes or no property editor -->
+    <bean id="CM-BooleanPropertyEditor" parent="CM-BooleanPropertyEditor-parent"/>
+    <bean id="CM-BooleanPropertyEditor-parent" class="org.kuali.student.cm.uif.propertyeditors.BooleanPropertyEditor" abstract="true"/>
 
 </beans>
 

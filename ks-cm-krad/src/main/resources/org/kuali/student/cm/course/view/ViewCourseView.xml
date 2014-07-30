@@ -164,11 +164,6 @@
                 </property>
             </bean>
         </property>
-        <property name="simpleConstraint">
-            <bean parent="SimpleConstraint">
-              <property name="required" value="false"/>
-            </bean>
-        </property>
     </bean>
 
     <!-- The parent all of the vertical box sections -->
@@ -622,19 +617,26 @@
                     <property name="items">
                         <list>
                             <bean parent="CM-ReadOnlyInput" p:label="Start Term" id="CM-ViewCourseView-ActiveDates-StartTerm"
-                                  p:propertyName="reviewProposalDisplay.activeDatesSection.startTerm">
-                                <!-- Because we need a formatted startTerm and can't refer to courseInfo.startTerm we
-                                     have to set the explicitly set the requiredness constraint. -->
-                                <property name="simpleConstraint">
-                                    <bean parent="CM-RequiredConstraints-Enroute"/>
+                                  p:propertyName="courseInfo.startTerm">
+                                <property name="propertyEditor" >
+                                    <bean parent="CM-TermPropertyEditor"/>
                                 </property>
                             </bean>
                             <bean parent="CM-ReadOnlyInput" p:label="End Term" id="CM-ViewCourseView-ActiveDates-EndTerm"
-                                  p:propertyName="reviewProposalDisplay.activeDatesSection.endTerm"/>
+                                  p:propertyName="courseInfo.endTerm">
+                                <property name="propertyEditor" >
+                                    <bean parent="CM-TermPropertyEditor"/>
+                                </property>
+                            </bean>
                             <bean parent="CM-ReadOnlyInput" p:label="Pilot Course" id="CM-ViewCourseView-ActiveDates-PilotCourse"
-                                  p:propertyName="reviewProposalDisplay.activeDatesSection.pilotCourse">
+                                  p:propertyName="courseInfo.pilotCourse">
+                                <!-- Format boolean value as yes or no -->
+                                <property name="propertyEditor" >
+                                    <bean parent="CM-BooleanPropertyEditor"/>
+                                </property>
                                 <property name="control.cssClasses">
                                     <list merge="true">
+                                        <!-- Capitalize yes or no -->
                                         <value>ks-review-captialize</value>
                                         <value>cm_readonly_control</value>
                                     </list>
@@ -650,5 +652,4 @@
     <bean id="CM-HomewardPathBreadcrumbs-ViewCourseView" parent="Uif-BreadcrumbItem">
         <property name="label" value="@{courseInfoWrapper.courseInfo.courseTitle}"/>
     </bean>
-
 </beans>
