@@ -278,6 +278,8 @@ public class CourseController extends CourseRuleEditorController {
                     //route the document
                     return super.route(form,result, request,response);
                 }
+            }else{
+                return showDialog(dialog, form, request, response);
             }
         }
         return getUIFModelAndView(form);
