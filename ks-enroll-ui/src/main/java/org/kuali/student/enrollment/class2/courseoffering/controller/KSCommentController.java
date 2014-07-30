@@ -49,6 +49,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.xml.namespace.QName;
 import java.util.ArrayList;
+import java.util.Map;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -156,7 +158,7 @@ public abstract class KSCommentController extends KsUifControllerBase {
 
     @MethodAccessible
     @RequestMapping(params = "methodToCall=ajaxUpdateComment")
-    public @ResponseBody String ajaxUpdateComment(@ModelAttribute("KualiForm") KSCommentForm form, HttpServletRequest request) throws Exception {
+    public @ResponseBody Map<String, String>  ajaxUpdateComment(@ModelAttribute("KualiForm") KSCommentForm form, HttpServletRequest request) throws Exception {
         int index = Integer.parseInt(form.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX));
         KSCommentWrapper commentWrapper = form.getComments().get(index);
         CommentInfo comment = commentWrapper.getCommentInfo();
@@ -168,8 +170,11 @@ public abstract class KSCommentController extends KsUifControllerBase {
             throw new RuntimeException(message);
         }
         setupCommentWrapper(form, commentWrapper, comment);
-        return "{\"comment\":\"" + comment.getCommentText().getPlain() + "\"}";
-//        return comment.getCommentText().getPlain();
+        HashMap<String, String> map = new HashMap<String, String>();
+        String text = comment.getCommentText().getPlain(); //.replaceAll("\r\n", "<br>");
+        map.put("comment", text);
+//        return "{\"comment\":\"" + text + "\"}";
+        return map;
     }
 
     @MethodAccessible
