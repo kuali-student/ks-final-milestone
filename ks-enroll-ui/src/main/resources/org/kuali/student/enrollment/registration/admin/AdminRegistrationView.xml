@@ -24,7 +24,7 @@
         <property name="singlePageView" value="true"/>
         <property name="header.render" value="false"/>
         <property name="authorizer">
-            <bean class="org.kuali.rice.krad.uif.view.ViewAuthorizerBase"/>
+            <bean class="org.kuali.student.enrollment.main.view.KsViewAuthorizerBase"/>
         </property>
         <property name="breadcrumbOptions.homewardPathBreadcrumbs">
             <list>
