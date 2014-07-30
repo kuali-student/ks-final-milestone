@@ -1494,6 +1494,7 @@
 
     <bean id="scheduleOfClassesService" class="org.kuali.student.enrollment.registration.client.service.impl.ScheduleOfClassesServiceImpl">
         <property name="entityManager" ref="enrollEntityManager" />
+        <property name="atpService" ref="AtpService"/>
     </bean>
 
     <bean id="ks.exp.scheduleOfClassesService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
@@ -1510,6 +1511,7 @@
 
     <bean id="scheduleOfClassesClientService" class="org.kuali.student.enrollment.registration.client.service.impl.ScheduleOfClassesClientServiceImpl">
         <property name="elasticEmbedded" ref="elasticEmbedded"/>
+        <property name="atpService" ref="AtpService"/>
     </bean>
 
     <bean id="ks.exp.scheduleOfClassesClientService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
@@ -1734,6 +1736,11 @@
         <entry key="student7" value="2012-09-05@00:01" />
         <entry key="student8" value="2012-09-05@00:01" />
         <entry key="student9" value="2012-09-05@00:01" />
+        <entry key="L.RYANA" value="2012-09-05@00:01" />
+        <entry key="L.SARAK" value="2012-09-05@00:01" />
+        <entry key="L.SONIAN" value="2012-09-05@00:01" />
+        <entry key="L.VICTORP" value="2012-09-05@00:01" />
+
     </util:map>
 
     <!-- Batch Scheduler: the bean is defined in ks-enroll-batch-context.xml. -->

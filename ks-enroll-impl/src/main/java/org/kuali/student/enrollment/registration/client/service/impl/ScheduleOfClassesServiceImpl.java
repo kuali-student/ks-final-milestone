@@ -28,6 +28,7 @@ import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConsta
 import org.kuali.student.r2.common.util.constants.LprServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.core.atp.dto.AtpInfo;
+import org.kuali.student.r2.core.atp.service.AtpService;
 import org.kuali.student.r2.core.class1.search.ActivityOfferingSearchServiceImpl;
 import org.kuali.student.r2.core.class1.search.CoreSearchServiceImpl;
 import org.kuali.student.r2.core.class1.search.CourseOfferingManagementSearchImpl;
@@ -56,6 +57,10 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
     public static final Logger LOGGER = LoggerFactory.getLogger(ScheduleOfClassesServiceImpl.class);
     private static final Comparator<RegGroupSearchResult> REG_RESULT_COMPARATOR = new RegResultComparator();
     private EntityManager entityManager;
+
+    private AtpService atpService;
+
+
 
     /**
      * COURSE OFFERINGS *
@@ -612,6 +617,8 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
             String weekdays = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.WEEKDAYS);
             String startTimeMs = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.START_TIME_MS);
             String endTimeMs = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.END_TIME_MS);
+            String coAtpId = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.CO_ATP_ID);
+            String aoAtpId = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.AO_ATP_ID);
 
             // general CO info
             courseSearchResult.setCourseOfferingId(coId);
@@ -664,6 +671,18 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
                 List<ActivityOfferingScheduleComponentResult> scheduleComponents = new ArrayList<>();
                 scheduleComponents.add(scheduleComponent);
                 ao.setScheduleComponents(scheduleComponents);
+
+                //If the AO and CO terms differ, then look up the AO's term information and add it to the result
+                if(!StringUtils.equals(coAtpId,aoAtpId)){
+                    AtpInfo aoAtp = atpService.getAtp(aoAtpId, contextInfo);
+                    SubTermOfferingResult subTermOfferingResult = new SubTermOfferingResult();
+                    subTermOfferingResult.setName(aoAtp.getName());
+                    subTermOfferingResult.setSubTermId(aoAtp.getId());
+                    subTermOfferingResult.setStartDate(aoAtp.getStartDate());
+                    subTermOfferingResult.setEndDate(aoAtp.getEndDate());
+                    ao.setSubterm(subTermOfferingResult);
+                }
+
                 hmActivityOfferings.put(aoId, ao);
             } else if (hmActivityOfferings.containsKey(aoId)) {
                 // reg group
@@ -737,6 +756,16 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
 
         // setting prerequisites
         courseSearchResult.setPrerequisites(searchForPrerequisitesByCourseOffering(courseOfferingId));
+
+        //See if there are rules on the AO
+        for(Map.Entry<String, StudentScheduleActivityOfferingResult> aoEntry:hmActivityOfferings.entrySet()){
+            List<ReferenceObjectBinding> referenceObjectBindings = CourseRegistrationAndScheduleOfClassesUtil.getRuleManagementService().findReferenceObjectBindingsByReferenceObject(CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING, aoEntry.getKey());
+            for(ReferenceObjectBinding referenceObjectBinding: referenceObjectBindings) {
+                String requisite = CourseRegistrationAndScheduleOfClassesUtil.getRuleManagementService().translateNaturalLanguageForObject("KS-KRMS-NL-USAGE-1005", "agenda", referenceObjectBinding.getKrmsObjectId(), "en");
+                aoEntry.getValue().getRequisites().add(requisite);
+            }
+        }
+
 
         return courseSearchResult;
     }
@@ -1235,5 +1264,13 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
 
     public void setEntityManager(EntityManager entityManager) {
         this.entityManager = entityManager;
+    }
+
+    public AtpService getAtpService() {
+        return atpService;
+    }
+
+    public void setAtpService(AtpService atpService) {
+        this.atpService = atpService;
     }
 }

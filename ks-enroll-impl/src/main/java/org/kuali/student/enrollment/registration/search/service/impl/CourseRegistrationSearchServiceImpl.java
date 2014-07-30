@@ -175,6 +175,7 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
         public static final String RVG_VALUE = "rvgValue";
 
         public static final String AO_ID = "activityOfferingId";
+        public static final String AO_ATP_ID = "activityOfferingAtpId";
         public static final String AO_MAX_SEATS = "maxSeats";
         public static final String AO_IDS_ACTUAL_COUNT = "aoIdsActualCount";
         public static final String AO_IDS_EXPECTED_COUNT = "aoIdsExpectedCount";
@@ -184,6 +185,7 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
         public static final String CWL_ID = "courseWaitlistId";
 
         public static final String CO_ID = "courseOfferingId";
+        public static final String CO_ATP_ID = "courseOfferingAtpId";
         public static final String CO_CODE = "courseOfferingCode";
         public static final String CO_SUBJECT_AREA = "courseOfferingSubjectArea";
         public static final String CO_LONG_NAME = "courseOfferingLongName";
@@ -1419,6 +1421,7 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
                 "SELECT co.ID coId, coId.LUI_CD coCode, coId.DIVISION coDivision, coId.LNG_NAME, " +
                         "co.DESCR_FORMATTED, coRes.RESULT_VAL_GRP_ID, " +
                         "coClId.LUI_ID coClId, coClId.LUI_CD coClCode, coClId.DIVISION coClDivision, " +
+                        "co.ATP_ID coAtpId, ao.ATP_ID aoAtpId, " +
                         "ao.ID aoId, ao.LUI_TYPE, ao.NAME, aoId.LUI_CD aoCode, ao.MAX_SEATS, " +
                         "(SELECT COUNT(*) FROM KSEN_LPR lpr " +
                         "  WHERE lpr.LUI_ID = ao.ID " +
@@ -1493,6 +1496,8 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
             row.addCell(SearchResultColumns.CO_CROSSLISTED_ID, (String)resultRow[i++]);
             row.addCell(SearchResultColumns.CO_CROSSLISTED_CODE, (String)resultRow[i++]);
             row.addCell(SearchResultColumns.CO_CROSSLISTED_SUBJECT_AREA, (String)resultRow[i++]);
+            row.addCell(SearchResultColumns.CO_ATP_ID, (String)resultRow[i++]);
+            row.addCell(SearchResultColumns.AO_ATP_ID, (String)resultRow[i++]);
             row.addCell(SearchResultColumns.AO_ID, (String)resultRow[i++]);
             row.addCell(SearchResultColumns.AO_TYPE, (String)resultRow[i++]);
             row.addCell(SearchResultColumns.AO_NAME, (String)resultRow[i++]);

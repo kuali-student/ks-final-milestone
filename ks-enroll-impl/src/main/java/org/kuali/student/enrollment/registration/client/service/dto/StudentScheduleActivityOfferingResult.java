@@ -10,7 +10,8 @@ import java.util.Map;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "StudentScheduleActivityOfferingResult", propOrder = {
-        "activityOfferingId", "activityOfferingTypeName", "activityOfferingType", "activityOfferingCode", "seatsAvailable", "seatsOpen", "scheduleComponents", "instructors"})
+        "activityOfferingId", "activityOfferingTypeName", "activityOfferingType", "activityOfferingCode",
+        "seatsAvailable", "seatsOpen", "scheduleComponents", "instructors", "regGroupInfo", "requisites", "subterm"})
 public class StudentScheduleActivityOfferingResult {
     private String activityOfferingId;
     private String activityOfferingTypeName;
@@ -21,6 +22,8 @@ public class StudentScheduleActivityOfferingResult {
     private List<ActivityOfferingScheduleComponentResult> scheduleComponents;
     private List<InstructorSearchResult> instructors;
     private Map<String, String> regGroupInfo;
+    private List<String> requisites;
+    private SubTermOfferingResult subterm;
 
     public String getActivityOfferingId() {
         return activityOfferingId;
@@ -48,7 +51,7 @@ public class StudentScheduleActivityOfferingResult {
 
     public List<ActivityOfferingScheduleComponentResult> getScheduleComponents() {
         if (scheduleComponents == null) {
-            scheduleComponents = new ArrayList<ActivityOfferingScheduleComponentResult>();
+            scheduleComponents = new ArrayList<>();
         }
         return scheduleComponents;
     }
@@ -59,7 +62,7 @@ public class StudentScheduleActivityOfferingResult {
 
     public List<InstructorSearchResult> getInstructors() {
         if (instructors == null) {
-            instructors = new ArrayList<InstructorSearchResult>();
+            instructors = new ArrayList<>();
         }
         return instructors;
     }
@@ -90,6 +93,25 @@ public class StudentScheduleActivityOfferingResult {
 
     public void setSeatsOpen(int seatsOpen) {
         this.seatsOpen = seatsOpen;
+    }
+
+    public List<String> getRequisites() {
+        if(requisites == null){
+            requisites = new ArrayList<>();
+        }
+        return requisites;
+    }
+
+    public void setRequisites(List<String> requisites) {
+        this.requisites = requisites;
+    }
+
+    public SubTermOfferingResult getSubterm() {
+        return subterm;
+    }
+
+    public void setSubterm(SubTermOfferingResult subterm) {
+        this.subterm = subterm;
     }
 
     public Map<String, String> getRegGroupInfo() {

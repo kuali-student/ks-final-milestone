@@ -171,9 +171,23 @@ public class ElasticEmbedded {
      */
     public synchronized Client getClient() {
         if (lastUpdated == null || System.currentTimeMillis() > (lastUpdated.getTime() + TIME_TO_REFRESH_MS)) {
-
             try {
-                indexCourseOfferingData();
+                if(lastUpdated == null){
+                    //If this is a first time run, block while indexing
+                    indexCourseOfferingData();
+                }else{
+                    //Otherwise async start a reindex and continue with stale data
+                    new Thread(){
+                        @Override
+                        public void run() {
+                            try {
+                                indexCourseOfferingData();
+                            } catch (Exception e) {
+                                throw new RuntimeException("Error updating data", e);
+                            }
+                        }
+                    }.start();
+                }
             } catch (Exception e) {
                 throw new RuntimeException("Error updating data", e);
             }
