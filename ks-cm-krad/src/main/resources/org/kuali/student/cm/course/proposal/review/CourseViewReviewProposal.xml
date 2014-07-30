@@ -61,7 +61,6 @@
                 <ref bean="CM-Proposal-Review-Course-FinancialsSection"/>
                 <ref bean="CM-Proposal-Review-Course-AuthorsAndCollaboratorsSection"/>
                 <ref bean="CM-Proposal-Review-Course-SupportingDocumentsSection"/>
-                <ref bean="CM-Proposal-Review-Course-ConfirmSubmit-Dialog"/>
             </list>
         </property>
     </bean>

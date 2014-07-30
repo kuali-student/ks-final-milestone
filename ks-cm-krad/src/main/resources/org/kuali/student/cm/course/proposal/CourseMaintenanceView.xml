@@ -219,6 +219,7 @@
         <property name="dialogs">
             <list>
                 <ref bean="CM-Proposal-Course-DecisionDialog"/>
+                <ref bean="CM-Proposal-Review-Course-ConfirmSubmit-Dialog"/>
                 <bean id="CM-Proposal-Course-Rule-CourseRangeLookup" parent="KRMS-CourseRangeResult-Lookup"/>
                 <bean id="CM-Proposal-Course-Rule-WarningMessage" parent="KRMS-WarningMessagedYesNo"/>
             </list>
