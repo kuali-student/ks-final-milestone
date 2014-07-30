@@ -5,8 +5,6 @@ angular.module('regCartApp')
 
         $scope.searchCriteria = null; // Criteria used to generate the search results.
         $scope.course = null; // Handle on the course
-        $scope.searchColumns = []; // columns for displaying activity offering tables
-
 
         // Push the user back to the search page when the term is changed
         $scope.$on('termIdChanged', function(event, newValue, oldValue) {

@@ -177,6 +177,9 @@ angular.module('regCartApp')
             require: '^searchResults',
             link:function(scope,element,attrs) {
                 if (attrs.name || attrs.field || attrs.filter) {
+                    if (!angular.isArray(scope.searchColumns)) {
+                        scope.searchColumns = [];
+                    }
                     var searchColumn = {name: attrs.name,
                         field: attrs.field,
                         filter: attrs.filter,
