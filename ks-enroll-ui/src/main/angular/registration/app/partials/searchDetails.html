@@ -46,7 +46,7 @@
             <div class="kscr-SearchDetails-selection kscr-SearchDetails-selection--empty util-Grid-cell" ng-if="!selectedRegGroup && !hasSelectedAOs()">
                 <span class="kscr-SearchDetails-label">No Activities Selected</span>
             </div>
-            <div class="kscr-SearchDetails-selection kscr-SearchDetails-selection--selected util-Grid-cell" ng-if="!selectedRegGroup && hasSelectedAOs()"
+            <div class="kscr-SearchDetails-selection kscr-SearchDetails-selection--selected util-Grid-cell" ng-if="hasSelectedAOs()"
                  ng-class="{'kscr-SearchDetails-selection--complete' : selectedRegGroup }">
                 <div class="kscr-SearchDetails-label" ng-if="!selectedRegGroup">{{selectedAOs.length}} of {{course.activityOfferingTypes.length}} selected</div>
                 <div class="kscr-SearchDetails-label" ng-if="selectedRegGroup">Section {{selectedRegGroupCode}} Selected</div>

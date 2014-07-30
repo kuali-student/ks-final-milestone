@@ -63,6 +63,8 @@ angular.module('regCartApp')
 
         $scope.selectedAOs = []; // List of selected activity offerings by their type
         $scope.selectedRegGroup = null; // Handle on the selected reg group based on the selected AOs
+        $scope.selectedRegGroupId = null;
+        $scope.selectedRegGroupCode = null;
 
         $scope.$watchCollection('selectedAOs', function(aos) {
             // TODO: build out selected reg group
@@ -70,6 +72,9 @@ angular.module('regCartApp')
 
 
         $scope.clearSelectedAOs = function() {
+            $scope.selectedRegGroup = null;
+            $scope.selectedRegGroupId = null;
+            $scope.selectedRegGroupCode = null;
             angular.forEach($scope.selectedAOs, function (ao) {
                 ao.selected = false;
             });
@@ -90,6 +95,10 @@ angular.module('regCartApp')
         };
 
         $scope.toggleAO = function(aoType, ao, course) {
+            $scope.selectedRegGroup = null;
+            $scope.selectedRegGroupId = null;
+            $scope.selectedRegGroupCode = null;
+
             if ($scope.isAOSelected(ao)) {
                 // Deselect the AO
                 $scope.selectedAOs.splice($scope.selectedAOs.indexOf(ao), 1);
@@ -102,61 +111,81 @@ angular.module('regCartApp')
 
                 // Select the AO
                 $scope.selectedAOs.push(ao);
+            }
 
-                // Check if we have reg group
-/*                for (var key in ao.regGroupInfo) {
-                    angular.forEach(course.activityOfferingTypes, function(aoType) {
-                        if (!$scope.isAOTypeSelected(aoType)) {
-                            angular.forEach(aoType.activityOfferings, function(aoDiff) {
-                                for (var keyDiff in aoDiff.regGroupInfo) {
-                                    if (keyDiff == key) {
-                                       aoDiff.isSameRegGroup = true;
-                                       break;
-                                    }
-                                }
-                            });
-                        }
-                    });
-                } */
-
-
-//                if ($scope.selectedAOs.length == course.activityOfferingTypes.length) {
-//                    $scope.selectedRegGroup = true;
-//                    angular.forEach($scope.selectedAOs, function(ao) {
-//                        for (var key in ao.regGroupInfo) {
-//                                console.log(key + " -> " + ao.regGroupInfo[key]);
-//                        }
-
-//                    });
-
-//                    console.log('selectedRegGroup ' + course.registrationGroupInfos.length);
-//                    console.log('selectedRegGroupCode ' + $scope.selectedRegGroupCode);
-//                    console.log('selectedRegGroupID ' + $scope.selectedRegGroupId);
-
-                angular.forEach(course.activityOfferingTypes, function(aoType) {
-                    if (!$scope.isAOTypeSelected(aoType)) {
-                        angular.forEach(aoType.activityOfferings, function(aoDiff) {
-                                aoDiff.isSameRegGroup == false;
-                                for (var keyDiff in aoDiff.regGroupInfo) {
-                                    var cnt = 0;
-                                    angular.forEach($scope.selectedAOs, function(selectedAO) {
-                                        for (var key in selectedAO.regGroupInfo) {
-                                            if ((keyDiff == key) && ((cnt == 0) || ((cnt == 1) && aoDiff.isSameRegGroup == true))) {
-                                                aoDiff.isSameRegGroup = true;
-                                                break;
-                                            } else {
-                                                aoDiff.isSameRegGroup = false;
-                                            }
+            // only want to display AOs that form reg groups with the selected AOs
+            angular.forEach(course.activityOfferingTypes, function(aoType) {
+                if (!$scope.isAOTypeSelected(aoType)) {
+                    angular.forEach(aoType.activityOfferings, function(aoDiff) {
+                            aoDiff.isSameRegGroup == false;
+                            for (var keyDiff in aoDiff.regGroupInfos) {
+                                var cnt = 0;
+                                angular.forEach($scope.selectedAOs, function(selectedAO) {
+                                    for (var key in selectedAO.regGroupInfos) {
+                                        if ((keyDiff == key) && ((cnt == 0) || ((cnt > 0) && aoDiff.isSameRegGroup == true))) {
+                                            aoDiff.isSameRegGroup = true;
+                                            break;
+                                        } else {
+                                            aoDiff.isSameRegGroup = false;
                                         }
-                                        cnt = 1;
-                                    });
-                                    if (aoDiff.isSameRegGroup == true) break;
+                                    }
+                                    cnt++;
+                                });
+                                if (aoDiff.isSameRegGroup == true) {
+                                    break;
                                 }
                             }
-                        );
-                    }
-                });
+                        }
+                    );
+                }
+            });
 
+            // Check if we have reg group
+            if ($scope.selectedAOs.length == course.activityOfferingTypes.length) {
+                var regGroups = {};
+                var cnt = 0;
+                angular.forEach($scope.selectedAOs, function(selectedAO) {
+                    var selectedAORGcnt = 0;
+                    for (var key in selectedAO.regGroupInfos) selectedAORGcnt++;
+
+                    if ((selectedAORGcnt == 1) && ((cnt == 0) || ($scope.selectedRegGroup !== true))) {
+                        for (var key in selectedAO.regGroupInfos) {
+                            $scope.selectedRegGroup = true;
+                            $scope.selectedRegGroupId = key;
+                            $scope.selectedRegGroupCode = selectedAO.regGroupInfos[key];
+                        }
+                    } else if ((selectedAORGcnt !== 1) && ($scope.selectedRegGroup !== true)) {
+                        if (cnt == 0) {
+                            for (var key in selectedAO.regGroupInfos) {
+                                regGroups[key] = selectedAO.regGroupInfos[key];
+                            }
+                        } else {
+                            for (var rgKey in regGroups) {
+                                var checkRgKey = false;
+                                for (var key in selectedAO.regGroupInfos) {
+                                    if (rgKey == key) {
+                                        checkRgKey = true;
+                                        break;
+                                    }
+                                }
+                                if (!checkRgKey) {
+                                    delete regGroups[rgKey];
+                                }
+                            }
+                        }
+
+                        var regGroupsCnt = 0;
+                        for (var key in regGroups) regGroupsCnt++;
+                        if (regGroupsCnt == 1) {
+                            for (var rgKey in regGroups) {
+                                $scope.selectedRegGroup = true;
+                                $scope.selectedRegGroupId = rgKey;
+                                $scope.selectedRegGroupCode = regGroups[rgKey];
+                            }
+                        }
+                    }
+                    cnt++;
+                });
             }
         };
 
