@@ -211,9 +211,13 @@ public class CourseDetailsViewHelperServiceImpl extends ViewHelperServiceImpl im
                 offeringsByTerm = new ArrayList<CourseOfferingDetailsWrapper>();
 
             List<String> validRegGroups = getValidRegGroupIds(offering.getId(), new HashMap<Object, Object>());
+            List<String> validRegGroupsToRemain = getValidRegGroupIdsToRemain(offering.getId(), new HashMap<Object, Object>());
 
             List<String> validFormatOfferings = new ArrayList<String>();
             List<String> validActivities = new ArrayList<String>();
+            List<String> validActivitiesToRemain = new ArrayList<String>();
+
+            // Get valid activities that are of reg groups able to be added
             for(String id : validRegGroups){
                 List<String> activityIds = new ArrayList<String>();
                 List<String> formatIds = new ArrayList<String>();
@@ -249,8 +253,36 @@ public class CourseDetailsViewHelperServiceImpl extends ViewHelperServiceImpl im
                 if(activityIds != null && !activityIds.isEmpty()){
                     validActivities.addAll(activityIds);
                 }
+
                 if(formatIds != null && !formatIds.isEmpty()){
                     validFormatOfferings.addAll(formatIds);
+                }
+            }
+
+            // Get valid activities to keep showing on the page
+            for(String id : validRegGroupsToRemain){
+                List<String> activityIds = new ArrayList<String>();
+                try {
+                    SearchRequestInfo request = new SearchRequestInfo(CourseSearchConstants
+                            .KSAP_COURSE_SEARCH_AO_IDS_BY_OFFERED_REG_GROUP_ID_KEY);
+                    request.addParam(CourseSearchConstants.SearchParameters.REG_GROUP_ID, id);
+                    List<SearchResultRowInfo> rows = KsapFrameworkServiceLocator.getSearchService().search(request,
+                            KsapFrameworkServiceLocator.getContext().getContextInfo()).getRows();
+                    for( SearchResultRowInfo row : rows){
+                        activityIds.add(KsapHelperUtil.getCellValue(row, CourseSearchConstants.SearchResultColumns
+                                .ACTIVITY_OFFERING_ID));
+                    }
+                } catch (InvalidParameterException e) {
+                    throw new IllegalArgumentException("Lui Service lookup error", e);
+                } catch (MissingParameterException e) {
+                    throw new IllegalArgumentException("Lui Service lookup error", e);
+                } catch (OperationFailedException e) {
+                    throw new IllegalArgumentException("Lui Service lookup error", e);
+                } catch (PermissionDeniedException e) {
+                    throw new IllegalArgumentException("Lui Service lookup error", e);
+                }
+                if(activityIds != null && !activityIds.isEmpty()){
+                    validActivitiesToRemain.addAll(activityIds);
                 }
             }
 
@@ -265,7 +297,7 @@ public class CourseDetailsViewHelperServiceImpl extends ViewHelperServiceImpl im
                 courseOfferingDetailsWrapper.setVariableCredit(isCourseOfferingVariableCredit);
 
                 Map<String, Map<String, List<ActivityOfferingDetailsWrapper>>>
-                        aosByFormat = getAOData(offering.getId(),validActivities, isCourseOfferingVariableCredit);
+                        aosByFormat = getAOData(offering.getId(),validActivities, validActivitiesToRemain, isCourseOfferingVariableCredit);
 
                 List<PlannedRegistrationGroupDetailsWrapper> plannedActivityOfferings = new ArrayList<PlannedRegistrationGroupDetailsWrapper>();
 
@@ -567,6 +599,44 @@ public class CourseDetailsViewHelperServiceImpl extends ViewHelperServiceImpl im
     }
 
     /**
+     * Validates the Reg groups by:
+     * Status in the plan
+     *
+     * @see org.kuali.student.ap.coursesearch.service.CourseDetailsViewHelperService#getValidRegGroupIdsToRemain(String, java.util.Map)
+     */
+    @Override
+    public List<String> getValidRegGroupIdsToRemain(String courseOfferingId, Map<Object,Object> additionalRestrictions){
+        ContextInfo contextInfo = KsapFrameworkServiceLocator.getContext().getContextInfo();
+
+        // Retrieve reg groups for the Course Offering
+        List<String> regGroupIds = new ArrayList<String>();
+        try {
+            SearchRequestInfo request = new SearchRequestInfo(CourseSearchConstants.KSAP_COURSE_SEARCH_OFFERED_REG_GROUP_IDS_BY_CO_ID_KEY);
+            request.addParam(CourseSearchConstants.SearchParameters.COURSE_OFFERING_ID, courseOfferingId);
+            List<SearchResultRowInfo> rows = KsapFrameworkServiceLocator.getSearchService().search(request,
+                    contextInfo).getRows();
+            for( SearchResultRowInfo row : rows){
+                regGroupIds.add(
+                        KsapHelperUtil.getCellValue(row, CourseSearchConstants.SearchResultColumns.REG_GROUP_ID));
+            }
+        } catch (InvalidParameterException e) {
+            throw new IllegalArgumentException("CO lookup error", e);
+        } catch (MissingParameterException e) {
+            throw new IllegalArgumentException("CO lookup error", e);
+        } catch (OperationFailedException e) {
+            throw new IllegalArgumentException("CO lookup error", e);
+        } catch (PermissionDeniedException e) {
+            throw new IllegalArgumentException("CO lookup error", e);
+        }
+
+        // Validate Reg Groups based on if they are already in plan
+        regGroupIds = getValidRegGroupsFilteredByPlan(regGroupIds);
+
+
+        return regGroupIds;
+    }
+
+    /**
      * @see org.kuali.student.ap.coursesearch.service.CourseDetailsViewHelperService#createAddSectionEvent(String, String, String, String, java.util.List, javax.json.JsonObjectBuilder)
      */
     @Override
@@ -703,6 +773,56 @@ public class CourseDetailsViewHelperServiceImpl extends ViewHelperServiceImpl im
         filterEvent.add("formatOfferings", formats);
 
         eventList.add("FILTER_COURSE_OFFERING", filterEvent);
+        return eventList;
+    }
+
+    /**
+     * @see org.kuali.student.ap.coursesearch.service.CourseDetailsViewHelperService#createFilterValidRegGroupsForRemovalEvent(String, String, String, java.util.List, javax.json.JsonObjectBuilder)
+     */
+    @Override
+    public JsonObjectBuilder createFilterValidRegGroupsForRemovalEvent(String termId, String courseOfferingCode, String formatOfferingId, List<String> regGroupIds, JsonObjectBuilder eventList) {
+        JsonObjectBuilder filterEvent = Json.createObjectBuilder();
+        filterEvent.add("termId", termId.replace(".", "-"));
+        filterEvent.add("courseOfferingCode", courseOfferingCode);
+        filterEvent.add("formatOfferingId", formatOfferingId);
+
+        // Deconstruct reg groups into list of AO and FO ids
+        List<String> validActivities = new ArrayList<String>();
+        for(String id : regGroupIds){
+            List<String> activityIds = new ArrayList<>();
+            try {
+                SearchRequestInfo request = new SearchRequestInfo(CourseSearchConstants
+                        .KSAP_COURSE_SEARCH_AO_IDS_BY_OFFERED_REG_GROUP_ID_KEY);
+                request.addParam(CourseSearchConstants.SearchParameters.REG_GROUP_ID, id);
+                List<SearchResultRowInfo> rows = KsapFrameworkServiceLocator.getSearchService().search(request,
+                        KsapFrameworkServiceLocator.getContext().getContextInfo()).getRows();
+                for( SearchResultRowInfo row : rows){
+                    activityIds.add(KsapHelperUtil.getCellValue(row, CourseSearchConstants.SearchResultColumns
+                            .ACTIVITY_OFFERING_ID));
+                }
+            } catch (InvalidParameterException e) {
+                throw new IllegalArgumentException("Lui Service lookup error", e);
+            } catch (MissingParameterException e) {
+                throw new IllegalArgumentException("Lui Service lookup error", e);
+            } catch (OperationFailedException e) {
+                throw new IllegalArgumentException("Lui Service lookup error", e);
+            } catch (PermissionDeniedException e) {
+                throw new IllegalArgumentException("Lui Service lookup error", e);
+            }
+            if(activityIds != null && !activityIds.isEmpty()){
+                validActivities.addAll(activityIds);
+            }
+        }
+
+        // Create json array of valid activity ids and add it to event
+        JsonArrayBuilder activities = Json.createArrayBuilder();
+        for(String activity : validActivities){
+            activities.add(activity);
+
+        }
+        filterEvent.add("activities", activities);
+
+        eventList.add("FILTER_COURSE_OFFERING_FOR_REMOVAL", filterEvent);
         return eventList;
     }
 
@@ -1063,7 +1183,7 @@ public class CourseDetailsViewHelperServiceImpl extends ViewHelperServiceImpl im
      * @param isCourseOfferingVariableCredit - Flag indicating if the course offering is a variable credit course
      * @return - The activity offerings grouped by there format id and then grouped related format type
      */
-    private Map<String, Map<String, List<ActivityOfferingDetailsWrapper>>> getAOData(String courseOfferingId, List<String> validActivityOfferings, boolean isCourseOfferingVariableCredit) {
+    private Map<String, Map<String, List<ActivityOfferingDetailsWrapper>>> getAOData(String courseOfferingId, List<String> validActivityOfferings, List<String> validActivityOfferingsToRemain, boolean isCourseOfferingVariableCredit) {
         Map<String, Map<String, List<ActivityOfferingDetailsWrapper>>> aoMapByFormatName = new HashMap<String, Map<String, List<ActivityOfferingDetailsWrapper>>>();
         List<ActivityOfferingInfo>  activityOfferings = new ArrayList<>();
 
@@ -1118,6 +1238,7 @@ public class CourseDetailsViewHelperServiceImpl extends ViewHelperServiceImpl im
 
                 // Set whether activity is considered  valid
                 wrapper.setValidActivity(validActivityOfferings.contains(wrapper.getActivityOfferingId()));
+                wrapper.setValidActivityToRemain(validActivityOfferingsToRemain.contains(wrapper.getActivityOfferingId()));
 
                 //Add entry into map
                 aosByType.add(wrapper);

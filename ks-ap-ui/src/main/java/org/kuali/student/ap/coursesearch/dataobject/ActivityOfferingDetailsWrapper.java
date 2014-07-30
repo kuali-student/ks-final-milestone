@@ -27,6 +27,7 @@ public class ActivityOfferingDetailsWrapper {
     private boolean singleFormatOffering;
     private boolean inPlan;
     private boolean validActivity;
+    private boolean validActivityToRemain;
     private boolean variableCredit;
 
     public ActivityOfferingDetailsWrapper() {
@@ -217,6 +218,14 @@ public class ActivityOfferingDetailsWrapper {
 
     public void setValidActivity(boolean validActivity) {
         this.validActivity = validActivity;
+    }
+
+    public boolean isValidActivityToRemain() {
+        return validActivityToRemain;
+    }
+
+    public void setValidActivityToRemain(boolean validActivityToRemain) {
+        this.validActivityToRemain = validActivityToRemain;
     }
 
     public boolean isVariableCredit() {

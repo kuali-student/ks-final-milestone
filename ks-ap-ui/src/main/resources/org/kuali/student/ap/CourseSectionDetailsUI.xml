@@ -691,6 +691,7 @@
           <map>
               <entry key="@{#line.singleFormatOffering}" value="ksap-activity-single"/>
               <entry key="@{!#line.validActivity}" value="ksap-invalid-activity"/>
+              <entry key="@{!#line.validActivityToRemain}" value="ksap-removed-activity"/>
               <entry key="all" value="ksap-activity-row"/>
           </map>
         </property>

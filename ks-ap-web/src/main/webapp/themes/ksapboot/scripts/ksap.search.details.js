@@ -51,6 +51,8 @@ function registerCourseSectionEvents(jqObjects){
         })
         .on('FILTER_COURSE_OFFERING', function(event, data) {
             ksapFilterCourseOffering(data);
+        }) .on('FILTER_COURSE_OFFERING_FOR_REMOVAL', function(event, data) {
+            ksapFilterCourseOfferingForRemoval(data);
         });
 }
 
@@ -211,6 +213,35 @@ function ksapFilterCourseOffering (data){
         addButton.attr("disabled","disabled");
     }
     hideInvalidActivities();
+    updateCourseOffering(courseOffering);
+}
+
+/**
+ * Dynamic updating event when recalculating display status of AOs
+ *
+ * @param data - Information about the event
+ */
+function ksapFilterCourseOfferingForRemoval (data){
+    // Get DOM Object for the course offering being updated
+    var courseOffering = jQuery("#"+data.termId+"_"+data.courseOfferingCode+"_section");
+
+    // Get the AO rows under the course offering
+    var activities = courseOffering.find(".ksap-activity-row");
+    var validActivityIds = data.activities;
+
+    // Check each activity under the course offering
+    for(var i = 0; i < activities.length; i++){
+        var activity = activities[i];
+        var activityId = activity.getAttribute("id");
+        var valid = jQuery.inArray(activityId,validActivityIds);
+        // inArray returns index of found object, -1 represents not found
+        if(valid<0){
+            jQuery(activity).addClass("ksap-removed-activity");
+        }else{
+            jQuery(activity).removeClass("ksap-removed-activity");
+        }
+    }
+
     updateCourseOffering(courseOffering);
 }
 
@@ -380,8 +411,19 @@ function hideShowToggleHideShowInvalidActivities(showButtonId){
     var sectionId = jQuery("#"+showButtonId).attr("data-relatedtable");
     var table = jQuery("#"+sectionId);
     var invalidActivities = table.find(".ksap-invalid-activity");
+    var removedActivities = table.find(".ksap-removed-activity");
     if(invalidActivities.length){
-        jQuery("#"+showButtonId).removeClass("ksap-hide");
+        if(removedActivities.length){
+            if(invalidActivities.length<=removedActivities.length){
+                // All removed activities are invalid activities
+                jQuery("#"+showButtonId).addClass("ksap-hide");
+            }else{
+                // Not all invalid activities are removed activities
+                jQuery("#"+showButtonId).removeClass("ksap-hide");
+            }
+        }else{
+            jQuery("#"+showButtonId).removeClass("ksap-hide");
+        }
     }else{
         jQuery("#"+showButtonId).addClass("ksap-hide");
     }
@@ -417,14 +459,28 @@ function updateCourseOffering(courseOffering){
             showButton.addClass("ksap-hide");
         }else{
             var invalidActivities = table.find(".ksap-invalid-activity");
+            var removedActivities = table.find(".ksap-removed-activity");
+            var totalActivitiesStr = headerText.attr("data-totalactivities");
+            var totalActivities = parseInt(totalActivitiesStr);
+            var totalInvalidActivities = invalidActivities.length
+            if(removedActivities.length){
+                totalActivities = totalActivities - removedActivities.length;
+                totalInvalidActivities = totalInvalidActivities - removedActivities.length;
+            }
+
+            if(totalActivities <= 0){
+                table.addClass("ksap-hide");
+                headerText.addClass("ksap-hide");
+            }else{
+                table.removeClass("ksap-hide");
+                headerText.removeClass("ksap-hide");
+            }
+
             if(!invalidActivities.length){
                 var totalActivities = headerText.attr("data-totalactivities");
                 headerText.find("p").html(titleLabel+" ("+totalActivities+")")
             }else{
-                var totalActivitiesStr = headerText.attr("data-totalactivities");
-                var totalActivities = parseInt(totalActivitiesStr);
-                var numberInvalidActivities = invalidActivities.length;
-                var numberValidActivities = totalActivities-numberInvalidActivities;
+                var numberValidActivities = totalActivities-totalInvalidActivities;
                 headerText.find("p").html(titleLabel+" ("+numberValidActivities+" of "+totalActivities+")");
             }
 

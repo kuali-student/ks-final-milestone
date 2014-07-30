@@ -193,10 +193,12 @@ public class CourseSectionDetailsController extends KsapControllerBase {
 
         // Get new list of valid registration groups with added plan item
         List<String> validRegGroups = getViewHelperService(form).getValidRegGroupIds(course.getId(), new HashMap<Object, Object>());
+        List<String> validRegGroupsToRemain = getViewHelperService(form).getValidRegGroupIdsToRemain(course.getId(), new HashMap<Object, Object>());
 
         // Create events needed to update the page
         eventList = getViewHelperService(form).createAddSectionEvent(course.getTermId(), course.getCourseOfferingCode(),regGroup.getCourseOfferingId(),regGroup.getFormatOfferingId(), activityWrappers, eventList);
         eventList = getViewHelperService(form).createFilterValidRegGroupsEvent(course.getTermId(), course.getCourseOfferingCode(), regGroup.getFormatOfferingId(), validRegGroups, eventList);
+        eventList = getViewHelperService(form).createFilterValidRegGroupsForRemovalEvent(course.getTermId(), course.getCourseOfferingCode(), regGroup.getFormatOfferingId(), validRegGroupsToRemain, eventList);
         PlanEventUtils.sendJsonEvents(true,"Registration Group For " +course.getCourseOfferingCode() + " added for " + term.getName(), response, eventList);
         return null;
     }

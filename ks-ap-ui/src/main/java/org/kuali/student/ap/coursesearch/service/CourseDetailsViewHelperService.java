@@ -74,17 +74,26 @@ public interface CourseDetailsViewHelperService extends ViewHelperService {
      */
     public List<String> getValidRegGroupIds(String courseOfferingId, Map<Object,Object> additionalRestrictions);
 
-        /**
-         * Creates the json object needed in the add section event when dynamically updating the page.
-         *
-         * @param termId - id of the term of the course offering the added registration group is in
-         * @param courseOfferingCode - Code of the course offering the added registration group is in
-         * @param courseOfferingId - Id of the course offering the added registration group is in
-         * @param formatOfferingId - Id of the course format offering the added registration group is in
-         * @param activities - List of Activities being added
-         * @param eventList - List of currently being build
-         * @return Current list of events being build with the new event added
-         */
+    /**
+     * Gets a filtered list of registration groups for a course offering that should remain seen on the page
+     *
+     * @param courseOfferingId - Id of the course offering being filtered
+     * @param additionalRestrictions - A map of additional restrictions to be used when filtering registration groups
+     * @return A list of valid registration group ids
+     */
+    public List<String> getValidRegGroupIdsToRemain(String courseOfferingId, Map<Object,Object> additionalRestrictions);
+
+    /**
+     * Creates the json object needed in the add section event when dynamically updating the page.
+     *
+     * @param termId - id of the term of the course offering the added registration group is in
+     * @param courseOfferingCode - Code of the course offering the added registration group is in
+     * @param courseOfferingId - Id of the course offering the added registration group is in
+     * @param formatOfferingId - Id of the course format offering the added registration group is in
+     * @param activities - List of Activities being added
+     * @param eventList - List of currently being build
+     * @return Current list of events being build with the new event added
+     */
     public JsonObjectBuilder createAddSectionEvent(String termId, String courseOfferingCode, String courseOfferingId, String formatOfferingId, List<ActivityOfferingDetailsWrapper> activities, JsonObjectBuilder eventList);
 
     /**
@@ -98,6 +107,19 @@ public interface CourseDetailsViewHelperService extends ViewHelperService {
      * @return  Current list of events being build with the new event added
      */
     public JsonObjectBuilder createFilterValidRegGroupsEvent(String termId, String courseOfferingCode, String formatOfferingId, List<String> regGroupIds, JsonObjectBuilder eventList);
+
+    /**
+     * Creates the json object needed in the filtering course offerings event when dynamically updating the page
+     * This returns a special event where the filtering is based only for those that need removed from the page
+     *
+     * @param termId - Id of the term of the course offering being filtered
+     * @param courseOfferingCode - Code of the course offering being filtered
+     * @param formatOfferingId - Id of the format offering for the activity
+     * @param regGroupIds - A list of valid registration groups
+     * @param eventList - List of currently being build
+     * @return  Current list of events being build with the new event added
+     */
+    public JsonObjectBuilder createFilterValidRegGroupsForRemovalEvent(String termId, String courseOfferingCode, String formatOfferingId, List<String> regGroupIds, JsonObjectBuilder eventList);
 
     /**
      * Retrieves and fills in the information needed for displaying the requisite dialog for an activity offering
