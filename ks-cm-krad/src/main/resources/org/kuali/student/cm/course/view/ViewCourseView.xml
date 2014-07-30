@@ -579,7 +579,7 @@
                                             <property name="replacement">
                                                 <list>
                                                     <bean parent="CM-Proposal-Course-Requisites-AgendaSection">
-                                                        <property name="bindingInfo.bindingObjectPath" value="courseInfoWrapper.agendas"/>
+                                                        <property name="propertyName" value="courseInfoWrapper.agendas"/>
                                                     </bean>
                                                 </list>
                                             </property>
