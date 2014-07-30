@@ -2097,18 +2097,25 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
 
         List<RegistrationGroupInfo> rgs = new ArrayList<RegistrationGroupInfo>();
         List<String> rgIds = new ArrayList<String>();
-        List<LuiLuiRelationInfo> rels = luiService.getLuiLuiRelationsByLui(courseOfferingId, context);
-        if (rels != null && !rels.isEmpty()) {
-            for (LuiLuiRelationInfo rel : rels) {
-                if( rel.getRelatedLuiId().equals(courseOfferingId) && rel.getTypeKey().equals(LuiServiceConstants.LUI_LUI_RELATION_REGISTEREDFORVIA_TYPE_KEY) ) {
-                        String luiId = rel.getLuiId();
-                        LuiInfo lui = luiService.getLui(luiId, context);
-                        if (lui != null && lui.getTypeKey().equals(LuiServiceConstants.REGISTRATION_GROUP_TYPE_KEY) && !rgIds.contains(luiId)) {
-                            rgIds.add(luiId);
-                            rgs.add(getRegistrationGroup(luiId, context));
+        List<LuiLuiRelationInfo> relsCOtoFO = luiService.getLuiLuiRelationsByLui(courseOfferingId, context);
+        if (relsCOtoFO != null && !relsCOtoFO.isEmpty()) {
+            for (LuiLuiRelationInfo relCOtoFO : relsCOtoFO) {
+                if (relCOtoFO.getLuiId().equals(courseOfferingId) && relCOtoFO.getTypeKey().equals(LuiServiceConstants.LUI_LUI_RELATION_DELIVERED_VIA_CO_TO_FO_TYPE_KEY)) {
+                    String foId = relCOtoFO.getRelatedLuiId();
+                    List<LuiLuiRelationInfo> relsFOtoRG = luiService.getLuiLuiRelationsByLui(foId, context);
+                    if (relsFOtoRG != null && !relsFOtoRG.isEmpty()) {
+                        for (LuiLuiRelationInfo relFOtoRG : relsFOtoRG) {
+                            if (relFOtoRG.getLuiId().equals(foId) && relFOtoRG.getTypeKey().equals(LuiServiceConstants.LUI_LUI_RELATION_DELIVERED_VIA_FO_TO_RG_TYPE_KEY)) {
+                                String luiId = relFOtoRG.getRelatedLuiId();
+                                LuiInfo lui = luiService.getLui(luiId, context);
+                                if (lui != null && lui.getTypeKey().equals(LuiServiceConstants.REGISTRATION_GROUP_TYPE_KEY) && !rgIds.contains(luiId)) {
+                                    rgIds.add(luiId);
+                                    rgs.add(getRegistrationGroup(luiId, context));
+                                }
+                            }
                         }
+                    }
                 }
-
             }
         }
 
