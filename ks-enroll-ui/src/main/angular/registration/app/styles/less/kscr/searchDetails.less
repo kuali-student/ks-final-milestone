@@ -128,8 +128,12 @@
     }
 }
 
-
 // Activity Offering Groups Container
+
+.kscr-SearchDetails-activityOfferings {
+  .kscr-Search-results;
+}
+
 .kscr-SearchDetails-activityOfferingGroups {
     margin: 1rem 0 0;
 
@@ -163,5 +167,18 @@
                 color: red;
             }
         }
+    }
+
+    // mid format styling
+    @media screen and (max-width: @midFormatMax) {
+      .kscr-SearchDetails-activityOfferings .kscr-Search-results-table {
+        display: none;
+      }
+    }
+
+    @media screen and (max-width: @wideFormatMin) {
+      .kscr-SearchDetails-activityOfferings .kscr-Search-results-list {
+        display: block;
+      }
     }
 }

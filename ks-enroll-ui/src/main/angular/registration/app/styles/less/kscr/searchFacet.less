@@ -125,8 +125,8 @@
 
 
 
-// Small-format styles
-@media screen and (max-width: @smallFormatMax) {
+// Small/Medium format styles
+@media screen and (max-width: @midFormatMax) {
     @facetWidth: 240px;
 
     .kscr-Search-content {
@@ -175,7 +175,7 @@
 }
 
 
-@media screen and (min-width: @largeFormatMin) {
+@media screen and (min-width: @wideFormatMin) {
     .kscr-SearchFacets {
         .util-sticky--disabled();
         width: @facetWidth !important;

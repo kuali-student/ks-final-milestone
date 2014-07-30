@@ -126,8 +126,8 @@
   cursor: pointer;
 }
 
-// small/medium format styling
-@media screen and (max-width: @midFormatMax) {
+// small format styling
+@media screen and (max-width: @smallFormatMax) {
   .kscr-Search-results-heading {
     display: none;
   }
@@ -141,8 +141,19 @@
   }
 }
 
+// mid format styling
+@media screen and (max-width: @midFormatMax) {
+  .kscr-Search-results {
+    margin: 1.5rem 1rem 0 1rem;
+  }
+
+  .kscr-SearchDetails-activityOfferings .kscr-Search-results-table {
+    display: none;
+  }
+}
+
 // large format styling
-@media screen and (min-width: @wideFormatMin) {
+@media screen and (min-width: @largeFormatMin) {
   .kscr-Search-results-container {
     .util-Grid;
   }
