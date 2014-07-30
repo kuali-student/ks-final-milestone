@@ -124,3 +124,25 @@ function deleteComment(baseUrl, controllerUrl, elem) {
         }
     });
 }
+
+function updateComment(baseUrl, controllerUrl, elem) {
+    var rowContainer = getRowContainer(elem);
+    var submitData = jQuery(elem).data('submit_data');
+    var index = parseInt(submitData['actionParameters[selectedLineIndex]']);
+    var formData = jQuery('#kualiForm').serialize() + '&' + jQuery.param(submitData);
+    var targetUrl = baseUrl + "/kr-krad/" + controllerUrl + "?methodToCall=ajaxUpdateComment";
+
+    jQuery.ajax({
+        dataType: "json",
+        url: targetUrl,
+        type: "POST",
+        data: formData,
+        success: function (data, textStatus, jqXHR) {
+            toggleCommentButtons(elem);
+            jQuery("#KS-CommentField_UI_ID_line" + index ).text(data['comment']);
+        },
+        error: function (jqXHR, status, error) {
+            console.log("error occured");
+        }
+    });
+}
