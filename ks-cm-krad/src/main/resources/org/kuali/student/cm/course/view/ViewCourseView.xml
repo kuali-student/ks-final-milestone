@@ -50,8 +50,7 @@
         </property>
     </bean>
 
-    <bean id="CM-ViewCourse-View-Header-RightGroup" parent="KS-Unified-Header-Right-Group" p:additionalCssClasses="viewcourseview-header-status"
-          p:render="@{#form.viewId eq T(org.kuali.student.cm.common.util.CurriculumManagementConstants$CourseViewPageIds).VIEW_COURSE_VIEW}">
+    <bean id="CM-ViewCourse-View-Header-RightGroup" parent="KS-Unified-Header-Right-Group" p:additionalCssClasses="viewcourseview-header-status">
         <property name="items">
             <list>
                 <bean parent="KS-Unified-Right-Header-Group-Status">
