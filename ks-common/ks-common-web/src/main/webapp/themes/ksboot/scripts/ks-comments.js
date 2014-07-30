@@ -91,3 +91,36 @@ function getDeletedComment(key) {
         return this.key === key;
     });
 }
+
+function deleteComment(baseUrl, controllerUrl, elem) {
+    var rowContainer = getRowContainer(elem);
+    var data = jQuery(elem).data('submit_data');
+    var index = parseInt(data['actionParameters[selectedLineIndex]']);
+    var formData = jQuery('#kualiForm').serialize() + '&' + jQuery.param(data);
+    var targetUrl = baseUrl + "/kr-krad/" + controllerUrl + "?methodToCall=ajaxDeleteComment";
+
+    jQuery.ajax({
+        dataType: "json",
+        url: targetUrl,
+        type: "POST",
+        data: formData,
+        success: function (data, textStatus, jqXHR) {
+            jQuery(rowContainer).remove();
+            jQuery("#Comment_list_Header").find("span").text("Comments(" + data + ")");
+            jQuery('[id^="KS-collection-rowId_line"]').each(function(){
+                jQuery(this).find("button").each(function(){
+                    var submitData = jQuery(this).data('submit_data');
+                    console.log(JSON.stringify(submitData));
+                    var i = parseInt(submitData['actionParameters[selectedLineIndex]']);
+                    if(i > index){
+                        submitData['actionParameters[selectedLineIndex]'] = i - 1;
+                        jQuery(this).attr('data-submit_data',JSON.stringify(submitData));
+                    }
+                });
+            });
+        },
+        error: function (jqXHR, status, error) {
+            console.log("error occured");
+        }
+    });
+}
