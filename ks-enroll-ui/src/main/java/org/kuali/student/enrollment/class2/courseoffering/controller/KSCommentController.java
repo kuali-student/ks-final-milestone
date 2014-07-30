@@ -28,9 +28,12 @@ import org.kuali.rice.krad.web.controller.MethodAccessible;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.common.util.security.ContextUtils;
 import org.kuali.student.enrollment.class2.appointment.util.AppointmentConstants;
+import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.form.KSCommentForm;
 import org.kuali.student.enrollment.class2.courseoffering.form.KSCommentWrapper;
+import org.kuali.student.enrollment.class2.courseoffering.util.CommentUtil;
 import org.kuali.student.enrollment.class2.courseoffering.util.KSCommentsConstants;
+import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.date.DateFormatters;
 import org.kuali.student.r2.core.comment.dto.CommentInfo;
 import org.kuali.student.r2.core.comment.service.CommentService;
@@ -47,9 +50,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.xml.namespace.QName;
 import java.util.ArrayList;
 import java.util.List;
-
-//import org.kuali.student.cm.course.form.CMCommentForm;
-//import org.kuali.student.cm.course.form.KSCommentWrapper;
 
 /**
  * This class handles the comment functionality for a proposal.
@@ -98,6 +98,7 @@ public abstract class KSCommentController extends KsUifControllerBase {
         String subjectArea = getRequestParamValue(request, "subjectArea");
         String offeringAdminOrgId = getRequestParamValue(request, "offeringAdminOrgId");
 
+        String controllerUrl = getRequestParamValue(request, "controllerUrl");
         // Note that the referer is only used to redirect after the lightbox is closed. No risk is involved.
         ((KSCommentForm) form).setParentUrl(request.getHeader("referer"));
         commentForm.setReferenceId(refId);
@@ -106,6 +107,7 @@ public abstract class KSCommentController extends KsUifControllerBase {
         commentForm.setSocState(socState);
         commentForm.setSubjectArea(subjectArea);
         commentForm.setOfferingAdminOrgId(offeringAdminOrgId);
+        commentForm.setControllerUrl(controllerUrl);
 
         commentForm.setCanAddComment(isOperationPermitted(OPERATION_ADD, commentForm));
         KSCommentWrapper wrapper = new KSCommentWrapper();
@@ -129,7 +131,8 @@ public abstract class KSCommentController extends KsUifControllerBase {
         wrapper.getCommentInfo().getCommentText().setPlain(form.getCommentText());
         saveComment(form, wrapper);
         form.setCommentText("");
-        form.getComments().add(0, wrapper);
+//        form.getComments().add(0, wrapper);
+        retrieveComments(form);
 
         return getUIFModelAndView(form);
     }
@@ -189,15 +192,10 @@ public abstract class KSCommentController extends KsUifControllerBase {
         int index = Integer.parseInt(form.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX));
         KSCommentWrapper commentWrapper = form.getComments().get(index);
 
-        // verify that current user is able to delete this comment
-//        if (!canDeleteComment(form.getProposal(),commentWrapper)) {
-//            throw new RuntimeException("Current user '" + GlobalVariables.getUserSession().getPrincipalId() + "' is not authorized to delete comment id '" + commentWrapper.getCommentInfo().getId() + "'");
-//        }
         form.getComments().remove(commentWrapper);
         getCommentService().deleteComment(commentWrapper.getCommentInfo().getId(), ContextUtils.createDefaultContextInfo());
 
         commentWrapper.getCommentInfo().setId(null); //Clear out the ID so that we can add that to DB if user decided to undo later
-//        form.setDeletedComment(commentWrapper);
 
         return getUIFModelAndView(form);
 
@@ -205,25 +203,21 @@ public abstract class KSCommentController extends KsUifControllerBase {
 
     @MethodAccessible
     @RequestMapping(params = "methodToCall=ajaxDeleteComment")
-    public @ResponseBody List<String> ajaxDeleteComment(@ModelAttribute("KualiForm") KSCommentForm form, HttpServletRequest request) throws Exception {
+    public @ResponseBody int ajaxDeleteComment(@ModelAttribute("KualiForm") KSCommentForm form, HttpServletRequest request) throws Exception {
 
-        int index = Integer.parseInt(request.getParameter(UifParameters.SELECTED_LINE_INDEX));
+//        int index = Integer.parseInt(request.getParameter(UifParameters.SELECTED_LINE_INDEX));
+        int index = Integer.parseInt(form.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX));
         KSCommentWrapper commentWrapper = form.getComments().get(index);
 
         form.getComments().remove(commentWrapper);
         getCommentService().deleteComment(commentWrapper.getCommentInfo().getId(), ContextUtils.createDefaultContextInfo());
 
-        commentWrapper.getCommentInfo().setId(null); //Clear out the ID so that we can add that to DB if user decided to undo later
-        return new ArrayList<String>();
+        return CommentUtil.getCommentsCount(form.getReferenceId(), form.getReferenceType(), ContextUtils.createDefaultContextInfo());
     }
 
     private void saveComment(KSCommentForm form, KSCommentWrapper commentWrapper) {
 
-//        LOG.trace("Saving comment - " + commentWrapper.getCommentInfo().getCommentText());
-
         CommentInfo comment = commentWrapper.getCommentInfo();
-
-//        if (commentWrapper.isNewDto()) {
 
         comment.setRefObjectId(form.getReferenceId());
         comment.setRefObjectUri(form.getReferenceType());
@@ -252,6 +246,7 @@ public abstract class KSCommentController extends KsUifControllerBase {
             throw new RuntimeException(String.format("Error retrieving comment(s) for Ref Type %s with Ref Id %s", form.getReferenceType(), form.getReferenceId()), e);
         }
 
+        form.getComments().clear();
         if (comments != null) {
             for (CommentInfo comment : comments) {
                 KSCommentWrapper wrapper = new KSCommentWrapper();
@@ -277,10 +272,6 @@ public abstract class KSCommentController extends KsUifControllerBase {
         } else {
             wrapper.setEdited(true);
         }
-//        wrapper.setCanDeleteComment(canEditComment(wrapper.getCommentInfo().getId(),comment.getRefObjectUri()));
-//        wrapper.setCanEditComment(canEditComment(wrapper.getCommentInfo().getId(),comment.getRefObjectUri()));
-//        form.setCanDeleteComment(isOperationPermitted(OPERATION_DELETE, form));
-//        form.setCanEditComment(isOperationPermitted(OPERATION_EDIT, form));
     }
 
     private PersonService getPersonService() {

@@ -37,6 +37,7 @@ public class KSCommentForm extends KsUifFormBase {
     private String socState;
     private String subjectArea;
     private String offeringAdminOrgId;
+    private String controllerUrl;
 
     private boolean canAddComment;
     private boolean canEditComment;
@@ -114,6 +115,14 @@ public class KSCommentForm extends KsUifFormBase {
 
     public void setOfferingAdminOrgId(String offeringAdminOrgId) {
         this.offeringAdminOrgId = offeringAdminOrgId;
+    }
+
+    public String getControllerUrl() {
+        return controllerUrl;
+    }
+
+    public void setControllerUrl(String controllerUrl) {
+        this.controllerUrl = controllerUrl;
     }
 
     public boolean isCanAddComment() {

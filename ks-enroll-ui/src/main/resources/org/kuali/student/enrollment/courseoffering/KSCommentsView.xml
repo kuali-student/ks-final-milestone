@@ -100,7 +100,6 @@
                                     <bean parent="KS-Uif-HiddenControl"/>
                                 </property>
                             </bean>
-
                             <bean id="hiddenSocStateName" parent="KS-Uif-InputField" p:propertyName="socState"
                                   p:fieldLabel.renderColon="false">
                                 <property name="control">
@@ -114,6 +113,12 @@
                                 </property>
                             </bean>
                             <bean id="hiddenOfferingAdminOrgIdName" parent="KS-Uif-InputField" p:propertyName="offeringAdminOrgId"
+                                  p:fieldLabel.renderColon="false">
+                                <property name="control">
+                                    <bean parent="KS-Uif-HiddenControl"/>
+                                </property>
+                            </bean>
+                            <bean id="hiddenControllerUrlName" parent="KS-Uif-InputField" p:propertyName="controllerUrl"
                                   p:fieldLabel.renderColon="false">
                                 <property name="control">
                                     <bean parent="KS-Uif-HiddenControl"/>
@@ -185,8 +190,7 @@
                                                           p:performDirtyValidation="false"
                                                           p:actionLabel="Cancel"/>
                                                     <bean id="KS-CommentDeleteAction_ID" parent="Uif-PrimaryActionButton" p:style="display:none;" p:additionalCssClasses="ks-toggle-delete"
-                                                          p:ajaxSubmit="true"
-                                                          p:methodToCall="deleteComment"
+                                                          p:actionScript="deleteComment('@{#ConfigProperties['application.url']}', '@{controllerUrl}', this);"
                                                           p:actionLabel="Confirm Delete"/>
                                                     <bean id="KS-CommentCancelDeleteAction_ID" p:id="KS-CommentCancelDeleteAction_ID" parent="Uif-CancelAction" p:style="display:none;" p:additionalCssClasses="ks-toggle-delete"
                                                           p:actionScript="toggleDeleteElements(this);"
