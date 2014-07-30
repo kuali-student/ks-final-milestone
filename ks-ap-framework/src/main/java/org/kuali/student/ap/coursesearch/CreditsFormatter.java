@@ -54,6 +54,7 @@ public class CreditsFormatter {
     private static final String FIXED_CREDIT_ATTRIBUTE_KEY = "fixedCreditValue";
     private static final String MIN_CREDIT_ATTRIBUTE_KEY = "minCreditValue";
     private static final String MAX_CREDIT_ATTRIBUTE_KEY = "maxCreditValue";
+    private static final int MULTI_CREDIT_DISPLAY_LIMIT = 3;
 
     /**
      * Stores information about a variety of values
@@ -361,6 +362,27 @@ public class CreditsFormatter {
 			credits = credits.substring(0, credits.length() - 2);
 		return credits;
 	}
+
+    /**
+     * Generate a formatted string representing the credits, but truncate when you hit the
+     * max limit, as specified by MULTI_CREDIT_DISPLAY_LIMIT.  Once you hit that limit, the last value is replaced
+     * by an ellipsis character.
+     * @param credits - Array of multiple credit values
+     * @param initialDisplay - Previously computed, full credit display
+     * @return
+     */
+    public static String formatCreditsTruncated(float[] credits, String initialDisplay) {
+        StringBuilder creditStr = new StringBuilder(initialDisplay);
+        if (credits != null && credits.length > MULTI_CREDIT_DISPLAY_LIMIT) {
+            creditStr = new StringBuilder();
+            for (int i=0; i<MULTI_CREDIT_DISPLAY_LIMIT-1; i++) {
+                creditStr.append(trimCredits(String.valueOf(credits[i])));
+                creditStr.append(", ");
+            }
+            creditStr.append("&hellip;");
+        }
+        return creditStr.toString();
+    }
 
     /**
      * Comparator used specifically for the credit facet.  We used to have only integers in there

@@ -15,10 +15,6 @@
 package org.kuali.student.ap.coursesearch.controller;
 
 import org.kuali.rice.core.api.config.property.ConfigContext;
-import org.kuali.rice.core.api.criteria.Predicate;
-import org.kuali.rice.core.api.criteria.QueryByCriteria;
-import org.kuali.rice.core.api.util.ConcreteKeyValue;
-import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.student.ap.academicplan.constants.AcademicPlanServiceConstants;
 import org.kuali.student.ap.academicplan.dto.LearningPlanInfo;
 import org.kuali.student.ap.academicplan.dto.PlanItemInfo;
@@ -42,14 +38,12 @@ import org.kuali.student.ap.coursesearch.util.TermsFacet;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
 import org.kuali.student.ap.framework.context.CourseSearchConstants;
 import org.kuali.student.ap.framework.util.KsapHelperUtil;
-import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
-import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.core.acal.infc.Term;
 import org.kuali.student.r2.core.organization.dto.OrgInfo;
 import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
@@ -65,15 +59,11 @@ import org.slf4j.LoggerFactory;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
-import static org.kuali.rice.core.api.criteria.PredicateFactory.equal;
-import static org.kuali.rice.core.api.criteria.PredicateFactory.or;
 
 public class CourseSearchStrategyImpl implements CourseSearchStrategy {
 
@@ -380,7 +370,7 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
                             course.setMultipleCredits(credit.getMultiple());
                             course.setCredit(credit.getDisplay());
                         }
-                        listOfCourses.add((CourseSearchItem)course);
+                        listOfCourses.add(course);
                         break;
                     }
                 }
@@ -546,9 +536,10 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
                     CreditImpl credit = new CreditImpl();
                     credit.setId(resultValuesGroupInfo.getKey());
                     credit.setType(CourseSearchItem.CreditType.valueOf(types.get(resultValuesGroupInfo.getTypeKey())));
-                    Float tempVlaueHolder = 0F;
-                    credit.setMin(tempVlaueHolder);
-                    credit.setMax(tempVlaueHolder);
+                    Float tempValueHolder = 0F;
+                    credit.setMin(tempValueHolder);
+                    credit.setMax(tempValueHolder);
+                    credit.setDisplay(CreditsFormatter.formatCredits(range));
                     if (range.getMin() != null && range.getMax() != null) {
                         credit.setMin(range.getMin().floatValue());
                         credit.setMax(range.getMax().floatValue());
@@ -558,8 +549,9 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
                         for (int i = 0; i < range.getMultiple().size(); i++) {
                             credit.setMultiple(i,range.getMultiple().get(i).floatValue());
                         }
+                        //Override the display with a "truncated" version
+                        credit.setDisplay(CreditsFormatter.formatCreditsTruncated(credit.getMultiple(), credit.getDisplay()));
                     }
-                    credit.setDisplay(CreditsFormatter.formatCredits(range));
                     creditMap.put(credit.getId(), credit);
                 }
             }
