@@ -137,7 +137,7 @@ public abstract class KSCommentController extends KsUifControllerBase {
         return getUIFModelAndView(form);
     }
 
-        @MethodAccessible
+    @MethodAccessible
     @RequestMapping(params = "methodToCall=updateComment")
     public ModelAndView updateComment(@ModelAttribute("KualiForm") KSCommentForm form, HttpServletRequest request) throws Exception {
             int index = Integer.parseInt(form.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX));
@@ -152,6 +152,24 @@ public abstract class KSCommentController extends KsUifControllerBase {
             }
             setupCommentWrapper(form, commentWrapper, comment);
             return getUIFModelAndView(form);
+    }
+
+    @MethodAccessible
+    @RequestMapping(params = "methodToCall=ajaxUpdateComment")
+    public @ResponseBody String ajaxUpdateComment(@ModelAttribute("KualiForm") KSCommentForm form, HttpServletRequest request) throws Exception {
+        int index = Integer.parseInt(form.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX));
+        KSCommentWrapper commentWrapper = form.getComments().get(index);
+        CommentInfo comment = commentWrapper.getCommentInfo();
+        try {
+            comment = getCommentService().updateComment(comment.getId(), comment, ContextUtils.createDefaultContextInfo());
+        } catch (Exception e) {
+            String message = String.format("Error updating comment for Ref Type %s with Ref Id %s ", form.getReferenceType(), form.getReferenceId());
+            LOG.error(message);
+            throw new RuntimeException(message);
+        }
+        setupCommentWrapper(form, commentWrapper, comment);
+        return "{\"comment\":\"" + comment.getCommentText().getPlain() + "\"}";
+//        return comment.getCommentText().getPlain();
     }
 
     @MethodAccessible

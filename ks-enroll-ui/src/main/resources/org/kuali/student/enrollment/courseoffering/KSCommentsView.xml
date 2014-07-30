@@ -182,8 +182,7 @@
                                             <property name="lineActions">
                                                 <list>
                                                     <bean id="KS-CommentSaveAction_ID" parent="Uif-PrimaryActionButton" p:style="display:none;" p:additionalCssClasses="ks-toggleable"
-                                                          p:ajaxSubmit="false"
-                                                          p:methodToCall="updateComment"
+                                                          p:actionScript="updateComment('@{#ConfigProperties['application.url']}', '@{controllerUrl}', this);"
                                                           p:actionLabel="Save"/>
                                                     <bean id="KS-CommentCancelAction_ID" p:id="KS-CommentCancelAction_ID" parent="Uif-CancelAction" p:style="display:none;" p:additionalCssClasses="ks-toggleable"
                                                           p:actionScript="toggleCommentButtons(this);"
