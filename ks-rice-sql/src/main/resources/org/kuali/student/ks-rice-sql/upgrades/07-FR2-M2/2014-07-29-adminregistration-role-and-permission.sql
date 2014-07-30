@@ -15,13 +15,13 @@ insert into KRIM_PERM_T
    DESC_TXT,
    ACTV_IND)
 values
-  (KRIM_PERM_ID_S.NEXTVAL,
-   'SYS_GUID()',
+  ('KS-KRIM-PERM-'||KRIM_PERM_ID_S.NEXTVAL,
+   SYS_GUID(),
    1,
    (SELECT perm_tmpl_id
       FROM krim_perm_tmpl_t
      where nm = 'Open View'
-       and nmspc_cd = 'KR-KRAD'),
+       and nmspc_cd = 'KS-ENR'),
    'KS-ENR',
    'Central Registration Personnel Permission',
    'Allows the user to Register Students',
@@ -41,7 +41,7 @@ insert into KRIM_ROLE_T
    ACTV_IND,
    LAST_UPDT_DT)
 values
-  (KRIM_ROLE_ID_S.NEXTVAL,
+  ('KS-'||KRIM_ROLE_ID_S.NEXTVAL,
    SYS_GUID(),
    1,
    'Central Registration Personnel Role',
@@ -65,7 +65,7 @@ insert into KRIM_ROLE_MBR_T
    ACTV_TO_DT,
    LAST_UPDT_DT)
 values
-  (KRIM_ROLE_MBR_ID_S.NEXTVAL,
+  ('KS-'||KRIM_ROLE_MBR_ID_S.NEXTVAL,
    1,
    SYS_GUID(),
    (SELECT ROLE_ID
@@ -84,7 +84,7 @@ values
 insert into KRIM_ROLE_PERM_T
   (ROLE_PERM_ID, OBJ_ID, VER_NBR, ROLE_ID, PERM_ID, ACTV_IND)
 values
-  (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+  ('KS-KRIM-ROLE-PERM-'||KRIM_ROLE_PERM_ID_S.NEXTVAL,
    SYS_GUID(),
    1,
    (SELECT ROLE_ID
@@ -109,8 +109,8 @@ insert into KRIM_PERM_ATTR_DATA_T
    KIM_ATTR_DEFN_ID,
    ATTR_VAL)
 values
-  (KRIM_ATTR_DATA_ID_S.NEXTVAL,
-   'SYS_GUID()',
+  ('KS-KRIM-PERM-ATTR-DATA-'||KRIM_ATTR_DATA_ID_S.NEXTVAL,
+   SYS_GUID(),
    1,
    (SELECT perm_id
       from krim_perm_t
