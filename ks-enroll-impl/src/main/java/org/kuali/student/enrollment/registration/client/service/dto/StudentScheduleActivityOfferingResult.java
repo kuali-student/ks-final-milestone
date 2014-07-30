@@ -11,7 +11,7 @@ import java.util.Map;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "StudentScheduleActivityOfferingResult", propOrder = {
         "activityOfferingId", "activityOfferingTypeName", "activityOfferingType", "activityOfferingCode",
-        "seatsAvailable", "seatsOpen", "scheduleComponents", "instructors", "regGroupInfo", "requisites", "subterm"})
+        "seatsAvailable", "seatsOpen", "scheduleComponents", "instructors", "regGroupInfos", "requisites", "subterm"})
 public class StudentScheduleActivityOfferingResult {
     private String activityOfferingId;
     private String activityOfferingTypeName;
@@ -21,7 +21,7 @@ public class StudentScheduleActivityOfferingResult {
     private int seatsOpen;
     private List<ActivityOfferingScheduleComponentResult> scheduleComponents;
     private List<InstructorSearchResult> instructors;
-    private Map<String, String> regGroupInfo;
+    private Map<String, String> regGroupInfos;
     private List<String> requisites;
     private SubTermOfferingResult subterm;
 
@@ -114,13 +114,13 @@ public class StudentScheduleActivityOfferingResult {
         this.subterm = subterm;
     }
 
-    public Map<String, String> getRegGroupInfo() {
-        if(regGroupInfo == null){
-            regGroupInfo = new HashMap<String, String>();
+    public Map<String, String> getRegGroupInfos() {
+        if(regGroupInfos == null){
+            regGroupInfos = new HashMap<String, String>();
         }
-        return regGroupInfo;
+        return regGroupInfos;
     }
 
-    public void setRegGroupInfo(Map<String, String> regGroupInfo) { this.regGroupInfo = regGroupInfo; }
+    public void setRegGroupInfos(Map<String, String> regGroupInfos) { this.regGroupInfos = regGroupInfos; }
 
 }

@@ -216,7 +216,7 @@ public class CourseRegistrationAndScheduleOfClassesUtil {
             scheduleComponent.setDisplayTime(TimeOfDayHelper.makeFormattedTimeForAOScheduleComponent(startTimeMs, endTimeMs));
         }
 
-        if (!weekdays.isEmpty()) {
+        if (!StringUtils.isEmpty(weekdays)) {
             scheduleComponent.setMon(weekdays.contains(SchedulingServiceConstants.MONDAY_TIMESLOT_DISPLAY_DAY_CODE));
             scheduleComponent.setTue(weekdays.contains(SchedulingServiceConstants.TUESDAY_TIMESLOT_DISPLAY_DAY_CODE));
             scheduleComponent.setWed(weekdays.contains(SchedulingServiceConstants.WEDNESDAY_TIMESLOT_DISPLAY_DAY_CODE));

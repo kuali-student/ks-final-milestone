@@ -607,8 +607,14 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
             String aoType = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.AO_TYPE);
             String aoName = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.AO_NAME);
             String aoCode = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.AO_CODE);
-            int aoMaxSeats = Integer.parseInt(row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.AO_MAX_SEATS));
-            int aoSeatCount = Integer.parseInt(row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.SEAT_COUNT));
+            int aoMaxSeats = 0;
+            if (!StringUtils.isEmpty(row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.AO_MAX_SEATS))) {
+                Integer.parseInt(row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.AO_MAX_SEATS));
+            }
+            int aoSeatCount = 0;
+            if (!StringUtils.isEmpty(row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.SEAT_COUNT))) {
+                aoSeatCount = Integer.parseInt(row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.SEAT_COUNT));
+            }
             String rgId = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.RG_ID);
             String rgCode = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.RG_CODE);
             String isTBA = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.TBA_IND);
@@ -666,7 +672,7 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
                 // reg group
                 Map<String, String> rgGroups = new HashMap<>();
                 rgGroups.put(rgId, rgCode);
-                ao.setRegGroupInfo(rgGroups);
+                ao.setRegGroupInfos(rgGroups);
                 // schedule components
                 List<ActivityOfferingScheduleComponentResult> scheduleComponents = new ArrayList<>();
                 scheduleComponents.add(scheduleComponent);
@@ -686,8 +692,8 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
                 hmActivityOfferings.put(aoId, ao);
             } else if (hmActivityOfferings.containsKey(aoId)) {
                 // reg group
-                if (!hmActivityOfferings.get(aoId).getRegGroupInfo().containsKey(rgId)) {
-                    hmActivityOfferings.get(aoId).getRegGroupInfo().put(rgId, rgCode);
+                if (!hmActivityOfferings.get(aoId).getRegGroupInfos().containsKey(rgId)) {
+                    hmActivityOfferings.get(aoId).getRegGroupInfos().put(rgId, rgCode);
                 }
                 // schedule components
                 boolean sameScheduleComponent = false;
