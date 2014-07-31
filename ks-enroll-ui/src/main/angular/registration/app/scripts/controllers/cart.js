@@ -97,8 +97,13 @@ angular.module('regCartApp')
 
         $scope.addRegGroupToCart = function () {
             $scope.courseCode = $scope.courseCode.toUpperCase();
+            $scope.courseAdded = false; // reset cursor focus
             addCourseToCart($scope.cart.cartId, $scope.courseCode, $scope.termId, $scope.regCode, null, null, null);
         };
+
+        $scope.$on('addRegGroupIdToCart', function (event, selectedRegGroupId) {
+            addCourseToCart(null, null, null, null, selectedRegGroupId, null, null);
+        });
 
         // Allows you to add a cartResultItem back into the cart. useful when a user wants to add a failed item back
         // into their cart.
@@ -112,7 +117,6 @@ angular.module('regCartApp')
         });
 
         function addCourseToCart(cartId, courseCode, termId, regGroupCode, regGroupId, gradingOptionId, credits) {
-            $scope.courseAdded = false; // reset cursor focus
             CartService.addCourseToCart().query({
                 cartId: cartId,
                 courseCode: courseCode,

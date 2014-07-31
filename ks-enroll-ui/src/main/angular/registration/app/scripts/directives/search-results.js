@@ -149,6 +149,7 @@ angular.module('regCartApp')
                 scope.$on('clearSelected', function (event) {
                     angular.forEach(scope.searchResults, function(searchResult) {
                         searchResult.selected = false;
+                        searchResult.hidden = false;
                     });
                 });
 

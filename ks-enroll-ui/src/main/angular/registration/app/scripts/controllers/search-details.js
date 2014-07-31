@@ -1,7 +1,8 @@
 'use strict';
 
 angular.module('regCartApp')
-    .controller('SearchDetailsCtrl', ['$scope', '$state', '$filter', 'SearchService', function SearchDetailsCtrl($scope, $state, $filter, SearchService) {
+    .controller('SearchDetailsCtrl', ['$scope', '$rootScope', '$state', '$filter', 'SearchService',
+     function SearchDetailsCtrl($scope, $rootScope, $state, $filter, SearchService) {
 
         $scope.searchCriteria = null; // Criteria used to generate the search results.
         $scope.course = null; // Handle on the course
@@ -83,6 +84,11 @@ angular.module('regCartApp')
             $scope.$broadcast('clearSelected');
         };
 
+        // Re-using "Add to Cart" functionality from cart controller
+        $scope.addRegGroupIdToCart = function () {
+            $rootScope.$broadcast('addRegGroupIdToCart', $scope.selectedRegGroupId);
+        };
+
         $scope.hasSelectedAOs = function() {
             return $scope.selectedAOs.length > 0;
         };
@@ -100,6 +106,9 @@ angular.module('regCartApp')
             $scope.toggleAO(searchResult.ao.activityOfferingType, searchResult.ao, $scope.course);
         });
 
+        // takes care of selecting/unselecting AOs and display depending on Reg Groups for selected AOs.
+        // When AO is selected we only want to display AOs that are part of Reg Groups for selected one.
+        // When several AOs selected such as they build a Reg Group -> passing ID and Code for this Reg Group on UI
         $scope.toggleAO = function(aoType, ao, course) {
             $scope.selectedRegGroup = null;
             $scope.selectedRegGroupId = null;
