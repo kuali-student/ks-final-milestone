@@ -17,11 +17,12 @@
     <thead class="kscr-Search-results-table-head">
         <tr>
             <th class="kscr-Search-results-header kscr-Search--{{searchColumn.field}}" ng-repeat="searchColumn in searchColumns"
-                ng-class="{'kscr-Search-results--selected': (!sorted || sorted) && notSorted}"
-                ng-click="notSorted = ($parent.predicate = '{{searchColumn.field}}'); sorted = ($parent.reverse = switchReverse('{{searchColumn.field}}')) ">
+                ng-class="{'kscr-Search-results--selected': $parent.predicate === '{{searchColumn.field}}'}"
+                ng-click="$parent.predicate = '{{searchColumn.field}}'; $parent.reverse = sortResults('{{searchColumn.field}}');">
                 <div class="kscr-Search-result-column">{{searchColumn.name}}
                     <i id="sort_selector_{{searchColumn.name}}" class="kscr-Search-results-sortIcon" ng-show="!searchColumn.checkbox"
-                       ng-class="{'kscr-Search-results-sortIcon--up': !sorted && notSorted, 'kscr-Search-results-sortIcon--down': sorted && notSorted}"></i>
+                       ng-class="{'kscr-Search-results-sortIcon--up': $parent.reverse && ($parent.predicate === '{{searchColumn.field}}'),
+                                  'kscr-Search-results-sortIcon--down': !$parent.reverse && ($parent.predicate === '{{searchColumn.field}}')}"></i>
                 </div>
             </th>
         </tr>

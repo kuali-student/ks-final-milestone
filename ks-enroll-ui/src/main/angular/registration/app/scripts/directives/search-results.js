@@ -101,17 +101,28 @@ angular.module('regCartApp')
                     return searchResult[scope.detailsId];
                 };
 
-                // returns the reverse order of the specified column
-                scope.getReverse = function(column) {
-                    initReverse(column); // initialize the column
-                    return scope.reverseMap[column];
-                };
-
                 // switches the reverse order of the specified column
-                scope.switchReverse = function(column) {
-                    initReverse(column); // initialize the column
-                    scope.reverseMap[column] = !scope.reverseMap[column]; // switch it
-                    return scope.reverseMap[column];
+                scope.sortResults = function(column) {
+                    var reverse;
+                    if (angular.isUndefined(scope.reverseMap[column])) {
+                        // initialize
+                        scope.reverseMap[column] = 0;
+                    }
+                    switch (scope.reverseMap[column]) {
+                        case 0: // first click
+                            scope.reverseMap[column] = 1;
+                            reverse = false; // descending order
+                            break;
+                        case 1: // second click
+                            scope.reverseMap[column] = 2;
+                            reverse = true; // ascending order
+                            break;
+                        case 2:
+                            scope.reverseMap[column] = 0;
+                            scope.predicate = undefined; //undoes the search
+                            break;
+                    }
+                    return reverse;
                 };
 
                 // when a row is selected, emit an event with the search result
