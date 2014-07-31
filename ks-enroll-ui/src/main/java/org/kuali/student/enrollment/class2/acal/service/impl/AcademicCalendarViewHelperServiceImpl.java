@@ -109,6 +109,10 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
     private TermCodeGenerator termCodeGenerator;
     private transient RuleManagementService ruleManagementService;
 
+    public static Logger getLog() {
+        return LOG;
+    }
+
     public AcademicCalendarViewHelperServiceImpl getInstance(){
         return this;
     }
@@ -122,7 +126,7 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
      */
     public void populateAcademicCalendar(String acalId, AcademicCalendarForm acalForm){
 
-        LOG.debug("Loading Academic calendar for the id {}", acalId);
+        getLog().debug("Loading Academic calendar for the id {}", acalId);
 
         try{
 
@@ -150,8 +154,8 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
             acalForm.setMeta(acalInfo.getMeta());
 
         }catch(Exception e){
-            if (LOG.isDebugEnabled()){
-                LOG.debug(String.format("Error loading academic calendar [id=%s]", acalId), e);
+            if (getLog().isDebugEnabled()){
+                getLog().debug(String.format("Error loading academic calendar [id=%s]", acalId), e);
             }
             throw convertServiceExceptionsToUI(e);
         }
@@ -167,7 +171,7 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
      */
     protected List<HolidayCalendarWrapper> populateHolidayCalendars(List<String> holidayCalendarIds) throws Exception {
 
-        LOG.debug("Loading all the holiday calendars associated with the Acal");
+        getLog().debug("Loading all the holiday calendars associated with the Acal");
 
         List<HolidayCalendarWrapper> holidayCalendarWrapperList = new ArrayList<HolidayCalendarWrapper>();
 
@@ -210,8 +214,8 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
      */
     public List<AcalEventWrapper> populateEventWrappers(String acalId) throws Exception {
 
-        if (LOG.isDebugEnabled()){
-            LOG.debug("Loading all the holiday calendars associated with the Acal");
+        if (getLog().isDebugEnabled()){
+            getLog().debug("Loading all the holiday calendars associated with the Acal");
         }
 
         List<AcalEventInfo> eventInfos = getAcalService().getAcalEventsForAcademicCalendar(acalId, createContextInfo());
@@ -237,7 +241,7 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
     public List<AcademicTermWrapper> populateTermWrappers(String acalId, boolean isCopy, boolean calculateInstrDays){
         ContextInfo contextInfo = createContextInfo();
 
-        LOG.debug("Loading all the terms associated with an acal [id={}]", acalId);
+        getLog().debug("Loading all the terms associated with an acal [id={}]", acalId);
 
         List<AcademicTermWrapper> termWrappers = new ArrayList<AcademicTermWrapper>();
 
@@ -301,7 +305,7 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
 
     public AcademicTermWrapper populateTermWrapper(TermInfo termInfo, boolean isCopy, boolean calculateInstrDays) throws Exception {
 
-        LOG.debug("Populating Term - {}", termInfo.getId());
+        getLog().debug("Populating Term - {}", termInfo.getId());
 
         TypeInfo type = getAcalService().getTermType(termInfo.getTypeKey(),createContextInfo());
 
@@ -373,7 +377,7 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
      * @param keyDateGroup
      */
     protected void addKeyDateGroup(List<TypeInfo> keyDateTypes,KeyDateWrapper keyDateWrapper,Map<String,KeyDatesGroupWrapper> keyDateGroup){
-        LOG.debug("Adding key date to a group");
+        getLog().debug("Adding key date to a group");
         for (TypeInfo keyDateType : keyDateTypes) {
             try {
                 List<TypeInfo> allowedTypes = getTypeService().getTypesForGroupType(keyDateType.getKey(), createContextInfo());
@@ -403,8 +407,8 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
      */
     public AcademicCalendarInfo getLatestAcademicCalendar() throws Exception {
 
-        if (LOG.isDebugEnabled()){
-            LOG.debug("Finding the latest Academic calendar");
+        if (getLog().isDebugEnabled()){
+            getLog().debug("Finding the latest Academic calendar");
         }
 
         int currentYear = Calendar.getInstance().get(Calendar.YEAR);
@@ -566,7 +570,7 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
      *
      * @param model
      */
-    private void processAddBlankLines(Object model) {
+    protected void processAddBlankLines(Object model) {
         AcademicCalendarForm form = (AcademicCalendarForm) model;
         //Loop through all added lines on form to execute custom functions for KeyDates and Events
         for (Object addLine : form.getAddedCollectionItems()) {
@@ -921,7 +925,7 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
     }
 
     // NOTE: edits here should not be needed if KRAD validation is working properly...
-    private boolean getValidDateTimeErrors(String KeyDateType, TimeSetWrapper wrapper, String wrapperName, String keyDatePath) {
+    protected boolean getValidDateTimeErrors(String KeyDateType, TimeSetWrapper wrapper, String wrapperName, String keyDatePath) {
         boolean result = true;
 
         String keyDateTypeRef = "keyDateType";
@@ -1327,7 +1331,7 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
         }
     }
 
-    private void getParentTermType(AcademicTermWrapper childTerm) {
+    protected void getParentTermType(AcademicTermWrapper childTerm) {
         try {
             ContextInfo context = createContextInfo();
             // check if child term is subterm or term and if it is (list is not empty) then add all parent terms to types
@@ -1344,7 +1348,7 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
         }
     }
 
-    private AcademicTermWrapper getParentTermInForm(String parentTermType, List<AcademicTermWrapper> termWrapperList){
+    protected AcademicTermWrapper getParentTermInForm(String parentTermType, List<AcademicTermWrapper> termWrapperList){
         for (AcademicTermWrapper termWrapper : termWrapperList){
             String termType = termWrapper.getTermType();
             if (StringUtils.isBlank(termType)){
@@ -1357,7 +1361,7 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
         return null;
     }
 
-    private void populateParentTermToSubterm(AcademicTermWrapper parentTermWrapper, AcademicTermWrapper newLine){
+    protected void populateParentTermToSubterm(AcademicTermWrapper parentTermWrapper, AcademicTermWrapper newLine){
         List<KeyDatesGroupWrapper> newKeyDatesGroupWrappers = new ArrayList<KeyDatesGroupWrapper>();
         for(KeyDatesGroupWrapper keyDatesGroupWrapper : parentTermWrapper.getKeyDatesGroupWrappers()){
             KeyDatesGroupWrapper newKeyDatesGroup =
@@ -1454,7 +1458,7 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
 
         }catch (Exception e){
             // If code can not be determined from start date and term type key return empty code
-            LOG.error("Unable to find term code using start date = " + startDate +" and type key = "+ typeKey);
+            getLog().error("Unable to find term code using start date = " + startDate + " and type key = " + typeKey);
             termCode="";
         }
 
@@ -1745,6 +1749,22 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
         }
 
         return simplifiedAcademicTermWrappers;
+    }
+
+    public void setAcalService(AcademicCalendarService acalService) {
+        this.acalService = acalService;
+    }
+
+    public void setTypeService(TypeService typeService) {
+        this.typeService = typeService;
+    }
+
+    public void setAtpService(AtpService atpService) {
+        this.atpService = atpService;
+    }
+
+    public void setRuleManagementService(RuleManagementService ruleManagementService) {
+        this.ruleManagementService = ruleManagementService;
     }
 
     /**
