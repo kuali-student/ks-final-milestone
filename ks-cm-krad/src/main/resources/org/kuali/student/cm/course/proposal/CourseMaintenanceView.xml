@@ -194,7 +194,7 @@
                               p:actionScript="showCommentLightBox('@{#ConfigProperties['application.url']}/kr-krad/cm_comment?viewId=CM-Proposal-Course-Comment-View&amp;methodToCall=start&amp;proposalId=@{#dataObject.proposalInfo.id}');"
                               p:disabled="@{#workflowDoc.initiated}"/>
                         <bean id="CM-Proposal-Course-LinkGroup-Decisions" parent="Uif-ActionLink" p:actionLabel="Decisions"
-                              p:methodToCall="showDecisions"/>
+                              p:actionScript="showCommentLightBox('@{#ConfigProperties['application.url']}/kr-krad/cm_decision?viewId=CM-Proposal-Course-Decision-View&amp;methodToCall=start&amp;proposalId=@{#dataObject.proposalInfo.id}');"/>
                         <bean parent="Uif-Space"/>
                         <bean parent="KS-Uif-DataField" p:label="Last Updated"
                               p:shortLabel="Updated" p:propertyName="lastUpdated"/>
@@ -218,7 +218,6 @@
 
         <property name="dialogs">
             <list>
-                <ref bean="CM-Proposal-Course-DecisionDialog"/>
                 <ref bean="CM-Proposal-Review-Course-ConfirmSubmit-Dialog"/>
                 <bean id="CM-Proposal-Course-Rule-CourseRangeLookup" parent="KRMS-CourseRangeResult-Lookup"/>
                 <bean id="CM-Proposal-Course-Rule-WarningMessage" parent="KRMS-WarningMessagedYesNo"/>
@@ -756,32 +755,6 @@
                                   p:methodToCall="back"
                                   p:style="margin-top:5px;"
                                   p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_CLOSE]}"/>
-                        </list>
-                    </property>
-                </bean>
-            </list>
-        </property>
-    </bean>
-
-    <bean id="CM-Proposal-Course-DecisionDialog" parent="Uif-VerticalBoxSection">
-        <property name="hidden" value="true"/>
-        <property name="headerText" value="Decisions"/>
-        <property name="items">
-            <list>
-                <bean parent="Uif-Disclosure-TableCollectionSection" p:layoutManager.numberOfColumns="4">
-                    <property name="header.render" value="false"/>
-                    <property name="collectionObjectClass" value="org.kuali.student.r2.core.comment.dto.DecisionInfo"/>
-                    <property name="propertyName" value="decisions"/>
-                    <property name="layoutManager.generateAutoSequence" value="true"/>
-                    <property name="layoutManager.richTable.render" value="false"/>
-                    <property name="renderAddLine" value="false"/>
-                    <property name="renderLineActions" value="false"/>
-                    <property name="items">
-                        <list>
-                            <bean parent="KS-Uif-InputField" p:label="Decision" p:propertyName="decision"/>
-                            <bean parent="KS-Uif-InputField" p:label="Date" p:propertyName="date"/>
-                            <bean parent="KS-Uif-InputField" p:label="Actor" p:propertyName="actor"/>
-                            <bean parent="KS-Uif-InputField" p:label="Rationale" p:propertyName="rationale"/>
                         </list>
                     </property>
                 </bean>

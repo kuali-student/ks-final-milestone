@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Copyright 2005-2013 The Kuali Foundation
+
+  Licensed under the Educational Community License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+  http://www.opensource.org/licenses/ecl2.php
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+
+    <bean id="CM-Proposal-Course-Decision-View" parent="CM-Proposal-Course-Comment-View">
+        <property name="viewSourceFile" value="CMDecisionView.xml"/>
+        <property name="persistFormToSession" value="false"/>
+        <property name="page">
+            <bean parent="Uif-Page">
+                <property name="items">
+                    <list>
+                        <ref bean="CM-Proposal-Course-Decision-Section"/>
+                    </list>
+                </property>
+            </bean>
+        </property>
+
+    </bean>
+
+    <bean id="CM-Proposal-Course-Decision-Section" parent="Uif-VerticalBoxSection">
+        <property name="headerText" value="Proposal Decisions"/>
+        <property name="items">
+            <list>
+                <bean parent="Uif-Disclosure-TableCollectionSection" p:layoutManager.numberOfColumns="4">
+                    <property name="header.render" value="false"/>
+                    <property name="collectionObjectClass" value="org.kuali.student.cm.decision.form.wrapper.CMDecisionWrapper"/>
+                    <property name="propertyName" value="decisions"/>
+                    <property name="layoutManager.richTable.render" value="false"/>
+                    <property name="layoutManager.renderSequenceField" value="false"/>
+                    <property name="renderAddLine" value="false"/>
+                    <property name="renderLineActions" value="false"/>
+                    <property name="items">
+                        <list>
+                            <bean parent="KS-Uif-DataField" p:label="Decision" p:propertyName="decision"/>
+                            <bean parent="KS-Uif-DataField" p:label="Date" p:propertyName="date"/>
+                            <bean parent="KS-Uif-DataField" p:label="Actor" p:propertyName="actor"/>
+                            <bean parent="KS-Uif-DataField" p:label="Rationale" p:propertyName="rationale"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+</beans>

@@ -60,6 +60,7 @@
                     <value>classpath:org/kuali/student/cm/krms/CMLUCustomComponents.xml</value>
                     <value>classpath:org/kuali/student/cm/lookup/ProposalLookup.xml</value>
                     <value>classpath:org/kuali/student/cm/comment/CMCommentView.xml</value>
+                    <value>classpath:org/kuali/student/cm/comment/CMDecisionView.xml</value>
                 </list>
             </constructor-arg>
         </bean>

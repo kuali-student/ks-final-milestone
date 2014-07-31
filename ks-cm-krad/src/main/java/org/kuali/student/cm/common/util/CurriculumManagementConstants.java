@@ -29,6 +29,7 @@ public class CurriculumManagementConstants {
         //KSAP uses 'course' as their mapping for Course search. so, please aware of that before changing this mapping.
         public final static String COURSE_MAINTENANCE = "/courses";
         public final static String CM_COMMENT = "/cm_comment";
+        public final static String CM_DECISION = "/cm_decision";
         public final static String VIEW_COURSE = "/view_course";
         public final static String CM_HOME = "/cmHome";
     }
@@ -61,6 +62,7 @@ public class CurriculumManagementConstants {
         public final static String CREATE_COURSE_VIEW = "CM-Proposal-Course-Create-View";
         public final static String VIEW_COURSE_VIEW = "ViewCourseView";
         public final static String CM_HOME_VIEW = "curriculumHomeView";
+        public final static String CM_DECISION_VIEW = "CM-Proposal-Course-Decision-View";
     }
 
     /**
