@@ -122,9 +122,9 @@
     <bean id="KS-AdminRegistration-ChangeTermEligibilityWarning" parent="Uif-VerticalBoxSection" p:header.style="margin-top: 0;" p:render="@{termEligible}">
         <property name="items">
             <list>
-                <bean parent="KS-Uif-Inline-WarningMessageGroup">
+                <bean parent="KS-Uif-WarningMessageGroup">
                     <property name="items">
-                        <list>
+                        <list merge="true">
                             <bean parent="Uif-Message"
                                   p:id="changeTermEligibilityWarning" p:messageText="Registration for @{term.name} is not currently open."/>
                         </list>
@@ -624,6 +624,23 @@
         <property name="style" value="width:650px;"/>
         <property name="items">
             <list>
+                <!--Work around until dialog requirednes is build in 2.5     p:header.style="margin-top: 0;-->
+                <bean parent="Uif-ListCollectionSubSection" p:additionalCssClasses="alert,alert-danger"
+                      p:render="@{!#emptyList(confirmationIssues)}">
+                    <property name="collectionObjectClass" value="java.lang.String"/>
+                    <property name="propertyName" value="confirmationIssues"/>
+                    <property name="renderAddBlankLineButton" value="false"/>
+                    <property name="headerText" value="[id=KS-Uif-ErrorImage] Confirmation errors"/>
+                    <property name="header">
+                        <bean parent="Uif-SubSectionHeader" p:style="color:black;"/>
+                    </property>
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-MessageField"
+                                  p:messageText="@{#line.toString()}"/>
+                        </list>
+                    </property>
+                </bean>
                 <bean id="KS-AdminRegistration-DialogCollection" parent="Uif-TableCollectionGroup"
                       p:layoutManager.numberOfColumns="10">
                     <property name="collectionObjectClass"

@@ -48,6 +48,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
@@ -222,7 +223,7 @@ public class AdminRegistrationController extends UifControllerBase {
         for (RegistrationCourse course : form.getCoursesInProcess()) {
             course.setActivities(getViewHelper(form).getRegistrationActivitiesForRegistrationCourse(course, form.getTerm().getCode()));
         }
-
+        form.setConfirmationIssues(new ArrayList<String>());
         return showDialog(AdminRegConstants.REG_CONFIRM_DIALOG, form, request, response);
     }
 
@@ -230,6 +231,13 @@ public class AdminRegistrationController extends UifControllerBase {
     @RequestMapping(method = RequestMethod.POST, params = "methodToCall=submit")
     public ModelAndView submit(@ModelAttribute("KualiForm") AdminRegistrationForm form, BindingResult result,
                                HttpServletRequest request, HttpServletResponse response) {
+
+        // Validate the input values.
+        form.getConfirmationIssues().clear();
+        getViewHelper(form).validateForSubmission(form);
+        if(!form.getConfirmationIssues().isEmpty()){
+            return showDialog(AdminRegConstants.REG_CONFIRM_DIALOG, form, request, response);
+        }
 
         // Continue with registration submission
         form.resetPendingCourseValues();

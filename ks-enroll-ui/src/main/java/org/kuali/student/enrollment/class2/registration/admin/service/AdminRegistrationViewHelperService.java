@@ -68,9 +68,18 @@ public interface AdminRegistrationViewHelperService {
     public List<RegistrationCourse> getCourseWaitListForStudentAndTerm(String studentId, String termCode);
 
     /**
+     * Validates for validate term, course code and section combimation
+     *
      * @param form
      */
     public void validateForRegistration(AdminRegistrationForm form);
+
+    /**
+     * Validates if the registration request is ready for submission.
+     *
+     * @param form
+     */
+    void validateForSubmission(AdminRegistrationForm form);
 
     /**
      *

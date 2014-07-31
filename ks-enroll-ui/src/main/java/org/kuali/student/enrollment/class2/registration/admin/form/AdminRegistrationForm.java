@@ -74,6 +74,7 @@ public class AdminRegistrationForm extends UifFormBase implements Serializable {
      */
     private List<RegistrationCourse> coursesInProcess;
     private String regRequestId;
+    private List<String> confirmationIssues = new ArrayList<String>();
 
     /**
      * Registration Results contain registration results and courses that did not pass the course eligibility checks.
@@ -134,6 +135,7 @@ public class AdminRegistrationForm extends UifFormBase implements Serializable {
         this.registeredCourses.clear();
         this.waitlistedCourses.clear();
         this.termIssues.clear();
+        this.confirmationIssues.clear();
     }
 
     public void resetPendingCourseValues(){
@@ -227,6 +229,14 @@ public class AdminRegistrationForm extends UifFormBase implements Serializable {
 
     public void setRegRequestId(String regRequestId) {
         this.regRequestId = regRequestId;
+    }
+
+    public List<String> getConfirmationIssues() {
+        return confirmationIssues;
+    }
+
+    public void setConfirmationIssues(List<String> confirmationIssues) {
+        this.confirmationIssues = confirmationIssues;
     }
 
     public List<RegistrationResult> getRegistrationResults() {
@@ -340,4 +350,5 @@ public class AdminRegistrationForm extends UifFormBase implements Serializable {
     public void setDisplayRegistrationTabs(boolean displayRegistrationTabs) {
         this.displayRegistrationTabs = displayRegistrationTabs;
     }
+
 }

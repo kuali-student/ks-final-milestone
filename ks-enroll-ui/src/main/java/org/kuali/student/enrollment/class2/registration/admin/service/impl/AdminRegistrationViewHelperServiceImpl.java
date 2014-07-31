@@ -282,9 +282,8 @@ public class AdminRegistrationViewHelperServiceImpl extends KSViewHelperServiceI
                     course.setCredits((course.getCreditOptions().get(0)));
                 }else{
                     course.setCreditType( LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_MULTIPLE);
+                    course.setCredits(null);
                 }
-
-
             }catch(Exception e) {
                 throw convertServiceExceptionsToUI(e);
             }
@@ -299,6 +298,24 @@ public class AdminRegistrationViewHelperServiceImpl extends KSViewHelperServiceI
             if (course.getRegGroup().getStateKey().equals(LuiServiceConstants.REGISTRATION_GROUP_CANCELED_STATE_KEY)){
                 GlobalVariables.getMessageMap().putErrorForSectionId(AdminRegConstants.PENDING_COURSES + "[" + i + "]." + AdminRegConstants.SECTION,
                         AdminRegConstants.ADMIN_REG_MSG_ERROR_REGISTRATION_GROUP_CANCELED,course.getCode(),course.getSection());
+            }
+        }
+    }
+
+    @Override
+    public void validateForSubmission(AdminRegistrationForm form) {
+
+        MessageService messageService = KRADServiceLocatorWeb.getMessageService();
+        for (RegistrationCourse regCourse : form.getCoursesInProcess()) {
+            if (regCourse.getCredits()==null || regCourse.getCredits().isEmpty()) {
+
+                String message = messageService.getMessageText(null, null, AdminRegConstants.ADMIN_REG_MSG_ERROR_CREDITS_REQUIRED);
+                if(message==null){
+                    message = StringUtils.EMPTY;
+                }
+
+                message = MessageFormat.format(message, regCourse.getCode(), regCourse.getSection());
+                form.getConfirmationIssues().add(message);
             }
         }
     }

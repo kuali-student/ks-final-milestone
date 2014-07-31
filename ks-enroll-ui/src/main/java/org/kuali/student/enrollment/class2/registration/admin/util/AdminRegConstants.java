@@ -56,6 +56,7 @@ public class AdminRegConstants {
     public static final String ADMIN_REG_MSG_ERROR_COURSE_CODE_INVALID = "error.admin.reg.courseoffering.code.invalid";
     public static final String ADMIN_REG_MSG_ERROR_SECTION_CODE_INVALID = "error.admin.reg.section.code.invalid";
     public static final String ADMIN_REG_MSG_ERROR_REGISTRATION_GROUP_CANCELED = "error.admin.reg.registration.group.canceled";
+    public static final String ADMIN_REG_MSG_ERROR_CREDITS_REQUIRED = "error.admin.reg.credits.required";
 
     //sections ids
     public static final String STUDENT_INFO_SECTION = "KS-AdminRegistration-StudentInfo";
@@ -64,6 +65,7 @@ public class AdminRegConstants {
     public static final String PERSON_ID = "person.id";
     public static final String TERM_CODE = "term.code";
     public static final String PENDING_COURSES = "pendingCourses";
+    public static final String COURSES_IN_PROCESS = "coursesInProcess";
     public static final String REGISTERED_COURSES = "registeredCourses";
     public static final String WAITLISTED_COURSES = "waitlistedCourses";
     public static final String CODE = "code";
