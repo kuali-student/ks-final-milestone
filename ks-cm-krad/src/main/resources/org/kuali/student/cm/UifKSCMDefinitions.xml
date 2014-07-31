@@ -108,26 +108,8 @@
                 <value>uif-requiredMessage</value>
             </list>
         </property>
-        <property name="messageText" value="DEFAULT: Initiated @{#workflowDoc.initiated}  Saved @{#workflowDoc.saved} Enroute @{#workflowDoc.enroute} Approved @{#workflowDoc.approved}"/>
-
-        <property name="propertyReplacers">
-            <list>
-                <bean parent="Uif-ConditionalBeanPropertyReplacer"
-                    p:propertyName="messageText"
-                    p:condition="@{#workflowDoc.saved}" >
-                    <property name="replacement">
-                        <value>Required for Submit</value>
-                    </property>
-                </bean>
-                <bean parent="Uif-ConditionalBeanPropertyReplacer"
-                     p:propertyName="messageText"
-                     p:condition="@{#workflowDoc.enroute}" >
-                    <property name="replacement">
-                        <value>Required for Approval</value>
-                    </property>
-                </bean>
-            </list>
-        </property>
+        <property name="messageText"
+                  value="Required for @{#form.view.stateMapping.getStateNameMessage(#form.view.stateMapping.getNextState(#this))}"/>
     </bean>
 
     <!-- A conditional property replacer (minus the condition) which provides state based required indicators

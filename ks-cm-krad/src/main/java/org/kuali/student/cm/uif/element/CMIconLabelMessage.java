@@ -64,17 +64,6 @@ public class CMIconLabelMessage extends Message {
         } else if (parent instanceof Header){
             labelText.append(((Header) parent).getHeaderText());
 
-            /**
-             * Process the property replacers first as right group is configured with that.
-             */
-            ExpressionEvaluator expressionEvaluator = ViewLifecycle.getExpressionEvaluator();
-            if (((Header) parent).getPropertyReplacers() != null) {
-                View view = ViewLifecycle.getView();
-                for (PropertyReplacer replacer : ((Header) parent).getPropertyReplacers()) {
-                    expressionEvaluator.evaluateExpressionsOnConfigurable(view, replacer, parent.getContext());
-                }
-            }
-
             /*
              * Pull the content of rightGroup into the header as an inline component. This allows us to put the required
              * indicator (for example) after the header text and before the info icon.
@@ -134,20 +123,19 @@ public class CMIconLabelMessage extends Message {
     public void completeValidation(ValidationTrace tracer) {
         tracer.addBean(this);
 
-        if (StringUtils.isNotBlank(iconToolTipText)){
-
-            if (getInlineComponents() == null || getInlineComponents().isEmpty()){
+        if (StringUtils.isNotBlank(iconToolTipText)) {
+            if (getInlineComponents() == null || getInlineComponents().isEmpty()) {
                 String currentValues[] = new String[1];
-                if (getInlineComponents() == null){
+                if (getInlineComponents() == null) {
                     currentValues[0] = "fieldLabel.richLabelMessage.inlineComponents is NULL";
                 } else if (getInlineComponents().isEmpty()){
                     currentValues[0] = "fieldLabel.richLabelMessage.inlineComponents is empty";
                 }
                 tracer.createError("To Use 'iconToolTipText' property, FieldLabel should have RichLabelMessage set",currentValues);
-            } else if (!(getInlineComponents().get(0) instanceof ImageField)){
+            } else if (!(getInlineComponents().get(0) instanceof ImageField)) {
                 String currentValues[] ={"fieldLabel.richLabelMessage.inlineComponents[0] " + getInlineComponents().get(0).getClass()};
                 tracer.createError("To Use KSIconInputField, it's fieldLabel.richLabelMessage.inlineComponents[0] should be an ImageField",currentValues);
-            } else if (((getInlineComponents().get(0)).getToolTip() == null)){
+            } else if (((getInlineComponents().get(0)).getToolTip() == null)) {
                 String currentValues[] ={"fieldLabel.richLabelMessage.inlineComponents[0].tooTip is NULL "};
                 tracer.createError("To Use KSIconInputField, it's fieldLabel.richLabelMessage.inlineComponents[0].toolTip should not be NULL",currentValues);
             }
