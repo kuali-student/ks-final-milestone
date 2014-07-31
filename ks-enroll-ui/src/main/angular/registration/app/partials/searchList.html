@@ -16,8 +16,8 @@
 <table id="search_results_table" class="kscr-Search-results-table">
     <thead class="kscr-Search-results-table-head">
         <tr>
-            <th class="kscr-Search-results-header" ng-repeat="searchColumn in searchColumns"
-                ng-class="{'kscr-Search-results--selected': (!sorted || sorted) && notSorted }"
+            <th class="kscr-Search-results-header kscr-Search--{{searchColumn.field}}" ng-repeat="searchColumn in searchColumns"
+                ng-class="{'kscr-Search-results--selected': (!sorted || sorted) && notSorted}"
                 ng-click="notSorted = ($parent.predicate = '{{searchColumn.field}}'); sorted = ($parent.reverse = switchReverse('{{searchColumn.field}}')) ">
                 <div class="kscr-Search-result-column">{{searchColumn.name}}
                     <i id="sort_selector_{{searchColumn.name}}" class="kscr-Search-results-sortIcon" ng-show="!searchColumn.checkbox"
