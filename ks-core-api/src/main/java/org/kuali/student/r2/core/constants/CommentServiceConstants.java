@@ -30,6 +30,17 @@ public class CommentServiceConstants {
     public static final String COMMENT_RETURN_WORKFLOW_DECISION_TYPE_KEY = "kuali.comment.type.workflowDecisionRationale.return";
     public static final String COMMENT_WITHDRAW_WORKFLOW_DECISION_TYPE_KEY = "kuali.comment.type.workflowDecisionRationale.withdraw";
 
+    public static final String[] ALL_WORKFLOW_COMMENT = {
+            COMMENT_ACKNOWLEDGE_WORKFLOW_DECISION_TYPE_KEY,
+            COMMENT_APPROVE_WORKFLOW_DECISION_TYPE_KEY,
+            COMMENT_BLANKET_APPROVE_WORKFLOW_DECISION_TYPE_KEY,
+            COMMENT_CANCEL_WORKFLOW_DECISION_TYPE_KEY,
+            COMMENT_FYI_WORKFLOW_DECISION_TYPE_KEY,
+            COMMENT_REJECT_WORKFLOW_DECISION_TYPE_KEY,
+            COMMENT_RETURN_WORKFLOW_DECISION_TYPE_KEY,
+            COMMENT_WITHDRAW_WORKFLOW_DECISION_TYPE_KEY
+    };
+
     //comment states
     public static final String COMMENT_ACTIVE_STATE_KEY = "kuali.comment.comment.state.active";
     public static final String COMMENT_INACTIVE_STATE_KEY = "kuali.comment.comment.state.inactive";
