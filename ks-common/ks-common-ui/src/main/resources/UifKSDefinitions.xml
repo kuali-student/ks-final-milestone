@@ -23,7 +23,8 @@
     <bean id="KSTheme" abstract="true" parent="KSTheme-parentBean"/>
     <bean id="KSTheme-parentBean" parent="Uif-BaseTheme">
         <property name="usesThemeBuilder" value="false"/>
-        <property name="minCssFile" value="themes/ksboot/stylesheets/ksboot.@{#ConfigProperties['project.version']}.min.css"/>
+        <property name="minCssFile"
+                  value="themes/ksboot/stylesheets/ksboot.@{#ConfigProperties['project.version']}.min.css"/>
         <property name="minCssSourceFiles">
             <list merge="true">
                 <value>plugins/tooltip/ks.jquery.bubblepopup.css</value>
@@ -33,7 +34,8 @@
         </property>
         <!--TODO: KSENROLL-9721: Need to create a confirmation dialog in browser as opposed to make a server side round trip-->
         <!--We need to remove <value>themes/ksboot/scripts/krad.request.js</value> from the cript files after the rice fix-->
-        <property name="minScriptFile" value="themes/ksboot/scripts/ksboot.@{#ConfigProperties['project.version']}.min.js"/>
+        <property name="minScriptFile"
+                  value="themes/ksboot/scripts/ksboot.@{#ConfigProperties['project.version']}.min.js"/>
         <property name="minScriptSourceFiles">
             <list merge="true">
                 <value>themes/ksboot/scripts/bootstrap.js</value>
@@ -121,7 +123,9 @@
             <bean parent="KSTheme"/>
         </property>
         <property name="viewHelperServiceClass" value="org.kuali.student.common.uif.service.impl.KSLookupableImpl"/>
-        <property name="help"><null/></property>
+        <property name="help">
+            <null/>
+        </property>
 
         <!-- Need Krad Fix to work see KULRICE-9578, work around inplace-->
         <!--<property name="page.breadcrumbOptions.renderHomewardPathBreadcrumbs" value="@{!#form.renderedInLightBox}"/>-->
@@ -149,11 +153,11 @@
             <null/>
         </property>
         <property name="criteriaGroup.footer.items">
-          <list>
-          </list>
+            <list>
+            </list>
         </property>
         <property name="resultsGroup.header.upperGroup">
-          <bean parent="Uif-VerticalBoxGroup"/>
+            <bean parent="Uif-VerticalBoxGroup"/>
         </property>
         <!--Validating whether viewHelperServiceClass implements KSLookupable to show KS-Uif-Message-ZeroLookupResults-->
         <property name="propertyReplacers">
@@ -163,7 +167,7 @@
                       p:condition="@{#isAssignableFrom(T(org.kuali.student.common.uif.service.KSLookupable), #view.viewHelperServiceClass)}">
                     <property name="replacement">
                         <list merge="true">
-                             <ref bean="KS-Uif-Message-ZeroLookupResults"/>
+                            <ref bean="KS-Uif-Message-ZeroLookupResults"/>
                         </list>
                     </property>
                 </bean>
@@ -176,7 +180,8 @@
                         <bean parent="Uif-HorizontalBoxGroup">
                             <property name="items">
                                 <list>
-                                    <bean id="button_search" parent="Uif-PrimaryActionButton" p:methodToCall="search" p:actionLabel="Search"/>
+                                    <bean id="button_search" parent="Uif-PrimaryActionButton" p:methodToCall="search"
+                                          p:actionLabel="Search"/>
                                     <bean parent="Uif-ActionLink" p:actionLabel="Cancel"
                                           p:render="@{#form.renderedInLightBox}"
                                           p:onClickScript="e.preventDefault();closeLightbox();return false;"
@@ -545,31 +550,36 @@
     <bean id="Unified-Right-Header-Group-Action-Comment" parent="KS-Uif-ActionLink" p:actionLabel="Comment"
           p:actionImagePlacement="LEFT">
         <property name="actionImage">
-            <bean parent="Uif-Image" p:altText="Comment" p:title="Comment" p:source="" p:cssClasses="ks-fontello-icon-comment"/>
+            <bean parent="Uif-Image" p:altText="Comment" p:title="Comment" p:source=""
+                  p:cssClasses="ks-fontello-icon-comment"/>
         </property>
     </bean>
     <bean id="Unified-Right-Header-Group-Action-Print" parent="KS-Uif-ActionLink" p:actionLabel="Print"
           p:actionImagePlacement="LEFT">
         <property name="actionImage">
-            <bean parent="Uif-Image" p:altText="Print" p:title="Print" p:source="" p:cssClasses="ks-fontello-icon-print"/>
+            <bean parent="Uif-Image" p:altText="Print" p:title="Print" p:source=""
+                  p:cssClasses="ks-fontello-icon-print"/>
         </property>
     </bean>
     <bean id="Unified-Right-Header-Group-Action-Delete" parent="KS-Uif-ActionLink" p:actionLabel="Delete"
           p:actionImagePlacement="LEFT">
         <property name="actionImage">
-            <bean parent="Uif-Image" p:altText="Delete" p:title="Delete" p:source="" p:cssClasses="ks-fontello-icon-cancel"/>
+            <bean parent="Uif-Image" p:altText="Delete" p:title="Delete" p:source=""
+                  p:cssClasses="ks-fontello-icon-cancel"/>
         </property>
     </bean>
     <bean id="Unified-Right-Header-Group-Action-Edit" parent="KS-Uif-ActionLink" p:actionLabel="Edit"
           p:actionImagePlacement="LEFT">
         <property name="actionImage">
-            <bean parent="Uif-Image" p:altText="Edit" p:title="Edit" p:source="" p:cssClasses="ks-fontello-icon-pencil"/>
+            <bean parent="Uif-Image" p:altText="Edit" p:title="Edit" p:source=""
+                  p:cssClasses="ks-fontello-icon-pencil"/>
         </property>
     </bean>
     <bean id="Unified-Right-Header-Group-Action-Manage" parent="KS-Uif-ActionLink" p:actionLabel="Manage"
           p:actionImagePlacement="LEFT">
         <property name="actionImage">
-            <bean parent="Uif-Image" p:altText="Manage" p:title="Manage" p:source="" p:cssClasses="ks-fontello-icon-wrench"/>
+            <bean parent="Uif-Image" p:altText="Manage" p:title="Manage" p:source=""
+                  p:cssClasses="ks-fontello-icon-wrench"/>
         </property>
     </bean>
     <bean id="Unified-Right-Header-Group-Action-MakeOfficial" parent="KS-Uif-ActionLink" p:actionLabel="Make Official"
@@ -632,35 +642,40 @@
     <bean id="KS-Uif-SecondaryActionButton" abstract="true" parent="KS-Uif-SecondaryActionButton-parentBean"/>
     <bean id="KS-Uif-SecondaryActionButton-parentBean" parent="Uif-SecondaryActionButton"/>
 
-    <bean id="KS-Uif-View-NavigationActionLink" parent="Uif-KS-NavigationActionLink-parentBean" abstract="true" p:title="View">
+    <bean id="KS-Uif-View-NavigationActionLink" parent="Uif-KS-NavigationActionLink-parentBean" abstract="true"
+          p:title="View">
         <property name="actionImage">
             <bean parent="Uif-Image" p:source="" p:cssClasses="ks-fontello-icon-eye"/>
         </property>
         <property name="actionImagePlacement" value="IMAGE_ONLY"/>
     </bean>
 
-    <bean id="KS-Uif-Edit-NavigationActionLink" parent="Uif-KS-NavigationActionLink-parentBean" abstract="true" p:title="Edit">
+    <bean id="KS-Uif-Edit-NavigationActionLink" parent="Uif-KS-NavigationActionLink-parentBean" abstract="true"
+          p:title="Edit">
         <property name="actionImage">
             <bean parent="Uif-Image" p:source="" p:cssClasses="ks-fontello-icon-pencil"/>
         </property>
         <property name="actionImagePlacement" value="IMAGE_ONLY"/>
     </bean>
 
-    <bean id="KS-Uif-Copy-NavigationActionLink" parent="Uif-KS-NavigationActionLink-parentBean" abstract="true" p:title="Copy">
+    <bean id="KS-Uif-Copy-NavigationActionLink" parent="Uif-KS-NavigationActionLink-parentBean" abstract="true"
+          p:title="Copy">
         <property name="actionImage">
-            <bean parent="Uif-Image" p:source="" p:cssClasses="ks-fontello-icon-docs" />
+            <bean parent="Uif-Image" p:source="" p:cssClasses="ks-fontello-icon-docs"/>
         </property>
         <property name="actionImagePlacement" value="IMAGE_ONLY"/>
     </bean>
 
-    <bean id="KS-Uif-Delete-NavigationActionLink" parent="Uif-KS-NavigationActionLink-parentBean" abstract="true" p:title="Delete">
+    <bean id="KS-Uif-Delete-NavigationActionLink" parent="Uif-KS-NavigationActionLink-parentBean" abstract="true"
+          p:title="Delete">
         <property name="actionImage">
             <bean parent="Uif-Image" p:source="" p:cssClasses="ks-fontello-icon-cancel"/>
         </property>
         <property name="actionImagePlacement" value="IMAGE_ONLY"/>
     </bean>
 
-    <bean id="KS-Uif-Manage-NavigationActionLink" parent="Uif-KS-NavigationActionLink-parentBean" abstract="true" p:title="Manage">
+    <bean id="KS-Uif-Manage-NavigationActionLink" parent="Uif-KS-NavigationActionLink-parentBean" abstract="true"
+          p:title="Manage">
         <property name="actionImage">
             <bean parent="Uif-Image" p:source="" p:cssClasses="ks-fontello-icon-wrench"/>
         </property>
@@ -904,7 +919,8 @@
         <property name="value" value="(^(0[1-9]|1[012])[\-/](0[1-9]|[12][0-9]|3[01])[\-/]((19|2[0-9])?[0-9]{2})$)"/>
     </bean>
 
-    <bean id="KS-Uif-Dynamic-BreadCrumb" parent="Uif-InputField" p:propertyName="viewId" p:bindingInfo.bindToForm="true">
+    <bean id="KS-Uif-Dynamic-BreadCrumb" parent="Uif-InputField" p:propertyName="viewId"
+          p:bindingInfo.bindToForm="true">
         <property name="control">
             <bean parent="Uif-OptionListControl">
                 <property name="options">
@@ -947,21 +963,67 @@
           p:loadingMessageText="Deleting Line..." p:id="@{#collectionGroup.id}_del@{#lineSuffix}"/>
 
 
-
     <bean id="KS-Uif-Inline-WarningMessageGroup" parent="Uif-VerticalBoxSection"
           p:additionalCssClasses="uif-validationMessages,uif-groupValidationMessages,uif-pageValidationMessages-warning,ks-subSection">
-        <property name="style" value="display: inline-block;" />
+        <property name="style" value="display: inline-block;"/>
+    </bean>
+
+    <bean id="KS-Uif-SuccessImage" parent="Uif-ImageField" p:image.altText="Success: "
+          p:source="@{#ConfigProperties['ks.externalizable.images.url']}/validation/success.png">
+        <property name="image">
+            <bean parent="Uif-Image" p:additionalCssClasses="uif-validationImage"/>
+        </property>
+    </bean>
+
+    <bean id="KS-Uif-InfoImage" parent="Uif-ImageField" p:image.altText="Info: "
+          p:source="@{#ConfigProperties['ks.externalizable.images.url']}/validation/info.png">
+        <property name="image">
+            <bean parent="Uif-Image" p:additionalCssClasses="uif-validationImage"/>
+        </property>
+    </bean>
+
+    <bean id="KS-Uif-WarningImage" parent="Uif-ImageField" p:image.altText="Warning: "
+          p:source="@{#ConfigProperties['ks.externalizable.images.url']}/validation/warning.png">
+        <property name="image">
+            <bean parent="Uif-Image" p:additionalCssClasses="uif-validationImage"/>
+        </property>
+    </bean>
+
+    <bean id="KS-Uif-ErrorImage" parent="Uif-ImageField" p:image.altText="Error: "
+          p:source="@{#ConfigProperties['ks.externalizable.images.url']}/validation/error.png">
+        <property name="image">
+            <bean parent="Uif-Image" p:additionalCssClasses="uif-validationImage"/>
+        </property>
+    </bean>
+
+    <bean id="KS-Uif-SuccessMessageGroup" parent="Uif-HorizontalBoxGroup" p:additionalCssClasses="alert,alert-info">
+        <property name="items">
+            <list>
+                <ref bean="KS-Uif-SuccessImage"/>
+            </list>
+        </property>
     </bean>
 
     <bean id="KS-Uif-InfoMessageGroup" parent="Uif-HorizontalBoxGroup" p:additionalCssClasses="alert,alert-info">
         <property name="items">
             <list>
-                <bean parent="Uif-ImageField" p:image.altText="Info: "
-                      p:source="@{#ConfigProperties['ks.externalizable.images.url']}/validation/info.png">
-                    <property name="image">
-                        <bean parent="Uif-Image" p:additionalCssClasses="uif-validationImage"/>
-                    </property>
-                </bean>
+                <ref bean="KS-Uif-InfoImage"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KS-Uif-WarningMessageGroup" parent="Uif-HorizontalBoxGroup" p:additionalCssClasses="alert,alert-warning">
+        <property name="items">
+            <list>
+                <ref bean="KS-Uif-WarningImage"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KS-Uif-ErrorMessageGroup" parent="Uif-HorizontalBoxGroup" p:additionalCssClasses="alert,alert-danger">
+        <property name="items">
+            <list>
+                <ref bean="KS-Uif-ErrorImage"/>
             </list>
         </property>
     </bean>
