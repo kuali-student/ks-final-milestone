@@ -15,6 +15,7 @@ angular.module('regCartApp')
                 searchResults: '=?', //optional
                 searchColumns: '=',
                 searchData: '=?',    // optional
+                displayLimit: '=?',  // optional
                 searchCriteria: '@',
                 termName: '@',
                 detailsId: '@',
@@ -31,8 +32,10 @@ angular.module('regCartApp')
                 // the choices for limiting display of search results
                 scope.displayLimits = [20, 50, 100];
 
-                // set the default display limit
-                scope.displayLimit = scope.displayLimits[0];
+                // set the display limit
+                if (angular.isUndefined(scope.displayLimit)) {
+                    scope.displayLimit = scope.displayLimits[0];
+                }
 
                 // set the default page #
                 scope.page = 1;

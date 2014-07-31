@@ -83,6 +83,7 @@ angular.module('regCartApp')
                 if (ao.seatsOpen === 0) {
                     seatsOpen = '<span class="kscr-Search-results-no-seats">' + seatsOpen + '</span>';
                 }
+                seatsOpen = '<span class="kscr-Search-result-hidden">'+zeroPad(ao.seatsOpen)+zeroPad(ao.seatsAvailable)+'</span>'+seatsOpen;
 
                 var row={
                     days: days,
@@ -108,4 +109,14 @@ angular.module('regCartApp')
         } else {
             return value;
         }
+    }
+
+    function zeroPad(value) {
+        console.log('padding: ' + value);
+        value = '' + value; // convert to string
+        while (value.length < 3) {
+            value = '0' + value;
+        }
+        console.log('result: '+value);
+        return value;
     }
