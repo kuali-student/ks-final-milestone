@@ -365,11 +365,11 @@
                 <bean parent="Uif-HorizontalFieldGroup" p:label="Registration Results">
                     <property name="items">
                         <list>
-                            <bean parent="Uif-Message" p:messageText="[css='icon-blocked'][/css]"
+                            <bean parent="KS-Uif-ErrorImage"
                                   p:render="@{#line.level eq 'kuali.admin.reg.result.level.failed'}"/>
-                            <bean parent="Uif-Message" p:messageText="[css='icon-info'][/css]"
+                            <bean parent="KS-Uif-SuccessImage"
                                   p:render="@{#line.level eq 'kuali.admin.reg.result.level.success'}"/>
-                            <bean parent="Uif-Message" p:messageText="[css='icon-warning'][/css]"
+                            <bean parent="KS-Uif-WarningImage"
                                   p:render="@{#line.level eq 'kuali.admin.reg.result.level.warning'}"/>
                             <bean parent="Uif-Message" p:messageText="@{#line.course.code} (@{#line.course.section}) - "/>
                             <bean parent="Uif-DataField" p:propertyName="itemDescriptions" p:readOnlyListDisplayType="UL"/>
