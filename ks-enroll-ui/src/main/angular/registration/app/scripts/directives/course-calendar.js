@@ -102,6 +102,11 @@ angular.module('regCartApp')
          Add the AO to the day map
          */
         function addToDayMap(dayMap, courseDetails, scheduleComponent, day, type) {
+            if (!scheduleComponent.startTime || !scheduleComponent.endTime) {
+                // Can't do anything without a start or end time
+                return dayMap;
+            }
+
             if (!angular.isArray(dayMap[day])) {
                 dayMap[day] = [];
 

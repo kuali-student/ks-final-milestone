@@ -143,7 +143,7 @@ angular.module('regCartApp')
                 If a clearSelected event is received from the parent, clear all the selected search
                 results and unhide.
                  */
-                scope.$on('clearSelected', function (event) {
+                scope.$on('clearSelected', function () {
                     angular.forEach(scope.searchResults, function(searchResult) {
                         searchResult.selected = false;
                         searchResult.hidden = false;
@@ -169,7 +169,7 @@ angular.module('regCartApp')
                 });
 
                 // shows all rows
-                scope.$on('showAllRows', function (event) {
+                scope.$on('showAllRows', function () {
                     angular.forEach(scope.searchResults, function(searchResult) {
                         if (searchResult.hidden) {
                             searchResult.hidden = false;

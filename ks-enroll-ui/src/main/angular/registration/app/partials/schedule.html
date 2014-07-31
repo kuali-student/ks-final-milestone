@@ -16,10 +16,10 @@
         <div class="kscr-Responsive-schedule" ng-if="showSchedule()">
             <!-- display registered courses via the course-card directive -->
             <div class="kscr-Responsive-registered"
-                 course-card type="registered" credits="registeredCredits()" schedules="getSchedules()"></div>
+                 course-card type="{{courseTypes.registered}}" credits="registeredCredits()" schedules="getSchedules()"></div>
             <!-- display waitlisted courses via the course-card directive -->
             <div ng-class="{'kscr-Responsive-waitlisted':true,'kscr-Responsive-waitlisted--inactive':!showWaitlist()}"
-                 course-card type="waitlist" credits="waitlistedCredits()" schedules="getSchedules()"></div>
+                 course-card type="{{courseTypes.waitlisted}}" credits="waitlistedCredits()" schedules="getSchedules()"></div>
         </div>
 
         <div class="kscr-Splash" ng-if="!showSchedule()">

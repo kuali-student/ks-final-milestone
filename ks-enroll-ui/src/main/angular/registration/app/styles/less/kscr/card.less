@@ -186,6 +186,17 @@
   &.ng-leave-active {
     opacity: 0;
   }
+
+  // Applied when an update request is processing for the course
+  &--processing {
+      .kscr-Card-icon {
+          .spinner-small-icon;
+
+          & > i {
+              display: none;
+          }
+      }
+  }
 }
 
 // Card result reason text

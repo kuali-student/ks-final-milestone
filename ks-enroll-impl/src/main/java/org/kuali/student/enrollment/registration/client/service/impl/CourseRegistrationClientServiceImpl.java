@@ -664,13 +664,13 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
         return credits;
     }
 
-    private ScheduleItemResult updateScheduleItem(String courseCode, String regGroupId, String regGroupCode, String masterLprId, String termId, String credits, String gradingOptionId, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, DoesNotExistException, OperationFailedException, PermissionDeniedException, DataValidationErrorException, ReadOnlyException, AlreadyExistsException {
+    private RegistrationRequestInfo updateScheduleItem(String courseCode, String regGroupId, String regGroupCode, String masterLprId, String termId, String credits, String gradingOptionId, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, DoesNotExistException, OperationFailedException, PermissionDeniedException, DataValidationErrorException, ReadOnlyException, AlreadyExistsException {
 
         return updateRegistrationItem(courseCode, regGroupId, regGroupCode, masterLprId, termId, credits, gradingOptionId, contextInfo, LprServiceConstants.REQ_ITEM_UPDATE_TYPE_KEY);
 
     }
 
-    private ScheduleItemResult updateWaitlistEntry(String courseCode, String regGroupId, String regGroupCode, String masterLprId, String termId, String credits, String gradingOptionId, ContextInfo contextInfo) throws DoesNotExistException, PermissionDeniedException, OperationFailedException, InvalidParameterException, ReadOnlyException, MissingParameterException, DataValidationErrorException, AlreadyExistsException {
+    private RegistrationRequestInfo updateWaitlistEntry(String courseCode, String regGroupId, String regGroupCode, String masterLprId, String termId, String credits, String gradingOptionId, ContextInfo contextInfo) throws DoesNotExistException, PermissionDeniedException, OperationFailedException, InvalidParameterException, ReadOnlyException, MissingParameterException, DataValidationErrorException, AlreadyExistsException {
 
         return updateRegistrationItem(courseCode,regGroupId, regGroupCode, masterLprId, termId, credits, gradingOptionId, contextInfo, LprServiceConstants.REQ_ITEM_UPDATE_WAITLIST_TYPE_KEY);
 
@@ -679,7 +679,7 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
     /*
      * Utility method to update any kind of schedule item (registered, waitlisted, etc)
      */
-    private ScheduleItemResult updateRegistrationItem(String courseCode, String regGroupId, String regGroupCode, String masterLprId, String termId, String credits,
+    private RegistrationRequestInfo updateRegistrationItem(String courseCode, String regGroupId, String regGroupCode, String masterLprId, String termId, String credits,
                                                       String gradingOptionId, ContextInfo contextInfo, String typeKey)
             throws DoesNotExistException, PermissionDeniedException, OperationFailedException,
             InvalidParameterException, ReadOnlyException, MissingParameterException, DataValidationErrorException,
@@ -707,15 +707,7 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
         // submit the request to the registration engine.
         CourseRegistrationAndScheduleOfClassesUtil.getCourseRegistrationService().submitRegistrationRequest(newRegReq.getId(), contextInfo);
 
-        //Build Result object
-        ScheduleItemResult scheduleItemResult = new ScheduleItemResult();
-        scheduleItemResult.setCourseCode(courseCode);
-        scheduleItemResult.setCredits(credits);
-        scheduleItemResult.setGradingOptions(gradingOptionId);
-        scheduleItemResult.setRegGroupCode(regGroupCode);
-        scheduleItemResult.setUserId(userId);
-
-        return scheduleItemResult;
+        return newRegReq;
     }
 
     private List<String> getCourseOfferingCreditOptionValues(String creditOptionId, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException {

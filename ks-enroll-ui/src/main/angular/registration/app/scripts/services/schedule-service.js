@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('regCartApp')
-    .service('ScheduleService', ['$q', 'ServiceUtilities', 'URLS', function ScheduleService($q, ServiceUtilities, URLS) {
+    .service('ScheduleService', ['$q', '$timeout', 'URLS', 'STATUS', 'ServiceUtilities', 'GlobalVarsService', function ScheduleService($q, $timeout, URLS, STATUS, ServiceUtilities, GlobalVarsService) {
 
         // Cache of schedules per term
         var schedules = {};
@@ -27,6 +27,51 @@ angular.module('regCartApp')
                     deferred.reject(error);
                 });
             }
+
+            return deferred.promise;
+        };
+
+
+        // Schedule Poller
+        this.pollRegistrationRequestStatus = function(registrationRequestId, interval) {
+            // Make sure the interval is defined
+            if (!angular.isNumber(interval)) {
+                interval = 1000;
+            }
+
+            // Set up the promise
+            var deferred = $q.defer(),
+                me = this;
+
+            $timeout(function() {
+                // Query for the registration status
+                me.getRegistrationStatus().query({regReqId: registrationRequestId}, function (result) {
+                    var status = GlobalVarsService.getCorrespondingStatusFromState(result.state);
+                    switch (status) {
+
+                        case STATUS.new:
+                        case STATUS.processing:
+                            // The request is still new or processing, reschedule the poller
+                            deferred.notify(result); // Notify out in case partial updates are desired
+                            me.pollRegistrationRequestStatus(registrationRequestId, interval);
+                            break;
+
+                        case STATUS.success:
+                            // The request has finished successfully
+                            deferred.resolve(result);
+                            break;
+
+                        case STATUS.error:
+                            // The request has finished with an error state
+                            deferred.reject(result);
+                            break;
+
+                    }
+                }, function(error) {
+                    // Return out the error
+                    deferred.reject(error);
+                });
+            }, interval);
 
             return deferred.promise;
         };

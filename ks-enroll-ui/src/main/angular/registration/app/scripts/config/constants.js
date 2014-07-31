@@ -69,6 +69,14 @@ angular.module('regCartApp')
     })
 
 
+    // Course Types
+    .constant('COURSE_TYPES', {
+        registered: 'registered',
+        waitlisted: 'waitlist',
+        cart: 'cart'
+    })
+
+
     // Grading option identifiers
     .constant('GRADING_OPTION', {
         audit:      'kuali.resultComponent.grade.audit',

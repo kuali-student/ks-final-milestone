@@ -7,7 +7,7 @@
     <accordion-group is-open="course.isopen">
         <accordion-heading>
             <div class="kscr-Course-legendIndicator"></div>
-            <div class="kscr-Card-accordion-heading" ng-class="{'kscr-Card-course': type==='cart', 'kscr-Card-accordion-heading-fadeIn': course.addingNewCartItem}">
+            <div class="kscr-Card-accordion-heading" ng-class="{'kscr-Card-course': type === courseTypes.cart, 'kscr-Card-accordion-heading-fadeIn': course.addingNewCartItem}">
                 <!-- Expand/Collapse Icon -->
                 <span class="kscr-Card-icon"><i class="glyphicon" ng-class="{'glyphicon-chevron-down': course.isopen, 'glyphicon-chevron-right': !course.isopen}"></i></span>
 
@@ -22,7 +22,7 @@
                     <div>
                         <span class="kscr-Card-title" id="{{config.prefix2}}course_code_{{course.courseCode}}_{{course.regGroupCode}}">
                             <strong>{{course.courseCode}} ({{course.regGroupCode}})</strong>
-                            <i ng-show="type==='waitlist'" class="glyphicon glyphicon-time kscr-Waitlisted-clockIcon"></i>
+                            <i ng-show="type === courseTypes.waitlisted" class="glyphicon glyphicon-time kscr-Waitlisted-clockIcon"></i>
                         </span>
                         <span class="kscr-Card-badge-wrap" ng-show="showBadge(course)">
                             <span id="{{config.prefix2}}grading_badge_{{course.courseCode}}_{{course.regGroupCode}}"
@@ -31,10 +31,10 @@
                     </div>
 
                     <!--Course Title and description-->
-                    <div class="kscr-Card-text" id="title_{{course.courseCode}}_{{course.regGroupCode}}" ng-show="course.isopen">{{courseTitle(course)}}</div>
+                    <div class="kscr-Card-text" id="title_{{course.courseCode}}_{{course.regGroupCode}}" ng-show="course.isopen">{{course.longName}}</div>
 
                     <!--AO info: type, time, location-->
-                    <div ng-repeat="ao in course.activityOfferings" class="kscr-Card-detailsText--show" ng-show="!course.isopen" ng-if="type!=='cart'">
+                    <div ng-repeat="ao in course.activityOfferings" class="kscr-Card-detailsText--show" ng-show="!course.isopen" ng-if="type !== courseTypes.cart">
                         <span class="kscr-Card-courseTimes">
                             <div id="{{config.prefix2}}ao_type_{{course.courseCode}}_{{course.regGroupCode}}_{{$index}}" class="kscr-Card-ao-type">{{ao.activityOfferingTypeName | limitTo : 3}}</div>
                             <div ng-repeat="scheduleComponent in ao.scheduleComponents" id="{{config.prefix2}}schedule_{{course.courseCode}}_{{course.regGroupCode}}_{{$parent.$index}}_{{$index}}" class="kscr-Card-scheduleComponent">
@@ -45,7 +45,7 @@
                         </span>
                     </div>
 
-                    <div ng-repeat="item in course.schedule" class="kscr-Card-detailsText--show" ng-show="!course.isopen" ng-if="type==='cart'">
+                    <div ng-repeat="item in course.schedule" class="kscr-Card-detailsText--show" ng-show="!course.isopen" ng-if="type === courseTypes.cart">
                         <span class="kscr-Card-courseTimes">
                             <div id="ao_type_{{course.courseCode}}_{{course.regGroupCode}}_{{$index}}" class="kscr-Card-ao-type">{{item.activityOfferingType | limitTo : 3}}</div>
                             <div ng-repeat="scheduleItem in item.activityOfferingLocationTime" id="schedule_{{course.courseCode}}_{{course.regGroupCode}}_{{$parent.$index}}_{{$index}}" class="kscr-Card-scheduleComponent">
@@ -59,14 +59,14 @@
             </div>
         </accordion-heading>
 
-        <div class="kscr-Waitlisted-details" ng-if="type==='waitlist'">
+        <div class="kscr-Waitlisted-details" ng-if="type === courseTypes.waitlisted">
             <i class="glyphicon glyphicon-time kscr-Waitlisted-clockIcon"></i> Waitlisted for this course
         </div>
 
         <!-- Course details: AO type, start-end dates, etc. -->
         <div ng-hide="course.editing">
             <!--course time, day, building-->
-            <div ng-repeat="ao in course.activityOfferings" class="kscr-Card-detailsText--edit" ng-if="type !== 'cart'">
+            <div ng-repeat="ao in course.activityOfferings" class="kscr-Card-detailsText--edit" ng-if="type !== courseTypes.cart">
                 <div>
                     <span id="{{config.prefix2}}ao_type_long_{{course.courseCode}}_{{course.regGroupCode}}_{{$index}}">{{ao.activityOfferingTypeName}}</span>
                     <span class="kscr-Card-ao-instructor">
@@ -81,7 +81,7 @@
                 <div class="util-Grid--clearfix"></div>
             </div>
 
-            <div ng-repeat="item in course.schedule" class="kscr-Card-detailsText--edit" ng-if="type === 'cart'">
+            <div ng-repeat="item in course.schedule" class="kscr-Card-detailsText--edit" ng-if="type === courseTypes.cart">
                 <div>
                     <span id="ao_type_long_{{course.courseCode}}_{{course.regGroupCode}}_{{$index}}">{{item.activityOfferingType}}</span>
                     <span class="kscr-Card-ao-instructor">
@@ -102,7 +102,7 @@
                     <!--<button class="btn">Details</button>-->
                     <button class="kscr-Button" id="{{config.prefix2}}edit_{{course.courseCode}}_{{course.regGroupCode}}" ng-click="editItem(course)" ng-show="course.creditOptions.length > 1 || course.gradingOptionCount > 1">Edit</button>
                     <div class="global-Base-divider"></div>
-                    <button class="kscr-Button" id="{{config.prefix2}}remove_{{course.courseCode}}_{{course.regGroupCode}}" ng-click="dropCourse(cardIndex, course)">{{config.remove}}</button>
+                    <button class="kscr-Button" id="{{config.prefix2}}remove_{{course.courseCode}}_{{course.regGroupCode}}" ng-click="dropCourse(course)">{{config.remove}}</button>
                 </span>
             </div>
         </div>

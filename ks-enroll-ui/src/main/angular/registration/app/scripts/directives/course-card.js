@@ -45,8 +45,8 @@ angular.module('regCartApp')
     The CartCtrl controller handles various operations for both the course-card and
     course-accordion directives.
      */
-    .controller('CardCtrl', ['$scope', '$timeout', 'GlobalVarsService', 'TermsService', 'CartService', 'ScheduleService', 'STATUS', 'GRADING_OPTION',
-        function($scope, $timeout, GlobalVarsService, TermsService, CartService, ScheduleService, STATUS, GRADING_OPTION) {
+    .controller('CardCtrl', ['$scope', '$timeout', 'GlobalVarsService', 'TermsService', 'CartService', 'ScheduleService', 'STATUS', 'GRADING_OPTION', 'COURSE_TYPES',
+        function($scope, $timeout, GlobalVarsService, TermsService, CartService, ScheduleService, STATUS, GRADING_OPTION, COURSE_TYPES) {
             /*
              Utility function for providing configuration variables based on
              whether the course in scope is registered, waitlist, or cart.
@@ -54,7 +54,7 @@ angular.module('regCartApp')
             function getConfig() {
                 var config;
                 switch ($scope.type) {
-                    case 'waitlist':
+                    case COURSE_TYPES.waitlisted:
                         config = {
                             heading: 'Waitlisted',
                             prefix: 'waitlisted',
@@ -63,7 +63,7 @@ angular.module('regCartApp')
                             remove: 'Remove'
                         };
                         break;
-                    case 'cart':
+                    case COURSE_TYPES.cart:
                         config = {
                             heading: 'Cart', // not used
                             prefix: 'cart', // not used
@@ -87,15 +87,7 @@ angular.module('regCartApp')
 
 
             $scope.config = getConfig();
-
-
-            /*
-             Standardize the grading option value in the course to make it easier throughout the rest of the directive.
-             In the cart, it is course.gradingOptionId, everywhere else it is course.grading.
-             */
-            if ($scope.type === 'cart') {
-                $scope.course.gradingOptionId = $scope.course.grading;
-            }
+            $scope.courseTypes = COURSE_TYPES;
 
 
 
@@ -106,7 +98,7 @@ angular.module('regCartApp')
             $scope.courseOfferings = function(schedule) {
                 var offerings;
                 switch ($scope.type) {
-                    case 'waitlist':
+                    case COURSE_TYPES.waitlisted:
                         offerings = schedule.waitlistCourseOfferings;
                         break;
                     default: // 'registered'
@@ -117,37 +109,10 @@ angular.module('regCartApp')
             };
 
             /*
-            Common "drop" functionality. Can be used to drop a registered course,
-            remove a course from the waitlist, or remove a course from the cart
-             */
-            $scope.dropCourse = function (index, course) {
-                console.log('course-card index: '+index);
-                switch ($scope.type) {
-                    case 'cart':
-                        // emit an event to the parentt scope (handled in cart.js)
-                        $scope.$emit('deleteCartItem', index);
-                        break;
-                    default : // 'registered', 'waitlist'
-                        console.log('Open drop confirmation');
-                        course.dropping = true;
-                        $scope.index = index;
-                        $scope.course = course;
-                }
-            };
-
-            /*
             Closes the drop confirmation dialog
              */
             $scope.cancelDropConfirmation = function (course) {
                 course.dropping = false;
-            };
-
-            /*
-            Closes a status message card
-             */
-            $scope.removeStatusMessage = function (course) {
-                course.statusMessage = null;
-                $scope.$emit('removeRegisteredStatusMessage', course);
             };
 
             /*
@@ -167,71 +132,14 @@ angular.module('regCartApp')
             };
 
             /*
-            Calls the appropriate function for updating a course offering
-            based on the scope type.
-             */
-            $scope.updateItem = function(course) {
-                switch ($scope.type) {
-                    case 'registered':
-                        updateScheduleItem(course);
-                        break;
-                    case 'waitlist':
-                        updateWaitlistItem(course);
-                        break;
-                    case 'cart':
-                        updateCartItem(course);
-                }
-            };
-
-            /*
-            Removes the waitlist status message from the view
-             */
-            $scope.removeWaitlistStatusMessage = function (course) {
-                $scope.$emit('removeWaitlistStatusMessage', course);
-            };
-
-            /*
-            Emits an event to the parent scope to drop the registration
-            group. Actual drop is handled in schedule.js.
-             */
-            $scope.dropRegistrationGroup = function (index, course) {
-                $scope.$emit('dropRegistered', index, course);
-            };
-
-            /*
-            Emits an event to the parent scope to remove the user from
-            the wait list for a course. Actual removal is handled in
-             schedule.js.
-             */
-            $scope.dropFromWaitlist = function (index, course) {
-                $scope.$emit('dropWaitlist', index, course);
-            };
-
-            /*
-            Returns the grading option for the course
+             Returns the grading option for the course
              */
             $scope.gradingOption = function (course) {
                 return course.gradingOptions[$scope.course.gradingOptionId];
             };
 
             /*
-            Returns the course title
-             */
-            $scope.courseTitle = function (course) {
-                var title;
-                switch ($scope.type) {
-                    case 'cart':
-                        title = course.courseTitle;
-                        break;
-                    default : // 'registered', 'waitlist'
-                        title = course.longName;
-                }
-
-                return title;
-            };
-
-            /*
-            Returns the course index
+             Returns the course index
              */
             $scope.courseIndex = function(course) {
                 if (!angular.isDefined(course.index) || !course.index) {
@@ -242,95 +150,108 @@ angular.module('regCartApp')
             };
 
             /*
-            Calls the RESTful service to update a registered course on the schedule.
+             Closes a status message card
              */
-            function updateScheduleItem(course) {
-                console.log('Updating registered course:');
-                console.log(course.newCredits);
-                console.log(course.newGrading);
-                console.log(TermsService.getTermId());
-                ScheduleService.updateScheduleItem().query({
-                    courseCode: course.courseCode,
-                    regGroupId: course.regGroupId,
-                    regGroupCode: course.regGroupCode,
-                    masterLprId: course.masterLprId,
-                    termId: TermsService.getTermId(),
-                    credits: course.newCredits,
-                    gradingOptionId: course.newGrading
-                }, function (itemResult) {
-                    GlobalVarsService.setRegisteredCredits(parseFloat(GlobalVarsService.getRegisteredCredits()) - parseFloat(course.credits) + parseFloat(itemResult.credits));
-                    updateCard(course, itemResult);
-                }, function (error) {
-                    course.statusMessage = {txt: error.data, type: STATUS.error};
-                });
-            }
+            $scope.removeStatusMessage = function (course) {
+                course.statusMessage = null;
+                $scope.$emit('courseStatusMessageRemoved', $scope.type, course);
+            };
 
             /*
-            Calls the RESTful service to update a waitlisted course on the schedule.
+             Common "drop" functionality. Can be used to drop a registered course,
+             remove a course from the waitlist, or remove a course from the cart
              */
-            function updateWaitlistItem(course) {
-                console.log('Updating waitlisted course:');
-                console.log(course.newCredits);
-                console.log(course.newGrading);
-                ScheduleService.updateWaitlistItem().query({
-                    courseCode: course.courseCode,
-                    regGroupId: course.regGroupId,
-                    regGroupCode: course.regGroupCode,
-                    masterLprId: course.masterLprId,
-                    termId: TermsService.getTermId(),
-                    credits: course.newCredits,
-                    gradingOptionId: course.newGrading
-                }, function (itemResult) {
-                    GlobalVarsService.setWaitlistedCredits(parseFloat(GlobalVarsService.getWaitlistedCredits()) - parseFloat(course.credits) + parseFloat(itemResult.credits));
-                    updateCard(course, itemResult);
-                }, function (error) {
-                    course.statusMessage = {txt: error.data, type: STATUS.error};
-                });
-            }
-
-            /*
-            Calls the RESTful service to update the cart item.
-             */
-            function updateCartItem(course) {
-                console.log('Updating cart item. Grading: ' + course.newGrading + ', credits: ' + course.newCredits);
-                CartService.updateCartItem().query({
-                    cartId: $scope.cartId,
-                    cartItemId: course.cartItemId,
-                    credits: course.newCredits,
-                    gradingOptionId: course.newGrading
-                }, function (itemResult) {
-                    console.log('old: ' + course.credits + ' To: ' + itemResult.credits);
-                    console.log('old: ' + course.gradingOptionId + ' To: ' + itemResult.gradingOptionId);
-                    updateCard(course, itemResult);
-                });
-            }
-
-            /*
-            Common code for displaying the "glow" on changed items when updating
-            a card.
-             */
-            function updateCard(course, itemResult) {
-                console.log(itemResult);
-                var oldCredits = course.credits;  // need to compare to see if it was changed and need a glow
-                var oldGrading = course.gradingOptionId;  // need to compare to see if it was changed and need a glow
-
-                // Update the course with the new credits & grading option value
-                course.credits = itemResult.credits;
-
+            $scope.dropCourse = function (course) {
                 switch ($scope.type) {
-                    case 'cart':
-                        course.gradingOptionId = itemResult.grading;
-                        course.grading = course.gradingOptionId; // Cart items store this value in grading
+                    case COURSE_TYPES.cart:
+                        // emit an event to the parent scope (handled in cart.js)
+                        $scope.$emit('deleteCartItem', course);
                         break;
                     default : // 'registered', 'waitlist'
-                        course.gradingOptionId = itemResult.gradingOptionId;
+                        console.log('Open drop confirmation');
+                        course.dropping = true;
                 }
+            };
+
+            /*
+             Emits a 'dropCourse' event and handles the result of that action accordingly.
+             */
+            $scope.dropCourseConfirmed = function(course) {
+                course.dropping = false; // used to display confirmation popup
+                course.dropProcessing = true; // used to display spinner while poll is running
+
+                course.statusMessage = {
+                    txt: '<strong>' + course.courseCode + ' (' + course.regGroupCode + ')</strong> drop processing',
+                    type: STATUS.processing
+                };
+
+
+                $scope.$emit('dropCourse', $scope.type, course, function() {
+                    course.dropped = true; // used to display course details vs success to drop message
+                    course.dropProcessing = false;
+
+                    var message;
+                    switch ($scope.type) {
+                        case COURSE_TYPES.registered:
+                            message = '<strong>' + course.courseCode + ' (' + course.regGroupCode + ')</strong> dropped successfully';
+                            break;
+                        case COURSE_TYPES.waitlisted:
+                            message = 'Removed from waitlist for <strong>' + course.courseCode + ' (' + course.regGroupCode + ')</strong> successfully';
+                            break;
+                    }
+
+                    course.statusMessage = {txt: message, type: STATUS.success};
+
+                }, function(message) {
+                    course.dropProcessing = false;
+                    course.statusMessage = {txt: message, type: STATUS.error};
+                });
+            };
+
+            /*
+             Emits an 'updateCourse' event and handles the result of that action accordingly.
+             */
+            $scope.updateItem = function(course) {
+                console.log('Updating ' + $scope.type + ' course. Grading: ' + course.newGrading + ', Credits: ' + course.newCredits);
+
+                course.requestProcessing = true; // used to display spinner while poll is running
+
+                // Create version of the course with the updates applied
+                var newCourse = angular.copy(course);
+                applyCourseUpdates(newCourse);
+
+                $scope.$emit('updateCourse', $scope.type, course, newCourse, function() {
+                    course.requestProcessing = false;
+                    updateCard(course);
+                }, function(message) {
+                    course.requestProcessing = false;
+                    course.statusMessage = {txt: message, type: STATUS.error};
+                });
+            };
+
+            /*
+             Helper method for applying the updates to a course model
+             */
+            function applyCourseUpdates(course) {
+                course.credits = course.newCredits;
+                course.gradingOptionId = course.newGrading;
+
+                return course;
+            }
+
+            /*
+            Common code for displaying the "glow" on changed items when updating a card.
+             */
+            function updateCard(course) {
+                // Apply the updates
+                var oldCourse = angular.copy(course);
+                applyCourseUpdates(course);
 
                 course.editing = false;
-                course.isopen = !course.isopen; // collapse the card
+                course.isopen = false; // collapse the card
 
                 // This part is responsible for glow effect: when the card is updated (whether credit or grading) we want to highlight the change and then fade the highlight away after 2 secs
-                if (course.newGrading !== oldGrading) {
+                if (course.gradingOptionId !== oldCourse.gradingOptionId) {
                     // the highlighting fades in & stays for 2 seconds
                     course.editGradingOption = true;
                     $timeout(function(){
@@ -338,7 +259,7 @@ angular.module('regCartApp')
                     }, 2000);
                 }
 
-                if (course.newCredits !== oldCredits) {
+                if (course.credits !== oldCourse.credits) {
                     // the highlighting fades in & stays for 2 seconds
                     course.editCredits = true;
                     $timeout(function(){
@@ -346,5 +267,6 @@ angular.module('regCartApp')
                     }, 2000);
                 }
             }
+
         }])
 ;

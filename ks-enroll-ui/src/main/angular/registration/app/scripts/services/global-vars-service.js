@@ -113,6 +113,18 @@ angular.module('regCartApp')
             this.setWaitlistedCourseCount(this.getWaitlistedCourses().length);
         };
 
+        this.updateRegisteredCourse = function(oldCourse, newCourse) {
+            var credits = parseFloat(this.getRegisteredCredits()) - parseFloat(oldCourse.credits) + parseFloat(newCourse.credits);
+            console.log('registeredCredits = ' + credits);
+            this.setRegisteredCredits(credits);
+        };
+
+        this.updateWaitlistedCourse = function(oldCourse, newCourse) {
+            var credits = parseFloat(this.getWaitlistedCredits()) - parseFloat(oldCourse.credits) + parseFloat(newCourse.credits);
+            console.log('waitlistedCredits = ' + credits);
+            this.setWaitlistedCredits(credits);
+        };
+
         this.getSchedule = function () {
             return schedule;
         };

@@ -90,7 +90,7 @@
                 {{cartItem.alertMessage.txt}}
                 <span class="kscr-Card-statusRemove"><a href="" ng-click="removeAlertMessage(cartItem)"></a></span>
             </div>
-            <course-accordion course="cartItem" type="cart" card-index="$index" cart-id="cart.cartId"></course-accordion>
+            <course-accordion course="cartItem" type="{{courseTypes.cart}}" card-index="$index" cart-id="cart.cartId"></course-accordion>
          </div>
     </div>
 
