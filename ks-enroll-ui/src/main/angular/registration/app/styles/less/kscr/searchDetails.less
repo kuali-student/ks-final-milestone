@@ -147,7 +147,11 @@
 
     // Activity Offering Type Labels
     .kscr-SearchDetails-label {
+        color:@secondaryTextColor;
+        font-family: @secondaryFontFamily;
+        .font-size(14);
         font-weight: bold;
+        margin-bottom: 0.5rem;
 
         & a {
             font-weight: normal;
@@ -158,13 +162,13 @@
     // Single activity offering row
     .kscr-SearchDetails-activityOffering {
         &--selected {
-            color: green;
+            color: @activityOfferingSelectedColor;
         }
 
         // Seat count
         &-seats {
             &--noneAvailable { // Added when no seats are available
-                color: red;
+                color: @noSeatAvailableColor;
             }
         }
     }

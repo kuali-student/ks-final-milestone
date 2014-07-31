@@ -13,9 +13,16 @@ body {
 }
 
 a {
+    color: @linkColor;
     cursor: pointer;
     cursor: hand;
+    text-decoration: none;
+  &:hover,
+  &:focus{
+    color: @linkColorHover;
+  }
 }
+
 
 input[type="radio"] {
     margin-right: 0.5rem;
