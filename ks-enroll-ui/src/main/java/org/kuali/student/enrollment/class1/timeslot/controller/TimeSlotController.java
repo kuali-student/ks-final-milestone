@@ -28,7 +28,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.List;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 import static org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingManagementUtil.getTypeService;
 
@@ -94,14 +95,94 @@ public class TimeSlotController extends UifControllerBase {
         TimeSlotViewHelperService viewHelperService = getViewHelperService(form);
 
         List<TimeSlotWrapper> timeSlotWrapperList = viewHelperService.findTimeSlots(timeSlotTypes);
+        List<TimeSlotWrapper> timeSlotWrapperList2 = new ArrayList<>();
         for (TimeSlotWrapper wrapper : timeSlotWrapperList) {
             form.getTimeSlotResults().add(wrapper);
+            timeSlotWrapperList2.add(wrapper);
         }
+
+        sortStrategy(timeSlotWrapperList);
+        form.setTimeSlotResults(timeSlotWrapperList);
+
         if (timeSlotWrapperList.size() > 0) {
             form.setTimeSlotsLoaded(true);
         }
 
         return getUIFModelAndView(form, TimeSlotConstants.TIME_SLOT_PAGE);
+    }
+
+    protected   List<TimeSlotWrapper> sortStrategy( List<TimeSlotWrapper> results)
+    {
+
+        Collections.sort(results, new Comparator<TimeSlotWrapper>() {
+            public int compare(TimeSlotWrapper o1, TimeSlotWrapper o2) {
+
+                String daysOb1 = numberEquivalent(o1.getDaysDisplayName());
+                String daysOb2 = numberEquivalent(o2.getDaysDisplayName());
+
+                if(daysOb1.equals(daysOb2))
+                {
+                    if(o1.getTypeName().equals(o2.getTypeName()))
+                    {
+                        if( formatString(o1.getStartTimeDisplay()).equals(formatString(o2.getStartTimeDisplay())) )
+                        {
+
+                            return formatString(o1.getEndTimeDisplay()).compareTo(formatString(o2.getEndTimeDisplay()));
+
+                        }return  formatString(o1.getStartTimeDisplay()).compareTo(formatString(o2.getStartTimeDisplay()));
+
+                    }return o1.getTypeName().compareTo(o2.getTypeName()) ;
+
+                }else return  daysOb1.compareTo(daysOb2) ;
+
+            }
+        });
+
+        return results;
+    }
+
+
+    protected String numberEquivalent(String day)
+    {
+        String finalSt= "";
+        for (int i =0 ; i <day.length();i++)
+        {
+            finalSt+= decodeDay(day.substring(i,i+1));
+        }
+        return finalSt;
+    }
+
+    protected String decodeDay (String day)
+    {
+        switch (day)
+        {
+            case "M" : return "1" ;
+            case "T" : return "2" ;
+            case "W" : return "3" ;
+            case "H" : return "4" ;
+            case "F" : return "5" ;
+            case "S" : return "6" ;
+            case "U" : return "7" ;
+        }
+
+        return "0";
+    }
+
+    protected String formatString(String dateS)
+    {
+
+        SimpleDateFormat sdf1 = new SimpleDateFormat("hh:mm a");
+        SimpleDateFormat sdf2 = new SimpleDateFormat("HHmm");
+        Date date = null;
+        try {
+            date= sdf1.parse(dateS);
+        }catch(Exception ex)
+        {
+            date = new Date();
+        };
+
+        return sdf2.format(date);
+
     }
 
 
