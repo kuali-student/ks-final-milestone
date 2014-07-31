@@ -1856,9 +1856,10 @@
         <property name="valueDao" ref="valueDao" />
     </bean>
     
-    <bean id="elasticEmbedded" class="org.kuali.student.enrollment.registration.search.elastic.ElasticEmbedded" init-method="init" destroy-method="shutdown">
+    <bean id="elasticEmbedded" class="org.kuali.student.enrollment.registration.search.elastic.ElasticEmbedded" init-method="init" destroy-method="shutdown"
+            depends-on="LRCService, searchService">
         <property name="lrcService" ref="LRCService"/>
-        <property name="searchService" ref="CourseRegistrationSearchServiceImpl"/>
+        <property name="searchService" ref="searchService"/>
     </bean>
     
 

@@ -1,9 +1,6 @@
 package org.kuali.student.enrollment.registration.client.service.impl;
 
-import org.apache.lucene.queryparser.xml.builders.DisjunctionMaxQueryBuilder;
 import org.elasticsearch.action.search.SearchResponse;
-import org.elasticsearch.common.lucene.search.function.CombineFunction;
-import org.elasticsearch.index.query.BoolFilterBuilder;
 import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.elasticsearch.index.query.DisMaxQueryBuilder;
 import org.elasticsearch.index.query.FilterBuilders;
@@ -31,6 +28,7 @@ import org.slf4j.LoggerFactory;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class ScheduleOfClassesClientServiceImpl extends ScheduleOfClassesServiceImpl implements ScheduleOfClassesClientService {
@@ -50,52 +48,45 @@ public class ScheduleOfClassesClientServiceImpl extends ScheduleOfClassesService
         termId = CourseRegistrationAndScheduleOfClassesUtil.getTermId(termId, termCode);
 
         //Query based on title and description, boost title so it's more important than description
+        //This type of query grabs only the score/match with the highest score
         DisMaxQueryBuilder disMaxQuery = QueryBuilders.disMaxQuery();
+
+        List<String> fullTextMatchTerms = new ArrayList<>();
+
         //Parse out course prefixes from the search criteria (CHEM101A) and add them to the Query
+        //lowercase is used because the default analyzer indexes in lowercase
         for (String token : criteria.toLowerCase().split("\\s")) {
             if (token.matches("^[a-z]{4}[0-9]{1,3}[a-z]*$")) {
                 //DivisionAndCode search (Also Division and level)
-                disMaxQuery = disMaxQuery.add(QueryBuilders.wildcardQuery("courseCode", token + "*").boost(8.0f));
+                disMaxQuery = disMaxQuery.add(QueryBuilders.constantScoreQuery(FilterBuilders.prefixFilter("courseCode", token)).boost(4.0f));
             } else {
+                //All non-course code terms go in here
+                fullTextMatchTerms.add(token);
                 if (token.matches("^[a-z]{4}$")) {
                     //Division
-                    disMaxQuery = disMaxQuery.add(QueryBuilders.matchQuery("coursePrefix", token.toUpperCase()).boost(7.5f));
+                    disMaxQuery = disMaxQuery.add(QueryBuilders.constantScoreQuery(FilterBuilders.termFilter("coursePrefix", token)).boost(1.5f));
                 }
                 if (token.matches("^[0-9]{3}$")) {
                     //Code
-                    disMaxQuery = disMaxQuery.add(QueryBuilders.termQuery("courseNumber", token).boost(0.5f));
+                    disMaxQuery = disMaxQuery.add(QueryBuilders.constantScoreQuery(FilterBuilders.termFilter("courseNumber", token)).boost(0.7f));
                 }
-                //FullText
-                disMaxQuery = disMaxQuery.add(QueryBuilders.wildcardQuery("longName", token + "*").boost(1.25f))
-                                     .add(QueryBuilders.wildcardQuery("courseDescription", token + "*").boost(1f));
             }
         }
 
-//        //Query based on title and description, boost title so it's more important than description
-//        BoolQueryBuilder boolQuery = QueryBuilders.boolQuery().disableCoord(true);
-//        //Parse out course prefixes from the search criteria (CHEM101A) and add them to the Query
-//        for (String token : criteria.toLowerCase().split("\\s")) {
-//            if (token.matches("^[a-z]{4}[0-9]{1,3}[a-z]*$")) {
-//                //DivisionAndCode search (Also Division and level)
-//                boolQuery = boolQuery.should(QueryBuilders.constantScoreQuery(FilterBuilders.prefixFilter("courseCode", token)).boost(4.0f));
-//            } else {
-//                if (token.matches("^[a-z]{4}$")) {
-//                    //Division
-//                    boolQuery = boolQuery.should(QueryBuilders.constantScoreQuery(FilterBuilders.termFilter("coursePrefix", token.toUpperCase())).boost(1.5f));
-//                }
-//                if (token.matches("^[0-9]{3}$")) {
-//                    //Code
-//                    boolQuery = boolQuery.should(QueryBuilders.constantScoreQuery(FilterBuilders.termFilter("courseNumber", token)).boost(0.7f));
-//                }
-//                //FullText
-//                boolQuery = boolQuery.should(QueryBuilders.constantScoreQuery(FilterBuilders.prefixFilter("longName", token)).boost(0.3f))
-//                        .should(QueryBuilders.constantScoreQuery(FilterBuilders.prefixFilter("courseDescription", token)).boost(0.1f));
-//            }
-//        }
-//
-//        //Filter all results based on the term id
-//        QueryBuilder query = QueryBuilders.filteredQuery(QueryBuilders.functionScoreQuery(boolQuery).boostMode(CombineFunction.MAX),
-//                FilterBuilders.termsFilter("termId", termId.toLowerCase().split("\\.")));
+        //If any of the terms are not course codes, do a full text search in the title and description
+        //This will bubble up multi term matches ("American Literature" will score higher for
+        //"African American Literature" than "World Literature"
+        if(!fullTextMatchTerms.isEmpty()){
+            BoolQueryBuilder boolQuery = QueryBuilders.boolQuery();
+
+            for(String term : fullTextMatchTerms){
+                boolQuery.should(QueryBuilders.prefixQuery("longName", term).boost(0.3f));
+                boolQuery.should(QueryBuilders.prefixQuery("courseDescription", term).boost(0.1f));
+            }
+
+            disMaxQuery = disMaxQuery.add(boolQuery);
+        }
+
 
         //Filter all results based on the term id
         QueryBuilder query = QueryBuilders.filteredQuery(disMaxQuery,

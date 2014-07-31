@@ -35,6 +35,9 @@ import java.util.List;
 public class ElasticEmbedded {
 
     public static final Logger LOG = Logger.getLogger(ElasticEmbedded.class);
+    public static final String KS_ELASTIC_CLUSTER = "ks.elastic.cluster";
+    public static final String KS_ELASTIC_INDEX = "ks";
+    public static final String COURSEOFFERING_ELASTIC_TYPE = "courseoffering";
 
     private SearchService searchService;
     private LRCService lrcService;
@@ -46,7 +49,7 @@ public class ElasticEmbedded {
     }
 
     private Date lastUpdated; //Keep track of timeout for the elastic "cache"
-    private static final long TIME_TO_REFRESH_MS = (5 * 60 * 1000); //Max time before refreshing the cache/reindexing
+    private long timeToRefreshMs = (5 * 60 * 1000); //Max time before refreshing the cache/reindexing
 
     /**
      * Starts up a node and gets a handle to the client. This is a hook for spring application context to start up
@@ -61,8 +64,18 @@ public class ElasticEmbedded {
      */
     public void init() throws MissingParameterException, InvalidParameterException, OperationFailedException, PermissionDeniedException, IOException, DoesNotExistException {
         LOG.info("Starting Elastic Client");
-        node = NodeBuilder.nodeBuilder().local(false).clusterName("ks.elastic.cluster").node();
+
+        //Start a local client
+        node = NodeBuilder.nodeBuilder().local(true).clusterName(KS_ELASTIC_CLUSTER).node();
         client = node.client();
+
+        //Wait for yellow status to avoid errors for bulk insertion
+        client.admin().cluster().prepareHealth().setWaitForYellowStatus().execute().actionGet();
+
+        LOG.info("Elastic Client Started");
+
+        //Prefetch the data
+        getClient();
     }
 
     /**
@@ -87,7 +100,7 @@ public class ElasticEmbedded {
         //Create a bulk request to push all data into elastic
         for (CourseSearchResult searchResult : courses) {
             String json = mapper.writeValueAsString(searchResult);
-            bulkRequest.add(client.prepareIndex("ks", "courseoffering", searchResult.getCourseId()).setSource(json));
+            bulkRequest.add(client.prepareIndex(KS_ELASTIC_INDEX, COURSEOFFERING_ELASTIC_TYPE, searchResult.getCourseId()).setSource(json));
         }
 
         //Execute the bulk operation
@@ -170,7 +183,7 @@ public class ElasticEmbedded {
      * @return an elastic search client
      */
     public synchronized Client getClient() {
-        if (lastUpdated == null || System.currentTimeMillis() > (lastUpdated.getTime() + TIME_TO_REFRESH_MS)) {
+        if (lastUpdated == null || System.currentTimeMillis() > (lastUpdated.getTime() + timeToRefreshMs)) {
             try {
                 if(lastUpdated == null){
                     //If this is a first time run, block while indexing
@@ -204,5 +217,9 @@ public class ElasticEmbedded {
 
     public void setLrcService(LRCService lrcService) {
         this.lrcService = lrcService;
+    }
+
+    public void setTimeToRefreshMs(long timeToRefreshMs) {
+        this.timeToRefreshMs = timeToRefreshMs;
     }
 }
