@@ -110,7 +110,6 @@ function deleteComment(baseUrl, controllerUrl, elem) {
             jQuery('[id^="KS-collection-rowId_line"]').each(function(){
                 jQuery(this).find("button").each(function(){
                     var submitData = jQuery(this).data('submit_data');
-                    console.log(JSON.stringify(submitData));
                     var i = parseInt(submitData['actionParameters[selectedLineIndex]']);
                     if(i > index){
                         submitData['actionParameters[selectedLineIndex]'] = i - 1;
@@ -140,6 +139,9 @@ function updateComment(baseUrl, controllerUrl, elem) {
         success: function (data, textStatus, jqXHR) {
             toggleCommentButtons(elem);
             jQuery("#KS-CommentField_UI_ID_line" + index ).text(data['comment']);
+            jQuery("#lastEditor-container-id_line" + index).show();
+            jQuery("#lastEditor-name-id_line" + index).text(data.lastEditorName);
+            jQuery("#lastEditor-date-id_line" + index).text(data.lastEditedDate);
         },
         error: function (jqXHR, status, error) {
             console.log("error occured");
