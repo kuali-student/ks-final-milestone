@@ -1,9 +1,11 @@
 package org.kuali.student.enrollment.registration.client.service.impl;
 
+import org.apache.lucene.queryparser.xml.builders.DisjunctionMaxQueryBuilder;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.common.lucene.search.function.CombineFunction;
 import org.elasticsearch.index.query.BoolFilterBuilder;
 import org.elasticsearch.index.query.BoolQueryBuilder;
+import org.elasticsearch.index.query.DisMaxQueryBuilder;
 import org.elasticsearch.index.query.FilterBuilders;
 import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
@@ -48,25 +50,24 @@ public class ScheduleOfClassesClientServiceImpl extends ScheduleOfClassesService
         termId = CourseRegistrationAndScheduleOfClassesUtil.getTermId(termId, termCode);
 
         //Query based on title and description, boost title so it's more important than description
-        BoolQueryBuilder boolQuery = QueryBuilders.boolQuery();
-
+        DisMaxQueryBuilder disMaxQuery = QueryBuilders.disMaxQuery();
         //Parse out course prefixes from the search criteria (CHEM101A) and add them to the Query
         for (String token : criteria.toLowerCase().split("\\s")) {
             if (token.matches("^[a-z]{4}[0-9]{1,3}[a-z]*$")) {
                 //DivisionAndCode search (Also Division and level)
-                boolQuery = boolQuery.should(QueryBuilders.wildcardQuery("courseCode", token + "*").boost(8.0f));
+                disMaxQuery = disMaxQuery.add(QueryBuilders.wildcardQuery("courseCode", token + "*").boost(8.0f));
             } else {
                 if (token.matches("^[a-z]{4}$")) {
                     //Division
-                    boolQuery = boolQuery.should(QueryBuilders.matchQuery("coursePrefix", token.toUpperCase()).boost(7.5f));
+                    disMaxQuery = disMaxQuery.add(QueryBuilders.matchQuery("coursePrefix", token.toUpperCase()).boost(7.5f));
                 }
                 if (token.matches("^[0-9]{3}$")) {
                     //Code
-                    boolQuery = boolQuery.should(QueryBuilders.termQuery("courseNumber", token).boost(0.5f));
+                    disMaxQuery = disMaxQuery.add(QueryBuilders.termQuery("courseNumber", token).boost(0.5f));
                 }
                 //FullText
-                boolQuery = boolQuery.should(QueryBuilders.wildcardQuery("longName", token + "*").boost(1.25f))
-                                     .should(QueryBuilders.wildcardQuery("courseDescription", token + "*").boost(1f));
+                disMaxQuery = disMaxQuery.add(QueryBuilders.wildcardQuery("longName", token + "*").boost(1.25f))
+                                     .add(QueryBuilders.wildcardQuery("courseDescription", token + "*").boost(1f));
             }
         }
 
@@ -97,7 +98,7 @@ public class ScheduleOfClassesClientServiceImpl extends ScheduleOfClassesService
 //                FilterBuilders.termsFilter("termId", termId.toLowerCase().split("\\.")));
 
         //Filter all results based on the term id
-        QueryBuilder query = QueryBuilders.filteredQuery(boolQuery,
+        QueryBuilder query = QueryBuilders.filteredQuery(disMaxQuery,
                 FilterBuilders.termsFilter("termId", termId.toLowerCase().split("\\.")));
         //Perform the search
         SearchResponse sr = elasticEmbedded.getClient()
