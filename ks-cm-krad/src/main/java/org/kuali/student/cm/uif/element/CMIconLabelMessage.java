@@ -64,6 +64,17 @@ public class CMIconLabelMessage extends Message {
         } else if (parent instanceof Header){
             labelText.append(((Header) parent).getHeaderText());
 
+            /**
+             * Process the property replacers first as right group is configured with that.
+             */
+            ExpressionEvaluator expressionEvaluator = ViewLifecycle.getExpressionEvaluator();
+            if (((Header) parent).getPropertyReplacers() != null) {
+                View view = ViewLifecycle.getView();
+                for (PropertyReplacer replacer : ((Header) parent).getPropertyReplacers()) {
+                    expressionEvaluator.evaluateExpressionsOnConfigurable(view, replacer, parent.getContext());
+                }
+            }
+
             /*
              * Pull the content of rightGroup into the header as an inline component. This allows us to put the required
              * indicator (for example) after the header text and before the info icon.
