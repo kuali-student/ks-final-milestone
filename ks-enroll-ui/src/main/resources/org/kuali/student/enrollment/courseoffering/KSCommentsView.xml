@@ -244,7 +244,7 @@
                                                                             </bean>
                                                                             <bean id="lastEditor-container-id" parent="Uif-HorizontalBoxGroup"
                                                                                   p:colSpan="9"
-                                                                                  p:render="@{#line.edited}" p:additionalCssClasses="ks-comment-metaData-container,ks-deleted-comment" >
+                                                                                  p:style="@{!#line.edited ? 'display:none' : ''}" p:additionalCssClasses="ks-comment-metaData-container,ks-deleted-comment" >
                                                                                 <property name="items">
                                                                                     <list>
                                                                                         <bean id="lastEditor-title-id" parent="Uif-Message"
