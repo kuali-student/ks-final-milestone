@@ -55,7 +55,7 @@ angular.module('regCartApp')
                 var time = '';                                          // time column
                 var location = '';                                      // location column
                 var instructorList = '';                                // instructors column
-                var seatsOpen = ao.seatsOpen + '/' + ao.seatsAvailable; // seats open column
+                var seatsOpen =''; // seats open column
 
                 if (scheduleComponents && angular.isArray(scheduleComponents)) {
                     for (var i = 0; i < scheduleComponents.length; i++) {
@@ -79,6 +79,11 @@ angular.module('regCartApp')
                     }
                 }
 
+                seatsOpen += ao.seatsOpen + '/' + ao.seatsAvailable;
+                if (ao.seatsOpen === 0) {
+                    seatsOpen = '<span class="kscr-Search-results-no-seats">' + seatsOpen + '</span>';
+                }
+
                 var row={
                     days: days,
                     time: time,
@@ -86,7 +91,7 @@ angular.module('regCartApp')
                     location: location,
                     seatsOpen: seatsOpen,
                     aoId: ao.activityOfferingId, // this is used for creating unique row ids
-                    ao: ao                       // we need the ao for further processing
+                    ao: ao                       // we may need the ao for further processing
                 };
 
                 rows.push(row);

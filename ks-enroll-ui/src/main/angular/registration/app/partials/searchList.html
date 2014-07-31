@@ -33,12 +33,8 @@
             class="kscr-Search-row" ng-class="{'kscr-Search-row--clickable': onClick}"
             ng-hide="searchResult.hidden" ng-click="{{onClick}}">
             <td ng-repeat="searchColumn in searchColumns" class="kscr-Search-results-cell">
-                <a ng-if="searchColumn.url" src="searchColumn.url">
-                    {{applyFilter(searchResult[searchColumn.field], searchColumn.filter)}}
-                </a>
-                <span ng-if="!searchColumn.url" src="searchColumn.url">
-                    {{applyFilter(searchResult[searchColumn.field], searchColumn.filter)}}
-                </span>
+                <a ng-if="searchColumn.url" src="searchColumn.url" ng-bind-html="applyFilter(searchResult[searchColumn.field], searchColumn.filter)"></a>
+                <span ng-if="!searchColumn.url" src="searchColumn.url" ng-bind-html="applyFilter(searchResult[searchColumn.field], searchColumn.filter)"></span>
                 <input class="kscr-Search-checkbox" ng-if="searchColumn.checkbox" type="checkbox" ng-click="select('{{searchColumn.checkbox}}', searchResult)" ng-model="searchResult.selected" />
             </td>
         </tr>
@@ -49,7 +45,8 @@
          id="course_detail_result_{{applyFilter(searchResult[defaultField], searchColumn.filter)}}"
          ui-sref="root.search.details({searchCriteria: searchCriteria, id: getId(searchResult)})"
          ng-repeat="searchResult in searchResults">
-        <div class="kscr-Search-result-column-{{searchColumn.field}}" ng-repeat="searchColumn in searchColumns">{{applyFilter(searchResult[searchColumn.field], searchColumn.filter)}}</div>
+        <div class="kscr-Search-result-column-{{searchColumn.field}}" ng-repeat="searchColumn in searchColumns"
+             ng-bind-html="applyFilter(searchResult[searchColumn.field], searchColumn.filter)"></div>
     </div>
 </div>
 <div class="kscr-Search-results-paginate" ng-show="searchCriteria">
