@@ -20,7 +20,7 @@
                 ng-class="{'kscr-Search-results--selected': (!sorted || sorted) && notSorted }"
                 ng-click="notSorted = ($parent.predicate = '{{searchColumn.field}}'); sorted = ($parent.reverse = switchReverse('{{searchColumn.field}}')) ">
                 <div class="kscr-Search-result-column">{{searchColumn.name}}
-                    <i class="kscr-Search-results-sortIcon" ng-show="!searchColumn.checkbox"
+                    <i id="sort_selector_{{searchColumn.name}}" class="kscr-Search-results-sortIcon" ng-show="!searchColumn.checkbox"
                        ng-class="{'kscr-Search-results-sortIcon--up': !sorted && notSorted, 'kscr-Search-results-sortIcon--down': sorted && notSorted}"></i>
                 </div>
             </th>
