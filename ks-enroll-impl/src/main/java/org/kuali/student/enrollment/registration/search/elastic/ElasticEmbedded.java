@@ -61,7 +61,7 @@ public class ElasticEmbedded {
      */
     public void init() throws MissingParameterException, InvalidParameterException, OperationFailedException, PermissionDeniedException, IOException, DoesNotExistException {
         LOG.info("Starting Elastic Client");
-        node = NodeBuilder.nodeBuilder().local(true).clusterName("ks.elastic.cluster").node();
+        node = NodeBuilder.nodeBuilder().local(false).clusterName("ks.elastic.cluster").node();
         client = node.client();
     }
 

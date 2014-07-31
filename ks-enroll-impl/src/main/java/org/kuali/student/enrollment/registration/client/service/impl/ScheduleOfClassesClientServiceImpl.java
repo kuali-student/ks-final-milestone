@@ -1,11 +1,14 @@
 package org.kuali.student.enrollment.registration.client.service.impl;
 
 import org.elasticsearch.action.search.SearchResponse;
+import org.elasticsearch.common.lucene.search.function.CombineFunction;
+import org.elasticsearch.index.query.BoolFilterBuilder;
 import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.elasticsearch.index.query.FilterBuilders;
 import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.SearchHit;
+import org.elasticsearch.search.sort.SortOrder;
 import org.kuali.student.enrollment.registration.client.service.ScheduleOfClassesClientService;
 import org.kuali.student.enrollment.registration.client.service.dto.ActivityOfferingSearchResult;
 import org.kuali.student.enrollment.registration.client.service.dto.ActivityTypeSearchResult;
@@ -67,16 +70,43 @@ public class ScheduleOfClassesClientServiceImpl extends ScheduleOfClassesService
             }
         }
 
+//        //Query based on title and description, boost title so it's more important than description
+//        BoolQueryBuilder boolQuery = QueryBuilders.boolQuery().disableCoord(true);
+//        //Parse out course prefixes from the search criteria (CHEM101A) and add them to the Query
+//        for (String token : criteria.toLowerCase().split("\\s")) {
+//            if (token.matches("^[a-z]{4}[0-9]{1,3}[a-z]*$")) {
+//                //DivisionAndCode search (Also Division and level)
+//                boolQuery = boolQuery.should(QueryBuilders.constantScoreQuery(FilterBuilders.prefixFilter("courseCode", token)).boost(4.0f));
+//            } else {
+//                if (token.matches("^[a-z]{4}$")) {
+//                    //Division
+//                    boolQuery = boolQuery.should(QueryBuilders.constantScoreQuery(FilterBuilders.termFilter("coursePrefix", token.toUpperCase())).boost(1.5f));
+//                }
+//                if (token.matches("^[0-9]{3}$")) {
+//                    //Code
+//                    boolQuery = boolQuery.should(QueryBuilders.constantScoreQuery(FilterBuilders.termFilter("courseNumber", token)).boost(0.7f));
+//                }
+//                //FullText
+//                boolQuery = boolQuery.should(QueryBuilders.constantScoreQuery(FilterBuilders.prefixFilter("longName", token)).boost(0.3f))
+//                        .should(QueryBuilders.constantScoreQuery(FilterBuilders.prefixFilter("courseDescription", token)).boost(0.1f));
+//            }
+//        }
+//
+//        //Filter all results based on the term id
+//        QueryBuilder query = QueryBuilders.filteredQuery(QueryBuilders.functionScoreQuery(boolQuery).boostMode(CombineFunction.MAX),
+//                FilterBuilders.termsFilter("termId", termId.toLowerCase().split("\\.")));
+
         //Filter all results based on the term id
         QueryBuilder query = QueryBuilders.filteredQuery(boolQuery,
                 FilterBuilders.termsFilter("termId", termId.toLowerCase().split("\\.")));
-
         //Perform the search
         SearchResponse sr = elasticEmbedded.getClient()
                 .prepareSearch("ks")
                 .setTypes("courseoffering")
                 .setQuery(query)
                 .setSize(200)
+                .addSort("_score", SortOrder.DESC)
+                .addSort("courseCode", SortOrder.ASC)
                 .execute().actionGet();
 
         //Parse the results and add to a JSON array
