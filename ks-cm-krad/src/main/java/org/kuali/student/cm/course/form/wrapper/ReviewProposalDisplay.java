@@ -32,6 +32,7 @@ public class ReviewProposalDisplay {
     private GovernanceSectionWrapper governanceSection;
     private CourseLogisticsSectionWrapper courseLogisticsSection;
     private CourseRequisitesSectionWrapper courseRequisitesSection;
+    private ActiveDatesSectionWrapper activeDatesSection;
     private FinancialsSectionWrapper financialsSection;
     private CollaboratorSectionWrapper collaboratorSection;
     private SupportingDocumentsSectionWrapper supportingDocumentsSection;
@@ -55,6 +56,13 @@ public class ReviewProposalDisplay {
             courseLogisticsSection = new CourseLogisticsSectionWrapper();
         }
         return courseLogisticsSection;
+    }
+
+    public ActiveDatesSectionWrapper getActiveDatesSection() {
+        if (this.activeDatesSection == null) {
+            activeDatesSection = new ActiveDatesSectionWrapper();
+        }
+        return activeDatesSection;
     }
 
     public CourseRequisitesSectionWrapper getCourseRequisitesSection() {
@@ -403,8 +411,17 @@ public class ReviewProposalDisplay {
     }
 
     public class ActiveDatesSectionWrapper {
+        private String startTerm;
         private String endTerm;
         private String pilotCourse;
+
+        public void setStartTerm(final String startTerm) {
+            this.startTerm = startTerm;
+        }
+
+        public String getStartTerm() {
+            return startTerm;
+        }
 
         public void setEndTerm(final String endTerm) {
             this.endTerm = endTerm;
