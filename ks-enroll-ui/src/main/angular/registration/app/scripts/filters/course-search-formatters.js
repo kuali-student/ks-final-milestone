@@ -112,11 +112,9 @@ angular.module('regCartApp')
     }
 
     function zeroPad(value) {
-        console.log('padding: ' + value);
         value = '' + value; // convert to string
         while (value.length < 3) {
             value = '0' + value;
         }
-        console.log('result: '+value);
         return value;
     }

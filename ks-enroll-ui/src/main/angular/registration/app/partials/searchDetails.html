@@ -78,7 +78,8 @@
                         <search-column name="Instructor" field="instructor" order="3"></search-column>
                         <search-column name="Location" field="location" order="4"></search-column>
                         <search-column name="Seats Open" field="seatsOpen" order="5"></search-column>
-                        <search-column name="Select" checkbox="toggleAO"></search-column>
+                        <search-column name="Additional Info" field="" sortable="false" optional="true" order="6"></search-column>
+                        <search-column name="Select" checkbox="toggleAO" sortable="false" order="7"></search-column>
                         <search-list search-data='aoType.activityOfferings' preprocessor='aoFormatter' search-columns='searchColumns' default-field="aoId" display-limit="999"></search-list>
                     </search-results>
                 </div>

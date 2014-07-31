@@ -139,6 +139,18 @@ angular.module('regCartApp')
                     $state.go('root.search.details', {searchCriteria: searchCriteria, id: id});
                 };
 
+                //checks to see if the given column has data
+                scope.hasData = function(field) {
+                    var hasData = false;
+                    for (var i=0; i < scope.searchResults.length; i++) {
+                        if (scope.searchResults[i][field]) {
+                            hasData = true;
+                            break;
+                        }
+                    }
+                    return hasData;
+                };
+
                 /*
                 If a clearSelected event is received from the parent, clear all the selected search
                 results and unhide.
@@ -217,7 +229,10 @@ angular.module('regCartApp')
                         filter: attrs.filter,
                         order: attrs.order,
                         url: attrs.url,
+                        sortable: attrs.sortable,
+                        optional: attrs.optional,
                         checkbox: attrs.checkbox};
+                    searchColumn.sortable = searchColumn.sortable !== 'false';
                     scope.searchColumns.push(searchColumn);
                     scope.sortSearchColumns();
                 }
