@@ -1318,8 +1318,8 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
         for (CourseSearchItem course : courses) {
             String courseId = course.getCourseId();
             if (courseStatusMap.containsKey(courseId)) {
-
-                String status = courseStatusMap.get(courseId);
+                // Set plan item's new status
+               String status = courseStatusMap.get(courseId);
                 if (status.equals(NONE)) {
                     ((CourseSearchItemImpl)course).setSaved(false);
                     ((CourseSearchItemImpl)course).setPlanned(false);
@@ -1335,6 +1335,10 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
                 } else {
                     LOG.debug("Unknown status in map. Unable to set status of course with ID: {}", courseId);
                 }
+            } else{
+                // Reset to default status
+                ((CourseSearchItemImpl)course).setSaved(false);
+                ((CourseSearchItemImpl)course).setPlanned(false);
             }
             ((CourseSearchItemImpl)course).setSessionid(sessionId);
         }
