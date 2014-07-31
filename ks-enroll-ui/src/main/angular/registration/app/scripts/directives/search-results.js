@@ -131,23 +131,6 @@ angular.module('regCartApp')
                     scope.$emit(event, searchResult);
                 };
 
-                // if one row is selected, only show that row
-                scope.showResult = function(searchResult) {
-                    var showResult = true;
-                    if (searchResult.hidden) {
-                        showResult = false;
-                    }
-                    if (showResult && !searchResult.selected) {
-                        for (var i=0; i<scope.searchResults.length; i++) {
-                            if (scope.searchResults[i].selected) {
-                                showResult = false;
-                                break;
-                            }
-                        }
-                    }
-                    return showResult;
-                };
-
                 // redirects the view to the search details screen
                 scope.viewDetails = function(searchCriteria, id) {
                     $state.go('root.search.details', {searchCriteria: searchCriteria, id: id});
@@ -155,7 +138,7 @@ angular.module('regCartApp')
 
                 /*
                 If a clearSelected event is received from the parent, clear all the selected search
-                results.
+                results and unhide.
                  */
                 scope.$on('clearSelected', function (event) {
                     angular.forEach(scope.searchResults, function(searchResult) {
@@ -190,12 +173,6 @@ angular.module('regCartApp')
                         }
                     });
                 });
-
-                function initReverse(column) {
-                    if (angular.isUndefined(scope.reverseMap[column])) {
-                        scope.reverseMap[column] = true; // set the default
-                    }
-                }
             }
         };
     }])

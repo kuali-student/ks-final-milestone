@@ -117,8 +117,10 @@ angular.module('regCartApp')
             if ($scope.isAOSelected(ao)) {
                 // Deselect the AO
                 $scope.selectedAOs.splice($scope.selectedAOs.indexOf(ao), 1);
-                // broadcast an event to show all rows now that this has been unselected
-                $scope.$broadcast('showAllRows');
+                // broadcast an event to show all rows if no rows are selected
+                if ($scope.selectedAOs.length === 0) {
+                    $scope.$broadcast('showAllRows');
+                }
             } else {
                 if ($scope.isAOTypeSelected(aoType)) {
                     // Deselect the already selected ao of this type
@@ -128,6 +130,18 @@ angular.module('regCartApp')
 
                 // Select the AO
                 $scope.selectedAOs.push(ao);
+
+                // Hide non-selected rows
+                angular.forEach(course.activityOfferingTypes, function(activityOfferingType) {
+                    if (activityOfferingType.activityOfferingType === aoType) {
+                        angular.forEach(activityOfferingType.activityOfferings, function(activityOffering) {
+                            if (activityOffering !== ao) {
+                                // broadcast an event to hide this row
+                                $scope.$broadcast('hideRow', activityOffering.activityOfferingId);
+                            }
+                        });
+                    }
+                });
             }
 
             // only want to display AOs that form reg groups with the selected AOs
