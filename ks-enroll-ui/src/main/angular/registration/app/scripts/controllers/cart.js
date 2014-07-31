@@ -98,8 +98,6 @@ angular.module('regCartApp')
         };
 
         $scope.addRegGroupToCart = function () {
-            $scope.courseCode = $scope.courseCode.toUpperCase();
-            $scope.courseAdded = false; // reset cursor focus
             addCourseToCart($scope.cart.cartId, $scope.courseCode, $scope.termId, $scope.regCode, null, null, null);
         };
 
@@ -119,6 +117,12 @@ angular.module('regCartApp')
         });
 
         function addCourseToCart(cartId, courseCode, termId, regGroupCode, regGroupId, gradingOptionId, credits) {
+            $scope.courseAdded = false; // reset cursor focus
+
+            if (courseCode) {
+                courseCode = courseCode.toUpperCase();
+            }
+
             CartService.addCourseToCart().query({
                 cartId: cartId,
                 courseCode: courseCode,
@@ -143,6 +147,7 @@ angular.module('regCartApp')
                 $timeout(function(){
                     response.addingNewCartItem = false;
                 }, 2000);
+
                 $scope.courseAdded = true; // refocus cursor back to course code
             }, function (error) {
                 console.log('CartId:', cartId);
@@ -167,19 +172,25 @@ angular.module('regCartApp')
                         controller: ['$scope', 'item', 'cartId', function ($scope, item, cartId) {
                             console.log('Controller for modal... Item: ', item);
                             $scope.newCartItem = item;
+
                             $scope.newCartItem.credits = $scope.newCartItem.newCredits = $scope.newCartItem.creditOptions[0];
                             $scope.newCartItem.gradingOptionId = $scope.newCartItem.newGrading = GRADING_OPTION.letter;
                             $scope.newCartItem.editing = true;
+
                             $scope.dismissAdditionalOptions = function () {
                                 console.log('Dismissing credits and grading');
                                 $scope.$close(true);
                             };
 
+                            var submitted = false;
                             $scope.saveAdditionalOptions = function (course) {
-                                course.editing = false;
-                                console.log('Save credits and grading for cartId:', cartId);
-                                addCourseToCart(cartId, $scope.newCartItem.courseCode, $scope.newCartItem.termId, $scope.newCartItem.regGroupCode, $scope.newCartItem.regGroupId, $scope.newCartItem.newGrading, $scope.newCartItem.newCredits);
-                                $scope.$close(true);
+                                if (!submitted) { // Only let the form be submitted once.
+                                    submitted = true;
+                                    course.editing = false;
+                                    console.log('Save credits and grading for cartId:', cartId);
+                                    addCourseToCart(cartId, $scope.newCartItem.courseCode, $scope.newCartItem.termId, $scope.newCartItem.regGroupCode, $scope.newCartItem.regGroupId, $scope.newCartItem.newGrading, $scope.newCartItem.newCredits);
+                                    $scope.$close(true);
+                                }
                             };
                         }]
                     });
