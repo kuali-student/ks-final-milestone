@@ -18,6 +18,7 @@
 package org.kuali.student.cm.common.util;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.rice.krad.util.KRADPropertyConstants;
 
 /**
  * This class defines constants used in the Curriculum Management UI
@@ -169,6 +170,9 @@ public class CurriculumManagementConstants {
     public final static String FILE_SIZE_CONSTRAINT = "Maximum File Size - 7.5MB";
 
     public final static String COURSE_SUBMIT_CONFIRMATION_DIALOG = "CM-Proposal-Review-Course-ConfirmSubmit-Dialog";
+
+    public static final String DATA_OBJECT_PATH = KRADPropertyConstants.DOCUMENT + "."
+            + KRADPropertyConstants.NEW_MAINTAINABLE_OBJECT + ".dataObject";
 
     /**
      * This delimiter to use when rendering collections as a String.

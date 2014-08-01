@@ -56,9 +56,12 @@ import java.util.Map;
  */
 public class CourseRule extends KsMaintenanceDocumentRuleBase {
 
-    public static final String DATA_OBJECT_PATH = KRADPropertyConstants.DOCUMENT + "."
-            + KRADPropertyConstants.NEW_MAINTAINABLE_OBJECT + ".dataObject";
-
+    /**
+     * This method is overridden to provide custom rules for processing document routing
+     *
+     * @param document
+     * @return boolean
+     */
     @Override
     protected boolean processCustomSaveDocumentBusinessRules(MaintenanceDocument document) {
 
@@ -72,13 +75,13 @@ public class CourseRule extends KsMaintenanceDocumentRuleBase {
         CourseInfoWrapper dataObject = (CourseInfoWrapper) maintenanceDocument.getNewMaintainableObject().getDataObject();
 
         if (StringUtils.isBlank(dataObject.getProposalInfo().getName())) {
-            GlobalVariables.getMessageMap().putError(DATA_OBJECT_PATH + ".proposalInfo.name",
+            GlobalVariables.getMessageMap().putError(CurriculumManagementConstants.DATA_OBJECT_PATH + ".proposalInfo.name",
                     CurriculumManagementConstants.MessageKeys.ERROR_PROPOSAL_TITLE_REQUIRED);
             success = false;
         }
 
         if (StringUtils.isBlank(dataObject.getCourseInfo().getCourseTitle())) {
-            GlobalVariables.getMessageMap().putError(DATA_OBJECT_PATH + ".courseInfo.courseTitle",
+            GlobalVariables.getMessageMap().putError(CurriculumManagementConstants.DATA_OBJECT_PATH + ".courseInfo.courseTitle",
                     CurriculumManagementConstants.MessageKeys.ERROR_COURSE_TITLE_REQUIRED);
             success = false;
         }
@@ -87,7 +90,7 @@ public class CourseRule extends KsMaintenanceDocumentRuleBase {
             if (dataObject.getCourseInfo().getDuration().getTimeQuantity() == null
                     || StringUtils.isBlank(dataObject.getCourseInfo().getDuration().getTimeQuantity().toString())) {
                 if (StringUtils.isNotBlank(dataObject.getCourseInfo().getDuration().getAtpDurationTypeKey())) {
-                    GlobalVariables.getMessageMap().putError(DATA_OBJECT_PATH + ".courseInfo.duration.timeQuantity",
+                    GlobalVariables.getMessageMap().putError(CurriculumManagementConstants.DATA_OBJECT_PATH + ".courseInfo.duration.timeQuantity",
                             CurriculumManagementConstants.MessageKeys.ERROR_COURSE_DURATION_COUNT_REQUIRED);
                     success = false;
                 }
@@ -99,7 +102,7 @@ public class CourseRule extends KsMaintenanceDocumentRuleBase {
                 if (courseVariationInfo.getVariationCode() != null && courseVariationInfo.getVariationTitle() != null) {
                     if ((StringUtils.isBlank(courseVariationInfo.getVariationCode()) && StringUtils.isNotBlank(courseVariationInfo.getVariationTitle())) ||
                             StringUtils.isNotBlank(courseVariationInfo.getVariationCode()) && StringUtils.isBlank(courseVariationInfo.getVariationTitle())) {
-                        GlobalVariables.getMessageMap().putError(DATA_OBJECT_PATH + ".courseInfo.CourseVariationInfo",
+                        GlobalVariables.getMessageMap().putError(CurriculumManagementConstants.DATA_OBJECT_PATH + ".courseInfo.CourseVariationInfo",
                                 CurriculumManagementConstants.MessageKeys.ERROR_COURSE_VERSION_CODE_AND_TITLE_REQUIRED);
                         success = false;
                     }
@@ -123,7 +126,7 @@ public class CourseRule extends KsMaintenanceDocumentRuleBase {
         for (ResultValuesGroupInfoWrapper rvg : dataObject.getCreditOptionWrappers()) {
             if (StringUtils.isNotBlank(rvg.getTypeKey()) && rvg.getTypeKey().length() > 1) {
                 if(StringUtils.isBlank(rvg.getUiHelper().getResultValue())) {
-                    String propertyKey = DATA_OBJECT_PATH + ".creditOptionWrappers[" + item.intValue() + "]" + ".uiHelper.resultValue";
+                    String propertyKey = CurriculumManagementConstants.DATA_OBJECT_PATH + ".creditOptionWrappers[" + item.intValue() + "]" + ".uiHelper.resultValue";
                     GlobalVariables.getMessageMap().putError(propertyKey,
                             CurriculumManagementConstants.MessageKeys.ERROR_OUTCOME_CREDIT_VALUE_REQUIRED);
                     returnVal = false;
@@ -253,7 +256,7 @@ public class CourseRule extends KsMaintenanceDocumentRuleBase {
         for (LoDisplayInfoWrapper loDisplayInfoWrapper : dataObject.getLoDisplayWrapperModel().getLoWrappers()) {
             // description is always required for an LoDisplayInfo object
             if (StringUtils.isBlank(loDisplayInfoWrapper.getLoInfo().getDescr().getPlain()) && !(loDisplayInfoWrapper.getLoCategoryInfoList().isEmpty())) {
-                String propertyKey = DATA_OBJECT_PATH + ".loDisplayWrapperModel.loWrappers[" + index + "]" + ".loInfo.descr.plain";
+                String propertyKey = CurriculumManagementConstants.DATA_OBJECT_PATH + ".loDisplayWrapperModel.loWrappers[" + index + "]" + ".loInfo.descr.plain";
                 GlobalVariables.getMessageMap().putError(propertyKey,CurriculumManagementConstants.MessageKeys.ERROR_COURSE_LO_DESC_REQUIRED);
                 result = false;
             }
@@ -279,7 +282,7 @@ public class CourseRule extends KsMaintenanceDocumentRuleBase {
                 long size = Long.valueOf(CoreApiServiceLocator.getKualiConfigurationService().getPropertyValueAsString(
                         CurriculumManagementConstants.MessageKeys.SUPPORTING_DOC_MAX_SIZE_LIMIT));
                 if (supportingDoc.getUploadedDoc().length > size) {
-                    GlobalVariables.getMessageMap().putError(DATA_OBJECT_PATH + ".supportingDocs[" +
+                    GlobalVariables.getMessageMap().putError(CurriculumManagementConstants.DATA_OBJECT_PATH + ".supportingDocs[" +
                             index + "].documentUpload",
                             CurriculumManagementConstants.MessageKeys.ERROR_SUPPORTING_DOCUMENTS_FILE_TOO_LARGE);
                     LOG.warn(CurriculumManagementConstants.MessageKeys.ERROR_SUPPORTING_DOCUMENTS_FILE_TOO_LARGE);

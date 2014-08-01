@@ -239,6 +239,16 @@ public class CourseController extends CourseRuleEditorController {
         return modelAndView;
     }
 
+    /**
+     * This method performs the KRAD UI data dictionary and Service layer data dictionary validation before it routes the document instance contained on the form.
+     * Based on the validation result user will be shown validation errors on the page or Submit confirmation dialog.
+     *
+     * @param form
+     * @param result
+     * @param request
+     * @param response
+     * @return ModelAndView
+     */
     @Override
     public ModelAndView route(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result, HttpServletRequest request, HttpServletResponse response) {
 
@@ -264,7 +274,7 @@ public class CourseController extends CourseRuleEditorController {
                 GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, KSObjectUtils.unwrapException(20, ex).getMessage());
             }
 
-            bindValidationErrosToPath(validationResultInfoList);
+            bindValidationErrorsToPath(validationResultInfoList);
 
             if (!GlobalVariables.getMessageMap().hasErrors()) {
                 //redirect back to client to display confirm dialog
@@ -278,8 +288,6 @@ public class CourseController extends CourseRuleEditorController {
                     //route the document
                     return super.route(form,result, request,response);
                 }
-            }else{
-                return showDialog(dialog, form, request, response);
             }
         }
         return getUIFModelAndView(form);
@@ -866,36 +874,44 @@ public class CourseController extends CourseRuleEditorController {
      *  Binds the each validation errors with its property path
      * @param validationResultInfoList
      */
-    protected void bindValidationErrosToPath(List<ValidationResultInfo> validationResultInfoList) {
+    protected void bindValidationErrorsToPath(List<ValidationResultInfo> validationResultInfoList) {
         if (validationResultInfoList != null && !validationResultInfoList.isEmpty()) {
             for( ValidationResultInfo error : validationResultInfoList ) {
                 String element = error.getElement().replace("/0","").replace("/","");
                 String elementPath = null;
-                final String DATA_OBJECT_NAME = "document.newMaintainableObject.dataObject.";
 
-                if( StringUtils.equals(element, "courseTitle") ) {
-                    elementPath = DATA_OBJECT_NAME + "courseInfo.courseTitle";
-                } else if( StringUtils.equals(element, "subjectArea") ) {
-                    elementPath = DATA_OBJECT_NAME + "courseInfo.subjectArea";
-                } else if( StringUtils.equals(element, "courseNumberSuffix") ) {
-                    elementPath = DATA_OBJECT_NAME + "courseInfo.courseNumberSuffix";
-                } else if( StringUtils.equals(element, "campusLocations") ) {
-                    elementPath = DATA_OBJECT_NAME + "reviewProposalDisplay.governanceSection.campusLocationsAsString";
-                } else if( StringUtils.equals(element, "startTerm") ) {
-                    elementPath = DATA_OBJECT_NAME + "reviewProposalDisplay.activeDatesSection.startTerm";
-                } else if( StringUtils.equals(element, "transcriptTitle") ) {
-                    elementPath = DATA_OBJECT_NAME + "courseInfo.transcriptTitle";
-                } else if( StringUtils.equals(element, "finalExamStatus") ) {
-                    elementPath = DATA_OBJECT_NAME + "reviewProposalDisplay.courseLogisticsSection.finalExamStatus";
-                } else if( StringUtils.equals(element, "gradingOptions") ) {
-                    elementPath = DATA_OBJECT_NAME + "reviewProposalDisplay.courseLogisticsSection.gradingOptionsAsString";
-                } else if( StringUtils.equals(element, "unitsContentOwner") ) {
-                    elementPath = DATA_OBJECT_NAME + "reviewProposalDisplay.governanceSection.curriculumOversightAsString";
+                switch(element) {
+                    case "courseTitle":
+                        elementPath = CurriculumManagementConstants.DATA_OBJECT_PATH + ".courseInfo.courseTitle";
+                        break;
+                    case "subjectArea":
+                        elementPath = CurriculumManagementConstants.DATA_OBJECT_PATH + ".courseInfo.subjectArea";
+                        break;
+                    case "courseNumberSuffix":
+                        elementPath = CurriculumManagementConstants.DATA_OBJECT_PATH + ".courseInfo.courseNumberSuffix";
+                        break;
+                    case "campusLocations":
+                        elementPath = CurriculumManagementConstants.DATA_OBJECT_PATH + ".reviewProposalDisplay.governanceSection.campusLocationsAsString";
+                        break;
+                    case "startTerm":
+                        elementPath = CurriculumManagementConstants.DATA_OBJECT_PATH + ".reviewProposalDisplay.activeDatesSection.startTerm";
+                        break;
+                    case "transcriptTitle":
+                        elementPath = CurriculumManagementConstants.DATA_OBJECT_PATH + ".courseInfo.transcriptTitle";
+                        break;
+                    case "finalExamStatus":
+                        elementPath = CurriculumManagementConstants.DATA_OBJECT_PATH + ".reviewProposalDisplay.courseLogisticsSection.finalExamStatus";
+                        break;
+                    case "gradingOptions":
+                        elementPath = CurriculumManagementConstants.DATA_OBJECT_PATH + ".reviewProposalDisplay.courseLogisticsSection.gradingOptionsAsString";
+                        break;
+                    case "unitsContentOwner":
+                        elementPath = CurriculumManagementConstants.DATA_OBJECT_PATH + ".reviewProposalDisplay.governanceSection.curriculumOversightAsString";
+                        break;
+                    default:
+                        elementPath = KRADConstants.GLOBAL_MESSAGES;
                 }
-
-                if (elementPath != null) {
-                    GlobalVariables.getMessageMap().putError(elementPath, RiceKeyConstants.ERROR_CUSTOM, error.getMessage());
-                }
+                GlobalVariables.getMessageMap().putError(elementPath, RiceKeyConstants.ERROR_CUSTOM, error.getMessage());
             }
         }
     }
