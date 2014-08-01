@@ -7,12 +7,12 @@
     <!-- Search Details Content -->
     <div class="kscr-SearchDetails-container">
         <div class="kscr-SearchDetails-header util-Grid util-Grid--center">
-            <span class="kscr-SearchDetails-courseCode">{{course.courseOfferingCode}}</span>
-            <span class="kscr-SearchDetails-courseTitle util-Grid-cell">{{course.courseOfferingLongName}}</span>
-            <span class="kscr-SearchDetails-credits">{{course.creditOptions | creditRangeFormatter}}</span>
+            <span id="search_details_code" class="kscr-SearchDetails-courseCode">{{course.courseOfferingCode}}</span>
+            <span id="search_details_title" class="kscr-SearchDetails-courseTitle util-Grid-cell">{{course.courseOfferingLongName}}</span>
+            <span id="search_details_credits" class="kscr-SearchDetails-credits">{{course.creditOptions | creditRangeFormatter}}</span>
         </div>
 
-        <div id="courseDescription" class="kscr-SearchDetails-description">{{course.courseOfferingDesc}}</div>
+        <div id="courseDescription_{{course.courseOfferingCode}}" class="kscr-SearchDetails-description">{{course.courseOfferingDesc}}</div>
 
         <!-- Cross-listed courses -->
         <div class="kscr-SearchDetails-crosslists" ng-if="course.crossListedCourses.length > 0">
