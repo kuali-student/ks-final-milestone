@@ -350,13 +350,17 @@
             <list>
                 <bean parent="Uif-PrimaryActionButton" p:actionLabel="Allow"
                       p:successCallback="retrieveComponent('KS-AdminRegistration-Registered')"
-                      p:methodToCall="allowCourse" p:render="@{#line.level eq 'kuali.admin.reg.result.level.failed'}"/>
-                <bean parent="Uif-DeleteLineAction" p:actionLabel="Deny" p:render="@{#line.level eq 'kuali.admin.reg.result.level.failed'}"
-                      p:additionalCssClasses="error-result"/>
-                <bean parent="Uif-DeleteLineAction" p:actionLabel="Dismiss" p:render="@{#line.level eq 'kuali.admin.reg.result.level.success'}"
-                      p:additionalCssClasses="success-result"/>
-                <bean parent="Uif-DeleteLineAction" p:actionLabel="Continue" p:render="@{#line.level eq 'kuali.admin.reg.result.level.warning'}"
+                      p:methodToCall="allowCourse" p:render="@{#line.level eq 'kuali.admin.reg.result.level.warning'}"/>
+                <bean parent="Uif-DeleteLineAction" p:actionLabel="Deny" p:render="@{#line.level eq 'kuali.admin.reg.result.level.warning'}"
                       p:additionalCssClasses="warning-result"/>
+                <bean parent="KS-Uif-Delete-ActionLink" p:actionLabel="Dismiss" p:methodToCall="deleteLine"
+                      p:render="@{#line.level eq 'kuali.admin.reg.result.level.success'}"
+                      p:additionalCssClasses="success-result" p:onClickScript="writeCurrentPageToSession(this);"
+                      p:loadingMessageText="Deleting Line..."/>
+                <bean parent="KS-Uif-Delete-ActionLink" p:actionLabel="Dismiss" p:methodToCall="deleteLine"
+                      p:render="@{#line.level eq 'kuali.admin.reg.result.level.failed'}"
+                      p:additionalCssClasses="error-result" p:onClickScript="writeCurrentPageToSession(this);"
+                      p:loadingMessageText="Deleting Line..."/>
             </list>
         </property>
         <property name="renderAddLine" value="false"/>
