@@ -123,7 +123,7 @@ public class CourseController extends CourseRuleEditorController {
     /**
      * This method creates the form and in the case of a brand new proposal where this method is called after the user uses
      * the Initial Create Proposal screen, this method will also set the document type name based on the request parameter
-     * #URL_PARAM_USE_CURRICULUM_REVIEW
+     * {@link org.kuali.student.cm.course.controller.CourseController.UrlParams.USE_CURRICULUM_REVIEW}
      *
      * @param request
      * @return a new instance of a MaintenanceDocumentForm
@@ -147,14 +147,16 @@ public class CourseController extends CourseRuleEditorController {
 
         /*
          * Copy from CLU and copy from Proposal are mutually exclusive. Copy from CLU takes precedence.
+         *
+         * Store the copy IDs as action parameters in the form
          */
         String copyCluId = request.getParameter(UrlParams.COPY_CLU_ID);
         if (StringUtils.isNotBlank(copyCluId)) {
-
+            form.getActionParameters().put(UrlParams.COPY_CLU_ID, copyCluId);
         } else {
             String copyProposalId = request.getParameter(UrlParams.COPY_PROPOSAL_ID);
             if (StringUtils.isNotBlank(copyProposalId)) {
-                //  Copy
+                form.getActionParameters().put(UrlParams.COPY_PROPOSAL_ID, copyProposalId);
             }
         }
 
@@ -213,6 +215,17 @@ public class CourseController extends CourseRuleEditorController {
                 .setUseReviewProcess(!ArrayUtils.contains(CurriculumManagementConstants.DocumentTypeNames.ADMIN_DOC_TYPE_NAMES, form.getDocTypeName()));
         wrapper.getUiHelper()
                 .setCurriculumSpecialistUser(CourseProposalUtil.isUserCurriculumSpecialist());
+
+        /*
+         * If either of the copy action params have been set then do the copy.
+         */
+        if (StringUtils.isNotBlank(form.getActionParamaterValue(UrlParams.COPY_CLU_ID))) {
+            wrapper.getCourseInfo().setCourseTitle("This is a copy course");
+        } else {
+            if (StringUtils.isNotBlank(form.getActionParamaterValue(UrlParams.COPY_PROPOSAL_ID))) {
+                wrapper.getProposalInfo().setName("This is a copy proposal");
+            }
+        }
     }
 
     /**
