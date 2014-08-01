@@ -29,4 +29,8 @@ public class CourseRegistrationServiceConstants {
     // CourseRegistrationService service =
     //     (CourseRegistrationService) GlobalResourceLoader.getService(CourseRegistrationServiceConstants.Q_NAME);
     public static final QName Q_NAME = new QName(NAMESPACE, SERVICE_NAME_LOCAL_PART);
+
+    //dynamic attribute keys
+    public static final String ELIGIBILITY_OVERRIDE_TYPE_KEY_ATTR = "kuali.attribute.admin.override.type.key";
+
 }
