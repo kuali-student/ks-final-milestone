@@ -32,26 +32,26 @@
     </thead>
     <tbody>
         <tr ng-repeat="searchResult in searchResults | orderBy : predicate : reverse | startFrom:(page-1)*displayLimit | limitTo:displayLimit"
-            id="course_detail_row_{{applyFilter(searchResult[defaultField], searchColumn.filter)}}"
-            class="kscr-Search-row" ng-class="{'kscr-Search-row--clickable': onClick}"
-            ng-hide="searchResult.hidden" ng-click="{{onClick}}">
+            id="course_detail_row_{{applyFilter(searchResult, defaultField, searchColumn.filter)}}" class="kscr-Search-row"
+            ng-class="{'kscr-Search-row--clickable' : onClick, 'kscr-Search-row--disabled' : searchResult.disabled, 'kscr-Search-row--selected' : searchResult.selected}"
+            ng-hide="searchResult.hidden" ng-click="emitEvent(onClick, searchResult)">
             <td class="kscr-Search-results-indicator" ng-class="{'kscr-Search-results-indicator--show': searchResult.indicator}"></td>
             <td ng-repeat="searchColumn in searchColumns" class="kscr-Search-results-cell" ng-hide="searchColumn.optional && !hasData('{{searchColumn.field}}')"
                 ng-class="{'kscr-Search-results--first' : $index === 0}">
-                <a ng-if="searchColumn.url" ng-bind-html="applyFilter(searchResult[searchColumn.field], searchColumn.filter)"></a>
-                <span ng-if="!searchColumn.url" ng-bind-html="applyFilter(searchResult[searchColumn.field], searchColumn.filter)"></span>
-                <input class="kscr-Search-checkbox" ng-if="searchColumn.checkbox" type="checkbox" ng-click="select('{{searchColumn.checkbox}}', searchResult)" ng-model="searchResult.selected" />
+                <a ng-if="searchColumn.url" ng-bind-html="applyFilter(searchResult, searchColumn.field, searchColumn.filter)"></a>
+                <span ng-if="!searchColumn.url" ng-bind-html="applyFilter(searchResult, searchColumn.field, searchColumn.filter)"></span>
+                <span class="kscr-Search-checkbox" ng-if="searchColumn.checkbox" ng-hide="searchResult.disabled" ng-class="{'kscr-Search-checkbox--selected' : searchResult.selected}"></span>
             </td>
         </tr>
     </tbody>
 </table>
 <div class="kscr-Search-results-list">
     <div class="kscr-Search-result"
-         id="course_detail_result_{{applyFilter(searchResult[defaultField], searchColumn.filter)}}"
+         id="course_detail_result_{{applyFilter(searchResult, defaultField, searchColumn.filter)}}"
          ui-sref="root.search.details({searchCriteria: searchCriteria, id: getId(searchResult)})"
          ng-repeat="searchResult in searchResults">
         <div class="kscr-Search-result-column-{{searchColumn.field}}" ng-repeat="searchColumn in searchColumns"
-             ng-bind-html="applyFilter(searchResult[searchColumn.field], searchColumn.filter)"></div>
+             ng-bind-html="applyFilter(searchResult, searchColumn.field, searchColumn.filter)"></div>
     </div>
 </div>
 <div class="kscr-Search-results-paginate" ng-show="searchCriteria">

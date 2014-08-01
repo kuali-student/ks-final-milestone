@@ -37,6 +37,23 @@ angular.module('regCartApp')
     })
 
     .filter('aoFormatter', function() {
+
+        function denullify(value) {
+            if (value === null) {
+                return '';
+            } else {
+                return value;
+            }
+        }
+
+        function zeroPad(value) {
+            value = '' + value; // convert to string
+            while (value.length < 3) {
+                value = '0' + value;
+            }
+            return value;
+        }
+
         /**
          * Format an array of activity offerings for display using the search-list directive
          *
@@ -44,8 +61,6 @@ angular.module('regCartApp')
          * @return string
          */
         return function(activityOfferings) {
-
-            var rows=[];
 
             angular.forEach(activityOfferings, function(ao) {
                 var scheduleComponents = ao.scheduleComponents;
@@ -58,13 +73,13 @@ angular.module('regCartApp')
                 var seatsOpen = '';                                     // seats open column
                 var additionalInfo;                                     // additional info column
 
-                var indicator=false;                                    // determines if we show the row indicator on the left
+                var indicator = false;                                    // determines if we show the row indicator on the left
 
                 if (scheduleComponents && angular.isArray(scheduleComponents)) {
                     for (var i = 0; i < scheduleComponents.length; i++) {
                         days += denullify(scheduleComponents[i].days);
                         time += denullify(scheduleComponents[i].displayTime);
-                        location += denullify(scheduleComponents[i].buildingCode) + " " + denullify(scheduleComponents[i].roomCode);
+                        location += denullify(scheduleComponents[i].buildingCode) + ' ' + denullify(scheduleComponents[i].roomCode);
                         if (i < (scheduleComponents.length - 1)) {
                             days += '<br />';
                             time += '<br />';
@@ -75,7 +90,7 @@ angular.module('regCartApp')
 
                 if (instructors && angular.isArray(instructors)) {
                     for (var j = 0; j < instructors.length; j++) {
-                        instructorList += denullify(instructors[j].firstName) + ' '+denullify(instructors[j].lastName);
+                        instructorList += denullify(instructors[j].firstName) + ' ' + denullify(instructors[j].lastName);
                         if (j < (instructors.length - 1)) {
                             instructorList += '<br />';
                         }
@@ -87,14 +102,17 @@ angular.module('regCartApp')
                     seatsOpen = '<span class="kscr-Search-results-no-seats">' + seatsOpen + '</span>';
                     indicator = true;
                 }
-                seatsOpen = '<span class="kscr-Search-result-hidden">'+zeroPad(ao.seatsOpen)+zeroPad(ao.seatsAvailable)+'</span>'+seatsOpen;
+                seatsOpen = '<span class="kscr-Search-result-hidden">' + zeroPad(ao.seatsOpen) + zeroPad(ao.seatsAvailable) + '</span>' + seatsOpen;
 
-                if (ao.subterm != null) {
-                    var subterm = true;
+                var subterm = false,
+                    requisites = false,
+                    requisiteText = '';
+
+                if (ao.subterm !== null) {
+                    subterm = true;
                 }
                 if (angular.isArray(ao.requisites) && ao.requisites.length > 0) {
-                    var requisites = true;
-                    var requisiteText = '';
+                    requisites = true;
                     angular.forEach(ao.requisites, function(requisite) {
                         requisiteText += ' &#13;' + requisite;
                     });
@@ -103,47 +121,28 @@ angular.module('regCartApp')
                     additionalInfo = '';
                 }
                 if (subterm) {
-                    additionalInfo += '<div class="kscr-SearchDetails-icon"><img title="Subterm: '+ao.subterm.name+'" src="images/icons/subterm.png" /></div>';
+                    additionalInfo += '<div class="kscr-SearchDetails-icon"><img title="Subterm: ' + ao.subterm.name + '" src="images/icons/subterm.png" /></div>';
                 }
                 if (requisites) {
                     if (!subterm) {
-                        additionalInfo += '<div class="kscr-SearchDetails-icon">&nbsp;</div>'
+                        additionalInfo += '<div class="kscr-SearchDetails-icon">&nbsp;</div>';
                     }
-                    additionalInfo += '<div class="kscr-SearchDetails-icon"><img title="Requisites: '+requisiteText+'" src="images/icons/requisites.png" /></div>';
+                    additionalInfo += '<div class="kscr-SearchDetails-icon"><img title="Requisites: ' + requisiteText + '" src="images/icons/requisites.png" /></div>';
                 }
 
-                var row={
+                ao.formatted = {
                     days: days,
                     time: time,
                     instructor: instructorList,
                     location: location,
                     seatsOpen: seatsOpen,
-                    additionalInfo: additionalInfo,
-                    indicator: indicator,
-                    aoId: ao.activityOfferingId, // this is used for creating unique row ids
-                    ao: ao                       // we may need the ao for further processing
+                    additionalInfo: additionalInfo
                 };
-
-                rows.push(row);
+                ao.indicator = indicator;
             });
 
-            return rows;
+            return activityOfferings;
         };
 
     });
 
-    function denullify(value) {
-        if (value === null) {
-            return '';
-        } else {
-            return value;
-        }
-    }
-
-    function zeroPad(value) {
-        value = '' + value; // convert to string
-        while (value.length < 3) {
-            value = '0' + value;
-        }
-        return value;
-    }

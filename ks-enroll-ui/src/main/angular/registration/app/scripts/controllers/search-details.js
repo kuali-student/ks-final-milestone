@@ -2,7 +2,7 @@
 
 angular.module('regCartApp')
     .controller('SearchDetailsCtrl', ['$scope', '$rootScope', '$state', '$filter', 'SearchService',
-     function SearchDetailsCtrl($scope, $rootScope, $state, $filter, SearchService) {
+    function SearchDetailsCtrl($scope, $rootScope, $state, $filter, SearchService) {
 
         $scope.searchCriteria = null; // Criteria used to generate the search results.
         $scope.course = null; // Handle on the course
@@ -52,6 +52,7 @@ angular.module('regCartApp')
                     }
 
                     $scope.course = result;
+                    $scope.updateAOStates();
                 } else {
                     console.log('Course load completed but not the most recent, ignoring: "' + courseId + '" !== "' + lastCourseId + '"');
                 }
@@ -66,22 +67,14 @@ angular.module('regCartApp')
         $scope.selectedRegGroupId = null;
         $scope.selectedRegGroupCode = null;
 
-        $scope.$watchCollection('selectedAOs', function(aos) {
-            // TODO: build out selected reg group
-        });
-
 
         $scope.clearSelectedAOs = function() {
             $scope.selectedRegGroup = null;
             $scope.selectedRegGroupId = null;
             $scope.selectedRegGroupCode = null;
-            angular.forEach($scope.selectedAOs, function (ao) {
-                ao.selected = false;
-            });
-            $scope.selectedAOs = [];
 
-            // broadcast an event to any child scopes that may need to clear their selection
-            $scope.$broadcast('clearSelected');
+            $scope.selectedAOs = [];
+            $scope.updateAOStates();
         };
 
         // Re-using "Add to Cart" functionality from cart controller
@@ -102,26 +95,18 @@ angular.module('regCartApp')
             return selected !== null;
         };
 
-        $scope.$on('toggleAO', function (event, searchResult) {
-            $scope.toggleAO(searchResult.ao.activityOfferingType, searchResult.ao, $scope.course);
+        $scope.$on('toggleAO', function (event, ao) {
+            $scope.toggleAO(ao.activityOfferingType, ao);
         });
 
         // takes care of selecting/unselecting AOs and display depending on Reg Groups for selected AOs.
         // When AO is selected we only want to display AOs that are part of Reg Groups for selected one.
         // When several AOs selected such as they build a Reg Group -> passing ID and Code for this Reg Group on UI
-        $scope.toggleAO = function(aoType, ao, course) {
-            $scope.selectedRegGroup = null;
-            $scope.selectedRegGroupId = null;
-            $scope.selectedRegGroupCode = null;
-
+        $scope.toggleAO = function(aoType, ao) {
             if ($scope.isAOSelected(ao)) {
                 // Deselect the AO
                 $scope.selectedAOs.splice($scope.selectedAOs.indexOf(ao), 1);
-                // broadcast an event to show all rows if no rows are selected
-                if ($scope.selectedAOs.length === 0) {
-                    $scope.$broadcast('showAllRows');
-                }
-            } else {
+            } else if (isAOCompatible(ao)) {
                 if ($scope.isAOTypeSelected(aoType)) {
                     // Deselect the already selected ao of this type
                     var selected = getSelectedAOByType(aoType);
@@ -130,115 +115,75 @@ angular.module('regCartApp')
 
                 // Select the AO
                 $scope.selectedAOs.push(ao);
-
-                // Hide non-selected rows
-                angular.forEach(course.activityOfferingTypes, function(activityOfferingType) {
-                    if (activityOfferingType.activityOfferingType === aoType) {
-                        angular.forEach(activityOfferingType.activityOfferings, function(activityOffering) {
-                            if (activityOffering !== ao) {
-                                // broadcast an event to hide this row
-                                $scope.$broadcast('hideRow', activityOffering.activityOfferingId);
-                            }
-                        });
-                    }
-                });
             }
 
-            // only want to display AOs that form reg groups with the selected AOs
-            angular.forEach(course.activityOfferingTypes, function(aoType) {
-                if (!$scope.isAOTypeSelected(aoType)) {
-                    angular.forEach(aoType.activityOfferings, function(aoDiff) {
-                            aoDiff.isSameRegGroup == false;
-                            for (var keyDiff in aoDiff.regGroupInfos) {
-                                var cnt = 0;
-                                angular.forEach($scope.selectedAOs, function(selectedAO) {
-                                    for (var key in selectedAO.regGroupInfos) {
-                                        if ((keyDiff == key) && ((cnt == 0) || ((cnt > 0) && aoDiff.isSameRegGroup == true))) {
-                                            aoDiff.isSameRegGroup = true;
-                                            // broadcast an event to show this row
-                                            $scope.$broadcast('showRow', aoDiff.activityOfferingId);
-                                            break;
-                                        } else {
-                                            aoDiff.isSameRegGroup = false;
-                                            // broadcast an event to hide this row
-                                            $scope.$broadcast('hideRow', aoDiff.activityOfferingId);
-                                        }
-                                    }
-                                    cnt++;
-                                });
-                                if (aoDiff.isSameRegGroup == true) {
-                                    break;
-                                }
-                            }
-                        }
-                    );
+            // Re-filter the AOs
+            $scope.updateAOStates();
+
+            // Check if we have reg group
+            $scope.selectedRegGroup = null;
+            $scope.selectedRegGroupId = null;
+            $scope.selectedRegGroupCode = null;
+
+            var selectedRegGroup = checkForSelectedRegGroup();
+            if (selectedRegGroup) {
+                $scope.selectedRegGroup = true;
+                $scope.selectedRegGroupId = selectedRegGroup.id;
+                $scope.selectedRegGroupCode = selectedRegGroup.code;
+            }
+        };
+
+        $scope.countEligibleAOs = function(aos) {
+            var eligible = 0;
+            angular.forEach(aos, function(ao) {
+                if (!ao.disabled) {
+                    eligible++;
                 }
             });
 
-            // Check if we have reg group
-            if ($scope.selectedAOs.length == course.activityOfferingTypes.length) {
-                var regGroups = {};
-                var cnt = 0;
-                angular.forEach($scope.selectedAOs, function(selectedAO) {
-                    var selectedAORGcnt = 0;
-                    for (var key in selectedAO.regGroupInfos) selectedAORGcnt++;
-
-                    if ((selectedAORGcnt == 1) && ((cnt == 0) || ($scope.selectedRegGroup !== true))) {
-                        for (var key in selectedAO.regGroupInfos) {
-                            $scope.selectedRegGroup = true;
-                            $scope.selectedRegGroupId = key;
-                            $scope.selectedRegGroupCode = selectedAO.regGroupInfos[key];
-                        }
-                    } else if ((selectedAORGcnt !== 1) && ($scope.selectedRegGroup !== true)) {
-                        if (cnt == 0) {
-                            for (var key in selectedAO.regGroupInfos) {
-                                regGroups[key] = selectedAO.regGroupInfos[key];
-                            }
-                        } else {
-                            for (var rgKey in regGroups) {
-                                var checkRgKey = false;
-                                for (var key in selectedAO.regGroupInfos) {
-                                    if (rgKey == key) {
-                                        checkRgKey = true;
-                                        break;
-                                    }
-                                }
-                                if (!checkRgKey) {
-                                    delete regGroups[rgKey];
-                                }
-                            }
-                        }
-
-                        var regGroupsCnt = 0;
-                        for (var key in regGroups) regGroupsCnt++;
-                        if (regGroupsCnt == 1) {
-                            for (var rgKey in regGroups) {
-                                $scope.selectedRegGroup = true;
-                                $scope.selectedRegGroupId = rgKey;
-                                $scope.selectedRegGroupCode = regGroups[rgKey];
-                            }
-                        }
-                    }
-                    cnt++;
-                });
-            }
+            return eligible;
         };
 
         /**
-         * Filter for determining which activity offerings to show in the table
-         * @param ao the activity offering
-         * @param showAll the showAll value scoped to this particular ao's aoType
+         * Method for determining which activity offerings to show in the table
          */
-        $scope.aoFilter = function(ao, showAll) {
-            if (showAll || $scope.isAOSelected(ao)) {
-                return true;
+        $scope.updateAOStates = function() {
+            angular.forEach($scope.course.activityOfferingTypes, function(aoType) {
+                if (aoType.showAll && $scope.isAOTypeSelected(aoType)) {
+                    // Reset the showAll if this AOType is selected
+                    aoType.showAll = false;
+                }
+
+                angular.forEach(aoType.activityOfferings, function(ao) {
+                    ao.selected = $scope.isAOSelected(ao);
+                    ao.disabled = !isAOCompatible(ao); // AO is disabled if it is not compatible with the selected AOs
+
+                    if (aoType.showAll || ao.selected) {
+                        // Show All || this AO is selected
+                        ao.hidden = false;
+                    } else if (!$scope.isAOTypeSelected(aoType)) {
+                        // This AO Type is not selected, hide if not compatible
+                        ao.hidden = ao.disabled;
+                    } else {
+                        ao.hidden = true;
+                    }
+                });
+            });
+        };
+
+        /**
+         * Method for identifying the selected reg group based on the selected activity offerings.
+         *
+         * @returns registration group {id, code}
+         */
+        function checkForSelectedRegGroup() {
+            var candidates = getSelectableRegGroups();
+            if (candidates.length === 1) {
+                return candidates[0];
             }
 
-            // This would be where the reg-group eligibility check would go for this ao
-
-            // Otherwise, hide everything only the activity offering type is selected
-            return !$scope.isAOTypeSelected(ao.activityOfferingType);
-        };
+            return null;
+        }
 
         /**
          * Helper method to get the selected activity offering matching a given type
@@ -259,6 +204,61 @@ angular.module('regCartApp')
             });
 
             return selected;
+        }
+
+        /**
+         * Get the list of possible registration groups based on the currently selected registration groups
+         *
+         * @returns array of registration groups [{id, code}]
+         */
+        function getSelectableRegGroups() {
+            var candidates = null;
+            angular.forEach($scope.selectedAOs, function(ao) {
+                // Init the reg group candidates with the first AO's reg groups
+                if (candidates === null) {
+                    candidates = [];
+                    for (var key in ao.regGroupInfos) {
+                        candidates.push({id: key, code: ao.regGroupInfos[key]});
+                    }
+                } else {
+                    // Eliminate any reg groups from the candidates that don't exist in the current ao
+                    var newCandidates = [];
+                    angular.forEach(candidates, function(candidate) {
+                        if (angular.isDefined(ao.regGroupInfos[candidate.id])) {
+                            newCandidates.push(candidate); // Candidate is still valid, carry it over.
+                        }
+                    });
+                    candidates = newCandidates;
+                }
+            });
+
+            return candidates || [];
+        }
+
+        /**
+         * Helper method for determining if an activity offering is
+         * compatible with the reg groups of the already selected offerings
+         *
+         * @param ao
+         * @returns {boolean}
+         */
+        function isAOCompatible(ao) {
+            var compatible = true;
+
+            // Only capable of being incompatible if there are selectedAOs and it's not one of them
+            if (!$scope.isAOSelected(ao) && $scope.hasSelectedAOs()) {
+                compatible = false;
+
+                var regGroups = getSelectableRegGroups();
+                for (var i = 0; i < regGroups.length; i++) {
+                    if (angular.isDefined(ao.regGroupInfos[regGroups[i].id])) {
+                        compatible = true;
+                        break;
+                    }
+                }
+            }
+
+            return compatible;
         }
 
     }]);

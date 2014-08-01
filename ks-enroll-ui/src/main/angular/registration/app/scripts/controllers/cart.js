@@ -123,6 +123,10 @@ angular.module('regCartApp')
                 courseCode = courseCode.toUpperCase();
             }
 
+            if (!cartId) {
+                cartId = $scope.cart.cartId;
+            }
+
             CartService.addCourseToCart().query({
                 cartId: cartId,
                 courseCode: courseCode,

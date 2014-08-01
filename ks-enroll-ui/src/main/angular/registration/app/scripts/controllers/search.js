@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('regCartApp')
-    .controller('SearchCtrl', ['$scope', '$filter', 'SearchService', 'SEARCH_FACETS', function SearchCtrl($scope, $filter, SearchService, SEARCH_FACETS) {
+    .controller('SearchCtrl', ['$scope', '$filter', '$state', 'SearchService', 'SEARCH_FACETS', function SearchCtrl($scope, $filter, $state, SearchService, SEARCH_FACETS) {
 
         $scope.facets = SEARCH_FACETS; // Facet definitions
 
@@ -95,6 +95,12 @@ angular.module('regCartApp')
                 console.log('Error searching for courses: ', error);
             });
         }
+
+
+        $scope.$on('viewDetails', function(event, course) {
+            // redirects the view to the search details screen
+            $state.go('root.search.details', { searchCriteria: $scope.searchCriteria, id: course.courseId });
+        });
 
     }])
 

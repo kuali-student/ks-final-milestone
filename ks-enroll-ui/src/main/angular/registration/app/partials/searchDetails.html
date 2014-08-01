@@ -1,7 +1,7 @@
 <div class="kscr-SearchDetails">
     <!-- Search Details Header - Back to Results Link -->
     <div class="kscr-SearchDetails-top">
-        <a id="returnToSearch" ui-sref="root.search.results({ searchCriteria: searchCriteria })"><span>&lt;&lt;</span> Return to Search Results</a>
+        <a id="returnToSearch" ui-sref="root.search.results({ searchCriteria: searchCriteria })"><span>&#x00ab;</span> Return to Search Results</a>
     </div>
 
     <!-- Search Details Content -->
@@ -47,9 +47,14 @@
             </div>
             <div class="kscr-SearchDetails-selection kscr-SearchDetails-selection--selected util-Grid-cell" ng-if="hasSelectedAOs()"
                  ng-class="{'kscr-SearchDetails-selection--complete' : selectedRegGroup }">
-                <div class="kscr-SearchDetails-label" ng-if="!selectedRegGroup">{{selectedAOs.length}} of {{course.activityOfferingTypes.length}} selected</div>
-                <div class="kscr-SearchDetails-label" ng-if="selectedRegGroup">Section {{selectedRegGroupCode}} Selected</div>
-                <a ng-click="clearSelectedAOs()"><ng-pluralize count="selectedAOs.length" when="{'1': 'Clear Selection', 'other': 'Clear Selections'}"></ng-pluralize></a>
+                <div class="kscr-SearchDetails-label" ng-if="!selectedRegGroup">{{selectedAOs.length}} of {{course.activityOfferingTypes.length}} activities selected</div>
+                <div class="kscr-SearchDetails-label" ng-if="selectedRegGroup">
+                    <i class="kscr-SearchDetails-selection-icon"></i>
+                    Section {{selectedRegGroupCode}} Selected
+                </div>
+                <a class="kscr-SearchDetails-selection-clear" ng-click="clearSelectedAOs()">
+                    <ng-pluralize count="selectedAOs.length" when="{'1': 'Clear Selection', 'other': 'Clear Selections'}"></ng-pluralize>
+                </a>
             </div>
 
             <!-- Actions -->
@@ -62,28 +67,38 @@
                 <!-- TODO: The success/Failure message needs to be put in here -->
             </div>
         </div>
-        </div>
 
         <!-- Activity Offering Tables -->
         <div class="kscr-SearchDetails-activityOfferingGroups">
             <div class="kscr-SearchDetails-activityOfferingGroup" ng-repeat="aoType in course.activityOfferingTypes">
                 <div class="kscr-SearchDetails-label">
-                    {{aoType.activityOfferingTypeName}}<ng-pluralize count="aoType.activityOfferings.length" when="{'1' : '', 'other': 's'}">
-                </ng-pluralize> ({{aoType.activityOfferings.length}})
+                    {{aoType.activityOfferingTypeName}}<ng-pluralize count="aoType.activityOfferings.length" when="{'1' : '', 'other': 's'}"></ng-pluralize>
+                    ({{aoType.activityOfferings.length}})
+
+                    <span ng-if="isAOTypeSelected(aoType)">(Selected)</span>
+                    <span ng-if="!isAOTypeSelected(aoType) && hasSelectedAOs()">
+                        <!-- TODO: Replace 1 with actual count of eligible -->
+                        ({{countEligibleAOs(aoType.activityOfferings)}} of {{aoType.activityOfferings.length}} eligible)
+                        <a ng-click="aoType.showAll = !aoType.showAll; updateAOStates();" ng-show="aoType.activityOfferings.length > 1">
+                            <span ng-if="!aoType.showAll">Show All</span>
+                            <span ng-if="aoType.showAll">Hide ineligible</span>
+                        </a>
+                    </span>
                 </div>
                 <div class="kscr-SearchDetails-activityOfferings">
                     <search-results>
-                        <search-column name="Days" field="days" order="1"></search-column>
-                        <search-column name="Time" field="time" order="2"></search-column>
-                        <search-column name="Instructor" field="instructor" order="3"></search-column>
-                        <search-column name="Location" field="location" order="4"></search-column>
-                        <search-column name="Seats Open" field="seatsOpen" order="5"></search-column>
-                        <search-column name="Additional Info" field="additionalInfo" sortable="false" optional="true" order="6"></search-column>
-                        <search-column name="Select" checkbox="toggleAO" sortable="false" order="7"></search-column>
-                        <search-list search-data='aoType.activityOfferings' preprocessor='aoFormatter' search-columns='searchColumns' default-field="aoId" display-limit="999"></search-list>
+                        <search-column name="Days" field="formatted.days" order="1"></search-column>
+                        <search-column name="Time" field="formatted.time" order="2"></search-column>
+                        <search-column name="Instructor" field="formatted.instructor" order="3"></search-column>
+                        <search-column name="Location" field="formatted.location" order="4"></search-column>
+                        <search-column name="Seats Open" field="formatted.seatsOpen" order="5"></search-column>
+                        <search-column name="Additional Info" field="formatted.additionalInfo" sortable="false" optional="true" order="6"></search-column>
+                        <search-column name="Select" checkbox="true" sortable="false" order="7"></search-column>
+                        <search-list search-data='aoType.activityOfferings' preprocessor="aoFormatter" search-columns='searchColumns' on-click="toggleAO" default-field="aoId" display-limit="999"></search-list>
                     </search-results>
                 </div>
             </div>
         </div>
+    </div>
 
 </div>

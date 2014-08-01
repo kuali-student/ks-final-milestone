@@ -117,13 +117,26 @@
 }
 
 .kscr-Search-row {
+  .kscr-Search-checkbox {
+    .checkbox-icon();
+    float: right;
+  }
+
   &--clickable {
     cursor: pointer;
   }
-}
+  &--selected {
+    background: @table-SelectedRowBackgroundColor;
 
-.kscr-Search-checkbox {
-  cursor: pointer;
+    .kscr-Search-checkbox {
+        .checkbox-dark-icon--checked();
+    }
+  }
+  &--disabled {
+    color: @lightGray;
+    cursor: not-allowed;
+    font-style: italic;
+  }
 }
 
 .kscr-Search-result-hidden {

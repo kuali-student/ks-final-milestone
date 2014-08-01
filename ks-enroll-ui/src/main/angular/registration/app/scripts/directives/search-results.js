@@ -6,7 +6,7 @@ angular.module('regCartApp')
      The search-list directive displays a generic list of search results based on the
      columns set by the search-column directive.
      */
-    .directive('searchList', ['$filter', '$state', function($filter, $state) {
+    .directive('searchList', ['$filter', function($filter) {
         return {
             restrict: 'E',
             require: '^searchResults',
@@ -23,9 +23,9 @@ angular.module('regCartApp')
                 preprocessor: '@',
                 onClick: '@'
             },
-            link:function(scope) {
+            link: function(scope) {
 
-                if (angular.isUndefined(scope.searchResults)) {
+                if (angular.isUndefined(scope.searchResults) && scope.preprocessor) {
                     scope.searchResults = $filter(scope.preprocessor)(scope.searchData);
                 }
 
@@ -91,7 +91,30 @@ angular.module('regCartApp')
                 };
 
                 // apply the given filter name to the value (if it's an array)
-                scope.applyFilter = function(value, filterName) {
+                scope.applyFilter = function(row, field, filterName) {
+                    var value = null;
+                    if (field && angular.isUndefined(row[field]) && field.indexOf('.') !== -1) {
+                        var workingValue = row,
+                            parts = field.split('.'),
+                            part;
+
+                        for (var i = 0; part = parts[i], i < parts.length; i++) {
+                            if (angular.isDefined(workingValue[part])) {
+                                workingValue = workingValue[part];
+                            } else {
+                                // Part doesn't exist. Exit out.
+                                workingValue = null;
+                                break;
+                            }
+                        }
+
+                        if (workingValue !== null) {
+                            value = workingValue;
+                        }
+                    } else {
+                        value = row[field];
+                    }
+
                     if (angular.isArray(value) && filterName) {
                         return $filter(filterName)(value);
                     } else{
@@ -128,22 +151,19 @@ angular.module('regCartApp')
                     return reverse;
                 };
 
-                // when a row is selected, emit an event with the search result
-                scope.select = function(event, searchResult) {
-                    searchResult.selected = !searchResult.selected;
-                    scope.$emit(event, searchResult);
-                };
-
-                // redirects the view to the search details screen
-                scope.viewDetails = function(searchCriteria, id) {
-                    $state.go('root.search.details', {searchCriteria: searchCriteria, id: id});
+                // helper method to emit an event with the search result
+                scope.emitEvent = function(eventToEmit, searchResult) {
+                    if (eventToEmit) {
+                        scope.$emit(eventToEmit, searchResult);
+                    }
                 };
 
                 //checks to see if the given column has data
                 scope.hasData = function(field) {
                     var hasData = false;
                     for (var i=0; i < scope.searchResults.length; i++) {
-                        if (scope.searchResults[i][field]) {
+                        var data = scope.applyFilter(scope.searchResults[i], field);
+                        if (data) {
                             hasData = true;
                             break;
                         }
