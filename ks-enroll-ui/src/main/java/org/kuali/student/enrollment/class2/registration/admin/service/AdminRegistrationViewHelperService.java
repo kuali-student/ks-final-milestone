@@ -106,4 +106,12 @@ public interface AdminRegistrationViewHelperService {
      */
     public List<RegistrationResultItem> createIssueItemsFromResults(List<ValidationResultInfo> results);
 
+    /**
+     *
+     * @param studentId
+     * @param termId
+     * @param registrationRequest
+     * @return
+     */
+    String reSubmitCourseRegistrationRequest(String studentId, String termId, RegistrationCourse registrationRequest);
 }

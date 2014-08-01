@@ -477,6 +477,17 @@ public class AdminRegistrationViewHelperServiceImpl extends KSViewHelperServiceI
     }
 
     @Override
+    public String reSubmitCourseRegistrationRequest(String studentId, String termId, RegistrationCourse registrationRequest) {
+        List<RegistrationCourse> registrationCourses = new ArrayList<>();
+        registrationCourses.add(registrationRequest);
+
+        String registrationRequestId = submitRegistrationRequest(studentId,termId,registrationCourses);
+
+
+        return registrationRequestId;
+    }
+
+    @Override
     public RegistrationRequestInfo getRegistrationRequest(String regRequestId) {
 
         try {

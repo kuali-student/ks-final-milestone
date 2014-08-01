@@ -500,8 +500,11 @@ public class AdminRegistrationController extends UifControllerBase {
         // would Force registration here
         Collection<Object> collection = ObjectPropertyUtils.getPropertyValue(form, selectedCollectionPath);
         Object item = ((List) collection).get(selectedLineIndex);
-        form.getRegisteredCourses().add(((RegistrationResult) item).getCourse());
-        ((List) collection).remove(selectedLineIndex);
+        RegistrationCourse regCourse = ((RegistrationResult) item).getCourse();
+
+        form.setRegRequestId(getViewHelper(form).reSubmitCourseRegistrationRequest(form.getPerson().getId(), form.getTerm().getId(), regCourse));
+        // Set the client state to "Registering" so that we can prevent certain actions on UI.
+        form.setClientState(AdminRegConstants.ClientStates.REGISTERING);
 
         return getUIFModelAndView(form);
     }

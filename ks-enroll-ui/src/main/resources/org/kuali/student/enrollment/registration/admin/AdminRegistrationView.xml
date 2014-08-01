@@ -349,7 +349,7 @@
         <property name="lineActions">
             <list>
                 <bean parent="Uif-PrimaryActionButton" p:actionLabel="Allow"
-                      p:successCallback="retrieveComponent('KS-AdminRegistration-Registered')"
+                      p:successCallback="startPolling(1000);"
                       p:methodToCall="allowCourse" p:render="@{#line.level eq 'kuali.admin.reg.result.level.warning'}"/>
                 <bean parent="Uif-DeleteLineAction" p:actionLabel="Deny" p:methodToCall="denyCourse"
                       p:render="@{#line.level eq 'kuali.admin.reg.result.level.warning'}"
