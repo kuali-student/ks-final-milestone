@@ -16,8 +16,10 @@
 <table id="search_results_table" class="kscr-Search-results-table">
     <thead class="kscr-Search-results-table-head">
         <tr>
+            <th class="kscr-Search-results-indicator-header" ng-class="{'kscr-Search-results-indicator-header--selected': predicate === '{{searchColumns[0].field}}'}"></th>
             <th class="kscr-Search-results-header kscr-Search--{{searchColumn.field}}" ng-repeat="searchColumn in searchColumns"
-                ng-class="{'kscr-Search-results--selected': $parent.predicate === '{{searchColumn.field}}'}"
+                ng-class="{'kscr-Search-results--selected': $parent.predicate === '{{searchColumn.field}}',
+                           'kscr-Search-results--first' : $index === 0}"
                 ng-click="$parent.predicate = '{{searchColumn.field}}'; $parent.reverse = sortResults('{{searchColumn.field}}');"
                 ng-hide="searchColumn.optional && !hasData('{{searchColumn.field}}')">
                 <div class="kscr-Search-result-column">{{searchColumn.name}}
@@ -33,7 +35,9 @@
             id="course_detail_row_{{applyFilter(searchResult[defaultField], searchColumn.filter)}}"
             class="kscr-Search-row" ng-class="{'kscr-Search-row--clickable': onClick}"
             ng-hide="searchResult.hidden" ng-click="{{onClick}}">
-            <td ng-repeat="searchColumn in searchColumns" class="kscr-Search-results-cell" ng-hide="searchColumn.optional && !hasData('{{searchColumn.field}}')">
+            <td class="kscr-Search-results-indicator" ng-class="{'kscr-Search-results-indicator--show': searchResult.indicator}"></td>
+            <td ng-repeat="searchColumn in searchColumns" class="kscr-Search-results-cell" ng-hide="searchColumn.optional && !hasData('{{searchColumn.field}}')"
+                ng-class="{'kscr-Search-results--first' : $index === 0}">
                 <a ng-if="searchColumn.url" ng-bind-html="applyFilter(searchResult[searchColumn.field], searchColumn.filter)"></a>
                 <span ng-if="!searchColumn.url" ng-bind-html="applyFilter(searchResult[searchColumn.field], searchColumn.filter)"></span>
                 <input class="kscr-Search-checkbox" ng-if="searchColumn.checkbox" type="checkbox" ng-click="select('{{searchColumn.checkbox}}', searchResult)" ng-model="searchResult.selected" />

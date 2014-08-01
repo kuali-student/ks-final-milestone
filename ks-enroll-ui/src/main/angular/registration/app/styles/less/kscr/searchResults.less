@@ -130,6 +130,24 @@
   display: none;
 }
 
+.kscr-Search-results-indicator-header {
+  background-color: @cardBorderColor;
+  &--selected {
+    background: @table-SelectedBackgroundColor;
+  }
+}
+
+.kscr-Search-results-indicator {
+  width: 0.5rem;
+  &--show {
+    background-color: @table-ShowIndicatorColor;
+  }
+}
+
+.kscr-Search-results--first {
+  padding-left: 0.75rem;
+}
+
 // small format styling
 @media screen and (max-width: @smallFormatMax) {
   .kscr-Search-results-heading {

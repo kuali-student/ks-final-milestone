@@ -58,6 +58,8 @@ angular.module('regCartApp')
                 var seatsOpen = '';                                     // seats open column
                 var additionalInfo;                                     // additional info column
 
+                var indicator=false;                                    // determines if we show the row indicator on the left
+
                 if (scheduleComponents && angular.isArray(scheduleComponents)) {
                     for (var i = 0; i < scheduleComponents.length; i++) {
                         days += denullify(scheduleComponents[i].days);
@@ -83,6 +85,7 @@ angular.module('regCartApp')
                 seatsOpen += ao.seatsOpen + '/' + ao.seatsAvailable;
                 if (ao.seatsOpen === 0) {
                     seatsOpen = '<span class="kscr-Search-results-no-seats">' + seatsOpen + '</span>';
+                    indicator = true;
                 }
                 seatsOpen = '<span class="kscr-Search-result-hidden">'+zeroPad(ao.seatsOpen)+zeroPad(ao.seatsAvailable)+'</span>'+seatsOpen;
 
@@ -116,6 +119,7 @@ angular.module('regCartApp')
                     location: location,
                     seatsOpen: seatsOpen,
                     additionalInfo: additionalInfo,
+                    indicator: indicator,
                     aoId: ao.activityOfferingId, // this is used for creating unique row ids
                     ao: ao                       // we may need the ao for further processing
                 };
