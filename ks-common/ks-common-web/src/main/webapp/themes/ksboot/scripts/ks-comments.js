@@ -138,7 +138,7 @@ function updateComment(baseUrl, controllerUrl, elem) {
         data: formData,
         success: function (data, textStatus, jqXHR) {
             toggleCommentButtons(elem);
-            jQuery("#KS-CommentField_UI_ID_line" + index ).text(data['comment']);
+            jQuery("#KS-CommentField_UI_ID_line" + index ).text(data.commentTextUI);
             jQuery("#lastEditor-container-id_line" + index).show();
             jQuery("#lastEditor-name-id_line" + index).text(data.lastEditorName);
             jQuery("#lastEditor-date-id_line" + index).text(data.lastEditedDate);
