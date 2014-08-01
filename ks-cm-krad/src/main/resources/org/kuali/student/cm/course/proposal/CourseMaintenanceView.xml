@@ -190,11 +190,6 @@
                     <list>
                         <bean parent="KS-Uif-DataField" p:label="Proposal Status"
                               p:shortLabel="Status" p:propertyName="proposalInfo.stateKey"/>
-                        <bean id="CM-Proposal-Course-LinkGroup-Comments" parent="Uif-ActionLink" p:actionLabel="Comments"
-                              p:actionScript="showCommentLightBox('@{#ConfigProperties['application.url']}/kr-krad/cm_comment?viewId=CM-Proposal-Course-Comment-View&amp;methodToCall=start&amp;proposalId=@{#dataObject.proposalInfo.id}');"
-                              p:disabled="@{#workflowDoc.initiated}"/>
-                        <bean id="CM-Proposal-Course-LinkGroup-Decisions" parent="Uif-ActionLink" p:actionLabel="Decisions"
-                              p:actionScript="showCommentLightBox('@{#ConfigProperties['application.url']}/kr-krad/cm_decision?viewId=CM-Proposal-Course-Decision-View&amp;methodToCall=start&amp;proposalId=@{#dataObject.proposalInfo.id}');"/>
                         <bean parent="Uif-Space"/>
                         <bean parent="KS-Uif-DataField" p:label="Last Updated"
                               p:shortLabel="Updated" p:propertyName="lastUpdated"/>
@@ -248,6 +243,43 @@
                 <entry key="htmlUtils" value="T(org.springframework.web.util.HtmlUtils)"/>
             </map>
         </property>
+        <property name="header.rightGroup">
+            <ref bean="CM-Proposal-Course-Create-RightHeader"/>
+        </property>
+    </bean>
+
+    <bean id="CM-Proposal-Course-Create-RightHeader" parent="CM-Proposal-Course-Create-RightHeader-parent"/>
+
+    <bean id="CM-Proposal-Course-Create-RightHeader-parent" parent="Uif-HorizontalBoxGroup" abstract="true"
+          p:cssClasses="cm-unified-header-rightGroup-action">
+        <property name="items">
+            <list>
+                <ref bean="CM-Proposal-Course-LinkGroup-Comments"/>
+                <ref bean="CM-Proposal-Course-LinkGroup-Decisions"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="CM-Proposal-Course-LinkGroup-Comments" parent="CM-Proposal-Course-LinkGroup-Comments-parent"/>
+
+    <bean id="CM-Proposal-Course-LinkGroup-Comments-parent" parent="Uif-KS-NavigationActionLink-parentBean" abstract="true"
+          p:actionScript="showCommentLightBox('@{#ConfigProperties['application.url']}/kr-krad/cm_comment?viewId=CM-Proposal-Course-Comment-View&amp;methodToCall=start&amp;proposalId=@{#dataObject.proposalInfo.id}');"
+          p:disabled="@{#workflowDoc.initiated}">
+        <property name="actionImage">
+            <bean parent="Uif-Image" p:source="" p:cssClasses="ks-fontello-icon-comment"/>
+        </property>
+        <property name="actionImagePlacement" value="IMAGE_ONLY"/>
+    </bean>
+
+    <bean id="CM-Proposal-Course-LinkGroup-Decisions" parent="CM-Proposal-Course-LinkGroup-Decisions-parent"/>
+
+    <bean id="CM-Proposal-Course-LinkGroup-Decisions-parent" parent="Uif-KS-NavigationActionLink-parentBean"  abstract="true"
+          p:actionScript="showCommentLightBox('@{#ConfigProperties['application.url']}/kr-krad/cm_decision?viewId=CM-Proposal-Course-Decision-View&amp;methodToCall=start&amp;proposalId=@{#dataObject.proposalInfo.id}');"
+          p:disabled="@{#workflowDoc.initiated}">
+        <property name="actionImage">
+            <bean parent="Uif-Image" p:source="" p:cssClasses="ks-fontello-icon-hammer"/>
+        </property>
+        <property name="actionImagePlacement" value="IMAGE_ONLY"/>
     </bean>
 
     <bean id="KS-HomewardPathBreadcrumbs-ProposalName" parent="Uif-BreadcrumbItem">
