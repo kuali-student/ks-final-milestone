@@ -68,6 +68,10 @@ import java.util.Set;
 @RequestMapping(value = "/adminreg")
 public class AdminRegistrationController extends UifControllerBase {
 
+    ///////////////////////////////////////////////
+    //Initialization methods
+    //////////////////////////////////////////////
+
     @Override
     protected AdminRegistrationForm createInitialForm(HttpServletRequest request) {
         return new AdminRegistrationForm();
@@ -124,6 +128,10 @@ public class AdminRegistrationController extends UifControllerBase {
         return super.refresh(form, result, request, response);
     }
 
+    ///////////////////////////////////////////////
+    //Student methods
+    //////////////////////////////////////////////
+
     /**
      * This method is called when the user has entered a student id to get the studentInfo
      *
@@ -151,6 +159,10 @@ public class AdminRegistrationController extends UifControllerBase {
         return getUIFModelAndView(form);
     }
 
+    ///////////////////////////////////////////////
+    //Term methods
+    //////////////////////////////////////////////
+
     /**
      * This method is called when the user has entered a term code to get the termInfo
      *
@@ -161,7 +173,7 @@ public class AdminRegistrationController extends UifControllerBase {
      * @return
      */
     @MethodAccessible
-    @RequestMapping(method = RequestMethod.POST, params = "methodToCall=getRegistrationInfo")
+    @RequestMapping(method = RequestMethod.POST, params = "methodToCall=getTermInfo")
     public ModelAndView getTermInfo(@ModelAttribute("KualiForm") AdminRegistrationForm form, BindingResult result,
                                     HttpServletRequest request, HttpServletResponse response) {
 
@@ -203,6 +215,30 @@ public class AdminRegistrationController extends UifControllerBase {
         form.setClientState(AdminRegConstants.ClientStates.READY);
         return getUIFModelAndView(form);
     }
+
+    @MethodAccessible
+    @RequestMapping(method = RequestMethod.POST, params = "methodToCall=cancelFailedEligibilityTerm")
+    public ModelAndView cancelFailedEligibilityTerm(@ModelAttribute("KualiForm") AdminRegistrationForm form, BindingResult result,
+            HttpServletRequest request, HttpServletResponse response) {
+        form.clearCourseRegistrationValues();
+        form.setDisplayRegistrationTabs(false);
+        form.setClientState(AdminRegConstants.ClientStates.READY);
+        return getUIFModelAndView(form);
+    }
+
+    @MethodAccessible
+    @RequestMapping(method = RequestMethod.POST, params = "methodToCall=continueFailedEligibilityTerm")
+    public ModelAndView continueFailedEligibilityTerm(@ModelAttribute("KualiForm") AdminRegistrationForm form, BindingResult result,
+            HttpServletRequest request, HttpServletResponse response) {
+        form.clearCourseRegistrationValues();
+        form.setDisplayRegistrationTabs(true);
+        form.setClientState(AdminRegConstants.ClientStates.READY);
+        return getUIFModelAndView(form);
+    }
+
+    ///////////////////////////////////////////////
+    //Registration methods
+    //////////////////////////////////////////////
 
     @MethodAccessible
     @RequestMapping(method = RequestMethod.POST, params = "methodToCall=register")
@@ -330,6 +366,11 @@ public class AdminRegistrationController extends UifControllerBase {
         result.put(AdminRegConstants.POLLING_UPDATE_IDS, updateIds);
         return result;
     }
+
+    ///////////////////////////////////////////////
+    //Manage Course methods
+    //////////////////////////////////////////////
+
 
     @RequestMapping(method = RequestMethod.POST, params = "methodToCall=dropCourse")
     public ModelAndView dropCourse(@ModelAttribute("KualiForm") AdminRegistrationForm form, BindingResult result,
@@ -491,24 +532,7 @@ public class AdminRegistrationController extends UifControllerBase {
         }
     }
 
-    @MethodAccessible
-    @RequestMapping(method = RequestMethod.POST, params = "methodToCall=cancelFailedEligibilityTerm")
-    public ModelAndView cancelFailedEligibilityTerm(@ModelAttribute("KualiForm") AdminRegistrationForm form, BindingResult result,
-                                                    HttpServletRequest request, HttpServletResponse response) {
-        form.clearCourseRegistrationValues();
-        form.setDisplayRegistrationTabs(false);
-        form.setClientState(AdminRegConstants.ClientStates.READY);
-        return getUIFModelAndView(form);
-    }
 
-    @MethodAccessible
-    @RequestMapping(method = RequestMethod.POST, params = "methodToCall=continueFailedEligibilityTerm")
-    public ModelAndView continueFailedEligibilityTerm(@ModelAttribute("KualiForm") AdminRegistrationForm form, BindingResult result,
-                                                      HttpServletRequest request, HttpServletResponse response) {
-        form.setDisplayRegistrationTabs(true);
-        form.setClientState(AdminRegConstants.ClientStates.READY);
-        return getUIFModelAndView(form);
-    }
 
 
     /**
