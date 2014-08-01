@@ -71,7 +71,6 @@ public interface CourseRegistrationClientService {
      * and submits it to be processed
      *
      * @param courseCode      - course code for the selected course
-     * @param regGroupCode    - Reg Group code for the selected course
      * @param masterLprId     - Master LPR Id for the selected course
      * @param credits         - current credits registered for
      * @param gradingOptionId - current grading option registered for
@@ -83,7 +82,6 @@ public interface CourseRegistrationClientService {
     @Path("/registrationRequest")
     Response createAndSubmitUpdateCourseRegistrationRequest(@FormParam("courseCode") String courseCode,
                                                             @FormParam("regGroupId") String regGroupId,
-                                                            @FormParam("regGroupCode") String regGroupCode,
                                                             @FormParam("masterLprId") String masterLprId,
                                                             @FormParam("termId") String termId,
                                                             @FormParam("credits") String credits,
@@ -93,7 +91,6 @@ public interface CourseRegistrationClientService {
      * Updates the credit/reg options for waitlist LPRs using a registration request.
      *
      * @param courseCode e.g., ENGL101
-     * @param regGroupCode e.g., 1001
      * @param masterLprId Represents the waitlist RG LPRs for a waitlist
      * @param termId Represent a TermInfo (see AcademicCalendarService)
      * @param credits String version of credits, e.g. "3.0"
@@ -106,7 +103,6 @@ public interface CourseRegistrationClientService {
     @Path("/waitlistRegistrationRequest")
     Response createAndSubmitUpdateWaitlistRegistrationRequest(@FormParam("courseCode") String courseCode,
                                                               @FormParam("regGroupId") String regGroupId,
-                                                              @FormParam("regGroupCode") String regGroupCode,
                                                               @FormParam("masterLprId") String masterLprId,
                                                               @FormParam("termId") String termId,
                                                               @FormParam("credits") String credits,

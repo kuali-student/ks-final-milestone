@@ -121,11 +121,11 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
     }
 
     @Override
-    public Response createAndSubmitUpdateCourseRegistrationRequest(String courseCode, String regGroupId, String regGroupCode, String masterLprId, String termId, String credits, String gradingOptionId) {
+    public Response createAndSubmitUpdateCourseRegistrationRequest(String courseCode, String regGroupId, String masterLprId, String termId, String credits, String gradingOptionId) {
         Response.ResponseBuilder response;
 
         try {
-            response = Response.ok(updateScheduleItem(courseCode, regGroupId, regGroupCode, masterLprId, termId, credits, gradingOptionId,
+            response = Response.ok(updateScheduleItem(courseCode, regGroupId, null, masterLprId, termId, credits, gradingOptionId,
                     ContextUtils.createDefaultContextInfo()));
         } catch (Exception e) {
             LOGGER.warn("Exception occurred", e);
@@ -136,11 +136,11 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
     }
 
     @Override
-    public Response createAndSubmitUpdateWaitlistRegistrationRequest(String courseCode, String regGroupId, String regGroupCode, String masterLprId, String termId, String credits, String gradingOptionId) {
+    public Response createAndSubmitUpdateWaitlistRegistrationRequest(String courseCode, String regGroupId, String masterLprId, String termId, String credits, String gradingOptionId) {
         Response.ResponseBuilder response;
 
         try {
-            response = Response.ok(updateWaitlistEntry(courseCode, regGroupId, regGroupCode, masterLprId, termId, credits, gradingOptionId,
+            response = Response.ok(updateWaitlistEntry(courseCode, regGroupId, null, masterLprId, termId, credits, gradingOptionId,
                     ContextUtils.createDefaultContextInfo()));
         } catch (Exception e) {
             LOGGER.warn("Exception occurred", e);

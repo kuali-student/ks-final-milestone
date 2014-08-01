@@ -128,7 +128,6 @@ angular.module('regCartApp')
                         ScheduleService.updateWaitlistItem().query, {
                             courseCode: course.courseCode,
                             regGroupId: course.regGroupId,
-                            regGroupCode: course.regGroupCode,
                             masterLprId: course.masterLprId,
                             termId: $scope.termId,
                             credits: newCourse.credits,
@@ -141,7 +140,6 @@ angular.module('regCartApp')
                         ScheduleService.updateScheduleItem().query, {
                             courseCode: course.courseCode,
                             regGroupId: course.regGroupId,
-                            regGroupCode: course.regGroupCode,
                             masterLprId: course.masterLprId,
                             termId: $scope.termId,
                             credits: newCourse.credits,
