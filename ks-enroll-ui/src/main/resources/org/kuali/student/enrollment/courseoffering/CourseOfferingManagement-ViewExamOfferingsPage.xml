@@ -589,7 +589,7 @@
         <property name="hidden" value="true"/>
         <property name="items">
             <list>
-                <bean parent="Uif-Message" p:messageText="[br]Removing the override will cause exam matrix rules to be applied to this Exam [br]Offering and new Requested Scheduling Information to be saved. Do you want to proceed?[br][br][br]"/>
+                <bean parent="Uif-Message" p:messageText="[br]Removing the override will cause exam matrix rules to be applied to this Exam [br]Offering and new date, time and location information to be saved. Do you want to proceed?[br][br][br]"/>
                 <bean parent="Uif-HorizontalBoxSection">
                     <property name="items">
                         <list>
