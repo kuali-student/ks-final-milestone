@@ -37,14 +37,31 @@
 
     <bean id="CM-Proposal-Course-Decision-Section" parent="Uif-VerticalBoxSection">
         <property name="headerText" value="Proposal Decisions"/>
+        <property name="header">
+            <bean parent="Uif-HeaderTwo">
+                <property name="cssClasses">
+                  <list>
+                    <value>uif-sectionHeader</value>
+                  </list>
+                </property>
+            </bean>
+        </property>
         <property name="items">
             <list>
                 <bean parent="Uif-Disclosure-TableCollectionSection" p:layoutManager.numberOfColumns="4">
                     <property name="header.render" value="false"/>
                     <property name="collectionObjectClass" value="org.kuali.student.cm.decision.form.wrapper.CMDecisionWrapper"/>
                     <property name="propertyName" value="decisions"/>
-                    <property name="layoutManager.richTable.render" value="false"/>
                     <property name="layoutManager.renderSequenceField" value="false"/>
+                    <property name="layoutManager.richTable">
+                        <bean parent="KS-Uif-RichTable">
+                            <property name="templateOptions">
+                                <map merge="true">
+                                    <entry key="aoColumnDefs" value="{ bSortable: true, aTargets: [ 0 ] },{ bSortable: false, aTargets: [ '_all' ] }"/>
+                                </map>
+                            </property>
+                        </bean>
+                    </property>
                     <property name="renderAddLine" value="false"/>
                     <property name="renderLineActions" value="false"/>
                     <property name="items">

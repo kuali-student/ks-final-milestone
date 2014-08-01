@@ -186,7 +186,9 @@ public class CMDecisionController extends KsUifControllerBase {
                     if (QuickViewByGivenName.PERSON_ID_RESULT.equals(cell.getKey())) {
                         userId = cell.getValue();
                     } else if (QuickViewByGivenName.GIVEN_NAME_RESULT.equals(cell.getKey())) {
-                        displayName = cell.getValue();
+                        String firstName = StringUtils.substringAfter(cell.getValue(),",").trim();
+                        String lastName = StringUtils.substringBefore(cell.getValue(),",").trim();
+                        displayName = firstName + " " + lastName;
                     }
                 }
 
