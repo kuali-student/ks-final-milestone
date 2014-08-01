@@ -34,8 +34,8 @@
             class="kscr-Search-row" ng-class="{'kscr-Search-row--clickable': onClick}"
             ng-hide="searchResult.hidden" ng-click="{{onClick}}">
             <td ng-repeat="searchColumn in searchColumns" class="kscr-Search-results-cell" ng-hide="searchColumn.optional && !hasData('{{searchColumn.field}}')">
-                <a ng-if="searchColumn.url" src="searchColumn.url" ng-bind-html="applyFilter(searchResult[searchColumn.field], searchColumn.filter)"></a>
-                <span ng-if="!searchColumn.url" src="searchColumn.url" ng-bind-html="applyFilter(searchResult[searchColumn.field], searchColumn.filter)"></span>
+                <a ng-if="searchColumn.url" ng-bind-html="applyFilter(searchResult[searchColumn.field], searchColumn.filter)"></a>
+                <span ng-if="!searchColumn.url" ng-bind-html="applyFilter(searchResult[searchColumn.field], searchColumn.filter)"></span>
                 <input class="kscr-Search-checkbox" ng-if="searchColumn.checkbox" type="checkbox" ng-click="select('{{searchColumn.checkbox}}', searchResult)" ng-model="searchResult.selected" />
             </td>
         </tr>

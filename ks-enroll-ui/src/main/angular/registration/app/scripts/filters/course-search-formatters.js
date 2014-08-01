@@ -55,7 +55,8 @@ angular.module('regCartApp')
                 var time = '';                                          // time column
                 var location = '';                                      // location column
                 var instructorList = '';                                // instructors column
-                var seatsOpen =''; // seats open column
+                var seatsOpen = '';                                     // seats open column
+                var additionalInfo;                                     // additional info column
 
                 if (scheduleComponents && angular.isArray(scheduleComponents)) {
                     for (var i = 0; i < scheduleComponents.length; i++) {
@@ -85,12 +86,36 @@ angular.module('regCartApp')
                 }
                 seatsOpen = '<span class="kscr-Search-result-hidden">'+zeroPad(ao.seatsOpen)+zeroPad(ao.seatsAvailable)+'</span>'+seatsOpen;
 
+                if (ao.subterm != null) {
+                    var subterm = true;
+                }
+                if (angular.isArray(ao.requisites) && ao.requisites.length > 0) {
+                    var requisites = true;
+                    var requisiteText = '';
+                    angular.forEach(ao.requisites, function(requisite) {
+                        requisiteText += ' &#13;' + requisite;
+                    });
+                }
+                if (subterm || requisites) {
+                    additionalInfo = '';
+                }
+                if (subterm) {
+                    additionalInfo += '<div class="kscr-SearchDetails-icon"><img title="Subterm: '+ao.subterm.name+'" src="images/icons/subterm.png" /></div>';
+                }
+                if (requisites) {
+                    if (!subterm) {
+                        additionalInfo += '<div class="kscr-SearchDetails-icon">&nbsp;</div>'
+                    }
+                    additionalInfo += '<div class="kscr-SearchDetails-icon"><img title="Requisites: '+requisiteText+'" src="images/icons/requisites.png" /></div>';
+                }
+
                 var row={
                     days: days,
                     time: time,
                     instructor: instructorList,
                     location: location,
                     seatsOpen: seatsOpen,
+                    additionalInfo: additionalInfo,
                     aoId: ao.activityOfferingId, // this is used for creating unique row ids
                     ao: ao                       // we may need the ao for further processing
                 };
