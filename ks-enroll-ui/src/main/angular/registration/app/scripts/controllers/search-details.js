@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('regCartApp')
-    .controller('SearchDetailsCtrl', ['$scope', '$rootScope', '$state', '$filter', 'SearchService',
-    function SearchDetailsCtrl($scope, $rootScope, $state, $filter, SearchService) {
+    .controller('SearchDetailsCtrl', ['$scope', '$rootScope', '$state', '$filter', '$modal', 'SearchService',
+    function SearchDetailsCtrl($scope, $rootScope, $state, $filter, $modal, SearchService) {
 
         $scope.searchCriteria = null; // Criteria used to generate the search results.
         $scope.course = null; // Handle on the course
@@ -67,7 +67,6 @@ angular.module('regCartApp')
         $scope.selectedRegGroupId = null;
         $scope.selectedRegGroupCode = null;
 
-
         $scope.clearSelectedAOs = function() {
             $scope.selectedRegGroup = null;
             $scope.selectedRegGroupId = null;
@@ -94,6 +93,32 @@ angular.module('regCartApp')
             var selected = getSelectedAOByType(aoType);
             return selected !== null;
         };
+
+        $scope.$on('showSubterm', function(event, subterm) {
+            $modal.open({
+                templateUrl: 'partials/additionalInfo.html',
+                controller: 'AdditionalInfoCtrl',
+                size: 'sm',
+                resolve: {subterm: function() {
+                    return subterm;
+                },
+                requisites: undefined
+                }
+            })
+        });
+
+        $scope.$on('showRequisites', function(event, requisites) {
+            $modal.open({
+                templateUrl: 'partials/additionalInfo.html',
+                controller: 'AdditionalInfoCtrl',
+                size: 'sm',
+                resolve: {requisites: function() {
+                    return requisites;
+                },
+                subterm: undefined
+                }
+            })
+        });
 
         $scope.$on('toggleAO', function (event, ao) {
             $scope.toggleAO(ao.activityOfferingType, ao);
@@ -261,4 +286,26 @@ angular.module('regCartApp')
             return compatible;
         }
 
-    }]);
+    }])
+
+    .controller('AdditionalInfoCtrl', ['$scope', 'subterm', 'requisites', function($scope, subterm, requisites) {
+        $scope.subterm = subterm;
+        $scope.requisites = requisites;
+
+        $scope.startDate = function() {
+            return parseDate(subterm.startDate);
+        };
+
+        $scope.endDate = function() {
+            return parseDate(subterm.endDate);
+        };
+
+        /*
+        Parses a millisecond date into MM/DD/YYYY
+         */
+        function parseDate(millis) {
+            var date=new Date(millis);
+            return date.getMonth()+1 + '/' + date.getDate() + '/' +date.getFullYear();
+        }
+    }])
+;

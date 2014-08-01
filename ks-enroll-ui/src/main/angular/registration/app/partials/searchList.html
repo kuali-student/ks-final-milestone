@@ -38,8 +38,8 @@
             <td class="kscr-Search-results-indicator" ng-class="{'kscr-Search-results-indicator--show': searchResult.indicator}"></td>
             <td ng-repeat="searchColumn in searchColumns" class="kscr-Search-results-cell" ng-hide="searchColumn.optional && !hasData('{{searchColumn.field}}')"
                 ng-class="{'kscr-Search-results--first' : $index === 0}">
-                <a ng-if="searchColumn.url" ng-bind-html="applyFilter(searchResult, searchColumn.field, searchColumn.filter)"></a>
-                <span ng-if="!searchColumn.url" ng-bind-html="applyFilter(searchResult, searchColumn.field, searchColumn.filter)"></span>
+                <a ng-if="searchColumn.url" compile="applyFilter(searchResult, searchColumn.field, searchColumn.filter)"></a>
+                <span ng-if="!searchColumn.url" compile="applyFilter(searchResult, searchColumn.field, searchColumn.filter)"></span>
                 <span class="kscr-Search-checkbox" ng-if="searchColumn.checkbox" ng-hide="searchResult.disabled" ng-class="{'kscr-Search-checkbox--selected' : searchResult.selected}"></span>
             </td>
         </tr>

@@ -66,4 +66,22 @@ angular.module('regCartApp')
         };
     })
 
+    /*
+    This directive binds and compiles an HTML element. It can be used as a
+    replacement for ng-bind-html when you need to include a custom element
+    (e.g. ng-click).
+     */
+    .directive('compile', function ($compile) {
+        return function(scope, element, attrs) {
+            scope.$watch(
+                function(scope) {
+                    return scope.$eval(attrs.compile);
+                },
+                function(value) {
+                    element.html(value);
+                    $compile(element.contents())(scope);
+                }
+            )};
+    })
+
 ;

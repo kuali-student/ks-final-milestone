@@ -73,7 +73,7 @@ angular.module('regCartApp')
                 var seatsOpen = '';                                     // seats open column
                 var additionalInfo;                                     // additional info column
 
-                var indicator = false;                                    // determines if we show the row indicator on the left
+                var indicator = false;                                  // determines if we show the row indicator on the left
 
                 if (scheduleComponents && angular.isArray(scheduleComponents)) {
                     for (var i = 0; i < scheduleComponents.length; i++) {
@@ -105,29 +105,25 @@ angular.module('regCartApp')
                 seatsOpen = '<span class="kscr-Search-result-hidden">' + zeroPad(ao.seatsOpen) + zeroPad(ao.seatsAvailable) + '</span>' + seatsOpen;
 
                 var subterm = false,
-                    requisites = false,
-                    requisiteText = '';
+                    requisites = false;
 
                 if (ao.subterm !== null) {
                     subterm = true;
                 }
                 if (angular.isArray(ao.requisites) && ao.requisites.length > 0) {
                     requisites = true;
-                    angular.forEach(ao.requisites, function(requisite) {
-                        requisiteText += ' &#13;' + requisite;
-                    });
                 }
                 if (subterm || requisites) {
                     additionalInfo = '';
                 }
                 if (subterm) {
-                    additionalInfo += '<div class="kscr-SearchDetails-icon"><img title="Subterm: ' + ao.subterm.name + '" src="images/icons/subterm.png" /></div>';
+                    additionalInfo += '<div class="kscr-SearchDetails-icon" ng-click="$emit(\'showSubterm\', searchResult.subterm); $event.stopPropagation();"><img src="images/icons/subterm.png" /></div>';
                 }
                 if (requisites) {
                     if (!subterm) {
                         additionalInfo += '<div class="kscr-SearchDetails-icon">&nbsp;</div>';
                     }
-                    additionalInfo += '<div class="kscr-SearchDetails-icon"><img title="Requisites: ' + requisiteText + '" src="images/icons/requisites.png" /></div>';
+                    additionalInfo += '<div class="kscr-SearchDetails-icon" ng-click="$emit(\'showRequisites\', searchResult.requisites); $event.stopPropagation();"><img src="images/icons/requisites.png" /></div>';
                 }
 
                 ao.formatted = {
