@@ -76,7 +76,9 @@ public class StartProposalController extends UifControllerBase {
         urlParameters.put(KRADConstants.PARAMETER_COMMAND, KewApiConstants.INITIATE_COMMAND);
         urlParameters.put(KRADConstants.DATA_OBJECT_CLASS_ATTRIBUTE, CourseInfoWrapper.class.getName());
         urlParameters.put(KRADConstants.RETURN_LOCATION_PARAMETER, CMUtils.getCMHomeUrl() );
-        urlParameters.put(CourseController.UrlParams.COPY_CLU_ID, ((CourseInitialForm)form).getCourseCode());
+        if(((CourseInitialForm)form).getCourseCode() != null){
+            urlParameters.put(CourseController.UrlParams.COPY_CLU_ID, ((CourseInitialForm) form).getCourseCode());
+        }
 
         String uri = request.getRequestURL().toString().replace(CurriculumManagementConstants.ControllerRequestMappings.START_PROPOSAL,CurriculumManagementConstants.ControllerRequestMappings.COURSE_MAINTENANCE);
 
