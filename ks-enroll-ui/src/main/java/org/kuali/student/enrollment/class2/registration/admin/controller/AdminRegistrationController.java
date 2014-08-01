@@ -506,6 +506,7 @@ public class AdminRegistrationController extends UifControllerBase {
         return getUIFModelAndView(form);
     }
 
+    //Method used for the deny button of the registration request
     @RequestMapping(method = RequestMethod.POST, params = "methodToCall=denyCourse")
     public ModelAndView denyCourse(@ModelAttribute("KualiForm") AdminRegistrationForm form, BindingResult result,
                                    HttpServletRequest request, HttpServletResponse response) {

@@ -351,7 +351,8 @@
                 <bean parent="Uif-PrimaryActionButton" p:actionLabel="Allow"
                       p:successCallback="retrieveComponent('KS-AdminRegistration-Registered')"
                       p:methodToCall="allowCourse" p:render="@{#line.level eq 'kuali.admin.reg.result.level.warning'}"/>
-                <bean parent="Uif-DeleteLineAction" p:actionLabel="Deny" p:render="@{#line.level eq 'kuali.admin.reg.result.level.warning'}"
+                <bean parent="Uif-DeleteLineAction" p:actionLabel="Deny" p:methodToCall="denyCourse"
+                      p:render="@{#line.level eq 'kuali.admin.reg.result.level.warning'}"
                       p:additionalCssClasses="warning-result"/>
                 <bean parent="KS-Uif-Delete-ActionLink" p:actionLabel="Dismiss" p:methodToCall="deleteLine"
                       p:render="@{#line.level eq 'kuali.admin.reg.result.level.success'}"
