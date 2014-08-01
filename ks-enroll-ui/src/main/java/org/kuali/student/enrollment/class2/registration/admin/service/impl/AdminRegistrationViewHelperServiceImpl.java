@@ -88,7 +88,7 @@ public class AdminRegistrationViewHelperServiceImpl extends KSViewHelperServiceI
                 }
             }
             if (!validStudent) {
-                GlobalVariables.getMessageMap().putError(AdminRegConstants.PERSON_ID, AdminRegConstants.ADMIN_REG_MSG_ERROR_INVALID_STUDENT, studentId);
+                GlobalVariables.getMessageMap().putError(AdminRegConstants.PERSON_ID, AdminRegConstants.ADMIN_REG_MSG_ERROR_NO_STUDENT_AFFILIATION, studentId);
                 return null;
             }
             return personInfo;
