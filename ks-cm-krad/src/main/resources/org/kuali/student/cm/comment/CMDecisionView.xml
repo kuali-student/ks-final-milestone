@@ -48,8 +48,8 @@
         </property>
         <property name="items">
             <list>
-                <bean parent="Uif-Disclosure-TableCollectionSection" p:layoutManager.numberOfColumns="4">
-                    <property name="header.render" value="false"/>
+                <bean id="CM-Proposal-Course-DecisionTable" parent="Uif-TableCollectionSection" p:layoutManager.numberOfColumns="4">
+                    <property name="header.render" value="true"/>
                     <property name="collectionObjectClass" value="org.kuali.student.cm.decision.form.wrapper.CMDecisionWrapper"/>
                     <property name="propertyName" value="decisions"/>
                     <property name="layoutManager.renderSequenceField" value="false"/>
@@ -57,7 +57,7 @@
                         <bean parent="KS-Uif-RichTable">
                             <property name="templateOptions">
                                 <map merge="true">
-                                    <entry key="aoColumnDefs" value="{ bSortable: true, aTargets: [ 0 ] },{ bSortable: false, aTargets: [ '_all' ] }"/>
+                                    <entry key="aoColumnDefs" value="{ bSortable: true, aTargets: [ 1 ] }, { bSortable: false, aTargets: [ '_all' ] }"/>
                                 </map>
                             </property>
                         </bean>
