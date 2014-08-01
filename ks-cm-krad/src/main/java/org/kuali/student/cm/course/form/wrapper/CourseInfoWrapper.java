@@ -430,7 +430,6 @@ public class CourseInfoWrapper extends LURuleManagementWrapper implements Serial
             return getProposalInfo() != null ? getProposalInfo().getName() : "";
         }
 
-
         public boolean isUseReviewProcess() {
             return useReviewProcess;
         }

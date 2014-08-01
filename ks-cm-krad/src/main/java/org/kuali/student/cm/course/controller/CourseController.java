@@ -26,8 +26,6 @@ import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.identity.IdentityService;
-import org.kuali.rice.kim.api.identity.entity.Entity;
-import org.kuali.rice.kim.api.identity.name.EntityNameContract;
 import org.kuali.rice.krad.rules.rule.event.RouteDocumentEvent;
 import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 import org.kuali.rice.krad.uif.UifConstants;
@@ -60,22 +58,14 @@ import org.kuali.student.r1.core.subjectcode.service.SubjectCodeService;
 import org.kuali.student.r1.core.workflow.dto.CollaboratorWrapper;
 import org.kuali.student.r2.common.constants.CommonServiceConstants;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
-import org.kuali.student.r2.core.class1.type.service.TypeService;
-import org.kuali.student.r2.core.comment.service.CommentService;
 import org.kuali.student.r2.core.constants.DocumentServiceConstants;
-import org.kuali.student.r2.core.constants.ProposalServiceConstants;
-import org.kuali.student.r2.core.constants.TypeServiceConstants;
 import org.kuali.student.r2.core.document.dto.DocumentInfo;
 import org.kuali.student.r2.core.document.service.DocumentService;
-import org.kuali.student.r2.core.proposal.service.ProposalService;
 import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultCellInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultRowInfo;
-import org.kuali.student.r2.lum.clu.service.CluService;
-import org.kuali.student.r2.lum.course.dto.CourseCrossListingInfo;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.lum.course.service.CourseService;
-import org.kuali.student.r2.lum.util.constants.CluServiceConstants;
 import org.kuali.student.r2.lum.util.constants.CourseServiceConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -96,7 +86,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
-
 /**
  * This controller handles all the requests from the 'Create a Course' UI.
  */
@@ -106,18 +95,31 @@ public class CourseController extends CourseRuleEditorController {
 
     private static final Logger LOG = LoggerFactory.getLogger(CourseController.class);
 
-    public static final String URL_PARAM_USE_CURRICULUM_REVIEW = "useCurriculumReview";
+    /**
+     * Request Parameters used by CourseController.
+     */
+    public static class UrlParams {
+        /**
+         * A flag which indicates whether workflow should be used or not.
+         */
+        public static final String USE_CURRICULUM_REVIEW = "useCurriculumReview";
+        /**
+         * Specifies that this proposal should copy from the CLU with the given Id.
+         */
+        public static final String COPY_CLU_ID = "copyCluId";
+        /**
+         * Specifies that this proposal should copy from the ProposalInfo with the given Id.
+         */
+        public static final String COPY_PROPOSAL_ID = "copyProposalId";
+
+        private UrlParams() {}  /* Constants class. Hide the contructor. */
+    }
+
     private static final String DECISIONS_DIALOG_KEY = "CM-Proposal-Course-DecisionDialog";
 
     private CourseService courseService;
-    private CommentService commentService;
     private DocumentService documentService;
     private SubjectCodeService subjectCodeService;
-    private IdentityService identityService;
-    private CluService cluService;
-    private ProposalService proposalService;
-    private TypeService typeService;
-
     /**
      * This method creates the form and in the case of a brand new proposal where this method is called after the user uses
      * the Initial Create Proposal screen, this method will also set the document type name based on the request parameter
@@ -129,22 +131,38 @@ public class CourseController extends CourseRuleEditorController {
     @Override
     protected MaintenanceDocumentForm createInitialForm(HttpServletRequest request) {
         MaintenanceDocumentForm form = new MaintenanceDocumentForm();
-        String useReviewProcessParam = request.getParameter(URL_PARAM_USE_CURRICULUM_REVIEW);
+
+        String useReviewProcessParam = request.getParameter(UrlParams.USE_CURRICULUM_REVIEW);
         // only do the manually setup of the MaintenanceDocumentForm fields if the URL_PARAM_USE_CURRICULUM_REVIEW param was passed in from initial view
         if (StringUtils.isNotBlank(useReviewProcessParam)) {
             Boolean isUseReviewProcess = new Boolean(useReviewProcessParam);
             // throw an exception if the user is not a CS user but attempts to disable Curriculum Review for a proposal
             if (!isUseReviewProcess && !CourseProposalUtil.isUserCurriculumSpecialist()) {
-                throw new RuntimeException("A user (" + GlobalVariables.getUserSession().getPerson().getPrincipalName() + ") who is not allowed to disable Curriculum Review (Workflow Approval) has attempted to.");
+                throw new RuntimeException(String.format("User (%s) is not allowed to disable Curriculum Review (Workflow Approval).",
+                    GlobalVariables.getUserSession().getPerson().getPrincipalName()));
             }
             // set the doc type name based on the whether the user is CS and if they have chosen to use curriculum review
             form.setDocTypeName((!isUseReviewProcess) ? CurriculumManagementConstants.DocumentTypeNames.CourseProposal.COURSE_CREATE_ADMIN : CurriculumManagementConstants.DocumentTypeNames.CourseProposal.COURSE_CREATE);
         }
+
+        /*
+         * Copy from CLU and copy from Proposal are mutually exclusive. Copy from CLU takes precedence.
+         */
+        String copyCluId = request.getParameter(UrlParams.COPY_CLU_ID);
+        if (StringUtils.isNotBlank(copyCluId)) {
+
+        } else {
+            String copyProposalId = request.getParameter(UrlParams.COPY_PROPOSAL_ID);
+            if (StringUtils.isNotBlank(copyProposalId)) {
+                //  Copy
+            }
+        }
+
         return form;
     }
 
     /**
-     * Digs the CourseInfoWrapper out of a DocumentFormBase.
+     * Digs the CourseInfoWrapper out of DocumentFormBase.
      *
      * @param form The DocumentFormBase.
      * @return The CourseInfoWrapper.
@@ -182,10 +200,10 @@ public class CourseController extends CourseRuleEditorController {
     }
 
     /**
-     * Currently updates the MaintenanceDocumentForm to set the 'useReviewProcess' property based on the document type name. If
+     * Updates the MaintenanceDocumentForm to set the 'useReviewProcess' property based on the document type name. If
      * the document type name is CurriculumManagementConstants#DocumentTypeNames#CourseProposal#COURSE_CREATE_ADMIN or
      * CurriculumManagementConstants#DocumentTypeNames#CourseProposal#COURSE_MODIFY_ADMIN then set 'useReviewProcss' to
-     * false
+     * false.
      *
      * @param form the DocumentFormBase object to update
      */
@@ -253,7 +271,7 @@ public class CourseController extends CourseRuleEditorController {
     public ModelAndView route(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result, HttpServletRequest request, HttpServletResponse response) {
 
         String dialog = CurriculumManagementConstants.COURSE_SUBMIT_CONFIRMATION_DIALOG;
-        if (!hasDialogBeenDisplayed(dialog, form)) {
+        if ( ! hasDialogBeenDisplayed(dialog, form)) {
 
             CourseInfoWrapper courseInfoWrapper = getCourseInfoWrapper(form);
 
@@ -280,11 +298,11 @@ public class CourseController extends CourseRuleEditorController {
                 //redirect back to client to display confirm dialog
                 return showDialog(dialog, form, request, response);
             }
-        }else{
-            if(hasDialogBeenAnswered(dialog,form)){
+        } else {
+            if (hasDialogBeenAnswered(dialog,form)) {
                 boolean confirmSubmit = getBooleanDialogResponse(dialog, form, request, response);
                 form.getDialogManager().resetDialogStatus(dialog);
-                if(confirmSubmit){
+                if (confirmSubmit) {
                     //route the document
                     return super.route(form,result, request,response);
                 }
@@ -294,7 +312,7 @@ public class CourseController extends CourseRuleEditorController {
     }
 
     /**
-     * load the course proposal review page
+     * Load the course proposal review page
      */
     @MethodAccessible
     @RequestMapping(params = "methodToCall=reviewCourseProposal")
@@ -313,7 +331,7 @@ public class CourseController extends CourseRuleEditorController {
     }
 
     /**
-     * load the course proposal review page
+     * Load the course proposal review page
      */
     @RequestMapping(params = "methodToCall=editCourseProposalPage")
     public ModelAndView editCourseProposalPage(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result,
@@ -545,126 +563,6 @@ public class CourseController extends CourseRuleEditorController {
 
         return null;
 
-    }
-
-    /**
-     * Copied this method from CourseDataService.
-     * This calculates and sets fields on course object that are derived from other course object fields.
-     */
-    protected CourseInfo calculateCourseDerivedFields(CourseInfo courseInfo) {
-        // Course code is not populated in UI, need to derive them from the subject area and suffix fields
-        if (StringUtils.isNotBlank(courseInfo.getCourseNumberSuffix()) && StringUtils.isNotBlank(courseInfo.getSubjectArea())) {
-            courseInfo.setCode(calculateCourseCode(courseInfo.getSubjectArea(), courseInfo.getCourseNumberSuffix()));
-        }
-
-        // Derive course code for crosslistings
-        for (CourseCrossListingInfo crossListing : courseInfo.getCrossListings()) {
-            if (StringUtils.isNotBlank(crossListing.getCourseNumberSuffix()) && StringUtils.isNotBlank(crossListing.getSubjectArea())) {
-                crossListing.setCode(calculateCourseCode(crossListing.getSubjectArea(), crossListing.getCourseNumberSuffix()));
-            }
-        }
-
-        return courseInfo;
-    }
-
-    /**
-     * Copied this method from CourseDataService
-     * This method calculates code for course and cross listed course.
-     *
-     * @param subjectArea
-     * @param suffixNumber
-     * @return
-     */
-    protected String calculateCourseCode(final String subjectArea, final String suffixNumber) {
-        return subjectArea + suffixNumber;
-    }
-
-    /**
-     * Converts the display name of the instructor into the plain user name (for use in a search query)
-     *
-     * @param displayName The display name of the instructor.
-     * @return The user name of the instructor.
-     */
-    protected String getInstructorSearchString(String displayName) {
-        String searchString = null;
-        if (displayName.contains("(") && displayName.contains(")")) {
-            searchString = displayName.substring(displayName.lastIndexOf('(') + 1, displayName.lastIndexOf(')'));
-        }
-        return searchString;
-    }
-
-    /**
-     * Determines to which page to navigate.
-     *
-     * @param currentSectionId The current page id.
-     * @return The id of the next page to navigate to.
-     */
-    protected String getNextSectionId(final String currentSectionId) {
-        String nextPageId = null;
-        final CourseViewSections[] pages = CourseViewSections.values();
-        for (int i = 0; i < pages.length; i++) {
-            if (pages[i].getSectionId().equals(currentSectionId)) {
-                //Get the next page in the enum, except when it's the last page in the enum
-                if (i + 1 < pages.length) {
-                    nextPageId = pages[++i].getSectionId();
-                    break;
-                }
-            }
-        }
-        return nextPageId;
-    }
-
-
-    protected String getPreviousSectionId(final String currentSectionId) {
-        String prevPageId = null;
-        final CourseViewSections[] pages = CourseViewSections.values();
-        for (int i = 1; i < pages.length; i++) {
-            if (pages[i].getSectionId().equals(currentSectionId)) {
-                prevPageId = pages[--i].getSectionId();
-                break;
-            }
-        }
-        return prevPageId;
-    }
-
-    /**
-     * @param userId The id of the person currently logged in.
-     * @return returns User name of person currently logged in.
-     */
-    public String getUserNameLoggedin(String userId) {
-        final Entity kimEntityInfo = getIdentityService().getEntityByPrincipalId(userId);
-        return getUserRealNameByEntityInfo(kimEntityInfo);
-    }
-
-    /**
-     * @param kimEntityInfo The (@link Entity) information for the currently logged in user.
-     * @return The formatted user name of the currently logged in user.
-     */
-    protected String getUserRealNameByEntityInfo(Entity kimEntityInfo) {
-        final EntityNameContract kimEntityNameInfo = (kimEntityInfo == null) ? null : kimEntityInfo.getDefaultName();
-        final StringBuilder name = new StringBuilder();
-        if (kimEntityNameInfo != null) {
-            if (!StringUtils.defaultString(kimEntityNameInfo.getFirstName()).trim().isEmpty()) {
-                if (!name.toString().isEmpty()) {
-                    name.append(" ");
-                }
-                name.append(StringUtils.defaultString(kimEntityNameInfo.getFirstName()));
-            }
-
-            if (!StringUtils.defaultString(kimEntityNameInfo.getMiddleName()).trim().isEmpty()) {
-                if (!name.toString().isEmpty()) {
-                    name.append(" ");
-                }
-                name.append(StringUtils.defaultString(kimEntityNameInfo.getMiddleName()));
-            }
-            if (!StringUtils.defaultString(kimEntityNameInfo.getLastName()).trim().isEmpty()) {
-                if (!name.toString().isEmpty()) {
-                    name.append(" ");
-                }
-                name.append(StringUtils.defaultString(kimEntityNameInfo.getLastName()));
-            }
-        }
-        return name.toString();
     }
 
     /**
@@ -916,25 +814,11 @@ public class CourseController extends CourseRuleEditorController {
         }
     }
 
-    protected CluService getCluService() {
-        if (cluService == null) {
-            cluService = GlobalResourceLoader.getService(new QName(CluServiceConstants.CLU_NAMESPACE, CluService.class.getSimpleName()));
-        }
-        return cluService;
-    }
-
     protected CourseService getCourseService() {
         if (courseService == null) {
             courseService = (CourseService) GlobalResourceLoader.getService(new QName(CourseServiceConstants.COURSE_NAMESPACE, CourseServiceConstants.SERVICE_NAME_LOCAL_PART));
         }
         return courseService;
-    }
-
-    protected ProposalService getProposalService() {
-        if (proposalService == null) {
-            proposalService = (ProposalService) GlobalResourceLoader.getService(new QName(ProposalServiceConstants.NAMESPACE, ProposalServiceConstants.SERVICE_NAME_LOCAL_PART));
-        }
-        return proposalService;
     }
 
     protected DocumentService getSupportingDocumentService() {
@@ -944,26 +828,10 @@ public class CourseController extends CourseRuleEditorController {
         return documentService;
     }
 
-    protected IdentityService getIdentityService() {
-        if (identityService == null) {
-            identityService = GlobalResourceLoader.getService(new QName(KimConstants.Namespaces.KIM_NAMESPACE_2_0, "identityService"));
-        }
-        return identityService;
-    }
-
     protected SubjectCodeService getSubjectCodeService() {
         if (subjectCodeService == null) {
             subjectCodeService = GlobalResourceLoader.getService(new QName(CourseServiceConstants.NAMESPACE_SUBJECTCODE, SubjectCodeService.class.getSimpleName()));
         }
         return subjectCodeService;
     }
-
-    protected TypeService getTypeService() {
-        if (typeService == null) {
-            typeService = (TypeService) GlobalResourceLoader.getService(new QName(TypeServiceConstants.NAMESPACE, TypeServiceConstants.SERVICE_NAME_LOCAL_PART));
-        }
-
-        return typeService;
-    }
-
 }

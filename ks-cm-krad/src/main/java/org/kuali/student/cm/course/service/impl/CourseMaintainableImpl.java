@@ -877,9 +877,9 @@ public class CourseMaintainableImpl extends RuleEditorMaintainableImpl implement
             courseInfoWrapper.getSupportingDocs().add(new SupportingDocumentInfoWrapper());
         }
 
-        if (requestParameters.get(CourseController.URL_PARAM_USE_CURRICULUM_REVIEW) != null &&
-                requestParameters.get(CourseController.URL_PARAM_USE_CURRICULUM_REVIEW).length != 0) {
-            Boolean isUseReviewProcess = BooleanUtils.toBoolean(requestParameters.get(CourseController.URL_PARAM_USE_CURRICULUM_REVIEW)[0]);
+        if (requestParameters.get(CourseController.UrlParams.USE_CURRICULUM_REVIEW) != null &&
+                requestParameters.get(CourseController.UrlParams.USE_CURRICULUM_REVIEW).length != 0) {
+            Boolean isUseReviewProcess = BooleanUtils.toBoolean(requestParameters.get(CourseController.UrlParams.USE_CURRICULUM_REVIEW)[0]);
             courseInfoWrapper.getUiHelper().setUseReviewProcess(isUseReviewProcess);
         }
     }
