@@ -828,17 +828,23 @@
                     <property name="renderLineActions" value="false"/>
                     <property name="items">
                         <list>
-                            <bean parent="Uif-DataField" p:label="Failed Eligibility Check for term, would you like to continue?" p:propertyName="message"/>
+                            <bean parent="Uif-DataField" p:label="Eligibility Check" p:propertyName="message"/>
+                            <bean parent="Uif-MessageField" p:id="termEligibityResult" p:messageText="[b]FAILED[/b]"/>
                         </list>
                     </property>
                 </bean>
+                <bean parent="Uif-Message" p:id="promptText" p:messageText="Would you like to continue?"/>
+
                 <bean parent="Uif-HorizontalBoxSection">
                     <property name="items">
                         <list>
 
                             <bean parent="Uif-PrimaryActionButton" p:preSubmitCall="closeLightbox(); return true;"
-                                  p:methodToCall="continueFailedEligibilityTerm" p:actionLabel="Continue" p:id="termContinue_btn"/>
-                            <bean parent="Uif-ActionLink" p:actionLabel="Cancel"  p:methodToCall="cancelFailedEligibilityTerm" p:id="cancelTerm_link"  p:preSubmitCall="closeLightbox(); return true;"
+                                  p:methodToCall="continueFailedEligibilityTerm" p:actionLabel="Continue"
+                                  p:id="termContinue_btn"/>
+                            <bean parent="Uif-ActionLink" p:actionLabel="Cancel"
+                                  p:methodToCall="cancelFailedEligibilityTerm" p:id="cancelTerm_link"
+                                  p:preSubmitCall="closeLightbox(); return true;"
                                   p:additionalCssClasses="cancel_link"/>
                         </list>
                     </property>
