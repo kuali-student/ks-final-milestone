@@ -111,6 +111,10 @@ public class TimeSlotController extends UifControllerBase {
         return getUIFModelAndView(form, TimeSlotConstants.TIME_SLOT_PAGE);
     }
 
+
+    /**
+     * Sort strategy to sort the data by grouping
+     */
     protected   List<TimeSlotWrapper> sortStrategy( List<TimeSlotWrapper> results)
     {
 
@@ -120,20 +124,24 @@ public class TimeSlotController extends UifControllerBase {
                 String daysOb1 = numberEquivalent(o1.getDaysDisplayName());
                 String daysOb2 = numberEquivalent(o2.getDaysDisplayName());
 
-                if(daysOb1.equals(daysOb2))
+                int diffStartTimeDisplay = formatString(o1.getStartTimeDisplay()).compareTo(formatString(o2.getStartTimeDisplay()));
+                int diffEndTimeDisplay = formatString(o1.getEndTimeDisplay()).compareTo(formatString(o2.getEndTimeDisplay()));
+                int diffDays = daysOb1.compareTo(daysOb2);
+                int diffTypeName= o1.getTypeName().compareTo(o2.getTypeName());
+
+                if(diffTypeName == 0)
                 {
-                    if(o1.getTypeName().equals(o2.getTypeName()))
+                    if(diffDays == 0)
                     {
-                        if( formatString(o1.getStartTimeDisplay()).equals(formatString(o2.getStartTimeDisplay())) )
+                        if( diffStartTimeDisplay == 0)
                         {
+                            return diffEndTimeDisplay;
 
-                            return formatString(o1.getEndTimeDisplay()).compareTo(formatString(o2.getEndTimeDisplay()));
+                        }return  diffStartTimeDisplay;
 
-                        }return  formatString(o1.getStartTimeDisplay()).compareTo(formatString(o2.getStartTimeDisplay()));
+                    }return diffDays;
 
-                    }return o1.getTypeName().compareTo(o2.getTypeName()) ;
-
-                }else return  daysOb1.compareTo(daysOb2) ;
+                }else return  diffTypeName ;
 
             }
         });
@@ -141,7 +149,9 @@ public class TimeSlotController extends UifControllerBase {
         return results;
     }
 
-
+    /**
+     *  concatenate the decode number
+     */
     protected String numberEquivalent(String day)
     {
         String finalSt= "";
@@ -152,6 +162,9 @@ public class TimeSlotController extends UifControllerBase {
         return finalSt;
     }
 
+    /**
+     *  Decode days in numbers EX: M,F  => 1,5
+     */
     protected String decodeDay (String day)
     {
         switch (day)
@@ -168,6 +181,9 @@ public class TimeSlotController extends UifControllerBase {
         return "0";
     }
 
+    /**
+     *  Format date to sort : 01:00 PM ==> 13:00
+     */
     protected String formatString(String dateS)
     {
 
