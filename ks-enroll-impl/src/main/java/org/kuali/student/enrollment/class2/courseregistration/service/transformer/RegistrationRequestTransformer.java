@@ -67,6 +67,9 @@ public class RegistrationRequestTransformer {
             LprTransactionItemInfo lprItem = regRequestItem2LprTransactionItem(requestItem, context);
             lprTransaction.getLprTransactionItems().add(lprItem);
         }
+
+        // Do a direct mapping on attributes.
+        lprTransaction.setAttributes(request.getAttributes());
         return lprTransaction;
     }
 
@@ -132,6 +135,9 @@ public class RegistrationRequestTransformer {
             item.getRequestOptions().add(okToHoldUntilListOption);
         }
         okToHoldUntilListOption.setOptionValue(convertBooleanToString(okToHoldUntilList));
+
+        // Do a direct mapping on attributes.
+        item.setAttributes(requestItem.getAttributes());
         return item;
     }
 
@@ -139,7 +145,8 @@ public class RegistrationRequestTransformer {
                                                                      ContextInfo context)
             throws OperationFailedException, MissingParameterException, PermissionDeniedException,
             InvalidParameterException, DoesNotExistException {
-        // Currently, saving of attributes not yet implemented.
+
+        // Create registration request from lpr transaction.
         RegistrationRequestInfo request = new RegistrationRequestInfo();
         request.setId(lprTransaction.getId());
         request.setTermId(lprTransaction.getAtpId());
@@ -155,6 +162,9 @@ public class RegistrationRequestTransformer {
             RegistrationRequestItemInfo reqItem = lprTransactionItem2regRequestItem(transactionItem, context);
             request.getRegistrationRequestItems().add(reqItem);
         }
+
+        // Do a direct mapping on attributes.
+        request.setAttributes(lprTransaction.getAttributes());
         return request;
     }
 
@@ -206,6 +216,9 @@ public class RegistrationRequestTransformer {
                  requestItem.setRequestedEffectiveDate(DateFormatters.DEFAULT_DATE_FORMATTER.getFormatter().parseDateTime(option.getOptionValue()).toDate());
             }
         }
+
+        // Do a direct mapping on attributes.
+        requestItem.setAttributes(item.getAttributes());
         return requestItem;
     }
 

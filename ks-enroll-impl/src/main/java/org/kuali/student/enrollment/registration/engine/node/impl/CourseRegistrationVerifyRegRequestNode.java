@@ -22,6 +22,7 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
+import org.kuali.student.r2.common.infc.Attribute;
 import org.kuali.student.r2.common.util.constants.CourseRegistrationServiceConstants;
 import org.kuali.student.r2.common.util.constants.LprServiceConstants;
 import org.slf4j.Logger;
@@ -137,11 +138,20 @@ public class CourseRegistrationVerifyRegRequestNode extends AbstractCourseRegist
                 }
             }
         }
-
-
     }
 
     private boolean shouldValidate(RegistrationRequest regRequest) {
+
+        // TODO: KSENROLL-13911 - This is only a temporary check while functionality is analyzed.
+        // Check for admin user override (allow)
+        for (Attribute attr : regRequest.getAttributes()) {
+            if (attr.getKey().equals(CourseRegistrationServiceConstants.ELIGIBILITY_OVERRIDE_TYPE_KEY_ATTR)) {
+                if (Boolean.valueOf(attr.getValue())) {
+                    return false;
+                }
+            }
+        }
+
         //Check if this is only a drop from waitlist request (if so no need to validate).
         for (RegistrationRequestItem item : regRequest.getRegistrationRequestItems()) {
             if (!LprServiceConstants.REQ_ITEM_DROP_WAITLIST_TYPE_KEY.equals(item.getTypeKey())) {
