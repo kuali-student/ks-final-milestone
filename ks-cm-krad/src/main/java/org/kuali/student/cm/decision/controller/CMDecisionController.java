@@ -72,7 +72,6 @@ public class CMDecisionController extends KsUifControllerBase {
 
     protected CommentService commentService;
     protected ProposalService proposalService;
-    protected TypeService typeService;
 
     @Override
     protected UifFormBase createInitialForm(HttpServletRequest request) {
@@ -97,36 +96,63 @@ public class CMDecisionController extends KsUifControllerBase {
             decisionForm.setProposal(proposalInfo);
             retrieveDecisions(decisionForm);
         } catch (Exception e) {
-            throw new RuntimeException("Invalid Proposal [id=" + proposalId + "]");
+            throw new RuntimeException("Invalid Proposal [id=" + proposalId + "]",e);
         }
-
-//        CMDecisionWrapper test = new CMDecisionWrapper();
-//        test.setActor("Test user1");
-//        test.setDate("01/01/2014");
-//        test.setDecision("Accept");
-//        test.setRationale("this is a test");
-//        decisionForm.getDecisions().add(test);
-//
-//        test = new CMDecisionWrapper();
-//        test.setActor("Test user2");
-//        test.setDate("11/01/2014");
-//        test.setDecision("Accept");
-//        test.setRationale("You can create proposals from scratch (called a blank) or you can (Not yet implemented: start by copying one from an existing approved course or active course proposal.) You can copy a proposal using the Create a Course action link on CM Home, (or through the Copy to New Proposal option on the Review Proposal page. Copied proposals include pre-populated data from the source course or proposal.) ");
-//        decisionForm.getDecisions().add(test);
-//
-//        test = new CMDecisionWrapper();
-//        test.setActor("Test user3");
-//        test.setDate("11/01/2014");
-//        test.setDecision("Reject");
-//        test.setRationale("This How-To-Guide details the Create a Course functionality for both the Faculty/Staff and the Curriculum Specialist (CS) roles (fred and alice, respectively). Every new course starts as a proposal, either a Credit Course Proposal or a Credit Course Admin Proposal doc type. Credit Course Proposals go through a curriculum review process (workflow) to be Approved or R");
-//        decisionForm.getDecisions().add(test);
 
         retrieveDecisions(decisionForm);
 
         return super.start(form, request, response);
     }
 
-    protected Map<String,String> getUsers(List<String> userIds){
+    protected void retrieveDecisions(CMDecisionForm form) {
+
+        ProposalInfo proposal = form.getProposal();
+
+        LOG.debug("Retrieving decisions for  - " + proposal.getId());
+
+        List<CommentInfo> decisions;
+
+        form.getDecisions().clear();
+
+        try {
+            decisions = getCommentService().getCommentsByRefObject(proposal.getId(), StudentIdentityConstants.QUALIFICATION_PROPOSAL_REF_TYPE, ContextUtils.createDefaultContextInfo());
+        } catch (Exception e) {
+            throw new RuntimeException("Error retrieving decision(s) for the proposal [id=" + proposal.getId() + "]", e);
+        }
+
+        List userIds = new ArrayList<>();
+
+        for (CommentInfo comment : decisions) {
+//            if (ArrayUtils.contains(CommentServiceConstants.WORKFLOW_DECISIONS.values(), comment.getTypeKey())){
+                CMDecisionWrapper wrapper = new CMDecisionWrapper(comment);
+                wrapper.setActor(comment.getCommenterId());
+                userIds.add(comment.getCommenterId());
+                wrapper.setDate(DateFormatters.MONTH_DAY_YEAR_DATE_FORMATTER.format(comment.getMeta().getCreateTime()));
+                wrapper.setDecision(CommentServiceConstants.WORKFLOW_DECISIONS.getByType(comment.getTypeKey()).getLabel());
+
+                wrapper.setRationale(comment.getCommentText().getPlain());
+                form.getDecisions().add(wrapper);
+//            }
+        }
+
+        if (!form.getDecisions().isEmpty()){
+
+            Map<String,String> personId2DisplayName = getUserNames(userIds);
+
+            for (CMDecisionWrapper wrapper : form.getDecisions()) {
+                String displayName = personId2DisplayName.get(wrapper.getActor());
+                wrapper.setActor(displayName);
+            }
+
+            Collections.sort(form.getDecisions());
+        }
+
+        LOG.debug("There are " + form.getDecisions().size() + " decisions for proposal " + proposal.getId());
+
+
+    }
+
+    protected Map<String,String> getUserNames(List<String> userIds){
 
         Map<String,String> results = new HashMap<>();
 
@@ -176,48 +202,6 @@ public class CMDecisionController extends KsUifControllerBase {
 
     }
 
-    protected void retrieveDecisions(CMDecisionForm form) {
-
-        ProposalInfo proposal = form.getProposal();
-
-        LOG.debug("Retrieving decisions for  - " + proposal.getId());
-
-        List<CommentInfo> decisions;
-
-        form.getDecisions().clear();
-
-        try {
-            decisions = getCommentService().getCommentsByRefObject(proposal.getId(), StudentIdentityConstants.QUALIFICATION_PROPOSAL_REF_TYPE, ContextUtils.createDefaultContextInfo());
-        } catch (Exception e) {
-            throw new RuntimeException("Error retrieving decision(s) for the proposal [id=" + proposal.getId() + "]", e);
-        }
-
-        List userIds = new ArrayList<>();
-
-        for (CommentInfo comment : decisions) {
-//            if (ArrayUtils.contains(CommentServiceConstants.ALL_WORKFLOW_COMMENT,comment.getTypeKey())){
-                CMDecisionWrapper wrapper = new CMDecisionWrapper(comment);
-                wrapper.setActor(comment.getCommenterId());
-                userIds.add(comment.getCommenterId());
-                wrapper.setDate(DateFormatters.COURSE_OFFERING_VIEW_HELPER_DATE_TIME_FORMATTER.format(comment.getMeta().getCreateTime()));
-                wrapper.setDecision(comment.getTypeKey());
-                wrapper.setRationale(comment.getCommentText().getPlain());
-                form.getDecisions().add(wrapper);
-//            }
-        }
-
-        Map<String,String> personId2DisplayName = getUsers(userIds);
-
-        for (CMDecisionWrapper wrapper : form.getDecisions()) {
-            String displayName = personId2DisplayName.get(wrapper.getActor());
-            wrapper.setActor(displayName);
-        }
-
-        LOG.debug("There are " + form.getDecisions().size() + " decisions for proposal " + proposal.getId());
-
-        Collections.sort(form.getDecisions());
-    }
-
     protected CommentService getCommentService() {
         if (commentService == null) {
             commentService = (CommentService) GlobalResourceLoader.getService(new QName(CommentServiceConstants.NAMESPACE, CommentService.class.getSimpleName()));
@@ -230,13 +214,5 @@ public class CMDecisionController extends KsUifControllerBase {
             proposalService = (ProposalService) GlobalResourceLoader.getService(new QName(ProposalServiceConstants.NAMESPACE, ProposalServiceConstants.SERVICE_NAME_LOCAL_PART));
         }
         return proposalService;
-    }
-
-    protected TypeService getTypeService() {
-        if (typeService == null) {
-            typeService = (TypeService) GlobalResourceLoader.getService(new QName(TypeServiceConstants.NAMESPACE, TypeServiceConstants.SERVICE_NAME_LOCAL_PART));
-        }
-
-        return typeService;
     }
 }

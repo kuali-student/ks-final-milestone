@@ -23,7 +23,6 @@ import org.kuali.student.cm.common.util.CurriculumManagementConstants;
 import org.kuali.student.cm.course.util.CourseProposalUtil;
 import org.kuali.student.lum.lu.ui.krms.dto.LURuleManagementWrapper;
 import org.kuali.student.r1.core.workflow.dto.CollaboratorWrapper;
-import org.kuali.student.r2.core.comment.dto.DecisionInfo;
 import org.kuali.student.r2.core.proposal.dto.ProposalInfo;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.lum.course.dto.FormatInfo;
@@ -45,7 +44,6 @@ public class CourseInfoWrapper extends LURuleManagementWrapper implements Serial
 
     private List<CourseJointInfoWrapper> courseJointWrappers = new ArrayList<CourseJointInfoWrapper>();
     private List<ResultValuesGroupInfoWrapper> creditOptionWrappers;
-    private List<DecisionInfo> decisions = new ArrayList<DecisionInfo>();
 
     private List<OrganizationInfoWrapper> administeringOrganizations = new ArrayList<OrganizationInfoWrapper>();
     private List<CollaboratorWrapper> collaboratorWrappers = new ArrayList<CollaboratorWrapper>();
@@ -314,14 +312,6 @@ public class CourseInfoWrapper extends LURuleManagementWrapper implements Serial
 
     public void setCreditOptionWrappers(List<ResultValuesGroupInfoWrapper> creditOptionWrappers) {
         this.creditOptionWrappers = creditOptionWrappers;
-    }
-
-    public List<DecisionInfo> getDecisions() {
-        return decisions;
-    }
-
-    public void setDecisions(List<DecisionInfo> decisions) {
-        this.decisions = decisions;
     }
 
     public List<OrganizationInfoWrapper> getAdministeringOrganizations() {
