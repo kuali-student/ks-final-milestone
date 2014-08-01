@@ -40,9 +40,12 @@
 
     <bean id="CM-Proposal-Course-Create-Start-View" parent="KS-Uif-FormView">
         <property name="id" value="createCourseInitialView"/>
-        <property name="headerText"  value="Create Course " />
+        <property name="headerText" value="Create Course "/>
         <property name="formClass" value="org.kuali.student.cm.course.form.CourseInitialForm"/>
-        <property name="viewSourceFile" value="CreateCourseInitialView.xml" /> <!-- Shows up in HTML so devs can find the code -->
+        <property name="viewHelperServiceClass"
+                  value="org.kuali.student.cm.course.service.impl.CreateCourseInitialViewHelper"/>
+        <property name="viewSourceFile" value="CreateCourseInitialView.xml"/>
+        <!-- Shows up in HTML so devs can find the code -->
         <property name="items">
             <list>
                 <ref bean="CM-Proposal-Course-Create-Start-Page"/>
@@ -51,7 +54,9 @@
     </bean>
 
     <bean id="CM-Proposal-Course-Create-Start-Widgets" parent="Uif-VerticalBoxSection">
-        <property name="header">  <bean parent="Uif-HeaderThree"/>  </property>
+        <property name="header">
+            <bean parent="Uif-HeaderThree"/>
+        </property>
         <property name="headerText" value="How would you like to start?"/>
         <property name="instructionalMessage">
             <bean parent="Uif-Message">
@@ -66,42 +71,46 @@
         </property>
         <property name="items">
             <list>
-                <bean parent="KS-Uif-InputField" id="CM-Proposal-Course-StartOption" p:propertyName="createCourseInitialAction"
-                      p:required="true" p:bindingInfo.bindToForm="true" p:defaultValue="startBlankProposal">
-                    <property name="control">
-                        <bean parent="KS-Uif-VerticalRadioControl">
-                            <property name="options">
-                                <list>
-                                    <bean id="CM-Proposal-Course-StartOptions-Blank" parent="Uif-KeyLabelPair" p:key="startBlankProposal"  p:value="Start a blank proposal" />
-                                </list>
-                            </property>
-                        </bean>
-                    </property>
-                </bean>
-
-                <bean parent="KS-Uif-InputField" id="CM-Proposal-Course-StartOptions" p:propertyName="createCourseInitialAction"
-                      p:required="true" p:bindingInfo.bindToForm="true" p:render="false"
+                <bean parent="KS-Uif-InputField" id="CM-Proposal-Course-StartOptions"
+                      p:propertyName="createCourseInitialAction"
+                      p:required="true" p:bindingInfo.bindToForm="true"
                       p:defaultValue="startBlankProposal">
                     <property name="control">
                         <bean parent="KS-Uif-VerticalRadioControl">
                             <property name="options">
                                 <list>
-                                    <bean id="CM-Proposal-Course-StartOptions-BlankProposal" parent="Uif-KeyLabelPair" p:key="startBlankProposal"  p:value="Start a blank proposal" />
-                                    <bean id="CM-Proposal-Course-StartOptions-CopyApproved" parent="Uif-KeyLabelPair" p:key="copyApprovedCourse" p:value="Copy an approved course"/>
-                                    <bean id="CM-Proposal-Course-StartOptions-CopyProposed" parent="Uif-KeyLabelPair" p:key="copyProposedCourse" p:value="Copy a proposed course"/>
+                                    <bean id="CM-Proposal-Course-StartOptions-BlankProposal" parent="Uif-KeyLabelPair"
+                                          p:key="startBlankProposal" p:value="Start a blank proposal"/>
+                                    <bean id="CM-Proposal-Course-StartOptions-CopyApproved" parent="Uif-KeyLabelPair"
+                                          p:key="copyApprovedCourse" p:value="Copy an approved course"/>
+                                    <bean id="CM-Proposal-Course-StartOptions-CopyProposed" parent="Uif-KeyLabelPair"
+                                          p:key="copyProposedCourse" p:value="Copy a proposed course"/>
                                 </list>
                             </property>
                         </bean>
                     </property>
                 </bean>
 
-                <ref bean="CM-Proposal-Course-Create-Start-ReviewSection" />
+                <bean parent="KS-Uif-InputField" id="CM-CopyCourse-CourseCode" p:propertyName="courseCode"
+                      p:label="Course Code" p:progressiveRender="true">
 
+                    <property name="suggest">
+                        <bean parent="Uif-Suggest" p:render="true" p:returnFullQueryObject="true"
+                              p:labelPropertyName="courseCode" p:valuePropertyName="courseId">
+                            <property name="suggestQuery">
+                                <bean parent="Uif-AttributeQueryConfig"
+                                      p:queryMethodToCall="searchForCourses"/>
+                            </property>
+                        </bean>
+                    </property>
+                </bean>
+                <ref bean="CM-Proposal-Course-Create-Start-ReviewSection"/>
             </list>
         </property>
     </bean>
 
-    <bean id="CM-Proposal-Course-Create-Start-ReviewSection" parent="Uif-VerticalBoxSubSection"  p:render="@{#form.curriculumSpecialistUser}">
+    <bean id="CM-Proposal-Course-Create-Start-ReviewSection" parent="Uif-VerticalBoxSubSection"
+          p:render="@{#form.curriculumSpecialistUser}">
         <property name="headerText" value="Review Process"/>
         <property name="cssClasses">
             <list merge="true">
@@ -115,7 +124,8 @@
                       p:propertyName="useReviewProcess" p:bindingInfo.bindToForm="true"
                       p:required="false">
                     <property name="control">
-                        <bean parent="KS-Uif-CheckboxControl" p:checkboxLabel="Use curriculum review process"/>
+                        <bean parent="KS-Uif-CheckboxControl" p:checkboxLabel="Use curriculum review process"
+                              p:disabled="@{(#createCourseInitialAction eq 'copyApprovedCourse')}"/>
                     </property>
                 </bean>
             </list>
