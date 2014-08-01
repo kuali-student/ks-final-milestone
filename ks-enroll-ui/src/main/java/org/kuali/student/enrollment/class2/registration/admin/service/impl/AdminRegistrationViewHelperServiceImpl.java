@@ -33,6 +33,7 @@ import org.kuali.student.enrollment.registration.client.service.dto.Registration
 import org.kuali.student.enrollment.registration.client.service.dto.RegistrationValidationResult;
 import org.kuali.student.enrollment.registration.client.service.impl.util.CourseRegistrationAndScheduleOfClassesUtil;
 import org.kuali.student.enrollment.registration.client.service.impl.util.RegistrationValidationResultsUtil;
+import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
@@ -42,6 +43,7 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.infc.ValidationResult;
 import org.kuali.student.r2.common.util.TimeOfDayHelper;
+import org.kuali.student.r2.common.util.constants.CourseRegistrationServiceConstants;
 import org.kuali.student.r2.common.util.constants.LprServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
@@ -275,16 +277,16 @@ public class AdminRegistrationViewHelperServiceImpl extends KSViewHelperServiceI
 
             course.setGradingOption(courseOffering.getGradingOptionId());
             course.setGradingOptions(courseOffering.getStudentRegistrationGradingOptions());
-            try{
+            try {
                 course.setCreditOptions(getCourseOfferingCreditOptionValues(courseOffering.getCreditOptionId(), createContextInfo()));
-                if(course.getCreditOptions().size() == 1){
+                if (course.getCreditOptions().size() == 1) {
                     course.setCreditType(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_FIXED);
                     course.setCredits((course.getCreditOptions().get(0)));
-                }else{
-                    course.setCreditType( LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_MULTIPLE);
+                } else {
+                    course.setCreditType(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_MULTIPLE);
                     course.setCredits(null);
                 }
-            }catch(Exception e) {
+            } catch (Exception e) {
                 throw convertServiceExceptionsToUI(e);
             }
 
@@ -295,9 +297,9 @@ public class AdminRegistrationViewHelperServiceImpl extends KSViewHelperServiceI
                         AdminRegConstants.ADMIN_REG_MSG_ERROR_SECTION_CODE_INVALID);
                 continue;
             }
-            if (course.getRegGroup().getStateKey().equals(LuiServiceConstants.REGISTRATION_GROUP_CANCELED_STATE_KEY)){
+            if (course.getRegGroup().getStateKey().equals(LuiServiceConstants.REGISTRATION_GROUP_CANCELED_STATE_KEY)) {
                 GlobalVariables.getMessageMap().putErrorForSectionId(AdminRegConstants.PENDING_COURSES + "[" + i + "]." + AdminRegConstants.SECTION,
-                        AdminRegConstants.ADMIN_REG_MSG_ERROR_REGISTRATION_GROUP_CANCELED,course.getCode(),course.getSection());
+                        AdminRegConstants.ADMIN_REG_MSG_ERROR_REGISTRATION_GROUP_CANCELED, course.getCode(), course.getSection());
             }
         }
     }
@@ -307,10 +309,10 @@ public class AdminRegistrationViewHelperServiceImpl extends KSViewHelperServiceI
 
         MessageService messageService = KRADServiceLocatorWeb.getMessageService();
         for (RegistrationCourse regCourse : form.getCoursesInProcess()) {
-            if (regCourse.getCredits()==null || regCourse.getCredits().isEmpty()) {
+            if (regCourse.getCredits() == null || regCourse.getCredits().isEmpty()) {
 
                 String message = messageService.getMessageText(null, null, AdminRegConstants.ADMIN_REG_MSG_ERROR_CREDITS_REQUIRED);
-                if(message==null){
+                if (message == null) {
                     message = StringUtils.EMPTY;
                 }
 
@@ -459,32 +461,44 @@ public class AdminRegistrationViewHelperServiceImpl extends KSViewHelperServiceI
     }
 
     @Override
-    public String submitRegistrationRequest(String studentId, String termId, List<RegistrationCourse> registrationCourses) {
+    public String submitCoursesForRegistration(String studentId, String termId, List<RegistrationCourse> registrationCourses) {
         //Create the request object
         RegistrationRequestInfo regRequest = AdminRegistrationUtil.createRegistrationRequest(studentId, termId, registrationCourses);
 
+        return submitRegistrationRequest(studentId, termId, regRequest);
+    }
+
+    @Override
+    public String resubmitCourseForRegistration(String studentId, String termId, RegistrationCourse registrationCourse) {
+        //Create the request object
+        List<RegistrationCourse> registrationCourses = new ArrayList<RegistrationCourse>();
+        registrationCourses.add(registrationCourse);
+        RegistrationRequestInfo regRequest = AdminRegistrationUtil.createRegistrationRequest(studentId, termId, registrationCourses);
+
+        // Add dynamic attribute with override flag.
+        AttributeInfo attributeInfo = new AttributeInfo(CourseRegistrationServiceConstants.ELIGIBILITY_OVERRIDE_TYPE_KEY_ATTR,
+                String.valueOf(Boolean.TRUE));
+        regRequest.getAttributes().add(attributeInfo);
+
+        return submitRegistrationRequest(studentId, termId, regRequest);
+    }
+
+    private String submitRegistrationRequest(String studentId, String termId, RegistrationRequestInfo regRequest) {
+
         try {
             // persist the request object in the service
-            regRequest = AdminRegResourceLoader.getCourseRegistrationService().createRegistrationRequest(LprServiceConstants.LPRTRANS_REGISTRATION_TYPE_KEY, regRequest, createContextInfo());
+            regRequest = AdminRegResourceLoader.getCourseRegistrationService().createRegistrationRequest(
+                    LprServiceConstants.LPRTRANS_REGISTRATION_TYPE_KEY, regRequest, createContextInfo());
 
             // submit the request to the registration engine.
-            return CourseRegistrationAndScheduleOfClassesUtil.getCourseRegistrationService().submitRegistrationRequest(regRequest.getId(), createContextInfo()).getId();
+            return CourseRegistrationAndScheduleOfClassesUtil.getCourseRegistrationService().submitRegistrationRequest(
+                    regRequest.getId(), createContextInfo()).getId();
+
         } catch (Exception e) {
             convertServiceExceptionsToUI(e);
         }
 
         return null;
-    }
-
-    @Override
-    public String reSubmitCourseRegistrationRequest(String studentId, String termId, RegistrationCourse registrationRequest) {
-        List<RegistrationCourse> registrationCourses = new ArrayList<>();
-        registrationCourses.add(registrationRequest);
-
-        String registrationRequestId = submitRegistrationRequest(studentId,termId,registrationCourses);
-
-
-        return registrationRequestId;
     }
 
     @Override
@@ -499,7 +513,8 @@ public class AdminRegistrationViewHelperServiceImpl extends KSViewHelperServiceI
         return null;
     }
 
-    public List<RegistrationResultItem> createIssueItemsFromResults(List<ValidationResultInfo> results) {
+    @Override
+    public List<RegistrationResultItem> createRegResultsFromValidationResults(List<ValidationResultInfo> results) {
         List<RegistrationResultItem> issueItems = new ArrayList<RegistrationResultItem>();
         // Add the messages to the issue items list.
         for (ValidationResult validationResult : results) {
@@ -508,7 +523,7 @@ public class AdminRegistrationViewHelperServiceImpl extends KSViewHelperServiceI
             MessageService messageService = KRADServiceLocatorWeb.getMessageService();
 
             String message = messageService.getMessageText(null, null, result.getMessageKey());
-            if(message==null){
+            if (message == null) {
                 message = StringUtils.EMPTY;
             }
 

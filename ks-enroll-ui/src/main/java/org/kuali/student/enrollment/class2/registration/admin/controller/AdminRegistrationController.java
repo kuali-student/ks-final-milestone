@@ -36,6 +36,8 @@ import org.kuali.student.enrollment.class2.registration.admin.util.AdminRegConst
 import org.kuali.student.enrollment.class2.registration.admin.util.AdminRegResourceLoader;
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestInfo;
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestItemInfo;
+import org.kuali.student.r2.common.infc.Attribute;
+import org.kuali.student.r2.common.util.constants.CourseRegistrationServiceConstants;
 import org.kuali.student.r2.common.util.constants.LprServiceConstants;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
 import org.springframework.stereotype.Controller;
@@ -120,7 +122,6 @@ public class AdminRegistrationController extends UifControllerBase {
     @RequestMapping(params = "methodToCall=refreshRegistrationResults")
     public ModelAndView refreshRegistrationResults(@ModelAttribute("KualiForm") AdminRegistrationForm form, BindingResult result, HttpServletRequest request,
                                            HttpServletResponse response) throws Exception {
-        System.out.println("refreshRegistrationResults");
         // Reset the form to ready state.
         form.setRegRequestId(null);
         form.getCoursesInProcess().clear();
@@ -277,7 +278,8 @@ public class AdminRegistrationController extends UifControllerBase {
 
         // Continue with registration submission
         form.resetPendingCourseValues();
-        form.setRegRequestId(getViewHelper(form).submitRegistrationRequest(form.getPerson().getId(), form.getTerm().getId(), form.getCoursesInProcess()));
+        form.setRegRequestId(getViewHelper(form).submitCoursesForRegistration(form.getPerson().getId(), form.getTerm().getId(),
+                form.getCoursesInProcess()));
 
         // Set the client state to "Registering" so that we can prevent certain actions on UI.
         form.setClientState(AdminRegConstants.ClientStates.REGISTERING);
@@ -315,40 +317,27 @@ public class AdminRegistrationController extends UifControllerBase {
 
             for (RegistrationRequestItemInfo item : regRequest.getRegistrationRequestItems()) {
 
-                //Check for LPRTRANS_ITEM_NEW_STATE_KEY and LPRTRANS_ITEM_PROCESSING_STATE_KEY if any
-                //and handle appropriately.
-
-                // Get the corresponding registration course from the courses in process list.
-                RegistrationCourse processedCourse = null;
-                for (RegistrationCourse regCourse : form.getCoursesInProcess()) {
-                    if (regCourse.getRegGroup().getId().equals(item.getRegistrationGroupId())) {
-                        processedCourse = regCourse;
-                        break;
-                    }
-                }
-
-                // Remove the item from the courses in process list.
-                form.getCoursesInProcess().remove(processedCourse);
+                RegistrationCourse courseToProcess = this.getRegistrationCourseToProcess(form, regRequest, item);
 
                 // Create a new registration issue with the course in error.
                 RegistrationResult regResult = new RegistrationResult();
-                regResult.setCourse(processedCourse);
+                regResult.setCourse(courseToProcess);
 
                 // Move item to appropriate list based on the item state.
                 if (LprServiceConstants.LPRTRANS_ITEM_SUCCEEDED_STATE_KEY.equals(item.getStateKey())) {
-                    form.getRegisteredCourses().add(processedCourse);
+                    form.getRegisteredCourses().add(courseToProcess);
                     regResult.setLevel(AdminRegConstants.ResultLevels.RESULT_LEVEL_SUCCESS);
                     regResult.getItems().add(new RegistrationResultItem("Course was successfully registered."));
                     updateIds.add(AdminRegConstants.REG_COLL_ID);
                 } else if (LprServiceConstants.LPRTRANS_ITEM_WAITLIST_STATE_KEY.equals(item.getStateKey())) {
-                    form.getWaitlistedCourses().add(processedCourse);
+                    form.getWaitlistedCourses().add(courseToProcess);
                     regResult.setLevel(AdminRegConstants.ResultLevels.RESULT_LEVEL_SUCCESS);
                     regResult.getItems().add(new RegistrationResultItem("Course was successfully added to waitlist."));
                     updateIds.add(AdminRegConstants.WAITLIST_COLL_ID);
                 } else if (LprServiceConstants.LPRTRANS_ITEM_WAITLIST_AVAILABLE_STATE_KEY.equals(item.getStateKey()) ||
                         LprServiceConstants.LPRTRANS_ITEM_FAILED_STATE_KEY.equals(item.getStateKey())) {
                     regResult.setLevel(AdminRegConstants.ResultLevels.RESULT_LEVEL_WARNING);
-                    regResult.getItems().addAll(getViewHelper(form).createIssueItemsFromResults(item.getValidationResults()));
+                    regResult.getItems().addAll(getViewHelper(form).createRegResultsFromValidationResults(item.getValidationResults()));
                 }
 
                 form.getRegistrationResults().add(regResult);
@@ -365,6 +354,41 @@ public class AdminRegistrationController extends UifControllerBase {
         result.put(AdminRegConstants.POLLING_STOP, true);
         result.put(AdminRegConstants.POLLING_UPDATE_IDS, updateIds);
         return result;
+    }
+
+    private RegistrationCourse getRegistrationCourseToProcess(AdminRegistrationForm form, RegistrationRequestInfo regRequest,
+                                                              RegistrationRequestItemInfo item){
+
+        // Check if eligibity was overridden for this request.
+        boolean isEligibilityOverride = false;
+        for (Attribute attr : regRequest.getAttributes()) {
+            if (attr.getKey().equals(CourseRegistrationServiceConstants.ELIGIBILITY_OVERRIDE_TYPE_KEY_ATTR)) {
+                if (Boolean.valueOf(attr.getValue())) {
+                    isEligibilityOverride = true;
+                    break;
+                }
+            }
+        }
+
+        if(isEligibilityOverride){
+            // Get the registration course from the current registration issues.
+            for (RegistrationResult regResult : form.getRegistrationResults()) {
+                if (regResult.getCourse().getRegGroup().getId().equals(item.getRegistrationGroupId())) {
+                    form.getRegistrationResults().remove(regResult);
+                    return regResult.getCourse();
+                }
+            }
+        } else {
+            // Get the corresponding registration course from the courses in process list.
+            for (RegistrationCourse regCourse : form.getCoursesInProcess()) {
+                if (regCourse.getRegGroup().getId().equals(item.getRegistrationGroupId())) {
+                    form.getCoursesInProcess().remove(regCourse);
+                    return regCourse;
+                }
+            }
+        }
+
+        return null;
     }
 
     ///////////////////////////////////////////////
@@ -484,12 +508,11 @@ public class AdminRegistrationController extends UifControllerBase {
     @RequestMapping(method = RequestMethod.POST, params = "methodToCall=allowCourse")
     public ModelAndView allowCourse(@ModelAttribute("KualiForm") AdminRegistrationForm form, BindingResult result,
                                     HttpServletRequest request, HttpServletResponse response) {
+
         String selectedCollectionPath = form.getActionParamaterValue(UifParameters.SELECTED_COLLECTION_PATH);
         if (StringUtils.isBlank(selectedCollectionPath)) {
             throw new RuntimeException("Selected collection path was not set for collection action");
         }
-
-        String selectedCollectionId = form.getActionParamaterValue(UifParameters.SELECTED_COLLECTION_ID);
 
         String selectedLine = form.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX);
         int selectedLineIndex = -1;
@@ -497,15 +520,17 @@ public class AdminRegistrationController extends UifControllerBase {
             selectedLineIndex = Integer.parseInt(selectedLine);
         }
 
-        // would Force registration here
+        // Retrieving the select registration result.
         Collection<Object> collection = ObjectPropertyUtils.getPropertyValue(form, selectedCollectionPath);
         Object item = ((List) collection).get(selectedLineIndex);
         RegistrationCourse regCourse = ((RegistrationResult) item).getCourse();
 
-        form.setRegRequestId(getViewHelper(form).reSubmitCourseRegistrationRequest(form.getPerson().getId(), form.getTerm().getId(), regCourse));
+        // Resubmit registration
+        form.setRegRequestId(getViewHelper(form).resubmitCourseForRegistration(form.getPerson().getId(), form.getTerm().getId(),
+                regCourse));
+
         // Set the client state to "Registering" so that we can prevent certain actions on UI.
         form.setClientState(AdminRegConstants.ClientStates.REGISTERING);
-
         return getUIFModelAndView(form);
     }
 
@@ -535,9 +560,6 @@ public class AdminRegistrationController extends UifControllerBase {
             form.setEditRegisteredIndex(-1);
         }
     }
-
-
-
 
     /**
      * @param form

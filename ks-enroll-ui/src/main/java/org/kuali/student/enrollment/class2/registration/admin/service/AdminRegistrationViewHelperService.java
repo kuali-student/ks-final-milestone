@@ -90,28 +90,39 @@ public interface AdminRegistrationViewHelperService {
     public List<RegistrationActivity> getRegistrationActivitiesForRegistrationCourse(RegistrationCourse registrationCourse, String termCode);
 
     /**
+     * Submit the list of courses for registration.
      *
+     * @param studentId
+     * @param termId
+     * @param registrationCourses
+     * @return
      */
-    public String submitRegistrationRequest(String studentId, String termId, List<RegistrationCourse> registrationCourses);
+    public String submitCoursesForRegistration(String studentId, String termId, List<RegistrationCourse> registrationCourses);
 
     /**
+     * Resubmit a single courser without performing any validation checks
      *
+     * @param studentId
+     * @param termId
+     * @param registrationCourse
+     * @return
+     */
+    public String resubmitCourseForRegistration(String studentId, String termId, RegistrationCourse registrationCourse);
+
+    /**
+     * Returns the RegistrationRequest for the given id.
+     *
+     * @param regRequestId
+     * @return
      */
     public RegistrationRequestInfo getRegistrationRequest(String regRequestId);
 
     /**
+     * Create Registration Results from the returned validation results.
      *
      * @param results
      * @return
      */
-    public List<RegistrationResultItem> createIssueItemsFromResults(List<ValidationResultInfo> results);
+    public List<RegistrationResultItem> createRegResultsFromValidationResults(List<ValidationResultInfo> results);
 
-    /**
-     *
-     * @param studentId
-     * @param termId
-     * @param registrationRequest
-     * @return
-     */
-    String reSubmitCourseRegistrationRequest(String studentId, String termId, RegistrationCourse registrationRequest);
 }
