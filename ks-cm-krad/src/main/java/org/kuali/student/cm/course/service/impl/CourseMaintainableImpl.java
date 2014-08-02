@@ -1043,7 +1043,7 @@ public class CourseMaintainableImpl extends RuleEditorMaintainableImpl implement
      * @see org.kuali.student.cm.course.service.CourseMaintainable#updateReview()
      */
     public void updateReview() {
-        updateReview(true,false);
+        updateReview(true, false);
     }
 
     /**
@@ -1244,7 +1244,7 @@ public class CourseMaintainableImpl extends RuleEditorMaintainableImpl implement
          * Populate 'Proposal' specific model
          */
         if (!isCourseView){
-            updateProposalReviewModel(reviewData,shouldRepopulateRemoteData);
+            updateProposalReviewModel(reviewData, shouldRepopulateRemoteData);
         }
 
     }
@@ -2166,7 +2166,7 @@ public class CourseMaintainableImpl extends RuleEditorMaintainableImpl implement
         }
 
 
-        if(!isCourseView){
+        if (!isCourseView) {
             populateCollaborators();
             if (courseWrapper.getSupportingDocs().isEmpty()) {
                 populateSupportingDocuments();
@@ -2182,7 +2182,7 @@ public class CourseMaintainableImpl extends RuleEditorMaintainableImpl implement
 
         populateLearningObjectives();
 
-        updateReview(false,isCourseView);
+        updateReview(false, isCourseView);
 
         // Initialize Author & Collaborator
         if (courseWrapper.getCollaboratorWrappers().isEmpty()) {

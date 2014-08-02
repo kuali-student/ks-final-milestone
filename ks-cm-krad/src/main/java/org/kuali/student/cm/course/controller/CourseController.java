@@ -15,6 +15,18 @@
  */
 package org.kuali.student.cm.course.controller;
 
+import org.kuali.student.r2.common.dto.AttributeInfo;
+import org.kuali.student.r2.common.dto.DtoConstants;
+import org.kuali.student.r2.lum.clu.dto.AffiliatedOrgInfo;
+import org.kuali.student.r2.lum.course.dto.ActivityInfo;
+import org.kuali.student.r2.lum.course.dto.CourseCrossListingInfo;
+import org.kuali.student.r2.lum.course.dto.CourseFeeInfo;
+import org.kuali.student.r2.lum.course.dto.CourseJointInfo;
+import org.kuali.student.r2.lum.course.dto.CourseRevenueInfo;
+import org.kuali.student.r2.lum.course.dto.CourseVariationInfo;
+import org.kuali.student.r2.lum.course.dto.FormatInfo;
+import org.kuali.student.r2.lum.course.dto.LoDisplayInfo;
+
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
@@ -24,8 +36,6 @@ import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.api.exception.WorkflowException;
-import org.kuali.rice.kim.api.KimConstants;
-import org.kuali.rice.kim.api.identity.IdentityService;
 import org.kuali.rice.krad.rules.rule.event.RouteDocumentEvent;
 import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 import org.kuali.rice.krad.uif.UifConstants;
@@ -142,7 +152,9 @@ public class CourseController extends CourseRuleEditorController {
                     GlobalVariables.getUserSession().getPerson().getPrincipalName()));
             }
             // set the doc type name based on the whether the user is CS and if they have chosen to use curriculum review
-            form.setDocTypeName((!isUseReviewProcess) ? CurriculumManagementConstants.DocumentTypeNames.CourseProposal.COURSE_CREATE_ADMIN : CurriculumManagementConstants.DocumentTypeNames.CourseProposal.COURSE_CREATE);
+            form.setDocTypeName((!isUseReviewProcess)
+                    ? CurriculumManagementConstants.DocumentTypeNames.CourseProposal.COURSE_CREATE_ADMIN
+                    : CurriculumManagementConstants.DocumentTypeNames.CourseProposal.COURSE_CREATE);
         }
 
         /*
@@ -217,14 +229,102 @@ public class CourseController extends CourseRuleEditorController {
                 .setCurriculumSpecialistUser(CourseProposalUtil.isUserCurriculumSpecialist());
 
         /*
-         * If either of the copy action params have been set then do the copy.
+         * Check for copy params.
          */
-        if (StringUtils.isNotBlank(form.getActionParamaterValue(UrlParams.COPY_CLU_ID))) {
-            wrapper.getCourseInfo().setCourseTitle("This is a copy course");
+        String cluId = form.getActionParamaterValue(UrlParams.COPY_CLU_ID);
+
+        //  !!! Test data. Remove me.
+        //cluId = "CLUID-PHYS261-200308000000";  //  PHYS261 has Requisites
+        //cluId = "467e2abb-55c5-490f-aec4-fc4df3167e2d";  //  HIST205 has LOs
+        //cluId = "CLUID-CHEM641-198001000000";  //  CHEM641 is joint offering
+        if (StringUtils.isNotBlank(cluId)) {
+            /*
+             * If a CLU id is present then load the Course and all of the related data then reset the data so that new
+             * entities are created when the data is persisted.
+             */
+            try {
+                ((CourseMaintainable) ((MaintenanceDocumentForm) form).getDocument().getNewMaintainableObject())
+                        .populateCourseAndReviewData(cluId, wrapper, false);
+            } catch (Exception e) {
+                //  !!! Handle Me!
+            }
+            resetCourse(wrapper.getCourseInfo());
+            //  !!!  Reset requisites too !!!
+
         } else {
-            if (StringUtils.isNotBlank(form.getActionParamaterValue(UrlParams.COPY_PROPOSAL_ID))) {
+            /*
+             * If proposal ID is present then load the proposal and course data then reset it so that new entities
+             * are created on save.
+             */
+            String proposalId = form.getActionParamaterValue(UrlParams.COPY_PROPOSAL_ID);
+            if (StringUtils.isNotBlank(proposalId)) {
                 wrapper.getProposalInfo().setName("This is a copy proposal");
             }
+        }
+    }
+
+    /**
+     * !!! Put this in a better location.
+     *
+     * Resets a CourseInfo so that it can be persisted as a new entity.
+     *
+     * @param course The CourseInfo to reset.
+     */
+    public static void resetCourse(CourseInfo course) {
+        course.setId(null);
+        course.setStateKey(DtoConstants.STATE_DRAFT);
+        course.setVersion(null);
+        course.setEffectiveDate(null);
+        course.setMeta(null);
+        course.getCreditOptions().clear();
+
+        for (AttributeInfo attribute : course.getAttributes()) {
+            attribute.setId(null);
+        }
+
+        for (CourseJointInfo joint : course.getJoints()) {
+            joint.setRelationId(null);
+        }
+
+        for (LoDisplayInfo lo : course.getCourseSpecificLOs()) {
+            recursivelyClobberLoIds(lo);
+        }
+
+        for (CourseCrossListingInfo crossListing : course.getCrossListings()) {
+            crossListing.setId(null);
+        }
+
+        for (FormatInfo format : course.getFormats()) {
+            format.setId(null);
+            for (ActivityInfo activity : format.getActivities()) {
+                activity.setId(null);
+            }
+        }
+
+        for (AffiliatedOrgInfo orgInfo : course.getExpenditure().getAffiliatedOrgs()) {
+            orgInfo.setId(null);
+        }
+
+        for (CourseFeeInfo fee : course.getFees()) {
+            fee.setId(null);
+        }
+
+        for (CourseRevenueInfo revenue : course.getRevenues()) {
+            revenue.setId(null);
+            for (AffiliatedOrgInfo orgInfo : revenue.getAffiliatedOrgs()) {
+                orgInfo.setId(null);
+            }
+        }
+
+        for (CourseVariationInfo variation : course.getVariations()) {
+            variation.setId(null);
+        }
+    }
+
+    public static void recursivelyClobberLoIds(LoDisplayInfo lo) {
+        lo.getLoInfo().setId(null);
+        for (LoDisplayInfo nestedLo : lo.getLoDisplayInfoList()) {
+            recursivelyClobberLoIds(nestedLo);
         }
     }
 
