@@ -78,7 +78,7 @@
     <!--Alert message-->
     <div id="user_message" class="util-Alert util-Alert--{{userMessage.type}}" ng-if="userMessage.txt">
         <span class="kscr-Card-statusRemove"><a href="" ng-click="removeUserMessage()"></a></span>
-        <span ng-bind-html="userMessage.txt | formatValidationMessage:userMessage.course"></span>
+        <span ng-bind-html="userMessage | formatValidationMessage"></span>
         <div class="kscr-Card-buttons" ng-if="userMessage.linkText">
             <button id="userMessageInvoke" class="kscr-Button" type="button" ng-click="invokeActionLink(userMessage.actionLink)">{{userMessage.linkText}}</button>
         </div>

@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('regCartApp')
-    .controller('CartCtrl', ['$scope', '$modal', '$timeout', 'STATE', 'STATUS', 'GRADING_OPTION', 'ACTION_LINK', 'COURSE_TYPES', 'CartService', 'ScheduleService', 'GlobalVarsService',
-    function ($scope, $modal, $timeout, STATE, STATUS, GRADING_OPTION, ACTION_LINK, COURSE_TYPES, CartService, ScheduleService, GlobalVarsService) {
+    .controller('CartCtrl', ['$scope', '$modal', '$timeout', 'STATE', 'STATUS', 'GRADING_OPTION', 'ACTION_LINK', 'COURSE_TYPES', 'GENERAL_ERROR_TYPE', 'CartService', 'ScheduleService', 'GlobalVarsService',
+    function ($scope, $modal, $timeout, STATE, STATUS, GRADING_OPTION, ACTION_LINK, COURSE_TYPES, GENERAL_ERROR_TYPE, CartService, ScheduleService, GlobalVarsService) {
         $scope.states = STATE;
         $scope.statuses = STATUS;
         $scope.courseTypes = COURSE_TYPES;
@@ -157,7 +157,7 @@ angular.module('regCartApp')
                 console.log('CartId:', cartId);
                 if (error.status === 404) {
                     //Reg group was not found
-                    $scope.userMessage = {txt: error.data, type: STATUS.error, course: courseCode};
+                    $scope.userMessage = {txt: error.data, messageKey: GENERAL_ERROR_TYPE.noRegGroup, type: STATUS.error, course: courseCode};
                     $scope.courseAdded = true;  // refocus cursor back to course code
                 } else if (error.status === 400) {
                     console.log('CartId: ', cartId);
@@ -202,7 +202,7 @@ angular.module('regCartApp')
                 } else {
                     console.log('Error with adding course', error.data.consoleMessage);
                     //Reg group is not in offered state
-                    $scope.userMessage = {txt: error.data.genericMessage, type: error.data.type, detail: error.data.detailedMessage, course: courseCode + ' (' + regGroupCode + ')'};
+                    $scope.userMessage = {txt: error.data.genericMessage, messageKey: GENERAL_ERROR_TYPE.noRegGroup, type: error.data.type, detail: error.data.detailedMessage, course: courseCode + ' (' + regGroupCode + ')'};
                     $scope.courseAdded = true; // refocus cursor back to course code
                 }
             });

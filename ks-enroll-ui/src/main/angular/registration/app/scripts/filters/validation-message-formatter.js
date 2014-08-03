@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('regCartApp').filter('formatValidationMessage', ['VALIDATION_ERROR_TYPE', 'MessageService', function(VALIDATION_ERROR_TYPE, MessageService) {
+angular.module('regCartApp').filter('formatValidationMessage', ['VALIDATION_ERROR_TYPE', 'GENERAL_ERROR_TYPE', 'MessageService', function(VALIDATION_ERROR_TYPE, GENERAL_ERROR_TYPE, MessageService) {
 
     /**
      * In this method we take a course & validation message object and return a formatted
@@ -20,11 +20,6 @@ angular.module('regCartApp').filter('formatValidationMessage', ['VALIDATION_ERRO
         if (data) {
             if (typeof(data) === 'string') {
                 // Backwards compatibility, allow a straight string to go through
-                if (typeof(course) === 'string') {
-                    if (data !== '' && data.indexOf(course) !== -1) {
-                        data = data.replace(course, '<strong>' + course + '</strong>');
-                    }
-                }
                 message = data;
             } else if (data.messageKey) {
                 // Validation message w/ messageKey value
@@ -37,7 +32,11 @@ angular.module('regCartApp').filter('formatValidationMessage', ['VALIDATION_ERRO
                     case VALIDATION_ERROR_TYPE.maxCredits:
                         message = formatMaxCredits(data, messages);
                         break;
-                    
+
+                    case GENERAL_ERROR_TYPE.noRegGroup:
+                        message = formatCourse(data);
+                        break;
+
                     default:
                         message = getMessage(data.messageKey, messages);
                 }
@@ -132,6 +131,18 @@ angular.module('regCartApp').filter('formatValidationMessage', ['VALIDATION_ERRO
         if (data.maxCredits) {
             var maxCredits = parseFloat(data.maxCredits); // convert to a float to eliminate unnecessary decimals
             message += ' (<strong>' + maxCredits + ' credits</strong>)';
+        }
+
+        return message;
+    }
+
+    function formatCourse(data) {
+        var message = '';
+
+        if (typeof(data.course) === 'string') {
+            if (data.txt !== '' && data.txt.indexOf(data.course) !== -1) {
+                message = data.txt.replace(data.course, '<strong>' + data.course + '</strong>');
+            }
         }
 
         return message;

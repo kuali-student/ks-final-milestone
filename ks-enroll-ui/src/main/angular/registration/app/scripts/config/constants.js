@@ -104,6 +104,10 @@ angular.module('regCartApp')
         transactionItemException: 'kuali.lpr.trans.item.message.exception'
     })
 
+    .constant('GENERAL_ERROR_TYPE', {
+        noRegGroup: 'noRegGroup'
+    })
+
     .constant('VALIDATION_SUCCESS_TYPE', {
         waitlistStudentRemoved: 'kuali.lpr.trans.message.waitlist.student.removed',    //"Student removed from waitlist."
         waitlistUpdated: 'kuali.lpr.trans.message.waitlist.options.updated',    //"Waitlist options were updated."
