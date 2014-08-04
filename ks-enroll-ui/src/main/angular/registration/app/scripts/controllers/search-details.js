@@ -41,16 +41,33 @@ angular.module('regCartApp')
                 if (lastCourseId === courseId) {
                     // This query matches the last one ran - it's current.
 
-                    // Give each activity offering a handle on its type.
-                    // This facilitates managing the selected offerings.
+                    var regGroups = {};
                     if (angular.isDefined(result.activityOfferingTypes) && angular.isArray(result.activityOfferingTypes)) {
                         angular.forEach(result.activityOfferingTypes, function(aoType) {
                             angular.forEach(aoType.activityOfferings, function(ao) {
+                                // Give each activity offering a handle on its type.
+                                // This facilitates managing the selected offerings.
                                 ao.activityOfferingType = aoType.activityOfferingType;
+
+                                // Transform the reg groups to be more easily consumed
+                                angular.forEach(ao.regGroupInfos, function(code, id) {
+                                    if (angular.isUndefined(regGroups[id])) {
+                                        regGroups[id] = {
+                                            id: id,
+                                            code: code,
+                                            aos: []
+                                        };
+                                    }
+
+                                    // Give each reg group a handle on the activity offerings that compose it.
+                                    // This facilitates calculating if the waitlist is available.
+                                    regGroups[id].aos.push(ao);
+                                });
                             });
                         });
                     }
 
+                    $scope.availableRegGroups = regGroups;
                     $scope.course = result;
                     $scope.updateAOStates();
                 } else {
@@ -61,7 +78,7 @@ angular.module('regCartApp')
             });
         }
 
-
+        $scope.availableRegGroups = {};
         $scope.selectedAOs = []; // List of selected activity offerings by their type
         $scope.selectedRegGroup = null; // Handle on the selected reg group based on the selected AOs
 
@@ -86,19 +103,48 @@ angular.module('regCartApp')
             return $scope.selectedRegGroup && GlobalVarsService.isCourseInCart($scope.selectedRegGroup.id);
         };
 
-        // Re-using "Add to Cart" functionality from cart controller
-        $scope.addRegGroupIdToCart = function() {
-            $scope.actionStatus  = null;
+        // Method for checking if the selected reg group is in the waitlist
+        $scope.isSelectedRegGroupInWaitlist = function() {
+            return $scope.selectedRegGroup && GlobalVarsService.isCourseWaitlisted($scope.selectedRegGroup.id);
+        };
 
-            $rootScope.$broadcast('addRegGroupIdToCart', $scope.selectedRegGroup.id,
-                function() {
+
+        // Handle the action form (Add to Cart || Add to Waitlist) being submitted
+        $scope.submitAction = function() {
+            if (!$scope.selectedRegGroup) {
+                return;
+            }
+
+            $scope.actionType = null;
+            $scope.actionStatus = null;
+
+            var successCallback = function() {
                     $scope.actionStatus = STATUS.success;
-                }, function() {
+                },
+                errorCallback = function() {
                     $scope.actionStatus = STATUS.error;
-                });
+                };
+
+            if (!$scope.selectedRegGroup.isFull) {
+                $scope.actionType = 'cart';
+
+                // Re-using "Add to Cart" functionality from cart controller
+                $rootScope.$broadcast('addRegGroupIdToCart', $scope.selectedRegGroup.id, successCallback, errorCallback);
+            } else if ($scope.selectedRegGroup.isWaitlistAvailable) {
+                $scope.actionType = 'waitlist';
+
+                var course = angular.copy($scope.course);
+                course.courseCode = course.courseOfferingCode;
+                course.regGroupId = $scope.selectedRegGroup.id;
+                course.regGroupCode = $scope.selectedRegGroup.code;
+
+                // Broadcast an directRegisterForCourse event that is caught in the cart.js controller
+                $rootScope.$broadcast('registerForCourse', course, successCallback, errorCallback);
+            }
         };
 
         $scope.removeActionMessage = function() {
+            $scope.actionType = null;
             $scope.actionStatus = false;
         };
 
@@ -157,7 +203,11 @@ angular.module('regCartApp')
             }
 
             // Check if we have reg group
-            $scope.selectedRegGroup = checkForSelectedRegGroup();
+            var selectedRegGroup = checkForSelectedRegGroup();
+            if (selectedRegGroup !== null) {
+                selectedRegGroup = calculateValuesForRegGroup(selectedRegGroup);
+            }
+            $scope.selectedRegGroup = selectedRegGroup;
         };
 
         /**
@@ -222,6 +272,48 @@ angular.module('regCartApp')
         }
 
         /**
+         * Calculate and store isFull, isWaitlistAvailable, & isWaitlistFull values on a reg group.
+         *
+         * @param regGroup
+         * @returns regGroup
+         */
+        function calculateValuesForRegGroup(regGroup) {
+            if (angular.isDefined(regGroup.isFull)) {
+                // Already calculated
+                return regGroup;
+            }
+
+            regGroup.isFull = false;
+            regGroup.isWaitlistAvailable = false;
+            regGroup.isWaitlistFull = false;
+            regGroup.waitlistSeatsAvailable = null;
+            regGroup.waitlistSeatsTaken = 0;
+
+            // A reg group is full if any of its activity offerings has 0 seats available
+            angular.forEach(regGroup.aos, function(ao) {
+                if (!regGroup.isFull && ao.seatsOpen <= 0) {
+                    regGroup.isFull = true;
+                }
+
+                // TODO: implement actual logic for calculating # of seats available
+                if (ao.maxWaitListSize && ao.maxWaitListSize < regGroup.waitlistSeatsAvailable) {
+                    regGroup.waitlistSeatsAvailable = ao.maxWaitListSize;
+                }
+
+                // TODO: implement actual logic for calculating # of seats taken
+                if (ao.waitListSize > regGroup.waitlistSeatsTaken) {
+                    regGroup.waitlistSeatsTaken = ao.waitListSize;
+                }
+            });
+
+            // TODO: implement actual logic for calculating whether a waitlist is offered and whether it is full
+            regGroup.isWaitlistAvailable = true;
+            regGroup.isWaitlistFull = (regGroup.isWaitlistAvailable && (!regGroup.waitlistSeatsAvailable || regGroup.waitlistSeatsTaken < regGroup.waitlistSeatsAvailable));
+
+            return regGroup;
+        }
+
+        /**
          * Method for identifying the selected reg group based on the selected activity offerings.
          *
          * @returns registration group {id, code}
@@ -265,14 +357,13 @@ angular.module('regCartApp')
          * @returns array of registration groups [{id, code}]
          */
         function getSelectableRegGroups() {
-            var candidates = null;
+            var candidates = $scope.availableRegGroups;
             angular.forEach($scope.selectedAOs, function(ao) {
                 // Init the reg group candidates with the first AO's reg groups
                 if (candidates === null) {
                     candidates = [];
                     for (var key in ao.regGroupInfos) {
-                        // Transform the reg groups to be more easily consumed
-                        candidates.push({id: key, code: ao.regGroupInfos[key]});
+                        candidates.push($scope.availableRegGroups[key]);
                     }
                 } else {
                     // Eliminate any reg groups from the candidates that don't exist in the current ao

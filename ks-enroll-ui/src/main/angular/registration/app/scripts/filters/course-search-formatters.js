@@ -149,7 +149,7 @@ angular.module('regCartApp')
         }
 
         function addSortField(field, sortField) {
-            field = '<span class="kscr-Search-result-sort">'+sortField+"</span>"+field;
+            field = '<span class="kscr-Search-result-sort">' + sortField + '</span>' + field;
             return field;
         }
 

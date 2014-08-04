@@ -46,11 +46,25 @@
                 <span class="kscr-SearchDetails-label">No Activities Selected</span>
             </div>
             <div class="kscr-SearchDetails-selection kscr-SearchDetails-selection--selected util-Grid-cell" ng-if="hasSelectedAOs()"
-                 ng-class="{'kscr-SearchDetails-selection--complete' : selectedRegGroup }">
+                 ng-class="{'kscr-SearchDetails-selection--complete' : selectedRegGroup, 'kscr-SearchDetails-selection--full' : selectedRegGroup.isFull }">
                 <div class="kscr-SearchDetails-label" ng-if="!selectedRegGroup">{{selectedAOs.length}} of {{course.activityOfferingTypes.length}} activities selected</div>
                 <div class="kscr-SearchDetails-label" ng-if="selectedRegGroup">
                     <i class="kscr-SearchDetails-selection-icon"></i>
-                    Section {{selectedRegGroup.code}} Selected
+                    <span>Section {{selectedRegGroup.code}} </span>
+                    <span ng-if="!selectedRegGroup.isFull">Selected</span>
+                    <span ng-if="selectedRegGroup.isFull">
+                        <span>Full </span>
+                        <span class="kscr-SearchDetails-selection-sublabel">
+                            <span ng-if="selectedRegGroup.isWaitlistAvailable && !selectedRegGroup.waitlistSeatsAvailable">
+                                ({{selectedRegGroup.waitlistSeatsTaken}} <ng-pluralize count="selectedRegGroup.waitlistSeatsTaken"
+                                                                                       when="{'1': 'student', 'other': 'students'}"></ng-pluralize> on waitlist)
+                            </span>
+                            <span ng-if="selectedRegGroup.isWaitlistAvailable && selectedRegGroup.waitlistSeatsAvailable">
+                                ({{selectedRegGroup.waitlistSeatsAvailable - selectedRegGroup.waitlistSeatsTaken}}/{{selectedRegGroup.waitlistSeatsAvailable}} waitlist spots available)
+                            </span>
+                            <span ng-if="!selectedRegGroup.isWaitlistAvailable">(No waitlist offered)</span>
+                        </span>
+                    </span>
                 </div>
                 <a class="kscr-SearchDetails-selection-clear" ng-click="clearSelectedAOs()">
                     <ng-pluralize count="selectedAOs.length" when="{'1': 'Clear Selection', 'other': 'Clear Selections'}"></ng-pluralize>
@@ -59,17 +73,35 @@
 
             <!-- Actions -->
             <div class="kscr-SearchDetails-actions">
-                <form novalidate name="form" ng-submit="addRegGroupIdToCart()">
-                    <div class="kscr-SearchDetails-button">
-                        <button id="search_details_add_to_cart" name="submit" class="kscr-Button" ng-disabled="!selectedRegGroup" ng-if="!isSelectedRegGroupInCart()">Add to Cart</button>
-                        <button id="search_details_in_cart" class="kscr-Button--outline" ng-disabled="true" ng-if="isSelectedRegGroupInCart()">In Cart</button>
+                <form novalidate name="form" ng-submit="submitAction()">
+                    <!-- Add to Cart / Waitlist - Only if not in cart || waitlist already -->
+                    <div class="kscr-SearchDetails-button" ng-if="!isSelectedRegGroupInCart() && !isSelectedRegGroupInWaitlist()">
+                        <!-- Add to Cart - Only if course is not full || (course is full & waitlist is not available (shown as disabled)) -->
+                        <button id="search_details_add_to_cart" name="submit" class="kscr-Button" ng-disabled="!selectedRegGroup || (selectedRegGroup.isFull && !selectedRegGroup.isWaitlistAvailable)"
+                                ng-if="!selectedRegGroup || !selectedRegGroup.isFull || !selectedRegGroup.isWaitlistAvailable">Add to Cart</button>
+
+                        <!-- Add to Waitlist - Only if reg group is selected, not in waitlist, course is full, && waitlist is available -->
+                        <button id="search_details_add_to_waitlist" name="submit" class="kscr-Button" ng-disabled="!selectedRegGroup"
+                                ng-if="selectedRegGroup && selectedRegGroup.isFull && selectedRegGroup.isWaitlistAvailable">Add to Waitlist</button>
+                    </div>
+
+                    <!-- In Cart / Waitlist - Only if in cart / waitlist -->
+                    <div class="kscr-SearchDetails-button" ng-if="isSelectedRegGroupInCart()">
+                        <button id="search_details_in_cart" class="kscr-Button--outline" ng-disabled="true">In Cart</button>
+                    </div>
+                    <div class="kscr-SearchDetails-button" ng-if="isSelectedRegGroupInWaitlist()">
+                        <button id="search_details_in_waitlist" class="kscr-Button--outline" ng-disabled="true">In Waitlist</button>
                     </div>
                 </form>
                 <div class="kscr-SearchDetails-actionMessage" ng-if="actionStatus" ng-class="{'kscr-SearchDetails-actionMessage--{{actionStatus}}' : actionStatus}">
                     <i class="kscr-SearchDetails-actionMessage-icon"></i>
-                    <span ng-if="actionStatus === 'success'">Added <strong>{{course.courseOfferingCode}}</strong> to cart</span>
-                    <span ng-if="actionStatus === 'error'">Failed to add <strong>{{course.courseOfferingCode}}</strong> to cart</span>
                     <a class="kscr-SearchDetails-actionMessage-remove" ng-click="removeActionMessage()"></a>
+
+                    <span ng-if="actionStatus === 'success'">Added </span>
+                    <span ng-if="actionStatus === 'error'">Failed to add </span>
+                    <strong>{{course.courseOfferingCode}}</strong> to
+                    <span ng-if="actionType === 'cart'"> cart</span>
+                    <span ng-if="actionType === 'waitlist'"> waitlist</span>
                 </div>
             </div>
         </div>
@@ -81,8 +113,8 @@
                     {{aoType.activityOfferingTypeName}}<ng-pluralize count="aoType.activityOfferings.length" when="{'1' : '', 'other': 's'}"></ng-pluralize>
 
                     <span ng-if="isAOTypeSelected(aoType)">(Selected)</span>
-                    <span ng-if="!isAOTypeSelected(aoType) && (!hasSelectedAOs() || aoType.activityOfferings.length === countEligibleAOs(aoType.activityOfferings))">({{aoType.activityOfferings.length}})</span>
-                    <span ng-if="!isAOTypeSelected(aoType) && hasSelectedAOs() && aoType.activityOfferings.length !== countEligibleAOs(aoType.activityOfferings)">
+                    <span ng-if="!isAOTypeSelected(aoType) && !hasSelectedAOs()">({{aoType.activityOfferings.length}})</span>
+                    <span ng-if="!isAOTypeSelected(aoType) && hasSelectedAOs()">
                         ({{countEligibleAOs(aoType.activityOfferings)}} of {{aoType.activityOfferings.length}} eligible)
                         <a ng-click="aoType.showAll = !aoType.showAll; updateAOStates();" ng-show="aoType.activityOfferings.length > 1">
                             <span ng-if="!aoType.showAll">Show All</span>

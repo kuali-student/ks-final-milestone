@@ -126,6 +126,11 @@
         // Main label
         &-label {}
 
+        // Sub Label (in parenthesis)
+        &-sublabel {
+            font-weight: normal;
+        }
+
         // Clear selection link
         &-clear {}
 
@@ -148,6 +153,16 @@
             .kscr-SearchDetails-label {
                 color: @successText;
                 font-weight: bold;
+            }
+
+            // All AO's have been selected but the reg group is full
+            &.kscr-SearchDetails-selection--full {
+                .kscr-SearchDetails-selection-icon {
+                    .warning-icon;
+                }
+                .kscr-SearchDetails-label {
+                    color: @warningText;
+                }
             }
         }
     }

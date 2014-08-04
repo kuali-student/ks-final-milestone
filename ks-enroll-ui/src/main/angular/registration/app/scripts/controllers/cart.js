@@ -104,11 +104,18 @@ angular.module('regCartApp')
             });
         };
 
+        // Listens for the "addRegGroupIdToWaitlist" event and adds the regGroupId to the waitlist.
         $scope.$on('addRegGroupIdToCart', function (event, regGroupId, successCallback, errorCallback) {
             addCourseToCart({
                 regGroupId: regGroupId
             }, successCallback, errorCallback);
         });
+
+        // Listens for the "directRegister" event and directly registers the regGroupId.
+        $scope.$on('registerForCourse', function(event, course, successCallback, errorCallback) {
+            registerForCourse(course, successCallback, errorCallback);
+        });
+
 
         // Allows you to add a cartResultItem back into the cart. useful when a user wants to add a failed item back
         // into their cart.
@@ -164,41 +171,8 @@ angular.module('regCartApp')
                     }
                 } else if (error.status === 400) {
                     //Additional options are required
-                    $modal.open({
-                        backdrop: 'static',
-                        templateUrl: 'partials/additionalOptions.html',
-                        resolve: {
-                            item: function () {
-                                return error.data;
-                            }
-                        },
-                        controller: ['$scope', 'item', function ($scope, item) {
-                            console.log('Controller for modal... Item: ', item);
-                            $scope.newCartItem = item;
-
-                            $scope.newCartItem.credits = $scope.newCartItem.newCredits = $scope.newCartItem.creditOptions[0];
-                            $scope.newCartItem.gradingOptionId = $scope.newCartItem.newGrading = GRADING_OPTION.letter;
-                            $scope.newCartItem.editing = true;
-
-                            $scope.dismissAdditionalOptions = function () {
-                                console.log('Dismissing credits and grading');
-                                $scope.$close(true);
-                            };
-
-                            var submitted = false;
-                            $scope.saveAdditionalOptions = function (course) {
-                                if (!submitted) { // Only let the form be submitted once.
-                                    submitted = true;
-                                    course.editing = false;
-
-                                    $scope.newCartItem.credits = $scope.newCartItem.newCredits;
-                                    $scope.newCartItem.gradingOptionId = $scope.newCartItem.newGrading;
-
-                                    addCourseToCart($scope.newCartItem, successCallback, errorCallback);
-                                    $scope.$close(true);
-                                }
-                            };
-                        }]
+                    showAdditionalOptionsModal(error.data, function(newCartItem) {
+                        addCourseToCart(newCartItem, successCallback, errorCallback);
                     });
                     $scope.courseAdded = true; // refocus cursor back to course code
                 } else {
@@ -460,6 +434,108 @@ angular.module('regCartApp')
             }
 
             return totalNumber;
+        }
+
+        // Direct register for a course
+        function registerForCourse(course, successCallback, errorCallback) {
+            if (!course.credits || !course.gradingOptionId) {
+                showAdditionalOptionsModal(course, function(newCourse) {
+                    course.gradingOptionId = newCourse.gradingOptionId;
+                    course.credits = newCourse.credits;
+
+                    registerForCourse(course, successCallback, errorCallback);
+                });
+
+                return;
+            }
+
+
+            ScheduleService.registerForRegistrationGroup().query({
+                courseCode: course.courseCode || null,
+                regGroupId: course.regGroupId || null,
+                gradingOption: course.gradingOptionId || null,
+                credits: course.credits || null,
+                allowWaitlist: course.allowWaitlist || true
+            }, function (regRequest) {
+                ScheduleService.pollRegistrationRequestStatus(regRequest.id)
+                    .then(function(response) {
+                        var state = null;
+                        angular.forEach(response.responseItemResults, function(responseItem) {
+                            if (state === null) {
+                                state = responseItem.state;
+                            }
+                        });
+
+                        if (state === STATE.lpr.item.failed) {
+                            if (angular.isFunction(errorCallback)) {
+                                errorCallback(response);
+                            }
+                        } else {
+                            // After all the processing is complete, get the final Schedule counts.
+                            ScheduleService.getSchedule($scope.termId, true).then(function (result) {
+                                console.log('called rest service to get schedule data - in cart.js');
+                                GlobalVarsService.updateScheduleCounts(result);
+                                $scope.registeredCredits = GlobalVarsService.getRegisteredCredits;   // notice that i didn't put the (). in the ui call: {{registeredCredits()}}
+                                $scope.registeredCourseCount = GlobalVarsService.getRegisteredCourseCount; // notice that i didn't put the (). in the ui call: {{registeredCourseCount()}}
+                            });
+
+                            if (angular.isFunction(successCallback)) {
+                                successCallback(response);
+                            }
+                        }
+                    }, errorCallback);
+            }, errorCallback);
+        }
+
+        // Show the Additional Options Modal Dialog allowing the user to select the specific credit & grading option they would like.
+        function showAdditionalOptionsModal(cartItem, callback) {
+            $modal.open({
+                backdrop: 'static',
+                templateUrl: 'partials/additionalOptions.html',
+                resolve: {
+                    item: function () {
+                        return cartItem;
+                    }
+                },
+                controller: ['$scope', 'item', function ($scope, item) {
+                    console.log('Controller for modal... Item: ', item);
+                    var defaultGradingOption = null;
+                    if (angular.isDefined(item.gradingOptions[GRADING_OPTION.letter])) {
+                        defaultGradingOption = GRADING_OPTION.letter;
+                    } else {
+                        angular.forEach(item.gradingOptions, function (v, k) {
+                            if (defaultGradingOption === null) {
+                                defaultGradingOption = k;
+                            }
+                        });
+                    }
+
+                    item.gradingOptionId = item.newGrading = defaultGradingOption;
+                    item.credits = item.newCredits = item.creditOptions[0];
+
+                    $scope.newCartItem = item;
+                    $scope.newCartItem.editing = true;
+
+                    $scope.dismissAdditionalOptions = function () {
+                        console.log('Dismissing credits and grading');
+                        $scope.$close(true);
+                    };
+
+                    var submitted = false;
+                    $scope.saveAdditionalOptions = function (course) {
+                        if (!submitted) { // Only let the form be submitted once.
+                            submitted = true;
+                            course.editing = false;
+
+                            $scope.newCartItem.credits = $scope.newCartItem.newCredits;
+                            $scope.newCartItem.gradingOptionId = $scope.newCartItem.newGrading;
+
+                            callback($scope.newCartItem);
+                            $scope.$close(true);
+                        }
+                    };
+                }]
+            });
         }
 
         function standardizeCourseData(course) {
