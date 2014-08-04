@@ -1425,8 +1425,13 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
                         "ao.ID aoId, ao.LUI_TYPE, ao.NAME, aoId.LUI_CD aoCode, ao.MAX_SEATS, " +
                         "(SELECT COUNT(*) FROM KSEN_LPR lpr " +
                         "  WHERE lpr.LUI_ID = ao.ID " +
-                        "    AND lpr.LPR_TYPE='" + LprServiceConstants.REGISTRANT_AO_LPR_TYPE_KEY + "' " +
-                        "    AND lpr.LPR_STATE='" + LprServiceConstants.ACTIVE_STATE_KEY + "') numRegisteredForAo, " +
+                        "    AND lpr.LPR_TYPE = '" + LprServiceConstants.REGISTRANT_AO_LPR_TYPE_KEY + "' " +
+                        "    AND lpr.LPR_STATE = '" + LprServiceConstants.ACTIVE_STATE_KEY + "') numRegisteredForAo, " +
+                        "cwl.MAX_SIZE wlMaxSize, " +
+                        "(SELECT COUNT(*) FROM KSEN_LPR lpr_wl " +
+                        "  WHERE lpr_wl.LUI_ID = ao.ID " +
+                        "    AND lpr_wl.LPR_TYPE = '" + LprServiceConstants.WAITLIST_AO_LPR_TYPE_KEY + "' " +
+                        "    AND lpr_wl.LPR_STATE = '" + LprServiceConstants.ACTIVE_STATE_KEY + "') numWaitlistedForAo, " +
                         "rg.ID as rgId, rg.NAME as rgCode, " +
                         "schedCmp.TBA_IND, room.ROOM_CD, rBldg.BUILDING_CD, " +
                         "schedTmslt.WEEKDAYS, schedTmslt.START_TIME_MS, schedTmslt.END_TIME_MS " +
@@ -1461,6 +1466,12 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
                         "AND rg2ao.LUILUI_RELTN_TYPE = '" + LuiServiceConstants.LUI_LUI_RELATION_REGISTERED_FOR_VIA_RG_TO_AO_TYPE_KEY + "' " +
                         "LEFT OUTER JOIN KSEN_LUI rg " +
                         "ON rg.ID = rg2ao.LUI_ID " +
+                        // WL for AO
+                        "LEFT OUTER JOIN KSEN_CWL_ACTIV_OFFER cwl2ao " +
+                        "ON cwl2ao.ACTIV_OFFER_ID = ao.id " +
+                        "LEFT OUTER JOIN KSEN_CWL cwl " +
+                        "ON cwl.id = cwl2ao.CWL_ID " +
+                        "AND cwl.CWL_STATE = '" + CourseWaitListServiceConstants.COURSE_WAIT_LIST_ACTIVE_STATE_KEY + "' " +
                         // Schedules for AOs
                         "LEFT OUTER JOIN KSEN_LUI_SCHEDULE aoSched " +
                         "ON aoSched.LUI_ID = ao.ID " +
@@ -1478,7 +1489,6 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
                         "  AND co.LUI_TYPE = 'kuali.lui.type.course.offering' " +
                         "  AND co.ID = :courseOfferingId " +
                         " ORDER BY aoId.LUI_CD";
-
 
         Query query = getEntityManager().createNativeQuery(queryStr);
         query.setParameter(SearchParameters.CO_ID, requestHelper.getParamAsString(SearchParameters.CO_ID));
@@ -1502,17 +1512,29 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
             row.addCell(SearchResultColumns.AO_TYPE, (String)resultRow[i++]);
             row.addCell(SearchResultColumns.AO_NAME, (String)resultRow[i++]);
             row.addCell(SearchResultColumns.AO_CODE, (String)resultRow[i++]);
-            BigDecimal maxSeats = (BigDecimal) resultRow[i++];
-            if (maxSeats != null) {
-                row.addCell(SearchResultColumns.AO_MAX_SEATS, String.valueOf(maxSeats.intValue()));
+            BigDecimal aoMaxSeats = (BigDecimal) resultRow[i++];
+            if (aoMaxSeats != null) {
+                row.addCell(SearchResultColumns.AO_MAX_SEATS, String.valueOf(aoMaxSeats.intValue()));
             } else {
                 row.addCell(SearchResultColumns.AO_MAX_SEATS, null);
             }
-            BigDecimal seatCount = (BigDecimal) resultRow[i++];
-            if (seatCount != null) {
-                row.addCell(SearchResultColumns.SEAT_COUNT, String.valueOf(seatCount.intValue()));
+            BigDecimal aoSeatCount = (BigDecimal) resultRow[i++];
+            if (aoSeatCount != null) {
+                row.addCell(SearchResultColumns.SEAT_COUNT, String.valueOf(aoSeatCount.intValue()));
             } else {
                 row.addCell(SearchResultColumns.SEAT_COUNT, null);
+            }
+            BigDecimal aoWlMaxSize = (BigDecimal) resultRow[i++];
+            if (aoWlMaxSize != null) {
+                row.addCell(SearchResultColumns.CWL_MAX_SIZE, String.valueOf(aoWlMaxSize.intValue()));
+            } else {
+                row.addCell(SearchResultColumns.CWL_MAX_SIZE, null);
+            }
+            BigDecimal aoWlCount = (BigDecimal) resultRow[i++];
+            if (aoWlCount != null) {
+                row.addCell(SearchResultColumns.AO_WAITLIST_COUNT, String.valueOf(aoWlCount.intValue()));
+            } else {
+                row.addCell(SearchResultColumns.AO_WAITLIST_COUNT, null);
             }
             row.addCell(SearchResultColumns.RG_ID, (String) resultRow[i++]);
             row.addCell(SearchResultColumns.RG_CODE, (String) resultRow[i++]);

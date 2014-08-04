@@ -606,14 +606,10 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
             String aoType = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.AO_TYPE);
             String aoName = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.AO_NAME);
             String aoCode = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.AO_CODE);
-            int aoMaxSeats = 0;
-            if (!StringUtils.isEmpty(row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.AO_MAX_SEATS))) {
-                aoMaxSeats = Integer.parseInt(row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.AO_MAX_SEATS));
-            }
-            int aoSeatCount = 0;
-            if (!StringUtils.isEmpty(row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.SEAT_COUNT))) {
-                aoSeatCount = Integer.parseInt(row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.SEAT_COUNT));
-            }
+            String aoMaxSeats = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.AO_MAX_SEATS);
+            String aoSeatCount = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.SEAT_COUNT);
+            String aoWlMaxSize = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.CWL_MAX_SIZE);
+            String aoWlCount = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.AO_WAITLIST_COUNT);
             String rgId = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.RG_ID);
             String rgCode = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.RG_CODE);
             String isTBA = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.TBA_IND);
@@ -644,7 +640,7 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
                     weekdays, startTimeMs, endTimeMs);
             // have to check if we already have the AO in our list, because we can have multiple schedules for the same AO
             if (!hmActivityOfferings.containsKey(aoId) && !StringUtils.isEmpty(aoId)) {
-                StudentScheduleActivityOfferingResult ao = createActivityOfferingResult(aoId, aoName, aoType, aoCode, aoMaxSeats, aoSeatCount, rgId, rgCode, scheduleComponent, coAtpId, aoAtpId, contextInfo);
+                StudentScheduleActivityOfferingResult ao = createActivityOfferingResult(aoId, aoName, aoType, aoCode, aoMaxSeats, aoSeatCount, aoWlMaxSize, aoWlCount, rgId, rgCode, scheduleComponent, coAtpId, aoAtpId, contextInfo);
                 hmActivityOfferings.put(aoId, ao);
             } else if (hmActivityOfferings.containsKey(aoId)) {
                 // reg group
@@ -1254,7 +1250,8 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
     }
 
     private StudentScheduleActivityOfferingResult createActivityOfferingResult(String aoId, String aoName, String aoType, String aoCode,
-            int aoMaxSeats, int aoSeatCount, String rgId, String rgCode, ActivityOfferingScheduleComponentResult scheduleComponent, String coAtpId, String aoAtpId, ContextInfo contextInfo) throws PermissionDeniedException, MissingParameterException, InvalidParameterException, OperationFailedException, DoesNotExistException {
+            String aoMaxSeats, String aoSeatCount, String aoWlMaxSize, String aoWlCount, String rgId, String rgCode,
+            ActivityOfferingScheduleComponentResult scheduleComponent, String coAtpId, String aoAtpId, ContextInfo contextInfo) throws PermissionDeniedException, MissingParameterException, InvalidParameterException, OperationFailedException, DoesNotExistException {
         StudentScheduleActivityOfferingResult ao = new StudentScheduleActivityOfferingResult();
 
         // main info
@@ -1262,8 +1259,12 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
         ao.setActivityOfferingTypeName(aoName);
         ao.setActivityOfferingType(aoType);
         ao.setActivityOfferingCode(aoCode);
-        ao.setSeatsAvailable(aoMaxSeats);
-        ao.setSeatsOpen(aoMaxSeats-aoSeatCount);
+        ao.setSeatsAvailable(aoMaxSeats == null ? null : Integer.parseInt(aoMaxSeats));
+        if (ao.getSeatsAvailable() != null && aoSeatCount != null) {
+            ao.setSeatsOpen(ao.getSeatsAvailable() - Integer.parseInt(aoSeatCount));
+        }
+        ao.setMaxWaitListSize(aoWlMaxSize == null ? null : Integer.parseInt(aoWlMaxSize));
+        ao.setWaitListSize(aoWlCount == null ? null : Integer.parseInt(aoWlCount));
         // reg group
         Map<String, String> rgGroups = new HashMap<>();
         rgGroups.put(rgId, rgCode);

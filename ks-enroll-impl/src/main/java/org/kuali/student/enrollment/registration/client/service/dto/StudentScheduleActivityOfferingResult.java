@@ -17,8 +17,10 @@ public class StudentScheduleActivityOfferingResult {
     private String activityOfferingTypeName;
     private String activityOfferingType;
     private String activityOfferingCode;
-    private int seatsAvailable;
-    private int seatsOpen;
+    private Integer seatsAvailable;
+    private Integer seatsOpen;
+    private Integer maxWaitListSize; // null implies unbounded waitlist size (defined in CourseWaitListInfo)
+    private Integer waitListSize; // Number of students on waitlist
     private List<ActivityOfferingScheduleComponentResult> scheduleComponents;
     private List<InstructorSearchResult> instructors;
     private Map<String, String> regGroupInfos;
@@ -79,7 +81,7 @@ public class StudentScheduleActivityOfferingResult {
         this.activityOfferingCode = activityOfferingCode;
     }
 
-    public int getSeatsAvailable() {
+    public Integer getSeatsAvailable() {
         return seatsAvailable;
     }
 
@@ -87,12 +89,28 @@ public class StudentScheduleActivityOfferingResult {
         this.seatsAvailable = seatsAvailable;
     }
 
-    public int getSeatsOpen() {
+    public Integer getSeatsOpen() {
         return seatsOpen;
     }
 
     public void setSeatsOpen(int seatsOpen) {
         this.seatsOpen = seatsOpen;
+    }
+
+    public Integer getMaxWaitListSize() {
+        return maxWaitListSize;
+    }
+
+    public void setMaxWaitListSize(Integer maxWaitListSize) {
+        this.maxWaitListSize = maxWaitListSize;
+    }
+
+    public Integer getWaitListSize() {
+        return waitListSize;
+    }
+
+    public void setWaitListSize(Integer waitListSize) {
+        this.waitListSize = waitListSize;
     }
 
     public List<String> getRequisites() {
