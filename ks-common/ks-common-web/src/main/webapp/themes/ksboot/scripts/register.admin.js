@@ -13,11 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 var CLIENT_STATE_PROPERTY_NAME = "clientState";
 var POLLING_QUERY_METHOD_NAME = "queryForRegistrationStatus";
-var REGISTERING_BARS_ID = "KS-AdminRegistration-Registering";
-var REGISTER_BUTTON_ID = "KS-AdminRegistration-RegisterButton";
+var REFRESH_DETAIL_METHOD_NAME = "refreshRegistrationResults";
+
+var POLLING_HIDE = ".hide-when-polling";
+var POLLING_SHOW = ".show-when-polling";
+var ERROR_RESULT = ".error-result";
+var WARNING_RESULT = ".warning-result";
+var SUCCESS_RESULT = ".success-result";
+
 var REGISTRATION_TABS_ID = "KS-AdminRegistration-RegistrationTabs";
 var REGISTERED_TAB_ID = "KS-AdminRegistration-RegisteredTab_tab";
 var RESULTS_COLL_ID = "KS-AdminRegistration-Results";
@@ -48,11 +53,15 @@ function startPolling(time) {
         polling = true;
         sendPoll();
 
-        var registerButton = jQuery("#" + REGISTER_BUTTON_ID);
-        if (registerButton) {
-            registerButton.hide();
-        }
+        jq(POLLING_HIDE).each(function () {
+            jq(this).hide();
+        });
+
+        jq(POLLING_SHOW).each(function () {
+            jq(this).show();
+        });
     }
+
 }
 
 /**
@@ -62,15 +71,13 @@ function stopPolling() {
     polling = false;
     delay = null;
 
-    var busyIndicator = jQuery("#" + REGISTERING_BARS_ID);
-    if (busyIndicator) {
-        busyIndicator.hide();
-    }
+    jq(POLLING_HIDE).each(function () {
+        jq(this).show();
+    });
 
-    var registerButton = jQuery("#" + REGISTER_BUTTON_ID);
-    if (registerButton) {
-        registerButton.show();
-    }
+    jq(POLLING_SHOW).each(function () {
+        jq(this).hide();
+    });
 }
 
 /**
@@ -120,20 +127,25 @@ function sendPoll() {
 
 function refreshRegistrationDetail(data){
 
-    var state = data.clientState;
-    jQuery("input[name='" + CLIENT_STATE_PROPERTY_NAME + "']").val(state);
+    setClientState(data.clientState);
 
     var registeredCredits = data.registeredCredits;
     var waitlistedCredits = data.waitlistedCredits;
     var title = "Registered (" + registeredCredits + ") / Waitlist (" + waitlistedCredits + ")";
     jQuery("#" + REGISTRATION_TABS_ID + " a[href=#" + REGISTERED_TAB_ID + "]").text(title);
 
-    retrieveComponent(RESULTS_COLL_ID, 'refreshRegistrationResults');
+    retrieveComponent(RESULTS_COLL_ID, REFRESH_DETAIL_METHOD_NAME);
 
     var updateIds = data.updateIds;
     jQuery(updateIds).each(function (index, id) {
         retrieveComponent(id);
     });
+}
+
+function setClientState(state) {
+    if (state) {
+        jQuery("input[name='" + CLIENT_STATE_PROPERTY_NAME + "']").val(state);
+    }
 }
 
 //////////////////////////////////////
@@ -148,9 +160,7 @@ function refreshRegistrationDetail(data){
  * @param state
  */
 function goAction(component, state) {
-    if (state) {
-        jQuery("input[name='" + CLIENT_STATE_PROPERTY_NAME + "']").val(state);
-    }
+    setClientState(state);
 
     var action = jQuery(component);
 
@@ -198,15 +208,15 @@ function setValidation(requiredName, states, message) {
 // Registration results
 function renderResults() {
 
-    jq('.error-result').each(function () {
-        jq(this).closest("tr").addClass('alert-danger');
+    jq(ERROR_RESULT).each(function () {
+        jq(this).closest("tr").addClass(kradVariables.PAGE_VALIDATION_MESSAGE_ERROR_CLASS);
     });
 
-    jq('.warning-result').each(function () {
-        jq(this).closest("tr").addClass('alert-warning');
+    jq(WARNING_RESULT).each(function () {
+        jq(this).closest("tr").addClass(kradVariables.PAGE_VALIDATION_MESSAGE_WARNING_CLASS);
     });
 
-    jq('.success-result').each(function () {
+    jq(SUCCESS_RESULT).each(function () {
         jq(this).closest("tr").addClass('alert-success');
     });
 }
