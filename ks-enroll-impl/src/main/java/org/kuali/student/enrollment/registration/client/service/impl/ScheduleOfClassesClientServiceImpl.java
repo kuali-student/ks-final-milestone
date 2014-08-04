@@ -11,7 +11,7 @@ import org.elasticsearch.search.sort.SortOrder;
 import org.kuali.student.enrollment.registration.client.service.ScheduleOfClassesClientService;
 import org.kuali.student.enrollment.registration.client.service.dto.ActivityOfferingSearchResult;
 import org.kuali.student.enrollment.registration.client.service.dto.ActivityTypeSearchResult;
-import org.kuali.student.enrollment.registration.client.service.dto.CourseOfferingInfoSearchResult;
+import org.kuali.student.enrollment.registration.client.service.dto.CourseOfferingDetailsSearchResult;
 import org.kuali.student.enrollment.registration.client.service.dto.EligibilityCheckResult;
 import org.kuali.student.enrollment.registration.client.service.dto.InstructorSearchResult;
 import org.kuali.student.enrollment.registration.client.service.dto.RegGroupSearchResult;
@@ -229,15 +229,17 @@ public class ScheduleOfClassesClientServiceImpl extends ScheduleOfClassesService
     }
 
     /**
-     * COURSE OFFERING INFO *
+     * COURSE OFFERING Details *
+     * Returns a list of course offering details such as main info (code, name, desc, etc.),
+     * cross-listed courses, prereqs, and AO info (main info, schedule, instructor, reg groups).     *
      */
 
     @Override
-    public Response searchForCourseOfferingInfo(String courseOfferingId) {
+    public Response searchForCourseOfferingDetails(String courseOfferingId) {
         Response.ResponseBuilder response;
 
         try {
-            CourseOfferingInfoSearchResult courseOfferingSearchResults = searchForCourseOfferingInfoLocal(courseOfferingId);
+            CourseOfferingDetailsSearchResult courseOfferingSearchResults = searchForCourseOfferingDetailsLocal(courseOfferingId);
             response = Response.ok(courseOfferingSearchResults);
         } catch (Exception e) {
             LOGGER.warn(EXCEPTION_MSG, e);

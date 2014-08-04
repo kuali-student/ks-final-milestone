@@ -8,7 +8,7 @@ angular.module('regCartApp')
         };
 
         this.getCourse = function() {
-            return ServiceUtilities.getData(URLS.scheduleOfClasses + '/courseOfferingInfo');
+            return ServiceUtilities.getData(URLS.scheduleOfClasses + '/courseOfferingDetails');
         };
 
     }]);

@@ -26,11 +26,11 @@ import java.util.Map;
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "CourseOfferingInfoSearchResult", propOrder = {
+@XmlType(name = "CourseOfferingDetailsSearchResult", propOrder = {
         "courseOfferingId", "courseOfferingCode", "courseOfferingNumber", "courseOfferingSubjectArea", "courseOfferingDesc",
         "courseOfferingLongName", "creditOptions", "gradingOptions",
         "crossListedCourses", "prerequisites", "activityOfferingTypes"})
-public class CourseOfferingInfoSearchResult {
+public class CourseOfferingDetailsSearchResult {
     private String courseOfferingId;
     private String courseOfferingCode;
     private String courseOfferingDesc;

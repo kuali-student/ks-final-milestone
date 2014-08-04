@@ -189,14 +189,15 @@ public interface ScheduleOfClassesClientService {
                                      @QueryParam("active") boolean isActiveTerms);
 
     /**
-     * Returns a list of term details.
+     * Returns a list of course offering details such as main info (code, name, desc, etc.),
+     * cross-listed courses, prereqs, and AO info (main info, schedule, instructor, reg groups).
      *
      * @param courseOfferingId required
      * @return Returns info for given CO such as desc, name, AOs, etc.
      */
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    @Path("/courseOfferingInfo")
-    Response searchForCourseOfferingInfo(@QueryParam("courseOfferingId") String courseOfferingId);
+    @Path("/courseOfferingDetails")
+    Response searchForCourseOfferingDetails(@QueryParam("courseOfferingId") String courseOfferingId);
 
 }
