@@ -29,6 +29,7 @@ public class FormatOfferingInfoWrapper {
 
     private List<ActivityFormatDetailsWrapper> activityFormatDetailsWrappers;
 
+    private String activityFormatOrder;
 
     public FormatOfferingInfoWrapper(FormatOfferingInfo formatOfferingInfo, String courseOfferingCode) {
         formatOfferingName = formatOfferingInfo.getName();
@@ -107,5 +108,24 @@ public class FormatOfferingInfoWrapper {
 
     public void setVariableCredit(boolean variableCredit) {
         this.variableCredit = variableCredit;
+    }
+
+    public String getActivityFormatOrder() {
+        if(activityFormatOrder == null){
+            StringBuilder sb = new StringBuilder();
+            for(ActivityFormatDetailsWrapper wrapper : getActivityFormatDetailsWrappers()){
+                if(sb.length()==0){
+                    sb.append(wrapper.getFormatName());
+                }else{
+                    sb.append("->"+wrapper.getFormatName());
+                }
+            }
+            activityFormatOrder=sb.toString();
+        }
+        return activityFormatOrder;
+    }
+
+    public void setActivityFormatOrder(String activityFormatOrder) {
+        this.activityFormatOrder = activityFormatOrder;
     }
 }

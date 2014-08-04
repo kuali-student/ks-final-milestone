@@ -29,6 +29,7 @@ public class ActivityOfferingDetailsWrapper {
     private boolean validActivity;
     private boolean validActivityToRemain;
     private boolean variableCredit;
+    private int formatIndex;
 
     public ActivityOfferingDetailsWrapper() {
     }
@@ -226,6 +227,14 @@ public class ActivityOfferingDetailsWrapper {
 
     public void setValidActivityToRemain(boolean validActivityToRemain) {
         this.validActivityToRemain = validActivityToRemain;
+    }
+
+    public int getFormatIndex() {
+        return formatIndex;
+    }
+
+    public void setFormatIndex(int formatIndex) {
+        this.formatIndex = formatIndex;
     }
 
     public boolean isVariableCredit() {

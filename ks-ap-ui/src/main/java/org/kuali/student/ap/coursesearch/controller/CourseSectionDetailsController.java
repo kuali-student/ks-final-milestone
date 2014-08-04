@@ -52,7 +52,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.json.Json;
-import javax.json.JsonArrayBuilder;
 import javax.json.JsonObjectBuilder;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -60,6 +59,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -151,6 +152,29 @@ public class CourseSectionDetailsController extends KsapControllerBase {
                 activityOfferingDetailsWrapper.setPartOfRegGroup(true);
             }
             activityWrappers.add(activityOfferingDetailsWrapper);
+        }
+
+        // Order Planned Activities
+        String formatOrder = request.getParameter("formatOrder");
+        if(formatOrder!=null){
+            String formatOrderArray[] = formatOrder.split("->");
+            Map<String,Integer> formatOrderMap = new HashMap<String,Integer>();
+            int count = 0;
+            for(String temp : formatOrderArray){
+                formatOrderMap.put(temp,count);
+                count++;
+            }
+            for(ActivityOfferingDetailsWrapper temp : activityWrappers){
+                temp.setFormatIndex(formatOrderMap.get(temp.getActivityFormatName()));
+            }
+            Collections.sort(activityWrappers, new Comparator<ActivityOfferingDetailsWrapper>() {
+                @Override
+                public int compare(ActivityOfferingDetailsWrapper a1, ActivityOfferingDetailsWrapper a2) {
+                    if (a1.getFormatIndex() == a2.getFormatIndex()) return 0;
+                    if (a1.getFormatIndex() > a2.getFormatIndex()) return 1;
+                    return -1;
+                }
+            });
         }
 
         // Create the new plan item
@@ -285,10 +309,12 @@ public class CourseSectionDetailsController extends KsapControllerBase {
 
         // Fill in addition information needed by the add dialog
         String regGroupId = request.getParameter("regGroupId");
+        String formatOrder = request.getParameter("formatOrder");
 
         boolean variableCredit = Boolean.parseBoolean(request.getParameter("variableCredit"));
 
         dialogForm.setRegGroupId(regGroupId);
+        dialogForm.setFormatOrder(formatOrder);
 
         RegistrationGroupInfo regGroup = null;
         CourseOffering course = null;

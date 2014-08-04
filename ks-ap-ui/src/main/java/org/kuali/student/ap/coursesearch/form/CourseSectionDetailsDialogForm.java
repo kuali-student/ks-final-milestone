@@ -41,6 +41,7 @@ public class CourseSectionDetailsDialogForm extends UifFormBase {
     private boolean variableCredit;
     private String termId;
     private String termName;
+    private String formatOrder;
 
     public CourseSectionDetailsDialogForm() {
         super();
@@ -156,6 +157,14 @@ public class CourseSectionDetailsDialogForm extends UifFormBase {
 
     public void setCourseOffering(CourseOffering courseOffering) {
         this.courseOffering = courseOffering;
+    }
+
+    public String getFormatOrder() {
+        return formatOrder;
+    }
+
+    public void setFormatOrder(String formatOrder) {
+        this.formatOrder = formatOrder;
     }
 
     public String getPrerequisitesForUI() {

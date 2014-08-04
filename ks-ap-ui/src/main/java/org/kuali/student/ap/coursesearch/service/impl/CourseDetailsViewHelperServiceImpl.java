@@ -1170,6 +1170,16 @@ public class CourseDetailsViewHelperServiceImpl extends ViewHelperServiceImpl im
             }
             // If no activities are filled then it is a bad registration group and don't add it to the list
             if(plannedRegistrationGroup.getActivities() == null || plannedRegistrationGroup.getActivities().isEmpty()) continue;
+
+            Collections.sort(plannedRegistrationGroup.getActivities(),new Comparator<ActivityOfferingDetailsWrapper>(){
+                @Override
+                public int compare(ActivityOfferingDetailsWrapper a1, ActivityOfferingDetailsWrapper a2){
+                    if(a1.getFormatIndex() == a2.getFormatIndex()) return 0;
+                    if(a1.getFormatIndex() > a2.getFormatIndex()) return 1;
+                    return -1;
+                }
+            });
+
             plannedRegistrationGroupDetailsWrappers.add(plannedRegistrationGroup);
         }
 
@@ -1243,6 +1253,14 @@ public class CourseDetailsViewHelperServiceImpl extends ViewHelperServiceImpl im
                 //Add entry into map
                 aosByType.add(wrapper);
                 aosByFormat.put(typeKey, aosByType);
+
+                String keys[] = aosByFormat.keySet().toArray(new String[aosByFormat.keySet().size()]);
+                for(int i = 0; i<keys.length; i++){
+                    if(typeKey.equals(keys[i])){
+                        wrapper.setFormatIndex(i);
+                    }
+                }
+
                 aoMapByFormatName.put(activityOffering.getFormatOfferingId(), aosByFormat);
             }
         }

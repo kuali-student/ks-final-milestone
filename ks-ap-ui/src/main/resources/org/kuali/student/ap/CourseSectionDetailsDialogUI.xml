@@ -49,6 +49,7 @@
         <property name="items">
             <list merge="true">
                 <bean parent="planner_hidden_input" p:propertyName="regGroupId" />
+                <bean parent="planner_hidden_input" p:propertyName="formatOrder" />
                 <bean parent="Uif-Message" p:messageText="@{#textHelper.getFormattedMessage('details.courseOffering.header', new Object[]{courseOfferingCode, courseOfferingTitle, creditsDisplay})}"/>
 
                 <bean parent="Uif-CssGridGroup">

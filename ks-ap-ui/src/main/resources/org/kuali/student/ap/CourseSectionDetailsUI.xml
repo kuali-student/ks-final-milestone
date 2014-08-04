@@ -291,12 +291,13 @@
                               p:actionLabel="@{#textHelper.getText('details.button.addToPlan')}"
                               p:disabled="true"
                               p:id="@{#line.xmlSafeTermId}_@{#line.courseOfferingCode}_@{#line.formatOfferingId}_addButton"
-                              p:actionScript="addRegGroupToPlan(jQuery(this).attr('data-reggroupid'), jQuery(this).attr('data-quickadd'), jQuery(this).attr('data-variablecredit'), e);">
+                              p:actionScript="addRegGroupToPlan(this, e);">
                             <property name="dataAttributes">
                                 <map>
                                     <entry key="reggroupid" value="none" />
                                     <entry key="quickadd" value="@{!#line.variableCredit}" />
                                     <entry key="variablecredit" value="@{#line.variableCredit}" />
+                                    <entry key="formatOrder" value="@{#line.activityFormatOrder}" />
                                 </map>
                             </property>
                               </bean>
@@ -827,7 +828,14 @@
                                         <value>@{#line.inPlan ? 'ks-fontello-icon-ok-circled' : 'ks-fontello-icon-hollow-circled-plus'}</value>
                                     </list>
                                 </property>
-                                <property name="actionScript" value="addRegGroupToPlan('@{#line.regGroupId}', @{!#line.variableCredit}, @{#line.variableCredit}, e);"/>
+                                <property name="actionScript" value="addRegGroupToPlan(this, e);"/>
+                                <property name="dataAttributes">
+                                    <map>
+                                        <entry key="reggroupid" value="@{#line.regGroupId}" />
+                                        <entry key="quickadd" value="@{!#line.variableCredit}" />
+                                        <entry key="variablecredit" value="@{#line.variableCredit}" />
+                                    </map>
+                                </property>
                             </bean>
                         </list>
                     </property>

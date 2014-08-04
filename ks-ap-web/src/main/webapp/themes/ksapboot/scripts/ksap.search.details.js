@@ -511,34 +511,37 @@ function setupCourseSectionPage(){
 
 /**
  * Determine which add method we want to call based on the quickAdd flag.  If quickAdd is true, add it straight to the plan.  If false, open a dialog.
- * @param regGroupId - Id of the registration group being added
- * @param quickAdd - Flag indicating if we want to go the quickAdd route.
- * @param variableCredit - Flag indicating if we are in a situation where the regGroup we are adding has variable credits
+ * @param addObject - Object being used as anchor for the add
  * @param e - An object containing data that will be passed to the event handler.
  */
-function addRegGroupToPlan(regGroupId, quickAdd, variableCredit, e) {
+function addRegGroupToPlan(addObject, e) {
+    var regGroupId = jQuery(addObject).attr('data-reggroupid');
+    var quickAdd = jQuery(addObject).attr('data-quickadd');
+    var variableCredit = jQuery(addObject).attr('data-variablecredit');
+    var formatOrder = jQuery(addObject).attr('data-formatorder');
+
     if (!quickAdd) {
-        ksapOpenDialog('KSAP-CourseDetailsSection-AddCoursePage','course/details','startAddDialog', this, e,{regGroupId: regGroupId, variableCredit: variableCredit});
+        ksapOpenDialog('KSAP-CourseDetailsSection-AddCoursePage','course/details','startAddDialog', this, e,{regGroupId: regGroupId, variableCredit: variableCredit, formatOrder: formatOrder});
     }
     else {
-        addRegGroupToPlanQuick(regGroupId, e);
+        addRegGroupToPlanQuick({regGroupId: regGroupId, formatOrder: formatOrder}, e);
     }
 }
 
 /**
  * Adds a registration group to the plan using an ajax call to the controller and growl message response
  *
- * @param regGroupId - Id of the registration group being added
+ * @param additionalData - Additioanl data to use
  * @param e - An object containing data that will be passed to the event handler.
  */
-function addRegGroupToPlanQuick(regGroupId, e) {
+function addRegGroupToPlanQuick(additionalData, e) {
     stopEvent(e);
     var form = jQuery('<form />').attr("id", "popupForm").attr("action", "course/details").attr("method", "post");
     jQuery("body").append(form);
     var additionalFormData = {
-        methodToCall:"addRegGroup",
-        regGroupId:regGroupId
+        methodToCall:"addRegGroup"
     }
+    jQuery.extend(additionalFormData,additionalData);
     form.ajaxSubmit({
         data : ksapAdditionalFormData(additionalFormData),
         dataType : 'json',
