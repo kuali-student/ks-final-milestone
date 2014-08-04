@@ -125,6 +125,19 @@ angular.module('regCartApp')
             this.setWaitlistedCredits(credits);
         };
 
+        this.isCourseInCart = function(course) {
+            return isCourseInList(course, this.getCartCourses());
+        };
+
+        this.isCourseRegistered = function(course) {
+            return isCourseInList(course, this.getRegisteredCourses());
+        };
+
+        this.isCourseWaitlisted = function(course) {
+            return isCourseInList(course, this.getWaitlistedCourses());
+        };
+
+
         this.getSchedule = function () {
             return schedule;
         };
@@ -236,5 +249,29 @@ angular.module('regCartApp')
 
             return index;
         };
+
+
+        /**
+         * Method for determining if a course is present in a list of courses
+         * @param course
+         * @param list
+         * @returns {boolean}
+         */
+        function isCourseInList (course, list) {
+            if (angular.isString(course)) {
+                course = {
+                    regGroupId: course
+                };
+            }
+
+            var inList = false;
+            angular.forEach(list, function(listCourse) {
+                if (!inList && (listCourse.regGroupId === course.regGroupId)) { // Courses match on regGroupId
+                    inList = true;
+                }
+            });
+
+            return inList;
+        }
 
     }]);

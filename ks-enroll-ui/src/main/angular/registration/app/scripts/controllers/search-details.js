@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('regCartApp')
-    .controller('SearchDetailsCtrl', ['$scope', '$rootScope', '$state', '$filter', '$modal', 'STATUS', 'SearchService',
-    function SearchDetailsCtrl($scope, $rootScope, $state, $filter, $modal, STATUS, SearchService) {
+    .controller('SearchDetailsCtrl', ['$scope', '$rootScope', '$state', '$filter', '$modal', 'STATUS', 'SearchService', 'GlobalVarsService',
+    function SearchDetailsCtrl($scope, $rootScope, $state, $filter, $modal, STATUS, SearchService, GlobalVarsService) {
 
         $scope.searchCriteria = null; // Criteria used to generate the search results.
         $scope.course = null; // Handle on the course
@@ -71,6 +71,21 @@ angular.module('regCartApp')
             $scope.updateAOStates();
         };
 
+        $scope.hasSelectedAOs = function() {
+            return $scope.selectedAOs.length > 0;
+        };
+
+        $scope.isAOTypeSelected = function(aoType) {
+            var selected = getSelectedAOByType(aoType);
+            return selected !== null;
+        };
+
+
+        // Method for checking if the selected reg group is in the cart
+        $scope.isSelectedRegGroupInCart = function() {
+            return $scope.selectedRegGroup && GlobalVarsService.isCourseInCart($scope.selectedRegGroup.id);
+        };
+
         // Re-using "Add to Cart" functionality from cart controller
         $scope.addRegGroupIdToCart = function() {
             $scope.actionStatus  = null;
@@ -85,15 +100,6 @@ angular.module('regCartApp')
 
         $scope.removeActionMessage = function() {
             $scope.actionStatus = false;
-        };
-
-        $scope.hasSelectedAOs = function() {
-            return $scope.selectedAOs.length > 0;
-        };
-
-        $scope.isAOTypeSelected = function(aoType) {
-            var selected = getSelectedAOByType(aoType);
-            return selected !== null;
         };
 
         $scope.$on('showSubterm', function(event, subterm) {

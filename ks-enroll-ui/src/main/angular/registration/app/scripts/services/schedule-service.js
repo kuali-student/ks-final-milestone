@@ -33,16 +33,18 @@ angular.module('regCartApp')
 
 
         // Schedule Poller
-        this.pollRegistrationRequestStatus = function(registrationRequestId, interval) {
+        this.pollRegistrationRequestStatus = function(registrationRequestId, interval, deferred) {
             // Make sure the interval is defined
             if (!angular.isNumber(interval)) {
                 interval = 1000;
             }
 
-            // Set up the promise
-            var deferred = $q.defer(),
-                me = this;
+            // Make sure the promise is set up.
+            if (!deferred) {
+                deferred = $q.defer();
+            }
 
+            var me = this; // Get a handle on the service so we can refer to it within the $timeout.
             $timeout(function() {
                 // Query for the registration status
                 me.getRegistrationStatus().query({regReqId: registrationRequestId}, function (result) {
@@ -53,7 +55,7 @@ angular.module('regCartApp')
                         case STATUS.processing:
                             // The request is still new or processing, reschedule the poller
                             deferred.notify(result); // Notify out in case partial updates are desired
-                            me.pollRegistrationRequestStatus(registrationRequestId, interval);
+                            me.pollRegistrationRequestStatus(registrationRequestId, interval, deferred);
                             break;
 
                         case STATUS.success:

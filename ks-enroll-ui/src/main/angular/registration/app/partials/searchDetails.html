@@ -61,7 +61,8 @@
             <div class="kscr-SearchDetails-actions">
                 <form novalidate name="form" ng-submit="addRegGroupIdToCart()">
                     <div class="kscr-SearchDetails-button">
-                        <button id="search_details_add_to_cart" name="submit" class="kscr-Button" ng-disabled="!selectedRegGroup">Add to Cart</button>
+                        <button id="search_details_add_to_cart" name="submit" class="kscr-Button" ng-disabled="!selectedRegGroup" ng-if="!isSelectedRegGroupInCart()">Add to Cart</button>
+                        <button id="search_details_in_cart" class="kscr-Button--outline" ng-disabled="true" ng-if="isSelectedRegGroupInCart()">In Cart</button>
                     </div>
                 </form>
                 <div class="kscr-SearchDetails-actionMessage" ng-if="actionStatus" ng-class="{'kscr-SearchDetails-actionMessage--{{actionStatus}}' : actionStatus}">
