@@ -9,4 +9,4 @@
        ga('send', 'pageview');</script><!--[if lt IE 9]>
     <script src="bower_components/es5-shim/es5-shim.js"></script>
     <script src="bower_components/json3/lib/json3.min.js"></script>
-    <![endif]--><script src="scripts/b4b959b2.vendor.js"></script><script src="scripts/6360dfa9.scripts.js"></script><script>'use strict'; angular.module('configuration').value('APP_URL','${ConfigProperties.application.url}/services/');</script>
+    <![endif]--><script src="scripts/b4b959b2.vendor.js"></script><script src="scripts/5b1c4af7.scripts.js"></script><script>'use strict'; angular.module('configuration').value('APP_URL','${ConfigProperties.application.url}/services/');</script>
