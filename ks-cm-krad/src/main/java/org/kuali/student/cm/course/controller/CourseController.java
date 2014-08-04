@@ -1063,6 +1063,32 @@ public class CourseController extends CourseRuleEditorController {
         return loDisplayWrapperModel;
     }
 
+    @MethodAccessible
+    @RequestMapping(params = "methodToCall=copyProposal")
+    public ModelAndView copyProposal(@ModelAttribute("KualiForm") DocumentFormBase form) {
+
+        CourseInfoWrapper courseInfoWrapper = getCourseInfoWrapper(form);
+
+        Properties urlParameters = new Properties();
+        /**
+         * It should be always 'curriculum review' for both CS and faculty users for copy.
+         */
+        urlParameters.put(CourseController.UrlParams.USE_CURRICULUM_REVIEW,Boolean.TRUE.toString());
+        urlParameters.put(UifConstants.UrlParams.PAGE_ID, CurriculumManagementConstants.CourseViewPageIds.CREATE_COURSE);
+        urlParameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, KRADConstants.Maintenance.METHOD_TO_CALL_COPY);
+        urlParameters.put(KRADConstants.DATA_OBJECT_CLASS_ATTRIBUTE, CourseInfoWrapper.class.getName());
+        urlParameters.put(KRADConstants.RETURN_LOCATION_PARAMETER, CMUtils.getCMHomeUrl() );
+        urlParameters.put(UrlParams.COPY_PROPOSAL_ID, courseInfoWrapper.getProposalInfo().getId());
+        urlParameters.put(KRADConstants.OVERRIDE_KEYS, CourseController.UrlParams.COPY_CLU_ID);
+
+        String courseBaseUrl = CurriculumManagementConstants.ControllerRequestMappings.COURSE_MAINTENANCE.replaceFirst("/", "");
+
+
+        return performRedirect(form, courseBaseUrl, urlParameters);
+
+    }
+
+
     /**
      *  Binds the each validation errors with its property path
      * @param validationResultInfoList
