@@ -93,7 +93,7 @@ public class AdminRegistrationForm extends UifFormBase implements Serializable {
      */
     private List<RegistrationCourse> registeredCourses = new ArrayList<RegistrationCourse>();
     private int editRegisteredIndex;
-    private RegistrationCourse tempRegCourseEdit;
+    private RegistrationCourse tempRegCourseEdit = new RegistrationCourse();
 
     /**
      * Waitlisted Courses contains courses that the student was added to the waitlist for.
@@ -107,6 +107,8 @@ public class AdminRegistrationForm extends UifFormBase implements Serializable {
     private boolean termEligible = false;
 
     private boolean displayRegistrationTabs = false;
+
+    private List<RegistrationCourse> coursesEdit = new ArrayList<RegistrationCourse>();
 
     public AdminRegistrationForm(){
         this.clientState = AdminRegConstants.ClientStates.OPEN;
@@ -351,4 +353,11 @@ public class AdminRegistrationForm extends UifFormBase implements Serializable {
         this.displayRegistrationTabs = displayRegistrationTabs;
     }
 
+    public List<RegistrationCourse> getCoursesEdit() {
+        return coursesEdit;
+    }
+
+    public void setCoursesEdit(List<RegistrationCourse> coursesEdit) {
+        this.coursesEdit = coursesEdit;
+    }
 }

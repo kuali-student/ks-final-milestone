@@ -44,6 +44,7 @@ public class AdminRegConstants {
     public static final String DROP_COURSE_DIALOG = "dropCourseDialog";
     public static final String DROP_WAITLISTED_DIALOG = "dropWaitlistedDialog";
     public static final String TERM_ELIGIBILITY_DIALOG = "termEligibilityDialog";
+    public static final String COURSE_EDIT_DIALOG = "courseEditDialog";
 
     //Message keys
     public static final String ADMIN_REG_MSG_ERROR_INVALID_STUDENT = "error.admin.reg.studentId.invalid";

@@ -66,8 +66,9 @@
                 <bean id="registerConfirmDialog" parent="KS-AdminRegistration-RegisterDialogResponse"/>
                 <bean id="dropCourseDialog" parent="KS-AdminRegistration-DropRegisteredDialog"/>
                 <bean id="dropWaitlistedDialog" parent="KS-AdminRegistration-DropWaitlistedDialog"/>
-                <bean id="termEligibilityDialog" parent="KS-AdminRegistration-TermEligibilityDialogResponse">
-                </bean>
+                <bean id="termEligibilityDialog" parent="KS-AdminRegistration-TermEligibilityDialogResponse"/>
+                <bean id="courseEditDialog" parent="KS-AdminRegistration-RegisteredCourses-Edit"/>
+
             </list>
         </property>
         <property name="additionalScriptFiles">
@@ -393,16 +394,9 @@
         <property name="lineActions">
             <list>
                 <bean parent="KS-Uif-Edit-NavigationActionLink" p:id="registeredEditLink" p:title="Edit Course"
-                      p:methodToCall="editCourse" p:render="@{#index != editRegisteredIndex}"
-                      p:successCallback="stopPolling();"/>
+                      p:methodToCall="editCourse" p:successCallback="stopPolling();"/>
                 <bean parent="KS-Uif-Delete-NavigationActionLink" p:id="registeredDropLink" p:title="Drop Course"
-                      p:methodToCall="dropCourse" p:render="@{#index != editRegisteredIndex}"/>
-                <bean parent="Uif-SecondaryActionButton" p:iconClass="icon-disk" p:title="Save"
-                      p:methodToCall="saveEdit" p:successCallback="startPolling(1000);"
-                      p:render="@{#index == editRegisteredIndex}"/>
-                <bean parent="Uif-SecondaryActionButton" p:iconClass="icon-blocked" p:title="Cancel"
-                      p:methodToCall="cancelEdit" p:successCallback="startPolling(1000);"
-                      p:render="@{#index == editRegisteredIndex}"/>
+                      p:methodToCall="dropCourse"/>
             </list>
         </property>
         <property name="items">
@@ -450,16 +444,9 @@
         <property name="lineActions">
             <list>
                 <bean parent="KS-Uif-Edit-NavigationActionLink" p:id="waitlistedEditLink" p:title="Edit Course"
-                      p:methodToCall="editCourse" p:render="@{#index != editWaitlistedIndex}"
-                      p:successCallback="stopPolling();"/>
+                      p:methodToCall="editCourse" p:successCallback="stopPolling();"/>
                 <bean parent="KS-Uif-Delete-NavigationActionLink" p:id="waitlistedDropLink" p:title="Remove Course"
-                      p:methodToCall="deleteLine" p:render="@{#index != editWaitlistedIndex}"/>
-                <bean parent="Uif-SecondaryActionButton" p:iconClass="icon-disk" p:title="Save"
-                      p:methodToCall="saveEdit" p:successCallback="startPolling(1000);"
-                      p:render="@{#index == editWaitlistedIndex}"/>
-                <bean parent="Uif-SecondaryActionButton" p:iconClass="icon-blocked" p:title="Cancel"
-                      p:methodToCall="cancelEdit" p:successCallback="startPolling(1000);"
-                      p:render="@{#index == editWaitlistedIndex}"/>
+                      p:methodToCall="deleteLine"/>
             </list>
         </property>
         <property name="items">
@@ -816,6 +803,89 @@
         <property name="availableResponses">
             <list>
             </list>
+        </property>
+    </bean>
+
+
+
+    <bean id="KS-AdminRegistration-RegisteredCourses-Edit" parent="Uif-DialogGroup">
+        <property name="headerText" value="Edit Course Details"/>
+        <property name="style" value="width:650px;"/>
+        <property name="items">
+            <list>
+                <bean id="KS-AdminRegistration-Courses-Edit" parent="Uif-TableCollectionGroup" p:colSpan="8">
+                    <property name="collectionObjectClass"
+                              value="org.kuali.student.enrollment.class2.registration.admin.form.RegistrationCourse"/>
+                <property name="propertyName" value="coursesEdit"/>
+                <property name="layoutManager.renderSequenceField" value="false"/>
+                <property name="layoutManager.richTable.render" value="false"/>
+                <property name="renderAddLine" value="false"/>
+                <property name="renderLineActions" value="false"/>
+                <property name="items">
+                    <list>
+                        <bean parent="Uif-VerticalFieldGroup" p:label="Course Code (Section)">
+                            <property name="group.items">
+                                <list>
+                                    <bean parent="Uif-Message" p:style="font-weight: bold;"
+                                          p:messageText="@{#line.code} (@{#line.section})"/>
+                                    <bean parent="Uif-DataField" p:propertyName="activityTypeDateTimes"  p:additionalCssClasses="nowrap"
+                                          p:readOnlyListDisplayType="UL"/>
+                                </list>
+                            </property>
+                        </bean>
+
+                        <bean parent="Uif-InputField" p:label="Cr" p:propertyName="credits">
+                            <property name="control">
+                                <bean parent="Uif-DropdownControl"/>
+                            </property>
+                            <property name="optionsFinder">
+                                <bean class="org.kuali.student.enrollment.class2.registration.admin.valueFinder.RegistrationCreditsOptionsFinder"/>
+                            </property>
+                        </bean>
+                        <bean parent="Uif-InputField" p:label="Reg Options" p:propertyName="gradingOptionId">
+                            <property name="control">
+                                <bean parent="Uif-DropdownControl"/>
+                            </property>
+                            <property name="optionsFinder">
+                                <bean class="org.kuali.student.enrollment.class2.registration.admin.valueFinder.RegistrationGradingOptionsFinder"
+                                      p:addBlankOption="false"/>
+                            </property>
+                        </bean>
+
+                        <bean parent="KS-Uif-InputField-LabelTop" p:propertyName="effectiveDate" p:label="Effective Date">
+                            <property name="control">
+                                <bean parent="KS-Uif-Default-DateControl" />
+                            </property>
+                        </bean>
+
+                    </list>
+                </property>
+                </bean>
+
+                <bean parent="KS-Uif-FooterBase">
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-HorizontalBoxSection">
+                                <property name="items">
+                                    <list>
+                                        <bean parent="Uif-PrimaryActionButton" p:id="saveEditCourseButton"
+                                              p:preSubmitCall="closeLightbox(); return true;"
+                                              p:methodToCall="saveEdit" p:actionLabel="Save"/>
+                                        <bean parent="Uif-ActionLink" p:actionLabel="Cancel"
+                                              p:methodToCall="cancelEdit"  p:preSubmitCall="closeLightbox(); return true;" p:id="cancelEditCourseLink"
+                                              p:additionalCssClasses="cancel_link" />
+                                    </list>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+        <property name="promptText"
+                  value=""/>
+        <property name="availableResponses">
+            <list></list>
         </property>
     </bean>
 

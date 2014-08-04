@@ -463,18 +463,15 @@ public class AdminRegistrationController extends UifControllerBase {
         Collection<Object> collection = ObjectPropertyUtils.getPropertyValue(form, selectedCollectionPath);
         Object item = ((List) collection).get(selectedLineIndex);
 
-        cancelEdits(form, selectedCollectionId);
-
         // May want to write your own copy/clone method or alternatively re-retrieve value from db on cancel
-        RegistrationCourse tempCourse = (RegistrationCourse) (SerializationUtils.clone((RegistrationCourse) item));
-
+         RegistrationCourse tempCourse = (RegistrationCourse) (SerializationUtils.clone((RegistrationCourse) item));
+         form.getCoursesEdit().add(tempCourse);
         if (selectedCollectionId.equals(AdminRegConstants.REG_COLL_ID)) {
             form.setEditRegisteredIndex(selectedLineIndex);
-            form.setTempRegCourseEdit(tempCourse);
         } else if (selectedCollectionId.equals(AdminRegConstants.WAITLIST_COLL_ID)) {
             form.setEditWaitlistedIndex(selectedLineIndex);
-            form.setTempWaitlistCourseEdit(tempCourse);
         }
+        showDialog(AdminRegConstants.COURSE_EDIT_DIALOG, form, request, response);
 
         return refresh(form, result, request, response);
     }
@@ -483,15 +480,14 @@ public class AdminRegistrationController extends UifControllerBase {
     public ModelAndView saveEdit(@ModelAttribute("KualiForm") AdminRegistrationForm form, BindingResult result,
                                  HttpServletRequest request, HttpServletResponse response) throws Exception {
         String selectedCollectionId = form.getActionParamaterValue(UifParameters.SELECTED_COLLECTION_ID);
-        if (selectedCollectionId.equals(AdminRegConstants.REG_COLL_ID)) {
-            form.setEditRegisteredIndex(-1);
-            form.setTempRegCourseEdit(null);
-        } else if (selectedCollectionId.equals(AdminRegConstants.WAITLIST_COLL_ID)) {
-            form.setEditWaitlistedIndex(-1);
-            form.setTempWaitlistCourseEdit(null);
-        }
 
         // perform actual save on item in the backend
+         form.getCoursesEdit().clear();
+        if (selectedCollectionId.equals(AdminRegConstants.REG_COLL_ID)) {
+            form.setEditRegisteredIndex(-1);
+        } else if (selectedCollectionId.equals(AdminRegConstants.WAITLIST_COLL_ID)) {
+            form.setEditWaitlistedIndex(-1);
+        }
 
         return refresh(form, result, request, response);
     }
@@ -548,15 +544,10 @@ public class AdminRegistrationController extends UifControllerBase {
         }
 
         // Cancel other edit if one is open
+        form.getCoursesEdit().clear();
         if (form.getEditRegisteredIndex() > -1 && collectionId.equals(AdminRegConstants.REG_COLL_ID)) {
-            Collection<Object> collection = ObjectPropertyUtils.getPropertyValue(form, AdminRegConstants.REGISTERED_COURSES);
-            // using temp here but could retrieve original from db
-            ((List) collection).set(form.getEditRegisteredIndex(), form.getTempRegCourseEdit());
             form.setEditRegisteredIndex(-1);
         } else if (form.getEditWaitlistedIndex() > -1 && collectionId.equals(AdminRegConstants.WAITLIST_COLL_ID)) {
-            Collection<Object> collection = ObjectPropertyUtils.getPropertyValue(form, AdminRegConstants.WAITLISTED_COURSES);
-            // using temp here but could retrieve original from db
-            ((List) collection).set(form.getEditWaitlistedIndex(), form.getTempWaitlistCourseEdit());
             form.setEditRegisteredIndex(-1);
         }
     }
