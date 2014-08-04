@@ -40,7 +40,7 @@
                 ng-class="{'kscr-Search-results--first' : $index === 0}">
                 <a ng-if="searchColumn.url" compile="applyFilter(searchResult, searchColumn.field, searchColumn.filter)"></a>
                 <span ng-if="!searchColumn.url" compile="applyFilter(searchResult, searchColumn.field, searchColumn.filter)"></span>
-                <span class="kscr-Search-checkbox" ng-if="searchColumn.checkbox" ng-hide="searchResult.disabled" ng-class="{'kscr-Search-checkbox--selected' : searchResult.selected}"></span>
+                <span id="select_{{applyFilter(searchResult, defaultField, searchColumn.filter)}}" class="kscr-Search-checkbox" ng-if="searchColumn.checkbox" ng-hide="searchResult.disabled" ng-class="{'kscr-Search-checkbox--selected' : searchResult.selected}"></span>
             </td>
         </tr>
     </tbody>

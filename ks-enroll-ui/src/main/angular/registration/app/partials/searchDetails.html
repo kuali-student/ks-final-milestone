@@ -130,7 +130,7 @@
         <!-- Activity Offering Tables (multiple reg groups) -->
         <div class="kscr-SearchDetails-activityOfferingGroups" ng-if="possibleRegGroups() > 1">
             <div class="kscr-SearchDetails-activityOfferingGroup" ng-repeat="aoType in course.activityOfferingTypes">
-                <div class="kscr-SearchDetails-label">
+                <div id="{{aoType.activityOfferingTypeName}}_details_heading" class="kscr-SearchDetails-label">
                     {{aoType.activityOfferingTypeName}}<ng-pluralize count="aoType.activityOfferings.length" when="{'1' : '', 'other': 's'}"></ng-pluralize>
 
                     <span ng-if="isAOTypeSelected(aoType)">(Selected)</span>
