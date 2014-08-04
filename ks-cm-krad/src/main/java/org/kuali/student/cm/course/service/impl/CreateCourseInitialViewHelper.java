@@ -35,13 +35,9 @@ public class CreateCourseInitialViewHelper extends ViewHelperServiceImpl {
 
     private transient CluService cluService;
 
-    public List<String> searchForCourses(String courseNumber) {
+    public List<CourseJointInfoWrapper> searchForCourses(String courseNumber) {
         List<CourseJointInfoWrapper> courseJointInfoWrappers = CourseCodeSearchUtil.searchForCourseJointInfos(courseNumber, getCluService());
-        List<String> courseCodeList = new ArrayList<String>();
-        for (CourseJointInfoWrapper courseJointInfoWrapper : courseJointInfoWrappers) {
-            courseCodeList.add(courseJointInfoWrapper.getCourseCode());
-        }
-        return courseCodeList;
+        return courseJointInfoWrappers;
     }
 
     protected CluService getCluService() {

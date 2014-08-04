@@ -92,7 +92,7 @@
                 </bean>
 
                 <bean parent="KS-Uif-InputField" id="CM-CopyCourse-CourseCode" p:propertyName="courseCode"
-                      p:label="Course Code" p:progressiveRender="@{createCourseInitialAction eq 'copyApprovedCourse'}">
+                      p:label="Course Code" p:additionalHiddenPropertyNames="courseId" p:progressiveRender="@{createCourseInitialAction eq 'copyApprovedCourse'}">
                     <property name="cssClasses">
                         <list>
                             <value>ks-cm-find-course</value>
@@ -105,6 +105,22 @@
                             <property name="suggestQuery">
                                 <bean parent="Uif-AttributeQueryConfig"
                                       p:queryMethodToCall="searchForCourses"/>
+                            </property>
+
+                            <property name="templateOptions">
+                                <map merge="true">
+                                    <entry key="minLength" value="1"/>
+                                    <entry key="delay" value="0"/>
+                                    <entry key="select">
+                                        <value>
+                                            function(event, ui) {
+                                            jQuery( "input[name='courseCode']" ).val(ui.item.label);
+                                            jQuery( "input[name='courseId']" ).val(ui.item.value);
+                                            return false;
+                                            }
+                                        </value>
+                                    </entry>
+                                </map>
                             </property>
                         </bean>
                     </property>
@@ -129,8 +145,7 @@
                       p:propertyName="useReviewProcess" p:bindingInfo.bindToForm="true"
                       p:required="false">
                     <property name="control">
-                        <bean parent="KS-Uif-CheckboxControl" p:checkboxLabel="Use curriculum review process"
-                              p:disabled="@{createCourseInitialAction eq 'copyApprovedCourse'}"/>
+                        <bean parent="KS-Uif-CheckboxControl" p:checkboxLabel="Use curriculum review process"/>
                     </property>
                 </bean>
             </list>
