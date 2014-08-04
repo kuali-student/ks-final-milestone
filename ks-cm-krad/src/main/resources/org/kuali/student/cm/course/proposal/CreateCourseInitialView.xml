@@ -92,7 +92,12 @@
                 </bean>
 
                 <bean parent="KS-Uif-InputField" id="CM-CopyCourse-CourseCode" p:propertyName="courseCode"
-                      p:label="Course Code" p:progressiveRender="true">
+                      p:label="Course Code" p:progressiveRender="@{createCourseInitialAction eq 'copyApprovedCourse'}">
+                    <property name="cssClasses">
+                        <list>
+                            <value>ks-cm-find-course</value>
+                        </list>
+                    </property>
 
                     <property name="suggest">
                         <bean parent="Uif-Suggest" p:render="true" p:returnFullQueryObject="true"
@@ -125,7 +130,7 @@
                       p:required="false">
                     <property name="control">
                         <bean parent="KS-Uif-CheckboxControl" p:checkboxLabel="Use curriculum review process"
-                              p:disabled="@{(#createCourseInitialAction eq 'copyApprovedCourse')}"/>
+                              p:disabled="@{createCourseInitialAction eq 'copyApprovedCourse'}"/>
                     </property>
                 </bean>
             </list>
