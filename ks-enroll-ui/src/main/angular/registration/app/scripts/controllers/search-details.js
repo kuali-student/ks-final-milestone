@@ -254,6 +254,43 @@ angular.module('regCartApp')
             });
         };
 
+        /*
+         * Method for determining how many possible reg groups are available --
+         * if only one reg group is available, select all aos automatically
+         */
+        $scope.possibleRegGroups = function() {
+            var course = $scope.course;
+            var regGroups = [];
+            var indexedRegGroups = {}; //map
+            var activityOfferings = [];
+            if (course !== null) {
+                angular.forEach(course.activityOfferingTypes, function(aoType) {
+                    angular.forEach(aoType.activityOfferings, function(ao) {
+                        activityOfferings.push(ao);
+                        for (var key in ao.regGroupInfos) {
+                            if (ao.regGroupInfos.hasOwnProperty(key)) {
+                                var regGroupCode = ao.regGroupInfos[key];
+                                if (!indexedRegGroups[key]) {
+                                    indexedRegGroups[key] = true;
+                                    regGroups.push({id: key, code: regGroupCode});
+                                }
+                            }
+                        }
+                    });
+                });
+            }
+            var possibleRegGroups = regGroups.length;
+            if (possibleRegGroups === 1 && !$scope.selectedRegGroup) {
+                angular.forEach(activityOfferings, function(ao) {
+                    if (!ao.selected) {
+                        $scope.selectedAOs.push(ao);
+                    }
+                });
+                $scope.selectedRegGroup = regGroups[0];
+            }
+            return possibleRegGroups;
+        };
+
         /**
          * Auto-select the an activity offering when there is only 1 eligible option within its type
          */

@@ -48,7 +48,7 @@
             <div class="kscr-SearchDetails-selection kscr-SearchDetails-selection--selected util-Grid-cell" ng-if="hasSelectedAOs()"
                  ng-class="{'kscr-SearchDetails-selection--complete' : selectedRegGroup, 'kscr-SearchDetails-selection--full' : selectedRegGroup.isFull }">
                 <div class="kscr-SearchDetails-label" ng-if="!selectedRegGroup">{{selectedAOs.length}} of {{course.activityOfferingTypes.length}} activities selected</div>
-                <div class="kscr-SearchDetails-label" ng-if="selectedRegGroup">
+                <div class="kscr-SearchDetails-label" ng-if="selectedRegGroup && possibleRegGroups() > 1">
                     <i class="kscr-SearchDetails-selection-icon"></i>
                     <span>Section {{selectedRegGroup.code}} </span>
                     <span ng-if="!selectedRegGroup.isFull">Selected</span>
@@ -66,7 +66,10 @@
                         </span>
                     </span>
                 </div>
-                <a class="kscr-SearchDetails-selection-clear" ng-click="clearSelectedAOs()">
+                <div class="kscr-SearchDetails-single-selection" ng-if="selectedRegGroup && possibleRegGroups() === 1">
+                    Section {{selectedRegGroup.code}}
+                </div>
+                <a class="kscr-SearchDetails-selection-clear" ng-click="clearSelectedAOs()" ng-if="possibleRegGroups() > 1">
                     <ng-pluralize count="selectedAOs.length" when="{'1': 'Clear Selection', 'other': 'Clear Selections'}"></ng-pluralize>
                 </a>
             </div>
@@ -106,8 +109,26 @@
             </div>
         </div>
 
-        <!-- Activity Offering Tables -->
-        <div class="kscr-SearchDetails-activityOfferingGroups">
+        <!-- Activity Offering Table (single reg group) -->
+        <div class="kscr-SearchDetails-activityOfferingGroups" ng-if="possibleRegGroups() === 1">
+            <div class="kscr-SearchDetails-activityOfferingGroup">
+                <div class="kscr-SearchDetails-activityOfferings">
+                    <search-results>
+                        <search-column name="Activity" field="activityOfferingTypeName" order="1"></search-column>
+                        <search-column name="Days" field="formatted.days" order="2"></search-column>
+                        <search-column name="Time" field="formatted.time" order="3"></search-column>
+                        <search-column name="Instructor" field="formatted.instructor" order="4"></search-column>
+                        <search-column name="Location" field="formatted.location" order="5"></search-column>
+                        <search-column name="Seats Open" field="formatted.seatsOpen" order="6"></search-column>
+                        <search-column name="Additional Info" field="formatted.additionalInfo" sortable="false" optional="true" order="7"></search-column>
+                        <search-list search-data='selectedAOs' preprocessor="aoFormatter" search-columns='searchColumns' default-field="formatted.aoId" display-limit="999"></search-list>
+                    </search-results>
+                </div>
+            </div>
+        </div>
+
+        <!-- Activity Offering Tables (multiple reg groups) -->
+        <div class="kscr-SearchDetails-activityOfferingGroups" ng-if="possibleRegGroups() > 1">
             <div class="kscr-SearchDetails-activityOfferingGroup" ng-repeat="aoType in course.activityOfferingTypes">
                 <div class="kscr-SearchDetails-label">
                     {{aoType.activityOfferingTypeName}}<ng-pluralize count="aoType.activityOfferings.length" when="{'1' : '', 'other': 's'}"></ng-pluralize>
