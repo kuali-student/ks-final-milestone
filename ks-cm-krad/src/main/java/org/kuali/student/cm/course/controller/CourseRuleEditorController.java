@@ -138,14 +138,14 @@ public class CourseRuleEditorController extends RuleEditorController {
             PropositionTreeUtil.resetNewProp(ruleEditor.getPropositionEditor());
         }
 
-        if(ruleEditor.getPropositionEditor()!=null){
+        if (ruleEditor.getPropositionEditor() != null) {
             // handle saving new parameterized terms
             this.getViewHelper(form).finPropositionEditor(ruleEditor.getPropositionEditor());
         }
 
         this.getViewHelper(form).refreshViewTree(ruleEditor);
 
-        //Replace edited rule with existing rule.
+        // Replace edited rule with existing rule.
         CourseInfoWrapper courseInfoWrapper = (CourseInfoWrapper)((MaintenanceDocumentForm) form).getDocument().getNewMaintainableObject().getDataObject();
         AgendaEditor agendaEditor = AgendaUtilities.getSelectedAgendaEditor(courseInfoWrapper, ruleEditor.getKey());
         agendaEditor.getRuleEditors().put(ruleEditor.getKey(), ruleEditor);
@@ -153,7 +153,7 @@ public class CourseRuleEditorController extends RuleEditorController {
 
         courseInfoWrapper.getUiHelper().setSelectedSection(CurriculumManagementConstants.CourseViewSections.COURSE_REQUISITES);
 
-        return getUIFModelAndView(form,CurriculumManagementConstants.CourseViewPageIds.CREATE_COURSE);
+        return getUIFModelAndView(form, CurriculumManagementConstants.CourseViewPageIds.CREATE_COURSE);
     }
 
     @Override

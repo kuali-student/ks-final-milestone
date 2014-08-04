@@ -15,6 +15,12 @@
  */
 package org.kuali.student.cm.course.controller;
 
+import org.kuali.rice.krms.dto.AgendaEditor;
+import org.kuali.rice.krms.dto.PropositionEditor;
+import org.kuali.rice.krms.dto.PropositionParameterEditor;
+import org.kuali.rice.krms.dto.RuleEditor;
+import org.kuali.rice.krms.dto.TermEditor;
+import org.kuali.rice.krms.dto.TermParameterEditor;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.DtoConstants;
 import org.kuali.student.r2.lum.clu.dto.AffiliatedOrgInfo;
@@ -247,10 +253,9 @@ public class CourseController extends CourseRuleEditorController {
                         .populateCourseAndReviewData(cluId, wrapper, false);
             } catch (Exception e) {
                 //  !!! Handle Me!
+                LOG.error("Couldn't find a course for id {}", cluId);
             }
-            resetCourse(wrapper.getCourseInfo());
-            //  !!!  Reset requisites too !!!
-
+            resetDataObject(wrapper);
         } else {
             /*
              * If proposal ID is present then load the proposal and course data then reset it so that new entities
@@ -263,6 +268,53 @@ public class CourseController extends CourseRuleEditorController {
         }
     }
 
+    public void resetDataObject(CourseInfoWrapper courseInfoWrapper) {
+        courseInfoWrapper.setRefObjectId(null);
+
+        resetCourse(courseInfoWrapper.getCourseInfo());
+        resetRequisites(courseInfoWrapper);
+    }
+
+    public void resetRequisites(CourseInfoWrapper courseInfoWrapper) {
+        for (AgendaEditor agenda : courseInfoWrapper.getAgendas()) {
+            agenda.setContextId(null);
+            agenda.setFirstItemId(null);
+            agenda.setId(null);
+            agenda.setVersionNumber(null);
+            agenda.setName(null);
+
+            for (RuleEditor re : agenda.getRuleEditors().values()) {
+                re.setId(null);
+                re.setVersionNumber(null);
+                re.setName(null);
+                re.setPropId(null);
+
+                PropositionEditor pe = re.getPropositionEditor();
+                if (pe != null) {
+                    pe.setId(null);
+                    pe.setRuleId(null);
+                    pe.setVersionNumber(null);
+
+                    for (PropositionParameterEditor parameter : pe.getParameters()) {
+                        parameter.setId(null);
+                        parameter.setVersionNumber(null);
+                        parameter.setPropId(null);
+                    }
+
+                    TermEditor te = pe.getTerm();
+                    te.setId(null);
+                    te.setVersionNumber(null);
+
+                    for (TermParameterEditor parameter : te.getEditorParameters()) {
+                        parameter.setId(null);
+                        parameter.setVersionNumber(null);
+                        parameter.setTermId(null);
+                    }
+                }
+            }
+        }
+    }
+
     /**
      * !!! Put this in a better location.
      *
@@ -270,7 +322,7 @@ public class CourseController extends CourseRuleEditorController {
      *
      * @param course The CourseInfo to reset.
      */
-    public static void resetCourse(CourseInfo course) {
+    public void resetCourse(CourseInfo course) {
         course.setId(null);
         course.setStateKey(DtoConstants.STATE_DRAFT);
         course.setVersion(null);
