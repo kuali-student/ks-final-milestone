@@ -43,6 +43,13 @@ import java.util.List;
 public class KsapSearchSupportImpl extends SearchServiceAbstractHardwiredImpl {
     private static final Logger LOG = LoggerFactory.getLogger(KsapSearchSupportImpl.class);
 
+    /**
+     * NOTE!!:  Only rather static type of queries (e.g. KSAP_COURSE_SEARCH_COURSEIDS_BY_TERM_SCHEDULE) should be
+     * added to this search impl.  Other more dynamic queries (whose parameters vary greatly/frequently)
+     * should be added to other existing (e.g. KsapCourseSearchImpl) or new classes,
+     * that have other more dynamic like queries, so that very different caching strategies can be
+     * used for the dynamic queries (... vs more static queries).
+     */
 
 
     // Search Types
