@@ -412,10 +412,10 @@ public class CourseInfoWrapper extends LURuleManagementWrapper implements Serial
         /**
          * A CS not using workflow gets an admin workflow document type. Some UI elements/behavior are conditional based on doc type.
          *
-         * @return True if an admin doc type is being used. Otherwise, false.
+         * @return True if an admin doc type is being used and the current user is a CS user. Otherwise, false.
          */
         public boolean isAdminProposal() {
-            return curriculumSpecialistUser && !isUseReviewProcess();
+            return isCurriculumSpecialistUser() && !isUseReviewProcess();
         }
 
         public void setCurriculumSpecialistUser(boolean curriculumSpecialistUser) {

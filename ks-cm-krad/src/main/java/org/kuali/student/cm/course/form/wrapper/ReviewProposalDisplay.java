@@ -37,6 +37,16 @@ public class ReviewProposalDisplay {
     private CollaboratorSectionWrapper collaboratorSection;
     private SupportingDocumentsSectionWrapper supportingDocumentsSection;
 
+    private String returnToPreviousNodeName;
+
+    public String getReturnToPreviousNodeName() {
+        return returnToPreviousNodeName;
+    }
+
+    public void setReturnToPreviousNodeName(String returnToPreviousNodeName) {
+        this.returnToPreviousNodeName = returnToPreviousNodeName;
+    }
+
     public CourseSectionWrapper getCourseSection() {
         if (this.courseSection == null) {
             courseSection = new CourseSectionWrapper();

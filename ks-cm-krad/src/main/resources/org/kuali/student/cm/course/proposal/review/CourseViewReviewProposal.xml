@@ -359,13 +359,21 @@
                                   p:ajaxSubmit="false"
                                   p:actionLabel="Submit"
                                   p:methodToCall="route"
-                                  p:performClientSideValidation="true"   p:disabled="@{#dataObject.missingRequiredFields}"
+                                  p:performClientSideValidation="true"
+                                  p:disabled="@{#dataObject.missingRequiredFields}"
                                   p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}"/>
                             <bean parent="Uif-PrimaryActionButton"
                                   p:ajaxSubmit="false"
                                   p:actionLabel="Approve"
                                   p:methodToCall="approve"
                                   p:performClientSideValidation="true"
+                                  p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_APPROVE]}"/>
+                            <bean parent="Uif-PrimaryActionButton"
+                                  p:ajaxSubmit="false"
+                                  p:actionLabel="Return"
+                                  p:methodToCall="returnToPreviousNode"
+                                  p:performClientSideValidation="true"
+                                  p:performDirtyValidation="false"
                                   p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_APPROVE]}"/>
                             <bean id="CM-Proposal-Review-Cancel"
                                   parent="Uif-ActionLink"
@@ -390,8 +398,22 @@
                                   p:ajaxSubmit="false"
                                   p:actionLabel="Submit"
                                   p:methodToCall="route"
-                                  p:performClientSideValidation="true"   p:disabled="@{#dataObject.missingRequiredFields}"
-                                  p:render="@{(!#uiHelper.curriculumSpecialistUser or #uiHelper.useReviewProcess) and (#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE])}"/>
+                                  p:performClientSideValidation="true"
+                                  p:disabled="@{#dataObject.missingRequiredFields}"
+                                  p:render="@{(#uiHelper.useReviewProcess) and (#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE])}"/>
+                            <bean parent="Uif-PrimaryActionButton"
+                                  p:ajaxSubmit="false"
+                                  p:actionLabel="Approve"
+                                  p:methodToCall="approve"
+                                  p:performClientSideValidation="true"
+                                  p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_APPROVE]}"/>
+                            <bean parent="Uif-PrimaryActionButton"
+                                  p:ajaxSubmit="false"
+                                  p:actionLabel="Return"
+                                  p:methodToCall="returnToPreviousNode"
+                                  p:performClientSideValidation="true"
+                                  p:performDirtyValidation="false"
+                                  p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_APPROVE]}"/>
                             <bean id="CM-Proposal-Review-CurriculumSpecialist-Cancel"
                                   parent="Uif-ActionLink"
                                   p:actionLabel="Cancel"
@@ -405,7 +427,8 @@
         </property>
     </bean>
 
-    <bean id="CM-Proposal-Review-Course-ConfirmSubmit-Dialog" parent="Uif-DialogGroup" >
+    <bean id="KS-Proposal-Review-Course-ConfirmSubmit-Dialog" parent="KS-Proposal-Review-Course-ConfirmSubmit-Dialog-parentBean" />
+    <bean id="KS-Proposal-Review-Course-ConfirmSubmit-Dialog-parentBean" parent="Uif-DialogGroup" abstract="true" >
         <property name="headerText" value="Submit Proposal"/>
         <property name="renderHeader" value="true"/>
         <property name="cssClasses" >
@@ -414,7 +437,7 @@
             </list>
         </property>
         <property name="promptText"
-                  value="Are you sure you want to submit the proposal to the workflow?"/>
+                  value="Are you sure you want to submit the proposal to Workflow?"/>
         <property name="availableResponses">
             <list>
                 <bean parent="Uif-KeyLabelPair" p:key="yes" p:value="Submit"/>
@@ -423,6 +446,44 @@
         </property>
     </bean>
 
+    <bean id="KS-Proposal-Review-Course-ConfirmReturnToPreviousNode-Dialog" parent="KS-Proposal-Review-Course-ConfirmReturnToPreviousNode-Dialog-parentBean"/>
+    <bean id="KS-Proposal-Review-Course-ConfirmReturnToPreviousNode-Dialog-parentBean" parent="Uif-DialogGroup" abstract="true">
+        <property name="renderHeader" value="true"/>
+        <property name="headerText" value="Return Proposal To Previous Node"/>
+        <property name="cssClasses" >
+            <list merge="true">
+                <value>returntopreviousnode_dialog</value>
+            </list>
+        </property>
+        <property name="promptText"
+                  value="You are about to return the &quot;@{#uiHelper.proposalName}&quot; proposal to a previous workflow node"/>
+        <!-- do not show the explanation because we need the route node name dropdown above it in the dialog screen -->
+        <property name="displayExplanation" value="false"/>
+        <property name="items">
+            <list>
+                <bean parent="CM-Dialog-PreviousNodeNames"/>
+                <!-- manually add back in the explanation field and force the render flag -->
+                <bean parent="Uif-DialogExplanation" p:render="true"/>
+            </list>
+        </property>
+        <property name="availableResponses">
+            <list>
+                <bean parent="Uif-KeyLabelPair" p:key="yes" p:value="Confirm"/>
+                <bean parent="Uif-KeyLabelPair" p:key="no" p:value="Cancel"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="CM-Dialog-PreviousNodeNames" parent="Uif-Dialog-PreviousNodeNames-parentBean" />
+    <bean id="Uif-Dialog-PreviousNodeNames-parentBean" parent="KS-Uif-InputField" abstract="true"
+          p:propertyName="reviewProposalDisplay.returnToPreviousNodeName" p:label="Workflow Node Name">
+        <property name="control">
+            <bean parent="Uif-DropdownControl"/>
+        </property>
+        <property name="optionsFinder">
+            <bean class="org.kuali.student.lum.lu.ui.course.keyvalues.PreviousNodeNamesValuesFinder" p:addBlankOption="false" />
+        </property>
+    </bean>
 
     <bean id="KS-HomewardPathBreadcrumbs-ReviewProposal-Page" parent="Uif-BreadcrumbItem">
         <property name="label" value="@{#uiHelper.proposalName}: Review Proposal"/>

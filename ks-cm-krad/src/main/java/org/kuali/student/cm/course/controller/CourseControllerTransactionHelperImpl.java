@@ -44,4 +44,9 @@ public class CourseControllerTransactionHelperImpl implements CourseControllerTr
     public void performWorkflowActionSuper(DocumentFormBase form, UifConstants.WorkflowAction action, boolean checkSensitiveData, CourseController courseController) {
         courseController.performWorkflowActionSuper(form,action,checkSensitiveData);
     }
+
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    public void performReturnToPreviousNodeWork(DocumentFormBase form, CourseController courseController) {
+        courseController.performReturnToPreviousNodeWork(form);
+    }
 }

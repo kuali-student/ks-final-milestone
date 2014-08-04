@@ -134,6 +134,8 @@ public class CurriculumManagementConstants {
 
         public final static String SUPPORTING_DOC_MAX_SIZE_LIMIT = "supporting.document.max.size.limit";
         public final static String ERROR_SUPPORTING_DOCUMENTS_FILE_TOO_LARGE = "error.supporting.documents.file.too.large";
+
+        public final static String SUCCESS_PROPOSAL_RETURN_TO_PREVIOUS_NODE = "success.proposal.returnToPreviousNode";
     }
 
     public static class OrganizationMessageKeys {
@@ -170,6 +172,7 @@ public class CurriculumManagementConstants {
     public final static String FILE_SIZE_CONSTRAINT = "Maximum File Size - 7.5MB";
 
     public final static String COURSE_SUBMIT_CONFIRMATION_DIALOG = "CM-Proposal-Review-Course-ConfirmSubmit-Dialog";
+    public final static String COURSE_RETURN_TO_PREVIOUS_NODE_DIALOG = "CM-Proposal-Review-Course-ConfirmReturnToPreviousNode-Dialog";
 
     public static final String DATA_OBJECT_PATH = KRADPropertyConstants.DOCUMENT + "."
             + KRADPropertyConstants.NEW_MAINTAINABLE_OBJECT + ".dataObject";

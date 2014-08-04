@@ -169,6 +169,8 @@
         <!-- Override the default to allow for navigation -->
         <property name="viewHelperServiceClass"
                   value="org.kuali.student.cm.course.service.impl.CourseMaintainableImpl"/>
+        <property name="presentationControllerClass"
+                  value="org.kuali.student.cm.uif.util.CurriculumManagementMaintenancePresentationControllerBase" />
         <property name="applyDirtyCheck" value="true"/>
         <property name="breadcrumbOptions.homewardPathBreadcrumbs">
             <list>
@@ -213,7 +215,8 @@
 
         <property name="dialogs">
             <list>
-                <ref bean="CM-Proposal-Review-Course-ConfirmSubmit-Dialog"/>
+                <bean id="CM-Proposal-Review-Course-ConfirmSubmit-Dialog" parent="KS-Proposal-Review-Course-ConfirmSubmit-Dialog"/>
+                <bean id="CM-Proposal-Review-Course-ConfirmReturnToPreviousNode-Dialog" parent="KS-Proposal-Review-Course-ConfirmReturnToPreviousNode-Dialog"/>
                 <bean id="CM-Proposal-Course-Rule-CourseRangeLookup" parent="KRMS-CourseRangeResult-Lookup"/>
                 <bean id="CM-Proposal-Course-Rule-WarningMessage" parent="KRMS-WarningMessagedYesNo"/>
             </list>
@@ -587,7 +590,7 @@
 
                 <!-- The text above the tab panel. This gets fixed positioning via JS. -->
                 <bean id="CM-Proposal-Course-View-TabHeader" parent="Uif-VerticalBoxGroup"
-                      p:render="@{!#uiHelper.curriculumSpecialistUser or #uiHelper.useReviewProcess}">
+                      p:render="@{!#uiHelper.adminProposal}">
                     <property name="header">
                         <bean parent="Uif-HeaderFour">
                             <property name="cssClasses">
@@ -602,7 +605,7 @@
 
                 <!-- The text and link below the tab panel. This gets fixed positioning via JS. -->
                 <bean id="CM-Proposal-Course-View-ReviewProposalLink" parent="Uif-VerticalBoxGroup"
-                      p:render="@{(!#uiHelper.curriculumSpecialistUser or #uiHelper.useReviewProcess) and !#workflowDoc.initiated}">
+                      p:render="@{(!#uiHelper.adminProposal) and !#workflowDoc.initiated}">
                     <property name="header">
                         <bean id="CM-Proposal-Course-View-Tab-ReviewHeader" parent="Uif-HeaderFour">
                             <property name="cssClasses">

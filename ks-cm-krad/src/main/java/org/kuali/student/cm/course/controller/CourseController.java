@@ -15,12 +15,18 @@
  */
 package org.kuali.student.cm.course.controller;
 
+import org.kuali.rice.core.api.exception.RiceRuntimeException;
+import org.kuali.rice.krad.UserSessionUtils;
+import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.exception.ValidationException;
+import org.kuali.rice.krad.maintenance.MaintenanceDocument;
 import org.kuali.rice.krms.dto.AgendaEditor;
 import org.kuali.rice.krms.dto.PropositionEditor;
 import org.kuali.rice.krms.dto.PropositionParameterEditor;
 import org.kuali.rice.krms.dto.RuleEditor;
 import org.kuali.rice.krms.dto.TermEditor;
 import org.kuali.rice.krms.dto.TermParameterEditor;
+import org.kuali.student.common.ui.krad.rules.rule.event.ReturnToPreviousNodeDocumentEvent;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.DtoConstants;
 import org.kuali.student.r2.lum.clu.dto.AffiliatedOrgInfo;
@@ -474,6 +480,129 @@ public class CourseController extends CourseRuleEditorController {
             }
         }
         return getUIFModelAndView(form);
+    }
+
+    /**
+     * This method is called form the UI when a user wants to return a course proposal to a previous node.
+     *
+     * @param form
+     * @param result
+     * @param request
+     * @param response
+     * @return ModelAndView object
+     */
+    @MethodAccessible
+    @RequestMapping(params = "methodToCall=returnToPreviousNode")
+    public ModelAndView returnToPreviousNode(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result,
+                                             HttpServletRequest request, HttpServletResponse response) {
+        String dialog = CurriculumManagementConstants.COURSE_RETURN_TO_PREVIOUS_NODE_DIALOG;
+        if ( ! hasDialogBeenDisplayed(dialog, form)) {
+
+            CourseInfoWrapper courseInfoWrapper = getCourseInfoWrapper(form);
+
+            //Perform KRAD UI Data Dictionary Validation
+            // manually call the view validation service as this validation cannot be run client-side in current setup
+            KRADServiceLocatorWeb.getViewValidationService().validateView(form, KewApiConstants.ROUTE_HEADER_PROCESSED_CD);
+
+            //Perform Rules validation
+            KRADServiceLocatorWeb.getKualiRuleService().applyRules(new RouteDocumentEvent(form.getDocument()));
+
+            List<ValidationResultInfo> validationResultInfoList = null;
+
+            try {
+                //Perform Service Layer Data Dictionary validation
+                validationResultInfoList = getCourseService().validateCourse("OBJECT", courseInfoWrapper.getCourseInfo(), ContextUtils.createDefaultContextInfo());
+            } catch (Exception ex) {
+                LOG.error("Error occurred while performing service layer validation for Submit", ex);
+                GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, KSObjectUtils.unwrapException(20, ex).getMessage());
+            }
+
+            bindValidationErrorsToPath(validationResultInfoList);
+
+            if (!GlobalVariables.getMessageMap().hasErrors()) {
+                //redirect back to client to display confirm dialog
+                return showDialog(dialog, form, request, response);
+            }
+        } else {
+            if (hasDialogBeenAnswered(dialog,form)) {
+                boolean confirmSubmit = getBooleanDialogResponse(dialog, form, request, response);
+                form.getDialogManager().resetDialogStatus(dialog);
+                if (confirmSubmit) {
+                    //route the document
+                    performReturnToPreviousNode(form,result, request,response);
+                    /*
+                    Here's another location where we diverge from the default KRAD code. Normally here there would be code to handle the persisting
+                    of attachments but since CM uses it's own internal SupportingDocuments functionality we can simply ignore the KRAD system.
+                    */
+                    return getUIFModelAndView(form);
+
+                }
+            }
+        }
+        return getUIFModelAndView(form);
+    }
+
+    protected void performReturnToPreviousNode(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result,
+                                                    HttpServletRequest request, HttpServletResponse response) {
+        CourseControllerTransactionHelper helper = GlobalResourceLoader.getService(new QName(CommonServiceConstants.REF_OBJECT_URI_GLOBAL_PREFIX + "courseControllerTransactionHelper", CourseControllerTransactionHelper.class.getSimpleName()));
+        helper.performReturnToPreviousNodeWork(form, this);
+        List<ErrorMessage> infoMessages = GlobalVariables.getMessageMap().getInfoMessagesForProperty(KRADConstants.GLOBAL_MESSAGES);
+        if (infoMessages != null) {
+            for (ErrorMessage message : infoMessages) {
+                KSUifUtils.addGrowlMessageIcon(GrowlIcon.SUCCESS, message.getErrorKey(), message.getMessageParameters());
+            }
+            GlobalVariables.getMessageMap().removeAllInfoMessagesForProperty(KRADConstants.GLOBAL_MESSAGES);
+        }
+    }
+
+    /**
+     * This method is here to actually do the work of the return to previous action since that action is not built into the KRAD
+     * {@link DocumentService}. This is an extrapolation of what would happen in the various KRAD classes in a single method in
+     * this controller.
+     */
+    public void performReturnToPreviousNodeWork(@ModelAttribute("KualiForm") DocumentFormBase form) {
+        MaintenanceDocument document = ((MaintenanceDocumentForm) form).getDocument();
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("Performing workflow action 'return to previous node' for document: " + document.getDocumentNumber());
+        }
+
+        try {
+            document.prepareForSave();
+            Document savedDocument = getDocumentService().validateAndPersistDocument(document, new ReturnToPreviousNodeDocumentEvent(document));
+            getDocumentService().prepareWorkflowDocument(savedDocument);
+            CourseInfoWrapper courseInfoWrapper = (CourseInfoWrapper)((MaintenanceDocument)savedDocument).getNewMaintainableObject().getDataObject();
+            savedDocument.getDocumentHeader().getWorkflowDocument().returnToPreviousNode(form.getAnnotation(), courseInfoWrapper.getReviewProposalDisplay().getReturnToPreviousNodeName());
+            UserSessionUtils.addWorkflowDocument(GlobalVariables.getUserSession(),
+                    savedDocument.getDocumentHeader().getWorkflowDocument());
+
+            /*
+            In document service, for most of the ActionEvent calls, this is where the DocumentService.removeAdHocPersonsAndWorkgroups method is
+            called but since it's private and since CM does not use that functionality (in favor of our internal Auth/Collab stuff), we're
+            ignoring it for now
+            */
+
+            // now push potentially updated document back into the form
+            form.setDocument(savedDocument);
+
+            GlobalVariables.getMessageMap().putInfo(KRADConstants.GLOBAL_MESSAGES, CurriculumManagementConstants.MessageKeys.SUCCESS_PROPOSAL_RETURN_TO_PREVIOUS_NODE);
+        } catch (ValidationException e) {
+            // log the error and swallow exception so screen will draw with errors.
+            // we don't want the exception to bubble up and the user to see an incident page, but instead just return to
+            // the page and display the actual errors. This would need a fix to the API at some point.
+            KRADUtils.logErrors();
+            LOG.error("Validation Exception occured for document :" + document.getDocumentNumber(), e);
+
+            // if no errors in map then throw runtime because something bad happened
+            if (GlobalVariables.getMessageMap().hasNoErrors()) {
+                throw new RiceRuntimeException("Validation Exception with no error message.", e);
+            }
+        } catch (Exception e) {
+            throw new RiceRuntimeException(
+                    "Exception trying to execute the 'return to previous node' for document: " + document
+                            .getDocumentNumber(), e);
+        }
+
+        form.setAnnotation("");
     }
 
     /**

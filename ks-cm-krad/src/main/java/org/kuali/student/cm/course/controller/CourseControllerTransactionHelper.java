@@ -14,4 +14,6 @@ public interface CourseControllerTransactionHelper {
 
     public void performWorkflowActionSuper(DocumentFormBase form, UifConstants.WorkflowAction action, boolean checkSensitiveData, CourseController courseController);
 
+    public void performReturnToPreviousNodeWork(DocumentFormBase form, CourseController courseController);
+
 }
