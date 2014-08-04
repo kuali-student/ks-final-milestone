@@ -40,7 +40,7 @@
             <bean parent="KS-Uif-Dynamic-BreadCrumb"/>
         </property>
         <property name="header.rightGroup">
-            <ref bean="CM-ViewCourse-View-Header-RightGroup"/>
+            <ref bean="CM-ViewCourse-View-Right-Header-Group"/>
         </property>
         <property name="page">
             <bean parent="CM-ViewCourse-View-Course-Page"/>
@@ -60,20 +60,38 @@
         </property>
     </bean>
 
-    <bean id="CM-ViewCourse-View-Header-RightGroup" parent="KS-Unified-Header-Right-Group" p:additionalCssClasses="viewcourseview-header-status">
+    <bean id="CM-ViewCourse-View-Right-Header-Group" parent="KS-Unified-Header-Right-Group" p:additionalCssClasses="viewcourseview-header-status">
         <property name="items">
             <list>
-                <bean parent="KS-Unified-Right-Header-Group-Status">
+                <ref bean="CM-ViewCourse-View-Right-Header-Action-Group"/>
+                <ref bean="CM-ViewCourse-View-Right-Header-Group-Status"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="CM-ViewCourse-View-Right-Header-Action-Group" parent="KS-Unified-Header-Action-Group">
+        <property name="items">
+            <list>
+                <ref bean="CM-Proposal-Course-LinkGroup-CopyProposal"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="CM-Proposal-Course-LinkGroup-CopyProposal" parent="CM-Proposal-Course-LinkGroup-CopyProposal-parent"/>
+
+    <bean id="CM-Proposal-Course-LinkGroup-CopyProposal-parent" parent="KS-Uif-Copy-NavigationActionLink" abstract="true"
+          p:methodToCall="copyCourse"
+          p:title="Copy to New Proposal">
+    </bean>
+
+    <bean id="CM-ViewCourse-View-Right-Header-Group-Status" parent="KS-Unified-Right-Header-Group-Status">
+        <property name="items">
+            <list>
+                <bean parent="Uif-VerticalBoxGroup">
                     <property name="items">
                         <list>
-                            <bean parent="Uif-VerticalBoxGroup">
-                                <property name="items">
-                                    <list>
-                                        <bean id="CM-ViewCourse-View-CourseStatus-Active-Lozenge" parent="KS-Lozenge-Green-Uif-Message" p:messageText="Active" p:render="@{courseInfoWrapper.courseInfo.stateKey eq 'Active'}"/>
-                                        <bean id="CM-ViewCourse-View-CourseStatus-Retired-Lozenge" parent="KS-Lozenge-Orange-Uif-Message" p:messageText="Retired" p:render="@{courseInfoWrapper.courseInfo.stateKey eq 'Retired'}"/>
-                                    </list>
-                                </property>
-                            </bean>
+                            <bean id="CM-ViewCourse-View-CourseStatus-Active-Lozenge" parent="KS-Lozenge-Green-Uif-Message" p:messageText="Active" p:render="@{courseInfoWrapper.courseInfo.stateKey eq 'Active'}"/>
+                            <bean id="CM-ViewCourse-View-CourseStatus-Retired-Lozenge" parent="KS-Lozenge-Orange-Uif-Message" p:messageText="Retired" p:render="@{courseInfoWrapper.courseInfo.stateKey eq 'Retired'}"/>
                         </list>
                     </property>
                 </bean>
