@@ -79,7 +79,7 @@ function ksapAddCourseSection (data){
     plannedCount = plannedCount+1;
     plannedContainer.attr("data-numberplanned",plannedCount);
     var plannedHeaderText = plannedContainer.find(".uif-headerText-span");
-    var newText = "Planned Registration Groups ("+plannedCount+")";
+    var newText = "Planned Sections ("+plannedCount+")";
     plannedHeaderText[0].innerHTML = newText;
 
     // Add the new planned activities to the planned groups
