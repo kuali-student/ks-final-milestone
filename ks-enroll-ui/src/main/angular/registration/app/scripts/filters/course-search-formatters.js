@@ -117,13 +117,13 @@ angular.module('regCartApp')
                     additionalInfo = '';
                 }
                 if (subterm) {
-                    additionalInfo += '<div class="kscr-SearchDetails-icon" ng-click="$emit(\'showSubterm\', searchResult.subterm); $event.stopPropagation();"><img src="images/icons/subterm.png" /></div>';
+                    additionalInfo += '<span class="kscr-SearchDetails-icon--subterm" ng-click="$emit(\'showSubterm\', searchResult.subterm); $event.stopPropagation();"></span>';
                 }
                 if (requisites) {
                     if (!subterm) {
-                        additionalInfo += '<div class="kscr-SearchDetails-icon">&nbsp;</div>';
+                        additionalInfo += '<span class="kscr-SearchDetails-icon">&nbsp;</span>';
                     }
-                    additionalInfo += '<div class="kscr-SearchDetails-icon" ng-click="$emit(\'showRequisites\', searchResult.requisites); $event.stopPropagation();"><img src="images/icons/requisites.png" /></div>';
+                    additionalInfo += '<span class="kscr-SearchDetails-icon--requisites" ng-click="$emit(\'showRequisites\', searchResult.requisites); $event.stopPropagation();"></span>';
                 }
 
                 ao.formatted = {
