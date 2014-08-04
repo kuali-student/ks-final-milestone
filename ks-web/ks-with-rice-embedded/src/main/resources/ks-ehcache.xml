@@ -44,7 +44,8 @@
     <cache name="seatPoolCache" maxElementsInMemory="500" eternal="false" timeToIdleSeconds="0" timeToLiveSeconds="600" />
 
     <!-- Cache Setup for KSAP search with elements in validating after 12hr life span.-->
-    <cache name="academicPlanSearchCache" maxElementsInMemory="100" eternal="false" timeToIdleSeconds="0" timeToLiveSeconds="43200" />
+    <cache name="ksapCourseSearchCache" maxElementsInMemory="100" eternal="false" timeToIdleSeconds="0" timeToLiveSeconds="43200" />
+    <cache name="ksapSearchSupportCache" maxElementsInMemory="100" eternal="false" timeToIdleSeconds="0" timeToLiveSeconds="43200" />
 
     <!-- These caches do no refresh. These are for objects that do not change after startup -->
     <cache name="LRCServiceCache" maxElementsInMemory="1000" eternal="true" timeToIdleSeconds="0" timeToLiveSeconds="0" />
