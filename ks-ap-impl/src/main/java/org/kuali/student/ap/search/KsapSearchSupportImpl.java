@@ -40,19 +40,15 @@ import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import java.util.List;
 
-public class AcademicPlanCourseSearchImpl extends SearchServiceAbstractHardwiredImpl {
-    private static final Logger LOG = LoggerFactory.getLogger(AcademicPlanCourseSearchImpl.class);
+public class KsapSearchSupportImpl extends SearchServiceAbstractHardwiredImpl {
+    private static final Logger LOG = LoggerFactory.getLogger(KsapSearchSupportImpl.class);
 
 
 
     // Search Types
-    public static final TypeInfo KSAP_COURSE_SEARCH;
+    public static final TypeInfo KSAP_COURSE_SEARCH_SUPPORT;
     public static final TypeInfo KSAP_COURSE_SEARCH_COURSEIDS_BY_TERM_SCHEDULED;
     public static final TypeInfo KSAP_COURSE_SEARCH_COURSEIDS_BY_TERM_OFFERED;
-    public static final TypeInfo KSAP_COURSE_SEARCH_OFFERED_REG_GROUP_IDS_BY_CO_ID;
-    public static final TypeInfo KSAP_COURSE_SEARCH_OFFERED_REG_GROUP_IDS_BY_AO_ID;
-    public static final TypeInfo KSAP_COURSE_SEARCH_AO_IDS_BY_OFFERED_REG_GROUP_ID;
-    public static final TypeInfo KSAP_COURSE_SEARCH_FO_IDS_BY_OFFERED_REG_GROUP_ID;
     public static final TypeInfo KSAP_COURSE_SEARCH_GENERAL_EDUCATION_VALUES;
     public static final TypeInfo KSAP_COURSE_SEARCH_COURSEIDS_BY_GENERAL_EDUCATION;
 
@@ -62,15 +58,15 @@ public class AcademicPlanCourseSearchImpl extends SearchServiceAbstractHardwired
         // Create default search type
         TypeInfo info = new TypeInfo();
         info.setKey(CourseSearchConstants.KSAP_COURSE_SEARCH_KEY);
-        info.setName("KSAP Course Search");
-        info.setDescr(new RichTextHelper().fromPlain("Return search results from KSAP course search"));
+        info.setName("KSAP Course Search Support");
+        info.setDescr(new RichTextHelper().fromPlain("Return search results from KSAP course search support"));
 
         try {
             info.setEffectiveDate(DateFormatters.MONTH_DAY_YEAR_DATE_FORMATTER.parse("01/01/2012"));
         } catch ( IllegalArgumentException ex) {
             throw new RuntimeException("bad code");
         }
-        KSAP_COURSE_SEARCH = info;
+        KSAP_COURSE_SEARCH_SUPPORT = info;
 
         // Create search that retrieves a list of clu ids based on whether the clu entry has a CO offered in a term
         info = new TypeInfo();
@@ -88,13 +84,6 @@ public class AcademicPlanCourseSearchImpl extends SearchServiceAbstractHardwired
         info.setEffectiveDate(DateFormatters.MONTH_DAY_YEAR_DATE_FORMATTER.parse(DEFAULT_EFFECTIVE_DATE));
         KSAP_COURSE_SEARCH_COURSEIDS_BY_TERM_OFFERED = info;
 
-        info = new TypeInfo();
-        info.setKey(CourseSearchConstants.KSAP_COURSE_SEARCH_OFFERED_REG_GROUP_IDS_BY_CO_ID_KEY);
-        info.setName("Reg Group Id Search By CO Id");
-        info.setDescr(new RichTextHelper().fromPlain(
-            "Search for Registration Group ids for the associated Course Offering Id"));
-        info.setEffectiveDate(DateFormatters.MONTH_DAY_YEAR_DATE_FORMATTER.parse(DEFAULT_EFFECTIVE_DATE));
-        KSAP_COURSE_SEARCH_OFFERED_REG_GROUP_IDS_BY_CO_ID = info;
         // Creates search that retrieves a list of clu ids based on whether the clu entry has a relation to a term key
         info = new TypeInfo();
         info.setKey(CourseSearchConstants.KSAP_COURSE_SEARCH_GENERAL_EDUCATION_VALUES_KEY);
@@ -103,29 +92,6 @@ public class AcademicPlanCourseSearchImpl extends SearchServiceAbstractHardwired
         info.setEffectiveDate(DateFormatters.MONTH_DAY_YEAR_DATE_FORMATTER.parse(DEFAULT_EFFECTIVE_DATE));
         KSAP_COURSE_SEARCH_GENERAL_EDUCATION_VALUES = info;
 
-        info = new TypeInfo();
-        info.setKey(CourseSearchConstants.KSAP_COURSE_SEARCH_OFFERED_REG_GROUP_IDS_BY_AO_ID_KEY);
-        info.setName("Reg Group Id Search By CO Id");
-        info.setDescr(new RichTextHelper().fromPlain(
-                "Search for Registration Group ids for the associated Course Offering Id"));
-        info.setEffectiveDate(DateFormatters.MONTH_DAY_YEAR_DATE_FORMATTER.parse(DEFAULT_EFFECTIVE_DATE));
-        KSAP_COURSE_SEARCH_OFFERED_REG_GROUP_IDS_BY_AO_ID = info;
-
-        info = new TypeInfo();
-        info.setKey(CourseSearchConstants.KSAP_COURSE_SEARCH_AO_IDS_BY_OFFERED_REG_GROUP_ID_KEY);
-        info.setName("AO ID search by Reg Group Id");
-        info.setDescr(new RichTextHelper().fromPlain(
-                "Search for Activity Offering ids for the associated offered Registration Group id"));
-        info.setEffectiveDate(DateFormatters.MONTH_DAY_YEAR_DATE_FORMATTER.parse(DEFAULT_EFFECTIVE_DATE));
-        KSAP_COURSE_SEARCH_AO_IDS_BY_OFFERED_REG_GROUP_ID = info;
-
-        info = new TypeInfo();
-        info.setKey(CourseSearchConstants.KSAP_COURSE_SEARCH_FO_IDS_BY_OFFERED_REG_GROUP_ID_KEY);
-        info.setName("AO ID search by Reg Group Id");
-        info.setDescr(new RichTextHelper().fromPlain(
-                "Search for Activity Offering ids for the associated offered Registration Group id"));
-        info.setEffectiveDate(DateFormatters.MONTH_DAY_YEAR_DATE_FORMATTER.parse(DEFAULT_EFFECTIVE_DATE));
-        KSAP_COURSE_SEARCH_FO_IDS_BY_OFFERED_REG_GROUP_ID = info;
         // Creates search that retrieves a list of clu ids based on whether the clu entry has a relation to a term key
         info = new TypeInfo();
         info.setKey(CourseSearchConstants.KSAP_COURSE_SEARCH_COURSEIDS_BY_GENERAL_EDUCATION_KEY);
@@ -133,8 +99,6 @@ public class AcademicPlanCourseSearchImpl extends SearchServiceAbstractHardwired
         info.setDescr(new RichTextHelper().fromPlain("Search for course ids based on General Education values"));
         info.setEffectiveDate(DateFormatters.MONTH_DAY_YEAR_DATE_FORMATTER.parse(DEFAULT_EFFECTIVE_DATE));
         KSAP_COURSE_SEARCH_COURSEIDS_BY_GENERAL_EDUCATION = info;
-
-
     }
 
     /**
@@ -142,7 +106,7 @@ public class AcademicPlanCourseSearchImpl extends SearchServiceAbstractHardwired
      */
     @Override
     public TypeInfo getSearchType() {
-        return KSAP_COURSE_SEARCH;
+        return KSAP_COURSE_SEARCH_SUPPORT;
     }
 
     /**
@@ -159,14 +123,6 @@ public class AcademicPlanCourseSearchImpl extends SearchServiceAbstractHardwired
             return KSAP_COURSE_SEARCH_COURSEIDS_BY_TERM_SCHEDULED;
         } else if (CourseSearchConstants.KSAP_COURSE_SEARCH_COURSEIDS_BY_TERM_OFFERED_KEY.equals(searchTypeKey)) {
             return KSAP_COURSE_SEARCH_COURSEIDS_BY_TERM_OFFERED;
-        } else if (CourseSearchConstants.KSAP_COURSE_SEARCH_OFFERED_REG_GROUP_IDS_BY_CO_ID_KEY.equals(searchTypeKey)) {
-            return KSAP_COURSE_SEARCH_OFFERED_REG_GROUP_IDS_BY_CO_ID;
-        } else if (CourseSearchConstants.KSAP_COURSE_SEARCH_OFFERED_REG_GROUP_IDS_BY_AO_ID_KEY.equals(searchTypeKey)) {
-            return KSAP_COURSE_SEARCH_OFFERED_REG_GROUP_IDS_BY_AO_ID;
-        } else if (CourseSearchConstants.KSAP_COURSE_SEARCH_AO_IDS_BY_OFFERED_REG_GROUP_ID_KEY.equals(searchTypeKey)) {
-            return KSAP_COURSE_SEARCH_AO_IDS_BY_OFFERED_REG_GROUP_ID;
-        } else if (CourseSearchConstants.KSAP_COURSE_SEARCH_FO_IDS_BY_OFFERED_REG_GROUP_ID_KEY.equals(searchTypeKey)) {
-            return KSAP_COURSE_SEARCH_FO_IDS_BY_OFFERED_REG_GROUP_ID;
         } else if (CourseSearchConstants.KSAP_COURSE_SEARCH_GENERAL_EDUCATION_VALUES_KEY.equals(searchTypeKey)) {
             return KSAP_COURSE_SEARCH_GENERAL_EDUCATION_VALUES;
         } else if (CourseSearchConstants.KSAP_COURSE_SEARCH_COURSEIDS_BY_GENERAL_EDUCATION_KEY.equals(searchTypeKey)) {
@@ -188,14 +144,6 @@ public class AcademicPlanCourseSearchImpl extends SearchServiceAbstractHardwired
             resultInfo =  searchForCluIdsScheduledForTerms(searchRequestInfo, contextInfo);
         }else if (StringUtils.equals(searchRequestInfo.getSearchKey(), KSAP_COURSE_SEARCH_COURSEIDS_BY_TERM_OFFERED.getKey())) {
             resultInfo =  searchForCluIdsOfferedForTerms(searchRequestInfo, contextInfo);
-        }else if (StringUtils.equals(searchRequestInfo.getSearchKey(), KSAP_COURSE_SEARCH_OFFERED_REG_GROUP_IDS_BY_CO_ID.getKey())) {
-            resultInfo =  searchForOfferedRegistrationGroupIdsByCourseOfferingId(searchRequestInfo, contextInfo);
-        }else if (StringUtils.equals(searchRequestInfo.getSearchKey(), KSAP_COURSE_SEARCH_OFFERED_REG_GROUP_IDS_BY_AO_ID.getKey())) {
-            resultInfo =  searchForOfferedRegistrationGroupsIdsByActivityOfferingId(searchRequestInfo, contextInfo);
-        }else if (StringUtils.equals(searchRequestInfo.getSearchKey(), KSAP_COURSE_SEARCH_AO_IDS_BY_OFFERED_REG_GROUP_ID.getKey())) {
-            resultInfo =  searchForActivityOfferingsIdsByOfferedRegistrationGroupId(searchRequestInfo, contextInfo);
-        }else if (StringUtils.equals(searchRequestInfo.getSearchKey(), KSAP_COURSE_SEARCH_FO_IDS_BY_OFFERED_REG_GROUP_ID.getKey())) {
-            resultInfo =  searchForFormatOfferingsIdsByOfferedRegistrationGroupId(searchRequestInfo, contextInfo);
         }else if (StringUtils.equals(searchRequestInfo.getSearchKey(), KSAP_COURSE_SEARCH_GENERAL_EDUCATION_VALUES.getKey())) {
             resultInfo =  searchForGeneralEducationValues(searchRequestInfo, contextInfo);
         }else if (StringUtils.equals(searchRequestInfo.getSearchKey(), KSAP_COURSE_SEARCH_COURSEIDS_BY_GENERAL_EDUCATION.getKey())) {
@@ -284,196 +232,6 @@ public class AcademicPlanCourseSearchImpl extends SearchServiceAbstractHardwired
         for(Object resultRow : results){
             SearchResultRowInfo row = new SearchResultRowInfo();
             row.addCell(CourseSearchConstants.SearchResultColumns.CLU_ID, (String)resultRow);
-            resultInfo.getRows().add(row);
-        }
-
-        return resultInfo;
-    }
-
-    /**
-     * Routed To from search method based on search type key pasted in the search request.
-     * Used to create and execute for search type key KSAP_COURSE_SEARCH_OFFERED_REG_GROUP_IDS_BY_CO_ID_KEY.
-     *
-     * @see #search(org.kuali.student.r2.core.search.dto.SearchRequestInfo, org.kuali.student.r2.common.dto.ContextInfo)
-     */
-    protected SearchResultInfo searchForOfferedRegistrationGroupIdsByCourseOfferingId(SearchRequestInfo
-            searchRequestInfo, ContextInfo contextInfo)
-            throws MissingParameterException, OperationFailedException {
-        SearchRequestHelper requestHelper = new SearchRequestHelper(searchRequestInfo);
-
-        String courseOfferingId = requestHelper.getParamAsString(CourseSearchConstants.SearchParameters
-                .COURSE_OFFERING_ID);
-
-        SearchResultInfo resultInfo = new SearchResultInfo();
-
-        // Create sql string
-        String queryStr =
-                "SELECT lr2.RELATED_LUI_ID "+
-                "    FROM" +
-                "    KSEN_LUILUI_RELTN lr1, " +
-                "    KSEN_LUILUI_RELTN LR2," +
-                "    KSEN_LUI l1," +
-                "    KSEN_LUI l2 " +
-                "    WHERE lr1.LUILUI_RELTN_TYPE=" +
-                         "'"+LuiServiceConstants.LUI_LUI_RELATION_DELIVERED_VIA_CO_TO_FO_TYPE_KEY+"'" +
-                "       AND lr1.LUI_ID= :courseOfferingId "+
-                "       AND lr1.LUILUI_RELTN_STATE='"+LuiServiceConstants.LUI_LUI_RELATION_ACTIVE_STATE_KEY+"'"+
-                "       AND lr1.RELATED_LUI_ID=lr2.LUI_ID" +
-                "       AND lr2.LUILUI_RELTN_TYPE=" +
-                                 "'"+LuiServiceConstants.LUI_LUI_RELATION_DELIVERED_VIA_FO_TO_RG_TYPE_KEY+"'"+
-                "       AND lr2.LUI_ID=l1.ID "+
-                "       AND l1.LUI_STATE= '"+LuiServiceConstants.LUI_FO_STATE_OFFERED_KEY+"'"+
-                "       AND lr1.LUILUI_RELTN_STATE='"+LuiServiceConstants.LUI_LUI_RELATION_ACTIVE_STATE_KEY+"'"+
-                "       AND lr2.RELATED_LUI_ID=l2.ID "+
-                "       AND l2.LUI_STATE= '"+LuiServiceConstants.REGISTRATION_GROUP_OFFERED_STATE_KEY+"'";
-
-        // Set params and execute search
-        Query query = getEntityManager().createNativeQuery(queryStr);
-        query.setParameter(CourseSearchConstants.SearchParameters.COURSE_OFFERING_ID, courseOfferingId);
-        List<Object> results = query.getResultList();
-
-        // Compile results
-        for(Object resultRow : results){
-            SearchResultRowInfo row = new SearchResultRowInfo();
-            row.addCell(CourseSearchConstants.SearchResultColumns.REG_GROUP_ID, (String)resultRow);
-            resultInfo.getRows().add(row);
-        }
-
-        return resultInfo;
-    }
-
-    /**
-     * Routed To from search method based on search type key pasted in the search request.
-     * Used to create and execute for search type key KSAP_COURSE_SEARCH_OFFERED_REG_GROUP_IDS_BY_AO_ID_KEY.
-     *
-     * @see #search(org.kuali.student.r2.core.search.dto.SearchRequestInfo, org.kuali.student.r2.common.dto.ContextInfo)
-     */
-    protected SearchResultInfo searchForOfferedRegistrationGroupsIdsByActivityOfferingId(SearchRequestInfo
-            searchRequestInfo, ContextInfo contextInfo)
-            throws MissingParameterException, OperationFailedException {
-        SearchRequestHelper requestHelper = new SearchRequestHelper(searchRequestInfo);
-
-        String activityOfferingId = requestHelper.getParamAsString(CourseSearchConstants.SearchParameters
-                .ACTIVITY_OFFERING_ID);
-
-        SearchResultInfo resultInfo = new SearchResultInfo();
-
-        // Create sql string
-        String queryStr =
-                "SELECT lr1.LUI_ID "+
-                        "    FROM" +
-                        "    KSEN_LUILUI_RELTN lr1, " +
-                        "    KSEN_LUI l1 " +
-                        "    WHERE lr1.LUILUI_RELTN_TYPE=" +
-                                 "'"+LuiServiceConstants.LUI_LUI_RELATION_REGISTERED_FOR_VIA_RG_TO_AO_TYPE_KEY+"'" +
-                        "       AND lr1.RELATED_LUI_ID= :activityOfferingId "+
-                        "       AND lr1.LUILUI_RELTN_STATE='"+LuiServiceConstants.LUI_LUI_RELATION_ACTIVE_STATE_KEY+"'"+
-                        "       AND lr1.LUI_ID=l1.ID "+
-                        "       AND l1.LUI_STATE= '"+LuiServiceConstants.REGISTRATION_GROUP_OFFERED_STATE_KEY+"'";
-
-        // Set params and execute search
-        Query query = getEntityManager().createNativeQuery(queryStr);
-        query.setParameter(CourseSearchConstants.SearchParameters.ACTIVITY_OFFERING_ID, activityOfferingId);
-        List<Object> results = query.getResultList();
-
-        // Compile results
-        for(Object resultRow : results){
-            SearchResultRowInfo row = new SearchResultRowInfo();
-            row.addCell(CourseSearchConstants.SearchResultColumns.REG_GROUP_ID, (String)resultRow);
-            resultInfo.getRows().add(row);
-        }
-
-        return resultInfo;
-    }
-
-    /**
-     * Routed To from search method based on search type key pasted in the search request.
-     * Used to create and execute for search type key KSAP_COURSE_SEARCH_AO_IDS_BY_OFFERED_REG_GROUP_ID_KEY.
-     *
-     * @see #search(org.kuali.student.r2.core.search.dto.SearchRequestInfo, org.kuali.student.r2.common.dto.ContextInfo)
-     */
-    protected SearchResultInfo searchForActivityOfferingsIdsByOfferedRegistrationGroupId
-            (SearchRequestInfo searchRequestInfo, ContextInfo contextInfo)
-            throws MissingParameterException, OperationFailedException {
-        SearchRequestHelper requestHelper = new SearchRequestHelper(searchRequestInfo);
-
-        String registrationGroupId = requestHelper.getParamAsString(CourseSearchConstants.SearchParameters
-                .REG_GROUP_ID);
-
-        SearchResultInfo resultInfo = new SearchResultInfo();
-
-        // Create sql string
-        String queryStr =
-                "SELECT lr1.RELATED_LUI_ID "+
-                        "    FROM" +
-                        "    KSEN_LUILUI_RELTN lr1, " +
-                        "    KSEN_LUI l1," +
-                        "    KSEN_LUI l2 " +
-                        "    WHERE lr1.LUILUI_RELTN_TYPE=" +
-                                "'"+LuiServiceConstants.LUI_LUI_RELATION_REGISTERED_FOR_VIA_RG_TO_AO_TYPE_KEY+"'" +
-                        "       AND lr1.LUI_ID= :registrationGroupId "+
-                        "       AND lr1.LUILUI_RELTN_STATE='"+LuiServiceConstants.LUI_LUI_RELATION_ACTIVE_STATE_KEY+"'"+
-                        "       AND lr1.LUI_ID=l1.ID "+
-                        "       AND l1.LUI_STATE= '"+LuiServiceConstants.REGISTRATION_GROUP_OFFERED_STATE_KEY+"'"+
-                        "       AND lr1.RELATED_LUI_ID=l2.ID "+
-                        "       AND l2.LUI_STATE= '"+LuiServiceConstants.LUI_AO_STATE_OFFERED_KEY+"'";
-
-        // Set params and execute search
-        Query query = getEntityManager().createNativeQuery(queryStr);
-        query.setParameter(CourseSearchConstants.SearchParameters.REG_GROUP_ID, registrationGroupId);
-        List<Object> results = query.getResultList();
-
-        // Compile results
-        for(Object resultRow : results){
-            SearchResultRowInfo row = new SearchResultRowInfo();
-            row.addCell(CourseSearchConstants.SearchResultColumns.ACTIVITY_OFFERING_ID, (String)resultRow);
-            resultInfo.getRows().add(row);
-        }
-
-        return resultInfo;
-    }
-
-    /**
-     * Routed To from search method based on search type key pasted in the search request.
-     * Used to create and execute for search type key KSAP_COURSE_SEARCH_FO_IDS_BY_OFFERED_REG_GROUP_ID_KEY.
-     *
-     * @see #search(org.kuali.student.r2.core.search.dto.SearchRequestInfo, org.kuali.student.r2.common.dto.ContextInfo)
-     */
-    protected SearchResultInfo searchForFormatOfferingsIdsByOfferedRegistrationGroupId
-            (SearchRequestInfo searchRequestInfo, ContextInfo contextInfo)
-            throws MissingParameterException, OperationFailedException {
-        SearchRequestHelper requestHelper = new SearchRequestHelper(searchRequestInfo);
-
-        String registrationGroupId = requestHelper.getParamAsString(CourseSearchConstants.SearchParameters
-                .REG_GROUP_ID);
-
-        SearchResultInfo resultInfo = new SearchResultInfo();
-
-        // Create sql string
-        String queryStr =
-                "SELECT lr1.LUI_ID "+
-                        "    FROM" +
-                        "    KSEN_LUILUI_RELTN lr1, " +
-                        "    KSEN_LUI l1," +
-                        "    KSEN_LUI l2 " +
-                        "    WHERE lr1.LUILUI_RELTN_TYPE=" +
-                            "'"+LuiServiceConstants.LUI_LUI_RELATION_DELIVERED_VIA_FO_TO_RG_TYPE_KEY+"'" +
-                        "       AND lr1.RELATED_LUI_ID= :registrationGroupId "+
-                        "       AND lr1.LUILUI_RELTN_STATE='"+LuiServiceConstants.LUI_LUI_RELATION_ACTIVE_STATE_KEY+"'"+
-                        "       AND lr1.RELATED_LUI_ID=l1.ID "+
-                        "       AND l1.LUI_STATE= '"+LuiServiceConstants.REGISTRATION_GROUP_OFFERED_STATE_KEY+"'"+
-                        "       AND lr1.LUI_ID=l2.ID "+
-                        "       AND l2.LUI_STATE= '"+LuiServiceConstants.LUI_FO_STATE_OFFERED_KEY+"'";
-
-        // Set params and execute search
-        Query query = getEntityManager().createNativeQuery(queryStr);
-        query.setParameter(CourseSearchConstants.SearchParameters.REG_GROUP_ID, registrationGroupId);
-        List<Object> results = query.getResultList();
-
-        // Compile results
-        for(Object resultRow : results){
-            SearchResultRowInfo row = new SearchResultRowInfo();
-            row.addCell(CourseSearchConstants.SearchResultColumns.FORMAT_OFFERING_ID, (String)resultRow);
             resultInfo.getRows().add(row);
         }
 

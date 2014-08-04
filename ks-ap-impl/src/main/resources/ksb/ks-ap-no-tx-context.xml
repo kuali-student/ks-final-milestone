@@ -65,7 +65,8 @@
                 <ref bean="CoreSearchServiceImpl"/> <!-- This bean lives in ks-core-no-tx-context.xml  -->
                 <ref bean="InstructorSearchServiceImpl"/>
                 <ref bean="CourseRegistrationSearchServiceImpl"/>
-                <ref bean="AcademicPlanCourseSearchCacheDecorator"/>
+                <ref bean="KsapCourseSearchCacheDecorator"/>
+                <ref bean="KsapSearchSupportCacheDecorator"/>
             </list>
         </property>
     </bean>
@@ -351,14 +352,20 @@
     <bean id="shoppingCartStrategy"
           class="org.kuali.student.ap.schedulebuilder.support.DefaultShoppingCartStrategy"/>
 
-    <bean id="AcademicPlanCourseSearchImpl" class="org.kuali.student.ap.search.AcademicPlanCourseSearchImpl">
+    <bean id="KsapCourseSearchImpl" class="org.kuali.student.ap.search.KsapCourseSearchImpl">
+        <property name="entityManager" ref="enrollEntityManager"/>
+    </bean>
+    <bean id="KsapSearchSupportImpl" class="org.kuali.student.ap.search.KsapSearchSupportImpl">
         <property name="entityManager" ref="enrollEntityManager"/>
     </bean>
 
-    <bean id="AcademicPlanCourseSearchCacheDecorator" class="org.kuali.student.ap.search.decorator.AcademicPlanCourseSearchCacheDecorator">
-        <property name="nextDecorator" ref="AcademicPlanCourseSearchImpl"/>
+    <bean id="KsapCourseSearchCacheDecorator" class="org.kuali.student.ap.search.decorator.KsapCourseSearchCacheDecorator">
+        <property name="nextDecorator" ref="KsapCourseSearchImpl"/>
         <property name="cacheManager" ref="ksCacheManager"/>
-
+    </bean>
+    <bean id="KsapSearchSupportCacheDecorator" class="org.kuali.student.ap.search.decorator.KsapSearchSupportCacheDecorator">
+        <property name="nextDecorator" ref="KsapSearchSupportImpl"/>
+        <property name="cacheManager" ref="ksCacheManager"/>
     </bean>
 
 </beans>
