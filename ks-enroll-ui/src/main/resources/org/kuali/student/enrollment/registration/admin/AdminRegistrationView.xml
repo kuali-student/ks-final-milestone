@@ -394,9 +394,11 @@
                 <bean parent="KS-Uif-Edit-NavigationActionLink" p:id="registeredEditLink" p:title="Edit Course"
                       p:methodToCall="editCourse" p:render="@{#index != editRegisteredIndex}"
                       p:successCallback="stopPolling();"/>
-                <bean parent="Uif-SecondaryActionButton" p:iconClass="icon-trash" p:title="Drop Course"
-                      p:methodToCall="dropCourse"
-                      p:render="@{#index != editRegisteredIndex}"/>
+                <bean parent="KS-Uif-Delete-NavigationActionLink" p:id="registeredDropLink" p:title="Drop Course"
+                      p:methodToCall="dropCourse" p:render="@{#index != editRegisteredIndex}"/>
+                <!--<bean parent="Uif-SecondaryActionButton" p:iconClass="icon-trash" p:title="Drop Course"-->
+                      <!--p:methodToCall="dropCourse"-->
+                      <!--p:render="@{#index != editRegisteredIndex}"/>-->
                 <bean parent="Uif-SecondaryActionButton" p:iconClass="icon-disk" p:title="Save"
                       p:methodToCall="saveEdit" p:successCallback="startPolling(1000);"
                       p:render="@{#index == editRegisteredIndex}"/>
@@ -452,16 +454,8 @@
                 <bean parent="KS-Uif-Edit-NavigationActionLink" p:id="waitlistedEditLink" p:title="Edit Course"
                       p:methodToCall="editCourse" p:render="@{#index != editWaitlistedIndex}"
                       p:successCallback="stopPolling();"/>
-                <bean parent="Uif-SecondaryActionButton" p:iconClass="icon-trash" p:title="Remove Course"
-                      p:methodToCall="deleteLine"
-                      p:render="@{#index != editWaitlistedIndex}">
-                    <!--property name="confirmationDialog">
-                        <bean parent="KS-AdminRegistration-DropWaitlistedDialog"
-                              p:additionalCssClasses="ks-dropWaitlistDialog">
-                            <property name="headerText" value="Remove Waitlist Course @{#line.code} (@{#line.section})?"/>
-                        </bean>
-                    </property-->
-                </bean>
+                <bean parent="KS-Uif-Delete-NavigationActionLink" p:id="waitlistedDropLink" p:title="Remove Course"
+                      p:methodToCall="deleteLine" p:render="@{#index != editWaitlistedIndex}"/>
                 <bean parent="Uif-SecondaryActionButton" p:iconClass="icon-disk" p:title="Save"
                       p:methodToCall="saveEdit" p:successCallback="startPolling(1000);"
                       p:render="@{#index == editWaitlistedIndex}"/>
@@ -476,7 +470,15 @@
                       p:messageText="@{#line.code} (@{#line.section})"/>
                 <bean parent="Uif-DataField" p:label="Course Name" p:propertyName="title"/>
                 <bean parent="Uif-DataField" p:label="Cr" p:propertyName="credits"/>
-                <bean parent="Uif-DataField" p:label="Reg Options" p:propertyName="gradingOption"/>
+                <bean parent="Uif-InputField" p:label="Reg Options" p:propertyName="gradingOption"
+                      p:readOnly="true">
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl"/>
+                    </property>
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.student.enrollment.class2.registration.admin.valueFinder.RegistrationGradingOptionsFinder" p:addBlankOption="false"/>
+                    </property>
+                </bean>
                 <bean parent="Uif-DataField" p:label="Activity" p:propertyName="activityTypes"
                       p:readOnlyListDisplayType="UL"/>
                 <bean parent="Uif-DataField" p:label="Date/Time" p:propertyName="activityDateTimes"
