@@ -89,19 +89,15 @@ public class ViewCourseController extends KsUifControllerBase{
 
     @MethodAccessible
     @RequestMapping(params = "methodToCall=copyCourse")
-    public ModelAndView copyCourse(@ModelAttribute("KualiForm") UifFormBase form, HttpServletRequest request,
-                              HttpServletResponse response) {
+    public ModelAndView copyCourse(@ModelAttribute("KualiForm") UifFormBase form) {
 
         ViewCourseForm detailedViewForm = (ViewCourseForm) form;
 
         Properties urlParameters = new Properties();
-        if (!CourseProposalUtil.isUserCurriculumSpecialist()) {
-            // if user is not a CS user, then curriculum review must be used because only CS users can disable curriculum review
-            urlParameters.put(CourseController.UrlParams.USE_CURRICULUM_REVIEW,Boolean.TRUE.toString());
-        } else {
-            // if user is a CS user, check the checkbox value
-            urlParameters.put(CourseController.UrlParams.USE_CURRICULUM_REVIEW,Boolean.toString(((CourseInitialForm) form).isUseReviewProcess()));
-        }
+        /**
+         * It should be always 'curriculum review' for both CS and faculty users for copy.
+         */
+        urlParameters.put(CourseController.UrlParams.USE_CURRICULUM_REVIEW,Boolean.TRUE.toString());
         urlParameters.put(UifConstants.UrlParams.PAGE_ID, CurriculumManagementConstants.CourseViewPageIds.CREATE_COURSE);
         urlParameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, KRADConstants.Maintenance.METHOD_TO_CALL_COPY);
         urlParameters.put(KRADConstants.DATA_OBJECT_CLASS_ATTRIBUTE, CourseInfoWrapper.class.getName());
