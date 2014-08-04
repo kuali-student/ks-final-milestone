@@ -346,7 +346,7 @@ public class AdminRegistrationController extends UifControllerBase {
 
         // Set the ajax return values.
         result.put(AdminRegConstants.POLLING_REFRESH, true);
-        result.put(AdminRegConstants.POLLING_CLIENT_STATE, form.getClientState());
+        result.put(AdminRegConstants.POLLING_CLIENT_STATE, AdminRegConstants.ClientStates.READY);
         result.put(AdminRegConstants.POLLING_REGISTERED_CREDITS, form.getRegisteredCredits());
         result.put(AdminRegConstants.POLLING_WAITLISTED_CREDITS, form.getWaitlistedCredits());
 

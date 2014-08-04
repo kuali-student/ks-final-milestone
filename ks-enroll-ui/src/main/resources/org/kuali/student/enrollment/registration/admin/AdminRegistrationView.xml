@@ -329,10 +329,10 @@
                         <bean id="KS-AdminRegistration-RegisterButton" parent="Uif-PrimaryActionButton" p:actionLabel="Register"
                               p:methodToCall="register" p:refreshId="KS-AdminRegistration-RegistrationTabs"
                               p:ajaxReturnType="update-component" p:performClientSideValidation="true"
-                              p:progressiveRender="@{#dp.clientState ne 'kuali.admin.reg.state.registering'}"/>
+                              p:additionalCssClasses="hide-when-polling"/>
                         <bean id="KS-AdminRegistration-Registering" parent="Uif-ImageField" p:image.altText="Registration in progress....."
                               p:source="@{#ConfigProperties['ks.externalizable.images.url']}/loading-bars.gif"
-                              p:progressiveRender="@{#dp.clientState eq 'kuali.admin.reg.state.registering'}"/>
+                              p:additionalCssClasses="show-when-polling"/>
                     </list>
                 </property>
             </bean>
@@ -349,11 +349,12 @@
         <property name="lineActions">
             <list>
                 <bean parent="Uif-PrimaryActionButton" p:actionLabel="Allow"
-                      p:successCallback="startPolling(1000);"
-                      p:methodToCall="allowCourse" p:render="@{#line.level eq 'kuali.admin.reg.result.level.warning'}"/>
+                      p:successCallback="setClientState('kuali.admin.reg.state.registering'); startPolling(1000);"
+                      p:methodToCall="allowCourse" p:render="@{#line.level eq 'kuali.admin.reg.result.level.warning'}"
+                      p:additionalCssClasses="hide-when-polling"/>
                 <bean parent="Uif-DeleteLineAction" p:actionLabel="Deny" p:methodToCall="denyCourse"
                       p:render="@{#line.level eq 'kuali.admin.reg.result.level.warning'}"
-                      p:additionalCssClasses="warning-result"/>
+                      p:additionalCssClasses="warning-result,hide-when-polling"/>
                 <bean parent="KS-Uif-Delete-ActionLink" p:actionLabel="Dismiss" p:methodToCall="deleteLine"
                       p:render="@{#line.level eq 'kuali.admin.reg.result.level.success'}"
                       p:additionalCssClasses="success-result" p:onClickScript="writeCurrentPageToSession(this);"
