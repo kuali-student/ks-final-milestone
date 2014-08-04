@@ -1,3 +1,7 @@
+// Variables
+@leftRightPadding: 1.15rem;
+@firstResultPadding: @leftRightPadding - 0.5;
+
 .kscr-Search-results {
   .util-Grid-cell;
   color: @primaryTextColor;
@@ -33,11 +37,11 @@
   .font-size(14);
   font-weight: bold;
   background-color: @cardBorderColor;
-  padding: 1rem 1.25rem;
+  padding: 1rem @leftRightPadding;
 }
 
 .kscr-Search-results-cell {
-  padding: 1rem 1.25rem;
+  padding: 1rem @leftRightPadding;
   border-bottom: @horizontalLineBorder;
 }
 
@@ -158,7 +162,7 @@
 }
 
 .kscr-Search-results--first {
-  padding-left: 0.75rem;
+  padding-left: @firstResultPadding;
 }
 
 // small format styling
