@@ -46,7 +46,10 @@ angular.module('regCartApp')
          */
         return function(activityOfferings) {
 
-            angular.forEach(activityOfferings, function(ao) {
+            for (var index = 0; index < activityOfferings.length; index++) {
+
+                var ao = activityOfferings[index];
+
                 var scheduleComponents = ao.scheduleComponents;
                 var instructors = ao.instructors;
 
@@ -112,16 +115,19 @@ angular.module('regCartApp')
                     additionalInfo += '<span class="kscr-SearchDetails-icon--requisites" ng-click="$emit(\'showRequisites\', searchResult.requisites); $event.stopPropagation();"></span>';
                 }
 
+                var aoId = ao.activityOfferingTypeName + "_" + index;
+
                 ao.formatted = {
                     days: days,
                     time: time,
                     instructor: instructorList,
                     location: location,
                     seatsOpen: seatsOpen,
-                    additionalInfo: additionalInfo
+                    additionalInfo: additionalInfo,
+                    aoId: aoId
                 };
                 ao.indicator = indicator;
-            });
+            }
 
             return activityOfferings;
         };
