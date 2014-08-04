@@ -391,9 +391,9 @@
         <property name="headerText" value="Registered Courses (@{registeredCredits} credits)"/>
         <property name="lineActions">
             <list>
-                <bean parent="Uif-SecondaryActionButton" p:iconClass="icon-pencil" p:title="Edit Course"
-                      p:methodToCall="editCourse" p:successCallback="stopPolling();"
-                      p:render="@{#index != editRegisteredIndex}"/>
+                <bean parent="KS-Uif-Edit-NavigationActionLink" p:id="registeredEditLink" p:title="Edit Course"
+                      p:methodToCall="editCourse" p:render="@{#index != editRegisteredIndex}"
+                      p:successCallback="stopPolling();"/>
                 <bean parent="Uif-SecondaryActionButton" p:iconClass="icon-trash" p:title="Drop Course"
                       p:methodToCall="dropCourse"
                       p:render="@{#index != editRegisteredIndex}"/>
@@ -408,26 +408,11 @@
         <property name="items">
             <list>
                 <bean parent="Uif-MessageField" p:label="Course Code (Section)" p:additionalCssClasses="nowrap"
-                      p:messageText="@{#line.code} (@{#line.section}) [0]">
-                    <property name="message.inlineComponents">
-                        <list>
-                            <bean parent="Uif-Message" p:title="Subterm" p:render="@{#line.subterm}" p:messageText="S"
-                                  p:additionalCssClasses="ks-subterm-icon"/>
-                        </list>
-                    </property>
-                </bean>
+                      p:messageText="@{#line.code} (@{#line.section})"/>
                 <bean parent="Uif-DataField" p:label="Course Name" p:propertyName="title"/>
-                <bean parent="Uif-InputField" p:label="Cr" p:propertyName="credits"
-                      p:readOnly="@{#index != editRegisteredIndex}">
-                    <property name="control">
-                        <bean parent="Uif-DropdownControl"/>
-                    </property>
-                    <property name="optionsFinder">
-                        <bean class="org.kuali.student.enrollment.class2.registration.admin.valueFinder.RegistrationCreditsOptionsFinder" p:addBlankOption="false"/>
-                    </property>
-                </bean>
+                <bean parent="Uif-DataField" p:label="Cr" p:propertyName="credits"/>
                 <bean parent="Uif-InputField" p:label="Reg Options" p:propertyName="gradingOption"
-                      p:readOnly="@{(#index != editRegisteredIndex || #emptyList(#line.gradingOptions))}">
+                      p:readOnly="true">
                     <property name="control">
                         <bean parent="Uif-DropdownControl"/>
                     </property>
@@ -435,20 +420,18 @@
                         <bean class="org.kuali.student.enrollment.class2.registration.admin.valueFinder.RegistrationGradingOptionsFinder" p:addBlankOption="false"/>
                     </property>
                 </bean>
-                <bean parent="Uif-DataField" p:label="Activity" p:propertyName="activityTypes"
-                      p:readOnlyListDisplayType="UL"/>
-                <bean parent="Uif-DataField" p:label="Date/Time" p:propertyName="activityDateTimes"  p:additionalCssClasses="nowrap"
-                      p:readOnlyListDisplayType="UL"/>
-                <bean parent="Uif-DataField" p:label="Instructor" p:propertyName="activityInstructors"
-                      p:readOnlyListDisplayType="UL"/>
-                <bean parent="Uif-DataField" p:label="Room" p:propertyName="activityRooms"
-                      p:readOnlyListDisplayType="UL"/>
+                <bean parent="Uif-DataField" p:label="Activity" p:propertyName="activityTypes"/>
+                <bean parent="Uif-DataField" p:label="Date/Time" p:propertyName="activityDateTimes"
+                      p:additionalCssClasses="nowrap"/>
+                <bean parent="Uif-DataField" p:label="Instructor" p:propertyName="activityInstructors"/>
+                <bean parent="Uif-DataField" p:label="Room" p:propertyName="activityRooms"/>
                 <bean parent="Uif-HorizontalFieldGroup" p:label="Effective Date">
                     <property name="items">
                         <list>
                             <bean parent="Uif-DataField" p:propertyName="effectiveDate">
                                 <property name="toolTip">
-                                    <bean parent="Uif-TooltipFocus" p:onMouseHover = "@{#lp.transactionalDateFormatted ne #lp.effectiveDateFormatted}" p:tooltipContent="Transaction Date: @{#lp.transactionalDateFormatted}"/>
+                                    <bean parent="Uif-TooltipFocus" p:onMouseHover = "@{#lp.transactionalDateFormatted ne #lp.effectiveDateFormatted}"
+                                          p:tooltipContent="Transaction Date: @{#lp.transactionalDateFormatted}"/>
                                 </property>
                             </bean>
                             <bean parent="Uif-Icon" p:iconClass="icon-notification"
@@ -466,9 +449,9 @@
         <property name="headerText" value="Waitlisted Courses (@{waitlistedCredits} credits)"/>
         <property name="lineActions">
             <list>
-                <bean parent="Uif-SecondaryActionButton" p:iconClass="icon-pencil" p:title="Edit Course"
-                      p:methodToCall="editCourse" p:successCallback="stopPolling();"
-                      p:render="@{#index != editWaitlistedIndex}"/>
+                <bean parent="KS-Uif-Edit-NavigationActionLink" p:id="waitlistedEditLink" p:title="Edit Course"
+                      p:methodToCall="editCourse" p:render="@{#index != editWaitlistedIndex}"
+                      p:successCallback="stopPolling();"/>
                 <bean parent="Uif-SecondaryActionButton" p:iconClass="icon-trash" p:title="Remove Course"
                       p:methodToCall="deleteLine"
                       p:render="@{#index != editWaitlistedIndex}">
@@ -490,37 +473,14 @@
         <property name="items">
             <list>
                 <bean parent="Uif-MessageField" p:label="Course Code (Section)" p:additionalCssClasses="nowrap"
-                      p:messageText="@{#line.code} (@{#line.section}) [0]">
-                    <property name="message.inlineComponents">
-                        <list>
-                            <bean parent="Uif-Message" p:title="Subterm" p:render="@{#line.subterm}" p:messageText="S"
-                                  p:additionalCssClasses="ks-subterm-icon"/>
-                        </list>
-                    </property>
-                </bean>
+                      p:messageText="@{#line.code} (@{#line.section})"/>
                 <bean parent="Uif-DataField" p:label="Course Name" p:propertyName="title"/>
-                <bean parent="Uif-InputField" p:label="Cr" p:propertyName="credits"
-                      p:readOnly="@{(#index != editWaitlistedIndex)}">
-                    <property name="control">
-                        <bean parent="Uif-DropdownControl"/>
-                    </property>
-                    <property name="optionsFinder">
-                        <bean class="org.kuali.student.enrollment.class2.registration.admin.valueFinder.RegistrationCreditsOptionsFinder" p:addBlankOption="false"/>
-                    </property>
-                </bean>
-                <bean parent="Uif-InputField" p:label="Reg Options" p:propertyName="gradingOption"
-                      p:readOnly="@{(#index != editWaitlistedIndex || !#emptyList(#line.gradingOptions))}">
-                    <property name="control">
-                        <bean parent="Uif-DropdownControl"/>
-                    </property>
-                    <property name="optionsFinder">
-                        <bean class="org.kuali.student.enrollment.class2.registration.admin.valueFinder.RegistrationGradingOptionsFinder" p:addBlankOption="false"/>
-                    </property>
-                </bean>
+                <bean parent="Uif-DataField" p:label="Cr" p:propertyName="credits"/>
+                <bean parent="Uif-DataField" p:label="Reg Options" p:propertyName="gradingOption"/>
                 <bean parent="Uif-DataField" p:label="Activity" p:propertyName="activityTypes"
                       p:readOnlyListDisplayType="UL"/>
-                <bean parent="Uif-DataField" p:label="Date/Time" p:propertyName="activityDateTimes"  p:additionalCssClasses="nowrap"
-                      p:readOnlyListDisplayType="UL"/>
+                <bean parent="Uif-DataField" p:label="Date/Time" p:propertyName="activityDateTimes"
+                      p:additionalCssClasses="nowrap" p:readOnlyListDisplayType="UL"/>
                 <bean parent="Uif-DataField" p:label="Instructor" p:propertyName="activityInstructors"
                       p:readOnlyListDisplayType="UL"/>
                 <bean parent="Uif-DataField" p:label="Room" p:propertyName="activityRooms"
