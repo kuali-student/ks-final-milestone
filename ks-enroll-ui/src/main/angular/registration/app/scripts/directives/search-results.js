@@ -21,7 +21,8 @@ angular.module('regCartApp')
                 detailsId: '@',
                 defaultField: '@',
                 preprocessor: '@',
-                onClick: '@'
+                onClick: '@',
+                prefix: '@'
             },
             link: function(scope) {
 

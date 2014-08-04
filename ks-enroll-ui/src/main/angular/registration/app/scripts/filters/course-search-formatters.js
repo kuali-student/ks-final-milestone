@@ -115,7 +115,7 @@ angular.module('regCartApp')
                     additionalInfo += '<span class="kscr-SearchDetails-icon--requisites" ng-click="$emit(\'showRequisites\', searchResult.requisites); $event.stopPropagation();"></span>';
                 }
 
-                var aoId = ao.activityOfferingTypeName + "_" + index;
+                var aoId = ao.activityOfferingCode;
 
                 ao.formatted = {
                     days: days,
