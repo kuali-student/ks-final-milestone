@@ -20,7 +20,7 @@
             <th class="kscr-Search-results-header kscr-Search--{{searchColumn.field}}" ng-repeat="searchColumn in searchColumns"
                 ng-class="{'kscr-Search-results--selected': $parent.predicate === '{{searchColumn.field}}',
                            'kscr-Search-results--first' : $index === 0}"
-                ng-click="$parent.predicate = '{{searchColumn.field}}'; $parent.reverse = sortResults('{{searchColumn.field}}');"
+                ng-click="sortColumn(searchColumn)"
                 ng-hide="searchColumn.optional && !hasData('{{searchColumn.field}}')">
                 <div class="kscr-Search-result-column">{{searchColumn.name}}
                     <i id="sort_selector_{{searchColumn.name}}" class="kscr-Search-results-sortIcon" ng-if="searchColumn.sortable"

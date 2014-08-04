@@ -81,7 +81,7 @@ angular.module('regCartApp')
                     element.html(value);
                     $compile(element.contents())(scope);
                 }
-            )};
+            );
+        };
     })
-
 ;

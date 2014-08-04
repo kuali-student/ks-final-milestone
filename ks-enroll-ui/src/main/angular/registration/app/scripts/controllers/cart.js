@@ -98,43 +98,39 @@ angular.module('regCartApp')
         };
 
         $scope.addRegGroupToCart = function () {
-            addCourseToCart($scope.cart.cartId, $scope.courseCode, $scope.termId, $scope.regCode, null, null, null);
+            addCourseToCart({
+                courseCode: $scope.courseCode,
+                regGroupCode: $scope.regCode
+            });
         };
 
-        $scope.$on('addRegGroupIdToCart', function (event, selectedRegGroupId) {
-            addCourseToCart(null, null, null, null, selectedRegGroupId, null, null);
+        $scope.$on('addRegGroupIdToCart', function (event, regGroupId, successCallback, errorCallback) {
+            addCourseToCart({
+                regGroupId: regGroupId
+            }, successCallback, errorCallback);
         });
 
         // Allows you to add a cartResultItem back into the cart. useful when a user wants to add a failed item back
         // into their cart.
         $scope.addCartItemToCart = function (cartItem) {
-            addCourseToCart($scope.cart.cartId, null, $scope.termId, null, cartItem.regGroupId, cartItem.gradingOptionId, cartItem.credits);
+            addCourseToCart(cartItem);
         };
 
-        $scope.$on('addCourseToCart', function (event, cartId, courseCode, termId, regGroupCode, regGroupId, gradingOptionId, credits) {
-            console.log('Received event addCourseToCart ', event);
-            addCourseToCart(cartId, courseCode, termId, regGroupCode, regGroupId, gradingOptionId, credits);
-        });
-
-        function addCourseToCart(cartId, courseCode, termId, regGroupCode, regGroupId, gradingOptionId, credits) {
+        function addCourseToCart(course, successCallback, errorCallback) {
             $scope.courseAdded = false; // reset cursor focus
 
-            if (courseCode) {
-                courseCode = courseCode.toUpperCase();
-            }
-
-            if (!cartId) {
-                cartId = $scope.cart.cartId;
+            if (course.courseCode) {
+                course.courseCode = course.courseCode.toUpperCase();
             }
 
             CartService.addCourseToCart().query({
-                cartId: cartId,
-                courseCode: courseCode,
-                termId: termId,
-                regGroupCode: regGroupCode,
-                regGroupId: regGroupId,
-                gradingOptionId: gradingOptionId,
-                credits: credits
+                cartId: $scope.cart.cartId,
+                termId: $scope.termId,
+                courseCode: course.courseCode || null,
+                regGroupCode: course.regGroupCode || null,
+                regGroupId: course.regGroupId || null,
+                gradingOptionId: course.gradingOptionId || null,
+                credits: course.credits || null
             }, function (response) {
                 console.log('Searched for course: ' + $scope.courseCode + ' ' + $scope.regCode + ', Term: ' + $scope.termId);
                 $scope.courseCode = '';
@@ -153,14 +149,20 @@ angular.module('regCartApp')
                 }, 2000);
 
                 $scope.courseAdded = true; // refocus cursor back to course code
+
+                if (angular.isFunction(successCallback)) {
+                    successCallback(response);
+                }
             }, function (error) {
-                console.log('CartId:', cartId);
                 if (error.status === 404) {
                     //Reg group was not found
-                    $scope.userMessage = {txt: error.data, messageKey: GENERAL_ERROR_TYPE.noRegGroup, type: STATUS.error, course: courseCode};
+                    $scope.userMessage = {txt: error.data, messageKey: GENERAL_ERROR_TYPE.noRegGroup, type: STATUS.error, course: course.courseCode};
                     $scope.courseAdded = true;  // refocus cursor back to course code
+
+                    if (angular.isFunction(errorCallback)) {
+                        errorCallback($scope.userMessage);
+                    }
                 } else if (error.status === 400) {
-                    console.log('CartId: ', cartId);
                     //Additional options are required
                     $modal.open({
                         backdrop: 'static',
@@ -168,12 +170,9 @@ angular.module('regCartApp')
                         resolve: {
                             item: function () {
                                 return error.data;
-                            },
-                            cartId: function () {
-                                return cartId;
                             }
                         },
-                        controller: ['$scope', 'item', 'cartId', function ($scope, item, cartId) {
+                        controller: ['$scope', 'item', function ($scope, item) {
                             console.log('Controller for modal... Item: ', item);
                             $scope.newCartItem = item;
 
@@ -191,8 +190,11 @@ angular.module('regCartApp')
                                 if (!submitted) { // Only let the form be submitted once.
                                     submitted = true;
                                     course.editing = false;
-                                    console.log('Save credits and grading for cartId:', cartId);
-                                    addCourseToCart(cartId, $scope.newCartItem.courseCode, $scope.newCartItem.termId, $scope.newCartItem.regGroupCode, $scope.newCartItem.regGroupId, $scope.newCartItem.newGrading, $scope.newCartItem.newCredits);
+
+                                    $scope.newCartItem.credits = $scope.newCartItem.newCredits;
+                                    $scope.newCartItem.gradingOptionId = $scope.newCartItem.newGrading;
+
+                                    addCourseToCart($scope.newCartItem, successCallback, errorCallback);
                                     $scope.$close(true);
                                 }
                             };
@@ -202,8 +204,12 @@ angular.module('regCartApp')
                 } else {
                     console.log('Error with adding course', error.data.consoleMessage);
                     //Reg group is not in offered state
-                    $scope.userMessage = {txt: error.data.genericMessage, messageKey: GENERAL_ERROR_TYPE.noRegGroup, type: error.data.type, detail: error.data.detailedMessage, course: courseCode + ' (' + regGroupCode + ')'};
+                    $scope.userMessage = {txt: error.data.genericMessage, messageKey: GENERAL_ERROR_TYPE.noRegGroup, type: error.data.type, detail: error.data.detailedMessage, course: course.courseCode + ' (' + course.regGroupCode + ')'};
                     $scope.courseAdded = true; // refocus cursor back to course code
+
+                    if (angular.isFunction(errorCallback)) {
+                        errorCallback($scope.userMessage);
+                    }
                 }
             });
         }

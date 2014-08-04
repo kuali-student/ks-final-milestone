@@ -127,6 +127,14 @@ angular.module('regCartApp')
                     return searchResult[scope.detailsId];
                 };
 
+                // column sort method called when the column header is clicked
+                scope.sortColumn = function(column) {
+                    if (column.sortable) {
+                        scope.predicate = column.field;
+                        scope.reverse = scope.sortResults(column.field);
+                    }
+                };
+
                 // switches the reverse order of the specified column
                 scope.sortResults = function(column) {
                     var reverse;

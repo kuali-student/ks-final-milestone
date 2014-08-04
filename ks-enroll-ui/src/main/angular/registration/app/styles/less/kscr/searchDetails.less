@@ -120,7 +120,7 @@
     border-bottom: @horizontalLineBorder;
     border-top: @horizontalLineBorder;
     margin: 1rem 0 0;
-    padding: 1rem 0;
+    padding: 0.5rem 0;
 
     .kscr-SearchDetails-selection {
         // Main label
@@ -151,13 +151,56 @@
             }
         }
     }
-}
 
-.kscr-SearchDetails-actions {
-    .kscr-SearchDetails-button .kscr-Button {
-        font-weight: normal;
+    // Actions button container
+    .kscr-SearchDetails-actions {
+        padding: 0.5rem 0; // Additional padding to keep container from popping when Clear Selection link is shown
+        text-align: right;
+
+        // Button
+        .kscr-SearchDetails-button .kscr-Button {
+            font-weight: normal;
+        }
+
+        // Message below button of action status
+        .kscr-SearchDetails-actionMessage {
+            margin-top: 0.5rem;
+
+            // Icon (Success || Fail)
+            &-icon {
+                display: block;
+                float: left;
+                margin-right: 0.2rem;
+            }
+
+            // Remove button (X)
+            &-remove {
+                .dismiss-icon;
+                display: block;
+                float: right;
+                height: 2rem;
+                margin-left: 1rem;
+            }
+
+            // Error State
+            &--error {
+                .kscr-SearchDetails-actionMessage-icon {
+                    .error-icon;
+                }
+                color: @errorText;
+            }
+
+            // Success state
+            &--success {
+                .kscr-SearchDetails-actionMessage-icon {
+                    .success-icon;
+                }
+                color: @successText;
+            }
+        }
     }
 }
+
 
 // Activity Offering Groups Container
 
