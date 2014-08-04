@@ -46,6 +46,9 @@
                 <ref bean="KS-HomewardPathBreadcrumbs-ReviewProposal-Page"/>
             </list>
         </property>
+        <property name="header.rightGroup">
+            <ref bean="CM-Proposal-Course-Create-RightHeader"/>
+        </property>
     </bean>
 
     <bean id="CM-Proposal-Review-Course-PageSections" parent="CM-Proposal-Course-View-VerticalBoxSection">
