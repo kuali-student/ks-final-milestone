@@ -397,9 +397,6 @@
                       p:successCallback="stopPolling();"/>
                 <bean parent="KS-Uif-Delete-NavigationActionLink" p:id="registeredDropLink" p:title="Drop Course"
                       p:methodToCall="dropCourse" p:render="@{#index != editRegisteredIndex}"/>
-                <!--<bean parent="Uif-SecondaryActionButton" p:iconClass="icon-trash" p:title="Drop Course"-->
-                      <!--p:methodToCall="dropCourse"-->
-                      <!--p:render="@{#index != editRegisteredIndex}"/>-->
                 <bean parent="Uif-SecondaryActionButton" p:iconClass="icon-disk" p:title="Save"
                       p:methodToCall="saveEdit" p:successCallback="startPolling(1000);"
                       p:render="@{#index == editRegisteredIndex}"/>
@@ -414,7 +411,7 @@
                       p:messageText="@{#line.code} (@{#line.section})"/>
                 <bean parent="Uif-DataField" p:label="Course Name" p:propertyName="title"/>
                 <bean parent="Uif-DataField" p:label="Cr" p:propertyName="credits"/>
-                <bean parent="Uif-InputField" p:label="Reg Options" p:propertyName="gradingOption"
+                <bean parent="Uif-InputField" p:label="Reg Options" p:propertyName="gradingOptionId"
                       p:readOnly="true">
                     <property name="control">
                         <bean parent="Uif-DropdownControl"/>
@@ -471,7 +468,7 @@
                       p:messageText="@{#line.code} (@{#line.section})"/>
                 <bean parent="Uif-DataField" p:label="Course Name" p:propertyName="title"/>
                 <bean parent="Uif-DataField" p:label="Cr" p:propertyName="credits"/>
-                <bean parent="Uif-InputField" p:label="Reg Options" p:propertyName="gradingOption"
+                <bean parent="Uif-InputField" p:label="Reg Options" p:propertyName="gradingOptionId"
                       p:readOnly="true">
                     <property name="control">
                         <bean parent="Uif-DropdownControl"/>
@@ -631,7 +628,7 @@
                                     <bean class="org.kuali.student.enrollment.class2.registration.admin.valueFinder.RegistrationCreditsOptionsFinder"/>
                                 </property>
                             </bean>
-                            <bean parent="Uif-InputField" p:label="Reg Options" p:propertyName="gradingOption"
+                            <bean parent="Uif-InputField" p:label="Reg Options" p:propertyName="gradingOptionId"
                                   p:readOnly="@{#emptyList(#line.gradingOptions)}">
                                 <property name="control">
                                     <bean parent="Uif-DropdownControl"/>
@@ -744,7 +741,7 @@
                       p:messageText="@{#line.code} (@{#line.section})"/>
                 <bean parent="Uif-DataField" p:label="Course Name" p:propertyName="title"/>
                 <bean parent="Uif-InputField" p:readOnly="true" p:label="Cr" p:propertyName="credits"/>
-                <bean parent="Uif-InputField" p:readOnly="true" p:label="Reg Options" p:propertyName="gradingOption"/>
+                <bean parent="Uif-InputField" p:readOnly="true" p:label="Reg Options" p:propertyName="gradingOptionId"/>
                 <bean parent="Uif-DataField" p:label="Reg Date" p:propertyName="transactionalDate"/>
             </list>
         </property>
@@ -770,7 +767,7 @@
                       p:messageText="@{#line.code} (@{#line.section})"/>
                 <bean parent="Uif-DataField" p:label="Course Name" p:propertyName="title"/>
                 <bean parent="Uif-InputField" p:readOnly="true" p:label="Cr" p:propertyName="credits"/>
-                <bean parent="Uif-InputField" p:readOnly="true" p:label="Reg Options" p:propertyName="gradingOption"/>
+                <bean parent="Uif-InputField" p:readOnly="true" p:label="Reg Options" p:propertyName="gradingOptionId"/>
                 <bean parent="Uif-DataField" p:label="Reg Date" p:propertyName="transactionalDate"/>
             </list>
         </property>

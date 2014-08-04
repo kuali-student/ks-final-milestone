@@ -75,7 +75,7 @@ public class AdminRegistrationUtil {
         registrationRequestItem.setRequestedEffectiveDate(registrationCourse.getEffectiveDate());
         registrationRequestItem.setPersonId(personId);
         registrationRequestItem.setCredits(new KualiDecimal(registrationCourse.getCredits()));
-        registrationRequestItem.setGradingOptionId(registrationCourse.getGradingOption());
+        registrationRequestItem.setGradingOptionId(registrationCourse.getGradingOptionId());
         registrationRequestItem.setOkToWaitlist(Boolean.TRUE);
         return registrationRequestItem;
     }

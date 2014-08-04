@@ -230,7 +230,7 @@ public class AdminRegistrationViewHelperServiceImpl extends KSViewHelperServiceI
         registrationCourse.setSection(AdminRegResourceLoader.getCourseOfferingService().getRegistrationGroup(
                 courseRegistrationInfo.getRegistrationGroupId(), createContextInfo()).getRegistrationCode());
         registrationCourse.setGradingOptions(coInfo.getStudentRegistrationGradingOptions());
-        registrationCourse.setGradingOption(courseRegistrationInfo.getGradingOptionId());
+        registrationCourse.setGradingOptionId(courseRegistrationInfo.getGradingOptionId());
         return registrationCourse;
     }
 
@@ -275,7 +275,7 @@ public class AdminRegistrationViewHelperServiceImpl extends KSViewHelperServiceI
                 continue;
             }
 
-            course.setGradingOption(courseOffering.getGradingOptionId());
+            course.setGradingOptionId(courseOffering.getGradingOptionId());
             course.setGradingOptions(courseOffering.getStudentRegistrationGradingOptions());
             try {
                 course.setCreditOptions(getCourseOfferingCreditOptionValues(courseOffering.getCreditOptionId(), createContextInfo()));
