@@ -264,9 +264,9 @@
 
     <bean id="CM-Proposal-Course-LinkGroup-Comments-parent" parent="Uif-KS-NavigationActionLink-parentBean" abstract="true"
           p:actionScript="showCommentLightBox('@{#ConfigProperties['application.url']}/kr-krad/cm_comment?viewId=CM-Proposal-Course-Comment-View&amp;methodToCall=start&amp;proposalId=@{#dataObject.proposalInfo.id}');"
-          p:disabled="@{#workflowDoc.initiated}">
+          p:disabled="@{#workflowDoc.initiated}" p:title="Comments">
         <property name="actionImage">
-            <bean parent="Uif-Image" p:source="" p:cssClasses="ks-fontello-icon-comment"/>
+            <bean parent="Uif-Image" p:altText="Comments" p:cssClasses="ks-fontello-icon-comment" p:title="Comments"/>
         </property>
         <property name="actionImagePlacement" value="IMAGE_ONLY"/>
     </bean>
@@ -275,9 +275,9 @@
 
     <bean id="CM-Proposal-Course-LinkGroup-Decisions-parent" parent="Uif-KS-NavigationActionLink-parentBean"  abstract="true"
           p:actionScript="showCommentLightBox('@{#ConfigProperties['application.url']}/kr-krad/cm_decision?viewId=CM-Proposal-Course-Decision-View&amp;methodToCall=start&amp;proposalId=@{#dataObject.proposalInfo.id}');"
-          p:disabled="@{#workflowDoc.initiated}">
+          p:disabled="@{#workflowDoc.initiated}" p:title="Decisions">
         <property name="actionImage">
-            <bean parent="Uif-Image" p:source="" p:cssClasses="ks-fontello-icon-hammer"/>
+            <bean parent="Uif-Image" p:altText="Decisions" p:cssClasses="ks-fontello-icon-hammer" p:title="Decisions"/>
         </property>
         <property name="actionImagePlacement" value="IMAGE_ONLY"/>
     </bean>
