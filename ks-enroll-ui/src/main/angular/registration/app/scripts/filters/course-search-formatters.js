@@ -36,23 +36,7 @@ angular.module('regCartApp')
 
     })
 
-    .filter('aoFormatter', function() {
-
-        function denullify(value) {
-            if (value === null) {
-                return '';
-            } else {
-                return value;
-            }
-        }
-
-        function zeroPad(value) {
-            value = '' + value; // convert to string
-            while (value.length < 3) {
-                value = '0' + value;
-            }
-            return value;
-        }
+    .filter('aoFormatter', ['DAY_CONSTANTS', function(DAY_CONSTANTS) {
 
         /**
          * Format an array of activity offerings for display using the search-list directive
@@ -75,7 +59,7 @@ angular.module('regCartApp')
 
                 var indicator = false;                                  // determines if we show the row indicator on the left
 
-                if (scheduleComponents && angular.isArray(scheduleComponents)) {
+                if (scheduleComponents && angular.isArray(scheduleComponents) && scheduleComponents.length > 0) {
                     for (var i = 0; i < scheduleComponents.length; i++) {
                         days += denullify(scheduleComponents[i].days);
                         time += denullify(scheduleComponents[i].displayTime);
@@ -86,15 +70,17 @@ angular.module('regCartApp')
                             location += '<br />';
                         }
                     }
+                    days = addSortField(days, getNumericDays(scheduleComponents[0].days));
                 }
 
-                if (instructors && angular.isArray(instructors)) {
+                if (instructors && angular.isArray(instructors) && instructors.length > 0) {
                     for (var j = 0; j < instructors.length; j++) {
                         instructorList += denullify(instructors[j].firstName) + ' ' + denullify(instructors[j].lastName);
                         if (j < (instructors.length - 1)) {
                             instructorList += '<br />';
                         }
                     }
+                    instructorList = addSortField(instructorList, instructors[0].lastName + instructors[0].firstName);
                 }
 
                 seatsOpen += ao.seatsOpen + '/' + ao.seatsAvailable;
@@ -102,7 +88,7 @@ angular.module('regCartApp')
                     seatsOpen = '<span class="kscr-Search-results-no-seats">' + seatsOpen + '</span>';
                     indicator = true;
                 }
-                seatsOpen = '<span class="kscr-Search-result-hidden">' + zeroPad(ao.seatsOpen) + zeroPad(ao.seatsAvailable) + '</span>' + seatsOpen;
+                seatsOpen = addSortField(seatsOpen, zeroPad(ao.seatsOpen) + zeroPad(ao.seatsAvailable));
 
                 var subterm = false,
                     requisites = false;
@@ -140,5 +126,37 @@ angular.module('regCartApp')
             return activityOfferings;
         };
 
-    });
+        function denullify(value) {
+            if (value === null) {
+                return '';
+            } else {
+                return value;
+            }
+        }
+
+        function zeroPad(value) {
+            value = '' + value; // convert to string
+            while (value.length < 3) {
+                value = '0' + value;
+            }
+            return value;
+        }
+
+        function addSortField(field, sortField) {
+            field = '<span class="kscr-Search-result-sort">'+sortField+"</span>"+field;
+            return field;
+        }
+
+        function getNumericDays(days) {
+            var dayNumArray=[];
+            for (var i=0; i < DAY_CONSTANTS.dayArray.length; i++) {
+                if (days.indexOf(DAY_CONSTANTS.dayArray[i]) > -1) {
+                    dayNumArray.push(i);
+                }
+            }
+            return dayNumArray.sort().toString();
+        }
+
+    }])
+;
 
