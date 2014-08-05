@@ -40,13 +40,13 @@ public class RegistrationCreditsOptionsFinder extends UifKeyValuesFinderBase imp
 
         try {
             // Create keyvalues from grading options for registration course.
-            if (course.getCreditOptions() != null && !course.getCreditOptions().isEmpty()) {
+            if(!course.getCreditOptions().isEmpty()) {
                 this.setAddBlankOption(false);
                 if(course.getCreditOptions().size() > 1){
                     this.setAddBlankOption(true);
                 }
                 for(String credit : course.getCreditOptions()){
-                    keyValues.add(new ConcreteKeyValue(credit,credit));
+                    keyValues.add(new ConcreteKeyValue(credit, credit));
                 }
             }
 

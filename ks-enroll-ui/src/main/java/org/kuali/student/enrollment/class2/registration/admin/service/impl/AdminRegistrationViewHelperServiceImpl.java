@@ -34,8 +34,8 @@ import org.kuali.student.enrollment.registration.client.service.dto.Registration
 import org.kuali.student.enrollment.registration.client.service.impl.util.CourseRegistrationAndScheduleOfClassesUtil;
 import org.kuali.student.enrollment.registration.client.service.impl.util.RegistrationValidationResultsUtil;
 import org.kuali.student.r2.common.dto.AttributeInfo;
-import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
@@ -53,8 +53,6 @@ import org.kuali.student.r2.core.scheduling.dto.ScheduleComponentInfo;
 import org.kuali.student.r2.core.scheduling.dto.ScheduleInfo;
 import org.kuali.student.r2.core.scheduling.dto.TimeSlotInfo;
 import org.kuali.student.r2.core.scheduling.util.SchedulingServiceUtil;
-import org.kuali.student.r2.lum.lrc.dto.ResultValueInfo;
-import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
 import org.kuali.student.r2.lum.util.constants.LrcServiceConstants;
 
 import java.text.MessageFormat;
@@ -278,10 +276,10 @@ public class AdminRegistrationViewHelperServiceImpl extends KSViewHelperServiceI
             course.setGradingOptionId(courseOffering.getGradingOptionId());
             course.setGradingOptions(courseOffering.getStudentRegistrationGradingOptions());
             try {
-                course.setCreditOptions(getCourseOfferingCreditOptionValues(courseOffering.getCreditOptionId(), createContextInfo()));
+                course.setCreditOptions(AdminRegistrationUtil.getCourseOfferingCreditOptionValues(courseOffering.getCreditOptionId()));
                 if (course.getCreditOptions().size() == 1) {
                     course.setCreditType(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_FIXED);
-                    course.setCredits((course.getCreditOptions().get(0)));
+                    course.setCredits(KSCollectionUtils.getRequiredZeroElement(course.getCreditOptions()));
                 } else {
                     course.setCreditType(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_MULTIPLE);
                     course.setCredits(null);
@@ -348,33 +346,7 @@ public class AdminRegistrationViewHelperServiceImpl extends KSViewHelperServiceI
         return null;
     }
 
-    private List<String> getCourseOfferingCreditOptionValues(String creditOptionId, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException {
-        int firstValue = 0;
-        List<String> creditOptions = new ArrayList<String>();
 
-        //Lookup the selected credit option and set from persisted values
-        if (!creditOptionId.isEmpty()) {
-            //Lookup the resultValueGroup Information
-            ResultValuesGroupInfo resultValuesGroupInfo = CourseRegistrationAndScheduleOfClassesUtil.getLrcService().getResultValuesGroup(creditOptionId, contextInfo);
-            String typeKey = resultValuesGroupInfo.getTypeKey();
-
-            //Get the actual values
-            List<ResultValueInfo> resultValueInfos = CourseRegistrationAndScheduleOfClassesUtil.getLrcService().getResultValuesByKeys(resultValuesGroupInfo.getResultValueKeys(), contextInfo);
-
-            if (!resultValueInfos.isEmpty()) {
-                if (typeKey.equals(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_FIXED)) {
-                    creditOptions.add(resultValueInfos.get(firstValue).getValue()); // fixed credits
-                } else if (typeKey.equals(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_MULTIPLE) ||
-                        typeKey.equals(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_RANGE)) {  // multiple or range
-                    for (ResultValueInfo resultValueInfo : resultValueInfos) {
-                        creditOptions.add(resultValueInfo.getValue());
-                    }
-                }
-            }
-        }
-
-        return creditOptions;
-    }
 
     @Override
     public List<RegistrationActivity> getRegistrationActivitiesForRegistrationCourse(RegistrationCourse registrationCourse, String termCode) {

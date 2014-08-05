@@ -812,59 +812,62 @@
     </bean>
 
 
-
     <bean id="KS-AdminRegistration-RegisteredCourses-Edit" parent="Uif-DialogGroup">
         <property name="headerText" value="Edit Course Details"/>
         <property name="style" value="width:650px;"/>
         <property name="items">
             <list>
-                <bean id="KS-AdminRegistration-Courses-Edit" parent="Uif-TableCollectionGroup" p:colSpan="8">
+                <bean id="KS-AdminRegistration-Courses-Edit" parent="Uif-TableCollectionGroup" p:colSpan="4">
                     <property name="collectionObjectClass"
                               value="org.kuali.student.enrollment.class2.registration.admin.form.RegistrationCourse"/>
-                <property name="propertyName" value="coursesEdit"/>
-                <property name="layoutManager.renderSequenceField" value="false"/>
-                <property name="layoutManager.richTable.render" value="false"/>
-                <property name="renderAddLine" value="false"/>
-                <property name="renderLineActions" value="false"/>
-                <property name="items">
-                    <list>
-                        <bean parent="Uif-VerticalFieldGroup" p:label="Course Code (Section)">
-                            <property name="group.items">
-                                <list>
-                                    <bean parent="Uif-Message" p:style="font-weight: bold;"
-                                          p:messageText="@{#line.code} (@{#line.section})"/>
-                                    <bean parent="Uif-DataField" p:propertyName="activityTypeDateTimes"  p:additionalCssClasses="nowrap"
-                                          p:readOnlyListDisplayType="UL"/>
-                                </list>
-                            </property>
-                        </bean>
+                    <property name="propertyName" value="coursesEdit"/>
+                    <property name="layoutManager.renderSequenceField" value="false"/>
+                    <property name="layoutManager.richTable.render" value="false"/>
+                    <property name="renderAddLine" value="false"/>
+                    <property name="renderLineActions" value="false"/>
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-VerticalFieldGroup" p:label="Course Code (Section)">
+                                <property name="group.items">
+                                    <list>
+                                        <bean parent="Uif-Message" p:style="font-weight: bold;"
+                                              p:messageText="@{#line.code} (@{#line.section})"/>
+                                        <bean parent="Uif-DataField" p:propertyName="activityTypeDateTimes"
+                                              p:additionalCssClasses="nowrap"
+                                              p:readOnlyListDisplayType="UL"/>
+                                    </list>
+                                </property>
+                            </bean>
 
-                        <bean parent="Uif-InputField" p:label="Cr" p:propertyName="credits">
-                            <property name="control">
-                                <bean parent="Uif-DropdownControl"/>
-                            </property>
-                            <property name="optionsFinder">
-                                <bean class="org.kuali.student.enrollment.class2.registration.admin.valueFinder.RegistrationCreditsOptionsFinder"/>
-                            </property>
-                        </bean>
-                        <bean parent="Uif-InputField" p:label="Reg Options" p:propertyName="gradingOptionId">
-                            <property name="control">
-                                <bean parent="Uif-DropdownControl"/>
-                            </property>
-                            <property name="optionsFinder">
-                                <bean class="org.kuali.student.enrollment.class2.registration.admin.valueFinder.RegistrationGradingOptionsFinder"
-                                      p:addBlankOption="false"/>
-                            </property>
-                        </bean>
+                            <bean parent="Uif-InputField" p:label="Cr" p:propertyName="credits"
+                                  p:readOnly="@{#line.creditType eq 'kuali.result.values.group.type.fixed'}">
+                                <property name="control">
+                                    <bean parent="Uif-DropdownControl"/>
+                                </property>
+                                <property name="optionsFinder">
+                                    <bean class="org.kuali.student.enrollment.class2.registration.admin.valueFinder.RegistrationCreditsOptionsFinder"/>
+                                </property>
+                            </bean>
+                            <bean parent="Uif-InputField" p:label="Reg Options" p:propertyName="gradingOptionId"
+                                  p:readOnly="@{#emptyList(#line.gradingOptions)}">
+                                <property name="control">
+                                    <bean parent="Uif-DropdownControl"/>
+                                </property>
+                                <property name="optionsFinder">
+                                    <bean class="org.kuali.student.enrollment.class2.registration.admin.valueFinder.RegistrationGradingOptionsFinder"
+                                          p:addBlankOption="false"/>
+                                </property>
+                            </bean>
 
-                        <bean parent="KS-Uif-InputField-LabelTop" p:propertyName="effectiveDate" p:label="Effective Date">
-                            <property name="control">
-                                <bean parent="KS-Uif-Default-DateControl" />
-                            </property>
-                        </bean>
+                            <bean parent="KS-Uif-InputField-LabelTop" p:propertyName="effectiveDate"
+                                  p:label="Effective Date">
+                                <property name="control">
+                                    <bean parent="KS-Uif-Default-DateControl"/>
+                                </property>
+                            </bean>
 
-                    </list>
-                </property>
+                        </list>
+                    </property>
                 </bean>
 
                 <bean parent="KS-Uif-FooterBase">
@@ -877,8 +880,10 @@
                                               p:preSubmitCall="closeLightbox(); return true;"
                                               p:methodToCall="saveEdit" p:actionLabel="Save"/>
                                         <bean parent="Uif-ActionLink" p:actionLabel="Cancel"
-                                              p:methodToCall="cancelEdit"  p:preSubmitCall="closeLightbox(); return true;" p:id="cancelEditCourseLink"
-                                              p:additionalCssClasses="cancel_link" />
+                                              p:methodToCall="cancelEdit"
+                                              p:preSubmitCall="closeLightbox(); return true;"
+                                              p:id="cancelEditCourseLink"
+                                              p:additionalCssClasses="cancel_link"/>
                                     </list>
                                 </property>
                             </bean>

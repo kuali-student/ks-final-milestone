@@ -32,15 +32,18 @@ import org.kuali.student.enrollment.class2.registration.admin.form.RegistrationC
 import org.kuali.student.enrollment.class2.registration.admin.form.RegistrationResult;
 import org.kuali.student.enrollment.class2.registration.admin.form.RegistrationResultItem;
 import org.kuali.student.enrollment.class2.registration.admin.service.AdminRegistrationViewHelperService;
+import org.kuali.student.enrollment.class2.registration.admin.util.AdminRegClientCache;
 import org.kuali.student.enrollment.class2.registration.admin.util.AdminRegConstants;
 import org.kuali.student.enrollment.class2.registration.admin.util.AdminRegResourceLoader;
 import org.kuali.student.enrollment.class2.registration.admin.util.AdminRegistrationUtil;
+import org.kuali.student.enrollment.courseoffering.infc.CourseOffering;
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestInfo;
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestItemInfo;
 import org.kuali.student.r2.common.infc.Attribute;
 import org.kuali.student.r2.common.util.constants.CourseRegistrationServiceConstants;
 import org.kuali.student.r2.common.util.constants.LprServiceConstants;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
+import org.kuali.student.r2.lum.util.constants.LrcServiceConstants;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -478,15 +481,27 @@ public class AdminRegistrationController extends UifControllerBase {
 
         // May want to write your own copy/clone method or alternatively re-retrieve value from db on cancel
          RegistrationCourse tempCourse = (RegistrationCourse) (SerializationUtils.clone((RegistrationCourse) item));
+        CourseOffering courseOffering =  AdminRegClientCache.getCourseOfferingByCodeAndTerm(form.getTerm().getId(), tempCourse.getCode());
+        if (tempCourse.getCreditOptions()== null) {
+            tempCourse.setCreditOptions(AdminRegistrationUtil.getCourseOfferingCreditOptionValues(courseOffering.getCreditOptionId()));
+            if (tempCourse.getCreditOptions().size() == 1) {
+                tempCourse.setCreditType(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_FIXED);
+            } else {
+                tempCourse.setCreditType(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_MULTIPLE);
+            }
+        }
+        if(tempCourse.getGradingOptions().isEmpty() || tempCourse.getGradingOptions() == null) {
+            tempCourse.setGradingOptionId(courseOffering.getGradingOptionId());
+            tempCourse.setGradingOptions(courseOffering.getStudentRegistrationGradingOptions());
+        }
          form.getCoursesEdit().add(tempCourse);
         if (selectedCollectionId.equals(AdminRegConstants.REG_COLL_ID)) {
             form.setEditRegisteredIndex(selectedLineIndex);
         } else if (selectedCollectionId.equals(AdminRegConstants.WAITLIST_COLL_ID)) {
             form.setEditWaitlistedIndex(selectedLineIndex);
         }
-        showDialog(AdminRegConstants.COURSE_EDIT_DIALOG, form, request, response);
-
-        return refresh(form, result, request, response);
+        form.setClientState(AdminRegConstants.ClientStates.READY);
+        return showDialog(AdminRegConstants.COURSE_EDIT_DIALOG, form, request, response);
     }
 
     @RequestMapping(method = RequestMethod.POST, params = "methodToCall=saveEdit")

@@ -113,7 +113,7 @@ public class AdminRegClientCache {
 
     /**
      *
-     * @param termCode
+     * @param termId
      * @param courseCode
      * @return CourseOffering
      * @throws MissingParameterException
@@ -121,13 +121,13 @@ public class AdminRegClientCache {
      * @throws OperationFailedException
      * @throws PermissionDeniedException
      */
-    public static CourseOfferingInfo getCourseOfferingByCodeAndTerm(String termCode, String courseCode)
+    public static CourseOfferingInfo getCourseOfferingByCodeAndTerm(String termId, String courseCode)
             throws MissingParameterException, InvalidParameterException, OperationFailedException, PermissionDeniedException {
 
-        MultiKey cacheKey = new MultiKey(TERMID_COURSECODE_TO_CO, termCode, courseCode);
+        MultiKey cacheKey = new MultiKey(TERMID_COURSECODE_TO_CO, termId, courseCode);
         Element cachedResult = getCache().get(cacheKey);
         if (cachedResult == null) {
-            List<CourseOfferingInfo> courseOfferings = searchCourseOfferingsByCodeAndTerm(termCode, courseCode, false);
+            List<CourseOfferingInfo> courseOfferings = searchCourseOfferingsByCodeAndTerm(termId, courseCode, false);
             return KSCollectionUtils.getOptionalZeroElement(courseOfferings);
         }
 
