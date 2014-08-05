@@ -213,7 +213,7 @@ function renderResults() {
     });
 
     jq(WARNING_RESULT).each(function () {
-        jq(this).closest("tr").addClass(kradVariables.PAGE_VALIDATION_MESSAGE_WARNING_CLASS);
+        jq(this).closest("tr").addClass('alert-warning');
     });
 
     jq(SUCCESS_RESULT).each(function () {
