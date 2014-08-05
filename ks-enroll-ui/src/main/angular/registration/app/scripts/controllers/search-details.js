@@ -5,7 +5,8 @@ angular.module('regCartApp')
     function SearchDetailsCtrl($scope, $rootScope, $state, $filter, $modal, STATUS, FEATURE_TOGGLES, SearchService, GlobalVarsService) {
 
         $scope.searchCriteria = null; // Criteria used to generate the search results.
-        $scope.course = null; // Handle on the course
+        $scope.course = null;         // Handle on the course
+        $rootScope.hideForm = true;   // Hides the search form in mobile view
 
         // Push the user back to the search page when the term is changed
         $scope.$on('termIdChanged', function(event, newValue, oldValue) {
@@ -44,7 +45,12 @@ angular.module('regCartApp')
                     var regGroups = {};
                     if (angular.isDefined(result.activityOfferingTypes) && angular.isArray(result.activityOfferingTypes)) {
                         angular.forEach(result.activityOfferingTypes, function(aoType) {
+
+                            // Apply aoFormatter filter to the activity offerings for display in the table
+                            $filter('aoFormatter')(aoType.activityOfferings);
+
                             angular.forEach(aoType.activityOfferings, function(ao) {
+
                                 // Give each activity offering a handle on its type.
                                 // This facilitates managing the selected offerings.
                                 ao.activityOfferingType = aoType.activityOfferingType;
@@ -515,4 +521,49 @@ angular.module('regCartApp')
             return date.getMonth()+1 + '/' + date.getDate() + '/' +date.getFullYear();
         }
     }])
+
+    .directive('searchDetailsList', function() {
+        return {
+            restrict: 'E',
+            templateUrl: 'partials/searchDetailsList.html',
+            scope: {
+                searchDetails: '='
+            },
+            link:function(scope,element,attrs) {
+                scope.time = true;
+                scope.instr = false;
+                scope.seatsLoc = false;
+                scope.tab = 'time';
+
+                scope.select = function(tab) {
+                    scope.tab = tab;
+                    switch(tab) {
+                        case 'time':
+                            scope.time = true;
+                            scope.instr = false;
+                            scope.seatsLoc = false;
+                            scope.all = false;
+                            break;
+                        case 'instr':
+                            scope.time = false;
+                            scope.instr = true;
+                            scope.seatsLoc = false;
+                            scope.all = false;
+                            break;
+                        case 'seatsLoc':
+                            scope.time = false;
+                            scope.instr = false;
+                            scope.seatsLoc = true;
+                            scope.all = false;
+                            break;
+                        case 'all':
+                            scope.time = true;
+                            scope.instr = true;
+                            scope.seatsLoc = true;
+                            scope.all = true;
+                    }
+                }
+            }
+        }
+    })
 ;

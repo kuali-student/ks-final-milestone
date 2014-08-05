@@ -1,0 +1,45 @@
+.kscr-Search-details-header {
+  .util-Grid;
+  border-top: 1px solid @bodyColorDark;
+  border-right: 1px solid @bodyColorDark;
+  border-bottom: 1px solid @bodyColorDark;
+  margin-bottom: 1rem;
+}
+
+.kscr-Search-details-tab-container {
+  .kscr-Search-details-tab-container(1);
+  &--wide {
+    .kscr-Search-details-tab-container(2);
+  }
+}
+
+.kscr-Search-details-tab-container(@flex) {
+  .util-Grid-cell(@flex);
+  border-left: 1px solid @bodyColorDark;
+}
+
+.kscr-Search-details-tab {
+  text-transform: uppercase;
+  font-weight: bold;
+  padding: 0.5rem;
+  text-align: center;
+  margin: 0.1rem;
+  &--selected {
+    color: @black;
+    background-color: @bodyColorDark;
+  }
+}
+
+.kscr-Search-details-section {
+  color: @courseSearchDetailTextColor;
+  background-color: @courseSearchDetailBackgroundColor;
+  padding: 1rem;
+  margin: 0.1rem 0 0.1rem 0;
+}
+
+/* Hide in wide format */
+@media screen and (min-width: @wideFormatMin) {
+  .kscr-Search-details-list {
+    display: none;
+  }
+}

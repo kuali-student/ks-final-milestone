@@ -175,23 +175,16 @@
   }
 
   .kscr-Search-results {
-    margin-bottom: 1rem;
-  }
-}
-
-// mid format styling
-@media screen and (max-width: @midFormatMax) {
-  .kscr-Search-results {
-    margin: 2.5rem 1rem 0 1rem;
-  }
-
-  .kscr-SearchDetails-activityOfferings .kscr-Search-results-table {
-    display: none;
+    margin: 0 1rem 1rem 0;
   }
 }
 
 // large format styling
 @media screen and (min-width: @largeFormatMin) {
+  .kscr-Search-results {
+    margin: 2.5rem 1rem 0 1rem;
+  }
+
   .kscr-Search-results-container {
     .util-Grid;
   }
@@ -202,5 +195,12 @@
 
   .kscr-Search-results-list {
     display: none;
+  }
+}
+
+// wide format styling
+@media screen and (min-width: @wideFormatMin) {
+  .kscr-Search-results {
+    margin: 0 1rem 1rem 0;
   }
 }

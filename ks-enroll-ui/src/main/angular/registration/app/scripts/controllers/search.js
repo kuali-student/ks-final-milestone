@@ -1,13 +1,15 @@
 'use strict';
 
 angular.module('regCartApp')
-    .controller('SearchCtrl', ['$scope', '$filter', '$state', 'SearchService', 'SEARCH_FACETS', function SearchCtrl($scope, $filter, $state, SearchService, SEARCH_FACETS) {
+    .controller('SearchCtrl', ['$scope', '$rootScope', '$filter', '$state', 'SearchService', 'SEARCH_FACETS',
+    function SearchCtrl($scope, $rootScope, $filter, $state, SearchService, SEARCH_FACETS) {
 
         $scope.facets = SEARCH_FACETS; // Facet definitions
 
         $scope.searchCriteria = null; // Criteria used to generate the search results.
         $scope.searchResults = [];    // Results from the last search request.
         $scope.filteredResults = [];  // Results that have been filtered through the facets.
+        $rootScope.hideForm = false;  // Shows the search form in mobile view
 
         $scope.$on('termIdChanged', function() {
             var criteria = $scope.searchCriteria;

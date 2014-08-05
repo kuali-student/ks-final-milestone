@@ -6,7 +6,7 @@ angular.module('regCartApp')
      The search-list directive displays a generic list of search results based on the
      columns set by the search-column directive.
      */
-    .directive('searchList', ['$filter', function($filter) {
+    .directive('searchList', ['$filter', '$animate', function($filter, $animate) {
         return {
             restrict: 'E',
             require: '^searchResults',
@@ -22,9 +22,11 @@ angular.module('regCartApp')
                 defaultField: '@',
                 preprocessor: '@',
                 onClick: '@',
-                prefix: '@'
+                prefix: '@',
+                showMobile: '@'
             },
             link: function(scope) {
+                $animate.enabled(false, angular.element(document.querySelector('.kscr-Search-row')));
 
                 if (angular.isUndefined(scope.searchResults) && scope.preprocessor) {
                     scope.searchResults = $filter(scope.preprocessor)(scope.searchData);
