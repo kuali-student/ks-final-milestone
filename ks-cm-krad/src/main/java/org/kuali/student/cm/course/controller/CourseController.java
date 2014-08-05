@@ -15,6 +15,15 @@
  */
 package org.kuali.student.cm.course.controller;
 
+import org.kuali.rice.core.api.exception.RiceRuntimeException;
+import org.kuali.rice.krad.UserSessionUtils;
+import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.exception.ValidationException;
+import org.kuali.rice.krad.maintenance.MaintenanceDocument;
+
+import org.kuali.student.cm.common.util.CMUtils;
+import org.kuali.student.common.ui.krad.rules.rule.event.ReturnToPreviousNodeDocumentEvent;
+
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
@@ -140,9 +149,6 @@ public class CourseController extends CourseRuleEditorController {
      * This method creates the form and in the case of a brand new proposal where this method is called after the user uses
      * the Initial Create Proposal screen, this method will also set the document type name based on the request parameter
      * {@link org.kuali.student.cm.course.controller.CourseController.UrlParams.USE_CURRICULUM_REVIEW}
-     *
-     * @param request
-     * @return a new instance of a MaintenanceDocumentForm
      */
     @Override
     protected MaintenanceDocumentForm createInitialForm(HttpServletRequest request) {
@@ -272,6 +278,7 @@ public class CourseController extends CourseRuleEditorController {
         createDocument(form);
 
         CourseInfoWrapper wrapper = (CourseInfoWrapper) form.getDocument().getNewMaintainableObject().getDataObject();
+        CourseMaintainable viewHelper = (CourseMaintainable) form.getDocument().getNewMaintainableObject();
 
         /*
          * Check for copy params.
@@ -283,13 +290,17 @@ public class CourseController extends CourseRuleEditorController {
              * entities are created when the data is persisted.
              */
             try {
-                ((CourseMaintainable) form.getDocument().getNewMaintainableObject())
-                        .populateCourseAndReviewData(copyCluId, wrapper, false);
+                //  Populate the Course and Rule data.
+                viewHelper.populateCourseAndReviewData(copyCluId, wrapper, false);
+                //  Clear out the IDs and other data so that new entities are created on persist.
+                viewHelper.resetDataObject(wrapper);
+                wrapper.getCourseInfo().setCourseTitle("Copy of " + wrapper.getCourseInfo().getCourseTitle());
             } catch (Exception e) {
-                //  !!! Handle Me!
-                LOG.error("Couldn't find a course for id {}", copyCluId);
+                String msg = String.format("Unable to populate data from course id %s.", copyCluId);
+                LOG.error(msg, e);
+                msg = "The system encountered an error. Please try copying again. If the error persists contact your administrator.";
+                GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, msg);
             }
-            ((CourseMaintainable) form.getDocument().getNewMaintainableObject()).resetDataObject(wrapper);
         } else {
             /*
              * If proposal ID is present then load the proposal and course data then reset it so that new entities
@@ -341,7 +352,7 @@ public class CourseController extends CourseRuleEditorController {
 //                    form.getDialogManager().resetDialogStatus(dialog);
                     return modelAndView;
                 }
-            }else{
+            } else {
                 return showDialog(dialog, form, request, response);
             }
         }
@@ -418,7 +429,6 @@ public class CourseController extends CourseRuleEditorController {
         }
 
         bindValidationErrorsToPath(validationResultInfoList);
-
     }
 
     /**

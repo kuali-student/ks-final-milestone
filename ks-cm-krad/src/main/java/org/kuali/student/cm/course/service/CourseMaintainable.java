@@ -74,7 +74,7 @@ public interface CourseMaintainable extends CMMaintainable {
     /**
      * Resets IDs, metaData, versionNumber and whatnot in the dataObject so new entities are created on save.
      *
-     * @param courseInfoWrapper  The courseInfoWrapper to reset.
+     * @param courseInfoWrapper  The CourseInfoWrapper to reset.
      */
     public void resetDataObject(CourseInfoWrapper courseInfoWrapper);
 

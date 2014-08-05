@@ -895,6 +895,26 @@ public class CourseMaintainableImpl extends RuleEditorMaintainableImpl implement
     @Override
     public void resetDataObject(CourseInfoWrapper courseInfoWrapper) {
         courseInfoWrapper.setRefObjectId(null);
+
+        //  These items should not carry over.
+        courseInfoWrapper.getCourseInfo().setEffectiveDate(null);
+
+        //  Outcomes / credit options
+        courseInfoWrapper.getCourseInfo().getCreditOptions().clear();
+        courseInfoWrapper.getCreditOptionWrappers().clear();
+        initializeOutcome(courseInfoWrapper);
+
+        //  Start term
+        courseInfoWrapper.getCourseInfo().setStartTerm(null);
+
+        //  Curriculum Oversight / UnitContentsOwner
+        courseInfoWrapper.getCourseInfo().getUnitsContentOwner().clear();
+        courseInfoWrapper.getUnitsContentOwner().clear();
+        //  !!! This is duplicate code. !!!  Needs an initialize method.
+        CourseCreateUnitsContentOwner newCourseCreateUnitsContentOwner = new CourseCreateUnitsContentOwner();
+        newCourseCreateUnitsContentOwner.getRenderHelper().setNewRow(true);
+        courseInfoWrapper.getUnitsContentOwner().add(newCourseCreateUnitsContentOwner);
+
         resetCourse(courseInfoWrapper.getCourseInfo());
         resetRequisites(courseInfoWrapper);
     }
@@ -917,13 +937,15 @@ public class CourseMaintainableImpl extends RuleEditorMaintainableImpl implement
      * @param course The CourseInfo to reset.
      */
     protected void resetCourse(CourseInfo course) {
+        //  Clobber the IDs
         course.setId(null);
-        course.setStateKey(DtoConstants.STATE_DRAFT);
         course.setVersion(null);
-        course.setEffectiveDate(null);
         course.setMeta(null);
-        course.getCreditOptions().clear();
 
+        //  Fix the state. Courses start in state draft.
+        course.setStateKey(DtoConstants.STATE_DRAFT);
+
+        //  Clobber the IDs in these collections.
         for (AttributeInfo attribute : course.getAttributes()) {
             attribute.setId(null);
         }
@@ -942,8 +964,10 @@ public class CourseMaintainableImpl extends RuleEditorMaintainableImpl implement
 
         for (FormatInfo format : course.getFormats()) {
             format.setId(null);
+            format.setMeta(null);
             for (ActivityInfo activity : format.getActivities()) {
                 activity.setId(null);
+                activity.setMeta(null);
             }
         }
 
@@ -1379,7 +1403,6 @@ public class CourseMaintainableImpl extends RuleEditorMaintainableImpl implement
         if (!isCourseView){
             updateProposalReviewModel(reviewData, shouldRepopulateRemoteData);
         }
-
     }
 
     /**
@@ -2297,7 +2320,6 @@ public class CourseMaintainableImpl extends RuleEditorMaintainableImpl implement
         if (courseWrapper.getAdministeringOrganizations().isEmpty()) {
             courseWrapper.getAdministeringOrganizations().add(new OrganizationInfoWrapper());
         }
-
 
         if (!isCourseView) {
             populateCollaborators();
