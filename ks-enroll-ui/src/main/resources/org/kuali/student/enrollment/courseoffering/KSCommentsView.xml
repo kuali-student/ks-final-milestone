@@ -70,7 +70,7 @@
             <list>
                 <bean parent="Uif-VerticalBoxSection">
                     <property name="header">
-                        <bean parent="Uif-HeaderOne" p:headerText="Comments"
+                        <bean parent="Uif-HeaderOne" p:headerText="Comments" p:render="@{canAddComment}"
                               p:additionalCssClasses="ks-commentHeader"/>
                     </property>
                     <property name="items">
