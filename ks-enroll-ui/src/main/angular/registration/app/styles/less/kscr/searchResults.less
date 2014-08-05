@@ -38,6 +38,11 @@
   font-weight: bold;
   background-color: @cardBorderColor;
   padding: 1rem @leftRightPadding;
+  &-content {
+    display: flex;
+    justify-content: space-between;
+  }
+
 }
 
 .kscr-Search-results-cell {
@@ -54,7 +59,6 @@
 
 .kscr-Search-results-sortIcon {
   background: url("../images/icons/icon-sort.png") no-repeat center center;
-  float: right;
   height: 1.2rem;
   margin: 0.5rem 0 0 0.5rem;
   padding: 0 0 0 1.4rem;
@@ -69,10 +73,6 @@
 
 .kscr-Search-results-table-head {
   height: 3rem;
-}
-
-.kscr-Search--creditOptions div {
-  display: inline-flex;
 }
 
 .kscr-Search-results-card {

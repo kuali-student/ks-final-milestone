@@ -17,15 +17,17 @@
     <thead class="kscr-Search-results-table-head">
         <tr>
             <th class="kscr-Search-results-indicator-header" ng-class="{'kscr-Search-results-indicator-header--selected': predicate === '{{searchColumns[0].field}}'}"></th>
-            <th class="kscr-Search-results-header kscr-Search--{{searchColumn.field}}" ng-repeat="searchColumn in searchColumns"
+            <th class="kscr-Search-results-header" ng-repeat="searchColumn in searchColumns"
                 ng-class="{'kscr-Search-results--selected': $parent.predicate === '{{searchColumn.field}}',
                            'kscr-Search-results--first' : $index === 0}"
                 ng-click="sortColumn(searchColumn)"
                 ng-hide="searchColumn.optional && !hasData('{{searchColumn.field}}')">
-                <div class="kscr-Search-result-column">{{searchColumn.name}}
+                <div class="kscr-Search-results-header-content">
+                    <div class="kscr-Search-result-column">{{searchColumn.name}}</div>
                     <i id="sort_selector_{{searchColumn.name}}" class="kscr-Search-results-sortIcon" ng-if="searchColumn.sortable"
                        ng-class="{'kscr-Search-results-sortIcon--up': $parent.reverse && ($parent.predicate === '{{searchColumn.field}}'),
-                                  'kscr-Search-results-sortIcon--down': !$parent.reverse && ($parent.predicate === '{{searchColumn.field}}')}"></i>
+                                  'kscr-Search-results-sortIcon--down': !$parent.reverse && ($parent.predicate === '{{searchColumn.field}}')}">
+                    </i>
                 </div>
             </th>
         </tr>
