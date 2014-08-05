@@ -105,21 +105,25 @@ function deleteComment(baseUrl, controllerUrl, elem) {
         type: "POST",
         data: formData,
         success: function (data, textStatus, jqXHR) {
-            jQuery(rowContainer).remove();
-            jQuery("#Comment_list_Header").find("span").text("Comments(" + data + ")");
-            jQuery('[id^="KS-collection-rowId_line"]').each(function(){
-                jQuery(this).find("button").each(function(){
-                    var submitData = jQuery(this).data('submit_data');
-                    var i = parseInt(submitData['actionParameters[selectedLineIndex]']);
-                    if(i > index){
-                        submitData['actionParameters[selectedLineIndex]'] = i - 1;
-                        jQuery(this).attr('data-submit_data',JSON.stringify(submitData));
-                    }
+            if(data.hasErrors){
+                processErrors(data, 'KS-collection-rowId_line'+index, baseUrl);
+            }else{
+                jQuery(rowContainer).remove();
+                jQuery("#Comment_list_Header").find("span").text("Comments(" + data.count + ")");
+                jQuery('[id^="KS-collection-rowId_line"]').each(function(){
+                    jQuery(this).find("button").each(function(){
+                        var submitData = jQuery(this).data('submit_data');
+                        var i = parseInt(submitData['actionParameters[selectedLineIndex]']);
+                        if(i > index){
+                            submitData['actionParameters[selectedLineIndex]'] = i - 1;
+                            jQuery(this).attr('data-submit_data',JSON.stringify(submitData));
+                        }
+                    });
                 });
-            });
+            }
         },
         error: function (jqXHR, status, error) {
-            console.log("error occured");
+            processException(jqXHR, 'KS-collection-rowId_line'+index, baseUrl);
         }
     });
 }
@@ -137,14 +141,49 @@ function updateComment(baseUrl, controllerUrl, elem) {
         type: "POST",
         data: formData,
         success: function (data, textStatus, jqXHR) {
-            toggleCommentButtons(elem);
-            jQuery("#KS-CommentField_UI_ID_line" + index ).text(data.commentTextUI);
-            jQuery("#lastEditor-container-id_line" + index).show();
-            jQuery("#lastEditor-name-id_line" + index).text(data.lastEditorName);
-            jQuery("#lastEditor-date-id_line" + index).text(data.lastEditedDate);
+            if(data.hasErrors){
+                 processErrors(data, 'KS-collection-rowId_line'+index, baseUrl);
+            }else{
+                toggleCommentButtons(elem);
+                jQuery("#KS-CommentField_UI_ID_line" + index ).text(data.commentWrapper.commentTextUI);
+                jQuery("#lastEditor-container-id_line" + index).show();
+                jQuery("#lastEditor-name-id_line" + index).text(data.commentWrapper.lastEditorName);
+                jQuery("#lastEditor-date-id_line" + index).text(data.commentWrapper.lastEditedDate);
+            }
         },
         error: function (jqXHR, status, error) {
-            console.log("error occured");
+            processException(jqXHR, 'KS-collection-rowId_line'+index, baseUrl);
         }
     });
+}
+
+function processException(request, parentId, baseUrl){
+    // global errors on form
+    var globalErrorsUl = jQuery('<ul id="pageValidationList" class="uif-validationMessagesList" aria-labelledby="pageValidationHeader" />');
+
+        var globalErrorLi = createGlobalErrorLi(request.responseText, baseUrl, parentId, 1);
+        jQuery(globalErrorsUl).append(globalErrorLi);
+
+    // global errors on form
+    var globalErrorsDiv = createGlobalErrorsDiv(baseUrl, "KS-Comment-pageId", 1, globalErrorsUl);
+    jQuery("#KS-Comment-pageId" + " header:eq(0)").after(globalErrorsDiv);
+}
+
+function processErrors(data, parentId, baseUrl){
+    // global errors on form
+    var globalErrorsUl;
+    if(data.messageMap.errorCount > 1) {
+        globalErrorsUl = jQuery('<ul id="pageValidationList" class="uif-validationMessagesList" aria-labelledby="pageValidationHeader" />');
+    } else {
+        globalErrorsUl = jQuery('<ul id="pageValidationList" class="uif-validationMessagesList uif-pageValidationMessage-single" aria-labelledby="pageValidationHeader" />');
+    }
+
+    jQuery.each(data.translatedErrorMessages, function(key, value){
+        var globalErrorLi = createGlobalErrorLi(value[0], baseUrl, parentId, data.messageMap.errorCount);
+        jQuery(globalErrorsUl).append(globalErrorLi);
+    });
+
+    // global errors on form
+    var globalErrorsDiv = createGlobalErrorsDiv(baseUrl, "KS-Comment-pageId", data.messageMap.errorCount, globalErrorsUl);
+    jQuery("#KS-Comment-pageId" + " header:eq(0)").after(globalErrorsDiv);
 }
