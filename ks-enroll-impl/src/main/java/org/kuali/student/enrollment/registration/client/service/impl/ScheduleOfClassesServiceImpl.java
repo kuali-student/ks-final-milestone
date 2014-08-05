@@ -644,7 +644,7 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
                 hmActivityOfferings.put(aoId, ao);
             } else if (hmActivityOfferings.containsKey(aoId)) {
                 // reg group
-                if (!hmActivityOfferings.get(aoId).getRegGroupInfos().containsKey(rgId)) {
+                if (!hmActivityOfferings.get(aoId).getRegGroupInfos().containsKey(rgId) && rgId != null) {
                     hmActivityOfferings.get(aoId).getRegGroupInfos().put(rgId, rgCode);
                 }
                 // schedule components: if it's the same (based on time/location) then do nothing
@@ -675,61 +675,70 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
         }
 
         // setting AOs
+        courseSearchResult.setRegGroupsOffered(false);
         if (!hmActivityOfferings.isEmpty()) {
             List<String> aoIDs = new ArrayList<>();
-            for (String key: hmActivityOfferings.keySet()) {
-                aoIDs.add(hmActivityOfferings.get(key).getActivityOfferingId());
-            }
-
-            // getting instructor info for AOs
-            Map<String, List<InstructorSearchResult>> hmAOInstructors = CourseRegistrationAndScheduleOfClassesUtil.searchForInstructorsByAoIds(aoIDs, contextInfo);
-            for (String key: hmActivityOfferings.keySet()) {
-                hmActivityOfferings.get(key).setInstructors(hmAOInstructors.get(key));
-            }
-
-            // Creating ActivityOfferingTypesSearchResult types
-            Map<String, ActivityOfferingTypesSearchResult> hmActivityOfferingTypes = new HashMap<>();
-            for (String key: hmActivityOfferings.keySet()) {
-                StudentScheduleActivityOfferingResult activityOffering = hmActivityOfferings.get(key);
-                if (!hmActivityOfferingTypes.containsKey(activityOffering.getActivityOfferingType())) {
-                    ActivityOfferingTypesSearchResult activityOfferingType = new ActivityOfferingTypesSearchResult();
-                    activityOfferingType.setActivityOfferingType(activityOffering.getActivityOfferingType());
-                    activityOfferingType.setActivityOfferingTypeName(activityOffering.getActivityOfferingTypeName());
-                    activityOfferingType.setActivityOfferingCode(activityOffering.getActivityOfferingTypeName().substring(0, 3));
-                    List<StudentScheduleActivityOfferingResult> activityOfferings = new ArrayList<>();
-                    activityOfferings.add(activityOffering);
-                    activityOfferingType.setActivityOfferings(activityOfferings);
-                    hmActivityOfferingTypes.put(activityOffering.getActivityOfferingType(), activityOfferingType);
-                } else {
-                    hmActivityOfferingTypes.get(activityOffering.getActivityOfferingType()).getActivityOfferings().add(activityOffering);
+            for (String key : hmActivityOfferings.keySet()) {
+                // checking if there are offered reg groups for given CO, if no RGs for given AO -> remove that AO
+                if (!hmActivityOfferings.get(key).getRegGroupInfos().isEmpty()) {
+                    aoIDs.add(key);
+                    if (!courseSearchResult.isRegGroupsOffered()) {
+                        courseSearchResult.setRegGroupsOffered(true);
+                    }
                 }
             }
 
-            List<ActivityOfferingTypesSearchResult> activityOfferingTypes = new ArrayList<>();
-            List<String> aoTypes = new ArrayList<>();
-            for (String key: hmActivityOfferingTypes.keySet()) {
-                aoTypes.add(key);
+            if (!aoIDs.isEmpty()) {
+                // getting instructor info for AOs
+                Map<String, List<InstructorSearchResult>> hmAOInstructors = CourseRegistrationAndScheduleOfClassesUtil.searchForInstructorsByAoIds(aoIDs, contextInfo);
+                for (String key : aoIDs) {
+                    hmActivityOfferings.get(key).setInstructors(hmAOInstructors.get(key));
+                }
+
+                //See if there are rules on the AO
+                for(String key : aoIDs) {
+                    List<ReferenceObjectBinding> referenceObjectBindings = CourseRegistrationAndScheduleOfClassesUtil.getRuleManagementService().findReferenceObjectBindingsByReferenceObject(CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING, key);
+                    for(ReferenceObjectBinding referenceObjectBinding: referenceObjectBindings) {
+                        String requisite = CourseRegistrationAndScheduleOfClassesUtil.getRuleManagementService().translateNaturalLanguageForObject("KS-KRMS-NL-USAGE-1005", "agenda", referenceObjectBinding.getKrmsObjectId(), "en");
+                        hmActivityOfferings.get(key).getRequisites().add(requisite);
+                    }
+                }
+
+                // Creating ActivityOfferingTypesSearchResult types
+                Map<String, ActivityOfferingTypesSearchResult> hmActivityOfferingTypes = new HashMap<>();
+                for (String key : aoIDs) {
+                    StudentScheduleActivityOfferingResult activityOffering = hmActivityOfferings.get(key);
+                    if (!hmActivityOfferingTypes.containsKey(activityOffering.getActivityOfferingType())) {
+                        ActivityOfferingTypesSearchResult activityOfferingType = new ActivityOfferingTypesSearchResult();
+                        activityOfferingType.setActivityOfferingType(activityOffering.getActivityOfferingType());
+                        activityOfferingType.setActivityOfferingTypeName(activityOffering.getActivityOfferingTypeName());
+                        activityOfferingType.setActivityOfferingCode(activityOffering.getActivityOfferingTypeName().substring(0, 3));
+                        List<StudentScheduleActivityOfferingResult> activityOfferings = new ArrayList<>();
+                        activityOfferings.add(activityOffering);
+                        activityOfferingType.setActivityOfferings(activityOfferings);
+                        hmActivityOfferingTypes.put(activityOffering.getActivityOfferingType(), activityOfferingType);
+                    } else {
+                        hmActivityOfferingTypes.get(activityOffering.getActivityOfferingType()).getActivityOfferings().add(activityOffering);
+                    }
+                }
+
+                // Creating AO Types
+                List<ActivityOfferingTypesSearchResult> activityOfferingTypes = new ArrayList<>();
+                List<String> aoTypes = new ArrayList<>();
+                for (String key: hmActivityOfferingTypes.keySet()) {
+                    aoTypes.add(key);
+                }
+                // sorting over AO types
+                CourseRegistrationAndScheduleOfClassesUtil.sortActivityOfferingTypeKeyList(aoTypes, contextInfo);  // sort the activity offerings type keys by priority order
+                for (String key: aoTypes) {
+                    activityOfferingTypes.add(hmActivityOfferingTypes.get(key));
+                }
+                courseSearchResult.setActivityOfferingTypes(activityOfferingTypes);
             }
-            // sorting over AO types
-            CourseRegistrationAndScheduleOfClassesUtil.sortActivityOfferingTypeKeyList(aoTypes, contextInfo);  // sort the activity offerings type keys by priority order
-            for (String key: aoTypes) {
-                activityOfferingTypes.add(hmActivityOfferingTypes.get(key));
-            }
-            courseSearchResult.setActivityOfferingTypes(activityOfferingTypes);
         }
 
         // setting prerequisites
         courseSearchResult.setPrerequisites(searchForPrerequisitesByCourseOffering(courseOfferingId));
-
-        //See if there are rules on the AO
-        for(Map.Entry<String, StudentScheduleActivityOfferingResult> aoEntry:hmActivityOfferings.entrySet()){
-            List<ReferenceObjectBinding> referenceObjectBindings = CourseRegistrationAndScheduleOfClassesUtil.getRuleManagementService().findReferenceObjectBindingsByReferenceObject(CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING, aoEntry.getKey());
-            for(ReferenceObjectBinding referenceObjectBinding: referenceObjectBindings) {
-                String requisite = CourseRegistrationAndScheduleOfClassesUtil.getRuleManagementService().translateNaturalLanguageForObject("KS-KRMS-NL-USAGE-1005", "agenda", referenceObjectBinding.getKrmsObjectId(), "en");
-                aoEntry.getValue().getRequisites().add(requisite);
-            }
-        }
-
 
         return courseSearchResult;
     }
@@ -1265,9 +1274,11 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
         }
         ao.setMaxWaitListSize(aoWlMaxSize == null ? null : Integer.parseInt(aoWlMaxSize));
         ao.setWaitListSize(aoWlCount == null ? null : Integer.parseInt(aoWlCount));
-        // reg group
+        // reg group : may be null if there is no offered rg for ao
         Map<String, String> rgGroups = new HashMap<>();
-        rgGroups.put(rgId, rgCode);
+        if (rgId != null) {
+            rgGroups.put(rgId, rgCode);
+        }
         ao.setRegGroupInfos(rgGroups);
         // schedule components
         List<ActivityOfferingScheduleComponentResult> scheduleComponents = new ArrayList<>();

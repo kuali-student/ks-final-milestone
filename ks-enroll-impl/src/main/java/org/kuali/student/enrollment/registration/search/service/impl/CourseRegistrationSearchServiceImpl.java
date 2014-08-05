@@ -1466,6 +1466,7 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
                         "AND rg2ao.LUILUI_RELTN_TYPE = '" + LuiServiceConstants.LUI_LUI_RELATION_REGISTERED_FOR_VIA_RG_TO_AO_TYPE_KEY + "' " +
                         "LEFT OUTER JOIN KSEN_LUI rg " +
                         "ON rg.ID = rg2ao.LUI_ID " +
+                        "AND rg.LUI_STATE = '" + LuiServiceConstants.REGISTRATION_GROUP_OFFERED_STATE_KEY + "' " +
                         // WL for AO
                         "LEFT OUTER JOIN KSEN_CWL_ACTIV_OFFER cwl2ao " +
                         "ON cwl2ao.ACTIV_OFFER_ID = ao.id " +

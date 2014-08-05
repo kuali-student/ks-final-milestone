@@ -28,7 +28,7 @@ import java.util.Map;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "CourseOfferingDetailsSearchResult", propOrder = {
         "courseOfferingId", "courseOfferingCode", "courseOfferingNumber", "courseOfferingSubjectArea", "courseOfferingDesc",
-        "courseOfferingLongName", "creditOptions", "gradingOptions",
+        "courseOfferingLongName", "regGroupsOffered", "creditOptions", "gradingOptions",
         "crossListedCourses", "prerequisites", "activityOfferingTypes"})
 public class CourseOfferingDetailsSearchResult {
     private String courseOfferingId;
@@ -37,6 +37,7 @@ public class CourseOfferingDetailsSearchResult {
     private String courseOfferingNumber;
     private String courseOfferingSubjectArea;
     private String courseOfferingLongName;
+    private boolean regGroupsOffered;
     private List<String> creditOptions;
     private Map<String, String> gradingOptions;
     private List<CourseOfferingLimitedInfoSearchResult> crossListedCourses;
@@ -90,6 +91,10 @@ public class CourseOfferingDetailsSearchResult {
     public void setCourseOfferingLongName(String courseOfferingLongName) {
         this.courseOfferingLongName = courseOfferingLongName;
     }
+
+    public boolean isRegGroupsOffered() { return regGroupsOffered; }
+
+    public void setRegGroupsOffered(boolean regGroupsOffered) { this.regGroupsOffered = regGroupsOffered; }
 
     public List<String> getCreditOptions() {
         return creditOptions;
