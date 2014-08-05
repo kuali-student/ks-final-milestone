@@ -18,6 +18,17 @@ module.exports = function (grunt) {
     // Define the configuration for all the tasks
     grunt.initConfig({
 
+        bowercopy: {
+            options: {
+                srcPrefix: 'app/bower_components',
+                destPrefix: 'dist/bower_components',
+                report: false
+            },
+            build: {
+                src: 'bootstrap/dist/**/*'
+            }
+        },
+
         // Project settings
         yeoman:{
             // configurable paths
@@ -443,6 +454,7 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-less');
     grunt.loadNpmTasks('grunt-connect-proxy');
     grunt.loadNpmTasks('grunt-json-minify');
+    grunt.loadNpmTasks('grunt-bowercopy');
 
     grunt.registerTask('serve', function (target) {
         if (target === 'dist') {
@@ -478,6 +490,7 @@ module.exports = function (grunt) {
         'checkDependencies',
         'karma',
         'clean:dist',
+        'bowercopy',
         'bower-install',
         'less',
         'useminPrepare',

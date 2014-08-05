@@ -5,6 +5,7 @@
   "devDependencies": {
     "grunt": "~0.4.1",
     "grunt-autoprefixer": "~0.4.0",
+    "grunt-bowercopy": "~1.1.0",
     "grunt-bower-install": "~0.7.0",
     "grunt-check-dependencies": "~0.6.0",
     "grunt-concurrent": "~0.4.1",
