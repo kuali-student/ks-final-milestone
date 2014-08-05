@@ -70,4 +70,11 @@ public interface CourseMaintainable extends CMMaintainable {
     public List<CluInformation> getCoursesInRange(MembershipQueryInfo membershipQuery);
 
     public void populateCourseAndReviewData(String courseId, CourseInfoWrapper courseWrapper, boolean isCourseView ) throws Exception;
+
+    /**
+     * Resets IDs, metaData, versionNumber and whatnot in the dataObject so new entities are created on save.
+     *
+     * @param courseInfoWrapper  The courseInfoWrapper to reset.
+     */
+    public void resetDataObject(CourseInfoWrapper courseInfoWrapper);
 }

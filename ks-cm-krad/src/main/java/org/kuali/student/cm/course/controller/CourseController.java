@@ -169,22 +169,6 @@ public class CourseController extends CourseRuleEditorController {
                     ? CurriculumManagementConstants.DocumentTypeNames.CourseProposal.COURSE_CREATE_ADMIN
                     : CurriculumManagementConstants.DocumentTypeNames.CourseProposal.COURSE_CREATE);
         }
-
-        /*
-         * Copy from CLU and copy from Proposal are mutually exclusive. Copy from CLU takes precedence.
-         *
-         * Store the copy IDs as action parameters in the form
-         */
-        String copyCluId = request.getParameter(UrlParams.COPY_CLU_ID);
-        if (StringUtils.isNotBlank(copyCluId)) {
-            form.getActionParameters().put(UrlParams.COPY_CLU_ID, copyCluId);
-        } else {
-            String copyProposalId = request.getParameter(UrlParams.COPY_PROPOSAL_ID);
-            if (StringUtils.isNotBlank(copyProposalId)) {
-                form.getActionParameters().put(UrlParams.COPY_PROPOSAL_ID, copyProposalId);
-            }
-        }
-
         return form;
     }
 
@@ -240,151 +224,6 @@ public class CourseController extends CourseRuleEditorController {
                 .setUseReviewProcess(!ArrayUtils.contains(CurriculumManagementConstants.DocumentTypeNames.ADMIN_DOC_TYPE_NAMES, form.getDocTypeName()));
         wrapper.getUiHelper()
                 .setCurriculumSpecialistUser(CourseProposalUtil.isUserCurriculumSpecialist());
-
-        /*
-         * Check for copy params.
-         */
-        String cluId = form.getActionParamaterValue(UrlParams.COPY_CLU_ID);
-
-        //  !!! Test data. Remove me.
-        //cluId = "CLUID-PHYS261-200308000000";  //  PHYS261 has Requisites
-        //cluId = "467e2abb-55c5-490f-aec4-fc4df3167e2d";  //  HIST205 has LOs
-        //cluId = "CLUID-CHEM641-198001000000";  //  CHEM641 is joint offering
-        if (StringUtils.isNotBlank(cluId)) {
-            /*
-             * If a CLU id is present then load the Course and all of the related data then reset the data so that new
-             * entities are created when the data is persisted.
-             */
-            try {
-                ((CourseMaintainable) ((MaintenanceDocumentForm) form).getDocument().getNewMaintainableObject())
-                        .populateCourseAndReviewData(cluId, wrapper, false);
-            } catch (Exception e) {
-                //  !!! Handle Me!
-                LOG.error("Couldn't find a course for id {}", cluId);
-            }
-            resetDataObject(wrapper);
-        } else {
-            /*
-             * If proposal ID is present then load the proposal and course data then reset it so that new entities
-             * are created on save.
-             */
-            String proposalId = form.getActionParamaterValue(UrlParams.COPY_PROPOSAL_ID);
-            if (StringUtils.isNotBlank(proposalId)) {
-                wrapper.getProposalInfo().setName("This is a copy proposal");
-            }
-        }
-    }
-
-    public void resetDataObject(CourseInfoWrapper courseInfoWrapper) {
-        courseInfoWrapper.setRefObjectId(null);
-
-        resetCourse(courseInfoWrapper.getCourseInfo());
-        resetRequisites(courseInfoWrapper);
-    }
-
-    public void resetRequisites(CourseInfoWrapper courseInfoWrapper) {
-        for (AgendaEditor agenda : courseInfoWrapper.getAgendas()) {
-            agenda.setContextId(null);
-            agenda.setFirstItemId(null);
-            agenda.setId(null);
-            agenda.setVersionNumber(null);
-            agenda.setName(null);
-
-            for (RuleEditor re : agenda.getRuleEditors().values()) {
-                re.setId(null);
-                re.setVersionNumber(null);
-                re.setName(null);
-                re.setPropId(null);
-
-                PropositionEditor pe = re.getPropositionEditor();
-                if (pe != null) {
-                    pe.setId(null);
-                    pe.setRuleId(null);
-                    pe.setVersionNumber(null);
-
-                    for (PropositionParameterEditor parameter : pe.getParameters()) {
-                        parameter.setId(null);
-                        parameter.setVersionNumber(null);
-                        parameter.setPropId(null);
-                    }
-
-                    TermEditor te = pe.getTerm();
-                    te.setId(null);
-                    te.setVersionNumber(null);
-
-                    for (TermParameterEditor parameter : te.getEditorParameters()) {
-                        parameter.setId(null);
-                        parameter.setVersionNumber(null);
-                        parameter.setTermId(null);
-                    }
-                }
-            }
-        }
-    }
-
-    /**
-     * !!! Put this in a better location.
-     *
-     * Resets a CourseInfo so that it can be persisted as a new entity.
-     *
-     * @param course The CourseInfo to reset.
-     */
-    public void resetCourse(CourseInfo course) {
-        course.setId(null);
-        course.setStateKey(DtoConstants.STATE_DRAFT);
-        course.setVersion(null);
-        course.setEffectiveDate(null);
-        course.setMeta(null);
-        course.getCreditOptions().clear();
-
-        for (AttributeInfo attribute : course.getAttributes()) {
-            attribute.setId(null);
-        }
-
-        for (CourseJointInfo joint : course.getJoints()) {
-            joint.setRelationId(null);
-        }
-
-        for (LoDisplayInfo lo : course.getCourseSpecificLOs()) {
-            recursivelyClobberLoIds(lo);
-        }
-
-        for (CourseCrossListingInfo crossListing : course.getCrossListings()) {
-            crossListing.setId(null);
-        }
-
-        for (FormatInfo format : course.getFormats()) {
-            format.setId(null);
-            for (ActivityInfo activity : format.getActivities()) {
-                activity.setId(null);
-            }
-        }
-
-        for (AffiliatedOrgInfo orgInfo : course.getExpenditure().getAffiliatedOrgs()) {
-            orgInfo.setId(null);
-        }
-
-        for (CourseFeeInfo fee : course.getFees()) {
-            fee.setId(null);
-        }
-
-        for (CourseRevenueInfo revenue : course.getRevenues()) {
-            revenue.setId(null);
-            for (AffiliatedOrgInfo orgInfo : revenue.getAffiliatedOrgs()) {
-                orgInfo.setId(null);
-            }
-        }
-
-        for (CourseVariationInfo variation : course.getVariations()) {
-            variation.setId(null);
-        }
-    }
-
-    public static void recursivelyClobberLoIds(LoDisplayInfo lo) {
-        lo.getLoInfo().setId(null);
-        for (LoDisplayInfo nestedLo : lo.getLoDisplayInfoList()) {
-            recursivelyClobberLoIds(nestedLo);
-        }
     }
 
     /**
@@ -427,6 +266,48 @@ public class CourseController extends CourseRuleEditorController {
             return mv;
         }
         return modelAndView;
+    }
+
+    @Override
+    @RequestMapping(params = "methodToCall=" + KRADConstants.Maintenance.METHOD_TO_CALL_COPY)
+    public ModelAndView maintenanceCopy(@ModelAttribute("KualiForm") MaintenanceDocumentForm form, BindingResult result,
+               HttpServletRequest request, HttpServletResponse response) throws Exception {
+        /*
+         * Just initialize the document here. Calling the super method causes the entire maintainableImpl to get serialized
+         * which is too much overhead for what we need (Start create a new document and prefill the data from an existing model).
+         */
+        createDocument(form);
+
+        CourseInfoWrapper wrapper = (CourseInfoWrapper) form.getDocument().getNewMaintainableObject().getDataObject();
+
+        /*
+         * Check for copy params.
+         */
+        String copyCluId = request.getParameter(UrlParams.COPY_CLU_ID);
+        if (StringUtils.isNotBlank(copyCluId)) {
+            /*
+             * If a CLU id is present then load the Course and all of the related data then reset the data so that new
+             * entities are created when the data is persisted.
+             */
+            try {
+                ((CourseMaintainable) form.getDocument().getNewMaintainableObject())
+                        .populateCourseAndReviewData(copyCluId, wrapper, false);
+            } catch (Exception e) {
+                //  !!! Handle Me!
+                LOG.error("Couldn't find a course for id {}", copyCluId);
+            }
+            ((CourseMaintainable) form.getDocument().getNewMaintainableObject()).resetDataObject(wrapper);
+        } else {
+            /*
+             * If proposal ID is present then load the proposal and course data then reset it so that new entities
+             * are created on save.
+             */
+            String proposalId = form.getActionParamaterValue(UrlParams.COPY_PROPOSAL_ID);
+            if (StringUtils.isNotBlank(proposalId)) {
+                wrapper.getProposalInfo().setName("This is a copy proposal");
+            }
+        }
+        return getUIFModelAndView(form);
     }
 
     /**

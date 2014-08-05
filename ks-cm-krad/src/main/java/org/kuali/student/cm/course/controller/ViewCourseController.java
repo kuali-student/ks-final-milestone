@@ -80,7 +80,7 @@ public class ViewCourseController extends KsUifControllerBase{
             ((CourseMaintainable)form.getViewHelperService()).populateCourseAndReviewData(courseId, courseWrapper, true);
             detailedViewForm.setCourseInfoWrapper(courseWrapper);
 
-        }catch (Exception e){
+        } catch (Exception e) {
             throw new RuntimeException(e);
         }
 
@@ -101,11 +101,9 @@ public class ViewCourseController extends KsUifControllerBase{
         urlParameters.put(UifConstants.UrlParams.PAGE_ID, CurriculumManagementConstants.CourseViewPageIds.CREATE_COURSE);
         urlParameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, KRADConstants.Maintenance.METHOD_TO_CALL_COPY);
         urlParameters.put(KRADConstants.DATA_OBJECT_CLASS_ATTRIBUTE, CourseInfoWrapper.class.getName());
-        urlParameters.put(KRADConstants.RETURN_LOCATION_PARAMETER, CMUtils.getCMHomeUrl() );
+        urlParameters.put(KRADConstants.RETURN_LOCATION_PARAMETER, CMUtils.getCMHomeUrl());
         urlParameters.put(CourseController.UrlParams.COPY_CLU_ID, detailedViewForm.getCourseInfoWrapper().getCourseInfo().getId());
-
-        return performRedirect(form, CurriculumManagementConstants.ControllerRequestMappings.COURSE_MAINTENANCE, urlParameters);
-
+        String courseBaseUrl = CurriculumManagementConstants.ControllerRequestMappings.COURSE_MAINTENANCE.replaceFirst("/", "");
+        return performRedirect(form, courseBaseUrl, urlParameters);
     }
-
 }

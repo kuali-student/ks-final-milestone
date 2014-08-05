@@ -43,8 +43,11 @@ import org.kuali.rice.krms.api.repository.reference.ReferenceObjectBinding;
 import org.kuali.rice.krms.dto.AgendaEditor;
 import org.kuali.rice.krms.dto.AgendaTypeInfo;
 import org.kuali.rice.krms.dto.PropositionEditor;
+import org.kuali.rice.krms.dto.PropositionParameterEditor;
 import org.kuali.rice.krms.dto.RuleEditor;
+import org.kuali.rice.krms.dto.RuleManagementWrapper;
 import org.kuali.rice.krms.dto.TemplateInfo;
+import org.kuali.rice.krms.dto.TermEditor;
 import org.kuali.rice.krms.dto.TermParameterEditor;
 import org.kuali.rice.krms.service.RuleViewHelperService;
 import org.kuali.rice.krms.service.impl.RuleEditorMaintainableImpl;
@@ -126,13 +129,16 @@ import org.kuali.student.r2.core.search.dto.SearchResultCellInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultRowInfo;
 import org.kuali.student.r2.core.search.service.SearchService;
+import org.kuali.student.r2.lum.clu.dto.AffiliatedOrgInfo;
 import org.kuali.student.r2.lum.clu.dto.CluInstructorInfo;
 import org.kuali.student.r2.lum.clu.dto.MembershipQueryInfo;
 import org.kuali.student.r2.lum.clu.service.CluService;
 import org.kuali.student.r2.lum.course.dto.ActivityInfo;
 import org.kuali.student.r2.lum.course.dto.CourseCrossListingInfo;
+import org.kuali.student.r2.lum.course.dto.CourseFeeInfo;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.lum.course.dto.CourseJointInfo;
+import org.kuali.student.r2.lum.course.dto.CourseRevenueInfo;
 import org.kuali.student.r2.lum.course.dto.CourseVariationInfo;
 import org.kuali.student.r2.lum.course.dto.FormatInfo;
 import org.kuali.student.r2.lum.course.dto.LoDisplayInfo;
@@ -364,8 +370,7 @@ public class CourseMaintainableImpl extends RuleEditorMaintainableImpl implement
 
     /**
      */
-    public List<CollaboratorWrapper> getCollaboratorWrappersSuggest(
-            String textBoxName) {
+    public List<CollaboratorWrapper> getCollaboratorWrappersSuggest(String textBoxName) {
         List<CollaboratorWrapper> listCollaboratorWrappers = new ArrayList<CollaboratorWrapper>();
 
         List<SearchParamInfo> queryParamValueList = new ArrayList<SearchParamInfo>();
@@ -881,6 +886,122 @@ public class CourseMaintainableImpl extends RuleEditorMaintainableImpl implement
                 requestParameters.get(CourseController.UrlParams.USE_CURRICULUM_REVIEW).length != 0) {
             Boolean isUseReviewProcess = BooleanUtils.toBoolean(requestParameters.get(CourseController.UrlParams.USE_CURRICULUM_REVIEW)[0]);
             courseInfoWrapper.getUiHelper().setUseReviewProcess(isUseReviewProcess);
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void resetDataObject(CourseInfoWrapper courseInfoWrapper) {
+        courseInfoWrapper.setRefObjectId(null);
+        resetCourse(courseInfoWrapper.getCourseInfo());
+        resetRequisites(courseInfoWrapper);
+    }
+
+    /**
+     * Resets a CourseInfo so that it can be persisted as a new entity.
+     *
+     * @param course The CourseInfo to reset.
+     */
+    protected void resetCourse(CourseInfo course) {
+        course.setId(null);
+        course.setStateKey(DtoConstants.STATE_DRAFT);
+        course.setVersion(null);
+        course.setEffectiveDate(null);
+        course.setMeta(null);
+        course.getCreditOptions().clear();
+
+        for (AttributeInfo attribute : course.getAttributes()) {
+            attribute.setId(null);
+        }
+
+        for (CourseJointInfo joint : course.getJoints()) {
+            joint.setRelationId(null);
+        }
+
+        for (LoDisplayInfo lo : course.getCourseSpecificLOs()) {
+            recursivelyClobberLoIds(lo);
+        }
+
+        for (CourseCrossListingInfo crossListing : course.getCrossListings()) {
+            crossListing.setId(null);
+        }
+
+        for (FormatInfo format : course.getFormats()) {
+            format.setId(null);
+            for (ActivityInfo activity : format.getActivities()) {
+                activity.setId(null);
+            }
+        }
+
+        for (AffiliatedOrgInfo orgInfo : course.getExpenditure().getAffiliatedOrgs()) {
+            orgInfo.setId(null);
+        }
+
+        for (CourseFeeInfo fee : course.getFees()) {
+            fee.setId(null);
+        }
+
+        for (CourseRevenueInfo revenue : course.getRevenues()) {
+            revenue.setId(null);
+            for (AffiliatedOrgInfo orgInfo : revenue.getAffiliatedOrgs()) {
+                orgInfo.setId(null);
+            }
+        }
+
+        for (CourseVariationInfo variation : course.getVariations()) {
+            variation.setId(null);
+        }
+    }
+
+    protected void recursivelyClobberLoIds(LoDisplayInfo lo) {
+        lo.getLoInfo().setId(null);
+        for (LoDisplayInfo nestedLo : lo.getLoDisplayInfoList()) {
+            recursivelyClobberLoIds(nestedLo);
+        }
+    }
+
+    /**
+     * Removes IDs and other properties from the data object so that new entities are created on persist.
+     */
+    protected void resetRequisites(RuleManagementWrapper dataObject) {
+        for (AgendaEditor agenda : dataObject.getAgendas()) {
+            agenda.setContextId(null);
+            agenda.setFirstItemId(null);
+            agenda.setId(null);
+            agenda.setVersionNumber(null);
+            agenda.setName(null);
+
+            for (RuleEditor re : agenda.getRuleEditors().values()) {
+                re.setId(null);
+                re.setVersionNumber(null);
+                re.setName(null);
+                re.setPropId(null);
+
+                PropositionEditor pe = re.getPropositionEditor();
+                if (pe != null) {
+                    pe.setId(null);
+                    pe.setRuleId(null);
+                    pe.setVersionNumber(null);
+
+                    for (PropositionParameterEditor parameter : pe.getParameters()) {
+                        parameter.setId(null);
+                        parameter.setVersionNumber(null);
+                        parameter.setPropId(null);
+                    }
+
+                    TermEditor te = pe.getTerm();
+                    te.setId(null);
+                    te.setVersionNumber(null);
+
+                    for (TermParameterEditor parameter : te.getEditorParameters()) {
+                        parameter.setId(null);
+                        parameter.setVersionNumber(null);
+                        parameter.setTermId(null);
+                    }
+                }
+            }
         }
     }
 
