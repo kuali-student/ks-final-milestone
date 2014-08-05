@@ -35,6 +35,10 @@ public class CourseInitialForm extends UifFormBase {
 
     private boolean useReviewProcess;
 
+    private String proposalId;
+
+    private String proposalTitle;
+
     // disallow the curriculumSpecialistUser property to be set by the request
     @RequestProtected
     private boolean curriculumSpecialistUser;
@@ -85,6 +89,22 @@ public class CourseInitialForm extends UifFormBase {
 
     public void setCourseCode(String courseCode) {
         this.courseCode = courseCode;
+    }
+
+    public String getProposalId() {
+        return proposalId;
+    }
+
+    public void setProposalId(String proposalId) {
+        this.proposalId = proposalId;
+    }
+
+    public String getProposalTitle() {
+        return proposalTitle;
+    }
+
+    public void setProposalTitle(String proposalTitle) {
+        this.proposalTitle = proposalTitle;
     }
 
 }

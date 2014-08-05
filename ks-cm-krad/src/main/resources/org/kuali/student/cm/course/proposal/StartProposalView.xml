@@ -43,7 +43,7 @@
         <property name="headerText" value="Create Course "/>
         <property name="formClass" value="org.kuali.student.cm.course.form.CourseInitialForm"/>
         <property name="viewHelperServiceClass"
-                  value="org.kuali.student.cm.course.service.impl.StartProposalViewHelper"/>
+                  value="org.kuali.student.cm.course.service.impl.StartProposalViewHelperServiceImpl"/>
         <property name="viewSourceFile" value="StartProposalView.xml"/>
         <!-- Shows up in HTML so devs can find the code -->
         <property name="items">
@@ -129,8 +129,48 @@
                         </bean>
                     </property>
                 </bean>
+                <ref bean="CM-Proposal-Course-Create-Start-CopyFromProposal-Action"/>
                 <ref bean="CM-Proposal-Course-Create-Start-ReviewSection"/>
             </list>
+        </property>
+    </bean>
+
+    <bean id="CM-Proposal-Course-Create-Start-CopyFromProposal-Action" parent="KS-Uif-InputField" p:propertyName="proposalTitle"
+          p:label="Proposal Title" p:additionalHiddenPropertyNames="proposalId" p:progressiveRender="@{createCourseInitialAction eq 'copyProposedCourse'}">
+        <property name="cssClasses">
+            <list>
+                <value>ks-cm-find-course</value>
+            </list>
+        </property>
+        <property name="control">
+            <bean parent="KS-Uif-TextControl" p:cssClasses="validProposalID"/>
+        </property>
+
+
+        <property name="suggest">
+            <bean parent="Uif-Suggest" p:render="true" p:returnFullQueryObject="true"
+                  p:labelPropertyName="name" p:valuePropertyName="id">
+                <property name="suggestQuery">
+                    <bean parent="Uif-AttributeQueryConfig"
+                          p:queryMethodToCall="suggestProposal"/>
+                </property>
+                <property name="templateOptions">
+                    <map merge="true">
+                        <entry key="minLength" value="1"/>
+                        <entry key="delay" value="0"/>
+                        <entry key="select">
+                            <value>
+                                function(event, ui) {
+                                jQuery( "input[name='proposalTitle']" ).val(ui.item.label);
+                                jQuery( "input[name='proposalId']" ).val(ui.item.value);
+                                jQuery( "input[name='proposalId']" ).removeAttr('disabled');
+                                return false;
+                                }
+                            </value>
+                        </entry>
+                    </map>
+                </property>
+            </bean>
         </property>
     </bean>
 
