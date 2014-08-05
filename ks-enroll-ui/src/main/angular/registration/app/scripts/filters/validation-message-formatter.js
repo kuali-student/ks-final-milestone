@@ -44,7 +44,6 @@ angular.module('regCartApp').filter('formatValidationMessage', ['VALIDATION_ERRO
                 }
             }
         }
-        console.log(message);
 
         return message;
     };

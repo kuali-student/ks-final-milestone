@@ -104,11 +104,9 @@ angular.module('regCartApp')
             });
         };
 
-        // Listens for the "addRegGroupIdToWaitlist" event and adds the regGroupId to the waitlist.
-        $scope.$on('addRegGroupIdToCart', function (event, regGroupId, successCallback, errorCallback) {
-            addCourseToCart({
-                regGroupId: regGroupId
-            }, successCallback, errorCallback);
+        // Listens for the "addCourseToCart" event and adds the course to the waitlist.
+        $scope.$on('addCourseToCart', function (event, course, successCallback, errorCallback) {
+            addCourseToCart(course, successCallback, errorCallback);
         });
 
         // Listens for the "directRegister" event and directly registers the regGroupId.

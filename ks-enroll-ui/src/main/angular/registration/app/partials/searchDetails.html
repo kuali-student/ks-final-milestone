@@ -63,14 +63,14 @@
                     <span ng-if="selectedRegGroup.isFull">
                         <span>Full </span>
                         <span class="kscr-SearchDetails-selection-sublabel">
-                            <span ng-if="selectedRegGroup.isWaitlistAvailable && !selectedRegGroup.waitlistSeatsAvailable">
+                            <span ng-if="!selectedRegGroup.isWaitlistOffered">(No waitlist offered)</span>
+                            <span ng-if="selectedRegGroup.isWaitlistOffered && !selectedRegGroup.waitlistSeatsAvailable">
                                 ({{selectedRegGroup.waitlistSeatsTaken}} <ng-pluralize count="selectedRegGroup.waitlistSeatsTaken"
                                                                                        when="{'1': 'student', 'other': 'students'}"></ng-pluralize> on waitlist)
                             </span>
-                            <span ng-if="selectedRegGroup.isWaitlistAvailable && selectedRegGroup.waitlistSeatsAvailable">
+                            <span ng-if="selectedRegGroup.isWaitlistOffered && selectedRegGroup.waitlistSeatsAvailable">
                                 ({{selectedRegGroup.waitlistSeatsAvailable - selectedRegGroup.waitlistSeatsTaken}}/{{selectedRegGroup.waitlistSeatsAvailable}} waitlist spots available)
                             </span>
-                            <span ng-if="!selectedRegGroup.isWaitlistAvailable">(No waitlist offered)</span>
                         </span>
                     </span>
                 </div>
@@ -84,26 +84,28 @@
 
             <!-- Actions -->
             <div class="kscr-SearchDetails-actions">
-                <form novalidate name="form" ng-submit="submitAction()">
-                    <!-- Add to Cart / Waitlist - Only if not in cart || waitlist already -->
-                    <div class="kscr-SearchDetails-button" ng-if="!isSelectedRegGroupInCart() && !isSelectedRegGroupInWaitlist()">
-                        <!-- Add to Cart - Only if course is not full || (course is full & waitlist is not available (shown as disabled)) -->
-                        <button id="search_details_add_to_cart" name="submit" class="kscr-Button" ng-disabled="!selectedRegGroup || (selectedRegGroup.isFull && !selectedRegGroup.isWaitlistAvailable)"
-                                ng-if="!selectedRegGroup || !selectedRegGroup.isFull || !selectedRegGroup.isWaitlistAvailable">Add to Cart</button>
+                <!-- Add to Cart / Waitlist - Only if not in cart || waitlist already -->
+                <div class="kscr-SearchDetails-button" ng-if="!isSelectedRegGroupInCart() && (!allowDirectAddToWaitlist() || !isSelectedRegGroupInWaitlist())">
+                    <!-- Add to Cart -->
+                    <button id="search_details_add_to_cart" name="submit" class="kscr-Button"
+                            ng-disabled="!selectedRegGroup || (selectedRegGroup.isFull && !selectedRegGroup.isWaitlistAvailable)" ng-click="addToCart()"
+                            ng-if="!allowDirectAddToWaitlist() || !selectedRegGroup || !selectedRegGroup.isFull || !selectedRegGroup.isWaitlistAvailable">Add to Cart</button>
 
-                        <!-- Add to Waitlist - Only if reg group is selected, not in waitlist, course is full, && waitlist is available -->
-                        <button id="search_details_add_to_waitlist" name="submit" class="kscr-Button" ng-disabled="!selectedRegGroup"
-                                ng-if="selectedRegGroup && selectedRegGroup.isFull && selectedRegGroup.isWaitlistAvailable">Add to Waitlist</button>
-                    </div>
+                    <!-- Add to Waitlist -->
+                    <button id="search_details_add_to_waitlist" name="submit" class="kscr-Button"
+                            ng-disabled="!selectedRegGroup" ng-click="addToWaitlist()"
+                            ng-if="allowDirectAddToWaitlist() && selectedRegGroup && selectedRegGroup.isFull && selectedRegGroup.isWaitlistAvailable">Add to Waitlist</button>
+                </div>
 
-                    <!-- In Cart / Waitlist - Only if in cart / waitlist -->
-                    <div class="kscr-SearchDetails-button" ng-if="isSelectedRegGroupInCart()">
-                        <button id="search_details_in_cart" class="kscr-Button--outline" ng-disabled="true">In Cart</button>
-                    </div>
-                    <div class="kscr-SearchDetails-button" ng-if="isSelectedRegGroupInWaitlist()">
-                        <button id="search_details_in_waitlist" class="kscr-Button--outline" ng-disabled="true">In Waitlist</button>
-                    </div>
-                </form>
+                <!-- In Cart / Waitlist - Only if in cart / waitlist -->
+                <div class="kscr-SearchDetails-button" ng-if="isSelectedRegGroupInCart()">
+                    <button id="search_details_in_cart" class="kscr-Button--outline" ng-disabled="true">In Cart</button>
+                </div>
+                <div class="kscr-SearchDetails-button" ng-if="allowDirectAddToWaitlist() && isSelectedRegGroupInWaitlist()">
+                    <button id="search_details_in_waitlist" class="kscr-Button--outline" ng-disabled="true">In Waitlist</button>
+                </div>
+
+                <!-- Action Success/Failure Message -->
                 <div class="kscr-SearchDetails-actionMessage" ng-if="actionStatus" ng-class="{'kscr-SearchDetails-actionMessage--{{actionStatus}}' : actionStatus}">
                     <i class="kscr-SearchDetails-actionMessage-icon"></i>
                     <a class="kscr-SearchDetails-actionMessage-remove" ng-click="removeActionMessage()"></a>
