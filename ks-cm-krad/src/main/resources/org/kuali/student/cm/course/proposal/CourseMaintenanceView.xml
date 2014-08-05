@@ -259,8 +259,8 @@
         <property name="items">
             <list>
                 <bean parent="CM-Proposal-Course-LinkGroup-CopyProposal" p:methodToCall="copyProposal" p:render="@{#form.pageId eq 'CM-Proposal-Review-Course-Page'}"/>
-                <bean parent="CM-Proposal-Course-LinkGroup-Comments" p:render="@{#form.pageId eq 'CM-Proposal-Course-Create-Page'}"/>
-                <bean parent="CM-Proposal-Course-LinkGroup-Decisions" p:render="@{#form.pageId eq 'CM-Proposal-Course-Create-Page'}"/>
+                <bean parent="CM-Proposal-Course-LinkGroup-Comments"/>
+                <bean parent="CM-Proposal-Course-LinkGroup-Decisions"/>
             </list>
         </property>
     </bean>
