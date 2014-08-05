@@ -402,6 +402,7 @@ public class AdminRegistrationController extends UifControllerBase {
     @RequestMapping(method = RequestMethod.POST, params = "methodToCall=dropCourse")
     public ModelAndView dropCourse(@ModelAttribute("KualiForm") AdminRegistrationForm form, BindingResult result,
                                    HttpServletRequest request, HttpServletResponse response) {
+
         String selectedCollectionPath = form.getActionParamaterValue(UifParameters.SELECTED_COLLECTION_PATH);
         if (StringUtils.isBlank(selectedCollectionPath)) {
             throw new RuntimeException("Selected collection path was not set for collection action");
@@ -435,7 +436,16 @@ public class AdminRegistrationController extends UifControllerBase {
             cancelEdits(form, selectedCollectionId);
         }
 
-        return deleteLine(form, result, request, response);
+        return showDialog(AdminRegConstants.DROP_COURSE_DIALOG, form, request, response);
+    }
+
+    @RequestMapping(method = RequestMethod.POST, params = "methodToCall=dropRegisteredCourse")
+    public ModelAndView confirmDropCourse(@ModelAttribute("KualiForm") AdminRegistrationForm form, BindingResult result,
+                                   HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        // perform actual drop on item in the backend
+
+        return refresh(form, result, request, response);
     }
 
     @RequestMapping(method = RequestMethod.POST, params = "methodToCall=removeWaitlistCourse")

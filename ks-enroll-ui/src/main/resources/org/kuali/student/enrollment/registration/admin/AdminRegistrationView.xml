@@ -393,9 +393,9 @@
         <property name="headerText" value="Registered Courses (@{registeredCredits} credits)"/>
         <property name="lineActions">
             <list>
-                <bean parent="KS-Uif-Edit-NavigationActionLink" p:id="registeredEditLink" p:title="Edit Course"
+                <bean parent="KS-Uif-Edit-NavigationActionLink" p:id="registeredEditLink" p:actionLabel="Edit Course"
                       p:methodToCall="editCourse" p:successCallback="stopPolling();"/>
-                <bean parent="KS-Uif-Delete-NavigationActionLink" p:id="registeredDropLink" p:title="Drop Course"
+                <bean parent="KS-Uif-Delete-NavigationActionLink" p:id="registeredDropLink" p:actionLabel="Drop Course"
                       p:methodToCall="dropCourse"/>
             </list>
         </property>
@@ -503,39 +503,44 @@
     <!--bean id="KS-AdminRegistration-DropRegisteredDialog" parent="Uif-DialogGroup" p:dialogCssClass="modal-md"-->
     <bean id="KS-AdminRegistration-DropRegisteredDialog" parent="Uif-DialogGroup">
         <property name="headerText" value="Drop Course @{pendingDropCourse.code} (@{pendingDropCourse.section})?"/>
+        <property name="style" value="width:650px;"/>
         <property name="items">
             <list>
                 <bean parent="Uif-CssGridSection-1FieldLabelColumn">
                     <property name="items">
                         <list>
-                            <bean parent="Uif-InputField" p:label="Effective Drop Date"
+                            <bean parent="KS-Uif-InputField-LabelLeft" p:label="Effective Drop Date"
                                   p:propertyName="pendingDropCourse.dropDate">
                                 <property name="control">
-                                    <bean parent="Uif-DateControl"/>
+                                    <bean parent="KS-Uif-Default-DateControl" p:size="10"/>
                                 </property>
                             </bean>
                         </list>
                     </property>
                 </bean>
-                <bean parent="Uif-HorizontalBoxSection">
+                <bean parent="KS-Uif-FooterBase">
                     <property name="items">
                         <list>
-                            <bean parent="Uif-PrimaryActionButton" p:preSubmitCall="closeLightbox(); return true;"
-                                  p:methodToCall="dropRegisteredCourse" p:actionLabel="Confirm Drop"/>
-                            <bean parent="Uif-ActionLink" p:actionLabel="Cancel" p:actionScript="closeLightbox();"
-                                  p:additionalCssClasses="cancel_link"/>
+                            <bean parent="Uif-HorizontalBoxSection">
+                                <property name="items">
+                                    <list>
+                                        <bean parent="Uif-PrimaryActionButton" p:preSubmitCall="closeLightbox(); return true;"
+                                              p:methodToCall="dropRegisteredCourse" p:actionLabel="Confirm Drop"/>
+                                        <bean parent="Uif-ActionLink" p:actionLabel="Cancel" p:actionScript="closeLightbox();"
+                                              p:additionalCssClasses="cancel_link"/>
+                                    </list>
+                                </property>
+                            </bean>
                         </list>
                     </property>
                 </bean>
             </list>
         </property>
-        <!--property name="footer.items">
-            <list>
-                <bean parent="Uif-DialogConfirmButton" p:actionLabel="Confirm Drop" p:methodToCall="dropRegisteredCourse"
-                      p:performClientSideValidation="true"/>
-                <bean parent="Uif-DialogDismissButton" p:actionLabel="Cancel"/>
-            </list>
-        </property-->
+        <property name="promptText"
+                  value=""/>
+        <property name="availableResponses">
+            <list></list>
+        </property>
     </bean>
 
     <bean id="KS-AdminRegistration-DropWaitlistedDialog" parent="Uif-DialogGroup">
