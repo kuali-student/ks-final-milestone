@@ -602,6 +602,10 @@ jQuery.validator.addMethod("validCollaboratorNameAndID",
         return this.optional(element) || comparePersonDisplayNameInput(value, element);
     }, "Collaborator name/ID combo is invalid")
 
+jQuery.validator.addMethod("validProposalID",
+    function (value, element) {
+        return this.optional(element) || validateProposalId(value, element);
+    }, "Proposal title is invalid")
 
 /**
  * This method validates on blur from the joint course code field. This validates whether the user
@@ -623,6 +627,30 @@ function compareCourseCode(value, element) {
         } else {
             for (var i = 0; len = data.resultData.length, i < len; i++) {
                 if (data.resultData[i].courseCode == value) {
+                    isValid = true;
+                    break;
+                }
+            }
+        }
+    };
+
+    compareInputWithAutosuggestFromAjax(value, element, successFunction);
+
+    return isValid;
+}
+
+function validateProposalId(value, element) {
+    var isValid;
+    if (value == null || value.length < 2) {
+        return false;
+    }
+
+    var successFunction = function (data) {
+        if (data == null || data.resultData == null) {
+            isValid = false;
+        } else {
+            for (var i = 0; len = data.resultData.length, i < len; i++) {
+                if (data.resultData[i].name == value) {
                     isValid = true;
                     break;
                 }
