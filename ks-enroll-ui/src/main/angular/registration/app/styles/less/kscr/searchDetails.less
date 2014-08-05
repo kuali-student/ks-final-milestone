@@ -294,3 +294,36 @@
       }
     }
 }
+
+
+// Small-format styles (Mobile)
+@media screen and (max-width: @smallFormatMax) {
+    .kscr-SearchDetails-header {
+        .kscr-SearchDetails-courseHeader {
+            flex-flow: column; // Put the course title below the code
+        }
+    }
+
+    // Stuck actions container
+    .kscr-SearchDetails-actionsContainer.util-sticky--stuck {
+        background: @whiteBackground;
+        border-top: none;
+        .box-shadow(0 0 5px @lightGray);
+        left: 0;
+        margin-top: 0;
+        padding: 0.5rem 1rem;
+    }
+}
+
+// Large-format styles
+@media screen and (min-width: @largeFormatMin) {
+    // Disable the sticky actions container in large-format
+    .kscr-SearchDetails-container {
+        .util-sticky-placeholder {
+            display: none;
+        }
+        .kscr-SearchDetails-actionsContainer {
+            .util-sticky--disabled();
+        }
+    }
+}

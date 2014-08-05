@@ -48,8 +48,7 @@
 <div class="kscr-Search-results-list">
     <div class="kscr-Search-result"
          id="course_detail_result_{{applyFilter(searchResult, defaultField, searchColumn.filter)}}"
-         ui-sref="root.search.details({searchCriteria: searchCriteria, id: getId(searchResult)})"
-         ng-repeat="searchResult in searchResults">
+         ng-click="emitEvent(onClick, searchResult)" ng-repeat="searchResult in searchResults">
         <div class="kscr-Search-result-column-{{searchColumn.field}}" ng-repeat="searchColumn in searchColumns"
              ng-bind-html="applyFilter(searchResult, searchColumn.field, searchColumn.filter)"></div>
     </div>
