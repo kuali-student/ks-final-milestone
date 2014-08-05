@@ -15,40 +15,20 @@
  */
 package org.kuali.student.cm.course.controller;
 
-import org.kuali.rice.core.api.exception.RiceRuntimeException;
-import org.kuali.rice.krad.UserSessionUtils;
-import org.kuali.rice.krad.document.Document;
-import org.kuali.rice.krad.exception.ValidationException;
-import org.kuali.rice.krad.maintenance.MaintenanceDocument;
-import org.kuali.rice.krms.dto.AgendaEditor;
-import org.kuali.rice.krms.dto.PropositionEditor;
-import org.kuali.rice.krms.dto.PropositionParameterEditor;
-import org.kuali.rice.krms.dto.RuleEditor;
-import org.kuali.rice.krms.dto.TermEditor;
-import org.kuali.rice.krms.dto.TermParameterEditor;
-import org.kuali.student.cm.common.util.CMUtils;
-import org.kuali.student.common.ui.krad.rules.rule.event.ReturnToPreviousNodeDocumentEvent;
-import org.kuali.student.r2.common.dto.AttributeInfo;
-import org.kuali.student.r2.common.dto.DtoConstants;
-import org.kuali.student.r2.lum.clu.dto.AffiliatedOrgInfo;
-import org.kuali.student.r2.lum.course.dto.ActivityInfo;
-import org.kuali.student.r2.lum.course.dto.CourseCrossListingInfo;
-import org.kuali.student.r2.lum.course.dto.CourseFeeInfo;
-import org.kuali.student.r2.lum.course.dto.CourseJointInfo;
-import org.kuali.student.r2.lum.course.dto.CourseRevenueInfo;
-import org.kuali.student.r2.lum.course.dto.CourseVariationInfo;
-import org.kuali.student.r2.lum.course.dto.FormatInfo;
-import org.kuali.student.r2.lum.course.dto.LoDisplayInfo;
-
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
+import org.kuali.rice.core.api.exception.RiceRuntimeException;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.krad.UserSessionUtils;
+import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.exception.ValidationException;
+import org.kuali.rice.krad.maintenance.MaintenanceDocument;
 import org.kuali.rice.krad.rules.rule.event.RouteDocumentEvent;
 import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 import org.kuali.rice.krad.uif.UifConstants;
@@ -61,19 +41,21 @@ import org.kuali.rice.krad.web.controller.MethodAccessible;
 import org.kuali.rice.krad.web.form.DocumentFormBase;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 import org.kuali.rice.krad.web.form.UifFormBase;
+import org.kuali.student.cm.common.util.CMUtils;
 import org.kuali.student.cm.common.util.CurriculumManagementConstants;
 import org.kuali.student.cm.common.util.CurriculumManagementConstants.CourseViewSections;
+import org.kuali.student.cm.course.form.RecentlyViewedDocsUtil;
 import org.kuali.student.cm.course.form.wrapper.CluInstructorInfoWrapper;
 import org.kuali.student.cm.course.form.wrapper.CourseCreateUnitsContentOwner;
 import org.kuali.student.cm.course.form.wrapper.CourseInfoWrapper;
 import org.kuali.student.cm.course.form.wrapper.LoDisplayInfoWrapper;
 import org.kuali.student.cm.course.form.wrapper.LoDisplayWrapperModel;
-import org.kuali.student.cm.course.form.RecentlyViewedDocsUtil;
 import org.kuali.student.cm.course.form.wrapper.ResultValuesGroupInfoWrapper;
 import org.kuali.student.cm.course.form.wrapper.SupportingDocumentInfoWrapper;
 import org.kuali.student.cm.course.service.CourseMaintainable;
 import org.kuali.student.cm.course.util.CourseProposalUtil;
 import org.kuali.student.common.object.KSObjectUtils;
+import org.kuali.student.common.ui.krad.rules.rule.event.ReturnToPreviousNodeDocumentEvent;
 import org.kuali.student.common.uif.util.GrowlIcon;
 import org.kuali.student.common.uif.util.KSUifUtils;
 import org.kuali.student.common.util.security.ContextUtils;
@@ -82,8 +64,11 @@ import org.kuali.student.r1.core.workflow.dto.CollaboratorWrapper;
 import org.kuali.student.r2.common.constants.CommonServiceConstants;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.core.constants.DocumentServiceConstants;
+import org.kuali.student.r2.core.constants.ProposalServiceConstants;
 import org.kuali.student.r2.core.document.dto.DocumentInfo;
 import org.kuali.student.r2.core.document.service.DocumentService;
+import org.kuali.student.r2.core.proposal.dto.ProposalInfo;
+import org.kuali.student.r2.core.proposal.service.ProposalService;
 import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultCellInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultRowInfo;
@@ -143,6 +128,8 @@ public class CourseController extends CourseRuleEditorController {
     private CourseService courseService;
     private DocumentService documentService;
     private SubjectCodeService subjectCodeService;
+    private ProposalService proposalService;
+
     /**
      * This method creates the form and in the case of a brand new proposal where this method is called after the user uses
      * the Initial Create Proposal screen, this method will also set the document type name based on the request parameter
@@ -304,7 +291,12 @@ public class CourseController extends CourseRuleEditorController {
              */
             String proposalId = request.getParameter(UrlParams.COPY_PROPOSAL_ID);
             if (StringUtils.isNotBlank(proposalId)) {
-//                wrapper.getProposalInfo().setName("Copy of ");
+                ProposalInfo proposal = getProposalService().getProposal(proposalId, ContextUtils.createDefaultContextInfo());
+                wrapper.setProposalInfo(proposal);
+
+                ((CourseMaintainable) form.getDocument().getNewMaintainableObject()).populateCourseAndReviewData(proposal.getProposalReference().get(0), wrapper, false);
+                ((CourseMaintainable) form.getDocument().getNewMaintainableObject()).resetDataForProposalCopy(wrapper);
+                wrapper.getCourseInfo().setCourseTitle("Copy of " + proposal.getName());
             }
         }
         return getUIFModelAndView(form);
@@ -1004,6 +996,13 @@ public class CourseController extends CourseRuleEditorController {
         return loDisplayWrapperModel;
     }
 
+    /**
+     * This is being called from 'review proposal' page when the user clicks on 'copy proposal' action. This method
+     * builds the url and call 'maintenaceCopy' method.
+     *
+     * @param form
+     * @return
+     */
     @MethodAccessible
     @RequestMapping(params = "methodToCall=copyProposal")
     public ModelAndView copyProposal(@ModelAttribute("KualiForm") DocumentFormBase form) {
@@ -1095,5 +1094,12 @@ public class CourseController extends CourseRuleEditorController {
             subjectCodeService = GlobalResourceLoader.getService(new QName(CourseServiceConstants.NAMESPACE_SUBJECTCODE, SubjectCodeService.class.getSimpleName()));
         }
         return subjectCodeService;
+    }
+
+    protected ProposalService getProposalService() {
+        if (proposalService == null) {
+            proposalService = (ProposalService) GlobalResourceLoader.getService(new QName(ProposalServiceConstants.NAMESPACE, ProposalServiceConstants.SERVICE_NAME_LOCAL_PART));
+        }
+        return proposalService;
     }
 }

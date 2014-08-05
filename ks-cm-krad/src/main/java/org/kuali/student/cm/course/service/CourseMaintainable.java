@@ -77,4 +77,6 @@ public interface CourseMaintainable extends CMMaintainable {
      * @param courseInfoWrapper  The courseInfoWrapper to reset.
      */
     public void resetDataObject(CourseInfoWrapper courseInfoWrapper);
+
+    public void resetDataForProposalCopy(CourseInfoWrapper courseInfoWrapper);
 }

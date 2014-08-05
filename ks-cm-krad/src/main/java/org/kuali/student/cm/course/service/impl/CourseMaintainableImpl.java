@@ -899,6 +899,18 @@ public class CourseMaintainableImpl extends RuleEditorMaintainableImpl implement
         resetRequisites(courseInfoWrapper);
     }
 
+    public void resetDataForProposalCopy(CourseInfoWrapper courseInfoWrapper) {
+        resetDataObject(courseInfoWrapper);
+
+        courseInfoWrapper.getCreditOptionWrappers().clear();
+        courseInfoWrapper.getUnitsContentOwner().clear();
+        courseInfoWrapper.getCourseInfo().getUnitsContentOwner();
+        courseInfoWrapper.getCourseInfo().setStartTerm("");
+        courseInfoWrapper.getCourseInfo().setEndTerm("");
+        courseInfoWrapper.getCourseInfo().setPilotCourse(false);
+
+    }
+
     /**
      * Resets a CourseInfo so that it can be persisted as a new entity.
      *
