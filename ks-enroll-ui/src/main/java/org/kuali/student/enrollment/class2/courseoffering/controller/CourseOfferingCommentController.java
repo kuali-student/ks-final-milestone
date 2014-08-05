@@ -67,19 +67,20 @@ public class CourseOfferingCommentController extends KSCommentController{
     private static final Logger LOG = LoggerFactory.getLogger(CourseOfferingCommentController.class);
     protected PersonService personService;
 
-    protected boolean isOperationPermitted(final int operation, KSCommentForm form){
+    protected boolean isOperationPermitted(final int operation, KSCommentForm form, Map<String, String[]> originalParametersMap, HttpServletRequest request){
         Map<String,String> permissionDetails = new HashMap<String,String>();
         Map<String,String> roleQualifications = new HashMap<String,String>();
 
-//        permissionDetails.put(KimConstants.AttributeConstants.ACTION_EVENT, "ksAddComment");
-        String socStateKey = form.getSocState();
+        String socStateKey = originalParametersMap == null ? null : originalParametersMap.get("socState")[0];
+        String subjectArea = originalParametersMap == null ? null : originalParametersMap.get("subjectArea")[0];
+        String offeringAdminOrgId = originalParametersMap == null ? null : originalParametersMap.get("offeringAdminOrgId")[0];
+
         String socState = socStateKey==null?null:socStateKey.substring(socStateKey.lastIndexOf('.')+1);
         permissionDetails.put("socState", socState);
 
-        roleQualifications.put("subjectArea", form.getSubjectArea());
-        roleQualifications.put("offeringAdminOrgId", form.getOfferingAdminOrgId());
+        roleQualifications.put("subjectArea", subjectArea);
+        roleQualifications.put("offeringAdminOrgId", offeringAdminOrgId);
 
-        boolean isSuccessfull = false;
         switch(operation){
             case OPERATION_ADD:
                 permissionDetails.put(KimConstants.AttributeConstants.ACTION_EVENT, "ksAddComment");
@@ -91,7 +92,6 @@ public class CourseOfferingCommentController extends KSCommentController{
                 permissionDetails.put(KimConstants.AttributeConstants.ACTION_EVENT, "ksEditComment");
                 break;
             case OPERATION_VIEW:
-//                isSuccessfull = canViewComment();
                 break;
         }
         return KimApiServiceLocator.getPermissionService().isAuthorizedByTemplate(GlobalVariables.getUserSession().getPrincipalId(), "KS-ENR", KimConstants.PermissionTemplateNames.PERFORM_ACTION, permissionDetails, roleQualifications);

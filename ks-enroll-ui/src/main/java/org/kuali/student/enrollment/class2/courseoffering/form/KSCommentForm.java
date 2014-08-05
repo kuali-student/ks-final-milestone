@@ -33,10 +33,6 @@ public class KSCommentForm extends KsUifFormBase {
     private String referenceId;
     private String referenceType;
     private String referenceName;
-    private String parentUrl;
-    private String socState;
-    private String subjectArea;
-    private String offeringAdminOrgId;
     private String controllerUrl;
 
     private boolean canAddComment;
@@ -83,38 +79,6 @@ public class KSCommentForm extends KsUifFormBase {
 
     public void setCommentText(String commentText) {
         this.commentText = commentText;
-    }
-
-    public String getParentUrl() {
-        return parentUrl;
-    }
-
-    public void setParentUrl(String parentUrl) {
-        this.parentUrl = parentUrl;
-    }
-
-    public String getSocState() {
-        return socState;
-    }
-
-    public void setSocState(String socState) {
-        this.socState = socState;
-    }
-
-    public String getSubjectArea() {
-        return subjectArea;
-    }
-
-    public void setSubjectArea(String subjectArea) {
-        this.subjectArea = subjectArea;
-    }
-
-    public String getOfferingAdminOrgId() {
-        return offeringAdminOrgId;
-    }
-
-    public void setOfferingAdminOrgId(String offeringAdminOrgId) {
-        this.offeringAdminOrgId = offeringAdminOrgId;
     }
 
     public String getControllerUrl() {

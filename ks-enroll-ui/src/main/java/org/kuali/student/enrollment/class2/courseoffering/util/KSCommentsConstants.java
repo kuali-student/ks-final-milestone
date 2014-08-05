@@ -23,4 +23,8 @@ package org.kuali.student.enrollment.class2.courseoffering.util;
 public class KSCommentsConstants {
 
     public static final String KSCOMMENT_MSG_ERROR_EMPTY_TEXT_FIELD = "error.enroll.kscomment.emptyTextFied";
+    public static final String KSCOMMENT_MSG_ERROR_INDEX_OUT_OF_BOUND = "error.enroll.kscomment.commentNotFound";
+    public static final String KSCOMMENT_MSG_ERROR_NO_ADD_PERMISSION = "error.enroll.kscomment.noAddPermission";
+    public static final String KSCOMMENT_MSG_ERROR_NO_EDIT_PERMISSION = "error.enroll.kscomment.noEditPermission";
+    public static final String KSCOMMENT_MSG_ERROR_NO_DELETE_PERMISSION = "error.enroll.kscomment.noDeletePermission";
 }

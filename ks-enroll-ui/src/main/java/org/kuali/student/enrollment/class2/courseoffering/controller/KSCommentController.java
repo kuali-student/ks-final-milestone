@@ -31,6 +31,7 @@ import org.kuali.student.enrollment.class2.appointment.util.AppointmentConstants
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.form.KSCommentForm;
 import org.kuali.student.enrollment.class2.courseoffering.form.KSCommentWrapper;
+import org.kuali.student.enrollment.class2.courseoffering.json.KSCommentJSONResponseData;
 import org.kuali.student.enrollment.class2.courseoffering.util.CommentUtil;
 import org.kuali.student.enrollment.class2.courseoffering.util.KSCommentsConstants;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
@@ -61,12 +62,15 @@ import java.util.List;
 
 public abstract class KSCommentController extends KsUifControllerBase {
 
-    public final int OPERATION_VIEW = 1;
-    public final int OPERATION_EDIT = 2;
-    public final int OPERATION_DELETE = 3;
-    public final int OPERATION_ADD = 4;
-
     private static final Logger LOG = LoggerFactory.getLogger(KSCommentController.class);
+
+    public static final int OPERATION_VIEW = 1;
+    public static final int OPERATION_EDIT = 2;
+    public static final int OPERATION_DELETE = 3;
+    public static final int OPERATION_ADD = 4;
+
+    private Map<String, String[]> originalParametersMap;
+
     protected CommentService commentService;
     //    protected ProposalService proposalService;
     protected PersonService personService;
@@ -76,7 +80,7 @@ public abstract class KSCommentController extends KsUifControllerBase {
         return new KSCommentForm();
     }
 
-    private String getRequestParamValue(HttpServletRequest request, String paramName) {
+    protected String getRequestParamValue(HttpServletRequest request, String paramName) {
         String paramValue = request.getParameter(paramName);
         if (StringUtils.isBlank(paramValue)) {
             String message = String.format("Missing parameter: %s", paramName);
@@ -91,30 +95,24 @@ public abstract class KSCommentController extends KsUifControllerBase {
     public ModelAndView start(@ModelAttribute("KualiForm") UifFormBase form, HttpServletRequest request,
                               HttpServletResponse response) {
 
+        originalParametersMap = request.getParameterMap();
         KSCommentForm commentForm = (KSCommentForm) form;
         String refId = getRequestParamValue(request, "refId");
         String refType = getRequestParamValue(request, "refType");
         String refName = getRequestParamValue(request, "refName");
 
-        String socState = getRequestParamValue(request, "socState");
-        String subjectArea = getRequestParamValue(request, "subjectArea");
-        String offeringAdminOrgId = getRequestParamValue(request, "offeringAdminOrgId");
+        String url = request.getRequestURI();
+        String controllerUrl = url.substring(url.lastIndexOf("/"), url.length());
 
-        String controllerUrl = getRequestParamValue(request, "controllerUrl");
-        // Note that the referer is only used to redirect after the lightbox is closed. No risk is involved.
-        ((KSCommentForm) form).setParentUrl(request.getHeader("referer"));
         commentForm.setReferenceId(refId);
         commentForm.setReferenceType(refType);
         commentForm.setReferenceName(refName);
-        commentForm.setSocState(socState);
-        commentForm.setSubjectArea(subjectArea);
-        commentForm.setOfferingAdminOrgId(offeringAdminOrgId);
         commentForm.setControllerUrl(controllerUrl);
 
-        commentForm.setCanAddComment(isOperationPermitted(OPERATION_ADD, commentForm));
+        commentForm.setCanAddComment(isOperationPermitted(OPERATION_ADD, commentForm, originalParametersMap, request));
         KSCommentWrapper wrapper = new KSCommentWrapper();
-        commentForm.setCanDeleteComment(isOperationPermitted(OPERATION_DELETE, commentForm));
-        commentForm.setCanEditComment(isOperationPermitted(OPERATION_EDIT, commentForm));
+        commentForm.setCanDeleteComment(isOperationPermitted(OPERATION_DELETE, commentForm, originalParametersMap, request));
+        commentForm.setCanEditComment(isOperationPermitted(OPERATION_EDIT, commentForm, originalParametersMap, request));
         retrieveComments(commentForm);
 
         return super.start(form, request, response);
@@ -129,11 +127,13 @@ public abstract class KSCommentController extends KsUifControllerBase {
             GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, KSCommentsConstants.KSCOMMENT_MSG_ERROR_EMPTY_TEXT_FIELD);
             return getUIFModelAndView(form);
         }
+        if(!isOperationPermitted(OPERATION_ADD, form, originalParametersMap, request)){
+            GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, KSCommentsConstants.KSCOMMENT_MSG_ERROR_NO_ADD_PERMISSION);
+        }
         KSCommentWrapper wrapper = new KSCommentWrapper();
         wrapper.getCommentInfo().getCommentText().setPlain(form.getCommentText());
         saveComment(form, wrapper);
         form.setCommentText("");
-//        form.getComments().add(0, wrapper);
         retrieveComments(form);
 
         return getUIFModelAndView(form);
@@ -158,19 +158,28 @@ public abstract class KSCommentController extends KsUifControllerBase {
 
     @MethodAccessible
     @RequestMapping(params = "methodToCall=ajaxUpdateComment")
-    public @ResponseBody KSCommentWrapper  ajaxUpdateComment(@ModelAttribute("KualiForm") KSCommentForm form, HttpServletRequest request) throws Exception {
-        int index = Integer.parseInt(form.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX));
-        KSCommentWrapper commentWrapper = form.getComments().get(index);
-        CommentInfo comment = commentWrapper.getCommentInfo();
-        try {
-            comment = getCommentService().updateComment(comment.getId(), comment, ContextUtils.createDefaultContextInfo());
-        } catch (Exception e) {
-            String message = String.format("Error updating comment for Ref Type %s with Ref Id %s ", form.getReferenceType(), form.getReferenceId());
-            LOG.error(message);
-            throw new RuntimeException(message);
+    public @ResponseBody KSCommentJSONResponseData ajaxUpdateComment(@ModelAttribute("KualiForm") KSCommentForm form, HttpServletRequest request) throws Exception {
+        KSCommentJSONResponseData responseData = new KSCommentJSONResponseData();
+        responseData.setHasErrors(false);
+        if (!isOperationPermitted(OPERATION_EDIT, form, originalParametersMap, request)) {
+            GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, KSCommentsConstants.KSCOMMENT_MSG_ERROR_NO_EDIT_PERMISSION);
+            responseData.setHasErrors(true);
+        } else {
+            int index = Integer.parseInt(form.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX));
+            KSCommentWrapper commentWrapper = form.getComments().get(index);
+            CommentInfo comment = commentWrapper.getCommentInfo();
+            try {
+                comment = getCommentService().updateComment(comment.getId(), comment, ContextUtils.createDefaultContextInfo());
+            } catch (Exception e) {
+                String message = String.format("Error updating comment for Ref Type %s with Ref Id %s ", form.getReferenceType(), form.getReferenceId());
+                LOG.error(message);
+                throw new RuntimeException(message);
+            }
+            setupCommentWrapper(form, commentWrapper, comment);
+            responseData.setCommentWrapper(commentWrapper);
         }
-        setupCommentWrapper(form, commentWrapper, comment);
-        return commentWrapper;
+        responseData.setMessageMap(GlobalVariables.getMessageMap());
+        return responseData;
     }
 
     @MethodAccessible
@@ -193,7 +202,6 @@ public abstract class KSCommentController extends KsUifControllerBase {
     @RequestMapping(params = "methodToCall=ajaxUndeleteComment")
     public @ResponseBody List<String> ajaxUndeleteComment(@ModelAttribute("KualiForm") KSCommentForm form, HttpServletRequest request) throws Exception {
 
-//        String collectionPath = form.getActionParamaterValue(UifParameters.SELECTED_COLLECTION_PATH);
         int index = Integer.parseInt(request.getParameter(UifParameters.SELECTED_LINE_INDEX));
 
         KSCommentWrapper wrapper = new KSCommentWrapper();
@@ -222,16 +230,24 @@ public abstract class KSCommentController extends KsUifControllerBase {
 
     @MethodAccessible
     @RequestMapping(params = "methodToCall=ajaxDeleteComment")
-    public @ResponseBody int ajaxDeleteComment(@ModelAttribute("KualiForm") KSCommentForm form, HttpServletRequest request) throws Exception {
+    public @ResponseBody KSCommentJSONResponseData ajaxDeleteComment(@ModelAttribute("KualiForm") KSCommentForm form, HttpServletRequest request) throws Exception {
 
-//        int index = Integer.parseInt(request.getParameter(UifParameters.SELECTED_LINE_INDEX));
-        int index = Integer.parseInt(form.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX));
-        KSCommentWrapper commentWrapper = form.getComments().get(index);
+        KSCommentJSONResponseData responseData = new KSCommentJSONResponseData();
+        responseData.setHasErrors(false);
+        if (!isOperationPermitted(OPERATION_DELETE, form, originalParametersMap, request)) {
+            GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, KSCommentsConstants.KSCOMMENT_MSG_ERROR_NO_DELETE_PERMISSION);
+            responseData.setHasErrors(true);
+        } else {
+            int index = Integer.parseInt(form.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX));
+            KSCommentWrapper commentWrapper = form.getComments().get(index);
 
-        form.getComments().remove(commentWrapper);
-        getCommentService().deleteComment(commentWrapper.getCommentInfo().getId(), ContextUtils.createDefaultContextInfo());
+            form.getComments().remove(commentWrapper);
+            getCommentService().deleteComment(commentWrapper.getCommentInfo().getId(), ContextUtils.createDefaultContextInfo());
+            responseData.setCount(CommentUtil.getCommentsCount(form.getReferenceId(), form.getReferenceType(), ContextUtils.createDefaultContextInfo()));
+        }
 
-        return CommentUtil.getCommentsCount(form.getReferenceId(), form.getReferenceType(), ContextUtils.createDefaultContextInfo());
+        responseData.setMessageMap(GlobalVariables.getMessageMap());
+        return responseData;
     }
 
     private void saveComment(KSCommentForm form, KSCommentWrapper commentWrapper) {
@@ -307,5 +323,20 @@ public abstract class KSCommentController extends KsUifControllerBase {
         return commentService;
     }
 
-     protected abstract boolean isOperationPermitted(final int operation, KSCommentForm form);
+
+    /*
+    * The subclasses of this controller implement this method to return a boolean indicating whether the user is authorized
+    * to perform the operation specified by the operation parameter.
+    *
+    * params:
+    *   operation int, one of the following constants:
+    *           OPERATION_VIEW
+    *           OPERATION_EDIT
+    *           OPERATION_DELETE
+    *           OPERATION_ADD
+    *   form KSCommentForm
+    *   originalParametersMap an unmodifiable Map, Contains the original parameters passed to the url to open the lightbox
+    *   request  HttpServletRequest
+    */
+    protected abstract boolean isOperationPermitted(final int operation, KSCommentForm form, Map<String, String[]> originalParametersMap, HttpServletRequest request);
 }

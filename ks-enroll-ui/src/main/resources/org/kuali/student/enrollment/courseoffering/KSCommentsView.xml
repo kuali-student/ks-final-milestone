@@ -33,7 +33,7 @@
         </property>
         <property name="onLoadScript" value="jQuery(&quot;#Uif-BreadcrumbWrapper&quot;).remove();"/>
         <property name="page">
-            <bean parent="Uif-Page">
+            <bean p:id="KS-Comment-pageId" parent="Uif-Page">
                 <property name="items">
                     <list>
                         <ref bean="KS-CommentComponet"/>
@@ -95,24 +95,6 @@
                                 </property>
                             </bean>
                             <bean id="hiddenRefName" parent="KS-Uif-InputField" p:propertyName="referenceName"
-                                  p:fieldLabel.renderColon="false">
-                                <property name="control">
-                                    <bean parent="KS-Uif-HiddenControl"/>
-                                </property>
-                            </bean>
-                            <bean id="hiddenSocStateName" parent="KS-Uif-InputField" p:propertyName="socState"
-                                  p:fieldLabel.renderColon="false">
-                                <property name="control">
-                                    <bean parent="KS-Uif-HiddenControl"/>
-                                </property>
-                            </bean>
-                            <bean id="hiddenSubjectAreaName" parent="KS-Uif-InputField" p:propertyName="subjectArea"
-                                  p:fieldLabel.renderColon="false">
-                                <property name="control">
-                                    <bean parent="KS-Uif-HiddenControl"/>
-                                </property>
-                            </bean>
-                            <bean id="hiddenOfferingAdminOrgIdName" parent="KS-Uif-InputField" p:propertyName="offeringAdminOrgId"
                                   p:fieldLabel.renderColon="false">
                                 <property name="control">
                                     <bean parent="KS-Uif-HiddenControl"/>
