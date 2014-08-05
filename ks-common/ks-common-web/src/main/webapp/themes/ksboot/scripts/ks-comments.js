@@ -99,32 +99,19 @@ function deleteComment(baseUrl, controllerUrl, elem) {
     var formData = jQuery('#kualiForm').serialize() + '&' + jQuery.param(data);
     var targetUrl = baseUrl + "/kr-krad" + controllerUrl + "?methodToCall=ajaxDeleteComment";
 
-    jQuery.ajax({
-        dataType: "json",
-        url: targetUrl,
-        type: "POST",
-        data: formData,
-        success: function (data, textStatus, jqXHR) {
-            if(data.hasErrors){
-                processErrors(data, 'KS-collection-rowId_line'+index, baseUrl);
-            }else{
-                jQuery(rowContainer).remove();
-                jQuery("#Comment_list_Header").find("span").text("Comments(" + data.count + ")");
-                jQuery('[id^="KS-collection-rowId_line"]').each(function(){
-                    jQuery(this).find("button").each(function(){
-                        var submitData = jQuery(this).data('submit_data');
-                        var i = parseInt(submitData['actionParameters[selectedLineIndex]']);
-                        if(i > index){
-                            submitData['actionParameters[selectedLineIndex]'] = i - 1;
-                            jQuery(this).attr('data-submit_data',JSON.stringify(submitData));
-                        }
-                    });
-                });
-            }
-        },
-        error: function (jqXHR, status, error) {
-            processException(jqXHR, 'KS-collection-rowId_line'+index, baseUrl);
-        }
+    jsonPost(targetUrl, formData, function(data){
+        jQuery(rowContainer).remove();
+        jQuery("#Comment_list_Header").find("span").text("Comments(" + data.count + ")");
+        jQuery('[id^="KS-collection-rowId_line"]').each(function(){
+            jQuery(this).find("button").each(function(){
+                var submitData = jQuery(this).data('submit_data');
+                var i = parseInt(submitData['actionParameters[selectedLineIndex]']);
+                if(i > index){
+                    submitData['actionParameters[selectedLineIndex]'] = i - 1;
+                    jQuery(this).attr('data-submit_data',JSON.stringify(submitData));
+                }
+            });
+        });
     });
 }
 
@@ -135,6 +122,16 @@ function updateComment(baseUrl, controllerUrl, elem) {
     var formData = jQuery('#kualiForm').serialize() + '&' + jQuery.param(submitData);
     var targetUrl = baseUrl + "/kr-krad" + controllerUrl + "?methodToCall=ajaxUpdateComment";
 
+    jsonPost(targetUrl, formData, function(data){
+        toggleCommentButtons(elem);
+        jQuery("#KS-CommentField_UI_ID_line" + index ).text(data.commentWrapper.commentTextUI);
+        jQuery("#lastEditor-container-id_line" + index).show();
+        jQuery("#lastEditor-name-id_line" + index).text(data.commentWrapper.lastEditorName);
+        jQuery("#lastEditor-date-id_line" + index).text(data.commentWrapper.lastEditedDate);
+    });
+}
+
+function jsonPost(targetUrl, formData, callbackFunction){
     jQuery.ajax({
         dataType: "json",
         url: targetUrl,
@@ -142,13 +139,9 @@ function updateComment(baseUrl, controllerUrl, elem) {
         data: formData,
         success: function (data, textStatus, jqXHR) {
             if(data.hasErrors){
-                 processErrors(data, 'KS-collection-rowId_line'+index, baseUrl);
+                processErrors(data, 'KS-collection-rowId_line'+index, baseUrl);
             }else{
-                toggleCommentButtons(elem);
-                jQuery("#KS-CommentField_UI_ID_line" + index ).text(data.commentWrapper.commentTextUI);
-                jQuery("#lastEditor-container-id_line" + index).show();
-                jQuery("#lastEditor-name-id_line" + index).text(data.commentWrapper.lastEditorName);
-                jQuery("#lastEditor-date-id_line" + index).text(data.commentWrapper.lastEditedDate);
+                callbackFunction(data);
             }
         },
         error: function (jqXHR, status, error) {
