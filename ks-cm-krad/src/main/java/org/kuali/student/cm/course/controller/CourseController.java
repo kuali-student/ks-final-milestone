@@ -302,9 +302,9 @@ public class CourseController extends CourseRuleEditorController {
              * If proposal ID is present then load the proposal and course data then reset it so that new entities
              * are created on save.
              */
-            String proposalId = form.getActionParamaterValue(UrlParams.COPY_PROPOSAL_ID);
+            String proposalId = request.getParameter(UrlParams.COPY_PROPOSAL_ID);
             if (StringUtils.isNotBlank(proposalId)) {
-                wrapper.getProposalInfo().setName("This is a copy proposal");
+//                wrapper.getProposalInfo().setName("Copy of ");
             }
         }
         return getUIFModelAndView(form);
