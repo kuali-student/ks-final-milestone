@@ -844,6 +844,7 @@
         <property name="dictionaryServiceDelegate" ref="coreDictionaryService"/>
         <property name="searchManager" ref="proposalSearchManager"/>
         <property name="validatorFactory" ref="coreValidatorFactory"/>
+        <property name="proposalCriteriaLookupService" ref="coreCriteriaLookupService" />
     </bean>
 
     <bean id="proposalSearchableDao"

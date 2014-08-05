@@ -15,11 +15,13 @@
 
 package org.kuali.student.r1.core.proposal.service.impl;
 
+import org.kuali.rice.core.api.criteria.GenericQueryResults;
 import org.kuali.student.r1.common.dictionary.dto.ObjectStructureDefinition;
 import org.kuali.student.r1.common.dictionary.service.DictionaryService;
 import org.kuali.student.r1.core.proposal.dao.ProposalDao;
 import org.kuali.student.r1.core.proposal.entity.Proposal;
 import org.kuali.student.r1.core.proposal.entity.ProposalReference;
+import org.kuali.student.r2.common.criteria.CriteriaLookupService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.*;
@@ -31,6 +33,7 @@ import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.jws.WebService;
+import java.util.ArrayList;
 import java.util.List;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.r2.common.dto.StatusInfo;
@@ -55,6 +58,7 @@ public class ProposalServiceImpl implements ProposalService {
     private SearchManager searchManager;
     private DictionaryService dictionaryServiceDelegate;
     private ValidatorFactory validatorFactory;
+    private CriteriaLookupService proposalCriteriaLookupService;
     
     public void setSearchManager(SearchManager searchManager) {
         this.searchManager = searchManager;
@@ -303,7 +307,12 @@ public class ProposalServiceImpl implements ProposalService {
 
     @Override
     public List<ProposalInfo> searchForProposals(QueryByCriteria criteria, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new UnsupportedOperationException("Not supported yet.");
+        List<ProposalInfo> proposals = new ArrayList<ProposalInfo>();
+        GenericQueryResults<Proposal> results = this.getProposalCriteriaLookupService().lookup(Proposal.class, criteria);
+        for (Proposal proposal : results.getResults()) {
+            proposals.add(ProposalAssembler.toProposalInfo(proposal));
+        }
+        return proposals;
     }
 
     
@@ -447,6 +456,13 @@ public class ProposalServiceImpl implements ProposalService {
         return searchManager;
     }
 
+    public CriteriaLookupService getProposalCriteriaLookupService() {
+       return proposalCriteriaLookupService;
+    }
+
+    public void setProposalCriteriaLookupService(CriteriaLookupService proposalCriteriaLookupService) {
+       this.proposalCriteriaLookupService = proposalCriteriaLookupService;
+    }
     /**
      * @return the dictionaryServiceDelegate
      */
