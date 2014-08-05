@@ -97,7 +97,7 @@ function deleteComment(baseUrl, controllerUrl, elem) {
     var data = jQuery(elem).data('submit_data');
     var index = parseInt(data['actionParameters[selectedLineIndex]']);
     var formData = jQuery('#kualiForm').serialize() + '&' + jQuery.param(data);
-    var targetUrl = baseUrl + "/kr-krad/" + controllerUrl + "?methodToCall=ajaxDeleteComment";
+    var targetUrl = baseUrl + "/kr-krad" + controllerUrl + "?methodToCall=ajaxDeleteComment";
 
     jQuery.ajax({
         dataType: "json",
@@ -133,7 +133,7 @@ function updateComment(baseUrl, controllerUrl, elem) {
     var submitData = jQuery(elem).data('submit_data');
     var index = parseInt(submitData['actionParameters[selectedLineIndex]']);
     var formData = jQuery('#kualiForm').serialize() + '&' + jQuery.param(submitData);
-    var targetUrl = baseUrl + "/kr-krad/" + controllerUrl + "?methodToCall=ajaxUpdateComment";
+    var targetUrl = baseUrl + "/kr-krad" + controllerUrl + "?methodToCall=ajaxUpdateComment";
 
     jQuery.ajax({
         dataType: "json",
