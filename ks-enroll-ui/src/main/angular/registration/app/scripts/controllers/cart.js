@@ -492,6 +492,7 @@ angular.module('regCartApp')
             $modal.open({
                 backdrop: 'static',
                 templateUrl: 'partials/additionalOptions.html',
+                size: 'sm',
                 resolve: {
                     item: function () {
                         return cartItem;
