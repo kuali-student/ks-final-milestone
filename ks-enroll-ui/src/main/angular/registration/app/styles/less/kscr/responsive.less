@@ -189,14 +189,13 @@
 
             // Schedule contents
             .kscr-Responsive-schedule {
-                background-color: @whiteBackground;
                 margin: 0.1rem 0;
             }
 
             // Waitlisted course list container
             .kscr-Responsive-waitlisted {
                 border-top: @horizontalLineBorder;
-                margin-top: 0.35rem;
+                margin-top: 0.1rem;
 
                 // Waitlist container when no courses exist in it
                 &--inactive {
@@ -204,10 +203,27 @@
                 }
             }
 
+            // Course card list
+            .kscr-Card {
+                background-color: @whiteBackground;
+
+                .kscr-Card-status {
+                    border: none;
+                    margin-bottom: 0.1rem;
+                }
+            }
+
             // Sub-headings, make sure they are well spaced in the schedule (Registered & Waitlisted)
             .kscr-Heading-sub {
+                background-color: @sectionColor;
                 border-bottom: @horizontalLineBorder;
-                margin: 0 1rem 0.35rem;
+                margin: 0 0 0.1rem;
+                padding: 0.5rem 1rem;
+
+                // Empty schedule heading
+                &.kscr-Heading-scheduleHeading--empty {
+                    background-color: @whiteBackground;
+                }
 
                 // Credits count
                 .kscr-Heading-support {
