@@ -63,6 +63,11 @@ angular.module('regCartApp')
                                     // This facilitates calculating if the waitlist is available.
                                     regGroups[id].aos.push(ao);
                                 });
+
+                                // Check to see if there are any additional info icons to display for this course
+                                if (!$scope.additionalInfo && (ao.subterm != null || (angular.isArray(ao.requisites) && ao.requisites.length > 0))) {
+                                    $scope.additionalInfo = true;
+                                }
                             });
                         });
                     }
@@ -83,6 +88,7 @@ angular.module('regCartApp')
         $scope.selectedAOs = [];        // List of selected activity offerings by their type
         $scope.selectedRegGroup = null; // Handle on the selected reg group based on the selected AOs
         $scope.singleRegGroup = false;  // Handle on whether we are displaying a single reg group or several
+        $scope.additionalInfo = false;  // Handle on whether there are additional info icons to show for this course
 
         $scope.clearSelectedAOs = function() {
             $scope.selectedRegGroup = null;

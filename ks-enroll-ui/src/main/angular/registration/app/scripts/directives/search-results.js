@@ -258,10 +258,11 @@ angular.module('regCartApp')
                         filter: attrs.filter,
                         order: attrs.order,
                         url: attrs.url,
-                        sortable: attrs.sortable,
+                        sortable: attrs.sortField,
                         optional: attrs.optional,
                         checkbox: attrs.checkbox};
-                    searchColumn.sortable = searchColumn.sortable !== 'false';
+                    searchColumn.sortable = searchColumn.sortable !== 'false'; // defaults to true
+                    searchColumn.optional = searchColumn.optional === 'true';  // defaults to false
                     scope.searchColumns.push(searchColumn);
                     scope.sortSearchColumns();
                 }
