@@ -62,9 +62,9 @@
                                     <div class="kscr-DropCourse-header">Remove from Waitlist for <strong>{{course.courseCode}} ({{course.regGroupCode}})</strong>?</div>
                                     <div class="kscr-DropCourse-buttons util-Grid"><div class="util-Grid-cell"></div>
                                         <span>
-                                            <button id="removeWaitlist" class="kscr-Button--primary" type="submit" focus-me="course.dropping">Confirm Remove</button>
+                                            <button id="removeWaitlist_{{course.courseCode}}_{{course.regGroupCode}}" class="kscr-Button--primary" type="submit" focus-me="course.dropping">Confirm Remove</button>
                                             <div class="global-Base-divider"></div>
-                                            <button id="removeWaitlistCancel" class="kscr-Button" type="button" ng-click="cancelDropConfirmation(course)">Cancel</button>
+                                            <button id="removeWaitlistCancel_{{course.courseCode}}_{{course.regGroupCode}}" class="kscr-Button" type="button" ng-click="cancelDropConfirmation(course)">Cancel</button>
                                         </span>
                                     </div>
                                 </div>
