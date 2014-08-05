@@ -48,7 +48,7 @@
             <div class="kscr-SearchDetails-selection kscr-SearchDetails-selection--selected util-Grid-cell" ng-if="hasSelectedAOs()"
                  ng-class="{'kscr-SearchDetails-selection--complete' : selectedRegGroup, 'kscr-SearchDetails-selection--full' : selectedRegGroup.isFull }">
                 <div class="kscr-SearchDetails-label" ng-if="!selectedRegGroup">{{selectedAOs.length}} of {{course.activityOfferingTypes.length}} activities selected</div>
-                <div class="kscr-SearchDetails-label" ng-if="selectedRegGroup && possibleRegGroups() > 1">
+                <div class="kscr-SearchDetails-label" ng-if="selectedRegGroup && !singleRegGroup">
                     <i class="kscr-SearchDetails-selection-icon"></i>
                     <span>Section {{selectedRegGroup.code}} </span>
                     <span ng-if="!selectedRegGroup.isFull">Selected</span>
@@ -66,10 +66,10 @@
                         </span>
                     </span>
                 </div>
-                <div class="kscr-SearchDetails-single-selection" ng-if="selectedRegGroup && possibleRegGroups() === 1">
+                <div class="kscr-SearchDetails-single-selection" ng-if="selectedRegGroup && singleRegGroup">
                     Section {{selectedRegGroup.code}}
                 </div>
-                <a class="kscr-SearchDetails-selection-clear" ng-click="clearSelectedAOs()" ng-if="possibleRegGroups() > 1">
+                <a class="kscr-SearchDetails-selection-clear" ng-click="clearSelectedAOs()" ng-if="!singleRegGroup">
                     <ng-pluralize count="selectedAOs.length" when="{'1': 'Clear Selection', 'other': 'Clear Selections'}"></ng-pluralize>
                 </a>
             </div>
@@ -110,7 +110,7 @@
         </div>
 
         <!-- Activity Offering Table (single reg group) -->
-        <div class="kscr-SearchDetails-activityOfferingGroups" ng-if="possibleRegGroups() === 1">
+        <div class="kscr-SearchDetails-activityOfferingGroups" ng-if="singleRegGroup">
             <div class="kscr-SearchDetails-activityOfferingGroup">
                 <div class="kscr-SearchDetails-activityOfferings">
                     <search-results>
@@ -128,7 +128,7 @@
         </div>
 
         <!-- Activity Offering Tables (multiple reg groups) -->
-        <div class="kscr-SearchDetails-activityOfferingGroups" ng-if="possibleRegGroups() > 1">
+        <div class="kscr-SearchDetails-activityOfferingGroups" ng-if="!singleRegGroup">
             <div class="kscr-SearchDetails-activityOfferingGroup" ng-repeat="aoType in course.activityOfferingTypes">
                 <div id="{{aoType.activityOfferingTypeName}}_details_heading" class="kscr-SearchDetails-label">
                     {{aoType.activityOfferingTypeName}}<ng-pluralize count="aoType.activityOfferings.length" when="{'1' : '', 'other': 's'}"></ng-pluralize>

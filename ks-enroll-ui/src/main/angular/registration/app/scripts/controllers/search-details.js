@@ -10,7 +10,7 @@ angular.module('regCartApp')
         // Push the user back to the search page when the term is changed
         $scope.$on('termIdChanged', function(event, newValue, oldValue) {
             if (oldValue !== null && $scope.searchCriteria && $scope.uiState === 'root.search.details') {
-                $state.goToPage('root.search.results', { searchCriteria: $scope.searchCriteria });
+                $state.go('root.search.results', { searchCriteria: $scope.searchCriteria });
             }
         });
 
@@ -69,6 +69,7 @@ angular.module('regCartApp')
 
                     $scope.availableRegGroups = regGroups;
                     $scope.course = result;
+                    $scope.singleRegGroup = singleRegGroup();
                     $scope.updateAOStates();
                 } else {
                     console.log('Course load completed but not the most recent, ignoring: "' + courseId + '" !== "' + lastCourseId + '"');
@@ -79,8 +80,9 @@ angular.module('regCartApp')
         }
 
         $scope.availableRegGroups = {};
-        $scope.selectedAOs = []; // List of selected activity offerings by their type
+        $scope.selectedAOs = [];        // List of selected activity offerings by their type
         $scope.selectedRegGroup = null; // Handle on the selected reg group based on the selected AOs
+        $scope.singleRegGroup = false;  // Handle on whether we are displaying a single reg group or several
 
         $scope.clearSelectedAOs = function() {
             $scope.selectedRegGroup = null;
@@ -256,9 +258,11 @@ angular.module('regCartApp')
 
         /*
          * Method for determining how many possible reg groups are available --
-         * if only one reg group is available, select all aos automatically
+         * if only one reg group is available, select all aos automatically and
+         * return true. Otherwise, select nothing and return false.
          */
-        $scope.possibleRegGroups = function() {
+        function singleRegGroup() {
+            var singleRegGroup = false;
             var course = $scope.course;
             var regGroups = [];
             var indexedRegGroups = {}; //map
@@ -287,9 +291,10 @@ angular.module('regCartApp')
                     }
                 });
                 $scope.selectedRegGroup = regGroups[0];
+                singleRegGroup = true;
             }
-            return possibleRegGroups;
-        };
+            return singleRegGroup;
+        }
 
         /**
          * Auto-select the an activity offering when there is only 1 eligible option within its type
