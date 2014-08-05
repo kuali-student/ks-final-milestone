@@ -21,13 +21,20 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.criteria.Predicate;
 import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
+import org.kuali.rice.core.api.criteria.QueryResults;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kim.api.identity.IdentityService;
 import org.kuali.rice.kim.api.identity.entity.EntityDefault;
 import org.kuali.rice.kim.api.identity.entity.EntityDefaultQueryResults;
 import org.kuali.rice.kim.api.identity.principal.Principal;
+import org.kuali.rice.kim.api.identity.principal.PrincipalQueryResults;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
+import org.kuali.rice.kim.impl.KIMPropertyConstants;
+import org.kuali.rice.kim.impl.identity.entity.EntityBo;
+import org.kuali.rice.kim.impl.identity.name.EntityNameBo;
+import org.kuali.rice.kim.impl.identity.principal.PrincipalBo;
+import org.kuali.rice.krad.data.DataObjectService;
 import org.kuali.rice.krms.api.KrmsConstants;
 import org.kuali.rice.krms.api.repository.RuleManagementService;
 import org.kuali.student.common.collection.KSCollectionUtils;
@@ -118,7 +125,7 @@ public class CourseRegistrationAndScheduleOfClassesUtil {
             return termId;
         }
 
-        if(StringUtils.isEmpty(termCode)){
+        if (StringUtils.isEmpty(termCode)) {
             return null;
         }
 
@@ -316,7 +323,7 @@ public class CourseRegistrationAndScheduleOfClassesUtil {
             // if we have a list of instructors
             if (!resultList.isEmpty()) {
                 // get the instructor entities from KIM.
-                EntityDefaultQueryResults results = getInstructorsInfoFromKim(new ArrayList<String>(principalId2aoIdMap.keySet()));
+                EntityDefaultQueryResults results = getInstructorsInfoFromKim(new ArrayList<>(principalId2aoIdMap.keySet()));
 
                 for (EntityDefault entity : results.getResults()) {
                     // Each KIM entity can have multiple principals. So we need to loop through the principals
@@ -414,7 +421,6 @@ public class CourseRegistrationAndScheduleOfClassesUtil {
 
     /**
      * This method creates a registration request for the add operation of a single registration group.
-     *
      *
      * @param principalId     principal id
      * @param regGroupId      Registration Group id
@@ -529,14 +535,81 @@ public class CourseRegistrationAndScheduleOfClassesUtil {
         return resultList;
     }
 
+    /**
+     * A faster way to get default names
+     *
+     * @param principalIds
+     * @return EntityDefaultQueryResults with only default names populated
+     */
+    private static EntityDefaultQueryResults getInstructorsInfoFromKimFast(List<String> principalIds) {
+
+        //Find all the principals
+        QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
+        qbcBuilder.setPredicates(
+                PredicateFactory.in("principalId", principalIds.toArray())
+        );
+
+        QueryByCriteria criteria = qbcBuilder.build();
+
+        PrincipalQueryResults principalResults = CourseRegistrationAndScheduleOfClassesUtil.getIdentityService().findPrincipals(criteria);
+
+        //Get a mapping of entity Ids to principals
+        Map<String, Principal> entityId2Principal = new HashMap<>();
+        for (Principal principal : principalResults.getResults()) {
+            entityId2Principal.put(principal.getEntityId(), principal);
+        }
+
+        //Create a query to get default names
+        qbcBuilder = QueryByCriteria.Builder.create();
+        qbcBuilder.setPredicates(
+                PredicateFactory.in(KIMPropertyConstants.Entity.ENTITY_ID, entityId2Principal.keySet().toArray()),
+                PredicateFactory.equal("defaultValue", Boolean.TRUE),
+                PredicateFactory.equal(KIMPropertyConstants.Entity.ACTIVE, Boolean.TRUE)
+        );
+
+        criteria = qbcBuilder.build();
+
+        //Get a handle to the dataObjectService. If this doesnt work then an exception will be thrown and
+        // the normal search for default entities will take over
+        DataObjectService dataObjectService = GlobalResourceLoader.getService("dataObjectService");
+
+        //Do the search
+        QueryResults<EntityNameBo> results = dataObjectService.findMatching(EntityNameBo.class, criteria);
+
+        //Build up entityDefault structure
+        EntityDefaultQueryResults.Builder entityDefaultBuilder = EntityDefaultQueryResults.Builder.create();
+        entityDefaultBuilder.setMoreResultsAvailable(results.isMoreResultsAvailable());
+        entityDefaultBuilder.setTotalRowCount(results.getTotalRowCount());
+
+        final List<EntityDefault.Builder> entityDefaultBuilders = new ArrayList<>();
+        for (EntityNameBo entityName : results.getResults()) {
+            EntityBo bo = new EntityBo();
+            bo.getNames().add(entityName);
+            bo.getPrincipals().add(PrincipalBo.from(entityId2Principal.get(entityName.getEntityId())));
+            bo.setId(entityName.getEntityId());
+            entityDefaultBuilders.add(EntityDefault.Builder.create(bo));
+        }
+
+        entityDefaultBuilder.setResults(entityDefaultBuilders);
+
+        return entityDefaultBuilder.build();
+    }
+
     private static EntityDefaultQueryResults getInstructorsInfoFromKim(List<String> principalIds) {
+
+        //Try the fast way first
+        try {
+            return getInstructorsInfoFromKimFast(principalIds);
+        } catch (Exception ex) {
+            LOGGER.warn("Error getting ids", ex);
+        }
+
         QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
         qbcBuilder.setPredicates(
                 PredicateFactory.in("principals.principalId", principalIds.toArray())
         );
 
         QueryByCriteria criteria = qbcBuilder.build();
-
         EntityDefaultQueryResults entityResults = CourseRegistrationAndScheduleOfClassesUtil.getIdentityService().findEntityDefaults(criteria);
 
         return entityResults;
@@ -558,26 +631,34 @@ public class CourseRegistrationAndScheduleOfClassesUtil {
 
     /**
      * This method converts Timeslot Day Codes to Timeslot Day Display Codes
+     *
      * @param day - Timeslot Day Code
      * @return dayDisplay - Timeslot Day Display Code
      */
-    public static String dayDisplayHelper(String day){
-        StringBuilder dayDisplay= new StringBuilder();
-        for(char c: day.toCharArray()){
-            switch(c){
-                case 'M': dayDisplay.append(SchedulingServiceConstants.MONDAY_TIMESLOT_DISPLAY_DAY_CODE);
+    public static String dayDisplayHelper(String day) {
+        StringBuilder dayDisplay = new StringBuilder();
+        for (char c : day.toCharArray()) {
+            switch (c) {
+                case 'M':
+                    dayDisplay.append(SchedulingServiceConstants.MONDAY_TIMESLOT_DISPLAY_DAY_CODE);
                     break;
-                case 'T': dayDisplay.append(SchedulingServiceConstants.TUESDAY_TIMESLOT_DISPLAY_DAY_CODE);
+                case 'T':
+                    dayDisplay.append(SchedulingServiceConstants.TUESDAY_TIMESLOT_DISPLAY_DAY_CODE);
                     break;
-                case 'W': dayDisplay.append(SchedulingServiceConstants.WEDNESDAY_TIMESLOT_DISPLAY_DAY_CODE);
+                case 'W':
+                    dayDisplay.append(SchedulingServiceConstants.WEDNESDAY_TIMESLOT_DISPLAY_DAY_CODE);
                     break;
-                case 'H': dayDisplay.append(SchedulingServiceConstants.THURSDAY_TIMESLOT_DISPLAY_DAY_CODE);
+                case 'H':
+                    dayDisplay.append(SchedulingServiceConstants.THURSDAY_TIMESLOT_DISPLAY_DAY_CODE);
                     break;
-                case 'F': dayDisplay.append(SchedulingServiceConstants.FRIDAY_TIMESLOT_DISPLAY_DAY_CODE);
+                case 'F':
+                    dayDisplay.append(SchedulingServiceConstants.FRIDAY_TIMESLOT_DISPLAY_DAY_CODE);
                     break;
-                case 'S': dayDisplay.append(SchedulingServiceConstants.SATURDAY_TIMESLOT_DISPLAY_DAY_CODE);
+                case 'S':
+                    dayDisplay.append(SchedulingServiceConstants.SATURDAY_TIMESLOT_DISPLAY_DAY_CODE);
                     break;
-                case 'U': dayDisplay.append(SchedulingServiceConstants.SUNDAY_TIMESLOT_DISPLAY_DAY_CODE);
+                case 'U':
+                    dayDisplay.append(SchedulingServiceConstants.SUNDAY_TIMESLOT_DISPLAY_DAY_CODE);
                     break;
                 default:
                     break;
@@ -712,6 +793,8 @@ public class CourseRegistrationAndScheduleOfClassesUtil {
         return ruleManagementService;
     }
 
-   public void setRuleManagementService(RuleManagementService ruleManagementService) { CourseRegistrationAndScheduleOfClassesUtil.ruleManagementService = ruleManagementService; }
+    public void setRuleManagementService(RuleManagementService ruleManagementService) {
+        CourseRegistrationAndScheduleOfClassesUtil.ruleManagementService = ruleManagementService;
+    }
 
 }

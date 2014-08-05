@@ -11,7 +11,22 @@ import org.kuali.student.common.util.security.ContextUtils;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.enrollment.courseofferingset.dto.SocInfo;
 import org.kuali.student.enrollment.registration.client.service.ScheduleOfClassesService;
-import org.kuali.student.enrollment.registration.client.service.dto.*;
+import org.kuali.student.enrollment.registration.client.service.dto.ActivityOfferingScheduleComponentResult;
+import org.kuali.student.enrollment.registration.client.service.dto.ActivityOfferingSearchResult;
+import org.kuali.student.enrollment.registration.client.service.dto.ActivityOfferingTypesSearchResult;
+import org.kuali.student.enrollment.registration.client.service.dto.ActivityTypeSearchResult;
+import org.kuali.student.enrollment.registration.client.service.dto.CourseAndPrimaryAOSearchResult;
+import org.kuali.student.enrollment.registration.client.service.dto.CourseOfferingDetailsSearchResult;
+import org.kuali.student.enrollment.registration.client.service.dto.CourseOfferingLimitedInfoSearchResult;
+import org.kuali.student.enrollment.registration.client.service.dto.CourseSearchResult;
+import org.kuali.student.enrollment.registration.client.service.dto.EligibilityCheckResult;
+import org.kuali.student.enrollment.registration.client.service.dto.InstructorSearchResult;
+import org.kuali.student.enrollment.registration.client.service.dto.RegGroupSearchResult;
+import org.kuali.student.enrollment.registration.client.service.dto.RegistrationCountResult;
+import org.kuali.student.enrollment.registration.client.service.dto.ScheduleSearchResult;
+import org.kuali.student.enrollment.registration.client.service.dto.StudentScheduleActivityOfferingResult;
+import org.kuali.student.enrollment.registration.client.service.dto.SubTermOfferingResult;
+import org.kuali.student.enrollment.registration.client.service.dto.TermSearchResult;
 import org.kuali.student.enrollment.registration.client.service.impl.util.CourseRegistrationAndScheduleOfClassesUtil;
 import org.kuali.student.enrollment.registration.client.service.impl.util.SearchResultHelper;
 import org.kuali.student.enrollment.registration.client.service.impl.util.StaticUserDateUtil;
@@ -19,7 +34,11 @@ import org.kuali.student.enrollment.registration.search.service.impl.CourseRegis
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.TimeOfDayInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
-import org.kuali.student.r2.common.exceptions.*;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.exceptions.MissingParameterException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.infc.ValidationResult;
 import org.kuali.student.r2.common.util.TimeOfDayHelper;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
@@ -46,7 +65,12 @@ import org.slf4j.LoggerFactory;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import java.io.Serializable;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import static org.kuali.rice.core.api.criteria.PredicateFactory.equal;
 
@@ -57,7 +81,6 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
     private EntityManager entityManager;
 
     private AtpService atpService;
-
 
 
     /**
@@ -80,10 +103,10 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
 
     @Override
     public RegGroupSearchResult searchForRegistrationGroupByTermAndCourseAndRegGroup(String termId, String termCode, String courseCode, String regGroupCode) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        List<RegGroupSearchResult> regGroupSearchResults =  searchForRegistrationGroupsLocal(null, termId, termCode, courseCode, regGroupCode);
+        List<RegGroupSearchResult> regGroupSearchResults = searchForRegistrationGroupsLocal(null, termId, termCode, courseCode, regGroupCode);
         if (regGroupSearchResults != null && !regGroupSearchResults.isEmpty()) {
-           return  KSCollectionUtils.getRequiredZeroElement(regGroupSearchResults);
-        }  else {
+            return KSCollectionUtils.getRequiredZeroElement(regGroupSearchResults);
+        } else {
             return null;
         }
     }
@@ -150,13 +173,13 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
         List<InstructorSearchResult> instructors = null;
 
         if (!StringUtils.isEmpty(activityOfferingId)) {
-            instructors =  getInstructorsByActivityOfferingId(activityOfferingId);
-        }  else {
+            instructors = getInstructorsByActivityOfferingId(activityOfferingId);
+        } else {
 
             courseOfferingId = getCourseOfferingId(courseOfferingId, courseCode, termId, termCode);
 
-            if(!StringUtils.isEmpty(courseOfferingId)){
-                instructors =  getInstructorsByCourseOfferingId(courseOfferingId);
+            if (!StringUtils.isEmpty(courseOfferingId)) {
+                instructors = getInstructorsByCourseOfferingId(courseOfferingId);
             }
         }
 
@@ -175,10 +198,10 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
         // get the FOs for the course offering. Note: FO's contain a list of activity offering type keys
         ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
         List<FormatOfferingInfo> formatOfferings;
-        if(!StringUtils.isEmpty(courseOfferingId)){
+        if (!StringUtils.isEmpty(courseOfferingId)) {
             formatOfferings = CourseRegistrationAndScheduleOfClassesUtil.getCourseOfferingService().getFormatOfferingsByCourseOffering(courseOfferingId, contextInfo);
         } else {
-            formatOfferings=new ArrayList<FormatOfferingInfo>();
+            formatOfferings = new ArrayList<FormatOfferingInfo>();
         }
 
         return getActivityTypesForFormatOfferings(formatOfferings, contextInfo);
@@ -188,22 +211,22 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
         courseOfferingId = getCourseOfferingId(courseOfferingId, courseCode, termId, termCode);
         List<RegGroupSearchResult> retList = null;
 
-        if(!StringUtils.isEmpty(courseOfferingId)){
-            retList =  getRegGroupList(courseOfferingId, regGroupName);
+        if (!StringUtils.isEmpty(courseOfferingId)) {
+            retList = getRegGroupList(courseOfferingId, regGroupName);
         }
 
         // We want to add registration counts to the results
-        if(retList != null && !retList.isEmpty()){
+        if (retList != null && !retList.isEmpty()) {
             List<String> rgIds = new ArrayList<String>();
             Map<String, RegGroupSearchResult> tmpMap = new HashMap<String, RegGroupSearchResult>(); // used for performance
-            for(RegGroupSearchResult sr : retList){
+            for (RegGroupSearchResult sr : retList) {
                 rgIds.add(sr.getRegGroupId()); // build list of ids to pass into search
                 tmpMap.put(sr.getRegGroupId(), sr); // create mapping so we can update in O(n) time
             }
 
             List<RegistrationCountResult> countResults = getRegGroupCounts(rgIds); // perform search
 
-            for(RegistrationCountResult rgCount : countResults){ // for each rg, update corresponding map value
+            for (RegistrationCountResult rgCount : countResults) { // for each rg, update corresponding map value
                 tmpMap.get(rgCount.getLuiId()).getRegistrationCounts().add(rgCount);
             }
         }
@@ -310,7 +333,7 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
     protected List<ActivityOfferingSearchResult> searchForActivityOfferingsLocal(String courseOfferingId, String termId, String termCode, String courseCode) throws MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException, InvalidParameterException {
         List<ActivityOfferingSearchResult> activityOfferingSearchResults = null;
         courseOfferingId = getCourseOfferingId(courseOfferingId, courseCode, termId, termCode);
-        if(!StringUtils.isEmpty(courseOfferingId)){
+        if (!StringUtils.isEmpty(courseOfferingId)) {
             activityOfferingSearchResults = loadPopulatedActivityOfferingsByCourseOfferingId(courseOfferingId, ContextUtils.createDefaultContextInfo());
         }
 
@@ -386,7 +409,7 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
 
     }
 
-    private List<RegistrationCountResult>  getRegGroupCounts(List<String> regGroupIds) throws MissingParameterException, InvalidParameterException, OperationFailedException, PermissionDeniedException {
+    private List<RegistrationCountResult> getRegGroupCounts(List<String> regGroupIds) throws MissingParameterException, InvalidParameterException, OperationFailedException, PermissionDeniedException {
 
         List<RegistrationCountResult> retList = new ArrayList<RegistrationCountResult>();
         SearchRequestInfo searchRequest = new SearchRequestInfo(CourseRegistrationSearchServiceImpl.SEAT_COUNT_INFO_BY_REG_GROUPS_SEARCH_KEY);
@@ -452,7 +475,7 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
     }
 
     private <T> T getSingleItemFromListOrNull(List<T> items) throws OperationFailedException {
-        if(items != null && !items.isEmpty()){
+        if (items != null && !items.isEmpty()) {
             return KSCollectionUtils.getRequiredZeroElement(items);
         } else {
             return null;
@@ -551,7 +574,7 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
         return atps;
     }
 
-    private List<CourseSearchResult> searchForCourseOfferings (SearchRequestInfo searchRequest) throws InvalidParameterException, MissingParameterException, PermissionDeniedException, OperationFailedException {
+    private List<CourseSearchResult> searchForCourseOfferings(SearchRequestInfo searchRequest) throws InvalidParameterException, MissingParameterException, PermissionDeniedException, OperationFailedException {
         SearchResultInfo searchResult = CourseRegistrationAndScheduleOfClassesUtil.getSearchService().search(searchRequest, ContextUtils.createDefaultContextInfo());
 
         List<CourseSearchResult> results = new ArrayList<CourseSearchResult>();
@@ -580,8 +603,10 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
         return results;
     }
 
-//   Returns a list of course offering details such as main info (code, name, desc, etc.), cross-listed courses, prereqs, and AO info (main info, schedule, instructor, reg groups).
+    //   Returns a list of course offering details such as main info (code, name, desc, etc.), cross-listed courses, prereqs, and AO info (main info, schedule, instructor, reg groups).
     private CourseOfferingDetailsSearchResult searchForCourseOfferingDetails(String courseOfferingId) throws InvalidParameterException, MissingParameterException, PermissionDeniedException, OperationFailedException, DoesNotExistException {
+        long startTime = System.currentTimeMillis();
+
         ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
 
         SearchRequestInfo searchRequest = new SearchRequestInfo(CourseRegistrationSearchServiceImpl.CO_AND_AO_INFO_BY_CO_ID_SEARCH_TYPE.getKey());
@@ -668,7 +693,7 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
         // setting Cross-Listed COs
         if (!hmCOCrossListed.isEmpty()) {
             List<CourseOfferingLimitedInfoSearchResult> coCrossListed = new ArrayList<>();
-            for (String key: hmCOCrossListed.keySet()) {
+            for (String key : hmCOCrossListed.keySet()) {
                 coCrossListed.add(hmCOCrossListed.get(key));
             }
             courseSearchResult.setCrossListedCourses(coCrossListed);
@@ -696,9 +721,9 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
                 }
 
                 //See if there are rules on the AO
-                for(String key : aoIDs) {
+                for (String key : aoIDs) {
                     List<ReferenceObjectBinding> referenceObjectBindings = CourseRegistrationAndScheduleOfClassesUtil.getRuleManagementService().findReferenceObjectBindingsByReferenceObject(CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING, key);
-                    for(ReferenceObjectBinding referenceObjectBinding: referenceObjectBindings) {
+                    for (ReferenceObjectBinding referenceObjectBinding : referenceObjectBindings) {
                         String requisite = CourseRegistrationAndScheduleOfClassesUtil.getRuleManagementService().translateNaturalLanguageForObject("KS-KRMS-NL-USAGE-1005", "agenda", referenceObjectBinding.getKrmsObjectId(), "en");
                         hmActivityOfferings.get(key).getRequisites().add(requisite);
                     }
@@ -725,12 +750,12 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
                 // Creating AO Types
                 List<ActivityOfferingTypesSearchResult> activityOfferingTypes = new ArrayList<>();
                 List<String> aoTypes = new ArrayList<>();
-                for (String key: hmActivityOfferingTypes.keySet()) {
+                for (String key : hmActivityOfferingTypes.keySet()) {
                     aoTypes.add(key);
                 }
                 // sorting over AO types
                 CourseRegistrationAndScheduleOfClassesUtil.sortActivityOfferingTypeKeyList(aoTypes, contextInfo);  // sort the activity offerings type keys by priority order
-                for (String key: aoTypes) {
+                for (String key : aoTypes) {
                     activityOfferingTypes.add(hmActivityOfferingTypes.get(key));
                 }
                 courseSearchResult.setActivityOfferingTypes(activityOfferingTypes);
@@ -740,14 +765,16 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
         // setting prerequisites
         courseSearchResult.setPrerequisites(searchForPrerequisitesByCourseOffering(courseOfferingId));
 
+        LOGGER.info("SearchDetails took:" + (System.currentTimeMillis() - startTime) + "ms");
+
         return courseSearchResult;
     }
 
-    private List<String> searchForPrerequisitesByCourseOffering(String courseOfferingId){
+    private List<String> searchForPrerequisitesByCourseOffering(String courseOfferingId) {
         List<String> prerequisites = new ArrayList<String>();
 
         List<ReferenceObjectBinding> referenceObjectBindings = CourseRegistrationAndScheduleOfClassesUtil.getRuleManagementService().findReferenceObjectBindingsByReferenceObject(CourseOfferingServiceConstants.REF_OBJECT_URI_COURSE_OFFERING, courseOfferingId);
-        for(ReferenceObjectBinding referenceObjectBinding: referenceObjectBindings) {
+        for (ReferenceObjectBinding referenceObjectBinding : referenceObjectBindings) {
             String prerequisite = CourseRegistrationAndScheduleOfClassesUtil.getRuleManagementService().translateNaturalLanguageForObject("KS-KRMS-NL-USAGE-1005", "agenda", referenceObjectBinding.getKrmsObjectId(), "en");
             prerequisites.add(prerequisite);
         }
@@ -787,7 +814,7 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
                     regGroupName = value;
                 } else if (ActivityOfferingSearchServiceImpl.SearchResultColumns.RG_STATE.equals(cellInfo.getKey())) {
                     regGroupState = value;
-                }else if (ActivityOfferingSearchServiceImpl.SearchResultColumns.ATP_ID.equals(cellInfo.getKey())) {
+                } else if (ActivityOfferingSearchServiceImpl.SearchResultColumns.ATP_ID.equals(cellInfo.getKey())) {
                     termId = value;
                 }
 
@@ -989,7 +1016,7 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
                 scheduleIds.add(scheduleId);
             }
         }
-        if(!scheduleIds.isEmpty()){
+        if (!scheduleIds.isEmpty()) {
             Map<String, ScheduleSearchResult> schedMap = searchForScheduleByScheduleIds(scheduleIds, contextInfo);
 
             if (schedMap != null && !schedMap.isEmpty()) {
@@ -1145,7 +1172,7 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
         return searchRequest;
     }
 
-    private static  <T> List<T> emptyIfNull(List<T> inList) {
+    private static <T> List<T> emptyIfNull(List<T> inList) {
         if (inList == null) {
             inList = new ArrayList<T>();
         }
@@ -1156,14 +1183,15 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
     /**
      * The method was created for performance reasons
      * and goes directly against the JPA entities.
+     *
      * @param aoIds
-     * @return  returns null if no records are found
+     * @return returns null if no records are found
      */
     @Override
     public Map<String, List<TimeSlotInfo>> getAoTimeSlotMap(List<String> aoIds) {
         Map<String, List<TimeSlotInfo>> resultMap = new HashMap<String, List<TimeSlotInfo>>();
 
-        if(aoIds == null || aoIds.isEmpty()) return null;
+        if (aoIds == null || aoIds.isEmpty()) return null;
 
         String queryStr =
                 "SELECT\n" +
@@ -1185,22 +1213,22 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
         query.setParameter("aoIds", aoIds);
         List<Object[]> results = query.getResultList();
 
-        if(results.isEmpty())return null;
+        if (results.isEmpty()) return null;
 
-        for(Object[] resultRow : results){
+        for (Object[] resultRow : results) {
             int i = 0;
 
-            String aoId =  (String)resultRow[i++];
-            TimeSlotEntity timeSlotEntity = (TimeSlotEntity)resultRow[i++];
+            String aoId = (String) resultRow[i++];
+            TimeSlotEntity timeSlotEntity = (TimeSlotEntity) resultRow[i++];
 
-            if(!resultMap.containsKey(aoId)){
+            if (!resultMap.containsKey(aoId)) {
                 resultMap.put(aoId, new ArrayList<TimeSlotInfo>());
             }
 
             resultMap.get(aoId).add(timeSlotEntity.toDto());
         }
 
-        return  resultMap;
+        return resultMap;
     }
 
     private List<String> getCourseOfferingCreditOptionValues(String creditOptionId, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException {
@@ -1259,8 +1287,8 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
     }
 
     private StudentScheduleActivityOfferingResult createActivityOfferingResult(String aoId, String aoName, String aoType, String aoCode,
-            String aoMaxSeats, String aoSeatCount, String aoWlMaxSize, String aoWlCount, String rgId, String rgCode,
-            ActivityOfferingScheduleComponentResult scheduleComponent, String coAtpId, String aoAtpId, ContextInfo contextInfo) throws PermissionDeniedException, MissingParameterException, InvalidParameterException, OperationFailedException, DoesNotExistException {
+                                                                               String aoMaxSeats, String aoSeatCount, String aoWlMaxSize, String aoWlCount, String rgId, String rgCode,
+                                                                               ActivityOfferingScheduleComponentResult scheduleComponent, String coAtpId, String aoAtpId, ContextInfo contextInfo) throws PermissionDeniedException, MissingParameterException, InvalidParameterException, OperationFailedException, DoesNotExistException {
         StudentScheduleActivityOfferingResult ao = new StudentScheduleActivityOfferingResult();
 
         // main info
@@ -1286,7 +1314,7 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
         ao.setScheduleComponents(scheduleComponents);
 
         //If the AO and CO terms differ, then look up the AO's term information and add it to the result
-        if(!StringUtils.equals(coAtpId,aoAtpId)){
+        if (!StringUtils.equals(coAtpId, aoAtpId)) {
             AtpInfo aoAtp = atpService.getAtp(aoAtpId, contextInfo);
             SubTermOfferingResult subTermOfferingResult = new SubTermOfferingResult();
             subTermOfferingResult.setName(aoAtp.getName());
