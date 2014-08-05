@@ -91,51 +91,53 @@
                     </property>
                 </bean>
 
-                <bean parent="KS-Uif-InputField" id="CM-CopyCourse-CourseCode" p:propertyName="courseCode"
-                      p:label="Course Code" p:additionalHiddenPropertyNames="courseId" p:progressiveRender="@{createCourseInitialAction eq 'copyApprovedCourse'}">
-                    <property name="cssClasses">
-                        <list>
-                            <value>ks-cm-find-course</value>
-                        </list>
-                    </property>
-                    <property name="control">
-                        <bean parent="KS-Uif-TextControl" p:cssClasses="validCourseCode"/>
-                    </property>
-
-
-                    <property name="suggest">
-                        <bean parent="Uif-Suggest" p:render="true" p:returnFullQueryObject="true"
-                              p:labelPropertyName="courseCode" p:valuePropertyName="courseId">
-                            <property name="suggestQuery">
-                                <bean parent="Uif-AttributeQueryConfig"
-                                      p:queryMethodToCall="searchForCourses"/>
-                            </property>
-                            <property name="templateOptions">
-                                <map merge="true">
-                                    <entry key="minLength" value="1"/>
-                                    <entry key="delay" value="0"/>
-                                    <entry key="select">
-                                        <value>
-                                            function(event, ui) {
-                                            jQuery( "input[name='courseCode']" ).val(ui.item.label);
-                                            jQuery( "input[name='courseId']" ).val(ui.item.value);
-                                            jQuery( "input[name='courseId']" ).removeAttr('disabled');
-                                            return false;
-                                            }
-                                        </value>
-                                    </entry>
-                                </map>
-                            </property>
-                        </bean>
-                    </property>
-                </bean>
-                <ref bean="CM-Proposal-Course-Create-Start-CopyFromProposal-Action"/>
+                <ref bean="CM-Proposal-Course-Create-Start-CopyFromCourse"/>
+                <ref bean="CM-Proposal-Course-Create-Start-CopyFromProposal"/>
                 <ref bean="CM-Proposal-Course-Create-Start-ReviewSection"/>
             </list>
         </property>
     </bean>
 
-    <bean id="CM-Proposal-Course-Create-Start-CopyFromProposal-Action" parent="KS-Uif-InputField" p:propertyName="proposalTitle"
+    <bean id="CM-Proposal-Course-Create-Start-CopyFromCourse" parent="KS-Uif-InputField" p:propertyName="courseCode"
+          p:label="Course Code" p:additionalHiddenPropertyNames="courseId" p:progressiveRender="@{createCourseInitialAction eq 'copyApprovedCourse'}">
+        <property name="cssClasses">
+            <list>
+                <value>ks-cm-find-course</value>
+            </list>
+        </property>
+        <property name="control">
+            <bean parent="KS-Uif-TextControl" p:cssClasses="validCourseCode"/>
+        </property>
+
+
+        <property name="suggest">
+            <bean parent="Uif-Suggest" p:render="true" p:returnFullQueryObject="true"
+                  p:labelPropertyName="courseCode" p:valuePropertyName="courseId">
+                <property name="suggestQuery">
+                    <bean parent="Uif-AttributeQueryConfig"
+                          p:queryMethodToCall="searchForCourses"/>
+                </property>
+                <property name="templateOptions">
+                    <map merge="true">
+                        <entry key="minLength" value="1"/>
+                        <entry key="delay" value="0"/>
+                        <entry key="select">
+                            <value>
+                                function(event, ui) {
+                                jQuery( "input[name='courseCode']" ).val(ui.item.label);
+                                jQuery( "input[name='courseId']" ).val(ui.item.value);
+                                jQuery( "input[name='courseId']" ).removeAttr('disabled');
+                                return false;
+                                }
+                            </value>
+                        </entry>
+                    </map>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="CM-Proposal-Course-Create-Start-CopyFromProposal" parent="KS-Uif-InputField" p:propertyName="proposalTitle"
           p:label="Proposal Title" p:additionalHiddenPropertyNames="proposalId" p:progressiveRender="@{createCourseInitialAction eq 'copyProposedCourse'}">
         <property name="cssClasses">
             <list>
