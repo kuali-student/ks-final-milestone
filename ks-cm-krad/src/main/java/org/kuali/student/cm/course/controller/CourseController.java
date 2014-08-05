@@ -372,9 +372,9 @@ public class CourseController extends CourseRuleEditorController {
             }
         } else {
             if (hasDialogBeenAnswered(dialog,form)) {
-                boolean confirmSubmit = getBooleanDialogResponse(dialog, form, request, response);
+                boolean confirmApprove = getBooleanDialogResponse(dialog, form, request, response);
                 form.getDialogManager().resetDialogStatus(dialog);
-                if (confirmSubmit) {
+                if (confirmApprove) {
                     //route the document
                     try{
                         return super.approve(form,result, request,response);
@@ -444,9 +444,9 @@ public class CourseController extends CourseRuleEditorController {
             }
         } else {
             if (hasDialogBeenAnswered(dialog,form)) {
-                boolean confirmSubmit = getBooleanDialogResponse(dialog, form, request, response);
+                boolean confirmReturn = getBooleanDialogResponse(dialog, form, request, response);
                 form.getDialogManager().resetDialogStatus(dialog);
-                if (confirmSubmit) {
+                if (confirmReturn) {
                     //route the document
                     performReturnToPreviousNode(form,result, request,response);
                     /*
@@ -728,9 +728,9 @@ public class CourseController extends CourseRuleEditorController {
             }
         } else {
             if (hasDialogBeenAnswered(dialog,form)) {
-                boolean confirmSubmit = getBooleanDialogResponse(dialog, form, request, response);
+                boolean confirmBlanketApprove = getBooleanDialogResponse(dialog, form, request, response);
                 form.getDialogManager().resetDialogStatus(dialog);
-                if (confirmSubmit) {
+                if (confirmBlanketApprove) {
                     //route the document
                     return super.blanketApprove(form, result, request, response);
                 }
