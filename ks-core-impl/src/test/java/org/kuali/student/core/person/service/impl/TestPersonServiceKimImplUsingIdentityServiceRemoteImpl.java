@@ -35,7 +35,9 @@ import java.util.List;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.fail;
+import org.junit.Ignore;
 
+@Ignore("because it depends a running instance of RICE keep it though to trouble shoot person service issues if/when they crop up")
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:person-kim-impl-test-with-kim-remote-impl-context.xml"})
 public class TestPersonServiceKimImplUsingIdentityServiceRemoteImpl {
