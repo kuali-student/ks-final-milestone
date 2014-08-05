@@ -39,8 +39,16 @@
             </ul>
         </div>
 
+        <!-- No offered Reg Groups -> no Activity Offerings are displayed -->
+        <div class="kscr-SearchDetails-actionsContainer util-Grid util-Grid--center" ng-if="!course.regGroupsOffered">
+            <!-- Selected Messages -->
+            <div class="kscr-SearchDetails-selection kscr-SearchDetails-selection--empty util-Grid-cell">
+                <span class="kscr-SearchDetails-label">No Activities Available</span>
+            </div>
+        </div>
+
         <!-- Selected Activity Offerings Area -->
-        <div class="kscr-SearchDetails-actionsContainer util-Grid util-Grid--center">
+        <div class="kscr-SearchDetails-actionsContainer util-Grid util-Grid--center" ng-if="course.regGroupsOffered">
             <!-- Selected Messages -->
             <div class="kscr-SearchDetails-selection kscr-SearchDetails-selection--empty util-Grid-cell" ng-if="!selectedRegGroup && !hasSelectedAOs()">
                 <span class="kscr-SearchDetails-label">No Activities Selected</span>
