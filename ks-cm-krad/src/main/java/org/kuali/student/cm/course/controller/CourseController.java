@@ -59,10 +59,15 @@ import org.kuali.student.common.ui.krad.rules.rule.event.ReturnToPreviousNodeDoc
 import org.kuali.student.common.uif.util.GrowlIcon;
 import org.kuali.student.common.uif.util.KSUifUtils;
 import org.kuali.student.common.util.security.ContextUtils;
+import org.kuali.student.r1.common.rice.StudentIdentityConstants;
 import org.kuali.student.r1.core.subjectcode.service.SubjectCodeService;
 import org.kuali.student.r1.core.workflow.dto.CollaboratorWrapper;
 import org.kuali.student.r2.common.constants.CommonServiceConstants;
+import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
+import org.kuali.student.r2.core.comment.dto.CommentInfo;
+import org.kuali.student.r2.core.comment.service.CommentService;
+import org.kuali.student.r2.core.constants.CommentServiceConstants;
 import org.kuali.student.r2.core.constants.DocumentServiceConstants;
 import org.kuali.student.r2.core.constants.ProposalServiceConstants;
 import org.kuali.student.r2.core.document.dto.DocumentInfo;
@@ -129,6 +134,7 @@ public class CourseController extends CourseRuleEditorController {
     private DocumentService documentService;
     private SubjectCodeService subjectCodeService;
     private ProposalService proposalService;
+    private CommentService commentService;
 
     /**
      * This method creates the form and in the case of a brand new proposal where this method is called after the user uses
@@ -319,19 +325,21 @@ public class CourseController extends CourseRuleEditorController {
         if ( ! hasDialogBeenDisplayed(dialog, form)) {
 
             CourseInfoWrapper courseInfoWrapper = getCourseInfoWrapper(form);
-            doValidationForProposal(form, courseInfoWrapper);
+            doValidationForProposal(form, courseInfoWrapper, KewApiConstants.ROUTE_HEADER_ENROUTE_CD);
 
             if (!GlobalVariables.getMessageMap().hasErrors()) {
                 //redirect back to client to display confirm dialog
                 return showDialog(dialog, form, request, response);
             }
         } else {
-            if (hasDialogBeenAnswered(dialog,form)) {
+            if (hasDialogBeenAnswered(dialog, form)) {
                 boolean confirmSubmit = getBooleanDialogResponse(dialog, form, request, response);
-                form.getDialogManager().resetDialogStatus(dialog);
                 if (confirmSubmit) {
                     //route the document
-                    return super.route(form,result, request,response);
+                    ModelAndView modelAndView = super.route(form,result, request,response);
+                    form.getDialogManager().removeDialog(dialog);
+//                    form.getDialogManager().resetDialogStatus(dialog);
+                    return modelAndView;
                 }
             }else{
                 return showDialog(dialog, form, request, response);
@@ -356,20 +364,22 @@ public class CourseController extends CourseRuleEditorController {
         courseInfoWrapper.setApproveCheck(true);
         String dialog = CurriculumManagementConstants.COURSE_APPROVE_CONFIRMATION_DIALOG;
         if ( ! hasDialogBeenDisplayed(dialog, form)) {
-            doValidationForProposal(form,courseInfoWrapper);
+            doValidationForProposal(form,courseInfoWrapper, KewApiConstants.ROUTE_HEADER_PROCESSED_CD);
 
             if (!GlobalVariables.getMessageMap().hasErrors()) {
                 //redirect back to client to display confirm dialog
                 return showDialog(dialog, form, request, response);
             }
         } else {
-            if (hasDialogBeenAnswered(dialog,form)) {
+            if (hasDialogBeenAnswered(dialog, form)) {
                 boolean confirmApprove = getBooleanDialogResponse(dialog, form, request, response);
-                form.getDialogManager().resetDialogStatus(dialog);
                 if (confirmApprove) {
                     //route the document
                     try{
-                        return super.approve(form,result, request,response);
+                        ModelAndView modelAndView = super.approve(form,result, request,response);
+                        form.getDialogManager().removeDialog(dialog);
+//                        form.getDialogManager().resetDialogStatus(dialog);
+                        return modelAndView;
                     }catch (Exception ex){
                         LOG.error("Error occurred while approving the proposal", ex);
                         GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, KSObjectUtils.unwrapException(20, ex).getMessage());
@@ -382,18 +392,17 @@ public class CourseController extends CourseRuleEditorController {
         return getUIFModelAndView(form);
     }
 
-
     /**
      * This method performs the KRAD UI data dictionary and Service layer data dictionary validation before it routes the document instance contained on the form.
      * @param form
      * @param courseInfoWrapper
      */
 
-    protected void doValidationForProposal(@ModelAttribute("KualiForm") DocumentFormBase form, CourseInfoWrapper courseInfoWrapper){
+    protected void doValidationForProposal(@ModelAttribute("KualiForm") DocumentFormBase form, CourseInfoWrapper courseInfoWrapper, String workflowStatusCode){
 
         //Perform KRAD UI Data Dictionary Validation
         // manually call the view validation service as this validation cannot be run client-side in current setup
-        KRADServiceLocatorWeb.getViewValidationService().validateView(form, KewApiConstants.ROUTE_HEADER_ENROUTE_CD);
+        KRADServiceLocatorWeb.getViewValidationService().validateView(form, workflowStatusCode);
 
         //Perform Rules validation
         KRADServiceLocatorWeb.getKualiRuleService().applyRules(new RouteDocumentEvent(form.getDocument()));
@@ -428,7 +437,7 @@ public class CourseController extends CourseRuleEditorController {
         CourseInfoWrapper courseInfoWrapper = getCourseInfoWrapper(form);
         String dialog = CurriculumManagementConstants.COURSE_RETURN_TO_PREVIOUS_NODE_DIALOG;
         if ( ! hasDialogBeenDisplayed(dialog, form)) {
-            doValidationForProposal(form, courseInfoWrapper);
+            doValidationForProposal(form, courseInfoWrapper, KewApiConstants.ROUTE_HEADER_PROCESSED_CD);
 
             if (!GlobalVariables.getMessageMap().hasErrors()) {
                 //redirect back to client to display confirm dialog
@@ -437,18 +446,18 @@ public class CourseController extends CourseRuleEditorController {
         } else {
             if (hasDialogBeenAnswered(dialog,form)) {
                 boolean confirmReturn = getBooleanDialogResponse(dialog, form, request, response);
-                form.getDialogManager().resetDialogStatus(dialog);
                 if (confirmReturn) {
                     //route the document
                     performReturnToPreviousNode(form,result, request,response);
+                    addDecisionRationale(courseInfoWrapper.getProposalInfo().getId(), form.getDialogManager().getDialogExplanation(dialog), CommentServiceConstants.WORKFLOW_DECISIONS.RETURN_TO_PREVIOUS.getType());
                     /*
                     Here's another location where we diverge from the default KRAD code. Normally here there would be code to handle the persisting
                     of attachments but since CM uses it's own internal SupportingDocuments functionality we can simply ignore the KRAD system.
                     */
-                    return getUIFModelAndView(form);
-
                 }
-            }else{
+                form.getDialogManager().removeDialog(dialog);
+//                form.getDialogManager().resetDialogStatus(dialog);
+            } else {
                 return showDialog(dialog, form, request, response);
             }
         }
@@ -456,7 +465,7 @@ public class CourseController extends CourseRuleEditorController {
     }
 
     protected void performReturnToPreviousNode(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result,
-                                               HttpServletRequest request, HttpServletResponse response) {
+                                                    HttpServletRequest request, HttpServletResponse response) {
         CourseControllerTransactionHelper helper = GlobalResourceLoader.getService(new QName(CommonServiceConstants.REF_OBJECT_URI_GLOBAL_PREFIX + "courseControllerTransactionHelper", CourseControllerTransactionHelper.class.getSimpleName()));
         helper.performReturnToPreviousNodeWork(form, this);
         List<ErrorMessage> infoMessages = GlobalVariables.getMessageMap().getInfoMessagesForProperty(KRADConstants.GLOBAL_MESSAGES);
@@ -516,6 +525,34 @@ public class CourseController extends CourseRuleEditorController {
         }
 
         form.setAnnotation("");
+    }
+
+    /**
+     * A convenience method to add a decision rationale given the proper proposal id, rationale text, and rationale type
+     *
+     * @param proposalId
+     * @param rationaleText
+     * @param rationaleType
+     */
+    private void addDecisionRationale(String proposalId, String rationaleText, String rationaleType) {
+        CommentInfo newDecisionRationale = new CommentInfo();
+        RichTextInfo text = new RichTextInfo();
+        text.setFormatted(rationaleText);
+        text.setPlain(rationaleText);
+        newDecisionRationale.setRefObjectUri(StudentIdentityConstants.QUALIFICATION_PROPOSAL_REF_TYPE);
+        newDecisionRationale.setRefObjectId(proposalId);
+        newDecisionRationale.setCommenterId(GlobalVariables.getUserSession().getPrincipalId());
+        newDecisionRationale.setStateKey(CommentServiceConstants.COMMENT_ACTIVE_STATE_KEY);
+        newDecisionRationale.setCommentText(text);
+        newDecisionRationale.setTypeKey(rationaleType);
+
+        try {
+            getCommentService().createComment(proposalId, StudentIdentityConstants.QUALIFICATION_PROPOSAL_REF_TYPE, rationaleType, newDecisionRationale, ContextUtils.createDefaultContextInfo());
+        } catch (Exception e) {
+            LOG.error("Caught Error adding Decision Rationale", e);
+            throw new RuntimeException(e);
+        }
+
     }
 
     /**
@@ -712,7 +749,7 @@ public class CourseController extends CourseRuleEditorController {
         courseInfoWrapper.setApproveCheck(false);
         String dialog = CurriculumManagementConstants.COURSE_APPROVE_CONFIRMATION_DIALOG;
         if ( ! hasDialogBeenDisplayed(dialog, form)) {
-            doValidationForProposal(form,courseInfoWrapper);
+            doValidationForProposal(form,courseInfoWrapper, KewApiConstants.ROUTE_HEADER_PROCESSED_CD);
 
             if (!GlobalVariables.getMessageMap().hasErrors()) {
                 //redirect back to client to display confirm dialog
@@ -721,10 +758,13 @@ public class CourseController extends CourseRuleEditorController {
         } else {
             if (hasDialogBeenAnswered(dialog,form)) {
                 boolean confirmBlanketApprove = getBooleanDialogResponse(dialog, form, request, response);
-                form.getDialogManager().resetDialogStatus(dialog);
                 if (confirmBlanketApprove) {
                     //route the document
-                    return super.blanketApprove(form, result, request, response);
+                    ModelAndView modelAndView = super.blanketApprove(form, result, request, response);
+                    form.getDialogManager().removeDialog(dialog);
+//                    form.getDialogManager().resetDialogStatus(dialog);
+                    return modelAndView;
+
                 }
             }else{
                 return showDialog(dialog, form, request, response);
@@ -1102,4 +1142,12 @@ public class CourseController extends CourseRuleEditorController {
         }
         return proposalService;
     }
+
+    protected CommentService getCommentService() {
+        if (commentService == null) {
+            commentService = (CommentService) GlobalResourceLoader.getService(new QName(CommentServiceConstants.NAMESPACE, CommentService.class.getSimpleName()));
+        }
+        return commentService;
+    }
+
 }

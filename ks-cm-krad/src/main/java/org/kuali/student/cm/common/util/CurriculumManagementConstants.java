@@ -208,6 +208,5 @@ public class CurriculumManagementConstants {
         public String getViewType() {
             return this.viewType;
         }
-
     }
 }

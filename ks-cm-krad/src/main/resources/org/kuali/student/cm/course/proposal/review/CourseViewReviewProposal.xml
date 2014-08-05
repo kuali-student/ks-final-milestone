@@ -464,9 +464,9 @@
         <property name="displayExplanation" value="false"/>
         <property name="items">
             <list>
-                <bean parent="CM-Dialog-PreviousNodeNames"/>
+                <bean id="CM-ReturnToPrevious-Dialog-NodeNamesDropdown" parent="CM-Dialog-PreviousNodeNames"/>
                 <!-- manually add back in the explanation field and force the render flag -->
-                <bean parent="Uif-DialogExplanation" p:render="true"/>
+                <bean id="CM-ReturnToPrevious-Dialog-Explanation" parent="Uif-DialogExplanation" p:render="true"/>
             </list>
         </property>
         <property name="availableResponses">
@@ -490,26 +490,26 @@
 
     <bean id="KS-Proposal-Review-Course-ConfirmApproveBlanketApprove-Dialog" parent="KS-Proposal-Review-Course-ConfirmApproveBlanketApprove-Dialog-parentBean"/>
     <bean id="KS-Proposal-Review-Course-ConfirmApproveBlanketApprove-Dialog-parentBean" parent="Uif-DialogGroup" abstract="true">
-    <property name="renderHeader" value="true"/>
+        <property name="renderHeader" value="true"/>
     <property name="headerText" value="@{#dataObject.approveCheck ? '' : 'Blanket'} Approve Proposal"/>
-    <property name="cssClasses" >
-        <list merge="true">
-            <value>returntopreviousnode_dialog</value>
-        </list>
-    </property>
+        <property name="cssClasses" >
+            <list merge="true">
+                <value>returntopreviousnode_dialog</value>
+            </list>
+        </property>
     <property name="promptText" value=""/>
-    <!-- do not show the explanation because we need the route node name dropdown above it in the dialog screen -->
-    <property name="displayExplanation" value="false"/>
-    <property name="items">
-        <list>
-            <!-- manually add back in the explanation field and force the render flag -->
-            <bean parent="Uif-DialogExplanation" p:render="true"/>
-        </list>
-    </property>
-    <property name="availableResponses">
-        <list>
-            <bean parent="Uif-KeyLabelPair" p:key="yes" p:value="Confirm"/>
-            <bean parent="Uif-KeyLabelPair" p:key="no" p:value="Cancel"/>
+        <!-- do not show the explanation because we need the route node name dropdown above it in the dialog screen -->
+        <property name="displayExplanation" value="false"/>
+        <property name="items">
+            <list>
+                <!-- manually add back in the explanation field and force the render flag -->
+                <bean id="CM-Approve-Dialog-Explanation" parent="Uif-DialogExplanation" p:render="true"/>
+            </list>
+        </property>
+        <property name="availableResponses">
+            <list>
+                <bean parent="Uif-KeyLabelPair" p:key="yes" p:value="Confirm"/>
+                <bean parent="Uif-KeyLabelPair" p:key="no" p:value="Cancel"/>
         </list>
     </property>
     <property name="propertyReplacers">
@@ -535,8 +535,8 @@
                     </list>
                 </property>
             </bean>
-        </list>
-    </property>
+            </list>
+        </property>
     </bean>
 
     <bean id="KS-HomewardPathBreadcrumbs-ReviewProposal-Page" parent="Uif-BreadcrumbItem">
