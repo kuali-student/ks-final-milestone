@@ -31,7 +31,7 @@ import java.util.List;
 /**
  * Helper class for create course initial view.
  */
-public class CreateCourseInitialViewHelper extends ViewHelperServiceImpl {
+public class StartProposalViewHelper extends ViewHelperServiceImpl {
 
     private transient CluService cluService;
 

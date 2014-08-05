@@ -15,6 +15,7 @@
  */
 package org.kuali.student.cm.course.controller;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.krad.uif.UifConstants;
 import org.kuali.rice.krad.util.KRADConstants;
@@ -72,17 +73,29 @@ public class StartProposalController extends UifControllerBase {
             urlParameters.put(CourseController.UrlParams.USE_CURRICULUM_REVIEW,Boolean.toString(((CourseInitialForm) form).isUseReviewProcess()));
         }
         urlParameters.put(UifConstants.UrlParams.PAGE_ID, CurriculumManagementConstants.CourseViewPageIds.CREATE_COURSE);
-        urlParameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, KRADConstants.DOC_HANDLER_METHOD);
         urlParameters.put(KRADConstants.PARAMETER_COMMAND, KewApiConstants.INITIATE_COMMAND);
         urlParameters.put(KRADConstants.DATA_OBJECT_CLASS_ATTRIBUTE, CourseInfoWrapper.class.getName());
         urlParameters.put(KRADConstants.RETURN_LOCATION_PARAMETER, CMUtils.getCMHomeUrl() );
-        if(((CourseInitialForm)form).getCourseId() != null){
-            urlParameters.put(CourseController.UrlParams.COPY_CLU_ID, ((CourseInitialForm) form).getCourseId());
-        }
-
+        setMethodToCall(urlParameters, form);
         String uri = request.getRequestURL().toString().replace(CurriculumManagementConstants.ControllerRequestMappings.START_PROPOSAL,CurriculumManagementConstants.ControllerRequestMappings.COURSE_MAINTENANCE);
 
         return performRedirect(form, uri, urlParameters);
+    }
+
+    private void setMethodToCall(Properties urlParameters, UifFormBase form ){
+        String createCourseInitialAction = ((CourseInitialForm) form).getCreateCourseInitialAction();
+        if(StringUtils.equalsIgnoreCase(createCourseInitialAction,"startBlankProposal")) {
+            urlParameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, KRADConstants.DOC_HANDLER_METHOD);
+        }
+        else if(StringUtils.equalsIgnoreCase(createCourseInitialAction,"copyApprovedCourse")) {
+            urlParameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, KRADConstants.Maintenance.METHOD_TO_CALL_COPY);
+            urlParameters.put(CourseController.UrlParams.COPY_CLU_ID, ((CourseInitialForm) form).getCourseId());
+        }
+        else{
+            urlParameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, KRADConstants.Maintenance.METHOD_TO_CALL_COPY);
+            /* set proposal ID depends on KSCM-2519 */
+            //urlParameters.put(CourseController.UrlParams.COPY_PROPOSAL_ID, "PROPOSAL_ID");
+        }
     }
 
 }

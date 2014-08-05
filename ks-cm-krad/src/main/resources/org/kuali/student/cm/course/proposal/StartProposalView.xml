@@ -43,8 +43,8 @@
         <property name="headerText" value="Create Course "/>
         <property name="formClass" value="org.kuali.student.cm.course.form.CourseInitialForm"/>
         <property name="viewHelperServiceClass"
-                  value="org.kuali.student.cm.course.service.impl.CreateCourseInitialViewHelper"/>
-        <property name="viewSourceFile" value="CreateCourseInitialView.xml"/>
+                  value="org.kuali.student.cm.course.service.impl.StartProposalViewHelper"/>
+        <property name="viewSourceFile" value="StartProposalView.xml"/>
         <!-- Shows up in HTML so devs can find the code -->
         <property name="items">
             <list>
@@ -98,6 +98,10 @@
                             <value>ks-cm-find-course</value>
                         </list>
                     </property>
+                    <property name="control">
+                        <bean parent="KS-Uif-TextControl" p:cssClasses="validCourseCode"/>
+                    </property>
+
 
                     <property name="suggest">
                         <bean parent="Uif-Suggest" p:render="true" p:returnFullQueryObject="true"
