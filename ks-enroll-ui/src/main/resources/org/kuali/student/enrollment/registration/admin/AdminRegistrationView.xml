@@ -394,9 +394,9 @@
         <property name="lineActions">
             <list>
                 <bean parent="KS-Uif-Edit-NavigationActionLink" p:id="registeredEditLink" p:actionLabel="Edit Course"
-                      p:methodToCall="editCourse" p:successCallback="stopPolling();"/>
+                      p:methodToCall="editCourse" p:successCallback="stopPolling();" p:style="color:#0088CC;"/>
                 <bean parent="KS-Uif-Delete-NavigationActionLink" p:id="registeredDropLink" p:actionLabel="Drop Course"
-                      p:methodToCall="dropCourse"/>
+                      p:methodToCall="dropCourse" p:style="color:#0088CC;"/>
             </list>
         </property>
         <property name="items">
@@ -444,9 +444,9 @@
         <property name="lineActions">
             <list>
                 <bean parent="KS-Uif-Edit-NavigationActionLink" p:id="waitlistedEditLink" p:title="Edit Course"
-                      p:methodToCall="editCourse" p:successCallback="stopPolling();"/>
+                      p:methodToCall="editCourse" p:successCallback="stopPolling();" p:style="color:#0088CC;"/>
                 <bean parent="KS-Uif-Delete-NavigationActionLink" p:id="waitlistedDropLink" p:title="Remove Course"
-                      p:methodToCall="deleteLine"/>
+                      p:methodToCall="deleteLine" p:style="color:#0088CC;"/>
             </list>
         </property>
         <property name="items">
@@ -503,14 +503,16 @@
     <!--bean id="KS-AdminRegistration-DropRegisteredDialog" parent="Uif-DialogGroup" p:dialogCssClass="modal-md"-->
     <bean id="KS-AdminRegistration-DropRegisteredDialog" parent="Uif-DialogGroup">
         <property name="headerText" value="Drop Course @{pendingDropCourse.code} (@{pendingDropCourse.section})?"/>
-        <property name="style" value="width:650px;"/>
+        <property name="style" value="width:350px;"/>
         <property name="items">
             <list>
-                <bean parent="Uif-CssGridSection-1FieldLabelColumn">
+                <bean parent="Uif-HorizontalBoxSection">
                     <property name="items">
                         <list>
-                            <bean parent="KS-Uif-InputField-LabelLeft" p:label="Effective Drop Date"
-                                  p:propertyName="pendingDropCourse.dropDate">
+                            <bean parent="Uif-Label" p:labelText="Effective Drop Date" p:additionalCssClasses="nowrap"
+                                    p:renderColon="false"/>
+                            <bean parent="Uif-InputField" p:propertyName="pendingDropCourse.dropDate"
+                                  p:additionalCssClasses="nowrap">
                                 <property name="control">
                                     <bean parent="KS-Uif-Default-DateControl" p:size="10"/>
                                 </property>
