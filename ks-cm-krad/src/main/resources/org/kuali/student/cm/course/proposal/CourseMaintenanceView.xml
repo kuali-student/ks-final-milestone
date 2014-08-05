@@ -217,6 +217,7 @@
             <list>
                 <bean id="CM-Proposal-Review-Course-ConfirmSubmit-Dialog" parent="KS-Proposal-Review-Course-ConfirmSubmit-Dialog"/>
                 <bean id="CM-Proposal-Review-Course-ConfirmReturnToPreviousNode-Dialog" parent="KS-Proposal-Review-Course-ConfirmReturnToPreviousNode-Dialog"/>
+                <bean id="CM-Proposal-Review-Course-ConfirmApproveBlanketApprove-Dialog" parent="KS-Proposal-Review-Course-ConfirmApproveBlanketApprove-Dialog"/>
                 <bean id="CM-Proposal-Course-Rule-CourseRangeLookup" parent="KRMS-CourseRangeResult-Lookup"/>
                 <bean id="CM-Proposal-Course-Rule-WarningMessage" parent="KRMS-WarningMessagedYesNo"/>
             </list>

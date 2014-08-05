@@ -327,25 +327,7 @@ public class CourseController extends CourseRuleEditorController {
         if ( ! hasDialogBeenDisplayed(dialog, form)) {
 
             CourseInfoWrapper courseInfoWrapper = getCourseInfoWrapper(form);
-
-            //Perform KRAD UI Data Dictionary Validation
-            // manually call the view validation service as this validation cannot be run client-side in current setup
-            KRADServiceLocatorWeb.getViewValidationService().validateView(form, KewApiConstants.ROUTE_HEADER_ENROUTE_CD);
-
-            //Perform Rules validation
-            KRADServiceLocatorWeb.getKualiRuleService().applyRules(new RouteDocumentEvent(form.getDocument()));
-
-            List<ValidationResultInfo> validationResultInfoList = null;
-
-            try {
-                //Perform Service Layer Data Dictionary validation
-                validationResultInfoList = getCourseService().validateCourse("OBJECT", courseInfoWrapper.getCourseInfo(), ContextUtils.createDefaultContextInfo());
-            } catch (Exception ex) {
-                LOG.error("Error occurred while performing service layer validation for Submit", ex);
-                GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, KSObjectUtils.unwrapException(20, ex).getMessage());
-            }
-
-            bindValidationErrorsToPath(validationResultInfoList);
+            doValidationForProposal(form, courseInfoWrapper);
 
             if (!GlobalVariables.getMessageMap().hasErrors()) {
                 //redirect back to client to display confirm dialog
@@ -359,9 +341,83 @@ public class CourseController extends CourseRuleEditorController {
                     //route the document
                     return super.route(form,result, request,response);
                 }
+            }else{
+                return showDialog(dialog, form, request, response);
             }
         }
         return getUIFModelAndView(form);
+    }
+
+    /**
+     * This method is called form the UI when a user wants to approve proposal.
+     *
+     * @param form
+     * @param result
+     * @param request
+     * @param response
+     * @return ModelAndView object
+     */
+    @Override
+    public ModelAndView approve(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result, HttpServletRequest request, HttpServletResponse response) {
+
+        CourseInfoWrapper courseInfoWrapper = getCourseInfoWrapper(form);
+        courseInfoWrapper.setApproveCheck(true);
+        String dialog = CurriculumManagementConstants.COURSE_APPROVE_CONFIRMATION_DIALOG;
+        if ( ! hasDialogBeenDisplayed(dialog, form)) {
+            doValidationForProposal(form,courseInfoWrapper);
+
+            if (!GlobalVariables.getMessageMap().hasErrors()) {
+                //redirect back to client to display confirm dialog
+                return showDialog(dialog, form, request, response);
+            }
+        } else {
+            if (hasDialogBeenAnswered(dialog,form)) {
+                boolean confirmSubmit = getBooleanDialogResponse(dialog, form, request, response);
+                form.getDialogManager().resetDialogStatus(dialog);
+                if (confirmSubmit) {
+                    //route the document
+                    try{
+                        return super.approve(form,result, request,response);
+                    }catch (Exception ex){
+                        LOG.error("Error occurred while approving the proposal", ex);
+                        GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, KSObjectUtils.unwrapException(20, ex).getMessage());
+                    }
+                }
+            }else{
+                return showDialog(dialog, form, request, response);
+            }
+        }
+        return getUIFModelAndView(form);
+    }
+
+
+    /**
+     * This method performs the KRAD UI data dictionary and Service layer data dictionary validation before it routes the document instance contained on the form.
+     * @param form
+     * @param courseInfoWrapper
+     */
+
+    protected void doValidationForProposal(@ModelAttribute("KualiForm") DocumentFormBase form, CourseInfoWrapper courseInfoWrapper){
+
+        //Perform KRAD UI Data Dictionary Validation
+        // manually call the view validation service as this validation cannot be run client-side in current setup
+        KRADServiceLocatorWeb.getViewValidationService().validateView(form, KewApiConstants.ROUTE_HEADER_ENROUTE_CD);
+
+        //Perform Rules validation
+        KRADServiceLocatorWeb.getKualiRuleService().applyRules(new RouteDocumentEvent(form.getDocument()));
+
+        List<ValidationResultInfo> validationResultInfoList = null;
+
+        try {
+            //Perform Service Layer Data Dictionary validation
+            validationResultInfoList = getCourseService().validateCourse("OBJECT", courseInfoWrapper.getCourseInfo(), ContextUtils.createDefaultContextInfo());
+        } catch (Exception ex) {
+            LOG.error("Error occurred while performing service layer validation for Submit", ex);
+            GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, KSObjectUtils.unwrapException(20, ex).getMessage());
+        }
+
+        bindValidationErrorsToPath(validationResultInfoList);
+
     }
 
     /**
@@ -377,29 +433,10 @@ public class CourseController extends CourseRuleEditorController {
     @RequestMapping(params = "methodToCall=returnToPreviousNode")
     public ModelAndView returnToPreviousNode(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result,
                                              HttpServletRequest request, HttpServletResponse response) {
+        CourseInfoWrapper courseInfoWrapper = getCourseInfoWrapper(form);
         String dialog = CurriculumManagementConstants.COURSE_RETURN_TO_PREVIOUS_NODE_DIALOG;
         if ( ! hasDialogBeenDisplayed(dialog, form)) {
-
-            CourseInfoWrapper courseInfoWrapper = getCourseInfoWrapper(form);
-
-            //Perform KRAD UI Data Dictionary Validation
-            // manually call the view validation service as this validation cannot be run client-side in current setup
-            KRADServiceLocatorWeb.getViewValidationService().validateView(form, KewApiConstants.ROUTE_HEADER_PROCESSED_CD);
-
-            //Perform Rules validation
-            KRADServiceLocatorWeb.getKualiRuleService().applyRules(new RouteDocumentEvent(form.getDocument()));
-
-            List<ValidationResultInfo> validationResultInfoList = null;
-
-            try {
-                //Perform Service Layer Data Dictionary validation
-                validationResultInfoList = getCourseService().validateCourse("OBJECT", courseInfoWrapper.getCourseInfo(), ContextUtils.createDefaultContextInfo());
-            } catch (Exception ex) {
-                LOG.error("Error occurred while performing service layer validation for Submit", ex);
-                GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, KSObjectUtils.unwrapException(20, ex).getMessage());
-            }
-
-            bindValidationErrorsToPath(validationResultInfoList);
+            doValidationForProposal(form, courseInfoWrapper);
 
             if (!GlobalVariables.getMessageMap().hasErrors()) {
                 //redirect back to client to display confirm dialog
@@ -419,13 +456,15 @@ public class CourseController extends CourseRuleEditorController {
                     return getUIFModelAndView(form);
 
                 }
+            }else{
+                return showDialog(dialog, form, request, response);
             }
         }
         return getUIFModelAndView(form);
     }
 
     protected void performReturnToPreviousNode(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result,
-                                                    HttpServletRequest request, HttpServletResponse response) {
+                                               HttpServletRequest request, HttpServletResponse response) {
         CourseControllerTransactionHelper helper = GlobalResourceLoader.getService(new QName(CommonServiceConstants.REF_OBJECT_URI_GLOBAL_PREFIX + "courseControllerTransactionHelper", CourseControllerTransactionHelper.class.getSimpleName()));
         helper.performReturnToPreviousNodeWork(form, this);
         List<ErrorMessage> infoMessages = GlobalVariables.getMessageMap().getInfoMessagesForProperty(KRADConstants.GLOBAL_MESSAGES);
@@ -677,8 +716,29 @@ public class CourseController extends CourseRuleEditorController {
     @RequestMapping(params = "methodToCall=blanketApprove")
     public ModelAndView blanketApprove(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result,
                                        HttpServletRequest request, HttpServletResponse response) throws Exception {
-        saveProposal((MaintenanceDocumentForm) form, result, request, response);
-        return super.blanketApprove(form, result, request, response);
+        CourseInfoWrapper courseInfoWrapper = getCourseInfoWrapper(form);
+        courseInfoWrapper.setApproveCheck(false);
+        String dialog = CurriculumManagementConstants.COURSE_APPROVE_CONFIRMATION_DIALOG;
+        if ( ! hasDialogBeenDisplayed(dialog, form)) {
+            doValidationForProposal(form,courseInfoWrapper);
+
+            if (!GlobalVariables.getMessageMap().hasErrors()) {
+                //redirect back to client to display confirm dialog
+                return showDialog(dialog, form, request, response);
+            }
+        } else {
+            if (hasDialogBeenAnswered(dialog,form)) {
+                boolean confirmSubmit = getBooleanDialogResponse(dialog, form, request, response);
+                form.getDialogManager().resetDialogStatus(dialog);
+                if (confirmSubmit) {
+                    //route the document
+                    return super.blanketApprove(form, result, request, response);
+                }
+            }else{
+                return showDialog(dialog, form, request, response);
+            }
+        }
+        return getUIFModelAndView(form);
     }
 
     @RequestMapping(method = RequestMethod.POST, params = "methodToCall=previousPage")
