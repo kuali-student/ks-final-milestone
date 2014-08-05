@@ -172,9 +172,9 @@ public class CourseInfo extends IdEntityInfo implements Course, Serializable {
             List<FormatInfo> formatList = new ArrayList<FormatInfo>();
 
             for (Format format : courseInfo.getFormats()) {
-
                 formatList.add(new FormatInfo(format));
             }
+            this.formats = formatList;
 
             this.termsOffered = new ArrayList<String>(courseInfo.getTermsOffered());
 
