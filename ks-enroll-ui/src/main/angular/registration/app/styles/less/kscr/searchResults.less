@@ -47,20 +47,23 @@
 
 .kscr-Search-results--selected {
   background: @table-SelectedBackgroundColor;
+  &--first {
+    padding-left: @firstResultPadding;
+  }
 }
 
 .kscr-Search-results-sortIcon {
-  background: url("../images/validation/icon-sort.png") no-repeat center center;
+  background: url("../images/icons/icon-sort.png") no-repeat center center;
   float: right;
   height: 1.2rem;
   margin: 0.5rem 0 0 0.5rem;
   padding: 0 0 0 1.4rem;
   width: 1.2rem;
   &--up {
-    background: url("../images/validation/icon-sort-up.png") no-repeat center center;
+    background: url("../images/icons/icon-sort-up.png") no-repeat center center;
   }
   &--down {
-    background: url("../images/validation/icon-sort-down.png") no-repeat center center;
+    background: url("../images/icons/icon-sort-down.png") no-repeat center center;
   }
 }
 
@@ -159,10 +162,6 @@
   &--show {
     background-color: @table-ShowIndicatorColor;
   }
-}
-
-.kscr-Search-results--first {
-  padding-left: @firstResultPadding;
 }
 
 // small format styling
