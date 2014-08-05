@@ -60,6 +60,9 @@ public class AdminRegConstants {
     public static final String ADMIN_REG_MSG_ERROR_CREDITS_REQUIRED = "error.admin.reg.credits.required";
     public static final String ADMIN_REG_MSG_ERROR_NO_STUDENT_AFFILIATION = "error.admin.reg.studentId.no.affiliation";
 
+    public static final String ADMIN_REG_MSG_INFO_SUCCESSFULLY_REGISTERED = "info.admin.reg.course.successfully.registered";
+    public static final String ADMIN_REG_MSG_INFO_SUCCESSFULLY_WAITLISTED = "info.admin.reg.course.successfully.waitlisted";
+
     //sections ids
     public static final String STUDENT_INFO_SECTION = "KS-AdminRegistration-StudentInfo";
 

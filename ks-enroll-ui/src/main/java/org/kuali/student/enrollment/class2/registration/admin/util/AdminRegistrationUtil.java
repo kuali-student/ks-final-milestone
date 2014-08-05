@@ -1,34 +1,15 @@
 package org.kuali.student.enrollment.class2.registration.admin.util;
 
-import net.sf.ehcache.CacheManager;
-import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
+import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
-import org.kuali.rice.kim.api.identity.IdentityService;
-import org.kuali.rice.kim.api.services.KimApiServiceLocator;
-import org.kuali.student.core.person.service.PersonService;
-import org.kuali.student.core.person.service.PersonServiceNamespace;
-import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
+import org.kuali.rice.krad.messages.MessageService;
+import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 import org.kuali.student.enrollment.class2.registration.admin.form.RegistrationCourse;
-import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestInfo;
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestItemInfo;
-import org.kuali.student.enrollment.courseregistration.service.CourseRegistrationService;
-import org.kuali.student.enrollment.coursewaitlist.service.CourseWaitListService;
-import org.kuali.student.enrollment.registration.client.service.impl.util.CourseRegistrationAndScheduleOfClassesUtil;
-import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
-import org.kuali.student.r2.common.util.constants.CourseRegistrationServiceConstants;
-import org.kuali.student.r2.common.util.constants.CourseWaitListServiceConstants;
 import org.kuali.student.r2.common.util.constants.LprServiceConstants;
-import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
-import org.kuali.student.r2.core.constants.AcademicCalendarServiceConstants;
-import org.kuali.student.r2.core.constants.RoomServiceConstants;
-import org.kuali.student.r2.core.room.service.RoomService;
-import org.kuali.student.r2.core.scheduling.constants.SchedulingServiceConstants;
-import org.kuali.student.r2.core.scheduling.service.SchedulingService;
-import org.kuali.student.r2.lum.lrc.service.LRCService;
-import org.kuali.student.r2.lum.util.constants.LrcServiceConstants;
 
-import javax.xml.namespace.QName;
+import java.text.MessageFormat;
 import java.util.List;
 
 /**
@@ -78,5 +59,23 @@ public class AdminRegistrationUtil {
         registrationRequestItem.setGradingOptionId(registrationCourse.getGradingOptionId());
         registrationRequestItem.setOkToWaitlist(Boolean.TRUE);
         return registrationRequestItem;
+    }
+
+    /**
+     * This method returns the message for the key used.
+     *
+     */
+    public static String getMessageForKey(String key, String ... parameters){
+        MessageService messageService = KRADServiceLocatorWeb.getMessageService();
+        String message = messageService.getMessageText(null, null, key);
+
+        if (message == null) {
+            message = StringUtils.EMPTY;
+        }
+
+        if(parameters != null){
+            message = MessageFormat.format(message, parameters);
+        }
+        return message;
     }
 }

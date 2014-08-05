@@ -34,6 +34,7 @@ import org.kuali.student.enrollment.class2.registration.admin.form.RegistrationR
 import org.kuali.student.enrollment.class2.registration.admin.service.AdminRegistrationViewHelperService;
 import org.kuali.student.enrollment.class2.registration.admin.util.AdminRegConstants;
 import org.kuali.student.enrollment.class2.registration.admin.util.AdminRegResourceLoader;
+import org.kuali.student.enrollment.class2.registration.admin.util.AdminRegistrationUtil;
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestInfo;
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestItemInfo;
 import org.kuali.student.r2.common.infc.Attribute;
@@ -327,12 +328,14 @@ public class AdminRegistrationController extends UifControllerBase {
                 if (LprServiceConstants.LPRTRANS_ITEM_SUCCEEDED_STATE_KEY.equals(item.getStateKey())) {
                     form.getRegisteredCourses().add(courseToProcess);
                     regResult.setLevel(AdminRegConstants.ResultLevels.RESULT_LEVEL_SUCCESS);
-                    regResult.getItems().add(new RegistrationResultItem("Course was successfully registered."));
+                    String msg = AdminRegistrationUtil.getMessageForKey(AdminRegConstants.ADMIN_REG_MSG_INFO_SUCCESSFULLY_REGISTERED);
+                    regResult.getItems().add(new RegistrationResultItem(msg));
                     updateIds.add(AdminRegConstants.REG_COLL_ID);
                 } else if (LprServiceConstants.LPRTRANS_ITEM_WAITLIST_STATE_KEY.equals(item.getStateKey())) {
                     form.getWaitlistedCourses().add(courseToProcess);
                     regResult.setLevel(AdminRegConstants.ResultLevels.RESULT_LEVEL_SUCCESS);
-                    regResult.getItems().add(new RegistrationResultItem("Course was successfully added to waitlist."));
+                    String msg = AdminRegistrationUtil.getMessageForKey(AdminRegConstants.ADMIN_REG_MSG_INFO_SUCCESSFULLY_WAITLISTED);
+                    regResult.getItems().add(new RegistrationResultItem(msg));
                     updateIds.add(AdminRegConstants.WAITLIST_COLL_ID);
                 } else if (LprServiceConstants.LPRTRANS_ITEM_WAITLIST_AVAILABLE_STATE_KEY.equals(item.getStateKey()) ||
                         LprServiceConstants.LPRTRANS_ITEM_FAILED_STATE_KEY.equals(item.getStateKey())) {

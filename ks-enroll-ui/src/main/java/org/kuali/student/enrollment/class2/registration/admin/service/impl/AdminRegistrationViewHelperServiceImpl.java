@@ -520,13 +520,7 @@ public class AdminRegistrationViewHelperServiceImpl extends KSViewHelperServiceI
         for (ValidationResult validationResult : results) {
             RegistrationValidationResult result = RegistrationValidationResultsUtil.unmarshallResult(validationResult.getMessage());
 
-            MessageService messageService = KRADServiceLocatorWeb.getMessageService();
-
-            String message = messageService.getMessageText(null, null, result.getMessageKey());
-            if (message == null) {
-                message = StringUtils.EMPTY;
-            }
-
+            String message = StringUtils.EMPTY;
             if (result instanceof RegistrationValidationConflictCourseResult) {
                 RegistrationValidationConflictCourseResult conflictCourseResult = (RegistrationValidationConflictCourseResult) result;
                 StringBuilder conflictCourses = new StringBuilder();
@@ -536,7 +530,7 @@ public class AdminRegistrationViewHelperServiceImpl extends KSViewHelperServiceI
                     }
                     conflictCourses.append(conflictCourse.getCourseCode());
                 }
-                message = MessageFormat.format(message, conflictCourses.toString());
+                message = AdminRegistrationUtil.getMessageForKey(message, conflictCourses.toString());
             }
 
             issueItems.add(new RegistrationResultItem(message));
