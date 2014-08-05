@@ -92,14 +92,12 @@ public class AdminRegistrationForm extends UifFormBase implements Serializable {
      * Registered Courses contain courses that the student is currently enrolled for.
      */
     private List<RegistrationCourse> registeredCourses = new ArrayList<RegistrationCourse>();
-    private int editRegisteredIndex;
     private RegistrationCourse tempRegCourseEdit = new RegistrationCourse();
 
     /**
      * Waitlisted Courses contains courses that the student was added to the waitlist for.
      */
     private List<RegistrationCourse> waitlistedCourses = new ArrayList<RegistrationCourse>();
-    private int editWaitlistedIndex;
     private RegistrationCourse tempWaitlistCourseEdit;
 
     private RegistrationCourse pendingDropCourse = new RegistrationCourse();
@@ -112,8 +110,6 @@ public class AdminRegistrationForm extends UifFormBase implements Serializable {
 
     public AdminRegistrationForm(){
         this.clientState = AdminRegConstants.ClientStates.OPEN;
-        this.editRegisteredIndex = -1;
-        this.editWaitlistedIndex = -1;
         this.person = new PersonInfo();
         this.term = new TermInfo();
         this.resetPendingCourseValues();
@@ -277,14 +273,6 @@ public class AdminRegistrationForm extends UifFormBase implements Serializable {
         return String.valueOf(credits);
     }
 
-    public int getEditRegisteredIndex() {
-        return editRegisteredIndex;
-    }
-
-    public void setEditRegisteredIndex(int editRegisteredIndex) {
-        this.editRegisteredIndex = editRegisteredIndex;
-    }
-
     public RegistrationCourse getTempRegCourseEdit() {
         return tempRegCourseEdit;
     }
@@ -311,14 +299,6 @@ public class AdminRegistrationForm extends UifFormBase implements Serializable {
         }
 
         return String.valueOf(credits);
-    }
-
-    public int getEditWaitlistedIndex() {
-        return editWaitlistedIndex;
-    }
-
-    public void setEditWaitlistedIndex(int editWaitlistedIndex) {
-        this.editWaitlistedIndex = editWaitlistedIndex;
     }
 
     public RegistrationCourse getTempWaitlistCourseEdit() {

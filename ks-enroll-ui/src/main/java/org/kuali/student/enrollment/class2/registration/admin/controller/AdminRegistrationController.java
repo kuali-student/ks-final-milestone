@@ -494,12 +494,8 @@ public class AdminRegistrationController extends UifControllerBase {
             tempCourse.setGradingOptionId(courseOffering.getGradingOptionId());
             tempCourse.setGradingOptions(courseOffering.getStudentRegistrationGradingOptions());
         }
-         form.getCoursesEdit().add(tempCourse);
-        if (selectedCollectionId.equals(AdminRegConstants.REG_COLL_ID)) {
-            form.setEditRegisteredIndex(selectedLineIndex);
-        } else if (selectedCollectionId.equals(AdminRegConstants.WAITLIST_COLL_ID)) {
-            form.setEditWaitlistedIndex(selectedLineIndex);
-        }
+        form.getCoursesEdit().add(tempCourse);
+
         form.setClientState(AdminRegConstants.ClientStates.READY);
         return showDialog(AdminRegConstants.COURSE_EDIT_DIALOG, form, request, response);
     }
@@ -511,11 +507,6 @@ public class AdminRegistrationController extends UifControllerBase {
 
         // perform actual save on item in the backend
          form.getCoursesEdit().clear();
-        if (selectedCollectionId.equals(AdminRegConstants.REG_COLL_ID)) {
-            form.setEditRegisteredIndex(-1);
-        } else if (selectedCollectionId.equals(AdminRegConstants.WAITLIST_COLL_ID)) {
-            form.setEditWaitlistedIndex(-1);
-        }
 
         return refresh(form, result, request, response);
     }
@@ -573,11 +564,6 @@ public class AdminRegistrationController extends UifControllerBase {
 
         // Cancel other edit if one is open
         form.getCoursesEdit().clear();
-        if (form.getEditRegisteredIndex() > -1 && collectionId.equals(AdminRegConstants.REG_COLL_ID)) {
-            form.setEditRegisteredIndex(-1);
-        } else if (form.getEditWaitlistedIndex() > -1 && collectionId.equals(AdminRegConstants.WAITLIST_COLL_ID)) {
-            form.setEditRegisteredIndex(-1);
-        }
     }
 
     /**
