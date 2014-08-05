@@ -1931,3 +1931,46 @@ function showCommentLightboxUrl(href,overrideProps){
     var url = href + "&refreshLightboxDate=" + Date.now();
     showLightboxUrl(url, overrideProps);
 }
+
+
+
+/* Define two custom functions (asc and desc) for string sorting */
+jQuery.fn.dataTableExt.oSort['days_sort-asc']  = function(a,b) {
+
+    x = numberEquivalent(a);
+    y = numberEquivalent(b);
+    return ((x < y) ? -1 : ((x > y) ?  1 : 0));
+};
+
+jQuery.fn.dataTableExt.oSort['days_sort-desc'] = function(a,b) {
+     x = numberEquivalent(a);
+     y = numberEquivalent(b);
+    return ((x < y) ?  1 : ((x > y) ? -1 : 0));
+};
+
+
+function numberEquivalent (day)
+{
+    var finalSt= "";
+    for ( var i =0 ; i < day.length;i++)
+    {
+        finalSt= finalSt + decodeDay(day.substring(i,i+1));
+    }
+    return finalSt;
+}
+
+/**
+ *  Decode days in numbers EX: M,F  => 1,5
+ */
+function decodeDay (day)
+{
+
+        if (day==="M")  return "1" ;
+        else if (day === "T") return "2" ;
+        else if (day === "W") return "3" ;
+        else if (day === "H") return "4" ;
+        else if (day === "F") return "5" ;
+        else if (day === "S") return "6" ;
+        else if (day === "U") return "7" ;
+
+}
