@@ -19,6 +19,8 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.student.cm.uif.util.DTOWrapper;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.Arrays;
+
 /**
  *
  * @author OpenCollab/rSmart KRAD CM Conversion Alliance!
@@ -118,6 +120,8 @@ public class SupportingDocumentInfoWrapper implements DTOWrapper {
      * @param uploadedDoc
      */
     public void setUploadedDoc(byte[] uploadedDoc) {
-        this.uploadedDoc = uploadedDoc;
+        if(uploadedDoc != null) {
+           this.uploadedDoc = Arrays.copyOf(uploadedDoc, uploadedDoc.length);
+        }
     }
 }
