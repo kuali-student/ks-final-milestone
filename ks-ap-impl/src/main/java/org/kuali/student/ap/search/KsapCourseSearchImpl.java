@@ -64,7 +64,7 @@ public class KsapCourseSearchImpl extends SearchServiceAbstractHardwiredImpl {
         try {
             info.setEffectiveDate(DateFormatters.MONTH_DAY_YEAR_DATE_FORMATTER.parse("01/01/2012"));
         } catch ( IllegalArgumentException ex) {
-            throw new RuntimeException("bad code");
+            throw new RuntimeException("failed to set effective date to: 01/01/2012", ex);
         }
         KSAP_COURSE_SEARCH = info;
 
