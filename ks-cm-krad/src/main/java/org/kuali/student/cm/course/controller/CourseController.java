@@ -387,6 +387,7 @@ public class CourseController extends CourseRuleEditorController {
                 if (confirmApprove) {
                     //route the document
                     try{
+                        addDecisionRationale(courseInfoWrapper.getProposalInfo().getId(), form.getDialogManager().getDialogExplanation(dialog), CommentServiceConstants.WORKFLOW_DECISIONS.APPROVE.getType());
                         ModelAndView modelAndView = super.approve(form,result, request,response);
                         form.getDialogManager().removeDialog(dialog);
 //                        form.getDialogManager().resetDialogStatus(dialog);
@@ -770,6 +771,7 @@ public class CourseController extends CourseRuleEditorController {
                 boolean confirmBlanketApprove = getBooleanDialogResponse(dialog, form, request, response);
                 if (confirmBlanketApprove) {
                     //route the document
+                    addDecisionRationale(courseInfoWrapper.getProposalInfo().getId(), form.getDialogManager().getDialogExplanation(dialog), CommentServiceConstants.WORKFLOW_DECISIONS.BLANKET_APPROVE.getType());
                     ModelAndView modelAndView = super.blanketApprove(form, result, request, response);
                     form.getDialogManager().removeDialog(dialog);
 //                    form.getDialogManager().resetDialogStatus(dialog);
