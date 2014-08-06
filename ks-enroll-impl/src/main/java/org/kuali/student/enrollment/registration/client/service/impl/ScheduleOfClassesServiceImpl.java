@@ -65,6 +65,7 @@ import org.slf4j.LoggerFactory;
 
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -73,6 +74,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import static org.kuali.rice.core.api.criteria.PredicateFactory.equal;
 
@@ -695,8 +697,8 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
         // setting Cross-Listed COs
         if (!hmCOCrossListed.isEmpty()) {
             List<CourseOfferingLimitedInfoSearchResult> coCrossListed = new ArrayList<>();
-            for (String key : hmCOCrossListed.keySet()) {
-                coCrossListed.add(hmCOCrossListed.get(key));
+            for (Entry<String, CourseOfferingLimitedInfoSearchResult> entry : hmCOCrossListed.entrySet()) {
+                coCrossListed.add(entry.getValue());
             }
             courseSearchResult.setCrossListedCourses(coCrossListed);
         }
