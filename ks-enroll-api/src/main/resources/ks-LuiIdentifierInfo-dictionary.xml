@@ -90,6 +90,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
 	<bean id="LuiIdentifierInfo.suffixCode" parent="LuiIdentifierInfo.suffixCode-parent"/>
 	<bean id="LuiIdentifierInfo.suffixCode-parent" abstract="true" parent="LuiIdentifierInfo.suffixCode-generated">
 	<!-- insert any overrides to the generated attribute definitions here -->
+        <property name="maxLength" value="5" />
 	</bean>
 
 	<bean id="LuiIdentifierInfo.orgId" parent="LuiIdentifierInfo.orgId-parent"/>
