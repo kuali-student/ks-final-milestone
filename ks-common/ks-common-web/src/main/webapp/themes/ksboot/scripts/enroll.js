@@ -1981,7 +1981,7 @@ function decodeDay (day)
 
 function updateSortTable() {
     var oTable = jQuery('#TimeSlotSearchResultsDisplayTable').find('.dataTable').dataTable();
-    // Sort immediately with columns 0 and 1
+    // Sort immediately with column
     oTable.fnSort([[3,'asc',0]] );
 }
 
