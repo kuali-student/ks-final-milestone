@@ -162,31 +162,17 @@ public class AdminRegistrationUtil {
         return false;
     }
 
-    public static RegistrationCourse getRegistrationCourseToProcess(AdminRegistrationForm form, RegistrationRequestInfo regRequest,
-                                                              RegistrationRequestItemInfo item) {
-
-        if (hasAdminOverride(regRequest)) {
-            // Get the registration course from the current registration issues.
-            for (RegistrationResult regResult : form.getRegistrationResults()) {
-                if (compareCourseAndItem(regResult.getCourse(), item)) {
-                    form.getRegistrationResults().remove(regResult);
-                    return regResult.getCourse();
-                }
+    public static RegistrationCourse retrieveFromResultList(List<RegistrationResult> results, RegistrationRequestItemInfo item){
+        for (RegistrationResult regResult : results) {
+            if (compareCourseAndItem(regResult.getCourse(), item)) {
+                results.remove(regResult);
+                return regResult.getCourse();
             }
-        } else if (LprServiceConstants.LPRTRANS_ITEM_CREATE_TYPE_KEY.equals(item.getTypeKey())) {
-            // Get the corresponding registration course from the courses in process list.
-            return getFromCourseList(form.getCoursesInProcess(), item);
-        } else if (LprServiceConstants.LPRTRANS_ITEM_UPDATE_TYPE_KEY.equals(item.getTypeKey())) {
-            return getFromCourseList(form.getRegisteredCourses(), item);
-        } else if (LprServiceConstants.LPRTRANS_ITEM_DELETE_TYPE_KEY.equals(item.getTypeKey())) {
-            form.getRegisteredCourses().remove(form.getPendingDropCourse());
-            return form.getPendingDropCourse();
         }
-
         return null;
     }
 
-    public static RegistrationCourse getFromCourseList(List<RegistrationCourse> courses, RegistrationRequestItemInfo item){
+    public static RegistrationCourse retrieveFromCourseList(List<RegistrationCourse> courses, RegistrationRequestItemInfo item){
         for (RegistrationCourse regCourse : courses) {
             if (compareCourseAndItem(regCourse, item)) {
                 courses.remove(regCourse);
