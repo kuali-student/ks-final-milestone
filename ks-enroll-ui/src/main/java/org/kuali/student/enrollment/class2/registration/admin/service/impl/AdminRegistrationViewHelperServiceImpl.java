@@ -445,12 +445,19 @@ public class AdminRegistrationViewHelperServiceImpl extends KSViewHelperServiceI
             regRequest.getRegistrationRequestItems().add(AdminRegistrationUtil.createRegistrationRequestItem(studentId, typeKey, registrationCourse));
         }
 
-        return submitRegistrationRequest(regRequest);
+        String regRequestId = submitRegistrationRequest(regRequest);
+        for (RegistrationCourse registrationCourse : registrationCourses) {
+            registrationCourse.setCurrentRegRequestId(regRequestId);
+        }
+        return regRequestId;
     }
 
     @Override
     public String submitCourse(String studentId, String termId, RegistrationCourse registrationCourse, String typeKey) {
-        return submitRegistrationRequest(AdminRegistrationUtil.buildRegistrationRequest(studentId, termId, registrationCourse, typeKey));
+        String regRequestId = submitRegistrationRequest(AdminRegistrationUtil.buildRegistrationRequest(studentId, termId, registrationCourse, typeKey));
+        registrationCourse.setCurrentRegRequestId(regRequestId);
+
+        return regRequestId;
     }
 
     @Override
@@ -464,7 +471,10 @@ public class AdminRegistrationViewHelperServiceImpl extends KSViewHelperServiceI
                 String.valueOf(Boolean.TRUE));
         regRequest.getAttributes().add(attributeInfo);
 
-        return submitRegistrationRequest(regRequest);
+        String regRequestId = submitRegistrationRequest(regRequest);
+        registrationCourse.setCurrentRegRequestId(regRequestId);
+
+        return regRequestId;
     }
 
     private String submitRegistrationRequest(RegistrationRequestInfo regRequest) {

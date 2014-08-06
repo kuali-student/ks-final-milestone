@@ -5,7 +5,6 @@ import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.krad.messages.MessageService;
 import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 import org.kuali.student.common.util.security.ContextUtils;
-import org.kuali.student.enrollment.class2.registration.admin.form.AdminRegistrationForm;
 import org.kuali.student.enrollment.class2.registration.admin.form.RegistrationCourse;
 import org.kuali.student.enrollment.class2.registration.admin.form.RegistrationResult;
 import org.kuali.student.enrollment.class2.registration.admin.form.RegistrationResultItem;
@@ -183,7 +182,7 @@ public class AdminRegistrationUtil {
     }
 
     public static boolean compareCourseAndItem(RegistrationCourse course, RegistrationRequestItemInfo item) {
-        if (course.getRegGroupId().equals(item.getRegistrationGroupId())) {
+        if (course.getRegGroupId().equals(item.getRegistrationGroupId()) && course.getCurrentRegRequestId().equals(item.getRegistrationRequestId())) {
             return true;
         }
         return false;

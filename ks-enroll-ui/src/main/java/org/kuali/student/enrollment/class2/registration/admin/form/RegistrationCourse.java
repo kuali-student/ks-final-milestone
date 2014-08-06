@@ -16,8 +16,6 @@
 
 package org.kuali.student.enrollment.class2.registration.admin.form;
 
-import org.kuali.student.enrollment.courseoffering.infc.RegistrationGroup;
-
 import org.kuali.student.r2.common.util.date.DateFormatters;
 
 import java.io.Serializable;
@@ -52,6 +50,7 @@ public class RegistrationCourse implements Serializable{
     private String regGroupId;
     private List<RegistrationActivity> activities = new ArrayList<RegistrationActivity>();
     private boolean subterm;
+    private String currentRegRequestId;
 
     public RegistrationCourse(){
         this.setTransactionalDate(new Date());
@@ -229,5 +228,13 @@ public class RegistrationCourse implements Serializable{
 
     public void setCreditType(String creditType) {
         this.creditType = creditType;
+    }
+
+    public String getCurrentRegRequestId() {
+        return currentRegRequestId;
+    }
+
+    public void setCurrentRegRequestId(String currentRegRequestId) {
+        this.currentRegRequestId = currentRegRequestId;
     }
 }
