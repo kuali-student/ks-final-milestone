@@ -55,7 +55,7 @@
              ng-bind-html="applyFilter(searchResult, searchColumn.field, searchColumn.filter)"></div>
     </div>
 </div>
-<div class="kscr-Search-results-paginate" ng-show="searchCriteria">
+<div class="kscr-Search-results-paginate" ng-show="searchCriteria && (lastPage() > 1)">
     <div class="kscr-Search-results-pageBox">
         <a id="firstPageLink" ng-show="page > 1" ng-click="page = 1;">|&lt;</a>
         <span id="firstPage"ng-show="page <= 1">|&lt;</span>
