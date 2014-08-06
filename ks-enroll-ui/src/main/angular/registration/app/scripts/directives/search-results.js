@@ -34,12 +34,12 @@ angular.module('regCartApp')
 
                 // Displays the table in batches for performance
                 var stagger = 20;
-                scope.limit = stagger;
+                scope.limit = 0;
                 scope.$watch('limit', function() {
                     if (scope.limit < scope.displayLimit) {
                         $timeout(function() {
                             scope.limit += stagger;
-                        }, 250)
+                        })
                     }
                 });
 

@@ -45,13 +45,13 @@ angular.module('regCartApp')
                 };
 
                 // Displays the table in batches for performance
-                var stagger = 5;
-                scope.limit = stagger;
+                var stagger = 20;
+                scope.limit = 0;
                 scope.$watch('limit', function() {
                     if (scope.limit < scope.searchDetails.length) {
                         $timeout(function() {
                             scope.limit += stagger;
-                        }, 100)
+                        })
                     }
                 });
             }
