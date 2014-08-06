@@ -20,6 +20,7 @@
         <li><a class="portal_link" title="Manage Hold Catalog" href="${ConfigProperties.lum.application.url}/kr-krad/holdIssueInfoController?viewId=holdSearchView&methodToCall=start">Manage Hold Catalog</a></li>
         <li><a class="portal_link" title="Organization lookup (temp)" href="${ConfigProperties.lum.application.url}/kr-krad/lookup?methodToCall=start&dataObjectClassName=org.kuali.student.r2.core.organization.dto.OrgInfo&returnLocation=${ConfigProperties.lum.application.url}/portal.do&hideReturnLink=true">Organization lookup (temp)</a></li>
         <li><a class="portal_link" title="Hold Issue Info Lookup View" href="${ConfigProperties.lum.application.url}/kr-krad/lookup?methodToCall=start&dataObjectClassName=org.kuali.student.r2.core.hold.dto.HoldIssueInfo&returnLocation=${ConfigProperties.lum.application.url}/portal.do&hideReturnLink=true">Hold Issue Info Lookup View</a></li>
+        <li><a class="portal_link" title="Hold Maintenance" href="${ConfigProperties.lum.application.url}/kr-krad/holdIssueMaintenanceController?viewName=HoldIssueMaintenanceView&dataObjectClassName=org.kuali.student.enrollment.class1.hold.form.HoldIssueMaintenanceForm&methodToCall=start">Hold Maintenance</a></li>
     </ul>
     <strong>Process (In Progress)</strong>
     <ul class="chan">
