@@ -38,6 +38,7 @@ public class ElasticEmbedded {
     public static final String KS_ELASTIC_CLUSTER = "ks.elastic.cluster";
     public static final String KS_ELASTIC_INDEX = "ks";
     public static final String COURSEOFFERING_ELASTIC_TYPE = "courseoffering";
+    public static final String COURSEOFFERING_DETAILS_ELASTIC_TYPE = "courseofferingDetails";
 
     private SearchService searchService;
     private LRCService lrcService;
