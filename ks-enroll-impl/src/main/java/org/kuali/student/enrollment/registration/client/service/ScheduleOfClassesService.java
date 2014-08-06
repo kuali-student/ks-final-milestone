@@ -3,6 +3,8 @@ package org.kuali.student.enrollment.registration.client.service;
 
 import org.kuali.student.enrollment.registration.client.service.dto.CourseSearchResult;
 import org.kuali.student.enrollment.registration.client.service.dto.RegGroupSearchResult;
+import org.kuali.student.enrollment.registration.client.service.dto.ResultValueGroupCourseOptions;
+import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
@@ -108,4 +110,15 @@ public interface ScheduleOfClassesService {
      * @return  map of AO IDs -> List<TimeSlotInfo>. Null if no records are found
      */
     Map<String, List<TimeSlotInfo>>  getAoTimeSlotMap(List<String> aoIds);
+
+    /**
+     * This method takes in the courseOfferingId and will return an object that contains the credit and grading optins of the course.
+     *
+     * Because credit and grading options almost never change it would be a good idea to cache the returns of this method to increase performance
+     * @param courseOfferingId
+     * @param contextInfo
+     * @return
+     * @throws OperationFailedException
+     */
+    public ResultValueGroupCourseOptions getCreditAndGradingOptions(String courseOfferingId, ContextInfo contextInfo) throws OperationFailedException;
 }

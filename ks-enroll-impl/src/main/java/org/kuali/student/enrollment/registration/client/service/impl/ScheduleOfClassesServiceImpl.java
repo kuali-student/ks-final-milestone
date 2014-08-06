@@ -23,6 +23,7 @@ import org.kuali.student.enrollment.registration.client.service.dto.EligibilityC
 import org.kuali.student.enrollment.registration.client.service.dto.InstructorSearchResult;
 import org.kuali.student.enrollment.registration.client.service.dto.RegGroupSearchResult;
 import org.kuali.student.enrollment.registration.client.service.dto.RegistrationCountResult;
+import org.kuali.student.enrollment.registration.client.service.dto.ResultValueGroupCourseOptions;
 import org.kuali.student.enrollment.registration.client.service.dto.ScheduleSearchResult;
 import org.kuali.student.enrollment.registration.client.service.dto.StudentScheduleActivityOfferingResult;
 import org.kuali.student.enrollment.registration.client.service.dto.SubTermOfferingResult;
@@ -66,6 +67,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -1257,6 +1259,38 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
         }
 
         return creditOptions;
+    }
+
+    @Override
+    public ResultValueGroupCourseOptions getCreditAndGradingOptions(String courseOfferingId, ContextInfo contextInfo) throws OperationFailedException {
+
+
+        SearchRequestInfo searchRequest = new SearchRequestInfo(CourseRegistrationSearchServiceImpl.RVGS_BY_LUI_IDS_SEARCH_TYPE.getKey());
+        searchRequest.addParam(CourseRegistrationSearchServiceImpl.SearchParameters.LUI_IDS, Arrays.asList(courseOfferingId));
+
+        SearchResultInfo searchResult;
+        try {
+            searchResult = CourseRegistrationAndScheduleOfClassesUtil.getSearchService().search(searchRequest, contextInfo);
+        } catch (Exception e) {
+            throw new OperationFailedException("Search of activity offering schedules failed: ", e);
+        }
+
+        ResultValueGroupCourseOptions rvgCourseOptions = new ResultValueGroupCourseOptions();
+        rvgCourseOptions.setCourseOfferingId(courseOfferingId);
+
+        for (SearchResultHelper.KeyValue row : SearchResultHelper.wrap(searchResult)) {
+            //String coId = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.LUI_ID);
+            String rvgId = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.RVG_ID);
+            String rvgValue = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.RVG_VALUE);
+
+            if (rvgId.startsWith("kuali.creditType.credit.degree.")) {
+                rvgCourseOptions.getCreditOptions().put(rvgId, rvgValue);
+            } else {
+                rvgCourseOptions.getGradingOptions().put(rvgId,CourseRegistrationAndScheduleOfClassesUtil.translateGradingOptionKeyToName(rvgId) );
+            }
+        }
+        return rvgCourseOptions;
+
     }
 
     // Setting grading and credit options

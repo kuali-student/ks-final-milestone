@@ -7,9 +7,14 @@ import org.kuali.student.enrollment.registration.client.service.CourseRegistrati
 import org.kuali.student.enrollment.registration.client.service.CourseRegistrationCartClientServiceConstants;
 import org.kuali.student.enrollment.registration.client.service.dto.CartItemResult;
 import org.kuali.student.enrollment.registration.client.service.dto.Link;
+import org.kuali.student.enrollment.registration.client.service.dto.RegGroupSearchResult;
+import org.kuali.student.enrollment.registration.client.service.dto.ResultValueGroupCourseOptions;
 import org.kuali.student.enrollment.registration.client.service.dto.UserMessageResult;
 import org.kuali.student.enrollment.registration.client.service.exception.GenericUserException;
 import org.kuali.student.enrollment.registration.client.service.exception.MissingOptionException;
+import org.kuali.student.enrollment.registration.client.service.impl.util.CourseRegistrationAndScheduleOfClassesUtil;
+import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
@@ -18,11 +23,13 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
+import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
+import java.util.HashMap;
 
 /**
  *
@@ -55,11 +62,63 @@ public class CourseRegistrationCartClientServiceImpl extends CourseRegistrationC
 
 
     @Override
-    public Response addCourseToCartRS(String cartId, String courseCode, String regGroupId, String regGroupCode, String gradingOptionId, String credits) throws MissingParameterException, PermissionDeniedException, InvalidParameterException, OperationFailedException, DoesNotExistException, ReadOnlyException, DataValidationErrorException, VersionMismatchException {
+    public Response addCourseToCartRS(String termId, String cartId, String regGroupId, String courseCode,  String regGroupCode, String gradingOptionId, String credits) throws MissingParameterException, PermissionDeniedException, InvalidParameterException, OperationFailedException, DoesNotExistException, ReadOnlyException, DataValidationErrorException, VersionMismatchException {
         Response.ResponseBuilder response;
 
         try {
-            CartItemResult result = addCourseToCart(ContextUtils.createDefaultContextInfo(), cartId, courseCode, regGroupId, regGroupCode, gradingOptionId, credits);
+            ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
+
+            if(cartId == null || cartId.isEmpty()){
+                RegistrationRequestInfo request = createCart(contextInfo.getPrincipalId(), termId, contextInfo);
+                cartId = request.getId();
+            }
+
+            RegGroupSearchResult rg = CourseRegistrationAndScheduleOfClassesUtil.getRegGroup(termId, null, courseCode, regGroupCode, regGroupId, contextInfo);
+
+            // will throw error if RG is not in proper state
+            processRegGroupSearchValidation(rg, courseCode, regGroupCode);
+
+            // get the credit and grading options for this course
+            ResultValueGroupCourseOptions rvgCourseOptions = getScheduleOfClassesService().getCreditAndGradingOptions(rg.getCourseOfferingId(), contextInfo);
+
+            // lets try to set the credit and grading options if they don't exist and the rvg have only single options.
+            if(credits == null || credits.isEmpty()){
+                credits = getSingleCreditValue(rvgCourseOptions);
+            }
+            if(gradingOptionId == null || gradingOptionId.isEmpty()){
+                gradingOptionId = getSingleGradingOptionsValue(rvgCourseOptions);
+            }
+
+            if(isMissingOptions(credits, gradingOptionId, rvgCourseOptions)){
+                // build a fake cartItem to return to user. This will be populated with the possible options the user can select
+                CartItemResult optionsCartItem = new CartItemResult();
+                optionsCartItem.setCourseCode(courseCode);
+                optionsCartItem.setRegGroupCode(rg.getRegGroupName());
+                optionsCartItem.setRegGroupId(rg.getRegGroupId());
+                optionsCartItem.setCredits(credits);
+                optionsCartItem.setGrading(gradingOptionId);
+                optionsCartItem.setGradingOptionCount(optionsCartItem.getGradingOptions().size());
+                optionsCartItem.setTermId(termId);
+
+                optionsCartItem.getCreditOptions().addAll(rvgCourseOptions.getCreditOptions().values());
+                // need to do a copy for thread safety
+                optionsCartItem.setGradingOptions(new HashMap<String, String>(rvgCourseOptions.getGradingOptions().size()));
+                optionsCartItem.getGradingOptions().putAll(rvgCourseOptions.getGradingOptions());
+
+                throw new MissingOptionException(optionsCartItem);
+            }
+            if(!isCreditValueValid(credits, rvgCourseOptions)){
+                throw new InvalidParameterException("Credit option " + credits + " is not valid for this course: " + courseCode + "(" + rg.getRegGroupName() + ")");
+            }
+
+            if(!isGradingOptionValid(gradingOptionId, rvgCourseOptions)){
+                throw new InvalidParameterException("Grading option " + gradingOptionId + " is not valid for this course: " + courseCode + "(" + rg.getRegGroupName() + ")");
+            }
+
+
+
+
+            CartItemResult result = addCourseToCart(cartId,rg.getRegGroupId(),gradingOptionId, credits,rvgCourseOptions, courseCode, contextInfo);
             // build the link to delete this item.
             result.getActionLinks().add(buildDeleteLink(cartId, result.getCartItemId(), result.getGrading(), result.getCredits()));
 
@@ -96,9 +155,36 @@ public class CourseRegistrationCartClientServiceImpl extends CourseRegistrationC
         return response.build();
     }
 
+    protected void processRegGroupSearchValidation(RegGroupSearchResult rg, String courseCode, String regGroupCode) throws GenericUserException {
+        ValidationResultInfo regGroupValidation = validateRegGroupSearchResult(rg, courseCode, regGroupCode);
+
+        if (regGroupValidation.isError()) {
+            String technicalInfo = String.format("Technical Info:(term:[%s] id:[%s] state:[%s] )",
+                    rg.getTermId(), rg.getRegGroupId(), rg.getRegGroupState());
+
+            UserMessageResult userMessage = new UserMessageResult();
+            userMessage.setGenericMessage(regGroupValidation.getMessage());
+            userMessage.setDetailedMessage(regGroupValidation.getMessage());
+            userMessage.setConsoleMessage(regGroupValidation.getMessage() + " " + technicalInfo);
+            userMessage.setType(UserMessageResult.MessageTypes.ERROR);
+            throw new GenericUserException(userMessage);
+        }
+    }
+
+    protected ValidationResultInfo validateRegGroupSearchResult(RegGroupSearchResult regGroupSearchResult, String courseCode, String regGroupCode) {
+
+        ValidationResultInfo resultInfo = new ValidationResultInfo();
+        if (!LuiServiceConstants.REGISTRATION_GROUP_OFFERED_STATE_KEY.equals(regGroupSearchResult.getRegGroupState())) {
+            resultInfo.setError("Course " + courseCode + " (" + regGroupCode + ") is not offered in the selected term");
+        }
+
+        return resultInfo;
+    }
+
     @Override
-    public Response undoDeleteCourseRS(String cartId, String courseCode, String regGroupId, String regGroupCode, String gradingOptionId, String credits) throws MissingParameterException, PermissionDeniedException, InvalidParameterException, OperationFailedException, DoesNotExistException, ReadOnlyException, DataValidationErrorException, VersionMismatchException {
-        return addCourseToCartRS(cartId, courseCode, regGroupId, regGroupCode, gradingOptionId, credits);
+    public Response undoDeleteCourseRS(String termId, String cartId, String courseCode, String regGroupId, String regGroupCode, String gradingOptionId, String credits) throws MissingParameterException, PermissionDeniedException, InvalidParameterException, OperationFailedException, DoesNotExistException, ReadOnlyException, DataValidationErrorException, VersionMismatchException {
+        return  addCourseToCartRS(termId, cartId,regGroupId, courseCode, regGroupCode, gradingOptionId, credits);
+
     }
 
     private Response.ResponseBuilder getResponse(Response.Status status, Object entity) {
@@ -110,10 +196,10 @@ public class CourseRegistrationCartClientServiceImpl extends CourseRegistrationC
         return response;
     }
 
-    protected Link buildUndoLink(String cartId, String regGroupId, String gradingOptionId, String credits) {
+    protected Link buildUndoLink(String termId, String cartId, String regGroupId, String gradingOptionId, String credits) {
         String action = "undoDeleteCourse";
-        String uriFormat = CourseRegistrationCartClientServiceConstants.SERVICE_NAME_LOCAL_PART + "/undoDeleteCourse?cartId=%s&regGroupId=%s&gradingOptionId=%s&credits=%s";
-        String uri = String.format(uriFormat, cartId, regGroupId, gradingOptionId, credits);
+        String uriFormat = CourseRegistrationCartClientServiceConstants.SERVICE_NAME_LOCAL_PART + "/undoDeleteCourse?termId=%s&cartId=%s&regGroupId=%s&gradingOptionId=%s&credits=%s";
+        String uri = String.format(uriFormat,termId, cartId, regGroupId, gradingOptionId, credits);
 
         return new Link(action, uri);
     }
@@ -125,7 +211,7 @@ public class CourseRegistrationCartClientServiceImpl extends CourseRegistrationC
         try {
             CartItemResult result = removeItemFromCart(cartId, cartItemId);
             // build the link to add this item.
-            result.getActionLinks().add(buildUndoLink(cartId, result.getRegGroupId(), result.getGrading(), result.getCredits()));
+            result.getActionLinks().add(buildUndoLink(result.getTermId(), cartId, result.getRegGroupId(), result.getGrading(), result.getCredits()));
 
             //This will need to be changed to the cartItemResponse object in the future!
             response = Response.ok(result);

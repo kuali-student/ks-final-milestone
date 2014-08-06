@@ -54,9 +54,10 @@ public interface CourseRegistrationCartClientService {
     @Produces({MediaType.APPLICATION_JSON})
     @Consumes({MediaType.APPLICATION_FORM_URLENCODED})
     @Path("/addCourseToCart")
-    public Response addCourseToCartRS(@FormParam("cartId") String cartId,
-                                      @FormParam("courseCode") String courseCode,
+    public Response addCourseToCartRS(@FormParam("termId") String termId,
+                                      @FormParam("cartId") String cartId,
                                       @FormParam("regGroupId") String regGroupId,
+                                      @FormParam("courseCode") String courseCode,
                                       @FormParam("regGroupCode") String regGroupCode,
                                       @FormParam("gradingOptionId") String gradingOptionId,
                                       @FormParam("credits") String credits) throws MissingParameterException, PermissionDeniedException, InvalidParameterException, OperationFailedException, DoesNotExistException, ReadOnlyException, DataValidationErrorException, VersionMismatchException;
@@ -66,6 +67,7 @@ public interface CourseRegistrationCartClientService {
      * Calls addCourseToCart logic via a GET Query
      * This is necessary because Undo is a link which does not allow POST operations or have Form Parameters
      *
+     * @param termId          termId for reg group being added to cart
      * @param cartId          ID of the registrationRequest representing the cart
      * @param courseCode      course offering to add to the cart
      * @param regGroupId      Optional. Will speed things up if passed instead of (courseCode, regGroupCode)
@@ -77,7 +79,8 @@ public interface CourseRegistrationCartClientService {
     @GET
     @Produces({MediaType.APPLICATION_JSON})
     @Path("/undoDeleteCourse")
-    public Response undoDeleteCourseRS(@QueryParam("cartId") String cartId,
+    public Response undoDeleteCourseRS(@QueryParam("termId") String termId,
+                                       @QueryParam("cartId") String cartId,
                                       @QueryParam("courseCode") String courseCode,
                                       @QueryParam("regGroupId") String regGroupId,
                                       @QueryParam("regGroupCode") String regGroupCode,

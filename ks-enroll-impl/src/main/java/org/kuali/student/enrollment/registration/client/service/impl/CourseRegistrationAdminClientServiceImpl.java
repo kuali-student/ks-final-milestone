@@ -21,13 +21,10 @@ import org.kuali.rice.core.api.criteria.OrderByField;
 import org.kuali.rice.core.api.criteria.OrderDirection;
 import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
-import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.student.common.util.security.ContextUtils;
 import org.kuali.student.enrollment.lpr.dto.LprInfo;
 import org.kuali.student.enrollment.lpr.service.LprService;
 import org.kuali.student.enrollment.registration.client.service.CourseRegistrationAdminClientService;
-import org.kuali.student.enrollment.registration.client.service.ScheduleOfClassesService;
-import org.kuali.student.enrollment.registration.client.service.ScheduleOfClassesServiceConstants;
 import org.kuali.student.enrollment.registration.client.service.dto.RegGroupSearchResult;
 import org.kuali.student.enrollment.registration.client.service.dto.WaitlistEntryResult;
 import org.kuali.student.enrollment.registration.client.service.dto.WaitlistPositionResult;
@@ -64,7 +61,6 @@ public class CourseRegistrationAdminClientServiceImpl extends CourseRegistration
     public static final Logger LOGGER = LoggerFactory.getLogger(CourseRegistrationAdminClientServiceImpl.class);
 
     private LprService lprService;
-    private ScheduleOfClassesService scheduleOfClassesService;
 
     // this comparator is used to sort the reg req items in the order they are displayed on the screen.
     // allows us to validate in order.
@@ -302,15 +298,6 @@ public class CourseRegistrationAdminClientServiceImpl extends CourseRegistration
      */
     protected void sortLprsForWaitlistProcessing(List<LprInfo> lprInfos){
         Collections.sort(lprInfos,LPR_INFO_CREATE_DATE);
-    }
-
-
-    protected ScheduleOfClassesService getScheduleOfClassesService() {
-        if (scheduleOfClassesService == null) {
-            scheduleOfClassesService = GlobalResourceLoader.getService(ScheduleOfClassesServiceConstants.QNAME);
-        }
-
-        return scheduleOfClassesService;
     }
 
 

@@ -371,6 +371,12 @@ public class CourseRegistrationAndScheduleOfClassesUtil {
                 rg.setActivityOfferingIds(rgInfo.getActivityOfferingIds());
             }
         } else {
+            if(courseCode == null || courseCode.isEmpty()){
+                throw new DoesNotExistException("Course Code cannot be empty");
+            }
+            if(regGroupCode == null || regGroupCode.isEmpty()){
+                throw new DoesNotExistException("Section cannot be empty");
+            }
             // get the registration group
             rg = getScheduleOfClassesService().searchForRegistrationGroupByTermAndCourseAndRegGroup(termId, termCode, courseCode, regGroupCode);
         }
