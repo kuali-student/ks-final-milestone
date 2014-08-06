@@ -453,29 +453,45 @@
 
     <bean id="KS-Proposal-Review-Course-ConfirmReturnToPreviousNode-Dialog" parent="KS-Proposal-Review-Course-ConfirmReturnToPreviousNode-Dialog-parentBean"/>
     <bean id="KS-Proposal-Review-Course-ConfirmReturnToPreviousNode-Dialog-parentBean" parent="Uif-DialogGroup" abstract="true">
-        <property name="renderHeader" value="true"/>
-        <property name="OnShowDialogScript" value="skipDirtyChecks();" />
-        <property name="headerText" value="Return Proposal To Previous Node"/>
-        <property name="cssClasses" >
-            <list merge="true">
-                <value>returntopreviousnode_dialog</value>
-            </list>
-        </property>
-        <property name="promptText"
-                  value="You are about to return the &quot;@{#uiHelper.proposalName}&quot; proposal to a previous workflow node"/>
-        <!-- do not show the explanation because we need the route node name dropdown above it in the dialog screen -->
-        <property name="displayExplanation" value="false"/>
+        <property name="promptText" value=""/>
+        <property name="OnShowDialogScript" value="skipDirtyChecks();emptyTextBoxes();" />
         <property name="items">
             <list>
-                <bean id="CM-ReturnToPrevious-Dialog-NodeNamesDropdown" parent="CM-Dialog-PreviousNodeNames"/>
-                <!-- manually add back in the explanation field and force the render flag -->
-                <bean id="CM-ReturnToPrevious-Dialog-Explanation" parent="Uif-DialogExplanation" p:render="true"/>
+                <bean parent="Uif-VerticalBoxSection">
+                    <property name="header">
+                        <bean parent="Uif-HeaderTwo" p:headerText="Return Proposal To Previous Node"
+                              p:cssClasses="ks-dottedHeaderActions"/>
+                    </property>
+                    <property name="items">
+                        <list>
+                            <bean id="CM-Proposal-Return-Confirm-Text" parent="Uif-Message"
+                                  p:messageText="You are returning &quot;@{#uiHelper.proposalName}&quot; proposal to previous node. You must enter a Decision Rationale"
+                                  p:style="margin-top:10px;margin-bottom-10px;"/>
+                            <bean id="CM-ReturnToPrevious-Dialog-NodeNamesDropdown" parent="CM-Dialog-PreviousNodeNames"/>
+                            <!-- manually add back in the explanation field and force the render flag -->
+                            <bean id="CM-ReturnToPrevious-Dialog-Explanation" parent="Uif-DialogExplanation" p:render="true"
+                                  p:onKeyUpScript="toggleReturnButton();" p:onMouseOutScript="toggleReturnButton();"
+                                  p:label="Decision Rationale"/>
+                            <bean parent="Uif-HorizontalBoxGroup" p:style="float:right;padding-top:10px">
+                                <property name="items">
+                                    <list>
+                                        <bean id="CM-Proposal-Return-Confirm" parent="Uif-PrimaryActionButton" p:preSubmitCall="closeLightbox(); return true;"
+                                              p:methodToCall="returnToPreviousNode" p:actionLabel="Return"/>
+                                        <bean id="CM-Proposal-Return-Cancel"
+                                              parent="Uif-ActionLink"
+                                              p:actionLabel="Cancel"
+                                              p:actionScript="closeLightbox();"
+                                              p:additionalCssClasses="cancel_link"/>
+                                    </list>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
             </list>
         </property>
         <property name="availableResponses">
             <list>
-                <bean parent="Uif-KeyLabelPair" p:key="yes" p:value="Confirm"/>
-                <bean parent="Uif-KeyLabelPair" p:key="no" p:value="Cancel"/>
             </list>
         </property>
     </bean>
@@ -493,52 +509,85 @@
 
     <bean id="KS-Proposal-Review-Course-ConfirmApproveBlanketApprove-Dialog" parent="KS-Proposal-Review-Course-ConfirmApproveBlanketApprove-Dialog-parentBean"/>
     <bean id="KS-Proposal-Review-Course-ConfirmApproveBlanketApprove-Dialog-parentBean" parent="Uif-DialogGroup" abstract="true">
-        <property name="renderHeader" value="true"/>
+        <property name="promptText" value=""/>
         <property name="OnShowDialogScript" value="skipDirtyChecks();" />
-    <property name="headerText" value="@{#dataObject.approveCheck ? '' : 'Blanket'} Approve Proposal"/>
-        <property name="cssClasses" >
-            <list merge="true">
-                <value>returntopreviousnode_dialog</value>
-            </list>
-        </property>
-    <property name="promptText" value=""/>
-        <!-- do not show the explanation because we need the route node name dropdown above it in the dialog screen -->
-        <property name="displayExplanation" value="false"/>
         <property name="items">
             <list>
-                <!-- manually add back in the explanation field and force the render flag -->
-                <bean id="CM-Approve-Dialog-Explanation" parent="Uif-DialogExplanation" p:render="true"/>
+                <bean parent="Uif-VerticalBoxSection">
+                    <property name="header">
+                        <bean parent="Uif-HeaderTwo" p:headerText="Blanket Approval"
+                              p:cssClasses="ks-dottedHeaderActions"/>
+                    </property>
+                    <property name="items">
+                        <list>
+                            <bean id="CM-Proposal-BlanketApprove-Confirm-Text" parent="Uif-Message"
+                                  p:messageText="You are blanket approving &quot;@{#uiHelper.proposalName}&quot; proposal. You must enter a Decision Rationale"
+                                  p:style="margin-top:10px;margin-bottom-10px;"/>
+                            <!-- manually add back in the explanation field and force the render flag -->
+                            <bean id="CM-BlanketApprove-Dialog-Explanation" parent="Uif-DialogExplanation" p:render="true"
+                                  p:onKeyUpScript="toggleBlanketApproveButton();" p:onMouseOutScript="toggleBlanketApproveButton();"
+                                  p:label="Decision Rationale"/>
+                            <bean parent="Uif-HorizontalBoxGroup" p:style="float:right;padding-top:10px">
+                                <property name="items">
+                                    <list>
+                                        <bean id="CM-Proposal-BlanketApprove-Confirm" parent="Uif-PrimaryActionButton" p:preSubmitCall="closeLightbox(); return true;"
+                                              p:methodToCall="blanketApprove" p:actionLabel="Approve"/>
+                                        <bean id="CM-Proposal-BlanketApprove-Cancel"
+                                              parent="Uif-ActionLink"
+                                              p:actionLabel="Cancel"
+                                              p:actionScript="closeLightbox();"
+                                              p:additionalCssClasses="cancel_link"/>
+                                    </list>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
             </list>
         </property>
         <property name="availableResponses">
             <list>
-                <bean parent="Uif-KeyLabelPair" p:key="yes" p:value="Confirm"/>
-                <bean parent="Uif-KeyLabelPair" p:key="no" p:value="Cancel"/>
-        </list>
-    </property>
-    <property name="propertyReplacers">
-        <list>
-            <bean parent="Uif-ConditionalBeanPropertyReplacer" p:propertyName="promptText"
-                  p:condition="@{!#dataObject.approveCheck}">
-                <property name="replacement">
-                    <value>You are blanket approving the &quot;@{#uiHelper.proposalName}&quot; proposal</value>
-                </property>
-            </bean>
-            <bean parent="Uif-ConditionalBeanPropertyReplacer" p:propertyName="promptText"
-                  p:condition="@{#dataObject.approveCheck}">
-                <property name="replacement">
-                    <value>You are approving the &quot;@{#uiHelper.proposalName}&quot; proposal</value>
-                </property>
-            </bean>
-            <bean parent="Uif-ConditionalBeanPropertyReplacer" p:propertyName="availableResponses"
-                  p:condition="@{#dataObject.approveCheck}">
-                <property name="replacement">
-                    <list>
-                        <bean parent="Uif-KeyLabelPair" p:key="yes" p:value="Approve"/>
-                        <bean parent="Uif-KeyLabelPair" p:key="no" p:value="Cancel"/>
-                    </list>
-                </property>
-            </bean>
+            </list>
+        </property>
+        <property name="propertyReplacers">
+            <list>
+                <bean parent="Uif-ConditionalBeanPropertyReplacer" p:propertyName="promptText"
+                      p:condition="@{#dataObject.approveCheck}">
+                    <property name="replacement">
+                        <list>
+                            <bean parent="Uif-VerticalBoxSection">
+                                <property name="header">
+                                    <bean parent="Uif-HeaderTwo" p:headerText="Approve Proposal"
+                                          p:cssClasses="ks-dottedHeaderActions"/>
+                                </property>
+                                <property name="items">
+                                    <list>
+                                        <bean id="CM-Proposal-Approve-Confirm-Text" parent="Uif-Message"
+                                              p:messageText="You are approving &quot;@{#uiHelper.proposalName}&quot; proposal. You must enter a Decision Rationale"
+                                              p:style="margin-top:10px;margin-bottom-10px;"/>
+                                        <!-- manually add back in the explanation field and force the render flag -->
+                                        <bean id="CM-Approve-Dialog-Explanation" parent="Uif-DialogExplanation" p:render="true"
+                                              p:onKeyUpScript="toggleApproveButton();" p:onMouseOutScript="toggleApproveButton();"
+                                              p:label="Decision Rationale"/>
+                                        <bean parent="Uif-HorizontalBoxGroup" p:style="float:right;padding-top:10px">
+                                            <property name="items">
+                                                <list>
+                                                    <bean id="CM-Proposal-Approve-Confirm" parent="Uif-PrimaryActionButton" p:preSubmitCall="closeLightbox(); return true;"
+                                                          p:methodToCall="approve" p:actionLabel="Approve"/>
+                                                    <bean id="CM-Proposal-Approve-Cancel"
+                                                          parent="Uif-ActionLink"
+                                                          p:actionLabel="Cancel"
+                                                          p:actionScript="closeLightbox();"
+                                                          p:additionalCssClasses="cancel_link"/>
+                                                </list>
+                                            </property>
+                                        </bean>
+                                    </list>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
             </list>
         </property>
     </bean>
