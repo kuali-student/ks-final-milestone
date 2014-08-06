@@ -392,13 +392,7 @@
                     <property name="items">
                         <list>
                             <bean parent="Uif-PrimaryActionButton"
-                                  p:ajaxSubmit="false"
-                                  p:actionLabel="Submit"
-                                  p:methodToCall="route"
-                                  p:performClientSideValidation="true"
-                                  p:disabled="@{#dataObject.missingRequiredFields}"
-                                  p:render="@{(#uiHelper.useReviewProcess) and (#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE])}"/>
-                            <bean parent="Uif-PrimaryActionButton"
+                                  p:additionalCssClasses="btn-success"
                                   p:ajaxSubmit="false"
                                   p:actionLabel="Blanket Approve"
                                   p:methodToCall="blanketApprove"
@@ -417,6 +411,13 @@
                                   p:performClientSideValidation="true"
                                   p:performDirtyValidation="false"
                                   p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_APPROVE]}"/>
+                            <bean parent="Uif-PrimaryActionButton"
+                                  p:ajaxSubmit="false"
+                                  p:actionLabel="Submit"
+                                  p:methodToCall="route"
+                                  p:performClientSideValidation="true"
+                                  p:disabled="@{#dataObject.missingRequiredFields}"
+                                  p:render="@{(#uiHelper.useReviewProcess) and (#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE])}"/>
                             <bean id="CM-Proposal-Review-CurriculumSpecialist-Cancel"
                                   parent="Uif-ActionLink"
                                   p:actionLabel="Cancel"
