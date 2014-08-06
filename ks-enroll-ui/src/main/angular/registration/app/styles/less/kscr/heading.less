@@ -9,22 +9,32 @@
     text-transform: uppercase;
 }
 
-.kscr-Heading-support{
-    font-family: @primaryFontFamily !important;
-    .font-size(14) !important;
-    color: @secondaryTextColor !important; //#666666
-    font-weight: normal !important;
-    padding-right: 1rem;
+.kscr-Heading-support {
+    color: @secondaryTextColor; //#666666
+    display: block;
+    font-family: @primaryFontFamily;
+    .font-size(14);
+    font-weight: normal;
 }
 
-.kscr-Heading-message{
+.kscr-Heading-message {
     .kscr-Heading-sub;
     font-weight: normal;
     font-family: @secondaryFontFamily;
     text-transform: none;
 }
 
+@media screen and (max-width: @smallFormatMax) {
+    .kscr-Heading-support {
+        display: block;
+    }
+}
+
 @media screen and (min-width: @largeFormatMin) {
+    .kscr-Heading-support {
+        float: right;
+        padding-right: 1rem;
+    }
     .kscr-Heading-sub {
         color: @primaryTextColor;
     }

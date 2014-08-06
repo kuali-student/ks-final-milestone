@@ -306,6 +306,9 @@ angular.module('regCartApp')
     .directive('courseCalendar', function() {
         return {
             restrict: 'E',
+            scope: {
+                size: '@'
+            },
             templateUrl: 'partials/courseCalendar.html',
             controller: ['$scope', 'CourseCalendarDataParser', 'GlobalVarsService', function($scope, CourseCalendarDataParser, GlobalVarsService) {
 
@@ -338,6 +341,12 @@ angular.module('regCartApp')
                     return ($scope.visibleTimeRange[0] / 60) <= h && h <= ($scope.visibleTimeRange[1] / 60);
                 };
 
+
+                var size = $scope.size;
+                if (size !== 'small') {
+                    size = 'large';
+                }
+                $scope.calendarSize = size;
 
                 $scope.hideRegistered = false;
                 $scope.hideWaitlisted = false;
@@ -397,11 +406,13 @@ angular.module('regCartApp')
                     // Calculate the width & position from the left as a percentage so
                     // it doesn't have to be updated when the window is resized.
                     var proportion = duration * 100 / totalRange,
-                        left = (scope.course.startTime - timeRange[0]) * 100 / totalRange;
+                        offset = (scope.course.startTime - timeRange[0]) * 100 / totalRange;
 
                     // Update the element to be position correctly relative to the parent container
                     element.css({
-                        left: left + '%',
+                        left: offset + '%',
+                        top: offset + '%',
+                        height: proportion + '%',
                         width: proportion + '%'
                     });
 

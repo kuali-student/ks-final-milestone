@@ -2,18 +2,28 @@
     <div draggable="true" ng-swipe-left="goToPage('/search')" ng-swipe-right="goToPage('/myCart')">
 
         <!--ScheduleMain Heading-->
-        <div class="kscr-MainHeading util-Grid util-Grid--center"
-             ng-class="{'kscr-Splash-header':!showSchedule()}">
+        <div class="kscr-MainHeading util-Grid util-Grid--center" ng-class="{'kscr-Splash-header':!showSchedule()}">
             <div class="util-Grid-cell">
                 <div class="kscr-MainHeading-icon-left"><a ui-sref="root.cart"><i class="glyphicon glyphicon-shopping-cart"></i></a></div>
                 <div class="kscr-MainHeading-header">My Schedule</div>
                 <div class="kscr-MainHeading-icon-right"><a ui-sref="root.search"><i class="glyphicon glyphicon-search"></i></a></div>
             </div>
+            <div class="util-Grid--clearfix"></div>
         </div>
 
-        <course-calendar ng-if="showGrid()"></course-calendar>
+        <div class="kscr-MainHeading-toggles" ng-show="showSchedule() && showGrid()" ng-init="selectedTab = 'grid'">
+            <a class="kscr-MainHeading-toggle" ng-click="selectedTab = 'list'"
+               ng-class="{'kscr-MainHeading-toggle--selected' : selectedTab === 'list' || !selectedTab,
+                                          'kscr-MainHeading-toggle--disabled' : !showGrid() }"><span>List</span></a>
+            <a class="kscr-MainHeading-toggle" ng-click="selectedTab = 'grid'"
+               ng-class="{'kscr-MainHeading-toggle--selected' : selectedTab === 'grid',
+                                          'kscr-MainHeading-toggle--disabled' : !showGrid() }"><span>Grid</span></a>
+        </div>
 
-        <div class="kscr-Responsive-schedule" ng-if="showSchedule()">
+        <course-calendar class="kscr-Responsive-calendar" ng-if="showGrid()"
+                         ng-class="{'kscr-Responsive-calendar--selected' : selectedTab === 'grid'}"></course-calendar>
+
+        <div class="kscr-Responsive-schedule" ng-if="showSchedule()" ng-class="{'kscr-Responsive-schedule--selected' : !selectedTab || selectedTab === 'list'}">
             <!-- display registered courses via the course-card directive -->
             <div class="kscr-Responsive-registered"
                  course-card type="{{courseTypes.registered}}" credits="registeredCredits()" schedules="getSchedules()"></div>

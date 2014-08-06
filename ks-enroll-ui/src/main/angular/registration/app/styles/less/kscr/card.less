@@ -30,6 +30,17 @@
   }
 }
 
+// Mixin for card bg & borders
+.kscr-Card-mixin() {
+    background-color: @whiteBackground;
+    border: 1px @cardBorderColor solid;
+    border-bottom-width: 2px;
+    color: @cardTextColor;
+    font-family: @secondaryFontFamily;
+    padding: 1rem;
+}
+
+
 
 // Mixin for details text
 .kscr-Card-detailsText-common() {

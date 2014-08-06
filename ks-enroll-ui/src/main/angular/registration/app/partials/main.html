@@ -89,10 +89,10 @@
                             <span class="kscr-MainHeading-link-icon">&#x00bb;</span>
                         </div>
                         <div class="kscr-MainHeading-toggles">
-                            <a class="kscr-MainHeading-toggle" ng-click="selectedTab = 'list'"
+                            <a class="kscr-MainHeading-toggle" ng-click="selectedTab = 'list'" ng-disabled="!showGrid()"
                                ng-class="{'kscr-MainHeading-toggle--selected' : selectedTab === 'list' || !selectedTab,
                                           'kscr-MainHeading-toggle--disabled' : !showGrid() }"><span>List</span></a>
-                            <a class="kscr-MainHeading-toggle" ng-click="selectedTab = 'grid'"
+                            <a class="kscr-MainHeading-toggle" ng-click="selectedTab = 'grid'" ng-disabled="!showGrid()"
                                ng-class="{'kscr-MainHeading-toggle--selected' : selectedTab === 'grid',
                                           'kscr-MainHeading-toggle--disabled' : !showGrid() }"><span>Grid</span></a>
                         </div>
@@ -100,9 +100,9 @@
                     </div>
 
                     <!-- Schedule -->
-                    <course-calendar ng-show="selectedTab === 'grid'" ng-if="showGrid()"></course-calendar>
+                    <course-calendar size="small" ng-show="selectedTab === 'grid'" ng-if="showGrid()"></course-calendar>
 
-                    <div class="kscr-Responsive-schedule" ng-show="selectedTab === 'list' || !selectedTab">
+                    <div class="kscr-Responsive-schedule" ng-show="selectedTab === 'list' || !selectedTab" ng-init="selectedTab = 'list'">
                         <!-- display registered courses via the course-card directive -->
                         <div class="kscr-Responsive-registered"
                              course-card type="registered" credits="registeredCredits()" schedules="getSchedules()"></div>

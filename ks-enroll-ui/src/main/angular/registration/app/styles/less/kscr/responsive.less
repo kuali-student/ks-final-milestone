@@ -43,6 +43,28 @@
         &--active {
             display: block; /* show only when active */
         }
+
+        .kscr-MainHeading-toggles {
+            float: right;
+            margin: 0 0.5rem 0.5rem 0;
+        }
+
+        .kscr-Responsive-calendar {
+            display: none;
+            margin-top: 1.5rem;
+            &--selected {
+                display: block;
+            }
+        }
+        .kscr-Responsive-schedule {
+            display: none;
+            &--selected {
+                display: block;
+            }
+        }
+        .kscr-Card {
+            margin-top: 0.5rem;
+        }
     }
     .kscr-Responsive-searchFormWrapper {
         display: none;
@@ -187,6 +209,11 @@
                 cursor: pointer;
             }
 
+            // Toggles
+            .kscr-MainHeading-toggles {
+                display: block;
+            }
+
             // Schedule contents
             .kscr-Responsive-schedule {
                 margin: 0.1rem 0;
@@ -238,7 +265,15 @@
 
             // Course Calendar Container in Sidebar
             .kscr-CourseCalendar {
+                .kscr-Card-mixin();
                 margin: 0;
+
+                &-calendar {
+                    background: none;
+                    border: none;
+                    margin-bottom: 0;
+                    padding: 0;
+                }
             }
         }
 
@@ -250,5 +285,12 @@
 
     .kscr-Responsive-searchWrapper .kscr-MainHeading {
         display: none; // Hide the Search main heading in large-format
+    }
+
+    // List/Grid toggle buttons
+    .kscr-Responsive-scheduleWrapper {
+        .kscr-MainHeading-toggles {
+            display: none; // Hide the main buttons in large-format
+        }
     }
 }
