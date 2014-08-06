@@ -67,6 +67,13 @@ public class AdminRegistrationUtil {
         return creditOptions;
     }
 
+    /**
+     * Builds a new RegistrationResult object based on the given course and messageKey with a success level.
+     *
+     * @param course
+     * @param messageKey
+     * @return
+     */
     public static RegistrationResult buildSuccessRegistrationResult(RegistrationCourse course, String messageKey){
         RegistrationResult regResult = new RegistrationResult();
         regResult.setCourse(course);
@@ -77,6 +84,12 @@ public class AdminRegistrationUtil {
         return regResult;
     }
 
+    /**
+     * Builds a new RegistrationResult object based on the given with a warning level.
+     *
+     * @param course
+     * @return
+     */
     public static RegistrationResult buildWarningRegistrationResult(RegistrationCourse course){
         RegistrationResult regResult = new RegistrationResult();
         regResult.setCourse(course);
@@ -88,7 +101,11 @@ public class AdminRegistrationUtil {
     /**
      * This method builds a registration request with item with given type
      *
-     * @return registration request
+     * @param personId
+     * @param termId
+     * @param registrationCourse
+     * @param typeKey
+     * @return
      */
     public static RegistrationRequestInfo buildRegistrationRequest(String personId, String termId, RegistrationCourse registrationCourse, String typeKey) {
 
@@ -102,7 +119,9 @@ public class AdminRegistrationUtil {
     /**
      * This method creates a registration request
      *
-     * @return registration request
+     * @param personId
+     * @param termId
+     * @return
      */
     public static RegistrationRequestInfo createRegistrationRequest(String personId, String termId) {
 
@@ -116,6 +135,11 @@ public class AdminRegistrationUtil {
 
     /**
      * This method creates a registration request for the add operation of a single registration group.
+     *
+     * @param personId
+     * @param typeKey
+     * @param registrationCourse
+     * @return
      */
     public static RegistrationRequestItemInfo createRegistrationRequestItem(String personId, String typeKey, RegistrationCourse registrationCourse) {
 
@@ -136,6 +160,10 @@ public class AdminRegistrationUtil {
 
     /**
      * This method returns the message for the key used.
+     *
+     * @param key
+     * @param parameters
+     * @return
      */
     public static String getMessageForKey(String key, String... parameters) {
         MessageService messageService = KRADServiceLocatorWeb.getMessageService();
@@ -151,6 +179,14 @@ public class AdminRegistrationUtil {
         return message;
     }
 
+    /**
+     * Check if this registration request was an administrative override.
+     *
+     * NOTE: This is just a temporary solution for the override until the exemptions are ready to be built in .
+     *
+     * @param regRequest
+     * @return true if override attribute exist with a true value.
+     */
     public static boolean hasAdminOverride(RegistrationRequestInfo regRequest) {
         // Check if eligibility was overridden for this request.
         for (Attribute attr : regRequest.getAttributes()) {
@@ -161,16 +197,30 @@ public class AdminRegistrationUtil {
         return false;
     }
 
-    public static RegistrationCourse retrieveFromResultList(List<RegistrationResult> results, RegistrationRequestItemInfo item){
+    /**
+     * Retrieve the corresponding result from the list for the given item.
+     *
+     * @param results
+     * @param item
+     * @return
+     */
+    public static RegistrationResult retrieveFromResultList(List<RegistrationResult> results, RegistrationRequestItemInfo item){
         for (RegistrationResult regResult : results) {
             if (compareCourseAndItem(regResult.getCourse(), item)) {
                 results.remove(regResult);
-                return regResult.getCourse();
+                return regResult;
             }
         }
         return null;
     }
 
+    /**
+     * Retrieve the corresponding course from the list for the given item.
+     *
+     * @param courses
+     * @param item
+     * @return
+     */
     public static RegistrationCourse retrieveFromCourseList(List<RegistrationCourse> courses, RegistrationRequestItemInfo item){
         for (RegistrationCourse regCourse : courses) {
             if (compareCourseAndItem(regCourse, item)) {
@@ -181,8 +231,16 @@ public class AdminRegistrationUtil {
         return null;
     }
 
+    /**
+     * Compare the course with the item.
+     *
+     * @param course
+     * @param item
+     * @return
+     */
     public static boolean compareCourseAndItem(RegistrationCourse course, RegistrationRequestItemInfo item) {
-        if (course.getRegGroupId().equals(item.getRegistrationGroupId()) && course.getCurrentRegRequestId().equals(item.getRegistrationRequestId())) {
+        if (item.getRegistrationGroupId().equals(course.getRegGroupId()) &&
+                item.getRegistrationRequestId().equals(course.getCurrentRegRequestId())) {
             return true;
         }
         return false;

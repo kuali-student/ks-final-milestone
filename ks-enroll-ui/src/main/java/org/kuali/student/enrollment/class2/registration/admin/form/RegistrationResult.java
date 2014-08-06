@@ -11,8 +11,24 @@ import java.util.List;
  */
 public class RegistrationResult {
 
+    /**
+     * The Registration course that added or edited in the original registration request.
+     */
     private RegistrationCourse course;
+
+    /**
+     * The level can be SUCCESS, WARNING or ERROR depending on the registration request state.
+     */
     private String level;
+
+    /**
+     * The origin registration request id.
+     */
+    private String originRegRequestId;
+
+    /**
+     * This list of registration results items.
+     */
     private List<RegistrationResultItem> items = new ArrayList<RegistrationResultItem>();
 
     public RegistrationCourse getCourse() {
@@ -29,6 +45,14 @@ public class RegistrationResult {
 
     public void setLevel(String level) {
         this.level = level;
+    }
+
+    public String getOriginRegRequestId() {
+        return originRegRequestId;
+    }
+
+    public void setOriginRegRequestId(String originRegRequestId) {
+        this.originRegRequestId = originRegRequestId;
     }
 
     public List<RegistrationResultItem> getItems() {

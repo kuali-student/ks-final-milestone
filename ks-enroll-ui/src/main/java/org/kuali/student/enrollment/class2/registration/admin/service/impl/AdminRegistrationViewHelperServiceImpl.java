@@ -321,34 +321,6 @@ public class AdminRegistrationViewHelperServiceImpl extends KSViewHelperServiceI
         }
     }
 
-    private RegistrationGroupInfo getRegistrationGroupForCourseOfferingIdAndSection(String courseOfferingId, String section) {
-        try {
-            
-            //First get the format offerings for the course offering to get the registration groups linked to the FO.
-            List<FormatOfferingInfo> formatOfferings = AdminRegResourceLoader.getCourseOfferingService().getFormatOfferingsByCourseOffering(
-                    courseOfferingId, ContextUtils.createDefaultContextInfo());
-
-            List<RegistrationGroupInfo> regGroups = new ArrayList<RegistrationGroupInfo>();
-            for (FormatOfferingInfo formatOffering : formatOfferings) {
-                regGroups.addAll(AdminRegResourceLoader.getCourseOfferingService().getRegistrationGroupsByFormatOffering(
-                        formatOffering.getId(), ContextUtils.createDefaultContextInfo()));
-            }
-
-            //Check if the input section matches a registration group.
-            for (RegistrationGroupInfo regGroup : regGroups) {
-                if (section.equals(regGroup.getName())) {
-                    return regGroup;
-                }
-            }
-        } catch (Exception e) {
-            throw convertServiceExceptionsToUI(e);
-        }
-
-        return null;
-    }
-
-
-
     @Override
     public List<RegistrationActivity> getRegistrationActivitiesForRegistrationCourse(RegistrationCourse registrationCourse, String termCode) {
 
@@ -476,6 +448,12 @@ public class AdminRegistrationViewHelperServiceImpl extends KSViewHelperServiceI
         return regRequestId;
     }
 
+    /**
+     * Submits a registration request.
+     *
+     * @param regRequest
+     * @return registration request id.
+     */
     private String submitRegistrationRequest(RegistrationRequestInfo regRequest) {
 
         try {

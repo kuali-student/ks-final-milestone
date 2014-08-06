@@ -50,6 +50,8 @@ public class RegistrationCourse implements Serializable{
     private String regGroupId;
     private List<RegistrationActivity> activities = new ArrayList<RegistrationActivity>();
     private boolean subterm;
+
+    private RegistrationCourse originCourse;
     private String currentRegRequestId;
 
     public RegistrationCourse(){
@@ -228,6 +230,14 @@ public class RegistrationCourse implements Serializable{
 
     public void setCreditType(String creditType) {
         this.creditType = creditType;
+    }
+
+    public RegistrationCourse getOriginCourse() {
+        return originCourse;
+    }
+
+    public void setOriginCourse(RegistrationCourse originCourse) {
+        this.originCourse = originCourse;
     }
 
     public String getCurrentRegRequestId() {

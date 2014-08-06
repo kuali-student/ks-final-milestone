@@ -320,60 +320,19 @@ public class AdminRegistrationController extends UifControllerBase {
             for (RegistrationRequestItemInfo item : regRequest.getRegistrationRequestItems()) {
 
                 // Move item to appropriate list based on the item state.
-                RegistrationResult regResult = null;
+                String updateId = null;
                 if (LprServiceConstants.LPRTRANS_ITEM_CREATE_TYPE_KEY.equals(item.getTypeKey()) ||
                         (LprServiceConstants.REQ_ITEM_ADD_TYPE_KEY.equals(item.getTypeKey()))) {
-                    RegistrationCourse addCourse;
-                    if(adminOverride){
-                        addCourse = AdminRegistrationUtil.retrieveFromResultList(form.getRegistrationResults(), item);
-                    } else {
-                        addCourse = AdminRegistrationUtil.retrieveFromCourseList(form.getCoursesInProcess(), item);
-                    }
-
-                    if (LprServiceConstants.LPRTRANS_ITEM_SUCCEEDED_STATE_KEY.equals(item.getStateKey())) {
-                        form.getRegisteredCourses().add(addCourse);
-                        regResult = AdminRegistrationUtil.buildSuccessRegistrationResult(addCourse, AdminRegConstants.ADMIN_REG_MSG_INFO_SUCCESSFULLY_REGISTERED);
-                        updateIds.add(AdminRegConstants.REG_COLL_ID);
-                    } else if (LprServiceConstants.LPRTRANS_ITEM_WAITLIST_STATE_KEY.equals(item.getStateKey())) {
-                        form.getWaitlistedCourses().add(addCourse);
-                        regResult = AdminRegistrationUtil.buildSuccessRegistrationResult(addCourse, AdminRegConstants.ADMIN_REG_MSG_INFO_SUCCESSFULLY_WAITLISTED);
-                        updateIds.add(AdminRegConstants.WAITLIST_COLL_ID);
-                    } else if (LprServiceConstants.LPRTRANS_ITEM_WAITLIST_AVAILABLE_STATE_KEY.equals(item.getStateKey()) ||
-                            LprServiceConstants.LPRTRANS_ITEM_FAILED_STATE_KEY.equals(item.getStateKey())) {
-                        regResult = AdminRegistrationUtil.buildWarningRegistrationResult(addCourse);
-                        regResult.getItems().addAll(getViewHelper(form).createRegResultsFromValidationResults(item.getValidationResults()));
-                    }
+                    updateId = handleAddRequestItem(form, adminOverride, item);
                 } else if (LprServiceConstants.LPRTRANS_ITEM_UPDATE_TYPE_KEY.equals(item.getTypeKey()) ||
                         (LprServiceConstants.REQ_ITEM_UPDATE_TYPE_KEY.equals(item.getTypeKey()))) {
-
-                    // Retrieve the course that was updated.
-                    RegistrationCourse updatedCourse;
-                    if(adminOverride){
-                        updatedCourse = AdminRegistrationUtil.retrieveFromResultList(form.getRegistrationResults(), item);
-                    } else {
-                        updatedCourse = AdminRegistrationUtil.retrieveFromCourseList(form.getCoursesInEdit(), item);
-                    }
-
-                    // Update the registered courses list with updated detail.
-                    if (LprServiceConstants.LPRTRANS_ITEM_SUCCEEDED_STATE_KEY.equals(item.getStateKey())) {
-                        AdminRegistrationUtil.retrieveFromCourseList(form.getRegisteredCourses(), item); //remove old course.
-                        form.getRegisteredCourses().add(updatedCourse); // Add the edited course to the list.
-                        regResult = AdminRegistrationUtil.buildSuccessRegistrationResult(updatedCourse, AdminRegConstants.ADMIN_REG_MSG_INFO_SUCCESSFULLY_UPDATED);
-                        updateIds.add(AdminRegConstants.REG_COLL_ID);
-                    }
+                    updateId = handleEditRequestItem(form, adminOverride, item);
                 } else if (LprServiceConstants.LPRTRANS_ITEM_DELETE_TYPE_KEY.equals(item.getTypeKey()) ||
                         (LprServiceConstants.REQ_ITEM_DROP_TYPE_KEY.equals(item.getTypeKey()))) {
-
-                    RegistrationCourse dropCourse = form.getPendingDropCourse();
-                    if (LprServiceConstants.LPRTRANS_ITEM_SUCCEEDED_STATE_KEY.equals(item.getStateKey())) {
-                        form.getRegisteredCourses().remove(dropCourse);
-                        regResult = AdminRegistrationUtil.buildSuccessRegistrationResult(dropCourse, AdminRegConstants.ADMIN_REG_MSG_INFO_SUCCESSFULLY_DROPPED);
-                        updateIds.add(AdminRegConstants.REG_COLL_ID);
-                    }
+                    updateId = handleDropRequestItem(form, item);
                 }
-
-                if (regResult != null) {
-                    form.getRegistrationResults().add(regResult);
+                if (updateId != null) {
+                    updateIds.add(updateId);
                 }
             }
         }
@@ -388,6 +347,102 @@ public class AdminRegistrationController extends UifControllerBase {
         result.put(AdminRegConstants.POLLING_STOP, true);
         result.put(AdminRegConstants.POLLING_UPDATE_IDS, updateIds);
         return result;
+    }
+
+    /**
+     * Handles a item that added a new course registration.
+     *
+     * @param form
+     * @param adminOverride
+     * @param item
+     * @return
+     */
+    private String handleAddRequestItem(AdminRegistrationForm form, boolean adminOverride, RegistrationRequestItemInfo item) {
+        RegistrationCourse addCourse;
+        if (adminOverride) {
+            addCourse = AdminRegistrationUtil.retrieveFromResultList(form.getRegistrationResults(), item).getCourse();
+        } else {
+            addCourse = AdminRegistrationUtil.retrieveFromCourseList(form.getCoursesInProcess(), item);
+        }
+
+        String updateId = null;
+        RegistrationResult regResult = null;
+        if (LprServiceConstants.LPRTRANS_ITEM_SUCCEEDED_STATE_KEY.equals(item.getStateKey())) {
+            form.getRegisteredCourses().add(addCourse);
+            regResult = AdminRegistrationUtil.buildSuccessRegistrationResult(addCourse, AdminRegConstants.ADMIN_REG_MSG_INFO_SUCCESSFULLY_REGISTERED);
+            updateId = AdminRegConstants.REG_COLL_ID;
+        } else if (LprServiceConstants.LPRTRANS_ITEM_WAITLIST_STATE_KEY.equals(item.getStateKey())) {
+            form.getWaitlistedCourses().add(addCourse);
+            regResult = AdminRegistrationUtil.buildSuccessRegistrationResult(addCourse, AdminRegConstants.ADMIN_REG_MSG_INFO_SUCCESSFULLY_WAITLISTED);
+            updateId = AdminRegConstants.WAITLIST_COLL_ID;
+        } else if (LprServiceConstants.LPRTRANS_ITEM_WAITLIST_AVAILABLE_STATE_KEY.equals(item.getStateKey()) ||
+                LprServiceConstants.LPRTRANS_ITEM_FAILED_STATE_KEY.equals(item.getStateKey())) {
+            regResult = AdminRegistrationUtil.buildWarningRegistrationResult(addCourse);
+            regResult.setOriginRegRequestId(item.getRegistrationRequestId());
+            regResult.getItems().addAll(getViewHelper(form).createRegResultsFromValidationResults(item.getValidationResults()));
+        }
+
+        form.getRegistrationResults().add(regResult);
+        return updateId;
+    }
+
+    /**
+     * Handles an edited registration request item.
+     * <p/>
+     * If the request originated from an override, we need to remove the previous warning result from the registration
+     * result section and adds it to the registered courses, as well as remove the old pre-updated course from the
+     * registered courses section.
+     *
+     * @param form
+     * @param adminOverride
+     * @param item
+     * @return
+     */
+    private String handleEditRequestItem(AdminRegistrationForm form, boolean adminOverride, RegistrationRequestItemInfo item) {
+        // Update the registered courses list with updated detail.
+        if (LprServiceConstants.LPRTRANS_ITEM_SUCCEEDED_STATE_KEY.equals(item.getStateKey())) {
+
+            // Retrieve the course that was updated.
+            RegistrationCourse updatedCourse = null;
+            if (adminOverride) {
+                // If request originated from allow override, we need to remove from result list and registered courses.
+                RegistrationResult updateResult = AdminRegistrationUtil.retrieveFromResultList(form.getRegistrationResults(), item);
+                updatedCourse = updateResult.getCourse();
+            } else {
+                updatedCourse = AdminRegistrationUtil.retrieveFromCourseList(form.getCoursesInEdit(), item);
+            }
+
+            form.getRegisteredCourses().remove(updatedCourse.getOriginCourse()); //remove old course.
+            form.getRegisteredCourses().add(updatedCourse); // Add the edited course to the list.
+            RegistrationResult regResult = AdminRegistrationUtil.buildSuccessRegistrationResult(updatedCourse, AdminRegConstants.ADMIN_REG_MSG_INFO_SUCCESSFULLY_UPDATED);
+            form.getRegistrationResults().add(regResult);
+            return AdminRegConstants.REG_COLL_ID;
+        } else if (LprServiceConstants.LPRTRANS_ITEM_FAILED_STATE_KEY.equals(item.getStateKey())) {
+            // Not yet implemented.
+        }
+
+        return null;
+    }
+
+    /**
+     * Hanldes a drop registration request item.
+     *
+     * @param form
+     * @param item
+     * @return
+     */
+    private String handleDropRequestItem(AdminRegistrationForm form, RegistrationRequestItemInfo item) {
+        RegistrationCourse dropCourse = form.getPendingDropCourse();
+        if (LprServiceConstants.LPRTRANS_ITEM_SUCCEEDED_STATE_KEY.equals(item.getStateKey())) {
+            form.getRegisteredCourses().remove(dropCourse);
+            RegistrationResult regResult = AdminRegistrationUtil.buildSuccessRegistrationResult(dropCourse, AdminRegConstants.ADMIN_REG_MSG_INFO_SUCCESSFULLY_DROPPED);
+            form.getRegistrationResults().add(regResult);
+            return AdminRegConstants.REG_COLL_ID;
+        } else if (LprServiceConstants.LPRTRANS_ITEM_FAILED_STATE_KEY.equals(item.getStateKey())) {
+            // Not yet implemented.
+        }
+
+        return null;
     }
 
     ///////////////////////////////////////////////
@@ -432,22 +487,26 @@ public class AdminRegistrationController extends UifControllerBase {
         form.getEditingIssues().clear();
         RegistrationCourse regCourse = getSelectedRegistrationCourse(form);
 
-        // May want to write your own copy/clone method or alternatively re-retrieve value from db on cancel
-        RegistrationCourse tempCourse = (RegistrationCourse) (SerializationUtils.clone(regCourse));
-        CourseOffering courseOffering = AdminRegClientCache.getCourseOfferingByCodeAndTerm(form.getTerm().getId(), tempCourse.getCode());
-        if (tempCourse.getCreditOptions() == null) {
-            tempCourse.setCreditOptions(AdminRegistrationUtil.getCourseOfferingCreditOptionValues(courseOffering.getCreditOptionId()));
-            if (tempCourse.getCreditOptions().size() == 1) {
-                tempCourse.setCreditType(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_FIXED);
+        CourseOffering courseOffering = AdminRegClientCache.getCourseOfferingByCodeAndTerm(form.getTerm().getId(), regCourse.getCode());
+        if (regCourse.getCreditOptions() == null) {
+            regCourse.setCreditOptions(AdminRegistrationUtil.getCourseOfferingCreditOptionValues(courseOffering.getCreditOptionId()));
+            if (regCourse.getCreditOptions().size() == 1) {
+                regCourse.setCreditType(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_FIXED);
             } else {
-                tempCourse.setCreditType(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_MULTIPLE);
+                regCourse.setCreditType(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_MULTIPLE);
             }
         }
-        if (tempCourse.getGradingOptions().isEmpty() || tempCourse.getGradingOptions() == null) {
-            tempCourse.setGradingOptionId(courseOffering.getGradingOptionId());
-            tempCourse.setGradingOptions(courseOffering.getStudentRegistrationGradingOptions());
+
+        if (regCourse.getGradingOptions() == null) {
+            regCourse.setGradingOptionId(courseOffering.getGradingOptionId());
+            regCourse.setGradingOptions(courseOffering.getStudentRegistrationGradingOptions());
         }
-        form.getCoursesInEdit().add(tempCourse);
+
+        // May want to write your own copy/clone method or alternatively re-retrieve value from db on cancel
+        RegistrationCourse editingCourse = (RegistrationCourse) (SerializationUtils.clone(regCourse));
+        editingCourse.setOriginCourse(regCourse);
+        form.getCoursesInEdit().clear();
+        form.getCoursesInEdit().add(editingCourse);
 
         form.setClientState(AdminRegConstants.ClientStates.READY);
         return showDialog(AdminRegConstants.COURSE_EDIT_DIALOG, form, request, response);
@@ -460,7 +519,7 @@ public class AdminRegistrationController extends UifControllerBase {
         // Validate the input values.
         form.getEditingIssues().clear();
         getViewHelper(form).validateCourseEdit(form);
-        if(!form.getEditingIssues().isEmpty()){
+        if (!form.getEditingIssues().isEmpty()) {
             return showDialog(AdminRegConstants.COURSE_EDIT_DIALOG, form, request, response);
         }
 
@@ -469,7 +528,6 @@ public class AdminRegistrationController extends UifControllerBase {
         form.setRegRequestId(getViewHelper(form).submitCourses(form.getPerson().getId(), form.getTerm().getId(),
                 form.getCoursesInEdit(), LprServiceConstants.REQ_ITEM_UPDATE_TYPE_KEY));
 
-        form.getCoursesInEdit().clear();
         form.setClientState(AdminRegConstants.ClientStates.REGISTERING);
         return refresh(form, result, request, response);
     }
