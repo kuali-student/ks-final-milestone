@@ -40,7 +40,9 @@
 
     <bean id="CM-Proposal-Course-Create-Start-View" parent="KS-Uif-FormView">
         <property name="id" value="startProposalView"/>
-        <property name="headerText" value="Create Course "/>
+        <property name="header.headerText" value="Create Course "/>
+        <property name="header.headerLevel" value="h2"/>
+        <property name="header.style" value="font-weight:bold;"/>
         <property name="formClass" value="org.kuali.student.cm.course.form.StartProposalForm"/>
         <property name="viewHelperServiceClass"
                   value="org.kuali.student.cm.course.service.impl.StartProposalViewHelperServiceImpl"/>
@@ -53,9 +55,14 @@
         </property>
     </bean>
 
-    <bean id="CM-Proposal-Course-Create-Start-Widgets" parent="Uif-VerticalBoxSection">
+    <bean id="CM-Proposal-Course-Create-Start-Widgets" parent="Uif-VerticalBoxSection" p:style="margin-top: 20px;">
         <property name="header">
             <bean parent="Uif-HeaderThree"/>
+        </property>
+        <property name="cssClasses">
+            <list>
+                <value>ks-cm-create-course-message-text</value>
+            </list>
         </property>
         <property name="headerText" value="How would you like to start?"/>
         <property name="instructionalMessage">
@@ -74,7 +81,7 @@
                 <bean parent="KS-Uif-InputField" id="CM-Proposal-Course-StartOptions"
                       p:propertyName="startProposalCourseAction"
                       p:required="true" p:bindingInfo.bindToForm="true"
-                      p:defaultValue="startBlankProposal">
+                      p:defaultValue="startBlankProposal" p:style="line-height: 200%;margin-top: 8px">
                     <property name="control">
                         <bean parent="KS-Uif-VerticalRadioControl">
                             <property name="options">
@@ -148,7 +155,6 @@
             <bean parent="KS-Uif-TextControl" p:cssClasses="validProposalID"/>
         </property>
 
-
         <property name="suggest">
             <bean parent="Uif-Suggest" p:render="true" p:returnFullQueryObject="true"
                   p:labelPropertyName="name" p:valuePropertyName="id">
@@ -177,7 +183,7 @@
     </bean>
 
     <bean id="CM-Proposal-Course-Create-Start-ReviewSection" parent="Uif-VerticalBoxSubSection"
-          p:render="@{#form.curriculumSpecialistUser}">
+          p:render="@{#form.curriculumSpecialistUser}" p:style="margin-top: 35px;">
         <property name="headerText" value="Review Process"/>
         <property name="cssClasses">
             <list merge="true">
