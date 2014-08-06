@@ -31,7 +31,7 @@
 
 // Error
 .error-icon {
-    .icon('../images/validation/error_new.png');
+    .icon('../images/validation/error.png');
     height: 2rem;
     width: 2rem;
 }
@@ -112,3 +112,18 @@
 .requisites-icon() {
   .additional-info-icon('../images/icons/requisites.png');
 }
+
+//Table Sorting arrows
+// Don't use .icon() mixin b/c of the additional display setting
+.icons-Sort {
+  .icon("../images/icons/icon-sort.png");
+}
+
+.icons-Sort--up {
+  .icon("../images/icons/icon-sort-up.png");
+}
+
+.icons-Sort--down {
+  .icon("../images/icons/icon-sort-down.png");
+}
+//End Table Sorting arrows
