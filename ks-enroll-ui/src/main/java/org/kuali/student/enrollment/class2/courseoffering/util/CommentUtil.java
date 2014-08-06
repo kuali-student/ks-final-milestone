@@ -30,7 +30,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * This class //TODO ...
+ * This class provides utility methods for Admin Comment
  *
  * @author Kuali Student Team
  */
