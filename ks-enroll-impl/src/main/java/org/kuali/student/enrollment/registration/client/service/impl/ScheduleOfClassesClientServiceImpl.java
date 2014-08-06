@@ -1,5 +1,7 @@
 package org.kuali.student.enrollment.registration.client.service.impl;
 
+import org.codehaus.jackson.map.ObjectMapper;
+import org.elasticsearch.action.get.GetResponse;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.elasticsearch.index.query.DisMaxQueryBuilder;
@@ -233,21 +235,36 @@ public class ScheduleOfClassesClientServiceImpl extends ScheduleOfClassesService
      * Returns a list of course offering details such as main info (code, name, desc, etc.),
      * cross-listed courses, prereqs, and AO info (main info, schedule, instructor, reg groups).     *
      */
-
     @Override
     public Response searchForCourseOfferingDetails(String courseOfferingId) {
         Response.ResponseBuilder response;
-
         try {
-            CourseOfferingDetailsSearchResult courseOfferingSearchResults = searchForCourseOfferingDetailsLocal(courseOfferingId);
-            response = Response.ok(courseOfferingSearchResults);
+            //First check if the document lives in elastic
+            GetResponse getResponse = elasticEmbedded.getClient().prepareGet(ElasticEmbedded.KS_ELASTIC_INDEX, ElasticEmbedded.COURSEOFFERING_DETAILS_ELASTIC_TYPE, courseOfferingId).execute().actionGet();
+            if (getResponse.isExists()) {
+                //If so just return the value found from elastic
+                response = Response.ok(getResponse.getSourceAsString());
+            } else {
+                //Use the normal service calls to get live data
+                CourseOfferingDetailsSearchResult courseOfferingSearchResults = searchForCourseOfferingDetailsLocal(courseOfferingId);
+                response = Response.ok(courseOfferingSearchResults);
+
+                //Push the result into elastic
+                //TTL is set to expire in 5 minutes.
+                ObjectMapper mapper = new ObjectMapper();
+                elasticEmbedded.getClient().prepareIndex(ElasticEmbedded.KS_ELASTIC_INDEX, ElasticEmbedded.COURSEOFFERING_DETAILS_ELASTIC_TYPE, courseOfferingSearchResults.getCourseOfferingId())
+                        .setSource(mapper.writeValueAsString(courseOfferingSearchResults))
+                        .setTTL(60 * 1000 * 5)
+                        .execute()
+                        .actionGet();
+            }
         } catch (Exception e) {
             LOGGER.warn(EXCEPTION_MSG, e);
-            response = Response.serverError().entity(e.getMessage());
+            return Response.serverError().entity(e.getMessage()).build();
         }
-
         return response.build();
     }
+
 
     public void setElasticEmbedded(ElasticEmbedded elasticEmbedded) {
         this.elasticEmbedded = elasticEmbedded;
