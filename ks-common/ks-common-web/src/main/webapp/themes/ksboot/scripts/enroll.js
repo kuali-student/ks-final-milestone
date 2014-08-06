@@ -1937,17 +1937,21 @@ function showCommentLightboxUrl(href,overrideProps){
 /* Define two custom functions (asc and desc) for string sorting */
 jQuery.fn.dataTableExt.oSort['days_sort-asc']  = function(a,b) {
 
-    x = numberEquivalent(a);
-    y = numberEquivalent(b);
+    var x = getStringValueFromCell(a);
+    var y = getStringValueFromCell(b);
     return ((x < y) ? -1 : ((x > y) ?  1 : 0));
 };
 
 jQuery.fn.dataTableExt.oSort['days_sort-desc'] = function(a,b) {
-     x = numberEquivalent(a);
-     y = numberEquivalent(b);
+     var x = getStringValueFromCell(a);
+     var y = getStringValueFromCell(b);
     return ((x < y) ?  1 : ((x > y) ? -1 : 0));
 };
 
+function getStringValueFromCell(cell)
+{
+    return numberEquivalent(jQuery(cell).find("span").text().trim());
+}
 
 function numberEquivalent (day)
 {
@@ -1974,3 +1978,10 @@ function decodeDay (day)
         else if (day === "U") return "7" ;
 
 }
+
+function updateSortTable() {
+    var oTable = jQuery('#TimeSlotSearchResultsDisplayTable').find('.dataTable').dataTable();
+    // Sort immediately with columns 0 and 1
+    oTable.fnSort([[3,'asc',0]] );
+}
+
