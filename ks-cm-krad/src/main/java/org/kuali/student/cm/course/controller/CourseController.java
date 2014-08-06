@@ -842,7 +842,7 @@ public class CourseController extends CourseRuleEditorController {
                     bytes.length);
         } catch (Exception ex) {
             LOG.error("Exception occurred while attaching the document to response", ex);
-            throw new RuntimeException("An error has occurred while downloading the file. Please try again.");
+            throw new RuntimeException("An error has occurred while downloading the file. Please try again.", ex);
         }
 
         /*} else {
