@@ -19,17 +19,17 @@ import javax.xml.namespace.QName;
  */
 public class HoldIssueResourceLoader {
 
-    private transient HoldService holdService;
-    private transient OrganizationService organizationService;
+    private static transient HoldService holdService;
+    private static transient OrganizationService organizationService;
 
-    protected HoldService getHoldService(){
+    public static HoldService getHoldService(){
         if(holdService == null) {
             holdService = (HoldService) GlobalResourceLoader.getService(new QName(HoldServiceConstants.NAMESPACE, HoldServiceConstants.SERVICE_NAME_LOCAL_PART));
         }
         return holdService;
     }
 
-    protected OrganizationService getOrganizationService(){
+    public static OrganizationService getOrganizationService(){
         if(organizationService == null) {
             organizationService = (OrganizationService) GlobalResourceLoader.getService(new QName(OrganizationServiceConstants.NAMESPACE, OrganizationServiceConstants.SERVICE_NAME_LOCAL_PART));
         }

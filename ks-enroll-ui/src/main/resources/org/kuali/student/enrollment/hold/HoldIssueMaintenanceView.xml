@@ -21,7 +21,7 @@ limitations under the License.
                       http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
     <bean id="HoldIssueMaintenanceDocument" parent="uifMaintenanceDocumentEntry">
-        <property name="dataObjectClass" value="org.kuali.student.enrollment.class1.hold.form.HoldIssueMaintenanceForm"/>
+        <property name="dataObjectClass" value="org.kuali.student.enrollment.class1.hold.dto.HoldIssueMaintenanceWrapper"/>
         <property name="maintainableClass"
                   value="org.kuali.student.enrollment.class1.hold.service.impl.HoldInfoMaintainableImpl"/>
         <property name="documentTypeName" value="HoldIssueMaintenanceDocument"/>
@@ -32,9 +32,9 @@ limitations under the License.
         <property name="viewName" value="HoldIssueMaintenanceView"/>
         <property name="formClass" value="org.kuali.rice.krad.web.form.MaintenanceDocumentForm"/>
         <property name="dataObjectClassName"
-                  value="org.kuali.student.enrollment.class1.hold.form.HoldIssueMaintenanceForm"/>
+                  value="org.kuali.student.enrollment.class1.hold.dto.HoldIssueMaintenanceWrapper"/>
         <property name="viewHelperServiceClass"
-                  value="org.kuali.student.enrollment.class1.hold.service.impl.HoldsIssueViewHelperServiceImpl"/>
+                  value="org.kuali.student.enrollment.class1.hold.service.impl.HoldIssueViewHelperServiceImpl"/>
         <property name="headerText" value="Create Hold"/>
         <property name="items">
             <list>
@@ -52,7 +52,7 @@ limitations under the License.
                         <map key-type="java.lang.String" merge="true">
                             <entry key="methodToCall" value="start"/>
                             <entry key="dataObjectClassName"
-                                   value="org.kuali.student.enrollment.class1.hold.form.HoldIssueMaintenanceForm"/>
+                                   value="org.kuali.student.enrollment.class1.hold.dto.HoldIssueMaintenanceWrapper"/>
                             <entry key="hideReturnLink" value="true"/>
                             <entry key="viewName" value="HoldIssueMaintenanceView"/>
                             <entry key="hideReturnLink" value="true"/>
@@ -163,6 +163,8 @@ limitations under the License.
                             <bean parent="Uif-HorizontalFieldGroup">
                                 <property name="items">
                                     <list>
+                                        <bean parent="Uif-PrimaryActionButton" p:actionLabel="Save" p:methodToCall="create" p:performDirtyValidation="false"/>
+                                        <bean parent="Uif-ActionLink" p:actionLabel="Cancel" p:methodToCall="close"/>
                                     </list>
                                 </property>
                             </bean>

@@ -26,7 +26,7 @@ import java.util.List;
  * @author Kuali Student Team
  */
 public class HoldIssueManagementForm extends UifFormBase {
-    //private static final long serialVersionUID = 4898118410378641665L;
+    private static final long serialVersionUID = 4898118410378641665L;
 
     private String id;
     private String name;

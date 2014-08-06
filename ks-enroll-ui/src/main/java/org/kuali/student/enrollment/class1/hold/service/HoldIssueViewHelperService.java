@@ -8,6 +8,7 @@ import org.kuali.student.enrollment.class2.registration.admin.form.RegistrationR
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
+import org.kuali.student.r2.core.hold.dto.HoldIssueInfo;
 
 import java.util.List;
 
@@ -17,7 +18,9 @@ import java.util.List;
  * Date: 17 July 2014
  * Utility Class for common auto generated reg group functions
  */
-public interface HoldsIssueViewHelperService {
+public interface HoldIssueViewHelperService {
 
+
+    public HoldIssueInfo createHoldIssue(HoldIssueInfo holdIssue);
 
 }

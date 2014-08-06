@@ -14,20 +14,23 @@
  *
  * Created by dietrich on 2014/08/05
  */
-package org.kuali.student.enrollment.class1.hold.form;
+package org.kuali.student.enrollment.class1.hold.dto;
 
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
+import org.kuali.rice.krad.web.form.UifFormBase;
+import org.kuali.student.common.uif.form.KSUifMaintenanceDocumentForm;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.core.hold.dto.HoldIssueInfo;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  *
  * @author Kuali Student Team
  */
-public class HoldIssueMaintenanceForm extends MaintenanceDocumentForm{
-    private static final long serialVersionUID = 4898118410378641665L;
+public class HoldIssueMaintenanceWrapper implements Serializable {
+
     private TypeInfo type;
     private String id;
     private String name;
@@ -37,16 +40,12 @@ public class HoldIssueMaintenanceForm extends MaintenanceDocumentForm{
     private String organizationId;
     private String orgName;
 
-    public HoldIssueMaintenanceForm() {
+    public HoldIssueMaintenanceWrapper() {
         super();
         type = new TypeInfo();
     }
 
     private boolean isSaveSuccess;
-
-    private HoldIssueInfo holdIssueInfo;
-
-    private List<HoldIssueInfo> holdIssueInfoList;
 
     public String getId() {
         return id;
@@ -96,14 +95,6 @@ public class HoldIssueMaintenanceForm extends MaintenanceDocumentForm{
         this.organizationId = organizationId;
     }
 
-    public List<HoldIssueInfo> getHoldIssueInfoList() {
-        return holdIssueInfoList;
-    }
-
-    public void setHoldIssueInfoList(List<HoldIssueInfo> holdIssueInfos) {
-        this.holdIssueInfoList = holdIssueInfos;
-    }
-
     public String getOrgName() {
         return orgName;
     }
@@ -118,14 +109,6 @@ public class HoldIssueMaintenanceForm extends MaintenanceDocumentForm{
 
     public void setIsSaveSuccess(boolean saveSuccess) {
         isSaveSuccess = saveSuccess;
-    }
-
-    public HoldIssueInfo getHoldIssueInfo() {
-        return holdIssueInfo;
-    }
-
-    public void setHoldIssueInfo(HoldIssueInfo holdIssueInfo) {
-        this.holdIssueInfo = holdIssueInfo;
     }
 
     public TypeInfo getType() {
