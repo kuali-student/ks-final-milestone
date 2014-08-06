@@ -95,19 +95,32 @@ public interface AdminRegistrationViewHelperService {
      * @param studentId
      * @param termId
      * @param registrationCourses
+     * @param typeKey
      * @return
      */
-    public String submitCoursesForRegistration(String studentId, String termId, List<RegistrationCourse> registrationCourses);
+    public String submitCourses(String studentId, String termId, List<RegistrationCourse> registrationCourses, String typeKey);
 
     /**
-     * Resubmit a single courser without performing any validation checks
+     * Submit a single course for registration.
      *
      * @param studentId
      * @param termId
      * @param registrationCourse
+     * @param typeKey
      * @return
      */
-    public String resubmitCourseForRegistration(String studentId, String termId, RegistrationCourse registrationCourse);
+    public String submitCourse(String studentId, String termId, RegistrationCourse registrationCourse, String typeKey);
+
+    /**
+     * Resubmit a single courser without performing any validation checks.
+     *
+     * @param studentId
+     * @param termId
+     * @param registrationCourse
+     * @param typeKey
+     * @return
+     */
+    public String resubmitCourse(String studentId, String termId, RegistrationCourse registrationCourse, String typeKey);
 
     /**
      * Returns the RegistrationRequest for the given id.

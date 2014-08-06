@@ -48,7 +48,8 @@ public class RegistrationCourse implements Serializable{
     private Date dropDate;
     private Date effectiveDate;
 
-    private RegistrationGroup regGroup;
+    private String courseRegistrationId;
+    private String regGroupId;
     private List<RegistrationActivity> activities = new ArrayList<RegistrationActivity>();
     private boolean subterm;
 
@@ -129,12 +130,20 @@ public class RegistrationCourse implements Serializable{
         this.effectiveDate = effectiveDate;
     }
 
-    public RegistrationGroup getRegGroup() {
-        return regGroup;
+    public String getCourseRegistrationId() {
+        return courseRegistrationId;
     }
 
-    public void setRegGroup(RegistrationGroup regGroup) {
-        this.regGroup = regGroup;
+    public void setCourseRegistrationId(String courseRegistrationId) {
+        this.courseRegistrationId = courseRegistrationId;
+    }
+
+    public String getRegGroupId() {
+        return regGroupId;
+    }
+
+    public void setRegGroupId(String regGroupId) {
+        this.regGroupId = regGroupId;
     }
 
     public List<RegistrationActivity> getActivities() {

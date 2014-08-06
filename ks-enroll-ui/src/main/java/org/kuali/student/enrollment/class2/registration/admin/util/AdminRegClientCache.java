@@ -10,7 +10,10 @@ import org.kuali.student.common.collection.KSCollectionUtils;
 import org.kuali.student.common.util.security.ContextUtils;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingConstants;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
+import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
+import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
@@ -32,9 +35,10 @@ public class AdminRegClientCache {
 
     private final static String CACHE_NAME = "AdminRegistrationCodeCache";
 
-    private final static String TERMID_CODEPARM_TO_COURSECODES = "termId.codeparm.to.coursecodes";
-    private final static String TERMID_COURSECODE_TO_CO = "termId.coursecode.to.co";
+    private final static String TERMID_CODEPARM_TO_COURSECODES_KEY = "termId.codeparm.to.coursecodes";
+    private final static String TERMID_COURSECODE_TO_COID_KEY = "termId.coursecode.to.coId";
     private final static String TERMCODE_TO_TERMINFO_KEY = "termcode.to.term";
+    private final static String COID_SECTION_TO_REGGROUPID_KEY = "coId.section.to.reggroupId";
 
     private static CacheManager cacheManager;
     private static Cache cache;
@@ -48,7 +52,7 @@ public class AdminRegClientCache {
     }
 
     public static Cache getCache() {
-        if(cache == null) {
+        if (cache == null) {
             cache = getCacheManager().getCache(CACHE_NAME);
         }
         return cache;
@@ -79,7 +83,7 @@ public class AdminRegClientCache {
     public static List<String> retrieveCourseCodes(String termId, String courseCode) throws InvalidParameterException, MissingParameterException, PermissionDeniedException, OperationFailedException {
 
         List<String> results = new ArrayList<String>();
-        MultiKey cacheKey = new MultiKey(TERMID_CODEPARM_TO_COURSECODES, termId, courseCode);
+        MultiKey cacheKey = new MultiKey(TERMID_CODEPARM_TO_COURSECODES_KEY, termId, courseCode);
         Element cachedResult = getCache().get(cacheKey);
 
         // This is the base search.
@@ -92,7 +96,7 @@ public class AdminRegClientCache {
                 getCache().put(new Element(cacheKey, results));
                 return results;
             }
-            if(courseCode.length() > 3) {
+            if (courseCode.length() > 3) {
                 // This is where the recursion happens. If you entered CHEM and it didn't find anything it will
                 // recurse and search for CHE.
                 for (String searchedCode : retrieveCourseCodes(termId, courseCode.substring(0, courseCode.length() - 1))) {
@@ -112,7 +116,6 @@ public class AdminRegClientCache {
     }
 
     /**
-     *
      * @param termId
      * @param courseCode
      * @return CourseOffering
@@ -122,25 +125,26 @@ public class AdminRegClientCache {
      * @throws PermissionDeniedException
      */
     public static CourseOfferingInfo getCourseOfferingByCodeAndTerm(String termId, String courseCode)
-            throws MissingParameterException, InvalidParameterException, OperationFailedException, PermissionDeniedException {
+            throws MissingParameterException, InvalidParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException {
 
-        MultiKey cacheKey = new MultiKey(TERMID_COURSECODE_TO_CO, termId, courseCode);
+        MultiKey cacheKey = new MultiKey(TERMID_COURSECODE_TO_COID_KEY, termId, courseCode);
         Element cachedResult = getCache().get(cacheKey);
         if (cachedResult == null) {
             List<CourseOfferingInfo> courseOfferings = searchCourseOfferingsByCodeAndTerm(termId, courseCode, false);
             return KSCollectionUtils.getOptionalZeroElement(courseOfferings);
         }
 
-        return (CourseOfferingInfo) cachedResult.getValue();
+        String courseOfferingId = (String) cachedResult.getValue();
+        return AdminRegResourceLoader.getCourseOfferingService().getCourseOffering(courseOfferingId, ContextUtils.createDefaultContextInfo());
     }
 
     /**
      * Do a search Query for course offerings for the given term code and course code. It also updates the cache with
      * course offerings by term code and actual course codes.
-     *
+     * <p/>
      * Note: the course code could be only a partial course code when used by a suggest field for example.
      *
-     * @param termId the term id
+     * @param termId     the term id
      * @param courseCode the actial course code or the starting characters of a course code
      * @return a list of CourseOfferings containing matching course codes
      */
@@ -158,8 +162,8 @@ public class AdminRegClientCache {
 
         List<CourseOfferingInfo> results = AdminRegResourceLoader.getCourseOfferingService().searchForCourseOfferings(criteria, context);
         for (CourseOfferingInfo result : results) {
-            MultiKey cacheKey = new MultiKey(TERMID_COURSECODE_TO_CO, termId, result.getCourseOfferingCode());
-            getCache().put(new Element(cacheKey, result));
+            MultiKey cacheKey = new MultiKey(TERMID_COURSECODE_TO_COID_KEY, termId, result.getCourseOfferingCode());
+            getCache().put(new Element(cacheKey, result.getId()));
         }
 
         Collections.sort(results, CourseOfferingInfoComparator.getInstance());
@@ -167,7 +171,6 @@ public class AdminRegClientCache {
     }
 
     /**
-     *
      * @param termCode
      * @return
      * @throws MissingParameterException
@@ -189,7 +192,6 @@ public class AdminRegClientCache {
     }
 
     /**
-     *
      * @param termCode
      * @return
      * @throws OperationFailedException
@@ -214,14 +216,47 @@ public class AdminRegClientCache {
         return terms;
     }
 
-    public static class CourseOfferingInfoComparator implements Comparator<CourseOfferingInfo>{
+    public static RegistrationGroupInfo getRegistrationGroupForCourseOfferingIdAndSection(String courseOfferingId, String section)
+            throws PermissionDeniedException, MissingParameterException, InvalidParameterException, OperationFailedException, DoesNotExistException {
+
+        MultiKey cacheKey = new MultiKey(COID_SECTION_TO_REGGROUPID_KEY, courseOfferingId, section);
+        Element cachedResult = getCache().get(cacheKey);
+        if (cachedResult != null) {
+            String regGroupId = (String) cachedResult.getValue();
+            return AdminRegResourceLoader.getCourseOfferingService().getRegistrationGroup(regGroupId, ContextUtils.createDefaultContextInfo());
+        }
+
+        //First get the format offerings for the course offering to get the registration groups linked to the FO.
+        List<FormatOfferingInfo> formatOfferings = AdminRegResourceLoader.getCourseOfferingService().getFormatOfferingsByCourseOffering(
+                courseOfferingId, ContextUtils.createDefaultContextInfo());
+
+        List<RegistrationGroupInfo> regGroups = new ArrayList<RegistrationGroupInfo>();
+        for (FormatOfferingInfo formatOffering : formatOfferings) {
+            regGroups.addAll(AdminRegResourceLoader.getCourseOfferingService().getRegistrationGroupsByFormatOffering(
+                    formatOffering.getId(), ContextUtils.createDefaultContextInfo()));
+        }
+
+        //Check if the input section matches a registration group.
+        for (RegistrationGroupInfo regGroup : regGroups) {
+            if (section.equals(regGroup.getName())) {
+                getCache().put(new Element(cacheKey, regGroup.getId()));
+                return regGroup;
+            }
+        }
+
+        return null;
+    }
+
+    public static class CourseOfferingInfoComparator implements Comparator<CourseOfferingInfo> {
         private static CourseOfferingInfoComparator instance = new CourseOfferingInfoComparator();
 
         public int compare(final CourseOfferingInfo co1, final CourseOfferingInfo co2) {
             return co1.getCourseOfferingCode().compareTo(co2.getCourseOfferingCode());
         }
+
         public static CourseOfferingInfoComparator getInstance() {
             return instance;
         }
     }
+
 }

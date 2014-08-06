@@ -87,7 +87,6 @@ public class AdminRegistrationController extends UifControllerBase {
     @RequestMapping(params = "methodToCall=refresh")
     public ModelAndView refresh(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result, HttpServletRequest request,
                                 HttpServletResponse response) throws Exception {
-        //cancelEdits((AdminRegistrationForm) form, form.getUpdateComponentId());
         return super.refresh(form, result, request, response);
     }
 
@@ -125,10 +124,16 @@ public class AdminRegistrationController extends UifControllerBase {
     @MethodAccessible
     @RequestMapping(params = "methodToCall=refreshRegistrationResults")
     public ModelAndView refreshRegistrationResults(@ModelAttribute("KualiForm") AdminRegistrationForm form, BindingResult result, HttpServletRequest request,
-                                           HttpServletResponse response) throws Exception {
+                                                   HttpServletResponse response) throws Exception {
         // Reset the form to ready state.
         form.setRegRequestId(null);
-        form.getCoursesInProcess().clear();
+        if (form.getCoursesInProcess() != null) {
+            form.getCoursesInProcess().clear();
+        }
+        form.setPendingDropCourse(null);
+        if (form.getCoursesEdit() != null) {
+            form.getCoursesEdit().clear();
+        }
         form.setClientState(AdminRegConstants.ClientStates.READY);
         return super.refresh(form, result, request, response);
     }
@@ -224,7 +229,7 @@ public class AdminRegistrationController extends UifControllerBase {
     @MethodAccessible
     @RequestMapping(method = RequestMethod.POST, params = "methodToCall=cancelFailedEligibilityTerm")
     public ModelAndView cancelFailedEligibilityTerm(@ModelAttribute("KualiForm") AdminRegistrationForm form, BindingResult result,
-            HttpServletRequest request, HttpServletResponse response) {
+                                                    HttpServletRequest request, HttpServletResponse response) {
         form.clearCourseRegistrationValues();
         form.setDisplayRegistrationTabs(false);
         form.setClientState(AdminRegConstants.ClientStates.READY);
@@ -234,7 +239,7 @@ public class AdminRegistrationController extends UifControllerBase {
     @MethodAccessible
     @RequestMapping(method = RequestMethod.POST, params = "methodToCall=continueFailedEligibilityTerm")
     public ModelAndView continueFailedEligibilityTerm(@ModelAttribute("KualiForm") AdminRegistrationForm form, BindingResult result,
-            HttpServletRequest request, HttpServletResponse response) {
+                                                      HttpServletRequest request, HttpServletResponse response) {
         form.clearCourseRegistrationValues();
         form.setDisplayRegistrationTabs(true);
         form.setClientState(AdminRegConstants.ClientStates.READY);
@@ -276,14 +281,14 @@ public class AdminRegistrationController extends UifControllerBase {
         // Validate the input values.
         form.getConfirmationIssues().clear();
         getViewHelper(form).validateForSubmission(form);
-        if(!form.getConfirmationIssues().isEmpty()){
+        if (!form.getConfirmationIssues().isEmpty()) {
             return showDialog(AdminRegConstants.REG_CONFIRM_DIALOG, form, request, response);
         }
 
         // Continue with registration submission
         form.resetPendingCourseValues();
-        form.setRegRequestId(getViewHelper(form).submitCoursesForRegistration(form.getPerson().getId(), form.getTerm().getId(),
-                form.getCoursesInProcess()));
+        form.setRegRequestId(getViewHelper(form).submitCourses(form.getPerson().getId(), form.getTerm().getId(),
+                form.getCoursesInProcess(), LprServiceConstants.LPRTRANS_ITEM_CREATE_TYPE_KEY));
 
         // Set the client state to "Registering" so that we can prevent certain actions on UI.
         form.setClientState(AdminRegConstants.ClientStates.REGISTERING);
@@ -299,13 +304,7 @@ public class AdminRegistrationController extends UifControllerBase {
         Set<String> updateIds = new HashSet<String>();
 
         // Only do polling while registration is in progress.
-        if (!AdminRegConstants.ClientStates.REGISTERING.equals(form.getClientState())) {
-            result.put(AdminRegConstants.POLLING_STOP, true);
-            return result;
-        }
-
-        // Check if any courses is being processed by the registration engine.
-        if (form.getRegRequestId() == null || form.getCoursesInProcess().isEmpty()) {
+        if ((!AdminRegConstants.ClientStates.REGISTERING.equals(form.getClientState()) || (form.getRegRequestId() == null))) {
             result.put(AdminRegConstants.POLLING_STOP, true);
             return result;
         }
@@ -313,7 +312,7 @@ public class AdminRegistrationController extends UifControllerBase {
         // Retrieve registration request and check the state.
         RegistrationRequestInfo regRequest = this.getViewHelper(form).getRegistrationRequest(form.getRegRequestId());
         if ((regRequest.getStateKey().equals(LprServiceConstants.LPRTRANS_PROCESSING_STATE_KEY)) ||
-                (regRequest.getStateKey().equals(LprServiceConstants.LPRTRANS_NEW_STATE_KEY))){
+                (regRequest.getStateKey().equals(LprServiceConstants.LPRTRANS_NEW_STATE_KEY))) {
             return result;
         }
 
@@ -321,32 +320,42 @@ public class AdminRegistrationController extends UifControllerBase {
 
             for (RegistrationRequestItemInfo item : regRequest.getRegistrationRequestItems()) {
 
-                RegistrationCourse courseToProcess = this.getRegistrationCourseToProcess(form, regRequest, item);
-
-                // Create a new registration issue with the course in error.
-                RegistrationResult regResult = new RegistrationResult();
-                regResult.setCourse(courseToProcess);
+                RegistrationCourse courseToProcess = AdminRegistrationUtil.getRegistrationCourseToProcess(form, regRequest, item);
 
                 // Move item to appropriate list based on the item state.
-                if (LprServiceConstants.LPRTRANS_ITEM_SUCCEEDED_STATE_KEY.equals(item.getStateKey())) {
-                    form.getRegisteredCourses().add(courseToProcess);
-                    regResult.setLevel(AdminRegConstants.ResultLevels.RESULT_LEVEL_SUCCESS);
-                    String msg = AdminRegistrationUtil.getMessageForKey(AdminRegConstants.ADMIN_REG_MSG_INFO_SUCCESSFULLY_REGISTERED);
-                    regResult.getItems().add(new RegistrationResultItem(msg));
-                    updateIds.add(AdminRegConstants.REG_COLL_ID);
-                } else if (LprServiceConstants.LPRTRANS_ITEM_WAITLIST_STATE_KEY.equals(item.getStateKey())) {
-                    form.getWaitlistedCourses().add(courseToProcess);
-                    regResult.setLevel(AdminRegConstants.ResultLevels.RESULT_LEVEL_SUCCESS);
-                    String msg = AdminRegistrationUtil.getMessageForKey(AdminRegConstants.ADMIN_REG_MSG_INFO_SUCCESSFULLY_WAITLISTED);
-                    regResult.getItems().add(new RegistrationResultItem(msg));
-                    updateIds.add(AdminRegConstants.WAITLIST_COLL_ID);
-                } else if (LprServiceConstants.LPRTRANS_ITEM_WAITLIST_AVAILABLE_STATE_KEY.equals(item.getStateKey()) ||
-                        LprServiceConstants.LPRTRANS_ITEM_FAILED_STATE_KEY.equals(item.getStateKey())) {
-                    regResult.setLevel(AdminRegConstants.ResultLevels.RESULT_LEVEL_WARNING);
-                    regResult.getItems().addAll(getViewHelper(form).createRegResultsFromValidationResults(item.getValidationResults()));
+                RegistrationResult regResult = null;
+                if (LprServiceConstants.LPRTRANS_ITEM_CREATE_TYPE_KEY.equals(item.getTypeKey()) ||
+                        (LprServiceConstants.REQ_ITEM_ADD_TYPE_KEY.equals(item.getTypeKey()))) {
+                    if (LprServiceConstants.LPRTRANS_ITEM_SUCCEEDED_STATE_KEY.equals(item.getStateKey())) {
+                        form.getRegisteredCourses().add(courseToProcess);
+                        regResult = AdminRegistrationUtil.buildSuccessRegistrationResult(courseToProcess, AdminRegConstants.ADMIN_REG_MSG_INFO_SUCCESSFULLY_REGISTERED);
+                        updateIds.add(AdminRegConstants.REG_COLL_ID);
+                    } else if (LprServiceConstants.LPRTRANS_ITEM_WAITLIST_STATE_KEY.equals(item.getStateKey())) {
+                        form.getWaitlistedCourses().add(courseToProcess);
+                        regResult = AdminRegistrationUtil.buildSuccessRegistrationResult(courseToProcess, AdminRegConstants.ADMIN_REG_MSG_INFO_SUCCESSFULLY_WAITLISTED);
+                        updateIds.add(AdminRegConstants.WAITLIST_COLL_ID);
+                    } else if (LprServiceConstants.LPRTRANS_ITEM_WAITLIST_AVAILABLE_STATE_KEY.equals(item.getStateKey()) ||
+                            LprServiceConstants.LPRTRANS_ITEM_FAILED_STATE_KEY.equals(item.getStateKey())) {
+                        regResult = AdminRegistrationUtil.buildWarningRegistrationResult(courseToProcess);
+                        regResult.getItems().addAll(getViewHelper(form).createRegResultsFromValidationResults(item.getValidationResults()));
+                    }
+                } else if (LprServiceConstants.LPRTRANS_ITEM_UPDATE_TYPE_KEY.equals(item.getTypeKey()) ||
+                        (LprServiceConstants.REQ_ITEM_UPDATE_TYPE_KEY.equals(item.getTypeKey()))) {
+                    if (LprServiceConstants.LPRTRANS_ITEM_SUCCEEDED_STATE_KEY.equals(item.getStateKey())) {
+                        regResult = AdminRegistrationUtil.buildSuccessRegistrationResult(courseToProcess, AdminRegConstants.ADMIN_REG_MSG_INFO_SUCCESSFULLY_UPDATED);
+                        updateIds.add(AdminRegConstants.REG_COLL_ID);
+                    }
+                } else if (LprServiceConstants.LPRTRANS_ITEM_DELETE_TYPE_KEY.equals(item.getTypeKey()) ||
+                        (LprServiceConstants.REQ_ITEM_DROP_TYPE_KEY.equals(item.getTypeKey()))) {
+                    if (LprServiceConstants.LPRTRANS_ITEM_SUCCEEDED_STATE_KEY.equals(item.getStateKey())) {
+                        regResult = AdminRegistrationUtil.buildSuccessRegistrationResult(courseToProcess, AdminRegConstants.ADMIN_REG_MSG_INFO_SUCCESSFULLY_DROPPED);
+                        updateIds.add(AdminRegConstants.REG_COLL_ID);
+                    }
                 }
 
-                form.getRegistrationResults().add(regResult);
+                if (regResult != null) {
+                    form.getRegistrationResults().add(regResult);
+                }
             }
         }
 
@@ -362,127 +371,51 @@ public class AdminRegistrationController extends UifControllerBase {
         return result;
     }
 
-    private RegistrationCourse getRegistrationCourseToProcess(AdminRegistrationForm form, RegistrationRequestInfo regRequest,
-                                                              RegistrationRequestItemInfo item){
-
-        // Check if eligibity was overridden for this request.
-        boolean isEligibilityOverride = false;
-        for (Attribute attr : regRequest.getAttributes()) {
-            if (attr.getKey().equals(CourseRegistrationServiceConstants.ELIGIBILITY_OVERRIDE_TYPE_KEY_ATTR)) {
-                if (Boolean.valueOf(attr.getValue())) {
-                    isEligibilityOverride = true;
-                    break;
-                }
-            }
-        }
-
-        if(isEligibilityOverride){
-            // Get the registration course from the current registration issues.
-            for (RegistrationResult regResult : form.getRegistrationResults()) {
-                if (regResult.getCourse().getRegGroup().getId().equals(item.getRegistrationGroupId())) {
-                    form.getRegistrationResults().remove(regResult);
-                    return regResult.getCourse();
-                }
-            }
-        } else {
-            // Get the corresponding registration course from the courses in process list.
-            for (RegistrationCourse regCourse : form.getCoursesInProcess()) {
-                if (regCourse.getRegGroup().getId().equals(item.getRegistrationGroupId())) {
-                    form.getCoursesInProcess().remove(regCourse);
-                    return regCourse;
-                }
-            }
-        }
-
-        return null;
-    }
-
     ///////////////////////////////////////////////
     //Manage Course methods
     //////////////////////////////////////////////
-
 
     @RequestMapping(method = RequestMethod.POST, params = "methodToCall=dropCourse")
     public ModelAndView dropCourse(@ModelAttribute("KualiForm") AdminRegistrationForm form, BindingResult result,
                                    HttpServletRequest request, HttpServletResponse response) {
 
-        String selectedCollectionPath = form.getActionParamaterValue(UifParameters.SELECTED_COLLECTION_PATH);
-        if (StringUtils.isBlank(selectedCollectionPath)) {
-            throw new RuntimeException("Selected collection path was not set for collection action");
-        }
-
-        String selectedCollectionId = form.getActionParamaterValue(UifParameters.SELECTED_COLLECTION_ID);
-
-        String selectedLine = form.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX);
-        int selectedLineIndex = -1;
-        if (StringUtils.isNotBlank(selectedLine)) {
-            selectedLineIndex = Integer.parseInt(selectedLine);
-        }
-
-        Collection<Object> collection = ObjectPropertyUtils.getPropertyValue(form, selectedCollectionPath);
-        Object item = ((List) collection).get(selectedLineIndex);
-
-        if (!hasDialogBeenAnswered(AdminRegConstants.DROP_COURSE_DIALOG, form)) {
-
-            // Create temp object with the info we need about the course
-            RegistrationCourse pendingDropCourse = new RegistrationCourse();
-            pendingDropCourse.setCode(((RegistrationCourse) item).getCode());
-            pendingDropCourse.setSection(((RegistrationCourse) item).getSection());
-            pendingDropCourse.setDropDate(new Date());
-            form.setPendingDropCourse(pendingDropCourse);
-
-            return showDialog(AdminRegConstants.DROP_COURSE_DIALOG, form, request, response);
-        } else {
-            // you would do the actual drop call here
-            ((RegistrationCourse) item).setDropDate(form.getPendingDropCourse().getDropDate());
-
-            cancelEdits(form, selectedCollectionId);
-        }
+        // Set the pending drop course with the selected course.
+        RegistrationCourse regCourse = getSelectedRegistrationCourse(form);
+        regCourse.setDropDate(new Date());
+        form.setPendingDropCourse(regCourse);
 
         return showDialog(AdminRegConstants.DROP_COURSE_DIALOG, form, request, response);
     }
 
     @RequestMapping(method = RequestMethod.POST, params = "methodToCall=dropRegisteredCourse")
     public ModelAndView confirmDropCourse(@ModelAttribute("KualiForm") AdminRegistrationForm form, BindingResult result,
-                                   HttpServletRequest request, HttpServletResponse response) throws Exception {
+                                          HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        // Submit the drop request.
+        form.setRegRequestId(getViewHelper(form).submitCourse(form.getPerson().getId(), form.getTerm().getId(),
+                form.getPendingDropCourse(), LprServiceConstants.REQ_ITEM_DROP_TYPE_KEY));
 
         // perform actual drop on item in the backend
-
+        form.setClientState(AdminRegConstants.ClientStates.REGISTERING);
         return refresh(form, result, request, response);
     }
 
     @RequestMapping(method = RequestMethod.POST, params = "methodToCall=removeWaitlistCourse")
     public ModelAndView removeWaitlistCourse(@ModelAttribute("KualiForm") AdminRegistrationForm form, BindingResult result,
                                              HttpServletRequest request, HttpServletResponse response) {
-        String selectedCollectionId = form.getActionParamaterValue(UifParameters.SELECTED_COLLECTION_ID);
-        cancelEdits(form, selectedCollectionId);
-
         return deleteLine(form, result, request, response);
     }
 
     @RequestMapping(method = RequestMethod.POST, params = "methodToCall=editCourse")
     public ModelAndView editCourse(@ModelAttribute("KualiForm") AdminRegistrationForm form, BindingResult result,
                                    HttpServletRequest request, HttpServletResponse response) throws Exception {
-        String selectedCollectionPath = form.getActionParamaterValue(UifParameters.SELECTED_COLLECTION_PATH);
-        if (StringUtils.isBlank(selectedCollectionPath)) {
-            throw new RuntimeException("Selected collection path was not set for collection action");
-        }
 
-        String selectedCollectionId = form.getActionParamaterValue(UifParameters.SELECTED_COLLECTION_ID);
-
-        String selectedLine = form.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX);
-        int selectedLineIndex = -1;
-        if (StringUtils.isNotBlank(selectedLine)) {
-            selectedLineIndex = Integer.parseInt(selectedLine);
-        }
-
-        Collection<Object> collection = ObjectPropertyUtils.getPropertyValue(form, selectedCollectionPath);
-        Object item = ((List) collection).get(selectedLineIndex);
+        RegistrationCourse regCourse = getSelectedRegistrationCourse(form);
 
         // May want to write your own copy/clone method or alternatively re-retrieve value from db on cancel
-         RegistrationCourse tempCourse = (RegistrationCourse) (SerializationUtils.clone((RegistrationCourse) item));
-        CourseOffering courseOffering =  AdminRegClientCache.getCourseOfferingByCodeAndTerm(form.getTerm().getId(), tempCourse.getCode());
-        if (tempCourse.getCreditOptions()== null) {
+        RegistrationCourse tempCourse = (RegistrationCourse) (SerializationUtils.clone(regCourse));
+        CourseOffering courseOffering = AdminRegClientCache.getCourseOfferingByCodeAndTerm(form.getTerm().getId(), tempCourse.getCode());
+        if (tempCourse.getCreditOptions() == null) {
             tempCourse.setCreditOptions(AdminRegistrationUtil.getCourseOfferingCreditOptionValues(courseOffering.getCreditOptionId()));
             if (tempCourse.getCreditOptions().size() == 1) {
                 tempCourse.setCreditType(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_FIXED);
@@ -490,7 +423,7 @@ public class AdminRegistrationController extends UifControllerBase {
                 tempCourse.setCreditType(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_MULTIPLE);
             }
         }
-        if(tempCourse.getGradingOptions().isEmpty() || tempCourse.getGradingOptions() == null) {
+        if (tempCourse.getGradingOptions().isEmpty() || tempCourse.getGradingOptions() == null) {
             tempCourse.setGradingOptionId(courseOffering.getGradingOptionId());
             tempCourse.setGradingOptions(courseOffering.getStudentRegistrationGradingOptions());
         }
@@ -513,24 +446,53 @@ public class AdminRegistrationController extends UifControllerBase {
 
         // Continue with saving
         // perform actual save on item in the backend
+        form.setRegRequestId(getViewHelper(form).submitCourses(form.getPerson().getId(), form.getTerm().getId(),
+                form.getCoursesEdit(), LprServiceConstants.REQ_ITEM_UPDATE_TYPE_KEY));
 
-        form.setClientState(AdminRegConstants.ClientStates.READY);
         form.getCoursesEdit().clear();
+        form.setClientState(AdminRegConstants.ClientStates.REGISTERING);
         return refresh(form, result, request, response);
     }
 
     @RequestMapping(method = RequestMethod.POST, params = "methodToCall=cancelEdit")
     public ModelAndView cancelEdit(@ModelAttribute("KualiForm") AdminRegistrationForm form, BindingResult result,
                                    HttpServletRequest request, HttpServletResponse response) throws Exception {
-        String selectedCollectionId = form.getActionParamaterValue(UifParameters.SELECTED_COLLECTION_ID);
-        cancelEdits(form, selectedCollectionId);
-
+        form.setClientState(AdminRegConstants.ClientStates.READY);
         return refresh(form, result, request, response);
     }
 
     @RequestMapping(method = RequestMethod.POST, params = "methodToCall=allowCourse")
     public ModelAndView allowCourse(@ModelAttribute("KualiForm") AdminRegistrationForm form, BindingResult result,
                                     HttpServletRequest request, HttpServletResponse response) {
+
+        RegistrationCourse regCourse = getSelectedRegistrationCourse(form);
+
+        // Resubmit registration
+        form.setRegRequestId(getViewHelper(form).resubmitCourse(form.getPerson().getId(), form.getTerm().getId(),
+                regCourse, LprServiceConstants.REQ_ITEM_ADD_TYPE_KEY));
+
+        // Set the client state to "Registering" so that we can prevent certain actions on UI.
+        form.setClientState(AdminRegConstants.ClientStates.REGISTERING);
+        return getUIFModelAndView(form);
+    }
+
+    //Method used for the deny button of the registration request
+    @RequestMapping(method = RequestMethod.POST, params = "methodToCall=denyCourse")
+    public ModelAndView denyCourse(@ModelAttribute("KualiForm") AdminRegistrationForm form, BindingResult result,
+                                   HttpServletRequest request, HttpServletResponse response) {
+        // would deny registration request here
+        return deleteLine(form, result, request, response);
+    }
+
+    /**
+     * @param form
+     * @return
+     */
+    protected AdminRegistrationViewHelperService getViewHelper(UifFormBase form) {
+        return (AdminRegistrationViewHelperService) KSControllerHelper.getViewHelperService(form);
+    }
+
+    private RegistrationCourse getSelectedRegistrationCourse(AdminRegistrationForm form) {
 
         String selectedCollectionPath = form.getActionParamaterValue(UifParameters.SELECTED_COLLECTION_PATH);
         if (StringUtils.isBlank(selectedCollectionPath)) {
@@ -546,39 +508,13 @@ public class AdminRegistrationController extends UifControllerBase {
         // Retrieving the select registration result.
         Collection<Object> collection = ObjectPropertyUtils.getPropertyValue(form, selectedCollectionPath);
         Object item = ((List) collection).get(selectedLineIndex);
-        RegistrationCourse regCourse = ((RegistrationResult) item).getCourse();
 
-        // Resubmit registration
-        form.setRegRequestId(getViewHelper(form).resubmitCourseForRegistration(form.getPerson().getId(), form.getTerm().getId(),
-                regCourse));
-
-        // Set the client state to "Registering" so that we can prevent certain actions on UI.
-        form.setClientState(AdminRegConstants.ClientStates.REGISTERING);
-        return getUIFModelAndView(form);
-    }
-
-    //Method used for the deny button of the registration request
-    @RequestMapping(method = RequestMethod.POST, params = "methodToCall=denyCourse")
-    public ModelAndView denyCourse(@ModelAttribute("KualiForm") AdminRegistrationForm form, BindingResult result,
-                                   HttpServletRequest request, HttpServletResponse response) {
-        // would deny registration request here
-        return deleteLine(form, result, request, response);
-    }
-
-    private void cancelEdits(AdminRegistrationForm form, String collectionId) {
-        if (collectionId == null) {
-            return;
+        if (item instanceof RegistrationResult) {
+            return ((RegistrationResult) item).getCourse();
+        } else {
+            return (RegistrationCourse) item;
         }
 
-        // Cancel other edit if one is open
-        form.getCoursesEdit().clear();
     }
 
-    /**
-     * @param form
-     * @return
-     */
-    protected AdminRegistrationViewHelperService getViewHelper(UifFormBase form) {
-        return (AdminRegistrationViewHelperService) KSControllerHelper.getViewHelperService(form);
-    }
 }

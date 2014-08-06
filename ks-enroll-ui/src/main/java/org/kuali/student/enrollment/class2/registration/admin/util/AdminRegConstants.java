@@ -64,6 +64,8 @@ public class AdminRegConstants {
 
     public static final String ADMIN_REG_MSG_INFO_SUCCESSFULLY_REGISTERED = "info.admin.reg.course.successfully.registered";
     public static final String ADMIN_REG_MSG_INFO_SUCCESSFULLY_WAITLISTED = "info.admin.reg.course.successfully.waitlisted";
+    public static final String ADMIN_REG_MSG_INFO_SUCCESSFULLY_UPDATED = "info.admin.reg.course.successfully.updated";
+    public static final String ADMIN_REG_MSG_INFO_SUCCESSFULLY_DROPPED = "info.admin.reg.course.successfully.dropped";
 
     //sections ids
     public static final String STUDENT_INFO_SECTION = "KS-AdminRegistration-StudentInfo";

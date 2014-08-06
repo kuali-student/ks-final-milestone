@@ -4,37 +4,24 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.krad.messages.MessageService;
 import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
-import org.kuali.rice.kim.api.identity.IdentityService;
-import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.student.common.util.security.ContextUtils;
-import org.kuali.student.core.person.service.PersonService;
-import org.kuali.student.core.person.service.PersonServiceNamespace;
-import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
+import org.kuali.student.enrollment.class2.registration.admin.form.AdminRegistrationForm;
 import org.kuali.student.enrollment.class2.registration.admin.form.RegistrationCourse;
+import org.kuali.student.enrollment.class2.registration.admin.form.RegistrationResult;
+import org.kuali.student.enrollment.class2.registration.admin.form.RegistrationResultItem;
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestInfo;
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestItemInfo;
-import org.kuali.student.enrollment.courseregistration.service.CourseRegistrationService;
-import org.kuali.student.enrollment.coursewaitlist.service.CourseWaitListService;
 import org.kuali.student.enrollment.registration.client.service.impl.util.CourseRegistrationAndScheduleOfClassesUtil;
-import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
-import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
+import org.kuali.student.r2.common.infc.Attribute;
 import org.kuali.student.r2.common.util.constants.CourseRegistrationServiceConstants;
-import org.kuali.student.r2.common.util.constants.CourseWaitListServiceConstants;
 import org.kuali.student.r2.common.util.constants.LprServiceConstants;
-import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
-import org.kuali.student.r2.core.constants.AcademicCalendarServiceConstants;
-import org.kuali.student.r2.core.constants.RoomServiceConstants;
-import org.kuali.student.r2.core.room.service.RoomService;
-import org.kuali.student.r2.core.scheduling.constants.SchedulingServiceConstants;
-import org.kuali.student.r2.core.scheduling.service.SchedulingService;
 import org.kuali.student.r2.lum.lrc.dto.ResultValueInfo;
 import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
-import org.kuali.student.r2.lum.lrc.service.LRCService;
 import org.kuali.student.r2.lum.util.constants.LrcServiceConstants;
 
 import java.text.MessageFormat;
@@ -81,49 +68,77 @@ public class AdminRegistrationUtil {
         return creditOptions;
     }
 
+    public static RegistrationResult buildSuccessRegistrationResult(RegistrationCourse course, String messageKey){
+        RegistrationResult regResult = new RegistrationResult();
+        regResult.setCourse(course);
+        regResult.setLevel(AdminRegConstants.ResultLevels.RESULT_LEVEL_SUCCESS);
+
+        String msg = AdminRegistrationUtil.getMessageForKey(messageKey);
+        regResult.getItems().add(new RegistrationResultItem(msg));
+        return regResult;
+    }
+
+    public static RegistrationResult buildWarningRegistrationResult(RegistrationCourse course){
+        RegistrationResult regResult = new RegistrationResult();
+        regResult.setCourse(course);
+        regResult.setLevel(AdminRegConstants.ResultLevels.RESULT_LEVEL_WARNING);
+
+        return regResult;
+    }
+
+    /**
+     * This method builds a registration request with item with given type
+     *
+     * @return registration request
+     */
+    public static RegistrationRequestInfo buildRegistrationRequest(String personId, String termId, RegistrationCourse registrationCourse, String typeKey) {
+
+        //Create the request object
+        RegistrationRequestInfo regRequest = AdminRegistrationUtil.createRegistrationRequest(personId, termId);
+        regRequest.getRegistrationRequestItems().add(AdminRegistrationUtil.createRegistrationRequestItem(personId, typeKey, registrationCourse));
+
+        return regRequest;
+    }
+
     /**
      * This method creates a registration request
      *
      * @return registration request
      */
-    public static RegistrationRequestInfo createRegistrationRequest(String personId, String termId, List<RegistrationCourse> registrationCourses) {
+    public static RegistrationRequestInfo createRegistrationRequest(String personId, String termId) {
+
         RegistrationRequestInfo regReqInfo = new RegistrationRequestInfo();
         regReqInfo.setRequestorId(personId);
         regReqInfo.setTermId(termId);
         regReqInfo.setTypeKey(LprServiceConstants.LPRTRANS_REGISTRATION_TYPE_KEY);
         regReqInfo.setStateKey(LprServiceConstants.LPRTRANS_NEW_STATE_KEY);
-
-        for (RegistrationCourse registrationCourse : registrationCourses) {
-            RegistrationRequestItemInfo registrationRequestItem = createNewRegistrationRequestItem(personId, registrationCourse);
-            regReqInfo.getRegistrationRequestItems().add(registrationRequestItem);
-        }
-
         return regReqInfo;
     }
 
     /**
      * This method creates a registration request for the add operation of a single registration group.
      */
-    public static RegistrationRequestItemInfo createNewRegistrationRequestItem(String personId, RegistrationCourse registrationCourse) {
+    public static RegistrationRequestItemInfo createRegistrationRequestItem(String personId, String typeKey, RegistrationCourse registrationCourse) {
 
         RegistrationRequestItemInfo registrationRequestItem = new RegistrationRequestItemInfo();
-        registrationRequestItem.setTypeKey(LprServiceConstants.REQ_ITEM_ADD_TYPE_KEY);
-        registrationRequestItem.setStateKey(LprServiceConstants.LPRTRANS_ITEM_NEW_STATE_KEY);
-        registrationRequestItem.setRegistrationGroupId(registrationCourse.getRegGroup().getId());
-        //registrationRequestItem.setExistingCourseRegistrationId(); only doing add for now.
-        registrationRequestItem.setRequestedEffectiveDate(registrationCourse.getEffectiveDate());
         registrationRequestItem.setPersonId(personId);
+        registrationRequestItem.setTypeKey(typeKey);
+
+        registrationRequestItem.setRegistrationGroupId(registrationCourse.getRegGroupId());
+        registrationRequestItem.setExistingCourseRegistrationId(registrationCourse.getCourseRegistrationId());
+        registrationRequestItem.setRequestedEffectiveDate(registrationCourse.getEffectiveDate());
         registrationRequestItem.setCredits(new KualiDecimal(registrationCourse.getCredits()));
         registrationRequestItem.setGradingOptionId(registrationCourse.getGradingOptionId());
+
+        registrationRequestItem.setStateKey(LprServiceConstants.LPRTRANS_ITEM_NEW_STATE_KEY);
         registrationRequestItem.setOkToWaitlist(Boolean.TRUE);
         return registrationRequestItem;
     }
 
     /**
      * This method returns the message for the key used.
-     *
      */
-    public static String getMessageForKey(String key, String ... parameters){
+    public static String getMessageForKey(String key, String... parameters) {
         MessageService messageService = KRADServiceLocatorWeb.getMessageService();
         String message = messageService.getMessageText(null, null, key);
 
@@ -131,9 +146,60 @@ public class AdminRegistrationUtil {
             message = StringUtils.EMPTY;
         }
 
-        if(parameters != null){
+        if (parameters != null) {
             message = MessageFormat.format(message, parameters);
         }
         return message;
+    }
+
+    public static boolean hasAdminOverride(RegistrationRequestInfo regRequest) {
+        // Check if eligibility was overridden for this request.
+        for (Attribute attr : regRequest.getAttributes()) {
+            if (attr.getKey().equals(CourseRegistrationServiceConstants.ELIGIBILITY_OVERRIDE_TYPE_KEY_ATTR)) {
+                return Boolean.valueOf(attr.getValue());
+            }
+        }
+        return false;
+    }
+
+    public static RegistrationCourse getRegistrationCourseToProcess(AdminRegistrationForm form, RegistrationRequestInfo regRequest,
+                                                              RegistrationRequestItemInfo item) {
+
+        if (hasAdminOverride(regRequest)) {
+            // Get the registration course from the current registration issues.
+            for (RegistrationResult regResult : form.getRegistrationResults()) {
+                if (compareCourseAndItem(regResult.getCourse(), item)) {
+                    form.getRegistrationResults().remove(regResult);
+                    return regResult.getCourse();
+                }
+            }
+        } else if (LprServiceConstants.LPRTRANS_ITEM_CREATE_TYPE_KEY.equals(item.getTypeKey())) {
+            // Get the corresponding registration course from the courses in process list.
+            return getFromCourseList(form.getCoursesInProcess(), item);
+        } else if (LprServiceConstants.LPRTRANS_ITEM_UPDATE_TYPE_KEY.equals(item.getTypeKey())) {
+            return getFromCourseList(form.getRegisteredCourses(), item);
+        } else if (LprServiceConstants.LPRTRANS_ITEM_DELETE_TYPE_KEY.equals(item.getTypeKey())) {
+            form.getRegisteredCourses().remove(form.getPendingDropCourse());
+            return form.getPendingDropCourse();
+        }
+
+        return null;
+    }
+
+    public static RegistrationCourse getFromCourseList(List<RegistrationCourse> courses, RegistrationRequestItemInfo item){
+        for (RegistrationCourse regCourse : courses) {
+            if (compareCourseAndItem(regCourse, item)) {
+                courses.remove(regCourse);
+                return regCourse;
+            }
+        }
+        return null;
+    }
+
+    public static boolean compareCourseAndItem(RegistrationCourse course, RegistrationRequestItemInfo item) {
+        if (course.getRegGroupId().equals(item.getRegistrationGroupId())) {
+            return true;
+        }
+        return false;
     }
 }

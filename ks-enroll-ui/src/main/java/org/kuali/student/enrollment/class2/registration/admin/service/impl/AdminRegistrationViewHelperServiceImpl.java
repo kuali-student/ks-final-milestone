@@ -28,6 +28,7 @@ import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
 import org.kuali.student.enrollment.courseregistration.dto.ActivityRegistrationInfo;
 import org.kuali.student.enrollment.courseregistration.dto.CourseRegistrationInfo;
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestInfo;
+import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestItemInfo;
 import org.kuali.student.enrollment.registration.client.service.dto.ConflictCourseResult;
 import org.kuali.student.enrollment.registration.client.service.dto.RegistrationValidationConflictCourseResult;
 import org.kuali.student.enrollment.registration.client.service.dto.RegistrationValidationResult;
@@ -217,18 +218,23 @@ public class AdminRegistrationViewHelperServiceImpl extends KSViewHelperServiceI
     private RegistrationCourse createRegistrationCourse(CourseRegistrationInfo courseRegistrationInfo)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ParseException {
 
-        CourseOfferingInfo coInfo = AdminRegResourceLoader.getCourseOfferingService().getCourseOffering(courseRegistrationInfo.getCourseOfferingId(), createContextInfo());
-
         RegistrationCourse registrationCourse = new RegistrationCourse();
-        registrationCourse.setCode(coInfo.getCourseOfferingCode());
-        registrationCourse.setTitle(coInfo.getCourseOfferingTitle());
+        registrationCourse.setCourseRegistrationId(courseRegistrationInfo.getId());
         registrationCourse.setCredits(courseRegistrationInfo.getCredits().toString());
         registrationCourse.setTransactionalDate(courseRegistrationInfo.getMeta().getCreateTime());
         registrationCourse.setEffectiveDate(courseRegistrationInfo.getEffectiveDate());
-        registrationCourse.setSection(AdminRegResourceLoader.getCourseOfferingService().getRegistrationGroup(
-                courseRegistrationInfo.getRegistrationGroupId(), createContextInfo()).getRegistrationCode());
-        registrationCourse.setGradingOptions(coInfo.getStudentRegistrationGradingOptions());
         registrationCourse.setGradingOptionId(courseRegistrationInfo.getGradingOptionId());
+
+        CourseOfferingInfo coInfo = AdminRegResourceLoader.getCourseOfferingService().getCourseOffering(courseRegistrationInfo.getCourseOfferingId(), createContextInfo());
+        registrationCourse.setCode(coInfo.getCourseOfferingCode());
+        registrationCourse.setTitle(coInfo.getCourseOfferingTitle());
+        registrationCourse.setGradingOptions(coInfo.getStudentRegistrationGradingOptions());
+
+        RegistrationGroupInfo registrationGroup = AdminRegResourceLoader.getCourseOfferingService().getRegistrationGroup(
+                courseRegistrationInfo.getRegistrationGroupId(), createContextInfo());
+        registrationCourse.setSection(registrationGroup.getRegistrationCode());
+        registrationCourse.setRegGroupId(registrationGroup.getId());
+
         return registrationCourse;
     }
 
@@ -260,22 +266,16 @@ public class AdminRegistrationViewHelperServiceImpl extends KSViewHelperServiceI
         for (int i = 0; i < form.getPendingCourses().size(); i++) {
             RegistrationCourse course = form.getPendingCourses().get(i);
 
-            CourseOfferingInfo courseOffering = null;
             try {
-                courseOffering = AdminRegClientCache.getCourseOfferingByCodeAndTerm(form.getTerm().getId(), course.getCode());
-            } catch (Exception e) {
-                throw convertServiceExceptionsToUI(e);
-            }
+                CourseOfferingInfo courseOffering = AdminRegClientCache.getCourseOfferingByCodeAndTerm(form.getTerm().getId(), course.getCode());
+                if (courseOffering == null) {
+                    GlobalVariables.getMessageMap().putError(AdminRegConstants.PENDING_COURSES + "[" + i + "]." + AdminRegConstants.CODE,
+                            AdminRegConstants.ADMIN_REG_MSG_ERROR_COURSE_CODE_TERM_INVALID);
+                    continue;
+                }
 
-            if (courseOffering == null) {
-                GlobalVariables.getMessageMap().putError(AdminRegConstants.PENDING_COURSES + "[" + i + "]." + AdminRegConstants.CODE,
-                        AdminRegConstants.ADMIN_REG_MSG_ERROR_COURSE_CODE_TERM_INVALID);
-                continue;
-            }
-
-            course.setGradingOptionId(courseOffering.getGradingOptionId());
-            course.setGradingOptions(courseOffering.getStudentRegistrationGradingOptions());
-            try {
+                course.setGradingOptionId(courseOffering.getGradingOptionId());
+                course.setGradingOptions(courseOffering.getStudentRegistrationGradingOptions());
                 course.setCreditOptions(AdminRegistrationUtil.getCourseOfferingCreditOptionValues(courseOffering.getCreditOptionId()));
                 if (course.getCreditOptions().size() == 1) {
                     course.setCreditType(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_FIXED);
@@ -284,20 +284,22 @@ public class AdminRegistrationViewHelperServiceImpl extends KSViewHelperServiceI
                     course.setCreditType(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_MULTIPLE);
                     course.setCredits(null);
                 }
+
+                //Add error message when no registration group was found for given section.
+                RegistrationGroupInfo regGroup = AdminRegClientCache.getRegistrationGroupForCourseOfferingIdAndSection(courseOffering.getId(), course.getSection());
+                if (regGroup == null) {
+                    GlobalVariables.getMessageMap().putError(AdminRegConstants.PENDING_COURSES + "[" + i + "]." + AdminRegConstants.SECTION,
+                            AdminRegConstants.ADMIN_REG_MSG_ERROR_SECTION_CODE_INVALID);
+                    continue;
+                }
+                course.setRegGroupId(regGroup.getId());
+                if (regGroup.getStateKey().equals(LuiServiceConstants.REGISTRATION_GROUP_CANCELED_STATE_KEY)) {
+                    GlobalVariables.getMessageMap().putErrorForSectionId(AdminRegConstants.PENDING_COURSES + "[" + i + "]." + AdminRegConstants.SECTION,
+                            AdminRegConstants.ADMIN_REG_MSG_ERROR_REGISTRATION_GROUP_CANCELED, course.getCode(), course.getSection());
+                }
+
             } catch (Exception e) {
                 throw convertServiceExceptionsToUI(e);
-            }
-
-            //Add error message when no registration group was found for given section.
-            course.setRegGroup(getRegistrationGroupForCourseOfferingIdAndSection(courseOffering.getId(), course.getSection()));
-            if (course.getRegGroup() == null) {
-                GlobalVariables.getMessageMap().putError(AdminRegConstants.PENDING_COURSES + "[" + i + "]." + AdminRegConstants.SECTION,
-                        AdminRegConstants.ADMIN_REG_MSG_ERROR_SECTION_CODE_INVALID);
-                continue;
-            }
-            if (course.getRegGroup().getStateKey().equals(LuiServiceConstants.REGISTRATION_GROUP_CANCELED_STATE_KEY)) {
-                GlobalVariables.getMessageMap().putErrorForSectionId(AdminRegConstants.PENDING_COURSES + "[" + i + "]." + AdminRegConstants.SECTION,
-                        AdminRegConstants.ADMIN_REG_MSG_ERROR_REGISTRATION_GROUP_CANCELED, course.getCode(), course.getSection());
             }
         }
     }
@@ -322,7 +324,7 @@ public class AdminRegistrationViewHelperServiceImpl extends KSViewHelperServiceI
 
     private RegistrationGroupInfo getRegistrationGroupForCourseOfferingIdAndSection(String courseOfferingId, String section) {
         try {
-
+            
             //First get the format offerings for the course offering to get the registration groups linked to the FO.
             List<FormatOfferingInfo> formatOfferings = AdminRegResourceLoader.getCourseOfferingService().getFormatOfferingsByCourseOffering(
                     courseOfferingId, ContextUtils.createDefaultContextInfo());
@@ -353,8 +355,10 @@ public class AdminRegistrationViewHelperServiceImpl extends KSViewHelperServiceI
 
         List<RegistrationActivity> registrationActivities = new ArrayList<RegistrationActivity>();
         try {
+            RegistrationGroupInfo registrationGroup = AdminRegResourceLoader.getCourseOfferingService().getRegistrationGroup(
+                    registrationCourse.getRegGroupId(), ContextUtils.createDefaultContextInfo());
             List<ActivityOfferingInfo> activityOfferings = AdminRegResourceLoader.getCourseOfferingService().getActivityOfferingsByIds(
-                    registrationCourse.getRegGroup().getActivityOfferingIds(), createContextInfo());
+                    registrationGroup.getActivityOfferingIds(), createContextInfo());
             for (ActivityOfferingInfo activityOffering : activityOfferings) {
                 registrationActivities.add(createRegistrationActivity(activityOffering));
             }
@@ -433,29 +437,37 @@ public class AdminRegistrationViewHelperServiceImpl extends KSViewHelperServiceI
     }
 
     @Override
-    public String submitCoursesForRegistration(String studentId, String termId, List<RegistrationCourse> registrationCourses) {
-        //Create the request object
-        RegistrationRequestInfo regRequest = AdminRegistrationUtil.createRegistrationRequest(studentId, termId, registrationCourses);
+    public String submitCourses(String studentId, String termId, List<RegistrationCourse> registrationCourses, String typeKey) {
 
-        return submitRegistrationRequest(studentId, termId, regRequest);
+        //Create the request object
+        RegistrationRequestInfo regRequest = AdminRegistrationUtil.createRegistrationRequest(studentId, termId);
+        for (RegistrationCourse registrationCourse : registrationCourses) {
+            regRequest.getRegistrationRequestItems().add(AdminRegistrationUtil.createRegistrationRequestItem(studentId, typeKey, registrationCourse));
+        }
+
+        return submitRegistrationRequest(regRequest);
     }
 
     @Override
-    public String resubmitCourseForRegistration(String studentId, String termId, RegistrationCourse registrationCourse) {
-        //Create the request object
-        List<RegistrationCourse> registrationCourses = new ArrayList<RegistrationCourse>();
-        registrationCourses.add(registrationCourse);
-        RegistrationRequestInfo regRequest = AdminRegistrationUtil.createRegistrationRequest(studentId, termId, registrationCourses);
+    public String submitCourse(String studentId, String termId, RegistrationCourse registrationCourse, String typeKey) {
+        return submitRegistrationRequest(AdminRegistrationUtil.buildRegistrationRequest(studentId, termId, registrationCourse, typeKey));
+    }
+
+    @Override
+    public String resubmitCourse(String studentId, String termId, RegistrationCourse registrationCourse, String typeKey) {
+
+        //Build the request object
+        RegistrationRequestInfo regRequest = AdminRegistrationUtil.buildRegistrationRequest(studentId, termId, registrationCourse, typeKey);
 
         // Add dynamic attribute with override flag.
         AttributeInfo attributeInfo = new AttributeInfo(CourseRegistrationServiceConstants.ELIGIBILITY_OVERRIDE_TYPE_KEY_ATTR,
                 String.valueOf(Boolean.TRUE));
         regRequest.getAttributes().add(attributeInfo);
 
-        return submitRegistrationRequest(studentId, termId, regRequest);
+        return submitRegistrationRequest(regRequest);
     }
 
-    private String submitRegistrationRequest(String studentId, String termId, RegistrationRequestInfo regRequest) {
+    private String submitRegistrationRequest(RegistrationRequestInfo regRequest) {
 
         try {
             // persist the request object in the service
@@ -549,7 +561,7 @@ public class AdminRegistrationViewHelperServiceImpl extends KSViewHelperServiceI
      * @throws PermissionDeniedException
      */
     public String retrieveCourseTitle(RegistrationCourse course, String termId)
-            throws MissingParameterException, InvalidParameterException, OperationFailedException, PermissionDeniedException {
+            throws MissingParameterException, InvalidParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException {
 
         String courseCode = course.getCode();
         if (courseCode == null || courseCode.isEmpty()) {
