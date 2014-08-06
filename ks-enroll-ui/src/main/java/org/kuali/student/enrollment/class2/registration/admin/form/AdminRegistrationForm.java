@@ -92,7 +92,6 @@ public class AdminRegistrationForm extends UifFormBase implements Serializable {
      * Registered Courses contain courses that the student is currently enrolled for.
      */
     private List<RegistrationCourse> registeredCourses = new ArrayList<RegistrationCourse>();
-    private RegistrationCourse tempRegCourseEdit = new RegistrationCourse();
 
     /**
      * Waitlisted Courses contains courses that the student was added to the waitlist for.
@@ -106,9 +105,11 @@ public class AdminRegistrationForm extends UifFormBase implements Serializable {
 
     private boolean displayRegistrationTabs = false;
 
-    private List<RegistrationCourse> coursesEdit = new ArrayList<RegistrationCourse>();
-
-    private List<String> coursesEditIssues = new ArrayList<String>();
+    /**
+     * courses In Edit contain course that is been edited.
+     */
+    private List<RegistrationCourse> coursesInEdit = new ArrayList<RegistrationCourse>();
+    private List<String> editingIssues = new ArrayList<String>();
 
     public AdminRegistrationForm(){
         this.clientState = AdminRegConstants.ClientStates.OPEN;
@@ -275,14 +276,6 @@ public class AdminRegistrationForm extends UifFormBase implements Serializable {
         return String.valueOf(credits);
     }
 
-    public RegistrationCourse getTempRegCourseEdit() {
-        return tempRegCourseEdit;
-    }
-
-    public void setTempRegCourseEdit(RegistrationCourse tempRegCourseEdit) {
-        this.tempRegCourseEdit = tempRegCourseEdit;
-    }
-
     public List<RegistrationCourse> getWaitlistedCourses() {
         return waitlistedCourses;
     }
@@ -335,19 +328,19 @@ public class AdminRegistrationForm extends UifFormBase implements Serializable {
         this.displayRegistrationTabs = displayRegistrationTabs;
     }
 
-    public List<RegistrationCourse> getCoursesEdit() {
-        return coursesEdit;
+    public List<RegistrationCourse> getCoursesInEdit() {
+        return coursesInEdit;
     }
 
-    public void setCoursesEdit(List<RegistrationCourse> coursesEdit) {
-        this.coursesEdit = coursesEdit;
+    public void setCoursesInEdit(List<RegistrationCourse> coursesInEdit) {
+        this.coursesInEdit = coursesInEdit;
     }
 
-    public List<String> getCoursesEditIssues() {
-        return coursesEditIssues;
+    public List<String> getEditingIssues() {
+        return editingIssues;
     }
 
-    public void setCoursesEditIssues(List<String> coursesEditIssues) {
-        this.coursesEditIssues = coursesEditIssues;
+    public void setEditingIssues(List<String> editingIssues) {
+        this.editingIssues = editingIssues;
     }
 }

@@ -128,9 +128,10 @@ public class AdminRegistrationController extends UifControllerBase {
             form.getCoursesInProcess().clear();
         }
         form.setPendingDropCourse(null);
-        if (form.getCoursesEdit() != null) {
-            form.getCoursesEdit().clear();
+        if (form.getCoursesInEdit() != null) {
+            form.getCoursesInEdit().clear();
         }
+        form.getEditingIssues().clear();
         form.setClientState(AdminRegConstants.ClientStates.READY);
         return super.refresh(form, result, request, response);
     }
@@ -350,7 +351,7 @@ public class AdminRegistrationController extends UifControllerBase {
                     if(adminOverride){
                         updatedCourse = AdminRegistrationUtil.retrieveFromResultList(form.getRegistrationResults(), item);
                     } else {
-                        updatedCourse = AdminRegistrationUtil.retrieveFromCourseList(form.getCoursesEdit(), item);
+                        updatedCourse = AdminRegistrationUtil.retrieveFromCourseList(form.getCoursesInEdit(), item);
                     }
 
                     // Update the registered courses list with updated detail.
@@ -428,7 +429,7 @@ public class AdminRegistrationController extends UifControllerBase {
     public ModelAndView editCourse(@ModelAttribute("KualiForm") AdminRegistrationForm form, BindingResult result,
                                    HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-        form.getCoursesEditIssues().clear();
+        form.getEditingIssues().clear();
         RegistrationCourse regCourse = getSelectedRegistrationCourse(form);
 
         // May want to write your own copy/clone method or alternatively re-retrieve value from db on cancel
@@ -446,7 +447,7 @@ public class AdminRegistrationController extends UifControllerBase {
             tempCourse.setGradingOptionId(courseOffering.getGradingOptionId());
             tempCourse.setGradingOptions(courseOffering.getStudentRegistrationGradingOptions());
         }
-        form.getCoursesEdit().add(tempCourse);
+        form.getCoursesInEdit().add(tempCourse);
 
         form.setClientState(AdminRegConstants.ClientStates.READY);
         return showDialog(AdminRegConstants.COURSE_EDIT_DIALOG, form, request, response);
@@ -457,17 +458,18 @@ public class AdminRegistrationController extends UifControllerBase {
                                  HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         // Validate the input values.
-        form.getCoursesEditIssues().clear();
+        form.getEditingIssues().clear();
         getViewHelper(form).validateCourseEdit(form);
-        if(!form.getCoursesEditIssues().isEmpty()){
+        if(!form.getEditingIssues().isEmpty()){
             return showDialog(AdminRegConstants.COURSE_EDIT_DIALOG, form, request, response);
         }
 
         // Continue with saving
         // perform actual save on item in the backend
         form.setRegRequestId(getViewHelper(form).submitCourses(form.getPerson().getId(), form.getTerm().getId(),
-                form.getCoursesEdit(), LprServiceConstants.REQ_ITEM_UPDATE_TYPE_KEY));
+                form.getCoursesInEdit(), LprServiceConstants.REQ_ITEM_UPDATE_TYPE_KEY));
 
+        form.getCoursesInEdit().clear();
         form.setClientState(AdminRegConstants.ClientStates.REGISTERING);
         return refresh(form, result, request, response);
     }
@@ -475,7 +477,8 @@ public class AdminRegistrationController extends UifControllerBase {
     @RequestMapping(method = RequestMethod.POST, params = "methodToCall=cancelEdit")
     public ModelAndView cancelEdit(@ModelAttribute("KualiForm") AdminRegistrationForm form, BindingResult result,
                                    HttpServletRequest request, HttpServletResponse response) throws Exception {
-        form.getCoursesEdit().clear();
+        form.getCoursesInEdit().clear();
+        form.getEditingIssues().clear();
         form.setClientState(AdminRegConstants.ClientStates.READY);
         return refresh(form, result, request, response);
     }

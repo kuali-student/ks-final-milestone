@@ -820,9 +820,9 @@
         <property name="items">
             <list>
                 <bean parent="Uif-ListCollectionSubSection" p:additionalCssClasses="alert,alert-danger"
-                      p:render="@{!#emptyList(coursesEditIssues)}">
+                      p:render="@{!#emptyList(editingIssues)}">
                     <property name="collectionObjectClass" value="java.lang.String"/>
-                    <property name="propertyName" value="coursesEditIssues"/>
+                    <property name="propertyName" value="editingIssues"/>
                     <property name="renderAddBlankLineButton" value="false"/>
                     <property name="headerText" value="[id=KS-Uif-ErrorImage] Edit Course errors"/>
                     <property name="header">
@@ -838,7 +838,7 @@
                 <bean id="KS-AdminRegistration-Courses-Edit" parent="Uif-TableCollectionGroup" p:colSpan="4">
                     <property name="collectionObjectClass"
                               value="org.kuali.student.enrollment.class2.registration.admin.form.RegistrationCourse"/>
-                    <property name="propertyName" value="coursesEdit"/>
+                    <property name="propertyName" value="coursesInEdit"/>
                     <property name="layoutManager.renderSequenceField" value="false"/>
                     <property name="layoutManager.richTable.render" value="false"/>
                     <property name="renderAddLine" value="false"/>

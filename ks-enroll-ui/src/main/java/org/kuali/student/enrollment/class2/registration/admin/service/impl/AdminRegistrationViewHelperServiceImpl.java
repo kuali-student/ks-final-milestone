@@ -28,7 +28,6 @@ import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
 import org.kuali.student.enrollment.courseregistration.dto.ActivityRegistrationInfo;
 import org.kuali.student.enrollment.courseregistration.dto.CourseRegistrationInfo;
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestInfo;
-import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestItemInfo;
 import org.kuali.student.enrollment.registration.client.service.dto.ConflictCourseResult;
 import org.kuali.student.enrollment.registration.client.service.dto.RegistrationValidationConflictCourseResult;
 import org.kuali.student.enrollment.registration.client.service.dto.RegistrationValidationResult;
@@ -595,7 +594,7 @@ public class AdminRegistrationViewHelperServiceImpl extends KSViewHelperServiceI
 
         MessageService messageService = KRADServiceLocatorWeb.getMessageService();
 
-        for (RegistrationCourse editCourse : form.getCoursesEdit()) {
+        for (RegistrationCourse editCourse : form.getCoursesInEdit()) {
             if (editCourse.getCredits() == null || editCourse.getCredits().isEmpty()) {
 
                 String message = messageService.getMessageText(null, null, AdminRegConstants.ADMIN_REG_MSG_ERROR_CREDITS_REQUIRED);
@@ -604,7 +603,7 @@ public class AdminRegistrationViewHelperServiceImpl extends KSViewHelperServiceI
                 }
 
                 message = MessageFormat.format(message, editCourse.getCode(), editCourse.getSection());
-                form.getCoursesEditIssues().add(message);
+                form.getEditingIssues().add(message);
             }
             if (editCourse.getEffectiveDate() == null) {
                 String message = messageService.getMessageText(null, null, AdminRegConstants.ADMIN_REG_MSG_ERROR_EFFECTIVE_DATE_REQUIRED);
@@ -612,7 +611,7 @@ public class AdminRegistrationViewHelperServiceImpl extends KSViewHelperServiceI
                     message = StringUtils.EMPTY;
                 }
 
-                form.getCoursesEditIssues().add(message);
+                form.getEditingIssues().add(message);
             }
 
             if (editCourse.getGradingOptionId() == null || editCourse.getGradingOptionId().isEmpty()) {
@@ -621,7 +620,7 @@ public class AdminRegistrationViewHelperServiceImpl extends KSViewHelperServiceI
                     message = StringUtils.EMPTY;
                 }
 
-                form.getCoursesEditIssues().add(message);
+                form.getEditingIssues().add(message);
             }
         }
     }
