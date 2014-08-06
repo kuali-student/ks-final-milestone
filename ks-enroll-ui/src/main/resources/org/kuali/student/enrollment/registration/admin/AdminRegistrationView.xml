@@ -393,9 +393,9 @@
         <property name="headerText" value="Registered Courses (@{registeredCredits} credits)"/>
         <property name="lineActions">
             <list>
-                <bean parent="KS-Uif-Edit-NavigationActionLink" p:id="registeredEditLink" p:actionLabel="Edit Course"
+                <bean parent="Uif-KS-NavigationActionLink-parentBean" p:id="registeredEditLink" p:iconClass="ks-fontello-icon-pencil"
                       p:methodToCall="editCourse" p:style="color:#0088CC;"/>
-                <bean parent="KS-Uif-Delete-NavigationActionLink" p:id="registeredDropLink" p:actionLabel="Drop Course"
+                <bean parent="Uif-KS-NavigationActionLink-parentBean" p:id="registeredDropLink" p:iconClass="ks-fontello-icon-cancel"
                       p:methodToCall="dropCourse" p:style="color:#0088CC;"/>
             </list>
         </property>
@@ -443,9 +443,9 @@
         <property name="headerText" value="Waitlisted Courses (@{waitlistedCredits} credits)"/>
         <property name="lineActions">
             <list>
-                <bean parent="KS-Uif-Edit-NavigationActionLink" p:id="waitlistedEditLink" p:title="Edit Course"
+                <bean parent="Uif-KS-NavigationActionLink-parentBean" p:id="waitlistedEditLink" p:iconClass="ks-fontello-icon-pencil"
                       p:methodToCall="editCourse" p:style="color:#0088CC;"/>
-                <bean parent="KS-Uif-Delete-NavigationActionLink" p:id="waitlistedDropLink" p:title="Remove Course"
+                <bean parent="Uif-KS-NavigationActionLink-parentBean" p:id="waitlistedDropLink" p:iconClass="ks-fontello-icon-cancel"
                       p:methodToCall="deleteLine" p:style="color:#0088CC;"/>
             </list>
         </property>
