@@ -23,8 +23,8 @@ import org.kuali.rice.krad.web.controller.UifControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.cm.common.util.CMUtils;
 import org.kuali.student.cm.common.util.CurriculumManagementConstants;
+import org.kuali.student.cm.course.form.StartProposalForm;
 import org.kuali.student.cm.course.form.wrapper.CourseInfoWrapper;
-import org.kuali.student.cm.course.form.CourseInitialForm;
 import org.kuali.student.cm.course.util.CourseProposalUtil;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -50,7 +50,7 @@ public class StartProposalController extends UifControllerBase {
 
     @Override
     protected UifFormBase createInitialForm(HttpServletRequest httpServletRequest) {
-        CourseInitialForm courseForm= new CourseInitialForm();
+        StartProposalForm courseForm= new StartProposalForm();
         courseForm.setUseReviewProcess(false);
         courseForm.setCurriculumSpecialistUser(CourseProposalUtil.isUserCurriculumSpecialist());
         return courseForm;
@@ -70,32 +70,38 @@ public class StartProposalController extends UifControllerBase {
             urlParameters.put(CourseController.UrlParams.USE_CURRICULUM_REVIEW,Boolean.TRUE.toString());
         } else {
             // if user is a CS user, check the checkbox value
-            urlParameters.put(CourseController.UrlParams.USE_CURRICULUM_REVIEW,Boolean.toString(((CourseInitialForm) form).isUseReviewProcess()));
+            urlParameters.put(CourseController.UrlParams.USE_CURRICULUM_REVIEW,Boolean.toString(((StartProposalForm) form).isUseReviewProcess()));
         }
         urlParameters.put(UifConstants.UrlParams.PAGE_ID, CurriculumManagementConstants.CourseViewPageIds.CREATE_COURSE);
         urlParameters.put(KRADConstants.PARAMETER_COMMAND, KewApiConstants.INITIATE_COMMAND);
         urlParameters.put(KRADConstants.DATA_OBJECT_CLASS_ATTRIBUTE, CourseInfoWrapper.class.getName());
         urlParameters.put(KRADConstants.RETURN_LOCATION_PARAMETER, CMUtils.getCMHomeUrl() );
-        setMethodToCall(urlParameters, (CourseInitialForm)form);
+        setMethodToCall(urlParameters, (StartProposalForm)form);
         String uri = request.getRequestURL().toString().replace(CurriculumManagementConstants.ControllerRequestMappings.START_PROPOSAL,CurriculumManagementConstants.ControllerRequestMappings.COURSE_MAINTENANCE);
 
         return performRedirect(form, uri, urlParameters);
     }
 
-    protected void setMethodToCall(Properties urlParameters, CourseInitialForm form ){
+    /**
+     * This methods sets urlParameters with 'methodtocall' property depending on 'ProposalCourseStartOptions'
+     *
+     * @param urlParameters is properties which needs to be set with 'methodtocall' property.
+     * @param form
+     */
+    protected void setMethodToCall(Properties urlParameters, StartProposalForm form ){
 
         String createCourseInitialAction = form.getCreateCourseInitialAction();
 
-        if(StringUtils.equalsIgnoreCase(createCourseInitialAction,"startBlankProposal")) {
+        if(StringUtils.equalsIgnoreCase(createCourseInitialAction,CurriculumManagementConstants.ProposalCourseStartOptions.BLANK_PROPOSAL)) {
             urlParameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, KRADConstants.DOC_HANDLER_METHOD);
             return;
         }
 
         urlParameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, KRADConstants.Maintenance.METHOD_TO_CALL_COPY);
 
-        if(StringUtils.equalsIgnoreCase(createCourseInitialAction,"copyApprovedCourse")) {
+        if(StringUtils.equalsIgnoreCase(createCourseInitialAction,CurriculumManagementConstants.ProposalCourseStartOptions.COPY_APPROVED_COURSE)) {
             urlParameters.put(CourseController.UrlParams.COPY_CLU_ID, form.getCourseId());
-        } else if(StringUtils.equalsIgnoreCase(createCourseInitialAction,"copyProposedCourse")) {
+        } else if(StringUtils.equalsIgnoreCase(createCourseInitialAction,CurriculumManagementConstants.ProposalCourseStartOptions.COPY_PROPOSED_COURSE)) {
             urlParameters.put(CourseController.UrlParams.COPY_PROPOSAL_ID, form.getProposalId());
         } else {
             throw new RuntimeException("This should not happen.");

@@ -17,7 +17,6 @@
 package org.kuali.student.cm.course.controller;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.krad.uif.UifConstants;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.web.controller.KsUifControllerBase;
@@ -25,11 +24,9 @@ import org.kuali.rice.krad.web.controller.MethodAccessible;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.cm.common.util.CMUtils;
 import org.kuali.student.cm.common.util.CurriculumManagementConstants;
-import org.kuali.student.cm.course.form.CourseInitialForm;
 import org.kuali.student.cm.course.form.ViewCourseForm;
 import org.kuali.student.cm.course.form.wrapper.CourseInfoWrapper;
 import org.kuali.student.cm.course.service.CourseMaintainable;
-import org.kuali.student.cm.course.util.CourseProposalUtil;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;

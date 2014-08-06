@@ -289,7 +289,7 @@
 
     <bean id="KS-HomewardPathBreadcrumbs-ProposalName" parent="Uif-BreadcrumbItem">
         <property name="label" value="@{#htmlUtils.htmlEscape(#uiHelper.headerText)}"/>
-        <property name="url.viewId" value="createCourseInitialView"/>
+        <property name="url.viewId" value="startProposalView"/>
         <property name="url.controllerMapping" value="@{T(org.kuali.student.cm.common.util.CurriculumManagementConstants$ControllerRequestMappings).START_PROPOSAL}"/>
         <property name="url.requestParameters">
             <map key-type="java.lang.String" merge="true">

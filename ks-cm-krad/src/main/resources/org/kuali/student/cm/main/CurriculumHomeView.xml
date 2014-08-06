@@ -89,7 +89,7 @@
         <property name="items">
             <list>
                 <bean parent="Uif-Link" p:linkText="Create a Course"
-                      p:href="@{#ConfigProperties['application.url']}/kr-krad@{T(org.kuali.student.cm.common.util.CurriculumManagementConstants$ControllerRequestMappings).START_PROPOSAL}?viewId=createCourseInitialView&amp;methodtocall=start"/>
+                      p:href="@{#ConfigProperties['application.url']}/kr-krad@{T(org.kuali.student.cm.common.util.CurriculumManagementConstants$ControllerRequestMappings).START_PROPOSAL}?viewId=startProposalView&amp;methodtocall=start"/>
             </list>
         </property>
     </bean>

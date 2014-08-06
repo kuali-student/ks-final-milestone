@@ -54,6 +54,13 @@ public class CurriculumManagementConstants {
         }
     }
 
+
+    public static class ProposalCourseStartOptions {
+        public final static String BLANK_PROPOSAL = "startBlankProposal";
+        public final static String COPY_APPROVED_COURSE  = "copyApprovedCourse";
+        public final static String COPY_PROPOSED_COURSE = "copyProposedCourse";
+    }
+
     /**
      * The bean ids of the pages within the view.
      */

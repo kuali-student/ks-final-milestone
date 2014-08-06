@@ -25,7 +25,7 @@ import org.kuali.rice.krad.web.form.UifFormBase;
  * maintenace document.
  *
  */
-public class CourseInitialForm extends UifFormBase {
+public class StartProposalForm extends UifFormBase {
 
     private String createCourseInitialAction;
 
@@ -43,7 +43,7 @@ public class CourseInitialForm extends UifFormBase {
     @RequestProtected
     private boolean curriculumSpecialistUser;
 
-    public CourseInitialForm() {
+    public StartProposalForm() {
         super();
         // assume user is not a Curriculum Specialist (CS) user
         curriculumSpecialistUser = false;

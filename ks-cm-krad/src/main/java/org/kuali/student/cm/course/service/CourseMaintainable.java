@@ -42,7 +42,7 @@ public interface CourseMaintainable extends CMMaintainable {
      * to suggest back to the user an Administering Organization
      *
      * @param organizationName  
-     * @return {@link List} of wrapper instances which get added to the {@link org.kuali.student.cm.course.form.CourseInitialForm}
+     * @return {@link List} of wrapper instances which get added to the {@link org.kuali.student.cm.course.form.StartProposalForm}
      */
 	List<OrganizationInfoWrapper> getOrganizationsForSuggest(final String organizationName);
 

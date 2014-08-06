@@ -39,9 +39,9 @@
     </bean>
 
     <bean id="CM-Proposal-Course-Create-Start-View" parent="KS-Uif-FormView">
-        <property name="id" value="createCourseInitialView"/>
+        <property name="id" value="startProposalView"/>
         <property name="headerText" value="Create Course "/>
-        <property name="formClass" value="org.kuali.student.cm.course.form.CourseInitialForm"/>
+        <property name="formClass" value="org.kuali.student.cm.course.form.StartProposalForm"/>
         <property name="viewHelperServiceClass"
                   value="org.kuali.student.cm.course.service.impl.StartProposalViewHelperServiceImpl"/>
         <property name="viewSourceFile" value="StartProposalView.xml"/>
@@ -80,11 +80,11 @@
                             <property name="options">
                                 <list>
                                     <bean id="CM-Proposal-Course-StartOptions-BlankProposal" parent="Uif-KeyLabelPair"
-                                          p:key="startBlankProposal" p:value="Start a blank proposal"/>
+                                          p:key="@{T(org.kuali.student.cm.common.util.CurriculumManagementConstants$ProposalCourseStartOptions).BLANK_PROPOSAL}" p:value="Start a blank proposal"/>
                                     <bean id="CM-Proposal-Course-StartOptions-CopyApproved" parent="Uif-KeyLabelPair"
-                                          p:key="copyApprovedCourse" p:value="Copy an approved course"/>
+                                          p:key="@{T(org.kuali.student.cm.common.util.CurriculumManagementConstants$ProposalCourseStartOptions).COPY_APPROVED_COURSE}" p:value="Copy an approved course"/>
                                     <bean id="CM-Proposal-Course-StartOptions-CopyProposed" parent="Uif-KeyLabelPair"
-                                          p:key="copyProposedCourse" p:value="Copy a proposed course"/>
+                                          p:key="@{T(org.kuali.student.cm.common.util.CurriculumManagementConstants$ProposalCourseStartOptions).COPY_PROPOSED_COURSE}" p:value="Copy a proposed course"/>
                                 </list>
                             </property>
                         </bean>
