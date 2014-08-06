@@ -567,4 +567,41 @@ public class AdminRegistrationViewHelperServiceImpl extends KSViewHelperServiceI
         return course.getTitle();
     }
 
+
+    @Override
+    public void validateCourseEdit(AdminRegistrationForm form) {
+
+        MessageService messageService = KRADServiceLocatorWeb.getMessageService();
+
+        for (RegistrationCourse editCourse : form.getCoursesEdit()) {
+            if (editCourse.getCredits() == null || editCourse.getCredits().isEmpty()) {
+
+                String message = messageService.getMessageText(null, null, AdminRegConstants.ADMIN_REG_MSG_ERROR_CREDITS_REQUIRED);
+                if (message == null) {
+                    message = StringUtils.EMPTY;
+                }
+
+                message = MessageFormat.format(message, editCourse.getCode(), editCourse.getSection());
+                form.getCoursesEditIssues().add(message);
+            }
+            if (editCourse.getEffectiveDate() == null) {
+                String message = messageService.getMessageText(null, null, AdminRegConstants.ADMIN_REG_MSG_ERROR_EFFECTIVE_DATE_REQUIRED);
+                if (message == null) {
+                    message = StringUtils.EMPTY;
+                }
+
+                form.getCoursesEditIssues().add(message);
+            }
+
+            if (editCourse.getGradingOptionId() == null || editCourse.getGradingOptionId().isEmpty()) {
+                String message = messageService.getMessageText(null, null, AdminRegConstants.ADMIN_REG_MSG_ERROR_REG_OPTIONS_REQUIRED);
+                if (message == null) {
+                    message = StringUtils.EMPTY;
+                }
+
+                form.getCoursesEditIssues().add(message);
+            }
+        }
+    }
+
 }

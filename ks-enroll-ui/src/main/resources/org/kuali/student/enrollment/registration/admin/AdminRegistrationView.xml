@@ -394,7 +394,7 @@
         <property name="lineActions">
             <list>
                 <bean parent="KS-Uif-Edit-NavigationActionLink" p:id="registeredEditLink" p:actionLabel="Edit Course"
-                      p:methodToCall="editCourse" p:successCallback="stopPolling();" p:style="color:#0088CC;"/>
+                      p:methodToCall="editCourse" p:style="color:#0088CC;"/>
                 <bean parent="KS-Uif-Delete-NavigationActionLink" p:id="registeredDropLink" p:actionLabel="Drop Course"
                       p:methodToCall="dropCourse" p:style="color:#0088CC;"/>
             </list>
@@ -444,7 +444,7 @@
         <property name="lineActions">
             <list>
                 <bean parent="KS-Uif-Edit-NavigationActionLink" p:id="waitlistedEditLink" p:title="Edit Course"
-                      p:methodToCall="editCourse" p:successCallback="stopPolling();" p:style="color:#0088CC;"/>
+                      p:methodToCall="editCourse" p:style="color:#0088CC;"/>
                 <bean parent="KS-Uif-Delete-NavigationActionLink" p:id="waitlistedDropLink" p:title="Remove Course"
                       p:methodToCall="deleteLine" p:style="color:#0088CC;"/>
             </list>
@@ -819,6 +819,22 @@
         <property name="style" value="width:650px;"/>
         <property name="items">
             <list>
+                <bean parent="Uif-ListCollectionSubSection" p:additionalCssClasses="alert,alert-danger"
+                      p:render="@{!#emptyList(coursesEditIssues)}">
+                    <property name="collectionObjectClass" value="java.lang.String"/>
+                    <property name="propertyName" value="coursesEditIssues"/>
+                    <property name="renderAddBlankLineButton" value="false"/>
+                    <property name="headerText" value="[id=KS-Uif-ErrorImage] Edit Course errors"/>
+                    <property name="header">
+                        <bean parent="Uif-SubSectionHeader" p:style="color:black;"/>
+                    </property>
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-MessageField"
+                                  p:messageText="@{#line.toString()}"/>
+                        </list>
+                    </property>
+                </bean>
                 <bean id="KS-AdminRegistration-Courses-Edit" parent="Uif-TableCollectionGroup" p:colSpan="4">
                     <property name="collectionObjectClass"
                               value="org.kuali.student.enrollment.class2.registration.admin.form.RegistrationCourse"/>

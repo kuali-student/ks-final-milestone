@@ -108,6 +108,8 @@ public class AdminRegistrationForm extends UifFormBase implements Serializable {
 
     private List<RegistrationCourse> coursesEdit = new ArrayList<RegistrationCourse>();
 
+    private List<String> coursesEditIssues = new ArrayList<String>();
+
     public AdminRegistrationForm(){
         this.clientState = AdminRegConstants.ClientStates.OPEN;
         this.person = new PersonInfo();
@@ -339,5 +341,13 @@ public class AdminRegistrationForm extends UifFormBase implements Serializable {
 
     public void setCoursesEdit(List<RegistrationCourse> coursesEdit) {
         this.coursesEdit = coursesEdit;
+    }
+
+    public List<String> getCoursesEditIssues() {
+        return coursesEditIssues;
+    }
+
+    public void setCoursesEditIssues(List<String> coursesEditIssues) {
+        this.coursesEditIssues = coursesEditIssues;
     }
 }

@@ -503,11 +503,19 @@ public class AdminRegistrationController extends UifControllerBase {
     @RequestMapping(method = RequestMethod.POST, params = "methodToCall=saveEdit")
     public ModelAndView saveEdit(@ModelAttribute("KualiForm") AdminRegistrationForm form, BindingResult result,
                                  HttpServletRequest request, HttpServletResponse response) throws Exception {
-        String selectedCollectionId = form.getActionParamaterValue(UifParameters.SELECTED_COLLECTION_ID);
 
+        // Validate the input values.
+        form.getCoursesEditIssues().clear();
+        getViewHelper(form).validateCourseEdit(form);
+        if(!form.getCoursesEditIssues().isEmpty()){
+            return showDialog(AdminRegConstants.COURSE_EDIT_DIALOG, form, request, response);
+        }
+
+        // Continue with saving
         // perform actual save on item in the backend
-         form.getCoursesEdit().clear();
 
+        form.setClientState(AdminRegConstants.ClientStates.READY);
+        form.getCoursesEdit().clear();
         return refresh(form, result, request, response);
     }
 

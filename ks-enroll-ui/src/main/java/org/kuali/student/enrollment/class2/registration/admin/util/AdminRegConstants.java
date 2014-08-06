@@ -59,6 +59,8 @@ public class AdminRegConstants {
     public static final String ADMIN_REG_MSG_ERROR_REGISTRATION_GROUP_CANCELED = "error.admin.reg.registration.group.canceled";
     public static final String ADMIN_REG_MSG_ERROR_CREDITS_REQUIRED = "error.admin.reg.credits.required";
     public static final String ADMIN_REG_MSG_ERROR_NO_STUDENT_AFFILIATION = "error.admin.reg.studentId.no.affiliation";
+    public static final String ADMIN_REG_MSG_ERROR_EFFECTIVE_DATE_REQUIRED = "error.admin.reg.effectiveDate.required";
+    public static final String ADMIN_REG_MSG_ERROR_REG_OPTIONS_REQUIRED = "error.admin.reg.regOption.required";
 
     public static final String ADMIN_REG_MSG_INFO_SUCCESSFULLY_REGISTERED = "info.admin.reg.course.successfully.registered";
     public static final String ADMIN_REG_MSG_INFO_SUCCESSFULLY_WAITLISTED = "info.admin.reg.course.successfully.waitlisted";

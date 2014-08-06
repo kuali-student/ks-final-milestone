@@ -125,4 +125,12 @@ public interface AdminRegistrationViewHelperService {
      */
     public List<RegistrationResultItem> createRegResultsFromValidationResults(List<ValidationResultInfo> results);
 
+    /**
+     * Validates the edited course on save.
+     *
+     * @param form
+     */
+    public void validateCourseEdit(AdminRegistrationForm form);
+
+
 }
