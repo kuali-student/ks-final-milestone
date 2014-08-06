@@ -274,7 +274,7 @@ public class CourseMaintainableImpl extends RuleEditorMaintainableImpl implement
             searchResult = getInstructorsSearchResult(queryParamValueList);
             cluInstructorInfoDisplays = getInstructorsFromSearchResult(searchResult);
         } catch (Exception e) {
-            throw new RuntimeException("No Instructor found for given ID :" + id);
+            throw new RuntimeException("No Instructor found for given ID :" + id, e);
         }
         return cluInstructorInfoDisplays;
     }

@@ -97,7 +97,7 @@ public class CMCommentController extends KsUifControllerBase {
             commentForm.setCanAddComment(canAddComment(proposalInfo));
             retrieveComments(commentForm);
         } catch (Exception e) {
-            throw new RuntimeException("Invalid Proposal [id=" + proposalId + "]");
+            throw new RuntimeException("Invalid Proposal [id=" + proposalId + "]", e);
         }
 
         return super.start(form, request, response);
