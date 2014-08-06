@@ -2669,6 +2669,10 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
                 Agenda agendaAODriven = getAgendaForRefObjectId(theForm.getTermInfo().getTypeKey(), typeDefinitionAODriven);
                 if (agendaAODriven != null) {
                     theForm.getCurrentCourseOfferingWrapper().setMatrixOveridableAODriven(true);
+                    theForm.getCurrentCourseOfferingWrapper().setMatrixExists(true);
+                } else {
+                    theForm.getCurrentCourseOfferingWrapper().setMatrixOveridableAODriven(false);
+                    theForm.getCurrentCourseOfferingWrapper().setMatrixExists(false);
                 }
             }
 
@@ -2678,6 +2682,10 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
                 Agenda agendaCODriven = getAgendaForRefObjectId(theForm.getTermInfo().getTypeKey(), typeDefinitionCODriven);
                 if (agendaCODriven != null) {
                     theForm.getCurrentCourseOfferingWrapper().setMatrixOveridableCODriven(true);
+                    theForm.getCurrentCourseOfferingWrapper().setMatrixExists(true);
+                } else {
+                    theForm.getCurrentCourseOfferingWrapper().setMatrixOveridableAODriven(false);
+                    theForm.getCurrentCourseOfferingWrapper().setMatrixExists(false);
                 }
             }
 

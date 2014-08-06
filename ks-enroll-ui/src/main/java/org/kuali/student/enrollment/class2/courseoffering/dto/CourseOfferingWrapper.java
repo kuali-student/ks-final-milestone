@@ -70,6 +70,7 @@ public class CourseOfferingWrapper implements Serializable{
 
     private boolean matrixOveridableAODriven;
     private boolean matrixOveridableCODriven;
+    private boolean matrixExists; //indicate whether or not a matrix exists for the given term
 
     private int commentCount;
     private String courseOfferingRefUri = CourseOfferingServiceConstants.REF_OBJECT_URI_COURSE_OFFERING;
@@ -93,6 +94,7 @@ public class CourseOfferingWrapper implements Serializable{
     public CourseOfferingWrapper(){
         alternateCOCodes = new ArrayList<String>();
         ownerAliases = new ArrayList<String>();
+        matrixExists = true;
     }
 
     /**
@@ -536,5 +538,13 @@ public class CourseOfferingWrapper implements Serializable{
 
     public void setCourseOfferingRefUri(String courseOfferingRefUri) {
         this.courseOfferingRefUri = courseOfferingRefUri;
+    }
+
+    public boolean isMatrixExists() {
+        return matrixExists;
+    }
+
+    public void setMatrixExists(boolean matrixExists) {
+        this.matrixExists = matrixExists;
     }
 }

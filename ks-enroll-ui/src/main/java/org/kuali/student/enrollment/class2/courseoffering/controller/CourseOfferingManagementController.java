@@ -1159,10 +1159,11 @@ public class CourseOfferingManagementController extends UifControllerBase {
 
             //Only reslot when override matrix is set to false.
             boolean slotted = false;
-            if(!eoWrapper.isOverrideMatrix()){
-                CourseOfferingInfo courseOfferingInfo = theForm.getCurrentCourseOfferingWrapper().getCourseOfferingInfo();
+            CourseOfferingInfo courseOfferingInfo = theForm.getCurrentCourseOfferingWrapper().getCourseOfferingInfo();
+
+            if(Boolean.parseBoolean(courseOfferingInfo.getAttributeValue(CourseOfferingServiceConstants.FINAL_EXAM_USE_MATRIX))){
                 //Only call matrix if course offering is set to use matrix.
-                if(Boolean.parseBoolean(courseOfferingInfo.getAttributeValue(CourseOfferingServiceConstants.FINAL_EXAM_USE_MATRIX))){
+                if(!eoWrapper.isOverrideMatrix() && theForm.getCurrentCourseOfferingWrapper().isMatrixExists()){
                     ExamOfferingContext examOfferingContext = ExamOfferingManagementUtil.createExamOfferingContext(courseOfferingInfo, eoWrapper.getAoInfo());
                     if (examOfferingContext.getTermId() == null || (examOfferingContext.getTermId().equals("") ) ) {
                         examOfferingContext.setTermId(examOfferingContext.getCourseOffering().getTermId());
@@ -1182,13 +1183,13 @@ public class CourseOfferingManagementController extends UifControllerBase {
 
                     slotted = true;
                 }
-            } else { //if 'override matrix' then a new scheduling state of 'unscheduled' should be saved
-                eoWrapper.getEoInfo().setSchedulingStateKey(ExamOfferingServiceConstants.EXAM_OFFERING_SCHEDULING_UNSCHEDULED_STATE_KEY);
-                CourseOfferingManagementUtil.mergeAttribute(eoWrapper.getEoInfo().getAttributes(), ExamOfferingServiceConstants.EXAM_OFFERING_SCHEDULING_STATE_ATTR, eoWrapper.getEoInfo().getSchedulingStateKey());
             }
 
             if (!slotted) {
                 //Only do this if exam offering is not reslotted!!
+                eoWrapper.getEoInfo().setSchedulingStateKey(ExamOfferingServiceConstants.EXAM_OFFERING_SCHEDULING_UNSCHEDULED_STATE_KEY);
+                CourseOfferingManagementUtil.mergeAttribute(eoWrapper.getEoInfo().getAttributes(), ExamOfferingServiceConstants.EXAM_OFFERING_SCHEDULING_STATE_ATTR, eoWrapper.getEoInfo().getSchedulingStateKey());
+
                 return saveExamOfferingSchedule(eoWrapper, selectedCollectionPath, selectedLine, context);
             } else {
                 //Reload the new schedule requests created by matrix.
