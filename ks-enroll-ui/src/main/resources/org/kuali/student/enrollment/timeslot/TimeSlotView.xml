@@ -337,7 +337,7 @@
                 <bean parent="Uif-HorizontalBoxSection">
                     <property name="items">
                         <list>
-                            <bean id="addOrEdit_action" parent="KS-Uif-PrimaryActionButton" p:successCallback="setupTimeSlotTypeDropdown();">
+                            <bean id="addOrEdit_action" parent="KS-Uif-PrimaryActionButton" p:successCallback="setupTimeSlotTypeDropdown();updateSortTable();">
                                 <property name="actionLabel" value="Save"/>
                                 <property name="preSubmitCall" value="resetTSValidSelection(); return validateTimeSlot('edit_ts_control');"/>
                                 <!--<property name="successCallback" value="jQuery('div[id=KS-TimeSlot-EditTimeSlotPopupForm]:gt(0)').detach();"/>
@@ -414,7 +414,7 @@
                     <property name="style" value="margin-top:20px;"/>
                     <property name="actionLabel" value="Add Slot"/>
                     <property name="preSubmitCall" value="resetTSValidSelection(); return validateTimeSlot('new_ts_control');"/>
-                    <property name="successCallback" value="jQuery('div[id=KS-TimeSlot-AddTimeSlotPopupForm]:gt(0)').detach();setupTimeSlotTypeDropdown();"/>
+                    <property name="successCallback" value="jQuery('div[id=KS-TimeSlot-AddTimeSlotPopupForm]:gt(0)').detach();setupTimeSlotTypeDropdown();;updateSortTable();"/>
                     <property name="errorCallback" value="jQuery('div[id=KS-TimeSlot-AddTimeSlotPopupForm]:gt(0)').detach();"/>
                     <property name="methodToCall" value="createTimeSlot"/>
                 </bean>
@@ -434,7 +434,7 @@
                     <property name="items">
                         <list>
                             <bean id="timeslot_delete_confirm" parent="Uif-PrimaryActionButton" p:preSubmitCall="resetTSValidSelection(); closeLightbox(); return true;"
-                                  p:methodToCall="deleteTimeSlots" p:actionLabel="Delete Time Slots" p:successCallback="setupTimeSlotTypeDropdown();"/>
+                                  p:methodToCall="deleteTimeSlots" p:actionLabel="Delete Time Slots" p:successCallback="setupTimeSlotTypeDropdown();updateSortTable();"/>
                             <bean id="button_close"
                                   parent="Uif-ActionLink"
                                   p:actionLabel="Cancel"
