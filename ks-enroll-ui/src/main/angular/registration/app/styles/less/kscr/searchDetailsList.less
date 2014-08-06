@@ -30,11 +30,85 @@
   }
 }
 
+.kscr-Search-details-grid {
+  .util-Grid;
+  margin: 0.1rem 0.1rem 0.1rem 0;
+}
+
+.kscr-Search-details-selector {
+  .util-Grid-cell;
+  .util-Grid;
+  background-color: @white;
+  &&--selected {
+    border: 1px solid @courseSearchDetailsSelectedBackgroundColor;
+  }
+}
+
 .kscr-Search-details-section {
+  .util-Grid-cell;
+  .util-Grid;
   color: @courseSearchDetailTextColor;
   background-color: @courseSearchDetailBackgroundColor;
-  padding: 1rem;
-  margin: 0.1rem 0 0.1rem 0;
+  padding: 1rem 1rem 1rem 0.5rem;
+  cursor: pointer;
+  &&--indicator {
+    margin-left: 0.1rem;
+    padding-left: 0.4rem;
+  }
+  &&--selected {
+    font-weight: bold;
+    color: @white;
+    background-color: @courseSearchDetailsSelectedBackgroundColor;
+    margin: 0.1rem 0.1rem 0.1rem 0;
+  }
+  &&--disabled {
+    font-style: italic;
+    cursor: not-allowed;
+  }
+}
+
+.kscr-Search-details-checkbox {
+  .checkbox-icon();
+  &--selected {
+    .checkbox-icon--checked();
+  }
+  &--disabled {
+    background: none;
+  }
+}
+
+.kscr-Search-details-text {
+  margin-left: 0.5rem;
+  &--right {
+    float: right;
+  }
+  &--block {
+    display: block;
+  }
+}
+
+.kscr-Search-details-indicator {
+  .util-Grid;
+  padding: 1rem 0;
+  width: 0.5rem;
+  float: left;
+  background-color: @courseSearchDetailBackgroundColor;
+  &--show {
+    background-color: @table-ShowIndicatorColor;
+  }
+  &--selected {
+    background-color: @courseSearchDetailsSelectedBackgroundColor;
+    margin: 0.1rem 0 0.1rem 0.1rem;
+  }
+}
+
+.kscr-Search-details-additionalInfo {
+  background-color: @courseSearchDetailBackgroundColor;
+  margin-left: 0.1rem;
+  padding: 1rem 0.5rem 0 0.5rem;
+  .kscr-SearchDetails-icon {
+    display: none;
+  }
 }
 
 /* Hide in wide format */

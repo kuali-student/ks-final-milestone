@@ -8,18 +8,32 @@
             <div class="kscr-Search-details-tab" ng-class="{'kscr-Search-details-tab--selected': tab==='instr'}" ng-click="select('instr')">Instr</div>
         </div>
         <div class="kscr-Search-details-tab-container--wide">
-            <div class="kscr-Search-details-tab" ng-class="{'kscr-Search-details-tab--selected': tab==='seatsLoc'}" ng-click="select('seatsLoc')">Seats/Loc</div>
+            <div class="kscr-Search-details-tab" ng-class="{'kscr-Search-details-tab--selected': tab==='seatsLoc'}" ng-click="select('seatsLoc')">Loc/Seats</div>
         </div>
         <div class="kscr-Search-details-tab-container">
             <div class="kscr-Search-details-tab" ng-class="{'kscr-Search-details-tab--selected': tab==='all'}" ng-click="select('all')">All</div>
          </div>
     </div>
-    <div class="kscr-Search-details-section" ng-repeat="searchDetail in searchDetails| limitTo:limit">
-        <span ng-show="time" compile="searchDetail.formatted.days"></span>
-        <span ng-show="time" compile="searchDetail.formatted.time"></span>
-        <span ng-show="instr" compile="searchDetail.formatted.additionalInfo"></span>
-        <span ng-show="instr" compile="searchDetail.formatted.instructor"></span>
-        <span ng-show="seatsLoc" compile="searchDetail.formatted.location"></span>
-        <span ng-show="seatsLoc"><span compile="searchDetail.formatted.seatsOpen"></span><span>&nbsp;available</span></span>
+    <div class="kscr-Search-details-grid" ng-repeat="searchResult in searchDetails| limitTo:limit"
+         ng-hide="searchResult.hidden" ng-click="selectRow(searchResult)">
+        <div class="kscr-Search-details-selector" ng-class="{'kscr-Search-details-selector--selected' : searchResult.selected}">
+            <div class="kscr-Search-details-indicator"
+                 ng-class="{'kscr-Search-details-indicator--show' : searchResult.indicator, 'kscr-Search-details-indicator--selected' : searchResult.selected}">&nbsp;</div>
+            <div class="kscr-Search-details-section"
+                ng-class="{'kscr-Search-details-section--indicator' : searchResult.indicator,
+                           'kscr-Search-details-section--selected' : searchResult.selected,
+                           'kscr-Search-details-section--disabled' : searchResult.disabled}">
+                <span class="kscr-Search-details-checkbox"
+                      ng-class="{'kscr-Search-details-checkbox--selected' : searchResult.selected, 'kscr-Search-details-checkbox--disabled': searchResult.disabled}"></span>
+                <span class="util-Grid-cell">
+                    <span class="kscr-Search-details-text" ng-show="time" compile="searchResult.formatted.days"></span>
+                    <span class="kscr-Search-details-text--right" ng-show="time" compile="searchResult.formatted.time"></span>
+                    <span class="kscr-Search-details-text" ng-class="{'kscr-Search-details-text--block' : tab==='all'}" ng-show="instr" compile="searchResult.formatted.instructor"></span>
+                    <span class="kscr-Search-details-text" ng-show="seatsLoc" compile="searchResult.formatted.location"></span>
+                    <span class="kscr-Search-details-text--right" ng-show="seatsLoc"><span compile="searchResult.formatted.seatsOpen"></span><span>&nbsp;available</span></span>
+                </span>
+            </div>
+        </div>
+        <div class="kscr-Search-details-additionalInfo" ng-if="searchResult.formatted.additionalInfo" compile="searchResult.formatted.additionalInfo"></div>
     </div>
 </div>
