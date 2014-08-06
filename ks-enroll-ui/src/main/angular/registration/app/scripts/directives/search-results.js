@@ -6,7 +6,7 @@ angular.module('regCartApp')
      The search-list directive displays a generic list of search results based on the
      columns set by the search-column directive.
      */
-    .directive('searchList', ['$filter', '$animate', function($filter, $animate) {
+    .directive('searchList', ['$filter', '$animate', '$timeout', function($filter, $animate, $timeout) {
         return {
             restrict: 'E',
             require: '^searchResults',
@@ -31,6 +31,17 @@ angular.module('regCartApp')
                 if (angular.isUndefined(scope.searchResults) && scope.preprocessor) {
                     scope.searchResults = $filter(scope.preprocessor)(scope.searchData);
                 }
+
+                // Displays the table in batches for performance
+                var stagger = 20;
+                scope.limit = stagger;
+                scope.$watch('limit', function() {
+                    if (scope.limit < scope.displayLimit) {
+                        $timeout(function() {
+                            scope.limit += stagger;
+                        }, 250)
+                    }
+                });
 
                 // the choices for limiting display of search results
                 scope.displayLimits = [20, 50, 100];

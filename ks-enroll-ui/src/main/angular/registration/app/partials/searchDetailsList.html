@@ -14,7 +14,7 @@
             <div class="kscr-Search-details-tab" ng-class="{'kscr-Search-details-tab--selected': tab==='all'}" ng-click="select('all')">All</div>
          </div>
     </div>
-    <div class="kscr-Search-details-section" ng-repeat="searchDetail in searchDetails">
+    <div class="kscr-Search-details-section" ng-repeat="searchDetail in searchDetails| limitTo:limit">
         <span ng-show="time" compile="searchDetail.formatted.days"></span>
         <span ng-show="time" compile="searchDetail.formatted.time"></span>
         <span ng-show="instr" compile="searchDetail.formatted.additionalInfo"></span>

@@ -522,7 +522,7 @@ angular.module('regCartApp')
         }
     }])
 
-    .directive('searchDetailsList', function() {
+    .directive('searchDetailsList', ['$timeout', function($timeout) {
         return {
             restrict: 'E',
             templateUrl: 'partials/searchDetailsList.html',
@@ -562,8 +562,19 @@ angular.module('regCartApp')
                             scope.seatsLoc = true;
                             scope.all = true;
                     }
-                }
+                };
+
+                // Displays the table in batches for performance
+                var stagger = 5;
+                scope.limit = stagger;
+                scope.$watch('limit', function() {
+                    if (scope.limit < scope.searchDetails.length) {
+                        $timeout(function() {
+                            scope.limit += stagger;
+                        }, 100)
+                    }
+                });
             }
         }
-    })
+    }])
 ;

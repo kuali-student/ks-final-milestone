@@ -33,7 +33,7 @@
         </tr>
     </thead>
     <tbody>
-        <tr ng-repeat="searchResult in searchResults | orderBy : predicate : reverse | startFrom:(page-1)*displayLimit | limitTo:displayLimit"
+        <tr ng-repeat="searchResult in searchResults | orderBy : predicate : reverse | startFrom:(page-1)*displayLimit | limitTo:limit"
             id="course_detail_row_{{applyFilter(searchResult, defaultField, searchColumn.filter)}}" class="kscr-Search-row"
             ng-class="{'kscr-Search-row--clickable' : onClick, 'kscr-Search-row--disabled' : searchResult.disabled, 'kscr-Search-row--selected' : searchResult.selected}"
             ng-hide="searchResult.hidden" ng-click="emitEvent(onClick, searchResult)">
@@ -50,7 +50,7 @@
 <div class="kscr-Search-results-list" ng-if="showMobile">
     <div class="kscr-Search-result"
          id="course_detail_result_{{applyFilter(searchResult, defaultField, searchColumn.filter)}}"
-         ng-click="emitEvent(onClick, searchResult)" ng-repeat="searchResult in searchResults">
+         ng-click="emitEvent(onClick, searchResult)" ng-repeat="searchResult in searchResults | limitTo:limit">
         <div class="kscr-Search-result-column-{{searchColumn.field}}" ng-repeat="searchColumn in searchColumns"
              ng-bind-html="applyFilter(searchResult, searchColumn.field, searchColumn.filter)"></div>
     </div>
