@@ -30,7 +30,6 @@ import org.kuali.student.core.person.dto.PersonInfo;
 import org.kuali.student.enrollment.class2.registration.admin.form.AdminRegistrationForm;
 import org.kuali.student.enrollment.class2.registration.admin.form.RegistrationCourse;
 import org.kuali.student.enrollment.class2.registration.admin.form.RegistrationResult;
-import org.kuali.student.enrollment.class2.registration.admin.form.RegistrationResultItem;
 import org.kuali.student.enrollment.class2.registration.admin.service.AdminRegistrationViewHelperService;
 import org.kuali.student.enrollment.class2.registration.admin.util.AdminRegClientCache;
 import org.kuali.student.enrollment.class2.registration.admin.util.AdminRegConstants;
@@ -39,8 +38,6 @@ import org.kuali.student.enrollment.class2.registration.admin.util.AdminRegistra
 import org.kuali.student.enrollment.courseoffering.infc.CourseOffering;
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestInfo;
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestItemInfo;
-import org.kuali.student.r2.common.infc.Attribute;
-import org.kuali.student.r2.common.util.constants.CourseRegistrationServiceConstants;
 import org.kuali.student.r2.common.util.constants.LprServiceConstants;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
 import org.kuali.student.r2.lum.util.constants.LrcServiceConstants;
@@ -410,6 +407,7 @@ public class AdminRegistrationController extends UifControllerBase {
     public ModelAndView editCourse(@ModelAttribute("KualiForm") AdminRegistrationForm form, BindingResult result,
                                    HttpServletRequest request, HttpServletResponse response) throws Exception {
 
+        form.getCoursesEditIssues().clear();
         RegistrationCourse regCourse = getSelectedRegistrationCourse(form);
 
         // May want to write your own copy/clone method or alternatively re-retrieve value from db on cancel
@@ -457,6 +455,7 @@ public class AdminRegistrationController extends UifControllerBase {
     @RequestMapping(method = RequestMethod.POST, params = "methodToCall=cancelEdit")
     public ModelAndView cancelEdit(@ModelAttribute("KualiForm") AdminRegistrationForm form, BindingResult result,
                                    HttpServletRequest request, HttpServletResponse response) throws Exception {
+        form.getCoursesEdit().clear();
         form.setClientState(AdminRegConstants.ClientStates.READY);
         return refresh(form, result, request, response);
     }
