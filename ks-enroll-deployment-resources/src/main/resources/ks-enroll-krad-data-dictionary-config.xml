@@ -121,7 +121,7 @@
                 <value>classpath:org/kuali/student/enrollment/hold/HoldIssueInfoSearchView.xml</value>
                 <value>classpath:org/kuali/student/enrollment/hold/HoldIssueInfoCreateView.xml</value>
                 <value>classpath:org/kuali/student/enrollment/hold/HoldIssueInfoModifyView.xml</value>
-                <value>classpath:org/kuali/student/enrollment/hold/HoldIssueInfoView.xml</value>
+                <value>classpath:org/kuali/student/enrollment/hold/HoldIssueMaintenanceView.xml</value>
                 <value>classpath:org/kuali/student/enrollment/hold/HoldIssueInfoLookupView.xml</value>
 
                 <!-- Process -->

@@ -12,7 +12,7 @@
         <property name="headerText" value="Manage Hold"/>
         <property name="renderHeader" value="false"/>
         <property name="entryPageId" value="holdView-SearchPage"/>
-        <property name="formClass" value="org.kuali.student.enrollment.class1.hold.form.HoldIssueInfoForm"/>
+        <property name="formClass" value="org.kuali.student.enrollment.class1.hold.form.HoldIssueManagementForm"/>
         <property name="dialogs">
             <list>
                 <bean id="deleteConfirmationDialog" parent="KS-HoldSearch-DeleteDialog"/>

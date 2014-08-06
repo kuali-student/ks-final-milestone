@@ -24,7 +24,7 @@ import org.kuali.rice.krad.uif.util.ObjectPropertyUtils;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.web.controller.UifControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
-import org.kuali.student.enrollment.class1.hold.form.HoldIssueInfoForm;
+import org.kuali.student.enrollment.class1.hold.form.HoldIssueManagementForm;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.mock.utilities.TestHelper;
 import org.kuali.student.r2.common.dto.RichTextInfo;
@@ -76,21 +76,21 @@ public class HoldIssueInfoController extends UifControllerBase {
 
     @Override
     protected UifFormBase createInitialForm(HttpServletRequest request) {
-        return new HoldIssueInfoForm();
+        return new HoldIssueManagementForm();
     }
 
     @Override
     @RequestMapping(method = RequestMethod.GET, params = "methodToCall=start")
     public ModelAndView start(@ModelAttribute("KualiForm") UifFormBase form,
                               HttpServletRequest request, HttpServletResponse response) {
-        HoldIssueInfoForm holdIssueInfoForm = (HoldIssueInfoForm)form;
+        HoldIssueManagementForm holdIssueInfoForm = (HoldIssueManagementForm)form;
         holdIssueInfoForm.setIsSaveSuccess(false);
 
         return super.start(form, request, response);
     }
 
     @RequestMapping(params = "methodToCall=search")
-    public ModelAndView search(@ModelAttribute("KualiForm") HoldIssueInfoForm form, BindingResult result,
+    public ModelAndView search(@ModelAttribute("KualiForm") HoldIssueManagementForm form, BindingResult result,
                                HttpServletRequest request, HttpServletResponse response) throws Exception {
         List<HoldIssueInfo> results = new ArrayList<HoldIssueInfo>();
         String name = form.getName();
@@ -115,7 +115,7 @@ public class HoldIssueInfoController extends UifControllerBase {
     }
 
     @RequestMapping(params = "methodToCall=create")
-    public ModelAndView create(@ModelAttribute("KualiForm") HoldIssueInfoForm form, BindingResult result,
+    public ModelAndView create(@ModelAttribute("KualiForm") HoldIssueManagementForm form, BindingResult result,
                                HttpServletRequest request, HttpServletResponse response) throws Exception {
         HoldIssueInfo holdIssueInfo = new HoldIssueInfo();
 
@@ -148,14 +148,14 @@ public class HoldIssueInfoController extends UifControllerBase {
     }
 
     @RequestMapping(params = "methodToCall=clear")
-    public ModelAndView clear(@ModelAttribute("KualiForm") HoldIssueInfoForm form, BindingResult result,
+    public ModelAndView clear(@ModelAttribute("KualiForm") HoldIssueManagementForm form, BindingResult result,
                                HttpServletRequest request, HttpServletResponse response) throws Exception {
         clearValues(form);
         return getUIFModelAndView(form);
     }
 
     @RequestMapping(params = "methodToCall=view")
-    public ModelAndView view(@ModelAttribute("KualiForm") HoldIssueInfoForm form, BindingResult result,
+    public ModelAndView view(@ModelAttribute("KualiForm") HoldIssueManagementForm form, BindingResult result,
                              HttpServletRequest request, HttpServletResponse response) throws Exception {
         HoldIssueInfo holdIssue = getSelectedHoldIssue(form, "view");
 
@@ -184,7 +184,7 @@ public class HoldIssueInfoController extends UifControllerBase {
     }
 
     @RequestMapping(params = "methodToCall=edit")
-    public ModelAndView edit(@ModelAttribute("KualiForm") HoldIssueInfoForm form, BindingResult result,
+    public ModelAndView edit(@ModelAttribute("KualiForm") HoldIssueManagementForm form, BindingResult result,
                              HttpServletRequest request, HttpServletResponse response) throws Exception {
         HoldIssueInfo holdIssue = getSelectedHoldIssue(form, "edit");
         form.setIsSaveSuccess(false);
@@ -209,7 +209,7 @@ public class HoldIssueInfoController extends UifControllerBase {
     }
 
     @RequestMapping(params = "methodToCall=modify")
-    public ModelAndView modity(@ModelAttribute("KualiForm") HoldIssueInfoForm form, BindingResult result,
+    public ModelAndView modity(@ModelAttribute("KualiForm") HoldIssueManagementForm form, BindingResult result,
                                HttpServletRequest request, HttpServletResponse response) throws Exception {
         HoldIssueInfo holdIssueInfo = new HoldIssueInfo();
 
@@ -237,7 +237,7 @@ public class HoldIssueInfoController extends UifControllerBase {
     }
 
     @RequestMapping(params = "methodToCall=delete")
-    public ModelAndView delete(@ModelAttribute("KualiForm") HoldIssueInfoForm form, BindingResult result,
+    public ModelAndView delete(@ModelAttribute("KualiForm") HoldIssueManagementForm form, BindingResult result,
                                HttpServletRequest request, HttpServletResponse response) throws Exception {
         String dialogId = "deleteConfirmationDialog";
 
@@ -269,14 +269,14 @@ public class HoldIssueInfoController extends UifControllerBase {
     }
 
     @RequestMapping(method = RequestMethod.POST, params = "methodToCall=back")
-    public ModelAndView back(@ModelAttribute("KualiForm") HoldIssueInfoForm form, BindingResult result,
+    public ModelAndView back(@ModelAttribute("KualiForm") HoldIssueManagementForm form, BindingResult result,
                              HttpServletRequest request, HttpServletResponse response) throws Exception {
         clearValues(form);
         resetForm(form);
         return getUIFModelAndView(form, "holdView-SearchPage");
     }
 
-    private void clearValues(HoldIssueInfoForm form) {
+    private void clearValues(HoldIssueManagementForm form) {
         form.setName("");
         form.setOrganizationId("");
         form.setOrgName("");
@@ -286,11 +286,11 @@ public class HoldIssueInfoController extends UifControllerBase {
         form.setOrgName("");
     }
 
-    private void resetForm(HoldIssueInfoForm form) {
+    private void resetForm(HoldIssueManagementForm form) {
         form.setHoldIssueInfoList(new ArrayList<HoldIssueInfo>());
     }
 
-    private HoldIssueInfo getSelectedHoldIssue(HoldIssueInfoForm form, String actionLink){
+    private HoldIssueInfo getSelectedHoldIssue(HoldIssueManagementForm form, String actionLink){
         String selectedCollectionPath = form.getActionParamaterValue(UifParameters.SELECTED_COLLECTION_PATH);
         if (StringUtils.isBlank(selectedCollectionPath)) {
             throw new RuntimeException("Selected collection was not set for " + actionLink);

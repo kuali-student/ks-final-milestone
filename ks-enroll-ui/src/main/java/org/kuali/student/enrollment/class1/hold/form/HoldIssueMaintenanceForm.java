@@ -1,5 +1,5 @@
 /**
- * Copyright 2012 The Kuali Foundation Licensed under the
+ * Copyright 2014 The Kuali Foundation Licensed under the
  * Educational Community License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may
  * obtain a copy of the License at
@@ -12,22 +12,23 @@
  * or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  *
+ * Created by dietrich on 2014/08/05
  */
 package org.kuali.student.enrollment.class1.hold.form;
 
-import org.kuali.rice.krad.web.form.UifFormBase;
+import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
+import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.core.hold.dto.HoldIssueInfo;
 
 import java.util.List;
 
 /**
- * This class provides a form for HoldIssue objects
  *
  * @author Kuali Student Team
  */
-public class HoldIssueInfoForm extends UifFormBase {
+public class HoldIssueMaintenanceForm extends MaintenanceDocumentForm{
     private static final long serialVersionUID = 4898118410378641665L;
-
+    private TypeInfo type;
     private String id;
     private String name;
     private String typeKey;
@@ -36,15 +37,16 @@ public class HoldIssueInfoForm extends UifFormBase {
     private String organizationId;
     private String orgName;
 
+    public HoldIssueMaintenanceForm() {
+        super();
+        type = new TypeInfo();
+    }
+
     private boolean isSaveSuccess;
 
     private HoldIssueInfo holdIssueInfo;
 
     private List<HoldIssueInfo> holdIssueInfoList;
-
-    public HoldIssueInfoForm(){
-        super();
-    }
 
     public String getId() {
         return id;
@@ -124,5 +126,13 @@ public class HoldIssueInfoForm extends UifFormBase {
 
     public void setHoldIssueInfo(HoldIssueInfo holdIssueInfo) {
         this.holdIssueInfo = holdIssueInfo;
+    }
+
+    public TypeInfo getType() {
+        return type;
+    }
+
+    public void setType(TypeInfo type) {
+        this.type = type;
     }
 }
