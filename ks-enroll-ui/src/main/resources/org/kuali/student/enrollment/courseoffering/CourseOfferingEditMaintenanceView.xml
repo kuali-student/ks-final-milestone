@@ -342,7 +342,7 @@
                                         <bean parent="Uif-Label" p:labelText="Suffix" p:renderColon="false" />
                                         <bean parent="KS-Uif-InputField" p:id="courseNumberSuffix" p:propertyName="courseOfferingInfo.courseNumberSuffix" p:showLabel="false" p:additionalCssClasses="co_suffix" >
                                             <property name="control">
-                                                <bean parent="KS-Uif-TextControl" p:size="10" />
+                                                <bean parent="KS-Uif-TextControl" p:size="5" p:maxLength="5" />
                                             </property>
                                         </bean>
                                     </list>
