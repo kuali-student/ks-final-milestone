@@ -57,23 +57,29 @@ angular.module('regCartApp')
                         regGroup: course.regGroupCode
                     };
 
-                    // iterate over activity offerings
-                    switch (type) {
-                        case 'CART': // courses in the cart;
-                            angular.forEach(course.schedule, function(ao) {
+                    // Standardize the activity offering data structure between the cart & the other types
+                    if (type === 'CART' && angular.isUndefined(course.activityOfferings)) {
+                        course.activityOfferings = [];
+                        angular.forEach(course.schedule, function(ao) {
+                            if (angular.isUndefined(ao.scheduleComponents)) {
+                                ao.scheduleComponents = [];
                                 angular.forEach(ao.activityOfferingLocationTime, function (locationTime) {
-                                    var scheduleComponent = locationTime.time;
-                                    dayMap = updateDayMap(dayMap, courseDetails, scheduleComponent, type);
+                                    ao.scheduleComponents.push(locationTime.time);
                                 });
-                            });
-                            break;
-                        default: // registered and waitlisted courses
-                            angular.forEach(course.activityOfferings, function(ao) {
-                                angular.forEach(ao.scheduleComponents, function (scheduleComponent) {
-                                    dayMap = updateDayMap(dayMap, courseDetails, scheduleComponent, type);
-                                });
-                            });
+                            }
+                            if (angular.isUndefined(ao.activityOfferingTypeName)) {
+                                ao.activityOfferingTypeName = ao.activityOfferingType;
+                            }
+                            course.activityOfferings.push(ao);
+                        });
                     }
+
+                    // iterate over activity offerings
+                    angular.forEach(course.activityOfferings, function(ao) {
+                        angular.forEach(ao.scheduleComponents, function (scheduleComponent) {
+                            dayMap = updateDayMap(dayMap, courseDetails, scheduleComponent, type, course);
+                        });
+                    });
                 }
             });
 
@@ -87,11 +93,11 @@ angular.module('regCartApp')
          We are using the days String to determine this as it is more reliable than
          the booleans.
          */
-        function updateDayMap(dayMap, courseDetails, scheduleComponent, type) {
+        function updateDayMap(dayMap, courseDetails, scheduleComponent, type, course) {
             if (!scheduleComponent.isTBA) {
                 angular.forEach(DAY_CONSTANTS.dayArray, function(day) {
                     if (scheduleComponent.days.indexOf(day) > -1) {
-                        dayMap = addToDayMap(dayMap, courseDetails, scheduleComponent, day, type);
+                        dayMap = addToDayMap(dayMap, courseDetails, scheduleComponent, day, type, course);
                     }
                 });
             }
@@ -101,7 +107,7 @@ angular.module('regCartApp')
         /*
          Add the AO to the day map
          */
-        function addToDayMap(dayMap, courseDetails, scheduleComponent, day, type) {
+        function addToDayMap(dayMap, courseDetails, scheduleComponent, day, type, fullCourse) {
             if (!scheduleComponent.startTime || !scheduleComponent.endTime) {
                 // Can't do anything without a start or end time
                 return dayMap;
@@ -139,7 +145,8 @@ angular.module('regCartApp')
                 courseCode: courseDetails.courseCode,
                 startTime: startTime,
                 endTime: endTime,
-                type: type
+                type: type,
+                details: fullCourse
             };
 
             dayMap[day].push(course);
@@ -342,6 +349,20 @@ angular.module('regCartApp')
                 };
 
 
+                /*
+                 Handle the course-clicked event that is emitted from the child course-calendar-item directive
+                 */
+                $scope.selectedCourse = null;
+                $scope.$on('course-clicked', function(event, course) {
+                    if ($scope.selectedCourse && $scope.selectedCourse.index === course.index) {
+                        $scope.selectedCourse = null;
+                    } else {
+                        $scope.selectedCourse = course;
+                    }
+                    $scope.$apply();
+                });
+
+
                 var size = $scope.size;
                 if (size !== 'small') {
                     size = 'large';
@@ -392,14 +413,14 @@ angular.module('regCartApp')
  * Course Calendar - Course Item Directive
  */
 angular.module('regCartApp')
-    .directive('courseCalendarItem', ['$timeout', function($timeout) {
+    .directive('courseCalendarItem', ['$timeout', '$window', function($timeout, $window) {
         return {
             restrict: 'CAE',
+            scope: false,
             link: function(scope, element) {
-                $timeout(function() {
+
+                function layout() {
                     var timeRange = scope.visibleTimeRange,
-                        parent = element.parent(),
-                        height = element[0].offsetHeight,
                         totalRange = timeRange[1] - timeRange[0],
                         duration = scope.course.endTime - scope.course.startTime;
 
@@ -416,11 +437,30 @@ angular.module('regCartApp')
                         width: proportion + '%'
                     });
 
+                    resize();
+                }
+
+                function resize() {
                     // Make sure the parent still knows about the height of its children
+                    var height = element[0].offsetHeight,
+                        parent = element.parent();
+
                     if (parent.height() < height) {
                         parent.height(height);
                     }
+                }
+
+                angular.element($window).on('resize', function() {
+                    $timeout(resize);
                 });
+
+                $timeout(layout);
+
+
+                element.bind('click', function() {
+                    scope.$emit('course-clicked', scope.course);
+                });
+
             }
         };
     }]);

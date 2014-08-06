@@ -23,12 +23,23 @@
 
 // Main App Mask
 .util-Mask {
-    background: rgb(244, 244, 244); /* The Fallback */
-    background: rgba(244, 244, 244, 0.5);
+    background: rgb(244, 244, 244);
     height: 100%;
     left: 0;
-    position: fixed;
+    position: absolute;
     top: 0;
     width: 100%;
     z-index: 140;
+
+    body > & {
+        position: fixed;
+    }
+
+    // Transitions
+    .util-transitions-browserHelper(0.25s);
+
+    opacity: 0;
+    .util-Mask--masked & {
+        opacity: 0.5;
+    }
 }

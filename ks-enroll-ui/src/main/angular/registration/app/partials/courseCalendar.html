@@ -25,7 +25,7 @@
         </div>
     </div>
 
-    <div class="kscr-CourseCalendar-calendar">
+    <div class="kscr-CourseCalendar-calendar" mask-when="selectedCourse">
         <div class="kscr-CourseCalendar-times util-Grid util-Grid--center">
             <div class="kscr-CourseCalendar-time" ng-class="{'util-Grid-cell' : !$last}"
                  id="course_calendar_time_{{time | date:'ha'}}" ng-repeat="time in times | filter:timeFilter">
@@ -49,8 +49,11 @@
 
                     <div class="kscr-CourseCalendar-day-rows">
                         <div class="kscr-CourseCalendar-day-row" ng-repeat="row in day.rows">
-                            <course-calendar-item course="course" ng-repeat="course in row.courses | filter:courseFilter" id="course_calendar_course_{{course.courseCode}}"
-                                 class="kscr-CourseCalendar-courseBlock-wrap" ng-style="{left: course.left + '%', width: course.width + '%'}" title="{{course.courseCode}}">
+                            <course-calendar-item course="course" ng-repeat="course in row.courses | filter:courseFilter"
+                                                  id="course_calendar_course_{{course.courseCode}}" title="{{course.courseCode}}"
+                                                  class="kscr-CourseCalendar-courseBlock-wrap"
+                                                  ng-class="{'kscr-CourseCalendar-courseBlock-wrap--selected' : selectedCourse.index === course.index}"
+                                                  ng-style="{left: course.left + '%', width: course.width + '%'}">
                                 <div class="kscr-CourseCalendar-courseBlock kscr-CourseCalendar-courseBlock--{{course.index}}"
                                      ng-class="{'kscr-CourseCalendar-courseBlock--registered' : course.type === 'REG',
                                                 'kscr-CourseCalendar-courseBlock--waitlisted' : course.type === 'WAIT',
@@ -61,6 +64,33 @@
                         </div>
                     </div>
 
+                </div>
+            </div>
+        </div>
+
+        <!-- Selected Course Details Panel -->
+        <div class="kscr-CourseCalendar-courseDetails-wrap kscr-Course-course{{selectedCourse.index}}" ng-show="selectedCourse">
+            <div class="kscr-CourseCalendar-courseDetails">
+                <div class="kscr-Course-legendIndicator"></div>
+                <!--Course Header Section-->
+                <div class="kscr-Card-heading">
+                    <span class="kscr-Card-statusRemove"><a ng-click="selectedCourse = null"></a></span>
+
+                    <div class="kscr-Card-title" id="calendar_course_code_{{selectedCourse.details.courseCode}}_{{selectedCourse.details.regGroupCode}}">
+                        <strong>{{selectedCourse.details.courseCode}} ({{selectedCourse.details.regGroupCode}})</strong>
+                        <i ng-show="selectedCourse.details.waitlisted" class="glyphicon glyphicon-time kscr-Waitlisted-clockIcon"></i>
+                    </div>
+
+                    <!--AO info: type, time, location-->
+                    <div ng-repeat="ao in selectedCourse.details.activityOfferings" class="kscr-Card-detailsText--show">
+                    <span class="kscr-Card-courseTimes">
+                        <div id="calendar_ao_type_{{selectedCourse.details.courseCode}}_{{selectedCourse.details.regGroupCode}}_{{$index}}" class="kscr-Card-ao-type">{{ao.activityOfferingTypeName | limitTo : 3}}</div>
+                        <div ng-repeat="scheduleComponent in ao.scheduleComponents" id="calendar_schedule_{{selectedCourse.details.courseCode}}_{{selectedCourse.details.regGroupCode}}_{{$parent.$index}}_{{$index}}" class="kscr-Card-scheduleComponent">
+                            <span ng-hide="scheduleComponent.isTBA" class="util-Grid--floatLeft">{{scheduleComponent.days}} {{scheduleComponent.displayTime}}</span>
+                            <span ng-show="scheduleComponent.isTBA" class="util-Grid--floatRight">TBA</span>
+                        </div>
+                    </span>
+                    </div>
                 </div>
             </div>
         </div>

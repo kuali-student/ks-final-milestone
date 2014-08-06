@@ -26,26 +26,22 @@
 }
 
 
-@distance: 0;
-@angle: 0;
-@blur: 0;
-@spread: 5px;
-@shadowColor: @shadowColor--highlight;
+.util-Text-highlighter--inset(@distance: 0, @angle: 0, @blur: 0, @spread: 5px, @shadowColor: @shadowColor--highlight) {
 
-.util-Text-highlighter--inset(@distance, @angle, @blur, @spread, @shadowColor) {
-
-    box-shadow: inset -@distance -@angle -@blur -@spread @shadowColor,
-               inset  -@distance @angle -@blur -@spread @shadowColor,
-               inset  @distance -@angle @blur @spread @shadowColor,
-               inset  @distance @angle @blur @spread @shadowColor;
+    @shadow: inset -@distance -@angle @blur -@spread @shadowColor,
+              inset -@distance @angle @blur -@spread @shadowColor,
+              inset @distance -@angle @blur @spread @shadowColor,
+              inset @distance @angle @blur @spread @shadowColor;
+    .box-shadow(@shadow);
 }
 
-.util-Text-highlighter(@distance, @angle, @blur, @spread, @shadowColor){
+.util-Text-highlighter(@distance: 0, @angle: 0, @blur: 0, @spread: 5px, @shadowColor: @shadowColor--highlight){
 
-    box-shadow: -@distance -@angle -@blur -@spread @shadowColor,
-                -@distance @angle -@blur -@spread @shadowColor,
-                @distance -@angle @blur @spread @shadowColor,
-                @distance @angle @blur @spread @shadowColor;
+    @shadow: -@distance -@angle @blur -@spread @shadowColor,
+              -@distance @angle @blur -@spread @shadowColor,
+              @distance -@angle @blur @spread @shadowColor,
+              @distance @angle @blur @spread @shadowColor;
+    .box-shadow(@shadow);
 }
 
 

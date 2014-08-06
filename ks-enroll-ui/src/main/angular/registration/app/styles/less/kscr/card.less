@@ -250,7 +250,7 @@
     // Edited highlighting
     &--edited {
         color: @textColor--highlight; //#ffff7f;
-        .util-Text-highlighter(@distance, @angle, @blur, @spread, @shadowColor);
+        .util-Text-highlighter();
 
         &-add { // Styles for when the editing class is added (added with -add suffix by ngAnimate)
             .util-transitions-browserHelper(0.2s);
@@ -281,7 +281,7 @@
 .kscr-Card-credits {
     &--edited {
         background-color: @backgroundColor--highlight;
-        .util-Text-highlighter(@distance, @angle, @blur, @spread, @shadowColor);
+        .util-Text-highlighter();
 
         &-add { // Styles for when the editing class is added (added with -add suffix by ngAnimate)
             .util-transitions-browserHelper(0.2s);
@@ -389,7 +389,7 @@
     &-fadeIn {
         background-color: @backgroundColor--highlight;
         .util-transitions-browserHelper(0.2s);
-        .util-Text-highlighter--inset(@distance, @angle, @blur, @spread, @shadowColor);
+        .util-Text-highlighter--inset();
     }
 }
 

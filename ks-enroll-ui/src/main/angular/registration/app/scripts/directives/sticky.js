@@ -101,11 +101,6 @@ angular.module('regCartApp')
                         $timeout(check);
                     });
 
-                    elem.on('resize', function() {
-                        console.log('element resized');
-                        $timeout(check);
-                    });
-
                     check();
 
 

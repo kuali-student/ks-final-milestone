@@ -34,7 +34,7 @@
 
 // Content area for calendar view
 .kscr-CourseCalendar-calendar {
-
+    position: relative;
 }
 
 // Time labels
@@ -123,6 +123,139 @@
 }
 
 
+
+
+
+
+
+
+
+/*** BEGIN Course Block Styles ***/
+
+// Wrapping element that gets the height & width applied through the directive.
+// Done this way b/c the border is outside of the defined width which artificially
+// inflates the size of the element in relation to the visible schedule.
+.kscr-CourseCalendar-courseBlock-wrap {
+}
+
+// Styled course block element
+.kscr-CourseCalendar-courseBlock {
+    .Rounded(0.5rem);
+    border-style: solid;
+    border-width: 1px;
+    cursor: pointer;
+    font-size: 1rem;
+    margin-bottom: 1px;
+    margin-left: 1px; // Offset to align w/ the bg stripe offset & to give cushion between courses
+    overflow: hidden;
+    padding: 0.1rem;
+
+    // Course block label
+    &-label {
+        padding: 0 0.2rem;
+    }
+}
+
+.generate-courseBlocks(@courseCardColorCount);
+.generate-courseBlocks(@n, @i: 1) when (@i =< @n) {
+    // Define the course color for this iteration
+    .defineCourseColor(@i);
+
+    .kscr-CourseCalendar-courseBlock--@{i} {
+        .courseBlock(@courseColor);
+    }
+
+    .generate-courseBlocks(@n, (@i + 1));
+}
+
+
+// Course Block Mixin
+.courseBlock(@color) {
+    &.kscr-CourseCalendar-courseBlock--registered {
+        background-color: @color;
+        border-color: @color;
+    }
+
+    &.kscr-CourseCalendar-courseBlock--waitlisted,
+    &.kscr-CourseCalendar-courseBlock--inCart {
+        background-color: @whiteBackground;
+        border-color: @color;
+        color: @color;
+
+        // Course block label
+        .kscr-CourseCalendar-courseBlock-label {
+            background: rgba(255, 255, 255, 0.75);
+            .Rounded(0.3rem);
+        }
+    }
+
+    &.kscr-CourseCalendar-courseBlock--waitlisted {
+        // Horizontal Striping: default & explicitly small calendars:
+        &,
+        .kscr-CourseCalendar--small .kscr-CourseCalendar-calendar & {
+            background-image: repeating-linear-gradient(0deg, @whiteBackground 0rem, @whiteBackground 0.5rem, transparent 0.5rem, transparent 1rem); // white 0-0.5rem, transparent 0.5rem-1rem - repeated
+        }
+
+        // Vertical Striping: large format grids only
+        @media screen and (min-width: @largeFormatMin) {
+            background-image: repeating-linear-gradient(90deg, @whiteBackground 0rem, @whiteBackground 0.5rem, transparent 0.5rem, transparent 1rem); // white 0-0.5rem, transparent 0.5rem-1rem - repeated
+        }
+    }
+}
+
+
+// Course Block Mixin when Lightness of color is less than 50% (dark background)
+.courseBlock(@color) when (lightness(@color) < 50%) {
+    &.kscr-CourseCalendar-courseBlock--registered {
+        color: @whiteBackground; // Set the color to white so it sits well off of the dark background
+    }
+    &.kscr-CourseCalendar-courseBlock--waitlisted {
+        background-color: lighten(@color, 40%);
+    }
+}
+// Course Block Mixin when Lightness of color is between 50% and 70% (light background)
+.courseBlock(@color) when (50% =< lightness(@color)) and (lightness(@color) < 70%) {
+    &.kscr-CourseCalendar-courseBlock--registered {
+        color: darken(@color, 30%); // Set the text color to a darker shade of the color
+    }
+    &.kscr-CourseCalendar-courseBlock--waitlisted {
+        background-color: lighten(@color, 30%);
+    }
+}
+// Course Block Mixin when Lightness of color is greater than 70% (very light background)
+.courseBlock(@color) when (70% =< lightness(@color)) {
+    &.kscr-CourseCalendar-courseBlock--registered {
+        color: darken(@color, 50%); // Set the text color to a darker shade of the color
+    }
+    &.kscr-CourseCalendar-courseBlock--waitlisted {
+        background-color: lighten(@color, 20%);
+    }
+}
+
+/*** END Course Block Styles ***/
+
+
+.kscr-CourseCalendar-courseDetails-wrap {
+    bottom: 0;
+    left: 0;
+    position: absolute;
+    width: 100%;
+}
+
+// Selected Course Details Card
+.kscr-CourseCalendar-courseDetails {
+    .kscr-Card-mixin();
+
+    opacity: 0.85;
+    padding-left: 3rem;
+    position: relative;
+    z-index: 210;
+}
+
+
+
+
+
 /*** BEGIN Small / Mobile Styles ***/
 .kscr-CourseCalendar--small {
 
@@ -184,6 +317,16 @@
     .kscr-CourseCalendar-courseBlock-wrap {
         left: unset !important;
         width: 100% !important;
+
+        // Selected state
+        &--selected {
+            z-index: 200;
+
+            .kscr-CourseCalendar-courseBlock {
+                .util-Text-highlighter(0, 0, 2px);
+                .util-transitions-browserHelper(0.2s);
+            }
+        }
     }
     .kscr-CourseCalendar-courseBlock {
         height: 100%;
@@ -207,109 +350,21 @@
             height: auto !important; // Important to override the values getting set in the directive for large-format.
             top: unset !important;
         }
+
+        .kscr-CourseCalendar-courseBlock {
+            .box-shadow(none);
+            cursor: default;
+        }
+
+        // Disable the selection behavior when in large-format layout
+        .kscr-CourseCalendar-calendar {
+            .util-Mask {
+                display: none;
+            }
+            .kscr-CourseCalendar-courseDetails-wrap {
+                display: none; // Never show the course details for the selected course in the large format
+            }
+        }
     }
 }
 /*** END Large Format Styles ***/
-
-
-
-
-
-
-
-
-/*** BEGIN Course Block Styles ***/
-
-// Wrapping element that gets the height & width applied through the directive.
-// Done this way b/c the border is outside of the defined width which artificially
-// inflates the size of the element in relation to the visible schedule.
-.kscr-CourseCalendar-courseBlock-wrap {
-}
-
-// Styled course block element
-.kscr-CourseCalendar-courseBlock {
-    .Rounded(0.5rem);
-    border-style: solid;
-    border-width: 1px;
-    font-size: 1rem;
-    margin-bottom: 1px;
-    margin-left: 1px; // Offset to align w/ the bg stripe offset & to give cushion between courses
-    overflow: hidden;
-    padding: 0.1rem;
-
-    // Course block label
-    &-label {
-        padding: 0 0.2rem;
-    }
-}
-
-.generate-courseBlocks(@courseCardColorCount);
-.generate-courseBlocks(@n, @i: 1) when (@i =< @n) {
-    // Define the course color for this iteration
-    .defineCourseColor(@i);
-
-    .kscr-CourseCalendar-courseBlock--@{i} {
-        .courseBlock(@courseColor);
-    }
-
-    .generate-courseBlocks(@n, (@i + 1));
-}
-
-
-// Course Block Mixin
-.courseBlock(@color) {
-    &.kscr-CourseCalendar-courseBlock--registered {
-        background-color: @color;
-        border-color: @color;
-    }
-
-    &.kscr-CourseCalendar-courseBlock--waitlisted,
-    &.kscr-CourseCalendar-courseBlock--inCart {
-        background-color: @whiteBackground;
-        border-color: @color;
-        color: @color;
-
-        // Course block label
-        .kscr-CourseCalendar-courseBlock-label {
-            background: rgba(255, 255, 255, 0.75);
-            .Rounded(0.3rem);
-        }
-    }
-
-    &.kscr-CourseCalendar-courseBlock--waitlisted {
-        background-image: repeating-linear-gradient(90deg, @whiteBackground 0rem, @whiteBackground 0.5rem, transparent 0.5rem, transparent 1rem); // white 0-0.5rem, transparent 0.5rem-1rem - repeated
-
-        .kscr-CourseCalendar--small .kscr-CourseCalendar-calendar & { // Horizontal stripes in small layout (not legend)
-            background-image: repeating-linear-gradient(0deg, @whiteBackground 0rem, @whiteBackground 0.5rem, transparent 0.5rem, transparent 1rem); // white 0-0.5rem, transparent 0.5rem-1rem - repeated
-        }
-    }
-}
-
-
-// Course Block Mixin when Lightness of color is less than 50% (dark background)
-.courseBlock(@color) when (lightness(@color) < 50%) {
-    &.kscr-CourseCalendar-courseBlock--registered {
-        color: @whiteBackground; // Set the color to white so it sits well off of the dark background
-    }
-    &.kscr-CourseCalendar-courseBlock--waitlisted {
-        background-color: lighten(@color, 40%);
-    }
-}
-// Course Block Mixin when Lightness of color is between 50% and 70% (light background)
-.courseBlock(@color) when (50% =< lightness(@color)) and (lightness(@color) < 70%) {
-    &.kscr-CourseCalendar-courseBlock--registered {
-        color: darken(@color, 30%); // Set the text color to a darker shade of the color
-    }
-    &.kscr-CourseCalendar-courseBlock--waitlisted {
-        background-color: lighten(@color, 30%);
-    }
-}
-// Course Block Mixin when Lightness of color is greater than 70% (very light background)
-.courseBlock(@color) when (70% =< lightness(@color)) {
-    &.kscr-CourseCalendar-courseBlock--registered {
-        color: darken(@color, 50%); // Set the text color to a darker shade of the color
-    }
-    &.kscr-CourseCalendar-courseBlock--waitlisted {
-        background-color: lighten(@color, 20%);
-    }
-}
