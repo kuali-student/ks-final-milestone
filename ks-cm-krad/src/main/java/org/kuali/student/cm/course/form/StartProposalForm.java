@@ -27,7 +27,7 @@ import org.kuali.rice.krad.web.form.UifFormBase;
  */
 public class StartProposalForm extends UifFormBase {
 
-    private String createCourseInitialAction;
+    private String startProposalCourseAction;
 
     private String courseCode;
 
@@ -51,12 +51,12 @@ public class StartProposalForm extends UifFormBase {
         useReviewProcess = true;
     }
 
-    public String getCreateCourseInitialAction() {
-        return createCourseInitialAction;
+    public String getStartProposalCourseAction() {
+        return startProposalCourseAction;
     }
 
-    public void setCreateCourseInitialAction(String createCourseInitialAction) {
-        this.createCourseInitialAction = createCourseInitialAction;
+    public void setStartProposalCourseAction(String startProposalCourseAction) {
+        this.startProposalCourseAction = startProposalCourseAction;
     }
 
     public boolean isUseReviewProcess() {

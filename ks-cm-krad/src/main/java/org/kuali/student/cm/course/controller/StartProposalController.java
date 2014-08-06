@@ -90,18 +90,18 @@ public class StartProposalController extends UifControllerBase {
      */
     protected void setMethodToCall(Properties urlParameters, StartProposalForm form ){
 
-        String createCourseInitialAction = form.getCreateCourseInitialAction();
+        String startProposalCourseAction = form.getStartProposalCourseAction();
 
-        if(StringUtils.equalsIgnoreCase(createCourseInitialAction,CurriculumManagementConstants.ProposalCourseStartOptions.BLANK_PROPOSAL)) {
+        if(StringUtils.equalsIgnoreCase(startProposalCourseAction,CurriculumManagementConstants.ProposalCourseStartOptions.BLANK_PROPOSAL)) {
             urlParameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, KRADConstants.DOC_HANDLER_METHOD);
             return;
         }
 
         urlParameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, KRADConstants.Maintenance.METHOD_TO_CALL_COPY);
 
-        if(StringUtils.equalsIgnoreCase(createCourseInitialAction,CurriculumManagementConstants.ProposalCourseStartOptions.COPY_APPROVED_COURSE)) {
+        if(StringUtils.equalsIgnoreCase(startProposalCourseAction,CurriculumManagementConstants.ProposalCourseStartOptions.COPY_APPROVED_COURSE)) {
             urlParameters.put(CourseController.UrlParams.COPY_CLU_ID, form.getCourseId());
-        } else if(StringUtils.equalsIgnoreCase(createCourseInitialAction,CurriculumManagementConstants.ProposalCourseStartOptions.COPY_PROPOSED_COURSE)) {
+        } else if(StringUtils.equalsIgnoreCase(startProposalCourseAction,CurriculumManagementConstants.ProposalCourseStartOptions.COPY_PROPOSED_COURSE)) {
             urlParameters.put(CourseController.UrlParams.COPY_PROPOSAL_ID, form.getProposalId());
         } else {
             throw new RuntimeException("This should not happen.");

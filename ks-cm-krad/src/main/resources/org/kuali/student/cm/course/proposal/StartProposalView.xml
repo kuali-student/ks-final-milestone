@@ -72,7 +72,7 @@
         <property name="items">
             <list>
                 <bean parent="KS-Uif-InputField" id="CM-Proposal-Course-StartOptions"
-                      p:propertyName="createCourseInitialAction"
+                      p:propertyName="startProposalCourseAction"
                       p:required="true" p:bindingInfo.bindToForm="true"
                       p:defaultValue="startBlankProposal">
                     <property name="control">
@@ -99,7 +99,7 @@
     </bean>
 
     <bean id="CM-Proposal-Course-Create-Start-CopyFromCourse" parent="KS-Uif-InputField" p:propertyName="courseCode"
-          p:label="Course Code" p:additionalHiddenPropertyNames="courseId" p:progressiveRender="@{createCourseInitialAction eq 'copyApprovedCourse'}">
+          p:label="Course Code" p:additionalHiddenPropertyNames="courseId" p:progressiveRender="@{startProposalCourseAction eq 'copyApprovedCourse'}">
         <property name="cssClasses">
             <list>
                 <value>ks-cm-find-course</value>
@@ -138,7 +138,7 @@
     </bean>
 
     <bean id="CM-Proposal-Course-Create-Start-CopyFromProposal" parent="KS-Uif-InputField" p:propertyName="proposalTitle"
-          p:label="Proposal Title" p:additionalHiddenPropertyNames="proposalId" p:progressiveRender="@{createCourseInitialAction eq 'copyProposedCourse'}">
+          p:label="Proposal Title" p:additionalHiddenPropertyNames="proposalId" p:progressiveRender="@{startProposalCourseAction eq 'copyProposedCourse'}">
         <property name="cssClasses">
             <list>
                 <value>ks-cm-find-course</value>
