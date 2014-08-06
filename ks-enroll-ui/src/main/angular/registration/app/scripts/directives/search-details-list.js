@@ -2,7 +2,7 @@
 
 angular.module('regCartApp')
 
-    .directive('searchDetailsList', ['$timeout', function($timeout) {
+    .directive('searchDetailsList', ['$timeout', '$animate', function($timeout, $animate) {
         return {
             restrict: 'E',
             templateUrl: 'partials/searchDetailsList.html',
@@ -10,6 +10,8 @@ angular.module('regCartApp')
                 searchDetails: '='
             },
             link:function(scope) {
+                $animate.enabled(false, angular.element(document.querySelector('.kscr-Search-details-grid')));
+
                 scope.time = true;
                 scope.instr = false;
                 scope.seatsLoc = false;

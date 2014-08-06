@@ -35,12 +35,12 @@ angular.module('regCartApp')
                 // Displays the table in batches for performance
                 var stagger = 20;
                 scope.limit = 0;
+                scope.mobileLimit = 0;
                 scope.$watch('limit', function() {
-                    if (scope.limit < scope.displayLimit) {
-                        $timeout(function() {
-                            scope.limit += stagger;
-                        })
-                    }
+                    updateLimit();
+                });
+                scope.$watch('mobileLimit', function() {
+                    updateMobileLimit();
                 });
 
                 // the choices for limiting display of search results
@@ -75,16 +75,26 @@ angular.module('regCartApp')
                     return pageRange;
                 };
 
-                // if the display limit changes, reset the page to 1
+                /*
+                 * if the display limit changes:
+                 * -- reset the page to 1
+                 * -- increment the limit
+                 */
                 scope.$watch('displayLimit', function() {
                     scope.page = 1;
+                    updateLimit();
                 });
 
-                // if the search results changes and the current page is outside of the page range, reset the page to 1
+                /*
+                 * if the search results changes:
+                 * -- if current page is outside of the page range, reset the page to 1
+                 * -- increment the mobile limit
+                 */
                 scope.$watch('searchResults', function() {
                     if (scope.page > scope.lastPage()) {
                         scope.page = 1;
                     }
+                    updateMobileLimit();
                 });
 
                 // returns the index of the first record being displayed
@@ -230,6 +240,26 @@ angular.module('regCartApp')
                         }
                     });
                 });
+
+                function updateMobileLimit() {
+                    if (scope.mobileLimit < scope.searchResults.length) {
+                        $timeout(function() {
+                            scope.mobileLimit += stagger;
+                        })
+                    } else {
+                        scope.mobileLimit = scope.searchResults.length;
+                    }
+                }
+
+                function updateLimit() {
+                    if (scope.limit < scope.displayLimit) {
+                        $timeout(function() {
+                            scope.limit += stagger;
+                        })
+                    } else {
+                        scope.limit = scope.displayLimit;
+                    }
+                }
             }
         };
     }])
