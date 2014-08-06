@@ -35,6 +35,10 @@
 // Content area for calendar view
 .kscr-CourseCalendar-calendar {
     position: relative;
+
+    & > .util-sticky-placeholder {
+        display: none;
+    }
 }
 
 // Time labels
@@ -196,6 +200,11 @@
             background-image: repeating-linear-gradient(0deg, @whiteBackground 0rem, @whiteBackground 0.5rem, transparent 0.5rem, transparent 1rem); // white 0-0.5rem, transparent 0.5rem-1rem - repeated
         }
 
+        // Vertical Striping: all toggles (legend)
+        &.kscr-CourseCalendar-toggle {
+            background-image: repeating-linear-gradient(90deg, @whiteBackground 0rem, @whiteBackground 0.5rem, transparent 0.5rem, transparent 1rem); // white 0-0.5rem, transparent 0.5rem-1rem - repeated
+        }
+
         // Vertical Striping: large format grids only
         @media screen and (min-width: @largeFormatMin) {
             background-image: repeating-linear-gradient(90deg, @whiteBackground 0rem, @whiteBackground 0.5rem, transparent 0.5rem, transparent 1rem); // white 0-0.5rem, transparent 0.5rem-1rem - repeated
@@ -240,16 +249,29 @@
     left: 0;
     position: absolute;
     width: 100%;
+
+    &.util-sticky--stuck {
+        padding: 0 0.5rem;
+    }
 }
 
 // Selected Course Details Card
 .kscr-CourseCalendar-courseDetails {
     .kscr-Card-mixin();
 
+    &:not(.util-sticky--stuck .kscr-CourseCalendar-courseDetails) {
+        border-left: none;
+        border-right: none;
+    }
+
     opacity: 0.85;
     padding-left: 3rem;
     position: relative;
     z-index: 210;
+
+    .kscr-Card-courseTimes {
+        display: inline-flex;
+    }
 }
 
 
@@ -365,6 +387,11 @@
                 display: none; // Never show the course details for the selected course in the large format
             }
         }
+    }
+
+    .kscr-CourseCalendar-courseDetails-wrap.util-sticky--stuck {
+        padding: 0;
+        position: absolute !important;
     }
 }
 /*** END Large Format Styles ***/

@@ -362,6 +362,10 @@ angular.module('regCartApp')
                     $scope.$apply();
                 });
 
+                $scope.clearSelectedCourse = function() {
+                    $scope.selectedCourse = null;
+                };
+
 
                 var size = $scope.size;
                 if (size !== 'small') {

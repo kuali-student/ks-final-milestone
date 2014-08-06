@@ -11,16 +11,21 @@ angular.module('regCartApp')
     .directive('sticky', ['$timeout', '$window', '$document', function($timeout, $window, $document) {
         return {
             restrict: 'CA',
-            link: function(scope, elem) {
+            link: function(scope, elem, attrs) {
+
                 $timeout(function() {
                     var w = angular.element($window),
                         d = angular.element($document),
-                        stickyLine = elem.offset().top, // Scroll position to stick at
+                        stickTo = (attrs.sticky === 'bottom' ? 'bottom' : 'top'),
+                        elementTop = elem.offset().top,
+                        stickyLine, // Scroll position to stick at
+                        usePlaceholder = (!angular.isDefined(attrs.usePlaceholder) || attrs.usePlaceholder ? true : false),
                         placeholder,
                         isStuck = false;
 
-                    // Add the base class to the element
+                    // Add the base classes to the element
                     elem.addClass('util-sticky');
+                    elem.addClass('util-sticky-' + stickTo);
 
 
                     /**
@@ -28,12 +33,33 @@ angular.module('regCartApp')
                      */
                     function check () {
                         if (!isStuck) {
-                            stickyLine = elem.offset().top;
+                            elementTop = elem.offset().top;
                         }
 
                         var elemLargerThanBrowser = d.height() <= elem.height(),
-                            scrollTop = ($window.pageYOffset || d.scrollTop()) - (d.clientTop || 0), // Calculate the top of the screen
-                            shouldStick = (scrollTop >= stickyLine || elemLargerThanBrowser); // The element should be stuck if its top is below the 'stickyLine'.
+                            scrollTop = ($window.pageYOffset || d.scrollTop()) - (d.clientTop || 0), // Calculate the top of the screen,
+                            shouldStick = elemLargerThanBrowser;
+
+                        if (!shouldStick) {
+                            if (stickTo === 'bottom') {
+                                var elementBottom = elementTop + elem.outerHeight(),
+                                    visibleBottom = $window.innerHeight + scrollTop;
+
+                                if (elementTop) {
+                                    if (!stickyLine || !elementTop) {
+                                        stickyLine = elementBottom;
+                                    }
+
+                                    shouldStick = visibleBottom < stickyLine;
+                                    if (shouldStick && !isStuck) {
+                                        stickyLine = elementBottom;
+                                    }
+                                }
+                            } else {
+                                stickyLine = elementTop;
+                                shouldStick = scrollTop >= stickyLine; // The element should be stuck if its top is below the 'stickyLine'.
+                            }
+                        }
 
                         if (!isStuck && shouldStick) {
                             // Element is not stuck but should be.
@@ -62,14 +88,16 @@ angular.module('regCartApp')
                      * Make the element sticky on the page.
                      */
                     function stick () {
-                        // Insert a placeholder element before the sticky element.
-                        // The placeholder prevents the page height from shifting when we pop it out of the DOM flow.
-                        if (!placeholder) {
-                            placeholder = angular.element('<div class="util-sticky-placeholder"/>');
-                        }
+                        if (usePlaceholder) {
+                            // Insert a placeholder element before the sticky element.
+                            // The placeholder prevents the page height from shifting when we pop it out of the DOM flow.
+                            if (!placeholder) {
+                                placeholder = angular.element('<div class="util-sticky-placeholder"/>');
+                            }
 
-                        placeholder.css('height', elem.outerHeight() + 'px');
-                        placeholder.insertBefore(elem);
+                            placeholder.css('height', elem.outerHeight() + 'px');
+                            placeholder.insertBefore(elem);
+                        }
 
                         // Add the stuck class
                         elem.addClass('util-sticky--stuck');

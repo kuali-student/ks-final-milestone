@@ -3,9 +3,16 @@
 .util-sticky {
     transition: none;
 
+    &-bottom {
+        bottom: 0;
+    }
+
+    &-top {
+        top: 0;
+    }
+
     &--stuck {
         position: fixed;
-        top: 0;
         width: 100%;
         z-index: 10000;
     }
@@ -18,9 +25,15 @@
 
 
 // Override class to disable the sticky via CSS
-.util-sticky--disabled(@topOffset: 0px) {
+.util-sticky--disabled(@offset: 0px) {
     position: relative !important;
-    top: @topOffset !important;
     width: auto !important;
     z-index: auto !important;
+
+    &.util-sticky-top {
+        top: @offset !important;
+    }
+    &.util-sticky-bottom {
+        bottom: @offset !important;
+    }
 }

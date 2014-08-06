@@ -69,12 +69,12 @@
         </div>
 
         <!-- Selected Course Details Panel -->
-        <div class="kscr-CourseCalendar-courseDetails-wrap kscr-Course-course{{selectedCourse.index}}" ng-show="selectedCourse">
+        <div sticky="bottom" use-placeholder="false" class="kscr-CourseCalendar-courseDetails-wrap kscr-Course-course{{selectedCourse.index}}" ng-if="selectedCourse">
             <div class="kscr-CourseCalendar-courseDetails">
                 <div class="kscr-Course-legendIndicator"></div>
                 <!--Course Header Section-->
                 <div class="kscr-Card-heading">
-                    <span class="kscr-Card-statusRemove"><a ng-click="selectedCourse = null"></a></span>
+                    <span class="kscr-Card-statusRemove"><a ng-click="clearSelectedCourse()"></a></span>
 
                     <div class="kscr-Card-title" id="calendar_course_code_{{selectedCourse.details.courseCode}}_{{selectedCourse.details.regGroupCode}}">
                         <strong>{{selectedCourse.details.courseCode}} ({{selectedCourse.details.regGroupCode}})</strong>
@@ -83,13 +83,13 @@
 
                     <!--AO info: type, time, location-->
                     <div ng-repeat="ao in selectedCourse.details.activityOfferings" class="kscr-Card-detailsText--show">
-                    <span class="kscr-Card-courseTimes">
-                        <div id="calendar_ao_type_{{selectedCourse.details.courseCode}}_{{selectedCourse.details.regGroupCode}}_{{$index}}" class="kscr-Card-ao-type">{{ao.activityOfferingTypeName | limitTo : 3}}</div>
-                        <div ng-repeat="scheduleComponent in ao.scheduleComponents" id="calendar_schedule_{{selectedCourse.details.courseCode}}_{{selectedCourse.details.regGroupCode}}_{{$parent.$index}}_{{$index}}" class="kscr-Card-scheduleComponent">
-                            <span ng-hide="scheduleComponent.isTBA" class="util-Grid--floatLeft">{{scheduleComponent.days}} {{scheduleComponent.displayTime}}</span>
-                            <span ng-show="scheduleComponent.isTBA" class="util-Grid--floatRight">TBA</span>
-                        </div>
-                    </span>
+                        <span class="kscr-Card-courseTimes">
+                            <div id="calendar_ao_type_{{selectedCourse.details.courseCode}}_{{selectedCourse.details.regGroupCode}}_{{$index}}" class="kscr-Card-ao-type">{{ao.activityOfferingTypeName | limitTo : 3}}</div>
+                            <div ng-repeat="scheduleComponent in ao.scheduleComponents" id="calendar_schedule_{{selectedCourse.details.courseCode}}_{{selectedCourse.details.regGroupCode}}_{{$parent.$index}}_{{$index}}" class="kscr-Card-scheduleComponent">
+                                <span ng-hide="scheduleComponent.isTBA" class="util-Grid--floatLeft">{{scheduleComponent.days}} {{scheduleComponent.displayTime}}</span>
+                                <span ng-show="scheduleComponent.isTBA" class="util-Grid--floatRight">TBA</span>
+                            </div>
+                        </span>
                     </div>
                 </div>
             </div>
