@@ -7,9 +7,30 @@ angular.module('regCartApp')
             restrict: 'E',
             templateUrl: 'partials/searchDetailsList.html',
             scope: {
-                searchDetails: '='
+                searchDetails: '=',
+                singleRegGroup: '='
             },
             link:function(scope) {
+
+                // reorganize the aos by type
+                scope.aoTypes=[];
+                for (var i=0; i<scope.searchDetails.length; i++) {
+                    var activity=scope.searchDetails[i].activityOfferingTypeName;
+                    var newAoType = true;
+                    for (var j=0; j<scope.aoTypes.length; j++) {
+                        if (scope.aoTypes[j].activity === activity) {
+                            newAoType = false;
+                            scope.aoTypes[j].aos.push(scope.searchDetails[i]);
+                            break;
+                        }
+                    }
+                    if (newAoType) {
+                        var aoTypeContainer={activity: activity, aos: []};
+                        aoTypeContainer.aos.push(scope.searchDetails[i]);
+                        scope.aoTypes.push(aoTypeContainer);
+                    }
+                }
+
                 $animate.enabled(false, angular.element(document.querySelector('.kscr-Search-details-grid')));
 
                 scope.time = true;
@@ -43,7 +64,9 @@ angular.module('regCartApp')
                 };
 
                 scope.selectRow = function(searchDetail) {
-                    scope.$emit("toggleAO", searchDetail);
+                    if (!scope.singleRegGroup) {
+                        scope.$emit("toggleAO", searchDetail);
+                    }
                 };
 
                 // Displays the table in batches for performance

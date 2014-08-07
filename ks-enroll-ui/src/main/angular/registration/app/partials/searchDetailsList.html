@@ -1,5 +1,7 @@
 <!-- Search Details List for Mobile -->
-<div class="kscr-Search-details-list">
+<div class="kscr-Search-details-list" ng-repeat="aoType in aoTypes">
+    <div class="kscr-SearchDetails-label" ng-if="singleRegGroup"
+         ng-class="{'kscr-SearchDetails-label--padded' : !$first}">{{aoType.activity}}</div>
     <div class="kscr-Search-details-header">
         <div class="kscr-Search-details-tab-container">
             <div class="kscr-Search-details-tab" ng-class="{'kscr-Search-details-tab--selected': tab==='time'}" ng-click="select('time')">Time</div>
@@ -14,16 +16,19 @@
             <div class="kscr-Search-details-tab" ng-class="{'kscr-Search-details-tab--selected': tab==='all'}" ng-click="select('all')">All</div>
          </div>
     </div>
-    <div class="kscr-Search-details-grid" ng-repeat="searchResult in searchDetails| limitTo:limit"
+    <div class="kscr-Search-details-grid" ng-repeat="searchResult in aoType.aos | limitTo:limit"
          ng-hide="searchResult.hidden" ng-click="selectRow(searchResult)">
         <div class="kscr-Search-details-selector" ng-class="{'kscr-Search-details-selector--selected' : searchResult.selected}">
             <div class="kscr-Search-details-indicator"
-                 ng-class="{'kscr-Search-details-indicator--show' : searchResult.indicator, 'kscr-Search-details-indicator--selected' : searchResult.selected}">&nbsp;</div>
+                 ng-class="{'kscr-Search-details-indicator--show' : searchResult.indicator,
+                            'kscr-Search-details-indicator--selected' : searchResult.selected,
+                            'kscr-Search-details-indicator--singleRegGroup' : singleRegGroup && !searchResult.indicator}">&nbsp;</div>
             <div class="kscr-Search-details-section"
                 ng-class="{'kscr-Search-details-section--indicator' : searchResult.indicator,
                            'kscr-Search-details-section--selected' : searchResult.selected,
-                           'kscr-Search-details-section--disabled' : searchResult.disabled}">
-                <span class="kscr-Search-details-checkbox"
+                           'kscr-Search-details-section--disabled' : searchResult.disabled,
+                           'kscr-Search-details-section--singleRegGroup' : singleRegGroup}">
+                <span class="kscr-Search-details-checkbox" ng-if="!singleRegGroup"
                       ng-class="{'kscr-Search-details-checkbox--selected' : searchResult.selected, 'kscr-Search-details-checkbox--disabled': searchResult.disabled}"></span>
                 <span class="util-Grid-cell">
                     <span class="kscr-Search-details-text" ng-show="time" compile="searchResult.formatted.days"></span>
