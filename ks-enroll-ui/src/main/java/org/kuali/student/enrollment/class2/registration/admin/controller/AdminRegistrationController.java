@@ -41,6 +41,8 @@ import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestIt
 import org.kuali.student.r2.common.util.constants.LprServiceConstants;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
 import org.kuali.student.r2.lum.util.constants.LrcServiceConstants;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -70,6 +72,8 @@ import java.util.Set;
 @Controller
 @RequestMapping(value = "/adminreg")
 public class AdminRegistrationController extends UifControllerBase {
+
+    private static final Logger LOG = LoggerFactory.getLogger(AdminRegistrationController.class);
 
     ///////////////////////////////////////////////
     //Initialization methods
@@ -122,6 +126,7 @@ public class AdminRegistrationController extends UifControllerBase {
     @RequestMapping(params = "methodToCall=refreshRegistrationResults")
     public ModelAndView refreshRegistrationResults(@ModelAttribute("KualiForm") AdminRegistrationForm form, BindingResult result, HttpServletRequest request,
                                                    HttpServletResponse response) throws Exception {
+
         // Reset the form to ready state.
         form.setRegRequestId(null);
         if (form.getCoursesInProcess() != null) {
@@ -228,6 +233,7 @@ public class AdminRegistrationController extends UifControllerBase {
     @RequestMapping(method = RequestMethod.POST, params = "methodToCall=cancelFailedEligibilityTerm")
     public ModelAndView cancelFailedEligibilityTerm(@ModelAttribute("KualiForm") AdminRegistrationForm form, BindingResult result,
                                                     HttpServletRequest request, HttpServletResponse response) {
+
         form.clearCourseRegistrationValues();
         form.setDisplayRegistrationTabs(false);
         form.setClientState(AdminRegConstants.ClientStates.READY);
@@ -238,6 +244,7 @@ public class AdminRegistrationController extends UifControllerBase {
     @RequestMapping(method = RequestMethod.POST, params = "methodToCall=continueFailedEligibilityTerm")
     public ModelAndView continueFailedEligibilityTerm(@ModelAttribute("KualiForm") AdminRegistrationForm form, BindingResult result,
                                                       HttpServletRequest request, HttpServletResponse response) {
+
         form.clearCourseRegistrationValues();
         form.setDisplayRegistrationTabs(true);
         form.setClientState(AdminRegConstants.ClientStates.READY);
@@ -252,11 +259,15 @@ public class AdminRegistrationController extends UifControllerBase {
     @RequestMapping(method = RequestMethod.POST, params = "methodToCall=register")
     public ModelAndView register(@ModelAttribute("KualiForm") AdminRegistrationForm form, BindingResult result,
                                  HttpServletRequest request, HttpServletResponse response) {
+        long start = System.currentTimeMillis();
 
         // Validate for existing courses.
         getViewHelper(form).validateForRegistration(form);
         if (GlobalVariables.getMessageMap().hasErrors()) {
             form.setClientState(AdminRegConstants.ClientStates.READY);
+
+            printTime(form.getMethodToCall(), start);
+
             return getUIFModelAndView(form);
         }
 
@@ -268,6 +279,9 @@ public class AdminRegistrationController extends UifControllerBase {
             course.setActivities(getViewHelper(form).getRegistrationActivitiesForRegistrationCourse(course, form.getTerm().getCode()));
         }
         form.setConfirmationIssues(new ArrayList<String>());
+
+        printTime(form.getMethodToCall(), start);
+
         return showDialog(AdminRegConstants.REG_CONFIRM_DIALOG, form, request, response);
     }
 
@@ -455,7 +469,6 @@ public class AdminRegistrationController extends UifControllerBase {
         }
 
         form.setPendingDropCourse(regCourse);
-
         return showDialog(AdminRegConstants.DROP_COURSE_DIALOG, form, request, response);
     }
 
@@ -533,6 +546,7 @@ public class AdminRegistrationController extends UifControllerBase {
     @RequestMapping(method = RequestMethod.POST, params = "methodToCall=cancelEdit")
     public ModelAndView cancelEdit(@ModelAttribute("KualiForm") AdminRegistrationForm form, BindingResult result,
                                    HttpServletRequest request, HttpServletResponse response) throws Exception {
+
         form.getCoursesInEdit().clear();
         form.getEditingIssues().clear();
         form.setClientState(AdminRegConstants.ClientStates.READY);
@@ -592,6 +606,11 @@ public class AdminRegistrationController extends UifControllerBase {
         Object item = ((List) collection).get(selectedLineIndex);
 
         return item;
+
+    }
+
+    private void printTime(String methodName, long startTime){
+        LOG.info("***   " + methodName + ": " + (System.currentTimeMillis() - startTime));
     }
 
 }
