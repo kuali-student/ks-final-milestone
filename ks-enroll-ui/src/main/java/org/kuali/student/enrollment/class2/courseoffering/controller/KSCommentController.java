@@ -95,7 +95,7 @@ public abstract class KSCommentController extends KsUifControllerBase {
     public ModelAndView start(@ModelAttribute("KualiForm") UifFormBase form, HttpServletRequest request,
                               HttpServletResponse response) {
 
-        originalParametersMap = request.getParameterMap();
+        originalParametersMap = new HashMap<String, String[]>(request.getParameterMap());
         KSCommentForm commentForm = (KSCommentForm) form;
         String refId = getRequestParamValue(request, "refId");
         String refType = getRequestParamValue(request, "refType");
