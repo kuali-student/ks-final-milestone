@@ -49,6 +49,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
+import org.apache.commons.lang3.ArrayUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -123,7 +124,8 @@ public class CMDecisionController extends KsUifControllerBase {
         List userIds = new ArrayList<>();
 
         for (CommentInfo comment : decisions) {
-//            if (ArrayUtils.contains(CommentServiceConstants.WORKFLOW_DECISIONS.values(), comment.getTypeKey())){
+
+            if (isWorkflowDecision(comment.getTypeKey())){
                 CMDecisionWrapper wrapper = new CMDecisionWrapper(comment);
                 wrapper.setActor(comment.getCommenterId());
                 userIds.add(comment.getCommenterId());
@@ -132,7 +134,7 @@ public class CMDecisionController extends KsUifControllerBase {
 
                 wrapper.setRationale(comment.getCommentText().getPlain());
                 form.getDecisions().add(wrapper);
-//            }
+            }
         }
 
         if (!form.getDecisions().isEmpty()){
@@ -150,6 +152,15 @@ public class CMDecisionController extends KsUifControllerBase {
         LOG.debug("There are " + form.getDecisions().size() + " decisions for proposal " + proposal.getId());
 
 
+    }
+
+    protected boolean isWorkflowDecision(String typeKey){
+        for(CommentServiceConstants.WORKFLOW_DECISIONS workflowDecision : CommentServiceConstants.WORKFLOW_DECISIONS.values()){
+           if(StringUtils.equalsIgnoreCase(workflowDecision.getType(),typeKey)){
+                return true;
+            }
+        }
+        return false;
     }
 
     protected Map<String,String> getUserNames(List<String> userIds){
