@@ -1372,7 +1372,7 @@
         <foreignColumnNames>TYPE_KEY</foreignColumnNames>
         <localColumnNames>OWNER</localColumnNames>
     </foreignKey>
-    <sequence name="KS_RICE_ID_S" startValue="55773"/>
+    <sequence name="KS_RICE_ID_S" startValue="55774"/>
     <table name="KSDO_DOCUMENT">
         <column name="CREATEID" type="STRING">
             <size value="255"/>
