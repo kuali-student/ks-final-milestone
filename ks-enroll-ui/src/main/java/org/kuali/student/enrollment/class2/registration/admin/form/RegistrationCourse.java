@@ -181,7 +181,16 @@ public class RegistrationCourse implements Serializable{
         return list;
     }
 
-    public List<String> getActivityDateTimes(){
+    public List<String> getActivityDays(){
+        ArrayList<String> list = new ArrayList<String>();
+        for (RegistrationActivity activity: activities) {
+            list.add(activity.getDays());
+        }
+
+        return list;
+    }
+
+    public List<String> getActivityTimes(){
         ArrayList<String> list = new ArrayList<String>();
         for (RegistrationActivity activity: activities) {
             list.add(activity.getDateTime());
@@ -211,7 +220,7 @@ public class RegistrationCourse implements Serializable{
     public List<String> getActivityTypeDateTimes() {
         ArrayList<String> list = new ArrayList<String>();
         for (RegistrationActivity activity: activities) {
-            list.add(activity.getType() + " " + activity.getDateTime());
+            list.add(activity.getType() + " " + activity.getDays() + " " +  activity.getDateTime());
         }
 
         return list;

@@ -414,11 +414,16 @@
                         <bean class="org.kuali.student.enrollment.class2.registration.admin.valueFinder.RegistrationGradingOptionsFinder" p:addBlankOption="false"/>
                     </property>
                 </bean>
-                <bean parent="Uif-DataField" p:label="Activity" p:propertyName="activityTypes"/>
-                <bean parent="Uif-DataField" p:label="Date/Time" p:propertyName="activityDateTimes"
-                      p:additionalCssClasses="nowrap"/>
-                <bean parent="Uif-DataField" p:label="Instructor" p:propertyName="activityInstructors"/>
-                <bean parent="Uif-DataField" p:label="Room" p:propertyName="activityRooms"/>
+                <bean parent="Uif-DataField" p:label="Activity" p:propertyName="activityTypes"
+                      p:readOnlyListDisplayType="UL"/>
+                <bean parent="Uif-DataField" p:label="Days" p:propertyName="activityDays"
+                      p:readOnlyListDisplayType="UL"/>
+                <bean parent="Uif-DataField" p:label="Times" p:propertyName="activityTimes"
+                      p:readOnlyListDisplayType="UL" p:additionalCssClasses="nowrap"/>
+                <bean parent="Uif-DataField" p:label="Instructor" p:propertyName="activityInstructors"
+                      p:readOnlyListDisplayType="UL"/>
+                <bean parent="Uif-DataField" p:label="Room" p:propertyName="activityRooms"
+                      p:readOnlyListDisplayType="UL"/>
                 <bean parent="Uif-HorizontalFieldGroup" p:label="Effective Date">
                     <property name="items">
                         <list>
@@ -466,7 +471,9 @@
                 </bean>
                 <bean parent="Uif-DataField" p:label="Activity" p:propertyName="activityTypes"
                       p:readOnlyListDisplayType="UL"/>
-                <bean parent="Uif-DataField" p:label="Date/Time" p:propertyName="activityDateTimes"
+                <bean parent="Uif-DataField" p:label="Days" p:propertyName="activityDays"
+                      p:readOnlyListDisplayType="UL"/>
+                <bean parent="Uif-DataField" p:label="Times" p:propertyName="activityTimes"
                       p:additionalCssClasses="nowrap" p:readOnlyListDisplayType="UL"/>
                 <bean parent="Uif-DataField" p:label="Instructor" p:propertyName="activityInstructors"
                       p:readOnlyListDisplayType="UL"/>

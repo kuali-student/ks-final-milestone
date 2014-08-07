@@ -28,6 +28,7 @@ public class RegistrationActivity implements Serializable {
     private static final long serialVersionUID = -58207877197440410L;
 
     private String type;
+    private String days;
     private String dateTime;
     private String instructor;
     private String room;
@@ -65,5 +66,13 @@ public class RegistrationActivity implements Serializable {
 
     public void setRoom(String room) {
         this.room = room;
+    }
+
+    public String getDays() {
+        return days;
+    }
+
+    public void setDays(String days) {
+        this.days = days;
     }
 }

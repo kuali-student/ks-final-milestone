@@ -385,7 +385,7 @@ public class AdminRegistrationViewHelperServiceImpl extends KSViewHelperServiceI
 
         List<ScheduleInfo> scheduleInfos = AdminRegResourceLoader.getSchedulingService().getSchedulesByIds(activityOffering.getScheduleIds(), createContextInfo());
 
-        StringBuilder dateTimeSchedule = new StringBuilder();
+        StringBuilder timeSchedule = new StringBuilder();
         StringBuilder roomBuildInfo = new StringBuilder();
 
         for (ScheduleInfo scheduleInfo : scheduleInfos) {
@@ -400,13 +400,15 @@ public class AdminRegistrationViewHelperServiceImpl extends KSViewHelperServiceI
                 // Assume only zero or one (should never be more than 1 until we support partial colo)
                 TimeSlotInfo timeSlotInfo = KSCollectionUtils.getOptionalZeroElement(timeSlotInfos);
 
-                dateTimeSchedule.append(SchedulingServiceUtil.weekdaysList2WeekdaysString(timeSlotInfo.getWeekdays()));
-                dateTimeSchedule.append(" ");
+                regActivity.setDays(SchedulingServiceUtil.weekdaysList2WeekdaysString(timeSlotInfo.getWeekdays()));
 
-                dateTimeSchedule.append(TimeOfDayHelper.makeFormattedTimeForAOSchedules(timeSlotInfo.getStartTime()));
-                dateTimeSchedule.append(" - ");
-                dateTimeSchedule.append(TimeOfDayHelper.makeFormattedTimeForAOSchedules(timeSlotInfo.getEndTime()));
+                timeSchedule.append(TimeOfDayHelper.makeFormattedTimeForAOSchedules(timeSlotInfo.getStartTime()));
+                timeSchedule.append(" - ");
+                timeSchedule.append(TimeOfDayHelper.makeFormattedTimeForAOSchedules(timeSlotInfo.getEndTime()));
+            }else{
+                regActivity.setDays("");
             }
+
 
             try {
                 //Check if the room ID is null, if not get the buildingInfo from the room
@@ -424,7 +426,7 @@ public class AdminRegistrationViewHelperServiceImpl extends KSViewHelperServiceI
             }
         }
 
-        regActivity.setDateTime(dateTimeSchedule.toString());
+        regActivity.setDateTime(timeSchedule.toString());
         regActivity.setRoom(roomBuildInfo.toString());
         return regActivity;
     }
