@@ -26,9 +26,22 @@ import org.kuali.rice.krad.maintenance.MaintenanceViewPresentationControllerBase
  */
 public class CurriculumManagementMaintenancePresentationControllerBase extends MaintenanceViewPresentationControllerBase {
 
+    /**
+     * The parent class only allows saving when the document is not ENROUTE. We need to be able to save
+     * while in ENROUTE status.
+     */
     @Override
     public boolean canSave(Document document) {
         return getDocumentPresentationController().canSave(document);
+    }
+
+    /**
+     * The parent class only allows blanket approval when the document is not ENROUTE. We need to be
+     * able to blanket approve while in ENROUTE status.
+     */
+    @Override
+    public boolean canBlanketApprove(Document document) {
+        return getDocumentPresentationController().canBlanketApprove(document);
     }
 
 }
