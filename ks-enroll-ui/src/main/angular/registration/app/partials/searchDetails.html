@@ -59,16 +59,16 @@
                 <div class="kscr-SearchDetails-label" ng-if="!selectedRegGroup">{{selectedAOs.length}} of {{course.activityOfferingTypes.length}} activities selected</div>
                 <div id="one_ao_selected" class="kscr-SearchDetails-label" ng-if="selectedRegGroup && !singleRegGroup">
                     <i class="kscr-SearchDetails-selection-icon"></i>
-                    <span>Section {{selectedRegGroup.regGroupCode}} </span>
+                    <span>Section {{selectedRegGroup.regGroupCode}}</span>
                     <span ng-if="!selectedRegGroup.isFull">Selected</span>
                     <span ng-if="selectedRegGroup.isFull">
-                        <span>Full </span>
+                        <span>Full</span>
                         <span class="kscr-SearchDetails-selection-sublabel">
                             <span ng-if="!selectedRegGroup.waitListOffered">(No waitlist offered)</span>
                             <span ng-if="selectedRegGroup.waitListOffered && !selectedRegGroup.maxWaitListSize">
-                                ({{selectedRegGroup.waitListSize}}
-                                <ng-pluralize count="selectedRegGroup.waitListSize" when="{'1': ' student ', 'other': ' students '}"></ng-pluralize>
-                                on waitlist)
+                                ({{selectedRegGroup.waitListSize}}&nbsp;
+                                <ng-pluralize count="selectedRegGroup.waitListSize" when="{'1': 'student', 'other': 'students'}"></ng-pluralize>
+                                &nbsp;on waitlist)
                             </span>
                             <span ng-if="selectedRegGroup.waitListOffered && selectedRegGroup.maxWaitListSize">
                                 ({{selectedRegGroup.maxWaitListSize - selectedRegGroup.waitListSize}}/{{selectedRegGroup.maxWaitListSize}} waitlist spots available)
@@ -107,16 +107,11 @@
                     <button id="search_details_in_waitlist" class="kscr-Button--outline" ng-disabled="true">In Waitlist</button>
                 </div>
 
-                <!-- Action Success/Failure Message -->
-                <div class="kscr-SearchDetails-actionMessage" ng-if="actionStatus" ng-class="{'kscr-SearchDetails-actionMessage--{{actionStatus}}' : actionStatus}">
+                <!-- Action Failure Message -->
+                <div class="kscr-SearchDetails-actionMessage" ng-if="actionStatus === 'error'" ng-class="{'kscr-SearchDetails-actionMessage--{{actionStatus}}' : actionStatus}">
                     <i class="kscr-SearchDetails-actionMessage-icon"></i>
                     <a class="kscr-SearchDetails-actionMessage-remove" ng-click="removeActionMessage()"></a>
-
-                    <span ng-if="actionStatus === 'success'">Added </span>
-                    <span ng-if="actionStatus === 'error'">Failed to add </span>
-                    <strong>{{course.courseOfferingCode}}</strong> to
-                    <span ng-if="actionType === 'cart'"> cart</span>
-                    <span ng-if="actionType === 'waitlist'"> waitlist</span>
+                    <span>Failed to add <strong>{{course.courseOfferingCode}}</strong> to {{actionType}}</span>
                 </div>
             </div>
         </div>
@@ -147,12 +142,11 @@
                 <div id="{{aoType.activityOfferingTypeName}}_details_heading" class="kscr-SearchDetails-label">
                     {{aoType.activityOfferingTypeName}}<ng-pluralize count="aoType.activityOfferings.length" when="{'1' : '', 'other': 's'}"></ng-pluralize>
 
-                    <span ng-if="isAOTypeSelected(aoType)">(Selected)</span>
+                    <span ng-if="isAOTypeSelected(aoType)">&nbsp;(Selected)</span>
                     <span ng-if="!isAOTypeSelected(aoType) && !hasSelectedAOs()">({{aoType.activityOfferings.length}})</span>
-                    <span ng-if="!isAOTypeSelected(aoType) && hasSelectedAOs()">
-                        ({{countEligibleAOs(aoType.activityOfferings)}} of {{aoType.activityOfferings.length}} eligible)
+                    <span ng-if="!isAOTypeSelected(aoType) && hasSelectedAOs()">({{countEligibleAOs(aoType.activityOfferings)}} of {{aoType.activityOfferings.length}} eligible)
                         <a ng-click="aoType.showAll = !aoType.showAll; updateAOStates();" ng-show="aoType.activityOfferings.length > 1">
-                            <span ng-if="!aoType.showAll">Show All</span>
+                            <span ng-if="!aoType.showAll">Show all</span>
                             <span ng-if="aoType.showAll">Hide ineligible</span>
                         </a>
                     </span>

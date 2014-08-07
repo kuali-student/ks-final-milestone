@@ -96,10 +96,10 @@
 
     &-bg {
         height: 100%;
-        margin-left: 1px;
+        border-left: 1px solid @whiteBackground;
 
         &:first-child {
-            margin-left: 0;
+            border-left: none;
         }
     }
 }
@@ -341,10 +341,10 @@
             flex-flow: column nowrap;
         }
         &-content-bg {
-            margin-left: 0;
-            margin-top: 1px;
+            border-left: none;
+            border-top: 1px solid @whiteBackground;
             &:first-child {
-                margin-top: 1px;
+                border-top: none;
             }
         }
     }
