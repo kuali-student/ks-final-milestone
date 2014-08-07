@@ -43,11 +43,8 @@ import org.kuali.rice.krms.api.repository.reference.ReferenceObjectBinding;
 import org.kuali.rice.krms.dto.AgendaEditor;
 import org.kuali.rice.krms.dto.AgendaTypeInfo;
 import org.kuali.rice.krms.dto.PropositionEditor;
-import org.kuali.rice.krms.dto.PropositionParameterEditor;
 import org.kuali.rice.krms.dto.RuleEditor;
-import org.kuali.rice.krms.dto.RuleManagementWrapper;
 import org.kuali.rice.krms.dto.TemplateInfo;
-import org.kuali.rice.krms.dto.TermEditor;
 import org.kuali.rice.krms.dto.TermParameterEditor;
 import org.kuali.rice.krms.service.RuleViewHelperService;
 import org.kuali.rice.krms.service.impl.RuleEditorMaintainableImpl;
@@ -71,6 +68,7 @@ import org.kuali.student.cm.course.form.wrapper.ResultValuesGroupInfoWrapper;
 import org.kuali.student.cm.course.form.wrapper.ReviewProposalDisplay;
 import org.kuali.student.cm.course.form.wrapper.SubjectCodeWrapper;
 import org.kuali.student.cm.course.form.wrapper.SupportingDocumentInfoWrapper;
+import org.kuali.student.cm.course.service.CourseCopyHelper;
 import org.kuali.student.cm.course.service.CourseMaintainable;
 import org.kuali.student.cm.course.service.util.CourseCodeSearchUtil;
 import org.kuali.student.cm.course.service.util.LoCategorySearchUtil;
@@ -94,6 +92,7 @@ import org.kuali.student.r1.core.personsearch.service.impl.QuickViewByGivenName;
 import org.kuali.student.r1.core.proposal.ProposalConstants;
 import org.kuali.student.r1.core.subjectcode.service.SubjectCodeService;
 import org.kuali.student.r1.core.workflow.dto.CollaboratorWrapper;
+import org.kuali.student.r2.common.constants.CommonServiceConstants;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.DtoConstants;
 import org.kuali.student.r2.common.dto.RichTextInfo;
@@ -129,16 +128,13 @@ import org.kuali.student.r2.core.search.dto.SearchResultCellInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultRowInfo;
 import org.kuali.student.r2.core.search.service.SearchService;
-import org.kuali.student.r2.lum.clu.dto.AffiliatedOrgInfo;
 import org.kuali.student.r2.lum.clu.dto.CluInstructorInfo;
 import org.kuali.student.r2.lum.clu.dto.MembershipQueryInfo;
 import org.kuali.student.r2.lum.clu.service.CluService;
 import org.kuali.student.r2.lum.course.dto.ActivityInfo;
 import org.kuali.student.r2.lum.course.dto.CourseCrossListingInfo;
-import org.kuali.student.r2.lum.course.dto.CourseFeeInfo;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.lum.course.dto.CourseJointInfo;
-import org.kuali.student.r2.lum.course.dto.CourseRevenueInfo;
 import org.kuali.student.r2.lum.course.dto.CourseVariationInfo;
 import org.kuali.student.r2.lum.course.dto.FormatInfo;
 import org.kuali.student.r2.lum.course.dto.LoDisplayInfo;
@@ -210,6 +206,8 @@ public class CourseMaintainableImpl extends RuleEditorMaintainableImpl implement
     private PersonService personService;
 
     private CluInformationHelper cluInfoHelper;
+
+    private CourseCopyHelper courseCopyHelper;
 
     /**
      * Method called when queryMethodToCall is executed for Administering Organizations in order to suggest back to the user an Administering Organization
@@ -886,158 +884,6 @@ public class CourseMaintainableImpl extends RuleEditorMaintainableImpl implement
                 requestParameters.get(CourseController.UrlParams.USE_CURRICULUM_REVIEW).length != 0) {
             Boolean isUseReviewProcess = BooleanUtils.toBoolean(requestParameters.get(CourseController.UrlParams.USE_CURRICULUM_REVIEW)[0]);
             courseInfoWrapper.getUiHelper().setUseReviewProcess(isUseReviewProcess);
-        }
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void resetDataObject(CourseInfoWrapper courseInfoWrapper) {
-        courseInfoWrapper.setRefObjectId(null);
-
-        //  These items should not carry over.
-        courseInfoWrapper.getCourseInfo().setEffectiveDate(null);
-
-        //  Outcomes / credit options
-        courseInfoWrapper.getCourseInfo().getCreditOptions().clear();
-        courseInfoWrapper.getCreditOptionWrappers().clear();
-        initializeOutcome(courseInfoWrapper);
-
-        //  Start term
-        courseInfoWrapper.getCourseInfo().setStartTerm(null);
-
-        //  Curriculum Oversight / UnitContentsOwner
-        courseInfoWrapper.getCourseInfo().getUnitsContentOwner().clear();
-        courseInfoWrapper.getUnitsContentOwner().clear();
-        //  !!! This is duplicate code. !!!  Needs an initialize method.
-        CourseCreateUnitsContentOwner newCourseCreateUnitsContentOwner = new CourseCreateUnitsContentOwner();
-        newCourseCreateUnitsContentOwner.getRenderHelper().setNewRow(true);
-        courseInfoWrapper.getUnitsContentOwner().add(newCourseCreateUnitsContentOwner);
-
-        resetCourse(courseInfoWrapper.getCourseInfo());
-        resetRequisites(courseInfoWrapper);
-    }
-
-    public void resetDataForProposalCopy(CourseInfoWrapper courseInfoWrapper) {
-        resetDataObject(courseInfoWrapper);
-
-        courseInfoWrapper.getCreditOptionWrappers().clear();
-        courseInfoWrapper.getUnitsContentOwner().clear();
-        courseInfoWrapper.getCourseInfo().getUnitsContentOwner();
-        courseInfoWrapper.getCourseInfo().setStartTerm("");
-        courseInfoWrapper.getCourseInfo().setEndTerm("");
-        courseInfoWrapper.getCourseInfo().setPilotCourse(false);
-
-    }
-
-    /**
-     * Resets a CourseInfo so that it can be persisted as a new entity.
-     *
-     * @param course The CourseInfo to reset.
-     */
-    protected void resetCourse(CourseInfo course) {
-        //  Clobber the IDs
-        course.setId(null);
-        course.setVersion(null);
-        course.setMeta(null);
-
-        //  Fix the state. Courses start in state draft.
-        course.setStateKey(DtoConstants.STATE_DRAFT);
-
-        //  Clobber the IDs in these collections.
-        for (AttributeInfo attribute : course.getAttributes()) {
-            attribute.setId(null);
-        }
-
-        for (CourseJointInfo joint : course.getJoints()) {
-            joint.setRelationId(null);
-        }
-
-        for (LoDisplayInfo lo : course.getCourseSpecificLOs()) {
-            recursivelyClobberLoIds(lo);
-        }
-
-        for (CourseCrossListingInfo crossListing : course.getCrossListings()) {
-            crossListing.setId(null);
-        }
-
-        for (FormatInfo format : course.getFormats()) {
-            format.setId(null);
-            format.setMeta(null);
-            for (ActivityInfo activity : format.getActivities()) {
-                activity.setId(null);
-                activity.setMeta(null);
-            }
-        }
-
-        for (AffiliatedOrgInfo orgInfo : course.getExpenditure().getAffiliatedOrgs()) {
-            orgInfo.setId(null);
-        }
-
-        for (CourseFeeInfo fee : course.getFees()) {
-            fee.setId(null);
-        }
-
-        for (CourseRevenueInfo revenue : course.getRevenues()) {
-            revenue.setId(null);
-            for (AffiliatedOrgInfo orgInfo : revenue.getAffiliatedOrgs()) {
-                orgInfo.setId(null);
-            }
-        }
-
-        for (CourseVariationInfo variation : course.getVariations()) {
-            variation.setId(null);
-        }
-    }
-
-    protected void recursivelyClobberLoIds(LoDisplayInfo lo) {
-        lo.getLoInfo().setId(null);
-        for (LoDisplayInfo nestedLo : lo.getLoDisplayInfoList()) {
-            recursivelyClobberLoIds(nestedLo);
-        }
-    }
-
-    /**
-     * Removes IDs and other properties from the data object so that new entities are created on persist.
-     */
-    protected void resetRequisites(RuleManagementWrapper dataObject) {
-        for (AgendaEditor agenda : dataObject.getAgendas()) {
-            agenda.setContextId(null);
-            agenda.setFirstItemId(null);
-            agenda.setId(null);
-            agenda.setVersionNumber(null);
-            agenda.setName(null);
-
-            for (RuleEditor re : agenda.getRuleEditors().values()) {
-                re.setId(null);
-                re.setVersionNumber(null);
-                re.setName(null);
-                re.setPropId(null);
-
-                PropositionEditor pe = re.getPropositionEditor();
-                if (pe != null) {
-                    pe.setId(null);
-                    pe.setRuleId(null);
-                    pe.setVersionNumber(null);
-
-                    for (PropositionParameterEditor parameter : pe.getParameters()) {
-                        parameter.setId(null);
-                        parameter.setVersionNumber(null);
-                        parameter.setPropId(null);
-                    }
-
-                    TermEditor te = pe.getTerm();
-                    te.setId(null);
-                    te.setVersionNumber(null);
-
-                    for (TermParameterEditor parameter : te.getEditorParameters()) {
-                        parameter.setId(null);
-                        parameter.setVersionNumber(null);
-                        parameter.setTermId(null);
-                    }
-                }
-            }
         }
     }
 
@@ -2265,7 +2111,11 @@ public class CourseMaintainableImpl extends RuleEditorMaintainableImpl implement
             ProposalInfo proposal = getProposalService().getProposalByWorkflowId(getDocumentNumber(), ContextUtils.createDefaultContextInfo());
             dataObject.setProposalInfo(proposal);
 
-            populateCourseAndReviewData(proposal.getProposalReference().get(0),dataObject, false);
+            CourseInfoWrapper wrapper = (CourseInfoWrapper)getDataObject();
+
+            populateCourseWrapperData(wrapper,proposal.getProposalReference().get(0), false);
+
+            updateReview();
 
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -2273,16 +2123,7 @@ public class CourseMaintainableImpl extends RuleEditorMaintainableImpl implement
 
     }
 
-    /**
-     * This method loads course information and populate to <class>CourseInfoWrapper</class> and also to
-     * <class>ReviewProposalDisplay</class> for display purpose at 'review proposal' and 'view course'.
-     *
-     * @param courseId
-     * @param courseWrapper
-     * @param isCourseView if true, skips loading proposal model
-     * @throws Exception
-     */
-    public void populateCourseAndReviewData(String courseId, CourseInfoWrapper courseWrapper, boolean isCourseView) throws Exception {
+    public void populateCourseWrapperData(CourseInfoWrapper courseWrapper,String courseId, boolean isCourseView) throws Exception {
 
         CourseInfo course = getCourseService().getCourse(courseId, createContextInfo());
         courseWrapper.setCourseInfo(course);
@@ -2337,7 +2178,7 @@ public class CourseMaintainableImpl extends RuleEditorMaintainableImpl implement
 
         populateLearningObjectives();
 
-        updateReview(false, isCourseView);
+//        updateReview(false, isCourseView);
 
         // Initialize Author & Collaborator
         if (courseWrapper.getCollaboratorWrappers().isEmpty()) {
@@ -2345,6 +2186,75 @@ public class CourseMaintainableImpl extends RuleEditorMaintainableImpl implement
         }
 
         populateRequisities();
+    }
+
+    public CourseInfoWrapper copyCourse(String sourceCourseId) throws Exception {
+
+        /**
+         * Populate the source course wrapper first sothat we can create target from here.
+         */
+        CourseInfoWrapper source = new CourseInfoWrapper();
+        setDataObject(source); // Most of the populate methods and requisities are using this dataobject
+        populateCourseWrapperData(source,sourceCourseId,false);
+
+        CourseInfoWrapper target = new CourseInfoWrapper();
+
+        /**
+         * This copies all the properties from source to target and skips fields on copy based on the configuration
+         */
+        getCourseCopyHelper().copyCourse(source,target);
+
+        initializeOutcome(target);
+
+        return target;
+
+    }
+
+    public CourseInfoWrapper copyProposal(String sourceProposalId) throws Exception {
+
+        ProposalInfo sourceProposal = getProposalService().getProposal(sourceProposalId, ContextUtils.createDefaultContextInfo());
+
+        /**
+         * Populate the source course wrapper first sothat we can create target from here.
+         */
+        CourseInfoWrapper source = new CourseInfoWrapper();
+        setDataObject(source); // Most of the populate methods and requisities are using this dataobject
+        populateCourseWrapperData(source,sourceProposal.getProposalReference().get(0),false);
+
+        CourseInfoWrapper target = new CourseInfoWrapper();
+
+        /**
+         * This copies all the properties from source to target and skips fields on copy based on the configuration
+         */
+        getCourseCopyHelper().copyCourse(source,target);
+
+        initializeOutcome(target);
+
+        ProposalInfo targetProposal = new ProposalInfo();
+        targetProposal.setName("Copy of " + sourceProposal.getName());
+        target.setProposalInfo(targetProposal);
+
+        return target;
+
+    }
+
+    /**
+     * This method loads course information and populate to <class>CourseInfoWrapper</class> and also to
+     * <class>ReviewProposalDisplay</class> for display purpose at 'review proposal' and 'view course'.
+     *
+     * @throws Exception
+     */
+    public void populateCourseAndReviewData(String courseId, CourseInfoWrapper courseWrapper, boolean isCourseView) throws Exception {
+
+        populateCourseWrapperData(courseWrapper,courseId,isCourseView);
+
+        updateReview(false, isCourseView);
+
+        // Initialize Author & Collaborator
+        if (courseWrapper.getCollaboratorWrappers().isEmpty()) {
+            courseWrapper.getCollaboratorWrappers().add(new CollaboratorWrapper());
+        }
+
     }
 
     protected void populateSupportingDocuments() {
@@ -2650,4 +2560,16 @@ public class CourseMaintainableImpl extends RuleEditorMaintainableImpl implement
     public void performCustomViewFinalize(Object model) {
 
     }
+
+    public CourseCopyHelper getCourseCopyHelper() {
+        if (courseCopyHelper == null){
+            courseCopyHelper = GlobalResourceLoader.getService(new QName(CommonServiceConstants.REF_OBJECT_URI_GLOBAL_PREFIX + "courseCopyHelper", CourseCopyHelper.class.getSimpleName()));
+        }
+        return courseCopyHelper;
+    }
+
+    public void setCourseCopyHelper(CourseCopyHelper courseCopyHelper) {
+        this.courseCopyHelper = courseCopyHelper;
+    }
+
 }

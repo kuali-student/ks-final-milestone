@@ -15,16 +15,6 @@
  */
 package org.kuali.student.cm.course.controller;
 
-import org.kuali.rice.core.api.exception.RiceRuntimeException;
-import org.kuali.rice.krad.UserSessionUtils;
-import org.kuali.rice.krad.document.Document;
-import org.kuali.rice.krad.exception.ValidationException;
-import org.kuali.rice.krad.maintenance.MaintenanceDocument;
-
-import org.kuali.rice.krad.uif.view.DialogManager;
-import org.kuali.student.cm.common.util.CMUtils;
-import org.kuali.student.common.ui.krad.rules.rule.event.ReturnToPreviousNodeDocumentEvent;
-
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
@@ -43,6 +33,7 @@ import org.kuali.rice.krad.rules.rule.event.RouteDocumentEvent;
 import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 import org.kuali.rice.krad.uif.UifConstants;
 import org.kuali.rice.krad.uif.UifParameters;
+import org.kuali.rice.krad.uif.view.DialogManager;
 import org.kuali.rice.krad.util.ErrorMessage;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
@@ -82,7 +73,6 @@ import org.kuali.student.r2.core.constants.DocumentServiceConstants;
 import org.kuali.student.r2.core.constants.ProposalServiceConstants;
 import org.kuali.student.r2.core.document.dto.DocumentInfo;
 import org.kuali.student.r2.core.document.service.DocumentService;
-import org.kuali.student.r2.core.proposal.dto.ProposalInfo;
 import org.kuali.student.r2.core.proposal.service.ProposalService;
 import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultCellInfo;
@@ -292,10 +282,8 @@ public class CourseController extends CourseRuleEditorController {
              */
             try {
                 //  Populate the Course and Rule data.
-                viewHelper.populateCourseAndReviewData(copyCluId, wrapper, false);
-                //  Clear out the IDs and other data so that new entities are created on persist.
-                viewHelper.resetDataObject(wrapper);
-                wrapper.getCourseInfo().setCourseTitle("Copy of " + wrapper.getCourseInfo().getCourseTitle());
+                CourseInfoWrapper target = viewHelper.copyCourse(copyCluId);
+                form.getDocument().getNewMaintainableObject().setDataObject(target);
             } catch (Exception e) {
                 String msg = String.format("Unable to populate data from course id %s.", copyCluId);
                 LOG.error(msg, e);
@@ -309,12 +297,9 @@ public class CourseController extends CourseRuleEditorController {
              */
             String proposalId = request.getParameter(UrlParams.COPY_PROPOSAL_ID);
             if (StringUtils.isNotBlank(proposalId)) {
-                ProposalInfo proposal = getProposalService().getProposal(proposalId, ContextUtils.createDefaultContextInfo());
-                wrapper.setProposalInfo(proposal);
 
-                ((CourseMaintainable) form.getDocument().getNewMaintainableObject()).populateCourseAndReviewData(proposal.getProposalReference().get(0), wrapper, false);
-                ((CourseMaintainable) form.getDocument().getNewMaintainableObject()).resetDataForProposalCopy(wrapper);
-                wrapper.getCourseInfo().setCourseTitle("Copy of " + proposal.getName());
+                CourseInfoWrapper target = viewHelper.copyProposal(proposalId);
+                form.getDocument().getNewMaintainableObject().setDataObject(target);
             }
         }
         return getUIFModelAndView(form);
