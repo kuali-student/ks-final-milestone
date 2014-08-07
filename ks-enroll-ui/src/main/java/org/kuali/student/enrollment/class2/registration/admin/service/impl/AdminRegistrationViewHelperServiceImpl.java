@@ -501,7 +501,10 @@ public class AdminRegistrationViewHelperServiceImpl extends KSViewHelperServiceI
                     }
                     conflictCourses.append(conflictCourse.getCourseCode());
                 }
-                message = AdminRegistrationUtil.getMessageForKey(message, conflictCourses.toString());
+                message = AdminRegistrationUtil.getMessageForKey(result.getMessageKey(), conflictCourses.toString());
+            }
+            else{
+                message = AdminRegistrationUtil.getMessageForKey(result.getMessageKey());
             }
 
             issueItems.add(new RegistrationResultItem(message));

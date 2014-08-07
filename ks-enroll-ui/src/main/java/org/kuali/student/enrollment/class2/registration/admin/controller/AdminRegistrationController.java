@@ -286,7 +286,7 @@ public class AdminRegistrationController extends UifControllerBase {
         // Continue with registration submission
         form.resetPendingCourseValues();
         form.setRegRequestId(getViewHelper(form).submitCourses(form.getPerson().getId(), form.getTerm().getId(),
-                form.getCoursesInProcess(), LprServiceConstants.LPRTRANS_ITEM_CREATE_TYPE_KEY));
+                form.getCoursesInProcess(), LprServiceConstants.REQ_ITEM_ADD_TYPE_KEY));
 
         // Set the client state to "Registering" so that we can prevent certain actions on UI.
         form.setClientState(AdminRegConstants.ClientStates.REGISTERING);
@@ -321,14 +321,11 @@ public class AdminRegistrationController extends UifControllerBase {
 
                 // Move item to appropriate list based on the item state.
                 String updateId = null;
-                if (LprServiceConstants.LPRTRANS_ITEM_CREATE_TYPE_KEY.equals(item.getTypeKey()) ||
-                        (LprServiceConstants.REQ_ITEM_ADD_TYPE_KEY.equals(item.getTypeKey()))) {
+                if (LprServiceConstants.REQ_ITEM_ADD_TYPE_KEY.equals(item.getTypeKey())) {
                     updateId = handleAddRequestItem(form, adminOverride, item);
-                } else if (LprServiceConstants.LPRTRANS_ITEM_UPDATE_TYPE_KEY.equals(item.getTypeKey()) ||
-                        (LprServiceConstants.REQ_ITEM_UPDATE_TYPE_KEY.equals(item.getTypeKey()))) {
+                } else if (LprServiceConstants.REQ_ITEM_UPDATE_TYPE_KEY.equals(item.getTypeKey())) {
                     updateId = handleEditRequestItem(form, adminOverride, item);
-                } else if (LprServiceConstants.LPRTRANS_ITEM_DELETE_TYPE_KEY.equals(item.getTypeKey()) ||
-                        (LprServiceConstants.REQ_ITEM_DROP_TYPE_KEY.equals(item.getTypeKey()))) {
+                } else if (LprServiceConstants.REQ_ITEM_DROP_TYPE_KEY.equals(item.getTypeKey())) {
                     updateId = handleDropRequestItem(form, item);
                 }
                 if (updateId != null) {
@@ -425,7 +422,7 @@ public class AdminRegistrationController extends UifControllerBase {
     }
 
     /**
-     * Hanldes a drop registration request item.
+     * Handles a drop registration request item.
      *
      * @param form
      * @param item
