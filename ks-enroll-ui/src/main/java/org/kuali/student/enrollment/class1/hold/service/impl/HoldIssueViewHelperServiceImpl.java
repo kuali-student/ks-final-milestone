@@ -10,7 +10,7 @@ import org.kuali.student.r2.core.hold.dto.HoldIssueInfo;
  * User: Blue Team (SA)
  * Date: 17 July 2014
  * <p/>
- * Implementation of the AdminRegistrationViewHelperService that contains helper methods that support the Admin Reg Controller.
+ * Implementation of the HoldIssueViewHelperService that contains helper methods that support the Hold Issue Maintenance Controller.
  */
 public class HoldIssueViewHelperServiceImpl extends KSViewHelperServiceImpl implements HoldIssueViewHelperService {
 
