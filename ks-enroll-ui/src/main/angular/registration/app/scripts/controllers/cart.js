@@ -1,8 +1,9 @@
 'use strict';
 
 angular.module('regCartApp')
-    .controller('CartCtrl', ['$scope', '$modal', '$timeout', 'STATE', 'STATUS', 'GRADING_OPTION', 'ACTION_LINK', 'COURSE_TYPES', 'GENERAL_ERROR_TYPE', 'CartService', 'ScheduleService', 'GlobalVarsService',
-    function ($scope, $modal, $timeout, STATE, STATUS, GRADING_OPTION, ACTION_LINK, COURSE_TYPES, GENERAL_ERROR_TYPE, CartService, ScheduleService, GlobalVarsService) {
+    .controller('CartCtrl', ['$scope', '$modal', '$timeout', 'STATE', 'STATUS', 'GRADING_OPTION', 'ACTION_LINK', 'COURSE_TYPES', 'GENERAL_ERROR_TYPE', 'CartService', 'ScheduleService',
+                'MessageService', 'GlobalVarsService',
+    function ($scope, $modal, $timeout, STATE, STATUS, GRADING_OPTION, ACTION_LINK, COURSE_TYPES, GENERAL_ERROR_TYPE, CartService, ScheduleService, MessageService, GlobalVarsService) {
         $scope.states = STATE;
         $scope.statuses = STATUS;
         $scope.courseTypes = COURSE_TYPES;
@@ -159,9 +160,21 @@ angular.module('regCartApp')
                     successCallback(response);
                 }
             }, function (error) {
+                var errorText;
                 if (error.status === 404) {
                     //Reg group was not found
-                    $scope.userMessage = {txt: error.data, messageKey: GENERAL_ERROR_TYPE.noRegGroup, type: STATUS.error, course: course.courseCode};
+                    if (error.data.messageKey) {
+                        switch (error.data.messageKey) {
+                            case GENERAL_ERROR_TYPE.courseNotFound:
+                                errorText = error.data.courseCode + ' does not exist for '+$scope.termName;
+                                break;
+                            default:
+                                errorText = MessageService.getMessage(error.data.messageKey);
+                        }
+                    } else {
+                        errorText = error.data;
+                    }
+                    $scope.userMessage = {txt: errorText, messageKey: GENERAL_ERROR_TYPE.noRegGroup, type: STATUS.error, course: course.courseCode};
                     $scope.courseAdded = true;  // refocus cursor back to course code
 
                     if (angular.isFunction(errorCallback)) {
@@ -176,7 +189,8 @@ angular.module('regCartApp')
                 } else {
                     console.log('Error with adding course', error.data.consoleMessage);
                     //Reg group is not in offered state
-                    $scope.userMessage = {txt: error.data.genericMessage, messageKey: GENERAL_ERROR_TYPE.noRegGroup, type: error.data.type, detail: error.data.detailedMessage, course: course.courseCode + ' (' + course.regGroupCode + ')'};
+                    errorText = error.data.genericMessage + " for " + $scope.termName;
+                    $scope.userMessage = {txt: errorText, messageKey: GENERAL_ERROR_TYPE.noRegGroup, type: error.data.type, detail: error.data.detailedMessage, course: course.courseCode + ' (' + course.regGroupCode + ')'};
                     $scope.courseAdded = true; // refocus cursor back to course code
 
                     if (angular.isFunction(errorCallback)) {

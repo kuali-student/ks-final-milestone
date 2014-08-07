@@ -30,6 +30,17 @@
     {
         "messageKey":"kuali.lpr.trans.item.message.exception",
         "message":"There was an internal server error while processing this item."
+    },
+    {
+        "messageKey":"kuali.cr.cart.message.course.code.and.section.required",
+        "message":"Course code and section required"
+    },
+    {
+        "messageKey":"kuali.cr.cart.message.section.required",
+        "message":"Section required"
+    },
+    {
+        "messageKey":"kuali.cr.cart.message.course.code.required",
+        "message":"Course code required"
     }
-
 ]

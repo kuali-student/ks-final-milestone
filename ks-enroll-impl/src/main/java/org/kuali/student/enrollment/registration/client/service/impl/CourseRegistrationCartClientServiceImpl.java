@@ -6,10 +6,12 @@ import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestIn
 import org.kuali.student.enrollment.registration.client.service.CourseRegistrationCartClientService;
 import org.kuali.student.enrollment.registration.client.service.CourseRegistrationCartClientServiceConstants;
 import org.kuali.student.enrollment.registration.client.service.dto.CartItemResult;
+import org.kuali.student.enrollment.registration.client.service.dto.CourseCodeValidationResult;
 import org.kuali.student.enrollment.registration.client.service.dto.Link;
 import org.kuali.student.enrollment.registration.client.service.dto.RegGroupSearchResult;
 import org.kuali.student.enrollment.registration.client.service.dto.ResultValueGroupCourseOptions;
 import org.kuali.student.enrollment.registration.client.service.dto.UserMessageResult;
+import org.kuali.student.enrollment.registration.client.service.exception.CourseDoesNotExistException;
 import org.kuali.student.enrollment.registration.client.service.exception.GenericUserException;
 import org.kuali.student.enrollment.registration.client.service.exception.MissingOptionException;
 import org.kuali.student.enrollment.registration.client.service.impl.util.CourseRegistrationAndScheduleOfClassesUtil;
@@ -124,9 +126,16 @@ public class CourseRegistrationCartClientServiceImpl extends CourseRegistrationC
 
             //This will need to be changed to the cartItemResponse object in the future!
             response = Response.ok(result);
+        }  catch(CourseDoesNotExistException e) {
+            String technicalInfo = String.format("Unable to add item to cart. Technical Info:(cartId:[%s] courseCode:[%s] regGroupCode:[%s] regGroupId:[%s] gradingOptionId:[%s] credits:[%s] )",
+                    cartId, courseCode, regGroupCode, regGroupId, gradingOptionId, credits);
+            LOGGER.warn(technicalInfo, e);
+            //The reg request does not exist (HTTP status 404 Not Found)
+            response = getResponse(Response.Status.NOT_FOUND, new CourseCodeValidationResult(e.getMessageKey(), e.getCourseCode()));
         } catch (MissingOptionException e) {
             String technicalInfo = String.format("Unable to add item to cart. Technical Info:(cartId:[%s] courseCode:[%s] regGroupCode:[%s] regGroupId:[%s] gradingOptionId:[%s] credits:[%s] )",
                     cartId, courseCode, regGroupCode, regGroupId, gradingOptionId, credits);
+            LOGGER.warn(technicalInfo, e);
             response = getResponse(Response.Status.BAD_REQUEST, e.getCartItemOptions());
         } catch (DoesNotExistException e) {
             String technicalInfo = String.format("Unable to add item to cart. Technical Info:(cartId:[%s] courseCode:[%s] regGroupCode:[%s] regGroupId:[%s] gradingOptionId:[%s] credits:[%s] )",
@@ -175,7 +184,16 @@ public class CourseRegistrationCartClientServiceImpl extends CourseRegistrationC
 
         ValidationResultInfo resultInfo = new ValidationResultInfo();
         if (!LuiServiceConstants.REGISTRATION_GROUP_OFFERED_STATE_KEY.equals(regGroupSearchResult.getRegGroupState())) {
-            resultInfo.setError("Course " + courseCode + " (" + regGroupCode + ") is not offered in the selected term");
+            switch (regGroupSearchResult.getRegGroupState()) {
+                case LuiServiceConstants.REGISTRATION_GROUP_CANCELED_STATE_KEY:
+                    resultInfo.setError(courseCode + " (" + regGroupCode + ") is cancelled");
+                    break;
+                case LuiServiceConstants.REGISTRATION_GROUP_SUSPENDED_STATE_KEY:
+                    resultInfo.setError(courseCode + " (" + regGroupCode + ") is suspended");
+                    break;
+                default:
+                    resultInfo.setError(courseCode + " (" + regGroupCode + ") is not offered");
+            }
         }
 
         return resultInfo;

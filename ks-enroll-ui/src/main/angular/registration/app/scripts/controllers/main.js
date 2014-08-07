@@ -71,10 +71,7 @@ angular.module('regCartApp')
         });
 
         // Load up the messages
-        MessageService.getMessages().then(function(messages) {
-            $scope.messages = messages;
-        });
-
+        MessageService.getMessages();
 
         $scope.logout = function(){
             LoginService.logout().query({}, function () {

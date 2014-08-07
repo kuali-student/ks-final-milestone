@@ -54,6 +54,7 @@ import org.kuali.student.enrollment.registration.client.service.dto.InstructorSe
 import org.kuali.student.enrollment.registration.client.service.dto.RegGroupSearchResult;
 import org.kuali.student.enrollment.registration.client.service.dto.StudentScheduleActivityOfferingResult;
 import org.kuali.student.enrollment.registration.client.service.dto.TermSearchResult;
+import org.kuali.student.enrollment.registration.client.service.exception.CourseDoesNotExistException;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
@@ -105,6 +106,14 @@ public class CourseRegistrationAndScheduleOfClassesUtil {
 
     public static final Logger LOGGER = LoggerFactory.getLogger(CourseRegistrationAndScheduleOfClassesUtil.class);
 
+    /*
+    Message keys
+     */
+    private static final String COURSE_CODE_AND_SECTION_REQUIRED_MESSAGE_KEY="kuali.cr.cart.message.course.code.and.section.required";
+    private static final String COURSE_CODE_NOT_FOUND_MESSAGE_KEY="kuali.cr.cart.message.course.code.not.found";
+    private static final String COURSE_CODE_REQUIRED_MESSAGE_KEY="kuali.cr.cart.message.course.code.required";
+    private static final String SECTION_REQUIRED_MESSAGE_KEY="kuali.cr.cart.message.section.required";
+
     private static SearchService searchService;
     private static LprService lprService;
     private static IdentityService identityService;
@@ -138,7 +147,7 @@ public class CourseRegistrationAndScheduleOfClassesUtil {
     }
 
     public static List<TermSearchResult> getTermSearchResultsFromAtpInfos(List<AtpInfo> atpInfos) {
-        List<TermSearchResult> result = new ArrayList<TermSearchResult>();
+        List<TermSearchResult> result = new ArrayList<>();
 
         for (AtpInfo atpInfo : atpInfos) {
             TermSearchResult ts = new TermSearchResult();
@@ -165,8 +174,8 @@ public class CourseRegistrationAndScheduleOfClassesUtil {
             @Override
             public int compare(String o1, String o2) {
                 try {
-                    int val1 = CourseRegistrationAndScheduleOfClassesUtil.getActivityPriorityMap(contextInfo).get(o1).intValue();
-                    int val2 = CourseRegistrationAndScheduleOfClassesUtil.getActivityPriorityMap(contextInfo).get(o2).intValue();
+                    int val1 = CourseRegistrationAndScheduleOfClassesUtil.getActivityPriorityMap(contextInfo).get(o1);
+                    int val2 = CourseRegistrationAndScheduleOfClassesUtil.getActivityPriorityMap(contextInfo).get(o2);
                     return (val1 < val2 ? -1 : (val1 == val2 ? 0 : 1));
                 } catch (Exception ex) {
                     // I'm not sure if this is the correct thing to do here.
@@ -188,8 +197,8 @@ public class CourseRegistrationAndScheduleOfClassesUtil {
             @Override
             public int compare(StudentScheduleActivityOfferingResult o1, StudentScheduleActivityOfferingResult o2) {
                 try {
-                    int val1 = CourseRegistrationAndScheduleOfClassesUtil.getActivityPriorityMap(contextInfo).get(o1.getActivityOfferingType()).intValue();
-                    int val2 = CourseRegistrationAndScheduleOfClassesUtil.getActivityPriorityMap(contextInfo).get(o2.getActivityOfferingType()).intValue();
+                    int val1 = CourseRegistrationAndScheduleOfClassesUtil.getActivityPriorityMap(contextInfo).get(o1.getActivityOfferingType());
+                    int val2 = CourseRegistrationAndScheduleOfClassesUtil.getActivityPriorityMap(contextInfo).get(o2.getActivityOfferingType());
                     return (val1 < val2 ? -1 : (val1 == val2 ? 0 : 1));
                 } catch (Exception ex) {
                     // I'm not sure if this is the correct thing to do here.
@@ -281,11 +290,11 @@ public class CourseRegistrationAndScheduleOfClassesUtil {
      */
     public static Map<String, List<InstructorSearchResult>> searchForInstructorsByAoIds(List<String> aoIds, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException {
 
-        Map<String, List<InstructorSearchResult>> resultList = new HashMap<String, List<InstructorSearchResult>>();
-        Map<String, InstructorSearchResult> principalId2aoIdMap = new HashMap<String, InstructorSearchResult>();
+        Map<String, List<InstructorSearchResult>> resultList = new HashMap<>();
+        Map<String, InstructorSearchResult> principalId2aoIdMap = new HashMap<>();
 
         // We want to pull only active instructors for the passed in AO's
-        List<Predicate> predicates = new ArrayList<Predicate>();
+        List<Predicate> predicates = new ArrayList<>();
         predicates.add(PredicateFactory.in("luiId", aoIds.toArray()));
         predicates.add(PredicateFactory.in("personRelationTypeId", LprServiceConstants.COURSE_INSTRUCTOR_TYPE_KEYS));  // allow all instructor types
         predicates.add(PredicateFactory.equal("personRelationStateId", LprServiceConstants.ACTIVE_STATE_KEY));
@@ -314,7 +323,7 @@ public class CourseRegistrationAndScheduleOfClassesUtil {
                 if (resultList.containsKey(aoId)) {
                     resultList.get(aoId).add(result);
                 } else {
-                    List<InstructorSearchResult> newList = new ArrayList<InstructorSearchResult>();
+                    List<InstructorSearchResult> newList = new ArrayList<>();
                     newList.add(result);
                     resultList.put(aoId, newList);
                 }
@@ -344,12 +353,12 @@ public class CourseRegistrationAndScheduleOfClassesUtil {
      * Based on the input, get the RegGroupSearchResult. There are two ways to find it (termCode, courseCode, regGroupName)
      * or just the regGroupId.
      *
-     * @param termCode
-     * @param courseCode
-     * @param regGroupCode
-     * @param regGroupId
-     * @param contextInfo
-     * @return
+     * @param termCode the term code
+     * @param courseCode the course code
+     * @param regGroupCode the reg group code
+     * @param regGroupId the reg group id
+     * @param contextInfo context info
+     * @return RegGroupSearchResult
      * @throws PermissionDeniedException
      * @throws MissingParameterException
      * @throws InvalidParameterException
@@ -372,10 +381,14 @@ public class CourseRegistrationAndScheduleOfClassesUtil {
             }
         } else {
             if(courseCode == null || courseCode.isEmpty()){
-                throw new DoesNotExistException("Course Code cannot be empty");
+                if(regGroupCode == null || regGroupCode.isEmpty()) {
+                    throw new CourseDoesNotExistException(COURSE_CODE_AND_SECTION_REQUIRED_MESSAGE_KEY, "Course Code cannot be empty");
+                } else {
+                    throw new CourseDoesNotExistException(COURSE_CODE_REQUIRED_MESSAGE_KEY, "Course Code cannot be empty");
+                }
             }
             if(regGroupCode == null || regGroupCode.isEmpty()){
-                throw new DoesNotExistException("Section cannot be empty");
+                throw new CourseDoesNotExistException(SECTION_REQUIRED_MESSAGE_KEY, courseCode, "Section cannot be empty");
             }
             // get the registration group
             rg = getScheduleOfClassesService().searchForRegistrationGroupByTermAndCourseAndRegGroup(termId, termCode, courseCode, regGroupCode);
@@ -386,9 +399,9 @@ public class CourseRegistrationAndScheduleOfClassesUtil {
                 String technicalInfo = String.format("getRegGroup. Cannot find Course. Technical Info:(termId:[%s] termCode:[%s] courseCode:[%s] regGroupCode:[%s] regGroupId:[%s])",
                         termId, termCode, courseCode, regGroupCode, regGroupId);
                 LOGGER.warn(technicalInfo);
-                throw new DoesNotExistException("Cannot find the course " + courseCode + " in the selected term");
+                throw new CourseDoesNotExistException(COURSE_CODE_NOT_FOUND_MESSAGE_KEY, courseCode, "Cannot find the course " + courseCode + " in the selected term");
             } else {
-                throw new DoesNotExistException("Course Code cannot be empty");
+                throw new CourseDoesNotExistException(COURSE_CODE_REQUIRED_MESSAGE_KEY, "Course Code cannot be empty");
             }
         }
 
@@ -397,7 +410,7 @@ public class CourseRegistrationAndScheduleOfClassesUtil {
 
     private synchronized static void initActivityPriorityMap(ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException {
         if (activityPriorityMap == null) {    // this may seem silly, but this prevents a race condition on threads calling this method.
-            activityPriorityMap = new HashMap<String, Integer>();
+            activityPriorityMap = new HashMap<>();
             List<TypeInfo> activityTypes = getTypeService().getTypesForGroupType("kuali.lu.type.grouping.activity", contextInfo);
 
             for (TypeInfo typeInfo : activityTypes) {
@@ -447,7 +460,7 @@ public class CourseRegistrationAndScheduleOfClassesUtil {
         registrationRequestItem.setPersonId(principalId);
         registrationRequestItem.setCredits(new KualiDecimal(credits));
         registrationRequestItem.setGradingOptionId(gradingOptionId);
-        registrationRequestItem.setOkToWaitlist(Boolean.valueOf(okToWaitlist));
+        registrationRequestItem.setOkToWaitlist(okToWaitlist);
         return registrationRequestItem;
     }
 
@@ -493,8 +506,8 @@ public class CourseRegistrationAndScheduleOfClassesUtil {
     }
 
     private static List<CourseOfferingInfo> searchForCourseOfferingIdCreditsGradingByCourseCodeAndTerm(String courseCode, String atpId) throws InvalidParameterException, MissingParameterException, PermissionDeniedException, OperationFailedException {
-        List<CourseOfferingInfo> resultList = new ArrayList<CourseOfferingInfo>();
-        HashMap<String, CourseOfferingInfo> hm = new HashMap<String, CourseOfferingInfo>();
+        List<CourseOfferingInfo> resultList = new ArrayList<>();
+        HashMap<String, CourseOfferingInfo> hm = new HashMap<>();
 
         SearchRequestInfo searchRequestInfo = new SearchRequestInfo(CourseOfferingManagementSearchImpl.CREDIT_REGGRADING_COID_BY_TERM_AND_COURSE_CODE_SEARCH_KEY);
 
@@ -544,7 +557,7 @@ public class CourseRegistrationAndScheduleOfClassesUtil {
     /**
      * A faster way to get default names
      *
-     * @param principalIds
+     * @param principalIds a List of principal id strings
      * @return EntityDefaultQueryResults with only default names populated
      */
     private static EntityDefaultQueryResults getInstructorsInfoFromKimFast(List<String> principalIds) {
@@ -616,9 +629,8 @@ public class CourseRegistrationAndScheduleOfClassesUtil {
         );
 
         QueryByCriteria criteria = qbcBuilder.build();
-        EntityDefaultQueryResults entityResults = CourseRegistrationAndScheduleOfClassesUtil.getIdentityService().findEntityDefaults(criteria);
 
-        return entityResults;
+        return CourseRegistrationAndScheduleOfClassesUtil.getIdentityService().findEntityDefaults(criteria);
     }
 
     /**
@@ -679,14 +691,14 @@ public class CourseRegistrationAndScheduleOfClassesUtil {
      */
     public static SearchService getSearchService() {
         if (searchService == null) {
-            searchService = (SearchService) GlobalResourceLoader.getService(new QName(SearchServiceConstants.NAMESPACE, SearchService.class.getSimpleName()));
+            searchService = GlobalResourceLoader.getService(new QName(SearchServiceConstants.NAMESPACE, SearchService.class.getSimpleName()));
         }
         return searchService;
     }
 
     public static LprService getLprService() {
         if (lprService == null) {
-            lprService = (LprService) GlobalResourceLoader.getService(new QName(LprServiceConstants.NAMESPACE, LprServiceConstants.SERVICE_NAME_LOCAL_PART));
+            lprService = GlobalResourceLoader.getService(new QName(LprServiceConstants.NAMESPACE, LprServiceConstants.SERVICE_NAME_LOCAL_PART));
         }
         return lprService;
     }
@@ -702,13 +714,14 @@ public class CourseRegistrationAndScheduleOfClassesUtil {
         return identityService;
     }
 
+    @SuppressWarnings("unused")
     public static void setIdentityService(IdentityService identityService) {
         CourseRegistrationAndScheduleOfClassesUtil.identityService = identityService;
     }
 
     public static AtpService getAtpService() {
         if (atpService == null) {
-            atpService = (AtpService) GlobalResourceLoader.getService(new QName(AtpServiceConstants.NAMESPACE, AtpServiceConstants.SERVICE_NAME_LOCAL_PART));
+            atpService = GlobalResourceLoader.getService(new QName(AtpServiceConstants.NAMESPACE, AtpServiceConstants.SERVICE_NAME_LOCAL_PART));
         }
         return atpService;
     }
@@ -761,7 +774,7 @@ public class CourseRegistrationAndScheduleOfClassesUtil {
 
     public static LRCService getLrcService() {
         if (lrcService == null) {
-            lrcService = (LRCService) GlobalResourceLoader.getService(new QName(LrcServiceConstants.NAMESPACE, LrcServiceConstants.SERVICE_NAME_LOCAL_PART));
+            lrcService = GlobalResourceLoader.getService(new QName(LrcServiceConstants.NAMESPACE, LrcServiceConstants.SERVICE_NAME_LOCAL_PART));
         }
         return lrcService;
     }
@@ -772,18 +785,19 @@ public class CourseRegistrationAndScheduleOfClassesUtil {
 
     public static ScheduleOfClassesService getScheduleOfClassesService() {
         if (scheduleOfClassesService == null) {
-            scheduleOfClassesService = (ScheduleOfClassesService) GlobalResourceLoader.getService(new QName(ScheduleOfClassesServiceConstants.NAMESPACE, ScheduleOfClassesServiceConstants.SERVICE_NAME_LOCAL_PART));
+            scheduleOfClassesService = GlobalResourceLoader.getService(new QName(ScheduleOfClassesServiceConstants.NAMESPACE, ScheduleOfClassesServiceConstants.SERVICE_NAME_LOCAL_PART));
         }
         return scheduleOfClassesService;
     }
 
+    @SuppressWarnings("unused")
     public void setScheduleOfClassesService(ScheduleOfClassesService scheduleOfClassesService) {
         CourseRegistrationAndScheduleOfClassesUtil.scheduleOfClassesService = scheduleOfClassesService;
     }
 
     public static CourseRegistrationService getCourseRegistrationService() {
         if (courseRegistrationService == null) {
-            courseRegistrationService = (CourseRegistrationService) GlobalResourceLoader.getService(new QName(CourseRegistrationServiceConstants.NAMESPACE, CourseRegistrationServiceConstants.SERVICE_NAME_LOCAL_PART));
+            courseRegistrationService = GlobalResourceLoader.getService(new QName(CourseRegistrationServiceConstants.NAMESPACE, CourseRegistrationServiceConstants.SERVICE_NAME_LOCAL_PART));
         }
         return courseRegistrationService;
     }
@@ -794,7 +808,7 @@ public class CourseRegistrationAndScheduleOfClassesUtil {
 
     public static RuleManagementService getRuleManagementService() {
         if (ruleManagementService == null) {
-            ruleManagementService = (RuleManagementService) GlobalResourceLoader.getService(new QName(KrmsConstants.Namespaces.KRMS_NAMESPACE_2_0, "ruleManagementService"));
+            ruleManagementService = GlobalResourceLoader.getService(new QName(KrmsConstants.Namespaces.KRMS_NAMESPACE_2_0, "ruleManagementService"));
         }
         return ruleManagementService;
     }

@@ -28,14 +28,14 @@ angular.module('regCartApp')
             return deferred.promise;
         };
 
-
-        this.getMessage = function (messages, messageKey) {
+        this.getMessage = function (messageKey) {
             var message = '';
-            angular.forEach(messages, function (msgObj) {
-                if (msgObj.messageKey === messageKey) {
-                    message = msgObj.message;
+            for (var i=0; i<messages.length; i++) {
+                if (messages[i].messageKey === messageKey) {
+                    message = messages[i].message;
+                    break;
                 }
-            });
+            }
             return message;
         };
 

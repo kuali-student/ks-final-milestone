@@ -10,6 +10,26 @@ describe('Filter: FormatValidationMessage', function() {
         VALIDATION_ERROR_TYPE,
         baseCourseId = 'BASE_COURSE_ID';
 
+    var mockMessageService = {
+        getMessage : function(messageKey) {
+            var message = '';
+            for (var i=0; i<messages.length; i++) {
+                if (messages[i].messageKey === messageKey) {
+                    message = messages[i].message;
+                    break;
+                }
+            }
+            return message;
+        }
+    };
+
+    // provide a mock MessageService
+    beforeEach(function() {
+        module(function ($provide) {
+            $provide.value('MessageService', mockMessageService);
+        });
+    });
+
     // instantiate the filter
     beforeEach(inject(function(formatValidationMessageFilter, _VALIDATION_ERROR_TYPE_, transactionMessages) {
         _filter = formatValidationMessageFilter;
@@ -19,7 +39,7 @@ describe('Filter: FormatValidationMessage', function() {
 
 
     function filter(data, course) {
-        return _filter(data, course, messages);
+        return _filter(data, course);
     }
 
     function filterWithCourse(errorType, course) {

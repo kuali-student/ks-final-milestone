@@ -6,14 +6,13 @@ angular.module('regCartApp').filter('formatValidationMessage', ['VALIDATION_ERRO
      * In this method we take a course & validation message object and return a formatted
      * message depending on the validation message key.
      *
-     * @example {{ validationMessage | formatValidationMessage:course:messages }}
+     * @example {{ validationMessage | formatValidationMessage:course }}
      *
      * @param data
      * @param course
-     * @param messages
      * @returns {string}
      */
-    return function(data, course, messages) {
+    return function(data, course) {
 
         var message = '';
 
@@ -28,11 +27,11 @@ angular.module('regCartApp').filter('formatValidationMessage', ['VALIDATION_ERRO
                 switch (data.messageKey) {
 
                     case VALIDATION_ERROR_TYPE.timeConflict:
-                        message = formatTimeConflict(data, course, messages);
+                        message = formatTimeConflict(data, course);
                         break;
 
                     case VALIDATION_ERROR_TYPE.maxCredits:
-                        message = formatMaxCredits(data, messages);
+                        message = formatMaxCredits(data);
                         break;
 
                     case GENERAL_ERROR_TYPE.noRegGroup:
@@ -40,7 +39,7 @@ angular.module('regCartApp').filter('formatValidationMessage', ['VALIDATION_ERRO
                         break;
 
                     default:
-                        message = getMessage(data.messageKey, messages);
+                        message = getMessage(data.messageKey);
                 }
             }
         }
@@ -60,16 +59,15 @@ angular.module('regCartApp').filter('formatValidationMessage', ['VALIDATION_ERRO
      *
      * @param data
      * @param course
-     * @param messages
      * @returns {string}
      *
      *
      * Need to update id field to be the actual one coming from the server
      */
-    function formatTimeConflict(data, course, messages) {
+    function formatTimeConflict(data, course) {
 
         // look up the core message text
-        var message = getMessage(data.messageKey, messages);
+        var message = getMessage(data.messageKey);
 
         // Try to include the course codes of the conflicting items
         var conflicts = [];
@@ -125,9 +123,9 @@ angular.module('regCartApp').filter('formatValidationMessage', ['VALIDATION_ERRO
         return message;
     }
 
-    function formatMaxCredits(data, messages) {
+    function formatMaxCredits(data) {
         // look up the core message text
-        var message = getMessage(data.messageKey, messages);
+        var message = getMessage(data.messageKey);
 
         // if max credits are sent back with the message key, include them in the message back to the user
         if (data.maxCredits) {
@@ -150,8 +148,8 @@ angular.module('regCartApp').filter('formatValidationMessage', ['VALIDATION_ERRO
         return message;
     }
 
-    function getMessage(messageKey, messages) {
-        return MessageService.getMessage(messages, messageKey);
+    function getMessage(messageKey) {
+        return MessageService.getMessage(messageKey);
     }
 
 }]);
