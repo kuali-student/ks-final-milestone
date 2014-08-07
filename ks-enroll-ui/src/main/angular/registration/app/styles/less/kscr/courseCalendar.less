@@ -269,6 +269,13 @@
     position: relative;
     z-index: 210;
 
+    // Override styling for sidebar calendars
+    .kscr-Course-legendIndicator {
+        bottom: 0;
+        top: 0;
+    }
+
+    // Override styling for sidebar calendars
     .kscr-Card-courseTimes {
         display: inline-flex;
     }
@@ -315,12 +322,17 @@
         &-rows {
             .util-Grid;
             height: 100%;
+            left: 0;
+            position: absolute;
+            top: 0;
+            width: 100%;
         }
         &-row {
             .util-Grid-cell;
+
             height: 100% !important;
             margin-top: 0;
-            margin-left: 1px;
+            margin-right: 1px;
             &:first-child {
                 margin-left: 0;
             }
@@ -337,7 +349,7 @@
         }
     }
     .kscr-CourseCalendar-courseBlock-wrap {
-        left: unset !important;
+        left: 0 !important;
         width: 100% !important;
 
         // Selected state
@@ -370,7 +382,7 @@
     .kscr-CourseCalendar--large {
         .kscr-CourseCalendar-courseBlock-wrap {
             height: auto !important; // Important to override the values getting set in the directive for large-format.
-            top: unset !important;
+            top: 0 !important;
         }
 
         .kscr-CourseCalendar-courseBlock {
