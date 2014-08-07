@@ -455,7 +455,14 @@ public class AdminRegistrationController extends UifControllerBase {
 
         // Set the pending drop course with the selected course.
         RegistrationCourse regCourse = getSelectedRegistrationCourse(form);
-        regCourse.setDropDate(new Date());
+
+        String selectedCollectionId = form.getActionParamaterValue(UifParameters.SELECTED_COLLECTION_ID);
+        if (selectedCollectionId.equals(AdminRegConstants.REG_COLL_ID)) {
+            regCourse.setRegisteredDropDate(new Date());
+        } else if (selectedCollectionId.equals(AdminRegConstants.WAITLIST_COLL_ID)) {
+            regCourse.setWaitlistedDropDate(new Date());
+        }
+
         form.setPendingDropCourse(regCourse);
 
         return showDialog(AdminRegConstants.DROP_COURSE_DIALOG, form, request, response);

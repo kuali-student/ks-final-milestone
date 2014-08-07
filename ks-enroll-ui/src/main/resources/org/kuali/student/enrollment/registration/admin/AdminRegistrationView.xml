@@ -446,7 +446,7 @@
                 <bean parent="Uif-KS-NavigationActionLink-parentBean" p:id="waitlistedEditLink" p:iconClass="ks-fontello-icon-pencil"
                       p:methodToCall="editCourse" p:style="color:#0088CC;"/>
                 <bean parent="Uif-KS-NavigationActionLink-parentBean" p:id="waitlistedDropLink" p:iconClass="ks-fontello-icon-cancel"
-                      p:methodToCall="deleteLine" p:style="color:#0088CC;"/>
+                      p:methodToCall="dropCourse" p:style="color:#0088CC;"/>
             </list>
         </property>
         <property name="items">
@@ -506,12 +506,12 @@
         <property name="style" value="width:350px;"/>
         <property name="items">
             <list>
-                <bean parent="Uif-HorizontalBoxSection">
+                <bean id="KS-AdminRegistration-DropRegisteredIssues" parent="Uif-HorizontalBoxSection">
                     <property name="items">
                         <list>
                             <bean parent="Uif-Label" p:labelText="Effective Drop Date" p:additionalCssClasses="nowrap"
                                     p:renderColon="false"/>
-                            <bean parent="Uif-InputField" p:propertyName="pendingDropCourse.dropDate"
+                            <bean parent="Uif-InputField" p:propertyName="pendingDropCourse.registeredDropDate"
                                   p:additionalCssClasses="nowrap">
                                 <property name="control">
                                     <bean parent="KS-Uif-Default-DateControl" p:size="10"/>
@@ -538,35 +538,53 @@
                 </bean>
             </list>
         </property>
-        <property name="promptText"
-                  value=""/>
+        <property name="promptText" value=""/>
         <property name="availableResponses">
             <list></list>
         </property>
     </bean>
 
     <bean id="KS-AdminRegistration-DropWaitlistedDialog" parent="Uif-DialogGroup">
+        <property name="headerText" value="Drop Course @{pendingDropCourse.code} (@{pendingDropCourse.section})?"/>
+        <property name="style" value="width:350px;"/>
         <property name="items">
             <list>
-                <bean parent="Uif-HorizontalBoxSection">
+                <bean id="KS-AdminRegistration-DropWaitlistedIssues" parent="Uif-HorizontalBoxSection">
                     <property name="items">
                         <list>
-                            <bean parent="Uif-PrimaryActionButton" p:preSubmitCall="closeLightbox(); return true;"
-                                  p:methodToCall="submitRegRequest" p:actionLabel="Remove Course"/>
-                            <bean parent="Uif-ActionLink" p:actionLabel="Cancel" p:actionScript="closeLightbox();"
-                                  p:additionalCssClasses="cancel_link"/>
+                            <bean parent="Uif-Label" p:labelText="Effective Drop Date" p:additionalCssClasses="nowrap"
+                                  p:renderColon="false"/>
+                            <bean parent="Uif-InputField" p:propertyName="pendingDropCourse.waitlistedDropDate"
+                                  p:additionalCssClasses="nowrap">
+                                <property name="control">
+                                    <bean parent="KS-Uif-Default-DateControl" p:size="10"/>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+                <bean parent="KS-Uif-FooterBase">
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-HorizontalBoxSection">
+                                <property name="items">
+                                    <list>
+                                        <bean parent="Uif-PrimaryActionButton" p:preSubmitCall="closeLightbox(); return true;"
+                                              p:methodToCall="removeWaitlistedCourse" p:actionLabel="Confirm Drop"/>
+                                        <bean parent="Uif-ActionLink" p:actionLabel="Cancel" p:actionScript="closeLightbox();"
+                                              p:additionalCssClasses="cancel_link"/>
+                                    </list>
+                                </property>
+                            </bean>
                         </list>
                     </property>
                 </bean>
             </list>
         </property>
-        <!--property name="footer.items">
-            <list>
-                <bean parent="Uif-DialogConfirmButton" p:actionLabel="Remove Course"
-                      p:performClientSideValidation="true"/>
-                <bean parent="Uif-DialogDismissButton" p:actionLabel="Cancel"/>
-            </list>
-        </property-->
+        <property name="promptText" value=""/>
+        <property name="availableResponses">
+            <list></list>
+        </property>
     </bean>
 
     <!--bean id="KS-AdminRegistration-RegisterDialogResponse" parent="Uif-DialogGroup" p:modalLarge="true"-->

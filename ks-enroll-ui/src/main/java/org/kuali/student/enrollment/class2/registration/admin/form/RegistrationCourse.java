@@ -43,7 +43,8 @@ public class RegistrationCourse implements Serializable{
     private List<String> gradingOptions;
 
     private Date transactionalDate;
-    private Date dropDate;
+    private Date registeredDropDate;
+    private Date waitlistedDropDate;
     private Date effectiveDate;
 
     private String courseRegistrationId;
@@ -111,12 +112,20 @@ public class RegistrationCourse implements Serializable{
         return DateFormatters.MONTH_DAY_YEAR_DATE_FORMATTER.format(transactionalDate);
     }
 
-    public Date getDropDate() {
-        return dropDate;
+    public Date getRegisteredDropDate() {
+        return registeredDropDate;
     }
 
-    public void setDropDate(Date dropDate) {
-        this.dropDate = dropDate;
+    public void setRegisteredDropDate(Date registeredDropDate) {
+        this.registeredDropDate = registeredDropDate;
+    }
+
+    public Date getWaitlistedDropDate() {
+        return waitlistedDropDate;
+    }
+
+    public void setWaitlistedDropDate(Date waitlistedDropDate) {
+        this.waitlistedDropDate = waitlistedDropDate;
     }
 
     public Date getEffectiveDate() {
