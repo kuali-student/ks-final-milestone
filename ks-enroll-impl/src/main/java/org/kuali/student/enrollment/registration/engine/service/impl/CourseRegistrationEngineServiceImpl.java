@@ -209,13 +209,13 @@ public class CourseRegistrationEngineServiceImpl implements CourseRegistrationEn
     }
 
     @Override
-    public List<LprInfo> updateOptionsOnRegisteredLprs(String masterLprId, String credits, String gradingOptionId,
+    public List<LprInfo> updateOptionsOnRegisteredLprs(String masterLprId, String credits, String gradingOptionId, Date effDate,
                                                        ContextInfo contextInfo)
             throws OperationFailedException, PermissionDeniedException, DataValidationErrorException, VersionMismatchException,
             InvalidParameterException, ReadOnlyException, MissingParameterException, DoesNotExistException {
         // KSENROLL-12144
         List<LprInfo> updatedLprInfos = updateOptionsOnLprsCommon(LprServiceConstants.REGISTRANT_CO_LPR_TYPE_KEY,
-                masterLprId, credits, gradingOptionId, contextInfo);
+                masterLprId, credits, gradingOptionId, effDate, contextInfo);
 
         return updatedLprInfos;
     }
@@ -310,14 +310,14 @@ public class CourseRegistrationEngineServiceImpl implements CourseRegistrationEn
     }
 
     @Override
-    public List<LprInfo> updateOptionsOnWaitlistLprs(String masterLprId, String credits, String gradingOptionId,
+    public List<LprInfo> updateOptionsOnWaitlistLprs(String masterLprId, String credits, String gradingOptionId, Date effDate,
                                                      ContextInfo contextInfo)
             throws OperationFailedException, PermissionDeniedException, MissingParameterException,
             InvalidParameterException, DoesNotExistException, ReadOnlyException, DataValidationErrorException,
             VersionMismatchException {
         // KSENROLL-12144
         List<LprInfo> updatedLprInfos = updateOptionsOnLprsCommon(LprServiceConstants.WAITLIST_CO_LPR_TYPE_KEY,
-                masterLprId, credits, gradingOptionId, contextInfo);
+                masterLprId, credits, gradingOptionId, effDate, contextInfo);
 
         return updatedLprInfos;
     }
@@ -426,13 +426,11 @@ public class CourseRegistrationEngineServiceImpl implements CourseRegistrationEn
      * @return List of update LprInfos
      */
     protected List<LprInfo> updateOptionsOnLprsCommon(String courseOfferingLprType,
-                                                      String masterLprId, String credits, String gradingOptionId,
+                                                      String masterLprId, String credits, String gradingOptionId, Date effDate,
                                                       ContextInfo contextInfo)
             throws OperationFailedException, PermissionDeniedException, MissingParameterException,
             InvalidParameterException, DoesNotExistException, ReadOnlyException, DataValidationErrorException,
             VersionMismatchException {
-        // Record the current time
-        Date now = new Date();
         // Fetch the CO LPR
         // Comment out state fetches for now
         List<String> lprStates = new ArrayList<String>();
@@ -446,7 +444,7 @@ public class CourseRegistrationEngineServiceImpl implements CourseRegistrationEn
         updatedCoLpr.setId(null);
         updatedCoLpr.setMeta(null);
         updatedCoLpr.setExpirationDate(null);
-        updatedCoLpr.setEffectiveDate(now);
+        updatedCoLpr.setEffectiveDate(effDate);
         updatedCoLpr.setStateKey(LprServiceConstants.ACTIVE_STATE_KEY);
 
         updatedCoLpr.setResultValuesGroupKeys(new ArrayList<String>());
@@ -462,7 +460,7 @@ public class CourseRegistrationEngineServiceImpl implements CourseRegistrationEn
                 updatedCoLpr.getTypeKey(), updatedCoLpr, contextInfo);
 
         // Also update the master LPR since this is updating credit/reg options
-        LprInfo masterLpr = updateMasterLpr(masterLprId, credits, gradingOptionId, contextInfo);
+        LprInfo masterLpr = updateMasterLpr(masterLprId, credits, gradingOptionId, effDate, contextInfo);
 
         // Make a copy of the original master LPR.  This copy will store the original master LPR's info
         // while the original master LPR will be updated.  This is a "trick" to avoid creating new master LPR
@@ -471,7 +469,7 @@ public class CourseRegistrationEngineServiceImpl implements CourseRegistrationEn
         // Clear out the IDs and meta from copy (so it can save properly)
         masterLprCopy.setId(null);
         masterLprCopy.setMeta(null);
-        masterLprCopy.setExpirationDate(now); // Set its expiration date
+        masterLprCopy.setExpirationDate(new Date()); // Set its expiration date
         masterLprCopy.setStateKey(LprServiceConstants.EXPIRED_LPR_STATE_KEY); // Put it expired state
 
         // Then, create the copy LPR
@@ -501,9 +499,8 @@ public class CourseRegistrationEngineServiceImpl implements CourseRegistrationEn
      * @throws DataValidationErrorException
      * @throws VersionMismatchException
      */
-    protected LprInfo updateMasterLpr(String masterLprId, String credits, String gradingOptionId, ContextInfo contextInfo) throws PermissionDeniedException, MissingParameterException, InvalidParameterException, OperationFailedException, DoesNotExistException, ReadOnlyException, DataValidationErrorException, VersionMismatchException {
+    protected LprInfo updateMasterLpr(String masterLprId, String credits, String gradingOptionId, Date effDate, ContextInfo contextInfo) throws PermissionDeniedException, MissingParameterException, InvalidParameterException, OperationFailedException, DoesNotExistException, ReadOnlyException, DataValidationErrorException, VersionMismatchException {
         LprInfo masterLpr = getLprService().getLpr(masterLprId, contextInfo);
-        Date now = new Date();
 
         if (masterLpr.getExpirationDate() != null) {
             throw new OperationFailedException("Master LPR should have null expiration date");
@@ -517,7 +514,7 @@ public class CourseRegistrationEngineServiceImpl implements CourseRegistrationEn
             masterLpr.getResultValuesGroupKeys().add(gradingOptionId);
         }
         // Set effective date
-        masterLpr.setEffectiveDate(now);
+        masterLpr.setEffectiveDate(effDate);
         // Update the master LPR
         return getLprService().updateLpr(masterLpr.getId(), masterLpr, contextInfo);
 

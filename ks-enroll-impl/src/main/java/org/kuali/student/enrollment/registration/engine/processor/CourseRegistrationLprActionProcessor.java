@@ -126,7 +126,7 @@ public class CourseRegistrationLprActionProcessor {
     private void updateWaitlist(RegistrationRequestItemEngineMessage message, ContextInfo contextInfo) throws DataValidationErrorException, PermissionDeniedException, OperationFailedException, VersionMismatchException, InvalidParameterException, ReadOnlyException, MissingParameterException, DoesNotExistException {
         RegistrationRequestItem registrationRequestItem = message.getRequestItem();
         String creditStr = message.getRequestItem().getCredits() == null ? "" : message.getRequestItem().getCredits().bigDecimalValue().setScale(1).toPlainString();
-        courseRegistrationEngineService.updateOptionsOnWaitlistLprs(registrationRequestItem.getExistingCourseRegistrationId(), creditStr, registrationRequestItem.getGradingOptionId(), contextInfo);
+        courseRegistrationEngineService.updateOptionsOnWaitlistLprs(registrationRequestItem.getExistingCourseRegistrationId(), creditStr, registrationRequestItem.getGradingOptionId(), registrationRequestItem.getRequestedEffectiveDate(), contextInfo);
         courseRegistrationEngineService.updateLprTransactionItemResult(message.getRequestItem().getRegistrationRequestId(),
                 message.getRequestItem().getId(),
                 LprServiceConstants.LPRTRANS_ITEM_SUCCEEDED_STATE_KEY,
@@ -222,7 +222,7 @@ public class CourseRegistrationLprActionProcessor {
     private void updateRegistration(RegistrationRequestItemEngineMessage message, ContextInfo contextInfo) throws DoesNotExistException, PermissionDeniedException, OperationFailedException, VersionMismatchException, InvalidParameterException, ReadOnlyException, MissingParameterException, DataValidationErrorException {
         RegistrationRequestItem registrationRequestItem = message.getRequestItem();
         String creditStr = message.getRequestItem().getCredits() == null ? "" : message.getRequestItem().getCredits().bigDecimalValue().setScale(1).toPlainString();
-        courseRegistrationEngineService.updateOptionsOnRegisteredLprs(registrationRequestItem.getExistingCourseRegistrationId(), creditStr, registrationRequestItem.getGradingOptionId(), contextInfo);
+        courseRegistrationEngineService.updateOptionsOnRegisteredLprs(registrationRequestItem.getExistingCourseRegistrationId(), creditStr, registrationRequestItem.getGradingOptionId(), registrationRequestItem.getRequestedEffectiveDate(), contextInfo);
         courseRegistrationEngineService.updateLprTransactionItemResult(message.getRequestItem().getRegistrationRequestId(),
                 message.getRequestItem().getId(),
                 LprServiceConstants.LPRTRANS_ITEM_SUCCEEDED_STATE_KEY,

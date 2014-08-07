@@ -25,7 +25,7 @@ public interface CourseRegistrationEngineService {
 
     public List<LprInfo> addRegisteredLprs(String regGroupId, String termId, String credits, String gradingOptionId, Date effDate, ContextInfo contextInfo);
 
-    public List<LprInfo> updateOptionsOnRegisteredLprs(String masterLprId, String credits, String gradingOptionId, ContextInfo contextInfo)
+    public List<LprInfo> updateOptionsOnRegisteredLprs(String masterLprId, String credits, String gradingOptionId, Date effDate, ContextInfo contextInfo)
             throws OperationFailedException, PermissionDeniedException, DataValidationErrorException, VersionMismatchException,
             InvalidParameterException, ReadOnlyException, MissingParameterException, DoesNotExistException;
 
@@ -36,7 +36,7 @@ public interface CourseRegistrationEngineService {
     public RegistrationRequestEngineMessage initializeRegistrationRequest(String regReqId, ContextInfo contextInfo) throws PermissionDeniedException, MissingParameterException, InvalidParameterException, OperationFailedException, DoesNotExistException;
 
     public List<LprInfo> addWaitlistLprs(String regGroupId, String termId, String credits, String gradingOptionId, Date effDate, ContextInfo contextInfo);
-    public List<LprInfo> updateOptionsOnWaitlistLprs(String masterLprId, String credits, String gradingOptionId, ContextInfo contextInfo) throws OperationFailedException, PermissionDeniedException, MissingParameterException, InvalidParameterException, DoesNotExistException, ReadOnlyException, DataValidationErrorException, VersionMismatchException;
+    public List<LprInfo> updateOptionsOnWaitlistLprs(String masterLprId, String credits, String gradingOptionId, Date effDate, ContextInfo contextInfo) throws OperationFailedException, PermissionDeniedException, MissingParameterException, InvalidParameterException, DoesNotExistException, ReadOnlyException, DataValidationErrorException, VersionMismatchException;
     public List<LprInfo> removeCourseWaitlistEntry(String masterLprId, ContextInfo contextInfo) throws OperationFailedException, PermissionDeniedException, MissingParameterException, InvalidParameterException, DoesNotExistException, ReadOnlyException, DataValidationErrorException, VersionMismatchException;
 
     public List<LprInfo> addLprsFromWaitlist(String masterLprId, ContextInfo contextInfo) throws OperationFailedException, PermissionDeniedException, MissingParameterException, InvalidParameterException, DoesNotExistException, ReadOnlyException, DataValidationErrorException, VersionMismatchException;
