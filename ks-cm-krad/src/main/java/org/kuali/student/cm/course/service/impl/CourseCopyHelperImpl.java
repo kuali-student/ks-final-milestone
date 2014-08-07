@@ -56,12 +56,21 @@ public class CourseCopyHelperImpl implements CourseCopyHelper {
     }
 
     @Override
-    public void copyCourse(CourseInfoWrapper source, CourseInfoWrapper target){
+    public void copyCourse(CourseInfo source, CourseInfo target){
 
         Object[] propertiesToSkip = (Object[]) getIgnoreProperties().toArray();
         String[] stringArray = Arrays.copyOf(propertiesToSkip, propertiesToSkip.length, String[].class);
 
         BeanUtils.copyProperties(source,target,stringArray);
+
+        target.setCourseTitle("Copy of " + source.getCourseTitle());
+
+        resetCourse(target);
+    }
+
+    @Override
+    public void cleanUpCourseWrapperOnCopy(CourseInfoWrapper target){
+
 
         target.setRefObjectId(null);
         
@@ -86,7 +95,7 @@ public class CourseCopyHelperImpl implements CourseCopyHelper {
         resetCourse(target.getCourseInfo());
         resetRequisites(target);
 
-        target.getCourseInfo().setCourseTitle("Copy of " + source.getCourseInfo().getCourseTitle());
+
     }
 
     /**

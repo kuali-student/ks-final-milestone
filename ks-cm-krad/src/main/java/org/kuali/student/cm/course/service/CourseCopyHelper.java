@@ -17,6 +17,7 @@
 package org.kuali.student.cm.course.service;
 
 import org.kuali.student.cm.course.form.wrapper.CourseInfoWrapper;
+import org.kuali.student.r2.lum.course.dto.CourseInfo;
 
 /**
  *
@@ -24,6 +25,8 @@ import org.kuali.student.cm.course.form.wrapper.CourseInfoWrapper;
  */
 public interface CourseCopyHelper {
 
-    public void copyCourse(CourseInfoWrapper source, CourseInfoWrapper target);
+    public void cleanUpCourseWrapperOnCopy(CourseInfoWrapper target);
+
+    public void copyCourse(CourseInfo source, CourseInfo target);
 
 }

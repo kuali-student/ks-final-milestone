@@ -2111,11 +2111,7 @@ public class CourseMaintainableImpl extends RuleEditorMaintainableImpl implement
             ProposalInfo proposal = getProposalService().getProposalByWorkflowId(getDocumentNumber(), ContextUtils.createDefaultContextInfo());
             dataObject.setProposalInfo(proposal);
 
-            CourseInfoWrapper wrapper = (CourseInfoWrapper)getDataObject();
-
-            populateCourseWrapperData(wrapper,proposal.getProposalReference().get(0), false);
-
-            updateReview();
+            populateCourseAndReviewData(proposal.getProposalReference().get(0),dataObject,false);
 
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -2123,10 +2119,7 @@ public class CourseMaintainableImpl extends RuleEditorMaintainableImpl implement
 
     }
 
-    public void populateCourseWrapperData(CourseInfoWrapper courseWrapper,String courseId, boolean isCourseView) throws Exception {
-
-        CourseInfo course = getCourseService().getCourse(courseId, createContextInfo());
-        courseWrapper.setCourseInfo(course);
+    public void populateCourseWrapperData(CourseInfoWrapper courseWrapper,CourseInfo course, boolean isCourseView) throws Exception {
 
         courseWrapper.getUnitsContentOwner().clear();
 
@@ -2181,32 +2174,45 @@ public class CourseMaintainableImpl extends RuleEditorMaintainableImpl implement
 //        updateReview(false, isCourseView);
 
         // Initialize Author & Collaborator
-        if (courseWrapper.getCollaboratorWrappers().isEmpty()) {
-            courseWrapper.getCollaboratorWrappers().add(new CollaboratorWrapper());
-        }
+//        if (courseWrapper.getCollaboratorWrappers().isEmpty()) {
+//            courseWrapper.getCollaboratorWrappers().add(new CollaboratorWrapper());
+//        }
 
-        populateRequisities();
+        populateRequisities(courseWrapper,course.getId());
     }
 
     public CourseInfoWrapper copyCourse(String sourceCourseId) throws Exception {
 
+        CourseInfo sourceCourse = getCourseService().getCourse(sourceCourseId, createContextInfo());
+        CourseInfo targetCourse = new CourseInfo();
+
+        getCourseCopyHelper().copyCourse(sourceCourse,targetCourse);
+
         /**
          * Populate the source course wrapper first sothat we can create target from here.
          */
-        CourseInfoWrapper source = new CourseInfoWrapper();
-        setDataObject(source); // Most of the populate methods and requisities are using this dataobject
-        populateCourseWrapperData(source,sourceCourseId,false);
-
-        CourseInfoWrapper target = new CourseInfoWrapper();
+        CourseInfoWrapper targetCourseWrapper = new CourseInfoWrapper();
+        targetCourseWrapper.setCourseInfo(targetCourse);
+        setDataObject(targetCourseWrapper); // Most of the populate methods and requisities are using this dataobject
 
         /**
-         * This copies all the properties from source to target and skips fields on copy based on the configuration
+         * As we cleaned up target course which doesnt have course Id, we need to populate requisities seperately
          */
-        getCourseCopyHelper().copyCourse(source,target);
+        populateCourseWrapperData(targetCourseWrapper,targetCourse,false);
 
-        initializeOutcome(target);
+        /**
+         * Populate all the source requisities into the target
+         */
+        populateRequisities(targetCourseWrapper,sourceCourse.getId());
 
-        return target;
+        /**
+         * Needs final cleanup with requisitie Ids and other
+         */
+        getCourseCopyHelper().cleanUpCourseWrapperOnCopy(targetCourseWrapper);
+
+        initializeOutcome(targetCourseWrapper);
+
+        return targetCourseWrapper;
 
     }
 
@@ -2214,27 +2220,15 @@ public class CourseMaintainableImpl extends RuleEditorMaintainableImpl implement
 
         ProposalInfo sourceProposal = getProposalService().getProposal(sourceProposalId, ContextUtils.createDefaultContextInfo());
 
-        /**
-         * Populate the source course wrapper first sothat we can create target from here.
-         */
-        CourseInfoWrapper source = new CourseInfoWrapper();
-        setDataObject(source); // Most of the populate methods and requisities are using this dataobject
-        populateCourseWrapperData(source,sourceProposal.getProposalReference().get(0),false);
+        String courseId = sourceProposal.getProposalReference().get(0);
 
-        CourseInfoWrapper target = new CourseInfoWrapper();
-
-        /**
-         * This copies all the properties from source to target and skips fields on copy based on the configuration
-         */
-        getCourseCopyHelper().copyCourse(source,target);
-
-        initializeOutcome(target);
+        CourseInfoWrapper targetCourseWrapper = copyCourse(courseId);
 
         ProposalInfo targetProposal = new ProposalInfo();
         targetProposal.setName("Copy of " + sourceProposal.getName());
-        target.setProposalInfo(targetProposal);
+        targetCourseWrapper.setProposalInfo(targetProposal);
 
-        return target;
+        return targetCourseWrapper;
 
     }
 
@@ -2246,7 +2240,9 @@ public class CourseMaintainableImpl extends RuleEditorMaintainableImpl implement
      */
     public void populateCourseAndReviewData(String courseId, CourseInfoWrapper courseWrapper, boolean isCourseView) throws Exception {
 
-        populateCourseWrapperData(courseWrapper,courseId,isCourseView);
+        CourseInfo course = getCourseService().getCourse(courseId, createContextInfo());
+
+        populateCourseWrapperData(courseWrapper,course,isCourseView);
 
         updateReview(false, isCourseView);
 
@@ -2287,15 +2283,14 @@ public class CourseMaintainableImpl extends RuleEditorMaintainableImpl implement
         }
     }
 
-    protected void populateRequisities() {
+    protected void populateRequisities(CourseInfoWrapper courseInfoWrapper, String courseId) {
 
-        CourseInfoWrapper courseInfoWrapper = (CourseInfoWrapper) getDataObject();
+        if (StringUtils.isNotBlank(courseId)) {
 
-        String courseId = courseInfoWrapper.getCourseInfo().getId();
+            courseInfoWrapper.setRefObjectId(courseId);
 
-        courseInfoWrapper.setRefObjectId(courseId);
-
-        courseInfoWrapper.setAgendas(this.getAgendasForRef(CourseServiceConstants.REF_OBJECT_URI_COURSE, courseId, null));
+            courseInfoWrapper.setAgendas(this.getAgendasForRef(CourseServiceConstants.REF_OBJECT_URI_COURSE, courseId, null));
+        }
     }
 
     /**

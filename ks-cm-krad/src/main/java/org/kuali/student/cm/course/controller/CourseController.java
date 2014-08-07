@@ -277,7 +277,6 @@ public class CourseController extends CourseRuleEditorController {
          */
         createDocument(form);
 
-        CourseInfoWrapper wrapper = (CourseInfoWrapper) form.getDocument().getNewMaintainableObject().getDataObject();
         CourseMaintainable viewHelper = (CourseMaintainable) form.getDocument().getNewMaintainableObject();
 
         /*
@@ -292,7 +291,7 @@ public class CourseController extends CourseRuleEditorController {
             try {
                 //  Populate the Course and Rule data.
                 CourseInfoWrapper target = viewHelper.copyCourse(copyCluId);
-                form.getDocument().getNewMaintainableObject().setDataObject(target);
+                viewHelper.setDataObject(target);
             } catch (Exception e) {
                 String msg = String.format("Unable to populate data from course id %s.", copyCluId);
                 LOG.error(msg, e);
@@ -308,7 +307,7 @@ public class CourseController extends CourseRuleEditorController {
             if (StringUtils.isNotBlank(proposalId)) {
 
                 CourseInfoWrapper target = viewHelper.copyProposal(proposalId);
-                form.getDocument().getNewMaintainableObject().setDataObject(target);
+                viewHelper.setDataObject(target);
             }
         }
         return getUIFModelAndView(form);

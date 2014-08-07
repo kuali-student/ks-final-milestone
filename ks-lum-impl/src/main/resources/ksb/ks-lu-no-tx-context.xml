@@ -436,18 +436,14 @@
     <bean id="courseCopyHelper" class="org.kuali.student.cm.course.service.impl.CourseCopyHelperImpl">
         <property name="ignoreProperties">
             <list>
-                <value>courseInfo.courseTitle</value>
-                <value>courseInfo.transcriptTitle</value>
-                <value>courseInfo.unitsContentOwner</value>
-                <value>courseInfo.creditOptions</value>
-                <value>creditOptionWrappers</value>
-                <value>courseInfo.startTerm</value>
-                <value>courseInfo.EndTerm</value>
-                <value>courseInfo.pilotCourse</value>
-                <value>ruleEditor</value>
-                <value>agendaEditor</value>
-                <value>compareTree</value>
-                <value>ruleEditor</value>
+                <value>courseTitle</value>
+                <value>transcriptTitle</value>
+                <value>unitsContentOwner</value> <!-- Curriculum Oversight -->
+                <value>creditOptions</value>    <!-- outcomes -->
+                <value>startTerm</value>
+                <value>EndTerm</value>
+                <value>pilotCourse</value>
+                <value>unitsDeployment</value>  <!--Administering Organization -->
             </list>
         </property>
     </bean>
