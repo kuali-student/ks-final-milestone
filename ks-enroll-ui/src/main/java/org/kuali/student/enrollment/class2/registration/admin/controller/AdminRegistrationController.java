@@ -363,23 +363,19 @@ public class AdminRegistrationController extends UifControllerBase {
         }
 
         String updateId = null;
-        RegistrationResult regResult = null;
         if (LprServiceConstants.LPRTRANS_ITEM_SUCCEEDED_STATE_KEY.equals(item.getStateKey())) {
             form.getRegisteredCourses().add(addCourse);
-            regResult = AdminRegistrationUtil.buildSuccessRegistrationResult(addCourse, AdminRegConstants.ADMIN_REG_MSG_INFO_SUCCESSFULLY_REGISTERED);
+            form.getRegistrationResults().add(AdminRegistrationUtil.buildSuccessResult(addCourse, AdminRegConstants.ADMIN_REG_MSG_INFO_SUCCESSFULLY_REGISTERED));
             updateId = AdminRegConstants.REG_COLL_ID;
         } else if (LprServiceConstants.LPRTRANS_ITEM_WAITLIST_STATE_KEY.equals(item.getStateKey())) {
             form.getWaitlistedCourses().add(addCourse);
-            regResult = AdminRegistrationUtil.buildSuccessRegistrationResult(addCourse, AdminRegConstants.ADMIN_REG_MSG_INFO_SUCCESSFULLY_WAITLISTED);
+            form.getRegistrationResults().add(AdminRegistrationUtil.buildSuccessResult(addCourse, AdminRegConstants.ADMIN_REG_MSG_INFO_SUCCESSFULLY_WAITLISTED));
             updateId = AdminRegConstants.WAITLIST_COLL_ID;
         } else if (LprServiceConstants.LPRTRANS_ITEM_WAITLIST_AVAILABLE_STATE_KEY.equals(item.getStateKey()) ||
                 LprServiceConstants.LPRTRANS_ITEM_FAILED_STATE_KEY.equals(item.getStateKey())) {
-            regResult = AdminRegistrationUtil.buildWarningRegistrationResult(addCourse);
-            regResult.setOriginRegRequestId(item.getRegistrationRequestId());
-            regResult.getItems().addAll(getViewHelper(form).createRegResultsFromValidationResults(item.getValidationResults()));
+            form.getRegistrationResults().add(AdminRegistrationUtil.buildWarningResult(addCourse, item));
         }
 
-        form.getRegistrationResults().add(regResult);
         return updateId;
     }
 
@@ -396,26 +392,25 @@ public class AdminRegistrationController extends UifControllerBase {
      * @return
      */
     private String handleEditRequestItem(AdminRegistrationForm form, boolean adminOverride, RegistrationRequestItemInfo item) {
+
+        // Retrieve the course that was updated.
+        RegistrationCourse updatedCourse = null;
+        if (adminOverride) {
+            // If request originated from allow override, we need to remove from result list and registered courses.
+            RegistrationResult updateResult = AdminRegistrationUtil.retrieveFromResultList(form.getRegistrationResults(), item);
+            updatedCourse = updateResult.getCourse();
+        } else {
+            updatedCourse = AdminRegistrationUtil.retrieveFromCourseList(form.getCoursesInEdit(), item);
+        }
+
         // Update the registered courses list with updated detail.
         if (LprServiceConstants.LPRTRANS_ITEM_SUCCEEDED_STATE_KEY.equals(item.getStateKey())) {
-
-            // Retrieve the course that was updated.
-            RegistrationCourse updatedCourse = null;
-            if (adminOverride) {
-                // If request originated from allow override, we need to remove from result list and registered courses.
-                RegistrationResult updateResult = AdminRegistrationUtil.retrieveFromResultList(form.getRegistrationResults(), item);
-                updatedCourse = updateResult.getCourse();
-            } else {
-                updatedCourse = AdminRegistrationUtil.retrieveFromCourseList(form.getCoursesInEdit(), item);
-            }
-
             form.getRegisteredCourses().remove(updatedCourse.getOriginCourse()); //remove old course.
             form.getRegisteredCourses().add(updatedCourse); // Add the edited course to the list.
-            RegistrationResult regResult = AdminRegistrationUtil.buildSuccessRegistrationResult(updatedCourse, AdminRegConstants.ADMIN_REG_MSG_INFO_SUCCESSFULLY_UPDATED);
-            form.getRegistrationResults().add(regResult);
+            form.getRegistrationResults().add(AdminRegistrationUtil.buildSuccessResult(updatedCourse, AdminRegConstants.ADMIN_REG_MSG_INFO_SUCCESSFULLY_UPDATED));
             return AdminRegConstants.REG_COLL_ID;
         } else if (LprServiceConstants.LPRTRANS_ITEM_FAILED_STATE_KEY.equals(item.getStateKey())) {
-            // Not yet implemented.
+            form.getRegistrationResults().add(AdminRegistrationUtil.buildWarningResult(updatedCourse, item));
         }
 
         return null;
@@ -432,11 +427,10 @@ public class AdminRegistrationController extends UifControllerBase {
         RegistrationCourse dropCourse = form.getPendingDropCourse();
         if (LprServiceConstants.LPRTRANS_ITEM_SUCCEEDED_STATE_KEY.equals(item.getStateKey())) {
             form.getRegisteredCourses().remove(dropCourse);
-            RegistrationResult regResult = AdminRegistrationUtil.buildSuccessRegistrationResult(dropCourse, AdminRegConstants.ADMIN_REG_MSG_INFO_SUCCESSFULLY_DROPPED);
-            form.getRegistrationResults().add(regResult);
+            form.getRegistrationResults().add(AdminRegistrationUtil.buildSuccessResult(dropCourse, AdminRegConstants.ADMIN_REG_MSG_INFO_SUCCESSFULLY_DROPPED));
             return AdminRegConstants.REG_COLL_ID;
         } else if (LprServiceConstants.LPRTRANS_ITEM_FAILED_STATE_KEY.equals(item.getStateKey())) {
-            // Not yet implemented.
+            form.getRegistrationResults().add(AdminRegistrationUtil.buildWarningResult(dropCourse, item));
         }
 
         return null;
@@ -493,7 +487,7 @@ public class AdminRegistrationController extends UifControllerBase {
 
         CourseOffering courseOffering = AdminRegClientCache.getCourseOfferingByCodeAndTerm(form.getTerm().getId(), regCourse.getCode());
         if (regCourse.getCreditOptions() == null) {
-            regCourse.setCreditOptions(AdminRegistrationUtil.getCourseOfferingCreditOptionValues(courseOffering.getCreditOptionId()));
+            regCourse.setCreditOptions(getViewHelper(form).getCourseOfferingCreditOptionValues(courseOffering.getCreditOptionId()));
             if (regCourse.getCreditOptions().size() == 1) {
                 regCourse.setCreditType(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_FIXED);
             } else {
@@ -549,11 +543,11 @@ public class AdminRegistrationController extends UifControllerBase {
     public ModelAndView allowCourse(@ModelAttribute("KualiForm") AdminRegistrationForm form, BindingResult result,
                                     HttpServletRequest request, HttpServletResponse response) {
 
-        RegistrationCourse regCourse = getSelectedRegistrationCourse(form);
+        RegistrationResult regResult = (RegistrationResult) getSelectedCollectionObject(form);
 
         // Resubmit registration
         form.setRegRequestId(getViewHelper(form).resubmitCourse(form.getPerson().getId(), form.getTerm().getId(),
-                regCourse, LprServiceConstants.REQ_ITEM_ADD_TYPE_KEY));
+                regResult.getCourse(), regResult.getOriginRequestTypeKey()));
 
         // Set the client state to "Registering" so that we can prevent certain actions on UI.
         form.setClientState(AdminRegConstants.ClientStates.REGISTERING);
@@ -577,6 +571,10 @@ public class AdminRegistrationController extends UifControllerBase {
     }
 
     private RegistrationCourse getSelectedRegistrationCourse(AdminRegistrationForm form) {
+        return (RegistrationCourse) this.getSelectedCollectionObject(form);
+    }
+
+    private Object getSelectedCollectionObject(AdminRegistrationForm form) {
 
         String selectedCollectionPath = form.getActionParamaterValue(UifParameters.SELECTED_COLLECTION_PATH);
         if (StringUtils.isBlank(selectedCollectionPath)) {
@@ -593,12 +591,7 @@ public class AdminRegistrationController extends UifControllerBase {
         Collection<Object> collection = ObjectPropertyUtils.getPropertyValue(form, selectedCollectionPath);
         Object item = ((List) collection).get(selectedLineIndex);
 
-        if (item instanceof RegistrationResult) {
-            return ((RegistrationResult) item).getCourse();
-        } else {
-            return (RegistrationCourse) item;
-        }
-
+        return item;
     }
 
 }

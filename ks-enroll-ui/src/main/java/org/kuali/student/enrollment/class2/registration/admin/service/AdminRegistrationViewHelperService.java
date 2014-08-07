@@ -90,6 +90,13 @@ public interface AdminRegistrationViewHelperService {
     public List<RegistrationActivity> getRegistrationActivitiesForRegistrationCourse(RegistrationCourse registrationCourse, String termCode);
 
     /**
+     *
+     * @param creditOptionId
+     * @return
+     */
+    public List<String> getCourseOfferingCreditOptionValues(String creditOptionId);
+
+    /**
      * Submit the list of courses for registration.
      *
      * @param studentId
@@ -129,14 +136,6 @@ public interface AdminRegistrationViewHelperService {
      * @return
      */
     public RegistrationRequestInfo getRegistrationRequest(String regRequestId);
-
-    /**
-     * Create Registration Results from the returned validation results.
-     *
-     * @param results
-     * @return
-     */
-    public List<RegistrationResultItem> createRegResultsFromValidationResults(List<ValidationResultInfo> results);
 
     /**
      * Validates the edited course on save.

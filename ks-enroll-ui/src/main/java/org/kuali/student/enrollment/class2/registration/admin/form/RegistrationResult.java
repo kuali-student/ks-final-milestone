@@ -24,7 +24,7 @@ public class RegistrationResult {
     /**
      * The origin registration request id.
      */
-    private String originRegRequestId;
+    private String originRequestTypeKey;
 
     /**
      * This list of registration results items.
@@ -47,12 +47,12 @@ public class RegistrationResult {
         this.level = level;
     }
 
-    public String getOriginRegRequestId() {
-        return originRegRequestId;
+    public String getOriginRequestTypeKey() {
+        return originRequestTypeKey;
     }
 
-    public void setOriginRegRequestId(String originRegRequestId) {
-        this.originRegRequestId = originRegRequestId;
+    public void setOriginRequestTypeKey(String originRequestTypeKey) {
+        this.originRequestTypeKey = originRequestTypeKey;
     }
 
     public List<RegistrationResultItem> getItems() {

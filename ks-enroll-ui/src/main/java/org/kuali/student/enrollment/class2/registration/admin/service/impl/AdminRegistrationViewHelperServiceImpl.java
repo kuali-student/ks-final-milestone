@@ -53,6 +53,8 @@ import org.kuali.student.r2.core.scheduling.dto.ScheduleComponentInfo;
 import org.kuali.student.r2.core.scheduling.dto.ScheduleInfo;
 import org.kuali.student.r2.core.scheduling.dto.TimeSlotInfo;
 import org.kuali.student.r2.core.scheduling.util.SchedulingServiceUtil;
+import org.kuali.student.r2.lum.lrc.dto.ResultValueInfo;
+import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
 import org.kuali.student.r2.lum.util.constants.LrcServiceConstants;
 
 import java.text.MessageFormat;
@@ -275,7 +277,7 @@ public class AdminRegistrationViewHelperServiceImpl extends KSViewHelperServiceI
 
                 course.setGradingOptionId(courseOffering.getGradingOptionId());
                 course.setGradingOptions(courseOffering.getStudentRegistrationGradingOptions());
-                course.setCreditOptions(AdminRegistrationUtil.getCourseOfferingCreditOptionValues(courseOffering.getCreditOptionId()));
+                course.setCreditOptions(this.getCourseOfferingCreditOptionValues(courseOffering.getCreditOptionId()));
                 if (course.getCreditOptions().size() == 1) {
                     course.setCreditType(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_FIXED);
                     course.setCredits(KSCollectionUtils.getRequiredZeroElement(course.getCreditOptions()));
@@ -338,6 +340,42 @@ public class AdminRegistrationViewHelperServiceImpl extends KSViewHelperServiceI
         }
 
         return registrationActivities;
+    }
+
+    @Override
+    public List<String> getCourseOfferingCreditOptionValues(String creditOptionId) {
+
+        int firstValue = 0;
+        List<String> creditOptions = new java.util.ArrayList<String>();
+
+        //Lookup the selected credit option and set from persisted values
+        if (!creditOptionId.isEmpty()) {
+
+            try {
+                //Lookup the resultValueGroup Information
+                ResultValuesGroupInfo resultValuesGroupInfo = CourseRegistrationAndScheduleOfClassesUtil.getLrcService().getResultValuesGroup(creditOptionId, ContextUtils.getContextInfo());
+                String typeKey = resultValuesGroupInfo.getTypeKey();
+
+                //Get the actual values
+                List<ResultValueInfo> resultValueInfos = CourseRegistrationAndScheduleOfClassesUtil.getLrcService().getResultValuesByKeys(
+                        resultValuesGroupInfo.getResultValueKeys(), ContextUtils.getContextInfo());
+
+                if (!resultValueInfos.isEmpty()) {
+                    if (typeKey.equals(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_FIXED)) {
+                        creditOptions.add(resultValueInfos.get(firstValue).getValue()); // fixed credits
+                    } else if (typeKey.equals(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_MULTIPLE) ||
+                            typeKey.equals(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_RANGE)) {  // multiple or range
+                        for (ResultValueInfo resultValueInfo : resultValueInfos) {
+                            creditOptions.add(resultValueInfo.getValue());
+                        }
+                    }
+                }
+            } catch (Exception e) {
+                throw new RuntimeException("Could not retrieve Room RoomService for " + e);
+            }
+        }
+
+        return creditOptions;
     }
 
     /**
@@ -484,34 +522,6 @@ public class AdminRegistrationViewHelperServiceImpl extends KSViewHelperServiceI
         return null;
     }
 
-    @Override
-    public List<RegistrationResultItem> createRegResultsFromValidationResults(List<ValidationResultInfo> results) {
-        List<RegistrationResultItem> issueItems = new ArrayList<RegistrationResultItem>();
-        // Add the messages to the issue items list.
-        for (ValidationResult validationResult : results) {
-            RegistrationValidationResult result = RegistrationValidationResultsUtil.unmarshallResult(validationResult.getMessage());
-
-            String message = StringUtils.EMPTY;
-            if (result instanceof RegistrationValidationConflictCourseResult) {
-                RegistrationValidationConflictCourseResult conflictCourseResult = (RegistrationValidationConflictCourseResult) result;
-                StringBuilder conflictCourses = new StringBuilder();
-                for (ConflictCourseResult conflictCourse : conflictCourseResult.getConflictingCourses()) {
-                    if (conflictCourses.length() > 0) {
-                        conflictCourses.append(", ");
-                    }
-                    conflictCourses.append(conflictCourse.getCourseCode());
-                }
-                message = AdminRegistrationUtil.getMessageForKey(result.getMessageKey(), conflictCourses.toString());
-            }
-            else{
-                message = AdminRegistrationUtil.getMessageForKey(result.getMessageKey());
-            }
-
-            issueItems.add(new RegistrationResultItem(message));
-        }
-        return issueItems;
-    }
-
     /**
      * This method is used for the course code suggest field on the input section on the client.
      *
@@ -568,7 +578,6 @@ public class AdminRegistrationViewHelperServiceImpl extends KSViewHelperServiceI
 
         return course.getTitle();
     }
-
 
     @Override
     public void validateCourseEdit(AdminRegistrationForm form) {
