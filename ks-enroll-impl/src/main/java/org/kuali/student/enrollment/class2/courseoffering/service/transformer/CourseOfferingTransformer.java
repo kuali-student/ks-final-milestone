@@ -110,17 +110,24 @@ public class CourseOfferingTransformer {
         }
 
         //retrieve a list of CluResultInfo by a list of cluId and generate the map of cluId to CluResultInfo list
-        List<CluResultInfo> cluResults = cluService.getCluResultsByClus(cluIds, context);
-        for (CluResultInfo cluResultInfo : cluResults) {
-            List<CluResultInfo> resultsList = cluResultListMap.get(cluResultInfo.getCluId());
-            if (resultsList == null) {
-                resultsList = new ArrayList<CluResultInfo>();
-                cluResultListMap.put(cluResultInfo.getCluId(), resultsList);
-            }
+		if (cluService != null) {
+			List<CluResultInfo> cluResults = cluService.getCluResultsByClus(
+					cluIds, context);
+			for (CluResultInfo cluResultInfo : cluResults) {
+				List<CluResultInfo> resultsList = cluResultListMap
+						.get(cluResultInfo.getCluId());
+				if (resultsList == null) {
+					resultsList = new ArrayList<CluResultInfo>();
+					cluResultListMap.put(cluResultInfo.getCluId(), resultsList);
+				}
 
-            resultsList.add(cluResultInfo);
-            totalResultValueGroupKeySet.add(cluResultInfo.getResultOptions().get(0).getResultComponentId());
-        }
+				resultsList.add(cluResultInfo);
+				totalResultValueGroupKeySet.add(cluResultInfo
+						.getResultOptions().get(0).getResultComponentId());
+			}
+		} else {
+			LOG.warn("CourseOfferingTransformer: 'cluService' dependency is not configured.");
+		}
 
         //retrieve a list of ResultValuesGroupInfo by a list of result value group key and generate the map of rvg key to ResultValuesGroupInfo
         List<String>totalResultValueGroupKeyList = new ArrayList<String>(totalResultValueGroupKeySet);

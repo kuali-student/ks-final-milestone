@@ -2909,7 +2909,12 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         QueryByCriteria newCriteria = addLuiTypeEqualPredicate(criteria, LuiServiceConstants.COURSE_OFFERING_TYPE_KEY);
 
         GenericQueryResults<String> results =  criteriaLookupService.lookupIds(LuiEntity.class, newCriteria);
-        return results.getResults();
+        
+        if (results != null)
+        	return results.getResults();
+        else {
+			return new ArrayList<String>(0);
+		}
     }
 
     @Override
