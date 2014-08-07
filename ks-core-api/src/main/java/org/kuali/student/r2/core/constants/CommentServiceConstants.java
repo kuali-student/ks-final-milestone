@@ -19,6 +19,7 @@ public class CommentServiceConstants {
 
     //comment types
     public static final String COMMENT_ADMINISTRATIVE_TYPE_KEY = "kuali.comment.comment.type.comment.administrative";
+    public static final String COMMENT_GENERAL_REMARKS_TYPE_KEY = "kuali.comment.type.generalRemarks";
 
     public static final String COMMENT_ACKNOWLEDGE_WORKFLOW_DECISION_TYPE_KEY = "kuali.comment.type.workflowDecisionRationale.acknowledge";
     public static final String COMMENT_APPROVE_WORKFLOW_DECISION_TYPE_KEY = "kuali.comment.type.workflowDecisionRationale.approve";
