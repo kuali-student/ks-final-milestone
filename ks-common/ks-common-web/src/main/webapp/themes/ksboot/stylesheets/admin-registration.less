@@ -172,12 +172,23 @@
   color: red;
 }
 
-#KS-AdminRegistration-DropRegisteredDialog .uif-boxLayoutHorizontalItem{
+#KS-AdminRegistration-DropRegisteredIssues .uif-boxLayoutHorizontalItem,
+#KS-AdminRegistration-DropWaitlistedIssues .uif-boxLayoutHorizontalItem{
   display: inline-flex;
+  margin-bottom: 2.0em;
+  margin-top: 1.0em;
 }
 
-#KS-AdminRegistration-DropRegisteredDialog .uif-boxLayoutHorizontalItem label{
+#KS-AdminRegistration-DropRegisteredIssues .uif-label,
+#KS-AdminRegistration-DropWaitlistedIssues .uif-label{
   padding-top: .5em;
   padding-right: .5em;
   padding-left: 1em;
+}
+
+#KS-AdminRegistration-DropRegisteredIssues > header,
+#KS-AdminRegistration-DropWaitlistedIssues > header{
+  padding-left: 1em;
+  padding-right: 0.5em;
+  padding-top: 0.8em;
 }
