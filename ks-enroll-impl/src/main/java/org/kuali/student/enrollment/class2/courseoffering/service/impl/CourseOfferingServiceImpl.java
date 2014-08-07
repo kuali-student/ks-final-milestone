@@ -1,5 +1,20 @@
 package org.kuali.student.enrollment.class2.courseoffering.service.impl;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+import javax.xml.namespace.QName;
+
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.criteria.GenericQueryResults;
 import org.kuali.rice.core.api.criteria.PredicateFactory;
@@ -103,19 +118,6 @@ import org.kuali.student.r2.lum.lrc.service.LRCService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.transaction.annotation.Transactional;
-
-import javax.xml.namespace.QName;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 public class CourseOfferingServiceImpl implements CourseOfferingService {
 
@@ -2914,70 +2916,36 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
     @Transactional(readOnly = true)
     public List<CourseOfferingInfo> searchForCourseOfferings(QueryByCriteria criteria, ContextInfo context)
             throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        //Add luiType Predicate
-        QueryByCriteria newCriteria = addLuiTypeEqualPredicate(criteria, LuiServiceConstants.COURSE_OFFERING_TYPE_KEY);
+        
+    	List<String> courseOfferingIds = searchForCourseOfferingIds(criteria,
+				context);
 
-        GenericQueryResults<LuiEntity> results = criteriaLookupService.lookup(LuiEntity.class, newCriteria);
-        List<CourseOfferingInfo> courseOfferings = new ArrayList<CourseOfferingInfo>(results.getResults().size());
-        List<String> coIds = new ArrayList<String>(results.getResults().size());
+		int results = courseOfferingIds.size();
 
-        if (results != null && results.getResults().size() > 0) {
-            for (LuiEntity lui : results.getResults()) {
-                coIds.add(lui.getId());
-                CourseOfferingInfo co = new CourseOfferingInfo();
-                //Associate instructors to the given CO
-                courseOfferingTransformer.lui2CourseOffering(lui.toDto(), co, context);
-                //courseOfferingTransformer.assembleInstructors(co, lui.getId(), context, getLprService());
+		if (results > 1) {
+			try {
+				return getCourseOfferingsByIds(courseOfferingIds, context);
+			} catch (DoesNotExistException e) {
+				throw new OperationFailedException(
+						"Failed to bulk load course offerings by ids: "
+								+ StringUtils.join(courseOfferingIds, ", "), e);
+			}
+		} else if (results == 1) {
+			String courseOfferingId = courseOfferingIds.get(0);
+			CourseOfferingInfo co;
+			try {
+				co = getCourseOffering(courseOfferingId, context);
+			} catch (DoesNotExistException e) {
+				throw new OperationFailedException(
+						"Failed to load course offerings with id: "
+								+ courseOfferingId, e);
+			}
+			return Arrays.asList(new CourseOfferingInfo[] { co });
+		} else {
+			return new ArrayList<CourseOfferingInfo>(0);
+		}
 
-                courseOfferings.add(co);
-            }
-
-            if (coIds.isEmpty()){
-
-                //create the map to store co-lprList relationship
-                try {
-                    List<LprInfo> lprInfos = new ArrayList<LprInfo>();
-                    for(String co: coIds){
-                        QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
-                        qbcBuilder.setPredicates(PredicateFactory.in("luiId", co),
-                                PredicateFactory.in("personRelationTypeId", LprServiceConstants.COURSE_INSTRUCTOR_TYPE_KEYS));
-                        QueryByCriteria coCriteria = qbcBuilder.build();
-                        lprInfos.addAll(lprService.searchForLprs(criteria, context));
-                    }
-
-                    Map<String, List<LprInfo>> coLprMap = new HashMap<String, List<LprInfo>>(courseOfferings.size());
-                    for (LprInfo lpr : lprInfos) {
-                        int mapIndex = 0;
-                        for (Map.Entry<String, List<LprInfo>> entry : coLprMap.entrySet()) {
-                            if (entry.getKey().equals(lpr.getLuiId())) {
-                                entry.getValue().add(lpr);
-                                break;
-                            }
-                            mapIndex++;
-                        }
-                        if (mapIndex == coLprMap.size()) {
-                            List<LprInfo> lprsForCo = new ArrayList<LprInfo>();
-                            lprsForCo.add(lpr);
-                            coLprMap.put(lpr.getLuiId(), lprsForCo);
-                        }
-
-                    }
-
-                    //assemble instructors to CO
-                    for (CourseOfferingInfo coInfo : courseOfferings) {
-                        List<LprInfo> lprsForAssemble = coLprMap.get(coInfo.getId());
-
-                        if (lprsForAssemble != null && lprsForAssemble.size() > 0) {
-                            courseOfferingTransformer.assembleInstructorsByLprs(coInfo, lprsForAssemble);
-                        }
-                    }
-                } catch(Exception e){
-                    throw new OperationFailedException("Failed to retrieve Lprs", e);
-                }
-            }
-        }
-
-        return courseOfferings;
+        
     }
 
     private void createLuiLuiRelationForRegGroups(String luiId, String relatedLuiId, String luLuRelationTypeKey, ContextInfo context) throws DataValidationErrorException,
