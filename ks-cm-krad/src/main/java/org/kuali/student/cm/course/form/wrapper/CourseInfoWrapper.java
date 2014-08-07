@@ -163,16 +163,6 @@ public class CourseInfoWrapper extends LURuleManagementWrapper implements Serial
         this.showAll = showAll;
     }
 
-    private boolean approveCheck;
-
-    public boolean isApproveCheck() {
-        return approveCheck;
-    }
-
-    public void setApproveCheck(boolean approveCheck) {
-        this.approveCheck = approveCheck;
-    }
-
     /**
      * Since only one organization can be added for the Curriculum Oversight, a newly added one should replace the
      * existing one. This property is used to remember which was the old one when the time comes to persist.

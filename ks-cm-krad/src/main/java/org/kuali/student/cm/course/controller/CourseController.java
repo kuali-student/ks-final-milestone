@@ -353,6 +353,8 @@ public class CourseController extends CourseRuleEditorController {
                     form.getDialogManager().removeDialog(dialog);
 //                    form.getDialogManager().resetDialogStatus(dialog);
                     return modelAndView;
+                } else {
+                    form.getDialogManager().removeDialog(dialog);
                 }
             } else {
                 return showDialog(dialog, form, request, response);
@@ -371,10 +373,9 @@ public class CourseController extends CourseRuleEditorController {
      * @return ModelAndView object
      */
     @Override
-    public ModelAndView approve(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result, HttpServletRequest request, HttpServletResponse response) {
+    public ModelAndView approve(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         CourseInfoWrapper courseInfoWrapper = getCourseInfoWrapper(form);
-        courseInfoWrapper.setApproveCheck(true);
         String dialog = CurriculumManagementConstants.COURSE_APPROVE_CONFIRMATION_DIALOG;
         if ( ! hasDialogBeenDisplayed(dialog, form)) {
             doValidationForProposal(form,courseInfoWrapper, KewApiConstants.ROUTE_HEADER_PROCESSED_CD);
@@ -388,16 +389,13 @@ public class CourseController extends CourseRuleEditorController {
                 boolean confirmApprove = getBooleanDialogResponse(dialog, form, request, response);
                 if (confirmApprove) {
                     //route the document
-                    try{
                     addDecisionRationale(courseInfoWrapper.getProposalInfo().getId(), courseInfoWrapper.getUiHelper().getDialogExplanations().get(dialog), CommentServiceConstants.WORKFLOW_DECISIONS.APPROVE.getType());
                     ModelAndView modelAndView = super.approve(form,result, request,response);
                     form.getDialogManager().removeDialog(dialog);
 //                      form.getDialogManager().resetDialogStatus(dialog);
                     return modelAndView;
-                    }catch (Exception ex){
-                        LOG.error("Error occurred while approving the proposal", ex);
-                        GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, KSObjectUtils.unwrapException(20, ex).getMessage());
-                }
+                } else {
+                    form.getDialogManager().removeDialog(dialog);
                 }
             }else{
                 return showDialog(dialog, form, request, response);
@@ -759,8 +757,7 @@ public class CourseController extends CourseRuleEditorController {
     public ModelAndView blanketApprove(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result,
                                        HttpServletRequest request, HttpServletResponse response) throws Exception {
         CourseInfoWrapper courseInfoWrapper = getCourseInfoWrapper(form);
-        courseInfoWrapper.setApproveCheck(false);
-        String dialog = CurriculumManagementConstants.COURSE_APPROVE_CONFIRMATION_DIALOG;
+        String dialog = CurriculumManagementConstants.COURSE_BLANKET_APPROVE_CONFIRMATION_DIALOG;
         if ( ! hasDialogBeenDisplayed(dialog, form)) {
             doValidationForProposal(form,courseInfoWrapper, KewApiConstants.ROUTE_HEADER_PROCESSED_CD);
 
@@ -779,6 +776,8 @@ public class CourseController extends CourseRuleEditorController {
 //                    form.getDialogManager().resetDialogStatus(dialog);
                     return modelAndView;
 
+                } else {
+                    form.getDialogManager().removeDialog(dialog);
                 }
             }else{
                 return showDialog(dialog, form, request, response);

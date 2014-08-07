@@ -371,7 +371,7 @@
                                   p:methodToCall="returnToPreviousNode"
                                   p:performClientSideValidation="true"
                                   p:performDirtyValidation="false"
-                                  p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_APPROVE]}"/>
+                                  p:render="@{(!#emptyList(#workflowDoc.previousNodeNames)) and (#actionFlags[#Constants.KUALI_ACTION_CAN_APPROVE])}"/>
                             <bean id="CM-Proposal-Review-Cancel"
                                   parent="Uif-ActionLink"
                                   p:actionLabel="Cancel"
@@ -400,7 +400,7 @@
                                   p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_BLANKET_APPROVE]}"/>
                             <bean parent="Uif-PrimaryActionButton"
                                   p:ajaxSubmit="false"
-                                  p:actionLabel="Approve"
+                            p:actionLabel="Approve"
                                   p:methodToCall="approve"
                                   p:performClientSideValidation="true"
                                   p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_APPROVE]}"/>
@@ -410,7 +410,7 @@
                                   p:methodToCall="returnToPreviousNode"
                                   p:performClientSideValidation="true"
                                   p:performDirtyValidation="false"
-                                  p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_APPROVE]}"/>
+                                  p:render="@{(!#emptyList(#workflowDoc.previousNodeNames)) and (#actionFlags[#Constants.KUALI_ACTION_CAN_APPROVE])}"/>
                             <bean parent="Uif-PrimaryActionButton"
                                   p:ajaxSubmit="false"
                                   p:actionLabel="Submit"
@@ -482,7 +482,7 @@
         </property>
         <property name="availableResponses">
             <list>
-                <bean parent="Uif-KeyLabelPair" p:key="yes" p:value="Confirm"/>
+                <bean parent="Uif-KeyLabelPair" p:key="yes" p:value="Return"/>
                 <bean parent="Uif-KeyLabelPair" p:key="no" p:value="Cancel"/>
             </list>
         </property>
@@ -499,54 +499,56 @@
         </property>
     </bean>
 
-    <bean id="KS-Proposal-Review-Course-ConfirmApproveBlanketApprove-Dialog" parent="KS-Proposal-Review-Course-ConfirmApproveBlanketApprove-Dialog-parentBean"/>
-    <bean id="KS-Proposal-Review-Course-ConfirmApproveBlanketApprove-Dialog-parentBean" parent="Uif-DialogGroup" abstract="true" class="org.kuali.student.cm.uif.container.CMDialogGroup">
+    <bean id="KS-Proposal-Review-Course-ConfirmApprove-Dialog" parent="KS-Proposal-Review-Course-ConfirmApprove-Dialog-parentBean"/>
+    <bean id="KS-Proposal-Review-Course-ConfirmApprove-Dialog-parentBean" parent="Uif-DialogGroup" abstract="true" class="org.kuali.student.cm.uif.container.CMDialogGroup">
         <property name="renderHeader" value="true"/>
         <property name="OnShowDialogScript" value="skipDirtyChecks();" />
-    <property name="headerText" value="@{#dataObject.approveCheck ? '' : 'Blanket'} Approve Proposal"/>
+        <property name="headerText" value="Approve Proposal"/>
         <property name="cssClasses" >
             <list merge="true">
                 <value>returntopreviousnode_dialog</value>
             </list>
         </property>
-    <property name="promptText" value=""/>
+        <property name="promptText"
+                  value="You are approving the &quot;@{#uiHelper.proposalName}&quot; proposal"/>
         <!-- do not show the explanation because we need the route node name dropdown above it in the dialog screen -->
         <property name="displayExplanation" value="false"/>
         <property name="items">
             <list>
-                <!-- manually add back in the explanation field and force the render flag -->
-                <bean id="CM-Approve-Dialog-Explanation" parent="Uif-DialogExplanation" p:render="true"/>
+                <bean id="CM-Approve-Dialog-Explanation" parent="KS-CM-DialogExplanation" p:render="true"/>
+            </list>
+        </property>
+        <property name="availableResponses">
+            <list>
+                <bean parent="Uif-KeyLabelPair" p:key="yes" p:value="Approve"/>
+                <bean parent="Uif-KeyLabelPair" p:key="no" p:value="Cancel"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KS-Proposal-Review-Course-ConfirmBlanketApprove-Dialog" parent="KS-Proposal-Review-Course-ConfirmBlanketApprove-Dialog-parentBean"/>
+    <bean id="KS-Proposal-Review-Course-ConfirmBlanketApprove-Dialog-parentBean" parent="Uif-DialogGroup" abstract="true" class="org.kuali.student.cm.uif.container.CMDialogGroup">
+        <property name="renderHeader" value="true"/>
+        <property name="OnShowDialogScript" value="skipDirtyChecks();" />
+        <property name="headerText" value="Blanket Approve Proposal"/>
+        <property name="cssClasses" >
+            <list merge="true">
+                <value>returntopreviousnode_dialog</value>
+            </list>
+        </property>
+        <property name="promptText"
+                  value="You are blanket approving the &quot;@{#uiHelper.proposalName}&quot; proposal"/>
+        <!-- do not show the explanation because we need the route node name dropdown above it in the dialog screen -->
+        <property name="displayExplanation" value="false"/>
+        <property name="items">
+            <list>
+                <bean id="CM-BlanketApprove-Dialog-Explanation" parent="KS-CM-DialogExplanation" p:render="true"/>
             </list>
         </property>
         <property name="availableResponses">
             <list>
                 <bean parent="Uif-KeyLabelPair" p:key="yes" p:value="Confirm"/>
                 <bean parent="Uif-KeyLabelPair" p:key="no" p:value="Cancel"/>
-        </list>
-    </property>
-    <property name="propertyReplacers">
-        <list>
-            <bean parent="Uif-ConditionalBeanPropertyReplacer" p:propertyName="promptText"
-                  p:condition="@{!#dataObject.approveCheck}">
-                <property name="replacement">
-                    <value>You are blanket approving the &quot;@{#uiHelper.proposalName}&quot; proposal</value>
-                </property>
-            </bean>
-            <bean parent="Uif-ConditionalBeanPropertyReplacer" p:propertyName="promptText"
-                  p:condition="@{#dataObject.approveCheck}">
-                <property name="replacement">
-                    <value>You are approving the &quot;@{#uiHelper.proposalName}&quot; proposal</value>
-                </property>
-            </bean>
-            <bean parent="Uif-ConditionalBeanPropertyReplacer" p:propertyName="availableResponses"
-                  p:condition="@{#dataObject.approveCheck}">
-                <property name="replacement">
-                    <list>
-                        <bean parent="Uif-KeyLabelPair" p:key="yes" p:value="Approve"/>
-                        <bean parent="Uif-KeyLabelPair" p:key="no" p:value="Cancel"/>
-                    </list>
-                </property>
-            </bean>
             </list>
         </property>
     </bean>
