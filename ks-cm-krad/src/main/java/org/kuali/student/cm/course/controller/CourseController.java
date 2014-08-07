@@ -162,6 +162,15 @@ public class CourseController extends CourseRuleEditorController {
         return form;
     }
 
+    // TODO: Remove this workaround class once KS has been updated to Rice 2.5 (https://jira.kuali.org/browse/KSCM-2560)
+    @Override
+    protected ModelAndView showDialog(String dialogId, UifFormBase form, HttpServletRequest request,
+                                      HttpServletResponse response) {
+        ModelAndView modelAndView = super.showDialog(dialogId, form, request, response);
+        getCourseInfoWrapper((DocumentFormBase)form).getUiHelper().getDialogExplanations().put(dialogId, "");
+        return modelAndView;
+    }
+
     /**
      * Digs the CourseInfoWrapper out of DocumentFormBase.
      *
@@ -381,15 +390,15 @@ public class CourseController extends CourseRuleEditorController {
                 if (confirmApprove) {
                     //route the document
                     try{
-                        addDecisionRationale(courseInfoWrapper.getProposalInfo().getId(), form.getDialogManager().getDialogExplanation(dialog), CommentServiceConstants.WORKFLOW_DECISIONS.APPROVE.getType());
-                        ModelAndView modelAndView = super.approve(form,result, request,response);
-                        form.getDialogManager().removeDialog(dialog);
-//                        form.getDialogManager().resetDialogStatus(dialog);
-                        return modelAndView;
+                    addDecisionRationale(courseInfoWrapper.getProposalInfo().getId(), courseInfoWrapper.getUiHelper().getDialogExplanations().get(dialog), CommentServiceConstants.WORKFLOW_DECISIONS.APPROVE.getType());
+                    ModelAndView modelAndView = super.approve(form,result, request,response);
+                    form.getDialogManager().removeDialog(dialog);
+//                      form.getDialogManager().resetDialogStatus(dialog);
+                    return modelAndView;
                     }catch (Exception ex){
                         LOG.error("Error occurred while approving the proposal", ex);
                         GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, KSObjectUtils.unwrapException(20, ex).getMessage());
-                    }
+                }
                 }
             }else{
                 return showDialog(dialog, form, request, response);
@@ -454,7 +463,7 @@ public class CourseController extends CourseRuleEditorController {
                 if (confirmReturn) {
                     //route the document
                     performReturnToPreviousNode(form,result, request,response);
-                    addDecisionRationale(courseInfoWrapper.getProposalInfo().getId(), form.getDialogManager().getDialogExplanation(dialog), CommentServiceConstants.WORKFLOW_DECISIONS.RETURN_TO_PREVIOUS.getType());
+                    addDecisionRationale(courseInfoWrapper.getProposalInfo().getId(), courseInfoWrapper.getUiHelper().getDialogExplanations().get(dialog), CommentServiceConstants.WORKFLOW_DECISIONS.RETURN_TO_PREVIOUS.getType());
                     /*
                     Here's another location where we diverge from the default KRAD code. Normally here there would be code to handle the persisting
                     of attachments but since CM uses it's own internal SupportingDocuments functionality we can simply ignore the KRAD system.
@@ -765,7 +774,7 @@ public class CourseController extends CourseRuleEditorController {
                 boolean confirmBlanketApprove = getBooleanDialogResponse(dialog, form, request, response);
                 if (confirmBlanketApprove) {
                     //route the document
-                    addDecisionRationale(courseInfoWrapper.getProposalInfo().getId(), form.getDialogManager().getDialogExplanation(dialog), CommentServiceConstants.WORKFLOW_DECISIONS.BLANKET_APPROVE.getType());
+                    addDecisionRationale(courseInfoWrapper.getProposalInfo().getId(), courseInfoWrapper.getUiHelper().getDialogExplanations().get(dialog), CommentServiceConstants.WORKFLOW_DECISIONS.BLANKET_APPROVE.getType());
                     ModelAndView modelAndView = super.blanketApprove(form, result, request, response);
                     form.getDialogManager().removeDialog(dialog);
 //                    form.getDialogManager().resetDialogStatus(dialog);

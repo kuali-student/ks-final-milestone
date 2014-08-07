@@ -18,6 +18,7 @@
 package org.kuali.student.cm.course.form.wrapper;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.rice.krad.web.bind.RequestAccessible;
 import org.kuali.rice.krad.web.bind.RequestProtected;
 import org.kuali.student.cm.common.util.CurriculumManagementConstants;
 import org.kuali.student.cm.course.util.CourseProposalUtil;
@@ -30,7 +31,9 @@ import org.kuali.student.r2.lum.course.dto.FormatInfo;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Base class for all the wrappers around CourseInfo.
@@ -404,6 +407,9 @@ public class CourseInfoWrapper extends LURuleManagementWrapper implements Serial
      */
     public class CreateCourseUIHelper {
 
+        // TODO: Remove this workaround class once KS has been updated to Rice 2.5 (https://jira.kuali.org/browse/KSCM-2560)
+        public static final String DIALOG_EXPLANATIONS_PROPERTY = "dialogExplanations";
+
         CurriculumManagementConstants.CourseViewSections selectedSection;
 
         // disallow the curriculumSpecialistUser property to be set by the request
@@ -414,9 +420,14 @@ public class CourseInfoWrapper extends LURuleManagementWrapper implements Serial
         @RequestProtected
         boolean useReviewProcess;
 
+        // TODO: Remove this workaround class once KS has been updated to Rice 2.5 (https://jira.kuali.org/browse/KSCM-2560)
+        @RequestAccessible
+        Map<String,String> dialogExplanations;
+
         public CreateCourseUIHelper() {
             curriculumSpecialistUser = CourseProposalUtil.isUserCurriculumSpecialist();
             selectedSection = CurriculumManagementConstants.CourseViewSections.COURSE_INFO;
+            dialogExplanations = new HashMap<>();
         }
 
         /**
@@ -426,6 +437,14 @@ public class CourseInfoWrapper extends LURuleManagementWrapper implements Serial
          */
         public boolean isAdminProposal() {
             return isCurriculumSpecialistUser() && !isUseReviewProcess();
+        }
+
+        public Map<String, String> getDialogExplanations() {
+            return dialogExplanations;
+        }
+
+        public void setDialogExplanations(Map<String, String> dialogExplanations) {
+            this.dialogExplanations = dialogExplanations;
         }
 
         public void setCurriculumSpecialistUser(boolean curriculumSpecialistUser) {
