@@ -2241,6 +2241,7 @@ public class CourseMaintainableImpl extends RuleEditorMaintainableImpl implement
     public void populateCourseAndReviewData(String courseId, CourseInfoWrapper courseWrapper, boolean isCourseView) throws Exception {
 
         CourseInfo course = getCourseService().getCourse(courseId, createContextInfo());
+        courseWrapper.setCourseInfo(course);
 
         populateCourseWrapperData(courseWrapper,course,isCourseView);
 
