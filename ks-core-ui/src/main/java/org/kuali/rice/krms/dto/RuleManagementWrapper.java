@@ -120,10 +120,15 @@ public class RuleManagementWrapper implements Serializable, RuleManager {
     }
 
     public void setActiveSelections(List<String> activeSelections) {
-        this.getRuleEditor().setActiveSelections(activeSelections);
+        if (this.getRuleEditor() != null){
+            this.getRuleEditor().setActiveSelections(activeSelections);
+        }
     }
 
     public List<String> getActiveSelections(){
+        if(this.getRuleEditor() == null){
+            return null;
+        }
         return this.getRuleEditor().getActiveSelections();
     }
 
@@ -135,7 +140,9 @@ public class RuleManagementWrapper implements Serializable, RuleManager {
     }
 
     public void setSelectedKey(String selectedKey) {
-        this.getRuleEditor().setSelectedKey(selectedKey);
+        if (this.getRuleEditor() != null){
+            this.getRuleEditor().setSelectedKey(selectedKey);
+        }
     }
 
     public String getCutKey() {
@@ -146,7 +153,9 @@ public class RuleManagementWrapper implements Serializable, RuleManager {
     }
 
     public void setCutKey(String cutKey) {
-        this.getRuleEditor().setCutKey(cutKey);
+        if (this.getRuleEditor() != null){
+            this.getRuleEditor().setCutKey(cutKey);
+        }
     }
 
     public String getCopyKey() {
@@ -157,7 +166,9 @@ public class RuleManagementWrapper implements Serializable, RuleManager {
     }
 
     public void setCopyKey(String copyKey) {
-        this.getRuleEditor().setCopyKey(copyKey);
+        if (this.getRuleEditor() != null){
+            this.getRuleEditor().setCopyKey(copyKey);
+        }
     }
 
     public String getLogicArea() {
@@ -168,7 +179,9 @@ public class RuleManagementWrapper implements Serializable, RuleManager {
     }
 
     public void setLogicArea(String logicArea) {
-        this.getRuleEditor().setLogicArea(logicArea);
+        if (this.getRuleEditor() != null){
+             this.getRuleEditor().setLogicArea(logicArea);
+        }
     }
 
     public String getNamespace() {
