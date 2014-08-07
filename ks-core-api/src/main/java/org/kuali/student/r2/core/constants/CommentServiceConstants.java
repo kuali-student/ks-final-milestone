@@ -19,7 +19,6 @@ public class CommentServiceConstants {
 
     //comment types
     public static final String COMMENT_ADMINISTRATIVE_TYPE_KEY = "kuali.comment.comment.type.comment.administrative";
-    public static final String COMMENT_GENERAL_REMARKS_TYPE_KEY = "kuali.comment.type.generalRemarks";
 
     public static final String COMMENT_ACKNOWLEDGE_WORKFLOW_DECISION_TYPE_KEY = "kuali.comment.type.workflowDecisionRationale.acknowledge";
     public static final String COMMENT_APPROVE_WORKFLOW_DECISION_TYPE_KEY = "kuali.comment.type.workflowDecisionRationale.approve";
@@ -31,7 +30,6 @@ public class CommentServiceConstants {
     public static final String COMMENT_WITHDRAW_WORKFLOW_DECISION_TYPE_KEY = "kuali.comment.type.workflowDecisionRationale.withdraw";
 
     public static enum WORKFLOW_DECISIONS {
-        GENERAL(COMMENT_GENERAL_REMARKS_TYPE_KEY, "General"),//This will go away once we're done with cm decisions.
         APPROVE(COMMENT_APPROVE_WORKFLOW_DECISION_TYPE_KEY, "Approved"),
         REJECT(COMMENT_REJECT_WORKFLOW_DECISION_TYPE_KEY, "Rejected"),
         RETURN_TO_PREVIOUS(COMMENT_RETURN_WORKFLOW_DECISION_TYPE_KEY, "Sent for Revisions"),
