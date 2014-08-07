@@ -51,6 +51,7 @@
                                     <bean id="commentsLightBoxContents-cancel"
                                           parent="KS-Uif-PrimaryActionButton"
                                           p:actionLabel="Close"
+                                          p:performDirtyValidation="true"
                                           p:actionScript="e.preventDefault();closeLightbox();"/>
                                 </list>
                             </property>
@@ -165,16 +166,18 @@
                                                 <list>
                                                     <bean id="KS-CommentSaveAction_ID" parent="Uif-PrimaryActionButton" p:style="display:none;" p:additionalCssClasses="ks-toggleable"
                                                           p:actionScript="updateComment('@{#ConfigProperties['application.url']}', '@{controllerUrl}', this);"
+                                                          p:performDirtyValidation="false"
                                                           p:actionLabel="Save"/>
-                                                    <bean id="KS-CommentCancelAction_ID" p:id="KS-CommentCancelAction_ID" parent="Uif-CancelAction" p:style="display:none;" p:additionalCssClasses="ks-toggleable"
-                                                          p:actionScript="toggleCommentButtons(this);"
+                                                    <bean id="KS-CommentCancelAction_ID" p:id="KS-CommentCancelAction_ID" parent="Uif-CancelActionButton" p:style="display:none;" p:additionalCssClasses="ks-toggleable"
+                                                          p:actionScript="cancelEditComment(this);"
                                                           p:performDirtyValidation="false"
                                                           p:actionLabel="Cancel"/>
                                                     <bean id="KS-CommentDeleteAction_ID" parent="Uif-PrimaryActionButton" p:style="display:none;" p:additionalCssClasses="ks-toggle-delete"
                                                           p:actionScript="deleteComment('@{#ConfigProperties['application.url']}', '@{controllerUrl}', this);"
+                                                          p:performDirtyValidation="false"
                                                           p:actionLabel="Confirm Delete"/>
                                                     <bean id="KS-CommentCancelDeleteAction_ID" p:id="KS-CommentCancelDeleteAction_ID" parent="Uif-CancelAction" p:style="display:none;" p:additionalCssClasses="ks-toggle-delete"
-                                                          p:actionScript="toggleDeleteElements(this);"
+                                                          p:actionScript="cancelDeleteComment(this);"
                                                           p:performDirtyValidation="false"
                                                           p:actionLabel="Cancel"/>
                                                 </list>
@@ -212,12 +215,12 @@
                                                                                         <bean id="KS-CommentEditAction" p:additionalCssClasses="ks-toggleable,ks-toggle-delete"
                                                                                               parent="KS-Uif-Edit-NavigationActionLink"
                                                                                               p:actionLabel="Edit"
-                                                                                              p:actionScript="toggleCommentButtons(this);"
+                                                                                              p:actionScript="confirmEditComment(this);"
                                                                                               p:performDirtyValidation="false"
                                                                                               p:render="@{canEditComment}"/>
                                                                                         <bean id="KS-CommentDeleteAction" p:additionalCssClasses="ks-toggleable,ks-toggle-delete"
                                                                                               parent="KS-Uif-Delete-NavigationActionLink"
-                                                                                              p:actionScript="toggleDeleteElements(this);"
+                                                                                              p:actionScript="confirmDeleteComment(this);"
                                                                                               p:performDirtyValidation="false"
                                                                                               p:render="@{canDeleteComment}"
                                                                                               p:actionLabel="Delete"/>
