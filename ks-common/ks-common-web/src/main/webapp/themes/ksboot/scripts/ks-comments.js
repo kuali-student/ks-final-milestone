@@ -93,6 +93,9 @@ function getDeletedComment(key) {
 }
 
 function deleteComment(baseUrl, controllerUrl, elem) {
+    if (console) {
+        console.log("deleteComment()... dirtyFieldCount = " + dirtyFormState.dirtyFieldCount);
+    }
     var rowContainer = getRowContainer(elem);
     var data = jQuery(elem).data('submit_data');
     var index = parseInt(data['actionParameters[selectedLineIndex]']);
@@ -101,6 +104,7 @@ function deleteComment(baseUrl, controllerUrl, elem) {
 
     jsonPost(targetUrl, formData, function(data){
         jQuery(rowContainer).remove();
+        dirtyFormState.dirtyFieldCount--;
         jQuery("#Comment_list_Header").find("span").text("Comments(" + data.count + ")");
         jQuery('[id^="KS-collection-rowId_line"]').each(function(){
             jQuery(this).find("button").each(function(){
@@ -116,6 +120,9 @@ function deleteComment(baseUrl, controllerUrl, elem) {
 }
 
 function updateComment(baseUrl, controllerUrl, elem) {
+    if(console){
+        console.log("updateComment()... dirtyFieldCount = " + dirtyFormState.dirtyFieldCount);
+    }
     var rowContainer = getRowContainer(elem);
     var submitData = jQuery(elem).data('submit_data');
     var index = parseInt(submitData['actionParameters[selectedLineIndex]']);
@@ -128,6 +135,11 @@ function updateComment(baseUrl, controllerUrl, elem) {
         jQuery("#lastEditor-container-id_line" + index).show();
         jQuery("#lastEditor-name-id_line" + index).text(data.commentWrapper.lastEditorName);
         jQuery("#lastEditor-date-id_line" + index).text(data.commentWrapper.lastEditedDate);
+        jQuery(rowContainer).find(".dirty").each(function(){
+            dirtyFormState.dirtyFieldCount--;
+            this.defalutValue = data.commentWrapper.commentTextUI;
+            jQuery(this).removeClass("dirty");
+        });
     });
 }
 
@@ -179,4 +191,44 @@ function processErrors(data, parentId, baseUrl){
     // global errors on form
     var globalErrorsDiv = createGlobalErrorsDiv(baseUrl, "KS-Comment-pageId", data.messageMap.errorCount, globalErrorsUl);
     jQuery("#KS-Comment-pageId" + " header:eq(0)").after(globalErrorsDiv);
+}
+
+function cancelEditComment(elem){
+    if(console){
+        console.log("cancelEditComment() ... dirtyFieldCount = " + dirtyFormState.dirtyFieldCount);
+    }
+    var rowContainer = getRowContainer(elem);
+    jQuery(rowContainer).find(".dirty").each(function(){
+        dirtyFormState.dirtyFieldCount--;
+        this.value = this.defaultValue;
+        jQuery(this).removeClass("dirty");
+    });
+    toggleCommentButtons(elem);
+}
+
+function cancelDeleteComment(elem){
+    if(console){
+        console.log("cancelDeleteComment()... dirtyFieldCount = " + dirtyFormState.dirtyFieldCount);
+    }
+    var rowContainer = getRowContainer(elem);
+    dirtyFormState.dirtyFieldCount--;
+    jQuery(this).removeClass("dirty");
+    toggleDeleteElements(elem);
+}
+
+function confirmEditComment(elem){
+    if(console){
+        console.log("confirmEditComment()... dirtyFieldCount = " + dirtyFormState.dirtyFieldCount);
+    }
+    toggleCommentButtons(elem);
+}
+
+function confirmDeleteComment(elem){
+    if(console){
+        console.log("confirmDeleteComment()... dirtyFieldCount = " + dirtyFormState.dirtyFieldCount);
+    }
+    var rowContainer = getRowContainer(elem);
+    dirtyFormState.dirtyFieldCount++;
+    jQuery(this).addClass("dirty");
+    toggleDeleteElements(elem);
 }
