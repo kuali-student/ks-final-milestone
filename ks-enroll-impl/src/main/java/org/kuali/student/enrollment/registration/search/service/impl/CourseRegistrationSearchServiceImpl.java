@@ -166,6 +166,7 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
         public static final String COURSE_ID = "courseId";
         public static final String RG_CODE = "regGroupCode";
         public static final String RG_ID = "regGroupId";
+        public static final String RG_WAITLIST_COUNT = "rgWaitlistCount";
         public static final String AO_NAME = "aoName";
         public static final String AO_TYPE = "aoType";
         public static final String AO_CODE = "aoCode";
@@ -179,10 +180,10 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
         public static final String AO_MAX_SEATS = "maxSeats";
         public static final String AO_IDS_ACTUAL_COUNT = "aoIdsActualCount";
         public static final String AO_IDS_EXPECTED_COUNT = "aoIdsExpectedCount";
-        public static final String AO_WAITLIST_COUNT = "waitlistCount";
-        public static final String AO_SCHEDULE_ID = "activityOfferingScheduleId";
+        public static final String AO_WAITLIST_COUNT = "aoWaitlistCount";
         public static final String CWL_MAX_SIZE = "courseWaitlistMaxSize";
         public static final String CWL_ID = "courseWaitlistId";
+        public static final String CWL_STATE = "courseWaitlistState";
 
         public static final String CO_ID = "courseOfferingId";
         public static final String CO_ATP_ID = "courseOfferingAtpId";
@@ -1427,11 +1428,11 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
                         "  WHERE lpr.LUI_ID = ao.ID " +
                         "    AND lpr.LPR_TYPE = '" + LprServiceConstants.REGISTRANT_AO_LPR_TYPE_KEY + "' " +
                         "    AND lpr.LPR_STATE = '" + LprServiceConstants.ACTIVE_STATE_KEY + "') numRegisteredForAo, " +
-                        "cwl.MAX_SIZE wlMaxSize, " +
+                        "cwl.CWL_STATE as wlState, cwl.MAX_SIZE wlMaxSize, " +
                         "(SELECT COUNT(*) FROM KSEN_LPR lpr_wl " +
-                        "  WHERE lpr_wl.LUI_ID = ao.ID " +
-                        "    AND lpr_wl.LPR_TYPE = '" + LprServiceConstants.WAITLIST_AO_LPR_TYPE_KEY + "' " +
-                        "    AND lpr_wl.LPR_STATE = '" + LprServiceConstants.ACTIVE_STATE_KEY + "') numWaitlistedForAo, " +
+                        "  WHERE lpr_wl.LUI_ID = rg.ID " +
+                        "    AND lpr_wl.LPR_TYPE = '" + LprServiceConstants.WAITLIST_RG_LPR_TYPE_KEY + "' " +
+                        "    AND lpr_wl.LPR_STATE = '" + LprServiceConstants.ACTIVE_STATE_KEY + "') numWaitlistedForRG, " +
                         "rg.ID as rgId, rg.NAME as rgCode, " +
                         "schedCmp.TBA_IND, room.ROOM_CD, rBldg.BUILDING_CD, " +
                         "schedTmslt.WEEKDAYS, schedTmslt.START_TIME_MS, schedTmslt.END_TIME_MS " +
@@ -1472,7 +1473,6 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
                         "ON cwl2ao.ACTIV_OFFER_ID = ao.id " +
                         "LEFT OUTER JOIN KSEN_CWL cwl " +
                         "ON cwl.id = cwl2ao.CWL_ID " +
-                        "AND cwl.CWL_STATE = '" + CourseWaitListServiceConstants.COURSE_WAIT_LIST_ACTIVE_STATE_KEY + "' " +
                         // Schedules for AOs
                         "LEFT OUTER JOIN KSEN_LUI_SCHEDULE aoSched " +
                         "ON aoSched.LUI_ID = ao.ID " +
@@ -1525,6 +1525,7 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
             } else {
                 row.addCell(SearchResultColumns.SEAT_COUNT, null);
             }
+            row.addCell(SearchResultColumns.CWL_STATE, (String)resultRow[i++]);
             BigDecimal aoWlMaxSize = (BigDecimal) resultRow[i++];
             if (aoWlMaxSize != null) {
                 row.addCell(SearchResultColumns.CWL_MAX_SIZE, String.valueOf(aoWlMaxSize.intValue()));
@@ -1533,9 +1534,9 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
             }
             BigDecimal aoWlCount = (BigDecimal) resultRow[i++];
             if (aoWlCount != null) {
-                row.addCell(SearchResultColumns.AO_WAITLIST_COUNT, String.valueOf(aoWlCount.intValue()));
+                row.addCell(SearchResultColumns.RG_WAITLIST_COUNT, String.valueOf(aoWlCount.intValue()));
             } else {
-                row.addCell(SearchResultColumns.AO_WAITLIST_COUNT, null);
+                row.addCell(SearchResultColumns.RG_WAITLIST_COUNT, null);
             }
             row.addCell(SearchResultColumns.RG_ID, (String) resultRow[i++]);
             row.addCell(SearchResultColumns.RG_CODE, (String) resultRow[i++]);

@@ -21,6 +21,7 @@ import org.kuali.student.enrollment.registration.client.service.dto.CourseOfferi
 import org.kuali.student.enrollment.registration.client.service.dto.CourseSearchResult;
 import org.kuali.student.enrollment.registration.client.service.dto.EligibilityCheckResult;
 import org.kuali.student.enrollment.registration.client.service.dto.InstructorSearchResult;
+import org.kuali.student.enrollment.registration.client.service.dto.RegGroupLimitedInfoSearchResult;
 import org.kuali.student.enrollment.registration.client.service.dto.RegGroupSearchResult;
 import org.kuali.student.enrollment.registration.client.service.dto.RegistrationCountResult;
 import org.kuali.student.enrollment.registration.client.service.dto.ResultValueGroupCourseOptions;
@@ -44,6 +45,7 @@ import org.kuali.student.r2.common.infc.ValidationResult;
 import org.kuali.student.r2.common.util.TimeOfDayHelper;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
+import org.kuali.student.r2.common.util.constants.CourseWaitListServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.core.atp.dto.AtpInfo;
 import org.kuali.student.r2.core.atp.service.AtpService;
@@ -620,6 +622,7 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
         CourseOfferingDetailsSearchResult courseSearchResult = new CourseOfferingDetailsSearchResult();
         Map<String, CourseOfferingLimitedInfoSearchResult> hmCOCrossListed = new HashMap<>();
         Map<String, StudentScheduleActivityOfferingResult> hmActivityOfferings = new HashMap<>();
+        Map<String, String> hmRGsWLMaxSize = new HashMap<>();
 
         for (SearchResultHelper.KeyValue row : SearchResultHelper.wrap(searchResult)) {
             String coId = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.CO_ID);
@@ -637,8 +640,9 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
             String aoCode = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.AO_CODE);
             String aoMaxSeats = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.AO_MAX_SEATS);
             String aoSeatCount = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.SEAT_COUNT);
+            String aoWlState = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.CWL_STATE);
             String aoWlMaxSize = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.CWL_MAX_SIZE);
-            String aoWlCount = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.AO_WAITLIST_COUNT);
+            String rgWlCount = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.RG_WAITLIST_COUNT);
             String rgId = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.RG_ID);
             String rgCode = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.RG_CODE);
             String isTBA = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.TBA_IND);
@@ -663,18 +667,36 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
             // running over the list of results returned. One CO can have multiple Cross-Listed COs, so adding them to hashmap
             addCrossListedCoursesToCourseOfferingDetails(hmCOCrossListed, coClCode, coClId, coClSubjectArea);
 
+            // putting RG + WLmax into hashmap while looping over AOs. We want to find smallest aoWlMaxSize out of all AOs for given RG -> it'll be RG WLMax
+            if (rgId != null) {
+                if (!hmRGsWLMaxSize.containsKey(rgId)) {
+                    hmRGsWLMaxSize.put(rgId, aoWlMaxSize);
+                } else {
+                    if (aoWlMaxSize != null) {
+                        if (hmRGsWLMaxSize.get(rgId) != null) {
+                            if (Integer.parseInt(aoWlMaxSize) < Integer.parseInt(hmRGsWLMaxSize.get(rgId))) {
+                                hmRGsWLMaxSize.put(rgId, aoWlMaxSize);
+                            }
+                        } else {
+                            hmRGsWLMaxSize.put(rgId, aoWlMaxSize);
+                        }
+                    }
+                }
+            }
+
             // running over the list of results returned. One CO can have multiple AOs
             // Scheduling info
             ActivityOfferingScheduleComponentResult scheduleComponent = CourseRegistrationAndScheduleOfClassesUtil.getActivityOfferingScheduleComponent(isTBA, roomCode, buildingCode,
                     weekdays, startTimeMs, endTimeMs);
             // have to check if we already have the AO in our list, because we can have multiple schedules for the same AO
             if (!hmActivityOfferings.containsKey(aoId) && !StringUtils.isEmpty(aoId)) {
-                StudentScheduleActivityOfferingResult ao = createActivityOfferingResult(aoId, aoName, aoType, aoCode, aoMaxSeats, aoSeatCount, aoWlMaxSize, aoWlCount, rgId, rgCode, scheduleComponent, coAtpId, aoAtpId, contextInfo);
+                StudentScheduleActivityOfferingResult ao = createActivityOfferingResult(aoId, aoName, aoType, aoCode, aoMaxSeats, aoSeatCount, aoWlState, aoWlMaxSize, rgWlCount, rgId, rgCode, scheduleComponent, coAtpId, aoAtpId, contextInfo);
                 hmActivityOfferings.put(aoId, ao);
             } else if (hmActivityOfferings.containsKey(aoId)) {
                 // reg group
                 if (!hmActivityOfferings.get(aoId).getRegGroupInfos().containsKey(rgId) && rgId != null) {
-                    hmActivityOfferings.get(aoId).getRegGroupInfos().put(rgId, rgCode);
+                    RegGroupLimitedInfoSearchResult rgGroup = createRegGroupLimitedInfoSearchResult(rgId, rgCode, rgWlCount, aoWlState);
+                    hmActivityOfferings.get(aoId).getRegGroupInfos().put(rgId, rgGroup);
                 }
                 // schedule components: if it's the same (based on time/location) then do nothing
                 boolean sameScheduleComponent = false;
@@ -718,25 +740,28 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
             }
 
             if (!aoIDs.isEmpty()) {
-                // getting instructor info for AOs
                 Map<String, List<InstructorSearchResult>> hmAOInstructors = CourseRegistrationAndScheduleOfClassesUtil.searchForInstructorsByAoIds(aoIDs, contextInfo);
-                for (String key : aoIDs) {
-                    hmActivityOfferings.get(key).setInstructors(hmAOInstructors.get(key));
-                }
+                Map<String, ActivityOfferingTypesSearchResult> hmActivityOfferingTypes = new HashMap<>();
 
-                //See if there are rules on the AO
                 for (String key : aoIDs) {
+                    StudentScheduleActivityOfferingResult activityOffering = hmActivityOfferings.get(key);
+
+                    // setting WLmax for RGs for given AO
+                    for (Entry<String, RegGroupLimitedInfoSearchResult> entry : activityOffering.getRegGroupInfos().entrySet()) {
+                        entry.getValue().setMaxWaitListSize(hmRGsWLMaxSize.get(entry.getKey()) == null ?  null : Integer.parseInt(hmRGsWLMaxSize.get(entry.getKey())));
+                    }
+
+                    // getting instructor info for AOs
+                    activityOffering.setInstructors(hmAOInstructors.get(key));
+
+                    //See if there are rules on the AO
                     List<ReferenceObjectBinding> referenceObjectBindings = CourseRegistrationAndScheduleOfClassesUtil.getRuleManagementService().findReferenceObjectBindingsByReferenceObject(CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING, key);
                     for (ReferenceObjectBinding referenceObjectBinding : referenceObjectBindings) {
                         String requisite = CourseRegistrationAndScheduleOfClassesUtil.getRuleManagementService().translateNaturalLanguageForObject("KS-KRMS-NL-USAGE-1005", "agenda", referenceObjectBinding.getKrmsObjectId(), "en");
-                        hmActivityOfferings.get(key).getRequisites().add(requisite);
+                        activityOffering.getRequisites().add(requisite);
                     }
-                }
 
-                // Creating ActivityOfferingTypesSearchResult types
-                Map<String, ActivityOfferingTypesSearchResult> hmActivityOfferingTypes = new HashMap<>();
-                for (String key : aoIDs) {
-                    StudentScheduleActivityOfferingResult activityOffering = hmActivityOfferings.get(key);
+                    // Creating ActivityOfferingTypesSearchResult types
                     if (!hmActivityOfferingTypes.containsKey(activityOffering.getActivityOfferingType())) {
                         ActivityOfferingTypesSearchResult activityOfferingType = new ActivityOfferingTypesSearchResult();
                         activityOfferingType.setActivityOfferingType(activityOffering.getActivityOfferingType());
@@ -1322,8 +1347,21 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
         }
     }
 
+    private RegGroupLimitedInfoSearchResult createRegGroupLimitedInfoSearchResult(String rgId, String rgCode, String rgWlCount, String rgWlState) {
+        RegGroupLimitedInfoSearchResult regGroup = new RegGroupLimitedInfoSearchResult();
+        regGroup.setRegGroupId(rgId);
+        regGroup.setRegGroupName(rgCode);
+        regGroup.setWaitListSize(rgWlCount == null ? null : Integer.parseInt(rgWlCount));
+        if (StringUtils.equals(rgWlState, CourseWaitListServiceConstants.COURSE_WAIT_LIST_ACTIVE_STATE_KEY)) {
+            regGroup.setWaitListOffered(true);
+        } else {
+            regGroup.setWaitListOffered(false);
+        }
+        return regGroup;
+    }
+
     private StudentScheduleActivityOfferingResult createActivityOfferingResult(String aoId, String aoName, String aoType, String aoCode,
-                                                                               String aoMaxSeats, String aoSeatCount, String aoWlMaxSize, String aoWlCount, String rgId, String rgCode,
+                                                                               String aoMaxSeats, String aoSeatCount, String aoWlState, String aoWlMaxSize, String rgWlCount, String rgId, String rgCode,
                                                                                ActivityOfferingScheduleComponentResult scheduleComponent, String coAtpId, String aoAtpId, ContextInfo contextInfo) throws PermissionDeniedException, MissingParameterException, InvalidParameterException, OperationFailedException, DoesNotExistException {
         StudentScheduleActivityOfferingResult ao = new StudentScheduleActivityOfferingResult();
 
@@ -1337,13 +1375,13 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
             ao.setSeatsOpen(ao.getSeatsAvailable() - Integer.parseInt(aoSeatCount));
         }
         ao.setMaxWaitListSize(aoWlMaxSize == null ? null : Integer.parseInt(aoWlMaxSize));
-        ao.setWaitListSize(aoWlCount == null ? null : Integer.parseInt(aoWlCount));
         // reg group : may be null if there is no offered rg for ao
-        Map<String, String> rgGroups = new HashMap<>();
+        Map<String, RegGroupLimitedInfoSearchResult> regGroups = new HashMap<>();
         if (rgId != null) {
-            rgGroups.put(rgId, rgCode);
+            RegGroupLimitedInfoSearchResult regGroup = createRegGroupLimitedInfoSearchResult(rgId, rgCode, rgWlCount, aoWlState);
+            regGroups.put(rgId, regGroup);
         }
-        ao.setRegGroupInfos(rgGroups);
+        ao.setRegGroupInfos(regGroups);
         // schedule components
         List<ActivityOfferingScheduleComponentResult> scheduleComponents = new ArrayList<>();
         scheduleComponents.add(scheduleComponent);

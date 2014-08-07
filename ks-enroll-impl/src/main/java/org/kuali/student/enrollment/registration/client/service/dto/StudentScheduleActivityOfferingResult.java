@@ -23,7 +23,7 @@ public class StudentScheduleActivityOfferingResult {
     private Integer waitListSize; // Number of students on waitlist
     private List<ActivityOfferingScheduleComponentResult> scheduleComponents;
     private List<InstructorSearchResult> instructors;
-    private Map<String, String> regGroupInfos;
+    private Map<String, RegGroupLimitedInfoSearchResult> regGroupInfos;
     private List<String> requisites;
     private SubTermOfferingResult subterm;
 
@@ -132,13 +132,13 @@ public class StudentScheduleActivityOfferingResult {
         this.subterm = subterm;
     }
 
-    public Map<String, String> getRegGroupInfos() {
+    public Map<String, RegGroupLimitedInfoSearchResult> getRegGroupInfos() {
         if(regGroupInfos == null){
-            regGroupInfos = new HashMap<String, String>();
+            regGroupInfos = new HashMap<String, RegGroupLimitedInfoSearchResult>();
         }
         return regGroupInfos;
     }
 
-    public void setRegGroupInfos(Map<String, String> regGroupInfos) { this.regGroupInfos = regGroupInfos; }
+    public void setRegGroupInfos(Map<String, RegGroupLimitedInfoSearchResult> regGroupInfos) { this.regGroupInfos = regGroupInfos; }
 
 }
