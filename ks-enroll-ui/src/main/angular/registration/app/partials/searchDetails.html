@@ -59,24 +59,25 @@
                 <div class="kscr-SearchDetails-label" ng-if="!selectedRegGroup">{{selectedAOs.length}} of {{course.activityOfferingTypes.length}} activities selected</div>
                 <div id="one_ao_selected" class="kscr-SearchDetails-label" ng-if="selectedRegGroup && !singleRegGroup">
                     <i class="kscr-SearchDetails-selection-icon"></i>
-                    <span>Section {{selectedRegGroup.code}} </span>
+                    <span>Section {{selectedRegGroup.regGroupCode}} </span>
                     <span ng-if="!selectedRegGroup.isFull">Selected</span>
                     <span ng-if="selectedRegGroup.isFull">
                         <span>Full </span>
                         <span class="kscr-SearchDetails-selection-sublabel">
-                            <span ng-if="!selectedRegGroup.isWaitlistOffered">(No waitlist offered)</span>
-                            <span ng-if="selectedRegGroup.isWaitlistOffered && !selectedRegGroup.waitlistSeatsAvailable">
-                                ({{selectedRegGroup.waitlistSeatsTaken}} <ng-pluralize count="selectedRegGroup.waitlistSeatsTaken"
-                                                                                       when="{'1': 'student', 'other': 'students'}"></ng-pluralize> on waitlist)
+                            <span ng-if="!selectedRegGroup.waitListOffered">(No waitlist offered)</span>
+                            <span ng-if="selectedRegGroup.waitListOffered && !selectedRegGroup.maxWaitListSize">
+                                ({{selectedRegGroup.waitListSize}}
+                                <ng-pluralize count="selectedRegGroup.waitListSize" when="{'1': ' student ', 'other': ' students '}"></ng-pluralize>
+                                on waitlist)
                             </span>
-                            <span ng-if="selectedRegGroup.isWaitlistOffered && selectedRegGroup.waitlistSeatsAvailable">
-                                ({{selectedRegGroup.waitlistSeatsAvailable - selectedRegGroup.waitlistSeatsTaken}}/{{selectedRegGroup.waitlistSeatsAvailable}} waitlist spots available)
+                            <span ng-if="selectedRegGroup.waitListOffered && selectedRegGroup.maxWaitListSize">
+                                ({{selectedRegGroup.maxWaitListSize - selectedRegGroup.waitListSize}}/{{selectedRegGroup.maxWaitListSize}} waitlist spots available)
                             </span>
                         </span>
                     </span>
                 </div>
                 <div class="kscr-SearchDetails-single-selection" ng-if="selectedRegGroup && singleRegGroup">
-                    Section {{selectedRegGroup.code}}
+                    Section {{selectedRegGroup.regGroupCode}}
                 </div>
                 <a class="kscr-SearchDetails-selection-clear" ng-click="clearSelectedAOs()" ng-if="!singleRegGroup">
                     <ng-pluralize count="selectedAOs.length" when="{'1': 'Clear Selection', 'other': 'Clear Selections'}"></ng-pluralize>

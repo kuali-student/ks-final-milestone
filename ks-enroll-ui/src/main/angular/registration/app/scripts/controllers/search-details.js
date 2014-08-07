@@ -56,22 +56,23 @@ angular.module('regCartApp')
                                 ao.activityOfferingType = aoType.activityOfferingType;
 
                                 // Transform the reg groups to be more easily consumed
-                                angular.forEach(ao.regGroupInfos, function(code, id) {
+                                angular.forEach(ao.regGroupInfos, function(regGroup, id) {
+                                    regGroup.regGroupCode = regGroup.regGroupName;
+
                                     if (angular.isUndefined(regGroups[id])) {
-                                        regGroups[id] = {
-                                            id: id,
-                                            code: code,
-                                            aos: []
-                                        };
+                                        regGroups[id] = regGroup;
+                                    }
+
+                                    if (angular.isUndefined(regGroup.activityOfferingIds)) {
+                                        regGroup.activityOfferingIds = [];
                                     }
 
                                     // Give each reg group a handle on the activity offerings that compose it.
-                                    // This facilitates calculating if the waitlist is available.
-                                    regGroups[id].aos.push(ao);
+                                    regGroups[id].activityOfferingIds.push(ao.activityOfferingId);
                                 });
 
                                 // Check to see if there are any additional info icons to display for this course
-                                if (!$scope.additionalInfo && (ao.subterm != null || (angular.isArray(ao.requisites) && ao.requisites.length > 0))) {
+                                if (!$scope.additionalInfo && (ao.subterm !== null || (angular.isArray(ao.requisites) && ao.requisites.length > 0))) {
                                     $scope.additionalInfo = true;
                                 }
                             });
@@ -122,17 +123,21 @@ angular.module('regCartApp')
 
         // Method for checking if the selected reg group is in the cart
         $scope.isSelectedRegGroupInCart = function() {
-            return $scope.selectedRegGroup && GlobalVarsService.isCourseInCart($scope.selectedRegGroup.id);
+            return $scope.selectedRegGroup && GlobalVarsService.isCourseInCart($scope.selectedRegGroup.regGroupId);
         };
 
         // Method for checking if the selected reg group is in the waitlist
         $scope.isSelectedRegGroupInWaitlist = function() {
-            return $scope.selectedRegGroup && GlobalVarsService.isCourseWaitlisted($scope.selectedRegGroup.id);
+            return $scope.selectedRegGroup && GlobalVarsService.isCourseWaitlisted($scope.selectedRegGroup.regGroupId);
         };
 
 
         // Perform the Add to Cart action when that button is clicked
         $scope.addToCart = function() {
+            if (!$scope.selectedRegGroup) {
+                return;
+            }
+
             // Re-using "Add to Cart" functionality from cart controller
             performAction('cart', 'addCourseToCart');
         };
@@ -150,17 +155,13 @@ angular.module('regCartApp')
 
         // Helper method for performing the action (addToCart or addToWaitlist)
         function performAction(actionType, event) {
-            if (!$scope.selectedRegGroup) {
-                return;
-            }
-
             $scope.actionType = actionType;
             $scope.actionStatus = null;
 
             var course = angular.copy($scope.course);
             course.courseCode = course.courseOfferingCode;
-            course.regGroupId = $scope.selectedRegGroup.id;
-            course.regGroupCode = $scope.selectedRegGroup.code;
+            course.regGroupId = $scope.selectedRegGroup.regGroupId;
+            course.regGroupCode = $scope.selectedRegGroup.regGroupCode;
 
             // Broadcast the event that is caught and handled elsewhere (cart.js controller)
             $rootScope.$broadcast(event, course, function() {
@@ -195,10 +196,11 @@ angular.module('regCartApp')
                 templateUrl: 'partials/additionalInfo.html',
                 controller: 'AdditionalInfoCtrl',
                 size: 'sm',
-                resolve: {requisites: function() {
-                    return requisites;
-                },
-                subterm: undefined
+                resolve: {
+                    requisites: function() {
+                        return requisites;
+                    },
+                    subterm: undefined
                 }
             });
         });
@@ -289,8 +291,10 @@ angular.module('regCartApp')
         function singleRegGroup() {
             var keys = Object.keys($scope.availableRegGroups);
             if (keys.length === 1) {
-                angular.forEach($scope.availableRegGroups[keys[0]].aos, function(ao) {
-                    selectAO(ao, true);
+                angular.forEach($scope.course.activityOfferingTypes, function(aoType) {
+                    angular.forEach(aoType.activityOfferings, function(ao) {
+                        selectAO(ao, true);
+                    });
                 });
 
                 $scope.selectedRegGroup = checkForSelectedRegGroup();
@@ -329,41 +333,25 @@ angular.module('regCartApp')
                 return regGroup;
             }
 
-            regGroup.isFull = false; // Any AO in the RG is full (no seats open)
-            regGroup.isWaitlistOffered = true; // Waitlist is offered    TODO: implement actual logic for calculating whether a waitlist is offered, probably get from CO
-            regGroup.isWaitlistAvailable = false; // Aggregate check whether waitlist is offered and not full
-            regGroup.isWaitlistFull = false; // Waitlist is full (seats taken >= seats available)
-            regGroup.waitlistSeatsAvailable = null; // Max size of waitlist
-            regGroup.waitlistSeatsTaken = 0; // # seats taken already on waitlist
-
             // A reg group is full if any of its activity offerings has 0 seats available
-            angular.forEach(regGroup.aos, function(ao) {
-                if (!regGroup.isFull && ao.seatsOpen <= 0) {
-                    regGroup.isFull = true;
+            regGroup.isFull = false;
+            angular.forEach($scope.course.activityOfferingTypes, function(aoType) {
+                if (!regGroup.isFull) {
+                    angular.forEach(aoType.activityOfferings, function(ao) {
+                        if (!regGroup.isFull && regGroup.activityOfferingIds.indexOf(ao.activityOfferingId) !== -1 && ao.seatsOpen <= 0) {
+                            regGroup.isFull = true;
+                        }
+                    });
                 }
-
-
-                // Calculate Seats Available on this RG's waitlist
-                if (ao.seatsOpen <= 0 && angular.isNumber(ao.maxWaitListSize)) { // This AO's max waitlist size is only relevant if it has no seats open
-                    if (angular.isNumber(regGroup.waitlistSeatsAvailable) && regGroup.waitlistSeatsAvailable > 0) {
-                        // The seats available is equal to the smallest max waitlist size of the AOs in this RG
-                        regGroup.waitlistSeatsAvailable = Math.min(regGroup.waitlistSeatsAvailable, ao.maxWaitListSize);
-                    } else {
-                        // No max has been identified yet, default to this AOs.
-                        regGroup.waitlistSeatsAvailable = ao.maxWaitListSize;
-                    }
-                }
-
-                // Calculate Seats Taken on this RG's waitlist
-                // The seats taken is equal to the max waitlist size of the AOs in this RG
-                regGroup.waitlistSeatsTaken = Math.max(regGroup.waitlistSeatsTaken, (ao.waitListSize || 0));
             });
 
             // A waitlist is full if: (there is a max && all seats are taken)
-            regGroup.isWaitlistFull = (angular.isNumber(regGroup.waitlistSeatsAvailable) && regGroup.waitlistSeatsTaken >= regGroup.waitlistSeatsAvailable);
+            regGroup.isWaitlistFull = (angular.isNumber(regGroup.maxWaitListSize) && regGroup.waitListSize >= regGroup.maxWaitListSize);
 
             // A waitlist is available if: (it is offered && not full)
-            regGroup.isWaitlistAvailable = regGroup.isWaitlistOffered && !regGroup.isWaitlistFull;
+            regGroup.isWaitlistAvailable = regGroup.waitListOffered && !regGroup.isWaitlistFull;
+
+            console.log(regGroup);
 
             return regGroup;
         }
@@ -424,7 +412,7 @@ angular.module('regCartApp')
                     // Eliminate any reg groups from the candidates that don't exist in the current ao
                     var newCandidates = [];
                     angular.forEach(candidates, function(candidate) {
-                        if (angular.isDefined(ao.regGroupInfos[candidate.id])) {
+                        if (angular.isDefined(ao.regGroupInfos[candidate.regGroupId])) {
                             newCandidates.push(candidate); // Candidate is still valid, carry it over.
                         }
                     });
@@ -451,7 +439,7 @@ angular.module('regCartApp')
 
                 var regGroups = getSelectableRegGroups();
                 for (var i = 0; i < regGroups.length; i++) {
-                    if (angular.isDefined(ao.regGroupInfos[regGroups[i].id])) {
+                    if (angular.isDefined(ao.regGroupInfos[regGroups[i].regGroupId])) {
                         compatible = true;
                         break;
                     }

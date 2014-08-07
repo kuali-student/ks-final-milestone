@@ -245,7 +245,7 @@ angular.module('regCartApp')
                     if (scope.mobileLimit < scope.searchResults.length) {
                         $timeout(function() {
                             scope.mobileLimit += stagger;
-                        })
+                        });
                     } else {
                         scope.mobileLimit = scope.searchResults.length;
                     }
@@ -255,7 +255,7 @@ angular.module('regCartApp')
                     if (scope.limit < scope.displayLimit) {
                         $timeout(function() {
                             scope.limit += stagger;
-                        })
+                        });
                     } else {
                         scope.limit = scope.displayLimit;
                     }

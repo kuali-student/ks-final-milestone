@@ -65,7 +65,7 @@ angular.module('regCartApp')
 
                 scope.selectRow = function(searchDetail) {
                     if (!scope.singleRegGroup) {
-                        scope.$emit("toggleAO", searchDetail);
+                        scope.$emit('toggleAO', searchDetail);
                     }
                 };
 
@@ -76,11 +76,11 @@ angular.module('regCartApp')
                     if (scope.limit < scope.searchDetails.length) {
                         $timeout(function() {
                             scope.limit += stagger;
-                        })
+                        });
                     }
                 });
             }
-        }
+        };
     }])
 
 ;
