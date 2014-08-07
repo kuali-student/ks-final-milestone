@@ -1,8 +1,6 @@
 package org.kuali.student.enrollment.class2.registration.admin.service.impl;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.rice.krad.messages.MessageService;
-import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.student.common.collection.KSCollectionUtils;
 import org.kuali.student.common.uif.service.impl.KSViewHelperServiceImpl;
@@ -14,7 +12,6 @@ import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingVie
 import org.kuali.student.enrollment.class2.registration.admin.form.AdminRegistrationForm;
 import org.kuali.student.enrollment.class2.registration.admin.form.RegistrationActivity;
 import org.kuali.student.enrollment.class2.registration.admin.form.RegistrationCourse;
-import org.kuali.student.enrollment.class2.registration.admin.form.RegistrationResultItem;
 import org.kuali.student.enrollment.class2.registration.admin.service.AdminRegistrationViewHelperService;
 import org.kuali.student.enrollment.class2.registration.admin.util.AdminRegClientCache;
 import org.kuali.student.enrollment.class2.registration.admin.util.AdminRegConstants;
@@ -22,17 +19,12 @@ import org.kuali.student.enrollment.class2.registration.admin.util.AdminRegResou
 import org.kuali.student.enrollment.class2.registration.admin.util.AdminRegistrationUtil;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
-import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo;
 import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
 import org.kuali.student.enrollment.courseregistration.dto.ActivityRegistrationInfo;
 import org.kuali.student.enrollment.courseregistration.dto.CourseRegistrationInfo;
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestInfo;
-import org.kuali.student.enrollment.registration.client.service.dto.ConflictCourseResult;
-import org.kuali.student.enrollment.registration.client.service.dto.RegistrationValidationConflictCourseResult;
-import org.kuali.student.enrollment.registration.client.service.dto.RegistrationValidationResult;
 import org.kuali.student.enrollment.registration.client.service.impl.util.CourseRegistrationAndScheduleOfClassesUtil;
-import org.kuali.student.enrollment.registration.client.service.impl.util.RegistrationValidationResultsUtil;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
@@ -57,7 +49,6 @@ import org.kuali.student.r2.lum.lrc.dto.ResultValueInfo;
 import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
 import org.kuali.student.r2.lum.util.constants.LrcServiceConstants;
 
-import java.text.MessageFormat;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
@@ -308,16 +299,9 @@ public class AdminRegistrationViewHelperServiceImpl extends KSViewHelperServiceI
     @Override
     public void validateForSubmission(AdminRegistrationForm form) {
 
-        MessageService messageService = KRADServiceLocatorWeb.getMessageService();
         for (RegistrationCourse regCourse : form.getCoursesInProcess()) {
             if (regCourse.getCredits() == null || regCourse.getCredits().isEmpty()) {
-
-                String message = messageService.getMessageText(null, null, AdminRegConstants.ADMIN_REG_MSG_ERROR_CREDITS_REQUIRED);
-                if (message == null) {
-                    message = StringUtils.EMPTY;
-                }
-
-                message = MessageFormat.format(message, regCourse.getCode(), regCourse.getSection());
+                String message = AdminRegistrationUtil.getMessageForKey(AdminRegConstants.ADMIN_REG_MSG_ERROR_CREDITS_REQUIRED, regCourse.getCode(), regCourse.getSection());
                 form.getConfirmationIssues().add(message);
             }
         }
@@ -581,36 +565,17 @@ public class AdminRegistrationViewHelperServiceImpl extends KSViewHelperServiceI
 
     @Override
     public void validateCourseEdit(AdminRegistrationForm form) {
-
-        MessageService messageService = KRADServiceLocatorWeb.getMessageService();
-
         for (RegistrationCourse editCourse : form.getCoursesInEdit()) {
             if (editCourse.getCredits() == null || editCourse.getCredits().isEmpty()) {
-
-                String message = messageService.getMessageText(null, null, AdminRegConstants.ADMIN_REG_MSG_ERROR_CREDITS_REQUIRED);
-                if (message == null) {
-                    message = StringUtils.EMPTY;
-                }
-
-                message = MessageFormat.format(message, editCourse.getCode(), editCourse.getSection());
-                form.getEditingIssues().add(message);
+                form.getEditingIssues().add(AdminRegistrationUtil.getMessageForKey(AdminRegConstants.ADMIN_REG_MSG_ERROR_CREDITS_REQUIRED, editCourse.getCode(), editCourse.getSection()));
             }
             if (editCourse.getEffectiveDate() == null) {
-                String message = messageService.getMessageText(null, null, AdminRegConstants.ADMIN_REG_MSG_ERROR_EFFECTIVE_DATE_REQUIRED);
-                if (message == null) {
-                    message = StringUtils.EMPTY;
-                }
-
-                form.getEditingIssues().add(message);
+                form.getEditingIssues().add(AdminRegistrationUtil.getMessageForKey(AdminRegConstants.ADMIN_REG_MSG_ERROR_EFFECTIVE_DATE_REQUIRED, null, null));
             }
 
             if (editCourse.getGradingOptionId() == null || editCourse.getGradingOptionId().isEmpty()) {
-                String message = messageService.getMessageText(null, null, AdminRegConstants.ADMIN_REG_MSG_ERROR_REG_OPTIONS_REQUIRED);
-                if (message == null) {
-                    message = StringUtils.EMPTY;
-                }
+                form.getEditingIssues().add(AdminRegistrationUtil.getMessageForKey(AdminRegConstants.ADMIN_REG_MSG_ERROR_REG_OPTIONS_REQUIRED, null, null));
 
-                form.getEditingIssues().add(message);
             }
         }
     }
