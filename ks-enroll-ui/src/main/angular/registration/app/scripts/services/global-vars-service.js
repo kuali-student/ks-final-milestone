@@ -1,10 +1,9 @@
 'use strict';
 
 angular.module('regCartApp')
-    .service('GlobalVarsService', ['STATE', 'STATUS', function GlobalVarsService(STATE, STATUS) {
+    .service('GlobalVarsService', ['STATE', 'STATUS', 'ServiceUtilities',
+    function GlobalVarsService(STATE, STATUS, ServiceUtilities) {
 
-        var cartCredits = 0;
-        var cartCourseCount = 0;
         var registeredCredits;
         var registeredCourseCount = 0;
         var waitlistedCredits = 0;
@@ -14,26 +13,8 @@ angular.module('regCartApp')
         var courseIndexes = {};
         var courseIndexPointer = 1;
 
-        var cartCourses = [];
         var registeredCourses = [];
         var waitlistedCourses = [];
-
-
-        this.getCartCredits = function () {
-            return cartCredits;
-        };
-
-        this.setCartCredits = function (value) {
-            cartCredits = value;
-        };
-
-        this.getCartCourseCount = function () {
-            return cartCourseCount;
-        };
-
-        this.setCartCourseCount = function (value) {
-            cartCourseCount = value;
-        };
 
         this.getRegisteredCredits = function () {
             return registeredCredits;
@@ -65,22 +46,6 @@ angular.module('regCartApp')
 
         this.setWaitlistedCourseCount = function (value) {
             waitlistedCourseCount = value;
-        };
-
-        this.getCartCourses = function() {
-            return cartCourses;
-        };
-
-        this.setCartCourses = function(courses) {
-            cartCourses.splice(0, cartCourses.length);
-
-            if (courses) {
-                angular.forEach(courses, function(course) {
-                    cartCourses.push(course);
-                });
-
-                this.setCartCourseCount(courses.length);
-            }
         };
 
         this.getRegisteredCourses = function() {
@@ -125,18 +90,13 @@ angular.module('regCartApp')
             this.setWaitlistedCredits(credits);
         };
 
-        this.isCourseInCart = function(course) {
-            return isCourseInList(course, this.getCartCourses());
-        };
-
         this.isCourseRegistered = function(course) {
-            return isCourseInList(course, this.getRegisteredCourses());
+            return ServiceUtilities.isCourseInList(course, this.getRegisteredCourses());
         };
 
         this.isCourseWaitlisted = function(course) {
-            return isCourseInList(course, this.getWaitlistedCourses());
+            return ServiceUtilities.isCourseInList(course, this.getWaitlistedCourses());
         };
-
 
         this.getSchedule = function () {
             return schedule;
@@ -249,29 +209,5 @@ angular.module('regCartApp')
 
             return index;
         };
-
-
-        /**
-         * Method for determining if a course is present in a list of courses
-         * @param course
-         * @param list
-         * @returns {boolean}
-         */
-        function isCourseInList (course, list) {
-            if (angular.isString(course)) {
-                course = {
-                    regGroupId: course
-                };
-            }
-
-            var inList = false;
-            angular.forEach(list, function(listCourse) {
-                if (!inList && (listCourse.regGroupId === course.regGroupId)) { // Courses match on regGroupId
-                    inList = true;
-                }
-            });
-
-            return inList;
-        }
 
     }]);

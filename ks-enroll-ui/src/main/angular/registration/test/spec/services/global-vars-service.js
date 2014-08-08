@@ -15,9 +15,6 @@ describe('Service: GlobalVarsService', function () {
 
     describe('getters & setters', function() {
         it('should initialize the variables', function() {
-            expect(GlobalVarsService.getCartCredits()).toBe(0);
-            expect(GlobalVarsService.getCartCourseCount()).toBe(0);
-
             expect(GlobalVarsService.getRegisteredCredits()).toBeUndefined();
             expect(GlobalVarsService.getRegisteredCourseCount()).toBe(0);
 
@@ -29,12 +26,6 @@ describe('Service: GlobalVarsService', function () {
         });
 
         it('should set & get the correct values', function() {
-            GlobalVarsService.setCartCredits(5);
-            expect(GlobalVarsService.getCartCredits()).toBe(5);
-
-            GlobalVarsService.setCartCourseCount(3);
-            expect(GlobalVarsService.getCartCourseCount()).toBe(3);
-
             GlobalVarsService.setRegisteredCredits(8);
             expect(GlobalVarsService.getRegisteredCredits()).toBe(8);
 

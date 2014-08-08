@@ -356,7 +356,8 @@ angular.module('regCartApp')
                 size: '@'
             },
             templateUrl: 'partials/courseCalendar.html',
-            controller: ['$scope', 'CourseCalendarDataParser', 'GlobalVarsService', function($scope, CourseCalendarDataParser, GlobalVarsService) {
+            controller: ['$scope', 'CourseCalendarDataParser', 'CartService', 'GlobalVarsService',
+            function($scope, CourseCalendarDataParser, CartService, GlobalVarsService) {
 
                 /*
                  Filter used by view to show courses based on the toggles in the legend
@@ -427,7 +428,7 @@ angular.module('regCartApp')
 
                 $scope.registered = GlobalVarsService.getRegisteredCourses();
                 $scope.waitlisted = GlobalVarsService.getWaitlistedCourses();
-                $scope.cart = GlobalVarsService.getCartCourses();
+                $scope.cart = CartService.getCartCourses();
 
 
                 var init = function(list) {

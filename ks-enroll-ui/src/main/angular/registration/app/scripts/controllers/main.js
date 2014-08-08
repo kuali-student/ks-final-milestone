@@ -1,9 +1,9 @@
 'use strict';
 
 angular.module('regCartApp')
-    .controller('MainCtrl', ['$scope', '$location', '$state', 'TermsService', 'ScheduleService', 'GlobalVarsService', 'APP_URL', 'DEFAULT_TERM',
+    .controller('MainCtrl', ['$scope', '$location', '$state', 'TermsService', 'ScheduleService', 'CartService', 'GlobalVarsService', 'APP_URL', 'DEFAULT_TERM',
         'LoginService', 'MessageService', '$modal',
-    function MainCtrl($scope, $location, $state, TermsService, ScheduleService, GlobalVarsService, APP_URL, DEFAULT_TERM, LoginService, MessageService, $modal) {
+    function MainCtrl($scope, $location, $state, TermsService, ScheduleService, CartService, GlobalVarsService, APP_URL, DEFAULT_TERM, LoginService, MessageService, $modal) {
         console.log('In Main Controller');
 
         $scope.appUrl = APP_URL.replace('/services/', '/');
@@ -52,8 +52,8 @@ angular.module('regCartApp')
             ScheduleService.getSchedule(newValue).then(function (result) {
                 console.log('called rest service to get schedule data - in main.js');
                 GlobalVarsService.updateScheduleCounts(result);
-                $scope.cartCredits = GlobalVarsService.getCartCredits; // notice that i didn't put the (). in the ui call: {{cartCredits()}}
-                $scope.cartCourseCount = GlobalVarsService.getCartCourseCount; // notice that i didn't put the (). in the ui call: {{cartCourseCount()}}
+                $scope.cartCredits = CartService.getCartCredits;
+                $scope.cartCourseCount = CartService.getCartCourseCount;
                 $scope.registeredCredits = GlobalVarsService.getRegisteredCredits;   // notice that i didn't put the (). in the ui call: {{registeredCredits()}}
                 $scope.registeredCourseCount = GlobalVarsService.getRegisteredCourseCount; // notice that i didn't put the (). in the ui call: {{registeredCourseCount()}}
                 $scope.waitlistedCredits = GlobalVarsService.getWaitlistedCredits;   // notice that i didn't put the (). in the ui call: {{registeredCredits()}}

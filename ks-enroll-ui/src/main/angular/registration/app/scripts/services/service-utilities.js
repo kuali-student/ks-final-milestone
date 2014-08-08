@@ -41,6 +41,26 @@ angular.module('regCartApp')
             });
         };
 
+        /*
+         Global method for seeing if a course is present in a list of courses
+         */
+        this.isCourseInList = function (course, list) {
+            if (angular.isString(course)) {
+                course = {
+                    regGroupId: course
+                };
+            }
+
+            var inList = false;
+            angular.forEach(list, function(listCourse) {
+                if (!inList && (listCourse.regGroupId === course.regGroupId)) { // Courses match on regGroupId
+                    inList = true;
+                }
+            });
+
+            return inList;
+        };
+
         function transformRequest(obj) {
             var str = [];
             for (var p in obj) {

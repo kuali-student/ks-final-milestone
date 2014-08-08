@@ -3,6 +3,10 @@
 angular.module('regCartApp')
     .service('CartService', ['$q', 'ServiceUtilities', 'URLS', function CartService($q, ServiceUtilities, URLS) {
 
+        var cartCredits = 0;
+        var cartCourseCount = 0;
+        var cartCourses = [];
+
         // Cache of carts per term
         var carts = {};
 
@@ -26,6 +30,41 @@ angular.module('regCartApp')
             return deferred.promise;
         };
 
+        this.getCartCredits = function () {
+            return cartCredits;
+        };
+
+        this.setCartCredits = function (value) {
+            cartCredits = value;
+        };
+
+        this.getCartCourseCount = function () {
+            return cartCourseCount;
+        };
+
+        this.setCartCourseCount = function (value) {
+            cartCourseCount = value;
+        };
+
+        this.getCartCourses = function() {
+            return cartCourses;
+        };
+
+        this.setCartCourses = function(courses) {
+            cartCourses.splice(0, cartCourses.length);
+
+            if (courses) {
+                angular.forEach(courses, function(course) {
+                    cartCourses.push(course);
+                });
+
+                this.setCartCourseCount(courses.length);
+            }
+        };
+
+        this.isCourseInCart = function(course) {
+            return ServiceUtilities.isCourseInList(course, this.getCartCourses());
+        };
 
         // Server API Methods
 

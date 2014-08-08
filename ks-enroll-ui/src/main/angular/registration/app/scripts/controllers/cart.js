@@ -27,10 +27,10 @@ angular.module('regCartApp')
         $scope.$watchCollection('cart.items', function(items) {
             $scope.creditTotal = creditTotal();
             if (items) {
-                GlobalVarsService.setCartCredits($scope.creditTotal);
+                CartService.setCartCredits($scope.creditTotal);
             }
 
-            GlobalVarsService.setCartCourses(items);
+            CartService.setCartCourses(items);
         });
 
         // this method loads the cart and kicks off polling if needed

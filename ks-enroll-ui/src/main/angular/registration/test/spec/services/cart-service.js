@@ -14,6 +14,21 @@ describe('Service: CartService', function () {
         CartService = _CartService_;
     }));
 
+    describe('getters & setters', function() {
+        it('should initialize the variables', function() {
+            expect(CartService.getCartCredits()).toBe(0);
+            expect(CartService.getCartCourseCount()).toBe(0);
+        });
+
+        it('should set & get the correct values', function() {
+            CartService.setCartCredits(5);
+            expect(CartService.getCartCredits()).toBe(5);
+
+            CartService.setCartCourseCount(3);
+            expect(CartService.getCartCourseCount()).toBe(3);
+        });
+    });
+
 
     it('should get the cart', inject(function (CartService, APP_URL) {
        $httpBackend.expectGET(APP_URL + 'CourseRegistrationCartClientService/searchForCart?termId=kuali.atp.2012Fall')

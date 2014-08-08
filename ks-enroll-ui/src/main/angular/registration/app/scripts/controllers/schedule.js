@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('regCartApp')
-    .controller('ScheduleCtrl', ['$scope', '$modal', '$timeout', 'STATUS', 'GRADING_OPTION', 'COURSE_TYPES', 'ScheduleService', 'GlobalVarsService',
-    function ($scope, $modal, $timeout, STATUS, GRADING_OPTION, COURSE_TYPES, ScheduleService, GlobalVarsService) {
+    .controller('ScheduleCtrl', ['$scope', '$modal', '$timeout', 'STATUS', 'GRADING_OPTION', 'COURSE_TYPES', 'ScheduleService', 'CartService', 'GlobalVarsService',
+    function ($scope, $modal, $timeout, STATUS, GRADING_OPTION, COURSE_TYPES, ScheduleService, CartService, GlobalVarsService) {
 
         $scope.getSchedules = GlobalVarsService.getSchedule;
         $scope.registeredCredits = GlobalVarsService.getRegisteredCredits;
@@ -49,7 +49,7 @@ angular.module('regCartApp')
             var showGrid = false;
 
             //check the cart
-            angular.forEach(GlobalVarsService.getCartCourses(), function(course) {
+            angular.forEach(CartService.getCartCourses(), function(course) {
                 angular.forEach(course.schedule, function(schedule) {
                     if (!showGrid) {
                         var locationTime = schedule.activityOfferingLocationTime;

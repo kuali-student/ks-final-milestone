@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('regCartApp')
-    .controller('SearchDetailsCtrl', ['$scope', '$rootScope', '$state', '$filter', '$modal', 'STATUS', 'FEATURE_TOGGLES', 'SearchService', 'GlobalVarsService',
-    function SearchDetailsCtrl($scope, $rootScope, $state, $filter, $modal, STATUS, FEATURE_TOGGLES, SearchService, GlobalVarsService) {
+    .controller('SearchDetailsCtrl', ['$scope', '$rootScope', '$state', '$filter', '$modal', 'STATUS', 'FEATURE_TOGGLES', 'SearchService', 'CartService', 'GlobalVarsService',
+    function SearchDetailsCtrl($scope, $rootScope, $state, $filter, $modal, STATUS, FEATURE_TOGGLES, SearchService, CartService, GlobalVarsService) {
 
         $scope.searchCriteria = null; // Criteria used to generate the search results.
         $scope.course = null;         // Handle on the course
@@ -140,7 +140,7 @@ angular.module('regCartApp')
 
         // Method for checking if the selected reg group is in the cart
         $scope.isSelectedRegGroupInCart = function() {
-            return $scope.selectedRegGroup && GlobalVarsService.isCourseInCart($scope.selectedRegGroup.regGroupId);
+            return $scope.selectedRegGroup && CartService.isCourseInCart($scope.selectedRegGroup.regGroupId);
         };
 
         // Method for checking if the selected reg group is in the waitlist
