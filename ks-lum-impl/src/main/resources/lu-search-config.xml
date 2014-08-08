@@ -2340,22 +2340,6 @@
         </search:searchCriteriaTypeInfo>
     </search:searchType>
 
-    <search:searchType id="ksap.distinct.clu.divisions">
-        <search:searchResultTypeInfo>
-            <search:name/>
-            <search:desc/>
-            <search:resultColumns>
-                <search:resultColumn id="division">
-                    <search:dataType>string</search:dataType>
-                </search:resultColumn>
-            </search:resultColumns>
-        </search:searchResultTypeInfo>
-        <search:searchCriteriaTypeInfo>
-            <search:queryParams>
-            </search:queryParams>
-        </search:searchCriteriaTypeInfo>
-    </search:searchType>
-
     <search:searchType id="ksap.clu.divisionAndCode">
         <search:searchResultTypeInfo>
             <search:name/>
@@ -2596,26 +2580,6 @@
         </search:searchCriteriaTypeInfo>
     </search:searchType>
 
-    <search:searchType id="ksap.course.getCourseTitleAndIdAndStatus">
-        <search:searchResultTypeInfo>
-            <search:name/>
-            <search:desc/>
-            <search:resultColumns>
-                <ref bean="lu.resultColumn.cluId"/>
-                <search:resultColumn id="id.lngName">
-                    <search:dataType>string</search:dataType>
-                </search:resultColumn>
-                <search:resultColumn id="clu.st">
-                    <search:dataType>string</search:dataType>
-                </search:resultColumn>
-            </search:resultColumns>
-        </search:searchResultTypeInfo>
-        <search:searchCriteriaTypeInfo>
-            <search:queryParams>
-            </search:queryParams>
-        </search:searchCriteriaTypeInfo>
-    </search:searchType>
-
     <search:searchType id="ksap.course.prereqsearch.subject">
         <search:searchResultTypeInfo>
             <search:name/>
@@ -2696,15 +2660,6 @@
     <bean id="queryMap" parent="queryMap-parent">
         <property name="sourceMap">
             <map merge="true">
-
-                <entry key="ksap.distinct.clu.divisions">
-                    <value>
-                        SELECT
-                        distinct( ident.division )
-                        FROM CluIdentifier ident
-                        WHERE ident.division IS NOT null
-                    </value>
-                </entry>
 
                 <entry key="ksap.lu.search.title">
                     <value>
@@ -3086,21 +3041,6 @@
                         AND
                         trim( id.DIVISION ) = :subject
                         AND clu.EXP_FIRST_ATP = (select min(c.EXP_FIRST_ATP) FROM KSLU_CLU c where c.ver_ind_id = clu.ver_ind_id group by c.ver_ind_id )
-                    </value>
-                </entry>
-                <entry key="ksap.course.getCourseTitleAndIdAndStatus">
-                    <value>NATIVE:
-                        SELECT
-                        clu.id, id.LNG_NAME, clu.ST
-                        FROM
-                        KSLU_CLU clu,
-                        KSLU_CLU_IDENT id
-                        WHERE
-                        clu.offic_clu_id = id.id
-                        AND
-                        trim( id.SUFX_CD ) = :number
-                        AND
-                        trim( id.DIVISION ) = :subject
                     </value>
                 </entry>
 
