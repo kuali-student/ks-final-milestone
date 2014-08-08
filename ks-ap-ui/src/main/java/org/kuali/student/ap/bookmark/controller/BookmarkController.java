@@ -109,7 +109,7 @@ public class BookmarkController extends KsapControllerBase {
 
         // Add the course to the plan
         PlanItemInfo newBookmark = new PlanItemInfo();
-        newBookmark.setRefObjectId(course.getId());
+        newBookmark.setRefObjectId(course.getVersion().getVersionIndId());
         newBookmark.setTypeKey(AcademicPlanServiceConstants.LEARNING_PLAN_ITEM_TYPE);
         newBookmark.setStateKey(PlanConstants.LEARNING_PLAN_ITEM_ACTIVE_STATE_KEY);
         newBookmark.setRefObjectType(PlanConstants.COURSE_TYPE);

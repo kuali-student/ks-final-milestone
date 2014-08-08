@@ -175,7 +175,7 @@ public class AcademicPlanServiceValidationDecorator extends
 
             // Validate that the course exists if course object
             if (planItemInfo.getRefObjectType().equals(PlanConstants.COURSE_TYPE) &&
-                    KsapFrameworkServiceLocator.getCourseHelper().getCourseInfo(
+                    KsapFrameworkServiceLocator.getCourseHelper().getCurrentVersionOfCourseByIndependentVersionId(
                             planItemInfo.getRefObjectId()) == null) {
                 validationResultInfos.add(makeValidationResultInfo(
                     String.format("Could not find course with ID [%s].", planItemInfo.getRefObjectId()),

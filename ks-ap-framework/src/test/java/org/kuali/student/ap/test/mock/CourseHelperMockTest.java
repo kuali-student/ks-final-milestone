@@ -90,4 +90,9 @@ public class CourseHelperMockTest implements CourseHelper {
     public boolean isCourseBookmarked(Course course, List<PlanItem> planItems){
         return false;  //To change body of implemented methods use File | Settings | File Templates.
     }
+
+    @Override
+    public CourseInfo getCurrentVersionOfCourseByIndependentVersionId(String independentVersionId) {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
 }

@@ -124,4 +124,5 @@ public interface CourseHelper {
      */
     boolean isCourseBookmarked(Course course, List<PlanItem> planItems);
 
+    CourseInfo getCurrentVersionOfCourseByIndependentVersionId(String independentVersionId);
 }

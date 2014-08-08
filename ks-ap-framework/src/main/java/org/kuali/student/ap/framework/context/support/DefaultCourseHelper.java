@@ -559,6 +559,28 @@ public class DefaultCourseHelper implements CourseHelper, Serializable {
     }
 
     @Override
+    public CourseInfo getCurrentVersionOfCourseByIndependentVersionId(String independentVersionId) {
+        // Retrieve course information using the course code entered by the user
+        CourseInfo course;
+        try {
+            ContextInfo contextInfo = KsapFrameworkServiceLocator.getContext().getContextInfo();
+            VersionDisplayInfo currentVersion = KsapFrameworkServiceLocator.getCluService().getCurrentVersion(CluServiceConstants.CLU_NAMESPACE_URI, independentVersionId, contextInfo);
+            course = KsapFrameworkServiceLocator.getCourseService().getCourse(currentVersion.getId(), contextInfo);
+        } catch (PermissionDeniedException e) {
+            throw new IllegalArgumentException("Course service failure", e);
+        } catch (MissingParameterException e) {
+            throw new IllegalArgumentException("Course service failure", e);
+        } catch (InvalidParameterException e) {
+            throw new IllegalArgumentException("Course service failure", e);
+        } catch (OperationFailedException e) {
+            throw new IllegalArgumentException("Course service failure", e);
+        } catch (DoesNotExistException e) {
+            throw new IllegalArgumentException("Course service failure", e);
+        }
+        return course;
+    }
+
+    @Override
 	public String getCourseCdFromActivityId(String activityId) {
 		ActivityOfferingDisplayInfo activityDisplayInfo;
 		try {

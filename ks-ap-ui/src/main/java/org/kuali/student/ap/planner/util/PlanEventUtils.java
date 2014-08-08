@@ -557,7 +557,7 @@ public class PlanEventUtils {
         assert PlanConstants.COURSE_TYPE.equals(planItem.getRefObjectType()) : planItem
                 .getRefObjectType() + " " + planItem.getId();
 
-        Course course = courseHelper.getCourseInfo(planItem.getRefObjectId());
+        Course course = courseHelper.getCurrentVersionOfCourseByIndependentVersionId(planItem.getRefObjectId());
         assert course != null : "Missing course for plan item "
                 + planItem.getId() + ", ref ID " + planItem.getRefObjectId();
 
