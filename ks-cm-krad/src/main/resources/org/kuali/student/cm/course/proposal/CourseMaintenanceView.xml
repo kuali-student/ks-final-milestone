@@ -713,7 +713,6 @@
                       p:actionLabel="Approve and Activate"
                       p:methodToCall="approveAndActivate"
                       p:performClientSideValidation="true"
-                      p:disabled="@{#dataObject.missingRequiredFields}"
                       p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_BLANKET_APPROVE] and (!#empty(#dataObject.courseInfo.courseTitle))}"/>
                 <bean parent="Uif-SecondaryActionButton"
                       p:ajaxSubmit="false"
