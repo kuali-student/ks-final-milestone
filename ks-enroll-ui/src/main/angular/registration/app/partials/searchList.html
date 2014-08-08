@@ -47,11 +47,12 @@
         </tr>
     </tbody>
 </table>
-<div class="kscr-Search-results-list" ng-if="showMobile">
+<div id="search-results-list" class="kscr-Search-results-list" ng-if="showMobile">
     <div class="kscr-Search-result"
          id="course_detail_result_{{applyFilter(searchResult, defaultField, searchColumn.filter)}}"
          ng-click="emitEvent(onClick, searchResult)" ng-repeat="searchResult in searchResults | limitTo:mobileLimit">
-        <div class="kscr-Search-result-column-{{searchColumn.field}}" ng-repeat="searchColumn in searchColumns"
+        <div id="search-result-column-{{applyFilter(searchResult, defaultField, searchColumn.filter)}}-{{searchColumn.field}}"
+             class="kscr-Search-result-column-{{searchColumn.field}}" ng-repeat="searchColumn in searchColumns"
              ng-bind-html="applyFilter(searchResult, searchColumn.field, searchColumn.filter)"></div>
     </div>
 </div>
