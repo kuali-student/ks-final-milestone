@@ -780,13 +780,47 @@ fieldset .uif-actionLink{
   margin-bottom: 0px;
 }
 
-.returntopreviousnode_dialog .uif-dialogHeader {
-  background:none;
-  margin-bottom: 0px;
+.returntopreviousnode_dialog{
+  width: 580px;
+  .uif-dialogHeader {
+    background:none;
+    margin-bottom: 0px;
+    padding-top:10px;
+    .ks-dottedHeaderActions {
+      border-bottom: @dottedLineBorder;
+    }
+  }
+  .uif-message{
+    padding-top: 5px;
+  }
+  fieldset[data-type="RadioSet"] {
+    padding-top: 20px;
+    padding-left: 370px;
+  }
 }
 
-.returntopreviousnode_dialogExplanation .uif-dialogExplanation {
-  padding-bottom: 15px;
+#CM-ReturnToPrevious-Dialog-NodeNamesDropdown {
+  padding-top: 20px;
+}
+
+#KS-CM-DialogExplanation {
+  padding-top: 10px;
+}
+
+#CM-Approve-Dialog-Explanation_label, #CM-BlanketApprove-Dialog-Explanation_label{
+  padding-bottom: 10px;
+  padding-top: 20px;
+}
+
+#CM-Proposal-Review-Course-ConfirmApprove-Dialog, #CM-Proposal-Review-Course-ConfirmBlanketApprove-Dialog {
+  padding-left: 10px;
+}
+
+#CM-ReturnToPrevious-Dialog-Explanation textarea.uif-textAreaControl,
+#CM-BlanketApprove-Dialog-Explanation textarea.uif-textAreaControl,
+#CM-Approve-Dialog-Explanation textarea.uif-textAreaControl{
+  height: 140px;
+  width: 530px;
 }
 
 .viewcourseview-header-status {

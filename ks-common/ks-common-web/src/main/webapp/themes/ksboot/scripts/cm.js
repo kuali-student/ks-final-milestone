@@ -1061,3 +1061,35 @@ function hideCategoryTypeAndInfoMsg(index) {
 function setDirtyManually(dirtyFlag) {
     dirtyFormState.dirtyFormInput.val(dirtyFlag);
 }
+
+function emptyTextBoxes(){
+    JQuery("#CM-ReturnToPrevious-Dialog-Explanation_control").val('');
+}
+
+function toggleReturnButton() {
+    var rationaleDesc = jQuery("#CM-ReturnToPrevious-Dialog-Explanation_control").val();
+    if (rationaleDesc != '') {
+        jQuery("#CM-ReturnToPrevious-Confirm").removeAttr("disabled");
+    } else {
+        jQuery("#CM-ReturnToPrevious-Confirm").attr("disabled", "disabled");
+    }
+}
+
+function toggleApproveButton() {
+    var rationaleDesc = jQuery("#CM-Approve-Dialog-Explanation").val();
+    if (rationaleDesc != '') {
+        jQuery("#CM-Proposal-Approve-Confirm").removeAttr("disabled");
+    } else {
+        jQuery("#CM-Proposal-Approve-Confirm").attr("disabled", "disabled");
+    }
+}
+
+function toggleBlanketApproveButton() {
+    var rationaleDesc = jQuery("#CM-BlanketApprove-Dialog-Explanation").val();
+    if (rationaleDesc != '') {
+        jQuery("#CM-Proposal-BlanketApprove-Confirm").removeAttr("disabled");
+    } else {
+        jQuery("#CM-Proposal-BlanketApprove-Confirm").attr("disabled", "disabled");
+    }
+}
+
