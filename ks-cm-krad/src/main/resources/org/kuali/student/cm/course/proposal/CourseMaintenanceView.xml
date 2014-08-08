@@ -40,69 +40,7 @@
         </property>
     </bean>
 
-    <!--
-        Data dictionary overrides for validation.
-    -->
 
-    <!-- Common beans -->
-
-    <!-- Override simpleConstraint.states with workflow doc state R (Enroute) and beyond -->
-    <bean id="DDValueReplacer-Enroute" parent="FieldOverrideForValueReplace" abstract="true">
-        <property name="propertyName" value="simpleConstraint.states"/>
-        <property name="value">
-            <list>
-                <value>R+</value>
-            </list>
-        </property>
-    </bean>
-
-    <!-- Override simpleConstraint.states with workflow doc state P (Processed) -->
-    <bean id="DDValueReplacer-Processed" parent="FieldOverrideForValueReplace" abstract="true">
-        <property name="propertyName" value="simpleConstraint.states"/>
-        <property name="value">
-            <list>
-                <value>P</value>
-            </list>
-        </property>
-    </bean>
-
-    <!--
-        Per property overrides for workflow doc state R (Enroute).
-    -->
-    <bean id="CourseInfo.subjectArea-override" parent="DataDictionaryBeanOverride">
-        <property name="beanName" value="CourseInfo.subjectArea"/>
-        <property name="fieldOverrides">
-            <bean parent="DDValueReplacer-Enroute"/>
-        </property>
-    </bean>
-
-    <bean id="CourseInfo.descr.plain-override" parent="DataDictionaryBeanOverride">
-        <property name="beanName" value="CourseInfo.descr.plain"/>
-        <property name="fieldOverrides">
-            <bean parent="DDValueReplacer-Enroute"/>
-        </property>
-    </bean>
-
-    <bean id="ProposalInfo.rationale.plain-override" parent="DataDictionaryBeanOverride">
-        <property name="beanName" value="ProposalInfo.rationale.plain"/>
-        <property name="fieldOverrides">
-            <bean parent="DDValueReplacer-Enroute"/>
-        </property>
-    </bean>
-
-    <bean id="CourseInfo.startTerm-override" parent="DataDictionaryBeanOverride">
-        <property name="beanName" value="CourseInfo.startTerm"/>
-        <property name="fieldOverrides">
-            <bean parent="DDValueReplacer-Enroute"/>
-        </property>
-    </bean>
-
-    <bean id="ActivityInfo.typeKey-override" parent="DataDictionaryBeanOverride">
-        <property name="beanName" value="ActivityInfo.typeKey"/>
-        <property name="fieldOverrides">
-            <bean parent="DDValueReplacer-Enroute"/>
-        </property>
-    </bean>
 
 
     <!--
@@ -150,6 +88,7 @@
                     </bean>
                 </property>
             </bean>
+
         </property>
     </bean>
 

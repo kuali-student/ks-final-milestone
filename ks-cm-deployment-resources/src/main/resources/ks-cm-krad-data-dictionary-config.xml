@@ -46,7 +46,7 @@
                     <value>classpath:org/kuali/student/cm/lookup/CollaboratorWrapperLookupView.xml</value>
                     <value>classpath:org/kuali/student/cm/lookup/LoCategoryInfoWrapperLookupView.xml</value>
                     <value>classpath:org/kuali/student/cm/lookup/LoDisplayInfoWrapperLookupView.xml</value>
-
+                    <value>classpath:org/kuali/student/cm/cm-datadictionary-overrides.xml</value>
                     <value>classpath:ks-CourseInfo-dictionary.xml</value>
                     <value>classpath:ks-ProposalInfo-dictionary.xml</value>
                     <value>classpath:ks-ActivityInfo-dictionary.xml</value>
