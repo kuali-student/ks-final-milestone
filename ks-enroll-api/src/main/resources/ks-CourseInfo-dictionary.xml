@@ -139,7 +139,16 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
 
 	<bean id="CourseInfo.transcriptTitle" parent="CourseInfo.transcriptTitle-parent"/>
 	<bean id="CourseInfo.transcriptTitle-parent" abstract="true" parent="CourseInfo.transcriptTitle-generated">
-	<!-- insert any overrides to the generated attribute definitions here -->
+        <property name="simpleConstraint">
+            <bean parent="RequiredConstraint">
+                <property name="maxLength" value="24" />
+                <property name="states">
+                    <list>
+                        <value>ACTIVE</value>
+                    </list>
+                </property>
+            </bean>
+        </property>
 	</bean>
 
 	<bean id="CourseInfo.formats" parent="CourseInfo.formats-parent"/>
