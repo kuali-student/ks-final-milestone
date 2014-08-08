@@ -371,6 +371,7 @@
                                   p:disabled="@{#dataObject.missingRequiredFields}"
                                   p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}"/>
                             <bean parent="Uif-PrimaryActionButton"
+                                  p:additionalCssClasses="btn-success"
                                   p:ajaxSubmit="false"
                                   p:actionLabel="Approve"
                                   p:methodToCall="approve"
@@ -410,6 +411,7 @@
                                   p:performClientSideValidation="true"
                                   p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_BLANKET_APPROVE]}"/>
                             <bean parent="Uif-PrimaryActionButton"
+                                  p:additionalCssClasses="btn-success"
                                   p:ajaxSubmit="false"
                                   p:actionLabel="Approve"
                                   p:methodToCall="approve"
