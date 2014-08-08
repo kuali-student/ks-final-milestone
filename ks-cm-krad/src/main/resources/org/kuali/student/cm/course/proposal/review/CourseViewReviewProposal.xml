@@ -400,7 +400,7 @@
                                   p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_BLANKET_APPROVE]}"/>
                             <bean parent="Uif-PrimaryActionButton"
                                   p:ajaxSubmit="false"
-                            p:actionLabel="Approve"
+                                  p:actionLabel="Approve"
                                   p:methodToCall="approve"
                                   p:performClientSideValidation="true"
                                   p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_APPROVE]}"/>
@@ -463,21 +463,26 @@
     <bean id="KS-Proposal-Review-Course-ConfirmReturnToPreviousNode-Dialog-parentBean" parent="Uif-DialogGroup" abstract="true" class="org.kuali.student.cm.uif.container.CMDialogGroup">
         <property name="renderHeader" value="true"/>
         <property name="OnShowDialogScript" value="skipDirtyChecks();" />
-        <property name="headerText" value="Return Proposal To Previous Node"/>
+        <property name="header">
+            <bean parent="Uif-HeaderTwo" p:headerText="Return Proposal to Previous Node"
+                  p:cssClasses="ks-dottedHeaderActions"/>
+        </property>
         <property name="cssClasses" >
             <list merge="true">
                 <value>returntopreviousnode_dialog</value>
             </list>
         </property>
         <property name="promptText"
-                  value="You are about to return the &quot;@{#uiHelper.proposalName}&quot; proposal to a previous workflow node"/>
+                  value="You are returning the &quot;@{#uiHelper.proposalName}&quot; proposal to previous node. You must enter a Decision Rationale."/>
         <!-- do not show the explanation because we need the route node name dropdown above it in the dialog screen -->
         <property name="displayExplanation" value="false"/>
         <property name="items">
             <list>
                 <bean id="CM-ReturnToPrevious-Dialog-NodeNamesDropdown" parent="CM-Dialog-PreviousNodeNames"/>
                 <!-- manually add back in the explanation field and force the render flag -->
-                <bean id="CM-ReturnToPrevious-Dialog-Explanation" parent="KS-CM-DialogExplanation" p:render="true"/>
+                <bean id="CM-ReturnToPrevious-Dialog-Explanation" parent="KS-CM-DialogExplanation" p:render="true"
+                      p:onKeyUpScript="toggleReturnButton();" p:onMouseOutScript="toggleReturnButton();"
+                      p:label="Decision Rationale" p:cssClasses="cm-charcount-max-1000"/>
             </list>
         </property>
         <property name="availableResponses">
@@ -503,19 +508,24 @@
     <bean id="KS-Proposal-Review-Course-ConfirmApprove-Dialog-parentBean" parent="Uif-DialogGroup" abstract="true" class="org.kuali.student.cm.uif.container.CMDialogGroup">
         <property name="renderHeader" value="true"/>
         <property name="OnShowDialogScript" value="skipDirtyChecks();" />
-        <property name="headerText" value="Approve Proposal"/>
+        <property name="header">
+            <bean parent="Uif-HeaderTwo" p:headerText="Approve Proposal"
+                  p:cssClasses="ks-dottedHeaderActions"/>
+        </property>
         <property name="cssClasses" >
             <list merge="true">
                 <value>returntopreviousnode_dialog</value>
             </list>
         </property>
         <property name="promptText"
-                  value="You are approving the &quot;@{#uiHelper.proposalName}&quot; proposal"/>
+                  value="You are approving the &quot;@{#uiHelper.proposalName}&quot; proposal. You must enter a Decision Rationale."/>
         <!-- do not show the explanation because we need the route node name dropdown above it in the dialog screen -->
         <property name="displayExplanation" value="false"/>
         <property name="items">
             <list>
-                <bean id="CM-Approve-Dialog-Explanation" parent="KS-CM-DialogExplanation" p:render="true"/>
+                <bean id="CM-Approve-Dialog-Explanation" parent="KS-CM-DialogExplanation" p:render="true"
+                      p:onKeyUpScript="toggleBlanketApproveButton();" p:onMouseOutScript="toggleBlanketApproveButton();"
+                      p:label="Decision Rationale"/>
             </list>
         </property>
         <property name="availableResponses">
@@ -530,24 +540,29 @@
     <bean id="KS-Proposal-Review-Course-ConfirmBlanketApprove-Dialog-parentBean" parent="Uif-DialogGroup" abstract="true" class="org.kuali.student.cm.uif.container.CMDialogGroup">
         <property name="renderHeader" value="true"/>
         <property name="OnShowDialogScript" value="skipDirtyChecks();" />
-        <property name="headerText" value="Blanket Approve Proposal"/>
+        <property name="header">
+            <bean parent="Uif-HeaderTwo" p:headerText="Blanket Approve Proposal"
+                  p:cssClasses="ks-dottedHeaderActions"/>
+        </property>
         <property name="cssClasses" >
             <list merge="true">
                 <value>returntopreviousnode_dialog</value>
             </list>
         </property>
         <property name="promptText"
-                  value="You are blanket approving the &quot;@{#uiHelper.proposalName}&quot; proposal"/>
+                  value="You are blanket approving the &quot;@{#uiHelper.proposalName}&quot; proposal. You must enter a Decision Rationale."/>
         <!-- do not show the explanation because we need the route node name dropdown above it in the dialog screen -->
         <property name="displayExplanation" value="false"/>
         <property name="items">
             <list>
-                <bean id="CM-BlanketApprove-Dialog-Explanation" parent="KS-CM-DialogExplanation" p:render="true"/>
+                <bean id="CM-BlanketApprove-Dialog-Explanation" parent="KS-CM-DialogExplanation" p:render="true"
+                      p:onKeyUpScript="toggleReturnButton();" p:onMouseOutScript="toggleReturnButton();"
+                      p:label="Decision Rationale" p:cssClasses="cm-charcount-max-1000"/>
             </list>
         </property>
         <property name="availableResponses">
             <list>
-                <bean parent="Uif-KeyLabelPair" p:key="yes" p:value="Confirm"/>
+                <bean parent="Uif-KeyLabelPair" p:key="yes" p:value="Approve"/>
                 <bean parent="Uif-KeyLabelPair" p:key="no" p:value="Cancel"/>
             </list>
         </property>
