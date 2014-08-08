@@ -1134,6 +1134,33 @@ public class ActivityOfferingWrapper implements Serializable, ComparatorModel{
         return StringUtils.removeEnd(sb.toString(),"<br>");
     }
 
+    public String getActivityOfferingScheduleingStateKey() {
+        boolean asiExempt = false;
+        boolean rsiExempt = false;
+        if (!this.actualScheduleComponents.isEmpty()) {
+            for (ScheduleWrapper actualScheduleComponent : this.actualScheduleComponents) {
+                if (!actualScheduleComponent.isTba()) {
+                    return LuiServiceConstants.LUI_AO_SCHEDULING_STATE_SCHEDULED_KEY;
+                }
+            }
+            asiExempt = true;
+        }
+        if (!this.requestedScheduleComponents.isEmpty()) {
+            for (ScheduleWrapper requestedScheduleComponent : this.requestedScheduleComponents) {
+                if (!requestedScheduleComponent.isTba()) {
+                    return LuiServiceConstants.LUI_AO_SCHEDULING_STATE_UNSCHEDULED_KEY;
+                }
+            }
+            rsiExempt = true;
+        }
+
+        if (asiExempt || rsiExempt) {
+            return LuiServiceConstants.LUI_AO_SCHEDULING_STATE_EXEMPT_KEY;
+        } else {
+            return LuiServiceConstants.LUI_AO_SCHEDULING_STATE_UNSCHEDULED_KEY;
+        }
+    }
+
     public boolean isPartOfColoSetOnLoadAlready() {
         return isPartOfColoSetOnLoadAlready;
     }

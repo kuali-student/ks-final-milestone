@@ -389,6 +389,10 @@ public class CourseOfferingServiceFacadeImpl implements CourseOfferingServiceFac
         if (!cluster.getFormatOfferingId().equals(aoInfo.getFormatOfferingId())) {
             throw new DataValidationErrorException("Format Offering Ids do not match");
         }
+
+        //set AO scheduling state to unscheduled
+        aoInfo.setSchedulingStateKey(LuiServiceConstants.LUI_AO_SCHEDULING_STATE_UNSCHEDULED_KEY);
+
         ActivityOfferingInfo created = coService.createActivityOffering(aoInfo.getFormatOfferingId(), aoInfo.getActivityId(),
                 aoInfo.getTypeKey(), aoInfo, context);
 

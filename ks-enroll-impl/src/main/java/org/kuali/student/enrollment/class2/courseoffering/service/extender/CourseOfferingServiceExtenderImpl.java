@@ -16,6 +16,7 @@
  */
 package org.kuali.student.enrollment.class2.courseoffering.service.extender;
 
+import org.apache.commons.lang3.StringUtils;
 import org.kuali.student.common.collection.KSCollectionUtils;
 import org.kuali.student.enrollment.class2.courseoffering.service.helper.CourseOfferingServiceScheduleHelper;
 import org.kuali.student.enrollment.class2.courseoffering.service.transformer.ActivityOfferingTransformer;
@@ -755,6 +756,14 @@ public class CourseOfferingServiceExtenderImpl implements CourseOfferingServiceE
             attrs.add(info);
             tempContext.setAttributes(attrs);
         }
+
+        //set the target AO scheduling state based on the source AO scheduling state before creating AO
+        if (StringUtils.equals(sourceAo.getSchedulingStateKey(), LuiServiceConstants.LUI_AO_SCHEDULING_STATE_SCHEDULED_KEY)) {
+            targetAo.setSchedulingStateKey(LuiServiceConstants.LUI_AO_SCHEDULING_STATE_UNSCHEDULED_KEY);
+        } else {
+            targetAo.setSchedulingStateKey(sourceAo.getSchedulingStateKey());
+        }
+
         targetAo = coService.createActivityOffering(targetAo.getFormatOfferingId(), targetAo.getActivityId(),
                 targetAo.getTypeKey(), targetAo, tempContext);
 

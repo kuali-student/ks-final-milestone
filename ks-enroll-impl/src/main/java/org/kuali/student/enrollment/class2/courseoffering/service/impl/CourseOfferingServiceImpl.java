@@ -100,6 +100,7 @@ import org.kuali.student.r2.core.class1.type.service.TypeService;
 import org.kuali.student.r2.core.constants.RoomServiceConstants;
 import org.kuali.student.r2.core.constants.TypeServiceConstants;
 import org.kuali.student.r2.core.room.service.RoomService;
+import org.kuali.student.r2.core.scheduling.dto.ScheduleComponentInfo;
 import org.kuali.student.r2.core.scheduling.dto.ScheduleInfo;
 import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestInfo;
 import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestSetInfo;
@@ -1953,24 +1954,39 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         List<String> scheduleInfoListToDelete = new ArrayList<String>(aoInfo.getScheduleIds());
         aoInfo.getScheduleIds().clear();
 
-        for (ScheduleRequestInfo request : requests) {
-            ScheduleInfo scheduleInfo = new ScheduleInfo();
+        String aoSchedulingStateKey = LuiServiceConstants.LUI_AO_SCHEDULING_STATE_EXEMPT_KEY;
+        if (requests != null && !requests.isEmpty()) {
+            for (ScheduleRequestInfo request : requests) {
+                ScheduleInfo scheduleInfo = new ScheduleInfo();
 
-            // short cut the submission to the scheduler, and just translate the schedule request components to actuals
-            SchedulingServiceUtil.requestToSchedule(request, scheduleInfo,getRoomService(),contextInfo);
+                // short cut the submission to the scheduler, and just translate the schedule request components to actuals
+                SchedulingServiceUtil.requestToSchedule(request, scheduleInfo,getRoomService(),contextInfo);
 
-            scheduleInfo.setAtpId(aoInfo.getTermId());
-            try {
-                ScheduleInfo persistedSchedule = schedulingService.createSchedule(scheduleInfo.getTypeKey(), scheduleInfo, contextInfo);
-                request.setScheduleId(persistedSchedule.getId());
-                schedulingService.updateScheduleRequest(request.getId(), request, contextInfo);
-                aoInfo.getScheduleIds().add(persistedSchedule.getId());
-            } catch (Exception e) {
-                throw new OperationFailedException("createSchedule failed due to the following uncaught exception: " + e.getClass().getSimpleName() + " " + e.getMessage(), e);
+                scheduleInfo.setAtpId(aoInfo.getTermId());
+                try {
+                    ScheduleInfo persistedSchedule = schedulingService.createSchedule(scheduleInfo.getTypeKey(), scheduleInfo, contextInfo);
+                    request.setScheduleId(persistedSchedule.getId());
+                    schedulingService.updateScheduleRequest(request.getId(), request, contextInfo);
+                    aoInfo.getScheduleIds().add(persistedSchedule.getId());
+
+                    if (!persistedSchedule.getScheduleComponents().isEmpty()) {
+                        for (ScheduleComponentInfo actualScheduleComponent : persistedSchedule.getScheduleComponents()) {
+                            if (!actualScheduleComponent.getIsTBA()) {
+                                aoSchedulingStateKey = LuiServiceConstants.LUI_AO_SCHEDULING_STATE_SCHEDULED_KEY;
+                            }
+                        }
+                    }
+                } catch (Exception e) {
+                    throw new OperationFailedException("createSchedule failed due to the following uncaught exception: " + e.getClass().getSimpleName() + " " + e.getMessage(), e);
+                }
             }
+        } else {
+            aoSchedulingStateKey = LuiServiceConstants.LUI_AO_SCHEDULING_STATE_UNSCHEDULED_KEY;
         }
 
+
         try {
+            aoInfo.setSchedulingStateKey(aoSchedulingStateKey);
             updateActivityOffering(aoInfo.getId(), aoInfo, contextInfo);
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -1994,6 +2010,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
                     colo.getScheduleIds().clear();
                     colo.getScheduleIds().addAll(aoInfo.getScheduleIds());
                     try {
+                        colo.setSchedulingStateKey(aoSchedulingStateKey);  //update the colo AO to have the same scheduling state key
                         updateActivityOffering(colo.getId(), colo, contextInfo);
                     } catch (Exception e) {
                         throw new OperationFailedException("Error updating schedule id for the colo activity offering - " + e.getMessage(),e);

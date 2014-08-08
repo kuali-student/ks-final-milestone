@@ -992,17 +992,23 @@ public class CourseOfferingManagementUtil {
         return scheduleStateHm;
     }
 
-    public static void mergeAttribute(List<AttributeInfo> attributes, String attrKey, String attrValue) {
+    //return true when attribute value has been changed or new attribute has been added
+    public static boolean mergeAttribute(List<AttributeInfo> attributes, String attrKey, String attrValue) {
         AttributeInfo attributeInfo = getAttributeForKey(attributes, attrKey);
 
         if (attributeInfo != null) {
-            attributeInfo.setValue(attrValue);
+            if (StringUtils.equals(attrValue, attributeInfo.getValue())) {
+                return false;
+            } else {
+                attributeInfo.setValue(attrValue);
+            }
         } else {
             AttributeInfo newAttr = new AttributeInfo();
             newAttr.setKey(attrKey);
             newAttr.setValue(attrValue);
             attributes.add(newAttr);
         }
+        return true;
     }
 
     private static AttributeInfo getAttributeForKey(List<AttributeInfo> attributeInfos, String key) {
