@@ -403,6 +403,8 @@ public class CourseController extends CourseRuleEditorController {
 
     protected void doValidationForProposal(@ModelAttribute("KualiForm") DocumentFormBase form, CourseInfoWrapper courseInfoWrapper, String workflowStatusCode){
 
+        courseInfoWrapper.getReviewProposalDisplay().setShowUnknownErrors(false);
+
         //Perform KRAD UI Data Dictionary Validation
         // manually call the view validation service as this validation cannot be run client-side in current setup
         KRADServiceLocatorWeb.getViewValidationService().validateView(form, workflowStatusCode);
@@ -420,7 +422,7 @@ public class CourseController extends CourseRuleEditorController {
             GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, KSObjectUtils.unwrapException(20, ex).getMessage());
         }
 
-        bindValidationErrorsToPath(validationResultInfoList);
+        bindValidationErrorsToPath(validationResultInfoList, courseInfoWrapper);
     }
 
     /**
@@ -1077,7 +1079,7 @@ public class CourseController extends CourseRuleEditorController {
      *  Binds the each validation errors with its property path
      * @param validationResultInfoList
      */
-    protected void bindValidationErrorsToPath(List<ValidationResultInfo> validationResultInfoList) {
+    protected void bindValidationErrorsToPath(List<ValidationResultInfo> validationResultInfoList, CourseInfoWrapper courseInfoWrapper) {
         if (validationResultInfoList != null && !validationResultInfoList.isEmpty()) {
             for( ValidationResultInfo error : validationResultInfoList ) {
                 String element = error.getElement().replace("/0","").replace("/","");
@@ -1112,7 +1114,9 @@ public class CourseController extends CourseRuleEditorController {
                         elementPath = CurriculumManagementConstants.DATA_OBJECT_PATH + ".reviewProposalDisplay.governanceSection.curriculumOversightAsString";
                         break;
                     default:
-                        elementPath = KRADConstants.GLOBAL_MESSAGES;
+                        elementPath = KRADConstants.GLOBAL_ERRORS;
+                        courseInfoWrapper.getReviewProposalDisplay().setShowUnknownErrors(true);
+                        error.setMessage(error.getElement() + ": " + error.getMessage());
                 }
                 GlobalVariables.getMessageMap().putError(elementPath, RiceKeyConstants.ERROR_CUSTOM, error.getMessage());
             }

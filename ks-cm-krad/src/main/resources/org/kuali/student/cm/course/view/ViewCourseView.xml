@@ -104,8 +104,17 @@
           p:header.render="false"
           p:disclosure.render="false">
 
-        <!-- Don't show validation messages at the top of the page. Instead we want the yellow bar. -->
-        <property name="validationMessages" ref="KS-ValidationMessages-Off"/>
+        <!-- Don't show validation messages for View Course at the top of the page. Instead we want the yellow bar. -->
+        <property name="propertyReplacers">
+            <list>
+                <bean parent="Uif-ConditionalBeanPropertyReplacer" p:propertyName="validationMessages"
+                      p:condition="@{#form.viewId eq T(org.kuali.student.cm.common.util.CurriculumManagementConstants$CourseViewPageIds).VIEW_COURSE_VIEW}">
+                    <property name="replacement">
+                        <ref bean="KS-ValidationMessages-Off" />
+                    </property>
+                </bean>
+            </list>
+        </property>
 
         <property name="onDocumentReadyScript" value="fixReadOnlyInputSizes();"/>
 

@@ -38,6 +38,15 @@ public class ReviewProposalDisplay {
     private SupportingDocumentsSectionWrapper supportingDocumentsSection;
 
     private String returnToPreviousNodeName;
+    private boolean showUnknownErrors;
+
+    public boolean isShowUnknownErrors() {
+        return showUnknownErrors;
+    }
+
+    public void setShowUnknownErrors(boolean showUnknownErrors) {
+        this.showUnknownErrors = showUnknownErrors;
+    }
 
     public String getReturnToPreviousNodeName() {
         return returnToPreviousNodeName;

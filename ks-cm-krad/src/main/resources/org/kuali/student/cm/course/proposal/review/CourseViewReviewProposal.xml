@@ -46,6 +46,17 @@
                 <ref bean="KS-HomewardPathBreadcrumbs-ReviewProposal-Page"/>
             </list>
         </property>
+        <!-- Hide the validation messages if no unknown error messages are there to display -->
+        <property name="propertyReplacers">
+            <list>
+                <bean parent="Uif-ConditionalBeanPropertyReplacer" p:propertyName="validationMessages"
+                      p:condition="@{!#dataObject.reviewProposalDisplay.showUnknownErrors}">
+                    <property name="replacement">
+                        <ref bean="KS-ValidationMessages-Off" />
+                    </property>
+                </bean>
+            </list>
+        </property>
     </bean>
 
     <bean id="CM-Proposal-Review-Course-PageSections" parent="CM-Proposal-Course-View-VerticalBoxSection">
