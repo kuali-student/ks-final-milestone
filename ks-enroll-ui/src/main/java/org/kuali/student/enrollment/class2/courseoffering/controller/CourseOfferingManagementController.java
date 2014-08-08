@@ -1152,11 +1152,6 @@ public class CourseOfferingManagementController extends UifControllerBase {
         try {
             ContextInfo context = ContextUtils.createDefaultContextInfo();
 
-            //Update the attribute on the exam offering.
-            ExamOfferingInfo eoInfo = CourseOfferingManagementUtil.getExamOfferingService().updateExamOffering(eoWrapper.getEoInfo().getId(),
-                    eoWrapper.getEoInfo(), context);
-            eoWrapper.setEoInfo(eoInfo);
-
             //Only reslot when override matrix is set to false.
             boolean slotted = false;
             CourseOfferingInfo courseOfferingInfo = theForm.getCurrentCourseOfferingWrapper().getCourseOfferingInfo();
@@ -1187,10 +1182,13 @@ public class CourseOfferingManagementController extends UifControllerBase {
 
             if (!slotted) {
                 //Only do this if exam offering is not reslotted!!
-                eoWrapper.getEoInfo().setSchedulingStateKey(ExamOfferingServiceConstants.EXAM_OFFERING_SCHEDULING_UNSCHEDULED_STATE_KEY);
-                CourseOfferingManagementUtil.mergeAttribute(eoWrapper.getEoInfo().getAttributes(), ExamOfferingServiceConstants.EXAM_OFFERING_SCHEDULING_STATE_ATTR, eoWrapper.getEoInfo().getSchedulingStateKey());
-
-                return saveExamOfferingSchedule(eoWrapper, selectedCollectionPath, selectedLine, context);
+                StatusInfo eoRsiOverrideStatus = saveExamOfferingSchedule(eoWrapper, selectedCollectionPath, selectedLine, context);
+                if (eoRsiOverrideStatus.getIsSuccess()) {
+                    eoWrapper.getEoInfo().setSchedulingStateKey(ExamOfferingServiceConstants.EXAM_OFFERING_SCHEDULING_UNSCHEDULED_STATE_KEY);
+                    CourseOfferingManagementUtil.mergeAttribute(eoWrapper.getEoInfo().getAttributes(), ExamOfferingServiceConstants.EXAM_OFFERING_SCHEDULING_STATE_ATTR, eoWrapper.getEoInfo().getSchedulingStateKey());
+                    eoWrapper.setEoInfo(CourseOfferingManagementUtil.getExamOfferingService().updateExamOffering(eoWrapper.getEoInfo().getId(), eoWrapper.getEoInfo(), context));
+                }
+                return eoRsiOverrideStatus;
             } else {
                 //Reload the new schedule requests created by matrix.
                 eoWrapper.getRequestedScheduleComponents().clear();

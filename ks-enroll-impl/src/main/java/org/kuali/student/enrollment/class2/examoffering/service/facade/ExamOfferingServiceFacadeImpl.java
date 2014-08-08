@@ -533,13 +533,12 @@ public class ExamOfferingServiceFacadeImpl implements ExamOfferingServiceFacade 
             }
         }
 
-        if (updateExamOfferingSchedulingState) {
-            try {
-                this.getExamOfferingService().updateExamOffering(eo.getId(), eo, context);
-            } catch (Exception e) {
-                throw new RuntimeException(e);
-            }
+        try {
+            this.getExamOfferingService().updateExamOffering(eo.getId(), eo, context);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
+
     }
 
     private boolean updateSchedulingStateAttribute(List<AttributeInfo> attributes, String attrKey, String attrValue) {
