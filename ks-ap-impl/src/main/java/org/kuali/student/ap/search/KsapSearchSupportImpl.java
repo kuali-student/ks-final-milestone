@@ -180,7 +180,7 @@ public class KsapSearchSupportImpl extends SearchServiceAbstractHardwiredImpl {
         }else if (StringUtils.equals(searchRequestInfo.getSearchKey(),KSAP_SEARCH_COURSEID_TITLE_AND_STATUS_BY_SUBJ_CD.getKey())) {
             resultInfo =  searchForCourseIdTitleAndStatusBySubjectCode(searchRequestInfo, contextInfo);
         }else if (StringUtils.equals(searchRequestInfo.getSearchKey(),KSAP_SEARCH_ALL_DIVISION_CODES.getKey())) {
-            resultInfo =  searchForCourseIdTitleAndStatusBySubjectCode(searchRequestInfo, contextInfo);
+            resultInfo =  searchForAllDivisionCodes(searchRequestInfo, contextInfo);
         }else {
             // If no matching search is found throw exception
             throw new OperationFailedException("Unsupported search type: " + searchRequestInfo.getSearchKey());
@@ -407,9 +407,9 @@ public class KsapSearchSupportImpl extends SearchServiceAbstractHardwiredImpl {
         SearchResultInfo resultInfo = new SearchResultInfo();
 
         // Create sql string
-        String queryStr ="SELECT distinct( ident.division )"+
-                "FROM CluIdentifier ident "+
-                "WHERE ident.division IS NOT null";
+        String queryStr ="SELECT distinct( ident.DIVISION )"+
+                "FROM KSLU_CLU_IDENT ident "+
+                "WHERE ident.DIVISION IS NOT null";
 
         // Set params and execute search
         Query query = getEntityManager().createNativeQuery(queryStr);
