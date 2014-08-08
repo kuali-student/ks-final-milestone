@@ -775,9 +775,15 @@ fieldset .uif-actionLink{
   color: #005580;
 }
 
-.submitcourse_dialog .uif-dialogHeader {
-  background:none;
-  margin-bottom: 0px;
+.submitcourse_dialog {
+  .uif-dialogHeader{
+    background:none;
+    margin-bottom: 0px;
+  }
+  fieldset[data-type="RadioSet"] {
+    padding-top: 10px;
+    margin-left: -20px;
+  }
 }
 
 .returntopreviousnode_dialog{
