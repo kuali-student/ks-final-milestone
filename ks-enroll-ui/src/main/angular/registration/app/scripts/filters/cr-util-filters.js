@@ -10,7 +10,13 @@
 angular.module('regCartApp')
     .filter('cleanse', function() {
         return function(value) {
-            return value.replace(' ', '');
+            var cleansed;
+            if (angular.isString(value)) {
+                cleansed = value.replace(' ', '');
+            } else {
+                cleansed = value;
+            }
+            return cleansed;
         }
     })
 ;
