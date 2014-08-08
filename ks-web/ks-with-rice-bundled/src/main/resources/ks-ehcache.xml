@@ -51,4 +51,8 @@
     <cache name="LRCServiceCache" maxElementsInMemory="1000" eternal="true" timeToIdleSeconds="0" timeToLiveSeconds="0" />
     <cache name="TypeServiceCache" maxElementsInMemory="1000" eternal="true" timeToIdleSeconds="0" timeToLiveSeconds="0" />
     <cache name="StateServiceCache" maxElementsInMemory="1000" eternal="true" timeToIdleSeconds="0" timeToLiveSeconds="0" />
+
+    <!-- Cache for course details on the registration application-->
+    <cache name="courseDetailsCache" maxElementsInMemory="1000" eternal="false" timeToIdleSeconds="0" timeToLiveSeconds="600" />
+
 </ehcache>
