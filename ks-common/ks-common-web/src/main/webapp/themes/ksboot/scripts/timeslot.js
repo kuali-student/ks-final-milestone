@@ -164,3 +164,222 @@ function toggleTimeSlotShowButton() {
 }
 
 
+
+/**
+ * https://jira.kuali.org/browse/KSENROLL-13807
+ * Sorting logic for time slot page
+ */
+
+
+
+/* Define two custom functions (asc and desc) for string sorting */
+jQuery.fn.dataTableExt.oSort['days_sort-asc']  = function(a,b) {
+
+    var x = getDaysValueFromCell(a);
+    var y = getDaysValueFromCell(b);
+    return compareToAsc(x,y);
+};
+
+jQuery.fn.dataTableExt.oSort['days_sort-desc'] = function(a,b) {
+    var x = getDaysValueFromCell(a);
+    var y = getDaysValueFromCell(b);
+    return compareToDesc(x,y);
+};
+
+
+jQuery.fn.dataTableExt.oSort['term_type_sort-asc']  = function(x,y) {
+    return compareToAsc(getValueFromCell(x),getValueFromCell(y));
+};
+
+jQuery.fn.dataTableExt.oSort['term_type_sort-desc'] = function(x,y) {
+    return compareToDesc(getValueFromCell(x),getValueFromCell(y));
+};
+
+
+jQuery.fn.dataTableExt.oSort['hour_sort-asc']  = function(x,y) {
+    return compareToAsc(convertFormatDate(getValueFromCell(x)),convertFormatDate(getValueFromCell(y)));
+};
+
+jQuery.fn.dataTableExt.oSort['hour_sort-desc'] = function(x,y) {
+    return compareToDesc(convertFormatDate(getValueFromCell(x)),convertFormatDate(getValueFromCell(y)));
+};
+
+function compareToAsc(x,y)
+{
+    return ((x < y) ? -1 : ((x > y) ?  1 : 0))
+}
+
+function compareToDesc(x,y)
+{
+    return ((x < y) ?  1 : ((x > y) ? -1 : 0));
+}
+
+
+/**
+ * get the equivalent day number to the day form the text in the cell
+ * of teh dataTable
+ */
+function getDaysValueFromCell(cell)
+{
+    return numberEquivalentToDay(getValueFromCell(cell));
+}
+
+/**
+ * get the text value from teh dataTable
+ */
+function getValueFromCell(cell)
+{
+    return jQuery(cell).find("span").text().trim();
+}
+
+function numberEquivalentToDay (day)
+{
+    var finalSt= "";
+    for ( var i =0 ; i < day.length;i++)
+    {
+        finalSt= finalSt + decodeDay(day.substring(i,i+1));
+    }
+    return finalSt;
+}
+
+/**
+ *  Decode days in numbers EX: M,F  => 1,5
+ */
+function decodeDay (day)
+{
+
+    if (day==="M")  return "1" ;
+    else if (day === "T") return "2" ;
+    else if (day === "W") return "3" ;
+    else if (day === "H") return "4" ;
+    else if (day === "F") return "5" ;
+    else if (day === "S") return "6" ;
+    else if (day === "U") return "7" ;
+
+}
+
+/**
+ * Save the normal sorting by "term_type" and creates the update, save and delete sorting strategy by all
+ * the fields of the table which is the default sort used in teh server side
+ */
+
+function updateSortTable() {
+    var oTable = jQuery('#TimeSlotSearchResultsDisplayTable').find('.dataTable').dataTable();
+    // Sort immediately with column
+
+    var term_type_sort_asc = jQuery.fn.dataTableExt.oSort['term_type_sort-asc'];
+    var term_type_sort_desc =jQuery.fn.dataTableExt.oSort['term_type_sort-desc'];
+
+    setUpNewSort();
+
+    oTable.fnSort([[2,'asc',0]] );
+
+    jQuery.fn.dataTableExt.oSort['term_type_sort-asc'] = term_type_sort_asc;
+    jQuery.fn.dataTableExt.oSort['term_type_sort-desc'] = term_type_sort_desc;
+
+}
+
+/*
+ * Creates the new sort strategy by all the fields in the time slot dataTable
+ */
+function setUpNewSort()
+{
+    jQuery.fn.dataTableExt.oSort['term_type_sort-asc']  = function(a,b) {
+
+        var x = getObjectTimeSlot(a);
+        var y = getObjectTimeSlot(b);
+
+        var diffStartTimeDisplay = compareToAsc (x.startTime, y.startTime);
+        var diffEndTimeDisplay = compareToAsc (x.endTime, y.endTime);
+        var diffDays = compareToAsc (x.days, y.days);
+        var diffTypeName= compareToAsc (x.termType, y.termType);
+
+        if(diffTypeName === 0)
+        {
+            if(diffDays === 0)
+            {
+                if( diffStartTimeDisplay === 0)
+                {
+                    return diffEndTimeDisplay;
+
+                }return  diffStartTimeDisplay;
+
+            }return diffDays;
+
+        }else return  diffTypeName ;
+
+    }
+
+    jQuery.fn.dataTableExt.oSort['term_type_sort-desc'] = function(a,b) {
+        var x = getObjectTimeSlot(a);
+        var y = getObjectTimeSlot(b);
+
+        var diffStartTimeDisplay = compareToDesc (x.startTime, y.startTime);
+        var diffEndTimeDisplay = compareToDesc (x.endTime, y.endTime);
+        var diffDays = compareToDesc (x.days, y.days);
+        var diffTypeName= compareToDesc (x.termType, y.termType);
+
+        if(diffTypeName === 0)
+        {
+            if(diffDays === 0)
+            {
+                if( diffStartTimeDisplay === 0)
+                {
+                    return diffEndTimeDisplay;
+
+                }return  diffStartTimeDisplay;
+
+            }return diffDays;
+
+        }else return  diffTypeName ;
+
+    };
+}
+
+
+/*
+ * Convert the row into a timeSlot object based on teh position of the element in the dataTable
+ */
+function getObjectTimeSlot(element)
+{
+    var keyDays = "days_line";
+    var keyTimeType = "termType_line";
+    var keyStartTime = "startTime_line";
+    var keyEndTime ="endTime_line";
+
+    var pos = jQuery(element).attr( "id" ).replace("termType_line","");
+
+    var timeSlot = {
+        days:getDaysValueFromCell(jQuery("#"+keyDays+ pos )),
+        termType:getValueFromCell(jQuery("#"+ keyTimeType+ pos )),
+        startTime:convertFormatDate(getValueFromCell(jQuery("#" +keyStartTime  +pos ))),
+        endTime: convertFormatDate(getValueFromCell(jQuery("#"+ keyEndTime+pos )))
+    };
+
+    return timeSlot;
+
+}
+
+
+/**
+ * Convert 10:00  to 22:00
+ * @param hour
+ */
+function convertFormatDate(hour)
+{
+    var hh =  hour.substring(0,2);
+    var min = hour.substring(3,5);
+
+    var amORpm = hour.substring(6,8)
+
+    if(amORpm==="PM" && hh!=="12" )
+    {
+            hh = (parseInt(hh) + 12).toString();
+
+    }else if(amORpm==="AM" && hh==="12")
+    {
+        hh = "00";
+    }
+
+    return hh+min;
+}
