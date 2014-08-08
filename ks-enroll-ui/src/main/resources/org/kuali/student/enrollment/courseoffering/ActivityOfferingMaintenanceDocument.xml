@@ -122,7 +122,8 @@
                                             <bean id="send_RDLs_to_scheduler_control"
                                                   parent="KS-Uif-CheckboxControl"
                                                   p:onClickScript="showRemoveAllOfferingsFromSchedulerConfirmation();"
-                                                  p:checkboxLabel="Send revised scheduling information to the scheduler for processing upon save.">
+                                                  p:checkboxLabel="Send revised scheduling information to the scheduler for processing upon save."
+                                                  p:checked="@{#dp.aoInfo.stateKey ne 'kuali.lui.activity.offering.state.canceled'}">
                                                 <property name="render" value="@{#dp.aoInfo.stateKey ne 'kuali.lui.activity.offering.state.canceled'}"/>
                                             </bean>
                                         </property>
