@@ -37,11 +37,31 @@ angular.module('regCartApp')
                 var stagger = 20;
                 scope.limit = 0;
                 scope.mobileLimit = 0;
+
+                // limit is for large format, and looks at the set display limit
                 scope.$watch('limit', function() {
-                    updateLimit();
+                    if (scope.limit > 0 && scope.limit < scope.displayLimit) {
+                        $timeout(function() {
+                            scope.limit += stagger;
+                        }, 250);
+                    } else {
+                        if (scope.limit > scope.displayLimit) {
+                            scope.limit = scope.displayLimit;
+                        }
+                    }
                 });
+
+                // mobile limit is for small format and looks at the entire array of search results
                 scope.$watch('mobileLimit', function() {
-                    updateMobileLimit();
+                    if (scope.mobileLimit > 0 && scope.mobileLimit < scope.searchResults.length) {
+                        $timeout(function() {
+                            scope.mobileLimit += stagger;
+                        }, 250);
+                    } else {
+                        if (scope.mobileLimit > scope.searchResults.length) {
+                            scope.mobileLimit = scope.searchResults.length;
+                        }
+                    }
                 });
 
                 // the choices for limiting display of search results
@@ -83,7 +103,7 @@ angular.module('regCartApp')
                  */
                 scope.$watch('displayLimit', function() {
                     scope.page = 1;
-                    updateLimit();
+                    scope.limit += stagger;
                 });
 
                 /*
@@ -95,7 +115,7 @@ angular.module('regCartApp')
                     if (scope.page > scope.lastPage()) {
                         scope.page = 1;
                     }
-                    updateMobileLimit();
+                    scope.mobileLimit += stagger;
                 });
 
                 // returns the index of the first record being displayed
@@ -241,26 +261,6 @@ angular.module('regCartApp')
                         }
                     });
                 });
-
-                function updateMobileLimit() {
-                    if (scope.mobileLimit < scope.searchResults.length) {
-                        $timeout(function() {
-                            scope.mobileLimit += stagger;
-                        });
-                    } else {
-                        scope.mobileLimit = scope.searchResults.length;
-                    }
-                }
-
-                function updateLimit() {
-                    if (scope.limit < scope.displayLimit) {
-                        $timeout(function() {
-                            scope.limit += stagger;
-                        });
-                    } else {
-                        scope.limit = scope.displayLimit;
-                    }
-                }
             }
         };
     }])

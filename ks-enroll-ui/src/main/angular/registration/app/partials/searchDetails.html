@@ -121,19 +121,19 @@
             <div class="kscr-SearchDetails-activityOfferingGroup">
                 <div class="kscr-SearchDetails-activityOfferings">
                     <search-results>
-                        <search-column name="Activity" field="activityOfferingTypeName" order="1"></search-column>
-                        <search-column name="Days" field="formatted.days" order="2"></search-column>
-                        <search-column name="Time" field="formatted.time" order="3"></search-column>
-                        <search-column name="Instructor" field="formatted.instructor" order="4"></search-column>
-                        <search-column name="Location" field="formatted.location" order="5"></search-column>
-                        <search-column name="Seats Open" field="formatted.seatsOpen" order="6"></search-column>
-                        <search-column name="Additional Info" field="formatted.additionalInfo" sort-field="false" optional="{{!additionalInfo}}" order="7"></search-column>
-                        <search-list search-results='selectedAOs' search-columns='searchColumns' default-field="formatted.aoId" display-limit="999" last="true"></search-list>
+                        <search-column name="Activity" field="activity" order="1"></search-column>
+                        <search-column name="Days" field="days" order="2"></search-column>
+                        <search-column name="Time" field="time" order="3"></search-column>
+                        <search-column name="Instructor" field="instructor" order="4"></search-column>
+                        <search-column name="Location" field="location" order="5"></search-column>
+                        <search-column name="Seats Open" field="seatsOpen" order="6"></search-column>
+                        <search-column name="Additional Info" field="additionalInfo" sort-field="false" optional="{{!additionalInfo}}" order="7"></search-column>
+                        <search-list search-results="singleRegFormatted" search-columns="searchColumns" default-field="formatted.aoId" display-limit="999" last="true"></search-list>
                     </search-results>
                 </div>
             </div>
             <!-- Search Details List for Mobile -->
-            <search-details-list search-details="selectedAOs" single-reg-group="true"></search-details-list>
+            <search-details-list search-details="singleRegFormatted" single-reg-group="true"></search-details-list>
         </div>
 
         <!-- Activity Offering Tables (multiple reg groups) -->
@@ -153,20 +153,20 @@
                 </div>
                 <div class="kscr-SearchDetails-activityOfferings">
                     <search-results>
-                        <search-column name="Days" field="formatted.days" order="1"></search-column>
-                        <search-column name="Time" field="formatted.time" order="2"></search-column>
-                        <search-column name="Instructor" field="formatted.instructor" order="3"></search-column>
-                        <search-column name="Location" field="formatted.location" order="4"></search-column>
-                        <search-column name="Seats Open" field="formatted.seatsOpen" order="5"></search-column>
-                        <search-column name="Additional Info" field="formatted.additionalInfo" sort-field="false" optional="{{!additionalInfo}}" order="6"></search-column>
+                        <search-column name="Days" field="days" order="1"></search-column>
+                        <search-column name="Time" field="time" order="2"></search-column>
+                        <search-column name="Instructor" field="instructor" order="3"></search-column>
+                        <search-column name="Location" field="location" order="4"></search-column>
+                        <search-column name="Seats Open" field="seatsOpen" order="5"></search-column>
+                        <search-column name="Additional Info" field="additionalInfo" sort-field="false" optional="{{!additionalInfo}}" order="6"></search-column>
                         <search-column name="Select" checkbox="true" sort-field="false" order="7"></search-column>
-                        <search-list search-results="aoType.activityOfferings" search-columns='searchColumns' on-click="toggleAO"
+                        <search-list search-results="aoType.formattedOfferings" search-columns='searchColumns' on-click="toggleAO"
                                      default-field="formatted.aoId" display-limit="999" prefix="{{aoType.activityOfferingTypeName}}_"
                                      last="$last"></search-list>
                     </search-results>
                 </div>
                 <!-- Search Details List for Mobile -->
-                <search-details-list search-details='aoType.activityOfferings'></search-details-list>
+                <search-details-list search-details='aoType.formattedOfferings'></search-details-list>
             </div>
         </div>
 

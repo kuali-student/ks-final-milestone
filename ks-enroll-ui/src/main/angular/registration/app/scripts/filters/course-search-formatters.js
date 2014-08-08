@@ -46,6 +46,8 @@ angular.module('regCartApp')
          */
         return function(activityOfferings) {
 
+            var formattedOfferings=[];
+
             for (var index = 0; index < activityOfferings.length; index++) {
 
                 var ao = activityOfferings[index];
@@ -106,30 +108,33 @@ angular.module('regCartApp')
                     additionalInfo = '';
                 }
                 if (subterm) {
-                    additionalInfo += '<span class="kscr-SearchDetails-icon--subterm" ng-click="$emit(\'showSubterm\', searchResult.subterm); $event.stopPropagation();"></span>';
+                    additionalInfo += '<span class="kscr-SearchDetails-icon--subterm" ng-click="$emit(\'showSubterm\', searchResult.aoId); $event.stopPropagation();"></span>';
                 }
                 if (requisites) {
                     if (!subterm) {
                         additionalInfo += '<span class="kscr-SearchDetails-icon">&nbsp;</span>';
                     }
-                    additionalInfo += '<span class="kscr-SearchDetails-icon--requisites" ng-click="$emit(\'showRequisites\', searchResult.requisites); $event.stopPropagation();"></span>';
+                    additionalInfo += '<span class="kscr-SearchDetails-icon--requisites" ng-click="$emit(\'showRequisites\', searchResult.aoId); $event.stopPropagation();"></span>';
                 }
 
                 var aoId = ao.activityOfferingCode;
 
-                ao.formatted = {
+                var formattedOffering = {
+                    activity: ao.activityOfferingTypeName,
                     days: days,
                     time: time,
                     instructor: instructorList,
                     location: location,
                     seatsOpen: seatsOpen,
                     additionalInfo: additionalInfo,
-                    aoId: aoId
+                    aoId: aoId,
+                    indicator: indicator
                 };
-                ao.indicator = indicator;
+
+                formattedOfferings.push(formattedOffering);
             }
 
-            return activityOfferings;
+            return formattedOfferings;
         };
 
         function denullify(value) {

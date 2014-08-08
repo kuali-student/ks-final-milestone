@@ -35,16 +35,16 @@
     <tbody>
         <tr ng-repeat="searchResult in searchResults | orderBy : predicate : reverse | startFrom:(page-1)*displayLimit | limitTo:limit"
             id="course_detail_row_{{applyFilter(searchResult, defaultField, searchColumn.filter)}}" class="kscr-Search-row"
-            ng-class="{'kscr-Search-row--clickable' : onClick, 'kscr-Search-row--disabled' : searchResult.disabled,
-                       'kscr-Search-row--selected' : searchResult.selected,
+            ng-class="{'kscr-Search-row--clickable' : onClick, 'kscr-Search-row--disabled' : searchResult.flags.disabled,
+                       'kscr-Search-row--selected' : searchResult.flags.selected,
                        'kscr-Search-row--bottom' : last && $last}"
-            ng-hide="searchResult.hidden" ng-click="emitEvent(onClick, searchResult)">
+            ng-hide="searchResult.flags.hidden" ng-click="emitEvent(onClick, searchResult)">
             <td class="kscr-Search-results-indicator" ng-class="{'kscr-Search-results-indicator--show': searchResult.indicator}"></td>
             <td ng-repeat="searchColumn in searchColumns" class="kscr-Search-results-cell" ng-hide="searchColumn.optional && !hasData('{{searchColumn.field}}')"
                 ng-class="{'kscr-Search-results--first' : $first}">
                 <a ng-if="searchColumn.url" compile="applyFilter(searchResult, searchColumn.field, searchColumn.filter)"></a>
                 <span ng-if="!searchColumn.url" compile="applyFilter(searchResult, searchColumn.field, searchColumn.filter)"></span>
-                <span id="select_{{applyFilter(searchResult, defaultField, searchColumn.filter)}}" class="kscr-Search-checkbox" ng-if="searchColumn.checkbox" ng-hide="searchResult.disabled" ng-class="{'kscr-Search-checkbox--selected' : searchResult.selected}"></span>
+                <span id="select_{{applyFilter(searchResult, defaultField, searchColumn.filter)}}" class="kscr-Search-checkbox" ng-if="searchColumn.checkbox" ng-hide="searchResult.flags.disabled" ng-class="{'kscr-Search-checkbox--selected' : searchResult.flags.selected}"></span>
             </td>
         </tr>
     </tbody>

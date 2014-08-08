@@ -71,12 +71,12 @@ angular.module('regCartApp')
 
                 // Displays the table in batches for performance
                 var stagger = 20;
-                scope.limit = 0;
+                scope.limit = stagger;
                 scope.$watch('limit', function() {
                     if (scope.limit < scope.searchDetails.length) {
                         $timeout(function() {
                             scope.limit += stagger;
-                        });
+                        }, 250);
                     }
                 });
             }

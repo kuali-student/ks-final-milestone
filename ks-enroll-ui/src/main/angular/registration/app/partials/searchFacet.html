@@ -17,7 +17,6 @@
         <li ng-repeat="option in options" ng-click="toggleOption(option)"
             id="search_facet_{{facet.id}}_option_{{option.value}}"
             class="kscr-SearchFacet-option" ng-class="{ 'kscr-SearchFacet-option--Selected' : isSelected(option) }">
-
             <i class="kscr-SearchFacet-option-icon"></i>
             <span class="kscr-SearchFacet-option-label">{{option.label}}</span>
             <span class="kscr-searchFacet-option-count">({{option.count}})</span>
