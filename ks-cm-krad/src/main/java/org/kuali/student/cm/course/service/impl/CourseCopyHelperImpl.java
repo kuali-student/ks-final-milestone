@@ -23,7 +23,6 @@ import org.kuali.rice.krms.dto.RuleEditor;
 import org.kuali.rice.krms.dto.RuleManagementWrapper;
 import org.kuali.rice.krms.dto.TermEditor;
 import org.kuali.rice.krms.dto.TermParameterEditor;
-import org.kuali.student.cm.course.form.wrapper.CourseCreateUnitsContentOwner;
 import org.kuali.student.cm.course.form.wrapper.CourseInfoWrapper;
 import org.kuali.student.cm.course.service.CourseCopyHelper;
 import org.kuali.student.r2.common.dto.AttributeInfo;
@@ -45,6 +44,11 @@ import java.util.List;
 
 /**
  *
+ * A helper class to copy course. Configured at ks-lu-no-tx-context.xml and export
+ * to service bus. This is to support institutionally configurable the ignore properties
+ * on copy and allows institutions to customize if they want to change the out of the box
+ * functionality
+ *
  * @author Kuali Student Team
  */
 public class CourseCopyHelperImpl implements CourseCopyHelper {
@@ -55,6 +59,14 @@ public class CourseCopyHelperImpl implements CourseCopyHelper {
 
     }
 
+    /**
+     * This method populates all the data from source to target excluding the properties
+     * configured at 'ignoreProperties'. This method uses #BeanUtils.copyProperties() to copy
+     * properties.
+     *
+     * @param source
+     * @param target
+     */
     @Override
     public void copyCourse(CourseInfo source, CourseInfo target){
 
@@ -74,27 +86,12 @@ public class CourseCopyHelperImpl implements CourseCopyHelper {
 
         target.setRefObjectId(null);
         
-        //  These items should not carry over.
-        target.getCourseInfo().setEffectiveDate(null);
-
-        //  Outcomes / credit options
-//        target.getCourseInfo().getCreditOptions().clear();
-//        target.getCreditOptionWrappers().clear();
-
-        //  Start term
-//        target.getCourseInfo().setStartTerm(null);
-
-        //  Curriculum Oversight / UnitContentsOwner
-//        target.getCourseInfo().getUnitsContentOwner().clear();
-//        target.getUnitsContentOwner().clear();
-        //  !!! This is duplicate code. !!!  Needs an initialize method.
-        CourseCreateUnitsContentOwner newCourseCreateUnitsContentOwner = new CourseCreateUnitsContentOwner();
-        newCourseCreateUnitsContentOwner.getRenderHelper().setNewRow(true);
-        target.getUnitsContentOwner().add(newCourseCreateUnitsContentOwner);
+//        CourseCreateUnitsContentOwner newCourseCreateUnitsContentOwner = new CourseCreateUnitsContentOwner();
+//        newCourseCreateUnitsContentOwner.getRenderHelper().setNewRow(true);
+//        target.getUnitsContentOwner().add(newCourseCreateUnitsContentOwner);
 
         resetCourse(target.getCourseInfo());
         resetRequisites(target);
-
 
     }
 
@@ -108,6 +105,8 @@ public class CourseCopyHelperImpl implements CourseCopyHelper {
         course.setId(null);
         course.setVersion(null);
         course.setMeta(null);
+        course.setEffectiveDate(null);
+        course.setExpirationDate(null);
 
         //  Fix the state. Courses start in state draft.
         course.setStateKey(DtoConstants.STATE_DRAFT);

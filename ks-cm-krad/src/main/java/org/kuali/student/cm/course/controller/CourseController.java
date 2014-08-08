@@ -279,36 +279,27 @@ public class CourseController extends CourseRuleEditorController {
 
         CourseMaintainable viewHelper = (CourseMaintainable) form.getDocument().getNewMaintainableObject();
 
-        /*
-         * Check for copy params.
-         */
-        String copyCluId = request.getParameter(UrlParams.COPY_CLU_ID);
-        if (StringUtils.isNotBlank(copyCluId)) {
+        try{
             /*
-             * If a CLU id is present then load the Course and all of the related data then reset the data so that new
-             * entities are created when the data is persisted.
+             * Check for copy params.
              */
-            try {
+            String copyCluId = request.getParameter(UrlParams.COPY_CLU_ID);
+            if (StringUtils.isNotBlank(copyCluId)) {
                 //  Populate the Course and Rule data.
                 CourseInfoWrapper target = viewHelper.copyCourse(copyCluId);
                 viewHelper.setDataObject(target);
-            } catch (Exception e) {
-                String msg = String.format("Unable to populate data from course id %s.", copyCluId);
-                LOG.error(msg, e);
-                msg = "The system encountered an error. Please try copying again. If the error persists contact your administrator.";
-                GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, msg);
+            } else {
+                String proposalId = request.getParameter(UrlParams.COPY_PROPOSAL_ID);
+                if (StringUtils.isNotBlank(proposalId)) {
+                    CourseInfoWrapper target = viewHelper.copyProposal(proposalId);
+                    viewHelper.setDataObject(target);
+                }
             }
-        } else {
-            /*
-             * If proposal ID is present then load the proposal and course data then reset it so that new entities
-             * are created on save.
-             */
-            String proposalId = request.getParameter(UrlParams.COPY_PROPOSAL_ID);
-            if (StringUtils.isNotBlank(proposalId)) {
-
-                CourseInfoWrapper target = viewHelper.copyProposal(proposalId);
-                viewHelper.setDataObject(target);
-            }
+        } catch (Exception e){
+            String msg = String.format("Unable to copy course/proposal");
+            LOG.error(msg, e);
+            msg = "The system encountered an error. Please try copying again. If the error persists contact your administrator. (" + e.getMessage() + ")";
+            GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, msg);
         }
         return getUIFModelAndView(form);
     }

@@ -2181,6 +2181,13 @@ public class CourseMaintainableImpl extends RuleEditorMaintainableImpl implement
         populateRequisities(courseWrapper,course.getId());
     }
 
+    /**
+     * This method builds a course copy and returns CourseInfoWrapper for the new course.
+     *
+     * @param sourceCourseId
+     * @return
+     * @throws Exception
+     */
     public CourseInfoWrapper copyCourse(String sourceCourseId) throws Exception {
 
         CourseInfo sourceCourse = getCourseService().getCourse(sourceCourseId, createContextInfo());
@@ -2216,6 +2223,13 @@ public class CourseMaintainableImpl extends RuleEditorMaintainableImpl implement
 
     }
 
+    /**
+     * This method builds a proposal copy and returns CourseInfoWrapper for the new proposal.
+     *
+     * @param sourceProposalId
+     * @return
+     * @throws Exception
+     */
     public CourseInfoWrapper copyProposal(String sourceProposalId) throws Exception {
 
         ProposalInfo sourceProposal = getProposalService().getProposal(sourceProposalId, ContextUtils.createDefaultContextInfo());

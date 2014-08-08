@@ -436,7 +436,6 @@
     <bean id="courseCopyHelper" class="org.kuali.student.cm.course.service.impl.CourseCopyHelperImpl">
         <property name="ignoreProperties">
             <list>
-                <value>courseTitle</value>
                 <value>transcriptTitle</value>
                 <value>unitsContentOwner</value> <!-- Curriculum Oversight -->
                 <value>creditOptions</value>    <!-- outcomes -->
