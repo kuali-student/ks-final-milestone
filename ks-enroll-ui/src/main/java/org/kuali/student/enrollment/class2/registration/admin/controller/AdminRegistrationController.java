@@ -340,7 +340,7 @@ public class AdminRegistrationController extends UifControllerBase {
                 } else if (LprServiceConstants.REQ_ITEM_UPDATE_TYPE_KEY.equals(item.getTypeKey())) {
                     updateId = handleEditRequestItem(form, adminOverride, item);
                 } else if (LprServiceConstants.REQ_ITEM_DROP_TYPE_KEY.equals(item.getTypeKey())) {
-                    updateId = handleDropRequestItem(form, item);
+                    updateId = handleDropRequestItem(form, adminOverride, item);
                 }
                 if (updateId != null) {
                     updateIds.add(updateId);
@@ -437,8 +437,19 @@ public class AdminRegistrationController extends UifControllerBase {
      * @param item
      * @return
      */
-    private String handleDropRequestItem(AdminRegistrationForm form, RegistrationRequestItemInfo item) {
-        RegistrationCourse dropCourse = form.getPendingDropCourse();
+    private String handleDropRequestItem(AdminRegistrationForm form, boolean adminOverride, RegistrationRequestItemInfo item) {
+
+        // Retrieve the course that was updated.
+        RegistrationCourse dropCourse = null;
+        if (adminOverride) {
+            // If request originated from allow override, we need to remove from result list and registered courses.
+            RegistrationResult updateResult = AdminRegistrationUtil.retrieveFromResultList(form.getRegistrationResults(), item);
+            dropCourse = updateResult.getCourse();
+        } else {
+            dropCourse = form.getPendingDropCourse();
+        }
+
+
         if (LprServiceConstants.LPRTRANS_ITEM_SUCCEEDED_STATE_KEY.equals(item.getStateKey())) {
             form.getRegisteredCourses().remove(dropCourse);
             form.getRegistrationResults().add(AdminRegistrationUtil.buildSuccessResult(dropCourse, AdminRegConstants.ADMIN_REG_MSG_INFO_SUCCESSFULLY_DROPPED));
