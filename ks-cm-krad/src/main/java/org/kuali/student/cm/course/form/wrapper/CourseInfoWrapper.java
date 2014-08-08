@@ -95,7 +95,7 @@ public class CourseInfoWrapper extends LURuleManagementWrapper implements Serial
 
     private String hiddenDescr;
 
-    private boolean missingRequiredFields;
+    private boolean missingRequiredFields = true;
 
     private transient CreateCourseUIHelper uiHelper = new CreateCourseUIHelper();
 
@@ -108,6 +108,7 @@ public class CourseInfoWrapper extends LURuleManagementWrapper implements Serial
      * @return True if the course is missing required fields for the next state or routing node. Otherwise, false.
      */
     public boolean isMissingRequiredFields() {
+
         return missingRequiredFields;
     }
 

@@ -710,6 +710,13 @@
                       p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_BLANKET_APPROVE] and #uiHelper.useReviewProcess}"/>-->
                 <bean parent="Uif-SecondaryActionButton"
                       p:ajaxSubmit="false"
+                      p:actionLabel="Approve and Activate"
+                      p:methodToCall="approveAndActivate"
+                      p:performClientSideValidation="true"
+                      p:disabled="@{#dataObject.missingRequiredFields}"
+                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_BLANKET_APPROVE] and (!#empty(#dataObject.courseInfo.courseTitle))}"/>
+                <bean parent="Uif-SecondaryActionButton"
+                      p:ajaxSubmit="false"
                       p:methodToCall="saveProposal"
                       p:performClientSideValidation="true"
                       p:actionLabel="Save Progress"
@@ -726,6 +733,7 @@
                       p:methodToCall="back"
                       p:style="margin-top:5px;"
                       p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_CLOSE]}"/>
+
                 <!--<bean parent="Uif-PrimaryActionButton"
                       p:ajaxSubmit="false" 
                       p:methodToCall="approve" 

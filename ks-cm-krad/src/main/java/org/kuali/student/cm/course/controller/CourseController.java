@@ -745,6 +745,20 @@ public class CourseController extends CourseRuleEditorController {
         }
     }
 
+
+
+    @RequestMapping(params = "methodToCall=approveAndActivate")
+    public ModelAndView approveAndActivate(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result,
+                                       HttpServletRequest request, HttpServletResponse response) throws Exception {
+        CourseInfoWrapper courseInfoWrapper = getCourseInfoWrapper(form);
+
+        String dialog = CurriculumManagementConstants.COURSE_APPROVE_CONFIRMATION_DIALOG;
+        doValidationForProposal(form,courseInfoWrapper, KewApiConstants.ROUTE_HEADER_PROCESSED_CD);
+        ModelAndView modelAndView = super.blanketApprove(form, result, request, response);
+        return modelAndView;
+
+    }
+
     @Override
     @RequestMapping(params = "methodToCall=blanketApprove")
     public ModelAndView blanketApprove(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result,
