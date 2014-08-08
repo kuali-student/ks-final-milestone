@@ -435,7 +435,8 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
                         "    KSEN_LUILUI_RELTN co2fo, " +
                         "    KSEN_LUILUI_RELTN fo2rg, " +
                         "    KSEN_LUILUI_RELTN rg2ao, " +
-                        "    KSEN_LUI ao " +
+                        "    KSEN_LUI ao, " +
+                        "    KSEN_LUI rg " +
                         "WHERE " +
                         "    co2fo.LUILUI_RELTN_TYPE='" + LuiServiceConstants.LUI_LUI_RELATION_DELIVERED_VIA_CO_TO_FO_TYPE_KEY + "' " +
                         "AND co2fo.LUILUI_RELTN_STATE='" + LuiServiceConstants.LUI_LUI_RELATION_ACTIVE_STATE_KEY + "' " +
@@ -447,7 +448,9 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
                         "AND fo2rg.RELATED_LUI_ID=rg2ao.LUI_ID " +
                         "AND co2fo.LUI_id=:courseOfferingId " +
                         "AND rg2ao.RELATED_LUI_ID = ao.ID " +
-                        "AND ao.LUI_STATE = '"+LuiServiceConstants.LUI_AO_STATE_OFFERED_KEY+"' ";
+                        "AND ao.LUI_STATE = '" + LuiServiceConstants.LUI_AO_STATE_OFFERED_KEY + "' " +
+                        "AND rg2ao.LUI_ID = rg.ID " +
+                        "AND rg.LUI_STATE = '" + LuiServiceConstants.REGISTRATION_GROUP_OFFERED_STATE_KEY + "' ";
 
         Query query = entityManager.createNativeQuery(queryStr);
         query.setParameter(SearchParameters.CO_ID, coId);
