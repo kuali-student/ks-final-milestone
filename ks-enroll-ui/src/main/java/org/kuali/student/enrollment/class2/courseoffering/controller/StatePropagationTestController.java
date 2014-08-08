@@ -144,7 +144,12 @@ public class StatePropagationTestController extends UifControllerBase {
             stringBuilder.append(getHTMLTableCell("Not found"));
         }
 
-        stringBuilder.append(getHTMLTableCell(getStateName(activityOffering.getSchedulingStateKey())));
+        if (activityOffering.getSchedulingStateKey() != null) {
+            stringBuilder.append(getHTMLTableCell(getStateName(activityOffering.getSchedulingStateKey())));
+        } else {
+            stringBuilder.append(getHTMLTableCell("No Data"));
+        }
+
 
         loadRegGroup(stringBuilder, activityOffering.getId());
         loadSeatPool(stringBuilder, activityOffering.getId());

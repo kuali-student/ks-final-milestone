@@ -1,9 +1,11 @@
 package org.kuali.student.enrollment.class2.courseoffering.service.transformer;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.krms.impl.util.KrmsRuleManagementCopyMethods;
+import org.kuali.student.enrollment.class2.courseoffering.service.util.CourseOfferingServiceUtil;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo;
 import org.kuali.student.enrollment.lpr.dto.LprInfo;
@@ -213,14 +215,15 @@ public class ActivityOfferingTransformer {
         //Dynamic attributes - Some lui dynamic attributes are defined fields on Activity Offering
         List<AttributeInfo> attributes = ao.getAttributes();
         for (Attribute attr : lui.getAttributes()) {
+            attributes.add(new AttributeInfo(attr));
             if (CourseOfferingServiceConstants.COURSE_EVALUATION_INDICATOR_ATTR.equals(attr.getKey())){
                 ao.setIsEvaluated(Boolean.valueOf(attr.getValue()));
             } else if (CourseOfferingServiceConstants.MAX_ENROLLMENT_IS_ESTIMATED_ATTR.equals(attr.getKey())){
                 ao.setIsMaxEnrollmentEstimate(Boolean.valueOf(attr.getValue()));
             } else if( CourseOfferingServiceConstants.IS_AO_APPROVED_FOR_NON_STANDARD_TIME_SLOTS.equals(attr.getKey()) ) {
                 ao.setIsApprovedForNonStandardTimeSlots( Boolean.valueOf(attr.getValue()) );
-            } else {
-                attributes.add(new AttributeInfo(attr));
+            } else if (CourseOfferingServiceConstants.ACTIVITY_OFFERING_SCHEDULING_STATE_ATTR.equals(attr.getKey())) {
+                ao.setSchedulingStateKey(attr.getValue());
             }
         }
         ao.setAttributes(attributes);
@@ -237,15 +240,6 @@ public class ActivityOfferingTransformer {
         List<OfferingInstructorInfo> instructors = luiToInstructorsMap.get(ao.getId());
         if (instructors != null && !instructors.isEmpty()) {
             ao.setInstructors(instructors);
-        }
-        // derive the scheduling state
-
-        // if there is an actual schedule tied to the AO, and at least one of the components is not marked TBA, then the AO scheduling state is Scheduled
-        if(!ao.getScheduleIds().isEmpty()) {
-            ao.setSchedulingStateKey(getSchedulingState(ao, scheduleIdsWithNonTBA));
-        }
-        else {
-            ao.setSchedulingStateKey(getSchedulingStateByScheduleRequest(ao, ao2TBAMap));
         }
 
         return ao;
@@ -275,14 +269,15 @@ public class ActivityOfferingTransformer {
         //Dynamic attributes - Some lui dynamic attributes are defined fields on Activity Offering
         List<AttributeInfo> attributes = ao.getAttributes();
         for (Attribute attr : lui.getAttributes()) {
+            attributes.add(new AttributeInfo(attr));
             if (CourseOfferingServiceConstants.COURSE_EVALUATION_INDICATOR_ATTR.equals(attr.getKey())){
                 ao.setIsEvaluated(Boolean.valueOf(attr.getValue()));
             } else if (CourseOfferingServiceConstants.MAX_ENROLLMENT_IS_ESTIMATED_ATTR.equals(attr.getKey())){
                 ao.setIsMaxEnrollmentEstimate(Boolean.valueOf(attr.getValue()));
             } else if( CourseOfferingServiceConstants.IS_AO_APPROVED_FOR_NON_STANDARD_TIME_SLOTS.equals(attr.getKey()) ) {
                 ao.setIsApprovedForNonStandardTimeSlots( Boolean.valueOf(attr.getValue()) );
-            } else {
-                attributes.add(new AttributeInfo(attr));
+            } else if (CourseOfferingServiceConstants.ACTIVITY_OFFERING_SCHEDULING_STATE_ATTR.equals(attr.getKey())) {
+                ao.setSchedulingStateKey(attr.getValue());
             }
         }
         ao.setAttributes(attributes);
@@ -304,16 +299,7 @@ public class ActivityOfferingTransformer {
 
         ao.setInstructors(OfferingInstructorTransformer.lprs2Instructors(lprs));
 
-        // derive the scheduling state
-
-        // if there is an actual schedule tied to the AO, and at least one of the components is not marked TBA, then the AO scheduling state is Scheduled
-        if(!ao.getScheduleIds().isEmpty()) {
-            ao.setSchedulingStateKey(getSchedulingState(ao, searchService, context));
         }
-        else {
-            ao.setSchedulingStateKey(getSchedulingStateByScheduleRequest(ao, searchService, context));
-        }
-    }
 
     public static void activity2Lui (ActivityOfferingInfo ao, LuiInfo lui) {
         lui.setId(ao.getId());
@@ -353,7 +339,9 @@ public class ActivityOfferingTransformer {
         //TODO KSENROLL-11289 merge in attributes, not keep growing?
         List<AttributeInfo> attributes = lui.getAttributes();
         for (Attribute attr : ao.getAttributes()) {
-            attributes.add(new AttributeInfo(attr));
+            if (!StringUtils.equals(attr.getKey(), CourseOfferingServiceConstants.ACTIVITY_OFFERING_SCHEDULING_STATE_ATTR)) {
+                attributes.add(new AttributeInfo(attr));
+            }
         }
 
         AttributeInfo isEvaluated = new AttributeInfo();
@@ -371,6 +359,7 @@ public class ActivityOfferingTransformer {
         isApprovedForNonStandardTimeSlots.setValue( String.valueOf(ao.getIsApprovedForNonStandardTimeSlots()) );
         attributes.add( isApprovedForNonStandardTimeSlots );
 
+        CourseOfferingServiceUtil.mergeAttribute(attributes, CourseOfferingServiceConstants.ACTIVITY_OFFERING_SCHEDULING_STATE_ATTR, ao.getSchedulingStateKey());
         lui.setAttributes(attributes);
 
         //Honors code
