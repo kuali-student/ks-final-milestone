@@ -317,14 +317,6 @@ public class CourseController extends CourseRuleEditorController {
     @Override
     public ModelAndView route(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result, HttpServletRequest request, HttpServletResponse response) {
 
-        DialogManager dm = form.getDialogManager();
-        String dialogId = dm.getCurrentDialogId();
-        if(dialogId != null) {
-            dm.setDialogAnswer(dialogId, form.getDialogResponse());
-            dm.setDialogExplanation(dialogId, form.getDialogExplanation());
-            dm.setCurrentDialogId(null);
-        }
-
         String dialog = CurriculumManagementConstants.COURSE_SUBMIT_CONFIRMATION_DIALOG;
         if ( ! hasDialogBeenDisplayed(dialog, form)) {
 
