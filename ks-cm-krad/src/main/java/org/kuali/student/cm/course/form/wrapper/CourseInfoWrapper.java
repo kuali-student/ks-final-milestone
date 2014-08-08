@@ -95,7 +95,7 @@ public class CourseInfoWrapper extends LURuleManagementWrapper implements Serial
 
     private String hiddenDescr;
 
-    private boolean missingRequiredFields = true;
+    private boolean missingRequiredFields;
 
     private transient CreateCourseUIHelper uiHelper = new CreateCourseUIHelper();
 
