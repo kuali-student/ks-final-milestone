@@ -2,6 +2,8 @@ package org.kuali.student.ap.utils;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
+import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
+import org.kuali.student.ap.framework.context.CourseSearchConstants;
 import org.kuali.student.ap.framework.util.KsapHelperUtil;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
@@ -9,6 +11,7 @@ import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
+import org.kuali.student.r2.core.search.dto.SearchResultInfo;
 import org.kuali.student.r2.core.search.infc.SearchResult;
 import org.kuali.student.r2.core.search.infc.SearchResultRow;
 import org.kuali.student.r2.lum.clu.service.CluService;
@@ -364,14 +367,14 @@ public class CourseLinkBuilder {
 	private static synchronized Map<String, String> getCourseInfo(
 			String curriculumCode, String courseNumber, ContextInfo context) {
 		SearchRequestInfo searchRequest = new SearchRequestInfo(
-				"ksap.course.getCourseTitleAndIdAndStatus");
-		searchRequest.addParam("subject", curriculumCode);
-		searchRequest.addParam("number", courseNumber);
+                CourseSearchConstants.KSAP_COURSE_SEARCH_COURSEID_TITLE_AND_STATUS_BY_SUBJ_CD_KEY);
+		searchRequest.addParam(CourseSearchConstants.SearchParameters.COURSE_SUBJECT_PREFIX, curriculumCode);
+		searchRequest.addParam(CourseSearchConstants.SearchParameters.COURSE_SUBJECT_SUFFIX, courseNumber);
 
 
-		SearchResult searchResult = null;
+		SearchResultInfo searchResult = null;
 		try {
-			searchResult = getCluService().search(searchRequest, context);
+			searchResult = KsapFrameworkServiceLocator.getSearchService().search(searchRequest, context);
 		} catch (MissingParameterException e) {
 			throw new RuntimeException("Bad search.", e);
 		} catch (InvalidParameterException e) {
@@ -384,9 +387,9 @@ public class CourseLinkBuilder {
 
 		Map<String, String> result = new HashMap<String, String>();
 		for (SearchResultRow row : searchResult.getRows()) {
-			String courseId = KsapHelperUtil.getCellValue(row, "lu.resultColumn.cluId");
-			String courseTitle = KsapHelperUtil.getCellValue(row, "id.lngName");
-            String courseStatus = KsapHelperUtil.getCellValue(row, "clu.st");
+			String courseId = KsapHelperUtil.getCellValue(row, CourseSearchConstants.SearchResultColumns.CLU_ID);
+			String courseTitle = KsapHelperUtil.getCellValue(row, CourseSearchConstants.SearchResultColumns.CLU_TITLE);
+            String courseStatus = KsapHelperUtil.getCellValue(row, CourseSearchConstants.SearchResultColumns.CLU_STATUS);
 			result.put("courseId", courseId);
 			result.put("courseTitle", courseTitle);
 

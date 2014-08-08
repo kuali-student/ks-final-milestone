@@ -47,6 +47,7 @@ import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.core.acal.infc.Term;
 import org.kuali.student.r2.core.organization.dto.OrgInfo;
 import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
+import org.kuali.student.r2.core.search.dto.SearchResultInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultRowInfo;
 import org.kuali.student.r2.core.search.infc.SearchResult;
 import org.kuali.student.r2.core.search.infc.SearchResultCell;
@@ -1266,14 +1267,14 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
      * @return A list of divisions
      */
     private List<String> getDivisionCodes() {
+
         ContextInfo context = KsapFrameworkServiceLocator.getContext()
                 .getContextInfo();
-        CluService cluService = KsapFrameworkServiceLocator.getCluService();
-        SearchRequestInfo request = new SearchRequestInfo(
-                "ksap.distinct.clu.divisions");
-        SearchResult result;
+        SearchRequestInfo searchRequest = new SearchRequestInfo(
+                CourseSearchConstants.KSAP_COURSE_SEARCH_ALL_DIVISION_CODES_KEY);
+        SearchResultInfo result;
         try {
-            result = cluService.search(request, context);
+            result = KsapFrameworkServiceLocator.getSearchService().search(searchRequest, context);
         } catch (MissingParameterException e) {
             throw new IllegalArgumentException("Error in CLU division search",
                     e);
@@ -1287,11 +1288,10 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
             throw new IllegalArgumentException("Error in CLU division search",
                     e);
         }
-        List<? extends SearchResultRow> rr = result.getRows();
-        List<String> rv = new java.util.ArrayList<String>(rr.size());
-        for (SearchResultRow row : rr)
-            for (SearchResultCell cell : row.getCells())
-                rv.add(cell.getValue());
+        List<String> rv = new java.util.ArrayList<String>();
+        for (SearchResultRow row : result.getRows()) {
+            rv.add(KsapHelperUtil.getCellValue(row, CourseSearchConstants.SearchResultColumns.DIVISION_CODE));
+        }
         return rv;
     }
 

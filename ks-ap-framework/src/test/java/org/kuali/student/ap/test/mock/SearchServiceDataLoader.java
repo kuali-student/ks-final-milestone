@@ -1,5 +1,6 @@
 package org.kuali.student.ap.test.mock;
 
+import org.kuali.student.ap.framework.context.CourseSearchConstants;
 import org.kuali.student.r2.common.class1.search.SearchServiceMockImpl;
 import org.kuali.student.r2.common.class1.search.SearchServiceMockImplAbstractDataLoader;
 
@@ -63,7 +64,8 @@ public class SearchServiceDataLoader extends SearchServiceMockImplAbstractDataLo
         row1.put("lu.resultColumn.division", "CHEM");
         row2.put("lu.resultColumn.division", "ENGL");
         row3.put("lu.resultColumn.division", "PHYS");
-        this.searchServiceMock.addSearchResult(makeSearchRequestInfo("ksap.distinct.clu.divisions", params), makeSearchResultInfo(Arrays.asList(row1, row2, row3)));
+        this.searchServiceMock.addSearchResult(makeSearchRequestInfo(CourseSearchConstants.KSAP_COURSE_SEARCH_ALL_DIVISION_CODES_KEY, params),
+                makeSearchResultInfo(Arrays.asList(row1, row2, row3)));
 
 
     }

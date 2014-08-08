@@ -83,6 +83,9 @@ public class CourseSearchConstants {
     public static final String KSAP_COURSE_SEARCH_FO_IDS_BY_OFFERED_REG_GROUP_ID_KEY = "kuali.search.type.ksap.fo.ids.by.offered.reg.group.id";
     public static final String KSAP_COURSE_SEARCH_GENERAL_EDUCATION_VALUES_KEY = "kuali.search.type.ksap.coursesearch.general.education";
     public static final String KSAP_COURSE_SEARCH_COURSEIDS_BY_GENERAL_EDUCATION_KEY = "kuali.search.type.ksap.coursesearch.cluid.by.general.education";
+    public static final String KSAP_COURSE_SEARCH_COURSEID_TITLE_AND_STATUS_BY_SUBJ_CD_KEY = "kuali.search.type.ksap.search.course.title.id.status.by.subj.code";
+    public static final String KSAP_COURSE_SEARCH_ALL_DIVISION_CODES_KEY ="kuali.search.type.ksap.search.all.division" +
+            ".codes";
 
     // Custom Search Result Column Keys
     public static final class SearchResultColumns {
@@ -93,6 +96,9 @@ public class CourseSearchConstants {
         public static final String CLU_SET_ID = "cluSetId";
         public static final String CLU_SET_NAME = "cluSetName";
         public static final String CLU_SET_ATTR_VALUE = "cluSetAttrValue";
+        public static final String CLU_TITLE = "cluTitle";
+        public static final String CLU_STATUS = "cluStatus";
+        public static final String DIVISION_CODE = "divisionCode";
     }
 
     // Custom Search Parameter Keys
@@ -103,6 +109,8 @@ public class CourseSearchConstants {
         public static final String COURSE_OFFERING_ID = "courseOfferingId";
         public static final String ACTIVITY_OFFERING_ID = "activityOfferingId";
         public static final String REG_GROUP_ID = "registrationGroupId";
+        public static final String COURSE_SUBJECT_PREFIX = "courseSubjectPrefix";  //e.g.  ENGL
+        public static final String COURSE_SUBJECT_SUFFIX = "courseSubjectSuffix"; //e.g. 101
     }
 
     /**
