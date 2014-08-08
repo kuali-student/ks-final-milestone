@@ -380,8 +380,8 @@ public class CourseController extends CourseRuleEditorController {
                 boolean confirmApprove = getBooleanDialogResponse(dialog, form, request, response);
                 if (confirmApprove) {
                     //route the document
-                    addDecisionRationale(courseInfoWrapper.getProposalInfo().getId(), courseInfoWrapper.getUiHelper().getDialogExplanations().get(dialog), CommentServiceConstants.WORKFLOW_DECISIONS.APPROVE.getType());
                     ModelAndView modelAndView = super.approve(form,result, request,response);
+                    addDecisionRationale(courseInfoWrapper.getProposalInfo().getId(), courseInfoWrapper.getUiHelper().getDialogExplanations().get(dialog), CommentServiceConstants.WORKFLOW_DECISIONS.APPROVE.getType());
                     form.getDialogManager().removeDialog(dialog);
 //                      form.getDialogManager().resetDialogStatus(dialog);
                     return modelAndView;
@@ -763,8 +763,8 @@ public class CourseController extends CourseRuleEditorController {
                 boolean confirmBlanketApprove = getBooleanDialogResponse(dialog, form, request, response);
                 if (confirmBlanketApprove) {
                     //route the document
-                    addDecisionRationale(courseInfoWrapper.getProposalInfo().getId(), courseInfoWrapper.getUiHelper().getDialogExplanations().get(dialog), CommentServiceConstants.WORKFLOW_DECISIONS.BLANKET_APPROVE.getType());
                     ModelAndView modelAndView = super.blanketApprove(form, result, request, response);
+                    addDecisionRationale(courseInfoWrapper.getProposalInfo().getId(), courseInfoWrapper.getUiHelper().getDialogExplanations().get(dialog), CommentServiceConstants.WORKFLOW_DECISIONS.BLANKET_APPROVE.getType());
                     form.getDialogManager().removeDialog(dialog);
 //                    form.getDialogManager().resetDialogStatus(dialog);
                     return modelAndView;
