@@ -175,10 +175,10 @@
                 <entry key="bPaginate" value="false"/>
                 <entry key="bAutoWidth" value="false"/>
                 <entry key="aoColumns"
-                       value="[null,null, null,
+                       value="[null,null, {'bSortable':true,'sType':'term_type_sort'},
                 {'bSortable':true,'sType':'days_sort'},
-                null,
-                null,
+                {'bSortable':true,'sType':'hour_sort'},
+                {'bSortable':true,'sType':'hour_sort'},
                  {'bVisible': false}
               ]"/>
 
