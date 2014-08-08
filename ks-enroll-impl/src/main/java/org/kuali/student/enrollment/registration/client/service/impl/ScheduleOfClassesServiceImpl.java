@@ -1401,6 +1401,47 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
         return ao;
     }
 
+    /**
+     * This method uses a somewhat fast search to grab the updated seatcounts and waitlist counts and update the
+     * courseOfferingSearchResults with those values
+     * @param courseOfferingSearchResults
+     * @param contextInfo
+     * @throws MissingParameterException
+     * @throws InvalidParameterException
+     * @throws OperationFailedException
+     * @throws PermissionDeniedException
+     */
+    protected void updateSeatcounts(CourseOfferingDetailsSearchResult courseOfferingSearchResults, ContextInfo contextInfo) throws MissingParameterException, InvalidParameterException, OperationFailedException, PermissionDeniedException {
+       //Build up references to the AOs
+        Map<String,StudentScheduleActivityOfferingResult> aoId2Ao = new HashMap<>();
+        for(ActivityOfferingTypesSearchResult aoType: courseOfferingSearchResults.getActivityOfferingTypes()){
+            for(StudentScheduleActivityOfferingResult ao :aoType.getActivityOfferings()){
+                aoId2Ao.put(ao.getActivityOfferingId(), ao);
+            }
+        }
+
+        //Do a search
+        SearchRequestInfo searchRequest = new SearchRequestInfo(CourseRegistrationSearchServiceImpl.RG_WAITLIST_AND_AO_SEATCOUNT_BY_COID_SEARCH_INFO_SEARCH_TYPE.getKey());
+        searchRequest.addParam(CourseOfferingManagementSearchImpl.SearchParameters.CO_ID, courseOfferingSearchResults.getCourseOfferingId());
+        SearchResultInfo searchResult = CourseRegistrationAndScheduleOfClassesUtil.getSearchService().search(searchRequest, contextInfo);
+
+        //Parse out the results
+        for (SearchResultHelper.KeyValue row : SearchResultHelper.wrap(searchResult)) {
+            String aoId = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.AO_ID);
+            String rgId = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.RG_ID);
+            String rgWlCount = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.WAITLIST_COUNT);
+            String aoSeatCount = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.SEAT_COUNT);
+
+            //Look up the associated ao and update the seatcount values
+            StudentScheduleActivityOfferingResult ao = aoId2Ao.get(aoId);
+            RegGroupLimitedInfoSearchResult rg = ao.getRegGroupInfos().get(rgId);
+            rg.setWaitListSize(Integer.parseInt(rgWlCount));
+            if (ao.getSeatsAvailable() != null) {
+                ao.setSeatsOpen(ao.getSeatsAvailable() - Integer.parseInt(aoSeatCount));
+            }
+        }
+    }
+
     private EntityManager getEntityManager() {
         return entityManager;
     }

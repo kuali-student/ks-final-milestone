@@ -4,13 +4,14 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
+import java.io.Serializable;
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "CourseSearchResult", propOrder = {
         "displayName", "firstName", "lastName", "activityOfferingId",
         "isPrimary"})
-public class InstructorSearchResult {
+public class InstructorSearchResult implements Serializable {
     private String displayName;
     private String firstName;
     private String lastName;

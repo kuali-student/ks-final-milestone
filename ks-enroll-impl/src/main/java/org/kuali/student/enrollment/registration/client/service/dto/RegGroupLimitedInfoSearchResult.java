@@ -4,6 +4,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,7 +12,7 @@ import java.util.List;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "RegGroupLimitedInfoSearchResult", propOrder = {
         "regGroupId", "regGroupName", "waitListOffered", "maxWaitListSize", "waitListSize"})
-public class RegGroupLimitedInfoSearchResult {
+public class RegGroupLimitedInfoSearchResult implements Serializable {
 
     private String regGroupId;
     private String regGroupName;

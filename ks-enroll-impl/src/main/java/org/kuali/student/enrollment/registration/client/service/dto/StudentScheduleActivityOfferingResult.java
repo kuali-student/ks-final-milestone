@@ -3,6 +3,7 @@ package org.kuali.student.enrollment.registration.client.service.dto;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -12,7 +13,7 @@ import java.util.Map;
 @XmlType(name = "StudentScheduleActivityOfferingResult", propOrder = {
         "activityOfferingId", "activityOfferingTypeName", "activityOfferingType", "activityOfferingCode",
         "seatsAvailable", "seatsOpen", "scheduleComponents", "instructors", "regGroupInfos", "requisites", "subterm"})
-public class StudentScheduleActivityOfferingResult {
+public class StudentScheduleActivityOfferingResult  implements Serializable {
     private String activityOfferingId;
     private String activityOfferingTypeName;
     private String activityOfferingType;

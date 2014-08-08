@@ -3,13 +3,14 @@ package org.kuali.student.enrollment.registration.client.service.dto;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
+import java.io.Serializable;
 import java.util.Date;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "SubTermOfferingResult", propOrder = {
         "startDate", "endDate", "name", "subTermId"})
 
-public class SubTermOfferingResult {
+public class SubTermOfferingResult implements Serializable {
     private Date startDate;
     private Date endDate;
     private String name;

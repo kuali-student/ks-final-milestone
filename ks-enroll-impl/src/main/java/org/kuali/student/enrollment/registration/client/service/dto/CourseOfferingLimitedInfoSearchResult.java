@@ -20,12 +20,13 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
+import java.io.Serializable;
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "CourseOfferingLimitedInfoSearchResult", propOrder = {
         "courseOfferingId", "courseOfferingCode", "courseOfferingNumber", "courseOfferingSubjectArea"})
-public class CourseOfferingLimitedInfoSearchResult {
+public class CourseOfferingLimitedInfoSearchResult implements Serializable{
     private String courseOfferingId;
     private String courseOfferingCode;
     private String courseOfferingNumber;

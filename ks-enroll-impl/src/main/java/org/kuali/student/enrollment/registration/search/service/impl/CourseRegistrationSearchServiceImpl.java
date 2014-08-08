@@ -94,6 +94,8 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
             "kuali.search.type.lui.searchForCoAndAoInfoByCoId";
     public static final String CO_SEARCH_INFO_SEARCH_KEY =
             "kuali.search.type.lui.searchForCOSearchInfo";
+    public static final String RG_WAITLIST_AND_AO_SEATCOUNT_BY_COID_SEARCH_INFO_SEARCH_KEY =
+            "kuali.search.type.lui.getRGWaitlistAndAOSeatcountsByCOId";
 
     public static final TypeInfo REG_INFO_BY_PERSON_TERM_SEARCH_TYPE;
     public static final TypeInfo REG_CART_BY_PERSON_TERM_SEARCH_TYPE;
@@ -110,6 +112,8 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
     public static final TypeInfo WL_BY_AO_IDS_SEARCH_TYPE;
     public static final TypeInfo CO_AND_AO_INFO_BY_CO_ID_SEARCH_TYPE;
     public static final TypeInfo CO_SEARCH_INFO_SEARCH_TYPE;
+    public static final TypeInfo RG_WAITLIST_AND_AO_SEATCOUNT_BY_COID_SEARCH_INFO_SEARCH_TYPE;
+
 
     public static final String DEFAULT_EFFECTIVE_DATE = "01/01/2012";
 
@@ -196,6 +200,7 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
         public static final String CO_CROSSLISTED_SUBJECT_AREA = "coCrossListedSubjectArea";
 
         public static final String SEAT_COUNT = "seatCount";
+        public static final String WAITLIST_COUNT = "waitlistCount";
         public static final String SEATS_AVAILABLE = "seatsAvailable";
 
         public static final String LPR_ID = "lprId";
@@ -318,6 +323,11 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
                                 "aoId, aoType, aoName, maxAoSeats, numRegisteredForAo, aoScheduleId) for given Course Offering ID",
                         "Course Offering and Activity Offerings Info (coId, coCode, coDivision, coLongName, coDescription, coGradingOptions, coCreditOptions, " +
                                 "aoId, aoType, aoName, maxAoSeats, numRegisteredForAo, aoScheduleId) for given Course Offering ID");
+        RG_WAITLIST_AND_AO_SEATCOUNT_BY_COID_SEARCH_INFO_SEARCH_TYPE =
+                createTypeInfo(RG_WAITLIST_AND_AO_SEATCOUNT_BY_COID_SEARCH_INFO_SEARCH_KEY,
+                        "Up to date registration group waitlist counts and ao seatcounts by CO id (rgId,aoId,aoSeatcount,rgWaitlistCount)",
+                        "Up to date registration group waitlist counts and ao seatcounts by CO id (rgId,aoId,aoSeatcount,rgWaitlistCount)");
+
     }
 
     @Override
@@ -382,9 +392,79 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
             return searchForCoAndAoInfoByCoId(searchRequestInfo);
         } else if (CO_SEARCH_INFO_SEARCH_TYPE.getKey().equals(searchKey)) {
             return searchForCOSearchInfo(searchRequestInfo);
+        } else if (RG_WAITLIST_AND_AO_SEATCOUNT_BY_COID_SEARCH_INFO_SEARCH_TYPE.getKey().equals(searchKey)) {
+            return getRGWaitlistAndAOSeatcountsByCOId(searchRequestInfo);
         } else {
             throw new OperationFailedException("Unsupported search type: " + searchRequestInfo.getSearchKey());
         }
+    }
+
+    /**
+     * A quick way to get up-to-date information on a course offering's AO seat counts and RG waitlist counts
+     * @param searchRequestInfo
+     * @return search results
+     * @throws OperationFailedException
+     */
+    private SearchResultInfo getRGWaitlistAndAOSeatcountsByCOId(SearchRequestInfo searchRequestInfo) throws OperationFailedException {
+        SearchResultInfo resultInfo = new SearchResultInfo();
+        SearchRequestHelper requestHelper = new SearchRequestHelper(searchRequestInfo);
+        String coId = requestHelper.getParamAsString(SearchParameters.CO_ID);
+        String queryStr =
+                "SELECT " +
+                        "    rg2ao.LUI_ID         RGID, " +
+                        "    rg2ao.RELATED_LUI_ID AOID, " +
+                        "    ( " +
+                        "        SELECT " +
+                        "            COUNT(*) " +
+                        "        FROM " +
+                        "            KSEN_LPR lpr " +
+                        "        WHERE " +
+                        "            lpr.LUI_ID = rg2ao.RELATED_LUI_ID " +
+                        "        AND lpr.LPR_TYPE='" + LprServiceConstants.REGISTRANT_AO_LPR_TYPE_KEY + "' " +
+                        "        AND lpr.LPR_STATE='" + LprServiceConstants.ACTIVE_STATE_KEY + "') aoRegistered, " +
+                        "    ( " +
+                        "        SELECT " +
+                        "            COUNT(*) " +
+                        "        FROM " +
+                        "            KSEN_LPR lpr " +
+                        "        WHERE " +
+                        "            lpr.LUI_ID = rg2ao.LUI_ID " +
+                        "        AND lpr.LPR_TYPE='" + LprServiceConstants.WAITLIST_RG_LPR_TYPE_KEY + "' " +
+                        "        AND lpr.LPR_STATE='" + LprServiceConstants.ACTIVE_STATE_KEY + "') rgWaitlisted " +
+                        "FROM " +
+                        "    KSEN_LUILUI_RELTN co2fo, " +
+                        "    KSEN_LUILUI_RELTN fo2rg, " +
+                        "    KSEN_LUILUI_RELTN rg2ao, " +
+                        "    KSEN_LUI ao " +
+                        "WHERE " +
+                        "    co2fo.LUILUI_RELTN_TYPE='" + LuiServiceConstants.LUI_LUI_RELATION_DELIVERED_VIA_CO_TO_FO_TYPE_KEY + "' " +
+                        "AND co2fo.LUILUI_RELTN_STATE='" + LuiServiceConstants.LUI_LUI_RELATION_ACTIVE_STATE_KEY + "' " +
+                        "AND fo2rg.LUILUI_RELTN_TYPE='" + LuiServiceConstants.LUI_LUI_RELATION_DELIVERED_VIA_FO_TO_RG_TYPE_KEY + "' " +
+                        "AND fo2rg.LUILUI_RELTN_STATE='" + LuiServiceConstants.LUI_LUI_RELATION_ACTIVE_STATE_KEY + "' " +
+                        "AND rg2ao.LUILUI_RELTN_TYPE='" + LuiServiceConstants.LUI_LUI_RELATION_REGISTERED_FOR_VIA_RG_TO_AO_TYPE_KEY + "' " +
+                        "AND rg2ao.LUILUI_RELTN_STATE='" + LuiServiceConstants.LUI_LUI_RELATION_ACTIVE_STATE_KEY + "' " +
+                        "AND co2fo.RELATED_LUI_ID=fo2rg.LUI_ID " +
+                        "AND fo2rg.RELATED_LUI_ID=rg2ao.LUI_ID " +
+                        "AND co2fo.LUI_id=:courseOfferingId " +
+                        "AND rg2ao.RELATED_LUI_ID = ao.ID " +
+                        "AND ao.LUI_STATE = '"+LuiServiceConstants.LUI_AO_STATE_OFFERED_KEY+"' ";
+
+        Query query = entityManager.createNativeQuery(queryStr);
+        query.setParameter(SearchParameters.CO_ID, coId);
+
+        List<Object[]> results = query.getResultList();
+
+        for (Object[] resultRow : results) {
+            int i = 0;
+            SearchResultRowInfo row = new SearchResultRowInfo();
+            row.addCell(SearchResultColumns.RG_ID, (String) resultRow[i++]);
+            row.addCell(SearchResultColumns.AO_ID, (String) resultRow[i++]);
+            row.addCell(SearchResultColumns.SEAT_COUNT, resultRow[i++].toString());
+            row.addCell(SearchResultColumns.WAITLIST_COUNT, resultRow[i++].toString());
+            resultInfo.getRows().add(row);
+        }
+
+        return resultInfo;
     }
 
     /**

@@ -6,11 +6,12 @@ import org.apache.commons.lang.StringUtils;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
+import java.io.Serializable;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "ActivityOfferingScheduleComponentResult", propOrder = {
         "sun", "mon", "tue", "wed", "thu", "fri", "sat", "startTime", "endTime", "displayTime", "buildingCode", "roomCode"})
-public class ActivityOfferingScheduleComponentResult {
+public class ActivityOfferingScheduleComponentResult implements Serializable {
     private boolean sun;
     private boolean mon;
     private boolean tue;

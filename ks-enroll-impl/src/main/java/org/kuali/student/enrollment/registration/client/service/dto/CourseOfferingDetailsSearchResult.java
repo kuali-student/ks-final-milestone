@@ -20,6 +20,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -30,7 +31,7 @@ import java.util.Map;
         "courseOfferingId", "courseOfferingCode", "courseOfferingNumber", "courseOfferingSubjectArea", "courseOfferingDesc",
         "courseOfferingLongName", "regGroupsOffered", "creditOptions", "gradingOptions",
         "crossListedCourses", "prerequisites", "activityOfferingTypes"})
-public class CourseOfferingDetailsSearchResult {
+public class CourseOfferingDetailsSearchResult implements Serializable {
     private String courseOfferingId;
     private String courseOfferingCode;
     private String courseOfferingDesc;
