@@ -16,7 +16,8 @@
  */
 package org.kuali.student.poc.jsonparser.json;
 
-import javafx.util.Pair;
+import org.apache.commons.lang3.tuple.MutablePair;
+import org.apache.commons.lang3.tuple.Pair;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -37,11 +38,11 @@ public class MyJsonMap extends BaseJsonObject implements Iterable<Pair<String, B
     public void put(String key, BaseJsonObject value) {
         for (int i = 0; i < keyValues.size(); i++) {
             if (keyValues.get(i).getKey().equals(key)) {
-                keyValues.add(i, new Pair<>(key, value));
+                keyValues.add(i, new MutablePair<>(key, value));
                 return;
             }
         }
-        keyValues.add(new Pair<>(key, value));
+        keyValues.add(new MutablePair<>(key, value));
     }
 
     public BaseJsonObject get(String key) {
