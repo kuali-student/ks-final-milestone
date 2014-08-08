@@ -66,7 +66,7 @@
     flex-flow: column nowrap;
 }
 
-// Single day row
+// Single day lane container
 .kscr-CourseCalendar-day {
     margin-top: 1px;
     &:first-child {
@@ -83,6 +83,7 @@
 
 // Background striping elements
 .kscr-CourseCalendar-day-content {
+    height: 100%;
     padding: 0 1px 0 0;
     position: relative;
 
@@ -105,13 +106,9 @@
 }
 
 
-
-.kscr-CourseCalendar-day-row {
-    margin-top: 1px;
+// Course lanes
+.kscr-CourseCalendar-day-lane {
     position: relative;
-    &:first-child {
-        margin-top: 0;
-    }
 
     .kscr-CourseCalendar-courseBlock-wrap {
         left: -999em; // Initialize offset to the left. This prevents them popping into place while the browser is rendering.
@@ -319,20 +316,10 @@
             text-align: center;
             width: auto;
         }
-        &-rows {
-            .util-Grid;
-            height: 100%;
-            left: 0;
-            position: absolute;
-            top: 0;
-            width: 100%;
-        }
-        &-row {
+        &-lane {
             .util-Grid-cell;
 
             height: 100% !important;
-            margin-top: 0;
-            margin-right: 1px;
             &:first-child {
                 margin-left: 0;
             }
@@ -349,8 +336,15 @@
         }
     }
     .kscr-CourseCalendar-courseBlock-wrap {
-        left: 0 !important;
-        width: 100% !important;
+        // Don't override the positioning of conflicting courses
+        &:not(.kscr-CourseCalendar-courseBlock-wrap--conflicting) {
+            left: 0 !important;
+            width: 100% !important;
+        }
+
+        // Conflicting state
+        &--conflicting {
+        }
 
         // Selected state
         &--selected {
@@ -364,7 +358,11 @@
     }
     .kscr-CourseCalendar-courseBlock {
         height: 100%;
-        margin-left: 0px;
+
+        // Hide the 'normal' label in favor of the truncated version in small-format
+        &-label--normal {
+            display: none;
+        }
     }
 }
 
@@ -380,14 +378,27 @@
 /*** BEGIN Large Format Styles ***/
 @media screen and (min-width: @largeFormatMin) {
     .kscr-CourseCalendar--large {
+        .kscr-CourseCalendar-day {
+            align-items: center; // Center all items in the layout (day label & content)
+        }
+
         .kscr-CourseCalendar-courseBlock-wrap {
             height: auto !important; // Important to override the values getting set in the directive for large-format.
-            top: 0 !important;
+
+            // Don't override the positioning of conflicting courses
+            &:not(.kscr-CourseCalendar-courseBlock-wrap--conflicting) {
+                top: 0 !important;
+            }
         }
 
         .kscr-CourseCalendar-courseBlock {
             .box-shadow(none);
             cursor: default;
+
+            // Hide the 'truncated' label in favor of the normal version in small-format
+            &-label--truncated {
+                display: none;
+            }
         }
 
         // Disable the selection behavior when in large-format layout

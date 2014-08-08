@@ -146,6 +146,7 @@ angular.module('regCartApp')
                 startTime: startTime,
                 endTime: endTime,
                 type: type,
+                key: courseDetails.courseCode + '.' + day + '.' + startTime + '.' + endTime, // Hash key for this course
                 details: fullCourse
             };
 
@@ -159,15 +160,16 @@ angular.module('regCartApp')
          looking for conflicts along the way.
          */
         function convertMapToCalendar(dayMap) {
-            var typeArray = ['REG', 'WAIT', 'CART'];
-            var days = [];
-            var startTime = null; // 7 am
-            var endTime = null; // 7 pm
-            var buffer = 60; // the amount of buffer (in minutes) to give to either side of the calendar.
+            var typeArray = ['REG', 'WAIT', 'CART'],
+                days = [],
+                startTime = null,
+                endTime = null,
+                buffer = 60; // the amount of buffer (in minutes) to give to either side of the calendar.
+
             angular.forEach(DAY_CONSTANTS.dayArray, function(dayString) {
                 var courses = dayMap[dayString];
                 if (angular.isArray(courses)) {
-                    var rows = [];
+                    // Iterate through all of the courses and bucket them by their type.
                     var courseMap = {};
                     angular.forEach(courses, function(course) {
                         var type = course.type;
@@ -175,21 +177,37 @@ angular.module('regCartApp')
                             courseMap[type] = [];
                         }
                         courseMap[type].push(course);
+
+                        // Determine the earliest start time (- buffer)
                         if (startTime === null || course.startTime - buffer < startTime) {
                             startTime = course.startTime - buffer;
                         }
+
+                        // Determine the latest end time (+ buffer)
                         if (endTime === null || course.endTime + buffer > endTime) {
                             endTime = course.endTime + buffer;
                         }
                     });
-                    angular.forEach(typeArray, function (type) {
-                        var courses = courseMap[type];
-                        angular.forEach(courses, function(course) {
-                            rows = addCourseToRow(rows, course);
+
+                    // In the order defined in the typeArray, iterate through the courses again and add them to the day.
+                    var dayCourses = [];
+                    angular.forEach(typeArray, function(type) {
+                        angular.forEach(courseMap[type], function(course) {
+                            dayCourses.push(course);
                         });
                     });
-                    var day = {day:dayString, rows: rows};
-                    days.push(day);
+
+                    // Update the courses with the conflict data
+                    updateCoursesWithConflictData(dayCourses);
+
+                    // Sort the day's courses by their start time
+                    sortCourses(dayCourses);
+
+                    // Add the day to the days array
+                    days.push({
+                        day: dayString,
+                        courses: dayCourses
+                    });
                 }
             });
 
@@ -204,68 +222,89 @@ angular.module('regCartApp')
         }
 
         /*
-         Go through each row and add the course to the first row with no conflicts.
+         See if the course conflicts with any courses already slotted
+         in this day. If it does, add a conflict for both courses.
          */
-        function addCourseToRow(rows, course) {
-            var courseSlotted = false;
-            var sorter = function(a, b) {
-                return (a.startTime === b.startTime ? 0 : (a.startTime < b.startTime ? -1 : 1));
-            };
+        function updateCoursesWithConflictData(courses) {
+            // Initialize the lanes with an initial lane.
+            var lanes = [[]],
+                laneMap = {};
 
-            for (var i = 0; i < rows.length; i++) {
-                var row = rows[i];
-                var courses = row.courses;
-                if (!angular.isArray(courses)) {
-                    courses = [];
+            // Slot the course in the appropriate lane
+            angular.forEach(courses, function(course) {
+                course.conflicts = []; // The schedule data for the courses that this course conflicts with
+                course.lane = 0; // The lane this course is in relative to its conflicts (each new conflicting course gets a higher value).
+
+                var slotted = false;
+                angular.forEach(lanes, function(lane) {
+                    var conflicting = false;
+                    angular.forEach(lane, function(slottedCourse) {
+                        if (coursesConflict(course, slottedCourse)) {
+                            conflicting = true;
+
+                            // Make sure both the course & the conflicting course know about the courses they conflict with.
+                            course.conflicts.push(slottedCourse.key);
+                            slottedCourse.conflicts.push(course.key);
+                        }
+                    });
+
+                    // Check to see if this course conflicts with any course in this lane.
+                    if (!conflicting && !slotted) {
+                        // Slot this course in this lane
+                        course.lane = lanes.indexOf(lane);
+                        laneMap[course.key] = course.lane;
+
+                        // Add the course to the lane & sort the lane by startTime
+                        lane.push(course);
+                        sortCourses(lane);
+
+                        slotted = true;
+                    }
+                });
+
+                if (!slotted) {
+                    // The course conflicted with every lane, we need to add a new lane for it.
+                    var position = lanes.push([course]);
+
+                    // Slot this course in this lane
+                    course.lane = position - 1;
+                    laneMap[course.key] = course.lane;
                 }
-                var conflictFound = checkRowForConflict(courses, course);
-                if (!conflictFound) {
-                    courses.push(course);
+            });
 
-                    // Sort the course by their start time
-                    courses.sort(sorter);
+            // Update the course to know how many lanes are around it so that it can be laid out correctly in the UI.
+            angular.forEach(courses, function(course) {
+                var maxConflictLane = 0;
+                angular.forEach(course.conflicts, function(key) {
+                    if (laneMap[key] > maxConflictLane) {
+                        maxConflictLane = laneMap[key];
+                    }
+                });
 
-                    courseSlotted = true;
-                    break;
-                }
-            }
+                course.conflictCount = Math.max(maxConflictLane, course.lane);
+            });
 
-            // If all existing rows have a conflict, create a new one for the course
-            if (!courseSlotted) {
-                var newCourses = [];
-                newCourses.push(course);
-                rows.push({courses: newCourses});
-            }
-
-            return rows;
+            return courses;
         }
 
         /*
-         See if the course conflicts with any courses already slotted
-         in this row. If it does, add a conflict for both courses.
+         A course conflicts if its time range overlaps at all with another course
+         E.g. Course:                    [-----]
+         Conflicts with both:      [--] [---]
          */
-        function checkRowForConflict(slottedCourses, course) {
-            var conflictFound = false;
-            var start = course.startTime;
-            var end = course.endTime;
-            for (var j = 0; j < slottedCourses.length; j++) {
-                var slottedCourse = slottedCourses[j];
-                var slottedStart = slottedCourse.startTime;
-                var slottedEnd = slottedCourse.endTime;
-                if (start <= slottedEnd && end >= slottedStart) {
-                    if (!angular.isArray(course.conflicts)) {
-                        course.conflicts = [];
-                    }
-                    if (!angular.isArray(slottedCourse.conflicts)) {
-                        slottedCourse.conflicts = [];
-                    }
-                    course.conflicts.push(slottedCourse.index);
-                    slottedCourse.conflicts.push(course.index);
-                    conflictFound = true;
-                    break;
-                }
-            }
-            return conflictFound;
+        function coursesConflict(c1, c2) {
+            return (c1.startTime <= c2.endTime && c1.endTime >= c2.startTime);
+        }
+
+        /*
+         Sort a list of courses by their start time
+         */
+        function sortCourses(courses) {
+            courses.sort(function(a, b) {
+                return (a.startTime === b.startTime ? 0 : (a.startTime < b.startTime ? -1 : 1)); // Sort by startTime
+            });
+
+            return courses;
         }
 
         /*
@@ -414,53 +453,146 @@ angular.module('regCartApp')
 
 
 /**
+ * Course Calendar - Course Lane Directive
+ */
+angular.module('regCartApp')
+    .directive('courseCalendarLane', ['$timeout', '$window', function($timeout, $window) {
+        return {
+            restrict: 'CAE',
+            link: function(scope, element, attr) {
+
+                scope.scrollAfter = attr.scrollAfter || null;
+
+
+                /**
+                 * Update the lane's height to be accurate to the # of visible elements in it
+                 */
+                scope.updateLaneHeight = function() {
+                    var lanes = 0;
+                    angular.forEach(scope.day.courses, function(course) {
+                        if (lanes < (course.lane + 1)) {
+                            lanes = (course.lane + 1);
+                        }
+                    });
+
+                    var items = element.children();
+                    if (items.length > 0) {
+                        var itemHeight = element.children()[0].offsetHeight,
+                            targetHeight = (itemHeight * lanes);
+
+                        if (itemHeight > 0 && targetHeight > 0) {
+                            element.height(targetHeight);
+                        }
+                    }
+                };
+
+
+                $timeout(scope.updateLaneHeight);
+
+                // When the window is resized, update the parent element's height
+                angular.element($window).on('resize', function() {
+                    $timeout(scope.updateLaneHeight);
+                });
+
+                // Update the lane height when the 'updateLaneHeight' event is received
+                scope.$on('updateLaneHeight', function() {
+                    $timeout(scope.updateLaneHeight);
+                });
+            }
+        };
+    }]);
+
+
+/**
  * Course Calendar - Course Item Directive
  */
 angular.module('regCartApp')
     .directive('courseCalendarItem', ['$timeout', '$window', function($timeout, $window) {
         return {
             restrict: 'CAE',
-            scope: false,
             link: function(scope, element) {
 
+                /**
+                 * Layout the element within its parent based on the course duration and position
+                 */
                 function layout() {
                     var timeRange = scope.visibleTimeRange,
                         totalRange = timeRange[1] - timeRange[0],
                         duration = scope.course.endTime - scope.course.startTime;
 
-                    // Calculate the width & position from the left as a percentage so
+                    // Calculate the proportion of the total size & the position as a percentage so
                     // it doesn't have to be updated when the window is resized.
-                    var proportion = duration * 100 / totalRange,
-                        offset = (scope.course.startTime - timeRange[0]) * 100 / totalRange;
+                    var proportion = duration * 100 / totalRange, // Proportion of total width (%)
+                        position = (scope.course.startTime - timeRange[0]) * 100 / totalRange; // Position within the parent element (%);
+
+                    // Persist the calculated position and proportion on the course
+                    scope.course.layout = {
+                        position: position,
+                        proportion: proportion
+                    };
 
                     // Update the element to be position correctly relative to the parent container
                     element.css({
-                        left: offset + '%',
-                        top: offset + '%',
+                        left: position + '%',
+                        top: position + '%',
                         height: proportion + '%',
                         width: proportion + '%'
                     });
 
-                    resize();
+                    // Offset the course for conflicts
+                    offsetForConflicts();
+
+                    // Update the lane height now that we have a new course element
+                    scope.$emit('updateLaneHeight');
                 }
 
-                function resize() {
-                    // Make sure the parent still knows about the height of its children
-                    var height = element[0].offsetHeight,
-                        parent = element.parent();
-
-                    if (parent.height() < height) {
-                        parent.height(height);
+                /**
+                 * Offset the course based on the conflict position & window layout
+                 */
+                function offsetForConflicts() {
+                    if (angular.isUndefined(scope.course.layout)) {
+                        layout();
+                        return;
                     }
+
+                    var css = {
+                        left: scope.course.layout.position + '%',
+                        top: scope.course.layout.position + '%',
+                        height: scope.course.layout.proportion + '%',
+                        width: scope.course.layout.proportion + '%'
+                    };
+
+                    if (scope.course.conflictCount > 0) {
+                        var parent = element.parent();
+
+                        if (parent.width() > parent.height()) {
+                            // Landscape / large-format layout - courses laid out horizontally
+                            css.top = (scope.course.lane * element[0].offsetHeight) + 'px'; // Offset this block in px from the top according to its conflict position
+                        } else {
+                            // Portrait / small-format / mobile layout - courses laid out vertically
+                            var width = 100; // Width of the element based on the # of lanes around it
+
+                            if (scope.course.conflictCount > 0) {
+                                width = (100 / (scope.course.conflictCount + 1)); // Lane width
+                            }
+
+                            css.left = (width * scope.course.lane) + '%'; // Offset this block a % from the left according to its conflict position
+                            css.width = width + '%'; // Portrait layout conflicts get a proportion of the total width.
+                        }
+                    }
+
+                    element.css(css);
                 }
 
-                angular.element($window).on('resize', function() {
-                    $timeout(resize);
-                });
 
                 $timeout(layout);
 
+                // When the window is resized, update the element's offset for conflicts
+                angular.element($window).on('resize', function() {
+                    $timeout(offsetForConflicts);
+                });
 
+                // Fire a 'course-clicked' event when the course is clicked. This is caught and handled by the CourseCalendar directive.
                 element.bind('click', function() {
                     scope.$emit('course-clicked', scope.course);
                 });
