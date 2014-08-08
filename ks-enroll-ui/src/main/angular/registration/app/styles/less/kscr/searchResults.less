@@ -47,7 +47,6 @@
 
 .kscr-Search-results-cell {
   padding: 1rem @leftRightPadding;
-  border-bottom: @horizontalLineBorder;
 }
 
 .kscr-Search-results--selected {
@@ -124,6 +123,7 @@
 }
 
 .kscr-Search-row {
+  border-bottom: @horizontalLineBorder;
   .kscr-Search-checkbox {
     .checkbox-icon();
     float: right;
@@ -143,6 +143,9 @@
     color: @lightGray;
     cursor: not-allowed;
     font-style: italic;
+  }
+  &--bottom {
+    border-bottom: none;
   }
 }
 

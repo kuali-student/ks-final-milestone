@@ -23,7 +23,8 @@ angular.module('regCartApp')
                 preprocessor: '@',
                 onClick: '@',
                 prefix: '@',
-                showMobile: '@'
+                showMobile: '@',
+                last: '=?' // optional
             },
             link: function(scope) {
                 $animate.enabled(false, angular.element(document.querySelector('.kscr-Search-row')));
