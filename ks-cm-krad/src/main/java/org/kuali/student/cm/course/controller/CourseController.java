@@ -267,6 +267,11 @@ public class CourseController extends CourseRuleEditorController {
         return modelAndView;
     }
 
+    /**
+     * This method handles requests to create a new course proposal by copying from an existing
+     * course or an existing proposal and its related course. A course or proposal id to copy from
+     * is required has to be present in the reuqest params.
+     */
     @Override
     @RequestMapping(params = "methodToCall=" + KRADConstants.Maintenance.METHOD_TO_CALL_COPY)
     public ModelAndView maintenanceCopy(@ModelAttribute("KualiForm") MaintenanceDocumentForm form, BindingResult result,
@@ -279,27 +284,37 @@ public class CourseController extends CourseRuleEditorController {
 
         CourseMaintainable viewHelper = (CourseMaintainable) form.getDocument().getNewMaintainableObject();
 
-        try{
-            /*
-             * Check for copy params.
-             */
-            String copyCluId = request.getParameter(UrlParams.COPY_CLU_ID);
-            if (StringUtils.isNotBlank(copyCluId)) {
-                //  Populate the Course and Rule data.
+        /*
+         * Check for copy params and populate the dataObject.
+         */
+        String copyCluId = request.getParameter(UrlParams.COPY_CLU_ID);
+
+        if (StringUtils.isNotBlank(copyCluId)) {
+            //  Populate the Course and Rule data.
+            try {
                 CourseInfoWrapper target = viewHelper.copyCourse(copyCluId);
                 viewHelper.setDataObject(target);
-            } else {
-                String proposalId = request.getParameter(UrlParams.COPY_PROPOSAL_ID);
-                if (StringUtils.isNotBlank(proposalId)) {
-                    CourseInfoWrapper target = viewHelper.copyProposal(proposalId);
-                    viewHelper.setDataObject(target);
-                }
+            } catch (Exception e) {
+                String msg = String.format("Unable to copy course [%s].", copyCluId);
+                LOG.error(msg, e);
+                GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, CurriculumManagementConstants.MessageKeys.ERROR_COPY_PROPOSAL_FAILED);
             }
-        } catch (Exception e){
-            String msg = String.format("Unable to copy course/proposal");
-            LOG.error(msg, e);
-            msg = "The system encountered an error. Please try copying again. If the error persists contact your administrator. (" + e.getMessage() + ")";
-            GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, msg);
+        } else {
+            String copyProposalId = request.getParameter(UrlParams.COPY_PROPOSAL_ID);
+            if (StringUtils.isNotBlank(copyProposalId)) {
+                try {
+                    CourseInfoWrapper target = viewHelper.copyProposal(copyProposalId);
+                    viewHelper.setDataObject(target);
+                } catch (Exception e) {
+                    String msg = String.format("Unable to copy proposal [%s].", copyProposalId);
+                    LOG.error(msg, e);
+                    GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, CurriculumManagementConstants.MessageKeys.ERROR_COPY_PROPOSAL_FAILED);
+                }
+            } else {
+                //  If not CLU or proposal IDs was given then display an error message.
+                LOG.error("No copy id was provided.");
+                GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, CurriculumManagementConstants.MessageKeys.ERROR_NO_COPY_ID_PROVIDED);
+            }
         }
         return getUIFModelAndView(form);
     }
@@ -307,12 +322,6 @@ public class CourseController extends CourseRuleEditorController {
     /**
      * This method performs the KRAD UI data dictionary and Service layer data dictionary validation before it routes the document instance contained on the form.
      * Based on the validation result user will be shown validation errors on the page or Submit confirmation dialog.
-     *
-     * @param form
-     * @param result
-     * @param request
-     * @param response
-     * @return ModelAndView
      */
     @Override
     public ModelAndView route(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result, HttpServletRequest request, HttpServletResponse response) {

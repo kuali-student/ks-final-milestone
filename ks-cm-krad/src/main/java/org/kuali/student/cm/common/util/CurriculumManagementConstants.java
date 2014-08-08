@@ -126,20 +126,24 @@ public class CurriculumManagementConstants {
         public final static String ERROR_COURSE_TITLE_REQUIRED = "error.course.title.required";
         public final static String ERROR_PROPOSAL_TITLE_REQUIRED = "error.proposal.title.required";
         public final static String ERROR_COURSE_DURATION_COUNT_REQUIRED = "error.course.duration.count.required";
-        public final static String ERROR_COURSE_VERSION_CODE_AND_TITLE_REQUIRED = "error.course.version.code.and.title.required";
 
+        public final static String ERROR_NO_COPY_ID_PROVIDED = "error.cm.course.proposal.noCopyIdProvided";
+        public final static String ERROR_COPY_PROPOSAL_FAILED = "error.cm.proposal.generalCopyError";
+
+        public final static String ERROR_COURSE_VERSION_CODE_AND_TITLE_REQUIRED = "error.course.version.code.and.title.required";
         public final static String UNABLE_TO_ADD_LINE = "unable.to.add.line";
         public final static String UNABLE_TO_DELETE_LINE = "unable.to.delete.line";
-        public final static String ERROR_CREATE_COMMENT = "error.create.comment";
 
+        public final static String ERROR_CREATE_COMMENT = "error.create.comment";
         public final static String ERROR_NO_RESULTS_FOUND = "error.search.result.notfound";
         public final static String ERROR_DATA_NOT_FOUND = "error.cm.course.data.notfound";
         public final static String ERROR_DATA_MULTIPLE_MATCH_FOUND = "error.cm.course.data.multiplematch";
         public final static String ERROR_OUTCOME_CREDIT_VALUE_REQUIRED = "error.cm.course.data.outcome.creditvalue.required";
         public final static String ERROR_COURSE_LO_DESC_REQUIRED = "error.cm.course.lo.desc.required";
-        public final static String ERROR_COMMENT_DELETE = "error.cm.course.comment.delete";
 
+        public final static String ERROR_COMMENT_DELETE = "error.cm.course.comment.delete";
         public final static String SUPPORTING_DOC_MAX_SIZE_LIMIT = "supporting.document.max.size.limit";
+
         public final static String ERROR_SUPPORTING_DOCUMENTS_FILE_TOO_LARGE = "error.supporting.documents.file.too.large";
 
         public final static String SUCCESS_PROPOSAL_RETURN_TO_PREVIOUS_NODE = "success.proposal.returnToPreviousNode";
