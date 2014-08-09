@@ -288,6 +288,8 @@ public class CourseController extends CourseRuleEditorController {
          * Check for copy params and populate the dataObject.
          */
         String copyCluId = request.getParameter(UrlParams.COPY_CLU_ID);
+        //  Save the UI Helper because it has already been initialized and we'll lose that info below when we create a new CourseInfoWrapper.
+        CourseInfoWrapper.CreateCourseUIHelper uiHelper = ((CourseInfoWrapper) viewHelper.getDataObject()).getUiHelper();
 
         if (StringUtils.isNotBlank(copyCluId)) {
             //  Populate the Course and Rule data.
@@ -316,6 +318,10 @@ public class CourseController extends CourseRuleEditorController {
                 GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, CurriculumManagementConstants.MessageKeys.ERROR_NO_COPY_ID_PROVIDED);
             }
         }
+
+        //  Replace the UI Wrapper with the one we saved above.
+        ((CourseInfoWrapper) viewHelper.getDataObject()).setUiHelper(uiHelper);
+
         return getUIFModelAndView(form);
     }
 

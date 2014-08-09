@@ -469,10 +469,10 @@ public class CourseInfoWrapper extends LURuleManagementWrapper implements Serial
         public String getHeaderText() {
             String headerSuffixText;
 
-            if (!isUseReviewProcess()) {
-                headerSuffixText = " (Admin Proposal)";
-            } else {
+            if (isUseReviewProcess()) {
                 headerSuffixText = " (Proposal)";
+            } else {
+                headerSuffixText = " (Admin Proposal)";
             }
 
             if (proposalInfo != null && StringUtils.isNotBlank(proposalInfo.getName())) {
