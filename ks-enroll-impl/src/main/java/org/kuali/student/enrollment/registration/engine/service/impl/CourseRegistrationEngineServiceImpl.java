@@ -470,7 +470,7 @@ public class CourseRegistrationEngineServiceImpl implements CourseRegistrationEn
         masterLprCopy.setId(null);
         masterLprCopy.setMeta(null);
         masterLprCopy.setExpirationDate(new Date()); // Set its expiration date
-        masterLprCopy.setStateKey(LprServiceConstants.EXPIRED_LPR_STATE_KEY); // Put it expired state
+        masterLprCopy.setStateKey(LprServiceConstants.SUPERCEDED_LPR_STATE_KEY); // Put it expired state
 
         // Then, create the copy LPR
         getLprService().createLpr(masterLprCopy.getPersonId(),
@@ -525,7 +525,7 @@ public class CourseRegistrationEngineServiceImpl implements CourseRegistrationEn
         LprInfo lprInfo = getLprService().getLpr(lprId, contextInfo);
         Date now = new Date();
         lprInfo.setExpirationDate(now);
-        lprInfo.setStateKey(LprServiceConstants.EXPIRED_LPR_STATE_KEY);
+        lprInfo.setStateKey(LprServiceConstants.SUPERCEDED_LPR_STATE_KEY);
 
         return getLprService().updateLpr(lprInfo.getId(), lprInfo, contextInfo);
 
