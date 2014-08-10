@@ -172,7 +172,7 @@ public class LprServiceConstants {
     // To handle transition from "waitlist" to "registered"
     public static final String RECEIVED_LPR_STATE_KEY = "kuali.lpr.state.received";
     // To handle updates (which causes the expiration date to be set).
-    public static final String EXPIRED_LPR_STATE_KEY = "kuali.lpr.state.expired";
+    public static final String SUPERCEDED_LPR_STATE_KEY = "kuali.lpr.state.superceded";
 
     /**
      * Instructor states
