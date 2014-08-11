@@ -157,6 +157,9 @@ public class BookmarkController extends KsapControllerBase {
         LearningPlan learningPlan = KsapFrameworkServiceLocator.getPlanHelper().getDefaultLearningPlan();
 
         String courseId = request.getParameter("courseId");
+        Course course = KsapFrameworkServiceLocator.getCourseHelper().getCourseInfo(courseId);
+        String versionIndependentId = course.getVersion().getVersionIndId();
+
         String uniqueId = request.getParameter("uniqueId");
 
         // Delete plan item from the database
@@ -165,7 +168,7 @@ public class BookmarkController extends KsapControllerBase {
         try {
             // Retrieve valid plan item
             planItems = KsapFrameworkServiceLocator.getAcademicPlanService()
-                    .getPlanItemsInPlanByRefObjectIdByRefObjectType(learningPlan.getId(),courseId,
+                    .getPlanItemsInPlanByRefObjectIdByRefObjectType(learningPlan.getId(),versionIndependentId,
                             PlanConstants.COURSE_TYPE,KsapFrameworkServiceLocator.getContext().getContextInfo());
             if (planItems == null){
                 LOG.warn(String.format("Plan Item for %s cannot be found", courseId));
@@ -204,7 +207,6 @@ public class BookmarkController extends KsapControllerBase {
         // Create json strings for displaying action's response and updating the planner screen.
         eventList = PlanEventUtils.makeRemoveEvent(uniqueId, itemToDelete, eventList);
         eventList = PlanEventUtils.makeUpdateBookmarkTotalEvent(learningPlan.getId(), eventList);
-        Course course = KsapFrameworkServiceLocator.getCourseHelper().getCourseInfo(courseId);
         List<PlanItem> items = KsapFrameworkServiceLocator.getPlanHelper().loadStudentsPlanItemsForCourse(course);
         eventList = PlanEventUtils.makeUpdatePlanItemStatusMessage(items, eventList);
         PlanEventUtils.sendJsonEvents(true, "Course " + itemToDelete + " removed from Bookmarks",
