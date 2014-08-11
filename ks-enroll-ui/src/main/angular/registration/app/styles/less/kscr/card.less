@@ -144,8 +144,17 @@
 }
 
 .kscr-Card-statusRemove a {
+  &:extend(kscr-Responsive-largeFormatMin--displayNone);
   .dismiss-icon;
   float: right;
+}
+
+.kscr-Card-statusUndo a {
+  &:extend(.kscr-Responsive-smallFormatMax--displayNone);
+  .undo-icon;
+  float: right;
+  margin-right: 0.5rem;
+  padding: 1rem 1rem 0.5rem;
 }
 
 .kscr-Card-buttons {

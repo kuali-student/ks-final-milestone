@@ -53,7 +53,7 @@
     &--error,
     &--processing {
         background-repeat: no-repeat;
-        background-position: @iconPosition;
+        background-position: 1rem 1rem;
     }
 
     &--success {
@@ -149,4 +149,16 @@
   .util-Alert--card--dropped {
       margin: 0 0 1rem;
   }
+
+  // Sidebar styles
+  .kscr-Responsive-sidebar {
+      .util-Alert--success {
+        background-color: @cardBackgroundColor;
+        border: none;
+          .kscr-Card-buttons {
+            display: none;
+          }
+      }
+  }
+
 }

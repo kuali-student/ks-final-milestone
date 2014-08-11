@@ -32,7 +32,11 @@
         display: none;
     }
 
-    .kscr-Responsive-cartWrapper {
+    .kscr-Responsive-smallFormatMax--displayNone {
+      display: none;
+    }
+
+  .kscr-Responsive-cartWrapper {
         display: none;
         &--active {
             display: block; /* show only when active */
@@ -86,6 +90,10 @@
 
 /* Styles for large-size screens */
 @media screen and (min-width: @largeFormatMin) {
+    .kscr-Responsive-largeFormatMin--displayNone {
+      display: none;
+    }
+
     .kscr-Main-content {
         border-top: 10px solid @bodyColorDark;
     }
