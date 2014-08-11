@@ -388,4 +388,9 @@ public class LuiServiceConstants {
     public static final String EXAM_OFFERING_TYPE_KEY = "kuali.lui.type.exam.offering";
     public static final String FINAL_EXAM_OFFERING_TYPE_KEY = "kuali.lui.type.exam.offering.final";
 
+    public static final String PREDICATE_PATH_FOR_LUITYPE = "typeKey";
+    public static final String PREDICATE_PATH_FOR_LUILUIRELATIONTYPE = "luiLuiRelationType";
+    public static final String PREDICATE_PATH_FOR_RELATEDLUI_NAME = "relatedLui.name";
+    public static final String PREDICATE_PATH_FOR_LUI_ID = "lui.id";
+
 }
