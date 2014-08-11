@@ -360,7 +360,7 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
                         course.setLevel(KsapHelperUtil.getCellValue(row, CourseSearchConstants.SearchResultColumns.COURSE_LEVEL));
                         course.setCourseName(KsapHelperUtil.getCellValue(row, CourseSearchConstants.SearchResultColumns.COURSE_NAME));
                         course.setCode(KsapHelperUtil.getCellValue(row, CourseSearchConstants.SearchResultColumns.COURSE_CODE));
-                        course.setVersionIndependentId(KsapHelperUtil.getCellValue(row, CourseSearchConstants.SearchResultColumns.COURSE_CODE));
+                        course.setVersionIndependentId(KsapHelperUtil.getCellValue(row, CourseSearchConstants.SearchResultColumns.COURSE_VERSION_INDEPENDENT_ID));
                         String cellValue = KsapHelperUtil.getCellValue(row, CourseSearchConstants.SearchResultColumns.COURSE_CREDITS);
                         Credit credit = getCreditByID(cellValue);
                         if (credit != null) {
