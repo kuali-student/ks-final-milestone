@@ -102,16 +102,17 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
 	    <!-- insert any overrides to the generated attribute definitions here -->
 	</bean>
 
+    <bean id="CourseInfo.courseNumberSuffix-RequiredConstraint-Base" parent="RequiredConstraint">
+        <property name="maxLength" value="3" />
+    </bean>
+
 	<bean id="CourseInfo.courseNumberSuffix" parent="CourseInfo.courseNumberSuffix-parent"/>
 	<bean id="CourseInfo.courseNumberSuffix-parent" abstract="true" parent="CourseInfo.courseNumberSuffix-generated">
-	    <!-- insert any overrides to the generated attribute definitions here -->
         <property name="validCharactersConstraint">
             <bean parent="NumericPatternConstraint"/>
         </property>
-
         <property name="simpleConstraint">
-            <bean parent="RequiredConstraint">
-                <property name="maxLength" value="3" />
+            <bean parent="CourseInfo.courseNumberSuffix-RequiredConstraint-Base">
                 <property name="states">
                     <list>
                         <value>ACTIVE</value>
