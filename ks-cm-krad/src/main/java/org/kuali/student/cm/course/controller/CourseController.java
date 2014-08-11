@@ -792,12 +792,11 @@ public class CourseController extends CourseRuleEditorController {
                 boolean confirmBlanketApprove = getBooleanDialogResponse(dialog, form, request, response);
                 if (confirmBlanketApprove) {
                     //route the document
-                    ModelAndView modelAndView = super.blanketApprove(form, result, request, response);
+                    super.blanketApprove(form, result, request, response);
                     addDecisionRationale(courseInfoWrapper.getProposalInfo().getId(), courseInfoWrapper.getUiHelper().getDialogExplanations().get(dialog), CommentServiceConstants.WORKFLOW_DECISIONS.BLANKET_APPROVE.getType());
                     form.getDialogManager().removeDialog(dialog);
-//                    form.getDialogManager().resetDialogStatus(dialog);
-                    return modelAndView;
-
+                    // Set the request redirect to false so that the user stays on the same page
+                    form.setRequestRedirected(false);
                 } else {
                     form.getDialogManager().removeDialog(dialog);
                 }
