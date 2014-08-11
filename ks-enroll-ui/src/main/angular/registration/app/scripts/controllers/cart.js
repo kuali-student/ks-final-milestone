@@ -381,9 +381,9 @@ angular.module('regCartApp')
                     // After all the processing is complete, get the final Schedule counts.
                     ScheduleService.getSchedule($scope.termId, true).then(function (result) {
                         console.log('called rest service to get schedule data - in cart.js');
-                        GlobalVarsService.updateScheduleCounts(result);
-                        $scope.registeredCredits = GlobalVarsService.getRegisteredCredits;   // notice that i didn't put the (). in the ui call: {{registeredCredits()}}
-                        $scope.registeredCourseCount = GlobalVarsService.getRegisteredCourseCount; // notice that i didn't put the (). in the ui call: {{registeredCourseCount()}}
+                        ScheduleService.updateScheduleCounts(result);
+                        $scope.registeredCredits = ScheduleService.getRegisteredCredits;
+                        $scope.registeredCourseCount = ScheduleService.getRegisteredCourseCount;
                     });
 
                 }, function(response) { // Error
@@ -486,9 +486,9 @@ angular.module('regCartApp')
                             // After all the processing is complete, get the final Schedule counts.
                             ScheduleService.getSchedule($scope.termId, true).then(function (result) {
                                 console.log('called rest service to get schedule data - in cart.js');
-                                GlobalVarsService.updateScheduleCounts(result);
-                                $scope.registeredCredits = GlobalVarsService.getRegisteredCredits;   // notice that i didn't put the (). in the ui call: {{registeredCredits()}}
-                                $scope.registeredCourseCount = GlobalVarsService.getRegisteredCourseCount; // notice that i didn't put the (). in the ui call: {{registeredCourseCount()}}
+                                ScheduleService.updateScheduleCounts(result);
+                                $scope.registeredCredits = ScheduleService.getRegisteredCredits;
+                                $scope.registeredCourseCount = ScheduleService.getRegisteredCourseCount;
                             });
 
                             if (angular.isFunction(successCallback)) {

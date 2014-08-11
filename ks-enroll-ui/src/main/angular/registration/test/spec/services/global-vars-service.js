@@ -3,7 +3,7 @@
 describe('Service: GlobalVarsService', function () {
 
     // load the service's module
-    beforeEach(module('regCartApp', 'mockPersonSchedule'));
+    beforeEach(module('regCartApp'));
 
     var GlobalVarsService;
 
@@ -15,34 +15,10 @@ describe('Service: GlobalVarsService', function () {
 
     describe('getters & setters', function() {
         it('should initialize the variables', function() {
-            expect(GlobalVarsService.getRegisteredCredits()).toBeUndefined();
-            expect(GlobalVarsService.getRegisteredCourseCount()).toBe(0);
-
-            expect(GlobalVarsService.getWaitlistedCredits()).toBe(0);
-            expect(GlobalVarsService.getWaitlistedCourseCount()).toBe(0);
-
-            expect(GlobalVarsService.getSchedule()).toBeUndefined();
             expect(GlobalVarsService.getUserId()).toBeUndefined();
         });
 
         it('should set & get the correct values', function() {
-            GlobalVarsService.setRegisteredCredits(8);
-            expect(GlobalVarsService.getRegisteredCredits()).toBe(8);
-
-            GlobalVarsService.setRegisteredCourseCount(2);
-            expect(GlobalVarsService.getRegisteredCourseCount()).toBe(2);
-
-            GlobalVarsService.setWaitlistedCredits(4);
-            expect(GlobalVarsService.getWaitlistedCredits()).toBe(4);
-
-            GlobalVarsService.setWaitlistedCourseCount(1);
-            expect(GlobalVarsService.getWaitlistedCourseCount()).toBe(1);
-
-
-            var schedule = [{item: 'abcd'}];
-            GlobalVarsService.setSchedule(schedule);
-            expect(GlobalVarsService.getSchedule()).toEqual(schedule);
-
             var userId = 'defghijklmnop123';
             GlobalVarsService.setUserId(userId);
             expect(GlobalVarsService.getUserId()).toBe(userId);
@@ -78,22 +54,4 @@ describe('Service: GlobalVarsService', function () {
         expect(GlobalVarsService.getCorrespondingMessageFromStatus(STATUS.waitlist)).toEqual('If a seat becomes available you will be registered automatically');
     }));
 
-
-
-    describe('update schedule counts', function() {
-        it('should correctly process the schedule response json', inject(function(_personSchedule_) {
-            var json = _personSchedule_;
-
-            GlobalVarsService.updateScheduleCounts(json);
-
-            expect(GlobalVarsService.getSchedule()).toBe(json.studentScheduleTermResults);
-            expect(GlobalVarsService.getUserId()).toBe(json.userId);
-
-            expect(GlobalVarsService.getRegisteredCourseCount()).toBe(3);
-            expect(GlobalVarsService.getRegisteredCredits()).toBe(7);
-
-            expect(GlobalVarsService.getWaitlistedCourseCount()).toBe(1);
-            expect(GlobalVarsService.getWaitlistedCredits()).toBe(3);
-        }));
-    });
 });

@@ -1,110 +1,12 @@
 'use strict';
 
 angular.module('regCartApp')
-    .service('GlobalVarsService', ['STATE', 'STATUS', 'ServiceUtilities',
-    function GlobalVarsService(STATE, STATUS, ServiceUtilities) {
+    .service('GlobalVarsService', ['STATE', 'STATUS',
+    function GlobalVarsService(STATE, STATUS) {
 
-        var registeredCredits;
-        var registeredCourseCount = 0;
-        var waitlistedCredits = 0;
-        var waitlistedCourseCount = 0;
-        var schedule;
         var userId;
         var courseIndexes = {};
         var courseIndexPointer = 1;
-
-        var registeredCourses = [];
-        var waitlistedCourses = [];
-
-        this.getRegisteredCredits = function () {
-            return registeredCredits;
-        };
-
-        this.setRegisteredCredits = function (value) {
-            registeredCredits = value;
-        };
-
-        this.getRegisteredCourseCount = function () {
-            return registeredCourseCount;
-        };
-
-        this.setRegisteredCourseCount = function (value) {
-            registeredCourseCount = value;
-        };
-
-        this.getWaitlistedCredits = function () {
-            return waitlistedCredits;
-        };
-
-        this.setWaitlistedCredits = function (value) {
-            waitlistedCredits = value;
-        };
-
-        this.getWaitlistedCourseCount = function () {
-            return waitlistedCourseCount;
-        };
-
-        this.setWaitlistedCourseCount = function (value) {
-            waitlistedCourseCount = value;
-        };
-
-        this.getRegisteredCourses = function() {
-            return registeredCourses;
-        };
-
-        this.getWaitlistedCourses = function() {
-            return waitlistedCourses;
-        };
-
-        /*
-        Helper method to concatenate all the courses on the schedule
-        (both registered and waitlisted) into one array
-         */
-        this.getScheduledCourses = function() {
-            return registeredCourses.concat(waitlistedCourses);
-        };
-
-        this.removeRegisteredCourse = function(course) {
-            this.getRegisteredCourses().splice(this.getRegisteredCourses().indexOf(course), 1);
-
-            this.setRegisteredCredits(parseFloat(this.getRegisteredCredits()) - parseFloat(course.credits));
-            this.setRegisteredCourseCount(parseInt(this.getRegisteredCourseCount()) - 1);
-        };
-
-        this.removeWaitlistedCourse = function(course) {
-            this.getWaitlistedCourses().splice(this.getWaitlistedCourses().indexOf(course), 1);
-
-            this.setWaitlistedCredits(parseFloat(this.getWaitlistedCredits()) - parseFloat(course.credits));
-            this.setWaitlistedCourseCount(this.getWaitlistedCourses().length);
-        };
-
-        this.updateRegisteredCourse = function(oldCourse, newCourse) {
-            var credits = parseFloat(this.getRegisteredCredits()) - parseFloat(oldCourse.credits) + parseFloat(newCourse.credits);
-            console.log('registeredCredits = ' + credits);
-            this.setRegisteredCredits(credits);
-        };
-
-        this.updateWaitlistedCourse = function(oldCourse, newCourse) {
-            var credits = parseFloat(this.getWaitlistedCredits()) - parseFloat(oldCourse.credits) + parseFloat(newCourse.credits);
-            console.log('waitlistedCredits = ' + credits);
-            this.setWaitlistedCredits(credits);
-        };
-
-        this.isCourseRegistered = function(course) {
-            return ServiceUtilities.isCourseInList(course, this.getRegisteredCourses());
-        };
-
-        this.isCourseWaitlisted = function(course) {
-            return ServiceUtilities.isCourseInList(course, this.getWaitlistedCourses());
-        };
-
-        this.getSchedule = function () {
-            return schedule;
-        };
-
-        this.setSchedule = function (value) {
-            schedule = value;
-        };
 
         this.getUserId = function () {
             return userId;
@@ -130,56 +32,6 @@ angular.module('regCartApp')
             }
 
             return retStatus;
-        };
-
-        /**
-         * This method takes the schedule list returned from the schedule service and updates the global counts.
-         *
-         * @param personSchedule
-         */
-        this.updateScheduleCounts = function (personSchedule) {
-
-            var scheduleList = personSchedule.studentScheduleTermResults;
-            var userId = personSchedule.userId;
-
-            //Calculate credit count, course count and grading option count
-            var creditCount = 0;
-            var waitlistCreditCount = 0;
-
-            registeredCourses.splice(0, registeredCourses.length);
-            waitlistedCourses.splice(0, waitlistedCourses.length);
-
-            this.setSchedule(scheduleList);
-            angular.forEach(scheduleList, function (schedule) {
-                angular.forEach(schedule.registeredCourseOfferings, function (course) {
-                    creditCount += parseFloat(course.credits);
-                    registeredCourses.push(course);
-
-                    var gradingOptionCount = 0;
-                    //grading options are an object (map) so there's no easy way to get the object size without this code
-                    angular.forEach(course.gradingOptions, function () {
-                        gradingOptionCount++;
-                    });
-                    course.gradingOptionCount = gradingOptionCount;
-                });
-                angular.forEach(schedule.waitlistCourseOfferings, function (course) {
-                    waitlistCreditCount += parseFloat(course.credits);
-                    waitlistedCourses.push(course);
-
-                    var gradingOptionCount = 0;
-                    //grading options are an object (map) so there's no easy way to get the object size without this code
-                    angular.forEach(course.gradingOptions, function () {
-                        gradingOptionCount++;
-                    });
-                    course.gradingOptionCount = gradingOptionCount;
-                });
-            });
-
-            this.setRegisteredCourseCount(registeredCourses.length);
-            this.setRegisteredCredits(creditCount);
-            this.setWaitlistedCredits(waitlistCreditCount);
-            this.setWaitlistedCourseCount(waitlistedCourses.length);
-            this.setUserId(userId);
         };
 
         // In this method we pass in a status and it returns a message to display

@@ -51,14 +51,13 @@ angular.module('regCartApp')
             // Go and get the schedule for the new term
             ScheduleService.getSchedule(newValue).then(function (result) {
                 console.log('called rest service to get schedule data - in main.js');
-                GlobalVarsService.updateScheduleCounts(result);
+                ScheduleService.updateScheduleCounts(result);
                 $scope.cartCredits = CartService.getCartCredits;
                 $scope.cartCourseCount = CartService.getCartCourseCount;
-                $scope.registeredCredits = GlobalVarsService.getRegisteredCredits;   // notice that i didn't put the (). in the ui call: {{registeredCredits()}}
-                $scope.registeredCourseCount = GlobalVarsService.getRegisteredCourseCount; // notice that i didn't put the (). in the ui call: {{registeredCourseCount()}}
-                $scope.waitlistedCredits = GlobalVarsService.getWaitlistedCredits;   // notice that i didn't put the (). in the ui call: {{registeredCredits()}}
-                $scope.waitlistedCourseCount = GlobalVarsService.getWaitlistedCourseCount; // notice that i didn't put the (). in the ui call: {{registeredCourseCount()}}
-                $scope.showWaitlistedSection = GlobalVarsService.getShowWaitlistedSection;
+                $scope.registeredCredits = ScheduleService.getRegisteredCredits;
+                $scope.registeredCourseCount = ScheduleService.getRegisteredCourseCount;
+                $scope.waitlistedCredits = ScheduleService.getWaitlistedCredits;
+                $scope.waitlistedCourseCount = ScheduleService.getWaitlistedCourseCount;
                 $scope.userId = GlobalVarsService.getUserId;
             });
         });

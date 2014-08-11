@@ -4,11 +4,11 @@ angular.module('regCartApp')
     .controller('ScheduleCtrl', ['$scope', '$modal', '$timeout', 'STATUS', 'GRADING_OPTION', 'COURSE_TYPES', 'ScheduleService', 'CartService', 'GlobalVarsService',
     function ($scope, $modal, $timeout, STATUS, GRADING_OPTION, COURSE_TYPES, ScheduleService, CartService, GlobalVarsService) {
 
-        $scope.getSchedules = GlobalVarsService.getSchedule;
-        $scope.registeredCredits = GlobalVarsService.getRegisteredCredits;
-        $scope.registeredCourseCount = GlobalVarsService.getRegisteredCourseCount;
-        $scope.waitlistedCredits = GlobalVarsService.getWaitlistedCredits;
-        $scope.waitlistedCourseCount = GlobalVarsService.getWaitlistedCourseCount;
+        $scope.getSchedules = ScheduleService.getSchedules;
+        $scope.registeredCredits = ScheduleService.getRegisteredCredits;
+        $scope.registeredCourseCount = ScheduleService.getRegisteredCourseCount;
+        $scope.waitlistedCredits = ScheduleService.getWaitlistedCredits;
+        $scope.waitlistedCourseCount = ScheduleService.getWaitlistedCourseCount;
         $scope.userId = GlobalVarsService.getUserId;
         $scope.courseTypes = COURSE_TYPES;
 
@@ -65,7 +65,7 @@ angular.module('regCartApp')
 
             // if no non-TBA courses in the cart, check the schedule
             if (!showGrid) {
-                angular.forEach(GlobalVarsService.getScheduledCourses(), function(course) {
+                angular.forEach(ScheduleService.getScheduledCourses(), function(course) {
                     angular.forEach(course.activityOfferings, function(ao) {
                         if (!showGrid) {
                             var scheduleComponents = ao.scheduleComponents;
@@ -170,7 +170,7 @@ angular.module('regCartApp')
                         switch (type) {
                             case COURSE_TYPES.waitlisted:
                                 // After all the processing is complete, update the new Schedule counts.
-                                GlobalVarsService.removeWaitlistedCourse(course);
+                                ScheduleService.removeWaitlistedCourse(course);
 
                                 // need a count on how many success drop message for WL are opened. So if there are no WL courses
                                 // when we "X" the last success drop message the "Waitlisted" section name would disappear
@@ -178,7 +178,7 @@ angular.module('regCartApp')
                                 break;
                             case COURSE_TYPES.registered:
                                 // After all the processing is complete, update the new Schedule counts.
-                                GlobalVarsService.removeRegisteredCourse(course);
+                                ScheduleService.removeRegisteredCourse(course);
 
                                 // need a count on how many success drop message are opened. So if there are no courses when we "X" the last
                                 // success drop message the section can be replaced by the splash screen (unless there are waitlisted courses)
@@ -235,11 +235,11 @@ angular.module('regCartApp')
                         switch (type) {
                             case COURSE_TYPES.waitlisted:
                                 // Update the course counts
-                                GlobalVarsService.updateWaitlistedCourse(course, newCourse);
+                                ScheduleService.updateWaitlistedCourse(course, newCourse);
                                 break;
                             case COURSE_TYPES.registered:
                                 // Update the course counts
-                                GlobalVarsService.updateRegisteredCourse(course, newCourse);
+                                ScheduleService.updateRegisteredCourse(course, newCourse);
                         }
 
                         // Call the success callback function
