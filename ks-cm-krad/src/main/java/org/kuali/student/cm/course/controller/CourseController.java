@@ -33,11 +33,11 @@ import org.kuali.rice.krad.rules.rule.event.RouteDocumentEvent;
 import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 import org.kuali.rice.krad.uif.UifConstants;
 import org.kuali.rice.krad.uif.UifParameters;
-import org.kuali.rice.krad.uif.view.DialogManager;
 import org.kuali.rice.krad.util.ErrorMessage;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.KRADUtils;
+import org.kuali.rice.krad.util.ObjectUtils;
 import org.kuali.rice.krad.web.controller.MethodAccessible;
 import org.kuali.rice.krad.web.form.DocumentFormBase;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
@@ -64,6 +64,7 @@ import org.kuali.student.r1.common.rice.StudentIdentityConstants;
 import org.kuali.student.r1.core.subjectcode.service.SubjectCodeService;
 import org.kuali.student.r1.core.workflow.dto.CollaboratorWrapper;
 import org.kuali.student.r2.common.constants.CommonServiceConstants;
+import org.kuali.student.r2.common.dto.DtoConstants;
 import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.core.comment.dto.CommentInfo;
@@ -335,7 +336,7 @@ public class CourseController extends CourseRuleEditorController {
         if ( ! hasDialogBeenDisplayed(dialog, form)) {
 
             CourseInfoWrapper courseInfoWrapper = getCourseInfoWrapper(form);
-            doValidationForProposal(form, courseInfoWrapper, KewApiConstants.ROUTE_HEADER_ENROUTE_CD);
+            doValidationForProposal(form, courseInfoWrapper, KewApiConstants.ROUTE_HEADER_ENROUTE_CD, null);
 
             if (!GlobalVariables.getMessageMap().hasErrors()) {
                 //redirect back to client to display confirm dialog
@@ -375,7 +376,7 @@ public class CourseController extends CourseRuleEditorController {
         CourseInfoWrapper courseInfoWrapper = getCourseInfoWrapper(form);
         String dialog = CurriculumManagementConstants.COURSE_APPROVE_CONFIRMATION_DIALOG;
         if ( ! hasDialogBeenDisplayed(dialog, form)) {
-            doValidationForProposal(form,courseInfoWrapper, KewApiConstants.ROUTE_HEADER_PROCESSED_CD);
+            doValidationForProposal(form,courseInfoWrapper, KewApiConstants.ROUTE_HEADER_PROCESSED_CD, DtoConstants.STATE_ACTIVE);
 
             if (!GlobalVariables.getMessageMap().hasErrors()) {
                 //redirect back to client to display confirm dialog
@@ -406,8 +407,7 @@ public class CourseController extends CourseRuleEditorController {
      * @param form
      * @param courseInfoWrapper
      */
-
-    protected void doValidationForProposal(@ModelAttribute("KualiForm") DocumentFormBase form, CourseInfoWrapper courseInfoWrapper, String workflowStatusCode){
+    protected void doValidationForProposal(@ModelAttribute("KualiForm") DocumentFormBase form, CourseInfoWrapper courseInfoWrapper, String workflowStatusCode, String forcedCourseStateKey){
 
         courseInfoWrapper.getReviewProposalDisplay().setShowUnknownErrors(false);
 
@@ -422,7 +422,11 @@ public class CourseController extends CourseRuleEditorController {
 
         try {
             //Perform Service Layer Data Dictionary validation
-            validationResultInfoList = getCourseService().validateCourse("OBJECT", courseInfoWrapper.getCourseInfo(), ContextUtils.createDefaultContextInfo());
+            CourseInfo courseInfoToValidate = (CourseInfo) ObjectUtils.deepCopy(courseInfoWrapper.getCourseInfo());
+            if (StringUtils.isNotBlank(forcedCourseStateKey)) {
+                courseInfoToValidate.setStateKey(forcedCourseStateKey);
+            }
+            validationResultInfoList = getCourseService().validateCourse("OBJECT", courseInfoToValidate, ContextUtils.createDefaultContextInfo());
         } catch (Exception ex) {
             LOG.error("Error occurred while performing service layer validation for Submit", ex);
             GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, KSObjectUtils.unwrapException(20, ex).getMessage());
@@ -448,7 +452,7 @@ public class CourseController extends CourseRuleEditorController {
         courseInfoWrapper.getUiHelper().setShowMessage(false);
         String dialog = CurriculumManagementConstants.COURSE_RETURN_TO_PREVIOUS_NODE_DIALOG;
         if ( ! hasDialogBeenDisplayed(dialog, form)) {
-            doValidationForProposal(form, courseInfoWrapper, KewApiConstants.ROUTE_HEADER_PROCESSED_CD);
+            doValidationForProposal(form, courseInfoWrapper, KewApiConstants.ROUTE_HEADER_PROCESSED_CD, null);
 
             if (!GlobalVariables.getMessageMap().hasErrors()) {
                 //redirect back to client to display confirm dialog
@@ -767,7 +771,7 @@ public class CourseController extends CourseRuleEditorController {
         CourseInfoWrapper courseInfoWrapper = getCourseInfoWrapper(form);
 
         String dialog = CurriculumManagementConstants.COURSE_APPROVE_CONFIRMATION_DIALOG;
-        doValidationForProposal(form,courseInfoWrapper, KewApiConstants.ROUTE_HEADER_PROCESSED_CD);
+        doValidationForProposal(form,courseInfoWrapper, KewApiConstants.ROUTE_HEADER_PROCESSED_CD, DtoConstants.STATE_ACTIVE);
         ModelAndView modelAndView = super.blanketApprove(form, result, request, response);
         return modelAndView;
 
@@ -780,7 +784,7 @@ public class CourseController extends CourseRuleEditorController {
         CourseInfoWrapper courseInfoWrapper = getCourseInfoWrapper(form);
         String dialog = CurriculumManagementConstants.COURSE_BLANKET_APPROVE_CONFIRMATION_DIALOG;
         if ( ! hasDialogBeenDisplayed(dialog, form)) {
-            doValidationForProposal(form,courseInfoWrapper, KewApiConstants.ROUTE_HEADER_PROCESSED_CD);
+            doValidationForProposal(form,courseInfoWrapper, KewApiConstants.ROUTE_HEADER_PROCESSED_CD, DtoConstants.STATE_ACTIVE);
 
             if (!GlobalVariables.getMessageMap().hasErrors()) {
                 //redirect back to client to display confirm dialog
@@ -1140,6 +1144,8 @@ public class CourseController extends CourseRuleEditorController {
                     case "unitsContentOwner":
                         elementPath = CurriculumManagementConstants.DATA_OBJECT_PATH + ".reviewProposalDisplay.governanceSection.curriculumOversightAsString";
                         break;
+                    case "stateKey":
+                        // ignore this one as it's always returned whenever a validation error is thrown
                     default:
                         elementPath = KRADConstants.GLOBAL_ERRORS;
                         courseInfoWrapper.getReviewProposalDisplay().setShowUnknownErrors(true);
