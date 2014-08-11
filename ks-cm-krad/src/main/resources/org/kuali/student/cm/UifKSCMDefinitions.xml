@@ -28,6 +28,15 @@
         </property>
     </bean>
 
+    <!-- Used by beans which are required for states Approve and beyond -->
+    <bean id="CM-RequiredConstraints-Approve" parent="RequiredConstraint" abstract="true">
+        <property name="states">
+            <list>
+                <value>P+</value>
+            </list>
+        </property>
+    </bean>
+
     <bean id="Uif-CancelActionButton" parent="Uif-CancelActionButton-parentBean"/>
     <bean id="Uif-CancelActionButton-parentBean" abstract="true" parent="Uif-Action">
         <property name="cssClasses">

@@ -221,6 +221,14 @@
         </property>
     </bean>
 
+    <bean id="CM-ViewCourseView-ReviewConstraint-Approve-PropertyReplacer" parent="Uif-ConditionalBeanPropertyReplacer"
+          p:propertyName="simpleConstraint"
+          p:condition="@{#form.viewId eq T(org.kuali.student.cm.common.util.CurriculumManagementConstants$CourseViewPageIds).CREATE_COURSE_VIEW}">
+        <property name="replacement">
+            <bean parent="CM-RequiredConstraints-Approve"/>
+        </property>
+    </bean>
+
     <bean id="CM-ViewCourseView-ReviewConstraint-PropertyReplacer" parent="Uif-ConditionalBeanPropertyReplacer"
             p:propertyName="simpleConstraint"
             p:condition="@{#form.viewId eq T(org.kuali.student.cm.common.util.CurriculumManagementConstants$CourseViewPageIds).CREATE_COURSE_VIEW}">
@@ -297,7 +305,13 @@
                         <list>
                             <bean parent="CM-ReadOnlyInput" p:label="Campus Locations"
                                   id="CM-ViewCourseView-Governance-CampusLocations"
-                                  p:propertyName="reviewProposalDisplay.governanceSection.campusLocationsAsString"/>
+                                  p:propertyName="reviewProposalDisplay.governanceSection.campusLocationsAsString">
+                                <property name="propertyReplacers">
+                                    <list>
+                                        <bean parent="CM-ViewCourseView-ReviewConstraint-Approve-PropertyReplacer"/>
+                                    </list>
+                                </property>
+                            </bean>
 
                             <bean parent="CM-ReadOnlyInput" p:label="Curriculum Oversight"
                                   id="CM-ViewCourseView-Governance-CurriculumOversight"
