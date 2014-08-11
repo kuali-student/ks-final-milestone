@@ -78,7 +78,7 @@ public class CourseRegistrationCartClientServiceImpl extends CourseRegistrationC
             RegGroupSearchResult rg = CourseRegistrationAndScheduleOfClassesUtil.getRegGroup(termId, null, courseCode, regGroupCode, regGroupId, contextInfo);
 
             // will throw error if RG is not in proper state
-            processRegGroupSearchValidation(rg, courseCode, regGroupCode);
+            CourseRegistrationAndScheduleOfClassesUtil.processRegGroupSearchValidation(rg, courseCode, regGroupCode);
 
             // get the credit and grading options for this course
             ResultValueGroupCourseOptions rvgCourseOptions = getScheduleOfClassesService().getCreditAndGradingOptions(rg.getCourseOfferingId(), contextInfo);
@@ -109,6 +109,7 @@ public class CourseRegistrationCartClientServiceImpl extends CourseRegistrationC
 
                 throw new MissingOptionException(optionsCartItem);
             }
+
             if(!isCreditValueValid(credits, rvgCourseOptions)){
                 throw new InvalidParameterException("Credit option " + credits + " is not valid for this course: " + courseCode + "(" + rg.getRegGroupName() + ")");
             }
@@ -117,10 +118,8 @@ public class CourseRegistrationCartClientServiceImpl extends CourseRegistrationC
                 throw new InvalidParameterException("Grading option " + gradingOptionId + " is not valid for this course: " + courseCode + "(" + rg.getRegGroupName() + ")");
             }
 
-
-
-
             CartItemResult result = addCourseToCart(cartId,rg.getRegGroupId(),gradingOptionId, credits,rvgCourseOptions, courseCode, contextInfo);
+
             // build the link to delete this item.
             result.getActionLinks().add(buildDeleteLink(cartId, result.getCartItemId(), result.getGrading(), result.getCredits()));
 
@@ -162,41 +161,6 @@ public class CourseRegistrationCartClientServiceImpl extends CourseRegistrationC
         }
 
         return response.build();
-    }
-
-    protected void processRegGroupSearchValidation(RegGroupSearchResult rg, String courseCode, String regGroupCode) throws GenericUserException {
-        ValidationResultInfo regGroupValidation = validateRegGroupSearchResult(rg, courseCode, regGroupCode);
-
-        if (regGroupValidation.isError()) {
-            String technicalInfo = String.format("Technical Info:(term:[%s] id:[%s] state:[%s] )",
-                    rg.getTermId(), rg.getRegGroupId(), rg.getRegGroupState());
-
-            UserMessageResult userMessage = new UserMessageResult();
-            userMessage.setGenericMessage(regGroupValidation.getMessage());
-            userMessage.setDetailedMessage(regGroupValidation.getMessage());
-            userMessage.setConsoleMessage(regGroupValidation.getMessage() + " " + technicalInfo);
-            userMessage.setType(UserMessageResult.MessageTypes.ERROR);
-            throw new GenericUserException(userMessage);
-        }
-    }
-
-    protected ValidationResultInfo validateRegGroupSearchResult(RegGroupSearchResult regGroupSearchResult, String courseCode, String regGroupCode) {
-
-        ValidationResultInfo resultInfo = new ValidationResultInfo();
-        if (!LuiServiceConstants.REGISTRATION_GROUP_OFFERED_STATE_KEY.equals(regGroupSearchResult.getRegGroupState())) {
-            switch (regGroupSearchResult.getRegGroupState()) {
-                case LuiServiceConstants.REGISTRATION_GROUP_CANCELED_STATE_KEY:
-                    resultInfo.setError(courseCode + " (" + regGroupCode + ") is cancelled");
-                    break;
-                case LuiServiceConstants.REGISTRATION_GROUP_SUSPENDED_STATE_KEY:
-                    resultInfo.setError(courseCode + " (" + regGroupCode + ") is suspended");
-                    break;
-                default:
-                    resultInfo.setError(courseCode + " (" + regGroupCode + ") is not offered");
-            }
-        }
-
-        return resultInfo;
     }
 
     @Override

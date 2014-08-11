@@ -54,9 +54,12 @@ import org.kuali.student.enrollment.registration.client.service.dto.InstructorSe
 import org.kuali.student.enrollment.registration.client.service.dto.RegGroupSearchResult;
 import org.kuali.student.enrollment.registration.client.service.dto.StudentScheduleActivityOfferingResult;
 import org.kuali.student.enrollment.registration.client.service.dto.TermSearchResult;
+import org.kuali.student.enrollment.registration.client.service.dto.UserMessageResult;
 import org.kuali.student.enrollment.registration.client.service.exception.CourseDoesNotExistException;
+import org.kuali.student.enrollment.registration.client.service.exception.GenericUserException;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
@@ -67,6 +70,7 @@ import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
 import org.kuali.student.r2.common.util.constants.CourseRegistrationServiceConstants;
 import org.kuali.student.r2.common.util.constants.LprServiceConstants;
+import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.core.atp.dto.AtpInfo;
 import org.kuali.student.r2.core.atp.service.AtpService;
 import org.kuali.student.r2.core.class1.search.CourseOfferingManagementSearchImpl;
@@ -406,6 +410,40 @@ public class CourseRegistrationAndScheduleOfClassesUtil {
         }
 
         return rg;
+    }
+
+    public static void processRegGroupSearchValidation(RegGroupSearchResult rg, String courseCode, String regGroupCode) throws GenericUserException {
+        ValidationResultInfo regGroupValidation = validateRegGroupSearchResult(rg, courseCode, regGroupCode);
+
+        if (regGroupValidation.isError()) {
+            String technicalInfo = String.format("Technical Info:(term:[%s] id:[%s] state:[%s] )",
+                    rg.getTermId(), rg.getRegGroupId(), rg.getRegGroupState());
+
+            UserMessageResult userMessage = new UserMessageResult();
+            userMessage.setGenericMessage(regGroupValidation.getMessage());
+            userMessage.setDetailedMessage(regGroupValidation.getMessage());
+            userMessage.setConsoleMessage(regGroupValidation.getMessage() + " " + technicalInfo);
+            userMessage.setType(UserMessageResult.MessageTypes.ERROR);
+            throw new GenericUserException(userMessage);
+        }
+    }
+
+    private static ValidationResultInfo validateRegGroupSearchResult(RegGroupSearchResult regGroupSearchResult, String courseCode, String regGroupCode) {
+        ValidationResultInfo resultInfo = new ValidationResultInfo();
+        if (!LuiServiceConstants.REGISTRATION_GROUP_OFFERED_STATE_KEY.equals(regGroupSearchResult.getRegGroupState())) {
+            switch (regGroupSearchResult.getRegGroupState()) {
+                case LuiServiceConstants.REGISTRATION_GROUP_CANCELED_STATE_KEY:
+                    resultInfo.setError(courseCode + " (" + regGroupCode + ") is cancelled");
+                    break;
+                case LuiServiceConstants.REGISTRATION_GROUP_SUSPENDED_STATE_KEY:
+                    resultInfo.setError(courseCode + " (" + regGroupCode + ") is suspended");
+                    break;
+                default:
+                    resultInfo.setError(courseCode + " (" + regGroupCode + ") is not offered");
+            }
+        }
+
+        return resultInfo;
     }
 
     private synchronized static void initActivityPriorityMap(ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException {
