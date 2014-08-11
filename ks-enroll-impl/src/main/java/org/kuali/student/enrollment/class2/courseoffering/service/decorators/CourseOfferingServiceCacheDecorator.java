@@ -25,6 +25,8 @@ import net.sf.ehcache.search.Query;
 import net.sf.ehcache.search.Result;
 import net.sf.ehcache.search.Results;
 import org.apache.commons.collections.keyvalue.MultiKey;
+import org.jacorb.imr.Registration;
+import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.enrollment.class1.lui.service.decorators.LuiServiceDecorator;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingClusterInfo;
@@ -39,6 +41,7 @@ import org.kuali.student.enrollment.courseoffering.infc.ActivityOffering;
 import org.kuali.student.enrollment.courseofferingset.dto.SocRolloverResultItemInfo;
 import org.kuali.student.enrollment.lui.dto.LuiInfo;
 import org.kuali.student.enrollment.lui.dto.LuiLuiRelationInfo;
+import org.kuali.student.enrollment.lui.service.LuiService;
 import org.kuali.student.r2.common.dto.BulkStatusInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
@@ -54,6 +57,7 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
+import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.core.scheduling.dto.TimeSlotInfo;
 
@@ -68,18 +72,14 @@ public class CourseOfferingServiceCacheDecorator extends CourseOfferingServiceDe
 
     /* Caching the CourseOfferingInfo objects by id */
     private static String courseOfferingCacheName = "courseOfferingCache";
-
     private static String activityOfferingCacheName = "activityOfferingCache";
-
     private static String activityOfferingClusterCacheName = "activityOfferingClusterCache";
-
     private static String activityOfferingTypeCacheName = "activityOfferingTypeCache";
-
     private static String formatOfferingCacheName = "formatOfferingCache";
-
     private static String registrationGroupCacheName = "registrationGroupCache";
-
     private static String seatPoolCacheName = "seatPoolCache";
+
+    private LuiService luiService;
 
     private CacheManager cacheManager;
 
@@ -125,13 +125,13 @@ public class CourseOfferingServiceCacheDecorator extends CourseOfferingServiceDe
         return result;
     }
 
-    private void deleteActivityOfferingFromCacheCascaded(String activityOfferingId,ContextInfo context) throws DoesNotExistException,
+    private void deleteActivityOfferingFromCacheCascaded(String activityOfferingId, ContextInfo context) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
         getCacheManager().getCache(activityOfferingCacheName).remove(activityOfferingId);
 
         List<SeatPoolDefinitionInfo> seatPoolsToDelete = getSeatPoolDefinitionsForActivityOffering(activityOfferingId, context);
-        for(SeatPoolDefinitionInfo seatPool : seatPoolsToDelete){
+        for (SeatPoolDefinitionInfo seatPool : seatPoolsToDelete) {
             deleteSeatPoolDefinitionFromCache(seatPool.getId());
         }
 
@@ -150,16 +150,16 @@ public class CourseOfferingServiceCacheDecorator extends CourseOfferingServiceDe
     }
 
     private void deleteActivityOfferingClusterFromCacheCascaded(
-    String activityOfferingClusterId,
-    ContextInfo contextInfo)
+            String activityOfferingClusterId,
+            ContextInfo contextInfo)
             throws DoesNotExistException, InvalidParameterException,
-    MissingParameterException, OperationFailedException,
-    PermissionDeniedException {
+            MissingParameterException, OperationFailedException,
+            PermissionDeniedException {
         deleteActivityOfferingClusterFromCache(activityOfferingClusterId);
 
         List<RegistrationGroupInfo> rgInfos =
                 getRegistrationGroupsByActivityOfferingCluster(activityOfferingClusterId, contextInfo);
-        for (RegistrationGroupInfo rgInfo: rgInfos) {
+        for (RegistrationGroupInfo rgInfo : rgInfos) {
             deleteRegistrationGroupFromCache(rgInfo.getId());
         }
     }
@@ -167,7 +167,7 @@ public class CourseOfferingServiceCacheDecorator extends CourseOfferingServiceDe
     @Override
     public RegistrationGroupInfo createRegistrationGroup(String formatOfferingId, String activityOfferingClusterId, String registrationGroupType, RegistrationGroupInfo registrationGroupInfo, ContextInfo context) throws DoesNotExistException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
         RegistrationGroupInfo result = getNextDecorator().createRegistrationGroup(formatOfferingId, activityOfferingClusterId, registrationGroupType, registrationGroupInfo, context);
-        getCacheManager().getCache(registrationGroupCacheName).put(new Element(result.getId(),result));
+        getCacheManager().getCache(registrationGroupCacheName).put(new Element(result.getId(), result));
         return result;
     }
 
@@ -309,7 +309,7 @@ public class CourseOfferingServiceCacheDecorator extends CourseOfferingServiceDe
     @Override
     public List<ActivityOfferingClusterInfo> getActivityOfferingClustersByIds(List<String> activityOfferingClusterIds, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         List<ActivityOfferingClusterInfo> result = new ArrayList<ActivityOfferingClusterInfo>();
-        for(String id : activityOfferingClusterIds){
+        for (String id : activityOfferingClusterIds) {
             result.add(getActivityOfferingCluster(id, context));
         }
         return result;
@@ -319,8 +319,8 @@ public class CourseOfferingServiceCacheDecorator extends CourseOfferingServiceDe
     public List<RegistrationGroupInfo> getRegistrationGroupsByIds(List<String> registrationGroupIds, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 
         List<RegistrationGroupInfo> result = new ArrayList<RegistrationGroupInfo>();
-        for(String id : registrationGroupIds){
-            result.add(getRegistrationGroup(id,context));
+        for (String id : registrationGroupIds) {
+            result.add(getRegistrationGroup(id, context));
         }
         return result;
 
@@ -329,7 +329,7 @@ public class CourseOfferingServiceCacheDecorator extends CourseOfferingServiceDe
     @Override
     public List<CourseOfferingInfo> getCourseOfferingsByIds(List<String> courseOfferingIds, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         List<CourseOfferingInfo> result = new ArrayList<CourseOfferingInfo>();
-        for(String id : courseOfferingIds){
+        for (String id : courseOfferingIds) {
             result.add(getCourseOffering(id, context));
         }
         return result;
@@ -339,7 +339,7 @@ public class CourseOfferingServiceCacheDecorator extends CourseOfferingServiceDe
     public List<CourseOfferingDisplayInfo> getCourseOfferingDisplaysByIds(List<String> courseOfferingIds, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 
         List<CourseOfferingDisplayInfo> result = new ArrayList<CourseOfferingDisplayInfo>();
-        for(String id : courseOfferingIds){
+        for (String id : courseOfferingIds) {
             result.add(getCourseOfferingDisplay(id, context));
         }
         return result;
@@ -364,7 +364,7 @@ public class CourseOfferingServiceCacheDecorator extends CourseOfferingServiceDe
     @Override
     public List<ActivityOfferingDisplayInfo> getActivityOfferingDisplaysByIds(List<String> activityOfferingIds, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         List<ActivityOfferingDisplayInfo> result = new ArrayList<ActivityOfferingDisplayInfo>();
-        for(String id : activityOfferingIds){
+        for (String id : activityOfferingIds) {
             result.add(getActivityOfferingDisplay(id, contextInfo));
         }
         return result;
@@ -389,7 +389,7 @@ public class CourseOfferingServiceCacheDecorator extends CourseOfferingServiceDe
     public List<ActivityOfferingInfo> getActivityOfferingsByIds(List<String> activityOfferingIds, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 
         List<ActivityOfferingInfo> result = new ArrayList<ActivityOfferingInfo>();
-        for(String id : activityOfferingIds){
+        for (String id : activityOfferingIds) {
             result.add(getActivityOffering(id, context));
         }
         return result;
@@ -411,12 +411,12 @@ public class CourseOfferingServiceCacheDecorator extends CourseOfferingServiceDe
 
     @Override
     public StatusInfo deleteSeatPoolDefinition(String seatPoolDefinitionId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        StatusInfo result =  getNextDecorator().deleteSeatPoolDefinition(seatPoolDefinitionId, context);
+        StatusInfo result = getNextDecorator().deleteSeatPoolDefinition(seatPoolDefinitionId, context);
         deleteSeatPoolDefinitionFromCache(seatPoolDefinitionId);
         return result;
     }
 
-    private void deleteSeatPoolDefinitionFromCache(String seatPoolDefinitionId){
+    private void deleteSeatPoolDefinitionFromCache(String seatPoolDefinitionId) {
         getCacheManager().getCache(seatPoolCacheName).remove(seatPoolDefinitionId);
     }
 
@@ -427,18 +427,18 @@ public class CourseOfferingServiceCacheDecorator extends CourseOfferingServiceDe
         return result;
     }
 
-    private void deleteActivityOfferingClusterFromCache(String activityOfferingClusterId){
+    private void deleteActivityOfferingClusterFromCache(String activityOfferingClusterId) {
         getCacheManager().getCache(activityOfferingClusterCacheName).remove(activityOfferingClusterId);
     }
 
     @Override
     public StatusInfo deleteRegistrationGroup(String registrationGroupId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        StatusInfo result =  getNextDecorator().deleteRegistrationGroup(registrationGroupId, context);
+        StatusInfo result = getNextDecorator().deleteRegistrationGroup(registrationGroupId, context);
         deleteRegistrationGroupFromCache(registrationGroupId);
         return result;
     }
 
-    private void deleteRegistrationGroupFromCache(String registrationGroupId){
+    private void deleteRegistrationGroupFromCache(String registrationGroupId) {
         getCacheManager().getCache(registrationGroupCacheName).remove(registrationGroupId);
     }
 
@@ -547,7 +547,7 @@ public class CourseOfferingServiceCacheDecorator extends CourseOfferingServiceDe
             ContextInfo contextInfo)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
-        StatusInfo result = getNextDecorator().changeFormatOfferingState(formatOfferingId, nextStateKey, contextInfo);;
+        StatusInfo result = getNextDecorator().changeFormatOfferingState(formatOfferingId, nextStateKey, contextInfo);
         getCacheManager().getCache(formatOfferingCacheName).remove(formatOfferingId);//remove from cache so it has to be reloaded
         return result;
     }
@@ -598,6 +598,30 @@ public class CourseOfferingServiceCacheDecorator extends CourseOfferingServiceDe
         StatusInfo result = getNextDecorator().changeSeatPoolDefinitionState(seatPoolDefinitionId, nextStateKey, contextInfo);
         getCacheManager().getCache(seatPoolCacheName).remove(seatPoolDefinitionId);//remove from cache so it has to be reloaded
         return result;
+    }
+
+    @Override
+    public List<RegistrationGroupInfo> getRegistrationGroupsByFormatOffering(String formatOfferingId, ContextInfo context)
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+
+        // By retrieving the reg group ids for the format offering directly on the luiservice we can skip the registrationGroupTransformer
+        // in the course offering service, and return the registration groups that are already in the cache instead.
+        List<String> regGroupIds = luiService.getLuiIdsByLuiAndRelationType(formatOfferingId, LuiServiceConstants.LUI_LUI_RELATION_DELIVERED_VIA_FO_TO_RG_TYPE_KEY, context);
+
+        List<RegistrationGroupInfo> result = new ArrayList<RegistrationGroupInfo>();
+        for (String id : regGroupIds) {
+            // Look for reg group in the cache before retrieving from db.
+            result.add(getRegistrationGroup(id, context));
+        }
+        return result;
+    }
+
+    public LuiService getLuiService() {
+        return luiService;
+    }
+
+    public void setLuiService(LuiService luiService) {
+        this.luiService = luiService;
     }
 
     public CacheManager getCacheManager() {

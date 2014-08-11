@@ -23,8 +23,8 @@ public interface AdminRegistrationViewHelperService {
      * Retrieves the Student information for the Entity ID entered.
      *
      * @param studentId
-     * @throws Exception
      * @return
+     * @throws Exception
      */
     public PersonInfo getStudentById(String studentId);
 
@@ -40,12 +40,11 @@ public interface AdminRegistrationViewHelperService {
     /**
      * Returns whether or not the student is eligible for the term.
      *
-     *
-     * @param studentId      required
-     * @param termId      required
+     * @param studentId required
+     * @param termId    required
      * @return Returns a list of validation results
      */
-    public List<ValidationResultInfo> checkStudentEligibilityForTermLocal(String studentId,String termId);
+    public List<ValidationResultInfo> checkStudentEligibilityForTermLocal(String studentId, String termId);
 
     /**
      * Using the Student ID and term entered to get the registered courses for that student
@@ -79,10 +78,16 @@ public interface AdminRegistrationViewHelperService {
      *
      * @param form
      */
-    void validateForSubmission(AdminRegistrationForm form);
+    public void validateForSubmission(AdminRegistrationForm form);
 
     /**
+     * Validates the edited courses is ready for submission on save.
      *
+     * @param form
+     */
+    public void validateCourseEdit(AdminRegistrationForm form);
+
+    /**
      * @param registrationCourse
      * @param termCode
      * @return
@@ -90,7 +95,6 @@ public interface AdminRegistrationViewHelperService {
     public List<RegistrationActivity> getRegistrationActivitiesForRegistrationCourse(RegistrationCourse registrationCourse, String termCode);
 
     /**
-     *
      * @param creditOptionId
      * @return
      */
@@ -119,7 +123,7 @@ public interface AdminRegistrationViewHelperService {
     public String submitCourse(String studentId, String termId, RegistrationCourse registrationCourse, String typeKey);
 
     /**
-     * Resubmit a single courser without performing any validation checks.
+     * Resubmit a single course without performing any eligibility validation checks.
      *
      * @param studentId
      * @param termId
@@ -136,13 +140,5 @@ public interface AdminRegistrationViewHelperService {
      * @return
      */
     public RegistrationRequestInfo getRegistrationRequest(String regRequestId);
-
-    /**
-     * Validates the edited course on save.
-     *
-     * @param form
-     */
-    public void validateCourseEdit(AdminRegistrationForm form);
-
 
 }

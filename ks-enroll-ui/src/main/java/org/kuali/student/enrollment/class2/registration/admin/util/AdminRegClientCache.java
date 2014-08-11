@@ -12,13 +12,18 @@ import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingCon
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
+import org.kuali.student.enrollment.courseoffering.infc.RegistrationGroup;
+import org.kuali.student.enrollment.lui.dto.LuiLuiRelationInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -32,6 +37,8 @@ import java.util.List;
  * Utility Class for common auto generated reg group functions
  */
 public class AdminRegClientCache {
+
+    private static final Logger LOG = LoggerFactory.getLogger(AdminRegClientCache.class);
 
     private final static String CACHE_NAME = "AdminRegistrationCodeCache";
 
@@ -226,6 +233,15 @@ public class AdminRegClientCache {
             return AdminRegResourceLoader.getCourseOfferingService().getRegistrationGroup(regGroupId, ContextUtils.createDefaultContextInfo());
         }
 
+        RegistrationGroupInfo regGroup = getRegGroupViaLuiService(courseOfferingId, section);
+        //RegistrationGroupInfo regGroup = getRegGroupViaCourseOfferingService(courseOfferingId, section);
+
+        getCache().put(new Element(cacheKey, regGroup.getId()));
+        return regGroup;
+    }
+
+    private static RegistrationGroupInfo getRegGroupViaCourseOfferingService(String courseOfferingId, String section)
+            throws PermissionDeniedException, MissingParameterException, InvalidParameterException, OperationFailedException, DoesNotExistException {
         //First get the format offerings for the course offering to get the registration groups linked to the FO.
         List<FormatOfferingInfo> formatOfferings = AdminRegResourceLoader.getCourseOfferingService().getFormatOfferingsByCourseOffering(
                 courseOfferingId, ContextUtils.createDefaultContextInfo());
@@ -239,12 +255,27 @@ public class AdminRegClientCache {
         //Check if the input section matches a registration group.
         for (RegistrationGroupInfo regGroup : regGroups) {
             if (section.equals(regGroup.getName())) {
-                getCache().put(new Element(cacheKey, regGroup.getId()));
                 return regGroup;
             }
         }
-
         return null;
+    }
+
+    private static RegistrationGroupInfo getRegGroupViaLuiService(String courseOfferingId, String section)
+            throws PermissionDeniedException, MissingParameterException, InvalidParameterException, OperationFailedException, DoesNotExistException {
+        List<String> foIds = AdminRegResourceLoader.getLuiService().getLuiIdsByLuiAndRelationType(
+                courseOfferingId, LuiServiceConstants.LUI_LUI_RELATION_DELIVERED_VIA_CO_TO_FO_TYPE_KEY, ContextUtils.createDefaultContextInfo());
+
+        QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
+        qbcBuilder.setPredicates(PredicateFactory.and(
+                PredicateFactory.equal(LuiServiceConstants.PREDICATE_PATH_FOR_RELATEDLUI_NAME, section),
+                PredicateFactory.equal(LuiServiceConstants.PREDICATE_PATH_FOR_LUILUIRELATIONTYPE, LuiServiceConstants.LUI_LUI_RELATION_DELIVERED_VIA_FO_TO_RG_TYPE_KEY),
+                PredicateFactory.in(LuiServiceConstants.PREDICATE_PATH_FOR_LUI_ID, foIds)));
+        List<LuiLuiRelationInfo> luiLuiRelationInfos = AdminRegResourceLoader.getLuiService().searchForLuiLuiRelations(
+                qbcBuilder.build(), ContextUtils.createDefaultContextInfo());
+
+        LuiLuiRelationInfo luiLuiRelation = KSCollectionUtils.getOptionalZeroElement(luiLuiRelationInfos);
+        return AdminRegResourceLoader.getCourseOfferingService().getRegistrationGroup(luiLuiRelation.getRelatedLuiId(), ContextUtils.createDefaultContextInfo());
     }
 
     public static class CourseOfferingInfoComparator implements Comparator<CourseOfferingInfo> {

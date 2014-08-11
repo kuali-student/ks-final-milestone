@@ -64,9 +64,6 @@ import java.util.Map;
 
 public class ExamOfferingServiceImpl implements ExamOfferingService {
 
-    private static final String PREDICATE_FACTORY_PATH_FOR_LUITYPE = "typeKey";
-    private static final String PREDICATE_FACTORY_PATH_FOR_LUILUIRELATIONTYPE = "luiLuiRelationType";
-
     private LuiService luiService;
     private SchedulingService schedulingService;
     private TypeService typeService;
@@ -157,7 +154,7 @@ public class ExamOfferingServiceImpl implements ExamOfferingService {
         QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
         qbcBuilder.setPredicates(PredicateFactory.and(
                 criteria.getPredicate(),
-                PredicateFactory.equal(PREDICATE_FACTORY_PATH_FOR_LUITYPE, luiType)));
+                PredicateFactory.equal(LuiServiceConstants.PREDICATE_PATH_FOR_LUITYPE, luiType)));
         return qbcBuilder.build();
     }
 
@@ -165,7 +162,7 @@ public class ExamOfferingServiceImpl implements ExamOfferingService {
         QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
         qbcBuilder.setPredicates(PredicateFactory.and(
                 criteria.getPredicate(),
-                PredicateFactory.equal(PREDICATE_FACTORY_PATH_FOR_LUILUIRELATIONTYPE, luiLuiRelationType)));
+                PredicateFactory.equal(LuiServiceConstants.PREDICATE_PATH_FOR_LUILUIRELATIONTYPE, luiLuiRelationType)));
         return qbcBuilder.build();
     }
 
@@ -523,7 +520,7 @@ public class ExamOfferingServiceImpl implements ExamOfferingService {
         //Retrieve ExamOfferingRelationInfos
         QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
         qbcBuilder.setPredicates(PredicateFactory.and(
-                PredicateFactory.equal(PREDICATE_FACTORY_PATH_FOR_LUILUIRELATIONTYPE, LuiServiceConstants.LUI_LUI_RELATION_DELIVERED_VIA_FO_TO_EO_TYPE_KEY),
+                PredicateFactory.equal(LuiServiceConstants.PREDICATE_PATH_FOR_LUILUIRELATIONTYPE, LuiServiceConstants.LUI_LUI_RELATION_DELIVERED_VIA_FO_TO_EO_TYPE_KEY),
                 PredicateFactory.like("attributes[AO%]", activityOfferingId)));
 
         QueryByCriteria criteria = qbcBuilder.build();

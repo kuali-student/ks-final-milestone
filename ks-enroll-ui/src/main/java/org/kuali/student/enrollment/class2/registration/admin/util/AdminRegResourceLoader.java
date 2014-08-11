@@ -12,10 +12,12 @@ import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestIn
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestItemInfo;
 import org.kuali.student.enrollment.courseregistration.service.CourseRegistrationService;
 import org.kuali.student.enrollment.coursewaitlist.service.CourseWaitListService;
+import org.kuali.student.enrollment.lui.service.LuiService;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.CourseRegistrationServiceConstants;
 import org.kuali.student.r2.common.util.constants.CourseWaitListServiceConstants;
 import org.kuali.student.r2.common.util.constants.LprServiceConstants;
+import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
 import org.kuali.student.r2.core.constants.AcademicCalendarServiceConstants;
 import org.kuali.student.r2.core.constants.RoomServiceConstants;
@@ -44,6 +46,7 @@ public class AdminRegResourceLoader {
     private static SchedulingService schedulingService;
     private static RoomService roomService;
     private static CourseWaitListService courseWaitListService;
+    private static LuiService luiService;
 
     public static PersonService getPersonService() {
         if (personService == null) {
@@ -103,6 +106,13 @@ public class AdminRegResourceLoader {
             roomService = GlobalResourceLoader.getService(new QName(RoomServiceConstants.NAMESPACE, RoomServiceConstants.SERVICE_NAME_LOCAL_PART));
         }
         return roomService;
+    }
+
+    public static LuiService getLuiService() {
+        if (luiService == null) {
+            luiService = GlobalResourceLoader.getService(new QName(LuiServiceConstants.NAMESPACE, LuiServiceConstants.SERVICE_NAME_LOCAL_PART));
+        }
+        return luiService;
     }
 
 }

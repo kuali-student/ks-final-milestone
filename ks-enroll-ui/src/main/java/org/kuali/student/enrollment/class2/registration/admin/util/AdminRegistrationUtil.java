@@ -242,7 +242,7 @@ public class AdminRegistrationUtil {
     }
 
     /**
-     * Compare the course with the item.
+     * Compare the course with the registration request item.
      *
      * @param course
      * @param item

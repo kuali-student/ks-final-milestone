@@ -173,6 +173,25 @@ public class LuiServiceCacheDecorator extends LuiServiceDecorator {
     }
 
     @Override
+    public List<LuiInfo> getRelatedLuisByLuiAndRelationType(String luiId,
+                                                            String luiLuiRelationTypeKey,
+                                                            ContextInfo context)
+            throws OperationFailedException, MissingParameterException, InvalidParameterException, PermissionDeniedException {
+
+        List<LuiInfo> result = new ArrayList<LuiInfo>();
+        List<String> luiIds = getNextDecorator().getLuiIdsByLuiAndRelationType(luiId, luiLuiRelationTypeKey, context);
+        try {
+            for (String resultId : luiIds) {
+                result.add(this.getLui(resultId, context));
+            }
+        } catch (DoesNotExistException e) {
+            throw new OperationFailedException(e);
+        }
+
+        return result;
+    }
+
+    @Override
     public StatusInfo deleteLuiLuiRelation(String luiLuiRelationId, ContextInfo contextInfo)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {

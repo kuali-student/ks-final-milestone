@@ -449,7 +449,6 @@ public class AdminRegistrationController extends UifControllerBase {
             dropCourse = form.getPendingDropCourse();
         }
 
-
         if (LprServiceConstants.LPRTRANS_ITEM_SUCCEEDED_STATE_KEY.equals(item.getStateKey())) {
             form.getRegisteredCourses().remove(dropCourse);
             form.getRegistrationResults().add(AdminRegistrationUtil.buildSuccessResult(dropCourse, AdminRegConstants.ADMIN_REG_MSG_INFO_SUCCESSFULLY_DROPPED));

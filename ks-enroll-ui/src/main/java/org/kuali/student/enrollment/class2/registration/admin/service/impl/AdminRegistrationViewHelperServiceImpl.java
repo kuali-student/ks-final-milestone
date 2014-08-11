@@ -308,6 +308,25 @@ public class AdminRegistrationViewHelperServiceImpl extends KSViewHelperServiceI
     }
 
     @Override
+    public void validateCourseEdit(AdminRegistrationForm form) {
+
+        for (RegistrationCourse editCourse : form.getCoursesInEdit()) {
+
+            if (editCourse.getCredits() == null || editCourse.getCredits().isEmpty()) {
+                form.getEditingIssues().add(AdminRegistrationUtil.getMessageForKey(AdminRegConstants.ADMIN_REG_MSG_ERROR_CREDITS_REQUIRED, editCourse.getCode(), editCourse.getSection()));
+            }
+
+            if (editCourse.getEffectiveDate() == null) {
+                form.getEditingIssues().add(AdminRegistrationUtil.getMessageForKey(AdminRegConstants.ADMIN_REG_MSG_ERROR_EFFECTIVE_DATE_REQUIRED));
+            }
+
+            if (editCourse.getGradingOptionId() == null || editCourse.getGradingOptionId().isEmpty()) {
+                form.getEditingIssues().add(AdminRegistrationUtil.getMessageForKey(AdminRegConstants.ADMIN_REG_MSG_ERROR_REG_OPTIONS_REQUIRED));
+            }
+        }
+    }
+
+    @Override
     public List<RegistrationActivity> getRegistrationActivitiesForRegistrationCourse(RegistrationCourse registrationCourse, String termCode) {
 
         List<RegistrationActivity> registrationActivities = new ArrayList<RegistrationActivity>();
@@ -337,12 +356,12 @@ public class AdminRegistrationViewHelperServiceImpl extends KSViewHelperServiceI
 
             try {
                 //Lookup the resultValueGroup Information
-                ResultValuesGroupInfo resultValuesGroupInfo = CourseRegistrationAndScheduleOfClassesUtil.getLrcService().getResultValuesGroup(creditOptionId, ContextUtils.getContextInfo());
+                ResultValuesGroupInfo resultValuesGroupInfo = CourseRegistrationAndScheduleOfClassesUtil.getLrcService().getResultValuesGroup(creditOptionId, createContextInfo());
                 String typeKey = resultValuesGroupInfo.getTypeKey();
 
                 //Get the actual values
                 List<ResultValueInfo> resultValueInfos = CourseRegistrationAndScheduleOfClassesUtil.getLrcService().getResultValuesByKeys(
-                        resultValuesGroupInfo.getResultValueKeys(), ContextUtils.getContextInfo());
+                        resultValuesGroupInfo.getResultValueKeys(), createContextInfo());
 
                 if (!resultValueInfos.isEmpty()) {
                     if (typeKey.equals(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_FIXED)) {
@@ -355,7 +374,7 @@ public class AdminRegistrationViewHelperServiceImpl extends KSViewHelperServiceI
                     }
                 }
             } catch (Exception e) {
-                throw new RuntimeException("Could not retrieve Room RoomService for " + e);
+                throw convertServiceExceptionsToUI(e);
             }
         }
 
@@ -405,8 +424,8 @@ public class AdminRegistrationViewHelperServiceImpl extends KSViewHelperServiceI
                 timeSchedule.append(TimeOfDayHelper.makeFormattedTimeForAOSchedules(timeSlotInfo.getStartTime()));
                 timeSchedule.append(" - ");
                 timeSchedule.append(TimeOfDayHelper.makeFormattedTimeForAOSchedules(timeSlotInfo.getEndTime()));
-            }else{
-                regActivity.setDays("");
+            } else {
+                regActivity.setDays(StringUtils.EMPTY);
             }
 
 
@@ -422,7 +441,7 @@ public class AdminRegistrationViewHelperServiceImpl extends KSViewHelperServiceI
                 }
 
             } catch (Exception e) {
-                throw new RuntimeException("Could not retrieve Room RoomService for " + e);
+                throw convertServiceExceptionsToUI(e);
             }
         }
 
@@ -482,12 +501,12 @@ public class AdminRegistrationViewHelperServiceImpl extends KSViewHelperServiceI
 
         try {
             // persist the request object in the service
-            regRequest = AdminRegResourceLoader.getCourseRegistrationService().createRegistrationRequest(
-                    LprServiceConstants.LPRTRANS_REGISTRATION_TYPE_KEY, regRequest, createContextInfo());
+            String regRequestId = AdminRegResourceLoader.getCourseRegistrationService().createRegistrationRequest(
+                    LprServiceConstants.LPRTRANS_REGISTRATION_TYPE_KEY, regRequest, createContextInfo()).getId();
 
             // submit the request to the registration engine.
             return CourseRegistrationAndScheduleOfClassesUtil.getCourseRegistrationService().submitRegistrationRequest(
-                    regRequest.getId(), createContextInfo()).getId();
+                    regRequestId, createContextInfo()).getId();
 
         } catch (Exception e) {
             convertServiceExceptionsToUI(e);
@@ -531,8 +550,7 @@ public class AdminRegistrationViewHelperServiceImpl extends KSViewHelperServiceI
             return new ArrayList<String>(); // cannot do search on an invalid term code
         }
 
-        courseCode = courseCode.toUpperCase(); // force toUpper
-        return AdminRegClientCache.retrieveCourseCodes(term.getId(), courseCode);
+        return AdminRegClientCache.retrieveCourseCodes(term.getId(), courseCode.toUpperCase());
     }
 
     /**
@@ -563,23 +581,6 @@ public class AdminRegistrationViewHelperServiceImpl extends KSViewHelperServiceI
         }
 
         return course.getTitle();
-    }
-
-    @Override
-    public void validateCourseEdit(AdminRegistrationForm form) {
-        for (RegistrationCourse editCourse : form.getCoursesInEdit()) {
-            if (editCourse.getCredits() == null || editCourse.getCredits().isEmpty()) {
-                form.getEditingIssues().add(AdminRegistrationUtil.getMessageForKey(AdminRegConstants.ADMIN_REG_MSG_ERROR_CREDITS_REQUIRED, editCourse.getCode(), editCourse.getSection()));
-            }
-            if (editCourse.getEffectiveDate() == null) {
-                form.getEditingIssues().add(AdminRegistrationUtil.getMessageForKey(AdminRegConstants.ADMIN_REG_MSG_ERROR_EFFECTIVE_DATE_REQUIRED, null, null));
-            }
-
-            if (editCourse.getGradingOptionId() == null || editCourse.getGradingOptionId().isEmpty()) {
-                form.getEditingIssues().add(AdminRegistrationUtil.getMessageForKey(AdminRegConstants.ADMIN_REG_MSG_ERROR_REG_OPTIONS_REQUIRED, null, null));
-
-            }
-        }
     }
 
 }
