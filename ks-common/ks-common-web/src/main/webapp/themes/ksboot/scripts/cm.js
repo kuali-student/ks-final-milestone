@@ -626,7 +626,7 @@ function compareCourseCode(value, element) {
             isValid = false;
         } else {
             for (var i = 0; len = data.resultData.length, i < len; i++) {
-                if (data.resultData[i].courseCode == value) {
+                if (data.resultData[i].courseCode.toUpperCase() == value.toUpperCase()) {
                     isValid = true;
                     jQuery( "input[name='courseId']" ).val(data.resultData[i].courseId);
                     jQuery( "input[name='courseId']" ).removeAttr('disabled');
@@ -652,7 +652,7 @@ function validateProposalId(value, element) {
             isValid = false;
         } else {
             for (var i = 0; len = data.resultData.length, i < len; i++) {
-                if (data.resultData[i].name == value) {
+                if (data.resultData[i].name.toUpperCase() == value.toUpperCase()) {
                     isValid = true;
                     jQuery( "input[name='proposalId']" ).val(data.resultData[i].id);
                     jQuery( "input[name='proposalId']" ).removeAttr('disabled');
