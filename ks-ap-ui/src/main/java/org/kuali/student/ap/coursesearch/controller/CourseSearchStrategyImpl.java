@@ -50,9 +50,7 @@ import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultRowInfo;
 import org.kuali.student.r2.core.search.infc.SearchResult;
-import org.kuali.student.r2.core.search.infc.SearchResultCell;
 import org.kuali.student.r2.core.search.infc.SearchResultRow;
-import org.kuali.student.r2.lum.clu.service.CluService;
 import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -327,7 +325,7 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
 
         // Get course information for each course from the course id
         SearchRequestInfo request = new SearchRequestInfo(CourseSearchConstants.KSAP_COURSE_SEARCH_COURSE_INFO_BY_ID_KEY);
-        request.addParam(CourseSearchConstants.SearchParameters.CLU_ID_LIST, courseIDs);
+        request.addParam(CourseSearchConstants.SearchParameters.VERSION_IND_ID_LIST, courseIDs);
         SearchResult result;
         try {
             result = KsapFrameworkServiceLocator.getSearchService().search(
@@ -350,8 +348,9 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
             for (String courseId : courseIDs) {
                 for (SearchResultRow row : result.getRows()) {
                     String id = KsapHelperUtil.getCellValue(row, CourseSearchConstants.SearchResultColumns.CLU_ID);
+                    String versionId = KsapHelperUtil.getCellValue(row, CourseSearchConstants.SearchResultColumns.COURSE_VERSION_INDEPENDENT_ID);
                     // Course information is filled in based on the original result order
-                    if (id.equals(courseId)) {
+                    if (versionId.equals(courseId)) {
                         CourseSearchItemImpl course = new CourseSearchItemImpl();
                         course.setCourseId(id);
                         course.setSearchExceeded(form.isLimitExceeded());
@@ -931,12 +930,12 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
         try {
             List<String> offeredCourseIds = new ArrayList<String>();
             for(Term term : terms){
-                SearchRequestInfo request = new SearchRequestInfo(CourseSearchConstants.KSAP_COURSE_SEARCH_COURSEIDS_BY_TERM_SCHEDULED_KEY);
+                SearchRequestInfo request = new SearchRequestInfo(CourseSearchConstants.KSAP_COURSE_SEARCH_COURSEVERSIONIDS_BY_TERM_SCHEDULED_KEY);
                 request.addParam(CourseSearchConstants.SearchParameters.ATP_ID, term.getId());
                 List<SearchResultRowInfo> rows = KsapFrameworkServiceLocator.getSearchService().search(request,
                         KsapFrameworkServiceLocator.getContext().getContextInfo()).getRows();
                 for(SearchResultRowInfo row : rows){
-                    offeredCourseIds.add(KsapHelperUtil.getCellValue(row, CourseSearchConstants.SearchResultColumns.CLU_ID));
+                    offeredCourseIds.add(KsapHelperUtil.getCellValue(row, CourseSearchConstants.SearchResultColumns.COURSE_VERSION_INDEPENDENT_ID));
                 }
             }
 
@@ -979,12 +978,12 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
         Map<String,List<String>> offeredCourseIdMap= new HashMap<String,List<String>>();
         try {
             for(Term term : terms){
-                SearchRequestInfo request = new SearchRequestInfo(CourseSearchConstants.KSAP_COURSE_SEARCH_COURSEIDS_BY_TERM_SCHEDULED_KEY);
+                SearchRequestInfo request = new SearchRequestInfo(CourseSearchConstants.KSAP_COURSE_SEARCH_COURSEVERSIONIDS_BY_TERM_SCHEDULED_KEY);
                 request.addParam(CourseSearchConstants.SearchParameters.ATP_ID, term.getId());
                 List<SearchResultRowInfo> rows = KsapFrameworkServiceLocator.getSearchService().search(request,
                         KsapFrameworkServiceLocator.getContext().getContextInfo()).getRows();
                 for(SearchResultRowInfo row : rows){
-                    String id = KsapHelperUtil.getCellValue(row, CourseSearchConstants.SearchResultColumns.CLU_ID);
+                    String id = KsapHelperUtil.getCellValue(row, CourseSearchConstants.SearchResultColumns.COURSE_VERSION_INDEPENDENT_ID);
                     if(offeredCourseIdMap.containsKey(id)){
                         List<String> offeredTermIds = offeredCourseIdMap.get(id);
                         offeredTermIds.add(term.getId());
@@ -1008,7 +1007,7 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
         }
 
         for(CourseSearchItem course : courses){
-            ((CourseSearchItemImpl)course).setScheduledTerms(offeredCourseIdMap.get(course.getCourseId()));
+            ((CourseSearchItemImpl)course).setScheduledTerms(offeredCourseIdMap.get(course.getVersionIndependentId()));
         }
 
         LOG.debug("End of method loadScheduledTerms of CourseSearchController: {}",

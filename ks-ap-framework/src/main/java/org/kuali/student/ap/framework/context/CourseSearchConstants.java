@@ -65,7 +65,7 @@ public class CourseSearchConstants {
 
     // Custom Search Keys
     public static final String KSAP_COURSE_SEARCH_KEY = "kuali.search.type.ksap.coursesearch";
-    public static final String KSAP_COURSE_SEARCH_COURSEIDS_BY_TERM_SCHEDULED_KEY = "kuali.search.type.ksap.coursesearch.cluid.by.term.scheduled";
+    public static final String KSAP_COURSE_SEARCH_COURSEVERSIONIDS_BY_TERM_SCHEDULED_KEY = "kuali.search.type.ksap.coursesearch.versionid.by.term.scheduled";
     public static final String KSAP_COURSE_SEARCH_COURSEIDS_BY_TERM_OFFERED_KEY = "kuali.search.type.ksap.coursesearch.cluid.by.term.offered";
     public static final String KSAP_COURSE_SEARCH_OFFERED_REG_GROUP_IDS_BY_CO_ID_KEY = "kuali.search.type.ksap.offered.reg.group.ids.by.co.id";
     public static final String KSAP_COURSE_SEARCH_OFFERED_REG_GROUP_IDS_BY_AO_ID_KEY ="kuali.search.type.ksap.offered.reg.group.ids.by.ao.id";
@@ -117,7 +117,7 @@ public class CourseSearchConstants {
         public static final String COURSE_OFFERING_ID = "courseOfferingId";
         public static final String ACTIVITY_OFFERING_ID = "activityOfferingId";
         public static final String REG_GROUP_ID = "registrationGroupId";
-        public static final String CLU_ID_LIST = "cluIdList";
+        public static final String VERSION_IND_ID_LIST = "versionIdList";
         public static final String DIVISION = "division";
         public static final String CODE = "code";
         public static final String LEVEL = "level";
@@ -125,6 +125,8 @@ public class CourseSearchConstants {
         public static final String ATP_ID_LIST = "atpIdList";
         public static final String COURSE_SUBJECT_PREFIX = "courseSubjectPrefix";  //e.g.  ENGL
         public static final String COURSE_SUBJECT_SUFFIX = "courseSubjectSuffix"; //e.g. 101
+        public static final String START_DATE = "startDate";
+        public static final String END_DATE = "endDate";
     }
 
     /**

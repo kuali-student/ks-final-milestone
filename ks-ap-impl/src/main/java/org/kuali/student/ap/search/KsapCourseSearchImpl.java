@@ -17,6 +17,7 @@ package org.kuali.student.ap.search;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.student.ap.framework.context.CourseSearchConstants;
+import org.kuali.student.ap.framework.util.KsapHelperUtil;
 import org.kuali.student.r2.common.class1.search.SearchServiceAbstractHardwiredImpl;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
@@ -313,7 +314,7 @@ public class KsapCourseSearchImpl extends SearchServiceAbstractHardwiredImpl {
         SearchRequestHelper requestHelper = new SearchRequestHelper(searchRequestInfo);
         SearchResultInfo resultInfo = new SearchResultInfo();
 
-        List<String> cluIdList = requestHelper.getParamAsList(CourseSearchConstants.SearchParameters.CLU_ID_LIST);
+        List<String> versionIdList = requestHelper.getParamAsList(CourseSearchConstants.SearchParameters.VERSION_IND_ID_LIST);
 
         String queryStr =
                 "SELECT  clu.ID, ident.LNG_NAME, trim( ident.SUFX_CD ), trim( ident.DIVISION ), trim( ident.LVL )," +
@@ -324,7 +325,7 @@ public class KsapCourseSearchImpl extends SearchServiceAbstractHardwiredImpl {
                         "    KSLU_CLU_RSLT res," +
                         "    KSLU_RSLT_OPT opt," +
                         "    KSLU_CLURES_JN_RESOPT jn" +
-                        "    WHERE clu.id IN :"+CourseSearchConstants.SearchParameters.CLU_ID_LIST +
+                        "    WHERE clu.VER_IND_ID IN :"+CourseSearchConstants.SearchParameters.VERSION_IND_ID_LIST +
                         "    AND clu.offic_clu_id = ident.id" +
                         "    AND clu.id = res.clu_id" +
                         "    AND res.id = jn.clu_res_id" +
@@ -333,7 +334,7 @@ public class KsapCourseSearchImpl extends SearchServiceAbstractHardwiredImpl {
 
         // Set params and execute search
         Query query = getEntityManager().createNativeQuery(queryStr);
-        query.setParameter(CourseSearchConstants.SearchParameters.CLU_ID_LIST, cluIdList);
+        query.setParameter(CourseSearchConstants.SearchParameters.VERSION_IND_ID_LIST, versionIdList);
         List<Object[]> results = query.getResultList();
 
         // Compile results
@@ -369,7 +370,7 @@ public class KsapCourseSearchImpl extends SearchServiceAbstractHardwiredImpl {
                 .DIVISION);
 
         String queryStr =
-                "SELECT  clu.ID"+
+                "SELECT  clu.VER_IND_ID"+
                 "    FROM" +
                 "    KSLU_CLU clu," +
                 "    KSLU_CLU_IDENT ident" +
@@ -381,6 +382,7 @@ public class KsapCourseSearchImpl extends SearchServiceAbstractHardwiredImpl {
         // Set params and execute search
         Query query = getEntityManager().createNativeQuery(queryStr);
         query.setParameter(CourseSearchConstants.SearchParameters.DIVISION, division);
+        query.setParameter(CourseSearchConstants.SearchParameters.END_DATE, KsapHelperUtil.getCurrentDate());
         List<Object> results = query.getResultList();
 
         // Compile results
@@ -409,7 +411,7 @@ public class KsapCourseSearchImpl extends SearchServiceAbstractHardwiredImpl {
                 .CODE);
 
         String queryStr =
-                "SELECT  clu.ID"+
+                "SELECT  clu.VER_IND_ID"+
                         "    FROM" +
                         "    KSLU_CLU clu," +
                         "    KSLU_CLU_IDENT ident" +
@@ -421,6 +423,8 @@ public class KsapCourseSearchImpl extends SearchServiceAbstractHardwiredImpl {
         // Set params and execute search
         Query query = getEntityManager().createNativeQuery(queryStr);
         query.setParameter(CourseSearchConstants.SearchParameters.CODE, code);
+        query.setParameter(CourseSearchConstants.SearchParameters.END_DATE, KsapHelperUtil.getCurrentDate());
+
         List<Object> results = query.getResultList();
         // Compile results
         for(Object resultRow : results){
@@ -448,7 +452,7 @@ public class KsapCourseSearchImpl extends SearchServiceAbstractHardwiredImpl {
                 .LEVEL);
 
         String queryStr =
-                "SELECT  clu.ID"+
+                "SELECT  clu.VER_IND_ID"+
                         "    FROM" +
                         "    KSLU_CLU clu," +
                         "    KSLU_CLU_IDENT ident" +
@@ -460,6 +464,8 @@ public class KsapCourseSearchImpl extends SearchServiceAbstractHardwiredImpl {
         // Set params and execute search
         Query query = getEntityManager().createNativeQuery(queryStr);
         query.setParameter(CourseSearchConstants.SearchParameters.LEVEL, level);
+        query.setParameter(CourseSearchConstants.SearchParameters.END_DATE, KsapHelperUtil.getCurrentDate());
+
         List<Object> results = query.getResultList();
 
         // Compile results
@@ -488,7 +494,7 @@ public class KsapCourseSearchImpl extends SearchServiceAbstractHardwiredImpl {
                 .CODE);
 
         String queryStr =
-                "SELECT  clu.ID"+
+                "SELECT  clu.VER_IND_ID"+
                         "    FROM" +
                         "    KSLU_CLU clu," +
                         "    KSLU_CLU_IDENT ident" +
@@ -500,6 +506,8 @@ public class KsapCourseSearchImpl extends SearchServiceAbstractHardwiredImpl {
         // Set params and execute search
         Query query = getEntityManager().createNativeQuery(queryStr);
         query.setParameter(CourseSearchConstants.SearchParameters.CODE, code);
+        query.setParameter(CourseSearchConstants.SearchParameters.END_DATE, KsapHelperUtil.getCurrentDate());
+
         List<Object> results = query.getResultList();
 
         // Compile results
@@ -530,7 +538,7 @@ public class KsapCourseSearchImpl extends SearchServiceAbstractHardwiredImpl {
                 .DIVISION);
 
         String queryStr =
-                "SELECT  clu.ID"+
+                "SELECT  clu.VER_IND_ID"+
                         "    FROM" +
                         "    KSLU_CLU clu," +
                         "    KSLU_CLU_IDENT ident" +
@@ -544,6 +552,8 @@ public class KsapCourseSearchImpl extends SearchServiceAbstractHardwiredImpl {
         Query query = getEntityManager().createNativeQuery(queryStr);
         query.setParameter(CourseSearchConstants.SearchParameters.LEVEL, level);
         query.setParameter(CourseSearchConstants.SearchParameters.DIVISION, division);
+        query.setParameter(CourseSearchConstants.SearchParameters.END_DATE, KsapHelperUtil.getCurrentDate());
+
         List<Object> results = query.getResultList();
 
         // Compile results
@@ -574,7 +584,7 @@ public class KsapCourseSearchImpl extends SearchServiceAbstractHardwiredImpl {
                 .DIVISION);
 
         String queryStr =
-                "SELECT  clu.ID"+
+                "SELECT  clu.VER_IND_ID"+
                         "    FROM" +
                         "    KSLU_CLU clu," +
                         "    KSLU_CLU_IDENT ident" +
@@ -588,6 +598,8 @@ public class KsapCourseSearchImpl extends SearchServiceAbstractHardwiredImpl {
         Query query = getEntityManager().createNativeQuery(queryStr);
         query.setParameter(CourseSearchConstants.SearchParameters.CODE, code);
         query.setParameter(CourseSearchConstants.SearchParameters.DIVISION, division);
+        query.setParameter(CourseSearchConstants.SearchParameters.END_DATE, KsapHelperUtil.getCurrentDate());
+
         List<Object> results = query.getResultList();
 
         // Compile results
@@ -617,7 +629,7 @@ public class KsapCourseSearchImpl extends SearchServiceAbstractHardwiredImpl {
         List<String> atpIdList = requestHelper.getParamAsList(CourseSearchConstants.SearchParameters.ATP_ID_LIST);
 
         String queryStr =
-                "SELECT  clu.ID"+
+                "SELECT  clu.VER_IND_ID"+
                         "    FROM" +
                         "    KSLU_CLU clu," +
                         "    KSEN_LUI lui," +
@@ -635,6 +647,8 @@ public class KsapCourseSearchImpl extends SearchServiceAbstractHardwiredImpl {
         Query query = getEntityManager().createNativeQuery(queryStr);
         query.setParameter(CourseSearchConstants.SearchParameters.QUERYTEXT, queryText);
         query.setParameter(CourseSearchConstants.SearchParameters.ATP_ID_LIST, atpIdList);
+        query.setParameter(CourseSearchConstants.SearchParameters.END_DATE, KsapHelperUtil.getCurrentDate());
+
         List<Object> results = query.getResultList();
 
         // Compile results
@@ -663,7 +677,7 @@ public class KsapCourseSearchImpl extends SearchServiceAbstractHardwiredImpl {
         List<String> atpIdList = requestHelper.getParamAsList(CourseSearchConstants.SearchParameters.ATP_ID_LIST);
 
         String queryStr =
-                "SELECT  clu.ID"+
+                "SELECT  clu.VER_IND_ID"+
                         "    FROM" +
                         "    KSLU_CLU clu," +
                         "    KSEN_LUI lui," +
@@ -682,6 +696,8 @@ public class KsapCourseSearchImpl extends SearchServiceAbstractHardwiredImpl {
         Query query = getEntityManager().createNativeQuery(queryStr);
         query.setParameter(CourseSearchConstants.SearchParameters.QUERYTEXT, queryText);
         query.setParameter(CourseSearchConstants.SearchParameters.ATP_ID_LIST, atpIdList);
+        query.setParameter(CourseSearchConstants.SearchParameters.END_DATE, KsapHelperUtil.getCurrentDate());
+
         List<Object> results = query.getResultList();
 
         // Compile results
@@ -710,7 +726,7 @@ public class KsapCourseSearchImpl extends SearchServiceAbstractHardwiredImpl {
                 .QUERYTEXT);
 
         String queryStr =
-                "SELECT  clu.ID"+
+                "SELECT  clu.VER_IND_ID"+
                         "    FROM" +
                         "    KSLU_CLU clu," +
                         "    KSLU_RICH_TEXT_T cluDescr," +
@@ -725,6 +741,8 @@ public class KsapCourseSearchImpl extends SearchServiceAbstractHardwiredImpl {
         // Set params and execute search
         Query query = getEntityManager().createNativeQuery(queryStr);
         query.setParameter(CourseSearchConstants.SearchParameters.QUERYTEXT, queryText);
+        query.setParameter(CourseSearchConstants.SearchParameters.END_DATE, KsapHelperUtil.getCurrentDate());
+
         List<Object> results = query.getResultList();
 
         // Compile results
@@ -753,7 +771,7 @@ public class KsapCourseSearchImpl extends SearchServiceAbstractHardwiredImpl {
                 .QUERYTEXT);
 
         String queryStr =
-                "SELECT  clu.ID"+
+                "SELECT  clu.VER_IND_ID"+
                         "    FROM" +
                         "    KSLU_CLU clu," +
                         "    KSLU_CLU_IDENT ident" +
@@ -766,6 +784,8 @@ public class KsapCourseSearchImpl extends SearchServiceAbstractHardwiredImpl {
         // Set params and execute search
         Query query = getEntityManager().createNativeQuery(queryStr);
         query.setParameter(CourseSearchConstants.SearchParameters.QUERYTEXT, queryText);
+        query.setParameter(CourseSearchConstants.SearchParameters.END_DATE, KsapHelperUtil.getCurrentDate());
+
         List<Object> results = query.getResultList();
 
         // Compile results
@@ -974,8 +994,11 @@ public class KsapCourseSearchImpl extends SearchServiceAbstractHardwiredImpl {
      * @return Segemnt of sql string for general course search restrictions
      */
     private String getCourseSearchRestrictions(){
-        String restrictions = "    AND clu.ID NOT IN (SELECT att.OWNER FROM KSLU_CLU_ATTR att where att.ATTR_NAME='course.catalogOmit_ind' and att.ATTR_VALUE='Y')" +
-                "    AND clu.ST = 'Active' AND clu.LUTYPE_ID='kuali.lu.type.CreditCourse'";
+        String restrictions =
+                "    AND clu.ID NOT IN (SELECT att.OWNER FROM KSLU_CLU_ATTR att where att.ATTR_NAME='course.catalogOmit_ind' and att.ATTR_VALUE='Y')" +
+                "    AND (clu.ST = 'Active' OR clu.ST = 'Superseded' OR clu.ST = 'Retired')" +
+                "    AND (clu.EXPIR_DT >= :endDate OR clu.EXPIR_DT IS NULL)" +
+                "    AND clu.LUTYPE_ID='kuali.lu.type.CreditCourse'";
 
         return restrictions;
     }

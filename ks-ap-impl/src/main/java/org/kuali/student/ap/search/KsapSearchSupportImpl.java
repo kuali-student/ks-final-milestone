@@ -37,7 +37,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.persistence.Query;
-import javax.persistence.TypedQuery;
 import java.util.List;
 
 public class KsapSearchSupportImpl extends SearchServiceAbstractHardwiredImpl {
@@ -79,7 +78,7 @@ public class KsapSearchSupportImpl extends SearchServiceAbstractHardwiredImpl {
 
         // Create search that retrieves a list of clu ids based on whether the clu entry has a CO offered in a term
         info = new TypeInfo();
-        info.setKey(CourseSearchConstants.KSAP_COURSE_SEARCH_COURSEIDS_BY_TERM_SCHEDULED_KEY);
+        info.setKey(CourseSearchConstants.KSAP_COURSE_SEARCH_COURSEVERSIONIDS_BY_TERM_SCHEDULED_KEY);
         info.setName("Course Id Search By COs Scheduled In Term");
         info.setDescr(new RichTextHelper().fromPlain("Search for course ids based on if COs for course are offered in a term"));
         info.setEffectiveDate(DateFormatters.MONTH_DAY_YEAR_DATE_FORMATTER.parse(DEFAULT_EFFECTIVE_DATE));
@@ -144,7 +143,7 @@ public class KsapSearchSupportImpl extends SearchServiceAbstractHardwiredImpl {
             MissingParameterException,
             OperationFailedException {
 
-        if (CourseSearchConstants.KSAP_COURSE_SEARCH_COURSEIDS_BY_TERM_SCHEDULED_KEY.equals(searchTypeKey)) {
+        if (CourseSearchConstants.KSAP_COURSE_SEARCH_COURSEVERSIONIDS_BY_TERM_SCHEDULED_KEY.equals(searchTypeKey)) {
             return KSAP_SEARCH_COURSEIDS_BY_TERM_SCHEDULED;
         } else if (CourseSearchConstants.KSAP_COURSE_SEARCH_COURSEIDS_BY_TERM_OFFERED_KEY.equals(searchTypeKey)) {
             return KSAP_SEARCH_COURSEIDS_BY_TERM_OFFERED;
@@ -170,7 +169,7 @@ public class KsapSearchSupportImpl extends SearchServiceAbstractHardwiredImpl {
         SearchResultInfo resultInfo;
 
         if (StringUtils.equals(searchRequestInfo.getSearchKey(), KSAP_SEARCH_COURSEIDS_BY_TERM_SCHEDULED.getKey())) {
-            resultInfo =  searchForCluIdsScheduledForTerms(searchRequestInfo, contextInfo);
+            resultInfo =  searchForClusScheduledForTerms(searchRequestInfo, contextInfo);
         }else if (StringUtils.equals(searchRequestInfo.getSearchKey(), KSAP_SEARCH_COURSEIDS_BY_TERM_OFFERED.getKey())) {
             resultInfo =  searchForCluIdsOfferedForTerms(searchRequestInfo, contextInfo);
         }else if (StringUtils.equals(searchRequestInfo.getSearchKey(), KSAP_SEARCH_GENERAL_EDUCATION_VALUES.getKey())) {
@@ -191,11 +190,11 @@ public class KsapSearchSupportImpl extends SearchServiceAbstractHardwiredImpl {
 
     /**
      * Routed To from search method based on search type key pasted in the search request.
-     * Used to create and execute for search type key KSAP_COURSE_SEARCH_COURSEIDS_BY_TERM_SCHEDULED_KEY.
+     * Used to create and execute for search type key KSAP_COURSE_SEARCH_COURSEVERSIONIDS_BY_TERM_SCHEDULED_KEY.
      *
      * @see #search(org.kuali.student.r2.core.search.dto.SearchRequestInfo, org.kuali.student.r2.common.dto.ContextInfo)
      */
-    protected SearchResultInfo searchForCluIdsScheduledForTerms(SearchRequestInfo searchRequestInfo, ContextInfo contextInfo)
+    protected SearchResultInfo searchForClusScheduledForTerms(SearchRequestInfo searchRequestInfo, ContextInfo contextInfo)
             throws MissingParameterException, OperationFailedException {
 
         SearchRequestHelper requestHelper = new SearchRequestHelper(searchRequestInfo);
@@ -205,24 +204,26 @@ public class KsapSearchSupportImpl extends SearchServiceAbstractHardwiredImpl {
         // Create sql string
         String queryStr = "SELECT" +
                 "    DISTINCT" +
-                "    lui.cluId";
+                "    clu.VER_IND_ID";
         queryStr = queryStr +
                 "    FROM" +
-                "    LuiEntity lui ";
+                "    KSLU_CLU clu, " +
+                "    KSEN_LUI lui ";
         queryStr = queryStr +
                 "    WHERE" +
-                "    lui.atpId = :atpId " +
-                "    AND lui.luiState = '"+ LuiServiceConstants.LUI_CO_STATE_OFFERED_KEY+"'";
+                "    lui.ATP_ID = :atpId " +
+                "    AND lui.CLU_ID = clu.ID " +
+                "    AND lui.LUI_STATE = '"+ LuiServiceConstants.LUI_CO_STATE_OFFERED_KEY+"'";
 
         // Set params and execute search
-        TypedQuery<Object[]> query = getEntityManager().createQuery(queryStr, Object[].class);
+        Query query = getEntityManager().createNativeQuery(queryStr);
         query.setParameter(CourseSearchConstants.SearchParameters.ATP_ID, searchAtpId);
-        List<Object[]> results = query.getResultList();
+        List<Object> results = query.getResultList();
 
         // Compile results
         for(Object resultRow : results){
             SearchResultRowInfo row = new SearchResultRowInfo();
-            row.addCell(CourseSearchConstants.SearchResultColumns.CLU_ID, (String)resultRow);
+            row.addCell(CourseSearchConstants.SearchResultColumns.COURSE_VERSION_INDEPENDENT_ID, (String)resultRow);
             resultInfo.getRows().add(row);
         }
 
