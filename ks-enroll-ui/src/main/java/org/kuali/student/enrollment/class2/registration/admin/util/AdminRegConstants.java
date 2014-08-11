@@ -66,7 +66,8 @@ public class AdminRegConstants {
     public static final String ADMIN_REG_MSG_INFO_SUCCESSFULLY_WAITLISTED = "info.admin.reg.course.successfully.waitlisted";
     public static final String ADMIN_REG_MSG_INFO_SUCCESSFULLY_UPDATED = "info.admin.reg.course.successfully.updated";
     public static final String ADMIN_REG_MSG_INFO_SUCCESSFULLY_DROPPED = "info.admin.reg.course.successfully.dropped";
-
+    public static final String ADMIN_REG_MSG_ERROR_TERM_SOC_NOT_EXISTS ="error.admin.reg.term.soc.notexits";
+    public static final String ADMIN_REG_MSG_ERROR_TERM_SOC_NOT_PUBLISHED ="error.admin.reg.term.soc.notpublished";
     //sections ids
     public static final String STUDENT_INFO_SECTION = "KS-AdminRegistration-StudentInfo";
 
@@ -82,5 +83,8 @@ public class AdminRegConstants {
 
     //Affiliation Types
     public static final String STUDENT_AFFILIATION_TYPE_CODE= "STDNT";
+
+    //Soc state
+    public static final String PUBLISHED_SOC_STATE_KEY = "kuali.soc.state.published";
 
 }

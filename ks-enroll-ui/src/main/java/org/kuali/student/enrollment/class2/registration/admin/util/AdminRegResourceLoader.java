@@ -8,12 +8,14 @@ import org.kuali.student.core.person.service.PersonService;
 import org.kuali.student.core.person.service.PersonServiceNamespace;
 import org.kuali.student.enrollment.class2.registration.admin.form.RegistrationCourse;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
+import org.kuali.student.enrollment.courseofferingset.service.CourseOfferingSetService;
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestInfo;
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestItemInfo;
 import org.kuali.student.enrollment.courseregistration.service.CourseRegistrationService;
 import org.kuali.student.enrollment.coursewaitlist.service.CourseWaitListService;
 import org.kuali.student.enrollment.lui.service.LuiService;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
+import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
 import org.kuali.student.r2.common.util.constants.CourseRegistrationServiceConstants;
 import org.kuali.student.r2.common.util.constants.CourseWaitListServiceConstants;
 import org.kuali.student.r2.common.util.constants.LprServiceConstants;
@@ -47,6 +49,7 @@ public class AdminRegResourceLoader {
     private static RoomService roomService;
     private static CourseWaitListService courseWaitListService;
     private static LuiService luiService;
+    private static CourseOfferingSetService socService;
 
     public static PersonService getPersonService() {
         if (personService == null) {
@@ -113,6 +116,15 @@ public class AdminRegResourceLoader {
             luiService = GlobalResourceLoader.getService(new QName(LuiServiceConstants.NAMESPACE, LuiServiceConstants.SERVICE_NAME_LOCAL_PART));
         }
         return luiService;
+    }
+
+
+    public static CourseOfferingSetService getSocService() {
+        if (socService == null) {
+            socService = (CourseOfferingSetService) GlobalResourceLoader.getService(new QName(CourseOfferingSetServiceConstants.NAMESPACE,
+                    CourseOfferingSetServiceConstants.SERVICE_NAME_LOCAL_PART));
+        }
+        return socService;
     }
 
 }

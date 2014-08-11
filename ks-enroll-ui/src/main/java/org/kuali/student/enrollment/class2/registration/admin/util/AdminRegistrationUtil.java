@@ -8,6 +8,7 @@ import org.kuali.student.common.util.security.ContextUtils;
 import org.kuali.student.enrollment.class2.registration.admin.form.RegistrationCourse;
 import org.kuali.student.enrollment.class2.registration.admin.form.RegistrationResult;
 import org.kuali.student.enrollment.class2.registration.admin.form.RegistrationResultItem;
+import org.kuali.student.enrollment.courseofferingset.dto.SocInfo;
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestInfo;
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestItemInfo;
 import org.kuali.student.enrollment.registration.client.service.dto.ConflictCourseResult;
@@ -15,6 +16,7 @@ import org.kuali.student.enrollment.registration.client.service.dto.Registration
 import org.kuali.student.enrollment.registration.client.service.dto.RegistrationValidationResult;
 import org.kuali.student.enrollment.registration.client.service.impl.util.CourseRegistrationAndScheduleOfClassesUtil;
 import org.kuali.student.enrollment.registration.client.service.impl.util.RegistrationValidationResultsUtil;
+import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
@@ -23,6 +25,7 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.infc.Attribute;
 import org.kuali.student.r2.common.infc.ValidationResult;
+import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
 import org.kuali.student.r2.common.util.constants.CourseRegistrationServiceConstants;
 import org.kuali.student.r2.common.util.constants.LprServiceConstants;
 import org.kuali.student.r2.lum.lrc.dto.ResultValueInfo;
@@ -254,5 +257,46 @@ public class AdminRegistrationUtil {
             return true;
         }
         return false;
+    }
+
+    /**
+     * This method retrieve the soc given a term id.
+     *
+     * @param termId   Term Id
+     * @param contextInfo information containing the principalId and locale
+     *                    information about the caller of service operation
+     * @return return the soc if there is one and only one soc with the type kuali.soc.type.main. Return NULL if
+     *         there are no socs, or no main soc, or more than one main soc given a term id.
+     * @throws DoesNotExistException
+     * @throws InvalidParameterException
+     * @throws MissingParameterException
+     * @throws OperationFailedException
+     * @throws PermissionDeniedException
+     */
+    public static SocInfo getMainSocForTermId(String termId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException {
+        int mainSocCount = 0;
+        SocInfo mainSoc = null;
+
+        List<String> socIds = AdminRegResourceLoader.getSocService().getSocIdsByTerm(termId, contextInfo);
+
+        if (socIds!=null && !socIds.isEmpty()) {
+            List<SocInfo> socInfos = AdminRegResourceLoader.getSocService().getSocsByIds(socIds, contextInfo);
+
+            for (SocInfo socInfo : socInfos) {
+                if (socInfo.getTypeKey().equals(CourseOfferingSetServiceConstants.MAIN_SOC_TYPE_KEY)) {
+                    mainSoc = socInfo;
+                    mainSocCount++;
+
+                    //There shouldn't be more than one main SOC of a given term
+                    if (mainSocCount > 1) {
+                        return null;
+                    }
+                }
+            }
+            return mainSoc;
+        }
+
+        return null;
     }
 }

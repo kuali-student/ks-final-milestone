@@ -21,6 +21,7 @@ import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo;
 import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
+import org.kuali.student.enrollment.courseofferingset.dto.SocInfo;
 import org.kuali.student.enrollment.courseregistration.dto.ActivityRegistrationInfo;
 import org.kuali.student.enrollment.courseregistration.dto.CourseRegistrationInfo;
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestInfo;
@@ -106,6 +107,21 @@ public class AdminRegistrationViewHelperServiceImpl extends KSViewHelperServiceI
             TermInfo term = AdminRegClientCache.getTermByCode(termCode);
             if (term == null) {
                 GlobalVariables.getMessageMap().putError(AdminRegConstants.TERM_CODE, AdminRegConstants.ADMIN_REG_MSG_ERROR_INVALID_TERM);
+            } else {
+                // check if SOC state is "published"
+                ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
+
+                SocInfo soc = AdminRegistrationUtil.getMainSocForTermId(term.getId(), contextInfo);
+                if (soc != null) {
+                   if(!soc.getStateKey().equals(AdminRegConstants.PUBLISHED_SOC_STATE_KEY)){
+                       GlobalVariables.getMessageMap().putError(AdminRegConstants.TERM_CODE, AdminRegConstants.ADMIN_REG_MSG_ERROR_TERM_SOC_NOT_PUBLISHED);
+                       return null;
+                   }
+                } else {
+                    GlobalVariables.getMessageMap().putError(AdminRegConstants.TERM_CODE, AdminRegConstants.ADMIN_REG_MSG_ERROR_TERM_SOC_NOT_EXISTS);
+                    return null;
+                }
+
             }
             return term;
         } catch (Exception e) {
