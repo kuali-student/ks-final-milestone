@@ -39,6 +39,7 @@ import org.slf4j.LoggerFactory;
 
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
+import java.util.ArrayList;
 import java.util.List;
 
 public class KsapCourseSearchImpl extends SearchServiceAbstractHardwiredImpl {
@@ -330,11 +331,15 @@ public class KsapCourseSearchImpl extends SearchServiceAbstractHardwiredImpl {
                         "    AND clu.id = res.clu_id" +
                         "    AND res.id = jn.clu_res_id" +
                         "    AND jn.res_opt_id = opt.id" +
-                        "    AND res.TYPE_KEY_ID = 'kuali.resultType.creditCourseResult'";
+                        "    AND res.TYPE_KEY_ID = 'kuali.resultType.creditCourseResult'" +
+                        "    AND clu.EFF_DT <= :startDate" +
+                        getCourseSearchRestrictions();
 
         // Set params and execute search
         Query query = getEntityManager().createNativeQuery(queryStr);
         query.setParameter(CourseSearchConstants.SearchParameters.VERSION_IND_ID_LIST, versionIdList);
+        query.setParameter(CourseSearchConstants.SearchParameters.END_DATE, KsapHelperUtil.getCurrentDate());
+        query.setParameter(CourseSearchConstants.SearchParameters.START_DATE, KsapHelperUtil.getCurrentDate());
         List<Object[]> results = query.getResultList();
 
         // Compile results
@@ -364,7 +369,7 @@ public class KsapCourseSearchImpl extends SearchServiceAbstractHardwiredImpl {
             throws MissingParameterException, OperationFailedException {
 
         SearchRequestHelper requestHelper = new SearchRequestHelper(searchRequestInfo);
-        SearchResultInfo resultInfo = new SearchResultInfo();
+
 
         String division = requestHelper.getParamAsString(CourseSearchConstants.SearchParameters
                 .DIVISION);
@@ -386,11 +391,7 @@ public class KsapCourseSearchImpl extends SearchServiceAbstractHardwiredImpl {
         List<Object> results = query.getResultList();
 
         // Compile results
-        for(Object resultRow : results){
-            SearchResultRowInfo row = new SearchResultRowInfo();
-            row.addCell(CourseSearchConstants.SearchResultColumns.CLU_ID, (String)resultRow);
-            resultInfo.getRows().add(row);
-        }
+        SearchResultInfo resultInfo = compileSearchResults(results);
 
         return resultInfo;
     }
@@ -405,7 +406,6 @@ public class KsapCourseSearchImpl extends SearchServiceAbstractHardwiredImpl {
             throws MissingParameterException, OperationFailedException {
 
         SearchRequestHelper requestHelper = new SearchRequestHelper(searchRequestInfo);
-        SearchResultInfo resultInfo = new SearchResultInfo();
 
         String code = requestHelper.getParamAsString(CourseSearchConstants.SearchParameters
                 .CODE);
@@ -427,11 +427,7 @@ public class KsapCourseSearchImpl extends SearchServiceAbstractHardwiredImpl {
 
         List<Object> results = query.getResultList();
         // Compile results
-        for(Object resultRow : results){
-            SearchResultRowInfo row = new SearchResultRowInfo();
-            row.addCell(CourseSearchConstants.SearchResultColumns.CLU_ID, (String)resultRow);
-            resultInfo.getRows().add(row);
-        }
+        SearchResultInfo resultInfo = compileSearchResults(results);
 
         return resultInfo;
     }
@@ -446,7 +442,6 @@ public class KsapCourseSearchImpl extends SearchServiceAbstractHardwiredImpl {
             throws MissingParameterException, OperationFailedException {
 
         SearchRequestHelper requestHelper = new SearchRequestHelper(searchRequestInfo);
-        SearchResultInfo resultInfo = new SearchResultInfo();
 
         String level = requestHelper.getParamAsString(CourseSearchConstants.SearchParameters
                 .LEVEL);
@@ -469,11 +464,7 @@ public class KsapCourseSearchImpl extends SearchServiceAbstractHardwiredImpl {
         List<Object> results = query.getResultList();
 
         // Compile results
-        for(Object resultRow : results){
-            SearchResultRowInfo row = new SearchResultRowInfo();
-            row.addCell(CourseSearchConstants.SearchResultColumns.CLU_ID, (String)resultRow);
-            resultInfo.getRows().add(row);
-        }
+        SearchResultInfo resultInfo = compileSearchResults(results);
 
         return resultInfo;
     }
@@ -488,7 +479,6 @@ public class KsapCourseSearchImpl extends SearchServiceAbstractHardwiredImpl {
             throws MissingParameterException, OperationFailedException {
 
         SearchRequestHelper requestHelper = new SearchRequestHelper(searchRequestInfo);
-        SearchResultInfo resultInfo = new SearchResultInfo();
 
         String code = requestHelper.getParamAsString(CourseSearchConstants.SearchParameters
                 .CODE);
@@ -511,12 +501,7 @@ public class KsapCourseSearchImpl extends SearchServiceAbstractHardwiredImpl {
         List<Object> results = query.getResultList();
 
         // Compile results
-        for(Object resultRow : results){
-            SearchResultRowInfo row = new SearchResultRowInfo();
-            row.addCell(CourseSearchConstants.SearchResultColumns.CLU_ID, (String)resultRow);
-            resultInfo.getRows().add(row);
-        }
-
+        SearchResultInfo resultInfo = compileSearchResults(results);
         return resultInfo;
     }
 
@@ -530,7 +515,6 @@ public class KsapCourseSearchImpl extends SearchServiceAbstractHardwiredImpl {
             throws MissingParameterException, OperationFailedException {
 
         SearchRequestHelper requestHelper = new SearchRequestHelper(searchRequestInfo);
-        SearchResultInfo resultInfo = new SearchResultInfo();
 
         String level = requestHelper.getParamAsString(CourseSearchConstants.SearchParameters
                 .LEVEL);
@@ -557,11 +541,7 @@ public class KsapCourseSearchImpl extends SearchServiceAbstractHardwiredImpl {
         List<Object> results = query.getResultList();
 
         // Compile results
-        for(Object resultRow : results){
-            SearchResultRowInfo row = new SearchResultRowInfo();
-            row.addCell(CourseSearchConstants.SearchResultColumns.CLU_ID, (String)resultRow);
-            resultInfo.getRows().add(row);
-        }
+        SearchResultInfo resultInfo = compileSearchResults(results);
 
         return resultInfo;
     }
@@ -576,7 +556,7 @@ public class KsapCourseSearchImpl extends SearchServiceAbstractHardwiredImpl {
             throws MissingParameterException, OperationFailedException {
 
         SearchRequestHelper requestHelper = new SearchRequestHelper(searchRequestInfo);
-        SearchResultInfo resultInfo = new SearchResultInfo();
+
 
         String code = requestHelper.getParamAsString(CourseSearchConstants.SearchParameters
                 .CODE);
@@ -603,15 +583,11 @@ public class KsapCourseSearchImpl extends SearchServiceAbstractHardwiredImpl {
         List<Object> results = query.getResultList();
 
         // Compile results
-        for(Object resultRow : results){
-            SearchResultRowInfo row = new SearchResultRowInfo();
-            row.addCell(CourseSearchConstants.SearchResultColumns.CLU_ID, (String)resultRow);
-            resultInfo.getRows().add(row);
-        }
-
+        SearchResultInfo resultInfo = compileSearchResults(results);
 
         return resultInfo;
     }
+
 
     /**
      * Routed To from search method based on search type key pasted in the search request.
@@ -623,7 +599,6 @@ public class KsapCourseSearchImpl extends SearchServiceAbstractHardwiredImpl {
             throws MissingParameterException, OperationFailedException {
 
         SearchRequestHelper requestHelper = new SearchRequestHelper(searchRequestInfo);
-        SearchResultInfo resultInfo = new SearchResultInfo();
 
         String queryText = requestHelper.getParamAsString(CourseSearchConstants.SearchParameters.QUERYTEXT);
         List<String> atpIdList = requestHelper.getParamAsList(CourseSearchConstants.SearchParameters.ATP_ID_LIST);
@@ -652,11 +627,7 @@ public class KsapCourseSearchImpl extends SearchServiceAbstractHardwiredImpl {
         List<Object> results = query.getResultList();
 
         // Compile results
-        for(Object resultRow : results){
-            SearchResultRowInfo row = new SearchResultRowInfo();
-            row.addCell(CourseSearchConstants.SearchResultColumns.CLU_ID, (String)resultRow);
-            resultInfo.getRows().add(row);
-        }
+        SearchResultInfo resultInfo = compileSearchResults(results);
 
         return resultInfo;
     }
@@ -671,8 +642,6 @@ public class KsapCourseSearchImpl extends SearchServiceAbstractHardwiredImpl {
             throws MissingParameterException, OperationFailedException {
 
         SearchRequestHelper requestHelper = new SearchRequestHelper(searchRequestInfo);
-        SearchResultInfo resultInfo = new SearchResultInfo();
-
         String queryText = requestHelper.getParamAsString(CourseSearchConstants.SearchParameters.QUERYTEXT);
         List<String> atpIdList = requestHelper.getParamAsList(CourseSearchConstants.SearchParameters.ATP_ID_LIST);
 
@@ -701,11 +670,7 @@ public class KsapCourseSearchImpl extends SearchServiceAbstractHardwiredImpl {
         List<Object> results = query.getResultList();
 
         // Compile results
-        for(Object resultRow : results){
-            SearchResultRowInfo row = new SearchResultRowInfo();
-            row.addCell(CourseSearchConstants.SearchResultColumns.CLU_ID, (String)resultRow);
-            resultInfo.getRows().add(row);
-        }
+        SearchResultInfo resultInfo = compileSearchResults(results);
 
         return resultInfo;
     }
@@ -720,7 +685,6 @@ public class KsapCourseSearchImpl extends SearchServiceAbstractHardwiredImpl {
             throws MissingParameterException, OperationFailedException {
 
         SearchRequestHelper requestHelper = new SearchRequestHelper(searchRequestInfo);
-        SearchResultInfo resultInfo = new SearchResultInfo();
 
         String queryText = requestHelper.getParamAsString(CourseSearchConstants.SearchParameters
                 .QUERYTEXT);
@@ -746,11 +710,7 @@ public class KsapCourseSearchImpl extends SearchServiceAbstractHardwiredImpl {
         List<Object> results = query.getResultList();
 
         // Compile results
-        for(Object resultRow : results){
-            SearchResultRowInfo row = new SearchResultRowInfo();
-            row.addCell(CourseSearchConstants.SearchResultColumns.CLU_ID, (String)resultRow);
-            resultInfo.getRows().add(row);
-        }
+        SearchResultInfo resultInfo = compileSearchResults(results);
 
         return resultInfo;
     }
@@ -765,7 +725,6 @@ public class KsapCourseSearchImpl extends SearchServiceAbstractHardwiredImpl {
             throws MissingParameterException, OperationFailedException {
 
         SearchRequestHelper requestHelper = new SearchRequestHelper(searchRequestInfo);
-        SearchResultInfo resultInfo = new SearchResultInfo();
 
         String queryText = requestHelper.getParamAsString(CourseSearchConstants.SearchParameters
                 .QUERYTEXT);
@@ -789,11 +748,7 @@ public class KsapCourseSearchImpl extends SearchServiceAbstractHardwiredImpl {
         List<Object> results = query.getResultList();
 
         // Compile results
-        for(Object resultRow : results){
-            SearchResultRowInfo row = new SearchResultRowInfo();
-            row.addCell(CourseSearchConstants.SearchResultColumns.CLU_ID, (String)resultRow);
-            resultInfo.getRows().add(row);
-        }
+        SearchResultInfo resultInfo = compileSearchResults(results);
 
         return resultInfo;
     }
@@ -1001,5 +956,25 @@ public class KsapCourseSearchImpl extends SearchServiceAbstractHardwiredImpl {
                 "    AND clu.LUTYPE_ID='kuali.lu.type.CreditCourse'";
 
         return restrictions;
+    }
+
+    /**
+     * Compiles a list of results from a search into a single result info
+     *
+     * @param results - A list of search results to compile
+     * @return Compiled Search Results
+     */
+    private SearchResultInfo compileSearchResults(List<Object> results){
+        SearchResultInfo resultInfo = new SearchResultInfo();
+        List<String> resultList = new ArrayList<String>();
+        for(Object resultRow : results){
+            SearchResultRowInfo row = new SearchResultRowInfo();
+            if(!resultList.contains((String)resultRow)){
+                row.addCell(CourseSearchConstants.SearchResultColumns.COURSE_VERSION_INDEPENDENT_ID, (String)resultRow);
+                resultInfo.getRows().add(row);
+                resultList.add((String)resultRow);
+            }
+        }
+        return resultInfo;
     }
 }

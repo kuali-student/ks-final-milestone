@@ -281,7 +281,7 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
                 SearchResult results = KsapFrameworkServiceLocator.getSearchService()
                         .search(request, KsapFrameworkServiceLocator.getContext().getContextInfo());
                 for (SearchResultRow row : results.getRows()){
-                    if (seen.add(id = KsapHelperUtil.getCellValue(row, CourseSearchConstants.SearchResultColumns.CLU_ID)))
+                    if (seen.add(id = KsapHelperUtil.getCellValue(row, CourseSearchConstants.SearchResultColumns.COURSE_VERSION_INDEPENDENT_ID)))
                         hits.add(new Hit(id));
                 }
             } catch (MissingParameterException e) {
