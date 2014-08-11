@@ -1,13 +1,3 @@
-var deletedObjects = [];
-
-function initComments() {
-    deletedObjects = [];
-}
-
-jQuery(function () {
-    initComments();
-});
-
 function getRowContainer(elem) {
     var id = jQuery(elem).attr('id');
     var index = id.substring(id.lastIndexOf('_line') + '_line'.length, id.length);
@@ -31,67 +21,6 @@ function toggleDeleteElements(elem) {
     });
 }
 
-function addDeletedObject(elem){
-    var rowContainer = getRowContainer(elem);
-    var rowId = jQuery(rowContainer).attr('id');
-    var deletedObject = {};
-
-    jQuery(rowContainer).find('.ks-comment-textArea-field').each(function () {
-        jQuery(this).find(":input").each(function () {
-            var textId = jQuery(this).attr('id');
-            var textValue = jQuery(this).val();
-//            deletedObject["key"] = textId;
-            deletedObject["textField"] = {"id": textId, "value": textValue};
-        });
-    });
-    jQuery(rowContainer).find('.ks-comment-metaData-container').each(function () {
-        var metadata = [];
-        jQuery(this).find('.ks-comment-metaData-item').each(function () {
-            var keyValuePair = {};
-            keyValuePair["key"] = jQuery(this).attr('id');
-            var value = jQuery(this).val();
-            if (value === '') {
-                value = jQuery(this).text();
-            }
-            keyValuePair["value"] = value;
-            metadata.push(keyValuePair);
-        });
-        deletedObject['metadata'] = metadata;
-    });
-    deletedObjects.push({"key": rowId, "deletedObject": deletedObject});
-}
-
-function restoreDeletedObject(){
-    var rowContainer = getRowContainer(elem);
-    var itemToRemove = getDeletedComment(rowContainer.attr('id'));
-
-    jQuery(rowContainer).find('.ks-comment-textArea-field').each(function () {
-        jQuery(this).find(":input").each(function () {
-            var textId = jQuery(this).attr('id');
-            var textValue = itemToRemove.deletedObject.textField.filter(function (){
-                return this.id = textId;
-            });
-            jQuery(this).val(textValue);
-        });
-    });
-    jQuery(rowContainer).find('.ks-comment-metaData-container').each(function () {
-        jQuery(this).find('.ks-comment-metaData-item').each(function () {
-            var key = jQuery(this).attr('id');
-            var value = itemToRemove.deletedObject.metadata.filter(function (){
-                return this.key = key;
-            })
-            jQuery(this).text(value);
-        });
-    });
-    deletedObjects.splice(jQuery.inArray(itemtoRemove, deletedObjects), 1);
-}
-
-function getDeletedComment(key) {
-    deletedObjects.filter(function () {
-        return this.key === key;
-    });
-}
-
 function deleteComment(baseUrl, controllerUrl, elem) {
     if (console) {
         console.log("deleteComment()... dirtyFieldCount = " + dirtyFormState.dirtyFieldCount);
@@ -102,7 +31,7 @@ function deleteComment(baseUrl, controllerUrl, elem) {
     var formData = jQuery('#kualiForm').serialize() + '&' + jQuery.param(data);
     var targetUrl = baseUrl + "/kr-krad" + controllerUrl + "?methodToCall=ajaxDeleteComment";
 
-    jsonPost(targetUrl, formData, function(data){
+    jsonPost(baseUrl, targetUrl, formData, jQuery(elem).attr("id"), function(data){
         jQuery(rowContainer).remove();
         dirtyFormState.dirtyFieldCount--;
         jQuery("#Comment_list_Header").find("span").text("Comments(" + data.count + ")");
@@ -129,7 +58,7 @@ function updateComment(baseUrl, controllerUrl, elem) {
     var formData = jQuery('#kualiForm').serialize() + '&' + jQuery.param(submitData);
     var targetUrl = baseUrl + "/kr-krad" + controllerUrl + "?methodToCall=ajaxUpdateComment";
 
-    jsonPost(targetUrl, formData, function(data){
+    jsonPost(baseUrl, targetUrl, formData, jQuery(elem).attr("id"), function(data){
         toggleCommentButtons(elem);
         jQuery("#KS-CommentField_UI_ID_line" + index ).text(data.commentWrapper.commentTextUI);
         jQuery("#lastEditor-container-id_line" + index).show();
@@ -143,12 +72,21 @@ function updateComment(baseUrl, controllerUrl, elem) {
     });
 }
 
-function jsonPost(targetUrl, formData, callbackFunction){
+function jsonPost(baseUrl, targetUrl, formData, spinnerElementId, callbackFunction){
+    var spinner = jQuery('<div id="spiner_' + spinnerElementId + '" class="blockUI blockMsg blockElement"><img src="' + baseUrl + '/themes/ksboot/images/loader.gif" alt="Loading..."> Loading...</div>');
     jQuery.ajax({
         dataType: "json",
         url: targetUrl,
         type: "POST",
         data: formData,
+        beforeSend: function () {
+            var spinnerElement = jQuery('#' + spinnerElementId);
+            spinner.attr('style', 'position: absolute; top: ' + spinnerElement.offset().top + 'px; left:' + spinnerElement.offset().left + 'px !important; width: ' +  spinnerElement.outerWidth() + 'px;');
+            jQuery(spinnerElement).append(spinner).show();
+        },
+        complete: function () {
+            jQuery('#spiner_' + spinnerElementId).remove();
+        },
         success: function (data, textStatus, jqXHR) {
             if(data.hasErrors){
                 processErrors(data, 'KS-collection-rowId_line'+index, baseUrl);
@@ -161,6 +99,7 @@ function jsonPost(targetUrl, formData, callbackFunction){
         }
     });
 }
+
 
 function processException(request, parentId, baseUrl){
     // global errors on form
