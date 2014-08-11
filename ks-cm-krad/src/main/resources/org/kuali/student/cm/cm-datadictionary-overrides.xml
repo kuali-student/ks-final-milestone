@@ -103,25 +103,7 @@
         </property>
     </bean>
 
-    <bean id="DDValueReplacer-SimpleConstraint-States-ISR" parent="FieldOverrideForValueReplace" abstract="true">
-        <property name="propertyName" value="simpleConstraint.states"/>
-        <property name="value">
-            <list>
-                <value>I,S,R</value>
-            </list>
-        </property>
-    </bean>
-
-    <bean id="DDValueReplacer-SimpleConstraint-NotRequired" parent="FieldOverrideForValueReplace" abstract="true">
-        <property name="propertyName" value="simpleConstraint.required"/>
-        <property name="value">
-            <list>
-                <value>false</value>
-            </list>
-        </property>
-    </bean>
-
-    <bean id="DDValueReplacer-RequiredConstraint-ConstraintStateOverrides" parent="FieldOverrideForValueReplace" abstract="true">
+    <bean id="DDValueReplacer-transcriptTitle-RequiredConstraint-ConstraintStateOverrides" parent="FieldOverrideForValueReplace" abstract="true">
         <property name="propertyName" value="simpleConstraint.constraintStateOverrides"/>
         <property name="value">
         <list>
@@ -136,24 +118,52 @@
         </property>
     </bean>
 
+    <bean id="DDValueReplacer-courseNumberSuffix-RequiredConstraint-ConstraintStateOverrides" parent="FieldOverrideForValueReplace" abstract="true">
+        <property name="propertyName" value="simpleConstraint.constraintStateOverrides"/>
+        <property name="value">
+            <list>
+                <bean parent="CourseInfo.courseNumberSuffix-RequiredConstraint-Base">
+                    <property name="states">
+                        <list>
+                            <value>P+</value>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
     <bean id="CourseInfo.transcriptTitle-worfklowstate-override" parent="DataDictionaryBeanOverride">
         <property name="beanName" value="CourseInfo.transcriptTitle"/>
         <property name="fieldOverrides">
             <list>
-                    <bean parent="DDValueReplacer-SimpleConstraint-States-ISR" />
-                    <bean parent="DDValueReplacer-SimpleConstraint-NotRequired" />
-                    <bean parent="DDValueReplacer-RequiredConstraint-ConstraintStateOverrides" />
+                    <!-- KRAD bug activates required indicator('*') ignoring the constraintStateOverrides -->
+                    <bean parent="DDValueReplacer-transcriptTitle-RequiredConstraint-ConstraintStateOverrides" />
             </list>
         </property>
     </bean>
 
     <bean id="CourseInfo.courseNumberSuffix-worfklowstate-override" parent="DataDictionaryBeanOverride">
-        <property name="beanName" value="CourseInfo.transcriptTitle"/>
+        <property name="beanName" value="CourseInfo.courseNumberSuffix"/>
         <property name="fieldOverrides">
             <list>
-                <bean parent="DDValueReplacer-SimpleConstraint-States-ISR" />
-                <bean parent="DDValueReplacer-SimpleConstraint-NotRequired" />
-                <bean parent="DDValueReplacer-RequiredConstraint-ConstraintStateOverrides" />
+                <!-- KRAD bug activates required indicator('*') ignoring the constraintStateOverrides -->
+                <bean parent="DDValueReplacer-courseNumberSuffix-RequiredConstraint-ConstraintStateOverrides" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="DD-Generic-ApproveOnly-SimpleConstraint" parent="SimpleConstraint">
+        <!-- KRAD bug activates required indicator('*') ignoring the constraintStateOverrides -->
+        <property name = "constraintStateOverrides">
+            <list>
+                <bean parent="RequiredConstraint">
+                    <property name="states">
+                        <list>
+                            <value>P+</value>
+                        </list>
+                    </property>
+                </bean>
             </list>
         </property>
     </bean>

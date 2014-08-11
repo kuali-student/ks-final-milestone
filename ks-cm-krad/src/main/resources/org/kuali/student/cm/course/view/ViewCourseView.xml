@@ -225,7 +225,7 @@
           p:propertyName="simpleConstraint"
           p:condition="@{#form.viewId eq T(org.kuali.student.cm.common.util.CurriculumManagementConstants$CourseViewPageIds).CREATE_COURSE_VIEW}">
         <property name="replacement">
-            <bean parent="CM-RequiredConstraints-Approve"/>
+            <bean parent="DD-Generic-ApproveOnly-SimpleConstraint"/>
         </property>
     </bean>
 
