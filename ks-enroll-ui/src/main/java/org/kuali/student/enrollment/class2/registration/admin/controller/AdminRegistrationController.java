@@ -198,19 +198,12 @@ public class AdminRegistrationController extends UifControllerBase {
         } else {
             form.setTerm(term);
         }
+        long start = System.currentTimeMillis();
 
-        List<RegistrationCourse> registrationCourses = getViewHelper(form).getCourseRegForStudentAndTerm(form.getPerson().getId(), form.getTerm().getId());
-        List<RegistrationCourse> waitlistedCourses = getViewHelper(form).getCourseWaitListForStudentAndTerm(form.getPerson().getId(), form.getTerm().getId());
-        //TODO: KSENROLL-13558 :work around for incorrect Data
-        List<Principal> principals = AdminRegResourceLoader.getIdentityService().getPrincipalsByEntityId(form.getPerson().getId().toUpperCase());
-        for (Principal principalID : principals) {
-            registrationCourses.addAll(getViewHelper(form).getCourseRegForStudentAndTerm(principalID.getPrincipalId(), form.getTerm().getId()));
-            waitlistedCourses.addAll(getViewHelper(form).getCourseWaitListForStudentAndTerm(principalID.getPrincipalId(), form.getTerm().getId()));
-        }
-        //end workaround
+        form.setRegisteredCourses(getViewHelper(form).getCourseRegForStudentAndTerm(form.getPerson().getId(), form.getTerm().getId()));
+        form.setWaitlistedCourses(getViewHelper(form).getCourseWaitListForStudentAndTerm(form.getPerson().getId(), form.getTerm().getId()));
 
-        form.setRegisteredCourses(registrationCourses);
-        form.setWaitlistedCourses(waitlistedCourses);
+        printTime(form.getMethodToCall(), start);
 
         form.getTermIssues().addAll(getViewHelper(form).checkStudentEligibilityForTermLocal(form.getPerson().getId().toUpperCase(), term.getId()));
 

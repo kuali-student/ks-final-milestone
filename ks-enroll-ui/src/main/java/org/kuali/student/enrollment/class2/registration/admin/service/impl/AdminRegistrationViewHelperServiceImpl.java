@@ -1,6 +1,7 @@
 package org.kuali.student.enrollment.class2.registration.admin.service.impl;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.rice.kim.api.identity.principal.Principal;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.student.common.collection.KSCollectionUtils;
 import org.kuali.student.common.uif.service.impl.KSViewHelperServiceImpl;
@@ -170,6 +171,13 @@ public class AdminRegistrationViewHelperServiceImpl extends KSViewHelperServiceI
             List<CourseRegistrationInfo> courseRegistrationInfos = AdminRegResourceLoader.getCourseRegistrationService().getCourseRegistrationsByStudentAndTerm(
                     studentId, termCode, createContextInfo());
 
+            //TODO: KSENROLL-13558 :work around for incorrect Data
+            List<Principal> principals = AdminRegResourceLoader.getIdentityService().getPrincipalsByEntityId(studentId.toUpperCase());
+            for (Principal principal : principals) {
+                courseRegistrationInfos.addAll(AdminRegResourceLoader.getCourseRegistrationService().getCourseRegistrationsByStudentAndTerm(principal.getPrincipalId(), termCode, createContextInfo()));
+
+            }
+
             for (CourseRegistrationInfo courseRegInfo : courseRegistrationInfos) {
                 RegistrationCourse registeredCourse = createRegistrationCourse(courseRegInfo);
                 //retrieves ActivityRegistrations for the existing RegisteredCourse
@@ -194,6 +202,13 @@ public class AdminRegistrationViewHelperServiceImpl extends KSViewHelperServiceI
             //Using the student Id and term info to retrieve the existing waitlisted courses for that student
             List<CourseRegistrationInfo> courseWaitListInfos = AdminRegResourceLoader.getCourseWaitlistService().getCourseWaitListRegistrationsByStudentAndTerm(
                     studentId, termCode, createContextInfo());
+
+            //TODO: KSENROLL-13558 :work around for incorrect Data
+            List<Principal> principals = AdminRegResourceLoader.getIdentityService().getPrincipalsByEntityId(studentId.toUpperCase());
+            for (Principal principal : principals) {
+                courseWaitListInfos.addAll(AdminRegResourceLoader.getCourseWaitlistService().getCourseWaitListRegistrationsByStudentAndTerm(
+                        principal.getPrincipalId(), termCode, createContextInfo()));
+            }
 
             for (CourseRegistrationInfo courseWaitListInfo : courseWaitListInfos) {
                 RegistrationCourse waitListCourse = createRegistrationCourse(courseWaitListInfo);
