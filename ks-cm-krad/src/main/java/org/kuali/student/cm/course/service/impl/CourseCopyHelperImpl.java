@@ -55,9 +55,7 @@ public class CourseCopyHelperImpl implements CourseCopyHelper {
 
     private List<String> ignoreProperties;
 
-    public CourseCopyHelperImpl(){
-
-    }
+    public CourseCopyHelperImpl() {}
 
     /**
      * This method populates all the data from source to target excluding the properties
@@ -73,7 +71,7 @@ public class CourseCopyHelperImpl implements CourseCopyHelper {
         Object[] propertiesToSkip = (Object[]) getIgnoreProperties().toArray();
         String[] stringArray = Arrays.copyOf(propertiesToSkip, propertiesToSkip.length, String[].class);
 
-        BeanUtils.copyProperties(source,target,stringArray);
+        BeanUtils.copyProperties(source, target, stringArray);
 
         target.setCourseTitle("Copy of " + source.getCourseTitle());
 
@@ -194,13 +192,15 @@ public class CourseCopyHelperImpl implements CourseCopyHelper {
                     }
 
                     TermEditor te = pe.getTerm();
-                    te.setId(null);
-                    te.setVersionNumber(null);
+                    if (te != null) {
+                        te.setId(null);
+                        te.setVersionNumber(null);
 
-                    for (TermParameterEditor parameter : te.getEditorParameters()) {
-                        parameter.setId(null);
-                        parameter.setVersionNumber(null);
-                        parameter.setTermId(null);
+                        for (TermParameterEditor parameter : te.getEditorParameters()) {
+                            parameter.setId(null);
+                            parameter.setVersionNumber(null);
+                            parameter.setTermId(null);
+                        }
                     }
                 }
             }
@@ -214,5 +214,4 @@ public class CourseCopyHelperImpl implements CourseCopyHelper {
     public void setIgnoreProperties(List<String> ignoreProperties) {
         this.ignoreProperties = ignoreProperties;
     }
-
 }

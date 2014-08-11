@@ -321,7 +321,6 @@ public class CourseController extends CourseRuleEditorController {
 
         //  Replace the UI Wrapper with the one we saved above.
         ((CourseInfoWrapper) viewHelper.getDataObject()).setUiHelper(uiHelper);
-
         return getUIFModelAndView(form);
     }
 

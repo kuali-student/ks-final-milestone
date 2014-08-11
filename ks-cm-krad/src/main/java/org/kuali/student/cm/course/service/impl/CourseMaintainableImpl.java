@@ -1896,7 +1896,6 @@ public class CourseMaintainableImpl extends RuleEditorMaintainableImpl implement
         courseInfoWrapper.getFormats().addAll(courseInfoWrapper.getCourseInfo().getFormats());
 
         initializeFormat(courseInfoWrapper);
-
     }
 
     protected void populatePassFailOnDTO() {
@@ -2128,10 +2127,15 @@ public class CourseMaintainableImpl extends RuleEditorMaintainableImpl implement
 
     }
 
-    public void populateCourseWrapperData(CourseInfoWrapper courseWrapper,CourseInfo course, boolean isCourseView) throws Exception {
+    /**
+     * Populates the wrapper objects used on the create course proposal and course view pages.
+     */
+    public void populateCourseWrapperData(CourseInfoWrapper courseWrapper, CourseInfo course, boolean isCourseView) throws Exception {
 
+        /*
+         * Curriculum Oversight
+         */
         courseWrapper.getUnitsContentOwner().clear();
-
         for (String orgId : course.getUnitsContentOwner()) {
             CourseCreateUnitsContentOwner orgWrapper = new CourseCreateUnitsContentOwner();
             orgWrapper.setOrgId(orgId);
@@ -2139,31 +2143,36 @@ public class CourseMaintainableImpl extends RuleEditorMaintainableImpl implement
             courseWrapper.getUnitsContentOwner().add(orgWrapper);
         }
 
+        /*
+         * Instructors
+         */
         courseWrapper.getInstructorWrappers().clear();
-
         for (CluInstructorInfo instructorInfo : course.getInstructors()) {
             List<CluInstructorInfoWrapper> cluInstructorInfoWrapperList = getInstructorsById(instructorInfo.getPersonId());
             CluInstructorInfoWrapper cluInstructorInfoWrapper = KSCollectionUtils.getRequiredZeroElement(cluInstructorInfoWrapperList);
             cluInstructorInfoWrapper.setId(instructorInfo.getId());
             courseWrapper.getInstructorWrappers().add(cluInstructorInfoWrapper);
         }
-
+        //  Add an empty line
         if (courseWrapper.getInstructorWrappers().isEmpty()) {
             courseWrapper.getInstructorWrappers().add(new CluInstructorInfoWrapper());
         }
 
+        /*
+         * Administering Organizations
+         */
         courseWrapper.getAdministeringOrganizations().clear();
-
         for (String unitDeployment : course.getUnitsDeployment()) {
             OrgInfo org = getOrganizationService().getOrg(unitDeployment, createContextInfo());
             OrganizationInfoWrapper organizationInfoWrapper = new OrganizationInfoWrapper(org);
             courseWrapper.getAdministeringOrganizations().add(organizationInfoWrapper);
         }
-
+        //  Add an empty line
         if (courseWrapper.getAdministeringOrganizations().isEmpty()) {
             courseWrapper.getAdministeringOrganizations().add(new OrganizationInfoWrapper());
         }
 
+        //  Omit authors and collaborators for course view
         if (!isCourseView) {
             populateCollaborators();
             if (courseWrapper.getSupportingDocs().isEmpty()) {
@@ -2177,16 +2186,7 @@ public class CourseMaintainableImpl extends RuleEditorMaintainableImpl implement
         populateOutComesOnWrapper();
         populateFormatOnWrapper();
         populateJointCourseOnWrapper();
-
         populateLearningObjectives();
-
-//        updateReview(false, isCourseView);
-
-        // Initialize Author & Collaborator
-//        if (courseWrapper.getCollaboratorWrappers().isEmpty()) {
-//            courseWrapper.getCollaboratorWrappers().add(new CollaboratorWrapper());
-//        }
-
         populateRequisities(courseWrapper,course.getId());
     }
 
@@ -2202,7 +2202,7 @@ public class CourseMaintainableImpl extends RuleEditorMaintainableImpl implement
         CourseInfo sourceCourse = getCourseService().getCourse(sourceCourseId, createContextInfo());
         CourseInfo targetCourse = new CourseInfo();
 
-        getCourseCopyHelper().copyCourse(sourceCourse,targetCourse);
+        getCourseCopyHelper().copyCourse(sourceCourse, targetCourse);
 
         /**
          * Populate the source course wrapper first sothat we can create target from here.
@@ -2229,7 +2229,6 @@ public class CourseMaintainableImpl extends RuleEditorMaintainableImpl implement
         initializeOutcome(targetCourseWrapper);
 
         return targetCourseWrapper;
-
     }
 
     /**

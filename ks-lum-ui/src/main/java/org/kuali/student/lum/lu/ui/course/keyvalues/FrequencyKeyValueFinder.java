@@ -27,13 +27,8 @@ import org.kuali.student.r2.core.constants.AtpServiceConstants;
 import org.kuali.student.r2.lum.util.constants.CourseServiceConstants;
 
 /**
- * 
- * This is the helper class for CourseView
- * 
- * @author OpenCollab/rSmart KRAD CM Conversion Alliance!
- * 
+ * Translates unit type keys to words for dropdowns.
  */
-
 public class FrequencyKeyValueFinder extends UifKeyValuesFinderBase {
 
     public static final String PER_DAY_FREQUENCY = "per day";
@@ -48,5 +43,4 @@ public class FrequencyKeyValueFinder extends UifKeyValuesFinderBase {
         labels.add(new ConcreteKeyValue(AtpServiceConstants.DURATION_MONTH_TYPE_KEY, PER_MONTH_FREQUENCY));
         return labels;
     }
-    
 }
