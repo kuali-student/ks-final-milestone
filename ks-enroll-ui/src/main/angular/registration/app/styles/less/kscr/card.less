@@ -12,11 +12,20 @@
 .kscr-Card-title {
   color: @cardTextColor; //#666666;
   font-weight: bold;
+  .util-Grid;
 
   // Alert state, used in waitlist notification
   &-alert {
     font-weight: bold;
   }
+}
+
+// Course has a conflict, show a warning icon
+.kscr-Card-conflict-icon {
+  .warning-icon;
+  background-position: 0.5rem 0;
+  height: 1.6rem;
+  width: 2.3rem;
 }
 
 // Primary text within a card (e.g. course title & description)

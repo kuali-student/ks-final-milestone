@@ -230,6 +230,23 @@ angular.module('regCartApp')
             };
 
             /*
+             Parses the course conflicts into user-friendly text
+             */
+            $scope.parseConflicts = function(conflicts) {
+                var message = 'Conflicts';
+                if (angular.isArray(conflicts) && conflicts.length > 0) {
+                    message += ': ';
+                    for (var i=0; i<conflicts.length; i++) {
+                        if (i > 0) {
+                            message += ', ';
+                        }
+                        message += conflicts[i];
+                    }
+                }
+                return message;
+            };
+
+            /*
              Helper method for applying the updates to a course model
              */
             function applyCourseUpdates(course) {

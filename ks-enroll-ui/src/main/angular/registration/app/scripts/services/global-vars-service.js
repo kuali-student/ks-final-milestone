@@ -5,6 +5,7 @@ angular.module('regCartApp')
     function GlobalVarsService(STATE, STATUS) {
 
         var userId;
+        var conflictMap = {};
         var courseIndexes = {};
         var courseIndexPointer = 1;
 
@@ -14,6 +15,16 @@ angular.module('regCartApp')
 
         this.setUserId = function (value) {
             userId = value;
+        };
+
+        this.getConflictMap = function () {
+            return conflictMap;
+        };
+
+        this.setConflictMap = function(value) {
+            if (!angular.equals(value, conflictMap)) {
+                conflictMap = value;
+            }
         };
 
         // In this method we pass in a state and it returns a status
@@ -61,5 +72,18 @@ angular.module('regCartApp')
 
             return index;
         };
+
+        /*
+        Updates an array of offerings with any conflicts for each one
+         */
+        this.updateConflicts = function(courseList) {
+            var conflictMap = this.getConflictMap();
+            for (var i=0; i<courseList.length; i++) {
+                var course = courseList[i];
+                if (!angular.equals(course.conflicts, conflictMap[course.regGroupId])) {
+                    course.conflicts = conflictMap[course.regGroupId];
+                }
+            }
+        }
 
     }]);

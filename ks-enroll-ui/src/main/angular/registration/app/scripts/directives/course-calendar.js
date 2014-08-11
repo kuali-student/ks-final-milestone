@@ -2,11 +2,14 @@
 
 angular.module('regCartApp')
     .service('CourseCalendarDataParser', ['DAY_CONSTANTS', 'GlobalVarsService', function(DAY_CONSTANTS, GlobalVarsService) {
+        var conflictMap;
 
         /*
          Returns formatted data for display in the course calendar
          */
         this.buildCalendar = function(registered, waitlisted, cart) {
+            conflictMap = {};
+
             // First, we split the data up by days
             var dayMap = initDayMap();
 
@@ -26,7 +29,14 @@ angular.module('regCartApp')
             }
 
             // Finally, convert all of the day data to the calendar format
-            return convertMapToCalendar(dayMap);
+            var calendar = convertMapToCalendar(dayMap);
+
+            GlobalVarsService.setConflictMap(conflictMap);
+            GlobalVarsService.updateConflicts(registered);
+            GlobalVarsService.updateConflicts(waitlisted);
+            GlobalVarsService.updateConflicts(cart);
+
+            return calendar;
         };
 
         /*
@@ -137,7 +147,7 @@ angular.module('regCartApp')
              same day.
              */
             if (endTime < startTime) {
-                endTime += 1440;
+                endTime += 1440; // 24 hours
             }
 
             var course = {
@@ -226,7 +236,7 @@ angular.module('regCartApp')
          in this day. If it does, add a conflict for both courses.
          */
         function updateCoursesWithConflictData(courses) {
-            // Initialize the lanes with an initial lane.
+            // Initialize the lanes with an initial lane, and initialize the conflict map
             var lanes = [[]],
                 laneMap = {};
 
@@ -240,6 +250,11 @@ angular.module('regCartApp')
                     var conflicting = false;
                     angular.forEach(lane, function(slottedCourse) {
                         if (coursesConflict(course, slottedCourse)) {
+
+                            // add both courses to the conflict map
+                            addConflictToMap(course, slottedCourse);
+                            addConflictToMap(slottedCourse, course);
+
                             conflicting = true;
 
                             // Make sure both the course & the conflicting course know about the courses they conflict with.
@@ -338,6 +353,20 @@ angular.module('regCartApp')
          */
         function getCourseIndex(courseDetails) {
             return GlobalVarsService.getCourseIndex(courseDetails);
+        }
+
+        /*
+         Add the indicated course to the conflict map (indexed by regGroupId)
+         */
+        function addConflictToMap(course, conflict) {
+            var regGroupId = course.details.regGroupId;
+            var conflictOffering = conflict.details.courseCode + ' (' + conflict.details.regGroupCode + ')';
+            if (!angular.isArray(conflictMap[regGroupId])) {
+                conflictMap[regGroupId] = [];
+            }
+            if (conflictMap[regGroupId].indexOf(conflictOffering) === -1) {
+                conflictMap[regGroupId].push(conflictOffering);
+            }
         }
     }]);
 

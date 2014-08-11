@@ -19,9 +19,10 @@
 
                 <!--Course Header Section-->
                 <div class="kscr-Card-heading">
-                    <div>
+                    <div class=".util-Grid">
                         <span class="kscr-Card-title" id="{{config.prefix2}}course_code_{{course.courseCode}}_{{course.regGroupCode}}">
                             <strong>{{course.courseCode}} ({{course.regGroupCode}})</strong>
+                            <span ng-if="course.conflicts" class="kscr-Card-conflict-icon" title="{{parseConflicts(course.conflicts)}}"></span>
                             <i ng-show="type === courseTypes.waitlisted" class="glyphicon glyphicon-time kscr-Waitlisted-clockIcon"></i>
                         </span>
                         <span class="kscr-Card-badge-wrap" ng-show="showBadge(course)">
