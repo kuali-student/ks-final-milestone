@@ -77,7 +77,7 @@
 
     <param name="ks.ap.search.division.parse.allowspace">true</param>
 
-    <param name="ks.ap.TextHelper.resourceBundleNames" override="true">org.kuali.student.ap.bundles.POCResourceBundleUI,org.kuali.student.ap.bundles.HelpDefinitions,org.kuali.student.ap.bundles.CourseSectionDetailsUI,org.kuali.student.ap.bundles.BookmarkUI</param>
+    <param name="ks.ap.TextHelper.resourceBundleNames" override="true">org.kuali.student.ap.bundles.POCResourceBundleUI,org.kuali.student.ap.bundles.CourseSectionDetailsUI,org.kuali.student.ap.bundles.BookmarkUI</param>
 
     <param name="ks.ap.current.date.override" override="true">02/01/2014</param>
 
