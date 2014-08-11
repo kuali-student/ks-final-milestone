@@ -106,7 +106,11 @@
 }
 
 
-// Course lanes
+// Course lane container
+.kscr-CourseCalendar-day-lane-wrap {
+}
+
+// Main lane element
 .kscr-CourseCalendar-day-lane {
     position: relative;
 
@@ -315,6 +319,13 @@
             margin-right: 0;
             text-align: center;
             width: auto;
+        }
+        &-lane-wrap {
+            height: 100%;
+            left: 0;
+            position: absolute;
+            top: 0;
+            width: 100%;
         }
         &-lane {
             .util-Grid-cell;

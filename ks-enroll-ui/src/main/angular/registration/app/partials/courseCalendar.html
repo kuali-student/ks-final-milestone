@@ -47,23 +47,25 @@
                              ng-repeat="time in times | filter:timeFilter"></div>
                     </div>
 
-                    <div course-calendar-lane class="kscr-CourseCalendar-day-lane">
-                        <course-calendar-item ng-repeat="course in day.courses | filter:courseFilter"
-                                              id="course_calendar_course_{{course.courseCode}}" title="{{course.courseCode}}"
-                                              class="kscr-CourseCalendar-courseBlock-wrap"
-                                              ng-class="{'kscr-CourseCalendar-courseBlock-wrap--selected' : selectedCourse.index === course.index,
-                                                         'kscr-CourseCalendar-courseBlock-wrap--conflicting' : course.conflictCount > 0}">
-                            <div class="kscr-CourseCalendar-courseBlock kscr-CourseCalendar-courseBlock--{{course.index}}"
-                                 ng-class="{'kscr-CourseCalendar-courseBlock--registered' : course.type === 'REG',
-                                            'kscr-CourseCalendar-courseBlock--waitlisted' : course.type === 'WAIT',
-                                            'kscr-CourseCalendar-courseBlock--inCart' : course.type === 'CART'}">
-                                <span class="kscr-CourseCalendar-courseBlock-label kscr-CourseCalendar-courseBlock-label--truncated"
-                                      ng-pluralize count="course.conflictCount" when="{'0': course.courseCode,
-                                                                                       '1': course.courseCode.substring(0, 1) + '...',
-                                                                                       'other': course.courseCode.substring(0, 1)}"></span>
-                                <span class="kscr-CourseCalendar-courseBlock-label kscr-CourseCalendar-courseBlock-label--normal">{{course.courseCode}}</span>
-                            </div>
-                        </course-calendar-item>
+                    <div class="kscr-CourseCalendar-day-lane-wrap">
+                        <div course-calendar-lane class="kscr-CourseCalendar-day-lane">
+                            <course-calendar-item ng-repeat="course in day.courses | filter:courseFilter"
+                                                  id="course_calendar_course_{{course.courseCode}}" title="{{course.courseCode}}"
+                                                  class="kscr-CourseCalendar-courseBlock-wrap"
+                                                  ng-class="{'kscr-CourseCalendar-courseBlock-wrap--selected' : selectedCourse.index === course.index,
+                                                             'kscr-CourseCalendar-courseBlock-wrap--conflicting' : course.conflictCount > 0}">
+                                <div class="kscr-CourseCalendar-courseBlock kscr-CourseCalendar-courseBlock--{{course.index}}"
+                                     ng-class="{'kscr-CourseCalendar-courseBlock--registered' : course.type === 'REG',
+                                                'kscr-CourseCalendar-courseBlock--waitlisted' : course.type === 'WAIT',
+                                                'kscr-CourseCalendar-courseBlock--inCart' : course.type === 'CART'}">
+                                    <span class="kscr-CourseCalendar-courseBlock-label kscr-CourseCalendar-courseBlock-label--truncated"
+                                          ng-pluralize count="course.conflictCount" when="{'0': course.courseCode,
+                                                                                           '1': course.courseCode.substring(0, 1) + '...',
+                                                                                           'other': course.courseCode.substring(0, 1)}"></span>
+                                    <span class="kscr-CourseCalendar-courseBlock-label kscr-CourseCalendar-courseBlock-label--normal">{{course.courseCode}}</span>
+                                </div>
+                            </course-calendar-item>
+                        </div>
                     </div>
 
                 </div>
