@@ -284,21 +284,7 @@
         .requisites-icon();
       }
     }
-
-    // mid format styling
-    @media screen and (max-width: @midFormatMax) {
-      .kscr-SearchDetails-activityOfferings .kscr-Search-results-table {
-        display: none;
-      }
-    }
-
-    @media screen and (max-width: @wideFormatMin) {
-      .kscr-SearchDetails-activityOfferings .kscr-Search-results-list {
-        display: block;
-      }
-    }
 }
-
 
 // Small-format styles (Mobile)
 @media screen and (max-width: @smallFormatMax) {
@@ -330,4 +316,15 @@
             .util-sticky--disabled();
         }
     }
+}
+
+/*
+ *  Other breakpoints:
+ */
+
+// below this breakpoint, hide the table view for course details
+@media screen and (max-width: @courseDetailsTabbedMax) {
+  .kscr-SearchDetails-activityOfferings .kscr-Search-results-table {
+    display: none;
+  }
 }

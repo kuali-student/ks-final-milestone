@@ -120,8 +120,8 @@
   }
 }
 
-/* Hide in wide format */
-@media screen and (min-width: @wideFormatMin) {
+// above this breakpoint, hide the tabbed view
+@media screen and (min-width: @courseDetailsTableMin) {
   .kscr-Search-details-list {
     display: none;
   }
