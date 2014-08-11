@@ -128,7 +128,7 @@
                         <search-column name="Location" field="location" order="5"></search-column>
                         <search-column name="Seats Open" field="seatsOpen" order="6"></search-column>
                         <search-column name="Additional Info" field="additionalInfo" sort-field="false" optional="{{!additionalInfo}}" order="7"></search-column>
-                        <search-list search-results="singleRegFormatted" search-columns="searchColumns" default-field="formatted.aoId" display-limit="999" last="true"></search-list>
+                        <search-list search-results="singleRegFormatted" search-columns="searchColumns" default-field="aoId" display-limit="999" last="true"></search-list>
                     </search-results>
                 </div>
             </div>
@@ -161,7 +161,7 @@
                         <search-column name="Additional Info" field="additionalInfo" sort-field="false" optional="{{!additionalInfo}}" order="6"></search-column>
                         <search-column name="Select" checkbox="true" sort-field="false" order="7"></search-column>
                         <search-list search-results="aoType.formattedOfferings" search-columns='searchColumns' on-click="toggleAO"
-                                     default-field="formatted.aoId" display-limit="999" prefix="{{aoType.activityOfferingTypeName}}_"
+                                     default-field="aoId" display-limit="999" prefix="{{aoType.activityOfferingTypeName}}_"
                                      last="$last"></search-list>
                     </search-results>
                 </div>
