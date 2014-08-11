@@ -18,6 +18,7 @@ package org.kuali.student.cm.course.service.impl;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.time.DateFormatUtils;
 import org.joda.time.DateTime;
 import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
@@ -157,6 +158,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -1502,7 +1504,14 @@ public class CourseMaintainableImpl extends RuleEditorMaintainableImpl implement
 
         // Set derived course fields before saving/updating
         courseInfoWrapper.setCourseInfo(calculateCourseDerivedFields(courseInfoWrapper.getCourseInfo()));
-        courseInfoWrapper.setLastUpdated(DateFormatters.SIMPLE_TIMESTAMP_FORMATTER.format(new DateTime()));
+        if (StringUtils.isNotBlank(courseInfoWrapper.getProposalInfo().getId())){
+            Date updateTime = courseInfoWrapper.getProposalInfo().getMeta().getUpdateTime();
+            if (updateTime != null){
+                courseInfoWrapper.setLastUpdated(DateFormatUtils.format(updateTime, DateFormatters.SIMPLE_TIMESTAMP_FORMATTER.format(updateTime)));
+            }
+        }else{
+            courseInfoWrapper.setLastUpdated(DateFormatters.SIMPLE_TIMESTAMP_FORMATTER.format(new DateTime()));
+        }
 
         courseInfoWrapper.getCourseInfo().getUnitsContentOwner().clear();
         for (CourseCreateUnitsContentOwner wrapper : courseInfoWrapper.getUnitsContentOwner()) {
