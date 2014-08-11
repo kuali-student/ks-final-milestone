@@ -1,15 +1,24 @@
+/*
+ * Copyright 2014 The Kuali Foundation Licensed under the
+ * Educational Community License, Version 2.0 (the "License"); you may
+ * not use this file except in compliance with the License. You may
+ * obtain a copy of the License at
+ *
+ * http://www.osedu.org/licenses/ECL-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an "AS IS"
+ * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing
+ * permissions and limitations under the License.
+ */
+
 package org.kuali.student.ap.framework.context;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Pattern;
 
-/**
- * Created by IntelliJ IDEA.
- * User: Kamal
- * Date: 11/4/11
- * Time: 10:22 AM
- */
 public class CourseSearchConstants {
 
 
@@ -54,25 +63,6 @@ public class CourseSearchConstants {
     public static final String COURSE_SEARCH_DIVISION_SPACEALLOWED = "ks.ap.search.division.parse.allowspace";
     public static final String COURSE_SEARCH_SCALE_CREDIT_DEGREE = "kuali.result.scale.credit.degree";
 
-    // Search Keys
-    public static final String COURSE_SEARCH_TYPE_DESCRIPTION = "ksap.lu.search.description";
-    public static final String COURSE_SEARCH_TYPE_CO_DESCRIPTION = "ksap.lu.search.offering.description";
-    public static final String COURSE_SEARCH_TYPE_TITLE = "ksap.lu.search.title";
-    public static final String COURSE_SEARCH_TYPE_CO_TITLE = "ksap.lu.search.offering.title";
-    public static final String COURSE_SEARCH_TYPE_DIVISION = "ksap.lu.search.division";
-    public static final String COURSE_SEARCH_TYPE_DIVISIONANDCODE = "ksap.lu.search.divisionAndCode";
-    public static final String COURSE_SEARCH_TYPE_DIVISIONANDLEVEL = "ksap.lu.search.divisionAndLevel";
-    public static final String COURSE_SEARCH_TYPE_EXACTCODE = "ksap.lu.search.exactCode";
-    public static final String COURSE_SEARCH_TYPE_EXACTLEVEL = "ksap.lu.search.exactLevel";
-    public static final String COURSE_SEARCH_TYPE_COURSECODE = "ksap.lu.search.courseCode";
-
-    // Search Params
-    public static final String COURSE_SEARCH_PARAM_DIVISION = "division";
-    public static final String COURSE_SEARCH_PARAM_LEVEL = "level";
-    public static final String COURSE_SEARCH_PARAM_CODE = "code";
-    public static final String COURSE_SEARCH_PARAM_TERMLIST = "termList";
-    public static final String COURSE_SEARCH_PARAM_QUERYTEXT = "queryText";
-
     // Custom Search Keys
     public static final String KSAP_COURSE_SEARCH_KEY = "kuali.search.type.ksap.coursesearch";
     public static final String KSAP_COURSE_SEARCH_COURSEIDS_BY_TERM_SCHEDULED_KEY = "kuali.search.type.ksap.coursesearch.cluid.by.term.scheduled";
@@ -83,6 +73,17 @@ public class CourseSearchConstants {
     public static final String KSAP_COURSE_SEARCH_FO_IDS_BY_OFFERED_REG_GROUP_ID_KEY = "kuali.search.type.ksap.fo.ids.by.offered.reg.group.id";
     public static final String KSAP_COURSE_SEARCH_GENERAL_EDUCATION_VALUES_KEY = "kuali.search.type.ksap.coursesearch.general.education";
     public static final String KSAP_COURSE_SEARCH_COURSEIDS_BY_GENERAL_EDUCATION_KEY = "kuali.search.type.ksap.coursesearch.cluid.by.general.education";
+    public static final String KSAP_COURSE_SEARCH_LU_BY_CLU_DESCRIPTION_KEY = "ksap.lu.search.description";
+    public static final String KSAP_COURSE_SEARCH_LU_BY_LUI_DESCRIPTION_KEY = "ksap.lu.search.offering.description";
+    public static final String KSAP_COURSE_SEARCH_LU_BY_CLU_TITLE_KEY = "ksap.lu.search.title";
+    public static final String KSAP_COURSE_SEARCH_LU_BY_LUI_TITLE_KEY = "ksap.lu.search.offering.title";
+    public static final String KSAP_COURSE_SEARCH_LU_BY_DIVISION_KEY = "ksap.lu.search.division";
+    public static final String KSAP_COURSE_SEARCH_LU_BY_DIVISION_AND_CODE_KEY = "ksap.lu.search.divisionAndCode";
+    public static final String KSAP_COURSE_SEARCH_LU_BY_DIVISION_AND_LEVEL_KEY = "ksap.lu.search.divisionAndLevel";
+    public static final String KSAP_COURSE_SEARCH_LU_BY_CODE_KEY = "ksap.lu.search.exactCode";
+    public static final String KSAP_COURSE_SEARCH_LU_BY_LEVEL_KEY = "ksap.lu.search.exactLevel";
+    public static final String KSAP_COURSE_SEARCH_LU_BY_FULL_CODE_KEY = "ksap.lu.search.courseCode";
+    public static final String KSAP_COURSE_SEARCH_COURSE_INFO_BY_ID_KEY = "ksap.course.info";
     public static final String KSAP_COURSE_SEARCH_COURSEID_TITLE_AND_STATUS_BY_SUBJ_CD_KEY = "kuali.search.type.ksap.search.course.title.id.status.by.subj.code";
     public static final String KSAP_COURSE_SEARCH_ALL_DIVISION_CODES_KEY ="kuali.search.type.ksap.search.all.division" +
             ".codes";
@@ -99,6 +100,13 @@ public class CourseSearchConstants {
         public static final String CLU_TITLE = "cluTitle";
         public static final String CLU_STATUS = "cluStatus";
         public static final String DIVISION_CODE = "divisionCode";
+        public static final String COURSE_SUBJECT = "course.subject";
+        public static final String COURSE_NUMBER = "course.number";
+        public static final String COURSE_LEVEL = "course.level";
+        public static final String COURSE_NAME = "course.name";
+        public static final String COURSE_CODE = "course.code";
+        public static final String COURSE_VERSION_INDEPENDENT_ID = "course.versionIndId";
+        public static final String COURSE_CREDITS = "course.credits";
     }
 
     // Custom Search Parameter Keys
@@ -109,6 +117,12 @@ public class CourseSearchConstants {
         public static final String COURSE_OFFERING_ID = "courseOfferingId";
         public static final String ACTIVITY_OFFERING_ID = "activityOfferingId";
         public static final String REG_GROUP_ID = "registrationGroupId";
+        public static final String CLU_ID_LIST = "cluIdList";
+        public static final String DIVISION = "division";
+        public static final String CODE = "code";
+        public static final String LEVEL = "level";
+        public static final String QUERYTEXT = "queryText";
+        public static final String ATP_ID_LIST = "atpIdList";
         public static final String COURSE_SUBJECT_PREFIX = "courseSubjectPrefix";  //e.g.  ENGL
         public static final String COURSE_SUBJECT_SUFFIX = "courseSubjectSuffix"; //e.g. 101
     }

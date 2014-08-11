@@ -280,13 +280,12 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
         String id;
         for (SearchRequestInfo request : requests)
             try {
-                for (SearchResultRow row : KsapFrameworkServiceLocator
-                        .getCluService()
-                        .search(request,
-                                KsapFrameworkServiceLocator.getContext()
-                                        .getContextInfo()).getRows())
-                    if (seen.add(id = KsapHelperUtil.getCellValue(row, "lu.resultColumn.cluId")))
+                SearchResult results = KsapFrameworkServiceLocator.getSearchService()
+                        .search(request, KsapFrameworkServiceLocator.getContext().getContextInfo());
+                for (SearchResultRow row : results.getRows()){
+                    if (seen.add(id = KsapHelperUtil.getCellValue(row, CourseSearchConstants.SearchResultColumns.CLU_ID)))
                         hits.add(new Hit(id));
+                }
             } catch (MissingParameterException e) {
                 throw new IllegalArgumentException(
                         "Invalid course ID or CLU lookup error", e);
@@ -327,11 +326,11 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
         List<CourseSearchItem> listOfCourses = new ArrayList<CourseSearchItem>();
 
         // Get course information for each course from the course id
-        SearchRequestInfo request = new SearchRequestInfo("ksap.course.info");
-        request.addParam("courseIDs", courseIDs);
+        SearchRequestInfo request = new SearchRequestInfo(CourseSearchConstants.KSAP_COURSE_SEARCH_COURSE_INFO_BY_ID_KEY);
+        request.addParam(CourseSearchConstants.SearchParameters.CLU_ID_LIST, courseIDs);
         SearchResult result;
         try {
-            result = KsapFrameworkServiceLocator.getCluService().search(
+            result = KsapFrameworkServiceLocator.getSearchService().search(
                     request,
                     KsapFrameworkServiceLocator.getContext().getContextInfo());
         } catch (MissingParameterException e) {
@@ -350,19 +349,19 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
         if ((result != null) && (!result.getRows().isEmpty())) {
             for (String courseId : courseIDs) {
                 for (SearchResultRow row : result.getRows()) {
-                    String id = KsapHelperUtil.getCellValue(row, "course.id");
+                    String id = KsapHelperUtil.getCellValue(row, CourseSearchConstants.SearchResultColumns.CLU_ID);
                     // Course information is filled in based on the original result order
                     if (id.equals(courseId)) {
                         CourseSearchItemImpl course = new CourseSearchItemImpl();
                         course.setCourseId(id);
                         course.setSearchExceeded(form.isLimitExceeded());
-                        course.setSubject(KsapHelperUtil.getCellValue(row, "course.subject"));
-                        course.setNumber(KsapHelperUtil.getCellValue(row, "course.number"));
-                        course.setLevel(KsapHelperUtil.getCellValue(row, "course.level"));
-                        course.setCourseName(KsapHelperUtil.getCellValue(row, "course.name"));
-                        course.setCode(KsapHelperUtil.getCellValue(row, "course.code"));
-                        course.setVersionIndependentId(KsapHelperUtil.getCellValue(row, "course.versionIndId"));
-                        String cellValue = KsapHelperUtil.getCellValue(row, "course.credits");
+                        course.setSubject(KsapHelperUtil.getCellValue(row, CourseSearchConstants.SearchResultColumns.COURSE_SUBJECT));
+                        course.setNumber(KsapHelperUtil.getCellValue(row, CourseSearchConstants.SearchResultColumns.COURSE_NUMBER));
+                        course.setLevel(KsapHelperUtil.getCellValue(row, CourseSearchConstants.SearchResultColumns.COURSE_LEVEL));
+                        course.setCourseName(KsapHelperUtil.getCellValue(row, CourseSearchConstants.SearchResultColumns.COURSE_NAME));
+                        course.setCode(KsapHelperUtil.getCellValue(row, CourseSearchConstants.SearchResultColumns.COURSE_CODE));
+                        course.setVersionIndependentId(KsapHelperUtil.getCellValue(row, CourseSearchConstants.SearchResultColumns.COURSE_CODE));
+                        String cellValue = KsapHelperUtil.getCellValue(row, CourseSearchConstants.SearchResultColumns.COURSE_CREDITS);
                         Credit credit = getCreditByID(cellValue);
                         if (credit != null) {
                             course.setCreditMin(credit.getMin());
@@ -607,8 +606,8 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
             // Converts "1XX" to "100"
             level = level.substring(0, 1) + "00";
             SearchRequestInfo request = new SearchRequestInfo(
-                    CourseSearchConstants.COURSE_SEARCH_TYPE_EXACTLEVEL);
-            request.addParam(CourseSearchConstants.COURSE_SEARCH_PARAM_LEVEL, level);
+                    CourseSearchConstants.KSAP_COURSE_SEARCH_LU_BY_LEVEL_KEY);
+            request.addParam(CourseSearchConstants.SearchParameters.LEVEL, level);
             searches.add(request);
         }
 
@@ -627,8 +626,8 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
         // Create course code only search
         for (String code : codes) {
             SearchRequestInfo request = new SearchRequestInfo(
-                    CourseSearchConstants.COURSE_SEARCH_TYPE_EXACTCODE);
-            request.addParam(CourseSearchConstants.COURSE_SEARCH_PARAM_CODE, code);
+                    CourseSearchConstants.KSAP_COURSE_SEARCH_LU_BY_CODE_KEY);
+            request.addParam(CourseSearchConstants.SearchParameters.CODE, code);
             searches.add(request);
         }
 
@@ -646,8 +645,8 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
 
         for (String division : divisions) {
             SearchRequestInfo request = new SearchRequestInfo(
-                    CourseSearchConstants.COURSE_SEARCH_TYPE_DIVISION);
-            request.addParam(CourseSearchConstants.COURSE_SEARCH_PARAM_DIVISION, division);
+                    CourseSearchConstants.KSAP_COURSE_SEARCH_LU_BY_DIVISION_KEY);
+            request.addParam(CourseSearchConstants.SearchParameters.DIVISION, division);
             searches.add(request);
         }
 
@@ -675,9 +674,9 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
                 if (seenCodes.contains(code)) continue;
                 seenCodes.add(code);
                 SearchRequestInfo request = new SearchRequestInfo(
-                        CourseSearchConstants.COURSE_SEARCH_TYPE_DIVISIONANDCODE);
-                request.addParam(CourseSearchConstants.COURSE_SEARCH_PARAM_DIVISION, division);
-                request.addParam(CourseSearchConstants.COURSE_SEARCH_PARAM_CODE, code);
+                        CourseSearchConstants.KSAP_COURSE_SEARCH_LU_BY_DIVISION_AND_CODE_KEY);
+                request.addParam(CourseSearchConstants.SearchParameters.DIVISION, division);
+                request.addParam(CourseSearchConstants.SearchParameters.CODE, code);
                 searches.add(request);
             }
         }
@@ -710,9 +709,9 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
                 level = level.substring(0, 1) + "00";
 
                 SearchRequestInfo request = new SearchRequestInfo(
-                        CourseSearchConstants.COURSE_SEARCH_TYPE_DIVISIONANDLEVEL);
-                request.addParam(CourseSearchConstants.COURSE_SEARCH_PARAM_DIVISION, division);
-                request.addParam(CourseSearchConstants.COURSE_SEARCH_PARAM_LEVEL, level);
+                        CourseSearchConstants.KSAP_COURSE_SEARCH_LU_BY_DIVISION_AND_LEVEL_KEY);
+                request.addParam(CourseSearchConstants.SearchParameters.DIVISION, division);
+                request.addParam(CourseSearchConstants.SearchParameters.LEVEL, level);
                 searches.add(request);
             }
         }
@@ -746,11 +745,11 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
 
             // Create Search
             SearchRequestInfo request = new SearchRequestInfo(
-                    CourseSearchConstants.COURSE_SEARCH_TYPE_DIVISIONANDLEVEL);
+                    CourseSearchConstants.KSAP_COURSE_SEARCH_LU_BY_DIVISION_AND_LEVEL_KEY);
             // Converts "1XX" to "100"
             level = level.substring(0, 1) + "00";
-            request.addParam(CourseSearchConstants.COURSE_SEARCH_PARAM_DIVISION, division);
-            request.addParam(CourseSearchConstants.COURSE_SEARCH_PARAM_LEVEL, level);
+            request.addParam(CourseSearchConstants.SearchParameters.DIVISION, division);
+            request.addParam(CourseSearchConstants.SearchParameters.LEVEL, level);
             searches.add(request);
 
         }
@@ -784,9 +783,9 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
 
             //Create search
             SearchRequestInfo request = new SearchRequestInfo(
-                    CourseSearchConstants.COURSE_SEARCH_TYPE_DIVISIONANDCODE);
-            request.addParam(CourseSearchConstants.COURSE_SEARCH_PARAM_DIVISION, division);
-            request.addParam(CourseSearchConstants.COURSE_SEARCH_PARAM_CODE, code);
+                    CourseSearchConstants.KSAP_COURSE_SEARCH_LU_BY_DIVISION_AND_CODE_KEY);
+            request.addParam(CourseSearchConstants.SearchParameters.DIVISION, division);
+            request.addParam(CourseSearchConstants.SearchParameters.CODE, code);
             searches.add(request);
         }
 
@@ -822,8 +821,8 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
             }
 
             SearchRequestInfo request = new SearchRequestInfo(
-                    CourseSearchConstants.COURSE_SEARCH_TYPE_COURSECODE);
-            request.addParam(CourseSearchConstants.COURSE_SEARCH_PARAM_CODE, incompleteCode);
+                    CourseSearchConstants.KSAP_COURSE_SEARCH_LU_BY_FULL_CODE_KEY);
+            request.addParam(CourseSearchConstants.SearchParameters.CODE, incompleteCode);
             searches.add(request);
         }
 
@@ -850,15 +849,15 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
 
             // Add course title search
             SearchRequestInfo requestTitle = new SearchRequestInfo(
-                    CourseSearchConstants.COURSE_SEARCH_TYPE_TITLE);
-            requestTitle.addParam(CourseSearchConstants.COURSE_SEARCH_PARAM_QUERYTEXT, queryText.trim());
+                    CourseSearchConstants.KSAP_COURSE_SEARCH_LU_BY_CLU_TITLE_KEY);
+            requestTitle.addParam(CourseSearchConstants.SearchParameters.QUERYTEXT, queryText.trim());
             searches.add(requestTitle);
 
             // Add course offering title search
             SearchRequestInfo requestOffering = new SearchRequestInfo(
-                    CourseSearchConstants.COURSE_SEARCH_TYPE_CO_TITLE);
-            requestOffering.addParam(CourseSearchConstants.COURSE_SEARCH_PARAM_QUERYTEXT, queryText.trim());
-            requestOffering.addParam(CourseSearchConstants.COURSE_SEARCH_PARAM_TERMLIST, getTermsToFilterOn(searchTerm));
+                    CourseSearchConstants.KSAP_COURSE_SEARCH_LU_BY_LUI_TITLE_KEY);
+            requestOffering.addParam(CourseSearchConstants.SearchParameters.QUERYTEXT, queryText.trim());
+            requestOffering.addParam(CourseSearchConstants.SearchParameters.ATP_ID_LIST, getTermsToFilterOn(searchTerm));
             searches.add(requestOffering);
         }
 
@@ -885,15 +884,15 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
 
             // Add course description search
             SearchRequestInfo requestDescription = new SearchRequestInfo(
-                    CourseSearchConstants.COURSE_SEARCH_TYPE_DESCRIPTION);
-            requestDescription.addParam(CourseSearchConstants.COURSE_SEARCH_PARAM_QUERYTEXT, queryText.trim());
+                    CourseSearchConstants.KSAP_COURSE_SEARCH_LU_BY_CLU_DESCRIPTION_KEY);
+            requestDescription.addParam(CourseSearchConstants.SearchParameters.QUERYTEXT, queryText.trim());
             searches.add(requestDescription);
 
             // Add course offering description search
             SearchRequestInfo requestOfferingDescr = new SearchRequestInfo(
-                    CourseSearchConstants.COURSE_SEARCH_TYPE_CO_DESCRIPTION);
-            requestOfferingDescr.addParam(CourseSearchConstants.COURSE_SEARCH_PARAM_QUERYTEXT, queryText.trim());
-            requestOfferingDescr.addParam(CourseSearchConstants.COURSE_SEARCH_PARAM_TERMLIST, getTermsToFilterOn(searchTerm));
+                    CourseSearchConstants.KSAP_COURSE_SEARCH_LU_BY_LUI_DESCRIPTION_KEY);
+            requestOfferingDescr.addParam(CourseSearchConstants.SearchParameters.QUERYTEXT, queryText.trim());
+            requestOfferingDescr.addParam(CourseSearchConstants.SearchParameters.ATP_ID_LIST, getTermsToFilterOn(searchTerm));
             searches.add(requestOfferingDescr);
         }
 
