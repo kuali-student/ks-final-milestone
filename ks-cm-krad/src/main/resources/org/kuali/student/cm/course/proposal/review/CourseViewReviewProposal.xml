@@ -471,6 +471,17 @@
         </property>
     </bean>
 
+    <bean id="CM-DecisionRationale-MessageSection" parent="Uif-HorizontalBoxSection">
+        <property name="render" value="@{#uiHelper.showMessage}"/>
+        <property name="disclosure.render" value="false"/>
+        <property name="items">
+            <list>
+                <bean id="CM-DecisionRationale-RequiredMessage" parent="Uif-Message"
+                                  p:messageText="[image src=&quot;@{#ConfigProperties['krad.externalizable.images.url']}/validation/error.png&quot;]  Decision Rationale is required." />
+            </list>
+        </property>
+    </bean>
+
     <bean id="KS-Proposal-Review-Course-ConfirmReturnToPreviousNode-Dialog" parent="KS-Proposal-Review-Course-ConfirmReturnToPreviousNode-Dialog-parentBean"/>
     <bean id="KS-Proposal-Review-Course-ConfirmReturnToPreviousNode-Dialog-parentBean" parent="Uif-DialogGroup" abstract="true" class="org.kuali.student.cm.uif.container.CMDialogGroup">
         <property name="renderHeader" value="true"/>
@@ -490,11 +501,11 @@
         <property name="displayExplanation" value="false"/>
         <property name="items">
             <list>
+                <bean id="CM-DecisionRationale-Message" parent="CM-DecisionRationale-MessageSection"/>
                 <bean id="CM-ReturnToPrevious-Dialog-NodeNamesDropdown" parent="CM-Dialog-PreviousNodeNames"/>
                 <!-- manually add back in the explanation field and force the render flag -->
                 <bean id="CM-ReturnToPrevious-Dialog-Explanation" parent="KS-CM-DialogExplanation" p:render="true"
-                      p:onKeyUpScript="toggleReturnButton();" p:onMouseOutScript="toggleReturnButton();"
-                      p:label="Decision Rationale" p:cssClasses="cm-charcount-max-1000"/>
+                      p:label="Decision Rationale"/>
             </list>
         </property>
         <property name="availableResponses">

@@ -446,6 +446,7 @@ public class CourseController extends CourseRuleEditorController {
     public ModelAndView returnToPreviousNode(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result,
                                              HttpServletRequest request, HttpServletResponse response) {
         CourseInfoWrapper courseInfoWrapper = getCourseInfoWrapper(form);
+        courseInfoWrapper.getUiHelper().setShowMessage(false);
         String dialog = CurriculumManagementConstants.COURSE_RETURN_TO_PREVIOUS_NODE_DIALOG;
         if ( ! hasDialogBeenDisplayed(dialog, form)) {
             doValidationForProposal(form, courseInfoWrapper, KewApiConstants.ROUTE_HEADER_PROCESSED_CD);
@@ -459,14 +460,21 @@ public class CourseController extends CourseRuleEditorController {
                 boolean confirmReturn = getBooleanDialogResponse(dialog, form, request, response);
                 if (confirmReturn) {
                     //route the document
-                    performReturnToPreviousNode(form,result, request,response);
-                    addDecisionRationale(courseInfoWrapper.getProposalInfo().getId(), courseInfoWrapper.getUiHelper().getDialogExplanations().get(dialog), CommentServiceConstants.WORKFLOW_DECISIONS.RETURN_TO_PREVIOUS.getType());
+                    if(courseInfoWrapper.getUiHelper().getDialogExplanations().get(dialog)!=null){
+                        performReturnToPreviousNode(form,result, request,response);
+                        addDecisionRationale(courseInfoWrapper.getProposalInfo().getId(), courseInfoWrapper.getUiHelper().getDialogExplanations().get(dialog), CommentServiceConstants.WORKFLOW_DECISIONS.RETURN_TO_PREVIOUS.getType());
+                        courseInfoWrapper.getUiHelper().setShowMessage(false);
+                        form.getDialogManager().removeDialog(dialog);
+                    }else{
+                        form.getDialogManager().resetDialogStatus(dialog);
+                        courseInfoWrapper.getUiHelper().setShowMessage(true);
+                        return showDialog(dialog, form, request, response);
+                    }
                     /*
                     Here's another location where we diverge from the default KRAD code. Normally here there would be code to handle the persisting
                     of attachments but since CM uses it's own internal SupportingDocuments functionality we can simply ignore the KRAD system.
                     */
                 }
-                form.getDialogManager().removeDialog(dialog);
 //                form.getDialogManager().resetDialogStatus(dialog);
             } else {
                 return showDialog(dialog, form, request, response);

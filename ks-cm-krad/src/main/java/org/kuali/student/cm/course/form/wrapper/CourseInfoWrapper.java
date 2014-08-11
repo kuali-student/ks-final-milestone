@@ -415,6 +415,16 @@ public class CourseInfoWrapper extends LURuleManagementWrapper implements Serial
         @RequestAccessible
         Map<String,String> dialogExplanations;
 
+        public boolean isShowMessage() {
+            return showMessage;
+        }
+
+        public void setShowMessage(boolean showMessage) {
+            this.showMessage = showMessage;
+        }
+
+        private boolean showMessage;
+
         public CreateCourseUIHelper() {
             curriculumSpecialistUser = CourseProposalUtil.isUserCurriculumSpecialist();
             selectedSection = CurriculumManagementConstants.CourseViewSections.COURSE_INFO;
