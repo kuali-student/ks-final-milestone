@@ -1198,7 +1198,9 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
 
             // Process plan items in learning plan
             for (PlanItem planItem : planItemList) {
-                String courseID = planItem.getRefObjectId();
+                //Notes from Bonnie: right now it's a mix -- planned and backed planItems are still using
+                //courseId for RefObjectId but bookmark items have been switched to use Clu's versionIndependentId.
+                String versionIndependentId = planItem.getRefObjectId();
 
                 //4 possible states: none, planned, saved, or both
 
@@ -1217,16 +1219,16 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
                     throw new RuntimeException("Unknown plan item type.");
                 }
 
-                if (!savedCourseSet.containsKey(courseID)) {
+                if (!savedCourseSet.containsKey(versionIndependentId)) {
                     // First time through the loop, add state from above directly
-                    savedCourseSet.put(courseID, state);
-                } else if (savedCourseSet.get(courseID).equals(NONE)) {
+                    savedCourseSet.put(versionIndependentId, state);
+                } else if (savedCourseSet.get(versionIndependentId).equals(NONE)) {
                     // Was through once already, didn't get saved or planned
-                    savedCourseSet.put(courseID, state);
-                } else if ((savedCourseSet.get(courseID).equals(SAVED) && state.equals(PLANNED))
-                        || (savedCourseSet.get(courseID).equals(PLANNED) && state.equals(SAVED))) {
+                    savedCourseSet.put(versionIndependentId, state);
+                } else if ((savedCourseSet.get(versionIndependentId).equals(SAVED) && state.equals(PLANNED))
+                        || (savedCourseSet.get(versionIndependentId).equals(PLANNED) && state.equals(SAVED))) {
                     //previously had saved OR planned... now it must have both
-                    savedCourseSet.put(courseID, SAVED_AND_PLANNED);
+                    savedCourseSet.put(versionIndependentId, SAVED_AND_PLANNED);
                 }
             }
         }
@@ -1315,6 +1317,11 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
     public void loadPlanStatus(String sessionId, String studentId, List<? extends CourseSearchItem> courses){
         Map<String, String> courseStatusMap = getCourseStatusMap(studentId);
         for (CourseSearchItem course : courses) {
+            String versionIndependentId = course.getVersionIndependentId();
+
+            //Note: we should move away to use courseId for planned/backup planItem, bookmark has been switched to use
+            //versionIndependentId, the following code before "else if" should be removed after we complete the migration
+            //to use versionIndependentId all the time
             String courseId = course.getCourseId();
             if (courseStatusMap.containsKey(courseId)) {
                 // Set plan item's new status
@@ -1333,6 +1340,24 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
                     ((CourseSearchItemImpl)course).setSaved(true);
                 } else {
                     LOG.debug("Unknown status in map. Unable to set status of course with ID: {}", courseId);
+                }
+            }else if (courseStatusMap.containsKey(versionIndependentId))   {
+                //KSAP-1853
+                String status = courseStatusMap.get(versionIndependentId);
+                if (status.equals(NONE)) {
+                    ((CourseSearchItemImpl)course).setSaved(false);
+                    ((CourseSearchItemImpl)course).setPlanned(false);
+                } else if (status.equals(SAVED)) {
+                    ((CourseSearchItemImpl)course).setSaved(true);
+                    ((CourseSearchItemImpl)course).setPlanned(false);
+                } else if (status.equals(PLANNED)) {
+                    ((CourseSearchItemImpl)course).setPlanned(true);
+                    ((CourseSearchItemImpl)course).setSaved(false);
+                } else if (status.equals(SAVED_AND_PLANNED)) {
+                    ((CourseSearchItemImpl)course).setPlanned(true);
+                    ((CourseSearchItemImpl)course).setSaved(true);
+                } else {
+                    LOG.debug("Unknown status in map. Unable to set status of course with versionIndependentId: {}", versionIndependentId);
                 }
             } else{
                 // Reset to default status
