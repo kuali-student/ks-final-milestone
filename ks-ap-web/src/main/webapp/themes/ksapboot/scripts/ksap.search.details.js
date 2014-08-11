@@ -206,6 +206,7 @@ function ksapFilterCourseOffering (data){
     if(regGroupId.length){
         addButton.removeClass("disabled");
         addButton.removeAttr("disabled");
+        addButton.parent().removeClass("uif-tooltip");
         addButton.attr("data-reggroupid",regGroupId);
 
     }else{

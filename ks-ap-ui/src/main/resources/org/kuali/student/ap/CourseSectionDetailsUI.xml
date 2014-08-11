@@ -285,6 +285,9 @@
         <!--Add to Plan Button for Multi-type offerings-->
         <property name="header.rightGroup">
             <bean parent="Uif-HeaderRightGroup" p:render="@{#index==0 and #parentLine.activityFormatDetailsWrappers.size() > 1}">
+                <property name="toolTip">
+                    <ref bean="details_bottom_add_tooltip"/>
+                </property>
                 <property name="items">
                     <list>
                         <bean parent="Uif-PrimaryActionButton"
