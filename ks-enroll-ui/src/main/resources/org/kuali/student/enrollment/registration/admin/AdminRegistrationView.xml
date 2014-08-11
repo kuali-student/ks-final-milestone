@@ -394,9 +394,9 @@
         <property name="headerText" value="Registered Courses (@{registeredCredits} credits)"/>
         <property name="lineActions">
             <list>
-                <bean parent="Uif-KS-NavigationActionLink-parentBean" p:id="registeredEditLink" p:iconClass="ks-fontello-icon-pencil"
+                <bean parent="KS-Uif-ActionLink" p:id="registeredEditLink" p:iconClass="ks-fontello-icon-pencil"
                       p:methodToCall="editCourse" p:style="color:#0088CC;"/>
-                <bean parent="Uif-KS-NavigationActionLink-parentBean" p:id="registeredDropLink" p:iconClass="ks-fontello-icon-cancel"
+                <bean parent="KS-Uif-ActionLink" p:id="registeredDropLink" p:iconClass="ks-fontello-icon-cancel"
                       p:methodToCall="dropCourse" p:style="color:#0088CC;"/>
             </list>
         </property>
@@ -451,7 +451,7 @@
             <list>
                 <!--<bean parent="Uif-KS-NavigationActionLink-parentBean" p:id="waitlistedEditLink" p:iconClass="ks-fontello-icon-pencil"-->
                       <!--p:methodToCall="editCourse" p:style="color:#0088CC;"/>-->
-                <bean parent="Uif-KS-NavigationActionLink-parentBean" p:id="waitlistedDropLink" p:iconClass="ks-fontello-icon-cancel"
+                <bean parent="KS-Uif-ActionLink" p:id="waitlistedDropLink" p:iconClass="ks-fontello-icon-cancel"
                       p:methodToCall="dropCourse" p:style="color:#0088CC;"/>
             </list>
         </property>
