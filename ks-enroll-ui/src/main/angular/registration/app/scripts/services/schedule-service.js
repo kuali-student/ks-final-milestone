@@ -53,13 +53,37 @@ angular.module('regCartApp')
 
                         case STATUS.new:
                         case STATUS.processing:
-                            // The request is still new or processing, reschedule the poller
-                            deferred.notify(result); // Notify out in case partial updates are desired
-                            me.pollRegistrationRequestStatus(registrationRequestId, interval, deferred);
+                            // The request is still new or processing, first make sure at least 1 of the items are still processing.
+                            var processing = false;
+                            angular.forEach(result.responseItemResults, function(item) {
+                                if (processing) {
+                                    return;
+                                }
+
+                                var itemStatus = GlobalVarsService.getCorrespondingStatusFromState(item.state);
+                                switch (itemStatus) {
+                                    case STATUS.new:
+                                    case STATUS.processing:
+                                        processing = true; // At least 1 item is still processing.
+                                        break;
+                                }
+                            });
+
+                            deferred.notify(result); // Notify out as well to give any itemized processors full coverage of all items.
+
+                            if (processing) {
+                                // The request is still new or processing, reschedule the poller
+                                me.pollRegistrationRequestStatus(registrationRequestId, interval, deferred);
+                            } else {
+                                // A state mismatch exists on the request, all items have finished
+                                // successfully even though the request is still marked as new or processing.
+                                deferred.resolve(result);
+                            }
                             break;
 
                         case STATUS.success:
                             // The request has finished successfully
+                            deferred.notify(result); // Notify out as well to give any itemized processors full coverage of all items.
                             deferred.resolve(result);
                             break;
 
