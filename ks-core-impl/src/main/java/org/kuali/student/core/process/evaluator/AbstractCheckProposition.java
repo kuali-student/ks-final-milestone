@@ -12,14 +12,12 @@
  */
 package org.kuali.student.core.process.evaluator;
 
-import java.util.Date;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
 import org.kuali.rice.krms.api.engine.ExecutionEnvironment;
 import org.kuali.rice.krms.api.engine.ResultEvent;
+import org.kuali.rice.krms.api.engine.Term;
 import org.kuali.rice.krms.framework.engine.PropositionResult;
 import org.kuali.rice.krms.framework.engine.result.BasicResult;
+import org.kuali.rice.krms.impl.repository.language.VelocityTemplateEngine;
 import org.kuali.student.common.util.krms.RulesExecutionConstants;
 import org.kuali.student.common.util.krms.proposition.AbstractLeafProposition;
 import org.kuali.student.r2.common.dto.ContextInfo;
@@ -30,7 +28,12 @@ import org.kuali.student.r2.core.exemption.dto.ExemptionInfo;
 import org.kuali.student.r2.core.exemption.service.ExemptionService;
 import org.kuali.student.r2.core.process.dto.CheckInfo;
 import org.kuali.student.r2.core.process.dto.InstructionInfo;
-import org.kuali.student.core.process.evaluator.KRMSEvaluator;
+
+import java.util.Date;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Base class for any check proposition
@@ -41,6 +44,7 @@ public abstract class AbstractCheckProposition extends AbstractLeafProposition {
 
     protected InstructionInfo instruction;
     protected CheckInfo check;
+    private VelocityTemplateEngine templateEngine = new VelocityTemplateEngine();
 
     public AbstractCheckProposition(InstructionInfo instruction, CheckInfo check) {
         this.instruction = instruction;
@@ -104,17 +108,23 @@ public abstract class AbstractCheckProposition extends AbstractLeafProposition {
 
     private PropositionResult recordFailureResult(ExecutionEnvironment environment) {
         // report error (or warning)
+        Map<String,Object> executionContext = new HashMap<>();
+        for(Map.Entry<Term,Object> factEntry:environment.getFacts().entrySet()){
+            executionContext.put(factEntry.getKey().getName(),factEntry.getValue());
+        }
+        String messageData = templateEngine.evaluate(executionContext, instruction.getMessage().getFormatted());
+
         ValidationResultInfo vr = new ValidationResultInfo();
-        vr.setElement("instructionId:" + instruction.getId() +"/checkId:" + instruction.getCheckId());
+        vr.setElement("registrationRequestItems['" + executionContext.get("registrationRequestItemId") + "']");
         if (instruction.getIsWarning()) {
             vr.setLevel(ValidationResult.ErrorLevel.WARN);
         } else {
             vr.setLevel(ValidationResult.ErrorLevel.ERROR);
         }
-        vr.setMessage(instruction.getMessage().getPlain());
-        Map<String, Object> executionDetails = new LinkedHashMap<String, Object>();
+        vr.setMessage("{\"instructionId\":\""+instruction.getId()+"\",\"checkId\":\""+instruction.getCheckId()+"\","+messageData+"}");
+        Map<String, Object> executionDetails = new LinkedHashMap<>();
         executionDetails.put(RulesExecutionConstants.PROCESS_EVALUATION_RESULTS, vr);
-        PropositionResult result = null;
+        PropositionResult result;
         if (instruction.getIsWarning()) {
             result = new PropositionResult(true, executionDetails);
         } else {

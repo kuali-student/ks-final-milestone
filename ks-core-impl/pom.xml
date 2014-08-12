@@ -115,6 +115,11 @@
             <scope>test</scope>
         </dependency>
         <!-- end -->
+        <dependency>
+            <groupId>org.kuali.student.core</groupId>
+            <artifactId>ks-core-krms</artifactId>
+            <version>${project.version}</version>
+        </dependency>
     </dependencies>
     <profiles>
         <profile>
