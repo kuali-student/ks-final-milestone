@@ -10,9 +10,59 @@
 .util-transitions-browserHelper(@speed: @transitionSpeed) {
     // Reset the local instance of the @transitionSpeed to the @speed parameter so it will be used in the @transition var
     @transitionSpeed: @speed;
+    .util-transitions-transition(@transition);
+}
 
+
+/**
+ * Full transition mixin
+ * @param @transition Transition value: See https://developer.mozilla.org/en-US/docs/Web/Guide/CSS/Using_CSS_transitions
+ */
+.util-transitions-transition(@transition) {
     -webkit-transition: @transition;
     -moz-transition: @transition;
     -o-transition: @transition;
     transition: @transition;
+}
+
+
+
+// Slide & Fade In & Out - Requires height to be set
+// Only supports ng-if & ng-repeat transitions currently
+.util-transition-slideFade(@height, @speed: @transitionSpeed) {
+
+    &.ng-enter, // Item added though ng-repeat (base styles)
+    &.ng-leave.ng-leave-active { // Item actively being removed (target styles)
+        .util-transitions-transition(all ease-out @speed);
+
+        height: 0px;
+        opacity: 0;
+    }
+
+    &.ng-leave, // Item being removed (base styles)
+    &.ng-enter.ng-enter-active { // Item actively being added (target styles)
+        .util-transitions-transition(all ease-in @speed);
+
+        height: @height;
+        opacity: 1;
+    }
+}
+
+
+
+// Fade In & Out
+// Only supports ng-if & ng-repeat transitions currently
+.util-transition-fade(@speed: @transitionSpeed, @opacity: 1) {
+
+    &.ng-enter, // Item added though ng-repeat (base styles)
+    &.ng-leave.ng-leave-active { // Item actively being removed (target styles)
+        .util-transitions-transition(all ease-out @speed);
+        opacity: 0;
+    }
+
+    &.ng-leave, // Item being removed (base styles)
+    &.ng-enter.ng-enter-active { // Item actively being added (target styles)
+        .util-transitions-transition(all ease-in @speed);
+        opacity: @opacity;
+    }
 }

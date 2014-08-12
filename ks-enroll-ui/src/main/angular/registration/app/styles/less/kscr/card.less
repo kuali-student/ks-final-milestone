@@ -201,24 +201,15 @@
 
 // Container for a single course in a course card
 .kscr-Course-container {
-  position: relative;
-  width: 100%;
+    position: relative;
+    width: 100%;
 
-  .util-transitions-browserHelper();
-  opacity: 1;
+    .util-transition-fade();
 
-  // Transitions when items are being added within ngRepeat
-  &.ng-leave {
-    opacity: 0.5;
-  }
-  &.ng-leave-active {
-    opacity: 0;
-  }
-
-  // Applied when an update request is processing for the course
-  &--processing {
-      .kscr-Card-icon {
-          .spinner-small-icon;
+    // Applied when an update request is processing for the course
+    &--processing {
+        .kscr-Card-icon {
+            .spinner-small-icon;
 
           & > i {
               display: none;
