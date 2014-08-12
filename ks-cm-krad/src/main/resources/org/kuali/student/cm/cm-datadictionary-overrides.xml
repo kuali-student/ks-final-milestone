@@ -46,6 +46,16 @@
         </property>
     </bean>
 
+    <!-- Override simpleConstraint.states with workflow doc state P (Processed) and beyond -->
+    <bean id="DDValueReplacer-Approve" parent="FieldOverrideForValueReplace" abstract="true">
+        <property name="propertyName" value="simpleConstraint.states"/>
+        <property name="value">
+            <list>
+                <value>P+</value>
+            </list>
+        </property>
+    </bean>
+
 
     <!--
         Per property overrides for workflow doc state R (Enroute).
@@ -85,60 +95,11 @@
         </property>
     </bean>
 
-    <bean id="DDValueReplacer-Approve" parent="FieldOverrideForValueReplace" abstract="true">
-        <property name="propertyName" value="simpleConstraint.states"/>
-        <property name="value">
-            <list>
-                <value>P+</value>
-            </list>
-        </property>
-    </bean>
-
-    <bean parent="FieldOverrideForValueReplace">
-        <property name="propertyName" value="simpleConstraint.states"/>
-        <property name="value">
-            <list>
-                <value>I,S,R</value>
-            </list>
-        </property>
-    </bean>
-
-    <bean id="DDValueReplacer-transcriptTitle-RequiredConstraint-ConstraintStateOverrides" parent="FieldOverrideForValueReplace" abstract="true">
-        <property name="propertyName" value="simpleConstraint.constraintStateOverrides"/>
-        <property name="value">
-        <list>
-            <bean parent="CourseInfo.transcriptTitle-RequiredConstraint-Base">
-                <property name="states">
-                    <list>
-                        <value>P+</value>
-                    </list>
-                </property>
-            </bean>
-        </list>
-        </property>
-    </bean>
-
-    <bean id="DDValueReplacer-courseNumberSuffix-RequiredConstraint-ConstraintStateOverrides" parent="FieldOverrideForValueReplace" abstract="true">
-        <property name="propertyName" value="simpleConstraint.constraintStateOverrides"/>
-        <property name="value">
-            <list>
-                <bean parent="CourseInfo.courseNumberSuffix-RequiredConstraint-Base">
-                    <property name="states">
-                        <list>
-                            <value>P+</value>
-                        </list>
-                    </property>
-                </bean>
-            </list>
-        </property>
-    </bean>
-
     <bean id="CourseInfo.transcriptTitle-worfklowstate-override" parent="DataDictionaryBeanOverride">
         <property name="beanName" value="CourseInfo.transcriptTitle"/>
         <property name="fieldOverrides">
             <list>
-                    <!-- KRAD bug activates required indicator('*') ignoring the constraintStateOverrides -->
-                    <bean parent="DDValueReplacer-transcriptTitle-RequiredConstraint-ConstraintStateOverrides" />
+                <bean parent="DDValueReplacer-Approve"/>
             </list>
         </property>
     </bean>
@@ -147,23 +108,7 @@
         <property name="beanName" value="CourseInfo.courseNumberSuffix"/>
         <property name="fieldOverrides">
             <list>
-                <!-- KRAD bug activates required indicator('*') ignoring the constraintStateOverrides -->
-                <bean parent="DDValueReplacer-courseNumberSuffix-RequiredConstraint-ConstraintStateOverrides" />
-            </list>
-        </property>
-    </bean>
-
-    <bean id="DD-Generic-ApproveOnly-SimpleConstraint" parent="SimpleConstraint">
-        <!-- KRAD bug activates required indicator('*') ignoring the constraintStateOverrides -->
-        <property name = "constraintStateOverrides">
-            <list>
-                <bean parent="RequiredConstraint">
-                    <property name="states">
-                        <list>
-                            <value>P+</value>
-                        </list>
-                    </property>
-                </bean>
+                <bean parent="DDValueReplacer-Approve"/>
             </list>
         </property>
     </bean>

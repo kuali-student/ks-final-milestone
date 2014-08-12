@@ -173,6 +173,7 @@
         </property>
     </bean>
 
+
     <!-- A read-only text field. Don't need escapeHtml since this is an HTML input. -->
     <bean id="CM-ReadOnlyInput" parent="KS-Uif-InputField" p:colSpan="3" p:escapeHtmlInPropertyValue="false"
           class="org.kuali.student.cm.uif.element.InputFieldWithNonClobberableFieldLabel" abstract="true">
@@ -191,10 +192,17 @@
                 </property>
             </bean>
         </property>
-        <property name="simpleConstraint">
-            <bean parent="SimpleConstraint">
-              <property name="required" value="false"/>
-            </bean>
+        <property name="propertyReplacers">
+            <list>
+                <!-- This is to remove requiredness indicator from the view course while leaving it intact for review proposal -->
+                <bean parent="Uif-ConditionalBeanPropertyReplacer"
+                      p:propertyName="simpleConstraint"
+                      p:condition="@{#form.viewId eq T(org.kuali.student.cm.common.util.CurriculumManagementConstants$CourseViewPageIds).VIEW_COURSE_VIEW}">
+                    <property name="replacement">
+                        <bean parent="SimpleConstraint" p:required="false"/>
+                    </property>
+                </bean>
+            </list>
         </property>
     </bean>
 
@@ -225,7 +233,7 @@
           p:propertyName="simpleConstraint"
           p:condition="@{#form.viewId eq T(org.kuali.student.cm.common.util.CurriculumManagementConstants$CourseViewPageIds).CREATE_COURSE_VIEW}">
         <property name="replacement">
-            <bean parent="DD-Generic-ApproveOnly-SimpleConstraint"/>
+            <bean parent="CM-RequiredConstraints-Approve"/>
         </property>
     </bean>
 

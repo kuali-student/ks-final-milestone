@@ -28,6 +28,9 @@
                     <property name="control">
                         <bean parent="Uif-VerticalCheckboxesControl" />
                     </property>
+                    <property name="simpleConstraint">
+                        <bean parent="CM-RequiredConstraints-Approve"/>
+                    </property>
                     <property name="optionsFinder">
                         <bean class="org.kuali.student.lum.lu.ui.course.keyvalues.CampusLocationsKeyValuesFinder"
                               p:addBlankOption="false" />
