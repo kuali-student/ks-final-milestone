@@ -425,17 +425,19 @@
                       p:readOnlyListDisplayType="UL"/>
                 <bean parent="Uif-DataField" p:label="Room" p:propertyName="activityRooms"
                       p:readOnlyListDisplayType="UL"/>
-                <bean parent="Uif-HorizontalFieldGroup" p:label="Effective Date">
+                <bean parent="Uif-HorizontalFieldGroup" p:label="Effective Date" p:style="width:120px;">
                     <property name="items">
                         <list>
-                            <bean parent="Uif-DataField" p:propertyName="effectiveDate">
+                            <bean parent="Uif-DataField" p:propertyName="effectiveDate" p:id="effectiveDate"/>
+                            <bean parent="Uif-ImageField" p:hidden="@{#line.transactionalDateFormatted eq #line.effectiveDateFormatted}"
+                                  p:id="effectiveDateInfo" p:source="@{#ConfigProperties['ks.externalizable.images.url']}/info.png">
+                                <property name="style" value="padding-left:3px;"/>
                                 <property name="toolTip">
-                                    <bean parent="Uif-TooltipFocus" p:onMouseHover = "@{#lp.transactionalDateFormatted ne #lp.effectiveDateFormatted}"
-                                          p:tooltipContent="Transaction Date: @{#lp.transactionalDateFormatted}"/>
+                                    <bean parent="Uif-KS-TooltipFocus" p:onMouseHover="true"
+                                          p:tooltipContent="Transaction Date: @{#lp.transactionalDateFormatted}"
+                                          p:render="@{#line.transactionalDateFormatted ne #line.effectiveDateFormatted}"/>
                                 </property>
                             </bean>
-                            <bean parent="Uif-Icon" p:iconClass="icon-notification"
-                                  p:render="@{#line.transactionalDateFormatted ne #line.effectiveDateFormatted}"/>
                         </list>
                     </property>
                 </bean>
