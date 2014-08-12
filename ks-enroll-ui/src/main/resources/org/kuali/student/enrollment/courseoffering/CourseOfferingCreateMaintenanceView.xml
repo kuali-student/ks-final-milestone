@@ -558,6 +558,13 @@
                         </bean>
                     </property>
                 </bean>
+                <bean parent="KS-Uif-InputField" p:propertyName="excludeCancelledActivityOfferings" p:fieldLabel.renderColon="false">
+                    <property name="control">
+                        <bean parent="KS-Uif-CheckboxControl">
+                            <property name="checkboxLabel" value="Exclude canceled activity offerings"/>
+                        </bean>
+                    </property>
+                </bean>
             </list>
         </property>
     </bean>
