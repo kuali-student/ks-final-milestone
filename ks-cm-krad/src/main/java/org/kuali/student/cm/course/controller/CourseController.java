@@ -610,10 +610,13 @@ public class CourseController extends CourseRuleEditorController {
         ((CourseMaintainable) ((MaintenanceDocumentForm) form).getDocument().getNewMaintainableObject()).updateReview();
 
         //  Validate
+        CourseInfoWrapper wrapper = getCourseInfoWrapper(form);
         KRADServiceLocatorWeb.getViewValidationService().validateViewAgainstNextState(form);
         if (GlobalVariables.getMessageMap().hasErrors()) {
-            CourseInfoWrapper wrapper = getCourseInfoWrapper(form);
             wrapper.setMissingRequiredFields(true);
+        } else
+        {
+            wrapper.setMissingRequiredFields(false);
         }
         return getUIFModelAndView(form, CurriculumManagementConstants.CourseViewPageIds.REVIEW_COURSE_PROPOSAL);
     }
@@ -786,7 +789,15 @@ public class CourseController extends CourseRuleEditorController {
     }
 
 
-
+    /**
+     * This will approve and activate an admin proposal.
+     *
+     * @param form     {@link MaintenanceDocumentForm} instance used for this action
+     * @param result
+     * @param request  {@link HttpServletRequest} instance of the actual HTTP request made
+     * @param response The intended {@link HttpServletResponse} sent back to the user
+     * @return The new {@link ModelAndView} that contains the newly created/updated {@CourseInfo} and {@ProposalInfo} information.
+     */
     @RequestMapping(params = "methodToCall=approveAndActivate")
     public ModelAndView approveAndActivate(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result,
                                        HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -794,9 +805,12 @@ public class CourseController extends CourseRuleEditorController {
 
         String dialog = CurriculumManagementConstants.COURSE_APPROVE_CONFIRMATION_DIALOG;
         doValidationForProposal(form, KewApiConstants.ROUTE_HEADER_PROCESSED_CD, DtoConstants.STATE_ACTIVE);
-        ModelAndView modelAndView = super.blanketApprove(form, result, request, response);
-        return modelAndView;
-
+        super.blanketApprove(form, result, request, response);
+        // Set the request redirect to false so that the user stays on the same page
+        form.setRequestRedirected(false);
+        // Hide the Blanket Approve button on the review proposal page while the document is still in Enroute state(It is being processed at the back-end)
+        courseInfoWrapper.getUiHelper().setProposalBlanketApproved(true);
+        return getUIFModelAndView(form, CurriculumManagementConstants.CourseViewPageIds.REVIEW_COURSE_PROPOSAL);
     }
 
     @Override
