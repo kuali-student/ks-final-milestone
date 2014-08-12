@@ -16,6 +16,7 @@
  */
 package org.kuali.student.cm.uif.util;
 
+import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.maintenance.MaintenanceViewPresentationControllerBase;
 
@@ -41,7 +42,9 @@ public class CurriculumManagementMaintenancePresentationControllerBase extends M
      */
     @Override
     public boolean canBlanketApprove(Document document) {
-        return getDocumentPresentationController().canBlanketApprove(document);
+        WorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
+
+        return (!workflowDocument.isException()) && getDocumentPresentationController().canBlanketApprove(document);
     }
 
 }
