@@ -1,6 +1,9 @@
 package org.kuali.student.enrollment.class1.timeslot.controller;
 
 import org.apache.commons.lang.math.NumberUtils;
+import org.elasticsearch.common.joda.time.DateTime;
+import org.elasticsearch.common.joda.time.format.DateTimeFormat;
+import org.elasticsearch.common.joda.time.format.DateTimeFormatter;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.krad.uif.UifParameters;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -17,6 +20,7 @@ import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.util.date.DateFormatters;
+import org.kuali.student.r2.common.util.date.KSDateTimeFormatter;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.core.scheduling.util.SchedulingServiceUtil;
 import org.springframework.stereotype.Controller;
@@ -154,12 +158,12 @@ public class TimeSlotController extends UifControllerBase {
      */
     protected String numberEquivalent(String day)
     {
-        String finalSt= "";
+        StringBuilder finalSt= new StringBuilder();
         for (int i =0 ; i <day.length();i++)
         {
-            finalSt+= decodeDay(day.substring(i,i+1));
+            finalSt.append(decodeDay(day.substring(i, i + 1)));
         }
-        return finalSt;
+        return finalSt.toString();
     }
 
     /**
@@ -187,17 +191,18 @@ public class TimeSlotController extends UifControllerBase {
     protected String formatString(String dateS)
     {
 
-        SimpleDateFormat sdf1 = new SimpleDateFormat("hh:mm a");
-        SimpleDateFormat sdf2 = new SimpleDateFormat("HHmm");
+        KSDateTimeFormatter  ksDTF = new KSDateTimeFormatter("hh:mm a");
+        KSDateTimeFormatter  ksDTF1 = new KSDateTimeFormatter("HHmm");
+
         Date date = null;
         try {
-            date= sdf1.parse(dateS);
+            date= ksDTF.parse(dateS);
         }catch(Exception ex)
         {
             date = new Date();
         };
 
-        return sdf2.format(date);
+        return ksDTF1.format(date);
 
     }
 
