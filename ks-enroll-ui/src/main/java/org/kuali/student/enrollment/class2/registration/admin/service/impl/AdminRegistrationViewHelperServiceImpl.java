@@ -335,6 +335,10 @@ public class AdminRegistrationViewHelperServiceImpl extends KSViewHelperServiceI
                 String message = AdminRegistrationUtil.getMessageForKey(AdminRegConstants.ADMIN_REG_MSG_ERROR_CREDITS_REQUIRED, regCourse.getCode(), regCourse.getSection());
                 form.getConfirmationIssues().add(message);
             }
+            if (regCourse.getEffectiveDate() == null) {
+                form.getConfirmationIssues().add(AdminRegistrationUtil.getMessageForKey(AdminRegConstants.ADMIN_REG_MSG_ERROR_EFFECTIVE_DATE_REQUIRED));
+            }
+
         }
     }
 
