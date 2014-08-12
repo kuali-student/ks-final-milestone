@@ -137,13 +137,11 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
             <bean parent="AnyCharacterPatternConstraint" p:allowWhitespace="true"/>
         </property>
 	</bean>
-    <bean id="CourseInfo.transcriptTitle-RequiredConstraint-Base" parent="RequiredConstraint">
-        <property name="maxLength" value="24" />
-    </bean>
 	<bean id="CourseInfo.transcriptTitle" parent="CourseInfo.transcriptTitle-parent"/>
 	<bean id="CourseInfo.transcriptTitle-parent" abstract="true" parent="CourseInfo.transcriptTitle-generated">
         <property name="simpleConstraint">
-            <bean parent="CourseInfo.transcriptTitle-RequiredConstraint-Base">
+            <bean parent="RequiredConstraint">
+                <property name="maxLength" value="24" />
                 <property name="states">
                     <list>
                         <value>ACTIVE</value>
