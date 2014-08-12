@@ -78,6 +78,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -1235,7 +1236,7 @@ public class CourseDetailsViewHelperServiceImpl extends ViewHelperServiceImpl im
                 // Retrieve current group by the format id, if entry is missing create it
                 Map<String, List<ActivityOfferingDetailsWrapper>> aosByFormat = aoMapByFormatName.get(activityOffering.getFormatOfferingId());
                 if (aosByFormat == null) {
-                    aosByFormat = new HashMap<String, List<ActivityOfferingDetailsWrapper>>();
+                    aosByFormat = new LinkedHashMap<String, List<ActivityOfferingDetailsWrapper>>();
                 }
 
                 // Convert into wrapper used on page
