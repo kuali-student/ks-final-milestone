@@ -71,6 +71,7 @@ public class CourseSearchConstants {
     public static final String KSAP_COURSE_SEARCH_FO_IDS_BY_OFFERED_REG_GROUP_ID_KEY = "kuali.search.type.ksap.fo.ids.by.offered.reg.group.id";
     public static final String KSAP_COURSE_SEARCH_GENERAL_EDUCATION_VALUES_KEY = "kuali.search.type.ksap.coursesearch.general.education";
     public static final String KSAP_COURSE_SEARCH_COURSEIDS_BY_GENERAL_EDUCATION_KEY = "kuali.search.type.ksap.coursesearch.cluid.by.general.education";
+    public static final String KSAP_COURSE_SEARCH_GENERAL_EDUCATION_BY_COURSEID_KEY = "kuali.search.type.ksap.coursesearch.general.education.by.cluid";
     public static final String KSAP_COURSE_SEARCH_LU_BY_CLU_DESCRIPTION_KEY = "ksap.lu.search.description";
     public static final String KSAP_COURSE_SEARCH_LU_BY_LUI_DESCRIPTION_KEY = "ksap.lu.search.offering.description";
     public static final String KSAP_COURSE_SEARCH_LU_BY_CLU_TITLE_KEY = "ksap.lu.search.title";

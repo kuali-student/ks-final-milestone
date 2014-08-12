@@ -220,13 +220,13 @@ public class CourseDetailsInquiryHelperImpl2 extends KualiInquirableImpl {
         // Create search for requirements
         String independentVersionId = course.getVersion().getVersionIndId();
         SearchRequestInfo request = new SearchRequestInfo(
-                "ksap.course.info.gened");
-        request.addParam("courseIDs", independentVersionId);
+                CourseSearchConstants.KSAP_COURSE_SEARCH_GENERAL_EDUCATION_BY_COURSEID_KEY);
+        request.addParam(CourseSearchConstants.SearchParameters.VERSION_IND_ID, independentVersionId);
 
         // Search for the requirements
         SearchResult result;
         try {
-            result = KsapFrameworkServiceLocator.getCluService().search(
+            result = KsapFrameworkServiceLocator.getSearchService().search(
                     request,
                     KsapFrameworkServiceLocator.getContext().getContextInfo());
         } catch (MissingParameterException e) {
@@ -242,8 +242,8 @@ public class CourseDetailsInquiryHelperImpl2 extends KualiInquirableImpl {
         }
 
         for (SearchResultRow row : result.getRows()) {
-            String code = KsapHelperUtil.getCellValue(row, "gened.code");
-            String name = KsapHelperUtil.getCellValue(row, "gened.name");
+            String code = KsapHelperUtil.getCellValue(row, CourseSearchConstants.SearchResultColumns.CLU_SET_ATTR_VALUE);
+            String name = KsapHelperUtil.getCellValue(row, CourseSearchConstants.SearchResultColumns.CLU_SET_NAME);
             courseGenEdRequirements.add(name+" ("+code+")");
         }
 

@@ -1077,7 +1077,7 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
      * Loads the gen ed information for the courses.
      * Gen Ed information is store as course sets that can be returned using the independent version id
      *
-     * @param courses - The list of course inforamtion for the courses
+     * @param courses - The list of course information for the courses
      */
     private void loadGenEduReqs(List<? extends CourseSearchItem> courses) {
         LOG.debug("Start of method loadGenEduReqs of CourseSearchController: {}",
