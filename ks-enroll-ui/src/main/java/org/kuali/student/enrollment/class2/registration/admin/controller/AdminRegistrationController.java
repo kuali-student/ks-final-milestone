@@ -18,7 +18,6 @@ package org.kuali.student.enrollment.class2.registration.admin.controller;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.util.io.SerializationUtils;
-import org.kuali.rice.kim.api.identity.principal.Principal;
 import org.kuali.rice.krad.uif.UifParameters;
 import org.kuali.rice.krad.uif.util.ObjectPropertyUtils;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -33,7 +32,6 @@ import org.kuali.student.enrollment.class2.registration.admin.form.RegistrationR
 import org.kuali.student.enrollment.class2.registration.admin.service.AdminRegistrationViewHelperService;
 import org.kuali.student.enrollment.class2.registration.admin.util.AdminRegClientCache;
 import org.kuali.student.enrollment.class2.registration.admin.util.AdminRegConstants;
-import org.kuali.student.enrollment.class2.registration.admin.util.AdminRegResourceLoader;
 import org.kuali.student.enrollment.class2.registration.admin.util.AdminRegistrationUtil;
 import org.kuali.student.enrollment.courseoffering.infc.CourseOffering;
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestInfo;
@@ -378,11 +376,13 @@ public class AdminRegistrationController extends UifControllerBase {
 
         String updateId = null;
         if (LprServiceConstants.LPRTRANS_ITEM_SUCCEEDED_STATE_KEY.equals(item.getStateKey())) {
-            form.getRegisteredCourses().add(addCourse);
+            form.getRegisteredCourses().clear();
+            form.getRegisteredCourses().addAll(getViewHelper(form).getCourseRegForStudentAndTerm(form.getPerson().getId(), form.getTerm().getId()));
             form.getRegistrationResults().add(AdminRegistrationUtil.buildSuccessResult(addCourse, AdminRegConstants.ADMIN_REG_MSG_INFO_SUCCESSFULLY_REGISTERED));
             updateId = AdminRegConstants.REG_COLL_ID;
         } else if (LprServiceConstants.LPRTRANS_ITEM_WAITLIST_STATE_KEY.equals(item.getStateKey())) {
-            form.getWaitlistedCourses().add(addCourse);
+            form.getWaitlistedCourses().clear();
+            form.getWaitlistedCourses().addAll(getViewHelper(form).getCourseWaitListForStudentAndTerm(form.getPerson().getId(), form.getTerm().getId()));
             form.getRegistrationResults().add(AdminRegistrationUtil.buildSuccessResult(addCourse, AdminRegConstants.ADMIN_REG_MSG_INFO_SUCCESSFULLY_WAITLISTED));
             updateId = AdminRegConstants.WAITLIST_COLL_ID;
         } else if (LprServiceConstants.LPRTRANS_ITEM_WAITLIST_AVAILABLE_STATE_KEY.equals(item.getStateKey()) ||
