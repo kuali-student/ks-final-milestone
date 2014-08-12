@@ -24,7 +24,8 @@ angular.module('regCartApp')
                 onClick: '@',
                 prefix: '@',
                 showMobile: '@',
-                last: '=?' // optional
+                last: '=?',     // optional
+                noResults: '@'  //optional, template to show if there are no results
             },
             link: function(scope) {
                 $animate.enabled(false, angular.element(document.querySelector('.kscr-Search-row')));
