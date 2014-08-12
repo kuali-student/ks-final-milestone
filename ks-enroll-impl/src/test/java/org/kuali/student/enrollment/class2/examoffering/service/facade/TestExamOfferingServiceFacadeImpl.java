@@ -111,7 +111,7 @@ public class TestExamOfferingServiceFacadeImpl {
         eoDataLoader.afterTest();
     }
 
-    @Ignore //KSENROLL-14049 broke this test. Made it ignore and meanwhile doing investigation
+    @Test
     public void testGenerateFinalExamOffering() throws InvalidParameterException, AlreadyExistsException,
             OperationFailedException, MissingParameterException, PermissionDeniedException, ReadOnlyException,
             DataValidationErrorException, DoesNotExistException, VersionMismatchException {

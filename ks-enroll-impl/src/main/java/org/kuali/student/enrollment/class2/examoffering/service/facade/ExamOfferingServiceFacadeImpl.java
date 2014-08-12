@@ -249,6 +249,8 @@ public class ExamOfferingServiceFacadeImpl implements ExamOfferingServiceFacade 
         Map<String, ExamOfferingInfo> eos = loadExamOfferings(foToEoRelations, context);
         //Do not create exam offerings for canceled course offerings.
         if (!LuiServiceConstants.LUI_CO_STATE_CANCELED_KEY.equals(coInfo.getStateKey())) {
+            boolean isUpdateExamOfferingSchedulingState = false;
+
             for (Map.Entry<FormatOfferingInfo, List<ExamOfferingRelationInfo>> foEntry : foToEoRelations.entrySet()) {
 
                 //Get all existing eo as per co driver, and remove them from the map.
@@ -274,7 +276,7 @@ public class ExamOfferingServiceFacadeImpl implements ExamOfferingServiceFacade 
                     foResult = new ExamOfferingResult(ExamOfferingServiceConstants.EXAM_OFFERING_CREATED);
                 } else {
                     foResult = removeExamOfferingRDLIfNeeded(eo, examOfferingContext, context);
-                    updateExamOfferingSchedulingState(foResult, eo, context);
+                    isUpdateExamOfferingSchedulingState = updateExamOfferingSchedulingState(foResult, eo, context);
                 }
 
                 //(re)perform slotting if use fe matrix toggle is selected and use did not override timeslot.
@@ -282,19 +284,13 @@ public class ExamOfferingServiceFacadeImpl implements ExamOfferingServiceFacade 
                     ExamOfferingResult childResult = this.getScheduleEvaluator().executeRuleForCOSlotting(coInfo, eo.getId(),
                             examOfferingContext.getTermType(), new ArrayList<String>(), context);
                     foResult.getChildren().add(childResult);
-                    updateExamOfferingSchedulingState(childResult, eo, context);
+                    isUpdateExamOfferingSchedulingState = updateExamOfferingSchedulingState(childResult, eo, context);
+
                 }
 
                 //Create new Exam Offering Relationship
                 List<ActivityOfferingInfo> aoInfos = getAOsForFoId(foEntry.getKey().getId(), examOfferingContext.getFoIdToListOfAOs(), context);
                 createExamOfferingRelationPerFO(foEntry.getKey().getId(), eo.getId(), aoInfos, context);
-
-                //update exam offering scheduling state if necessary
-                try {
-                    this.getExamOfferingService().updateExamOffering(eo.getId(), eo, context);
-                } catch (Exception e) {
-                    throw new RuntimeException(e);
-                }
 
                 // Update the result.
                 Map<String, String> contextParms = new HashMap<String, String>();
@@ -302,8 +298,15 @@ public class ExamOfferingServiceFacadeImpl implements ExamOfferingServiceFacade 
                 foResult.setContext(contextParms);
                 result.getChildren().add(foResult);
             }
+            //update exam offering scheduling state if there has been a scheduling state change
+            if (isUpdateExamOfferingSchedulingState) {
+                try {
+                    this.getExamOfferingService().updateExamOffering(eo.getId(), eo, context);
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+            }
         }
-
 
         removeFinalExamOfferingIfNeeded(examOfferingContext, context, foToEoRelations, eos);
         return result;
@@ -463,6 +466,7 @@ public class ExamOfferingServiceFacadeImpl implements ExamOfferingServiceFacade 
             List<ActivityOfferingInfo> aoInfos = this.getAOsForFoId(foEntry.getKey().getId(), examOfferingContext.getFoIdToListOfAOs(), context);
             if (aoInfos != null && !aoInfos.isEmpty()) {
                 for (ActivityOfferingInfo aoInfo : aoInfos) {
+                    boolean isUpdateExamOfferingSchedulingState = false;
                     //Do not create exam offerings for canceled activity offerings.
                     if (LuiServiceConstants.LUI_AO_STATE_CANCELED_KEY.equals(aoInfo.getStateKey())) continue;
 
@@ -493,7 +497,7 @@ public class ExamOfferingServiceFacadeImpl implements ExamOfferingServiceFacade 
                         aoResult = new ExamOfferingResult(ExamOfferingServiceConstants.EXAM_OFFERING_CREATED);
                     } else {
                         aoResult = removeExamOfferingRDLIfNeeded(eo, examOfferingContext, context);
-                        updateExamOfferingSchedulingState(aoResult, eo, context);
+                        isUpdateExamOfferingSchedulingState = updateExamOfferingSchedulingState(aoResult, eo, context);
                     }
 
                     //(re)perform slotting if use fe matrix toggle is selected and use did not override timeslot.
@@ -501,14 +505,16 @@ public class ExamOfferingServiceFacadeImpl implements ExamOfferingServiceFacade 
                         ExamOfferingResult childResult = this.getScheduleEvaluator().executeRuleForAOSlotting(aoInfo, eo.getId(),
                                 examOfferingContext.getTermType(), getAOEvaluatorOptions(), context);
                         aoResult.getChildren().add(childResult);
-                        updateExamOfferingSchedulingState(childResult, eo, context);
+                        isUpdateExamOfferingSchedulingState = updateExamOfferingSchedulingState(childResult, eo, context);
                     }
 
-                    //update exam offering scheduling state
-                    try {
-                        this.getExamOfferingService().updateExamOffering(eo.getId(), eo, context);
-                    } catch (Exception e) {
-                        throw new RuntimeException(e);
+                    //update exam offering scheduling state if there has been a scheduling state change
+                    if (isUpdateExamOfferingSchedulingState) {
+                        try {
+                            this.getExamOfferingService().updateExamOffering(eo.getId(), eo, context);
+                        } catch (Exception e) {
+                            throw new RuntimeException(e);
+                        }
                     }
 
                     //Update the result.
@@ -526,24 +532,27 @@ public class ExamOfferingServiceFacadeImpl implements ExamOfferingServiceFacade 
     }
 
     /**
-     * update the ExamOfferingInfo dynamic attribute after a matrix error slotting
+     * update the ExamOfferingInfo dynamic attribute. Return true if there is an EO scheduling state change and EO needs to be updated to save the dynamic attribute
      */
-    private void updateExamOfferingSchedulingState(ExamOfferingResult slottingResult, ExamOfferingInfo eo, ContextInfo context) {
+    private boolean updateExamOfferingSchedulingState(ExamOfferingResult slottingResult, ExamOfferingInfo eo, ContextInfo context) {
+        boolean isUpdateExamOfferingSchedulingState = false;
         if (slottingResult != null) {
             if (StringUtils.equals(ExamOfferingServiceConstants.EXAM_OFFERING_AO_MATRIX_MATCH_NOT_FOUND, slottingResult.getKey())
                     || StringUtils.equals(ExamOfferingServiceConstants.EXAM_OFFERING_CO_MATRIX_MATCH_NOT_FOUND, slottingResult.getKey())
                     || StringUtils.equals(ExamOfferingServiceConstants.EXAM_OFFERING_MATRIX_NOT_FOUND, slottingResult.getKey())
                     || StringUtils.equals(ExamOfferingServiceConstants.EXAM_OFFERING_ACTIVITY_OFFERING_TIMESLOTS_NOT_FOUND, slottingResult.getKey())) {
-                updateSchedulingStateAttribute(eo.getAttributes(), ExamOfferingServiceConstants.EXAM_OFFERING_SCHEDULING_STATE_ATTR, ExamOfferingServiceConstants.EXAM_OFFERING_SCHEDULING_MATRIX_ERROR_STATE_KEY);
+                isUpdateExamOfferingSchedulingState = updateSchedulingStateAttribute(eo.getAttributes(), ExamOfferingServiceConstants.EXAM_OFFERING_SCHEDULING_STATE_ATTR, ExamOfferingServiceConstants.EXAM_OFFERING_SCHEDULING_MATRIX_ERROR_STATE_KEY);
                 eo.setSchedulingStateKey(ExamOfferingServiceConstants.EXAM_OFFERING_SCHEDULING_MATRIX_ERROR_STATE_KEY);
             } else if (StringUtils.equals(ExamOfferingServiceConstants.EXAM_OFFERING_SLOTTED_SUCCESS, slottingResult.getKey())) {
-                updateSchedulingStateAttribute(eo.getAttributes(), ExamOfferingServiceConstants.EXAM_OFFERING_SCHEDULING_STATE_ATTR, ExamOfferingServiceConstants.EXAM_OFFERING_SCHEDULING_UNSCHEDULED_STATE_KEY);
+                isUpdateExamOfferingSchedulingState = updateSchedulingStateAttribute(eo.getAttributes(), ExamOfferingServiceConstants.EXAM_OFFERING_SCHEDULING_STATE_ATTR, ExamOfferingServiceConstants.EXAM_OFFERING_SCHEDULING_UNSCHEDULED_STATE_KEY);
                 eo.setSchedulingStateKey(ExamOfferingServiceConstants.EXAM_OFFERING_SCHEDULING_UNSCHEDULED_STATE_KEY);
             } else if (StringUtils.equals(ExamOfferingServiceConstants.EXAM_OFFERING_REMOVE_RDL_SUCCESS, slottingResult.getKey())) {
-                updateSchedulingStateAttribute(eo.getAttributes(), ExamOfferingServiceConstants.EXAM_OFFERING_SCHEDULING_STATE_ATTR, ExamOfferingServiceConstants.EXAM_OFFERING_SCHEDULING_UNSCHEDULED_STATE_KEY);
+                isUpdateExamOfferingSchedulingState = updateSchedulingStateAttribute(eo.getAttributes(), ExamOfferingServiceConstants.EXAM_OFFERING_SCHEDULING_STATE_ATTR, ExamOfferingServiceConstants.EXAM_OFFERING_SCHEDULING_UNSCHEDULED_STATE_KEY);
                 eo.setSchedulingStateKey(ExamOfferingServiceConstants.EXAM_OFFERING_SCHEDULING_UNSCHEDULED_STATE_KEY);
             }
         }
+
+        return isUpdateExamOfferingSchedulingState;
     }
 
     private boolean updateSchedulingStateAttribute(List<AttributeInfo> attributes, String attrKey, String attrValue) {
@@ -884,7 +893,7 @@ public class ExamOfferingServiceFacadeImpl implements ExamOfferingServiceFacade 
     @Override
     public ExamOfferingResult reslotExamOffering(ExamOfferingInfo examOfferingInfo, ExamOfferingContext examOfferingContext, List<String> optionKeys, ContextInfo context)
             throws PermissionDeniedException, MissingParameterException, InvalidParameterException, OperationFailedException, DoesNotExistException {
-
+        boolean isUpdateExamOfferingSchedulingState = false;
         if(!validateExamOfferingContext(examOfferingContext, optionKeys, context)){
             return examOfferingContext.getValidationResult();
         }
@@ -901,26 +910,33 @@ public class ExamOfferingServiceFacadeImpl implements ExamOfferingServiceFacade 
                     ExamOfferingResult childResult = this.getScheduleEvaluator().executeRuleForAOSlotting(activityOfferingInfo,
                             examOfferingInfo.getId(), examOfferingContext.getTermType(), getAOEvaluatorOptions(), context);
                     result.getChildren().add(childResult);
-                    updateExamOfferingSchedulingState(childResult, examOfferingInfo, context);
+                    isUpdateExamOfferingSchedulingState = updateExamOfferingSchedulingState(childResult, examOfferingInfo, context);
                 }
             }
-            //update exam offering scheduling state
-            try {
-                this.getExamOfferingService().updateExamOffering(examOfferingInfo.getId(), examOfferingInfo, context);
-            } catch (Exception e) {
-                throw new RuntimeException(e);
+            //update exam offering scheduling state if there has been a scheduling state change
+            if (isUpdateExamOfferingSchedulingState) {
+                try {
+                    this.getExamOfferingService().updateExamOffering(examOfferingInfo.getId(), examOfferingInfo, context);
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
             }
+
             return result;
         } else if (ExamOfferingContext.Driver.PER_CO.equals(examOfferingContext.getDriver())) {
             result = this.getScheduleEvaluator().executeRuleForCOSlotting(examOfferingContext.getCourseOffering(), examOfferingInfo.getId(),
                     examOfferingContext.getTermType(), new ArrayList<String>(), context);
-            updateExamOfferingSchedulingState(result, examOfferingInfo, context);
-            //update exam offering scheduling state
-            try {
-                this.getExamOfferingService().updateExamOffering(examOfferingInfo.getId(), examOfferingInfo, context);
-            } catch (Exception e) {
-                throw new RuntimeException(e);
+            isUpdateExamOfferingSchedulingState = updateExamOfferingSchedulingState(result, examOfferingInfo, context);
+
+            //update exam offering scheduling state if there has been a scheduling state change
+            if (isUpdateExamOfferingSchedulingState) {
+                try {
+                    this.getExamOfferingService().updateExamOffering(examOfferingInfo.getId(), examOfferingInfo, context);
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
             }
+
             return result;
         }
 

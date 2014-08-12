@@ -1159,12 +1159,18 @@ public class CourseOfferingManagementController extends UifControllerBase {
             if(Boolean.parseBoolean(courseOfferingInfo.getAttributeValue(CourseOfferingServiceConstants.FINAL_EXAM_USE_MATRIX))){
                 //Only call matrix if course offering is set to use matrix.
                 if(!eoWrapper.isOverrideMatrix() && theForm.getCurrentCourseOfferingWrapper().isMatrixExists()){
+                    String eoSchedulingStateBeforeReslotting = eoWrapper.getEoInfo().getSchedulingStateKey();
                     ExamOfferingContext examOfferingContext = ExamOfferingManagementUtil.createExamOfferingContext(courseOfferingInfo, eoWrapper.getAoInfo());
                     if (examOfferingContext.getTermId() == null || (examOfferingContext.getTermId().equals("") ) ) {
                         examOfferingContext.setTermId(examOfferingContext.getCourseOffering().getTermId());
                     }
                     ExamOfferingResult result = CourseOfferingManagementUtil.getExamOfferingServiceFacade().reslotExamOffering(
                             eoWrapper.getEoInfo(), examOfferingContext, new ArrayList<String>(), context);
+
+                    //if there is a scheduling state change, EO should have been updated inside ExamOfferingServiceFacade.reslotExamOffering() method and no need to be updated again here
+                    if (StringUtils.equals(eoWrapper.getEoInfo().getSchedulingStateKey(), eoSchedulingStateBeforeReslotting)) {
+                        CourseOfferingManagementUtil.getExamOfferingService().updateExamOffering(eoWrapper.getEoInfo().getId(), eoWrapper.getEoInfo(), context);
+                    }
                     ExamOfferingManagementUtil.processExamOfferingResultSet(result);
 
                     int eoChildrenResultIndex = 0;
