@@ -2249,34 +2249,6 @@
             </map>
 		</property>
 	</bean>
-	
-	<!--<bean id="queryMap" parent="queryMap-parent"/>-->
-    <!-- KSAP specific
-	TODO: ################################ currentTerm override ################################
-    To work around multiple versions of courses spanning terms we override currentTerm to be lastScheduledTerm.
-    Once version compatibility is added we should switch back to using versionIndependentId and currentTerm for lastATP
--->
-    <search:searchType id="ksap.course.info.gened">
-        <search:searchResultTypeInfo>
-            <search:name/>
-            <search:desc/>
-            <search:resultColumns>
-                <search:resultColumn id="course.owner">
-                    <search:dataType>string</search:dataType>
-                </search:resultColumn>
-                <search:resultColumn id="gened.name">
-                    <search:dataType>string</search:dataType>
-                </search:resultColumn>
-                <search:resultColumn id="gened.code">
-                    <search:dataType>string</search:dataType>
-                </search:resultColumn>
-            </search:resultColumns>
-        </search:searchResultTypeInfo>
-        <search:searchCriteriaTypeInfo>
-            <search:queryParams>
-            </search:queryParams>
-        </search:searchCriteriaTypeInfo>
-    </search:searchType>
 
     <search:searchType id="ksap.course.getcluid">
         <search:searchResultTypeInfo>
@@ -2295,27 +2267,6 @@
     <bean id="queryMap" parent="queryMap-parent">
         <property name="sourceMap">
             <map merge="true">
-
-                <entry key="ksap.course.info.gened">
-                    <value>NATIVE:
-                        SELECT
-                        setJnClu.CLU_VER_IND_ID,
-                        (SELECT cluSet.NAME FROM KSLU_CLU_SET cluSet WHERE cluSet.ID = setAttr.OWNER),
-                        setAttr.ATTR_VALUE
-                        FROM
-                        KSLU_CLU_SET_ATTR setAttr,
-                        KSLU_CLU_SET_JN_CLU setJnClu,
-                        KSLU_CLU_SET_JN_CLU_SET setJnSet,
-                        KSLU_CLU_SET cluSet
-                        WHERE
-                        setJnClu.CLU_VER_IND_ID IN :courseIDs
-                        AND setAttr.OWNER = setJnClu.CLU_SET_ID
-                        AND setJnClu.CLU_SET_ID = setJNSet.CLU_SET_CHILD_ID
-                        AND setJnSet.CLU_SET_PARENT_ID = cluSet.ID
-                        AND cluSet.NAME = 'General Education'
-
-                    </value>
-                </entry>
 
                 <entry key="ksap.course.getcluid">
                     <value>NATIVE:
