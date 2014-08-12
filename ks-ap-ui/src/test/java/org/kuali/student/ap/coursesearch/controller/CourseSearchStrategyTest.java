@@ -345,65 +345,6 @@ public class CourseSearchStrategyTest {
 
 	}
 
-	/*
-	 * This test either needs ref data see Kasp-10 or is for legacy code that is
-	 * not present.
-	 * 
-	 * @Test public void
-	 * testQueryToRequestsCourseCodeAndAdditionalCourseCodeMatch() throws
-	 * Exception {
-	 * 
-	 * CourseSearchFormImpl form = new CourseSearchFormImpl();
-	 * form.setSearchQuery("HIST"); List<String> campusParams=new
-	 * ArrayList<String>(); campusParams.add("310");
-	 * form.setCampusSelect(campusParams); form.setSearchTerm("any");
-	 * CourseSearchStrategy strategy =
-	 * KsapFrameworkServiceLocator.getCourseSearchStrategy();
-	 * List<SearchRequestInfo> requests = strategy.queryToRequests(form,true,
-	 * context); List<SearchParamInfo> params = null; SearchParamInfo param =
-	 * null; SearchRequestInfo request = null; assertEquals(4, requests.size());
-	 * 
-	 * request = requests.get(0); params = request.getParams();
-	 * assertEquals("ksap.lu.search.division", request.getSearchKey());
-	 * assertEquals(2, params.size()); param = params.get(0);
-	 * assertEquals("division", param.getKey()); assertEquals("HIST  ",
-	 * param.getValues().get(0)); param = params.get(1);
-	 * assertEquals("campuses", param.getKey());
-	 * assertEquals(CourseSearchStrategyImpl.NO_CAMPUS,
-	 * param.getValues().get(0));
-	 * 
-	 * request = requests.get(1); params = request.getParams();
-	 * assertEquals("ksap.lu.search.title", request.getSearchKey());
-	 * assertEquals(2, params.size()); param = params.get(0);
-	 * assertEquals("queryText", param.getKey()); assertEquals("HIST",
-	 * param.getValues().get(0)); param = params.get(1);
-	 * assertEquals("campuses", param.getKey());
-	 * assertEquals(CourseSearchStrategyImpl.NO_CAMPUS,
-	 * param.getValues().get(0));
-	 * 
-	 * request = requests.get(2); params = request.getParams();
-	 * assertEquals("ksap.lu.search.additionalDivision",
-	 * request.getSearchKey()); assertEquals(2, params.size()); param =
-	 * params.get(0); assertEquals("divisions", param.getKey()); String str =
-	 * (String) param.getValues().get(0); boolean t1 = str.contains("THIST ");
-	 * boolean t2 = str.contains("T HIST"); assertTrue(t1 && t2); param =
-	 * params.get(1); assertEquals("campuses", param.getKey());
-	 * assertEquals(CourseSearchStrategyImpl.NO_CAMPUS,
-	 * param.getValues().get(0));
-	 * 
-	 * 
-	 * request = requests.get(3); params = request.getParams();
-	 * assertEquals("ksap.lu.search.description", request.getSearchKey());
-	 * assertEquals(2, params.size()); param = params.get(0);
-	 * assertEquals("queryText", param.getKey()); assertEquals("HIST",
-	 * param.getValues().get(0)); param = params.get(1);
-	 * assertEquals("campuses", param.getKey());
-	 * assertEquals(CourseSearchStrategyImpl.NO_CAMPUS,
-	 * param.getValues().get(0));
-	 * 
-	 * }
-	 */
-
 	@Test
 	public void testQueryToRequestsTwoStringsMatch() throws Exception {
         if (disableCampusRelatedTests) return;
@@ -480,89 +421,6 @@ public class CourseSearchStrategyTest {
 				.getLastScheduledTerm().getId(), param.getValues().get(0));
 	}
 
-	/*
-	 * This test either needs ref data see Kasp-10 or is for legacy code that is
-	 * not present.
-	 * 
-	 * @Test public void testQueryToRequestsTwoCourseCodesMatch() throws
-	 * Exception { CourseSearchFormImpl form = new CourseSearchFormImpl();
-	 * form.setSearchQuery("PHIL BIOL"); List<String> campusParams = new
-	 * ArrayList<String>(); campusParams.add("310");
-	 * form.setCampusSelect(campusParams); form.setSearchTerm("any");
-	 * CourseSearchStrategy strategy =
-	 * KsapFrameworkServiceLocator.getCourseSearchStrategy();
-	 * List<SearchRequestInfo> requests = strategy.queryToRequests(form);
-	 * List<SearchParamInfo> params = null; SearchParamInfo param = null;
-	 * SearchRequestInfo request = null; assertEquals(6, requests.size());
-	 * request = requests.get(0); params = request.getParams();
-	 * assertEquals("ksap.lu.search.division", request.getSearchKey());
-	 * assertEquals(3, params.size()); param = params.get(0);
-	 * assertEquals("division", param.getKey()); assertEquals("BIOL",
-	 * param.getValues().get(0)); param = params.get(1);
-	 * assertEquals("campuses", param.getKey()); assertEquals("310",
-	 * param.getValues().get(0)); param = params.get(2);
-	 * assertEquals("lastScheduledTerm", param.getKey());
-	 * assertEquals(KsapFrameworkServiceLocator
-	 * .getAtpHelper().getLastScheduledAtpId(), param.getValues() .get(0));
-	 * 
-	 * request = requests.get(1); params = request.getParams();
-	 * assertEquals("ksap.lu.search.division", request.getSearchKey());
-	 * assertEquals(3, params.size()); param = params.get(0);
-	 * assertEquals("division", param.getKey()); assertEquals("PHIL",
-	 * param.getValues().get(0)); param = params.get(1);
-	 * assertEquals("campuses", param.getKey()); assertEquals("310",
-	 * param.getValues().get(0)); param = params.get(2);
-	 * assertEquals("lastScheduledTerm", param.getKey());
-	 * assertEquals(KsapFrameworkServiceLocator
-	 * .getAtpHelper().getLastScheduledAtpId(), param.getValues() .get(0));
-	 * 
-	 * request = requests.get(2); params = request.getParams();
-	 * assertEquals("ksap.lu.search.title", request.getSearchKey());
-	 * assertEquals(3, params.size()); param = params.get(0);
-	 * assertEquals("queryText", param.getKey()); assertEquals("BIOL",
-	 * param.getValues().get(0)); param = params.get(1);
-	 * assertEquals("campuses", param.getKey()); assertEquals("310",
-	 * param.getValues().get(0)); param = params.get(2);
-	 * assertEquals("lastScheduledTerm", param.getKey());
-	 * assertEquals(KsapFrameworkServiceLocator
-	 * .getAtpHelper().getLastScheduledAtpId(), param.getValues() .get(0));
-	 * 
-	 * request = requests.get(3); params = request.getParams();
-	 * assertEquals("ksap.lu.search.description", request.getSearchKey());
-	 * assertEquals(3, params.size()); param = params.get(0);
-	 * assertEquals("queryText", param.getKey()); assertEquals("BIOL",
-	 * param.getValues().get(0)); param = params.get(1);
-	 * assertEquals("campuses", param.getKey()); assertEquals("310",
-	 * param.getValues().get(0)); param = params.get(2);
-	 * assertEquals("lastScheduledTerm", param.getKey());
-	 * assertEquals(KsapFrameworkServiceLocator
-	 * .getAtpHelper().getLastScheduledAtpId(), param.getValues() .get(0));
-	 * 
-	 * request = requests.get(4); params = request.getParams();
-	 * assertEquals("ksap.lu.search.title", request.getSearchKey());
-	 * assertEquals(3, params.size()); param = params.get(0);
-	 * assertEquals("queryText", param.getKey()); assertEquals("PHIL",
-	 * param.getValues().get(0)); param = params.get(1);
-	 * assertEquals("campuses", param.getKey()); assertEquals("310",
-	 * param.getValues().get(0)); param = params.get(2);
-	 * assertEquals("lastScheduledTerm", param.getKey());
-	 * assertEquals(KsapFrameworkServiceLocator
-	 * .getAtpHelper().getLastScheduledAtpId(), param.getValues() .get(0));
-	 * 
-	 * request = requests.get(5); params = request.getParams();
-	 * assertEquals("ksap.lu.search.description", request.getSearchKey());
-	 * assertEquals(3, params.size()); param = params.get(0);
-	 * assertEquals("queryText", param.getKey()); assertEquals("PHIL",
-	 * param.getValues().get(0)); param = params.get(1);
-	 * assertEquals("campuses", param.getKey()); assertEquals("310",
-	 * param.getValues().get(0)); param = params.get(2);
-	 * assertEquals("lastScheduledTerm", param.getKey());
-	 * assertEquals(KsapFrameworkServiceLocator
-	 * .getAtpHelper().getLastScheduledAtpId(), param.getValues() .get(0));
-	 * 
-	 * }
-	 */
-
 	@Test
 	public void testQueryToRequestsEmpty() throws Exception {
 		CourseSearchFormImpl form = new CourseSearchFormImpl();
@@ -573,46 +431,6 @@ public class CourseSearchStrategyTest {
 		List<SearchRequestInfo> requests = strategy.buildSearchRequests(form);
 		assertTrue(requests.isEmpty());
 	}
-
-	/*
-	 * @Test public void testGetEnumerationValueInfoList() throws Exception {
-	 * String param = CourseSearchConstants.CAMPUS_LOCATION;
-	 * CourseSearchStrategy strategy =
-	 * KsapFrameworkServiceLocator.getCourseSearchStrategy();
-	 * List<EnumeratedValueInfo> enumeratedValueInfoList =
-	 * strategy.getEnumerationValueInfoList(param); assertEquals(4,
-	 * enumeratedValueInfoList.size()); for (EnumeratedValueInfo
-	 * enumeratedValueInfo : enumeratedValueInfoList) {
-	 * assertEquals(CourseSearchConstants.CAMPUS_LOCATION,
-	 * enumeratedValueInfo.getEnumerationKey()); }
-	 * 
-	 * assertEquals("0", enumeratedValueInfoList.get(0).getCode());
-	 * assertEquals("Seattle", enumeratedValueInfoList.get(0).getValue());
-	 * 
-	 * assertEquals("1", enumeratedValueInfoList.get(1).getCode());
-	 * assertEquals("Bothell", enumeratedValueInfoList.get(1).getValue());
-	 * 
-	 * assertEquals("2", enumeratedValueInfoList.get(2).getCode());
-	 * assertEquals("Tacoma", enumeratedValueInfoList.get(2).getValue());
-	 * 
-	 * assertEquals("AL", enumeratedValueInfoList.get(3).getCode());
-	 * assertEquals("All", enumeratedValueInfoList.get(3).getValue());
-	 * 
-	 * 
-	 * }
-	 */
-
-	/*
-	 * @Test public void testGetEnumerationValueInfoList2() throws Exception {
-	 * String param = ""; CourseSearchStrategy strategy =
-	 * KsapFrameworkServiceLocator.getCourseSearchStrategy();
-	 * List<EnumeratedValueInfo> enumeratedValueInfoList =
-	 * strategy.getEnumerationValueInfoList(param); assertEquals(0,
-	 * enumeratedValueInfoList.size());
-	 * 
-	 * 
-	 * }
-	 */
 
 	@Test
 	public void testProcessRequests() throws Exception {
