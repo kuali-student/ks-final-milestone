@@ -469,7 +469,7 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
             Map<String, ActivityOfferingInfo> targetAoId2Ao = new HashMap<String, ActivityOfferingInfo>();
             for (ActivityOfferingInfo sourceAo : sourceAoList) {
                 if (optionKeys.contains(CourseOfferingSetServiceConstants.IGNORE_CANCELLED_AO_OPTION_KEY) &&
-                        StringUtils.equals(sourceAo.getTypeKey(), LuiServiceConstants.LUI_AO_STATE_CANCELED_KEY)) {
+                        StringUtils.equals(sourceAo.getStateKey(), LuiServiceConstants.LUI_AO_STATE_CANCELED_KEY)) {
                     continue;
                 }
 
