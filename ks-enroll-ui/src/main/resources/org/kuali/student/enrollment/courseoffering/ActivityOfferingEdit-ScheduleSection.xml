@@ -342,7 +342,7 @@
 
                 <bean parent="Uif-Message" p:messageText="[b]Scheduling Information[/b]"/>
 
-                <bean parent="Uif-Message" p:messageText="The Activity you are editing will forfeit any requested and actual scheduling information as a result of[br]breaking colocation. Scheduling information will be retained by any remaining Activities." p:style="margin-bottom:10px;"/>
+                <bean parent="Uif-Message" p:messageText="The Activity you are editing will forfeit any requested and actual scheduling information as a[br]result of breaking colocation. A new scheduling information request should be created before[br]saving. Remaining Activities from the colocation will retain existing scheduling information." p:style="margin-bottom:10px;"/>
 
                 <bean parent="Uif-Message" p:messageText="[b]Maximum Enrollment[/b]"/>
 
