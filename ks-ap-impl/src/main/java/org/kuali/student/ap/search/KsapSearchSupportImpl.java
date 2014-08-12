@@ -372,7 +372,7 @@ public class KsapSearchSupportImpl extends SearchServiceAbstractHardwiredImpl {
 
     /**
      * Routed To from search method based on search type key pasted in the search request.
-     * Used to create and execute for search type key KSAP_COURSE_SEARCH_COURSEIDS_BY_GENERAL_EDUCATION.
+     * Used to create and execute for search type key KSAP_SEARCH_COURSEID_TITLE_AND_STATUS_BY_SUBJ_CD_KEY.
      *
      * @see #search(org.kuali.student.r2.core.search.dto.SearchRequestInfo, org.kuali.student.r2.common.dto.ContextInfo)
      */
