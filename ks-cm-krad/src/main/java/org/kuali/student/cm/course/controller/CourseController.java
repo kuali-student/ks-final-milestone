@@ -33,6 +33,7 @@ import org.kuali.rice.krad.rules.rule.event.RouteDocumentEvent;
 import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 import org.kuali.rice.krad.uif.UifConstants;
 import org.kuali.rice.krad.uif.UifParameters;
+import org.kuali.rice.krad.uif.container.CollectionGroup;
 import org.kuali.rice.krad.util.ErrorMessage;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
@@ -334,9 +335,7 @@ public class CourseController extends CourseRuleEditorController {
 
         String dialog = CurriculumManagementConstants.COURSE_SUBMIT_CONFIRMATION_DIALOG;
         if ( ! hasDialogBeenDisplayed(dialog, form)) {
-
-            CourseInfoWrapper courseInfoWrapper = getCourseInfoWrapper(form);
-            doValidationForProposal(form, courseInfoWrapper, KewApiConstants.ROUTE_HEADER_ENROUTE_CD, null);
+            doValidationForProposal(form, KewApiConstants.ROUTE_HEADER_ENROUTE_CD, null);
 
             if (!GlobalVariables.getMessageMap().hasErrors()) {
                 //redirect back to client to display confirm dialog
@@ -386,7 +385,7 @@ public class CourseController extends CourseRuleEditorController {
         courseInfoWrapper.getUiHelper().setShowMessage(false);
         String dialog = CurriculumManagementConstants.COURSE_APPROVE_CONFIRMATION_DIALOG;
         if ( ! hasDialogBeenDisplayed(dialog, form)) {
-            doValidationForProposal(form,courseInfoWrapper, KewApiConstants.ROUTE_HEADER_PROCESSED_CD, DtoConstants.STATE_ACTIVE);
+            doValidationForProposal(form, KewApiConstants.ROUTE_HEADER_PROCESSED_CD, DtoConstants.STATE_ACTIVE);
 
             if (!GlobalVariables.getMessageMap().hasErrors()) {
                 //redirect back to client to display confirm dialog
@@ -426,13 +425,12 @@ public class CourseController extends CourseRuleEditorController {
 
     /**
      * This method performs the KRAD UI data dictionary and Service layer data dictionary validation before it routes the document instance contained on the form.
-     * @param form
-     * @param courseInfoWrapper
+     *
+     * @param form - the form of the current users session
+     * @param workflowStatusCode - the status code that should be used to perform KRAD view validation
+     * @param forcedCourseStateKey - the stateKey that needs to be faked for the CourseService.validationCourse() method (if null, uses state in CourseInfo object)
      */
-    protected void doValidationForProposal(@ModelAttribute("KualiForm") DocumentFormBase form, CourseInfoWrapper courseInfoWrapper, String workflowStatusCode, String forcedCourseStateKey){
-
-        courseInfoWrapper.getReviewProposalDisplay().setShowUnknownErrors(false);
-
+    protected void doValidationForProposal(@ModelAttribute("KualiForm") DocumentFormBase form, String workflowStatusCode, String forcedCourseStateKey){
         //Perform KRAD UI Data Dictionary Validation
         // manually call the view validation service as this validation cannot be run client-side in current setup
         KRADServiceLocatorWeb.getViewValidationService().validateView(form, workflowStatusCode);
@@ -444,6 +442,7 @@ public class CourseController extends CourseRuleEditorController {
 
         try {
             //Perform Service Layer Data Dictionary validation
+            CourseInfoWrapper courseInfoWrapper = getCourseInfoWrapper(form);
             CourseInfo courseInfoToValidate = (CourseInfo) ObjectUtils.deepCopy(courseInfoWrapper.getCourseInfo());
             if (StringUtils.isNotBlank(forcedCourseStateKey)) {
                 courseInfoToValidate.setStateKey(forcedCourseStateKey);
@@ -454,7 +453,7 @@ public class CourseController extends CourseRuleEditorController {
             GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, KSObjectUtils.unwrapException(20, ex).getMessage());
         }
 
-        bindValidationErrorsToPath(validationResultInfoList, courseInfoWrapper);
+        bindValidationErrorsToPath(validationResultInfoList, form);
     }
 
     /**
@@ -474,7 +473,7 @@ public class CourseController extends CourseRuleEditorController {
         courseInfoWrapper.getUiHelper().setShowMessage(false);
         String dialog = CurriculumManagementConstants.COURSE_RETURN_TO_PREVIOUS_NODE_DIALOG;
         if ( ! hasDialogBeenDisplayed(dialog, form)) {
-            doValidationForProposal(form, courseInfoWrapper, KewApiConstants.ROUTE_HEADER_PROCESSED_CD, null);
+            doValidationForProposal(form, KewApiConstants.ROUTE_HEADER_PROCESSED_CD, null);
 
             if (!GlobalVariables.getMessageMap().hasErrors()) {
                 //redirect back to client to display confirm dialog
@@ -794,7 +793,7 @@ public class CourseController extends CourseRuleEditorController {
         CourseInfoWrapper courseInfoWrapper = getCourseInfoWrapper(form);
 
         String dialog = CurriculumManagementConstants.COURSE_APPROVE_CONFIRMATION_DIALOG;
-        doValidationForProposal(form,courseInfoWrapper, KewApiConstants.ROUTE_HEADER_PROCESSED_CD, DtoConstants.STATE_ACTIVE);
+        doValidationForProposal(form, KewApiConstants.ROUTE_HEADER_PROCESSED_CD, DtoConstants.STATE_ACTIVE);
         ModelAndView modelAndView = super.blanketApprove(form, result, request, response);
         return modelAndView;
 
@@ -808,7 +807,7 @@ public class CourseController extends CourseRuleEditorController {
         courseInfoWrapper.getUiHelper().setShowMessage(false);
         String dialog = CurriculumManagementConstants.COURSE_BLANKET_APPROVE_CONFIRMATION_DIALOG;
         if ( ! hasDialogBeenDisplayed(dialog, form)) {
-            doValidationForProposal(form,courseInfoWrapper, KewApiConstants.ROUTE_HEADER_PROCESSED_CD, DtoConstants.STATE_ACTIVE);
+            doValidationForProposal(form, KewApiConstants.ROUTE_HEADER_PROCESSED_CD, DtoConstants.STATE_ACTIVE);
 
             if (!GlobalVariables.getMessageMap().hasErrors()) {
                 //redirect back to client to display confirm dialog
@@ -1144,43 +1143,89 @@ public class CourseController extends CourseRuleEditorController {
     /**
      *  Binds the each validation errors with its property path
      * @param validationResultInfoList
+     * @param form
      */
-    protected void bindValidationErrorsToPath(List<ValidationResultInfo> validationResultInfoList, CourseInfoWrapper courseInfoWrapper) {
+    protected void bindValidationErrorsToPath(List<ValidationResultInfo> validationResultInfoList, DocumentFormBase form) {
+        CourseInfoWrapper courseInfoWrapper = getCourseInfoWrapper(form);
+        courseInfoWrapper.getReviewProposalDisplay().setShowUnknownErrors(false);
+
         if (validationResultInfoList != null && !validationResultInfoList.isEmpty()) {
             for( ValidationResultInfo error : validationResultInfoList ) {
+                String message = error.getMessage();
                 String element = error.getElement().replace("/0","").replace("/","");
                 String elementPath = null;
 
                 switch(element) {
                     case "courseTitle":
-                        elementPath = CurriculumManagementConstants.DATA_OBJECT_PATH + ".courseInfo.courseTitle";
+                        if (StringUtils.equals(CurriculumManagementConstants.CourseViewPageIds.CREATE_COURSE, form.getPageId())) {
+                            elementPath = CurriculumManagementConstants.DATA_OBJECT_PATH + ".courseInfo.courseTitle";
+                        } else {
+                            elementPath = CurriculumManagementConstants.DATA_OBJECT_PATH + ".courseInfo.courseTitle";
+                        }
                         break;
                     case "subjectArea":
-                        elementPath = CurriculumManagementConstants.DATA_OBJECT_PATH + ".courseInfo.subjectArea";
+                        if (StringUtils.equals(CurriculumManagementConstants.CourseViewPageIds.CREATE_COURSE, form.getPageId())) {
+                            elementPath = CurriculumManagementConstants.DATA_OBJECT_PATH + ".courseInfo.subjectArea";
+                        } else {
+                            elementPath = CurriculumManagementConstants.DATA_OBJECT_PATH + ".courseInfo.subjectArea";
+                        }
                         break;
                     case "courseNumberSuffix":
-                        elementPath = CurriculumManagementConstants.DATA_OBJECT_PATH + ".courseInfo.courseNumberSuffix";
+                        if (StringUtils.equals(CurriculumManagementConstants.CourseViewPageIds.CREATE_COURSE, form.getPageId())) {
+                            elementPath = CurriculumManagementConstants.DATA_OBJECT_PATH + ".courseInfo.courseNumberSuffix";
+                        } else {
+                            elementPath = CurriculumManagementConstants.DATA_OBJECT_PATH + ".courseInfo.courseNumberSuffix";
+                        }
                         break;
                     case "campusLocations":
-                        elementPath = CurriculumManagementConstants.DATA_OBJECT_PATH + ".reviewProposalDisplay.governanceSection.campusLocationsAsString";
+                        if (StringUtils.equals(CurriculumManagementConstants.CourseViewPageIds.CREATE_COURSE, form.getPageId())) {
+                            elementPath = CurriculumManagementConstants.DATA_OBJECT_PATH + ".courseInfo.campusLocations";
+                        } else {
+                            elementPath = CurriculumManagementConstants.DATA_OBJECT_PATH + ".reviewProposalDisplay.governanceSection.campusLocationsAsString";
+                        }
                         break;
                     case "startTerm":
-                        elementPath = CurriculumManagementConstants.DATA_OBJECT_PATH + ".reviewProposalDisplay.activeDatesSection.startTerm";
+                        if (StringUtils.equals(CurriculumManagementConstants.CourseViewPageIds.CREATE_COURSE, form.getPageId())) {
+                            elementPath = CurriculumManagementConstants.DATA_OBJECT_PATH + ".courseInfo.startTerm";
+                        } else {
+                            elementPath = CurriculumManagementConstants.DATA_OBJECT_PATH + ".reviewProposalDisplay.activeDatesSection.startTerm";
+                        }
                         break;
                     case "transcriptTitle":
-                        elementPath = CurriculumManagementConstants.DATA_OBJECT_PATH + ".courseInfo.transcriptTitle";
+                        if (StringUtils.equals(CurriculumManagementConstants.CourseViewPageIds.CREATE_COURSE, form.getPageId())) {
+                            elementPath = CurriculumManagementConstants.DATA_OBJECT_PATH + ".courseInfo.transcriptTitle";
+                        } else {
+                            elementPath = CurriculumManagementConstants.DATA_OBJECT_PATH + ".courseInfo.transcriptTitle";
+                        }
                         break;
                     case "finalExamStatus":
-                        elementPath = CurriculumManagementConstants.DATA_OBJECT_PATH + ".reviewProposalDisplay.courseLogisticsSection.finalExamStatus";
+                        if (StringUtils.equals(CurriculumManagementConstants.CourseViewPageIds.CREATE_COURSE, form.getPageId())) {
+                            elementPath = CurriculumManagementConstants.DATA_OBJECT_PATH + ".finalExamStatus";
+                        } else {
+                            elementPath = CurriculumManagementConstants.DATA_OBJECT_PATH + ".reviewProposalDisplay.courseLogisticsSection.finalExamStatus";
+                        }
                         break;
                     case "gradingOptions":
-                        elementPath = CurriculumManagementConstants.DATA_OBJECT_PATH + ".reviewProposalDisplay.courseLogisticsSection.gradingOptionsAsString";
+                        if (StringUtils.equals(CurriculumManagementConstants.CourseViewPageIds.CREATE_COURSE, form.getPageId())) {
+                            elementPath = CurriculumManagementConstants.DATA_OBJECT_PATH + ".courseInfo.gradingOptions";
+                        } else {
+                            elementPath = CurriculumManagementConstants.DATA_OBJECT_PATH + ".reviewProposalDisplay.courseLogisticsSection.gradingOptionsAsString";
+                        }
                         break;
                     case "unitsContentOwner":
-                        elementPath = CurriculumManagementConstants.DATA_OBJECT_PATH + ".reviewProposalDisplay.governanceSection.curriculumOversightAsString";
+                        if (StringUtils.equals(CurriculumManagementConstants.CourseViewPageIds.CREATE_COURSE, form.getPageId())) {
+                            String collectionPath = CurriculumManagementConstants.DATA_OBJECT_PATH + ".unitsContentOwner";
+                            CollectionGroup collectionGroup = (CollectionGroup) form.getView().getViewIndex().getComponentById("CM-Proposal-Course-Governance-CurriculumOversight-Section");
+                            if (collectionGroup != null) {
+                                message = collectionGroup.getHeaderText() + ": " + message;
+                            }
+                            elementPath = collectionPath + "[0].orgId";
+                        } else {
+                            elementPath = CurriculumManagementConstants.DATA_OBJECT_PATH + ".reviewProposalDisplay.governanceSection.curriculumOversightAsString";
+                        }
                         break;
                     case "stateKey":    // ignore this one as it's always returned whenever a validation error is thrown
-                    case "code":        // ignore this one as it's always returned when a validation error is thrown for SubjectArea and CourseNumberSuffix
+                    case "code":        // ignore this one since it is only valid for the old GWT UI
                         break;
 
                     default:
@@ -1189,7 +1234,7 @@ public class CourseController extends CourseRuleEditorController {
                         error.setMessage(error.getElement() + ": " + error.getMessage());
                 }
                 if (StringUtils.isNotBlank(elementPath)) {
-                    GlobalVariables.getMessageMap().putError(elementPath, RiceKeyConstants.ERROR_CUSTOM, error.getMessage());
+                    GlobalVariables.getMessageMap().putError(elementPath, RiceKeyConstants.ERROR_CUSTOM, message);
                 }
             }
         }
