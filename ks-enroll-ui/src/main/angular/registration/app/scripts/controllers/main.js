@@ -11,6 +11,7 @@ angular.module('regCartApp')
         $scope.termId = null;
         $scope.termName = '';
         $scope.studentIsEligibleForTerm = true; // Top-level check whether student is eligible to register for the selected term
+        $scope.searchForm = true;               // Top-level flag to determine whether the search form is visible
 
         // update the term name if the termId changes
         $scope.$watch('termId', function (newValue, oldValue) {

@@ -1,12 +1,21 @@
 'use strict';
 
+/*
+ * Controller for the search details functionality
+ *
+ * Event Handling
+ * -- Emits: none
+ * -- Broadcasts: "registerForCourse" -- this is caught by cart.js and registers the user for the selected reg group
+ *                "addCourseToCart" -- this is caught by cart.js and adds the reg group to the user's cart
+ * -- Receives: "toggleAO" -- received from the search list directives, select/deselecdts the given ao
+ */
 angular.module('regCartApp')
     .controller('SearchDetailsCtrl', ['$scope', '$rootScope', '$state', '$filter', '$modal', 'STATUS', 'FEATURE_TOGGLES', 'SearchService', 'CartService', 'ScheduleService',
     function SearchDetailsCtrl($scope, $rootScope, $state, $filter, $modal, STATUS, FEATURE_TOGGLES, SearchService, CartService, ScheduleService) {
 
-        $scope.searchCriteria = null; // Criteria used to generate the search results.
-        $scope.course = null;         // Handle on the course
-        $rootScope.hideForm = true;   // Hides the search form in mobile view
+        $scope.searchCriteria = null;  // Criteria used to generate the search results.
+        $scope.course = null;          // Handle on the course
+        $rootScope.searchForm = false; // Hides the search form in mobile view
 
         // Push the user back to the search page when the term is changed
         $scope.$on('termIdChanged', function(event, newValue, oldValue) {

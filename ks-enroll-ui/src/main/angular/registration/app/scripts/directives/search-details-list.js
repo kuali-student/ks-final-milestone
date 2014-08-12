@@ -2,13 +2,24 @@
 
 angular.module('regCartApp')
 
+    /*
+     * This directive is used to display a mobile view of search details. Details are shown
+     * in a tabular format, which allows users to view the details that are relevant to
+     * them. An "all" tab is also available for viewing all the results together.
+     *
+     * Event Handling
+     * -- Emits: "toggleAO" -- this alerts the search details controller to select/deselect the ao
+     * -- Broadcasts: none
+     * -- Receives: none
+     *
+     */
     .directive('searchDetailsList', ['$timeout', '$animate', function($timeout, $animate) {
         return {
             restrict: 'E',
             templateUrl: 'partials/searchDetailsList.html',
             scope: {
-                searchDetails: '=',
-                singleRegGroup: '='
+                searchDetails: '=', // an array of search details to show
+                singleRegGroup: '=' // a boolean determining if this is a single reg group or not
             },
             link:function(scope) {
 
@@ -31,13 +42,16 @@ angular.module('regCartApp')
                     }
                 }
 
+                // turn off ng-repeat animations for better performance
                 $animate.enabled(false, angular.element(document.querySelector('.kscr-Search-details-grid')));
 
+                // initialize the tabs
                 scope.time = true;
                 scope.instr = false;
                 scope.seatsLoc = false;
                 scope.tab = 'time';
 
+                // this method selects a tab and sets the display flags accordingly
                 scope.select = function(tab) {
                     scope.tab = tab;
                     switch(tab) {
@@ -63,6 +77,7 @@ angular.module('regCartApp')
                     }
                 };
 
+                // if a row is selected, emit a "toggleAO" event to the search details controller
                 scope.selectRow = function(searchDetail) {
                     if (!scope.singleRegGroup) {
                         scope.$emit('toggleAO', searchDetail);
