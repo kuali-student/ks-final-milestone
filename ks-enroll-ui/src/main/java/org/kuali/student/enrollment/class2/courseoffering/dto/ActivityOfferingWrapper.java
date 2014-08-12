@@ -245,6 +245,7 @@ public class ActivityOfferingWrapper implements Serializable, ComparatorModel{
         startTime = new ArrayList<String>();
         endTime = new ArrayList<String>();
         weekDays = new ArrayList<String>();
+        isSendRDLsToSchedulerAfterMSE = true;
     }
 
     public ActivityOfferingWrapper(ActivityOfferingInfo info){
