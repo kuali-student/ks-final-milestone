@@ -27,7 +27,7 @@ import org.kuali.student.r2.common.infc.RichText;
  * @author Kuali Student Team  (ks-collab@kuali.org)
  * @version 1.0 (Dev)
  */
-public interface PlanItem extends IdEntity {
+public interface PlanItem extends IdEntity, TypedObjectReference {
 
     /**
      * Id to the reference object e.g Course, Requirements etc
