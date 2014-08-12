@@ -1,3 +1,18 @@
+/*
+ * Copyright 2014 The Kuali Foundation Licensed under the
+ * Educational Community License, Version 2.0 (the "License"); you may
+ * not use this file except in compliance with the License. You may
+ * obtain a copy of the License at
+ *
+ * http://www.osedu.org/licenses/ECL-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an "AS IS"
+ * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing
+ * permissions and limitations under the License.
+ */
+
 package org.kuali.student.ap.framework.context;
 
 import org.kuali.student.ap.academicplan.constants.AcademicPlanServiceConstants.ItemCategory;
@@ -32,14 +47,14 @@ public interface PlanHelper {
     /**
      * Update the default learning plan for the current session.
      *
-     * @param learningPlanId learning plan ID
+     * @param learningPlanId - Id for the learning plan
      */
     public void setDefaultLearningPlan(String learningPlanId);
 
     /**
      * Retrieves a learning plan for the current student by ID.
      *
-     * @param learningPlanId plan ID
+     * @param learningPlanId - plan ID
      * @return Learning Plan
      */
     public LearningPlanInfo getLearningPlan(String learningPlanId);
@@ -47,10 +62,10 @@ public interface PlanHelper {
     /**
      * Gets the plan items in a learning plan.
      *
-     * @param planId The learning plan ID.
-     * @return Default Learning Plan
+     * @param learningPlanId - Id for the learning plan
+     * @return A list of items for the learning plan
      */
-    public List<PlanItem> getPlanItems(String planId);
+    public List<PlanItem> getPlanItems(String learningPlanId);
 
     /**
      * Load a plan item from any of the student's learning plans by ID.
@@ -63,15 +78,15 @@ public interface PlanHelper {
     /**
      * Adds a plan item to a learning plan.
      *
-     * @param learningPlanId learning plan ID
-     * @param category item category
-     * @param descr plan item description (course note)
-     * @param units number of credits/units
-     * @param termIds planned term IDs
-     * @param ref course/placeholder reference data
-     * @return
+     * @param learningPlanId - learning plan ID
+     * @param category - item category
+     * @param descr - plan item description (course note)
+     * @param credits - number of credits/units
+     * @param termIds - planned term IDs
+     * @param ref - Reference for the plan item
+     * @return - Copy of the new plan item created
      */
-    public PlanItem addPlanItem(String learningPlanId, ItemCategory category, String descr, BigDecimal units,
+    public PlanItem addPlanItem(String learningPlanId, ItemCategory category, String descr, BigDecimal credits,
                          List<String> termIds, TypedObjectReference ref);
 
     /**
@@ -83,7 +98,7 @@ public interface PlanHelper {
      * reflect the update.
      * </p>
      *
-     * @param item plan item
+     * @param item - New version of the plan item
      */
     public PlanItem updatePlanItem(PlanItem item);
 
@@ -96,19 +111,16 @@ public interface PlanHelper {
      * update.
      * </p>
      *
-     * @param planItemId plan item ID
+     * @param planItemId - Id of the plan item to remove
      */
     public void removePlanItem(String planItemId);
 
     /**
      * Updates a term note for a learning plan.
      *
-     * @param learningPlanId
-     *            learning plan ID
-     * @param termId
-     *            term ID
-     * @param note
-     *            updated term note. May be null to remove the note.
+     * @param learningPlanId - learning plan ID
+     * @param termId - term ID
+     * @param note - updated term note. May be null to remove the note.
      */
     public void editTermNote(String learningPlanId, String termId, String note);
 
@@ -140,8 +152,7 @@ public interface PlanHelper {
      *
      * @param inner typed reference
      * @param outer typed reference
-     * @return True if all courses referred to by inner are also referred to by
-     *         outer.
+     * @return True if all courses referred to by inner are also referred to by outer.
      */
     public boolean isEncompassed(TypedObjectReference inner, TypedObjectReference outer);
 
@@ -156,10 +167,10 @@ public interface PlanHelper {
     /**
      * Retrieve the list of plan items for this course in the student's plan
      *
-     * @param courseId - Id of course that is being displayed
+     * @param courseVersionId - Id of course that is being displayed
      * @return A List of plan items related to the course.
      */
-    List<PlanItem> loadStudentsPlanItemsForCourse(String courseId);
+    List<PlanItem> loadStudentsPlanItemsForCourse(String courseVersionId);
 
     /**
      * Retrieve the list of plan items for this course in the student's plan
@@ -170,25 +181,25 @@ public interface PlanHelper {
     public List<PlanItem> loadStudentsPlanItemsForCourse(Course course);
 
     /**
-     * Get the course from a TypedOjbectReference
+     * Get the course from a TypedObjectReference
      *
-     * @param ref
+     * @param ref - Reference for the plan item
      * @return course or null if the reference is not for a placeholder.
      */
     public Course getCourse(TypedObjectReference ref);
 
     /**
-     * Get the placeholder from a TypedOjbectReference
+     * Get the placeholder from a TypedObjectReference
      *
-     * @param ref
+     * @param ref - Reference for the plan item
      * @return placeholder or null if the reference is not for a placeholder.
      */
     public Placeholder getPlaceHolder(TypedObjectReference ref);
 
     /**
-     * Get the placeholder instance from a TypedOjbectReference
+     * Get the placeholder instance from a TypedObjectReference
      *
-     * @param ref
+     * @param ref - Reference for the plan item
      * @return placeholder instance or null if the reference is not for a placeholder instance.
      */
 

@@ -1,3 +1,18 @@
+/*
+ * Copyright 2014 The Kuali Foundation Licensed under the
+ * Educational Community License, Version 2.0 (the "License"); you may
+ * not use this file except in compliance with the License. You may
+ * obtain a copy of the License at
+ *
+ * http://www.osedu.org/licenses/ECL-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an "AS IS"
+ * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing
+ * permissions and limitations under the License.
+ */
+
 package org.kuali.student.ap.framework.context.support;
 
 import org.kuali.rice.core.api.config.property.ConfigContext;
@@ -53,11 +68,9 @@ public class DefaultPlanHelper implements PlanHelper {
     private static final Logger LOG = Logger.getLogger(DefaultPlanHelper.class);
 
 	/**
-	 * Retrieves the first plan item of type
-	 * PlanConstants.Learning_Plan_Type_Plan for the student as the default
-	 * plan.
+	 * Retrieves the first plan item of type PlanConstants.Learning_Plan_Type_Plan for the student as the default plan.
 	 * 
-	 * @see org.kuali.student.ap.framework.context.PlanHelper
+	 * @see org.kuali.student.ap.framework.context.PlanHelper#getDefaultLearningPlan()
 	 * 
 	 * @return A single learning plan.
 	 */
@@ -108,11 +121,17 @@ public class DefaultPlanHelper implements PlanHelper {
 		return defaultPlan;
 	}
 
+    /**
+     * @see org.kuali.student.ap.framework.context.PlanHelper#setDefaultLearningPlan(String)
+     */
     @Override
     public void setDefaultLearningPlan(String learningPlanId) {
         throw new UnsupportedOperationException("Unsupported in Default KSAP implementation");
     }
 
+    /**
+     * @see org.kuali.student.ap.framework.context.PlanHelper#getLearningPlan(String)
+     */
     @Override
     public LearningPlanInfo getLearningPlan(String learningPlanId) {
         try {
@@ -140,6 +159,9 @@ public class DefaultPlanHelper implements PlanHelper {
         }
     }
 
+    /**
+     * @see org.kuali.student.ap.framework.context.PlanHelper#getPlanItems(String)
+     */
     @Override
     public List<PlanItem> getPlanItems(String planId) {
         try {
@@ -156,6 +178,9 @@ public class DefaultPlanHelper implements PlanHelper {
         }
     }
 
+    /**
+     * @see org.kuali.student.ap.framework.context.PlanHelper#getPlanItem(String)
+     */
     @Override
     public PlanItem getPlanItem(String planItemId) {
         try {
@@ -185,6 +210,9 @@ public class DefaultPlanHelper implements PlanHelper {
         }
     }
 
+    /**
+     * @see org.kuali.student.ap.framework.context.PlanHelper#addPlanItem(String, org.kuali.student.ap.academicplan.constants.AcademicPlanServiceConstants.ItemCategory, String, java.math.BigDecimal, java.util.List, org.kuali.student.ap.academicplan.infc.TypedObjectReference)
+     */
     @Override
     public PlanItem addPlanItem(String learningPlanId, ItemCategory category,
                                 String descr, BigDecimal units, List<String> termIds,TypedObjectReference ref) {
@@ -272,6 +300,9 @@ public class DefaultPlanHelper implements PlanHelper {
         return planItemInfo;
     }
 
+    /**
+     * @see org.kuali.student.ap.framework.context.PlanHelper#updatePlanItem(org.kuali.student.ap.academicplan.infc.PlanItem)
+     */
     @Override
     public PlanItemInfo updatePlanItem(PlanItem item) {
         // Save updated plan item
@@ -296,6 +327,9 @@ public class DefaultPlanHelper implements PlanHelper {
         }
     }
 
+    /**
+     * @see org.kuali.student.ap.framework.context.PlanHelper#removePlanItem(String)
+     */
     @Override
     public void removePlanItem(String planItemId) {
         // Delete plan item from the database
@@ -315,6 +349,9 @@ public class DefaultPlanHelper implements PlanHelper {
         }
     }
 
+    /**
+     * @see org.kuali.student.ap.framework.context.PlanHelper#editTermNote(String, String, String)
+     */
     @Override
     public void editTermNote(String learningPlanId, String termId,String termNote) {
         // Retrieve the list of term notes for this plan.
@@ -415,7 +452,9 @@ public class DefaultPlanHelper implements PlanHelper {
 
     }
 
-
+    /**
+     * @see org.kuali.student.ap.framework.context.PlanHelper#getCompletedRecords()
+     */
     @Override
     public List<StudentCourseRecordInfo> getCompletedRecords() {
         try {
@@ -436,9 +475,7 @@ public class DefaultPlanHelper implements PlanHelper {
     }
 
     /**
-     * Gets the id of the term that the planner should display first.
-     *
-     * @return Term Id
+     * @see org.kuali.student.ap.framework.context.PlanHelper#getPlannerFirstTermId()
      */
     @Override
     public String getPlannerFirstTermId() {
@@ -446,10 +483,7 @@ public class DefaultPlanHelper implements PlanHelper {
     }
 
     /**
-     * Gets the list of Terms to use in the Planner Calendar using a Start Term.
-     *
-     * @param startTerm - Term that the calendar starts around
-     * @return A full List of terms to display in the calendar.
+     * @see org.kuali.student.ap.framework.context.PlanHelper#getPlannerCalendarTerms(org.kuali.student.r2.core.acal.infc.Term)
      */
     @Override
     public List<Term> getPlannerCalendarTerms(Term startTerm) {
@@ -496,6 +530,9 @@ public class DefaultPlanHelper implements PlanHelper {
         return calendarTerms;
     }
 
+    /**
+     * @see org.kuali.student.ap.framework.context.PlanHelper#loadStudentsPlanItemsForCourse(String)
+     */
     @Override
     public List<PlanItem> loadStudentsPlanItemsForCourse(String courseVersionId) {
         String studentId = KsapFrameworkServiceLocator.getUserSessionHelper().getStudentId();
@@ -528,11 +565,17 @@ public class DefaultPlanHelper implements PlanHelper {
         }
     }
 
+    /**
+     * @see org.kuali.student.ap.framework.context.PlanHelper#loadStudentsPlanItemsForCourse(org.kuali.student.r2.lum.course.infc.Course)
+     */
     @Override
     public List<PlanItem> loadStudentsPlanItemsForCourse(Course course) {
         return loadStudentsPlanItemsForCourse(course.getVersion().getVersionIndId());
     }
 
+    /**
+     * @see org.kuali.student.ap.framework.context.PlanHelper#isSame(org.kuali.student.ap.academicplan.infc.TypedObjectReference, org.kuali.student.ap.academicplan.infc.TypedObjectReference)
+     */
     @Override
     public boolean isSame(TypedObjectReference ref1, TypedObjectReference ref2) {
         if (ref1 == null){
@@ -560,11 +603,17 @@ public class DefaultPlanHelper implements PlanHelper {
         return id1.equals(id2);
     }
 
+    /**
+     * @see org.kuali.student.ap.framework.context.PlanHelper#isEncompassed(org.kuali.student.ap.academicplan.infc.TypedObjectReference, org.kuali.student.ap.academicplan.infc.TypedObjectReference)
+     */
     @Override
     public boolean isEncompassed(TypedObjectReference inner,TypedObjectReference outer) {
         throw new UnsupportedOperationException("Unsupported in Default KSAP implementation");
     }
 
+    /**
+     * @see org.kuali.student.ap.framework.context.PlanHelper#getCourse(org.kuali.student.ap.academicplan.infc.TypedObjectReference)
+     */
     @Override
     public Course getCourse(TypedObjectReference ref) {
         if (PlanConstants.COURSE_TYPE.equals(ref.getRefObjectType())){
@@ -574,10 +623,14 @@ public class DefaultPlanHelper implements PlanHelper {
         return null;
     }
 
+    /**
+     * Need to look into when implementing placeholders M3 work
+     *
+     * @see org.kuali.student.ap.framework.context.PlanHelper#getPlaceHolder(org.kuali.student.ap.academicplan.infc.TypedObjectReference)
+     */
     @Override
     public Placeholder getPlaceHolder(TypedObjectReference ref) {
         throw new UnsupportedOperationException("Unsupported in Default KSAP implementation");
-        // Need to look into when implementing placeholders M3 work
         /*
         if (ref.getRefObjectType().equals(PlanConstants.REF_TYPE_PLACEHOLDER)) {
 
@@ -616,10 +669,14 @@ public class DefaultPlanHelper implements PlanHelper {
         */
     }
 
+    /**
+     * Need to look into when implementing placeholders M3 work
+     *
+     * @see org.kuali.student.ap.framework.context.PlanHelper#getPlaceHolderInstance(org.kuali.student.ap.academicplan.infc.TypedObjectReference)
+     */
     @Override
     public PlaceholderInstance getPlaceHolderInstance(TypedObjectReference ref) {
         throw new UnsupportedOperationException("Unsupported in Default KSAP implementation");
-        // Need to look into when implementing placeholders M3 work
         /*
         if (ref.getRefObjectType().equals(
                 PlanConstants.REF_TYPE_PLACEHOLDER_INSTANCE)) {
@@ -656,10 +713,14 @@ public class DefaultPlanHelper implements PlanHelper {
         */
     }
 
+    /**
+     * Need to look into when implementing placeholders M3 work
+     *
+     * @see org.kuali.student.ap.framework.context.PlanHelper#getCourseIdsForPlaceHolder(org.kuali.student.ap.academicplan.infc.Placeholder)
+     */
     @Override
     public Set<String> getCourseIdsForPlaceHolder(Placeholder ph) {
         throw new UnsupportedOperationException("Unsupported in Default KSAP implementation");
-        // Need to look into when implementing placeholders M3 work
         /*
         PlaceholderResolver phr;
 
@@ -683,7 +744,7 @@ public class DefaultPlanHelper implements PlanHelper {
     }
 
     /**
-     * {@inheritDoc}
+     * @see org.kuali.student.ap.framework.context.PlanHelper#createPlanningStatusMessages(java.util.List)
      */
     @Override
     public String createPlanningStatusMessages(List<PlanItem> planItems){
@@ -737,7 +798,7 @@ public class DefaultPlanHelper implements PlanHelper {
     }
 
     /**
-     * {@inheritDoc}
+     * @see org.kuali.student.ap.framework.context.PlanHelper#createBookmarkStatusMessages(java.util.List)
      */
     @Override
     public String createBookmarkStatusMessages(List<PlanItem> planItems){
