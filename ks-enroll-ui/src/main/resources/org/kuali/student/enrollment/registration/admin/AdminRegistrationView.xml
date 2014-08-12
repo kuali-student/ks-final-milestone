@@ -226,12 +226,12 @@
         <property name="addLinePlacement" value="BOTTOM"/>
         <property name="layoutManager.richTable.render" value="false"/>
         <property name="layoutManager.renderSequenceField" value="false"/>
-        <property name="layoutManager.actionColumnPlacement" value="LEFT"/>
+        <property name="layoutManager.actionColumnPlacement" value="RIGHT"/>
         <property name="renderAddLine" value="false"/>
         <property name="onDocumentReadyScript" value="startPolling(1000);"/>
         <property name="lineActions">
             <list>
-                <bean parent="Uif-DeleteLineAction" p:actionLabel=" - " p:render="@{pendingCourses.size() > 1}"/>
+                <bean parent="KS-Uif-Delete-NavigationActionLink" p:id="removeCourseAction" p:methodToCall="removeRegisterCourse" p:performDirtyValidation="false" p:actionLabel="Delete" p:render="@{pendingCourses.size() > 1}"/>
             </list>
         </property>
         <property name="items">
@@ -305,7 +305,12 @@
                         </bean>
                     </property>
                 </bean>
-                <bean parent="Uif-MessageField" p:refreshWhenChangedPropertyNames="#lp.code" p:valign="middle">
+                <bean parent="Uif-MessageField" p:refreshWhenChangedPropertyNames="#lp.code" p:label="Credits" p:valign="middle">
+                    <property name="methodToCallOnRefresh" value="refresh"/>
+                    <property name="messageText"
+                              value="@{#dp.methodToCall == 'refresh' ? #ViewHelper.retrieveCourseCredits(#line, #dp.term.id) : #line.credits}"/>
+                </bean>
+                <bean parent="Uif-MessageField" p:refreshWhenChangedPropertyNames="#lp.code" p:label="Course Title" p:valign="middle">
                     <property name="methodToCallOnRefresh" value="refreshCourseTitle"/>
                     <property name="messageText"
                               value="@{#dp.methodToCall == 'refreshCourseTitle' ? #ViewHelper.retrieveCourseTitle(#line, #dp.term.id) : #line.title}"/>
@@ -319,7 +324,7 @@
                         <bean parent="Uif-SecondaryActionButton" p:methodToCall="addBlankLine" p:id="addLineButton"
                               p:successCallback="jQuery(&quot;[name='pendingCourses[@{pendingCourses.size()}].code']&quot;).focus()"
                               p:refreshId="KS-AdminRegistration-RegFor" p:ajaxReturnType="update-component"
-                              p:actionLabel=" + " p:actionEvent="addBlankLine" p:performClientSideValidation="true">
+                              p:actionLabel=" + Add Format" p:actionEvent="addBlankLine" p:performClientSideValidation="true">
                             <property name="actionParameters">
                                 <map>
                                     <entry key="selectedCollectionPath" value="pendingCourses"/>

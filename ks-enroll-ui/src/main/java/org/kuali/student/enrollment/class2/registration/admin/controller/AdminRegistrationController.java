@@ -248,6 +248,13 @@ public class AdminRegistrationController extends UifControllerBase {
     //Registration methods
     //////////////////////////////////////////////
 
+    //Method used for removing a course from registration
+    @RequestMapping(method = RequestMethod.POST, params = "methodToCall=removeRegisterCourse")
+    public ModelAndView removeRegisterCourse(@ModelAttribute("KualiForm") AdminRegistrationForm form, BindingResult result,
+                                             HttpServletRequest request, HttpServletResponse response) {
+        return deleteLine(form, result, request, response);
+    }
+
     @MethodAccessible
     @RequestMapping(method = RequestMethod.POST, params = "methodToCall=register")
     public ModelAndView register(@ModelAttribute("KualiForm") AdminRegistrationForm form, BindingResult result,

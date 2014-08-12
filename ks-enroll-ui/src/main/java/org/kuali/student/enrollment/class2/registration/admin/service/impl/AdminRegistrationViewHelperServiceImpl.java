@@ -618,4 +618,34 @@ public class AdminRegistrationViewHelperServiceImpl extends KSViewHelperServiceI
         return course.getTitle();
     }
 
+    /**
+     * This method is called on an ajax call from the client when a course code is entered in the input section.
+     *
+     * @param course
+     * @param termId
+     * @return String retrieveCourseTitle
+     * @throws MissingParameterException
+     * @throws InvalidParameterException
+     * @throws OperationFailedException
+     * @throws PermissionDeniedException
+     */
+    public String retrieveCourseCredits(RegistrationCourse course, String termId)
+            throws MissingParameterException, InvalidParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException {
+
+        String courseCode = course.getCode();
+        if (courseCode == null || courseCode.isEmpty()) {
+            course.setTitle(StringUtils.EMPTY);
+        } else {
+
+            CourseOfferingInfo courseOffering = AdminRegClientCache.getCourseOfferingByCodeAndTerm(termId, courseCode);
+            if (courseOffering != null) {
+                course.setCredits(courseOffering.getCreditCnt());
+            } else {
+                course.setCredits(StringUtils.EMPTY);
+            }
+        }
+
+        return course.getCredits();
+    }
+
 }
