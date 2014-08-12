@@ -52,7 +52,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * This class //TODO ...
+ * This class contains non-student facing methods for the registration system.
  *
  * @author Kuali Student Team
  */
