@@ -31,11 +31,11 @@ angular.module('regCartApp')
             // Finally, convert all of the day data to the calendar format
             var calendar = convertMapToCalendar(dayMap);
 
-            // Update the waitlist and cart with conflicts so they can be flagged
-            // with an icon in the card. Registered courses are not flagged.
+            // Update the schedule with conflicts so they can be flagged
+            // with an icon in the card. Cart courses are not flagged.
             GlobalVarsService.setConflictMap(conflictMap);
-            GlobalVarsService.updateConflicts(waitlisted);
-            GlobalVarsService.updateConflicts(cart);
+            GlobalVarsService.updateConflicts(registered, 'REG');
+            GlobalVarsService.updateConflicts(waitlisted, 'WAIT');
 
             return calendar;
         };
@@ -361,11 +361,21 @@ angular.module('regCartApp')
          */
         function addConflictToMap(course, conflict) {
             var regGroupId = course.details.regGroupId;
-            var conflictOffering = conflict.details.courseCode + ' (' + conflict.details.regGroupCode + ')';
+            var conflictOffering = {courseCode: conflict.details.courseCode,
+                                    regGroupCode: conflict.details.regGroupCode,
+                                    type: conflict.type
+                                    };
             if (!angular.isArray(conflictMap[regGroupId])) {
                 conflictMap[regGroupId] = [];
             }
-            if (conflictMap[regGroupId].indexOf(conflictOffering) === -1) {
+            var matchFound = false;
+            for (var i=0; i<conflictMap[regGroupId].length; i++) {
+                if (angular.equals(conflictMap[regGroupId][i], conflictOffering)) {
+                    matchFound = true;
+                    break;
+                }
+            }
+            if (!matchFound) {
                 conflictMap[regGroupId].push(conflictOffering);
             }
         }

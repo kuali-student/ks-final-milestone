@@ -22,7 +22,7 @@
                     <div class="util-Grid">
                         <span class="kscr-Card-title" id="{{config.prefix2}}course_code_{{course.courseCode}}_{{course.regGroupCode}}">
                             <strong>{{course.courseCode}} ({{course.regGroupCode}})</strong>
-                            <span ng-if="course.conflicts" class="kscr-Card-conflict-icon" title="{{parseConflicts(course.conflicts)}}"></span>
+                            <span ng-if="course.conflicts" class="kscr-Card-conflict-icon"></span>
                             <i ng-show="type === courseTypes.waitlisted" class="glyphicon glyphicon-time kscr-Waitlisted-clockIcon"></i>
                         </span>
                         <span class="kscr-Card-badge-wrap" ng-show="showBadge(course)">
@@ -34,18 +34,19 @@
                     <!--Course Title and description-->
                     <div class="kscr-Card-text" id="title_{{course.courseCode}}_{{course.regGroupCode}}" ng-show="course.isopen">{{course.longName}}</div>
 
-                    <!--AO info: type, time, location-->
+                    <!--AO info: type, time, location (schedule -- closed) -->
                     <div ng-repeat="ao in course.activityOfferings" class="kscr-Card-detailsText--show" ng-show="!course.isopen" ng-if="type !== courseTypes.cart">
                         <span class="kscr-Card-courseTimes">
                             <div id="{{config.prefix2}}ao_type_{{course.courseCode}}_{{course.regGroupCode}}_{{$index}}" class="kscr-Card-ao-type">{{ao.activityOfferingTypeName | limitTo : 3}}</div>
                             <div ng-repeat="scheduleComponent in ao.scheduleComponents" id="{{config.prefix2}}schedule_{{course.courseCode}}_{{course.regGroupCode}}_{{$parent.$index}}_{{$index}}" class="kscr-Card-scheduleComponent">
-                                <span ng-hide="scheduleComponent.isTBA" class="util-Grid--floatLeft">{{scheduleComponent.days}} {{scheduleComponent.displayTime}}</span>
+                                <span ng-class="{'kscr-Card-courseTimes-highlighted' : course.conflicts}" ng-hide="scheduleComponent.isTBA" class="util-Grid--floatLeft">{{scheduleComponent.days}} {{scheduleComponent.displayTime}}</span>
                                 <span ng-hide="scheduleComponent.isTBA" class="util-Grid--floatRight">{{scheduleComponent.buildingCode}} {{scheduleComponent.roomCode}}</span>
                                 <span ng-show="scheduleComponent.isTBA" class="util-Grid--floatRight">TBA</span>
                             </div>
                         </span>
                     </div>
 
+                    <!--AO info: type, time, location (cart -- closed) -->
                     <div ng-repeat="item in course.schedule" class="kscr-Card-detailsText--show" ng-show="!course.isopen" ng-if="type === courseTypes.cart">
                         <span class="kscr-Card-courseTimes">
                             <div id="ao_type_{{course.courseCode}}_{{course.regGroupCode}}_{{$index}}" class="kscr-Card-ao-type">{{item.activityOfferingType | limitTo : 3}}</div>
@@ -64,9 +65,9 @@
             <i class="glyphicon glyphicon-time kscr-Waitlisted-clockIcon"></i> Waitlisted for this course
         </div>
 
-        <!-- Course details: AO type, start-end dates, etc. -->
+        <!-- Course details: AO type, start-end dates, etc. (expanded) -->
         <div ng-hide="course.editing">
-            <!--course time, day, building-->
+            <!--course time, day, building (schedule)-->
             <div ng-repeat="ao in course.activityOfferings" class="kscr-Card-detailsText--edit" ng-if="type !== courseTypes.cart">
                 <div>
                     <span id="{{config.prefix2}}ao_type_long_{{course.courseCode}}_{{course.regGroupCode}}_{{$index}}">{{ao.activityOfferingTypeName}}</span>
@@ -75,13 +76,14 @@
                     </span>
                 </div>
                 <div ng-repeat="scheduleComponent in ao.scheduleComponents" id="{{config.prefix2}}schedule_long_{{course.courseCode}}_{{course.regGroupCode}}_{{$parent.$index}}_{{$index}}" class="kscr-Card-ao-schedule">
-                    <span ng-hide="scheduleComponent.isTBA" class="util-Grid--floatLeft">{{scheduleComponent.days}} {{scheduleComponent.displayTime}}</span>
+                    <span ng-hide="scheduleComponent.isTBA" class="util-Grid--floatLeft" ng-class="{'kscr-Card-courseTimes-highlighted' : course.conflicts}" >{{scheduleComponent.days}} {{scheduleComponent.displayTime}}</span>
                     <span ng-hide="scheduleComponent.isTBA" class="util-Grid--floatRight">{{scheduleComponent.buildingCode}} {{scheduleComponent.roomCode}}</span>
                     <span ng-show="scheduleComponent.isTBA">TBA</span>
                 </div>
                 <div class="util-Grid--clearfix"></div>
             </div>
 
+            <!--course time, day, building (cart)-->
             <div ng-repeat="item in course.schedule" class="kscr-Card-detailsText--edit" ng-if="type === courseTypes.cart">
                 <div>
                     <span id="ao_type_long_{{course.courseCode}}_{{course.regGroupCode}}_{{$index}}">{{item.activityOfferingType}}</span>
@@ -95,6 +97,10 @@
                     <span ng-show="scheduleItem.isTBA"> TBA</span>
                 </div>
                 <div class="util-Grid--clearfix"></div>
+            </div>
+
+            <div class="kscr-Card-conflicts" ng-if="course.conflicts">
+                <span>Time Conflict (<span class="kscr-Card-conflicts-list">{{parseConflicts(course.conflicts)}}</span>)</span>
             </div>
 
             <!--Course Edit/Remove Buttons-->

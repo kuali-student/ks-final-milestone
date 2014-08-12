@@ -20,14 +20,6 @@
   }
 }
 
-// Course has a conflict, show a warning icon
-.kscr-Card-conflict-icon {
-  .warning-icon;
-  background-position: 0.5rem 0;
-  height: 1.6rem;
-  width: 2.3rem;
-}
-
 // Primary text within a card (e.g. course title & description)
 .kscr-Card-text {
   color: @primaryTextColor;
@@ -73,6 +65,7 @@
 
     &--edit { // Expand || Edit Course Options
         .kscr-Card-detailsText-common();
+        margin-bottom: 0.5rem;
     }
 
     &--error { // e.g. Time Conflict Warning
@@ -119,6 +112,9 @@
 .kscr-Card-courseTimes {
   display: inline-flex;
   width: 100%;
+  &-highlighted {
+    .util-Text-highlight--withPadding(0.5rem, 0.1rem);
+  }
 }
 
 .kscr-Card-scheduleComponent {
@@ -485,6 +481,23 @@
         border-color: @cardBorderColor;
         color: @cardTextColor;
     }
+}
+
+// Course has a conflict, show a warning icon
+.kscr-Card-conflict-icon {
+  .warning-icon;
+  background-position: 0.5rem 0;
+  height: 1.6rem;
+  width: 2.3rem;
+}
+
+.kscr-Card-conflicts {
+  border-top: @horizontalLineBorder;
+  padding-top: 1rem;
+  color: @primaryTextColor;
+  &-list {
+    font-weight: bold;
+  }
 }
 
 

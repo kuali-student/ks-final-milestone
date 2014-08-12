@@ -76,12 +76,28 @@ angular.module('regCartApp')
         /*
         Updates an array of offerings with any conflicts for each one
          */
-        this.updateConflicts = function(courseList) {
+        this.updateConflicts = function(courseList, type) {
             var conflictMap = this.getConflictMap();
             for (var i=0; i<courseList.length; i++) {
                 var course = courseList[i];
-                if (!angular.equals(course.conflicts, conflictMap[course.regGroupId])) {
-                    course.conflicts = conflictMap[course.regGroupId];
+                var conflicts = conflictMap[course.regGroupId];
+                if (!angular.equals(course.conflicts, conflicts)) {
+                    switch (type) {
+                        case 'REG':
+                            // registered courses only conflict with other registered courses
+                            if (conflicts.type === 'REG') {
+                                course.conflicts = conflicts;
+                            }
+                            break;
+                        case 'WAIT':
+                            // waitlisted courses can conflict with registered or waitlisted
+                            if (conflicts.type === 'REG' || conflicts.type === 'WAIT') {
+                                course.conflicts = conflicts;
+                            }
+                            break;
+                        default:
+                            course.conflicts = conflicts;
+                    }
                 }
             }
         }
