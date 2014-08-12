@@ -1,14 +1,19 @@
 package org.kuali.student.enrollment.registration.search.elastic;
 
+import com.google.common.collect.Iterables;
 import org.apache.log4j.Logger;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.elasticsearch.action.bulk.BulkRequestBuilder;
 import org.elasticsearch.action.bulk.BulkResponse;
 import org.elasticsearch.client.Client;
+import org.elasticsearch.common.xcontent.XContentBuilder;
+import org.elasticsearch.common.xcontent.XContentFactory;
 import org.elasticsearch.node.Node;
 import org.elasticsearch.node.NodeBuilder;
 import org.kuali.student.common.util.security.ContextUtils;
+import org.kuali.student.enrollment.registration.client.service.ScheduleOfClassesService;
 import org.kuali.student.enrollment.registration.client.service.dto.CourseSearchResult;
+import org.kuali.student.enrollment.registration.client.service.dto.RegGroupSearchResult;
 import org.kuali.student.enrollment.registration.client.service.impl.util.SearchResultHelper;
 import org.kuali.student.enrollment.registration.search.service.impl.CourseRegistrationSearchServiceImpl;
 import org.kuali.student.r2.common.dto.ContextInfo;
@@ -25,7 +30,9 @@ import org.kuali.student.r2.lum.lrc.service.LRCService;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -38,10 +45,12 @@ public class ElasticEmbedded {
     public static final String KS_ELASTIC_CLUSTER = "ks.elastic.cluster";
     public static final String KS_ELASTIC_INDEX = "ks";
     public static final String COURSEOFFERING_ELASTIC_TYPE = "courseoffering";
+    public static final String REGISTRATION_GROUP_ELASTIC_TYPE = "registrationGroup";
     public static final String COURSEOFFERING_DETAILS_ELASTIC_TYPE = "courseofferingDetails";
 
     private SearchService searchService;
     private LRCService lrcService;
+    private ScheduleOfClassesService scheduleOfClassesService;
     private Node node;
     private Client client;
 
@@ -51,6 +60,7 @@ public class ElasticEmbedded {
 
     private Date lastUpdated; //Keep track of timeout for the elastic "cache"
     private long timeToRefreshMs = (5 * 60 * 1000); //Max time before refreshing the cache/reindexing
+    private static int PARTITION_SIZE = 10000; // for large data sets we should partition
 
     /**
      * Starts up a node and gets a handle to the client. This is a hook for spring application context to start up
@@ -72,6 +82,11 @@ public class ElasticEmbedded {
 
         //Wait for yellow status to avoid errors for bulk insertion
         client.admin().cluster().prepareHealth().setWaitForYellowStatus().execute().actionGet();
+
+        client.admin().indices().prepareDelete(KS_ELASTIC_INDEX).execute().actionGet();  // on init always delete existing indexes
+        client.admin().indices().prepareCreate(KS_ELASTIC_INDEX).execute().actionGet();  // create new index
+
+        applyRegistrationGroupIndexMappings();  // apply mappings for registration groups.
 
         LOG.info("Elastic Client Started");
 
@@ -108,6 +123,69 @@ public class ElasticEmbedded {
         BulkResponse bulkResponse = bulkRequest.execute().actionGet();
         if (bulkResponse.hasFailures()) {
             throw new RuntimeException("Error Bulk Loading elasticsearch courseofferings: " + bulkResponse.buildFailureMessage());
+        }
+
+        LOG.info("Done Loading Data - " + (System.currentTimeMillis() - startTime.getTime()) + "ms");
+    }
+
+    private void applyRegistrationGroupIndexMappings() throws IOException {
+        XContentBuilder builder = XContentFactory.jsonBuilder().
+                startObject().
+                startObject(REGISTRATION_GROUP_ELASTIC_TYPE).
+                startObject("properties").
+                startObject("courseOfferingId").
+                field("type", "string").field("store", "yes").field("index", "not_analyzed").
+                endObject().
+                startObject("regGroupId").
+                field("type", "string").field("store", "yes").field("index", "not_analyzed").
+                endObject().
+                startObject("regGroupState").
+                field("type", "string").field("store", "yes").field("index", "not_analyzed").
+                endObject().
+                startObject("termId").
+                field("type", "string").field("store", "yes").field("index", "not_analyzed").
+                endObject().
+                startObject("activityOfferingIds").
+                field("type", "string").field("store", "yes").field("index", "not_analyzed").
+                endObject().
+                // more mapping
+                        endObject().
+                endObject().
+                endObject();
+        client.admin().indices().preparePutMapping(KS_ELASTIC_INDEX).setType(REGISTRATION_GROUP_ELASTIC_TYPE).setSource(builder).execute().actionGet();
+
+    }
+
+    private void indexRegistrationGroupData() throws DoesNotExistException, MissingParameterException, InvalidParameterException, OperationFailedException, PermissionDeniedException, IOException {
+        LOG.info("Loading Registration Group Data into Elastic");
+        Date startTime = new Date();
+
+        //Grab all the data from the services
+        Collection<RegGroupSearchResult> allRegGroups = getAllRegistrationGroups();
+
+        // break up large set into smaller pieces
+        Iterable<List<RegGroupSearchResult>> regGroupSubSets = Iterables.partition(allRegGroups, PARTITION_SIZE);
+
+        Iterator<List<RegGroupSearchResult>> iterator = regGroupSubSets.iterator();
+        int partition = 0;
+        while(iterator.hasNext()){
+            List<RegGroupSearchResult> regGroups = iterator.next();
+            BulkRequestBuilder bulkRequest = client.prepareBulk();
+            ObjectMapper mapper = new ObjectMapper();
+
+            //Create a bulk request to push all data into elastic
+            for (RegGroupSearchResult searchResult : regGroups) {
+                String json = mapper.writeValueAsString(searchResult);
+                bulkRequest.add(client.prepareIndex(KS_ELASTIC_INDEX, REGISTRATION_GROUP_ELASTIC_TYPE, searchResult.getRegGroupId()).setSource(json));
+            }
+
+            //Execute the bulk operation
+            BulkResponse bulkResponse = bulkRequest.execute().actionGet();
+            if (bulkResponse.hasFailures()) {
+                throw new RuntimeException("Error Bulk Loading elasticsearch courseofferings: " + bulkResponse.buildFailureMessage());
+            }
+
+            LOG.info("Done Loading Registration Group Partition: " + ++partition);
         }
 
         LOG.info("Done Loading Data - " + (System.currentTimeMillis() - startTime.getTime()) + "ms");
@@ -163,6 +241,11 @@ public class ElasticEmbedded {
         return courseSearchResults;
     }
 
+    protected Collection<RegGroupSearchResult> getAllRegistrationGroups() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        // the null search returns all registration groups
+        return scheduleOfClassesService.searchForRegGroups(null);
+    }
+
     /**
      * Hook to close the node, should be called by spring application context.
      */
@@ -189,6 +272,7 @@ public class ElasticEmbedded {
                 if(lastUpdated == null){
                     //If this is a first time run, block while indexing
                     indexCourseOfferingData();
+                    indexRegistrationGroupData();
                 }else{
                     //Otherwise async start a reindex and continue with stale data
                     new Thread(){
@@ -196,6 +280,7 @@ public class ElasticEmbedded {
                         public void run() {
                             try {
                                 indexCourseOfferingData();
+                                indexRegistrationGroupData();
                             } catch (Exception e) {
                                 throw new RuntimeException("Error updating data", e);
                             }
@@ -222,5 +307,9 @@ public class ElasticEmbedded {
 
     public void setTimeToRefreshMs(long timeToRefreshMs) {
         this.timeToRefreshMs = timeToRefreshMs;
+    }
+
+    public void setScheduleOfClassesService(ScheduleOfClassesService scheduleOfClassesService) {
+        this.scheduleOfClassesService = scheduleOfClassesService;
     }
 }

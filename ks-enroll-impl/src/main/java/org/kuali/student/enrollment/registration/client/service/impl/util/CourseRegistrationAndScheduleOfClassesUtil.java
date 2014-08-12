@@ -40,7 +40,6 @@ import org.kuali.rice.krms.api.repository.RuleManagementService;
 import org.kuali.student.common.collection.KSCollectionUtils;
 import org.kuali.student.common.util.security.ContextUtils;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
-import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.enrollment.courseofferingset.service.CourseOfferingSetService;
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestItemInfo;
@@ -54,9 +53,7 @@ import org.kuali.student.enrollment.registration.client.service.dto.InstructorSe
 import org.kuali.student.enrollment.registration.client.service.dto.RegGroupSearchResult;
 import org.kuali.student.enrollment.registration.client.service.dto.StudentScheduleActivityOfferingResult;
 import org.kuali.student.enrollment.registration.client.service.dto.TermSearchResult;
-import org.kuali.student.enrollment.registration.client.service.dto.UserMessageResult;
 import org.kuali.student.enrollment.registration.client.service.exception.CourseDoesNotExistException;
-import org.kuali.student.enrollment.registration.client.service.exception.GenericUserException;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
@@ -373,16 +370,7 @@ public class CourseRegistrationAndScheduleOfClassesUtil {
         RegGroupSearchResult rg = null;
 
         if (!StringUtils.isEmpty(regGroupId)) {
-            RegistrationGroupInfo rgInfo = getCourseOfferingService().getRegistrationGroup(regGroupId, contextInfo);
-            if (rgInfo != null) {
-                rg = new RegGroupSearchResult();
-                rg.setCourseOfferingId(rgInfo.getCourseOfferingId());
-                rg.setTermId(rgInfo.getTermId());
-                rg.setRegGroupState(rgInfo.getStateKey());
-                rg.setRegGroupName(rgInfo.getName());
-                rg.setRegGroupId(rgInfo.getId());
-                rg.setActivityOfferingIds(rgInfo.getActivityOfferingIds());
-            }
+            rg = getScheduleOfClassesService().getRegGroup(regGroupId);
         } else {
             if(courseCode == null || courseCode.isEmpty()){
                 if(regGroupCode == null || regGroupCode.isEmpty()) {
@@ -410,40 +398,6 @@ public class CourseRegistrationAndScheduleOfClassesUtil {
         }
 
         return rg;
-    }
-
-    public static void processRegGroupSearchValidation(RegGroupSearchResult rg, String courseCode, String regGroupCode) throws GenericUserException {
-        ValidationResultInfo regGroupValidation = validateRegGroupSearchResult(rg, courseCode, regGroupCode);
-
-        if (regGroupValidation.isError()) {
-            String technicalInfo = String.format("Technical Info:(term:[%s] id:[%s] state:[%s] )",
-                    rg.getTermId(), rg.getRegGroupId(), rg.getRegGroupState());
-
-            UserMessageResult userMessage = new UserMessageResult();
-            userMessage.setGenericMessage(regGroupValidation.getMessage());
-            userMessage.setDetailedMessage(regGroupValidation.getMessage());
-            userMessage.setConsoleMessage(regGroupValidation.getMessage() + " " + technicalInfo);
-            userMessage.setType(UserMessageResult.MessageTypes.ERROR);
-            throw new GenericUserException(userMessage);
-        }
-    }
-
-    private static ValidationResultInfo validateRegGroupSearchResult(RegGroupSearchResult regGroupSearchResult, String courseCode, String regGroupCode) {
-        ValidationResultInfo resultInfo = new ValidationResultInfo();
-        if (!LuiServiceConstants.REGISTRATION_GROUP_OFFERED_STATE_KEY.equals(regGroupSearchResult.getRegGroupState())) {
-            switch (regGroupSearchResult.getRegGroupState()) {
-                case LuiServiceConstants.REGISTRATION_GROUP_CANCELED_STATE_KEY:
-                    resultInfo.setError(courseCode + " (" + regGroupCode + ") is cancelled");
-                    break;
-                case LuiServiceConstants.REGISTRATION_GROUP_SUSPENDED_STATE_KEY:
-                    resultInfo.setError(courseCode + " (" + regGroupCode + ") is suspended");
-                    break;
-                default:
-                    resultInfo.setError(courseCode + " (" + regGroupCode + ") is not offered");
-            }
-        }
-
-        return resultInfo;
     }
 
     private synchronized static void initActivityPriorityMap(ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException {

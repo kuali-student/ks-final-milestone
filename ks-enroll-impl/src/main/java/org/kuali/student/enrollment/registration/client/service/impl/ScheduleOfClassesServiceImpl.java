@@ -195,7 +195,7 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
         List<RegGroupSearchResult> retList = null;
 
         if (!StringUtils.isEmpty(courseOfferingId)) {
-            retList = getRegGroupList(courseOfferingId, regGroupName);
+            retList = searchForRegGroupsByCourseAndName(courseOfferingId, regGroupName);
         }
 
         // We want to add registration counts to the results
@@ -427,7 +427,7 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
         return retList;
     }
 
-    private List<RegGroupSearchResult> getRegGroupList(String courseOfferingId, String regGroupName) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<RegGroupSearchResult> searchForRegGroupsByCourseAndName(String courseOfferingId, String regGroupName) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 
         List<RegGroupSearchResult> regGroupSearchResults = searchForRegGroups(courseOfferingId);
 
@@ -440,10 +440,10 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
                     return result;
                 }
             }
-            return new ArrayList<RegGroupSearchResult>();
+            return new ArrayList<>();
         }
 
-        return new ArrayList<RegGroupSearchResult>(regGroupSearchResults);
+        return new ArrayList<>(regGroupSearchResults);
     }
 
     private String getCourseOfferingId(String courseOfferingId, String courseCode, String termId, String termCode) throws MissingParameterException, PermissionDeniedException, OperationFailedException, InvalidParameterException {
@@ -788,17 +788,30 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
         return prerequisites;
     }
 
-    private List<RegGroupSearchResult> searchForRegGroups(String courseOfferingId) throws InvalidParameterException, MissingParameterException, PermissionDeniedException, OperationFailedException {
+    @Override
+    public RegGroupSearchResult getRegGroup(String regGroupId) throws InvalidParameterException, MissingParameterException, PermissionDeniedException, OperationFailedException {
+        SearchRequestInfo searchRequest = createRegGroupSearchRequest(null, regGroupId);
+        List<RegGroupSearchResult> resultList =  processRegGroupSearch(searchRequest);
+        return KSCollectionUtils.getRequiredZeroElement(resultList);
+    }
 
-        SearchRequestInfo searchRequest = createRegGroupSearchRequest(courseOfferingId);
+    @Override
+    public List<RegGroupSearchResult> searchForRegGroups(String courseOfferingId) throws InvalidParameterException, MissingParameterException, PermissionDeniedException, OperationFailedException {
+        SearchRequestInfo searchRequest = createRegGroupSearchRequest(courseOfferingId, null);
+        return processRegGroupSearch(searchRequest);
+    }
+
+    protected List<RegGroupSearchResult> processRegGroupSearch(SearchRequestInfo searchRequest) throws InvalidParameterException, MissingParameterException, PermissionDeniedException, OperationFailedException {
+
+
         SearchResultInfo searchResult = CourseRegistrationAndScheduleOfClassesUtil.getSearchService().search(searchRequest, ContextUtils.createDefaultContextInfo());
 
-        Map<String, RegGroupSearchResult> regGroupResultMap = new HashMap<String, RegGroupSearchResult>();
+        Map<String, RegGroupSearchResult> regGroupResultMap = new HashMap<String, RegGroupSearchResult>(searchResult.getRows().size());
 
 
         for (SearchResultRowInfo row : searchResult.getRows()) {
 
-
+            String returnedCoId = null;
             String activityOfferingId = null;
             String regGroupId = null;
             String regGroupName = null;
@@ -812,7 +825,10 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
                     value = cellInfo.getValue();
                 }
 
-                if (ActivityOfferingSearchServiceImpl.SearchResultColumns.AO_ID.equals(cellInfo.getKey())) {
+                if (ActivityOfferingSearchServiceImpl.SearchResultColumns.CO_ID.equals(cellInfo.getKey())) {
+                    returnedCoId = value;
+                }
+                else if (ActivityOfferingSearchServiceImpl.SearchResultColumns.AO_ID.equals(cellInfo.getKey())) {
                     activityOfferingId = value;
                 } else if (ActivityOfferingSearchServiceImpl.SearchResultColumns.RG_ID.equals(cellInfo.getKey())) {
                     regGroupId = value;
@@ -830,7 +846,7 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
                 regGroupResultMap.get(regGroupId).getActivityOfferingIds().add(activityOfferingId);
             } else {
                 RegGroupSearchResult regGroupSearchResult = new RegGroupSearchResult();
-                regGroupSearchResult.setCourseOfferingId(courseOfferingId);
+                regGroupSearchResult.setCourseOfferingId(returnedCoId);
                 regGroupSearchResult.setRegGroupId(regGroupId);
                 regGroupSearchResult.setRegGroupName(regGroupName);
                 regGroupSearchResult.setRegGroupState(regGroupState);
@@ -948,7 +964,7 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
 
     }
 
-    private List<String> searchForCourseOfferingIdByCourseCodeAndTerm(String courseCode, String atpId) throws InvalidParameterException, MissingParameterException, PermissionDeniedException, OperationFailedException {
+    protected List<String> searchForCourseOfferingIdByCourseCodeAndTerm(String courseCode, String atpId) throws InvalidParameterException, MissingParameterException, PermissionDeniedException, OperationFailedException {
         List<String> resultList = new ArrayList<String>();
 
 
@@ -1117,12 +1133,19 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
         }
     }
 
-    private SearchRequestInfo createRegGroupSearchRequest(String courseOfferingId) {
+    /**
+     *
+     * @param courseOfferingId    optional
+     * @param regGroupId          optional
+     * @return
+     */
+    private SearchRequestInfo createRegGroupSearchRequest(String courseOfferingId, String regGroupId) {
         SearchRequestInfo searchRequest = new SearchRequestInfo(ActivityOfferingSearchServiceImpl.REG_GROUPS_BY_CO_ID_SEARCH_KEY);
 
         //List<String> filterCOStates = new ArrayList<String>(1);
         //filterCOStates.add(LuiServiceConstants.LUI_CO_STATE_OFFERED_KEY);
         searchRequest.addParam(ActivityOfferingSearchServiceImpl.SearchParameters.CO_ID, courseOfferingId);
+        searchRequest.addParam(ActivityOfferingSearchServiceImpl.SearchParameters.RG_ID, regGroupId);
 
         return searchRequest;
     }

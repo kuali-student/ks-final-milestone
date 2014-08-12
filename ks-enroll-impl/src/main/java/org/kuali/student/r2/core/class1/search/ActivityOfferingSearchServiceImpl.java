@@ -50,7 +50,7 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
     public static final TypeInfo AOS_AND_CLUSTERS_BY_CO_ID_SEARCH_TYPE;
     public static final TypeInfo AO_AND_FO_IDS_BY_CO_ID_SEARCH_TYPE;
     public static final TypeInfo REG_GROUPS_BY_CO_ID_SEARCH_TYPE;
-    public static final TypeInfo REG_GROUPS_BY_RG_ID_SEARCH_TYPE;
+    public static final TypeInfo REG_GROUPS_SEARCH_TYPE;
     public static final TypeInfo AOS_WO_CLUSTER_BY_FO_ID_SEARCH_TYPE;
     public static final TypeInfo AO_CODES_TYPES_BY_CO_ID_SEARCH_TYPE;
     public static final TypeInfo TERM_ID_BY_OFFERING_ID_SEARCH_TYPE;
@@ -69,7 +69,7 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
     public static final String AOS_AND_CLUSTERS_BY_CO_ID_SEARCH_KEY = "kuali.search.type.lui.searchForAOsAndClustersByCoId";
     public static final String AO_AND_FO_IDS_BY_CO_ID_SEARCH_KEY = "kuali.search.type.lui.searchForAOIdsFOIdsByCoId";
     public static final String REG_GROUPS_BY_CO_ID_SEARCH_KEY = "kuali.search.type.lui.searchForRegGroupsByCoId";
-    public static final String REG_GROUPS_BY_RG_ID_SEARCH_KEY = "kuali.search.type.lui.searchForRegGroupsByRgId";
+    public static final String REG_GROUPS_SEARCH_KEY = "kuali.search.type.lui.searchForRegGroups";
     public static final String AOS_WO_CLUSTER_BY_FO_ID_SEARCH_KEY = "kuali.search.type.lui.searchForAOsWithoutClusterByFormatId";
     public static final String COLOCATED_AOS_BY_AO_IDS_SEARCH_KEY = "kuali.search.type.lui.searchForAosByAoIds";
     public static final String COLOCATED_AOIDS_BY_AO_IDS_SEARCH_KEY = "kuali.search.type.lui.searchForColocatedAoIdsByAoIds";
@@ -166,19 +166,19 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
 
         info = new TypeInfo();
         info.setKey(REG_GROUPS_BY_CO_ID_SEARCH_KEY);
-        info.setName("Reg Groups for CO Search");
-        info.setDescr(new RichTextHelper().fromPlain("Return search results for Reg Groups by CO ID"));
+        info.setName("Reg Group Search Result for CO Search");
+        info.setDescr(new RichTextHelper().fromPlain("Return search results for Reg Groups by CO ID. These do no map to RegistrationGroupInfo objects"));
         info.setEffectiveDate(DateFormatters.MONTH_DAY_YEAR_DATE_FORMATTER.parse(DEFAULT_EFFECTIVE_DATE));
 
         REG_GROUPS_BY_CO_ID_SEARCH_TYPE = info;
 
         info = new TypeInfo();
-        info.setKey(REG_GROUPS_BY_RG_ID_SEARCH_KEY);
+        info.setKey(REG_GROUPS_SEARCH_KEY);
         info.setName("Reg Groups by RG ID Search");
         info.setDescr(new RichTextHelper().fromPlain("Return search results for Reg Groups by RG ID"));
         info.setEffectiveDate(DateFormatters.MONTH_DAY_YEAR_DATE_FORMATTER.parse(DEFAULT_EFFECTIVE_DATE));
 
-        REG_GROUPS_BY_RG_ID_SEARCH_TYPE = info;
+        REG_GROUPS_SEARCH_TYPE = info;
 
         info = new TypeInfo();
         info.setKey(COLOCATED_AOS_BY_AO_IDS_SEARCH_KEY);
@@ -311,8 +311,8 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
         if (REG_GROUPS_BY_CO_ID_SEARCH_KEY.equals(searchTypeKey)) {
             return REG_GROUPS_BY_CO_ID_SEARCH_TYPE;
         }
-        if (REG_GROUPS_BY_RG_ID_SEARCH_KEY.equals(searchTypeKey)) {
-            return REG_GROUPS_BY_RG_ID_SEARCH_TYPE;
+        if (REG_GROUPS_SEARCH_KEY.equals(searchTypeKey)) {
+            return REG_GROUPS_SEARCH_TYPE;
         }
         if (COLOCATED_AOS_BY_AO_IDS_SEARCH_KEY.equals(searchTypeKey)) {
             return COLOCATED_AOS_BY_AO_IDS_SEARCH_TYPE;
@@ -363,7 +363,7 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
             MissingParameterException,
             OperationFailedException {
         return Arrays.asList(SCH_IDS_BY_AO_SEARCH_TYPE, AOS_AND_CLUSTERS_BY_CO_ID_SEARCH_TYPE, AO_AND_FO_IDS_BY_CO_ID_SEARCH_TYPE,
-                REG_GROUPS_BY_CO_ID_SEARCH_TYPE, REG_GROUPS_BY_RG_ID_SEARCH_TYPE, AOS_WO_CLUSTER_BY_FO_ID_SEARCH_TYPE, COLOCATED_AOS_BY_AO_IDS_SEARCH_TYPE, FO_BY_CO_ID_SEARCH_TYPE,
+                REG_GROUPS_BY_CO_ID_SEARCH_TYPE, REG_GROUPS_SEARCH_TYPE, AOS_WO_CLUSTER_BY_FO_ID_SEARCH_TYPE, COLOCATED_AOS_BY_AO_IDS_SEARCH_TYPE, FO_BY_CO_ID_SEARCH_TYPE,
                 FO_IDS_BY_CO_ID_SEARCH_TYPE, WL_IND_BY_AO_IDS_SEARCH_TYPE, RELATED_AO_TYPES_BY_CO_ID_SEARCH_TYPE, TERM_ID_BY_OFFERING_ID_SEARCH_TYPE,
                 AO_CODES_TYPES_BY_CO_ID_SEARCH_TYPE, AO_CLUSTER_COUNT_BY_FO_TYPE, AO_ID_AND_TYPE_BY_FO_TYPE, COLOCATED_AOIDS_BY_AO_IDS_SEARCH_TYPE, CO_IDS_AND_FO_IDS_AND_ATP_IDS_BY_AO_IDS_SEARCH_TYPE);
     }
@@ -384,8 +384,8 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
         else if (REG_GROUPS_BY_CO_ID_SEARCH_KEY.equals(searchRequestInfo.getSearchKey())){
             return searchForRegGroupsByCoId(searchRequestInfo);
         }
-        else if (REG_GROUPS_BY_RG_ID_SEARCH_KEY.equals(searchRequestInfo.getSearchKey())){
-            return searchForRegGroupsByRegGroupId(searchRequestInfo);
+        else if (REG_GROUPS_SEARCH_KEY.equals(searchRequestInfo.getSearchKey())){
+            return searchForRegGroups(searchRequestInfo);
         }
         else if (COLOCATED_AOS_BY_AO_IDS_SEARCH_KEY.equals(searchRequestInfo.getSearchKey())){
             return searchForAosByAoIds(searchRequestInfo);
@@ -650,10 +650,12 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
 
         SearchRequestHelper requestHelper = new SearchRequestHelper(searchRequestInfo);
         String coId = requestHelper.getParamAsString(SearchParameters.CO_ID);
+        String rgId = requestHelper.getParamAsString(SearchParameters.RG_ID);
         List<String> regGroupStates = requestHelper.getParamAsList(SearchParameters.REGGROUP_STATES);
 
         String queryStr =
-                "SELECT rg2ao.relatedLui.id," +
+                "SELECT co2fo.lui.id, " +
+                "       rg2ao.relatedLui.id," +
                 "       rg2ao.lui.id," +
                 "       rg2ao.lui.name," +
                 "       rg2ao.lui.luiState, " +
@@ -664,16 +666,29 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
                 "WHERE co2fo.luiLuiRelationType = '" + LuiServiceConstants.LUI_LUI_RELATION_DELIVERED_VIA_CO_TO_FO_TYPE_KEY + "' " +
                 "  AND fo2ao.luiLuiRelationType = '" + LuiServiceConstants.LUI_LUI_RELATION_DELIVERED_VIA_FO_TO_AO_TYPE_KEY + "' " +
                 "  AND rg2ao.luiLuiRelationType = '" + LuiServiceConstants.LUI_LUI_RELATION_REGISTERED_FOR_VIA_RG_TO_AO_TYPE_KEY + "' " +
-                "  AND co2fo.lui.id = :coId " +
                 "  AND co2fo.relatedLui.id = fo2ao.lui.id " +
                 "  AND rg2ao.relatedLui.id = fo2ao.relatedLui.id ";
 
+        if(rgId != null && !rgId.isEmpty()) {
+            queryStr = queryStr + " AND rg2ao.lui.id = :rgId ";
+        }
+
+        if(coId != null && !coId.isEmpty()) {
+            queryStr = queryStr + " AND co2fo.lui.id = :coId ";
+        }
+
         if(regGroupStates != null && !regGroupStates.isEmpty()) {
-            queryStr = queryStr + " AND rg2ao.lui.luiState IN(:regGroupStates)";
+            queryStr = queryStr + " AND rg2ao.lui.luiState IN(:regGroupStates)  ";
         }
 
         TypedQuery<Object[]> query = entityManager.createQuery(queryStr, Object[].class);
-        query.setParameter(SearchParameters.CO_ID, coId);
+
+        if(rgId != null && !rgId.isEmpty()) {
+            query.setParameter(SearchParameters.RG_ID, rgId);
+        }
+        if(coId != null && !coId.isEmpty()) {
+            query.setParameter(SearchParameters.CO_ID, coId);
+        }
         if(regGroupStates != null && !regGroupStates.isEmpty()) {
             query.setParameter(SearchParameters.REGGROUP_STATES, regGroupStates);
         }
@@ -682,6 +697,7 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
         for(Object[] resultRow : results){
             int i = 0;
             SearchResultRowInfo row = new SearchResultRowInfo();
+            row.addCell(SearchResultColumns.CO_ID, (String)resultRow[i++]);
             row.addCell(SearchResultColumns.AO_ID, (String)resultRow[i++]);
             row.addCell(SearchResultColumns.RG_ID, (String)resultRow[i++]);
             row.addCell(SearchResultColumns.RG_NAME, (String)resultRow[i++]);
@@ -693,16 +709,16 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
         return resultInfo;
     }
 
-    protected SearchResultInfo searchForRegGroupsByRegGroupId(SearchRequestInfo searchRequestInfo) throws OperationFailedException {
+    protected SearchResultInfo searchForRegGroups(SearchRequestInfo searchRequestInfo) throws OperationFailedException {
 
         SearchRequestHelper requestHelper = new SearchRequestHelper(searchRequestInfo);
         String rgId = requestHelper.getParamAsString(SearchParameters.RG_ID);
         List<String> regGroupStates = requestHelper.getParamAsList(SearchParameters.REGGROUP_STATES);
-        return searchForRegGroupsByRegGroupIdInternal(rgId, regGroupStates);
+        return searchForRegGroupsInternal(rgId, regGroupStates);
 
     }
 
-    protected SearchResultInfo searchForRegGroupsByRegGroupIdInternal(String regGroupId,  List<String> regGroupStates) throws OperationFailedException {
+    protected SearchResultInfo searchForRegGroupsInternal(String regGroupId,  List<String> regGroupStates) throws OperationFailedException {
         SearchResultInfo resultInfo = new SearchResultInfo();
 
         String queryStr = "SELECT\n" +
@@ -743,20 +759,26 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
                 "WHERE co2fo.LUILUI_RELTN_TYPE = '" + LuiServiceConstants.LUI_LUI_RELATION_DELIVERED_VIA_CO_TO_FO_TYPE_KEY + "' " +
                 "  AND fo2ao.LUILUI_RELTN_TYPE = '" + LuiServiceConstants.LUI_LUI_RELATION_DELIVERED_VIA_FO_TO_AO_TYPE_KEY + "' " +
                 "  AND rg2ao.LUILUI_RELTN_TYPE = '" + LuiServiceConstants.LUI_LUI_RELATION_REGISTERED_FOR_VIA_RG_TO_AO_TYPE_KEY + "' " +
-                "  AND rg2ao.LUI_ID = :rgId " +
+
                 "AND co2fo.RELATED_LUI_ID = fo2ao.LUI_ID\n" +
                 "AND rg2ao.RELATED_LUI_ID = fo2ao.RELATED_LUI_ID\n" +
                 "AND rgLui.id = rg2ao.LUI_ID";
 
+        if(regGroupId != null && !regGroupId.isEmpty()) {
+            queryStr = queryStr + "   AND rg2ao.LUI_ID = :rgId ";
+        }
+
         if(regGroupStates != null && !regGroupStates.isEmpty()) {
-            queryStr = queryStr + " AND rg2ao.lui.luiState IN(:regGroupStates)";
+            queryStr = queryStr + " AND rg2ao.lui.luiState IN(:regGroupStates)  ";
         }
 
         Query query = entityManager.createNativeQuery(queryStr);
-        query.setParameter(SearchParameters.RG_ID, regGroupId);
         query.setParameter("isGeneratedName", CourseOfferingServiceConstants.IS_REGISTRATION_GROUP_GENERATED_INDICATOR_ATTR);
         query.setParameter("aoClusterIdName", CourseOfferingServiceConstants.AOCLUSTER_ID_ATTR);
 
+        if(regGroupId != null && !regGroupId.isEmpty()) {
+            query.setParameter(SearchParameters.RG_ID, regGroupId);
+        }
 
         if(regGroupStates != null && !regGroupStates.isEmpty()) {
             query.setParameter(SearchParameters.REGGROUP_STATES, regGroupStates);

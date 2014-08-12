@@ -1500,6 +1500,14 @@
         <property name="lrcService" ref="lrcServiceCache" />
     </bean>
 
+    <bean id="scheduleOfClassesServiceElastic" class="org.kuali.student.enrollment.registration.client.service.impl.ScheduleOfClassesServiceElasticImpl">
+        <property name="entityManager" ref="enrollEntityManager" />
+        <property name="luiService" ref="LuiService"/>
+        <property name="atpService" ref="AtpService"/>
+        <property name="lrcService" ref="lrcServiceCache" />
+        <property name="elasticEmbedded" ref="elasticEmbedded"/>
+    </bean>
+
     <bean id="ks.exp.scheduleOfClassesService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
         <property name="serviceDefinition">
             <bean class="org.kuali.rice.ksb.api.bus.support.JavaServiceDefinition">
@@ -1543,6 +1551,7 @@
     </bean>
 
     <bean id="courseRegistrationClientService" class="org.kuali.student.enrollment.registration.client.service.impl.CourseRegistrationClientServiceImpl">
+        <property name="scheduleOfClassesService" ref="scheduleOfClassesServiceElastic"/>
     </bean>
 
     <bean id="ks.exp.courseRegistrationClientService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
@@ -1586,7 +1595,10 @@
         </property>
     </bean>
 
-    <bean id="courseRegistrationCartClientService" class="org.kuali.student.enrollment.registration.client.service.impl.CourseRegistrationCartClientServiceImpl" />
+    <!-- the rest clients should be using the elastic impls where possible -->
+    <bean id="courseRegistrationCartClientService" class="org.kuali.student.enrollment.registration.client.service.impl.CourseRegistrationCartClientServiceImpl" >
+        <property name="scheduleOfClassesService" ref="scheduleOfClassesServiceElastic" />
+    </bean>
 
     <bean id="ks.exp.courseRegistrationCartClientService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
         <property name="serviceDefinition">
@@ -1863,6 +1875,7 @@
     <bean id="elasticEmbedded" class="org.kuali.student.enrollment.registration.search.elastic.ElasticEmbedded" init-method="init" destroy-method="shutdown"
             depends-on="LRCService, searchService">
         <property name="lrcService" ref="LRCService"/>
+        <property name="scheduleOfClassesService"  ref="scheduleOfClassesService"/>
         <property name="searchService" ref="searchService"/>
     </bean>
     

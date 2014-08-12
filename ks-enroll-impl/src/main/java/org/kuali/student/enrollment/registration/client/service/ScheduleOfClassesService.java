@@ -122,4 +122,39 @@ public interface ScheduleOfClassesService {
      * @throws PermissionDeniedException
      */
     public ResultValueGroupCourseOptions getCreditAndGradingOptions(String courseOfferingId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
+     * Search to get a RegGroupSearchResult.
+     *
+     * @param courseOfferingId    Optional. If the courseOfferingId is null, then it will return all registration groups
+     * @return
+     * @throws InvalidParameterException
+     * @throws MissingParameterException
+     * @throws PermissionDeniedException
+     * @throws OperationFailedException
+     */
+    public List<RegGroupSearchResult> searchForRegGroups(String courseOfferingId) throws InvalidParameterException, MissingParameterException, PermissionDeniedException, OperationFailedException;
+
+    /**
+     *
+     * @param regGroupId registration group id
+     * @return
+     * @throws InvalidParameterException
+     * @throws MissingParameterException
+     * @throws PermissionDeniedException
+     * @throws OperationFailedException
+     */
+    public RegGroupSearchResult getRegGroup(String regGroupId) throws InvalidParameterException, MissingParameterException, PermissionDeniedException, OperationFailedException;
+
+    /**
+     * This will search for registration groups by the course offering id and the reg group name. A course offering can have multiple RGs so the name must be unique
+     * @param courseOfferingId
+     * @param regGroupName       Ex. 1001
+     * @return
+     * @throws InvalidParameterException
+     * @throws MissingParameterException
+     * @throws OperationFailedException
+     * @throws PermissionDeniedException
+     */
+    public List<RegGroupSearchResult> searchForRegGroupsByCourseAndName(String courseOfferingId, String regGroupName) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 }

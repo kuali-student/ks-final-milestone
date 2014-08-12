@@ -1,6 +1,7 @@
 package org.kuali.student.enrollment.registration.client.service.impl;
 
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.student.common.util.security.ContextUtils;
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestInfo;
 import org.kuali.student.enrollment.registration.client.service.CourseRegistrationCartClientService;
@@ -14,7 +15,6 @@ import org.kuali.student.enrollment.registration.client.service.dto.UserMessageR
 import org.kuali.student.enrollment.registration.client.service.exception.CourseDoesNotExistException;
 import org.kuali.student.enrollment.registration.client.service.exception.GenericUserException;
 import org.kuali.student.enrollment.registration.client.service.exception.MissingOptionException;
-import org.kuali.student.enrollment.registration.client.service.impl.util.CourseRegistrationAndScheduleOfClassesUtil;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
@@ -75,10 +75,10 @@ public class CourseRegistrationCartClientServiceImpl extends CourseRegistrationC
                 cartId = request.getId();
             }
 
-            RegGroupSearchResult rg = CourseRegistrationAndScheduleOfClassesUtil.getRegGroup(termId, null, courseCode, regGroupCode, regGroupId, contextInfo);
+            RegGroupSearchResult rg = resolveRegGroup(termId, null, courseCode, regGroupCode, regGroupId, contextInfo);
 
             // will throw error if RG is not in proper state
-            CourseRegistrationAndScheduleOfClassesUtil.processRegGroupSearchValidation(rg, courseCode, regGroupCode);
+            processRegGroupSearchValidation(rg, courseCode, regGroupCode);
 
             // get the credit and grading options for this course
             ResultValueGroupCourseOptions rvgCourseOptions = getScheduleOfClassesService().getCreditAndGradingOptions(rg.getCourseOfferingId(), contextInfo);
@@ -128,18 +128,18 @@ public class CourseRegistrationCartClientServiceImpl extends CourseRegistrationC
         }  catch(CourseDoesNotExistException e) {
             String technicalInfo = String.format("Unable to add item to cart. Technical Info:(cartId:[%s] courseCode:[%s] regGroupCode:[%s] regGroupId:[%s] gradingOptionId:[%s] credits:[%s] )",
                     cartId, courseCode, regGroupCode, regGroupId, gradingOptionId, credits);
-            LOGGER.warn(technicalInfo, e);
+            LOGGER.debug(technicalInfo, e);
             //The reg request does not exist (HTTP status 404 Not Found)
             response = getResponse(Response.Status.NOT_FOUND, new CourseCodeValidationResult(e.getMessageKey(), e.getCourseCode()));
         } catch (MissingOptionException e) {
             String technicalInfo = String.format("Unable to add item to cart. Technical Info:(cartId:[%s] courseCode:[%s] regGroupCode:[%s] regGroupId:[%s] gradingOptionId:[%s] credits:[%s] )",
                     cartId, courseCode, regGroupCode, regGroupId, gradingOptionId, credits);
-            LOGGER.warn(technicalInfo, e);
+            LOGGER.debug(technicalInfo, e);
             response = getResponse(Response.Status.BAD_REQUEST, e.getCartItemOptions());
         } catch (DoesNotExistException e) {
             String technicalInfo = String.format("Unable to add item to cart. Technical Info:(cartId:[%s] courseCode:[%s] regGroupCode:[%s] regGroupId:[%s] gradingOptionId:[%s] credits:[%s] )",
                     cartId, courseCode, regGroupCode, regGroupId, gradingOptionId, credits);
-            LOGGER.warn(technicalInfo,e);
+            LOGGER.debug(technicalInfo, e);
             //The reg request does not exist (HTTP status 404 Not Found)
             response = getResponse(Response.Status.NOT_FOUND, e.getMessage());
         } catch (GenericUserException e) {
@@ -161,6 +161,103 @@ public class CourseRegistrationCartClientServiceImpl extends CourseRegistrationC
         }
 
         return response.build();
+    }
+
+    /**
+     * Resolve reg group information from the user input. In order to take advantage of caching we must use the
+     * scheduleOfClassesService getRegGroup methods.
+     * @param termId    termId or termCode are required if there is no regGroupId
+     * @param termCode  termId or termCode are required if there is no regGroupId
+     * @param courseCode required if no regGroupId
+     * @param regGroupCode required if no regGroupId
+     * @param regGroupId  if this is provided no other fields are needed
+     * @param contextInfo
+     * @return
+     * @throws PermissionDeniedException
+     * @throws MissingParameterException
+     * @throws InvalidParameterException
+     * @throws OperationFailedException
+     * @throws DoesNotExistException
+     */
+    protected RegGroupSearchResult resolveRegGroup(String termId, String termCode, String courseCode, String regGroupCode, String regGroupId, ContextInfo contextInfo) throws PermissionDeniedException, MissingParameterException, InvalidParameterException, OperationFailedException, DoesNotExistException {
+        RegGroupSearchResult rg = null;
+
+        if (!StringUtils.isEmpty(regGroupId)) {
+            rg = getScheduleOfClassesService().getRegGroup(regGroupId);
+        } else {
+            if(courseCode == null || courseCode.isEmpty()){
+                throw new DoesNotExistException("Course Code cannot be empty");
+            }
+            if(regGroupCode == null || regGroupCode.isEmpty()){
+                throw new DoesNotExistException("Section cannot be empty");
+            }
+            // get the registration group
+            rg = getScheduleOfClassesService().searchForRegistrationGroupByTermAndCourseAndRegGroup(termId, termCode, courseCode, regGroupCode);
+        }
+
+        if (rg == null) {
+            if (courseCode != null && !StringUtils.isEmpty(courseCode)) {
+                String technicalInfo = String.format("getRegGroup. Cannot find Course. Technical Info:(termId:[%s] termCode:[%s] courseCode:[%s] regGroupCode:[%s] regGroupId:[%s])",
+                        termId, termCode, courseCode, regGroupCode, regGroupId);
+                LOGGER.warn(technicalInfo);
+                throw new DoesNotExistException("Cannot find the course " + courseCode + " in the selected term");
+            } else {
+                throw new DoesNotExistException("Course Code cannot be empty");
+            }
+        }
+
+        return rg;
+    }
+
+
+    /**
+     * process reg group search validation for Rest Services
+     *
+     * @param rg             the reg group to be validated
+     * @param courseCode     needed only for debug message
+     * @param regGroupCode   needed only for debug message
+     * @throws GenericUserException
+     */
+    protected void processRegGroupSearchValidation(RegGroupSearchResult rg, String courseCode, String regGroupCode) throws GenericUserException {
+        ValidationResultInfo regGroupValidation = validateRegGroupSearchResult(rg, courseCode, regGroupCode);
+
+        if (regGroupValidation.isError()) {
+            String technicalInfo = String.format("Technical Info:(term:[%s] id:[%s] state:[%s] )",
+                    rg.getTermId(), rg.getRegGroupId(), rg.getRegGroupState());
+
+            UserMessageResult userMessage = new UserMessageResult();
+            userMessage.setGenericMessage(regGroupValidation.getMessage());
+            userMessage.setDetailedMessage(regGroupValidation.getMessage());
+            userMessage.setConsoleMessage(regGroupValidation.getMessage() + " " + technicalInfo);
+            userMessage.setType(UserMessageResult.MessageTypes.ERROR);
+            throw new GenericUserException(userMessage);
+        }
+    }
+
+    /**
+     * Validates that the reg gorup is in the proper state. If not populate with the proper error messages.
+     * @param regGroupSearchResult
+     * @param courseCode     needed only for debug message
+     * @param regGroupCode   needed only for debug message
+     * @return
+     */
+    protected ValidationResultInfo validateRegGroupSearchResult(RegGroupSearchResult regGroupSearchResult, String courseCode, String regGroupCode) {
+
+        ValidationResultInfo resultInfo = new ValidationResultInfo();
+        if (!LuiServiceConstants.REGISTRATION_GROUP_OFFERED_STATE_KEY.equals(regGroupSearchResult.getRegGroupState())) {
+            switch (regGroupSearchResult.getRegGroupState()) {
+                case LuiServiceConstants.REGISTRATION_GROUP_CANCELED_STATE_KEY:
+                    resultInfo.setError(courseCode + " (" + regGroupCode + ") is cancelled");
+                    break;
+                case LuiServiceConstants.REGISTRATION_GROUP_SUSPENDED_STATE_KEY:
+                    resultInfo.setError(courseCode + " (" + regGroupCode + ") is suspended");
+                    break;
+                default:
+                    resultInfo.setError(courseCode + " (" + regGroupCode + ") is not offered");
+            }
+        }
+
+        return resultInfo;
     }
 
     @Override

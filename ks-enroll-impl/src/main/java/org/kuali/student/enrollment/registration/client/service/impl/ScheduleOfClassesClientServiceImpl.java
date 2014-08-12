@@ -20,7 +20,6 @@ import org.kuali.student.enrollment.registration.client.service.dto.InstructorSe
 import org.kuali.student.enrollment.registration.client.service.dto.RegGroupSearchResult;
 import org.kuali.student.enrollment.registration.client.service.dto.TermSearchResult;
 import org.kuali.student.enrollment.registration.client.service.impl.util.CourseRegistrationAndScheduleOfClassesUtil;
-import org.kuali.student.enrollment.registration.search.elastic.ElasticEmbedded;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
@@ -34,7 +33,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ScheduleOfClassesClientServiceImpl extends ScheduleOfClassesServiceImpl implements ScheduleOfClassesClientService {
+public class ScheduleOfClassesClientServiceImpl extends ScheduleOfClassesServiceElasticImpl implements ScheduleOfClassesClientService {
 
     //Caching
     private static final String COURSE_DETAILS_CACHE_NAME = "courseDetailsCache";
@@ -43,7 +42,6 @@ public class ScheduleOfClassesClientServiceImpl extends ScheduleOfClassesService
     public static final Logger LOGGER = LoggerFactory.getLogger(ScheduleOfClassesClientServiceImpl.class);
 
     private static final String EXCEPTION_MSG = "Exception Thrown";
-    private ElasticEmbedded elasticEmbedded;
 
     /**
      * COURSE SEARCH *
@@ -263,9 +261,6 @@ public class ScheduleOfClassesClientServiceImpl extends ScheduleOfClassesService
         return response.build();
     }
 
-    public void setElasticEmbedded(ElasticEmbedded elasticEmbedded) {
-        this.elasticEmbedded = elasticEmbedded;
-    }
 
     public CacheManager getCacheManager() {
         return cacheManager;

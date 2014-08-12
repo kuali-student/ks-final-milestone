@@ -1,6 +1,7 @@
 package org.kuali.student.enrollment.class2.courseoffering.service.decorators;
 
 import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
+import org.kuali.student.enrollment.registration.client.service.impl.util.CourseRegistrationAndScheduleOfClassesUtil;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.MetaInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
@@ -16,6 +17,10 @@ import org.kuali.student.r2.core.search.dto.SearchResultCellInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultRowInfo;
 import org.kuali.student.r2.core.search.service.SearchService;
+
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * This class has overwritten some methods to be more performant. These
@@ -40,22 +45,32 @@ public class CourseOfferingServicePerformanceDecorator extends CourseOfferingSer
      */
     @Override
     public RegistrationGroupInfo getRegistrationGroup(String registrationGroupId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        SearchRequestInfo sr = new SearchRequestInfo(ActivityOfferingSearchServiceImpl.REG_GROUPS_BY_RG_ID_SEARCH_KEY);
-        sr.addParam(ActivityOfferingSearchServiceImpl.SearchParameters.RG_ID, registrationGroupId);
-        SearchResultInfo searchResult = getSearchService().search(sr, context);
+        Collection<RegistrationGroupInfo> collection = getRegistrationGroups(registrationGroupId, context);
 
-        RegistrationGroupInfo rgInfo;
+        if(collection == null || collection.isEmpty()){
+            throw new DoesNotExistException("Registration Group: [" + registrationGroupId + "] does not exist.");
+        }
+
+        return collection.iterator().next();
+    }
+
+    protected Collection<RegistrationGroupInfo> getRegistrationGroups(String registrationGroupId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        SearchRequestInfo sr = new SearchRequestInfo(ActivityOfferingSearchServiceImpl.REG_GROUPS_SEARCH_KEY);
+        sr.addParam(ActivityOfferingSearchServiceImpl.SearchParameters.RG_ID, registrationGroupId);
+        SearchResultInfo searchResult = CourseRegistrationAndScheduleOfClassesUtil.getSearchService().search(sr, context);
 
         if(searchResult == null){
             throw new DoesNotExistException("Registration Group: [" + registrationGroupId + "] does not exist.");
-        } else {
-            rgInfo = new RegistrationGroupInfo();
-            rgInfo.setDescr(new RichTextInfo());
-            rgInfo.setMeta(new MetaInfo());
         }
+        Map<String, RegistrationGroupInfo> rgInfoMap = new HashMap<String, RegistrationGroupInfo>(Math.round(searchResult.getRows().size()));
 
         for (SearchResultRowInfo row : searchResult.getRows()) {
+            RegistrationGroupInfo rgInfo = new RegistrationGroupInfo();
+            rgInfo.setDescr(new RichTextInfo());
+            rgInfo.setMeta(new MetaInfo());
+
             for (SearchResultCellInfo cell : row.getCells()) {
+                String aoId = null;
                 // Base lui info
                 if (ActivityOfferingSearchServiceImpl.SearchResultColumns.RG_ID.equals(cell.getKey())) {
                     rgInfo.setId(cell.getValue());
@@ -87,7 +102,7 @@ public class CourseOfferingServicePerformanceDecorator extends CourseOfferingSer
 
                 // rg info
                 else if (ActivityOfferingSearchServiceImpl.SearchResultColumns.AO_ID.equals(cell.getKey())) {
-                    rgInfo.getActivityOfferingIds().add(cell.getValue());
+                    aoId  = cell.getValue();
                 }else if (ActivityOfferingSearchServiceImpl.SearchResultColumns.FO_ID.equals(cell.getKey())) {
                     rgInfo.setFormatOfferingId(cell.getValue());
                 } else if (ActivityOfferingSearchServiceImpl.SearchResultColumns.CO_ID.equals(cell.getKey())) {
@@ -99,10 +114,18 @@ public class CourseOfferingServicePerformanceDecorator extends CourseOfferingSer
                 } else if (ActivityOfferingSearchServiceImpl.SearchResultColumns.AO_CLUSTER_ID.equals(cell.getKey())) {
                     rgInfo.setActivityOfferingClusterId(cell.getValue());
                 }
+
+                if(!rgInfoMap.containsKey(rgInfo.getId())){
+                    rgInfoMap.put(rgInfo.getId(), rgInfo);
+                }
+
+                if(aoId != null && !aoId.isEmpty()) {
+                    rgInfoMap.get(rgInfo.getId()).getActivityOfferingIds().add(aoId);
+                }
             }
         }
 
-        return rgInfo;
+        return rgInfoMap.values();
     }
 
     public SearchService getSearchService() {
