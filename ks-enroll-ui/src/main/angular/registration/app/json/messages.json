@@ -42,5 +42,9 @@
     {
         "messageKey":"kuali.cr.cart.message.course.code.required",
         "message":"Course code required"
+    },
+    {
+        "messageKey":"kuali.lpr.trans.message.course.not.open",
+        "message":"Registration is not currently open"
     }
 ]

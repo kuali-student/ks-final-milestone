@@ -101,7 +101,8 @@ angular.module('regCartApp')
         waitlistFull: 'kuali.lpr.trans.message.waitlist.full',                  //"No seats available.<br/>(Waitlist full)"
         waitlistNotOffered: 'kuali.lpr.trans.message.waitlist.not.offered',      //"No seats available.<br/>(Waitlist not offered)"
         transactionException: 'kuali.lpr.trans.message.exception',
-        transactionItemException: 'kuali.lpr.trans.item.message.exception'
+        transactionItemException: 'kuali.lpr.trans.item.message.exception',
+        courseNotOpen: 'kuali.lpr.trans.message.course.not.open'
     })
 
     .constant('GENERAL_ERROR_TYPE', {

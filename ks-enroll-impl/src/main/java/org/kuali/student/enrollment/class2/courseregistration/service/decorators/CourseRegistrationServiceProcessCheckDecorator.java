@@ -18,7 +18,6 @@ import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestIt
 import org.kuali.student.enrollment.courseregistration.infc.RegistrationRequestItem;
 import org.kuali.student.enrollment.courseregistration.service.CourseRegistrationService;
 import org.kuali.student.enrollment.coursewaitlist.service.CourseWaitListService;
-import org.kuali.student.enrollment.registration.client.service.impl.util.RegistrationValidationResultsUtil;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
@@ -46,7 +45,6 @@ public class CourseRegistrationServiceProcessCheckDecorator
     private CourseWaitListService waitlistService;
     private CourseOfferingService courseOfferingService;
     private KRMSEvaluator krmsEvaluator;
-    private Map<String, String> messageKeyMap;
 
     // this comparator is used to sort the reg req items in the order they are displayed on the screen.
     // allows us to validate in order.
@@ -160,6 +158,7 @@ public class CourseRegistrationServiceProcessCheckDecorator
             //Put In facts that are needed for each reg request
             executionFacts.put(RulesExecutionConstants.REGISTRATION_GROUP_TERM.getName(), registrationGroupInfo);
             executionFacts.put(RulesExecutionConstants.REGISTRATION_REQUEST_ITEM_TERM.getName(), requestItem);
+            executionFacts.put(RulesExecutionConstants.REGISTRATION_REQUEST_ITEM_ID_TERM.getName(), requestItem.getId());
 
             //Perform the rules execution
             EngineResults engineResults = this.krmsEvaluator.evaluateProposition(prop, executionFacts);
@@ -171,20 +170,6 @@ public class CourseRegistrationServiceProcessCheckDecorator
             //Get the validation results
             List<ValidationResultInfo> itemValidationResults = KRMSEvaluator.extractValidationResults(engineResults);
             allValidationResults.addAll(itemValidationResults);
-
-            //Update the Element to point to the regrequest item. (Could be moved to AbstractCheckProposition recordFailureResult)
-            for(ValidationResultInfo vr:itemValidationResults){
-                if(vr.isError()||vr.isWarn()){
-                    vr.setElement("registrationRequestItems['" + requestItem.getId() + "']");
-                    // Translate message body for specific messages
-                    for (Map.Entry<String, String> messageKeyEntry : messageKeyMap.entrySet()) {
-                        if (messageKeyEntry.getValue().equals(vr.getMessage())) {
-                            vr.setMessage(RegistrationValidationResultsUtil.marshallSimpleMessage(messageKeyEntry.getKey()));
-                            break;
-                        }
-                    }
-                }
-            }
 
             //If there are no errors add this request item to the list of simulated "successful" items
             if(!ValidationUtils.checkForErrors(itemValidationResults)){
@@ -232,7 +217,4 @@ public class CourseRegistrationServiceProcessCheckDecorator
         this.courseOfferingService = courseOfferingService;
     }
 
-    public void setMessageKeyMap(Map<String, String> messageKeyMap) {
-        this.messageKeyMap = messageKeyMap;
-    }
 }
