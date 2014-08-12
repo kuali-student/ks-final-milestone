@@ -1496,6 +1496,8 @@
     <bean id="scheduleOfClassesService" class="org.kuali.student.enrollment.registration.client.service.impl.ScheduleOfClassesServiceImpl">
         <property name="entityManager" ref="enrollEntityManager" />
         <property name="atpService" ref="AtpService"/>
+        <property name="luiService" ref="LuiService"/>
+        <property name="lrcService" ref="lrcServiceCache" />
     </bean>
 
     <bean id="ks.exp.scheduleOfClassesService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">

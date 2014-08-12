@@ -10,25 +10,10 @@ import org.kuali.student.common.collection.KSCollectionUtils;
 import org.kuali.student.common.util.security.ContextUtils;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.enrollment.courseofferingset.dto.SocInfo;
+import org.kuali.student.enrollment.lui.dto.LuiInfo;
+import org.kuali.student.enrollment.lui.service.LuiService;
 import org.kuali.student.enrollment.registration.client.service.ScheduleOfClassesService;
-import org.kuali.student.enrollment.registration.client.service.dto.ActivityOfferingScheduleComponentResult;
-import org.kuali.student.enrollment.registration.client.service.dto.ActivityOfferingSearchResult;
-import org.kuali.student.enrollment.registration.client.service.dto.ActivityOfferingTypesSearchResult;
-import org.kuali.student.enrollment.registration.client.service.dto.ActivityTypeSearchResult;
-import org.kuali.student.enrollment.registration.client.service.dto.CourseAndPrimaryAOSearchResult;
-import org.kuali.student.enrollment.registration.client.service.dto.CourseOfferingDetailsSearchResult;
-import org.kuali.student.enrollment.registration.client.service.dto.CourseOfferingLimitedInfoSearchResult;
-import org.kuali.student.enrollment.registration.client.service.dto.CourseSearchResult;
-import org.kuali.student.enrollment.registration.client.service.dto.EligibilityCheckResult;
-import org.kuali.student.enrollment.registration.client.service.dto.InstructorSearchResult;
-import org.kuali.student.enrollment.registration.client.service.dto.RegGroupLimitedInfoSearchResult;
-import org.kuali.student.enrollment.registration.client.service.dto.RegGroupSearchResult;
-import org.kuali.student.enrollment.registration.client.service.dto.RegistrationCountResult;
-import org.kuali.student.enrollment.registration.client.service.dto.ResultValueGroupCourseOptions;
-import org.kuali.student.enrollment.registration.client.service.dto.ScheduleSearchResult;
-import org.kuali.student.enrollment.registration.client.service.dto.StudentScheduleActivityOfferingResult;
-import org.kuali.student.enrollment.registration.client.service.dto.SubTermOfferingResult;
-import org.kuali.student.enrollment.registration.client.service.dto.TermSearchResult;
+import org.kuali.student.enrollment.registration.client.service.dto.*;
 import org.kuali.student.enrollment.registration.client.service.impl.util.CourseRegistrationAndScheduleOfClassesUtil;
 import org.kuali.student.enrollment.registration.client.service.impl.util.SearchResultHelper;
 import org.kuali.student.enrollment.registration.client.service.impl.util.StaticUserDateUtil;
@@ -36,11 +21,7 @@ import org.kuali.student.enrollment.registration.search.service.impl.CourseRegis
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.TimeOfDayInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
-import org.kuali.student.r2.common.exceptions.DoesNotExistException;
-import org.kuali.student.r2.common.exceptions.InvalidParameterException;
-import org.kuali.student.r2.common.exceptions.MissingParameterException;
-import org.kuali.student.r2.common.exceptions.OperationFailedException;
-import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.common.exceptions.*;
 import org.kuali.student.r2.common.infc.ValidationResult;
 import org.kuali.student.r2.common.util.TimeOfDayHelper;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
@@ -61,21 +42,15 @@ import org.kuali.student.r2.core.search.dto.SearchResultInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultRowInfo;
 import org.kuali.student.r2.lum.lrc.dto.ResultValueInfo;
 import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
+import org.kuali.student.r2.lum.lrc.service.LRCService;
 import org.kuali.student.r2.lum.util.constants.LrcServiceConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
-
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.Map.Entry;
 
 import static org.kuali.rice.core.api.criteria.PredicateFactory.equal;
@@ -87,6 +62,8 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
     private EntityManager entityManager;
 
     private AtpService atpService;
+    private LRCService lrcService;
+    private LuiService luiService;
 
 
     /**
@@ -1289,35 +1266,39 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
     }
 
     @Override
-    public ResultValueGroupCourseOptions getCreditAndGradingOptions(String courseOfferingId, ContextInfo contextInfo) throws OperationFailedException {
-
-
-        SearchRequestInfo searchRequest = new SearchRequestInfo(CourseRegistrationSearchServiceImpl.RVGS_BY_LUI_IDS_SEARCH_TYPE.getKey());
-        searchRequest.addParam(CourseRegistrationSearchServiceImpl.SearchParameters.LUI_IDS, Arrays.asList(courseOfferingId));
-
-        SearchResultInfo searchResult;
-        try {
-            searchResult = CourseRegistrationAndScheduleOfClassesUtil.getSearchService().search(searchRequest, contextInfo);
-        } catch (Exception e) {
-            throw new OperationFailedException("Search of activity offering schedules failed: ", e);
-        }
+    public ResultValueGroupCourseOptions getCreditAndGradingOptions(String courseOfferingId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 
         ResultValueGroupCourseOptions rvgCourseOptions = new ResultValueGroupCourseOptions();
         rvgCourseOptions.setCourseOfferingId(courseOfferingId);
 
-        for (SearchResultHelper.KeyValue row : SearchResultHelper.wrap(searchResult)) {
-            //String coId = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.LUI_ID);
-            String rvgId = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.RVG_ID);
-            String rvgValue = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.RVG_VALUE);
+        // Get the LUI so we can get the ResultValueGroupKeys (Groups holding the credit & grading options)
+        LuiInfo luiInfo = getLuiService().getLui(courseOfferingId, contextInfo);
 
-            if (rvgId.startsWith("kuali.creditType.credit.degree.")) {
-                rvgCourseOptions.getCreditOptions().put(rvgId, rvgValue);
-            } else {
-                rvgCourseOptions.getGradingOptions().put(rvgId,CourseRegistrationAndScheduleOfClassesUtil.translateGradingOptionKeyToName(rvgId) );
+        if (!luiInfo.getResultValuesGroupKeys().isEmpty()) {
+            // Identify & translate the grading option groups
+            for (String rvgKey : luiInfo.getResultValuesGroupKeys()) {
+                String gradingOptionLabel = CourseRegistrationAndScheduleOfClassesUtil.translateGradingOptionKeyToName(rvgKey);
+                if (StringUtils.isNotEmpty(gradingOptionLabel)) {
+                    rvgCourseOptions.getGradingOptions().put(rvgKey, gradingOptionLabel);
+                }
+            }
+
+            // Load any credit option values - Only necessary if there were RVGs that weren't grading option values
+            if (rvgCourseOptions.getGradingOptions().size() != luiInfo.getResultValuesGroupKeys().size()) {
+                // Fetch the ResultValues for the groups
+                List<ResultValueInfo> resultValueInfos = getLrcService().getResultValuesForResultValuesGroups(
+                        luiInfo.getResultValuesGroupKeys(), contextInfo);
+
+                // Pick out the credit option values and store them to be returned out
+                for (ResultValueInfo resultValueInfo : resultValueInfos) {
+                    if (LrcServiceConstants.RESULT_SCALE_KEY_CREDIT_DEGREE.equals(resultValueInfo.getResultScaleKey())) {
+                        rvgCourseOptions.getCreditOptions().put(resultValueInfo.getKey(), resultValueInfo.getValue());
+                    }
+                }
             }
         }
-        return rvgCourseOptions;
 
+        return rvgCourseOptions;
     }
 
     // Setting grading and credit options
@@ -1456,5 +1437,21 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
 
     public void setAtpService(AtpService atpService) {
         this.atpService = atpService;
+    }
+
+    public LRCService getLrcService() {
+        return lrcService;
+    }
+
+    public void setLrcService(LRCService lrcService) {
+        this.lrcService = lrcService;
+    }
+
+    public LuiService getLuiService() {
+        return luiService;
+    }
+
+    public void setLuiService(LuiService luiService) {
+        this.luiService = luiService;
     }
 }

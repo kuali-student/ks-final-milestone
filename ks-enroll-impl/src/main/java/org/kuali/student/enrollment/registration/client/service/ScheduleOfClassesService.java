@@ -5,10 +5,7 @@ import org.kuali.student.enrollment.registration.client.service.dto.CourseSearch
 import org.kuali.student.enrollment.registration.client.service.dto.RegGroupSearchResult;
 import org.kuali.student.enrollment.registration.client.service.dto.ResultValueGroupCourseOptions;
 import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.exceptions.InvalidParameterException;
-import org.kuali.student.r2.common.exceptions.MissingParameterException;
-import org.kuali.student.r2.common.exceptions.OperationFailedException;
-import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.common.exceptions.*;
 import org.kuali.student.r2.core.scheduling.dto.TimeSlotInfo;
 
 import java.util.List;
@@ -118,7 +115,11 @@ public interface ScheduleOfClassesService {
      * @param courseOfferingId
      * @param contextInfo
      * @return
+     * @throws DoesNotExistException
+     * @throws InvalidParameterException
+     * @throws MissingParameterException
      * @throws OperationFailedException
+     * @throws PermissionDeniedException
      */
-    public ResultValueGroupCourseOptions getCreditAndGradingOptions(String courseOfferingId, ContextInfo contextInfo) throws OperationFailedException;
+    public ResultValueGroupCourseOptions getCreditAndGradingOptions(String courseOfferingId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 }
