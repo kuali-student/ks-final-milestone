@@ -26,11 +26,7 @@ import org.kuali.student.enrollment.class2.courseoffering.dto.OrganizationInfoWr
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingConstants;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingManagementUtil;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingViewHelperUtil;
-import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
-import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingCrossListingInfo;
-import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
-import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
-import org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo;
+import org.kuali.student.enrollment.courseoffering.dto.*;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.common.util.security.ContextUtils;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
@@ -79,12 +75,20 @@ public class CourseOfferingEditInquirableImpl extends InquirableImpl {
         try {
             CourseOfferingInfo coInfo = CourseOfferingManagementUtil.getCourseOfferingService().getCourseOffering(coInfoId, contextInfo);
 
+
+
+
             //Display credit count
             CourseInfo courseInfo = CourseOfferingManagementUtil.getCourseService().getCourse(coInfo.getCourseId(), contextInfo);
 
             CourseOfferingEditWrapper formObject = new CourseOfferingEditWrapper(coInfo);
 
+
+
+
             formObject.setCourse(courseInfo);
+
+
 
             //Display format offering
             List<FormatOfferingInfo> formatOfferingInfos = CourseOfferingManagementUtil.getCourseOfferingService().getFormatOfferingsByCourseOffering(coInfoId, contextInfo);
@@ -205,6 +209,28 @@ public class CourseOfferingEditInquirableImpl extends InquirableImpl {
 
             //load related AOs
             loadActivityOfferingsByCourseOffering(coInfo, formObject);
+
+
+
+            //Display Credit Type
+            if(courseInfo.getCreditOptions().size()>0) {
+
+                String creditType = "";
+
+                ResultValuesGroupInfo val = courseInfo.getCreditOptions().get(0);
+                if(val!=null && val.getTypeKey()!=null)
+
+                    switch (val.getTypeKey()){
+
+                        case LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_RANGE: creditType = "Range";break;
+                        case LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_MULTIPLE: creditType = "Multiple";break;
+                        case LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_FIXED: creditType = "Fixed";break;
+                    }
+                formObject.setCreditOption(new CreditOptionInfo());
+                formObject.getCreditOption().setTypeKey(creditType);
+            }
+
+
             return formObject;
         } catch (Exception e) {
             throw new RuntimeException(e);
