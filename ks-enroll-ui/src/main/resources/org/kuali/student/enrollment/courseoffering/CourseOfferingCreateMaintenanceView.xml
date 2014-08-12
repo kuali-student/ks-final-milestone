@@ -554,7 +554,7 @@
                 <bean parent="KS-Uif-InputField" p:propertyName="excludeInstructorInformation" p:fieldLabel.renderColon="false">
                     <property name="control">
                         <bean parent="KS-Uif-CheckboxControl">
-                            <property name="checkboxLabel" value="Exclude instructor information"/>
+                            <property name="checkboxLabel" value="Exclude instructional assignments"/>
                         </bean>
                     </property>
                 </bean>
