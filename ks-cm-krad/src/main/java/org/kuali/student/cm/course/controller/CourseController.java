@@ -350,6 +350,15 @@ public class CourseController extends CourseRuleEditorController {
                     ModelAndView modelAndView = super.route(form,result, request,response);
                     form.getDialogManager().removeDialog(dialog);
 //                    form.getDialogManager().resetDialogStatus(dialog);
+                    CourseInfoWrapper wrapper = getCourseInfoWrapper(form);
+                    if (wrapper.getUiHelper().isCurriculumSpecialistUser()) {
+                        KRADServiceLocatorWeb.getViewValidationService().validateViewAgainstNextState(form);
+                        if (GlobalVariables.getMessageMap().hasErrors()) {
+                            wrapper.setMissingRequiredFields(true);
+                        } else {
+                            wrapper.setMissingRequiredFields(false);
+                        }
+                    }
                     return modelAndView;
                 } else {
                     form.getDialogManager().removeDialog(dialog);
@@ -818,6 +827,8 @@ public class CourseController extends CourseRuleEditorController {
                         form.getDialogManager().removeDialog(dialog);
                         // Set the request redirect to false so that the user stays on the same page
                         form.setRequestRedirected(false);
+                        // Hide the Blanket Approve button on the review proposal page while the document is still in Enroute state(It is being processed at the back-end)
+                        courseInfoWrapper.getUiHelper().setProposalBlanketApproved(true);
                     } else {
                         form.getDialogManager().resetDialogStatus(dialog);
                         courseInfoWrapper.getUiHelper().setShowMessage(true);
@@ -1168,14 +1179,18 @@ public class CourseController extends CourseRuleEditorController {
                     case "unitsContentOwner":
                         elementPath = CurriculumManagementConstants.DATA_OBJECT_PATH + ".reviewProposalDisplay.governanceSection.curriculumOversightAsString";
                         break;
-                    case "stateKey":
-                        // ignore this one as it's always returned whenever a validation error is thrown
+                    case "stateKey":    // ignore this one as it's always returned whenever a validation error is thrown
+                    case "code":        // ignore this one as it's always returned when a validation error is thrown for SubjectArea and CourseNumberSuffix
+                        break;
+
                     default:
                         elementPath = KRADConstants.GLOBAL_ERRORS;
                         courseInfoWrapper.getReviewProposalDisplay().setShowUnknownErrors(true);
                         error.setMessage(error.getElement() + ": " + error.getMessage());
                 }
-                GlobalVariables.getMessageMap().putError(elementPath, RiceKeyConstants.ERROR_CUSTOM, error.getMessage());
+                if (StringUtils.isNotBlank(elementPath)) {
+                    GlobalVariables.getMessageMap().putError(elementPath, RiceKeyConstants.ERROR_CUSTOM, error.getMessage());
+                }
             }
         }
     }

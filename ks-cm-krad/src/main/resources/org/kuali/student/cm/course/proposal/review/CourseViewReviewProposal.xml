@@ -410,7 +410,8 @@
                                   p:actionLabel="Blanket Approve"
                                   p:methodToCall="blanketApprove"
                                   p:performClientSideValidation="true"
-                                  p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_BLANKET_APPROVE]}"/>
+                                  p:disabled="@{#dataObject.missingRequiredFields}"
+                                  p:render="@{(#actionFlags[#Constants.KUALI_ACTION_CAN_BLANKET_APPROVE]) and (!#uiHelper.proposalBlanketApproved)}"/>
                             <bean parent="Uif-PrimaryActionButton"
                                   p:additionalCssClasses="btn-success"
                                   p:ajaxSubmit="false"

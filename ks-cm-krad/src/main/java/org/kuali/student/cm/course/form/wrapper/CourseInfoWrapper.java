@@ -415,6 +415,16 @@ public class CourseInfoWrapper extends LURuleManagementWrapper implements Serial
         @RequestAccessible
         Map<String,String> dialogExplanations;
 
+        boolean proposalBlanketApproved;
+
+        public boolean isProposalBlanketApproved() {
+            return proposalBlanketApproved;
+        }
+
+        public void setProposalBlanketApproved(boolean proposalBlanketApproved) {
+            this.proposalBlanketApproved = proposalBlanketApproved;
+        }
+
         public boolean isShowMessage() {
             return showMessage;
         }
