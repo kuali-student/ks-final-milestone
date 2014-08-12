@@ -390,7 +390,7 @@ public class AcademicPlanServiceImplTest extends TestAcademicPlanServiceImplConf
 		planTermIds.add("20114");
 		planItemInfo.setPlanTermIds(planTermIds);
 
-		String courseId = "ENGL101";
+		String courseId = "ENGL101ind";
 		String courseType = CLUConstants.CLU_TYPE_CREDIT_COURSE;
 
 		planItemInfo.setRefObjectId(courseId);

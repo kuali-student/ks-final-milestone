@@ -133,7 +133,7 @@ public abstract class TestAcademicPlanServiceImplConformanceExtendedCrud extends
 	*/
 	public void testCrudPlanItem_setDTOFieldsForTestCreate(PlanItemInfo expected) 
 	{
-		expected.setRefObjectId("ENGL101");
+		expected.setRefObjectId("ENGL101ind");
 		expected.setRefObjectType(CluServiceConstants.CREDIT_COURSE_LU_TYPE_KEY);
         List<String> planTermIds= new ArrayList<String>();
         planTermIds.add("planTermId01");
@@ -174,7 +174,7 @@ public abstract class TestAcademicPlanServiceImplConformanceExtendedCrud extends
 	*/
 	public void testCrudPlanItem_setDTOFieldsForTestUpdate(PlanItemInfo expected) 
 	{
-		expected.setRefObjectId("CHEM131");
+		expected.setRefObjectId("CHEM131ind");
         expected.setRefObjectType(CluServiceConstants.CREDIT_COURSE_LU_TYPE_KEY);
         expected.getPlanTermIds().remove("planTermId01");
         expected.getPlanTermIds().add("planTermId03");
@@ -212,7 +212,7 @@ public abstract class TestAcademicPlanServiceImplConformanceExtendedCrud extends
 	*/
 	public void testCrudPlanItem_setDTOFieldsForTestReadAfterUpdate(PlanItemInfo expected) 
 	{
-        expected.setRefObjectId("CHEM131");
+        expected.setRefObjectId("CHEM131ind");
         expected.setRefObjectType(CluServiceConstants.CREDIT_COURSE_LU_TYPE_KEY);
 		expected.setLearningPlanId("learningPlanId_Updated");
         expected.getPlanTermIds().add("planTermId02");
