@@ -376,7 +376,8 @@
                                   p:actionLabel="Approve"
                                   p:methodToCall="approve"
                                   p:performClientSideValidation="true"
-                                  p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_APPROVE]}"/>
+                                  p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_APPROVE]}"
+                                  p:disabled="@{#dataObject.missingRequiredFields}"/>
                             <bean parent="Uif-PrimaryActionButton"
                                   p:ajaxSubmit="false"
                                   p:actionLabel="Return"
