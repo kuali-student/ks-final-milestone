@@ -15,7 +15,7 @@ import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
-import org.kuali.student.r2.lum.course.dto.CourseInfo;
+import org.kuali.student.r2.lum.course.infc.Course;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -75,7 +75,7 @@ public class BookmarkSideBarLookupableHelper extends
                 BookmarkSideBarWrapper bookmark = new BookmarkSideBarWrapper();
                 bookmark.setLearningPlanId(entry.getKey());
                 bookmark.setPlanItemId(planItem.getId());
-                CourseInfo course = KsapFrameworkServiceLocator.getCourseHelper()
+                Course course = KsapFrameworkServiceLocator.getCourseHelper()
                         .getCurrentVersionOfCourseByVersionIndependentId(planItem.getRefObjectId());
                 bookmark.setCourseId(course.getId());
                 bookmark.setCourseCd(course.getCode());
