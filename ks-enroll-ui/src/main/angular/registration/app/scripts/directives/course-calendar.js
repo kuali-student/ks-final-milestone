@@ -31,8 +31,9 @@ angular.module('regCartApp')
             // Finally, convert all of the day data to the calendar format
             var calendar = convertMapToCalendar(dayMap);
 
+            // Update the waitlist and cart with conflicts so they can be flagged
+            // with an icon in the card. Registered courses are not flagged.
             GlobalVarsService.setConflictMap(conflictMap);
-            GlobalVarsService.updateConflicts(registered);
             GlobalVarsService.updateConflicts(waitlisted);
             GlobalVarsService.updateConflicts(cart);
 
