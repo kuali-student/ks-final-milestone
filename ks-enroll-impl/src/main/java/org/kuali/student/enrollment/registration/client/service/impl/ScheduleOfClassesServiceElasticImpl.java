@@ -3,12 +3,7 @@ package org.kuali.student.enrollment.registration.client.service.impl;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.elasticsearch.action.get.GetResponse;
 import org.elasticsearch.action.search.SearchResponse;
-import org.elasticsearch.index.query.BoolFilterBuilder;
-import org.elasticsearch.index.query.FilterBuilders;
-import org.elasticsearch.index.query.FilteredQueryBuilder;
-import org.elasticsearch.index.query.QueryBuilder;
-import org.elasticsearch.index.query.QueryBuilders;
-import org.elasticsearch.index.query.WrapperQueryBuilder;
+import org.elasticsearch.index.query.*;
 import org.elasticsearch.search.SearchHit;
 import org.kuali.student.enrollment.registration.client.service.dto.CourseSearchResult;
 import org.kuali.student.enrollment.registration.client.service.dto.RegGroupSearchResult;
@@ -35,14 +30,14 @@ public class ScheduleOfClassesServiceElasticImpl extends ScheduleOfClassesServic
 
         GetResponse getResponse = elasticEmbedded.getClient().prepareGet(ElasticEmbedded.KS_ELASTIC_INDEX, ElasticEmbedded.REGISTRATION_GROUP_ELASTIC_TYPE, regGroupId).execute().actionGet();
         ObjectMapper objectMapper = new ObjectMapper();
-         try{
-             if (getResponse.isExists()) {
-                 regGroupSearchResult = objectMapper.readValue(getResponse.getSourceAsString(), RegGroupSearchResult.class);
-             }
-         } catch (Exception e) {
-             throw new OperationFailedException("Error searching for course offering id. ", e);
-         }
-         return regGroupSearchResult;
+        try {
+            if (getResponse.isExists()) {
+                regGroupSearchResult = objectMapper.readValue(getResponse.getSourceAsString(), RegGroupSearchResult.class);
+            }
+        } catch (Exception e) {
+            throw new OperationFailedException("Error searching for course offering id. ", e);
+        }
+        return regGroupSearchResult;
     }
 
     @Override
@@ -63,7 +58,7 @@ public class ScheduleOfClassesServiceElasticImpl extends ScheduleOfClassesServic
                     QueryBuilders.matchAllQuery(),fb);
 
             SearchResponse sr = elasticEmbedded.getClient()
-                    .prepareSearch("ks")
+                    .prepareSearch(ElasticEmbedded.KS_ELASTIC_INDEX)
                     .setTypes(ElasticEmbedded.REGISTRATION_GROUP_ELASTIC_TYPE)
                     .setQuery(query)
                     .execute().actionGet();
@@ -89,32 +84,24 @@ public class ScheduleOfClassesServiceElasticImpl extends ScheduleOfClassesServic
     }
 
     protected List<String> searchForCourseOfferingIdByCourseCodeAndTerm(String courseCode, String atpId) throws InvalidParameterException, MissingParameterException, PermissionDeniedException, OperationFailedException {
-        List<String> resultList = new ArrayList<String>();
+        List<String> resultList = new ArrayList<>();
         FilteredQueryBuilder query = null;
 
         try {
             //FilteredQueryBuilder query = QueryBuilders.filteredQuery(QueryBuilders.matchAllQuery(), FilterBuilders.andFilter(FilterBuilders.termFilter("courseCode", courseCode), FilterBuilders.termsFilter("termId", atpId.toLowerCase().split("\\."))));
 
-             query = QueryBuilders.filteredQuery(
-                        QueryBuilders.matchAllQuery(),
-                        FilterBuilders.andFilter(
-                                FilterBuilders.termFilter("courseCode", courseCode),
-                                FilterBuilders.termsFilter("termId", atpId.toLowerCase().split("\\."))
-                        )
-             );
-            // QueryBuilders.termQuery("courseCode", courseCode)
-            //String queryString = "{\"query\": {\"filtered\": { \"filter\": { \"and\" : [ { \"term\" : { \"courseCode\" : \"chem231\" } },{  \"terms\" : { \"termId\" : [\"kuali\", \"atp\", \"2012fall\" ]}}]}}}}";
+            query = QueryBuilders.filteredQuery(
+                    QueryBuilders.matchAllQuery(),
+                    FilterBuilders.andFilter(
+                            FilterBuilders.termFilter("courseCode", courseCode.toLowerCase()),
+                            FilterBuilders.termsFilter("termId", atpId.toLowerCase().split("\\."))
+                    )
+            );
 
-            //WrapperQueryBuilder query2 = QueryBuilders.wrapperQuery("{\"query\": {\"filtered\": { \"filter\": { \"and\" : [ { \"term\" : { \"courseCode\" : \"chem231\" } },{  \"terms\" : { \"termId\" : [\"kuali\", \"atp\", \"2012fall\" ]}}]}}}}");
-
-            String termsQuery  = FilterBuilders.termsFilter("termId", atpId.toLowerCase().split("\\.")).toString();
-
-            WrapperQueryBuilder query2 = QueryBuilders.wrapperQuery("{\"filtered\": { \"filter\": { \"and\" : [ { \"term\" : { \"courseCode\" : \"chem231\" } },"+  termsQuery +"]}}}");
-
-             SearchResponse sr = elasticEmbedded.getClient()
-                    .prepareSearch("ks")
-                    .setTypes("courseoffering")
-                    .setQuery(query2)
+            SearchResponse sr = elasticEmbedded.getClient()
+                    .prepareSearch(ElasticEmbedded.KS_ELASTIC_INDEX)
+                    .setTypes(ElasticEmbedded.COURSEOFFERING_ELASTIC_TYPE)
+                    .setQuery(query)
                     .execute().actionGet();
 
 
@@ -124,10 +111,10 @@ public class ScheduleOfClassesServiceElasticImpl extends ScheduleOfClassesServic
                 resultList.add(courseSearchResult.getCourseId());
             }
 
-            if(resultList.isEmpty()) resultList = null;
+            if (resultList.isEmpty()) resultList = null;
 
         } catch (Exception e) {
-            throw new OperationFailedException("Error searching for course offering id. " + query.toString(), e);
+            throw new OperationFailedException("Error searching for course code and term. " + query.toString(), e);
         }
         return resultList;
     }
