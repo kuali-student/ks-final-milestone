@@ -13,6 +13,7 @@ import org.kuali.student.ap.academicplan.service.AcademicPlanService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.MetaInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
+import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
 import org.kuali.student.r2.core.class1.atp.service.impl.DateUtil;
 import org.kuali.student.r2.lum.clu.dto.CluIdentifierInfo;
 import org.kuali.student.r2.lum.clu.dto.CluInfo;
@@ -51,7 +52,7 @@ public class AcademicPlanDataLoader {
         this.contextInfo = contextInfo;
     }
 
-    public void load() {
+    public void load() throws DataValidationErrorException{
         loadPlan("lp1", "0", "student1", AcademicPlanServiceConstants.LEARNING_PLAN_TYPE_PLAN, "student1", "2012-01-01 00:00:00.0",
                 "<p>Student 1 Learning Plan 1</p>",  "Student 1 Learning Plan 1", "lp1 plan name");
         loadPlan("lp2", "0", "student1", AcademicPlanServiceConstants.LEARNING_PLAN_TYPE_PLAN, "student1", "2012-02-01 00:00:00.0",
@@ -61,59 +62,59 @@ public class AcademicPlanDataLoader {
         loadPlan("lp4", "0", "student2", AcademicPlanServiceConstants.LEARNING_PLAN_TYPE_PLAN, "student2", "2012-02-03 00:00:00.0",
                 "<p>Student 2 Learning Plan 4</p>",  "Student 2 Learning Plan 4","plan4 name");
 
-        loadItem("lp1-i1", "0", "ENGL101",CluServiceConstants.CREDIT_COURSE_LU_TYPE_KEY,
+        loadItem("lp1-i1", "0", "ENGL101ind",CluServiceConstants.CREDIT_COURSE_LU_TYPE_KEY,
                 AcademicPlanServiceConstants.LEARNING_PLAN_ITEM_TYPE, AcademicPlanServiceConstants.ItemCategory.WISHLIST, "lp1",
                 "student1", "2012-01-01 00:00:00.0", "<p>Comment 1</p>",  "Comment 1", "lp1-i1 name","");
 
-        loadItem("lp1-i1.x", "0", "CHEM131", CluServiceConstants.CREDIT_COURSE_LU_TYPE_KEY,
+        loadItem("lp1-i1.x", "0", "CHEM131ind", CluServiceConstants.CREDIT_COURSE_LU_TYPE_KEY,
                 AcademicPlanServiceConstants.LEARNING_PLAN_ITEM_TYPE, AcademicPlanServiceConstants.ItemCategory.WISHLIST, "lp1",
                 "student1", "2012-01-01 00:00:00.0","<p>Comment 1.x</p>",  "Comment 1.x", "lp1-i1.x name","");
-        loadItem("lp1-i2", "0", "BSCI121", CluServiceConstants.CREDIT_COURSE_LU_TYPE_KEY,
+        loadItem("lp1-i2", "0", "BSCI121ind", CluServiceConstants.CREDIT_COURSE_LU_TYPE_KEY,
                 AcademicPlanServiceConstants.LEARNING_PLAN_ITEM_TYPE, AcademicPlanServiceConstants.ItemCategory.WISHLIST, "lp1",
                 "student1", "2012-01-01 00:00:00.0","","","","");
-        loadItem("lp1-i3", "0", "BSCI122", CluServiceConstants.CREDIT_COURSE_LU_TYPE_KEY,
+        loadItem("lp1-i3", "0", "BSCI122ind", CluServiceConstants.CREDIT_COURSE_LU_TYPE_KEY,
                 AcademicPlanServiceConstants.LEARNING_PLAN_ITEM_TYPE, AcademicPlanServiceConstants.ItemCategory.WISHLIST, "lp1",
                 "student1", "2012-01-01 00:00:00.0","","","","");
-        loadItem("lp1-i4", "0", "ENGL205", CluServiceConstants.CREDIT_COURSE_LU_TYPE_KEY,
+        loadItem("lp1-i4", "0", "ENGL205ind", CluServiceConstants.CREDIT_COURSE_LU_TYPE_KEY,
                 AcademicPlanServiceConstants.LEARNING_PLAN_ITEM_TYPE, AcademicPlanServiceConstants.ItemCategory.PLANNED, "lp1",
                 "student1", "2012-01-01 00:00:00.0","","","","testTermId3");
 
         List<String> termIds = new ArrayList<String>() {{add("testTermId1");add("testTermId2");}};
-        loadItem("lp1-i5", "0", "BSCI123", CluServiceConstants.CREDIT_COURSE_LU_TYPE_KEY,
+        loadItem("lp1-i5", "0", "BSCI123ind", CluServiceConstants.CREDIT_COURSE_LU_TYPE_KEY,
                 AcademicPlanServiceConstants.LEARNING_PLAN_ITEM_TYPE, AcademicPlanServiceConstants.ItemCategory.PLANNED, "lp1",
                 "student1", "2012-01-01 00:00:00.0","","","",termIds);
-        loadItem("lp1-i7", "0", "BSCI123", CluServiceConstants.CREDIT_COURSE_LU_TYPE_KEY,
+        loadItem("lp1-i7", "0", "BSCI123ind", CluServiceConstants.CREDIT_COURSE_LU_TYPE_KEY,
                 AcademicPlanServiceConstants.LEARNING_PLAN_ITEM_TYPE, AcademicPlanServiceConstants.ItemCategory.BACKUP, "lp1",
                 "student1", "2012-01-01 00:00:00.0","","","","testTermId3");
 
         termIds = new ArrayList<String>() {{add("testTermId1");add("testTermId2");add("testTermId3");}};
-        loadItem("lp1-i6", "0", "ENGL206", CluServiceConstants.CREDIT_COURSE_LU_TYPE_KEY,
+        loadItem("lp1-i6", "0", "ENGL206ind", CluServiceConstants.CREDIT_COURSE_LU_TYPE_KEY,
                 AcademicPlanServiceConstants.LEARNING_PLAN_ITEM_TYPE, AcademicPlanServiceConstants.ItemCategory.PLANNED, "lp1",
                 "student1", "2012-01-01 00:00:00.0", "<p>Very Important</p>",  "Very Important","lp1-i6 name",termIds);
-        loadItem("lp2-i1", "0", "CHEM131", CluServiceConstants.CREDIT_COURSE_LU_TYPE_KEY,
+        loadItem("lp2-i1", "0", "CHEM131ind", CluServiceConstants.CREDIT_COURSE_LU_TYPE_KEY,
                 AcademicPlanServiceConstants.LEARNING_PLAN_ITEM_TYPE, AcademicPlanServiceConstants.ItemCategory.PLANNED, "lp2",
                 "student1", "2012-01-01 00:00:00.0","","","","testTermId3");
-        loadItem("lp2-i2", "0", "BSCI121", CluServiceConstants.CREDIT_COURSE_LU_TYPE_KEY,
+        loadItem("lp2-i2", "0", "BSCI121ind", CluServiceConstants.CREDIT_COURSE_LU_TYPE_KEY,
                 AcademicPlanServiceConstants.LEARNING_PLAN_ITEM_TYPE, AcademicPlanServiceConstants.ItemCategory.PLANNED, "lp2",
                 "student1", "2012-01-01 00:00:00.0","","","","testTermId3");
-        loadItem("lp2-i3", "0", "BSCI122", CluServiceConstants.CREDIT_COURSE_LU_TYPE_KEY,
+        loadItem("lp2-i3", "0", "BSCI122ind", CluServiceConstants.CREDIT_COURSE_LU_TYPE_KEY,
                 AcademicPlanServiceConstants.LEARNING_PLAN_ITEM_TYPE, AcademicPlanServiceConstants.ItemCategory.PLANNED, "lp2",
                 "student1", "2012-01-01 00:00:00.0","","","","testTermId3");
-        loadItem("lp3-i1", "0", "ENGL101", CluServiceConstants.CREDIT_COURSE_LU_TYPE_KEY,
+        loadItem("lp3-i1", "0", "ENGL101ind", CluServiceConstants.CREDIT_COURSE_LU_TYPE_KEY,
                 AcademicPlanServiceConstants.LEARNING_PLAN_ITEM_TYPE, AcademicPlanServiceConstants.ItemCategory.WISHLIST, "lp3",
                 "student2", "2012-01-01 00:00:00.0","","","","");
-        loadItem("lp3-i2", "0", "CHEM131", CluServiceConstants.CREDIT_COURSE_LU_TYPE_KEY,
+        loadItem("lp3-i2", "0", "CHEM131ind", CluServiceConstants.CREDIT_COURSE_LU_TYPE_KEY,
                 AcademicPlanServiceConstants.LEARNING_PLAN_ITEM_TYPE, AcademicPlanServiceConstants.ItemCategory.WISHLIST, "lp3",
                 "student2", "2012-01-01 00:00:00.0","<p>Maybe Spring 13</p>",  "Maybe Spring 13", "lp3-i3 name","");
-        loadItem("lp3-i3", "0", "BSCI121", CluServiceConstants.CREDIT_COURSE_LU_TYPE_KEY,
+        loadItem("lp3-i3", "0", "BSCI121ind", CluServiceConstants.CREDIT_COURSE_LU_TYPE_KEY,
                 AcademicPlanServiceConstants.LEARNING_PLAN_ITEM_TYPE, AcademicPlanServiceConstants.ItemCategory.WISHLIST, "lp3",
                 "student2", "2012-01-01 00:00:00.0","","","","");
-        loadItem("lp4-i1", "0", "ENGL101", CluServiceConstants.CREDIT_COURSE_LU_TYPE_KEY,
+        loadItem("lp4-i1", "0", "ENGL101ind", CluServiceConstants.CREDIT_COURSE_LU_TYPE_KEY,
                 AcademicPlanServiceConstants.LEARNING_PLAN_ITEM_TYPE, AcademicPlanServiceConstants.ItemCategory.WHATIF, "lp4",
                 "student2", "2012-01-01 00:00:00.0","<p>Comment 2</p>",  "Comment 2", "lp4-i2 name","");
 
         termIds = new ArrayList<String>() {{add("testTermId1");add("testTermId3");}};
-        loadItem("lp4-i2", "0", "BSCI122", CluServiceConstants.CREDIT_COURSE_LU_TYPE_KEY,
+        loadItem("lp4-i2", "0", "BSCI122ind", CluServiceConstants.CREDIT_COURSE_LU_TYPE_KEY,
                 AcademicPlanServiceConstants.LEARNING_PLAN_ITEM_TYPE, AcademicPlanServiceConstants.ItemCategory.PLANNED, "lp4",
                 "student2", "2012-01-01 00:00:00.0","","","",termIds);
     }
@@ -145,7 +146,7 @@ public class AcademicPlanDataLoader {
 
     public PlanItemInfo loadItem(String id, String version, String refObjectId, String refObjectType, String itemType,
             AcademicPlanServiceConstants.ItemCategory category, String planId, String createdById, String createTime, String descrPlain,
-            String descrFormatted, String Name, String termId) {
+            String descrFormatted, String Name, String termId) throws DataValidationErrorException {
         List<String> termIdList = new ArrayList<String>();
         if (StringUtils.isNotEmpty(termId )) {
             termIdList.add(termId);
@@ -156,7 +157,7 @@ public class AcademicPlanDataLoader {
 
     public PlanItemInfo loadItem(String id, String version, String refObjectId, String refObjectType, String itemType,
             AcademicPlanServiceConstants.ItemCategory category, String planId, String createdById, String createTime, String descrPlain,
-            String descrFormatted, String Name, List<String> termIdList) {
+            String descrFormatted, String Name, List<String> termIdList) throws DataValidationErrorException{
         PlanItemInfo item = new PlanItemInfo();
         item.setId(id);
         MetaInfo meta = new MetaInfo();
@@ -178,6 +179,8 @@ public class AcademicPlanDataLoader {
         item.setStateKey("Active");
         try {
             return this.planService.createPlanItem(item, contextInfo);
+        } catch (DataValidationErrorException dvee){
+            throw dvee;
         } catch (Exception ex) {
             throw new RuntimeException(ex);
         }
