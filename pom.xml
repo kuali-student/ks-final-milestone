@@ -95,7 +95,8 @@
         <oracle.artifactId>ojdbc6_g</oracle.artifactId>
         <plugin.externals.version>1.0.14</plugin.externals.version>
         <plugin.sonar.version>2.4</plugin.sonar.version>
-        <project.jdk.min.version>1.7.0-60</project.jdk.min.version>
+        <project.java.enforcer.version>[${project.java.min.version},1.8)</project.java.enforcer.version>
+        <project.java.min.version>1.7.0-60</project.java.min.version>
         <selenium.version>2.7.0</selenium.version>
         <servlet.api.version>2.5</servlet.api.version>
         <slf4j.version>1.7.6</slf4j.version>
@@ -423,8 +424,8 @@
                                     <version>${maven.min.version}</version>
                                 </requireMavenVersion>
                                 <requireJavaVersion>
-                                    <message>To build this project, java ${project.jdk.min.version} (or higher) is required. Please install the specified version.</message>
-                                    <version>${project.jdk.min.version}</version>
+                                    <message>To build this project, java ${project.java.min.version} (or higher but not JDK 1.8) is required. Please install the specified version.</message>
+                                    <version>${project.java.enforcer.version}</version>
                                 </requireJavaVersion>
                                 <requirePluginVersions>
                                     <message>Build reproducibility: It is a best practice to explicitly specify plugin versions!</message>
