@@ -107,17 +107,17 @@ public class CourseDetailsViewHelperServiceImpl extends ViewHelperServiceImpl im
         form.setCourseTitle(courseInfo.getCourseTitle());
         form.setCourseCode(courseInfo.getCode());
         List<String> termIds = KsapFrameworkServiceLocator.getCourseHelper().getScheduledTermsForCourse(courseInfo);
-        form.setCourseTermDetailsWrappers(getScheduledTerms(termIds, courseId));
+        form.setCourseTermDetailsWrappers(getScheduledTerms(termIds, courseInfo.getVersion().getVersionIndId()));
     }
 
     /**
      * Load data for terms with scheduled course offerings for the course
      *
      * @param scheduledTermsList - List of term ids
-     * @param courseId - Id of the course being data is load for
+     * @param versionIndId - Version independent Id of the course data is being loaded for
      * @return A list of filled in terms to display
      */
-    private List<CourseTermDetailsWrapper> getScheduledTerms(List<String> scheduledTermsList, String courseId)  {
+    private List<CourseTermDetailsWrapper> getScheduledTerms(List<String> scheduledTermsList, String versionIndId)  {
 
         List<CourseTermDetailsWrapper> courseTermDetailsList = new ArrayList<CourseTermDetailsWrapper>();
 
@@ -143,9 +143,11 @@ public class CourseDetailsViewHelperServiceImpl extends ViewHelperServiceImpl im
             List<Term> terms = new ArrayList<Term>(scheduledTerms);
             List<Term> scheduledTermsListSorted = sortTerms(terms);
 
-            // Create and load inforamtion of the course offerings for the term
+            // Create and load information of the course offerings for the term
             List<String> courseIds = new ArrayList<String>();
-            courseIds.add(courseId);
+
+            // Get all versions of the course
+            courseIds.addAll(KsapFrameworkServiceLocator.getCourseHelper().getAllCourseIdsByVersionIndependentId(versionIndId));
             Map<String, List<CourseOfferingDetailsWrapper>> courseOfferingsByTerm = processCourseOfferingsByTerm(courseIds, terms);
 
             // Create the term details wrapper and load data for it.

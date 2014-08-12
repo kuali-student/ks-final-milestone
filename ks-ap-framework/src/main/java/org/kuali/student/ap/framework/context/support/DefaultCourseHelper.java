@@ -9,6 +9,7 @@ import org.kuali.student.ap.academicplan.infc.PlanItem;
 import org.kuali.student.ap.coursesearch.CourseSearchItem;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
 import org.kuali.student.ap.framework.context.CourseHelper;
+import org.kuali.student.ap.framework.context.CourseSearchConstants;
 import org.kuali.student.ap.framework.util.KsapHelperUtil;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingDisplayInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
@@ -23,6 +24,8 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.core.acal.infc.Term;
+import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
+import org.kuali.student.r2.core.search.dto.SearchResultRowInfo;
 import org.kuali.student.r2.core.versionmanagement.dto.VersionDisplayInfo;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.lum.course.infc.Course;
@@ -559,12 +562,12 @@ public class DefaultCourseHelper implements CourseHelper, Serializable {
     }
 
     @Override
-    public CourseInfo getCurrentVersionOfCourseByIndependentVersionId(String independentVersionId) {
+    public CourseInfo getCurrentVersionOfCourseByVersionIndependentId(String versionIndependentId) {
         // Retrieve course information using the course code entered by the user
         CourseInfo course;
         try {
             ContextInfo contextInfo = KsapFrameworkServiceLocator.getContext().getContextInfo();
-            VersionDisplayInfo currentVersion = KsapFrameworkServiceLocator.getCluService().getCurrentVersion(CluServiceConstants.CLU_NAMESPACE_URI, independentVersionId, contextInfo);
+            VersionDisplayInfo currentVersion = KsapFrameworkServiceLocator.getCluService().getCurrentVersion(CluServiceConstants.CLU_NAMESPACE_URI, versionIndependentId, contextInfo);
             course = KsapFrameworkServiceLocator.getCourseService().getCourse(currentVersion.getId(), contextInfo);
         } catch (PermissionDeniedException e) {
             throw new IllegalArgumentException("Course service failure", e);
@@ -578,6 +581,30 @@ public class DefaultCourseHelper implements CourseHelper, Serializable {
             throw new IllegalArgumentException("Course service failure", e);
         }
         return course;
+    }
+
+    @Override
+    public List<String> getAllCourseIdsByVersionIndependentId(String versionIndependentId) {
+        SearchRequestInfo request = new SearchRequestInfo(CourseSearchConstants.KSAP_COURSE_SEARCH_COURSEIDS_BY_VERSION_IND_ID_KEY);
+        request.addParam(CourseSearchConstants.SearchParameters.VERSION_IND_ID, versionIndependentId);
+        List<SearchResultRowInfo> rows = null;
+        List<String> courseIds = new ArrayList<String>();
+        try {
+            rows = KsapFrameworkServiceLocator.getSearchService().search(request,
+                    KsapFrameworkServiceLocator.getContext().getContextInfo()).getRows();
+        } catch (MissingParameterException e) {
+            throw new IllegalArgumentException("Search service failure", e);
+        } catch (InvalidParameterException e) {
+            throw new IllegalArgumentException("Search service failure", e);
+        } catch (OperationFailedException e) {
+            throw new IllegalArgumentException("Search service failure", e);
+        } catch (PermissionDeniedException e) {
+            throw new IllegalArgumentException("Search service failure", e);
+        }
+        for(SearchResultRowInfo row : rows){
+            courseIds.add(KsapHelperUtil.getCellValue(row, CourseSearchConstants.SearchResultColumns.CLU_ID));
+        }
+        return courseIds;
     }
 
     @Override

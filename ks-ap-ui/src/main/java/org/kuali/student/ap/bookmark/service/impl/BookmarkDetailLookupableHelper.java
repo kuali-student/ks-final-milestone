@@ -66,7 +66,7 @@ public class BookmarkDetailLookupableHelper extends
             if (planItems != null)
                 for (PlanItemInfo planItem : planItems)
                     if (PlanConstants.COURSE_TYPE.equals(planItem.getRefObjectType()))
-                        courseIds.add(KsapFrameworkServiceLocator.getCourseHelper().getCurrentVersionOfCourseByIndependentVersionId(planItem
+                        courseIds.add(KsapFrameworkServiceLocator.getCourseHelper().getCurrentVersionOfCourseByVersionIndependentId(planItem
                                 .getRefObjectId()).getId());
         }
         KsapFrameworkServiceLocator.getCourseHelper().frontLoad(new ArrayList<String>(courseIds));
@@ -79,7 +79,7 @@ public class BookmarkDetailLookupableHelper extends
                 bookmark.setDateAdded(planItem.getMeta().getCreateTime());
                 bookmark.setUniqueId(UUID.randomUUID().toString());
 
-                CourseInfo course = KsapFrameworkServiceLocator.getCourseHelper().getCurrentVersionOfCourseByIndependentVersionId
+                CourseInfo course = KsapFrameworkServiceLocator.getCourseHelper().getCurrentVersionOfCourseByVersionIndependentId
                         (planItem.getRefObjectId());
                 CourseDetailsWrapper courseDetails = getCourseDetailsInquiryService().retrieveCourseSummary(course);
                 bookmark.setCourseDetailsWrapper(courseDetails);

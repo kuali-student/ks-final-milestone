@@ -16,7 +16,6 @@ import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
-import org.kuali.student.r2.lum.course.infc.Course;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -66,7 +65,7 @@ public class BookmarkSideBarLookupableHelper extends
                 for (PlanItemInfo planItem : planItems)
                     if (PlanConstants.COURSE_TYPE.equals(planItem.getRefObjectType()))
                         courseIds.add(KsapFrameworkServiceLocator.getCourseHelper()
-                                .getCurrentVersionOfCourseByIndependentVersionId(planItem.getRefObjectId())
+                                .getCurrentVersionOfCourseByVersionIndependentId(planItem.getRefObjectId())
                                 .getId());
         }
         KsapFrameworkServiceLocator.getCourseHelper().frontLoad(new java.util.ArrayList<String>(courseIds));
@@ -77,7 +76,7 @@ public class BookmarkSideBarLookupableHelper extends
                 bookmark.setLearningPlanId(entry.getKey());
                 bookmark.setPlanItemId(planItem.getId());
                 CourseInfo course = KsapFrameworkServiceLocator.getCourseHelper()
-                        .getCurrentVersionOfCourseByIndependentVersionId(planItem.getRefObjectId());
+                        .getCurrentVersionOfCourseByVersionIndependentId(planItem.getRefObjectId());
                 bookmark.setCourseId(course.getId());
                 bookmark.setCourseCd(course.getCode());
                 bookmark.setCourseTitle(course.getCourseTitle());

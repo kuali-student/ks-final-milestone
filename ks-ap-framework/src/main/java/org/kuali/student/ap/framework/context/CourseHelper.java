@@ -124,5 +124,17 @@ public interface CourseHelper {
      */
     boolean isCourseBookmarked(Course course, List<PlanItem> planItems);
 
-    CourseInfo getCurrentVersionOfCourseByIndependentVersionId(String independentVersionId);
+    /**
+     * Get the current version of the course by using it's version independent id
+     * @param versionIndependentId
+     * @return The current version of the CourseInfo
+     */
+    CourseInfo getCurrentVersionOfCourseByVersionIndependentId(String versionIndependentId);
+
+    /**
+     * Get all courseIds (clu IDs) for a particular version independent id
+     * @param versionIndependentId
+     * @return
+     */
+    List<String> getAllCourseIdsByVersionIndependentId(String versionIndependentId);
 }

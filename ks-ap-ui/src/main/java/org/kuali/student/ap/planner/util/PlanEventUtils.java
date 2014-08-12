@@ -406,7 +406,7 @@ public class PlanEventUtils {
 		removeEvent.add("category", planItem.getCategory().toString().toLowerCase());
 
         Course course = KsapFrameworkServiceLocator
-                .getCourseHelper().getCurrentVersionOfCourseByIndependentVersionId(planItem.getRefObjectId());
+                .getCourseHelper().getCurrentVersionOfCourseByVersionIndependentId(planItem.getRefObjectId());
         assert course != null : "Missing course for plan item "
                 + planItem.getId() + ", ref ID " + planItem.getRefObjectId();
 
@@ -557,7 +557,7 @@ public class PlanEventUtils {
         assert PlanConstants.COURSE_TYPE.equals(planItem.getRefObjectType()) : planItem
                 .getRefObjectType() + " " + planItem.getId();
 
-        Course course = courseHelper.getCurrentVersionOfCourseByIndependentVersionId(planItem.getRefObjectId());
+        Course course = courseHelper.getCurrentVersionOfCourseByVersionIndependentId(planItem.getRefObjectId());
         assert course != null : "Missing course for plan item "
                 + planItem.getId() + ", ref ID " + planItem.getRefObjectId();
 

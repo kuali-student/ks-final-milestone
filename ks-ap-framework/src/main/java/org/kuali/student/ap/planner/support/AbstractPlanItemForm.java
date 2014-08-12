@@ -205,7 +205,7 @@ public abstract class AbstractPlanItemForm extends UifFormBase implements PlanIt
 			PlanItem planItem = getPlanItem();
 			if (planItem != null) {
                 // Retrieve course using the id referenced in the plan item
-				course = KsapFrameworkServiceLocator.getCourseHelper().getCurrentVersionOfCourseByIndependentVersionId(planItem.getRefObjectId());
+				course = KsapFrameworkServiceLocator.getCourseHelper().getCurrentVersionOfCourseByVersionIndependentId(planItem.getRefObjectId());
 			} else{
                 // Retrieve course using the course id
                 if (courseId != null) {

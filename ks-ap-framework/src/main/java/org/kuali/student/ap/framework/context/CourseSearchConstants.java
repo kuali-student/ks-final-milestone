@@ -15,8 +15,6 @@
 
 package org.kuali.student.ap.framework.context;
 
-import java.util.Arrays;
-import java.util.List;
 import java.util.regex.Pattern;
 
 public class CourseSearchConstants {
@@ -87,6 +85,7 @@ public class CourseSearchConstants {
     public static final String KSAP_COURSE_SEARCH_COURSEID_TITLE_AND_STATUS_BY_SUBJ_CD_KEY = "kuali.search.type.ksap.search.course.title.id.status.by.subj.code";
     public static final String KSAP_COURSE_SEARCH_ALL_DIVISION_CODES_KEY ="kuali.search.type.ksap.search.all.division" +
             ".codes";
+    public static final String KSAP_COURSE_SEARCH_COURSEIDS_BY_VERSION_IND_ID_KEY = "kuali.search.type.ksap.coursesearch.cluid.by.versionIndependentId";
 
     // Custom Search Result Column Keys
     public static final class SearchResultColumns {
@@ -127,6 +126,7 @@ public class CourseSearchConstants {
         public static final String COURSE_SUBJECT_SUFFIX = "courseSubjectSuffix"; //e.g. 101
         public static final String START_DATE = "startDate";
         public static final String END_DATE = "endDate";
+        public static final String VERSION_IND_ID = "versionIndependentId";
     }
 
     /**

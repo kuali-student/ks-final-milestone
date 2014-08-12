@@ -92,7 +92,12 @@ public class CourseHelperMockTest implements CourseHelper {
     }
 
     @Override
-    public CourseInfo getCurrentVersionOfCourseByIndependentVersionId(String independentVersionId) {
+    public CourseInfo getCurrentVersionOfCourseByVersionIndependentId(String versionIndependentId) {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public List<String> getAllCourseIdsByVersionIndependentId(String versionIndependentId) {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 }

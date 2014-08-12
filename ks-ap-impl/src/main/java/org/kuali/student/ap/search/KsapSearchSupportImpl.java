@@ -59,6 +59,7 @@ public class KsapSearchSupportImpl extends SearchServiceAbstractHardwiredImpl {
     public static final TypeInfo KSAP_SEARCH_COURSEIDS_BY_GENERAL_EDUCATION;
     public static final TypeInfo KSAP_SEARCH_ALL_DIVISION_CODES;
     public static final TypeInfo KSAP_SEARCH_COURSEID_TITLE_AND_STATUS_BY_SUBJ_CD;
+    public static final TypeInfo KSAP_SEARCH_COURSEIDS_BY_VERSION_IND_ID;
 
     public static final String DEFAULT_EFFECTIVE_DATE = "01/01/2012";
 
@@ -123,6 +124,14 @@ public class KsapSearchSupportImpl extends SearchServiceAbstractHardwiredImpl {
         info.setDescr(new RichTextHelper().fromPlain("Lookup Course Title, ID, and Status by Course Subject-Code"));
         info.setEffectiveDate(DateFormatters.MONTH_DAY_YEAR_DATE_FORMATTER.parse(DEFAULT_EFFECTIVE_DATE));
         KSAP_SEARCH_ALL_DIVISION_CODES = info;
+
+        // Creates search that retrieves All Course IDs for a given version independent id
+        info = new TypeInfo();
+        info.setKey(CourseSearchConstants.KSAP_COURSE_SEARCH_COURSEIDS_BY_VERSION_IND_ID_KEY);
+        info.setName("Lookup Course IDs by Version Independent ID");
+        info.setDescr(new RichTextHelper().fromPlain("Lookup Course IDs by Version Independent ID"));
+        info.setEffectiveDate(DateFormatters.MONTH_DAY_YEAR_DATE_FORMATTER.parse(DEFAULT_EFFECTIVE_DATE));
+        KSAP_SEARCH_COURSEIDS_BY_VERSION_IND_ID = info;
     }
 
     /**
@@ -155,6 +164,8 @@ public class KsapSearchSupportImpl extends SearchServiceAbstractHardwiredImpl {
             return KSAP_SEARCH_ALL_DIVISION_CODES;
         } else if (CourseSearchConstants.KSAP_COURSE_SEARCH_ALL_DIVISION_CODES_KEY.equals(searchTypeKey)) {
             return KSAP_SEARCH_ALL_DIVISION_CODES;
+        } else if (CourseSearchConstants.KSAP_COURSE_SEARCH_COURSEIDS_BY_VERSION_IND_ID_KEY.equals(searchTypeKey)) {
+            return KSAP_SEARCH_COURSEIDS_BY_VERSION_IND_ID;
         }
 
         // If no matching search type is found throw exception
@@ -180,6 +191,8 @@ public class KsapSearchSupportImpl extends SearchServiceAbstractHardwiredImpl {
             resultInfo =  searchForCourseIdTitleAndStatusBySubjectCode(searchRequestInfo, contextInfo);
         }else if (StringUtils.equals(searchRequestInfo.getSearchKey(),KSAP_SEARCH_ALL_DIVISION_CODES.getKey())) {
             resultInfo =  searchForAllDivisionCodes(searchRequestInfo, contextInfo);
+        }else if (StringUtils.equals(searchRequestInfo.getSearchKey(),KSAP_SEARCH_COURSEIDS_BY_VERSION_IND_ID.getKey())) {
+            resultInfo =  searchForCluIdsByIndependentId(searchRequestInfo, contextInfo);
         }else {
             // If no matching search is found throw exception
             throw new OperationFailedException("Unsupported search type: " + searchRequestInfo.getSearchKey());
@@ -424,5 +437,39 @@ public class KsapSearchSupportImpl extends SearchServiceAbstractHardwiredImpl {
         }
 
         return resultInfo;
+    }
+
+    /**
+     * Routed To from search method based on search type key posted in the search request.
+     * Used to create and execute for search type key KSAP_COURSE_SEARCH_COURSEIDS_BY_VERSION_IND_ID_KEY.
+     *
+     * @see #search(org.kuali.student.r2.core.search.dto.SearchRequestInfo, org.kuali.student.r2.common.dto.ContextInfo)
+     */
+    protected SearchResultInfo searchForCluIdsByIndependentId(SearchRequestInfo searchRequestInfo,
+                                                              ContextInfo contextInfo)
+            throws MissingParameterException, OperationFailedException{
+        SearchResultInfo resultInfo = new SearchResultInfo();
+        SearchRequestHelper requestHelper = new SearchRequestHelper(searchRequestInfo);
+        String verIndId =requestHelper.getParamAsString(CourseSearchConstants.SearchParameters.VERSION_IND_ID);
+
+        // Create sql string
+        String queryStr ="SELECT clu.ID " +
+                "FROM KSLU_CLU clu " +
+                "WHERE clu.VER_IND_ID = :versionIndependentId";
+
+        // Set params and execute search
+        Query query = getEntityManager().createNativeQuery(queryStr);
+        query.setParameter(CourseSearchConstants.SearchParameters.VERSION_IND_ID, verIndId);
+        List<Object> results = query.getResultList();
+
+        // Compile results
+        for(Object resultRow : results){
+            SearchResultRowInfo row = new SearchResultRowInfo();
+            row.addCell(CourseSearchConstants.SearchResultColumns.CLU_ID, (String)resultRow);
+            resultInfo.getRows().add(row);
+        }
+
+        return resultInfo;
+
     }
 }

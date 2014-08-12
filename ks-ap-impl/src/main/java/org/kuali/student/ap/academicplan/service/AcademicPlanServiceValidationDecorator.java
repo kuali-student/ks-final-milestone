@@ -9,7 +9,14 @@ import org.kuali.student.r2.common.datadictionary.DataDictionaryValidator;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
-import org.kuali.student.r2.common.exceptions.*;
+import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
+import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.exceptions.MissingParameterException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.infc.HoldsValidator;
 import org.kuali.student.r2.common.infc.ValidationResult;
 import org.kuali.student.r2.core.class1.util.ValidationUtils;
@@ -175,7 +182,7 @@ public class AcademicPlanServiceValidationDecorator extends
 
             // Validate that the course exists if course object
             if (planItemInfo.getRefObjectType().equals(PlanConstants.COURSE_TYPE) &&
-                    KsapFrameworkServiceLocator.getCourseHelper().getCurrentVersionOfCourseByIndependentVersionId(
+                    KsapFrameworkServiceLocator.getCourseHelper().getCurrentVersionOfCourseByVersionIndependentId(
                             planItemInfo.getRefObjectId()) == null) {
                 validationResultInfos.add(makeValidationResultInfo(
                     String.format("Could not find course with ID [%s].", planItemInfo.getRefObjectId()),
