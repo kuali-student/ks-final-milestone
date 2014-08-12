@@ -1350,7 +1350,7 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
     private RegGroupLimitedInfoSearchResult createRegGroupLimitedInfoSearchResult(String rgId, String rgCode, String rgWlCount, String rgWlState) {
         RegGroupLimitedInfoSearchResult regGroup = new RegGroupLimitedInfoSearchResult();
         regGroup.setRegGroupId(rgId);
-        regGroup.setRegGroupName(rgCode);
+        regGroup.setRegGroupCode(rgCode);
         regGroup.setWaitListSize(rgWlCount == null ? null : Integer.parseInt(rgWlCount));
         if (StringUtils.equals(rgWlState, CourseWaitListServiceConstants.COURSE_WAIT_LIST_ACTIVE_STATE_KEY)) {
             regGroup.setWaitListOffered(true);

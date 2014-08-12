@@ -71,8 +71,6 @@ angular.module('regCartApp')
 
                                 // Transform the reg groups to be more easily consumed
                                 angular.forEach(ao.regGroupInfos, function(regGroup, id) {
-                                    regGroup.regGroupCode = regGroup.regGroupName;
-
                                     if (angular.isUndefined(regGroups[id])) {
                                         regGroups[id] = regGroup;
                                     }

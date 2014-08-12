@@ -11,11 +11,11 @@ import java.util.List;
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "RegGroupLimitedInfoSearchResult", propOrder = {
-        "regGroupId", "regGroupName", "waitListOffered", "maxWaitListSize", "waitListSize"})
+        "regGroupId", "regGroupCode", "waitListOffered", "maxWaitListSize", "waitListSize"})
 public class RegGroupLimitedInfoSearchResult implements Serializable {
 
     private String regGroupId;
-    private String regGroupName;
+    private String regGroupCode;
     private boolean waitListOffered;
     private Integer maxWaitListSize;
     private Integer waitListSize;
@@ -28,12 +28,12 @@ public class RegGroupLimitedInfoSearchResult implements Serializable {
         this.regGroupId = regGroupId;
     }
 
-    public String getRegGroupName() {
-        return regGroupName;
+    public String getRegGroupCode() {
+        return regGroupCode;
     }
 
-    public void setRegGroupName(String regGroupName) {
-        this.regGroupName = regGroupName;
+    public void setRegGroupCode(String regGroupCode) {
+        this.regGroupCode = regGroupCode;
     }
 
     public Integer getWaitListSize() { return waitListSize; }
