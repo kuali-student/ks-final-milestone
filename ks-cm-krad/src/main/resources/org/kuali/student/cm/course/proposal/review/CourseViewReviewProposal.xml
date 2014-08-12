@@ -501,7 +501,7 @@
         <property name="displayExplanation" value="false"/>
         <property name="items">
             <list>
-                <bean id="CM-DecisionRationale-Message" parent="CM-DecisionRationale-MessageSection"/>
+                <bean id="CM-DecisionRationale-Return-Message" parent="CM-DecisionRationale-MessageSection"/>
                 <bean id="CM-ReturnToPrevious-Dialog-NodeNamesDropdown" parent="CM-Dialog-PreviousNodeNames"/>
                 <!-- manually add back in the explanation field and force the render flag -->
                 <bean id="CM-ReturnToPrevious-Dialog-Explanation" parent="KS-CM-DialogExplanation" p:render="true"
@@ -546,8 +546,9 @@
         <property name="displayExplanation" value="false"/>
         <property name="items">
             <list>
+                <bean id="CM-DecisionRationale-Approve-Message" parent="CM-DecisionRationale-MessageSection"/>
+                <!-- manually add back in the explanation field and force the render flag -->
                 <bean id="CM-Approve-Dialog-Explanation" parent="KS-CM-DialogExplanation" p:render="true"
-                      p:onKeyUpScript="toggleBlanketApproveButton();" p:onMouseOutScript="toggleBlanketApproveButton();"
                       p:label="Decision Rationale"/>
             </list>
         </property>
@@ -578,9 +579,10 @@
         <property name="displayExplanation" value="false"/>
         <property name="items">
             <list>
+                <bean id="CM-DecisionRationale-BlanketApprove-Message" parent="CM-DecisionRationale-MessageSection"/>
+                <!-- manually add back in the explanation field and force the render flag -->
                 <bean id="CM-BlanketApprove-Dialog-Explanation" parent="KS-CM-DialogExplanation" p:render="true"
-                      p:onKeyUpScript="toggleReturnButton();" p:onMouseOutScript="toggleReturnButton();"
-                      p:label="Decision Rationale" p:cssClasses="cm-charcount-max-1000"/>
+                      p:label="Decision Rationale"/>
             </list>
         </property>
         <property name="availableResponses">

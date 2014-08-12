@@ -374,6 +374,7 @@ public class CourseController extends CourseRuleEditorController {
     public ModelAndView approve(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         CourseInfoWrapper courseInfoWrapper = getCourseInfoWrapper(form);
+        courseInfoWrapper.getUiHelper().setShowMessage(false);
         String dialog = CurriculumManagementConstants.COURSE_APPROVE_CONFIRMATION_DIALOG;
         if ( ! hasDialogBeenDisplayed(dialog, form)) {
             doValidationForProposal(form,courseInfoWrapper, KewApiConstants.ROUTE_HEADER_PROCESSED_CD, DtoConstants.STATE_ACTIVE);
@@ -386,12 +387,19 @@ public class CourseController extends CourseRuleEditorController {
             if (hasDialogBeenAnswered(dialog, form)) {
                 boolean confirmApprove = getBooleanDialogResponse(dialog, form, request, response);
                 if (confirmApprove) {
-                    //route the document
-                    ModelAndView modelAndView = super.approve(form,result, request,response);
-                    addDecisionRationale(courseInfoWrapper.getProposalInfo().getId(), courseInfoWrapper.getUiHelper().getDialogExplanations().get(dialog), CommentServiceConstants.WORKFLOW_DECISIONS.APPROVE.getType());
-                    form.getDialogManager().removeDialog(dialog);
-//                      form.getDialogManager().resetDialogStatus(dialog);
-                    return modelAndView;
+                    //route the document only if the rationale decision explanation is not null or redirect back to client to display confirm dialog with error
+                    if(courseInfoWrapper.getUiHelper().getDialogExplanations().get(dialog)!=null){
+                        ModelAndView modelAndView = super.approve(form,result, request,response);
+                        addDecisionRationale(courseInfoWrapper.getProposalInfo().getId(), courseInfoWrapper.getUiHelper().getDialogExplanations().get(dialog), CommentServiceConstants.WORKFLOW_DECISIONS.APPROVE.getType());
+                        // setShowMessage boolean decides whether to show the error message or not
+                        courseInfoWrapper.getUiHelper().setShowMessage(false);
+                        form.getDialogManager().removeDialog(dialog);
+                        return modelAndView;
+                    } else {
+                        form.getDialogManager().resetDialogStatus(dialog);
+                        courseInfoWrapper.getUiHelper().setShowMessage(true);
+                        return showDialog(dialog, form, request, response);
+                    }
                 } else {
                     form.getDialogManager().removeDialog(dialog);
                 }
@@ -462,10 +470,11 @@ public class CourseController extends CourseRuleEditorController {
             if (hasDialogBeenAnswered(dialog,form)) {
                 boolean confirmReturn = getBooleanDialogResponse(dialog, form, request, response);
                 if (confirmReturn) {
-                    //route the document
+                    //route the document only if the rationale decision explanation is not null or redirect back to client to display confirm dialog with error
                     if(courseInfoWrapper.getUiHelper().getDialogExplanations().get(dialog)!=null){
                         performReturnToPreviousNode(form,result, request,response);
                         addDecisionRationale(courseInfoWrapper.getProposalInfo().getId(), courseInfoWrapper.getUiHelper().getDialogExplanations().get(dialog), CommentServiceConstants.WORKFLOW_DECISIONS.RETURN_TO_PREVIOUS.getType());
+                        // setShowMessage boolean decides whether to show the error message or not
                         courseInfoWrapper.getUiHelper().setShowMessage(false);
                         form.getDialogManager().removeDialog(dialog);
                     }else{
@@ -782,6 +791,7 @@ public class CourseController extends CourseRuleEditorController {
     public ModelAndView blanketApprove(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result,
                                        HttpServletRequest request, HttpServletResponse response) throws Exception {
         CourseInfoWrapper courseInfoWrapper = getCourseInfoWrapper(form);
+        courseInfoWrapper.getUiHelper().setShowMessage(false);
         String dialog = CurriculumManagementConstants.COURSE_BLANKET_APPROVE_CONFIRMATION_DIALOG;
         if ( ! hasDialogBeenDisplayed(dialog, form)) {
             doValidationForProposal(form,courseInfoWrapper, KewApiConstants.ROUTE_HEADER_PROCESSED_CD, DtoConstants.STATE_ACTIVE);
@@ -794,12 +804,21 @@ public class CourseController extends CourseRuleEditorController {
             if (hasDialogBeenAnswered(dialog,form)) {
                 boolean confirmBlanketApprove = getBooleanDialogResponse(dialog, form, request, response);
                 if (confirmBlanketApprove) {
-                    //route the document
-                    super.blanketApprove(form, result, request, response);
-                    addDecisionRationale(courseInfoWrapper.getProposalInfo().getId(), courseInfoWrapper.getUiHelper().getDialogExplanations().get(dialog), CommentServiceConstants.WORKFLOW_DECISIONS.BLANKET_APPROVE.getType());
-                    form.getDialogManager().removeDialog(dialog);
-                    // Set the request redirect to false so that the user stays on the same page
-                    form.setRequestRedirected(false);
+                    //route the document only if the rationale decision explanation is not null or redirect back to client to display confirm dialog with error
+                    if(courseInfoWrapper.getUiHelper().getDialogExplanations().get(dialog)!=null){
+                        super.blanketApprove(form, result, request, response);
+                        addDecisionRationale(courseInfoWrapper.getProposalInfo().getId(), courseInfoWrapper.getUiHelper().getDialogExplanations().get(dialog), CommentServiceConstants.WORKFLOW_DECISIONS.BLANKET_APPROVE.getType());
+                        // setShowMessage boolean decides whether to show the error message or not
+                        courseInfoWrapper.getUiHelper().setShowMessage(false);
+                        form.getDialogManager().removeDialog(dialog);
+                        // Set the request redirect to false so that the user stays on the same page
+                        form.setRequestRedirected(false);
+                    } else {
+                        form.getDialogManager().resetDialogStatus(dialog);
+                        courseInfoWrapper.getUiHelper().setShowMessage(true);
+                        return showDialog(dialog, form, request, response);
+                    }
+
                 } else {
                     form.getDialogManager().removeDialog(dialog);
                 }
