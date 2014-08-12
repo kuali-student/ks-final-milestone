@@ -1077,6 +1077,14 @@ public class CourseMaintainableImpl extends RuleEditorMaintainableImpl implement
         reviewData.getCourseSection().setTranscriptTitle(savedCourseInfo.getTranscriptTitle());
         reviewData.getCourseSection().setSubjectArea(savedCourseInfo.getSubjectArea());
         reviewData.getCourseSection().setCourseNumberSuffix(savedCourseInfo.getCourseNumberSuffix());
+
+        if (StringUtils.isNotBlank(courseInfoWrapper.getProposalInfo().getId())){
+            Date updateTime = courseInfoWrapper.getProposalInfo().getMeta().getUpdateTime();
+            if (updateTime != null){
+                courseInfoWrapper.setLastUpdated(DateFormatUtils.format(updateTime, DateFormatters.SIMPLE_TIMESTAMP_FORMATTER.format(updateTime)));
+            }
+        }
+
         if (savedCourseInfo.getDescr() != null) {
             reviewData.getCourseSection().setDescription(savedCourseInfo.getDescr().getPlain());
         }
