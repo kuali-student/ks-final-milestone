@@ -164,7 +164,7 @@ public class DefaultPlanHelper implements PlanHelper {
 
             // Filter plan items by the course
             for(PlanItem item : planItems){
-                if(item.getRefObjectId().equals(course.getId())){
+                if(item.getRefObjectId().equals(course.getVersion().getVersionIndId())){
                     planItemsForCourse.add(new PlanItemInfo(item));
                 }
             }
