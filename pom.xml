@@ -40,6 +40,7 @@
         <ks.lum.version>2.1.1-FR2-M1-SNAPSHOT</ks.lum.version>
         <ks.deployments.version>2.1.1-FR2-M1-SNAPSHOT</ks.deployments.version>
         <ks.ap.version>0.8.0-FR2-M1-SNAPSHOT</ks.ap.version>
+        <ks.fa.version>0.1.0-FR2-M1-SNAPSHOT</ks.fa.version>
         <!-- 3rd party library/plugin version definitions -->
         <activemq.version>5.9.0</activemq.version>
         <antlr.runtime.version>3.1.1</antlr.runtime.version>
@@ -156,6 +157,7 @@
             </activation>
             <modules>
                 <module>ks-ap</module>
+                <module>ks-fa</module>
                 <module>ks-deployments</module>
                 <module>ks-core</module>
                 <module>ks-lum</module>
@@ -177,12 +179,14 @@
                 <module>ks-lum</module>
                 <module>ks-enroll</module>
                 <module>ks-ap</module>
+                <module>ks-fa</module>
             </modules>
         </profile>
         <profile>
             <id>test-only</id>
             <modules>
                 <module>ks-ap</module>
+                <module>ks-fa</module>
                 <module>ks-api</module>
                 <module>ks-core</module>
                 <module>ks-lum</module>
@@ -220,6 +224,7 @@
             </properties>
             <modules>
                 <module>ks-ap</module>
+                <module>ks-fa</module>
                 <module>ks-core</module>
                 <module>ks-lum</module>
                 <module>ks-enroll</module>
@@ -288,6 +293,11 @@
                                 <module>ks-ap</module>
                                 <versionProperty>ks.ap.version</versionProperty>
                             </mapping>
+			    <mapping>
+                                <module>ks-fa</module>
+                                <versionProperty>ks.fa.version</versionProperty>
+                            </mapping>
+
                             <mapping>
                                 <module>ks-api</module>
                                 <versionProperty>ks.api.version</versionProperty>

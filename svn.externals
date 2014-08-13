@@ -21,4 +21,5 @@
 ^/enrollment/ks-lum/trunk ks-lum
 ^/enrollment/ks-enroll/trunk ks-enroll
 ^/enrollment/ks-ap/trunk ks-ap
+^/enrollment/ks-fa/trunk ks-fa
 ^/enrollment/ks-deployments/trunk ks-deployments
