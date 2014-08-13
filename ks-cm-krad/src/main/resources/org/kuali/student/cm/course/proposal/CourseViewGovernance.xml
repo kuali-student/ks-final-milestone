@@ -23,7 +23,7 @@
         <property name="headerText" value="Governance"/>
         <property name="items">
             <list>
-                <bean parent="KS-Uif-InputField-LabelTop" p:propertyName="campusLocations" p:label="Campus Locations"
+                <bean parent="CM-InputField" p:propertyName="campusLocations" p:label="Campus Locations"
                       p:instructionalText="" p:width="auto" >
                     <property name="control">
                         <bean parent="Uif-VerticalCheckboxesControl" />
