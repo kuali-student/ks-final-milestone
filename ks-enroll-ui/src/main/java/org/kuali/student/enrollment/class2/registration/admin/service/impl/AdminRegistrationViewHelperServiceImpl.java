@@ -27,6 +27,7 @@ import org.kuali.student.enrollment.courseregistration.dto.ActivityRegistrationI
 import org.kuali.student.enrollment.courseregistration.dto.CourseRegistrationInfo;
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestInfo;
 import org.kuali.student.enrollment.registration.client.service.impl.util.CourseRegistrationAndScheduleOfClassesUtil;
+import org.kuali.student.enrollment.registration.client.service.impl.util.RegistrationValidationResultsUtil;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
@@ -54,6 +55,7 @@ import org.kuali.student.r2.lum.util.constants.LrcServiceConstants;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created with IntelliJ IDEA.
@@ -114,10 +116,10 @@ public class AdminRegistrationViewHelperServiceImpl extends KSViewHelperServiceI
 
                 SocInfo soc = AdminRegistrationUtil.getMainSocForTermId(term.getId(), contextInfo);
                 if (soc != null) {
-                   if(!soc.getStateKey().equals(AdminRegConstants.PUBLISHED_SOC_STATE_KEY)){
-                       GlobalVariables.getMessageMap().putError(AdminRegConstants.TERM_CODE, AdminRegConstants.ADMIN_REG_MSG_ERROR_TERM_SOC_NOT_PUBLISHED);
-                       return null;
-                   }
+                    if (!soc.getStateKey().equals(AdminRegConstants.PUBLISHED_SOC_STATE_KEY)) {
+                        GlobalVariables.getMessageMap().putError(AdminRegConstants.TERM_CODE, AdminRegConstants.ADMIN_REG_MSG_ERROR_TERM_SOC_NOT_PUBLISHED);
+                        return null;
+                    }
                 } else {
                     GlobalVariables.getMessageMap().putError(AdminRegConstants.TERM_CODE, AdminRegConstants.ADMIN_REG_MSG_ERROR_TERM_SOC_NOT_EXISTS);
                     return null;
@@ -131,9 +133,9 @@ public class AdminRegistrationViewHelperServiceImpl extends KSViewHelperServiceI
     }
 
     @Override
-    public List<ValidationResultInfo> checkStudentEligibilityForTermLocal(String studentId, String termId) {
+    public List<String> checkStudentEligibilityForTermLocal(String studentId, String termId) {
         ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
-        List<ValidationResultInfo> reasons = new ArrayList<ValidationResultInfo>();
+        List<String> reasons = new ArrayList<String>();
 
         try {
          /*
@@ -151,7 +153,11 @@ public class AdminRegistrationViewHelperServiceImpl extends KSViewHelperServiceI
             // Filter out anything that isn't an error
             for (ValidationResultInfo vr : validationResults) {
                 if (ValidationResult.ErrorLevel.ERROR.equals(vr.getLevel())) {
-                    reasons.add(vr);
+
+                    Map<String, String> validationMap = RegistrationValidationResultsUtil.unmarshallResult(vr.getMessage());
+                    if (validationMap.containsKey("message")) {
+                       reasons.add(validationMap.get("message"));
+                    }
                 }
             }
 

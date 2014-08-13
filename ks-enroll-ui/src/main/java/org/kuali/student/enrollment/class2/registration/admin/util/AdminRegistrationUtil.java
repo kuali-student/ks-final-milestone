@@ -92,24 +92,11 @@ public class AdminRegistrationUtil {
             Map<String, String> validationMap = RegistrationValidationResultsUtil.unmarshallResult(validationResult.getMessage());
 
             String message = StringUtils.EMPTY;
-            if (validationMap.containsKey("messageKey")){
+            if (validationMap.containsKey("conflictingCourses")){
+                message = AdminRegistrationUtil.getMessageForKey(validationMap.get("messageKey"), validationMap.get("conflictingCourses"));
+            } else if (validationMap.containsKey("messageKey")){
                 message = AdminRegistrationUtil.getMessageForKey(validationMap.get("messageKey"));
             }
-
-            /*if (result instanceof RegistrationValidationConflictCourseResult) {
-                RegistrationValidationConflictCourseResult conflictCourseResult = (RegistrationValidationConflictCourseResult) result;
-                StringBuilder conflictCourses = new StringBuilder();
-                for (ConflictCourseResult conflictCourse : conflictCourseResult.getConflictingCourses()) {
-                    if (conflictCourses.length() > 0) {
-                        conflictCourses.append(", ");
-                    }
-                    conflictCourses.append(conflictCourse.getCourseCode());
-                }
-                message = AdminRegistrationUtil.getMessageForKey(result.getMessageKey(), conflictCourses.toString());
-            }
-            else{
-                message = AdminRegistrationUtil.getMessageForKey(result.getMessageKey());
-            }*/
 
             issueItems.add(new RegistrationResultItem(message));
         }

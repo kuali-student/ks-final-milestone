@@ -807,7 +807,7 @@
             <list>
                 <bean id="KS-AdminRegistration-TermIssues" parent="Uif-TableCollectionGroup" p:colSpan="8">
                     <property name="collectionObjectClass"
-                              value="org.kuali.student.r2.common.dto.ValidationResultInfo"/>
+                              value="java.lang.String"/>
                     <property name="propertyName" value="termIssues"/>
                     <property name="layoutManager.renderSequenceField" value="false"/>
                     <property name="layoutManager.richTable.render" value="false"/>
@@ -815,7 +815,7 @@
                     <property name="renderLineActions" value="false"/>
                     <property name="items">
                         <list>
-                            <bean parent="Uif-DataField" p:label="Eligibility Check" p:propertyName="message"/>
+                            <bean parent="Uif-MessageField" p:label="Eligibility Check" p:messageText="@{#line.toString()}"/>
                             <bean parent="Uif-MessageField" p:id="termEligibityResult" p:messageText="[b]FAILED[/b]"/>
                         </list>
                     </property>

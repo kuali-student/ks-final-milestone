@@ -42,9 +42,9 @@ public interface AdminRegistrationViewHelperService {
      *
      * @param studentId required
      * @param termId    required
-     * @return Returns a list of validation results
+     * @return Returns a list of validation result messages
      */
-    public List<ValidationResultInfo> checkStudentEligibilityForTermLocal(String studentId, String termId);
+    public List<String> checkStudentEligibilityForTermLocal(String studentId, String termId);
 
     /**
      * Using the Student ID and term entered to get the registered courses for that student
