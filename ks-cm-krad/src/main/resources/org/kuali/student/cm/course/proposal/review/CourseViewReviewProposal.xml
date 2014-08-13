@@ -19,7 +19,7 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
                            http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-    <bean id="CM-Proposal-Review-Course-Page" parent="CM-ViewCourse-View-Course-Page">
+    <bean id="CM-Proposal-Review-Course-Page" parent="CM-ViewCourse-View-Course-Page" class="org.kuali.student.cm.uif.view.CMReviewPage">
 
         <!-- Initialize the page. This intervenes with the validation message behavior by removing the popovers, and
              also sizes the text areas. -->
@@ -450,6 +450,7 @@
     <bean id="KS-Proposal-Review-Course-ConfirmSubmit-Dialog" parent="KS-Proposal-Review-Course-ConfirmSubmit-Dialog-parentBean" />
     <bean id="KS-Proposal-Review-Course-ConfirmSubmit-Dialog-parentBean" parent="Uif-DialogGroup" abstract="true" >
         <property name="headerText" value="Submit Proposal"/>
+        <property name="onDialogResponseScript" value="confirmDialogResponseCall();"/>
         <property name="renderHeader" value="true"/>
         <property name="cssClasses" >
             <list merge="true">

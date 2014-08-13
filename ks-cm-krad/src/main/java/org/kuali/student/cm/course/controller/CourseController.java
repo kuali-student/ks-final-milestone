@@ -34,6 +34,7 @@ import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 import org.kuali.rice.krad.uif.UifConstants;
 import org.kuali.rice.krad.uif.UifParameters;
 import org.kuali.rice.krad.uif.container.CollectionGroup;
+import org.kuali.rice.krad.uif.view.DialogManager;
 import org.kuali.rice.krad.util.ErrorMessage;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
@@ -333,6 +334,14 @@ public class CourseController extends CourseRuleEditorController {
     @Override
     public ModelAndView route(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result, HttpServletRequest request, HttpServletResponse response) {
 
+        DialogManager dm = form.getDialogManager();
+        String dialogId = dm.getCurrentDialogId();
+        if(dialogId != null) {
+            dm.setDialogAnswer(dialogId, form.getDialogResponse());
+            dm.setDialogExplanation(dialogId, form.getDialogExplanation());
+            dm.setCurrentDialogId(null);
+        }
+
         String dialog = CurriculumManagementConstants.COURSE_SUBMIT_CONFIRMATION_DIALOG;
         if ( ! hasDialogBeenDisplayed(dialog, form)) {
             doValidationForProposal(form, KewApiConstants.ROUTE_HEADER_ENROUTE_CD, null);
@@ -348,7 +357,6 @@ public class CourseController extends CourseRuleEditorController {
                     //route the document
                     ModelAndView modelAndView = super.route(form,result, request,response);
                     form.getDialogManager().removeDialog(dialog);
-//                    form.getDialogManager().resetDialogStatus(dialog);
                     CourseInfoWrapper wrapper = getCourseInfoWrapper(form);
                     if (wrapper.getUiHelper().isCurriculumSpecialistUser()) {
                         KRADServiceLocatorWeb.getViewValidationService().validateViewAgainstNextState(form);
