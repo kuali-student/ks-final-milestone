@@ -1836,7 +1836,7 @@
         </search:queryParams>
     </search:searchCriteriaTypeInfo>
 
-
+    <bean id="queryMap" parent="queryMap-parent"/>
     <bean id="queryMap-parent" class="org.springframework.beans.factory.config.MapFactoryBean">
 		<property name="sourceMap">
 			<map>
@@ -2249,44 +2249,5 @@
             </map>
 		</property>
 	</bean>
-
-    <search:searchType id="ksap.course.getcluid">
-        <search:searchResultTypeInfo>
-            <search:name/>
-            <search:desc/>
-            <search:resultColumns>
-                <ref bean="lu.resultColumn.cluId"/>
-            </search:resultColumns>
-        </search:searchResultTypeInfo>
-        <search:searchCriteriaTypeInfo>
-            <search:queryParams>
-            </search:queryParams>
-        </search:searchCriteriaTypeInfo>
-    </search:searchType>
-
-    <bean id="queryMap" parent="queryMap-parent">
-        <property name="sourceMap">
-            <map merge="true">
-
-                <entry key="ksap.course.getcluid">
-                    <value>NATIVE:
-                        SELECT
-                        clu.id, id.LNG_NAME
-                        FROM
-                        KSLU_CLU clu,
-                        KSLU_CLU_IDENT id
-                        WHERE
-                        clu.offic_clu_id = id.id
-                        AND
-                        trim( id.SUFX_CD ) = :number
-                        AND
-                        trim( id.DIVISION ) = :subject
-                        AND clu.EXP_FIRST_ATP = (select min(c.EXP_FIRST_ATP) FROM KSLU_CLU c where c.ver_ind_id = clu.ver_ind_id group by c.ver_ind_id )
-                    </value>
-                </entry>
-
-            </map>
-        </property>
-    </bean>
 
 </beans>
