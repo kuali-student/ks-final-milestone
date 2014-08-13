@@ -29,7 +29,6 @@ import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.util.RichTextHelper;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.CourseWaitListServiceConstants;
-import org.kuali.student.r2.common.util.constants.LprRosterServiceConstants;
 import org.kuali.student.r2.common.util.constants.LprServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.common.util.date.DateFormatters;
@@ -124,7 +123,6 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
         public static final String LPR_STATES = "lprStates";
         public static final String LUI_IDS = "luiIds";
         public static final String CO_ID = "courseOfferingId";
-        public static final String RG_ID = "regGroupId";
         public static final String PERSON_ID = "personId";
         public static final String CART_ID = "cartId";
         public static final String CART_ITEM_ID = "cartItemId";
@@ -231,8 +229,8 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
     }
 
     static {
-        searchKeyToSearchTypeMap = new HashMap<String, TypeInfo>();
-        searchTypeList = new ArrayList<TypeInfo>();
+        searchKeyToSearchTypeMap = new HashMap<>();
+        searchTypeList = new ArrayList<>();
 
         REG_INFO_BY_PERSON_TERM_SEARCH_TYPE =
                 createTypeInfo(REG_INFO_BY_PERSON_TERM_SEARCH_KEY,
@@ -1134,7 +1132,6 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
             row.addCell(SearchResultColumns.RG_ID, (String) resultRow[i++]);
             row.addCell(SearchResultColumns.AO_ID, (String) resultRow[i++]);
             row.addCell(SearchResultColumns.AO_NAME, (String) resultRow[i++]);
-//            row.addCell(SearchResultColumns.LUI_DESC, (String) resultRow[i++]);
             row.addCell(SearchResultColumns.AO_TYPE, (String) resultRow[i++]);
             row.addCell(SearchResultColumns.LUI_LONG_NAME, (String) resultRow[i++]);
             BigDecimal tbaInd = (BigDecimal) resultRow[i++];
@@ -1183,8 +1180,6 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
                         "     KSEN_LUI_IDENT luiId " +
                         "LEFT OUTER JOIN KSEN_LUI_RESULT_VAL_GRP luiRes " +
                         "ON luiRes.LUI_ID = luiId.LUI_ID " +
-//                        "AND (luiRes.RESULT_VAL_GRP_ID in (" + getStudentRegGradingOptionsStr() + ")" +
-//                        "       OR luiRes.RESULT_VAL_GRP_ID like 'kuali.creditType.credit%') " +
                         "LEFT OUTER JOIN KSEN_LUI_SCHEDULE aoSched " +
                         "ON aoSched.LUI_ID = luiId.LUI_ID " +
                         "LEFT OUTER JOIN KSEN_SCHED_CMP schedCmp " +
@@ -1200,7 +1195,6 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
                         "WHERE lpr.PERS_ID = :personId " +
                         "  AND atp.ID = lpr.ATP_ID " +
                         "  AND lui.ID = lpr.LUI_ID " +
-                        "  AND lui.ATP_ID = lpr.ATP_ID " +
                         "  AND luiId.LUI_ID = lui.ID " +
                         "  AND lpr.LPR_STATE = '" + LprServiceConstants.ACTIVE_STATE_KEY + "' ");
 
@@ -1384,7 +1378,7 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
         SearchRequestHelper requestHelper = new SearchRequestHelper(searchRequestInfo);
         List<String> aoIdsList = requestHelper.getParamAsList(SearchParameters.AO_IDS);
         // For now, hard code this list
-        List<String> aoTypes = new ArrayList<String>();
+        List<String> aoTypes = new ArrayList<>();
         aoTypes.add(LuiServiceConstants.LECTURE_ACTIVITY_OFFERING_TYPE_KEY);
         aoTypes.add(LuiServiceConstants.LAB_ACTIVITY_OFFERING_TYPE_KEY);
         aoTypes.add(LuiServiceConstants.DISCUSSION_ACTIVITY_OFFERING_TYPE_KEY);
@@ -1580,24 +1574,24 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
         query.setParameter(SearchParameters.CO_ID, requestHelper.getParamAsString(SearchParameters.CO_ID));
         List<Object[]> results = query.getResultList();
 
-        for(Object[] resultRow : results){
+        for (Object[] resultRow : results) {
             int i = 0;
             SearchResultRowInfo row = new SearchResultRowInfo();
-            row.addCell(SearchResultColumns.CO_ID, (String)resultRow[i++]);
-            row.addCell(SearchResultColumns.CO_CODE, (String)resultRow[i++]);
-            row.addCell(SearchResultColumns.CO_SUBJECT_AREA, (String)resultRow[i++]);
-            row.addCell(SearchResultColumns.CO_LONG_NAME, (String)resultRow[i++]);
-            row.addCell(SearchResultColumns.CO_DESC_FORMATTED, (String)resultRow[i++]);
-            row.addCell(SearchResultColumns.RES_VAL_GROUP_KEY, (String)resultRow[i++]);
-            row.addCell(SearchResultColumns.CO_CROSSLISTED_ID, (String)resultRow[i++]);
-            row.addCell(SearchResultColumns.CO_CROSSLISTED_CODE, (String)resultRow[i++]);
-            row.addCell(SearchResultColumns.CO_CROSSLISTED_SUBJECT_AREA, (String)resultRow[i++]);
-            row.addCell(SearchResultColumns.CO_ATP_ID, (String)resultRow[i++]);
-            row.addCell(SearchResultColumns.AO_ATP_ID, (String)resultRow[i++]);
-            row.addCell(SearchResultColumns.AO_ID, (String)resultRow[i++]);
-            row.addCell(SearchResultColumns.AO_TYPE, (String)resultRow[i++]);
-            row.addCell(SearchResultColumns.AO_NAME, (String)resultRow[i++]);
-            row.addCell(SearchResultColumns.AO_CODE, (String)resultRow[i++]);
+            row.addCell(SearchResultColumns.CO_ID, (String) resultRow[i++]);
+            row.addCell(SearchResultColumns.CO_CODE, (String) resultRow[i++]);
+            row.addCell(SearchResultColumns.CO_SUBJECT_AREA, (String) resultRow[i++]);
+            row.addCell(SearchResultColumns.CO_LONG_NAME, (String) resultRow[i++]);
+            row.addCell(SearchResultColumns.CO_DESC_FORMATTED, (String) resultRow[i++]);
+            row.addCell(SearchResultColumns.RES_VAL_GROUP_KEY, (String) resultRow[i++]);
+            row.addCell(SearchResultColumns.CO_CROSSLISTED_ID, (String) resultRow[i++]);
+            row.addCell(SearchResultColumns.CO_CROSSLISTED_CODE, (String) resultRow[i++]);
+            row.addCell(SearchResultColumns.CO_CROSSLISTED_SUBJECT_AREA, (String) resultRow[i++]);
+            row.addCell(SearchResultColumns.CO_ATP_ID, (String) resultRow[i++]);
+            row.addCell(SearchResultColumns.AO_ATP_ID, (String) resultRow[i++]);
+            row.addCell(SearchResultColumns.AO_ID, (String) resultRow[i++]);
+            row.addCell(SearchResultColumns.AO_TYPE, (String) resultRow[i++]);
+            row.addCell(SearchResultColumns.AO_NAME, (String) resultRow[i++]);
+            row.addCell(SearchResultColumns.AO_CODE, (String) resultRow[i++]);
             BigDecimal aoMaxSeats = (BigDecimal) resultRow[i++];
             if (aoMaxSeats != null) {
                 row.addCell(SearchResultColumns.AO_MAX_SEATS, String.valueOf(aoMaxSeats.intValue()));
@@ -1610,7 +1604,7 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
             } else {
                 row.addCell(SearchResultColumns.SEAT_COUNT, null);
             }
-            row.addCell(SearchResultColumns.CWL_STATE, (String)resultRow[i++]);
+            row.addCell(SearchResultColumns.CWL_STATE, (String) resultRow[i++]);
             BigDecimal aoWlMaxSize = (BigDecimal) resultRow[i++];
             if (aoWlMaxSize != null) {
                 row.addCell(SearchResultColumns.CWL_MAX_SIZE, String.valueOf(aoWlMaxSize.intValue()));
@@ -1650,7 +1644,9 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
         String[] studentRegGradingOptions = CourseOfferingServiceConstants.ALL_STUDENT_REGISTRATION_OPTION_TYPE_KEYS;
         StringBuilder bld = new StringBuilder();
         for (String studentRegGradingOption : studentRegGradingOptions) {
-            bld.append(",'" + studentRegGradingOption + "'");
+            bld.append(",'");
+            bld.append(studentRegGradingOption);
+            bld.append("'");
         }
         return bld.toString().substring(1);
     }
