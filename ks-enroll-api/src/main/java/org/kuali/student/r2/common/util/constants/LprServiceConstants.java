@@ -166,7 +166,6 @@ public class LprServiceConstants {
     // the active state is also used
     public static final String PLANNED_STATE_KEY = "kuali.lpr.state.planned";
 //    public static final String REGISTERED_STATE_KEY = "kuali.lpr.state.registered"; // No longer used
-    public static final String WAITLISTED_STATE_KEY = "kuali.lpr.state.waitlisted";
     public static final String DROPPED_STATE_KEY = "kuali.lpr.state.dropped.early";
     public static final String DROPPED_LATE_STATE_KEY = "kuali.lpr.state.dropped.late";
     // To handle transition from "waitlist" to "registered"
@@ -195,6 +194,7 @@ public class LprServiceConstants {
     public static final String TEMPORARY_ABSENCE_STATE_KEY = "kuali.lpr.state.temp.absence";
     public static final String WITHDRAWN_STATE_KEY = "kuali.lpr.state.withdrawn";
     public static final String PROBATION_STATE_KEY = "kuali.lpr.state.probation";
+    public static final String WAITLISTED_STATE_KEY = "kuali.lpr.state.waitlisted";
 
     // advisor states
     public static final String ACTIVE_STATE_KEY = "kuali.lpr.state.active";
