@@ -812,18 +812,16 @@ public class CourseController extends CourseRuleEditorController {
                                        HttpServletRequest request, HttpServletResponse response) throws Exception {
         CourseInfoWrapper courseInfoWrapper = getCourseInfoWrapper(form);
 
-        String dialog = CurriculumManagementConstants.COURSE_APPROVE_CONFIRMATION_DIALOG;
         doValidationForProposal(form, KewApiConstants.ROUTE_HEADER_PROCESSED_CD, DtoConstants.STATE_ACTIVE);
-        super.blanketApprove(form, result, request, response);
-        // Set the request redirect to false so that the user stays on the same page
-        form.setRequestRedirected(false);
-        // Hide the Blanket Approve button on the review proposal page while the document is still in Enroute state(It is being processed at the back-end)
-        courseInfoWrapper.getUiHelper().setProposalBlanketApproved(true);
         if (!GlobalVariables.getMessageMap().hasErrors()) {
+            super.blanketApprove(form, result, request, response);
+            // Set the request redirect to false so that the user stays on the same page
+            form.setRequestRedirected(false);
+            // Hide the Blanket Approve button on the review proposal page while the document is still in Enroute state(It is being processed at the back-end)
+            courseInfoWrapper.getUiHelper().setProposalBlanketApproved(true);
             //redirect back to client to display confirm dialog
             return getUIFModelAndView(form, CurriculumManagementConstants.CourseViewPageIds.REVIEW_COURSE_PROPOSAL_PAGE);
-        }else
-        {
+        } else {
             return getUIFModelAndView(form);
         }
 
@@ -1209,7 +1207,7 @@ public class CourseController extends CourseRuleEditorController {
                         break;
                     case "campusLocations":
                         if (StringUtils.equals(CurriculumManagementConstants.CourseViewPageIds.CREATE_COURSE_PAGE, form.getPageId())) {
-                            elementPath = CurriculumManagementConstants.DATA_OBJECT_PATH + ".courseInfo.campusLocations";
+                            elementPath = CurriculumManagementConstants.DATA_OBJECT_PATH + ".campusLocations";
                         } else {
                             elementPath = CurriculumManagementConstants.DATA_OBJECT_PATH + ".reviewProposalDisplay.governanceSection.campusLocationsAsString";
                         }
