@@ -623,7 +623,7 @@ public class AdminRegistrationViewHelperServiceImpl extends KSViewHelperServiceI
      *
      * @param course
      * @param termId
-     * @return String retrieveCourseTitle
+     * @return String retrieveCourseCredits
      * @throws MissingParameterException
      * @throws InvalidParameterException
      * @throws OperationFailedException
