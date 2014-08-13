@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('regCartApp')
-    .service('CourseCalendarDataParser', ['DAY_CONSTANTS', 'GlobalVarsService', function(DAY_CONSTANTS, GlobalVarsService) {
+    .service('CourseCalendarDataParser', ['DAY_CONSTANTS', 'RegUtil', 'GlobalVarsService', function(DAY_CONSTANTS, RegUtil, GlobalVarsService) {
         var conflictMap;
 
         /*
@@ -139,8 +139,8 @@ angular.module('regCartApp')
                 }
             }
 
-            var startTime = convertTimeStringToTime(scheduleComponent.startTime);
-            var endTime = convertTimeStringToTime(scheduleComponent.endTime);
+            var startTime = RegUtil.convertTimeStringToTime(scheduleComponent.startTime);
+            var endTime = RegUtil.convertTimeStringToTime(scheduleComponent.endTime);
 
             /*
              Course started before midnight, and ended after midnight, so
@@ -321,26 +321,6 @@ angular.module('regCartApp')
             });
 
             return courses;
-        }
-
-        /*
-         Converts the start time to an integer representing the minutes since
-         start of day.
-         */
-        function convertTimeStringToTime(str) {
-            var colonIndex = str.indexOf(':'),
-                h = str.substring(0, colonIndex),
-                m = str.substring(colonIndex + 1, str.indexOf(' ')),
-                isPm = str.toLowerCase().indexOf('pm') !== -1;
-
-            var time = parseInt(h) * 60;
-            time += parseInt(m);
-
-            if (isPm && h !== '12') {
-                time += (60 * 12);
-            }
-
-            return time;
         }
 
         /*
