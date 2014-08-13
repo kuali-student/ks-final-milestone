@@ -11,7 +11,6 @@ angular.module('regCartApp')
         $scope.termId = null;
         $scope.termName = '';
         $scope.studentIsEligibleForTerm = true; // Top-level check whether student is eligible to register for the selected term
-        $scope.searchForm = true;               // Top-level flag to determine whether the search form is visible
 
         // update the term name if the termId changes
         $scope.$watch('termId', function (newValue, oldValue) {
@@ -101,6 +100,15 @@ angular.module('regCartApp')
         $scope.$on('$stateChangeStart', function(event, toState) {
             $scope.$parent.uiState = toState.name;
         });
+
+        //Determine whether the search form should be shown on this page
+        $scope.searchForm = function() {
+           var searchForm = true;
+           if ($state.current.name == 'root.search.details') {
+               searchForm = false; // hidden from mobile search details
+           }
+           return searchForm;
+        }
     }])
 
     .controller('SessionCtrl', ['$scope', 'LoginService', function SessionCtrl($scope, LoginService) {

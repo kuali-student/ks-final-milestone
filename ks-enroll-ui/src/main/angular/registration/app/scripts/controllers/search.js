@@ -9,7 +9,6 @@ angular.module('regCartApp')
         $scope.searchCriteria = null; // Criteria used to generate the search results.
         $scope.searchResults = [];    // Results from the last search request.
         $scope.filteredResults = [];  // Results that have been filtered through the facets.
-        $rootScope.searchForm = true; // Shows the search form in mobile view
 
         $scope.$on('termIdChanged', function() {
             var criteria = $scope.searchCriteria;
