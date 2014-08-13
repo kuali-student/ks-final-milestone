@@ -95,7 +95,7 @@
         <property name="items">
             <list>
                 <bean id="CM-Proposal-Course-Logistics-GradingOptions" parent="CM-InputField" p:label="Assessment Scale"
-                      p:propertyName="courseInfo.gradingOptions" >
+                      p:propertyName="gradingOptions" >
                     <property name="control">
                         <bean parent="Uif-VerticalCheckboxesControl" />
                     </property>

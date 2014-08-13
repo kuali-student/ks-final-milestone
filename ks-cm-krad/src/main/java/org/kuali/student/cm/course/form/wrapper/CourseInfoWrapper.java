@@ -381,6 +381,22 @@ public class CourseInfoWrapper extends LURuleManagementWrapper implements Serial
         return campusLocations;
     }
 
+    /**
+     * Because KRAD the reqired validation doesn't check isEmpty() for Lists and CourseInfo creates an empty List
+     * in the CourseInfo#getGradingOptions() we have to have this pass-thru method to make requiredness work
+     * correctly. Similar to campusLocations above.
+     */
+    public List<String> getGradingOptions() {
+        if (getCourseInfo().getGradingOptions().isEmpty()) {
+            return null;
+        }
+        return getCourseInfo().getGradingOptions();
+    }
+
+    public void setGradingOptions(List<String> gradingOptions) {
+        getCourseInfo().setGradingOptions(gradingOptions);
+    }
+
     public List<FormatInfo> getFormats() {
         return formats;
     }

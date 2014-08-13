@@ -83,6 +83,10 @@
             <list>
                 <bean id="CM-Proposal-Course-Governance-CurriculumOversight-Name" parent="CM-InputField" p:label="Name"
                       p:propertyName="orgId" p:readOnly="@{!#lp.renderHelper.newRow and !#empty(#lp.orgId)}" p:readOnlyDisplayReplacementPropertyName="renderHelper.orgLongName">
+                    <!-- Make required for approval -->
+                    <property name="simpleConstraint">
+                        <bean parent="CM-RequiredConstraints-Approve"/>
+                    </property>
                     <property name="optionsFinder">
                         <bean class="org.kuali.student.lum.lu.ui.course.keyvalues.OrgsBySubjectCodeValuesFinder"
                               p:blankOption="true" />
