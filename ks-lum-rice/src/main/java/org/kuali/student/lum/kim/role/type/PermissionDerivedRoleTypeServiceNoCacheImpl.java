@@ -10,13 +10,14 @@ import org.kuali.rice.krad.kim.PermissionDerivedRoleTypeServiceImpl;
 public class PermissionDerivedRoleTypeServiceNoCacheImpl extends
 		PermissionDerivedRoleTypeServiceImpl {
 
-	/* (non-Javadoc)
-	 * @see org.kuali.rice.kim.service.support.impl.KimRoleTypeServiceBase#shouldCacheRoleMembershipResults(java.lang.String, java.lang.String)
-	 */
-	//@Override
-	public boolean shouldCacheRoleMembershipResults(String namespaceCode,
-			String roleName) {
-		return false;
-	}
+    /**
+     * Returns true, as some permissions change often enough that role membership is highly volatile
+     *
+     * @see org.kuali.rice.kim.framework.role.RoleTypeService#dynamicRoleMembership(java.lang.String, java.lang.String)
+     */
+    @Override
+    public boolean dynamicRoleMembership(String namespaceCode, String roleName) {
+        return true;
+    }
 
 }

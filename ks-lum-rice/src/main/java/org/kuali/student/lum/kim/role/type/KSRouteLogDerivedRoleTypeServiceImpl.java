@@ -200,15 +200,15 @@ public class KSRouteLogDerivedRoleTypeServiceImpl extends DerivedRoleTypeService
         return isUserInRouteLog;
 	}
 
-	/**
-	 * Returns false, as the Route Log changes often enough that role membership is highly volatile
-	 *
-	 * @see org.kuali.rice.kim.service.support.impl.KimRoleTypeServiceBase#shouldCacheRoleMembershipResults(java.lang.String, java.lang.String)
-	 */
-//	@Override
-	public boolean shouldCacheRoleMembershipResults(String namespaceCode, String roleName) {
-		return false;
-	}
+    /**
+     * Returns true, as the Route Log data change often enough that role membership is highly volatile
+     *
+     * @see org.kuali.rice.kim.framework.role.RoleTypeService#dynamicRoleMembership(java.lang.String, java.lang.String)
+     */
+    @Override
+    public boolean dynamicRoleMembership(String namespaceCode, String roleName) {
+        return true;
+    }
 
 
     protected WorkflowDocumentService getWorkflowDocumentService() {
