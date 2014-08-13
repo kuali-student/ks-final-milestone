@@ -80,15 +80,130 @@ function onProposalReviewLoad() {
 
     fixReadOnlyInputSizes();
 
-    /*
-     * Remove validation error popups. It doesn't work to simply call .Remove here because it causes an error in the
-     * initialization that happens after this method completes. Putting it in ready() executes it near the end.
-     */
-    jQuery(document).ready(
-        function () {
-            jQuery("[id$=_control]").RemoveBubblePopup();
+}
+
+/**
+ * This method has be copied from 'setupPage()' (krad.initialize.js). We're coping this method mainly to
+ * refresh the entire view header on page load by looking at 'uif-viewHeader-contentWrapper' css instead of
+ * 'uif-viewHeader'. uif-viewHeader div doesnt contain the lower group. We need to refresh the lower group
+ * as we're having proposal state and last modified timestamp displays at the lower group.
+ *
+ * With this override, we need to remove validation error popups at fields (bubble popup).
+ *
+ * Whenever we upgrade rice, this method needs to be copied and just change the css class.
+ *
+ * @param validate
+ */
+function setupReviewPage(validate) {
+    time(true, "page-setup");
+
+    dirtyFormState.resetDirtyFieldCount();
+
+    //if we are skipping this page setup, reset the flag, and return (this logic is for redirects)
+    if (skipPageSetup) {
+        skipPageSetup = false;
+        return;
+    }
+
+    // update the top group per page
+    var topGroupUpdateDiv = jQuery("#" + kradVariables.TOP_GROUP_UPDATE);
+    var topGroupUpdate = topGroupUpdateDiv.find(">").detach();
+    if (topGroupUpdate.length && !initialViewLoad) {
+        jQuery("#Uif-TopGroupWrapper >").replaceWith(topGroupUpdate);
+    }
+    topGroupUpdateDiv.remove();
+
+    // update the view header per page
+    var headerUpdateDiv = jQuery("#" + kradVariables.VIEW_HEADER_UPDATE);
+    var viewHeaderUpdate = headerUpdateDiv.find(".uif-viewHeader-contentWrapper").detach();
+    if (viewHeaderUpdate.length && !initialViewLoad) {
+        var currentHeader = jQuery(".uif-viewHeader-contentWrapper");
+        if (currentHeader.data("offset")) {
+            viewHeaderUpdate.data("offset", currentHeader.data("offset"));
         }
-    );
+        jQuery(".uif-viewHeader-contentWrapper").replaceWith(viewHeaderUpdate);
+        stickyContent = jQuery("[data-sticky='true']:visible");
+    }
+    headerUpdateDiv.remove();
+
+    originalPageTitle = document.title;
+
+    setupImages();
+
+    //reinitialize sticky footer content because page footer can be sticky
+    jQuery("[data-role='Page']").on(kradVariables.EVENTS.ADJUST_STICKY, function(){
+        stickyFooterContent = jQuery("[data-sticky_footer='true']");
+        initStickyFooterContent();
+        handleStickyFooterContent();
+        initStickyContent();
+    });
+
+    // Initialize global validation defaults
+    if (groupValidationDefaults == undefined || fieldValidationDefaults == undefined) {
+        groupValidationDefaults = jQuery("[data-role='View']").data(kradVariables.GROUP_VALIDATION_DEFAULTS);
+        fieldValidationDefaults = jQuery("[data-role='View']").data(kradVariables.FIELD_VALIDATION_DEFAULTS);
+    }
+
+    if (actionDefaults == undefined) {
+        actionDefaults = jQuery("[data-role='View']").data(kradVariables.ACTION_DEFAULTS);
+    }
+
+    //Reset summary state before processing each field - summaries are shown if server messages
+    // or on client page validation
+    messageSummariesShown = false;
+
+    //flag to turn off and on validation mechanisms on the client
+    validateClient = validate;
+
+    // select current page
+    var pageId = getCurrentPageId();
+
+    jQuery("ul.uif-navigationMenu").selectMenuItem({selectPage: pageId});
+    jQuery("ul.uif-tabMenu").selectTab({selectPage: pageId});
+
+    // update URL to reflect the current page
+    updateRequestUrl(pageId);
+
+    prevPageMessageTotal = 0;
+    //skip input field iteration and validation message writing, if no server messages
+    var hasServerMessagesData = jQuery("[data-role='Page']").data(kradVariables.SERVER_MESSAGES);
+    if (hasServerMessagesData) {
+        //Handle messages at field, if any
+        jQuery("div[data-role='InputField']").each(function () {
+            var id = jQuery(this).attr('id');
+            handleMessagesAtField(id, true);
+        });
+
+        //Write the result of the validation messages
+        writeMessagesForPage();
+        messageSummariesShown = true;
+    }
+
+    //focus on pageValidation header if there are messages on this page
+    if (jQuery(".uif-pageValidationHeader").length) {
+        jQuery(".uif-pageValidationHeader").focus();
+    }
+
+    setupValidator(jQuery('#kualiForm'));
+
+    jQuery(".required").each(function () {
+        jQuery(this).attr("aria-required", "true");
+    });
+
+    jQuery(document).trigger(kradVariables.VALIDATION_SETUP_EVENT);
+
+    pageValidatorReady = true;
+
+    jQuery(document).trigger(kradVariables.PAGE_LOAD_EVENT);
+
+    jQuery.watermark.showAll();
+
+    time(false, "page-setup");
+}
+
+function confirmDialogResponseCall(){
+    closeLightbox();
+    ajaxSubmitForm("route");
 }
 
 /**
@@ -536,6 +651,7 @@ function createCourseShowHideObjectiveElements(hideId, showId) {
 
 function updateStickyHeaderText() {
     jQuery("#CM-Proposal-Course-Create-View").find('.uif-viewHeader-supportTitle').text("Review Proposal");
+
 }
 
 /**
