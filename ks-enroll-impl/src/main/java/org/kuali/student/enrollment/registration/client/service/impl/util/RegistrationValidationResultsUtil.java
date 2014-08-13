@@ -64,7 +64,7 @@ public class RegistrationValidationResultsUtil {
         return json;
     }
 
-    public static Map<String, String> unmarshallResult(String result) {
+    public static Map<String, Object> unmarshallResult(String result) {
         ObjectMapper mapper = new ObjectMapper();
         try {
             TypeReference<HashMap<String, Object>> typeRef
@@ -77,4 +77,5 @@ public class RegistrationValidationResultsUtil {
         }
         return null;
     }
+
 }

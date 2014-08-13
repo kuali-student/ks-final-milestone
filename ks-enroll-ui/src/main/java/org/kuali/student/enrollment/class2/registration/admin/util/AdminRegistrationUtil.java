@@ -34,6 +34,7 @@ import org.kuali.student.r2.lum.util.constants.LrcServiceConstants;
 
 import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -89,13 +90,21 @@ public class AdminRegistrationUtil {
         List<RegistrationResultItem> issueItems = new ArrayList<RegistrationResultItem>();
         // Add the messages to the issue items list.
         for (ValidationResult validationResult : results) {
-            Map<String, String> validationMap = RegistrationValidationResultsUtil.unmarshallResult(validationResult.getMessage());
+            Map<String, Object> validationMap = RegistrationValidationResultsUtil.unmarshallResult(validationResult.getMessage());
 
             String message = StringUtils.EMPTY;
             if (validationMap.containsKey("conflictingCourses")){
-                message = AdminRegistrationUtil.getMessageForKey(validationMap.get("messageKey"), validationMap.get("conflictingCourses"));
+                List<LinkedHashMap<String, Object>> conflictingCourses = (List<LinkedHashMap<String, Object>>) validationMap.get("conflictingCourses");
+                StringBuilder conflictCourses = new StringBuilder();
+                for (LinkedHashMap<String, Object> conflictCourse : conflictingCourses) {
+                    if (conflictCourses.length() > 0) {
+                        conflictCourses.append(", ");
+                    }
+                    conflictCourses.append(conflictCourse.get("courseCode"));
+                }
+                message = AdminRegistrationUtil.getMessageForKey((String) validationMap.get("messageKey"), conflictCourses.toString());
             } else if (validationMap.containsKey("messageKey")){
-                message = AdminRegistrationUtil.getMessageForKey(validationMap.get("messageKey"));
+                message = AdminRegistrationUtil.getMessageForKey((String) validationMap.get("messageKey"));
             }
 
             issueItems.add(new RegistrationResultItem(message));
