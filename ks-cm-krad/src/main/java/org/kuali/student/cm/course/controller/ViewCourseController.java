@@ -95,7 +95,7 @@ public class ViewCourseController extends KsUifControllerBase{
          * It should be always 'curriculum review' for both CS and faculty users for copy.
          */
         urlParameters.put(CourseController.UrlParams.USE_CURRICULUM_REVIEW,Boolean.TRUE.toString());
-        urlParameters.put(UifConstants.UrlParams.PAGE_ID, CurriculumManagementConstants.CourseViewPageIds.CREATE_COURSE);
+        urlParameters.put(UifConstants.UrlParams.PAGE_ID, CurriculumManagementConstants.CourseViewPageIds.CREATE_COURSE_PAGE);
         urlParameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, KRADConstants.Maintenance.METHOD_TO_CALL_COPY);
         urlParameters.put(KRADConstants.DATA_OBJECT_CLASS_ATTRIBUTE, CourseInfoWrapper.class.getName());
         urlParameters.put(KRADConstants.RETURN_LOCATION_PARAMETER, CMUtils.getCMHomeUrl());
