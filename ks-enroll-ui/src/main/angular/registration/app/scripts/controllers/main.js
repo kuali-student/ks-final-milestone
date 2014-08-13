@@ -8,13 +8,14 @@ angular.module('regCartApp')
 
         $scope.appUrl = APP_URL.replace('/services/', '/');
 
-        $scope.termId = null;
+        $scope.termId = TermsService.getTermId();
         $scope.termName = '';
         $scope.studentIsEligibleForTerm = true; // Top-level check whether student is eligible to register for the selected term
 
         // update the term name if the termId changes
         $scope.$watch('termId', function (newValue, oldValue) {
             if (newValue !== oldValue) {
+                TermsService.setTermId(newValue);
                 $scope.termName = TermsService.getTermNameForTermId($scope.terms, newValue);
 
                 // Check to see if the term is open or closed for registration
@@ -103,12 +104,12 @@ angular.module('regCartApp')
 
         //Determine whether the search form should be shown on this page
         $scope.searchForm = function() {
-           var searchForm = true;
-           if ($state.current.name == 'root.search.details') {
-               searchForm = false; // hidden from mobile search details
-           }
-           return searchForm;
-        }
+            var searchForm = true;
+            if ($state.current.name === 'root.search.details') {
+                searchForm = false; // hidden from mobile search details
+            }
+            return searchForm;
+        };
     }])
 
     .controller('SessionCtrl', ['$scope', 'LoginService', function SessionCtrl($scope, LoginService) {

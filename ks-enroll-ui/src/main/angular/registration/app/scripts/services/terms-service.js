@@ -1,9 +1,9 @@
 'use strict';
 
 angular.module('regCartApp')
-    .service('TermsService', ['$q', 'ServiceUtilities', 'URLS', 'DEFAULT_TERM', function TermsService($q, ServiceUtilities, URLS, DEFAULT_TERM) {
+    .service('TermsService', ['$q', 'ServiceUtilities', 'URLS', function TermsService($q, ServiceUtilities, URLS) {
 
-        var termId = DEFAULT_TERM;   // default value
+        var termId = null;   // default value
 
         this.getTermId = function () {
             return termId;

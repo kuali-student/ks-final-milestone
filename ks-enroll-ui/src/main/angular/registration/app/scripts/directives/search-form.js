@@ -51,8 +51,8 @@ angular.module('regCartApp')
 
                 $scope.submit = function() {
                     if (getCriteriaFromState() !== $scope.courseSearchCriteria) {
-                        // Push the criteria into the $state if it doesn't match
-                        $state.go('root.search.results', { searchCriteria: $scope.courseSearchCriteria });
+                        // Push the criteria into the $state if it doesn't match - don't inherit so we don't keep any previous search values
+                        $state.go('root.search.results', { searchCriteria: $scope.courseSearchCriteria }, { inherit: false });
                     }
                 };
 

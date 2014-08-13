@@ -15,7 +15,8 @@ angular.module('regCartApp')
                 searchResults: '=?', //optional
                 searchColumns: '=',
                 searchData: '=?',    // optional
-                displayLimit: '=?',  // optional
+                displayMax: '@displayLimit',
+                state: '=?', // optional
                 searchCriteria: '@',
                 termName: '@',
                 detailsId: '@',
@@ -68,13 +69,23 @@ angular.module('regCartApp')
                 // the choices for limiting display of search results
                 scope.displayLimits = [20, 50, 100];
 
-                // set the display limit
-                if (angular.isUndefined(scope.displayLimit)) {
+                if (angular.isDefined(scope.state)) {
+                    // set the default values from the state object
+                    scope.displayLimit = parseInt(scope.state.displayLimit);
+                    scope.page = parseInt(scope.state.page);
+                    scope.predicate = scope.state.predicate;
+                    scope.reverse = scope.state.reverse || undefined;
+                }
+
+                // make sure the page & display limit is set to a valid value
+                scope.page = scope.page || 1;
+                if (scope.displayLimits.indexOf(scope.displayLimit) === -1) {
                     scope.displayLimit = scope.displayLimits[0];
                 }
 
-                // set the default page #
-                scope.page = 1;
+                if (angular.isDefined(scope.displayMax) && scope.displayMax) {
+                    scope.displayLimit = scope.displayMax;
+                }
 
                 // holds the customizable id for linking to search details
                 scope.detailsId = {};
@@ -102,7 +113,7 @@ angular.module('regCartApp')
                  * -- reset the page to 1
                  * -- increment the limit
                  */
-                scope.$watch('displayLimit', function() {
+                scope.$watch('displayLimit', function(limit) {
                     scope.page = 1;
                     scope.limit += stagger;
                 });
@@ -113,7 +124,10 @@ angular.module('regCartApp')
                  * -- increment the mobile limit
                  */
                 scope.$watch('searchResults', function() {
-                    if (scope.page > scope.lastPage()) {
+                    if (scope.lastPage() === 0) { // First init
+                        // Take them to the state's page if it is defined, otherwise page 1
+                        scope.page = scope.state.page || 1;
+                    } else if (scope.page > scope.lastPage()) {
                         scope.page = 1;
                     }
                     scope.mobileLimit += stagger;
@@ -224,6 +238,29 @@ angular.module('regCartApp')
                     }
                     return hasData;
                 };
+
+
+                /*
+                 Watch and emit an event anytime the list state values change (page, displayLimit, & sorting)
+                 */
+                function emitResultsStateChangedEvent(value, oldValue) {
+                    if (value !== oldValue) {
+                        var resultsState = {
+                            displayLimit: scope.displayLimit,
+                            page: scope.page,
+                            predicate: scope.predicate || null,
+                            reverse: (scope.predicate ? scope.reverse : null) // Only consider reverse if predicate is defined
+                        };
+
+                        scope.$emit('resultsStateChanged', resultsState);
+                    }
+                }
+
+                scope.$watch('displayLimit', emitResultsStateChangedEvent);
+                scope.$watch('page', emitResultsStateChangedEvent);
+                scope.$watch('predicate', emitResultsStateChangedEvent);
+                scope.$watch('reverse', emitResultsStateChangedEvent);
+
 
                 /*
                 If a clearSelected event is received from the parent, clear all the selected search

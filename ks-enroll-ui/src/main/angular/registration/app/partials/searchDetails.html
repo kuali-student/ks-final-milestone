@@ -1,7 +1,7 @@
 <div class="kscr-SearchDetails">
     <!-- Search Details Header - Back to Results Link -->
     <div class="kscr-SearchDetails-top">
-        <a id="returnToSearch" ui-sref="root.search.results({ searchCriteria: searchCriteria })"><span>&#x00ab;</span> Return to Search Results</a>
+        <a id="returnToSearch" ui-sref="root.search.results(stateParams)"><span>&#x00ab;</span> Return to Search Results</a>
     </div>
 
     <!-- Search Details Content -->
@@ -117,7 +117,7 @@
         </div>
 
         <!-- Activity Offering Table (single reg group) -->
-        <div class="kscr-SearchDetails-activityOfferingGroups" ng-if="singleRegGroup">
+        <div class="kscr-SearchDetails-activityOfferingGroups" ng-if="singleRegGroup" ng-init="aoDisplayLimit = 999">
             <div class="kscr-SearchDetails-activityOfferingGroup">
                 <div class="kscr-SearchDetails-activityOfferings">
                     <search-results>

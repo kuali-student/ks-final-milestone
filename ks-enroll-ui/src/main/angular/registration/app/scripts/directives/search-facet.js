@@ -9,7 +9,7 @@ angular.module('regCartApp')
      * @example <search-facet facet="facet"></div>
      * @example <div class="search-facet" facet="facet"></div>
      */
-    .directive('searchFacet', [function() {
+    .directive('searchFacet', ['SearchFacetService', function(SearchFacetService) {
         return {
             restrict: 'ECA',
             scope: {
@@ -19,100 +19,8 @@ angular.module('regCartApp')
             templateUrl: 'partials/searchFacet.html',
             controller: ['$scope', function($scope) {
 
-                // Ensure an optionsProvider exists.
-                if (!angular.isFunction($scope.facet.optionsProvider)) {
-                    // Default options provider that uses optionsKey value to build the options array.
-                    $scope.facet.optionsProvider = function(results) {
-                        var options = [];
-
-                        // The default options provider requires the optionsKey. Don't proceed if it's not set.
-                        if (angular.isDefined($scope.facet.optionsKey) && $scope.facet.optionsKey !== null) {
-                            // Loop through the results and configure an option object for each unique value.
-                            angular.forEach(results, function(item) {
-                                if (angular.isDefined(item[$scope.facet.optionsKey])) { // Make sure the item has the optionsKey field
-                                    // To facilitate processing of arrays, push everything to an array.
-                                    var values = item[$scope.facet.optionsKey];
-                                    if (!angular.isArray(values)) {
-                                        values = [values];
-                                    }
-
-                                    angular.forEach(values, function(value) {
-                                        // Try to find an existing option with a matching value.
-                                        var option = null;
-                                        angular.forEach(options, function(o) {
-                                            if (option === null && o.value === value) {
-                                                option = o;
-                                            }
-                                        });
-
-                                        if (option === null) {
-                                            // The existing option doesn't exist. Create it anew.
-                                            option = {
-                                                label: value,
-                                                value: value,
-                                                count: 0
-                                            };
-                                            options.push(option);
-                                        }
-
-                                        // Increment the count of results identified with this option.
-                                        option.count++;
-                                    });
-                                }
-                            });
-                        } else {
-                            console.log('Facet "' + $scope.facet.id + '" is missing the required optionsKey value');
-                        }
-
-                        // Sort the options by their label
-                        options.sort(function(a, b) {
-                            return (a.label === b.label ? 0 : (a.label < b.label ? -1 : 1));
-                        });
-
-                        return options;
-                    };
-                }
-
-                // Ensure a filter exists.
-                if (!angular.isFunction($scope.facet.filter)) {
-                    $scope.facet.filter = function(item, selectedValues) {
-
-                        // Recursive function used to traverse an array to see if the value exists at any
-                        // level of the array. This allows a single option to be matched to multiple values.
-                        function valueExists(value, array) {
-                            var exists = false;
-                            if (angular.isArray(value)) {
-                                angular.forEach(value, function(v) {
-                                    if (!exists) {
-                                        exists = valueExists(v, array);
-                                    }
-                                });
-                            } else {
-                                if (angular.isArray(array)) {
-                                    angular.forEach(array, function(item) {
-                                        if (!exists) {
-                                            exists = valueExists(value, item);
-                                        }
-                                    });
-                                } else {
-                                    exists = value === array;
-                                }
-                            }
-
-                            return exists;
-                        }
-
-                        // The default filter requires the optionsKey field to be set.
-                        if (angular.isDefined($scope.facet.optionsKey) && $scope.facet.optionsKey !== null) {
-                            if (angular.isDefined(item[$scope.facet.optionsKey])) { // Make sure the item has the optionsKey field
-                                var value = item[$scope.facet.optionsKey];
-                                return valueExists(value, selectedValues);
-                            }
-                        }
-
-                        return false;
-                    };
-                }
+                // Make sure this facet is properly configured
+                SearchFacetService.initFacet($scope.facet);
 
 
                 /**
@@ -174,7 +82,9 @@ angular.module('regCartApp')
                  */
                 function reset (results) {
                     // Clear out the selected options
-                    $scope.clearSelectedOptions();
+                    if ($scope.options.length > 0) {
+                        $scope.clearSelectedOptions();
+                    }
 
                     // Set the new options into the scope
                     var options = calculateOptions(results);
@@ -188,7 +98,10 @@ angular.module('regCartApp')
 
 
                 $scope.options = []; // Facet options based on the current search results
-                $scope.facet.selectedOptions = []; // Currently Selected facet options
+
+                if (angular.isUndefined($scope.facet.selectedOptions)) {
+                    $scope.facet.selectedOptions = []; // Currently Selected facet options
+                }
 
 
                 // Watch for changes on the results and rebuild if they occur
@@ -222,7 +135,7 @@ angular.module('regCartApp')
                  * @returns {boolean}
                  */
                 $scope.isSelected = function(option) {
-                    return $scope.facet.selectedOptions.indexOf(option.value) !== -1;
+                    return getSelectedOptionIndex(option) !== -1;
                 };
 
                 /**
@@ -231,13 +144,164 @@ angular.module('regCartApp')
                  * @param option facet option
                  */
                 $scope.toggleOption = function(option) {
-                    var index = $scope.facet.selectedOptions.indexOf(option.value);
+                    var index = getSelectedOptionIndex(option);
                     if (index === -1) {
                         $scope.facet.selectedOptions.push(option.value);
                     } else {
                         $scope.facet.selectedOptions.splice(index, 1);
                     }
                 };
+
+
+                /**
+                 * Helper method for returning the index of the option within the selected options array
+                 *
+                 * @param option to locate
+                 * @return int index of option in selected options array
+                 */
+                function getSelectedOptionIndex(option) {
+                    var index = -1;
+                    if (angular.isArray(option.value)) {
+                        // This is an array, do an equality search since indexOf matches on identicality (== vs ===)
+                        for (var i = 0; i < $scope.facet.selectedOptions.length; i++) {
+                            var selectedValue = $scope.facet.selectedOptions[i],
+                                matched = true;
+
+                            for (var j = 0; j < option.value.length; j++) {
+                                if (selectedValue.indexOf(option.value[j]) === -1) {
+                                    matched = false;
+                                    break;
+                                }
+                            }
+
+                            if (matched) {
+                                index = i;
+                                break;
+                            }
+                        }
+                    } else {
+                        index = $scope.facet.selectedOptions.indexOf(option.value);
+                    }
+
+                    return index;
+                }
             }]
         };
-    }]);
+    }])
+
+
+    /**
+     * Search Facet Service
+     *
+     * Configures the default optionsProvider & filter on the facets. This is generic to the type of facet defined.
+     */
+    .service('SearchFacetService', function SearchFacetService() {
+
+        this.initFacets = function(facets) {
+            // Iterate over the facet definitions and make sure they have an optionsProvider & filter.
+            angular.forEach(facets, function(facet) {
+                this.initFacet(facet);
+            }, this);
+
+            return facets;
+        };
+
+        this.initFacet = function(facet) {
+            // Ensure an optionsProvider exists.
+            if (!angular.isFunction(facet.optionsProvider)) {
+                // Default options provider that uses optionsKey value to build the options array.
+                facet.optionsProvider = function(results) {
+                    var options = [];
+
+                    // The default options provider requires the optionsKey. Don't proceed if it's not set.
+                    if (angular.isDefined(facet.optionsKey) && facet.optionsKey !== null) {
+                        // Loop through the results and configure an option object for each unique value.
+                        angular.forEach(results, function(item) {
+                            if (angular.isDefined(item[facet.optionsKey])) { // Make sure the item has the optionsKey field
+                                // To facilitate processing of arrays, push everything to an array.
+                                var values = item[facet.optionsKey];
+                                if (!angular.isArray(values)) {
+                                    values = [values];
+                                }
+
+                                angular.forEach(values, function(value) {
+                                    // Try to find an existing option with a matching value.
+                                    var option = null;
+                                    angular.forEach(options, function(o) {
+                                        if (option === null && o.value === value) {
+                                            option = o;
+                                        }
+                                    });
+
+                                    if (option === null) {
+                                        // The existing option doesn't exist. Create it anew.
+                                        option = {
+                                            label: value,
+                                            value: value,
+                                            count: 0
+                                        };
+                                        options.push(option);
+                                    }
+
+                                    // Increment the count of results identified with this option.
+                                    option.count++;
+                                });
+                            }
+                        });
+                    } else {
+                        console.log('Facet "' + facet.id + '" is missing the required optionsKey value');
+                    }
+
+                    // Sort the options by their label
+                    options.sort(function(a, b) {
+                        return (a.label === b.label ? 0 : (a.label < b.label ? -1 : 1));
+                    });
+
+                    return options;
+                };
+            }
+
+            // Ensure a filter exists.
+            if (!angular.isFunction(facet.filter)) {
+                facet.filter = function(item, selectedValues) {
+                    // Recursive function used to traverse an array to see if the value exists at any
+                    // level of the array. This allows a single option to be matched to multiple values.
+                    function valueExists(value, array) {
+                        var exists = false;
+                        if (angular.isArray(value)) {
+                            angular.forEach(value, function(v) {
+                                if (!exists) {
+                                    exists = valueExists(v, array);
+                                }
+                            });
+                        } else {
+                            if (angular.isArray(array)) {
+                                angular.forEach(array, function(item) {
+                                    if (!exists) {
+                                        exists = valueExists(value, item);
+                                    }
+                                });
+                            } else {
+                                exists = value === array;
+                            }
+                        }
+
+                        return exists;
+                    }
+
+                    // The default filter requires the optionsKey field to be set.
+                    if (angular.isDefined(facet.optionsKey) && facet.optionsKey !== null) {
+                        if (angular.isDefined(item[facet.optionsKey])) { // Make sure the item has the optionsKey field
+                            var value = item[facet.optionsKey];
+                            return valueExists(value, selectedValues);
+                        }
+                    }
+
+                    return false;
+                };
+            }
+
+            return facet;
+        };
+    })
+;

@@ -45,7 +45,7 @@ angular.module('regCartApp')
      * Facets will be displayed in the order they are configured here.
      */
 
-    .constant('SEARCH_FACETS', [
+    .constant('COURSE_SEARCH_FACETS', [
         {
             label: 'Seats',
             id: 'seatsAvailable',
@@ -141,4 +141,13 @@ angular.module('regCartApp')
             id: 'coursePrefix',
             optionsKey: 'coursePrefix'
         }
-    ]);
+    ])
+
+    /**
+     * Factory to provide an initialized set of the COURSE_SEARCH_FACETS (with the default optionsProvider & filters configured if necessary)
+     * This is what should be used within the code. COURSE_SEARCH_FACETS is extensible and should be overwritten with custom facet definitions.
+     */
+    .factory('CourseSearchFacets', ['COURSE_SEARCH_FACETS', 'SearchFacetService', function(COURSE_SEARCH_FACETS, SearchFacetService) {
+        return SearchFacetService.initFacets(COURSE_SEARCH_FACETS);
+    }])
+;

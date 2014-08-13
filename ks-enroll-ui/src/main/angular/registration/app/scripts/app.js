@@ -54,7 +54,7 @@ angular.module('regCartApp', [
             })
 
             .state('root.search', {
-                url: '/search',
+                url: '/search?page&displayLimit&predicate&reverse&filters', // Optional query parameters that maintain display state
                 views: {
                     '': {
                         templateUrl: 'partials/search.html'

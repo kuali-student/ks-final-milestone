@@ -13,21 +13,19 @@ angular.module('regCartApp')
     .controller('SearchDetailsCtrl', ['$scope', '$rootScope', '$state', '$filter', '$modal', 'STATUS', 'FEATURE_TOGGLES', 'SearchService', 'CartService', 'ScheduleService',
     function SearchDetailsCtrl($scope, $rootScope, $state, $filter, $modal, STATUS, FEATURE_TOGGLES, SearchService, CartService, ScheduleService) {
 
-        $scope.searchCriteria = null;  // Criteria used to generate the search results.
+        $scope.stateParams = $state.params; // Expose the state parameters to the scope so they can be used in the back link
         $scope.course = null;          // Handle on the course
 
         // Push the user back to the search page when the term is changed
         $scope.$on('termIdChanged', function(event, newValue, oldValue) {
-            if (oldValue !== null && $scope.searchCriteria && $scope.uiState === 'root.search.details') {
-                $state.go('root.search.results', { searchCriteria: $scope.searchCriteria });
+            if (oldValue !== null && $scope.stateParams && $scope.uiState === 'root.search.details') {
+                $state.go('root.search.results', $scope.stateParams);
             }
         });
 
         // Listen for any state changes from ui-router. This is where we get the search criteria & course ID from.
         $scope.$on('$stateChangeSuccess', function(event, toState, toParams) {
-            if (angular.isDefined(toParams.searchCriteria)) {
-                $scope.searchCriteria = toParams.searchCriteria;
-            }
+            $scope.stateParams = toParams;
 
             if (angular.isDefined(toParams.id)) {
                 loadCourse(toParams.id);
