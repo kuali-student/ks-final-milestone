@@ -38,6 +38,14 @@ angular.module('regCartApp')
                     }, $scope.gradingOptions);
                 }
 
+                // Sort the credit options as numbers rather than strings
+                course.creditOptions.sort(function(o1, o2) {
+                    var f1 = parseFloat(o1),
+                        f2 = parseFloat(o2);
+
+                    return (f1 === f2 ? 0 : (f1 > f2 ? 1 : -1));
+                });
+
 
                 $scope.creditOptionsFilter = function (option) {
                     if (!course || $scope.showAllCreditOptions) {

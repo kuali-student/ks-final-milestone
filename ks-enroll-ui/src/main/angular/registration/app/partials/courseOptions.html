@@ -3,7 +3,7 @@
     <div class="util-Grid">
         <div class="kscr-Edit" ng-show="course.creditOptions.length > 1">
             <label class="kscr-Edit-details" for="{{prefix}}credits_{{course.courseCode}}_{{course.regGroupCode}}">Credits</label>
-            <div ng-repeat="creditOption in course.creditOptions | orderBy: creditOption | filter:creditOptionsFilter"
+            <div ng-repeat="creditOption in course.creditOptions | filter:creditOptionsFilter"
                  class="kscr-Edit-option-wrap" id="{{prefix}}credits_{{course.courseCode}}_{{course.regGroupCode}}">
                 <div class="kscr-Edit-option" ng-class="course.newCredits == {{creditOption}} ? 'kscr-Edit-option--Selected' : ''" ng-click="course.newCredits = creditOption">
                     {{creditOption}}
