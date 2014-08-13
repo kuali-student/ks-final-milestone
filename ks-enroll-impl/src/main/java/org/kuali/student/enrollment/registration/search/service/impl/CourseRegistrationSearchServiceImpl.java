@@ -1523,7 +1523,7 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
                         // looking for grading and credit options for given CO
                         "LEFT OUTER JOIN KSEN_LUI_RESULT_VAL_GRP coRes " +
                         "ON coRes.LUI_ID = coId.LUI_ID " +
-                        "AND (coRes.RESULT_VAL_GRP_ID in (" + getStudentRegGradingOptionsStr() + ")" +
+                        "AND (coRes.RESULT_VAL_GRP_ID in (" + getStudentRegGradingOptionsStr() + ",'" + LrcServiceConstants.RESULT_GROUP_KEY_GRADE_LETTER + "')" +
                         "     OR coRes.RESULT_VAL_GRP_ID LIKE 'kuali.creditType.credit%') " +
                         // looking for cross-listed courses for given CO
                         "LEFT OUTER JOIN KSEN_LUI_IDENT coClId " +
