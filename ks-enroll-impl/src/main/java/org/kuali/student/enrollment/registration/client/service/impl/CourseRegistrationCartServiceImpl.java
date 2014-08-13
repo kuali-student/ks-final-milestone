@@ -591,7 +591,7 @@ public class CourseRegistrationCartServiceImpl implements CourseRegistrationCart
             String rvgId = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.RVG_ID);
             String rvgValue = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.RVG_VALUE);
 
-            if (rvgId.startsWith("kuali.creditType.credit.degree.")) {
+            if (rvgId.startsWith(LrcServiceConstants.RESULT_VALUE_GROUP_KEY_CREDIT_DEGREE_PREFIX)) {
                 for (CartItemResult item : luiIdToCartItem.get(coId)) {
                     item.getCreditOptions().add(rvgValue);
                 }
