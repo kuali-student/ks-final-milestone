@@ -26,7 +26,7 @@ angular.module('regCartApp')
                 // reorganize the aos by type
                 scope.aoTypes=[];
                 for (var i=0; i<scope.searchDetails.length; i++) {
-                    var activity=scope.searchDetails[i].activityOfferingTypeName;
+                    var activity=scope.searchDetails[i].activity;
                     var newAoType = true;
                     for (var j=0; j<scope.aoTypes.length; j++) {
                         if (scope.aoTypes[j].activity === activity) {
