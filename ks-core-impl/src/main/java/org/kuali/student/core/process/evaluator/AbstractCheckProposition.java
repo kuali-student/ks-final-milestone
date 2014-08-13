@@ -117,7 +117,7 @@ public abstract class AbstractCheckProposition extends AbstractLeafProposition {
         try {
             messageData = templateEngine.evaluate(executionContext, instruction.getMessage().getFormatted());
         } catch (Exception e){
-            messageData = instruction.getMessage().getPlain();
+            messageData = "\"message\":\"" + instruction.getMessage().getPlain() + "\"";
         }
 
         ValidationResultInfo vr = new ValidationResultInfo();
