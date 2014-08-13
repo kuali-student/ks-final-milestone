@@ -114,8 +114,7 @@ public class ProcessIntegrationTest {
         assertEquals(1, errors.size());
         assertTrue(errors.get(0).isError());
         assertEquals(
-                "A key piece of data is wrong on your biographic record.  Please come to the Registrar's office to clear it up.",
-                results.get(0).getMessage());
+                "A key piece of data is wrong on your biographic record.  Please come to the Registrar's office to clear it up.}", errors.get(0).getMessage().substring(errors.get(0).getMessage().lastIndexOf(",")+1));
     }
 
     @Test
@@ -130,12 +129,10 @@ public class ProcessIntegrationTest {
         assertEquals(2, errors.size());
         assertTrue(errors.get(0).isError());
         assertEquals(
-                "A key piece of data is wrong on your biographic record.  Please come to the Registrar's office to clear it up.",
-                results.get(0).getMessage());
+                "A key piece of data is wrong on your biographic record.  Please come to the Registrar's office to clear it up.}", errors.get(0).getMessage().substring(errors.get(0).getMessage().lastIndexOf(",")+1));
         assertTrue(errors.get(1).isError());
         assertEquals(
-                "You failed one or more of the basic eligibility checks",
-                results.get(1).getMessage());
+                "You failed one or more of the basic eligibility checks}", errors.get(1).getMessage().substring(errors.get(1).getMessage().lastIndexOf(",")+1));
     }
 
     @Test
@@ -148,7 +145,7 @@ public class ProcessIntegrationTest {
         List<ValidationResultInfo> errors = getErrorsOrWarnings(results);
         assertEquals(1, errors.size());
         assertTrue(errors.get(0).isError());
-        assertEquals("Registration period for this term has not yet begun", errors.get(0).getMessage());
+        assertEquals("Registration period for this term has not yet begun}", errors.get(0).getMessage().substring(errors.get(0).getMessage().lastIndexOf(",")+1));
     }
 
     @Test
@@ -161,7 +158,7 @@ public class ProcessIntegrationTest {
         List<ValidationResultInfo> errors = getErrorsOrWarnings(results);
         assertEquals(1, errors.size());
         assertTrue(errors.get(0).isError());
-        assertEquals("Registration period for this term is closed", errors.get(0).getMessage());
+        assertEquals("Registration period for this term is closed}", errors.get(0).getMessage().substring(errors.get(0).getMessage().lastIndexOf(",")+1));
     }
 
     @Test
@@ -185,11 +182,9 @@ public class ProcessIntegrationTest {
         List<ValidationResultInfo> errors = getErrorsOrWarnings(results);
         assertEquals(2, errors.size());
         assertTrue(errors.get(0).isError());
-        assertEquals("You have unpaid tuition charges from last term, please contact the bursars office to resolve this matter",
-                errors.get(0).getMessage());
+        assertEquals("You have unpaid tuition charges from last term, please contact the bursars office to resolve this matter}", errors.get(0).getMessage().substring(errors.get(0).getMessage().lastIndexOf("\",")+2));
         assertTrue(errors.get(1).isError());
-        assertEquals("You have one or more holds that need to be cleared",
-                errors.get(1).getMessage());
+        assertEquals("You have one or more holds that need to be cleared}", errors.get(1).getMessage().substring(errors.get(1).getMessage().lastIndexOf(",")+1));
     }
 
     @Test
@@ -203,7 +198,7 @@ public class ProcessIntegrationTest {
         assertEquals(1, errors.size());
         assertTrue(errors.get(0).isWarn());
         assertFalse(errors.get(0).isError());
-        assertEquals("Please note: you have an overdue library book", errors.get(0).getMessage());
+        assertEquals("Please note: you have an overdue library book}", errors.get(0).getMessage().substring(errors.get(0).getMessage().lastIndexOf(",")+1));
     }
 
     @Test
@@ -217,13 +212,11 @@ public class ProcessIntegrationTest {
         assertEquals(3, errors.size());
         assertTrue(errors.get(0).isWarn());
         assertFalse(errors.get(0).isError());
-        assertEquals("Please note: you have an overdue library book", errors.get(0).getMessage());
+        assertEquals("Please note: you have an overdue library book}", errors.get(0).getMessage().substring(errors.get(0).getMessage().lastIndexOf(",")+1));
         assertTrue(errors.get(1).isError());
-        assertEquals("You have unpaid tuition charges from last term, please contact the bursars office to resolve this matter",
-                errors.get(1).getMessage());
+        assertEquals("You have unpaid tuition charges from last term, please contact the bursars office to resolve this matter}", errors.get(1).getMessage().substring(errors.get(1).getMessage().lastIndexOf("\",")+2));
         assertTrue(errors.get(2).isError());
-        assertEquals("You have one or more holds that need to be cleared",
-                errors.get(2).getMessage());
+        assertEquals("You have one or more holds that need to be cleared}", errors.get(2).getMessage().substring(errors.get(2).getMessage().lastIndexOf(",")+1));
     }
 
     @Test
@@ -236,7 +229,7 @@ public class ProcessIntegrationTest {
         List<ValidationResultInfo> errors = getErrorsOrWarnings(results);
         assertEquals(1, errors.size());
         assertTrue(errors.get(0).isError());
-        assertEquals("Summer only students cannot register for fall, winter or spring terms", errors.get(0).getMessage());
+        assertEquals("Summer only students cannot register for fall, winter or spring terms}", errors.get(0).getMessage().substring(errors.get(0).getMessage().lastIndexOf("\",")+2));
     }
 
     @Test
@@ -283,7 +276,7 @@ public class ProcessIntegrationTest {
         assertEquals(1, errors.size());
         assertTrue(errors.get(0).isError());
 
-        assertEquals("Registration period for this term is closed", errors.get(0).getMessage());
+        assertEquals("Registration period for this term is closed}", errors.get(0).getMessage().substring(errors.get(0).getMessage().lastIndexOf(",")+1));
     }
 
     @Test
