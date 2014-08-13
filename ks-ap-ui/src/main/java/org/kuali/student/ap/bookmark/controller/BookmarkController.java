@@ -19,8 +19,10 @@ import org.kuali.rice.krad.web.controller.extension.KsapControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.ap.academicplan.constants.AcademicPlanServiceConstants;
 import org.kuali.student.ap.academicplan.dto.PlanItemInfo;
+import org.kuali.student.ap.academicplan.dto.TypedObjectReferenceInfo;
 import org.kuali.student.ap.academicplan.infc.LearningPlan;
 import org.kuali.student.ap.academicplan.infc.PlanItem;
+import org.kuali.student.ap.academicplan.infc.TypedObjectReference;
 import org.kuali.student.ap.bookmark.form.BookmarkForm;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
 import org.kuali.student.ap.framework.context.PlanConstants;
@@ -48,6 +50,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -109,33 +112,19 @@ public class BookmarkController extends KsapControllerBase {
 
         // Add the course to the plan
         PlanItemInfo newBookmark = new PlanItemInfo();
-        newBookmark.setRefObjectId(course.getVersion().getVersionIndId());
-        newBookmark.setTypeKey(AcademicPlanServiceConstants.LEARNING_PLAN_ITEM_TYPE);
-        newBookmark.setStateKey(PlanConstants.LEARNING_PLAN_ITEM_ACTIVE_STATE_KEY);
-        newBookmark.setRefObjectType(PlanConstants.COURSE_TYPE);
-        newBookmark.setCategory(AcademicPlanServiceConstants.ItemCategory.WISHLIST);
-        newBookmark.setLearningPlanId(learningPlan.getId());
+        TypedObjectReferenceInfo typedRef = new TypedObjectReferenceInfo(PlanConstants.COURSE_TYPE,
+                course.getVersion().getVersionIndId());
 
         try {
             // If creating new add it to the database
-            newBookmark = KsapFrameworkServiceLocator.getAcademicPlanService().createPlanItem(newBookmark,
-                    KsapFrameworkServiceLocator.getContext().getContextInfo());
+            newBookmark = (PlanItemInfo) KsapFrameworkServiceLocator.getPlanHelper().addPlanItem(learningPlan.getId(),
+                    AcademicPlanServiceConstants.ItemCategory.WISHLIST,"",null,new ArrayList<String>(),typedRef);
         } catch (AlreadyExistsException e) {
-            LOG.warn(String.format("Course %s is already bookmarked", course.getCode()), e);
             PlanEventUtils.sendJsonEvents(false, "Course " + course.getCode() + " is already bookmarked",
                     response, eventList);
             return null;
-        } catch (DataValidationErrorException e) {
-            throw new IllegalArgumentException("AP service failure", e);
-        } catch (InvalidParameterException e) {
-            throw new IllegalArgumentException("AP service failure", e);
-        } catch (MissingParameterException e) {
-            throw new IllegalArgumentException("AP service failure", e);
-        } catch (OperationFailedException e) {
-            throw new IllegalStateException("AP service failure", e);
-        } catch (PermissionDeniedException e) {
-            throw new IllegalStateException("AP service failure", e);
         }
+
         eventList = PlanEventUtils.makeAddBookmarkEvent(newBookmark, eventList);
         eventList = PlanEventUtils.makeUpdateBookmarkTotalEvent(newBookmark, eventList);
         List<PlanItem> planItems = KsapFrameworkServiceLocator.getPlanHelper().loadStudentsPlanItemsForCourse(course);

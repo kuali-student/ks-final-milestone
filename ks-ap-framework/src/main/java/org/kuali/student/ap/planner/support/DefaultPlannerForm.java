@@ -386,22 +386,7 @@ public class DefaultPlannerForm extends AbstractPlanItemForm implements
 				throw new IllegalStateException("AR lookup failure", e);
 			}
 
-			List<PlanItem> planItems;
-			try {
-				planItems = new ArrayList<PlanItem>(KsapFrameworkServiceLocator
-						.getAcademicPlanService().getPlanItemsInPlan(
-								learningPlan.getId(),
-								KsapFrameworkServiceLocator.getContext()
-										.getContextInfo()));
-			} catch (InvalidParameterException e) {
-				throw new IllegalArgumentException("LP lookup failure", e);
-			} catch (MissingParameterException e) {
-				throw new IllegalArgumentException("LP lookup failure", e);
-			} catch (OperationFailedException e) {
-				throw new IllegalStateException("LP lookup failure", e);
-			} catch (PermissionDeniedException e) {
-                throw new IllegalStateException("LP lookup permission failure", e);
-            }
+			List<PlanItem> planItems = KsapFrameworkServiceLocator.getPlanHelper().getPlanItems(learningPlan.getId());
 
             List<String> courseIds = new ArrayList<String>(
 					completedRecords.size() + planItems.size());
@@ -435,8 +420,7 @@ public class DefaultPlannerForm extends AbstractPlanItemForm implements
 					termIds.add(termId);
 					List<PlannerItem> itemList = completed.get(termId);
 					if (itemList == null)
-						completed.put(termId,
-								itemList = new LinkedList<PlannerItem>());
+						completed.put(termId,itemList = new LinkedList<PlannerItem>());
 					itemList.add(new PlannerItem(completedRecord));
 				}
 

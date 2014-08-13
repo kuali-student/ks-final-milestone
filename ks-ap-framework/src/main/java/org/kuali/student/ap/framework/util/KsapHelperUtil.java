@@ -321,13 +321,8 @@ public class KsapHelperUtil {
 
         List<PlanItemInfo> planItems;
         try {
-            planItems = KsapFrameworkServiceLocator.getAcademicPlanService()
-                    .getPlanItemsInPlanByTermIdByCategory(
-                            plan.getId(),
-                            termId,
-                            category,
-                            KsapFrameworkServiceLocator.getContext()
-                                    .getContextInfo());
+            planItems = KsapFrameworkServiceLocator.getAcademicPlanService().getPlanItemsInPlanByTermIdByCategory(
+                            plan.getId(), termId, category, KsapFrameworkServiceLocator.getContext().getContextInfo());
         } catch (InvalidParameterException e) {
             throw new IllegalArgumentException("LP lookup error", e);
         } catch (MissingParameterException e) {

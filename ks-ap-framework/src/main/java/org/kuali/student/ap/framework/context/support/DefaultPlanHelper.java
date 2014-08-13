@@ -214,8 +214,8 @@ public class DefaultPlanHelper implements PlanHelper {
      * @see org.kuali.student.ap.framework.context.PlanHelper#addPlanItem(String, org.kuali.student.ap.academicplan.constants.AcademicPlanServiceConstants.ItemCategory, String, java.math.BigDecimal, java.util.List, org.kuali.student.ap.academicplan.infc.TypedObjectReference)
      */
     @Override
-    public PlanItem addPlanItem(String learningPlanId, ItemCategory category,
-                                String descr, BigDecimal units, List<String> termIds,TypedObjectReference ref) {
+    public PlanItem addPlanItem(String learningPlanId, ItemCategory category, String descr, BigDecimal credits,
+                                List<String> termIds,TypedObjectReference ref) throws AlreadyExistsException{
         PlanHelper planHelper = KsapFrameworkServiceLocator.getPlanHelper();
         PlanItem wishlistPlanItem = null;
 
@@ -263,16 +263,13 @@ public class DefaultPlanHelper implements PlanHelper {
         } else{
             planItemInfo.setDescr(null);
         }
-        planItemInfo.setCredit(units);
+        planItemInfo.setCredit(credits);
 
         try {
             if (create) {
                 // If creating new add it to the database
-                planItemInfo = KsapFrameworkServiceLocator
-                        .getAcademicPlanService().createPlanItem(
-                                planItemInfo,
-                                KsapFrameworkServiceLocator.getContext()
-                                        .getContextInfo());
+                planItemInfo = KsapFrameworkServiceLocator.getAcademicPlanService().createPlanItem(planItemInfo,
+                                KsapFrameworkServiceLocator.getContext().getContextInfo());
             } else {
                 // If using wish list item update it
                 planItemInfo = KsapFrameworkServiceLocator.getAcademicPlanService().updatePlanItem(planItemInfo.getId(),
@@ -280,6 +277,7 @@ public class DefaultPlanHelper implements PlanHelper {
             }
         } catch (AlreadyExistsException e) {
             LOG.warn("Reference " + ref.getRefObjectType() + " "+ ref.getRefObjectId() + " is already planned", e);
+            throw e;
         } catch (DataValidationErrorException e) {
             throw new IllegalArgumentException("LP service failure", e);
         } catch (InvalidParameterException e) {

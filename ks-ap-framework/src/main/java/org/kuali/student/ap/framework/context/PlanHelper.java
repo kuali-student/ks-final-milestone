@@ -25,6 +25,7 @@ import org.kuali.student.ap.academicplan.infc.TypedObjectReference;
 import org.kuali.student.ap.academicplan.service.AcademicPlanService;
 import org.kuali.student.enrollment.academicrecord.dto.StudentCourseRecordInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
 import org.kuali.student.r2.core.acal.infc.Term;
 import org.kuali.student.r2.lum.course.infc.Course;
 
@@ -87,7 +88,7 @@ public interface PlanHelper {
      * @return - Copy of the new plan item created
      */
     public PlanItem addPlanItem(String learningPlanId, ItemCategory category, String descr, BigDecimal credits,
-                         List<String> termIds, TypedObjectReference ref);
+                         List<String> termIds, TypedObjectReference ref) throws AlreadyExistsException;
 
     /**
      * Updates a plan item in a learning plan.
