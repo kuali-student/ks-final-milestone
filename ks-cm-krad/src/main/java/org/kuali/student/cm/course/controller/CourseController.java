@@ -818,7 +818,14 @@ public class CourseController extends CourseRuleEditorController {
         form.setRequestRedirected(false);
         // Hide the Blanket Approve button on the review proposal page while the document is still in Enroute state(It is being processed at the back-end)
         courseInfoWrapper.getUiHelper().setProposalBlanketApproved(true);
-        return getUIFModelAndView(form, CurriculumManagementConstants.CourseViewPageIds.REVIEW_COURSE_PROPOSAL_PAGE);
+        if (!GlobalVariables.getMessageMap().hasErrors()) {
+            //redirect back to client to display confirm dialog
+            return getUIFModelAndView(form, CurriculumManagementConstants.CourseViewPageIds.REVIEW_COURSE_PROPOSAL_PAGE);
+        }else
+        {
+            return getUIFModelAndView(form);
+        }
+
     }
 
     @Override

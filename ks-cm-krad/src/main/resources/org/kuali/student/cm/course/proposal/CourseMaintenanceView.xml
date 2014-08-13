@@ -655,6 +655,7 @@
                       p:performClientSideValidation="true"
                       p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_BLANKET_APPROVE] and #uiHelper.useReviewProcess}"/>-->
                 <bean parent="Uif-SecondaryActionButton"
+                      p:additionalCssClasses="btn-success"
                       p:ajaxSubmit="false"
                       p:actionLabel="Approve and Activate"
                       p:methodToCall="approveAndActivate"
