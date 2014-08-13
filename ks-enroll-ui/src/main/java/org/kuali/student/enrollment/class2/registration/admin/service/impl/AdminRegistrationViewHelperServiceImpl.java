@@ -634,7 +634,7 @@ public class AdminRegistrationViewHelperServiceImpl extends KSViewHelperServiceI
 
         String courseCode = course.getCode();
         if (courseCode == null || courseCode.isEmpty()) {
-            course.setTitle(StringUtils.EMPTY);
+            course.setCredits(StringUtils.EMPTY);
         } else {
 
             CourseOfferingInfo courseOffering = AdminRegClientCache.getCourseOfferingByCodeAndTerm(termId, courseCode);
