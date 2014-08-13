@@ -201,11 +201,6 @@ function setupReviewPage(validate) {
     time(false, "page-setup");
 }
 
-function confirmDialogResponseCall(){
-    closeLightbox();
-    ajaxSubmitForm("route");
-}
-
 /**
  * Examines all of the read-only text areas on the page and shrink the height to fit the content.
  */
