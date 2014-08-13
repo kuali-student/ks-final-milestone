@@ -6,8 +6,10 @@ import org.kuali.rice.krad.web.controller.extension.KsapControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.ap.academicplan.constants.AcademicPlanServiceConstants;
 import org.kuali.student.ap.academicplan.dto.PlanItemInfo;
+import org.kuali.student.ap.academicplan.dto.TypedObjectReferenceInfo;
 import org.kuali.student.ap.academicplan.infc.LearningPlan;
 import org.kuali.student.ap.academicplan.infc.PlanItem;
+import org.kuali.student.ap.academicplan.infc.TypedObjectReference;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
 import org.kuali.student.ap.framework.context.PlanConstants;
 import org.kuali.student.ap.framework.util.KsapHelperUtil;
@@ -477,25 +479,7 @@ public class PlannerController extends KsapControllerBase {
 		}
 
         // Update the plan item in the database
-		try {
-			planItemInfo = KsapFrameworkServiceLocator.getAcademicPlanService().updatePlanItem(planItemInfo.getId(),
-					planItemInfo, KsapFrameworkServiceLocator.getContext().getContextInfo());
-		} catch (DataValidationErrorException e) {
-			throw new IllegalArgumentException("LP service failure", e);
-		} catch (InvalidParameterException e) {
-			throw new IllegalArgumentException("LP service failure", e);
-		} catch (MissingParameterException e) {
-			throw new IllegalArgumentException("LP service failure", e);
-		} catch (DoesNotExistException e) {
-			throw new IllegalArgumentException("LP service failure", e);
-		} catch (OperationFailedException e) {
-			throw new IllegalStateException("LP service failure", e);
-		} catch (PermissionDeniedException e) {
-			throw new IllegalStateException("LP service failure", e);
-        } catch (VersionMismatchException e) {
-            //TODO:  ksap-1012 handle VersionMismatchException appropriately
-            throw new IllegalStateException("LP service failure", e);
-		}
+	    planItemInfo = (PlanItemInfo)KsapFrameworkServiceLocator.getPlanHelper().updatePlanItem(planItemInfo);
 
         // Construct json events for updating the planner screen
         JsonObjectBuilder eventList = Json.createObjectBuilder();
@@ -592,25 +576,7 @@ public class PlannerController extends KsapControllerBase {
 		planItemInfo.setPlanTermIds(planTermIds);
 
         // Save updated plan item
-		try {
-			planItemInfo = KsapFrameworkServiceLocator.getAcademicPlanService().updatePlanItem(planItemInfo.getId(),
-					planItemInfo, KsapFrameworkServiceLocator.getContext().getContextInfo());
-		} catch (DataValidationErrorException e) {
-			throw new IllegalArgumentException("LP service failure", e);
-		} catch (InvalidParameterException e) {
-			throw new IllegalArgumentException("LP service failure", e);
-		} catch (MissingParameterException e) {
-			throw new IllegalArgumentException("LP service failure", e);
-		} catch (DoesNotExistException e) {
-			throw new IllegalArgumentException("LP service failure", e);
-		} catch (OperationFailedException e) {
-			throw new IllegalStateException("LP service failure", e);
-		} catch (PermissionDeniedException e) {
-			throw new IllegalStateException("LP service failure", e);
-        } catch (VersionMismatchException e) {
-            //TODO:  ksap-1012 handle VersionMismatchException appropriately
-            throw new IllegalStateException("LP service failure", e);
-		}
+		planItemInfo = (PlanItemInfo) KsapFrameworkServiceLocator.getPlanHelper().updatePlanItem(planItemInfo);
 
         // Create json strings for displaying action's response and updating the planner screen.
         JsonObjectBuilder eventList = Json.createObjectBuilder();
@@ -645,20 +611,7 @@ public class PlannerController extends KsapControllerBase {
 			return null;
 
         // Delete plan item from the database
-		try {
-			KsapFrameworkServiceLocator.getAcademicPlanService().deletePlanItem(planItem.getId(),
-					KsapFrameworkServiceLocator.getContext().getContextInfo());
-		} catch (InvalidParameterException e) {
-			throw new IllegalArgumentException("LP service failure", e);
-		} catch (MissingParameterException e) {
-			throw new IllegalArgumentException("LP service failure", e);
-		} catch (DoesNotExistException e) {
-			throw new IllegalArgumentException("LP service failure", e);
-		} catch (OperationFailedException e) {
-			throw new IllegalStateException("LP service failure", e);
-		} catch (PermissionDeniedException e) {
-			throw new IllegalStateException("LP service failure", e);
-		}
+		KsapFrameworkServiceLocator.getPlanHelper().removePlanItem(planItem.getId());
 
         // Create json strings for displaying action's response and updating the planner screen.
         JsonObjectBuilder eventList = Json.createObjectBuilder();
@@ -691,25 +644,7 @@ public class PlannerController extends KsapControllerBase {
                 : AcademicPlanServiceConstants.ItemCategory.PLANNED);
 
         // Update the plan item in the database.
-		try {
-			planItemInfo = KsapFrameworkServiceLocator.getAcademicPlanService().updatePlanItem(planItemInfo.getId(),
-					planItemInfo, KsapFrameworkServiceLocator.getContext().getContextInfo());
-		} catch (DataValidationErrorException e) {
-			throw new IllegalArgumentException("LP service failure", e);
-		} catch (InvalidParameterException e) {
-			throw new IllegalArgumentException("LP service failure", e);
-		} catch (MissingParameterException e) {
-			throw new IllegalArgumentException("LP service failure", e);
-		} catch (DoesNotExistException e) {
-			throw new IllegalArgumentException("LP service failure", e);
-		} catch (OperationFailedException e) {
-			throw new IllegalStateException("LP service failure", e);
-		} catch (PermissionDeniedException e) {
-			throw new IllegalStateException("LP service failure", e);
-        } catch (VersionMismatchException e) {
-            //TODO:  ksap-1012 handle VersionMismatchException appropriately
-            throw new IllegalStateException("LP service failure", e);
-		}
+		planItemInfo = (PlanItemInfo)KsapFrameworkServiceLocator.getPlanHelper().updatePlanItem(planItemInfo);
 
         // Create json strings for displaying action's response and updating the planner screen.
         JsonObjectBuilder eventList = Json.createObjectBuilder();
@@ -724,6 +659,7 @@ public class PlannerController extends KsapControllerBase {
      * Helps with adding courses to the student's plan.
      * Creates a new or retrieves an existing learning plan item and fills in the proper information before
      * saving it to the database.
+     *
      * @param plan - The student's learning plan
      * @param form - Form containing all information entered for the new plan item
      * @param course - Course plan item is being created for
@@ -738,90 +674,21 @@ public class PlannerController extends KsapControllerBase {
                 : AcademicPlanServiceConstants.ItemCategory.PLANNED;
         Term term = KsapFrameworkServiceLocator.getTermHelper().getTerm(termId);
         JsonObjectBuilder eventList = Json.createObjectBuilder();
-        PlanItem wishlistPlanItem = null;
 
-        // Get list of existing plan items
-        List<PlanItem> existingPlanItems = form.getExistingPlanItems();
-        if (existingPlanItems != null)
-            for (PlanItem existingPlanItem : existingPlanItems) {
-                // If item has no term then record it
-                if (AcademicPlanServiceConstants.ItemCategory.WISHLIST.equals(existingPlanItem.getCategory())) {
-                    wishlistPlanItem = existingPlanItem;
-                    continue;
-                }
 
-                // Check if course is already offered in that term
-                List<String> planTermIds = existingPlanItem.getPlanTermIds();
-                if (planTermIds != null && planTermIds.contains(termId)) {
-                    PlanEventUtils.sendJsonEvents(false, "Course " + course.getCode() + " is already planned for "
-                            + form.getTerm().getName(), response, eventList);
-                    return;
-                }
-            }
-
-        // If item is in wishlist use existing entry instead of creating new.
-        boolean create = wishlistPlanItem == null;
-        PlanItemInfo planItemInfo;
-        if (create) {
-            planItemInfo = new PlanItemInfo();
-            planItemInfo.setCategory(category);
-            planItemInfo.setTypeKey(AcademicPlanServiceConstants.LEARNING_PLAN_ITEM_TYPE);
-            planItemInfo.setStateKey(PlanConstants.LEARNING_PLAN_ITEM_ACTIVE_STATE_KEY);
-            planItemInfo.setLearningPlanId(plan.getId());
-        } else {
-            assert plan.getId().equals(wishlistPlanItem.getLearningPlanId()) : plan.getId() + " "
-                    + wishlistPlanItem.getLearningPlanId();
-            eventList = PlanEventUtils.makeRemoveEvent(form.getUniqueId(), wishlistPlanItem, eventList);
-            planItemInfo = new PlanItemInfo(wishlistPlanItem);
-            planItemInfo.setCategory(category);
-        }
-
-        // Fill in course information
-        planItemInfo.setRefObjectId(course.getId());
-        planItemInfo.setRefObjectType(PlanConstants.COURSE_TYPE);
+        PlanItem planItemInfo;
         List<String> planTermIds = new ArrayList<String>(1);
         planTermIds.add(termId);
-        planItemInfo.setPlanTermIds(planTermIds);
-
-        if (StringUtils.hasText(form.getCourseNote())) {
-            RichTextInfo descr = new RichTextInfo();
-            descr.setPlain(form.getCourseNote());
-            descr.setFormatted(form.getCourseNote());
-            planItemInfo.setDescr(descr);
-        } else
-            planItemInfo.setDescr(null);
-        planItemInfo.setCredit(form.getCreditsForPlanItem(course));
+        TypedObjectReference planItemRef = new TypedObjectReferenceInfo(PlanConstants.COURSE_TYPE, course.getVersion().getVersionIndId());
 
         try {
-            if (create) {
-                // If creating new add it to the database
-                planItemInfo = KsapFrameworkServiceLocator.getAcademicPlanService().createPlanItem(planItemInfo,
-                        KsapFrameworkServiceLocator.getContext().getContextInfo());
-            } else {
-                // If using wish list item update it
-                planItemInfo = KsapFrameworkServiceLocator.getAcademicPlanService().updatePlanItem(
-                        planItemInfo.getId(), planItemInfo, KsapFrameworkServiceLocator.getContext().getContextInfo());
-            }
+            planItemInfo = KsapFrameworkServiceLocator.getPlanHelper().addPlanItem(plan.getId(), category,
+                    form.getCourseNote(),form.getCreditsForPlanItem(course),planTermIds,planItemRef);
         } catch (AlreadyExistsException e) {
             LOG.warn(String.format("Course %s is already planned for %s", course.getCode(), term.getName()), e);
             PlanEventUtils.sendJsonEvents(false,
                     "Course " + course.getCode() + " is already planned for " + term.getName(), response, eventList);
             return;
-        } catch (DataValidationErrorException e) {
-            throw new IllegalArgumentException("LP service failure", e);
-        } catch (InvalidParameterException e) {
-            throw new IllegalArgumentException("LP service failure", e);
-        } catch (MissingParameterException e) {
-            throw new IllegalArgumentException("LP service failure", e);
-        } catch (DoesNotExistException e) {
-            throw new IllegalArgumentException("LP service failure", e);
-        } catch (OperationFailedException e) {
-            throw new IllegalStateException("LP service failure", e);
-        } catch (PermissionDeniedException e) {
-            throw new IllegalStateException("LP service failure", e);
-        } catch (VersionMismatchException e) {
-            //TODO:  ksap-1012 handle VersionMismatchException appropriately
-            throw new IllegalStateException("LP service failure", e);
         }
 
         // Create json strings for displaying action's response and updating the planner screen.
@@ -894,20 +761,7 @@ public class PlannerController extends KsapControllerBase {
             return null;
 
         // Delete plan item from the database
-        try {
-            KsapFrameworkServiceLocator.getAcademicPlanService().deletePlanItem(planItem.getId(),
-                    KsapFrameworkServiceLocator.getContext().getContextInfo());
-        } catch (InvalidParameterException e) {
-            throw new IllegalArgumentException("LP service failure", e);
-        } catch (MissingParameterException e) {
-            throw new IllegalArgumentException("LP service failure", e);
-        } catch (DoesNotExistException e) {
-            throw new IllegalArgumentException("LP service failure", e);
-        } catch (OperationFailedException e) {
-            throw new IllegalStateException("LP service failure", e);
-        } catch (PermissionDeniedException e) {
-            throw new IllegalStateException("LP service failure", e);
-        }
+        KsapFrameworkServiceLocator.getPlanHelper().removePlanItem(planItem.getId());
 
         // Create json strings for displaying action's response and updating the planner screen.
         JsonObjectBuilder eventList = Json.createObjectBuilder();

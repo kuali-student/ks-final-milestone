@@ -343,7 +343,7 @@ public class KsapHelperUtil {
                 plannedTotalMax = plannedTotalMax.add(credit);
             } else {
                 Course course = KsapFrameworkServiceLocator.getCourseHelper()
-                        .getCourseInfo(planItem.getRefObjectId());
+                        .getCurrentVersionOfCourseByVersionIndependentId(planItem.getRefObjectId());
                 CreditsFormatter.Range range = CreditsFormatter.getRange(course);
                 plannedTotalMin = plannedTotalMin.add(range.getMin());
                 plannedTotalMax = plannedTotalMax.add(range.getMax());

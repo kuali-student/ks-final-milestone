@@ -23,6 +23,7 @@ import org.kuali.rice.krad.uif.widget.Disclosure;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.ap.academicplan.dto.PlanItemInfo;
 import org.kuali.student.ap.academicplan.infc.LearningPlan;
+import org.kuali.student.ap.academicplan.infc.PlanItem;
 import org.kuali.student.ap.coursesearch.CreditsFormatter;
 import org.kuali.student.ap.coursesearch.dataobject.ActivityFormatDetailsWrapper;
 import org.kuali.student.ap.coursesearch.dataobject.ActivityOfferingDetailsWrapper;
@@ -1105,34 +1106,23 @@ public class CourseDetailsViewHelperServiceImpl extends ViewHelperServiceImpl im
 
         // Get registration group plan items
         String learningPlanId = KsapFrameworkServiceLocator.getPlanHelper().getDefaultLearningPlan().getId();
-        List<PlanItemInfo> regItems = new ArrayList<PlanItemInfo>();
+        List<PlanItem> regItems = new ArrayList<PlanItem>();
         List<RegistrationGroupInfo> regGroups = null;
-        try {
-            List<PlanItemInfo> items = KsapFrameworkServiceLocator.getAcademicPlanService()
-                    .getPlanItemsInPlan(learningPlanId,KsapFrameworkServiceLocator.getContext().getContextInfo());
-            for(PlanItemInfo item : items){
-                if(!item.getRefObjectType().equals(PlanConstants.REG_GROUP_TYPE)){
-                    continue;
-                }
-                if(!item.getPlanTermIds().contains(termId)){
-                    continue;
-                }
-                regItems.add(item);
+        List<PlanItem> items = KsapFrameworkServiceLocator.getPlanHelper().getPlanItems(learningPlanId);
+        for(PlanItem item : items){
+            if(!item.getRefObjectType().equals(PlanConstants.REG_GROUP_TYPE)){
+                continue;
             }
-        } catch (InvalidParameterException e) {
-            throw new IllegalArgumentException("Academic plan service lookup error", e);
-        } catch (MissingParameterException e) {
-            throw new IllegalArgumentException("Academic plan service lookup error", e);
-        } catch (OperationFailedException e) {
-            throw new IllegalArgumentException("Academic plan service lookup error", e);
-        } catch (PermissionDeniedException e) {
-            throw new IllegalArgumentException("Academic plan service lookup error", e);
+            if(!item.getPlanTermIds().contains(termId)){
+                continue;
+            }
+            regItems.add(item);
         }
 
 
 
         List<String> ids = new ArrayList<String>();
-        for(PlanItemInfo item : regItems){
+        for(PlanItem item : regItems){
             ids.add(item.getRefObjectId());
         }
 

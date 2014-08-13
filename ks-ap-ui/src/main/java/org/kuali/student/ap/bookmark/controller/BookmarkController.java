@@ -159,39 +159,36 @@ public class BookmarkController extends KsapControllerBase {
             planItems = KsapFrameworkServiceLocator.getAcademicPlanService()
                     .getPlanItemsInPlanByRefObjectIdByRefObjectType(learningPlan.getId(),versionIndependentId,
                             PlanConstants.COURSE_TYPE,KsapFrameworkServiceLocator.getContext().getContextInfo());
-            if (planItems == null){
-                LOG.warn(String.format("Plan Item for %s cannot be found", courseId));
-                PlanEventUtils.sendJsonEvents(false,"Plan Item cannot be found ", response, eventList);
-                return null;
-            }
-
-            for(PlanItemInfo planItem : planItems){
-                if(planItem.getCategory().equals(AcademicPlanServiceConstants.ItemCategory.WISHLIST)){
-                    itemToDelete = planItem;
-                    break;
-                }
-            }
-
-            if (itemToDelete == null){
-                LOG.warn(String.format("Plan Item for %s cannot be found in wish list", courseId));
-                PlanEventUtils.sendJsonEvents(false,"Plan Item cannot be found ", response, eventList);
-                return null;
-            }
-
-            KsapFrameworkServiceLocator.getAcademicPlanService().deletePlanItem(itemToDelete.getId(),
-                    KsapFrameworkServiceLocator.getContext().getContextInfo());
-
         } catch (InvalidParameterException e) {
             throw new IllegalArgumentException("LP service failure", e);
         } catch (MissingParameterException e) {
-            throw new IllegalArgumentException("LP service failure", e);
-        } catch (DoesNotExistException e) {
             throw new IllegalArgumentException("LP service failure", e);
         } catch (OperationFailedException e) {
             throw new IllegalStateException("LP service failure", e);
         } catch (PermissionDeniedException e) {
             throw new IllegalStateException("LP service failure", e);
         }
+
+        if (planItems == null){
+            LOG.warn(String.format("Plan Item for %s cannot be found", courseId));
+            PlanEventUtils.sendJsonEvents(false,"Plan Item cannot be found ", response, eventList);
+            return null;
+        }
+
+        for(PlanItemInfo planItem : planItems){
+            if(planItem.getCategory().equals(AcademicPlanServiceConstants.ItemCategory.WISHLIST)){
+                itemToDelete = planItem;
+                break;
+            }
+        }
+
+        if (itemToDelete == null){
+            LOG.warn(String.format("Plan Item for %s cannot be found in wish list", courseId));
+            PlanEventUtils.sendJsonEvents(false,"Plan Item cannot be found ", response, eventList);
+            return null;
+        }
+
+        KsapFrameworkServiceLocator.getPlanHelper().removePlanItem(itemToDelete.getId());
 
         // Create json strings for displaying action's response and updating the planner screen.
         eventList = PlanEventUtils.makeRemoveEvent(uniqueId, itemToDelete, eventList);

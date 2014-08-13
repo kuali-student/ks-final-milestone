@@ -1150,9 +1150,6 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
     private Map<String, String> getCourseStatusMap(String studentID) {
         LOG.debug("Start of method getCourseStatusMap of CourseSearchController: {}",
                 System.currentTimeMillis());
-        AcademicPlanService academicPlanService = KsapFrameworkServiceLocator
-                .getAcademicPlanService();
-
         ContextInfo context = KsapFrameworkServiceLocator.getContext().getContextInfo();
 
         String planTypeKey = AcademicPlanServiceConstants.LEARNING_PLAN_TYPE_PLAN;
@@ -1165,9 +1162,8 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
         // Find list of learning plans
         List<LearningPlanInfo> learningPlanList;
         try {
-            learningPlanList = academicPlanService
-                    .getLearningPlansForStudentByType(studentID, planTypeKey,
-                            context);
+            learningPlanList = KsapFrameworkServiceLocator.getAcademicPlanService().getLearningPlansForStudentByType(
+                    studentID, planTypeKey,context);
         } catch (InvalidParameterException e) {
             throw new IllegalArgumentException("LP lookup error", e);
         } catch (MissingParameterException e) {
@@ -1181,19 +1177,7 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
         // Process list of learning plan's entries
         for (LearningPlan learningPlan : learningPlanList) {
             String learningPlanID = learningPlan.getId();
-            List<PlanItemInfo> planItemList;
-            try {
-                planItemList = academicPlanService.getPlanItemsInPlan(
-                        learningPlanID, context);
-            } catch (InvalidParameterException e) {
-                throw new IllegalArgumentException("LP lookup error", e);
-            } catch (MissingParameterException e) {
-                throw new IllegalArgumentException("LP lookup error", e);
-            } catch (OperationFailedException e) {
-                throw new IllegalStateException("LP lookup error", e);
-            } catch (PermissionDeniedException e) {
-                throw new IllegalStateException("LP lookup permission error", e);
-            }
+            List<PlanItem> planItemList = KsapFrameworkServiceLocator.getPlanHelper().getPlanItems(learningPlanID);
 
             // Process plan items in learning plan
             for (PlanItem planItem : planItemList) {

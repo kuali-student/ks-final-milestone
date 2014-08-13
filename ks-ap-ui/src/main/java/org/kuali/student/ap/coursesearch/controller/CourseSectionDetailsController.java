@@ -20,7 +20,9 @@ import org.kuali.rice.krad.web.controller.extension.KsapControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.ap.academicplan.constants.AcademicPlanServiceConstants;
 import org.kuali.student.ap.academicplan.dto.PlanItemInfo;
+import org.kuali.student.ap.academicplan.dto.TypedObjectReferenceInfo;
 import org.kuali.student.ap.academicplan.infc.LearningPlan;
+import org.kuali.student.ap.academicplan.infc.TypedObjectReference;
 import org.kuali.student.ap.coursesearch.dataobject.ActivityOfferingDetailsWrapper;
 import org.kuali.student.ap.coursesearch.form.CourseSectionDetailsDialogForm;
 import org.kuali.student.ap.coursesearch.form.CourseSectionDetailsForm;
@@ -180,39 +182,25 @@ public class CourseSectionDetailsController extends KsapControllerBase {
         // Create the new plan item
         Term term = KsapFrameworkServiceLocator.getTermHelper().getTerm(regGroup.getTermId());
         LearningPlan learningPlan = KsapFrameworkServiceLocator.getPlanHelper().getDefaultLearningPlan();
-        PlanItemInfo newPlanItem = new PlanItemInfo();
-        newPlanItem.setLearningPlanId(learningPlan.getId());
-        newPlanItem.setCategory(AcademicPlanServiceConstants.ItemCategory.PLANNED);
-        newPlanItem.setRefObjectId(regGroup.getId());
-        newPlanItem.setRefObjectType(PlanConstants.REG_GROUP_TYPE);
-        newPlanItem.setTypeKey(AcademicPlanServiceConstants.LEARNING_PLAN_ITEM_TYPE);
-        newPlanItem.setStateKey(PlanConstants.LEARNING_PLAN_ITEM_ACTIVE_STATE_KEY);
+        TypedObjectReference planItemRef = new TypedObjectReferenceInfo(PlanConstants.REG_GROUP_TYPE,regGroup.getId());
+
 
         // Set the credits if it came through the request
+        BigDecimal creditValue = null;
         if (isVariableCreditCourse) {
             String credits = request.getParameter("credits");
-            newPlanItem.setCredit(new BigDecimal(credits));
+            creditValue = new BigDecimal(credits);
         }
         List<String> terms = new ArrayList<String>();
         terms.add(regGroup.getTermId());
-        newPlanItem.setPlanTermIds(terms);
 
         // Save the new plan item to the database
         try{
-            KsapFrameworkServiceLocator.getAcademicPlanService().createPlanItem(newPlanItem,KsapFrameworkServiceLocator.getContext().getContextInfo());
+            KsapFrameworkServiceLocator.getPlanHelper().addPlanItem(learningPlan.getId(),
+                    AcademicPlanServiceConstants.ItemCategory.PLANNED, "", creditValue, terms, planItemRef);
         }catch (AlreadyExistsException e){
             PlanEventUtils.sendJsonEvents(false,"Course " +course.getCourseCode() + " is already planned for " + term.getName(), response, eventList);
             return null;
-        } catch (OperationFailedException e) {
-            throw new IllegalArgumentException("Academic Plan Service lookup error", e);
-        } catch (MissingParameterException e) {
-            throw new IllegalArgumentException("Academic Plan Service lookup error", e);
-        } catch (InvalidParameterException e) {
-            throw new IllegalArgumentException("Academic Plan Service lookup error", e);
-        } catch (DataValidationErrorException e) {
-            throw new IllegalArgumentException("Academic Plan Service lookup error", e);
-        } catch (PermissionDeniedException e) {
-            throw new IllegalArgumentException("Academic Plan Service lookup error", e);
         }
 
         // Get new list of valid registration groups with added plan item
