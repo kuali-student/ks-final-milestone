@@ -112,7 +112,13 @@ public abstract class AbstractCheckProposition extends AbstractLeafProposition {
         for(Map.Entry<Term,Object> factEntry:environment.getFacts().entrySet()){
             executionContext.put(factEntry.getKey().getName(),factEntry.getValue());
         }
-        String messageData = templateEngine.evaluate(executionContext, instruction.getMessage().getFormatted());
+
+        String messageData;
+        try {
+            messageData = templateEngine.evaluate(executionContext, instruction.getMessage().getFormatted());
+        } catch (Exception e){
+            messageData = instruction.getMessage().getPlain();
+        }
 
         ValidationResultInfo vr = new ValidationResultInfo();
         vr.setElement("registrationRequestItems['" + executionContext.get("registrationRequestItemId") + "']");
