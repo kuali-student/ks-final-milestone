@@ -1570,6 +1570,8 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
                         "LEFT OUTER JOIN KSEN_SCHED_TMSLOT schedTmslt " +
                         "ON schedTmslt.ID = schedCmpTmslt.TM_SLOT_ID " +
                         "WHERE coId.LUI_ID = co.ID " +
+                        "  AND coId.LUI_ID_TYPE = '" + LuiServiceConstants.LUI_IDENTIFIER_OFFICIAL_TYPE_KEY + "' " +
+                        "  AND coId.LUI_ID_STATE = '" + LuiServiceConstants.LUI_IDENTIFIER_ACTIVE_STATE_KEY + "' " +
                         "  AND co.LUI_TYPE = 'kuali.lui.type.course.offering' " +
                         "  AND co.ID = :courseOfferingId " +
                         " ORDER BY aoId.LUI_CD";
