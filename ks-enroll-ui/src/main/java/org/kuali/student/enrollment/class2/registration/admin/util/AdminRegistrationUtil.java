@@ -35,6 +35,7 @@ import org.kuali.student.r2.lum.util.constants.LrcServiceConstants;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created with IntelliJ IDEA.
@@ -88,10 +89,14 @@ public class AdminRegistrationUtil {
         List<RegistrationResultItem> issueItems = new ArrayList<RegistrationResultItem>();
         // Add the messages to the issue items list.
         for (ValidationResult validationResult : results) {
-            RegistrationValidationResult result = RegistrationValidationResultsUtil.unmarshallResult(validationResult.getMessage());
+            Map<String, String> validationMap = RegistrationValidationResultsUtil.unmarshallResult(validationResult.getMessage());
 
             String message = StringUtils.EMPTY;
-            if (result instanceof RegistrationValidationConflictCourseResult) {
+            if (validationMap.containsKey("messageKey")){
+                message = AdminRegistrationUtil.getMessageForKey(validationMap.get("messageKey"));
+            }
+
+            /*if (result instanceof RegistrationValidationConflictCourseResult) {
                 RegistrationValidationConflictCourseResult conflictCourseResult = (RegistrationValidationConflictCourseResult) result;
                 StringBuilder conflictCourses = new StringBuilder();
                 for (ConflictCourseResult conflictCourse : conflictCourseResult.getConflictingCourses()) {
@@ -104,7 +109,7 @@ public class AdminRegistrationUtil {
             }
             else{
                 message = AdminRegistrationUtil.getMessageForKey(result.getMessageKey());
-            }
+            }*/
 
             issueItems.add(new RegistrationResultItem(message));
         }

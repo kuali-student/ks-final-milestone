@@ -17,6 +17,7 @@
 package org.kuali.student.enrollment.registration.client.service.impl.util;
 
 import org.codehaus.jackson.map.ObjectMapper;
+import org.codehaus.jackson.type.TypeReference;
 import org.kuali.student.enrollment.registration.client.service.dto.ConflictCourseResult;
 import org.kuali.student.enrollment.registration.client.service.dto.RegistrationValidationConflictCourseResult;
 import org.kuali.student.enrollment.registration.client.service.dto.RegistrationValidationMaxCreditResult;
@@ -25,7 +26,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * This class contains utility methods for passing complex messaging out of ValidationResultInfo objects
@@ -61,16 +64,14 @@ public class RegistrationValidationResultsUtil {
         return json;
     }
 
-    public static RegistrationValidationResult unmarshallResult(String result) {
+    public static Map<String, String> unmarshallResult(String result) {
         ObjectMapper mapper = new ObjectMapper();
         try {
-            if(result.contains("conflictingCourses")) {
-                return mapper.readValue(result, RegistrationValidationConflictCourseResult.class);
-            } else if(result.contains("maxCredits")) {
-                return mapper.readValue(result, RegistrationValidationMaxCreditResult.class);
-            } else {
-                return mapper.readValue(result, RegistrationValidationResult.class);
-            }
+            TypeReference<HashMap<String, Object>> typeRef
+                    = new TypeReference<HashMap<String, Object>>() {
+            };
+
+            return mapper.readValue(result, typeRef);
         } catch (IOException e) {
             LOGGER.error("Unable to marshall result object", e);
         }
