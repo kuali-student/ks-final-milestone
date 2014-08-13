@@ -235,8 +235,9 @@ public class AdminRegClientCache {
 
         RegistrationGroupInfo regGroup = getRegGroupViaLuiService(courseOfferingId, section);
         //RegistrationGroupInfo regGroup = getRegGroupViaCourseOfferingService(courseOfferingId, section);
-
-        getCache().put(new Element(cacheKey, regGroup.getId()));
+        if(regGroup != null){
+            getCache().put(new Element(cacheKey, regGroup.getId()));
+        }
         return regGroup;
     }
 
@@ -275,7 +276,10 @@ public class AdminRegClientCache {
                 qbcBuilder.build(), ContextUtils.createDefaultContextInfo());
 
         LuiLuiRelationInfo luiLuiRelation = KSCollectionUtils.getOptionalZeroElement(luiLuiRelationInfos);
-        return AdminRegResourceLoader.getCourseOfferingService().getRegistrationGroup(luiLuiRelation.getRelatedLuiId(), ContextUtils.createDefaultContextInfo());
+        if(luiLuiRelation != null){
+            return AdminRegResourceLoader.getCourseOfferingService().getRegistrationGroup(luiLuiRelation.getRelatedLuiId(), ContextUtils.createDefaultContextInfo());
+        }
+        return null;
     }
 
     public static class CourseOfferingInfoComparator implements Comparator<CourseOfferingInfo> {
