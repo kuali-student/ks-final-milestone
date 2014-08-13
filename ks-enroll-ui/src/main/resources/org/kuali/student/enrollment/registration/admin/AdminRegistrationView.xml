@@ -52,7 +52,7 @@
                         </bean>
                         <ref bean="KS-AdminRegistration-StudentInfo"/>
                         <ref bean="KS-AdminRegistration-ChangeTermSection"/>
-                        <ref bean="KS-AdminRegistration-RegistrationTabs"/>
+                        <ref bean="KS-AdminRegistration-RegisteredTab"/>
                     </list>
                 </property>
             </bean>
@@ -178,7 +178,7 @@
             </list>
         </property>
     </bean>
-
+    <!--KSENROLL-14029 - remove reg tab
     <bean id="KS-AdminRegistration-RegistrationTabs" p:render="@{displayRegistrationTabs}" parent="Uif-TabSection">
         <property name="items">
             <list>
@@ -187,6 +187,7 @@
             </list>
         </property>
     </bean>
+    -->
 
     <!--  Tabs -->
     <bean id="KS-AdminRegistration-RegisteredTab" parent="Uif-VerticalBoxSection"
@@ -333,7 +334,7 @@
                             </property>
                         </bean>
                         <bean id="KS-AdminRegistration-RegisterButton" parent="Uif-PrimaryActionButton" p:actionLabel="Register"
-                              p:methodToCall="register" p:refreshId="KS-AdminRegistration-RegistrationTabs"
+                              p:methodToCall="register" p:refreshId="KS-AdminRegistration-RegisteredTab"
                               p:ajaxReturnType="update-component" p:performClientSideValidation="true"
                               p:additionalCssClasses="hide-when-polling"/>
                         <bean id="KS-AdminRegistration-Registering" parent="Uif-ImageField" p:image.altText="Registration in progress....."
