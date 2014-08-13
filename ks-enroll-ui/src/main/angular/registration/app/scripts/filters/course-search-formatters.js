@@ -36,7 +36,7 @@ angular.module('regCartApp')
 
     })
 
-    .filter('aoFormatter', ['DAY_CONSTANTS', function(DAY_CONSTANTS) {
+    .filter('aoFormatter', ['DAY_CONSTANTS', 'RegUtil', function(DAY_CONSTANTS, RegUtil) {
 
         /**
          * Format an array of activity offerings for display using the search-list directive
@@ -76,6 +76,7 @@ angular.module('regCartApp')
                         }
                     }
                     days = addSortField(days, getNumericDays(scheduleComponents[0].days));
+                    time = addSortField(time, getActualTime(scheduleComponents[0].startTime));
                 }
 
                 if (instructors && angular.isArray(instructors) && instructors.length > 0) {
@@ -93,7 +94,7 @@ angular.module('regCartApp')
                     seatsOpen = '<span class="kscr-Search-results-no-seats">' + seatsOpen + '</span>';
                     indicator = true;
                 }
-                seatsOpen = addSortField(seatsOpen, zeroPad(ao.seatsOpen) + zeroPad(ao.seatsAvailable));
+                seatsOpen = addSortField(seatsOpen, zeroPad(ao.seatsOpen, 3) + zeroPad(ao.seatsAvailable, 3));
 
                 var subterm = false,
                     requisites = false;
@@ -145,9 +146,9 @@ angular.module('regCartApp')
             }
         }
 
-        function zeroPad(value) {
+        function zeroPad(value, len) {
             value = '' + value; // convert to string
-            while (value.length < 3) {
+            while (value.length < len) {
                 value = '0' + value;
             }
             return value;
@@ -158,6 +159,7 @@ angular.module('regCartApp')
             return field;
         }
 
+        // Converts the day of the week into a number for sorting purposes
         function getNumericDays(days) {
             var dayNumArray=[];
             for (var i=0; i < DAY_CONSTANTS.dayArray.length; i++) {
@@ -166,6 +168,11 @@ angular.module('regCartApp')
                 }
             }
             return dayNumArray.sort().toString();
+        }
+
+        // Converts display time into the actual time for sorting purposes
+        function getActualTime(time) {
+            return zeroPad(RegUtil.convertTimeStringToTime(time), 4);
         }
 
     }])
