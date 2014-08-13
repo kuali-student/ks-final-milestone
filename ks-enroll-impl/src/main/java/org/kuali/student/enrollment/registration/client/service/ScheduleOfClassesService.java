@@ -1,7 +1,9 @@
 package org.kuali.student.enrollment.registration.client.service;
 
 
+import org.kuali.student.enrollment.registration.client.service.dto.CourseOfferingDetailsSearchResult;
 import org.kuali.student.enrollment.registration.client.service.dto.CourseSearchResult;
+import org.kuali.student.enrollment.registration.client.service.dto.InstructorSearchResult;
 import org.kuali.student.enrollment.registration.client.service.dto.RegGroupSearchResult;
 import org.kuali.student.enrollment.registration.client.service.dto.ResultValueGroupCourseOptions;
 import org.kuali.student.r2.common.dto.ContextInfo;
@@ -157,4 +159,25 @@ public interface ScheduleOfClassesService {
      * @throws PermissionDeniedException
      */
     public List<RegGroupSearchResult> searchForRegGroupsByCourseAndName(String courseOfferingId, String regGroupName) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
+     * returns course offering details for a particular course offering id
+     * @param courseOfferingId
+     * @return
+     */
+    public CourseOfferingDetailsSearchResult searchForCourseOfferingDetails(String courseOfferingId) throws InvalidParameterException, MissingParameterException, PermissionDeniedException, OperationFailedException, DoesNotExistException ;
+
+    /**
+     * returns a list of instructors by aoIds
+     * @param aoIds
+     * @param contextInfo
+     * @return
+     * @throws InvalidParameterException
+     * @throws MissingParameterException
+     * @throws DoesNotExistException
+     * @throws OperationFailedException
+     * @throws PermissionDeniedException
+     */
+    public List<InstructorSearchResult> getInstructorListByAoIds(List<String> aoIds, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, DoesNotExistException, OperationFailedException, PermissionDeniedException;
+
 }

@@ -198,6 +198,6 @@ public interface ScheduleOfClassesClientService {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/courseOfferingDetails")
-    Response searchForCourseOfferingDetails(@QueryParam("courseOfferingId") String courseOfferingId);
+    Response searchForCourseOfferingDetailsRS(@QueryParam("courseOfferingId") String courseOfferingId);
 
 }

@@ -1,7 +1,5 @@
 package org.kuali.student.enrollment.registration.client.service.impl;
 
-import net.sf.ehcache.CacheManager;
-import net.sf.ehcache.Element;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.elasticsearch.index.query.DisMaxQueryBuilder;
@@ -10,7 +8,6 @@ import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.sort.SortOrder;
-import org.kuali.student.common.util.security.ContextUtils;
 import org.kuali.student.enrollment.registration.client.service.ScheduleOfClassesClientService;
 import org.kuali.student.enrollment.registration.client.service.dto.ActivityOfferingSearchResult;
 import org.kuali.student.enrollment.registration.client.service.dto.ActivityTypeSearchResult;
@@ -35,13 +32,10 @@ import java.util.List;
 
 public class ScheduleOfClassesClientServiceImpl extends ScheduleOfClassesServiceElasticImpl implements ScheduleOfClassesClientService {
 
-    //Caching
-    private static final String COURSE_DETAILS_CACHE_NAME = "courseDetailsCache";
-    private CacheManager cacheManager;
-
     public static final Logger LOGGER = LoggerFactory.getLogger(ScheduleOfClassesClientServiceImpl.class);
-
     private static final String EXCEPTION_MSG = "Exception Thrown";
+
+
 
     /**
      * COURSE SEARCH *
@@ -239,20 +233,11 @@ public class ScheduleOfClassesClientServiceImpl extends ScheduleOfClassesService
      * cross-listed courses, prereqs, and AO info (main info, schedule, instructor, reg groups).     *
      */
     @Override
-    public Response searchForCourseOfferingDetails(String courseOfferingId) {
+    public Response searchForCourseOfferingDetailsRS(String courseOfferingId) {
         Response.ResponseBuilder response;
-        CourseOfferingDetailsSearchResult courseOfferingSearchResults;
+
         try {
-            Element cachedResult = getCacheManager().getCache(COURSE_DETAILS_CACHE_NAME).get(courseOfferingId);
-            if (cachedResult == null) {
-                //Use the normal service calls to get live data
-                courseOfferingSearchResults = searchForCourseOfferingDetailsLocal(courseOfferingId);
-                getCacheManager().getCache(COURSE_DETAILS_CACHE_NAME).put(new Element(courseOfferingId, courseOfferingSearchResults));
-            } else {
-                //Get cached data and update the seatcounts with live data
-                courseOfferingSearchResults = (CourseOfferingDetailsSearchResult) cachedResult.getValue();
-                updateSeatcounts(courseOfferingSearchResults, ContextUtils.createDefaultContextInfo());
-            }
+            CourseOfferingDetailsSearchResult courseOfferingSearchResults = searchForCourseOfferingDetails(courseOfferingId);
             response = Response.ok(courseOfferingSearchResults);
         } catch (Exception e) {
             LOGGER.warn(EXCEPTION_MSG, e);
@@ -261,12 +246,4 @@ public class ScheduleOfClassesClientServiceImpl extends ScheduleOfClassesService
         return response.build();
     }
 
-
-    public CacheManager getCacheManager() {
-        return cacheManager;
-    }
-
-    public void setCacheManager(CacheManager cacheManager) {
-        this.cacheManager = cacheManager;
-    }
 }

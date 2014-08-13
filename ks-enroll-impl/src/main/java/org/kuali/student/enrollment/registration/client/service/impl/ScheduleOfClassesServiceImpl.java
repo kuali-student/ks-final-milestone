@@ -169,11 +169,13 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
         return emptyIfNull(instructors);
     }
 
+    /*
     protected CourseOfferingDetailsSearchResult searchForCourseOfferingDetailsLocal(String courseOfferingId) throws MissingParameterException, InvalidParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException {
         CourseOfferingDetailsSearchResult courseOfferingInfo = searchForCourseOfferingDetails(courseOfferingId);
 
         return courseOfferingInfo;
     }
+    */
 
     protected List<ActivityTypeSearchResult> searchForActivityTypesLocal(String courseOfferingId, String termId, String termCode, String courseCode) throws InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException {
         courseOfferingId = getCourseOfferingId(courseOfferingId, courseCode, termId, termCode);
@@ -587,7 +589,7 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
     }
 
     //   Returns a list of course offering details such as main info (code, name, desc, etc.), cross-listed courses, prereqs, and AO info (main info, schedule, instructor, reg groups).
-    private CourseOfferingDetailsSearchResult searchForCourseOfferingDetails(String courseOfferingId) throws InvalidParameterException, MissingParameterException, PermissionDeniedException, OperationFailedException, DoesNotExistException {
+    public CourseOfferingDetailsSearchResult searchForCourseOfferingDetails(String courseOfferingId) throws InvalidParameterException, MissingParameterException, PermissionDeniedException, OperationFailedException, DoesNotExistException {
         long startTime = System.currentTimeMillis();
 
         ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
@@ -1003,7 +1005,8 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
      * @throws OperationFailedException
      * @throws PermissionDeniedException
      */
-    private List<InstructorSearchResult> getInstructorListByAoIds(List<String> aoIds, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, DoesNotExistException, OperationFailedException, PermissionDeniedException {
+    @Override
+    public List<InstructorSearchResult> getInstructorListByAoIds(List<String> aoIds, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, DoesNotExistException, OperationFailedException, PermissionDeniedException {
         List<InstructorSearchResult> resultList = new ArrayList<InstructorSearchResult>();
         Map<String, List<InstructorSearchResult>> resultMap = CourseRegistrationAndScheduleOfClassesUtil.searchForInstructorsByAoIds(aoIds, contextInfo);
 
