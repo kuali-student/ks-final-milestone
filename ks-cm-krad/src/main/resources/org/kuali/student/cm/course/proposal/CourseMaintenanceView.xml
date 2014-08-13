@@ -40,59 +40,6 @@
         </property>
     </bean>
 
-
-
-
-    <!--
-        TODO: KSCM-2152 - Remove this workaround once KULRICE-12708 is fixed.  CourseInfo.courseNumberSuffix.override
-        should be uncommented and CourseInfo.courseNumberSuffix.override-required-bug should come out.
-
-        Per property overrides for workflow doc state P (Processed).
-
-    <bean id="CourseInfo.courseNumberSuffix.override" parent="DataDictionaryBeanOverride">
-        <property name="beanName" value="CourseInfo.courseNumberSuffix" />
-        <property name="fieldOverrides">
-            <bean parent="DDValueReplacer-Processed" />
-        </property>
-    </bean>
-     -->
-    <!-- Explicitly set a simple constraint with required=false so that the requiredness message will behave -->
-    <bean id="CourseInfo.courseNumberSuffix.override-required-bug" parent="DataDictionaryBeanOverride">
-        <property name="beanName" value="CourseInfo.courseNumberSuffix"/>
-        <property name="fieldOverrides">
-            <bean parent="FieldOverrideForValueReplace">
-                <property name="propertyName" value="simpleConstraint"/>
-                <property name="value">
-                    <bean parent="SimpleConstraint">
-                        <property name="maxLength" value="3"/>
-                        <property name="minLength" value="3"/>
-                        <property name="required" value="false"/>
-                        <property name="states">
-                            <list>
-                                <value>I,S,R</value>
-                            </list>
-                        </property>
-                        <property name="constraintStateOverrides">
-                            <list>
-                                <bean parent="RequiredConstraint">
-                                    <property name="maxLength" value="3"/>
-                                    <property name="minLength" value="3"/>
-                                    <property name="states">
-                                        <list>
-                                            <value>P</value>
-                                        </list>
-                                    </property>
-                                </bean>
-                            </list>
-                        </property>
-                    </bean>
-                </property>
-            </bean>
-
-        </property>
-    </bean>
-
-
     <!-- Controller Class: CourseController.java View Helper Class: CourseViewHelperServiceImpl.java UX : http://ux.ks.kuali.org.s3.amazonaws.com/wireframes/ENR/Scheduling_Interface/v3/start.html 
         This view has couple of pages (edit and copy) with all the beans defined at 1. CourseViewCourseInfoPage.xml -->
 

@@ -214,7 +214,6 @@
                         <list>
                             <bean  id="CM-Proposal-Course-CourseInfo-SubjectCode" parent="CM-InputField"
                                 p:label="Subject Code" p:propertyName="courseInfo.subjectArea" >
-
                                 <property name="constraintText" value="Must be a 4 letter code"/>
                                 <property name="control">
                                     <bean parent="KS-Uif-TextControl" p:size="6" p:watermarkText="AAAA"
@@ -239,7 +238,6 @@
                                 <property name="control">
                                     <bean parent="KS-Uif-TextControl" p:size="3" p:watermarkText="111"/>
                                 </property>
-
                                 <property name="fieldLabel.richLabelMessage">
                                     <bean parent="CM-IconLabelMessage">
                                         <property name="iconToolTipText" value="The department will determine the course number based on: course format, restrictions, available numbers, and other factors"/>
