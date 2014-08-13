@@ -324,7 +324,7 @@
                         <bean parent="Uif-SecondaryActionButton" p:methodToCall="addBlankLine" p:id="addLineButton"
                               p:successCallback="jQuery(&quot;[name='pendingCourses[@{pendingCourses.size()}].code']&quot;).focus()"
                               p:refreshId="KS-AdminRegistration-RegFor" p:ajaxReturnType="update-component"
-                              p:actionLabel=" + Add Format" p:actionEvent="addBlankLine" p:performClientSideValidation="true">
+                              p:actionLabel=" + Add Course" p:actionEvent="addBlankLine" p:performClientSideValidation="true">
                             <property name="actionParameters">
                                 <map>
                                     <entry key="selectedCollectionPath" value="pendingCourses"/>
