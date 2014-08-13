@@ -450,7 +450,7 @@
     <bean id="KS-Proposal-Review-Course-ConfirmSubmit-Dialog" parent="KS-Proposal-Review-Course-ConfirmSubmit-Dialog-parentBean" />
     <bean id="KS-Proposal-Review-Course-ConfirmSubmit-Dialog-parentBean" parent="Uif-DialogGroup" abstract="true" >
         <property name="headerText" value="Submit Proposal"/>
-        <property name="onDialogResponseScript" value="confirmDialogResponseCall();"/>
+        <property name="onDialogResponseScript" value="closeLightbox();ajaxSubmitForm('route');"/>
         <property name="renderHeader" value="true"/>
         <property name="cssClasses" >
             <list merge="true">
