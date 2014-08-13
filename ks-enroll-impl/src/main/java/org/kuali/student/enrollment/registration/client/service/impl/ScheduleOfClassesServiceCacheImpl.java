@@ -19,21 +19,25 @@ import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.core.scheduling.dto.TimeSlotInfo;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * There are some methods on the ScheduleOfClassesImpl that could / should be backed by a cache. In this case
  * elastic
  */
-public class ScheduleOfClassesServiceElasticImpl extends ScheduleOfClassesServiceImpl {
+public class ScheduleOfClassesServiceCacheImpl extends ScheduleOfClassesServiceImpl {
 
     protected ElasticEmbedded elasticEmbedded;
 
     //Caching
     private static final String COURSE_DETAILS_CACHE_NAME = "courseDetailsCache";
-    private static final String INSTRUCTOR_INfO_CACHE_NAME = "instructorCache";
+    private static final String INSTRUCTOR_INFO_CACHE_NAME = "instructorCache";
+    private static final String AO_TIMESLOT_CACHE_NAME = "aoTimeslot";
     private CacheManager cacheManager;
 
     @Override
@@ -157,25 +161,56 @@ public class ScheduleOfClassesServiceElasticImpl extends ScheduleOfClassesServic
         List<String> aoIdsToQuery = new ArrayList<>();
 
         for(String aoId : aoIds) {
-            Element cachedResult = getCacheManager().getCache(INSTRUCTOR_INfO_CACHE_NAME).get(aoId);
+            Element cachedResult = getCacheManager().getCache(INSTRUCTOR_INFO_CACHE_NAME).get(aoId);
             if (cachedResult == null) {
                 aoIdsToQuery.add(aoId);
             } else {
                 //Get cached data
-                lRet.add((InstructorSearchResult)cachedResult.getValue());
+                lRet.add((InstructorSearchResult) cachedResult.getValue());
             }
 
             if(!aoIdsToQuery.isEmpty()){
                 //Use the normal service calls to get live data
                 List<InstructorSearchResult> instructors = super.getInstructorListByAoIds(aoIdsToQuery, contextInfo);
                 for(InstructorSearchResult instructor : instructors){
-                    getCacheManager().getCache(INSTRUCTOR_INfO_CACHE_NAME).put(new Element(instructor.getActivityOfferingId(), instructor));
+                    getCacheManager().getCache(INSTRUCTOR_INFO_CACHE_NAME).put(new Element(instructor.getActivityOfferingId(), instructor));
                 }
                 lRet.addAll(instructors);
             }
         }
         return lRet;
 
+    }
+
+    @Override
+    public Map<String, List<TimeSlotInfo>> getAoTimeSlotMap(List<String> aoIds) {
+        Map<String, List<TimeSlotInfo>> mRet = new HashMap<>();
+        if(aoIds == null || aoIds.isEmpty()) return null;
+
+        // anything not in the cache should be added to this list and be queried later
+        List<String> aoIdsToQuery = new ArrayList<>();
+
+        for(String aoId : aoIds) {
+            Element cachedResult = getCacheManager().getCache(AO_TIMESLOT_CACHE_NAME).get(aoId);
+            if (cachedResult == null) {
+                aoIdsToQuery.add(aoId);
+            } else {
+                //Get cached data
+                mRet.put(aoId,(List<TimeSlotInfo>) cachedResult.getValue());
+            }
+
+            if(!aoIdsToQuery.isEmpty()){
+                //Use the normal service calls to get live data
+                Map<String, List<TimeSlotInfo>> aoTimeslots = super.getAoTimeSlotMap(aoIdsToQuery);
+                if(aoTimeslots != null && !aoTimeslots.isEmpty()) {
+                    for (String aoIdKey : aoTimeslots.keySet()) {
+                        getCacheManager().getCache(AO_TIMESLOT_CACHE_NAME).put(new Element(aoIdKey, aoTimeslots.get(aoIdKey)));
+                        mRet.put(aoIdKey, aoTimeslots.get(aoIdKey));
+                    }
+                }
+            }
+        }
+        return mRet;
     }
 
     public void setElasticEmbedded(ElasticEmbedded elasticEmbedded) {

@@ -1500,7 +1500,7 @@
         <property name="lrcService" ref="lrcServiceCache" />
     </bean>
 
-    <bean id="scheduleOfClassesServiceElastic" class="org.kuali.student.enrollment.registration.client.service.impl.ScheduleOfClassesServiceElasticImpl">
+    <bean id="scheduleOfClassesServiceElastic" class="org.kuali.student.enrollment.registration.client.service.impl.ScheduleOfClassesServiceCacheImpl">
         <property name="entityManager" ref="enrollEntityManager" />
         <property name="luiService" ref="LuiService"/>
         <property name="atpService" ref="AtpService"/>
