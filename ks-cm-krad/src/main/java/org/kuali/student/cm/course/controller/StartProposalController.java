@@ -72,7 +72,7 @@ public class StartProposalController extends UifControllerBase {
             // if user is a CS user, check the checkbox value
             urlParameters.put(CourseController.UrlParams.USE_CURRICULUM_REVIEW,Boolean.toString(((StartProposalForm) form).isUseReviewProcess()));
         }
-        urlParameters.put(UifConstants.UrlParams.PAGE_ID, CurriculumManagementConstants.CourseViewPageIds.CREATE_COURSE);
+        urlParameters.put(UifConstants.UrlParams.PAGE_ID, CurriculumManagementConstants.CourseViewPageIds.CREATE_COURSE_PAGE);
         urlParameters.put(KRADConstants.PARAMETER_COMMAND, KewApiConstants.INITIATE_COMMAND);
         urlParameters.put(KRADConstants.DATA_OBJECT_CLASS_ATTRIBUTE, CourseInfoWrapper.class.getName());
         urlParameters.put(KRADConstants.RETURN_LOCATION_PARAMETER, CMUtils.getCMHomeUrl() );

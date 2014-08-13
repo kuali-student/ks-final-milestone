@@ -54,6 +54,7 @@ public class CourseInfoWrapper extends LURuleManagementWrapper implements Serial
     private List<SupportingDocumentInfoWrapper> supportingDocs = new ArrayList<SupportingDocumentInfoWrapper>();
     private List<SupportingDocumentInfoWrapper> supportingDocsToDelete = new ArrayList<SupportingDocumentInfoWrapper>();
     private ReviewProposalDisplay reviewProposalDisplay = new ReviewProposalDisplay();
+    private List<String> campusLocations;
     private CourseInfo courseInfo = new CourseInfo();
     private List<FormatInfo> formats = new ArrayList<FormatInfo>();
 
@@ -366,8 +367,27 @@ public class CourseInfoWrapper extends LURuleManagementWrapper implements Serial
         this.uiHelper = uiHelper;
     }
 
+    /**
+     * The purpose of campusLocations in this class is to have a property that returns 'null' when not set.
+     * Unfortunately, the service DTO couseInfo.getCampusLocations() return an empty list. Currently (Rice 2.4)
+     * ExistenceConstraintProcessor interprets only 'null' for requiredness, resulting in ignoring requiredness
+     * validation on campusLocations even when not set.
+     */
+    public List<String> getCampusLocations() {
+        this.campusLocations = this.getCourseInfo().getCampusLocations();
+        if(campusLocations.isEmpty()) {
+            campusLocations = null;
+        }
+        return campusLocations;
+    }
+
     public List<FormatInfo> getFormats() {
         return formats;
+    }
+
+    public void setCampusLocations(List<String> campusLocations) {
+        this.campusLocations = campusLocations;
+        this.getCourseInfo().setCampusLocations(campusLocations);
     }
 
     public void setFormats(List<FormatInfo> formats) {
