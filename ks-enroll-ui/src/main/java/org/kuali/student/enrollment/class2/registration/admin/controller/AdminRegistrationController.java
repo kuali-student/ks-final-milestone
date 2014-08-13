@@ -376,6 +376,7 @@ public class AdminRegistrationController extends UifControllerBase {
 
         String updateId = null;
         if (LprServiceConstants.LPRTRANS_ITEM_SUCCEEDED_STATE_KEY.equals(item.getStateKey())) {
+            //Not the best way to do. Normal Set would work but KRAD has a memory issue
             form.getRegisteredCourses().clear();
             form.getRegisteredCourses().addAll(getViewHelper(form).getCourseRegForStudentAndTerm(form.getPerson().getId(), form.getTerm().getId()));
             form.getRegistrationResults().add(AdminRegistrationUtil.buildSuccessResult(addCourse, AdminRegConstants.ADMIN_REG_MSG_INFO_SUCCESSFULLY_REGISTERED));

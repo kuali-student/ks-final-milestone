@@ -155,8 +155,8 @@ public class AdminRegistrationViewHelperServiceImpl extends KSViewHelperServiceI
                 if (ValidationResult.ErrorLevel.ERROR.equals(vr.getLevel())) {
 
                     Map<String, Object> validationMap = RegistrationValidationResultsUtil.unmarshallResult(vr.getMessage());
-                    if (validationMap.containsKey("message")) {
-                       reasons.add((String) validationMap.get("message"));
+                    if (validationMap.containsKey(AdminRegConstants.ADMIN_REG_VALIDATION_MSG)) {
+                       reasons.add((String) validationMap.get(AdminRegConstants.ADMIN_REG_VALIDATION_MSG));
                     }
                 }
             }

@@ -68,6 +68,10 @@ public class AdminRegConstants {
     public static final String ADMIN_REG_MSG_INFO_SUCCESSFULLY_DROPPED = "info.admin.reg.course.successfully.dropped";
     public static final String ADMIN_REG_MSG_ERROR_TERM_SOC_NOT_EXISTS ="error.admin.reg.term.soc.notexits";
     public static final String ADMIN_REG_MSG_ERROR_TERM_SOC_NOT_PUBLISHED ="error.admin.reg.term.soc.notpublished";
+    public static final String ADMIN_REG_VALIDATION_MSG = "message";
+    public static final String ADMIN_REG_VALIDATION_MSG_KEY = "messageKey";
+    public static final String ADMIN_REG_VALIDATION_MSG_KEY_CONFLICTINGCOURSES = "conflictingCourses";
+    public static final String ADMIN_REG_VALIDATION_MSG_KEY_COURSES_CODE = "courseCode";
     //sections ids
     public static final String STUDENT_INFO_SECTION = "KS-AdminRegistration-StudentInfo";
 
