@@ -816,7 +816,7 @@
                     <property name="items">
                         <list>
                             <bean parent="Uif-MessageField" p:label="Eligibility Check" p:messageText="@{#line.toString()}"/>
-                            <bean parent="Uif-MessageField" p:id="termEligibityResult" p:messageText="[b]FAILED[/b]"/>
+                            <bean parent="Uif-MessageField" p:id="termEligibityResult" p:messageText="[color=red][b]FAILED[/b][/color]"/>
                         </list>
                     </property>
                 </bean>
