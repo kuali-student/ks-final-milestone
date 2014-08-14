@@ -19,7 +19,6 @@ package org.kuali.student.enrollment.class2.registration.admin.form;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.core.person.dto.PersonInfo;
 import org.kuali.student.enrollment.class2.registration.admin.util.AdminRegConstants;
-import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
 
 import java.io.Serializable;
@@ -103,7 +102,7 @@ public class AdminRegistrationForm extends UifFormBase implements Serializable {
 
     private boolean termEligible = false;
 
-    private boolean displayRegistrationTabs = false;
+    private boolean displayRegistrationTab = false;
 
     /**
      * courses In Edit contain course that is been edited.
@@ -126,7 +125,7 @@ public class AdminRegistrationForm extends UifFormBase implements Serializable {
     public void clearTermValues() {
         this.term = new TermInfo();
         this.termEligible = false;
-        this.displayRegistrationTabs = false;
+        this.displayRegistrationTab = false;
         this.clearCourseRegistrationValues();
     }
 
@@ -320,12 +319,12 @@ public class AdminRegistrationForm extends UifFormBase implements Serializable {
         this.termEligible = termEligible;
     }
 
-    public boolean isDisplayRegistrationTabs() {
-        return displayRegistrationTabs;
+    public boolean isDisplayRegistrationTab() {
+        return displayRegistrationTab;
     }
 
-    public void setDisplayRegistrationTabs(boolean displayRegistrationTabs) {
-        this.displayRegistrationTabs = displayRegistrationTabs;
+    public void setDisplayRegistrationTab(boolean displayRegistrationTab) {
+        this.displayRegistrationTab = displayRegistrationTab;
     }
 
     public List<RegistrationCourse> getCoursesInEdit() {

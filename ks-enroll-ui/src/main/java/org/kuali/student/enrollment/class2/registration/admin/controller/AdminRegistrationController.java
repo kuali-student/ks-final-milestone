@@ -210,11 +210,11 @@ public class AdminRegistrationController extends UifControllerBase {
             if (form.getRegisteredCourses().isEmpty() && form.getWaitlistedCourses().isEmpty()) {
                 showDialog(AdminRegConstants.TERM_ELIGIBILITY_DIALOG, form, request, response);
             } else {
-                form.setDisplayRegistrationTabs(true);
+                form.setDisplayRegistrationTab(true);
             }
         } else {
             form.setTermEligible(false);
-            form.setDisplayRegistrationTabs(true);
+            form.setDisplayRegistrationTab(true);
         }
         form.setClientState(AdminRegConstants.ClientStates.READY);
         return getUIFModelAndView(form);
@@ -226,7 +226,7 @@ public class AdminRegistrationController extends UifControllerBase {
                                                     HttpServletRequest request, HttpServletResponse response) {
 
         form.clearCourseRegistrationValues();
-        form.setDisplayRegistrationTabs(false);
+        form.setDisplayRegistrationTab(false);
         form.setClientState(AdminRegConstants.ClientStates.READY);
         return getUIFModelAndView(form);
     }
@@ -237,7 +237,7 @@ public class AdminRegistrationController extends UifControllerBase {
                                                       HttpServletRequest request, HttpServletResponse response) {
 
         form.clearCourseRegistrationValues();
-        form.setDisplayRegistrationTabs(true);
+        form.setDisplayRegistrationTab(true);
         form.setClientState(AdminRegConstants.ClientStates.READY);
         return getUIFModelAndView(form);
     }
