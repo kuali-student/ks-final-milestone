@@ -16,6 +16,7 @@
  */
 package org.kuali.student.poc.jsonparser.producer;
 
+import org.apache.log4j.Logger;
 import org.springframework.core.io.ClassPathResource;
 
 import java.io.FileNotFoundException;
@@ -29,6 +30,7 @@ import java.util.Scanner;
  * @author Kuali Student Team
  */
 public class FileProducer implements BaseProducer {
+    Logger LOGGER = Logger.getLogger(FileProducer.class);
     private Scanner reader;
     private String thisLine, nextLine;
     private int row, column; // Peek at this
@@ -54,10 +56,11 @@ public class FileProducer implements BaseProducer {
                 done = true;
             }
         } catch (FileNotFoundException e) {
+            LOGGER.error("File not found exception", e);
             reader = null;
             done = true;
         } catch (IOException e) {
-            e.printStackTrace();
+            LOGGER.error("IOException exception", e);
         }
     }
 
