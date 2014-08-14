@@ -625,7 +625,7 @@ public class TestLrcServiceMockImpl {
         expected.setEffectiveDate(new Timestamp(expected.getEffectiveDate().getTime() - 2000));
         expected.setExpirationDate(new Timestamp(expected.getExpirationDate().getTime() + 2000));
         expected.setDescr(new RichTextHelper().fromPlain("values group 1 description updated"));
-        expected.getResultValueKeys().remove(0);
+        assertTrue("element was removed successfully", expected.getResultValueKeys().remove(LrcServiceConstants.RESULT_VALUE_KEY_GRADE_LETTER_F));
         expected.getResultValueKeys().add(LrcServiceConstants.RESULT_VALUE_KEY_GRADE_LETTER_F);
         new AttributeTester().delete1Update1Add1ForUpdate(expected.getAttributes());
         actual = lrcService.updateResultValuesGroup(expected.getKey(), expected, callContext);
