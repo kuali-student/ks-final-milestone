@@ -72,6 +72,8 @@ public class AdminRegConstants {
     public static final String ADMIN_REG_VALIDATION_MSG_KEY = "messageKey";
     public static final String ADMIN_REG_VALIDATION_MSG_KEY_CONFLICTINGCOURSES = "conflictingCourses";
     public static final String ADMIN_REG_VALIDATION_MSG_KEY_COURSES_CODE = "courseCode";
+    public static final String ADMIN_REG_CREDIT_LOAD_EXCEEDED_MESSAGE_KEY = "kuali.lpr.trans.message.credit.load.exceeded";
+    public static final String ADMIN_REG_MAX_CREDITS = "maxCredits";
     //sections ids
     public static final String STUDENT_INFO_SECTION = "KS-AdminRegistration-StudentInfo";
 

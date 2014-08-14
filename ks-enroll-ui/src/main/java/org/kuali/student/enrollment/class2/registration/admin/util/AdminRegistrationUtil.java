@@ -104,7 +104,11 @@ public class AdminRegistrationUtil {
                 }
                 message = AdminRegistrationUtil.getMessageForKey((String) validationMap.get(AdminRegConstants.ADMIN_REG_VALIDATION_MSG_KEY), conflictCourses.toString());
             } else if (validationMap.containsKey(AdminRegConstants.ADMIN_REG_VALIDATION_MSG_KEY)){
-                message = AdminRegistrationUtil.getMessageForKey((String) validationMap.get(AdminRegConstants.ADMIN_REG_VALIDATION_MSG_KEY));
+                if(validationMap.get(AdminRegConstants.ADMIN_REG_VALIDATION_MSG_KEY).equals(AdminRegConstants.ADMIN_REG_CREDIT_LOAD_EXCEEDED_MESSAGE_KEY)){
+                    message = AdminRegistrationUtil.getMessageForKey((String) validationMap.get(AdminRegConstants.ADMIN_REG_VALIDATION_MSG_KEY), validationMap.get(AdminRegConstants.ADMIN_REG_MAX_CREDITS).toString());
+                }else{
+                    message = AdminRegistrationUtil.getMessageForKey((String) validationMap.get(AdminRegConstants.ADMIN_REG_VALIDATION_MSG_KEY));
+                }
             }
 
             issueItems.add(new RegistrationResultItem(message));
