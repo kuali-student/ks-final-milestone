@@ -328,6 +328,10 @@
         <property name="layoutManager.id" value="course_format_table"/>
         <property name="layoutManager.lineGroupPrototype.layoutManager.id" value="course_format_table_@{#index}"/>
         <property name="layoutManager.lineGroupPrototype.id" value="course_format_row_@{#index}"/>
+        <property name="layoutManager.lineGroupPrototype.validationMessages.displayMessages" value="false"/>
+        <property name="layoutManager.lineGroupPrototype.validationMessages.displayHeaderMessageSummary" value="false"/>
+
+
         <property name="validationMessages" ref="KS-ValidationMessages-Off"/>
 
         <!-- Display the appropriate requiredness messaging -->
