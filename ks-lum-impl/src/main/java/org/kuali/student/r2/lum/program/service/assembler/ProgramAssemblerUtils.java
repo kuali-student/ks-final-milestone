@@ -18,6 +18,7 @@ package org.kuali.student.r2.lum.program.service.assembler;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -891,7 +892,7 @@ public class ProgramAssemblerUtils {
     }
     
     public Map<String, CluCluRelationInfo> getCluCluActiveRelations(String cluId, String relationType, ContextInfo contextInfo) throws AssemblyException, PermissionDeniedException{
-        Map<String, CluCluRelationInfo> currentRelations = new HashMap<String, CluCluRelationInfo>();
+        Map<String, CluCluRelationInfo> currentRelations = new LinkedHashMap<String, CluCluRelationInfo>();
 
             try {
                 List<CluCluRelationInfo> cluRelations = cluService.getCluCluRelationsByClu(cluId,contextInfo);
