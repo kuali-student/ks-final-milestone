@@ -72,7 +72,6 @@ public abstract class KSCommentController extends KsUifControllerBase {
     private Map<String, String[]> originalParametersMap;
 
     protected CommentService commentService;
-    //    protected ProposalService proposalService;
     protected PersonService personService;
 
     @Override
@@ -150,7 +149,7 @@ public abstract class KSCommentController extends KsUifControllerBase {
             } catch (Exception e) {
                 String message = String.format("Error updating comment for Ref Type %s with Ref Id %s ", form.getReferenceType(), form.getReferenceId());
                 LOG.error(message);
-                throw new RuntimeException(message);
+                throw new RuntimeException(message, e);
             }
             setupCommentWrapper(form, commentWrapper, comment);
             return getUIFModelAndView(form);
@@ -173,7 +172,7 @@ public abstract class KSCommentController extends KsUifControllerBase {
             } catch (Exception e) {
                 String message = String.format("Error updating comment for Ref Type %s with Ref Id %s ", form.getReferenceType(), form.getReferenceId());
                 LOG.error(message);
-                throw new RuntimeException(message);
+                throw new RuntimeException(message, e);
             }
             setupCommentWrapper(form, commentWrapper, comment);
             responseData.setCommentWrapper(commentWrapper);
