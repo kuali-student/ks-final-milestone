@@ -190,7 +190,7 @@
     -->
 
     <!--  Tabs -->
-    <bean id="KS-AdminRegistration-RegisteredTab" parent="Uif-VerticalBoxSection"
+    <bean id="KS-AdminRegistration-RegisteredTab" parent="Uif-VerticalBoxSection" p:render="@{displayRegistrationTab}"
           p:headerText="Registered (@{registeredCredits}) / Waitlist (@{waitlistedCredits})">
         <property name="header.render" value="false"/>
         <property name="items">
