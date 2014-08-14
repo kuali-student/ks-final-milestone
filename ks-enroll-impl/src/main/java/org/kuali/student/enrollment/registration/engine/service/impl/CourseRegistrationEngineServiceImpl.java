@@ -8,6 +8,7 @@ import org.kuali.student.enrollment.courseoffering.infc.RegistrationGroup;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestInfo;
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestItemInfo;
+import org.kuali.student.enrollment.courseregistration.infc.RegistrationRequestItem;
 import org.kuali.student.enrollment.courseregistration.service.CourseRegistrationService;
 import org.kuali.student.enrollment.courseseatcount.infc.SeatCount;
 import org.kuali.student.enrollment.courseseatcount.service.CourseSeatCountService;
@@ -16,8 +17,10 @@ import org.kuali.student.enrollment.lpr.dto.LprTransactionItemInfo;
 import org.kuali.student.enrollment.lpr.infc.Lpr;
 import org.kuali.student.enrollment.lpr.service.LprService;
 import org.kuali.student.enrollment.lui.service.LuiService;
+import org.kuali.student.enrollment.registration.client.service.impl.util.RegistrationValidationResultsUtil;
 import org.kuali.student.enrollment.registration.client.service.impl.util.SearchResultHelper;
 import org.kuali.student.enrollment.registration.engine.dto.RegistrationRequestEngineMessage;
+import org.kuali.student.enrollment.registration.engine.dto.RegistrationRequestItemEngineMessage;
 import org.kuali.student.enrollment.registration.engine.service.CourseRegistrationEngineService;
 import org.kuali.student.enrollment.registration.engine.service.WaitlistManagerService;
 import org.kuali.student.enrollment.registration.search.service.impl.CourseRegistrationSearchServiceImpl;
@@ -67,7 +70,7 @@ public class CourseRegistrationEngineServiceImpl implements CourseRegistrationEn
 
     @Override
     @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
-    public void updateLprTransactionItemResult(String lprTransactionId, String lprTransactionItemId, String lprTransactionItemStateKey, String resultingLprId, String message, boolean status, ContextInfo contextInfo) throws DoesNotExistException, PermissionDeniedException, OperationFailedException, VersionMismatchException, InvalidParameterException, MissingParameterException, DataValidationErrorException, ReadOnlyException {
+    public LprTransactionItemInfo updateLprTransactionItemResult(String lprTransactionId, String lprTransactionItemId, String lprTransactionItemStateKey, String resultingLprId, String message, boolean status, ContextInfo contextInfo) throws DoesNotExistException, PermissionDeniedException, OperationFailedException, VersionMismatchException, InvalidParameterException, MissingParameterException, DataValidationErrorException, ReadOnlyException {
         LprTransactionItemInfo lprTransactionItem = getLprService().getLprTransactionItem(lprTransactionItemId, contextInfo);
         lprTransactionItem.setStateKey(lprTransactionItemStateKey);
         if (LprServiceConstants.LPRTRANS_ITEM_FAILED_STATE_KEY.equals(lprTransactionItemStateKey) ||
@@ -77,8 +80,8 @@ public class CourseRegistrationEngineServiceImpl implements CourseRegistrationEn
         lprTransactionItem.setResultingLprId(resultingLprId);
 
         //update the state and result message;
-        getLprService().changeLprTransactionItem(lprTransactionItem.getId(), lprTransactionItem, contextInfo);
-        return;
+        return getLprService().changeLprTransactionItem(lprTransactionItem.getId(), lprTransactionItem, contextInfo);
+
     }
 
     /**
@@ -201,14 +204,6 @@ public class CourseRegistrationEngineServiceImpl implements CourseRegistrationEn
     }
 
     @Override
-    public List<LprInfo> addRegisteredLprs(String regGroupId, String termId, String credits, String gradingOptionId, Date effDate,
-                                           ContextInfo contextInfo) {
-        List<LprInfo> lprInfos =
-                buildRegisteredLprs(regGroupId, termId, credits, gradingOptionId, effDate, contextInfo);
-        return lprInfos;
-    }
-
-    @Override
     public List<LprInfo> updateOptionsOnRegisteredLprs(String masterLprId, String credits, String gradingOptionId, Date effDate,
                                                        ContextInfo contextInfo)
             throws OperationFailedException, PermissionDeniedException, DataValidationErrorException, VersionMismatchException,
@@ -236,9 +231,9 @@ public class CourseRegistrationEngineServiceImpl implements CourseRegistrationEn
     /**
      * helper method to perform drop in the smallest possible transactional boundary.
      *
-     * @param lprIds
-     * @param contextInfo
-     * @return
+     * @param lprIds list of LPR Ids
+     * @param contextInfo context of the call
+     * @return list of lprs dropped
      * @throws PermissionDeniedException
      * @throws MissingParameterException
      * @throws InvalidParameterException
@@ -268,10 +263,18 @@ public class CourseRegistrationEngineServiceImpl implements CourseRegistrationEn
     }
 
     @Override
-    public RegistrationRequestEngineMessage initializeRegistrationRequest(String regReqId, ContextInfo contextInfo) throws PermissionDeniedException, MissingParameterException, InvalidParameterException, OperationFailedException, DoesNotExistException {
+    @Transactional
+    public RegistrationRequestEngineMessage initializeRegistrationRequest(String regReqId, ContextInfo contextInfo) throws PermissionDeniedException, MissingParameterException, InvalidParameterException, OperationFailedException, DoesNotExistException, ReadOnlyException, DataValidationErrorException, VersionMismatchException {
         //get reg request
         RegistrationRequestInfo registrationRequestInfo
                 = getCourseRegistrationService().getRegistrationRequest(regReqId, contextInfo);
+
+        //Set the status on the Request to processing. This leaves the message out of sync as far as state and
+        registrationRequestInfo.setStateKey(LprServiceConstants.LPRTRANS_PROCESSING_STATE_KEY);
+        for(RegistrationRequestItemInfo requestItemInfo:registrationRequestInfo.getRegistrationRequestItems()){
+            requestItemInfo.setStateKey(LprServiceConstants.LPRTRANS_PROCESSING_STATE_KEY);
+        }
+        registrationRequestInfo = getCourseRegistrationService().updateRegistrationRequest(registrationRequestInfo.getId(), registrationRequestInfo, contextInfo);
 
         //Get reg group info
         Map<String, RegistrationGroup> regGroupIdToRegGroupMap = getRegistrationGroupsForRequest(registrationRequestInfo, contextInfo);
@@ -279,8 +282,6 @@ public class CourseRegistrationEngineServiceImpl implements CourseRegistrationEn
         //Create a message to send through the registration engine
         RegistrationRequestEngineMessage registrationMessage = new RegistrationRequestEngineMessage(registrationRequestInfo, regGroupIdToRegGroupMap, contextInfo);
 
-        //Set the status on the Request to processing. This leaves the message out of sync as far as state and
-        getLprService().changeLprTransactionState(registrationRequestInfo.getId(), LprServiceConstants.LPRTRANS_PROCESSING_STATE_KEY, contextInfo);
 
         return registrationMessage;
     }
@@ -530,11 +531,32 @@ public class CourseRegistrationEngineServiceImpl implements CourseRegistrationEn
         return getLprService().updateLpr(lprInfo.getId(), lprInfo, contextInfo);
 
     }
-
     @Override
-    public List<LprInfo> removeCourseWaitlistEntry(String masterLprId, ContextInfo contextInfo) throws OperationFailedException, PermissionDeniedException, MissingParameterException, InvalidParameterException, DoesNotExistException, ReadOnlyException, DataValidationErrorException, VersionMismatchException {
-        return dropLprs(masterLprId, contextInfo);
+    @Transactional
+    public void removeCourseWaitlistEntry(RegistrationRequestItemEngineMessage message, ContextInfo contextInfo) throws PermissionDeniedException, ReadOnlyException, OperationFailedException, VersionMismatchException, InvalidParameterException, DataValidationErrorException, MissingParameterException, DoesNotExistException {
+        RegistrationRequestItem registrationRequestItem = message.getRequestItem();
+
+        dropLprs(registrationRequestItem.getExistingCourseRegistrationId(), contextInfo);
+
+        LprTransactionItemInfo updatedItem = updateLprTransactionItemResult(message.getRequestItem().getRegistrationRequestId(),
+                message.getRequestItem().getId(),
+                LprServiceConstants.LPRTRANS_ITEM_SUCCEEDED_STATE_KEY,
+                registrationRequestItem.getExistingCourseRegistrationId(),
+                RegistrationValidationResultsUtil.marshallSimpleMessage(LprServiceConstants.LPRTRANS_ITEM_WAITLIST_STUDENT_REMOVED_MESSAGE_KEY),
+                true,
+                contextInfo);
+
+        updateMessageRequestItem(message, updatedItem);
     }
+
+    //Update The message Item with new information
+    private void updateMessageRequestItem(RegistrationRequestItemEngineMessage message, LprTransactionItemInfo updatedItem) {
+        RegistrationRequestItemInfo requestItem = new RegistrationRequestItemInfo(message.getRequestItem());
+        requestItem.getMeta().setVersionInd(updatedItem.getMeta().getVersionInd());
+        requestItem.setStateKey(updatedItem.getStateKey());
+        message.setRequestItem(requestItem);
+    }
+
 
     @Override
     public List<SeatCount> getSeatCountsForActivityOfferings(List<String> activityOfferingIds, ContextInfo contextInfo) throws PermissionDeniedException, MissingParameterException, InvalidParameterException, OperationFailedException, DoesNotExistException {
@@ -582,6 +604,25 @@ public class CourseRegistrationEngineServiceImpl implements CourseRegistrationEn
             }
         }
         return false;
+    }
+
+    @Override
+    @Transactional
+    public void registerPersonForCourse(RegistrationRequestItemEngineMessage message, ContextInfo contextInfo) throws PermissionDeniedException, ReadOnlyException, OperationFailedException, VersionMismatchException, InvalidParameterException, DataValidationErrorException, MissingParameterException, DoesNotExistException {
+        String creditStr = message.getRequestItem().getCredits() == null ? "" : message.getRequestItem().getCredits().bigDecimalValue().setScale(1).toPlainString();
+
+        List<LprInfo> registeredLprs = buildRegisteredLprs(message.getRequestItem().getRegistrationGroupId(), message.getRegistrationGroup().getTermId(), creditStr, message.getRequestItem().getGradingOptionId(), message.getRequestItem().getRequestedEffectiveDate(), contextInfo);
+
+        String masterLprId = registeredLprs.get(0).getMasterLprId();
+        LprTransactionItemInfo updatedItem =  updateLprTransactionItemResult(message.getRequestItem().getRegistrationRequestId(),
+                message.getRequestItem().getId(),
+                LprServiceConstants.LPRTRANS_ITEM_SUCCEEDED_STATE_KEY,
+                masterLprId,
+                RegistrationValidationResultsUtil.marshallSimpleMessage(LprServiceConstants.LPRTRANS_ITEM_PERSON_REGISTERED_MESSAGE_KEY),
+                true,
+                contextInfo);
+
+        updateMessageRequestItem(message, updatedItem);
     }
 
     private Map<String, RegistrationGroup> getRegistrationGroupsForRequest(RegistrationRequestInfo registrationRequestInfo, ContextInfo contextInfo) throws PermissionDeniedException, MissingParameterException, InvalidParameterException, OperationFailedException, DoesNotExistException {

@@ -112,15 +112,7 @@ public class CourseRegistrationLprActionProcessor {
     }
 
     private void dropWaitlist(RegistrationRequestItemEngineMessage message, ContextInfo contextInfo) throws PermissionDeniedException, OperationFailedException, VersionMismatchException, InvalidParameterException, DataValidationErrorException, MissingParameterException, DoesNotExistException, ReadOnlyException {
-        RegistrationRequestItem registrationRequestItem = message.getRequestItem();
-        courseRegistrationEngineService.removeCourseWaitlistEntry(registrationRequestItem.getExistingCourseRegistrationId(), contextInfo);
-        courseRegistrationEngineService.updateLprTransactionItemResult(message.getRequestItem().getRegistrationRequestId(),
-                message.getRequestItem().getId(),
-                LprServiceConstants.LPRTRANS_ITEM_SUCCEEDED_STATE_KEY,
-                registrationRequestItem.getExistingCourseRegistrationId(),
-                RegistrationValidationResultsUtil.marshallSimpleMessage(LprServiceConstants.LPRTRANS_ITEM_WAITLIST_STUDENT_REMOVED_MESSAGE_KEY),
-                        true,
-                        contextInfo);
+        courseRegistrationEngineService.removeCourseWaitlistEntry(message, contextInfo);
     }
 
     private void updateWaitlist(RegistrationRequestItemEngineMessage message, ContextInfo contextInfo) throws DataValidationErrorException, PermissionDeniedException, OperationFailedException, VersionMismatchException, InvalidParameterException, ReadOnlyException, MissingParameterException, DoesNotExistException {
@@ -189,7 +181,6 @@ public class CourseRegistrationLprActionProcessor {
         return courseRegistrationEngineService.areSeatsAvailable(seatCounts, message.getRegistrationGroup().getActivityOfferingIds(), contextInfo);
     }
 
-    @Transactional
     public void updateRegistrationRequestStatus(List<RegistrationRequestItemEngineMessage> regItems) throws PermissionDeniedException, OperationFailedException, VersionMismatchException, InvalidParameterException, DataValidationErrorException, MissingParameterException, DoesNotExistException {
         ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
 
@@ -274,16 +265,9 @@ public class CourseRegistrationLprActionProcessor {
     }
 
     private void registerPersonForCourse(RegistrationRequestItemEngineMessage message, ContextInfo contextInfo) throws DataValidationErrorException, PermissionDeniedException, OperationFailedException, VersionMismatchException, InvalidParameterException, ReadOnlyException, MissingParameterException, DoesNotExistException {
-        String creditStr = message.getRequestItem().getCredits() == null ? "" : message.getRequestItem().getCredits().bigDecimalValue().setScale(1).toPlainString();
-        List<LprInfo> registeredLprs = courseRegistrationEngineService.addRegisteredLprs(message.getRequestItem().getRegistrationGroupId(), message.getRegistrationGroup().getTermId(), creditStr, message.getRequestItem().getGradingOptionId(), message.getRequestItem().getRequestedEffectiveDate(), contextInfo);
-        String masterLprId = registeredLprs.get(0).getMasterLprId();
-        courseRegistrationEngineService.updateLprTransactionItemResult(message.getRequestItem().getRegistrationRequestId(),
-                message.getRequestItem().getId(),
-                LprServiceConstants.LPRTRANS_ITEM_SUCCEEDED_STATE_KEY,
-                masterLprId,
-                RegistrationValidationResultsUtil.marshallSimpleMessage(LprServiceConstants.LPRTRANS_ITEM_PERSON_REGISTERED_MESSAGE_KEY),
-                true,
-                contextInfo);
+        courseRegistrationEngineService.registerPersonForCourse(message, contextInfo);
+
+
     }
 
     private void addFromWaitlist(RegistrationRequestItemEngineMessage message, ContextInfo contextInfo) throws DataValidationErrorException, PermissionDeniedException, OperationFailedException, VersionMismatchException, InvalidParameterException, ReadOnlyException, MissingParameterException, DoesNotExistException {
