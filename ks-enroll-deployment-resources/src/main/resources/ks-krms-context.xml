@@ -24,7 +24,9 @@
             <map>
                 <!--needed services-->
                 <entry key="kuali.prop.best.effort.credit.load">
-                    <bean class="org.kuali.student.enrollment.krms.proposition.BestEffortCreditLoadProposition"/>
+                    <bean class="org.kuali.student.enrollment.krms.proposition.BestEffortCreditLoadProposition">
+                        <property name="countWaitlistedCoursesTowardsCreditLimit" value="true"/>
+                    </bean>
                 </entry>
                 <entry key="kuali.prop.best.effort.time.conflict">
                     <bean class="org.kuali.student.enrollment.krms.proposition.BestEffortTimeConflictProposition"/>

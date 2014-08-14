@@ -59,6 +59,7 @@ import java.util.Map;
 public class BestEffortCreditLoadProposition extends AbstractBestEffortProposition {
     public static final KualiDecimal NO_CREDIT_LIMIT = new KualiDecimal(-1);
     private static final boolean ALLOW_ALL_NON_ADDS = true; // allow all non adds right now
+    private boolean countWaitlistedCoursesTowardsCreditLimit = true;
 
     @Override
     public PropositionResult evaluate(ExecutionEnvironment environment) {
@@ -107,7 +108,9 @@ public class BestEffortCreditLoadProposition extends AbstractBestEffortPropositi
         // Fetch registrations
         List<CourseRegistrationInfo> existingCrs = new ArrayList<CourseRegistrationInfo>();
         existingCrs.addAll((List<CourseRegistrationInfo>) environment.resolveTerm(RulesExecutionConstants.EXISTING_REGISTRATIONS_TERM, this));
-        existingCrs.addAll((List<CourseRegistrationInfo>) environment.resolveTerm(RulesExecutionConstants.EXISTING_WAITLISTED_REGISTRATIONS_TERM, this));
+        if(countWaitlistedCoursesTowardsCreditLimit){
+            existingCrs.addAll((List<CourseRegistrationInfo>) environment.resolveTerm(RulesExecutionConstants.EXISTING_WAITLISTED_REGISTRATIONS_TERM, this));
+        }
         existingCrs.addAll((List<CourseRegistrationInfo>) environment.resolveTerm(RulesExecutionConstants.SIMULATED_REGISTRATIONS_TERM, this));
 
 //        try {
@@ -233,4 +236,7 @@ public class BestEffortCreditLoadProposition extends AbstractBestEffortPropositi
         return value;
     }
 
+    public void setCountWaitlistedCoursesTowardsCreditLimit(boolean countWaitlistedCoursesTowardsCreditLimit) {
+        this.countWaitlistedCoursesTowardsCreditLimit = countWaitlistedCoursesTowardsCreditLimit;
+    }
 }

@@ -1774,21 +1774,13 @@
 
    
     <bean id="courseRegistrationServiceProcessCheckDecorator" class="org.kuali.student.enrollment.class2.courseregistration.service.decorators.CourseRegistrationServiceProcessCheckDecorator" >
-        <property name="nextDecorator" ref="courseRegistrationServiceLoadCalculationDecorator"/>
+        <property name="nextDecorator" ref="courseRegistrationImpl"/>
         <property name="krmsEvaluator" ref="krmsEvaluator"/>
         <property name="waitlistService" ref="courseWaitListServiceImpl"/>
         <property name="courseOfferingService" ref="CourseOfferingService"/>
     </bean>
 
 
-    <bean id="courseRegistrationServiceLoadCalculationDecorator" 
-          class="org.kuali.student.enrollment.class2.courseregistration.service.decorators.CourseRegistrationLoadCalculationDecorator" >
-        <property name="registrationRequestMerger" ref="mergerImpl"/>
-        <property name="loadCalculatorRuleFactory" ref="loadCalculatorRuleFactoryHardwiredImpl"/>
-        <property name="courseOfferingService" ref="CourseOfferingService"/>
-        <property name="gesService" ref="GesService"/>
-        <property name="nextDecorator" ref="courseRegistrationImpl"/>
-    </bean>
     <bean id="krmsEvaluator" class="org.kuali.student.core.process.evaluator.KRMSEvaluator" >
         <property name="defaultFacts">
             <map>
@@ -1804,11 +1796,7 @@
                 <entry key="identityService" value-ref="coreIdentityServiceClient"/>
                 <entry key="holdService" value-ref="HoldService"/>
                 <entry key="gesService" value-ref="GesService"/>
-                <entry key="registrationRequestMerger" value-ref="mergerImpl"/>
-                <entry key="loadCalculatorRuleFactory" value-ref="loadCalculatorRuleFactoryHardwiredImpl"/>
                 <entry key="ruleFactory" value-ref="ruleFactoryImpl"/>
-                <!--factory to be replaced by someething not hardwired-->
-                <entry key="propositionFactory" value-ref="propositionFactoryHardwiredImpl"/>
                 <!--flag to tell if should log sucesses as well as failures-->
                 <entry key="shouldRecordInstructionSuccesses" > 
                     <bean class="java.lang.Boolean">
@@ -1834,21 +1822,9 @@
             </list>
         </property>
     </bean>
-    <!--TODO: KSENROLL-12395 Replace wiring to PropositionFactoryHardwiredImpl with a non-hardwired implementation-->
-    <bean id="propositionFactoryHardwiredImpl" class="org.kuali.student.enrollment.krms.proposition.PropositionFactoryHardwiredImpl" >  
-    </bean>
     <bean id="ruleFactoryImpl" class="org.kuali.student.core.krms.rule.RuleFactoryImpl" >
     </bean>
-    <!--TODO: KSENROLL-12396 Change wiring from LoadCalculatorRuleFactoryHardwiredImpl into a more configurable implementation-->
-    <bean id="loadCalculatorRuleFactoryHardwiredImpl" class="org.kuali.student.enrollment.rules.credit.limit.LoadCalculatorRuleFactoryHardwiredImpl" >
-        <property name="courseOfferingService" ref="CourseOfferingService" />  
-    </bean>
-    
-    <bean id="mergerImpl" class="org.kuali.student.enrollment.rules.credit.limit.RegistrationRequestMergerImpl" >   
-        <property name="courseOfferingService" ref="CourseOfferingService"/>          
-        <property name="courseRegistrationService" ref="CourseRegistrationService"/>        
-    </bean>   
-            
+
     <bean id="populationServiceEvaluationDecorator" class="org.kuali.student.core.population.service.decorators.PopulationServiceIsMemberEvaluatorDecorator">
         <property name="nextDecorator" ref="populationServiceImpl"/>
     </bean>
