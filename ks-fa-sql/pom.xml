@@ -6,7 +6,6 @@
         <artifactId>ks-fa</artifactId>
         <version>0.1.0-FR2-M1-SNAPSHOT</version>
     </parent>
-
     <artifactId>ks-fa-sql</artifactId>
     <name>KS Financial Aid SQL</name>
     <build>

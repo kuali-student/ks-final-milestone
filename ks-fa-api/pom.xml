@@ -9,6 +9,5 @@
     <groupId>org.kuali.student.fa</groupId>
     <artifactId>ks-fa-api</artifactId>
     <name>KS Financial Aid API</name>
-
     <!-- TODO add in dependencies and cxf plugin setup from ks-ap-api/pom.xml -->
 </project>
