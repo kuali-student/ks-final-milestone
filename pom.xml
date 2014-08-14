@@ -293,11 +293,10 @@
                                 <module>ks-ap</module>
                                 <versionProperty>ks.ap.version</versionProperty>
                             </mapping>
-			    <mapping>
+                            <mapping>
                                 <module>ks-fa</module>
                                 <versionProperty>ks.fa.version</versionProperty>
                             </mapping>
-
                             <mapping>
                                 <module>ks-api</module>
                                 <versionProperty>ks.api.version</versionProperty>
