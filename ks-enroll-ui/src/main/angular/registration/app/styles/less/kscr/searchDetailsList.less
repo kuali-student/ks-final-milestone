@@ -41,15 +41,15 @@
   .util-Grid;
   background-color: @white;
   &&--selected {
-    border: 1px solid @courseSearchDetailsSelectedBackgroundColor;
+    border: 1px solid @searchDetailsSelectedBackgroundColor;
   }
 }
 
 .kscr-Search-details-section {
   .util-Grid-cell;
   .util-Grid;
-  color: @courseSearchDetailTextColor;
-  background-color: @courseSearchDetailBackgroundColor;
+  color: @searchDetailsTextColor;
+  background-color: @searchDetailsBackgroundColor;
   padding: 1rem 1rem 1rem 0.5rem;
   cursor: pointer;
   &&--indicator {
@@ -59,14 +59,14 @@
   &&--selected {
     font-weight: bold;
     color: @white;
-    background-color: @courseSearchDetailsSelectedBackgroundColor;
+    background-color: @searchDetailsSelectedBackgroundColor;
     margin: 0.1rem 0.1rem 0.1rem 0;
   }
   &&--disabled {
     font-style: italic;
     cursor: not-allowed;
   }
-  &&--singleRegGroup {
+  &&--unselectable {
     background-color: @cardBorderColor;
     color: @darkGray;
     cursor: auto;
@@ -98,21 +98,21 @@
   padding: 1rem 0;
   width: 0.5rem;
   float: left;
-  background-color: @courseSearchDetailBackgroundColor;
+  background-color: @searchDetailsBackgroundColor;
   &--show {
     background-color: @table-ShowIndicatorColor;
   }
   &--selected {
-    background-color: @courseSearchDetailsSelectedBackgroundColor;
+    background-color: @searchDetailsSelectedBackgroundColor;
     margin: 0.1rem 0 0.1rem 0.1rem;
   }
-  &--singleRegGroup {
+  &--unselectable {
     background-color: @cardBorderColor;
   }
 }
 
-.kscr-Search-details-additionalInfo {
-  background-color: @courseSearchDetailBackgroundColor;
+.kscr-Search-details-icons {
+  background-color: @searchDetailsBackgroundColor;
   margin-left: 0.1rem;
   padding: 1rem 0.5rem 0 0.5rem;
   .kscr-SearchDetails-icon {
@@ -121,7 +121,7 @@
 }
 
 // above this breakpoint, hide the tabbed view
-@media screen and (min-width: @courseDetailsTableMin) {
+@media screen and (min-width: @searchDetailsTableMin) {
   .kscr-Search-details-list {
     display: none;
   }

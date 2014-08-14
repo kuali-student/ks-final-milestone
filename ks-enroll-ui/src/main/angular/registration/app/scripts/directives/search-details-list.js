@@ -8,83 +8,56 @@ angular.module('regCartApp')
      * them. An "all" tab is also available for viewing all the results together.
      *
      * Event Handling
-     * -- Emits: "toggleAO" -- this alerts the search details controller to select/deselect the ao
+     * -- Emits: dynamic -- can be used to alert the parent that the row has been selected
      * -- Broadcasts: none
      * -- Receives: none
      *
      */
-    .directive('searchDetailsList', ['$timeout', '$animate', function($timeout, $animate) {
+    .directive('searchDetailsList', ['$timeout', '$animate', 'DetailsFactory', function($timeout, $animate, DetailsFactory) {
         return {
             restrict: 'E',
             templateUrl: 'partials/searchDetailsList.html',
             scope: {
-                searchDetails: '=', // an array of search details to show
-                singleRegGroup: '=' // a boolean determining if this is a single reg group or not
+                searchDetails: '=',  // an array of search details to show
+                selectable: '=',     // a boolean determining whether search details are selectable or not
+                config: '@'          // the name of the configuration variable to dynamically inject (e.g. 'COURSE_DETAILS')
             },
             link:function(scope) {
 
-                // reorganize the aos by type
-                scope.aoTypes=[];
-                for (var i=0; i<scope.searchDetails.length; i++) {
-                    var activity=scope.searchDetails[i].activity;
-                    var newAoType = true;
-                    for (var j=0; j<scope.aoTypes.length; j++) {
-                        if (scope.aoTypes[j].activity === activity) {
-                            newAoType = false;
-                            scope.aoTypes[j].aos.push(scope.searchDetails[i]);
-                            break;
-                        }
-                    }
-                    if (newAoType) {
-                        var aoTypeContainer={activity: activity, aos: []};
-                        aoTypeContainer.aos.push(scope.searchDetails[i]);
-                        scope.aoTypes.push(aoTypeContainer);
-                    }
-                }
+                var detailsConfig = new DetailsFactory(scope.config);
+
+                // reorganize the data into sections
+                scope.sections=detailsConfig.getSections(scope.searchDetails);
 
                 // turn off ng-repeat animations for better performance
                 $animate.enabled(false, angular.element(document.querySelector('.kscr-Search-details-grid')));
 
                 // initialize the tabs
-                scope.time = true;
-                scope.instr = false;
-                scope.seatsLoc = false;
-                scope.tab = 'time';
+                for (var i=0; i<scope.sections.length; i++) {
+                    scope.sections[i].tabs = angular.copy(detailsConfig.tabs);
+                    scope.sections[i].tab = angular.copy(detailsConfig.selectedTab);
+                }
+
+                // set the field options
+                scope.fieldOptions = detailsConfig.fieldOptions;
+                scope.icons = detailsConfig.icons;
 
                 // this method selects a tab and sets the display flags accordingly
-                scope.select = function(tab) {
-                    scope.tab = tab;
-                    switch(tab) {
-                        case 'time':
-                            scope.time = true;
-                            scope.instr = false;
-                            scope.seatsLoc = false;
-                            break;
-                        case 'instr':
-                            scope.time = false;
-                            scope.instr = true;
-                            scope.seatsLoc = false;
-                            break;
-                        case 'seatsLoc':
-                            scope.time = false;
-                            scope.instr = false;
-                            scope.seatsLoc = true;
-                            break;
-                        case 'all':
-                            scope.time = true;
-                            scope.instr = true;
-                            scope.seatsLoc = true;
+                scope.select = function(section, tab) {
+                    section.tab = tab;
+                    for (var i=0; i<section.tabs.length; i++) {
+                        section.tabs[i].selected = section.tabs[i].id === tab || tab === 'all';
                     }
                 };
 
-                // if a row is selected, emit a "toggleAO" event to the search details controller
+                // if a row is selected, emit an event to the search details controller
                 scope.selectRow = function(searchDetail) {
-                    if (!scope.singleRegGroup) {
-                        scope.$emit('toggleAO', searchDetail);
+                    if (scope.selectable && !angular.isUndefined(detailsConfig.selectEvent)) {
+                        scope.$emit(detailsConfig.selectEvent, searchDetail);
                     }
                 };
 
-                // Displays the table in batches for performance
+                // Displays the details in batches for performance
                 var stagger = 20;
                 scope.limit = stagger;
                 scope.$watch('limit', function() {
