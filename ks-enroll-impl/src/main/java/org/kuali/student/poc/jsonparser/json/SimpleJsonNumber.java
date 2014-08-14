@@ -12,25 +12,30 @@
  * or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  *
- * Created by Charles on 8/5/2014
+ * Created by Charles on 8/6/2014
  */
-package org.kuali.student.poc.jsonparser.parser;
+package org.kuali.student.poc.jsonparser.json;
+
+import java.math.BigDecimal;
 
 /**
- * An exception to represent a JSON parse error
+ * Represent a simple JSON number (doesn't handle exponential notation)
  *
  * @author Kuali Student Team
  */
-public class MyJsonParseException extends Exception {
-    public MyJsonParseException() {
-        super();
+public class SimpleJsonNumber extends SimpleJsonAtom {
+    private String numStr;
+
+    public SimpleJsonNumber(String numStr) {
+        super("jsonNumber");
+        this.numStr = numStr;
     }
 
-    public MyJsonParseException(String message) {
-        super(message);
+    public Integer getIntegerValue() {
+        return Integer.parseInt(numStr);
     }
 
-    public MyJsonParseException(String message, Throwable throwable) {
-        super(message, throwable);
+    public BigDecimal getBigDecimalValue() {
+        return BigDecimal.valueOf(Double.parseDouble(numStr));
     }
 }

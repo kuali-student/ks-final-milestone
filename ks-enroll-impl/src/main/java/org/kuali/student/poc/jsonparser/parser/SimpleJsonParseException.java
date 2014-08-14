@@ -12,24 +12,25 @@
  * or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  *
- * Created by Charles on 7/31/2014
+ * Created by Charles on 8/5/2014
  */
-package org.kuali.student.poc.jsonparser.json;
+package org.kuali.student.poc.jsonparser.parser;
 
 /**
- * Represents a single character JSON token (left bracket, right bracket, etc).
+ * An exception to represent a JSON parse error
  *
  * @author Kuali Student Team
  */
-public abstract class MyJsonAtom extends BaseJsonObject {
-    String typeStr;
-
-    public MyJsonAtom(String typeStr) {
-        this.typeStr = typeStr;
+public class SimpleJsonParseException extends Exception {
+    public SimpleJsonParseException() {
+        super();
     }
 
-    @Override
-    public String getType() {
-        return typeStr;
+    public SimpleJsonParseException(String message) {
+        super(message);
+    }
+
+    public SimpleJsonParseException(String message, Throwable throwable) {
+        super(message, throwable);
     }
 }

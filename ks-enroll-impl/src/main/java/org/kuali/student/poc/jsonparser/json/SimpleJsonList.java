@@ -16,6 +16,8 @@
  */
 package org.kuali.student.poc.jsonparser.json;
 
+import org.kuali.student.poc.jsonparser.parser.SimpleJsonParseException;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,10 +26,10 @@ import java.util.List;
  *
  * @author Kuali Student Team
  */
-public class MyJsonList extends BaseJsonObject {
+public class SimpleJsonList extends BaseJsonObject {
     List<BaseJsonObject> objects;
 
-    public MyJsonList() {
+    public SimpleJsonList() {
         objects = new ArrayList<>();
     }
 
@@ -44,7 +46,20 @@ public class MyJsonList extends BaseJsonObject {
     }
 
     @Override
-    public String getType() {
+    public String getJsonType() {
         return "JsonList";
+    }
+
+    public List<String> toStringList() throws SimpleJsonParseException {
+        List<String> stringList = new ArrayList<>();
+        for (BaseJsonObject object: objects) {
+            if (object instanceof SimpleJsonString) {
+                SimpleJsonString jsonString = (SimpleJsonString) object;
+                stringList.add(jsonString.getStringValue());
+            } else {
+                throw new SimpleJsonParseException("not a string");
+            }
+        }
+        return stringList;
     }
 }

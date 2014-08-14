@@ -17,18 +17,25 @@
 package org.kuali.student.poc.jsonparser.json;
 
 /**
- * Represents a JSON value of true/false
+ * This class represents a JSON string (used as a key in a JSON map, for example)
  *
  * @author Kuali Student Team
  */
-public class MyJsonBoolean extends MyJsonAtom {
-    public static MyJsonBoolean TRUE = new MyJsonBoolean(true);
-    public static MyJsonBoolean FALSE = new MyJsonBoolean(false);
+public class SimpleJsonString extends SimpleJsonAtom {
+    String value;
 
-    boolean value;
+    public SimpleJsonString(String value) {
+        super("jsonString");
+        this.value = value;
+    }
 
-    private MyJsonBoolean(boolean val) {
-        super("jsonBoolean");
-        value = val;
+    @Override
+    public String toString() {
+        return value;
+    }
+
+    @Override
+    public String getStringValue() {
+        return value;
     }
 }

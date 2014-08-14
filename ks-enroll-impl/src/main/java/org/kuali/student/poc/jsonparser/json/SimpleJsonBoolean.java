@@ -17,15 +17,18 @@
 package org.kuali.student.poc.jsonparser.json;
 
 /**
- * Represent a simple JSON number (doesn't handle exponential notation)
+ * Represents a JSON value of true/false
  *
  * @author Kuali Student Team
  */
-public class MyJsonNumber extends MyJsonAtom {
-    private String numStr;
+public class SimpleJsonBoolean extends SimpleJsonAtom {
+    public static SimpleJsonBoolean TRUE = new SimpleJsonBoolean(true);
+    public static SimpleJsonBoolean FALSE = new SimpleJsonBoolean(false);
 
-    public MyJsonNumber(String numStr) {
-        super("jsonNumber");
-        this.numStr = numStr;
+    boolean value;
+
+    private SimpleJsonBoolean(boolean val) {
+        super("jsonBoolean");
+        value = val;
     }
 }

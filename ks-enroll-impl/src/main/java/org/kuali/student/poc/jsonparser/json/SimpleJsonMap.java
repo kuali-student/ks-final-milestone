@@ -28,10 +28,10 @@ import java.util.List;
  *
  * @author Kuali Student Team
  */
-public class MyJsonMap extends BaseJsonObject implements Iterable<Pair<String, BaseJsonObject>> {
+public class SimpleJsonMap extends BaseJsonObject implements Iterable<Pair<String, BaseJsonObject>> {
     List<Pair<String, BaseJsonObject>> keyValues;
 
-    public MyJsonMap() {
+    public SimpleJsonMap() {
         keyValues = new ArrayList<>();
     }
 
@@ -54,8 +54,25 @@ public class MyJsonMap extends BaseJsonObject implements Iterable<Pair<String, B
         return null;
     }
 
+    public String getAsString(String key) {
+        BaseJsonObject jsonObject = get(key);
+        if (jsonObject == null) {
+            return null;
+        }
+        return jsonObject.getStringValue();
+    }
+
+    public Integer getAsInteger(String key) {
+        BaseJsonObject jsonObject = get(key);
+        if (jsonObject instanceof SimpleJsonNumber) {
+            SimpleJsonNumber number = (SimpleJsonNumber) jsonObject;
+            return number.getIntegerValue();
+        }
+        return null;
+    }
+
     @Override
-    public String getType() {
+    public String getJsonType() {
         return "JsonMap";
     }
 

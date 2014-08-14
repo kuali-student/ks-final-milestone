@@ -21,10 +21,10 @@ package org.kuali.student.poc.jsonparser.json;
  *
  * @author Kuali Student Team
  */
-public class MyJsonNull extends MyJsonAtom {
-    public static final MyJsonNull NULL = new MyJsonNull();
+public class SimpleJsonNull extends SimpleJsonAtom {
+    public static final SimpleJsonNull NULL = new SimpleJsonNull();
 
-    private MyJsonNull() {
+    private SimpleJsonNull() {
         super("jsonNull");
     }
 }

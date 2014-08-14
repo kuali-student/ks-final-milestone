@@ -17,13 +17,13 @@
 package org.kuali.student.poc.jsonparser.parser;
 
 import org.kuali.student.poc.jsonparser.json.BaseJsonObject;
-import org.kuali.student.poc.jsonparser.json.MyJsonBoolean;
-import org.kuali.student.poc.jsonparser.json.MyJsonList;
-import org.kuali.student.poc.jsonparser.json.MyJsonMap;
-import org.kuali.student.poc.jsonparser.json.MyJsonNull;
-import org.kuali.student.poc.jsonparser.json.MyJsonNumber;
-import org.kuali.student.poc.jsonparser.json.MyJsonString;
-import org.kuali.student.poc.jsonparser.tokenizer.MyJsonTokenizer;
+import org.kuali.student.poc.jsonparser.json.SimpleJsonBoolean;
+import org.kuali.student.poc.jsonparser.json.SimpleJsonList;
+import org.kuali.student.poc.jsonparser.json.SimpleJsonMap;
+import org.kuali.student.poc.jsonparser.json.SimpleJsonNull;
+import org.kuali.student.poc.jsonparser.json.SimpleJsonNumber;
+import org.kuali.student.poc.jsonparser.json.SimpleJsonString;
+import org.kuali.student.poc.jsonparser.tokenizer.SimpleJsonTokenizer;
 import org.kuali.student.poc.jsonparser.tokenizer.token.AtomToken;
 import org.kuali.student.poc.jsonparser.tokenizer.token.BaseToken;
 import org.kuali.student.poc.jsonparser.tokenizer.token.ConstantToken;
@@ -31,112 +31,103 @@ import org.kuali.student.poc.jsonparser.tokenizer.token.NumberToken;
 import org.kuali.student.poc.jsonparser.tokenizer.token.StringToken;
 import org.kuali.student.poc.jsonparser.tokenizer.token.TokenConstants;
 
-import java.text.ParseException;
-import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
+import java.util.NoSuchElementException;
 
 /**
  * Parses a simple JSON file
  *
  * @author Kuali Student Team
  */
-public class MyJsonParser {
-    MyJsonTokenizer tokenizer;
-
-    public MyJsonParser(String fileName) {
-        tokenizer = new MyJsonTokenizer(fileName);
+public class SimpleJsonParser implements Iterable<BaseJsonObject> {
+    SimpleJsonTokenizer tokenizer;
+    String fileName;
+    public SimpleJsonParser(String fileName) {
+        tokenizer = new SimpleJsonTokenizer(fileName);
+        this.fileName = fileName;
     }
 
-    public List<BaseJsonObject> parse() throws MyJsonParseException {
-        List<BaseJsonObject> jsonObjects = new ArrayList<>();
-        try {
-            List<BaseToken> tokens = tokenizer.tokenize();
-            Iterator<BaseToken> iterator = tokens.iterator();
-            while (iterator.hasNext()) {
-                BaseJsonObject jsonObject = recursiveParse(iterator);
-                jsonObjects.add(jsonObject);
-            }
-        } catch (ParseException e) {
-            return null;
-        }
-        return jsonObjects;
-    }
+//    public List<BaseJsonObject> parse() throws MyJsonParseException {
+//        List<BaseJsonObject> jsonObjects = new ArrayList<>();
+//        try {
+//            Iterator<BaseToken> iterator = tokenizer.iterator();
+//            while (iterator.hasNext()) {
+//                BaseJsonObject jsonObject = recursiveParse(iterator);
+//                jsonObjects.add(jsonObject);
+//            }
+//        } catch (RuntimeException e) {
+//            return null;
+//        }
+//        return jsonObjects;
+//    }
 
-    private BaseJsonObject recursiveParse(Iterator<BaseToken> iterator) throws MyJsonParseException {
+    private BaseJsonObject recursiveParse(Iterator<BaseToken> iterator) throws SimpleJsonParseException {
         BaseToken token = iterator.next();
         if (token instanceof AtomToken) {
             AtomToken aToken = (AtomToken) token;
             if (aToken.getTokenType().equals(TokenConstants.START_MAP_TOKEN)) {
-                MyJsonMap map = new MyJsonMap();
+                SimpleJsonMap map = new SimpleJsonMap();
                 parseJsonMap(map, iterator);
                 return map;
             } else if (aToken.getTokenType().equals(TokenConstants.START_LIST_TOKEN)) {
-                MyJsonList list = new MyJsonList();
+                SimpleJsonList list = new SimpleJsonList();
                 parseJsonList(list, iterator);
                 return list;
             }
         } else if (token instanceof StringToken) {
             StringToken sToken = (StringToken) token;
-            return new MyJsonString(sToken.getString());
+            return new SimpleJsonString(sToken.getString());
         } else if (token instanceof NumberToken) {
             NumberToken nToken = (NumberToken) token;
-            return new MyJsonNumber(nToken.getValue());
+            return new SimpleJsonNumber(nToken.getValue());
         } else if (token instanceof ConstantToken) {
             ConstantToken cToken = (ConstantToken) token;
             if (cToken == ConstantToken.TRUE_TOKEN) {
-                return MyJsonBoolean.TRUE;
+                return SimpleJsonBoolean.TRUE;
             } else if (cToken == ConstantToken.FALSE_TOKEN) {
-                return MyJsonBoolean.FALSE;
+                return SimpleJsonBoolean.FALSE;
             } else {
                 // Assume it must be null
-                return MyJsonNull.NULL;
+                return SimpleJsonNull.NULL;
             }
         }
-        throw new MyJsonParseException("Unknown token found");
+        throw new SimpleJsonParseException("Unknown token found");
     }
 
-    private void parseJsonList(MyJsonList list, Iterator<BaseToken> iterator) throws MyJsonParseException {
-        // At this point, the start brace
-        BaseToken token = iterator.next();
+    private void parseJsonList(SimpleJsonList list, Iterator<BaseToken> iterator) throws SimpleJsonParseException {
+        BaseToken token = null;
         while (!isEndListToken(token)) {
-            // Next token should be a key, which is a string token
+            // Next token should be next element of list
             BaseJsonObject element = recursiveParse(iterator);
             list.add(element);
             // Check for comma
             token = iterator.next();
             if (!isEndListToken(token)) {
                 if (!isCommaToken(token)) {
-                    throw new MyJsonParseException("Expecting a comma");
-                } else {
-                    // Get token after the comma
-                    token = iterator.next();
+                    throw new SimpleJsonParseException("Expecting a comma");
                 }
             }
         }
     }
 
-    private void parseJsonMap(MyJsonMap map, Iterator<BaseToken> iterator) throws MyJsonParseException {
+    private void parseJsonMap(SimpleJsonMap map, Iterator<BaseToken> iterator) throws SimpleJsonParseException {
         // At this point, the start brace
         BaseToken token = iterator.next();
         while (!isEndMapToken(token)) {
-            System.err.println("here");
             // Next token should be a key, which is a string token
             StringToken sToken = (StringToken) token; // May class-cast
-            System.err.println("---" + sToken);
             // Next token should be a colon
             token = iterator.next();
             if (!isColonToken(token)) {
-                throw new MyJsonParseException("Expecting a colon");
+                throw new SimpleJsonParseException("Expecting a colon");
             }
             BaseJsonObject value = recursiveParse(iterator);
             map.put(sToken.getString(), value);
             // Check for comma
             token = iterator.next();
-            System.err.println(token);
             if (!isEndMapToken(token)) {
                 if (!isCommaToken(token)) {
-                    throw new MyJsonParseException("Expecting a comma");
+                    throw new SimpleJsonParseException("Expecting a comma");
                 } else {
                     // Get token after the comma
                     token = iterator.next();
@@ -154,6 +145,9 @@ public class MyJsonParser {
     }
 
     private boolean isEndListToken(BaseToken token) {
+        if (token == null) {
+            return false;
+        }
         if (token instanceof AtomToken) {
             AtomToken aToken = (AtomToken) token;
             return aToken.getTokenType().equals(TokenConstants.END_LIST_TOKEN);
@@ -175,5 +169,56 @@ public class MyJsonParser {
             return aToken.getTokenType().equals(TokenConstants.COMMA_TOKEN);
         }
         return false;
+    }
+
+    @Override
+    public Iterator<BaseJsonObject> iterator() {
+        Iterator<BaseJsonObject> iter =
+                new Iterator<BaseJsonObject>() {
+                    SimpleJsonTokenizer tokenizer;
+                    Iterator<BaseToken> iterator;
+                    BaseJsonObject nextJsonObject;
+                    {
+                        tokenizer = new SimpleJsonTokenizer(fileName);
+                        iterator = tokenizer.iterator();
+                        nextJsonObject = getNextJsonObject();
+                    }
+
+                    private BaseJsonObject getNextJsonObject() {
+                        BaseJsonObject result = null;
+                        try {
+                            if (!iterator.hasNext()) {
+                                return null;
+                            }
+                            result = recursiveParse(iterator);
+                        } catch (SimpleJsonParseException e) {
+                            throw new RuntimeException("MyJsonParseException", e);
+                        }
+                        return result;
+                    }
+
+                    @Override
+                    public boolean hasNext() {
+                        return nextJsonObject != null;
+                    }
+
+                    @Override
+                    public BaseJsonObject next() {
+                        BaseJsonObject saved = nextJsonObject;
+                        if (saved == null) {
+                            throw new NoSuchElementException();
+                        } else {
+                            nextJsonObject = getNextJsonObject();
+                        }
+
+                        return saved;
+                    }
+
+                    @Override
+                    public void remove() {
+                        throw new UnsupportedOperationException("remove not supported");
+                    }
+                };
+        return iter;
     }
 }

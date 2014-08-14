@@ -12,25 +12,24 @@
  * or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  *
- * Created by Charles on 8/6/2014
+ * Created by Charles on 7/31/2014
  */
 package org.kuali.student.poc.jsonparser.json;
 
 /**
- * This class represents a JSON string (used as a key in a JSON map, for example)
+ * Represents a single character JSON token (left bracket, right bracket, etc).
  *
  * @author Kuali Student Team
  */
-public class MyJsonString extends MyJsonAtom {
-    String value;
+public abstract class SimpleJsonAtom extends BaseJsonObject {
+    String typeStr;
 
-    public MyJsonString(String value) {
-        super("jsonString");
-        this.value = value;
+    public SimpleJsonAtom(String typeStr) {
+        this.typeStr = typeStr;
     }
 
     @Override
-    public String toString() {
-        return value;
+    public String getJsonType() {
+        return typeStr;
     }
 }

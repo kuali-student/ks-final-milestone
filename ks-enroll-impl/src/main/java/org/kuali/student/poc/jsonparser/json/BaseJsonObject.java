@@ -22,5 +22,9 @@ package org.kuali.student.poc.jsonparser.json;
  * @author Kuali Student Team
  */
 public abstract class BaseJsonObject {
-    public abstract String getType();
+    public abstract String getJsonType();
+
+    public String getStringValue() {
+        throw new UnsupportedOperationException("Can't convert to string");
+    }
 }

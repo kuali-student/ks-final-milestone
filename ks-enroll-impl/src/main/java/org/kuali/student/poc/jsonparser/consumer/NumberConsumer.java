@@ -18,6 +18,7 @@ package org.kuali.student.poc.jsonparser.consumer;
 
 import org.kuali.student.poc.jsonparser.producer.BaseProducer;
 import org.kuali.student.poc.jsonparser.tokenizer.token.BaseToken;
+import org.kuali.student.poc.jsonparser.tokenizer.token.NumberToken;
 
 import java.text.ParseException;
 
@@ -33,7 +34,7 @@ public class NumberConsumer implements BaseConsumer {
             return null;
         }
         char ch = producer.peek();
-        StringBuffer buf = new StringBuffer();
+        StringBuilder buf = new StringBuilder();
         int dotCount = 0;
         int i = 0;
         while (ch == '-' || Character.isDigit(ch) || ch == '.') {
@@ -49,9 +50,12 @@ public class NumberConsumer implements BaseConsumer {
                 }
             }
             buf.append(ch);
+            producer.consume();
+            ch = producer.peek();
             i++;
         }
-
-        return null;
+        String numStr = buf.toString();
+        NumberToken numberToken = new NumberToken(numStr);
+        return numberToken;
     }
 }

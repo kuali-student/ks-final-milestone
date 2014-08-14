@@ -33,14 +33,14 @@ public class FileProducer implements BaseProducer {
 
     public FileProducer(String filePath) {
         try {
-            final String dir = System.getProperty("user.dir");
-            System.err.println("current dir = " + dir);
+//            final String dir = System.getProperty("user.dir");
             reader = new Scanner(new FileInputStream(filePath));
             done = false;
             if (reader.hasNextLine()) {
                 thisLine = reader.nextLine();
                 if (reader.hasNextLine()) {
                     nextLine = reader.nextLine();
+                    thisLine += "\n"; // add a trailing newline
                 }
                 row = 0;
                 column = 0;
@@ -64,10 +64,6 @@ public class FileProducer implements BaseProducer {
             throw new IndexOutOfBoundsException();
         }
 
-        if (column >= thisLine.length()) {
-            // Return a newline
-            return '\n';
-        }
         return thisLine.charAt(column);
     }
 
@@ -82,16 +78,20 @@ public class FileProducer implements BaseProducer {
             throw new IndexOutOfBoundsException();
         }
         char result = peek();
-        if (nextLine == null && column == thisLine.length() - 1) {
+        if (nextLine == null && column >= thisLine.length() - 1) {
             // Last character of the file
             done = true;
-        } else if (column >= thisLine.length()) {
+        } else if (column >= thisLine.length() - 1) { // Last character in current line
             // next line must not be null
             thisLine = nextLine;
+            if (thisLine.isEmpty()) {
+                thisLine = "\n";
+            }
             row++;
             column = 0;
             if (reader.hasNextLine()) {
                 nextLine = reader.nextLine();
+                thisLine += "\n"; // Add trailing newline
             } else {
                 nextLine = null;
             }
