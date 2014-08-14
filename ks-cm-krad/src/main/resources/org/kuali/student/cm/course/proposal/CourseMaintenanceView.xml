@@ -70,13 +70,6 @@
                 <ref bean="KS-HomewardPathBreadcrumbs-CreateCourse"/>
             </list>
         </property>
-        <property name="header.cssClasses">
-          <list>
-              <value>uif-viewHeader</value>
-              <value>uif-maintenanceView</value>
-              <value>ks-unified-header</value>
-          </list>
-        </property>
         <property name="header.id" value="CM-Proposal-Course-Create-Header"/>
         <property name="header.lowerGroup">
             <bean id="KS-CourseView-LinkGroup" parent="Uif-LinkGroup" p:linkSeparator="|"
