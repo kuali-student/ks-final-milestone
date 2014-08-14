@@ -5,7 +5,11 @@ import net.sf.ehcache.Element;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.elasticsearch.action.get.GetResponse;
 import org.elasticsearch.action.search.SearchResponse;
-import org.elasticsearch.index.query.*;
+import org.elasticsearch.index.query.BoolFilterBuilder;
+import org.elasticsearch.index.query.FilterBuilders;
+import org.elasticsearch.index.query.FilteredQueryBuilder;
+import org.elasticsearch.index.query.QueryBuilder;
+import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.SearchHit;
 import org.kuali.student.common.util.security.ContextUtils;
 import org.kuali.student.enrollment.registration.client.service.dto.CourseOfferingDetailsSearchResult;
@@ -23,6 +27,7 @@ import org.kuali.student.r2.core.scheduling.dto.TimeSlotInfo;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -203,9 +208,12 @@ public class ScheduleOfClassesServiceCacheImpl extends ScheduleOfClassesServiceI
                 //Use the normal service calls to get live data
                 Map<String, List<TimeSlotInfo>> aoTimeslots = super.getAoTimeSlotMap(aoIdsToQuery);
                 if(aoTimeslots != null && !aoTimeslots.isEmpty()) {
-                    for (String aoIdKey : aoTimeslots.keySet()) {
-                        getCacheManager().getCache(AO_TIMESLOT_CACHE_NAME).put(new Element(aoIdKey, aoTimeslots.get(aoIdKey)));
-                        mRet.put(aoIdKey, aoTimeslots.get(aoIdKey));
+                    for (final Iterator iter = aoTimeslots.entrySet().iterator(); iter.hasNext();) {
+                        Map.Entry entry = (Map.Entry)iter.next();
+                        final String aoIdKey = (String)entry.getKey();
+                        final List<TimeSlotInfo> value = (List<TimeSlotInfo>)entry.getValue();
+                        getCacheManager().getCache(AO_TIMESLOT_CACHE_NAME).put(new Element(aoIdKey, value));
+                        mRet.put(aoIdKey, value);
                     }
                 }
             }
