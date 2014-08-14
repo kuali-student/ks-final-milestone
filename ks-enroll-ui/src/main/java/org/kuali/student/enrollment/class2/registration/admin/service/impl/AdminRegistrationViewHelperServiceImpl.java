@@ -138,14 +138,6 @@ public class AdminRegistrationViewHelperServiceImpl extends KSViewHelperServiceI
         List<String> reasons = new ArrayList<String>();
 
         try {
-         /*
-         * If we are configured to use static dates for registration date testing, get the date for this user
-         * (if it exists) and set it in the context.
-         */
-//            DateTime staticDate = StaticUserDateUtil.getDateTimeForUser(studentId);
-//            if (staticDate != null) {
-//                contextInfo.setCurrentDate(staticDate.toDate());
-//            }
 
             List<ValidationResultInfo> validationResults = AdminRegResourceLoader.getCourseRegistrationService()
                     .checkStudentEligibilityForTerm(studentId, termId, contextInfo);
@@ -156,7 +148,7 @@ public class AdminRegistrationViewHelperServiceImpl extends KSViewHelperServiceI
 
                     Map<String, Object> validationMap = RegistrationValidationResultsUtil.unmarshallResult(vr.getMessage());
                     if (validationMap.containsKey(AdminRegConstants.ADMIN_REG_VALIDATION_MSG)) {
-                       reasons.add((String) validationMap.get(AdminRegConstants.ADMIN_REG_VALIDATION_MSG));
+                        reasons.add((String) validationMap.get(AdminRegConstants.ADMIN_REG_VALIDATION_MSG));
                     }
                 }
             }
