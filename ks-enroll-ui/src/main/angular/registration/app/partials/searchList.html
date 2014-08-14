@@ -1,4 +1,4 @@
-<div class="kscr-Search-results-heading" ng-show="searchCriteria">
+<div class="kscr-Search-results-heading" ng-show="searchCriteria.length > 0">
     <div id="search_results_summary" class="kscr-Search-results-summary">
         <span ng-if="displayRangeMin() === displayRangeMax() && searchResults.length > 0">Showing {{displayRangeMin()}}</span>
         <span ng-if="displayRangeMin() !== displayRangeMax() && searchResults.length > 0">
@@ -11,7 +11,7 @@
         <select id="display_limit_select" ng-model="$parent.displayLimit" ng-options="limit as limit for limit in displayLimits" class="kscr-Search-results-limits"></select>
     </div>
 </div>
-<div class="kscr-Search-results-heading--small" ng-if="searchCriteria">
+<div class="kscr-Search-results-heading--small" ng-if="searchCriteria.length > 0">
     <span>{{searchResults.length}} Results</span>
 </div>
 <table id="{{prefix}}search_results_table" class="kscr-Search-results-table" ng-class="{'kscr-Search-no-results-table' : searchResults.length == 0}">

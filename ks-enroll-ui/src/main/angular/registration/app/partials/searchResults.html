@@ -1,5 +1,4 @@
 <div class="kscr-Search-results-container">
-
     <!-- Search Facets -->
     <div sticky mask-screen="isExpanded" class="kscr-SearchFacets" ng-class="{'kscr-SearchFacets--expanded' : isExpanded}">
         <div class="kscr-SearchFacets-toggle">
@@ -20,7 +19,7 @@
     </div>
 
     <!-- Search Results -->
-    <div class="kscr-Search-results" ng-show="searchCriteria">
+    <div class="kscr-Search-results" ng-show="searchCriteria.length > 0">
         <search-results>
             <search-column name="Code" field="courseCode" order="1"></search-column>
             <search-column name="Title" field="longName" order="2" url="#"></search-column>
