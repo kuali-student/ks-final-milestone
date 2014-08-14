@@ -41,10 +41,10 @@ import java.util.NoSuchElementException;
  */
 public class SimpleJsonParser implements Iterable<BaseJsonObject> {
     SimpleJsonTokenizer tokenizer;
-    String fileName;
-    public SimpleJsonParser(String fileName) {
-        tokenizer = new SimpleJsonTokenizer(fileName);
-        this.fileName = fileName;
+    String resourcePath;
+    public SimpleJsonParser(String resourcePath) {
+        tokenizer = new SimpleJsonTokenizer(resourcePath);
+        this.resourcePath = resourcePath;
     }
 
 //    public List<BaseJsonObject> parse() throws MyJsonParseException {
@@ -179,7 +179,7 @@ public class SimpleJsonParser implements Iterable<BaseJsonObject> {
                     Iterator<BaseToken> iterator;
                     BaseJsonObject nextJsonObject;
                     {
-                        tokenizer = new SimpleJsonTokenizer(fileName);
+                        tokenizer = new SimpleJsonTokenizer(resourcePath);
                         iterator = tokenizer.iterator();
                         nextJsonObject = getNextJsonObject();
                     }

@@ -71,16 +71,17 @@ public class TestCourseSeatCountMapImplService {
             MockService mockService = (MockService) coService;
             mockService.clear();
         }
-        String fileName =
-                "ks-enroll/ks-enroll-impl/src/test/resources/jsonTestData/seatCountData.txt";
-        JsonDataLoader loader = new JsonDataLoader(fileName,
+        String resourcePath =
+                "jsonTestData/seatCountData.txt";
+        JsonDataLoader loader = new JsonDataLoader(resourcePath,
                 lprService, coService);
         loader.loadData();
     }
 
 
     @Test
-    public void testSeatCount() {
+    public void testSeatCount() throws PermissionDeniedException, MissingParameterException,
+            InvalidParameterException, OperationFailedException, DoesNotExistException {
         List<String> aoIds = new ArrayList<>();
         aoIds.add("AO-Lec_A");
         aoIds.add("AO-Lec_B");
@@ -88,30 +89,19 @@ public class TestCourseSeatCountMapImplService {
         aoIds.add("AO-Lab_2");
         aoIds.add("AO-Lab_3");
         ContextInfo context = ContextUtils.createDefaultContextInfo();
-        try {
-            List<SeatCount> seatCounts =
-                    seatCountService.getSeatCountsForActivityOfferings(aoIds, context);
-            Assert.assertEquals(1, (int) seatCounts.get(0).getAvailableSeats());
-            Assert.assertEquals(2, (int) seatCounts.get(1).getAvailableSeats());
-            Assert.assertEquals(0, (int) seatCounts.get(2).getAvailableSeats());
-            Assert.assertEquals(1, (int) seatCounts.get(3).getAvailableSeats());
-            Assert.assertEquals(2, (int) seatCounts.get(4).getAvailableSeats());
+        List<SeatCount> seatCounts =
+                seatCountService.getSeatCountsForActivityOfferings(aoIds, context);
+        Assert.assertEquals(1, (int) seatCounts.get(0).getAvailableSeats());
+        Assert.assertEquals(2, (int) seatCounts.get(1).getAvailableSeats());
+        Assert.assertEquals(0, (int) seatCounts.get(2).getAvailableSeats());
+        Assert.assertEquals(1, (int) seatCounts.get(3).getAvailableSeats());
+        Assert.assertEquals(2, (int) seatCounts.get(4).getAvailableSeats());
 
-            Assert.assertEquals(1, (int) seatCounts.get(0).getWaitListSize());
-            Assert.assertEquals(1, (int) seatCounts.get(1).getWaitListSize());
-            Assert.assertEquals(2, (int) seatCounts.get(2).getWaitListSize());
-            Assert.assertEquals(0, (int) seatCounts.get(3).getWaitListSize());
-            Assert.assertEquals(1, (int) seatCounts.get(4).getWaitListSize());
-        } catch (DoesNotExistException e) {
-            e.printStackTrace();
-        } catch (InvalidParameterException e) {
-            e.printStackTrace();
-        } catch (MissingParameterException e) {
-            e.printStackTrace();
-        } catch (OperationFailedException e) {
-            e.printStackTrace();
-        } catch (PermissionDeniedException e) {
-            e.printStackTrace();
-        }
+        Assert.assertEquals(1, (int) seatCounts.get(0).getWaitListSize());
+        Assert.assertEquals(1, (int) seatCounts.get(1).getWaitListSize());
+        Assert.assertEquals(2, (int) seatCounts.get(2).getWaitListSize());
+        Assert.assertEquals(0, (int) seatCounts.get(3).getWaitListSize());
+        Assert.assertEquals(0, (int) seatCounts.get(4).getWaitListSize());
+
     }
 }

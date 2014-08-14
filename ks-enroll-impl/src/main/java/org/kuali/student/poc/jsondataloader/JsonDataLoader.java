@@ -30,12 +30,12 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
  * @author Kuali Student Team
  */
 public class JsonDataLoader {
-    private String fileName;
+    private String resourcePath;
     private JsonCourseOfferingDataLoader coLoader;
     private JsonLprDataLoader lprLoader;
 
-    public JsonDataLoader(String fileName, LprService lprService, CourseOfferingService coService) {
-        this.fileName = fileName;
+    public JsonDataLoader(String resourcePath, LprService lprService, CourseOfferingService coService) {
+        this.resourcePath = resourcePath;
         this.coLoader = new JsonCourseOfferingDataLoader();
         this.coLoader.setCourseOfferingService(coService);
         this.lprLoader = new JsonLprDataLoader();
@@ -48,7 +48,7 @@ public class JsonDataLoader {
     }
 
     public void loadData() {
-        SimpleJsonParser parser = new SimpleJsonParser(fileName);
+        SimpleJsonParser parser = new SimpleJsonParser(resourcePath);
         ContextInfo contextInfo = new ContextInfo();
         try {
             for (BaseJsonObject jsonObject: parser) {

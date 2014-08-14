@@ -16,8 +16,11 @@
  */
 package org.kuali.student.poc.jsonparser.producer;
 
-import java.io.FileInputStream;
+import org.springframework.core.io.ClassPathResource;
+
 import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Scanner;
 
 /**
@@ -31,10 +34,13 @@ public class FileProducer implements BaseProducer {
     private int row, column; // Peek at this
     private boolean done;
 
-    public FileProducer(String filePath) {
+    public FileProducer(String resourcePath) {
         try {
-//            final String dir = System.getProperty("user.dir");
-            reader = new Scanner(new FileInputStream(filePath));
+            // Spring knows about certain directories in its class path, including resources
+            // The data sits in a relative path to the test/resources path.
+            ClassPathResource cpr = new ClassPathResource(resourcePath);
+            InputStream is = cpr.getInputStream();
+            reader = new Scanner(is);
             done = false;
             if (reader.hasNextLine()) {
                 thisLine = reader.nextLine();
@@ -50,6 +56,8 @@ public class FileProducer implements BaseProducer {
         } catch (FileNotFoundException e) {
             reader = null;
             done = true;
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 

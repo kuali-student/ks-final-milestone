@@ -39,12 +39,12 @@ import java.util.NoSuchElementException;
  */
 public class SimpleJsonTokenizer implements Iterable<BaseToken> {
     FileProducer producer;
-    String fileName;
+    String resourcePath;
     List<BaseConsumer> consumers;
 
-    public SimpleJsonTokenizer(String fileName) {
-        producer = new FileProducer(fileName);
-        this.fileName = fileName;
+    public SimpleJsonTokenizer(String resourcePath) {
+        producer = new FileProducer(resourcePath);
+        this.resourcePath = resourcePath;
         // Create list of consumers
         consumers = new ArrayList<>();
         consumers.add(new AtomConsumer());
@@ -70,7 +70,7 @@ public class SimpleJsonTokenizer implements Iterable<BaseToken> {
             private BaseToken nextToken;
             {
                 // Using this instead of a constructor
-                producer = new FileProducer(fileName);
+                producer = new FileProducer(resourcePath);
                 nextToken = getNextToken();
             }
 
