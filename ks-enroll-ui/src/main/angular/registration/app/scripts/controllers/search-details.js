@@ -7,19 +7,20 @@
  * -- Emits: none
  * -- Broadcasts: "registerForCourse" -- this is caught by cart.js and registers the user for the selected reg group
  *                "addCourseToCart" -- this is caught by cart.js and adds the reg group to the user's cart
- * -- Receives: "toggleAO" -- received from the search list directives, select/deselecdts the given ao
+ * -- Receives: "toggleAO" -- received from the search list directives, select/deselects the given ao
  */
 angular.module('regCartApp')
     .controller('SearchDetailsCtrl', ['$scope', '$rootScope', '$state', '$filter', '$modal', 'STATUS', 'FEATURE_TOGGLES', 'SearchService', 'CartService', 'ScheduleService',
     function SearchDetailsCtrl($scope, $rootScope, $state, $filter, $modal, STATUS, FEATURE_TOGGLES, SearchService, CartService, ScheduleService) {
+        console.log('>> SearchDetailsCtrl');
 
         $scope.stateParams = $state.params; // Expose the state parameters to the scope so they can be used in the back link
         $scope.course = null;          // Handle on the course
 
         // Push the user back to the search page when the term is changed
         $scope.$on('termIdChanged', function(event, newValue, oldValue) {
-            if (oldValue !== null && $scope.stateParams && $scope.uiState === 'root.search.details') {
-                $state.go('root.search.results', $scope.stateParams);
+            if (oldValue !== null && $scope.uiState === 'root.search.details') {
+                $state.go('root.search.results', $state.params);
             }
         });
 

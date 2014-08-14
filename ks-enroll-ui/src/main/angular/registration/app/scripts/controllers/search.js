@@ -3,6 +3,7 @@
 angular.module('regCartApp')
     .controller('SearchCtrl', ['$scope', '$rootScope', '$filter', '$state', 'TermsService', 'SearchService', 'CourseSearchFacets',
     function SearchCtrl($scope, $rootScope, $filter, $state, TermsService, SearchService, CourseSearchFacets) {
+        console.log('>> SearchCtrl');
 
         $scope.facets = CourseSearchFacets; // Facet definitions
 
@@ -21,6 +22,7 @@ angular.module('regCartApp')
 
             // Search for the old criteria under the new termId.
             if (criteria) {
+                lastSearchCriteria = null;
                 doSearch(criteria);
             }
         });
@@ -28,7 +30,7 @@ angular.module('regCartApp')
         // Listen for any state changes from ui-router. This is where we get the search criteria from.
         $scope.$on('$stateChangeSuccess', function(event, toState, toParams) {
             if (toState.name === 'root.search.results') {
-                syncSearchWithState(toParams);
+                syncWithSearchFromState(toParams);
 
                 if (angular.isDefined(toParams.searchCriteria)) {
                     doSearch(toParams.searchCriteria);
@@ -46,7 +48,7 @@ angular.module('regCartApp')
 
         // Persist the search state in the URL query string
         function persistSearchState(params) {
-            params = params || $state.params;
+            params = params || angular.copy($state.params);
 
             // Build out the facet filter values
             var selectedFacets = {};
@@ -61,12 +63,11 @@ angular.module('regCartApp')
 
             // location: 'replace' = replaces the last history item in the stack preserving the back functionality
             // notify: false = prevents the UI state change event from firing which would reload the view
-            // reload: true = force the state to reload even if it thinks it is the same (doesn't recognize filter changes for some reason)
-            $state.go('root.search.results', params, { location: 'replace', notify: false, reload: true });
+            $state.go('root.search.results', params, { location: 'replace', notify: false });
         }
 
         // Sync the state parameters with the values in the search
-        function syncSearchWithState(params) {
+        function syncWithSearchFromState(params) {
             params = params || $state.params;
 
             // Put the states into the scope for use by the search list
@@ -111,9 +112,9 @@ angular.module('regCartApp')
 
 
         var queuedSearchHandle, // Handle on the queued up search.
-            lastSearchCriteria = ''; // Criteria used to execute the most recent search request.
+            lastSearchCriteria = null; // Criteria used to execute the most recent search request.
         function doSearch(criteria) {
-            if (criteria === null || ($scope.searchCriteria !== null && criteria === $scope.searchCriteria)) {
+            if (criteria === null || (lastSearchCriteria !== null && criteria === lastSearchCriteria)) {
                 // Nothing to do. Last search still valid.
                 return;
             }

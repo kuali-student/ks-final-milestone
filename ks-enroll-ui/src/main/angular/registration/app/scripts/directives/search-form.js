@@ -51,8 +51,22 @@ angular.module('regCartApp')
 
                 $scope.submit = function() {
                     if (getCriteriaFromState() !== $scope.courseSearchCriteria) {
-                        // Push the criteria into the $state if it doesn't match - don't inherit so we don't keep any previous search values
-                        $state.go('root.search.results', { searchCriteria: $scope.courseSearchCriteria }, { inherit: false });
+                        // Clear out the state parameters that we don't want to persist
+                        var params = angular.copy($state.params);
+                        angular.forEach(params, function(value, key) {
+                            switch (key) {
+                                case 'term':
+                                case 'searchCriteria':
+                                    break;
+                                default:
+                                    params[key] = null;
+                            }
+                        });
+
+                        params.searchCriteria = $scope.courseSearchCriteria;
+
+                        // Push the criteria into the $state
+                        $state.go('root.search.results', params);
                     }
                 };
 

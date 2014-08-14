@@ -28,6 +28,7 @@ angular.module('regCartApp', [
             // Base 'root' state, contains a ui-view that should be referred to with '' view.
             .state('root', {
                 abstract: true, // State is never explicity activated
+                url: '?term',
                 views: {
                     root: {
                         templateUrl: 'partials/main.html',

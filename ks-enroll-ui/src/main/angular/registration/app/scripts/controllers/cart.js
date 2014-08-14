@@ -2,8 +2,10 @@
 
 angular.module('regCartApp')
     .controller('CartCtrl', ['$scope', '$modal', '$timeout', 'STATE', 'STATUS', 'GRADING_OPTION', 'ACTION_LINK', 'COURSE_TYPES', 'GENERAL_ERROR_TYPE', 'CartService', 'ScheduleService',
-                'MessageService', 'GlobalVarsService',
-    function ($scope, $modal, $timeout, STATE, STATUS, GRADING_OPTION, ACTION_LINK, COURSE_TYPES, GENERAL_ERROR_TYPE, CartService, ScheduleService, MessageService, GlobalVarsService) {
+                'MessageService', 'TermsService', 'GlobalVarsService',
+    function ($scope, $modal, $timeout, STATE, STATUS, GRADING_OPTION, ACTION_LINK, COURSE_TYPES, GENERAL_ERROR_TYPE, CartService, ScheduleService, MessageService, TermsService, GlobalVarsService) {
+        console.log('>> CartCtrl');
+
         $scope.states = STATE;
         $scope.statuses = STATUS;
         $scope.courseTypes = COURSE_TYPES;
@@ -71,8 +73,8 @@ angular.module('regCartApp')
         }
 
         // Initialize the cart
-        if ($scope.termId) {
-            loadCart($scope.termId);
+        if (TermsService.getTermId()) {
+            loadCart(TermsService.getTermId());
         }
 
         /*
@@ -131,14 +133,14 @@ angular.module('regCartApp')
 
             CartService.addCourseToCart().query({
                 cartId: $scope.cart.cartId,
-                termId: $scope.termId,
+                termId: TermsService.getTermId(),
                 courseCode: course.courseCode || null,
                 regGroupCode: course.regGroupCode || null,
                 regGroupId: course.regGroupId || null,
                 gradingOptionId: course.gradingOptionId || null,
                 credits: course.credits || null
             }, function (response) {
-                console.log('Searched for course: ' + $scope.courseCode + ' ' + $scope.regCode + ', Term: ' + $scope.termId);
+                console.log('Searched for course: ' + $scope.courseCode + ' ' + $scope.regCode + ', Term: ' + TermsService.getTermId());
                 $scope.courseCode = '';
                 $scope.regCode = '';
 
@@ -166,7 +168,7 @@ angular.module('regCartApp')
                     if (error.data.messageKey) {
                         switch (error.data.messageKey) {
                             case GENERAL_ERROR_TYPE.courseNotFound:
-                                errorText = error.data.courseCode + ' does not exist for '+$scope.termName;
+                                errorText = error.data.courseCode + ' does not exist for ' + TermsService.getSelectedTerm().termName;
                                 break;
                             default:
                                 errorText = MessageService.getMessage(error.data.messageKey);
@@ -189,7 +191,7 @@ angular.module('regCartApp')
                 } else {
                     console.log('Error with adding course', error.data.consoleMessage);
                     //Reg group is not in offered state
-                    errorText = error.data.genericMessage + " for " + $scope.termName;
+                    errorText = error.data.genericMessage + " for " + TermsService.getSelectedTerm().termName;
                     $scope.userMessage = {txt: errorText, messageKey: GENERAL_ERROR_TYPE.noRegGroup, type: error.data.type, detail: error.data.detailedMessage, course: course.courseCode + ' (' + course.regGroupCode + ')'};
                     $scope.courseAdded = true; // refocus cursor back to course code
 
@@ -379,12 +381,7 @@ angular.module('regCartApp')
                     calculateCartResultCounts(true);
 
                     // After all the processing is complete, get the final Schedule counts.
-                    ScheduleService.getSchedule($scope.termId, true).then(function (result) {
-                        console.log('called rest service to get schedule data - in cart.js');
-                        ScheduleService.updateScheduleCounts(result);
-                        $scope.registeredCredits = ScheduleService.getRegisteredCredits;
-                        $scope.registeredCourseCount = ScheduleService.getRegisteredCourseCount;
-                    });
+                    reloadSchedule();
 
                 }, function(response) { // Error
                     console.log('- Stop polling - Error: ', response);
@@ -484,12 +481,7 @@ angular.module('regCartApp')
                             }
                         } else {
                             // After all the processing is complete, get the final Schedule counts.
-                            ScheduleService.getSchedule($scope.termId, true).then(function (result) {
-                                console.log('called rest service to get schedule data - in cart.js');
-                                ScheduleService.updateScheduleCounts(result);
-                                $scope.registeredCredits = ScheduleService.getRegisteredCredits;
-                                $scope.registeredCourseCount = ScheduleService.getRegisteredCourseCount;
-                            });
+                            reloadSchedule();
 
                             if (angular.isFunction(successCallback)) {
                                 successCallback(response);
@@ -497,6 +489,16 @@ angular.module('regCartApp')
                         }
                     }, errorCallback);
             }, errorCallback);
+        }
+
+        // Reload the schedule & update the schedule counts
+        function reloadSchedule() {
+            ScheduleService.getSchedule(TermsService.getTermId(), true).then(function (result) {
+                console.log('Called rest service to get schedule data - in cart.js');
+                ScheduleService.updateScheduleCounts(result);
+                $scope.registeredCredits = ScheduleService.getRegisteredCredits;
+                $scope.registeredCourseCount = ScheduleService.getRegisteredCourseCount;
+            });
         }
 
         // Show the Additional Options Modal Dialog allowing the user to select the specific credit & grading option they would like.

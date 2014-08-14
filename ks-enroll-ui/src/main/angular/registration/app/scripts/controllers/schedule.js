@@ -1,8 +1,9 @@
 'use strict';
 
 angular.module('regCartApp')
-    .controller('ScheduleCtrl', ['$scope', '$modal', '$timeout', 'STATUS', 'GRADING_OPTION', 'COURSE_TYPES', 'ScheduleService', 'CartService', 'GlobalVarsService',
-    function ($scope, $modal, $timeout, STATUS, GRADING_OPTION, COURSE_TYPES, ScheduleService, CartService, GlobalVarsService) {
+    .controller('ScheduleCtrl', ['$scope', '$modal', '$timeout', 'STATUS', 'GRADING_OPTION', 'COURSE_TYPES', 'ScheduleService', 'CartService', 'TermsService', 'GlobalVarsService',
+    function ($scope, $modal, $timeout, STATUS, GRADING_OPTION, COURSE_TYPES, ScheduleService, CartService, TermsService, GlobalVarsService) {
+        console.log('>> ScheduleCtrl');
 
         $scope.getSchedules = ScheduleService.getSchedules;
         $scope.registeredCredits = ScheduleService.getRegisteredCredits;
@@ -129,7 +130,7 @@ angular.module('regCartApp')
                             courseCode: course.courseCode,
                             regGroupId: course.regGroupId,
                             masterLprId: course.masterLprId,
-                            termId: $scope.termId,
+                            termId: TermsService.getTermId(),
                             credits: newCourse.credits,
                             gradingOptionId: newCourse.gradingOptionId
                         });
@@ -141,7 +142,7 @@ angular.module('regCartApp')
                             courseCode: course.courseCode,
                             regGroupId: course.regGroupId,
                             masterLprId: course.masterLprId,
-                            termId: $scope.termId,
+                            termId: TermsService.getTermId(),
                             credits: newCourse.credits,
                             gradingOptionId: newCourse.gradingOptionId
                         });

@@ -1,33 +1,58 @@
 'use strict';
 
 angular.module('regCartApp')
-    .service('TermsService', ['$q', 'ServiceUtilities', 'URLS', function TermsService($q, ServiceUtilities, URLS) {
+    .service('TermsService', ['$q', 'ServiceUtilities', 'URLS', 'DEFAULT_TERM', function TermsService($q, ServiceUtilities, URLS, DEFAULT_TERM) {
 
-        var termId = null;   // default value
+        var selectedTerm = null;
 
-        this.getTermId = function () {
-            return termId;
+        this.getSelectedTerm = function() {
+            return selectedTerm;
         };
 
-        this.setTermId = function (value) {
-            termId = value;
+        this.setSelectedTerm = function(term) {
+            selectedTerm = term;
         };
 
-        this.getTermNameForTermId = function (terms, termId) {
-            var retTermName;
-            angular.forEach(terms, function (term) {
-                if (term.termId === termId) {
-                    retTermName = term.termName;
-                }
-            });
-            return retTermName;
+        this.getTermId = function() {
+            var term = this.getSelectedTerm();
+            if (term !== null) {
+                return term.termId;
+            }
+
+            return null;
+        };
+
+        this.getTermByCode = function(code) {
+            var retTerm = null;
+            if (angular.isArray(terms)) {
+                angular.forEach(terms, function(term) {
+                    if (term.termCode === code) {
+                        retTerm = term;
+                    }
+                });
+            }
+
+            return retTerm;
+        };
+
+        this.getTermById = function(id) {
+            var retTerm = null;
+            if (angular.isArray(terms)) {
+                angular.forEach(terms, function(term) {
+                    if (term.termId === id) {
+                        retTerm = term;
+                    }
+                });
+            }
+
+            return retTerm;
         };
 
 
         // Cache of terms.
         var terms = null;
 
-        this.getTerms= function () {
+        this.getTerms = function () {
             var deferred = $q.defer();
 
             if (terms !== null) {
@@ -39,6 +64,33 @@ angular.module('regCartApp')
                     deferred.resolve(result);
                 }, function(error) {
                     // Report out the error
+                    deferred.reject(error);
+                });
+            }
+
+            return deferred.promise;
+        };
+
+        // Cache of student eligibility for term
+        var termEligibility = {};
+
+        this.isStudentEligibleForTerm = function(term) {
+            var deferred = $q.defer();
+
+            if (term.termId !== DEFAULT_TERM) {
+                console.log('-- Term eligibility check bypassed - term != default term');
+                termEligibility[term.termId] = true;
+            }
+
+            if (angular.isDefined(termEligibility[term.termId])) {
+                deferred.resolve(termEligibility[term.termId]);
+            } else {
+                this.checkStudentEligibilityForTerm().query({termId: term.termId}, function (response) {
+                    var isEligible = (angular.isDefined(response.isEligible) && response.isEligible) || false;
+                    termEligibility[term.termId] = isEligible;
+
+                    deferred.resolve(isEligible, response);
+                }, function(error) {
                     deferred.reject(error);
                 });
             }

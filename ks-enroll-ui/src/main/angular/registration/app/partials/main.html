@@ -9,12 +9,12 @@
             <div class="kscr-Header-separator"></div>
             <div class="util-Grid-cell">
                 <div class="kscr-Header-termName">
-                    <span class="kscr-Header-termName-icon" ng-show="termId && !studentIsEligibleForTerm"><i class="glyphicon glyphicon-lock"></i></span>
-                    <span id="header_term_name" class="kscr-Header-termName-label">{{termName}}</span>
+                    <span class="kscr-Header-termName-icon" ng-show="term && !studentIsEligibleForTerm"><i class="glyphicon glyphicon-lock"></i></span>
+                    <span id="header_term_name" class="kscr-Header-termName-label">{{term.termName}}</span>
                     <div class="kscr-Header-termName-selector">
-                        <span class="kscr-Header-termName-selector-label" id="header_termName" for="searchTermDesktop">{{termName}}</span>
+                        <span class="kscr-Header-termName-selector-label" id="header_termName" for="searchTermDesktop">{{term.termName}}</span>
                         <div class="kscr-Header-termName-selectWrap">
-                            <select id="searchTermDesktop" ng-model="termId" ng-options="t.termId as t.termName for t in terms"></select>
+                            <select id="searchTermDesktop" ng-model="term" ng-options="t as t.termName for t in terms"></select>
                         </div>
                     </div>
                 </div>
@@ -27,10 +27,6 @@
                 </span>
             </div>
 
-            <!--<div ng-if="uiState=='root.cart'||uiState=='root.schedule'" class="kscr-Header-termName" style="display: inline">-->
-                <!--&lt;!&ndash; Defaults to the current term&ndash;&gt;-->
-                <!--<select id="searchTerm" style="color: white;background: transparent;border:none;font-family: 'Montserrat',sans-serif;font-size: 14px;font-weight: bold;color: #F8F8F8;"ng-model="$parent.termId" ng-options="t.termId as t.termName for t in terms"></select>-->
-            <!--</div>-->
             <div id="reg_user_menu" class="kscr-Header-menu" ng-class="{'kscr-Header-menu--clicked' : showUserMenu}" ng-click="showUserMenu = !showUserMenu">
                 <div>
                     <i class="glyphicon glyphicon-user"></i>
@@ -138,7 +134,7 @@
         <li class="kscr-Menu-searchTerm">
             <!-- Defaults to the current term-->
             <span class="kscr-Menu-heading">Term</span>
-            <select id="searchTerm" ng-model="termId" ng-options="t.termId as t.termName for t in terms"></select>
+            <select id="searchTerm" ng-model="term" ng-options="t.termId as t.termName for t in terms"></select>
         </li>
 
         <!--Search Courses section-->
