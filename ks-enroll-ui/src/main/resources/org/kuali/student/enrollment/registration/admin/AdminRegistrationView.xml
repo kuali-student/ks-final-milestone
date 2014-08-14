@@ -227,12 +227,13 @@
         <property name="addLinePlacement" value="BOTTOM"/>
         <property name="layoutManager.richTable.render" value="false"/>
         <property name="layoutManager.renderSequenceField" value="false"/>
-        <property name="layoutManager.actionColumnPlacement" value="RIGHT"/>
+        <property name="layoutManager.actionColumnPlacement" value="LEFT"/>
         <property name="renderAddLine" value="false"/>
         <property name="onDocumentReadyScript" value="startPolling(1000);"/>
         <property name="lineActions">
             <list>
-                <bean parent="KS-Uif-Delete-NavigationActionLink" p:id="removeCourseAction" p:methodToCall="removeRegisterCourse" p:performDirtyValidation="false" p:actionLabel="Delete" p:render="@{pendingCourses.size() > 1}"/>
+                <!--bean parent="KS-Uif-Delete-ActionLink" p:id="removeCourseAction" p:methodToCall="removeRegisterCourse" p:performDirtyValidation="false" p:actionLabel="Delete" p:render="@{pendingCourses.size() > 1}"/-->
+                <bean parent="Uif-DeleteLineAction" p:actionLabel=" - " p:render="@{pendingCourses.size() > 1}"/>
             </list>
         </property>
         <property name="items">
