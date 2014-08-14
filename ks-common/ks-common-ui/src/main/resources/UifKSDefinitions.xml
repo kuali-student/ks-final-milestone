@@ -85,7 +85,7 @@
                 <ref bean="KS-Uif-Confirmation-Dialog"/>
             </list>
         </property>
-        <property name="header.cssClasses">
+        <property name="header.additionalCssClasses">
             <list merge="true">
                 <value>ks-unified-header</value>
             </list>
@@ -239,7 +239,7 @@
         <property name="applicationHeader">
             <bean parent="KS-Uif-FormView-ApplicationHeader"/>
         </property>
-        <property name="header.cssClasses">
+        <property name="header.additionalCssClasses">
             <list merge="true">
                 <value>ks-unified-header</value>
             </list>
