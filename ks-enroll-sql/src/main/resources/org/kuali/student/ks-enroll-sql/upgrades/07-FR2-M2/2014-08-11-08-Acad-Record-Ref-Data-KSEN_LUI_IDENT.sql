@@ -518,7 +518,7 @@ INSERT INTO KSEN_LUI_IDENT (CREATEID,CREATETIME,DIVISION,ID,LNG_NAME,LUI_CD,LUI_
   VALUES ('SQLSCRIPT',TIMESTAMP '2014-07-22 14:12:46','ENAE','24a4ea7e-04ea-4d2b-a57f-5e9645fca2f7','Honors Research Project','ENAE398H','22d23ab8-c8c7-4835-b390-818857be38cf','kuali.lui.identifier.state.active','kuali.lui.identifier.type.official','4d3f2dbf-e5e3-4cb3-a8ad-aa160702adc8','H',0)
 /
 INSERT INTO KSEN_LUI_IDENT (CREATEID,CREATETIME,DIVISION,ID,LNG_NAME,LUI_CD,LUI_ID,LUI_ID_STATE,LUI_ID_TYPE,OBJ_ID,ORGID,VER_NBR)
-  VALUES ('SQLSCRIPT',TIMESTAMP '2014-07-22 14:12:46','BUSI','6223f07e-3917-4530-97a2-1c8e27bce119','Graduate Seminar; Technology Law','BUSI758T','3150a8c9-703d-4dc6-9362-cca1fc409de9','kuali.lui.course.offering.state.draft','kuali.lui.identifier.type.cross-listed','dc55ba1a-6f39-40a2-8026-fa3342f0afc1','782679694',0)
+  VALUES ('SQLSCRIPT',TIMESTAMP '2014-07-22 14:12:46','BUSI','6223f07e-3917-4530-97a2-1c8e27bce119','Graduate Seminar; Technology Law','BUSI758T','3150a8c9-703d-4dc6-9362-cca1fc409de9','kuali.lui.course.offering.state.draft','kuali.lui.identifier.type.cross-listed','dc55ba1a-6f39-40a2-8026-fa3342f0afc1','ORGID-782679694',0)
 /
 INSERT INTO KSEN_LUI_IDENT (CREATEID,CREATETIME,ID,LUI_CD,LUI_ID,LUI_ID_STATE,LUI_ID_TYPE,OBJ_ID,VER_NBR)
   VALUES ('SQLSCRIPT',TIMESTAMP '2014-07-22 14:12:46','26c024ca-6204-4884-9745-b4cf8b9ce41b','8053','fdbd67fc-b812-4b59-a55c-9c11baabac88','kuali.lui.identifier.state.active','kuali.lui.identifier.type.official','9973e06f-9bf7-4320-a0a1-38493624bb13',0)
@@ -1970,7 +1970,7 @@ INSERT INTO KSEN_LUI_IDENT (CREATEID,CREATETIME,ID,LUI_CD,LUI_ID,LUI_ID_STATE,LU
   VALUES ('SQLSCRIPT',TIMESTAMP '2014-07-22 14:12:46','99bc6ba1-82f0-4893-95e8-68f2062dbb10','51872','0f93abad-a0a9-4fcf-8602-211a63105e71','kuali.lui.identifier.state.active','kuali.lui.identifier.type.official','3de0ea4e-08aa-4237-9b1f-e649fb5517dc',0)
 /
 INSERT INTO KSEN_LUI_IDENT (CREATEID,CREATETIME,DIVISION,ID,LNG_NAME,LUI_CD,LUI_ID,LUI_ID_STATE,LUI_ID_TYPE,OBJ_ID,ORGID,VER_NBR)
-  VALUES ('SQLSCRIPT',TIMESTAMP '2014-07-22 14:12:46','ENES','4b0fae05-a07f-43c7-92d3-bd3f3a1242c5','Introduction to Design and Quality','ENES190H','7e5ce31c-b3fe-4f45-8404-08f11407efd4','kuali.lui.course.offering.state.draft','kuali.lui.identifier.type.cross-listed','b27e9717-a6f7-442b-92c9-be74ad240601','4112787133',0)
+  VALUES ('SQLSCRIPT',TIMESTAMP '2014-07-22 14:12:46','ENES','4b0fae05-a07f-43c7-92d3-bd3f3a1242c5','Introduction to Design and Quality','ENES190H','7e5ce31c-b3fe-4f45-8404-08f11407efd4','kuali.lui.course.offering.state.draft','kuali.lui.identifier.type.cross-listed','b27e9717-a6f7-442b-92c9-be74ad240601','ORGID-4112787133',0)
 /
 INSERT INTO KSEN_LUI_IDENT (CREATEID,CREATETIME,ID,LUI_CD,LUI_ID,LUI_ID_STATE,LUI_ID_TYPE,OBJ_ID,VER_NBR)
   VALUES ('SQLSCRIPT',TIMESTAMP '2014-07-22 14:12:46','c9a73a96-7b1f-4216-974d-42f69e3cfc4a','29281','a8039eac-66f6-4ceb-a7b5-133edb10cf85','kuali.lui.identifier.state.active','kuali.lui.identifier.type.official','206f35d4-c011-484e-933c-b12d27a7580b',0)
@@ -4676,7 +4676,7 @@ INSERT INTO KSEN_LUI_IDENT (CREATEID,CREATETIME,ID,LUI_CD,LUI_ID,LUI_ID_STATE,LU
   VALUES ('SQLSCRIPT',TIMESTAMP '2014-07-22 14:12:46','1aae9503-0dc4-4070-973f-3fe62ab16056','12666','85191e91-ad16-47b8-9673-4bdc5cd1948f','kuali.lui.identifier.state.active','kuali.lui.identifier.type.official','7a7b9190-99d8-4cfe-bf4b-e9f43fe4976e',0)
 /
 INSERT INTO KSEN_LUI_IDENT (CREATEID,CREATETIME,DIVISION,ID,LNG_NAME,LUI_CD,LUI_ID,LUI_ID_STATE,LUI_ID_TYPE,OBJ_ID,ORGID,VER_NBR)
-  VALUES ('SQLSCRIPT',TIMESTAMP '2014-07-22 14:12:46','AREC','2a43599e-0e67-4c33-83ba-b31d83d0b2a9','Advanced Economics of Natural Resources','AREC785','85e2908c-e7bc-427b-92ae-3d33b46e83a9','kuali.lui.course.offering.state.draft','kuali.lui.identifier.type.cross-listed','92f7a497-eddd-4237-8242-e0ab577a9e0f','173721955',0)
+  VALUES ('SQLSCRIPT',TIMESTAMP '2014-07-22 14:12:46','AREC','2a43599e-0e67-4c33-83ba-b31d83d0b2a9','Advanced Economics of Natural Resources','AREC785','85e2908c-e7bc-427b-92ae-3d33b46e83a9','kuali.lui.course.offering.state.draft','kuali.lui.identifier.type.cross-listed','92f7a497-eddd-4237-8242-e0ab577a9e0f','ORGID-173721955',0)
 /
 INSERT INTO KSEN_LUI_IDENT (CREATEID,CREATETIME,DIVISION,ID,LNG_NAME,LUI_CD,LUI_ID,LUI_ID_STATE,LUI_ID_TYPE,OBJ_ID,VER_NBR)
   VALUES ('SQLSCRIPT',TIMESTAMP '2014-07-22 14:12:46','MATH','59635d4b-72fa-4874-9d57-6ecf6517a6ef','Ordinary Differential Equations I','MATH670','825696cc-9dfd-4bcf-8fa5-9126fad01ed8','kuali.lui.identifier.state.active','kuali.lui.identifier.type.official','680105c8-b22b-4ca0-bb46-2227ae3ba582',0)
@@ -9269,7 +9269,7 @@ INSERT INTO KSEN_LUI_IDENT (CREATEID,CREATETIME,ID,LUI_CD,LUI_ID,LUI_ID_STATE,LU
   VALUES ('SQLSCRIPT',TIMESTAMP '2014-07-22 14:12:46','e11faa8a-f7d6-407a-9674-aecf196c803c','Z','b59a1369-46d3-4b3a-86fe-d23020ef2a39','kuali.lui.identifier.state.active','kuali.lui.identifier.type.official','632622ee-0615-4ed3-8201-3e7e80d1eb8e',1)
 /
 INSERT INTO KSEN_LUI_IDENT (CREATEID,CREATETIME,DIVISION,ID,LNG_NAME,LUI_CD,LUI_ID,LUI_ID_STATE,LUI_ID_TYPE,OBJ_ID,ORGID,VER_NBR)
-  VALUES ('SQLSCRIPT',TIMESTAMP '2014-07-22 14:12:46','ENES','8da41685-1d89-4765-97ef-0675c513d5af','Quest Consulting and Innovation Practicum','ENES490H','31c7b591-0ab4-4c58-b374-b36d99dcd992','kuali.lui.course.offering.state.draft','kuali.lui.identifier.type.cross-listed','80911a38-9da9-45eb-a639-5418493c5f3b','4112787133',0)
+  VALUES ('SQLSCRIPT',TIMESTAMP '2014-07-22 14:12:46','ENES','8da41685-1d89-4765-97ef-0675c513d5af','Quest Consulting and Innovation Practicum','ENES490H','31c7b591-0ab4-4c58-b374-b36d99dcd992','kuali.lui.course.offering.state.draft','kuali.lui.identifier.type.cross-listed','80911a38-9da9-45eb-a639-5418493c5f3b','ORGID-4112787133',0)
 /
 INSERT INTO KSEN_LUI_IDENT (CREATEID,CREATETIME,ID,LUI_CD,LUI_ID,LUI_ID_STATE,LUI_ID_TYPE,OBJ_ID,VER_NBR)
   VALUES ('SQLSCRIPT',TIMESTAMP '2014-07-22 14:12:46','6a0ed431-242b-4922-bc84-4c01daf13e02','9471','fad735c5-c160-4143-9024-6dc21ff67296','kuali.lui.identifier.state.active','kuali.lui.identifier.type.official','90d11091-4e33-4db7-a066-74da74804a49',0)
@@ -10004,7 +10004,7 @@ INSERT INTO KSEN_LUI_IDENT (CREATEID,CREATETIME,ID,LUI_CD,LUI_ID,LUI_ID_STATE,LU
   VALUES ('SQLSCRIPT',TIMESTAMP '2014-07-22 14:12:46','2993eca3-e394-4a46-9291-59c7bb1b4237','A','a75e8133-e408-4c46-9680-a0ebf1d5df59','kuali.lui.identifier.state.active','kuali.lui.identifier.type.official','06cf0928-67ff-4083-8161-897200b020c6',1)
 /
 INSERT INTO KSEN_LUI_IDENT (CREATEID,CREATETIME,DIVISION,ID,LNG_NAME,LUI_CD,LUI_ID,LUI_ID_STATE,LUI_ID_TYPE,OBJ_ID,ORGID,VER_NBR)
-  VALUES ('SQLSCRIPT',TIMESTAMP '2014-07-22 14:12:46','AMSC','f87d7660-08a2-492b-b726-8f8a91cc83ea','Error Correcting Codes','AMSC698B','712e42ef-7df0-41a8-a1e4-3d347c9f0ffa','kuali.lui.course.offering.state.draft','kuali.lui.identifier.type.cross-listed','94a1c523-6dcb-4385-8521-fa196c47183b','4124609032',0)
+  VALUES ('SQLSCRIPT',TIMESTAMP '2014-07-22 14:12:46','AMSC','f87d7660-08a2-492b-b726-8f8a91cc83ea','Error Correcting Codes','AMSC698B','712e42ef-7df0-41a8-a1e4-3d347c9f0ffa','kuali.lui.course.offering.state.draft','kuali.lui.identifier.type.cross-listed','94a1c523-6dcb-4385-8521-fa196c47183b','ORGID-4124609032',0)
 /
 INSERT INTO KSEN_LUI_IDENT (CREATEID,CREATETIME,ID,LUI_CD,LUI_ID,LUI_ID_STATE,LUI_ID_TYPE,OBJ_ID,VER_NBR)
   VALUES ('SQLSCRIPT',TIMESTAMP '2014-07-22 14:12:46','d65c42aa-5e45-4e22-92f6-7e8bac1bd3db','DD','1e0f33c8-e1a1-4dcb-8efa-aea3b247b537','kuali.lui.identifier.state.active','kuali.lui.identifier.type.official','c94075d3-c53f-4538-836b-6b71fe55263c',1)
@@ -13730,7 +13730,7 @@ INSERT INTO KSEN_LUI_IDENT (CREATEID,CREATETIME,ID,LNG_NAME,LUI_ID,LUI_ID_STATE,
   VALUES ('SQLSCRIPT',TIMESTAMP '2014-07-22 14:12:46','01e496c9-c72c-4f95-bd41-957b2a20373d','Lecture only','8832a522-b67c-4991-b723-1de0b4e5576b','kuali.lui.identifier.state.active','kuali.lui.identifier.type.official','f83502d0-7fbc-4158-bb14-bb516a967a6f','LEC',0)
 /
 INSERT INTO KSEN_LUI_IDENT (CREATEID,CREATETIME,DIVISION,ID,LNG_NAME,LUI_CD,LUI_ID,LUI_ID_STATE,LUI_ID_TYPE,OBJ_ID,ORGID,VER_NBR)
-  VALUES ('SQLSCRIPT',TIMESTAMP '2014-07-22 14:12:46','CMSC','4f99a45a-4adc-4d0d-8526-0f1655db1f2c','Cryptology','CMSC456','aeba48eb-f6d4-4633-9622-5c191140618f','kuali.lui.course.offering.state.draft','kuali.lui.identifier.type.cross-listed','6870ab8b-8463-4fa2-957a-bbf1d0c2bef1','3220936919',0)
+  VALUES ('SQLSCRIPT',TIMESTAMP '2014-07-22 14:12:46','CMSC','4f99a45a-4adc-4d0d-8526-0f1655db1f2c','Cryptology','CMSC456','aeba48eb-f6d4-4633-9622-5c191140618f','kuali.lui.course.offering.state.draft','kuali.lui.identifier.type.cross-listed','6870ab8b-8463-4fa2-957a-bbf1d0c2bef1','ORGID-3220936919',0)
 /
 INSERT INTO KSEN_LUI_IDENT (CREATEID,CREATETIME,ID,LUI_CD,LUI_ID,LUI_ID_STATE,LUI_ID_TYPE,OBJ_ID,VER_NBR)
   VALUES ('SQLSCRIPT',TIMESTAMP '2014-07-22 14:12:46','9a49f756-7748-41c2-b06e-b72726237427','AD','f02c32a4-2ef2-46e7-bff4-d5bd16e5f620','kuali.lui.identifier.state.active','kuali.lui.identifier.type.official','cab14596-635f-46e2-815f-7348f9506fe6',1)
@@ -15155,7 +15155,7 @@ INSERT INTO KSEN_LUI_IDENT (CREATEID,CREATETIME,ID,LUI_CD,LUI_ID,LUI_ID_STATE,LU
   VALUES ('SQLSCRIPT',TIMESTAMP '2014-07-22 14:12:46','48b1b3d5-0b7a-4ea9-a9f8-f250a6239957','29330','4a73dfcd-538f-4a26-a688-401628b83b05','kuali.lui.identifier.state.active','kuali.lui.identifier.type.official','c0735767-57a9-4bf8-97f5-63ad91ed47ba',0)
 /
 INSERT INTO KSEN_LUI_IDENT (CREATEID,CREATETIME,DIVISION,ID,LNG_NAME,LUI_CD,LUI_ID,LUI_ID_STATE,LUI_ID_TYPE,OBJ_ID,ORGID,VER_NBR)
-  VALUES ('SQLSCRIPT',TIMESTAMP '2014-07-22 14:12:46','AMSC','3b6ecbd1-7b73-43a2-b787-9a1d8af63362','Partial Differential Equations I','AMSC673','82218923-3bb1-4984-896e-d707fdcdc03b','kuali.lui.course.offering.state.draft','kuali.lui.identifier.type.cross-listed','f5f471dd-49dc-424a-9d43-e94dda0a545c','4124609032',0)
+  VALUES ('SQLSCRIPT',TIMESTAMP '2014-07-22 14:12:46','AMSC','3b6ecbd1-7b73-43a2-b787-9a1d8af63362','Partial Differential Equations I','AMSC673','82218923-3bb1-4984-896e-d707fdcdc03b','kuali.lui.course.offering.state.draft','kuali.lui.identifier.type.cross-listed','f5f471dd-49dc-424a-9d43-e94dda0a545c','ORGID-4124609032',0)
 /
 INSERT INTO KSEN_LUI_IDENT (CREATEID,CREATETIME,ID,LUI_CD,LUI_ID,LUI_ID_STATE,LUI_ID_TYPE,OBJ_ID,VER_NBR)
   VALUES ('SQLSCRIPT',TIMESTAMP '2014-07-22 14:12:46','fac87b13-b98b-4e47-b2bd-64b58bf6c6a9','9195','10f6227a-78ee-487d-a68a-d0c2195dc0c2','kuali.lui.identifier.state.active','kuali.lui.identifier.type.official','44a9c273-7fa2-45c5-b67b-4d6724b9f25f',0)
@@ -18989,7 +18989,7 @@ INSERT INTO KSEN_LUI_IDENT (CREATEID,CREATETIME,ID,LNG_NAME,LUI_ID,LUI_ID_STATE,
   VALUES ('SQLSCRIPT',TIMESTAMP '2014-07-22 14:12:46','38919822-8257-442a-9ceb-1dde4f6d880d','Lecture only','1f262224-a05c-485a-8c28-2b297b5d6516','kuali.lui.identifier.state.active','kuali.lui.identifier.type.official','c7c55964-ad6f-4ceb-958d-6522a7c52799','LEC',0)
 /
 INSERT INTO KSEN_LUI_IDENT (CREATEID,CREATETIME,DIVISION,ID,LNG_NAME,LUI_CD,LUI_ID,LUI_ID_STATE,LUI_ID_TYPE,OBJ_ID,ORGID,VER_NBR)
-  VALUES ('SQLSCRIPT',TIMESTAMP '2014-07-22 14:12:46','ENES','4386197d-8e3c-47cb-8048-578070200a66','Systems Thinking for Managerial Decision Making','ENES390H','e4eb27f0-0a8b-46e7-b464-d74f2a25657c','kuali.lui.course.offering.state.draft','kuali.lui.identifier.type.cross-listed','0484ed01-f63d-4cf5-94bb-1326e349a0a7','4112787133',0)
+  VALUES ('SQLSCRIPT',TIMESTAMP '2014-07-22 14:12:46','ENES','4386197d-8e3c-47cb-8048-578070200a66','Systems Thinking for Managerial Decision Making','ENES390H','e4eb27f0-0a8b-46e7-b464-d74f2a25657c','kuali.lui.course.offering.state.draft','kuali.lui.identifier.type.cross-listed','0484ed01-f63d-4cf5-94bb-1326e349a0a7','ORGID-4112787133',0)
 /
 INSERT INTO KSEN_LUI_IDENT (CREATEID,CREATETIME,ID,LUI_CD,LUI_ID,LUI_ID_STATE,LUI_ID_TYPE,OBJ_ID,VER_NBR)
   VALUES ('SQLSCRIPT',TIMESTAMP '2014-07-22 14:12:46','65373ae6-d493-4434-8851-831c84a41336','12245','d04703b5-542f-4eba-b4ec-db5b047cb0a2','kuali.lui.identifier.state.active','kuali.lui.identifier.type.official','f1ebe246-0348-48ed-897a-faadee76d5a6',0)
@@ -19763,7 +19763,7 @@ INSERT INTO KSEN_LUI_IDENT (CREATEID,CREATETIME,ID,LUI_CD,LUI_ID,LUI_ID_STATE,LU
   VALUES ('SQLSCRIPT',TIMESTAMP '2014-07-22 14:12:46','a427f68d-ea3b-49d0-97d9-f8e48a525f10','AD','d74b9a55-0dd3-470c-a56b-0010f65cf45c','kuali.lui.identifier.state.active','kuali.lui.identifier.type.official','fc8e9bd2-e38c-4bd7-8357-09b2008b70ca',1)
 /
 INSERT INTO KSEN_LUI_IDENT (CREATEID,CREATETIME,DIVISION,ID,LNG_NAME,LUI_CD,LUI_ID,LUI_ID_STATE,LUI_ID_TYPE,OBJ_ID,ORGID,VER_NBR)
-  VALUES ('SQLSCRIPT',TIMESTAMP '2014-07-22 14:12:46','SLLC','5165f9b9-7826-4935-b125-6131671e428f','International Business Cultures in Engineering and Technology','SLLC472','d10a1e33-dd60-480e-954f-46e64a6e0a9c','kuali.lui.course.offering.state.draft','kuali.lui.identifier.type.cross-listed','06e998ef-2c62-4950-83ee-a6b9d195127a','1391456348',0)
+  VALUES ('SQLSCRIPT',TIMESTAMP '2014-07-22 14:12:46','SLLC','5165f9b9-7826-4935-b125-6131671e428f','International Business Cultures in Engineering and Technology','SLLC472','d10a1e33-dd60-480e-954f-46e64a6e0a9c','kuali.lui.course.offering.state.draft','kuali.lui.identifier.type.cross-listed','06e998ef-2c62-4950-83ee-a6b9d195127a','ORGID-1391456348',0)
 /
 INSERT INTO KSEN_LUI_IDENT (CREATEID,CREATETIME,ID,LUI_CD,LUI_ID,LUI_ID_STATE,LUI_ID_TYPE,OBJ_ID,VER_NBR)
   VALUES ('SQLSCRIPT',TIMESTAMP '2014-07-22 14:12:46','cb39c3ff-73f9-4abe-8f34-c75ade0610d6','8054','b3b4b887-4448-4950-a6bc-b96f0151e86c','kuali.lui.identifier.state.active','kuali.lui.identifier.type.official','705017ef-0aa4-4d55-8777-663c7e1de89a',0)
@@ -20828,7 +20828,7 @@ INSERT INTO KSEN_LUI_IDENT (CREATEID,CREATETIME,ID,LUI_CD,LUI_ID,LUI_ID_STATE,LU
   VALUES ('SQLSCRIPT',TIMESTAMP '2014-07-22 14:12:46','6659b6f3-b3a8-4ba5-bf06-68e16bc844fe','B','3c4a94f9-e467-42ef-95e2-222ef3647a39','kuali.lui.identifier.state.active','kuali.lui.identifier.type.official','797e4d87-b8aa-48c7-a0b5-e97bb4ad3916',1)
 /
 INSERT INTO KSEN_LUI_IDENT (CREATEID,CREATETIME,DIVISION,ID,LNG_NAME,LUI_CD,LUI_ID,LUI_ID_STATE,LUI_ID_TYPE,OBJ_ID,ORGID,VER_NBR)
-  VALUES ('SQLSCRIPT',TIMESTAMP '2014-07-22 14:12:46','CMSC','5c0dd3ec-1719-458c-9164-35d81ded1212','Image Understanding','CMSC828G','9254a225-ba9b-45d4-85e8-ea7fd3ad4d17','kuali.lui.course.offering.state.draft','kuali.lui.identifier.type.cross-listed','55b945d6-b97c-413a-831a-e1522357c824','3220936919',0)
+  VALUES ('SQLSCRIPT',TIMESTAMP '2014-07-22 14:12:46','CMSC','5c0dd3ec-1719-458c-9164-35d81ded1212','Image Understanding','CMSC828G','9254a225-ba9b-45d4-85e8-ea7fd3ad4d17','kuali.lui.course.offering.state.draft','kuali.lui.identifier.type.cross-listed','55b945d6-b97c-413a-831a-e1522357c824','ORGID-3220936919',0)
 /
 INSERT INTO KSEN_LUI_IDENT (CREATEID,CREATETIME,DIVISION,ID,LNG_NAME,LUI_CD,LUI_ID,LUI_ID_STATE,LUI_ID_TYPE,OBJ_ID,VER_NBR)
   VALUES ('SQLSCRIPT',TIMESTAMP '2014-07-22 14:12:46','MATH','5a84f577-aaae-4e0f-92e0-213a1db9ea6c','Algebra for Preservice Middle School Teachers','MATH315','ec79999d-47b9-4dfb-b997-482d900034c6','kuali.lui.identifier.state.active','kuali.lui.identifier.type.official','342ac5a6-406f-4526-9521-027bdb9765ba',0)
@@ -22943,7 +22943,7 @@ INSERT INTO KSEN_LUI_IDENT (CREATEID,CREATETIME,ID,LUI_CD,LUI_ID,LUI_ID_STATE,LU
   VALUES ('SQLSCRIPT',TIMESTAMP '2014-07-22 14:12:46','a61d1dfa-991e-48f4-9243-32c26abd2fe5','50762','b269bc5a-7315-46e9-b405-1f034f57a055','kuali.lui.identifier.state.active','kuali.lui.identifier.type.official','1a42613e-fc07-4881-aa26-05c56770c3c0',0)
 /
 INSERT INTO KSEN_LUI_IDENT (CREATEID,CREATETIME,DIVISION,ID,LNG_NAME,LUI_CD,LUI_ID,LUI_ID_STATE,LUI_ID_TYPE,OBJ_ID,ORGID,VER_NBR)
-  VALUES ('SQLSCRIPT',TIMESTAMP '2014-07-22 14:12:46','AMSC','008987f7-fd43-4fa7-b6b8-4a3518361a00','Ordinary Differential Equations I','AMSC670','825696cc-9dfd-4bcf-8fa5-9126fad01ed8','kuali.lui.course.offering.state.draft','kuali.lui.identifier.type.cross-listed','4405e314-9118-406f-ad38-7d2c7875192e','4124609032',0)
+  VALUES ('SQLSCRIPT',TIMESTAMP '2014-07-22 14:12:46','AMSC','008987f7-fd43-4fa7-b6b8-4a3518361a00','Ordinary Differential Equations I','AMSC670','825696cc-9dfd-4bcf-8fa5-9126fad01ed8','kuali.lui.course.offering.state.draft','kuali.lui.identifier.type.cross-listed','4405e314-9118-406f-ad38-7d2c7875192e','ORGID-4124609032',0)
 /
 INSERT INTO KSEN_LUI_IDENT (CREATEID,CREATETIME,ID,LUI_CD,LUI_ID,LUI_ID_STATE,LUI_ID_TYPE,OBJ_ID,VER_NBR)
   VALUES ('SQLSCRIPT',TIMESTAMP '2014-07-22 14:12:46','5ccbc416-cc89-4f99-8bbe-d63b3fc04f67','E','1d78bca4-c8c0-4fac-a964-c562314a6de5','kuali.lui.identifier.state.active','kuali.lui.identifier.type.official','58bcc3f1-0acc-428b-b320-d423d4bc1a52',1)
