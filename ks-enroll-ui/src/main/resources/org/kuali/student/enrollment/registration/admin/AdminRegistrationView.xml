@@ -457,10 +457,11 @@
         <property name="headerText" value="Waitlisted Courses (@{waitlistedCredits} credits)"/>
         <property name="lineActions">
             <list>
-                <!--<bean parent="Uif-KS-NavigationActionLink-parentBean" p:id="waitlistedEditLink" p:iconClass="ks-fontello-icon-pencil"-->
-                      <!--p:methodToCall="editCourse" p:style="color:#0088CC;"/>-->
+                <!--KSENROLL-14030 waitlisted table readonly
+                <bean parent="Uif-KS-NavigationActionLink-parentBean" p:id="waitlistedEditLink" p:iconClass="ks-fontello-icon-pencil"
+                      p:methodToCall="editCourse" p:style="color:#0088CC;"/>
                 <bean parent="KS-Uif-ActionLink" p:id="waitlistedDropLink" p:iconClass="ks-fontello-icon-cancel"
-                      p:methodToCall="dropCourse" p:style="color:#0088CC;"/>
+                      p:methodToCall="dropCourse" p:style="color:#0088CC;"/-->
             </list>
         </property>
         <property name="items">
