@@ -83,7 +83,11 @@ public class ElasticEmbedded {
         //Wait for yellow status to avoid errors for bulk insertion
         client.admin().cluster().prepareHealth().setWaitForYellowStatus().execute().actionGet();
 
-        client.admin().indices().prepareDelete(KS_ELASTIC_INDEX).execute().actionGet();  // on init always delete existing indexes
+        boolean indexExists = client.admin().indices().prepareExists(KS_ELASTIC_INDEX).execute().actionGet().isExists();
+        if(indexExists) {
+            LOG.info("index exists. Deleting index then reinitializing.");
+            client.admin().indices().prepareDelete(KS_ELASTIC_INDEX).execute().actionGet();  // on init always delete existing indexes
+        }
         client.admin().indices().prepareCreate(KS_ELASTIC_INDEX).execute().actionGet();  // create new index
 
         applyRegistrationGroupIndexMappings();  // apply mappings for registration groups.
