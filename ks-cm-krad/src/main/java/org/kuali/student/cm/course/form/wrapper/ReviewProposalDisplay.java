@@ -40,6 +40,12 @@ public class ReviewProposalDisplay {
     private String returnToPreviousNodeName;
     private boolean showUnknownErrors;
 
+    /**
+     * If any unknown error occurs during CourseController#doValidationForProposal then we show those errors to user
+     * otherwise by default the page level error messages are disabled
+     *
+     * @return True if unknown error occurs. Otherwise, false.
+     */
     public boolean isShowUnknownErrors() {
         return showUnknownErrors;
     }
