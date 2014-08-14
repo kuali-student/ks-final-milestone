@@ -60,7 +60,7 @@ angular.module('regCartApp')
                 var location = '';                                      // location column
                 var instructorList = '';                                // instructors column
                 var seatsOpen = '';                                     // seats open column
-                var additionalInfo;                                     // additional info column
+                var additionalInfo = undefined;                         // additional info column
 
                 var indicator = false;                                  // determines if we show the row indicator on the left
 
@@ -172,7 +172,11 @@ angular.module('regCartApp')
 
         // Converts display time into the actual time for sorting purposes
         function getActualTime(time) {
-            return zeroPad(RegUtil.convertTimeStringToTime(time), 4);
+            var actualTime = RegUtil.convertTimeStringToTime(time);
+            if (isNaN(actualTime)) {
+                actualTime = 9999;
+            }
+            return zeroPad(actualTime, 4);
         }
 
     }])
