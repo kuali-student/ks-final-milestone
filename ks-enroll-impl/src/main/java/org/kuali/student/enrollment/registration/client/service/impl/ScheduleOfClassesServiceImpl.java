@@ -608,6 +608,7 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
             String coCode = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.CO_CODE);
             String coSubjectArea = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.CO_SUBJECT_AREA);
             String coLongName = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.CO_LONG_NAME);
+            String cluId = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.CO_CLU_ID);
             String coDesc = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.CO_DESC_FORMATTED);
             String resultValuesGroupKey = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.RES_VAL_GROUP_KEY);
             String coClId = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.CO_CROSSLISTED_ID);
@@ -639,6 +640,7 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
             courseSearchResult.setCourseOfferingSubjectArea(coSubjectArea);
             courseSearchResult.setCourseOfferingLongName(coLongName);
             courseSearchResult.setCourseOfferingDesc(coDesc);
+            courseSearchResult.setCluId(cluId);
 
             // Grading and credit options
             setGradingAndCreditOptionsForCourseOfferingDetails(courseSearchResult, resultValuesGroupKey, contextInfo);

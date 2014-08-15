@@ -29,7 +29,7 @@ import java.util.Map;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "CourseOfferingDetailsSearchResult", propOrder = {
         "courseOfferingId", "courseOfferingCode", "courseOfferingNumber", "courseOfferingSubjectArea", "courseOfferingDesc",
-        "courseOfferingLongName", "regGroupsOffered", "creditOptions", "gradingOptions",
+        "courseOfferingLongName", "cluId", "regGroupsOffered", "creditOptions", "gradingOptions",
         "crossListedCourses", "prerequisites", "activityOfferingTypes"})
 public class CourseOfferingDetailsSearchResult implements Serializable {
     private String courseOfferingId;
@@ -38,6 +38,7 @@ public class CourseOfferingDetailsSearchResult implements Serializable {
     private String courseOfferingNumber;
     private String courseOfferingSubjectArea;
     private String courseOfferingLongName;
+    private String cluId;  // this allows us to tie our course offering back to the clu (KSAP Integration Point)
     private boolean regGroupsOffered;
     private List<String> creditOptions;
     private Map<String, String> gradingOptions;
@@ -136,5 +137,13 @@ public class CourseOfferingDetailsSearchResult implements Serializable {
 
     public void setPrerequisites(List<String> prerequisites) {
         this.prerequisites = prerequisites;
+    }
+
+    public String getCluId() {
+        return cluId;
+    }
+
+    public void setCluId(String cluId) {
+        this.cluId = cluId;
     }
 }

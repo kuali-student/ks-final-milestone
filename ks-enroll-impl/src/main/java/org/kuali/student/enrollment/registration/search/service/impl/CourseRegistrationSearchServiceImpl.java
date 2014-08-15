@@ -196,6 +196,7 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
         public static final String CO_CROSSLISTED_ID = "coCrossListedId";
         public static final String CO_CROSSLISTED_CODE = "coCrossListedCode";
         public static final String CO_CROSSLISTED_SUBJECT_AREA = "coCrossListedSubjectArea";
+        public static final String CO_CLU_ID = "cluId";
 
         public static final String SEAT_COUNT = "seatCount";
         public static final String WAITLIST_COUNT = "waitlistCount";
@@ -1496,7 +1497,7 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
         SearchResultInfo resultInfo = new SearchResultInfo();
 
         String queryStr =
-                "SELECT co.ID coId, coId.LUI_CD coCode, coId.DIVISION coDivision, coId.LNG_NAME, " +
+                "SELECT co.ID coId, coId.LUI_CD coCode, coId.DIVISION coDivision, coId.LNG_NAME, co.CLU_ID," +
                         "co.DESCR_FORMATTED, coRes.RESULT_VAL_GRP_ID, " +
                         "coClId.LUI_ID coClId, coClId.LUI_CD coClCode, coClId.DIVISION coClDivision, " +
                         "co.ATP_ID coAtpId, ao.ATP_ID aoAtpId, " +
@@ -1582,6 +1583,7 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
             row.addCell(SearchResultColumns.CO_CODE, (String) resultRow[i++]);
             row.addCell(SearchResultColumns.CO_SUBJECT_AREA, (String) resultRow[i++]);
             row.addCell(SearchResultColumns.CO_LONG_NAME, (String) resultRow[i++]);
+            row.addCell(SearchResultColumns.CO_CLU_ID, (String) resultRow[i++]);
             row.addCell(SearchResultColumns.CO_DESC_FORMATTED, (String) resultRow[i++]);
             row.addCell(SearchResultColumns.RES_VAL_GROUP_KEY, (String) resultRow[i++]);
             row.addCell(SearchResultColumns.CO_CROSSLISTED_ID, (String) resultRow[i++]);
