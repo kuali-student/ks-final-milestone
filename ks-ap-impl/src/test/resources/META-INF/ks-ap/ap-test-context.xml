@@ -62,6 +62,7 @@
                     <list>
                         <value>classpath:learning_plan.sql</value>
                         <value>classpath:ks-em.sql</value>
+                        <value>classpath:search-data.sql</value>
                     </list>
                 </entry>
             </map>
