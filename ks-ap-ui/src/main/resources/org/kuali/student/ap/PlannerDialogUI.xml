@@ -519,7 +519,7 @@
                 <bean parent="planner_course_credit_input_field" />
                 <bean parent="planner_course_note_input" />
                 <bean parent="planner_backup_input"/>
-                <bean parent="planner_bookmark_input"/>
+                <!--<bean parent="planner_bookmark_input"/>-->
                 <bean parent="planner_hidden_input" p:propertyName="courseId" />
                 <bean parent="planner_hidden_input" p:propertyName="uniqueId" />
             </list>
@@ -633,7 +633,7 @@
                 <bean parent="planner_course_credit_input_field" />
                 <bean parent="planner_course_note_input" />
                 <bean parent="planner_backup_input"/>
-                <bean parent="planner_bookmark_input"/>
+                <!--<bean parent="planner_bookmark_input"/>-->
                 <bean parent="planner_hidden_input" p:propertyName="courseId" />
                 <bean parent="planner_hidden_input" p:propertyName="uniqueId" />
             </list>
@@ -877,7 +877,7 @@
         </property>
     </bean>
 
-
+<!-- KSAP-1775
     <bean id="planner_bookmark_input"  parent="Uif-HorizontalBoxGroup">
         <property name="render" value="@{bookmarked}"/>
         <property name="items">
@@ -888,7 +888,7 @@
             </list>
         </property>
     </bean>
-
+-->
 	<bean id="planner_error_placeholder" parent="Uif-HorizontalBoxGroup"
 			p:hidden="true" p:additionalCssClasses="ksap-feedback,error,ks-Popover-error">
         <!-- Adding some content here since as of Rice 2.4, KRAD seems to purge empty elements from the DOM.
