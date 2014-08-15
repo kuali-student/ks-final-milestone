@@ -15,6 +15,7 @@
  */
 package org.kuali.student.enrollment.class1.hold.controller;
 
+import org.kuali.rice.krad.uif.UifParameters;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.web.controller.MaintenanceDocumentController;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
@@ -35,6 +36,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * This class provides a controller for HoldIssue objects
@@ -45,7 +48,6 @@ import javax.servlet.http.HttpServletResponse;
 @Controller
 @RequestMapping(value = "/holdIssueMaintenanceController")
 public class HoldIssueMaintenanceController extends MaintenanceDocumentController {
-
 
     @Override
     protected MaintenanceDocumentForm createInitialForm(HttpServletRequest request) {
@@ -60,6 +62,38 @@ public class HoldIssueMaintenanceController extends MaintenanceDocumentControlle
         //holdIssueInfoForm.setIsSaveSuccess(false);
 
         return super.start(form, request, response);
+    }
+
+
+    @RequestMapping(params = "methodToCall=search")
+    public ModelAndView search(@ModelAttribute("KualiForm") MaintenanceDocumentForm form, BindingResult result,
+                               HttpServletRequest request, HttpServletResponse response) throws Exception {
+        List<HoldIssueInfo> results = new ArrayList<HoldIssueInfo>();
+
+        HoldIssueMaintenanceWrapper holdIssueWrapper = (HoldIssueMaintenanceWrapper)form.getDocument().getNewMaintainableObject().getDataObject();
+
+        try {
+
+            results = this.getViewHelper(form).searchHolds(holdIssueWrapper);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException("Error Performing Search",e); //To change body of catch statement use File | Settings | File Templates.
+        }
+
+
+
+        holdIssueWrapper.setHoldIssueInfoList(results);
+        clearSearchValues(holdIssueWrapper);
+        return getUIFModelAndView(form);
+    }
+
+    @RequestMapping(params = "methodToCall=addHold")
+    public ModelAndView addHold(@ModelAttribute("KualiForm") MaintenanceDocumentForm form, BindingResult result,
+                               HttpServletRequest request, HttpServletResponse response) throws Exception {
+        form.getActionParameters().put(UifParameters.NAVIGATE_TO_PAGE_ID, "KS-Hold-Create-Page");
+        return super.navigate(form, result, request, response);
+
+
     }
 
     @RequestMapping(params = "methodToCall=create")
@@ -79,7 +113,7 @@ public class HoldIssueMaintenanceController extends MaintenanceDocumentControlle
         HoldIssueInfo createHoldIssueInfo = this.getViewHelper(form).createHoldIssue(holdIssueInfo);
 
         form.getView().setApplyDirtyCheck(false);
-
+        //holdIssueWrapper.setHoldIssueInfo(createHoldIssueInfo);
         holdIssueWrapper.setId(createHoldIssueInfo.getId());
         holdIssueWrapper.setStateKey(createHoldIssueInfo.getStateKey());
         holdIssueWrapper.setIsSaveSuccess(true);
@@ -88,6 +122,15 @@ public class HoldIssueMaintenanceController extends MaintenanceDocumentControlle
         return refresh(form, result, request, response);
     }
 
+    private void clearSearchValues( HoldIssueMaintenanceWrapper holdIssueWrapper) {
+        holdIssueWrapper.setName("");
+        holdIssueWrapper.setOrganizationId("");
+        holdIssueWrapper.setOrgName("");
+        holdIssueWrapper.setStateKey("");
+        holdIssueWrapper.setTypeKey("");
+        holdIssueWrapper.setDescr("");
+        holdIssueWrapper.setOrgName("");
+    }
 
     /**
      * @param form

@@ -19,11 +19,14 @@ package org.kuali.student.enrollment.class1.hold.dto;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.common.uif.form.KSUifMaintenanceDocumentForm;
+import org.kuali.student.enrollment.class2.courseoffering.dto.OrganizationInfoWrapper;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.core.hold.dto.HoldIssueInfo;
 
 import java.io.Serializable;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  *
@@ -39,13 +42,29 @@ public class HoldIssueMaintenanceWrapper implements Serializable {
     private String descr;
     private String organizationId;
     private String orgName;
+    private String orgAddress;
+    private String code;
+    private String baseType;
+    private String firstTerm;
+    private String lastTerm;
+    private String firstDate;
+    private String lastDate;
+
+    private boolean isSaveSuccess;
+
+
+    private HoldIssueInfo holdIssueInfo;
+
+    private List<HoldIssueInfo> holdIssueInfoList;
+
+    private List<OrganizationInfoWrapper> organizationNames;
 
     public HoldIssueMaintenanceWrapper() {
         super();
         type = new TypeInfo();
     }
 
-    private boolean isSaveSuccess;
+
 
     public String getId() {
         return id;
@@ -118,4 +137,107 @@ public class HoldIssueMaintenanceWrapper implements Serializable {
     public void setType(TypeInfo type) {
         this.type = type;
     }
+    public String getOrgAddress() {
+        return orgAddress;
+    }
+
+    public void setOrgAddress(String orgAddress) {
+        this.orgAddress = orgAddress;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
+
+    public String getBaseType() {
+        return baseType;
+    }
+
+    public void setBaseType(String baseType) {
+        this.baseType = baseType;
+    }
+
+    public String getLastTerm() {
+        return lastTerm;
+    }
+
+    public void setLastTerm(String lastTerm) {
+        this.lastTerm = lastTerm;
+    }
+
+    public String getFirstDate() {
+        return firstDate;
+    }
+
+    public void setFirstDate(String firstDate) {
+        this.firstDate = firstDate;
+    }
+
+    public String getLastDate() {
+        return lastDate;
+    }
+
+    public void setLastDate(String lastDate) {
+        this.lastDate = lastDate;
+    }
+
+    public String getFirstTerm() {
+        return firstTerm;
+    }
+
+    public void setFirstTerm(String firstTerm) {
+        this.firstTerm = firstTerm;
+    }
+
+    public List<OrganizationInfoWrapper> getOrganizationNames() {
+        return organizationNames;
+    }
+
+    public void setOrganizationNames(List<OrganizationInfoWrapper> organizationNames) {
+        this.organizationNames = organizationNames;
+    }
+
+    public boolean isSaveSuccess() {
+        return isSaveSuccess;
+    }
+
+    public void setSaveSuccess(boolean saveSuccess) {
+        isSaveSuccess = saveSuccess;
+    }
+
+    public HoldIssueInfo getHoldIssueInfo() {
+        return holdIssueInfo;
+    }
+
+    public void setHoldIssueInfo(HoldIssueInfo holdIssueInfo) {
+        this.holdIssueInfo = holdIssueInfo;
+    }
+
+    public List<HoldIssueInfo> getHoldIssueInfoList() {
+        return holdIssueInfoList;
+    }
+
+    public void setHoldIssueInfoList(List<HoldIssueInfo> holdIssueInfoList) {
+        this.holdIssueInfoList = holdIssueInfoList;
+    }
+
+    public Map<String, String> getAdminOrg() {
+        Map<String, String> adminOrgMap = new HashMap<String, String>();
+        if (organizationNames != null && !organizationNames.isEmpty()) {
+            StringBuilder orgIDs = new StringBuilder("");
+            for (OrganizationInfoWrapper organizationName : organizationNames) {
+                orgIDs.append(organizationName.getId()).append(",");
+            }
+            if (orgIDs.length() > 0) {
+                adminOrgMap.put("offeringAdminOrgId", orgIDs.substring(0, orgIDs.length() - 1));
+            }
+        }
+        return adminOrgMap;
+    }
+
+
 }

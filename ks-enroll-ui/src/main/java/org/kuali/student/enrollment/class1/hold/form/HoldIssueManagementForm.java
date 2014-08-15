@@ -35,6 +35,13 @@ public class HoldIssueManagementForm extends UifFormBase {
     private String descr;
     private String organizationId;
     private String orgName;
+    private String orgAddress;
+    private String code;
+    private String baseType;
+    private String lastTerm;
+    private String firstTerm;
+    private String firstDate;
+    private String lastDate;
 
     private boolean isSaveSuccess;
 
@@ -124,5 +131,61 @@ public class HoldIssueManagementForm extends UifFormBase {
 
     public void setHoldIssueInfo(HoldIssueInfo holdIssueInfo) {
         this.holdIssueInfo = holdIssueInfo;
+    }
+
+    public String getOrgAddress() {
+        return orgAddress;
+    }
+
+    public void setOrgAddress(String orgAddress) {
+        this.orgAddress = orgAddress;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
+
+    public String getBaseType() {
+        return baseType;
+    }
+
+    public void setBaseType(String baseType) {
+        this.baseType = baseType;
+    }
+
+    public String getLastTerm() {
+        return lastTerm;
+    }
+
+    public void setLastTerm(String lastTerm) {
+        this.lastTerm = lastTerm;
+    }
+
+    public String getFirstTerm() {
+        return firstTerm;
+    }
+
+    public void setFirstTerm(String firstTerm) {
+        this.firstTerm = firstTerm;
+    }
+
+    public String getFirstDate() {
+        return firstDate;
+    }
+
+    public void setFirstDate(String firstDate) {
+        this.firstDate = firstDate;
+    }
+
+    public String getLastDate() {
+        return lastDate;
+    }
+
+    public void setLastDate(String lastDate) {
+        this.lastDate = lastDate;
     }
 }
