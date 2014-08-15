@@ -25,6 +25,7 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -85,7 +86,7 @@ public class TimeSlotDao extends GenericEntityDao<TimeSlotEntity> {
     }
 
     public String getCurrentMaxTimeSlotCode(){
-        Query query = em.createNamedQuery("TimeSlotEntity.getCurrentMaxTimeSlotCode");
+        Query query = em.createNativeQuery("SELECT TO_CHAR(max(TO_NUMBER(name))) FROM KSEN_SCHED_TMSLOT");
 
         String maxCode = (String) query.getSingleResult();
 
