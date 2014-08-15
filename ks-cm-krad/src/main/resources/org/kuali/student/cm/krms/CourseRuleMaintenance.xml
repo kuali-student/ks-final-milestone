@@ -246,8 +246,7 @@ limitations under the License.
         <property name="items">
             <list>
                 <ref bean="CM-Proposal-Course-EditWithObject-EditSection"/>
-                <!-- Commenting out since this Edit rule logic is not in our current userstory-->
-                <!--<ref bean="Course-EditWithLogic-EditSection"/>-->
+                <ref bean="CM-Proposal-Course-EditWithLogic-EditSection"/>
             </list>
         </property>
         <property name="tabsWidget">
@@ -353,13 +352,13 @@ limitations under the License.
     </bean>
 
     <!-- Commenting out since this Edit rule logic is not in our current userstory-->
-    <!--<bean id="Course-EditWithLogic-EditSection" parent="KRMS-EditWithLogic-EditSection-parent">
+    <bean id="CM-Proposal-Course-EditWithLogic-EditSection" parent="KRMS-EditWithLogic-EditSection-parent">
         <property name="items">
             <list>
                 <ref bean="CM-Proposal-Course-EditWithLogic-EditGroup"/>
             </list>
         </property>
-    </bean>-->
+    </bean>
 
     <bean id="CM-Proposal-Course-EditWithLogic-EditGroup" parent="KRMS-EditWithLogic-EditGroup">
         <property name="items">
@@ -369,7 +368,7 @@ limitations under the License.
         </property>
     </bean>
 
-    <bean id="CM-Proposal-Course-EditWithLogic-TreeGroup" parent="KRMS-EditWithLogic-TreeGroup" p:editAuthz="true">
+    <bean id="CM-Proposal-Course-EditWithLogic-TreeGroup" parent="KRMS-EditWithLogic-TreeGroup">
         <property name="items">
             <list>
                 <ref bean="KRMS-LogicArea-InputField"/>

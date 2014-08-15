@@ -57,7 +57,7 @@ import org.springframework.web.servlet.ModelAndView;
 @RequestMapping(value = "/courseRules")
 public class CourseRuleEditorController extends RuleEditorController {
     
-    private static final String KSKRMS_RULE_CO_TABS_ID = "KS-TabsWidget";
+    private static final String KSKRMS_RULE_CO_TABS_ID = "CM-Proposal-Course-TabsWidget";
     
     private static final String KSKRMS_RULE_CO_EDITWITHOBJECT_ID = "KS-EditWithObject-EditSection";
 
