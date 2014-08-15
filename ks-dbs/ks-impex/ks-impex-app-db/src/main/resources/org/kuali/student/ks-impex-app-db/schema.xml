@@ -7071,6 +7071,14 @@
             <column>OWNER_ID</column>
         </index>
     </table>
+    <table name="KSFA_SAMPLE_TABLE">
+        <column name="ID" nullable="false" primaryKey="true" type="STRING">
+            <size value="255"/>
+        </column>
+        <column name="OBJ_ID" type="STRING">
+            <size value="36"/>
+        </column>
+    </table>
     <table name="KSLO_ATTR">
         <column name="ATTR_NAME" type="STRING">
             <size value="255"/>
