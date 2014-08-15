@@ -26,14 +26,7 @@ import org.kuali.student.r2.core.scheduling.dto.TimeSlotInfo;
 import org.kuali.student.r2.core.scheduling.infc.TimeSlot;
 import org.kuali.student.r2.core.scheduling.util.SchedulingServiceUtil;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -47,9 +40,10 @@ import java.util.Set;
 @Table(name = "KSEN_SCHED_TMSLOT")
 @NamedQueries({
         @NamedQuery(name = "TimeSlotEntity.GetByTimeSlotType", query = "select timeSlot from TimeSlotEntity timeSlot where timeSlot.timeSlotType = :timeSlotType"),
-        @NamedQuery(name = "TimeSlotEntity.GetByTimeSlotTypeDaysAndStartTime", query = "select timeSlot from TimeSlotEntity timeSlot where timeSlot.timeSlotType = :timeSlotType and timeSlot.weekdays = :weekdays and timeSlot.startTimeMillis = :startTimeMillis"),
+        @NamedQuery(name = "TimeSlo.tEntity.GetByTimeSlotTypeDaysAndStartTime", query = "select timeSlot from TimeSlotEntity timeSlot where timeSlot.timeSlotType = :timeSlotType and timeSlot.weekdays = :weekdays and timeSlot.startTimeMillis = :startTimeMillis"),
         @NamedQuery(name = "TimeSlotEntity.GetByTimeSlotTypeDaysStartTimeAndEndTime", query = "select timeSlot from TimeSlotEntity timeSlot where timeSlot.timeSlotType = :timeSlotType and timeSlot.weekdays = :weekdays and timeSlot.startTimeMillis = :startTimeMillis and timeSlot.endTimeMillis = :endTimeMillis"),
-        @NamedQuery(name = "TimeSlotEntity.getCurrentMaxTimeSlotCode", query = "select max(name) from TimeSlotEntity timeSlot")})
+        })
+
 
 
 public class TimeSlotEntity extends MetaEntity implements AttributeOwner<TimeSlotAttributeEntity> {
