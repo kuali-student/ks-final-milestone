@@ -3758,7 +3758,7 @@ public class CluServiceImpl implements CluService {
         VersionDisplayInfo versionInfo = null;
         if (CluServiceConstants.CLU_NAMESPACE_URI.equals(refObjectTypeURI)) {
             try {
-                versionInfo = this.getLatestVersion(refObjectId, refObjectTypeURI, context);
+                versionInfo = luDao.getLatestVersion(refObjectId, refObjectTypeURI);
             } catch (NoResultException e) {
                 throw new DoesNotExistException("getLatestVersion returned no result", e);
             }
