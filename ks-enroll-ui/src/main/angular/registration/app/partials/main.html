@@ -134,7 +134,7 @@
         <li class="kscr-Menu-searchTerm">
             <!-- Defaults to the current term-->
             <span class="kscr-Menu-heading">Term</span>
-            <select id="searchTerm" ng-model="term" ng-options="t.termId as t.termName for t in terms"></select>
+            <select id="searchTerm" ng-model="term" ng-options="t as t.termName for t in terms"></select>
         </li>
 
         <!--Search Courses section-->
