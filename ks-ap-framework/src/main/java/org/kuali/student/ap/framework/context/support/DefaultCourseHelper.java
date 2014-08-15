@@ -565,9 +565,36 @@ public class DefaultCourseHelper implements CourseHelper, Serializable {
     public CourseInfo getCurrentVersionOfCourseByVersionIndependentId(String versionIndependentId) {
         // Retrieve course information using the course code entered by the user
         CourseInfo course;
+        ContextInfo contextInfo = KsapFrameworkServiceLocator.getContext().getContextInfo();
+        VersionDisplayInfo currentVersion = null;
         try {
-            ContextInfo contextInfo = KsapFrameworkServiceLocator.getContext().getContextInfo();
-            VersionDisplayInfo currentVersion = KsapFrameworkServiceLocator.getCluService().getCurrentVersion(CluServiceConstants.CLU_NAMESPACE_URI, versionIndependentId, contextInfo);
+            currentVersion = KsapFrameworkServiceLocator.getCluService().getCurrentVersion(CluServiceConstants.CLU_NAMESPACE_URI, versionIndependentId, contextInfo);
+        } catch (DoesNotExistException e) {
+            LOG.warn("No Current Version of Course Found Using Latest Version");
+            try {
+                currentVersion = KsapFrameworkServiceLocator.getCluService().getLatestVersion(CluServiceConstants.CLU_NAMESPACE_URI, versionIndependentId, contextInfo);
+            } catch (DoesNotExistException e1) {
+                throw new IllegalArgumentException("Clu service failure", e1);
+            } catch (InvalidParameterException e1) {
+                throw new IllegalArgumentException("Clu service failure", e1);
+            } catch (MissingParameterException e1) {
+                throw new IllegalArgumentException("Clu service failure", e1);
+            } catch (OperationFailedException e1) {
+                throw new IllegalArgumentException("Clu service failure", e1);
+            } catch (PermissionDeniedException e1) {
+                throw new IllegalArgumentException("Clu service failure", e1);
+            }
+        } catch (InvalidParameterException e) {
+            throw new IllegalArgumentException("Clu service failure", e);
+        } catch (MissingParameterException e) {
+            throw new IllegalArgumentException("Clu service failure", e);
+        } catch (OperationFailedException e) {
+            throw new IllegalArgumentException("Clu service failure", e);
+        } catch (PermissionDeniedException e) {
+            throw new IllegalArgumentException("Clu service failure", e);
+        }
+
+        try {
             course = KsapFrameworkServiceLocator.getCourseService().getCourse(currentVersion.getId(), contextInfo);
         } catch (PermissionDeniedException e) {
             throw new IllegalArgumentException("Course service failure", e);
