@@ -539,15 +539,15 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
     @Transactional(readOnly = true)
     public List<String> getCourseOfferingIdsByTermAndUnitsContentOwner(String termId, String unitsContentOwnerId, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        //TODO: use custom search
         List<String> luiIds = luiService.getLuiIdsByAtpAndType(termId, LuiServiceConstants.COURSE_OFFERING_TYPE_KEY, context);
         List<String> results = new ArrayList<String>();
 
-        for (String luiId : luiIds) {
-            CourseOfferingInfo co = getCourseOffering(luiId, context);
+        List<LuiInfo> luis = luiService.getLuisByIds(luiIds, context);
+        
+        for (LuiInfo lui : luis) {
 
-            if (co.getUnitsContentOwnerOrgIds().contains(unitsContentOwnerId)) {
-                results.add(luiId);
+            if (lui.getUnitsContentOwner().contains(unitsContentOwnerId)) {
+                results.add(lui.getId());
             }
         }
 
