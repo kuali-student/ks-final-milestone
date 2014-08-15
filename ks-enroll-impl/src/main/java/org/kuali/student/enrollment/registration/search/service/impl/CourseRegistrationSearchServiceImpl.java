@@ -1501,7 +1501,7 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
                         "co.DESCR_FORMATTED, coRes.RESULT_VAL_GRP_ID, " +
                         "coClId.LUI_ID coClId, coClId.LUI_CD coClCode, coClId.DIVISION coClDivision, " +
                         "co.ATP_ID coAtpId, ao.ATP_ID aoAtpId, " +
-                        "ao.ID aoId, ao.LUI_TYPE, ao.NAME, aoId.LUI_CD aoCode, ao.MAX_SEATS, " +
+                        "ao.ID aoId, ao.LUI_TYPE, aoType.NAME, aoId.LUI_CD aoCode, ao.MAX_SEATS, " +
                         "(SELECT COUNT(*) FROM KSEN_LPR lpr " +
                         "  WHERE lpr.LUI_ID = ao.ID " +
                         "    AND lpr.LPR_TYPE = '" + LprServiceConstants.REGISTRANT_AO_LPR_TYPE_KEY + "' " +
@@ -1540,6 +1540,9 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
                         "AND ao.LUI_STATE = '" + LuiServiceConstants.LUI_AO_STATE_OFFERED_KEY + "' " +
                         "LEFT OUTER JOIN KSEN_LUI_IDENT aoId " +
                         "ON aoId.LUI_ID = ao.ID " +
+                        // looking up ao type for given AO
+                        "LEFT OUTER JOIN KSEN_TYPE aoType " +
+                        "ON ao.LUI_TYPE = aoType.TYPE_KEY " +
                         // looking for reg groups for given AO
                         "LEFT OUTER JOIN KSEN_LUILUI_RELTN rg2ao " +
                         "ON rg2ao.RELATED_LUI_ID = aoId.LUI_ID " +
