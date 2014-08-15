@@ -13,10 +13,4 @@ public class CMMaintenanceDocumentAuthorizer extends MaintenanceDocumentAuthoriz
                 KimPermissionConstants.KS_OPEN_DOCUMENT_BY_DOC_TYPE_AND_ROUTE_STATUS, user.getPrincipalId());
     }
 
-    @Override
-    public boolean canCancel(Document document, Person user) {
-        // TODO KSCM-1722 -- current default permission is invalid due to workflow configuration using invalid org ids
-        return false;
-    }
-
 }
