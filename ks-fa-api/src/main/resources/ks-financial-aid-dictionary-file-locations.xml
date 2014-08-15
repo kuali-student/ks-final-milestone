@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+    <!-- 
+    Add in a bean for each dictionary for each service data transfer object like this:
+    
+        <bean id="learningPlanInfoDictionaryLocation" class="java.lang.String">
+        <constructor-arg value="classpath:ks-LearningPlanInfo-dictionary.xml"/>
+    </bean>
+    
+    -->
+
+    <bean name="ks-fa-dictionary-file-locations" class="java.util.ArrayList">
+        <constructor-arg index="0">
+        	<list>
+	        	<!-- 
+	        	For each service dto dictionary defined above add an entry into this list, i.e. 
+	        		<bean ref="learningPlanInfoDictionaryLocation" />
+	        	-->
+            </list>
+        </constructor-arg>
+    </bean>
+</beans>

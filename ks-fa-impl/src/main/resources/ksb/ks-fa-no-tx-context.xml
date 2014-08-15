@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright 2010 The Kuali Foundation Licensed under the Educational Community
+	License, Version 2.0 (the "License"); you may not use this file except in
+	compliance with the License. You may obtain a copy of the License at http://www.osedu.org/licenses/ECL-2.0
+	Unless required by applicable law or agreed to in writing, software distributed
+	under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES
+	OR CONDITIONS OF ANY KIND, either express or implied. See the License for
+	the specific language governing permissions and limitations under the License. -->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+                           http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
+
+    <import resource="classpath:ks-financial-aid-dictionary-file-locations.xml"/>
+
+   
+
+
+    <!-- Default JPA EntityManagerFactory -->
+    <bean id="faDefaultEntityManagerFactory" abstract="true"
+          class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+        <property name="jpaVendorAdapter">
+            <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
+                <property name="databasePlatform"
+                          value="${ks.ap.jpa.DatabasePlatform}"/>
+                <property name="showSql" value="${ks.fa.jpa.showSql}"/>
+                <property name="generateDdl" value="${ks.fa.jpa.generateDdl}"/>
+            </bean>
+        </property>
+        <property name="jpaPropertyMap">
+            <map>
+                <entry key="hibernate.transaction.manager_lookup_class"
+                       value="${ks.fa.jpa.JpaProperties.hibernate.transaction.manager_lookup_class}"/>
+                <entry key="hibernate.hbm2ddl.auto" value="${ks.fa.jpa.JpaProperties.hibernate.hbm2ddl.auto}"/>
+                <entry key="hibernate.connection.release_mode"
+                       value="${ks.fa.jpa.JpaProperties.hibernate.connection.release_mode}"/>
+            </map>
+        </property>
+    </bean>
+
+    <bean id="faEntityManagerFactory" parent="apDefaultEntityManagerFactory">
+        <property name="persistenceUnitName" value="fa"/>
+        <property name="persistenceXmlLocation" value="classpath:META-INF/fa-persistence.xml"/>
+        <property name="dataSource" ref="faDataSource"/>
+    </bean>
+
+    <bean id="faEntityManager" class="org.springframework.orm.jpa.support.SharedEntityManagerBean"
+          autowire-candidate="false" autowire="no">
+        <property name="entityManagerFactory" ref="faEntityManagerFactory"/>
+    </bean>
+
+    <!-- Exception mapping. This is needed because many operations are proxied
+        and do not throw exceptions until a later time -->
+    <bean id="faMapExceptionAdvisor" class="org.kuali.student.common.util.ExceptionMappingAdvice">
+        <property name="defaultException"
+                  value="org.kuali.student.r2.common.exceptions.OperationFailedException"/>
+        <property name="exceptionMapping">
+            <map>
+                <entry key="javax.persistence.EntityExistsException"
+                       value="org.kuali.student.r2.common.exceptions.AlreadyExistsException"/>
+                <entry key="org.hibernate.exception.ConstraintViolationException"
+                       value="org.kuali.student.r2.common.exceptions.AlreadyExistsException"/>
+            </map>
+        </property>
+    </bean>
+    <aop:config>
+        <aop:aspect id="dataAccessToBusinessException" ref="faMapExceptionAdvisor">
+            <aop:after-throwing
+                    pointcut="execution(* org.kuali.student.ap.academicplan.service.AcademicPlanServiceImpl.*(..))"
+                    method="afterThrowing" throwing="ex"/>
+        </aop:aspect>
+    </aop:config>
+
+    <bean id="faDataSource" class="org.kuali.rice.student.core.database.DerbyXAPoolDataSource">
+        <property name="transactionManager" ref="userTransaction"/>
+        <property name="driverClassName" value="${ks.fa.datasource.driver.name}"/>
+        <property name="maxSize" value="${ks.fa.datasource.maxSize}"/>
+        <property name="minSize" value="${ks.fa.datasource.minSize}"/>
+        <property name="maxWait" value="${ks.fa.datasource.maxWait}"/>
+        <property name="validationQuery" value="${ks.fa.datasource.validationQuery}"/>
+        <property name="url" value="${ks.fa.datasource.url}"/>
+        <property name="username" value="${ks.fa.datasource.username}"/>
+        <property name="password" value="${ks.fa.datasource.password}"/>
+    </bean>
+
+   
+
+</beans>
