@@ -196,6 +196,8 @@ public class CourseRegistrationLprActionProcessor {
             break;
         }
 
+        LOGGER.info("Updating Registration Request Status to succeed for: " + regReqId);
+
         // Each node can update the LPR transaction. If an exception happens, the LPR trans state should have been
         // updated to failure. Pull it now
         LprTransaction lprTransaction = getLprService().getLprTransaction(regReqId, contextInfo);
