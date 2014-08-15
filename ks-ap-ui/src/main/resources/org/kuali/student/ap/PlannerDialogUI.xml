@@ -327,7 +327,7 @@
 		<property name="headerText" value="Edit @{course.code} @{termId eq null ? 'Bookmark' : 'from the '+term.name+' plan'}" />
 		<property name="items">
 			<list merge="true">
-				<bean parent="planner_course_credit_input" />
+				<!--<bean parent="planner_course_credit_input" />-->
 				<bean parent="planner_course_note_input" />
 			</list>
 		</property>
@@ -516,7 +516,7 @@
                 <bean parent="Uif-Message" p:messageText="@{course.code} @{course.courseTitle} (@{creditString})"  p:cssClasses="bold"/>
                 <ref bean="planner_course_summary_details_data"/>
                 <bean parent="planner_term_input_field"/>
-                <bean parent="planner_course_credit_input_field" />
+                <!--<bean parent="planner_course_credit_input_field" />-->
                 <bean parent="planner_course_note_input" />
                 <bean parent="planner_backup_input"/>
                 <!--<bean parent="planner_bookmark_input"/>-->
@@ -630,7 +630,7 @@
                 <bean parent="Uif-Message" p:messageText="@{course.code} @{course.courseTitle} (@{creditString} cr)"/>
                 <ref bean="planner_course_summary_details_data"/>
                 <bean parent="planner_term_input_field"/>
-                <bean parent="planner_course_credit_input_field" />
+                <!--<bean parent="planner_course_credit_input_field" />-->
                 <bean parent="planner_course_note_input" />
                 <bean parent="planner_backup_input"/>
                 <!--<bean parent="planner_bookmark_input"/>-->
@@ -756,12 +756,12 @@
 		</property>
 	</bean>
 
+    <!--  KSAP-1828
     <bean id="planner_course_credit_input_field" parent="planner_course_credit_input_field-parent"/>
     <bean id="planner_course_credit_input_field-parent" parent="Uif-HorizontalBoxGroup">
         <property name="render" value="@{variableCredit}"/>
         <property name="items">
             <list>
-                <!-- Term & Year -->
                 <bean parent="Uif-CssGridGroup">
                     <property name="items">
                         <list>
@@ -791,6 +791,8 @@
             </list>
         </property>
     </bean>
+    -->
+
     <bean id="planner_course_credit_input" parent="planner_course_credit_input-parent"/>
  	<bean id="planner_course_credit_input-parent" abstract="true" parent="planner_dialog_input">
         <property name="render" value="@{variableCredit}"/>
@@ -806,6 +808,7 @@
             </bean>
         </property>
  	</bean>
+
 
     <bean id="planner_course_note_input" parent="planner_course_note_input-parent"/>
 	<bean id="planner_course_note_input-parent" abstract="true" parent="planner_dialog_input">
