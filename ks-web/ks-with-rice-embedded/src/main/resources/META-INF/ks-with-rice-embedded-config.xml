@@ -24,6 +24,7 @@
     <param name="config.location">classpath:META-INF/ks-lum-config.xml</param>
     <param name="config.location">classpath:META-INF/ks-enroll-config.xml</param>
     <param name="config.location">classpath:META-INF/ks-ap/ks-ap-config.xml</param>
+    <param name="config.location">classpath:META-INF/ks-fa/ks-fa-config.xml</param>
     <param name="config.location">classpath:ks-security-config.xml</param>
 
     <param name="version">${project.name} :: ${project.version} :: ${project.build.timestamp}</param>
@@ -101,7 +102,12 @@
     <param name="ks.ap.datasource.username">${ks.core.datasource.username}</param>
     <param name="ks.ap.datasource.password">${ks.core.datasource.password}</param>
     <param name="ks.ap.datasource.maxSize">${ks.core.datasource.maxSize}</param>
-
+    
+    <param name="ks.fa.datasource.url">${ks.core.datasource.url}</param>
+    <param name="ks.fa.datasource.username">${ks.core.datasource.username}</param>
+    <param name="ks.fa.datasource.password">${ks.core.datasource.password}</param>
+    <param name="ks.fa.datasource.maxSize">${ks.core.datasource.maxSize}</param>
+    
     <!-- Keystore Configuration -->
     <param name="keystore.file">${user.home}/rice.keystore</param>
     <param name="keystore.alias">rice</param>
