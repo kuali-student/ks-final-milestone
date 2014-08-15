@@ -42,8 +42,7 @@ import java.util.Set;
         @NamedQuery(name = "TimeSlotEntity.GetByTimeSlotType", query = "select timeSlot from TimeSlotEntity timeSlot where timeSlot.timeSlotType = :timeSlotType"),
         @NamedQuery(name = "TimeSlotEntity.GetByTimeSlotTypeDaysAndStartTime", query = "select timeSlot from TimeSlotEntity timeSlot where timeSlot.timeSlotType = :timeSlotType and timeSlot.weekdays = :weekdays and timeSlot.startTimeMillis = :startTimeMillis"),
         @NamedQuery(name = "TimeSlotEntity.GetByTimeSlotTypeDaysStartTimeAndEndTime", query = "select timeSlot from TimeSlotEntity timeSlot where timeSlot.timeSlotType = :timeSlotType and timeSlot.weekdays = :weekdays and timeSlot.startTimeMillis = :startTimeMillis and timeSlot.endTimeMillis = :endTimeMillis"),
-        })
-
+        @NamedQuery(name = "TimeSlotEntity.getCurrentMaxTimeSlotCode", query = "select name from TimeSlotEntity timeSlot")})
 
 
 public class TimeSlotEntity extends MetaEntity implements AttributeOwner<TimeSlotAttributeEntity> {
