@@ -273,6 +273,11 @@
             <artifactId>ks-ap-deployment-resources</artifactId>
             <version>${ks.ap.version}</version>
         </dependency>
+         <dependency>
+            <groupId>org.kuali.student.fa</groupId>
+            <artifactId>ks-fa-deployment-resources</artifactId>
+            <version>${ks.fa.version}</version>
+        </dependency>
         <dependency>
             <groupId>org.kuali.student.enroll</groupId>
             <artifactId>ks-enroll-deployment-resources</artifactId>
@@ -379,6 +384,23 @@
             <version>${ks.ap.version}</version>
             <type>war</type>
         </dependency>
+        <!-- start ks-fa dependencies -->
+         <dependency>
+            <groupId>org.kuali.student.fa</groupId>
+            <artifactId>ks-fa-api</artifactId>
+            <version>${ks.fa.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.kuali.student.fa</groupId>
+            <artifactId>ks-fa-impl</artifactId>
+            <version>${ks.fa.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.kuali.student.fa</groupId>
+            <artifactId>ks-fa-ui</artifactId>
+            <version>${ks.fa.version}</version>
+        </dependency>
+        <!-- end ks-fa dependencies -->
         <dependency>
             <groupId>backport-util-concurrent</groupId>
             <artifactId>backport-util-concurrent</artifactId>

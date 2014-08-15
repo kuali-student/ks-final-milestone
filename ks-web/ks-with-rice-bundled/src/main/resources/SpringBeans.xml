@@ -57,7 +57,8 @@
 				<value>ks-core-dictionary-file-locations</value>
 				<value>ks-enroll-dictionary-file-locations</value>
 				<value>ks-cm-dictionary-file-locations</value>
-				<value>ks-ap-dictionary-file-locations</value>				
+				<value>ks-ap-dictionary-file-locations</value>			
+				<value>ks-fa-dictionary-file-locations</value>	
 			</list>
 		</property>
 	</bean>
@@ -96,6 +97,14 @@
 
 </beans>
 
+<beans profile="ks-fa">
+ 
+    <import resource="classpath:ks-fa-ui-context.xml"/>
+    
+    <import resource="classpath:ks-fa-krad-data-dictionary-config.xml"/>
+
+</beans>
+
 <beans profile="ks-web">
 
 	<bean id="kualiModuleService" class="org.kuali.rice.krad.service.impl.KualiModuleServiceImpl" />
@@ -116,6 +125,7 @@
                 		<value>ks-core-krad-data-dictionary-config</value>
                 		<value>ks-enroll-krad-data-dictionary-config</value>
                 		<value>ks-ap-krad-data-dictionary-config</value>
+                		<value>ks-fa-krad-data-dictionary-config</value>
                 		<value>ks-cm-krad-data-dictionary-config</value>
                 	</list>
                 </property>
