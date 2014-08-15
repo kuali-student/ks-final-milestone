@@ -67,11 +67,8 @@ public class AdminRegistrationForm extends UifFormBase implements Serializable {
     /**
      * Courses In Process are courses that has been sent to the registration engine but the registration
      * is not yet completed.
-     *
-     * This list is not instantiated becuase it will always be set with the current pendingCourses list when
-     * user register is performed.
      */
-    private List<RegistrationCourse> coursesInProcess;
+    private List<RegistrationCourse> coursesInProcess = new ArrayList<RegistrationCourse>();
     private String regRequestId;
     private List<String> confirmationIssues = new ArrayList<String>();
 

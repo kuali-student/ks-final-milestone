@@ -182,13 +182,11 @@ public class CourseRegistrationLprActionProcessor {
     }
 
     public void updateRegistrationRequestStatus(List<RegistrationRequestItemEngineMessage> regItems) throws PermissionDeniedException, OperationFailedException, VersionMismatchException, InvalidParameterException, DataValidationErrorException, MissingParameterException, DoesNotExistException {
-        ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
 
+        ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
         String regReqId = null;
         String requestorId = null;
         String lprTransFinalState = LprServiceConstants.LPRTRANS_SUCCEEDED_STATE_KEY;
-
-
 
         // for this implementation we just want the requestId and the id of the person initiating the request.
         // in the future we might want to inspect each item
@@ -208,6 +206,7 @@ public class CourseRegistrationLprActionProcessor {
         contextInfo.setPrincipalId(requestorId);
         getLprService().changeLprTransactionState(regReqId, lprTransFinalState, contextInfo);
 
+        LOGGER.info("Successfully updated Registration Request Status to succeed for: " + regReqId);
     }
 
     private void updateRegistration(RegistrationRequestItemEngineMessage message, ContextInfo contextInfo) throws DoesNotExistException, PermissionDeniedException, OperationFailedException, VersionMismatchException, InvalidParameterException, ReadOnlyException, MissingParameterException, DataValidationErrorException {

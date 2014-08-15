@@ -270,7 +270,8 @@ public class AdminRegistrationController extends UifControllerBase {
         }
 
         // Move courses to "In Process" list
-        form.setCoursesInProcess(form.getPendingCourses());
+        form.getCoursesInProcess().clear();
+        form.getCoursesInProcess().addAll(form.getPendingCourses());
 
         // Set the necessary attributes on the pending courses.
         for (RegistrationCourse course : form.getCoursesInProcess()) {

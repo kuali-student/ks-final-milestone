@@ -2,6 +2,7 @@ package org.kuali.student.enrollment.registration.engine.camel.aggregator;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.processor.aggregate.AggregationStrategy;
+import org.apache.camel.processor.aggregate.TimeoutAwareAggregationStrategy;
 import org.kuali.student.enrollment.registration.engine.dto.RegistrationRequestItemEngineMessage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,7 +12,7 @@ import java.util.ArrayList;
 /**
  * Created by swedev on 3/19/14.
  */
-public class SimpleAggregator implements AggregationStrategy {
+public class SimpleAggregator implements TimeoutAwareAggregationStrategy {
     public static final Logger LOGGER = LoggerFactory.getLogger(SimpleAggregator.class);
 
     @Override
@@ -34,5 +35,10 @@ public class SimpleAggregator implements AggregationStrategy {
             list.add(newBody);
             return oldExchange;
         }
+    }
+
+    @Override
+    public void timeout(Exchange oldExchange, int index, int total, long timeout) {
+        LOGGER.info("Aggregate timeout reached: " + index + " " + total + " " + timeout + " " + oldExchange.getIn().getBody());
     }
 }
