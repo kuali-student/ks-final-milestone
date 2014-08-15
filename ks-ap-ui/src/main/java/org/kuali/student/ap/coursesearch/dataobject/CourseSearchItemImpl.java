@@ -530,7 +530,7 @@ public class CourseSearchItemImpl implements CourseSearchItem {
 
         addToPlanLink.addAttribute("id", cid + "_add_to_plan_anchor");
         addToPlanLink.addAttribute("class", "add-to-plan-link");
-        addToPlanLink.addAttribute("title", "Add to Plan");
+
         addToPlanLink.addAttribute("data-courseid", courseId);
         addToPlanLink.addAttribute("data-coursexid", cid);
         addToPlanLink.setText(" ");
@@ -538,10 +538,12 @@ public class CourseSearchItemImpl implements CourseSearchItem {
         if (isPlanned()) {
             //Currently Added to planner, somewhere
             addToPlanLink.addAttribute("class", "ks-fontello-icon-ok-circled planned");
+            addToPlanLink.addAttribute("title", "Planned");
         } else {
             //Not planned anywhere
             addToPlanLink.addAttribute("class", "ks-fontello-icon-hollow-circled-plus");
             addToPlanLink.addAttribute("onclick", "ksapOpenPlanDialog('course_add_course_page','planner','startDialog', this, event);");
+            addToPlanLink.addAttribute("title", "Add to Plan");
         }
 
 		return actionDiv.asXML();

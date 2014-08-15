@@ -565,6 +565,9 @@ function registerCourseSearchResultsEvents(jqObject) {
         })
         .on('BOOKMARK_ADDED', function(event, data){
             ksapBookmarkAddOnSearch(data);
+        })
+        .on('PLAN_ITEM_ADDED', function(event, data) {
+            ksapPlannerAddPlanItemOnSearch(data);
         });
 }
 
@@ -640,5 +643,21 @@ function ksapBookmarkRemoveOnSearch(data){
         item.addClass("ks-fontello-icon-star-empty");
         item.attr('onclick', "bookmarkCourse(jQuery(this).data('courseid'), event);");
         item.attr('title', "Bookmark");
+    }
+}
+
+/**
+ * Handles the dynamic updating when a plan item is added on the course search page
+ * @param data - Data for the event
+ */
+function ksapPlannerAddPlanItemOnSearch(data){
+    // Change status on course search page
+    var item = jQuery("#"+data.courseId+"_add_to_plan_anchor");
+    if(item.length){
+        item.addClass("ks-fontello-icon-ok-circled");
+        item.addClass("planned");
+        item.removeClass("ks-fontello-icon-hollow-circled-plus");
+        item.attr('title', "Planned");
+        item.attr('onclick', null);
     }
 }
