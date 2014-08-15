@@ -293,6 +293,14 @@ public class TestStatePropagationViewHelperServiceImpl extends ViewHelperService
             rgInfo = rgInfos.get(0);
             // Get list of AOs but only for this RG
             aoInfos = CourseOfferingManagementUtil.getCourseOfferingService().getActivityOfferingsByIds(rgInfo.getActivityOfferingIds(), CONTEXT);
+            // Set AO Scheduling state to scheduled since it is a constraint for AO state change (approved->offered)
+            aoInfos.get(0).setSchedulingStateKey(LuiServiceConstants.LUI_AO_SCHEDULING_STATE_SCHEDULED_KEY);
+            try {
+                CourseOfferingManagementUtil.getCourseOfferingService().updateActivityOffering(aoInfos.get(0).getId(), aoInfos.get(0), CONTEXT);
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+
             primaryAoId = aoInfos.get(0).getId();
             secondaryAoId = aoInfos.get(1).getId();
         }
