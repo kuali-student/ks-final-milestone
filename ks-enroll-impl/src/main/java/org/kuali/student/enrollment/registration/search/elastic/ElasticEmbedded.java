@@ -10,6 +10,7 @@ import org.elasticsearch.common.xcontent.XContentBuilder;
 import org.elasticsearch.common.xcontent.XContentFactory;
 import org.elasticsearch.node.Node;
 import org.elasticsearch.node.NodeBuilder;
+import org.joda.time.DateTime;
 import org.kuali.student.common.util.security.ContextUtils;
 import org.kuali.student.enrollment.registration.client.service.ScheduleOfClassesService;
 import org.kuali.student.enrollment.registration.client.service.dto.CourseSearchResult;
@@ -58,7 +59,7 @@ public class ElasticEmbedded {
         super();
     }
 
-    private Date lastUpdated; //Keep track of timeout for the elastic "cache"
+    private DateTime lastUpdated; //Keep track of timeout for the elastic "cache"
     private long timeToRefreshMs = (5 * 60 * 1000); //Max time before refreshing the cache/reindexing
     private static int PARTITION_SIZE = 10000; // for large data sets we should partition
 
@@ -271,7 +272,7 @@ public class ElasticEmbedded {
      * @return an elastic search client
      */
     public synchronized Client getClient() {
-        if (lastUpdated == null || System.currentTimeMillis() > (lastUpdated.getTime() + timeToRefreshMs)) {
+        if (lastUpdated == null || DateTime.now().getMillis() > (lastUpdated.getMillis() + timeToRefreshMs)) {
             try {
                 if(lastUpdated == null){
                     //If this is a first time run, block while indexing
@@ -295,7 +296,7 @@ public class ElasticEmbedded {
                 throw new RuntimeException("Error updating data", e);
             }
 
-            lastUpdated = new Date();
+            lastUpdated = DateTime.now();
         }
 
         return client;
