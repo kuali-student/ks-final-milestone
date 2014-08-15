@@ -10,7 +10,7 @@ angular.module('regCartApp')
      *  See the 'COURSE_OPTIONS' configuration for a sample implementation and further
      *  documentation on customization.
      */
-    .factory('DetailsFactory', ['$injector', function DetailsFactory($injector) {
+    .factory('DetailsFactory', ['$injector', function($injector) {
         var configCache = {};
 
         // DetailsFactory constructor...call with "new DetailsFactory(configName)"
@@ -24,7 +24,7 @@ angular.module('regCartApp')
 
             // if the config exists, add it to the cache, otherwise log an error
             if (angular.isUndefined(detailsConfig)) {
-                console.log('Search Details configuration '+configName+' is not defined');
+                console.log('Search Details configuration ' + configName + ' is not defined');
             } else {
                 configCache[configName] = detailsConfig;
             }

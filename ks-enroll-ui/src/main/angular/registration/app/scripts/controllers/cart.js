@@ -1,9 +1,9 @@
 'use strict';
 
 angular.module('regCartApp')
-    .controller('CartCtrl', ['$scope', '$modal', '$timeout', 'STATE', 'STATUS', 'GRADING_OPTION', 'ACTION_LINK', 'COURSE_TYPES', 'GENERAL_ERROR_TYPE', 'CartService', 'ScheduleService',
-                'MessageService', 'TermsService', 'GlobalVarsService',
-    function ($scope, $modal, $timeout, STATE, STATUS, GRADING_OPTION, ACTION_LINK, COURSE_TYPES, GENERAL_ERROR_TYPE, CartService, ScheduleService, MessageService, TermsService, GlobalVarsService) {
+    .controller('CartCtrl', ['$scope', '$modal', '$timeout', 'STATE', 'STATUS', 'GRADING_OPTION', 'ACTION_LINK', 'COURSE_TYPES', 'GENERAL_ERROR_TYPE',
+        'GlobalVarsService', 'MessageService', 'TermsService', 'CartService', 'ScheduleService',
+    function ($scope, $modal, $timeout, STATE, STATUS, GRADING_OPTION, ACTION_LINK, COURSE_TYPES, GENERAL_ERROR_TYPE, GlobalVarsService, MessageService, TermsService, CartService, ScheduleService) {
         console.log('>> CartCtrl');
 
         $scope.states = STATE;
@@ -191,7 +191,7 @@ angular.module('regCartApp')
                 } else {
                     console.log('Error with adding course', error.data.consoleMessage);
                     //Reg group is not in offered state
-                    errorText = error.data.genericMessage + " for " + TermsService.getSelectedTerm().termName;
+                    errorText = error.data.genericMessage + ' for ' + TermsService.getSelectedTerm().termName;
                     $scope.userMessage = {txt: errorText, messageKey: GENERAL_ERROR_TYPE.noRegGroup, type: error.data.type, detail: error.data.detailedMessage, course: course.courseCode + ' (' + course.regGroupCode + ')'};
                     $scope.courseAdded = true; // refocus cursor back to course code
 

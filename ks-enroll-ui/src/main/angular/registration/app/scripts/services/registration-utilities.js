@@ -6,7 +6,7 @@ angular.module('regCartApp')
      *
      * No persistent variables should be used, only stand-alone methods should be in this service.
      */
-    .service('RegUtil', [function ServiceUtilities() {
+    .service('RegUtil', [function RegUtil() {
         /*
          * Converts a time string to an integer representing the minutes since
          * start of day.
@@ -25,6 +25,6 @@ angular.module('regCartApp')
             }
 
             return time;
-        }
+        };
     }])
 ;

@@ -100,6 +100,6 @@ angular.module('regCartApp')
                     }
                 }
             }
-        }
+        };
 
     }]);

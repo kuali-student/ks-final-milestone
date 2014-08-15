@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('regCartApp')
-    .controller('ScheduleCtrl', ['$scope', '$modal', '$timeout', 'STATUS', 'GRADING_OPTION', 'COURSE_TYPES', 'ScheduleService', 'CartService', 'TermsService', 'GlobalVarsService',
-    function ($scope, $modal, $timeout, STATUS, GRADING_OPTION, COURSE_TYPES, ScheduleService, CartService, TermsService, GlobalVarsService) {
+    .controller('ScheduleCtrl', ['$scope', '$modal', '$timeout', 'STATUS', 'GRADING_OPTION', 'COURSE_TYPES', 'GlobalVarsService', 'TermsService', 'ScheduleService', 'CartService',
+    function ($scope, $modal, $timeout, STATUS, GRADING_OPTION, COURSE_TYPES, TermsService, GlobalVarsService, ScheduleService, CartService) {
         console.log('>> ScheduleCtrl');
 
         $scope.getSchedules = ScheduleService.getSchedules;

@@ -45,8 +45,8 @@ angular.module('regCartApp')
     The CartCtrl controller handles various operations for both the course-card and
     course-accordion directives.
      */
-    .controller('CardCtrl', ['$scope', '$timeout', 'GlobalVarsService', 'TermsService', 'CartService', 'ScheduleService', 'STATUS', 'GRADING_OPTION', 'COURSE_TYPES',
-        function($scope, $timeout, GlobalVarsService, TermsService, CartService, ScheduleService, STATUS, GRADING_OPTION, COURSE_TYPES) {
+    .controller('CardCtrl', ['$scope', '$timeout', 'STATUS', 'GRADING_OPTION', 'COURSE_TYPES', 'GlobalVarsService',
+        function($scope, $timeout, STATUS, GRADING_OPTION, COURSE_TYPES, GlobalVarsService) {
             /*
              Utility function for providing configuration variables based on
              whether the course in scope is registered, waitlist, or cart.

@@ -1,9 +1,9 @@
 'use strict';
 
 angular.module('regCartApp')
-    .controller('MainCtrl', ['$scope', '$location', '$state', 'TermsService', 'ScheduleService', 'CartService', 'GlobalVarsService', 'APP_URL', 'DEFAULT_TERM',
-        'LoginService', 'MessageService', '$modal',
-    function MainCtrl($scope, $location, $state, TermsService, ScheduleService, CartService, GlobalVarsService, APP_URL, DEFAULT_TERM, LoginService, MessageService, $modal) {
+    .controller('MainCtrl', ['$scope', '$location', '$state', '$modal', 'APP_URL', 'DEFAULT_TERM',
+        'GlobalVarsService', 'LoginService', 'TermsService', 'ScheduleService', 'CartService',
+    function MainCtrl($scope, $location, $state, $modal, APP_URL, DEFAULT_TERM, GlobalVarsService, LoginService, TermsService, ScheduleService, CartService) {
         console.log('>> MainCtrl');
 
         $scope.appUrl = APP_URL.replace('/services/', '/');

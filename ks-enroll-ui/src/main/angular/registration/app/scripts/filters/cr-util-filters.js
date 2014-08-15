@@ -17,6 +17,6 @@ angular.module('regCartApp')
                 cleansed = value;
             }
             return cleansed;
-        }
+        };
     })
 ;

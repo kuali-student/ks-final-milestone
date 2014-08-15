@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('regCartApp')
-    .service('CartService', ['$q', 'ServiceUtilities', 'URLS', function CartService($q, ServiceUtilities, URLS) {
+    .service('CartService', ['$q', 'URLS', 'ServiceUtilities', function CartService($q, URLS, ServiceUtilities) {
 
         var cartCredits = 0;
         var cartCourseCount = 0;

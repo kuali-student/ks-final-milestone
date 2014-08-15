@@ -60,7 +60,7 @@ angular.module('regCartApp')
                 var location = '';                                      // location column
                 var instructorList = '';                                // instructors column
                 var seatsOpen = '';                                     // seats open column
-                var additionalInfo = undefined;                         // additional info column
+                var additionalInfo;                                     // additional info column
 
                 var indicator = false;                                  // determines if we show the row indicator on the left
 

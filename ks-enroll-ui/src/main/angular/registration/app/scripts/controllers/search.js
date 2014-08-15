@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('regCartApp')
-    .controller('SearchCtrl', ['$scope', '$rootScope', '$filter', '$state', 'TermsService', 'SearchService', 'CourseSearchFacets',
-    function SearchCtrl($scope, $rootScope, $filter, $state, TermsService, SearchService, CourseSearchFacets) {
+    .controller('SearchCtrl', ['$scope', '$filter', '$state', 'CourseSearchFacets', 'TermsService', 'SearchService',
+    function SearchCtrl($scope, $filter, $state, CourseSearchFacets, TermsService, SearchService) {
         console.log('>> SearchCtrl');
 
         $scope.facets = CourseSearchFacets; // Facet definitions

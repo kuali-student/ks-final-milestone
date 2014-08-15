@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('regCartApp')
-    .service('SearchService', ['ServiceUtilities', 'URLS', function SearchService(ServiceUtilities, URLS) {
+    .service('SearchService', ['URLS', 'ServiceUtilities', function SearchService(URLS, ServiceUtilities) {
 
         var searchCacheTTL = 30; // Seconds to keep search results cached
         var searches = []; // Cache of recent searches
