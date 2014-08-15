@@ -272,7 +272,7 @@ public class CourseRegistrationEngineServiceImpl implements CourseRegistrationEn
         //Set the status on the Request to processing. This leaves the message out of sync as far as state and
         registrationRequestInfo.setStateKey(LprServiceConstants.LPRTRANS_PROCESSING_STATE_KEY);
         for(RegistrationRequestItemInfo requestItemInfo:registrationRequestInfo.getRegistrationRequestItems()){
-            requestItemInfo.setStateKey(LprServiceConstants.LPRTRANS_PROCESSING_STATE_KEY);
+            requestItemInfo.setStateKey(LprServiceConstants.LPRTRANS_ITEM_PROCESSING_STATE_KEY);
         }
         registrationRequestInfo = getCourseRegistrationService().updateRegistrationRequest(registrationRequestInfo.getId(), registrationRequestInfo, contextInfo);
 
