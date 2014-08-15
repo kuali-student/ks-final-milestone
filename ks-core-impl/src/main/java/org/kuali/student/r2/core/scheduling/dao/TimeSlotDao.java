@@ -87,19 +87,26 @@ public class TimeSlotDao extends GenericEntityDao<TimeSlotEntity> {
     }
 
     public String getCurrentMaxTimeSlotCode() {
-
-
         Query query = em.createNamedQuery("TimeSlotEntity.getCurrentMaxTimeSlotCode");
-        Collections.sort(query.getResultList(), new Comparator() {
-            @Override
-            public int compare(Object o1, Object o2) {
+        int size = query.getResultList().size();
 
-                Integer n1 = Integer.parseInt(o1.toString());
-                Integer n2 = Integer.parseInt(o1.toString());
-                return n1.compareTo(n2);
-            }
-        });
+        if(size > 0)
+        {
+            Collections.sort(query.getResultList(), new Comparator() {
+                @Override
+                public int compare(Object o1, Object o2) {
 
-        return query.getResultList().get(query.getResultList().size() - 1).toString();
+                    Integer n1 = Integer.parseInt(o1.toString());
+                    Integer n2 = Integer.parseInt(o1.toString());
+                    return n1.compareTo(n2);
+                }
+            });
+
+            return query.getResultList().get(size - 1).toString();
+        }else
+        {
+            return "0";
+        }
+
     }
 }
