@@ -57,7 +57,6 @@
                             <artifactId>ks-enroll-sql</artifactId>
                             <version>${ks.enroll.version}</version>
                         </dependency>
-
                         <dependency>
                             <groupId>org.kuali.student.fa</groupId>
                             <artifactId>ks-fa-sql</artifactId>
