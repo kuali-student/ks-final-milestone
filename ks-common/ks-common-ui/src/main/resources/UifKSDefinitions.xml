@@ -666,6 +666,15 @@
         <property name="actionImagePlacement" value="IMAGE_ONLY"/>
     </bean>
 
+    <bean id="KS-Uif-Cancel-NavigationActionLink" parent="Uif-KS-NavigationActionLink-parentBean" abstract="true"
+          p:title="Cancel">
+        <property name="actionImage">
+            <bean parent="Uif-Image" p:source="" p:cssClasses="ks-fontello-icon-block-1"/>
+        </property>
+        <property name="actionImagePlacement" value="IMAGE_ONLY"/>
+    </bean>
+
+
     <bean id="KS-Uif-Delete-NavigationActionLink" parent="Uif-KS-NavigationActionLink-parentBean" abstract="true"
           p:title="Delete">
         <property name="actionImage">
