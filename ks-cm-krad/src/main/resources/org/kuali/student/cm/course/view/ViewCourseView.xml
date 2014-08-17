@@ -84,6 +84,13 @@
           p:title="Copy to New Proposal">
     </bean>
 
+    <bean id="CM-Proposal-Course-LinkGroup-CancelCourse" parent="CM-Proposal-Course-LinkGroup-CancelCourse-parent"/>
+
+    <bean id="CM-Proposal-Course-LinkGroup-CancelCourse-parent" parent="KS-Uif-Cancel-NavigationActionLink" abstract="true"
+          p:methodToCall="CancelCourse"
+          p:title="Cancel Proposal">
+    </bean>
+
     <bean id="CM-ViewCourse-View-Right-Header-Group-Status" parent="KS-Unified-Right-Header-Group-Status">
         <property name="items">
             <list>

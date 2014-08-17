@@ -183,6 +183,8 @@ public class CurriculumManagementConstants {
     public final static String FILE_SIZE_CONSTRAINT = "Maximum File Size - 7.5MB";
 
     public final static String COURSE_SUBMIT_CONFIRMATION_DIALOG = "CM-Proposal-Review-Course-ConfirmSubmit-Dialog";
+    public final static String CANCEL_COURSE_CONFIRMATION_DIALOG = "CM-Cancel-Course-Dialog";
+
     public final static String COURSE_RETURN_TO_PREVIOUS_NODE_DIALOG = "CM-Proposal-Review-Course-ConfirmReturnToPreviousNode-Dialog";
     public final static String COURSE_APPROVE_CONFIRMATION_DIALOG = "CM-Proposal-Review-Course-ConfirmApprove-Dialog";
     public final static String COURSE_BLANKET_APPROVE_CONFIRMATION_DIALOG = "CM-Proposal-Review-Course-ConfirmBlanketApprove-Dialog";

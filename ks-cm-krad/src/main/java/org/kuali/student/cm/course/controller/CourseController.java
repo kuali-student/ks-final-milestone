@@ -63,6 +63,7 @@ import org.kuali.student.common.uif.util.GrowlIcon;
 import org.kuali.student.common.uif.util.KSUifUtils;
 import org.kuali.student.common.util.security.ContextUtils;
 import org.kuali.student.r1.common.rice.StudentIdentityConstants;
+import org.kuali.student.r1.core.proposal.ProposalConstants;
 import org.kuali.student.r1.core.subjectcode.service.SubjectCodeService;
 import org.kuali.student.r1.core.workflow.dto.CollaboratorWrapper;
 import org.kuali.student.r2.common.constants.CommonServiceConstants;
@@ -324,6 +325,30 @@ public class CourseController extends CourseRuleEditorController {
 
         //  Replace the UI Wrapper with the one we saved above.
         ((CourseInfoWrapper) viewHelper.getDataObject()).setUiHelper(uiHelper);
+        return getUIFModelAndView(form);
+    }
+
+    @MethodAccessible
+    @RequestMapping(params = "methodToCall=cancelCourse")
+    public ModelAndView cancelCourse(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result, HttpServletRequest request, HttpServletResponse response) {
+
+        String dialog = CurriculumManagementConstants.CANCEL_COURSE_CONFIRMATION_DIALOG;
+        if ( ! hasDialogBeenDisplayed(dialog, form)) {
+            return showDialog(dialog, form, request, response);
+        }
+        else {
+            if (hasDialogBeenAnswered(dialog, form)) {
+                boolean confirmSubmit = getBooleanDialogResponse(dialog, form, request, response);
+                if (confirmSubmit) {
+                    super.cancel(form,result,request,response);
+                }   else {
+                    form.getDialogManager().removeDialog(dialog);
+                }
+            }
+            else{
+                return showDialog(dialog, form, request, response);
+            }
+        }
         return getUIFModelAndView(form);
     }
 

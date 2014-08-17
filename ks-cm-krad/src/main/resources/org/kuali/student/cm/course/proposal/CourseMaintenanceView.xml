@@ -101,7 +101,8 @@
 
         <property name="dialogs">
             <list>
-                <bean id="CM-Proposal-Review-Course-ConfirmSubmit-Dialog" parent="KS-Proposal-Review-Course-ConfirmSubmit-Dialog"/>
+                <bean id="CM-Cancel-Course-Dialog" parent="KS-Cancel-Course-Dialog"/>
+               <bean id="CM-Proposal-Review-Course-ConfirmSubmit-Dialog" parent="KS-Proposal-Review-Course-ConfirmSubmit-Dialog"/>
                 <bean id="CM-Proposal-Review-Course-ConfirmReturnToPreviousNode-Dialog" parent="KS-Proposal-Review-Course-ConfirmReturnToPreviousNode-Dialog"/>
                 <bean id="CM-Proposal-Review-Course-ConfirmApprove-Dialog" parent="KS-Proposal-Review-Course-ConfirmApprove-Dialog"/>
                 <bean id="CM-Proposal-Review-Course-ConfirmBlanketApprove-Dialog" parent="KS-Proposal-Review-Course-ConfirmBlanketApprove-Dialog"/>
@@ -145,6 +146,7 @@
           p:cssClasses="cm-unified-header-rightGroup-action">
         <property name="items">
             <list>
+                <bean parent="CM-Proposal-Course-LinkGroup-CancelCourse" p:methodToCall="cancelCourse" />
                 <bean parent="CM-Proposal-Course-LinkGroup-CopyProposal" p:methodToCall="copyProposal" p:render="@{#form.pageId eq 'CM-Proposal-Review-Course-Page'}"/>
                 <bean parent="CM-Proposal-Course-LinkGroup-Comments"/>
                 <bean parent="CM-Proposal-Course-LinkGroup-Decisions"/>
@@ -702,6 +704,26 @@
                   value=" @{(#form.pageId eq 'CM-Proposal-Course-Create-Page') ? #uiHelper.headerText : 'Create Course'}"/>
         <property name="url.baseUrl" value="cmHome"/>
         <property name="url.viewId" value="curriculumHomeView"/>
+    </bean>
+
+    <bean id="KS-Cancel-Course-Dialog" parent="KS-Cancel-Course-Dialog-parentBean" />
+    <bean id="KS-Cancel-Course-Dialog-parentBean" parent="Uif-DialogGroup" abstract="true" >
+        <property name="headerText" value="Cancel Proposal"/>
+        <property name="onDialogResponseScript" value="closeLightbox();"/>
+        <property name="renderHeader" value="true"/>
+        <property name="cssClasses" >
+            <list merge="true">
+                <value>submitcourse_dialog</value>
+            </list>
+        </property>
+        <property name="promptText"
+                  value="Are you sure you want to cancel the proposal?"/>
+        <property name="availableResponses">
+            <list>
+                <bean parent="Uif-KeyLabelPair" p:key="yes" p:value="Submit"/>
+                <bean parent="Uif-KeyLabelPair" p:key="no" p:value="Cancel"/>
+            </list>
+        </property>
     </bean>
 
 </beans>
