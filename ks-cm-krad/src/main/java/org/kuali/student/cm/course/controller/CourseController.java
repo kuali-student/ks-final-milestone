@@ -1312,6 +1312,13 @@ public class CourseController extends CourseRuleEditorController {
                             elementPath = CurriculumManagementConstants.DATA_OBJECT_PATH + ".reviewProposalDisplay.courseLogisticsSection.finalExamStatus";
                         }
                         break;
+                    case "finalExamRationale":
+                        if (StringUtils.equals(CurriculumManagementConstants.CourseViewPageIds.CREATE_COURSE_PAGE, form.getPageId())) {
+                            elementPath = CurriculumManagementConstants.DATA_OBJECT_PATH + ".finalExamRationale";
+                        } else {
+                            elementPath = CurriculumManagementConstants.DATA_OBJECT_PATH + ".reviewProposalDisplay.courseLogisticsSection.finalExamStatusRationale";
+                        }
+                        break;
                     case "gradingOptions":
                         if (StringUtils.equals(CurriculumManagementConstants.CourseViewPageIds.CREATE_COURSE_PAGE, form.getPageId())) {
                             elementPath = CurriculumManagementConstants.DATA_OBJECT_PATH + ".courseInfo.gradingOptions";
