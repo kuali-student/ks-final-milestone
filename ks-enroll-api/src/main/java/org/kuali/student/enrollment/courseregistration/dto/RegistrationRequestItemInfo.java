@@ -48,6 +48,7 @@ import org.w3c.dom.Element;
         "requestedEffectiveDate",
         "okToWaitlist",
         "okToHoldUntilList", "validationResults",
+        "crossList",
         "meta", "attributes", "_futureElements"})
 
 public class RegistrationRequestItemInfo
@@ -86,6 +87,9 @@ public class RegistrationRequestItemInfo
     @XmlElement
     private List<ValidationResultInfo> validationResults;
 
+    @XmlElement
+    private String crossList;
+
     @XmlAnyElement
     private List<Element> _futureElements;
 
@@ -117,6 +121,7 @@ public class RegistrationRequestItemInfo
             this.requestedEffectiveDate = registrationRequestItem.getRequestedEffectiveDate();
             this.okToWaitlist = registrationRequestItem.getOkToWaitlist();
             this.okToHoldUntilList = registrationRequestItem.getOkToHoldUntilList();
+            this.crossList = registrationRequestItem.getCrossList();
             this.validationResults = new ArrayList<ValidationResultInfo>();
             for(ValidationResult validationResult:registrationRequestItem.getValidationResults ()){
                 this.getValidationResults().add(new ValidationResultInfo(validationResult));
@@ -205,7 +210,6 @@ public class RegistrationRequestItemInfo
         this.okToHoldUntilList = okToHoldUntilList;
     }
 
-
     @Override
     public List<ValidationResultInfo> getValidationResults() {
         if (validationResults == null) {
@@ -217,4 +221,9 @@ public class RegistrationRequestItemInfo
     public void setValidationResults(List<ValidationResultInfo> validationResults) {
         this.validationResults = validationResults;
     }
+
+    @Override
+    public String getCrossList() { return crossList; }
+
+    public void setCrossList(String crossList) { this.crossList = crossList; }
 }

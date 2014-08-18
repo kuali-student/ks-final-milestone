@@ -41,6 +41,7 @@ import org.w3c.dom.Element;
                 "requestOptions", 
                 "resultingLprId",
                 "validationResults",
+                "crossList",
                 "meta", "attributes", "_futureElements"})
 
 public class LprTransactionItemInfo 
@@ -73,6 +74,9 @@ public class LprTransactionItemInfo
     @XmlElement
     private List<ValidationResultInfo> validationResults;
 
+    @XmlElement
+    private String crossList;
+
     @XmlAnyElement
     private List<Element> _futureElements;
 
@@ -91,6 +95,8 @@ public class LprTransactionItemInfo
             this.personId = lprTransactionItem.getPersonId();
             this.newLuiId = lprTransactionItem.getNewLuiId();
             this.existingLprId = lprTransactionItem.getExistingLprId();
+
+            this.crossList = lprTransactionItem.getCrossList();
             
             this.requestOptions = new ArrayList<LprTransactionItemRequestOptionInfo>();
             if (null != lprTransactionItem.getRequestOptions()) {
@@ -166,7 +172,6 @@ public class LprTransactionItemInfo
         this.existingLprId = existingLprId;
     }
 
-
     @Override
     public String getExistingLprId() {
         return existingLprId;
@@ -195,4 +200,9 @@ public class LprTransactionItemInfo
     public void setValidationResults(List<ValidationResultInfo> validationResults) {
         this.validationResults = validationResults;
     }
+
+    @Override
+    public String getCrossList() { return crossList; }
+
+    public void setCrossList(String crossList) { this.crossList = crossList; }
 }

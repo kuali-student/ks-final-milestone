@@ -44,7 +44,8 @@ import java.util.List;
         "atpId",
         "masterLprId", 
         "resultValuesGroupKeys", 
-        "commitmentPercent", 
+        "commitmentPercent",
+        "crossList",
         "meta", 
         "attributes",
         "_futureElements"})
@@ -74,6 +75,9 @@ public class LprInfo
     @XmlJavaTypeAdapter(KualiDecimalAdapter.class)
     private KualiDecimal commitmentPercent;
 
+    @XmlElement
+    private String crossList;
+
     @XmlAnyElement
     private List<Element> _futureElements;
 
@@ -87,6 +91,7 @@ public class LprInfo
             this.personId = lpr.getPersonId();
             this.atpId = lpr.getAtpId();
             this.masterLprId = lpr.getMasterLprId();
+            this.crossList = lpr.getCrossList();
             if (lpr.getCommitmentPercent() != null) {
                 this.commitmentPercent = new KualiDecimal(lpr.getCommitmentPercent().bigDecimalValue());
             }
@@ -130,7 +135,12 @@ public class LprInfo
 
     public void setMasterLprId(String masterLprId) {
         this.masterLprId = masterLprId;
-    }    
+    }
+
+    @Override
+    public String getCrossList() { return crossList; }
+
+    public void setCrossList(String crossList) { this.crossList = crossList; }
 
     @Override
     public KualiDecimal getCommitmentPercent() {
