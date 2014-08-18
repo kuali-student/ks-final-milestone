@@ -179,12 +179,18 @@ public class CMMaintenanceDocument extends MaintenanceDocumentBase {
                 // the custom method below is needed for the unique problem of the states being set for a Withdraw action in KS
                 processSuperUserDisapproveActionTaken(actionTakenEvent, actionTaken, proposalInfo);
             }
-            // only attempt to remove the adhoc permission if the action taken was not an adhoc revocation
+            /* only attempt to remove the adhoc permission if the action taken was not an adhoc revocation as an
+               as an adhoc revocation will have already removed the adhoc permissions for edit access
+             */
             else if (!StringUtils.equals(KewApiConstants.ACTION_TAKEN_ADHOC_REVOKED_CD, actionTakeCode)) {
                 List<ActionRequest> actionRequests = getWorkflowDocumentService().getRootActionRequests(actionTakenEvent.getDocumentId());
                 for (ActionRequest actionRequest : actionRequests) {
+                    // for now we only care about adhoc requests to individual users (aka collaborators)
                     if (actionRequest.isAdHocRequest() && actionRequest.isUserRequest()) {
-                        processActionTakenOnAdhocRequest(actionTakenEvent, actionRequest);
+                        // only process actions taken on adhoc requests if the request is satisfied by the action taken
+                        if ((actionRequest.getActionTaken() != null) && (StringUtils.equals(actionTaken.getId(), actionRequest.getActionTaken().getId()))) {
+                            processActionTakenOnAdhocRequest(actionTakenEvent, actionRequest);
+                        }
                     }
                 }
             }
