@@ -19,17 +19,21 @@ package org.kuali.student.enrollment.class1.hold.controller;
 import org.kuali.rice.krad.web.controller.UifControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.enrollment.class1.hold.form.HoldIssueManagementForm;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletRequest;
 
 /**
- *
  * @author Kuali Student Team
  */
+@Controller
+@RequestMapping(value = "/holdIssueManagement")
 public class HoldIssueManagementController extends UifControllerBase {
 
     @Override
     protected UifFormBase createInitialForm(HttpServletRequest request) {
         return new HoldIssueManagementForm();
     }
+
 }

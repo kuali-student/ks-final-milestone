@@ -46,7 +46,7 @@ import java.util.List;
  */
 
 @Controller
-@RequestMapping(value = "/holdIssueMaintenanceController")
+@RequestMapping(value = "/holdIssueMaintenance")
 public class HoldIssueMaintenanceController extends MaintenanceDocumentController {
 
     @Override
