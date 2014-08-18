@@ -1173,10 +1173,6 @@ function setDirtyManually(dirtyFlag) {
     dirtyFormState.dirtyFormInput.val(dirtyFlag);
 }
 
-function emptyTextBoxes(){
-    JQuery("#CM-ReturnToPrevious-Dialog-Explanation_control").val('');
-}
-
 function toggleReturnButton() {
     var rationaleDesc = jQuery("#CM-ReturnToPrevious-Dialog-Explanation_control").val();
     if (rationaleDesc != '') {
