@@ -62,6 +62,7 @@ public class AdminRegConstants {
     public static final String ADMIN_REG_MSG_ERROR_EFFECTIVE_DATE_REQUIRED = "error.admin.reg.effectiveDate.required";
     public static final String ADMIN_REG_MSG_ERROR_REG_OPTIONS_REQUIRED = "error.admin.reg.regOption.required";
 
+    public static final String ADMIN_REG_MSG_INFO_COURSE_TITLE_NOT_FOUND= "info.admin.reg.course.tittle.not.found";
     public static final String ADMIN_REG_MSG_INFO_SUCCESSFULLY_REGISTERED = "info.admin.reg.course.successfully.registered";
     public static final String ADMIN_REG_MSG_INFO_SUCCESSFULLY_WAITLISTED = "info.admin.reg.course.successfully.waitlisted";
     public static final String ADMIN_REG_MSG_INFO_SUCCESSFULLY_UPDATED = "info.admin.reg.course.successfully.updated";

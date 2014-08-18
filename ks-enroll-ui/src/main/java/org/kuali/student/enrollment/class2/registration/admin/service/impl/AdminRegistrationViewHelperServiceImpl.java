@@ -609,7 +609,7 @@ public class AdminRegistrationViewHelperServiceImpl extends KSViewHelperServiceI
             if (courseOffering != null) {
                 course.setTitle(courseOffering.getCourseOfferingTitle());
             } else {
-                course.setTitle(StringUtils.EMPTY);
+                course.setTitle(AdminRegistrationUtil.getMessageForKey(AdminRegConstants.ADMIN_REG_MSG_INFO_COURSE_TITLE_NOT_FOUND));
             }
         }
 
