@@ -20,7 +20,9 @@ package org.kuali.student.r1.common.rice.authorization;
  * 
  * When using permission types, permission checks will be performed using template names. 
  *
+ * @deprecated Only used by GWT. KRAD uses new {@link ProposalPermissionTypes} enum
  */
+@Deprecated
 public enum PermissionTypeGwt {
 	INITIATE("Initiate","KR-SYS","Initiate Document"),
 	OPEN("View","KS-SYS","Open Document (GWT)"),
