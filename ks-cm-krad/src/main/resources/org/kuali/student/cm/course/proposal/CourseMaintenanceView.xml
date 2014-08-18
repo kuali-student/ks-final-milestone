@@ -149,10 +149,12 @@
           p:cssClasses="cm-unified-header-rightGroup-action">
         <property name="items">
             <list>
-                <bean parent="CM-Proposal-Course-LinkGroup-CancelCourse" p:methodToCall="cancelCourse" />
-                <bean parent="CM-Proposal-Course-LinkGroup-CopyProposal" p:methodToCall="copyProposal" p:render="@{#form.pageId eq 'CM-Proposal-Review-Course-Page'}"/>
+                <bean parent="CM-Proposal-Course-LinkGroup-CancelCourse"/>
+                <bean parent="CM-Proposal-Course-LinkGroup-CopyCourse" p:methodToCall="copyProposal" p:render="@{#form.pageId eq 'CM-Proposal-Review-Course-Page'}"/>
                 <bean parent="CM-Proposal-Course-LinkGroup-Comments"/>
                 <bean parent="CM-Proposal-Course-LinkGroup-Decisions"/>
+                <bean parent="CM-Proposal-Course-LinkGroup-PrintCourse" p:methodToCall="printProposal" p:render="@{#workflowDoc.initiated}"/>
+                <bean parent="CM-Proposal-Course-LinkGroup-ExportCourse" p:methodToCall="exportProposal" p:render="@{#workflowDoc.initiated}"/>
             </list>
         </property>
     </bean>
@@ -178,6 +180,8 @@
         </property>
         <property name="actionImagePlacement" value="IMAGE_ONLY"/>
     </bean>
+
+
 
     <bean id="KS-HomewardPathBreadcrumbs-ProposalName" parent="Uif-BreadcrumbItem">
         <property name="label" value="@{#htmlUtils.htmlEscape(#uiHelper.headerText)}"/>

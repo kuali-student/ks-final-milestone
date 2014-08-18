@@ -81,6 +81,8 @@ public class ViewCourseController extends KsUifControllerBase{
             throw new RuntimeException(e);
         }
 
+        form.getExtensionData().put("export_type","pdf");
+
         return getUIFModelAndView(form);
     }
 
@@ -102,5 +104,15 @@ public class ViewCourseController extends KsUifControllerBase{
         urlParameters.put(CourseController.UrlParams.COPY_CLU_ID, detailedViewForm.getCourseInfoWrapper().getCourseInfo().getId());
         String courseBaseUrl = CurriculumManagementConstants.ControllerRequestMappings.COURSE_MAINTENANCE.replaceFirst("/", "");
         return performRedirect(form, courseBaseUrl, urlParameters);
+    }
+
+    @MethodAccessible
+    @RequestMapping(params = "methodToCall=exportCourse")
+    public ModelAndView exportCourse(@ModelAttribute("KualiForm") UifFormBase form) {
+
+        ViewCourseForm detailedViewForm = (ViewCourseForm) form;
+
+        return getUIFModelAndView(form);
+
     }
 }

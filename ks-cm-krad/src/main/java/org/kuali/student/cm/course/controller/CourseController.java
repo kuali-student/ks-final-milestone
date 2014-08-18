@@ -163,6 +163,7 @@ public class CourseController extends CourseRuleEditorController {
                     ? CurriculumManagementConstants.DocumentTypeNames.CourseProposal.COURSE_CREATE_ADMIN
                     : CurriculumManagementConstants.DocumentTypeNames.CourseProposal.COURSE_CREATE);
         }
+        form.getExtensionData().put("export_type","pdf");
         return form;
     }
 
