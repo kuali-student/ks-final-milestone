@@ -1,0 +1,356 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright 2014 The Kuali Foundation Licensed under the Educational Community License, Version 2.0 (the "License"); you
+  may not use this file except in compliance with the License. You may obtain a copy of the License at http://www.osedu.org/licenses/ECL-2.0
+  Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS
+  IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language
+  governing permissions and limitations under the License. -->
+
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+                           http://www.springframework.org/schema/util
+                           http://www.springframework.org/schema/util/spring-util-2.0.xsd">
+
+    <bean id="R.JESSEA" class="org.kuali.student.enrollment.academicrecord.dto.StudentCourseRecordInfo"
+          p:typeKey="kuali.academic.record.type.student.course"
+          p:stateKey="kuali.academic.record.course.state.completed"
+          p:courseOfferingId="39b47c39-451a-4aff-9c87-47092e8627f0"
+          p:courseCode="BSCI258"
+          p:personId="R.JESSEA"
+          p:termId="201108"
+          p:termName="Fall 2011"
+          p:assignedGradeValue="A"
+          p:creditsAttempted="2"
+          p:creditsEarned="2"
+            />
+    <bean id="R.JESSICAL-1" class="org.kuali.student.enrollment.academicrecord.dto.StudentCourseRecordInfo"
+          p:typeKey="kuali.academic.record.type.student.course"
+          p:stateKey="kuali.academic.record.course.state.completed"
+          p:courseOfferingId="CLUID-HIST499-198801000000"
+          p:courseCode="HIST499"
+          p:personId="R.JESSICAL"
+          p:termId="201008"
+          p:termName="Fall 2010"
+          p:assignedGradeValue="A"
+          p:creditsAttempted="3"
+          p:creditsEarned="3"
+            />
+    <bean id="R.JESSICAL-2" class="org.kuali.student.enrollment.academicrecord.dto.StudentCourseRecordInfo"
+          p:id="HIST499"
+          p:typeKey="kuali.academic.record.type.student.course"
+          p:stateKey="kuali.academic.record.course.state.completed"
+          p:courseOfferingId="CLUID-HIST499-198801000000"
+          p:courseCode="HIST499"
+          p:personId="R.JESSICAL"
+          p:termId="201108"
+          p:termName="Fall 2011"
+          p:assignedGradeValue="B+"
+          p:creditsAttempted="3"
+          p:creditsEarned="3"
+            />
+    <bean id="R.JESSICAR-1" class="org.kuali.student.enrollment.academicrecord.dto.StudentCourseRecordInfo"
+          p:typeKey="kuali.academic.record.type.student.course"
+          p:stateKey="kuali.academic.record.course.state.completed"
+          p:courseOfferingId="CLUID-CHEM689-198001000000"
+          p:courseCode="CHEM689"
+          p:personId="R.JESSICAR"
+          p:termId="201201"
+          p:termName="Spring 2012"
+          p:assignedGradeValue="F"
+          p:creditsAttempted="3"
+          p:creditsEarned="0"
+            />
+    <bean id="R.JESSICAR-2" class="org.kuali.student.enrollment.academicrecord.dto.StudentCourseRecordInfo"
+          p:typeKey="kuali.academic.record.type.student.course"
+          p:stateKey="kuali.academic.record.course.state.completed"
+          p:courseOfferingId="CLUID-CHEM689-198001000000"
+          p:courseCode="CHEM689"
+          p:personId="R.JESSICAR"
+          p:termId="201108"
+          p:termName="Fall 2011"
+          p:assignedGradeValue="A"
+          p:creditsAttempted="3"
+          p:creditsEarned="3"
+            />
+    <bean id="R.JOANL-1" class="org.kuali.student.enrollment.academicrecord.dto.StudentCourseRecordInfo"
+          p:typeKey="kuali.academic.record.type.student.course"
+          p:stateKey="kuali.academic.record.course.state.completed"
+          p:courseOfferingId="d82b9c5c-d6d5-4857-ba92-f2a8f2561001"
+          p:courseCode="PHYS260"
+          p:personId="R.JOANL"
+          p:termId="201101"
+          p:termName="Spring 2011"
+          p:assignedGradeValue="F"
+          p:creditsAttempted="3"
+          p:creditsEarned="0"
+            />
+    <bean id="R.JOANL-2" class="org.kuali.student.enrollment.academicrecord.dto.StudentCourseRecordInfo"
+          p:typeKey="kuali.academic.record.type.student.course"
+          p:stateKey="kuali.academic.record.course.state.completed"
+          p:courseOfferingId="d82b9c5c-d6d5-4857-ba92-f2a8f2561001"
+          p:courseCode="PHYS260"
+          p:personId="R.JOANL"
+          p:termId="201108"
+          p:termName="Fall 2011"
+          p:assignedGradeValue="F"
+          p:creditsAttempted="3"
+          p:creditsEarned="0"
+          p:isRepeated="true"
+            />
+    <bean id="R.JODIT-1" class="org.kuali.student.enrollment.academicrecord.dto.StudentCourseRecordInfo"
+          p:typeKey="kuali.academic.record.type.student.course"
+          p:stateKey="kuali.academic.record.course.state.completed"
+          p:courseOfferingId="44ceae2e-c770-406d-a872-8b0bd1f14515"
+          p:courseCode="PHYS260"
+          p:personId="R.JODIT"
+          p:termId="201001"
+          p:termName="Spring 2010"
+          p:assignedGradeValue="F"
+          p:creditsAttempted="3"
+          p:creditsEarned="0"
+            />
+    <bean id="R.JODIT-2" class="org.kuali.student.enrollment.academicrecord.dto.StudentCourseRecordInfo"
+          p:typeKey="kuali.academic.record.type.student.course"
+          p:stateKey="kuali.academic.record.course.state.completed"
+          p:courseOfferingId="44ceae2e-c770-406d-a872-8b0bd1f14515"
+          p:courseCode="BSCI446"
+          p:personId="R.JODIT"
+          p:termId="201108"
+          p:termName="Fall 2011"
+          p:assignedGradeValue="B"
+          p:creditsAttempted="3"
+          p:creditsEarned="3"
+          p:isRepeated="true"
+            />
+    <bean id="R.JODYB" class="org.kuali.student.enrollment.academicrecord.dto.StudentCourseRecordInfo"
+          p:typeKey="kuali.academic.record.type.student.course"
+          p:stateKey="kuali.academic.record.course.state.completed"
+          p:courseOfferingId="CLUID-HIST352-199501000000"
+          p:courseCode="HIST352"
+          p:personId="R.JODYB"
+          p:termId="201108"
+          p:termName="Fall 2011"
+          p:assignedGradeValue="I"
+          p:creditsAttempted="3"
+          p:creditsEarned="0"
+            />
+    <bean id="R.JOEL-FRANCOISD" class="org.kuali.student.enrollment.academicrecord.dto.StudentCourseRecordInfo"
+          p:typeKey="kuali.academic.record.type.student.course"
+          p:stateKey="kuali.academic.record.course.state.completed"
+          p:courseOfferingId="c533b9cb-2784-4d0d-b68a-76f84084ff0e"
+          p:courseCode="ENGL602"
+          p:personId="R.JOEL-FRANCOISD"
+          p:termId="201108"
+          p:termName="Fall 2011"
+          p:assignedGradeValue="I"
+          p:creditsAttempted="3"
+          p:creditsEarned="0"
+            />
+    <bean id="R.JOEM" class="org.kuali.student.enrollment.academicrecord.dto.StudentCourseRecordInfo"
+          p:typeKey="kuali.academic.record.type.student.course"
+          p:stateKey="kuali.academic.record.student.course.record.state.withdrawn"
+          p:courseOfferingId="ea600deb-8b10-4386-9a20-345bd3331737"
+          p:courseCode="BSCI103"
+          p:personId="R.JOEM"
+          p:termId="201108"
+          p:termName="Fall 2011"
+          p:assignedGradeValue="W"
+          p:creditsAttempted="3"
+          p:creditsEarned="0"
+            />
+    <bean id="R.JOER-1" class="org.kuali.student.enrollment.academicrecord.dto.StudentCourseRecordInfo"
+          p:typeKey="kuali.academic.record.type.student.course"
+          p:stateKey="kuali.academic.record.course.state.completed"
+          p:courseOfferingId="18f8deda-26ce-4cb0-a66e-631f690f1650"
+          p:courseCode="ENGL201"
+          p:personId="R.JOER"
+          p:termId="201108"
+          p:termName="Fall 2011"
+          p:assignedGradeValue="I"
+          p:creditsAttempted="3"
+          p:creditsEarned="3"
+            />
+    <bean id="R.JOER-2" class="org.kuali.student.enrollment.academicrecord.dto.StudentCourseRecordInfo"
+          p:typeKey="kuali.academic.record.type.student.course"
+          p:stateKey="kuali.academic.record.course.state.completed"
+          p:courseOfferingId="1c0fe33d-2233-4659-8a06-3adc8f6a17e1"
+          p:courseCode="BSCI105"
+          p:personId="R.JOER"
+          p:termId="201108"
+          p:termName="Fall 2011"
+          p:assignedGradeValue="C"
+          p:creditsAttempted="4"
+          p:creditsEarned="4"
+            />
+    <bean id="R.JOHANNAC-1" class="org.kuali.student.enrollment.academicrecord.dto.StudentCourseRecordInfo"
+          p:typeKey="kuali.academic.record.type.student.course"
+          p:stateKey="kuali.academic.record.course.state.completed"
+          p:courseOfferingId="60e89aa5-45c4-4898-99a9-0d8da486eeb8"
+          p:courseCode="HIST224"
+          p:personId="R.JOHANNAC"
+          p:termId="201108"
+          p:termName="Fall 2011"
+          p:assignedGradeValue="A-"
+          p:creditsAttempted="3"
+          p:creditsEarned="3"
+        />
+    <bean id="R.JOHANNAC-2" class="org.kuali.student.enrollment.academicrecord.dto.StudentCourseRecordInfo"
+          p:typeKey="kuali.academic.record.type.student.course"
+          p:stateKey="kuali.academic.record.student.course.record.state.withdrawn"
+          p:courseOfferingId="6f3d5fb4-4449-4f0f-a3ed-5e82ce85b7ef"
+          p:courseCode="ENGL101"
+          p:personId="R.JOHANNAC"
+          p:termId="201108"
+          p:termName="Fall 2011"
+          p:assignedGradeValue="A"
+          p:creditsAttempted="3"
+          p:creditsEarned="3"
+            />
+    <bean id="R.JOHNG-1" class="org.kuali.student.enrollment.academicrecord.dto.StudentCourseRecordInfo"
+          p:typeKey="kuali.academic.record.type.student.course"
+          p:stateKey="kuali.academic.record.course.state.completed"
+          p:courseOfferingId="9ece45f8-ae91-421a-8f4e-20f120ea6929"
+          p:courseCode="PHYS102"
+          p:personId="R.JOHNG"
+          p:termId="201108"
+          p:termName="Fall 2011"
+          p:assignedGradeValue="B"
+          p:creditsAttempted="3"
+          p:creditsEarned="3"
+            />
+    <bean id="R.JOHNG-2" class="org.kuali.student.enrollment.academicrecord.dto.StudentCourseRecordInfo"
+          p:typeKey="kuali.academic.record.type.student.course"
+          p:stateKey="kuali.academic.record.course.state.completed"
+          p:courseOfferingId="8af12adc-3200-4b40-b941-435966e9e536"
+          p:courseCode="PHYS103"
+          p:personId="R.JOHNG"
+          p:termId="201108"
+          p:termName="Fall 2011"
+          p:assignedGradeValue="A+"
+          p:creditsAttempted="1"
+          p:creditsEarned="1"
+            />
+    <bean id="R.JOHNL" class="org.kuali.student.enrollment.academicrecord.dto.StudentCourseRecordInfo"
+          p:typeKey="kuali.academic.record.type.student.course"
+          p:stateKey="kuali.academic.record.course.state.completed"
+          p:courseOfferingId="1ad26d52-0cf7-4562-bf0d-05f827387c25"
+          p:courseCode="BSCI120"
+          p:personId="R.JOHNL"
+          p:termId="201108"
+          p:termName="Fall 2011"
+          p:assignedGradeValue="D+"
+          p:creditsAttempted="3"
+          p:creditsEarned="3"
+            />
+    <bean id="R.JOHNM-1" class="org.kuali.student.enrollment.academicrecord.dto.StudentCourseRecordInfo"
+          p:typeKey="kuali.academic.record.type.student.course"
+          p:stateKey="kuali.academic.record.course.state.completed"
+          p:courseOfferingId="CLUID-CHEM131-200508000000"
+          p:courseCode="CHEM131"
+          p:personId="R.JOHNM"
+          p:termId="201108"
+          p:termName="Fall 2011"
+          p:assignedGradeValue="F"
+          p:creditsAttempted="3"
+          p:creditsEarned="0"
+            />
+    <bean id="R.JOHNM-2" class="org.kuali.student.enrollment.academicrecord.dto.StudentCourseRecordInfo"
+          p:typeKey="kuali.academic.record.type.student.course"
+          p:stateKey="kuali.academic.record.course.state.completed"
+          p:courseOfferingId="CLUID-CHEM132-200508000000"
+          p:courseCode="CHEM132"
+          p:personId="R.JOHNM"
+          p:termId="201108"
+          p:termName="Fall 2011"
+          p:assignedGradeValue="C-"
+          p:creditsAttempted="1"
+          p:creditsEarned="1"
+            />
+    <bean id="R.JONATHANT-1" class="org.kuali.student.enrollment.academicrecord.dto.StudentCourseRecordInfo"
+          p:typeKey="kuali.academic.record.type.student.course"
+          p:stateKey="kuali.academic.record.course.state.completed"
+          p:courseOfferingId="de7dee18-061d-472a-b226-363880ecd223"
+          p:courseCode="ENGL472"
+          p:personId="R.JONATHANT"
+          p:termId="201108"
+          p:termName="Fall 2011"
+          p:assignedGradeValue="D"
+          p:creditsAttempted="3"
+          p:creditsEarned="3"
+            />
+    <bean id="R.JONATHANT-2" class="org.kuali.student.enrollment.academicrecord.dto.StudentCourseRecordInfo"
+          p:typeKey="kuali.academic.record.type.student.course"
+          p:stateKey="kuali.academic.record.course.state.completed"
+          p:courseOfferingId="CLUID-ENGL346-200701000000"
+          p:courseCode="ENGL346"
+          p:personId="R.JONATHANT"
+          p:termId="201108"
+          p:termName="Fall 2011"
+          p:assignedGradeValue="F"
+          p:creditsAttempted="3"
+          p:creditsEarned="0"
+            />
+
+    <util:list id="R.JESSICAR" list-class="java.util.ArrayList">
+        <ref bean="R.JESSICAR-1" />
+        <ref bean="R.JESSICAR-2" />
+    </util:list>
+    <util:list id="R.JESSICAL" list-class="java.util.ArrayList">
+        <ref bean="R.JESSICAL-1" />
+        <ref bean="R.JESSICAL-2" />
+    </util:list>
+    <util:list id="R.JOANL" list-class="java.util.ArrayList">
+        <ref bean="R.JOANL-1" />
+        <ref bean="R.JOANL-2" />
+    </util:list>
+    <util:list id="R.JODIT" list-class="java.util.ArrayList">
+        <ref bean="R.JODIT-1" />
+        <ref bean="R.JODIT-2" />
+    </util:list>
+    <util:list id="R.JOER" list-class="java.util.ArrayList">
+        <ref bean="R.JOER-1" />
+        <ref bean="R.JOER-2" />
+    </util:list>
+    <util:list id="R.JOHANNAC" list-class="java.util.ArrayList">
+        <ref bean="R.JOHANNAC-1" />
+        <ref bean="R.JOHANNAC-2" />
+    </util:list>
+    <util:list id="R.JOHNG" list-class="java.util.ArrayList">
+        <ref bean="R.JOHNG-1" />
+        <ref bean="R.JOHNG-2" />
+    </util:list>
+    <util:list id="R.JOHNM" list-class="java.util.ArrayList">
+        <ref bean="R.JOHNM-1" />
+        <ref bean="R.JOHNM-2" />
+    </util:list>
+    <util:list id="R.JONATHANT" list-class="java.util.ArrayList">
+        <ref bean="R.JONATHANT-1" />
+        <ref bean="R.JONATHANT-2" />
+    </util:list>
+
+    <util:map id="studentCourseRecordMap" map-class="java.util.HashMap">
+        <!-- repeatable for credit -->
+        <entry key="R.JESSEA" value-ref="R.JESSEA"/>
+        <entry key="R.JESSICAL" value-ref="R.JESSICAL"/>
+        <entry key="R.JESSICAR" value-ref="R.JESSICAR"/>
+        <!-- GES - max courses -->
+        <entry key="R.JOANL" value-ref="R.JOANL"/>
+        <entry key="R.JODIT" value-ref="R.JODIT"/>
+        <!-- Incomplete -->
+        <entry key="R.JODYB" value-ref="R.JODYB"/>
+        <entry key="R.JOEL-FRANCOISD" value-ref="R.JOEL-FRANCOISD"/>
+        <!-- Withdrawal -->
+        <entry key="R.JOEM" value-ref="R.JOEM"/>
+        <!-- Other -->
+        <entry key="R.JOER" value-ref="R.JOER"/>
+        <entry key="R.JOHANNAC" value-ref="R.JOHANNAC"/>
+        <entry key="R.JOHNG" value-ref="R.JOHNG"/>
+        <entry key="R.JOHNL" value-ref="R.JOHNL"/>
+        <entry key="R.JOHNM" value-ref="R.JOHNM"/>
+        <entry key="R.JONATHANT" value-ref="R.JONATHANT"/>
+
+    </util:map>
+
+</beans>
