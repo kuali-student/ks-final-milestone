@@ -332,14 +332,22 @@ public class KsapCourseSearchImpl extends SearchServiceAbstractHardwiredImpl {
                         "    AND res.id = jn.clu_res_id" +
                         "    AND jn.res_opt_id = opt.id" +
                         "    AND res.TYPE_KEY_ID = 'kuali.resultType.creditCourseResult'" +
-                        "    AND clu.EFF_DT <= :startDate" +
-                        getCourseSearchRestrictions();
+                        "    AND clu.EFF_DT = " +
+                        "    (select min(c.EFF_DT) from KSLU_CLU c WHERE c.VER_IND_ID = clu.VER_IND_ID " +
+                        "    AND c.ID NOT IN (SELECT att.OWNER FROM KSLU_CLU_ATTR att where att.ATTR_NAME='course.catalogOmit_ind' and att.ATTR_VALUE='Y')" +
+                        "    AND (c.ST = 'Active' OR c.ST = 'Superseded' OR c.ST = 'Retired')" +
+                        "    AND (c.EXPIR_DT >= :endDate OR c.EXPIR_DT IS NULL)" +
+                        "    AND c.LUTYPE_ID='kuali.lu.type.CreditCourse'" +
+                        ")" +
+                        "    AND clu.ID NOT IN (SELECT att.OWNER FROM KSLU_CLU_ATTR att where att.ATTR_NAME='course.catalogOmit_ind' and att.ATTR_VALUE='Y')" +
+                        "    AND (clu.ST = 'Active' OR clu.ST = 'Superseded' OR clu.ST = 'Retired')" +
+                        "    AND (clu.EXPIR_DT >= :endDate OR clu.EXPIR_DT IS NULL)" +
+                        "    AND clu.LUTYPE_ID='kuali.lu.type.CreditCourse'";
 
         // Set params and execute search
         Query query = getEntityManager().createNativeQuery(queryStr);
         query.setParameter(CourseSearchConstants.SearchParameters.VERSION_IND_ID_LIST, versionIdList);
         query.setParameter(CourseSearchConstants.SearchParameters.END_DATE, KsapHelperUtil.getCurrentDate());
-        query.setParameter(CourseSearchConstants.SearchParameters.START_DATE, KsapHelperUtil.getCurrentDate());
         List<Object[]> results = query.getResultList();
 
         // Compile results
