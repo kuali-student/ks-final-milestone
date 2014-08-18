@@ -94,7 +94,7 @@ public class AdminRegistrationUtil {
 
             String message = StringUtils.EMPTY;
             if (validationMap.containsKey(AdminRegConstants.ADMIN_REG_VALIDATION_MSG_KEY_CONFLICTINGCOURSES)){
-                List<LinkedHashMap<String, Object>> conflictingCourses = (List<LinkedHashMap<String, Object>>) validationMap.get("conflictingCourses");
+                List<LinkedHashMap<String, Object>> conflictingCourses = (List<LinkedHashMap<String, Object>>) validationMap.get(AdminRegConstants.ADMIN_REG_VALIDATION_MSG_KEY_CONFLICTINGCOURSES);
                 StringBuilder conflictCourses = new StringBuilder();
                 for (LinkedHashMap<String, Object> conflictCourse : conflictingCourses) {
                     if (conflictCourses.length() > 0) {
