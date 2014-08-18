@@ -18,7 +18,8 @@
         <div ng-repeat="course in courseOfferings(schedule)" class="kscr-Course-container kscr-Course-course{{courseIndex(course)}}" ng-switch on="type" ng-class="{'kscr-Course-container--processing' : course.requestProcessing}">
             <div ng-switch-when="registered">
                 <!--Drop from Registered section-->
-                <div id="course_status_message" class="kscr-Card-status kscr-Card-status--{{course.statusMessage.type}} util-Alert--{{course.statusMessage.type}}" ng-class="(course.dropped || course.dropProcessing) ? 'util-Alert--card--dropped' : 'util-Alert--card'" ng-if="course.statusMessage.txt">
+                <div id="course_status_message" class="kscr-Card-status kscr-Card-status--{{course.statusMessage.type}} util-Alert--{{course.statusMessage.type}}"
+                     ng-class="(course.dropped || course.dropProcessing) ? 'util-Alert--card--dropped' : 'util-Alert--card'" ng-if="course.statusMessage.txt">
                     <span class="kscr-Card-statusRemove"><a href="" ng-click="(!course.dropProcessing ? removeStatusMessage(course) : '')"></a></span>
                     <div  ng-bind-html="course.statusMessage.txt"></div>
                 </div>
@@ -45,7 +46,8 @@
             </div>
             <div ng-switch-when="waitlist">
                 <!--Dropped from Waitlist section-->
-                <div id="waitlist_course_status_message" class="kscr-Card-status kscr-Card-status--{{course.statusMessage.type}} util-Alert--{{course.statusMessage.type}}" ng-class="(course.dropped || course.dropProcessing) ? 'util-Alert--card--dropped' : 'util-Alert--card'" ng-if="course.statusMessage.txt">
+                <div id="waitlist_course_status_message" class="kscr-Card-status kscr-Card-status--{{course.statusMessage.type}} util-Alert--{{course.statusMessage.type}}"
+                     ng-class="(course.dropped || course.dropProcessing) ? 'util-Alert--card--dropped' : 'util-Alert--card'" ng-if="course.statusMessage.txt">
                     <span class="kscr-Card-statusRemove"><a href="" ng-click="(!course.dropProcessing ? removeStatusMessage(course) : '')"></a></span>
                     <div class="kscr-Card-alert-spacing" ng-bind-html="course.statusMessage.txt"></div>
                 </div>
