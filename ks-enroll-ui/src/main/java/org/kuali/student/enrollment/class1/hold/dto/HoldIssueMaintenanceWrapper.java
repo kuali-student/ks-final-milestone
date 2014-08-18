@@ -16,10 +16,6 @@
  */
 package org.kuali.student.enrollment.class1.hold.dto;
 
-import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
-import org.kuali.rice.krad.web.form.UifFormBase;
-import org.kuali.student.common.uif.form.KSUifMaintenanceDocumentForm;
-import org.kuali.student.enrollment.class2.courseoffering.dto.OrganizationInfoWrapper;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.core.hold.dto.HoldIssueInfo;
 
@@ -57,7 +53,7 @@ public class HoldIssueMaintenanceWrapper implements Serializable {
 
     private List<HoldIssueInfo> holdIssueInfoList;
 
-    private List<OrganizationInfoWrapper> organizationNames;
+    private List<AuthorizationInfoWrapper> organizationNames;
 
     public HoldIssueMaintenanceWrapper() {
         super();
@@ -193,11 +189,11 @@ public class HoldIssueMaintenanceWrapper implements Serializable {
         this.firstTerm = firstTerm;
     }
 
-    public List<OrganizationInfoWrapper> getOrganizationNames() {
+    public List<AuthorizationInfoWrapper> getOrganizationNames() {
         return organizationNames;
     }
 
-    public void setOrganizationNames(List<OrganizationInfoWrapper> organizationNames) {
+    public void setOrganizationNames(List<AuthorizationInfoWrapper> organizationNames) {
         this.organizationNames = organizationNames;
     }
 
@@ -229,7 +225,7 @@ public class HoldIssueMaintenanceWrapper implements Serializable {
         Map<String, String> adminOrgMap = new HashMap<String, String>();
         if (organizationNames != null && !organizationNames.isEmpty()) {
             StringBuilder orgIDs = new StringBuilder("");
-            for (OrganizationInfoWrapper organizationName : organizationNames) {
+            for (AuthorizationInfoWrapper organizationName : organizationNames) {
                 orgIDs.append(organizationName.getId()).append(",");
             }
             if (orgIDs.length() > 0) {

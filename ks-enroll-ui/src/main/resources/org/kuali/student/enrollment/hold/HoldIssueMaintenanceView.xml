@@ -35,10 +35,17 @@ limitations under the License.
                   value="org.kuali.student.enrollment.class1.hold.dto.HoldIssueMaintenanceWrapper"/>
         <property name="viewHelperServiceClass"
                   value="org.kuali.student.enrollment.class1.hold.service.impl.HoldIssueViewHelperServiceImpl"/>
-        <!--property name="headerText" value="Manage Holds"/-->
-        <property name="page">
-            <bean id="KS-Hold-Create-Page" parent="KS-Hold-Create-Page-parent"/>
+        <property name="headerText" value="Create Hold"/>
+        <!--<property name="page">-->
+            <!--<bean id="KS-Hold-Create-Page" parent="KS-Hold-Create-Page-parent"/>-->
+        <!--</property>-->
+
+        <property name="items">
+            <list>
+                <bean id="KS-Hold-Create-Page" parent="KS-Hold-Create-Page-parent"/>
+            </list>
         </property>
+
         <!--property name="breadcrumbOptions.homewardPathBreadcrumbs">
             <list>
                 <ref bean="KS-HomewardPathBreadcrumbs-Home"/>
@@ -67,7 +74,7 @@ limitations under the License.
                 </bean>
             </list>
         </property-->
-        <property name="singlePageView" value="true"/>
+        <property name="singlePageView" value="false"/>
         <property name="additionalCssFiles">
             <list>
                 <value>themes/ksboot/stylesheets/holds.css</value>
@@ -75,11 +82,19 @@ limitations under the License.
         </property>
     </bean>
 
-    <bean id="KS-Hold-Create-Page-parent" parent="KS-Uif-Page">
-        <!--property name="headerText" value="Create Hold"/-->
+    <bean id="KS-Hold-Create-Page-parent" parent="KS-Uif-Page"  p:disclosure.render="false">
         <property name="items">
             <list>
-                <ref bean="KS-Hold-CreateSection"/>
+                <bean parent="Uif-VerticalBoxSection">
+                    <property name="items">
+                        <list>
+                            <ref bean="KS-CreateHold-HoldSection"/>
+                            <ref bean="KS-CreateHold-OrgSection"/>
+                            <ref bean="KS-CreateHold-TermSection"/>
+                            <ref bean="KS-CreateHold-AuthorizationSection"/>
+                        </list>
+                    </property>
+                </bean>
             </list>
         </property>
 
@@ -104,9 +119,10 @@ limitations under the License.
         </property>
     </bean>
 
-    <bean id="KS-Hold-CreateSection" parent="Uif-VerticalBoxSection">
+    <bean id="KS-CreateHold-HoldSection" parent="Uif-VerticalBoxSection">
         <property name="disclosure.render" value="false"/>
-        <property name="style" value="margin-bottom:0;"/>
+        <property name="style" value="margin-bottom:5px;"/>
+        <property name="headerText" value="Hold Details"/>
         <property name="items">
             <list>
                 <bean parent="Uif-VerticalFieldGroup">
@@ -138,6 +154,21 @@ limitations under the License.
                                     <bean parent="Uif-SmallTextAreaControl"/>
                                 </property>
                             </bean>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KS-CreateHold-OrgSection" parent="Uif-VerticalBoxSection">
+        <property name="disclosure.render" value="false"/>
+        <property name="style" value="margin-bottom:5px;"/>
+        <property name="items">
+            <list>
+                <bean parent="Uif-VerticalFieldGroup">
+                    <property name="items">
+                        <list>
                             <bean parent="Uif-HorizontalFieldGroup">
                                 <property name="items">
                                     <list>
@@ -174,66 +205,86 @@ limitations under the License.
                                     </list>
                                 </property>
                             </bean>
-                            <bean parent="Uif-InputField" p:propertyName="baseType">
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KS-CreateHold-TermSection" parent="Uif-VerticalBoxSection">
+        <property name="disclosure.render" value="false"/>
+        <property name="style" value="margin-bottom:5px;"/>
+        <property name="items">
+            <list>
+                <bean parent="Uif-InputField" p:propertyName="baseType">
+                    <property name="control">
+                        <bean parent="Uif-HorizontalRadioControl">
+                            <property name="options">
+                                <list>
+                                    <bean parent="Uif-KeyLabelPair" p:key="1" p:value="Term Based"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="2" p:value="Date Based"/>
+                                </list>
+                            </property>
+                        </bean>
+                    </property>
+                </bean>
+                <bean parent="Uif-HorizontalFieldGroup">
+                    <property name="items">
+                        <list>
+                            <bean parent="KS-Uif-InputField-LabelTop" p:label="First Application Term"
+                                  p:propertyName="firstTerm" p:required="false">
                                 <property name="control">
-                                    <bean parent="Uif-HorizontalRadioControl">
-                                        <property name="options">
-                                            <list>
-                                                <bean parent="Uif-KeyLabelPair" p:key="1" p:value="Term Based"/>
-                                                <bean parent="Uif-KeyLabelPair" p:key="2" p:value="Date Based"/>
-                                            </list>
-                                        </property>
-                                    </bean>
+                                    <bean parent="KS-Uif-TextControl" p:size="20" p:disabled="false"/>
                                 </property>
                             </bean>
-                            <bean parent="Uif-HorizontalFieldGroup">
-                                <property name="items">
-                                    <list>
-                                        <bean parent="KS-Uif-InputField-LabelTop" p:label="First Application Term"
-                                              p:propertyName="firstTerm" p:required="false">
-                                            <property name="control">
-                                                <bean parent="KS-Uif-TextControl" p:size="20" p:disabled="false"/>
-                                            </property>
-                                        </bean>
-                                        <bean parent="KS-Uif-InputField-LabelTop" p:label="Last Application Term"
-                                              p:propertyName="lastTerm" p:required="false">
-                                            <property name="control">
-                                                <bean parent="KS-Uif-TextControl" p:size="20" p:disabled="false"/>
-                                            </property>
-                                        </bean>
-                                    </list>
-                                </property>
-                            </bean>
-                            <bean parent="Uif-HorizontalFieldGroup">
-                                <property name="items">
-                                    <list>
-                                        <bean parent="Uif-InputField" p:label="First Applied Date"
-                                              p:propertyName="firstDate">
-                                            <property name="control">
-                                                <bean parent="KS-Uif-Default-DateControl" p:size="10"/>
-                                            </property>
-                                        </bean>
-                                        <bean parent="Uif-InputField" p:label="Last Applied Date"
-                                              p:propertyName="lastDate">
-                                            <property name="control">
-                                                <bean parent="KS-Uif-Default-DateControl" p:size="10"/>
-                                            </property>
-                                        </bean>
-                                    </list>
+                            <bean parent="KS-Uif-InputField-LabelTop" p:label="Last Application Term"
+                                  p:propertyName="lastTerm" p:required="false">
+                                <property name="control">
+                                    <bean parent="KS-Uif-TextControl" p:size="20" p:disabled="false"/>
                                 </property>
                             </bean>
                         </list>
                     </property>
                 </bean>
+                <bean parent="Uif-HorizontalFieldGroup">
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-InputField" p:label="First Applied Date"
+                                  p:propertyName="firstDate">
+                                <property name="control">
+                                    <bean parent="KS-Uif-Default-DateControl" p:size="10"/>
+                                </property>
+                            </bean>
+                            <bean parent="Uif-InputField" p:label="Last Applied Date"
+                                  p:propertyName="lastDate">
+                                <property name="control">
+                                    <bean parent="KS-Uif-Default-DateControl" p:size="10"/>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+
+    <bean id="KS-CreateHold-AuthorizationSection" parent="Uif-VerticalBoxSection">
+        <property name="disclosure.render" value="false"/>
+        <property name="style" value="margin-bottom:5px;"/>
+        <property name="headerText" value="Authorization"/>
+        <property name="items">
+            <list>
                 <!--Beginning of Authorization Section of Create Hold-->
                 <bean parent="Uif-HorizontalFieldGroup">
                     <property name="items">
                         <list>
-                            <bean id="KS-CreateHold-AuthorizationSection"
+                            <bean id="KS-CreateHold-Auth-OrgSection"
                                   parent="KS-TableCollectionSubSection-BottomAddLine"
                                   p:layoutManager.style="width: 57em;"
                                   p:layoutManager.numberOfColumns="1"
-                                  p:collectionObjectClass="org.kuali.student.enrollment.class2.courseoffering.dto.OrganizationInfoWrapper"
+                                  p:collectionObjectClass="org.kuali.student.enrollment.class1.hold.dto.AuthorizationInfoWrapper"
                                   p:propertyName="organizationNames"
                                   p:layoutManager.renderSequenceField="false"
                                   p:layoutManager.generateAutoSequence="false"
@@ -309,6 +360,4 @@ limitations under the License.
             </list>
         </property>
     </bean>
-
-
 </beans>
