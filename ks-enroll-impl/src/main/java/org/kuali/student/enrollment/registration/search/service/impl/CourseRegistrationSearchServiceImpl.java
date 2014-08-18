@@ -1102,6 +1102,8 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
                 "AND co.id = co2fo.LUI_ID " +
                 "AND rg.id = lprti.NEW_LUI_ID " +
                 "AND coId.LUI_ID = co.id " +
+                "AND coId.LUI_ID_TYPE = '" + LuiServiceConstants.LUI_IDENTIFIER_OFFICIAL_TYPE_KEY + "' " +
+                "AND coId.LUI_ID_STATE = '" + LuiServiceConstants.LUI_IDENTIFIER_ACTIVE_STATE_KEY + "' " +
                 (StringUtils.isEmpty(cartItemId) ? " " : "AND lprti.ID = :cartItemId ") +
                 (StringUtils.isEmpty(cartId) ? " " : "AND lprt.ID = :cartId ") +
                 "ORDER BY " +
