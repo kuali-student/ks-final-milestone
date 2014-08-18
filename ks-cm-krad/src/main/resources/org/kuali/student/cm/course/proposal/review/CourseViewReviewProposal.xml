@@ -607,6 +607,9 @@
 
     <bean id="KS-Proposal-Review-Course-Acknowledge-Dialog" parent="KS-Proposal-Review-Course-Acknowledge-Dialog-parentBean"/>
     <bean id="KS-Proposal-Review-Course-Acknowledge-Dialog-parentBean" parent="Uif-DialogGroup" abstract="true" class="org.kuali.student.cm.uif.container.CMDialogGroup">
+        <property name="responseInputField">
+            <bean parent="Uif-DialogResponse" p:readOnly="false"/>
+        </property>
         <property name="renderHeader" value="true"/>
         <property name="OnShowDialogScript" value="skipDirtyChecks();" />
         <property name="header">
@@ -626,7 +629,7 @@
             <list>
                 <bean id="CM-DecisionRationale-Acknowledge-Message" parent="CM-DecisionRationale-MessageSection"/>
                 <!-- manually add back in the explanation field and force the render flag -->
-                <bean id="CM-Acknowledge-Dialog-Explanation" parent="KS-CM-DialogExplanation" p:render="true"
+                <bean id="CM-Acknowledge-Dialog-Explanation" parent="KS-CM-DialogExplanation" p:render="true" p:readOnly="false"
                       p:label="Decision Rationale"/>
             </list>
         </property>
