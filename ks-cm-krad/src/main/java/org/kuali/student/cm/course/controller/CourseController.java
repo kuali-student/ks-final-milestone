@@ -397,7 +397,7 @@ public class CourseController extends CourseRuleEditorController {
     }
 
     /**
-     * This method is called form the UI when a user wants to approve proposal.
+     * This method is called from the UI when a user wants to approve proposal.
      *
      * @param form
      * @param result
@@ -885,6 +885,62 @@ public class CourseController extends CourseRuleEditorController {
                         return showDialog(dialog, form, request, response);
                     }
 
+                } else {
+                    form.getDialogManager().removeDialog(dialog);
+                }
+            }else{
+                return showDialog(dialog, form, request, response);
+            }
+        }
+        return getUIFModelAndView(form);
+    }
+
+    /**
+     * This method is called from the UI when a user wants to acknowledge proposal.
+     *
+     * @param form
+     * @param result
+     * @param request
+     * @param response
+     * @return ModelAndView object
+     */
+    @Override
+    @RequestMapping(params = "methodToCall=acknowledge")
+    public ModelAndView acknowledge(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result, HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        CourseInfoWrapper courseInfoWrapper = getCourseInfoWrapper(form);
+        courseInfoWrapper.getUiHelper().setShowMessage(false);
+        String dialog = CurriculumManagementConstants.COURSE_ACKNOWLEDGE_CONFIRMATION_DIALOG;
+        if ( ! hasDialogBeenDisplayed(dialog, form)) {
+            doValidationForProposal(form, KewApiConstants.ROUTE_HEADER_PROCESSED_CD, DtoConstants.STATE_ACTIVE);
+
+            if (!GlobalVariables.getMessageMap().hasErrors()) {
+                //redirect back to client to display confirm dialog
+                return showDialog(dialog, form, request, response);
+            }
+        } else {
+            if (hasDialogBeenAnswered(dialog, form)) {
+                boolean confirmAcknowledge = getBooleanDialogResponse(dialog, form, request, response);
+                if (confirmAcknowledge) {
+                    //route the document only if the rationale decision explanation is not null or redirect back to client to display confirm dialog with error
+                    if(courseInfoWrapper.getUiHelper().getDialogExplanations().get(dialog)!=null){
+                        if (GlobalVariables.getMessageMap().hasErrors()) {
+                            courseInfoWrapper.setMissingRequiredFields(true);
+                        } else {
+                            courseInfoWrapper.setMissingRequiredFields(false);
+                        }
+                        super.acknowledge(form,result, request,response);
+                        addDecisionRationale(courseInfoWrapper.getProposalInfo().getId(), courseInfoWrapper.getUiHelper().getDialogExplanations().get(dialog), CommentServiceConstants.WORKFLOW_DECISIONS.ACKNOWLEDGE.getType());
+                        // setShowMessage boolean decides whether to show the error message or not
+                        courseInfoWrapper.getUiHelper().setShowMessage(false);
+                        form.getDialogManager().removeDialog(dialog);
+                        // Set the request redirect to false so that the user stays on the same page
+                        form.setRequestRedirected(false);
+                    } else {
+                        form.getDialogManager().resetDialogStatus(dialog);
+                        courseInfoWrapper.getUiHelper().setShowMessage(true);
+                        return showDialog(dialog, form, request, response);
+                    }
                 } else {
                     form.getDialogManager().removeDialog(dialog);
                 }

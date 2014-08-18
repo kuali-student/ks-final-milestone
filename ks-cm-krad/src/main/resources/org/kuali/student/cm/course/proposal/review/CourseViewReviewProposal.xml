@@ -380,6 +380,12 @@
                                   p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_APPROVE] and (!#uiHelper.pendingWorkflowAction)}"
                                   p:disabled="@{#dataObject.missingRequiredFields}"/>
                             <bean parent="Uif-PrimaryActionButton"
+                                  p:additionalCssClasses="btn-success"
+                                  p:ajaxSubmit="false"
+                                  p:methodToCall="acknowledge"
+                                  p:actionLabel="Acknowledge"
+                                  p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ACKNOWLEDGE]}"/>
+                            <bean parent="Uif-PrimaryActionButton"
                                   p:ajaxSubmit="false"
                                   p:actionLabel="Return to Previous"
                                   p:methodToCall="returnToPreviousNode"
@@ -594,6 +600,39 @@
         <property name="availableResponses">
             <list>
                 <bean parent="Uif-KeyLabelPair" p:key="yes" p:value="Approve"/>
+                <bean parent="Uif-KeyLabelPair" p:key="no" p:value="Cancel"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KS-Proposal-Review-Course-Acknowledge-Dialog" parent="KS-Proposal-Review-Course-Acknowledge-Dialog-parentBean"/>
+    <bean id="KS-Proposal-Review-Course-Acknowledge-Dialog-parentBean" parent="Uif-DialogGroup" abstract="true" class="org.kuali.student.cm.uif.container.CMDialogGroup">
+        <property name="renderHeader" value="true"/>
+        <property name="OnShowDialogScript" value="skipDirtyChecks();" />
+        <property name="header">
+            <bean parent="Uif-HeaderTwo" p:headerText="Acknowledge Proposal"
+                  p:cssClasses="ks-dottedHeaderActions"/>
+        </property>
+        <property name="cssClasses" >
+            <list merge="true">
+                <value>returntopreviousnode_dialog</value>
+            </list>
+        </property>
+        <property name="promptText"
+                  value="You are Acknowledging the &quot;@{#uiHelper.proposalName}&quot; proposal. You must enter a Decision Rationale."/>
+        <!-- do not show the explanation because we need the route node name dropdown above it in the dialog screen -->
+        <property name="displayExplanation" value="false"/>
+        <property name="items">
+            <list>
+                <bean id="CM-DecisionRationale-Acknowledge-Message" parent="CM-DecisionRationale-MessageSection"/>
+                <!-- manually add back in the explanation field and force the render flag -->
+                <bean id="CM-Acknowledge-Dialog-Explanation" parent="KS-CM-DialogExplanation" p:render="true"
+                      p:label="Decision Rationale"/>
+            </list>
+        </property>
+        <property name="availableResponses">
+            <list>
+                <bean parent="Uif-KeyLabelPair" p:key="yes" p:value="Acknowledge"/>
                 <bean parent="Uif-KeyLabelPair" p:key="no" p:value="Cancel"/>
             </list>
         </property>
