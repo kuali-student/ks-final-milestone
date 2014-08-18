@@ -10,8 +10,11 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:util="http://www.springframework.org/schema/util"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
-                           http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
+                           http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+                           http://www.springframework.org/schema/util
+                           http://www.springframework.org/schema/util/spring-util-2.0.xsd">
 
     <import resource="classpath:ks-academic-plan-dictionary-file-locations.xml"/>
 
@@ -178,11 +181,22 @@
     </bean>
     <bean id="academicRecordServiceWithMockAssembler"
           class="org.kuali.student.enrollment.class2.academicrecord.service.impl.AcademicRecordServiceImpl">
-        <property name="courseRegService" ref="courseRegistrationServiceMock"/>
-        <property name="atpService" ref="AtpService"/>
-        <property name="gradingService" ref="gradingService"/>
-        <property name="lrcService" ref="lrcServiceCache"/>
-        <property name="courseRecordAssembler" ref="courseRecordAssemblerMock"/>
+        <property name="academicRecordServiceHistory" ref="academicRecordServiceHistory" />
+        <property name="academicRecordServiceCurrent" ref="academicRecordServiceCurrent" />
+    </bean>
+
+    <!-- history (mock: for temporary use until persistence is available) -->
+    <bean id="academicRecordServiceHistory" class="org.kuali.student.enrollment.class2.academicrecord.service.impl.AcademicRecordServicePersistenceMockImpl">
+        <property name="studentToCourseRecordsMap" ref="studentToCourseRecordsMap" />
+    </bean>
+
+    <util:map id="studentToCourseRecordsMap" map-class="java.util.HashMap" key-type="java.lang.String" value-type="org.kuali.student.enrollment.academicrecord.dto.StudentCourseRecordInfo">
+    </util:map>
+
+    <!-- current -->
+    <bean id="academicRecordServiceCurrent" class="org.kuali.student.enrollment.class2.academicrecord.service.impl.AcademicRecordServiceCurrentImpl">
+        <property name="courseRegService" ref="courseRegistrationServiceMock" />
+        <property name="courseRecordAssembler" ref="courseRecordAssemblerMock" />
     </bean>
 
     <bean id="courseRegistrationServiceMock"
