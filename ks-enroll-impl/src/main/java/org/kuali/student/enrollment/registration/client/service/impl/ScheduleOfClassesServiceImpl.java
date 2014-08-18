@@ -1486,10 +1486,15 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
 
             //Look up the associated ao and update the seatcount values
             StudentScheduleActivityOfferingResult ao = aoId2Ao.get(aoId);
-            RegGroupLimitedInfoSearchResult rg = ao.getRegGroupInfos().get(rgId);
-            rg.setWaitListSize(Integer.parseInt(rgWlCount));
-            if (ao.getSeatsAvailable() != null) {
-                ao.setSeatsOpen(ao.getSeatsAvailable() - Integer.parseInt(aoSeatCount));
+            // adding logic here because of caching: rgId should be technically there, but not yet
+            if (ao != null) {
+                if (!ao.getRegGroupInfos().isEmpty() && ao.getRegGroupInfos().containsKey(rgId)) {
+                    RegGroupLimitedInfoSearchResult rg = ao.getRegGroupInfos().get(rgId);
+                    rg.setWaitListSize(Integer.parseInt(rgWlCount));
+                }
+                if (ao.getSeatsAvailable() != null) {
+                    ao.setSeatsOpen(ao.getSeatsAvailable() - Integer.parseInt(aoSeatCount));
+                }
             }
         }
     }
