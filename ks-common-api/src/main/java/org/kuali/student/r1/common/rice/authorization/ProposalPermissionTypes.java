@@ -30,6 +30,7 @@ public enum ProposalPermissionTypes {
     INITIATE("Initiate", KRADConstants.KUALI_RICE_SYSTEM_NAMESPACE, KewApiConstants.INITIATE_PERMISSION),
     OPEN("View", StudentIdentityConstants.KS_NAMESPACE_CD,"Open Document"),
     EDIT("Edit",KRADConstants.KNS_NAMESPACE,"Edit Document"),
+    WITHDRAW("Withdraw","KS-SYS","Withdraw Document"),
     BLANKET_APPROVE("Blanket Approve",StudentIdentityConstants.KS_NAMESPACE_CD,"Blanket Approve"),
     ADD_COMMENT("Comment",StudentIdentityConstants.KS_NAMESPACE_CD,"Add a Comment"),
     EDIT_COMMENT("Edit Comment",StudentIdentityConstants.KS_NAMESPACE_CD,"Edit a Comment"),
