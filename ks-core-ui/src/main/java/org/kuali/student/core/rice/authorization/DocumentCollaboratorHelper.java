@@ -104,13 +104,9 @@ public class DocumentCollaboratorHelper implements Serializable {
             throw new OperationFailedException("No valid permission type found for code: " + selectedPermissionCode);
         }
         try {
-//            List<KimRoleInfo> matchingRoles = new ArrayList<KimRoleInfo>();
-//            List<KimPermissionInfo> permissions = getPermissionService().getPermissionsByTemplateName(selectedPermType.getPermissionNamespace(), selectedPermType.getPermissionTemplateName());
-//            List<String> roleIds = getPermissionService().getRoleIdsForPermissions(permissions);
-//            RoleService roleService;
-//            List<KimRoleInfo> roles = getRoleService().getRoles(roleIds);
             if (ProposalPermissionTypes.EDIT.equals(selectedPermType)) {
                 addRoleMember(StudentWorkflowConstants.ROLE_NAME_ADHOC_EDIT_PERMISSIONS_ROLE_NAMESPACE, StudentWorkflowConstants.ROLE_NAME_ADHOC_EDIT_PERMISSIONS_ROLE_NAME, docId, dataId, recipientPrincipalId);
+                addRoleMember(StudentWorkflowConstants.ROLE_NAME_ADHOC_ADD_COMMENT_PERMISSIONS_ROLE_NAMESPACE, StudentWorkflowConstants.ROLE_NAME_ADHOC_ADD_COMMENT_PERMISSIONS_ROLE_NAME, docId, dataId, recipientPrincipalId);
             }
             else if (ProposalPermissionTypes.ADD_COMMENT.equals(selectedPermType)) {
                 addRoleMember(StudentWorkflowConstants.ROLE_NAME_ADHOC_ADD_COMMENT_PERMISSIONS_ROLE_NAMESPACE, StudentWorkflowConstants.ROLE_NAME_ADHOC_ADD_COMMENT_PERMISSIONS_ROLE_NAME, docId, dataId, recipientPrincipalId);
