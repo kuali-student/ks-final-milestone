@@ -80,7 +80,8 @@
         <property name="dataObjectClass" value="org.kuali.student.cm.course.form.wrapper.CourseInfoWrapper" />
         <property name="maintainableClass" value="org.kuali.student.cm.course.service.impl.CourseMaintainableImpl"/>
         <property name="documentTypeName" value="kuali.proposal.type.course.retire"/>
-        <property name="documentAuthorizerClass" value="org.kuali.student.cm.course.auth.CMMaintenanceDocumentAuthorizer"/>
+        <property name="documentAuthorizerClass"
+                  value="org.kuali.student.cm.course.auth.CurriculumManagementMaintenanceDocumentAuthorizerBase"/>
         <property name="lockingKeys">
             <list>
                 <value>id</value>

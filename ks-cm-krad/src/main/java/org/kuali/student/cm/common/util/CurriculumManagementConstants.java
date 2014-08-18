@@ -54,6 +54,9 @@ public class CurriculumManagementConstants {
         }
     }
 
+    public static class ActionFlags {
+        public final static String KUALI_ACTION_CAN_WITHDRAW = "canWithdraw";
+    }
 
     public static class ProposalCourseStartOptions {
         public final static String BLANK_PROPOSAL = "startBlankProposal";

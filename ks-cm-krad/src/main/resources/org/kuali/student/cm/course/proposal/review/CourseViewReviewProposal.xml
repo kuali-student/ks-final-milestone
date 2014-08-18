@@ -385,6 +385,7 @@
                                   p:methodToCall="acknowledge"
                                   p:actionLabel="Acknowledge"
                                   p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ACKNOWLEDGE]}"/>
+                            <bean parent="CM-Proposal-Button-Withdraw"/>
                             <bean parent="Uif-PrimaryActionButton"
                                   p:ajaxSubmit="false"
                                   p:actionLabel="Return to Previous"
@@ -428,6 +429,7 @@
                                   p:performClientSideValidation="true"
                                   p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_APPROVE] and (!#uiHelper.pendingWorkflowAction)}"
                                   p:disabled="@{#dataObject.missingRequiredFields}"/>
+                            <bean parent="CM-Proposal-Button-Withdraw"/>
                             <bean parent="Uif-PrimaryActionButton"
                                   p:ajaxSubmit="false"
                                   p:actionLabel="Return to Previous"
@@ -453,6 +455,17 @@
                 </bean>
             </list>
         </property>
+    </bean>
+
+    <!-- parent bean structure for Withdraw button which should behave the same for both CS and regular users -->
+    <bean id="CM-Proposal-Button-Withdraw" parent="CM-Proposal-Button-Withdraw-parentBean" />
+    <bean id="CM-Proposal-Button-Withdraw-parentBean" parent="Uif-PrimaryActionButton" abstract="true">
+        <property name="additionalCssClasses" value="btn-success"/>
+        <property name="ajaxSubmit" value="false"/>
+        <property name="actionLabel" value="Withdraw"/>
+        <property name="methodToCall" value="withdraw"/>
+        <property name="performClientSideValidation" value="false"/>
+        <property name="render" value="@{#actionFlags[T(org.kuali.student.cm.common.util.CurriculumManagementConstants$ActionFlags).KUALI_ACTION_CAN_WITHDRAW]}"/>
     </bean>
 
     <bean id="KS-Proposal-Review-Course-ConfirmSubmit-Dialog" parent="KS-Proposal-Review-Course-ConfirmSubmit-Dialog-parentBean" />

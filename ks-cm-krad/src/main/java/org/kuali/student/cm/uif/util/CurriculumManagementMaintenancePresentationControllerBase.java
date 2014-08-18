@@ -19,6 +19,12 @@ package org.kuali.student.cm.uif.util;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.maintenance.MaintenanceViewPresentationControllerBase;
+import org.kuali.rice.krad.uif.view.View;
+import org.kuali.rice.krad.web.form.DocumentFormBase;
+import org.kuali.rice.krad.web.form.UifFormBase;
+import org.kuali.student.cm.common.util.CurriculumManagementConstants;
+
+import java.util.Set;
 
 /**
  * This class is an override so that users will be allowed to 'save' proposal edits while the proposals are ENROUTE
@@ -26,6 +32,29 @@ import org.kuali.rice.krad.maintenance.MaintenanceViewPresentationControllerBase
  * @author Kuali Student Team
  */
 public class CurriculumManagementMaintenancePresentationControllerBase extends MaintenanceViewPresentationControllerBase {
+
+    @Override
+    public Set<String> getActionFlags(View view, UifFormBase model) {
+        Set<String> documentActions = super.getActionFlags(view, model);
+
+        Document document = ((DocumentFormBase) model).getDocument();
+
+        if (canWithdraw(document)) {
+            documentActions.add(CurriculumManagementConstants.ActionFlags.KUALI_ACTION_CAN_WITHDRAW);
+        }
+
+        return documentActions;
+    }
+
+    /**
+     * A Method to dictate whether the user can Withdraw the document from workflow. This is an action
+     * that can be performed by a user with no active KEW action requested of them.
+     *
+     * A Document can be Withdrawn if it can be saved.
+     */
+    public boolean canWithdraw(Document document) {
+        return canSave(document);
+    }
 
     /**
      * The parent class only allows saving when the document is not ENROUTE. We need to be able to save

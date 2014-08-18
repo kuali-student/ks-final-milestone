@@ -57,6 +57,8 @@
                   value="org.kuali.student.cm.course.service.impl.CourseMaintainableImpl"/>
         <property name="presentationControllerClass"
                   value="org.kuali.student.cm.uif.util.CurriculumManagementMaintenancePresentationControllerBase" />
+        <property name="authorizerClass"
+                  value="org.kuali.student.cm.course.auth.CurriculumManagementViewAuthorizerBase" />
         <property name="applyDirtyCheck" value="true"/>
         <property name="breadcrumbOptions.homewardPathBreadcrumbs">
             <list>
@@ -200,7 +202,7 @@
         <property name="maintainableClass" value="org.kuali.student.cm.course.service.impl.CourseMaintainableImpl"/>
         <property name="documentClass" value="org.kuali.student.cm.maintenance.CMMaintenanceDocument"/>
         <property name="documentAuthorizerClass"
-                  value="org.kuali.student.cm.course.auth.CMMaintenanceDocumentAuthorizer"/>
+                  value="org.kuali.student.cm.course.auth.CurriculumManagementMaintenanceDocumentAuthorizerBase"/>
         <property name="businessRulesClass" value="org.kuali.student.cm.course.rule.CourseRule"/>
         <property name="lockingKeys">
             <list>
