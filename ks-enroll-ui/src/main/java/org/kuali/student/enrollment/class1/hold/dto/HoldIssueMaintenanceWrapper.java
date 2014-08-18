@@ -20,6 +20,7 @@ import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.core.hold.dto.HoldIssueInfo;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -53,7 +54,7 @@ public class HoldIssueMaintenanceWrapper implements Serializable {
 
     private List<HoldIssueInfo> holdIssueInfoList;
 
-    private List<AuthorizationInfoWrapper> organizationNames;
+    private List<AuthorizationInfoWrapper> organizationNames = new ArrayList<AuthorizationInfoWrapper>();;
 
     public HoldIssueMaintenanceWrapper() {
         super();
