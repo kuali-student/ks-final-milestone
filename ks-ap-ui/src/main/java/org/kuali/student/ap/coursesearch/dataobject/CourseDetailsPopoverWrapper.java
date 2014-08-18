@@ -15,7 +15,6 @@
 package org.kuali.student.ap.coursesearch.dataobject;
 
 
-import org.kuali.student.ap.coursesearch.util.CollectionListPropertyEditor;
 import org.kuali.student.ap.coursesearch.util.ScheduledTermsPropertyEditor;
 
 import java.util.List;
@@ -23,7 +22,7 @@ import java.util.List;
 /**
  * This data object stores the data used in the display of the CourseDetailsPopover-InquiryView
  */
-public class CourseDetailsPopoverWrapper {
+public class CourseDetailsPopoverWrapper extends WrapperWithRequisites {
 
     private String courseId;
     private String courseCode;
@@ -35,7 +34,6 @@ public class CourseDetailsPopoverWrapper {
 
     private List<String> scheduledTerms;
     private List<String> projectedTerms;
-    private List<String> courseRequisites;
 
     public String getCourseId() {
         return courseId;
@@ -109,28 +107,10 @@ public class CourseDetailsPopoverWrapper {
         this.projectedTerms = projectedTerms;
     }
 
-    public List<String> getCourseRequisites() {
-        return courseRequisites;
-    }
-
-    public void setCourseRequisites(List<String> courseRequisites) {
-        this.courseRequisites = courseRequisites;
-    }
-
-    public String getCourseIdXmlSafe(){
-        if(getCourseId()==null)return "";
-        return getCourseId().replace('.', '_');
-    }
-
     public String getScheduledTermsForUI() {
         ScheduledTermsPropertyEditor editor = new ScheduledTermsPropertyEditor();
         editor.setValue(this.getScheduledTerms());
         return editor.getAsText();
     }
 
-    public String getCourseRequisitesForUI() {
-        CollectionListPropertyEditor editor = new CollectionListPropertyEditor();
-        editor.setValue(this.getCourseRequisites());
-        return editor.getAsText();
-    }
 }

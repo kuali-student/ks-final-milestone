@@ -263,34 +263,6 @@
                 </bean>
                 <!-- Projected Terms -->
                 <bean parent="Uif-CssGridGroup">
-                    <property name="render" value="@{courseSummaryDetails.scheduledTerms.size() eq 0}"/>
-                    <property name="items">
-                        <list>
-                            <bean parent="Uif-VerticalBoxSection" p:colSpan="5" p:wrapperCssClasses="ksap-right-labels">
-                                <property name="items">
-                                    <list>
-                                        <bean parent="Uif-Message" p:messageText="Projected Terms">
-                                            <property name="cssClasses">
-                                                <list merge="true">
-                                                    <value>ksap-label</value>
-                                                </list>
-                                            </property>
-                                        </bean>
-                                    </list>
-                                </property>
-                            </bean>
-                            <bean parent="Uif-VerticalBoxSection" p:colSpan="7">
-                                <property name="items">
-                                    <list>
-                                        <bean parent="Uif-Message" p:messageText="@{courseSummaryDetails.termsOfferedForUI}"/>
-                                    </list>
-                                </property>
-                            </bean>
-                        </list>
-                    </property>
-                </bean>
-                <!-- Course Requisites -->
-                <bean parent="Uif-CssGridGroup">
                     <property name="items">
                         <list>
                             <bean parent="Uif-VerticalBoxSection" p:colSpan="5" p:wrapperCssClasses="ksap-right-labels">
@@ -309,7 +281,60 @@
                             <bean parent="Uif-VerticalBoxSection" p:colSpan="7">
                                 <property name="items">
                                     <list>
-                                        <bean parent="Uif-Message" p:messageText="@{courseSummaryDetails.requisitesForUI}"/>
+                                        <bean p:id="courseRequisites" parent="Uif-MessageField"
+                                              p:render="@{courseSummaryDetails.displayNone()}"
+                                              p:messageText="None">
+                                            <property name="cssClasses">
+                                                <list merge="true">
+                                                    <value>ksap-data-list</value>
+                                                </list>
+                                            </property>
+                                        </bean>
+                                        <bean p:id="coursePreRequisites" parent="Uif-MessageField"
+                                              p:render="@{courseSummaryDetails.preRequisitesForUI ne null}"
+                                              p:messageText="@{courseSummaryDetails.preRequisitesForUI}">
+                                            <property name="cssClasses">
+                                                <list merge="true">
+                                                    <value>ksap-data-list</value>
+                                                </list>
+                                            </property>
+                                        </bean>
+                                        <bean p:id="courseCoRequisites" parent="Uif-MessageField"
+                                              p:render="@{courseSummaryDetails.coRequisitesForUI ne null}"
+                                              p:messageText="@{courseSummaryDetails.coRequisitesForUI}">
+                                            <property name="cssClasses">
+                                                <list merge="true">
+                                                    <value>ksap-data-list</value>
+                                                </list>
+                                            </property>
+                                        </bean>
+                                        <bean p:id="courseAntiRequisites" parent="Uif-MessageField"
+                                              p:render="@{courseSummaryDetails.antiRequisitesForUI ne null}"
+                                              p:messageText="@{courseSummaryDetails.antiRequisitesForUI}">
+                                            <property name="cssClasses">
+                                                <list merge="true">
+                                                    <value>ksap-data-list</value>
+                                                </list>
+                                            </property>
+                                        </bean>
+                                        <bean id="course_req_inactiveCourse_tooltip" parent="Uif-MessageField">
+                                            <property name="cssClasses">
+                                                <list merge="true">
+                                                    <value>ksap-inactive-course-link</value>
+                                                </list>
+                                            </property>
+                                            <property name="toolTip">
+                                                <bean parent="Uif-Tooltip" p:tooltipContent=""/>
+                                            </property>
+                                        </bean>
+                                        <bean parent="Uif-Message"
+                                              p:messageText="Source: @{#textHelper.getText('DETAILS_REQUISITE_SOURCE_NAME')}">
+                                            <property name="cssClasses">
+                                                <list merge="true">
+                                                    <value>ksap-source</value>
+                                                </list>
+                                            </property>
+                                        </bean>
                                     </list>
                                 </property>
                             </bean>

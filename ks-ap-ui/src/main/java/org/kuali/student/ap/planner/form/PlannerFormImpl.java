@@ -1,9 +1,9 @@
 package org.kuali.student.ap.planner.form;
 
+import org.kuali.student.ap.coursesearch.dataobject.CourseDetailsPopoverWrapper;
+import org.kuali.student.ap.coursesearch.service.impl.CourseDetailsInquiryHelperImpl2;
 import org.kuali.student.ap.planner.PlannerTerm;
 import org.kuali.student.ap.planner.support.DefaultPlannerForm;
-import org.kuali.student.ap.coursesearch.service.impl.CourseDetailsInquiryHelperImpl;
-import org.kuali.student.ap.coursesearch.dataobject.CourseSummaryDetails;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +19,7 @@ public class PlannerFormImpl extends DefaultPlannerForm {
 
 	private static final long serialVersionUID = -3275492339094049260L;
 
-	private transient CourseSummaryDetails courseSummaryDetails;
+	private transient CourseDetailsPopoverWrapper courseSummaryDetails;
 
     private boolean loadCalendar;
 
@@ -41,10 +41,10 @@ public class PlannerFormImpl extends DefaultPlannerForm {
 		this.courseSummaryDetails = null;
 	}
 
-	public CourseSummaryDetails getCourseSummaryDetails() {
+	public CourseDetailsPopoverWrapper getCourseSummaryDetails() {
 		if (courseSummaryDetails == null && getCourseId() != null)
-			courseSummaryDetails = new CourseDetailsInquiryHelperImpl()
-					.retrieveCourseSummaryById(getCourseId());
+			courseSummaryDetails = new CourseDetailsInquiryHelperImpl2()
+					.retrieveCoursePopoverDetails(getCourseId());
 
 		return courseSummaryDetails;
 	}

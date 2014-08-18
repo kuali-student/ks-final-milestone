@@ -15,16 +15,14 @@
 package org.kuali.student.ap.coursesearch.dataobject;
 
 import org.kuali.student.ap.coursesearch.util.CollectionListPropertyEditor;
-import org.kuali.student.ap.coursesearch.util.CourseDetailsUtil;
 import org.kuali.student.ap.coursesearch.util.ScheduledTermsPropertyEditor;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * This data object stores the data used in the display of the CourseDetails-InquiryView
  */
-public class CourseDetailsWrapper {
+public class CourseDetailsWrapper extends WrapperWithRequisites {
 
     private String courseId;
     private String courseTitle;
@@ -34,8 +32,6 @@ public class CourseDetailsWrapper {
     private String courseDescription;
     private String lastOffered;
 
-    private List<String> courseRequisites;
-    private Map<String, List<String>> courseRequisitesMap;
     private List<String> scheduledTerms;
     private List<String> projectedTerms;
     private List<String> courseGenEdRequirements;
@@ -99,22 +95,6 @@ public class CourseDetailsWrapper {
 
     public void setLastOffered(String lastOffered) {
         this.lastOffered = lastOffered;
-    }
-
-    public List<String> getCourseRequisites() {
-        return courseRequisites;
-    }
-
-    public void setCourseRequisites(List<String> courseRequisites) {
-        this.courseRequisites = courseRequisites;
-    }
-
-    public Map<String, List<String>> getCourseRequisitesMap() {
-        return courseRequisitesMap;
-    }
-
-    public void setCourseRequisitesMap(Map<String, List<String>> courseRequisitesMap) {
-        this.courseRequisitesMap = courseRequisitesMap;
     }
 
     public List<String> getScheduledTerms() {
@@ -182,44 +162,4 @@ public class CourseDetailsWrapper {
         return editor.getAsText();
     }
 
-    public String getCourseRequisitesForUI() {
-        CollectionListPropertyEditor editor = new CollectionListPropertyEditor();
-        editor.setValue(this.getCourseRequisites());
-        return editor.getAsText();
-    }
-
-    private String getRequisitesForUI(String key) {
-        String returnValue = null;
-        if (courseRequisitesMap.containsKey(key)) {
-            CollectionListPropertyEditor editor = new CollectionListPropertyEditor();
-            editor.setValue(courseRequisitesMap.get(key));
-            returnValue =  key + ": " + editor.getAsText();
-        }
-        return returnValue;
-    }
-
-    public String getPreRequisitesForUI() {
-        return getRequisitesForUI(CourseDetailsUtil.PREREQUISITE_KEY);
-    }
-
-    public String getCoRequisitesForUI() {
-        return getRequisitesForUI(CourseDetailsUtil.COREQUISITE_KEY);
-    }
-
-    public String getAntiRequisitesForUI() {
-        return getRequisitesForUI(CourseDetailsUtil.ANTIREQUISITE_KEY);
-    }
-
-    /**
-     * Determine if there are any requisites by checking the individual parts.
-     * There are some other parts that we ignore.
-     * @return True if none of the parts of interest exist, false otherwise
-     */
-    public boolean displayNone() {
-        boolean hasPre = courseRequisitesMap.containsKey(CourseDetailsUtil.PREREQUISITE_KEY);
-        boolean hasCo = courseRequisitesMap.containsKey(CourseDetailsUtil.COREQUISITE_KEY);
-        boolean hasAnti = courseRequisitesMap.containsKey(CourseDetailsUtil.ANTIREQUISITE_KEY);
-
-        return !hasPre && !hasCo && !hasAnti;
-    }
 }

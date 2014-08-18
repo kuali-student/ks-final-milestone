@@ -812,7 +812,7 @@
                                 <property name="items">
                                     <list>
                                         <bean parent="Uif-MessageField" p:messageText=
-                                                "@{dataObject.courseRequisites.size() gt 0
+                                                "@{dataObject.courseRequisitesMap.size() gt 0
                                                                 ? dataObject.courseRequisitesForUI
                                                                 : 'None'}">
                                             <property name="cssClasses">

@@ -85,7 +85,7 @@ public class CourseDetailsInquiryHelperImpl2 extends KualiInquirableImpl {
     }
 
     /**
-     * Retriece and compile data needed for the course popover on the course details page.
+     * Retrieve and compile data needed for the course popover on the course details page.
      *
      * @param courseId - Id of the course being displayed in popover
      * @return Compiled data object for popover
@@ -102,7 +102,8 @@ public class CourseDetailsInquiryHelperImpl2 extends KualiInquirableImpl {
         courseDetails.setCourseCredits(CreditsFormatter.formatCredits(course));
         courseDetails.setCourseTitle(course.getCourseTitle());
 
-        courseDetails.setCourseRequisites(CourseDetailsUtil.getCourseRequisites(course));
+//        courseDetails.setCourseRequisites(CourseDetailsUtil.getCourseRequisites(course));
+        courseDetails.setCourseRequisitesMap(CourseDetailsUtil.getCourseRequisitesMap(course));
 
         // Load Term information
         courseDetails.setScheduledTerms(KsapFrameworkServiceLocator.getCourseHelper()
@@ -129,6 +130,16 @@ public class CourseDetailsInquiryHelperImpl2 extends KualiInquirableImpl {
         courseDetails.setBookmarkStatusMessage(KsapFrameworkServiceLocator.getPlanHelper().createBookmarkStatusMessages(planItems));
 
         return courseDetails;
+    }
+
+    /**
+     * Populates course details with catalog information (title, id, code, description) and other summary information
+     * @param courseId - Id of the course to retrieve
+     * @return
+     */
+    public CourseDetailsWrapper retrieveCourseSummaryById(String courseId) {
+        CourseInfo course = KsapFrameworkServiceLocator.getCourseHelper().getCourseInfo(courseId);
+        return retrieveCourseSummary(course);
     }
 
     /**
