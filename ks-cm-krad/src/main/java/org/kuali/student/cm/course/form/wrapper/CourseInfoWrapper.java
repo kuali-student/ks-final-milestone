@@ -453,14 +453,15 @@ public class CourseInfoWrapper extends LURuleManagementWrapper implements Serial
         @RequestAccessible
         Map<String,String> dialogExplanations;
 
-        boolean proposalBlanketApproved;
+        // Disallows any workflow action being taken against the document immediately after a workflow action has been performed
+        boolean pendingWorkflowAction = false;
 
-        public boolean isProposalBlanketApproved() {
-            return proposalBlanketApproved;
+        public boolean isPendingWorkflowAction() {
+            return pendingWorkflowAction;
         }
 
-        public void setProposalBlanketApproved(boolean proposalBlanketApproved) {
-            this.proposalBlanketApproved = proposalBlanketApproved;
+        public void setPendingWorkflowAction(boolean pendingWorkflowAction) {
+            this.pendingWorkflowAction = pendingWorkflowAction;
         }
 
         public boolean isShowMessage() {

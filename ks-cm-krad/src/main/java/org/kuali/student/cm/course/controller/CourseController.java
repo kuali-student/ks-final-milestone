@@ -383,14 +383,8 @@ public class CourseController extends CourseRuleEditorController {
                     ModelAndView modelAndView = super.route(form,result, request,response);
                     form.getDialogManager().removeDialog(dialog);
                     CourseInfoWrapper wrapper = getCourseInfoWrapper(form);
-                    if (wrapper.getUiHelper().isCurriculumSpecialistUser()) {
-                        KRADServiceLocatorWeb.getViewValidationService().validateViewAgainstNextState(form);
-                        if (GlobalVariables.getMessageMap().hasErrors()) {
-                            wrapper.setMissingRequiredFields(true);
-                        } else {
-                            wrapper.setMissingRequiredFields(false);
-                        }
-                    }
+                    // Hide all the workflow action buttons on the review proposal page while the document is still in Enroute state(It is being processed at the back-end)
+                    wrapper.getUiHelper().setPendingWorkflowAction(true);
                     return modelAndView;
                 } else {
                     form.getDialogManager().removeDialog(dialog);
@@ -442,6 +436,8 @@ public class CourseController extends CourseRuleEditorController {
                         form.getDialogManager().removeDialog(dialog);
                         // Set the request redirect to false so that the user stays on the same page
                         form.setRequestRedirected(false);
+                        // Hide all the workflow action buttons on the review proposal page while the document is still in Enroute state(It is being processed at the back-end)
+                        courseInfoWrapper.getUiHelper().setPendingWorkflowAction(true);
                     } else {
                         form.getDialogManager().resetDialogStatus(dialog);
                         courseInfoWrapper.getUiHelper().setShowMessage(true);
@@ -524,6 +520,8 @@ public class CourseController extends CourseRuleEditorController {
                         // setShowMessage boolean decides whether to show the error message or not
                         courseInfoWrapper.getUiHelper().setShowMessage(false);
                         form.getDialogManager().removeDialog(dialog);
+                        // Hide all the workflow action buttons on the review proposal page while the document is still in Enroute state(It is being processed at the back-end)
+                        courseInfoWrapper.getUiHelper().setPendingWorkflowAction(true);
                     }else{
                         form.getDialogManager().resetDialogStatus(dialog);
                         courseInfoWrapper.getUiHelper().setShowMessage(true);
@@ -842,8 +840,8 @@ public class CourseController extends CourseRuleEditorController {
             super.blanketApprove(form, result, request, response);
             // Set the request redirect to false so that the user stays on the same page
             form.setRequestRedirected(false);
-            // Hide the Blanket Approve button on the review proposal page while the document is still in Enroute state(It is being processed at the back-end)
-            courseInfoWrapper.getUiHelper().setProposalBlanketApproved(true);
+            // Hide all the workflow action buttons on the review proposal page while the document is still in Enroute state(It is being processed at the back-end)
+            courseInfoWrapper.getUiHelper().setPendingWorkflowAction(true);
             //redirect back to client to display confirm dialog
             return getUIFModelAndView(form, CurriculumManagementConstants.CourseViewPageIds.REVIEW_COURSE_PROPOSAL_PAGE);
         } else {
@@ -879,8 +877,8 @@ public class CourseController extends CourseRuleEditorController {
                         form.getDialogManager().removeDialog(dialog);
                         // Set the request redirect to false so that the user stays on the same page
                         form.setRequestRedirected(false);
-                        // Hide the Blanket Approve button on the review proposal page while the document is still in Enroute state(It is being processed at the back-end)
-                        courseInfoWrapper.getUiHelper().setProposalBlanketApproved(true);
+                        // Hide all the workflow action buttons on the review proposal page while the document is still in Enroute state(It is being processed at the back-end)
+                        courseInfoWrapper.getUiHelper().setPendingWorkflowAction(true);
                     } else {
                         form.getDialogManager().resetDialogStatus(dialog);
                         courseInfoWrapper.getUiHelper().setShowMessage(true);

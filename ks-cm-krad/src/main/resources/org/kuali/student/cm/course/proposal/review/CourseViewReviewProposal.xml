@@ -363,20 +363,21 @@
                 <bean parent="Uif-HorizontalBoxGroup">
                     <property name="items">
                         <list>
+                            <!-- !#uiHelper.pendingWorkflowAction (render condition) should be added to all the workflow action buttons to avoid any workflow action being taken back to back-->
                             <bean parent="Uif-PrimaryActionButton"
                                   p:ajaxSubmit="false"
                                   p:actionLabel="Submit"
                                   p:methodToCall="route"
                                   p:performClientSideValidation="true"
                                   p:disabled="@{#dataObject.missingRequiredFields}"
-                                  p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}"/>
+                                  p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE] and (!#uiHelper.pendingWorkflowAction)}"/>
                             <bean parent="Uif-PrimaryActionButton"
                                   p:additionalCssClasses="btn-success"
                                   p:ajaxSubmit="false"
                                   p:actionLabel="@{((#workflowDoc.nodeNames.contains('PreRoute')) and (#workflowDoc.enroute))?'Resubmit':'Approve'}"
                                   p:methodToCall="approve"
                                   p:performClientSideValidation="true"
-                                  p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_APPROVE]}"
+                                  p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_APPROVE] and (!#uiHelper.pendingWorkflowAction)}"
                                   p:disabled="@{#dataObject.missingRequiredFields}"/>
                             <bean parent="Uif-PrimaryActionButton"
                                   p:ajaxSubmit="false"
@@ -384,7 +385,7 @@
                                   p:methodToCall="returnToPreviousNode"
                                   p:performClientSideValidation="true"
                                   p:performDirtyValidation="false"
-                                  p:render="@{(!#emptyList(#workflowDoc.previousNodeNames)) and (#actionFlags[#Constants.KUALI_ACTION_CAN_APPROVE])}"/>
+                                  p:render="@{(!#emptyList(#workflowDoc.previousNodeNames)) and (#actionFlags[#Constants.KUALI_ACTION_CAN_APPROVE]) and (!#uiHelper.pendingWorkflowAction)}"/>
                             <bean id="CM-Proposal-Review-Cancel"
                                   parent="Uif-ActionLink"
                                   p:actionLabel="Cancel"
@@ -404,6 +405,7 @@
                 <bean parent="Uif-HorizontalBoxGroup">
                     <property name="items">
                         <list>
+                            <!-- !#uiHelper.pendingWorkflowAction (render condition) should be added to all the workflow action buttons to avoid any workflow action being taken back to back-->
                             <bean parent="Uif-PrimaryActionButton"
                                   p:additionalCssClasses="btn-success"
                                   p:ajaxSubmit="false"
@@ -411,14 +413,14 @@
                                   p:methodToCall="blanketApprove"
                                   p:performClientSideValidation="true"
                                   p:disabled="@{#dataObject.missingRequiredFields}"
-                                  p:render="@{(#actionFlags[#Constants.KUALI_ACTION_CAN_BLANKET_APPROVE]) and (#uiHelper.useReviewProcess) and (!#uiHelper.proposalBlanketApproved)}"/>
+                                  p:render="@{(#actionFlags[#Constants.KUALI_ACTION_CAN_BLANKET_APPROVE]) and (#uiHelper.useReviewProcess) and (!#uiHelper.pendingWorkflowAction)}"/>
                             <bean parent="Uif-PrimaryActionButton"
                                   p:additionalCssClasses="btn-success"
                                   p:ajaxSubmit="false"
                                   p:actionLabel="@{((#workflowDoc.nodeNames.contains('PreRoute')) and (#workflowDoc.enroute))?'Resubmit':'Approve'}"
                                   p:methodToCall="approve"
                                   p:performClientSideValidation="true"
-                                  p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_APPROVE]}"
+                                  p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_APPROVE] and (!#uiHelper.pendingWorkflowAction)}"
                                   p:disabled="@{#dataObject.missingRequiredFields}"/>
                             <bean parent="Uif-PrimaryActionButton"
                                   p:ajaxSubmit="false"
@@ -426,14 +428,14 @@
                                   p:methodToCall="returnToPreviousNode"
                                   p:performClientSideValidation="true"
                                   p:performDirtyValidation="false"
-                                  p:render="@{(!#emptyList(#workflowDoc.previousNodeNames)) and (#actionFlags[#Constants.KUALI_ACTION_CAN_APPROVE])}"/>
+                                  p:render="@{(!#emptyList(#workflowDoc.previousNodeNames)) and (#actionFlags[#Constants.KUALI_ACTION_CAN_APPROVE]) and (!#uiHelper.pendingWorkflowAction)}"/>
                             <bean parent="Uif-PrimaryActionButton"
                                   p:ajaxSubmit="false"
                                   p:actionLabel="Submit"
                                   p:methodToCall="route"
                                   p:performClientSideValidation="true"
                                   p:disabled="@{#dataObject.missingRequiredFields}"
-                                  p:render="@{(#uiHelper.useReviewProcess) and (#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE])}"/>
+                                  p:render="@{(#uiHelper.useReviewProcess) and (#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]) and (!#uiHelper.pendingWorkflowAction)}"/>
                             <bean id="CM-Proposal-Review-CurriculumSpecialist-Cancel"
                                   parent="Uif-ActionLink"
                                   p:actionLabel="Cancel"
@@ -613,6 +615,6 @@
           p:ajaxSubmit="false"
           p:methodToCall="editCourseProposalPage"
           p:actionLabel="Edit"
-          p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_EDIT]}"/>
+          p:render="@{(#actionFlags[#Constants.KUALI_ACTION_CAN_EDIT]) and (!#uiHelper.pendingWorkflowAction)}"/>
 
 </beans>
