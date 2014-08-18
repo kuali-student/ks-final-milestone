@@ -16,11 +16,8 @@
     </ul>
     <strong>Holds (In Progress)</strong>
     <ul class="chan">
-        <li><a class="portal_link" title="Create Hold" href="${ConfigProperties.lum.application.url}/kr-krad/holdIssueInfoController?viewId=holdCreateView&methodToCall=start">Create Hold</a></li>
-        <li><a class="portal_link" title="Manage Hold Catalog" href="${ConfigProperties.lum.application.url}/kr-krad/holdIssueInfoController?viewId=holdSearchView&methodToCall=start">Manage Hold Catalog</a></li>
-        <li><a class="portal_link" title="Organization lookup (temp)" href="${ConfigProperties.lum.application.url}/kr-krad/lookup?methodToCall=start&dataObjectClassName=org.kuali.student.r2.core.organization.dto.OrgInfo&returnLocation=${ConfigProperties.lum.application.url}/portal.do&hideReturnLink=true">Organization lookup (temp)</a></li>
-        <li><a class="portal_link" title="Hold Issue Info Lookup View" href="${ConfigProperties.lum.application.url}/kr-krad/lookup?methodToCall=start&dataObjectClassName=org.kuali.student.r2.core.hold.dto.HoldIssueInfo&returnLocation=${ConfigProperties.lum.application.url}/portal.do&hideReturnLink=true">Hold Issue Info Lookup View</a></li>
-        <li><a class="portal_link" title="Hold Maintenance" href="${ConfigProperties.lum.application.url}/kr-krad/holdIssueMaintenanceController?viewName=HoldIssueMaintenanceView&dataObjectClassName=org.kuali.student.enrollment.class1.hold.dto.HoldIssueMaintenanceWrapper&methodToCall=start">Hold Maintenance</a></li>
+        <li><a class="portal_link" title="Create Hold Issue" href="${ConfigProperties.lum.application.url}/kr-krad/holdIssueMaintenance?viewName=HoldIssueMaintenanceView&dataObjectClassName=org.kuali.student.enrollment.class1.hold.dto.HoldIssueMaintenanceWrapper&methodToCall=start">Create Hold Issue</a></li>
+        <li><a class="portal_link" title="Manage Hold Catalog" href="${ConfigProperties.lum.application.url}/kr-krad/holdIssueManagement?viewId=KS-HoldIssueManagementView&methodToCall=start">Manage Hold Catalog</a></li>
     </ul>
     <strong>Process (In Progress)</strong>
     <ul class="chan">
