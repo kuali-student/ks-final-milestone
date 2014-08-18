@@ -149,7 +149,7 @@ public class CourseRule extends KsMaintenanceDocumentRuleBase {
 
             } else {
 
-                String principalName = getPrincipalNameFromDisplayName(instructorDisplay.getDisplayName());
+                String principalName = parseDisplayNameForPrincipalName(instructorDisplay.getDisplayName());
                 Map<String, String> searchCriteria = new HashMap<String, String>();
                 searchCriteria.put(KIMPropertyConstants.Person.PRINCIPAL_NAME, principalName);
                 List<Person> persons = getPersonService().findPeople(searchCriteria);
@@ -192,7 +192,7 @@ public class CourseRule extends KsMaintenanceDocumentRuleBase {
                     continue;
                 }
 
-                String principalName = getPrincipalNameFromDisplayName(collaboratorWrapper.getDisplayName());
+                String principalName = parseDisplayNameForPrincipalName(collaboratorWrapper.getDisplayName());
                 Map<String, String> searchCriteria = new HashMap<String, String>();
                 searchCriteria.put(KIMPropertyConstants.Person.PRINCIPAL_NAME, principalName);
                 List<Person> persons = getPersonService().findPeople(searchCriteria);
@@ -205,7 +205,12 @@ public class CourseRule extends KsMaintenanceDocumentRuleBase {
                     return false;
                 } else {
                     try {
-                        collaboratorWrapper.setPrincipalId(KSCollectionUtils.getOptionalZeroElement(persons).getPrincipalId());
+                        Person collabUser = KSCollectionUtils.getOptionalZeroElement(persons);
+                        if (StringUtils.equals(GlobalVariables.getUserSession().getPrincipalId(), collabUser.getPrincipalId())) {
+                            GlobalVariables.getMessageMap().putErrorForSectionId(CurriculumManagementConstants.CourseViewPageIds.CREATE_COURSE_PAGE, CurriculumManagementConstants.MessageKeys.ERROR_PROPOSAL_COLLABORATORS_CANNOT_ADD_SELF, principalName);
+                            return false;
+                        }
+                        collaboratorWrapper.setPrincipalId(collabUser.getPrincipalId());
                     } catch (OperationFailedException e) {
                         throw new RuntimeException(e);
                     }
@@ -342,7 +347,7 @@ public class CourseRule extends KsMaintenanceDocumentRuleBase {
      * @param displayName The display name of the instructor.
      * @return The user name of the instructor.
      */
-    protected String getPrincipalNameFromDisplayName(String displayName) {
+    protected String parseDisplayNameForPrincipalName(String displayName) {
         String searchString = "";
         if (displayName.contains("(") && displayName.contains(")")) {
             searchString = displayName.substring(displayName.lastIndexOf('(') + 1, displayName.lastIndexOf(')'));
