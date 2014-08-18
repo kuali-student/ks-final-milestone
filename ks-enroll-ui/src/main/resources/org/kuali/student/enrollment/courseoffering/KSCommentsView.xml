@@ -70,10 +70,6 @@
         <property name="items">
             <list>
                 <bean parent="Uif-VerticalBoxSection">
-                    <property name="header">
-                        <bean parent="Uif-HeaderOne" p:headerText="Comments" p:render="@{canAddComment}"
-                              p:additionalCssClasses="ks-commentHeader"/>
-                    </property>
                     <property name="items">
                         <list>
                             <bean id="KS-NewCommentField" parent="Uif-InputField" p:propertyName="commentText" p:minLength="1" p:maxLength="500" p:constraintText="Comment must be 1-500 characters long"
