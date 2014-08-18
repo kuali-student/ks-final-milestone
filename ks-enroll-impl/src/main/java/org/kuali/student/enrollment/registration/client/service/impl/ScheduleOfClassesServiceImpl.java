@@ -99,17 +99,17 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
      */
 
     @Override
-    public List<CourseSearchResult> searchForCourseOfferingsByTermIdAndCourse(String termId, String courseCode) throws InvalidParameterException, MissingParameterException, PermissionDeniedException, OperationFailedException {
+    public List<CourseSearchResult> searchForCourseOfferingsByTermIdAndCourse(String termId, String courseCode, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, PermissionDeniedException, OperationFailedException {
         return searchForCourseOfferingsByCourseLocal(termId, null, courseCode);
     }
 
     @Override
-    public List<CourseSearchResult> searchForCourseOfferingsByTermCodeAndCourse(String termCode, String courseCode) throws InvalidParameterException, MissingParameterException, PermissionDeniedException, OperationFailedException {
+    public List<CourseSearchResult> searchForCourseOfferingsByTermCodeAndCourse(String termCode, String courseCode, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, PermissionDeniedException, OperationFailedException {
         return searchForCourseOfferingsByCourseLocal(null, termCode, courseCode);
     }
 
     @Override
-    public List<CourseSearchResult> searchForCourseOfferingsByTermIdAndCluId(String termId, String cluId) throws InvalidParameterException, MissingParameterException, PermissionDeniedException, OperationFailedException {
+    public List<CourseSearchResult> searchForCourseOfferingsByTermIdAndCluId(String termId, String cluId, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, PermissionDeniedException, OperationFailedException {
         return searchForCourseOfferingsByCluLocal(termId, null, cluId);
     }
 
@@ -118,8 +118,8 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
      */
 
     @Override
-    public RegGroupSearchResult searchForRegistrationGroupByTermAndCourseAndRegGroup(String termId, String termCode, String courseCode, String regGroupCode) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        List<RegGroupSearchResult> regGroupSearchResults = searchForRegistrationGroupsLocal(null, termId, termCode, courseCode, regGroupCode);
+    public RegGroupSearchResult searchForRegistrationGroupByTermAndCourseAndRegGroup(String termId, String termCode, String courseCode, String regGroupCode, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        List<RegGroupSearchResult> regGroupSearchResults = searchForRegistrationGroupsLocal(null, termId, termCode, courseCode, regGroupCode, contextInfo);
         if (regGroupSearchResults != null && !regGroupSearchResults.isEmpty()) {
             return KSCollectionUtils.getRequiredZeroElement(regGroupSearchResults);
         } else {
@@ -132,7 +132,7 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
      */
 
     @Override
-    public String getTermIdByTermCode(String termCode) throws InvalidParameterException, MissingParameterException, PermissionDeniedException, OperationFailedException {
+    public String getTermIdByTermCode(String termCode, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, PermissionDeniedException, OperationFailedException {
         return KSCollectionUtils.getRequiredZeroElement(CourseRegistrationAndScheduleOfClassesUtil.getTermsByTermCode(termCode)).getTermId();
     }
 
@@ -225,12 +225,12 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
         return getActivityTypesForFormatOfferings(formatOfferings, contextInfo);
     }
 
-    protected List<RegGroupSearchResult> searchForRegistrationGroupsLocal(String courseOfferingId, String termId, String termCode, String courseCode, String regGroupName) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    protected List<RegGroupSearchResult> searchForRegistrationGroupsLocal(String courseOfferingId, String termId, String termCode, String courseCode, String regGroupName, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         courseOfferingId = getCourseOfferingId(courseOfferingId, courseCode, termId, termCode);
         List<RegGroupSearchResult> retList = null;
 
         if (!StringUtils.isEmpty(courseOfferingId)) {
-            retList = searchForRegGroupsByCourseAndName(courseOfferingId, regGroupName);
+            retList = searchForRegGroupsByCourseAndName(courseOfferingId, regGroupName, contextInfo);
         }
 
         // We want to add registration counts to the results
@@ -469,9 +469,9 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
         return retList;
     }
 
-    public List<RegGroupSearchResult> searchForRegGroupsByCourseAndName(String courseOfferingId, String regGroupName) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<RegGroupSearchResult> searchForRegGroupsByCourseAndName(String courseOfferingId, String regGroupName, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 
-        List<RegGroupSearchResult> regGroupSearchResults = searchForRegGroups(courseOfferingId);
+        List<RegGroupSearchResult> regGroupSearchResults = searchForRegGroups(courseOfferingId, contextInfo);
 
         // return a list with a single entity if regGroupName was provided
         if (!StringUtils.isEmpty(regGroupName)) {
@@ -629,10 +629,9 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
     }
 
     //   Returns a list of course offering details such as main info (code, name, desc, etc.), cross-listed courses, prereqs, and AO info (main info, schedule, instructor, reg groups).
-    public CourseOfferingDetailsSearchResult searchForCourseOfferingDetails(String courseOfferingId) throws InvalidParameterException, MissingParameterException, PermissionDeniedException, OperationFailedException, DoesNotExistException {
+    @Override
+    public CourseOfferingDetailsSearchResult searchForCourseOfferingDetails(String courseOfferingId, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, PermissionDeniedException, OperationFailedException, DoesNotExistException {
         long startTime = System.currentTimeMillis();
-
-        ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
 
         SearchRequestInfo searchRequest = new SearchRequestInfo(CourseRegistrationSearchServiceImpl.CO_AND_AO_INFO_BY_CO_ID_SEARCH_TYPE.getKey());
         searchRequest.addParam(CourseOfferingManagementSearchImpl.SearchParameters.CO_ID, courseOfferingId);
@@ -833,14 +832,14 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
     }
 
     @Override
-    public RegGroupSearchResult getRegGroup(String regGroupId) throws InvalidParameterException, MissingParameterException, PermissionDeniedException, OperationFailedException {
+    public RegGroupSearchResult getRegGroup(String regGroupId, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, PermissionDeniedException, OperationFailedException {
         SearchRequestInfo searchRequest = createRegGroupSearchRequest(null, regGroupId);
         List<RegGroupSearchResult> resultList =  processRegGroupSearch(searchRequest);
         return KSCollectionUtils.getRequiredZeroElement(resultList);
     }
 
     @Override
-    public List<RegGroupSearchResult> searchForRegGroups(String courseOfferingId) throws InvalidParameterException, MissingParameterException, PermissionDeniedException, OperationFailedException {
+    public List<RegGroupSearchResult> searchForRegGroups(String courseOfferingId, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, PermissionDeniedException, OperationFailedException {
         SearchRequestInfo searchRequest = createRegGroupSearchRequest(courseOfferingId, null);
         return processRegGroupSearch(searchRequest);
     }
@@ -1266,7 +1265,7 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
      * @return returns null if no records are found
      */
     @Override
-    public Map<String, List<TimeSlotInfo>> getAoTimeSlotMap(List<String> aoIds) {
+    public Map<String, List<TimeSlotInfo>> getAoTimeSlotMap(List<String> aoIds, ContextInfo contextInfo) {
         Map<String, List<TimeSlotInfo>> resultMap = new HashMap<String, List<TimeSlotInfo>>();
 
         if (aoIds == null || aoIds.isEmpty()) return null;
@@ -1496,11 +1495,11 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
     }
 
     @Override
-    public CourseSearchResult getCourseOfferingById(String courseOfferingId) throws InvalidParameterException, MissingParameterException, PermissionDeniedException, OperationFailedException, DoesNotExistException {
-        return KSCollectionUtils.getRequiredZeroElement(getCourseOfferings(Arrays.asList(courseOfferingId), null));
+    public CourseSearchResult getCourseOfferingById(String courseOfferingId, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, PermissionDeniedException, OperationFailedException, DoesNotExistException {
+        return KSCollectionUtils.getRequiredZeroElement(getCourseOfferings(Arrays.asList(courseOfferingId), null, contextInfo));
     }
 
-    public List<CourseSearchResult> getCourseOfferings(List<String> luiIds, List<String> atpIds) throws MissingParameterException, InvalidParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException {
+    public List<CourseSearchResult> getCourseOfferings(List<String> luiIds, List<String> atpIds, ContextInfo contextInfo) throws MissingParameterException, InvalidParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException {
 
         List<CourseSearchResult> courseSearchResults = new ArrayList<>();
 

@@ -3,6 +3,7 @@ package org.kuali.student.enrollment.class2.registration.controller;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.web.controller.UifControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
+import org.kuali.student.common.util.security.ContextUtils;
 import org.kuali.student.enrollment.class2.registration.form.CourseRegistrationKradForm;
 import org.kuali.student.enrollment.registration.client.service.ScheduleOfClassesService;
 import org.kuali.student.enrollment.registration.client.service.dto.CourseSearchResult;
@@ -51,7 +52,7 @@ public class CourseRegistrationKradController extends UifControllerBase {
 
         List<CourseSearchResult> collectionList;
         try {
-            collectionList = getScheduleOfClassesService().searchForCourseOfferingsByTermCodeAndCourse(termCode, courseCode);
+            collectionList = getScheduleOfClassesService().searchForCourseOfferingsByTermCodeAndCourse(termCode, courseCode, ContextUtils.createDefaultContextInfo());
         } catch (Exception e) {
             throw new RuntimeException("Error", e);
         }

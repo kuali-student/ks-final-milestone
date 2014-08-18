@@ -57,7 +57,7 @@ public interface ScheduleOfClassesService {
      * @throws PermissionDeniedException
      * @throws OperationFailedException
      */
-    List<CourseSearchResult> searchForCourseOfferingsByTermIdAndCourse(String termId, String courseCode) throws InvalidParameterException, MissingParameterException, PermissionDeniedException, OperationFailedException;
+    List<CourseSearchResult> searchForCourseOfferingsByTermIdAndCourse(String termId, String courseCode, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, PermissionDeniedException, OperationFailedException;
 
     /**
      * Java Helper method.
@@ -70,7 +70,7 @@ public interface ScheduleOfClassesService {
      * @throws PermissionDeniedException
      * @throws OperationFailedException
      */
-    List<CourseSearchResult> searchForCourseOfferingsByTermCodeAndCourse(String termCode, String courseCode) throws InvalidParameterException, MissingParameterException, PermissionDeniedException, OperationFailedException;
+    List<CourseSearchResult> searchForCourseOfferingsByTermCodeAndCourse(String termCode, String courseCode, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, PermissionDeniedException, OperationFailedException;
 
     /**
      * return course offering information if you know the termId and cluId
@@ -82,7 +82,7 @@ public interface ScheduleOfClassesService {
      * @throws PermissionDeniedException
      * @throws OperationFailedException
      */
-    List<CourseSearchResult> searchForCourseOfferingsByTermIdAndCluId(String termId, String cluId) throws InvalidParameterException, MissingParameterException, PermissionDeniedException, OperationFailedException;
+    List<CourseSearchResult> searchForCourseOfferingsByTermIdAndCluId(String termId, String cluId, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, PermissionDeniedException, OperationFailedException;
 
     /**
      * returns a list of course offerings. Both inputs are optional so if they are not specified then all course offerings in the system will be returned.
@@ -95,7 +95,7 @@ public interface ScheduleOfClassesService {
      * @throws PermissionDeniedException
      * @throws DoesNotExistException
      */
-    List<CourseSearchResult> getCourseOfferings(List<String> luiIds, List<String> atpIds) throws MissingParameterException, InvalidParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException;
+    List<CourseSearchResult> getCourseOfferings(List<String> luiIds, List<String> atpIds, ContextInfo contextInfo) throws MissingParameterException, InvalidParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException;
 
     /**
      * get the course offering by id
@@ -106,7 +106,7 @@ public interface ScheduleOfClassesService {
      * @throws PermissionDeniedException
      * @throws OperationFailedException
      */
-    CourseSearchResult getCourseOfferingById(String courseOfferingId) throws InvalidParameterException, MissingParameterException, PermissionDeniedException, OperationFailedException, DoesNotExistException;
+    CourseSearchResult getCourseOfferingById(String courseOfferingId, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, PermissionDeniedException, OperationFailedException, DoesNotExistException;
 
 
 /** REGISTRATION GROUPS **/
@@ -124,7 +124,7 @@ public interface ScheduleOfClassesService {
      * @throws OperationFailedException
      * @throws PermissionDeniedException
      */
-    RegGroupSearchResult searchForRegistrationGroupByTermAndCourseAndRegGroup(String termId, String termCode, String courseCode, String regGroupCode) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    RegGroupSearchResult searchForRegistrationGroupByTermAndCourseAndRegGroup(String termId, String termCode, String courseCode, String regGroupCode, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
 /** TERMS **/
 
@@ -138,14 +138,14 @@ public interface ScheduleOfClassesService {
      * @throws PermissionDeniedException
      * @throws OperationFailedException
      */
-    String getTermIdByTermCode(String termCode) throws InvalidParameterException, MissingParameterException, PermissionDeniedException, OperationFailedException;
+    String getTermIdByTermCode(String termCode, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, PermissionDeniedException, OperationFailedException;
 
     /**
      * This method will return a map of AO IDs -> List<TimeSlotInfo>.
      * @param aoIds
      * @return  map of AO IDs -> List<TimeSlotInfo>. Null if no records are found
      */
-    Map<String, List<TimeSlotInfo>>  getAoTimeSlotMap(List<String> aoIds);
+    Map<String, List<TimeSlotInfo>>  getAoTimeSlotMap(List<String> aoIds, ContextInfo contextInfo);
 
     /**
      * This method takes in the courseOfferingId and will return an object that contains the credit and grading optins of the course.
@@ -172,7 +172,7 @@ public interface ScheduleOfClassesService {
      * @throws PermissionDeniedException
      * @throws OperationFailedException
      */
-    public List<RegGroupSearchResult> searchForRegGroups(String courseOfferingId) throws InvalidParameterException, MissingParameterException, PermissionDeniedException, OperationFailedException;
+    public List<RegGroupSearchResult> searchForRegGroups(String courseOfferingId, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, PermissionDeniedException, OperationFailedException;
 
     /**
      *
@@ -183,7 +183,7 @@ public interface ScheduleOfClassesService {
      * @throws PermissionDeniedException
      * @throws OperationFailedException
      */
-    public RegGroupSearchResult getRegGroup(String regGroupId) throws InvalidParameterException, MissingParameterException, PermissionDeniedException, OperationFailedException;
+    public RegGroupSearchResult getRegGroup(String regGroupId, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, PermissionDeniedException, OperationFailedException;
 
     /**
      * This will search for registration groups by the course offering id and the reg group name. A course offering can have multiple RGs so the name must be unique
@@ -195,14 +195,14 @@ public interface ScheduleOfClassesService {
      * @throws OperationFailedException
      * @throws PermissionDeniedException
      */
-    public List<RegGroupSearchResult> searchForRegGroupsByCourseAndName(String courseOfferingId, String regGroupName) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<RegGroupSearchResult> searchForRegGroupsByCourseAndName(String courseOfferingId, String regGroupName, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
      * returns course offering details for a particular course offering id
      * @param courseOfferingId
      * @return
      */
-    public CourseOfferingDetailsSearchResult searchForCourseOfferingDetails(String courseOfferingId) throws InvalidParameterException, MissingParameterException, PermissionDeniedException, OperationFailedException, DoesNotExistException ;
+    public CourseOfferingDetailsSearchResult searchForCourseOfferingDetails(String courseOfferingId, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, PermissionDeniedException, OperationFailedException, DoesNotExistException ;
 
     /**
      * returns a list of instructors by aoIds

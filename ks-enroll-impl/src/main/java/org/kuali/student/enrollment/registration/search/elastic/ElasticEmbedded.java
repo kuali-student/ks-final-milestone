@@ -268,8 +268,9 @@ public class ElasticEmbedded {
     }
 
     protected Collection<RegGroupSearchResult> getAllRegistrationGroups() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        ContextInfo context = ContextUtils.createDefaultContextInfo();
         // the null search returns all registration groups
-        return scheduleOfClassesService.searchForRegGroups(null);
+        return scheduleOfClassesService.searchForRegGroups(null, context);
     }
 
     /**

@@ -46,7 +46,7 @@ public class ScheduleOfClassesServiceCacheImpl extends ScheduleOfClassesServiceI
     private CacheManager cacheManager;
 
     @Override
-    public RegGroupSearchResult getRegGroup(String regGroupId) throws InvalidParameterException, MissingParameterException, PermissionDeniedException, OperationFailedException {
+    public RegGroupSearchResult getRegGroup(String regGroupId, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, PermissionDeniedException, OperationFailedException {
         RegGroupSearchResult regGroupSearchResult = null;
 
         GetResponse getResponse = elasticEmbedded.getClient().prepareGet(ElasticEmbedded.KS_ELASTIC_INDEX, ElasticEmbedded.REGISTRATION_GROUP_ELASTIC_TYPE, regGroupId).execute().actionGet();
@@ -61,7 +61,8 @@ public class ScheduleOfClassesServiceCacheImpl extends ScheduleOfClassesServiceI
         return regGroupSearchResult;
     }
 
-    public CourseSearchResult getCourseOfferingById(String courseOfferingId) throws InvalidParameterException, MissingParameterException, PermissionDeniedException, OperationFailedException, DoesNotExistException {
+    @Override
+    public CourseSearchResult getCourseOfferingById(String courseOfferingId, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, PermissionDeniedException, OperationFailedException, DoesNotExistException {
         CourseSearchResult searchResult = null;
 
         GetResponse getResponse = elasticEmbedded.getClient().prepareGet(ElasticEmbedded.KS_ELASTIC_INDEX, ElasticEmbedded.COURSEOFFERING_ELASTIC_TYPE, courseOfferingId).execute().actionGet();
@@ -77,7 +78,7 @@ public class ScheduleOfClassesServiceCacheImpl extends ScheduleOfClassesServiceI
     }
 
     @Override
-    public List<RegGroupSearchResult> searchForRegGroupsByCourseAndName(String courseOfferingId, String regGroupName) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<RegGroupSearchResult> searchForRegGroupsByCourseAndName(String courseOfferingId, String regGroupName, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         List<RegGroupSearchResult> resultList = new ArrayList<>();
 
         try {
@@ -156,21 +157,12 @@ public class ScheduleOfClassesServiceCacheImpl extends ScheduleOfClassesServiceI
     }
 
     @Override
-    public List<CourseSearchResult> searchForCourseOfferingsByTermIdAndCluId(String termId, String cluId) throws InvalidParameterException, MissingParameterException, PermissionDeniedException, OperationFailedException {
+    public List<CourseSearchResult> searchForCourseOfferingsByTermIdAndCluId(String termId, String cluId, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, PermissionDeniedException, OperationFailedException {
         List<CourseSearchResult> resultList = new ArrayList<>();
         FilteredQueryBuilder query = null;
 
         try {
-            //FilteredQueryBuilder query = QueryBuilders.filteredQuery(QueryBuilders.matchAllQuery(), FilterBuilders.andFilter(FilterBuilders.termFilter("courseCode", courseCode), FilterBuilders.termsFilter("termId", atpId.toLowerCase().split("\\."))));
-            /*
-            query = QueryBuilders.filteredQuery(
-                    QueryBuilders.matchAllQuery(),
-                    FilterBuilders.andFilter(
-                            FilterBuilders.termFilter("cluId", cluId),
-                            FilterBuilders.termFilter("termId", termId)
-                    )
-            );
-             */
+
             query = QueryBuilders.filteredQuery(
                     QueryBuilders.matchAllQuery(),
                     FilterBuilders.andFilter(
@@ -201,13 +193,13 @@ public class ScheduleOfClassesServiceCacheImpl extends ScheduleOfClassesServiceI
     }
 
     @Override
-    public CourseOfferingDetailsSearchResult searchForCourseOfferingDetails(String courseOfferingId) throws InvalidParameterException, MissingParameterException, PermissionDeniedException, OperationFailedException, DoesNotExistException {
+    public CourseOfferingDetailsSearchResult searchForCourseOfferingDetails(String courseOfferingId, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, PermissionDeniedException, OperationFailedException, DoesNotExistException {
         CourseOfferingDetailsSearchResult courseOfferingSearchResults;
 
             Element cachedResult = getCacheManager().getCache(COURSE_DETAILS_CACHE_NAME).get(courseOfferingId);
             if (cachedResult == null) {
                 //Use the normal service calls to get live data
-                courseOfferingSearchResults = super.searchForCourseOfferingDetails(courseOfferingId);
+                courseOfferingSearchResults = super.searchForCourseOfferingDetails(courseOfferingId, contextInfo);
                 getCacheManager().getCache(COURSE_DETAILS_CACHE_NAME).put(new Element(courseOfferingId, courseOfferingSearchResults));
             } else {
                 //Get cached data and update the seatcounts with live data
@@ -248,7 +240,7 @@ public class ScheduleOfClassesServiceCacheImpl extends ScheduleOfClassesServiceI
     }
 
     @Override
-    public Map<String, List<TimeSlotInfo>> getAoTimeSlotMap(List<String> aoIds) {
+    public Map<String, List<TimeSlotInfo>> getAoTimeSlotMap(List<String> aoIds, ContextInfo contextInfo) {
         Map<String, List<TimeSlotInfo>> mRet = new HashMap<>();
         if(aoIds == null || aoIds.isEmpty()) return null;
 
@@ -266,7 +258,7 @@ public class ScheduleOfClassesServiceCacheImpl extends ScheduleOfClassesServiceI
 
             if(!aoIdsToQuery.isEmpty()){
                 //Use the normal service calls to get live data
-                Map<String, List<TimeSlotInfo>> aoTimeslots = super.getAoTimeSlotMap(aoIdsToQuery);
+                Map<String, List<TimeSlotInfo>> aoTimeslots = super.getAoTimeSlotMap(aoIdsToQuery, contextInfo);
                 if(aoTimeslots != null && !aoTimeslots.isEmpty()) {
                     for (final Iterator iter = aoTimeslots.entrySet().iterator(); iter.hasNext();) {
                         Map.Entry entry = (Map.Entry)iter.next();

@@ -187,7 +187,7 @@ public class CourseRegistrationAdminClientServiceImpl extends CourseRegistration
 
     private List<WaitlistEntryResult> searchForWaitlistRosterLocal(String termId, String termCode, String courseCode, String regGroupCode, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         List<WaitlistEntryResult>  results =   new ArrayList<WaitlistEntryResult>();
-        RegGroupSearchResult regGroupSearchResult =  getScheduleOfClassesService().searchForRegistrationGroupByTermAndCourseAndRegGroup(termId, termCode, courseCode, regGroupCode);
+        RegGroupSearchResult regGroupSearchResult =  getScheduleOfClassesService().searchForRegistrationGroupByTermAndCourseAndRegGroup(termId, termCode, courseCode, regGroupCode, contextInfo);
         String PRIMARY_WAITLIST_TYPE = LprServiceConstants.WAITLIST_RG_LPR_TYPE_KEY; // for this implementation the RG is the primary
         // array of valid waitlist types. We might want to pass this in to make it configurable?
         String[] wlTypes = {LprServiceConstants.WAITLIST_RG_LPR_TYPE_KEY,

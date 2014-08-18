@@ -19,6 +19,7 @@ package org.kuali.student.enrollment.class2.registration.performance.krad;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.web.controller.UifControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
+import org.kuali.student.common.util.security.ContextUtils;
 import org.kuali.student.enrollment.registration.client.service.ScheduleOfClassesService;
 import org.kuali.student.enrollment.registration.client.service.dto.CourseSearchResult;
 import org.kuali.student.r2.common.constants.CommonServiceConstants;
@@ -80,7 +81,7 @@ public class KitchenSinkPerformanceController extends UifControllerBase {
 
         List<CourseSearchResult> collectionList;
         try {
-            collectionList = getScheduleOfClassesService().searchForCourseOfferingsByTermIdAndCourse(termId, courseCode);
+            collectionList = getScheduleOfClassesService().searchForCourseOfferingsByTermIdAndCourse(termId, courseCode, ContextUtils.createDefaultContextInfo());
         } catch (Exception e) {
             throw new RuntimeException("Error", e);
         }

@@ -60,7 +60,6 @@ import org.slf4j.LoggerFactory;
 
 import javax.xml.namespace.QName;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -508,7 +507,7 @@ public class BestEffortTimeConflictProposition extends AbstractBestEffortProposi
 
         if(aoIds != null &&  !aoIds.isEmpty()) {
             if (!aoIdsToProcess.isEmpty()) {
-                Map<String, List<TimeSlotInfo>> newAoToTimeSlotMap = getScheduleOfClassesService().getAoTimeSlotMap(aoIdsToProcess);
+                Map<String, List<TimeSlotInfo>> newAoToTimeSlotMap = getScheduleOfClassesService().getAoTimeSlotMap(aoIdsToProcess, contextInfo);
                 if(newAoToTimeSlotMap != null && !newAoToTimeSlotMap.isEmpty()) {
                     for (String aoid : newAoToTimeSlotMap.keySet()) {
                         aoToTimeSlotMap.put(aoid, newAoToTimeSlotMap.get(aoid));

@@ -8,6 +8,7 @@ import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.sort.SortOrder;
+import org.kuali.student.common.util.security.ContextUtils;
 import org.kuali.student.enrollment.registration.client.service.ScheduleOfClassesClientService;
 import org.kuali.student.enrollment.registration.client.service.dto.ActivityOfferingSearchResult;
 import org.kuali.student.enrollment.registration.client.service.dto.ActivityTypeSearchResult;
@@ -17,6 +18,7 @@ import org.kuali.student.enrollment.registration.client.service.dto.InstructorSe
 import org.kuali.student.enrollment.registration.client.service.dto.RegGroupSearchResult;
 import org.kuali.student.enrollment.registration.client.service.dto.TermSearchResult;
 import org.kuali.student.enrollment.registration.client.service.impl.util.CourseRegistrationAndScheduleOfClassesUtil;
+import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
@@ -124,9 +126,10 @@ public class ScheduleOfClassesClientServiceImpl extends ScheduleOfClassesService
     @Override
     public Response searchForRegistrationGroups(String courseOfferingId, String termId, String termCode, String courseCode, String regGroupName) {
         Response.ResponseBuilder response;
+        ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
 
         try {
-            List<RegGroupSearchResult> regGroupSearchResults = searchForRegistrationGroupsLocal(courseOfferingId, termId, termCode, courseCode, regGroupName);
+            List<RegGroupSearchResult> regGroupSearchResults = searchForRegistrationGroupsLocal(courseOfferingId, termId, termCode, courseCode, regGroupName, contextInfo);
             response = Response.ok(regGroupSearchResults);
         } catch (Exception e) {
             LOGGER.warn(EXCEPTION_MSG, e);
@@ -235,9 +238,10 @@ public class ScheduleOfClassesClientServiceImpl extends ScheduleOfClassesService
     @Override
     public Response searchForCourseOfferingDetailsRS(String courseOfferingId) {
         Response.ResponseBuilder response;
+        ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
 
         try {
-            CourseOfferingDetailsSearchResult courseOfferingSearchResults = searchForCourseOfferingDetails(courseOfferingId);
+            CourseOfferingDetailsSearchResult courseOfferingSearchResults = searchForCourseOfferingDetails(courseOfferingId, contextInfo);
             response = Response.ok(courseOfferingSearchResults);
         } catch (Exception e) {
             LOGGER.warn(EXCEPTION_MSG, e);

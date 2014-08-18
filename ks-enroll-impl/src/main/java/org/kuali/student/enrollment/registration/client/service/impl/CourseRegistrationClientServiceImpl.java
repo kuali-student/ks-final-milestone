@@ -904,12 +904,12 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
             Map<String, RegGroupSearchResult> regGroupMap = new HashMap<>();
             if(!rgsToLookup.isEmpty()){
                 for(String rgId : rgsToLookup) {
-                    RegGroupSearchResult regGroupSearchResult = getScheduleOfClassesService().getRegGroup(rgId);
+                    RegGroupSearchResult regGroupSearchResult = getScheduleOfClassesService().getRegGroup(rgId, contextInfo);
                     if(regGroupSearchResult != null){
                         regGroupMap.put(regGroupSearchResult.getRegGroupId(), regGroupSearchResult);
 
                         // we'll need course info objects for both the reg groups and the course offerings
-                        CourseSearchResult courseSearchResult = getScheduleOfClassesService().getCourseOfferingById(regGroupSearchResult.getCourseOfferingId());
+                        CourseSearchResult courseSearchResult = getScheduleOfClassesService().getCourseOfferingById(regGroupSearchResult.getCourseOfferingId(), contextInfo);
                         courseInfoMap.put(rgId, courseSearchResult);
                     }
                 }
@@ -990,7 +990,7 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
         List<CourseSearchResult> courseInfoResults = new ArrayList<>();
 
         for(String cluId : cluIds) {
-            List<CourseSearchResult> courseInfoResultsTemp =  getScheduleOfClassesService().searchForCourseOfferingsByTermIdAndCluId(termId, cluId);
+            List<CourseSearchResult> courseInfoResultsTemp =  getScheduleOfClassesService().searchForCourseOfferingsByTermIdAndCluId(termId, cluId, context);
             if(courseInfoResultsTemp != null && !courseInfoResultsTemp.isEmpty()) {
                 courseInfoResults.addAll(courseInfoResultsTemp);
             }

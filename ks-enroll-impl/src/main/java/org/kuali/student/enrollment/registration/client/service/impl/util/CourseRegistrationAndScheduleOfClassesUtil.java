@@ -56,7 +56,6 @@ import org.kuali.student.enrollment.registration.client.service.dto.TermSearchRe
 import org.kuali.student.enrollment.registration.client.service.exception.CourseDoesNotExistException;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
@@ -67,7 +66,6 @@ import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
 import org.kuali.student.r2.common.util.constants.CourseRegistrationServiceConstants;
 import org.kuali.student.r2.common.util.constants.LprServiceConstants;
-import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.core.atp.dto.AtpInfo;
 import org.kuali.student.r2.core.atp.service.AtpService;
 import org.kuali.student.r2.core.class1.search.CourseOfferingManagementSearchImpl;
@@ -370,7 +368,7 @@ public class CourseRegistrationAndScheduleOfClassesUtil {
         RegGroupSearchResult rg = null;
 
         if (!StringUtils.isEmpty(regGroupId)) {
-            rg = getScheduleOfClassesService().getRegGroup(regGroupId);
+            rg = getScheduleOfClassesService().getRegGroup(regGroupId, contextInfo);
         } else {
             if(courseCode == null || courseCode.isEmpty()){
                 if(regGroupCode == null || regGroupCode.isEmpty()) {
@@ -383,7 +381,7 @@ public class CourseRegistrationAndScheduleOfClassesUtil {
                 throw new CourseDoesNotExistException(SECTION_REQUIRED_MESSAGE_KEY, courseCode, "Section cannot be empty");
             }
             // get the registration group
-            rg = getScheduleOfClassesService().searchForRegistrationGroupByTermAndCourseAndRegGroup(termId, termCode, courseCode, regGroupCode);
+            rg = getScheduleOfClassesService().searchForRegistrationGroupByTermAndCourseAndRegGroup(termId, termCode, courseCode, regGroupCode, contextInfo);
         }
 
         if (rg == null) {

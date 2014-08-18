@@ -183,7 +183,7 @@ public class CourseRegistrationCartClientServiceImpl extends CourseRegistrationC
         RegGroupSearchResult rg = null;
 
         if (!StringUtils.isEmpty(regGroupId)) {
-            rg = getScheduleOfClassesService().getRegGroup(regGroupId);
+            rg = getScheduleOfClassesService().getRegGroup(regGroupId, contextInfo);
         } else {
             if(courseCode == null || courseCode.isEmpty()){
                 throw new DoesNotExistException("Course Code cannot be empty");
@@ -192,7 +192,7 @@ public class CourseRegistrationCartClientServiceImpl extends CourseRegistrationC
                 throw new DoesNotExistException("Section cannot be empty");
             }
             // get the registration group
-            rg = getScheduleOfClassesService().searchForRegistrationGroupByTermAndCourseAndRegGroup(termId, termCode, courseCode, regGroupCode);
+            rg = getScheduleOfClassesService().searchForRegistrationGroupByTermAndCourseAndRegGroup(termId, termCode, courseCode, regGroupCode, contextInfo);
         }
 
         if (rg == null) {

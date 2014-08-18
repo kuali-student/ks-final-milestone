@@ -48,7 +48,7 @@ public class CRPerformanceTestController {
         List<CourseSearchResult> collectionList = Collections.emptyList();
         if (!StringUtils.isEmpty(courseCode)) {
             try {
-                collectionList = getScheduleOfClassesService().searchForCourseOfferingsByTermIdAndCourse(termId, courseCode);
+                collectionList = getScheduleOfClassesService().searchForCourseOfferingsByTermIdAndCourse(termId, courseCode,ContextUtils.createDefaultContextInfo());
             } catch (Exception e) {
                 throw new RuntimeException("Error", e);
             }
