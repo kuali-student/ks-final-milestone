@@ -40,4 +40,7 @@ public class GesServiceConstants
     public static final String PARAMETER_KEY_CREDIT_MINIMUM = "kuali.ges.credit.minimum";
     public static final String PARAMETER_KEY_CREDIT_LIMIT = "kuali.ges.credit.limit";
     public static final String PARAMETER_KEY_LOAD_CALCULATION_FOR_CREDIT_CHECKS = "kuali.ges.load.calculation.for.credit.checks";
+
+    // Course repeatability
+    public static final String PARAMETER_KEY_MAX_REPEATABLE = "kuali.ges.max.repeatable";
 }
