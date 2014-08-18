@@ -285,7 +285,7 @@
         <property name="headerText" value="Scheduling Details" />
         <property name="items">
             <list>
-                <bean parent="Uif-GridGroup" p:layoutManager.numberOfColumns="4">
+                <bean parent="Uif-GridGroup" p:layoutManager.numberOfColumns="4" p:additionalCssClasses="uif-tableNoPadding">
                     <property name="items">
                         <list>
                             <bean parent="KS-Uif-DataField" p:colSpan="3" id="socSchedulingStatus" p:label="Scheduling Status" p:propertyName="socSchedulingStatus"/>
@@ -316,7 +316,7 @@
         <property name="headerText" value="Publishing Process Details"/>
         <property name="items">
             <list>
-                <bean parent="Uif-GridGroup" p:layoutManager.numberOfColumns="4">
+                <bean parent="Uif-GridGroup" p:layoutManager.numberOfColumns="4" p:additionalCssClasses="uif-tableNoPadding">
                     <property name="items">
                         <list>
                             <bean parent="KS-Uif-DataField" p:colSpan="3" id="socPublishingStatus" p:label="Publishing Status" p:propertyName="socPublishingStatus"/>
