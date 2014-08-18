@@ -91,12 +91,12 @@ public class CourseRegistrationEngineServiceImpl implements CourseRegistrationEn
      * @return List of Learning Person Relationships corresponding to the Reg Group, Course, and Activities
      */
     protected List<LprInfo> buildRegisteredLprs(String regGroupId, String termId, String credits,
-                                                String gradingOptionKey, Date effDate, ContextInfo context) {
+                                                String gradingOptionKey, Date effDate, String crossList, ContextInfo context) {
         // RG LPR type key, CO LPR type key, and AO LPR type key (in that order)
         List<LprInfo> result = buildLprsCommon(LprServiceConstants.REGISTRANT_RG_LPR_TYPE_KEY,
                 LprServiceConstants.REGISTRANT_CO_LPR_TYPE_KEY,
                 LprServiceConstants.REGISTRANT_AO_LPR_TYPE_KEY, regGroupId, termId,
-                credits, gradingOptionKey, effDate, context);
+                credits, gradingOptionKey, effDate, crossList, context);
         return result;
     }
 
@@ -104,7 +104,7 @@ public class CourseRegistrationEngineServiceImpl implements CourseRegistrationEn
                                             String courseOfferingLprType,
                                             String activityOfferingLprType,
                                             String regGroupId, String termId, String credits,
-                                            String gradingOptionKey, Date effDate, ContextInfo context) {
+                                            String gradingOptionKey, Date effDate, String crossList, ContextInfo context) {
         List<LprInfo> result = new ArrayList<LprInfo>();
         // Get AO Lui's by reg grup
         //List<LuiInfo> ao1List = getLuiService().getLuisByRelatedLuiAndRelationType(registrationRequestInfo.get);
@@ -121,12 +121,12 @@ public class CourseRegistrationEngineServiceImpl implements CourseRegistrationEn
             String activeStateKey = LprServiceConstants.ACTIVE_STATE_KEY;
             // Create RG LPR
             LprInfo rgLprCreated = makeLpr(regGroupLprType, regGroupId,
-                    null, effDate, termId, credits, gradingOptionKey, activeStateKey, context);
+                    null, effDate, termId, credits, gradingOptionKey, activeStateKey, crossList, context);
             result.add(rgLprCreated);
 
             // Create CO LPR
             LprInfo coLprCreated = makeLpr(courseOfferingLprType, coId, rgLprCreated.getMasterLprId(),
-                    effDate, termId, credits, gradingOptionKey, activeStateKey, context);
+                    effDate, termId, credits, gradingOptionKey, activeStateKey, crossList, context);
             result.add(coLprCreated);
 
             // Set credits and gradingOptionsKey to null so only the RG LPR (masterLpr) and CO LPR have those values set.
@@ -138,7 +138,7 @@ public class CourseRegistrationEngineServiceImpl implements CourseRegistrationEn
                     LuiServiceConstants.LUI_LUI_RELATION_REGISTERED_FOR_VIA_RG_TO_AO_TYPE_KEY, context);
             for (String aoId : aoIds) {
                 LprInfo aoLprCreated = makeLpr(activityOfferingLprType, aoId, rgLprCreated.getMasterLprId(),
-                        effDate, termId, credits, gradingOptionKey, activeStateKey, context);
+                        effDate, termId, credits, gradingOptionKey, activeStateKey, crossList, context);
                 result.add(aoLprCreated);
             }
 
@@ -149,7 +149,7 @@ public class CourseRegistrationEngineServiceImpl implements CourseRegistrationEn
     }
 
     private LprInfo makeLpr(String lprType, String luiId, String masterLprId, Date effDate,
-                            String atpId, String credits, String gradingOptionKey, String stateKey, ContextInfo context)
+                            String atpId, String credits, String gradingOptionKey, String stateKey, String crossList, ContextInfo context)
             throws DoesNotExistException, PermissionDeniedException, OperationFailedException,
             InvalidParameterException, ReadOnlyException, MissingParameterException,
             DataValidationErrorException {
@@ -161,6 +161,7 @@ public class CourseRegistrationEngineServiceImpl implements CourseRegistrationEn
         lpr.setMasterLprId(masterLprId);
         lpr.setEffectiveDate(effDate);
         lpr.setAtpId(atpId);
+        lpr.setCrossList(crossList);
         if (!StringUtils.isEmpty(credits)) {
             lpr.getResultValuesGroupKeys().add(LrcServiceConstants.RESULT_VALUE_KEY_CREDIT_DEGREE_PREFIX + credits);
         }
@@ -287,8 +288,8 @@ public class CourseRegistrationEngineServiceImpl implements CourseRegistrationEn
     }
 
     @Override
-    public List<LprInfo> addWaitlistLprs(String regGroupId, String termId, String credits, String gradingOptionId, Date effDate, ContextInfo contextInfo) {
-        List<LprInfo> lprInfos = buildWaitlistLprs(regGroupId, termId, credits, gradingOptionId, effDate, contextInfo);
+    public List<LprInfo> addWaitlistLprs(String regGroupId, String termId, String credits, String gradingOptionId, Date effDate, String crossList, ContextInfo contextInfo) {
+        List<LprInfo> lprInfos = buildWaitlistLprs(regGroupId, termId, credits, gradingOptionId, effDate, crossList, contextInfo);
         return lprInfos;
     }
 
@@ -300,13 +301,13 @@ public class CourseRegistrationEngineServiceImpl implements CourseRegistrationEn
      * @return List of Learning Person Relationships corresponding to the Reg Group, Course, and Activities
      */
     protected List<LprInfo> buildWaitlistLprs(String regGroupId, String termId, String credits,
-                                              String gradingOptionKey, Date effDate, ContextInfo context) {
+                                              String gradingOptionKey, Date effDate, String crossList, ContextInfo context) {
         // RG LPR type key, CO LPR type key, and AO LPR type key (in that order)
         List<LprInfo> result = buildLprsCommon(LprServiceConstants.WAITLIST_RG_LPR_TYPE_KEY,
                 LprServiceConstants.WAITLIST_CO_LPR_TYPE_KEY,
                 LprServiceConstants.WAITLIST_AO_LPR_TYPE_KEY,
                 regGroupId, termId,
-                credits, gradingOptionKey, effDate, context);
+                credits, gradingOptionKey, effDate, crossList, context);
         return result;
     }
 
@@ -611,7 +612,7 @@ public class CourseRegistrationEngineServiceImpl implements CourseRegistrationEn
     public void registerPersonForCourse(RegistrationRequestItemEngineMessage message, ContextInfo contextInfo) throws PermissionDeniedException, ReadOnlyException, OperationFailedException, VersionMismatchException, InvalidParameterException, DataValidationErrorException, MissingParameterException, DoesNotExistException {
         String creditStr = message.getRequestItem().getCredits() == null ? "" : message.getRequestItem().getCredits().bigDecimalValue().setScale(1).toPlainString();
 
-        List<LprInfo> registeredLprs = buildRegisteredLprs(message.getRequestItem().getRegistrationGroupId(), message.getRegistrationGroup().getTermId(), creditStr, message.getRequestItem().getGradingOptionId(), message.getRequestItem().getRequestedEffectiveDate(), contextInfo);
+        List<LprInfo> registeredLprs = buildRegisteredLprs(message.getRequestItem().getRegistrationGroupId(), message.getRegistrationGroup().getTermId(), creditStr, message.getRequestItem().getGradingOptionId(), message.getRequestItem().getRequestedEffectiveDate(), message.getRequestItem().getCrossList(), contextInfo);
 
         String masterLprId = registeredLprs.get(0).getMasterLprId();
         LprTransactionItemInfo updatedItem =  updateLprTransactionItemResult(message.getRequestItem().getRegistrationRequestId(),

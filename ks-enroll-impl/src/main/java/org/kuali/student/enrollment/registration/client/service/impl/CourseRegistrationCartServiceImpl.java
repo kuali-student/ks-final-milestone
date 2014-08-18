@@ -155,10 +155,10 @@ public class CourseRegistrationCartServiceImpl implements CourseRegistrationCart
 
     }
 
-    protected RegistrationRequestInfo addCourseToRegRequest(String regRequestId, String regGroupId, String gradingOptionId, String credits, ContextInfo contextInfo) throws MissingParameterException, PermissionDeniedException, InvalidParameterException, OperationFailedException, DoesNotExistException, ReadOnlyException, DataValidationErrorException, VersionMismatchException, LoginException, MissingOptionException, GenericUserException {
+    protected RegistrationRequestInfo addCourseToRegRequest(String regRequestId, String regGroupId, String gradingOptionId, String credits, String courseCode, ContextInfo contextInfo) throws MissingParameterException, PermissionDeniedException, InvalidParameterException, OperationFailedException, DoesNotExistException, ReadOnlyException, DataValidationErrorException, VersionMismatchException, LoginException, MissingOptionException, GenericUserException {
 
         // Create new reg request item and add it to the cart
-        RegistrationRequestItemInfo registrationRequestItem = CourseRegistrationAndScheduleOfClassesUtil.createNewRegistrationRequestItem(contextInfo.getPrincipalId(), regGroupId, null, credits, gradingOptionId, LprServiceConstants.REQ_ITEM_ADD_TYPE_KEY, LprServiceConstants.LPRTRANS_ITEM_NEW_STATE_KEY, false);
+        RegistrationRequestItemInfo registrationRequestItem = CourseRegistrationAndScheduleOfClassesUtil.createNewRegistrationRequestItem(contextInfo.getPrincipalId(), regGroupId, null, credits, gradingOptionId, LprServiceConstants.REQ_ITEM_ADD_TYPE_KEY, LprServiceConstants.LPRTRANS_ITEM_NEW_STATE_KEY, courseCode, false);
         registrationRequestItem.setMeta(new MetaInfo());
         registrationRequestItem.getMeta().setCreateId(contextInfo.getPrincipalId());//TODO KSENROLL-11755 we need a  better way to handle userIds (add as param in RS)
 
@@ -213,7 +213,7 @@ public class CourseRegistrationCartServiceImpl implements CourseRegistrationCart
      */
     protected CartItemResult addCourseToCart(String regReqId, String regGroupId, String gradingOptionId, String credits, ResultValueGroupCourseOptions rvgCourseOptions, String courseCode, ContextInfo contextInfo) throws MissingParameterException, PermissionDeniedException, InvalidParameterException, OperationFailedException, DoesNotExistException, ReadOnlyException, DataValidationErrorException, VersionMismatchException, LoginException, MissingOptionException, GenericUserException {
 
-        RegistrationRequestInfo updatedRegReq = addCourseToRegRequest(regReqId, regGroupId, gradingOptionId, credits, contextInfo);
+        RegistrationRequestInfo updatedRegReq = addCourseToRegRequest(regReqId, regGroupId, gradingOptionId, credits, courseCode, contextInfo);
         RegistrationRequestItemInfo  newRegReqItem = getNewestRegRequestItem(updatedRegReq.getRegistrationRequestItems());
 
         //Get the cart result with the item id to trim it down and no reg options since we know these already
@@ -239,9 +239,6 @@ public class CourseRegistrationCartServiceImpl implements CourseRegistrationCart
 
         //Return just the item
         return cartItemResult;
-
-
-
     }
 
     protected ValidationResultInfo validateRegGroupSearchResult(RegGroupSearchResult regGroupSearchResult, String courseCode, String regGroupCode) {
@@ -452,6 +449,7 @@ public class CourseRegistrationCartServiceImpl implements CourseRegistrationCart
             String cartItemId = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.CART_ITEM_ID);
             String cartState = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.CART_STATE);
             String cartItemState = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.CART_ITEM_STATE);
+            String crossList = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.CROSSLIST);
             String courseCode = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.COURSE_CODE);
             String courseId = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.COURSE_ID);
             String rgCode = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.RG_CODE);
@@ -476,7 +474,11 @@ public class CourseRegistrationCartServiceImpl implements CourseRegistrationCart
                 String creditsStr = StringUtils.substringAfterLast(credits, LrcServiceConstants.RESULT_VALUE_KEY_CREDIT_DEGREE_PREFIX);
                 currentCartItem = new CartItemResult();
                 currentCartItem.setCartItemId(cartItemId);
-                currentCartItem.setCourseCode(courseCode);
+                if (!StringUtils.isEmpty(crossList) && !StringUtils.equals(crossList, courseCode)) {
+                    currentCartItem.setCourseCode(crossList);
+                } else {
+                    currentCartItem.setCourseCode(courseCode);
+                }
                 currentCartItem.setCourseTitle(courseTitle);
                 currentCartItem.setCredits(creditsStr);
                 currentCartItem.setGrading(grading);

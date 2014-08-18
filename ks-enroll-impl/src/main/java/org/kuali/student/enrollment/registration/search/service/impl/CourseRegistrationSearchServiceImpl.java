@@ -162,6 +162,7 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
         public static final String CART_ITEM_ID = "cartItemId";
         public static final String CART_STATE = "cartState";
         public static final String CART_ITEM_STATE = "cartItemState";
+        public static final String CROSSLIST = "crossList";
         public static final String COURSE_CODE = "courseCode";
         public static final String COURSE_NUMBER = "courseNumber";
         public static final String COURSE_DIVISION = "courseDivision";
@@ -1023,6 +1024,7 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
                 "    lprti.ID                  cartItemId, " +
                 "    lprt.LPR_TRANS_STATE       cartState, " +
                 "    lprti.LPR_TRANS_ITEM_STATE cartItemState, " +
+                "    lprti.CROSSLIST           crossList, " +
                 "    coId.LUI_CD               courseCode, " +
                 "    co.ID                     courseId, " +
                 "    rg.NAME                   rgName, " +
@@ -1129,6 +1131,7 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
             row.addCell(SearchResultColumns.CART_ITEM_ID, (String) resultRow[i++]);
             row.addCell(SearchResultColumns.CART_STATE, (String) resultRow[i++]);
             row.addCell(SearchResultColumns.CART_ITEM_STATE, (String) resultRow[i++]);
+            row.addCell(SearchResultColumns.CROSSLIST, (String) resultRow[i++]);
             row.addCell(SearchResultColumns.COURSE_CODE, (String) resultRow[i++]);
             row.addCell(SearchResultColumns.COURSE_ID, (String) resultRow[i++]);
             row.addCell(SearchResultColumns.RG_CODE, (String) resultRow[i++]);
@@ -1172,7 +1175,7 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
 
         queryBuilder.append(
                 "SELECT atp.ID, atp.ATP_CD, atp.NAME as atp_name, " +
-                        "lpr.LUI_ID, lpr.MASTER_LPR_ID, lpr.LPR_TYPE, lpr.LPR_STATE, lpr.CREDITS, lpr.GRADING_OPT_ID, " +
+                        "lpr.LUI_ID, lpr.MASTER_LPR_ID, lpr.LPR_TYPE, lpr.LPR_STATE, lpr.CREDITS, lpr.GRADING_OPT_ID, lpr.CROSSLIST, " +
                         "luiId.LUI_CD, lui.NAME as lui_name, lui.DESCR_FORMATTED, lui.LUI_TYPE, luiId.LNG_NAME, " +
                         "luiRes.RESULT_VAL_GRP_ID, schedCmp.TBA_IND, " +
                         "room.ROOM_CD, rBldg.BUILDING_CD, " +
@@ -1230,6 +1233,7 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
             row.addCell(SearchResultColumns.LPR_STATE, (String) resultRow[i++]);
             row.addCell(SearchResultColumns.CREDITS, (String) resultRow[i++]);
             row.addCell(SearchResultColumns.GRADING_OPTION_ID, (String) resultRow[i++]);
+            row.addCell(SearchResultColumns.CROSSLIST, (String) resultRow[i++]);
             row.addCell(SearchResultColumns.LUI_CODE, (String) resultRow[i++]);
             row.addCell(SearchResultColumns.LUI_NAME, (String) resultRow[i++]);
             row.addCell(SearchResultColumns.LUI_DESC, (String) resultRow[i++]);

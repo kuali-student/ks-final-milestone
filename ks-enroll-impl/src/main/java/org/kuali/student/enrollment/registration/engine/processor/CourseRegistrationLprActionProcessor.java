@@ -140,7 +140,7 @@ public class CourseRegistrationLprActionProcessor {
 
     private void addStudentToWaitList(RegistrationRequestItemEngineMessage message, ContextInfo contextInfo) throws PermissionDeniedException, OperationFailedException, VersionMismatchException, InvalidParameterException, DataValidationErrorException, MissingParameterException, DoesNotExistException, ReadOnlyException {
         String creditStr = message.getRequestItem().getCredits() == null ? "" : message.getRequestItem().getCredits().bigDecimalValue().setScale(1).toPlainString();
-        List<LprInfo> registeredLprs = courseRegistrationEngineService.addWaitlistLprs(message.getRequestItem().getRegistrationGroupId(), message.getRegistrationGroup().getTermId(), creditStr, message.getRequestItem().getGradingOptionId(), message.getRequestItem().getRequestedEffectiveDate(), contextInfo);
+        List<LprInfo> registeredLprs = courseRegistrationEngineService.addWaitlistLprs(message.getRequestItem().getRegistrationGroupId(), message.getRegistrationGroup().getTermId(), creditStr, message.getRequestItem().getGradingOptionId(), message.getRequestItem().getRequestedEffectiveDate(), message.getRequestItem().getCrossList(), contextInfo);
         String masterLprId = registeredLprs.get(0).getMasterLprId();
         courseRegistrationEngineService.updateLprTransactionItemResult(message.getRequestItem().getRegistrationRequestId(),
                 message.getRequestItem().getId(),

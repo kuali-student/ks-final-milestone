@@ -64,6 +64,9 @@ public class LprEntity extends MetaEntity implements AttributeOwner<LprAttribute
     @Column(name = "LPR_STATE")
     private String personRelationStateId;
 
+    @Column(name = "CROSSLIST")
+    private String crossList;
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner", orphanRemoval = true, fetch = FetchType.EAGER)
     private final Set<LprAttributeEntity> attributes = new HashSet<LprAttributeEntity>();
 
@@ -96,6 +99,7 @@ public class LprEntity extends MetaEntity implements AttributeOwner<LprAttribute
         this.setPersonRelationTypeId(dto.getTypeKey());
         this.setAtpId(dto.getAtpId());
         this.setMasterLprId(dto.getMasterLprId());
+        this.setCrossList(dto.getCrossList());
         fromDto(dto);
     }
 
@@ -118,6 +122,7 @@ public class LprEntity extends MetaEntity implements AttributeOwner<LprAttribute
         this.setEffectiveDate(dto.getEffectiveDate());
         this.setPersonRelationStateId(dto.getStateKey());
         this.setMasterLprId(dto.getMasterLprId());
+        this.setCrossList(dto.getCrossList());
 
         // Set these fields on the LPR (makes access easier).
         for (String rvgKey:dto.getResultValuesGroupKeys()) {
@@ -186,6 +191,14 @@ public class LprEntity extends MetaEntity implements AttributeOwner<LprAttribute
         this.personRelationStateId = personRelationStateId;
     }
 
+    public String getCrossList() {
+        return crossList;
+    }
+
+    public void setCrossList(String crossList) {
+        this.crossList = crossList;
+    }
+
     public LprInfo toDto() {
         LprInfo lprInfo = new LprInfo();
         lprInfo.setId(getId());
@@ -200,6 +213,7 @@ public class LprEntity extends MetaEntity implements AttributeOwner<LprAttribute
         lprInfo.setStateKey(personRelationStateId);
         lprInfo.setMasterLprId(masterLprId);
         lprInfo.setAtpId(atpId);
+        lprInfo.setCrossList(crossList);
 
         // instead need to create a new JPA entity to hold the lpr to rvg
         // mapping

@@ -78,6 +78,9 @@ public class LprTransactionItemEntity extends MetaEntity implements AttributeOwn
     @Column(name = "LPR_TRANS_ITEM_STATE")
     private String lprTransactionItemState;
 
+    @Column(name = "CROSSLIST")
+    private String crossList;
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner", orphanRemoval = true, fetch = FetchType.EAGER)
     private final Set<LprTransactionItemAttributeEntity> attributes = new HashSet<LprTransactionItemAttributeEntity>();
 
@@ -108,7 +111,6 @@ public class LprTransactionItemEntity extends MetaEntity implements AttributeOwn
 
     public void fromDto(LprTransactionItem lprTransactionItem) {
 
-
         super.fromDTO(lprTransactionItem);
 
         this.setNewLuiId(lprTransactionItem.getNewLuiId());
@@ -117,6 +119,8 @@ public class LprTransactionItemEntity extends MetaEntity implements AttributeOwn
 
         this.setLprTransactionItemState(lprTransactionItem.getStateKey());
         this.setLprTransactionItemType(lprTransactionItem.getTypeKey());
+
+        this.setCrossList(lprTransactionItem.getCrossList());
 
         if (lprTransactionItem.getDescr() != null) {
             this.setDescrFormatted(lprTransactionItem.getDescr()
@@ -165,6 +169,7 @@ public class LprTransactionItemEntity extends MetaEntity implements AttributeOwn
         lprTransItemInfo.setExistingLprId(this.getExistingLuiId());
         lprTransItemInfo.setNewLuiId(this.getNewLuiId());
         lprTransItemInfo.setPersonId(this.getPersonId());
+        lprTransItemInfo.setCrossList(this.getCrossList());
 
         lprTransItemInfo.setTransactionId(this.owner);
 
@@ -278,6 +283,14 @@ public class LprTransactionItemEntity extends MetaEntity implements AttributeOwn
 
     public void setLprTransactionItemState(String lprTransactionState) {
         this.lprTransactionItemState = lprTransactionState;
+    }
+
+    public String getCrossList() {
+        return crossList;
+    }
+
+    public void setCrossList(String crossList) {
+        this.crossList = crossList;
     }
 
     public Set<LprTransactionItemAttributeEntity> getAttributes() {

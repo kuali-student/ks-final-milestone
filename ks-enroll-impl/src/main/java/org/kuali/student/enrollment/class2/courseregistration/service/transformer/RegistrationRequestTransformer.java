@@ -90,6 +90,7 @@ public class RegistrationRequestTransformer {
         item.setTransactionId(requestItem.getRegistrationRequestId());
         item.setNewLuiId(requestItem.getRegistrationGroupId());
         item.setExistingLprId(requestItem.getExistingCourseRegistrationId());
+        item.setCrossList(requestItem.getCrossList());
         item.getResultValuesGroupKeys().clear();
 
         LprTransactionItemRequestOptionInfo effDateOption =
@@ -188,6 +189,7 @@ public class RegistrationRequestTransformer {
         requestItem.setRegistrationGroupId(item.getNewLuiId());
         requestItem.setExistingCourseRegistrationId(item.getExistingLprId());
         requestItem.setValidationResults(item.getValidationResults());
+        requestItem.setCrossList(item.getCrossList());
 
         // Admittedly, a hacky way of doing things, so open for better ways to do this
         for (String s : item.getResultValuesGroupKeys()) {

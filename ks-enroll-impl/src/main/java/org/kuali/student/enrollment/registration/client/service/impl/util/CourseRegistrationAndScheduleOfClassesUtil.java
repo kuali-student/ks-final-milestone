@@ -442,7 +442,7 @@ public class CourseRegistrationAndScheduleOfClassesUtil {
      *                        with available waitlist
      * @return registration request
      */
-    public static RegistrationRequestItemInfo createNewRegistrationRequestItem(String principalId, String regGroupId, String masterLprId, String credits, String gradingOptionId, String typeKey, String stateKey, boolean okToWaitlist) {
+    public static RegistrationRequestItemInfo createNewRegistrationRequestItem(String principalId, String regGroupId, String masterLprId, String credits, String gradingOptionId, String typeKey, String stateKey, String courseCode, boolean okToWaitlist) {
 
         RegistrationRequestItemInfo registrationRequestItem = new RegistrationRequestItemInfo();
         registrationRequestItem.setTypeKey(typeKey);
@@ -453,6 +453,7 @@ public class CourseRegistrationAndScheduleOfClassesUtil {
         registrationRequestItem.setCredits(new KualiDecimal(credits));
         registrationRequestItem.setGradingOptionId(gradingOptionId);
         registrationRequestItem.setOkToWaitlist(okToWaitlist);
+        registrationRequestItem.setCrossList(courseCode);
         return registrationRequestItem;
     }
 
