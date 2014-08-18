@@ -111,7 +111,7 @@ public class ElasticEmbedded {
      * @throws IOException
      */
     private void indexCourseOfferingData() throws DoesNotExistException, MissingParameterException, InvalidParameterException, OperationFailedException, PermissionDeniedException, IOException {
-        LOG.info("Loading Data into Elastic");
+        LOG.info("Loading Course Offering Data into Elastic");
         Date startTime = new Date();
 
         //Grab all the data from the services
@@ -131,7 +131,7 @@ public class ElasticEmbedded {
             throw new RuntimeException("Error Bulk Loading elasticsearch courseofferings: " + bulkResponse.buildFailureMessage());
         }
 
-        LOG.info("Done Loading Data - " + (System.currentTimeMillis() - startTime.getTime()) + "ms");
+        LOG.info("Done Loading Course Offering Data - " + (System.currentTimeMillis() - startTime.getTime()) + "ms");
     }
 
     private void applyCourseOfferingIndexMappings() throws IOException {
@@ -213,7 +213,7 @@ public class ElasticEmbedded {
             LOG.info("Done Loading Registration Group Partition: " + ++partition);
         }
 
-        LOG.info("Done Loading Data - " + (System.currentTimeMillis() - startTime.getTime()) + "ms");
+        LOG.info("Done Loading Reg Group Data - " + (System.currentTimeMillis() - startTime.getTime()) + "ms");
     }
 
     /**
@@ -307,9 +307,18 @@ public class ElasticEmbedded {
                         public void run() {
                             try {
                                 indexCourseOfferingData();
+                            } catch (Exception e) {
+                                throw new RuntimeException("Error updating course offering data", e);
+                            }
+                        }
+                    }.start();
+                    new Thread(){
+                        @Override
+                        public void run() {
+                            try {
                                 indexRegistrationGroupData();
                             } catch (Exception e) {
-                                throw new RuntimeException("Error updating data", e);
+                                throw new RuntimeException("Error updating reg group data", e);
                             }
                         }
                     }.start();
