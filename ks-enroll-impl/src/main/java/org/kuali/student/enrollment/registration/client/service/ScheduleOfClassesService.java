@@ -72,6 +72,43 @@ public interface ScheduleOfClassesService {
      */
     List<CourseSearchResult> searchForCourseOfferingsByTermCodeAndCourse(String termCode, String courseCode) throws InvalidParameterException, MissingParameterException, PermissionDeniedException, OperationFailedException;
 
+    /**
+     * return course offering information if you know the termId and cluId
+     * @param termId
+     * @param cluId
+     * @return
+     * @throws InvalidParameterException
+     * @throws MissingParameterException
+     * @throws PermissionDeniedException
+     * @throws OperationFailedException
+     */
+    List<CourseSearchResult> searchForCourseOfferingsByTermIdAndCluId(String termId, String cluId) throws InvalidParameterException, MissingParameterException, PermissionDeniedException, OperationFailedException;
+
+    /**
+     * returns a list of course offerings. Both inputs are optional so if they are not specified then all course offerings in the system will be returned.
+     * @param luiIds
+     * @param atpIds
+     * @return
+     * @throws MissingParameterException
+     * @throws InvalidParameterException
+     * @throws OperationFailedException
+     * @throws PermissionDeniedException
+     * @throws DoesNotExistException
+     */
+    List<CourseSearchResult> getCourseOfferings(List<String> luiIds, List<String> atpIds) throws MissingParameterException, InvalidParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException;
+
+    /**
+     * get the course offering by id
+     * @param courseOfferingId
+     * @return
+     * @throws InvalidParameterException
+     * @throws MissingParameterException
+     * @throws PermissionDeniedException
+     * @throws OperationFailedException
+     */
+    CourseSearchResult getCourseOfferingById(String courseOfferingId) throws InvalidParameterException, MissingParameterException, PermissionDeniedException, OperationFailedException, DoesNotExistException;
+
+
 /** REGISTRATION GROUPS **/
 
     /**

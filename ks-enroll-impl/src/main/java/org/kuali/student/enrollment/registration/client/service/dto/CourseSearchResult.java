@@ -10,9 +10,10 @@ import java.util.List;
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "CourseSearchResult", propOrder = {
-        "courseId", "courseCode", "courseLevel", "courseNumber",
+        "cluId", "courseId", "courseCode", "courseLevel", "courseNumber",
         "coursePrefix", "creditOptions", "longName", "seatsAvailable", "termId"})
 public class CourseSearchResult {
+    private String cluId;
     private String courseId;
     private String courseCode;
     private String courseLevel;
@@ -105,5 +106,13 @@ public class CourseSearchResult {
 
     public void setCourseDescription(String courseDescription) {
         this.courseDescription = courseDescription;
+    }
+
+    public String getCluId() {
+        return cluId;
+    }
+
+    public void setCluId(String cluId) {
+        this.cluId = cluId;
     }
 }

@@ -91,6 +91,7 @@ public class ElasticEmbedded {
         }
         client.admin().indices().prepareCreate(KS_ELASTIC_INDEX).execute().actionGet();  // create new index
 
+        applyCourseOfferingIndexMappings();
         applyRegistrationGroupIndexMappings();  // apply mappings for registration groups.
 
         LOG.info("Elastic Client Started");
@@ -131,6 +132,25 @@ public class ElasticEmbedded {
         }
 
         LOG.info("Done Loading Data - " + (System.currentTimeMillis() - startTime.getTime()) + "ms");
+    }
+
+    private void applyCourseOfferingIndexMappings() throws IOException {
+        XContentBuilder builder = XContentFactory.jsonBuilder().
+                startObject().
+                startObject(COURSEOFFERING_ELASTIC_TYPE).
+                startObject("properties").
+                startObject("cluId").
+                field("type", "string").field("store", "yes").field("index", "not_analyzed").
+                endObject().
+                startObject("courseId").
+                field("type", "string").field("store", "yes").field("index", "not_analyzed").
+                endObject().
+                // more mapping
+                        endObject().
+                endObject().
+                endObject();
+        client.admin().indices().preparePutMapping(KS_ELASTIC_INDEX).setType(COURSEOFFERING_ELASTIC_TYPE).setSource(builder).execute().actionGet();
+
     }
 
     private void applyRegistrationGroupIndexMappings() throws IOException {
@@ -220,6 +240,7 @@ public class ElasticEmbedded {
         for (SearchResultHelper.KeyValue keyValue : SearchResultHelper.wrap(searchResults)) {
 
             CourseSearchResult courseSearchResult = new CourseSearchResult();
+            courseSearchResult.setCluId(keyValue.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.CO_CLU_ID));
             courseSearchResult.setCourseCode(keyValue.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.LUI_CODE));
             courseSearchResult.setCourseId(keyValue.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.LUI_ID));
             courseSearchResult.setCourseLevel(keyValue.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.LUI_LEVEL));

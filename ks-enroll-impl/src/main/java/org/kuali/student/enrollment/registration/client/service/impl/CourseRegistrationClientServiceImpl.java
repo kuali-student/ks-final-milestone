@@ -2,7 +2,14 @@ package org.kuali.student.enrollment.registration.client.service.impl;
 
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
+import org.kuali.rice.core.api.criteria.PredicateFactory;
+import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
+import org.kuali.student.ap.academicplan.constants.AcademicPlanServiceConstants;
+import org.kuali.student.ap.academicplan.dto.LearningPlanInfo;
+import org.kuali.student.ap.academicplan.dto.PlanItemInfo;
+import org.kuali.student.ap.academicplan.service.AcademicPlanService;
+import org.kuali.student.common.collection.KSCollectionUtils;
 import org.kuali.student.common.util.security.ContextUtils;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestInfo;
@@ -14,20 +21,43 @@ import org.kuali.student.enrollment.lpr.service.LprService;
 import org.kuali.student.enrollment.registration.client.service.CourseRegistrationClientService;
 import org.kuali.student.enrollment.registration.client.service.ScheduleOfClassesService;
 import org.kuali.student.enrollment.registration.client.service.ScheduleOfClassesServiceConstants;
-import org.kuali.student.enrollment.registration.client.service.dto.*;
+import org.kuali.student.enrollment.registration.client.service.dto.ActivityOfferingScheduleComponentResult;
+import org.kuali.student.enrollment.registration.client.service.dto.CourseSearchResult;
+import org.kuali.student.enrollment.registration.client.service.dto.InstructorSearchResult;
+import org.kuali.student.enrollment.registration.client.service.dto.LearningPlanItemResult;
+import org.kuali.student.enrollment.registration.client.service.dto.PersonScheduleResult;
+import org.kuali.student.enrollment.registration.client.service.dto.RegGroupSearchResult;
+import org.kuali.student.enrollment.registration.client.service.dto.RegistrationResponseItemResult;
+import org.kuali.student.enrollment.registration.client.service.dto.RegistrationResponseResult;
+import org.kuali.student.enrollment.registration.client.service.dto.RegistrationValidationResult;
+import org.kuali.student.enrollment.registration.client.service.dto.StudentScheduleActivityOfferingResult;
+import org.kuali.student.enrollment.registration.client.service.dto.StudentScheduleCourseResult;
+import org.kuali.student.enrollment.registration.client.service.dto.StudentScheduleTermResult;
+import org.kuali.student.enrollment.registration.client.service.dto.TermSearchResult;
 import org.kuali.student.enrollment.registration.client.service.impl.util.CourseRegistrationAndScheduleOfClassesUtil;
 import org.kuali.student.enrollment.registration.client.service.impl.util.SearchResultHelper;
 import org.kuali.student.enrollment.registration.search.service.impl.CourseRegistrationSearchServiceImpl;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
-import org.kuali.student.r2.common.exceptions.*;
+import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
+import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.exceptions.MissingParameterException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.LprServiceConstants;
+import org.kuali.student.r2.common.util.constants.LuServiceConstants;
+import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultInfo;
 import org.kuali.student.r2.core.search.util.SearchRequestHelper;
+import org.kuali.student.r2.lum.clu.service.CluService;
 import org.kuali.student.r2.lum.lrc.dto.ResultValueInfo;
 import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
+import org.kuali.student.r2.lum.util.constants.CluServiceConstants;
 import org.kuali.student.r2.lum.util.constants.LrcServiceConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,14 +66,24 @@ import javax.security.auth.login.LoginException;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
 import javax.xml.namespace.QName;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class CourseRegistrationClientServiceImpl implements CourseRegistrationClientService {
 
     public static final Logger LOGGER = LoggerFactory.getLogger(CourseRegistrationClientServiceImpl.class);
 
+    private static final String COURSE_CODE_NOT_FOUND_MESSAGE_KEY="kuali.cr.learningplan.message.course.code.not.found";
+    private static final String LEARNING_PLAN_NOT_CONFIGURED_MESSAGE_KEY ="kuali.cr.learningplan.message.learningplan.not.configured";
+
     private LprService lprService;
     private ScheduleOfClassesService scheduleOfClassesService;
+    private AcademicPlanService academicPlanService; // this does not live in our module so do not put in our context. use GRL to access.
+    private CluService cluService;    // this does not live in our module so do not put in our context. use GRL to access.
 
     protected static Comparator<LprTransactionItemInfo> LPR_TRANS_ITEM_CREATE_DATE = new Comparator<LprTransactionItemInfo>() {
 
@@ -789,6 +829,202 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
         return result;
     }
 
+    @Override
+    public Response getLearningPlan(String termId, String termCode) {
+        Response.ResponseBuilder response;
+
+        try {
+            ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
+            if(getAcademicPlanService() == null){
+                return getResponse(Response.Status.NOT_FOUND, new RegistrationValidationResult(LEARNING_PLAN_NOT_CONFIGURED_MESSAGE_KEY)).build();
+            }
+
+           // get the learning plan for this student
+            List<LearningPlanInfo> learningPlans = getAcademicPlanService().getLearningPlansForStudentByType(contextInfo.getPrincipalId(), AcademicPlanServiceConstants.LEARNING_PLAN_TYPE_PLAN, contextInfo);
+
+            if(learningPlans == null || learningPlans.isEmpty()){
+                return getResponse(Response.Status.NOT_FOUND, new RegistrationValidationResult(COURSE_CODE_NOT_FOUND_MESSAGE_KEY)).build();
+            }
+
+            // get the plan items
+            List<PlanItemInfo> allPlanItems = new ArrayList<>();
+            for(LearningPlanInfo lpi : learningPlans){
+                List<PlanItemInfo> planItemsTemp = getAcademicPlanService().getPlanItemsInPlan(lpi.getId(), contextInfo);
+                if(planItemsTemp != null && !planItemsTemp.isEmpty()){
+                    allPlanItems.addAll(planItemsTemp);
+                }
+            }
+
+            List<String> coursesToLookup = new ArrayList<>();
+            List<String> rgsToLookup = new ArrayList<>();
+
+            // get only the plans for this term
+            termId = CourseRegistrationAndScheduleOfClassesUtil.getTermId(termId, termCode);
+            List<PlanItemInfo> termPlanItems = new ArrayList<>();
+            for(PlanItemInfo planItemInfo : allPlanItems){
+                if(planItemInfo.getPlanTermIds().contains(termId)){
+                    termPlanItems.add(planItemInfo);
+
+                    // add additional lookup ids to their lists
+                    if(LuServiceConstants.CREDIT_COURSE_LU_TYPE_KEY.equals(planItemInfo.getRefObjectType())) {
+                        coursesToLookup.add(planItemInfo.getRefObjectId());
+                    } else if(LuiServiceConstants.REGISTRATION_GROUP_TYPE_KEY.equals(planItemInfo.getRefObjectType())){
+                        rgsToLookup.add(planItemInfo.getRefObjectId());
+                    }
+                }
+            }
+
+            if(termPlanItems == null || termPlanItems.isEmpty()){
+                return getResponse(Response.Status.NOT_FOUND, new RegistrationValidationResult(COURSE_CODE_NOT_FOUND_MESSAGE_KEY)).build();
+            }
+
+            // clu verIndId -> courseSearchResult
+            Map<String, CourseSearchResult> courseInfoMap = new HashMap<>();
+            if(!coursesToLookup.isEmpty()){
+                // Learning plan gives us the version independent id. We need to convert those into clu Ids
+                Map<String, String> cluToVidMap = convertCluVersionIndIdToCluId(coursesToLookup, contextInfo);
+                List<String> cluIds = new ArrayList<>(cluToVidMap.keySet());
+
+                List<CourseSearchResult> courseInfoResults = searchForCourseInfo(cluIds,termId, contextInfo);
+                if(courseInfoResults != null){
+                    for(CourseSearchResult courseInfoResult : courseInfoResults){
+                        courseInfoMap.put(cluToVidMap.get(courseInfoResult.getCluId()), courseInfoResult);
+                    }
+                }
+            }
+
+            Map<String, RegGroupSearchResult> regGroupMap = new HashMap<>();
+            if(!rgsToLookup.isEmpty()){
+                for(String rgId : rgsToLookup) {
+                    RegGroupSearchResult regGroupSearchResult = getScheduleOfClassesService().getRegGroup(rgId);
+                    if(regGroupSearchResult != null){
+                        regGroupMap.put(regGroupSearchResult.getRegGroupId(), regGroupSearchResult);
+
+                        // we'll need course info objects for both the reg groups and the course offerings
+                        CourseSearchResult courseSearchResult = getScheduleOfClassesService().getCourseOfferingById(regGroupSearchResult.getCourseOfferingId());
+                        courseInfoMap.put(rgId, courseSearchResult);
+                    }
+                }
+            }
+
+            // Now we have all the plans... lets convert them into something the user wants to see
+            List<LearningPlanItemResult> lpResults = new ArrayList<>(termPlanItems.size());
+            for(PlanItemInfo planItemInfo : termPlanItems){
+                LearningPlanItemResult lpiResult = new LearningPlanItemResult();
+                lpiResult.setCategory(planItemInfo.getCategory().toString());
+                lpiResult.setLearningPlanId(planItemInfo.getLearningPlanId());
+                lpiResult.setPlanItemTermId(termId);
+                lpiResult.setRefObjectId(planItemInfo.getRefObjectId());
+                lpiResult.setRefObjectType(planItemInfo.getRefObjectType());
+                lpiResult.setCluId(courseInfoMap.get(planItemInfo.getRefObjectId()).getCluId());  // both clus and reg groups have course results mapped to the ref object key
+                // build the label for the item
+                lpiResult.setItemLabel(getLearningPlanCourseLabel(planItemInfo.getRefObjectId(),planItemInfo.getRefObjectType(), courseInfoMap, regGroupMap ));
+                lpResults.add(lpiResult);
+            }
+
+            response = Response.ok(lpResults);
+        } catch (Exception e) {
+            LOGGER.warn("Exception occurred", e);
+            response = Response.serverError().entity(e.getMessage());
+        }
+
+        return response.build();
+    }
+
+    /**
+     * create a map of cluId to VersionIndIds
+     * @param versionIndependentIds
+     * @param contextInfo
+     * @return
+     * @throws MissingParameterException
+     * @throws InvalidParameterException
+     * @throws OperationFailedException
+     * @throws PermissionDeniedException
+     */
+    private Map<String,String> convertCluVersionIndIdToCluId(List<String> versionIndependentIds, ContextInfo contextInfo) throws MissingParameterException, InvalidParameterException, OperationFailedException, PermissionDeniedException {
+        Map<String, String> cluToVidMap = new HashMap<>();
+
+        for(String versionIndependentId : versionIndependentIds) {
+            QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
+            qbcBuilder.setPredicates(PredicateFactory.equal("version.versionIndId", versionIndependentId));
+
+            List<String> cluIds = getCluService().searchForCluIds(qbcBuilder.build(), contextInfo);
+
+            cluToVidMap.put(KSCollectionUtils.getRequiredZeroElement(cluIds),versionIndependentId);
+        }
+        return cluToVidMap;
+    }
+
+    private String getLearningPlanCourseLabel(String refObjectid, String refObjectType, Map<String, CourseSearchResult> courseInfoMap, Map<String, RegGroupSearchResult> regGroupMap ) throws DoesNotExistException, MissingParameterException, InvalidParameterException, OperationFailedException, PermissionDeniedException {
+        String label = new String();
+        if(LuServiceConstants.CREDIT_COURSE_LU_TYPE_KEY.equals(refObjectType)) {
+            label = courseInfoMap.get(refObjectid).getCourseCode();
+        } else if(LuiServiceConstants.REGISTRATION_GROUP_TYPE_KEY.equals(refObjectType)){
+            CourseSearchResult courseSearchResult = courseInfoMap.get(refObjectid);
+            label = courseSearchResult.getCourseCode() + " (" + regGroupMap.get(refObjectid).getRegGroupName() + ")";
+        }
+        return label;
+    }
+
+    /**
+     * return courseSearchResult objects based on the cluIds and term id passed in.
+     * @param cluIds
+     * @param termId
+     * @param context
+     * @return
+     * @throws MissingParameterException
+     * @throws InvalidParameterException
+     * @throws OperationFailedException
+     * @throws DoesNotExistException
+     * @throws PermissionDeniedException
+     */
+    protected List<CourseSearchResult> searchForCourseInfo(List<String> cluIds, String termId, ContextInfo context) throws MissingParameterException, InvalidParameterException, OperationFailedException, DoesNotExistException, PermissionDeniedException {
+        List<CourseSearchResult> courseInfoResults = new ArrayList<>();
+
+        for(String cluId : cluIds) {
+            List<CourseSearchResult> courseInfoResultsTemp =  getScheduleOfClassesService().searchForCourseOfferingsByTermIdAndCluId(termId, cluId);
+            if(courseInfoResultsTemp != null && !courseInfoResultsTemp.isEmpty()) {
+                courseInfoResults.addAll(courseInfoResultsTemp);
+            }
+        }
+
+
+       return courseInfoResults;
+
+    }
+
+    /**
+     * The academic plan service is NOT part of ENR so it should* not be injected. Instead, pull it from the GRL if
+     * it exists.
+     * @return
+     */
+    private AcademicPlanService getAcademicPlanService() {
+        if (academicPlanService == null) {
+            academicPlanService = GlobalResourceLoader.getService(new QName(AcademicPlanServiceConstants.NAMESPACE, AcademicPlanServiceConstants.SERVICE_NAME));
+        }
+        return academicPlanService;
+    }
+
+    public void setAcademicPlanService(AcademicPlanService academicPlanService) {
+        this.academicPlanService = academicPlanService;
+    }
+
+    /**
+     * The CLU service is NOT part of ENR so it should* not be injected. Instead, pull it from the GRL if
+     * it exists.
+     * @return
+     */
+    public CluService getCluService() {
+        if (cluService == null) {
+            cluService = GlobalResourceLoader.getService(new QName(CluServiceConstants.NAMESPACE, CluServiceConstants.SERVICE_NAME_LOCAL_PART));
+        }
+        return cluService;
+    }
+
+    public void setCluService(CluService cluService) {
+        this.cluService = cluService;
+    }
+
     protected LprService getLprService() {
         if (lprService == null) {
             lprService = GlobalResourceLoader.getService(new QName(LprServiceConstants.NAMESPACE, LprServiceConstants.SERVICE_NAME_LOCAL_PART));
@@ -810,5 +1046,14 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
 
     public void setScheduleOfClassesService(ScheduleOfClassesService scheduleOfClassesService) {
         this.scheduleOfClassesService = scheduleOfClassesService;
+    }
+
+    private static Response.ResponseBuilder getResponse(Response.Status status, Object entity) {
+        //The request needs additional options (HTTP status 400 Bad Request)
+        Response.ResponseBuilder response = Response.status(status).entity(entity);
+        response.header("Access-Control-Allow-Header", "Content-Type");
+        response.header("Access-Control-Allow-Methods", "POST, PUT, DELETE, GET, OPTIONS");
+        response.header("Access-Control-Allow-Origin", "*");
+        return response;
     }
 }

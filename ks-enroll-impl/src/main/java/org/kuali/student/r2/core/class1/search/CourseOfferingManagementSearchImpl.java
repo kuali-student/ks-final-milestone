@@ -63,6 +63,7 @@ public class CourseOfferingManagementSearchImpl extends SearchServiceAbstractHar
 
     public static final class SearchParameters {
         public static final String CO_ID = "courseOfferingId";
+        public static final String CLU_ID = "cluId";
         public static final String COURSE_CODE = "courseCode";
         public static final String SUBJECT_AREA = "subjectArea";
         public static final String ATP_ID = "atpId";
@@ -88,6 +89,7 @@ public class CourseOfferingManagementSearchImpl extends SearchServiceAbstractHar
         public static final String CREDIT_OPTION = "courseOfferingCreditOption";
         public static final String GRADING_OPTION = "courseOfferingGradingOption";
         public static final String CO_ID = "courseOfferingId";
+        public static final String CLU_ID = "cluId";
         public static final String SUBJECT_AREA = "subjectArea";
         public static final String IS_CROSS_LISTED = "isCrossListedCode";
         public static final String CROSS_LISTED_COURSES = "crossListedCodes";
@@ -416,6 +418,7 @@ public class CourseOfferingManagementSearchImpl extends SearchServiceAbstractHar
         List<String> coIds = requestHelper.getParamAsList(SearchParameters.CO_IDS);
         String departmentId = requestHelper.getParamAsString(SearchParameters.DEPARTMENT_ID);
         String description = requestHelper.getParamAsString(SearchParameters.DESCRIPTION);
+        String cluId =  requestHelper.getParamAsString(SearchParameters.CLU_ID);
         boolean includePassFailAuditAndHonorsResults = BooleanUtils.toBoolean(requestHelper.getParamAsString(SearchParameters.INCLUDE_PASSFAIL_AUDIT_HONORS_RESULTS));
 
         if (StringUtils.isBlank(searchAtpId)){
@@ -510,6 +513,13 @@ public class CourseOfferingManagementSearchImpl extends SearchServiceAbstractHar
          */
         if (StringUtils.isNotBlank(description)){
             query = query + "   AND (lui.plain LIKE '%" + description + "%' OR ident.longName LIKE '%" + description + "%') ";
+        }
+
+        /**
+         * Search by cluId
+         */
+        if (StringUtils.isNotBlank(cluId)){
+            query = query + "  AND lui.cluId = '" + cluId + "'  ";
         }
 
         /**

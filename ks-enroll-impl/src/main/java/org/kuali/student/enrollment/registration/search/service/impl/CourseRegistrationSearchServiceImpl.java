@@ -484,6 +484,7 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
         List<String> atpIds = requestHelper.getParamAsList(SearchParameters.ATP_ID);
         String queryStr =
                 "SELECT\n" +
+                        "    lui.CLU_ID                 cluid,\n" +
                         "    lui.id                    luiid,\n" +
                         "    lui.ATP_ID                atpid,\n" +
                         "    lui.DESCR_FORMATTED       description,\n" +
@@ -565,6 +566,7 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
         for (Object[] resultRow : results) {
             int i = 0;
             SearchResultRowInfo row = new SearchResultRowInfo();
+            row.addCell(SearchResultColumns.CO_CLU_ID, (String) resultRow[i++]);
             row.addCell(SearchResultColumns.LUI_ID, (String) resultRow[i++]);
             row.addCell(SearchResultColumns.ATP_ID, (String) resultRow[i++]);
             row.addCell(SearchResultColumns.LUI_DESC, (String) resultRow[i++]);

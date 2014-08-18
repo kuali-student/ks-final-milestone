@@ -61,6 +61,21 @@ public class ScheduleOfClassesServiceCacheImpl extends ScheduleOfClassesServiceI
         return regGroupSearchResult;
     }
 
+    public CourseSearchResult getCourseOfferingById(String courseOfferingId) throws InvalidParameterException, MissingParameterException, PermissionDeniedException, OperationFailedException, DoesNotExistException {
+        CourseSearchResult searchResult = null;
+
+        GetResponse getResponse = elasticEmbedded.getClient().prepareGet(ElasticEmbedded.KS_ELASTIC_INDEX, ElasticEmbedded.COURSEOFFERING_ELASTIC_TYPE, courseOfferingId).execute().actionGet();
+        ObjectMapper objectMapper = new ObjectMapper();
+        try {
+            if (getResponse.isExists()) {
+                searchResult = objectMapper.readValue(getResponse.getSourceAsString(), CourseSearchResult.class);
+            }
+        } catch (Exception e) {
+            throw new OperationFailedException("Error searching for course offering id. ", e);
+        }
+        return searchResult;
+    }
+
     @Override
     public List<RegGroupSearchResult> searchForRegGroupsByCourseAndName(String courseOfferingId, String regGroupName) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         List<RegGroupSearchResult> resultList = new ArrayList<>();
@@ -130,6 +145,51 @@ public class ScheduleOfClassesServiceCacheImpl extends ScheduleOfClassesServiceI
             for (SearchHit hit : sr.getHits().getHits()) {
                 CourseSearchResult courseSearchResult = objectMapper.readValue(hit.getSourceAsString(), CourseSearchResult.class);
                 resultList.add(courseSearchResult.getCourseId());
+            }
+
+            if (resultList.isEmpty()) resultList = null;
+
+        } catch (Exception e) {
+            throw new OperationFailedException("Error searching for course code and term. " + query.toString(), e);
+        }
+        return resultList;
+    }
+
+    @Override
+    public List<CourseSearchResult> searchForCourseOfferingsByTermIdAndCluId(String termId, String cluId) throws InvalidParameterException, MissingParameterException, PermissionDeniedException, OperationFailedException {
+        List<CourseSearchResult> resultList = new ArrayList<>();
+        FilteredQueryBuilder query = null;
+
+        try {
+            //FilteredQueryBuilder query = QueryBuilders.filteredQuery(QueryBuilders.matchAllQuery(), FilterBuilders.andFilter(FilterBuilders.termFilter("courseCode", courseCode), FilterBuilders.termsFilter("termId", atpId.toLowerCase().split("\\."))));
+            /*
+            query = QueryBuilders.filteredQuery(
+                    QueryBuilders.matchAllQuery(),
+                    FilterBuilders.andFilter(
+                            FilterBuilders.termFilter("cluId", cluId),
+                            FilterBuilders.termFilter("termId", termId)
+                    )
+            );
+             */
+            query = QueryBuilders.filteredQuery(
+                    QueryBuilders.matchAllQuery(),
+                    FilterBuilders.andFilter(
+                            FilterBuilders.termFilter("cluId", cluId),
+                            FilterBuilders.termsFilter("termId", termId.toLowerCase().split("\\."))
+                    )
+            );
+
+            SearchResponse sr = elasticEmbedded.getClient()
+                    .prepareSearch(ElasticEmbedded.KS_ELASTIC_INDEX)
+                    .setTypes(ElasticEmbedded.COURSEOFFERING_ELASTIC_TYPE)
+                    .setQuery(query)
+                    .execute().actionGet();
+
+
+            ObjectMapper objectMapper = new ObjectMapper();
+            for (SearchHit hit : sr.getHits().getHits()) {
+                CourseSearchResult courseSearchResult = objectMapper.readValue(hit.getSourceAsString(), CourseSearchResult.class);
+                resultList.add(courseSearchResult);
             }
 
             if (resultList.isEmpty()) resultList = null;

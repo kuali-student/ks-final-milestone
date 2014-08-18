@@ -13,7 +13,24 @@ import org.kuali.student.enrollment.courseofferingset.dto.SocInfo;
 import org.kuali.student.enrollment.lui.dto.LuiInfo;
 import org.kuali.student.enrollment.lui.service.LuiService;
 import org.kuali.student.enrollment.registration.client.service.ScheduleOfClassesService;
-import org.kuali.student.enrollment.registration.client.service.dto.*;
+import org.kuali.student.enrollment.registration.client.service.dto.ActivityOfferingScheduleComponentResult;
+import org.kuali.student.enrollment.registration.client.service.dto.ActivityOfferingSearchResult;
+import org.kuali.student.enrollment.registration.client.service.dto.ActivityOfferingTypesSearchResult;
+import org.kuali.student.enrollment.registration.client.service.dto.ActivityTypeSearchResult;
+import org.kuali.student.enrollment.registration.client.service.dto.CourseAndPrimaryAOSearchResult;
+import org.kuali.student.enrollment.registration.client.service.dto.CourseOfferingDetailsSearchResult;
+import org.kuali.student.enrollment.registration.client.service.dto.CourseOfferingLimitedInfoSearchResult;
+import org.kuali.student.enrollment.registration.client.service.dto.CourseSearchResult;
+import org.kuali.student.enrollment.registration.client.service.dto.EligibilityCheckResult;
+import org.kuali.student.enrollment.registration.client.service.dto.InstructorSearchResult;
+import org.kuali.student.enrollment.registration.client.service.dto.RegGroupLimitedInfoSearchResult;
+import org.kuali.student.enrollment.registration.client.service.dto.RegGroupSearchResult;
+import org.kuali.student.enrollment.registration.client.service.dto.RegistrationCountResult;
+import org.kuali.student.enrollment.registration.client.service.dto.ResultValueGroupCourseOptions;
+import org.kuali.student.enrollment.registration.client.service.dto.ScheduleSearchResult;
+import org.kuali.student.enrollment.registration.client.service.dto.StudentScheduleActivityOfferingResult;
+import org.kuali.student.enrollment.registration.client.service.dto.SubTermOfferingResult;
+import org.kuali.student.enrollment.registration.client.service.dto.TermSearchResult;
 import org.kuali.student.enrollment.registration.client.service.impl.util.CourseRegistrationAndScheduleOfClassesUtil;
 import org.kuali.student.enrollment.registration.client.service.impl.util.SearchResultHelper;
 import org.kuali.student.enrollment.registration.client.service.impl.util.StaticUserDateUtil;
@@ -21,7 +38,11 @@ import org.kuali.student.enrollment.registration.search.service.impl.CourseRegis
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.TimeOfDayInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
-import org.kuali.student.r2.common.exceptions.*;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.exceptions.MissingParameterException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.infc.ValidationResult;
 import org.kuali.student.r2.common.util.TimeOfDayHelper;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
@@ -40,6 +61,7 @@ import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultCellInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultRowInfo;
+import org.kuali.student.r2.core.search.infc.SearchResult;
 import org.kuali.student.r2.lum.lrc.dto.ResultValueInfo;
 import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
 import org.kuali.student.r2.lum.lrc.service.LRCService;
@@ -50,7 +72,13 @@ import org.slf4j.LoggerFactory;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import java.io.Serializable;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
 
 import static org.kuali.rice.core.api.criteria.PredicateFactory.equal;
@@ -78,6 +106,11 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
     @Override
     public List<CourseSearchResult> searchForCourseOfferingsByTermCodeAndCourse(String termCode, String courseCode) throws InvalidParameterException, MissingParameterException, PermissionDeniedException, OperationFailedException {
         return searchForCourseOfferingsByCourseLocal(null, termCode, courseCode);
+    }
+
+    @Override
+    public List<CourseSearchResult> searchForCourseOfferingsByTermIdAndCluId(String termId, String cluId) throws InvalidParameterException, MissingParameterException, PermissionDeniedException, OperationFailedException {
+        return searchForCourseOfferingsByCluLocal(termId, null, cluId);
     }
 
     /**
@@ -282,16 +315,23 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
         return resultList;
     }
 
+    protected List<CourseSearchResult> searchForCourseOfferingsByCluLocal(String termId, String termCode, String clu) throws InvalidParameterException, MissingParameterException, PermissionDeniedException, OperationFailedException {
+        termId = CourseRegistrationAndScheduleOfClassesUtil.getTermId(termId, termCode);
+        SearchRequestInfo searchRequest = createSearchRequest(termId, null, null, clu);
+
+        return searchForCourseOfferings(searchRequest);
+    }
+
     protected List<CourseSearchResult> searchForCourseOfferingsByCourseLocal(String termId, String termCode, String courseCode) throws InvalidParameterException, MissingParameterException, PermissionDeniedException, OperationFailedException {
         termId = CourseRegistrationAndScheduleOfClassesUtil.getTermId(termId, termCode);
-        SearchRequestInfo searchRequest = createSearchRequest(termId, courseCode, null);
+        SearchRequestInfo searchRequest = createSearchRequest(termId, courseCode, null, null);
 
         return searchForCourseOfferings(searchRequest);
     }
 
     protected List<CourseSearchResult> searchForCourseOfferingsByCriteriaLocal(String termId, String termCode, String criteria) throws InvalidParameterException, MissingParameterException, PermissionDeniedException, OperationFailedException {
         termId = CourseRegistrationAndScheduleOfClassesUtil.getTermId(termId, termCode);
-        SearchRequestInfo searchRequest = createSearchRequest(termId, null, criteria);
+        SearchRequestInfo searchRequest = createSearchRequest(termId, null, criteria, null);
 
         return searchForCourseOfferings(searchRequest);
     }
@@ -1178,7 +1218,7 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
         return retList;
     }
 
-    private SearchRequestInfo createSearchRequest(String termId, String courseCode, String criteria) {
+    private SearchRequestInfo createSearchRequest(String termId, String courseCode, String criteria, String cluId) {
         SearchRequestInfo searchRequest = new SearchRequestInfo(CourseOfferingManagementSearchImpl.CO_MANAGEMENT_SEARCH.getKey());
 
         List<String> filterCOStates = new ArrayList<String>(1);
@@ -1201,6 +1241,10 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
 
         if (StringUtils.isNotEmpty(criteria)) {
             searchRequest.addParam(CourseOfferingManagementSearchImpl.SearchParameters.COURSE_CODE, criteria);
+        }
+
+        if (StringUtils.isNotEmpty(cluId)) {
+            searchRequest.addParam(CourseOfferingManagementSearchImpl.SearchParameters.CLU_ID, cluId);
         }
 
         return searchRequest;
@@ -1449,6 +1493,54 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
                 ao.setSeatsOpen(ao.getSeatsAvailable() - Integer.parseInt(aoSeatCount));
             }
         }
+    }
+
+    @Override
+    public CourseSearchResult getCourseOfferingById(String courseOfferingId) throws InvalidParameterException, MissingParameterException, PermissionDeniedException, OperationFailedException, DoesNotExistException {
+        return KSCollectionUtils.getRequiredZeroElement(getCourseOfferings(Arrays.asList(courseOfferingId), null));
+    }
+
+    public List<CourseSearchResult> getCourseOfferings(List<String> luiIds, List<String> atpIds) throws MissingParameterException, InvalidParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException {
+
+        List<CourseSearchResult> courseSearchResults = new ArrayList<>();
+
+        //Use search service to grab the course data
+        SearchRequestInfo searchRequest = new SearchRequestInfo(CourseRegistrationSearchServiceImpl.CO_SEARCH_INFO_SEARCH_KEY);
+        searchRequest.addParam(CourseRegistrationSearchServiceImpl.SearchParameters.LUI_IDS, new ArrayList<String>(luiIds));
+        searchRequest.addParam(CourseRegistrationSearchServiceImpl.SearchParameters.ATP_IDS, new ArrayList<String>(atpIds));
+        ContextInfo context = ContextUtils.createDefaultContextInfo();
+
+        SearchResult searchResults = CourseRegistrationAndScheduleOfClassesUtil.getSearchService().search(searchRequest, context);
+
+        //Process the results
+        for (SearchResultHelper.KeyValue keyValue : SearchResultHelper.wrap(searchResults)) {
+
+            CourseSearchResult courseSearchResult = new CourseSearchResult();
+            courseSearchResult.setCluId(keyValue.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.CO_CLU_ID));
+            courseSearchResult.setCourseCode(keyValue.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.LUI_CODE));
+            courseSearchResult.setCourseId(keyValue.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.LUI_ID));
+            courseSearchResult.setCourseLevel(keyValue.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.LUI_LEVEL));
+            courseSearchResult.setCourseNumber(keyValue.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.COURSE_NUMBER));
+            courseSearchResult.setCoursePrefix(keyValue.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.COURSE_DIVISION));
+            courseSearchResult.setLongName(keyValue.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.LUI_LONG_NAME));
+            courseSearchResult.setSeatsAvailable(Integer.parseInt(keyValue.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.SEATS_AVAILABLE)));
+            courseSearchResult.setTermId(keyValue.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.ATP_ID));
+            courseSearchResult.setCourseDescription(keyValue.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.LUI_DESC));
+
+            // Grab Learning Results data
+            // These two calls are cached so they are actually more performant
+            List<String> creditResultsValueKeys = lrcService.getResultValuesGroup(keyValue.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.CREDITS), context).getResultValueKeys();
+            List<ResultValueInfo> creditResultValues = lrcService.getResultValuesByKeys(creditResultsValueKeys, context);
+
+            //Add all the credits from the result value group
+            for (ResultValueInfo creditResultValue : creditResultValues) {
+                courseSearchResult.getCreditOptions().add(creditResultValue.getValue());
+            }
+
+            courseSearchResults.add(courseSearchResult);
+        }
+
+        return courseSearchResults;
     }
 
     private EntityManager getEntityManager() {

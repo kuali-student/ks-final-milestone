@@ -119,6 +119,18 @@ public interface CourseRegistrationClientService {
     @Path("/registrationStatus")
     Response getRegistrationStatus(@QueryParam("regReqId") String regReqId);
 
+    /**
+     * Get the Learning Plan for the currently logged in user for the specified term
+     * @param termId Optional, but more efficient. id of the term to pull learning plan information
+     * @param termCode Optional, but less efficient if used instead of termId. Code Ex:  201208.
+     * @return
+     */
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/learningPlan")
+    Response getLearningPlan(   @QueryParam("termId") String termId,
+                                @QueryParam("termCode") String termCode);
+
     @DELETE
     @Path("/waitlistRegistrationRequest")
     Response createAndSubmitDropWaitlistRegistrationRequest(@QueryParam("masterLprId") String masterLprId);
