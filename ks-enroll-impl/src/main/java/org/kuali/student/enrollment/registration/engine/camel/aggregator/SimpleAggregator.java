@@ -24,6 +24,8 @@ public class SimpleAggregator implements CompletionAwareAggregationStrategy {
         Object newBody = newExchange.getIn().getBody();
         RegistrationRequestItemEngineMessage message = (RegistrationRequestItemEngineMessage) newBody;
 
+        LOGGER.info("Aggregating: regReqItemCount(size) " + newExchange.getIn().getHeaders().get("regReqItemCount") + " regReqId(id) " +  newExchange.getIn().getHeaders().get("regReqId"));
+
         ArrayList<Object> list = null;
         if (oldExchange == null) {
             LOGGER.info("Aggregating RequestItem:" + message.getRequestItem().getId() + " RequestItem State:" + message.getRequestItem().getStateKey() + " RequestId:" + message.getRequestItem().getRegistrationRequestId());
