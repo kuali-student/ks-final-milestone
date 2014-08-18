@@ -21,6 +21,7 @@
     <import resource="classpath:statement-context.xml" />
     <import resource="classpath:mq-context.xml" />
     <import resource="classpath:ks-enroll-batch-context.xml" />
+    <import resource="classpath:ks-enroll-mock-academic-service.xml" />
     <!-- import resource="classpath:ks-enroll-mock-room-data-context.xml"/ -->
 
     <!-- Top Level Alias -->
@@ -988,15 +989,26 @@
     </bean>
 
 
-    <bean id="courseRecordAssembler" class="org.kuali.student.enrollment.class2.academicrecord.service.assembler.StudentCourseRecordAssembler" />
+    <!-- Academic Record Service -->
+
+    <!-- parent -->
     <bean id="academicRecordService" class="org.kuali.student.enrollment.class2.academicrecord.service.impl.AcademicRecordServiceImpl">
+        <property name="academicRecordServiceHistory" ref="academicRecordServiceHistory" />
+        <property name="academicRecordServiceCurrent" ref="academicRecordServiceCurrent" />
+    </bean>
+
+    <!-- history (mock: for temporary use until persistence is available) -->
+    <bean id="academicRecordServiceHistory" class="org.kuali.student.enrollment.class2.academicrecord.service.impl.AcademicRecordServicePersistenceMockImpl">
+        <property name="studentToCourseRecordsMap" ref="studentToCourseRecordsMap" />
+    </bean>
+
+    <!-- current -->
+    <bean id="academicRecordServiceCurrent" class="org.kuali.student.enrollment.class2.academicrecord.service.impl.AcademicRecordServiceCurrentImpl">
         <property name="courseRegService" ref="CourseRegistrationService" />
-        <property name="atpService" ref="AtpService" />
-        <property name="gradingService" ref="gradingService" />
-        <property name="lrcService" ref="lrcServiceCache" />
         <property name="courseRecordAssembler" ref="courseRecordAssembler" />
     </bean>
 
+    <!-- publish to the bus -->
     <bean id="ks.exp.academicRecordService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
         <property name="serviceDefinition">
             <bean class="org.kuali.rice.ksb.api.bus.support.SoapServiceDefinition">
@@ -1008,6 +1020,12 @@
                 <property name="busSecurity" value="${ks.enroll.bus.security}" />
             </bean>
         </property>
+    </bean>
+
+    <bean id="courseRecordAssembler" class="org.kuali.student.enrollment.class2.academicrecord.service.assembler.StudentCourseRecordAssembler">
+        <property name="atpService" ref="AtpService" />
+        <property name="gradingService" ref="gradingService" />
+        <property name="lrcService" ref="lrcServiceCache" />
     </bean>
 
     <bean id="activityTransformer" class="org.kuali.student.enrollment.class2.courseoffering.service.transformer.ActivityOfferingTransformer" >

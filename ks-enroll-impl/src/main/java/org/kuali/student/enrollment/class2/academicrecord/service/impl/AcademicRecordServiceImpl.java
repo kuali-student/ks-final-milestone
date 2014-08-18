@@ -7,118 +7,22 @@ import org.kuali.student.enrollment.academicrecord.dto.StudentCredentialRecordIn
 import org.kuali.student.enrollment.academicrecord.dto.StudentProgramRecordInfo;
 import org.kuali.student.enrollment.academicrecord.dto.StudentTestScoreRecordInfo;
 import org.kuali.student.enrollment.academicrecord.service.AcademicRecordService;
-import org.kuali.student.enrollment.class2.academicrecord.service.assembler.StudentCourseRecordAssembler;
-import org.kuali.student.enrollment.courseregistration.dto.CourseRegistrationInfo;
-import org.kuali.student.enrollment.courseregistration.service.CourseRegistrationService;
-import org.kuali.student.enrollment.grading.service.GradingService;
-import org.kuali.student.r2.common.assembler.AssemblyException;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
-import org.kuali.student.r2.core.atp.service.AtpService;
-import org.kuali.student.r2.lum.lrc.service.LRCService;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.jws.WebParam;
 import java.util.ArrayList;
 import java.util.List;
 
 @Transactional(readOnly=true,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
 public class AcademicRecordServiceImpl implements AcademicRecordService{
-	private CourseRegistrationService courseRegService;
 
-    public GradingService getGradingService() {
-        return gradingService;
-    }
-
-    public void setGradingService(GradingService gradingService) {
-        this.gradingService = gradingService;
-    }
-
-    public LRCService getLrcService() {
-        return lrcService;
-    }
-
-    public void setLrcService(LRCService lrcService) {
-        this.lrcService = lrcService;
-    }
-
-    private GradingService gradingService;
-    private LRCService lrcService;
-
-    public AtpService getAtpService() {
-        return atpService;
-    }
-
-    public void setAtpService(AtpService atpService) {
-        this.atpService = atpService;
-    }
-
-    private AtpService atpService;
-	private StudentCourseRecordAssembler courseRecordAssembler;
-	
-	public CourseRegistrationService getCourseRegService() {
-		return courseRegService;
-	}
-
-	public void setCourseRegService(CourseRegistrationService courseRegService) {
-		this.courseRegService = courseRegService;
-	}
-
-	
-	public StudentCourseRecordAssembler getCourseRecordAssembler() {
-		return courseRecordAssembler;
-	}
-
-	public void setCourseRecordAssembler(
-			StudentCourseRecordAssembler courseRecordAssembler) {
-		courseRecordAssembler.setAtpService(atpService);
-        courseRecordAssembler.setGradingService(gradingService);
-        courseRecordAssembler.setLrcService(lrcService);
-        this.courseRecordAssembler = courseRecordAssembler;
-	}
-
-	@Override
-	public List<StudentCourseRecordInfo> getAttemptedCourseRecordsForTerm(
-			String personId, String termId, ContextInfo context)
-			throws DoesNotExistException, InvalidParameterException,
-			MissingParameterException, OperationFailedException {
-		List<StudentCourseRecordInfo> courseRecords = new ArrayList<StudentCourseRecordInfo>();
-		try {
-			List<CourseRegistrationInfo> regs = courseRegService.getCourseRegistrationsByStudentAndTerm(personId, termId, context);
-			if(regs != null && !regs.isEmpty()){
-				for (CourseRegistrationInfo reg : regs ){
-					StudentCourseRecordInfo courseRecord = courseRecordAssembler.assemble(reg, context);
-					if (courseRecord != null) courseRecords.add(courseRecord);
-				}
-			}
-		} catch (PermissionDeniedException e) {
-			throw new OperationFailedException();
-		} catch (AssemblyException e) {
-            throw new OperationFailedException("AssemblyException : " + e.getMessage());
-        }
-
-        return courseRecords;
-	}
-
-	@Override
-	public List<StudentCourseRecordInfo> getCompletedCourseRecords(
-			String personId, ContextInfo context) throws DoesNotExistException,
-			InvalidParameterException, MissingParameterException,
-			OperationFailedException {
-		List<StudentCourseRecordInfo> courseRecords = new ArrayList<StudentCourseRecordInfo>();
-		try {
-			List<CourseRegistrationInfo> regs = courseRegService.getCourseRegistrationsByStudent(personId, context);
-			getCompletedCourseRecords(courseRecords, regs, context);
-		} catch (PermissionDeniedException e) {
-			throw new OperationFailedException();
-		}
-
-		return courseRecords;
-	}
+    private AcademicRecordService academicRecordServiceCurrent;
+    private AcademicRecordService academicRecordServiceHistory;
 
     @Override
     public List<StudentCourseRecordInfo> getStudentCourseRecordsForCourse(String personId, String courseId, ContextInfo contextInfo)
@@ -128,19 +32,28 @@ public class AcademicRecordServiceImpl implements AcademicRecordService{
             OperationFailedException,
             PermissionDeniedException {
 
-        List<StudentCourseRecordInfo> courseRecords = new ArrayList<StudentCourseRecordInfo>();
+        boolean historyDoesNotExist = false;
+        boolean currentDoesNotExist = false;
+
+        List<StudentCourseRecordInfo> courseRecords;
+
+        // Get historical data
         try {
-            List<CourseRegistrationInfo> regs = courseRegService.getCourseRegistrationsByStudent(personId, contextInfo);
-            if(regs != null && !regs.isEmpty()){
-                for (CourseRegistrationInfo reg : regs ){
-                    StudentCourseRecordInfo courseRecord = courseRecordAssembler.assemble(reg, contextInfo);
-                    if (courseRecord != null) courseRecords.add(courseRecord);
-                }
-            }
-        } catch (PermissionDeniedException e) {
-            throw new OperationFailedException();
-        } catch (AssemblyException e) {
-            throw new OperationFailedException("AssemblyException : " + e.getMessage());
+            courseRecords = academicRecordServiceHistory.getStudentCourseRecordsForCourse(personId, courseId, contextInfo);
+        } catch (DoesNotExistException ex) {
+            courseRecords = new ArrayList<>();
+            historyDoesNotExist = true;
+        }
+
+        // Get current data
+        try {
+            courseRecords.addAll(academicRecordServiceCurrent.getStudentCourseRecordsForCourse(personId, courseId, contextInfo));
+        } catch (DoesNotExistException ex) {
+            currentDoesNotExist = true;
+        }
+
+        if (historyDoesNotExist && currentDoesNotExist) {
+            throw new DoesNotExistException("No course records for student Id = " + personId);
         }
 
         return courseRecords;
@@ -153,7 +66,7 @@ public class AcademicRecordServiceImpl implements AcademicRecordService{
             MissingParameterException,
             OperationFailedException,
             PermissionDeniedException {
-        List<StudentCourseRecordInfo> studentCourseRecords = new ArrayList<StudentCourseRecordInfo>();
+        List<StudentCourseRecordInfo> studentCourseRecords = new ArrayList<>();
         for(String courseId : courseIds) {
             studentCourseRecords.addAll(getStudentCourseRecordsForCourse(personId, courseId, contextInfo));
         }
@@ -161,38 +74,27 @@ public class AcademicRecordServiceImpl implements AcademicRecordService{
     }
 
     @Override
+    public List<StudentCourseRecordInfo> getAttemptedCourseRecordsForTerm(
+            String personId, String termId, ContextInfo context)
+            throws DoesNotExistException, InvalidParameterException,
+            MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return academicRecordServiceCurrent.getAttemptedCourseRecordsForTerm(personId, termId, context);
+    }
+
+    @Override
+    public List<StudentCourseRecordInfo> getCompletedCourseRecords(
+            String personId, ContextInfo context) throws DoesNotExistException,
+            InvalidParameterException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException {
+        return academicRecordServiceCurrent.getCompletedCourseRecords(personId, context);
+    }
+
+    @Override
 	public List<StudentCourseRecordInfo> getCompletedCourseRecordsForTerm(
 			String personId, String termId, ContextInfo context)
-			throws DoesNotExistException, InvalidParameterException,
-			MissingParameterException, OperationFailedException {
-		List<StudentCourseRecordInfo> courseRecords = new ArrayList<StudentCourseRecordInfo>();
-		try {
-			List<CourseRegistrationInfo> regs = courseRegService.getCourseRegistrationsByStudentAndTerm(personId, termId, context);
-			getCompletedCourseRecords(courseRecords, regs, context);
-		} catch (PermissionDeniedException e) {
-			throw new OperationFailedException();
-		}
-
-		return courseRecords;
-	}
-
-	private void getCompletedCourseRecords(List<StudentCourseRecordInfo> courseRecords, List<CourseRegistrationInfo> regs, ContextInfo context)
-            throws OperationFailedException {
-		if(regs != null && !regs.isEmpty()){
-			for (CourseRegistrationInfo reg : regs ){
-                StudentCourseRecordInfo courseRecord = null;
-                try {
-                    courseRecord = courseRecordAssembler.assemble(reg, context);
-                } catch (AssemblyException e) {
-                    throw new OperationFailedException("AssemblyException : " + e.getMessage());
-                }
-
-                if (courseRecord != null) {
-					if(courseRecord.getAssignedGradeValue()!= null || courseRecord.getAdministrativeGradeValue() != null)
-						courseRecords.add(courseRecord);
-				}
-			}
-		}		
+            throws DoesNotExistException, InvalidParameterException,
+            MissingParameterException, OperationFailedException, PermissionDeniedException {
+		return academicRecordServiceCurrent.getCompletedCourseRecordsForTerm(personId, termId, context);
 	}
 	
 	@Override
@@ -278,4 +180,13 @@ public class AcademicRecordServiceImpl implements AcademicRecordService{
     public String getEarnedCumulativeCreditsForProgramAndTerm(String personId, String programId, String termId, String calculationTypeKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         throw new UnsupportedOperationException("Method not yet implemented!");
     }
+
+    public void setAcademicRecordServiceCurrent(AcademicRecordService academicRecordServiceCurrent) {
+        this.academicRecordServiceCurrent = academicRecordServiceCurrent;
+    }
+
+    public void setAcademicRecordServiceHistory(AcademicRecordService academicRecordServiceHistory) {
+        this.academicRecordServiceHistory = academicRecordServiceHistory;
+    }
+
 }

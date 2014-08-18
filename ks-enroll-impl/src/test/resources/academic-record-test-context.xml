@@ -10,10 +10,18 @@
                            http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
     <import resource="classpath:ks-enroll-mock-academic-service.xml" />
 
-    <alias name="academicRecordServiceMock" alias="AcademicRecordService" />
+    <alias name="academicRecordServiceParent" alias="AcademicRecordService" />
 
-    <bean id="academicRecordServiceMock" class="org.kuali.student.enrollment.class2.academicrecord.service.impl.AcademicRecordServicePersistenceMockImpl">
-        <property name="studentToCourseRecordsMap" ref="studentCourseRecordMap" />
+    <bean id="academicRecordServiceParent" class="org.kuali.student.enrollment.class2.academicrecord.service.impl.AcademicRecordServiceImpl">
+        <property name="academicRecordServiceHistory" ref="academicRecordServiceHistory" />
+        <property name="academicRecordServiceCurrent" ref="academicRecordServiceCurrent" />
+    </bean>
+
+    <bean id="academicRecordServiceHistory" class="org.kuali.student.enrollment.class2.academicrecord.service.impl.AcademicRecordServicePersistenceMockImpl">
+        <property name="studentToCourseRecordsMap" ref="studentToCourseRecordsMap" />
+    </bean>
+
+    <bean id="academicRecordServiceCurrent" class="org.kuali.student.enrollment.class2.academicrecord.service.impl.AcademicRecordServiceClass2MockImpl">
     </bean>
 
 </beans>

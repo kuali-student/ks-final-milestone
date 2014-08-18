@@ -12,11 +12,10 @@
  * or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  *
- * Created by pauldanielrichardson on 8/15/14
+ * Created by pauldanielrichardson on 8/18/14
  */
 package org.kuali.student.enrollment.class2.academicrecord.service.impl;
 
-import org.kuali.student.common.mock.MockService;
 import org.kuali.student.enrollment.academicrecord.dto.GPAInfo;
 import org.kuali.student.enrollment.academicrecord.dto.LoadInfo;
 import org.kuali.student.enrollment.academicrecord.dto.StudentCourseRecordInfo;
@@ -24,6 +23,10 @@ import org.kuali.student.enrollment.academicrecord.dto.StudentCredentialRecordIn
 import org.kuali.student.enrollment.academicrecord.dto.StudentProgramRecordInfo;
 import org.kuali.student.enrollment.academicrecord.dto.StudentTestScoreRecordInfo;
 import org.kuali.student.enrollment.academicrecord.service.AcademicRecordService;
+import org.kuali.student.enrollment.class2.academicrecord.service.assembler.StudentCourseRecordAssembler;
+import org.kuali.student.enrollment.courseregistration.dto.CourseRegistrationInfo;
+import org.kuali.student.enrollment.courseregistration.service.CourseRegistrationService;
+import org.kuali.student.r2.common.assembler.AssemblyException;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
@@ -34,48 +37,100 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 /**
- * This class is a temporary mock of the AcademicRecordService for use until full
- * persistence is ready.
+ * This class returns the current registration data for a student as part of the Academic Record
  *
  * @author Kuali Student Team
  */
 @Transactional(readOnly=true,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
-public class AcademicRecordServicePersistenceMockImpl implements AcademicRecordService, MockService {
-
-    private Map<String, List<StudentCourseRecordInfo>> studentToCourseRecordsMap;
-
-    @Override
-    public void clear() {
-        studentToCourseRecordsMap.clear();
-    }
+public class AcademicRecordServiceCurrentImpl implements AcademicRecordService {
+    private CourseRegistrationService courseRegService;
+    private StudentCourseRecordAssembler courseRecordAssembler;
 
     @Override
     public List<StudentCourseRecordInfo> getStudentCourseRecordsForCourse(String personId, String courseId, ContextInfo contextInfo)
             throws DoesNotExistException,
+            InvalidParameterException,
             MissingParameterException,
             OperationFailedException,
-            InvalidParameterException,
             PermissionDeniedException {
 
-        List<StudentCourseRecordInfo> studentCourseRecordsFiltered = new ArrayList<>();
-
-        // Get course records from the map
-        List<StudentCourseRecordInfo> studentCourseRecords = studentToCourseRecordsMap.get(personId);
-
-        if (studentCourseRecords != null && !studentCourseRecords.isEmpty()) {
-            for (StudentCourseRecordInfo studentCourseRecord : studentCourseRecords) {
-                if (studentCourseRecord.getCourseOfferingId().equals(courseId)) {
-                    studentCourseRecordsFiltered.add(studentCourseRecord);
+        List<StudentCourseRecordInfo> courseRecords = new ArrayList<>();
+        try {
+            List<CourseRegistrationInfo> regs = courseRegService.getCourseRegistrationsByStudent(personId, contextInfo);
+            if (regs != null && !regs.isEmpty()) {
+                for (CourseRegistrationInfo reg : regs) {
+                    StudentCourseRecordInfo courseRecord = courseRecordAssembler.assemble(reg, contextInfo);
+                    if (courseRecord != null) {
+                        courseRecords.add(courseRecord);
+                    }
                 }
             }
-        } else {
-            throw new DoesNotExistException("No course records for student Id = " + personId);
+        } catch (PermissionDeniedException e) {
+            throw new OperationFailedException();
+        } catch (AssemblyException e) {
+            throw new OperationFailedException("AssemblyException : " + e.getMessage());
         }
 
-        return studentCourseRecordsFiltered;
+        return courseRecords;
+    }
+
+    @Override
+    public List<StudentCourseRecordInfo> getAttemptedCourseRecordsForTerm(
+            String personId, String termId, ContextInfo context)
+            throws DoesNotExistException, InvalidParameterException,
+            MissingParameterException, OperationFailedException {
+        List<StudentCourseRecordInfo> courseRecords = new ArrayList<>();
+        try {
+            List<CourseRegistrationInfo> regs = courseRegService.getCourseRegistrationsByStudentAndTerm(personId, termId, context);
+            if (regs != null && !regs.isEmpty()) {
+                for (CourseRegistrationInfo reg : regs) {
+                    StudentCourseRecordInfo courseRecord = courseRecordAssembler.assemble(reg, context);
+                    if (courseRecord != null) {
+                        courseRecords.add(courseRecord);
+                    }
+                }
+            }
+        } catch (PermissionDeniedException e) {
+            throw new OperationFailedException();
+        } catch (AssemblyException e) {
+            throw new OperationFailedException("AssemblyException : " + e.getMessage());
+        }
+
+        return courseRecords;
+    }
+
+    @Override
+    public List<StudentCourseRecordInfo> getCompletedCourseRecords(
+            String personId, ContextInfo context) throws DoesNotExistException,
+            InvalidParameterException, MissingParameterException,
+            OperationFailedException {
+        List<StudentCourseRecordInfo> courseRecords = new ArrayList<>();
+        try {
+            List<CourseRegistrationInfo> regs = courseRegService.getCourseRegistrationsByStudent(personId, context);
+            getCompletedCourseRecords(courseRecords, regs, context);
+        } catch (PermissionDeniedException e) {
+            throw new OperationFailedException();
+        }
+
+        return courseRecords;
+    }
+
+    @Override
+    public List<StudentCourseRecordInfo> getCompletedCourseRecordsForTerm(
+            String personId, String termId, ContextInfo context)
+            throws DoesNotExistException, InvalidParameterException,
+            MissingParameterException, OperationFailedException {
+        List<StudentCourseRecordInfo> courseRecords = new ArrayList<>();
+        try {
+            List<CourseRegistrationInfo> regs = courseRegService.getCourseRegistrationsByStudentAndTerm(personId, termId, context);
+            getCompletedCourseRecords(courseRecords, regs, context);
+        } catch (PermissionDeniedException e) {
+            throw new OperationFailedException();
+        }
+
+        return courseRecords;
     }
 
     @Override
@@ -167,23 +222,31 @@ public class AcademicRecordServicePersistenceMockImpl implements AcademicRecordS
         throw new UnsupportedOperationException("Method not yet implemented!");
     }
 
-    @Override
-    public List<StudentCourseRecordInfo> getAttemptedCourseRecordsForTerm(String personId, String termId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new UnsupportedOperationException("Method not yet implemented!");
+    private void getCompletedCourseRecords(List<StudentCourseRecordInfo> courseRecords, List<CourseRegistrationInfo> regs, ContextInfo context)
+            throws OperationFailedException {
+        if (regs != null && !regs.isEmpty()) {
+            for (CourseRegistrationInfo reg : regs) {
+                StudentCourseRecordInfo courseRecord;
+                try {
+                    courseRecord = courseRecordAssembler.assemble(reg, context);
+                } catch (AssemblyException e) {
+                    throw new OperationFailedException("AssemblyException : " + e.getMessage());
+                }
+
+                if (courseRecord != null) {
+                    if (courseRecord.getAssignedGradeValue() != null || courseRecord.getAdministrativeGradeValue() != null) {
+                        courseRecords.add(courseRecord);
+                    }
+                }
+            }
+        }
     }
 
-    @Override
-    public List<StudentCourseRecordInfo> getCompletedCourseRecords(String personId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new UnsupportedOperationException("Method not yet implemented!");
+    public void setCourseRegService(CourseRegistrationService courseRegService) {
+        this.courseRegService = courseRegService;
     }
 
-    @Override
-    public List<StudentCourseRecordInfo> getCompletedCourseRecordsForTerm(String personId, String termId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new UnsupportedOperationException("Method not yet implemented!");
+    public void setCourseRecordAssembler(StudentCourseRecordAssembler courseRecordAssembler) {
+        this.courseRecordAssembler = courseRecordAssembler;
     }
-
-    public void setStudentToCourseRecordsMap(Map<String, List<StudentCourseRecordInfo>> studentToCourseRecordsMap) {
-        this.studentToCourseRecordsMap = studentToCourseRecordsMap;
-    }
-
 }

@@ -330,7 +330,7 @@
         <ref bean="R.JONATHANT-2" />
     </util:list>
 
-    <util:map id="studentCourseRecordMap" map-class="java.util.HashMap">
+    <util:map id="studentToCourseRecordsMap" map-class="java.util.HashMap">
         <!-- repeatable for credit -->
         <entry key="R.JESSEA" value-ref="R.JESSEA"/>
         <entry key="R.JESSICAL" value-ref="R.JESSICAL"/>
