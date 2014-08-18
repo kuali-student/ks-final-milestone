@@ -6,6 +6,7 @@ import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.common.uif.service.impl.KSViewHelperServiceImpl;
 import org.kuali.student.enrollment.class1.hold.dto.HoldIssueMaintenanceWrapper;
 import org.kuali.student.enrollment.class1.hold.service.HoldIssueViewHelperService;
+import org.kuali.student.enrollment.class1.hold.util.HoldIssueConstants;
 import org.kuali.student.enrollment.class1.hold.util.HoldIssueResourceLoader;
 import org.kuali.student.r2.core.hold.dto.HoldIssueInfo;
 
@@ -60,27 +61,27 @@ public class HoldIssueViewHelperServiceImpl extends KSViewHelperServiceImpl impl
 
         qBuilder.setPredicates();
         if (StringUtils.isNotBlank(name)){
-            p = like("name", "%" + name + "%");
+            p = like(HoldIssueConstants.HOLD_ISSUE_NAME, "%" + name + "%");
             pList.add(p);
         }
 
         if (StringUtils.isNotBlank(type)){
-            p = like("holdIssueType", "%" + type + "%");
+            p = like(HoldIssueConstants.HOLD_ISSUE_TYPE, "%" + type + "%");
             pList.add(p);
         }
 
         if (StringUtils.isNotBlank(state)){
-            p = equal("holdIssueState", state);
+            p = equal(HoldIssueConstants.HOLD_ISSUE_STATE, state);
             pList.add(p);
         }
 
         if (StringUtils.isNotBlank(orgId)){
-            p = equal("organizationId", orgId);
+            p = equal(HoldIssueConstants.HOLD_ISSUE_ORG_ID, orgId);
             pList.add(p);
         }
 
         if (StringUtils.isNotBlank(descr)){
-            p = like("descrPlain", "%" + descr + "%");
+            p = like(HoldIssueConstants.HOLD_ISSUE_DESCR_PLAIN, "%" + descr + "%");
             pList.add(p);
         }
 
