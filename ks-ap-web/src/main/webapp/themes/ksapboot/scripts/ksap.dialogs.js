@@ -240,7 +240,7 @@ function fnClosePopup() {
  * @param popupBoxId - Id of the dialog to be positioned
  */
 function fnPositionDialogWindow(popupBoxId) {
-    if (parseFloat(jQuery("#" + popupBoxId).css("top")) < 0 || parseFloat(jQuery("#" + popupBoxId).css("left")) < 0) {
+    if (parseFloat(jQuery("#" + popupBoxId).css("top")) < 0 || parseFloat(jQuery("#" + popupBoxId).css("left")) < 0 || jQuery("#" + popupBoxId + " main").hasClass("ksap-dialog-centered")) {
         var top = (document.documentElement && document.documentElement.scrollTop) || document.body.scrollTop;
         var left = (document.documentElement && document.documentElement.scrollLeft) || document.body.scrollLeft;
         var iTop = ( top + ( jQuery(window).height() / 2 ) ) - ( jQuery("#" + popupBoxId).height() / 2 );
@@ -248,6 +248,7 @@ function fnPositionDialogWindow(popupBoxId) {
         jQuery("#" + popupBoxId).css({top:iTop + 'px', left:iLeft + 'px'});
     }
 }
+
 
 /**
  * Handles the return events of a general ajax submit in ksap.

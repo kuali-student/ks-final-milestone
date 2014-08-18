@@ -531,7 +531,7 @@
 
     <!-- Dialogs for other pages-->
 
-    <bean id="bookmark_add_course_page" parent="bookmark_add_course_page-parent"/>
+    <bean id="bookmark_add_course_page" parent="bookmark_add_course_page-parent" p:additionalCssClasses="ksap-dialog-centered"/>
     <bean id="bookmark_add_course_page-parent" abstract="true" parent="KSAP-PopoverPage">
         <property name="id" value="bookmark_add_course_page" />
         <property name="innerViewWrapperId" value="bookmark_add_course_page_inner" />
@@ -607,7 +607,7 @@
         </property>
     </bean>
 
-    <bean id="bookmark_delete_course_page" parent="bookmark_delete_course_page-parent"/>
+    <bean id="bookmark_delete_course_page" parent="bookmark_delete_course_page-parent" p:additionalCssClasses="ksap-dialog-centered"/>
     <bean id="bookmark_delete_course_page-parent" abstract="true" parent="planner_dialog_page">
         <property name="id" value="bookmark_delete_course_page" />
         <property name="innerViewWrapperId" value="bookmark_delete_course_page_inner" />
@@ -645,7 +645,7 @@
     </bean>
 
     <!-- Define "Add to Plan" popover from Course Detail Page   -->
-    <bean id="course_add_course_page" parent="course_add_course_page-parent"/>
+    <bean id="course_add_course_page" parent="course_add_course_page-parent" p:additionalCssClasses="ksap-dialog-centered"/>
     <bean id="course_add_course_page-parent" abstract="true" parent="KSAP-PopoverPage">
         <property name="id" value="course_add_course_page" />
         <property name="innerViewWrapperId" value="course_add_course_page_inner" />
