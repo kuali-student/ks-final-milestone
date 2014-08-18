@@ -437,6 +437,8 @@ public class CourseInfoWrapper extends LURuleManagementWrapper implements Serial
         // TODO: Remove this workaround class once KS has been updated to Rice 2.5 (https://jira.kuali.org/browse/KSCM-2560)
         public static final String DIALOG_EXPLANATIONS_PROPERTY = "dialogExplanations";
 
+        private boolean showMessage;
+
         CurriculumManagementConstants.CourseViewSections selectedSection;
 
         // disallow the curriculumSpecialistUser property to be set by the request
@@ -468,8 +470,6 @@ public class CourseInfoWrapper extends LURuleManagementWrapper implements Serial
         public void setShowMessage(boolean showMessage) {
             this.showMessage = showMessage;
         }
-
-        private boolean showMessage;
 
         public CreateCourseUIHelper() {
             curriculumSpecialistUser = CourseProposalUtil.isUserCurriculumSpecialist();
