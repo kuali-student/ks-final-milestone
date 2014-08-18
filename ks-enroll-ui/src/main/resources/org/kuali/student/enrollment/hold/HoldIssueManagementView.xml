@@ -97,11 +97,11 @@
         </property>
     </bean>
 
-    <bean id="KS-Hold-CriteriaSection" parent="Uif-HorizontalBoxSection" p:id="HoldsCriteriaSection">
+    <bean id="KS-Hold-CriteriaSection" parent="Uif-HorizontalBoxSection" >
         <property name="disclosure.render" value="false"/>
         <property name="items">
             <list>
-                <bean parent="Uif-HorizontalBoxSection">
+                <bean parent="Uif-HorizontalBoxGroup">
                     <property name="items">
                         <list>
                             <bean parent="KS-Uif-InputField-LabelTop" p:label="Hold Name" p:propertyName="name">
@@ -109,12 +109,14 @@
                                     <bean parent="KS-Uif-TextControl" p:size="20"/>
                                 </property>
                             </bean>
-                            <bean parent="KS-Uif-InputField-LabelTop" p:label="Hold Code" p:propertyName="name">
+                            <bean parent="KS-Uif-InputField-LabelTop" p:label="Hold Code" p:propertyName="code"
+                                    p:style="margin-left: 10px;">
                                 <property name="control">
                                     <bean parent="KS-Uif-TextControl" p:size="10"/>
                                 </property>
                             </bean>
-                            <bean parent="KS-Uif-InputField-LabelTop" p:label="Category" p:propertyName="typeKey">
+                            <bean parent="KS-Uif-InputField-LabelTop" p:label="Category" p:propertyName="typeKey"
+                                  p:style="margin-left: 10px;">
                                 <property name="control">
                                     <bean parent="KS-Uif-DropdownControl"/>
                                 </property>
@@ -123,17 +125,18 @@
                                 </property>
                             </bean>
                             <bean parent="KS-Uif-InputField-LabelTop" p:label="Phrase in Hold Description"
-                                  p:propertyName="descr">
+                                  p:style="margin-left: 10px;" p:propertyName="descr">
                                 <property name="control">
                                     <bean parent="Uif-SmallTextAreaControl"/>
                                 </property>
                             </bean>
                             <bean parent="KS-Uif-SecondaryActionButton" p:performClientSideValidation="false"
-                                  p:actionLabel="Show"
+                                  p:actionLabel="Show" p:style="margin-left: 10px;margin-top: 32px"
                                   p:ajaxSubmit="false" p:methodToCall="search" p:id="show_button"/>
                         </list>
                     </property>
                 </bean>
+
             </list>
         </property>
     </bean>
