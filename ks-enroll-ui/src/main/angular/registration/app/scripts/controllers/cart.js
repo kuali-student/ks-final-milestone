@@ -258,6 +258,7 @@ angular.module('regCartApp')
                     gradingOptionId: newCourse.gradingOptionId
                 }, function () {
                     console.log('- Cart item successfully updated');
+                    $scope.creditTotal = creditTotal() - Number(course.credits) + Number(newCourse.credits);
                     // This perhaps should run through the poller...
                     if (angular.isFunction(successCallback)) {
                         successCallback();
