@@ -464,7 +464,7 @@ public class CourseController extends CourseRuleEditorController {
      * @param workflowStatusCode - the status code that should be used to perform KRAD view validation
      * @param forcedCourseStateKey - the stateKey that needs to be faked for the CourseService.validationCourse() method (if null, uses state in CourseInfo object)
      */
-    protected void doValidationForProposal(@ModelAttribute("KualiForm") DocumentFormBase form, String workflowStatusCode, String forcedCourseStateKey){
+    protected void doValidationForProposal(DocumentFormBase form, String workflowStatusCode, String forcedCourseStateKey){
         //Perform KRAD UI Data Dictionary Validation
         // manually call the view validation service as this validation cannot be run client-side in current setup
         KRADServiceLocatorWeb.getViewValidationService().validateView(form, workflowStatusCode);
