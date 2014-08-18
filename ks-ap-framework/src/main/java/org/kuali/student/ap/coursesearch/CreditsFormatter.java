@@ -71,8 +71,8 @@ public class CreditsFormatter {
 		}
 
 		public Range(List<BigDecimal> multiple) {
-			this.min = null;
-			this.max = null;
+			this.min = multiple.get(0);
+			this.max = multiple.get(multiple.size()-1);
 			this.multiple = multiple;
 		}
 
