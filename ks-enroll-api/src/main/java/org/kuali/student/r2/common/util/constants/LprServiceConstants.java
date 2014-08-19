@@ -104,8 +104,6 @@ public class LprServiceConstants {
     public static final String LPRTRANS_ITEM_PROCESSING_STATE_KEY = "kuali.lpr.trans.item.state.processing";
     public static final String LPRTRANS_ITEM_SUCCEEDED_STATE_KEY = "kuali.lpr.trans.item.state.succeeded";
     public static final String LPRTRANS_ITEM_FAILED_STATE_KEY = "kuali.lpr.trans.item.state.failed";
-    public static final String LPRTRANS_ITEM_WAITLIST_STATE_KEY = "kuali.lpr.trans.item.state.waitlist";
-    public static final String LPRTRANS_ITEM_WAITLIST_AVAILABLE_STATE_KEY = "kuali.lpr.trans.item.state.waitlistActionAvailable";
 
     public static final String[] COURSE_INSTRUCTOR_TYPE_KEYS = {INSTRUCTOR_MAIN_TYPE_KEY,
         INSTRUCTOR_ASSISTANT_TYPE_KEY, INSTRUCTOR_SUPPORT_TYPE_KEY};
