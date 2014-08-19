@@ -24,7 +24,7 @@
                            'kscr-Search-details-section--selected' : searchResult.flags.selected,
                            'kscr-Search-details-section--disabled' : searchResult.flags.disabled,
                            'kscr-Search-details-section--unselectable' : !selectable}">
-                <span class="kscr-Search-details-checkbox" ng-if="selectable"
+                <span id="select_{{searchResult.defaultField}}" class="kscr-Search-details-checkbox" ng-if="selectable"
                       ng-class="{'kscr-Search-details-checkbox--selected' : searchResult.flags.selected, 'kscr-Search-details-checkbox--disabled': searchResult.flags.disabled}"></span>
                 <span class="util-Grid-cell">
                     <span ng-repeat="tab in section.tabs">

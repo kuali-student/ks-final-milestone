@@ -114,6 +114,17 @@ angular.module('regCartApp')
                 }
             }
             return sections;
+        },
+        /*
+         *
+         * Helper method to set the "default field" on each row. This is used to
+         * set the id of checkboxes (primarily used for AFTs).
+         *
+         */
+        setDefaultField: function(searchDetails) {
+            for (var i=0; i<searchDetails.length; i++) {
+                searchDetails[i].defaultField = searchDetails[i].aoId;
+            }
         }
     })
 ;

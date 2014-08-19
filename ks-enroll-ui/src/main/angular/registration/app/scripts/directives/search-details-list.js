@@ -29,6 +29,11 @@ angular.module('regCartApp')
                 // reorganize the data into sections
                 scope.sections=detailsConfig.getSections(scope.searchDetails);
 
+                // set the default field for each row
+                if (angular.isFunction(detailsConfig.setDefaultField)) {
+                    detailsConfig.setDefaultField(scope.searchDetails);
+                }
+
                 // turn off ng-repeat animations for better performance
                 $animate.enabled(false, angular.element(document.querySelector('.kscr-Search-details-grid')));
 
