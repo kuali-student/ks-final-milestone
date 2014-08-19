@@ -792,7 +792,7 @@ fieldset .uif-actionLink{
   padding-left:5px;
 }
 
-.returntopreviousnode_dialog{
+.decisionrationale_dialog{
   width: 580px;
   .uif-dialogHeader {
     background:none;
@@ -802,13 +802,25 @@ fieldset .uif-actionLink{
       border-bottom: @dottedLineBorder;
     }
   }
-  .uif-message{
-    padding-top: 5px;
-  }
   fieldset[data-type="RadioSet"] {
     padding-top: 20px;
     padding-left: 350px;
   }
+}
+
+.decisionrationale_acknowledgedialog {
+  .ui-button-text-only {
+    padding: 0px;
+  }
+  .ui-button-text {
+    padding: 0px;
+  }
+}
+
+#CM-DecisionRationale-Fyi-Message, #CM-DecisionRationale-Approve-Message,
+#CM-DecisionRationale-BlanketApprove-Message, #CM-DecisionRationale-Acknowledge-Message,
+#CM-DecisionRationale-Reject-Message {
+  padding-top: 10px;
 }
 
 #CM-ReturnToPrevious-Dialog-NodeNamesDropdown {
@@ -819,8 +831,8 @@ fieldset .uif-actionLink{
   padding-top: 10px;
 }
 
-#CM-Approve-Dialog-Explanation_label,
-#CM-BlanketApprove-Dialog-Explanation_label,
+#CM-Approve-Dialog-Explanation_label, #CM-BlanketApprove-Dialog-Explanation_label,
+#CM-Fyi-Dialog-Explanation_label, #CM-Acknowledge-Dialog-Explanation_label,
 #CM-Reject-Dialog-Explanation_label {
   padding-bottom: 10px;
   padding-top: 20px;
@@ -828,20 +840,25 @@ fieldset .uif-actionLink{
 
 #CM-Proposal-Review-Course-ConfirmApprove-Dialog,
 #CM-Proposal-Review-Course-ConfirmBlanketApprove-Dialog,
-#CM-Proposal-Review-Course-ConfirmReject-Dialog {
+#CM-Proposal-Review-Course-ConfirmAcknowledge-Dialog,
+#CM-Proposal-Review-Course-ConfirmFyi-Dialog,
+#CM-Proposal-Review-Course-ConfirmReject-Dialog 
+{
   padding-left: 10px;
 }
 
 #CM-ReturnToPrevious-Dialog-Explanation textarea.uif-textAreaControl,
 #CM-BlanketApprove-Dialog-Explanation textarea.uif-textAreaControl,
 #CM-Approve-Dialog-Explanation textarea.uif-textAreaControl,
+#CM-Acknowledge-Dialog-Explanation textarea.uif-textAreaControl,
+#CM-Fyi-Dialog-Explanation textarea.uif-textAreaControl, 
 #CM-Reject-Dialog-Explanation textarea.uif-textAreaControl {
   height: 140px;
   width: 530px;
 }
 
-#CM-BlanketApprove-Dialog-Explanation,
-#CM-Approve-Dialog-Explanation,
+#CM-BlanketApprove-Dialog-Explanation, #CM-Approve-Dialog-Explanation,
+#CM-Acknowledge-Dialog-Explanation, #CM-Fyi-Dialog-Explanation,
 #CM-Reject-Dialog-Explanation {
   float: left;
 }
@@ -856,4 +873,8 @@ fieldset .uif-actionLink{
 
 #CM-Proposal-Course-LinkGroup-CopyProposal {
   margin-top: -10px;
+}
+
+#CM-DecisionRationale-RequiredMessage {
+  background-color: @state-error-bg;
 }
