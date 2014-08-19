@@ -486,7 +486,11 @@
                             </bean>
                             <bean parent="CM-ReadOnlyInput" p:label="Final Exam Status"
                                   id="CM-ViewCourseView-Logistics-FinalExamStatus"
-                                  p:propertyName="reviewProposalDisplay.courseLogisticsSection.finalExamStatus"/>
+                                  p:propertyName="reviewProposalDisplay.courseLogisticsSection.finalExamStatus">
+                                  <property name="simpleConstraint">
+                                    <bean parent="CM-RequiredConstraints-Enroute"/>
+                                  </property>
+                            </bean>
                             <bean parent="CM-ReadOnlyInput" p:label="Final Exam Rationale"
                                   id="CM-ViewCourseView-Logistics-FinalExamRationale"
                                   p:render="@{#form.viewId eq T(org.kuali.student.cm.common.util.CurriculumManagementConstants$CourseViewPageIds).CREATE_COURSE_VIEW}"
