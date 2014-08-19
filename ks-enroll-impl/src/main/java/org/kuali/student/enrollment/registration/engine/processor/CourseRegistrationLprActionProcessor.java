@@ -45,13 +45,13 @@ public class CourseRegistrationLprActionProcessor {
     private JmsTemplate jmsTemplate;  // needed to call ActiveMQ based Registration Engine
 
     public RegistrationRequestItemEngineMessage process(RegistrationRequestItemEngineMessage message) {
+        LOGGER.info("Trying to register requestItemId:"+ message.getRequestItem().getId());
         try {
             ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
             contextInfo.setPrincipalId(message.getRequestItem().getPersonId());
             RegistrationRequestItem registrationRequestItem = message.getRequestItem();
 
-            if(LprServiceConstants.LPRTRANS_ITEM_FAILED_STATE_KEY.equals(registrationRequestItem.getStateKey()) ||
-                    LprServiceConstants.LPRTRANS_ITEM_WAITLIST_AVAILABLE_STATE_KEY.equals(registrationRequestItem.getStateKey())){
+            if(LprServiceConstants.LPRTRANS_ITEM_FAILED_STATE_KEY.equals(registrationRequestItem.getStateKey())){
                 //Don't process this if it has failed.
                 return message;
             }
@@ -104,7 +104,7 @@ public class CourseRegistrationLprActionProcessor {
             } else {
                 throw new UnsupportedOperationException("Unknown Registration Request Item Type: " + registrationRequestItem.getTypeKey());
             }
-
+            LOGGER.info("Completed registering requestItemId:"+ message.getRequestItem().getId());
             return message;
         } catch (Exception e) {
             throw new RuntimeException("Error processing", e);
@@ -131,7 +131,7 @@ public class CourseRegistrationLprActionProcessor {
     private void notifyWaitlistAvailable(RegistrationRequestItemEngineMessage message, ContextInfo contextInfo) throws PermissionDeniedException, OperationFailedException, VersionMismatchException, InvalidParameterException, DataValidationErrorException, MissingParameterException, DoesNotExistException, ReadOnlyException {
         courseRegistrationEngineService.updateLprTransactionItemResult(message.getRequestItem().getRegistrationRequestId(),
                 message.getRequestItem().getId(),
-                LprServiceConstants.LPRTRANS_ITEM_WAITLIST_AVAILABLE_STATE_KEY,
+                LprServiceConstants.LPRTRANS_ITEM_FAILED_STATE_KEY,
                 null,
                 RegistrationValidationResultsUtil.marshallSimpleMessage(LprServiceConstants.LPRTRANS_ITEM_WAITLIST_AVAILABLE_MESSAGE_KEY),
                 false,
@@ -144,7 +144,7 @@ public class CourseRegistrationLprActionProcessor {
         String masterLprId = registeredLprs.get(0).getMasterLprId();
         courseRegistrationEngineService.updateLprTransactionItemResult(message.getRequestItem().getRegistrationRequestId(),
                 message.getRequestItem().getId(),
-                LprServiceConstants.LPRTRANS_ITEM_WAITLIST_STATE_KEY,
+                LprServiceConstants.LPRTRANS_ITEM_SUCCEEDED_STATE_KEY,
                 masterLprId,
                 RegistrationValidationResultsUtil.marshallSimpleMessage(LprServiceConstants.LPRTRANS_ITEM_WAITLIST_WAITLISTED_MESSAGE_KEY),
                 true,

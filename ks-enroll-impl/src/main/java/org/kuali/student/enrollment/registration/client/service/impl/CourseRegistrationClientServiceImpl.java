@@ -820,6 +820,7 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
 
             resultItem.setRegistrationRequestItemId(lprTransactionItemInfo.getId());
             resultItem.setRegistrationRequestId(lprTransactionInfo.getId());
+
             resultItem.setState(lprTransactionItemInfo.getStateKey());
             resultItem.setStatus(lprTransactionItemInfo.getStateKey()); // we should be using the result state, but that is currently a boolean and not useful
             resultItem.setNewLuiId(lprTransactionItemInfo.getNewLuiId());
@@ -827,6 +828,15 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
 
             for(ValidationResultInfo validationResult : lprTransactionItemInfo.getValidationResults()){
                 resultItem.getMessages().add(validationResult.getMessage());
+
+                //Translate some "pseudo" states for ease in the ui to indicate if waitlists are available or was added to waitlist, etc.
+                if(LprServiceConstants.LPRTRANS_ITEM_FAILED_STATE_KEY.equals(lprTransactionItemInfo.getStateKey()) &&
+                        validationResult.getMessage().contains(LprServiceConstants.LPRTRANS_ITEM_WAITLIST_AVAILABLE_MESSAGE_KEY)){
+                    resultItem.setState(CourseRegistrationClientService.LPRTRANS_ITEM_WAITLIST_AVAILABLE_STATE_KEY);
+                } else if(LprServiceConstants.LPRTRANS_ITEM_SUCCEEDED_STATE_KEY.equals(lprTransactionItemInfo.getStateKey()) &&
+                        validationResult.getMessage().contains(LprServiceConstants.LPRTRANS_ITEM_WAITLIST_WAITLISTED_MESSAGE_KEY)){
+                    resultItem.setState(CourseRegistrationClientService.LPRTRANS_ITEM_WAITLIST_STATE_KEY);
+                }
             }
 
             resultItem.setResultingLprId(lprTransactionItemInfo.getResultingLprId());

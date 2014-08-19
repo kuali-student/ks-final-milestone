@@ -53,7 +53,7 @@ public class CourseRegistrationErrorProcessor {
         try {
             processRequestItem(message);
         } catch (Exception ex) {
-            LOGGER.error("Unable to update item transaction {} with failure state", message.getRequestItem().getId(), ex);
+            LOGGER.error("Unable to update item transaction {} with failure state RequestItemId:" + message.getRequestItem().getId(), ex);
         }
 
         return message;
@@ -71,7 +71,7 @@ public class CourseRegistrationErrorProcessor {
         try {
             processRequest(message);
         }  catch (Exception ex) {
-            LOGGER.error("Unable to update transaction {} with failure state", message.getRegistrationRequest().getId(), ex);
+            LOGGER.error("Unable to update transaction {} with failure state RequestId:" + message.getRegistrationRequest().getId(), ex);
         }
 
         return message;

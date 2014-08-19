@@ -14,7 +14,7 @@ import java.util.Map;
 /**
  * Created by swedev on 3/19/14.
  */
-public class SimpleAggregator implements CompletionAwareAggregationStrategy {
+public class SimpleAggregator implements CompletionAwareAggregationStrategy, TimeoutAwareAggregationStrategy {
     public static final Logger LOGGER = LoggerFactory.getLogger(SimpleAggregator.class);
 
     @Override
@@ -24,17 +24,19 @@ public class SimpleAggregator implements CompletionAwareAggregationStrategy {
         Object newBody = newExchange.getIn().getBody();
         RegistrationRequestItemEngineMessage message = (RegistrationRequestItemEngineMessage) newBody;
 
-        LOGGER.info("Aggregating: regReqItemCount(size) " + newExchange.getIn().getHeaders().get("regReqItemCount") + " regReqId(id) " +  newExchange.getIn().getHeaders().get("regReqId"));
+        int oAggSize = oldExchange==null?0:oldExchange.getProperty(Exchange.AGGREGATED_SIZE, 1, Integer.class);
+        int nAggSize = newExchange==null?0:newExchange.getProperty(Exchange.AGGREGATED_SIZE, 1, Integer.class);
+        LOGGER.info("Aggregating: regReqItemCount(size) " + newExchange.getIn().getHeaders().get("regReqItemCount") + " regReqId(id) " + newExchange.getIn().getHeaders().get("regReqId") + " OldExSize:" + oAggSize +" NewExSize:" + nAggSize);
 
         ArrayList<Object> list = null;
         if (oldExchange == null) {
-            LOGGER.info("Aggregating RequestItem:" + message.getRequestItem().getId() + " RequestItem State:" + message.getRequestItem().getStateKey() + " RequestId:" + message.getRequestItem().getRegistrationRequestId());
+            LOGGER.info("Aggregating First RequestItem:" + message.getRequestItem().getId() + " RequestItem State:" + message.getRequestItem().getStateKey() + " RequestId:" + message.getRequestItem().getRegistrationRequestId());
             list = new ArrayList<Object>();
             list.add(newBody);
             newExchange.getIn().setBody(list);
             return newExchange;
         } else {
-            LOGGER.info("Aggregating RequestItem:" + message.getRequestItem().getId() + " RequestItem State:" + message.getRequestItem().getStateKey() + " RequestId:" + message.getRequestItem().getRegistrationRequestId());
+            LOGGER.info("Aggregating Subsequent RequestItem:" + message.getRequestItem().getId() + " RequestItem State:" + message.getRequestItem().getStateKey() + " RequestId:" + message.getRequestItem().getRegistrationRequestId());
             list = oldExchange.getIn().getBody(ArrayList.class);
             list.add(newBody);
             return oldExchange;
@@ -47,4 +49,9 @@ public class SimpleAggregator implements CompletionAwareAggregationStrategy {
                 exchange.getProperty(Exchange.AGGREGATED_CORRELATION_KEY));
     }
 
+    @Override
+    public void timeout(Exchange exchange, int index, int total, long timeout) {
+        LOGGER.error("Aggregation timed out (index) " + index + " (total) " + total + " (timeout)" + timeout + " (id)" +
+                exchange.getProperty(Exchange.AGGREGATED_CORRELATION_KEY));
+    }
 }

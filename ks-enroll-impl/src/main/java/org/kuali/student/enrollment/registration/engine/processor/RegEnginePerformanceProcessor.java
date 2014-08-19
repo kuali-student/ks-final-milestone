@@ -3,6 +3,8 @@ package org.kuali.student.enrollment.registration.engine.processor;
 import org.apache.activemq.command.ActiveMQMapMessage;
 import org.kuali.student.enrollment.registration.engine.listener.SimplePerformanceListener;
 import org.kuali.student.enrollment.registration.engine.service.CourseRegistrationConstants;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.jms.core.JmsTemplate;
 
 import javax.jms.MapMessage;
@@ -13,8 +15,9 @@ import javax.jms.MapMessage;
 public class RegEnginePerformanceProcessor {
 
     JmsTemplate jmsTemplate;
-
+    public static final Logger LOGGER = LoggerFactory.getLogger(RegEnginePerformanceProcessor.class);
     public void notifyPerfEnd(String regReqId){
+        LOGGER.info("Doing End Performance Logging for regRequestId:"+regReqId);
         try {
             MapMessage perfMap = new ActiveMQMapMessage();
 

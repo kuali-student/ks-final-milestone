@@ -100,7 +100,7 @@ public class CourseRegistrationVerifyRegRequestNode extends AbstractCourseRegist
             }
 
         } catch (Exception ex) {
-            throw new RuntimeException(ex);
+            throw new RuntimeException("Error updating transaction with errors. ", ex);
         }
 
         return message;

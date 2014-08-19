@@ -139,7 +139,7 @@
 
         <route>    <!-- This route joins items from the reg req item split. Once all items have completed, update lprTrans state-->
             <from uri="activemq:org.kuali.student.enrollment.registration.regReqItemJoinQueue" />  <!-- Every Reg Req Item will come here-->
-            <aggregate strategyRef="simpleAggregator" ignoreInvalidCorrelationKeys="true"> <!-- take all the Reg Req Items an join them to their req -->
+            <aggregate strategyRef="simpleAggregator" ignoreInvalidCorrelationKeys="false"> <!-- take all the Reg Req Items an join them to their req -->
                 <correlationExpression>
                     <header>regReqId</header> <!-- correlate on the regReqId we stored in the header -->
                 </correlationExpression>
@@ -147,7 +147,6 @@
                     <header>regReqItemCount</header> <!-- stop aggregating when we've reached the reg req item count size-->
                 </completionSize>
                 <bean ref="courseRegistrationLprActionProcessor" method="updateRegistrationRequestStatus"/> <!-- update lprTrans status -->
-
                 <bean ref="regEnginePerfPojo" method="notifyPerfEnd(${header.regReqId})" /> <!-- notify perf listener that we're done -->
             </aggregate>
         </route>

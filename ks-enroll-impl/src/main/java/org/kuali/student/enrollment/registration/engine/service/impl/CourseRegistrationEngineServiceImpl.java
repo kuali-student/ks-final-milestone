@@ -73,8 +73,7 @@ public class CourseRegistrationEngineServiceImpl implements CourseRegistrationEn
     public LprTransactionItemInfo updateLprTransactionItemResult(String lprTransactionId, String lprTransactionItemId, String lprTransactionItemStateKey, String resultingLprId, String message, boolean status, ContextInfo contextInfo) throws DoesNotExistException, PermissionDeniedException, OperationFailedException, VersionMismatchException, InvalidParameterException, MissingParameterException, DataValidationErrorException, ReadOnlyException {
         LprTransactionItemInfo lprTransactionItem = getLprService().getLprTransactionItem(lprTransactionItemId, contextInfo);
         lprTransactionItem.setStateKey(lprTransactionItemStateKey);
-        if (LprServiceConstants.LPRTRANS_ITEM_FAILED_STATE_KEY.equals(lprTransactionItemStateKey) ||
-                LprServiceConstants.LPRTRANS_ITEM_WAITLIST_AVAILABLE_STATE_KEY.equals(lprTransactionItemStateKey)) {
+        if (LprServiceConstants.LPRTRANS_ITEM_FAILED_STATE_KEY.equals(lprTransactionItemStateKey)) {
             lprTransactionItem.getValidationResults().add(new ValidationResultInfo("", ValidationResult.ErrorLevel.ERROR, message));
         }
         lprTransactionItem.setResultingLprId(resultingLprId);

@@ -14,7 +14,8 @@ import javax.ws.rs.core.Response;
  */
 @Path("/")
 public interface CourseRegistrationClientService {
-
+    public static final String LPRTRANS_ITEM_WAITLIST_STATE_KEY = "kuali.lpr.trans.item.state.waitlist";
+    public static final String LPRTRANS_ITEM_WAITLIST_AVAILABLE_STATE_KEY = "kuali.lpr.trans.item.state.waitlistActionAvailable";
     /**
      * This is the "one click" registration method. It will first create a registration request then submit that
      * request to the registration engine.

@@ -36,6 +36,7 @@ import org.kuali.student.enrollment.class2.registration.admin.util.AdminRegistra
 import org.kuali.student.enrollment.courseoffering.infc.CourseOffering;
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestInfo;
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestItemInfo;
+import org.kuali.student.enrollment.registration.client.service.CourseRegistrationClientService;
 import org.kuali.student.r2.common.util.constants.LprServiceConstants;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
 import org.kuali.student.r2.lum.util.constants.LrcServiceConstants;
@@ -382,12 +383,12 @@ public class AdminRegistrationController extends UifControllerBase {
             form.getRegisteredCourses().addAll(getViewHelper(form).getCourseRegForStudentAndTerm(form.getPerson().getId(), form.getTerm().getId()));
             form.getRegistrationResults().add(AdminRegistrationUtil.buildSuccessResult(addCourse, AdminRegConstants.ADMIN_REG_MSG_INFO_SUCCESSFULLY_REGISTERED));
             updateId = AdminRegConstants.REG_COLL_ID;
-        } else if (LprServiceConstants.LPRTRANS_ITEM_WAITLIST_STATE_KEY.equals(item.getStateKey())) {
+        } else if (CourseRegistrationClientService.LPRTRANS_ITEM_WAITLIST_STATE_KEY.equals(item.getStateKey())) {
             form.getWaitlistedCourses().clear();
             form.getWaitlistedCourses().addAll(getViewHelper(form).getCourseWaitListForStudentAndTerm(form.getPerson().getId(), form.getTerm().getId()));
             form.getRegistrationResults().add(AdminRegistrationUtil.buildSuccessResult(addCourse, AdminRegConstants.ADMIN_REG_MSG_INFO_SUCCESSFULLY_WAITLISTED));
             updateId = AdminRegConstants.WAITLIST_COLL_ID;
-        } else if (LprServiceConstants.LPRTRANS_ITEM_WAITLIST_AVAILABLE_STATE_KEY.equals(item.getStateKey()) ||
+        } else if (CourseRegistrationClientService.LPRTRANS_ITEM_WAITLIST_AVAILABLE_STATE_KEY.equals(item.getStateKey()) ||
                 LprServiceConstants.LPRTRANS_ITEM_FAILED_STATE_KEY.equals(item.getStateKey())) {
             form.getRegistrationResults().add(AdminRegistrationUtil.buildWarningResult(addCourse, item));
         }

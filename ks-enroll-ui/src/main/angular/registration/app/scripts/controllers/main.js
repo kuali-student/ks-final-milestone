@@ -2,8 +2,8 @@
 
 angular.module('regCartApp')
     .controller('MainCtrl', ['$scope', '$location', '$state', '$modal', 'APP_URL', 'DEFAULT_TERM',
-        'GlobalVarsService', 'LoginService', 'TermsService', 'ScheduleService', 'CartService',
-    function MainCtrl($scope, $location, $state, $modal, APP_URL, DEFAULT_TERM, GlobalVarsService, LoginService, TermsService, ScheduleService, CartService) {
+        'GlobalVarsService', 'LoginService', 'TermsService', 'ScheduleService', 'CartService', 'MessageService',
+    function MainCtrl($scope, $location, $state, $modal, APP_URL, DEFAULT_TERM, GlobalVarsService, LoginService, TermsService, ScheduleService, CartService, MessageService) {
         console.log('>> MainCtrl');
 
         $scope.appUrl = APP_URL.replace('/services/', '/');
@@ -54,6 +54,8 @@ angular.module('regCartApp')
             });
         });
 
+        // Load up the messages
+        MessageService.getMessages();
 
         $scope.logout = function(){
             LoginService.logout().query({}, function () {
