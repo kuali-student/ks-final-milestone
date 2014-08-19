@@ -11,14 +11,40 @@
 package org.kuali.student.core.process.evaluator;
 
 import org.joda.time.DateTime;
-import org.kuali.rice.krms.api.engine.*;
-import org.kuali.rice.krms.framework.engine.*;
+import org.kuali.rice.krms.api.engine.Engine;
+import org.kuali.rice.krms.api.engine.EngineResults;
+import org.kuali.rice.krms.api.engine.ExecutionEnvironment;
+import org.kuali.rice.krms.api.engine.ExecutionFlag;
+import org.kuali.rice.krms.api.engine.ExecutionOptions;
+import org.kuali.rice.krms.api.engine.ResultEvent;
+import org.kuali.rice.krms.api.engine.SelectionCriteria;
+import org.kuali.rice.krms.api.engine.TermResolver;
+import org.kuali.rice.krms.framework.engine.Action;
+import org.kuali.rice.krms.framework.engine.Agenda;
+import org.kuali.rice.krms.framework.engine.AgendaTreeEntry;
+import org.kuali.rice.krms.framework.engine.BasicAgenda;
+import org.kuali.rice.krms.framework.engine.BasicAgendaTree;
+import org.kuali.rice.krms.framework.engine.BasicAgendaTreeEntry;
+import org.kuali.rice.krms.framework.engine.BasicContext;
+import org.kuali.rice.krms.framework.engine.BasicRule;
+import org.kuali.rice.krms.framework.engine.Context;
+import org.kuali.rice.krms.framework.engine.ContextProvider;
+import org.kuali.rice.krms.framework.engine.Proposition;
+import org.kuali.rice.krms.framework.engine.PropositionResult;
+import org.kuali.rice.krms.framework.engine.ProviderBasedEngine;
+import org.kuali.rice.krms.framework.engine.result.BasicResult;
 import org.kuali.student.common.util.krms.ManualContextProvider;
 import org.kuali.student.common.util.krms.RulesExecutionConstants;
-
-import java.util.*;
-import org.kuali.rice.krms.framework.engine.result.BasicResult;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Utility class to build up a Proposition tree for to evaluate checks from a Process
@@ -31,6 +57,7 @@ public class KRMSEvaluator {
     private List<TermResolver<?>> termResolvers;
     private ExecutionOptions executionOptions;
     private Map<String, String> contextQualifiers;
+    private static final Logger LOGGER = LoggerFactory.getLogger(KRMSEvaluator.class);
 
     public Map<String, Object> getDefaultFacts() {
         return defaultFacts;
@@ -183,6 +210,7 @@ public class KRMSEvaluator {
      * @return 
      */
     public static PropositionResult constructExceptionPropositionResult(ExecutionEnvironment environment, Exception ex, Object source) {
+        LOGGER.warn("Exception while executing the Process Rules.", ex);
         Map<String, Object> executionDetails = new HashMap<String, Object>();
         // on an evaluation exception, report the details of the exception to the KRMS environment
         executionDetails.put(RulesExecutionConstants.PROCESS_EVALUATION_EXCEPTION, ex);
