@@ -394,6 +394,14 @@
                                   p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ACKNOWLEDGE]}"/>
                             <bean parent="CM-Proposal-Button-Withdraw"/>
                             <bean parent="Uif-PrimaryActionButton"
+                                  p:additionalCssClasses="btn-success"
+                                  p:ajaxSubmit="false"
+                                  p:actionLabel="FYI"
+                                  p:methodToCall="fyi"
+                                  p:performClientSideValidation="true"
+                                  p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_FYI]}"/>
+                            <bean parent="Uif-PrimaryActionButton"
+
                                   p:ajaxSubmit="false"
                                   p:actionLabel="Return to Previous"
                                   p:methodToCall="returnToPreviousNode"
@@ -522,13 +530,7 @@
         </property>
     </bean>
 
-    <bean id="KS-CM-DialogExplanation" parent="Uif-DialogExplanation">
-        <property name="cssClasses">
-            <list merge="true">
-                <value>returntopreviousnode_dialogExplanation</value>
-            </list>
-        </property>
-    </bean>
+    <bean id="KS-CM-DialogExplanation" parent="Uif-DialogExplanation"/>
 
     <bean id="CM-DecisionRationale-MessageSection" parent="Uif-HorizontalBoxSection">
         <property name="render" value="@{#uiHelper.showMessage}"/>
@@ -551,7 +553,7 @@
         </property>
         <property name="cssClasses" >
             <list merge="true">
-                <value>returntopreviousnode_dialog</value>
+                <value>decisionrationale_dialog</value>
             </list>
         </property>
         <property name="promptText"
@@ -596,7 +598,7 @@
         </property>
         <property name="cssClasses" >
             <list merge="true">
-                <value>returntopreviousnode_dialog</value>
+                <value>decisionrationale_dialog</value>
             </list>
         </property>
         <property name="promptText"
@@ -629,7 +631,7 @@
         </property>
         <property name="cssClasses" >
             <list merge="true">
-                <value>returntopreviousnode_dialog</value>
+                <value>decisionrationale_dialog</value>
             </list>
         </property>
         <property name="promptText"
@@ -661,7 +663,7 @@
         </property>
         <property name="cssClasses" >
             <list merge="true">
-                <value>returntopreviousnode_dialog</value>
+                <value>decisionrationale_dialog</value>
             </list>
         </property>
         <property name="promptText"
@@ -684,8 +686,11 @@
         </property>
     </bean>
 
-    <bean id="KS-Proposal-Review-Course-Acknowledge-Dialog" parent="KS-Proposal-Review-Course-Acknowledge-Dialog-parentBean"/>
-    <bean id="KS-Proposal-Review-Course-Acknowledge-Dialog-parentBean" parent="Uif-DialogGroup" abstract="true" class="org.kuali.student.cm.uif.container.CMDialogGroup">
+    <bean id="KS-Proposal-Review-Course-ConfirmAcknowledge-Dialog" parent="KS-Proposal-Review-Course-ConfirmAcknowledge-Dialog-parentBean"/>
+    <bean id="KS-Proposal-Review-Course-ConfirmAcknowledge-Dialog-parentBean" parent="Uif-DialogGroup" abstract="true" class="org.kuali.student.cm.uif.container.CMDialogGroup">
+        <property name="responseInputField">
+            <bean parent="Uif-DialogResponse" p:readOnly="false"/>
+        </property>
         <property name="renderHeader" value="true"/>
         <property name="OnShowDialogScript" value="skipDirtyChecks();" />
         <property name="header">
@@ -694,7 +699,8 @@
         </property>
         <property name="cssClasses" >
             <list merge="true">
-                <value>returntopreviousnode_dialog</value>
+                <value>decisionrationale_dialog</value>
+                <value>decisionrationale_acknowledgedialog</value>
             </list>
         </property>
         <property name="promptText"
@@ -705,13 +711,49 @@
             <list>
                 <bean id="CM-DecisionRationale-Acknowledge-Message" parent="CM-DecisionRationale-MessageSection"/>
                 <!-- manually add back in the explanation field and force the render flag -->
-                <bean id="CM-Acknowledge-Dialog-Explanation" parent="KS-CM-DialogExplanation" p:render="true"
+                <bean id="CM-Acknowledge-Dialog-Explanation" parent="KS-CM-DialogExplanation" p:render="true" p:readOnly="false"
                       p:label="Decision Rationale"/>
             </list>
         </property>
         <property name="availableResponses">
             <list>
                 <bean parent="Uif-KeyLabelPair" p:key="yes" p:value="Acknowledge"/>
+                <bean parent="Uif-KeyLabelPair" p:key="no" p:value="Cancel"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KS-Proposal-Review-Course-ConfirmFyi-Dialog" parent="KS-Proposal-Review-Course-ConfirmFyi-Dialog-parentBean"/>
+    <bean id="KS-Proposal-Review-Course-ConfirmFyi-Dialog-parentBean" parent="Uif-DialogGroup" abstract="true" class="org.kuali.student.cm.uif.container.CMDialogGroup">
+        <property name="responseInputField">
+            <bean parent="Uif-DialogResponse" p:readOnly="false"/>
+        </property>
+        <property name="renderHeader" value="true"/>
+        <property name="OnShowDialogScript" value="skipDirtyChecks();" />
+        <property name="header">
+            <bean parent="Uif-HeaderTwo" p:headerText="FYI"
+                  p:cssClasses="ks-dottedHeaderActions"/>
+        </property>
+        <property name="cssClasses" >
+            <list merge="true">
+                <value>decisionrationale_dialog</value>
+            </list>
+        </property>
+        <property name="promptText"
+                  value="The &quot;@{#uiHelper.proposalName}&quot; proposal is FYI. You must enter a Decision Rationale."/>
+        <!-- do not show the explanation because we need the route node name dropdown above it in the dialog screen -->
+        <property name="displayExplanation" value="false"/>
+        <property name="items">
+            <list>
+                <bean id="CM-DecisionRationale-Fyi-Message" parent="CM-DecisionRationale-MessageSection"/>
+                <!-- manually add back in the explanation field and force the render flag -->
+                <bean id="CM-Fyi-Dialog-Explanation" parent="KS-CM-DialogExplanation" p:render="true" p:readOnly="false"
+                      p:label="Decision Rationale"/>
+            </list>
+        </property>
+        <property name="availableResponses">
+            <list>
+                <bean parent="Uif-KeyLabelPair" p:key="yes" p:value="FYI"/>
                 <bean parent="Uif-KeyLabelPair" p:key="no" p:value="Cancel"/>
             </list>
         </property>
