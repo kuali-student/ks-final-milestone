@@ -45,7 +45,12 @@ public class RulesExecutionConstants {
     public static final Term AS_OF_DATE_TERM = new Term("asOfDate");
     public static final Term RECORD_INSTRUCTION_SUCCESSES_TERM = new Term("shouldRecordInstructionSuccesses");
     public static final Term REGISTRATION_GROUP_TERM = new Term("registrationGroup");
+    public static final Term CLU_ID_TERM = new Term("cluId");
+    public static final Term CLU_INFO_TERM = new Term("cluInfo");
     // services
+    public static final Term ACADEMIC_RECORD_SERVICE_TERM = new Term("academicRecordService");
+    public static final Term CLU_SERVICE = new Term("cluService");
+    public static final Term LUI_SERVICE = new Term("luiService");
     public static final Term PROCESS_SERVICE_TERM = new Term("processService");
     public static final Term IDENTITY_SERVICE_TERM = new Term("identityService");
     public static final Term ATP_SERVICE_TERM = new Term("atpService");
