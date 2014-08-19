@@ -83,6 +83,17 @@ function onProposalReviewLoad() {
 }
 
 /**
+ * This method sets the user selected export option (pdf or doc) from the lightbox to an input field at the form
+ */
+function setExportSelectedOption(){
+    if (jQuery("#CM-ExportLigBox-Field_control_0").prop( "checked")){
+        jQuery("#CM-ExportHiddenField_control").val('pdf');
+    } else {
+        jQuery("#CM-ExportHiddenField_control").val('doc');
+    }
+}
+
+/**
  * This method has be copied from 'setupPage()' (krad.initialize.js). We're coping this method mainly to
  * refresh the entire view header on page load by looking at 'uif-viewHeader-contentWrapper' css instead of
  * 'uif-viewHeader'. uif-viewHeader div doesnt contain the lower group. We need to refresh the lower group
