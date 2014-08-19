@@ -90,7 +90,8 @@
 
     <bean id="CM-Proposal-Course-LinkGroup-CancelCourse-parent" parent="KS-Uif-Cancel-NavigationActionLink" abstract="true"
           p:methodToCall="CancelCourse"
-          p:title="Cancel Proposal">
+          p:title="Cancel Proposal"
+          p:disabled="@{#workflowDoc.initiated}">
     </bean>
 
 
