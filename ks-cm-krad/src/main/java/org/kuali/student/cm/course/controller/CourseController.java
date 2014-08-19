@@ -338,19 +338,18 @@ public class CourseController extends CourseRuleEditorController {
     @RequestMapping(params = "methodToCall=cancelCourse")
     public ModelAndView cancelCourse(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result, HttpServletRequest request, HttpServletResponse response) {
 
-        DialogManager dm = form.getDialogManager();
-        String dialogId = dm.getCurrentDialogId();
-        if(dialogId != null) {
-            dm.setDialogAnswer(dialogId, form.getDialogResponse());
-            dm.setDialogExplanation(dialogId, form.getDialogExplanation());
-            dm.setCurrentDialogId(null);
-        }
-
         String dialog = CurriculumManagementConstants.CANCEL_COURSE_CONFIRMATION_DIALOG;
         if (!hasDialogBeenDisplayed(dialog, form)) {
             return showDialog(dialog, form, request, response);
         }
         else {
+            DialogManager dm = form.getDialogManager();
+            String dialogId = dm.getCurrentDialogId();
+            if(dialogId != null) {
+                dm.setDialogAnswer(dialogId, form.getDialogResponse());
+                dm.setDialogExplanation(dialogId, form.getDialogExplanation());
+                dm.setCurrentDialogId(null);
+            }
             if (hasDialogBeenAnswered(dialog, form)) {
                 boolean confirmSubmit = getBooleanDialogResponse(dialog, form, request, response);
                 if (confirmSubmit) {
