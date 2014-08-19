@@ -1,66 +1,3 @@
-jQuery(function () {
-    if(console){
-        console.log("Document loaded");
-    }
-    if (tinymce != undefined) {
-        initEditors();
-        initReadonlyComments();
-    }else{
-        if(console){
-            console.log();"tinymce is not loaded yet."
-        }
-    }
-});
-
-function initEditors() {
-    tinymce.init({
-        selector: 'textarea.richtextitem',
-//        mode: "none",
-        statusbar : false,
-        browser_spellcheck: true,
-        spellchecker_rpc_url: 'plugins/spellchecker/rpc.php',
-        plugins: "link spellchecker hr",
-        menu: {
-            edit: {title: 'Edit', items: 'undo redo | cut copy paste pastetext | selectall'},
-            insert: {title: 'Insert', items: 'link | hr'},
-            format: {title: 'Format', items: 'bold italic underline strikethrough | formats | removeformat'},
-            table: {title: 'Table', items: 'inserttable tableprops deletetable | cell row column'}
-        },
-        toolbar1: "undo redo | bold italic underline strikethrough | numlist bullist outdent indent | link hr",
-        setup: function (ed) {
-            ed.on('blur', function () {
-                editorOnChangeHandler(ed);
-            });
-        }
-    });
-}
-
-
-function editorOnChangeHandler(ed) {
-    var elem = jQuery("#" + ed.id).each(function () {
-        jQuery(this).val(tinyMCE.get(ed.id).getContent());
-        if (tinyMCE.get(ed.id).isNotDirty) {
-            if (jQuery(this).hasClass('dirty')) {
-                jQuery(this).removeClass('dirty');
-                dirtyFormState.dirtyFieldCount--;
-            }
-        } else{
-            if (!jQuery(this).hasClass('dirty')) {
-                jQuery(this).addClass('dirty');
-                dirtyFormState.dirtyFieldCount++;
-            }
-        }
-    });
-}
-
-function initReadonlyComments(){
-    jQuery('[id^="KS-CommentField_UI_ID_line"]').each(function(){
-        var content = jQuery(this).text();
-        jQuery(this).text("");
-        jQuery(this).html(content);
-    });
-}
-
 function getRowContainer(elem) {
     var id = jQuery(elem).attr('id');
     var index = id.substring(id.lastIndexOf('_line') + '_line'.length, id.length);
@@ -84,38 +21,6 @@ function toggleDeleteElements(elem) {
     });
 }
 
-function preAddComment(elementId) {
-    tinyMCE.triggerSave();
-}
-
-function afterAddComment(elementId) {
-    if (console) {
-        console.log("Reassigning the editors ........");
-    }
-    tinymce.remove();
-    initEditors();
-    initReadonlyComments();
-    if (tinymce.get('KS-NewCommentField_control') != null) {
-        tinymce.get('KS-NewCommentField_control').setContent("");
-    }
-    for (edId in tinyMCE.editors){
-        //tinyMCE.editors[edId].save();
-        var id = tinymce.editors[edId].id;
-        var controlIndex = id.indexOf("_control");
-        if(controlIndex > 0){
-            var roc = id.substring(0, controlIndex);
-            var splitIndex = roc.indexOf("_ID_");
-            if(splitIndex > 0){
-                var roId = roc.substring(0, splitIndex) + "_UI" + roc.substring(splitIndex, roc.length);
-                if(jQuery("#" + roId).length){
-                    var value = jQuery("#" + roId).html();
-                    tinymce.editors[edId].setContent(value);
-                }
-            }
-        }
-    }
-}
-
 function deleteComment(baseUrl, controllerUrl, elem) {
     if (console) {
         console.log("deleteComment()... dirtyFieldCount = " + dirtyFormState.dirtyFieldCount);
@@ -131,7 +36,7 @@ function deleteComment(baseUrl, controllerUrl, elem) {
         dirtyFormState.dirtyFieldCount--;
         jQuery("#Comment_list_Header").find("span").text("Comments(" + data.count + ")");
         jQuery('[id^="KS-collection-rowId_line"]').each(function(){
-            jQuery(this).find("button[data-submit_data]").each(function(){
+            jQuery(this).find("button").each(function(){
                 var submitData = jQuery(this).data('submit_data');
                 var i = parseInt(submitData['actionParameters[selectedLineIndex]']);
                 if(i > index){
@@ -155,7 +60,7 @@ function updateComment(baseUrl, controllerUrl, elem) {
 
     jsonPost(baseUrl, targetUrl, formData, jQuery(elem).attr("id"), function(data){
         toggleCommentButtons(elem);
-        jQuery("#KS-CommentField_UI_ID_line" + index ).html(data.commentWrapper.commentTextUI);
+        jQuery("#KS-CommentField_UI_ID_line" + index ).text(data.commentWrapper.commentTextUI);
         jQuery("#lastEditor-container-id_line" + index).show();
         jQuery("#lastEditor-name-id_line" + index).text(data.commentWrapper.lastEditorName);
         jQuery("#lastEditor-date-id_line" + index).text(data.commentWrapper.lastEditedDate);
@@ -235,7 +140,6 @@ function cancelEditComment(elem){
     jQuery(rowContainer).find(".dirty").each(function(){
         dirtyFormState.dirtyFieldCount--;
         this.value = this.defaultValue;
-        tinymce.get(this.id).setContent(this.value);
         jQuery(this).removeClass("dirty");
     });
     toggleCommentButtons(elem);

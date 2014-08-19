@@ -64,7 +64,6 @@
                 <value>plugins/fancybox/jquery.fancybox.js</value>
                 <value>plugins/prettify/prettify.js</value>
                 <value>plugins/easydrag/jquery.easydrag.js</value>
-                <value>plugins/tinymce/tinymce.min.js</value>
                 <value>plugins/tooltip/ks.jquery.bubblepopup.v2.3.1.js</value>
                 <value>krad/scripts/krad.variables.js</value>
                 <value>krad/scripts/krad.utility.js</value>
