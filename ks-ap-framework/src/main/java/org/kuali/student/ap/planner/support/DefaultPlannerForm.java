@@ -1,15 +1,15 @@
 package org.kuali.student.ap.planner.support;
 
 import org.kuali.rice.krad.web.bind.RequestAccessible;
+import org.kuali.student.ap.academicplan.constants.AcademicPlanServiceConstants;
 import org.kuali.student.ap.academicplan.infc.LearningPlan;
 import org.kuali.student.ap.academicplan.infc.PlanItem;
-import org.kuali.student.ap.academicplan.constants.AcademicPlanServiceConstants;
+import org.kuali.student.ap.coursesearch.CreditsFormatter;
+import org.kuali.student.ap.coursesearch.CreditsFormatter.Range;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
 import org.kuali.student.ap.framework.context.CourseHelper;
 import org.kuali.student.ap.framework.context.PlanConstants;
 import org.kuali.student.ap.framework.context.TermHelper;
-import org.kuali.student.ap.coursesearch.CreditsFormatter;
-import org.kuali.student.ap.coursesearch.CreditsFormatter.Range;
 import org.kuali.student.ap.planner.PlannerForm;
 import org.kuali.student.ap.planner.PlannerItem;
 import org.kuali.student.ap.planner.PlannerTerm;
@@ -107,6 +107,8 @@ public class DefaultPlannerForm extends AbstractPlanItemForm implements
 	private transient List<PlannerTerm> terms;
     @RequestAccessible
 	private transient String creditString;
+    @RequestAccessible
+    private List<String> plannedTermIds;
 
 	@Override
 	public void setLearningPlanId(String learningPlanId) {
@@ -579,4 +581,13 @@ public class DefaultPlannerForm extends AbstractPlanItemForm implements
 		return !range.getMax().equals(range.getMin());
 	}
 
+    @Override
+    public List<String> getPlannedTermIds() {
+        return plannedTermIds;
+    }
+
+    @Override
+    public void setPlannedTermIds(List<String> plannedTermIds) {
+        this.plannedTermIds = plannedTermIds;
+    }
 }

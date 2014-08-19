@@ -230,5 +230,10 @@ public interface PlanHelper {
      */
     public String createBookmarkStatusMessages(List<PlanItem> planItems);
 
-
+    /**
+     * Get a list of terms IDs that contain the planned items
+     * @param planItems
+     * @return
+     */
+    List<String> getTermIdsForPlanItems(List<PlanItem> planItems);
 }

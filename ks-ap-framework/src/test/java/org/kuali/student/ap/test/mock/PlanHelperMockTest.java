@@ -279,4 +279,9 @@ public class PlanHelperMockTest implements PlanHelper{
     public String createBookmarkStatusMessages(List<PlanItem> planItems) {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
+
+    @Override
+    public List<String> getTermIdsForPlanItems(List<PlanItem> planItems) {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
 }

@@ -15,6 +15,7 @@
 
 package org.kuali.student.ap.framework.context.support;
 
+import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.student.ap.academicplan.constants.AcademicPlanServiceConstants;
 import org.kuali.student.ap.academicplan.constants.AcademicPlanServiceConstants.ItemCategory;
@@ -46,6 +47,7 @@ import org.kuali.student.r2.core.acal.infc.Term;
 import org.kuali.student.r2.core.comment.dto.CommentInfo;
 import org.kuali.student.r2.core.comment.service.CommentService;
 import org.kuali.student.r2.lum.course.infc.Course;
+import org.springframework.util.StringUtils;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -55,9 +57,6 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
-
-import org.apache.log4j.Logger;
-import org.springframework.util.StringUtils;
 
 /**
  * Default implementation of the PlanHelper
@@ -808,5 +807,17 @@ public class DefaultPlanHelper implements PlanHelper {
         }
 
         return "";
+    }
+
+    @Override
+    public List<String> getTermIdsForPlanItems(List<PlanItem> planItems) {
+        List<String> plannedTerms = new ArrayList<String>();
+        for(PlanItem item : planItems){
+            if(item.getCategory().equals(AcademicPlanServiceConstants.ItemCategory.PLANNED) ||
+                    item.getCategory().equals(AcademicPlanServiceConstants.ItemCategory.BACKUP)){
+                plannedTerms.addAll(item.getPlanTermIds());
+            }
+        }
+        return plannedTerms;
     }
 }

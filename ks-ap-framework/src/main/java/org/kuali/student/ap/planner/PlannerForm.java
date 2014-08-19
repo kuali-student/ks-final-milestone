@@ -1,8 +1,9 @@
 package org.kuali.student.ap.planner;
 
+import org.kuali.student.r2.lum.course.infc.Course;
+
 import java.math.BigDecimal;
 import java.util.List;
-import org.kuali.student.r2.lum.course.infc.Course;
 
 public interface PlannerForm extends PlanItemForm {
 
@@ -30,4 +31,7 @@ public interface PlannerForm extends PlanItemForm {
 
     String getPlannedMessage();
     void setPlannedMessage(String plannedMessage);
+
+    List<String> getPlannedTermIds();
+    void setPlannedTermIds(List<String> plannedTermIds);
 }

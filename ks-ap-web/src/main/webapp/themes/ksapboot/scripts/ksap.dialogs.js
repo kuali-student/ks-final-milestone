@@ -326,3 +326,24 @@ function ksapOpenPlanDialog(pageId, action, methodToCall, target, e) {
     jQuery.extend(retrieveData);
     ksapOpenDialog(pageId, action, methodToCall, target, e, retrieveData)
 }
+
+/**
+ * Handles marking planned terms as disabled in the "Add to Plan" dialog.
+ * Expects there to be a data attribute defined that holds a comma separated list of terms IDs that are already planned
+ * @param inputElementId - Id of the input element that contains the select control and data attributes
+ */
+function ksapDisableTermsAsPlanned(inputElementId) {
+    var inputElement = jQuery(inputElementId);
+    var plannedTermIdString = inputElement.data('plannedtermids');
+    var plannedTermIds = plannedTermIdString.split(",");
+    for (i=0; i<plannedTermIds.length; i++) {
+        var termId = plannedTermIds[i];
+        // Find an option corresponding to this term and disable it
+        var option = jQuery(inputElementId + "_control").find('option[value="' + termId + '"]');
+        option.attr('disabled', 'disabled');
+        // If this option is disabled and selected (probably the first in the list), select the next one
+        if (option.is(':selected')) {
+            option.next().attr('selected', 'selected');
+        }
+    }
+}

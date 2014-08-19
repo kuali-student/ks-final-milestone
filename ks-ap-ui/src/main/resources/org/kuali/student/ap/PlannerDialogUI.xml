@@ -732,7 +732,7 @@
                             <bean parent="Uif-VerticalBoxSection" p:colSpan="7">
                                 <property name="items">
                                     <list>
-                                        <bean parent="planner_term_input" p:fieldLabel.render="false" p:id="term_input" >
+                                        <bean parent="planner_term_input" p:fieldLabel.render="false">
                                             <property name="propertyName" value="termId" />
                                             <property name="instructionalText" value="" />
                                         </bean>
@@ -753,18 +753,25 @@
         </property>
     </bean>
 
-    <bean id="planner_term_input" parent="planner_term_input-parent"/>
+    <bean id="planner_term_input" parent="planner_term_input-parent" p:id="planner_term_input"/>
 	<bean id="planner_term_input-parent" abstract="true" parent="planner_dialog_input">
 		<property name="propertyName" value="targetTermId" />
 		<property name="label" value="Term &amp; Year" />
         <property name="fieldLabel.renderColon" value="false"/>
 		<property name="instructionalText" value="Note: This course MAY NOT be offered in your selected term. Check back after the schedule of classes has been released." />
 		<property name="control">
-			<bean parent="KS-Uif-DropdownControl"/>
+			<bean parent="KS-Uif-DropdownControl">
+                <property name="onDocumentReadyScript" value="ksapDisableTermsAsPlanned('#planner_term_input')"/>
+            </bean>
 		</property>
 		<property name="optionsFinder">
-			<bean class="org.kuali.student.ap.planner.util.TermsListBuilder"/>
+			<bean class="org.kuali.student.ap.planner.util.TermsListBuilder" p:addBlankOption="false"/>
 		</property>
+        <property name="dataAttributes">
+            <map>
+                <entry key="plannedTermIds" value="@{plannedTermIds}"/>
+            </map>
+        </property>
 	</bean>
 
     <bean id="planner_course_code_input" parent="planner_course_code_input-parent"/>

@@ -197,6 +197,9 @@ public class PlannerController extends KsapControllerBase {
                 form.setPlannedMessage(
                         KsapFrameworkServiceLocator.getPlanHelper().createPlanningStatusMessages(planItems));
             }
+            //Find terms that already contain this planned course
+            List<String> plannedTermIds = KsapFrameworkServiceLocator.getPlanHelper().getTermIdsForPlanItems(planItems);
+            form.setPlannedTermIds(plannedTermIds);
         }
 
 		uifForm.setViewId(DIALOG_FORM);
