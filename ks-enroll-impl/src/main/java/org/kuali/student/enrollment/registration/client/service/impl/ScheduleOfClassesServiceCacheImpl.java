@@ -131,7 +131,7 @@ public class ScheduleOfClassesServiceCacheImpl extends ScheduleOfClassesServiceI
                     QueryBuilders.matchAllQuery(),
                     FilterBuilders.andFilter(
                             FilterBuilders.termFilter("courseCode", courseCode.toLowerCase()),
-                            FilterBuilders.termsFilter("termId", atpId.toLowerCase().split("\\."))
+                            FilterBuilders.termFilter("termId", atpId)
                     )
             );
 
@@ -167,7 +167,7 @@ public class ScheduleOfClassesServiceCacheImpl extends ScheduleOfClassesServiceI
                     QueryBuilders.matchAllQuery(),
                     FilterBuilders.andFilter(
                             FilterBuilders.termFilter("cluId", cluId),
-                            FilterBuilders.termsFilter("termId", termId.toLowerCase().split("\\."))
+                            FilterBuilders.termFilter("termId", termId)
                     )
             );
 
