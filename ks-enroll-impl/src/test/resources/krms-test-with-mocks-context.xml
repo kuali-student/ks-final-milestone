@@ -152,5 +152,17 @@
 
     <bean id="populationService" class="org.kuali.student.r2.core.population.service.impl.mock.PopulationServiceMockImpl"/>
 
+    <bean id="gesServiceDataLoader" class="org.kuali.student.r2.common.krms.data.KRMSGesServiceDataLoader">
+        <property name="gesService" ref="gesService" />
+    </bean>
+
+    <bean id="gesService" class="org.kuali.student.core.ges.service.decorators.GesServiceEvaluationDecorator" >
+        <property name="populationService" ref="populationService" />
+        <property name="atpService" ref="atpService" />
+        <property name="nextDecorator" ref="gesServiceMapImpl" />
+    </bean>
+
+    <bean id="gesServiceMapImpl" class="org.kuali.student.core.ges.service.impl.GesServiceMapImpl" />
+
     <bean id="krmsServices" class="org.kuali.student.krms.mock.KRMSEngineService"/>
 </beans>

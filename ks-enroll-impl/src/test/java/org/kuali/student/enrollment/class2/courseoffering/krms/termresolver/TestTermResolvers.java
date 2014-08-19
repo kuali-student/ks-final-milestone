@@ -4,7 +4,11 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.kuali.rice.krms.api.engine.TermResolver;
+import org.kuali.student.common.test.mock.data.AbstractMockServicesAwareDataLoader;
 import org.kuali.student.common.util.krms.RulesExecutionConstants;
+import org.kuali.student.core.constants.GesServiceConstants;
+import org.kuali.student.core.ges.dto.ValueInfo;
+import org.kuali.student.core.ges.service.GesService;
 import org.kuali.student.enrollment.academicrecord.dto.StudentCourseRecordInfo;
 import org.kuali.student.enrollment.academicrecord.dto.StudentProgramRecordInfo;
 import org.kuali.student.enrollment.academicrecord.service.AcademicRecordService;
@@ -14,7 +18,6 @@ import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestInfo;
 import org.kuali.student.enrollment.courseregistration.service.CourseRegistrationService;
 import org.kuali.student.enrollment.krms.termresolver.CluId2CluInfoTermResolver;
-import org.kuali.student.enrollment.lui.service.LuiService;
 import org.kuali.student.lum.lrc.service.util.MockLrcTestDataLoader;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.LocaleInfo;
@@ -26,7 +29,6 @@ import org.kuali.student.r2.core.organization.service.OrganizationService;
 import org.kuali.student.r2.core.population.service.PopulationService;
 import org.kuali.student.r2.lum.clu.dto.CluInfo;
 import org.kuali.student.r2.lum.clu.service.CluService;
-import org.kuali.student.r2.lum.course.service.CourseService;
 import org.kuali.student.r2.lum.lrc.service.LRCService;
 import org.kuali.student.r2.lum.lu.service.impl.CluDataLoader;
 import org.kuali.student.r2.lum.lu.service.impl.CluSetDataLoader;
@@ -63,9 +65,6 @@ public class TestTermResolvers {
     @Resource(name = "cluService")
     private CluService cluService;
 
-    @Resource(name = "courseService")
-    private CourseService courseService;
-
     @Resource(name = "acadRecordService")
     private AcademicRecordService academicRecordService;
 
@@ -84,7 +83,11 @@ public class TestTermResolvers {
     @Resource(name = "lrcService")
     private LRCService lrcService;
 
-    private LuiService luiService;
+    @Resource(name = "gesService")
+    private GesService gesService;
+
+    @Resource(name="gesServiceDataLoader")
+    private AbstractMockServicesAwareDataLoader gesServiceDataLoader;
 
     @Before
     public void setUp() throws Exception {
@@ -100,6 +103,7 @@ public class TestTermResolvers {
                 loadPopulationData();
                 loadOrgData();
                 new MockLrcTestDataLoader(this.lrcService).loadData();
+                gesServiceDataLoader.beforeTest();
                 notSetup = false;
             }
 
@@ -389,7 +393,8 @@ public class TestTermResolvers {
                 KSKRMSServiceConstants.TERM_RESOLVER_GPAFORDURATION);
 
         //Evaluate term Resolver
-        Float gpa = termResolver.resolve(resolvedPrereqs, parameters);
+        termResolver.resolve(resolvedPrereqs, parameters);
+        //Float gpa = termResolver.resolve(resolvedPrereqs, parameters);
         //assertNotNull(gpa);
         //assertEquals(new Float(3.9), gpa);
     }
@@ -610,7 +615,8 @@ public class TestTermResolvers {
                 KSKRMSServiceConstants.TERM_RESOLVER_ADMITTEDTOPROGRAMLIMITCOURSESINORGFORDURATION);
 
         //Evaluate term Resolver
-        Integer result = termResolver.resolve(resolvedPrereqs, parameters);
+        termResolver.resolve(resolvedPrereqs, parameters);
+        //Integer result = termResolver.resolve(resolvedPrereqs, parameters);
         //assertNotNull(result);
         //assertEquals(new Integer(0), result);
     }
@@ -654,7 +660,8 @@ public class TestTermResolvers {
                 KSKRMSServiceConstants.TERM_RESOLVER_ADMITTEDTOPROGRAMATCOURSECAMPUS);
 
         //Evaluate term Resolver
-        Boolean isAdmitted = termResolver.resolve(resolvedPrereqs, parameters);
+        termResolver.resolve(resolvedPrereqs, parameters);
+        //Boolean isAdmitted = termResolver.resolve(resolvedPrereqs, parameters);
         //assertNotNull(isAdmitted);
         //assertTrue(isAdmitted);
     }
@@ -857,6 +864,31 @@ public class TestTermResolvers {
     }
 
     @Test
+    public void testGesValueTermResolver() throws Exception {
+        //Setup the term resolver
+        GesValueTermResolver termResolver = new GesValueTermResolver();
+
+        //Setup prerequisites
+        resolvedPrereqs.put(RulesExecutionConstants.GES_SERVICE_TERM.getName(), gesService);
+        resolvedPrereqs.put(RulesExecutionConstants.CONTEXT_INFO_TERM.getName(), contextInfo);
+        resolvedPrereqs.put(RulesExecutionConstants.PERSON_ID_TERM.getName(), "kuali.population.student.key.everyone100000077");
+        resolvedPrereqs.put(RulesExecutionConstants.ATP_ID_TERM.getName(), dataLoader.getFallTermId());
+        resolvedPrereqs.put(RulesExecutionConstants.AS_OF_DATE_TERM.getName(), KRMSEnrollmentEligibilityDataLoader.START_FALL_TERM_DATE);
+
+        //Setup parameters
+        parameters.put(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_GES_PARAMETER_KEY, GesServiceConstants.PARAMETER_KEY_MAX_REPEATABLE);
+
+        //Validate the term resolver
+        validateTermResolver(termResolver, resolvedPrereqs, parameters,
+                KSKRMSServiceConstants.TERM_RESOLVER_GES_VALUE);
+
+        //Evaluate term Resolver
+        ValueInfo value = termResolver.resolve(resolvedPrereqs, parameters);
+        assertNotNull(value);
+        assertEquals(value.getDecimalValue().intValue(), 2);
+    }
+
+    @Test
     public void testPopulationTermResolver() {
         //Setup the term resolver
         PopulationTermResolver termResolver = new PopulationTermResolver();
@@ -891,7 +923,8 @@ public class TestTermResolvers {
                 KSKRMSServiceConstants.TERM_RESOLVER_INSTRUCTORPERMISSION);
 
         //Evaluate term Resolver
-        Boolean hasPermission = termResolver.resolve(resolvedPrereqs, parameters);
+        termResolver.resolve(resolvedPrereqs, parameters);
+        //Boolean hasPermission = termResolver.resolve(resolvedPrereqs, parameters);
         //assertNotNull(hasPermission);
         //assertTrue(hasPermission);
     }
@@ -901,7 +934,7 @@ public class TestTermResolvers {
     //Setup the term resolver
     //    NumberOfEnrollmentsForCourseTermResolver termResolver = new NumberOfEnrollmentsForCourseTermResolver();
     //}
-
+    @SuppressWarnings("unchecked")
     private void validateTermResolver(TermResolver termResolver, Map<String, Object> prereqs, Map<String, String> parameters, String output) {
 
         //Check the term name.
@@ -925,14 +958,13 @@ public class TestTermResolvers {
     }
 
     private Map<String, Object> getDefaultPrerequisites() {
-        Map<String, Object> resolvedPrereqs = new HashMap<String, Object>();
+        Map<String, Object> resolvedPrereqs = new HashMap<>();
         resolvedPrereqs.put(RulesExecutionConstants.CONTEXT_INFO_TERM.getName(), contextInfo);
         return resolvedPrereqs;
     }
 
     private Map<String, String> getDefaultParameters() {
-        Map<String, String> parameters = new HashMap<String, String>();
-        return parameters;
+        return new HashMap<>();
     }
 
     private void loadCluData() {
@@ -1020,6 +1052,7 @@ public class TestTermResolvers {
 
     private void loadPopulationData() throws Exception {
         populationService.getMembersAsOfDate("SENIOR_ONLY_STUDENTS", new Date(), contextInfo);
+        populationService.getMembersAsOfDate("kuali.population.student.key.everyone", new Date(), contextInfo);
     }
 
     private void loadOrgData(){
