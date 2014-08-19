@@ -97,7 +97,7 @@ public class TimeSlotDao extends GenericEntityDao<TimeSlotEntity> {
                 public int compare(Object o1, Object o2) {
 
                     Integer n1 = Integer.parseInt(o1.toString());
-                    Integer n2 = Integer.parseInt(o1.toString());
+                    Integer n2 = Integer.parseInt(o2.toString());
                     return n1.compareTo(n2);
                 }
             });
