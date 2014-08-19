@@ -231,4 +231,10 @@ public class CurriculumManagementConstants {
             return this.viewType;
         }
     }
+
+    public static class Export {
+        public static String PDF = "pdf";
+        public static String DOC = "doc";
+        public static String EXPORT_TYPE = "export_type";
+    }
 }

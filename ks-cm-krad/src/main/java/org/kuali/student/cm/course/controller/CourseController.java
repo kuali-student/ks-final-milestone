@@ -168,7 +168,9 @@ public class CourseController extends CourseRuleEditorController {
                     ? CurriculumManagementConstants.DocumentTypeNames.CourseProposal.COURSE_CREATE_ADMIN
                     : CurriculumManagementConstants.DocumentTypeNames.CourseProposal.COURSE_CREATE);
         }
-        form.getExtensionData().put("export_type","pdf");
+
+        form.getExtensionData().put(CurriculumManagementConstants.Export.EXPORT_TYPE,CurriculumManagementConstants.Export.PDF);
+
         return form;
     }
 
@@ -1379,6 +1381,20 @@ public class CourseController extends CourseRuleEditorController {
 
     }
 
+    @MethodAccessible
+    @RequestMapping(params = "methodToCall=export")
+    public ModelAndView export(@ModelAttribute("KualiForm") DocumentFormBase form) {
+
+        String exportType = (String)form.getExtensionData().get(CurriculumManagementConstants.Export.EXPORT_TYPE);
+
+        if (StringUtils.equals(exportType,CurriculumManagementConstants.Export.PDF)){
+
+        } else if (StringUtils.equals(exportType,CurriculumManagementConstants.Export.DOC)){
+
+        }
+        return getUIFModelAndView(form);
+
+    }
 
     /**
      *  Binds the each validation errors with its property path

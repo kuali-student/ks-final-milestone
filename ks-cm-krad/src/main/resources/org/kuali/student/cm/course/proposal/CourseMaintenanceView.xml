@@ -156,7 +156,7 @@
                 <bean parent="CM-Proposal-Course-LinkGroup-Comments"/>
                 <bean parent="CM-Proposal-Course-LinkGroup-Decisions"/>
                 <bean parent="CM-Proposal-Course-LinkGroup-PrintCourse" p:methodToCall="printProposal" p:render="@{!#workflowDoc.initiated}"/>
-                <bean parent="CM-Proposal-Course-LinkGroup-ExportCourse" p:methodToCall="exportProposal" p:render="@{!#workflowDoc.initiated}"/>
+                <bean parent="CM-ExportAction" p:render="@{!#workflowDoc.initiated}"/>
             </list>
         </property>
     </bean>
@@ -538,6 +538,7 @@
                         </list>
                     </property>
                 </bean>
+                <ref bean="CM-ExportHiddenField"/>
             </list>
         </property>
     </bean>

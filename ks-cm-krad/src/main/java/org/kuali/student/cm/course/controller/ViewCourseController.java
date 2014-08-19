@@ -81,7 +81,7 @@ public class ViewCourseController extends KsUifControllerBase{
             throw new RuntimeException(e);
         }
 
-        form.getExtensionData().put("export_type","pdf");
+        form.getExtensionData().put(CurriculumManagementConstants.Export.EXPORT_TYPE,CurriculumManagementConstants.Export.PDF);
 
         return getUIFModelAndView(form);
     }
@@ -107,11 +107,18 @@ public class ViewCourseController extends KsUifControllerBase{
     }
 
     @MethodAccessible
-    @RequestMapping(params = "methodToCall=exportCourse")
-    public ModelAndView exportCourse(@ModelAttribute("KualiForm") UifFormBase form) {
+    @RequestMapping(params = "methodToCall=export")
+    public ModelAndView export(@ModelAttribute("KualiForm") UifFormBase form) {
 
         ViewCourseForm detailedViewForm = (ViewCourseForm) form;
 
+        String exportType = (String)detailedViewForm.getExtensionData().get(CurriculumManagementConstants.Export.EXPORT_TYPE);
+
+        if (StringUtils.equals(exportType,CurriculumManagementConstants.Export.PDF)){
+
+        } else if (StringUtils.equals(exportType,CurriculumManagementConstants.Export.DOC)){
+
+        }
         return getUIFModelAndView(form);
 
     }

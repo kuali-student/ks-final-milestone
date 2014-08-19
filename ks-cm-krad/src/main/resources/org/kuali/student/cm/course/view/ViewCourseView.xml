@@ -74,7 +74,7 @@
             <list>
                 <ref bean="CM-Proposal-Course-LinkGroup-CopyCourse"/>
                 <ref bean="CM-Proposal-Course-LinkGroup-PrintCourse"/>
-                <ref bean="CM-Proposal-Course-LinkGroup-ExportCourse"/>
+                <ref bean="CM-ExportAction"/>
             </list>
         </property>
     </bean>
@@ -95,16 +95,6 @@
     </bean>
 
 
-    <bean id="CM-Proposal-Course-LinkGroup-ExportCourse" parent="CM-Proposal-Course-LinkGroup-ExportCourse-parent"/>
-
-    <bean id="CM-Proposal-Course-LinkGroup-ExportCourse-parent" parent="Uif-KS-NavigationActionLink-parentBean" abstract="true"
-          p:actionScript="showLightboxComponent('CM-ViewCourse-View-Export-Lightbox');" p:title="Export">
-        <property name="actionImage">
-            <bean parent="Uif-Image" p:altText="Export" p:cssClasses="ks-fontello-icon-export" p:title="Export"/>
-        </property>
-        <property name="actionImagePlacement" value="IMAGE_ONLY"/>
-    </bean>
-
     <bean id="CM-Proposal-Course-LinkGroup-PrintCourse" parent="CM-Proposal-Course-LinkGroup-PrintCourse-parent"/>
 
     <bean id="CM-Proposal-Course-LinkGroup-PrintCourse-parent" parent="Uif-KS-NavigationActionLink-parentBean" abstract="true"
@@ -115,63 +105,6 @@
         <property name="actionImagePlacement" value="IMAGE_ONLY"/>
     </bean>
 
-
-    <bean id="CM-ViewCourse-View-Export-Lightbox" parent="Uif-VerticalBoxSection" p:hidden="true">
-        <property name="validationMessages" ref="KS-ValidationMessages-Off"/>
-        <!--<property name="cssClasses">
-            <list merge="true">
-                <value>ks-cm-course_detail-section</value>
-            </list>
-        </property>-->
-        <property name="header">
-            <bean parent="Uif-HeaderThree">
-                <property name="headerText" value="Export Document"/>
-                <!--<property name="cssClasses">
-                    <list merge="true">
-                        <value>ks-dottedHeaderActions</value>
-                        <value>cm_dottedHeaderActions</value>
-                    </list>
-                </property>
-                <property name="rightGroup">
-                    <bean parent="KS-CourseView-ReviewLink"/>
-                </property>-->
-            </bean>
-        </property>
-        <property name="footer">
-            <bean parent="Uif-FooterBase">
-                <property name="items">
-                    <list>
-                        <bean parent="Uif-PrimaryActionButton"
-                              p:ajaxSubmit="false"
-                              p:methodToCall="exportCourse"
-                              p:actionLabel="Export"/>
-                        <bean parent="Uif-ActionLink"
-                              p:actionLabel="Cancel"
-                              p:actionScript="closeLightbox();" />
-                    </list>
-                </property>
-            </bean>
-        </property>
-        <property name="items">
-            <list>
-                <bean parent="Uif-Message" p:messageText="The exported document will appear in a new page. Please disable pop-up blockers. \nExport document as:"/>
-                <bean parent="KS-Uif-InputField" p:propertyName="extensionData['export_type']">
-                    <property name="bindingInfo.bindingPath" value="extensionData['export_type']"/>
-                    <property name="control">
-                        <bean parent="KS-Uif-VerticalRadioControl">
-                            <property name="options">
-                                <list>
-                                    <bean parent="Uif-KeyLabelPair" p:key="pdf" p:value=".pdf (Adobe Acrobat)"/>
-                                    <bean parent="Uif-KeyLabelPair" p:key="doc" p:value=".doc (Microsoft Word)"/>
-                                </list>
-                            </property>
-                        </bean>
-                    </property>
-                </bean>
-            </list>
-        </property>
-
-    </bean>
 
     <bean id="CM-ViewCourse-View-Right-Header-Group-Status" parent="KS-Unified-Right-Header-Group-Status">
         <property name="items">
@@ -227,7 +160,7 @@
         <property name="items">
             <list>
                 <ref bean="CM-ViewCourse-View-Course-PageSections"/>
-                <ref bean="CM-ViewCourse-View-Export-Lightbox"/>
+                <ref bean="CM-ExportHiddenField"/>
             </list>
         </property>
     </bean>
