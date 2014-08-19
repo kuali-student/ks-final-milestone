@@ -23,14 +23,27 @@ public abstract class AcademicRecordTermResolverSupport<T> extends CourseTermRes
 
     @Override
     public Set<String> getPrerequisites() {
-        Set<String> prereqs = new HashSet<String>(2);
+        Set<String> prereqs = new HashSet<>(2);
         prereqs.add(RulesExecutionConstants.PERSON_ID_TERM.getName());
         prereqs.add(RulesExecutionConstants.CONTEXT_INFO_TERM.getName());
         return Collections.unmodifiableSet(prereqs);
     }
 
-    public List<StudentCourseRecordInfo> getCourseRecordsForCourse(String personId, String versionIndId,Map<String, String> parameters, ContextInfo context) throws TermResolutionException {
-        List<StudentCourseRecordInfo> studentRecords = new ArrayList<StudentCourseRecordInfo>();
+    public List<StudentCourseRecordInfo> getAllCourseRecordsForCourse(String personId, String versionIndId, Map<String, String> parameters, ContextInfo context) throws TermResolutionException {
+        List<StudentCourseRecordInfo> studentRecords = new ArrayList<>();
+        try {
+            List<String> courseIds = this.getCluIdsFromVersionIndId(versionIndId, parameters, context);
+            for (String courseId : courseIds) {
+                studentRecords.addAll(this.getAcademicRecordService().getStudentCourseRecordsForCourse(personId, courseId, context));
+            }
+        } catch (Exception e) {
+            KSKRMSExecutionUtil.convertExceptionsToTermResolutionException(parameters, e, this);
+        }
+        return studentRecords;
+    }
+
+    public List<StudentCourseRecordInfo> getCourseRecordsForCourse(String personId, String versionIndId, Map<String, String> parameters, ContextInfo context) throws TermResolutionException {
+        List<StudentCourseRecordInfo> studentRecords = new ArrayList<>();
         try {
             List<String> courseIds = this.getCluIdsFromVersionIndId(versionIndId, parameters, context);
             for (String courseId : courseIds) {
@@ -43,7 +56,7 @@ public abstract class AcademicRecordTermResolverSupport<T> extends CourseTermRes
     }
 
     public List<StudentCourseRecordInfo> getCourseRecordsForCourseSet(String personId, String cluSetId, Map<String, String> parameters, ContextInfo context) throws TermResolutionException {
-        List<StudentCourseRecordInfo> studentRecords = new ArrayList<StudentCourseRecordInfo>();
+        List<StudentCourseRecordInfo> studentRecords = new ArrayList<>();
         try {
             List<String> versionIndIds = this.getCluIdsForCluSet(cluSetId, parameters, context);
             for (String versionIndId : versionIndIds) {

@@ -16,21 +16,14 @@
  */
 package org.kuali.student.enrollment.class2.courseoffering.krms.termresolver;
 
-import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.krms.api.engine.TermResolutionException;
 import org.kuali.rice.krms.api.engine.TermResolver;
-import org.kuali.student.common.collection.KSCollectionUtils;
 import org.kuali.student.common.util.krms.RulesExecutionConstants;
-import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
-import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
-import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.enrollment.lui.dto.LuiInfo;
 import org.kuali.student.enrollment.lui.service.LuiService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.krms.util.KSKRMSExecutionUtil;
-import org.kuali.student.r2.core.acal.dto.KeyDateInfo;
-import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
 import org.kuali.student.r2.core.atp.dto.MilestoneInfo;
 import org.kuali.student.r2.core.atp.service.AtpService;
 import org.kuali.student.r2.core.constants.KSKRMSServiceConstants;
@@ -58,7 +51,7 @@ public class CourseRegistrationKeyDateTermResolver implements TermResolver<Boole
 
     @Override
     public Set<String> getPrerequisites() {
-        Set<String> prereqs = new HashSet<String>(2);
+        Set<String> prereqs = new HashSet<>(2);
         prereqs.add(RulesExecutionConstants.CONTEXT_INFO_TERM.getName());
         prereqs.add(RulesExecutionConstants.REGISTRATION_GROUP_TERM.getName());
         return Collections.unmodifiableSet(prereqs);
@@ -71,7 +64,7 @@ public class CourseRegistrationKeyDateTermResolver implements TermResolver<Boole
 
     @Override
     public Set<String> getParameterNames() {
-        Set<String> parameters = new HashSet<String>(2);
+        Set<String> parameters = new HashSet<>(2);
         parameters.add(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_TERM_KEYDATE_TYPE_KEY);
         return Collections.unmodifiableSet(parameters);
     }
@@ -127,7 +120,7 @@ public class CourseRegistrationKeyDateTermResolver implements TermResolver<Boole
      * @return
      */
     private static boolean isAllAtpIdsTheSame(List<LuiInfo> l) {
-        Set<String> set = new HashSet<String>(l.size());
+        Set<String> set = new HashSet<>(l.size());
         for (LuiInfo o : l) {
             if (set.isEmpty()) {
                 set.add(o.getAtpId());

@@ -1806,11 +1806,14 @@
         <property name="defaultFacts">
             <map>
                 <!--needed services-->
+                <entry key="academicRecordService" value-ref="academicRecordServiceCurrent"/>
                 <entry key="atpService" value-ref="AtpService"/>
                 <entry key="processService" value-ref="processService"/>
+                <entry key="cluService" value-ref="CluService"/>
                 <entry key="courseRegistrationService" value-ref="CourseRegistrationService"/>
                 <entry key="courseWaitListService" value-ref="courseWaitListService"/>
                 <entry key="courseOfferingService" value-ref="CourseOfferingService"/>
+                <entry key="luiService" value-ref="luiServiceCache"/>
                 <entry key="schedulingService" value-ref="SchedulingService"/>
                 <entry key="populationService" value-ref="PopulationService"/>
                 <entry key="exemptionService" value-ref="ExemptionService"/>
@@ -1832,10 +1835,13 @@
                 <bean class="org.kuali.student.core.krms.termresolver.ContextInfo2AsOfDateTermResolver" />
                 <bean class="org.kuali.student.core.krms.termresolver.AtpId2AtpTermResolver" />
                 <bean class="org.kuali.student.enrollment.class2.courseoffering.krms.termresolver.DateInKeyDateRangeTermResolver" />
+                <bean class="org.kuali.student.enrollment.krms.termresolver.CluId2CluInfoTermResolver" />
+                <bean class="org.kuali.student.enrollment.krms.termresolver.RegistrationGroup2CluIdTermResolver" />
                 <bean class="org.kuali.student.enrollment.krms.termresolver.RegistrationRequest2PersonIdTermResolver" />
                 <bean class="org.kuali.student.enrollment.krms.termresolver.RegistrationRequest2AtpIdTermResolver" />
                 <bean class="org.kuali.student.enrollment.krms.termresolver.RegistrationRequestId2RegistrationRequestTermResolver" />
                 <bean class="org.kuali.student.core.krms.termresolver.AtpId2AtpTermResolver" />
+                <bean class="org.kuali.student.enrollment.class2.courseoffering.krms.termresolver.CourseRecordForStudentTermResolver" />
                 <bean class="org.kuali.student.enrollment.class2.courseoffering.krms.termresolver.CourseRegistrationKeyDateTermResolver">
                     <property name="atpService" ref="AtpService"/>
                     <property name="luiService" ref="LuiService"/>

@@ -13,6 +13,8 @@ import org.kuali.student.enrollment.courseoffering.infc.CourseOffering;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestInfo;
 import org.kuali.student.enrollment.courseregistration.service.CourseRegistrationService;
+import org.kuali.student.enrollment.krms.termresolver.CluId2CluInfoTermResolver;
+import org.kuali.student.enrollment.lui.service.LuiService;
 import org.kuali.student.lum.lrc.service.util.MockLrcTestDataLoader;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.LocaleInfo;
@@ -34,6 +36,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import javax.annotation.Resource;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -80,6 +83,8 @@ public class TestTermResolvers {
 
     @Resource(name = "lrcService")
     private LRCService lrcService;
+
+    private LuiService luiService;
 
     @Before
     public void setUp() throws Exception {
@@ -796,6 +801,62 @@ public class TestTermResolvers {
     }
 
     @Test
+    public void testCluId2CluInfoTermResolver() throws Exception {
+        //Setup the term resolver
+        CluId2CluInfoTermResolver termResolver = new CluId2CluInfoTermResolver();
+
+        String cluId = "COURSE1";
+
+        //Setup data
+        resolvedPrereqs.put(RulesExecutionConstants.CLU_SERVICE.getName(), cluService);
+        resolvedPrereqs.put(RulesExecutionConstants.CLU_ID_TERM.getName(), cluId);
+
+        //Validate the term resolver
+        validateTermResolver(termResolver, resolvedPrereqs, parameters,
+                RulesExecutionConstants.CLU_INFO_TERM.getName());
+
+        //Evaluate term Resolver
+        CluInfo resolvedCluInfo = termResolver.resolve(resolvedPrereqs, parameters);
+        assertNotNull(resolvedCluInfo);
+        assertEquals(resolvedCluInfo.getId(), cluId);
+    }
+
+    @Test
+    public void testCourseRecordForStudentTermResolver() throws Exception {
+        //Setup the term resolver
+        CourseRecordForStudentTermResolver termResolver = new CourseRecordForStudentTermResolver();
+
+        CluInfo cluInfo = cluService.getClu("COURSE1", contextInfo);
+
+        //Setup data
+        resolvedPrereqs.put(RulesExecutionConstants.CLU_SERVICE.getName(), cluService);
+        resolvedPrereqs.put(RulesExecutionConstants.ACADEMIC_RECORD_SERVICE_TERM.getName(), academicRecordService);
+        resolvedPrereqs.put(RulesExecutionConstants.PERSON_ID_TERM.getName(), KRMSEnrollmentEligibilityDataLoader.STUDENT_THREE_ID);
+        resolvedPrereqs.put(RulesExecutionConstants.CLU_INFO_TERM.getName(), cluInfo);
+
+        //Validate the term resolver
+        validateTermResolver(termResolver, resolvedPrereqs, parameters,
+                KSKRMSServiceConstants.TERM_RESOLVER_COURSE_RECORD_FOR_STUDENT);
+
+        //Evaluate term Resolver
+        List<StudentCourseRecordInfo> records = termResolver.resolve(resolvedPrereqs, parameters);
+        assertNotNull(records);
+        assertEquals(records.size(), 1);
+
+        for (StudentCourseRecordInfo record : records) {
+            assertEquals(record.getId(), cluInfo.getId());
+        }
+
+
+        //Reevaluate under student 2 (no record for course)
+        resolvedPrereqs.put(RulesExecutionConstants.PERSON_ID_TERM.getName(), KRMSEnrollmentEligibilityDataLoader.STUDENT_TWO_ID);
+        records = termResolver.resolve(resolvedPrereqs, parameters);
+
+        assertNotNull(records);
+        assertTrue(records.isEmpty());
+    }
+
+    @Test
     public void testPopulationTermResolver() {
         //Setup the term resolver
         PopulationTermResolver termResolver = new PopulationTermResolver();
@@ -922,6 +983,7 @@ public class TestTermResolvers {
         CourseOffering courseOffering = dataLoader.getCourseOffering(courseId, termId);
         StudentCourseRecordInfo courseRecord = dataLoader.createStudentCourseRecord(personId, termId,
                 courseOffering.getCourseCode(), courseOffering.getCourseOfferingTitle(), gradeValue, gradeScaleKey);
+        courseRecord.setId(courseId);
         courseRecord.setCourseOfferingId(courseOffering.getId());
         dataLoader.storeStudentCourseRecord(personId, termId, courseId, courseRecord);
     }

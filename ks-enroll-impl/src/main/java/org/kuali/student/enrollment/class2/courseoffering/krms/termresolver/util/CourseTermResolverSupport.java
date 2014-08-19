@@ -24,7 +24,7 @@ public abstract class CourseTermResolverSupport<T> implements TermResolver<T> {
     private CluService cluService;
 
     public Set<String> getPrerequisites() {
-        Set<String> prereqs = new HashSet<String>(2);
+        Set<String> prereqs = new HashSet<>(2);
         prereqs.add(RulesExecutionConstants.CONTEXT_INFO_TERM.getName());
         return Collections.unmodifiableSet(prereqs);
     }
@@ -32,7 +32,7 @@ public abstract class CourseTermResolverSupport<T> implements TermResolver<T> {
     public List<String> getCluIdsFromVersionIndId(String cluId, Map<String, String> parameters, ContextInfo context) throws TermResolutionException {
 
         //Retrieve the version independent clu id.
-        List<String> courseIds = new ArrayList<String>();
+        List<String> courseIds = new ArrayList<>();
         try{
             List<VersionDisplayInfo> versions = this.getCluService().getVersions(CluServiceConstants.CLU_NAMESPACE_URI, cluId, context);
             for (VersionDisplayInfo version : versions) {
