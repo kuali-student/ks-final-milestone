@@ -9,6 +9,7 @@ import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.sort.SortOrder;
 import org.kuali.student.common.util.security.ContextUtils;
+import org.kuali.student.enrollment.lui.service.LuiService;
 import org.kuali.student.enrollment.registration.client.service.ScheduleOfClassesClientService;
 import org.kuali.student.enrollment.registration.client.service.dto.ActivityOfferingSearchResult;
 import org.kuali.student.enrollment.registration.client.service.dto.ActivityTypeSearchResult;
@@ -23,6 +24,7 @@ import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -91,7 +93,9 @@ public class ScheduleOfClassesClientServiceImpl extends ScheduleOfClassesService
 
         //Filter all results based on the term id
         QueryBuilder query = QueryBuilders.filteredQuery(disMaxQuery,
-                FilterBuilders.termsFilter("termId", termId.toLowerCase().split("\\.")));
+                FilterBuilders.andFilter(
+                        FilterBuilders.termFilter("termId", termId),
+                        FilterBuilders.termFilter("state", LuiServiceConstants.LUI_CO_STATE_OFFERED_KEY)));
         //Perform the search
         SearchResponse sr = elasticEmbedded.getClient()
                 .prepareSearch("ks")

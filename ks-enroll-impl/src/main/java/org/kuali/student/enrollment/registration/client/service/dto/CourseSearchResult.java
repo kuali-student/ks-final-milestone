@@ -24,6 +24,7 @@ public class CourseSearchResult {
     private String longName;
     private int seatsAvailable;
     private String termId;
+    private String state;
 
     public String getCourseId() {
         return courseId;
@@ -114,5 +115,13 @@ public class CourseSearchResult {
 
     public void setCluId(String cluId) {
         this.cluId = cluId;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
     }
 }

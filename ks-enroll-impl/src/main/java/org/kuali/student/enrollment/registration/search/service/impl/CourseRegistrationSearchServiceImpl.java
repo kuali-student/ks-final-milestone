@@ -198,6 +198,7 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
         public static final String CO_CROSSLISTED_CODE = "coCrossListedCode";
         public static final String CO_CROSSLISTED_SUBJECT_AREA = "coCrossListedSubjectArea";
         public static final String CO_CLU_ID = "cluId";
+        public static final String CO_STATE = "coState";
 
         public static final String SEAT_COUNT = "seatCount";
         public static final String WAITLIST_COUNT = "waitlistCount";
@@ -485,7 +486,8 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
         List<String> atpIds = requestHelper.getParamAsList(SearchParameters.ATP_ID);
         String queryStr =
                 "SELECT\n" +
-                        "    lui.CLU_ID                 cluid,\n" +
+                        "    lui.LUI_STATE             coState,\n" +
+                        "    lui.CLU_ID                cluid,\n" +
                         "    lui.id                    luiid,\n" +
                         "    lui.ATP_ID                atpid,\n" +
                         "    lui.DESCR_FORMATTED       description,\n" +
@@ -543,7 +545,6 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
                         "    KSEN_LUI_RESULT_VAL_GRP credits\n" +
                         "WHERE\n" +
                         "    lui.LUI_TYPE='" + LuiServiceConstants.COURSE_OFFERING_TYPE_KEY + "'\n" +
-                        "AND lui.LUI_STATE='" + LuiServiceConstants.LUI_CO_STATE_OFFERED_KEY + "'\n" +
                         "AND clu.ID = lui.CLU_ID\n" +
                         "AND clui.id = clu.OFFIC_CLU_ID\n" +
                         "AND luii.LUI_ID = lui.ID\n" +
@@ -567,6 +568,7 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
         for (Object[] resultRow : results) {
             int i = 0;
             SearchResultRowInfo row = new SearchResultRowInfo();
+            row.addCell(SearchResultColumns.CO_STATE, (String) resultRow[i++]);
             row.addCell(SearchResultColumns.CO_CLU_ID, (String) resultRow[i++]);
             row.addCell(SearchResultColumns.LUI_ID, (String) resultRow[i++]);
             row.addCell(SearchResultColumns.ATP_ID, (String) resultRow[i++]);

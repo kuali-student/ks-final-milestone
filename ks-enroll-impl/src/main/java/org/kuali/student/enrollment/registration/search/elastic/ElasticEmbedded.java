@@ -137,17 +137,23 @@ public class ElasticEmbedded {
     private void applyCourseOfferingIndexMappings() throws IOException {
         XContentBuilder builder = XContentFactory.jsonBuilder().
                 startObject().
-                startObject(COURSEOFFERING_ELASTIC_TYPE).
-                startObject("properties").
-                startObject("cluId").
-                field("type", "string").field("store", "yes").field("index", "not_analyzed").
-                endObject().
-                startObject("courseId").
-                field("type", "string").field("store", "yes").field("index", "not_analyzed").
-                endObject().
-                // more mapping
+                    startObject(COURSEOFFERING_ELASTIC_TYPE).
+                        startObject("properties").
+                            startObject("cluId").
+                                field("type", "string").field("store", "yes").field("index", "not_analyzed").
+                            endObject().
+                            startObject("courseId").
+                                field("type", "string").field("store", "yes").field("index", "not_analyzed").
+                            endObject().
+                            startObject("termId").
+                                field("type", "string").field("store", "yes").field("index", "not_analyzed").
+                            endObject().
+                            startObject("state").
+                                field("type", "string").field("store", "yes").field("index", "not_analyzed").
+                            endObject().
+                            // more mapping
+                            endObject().
                         endObject().
-                endObject().
                 endObject();
         client.admin().indices().preparePutMapping(KS_ELASTIC_INDEX).setType(COURSEOFFERING_ELASTIC_TYPE).setSource(builder).execute().actionGet();
 
@@ -250,7 +256,7 @@ public class ElasticEmbedded {
             courseSearchResult.setSeatsAvailable(Integer.parseInt(keyValue.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.SEATS_AVAILABLE)));
             courseSearchResult.setTermId(keyValue.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.ATP_ID));
             courseSearchResult.setCourseDescription(keyValue.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.LUI_DESC));
-
+            courseSearchResult.setState(keyValue.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.CO_STATE));
             // Grab Learning Results data
             // These two calls are cached so they are actually more performant
             List<String> creditResultsValueKeys = lrcService.getResultValuesGroup(keyValue.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.CREDITS), context).getResultValueKeys();
