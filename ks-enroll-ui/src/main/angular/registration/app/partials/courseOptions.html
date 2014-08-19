@@ -22,7 +22,7 @@
             </label>
             <div ng-repeat="gradingOption in gradingOptions | filter:gradingOptionsFilter"
                  class="kscr-Edit-option-wrap" id="{{prefix}}grading_{{course.courseCode}}_{{course.regGroupCode}}">
-                <div class="kscr-Edit-option" ng-class="course.newGrading == '{{gradingOption.key}}' ? 'kscr-Edit-option--Selected' : ''" ng-click="course.newGrading = '{{gradingOption.key}}'">
+                <div class="kscr-Edit-option" ng-class="course.newGrading == '{{gradingOption.key}}' ? 'kscr-Edit-option--Selected' : ''" ng-click="course.newGrading = gradingOption.key">
                     {{gradingOption.label}} <span ng-show="'{{gradingOption.label}}' === 'Letter'">(Default)</span>
                     <i id="{{prefix}}grading_{{course.courseCode}}_{{course.regGroupCode}}_{{gradingOption.label}}" class="kscr-Edit-option-icon"></i>
                 </div>

@@ -2,7 +2,7 @@
 
 angular.module('regCartApp')
     .controller('ScheduleCtrl', ['$scope', '$modal', '$timeout', 'STATUS', 'GRADING_OPTION', 'COURSE_TYPES', 'GlobalVarsService', 'TermsService', 'ScheduleService', 'CartService',
-    function ($scope, $modal, $timeout, STATUS, GRADING_OPTION, COURSE_TYPES, TermsService, GlobalVarsService, ScheduleService, CartService) {
+    function ($scope, $modal, $timeout, STATUS, GRADING_OPTION, COURSE_TYPES, GlobalVarsService, TermsService, ScheduleService, CartService) {
         console.log('>> ScheduleCtrl');
 
         $scope.getSchedules = ScheduleService.getSchedules;
