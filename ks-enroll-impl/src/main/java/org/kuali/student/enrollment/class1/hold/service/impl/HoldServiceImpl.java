@@ -96,14 +96,8 @@ public class HoldServiceImpl
             MissingParameterException,
             OperationFailedException,
             PermissionDeniedException {
-        List<String> results = new ArrayList<String>();
-        GenericQueryResults<AppliedHoldEntity> appliedHolds = criteriaLookupService.lookup(AppliedHoldEntity.class, criteria);
-        if (null != appliedHolds && appliedHolds.getResults().size() > 0) {
-            for (AppliedHoldEntity appliedHold : appliedHolds.getResults()) {
-                results.add(appliedHold.getId());
-            }
-        }
-        return results;
+        GenericQueryResults<String> appliedHolds = criteriaLookupService.lookupIds(AppliedHoldEntity.class, criteria);
+        return appliedHolds.getResults();
     }
 
     @Override
@@ -281,14 +275,8 @@ public class HoldServiceImpl
             MissingParameterException,
             OperationFailedException,
             PermissionDeniedException {
-        List<String> results = new ArrayList<String>();
-        GenericQueryResults<HoldIssueEntity> holdIssues = criteriaLookupService.lookup(HoldIssueEntity.class, criteria);
-        if (null != holdIssues && holdIssues.getResults().size() > 0) {
-            for (HoldIssueEntity holdIssue : holdIssues.getResults()) {
-                results.add(holdIssue.getId());
-            }
-        }
-        return results;
+        GenericQueryResults<String> holdIssues = criteriaLookupService.lookupIds(HoldIssueEntity.class, criteria);
+        return holdIssues.getResults();
     }
 
     @Override
