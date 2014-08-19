@@ -65,11 +65,6 @@ angular.module('regCartApp')
             });
         };
 
-        $scope.goToPage = function (page) {
-            console.log('Navigating to page: ' + page);
-            $location.url(page);
-        };
-
         $scope.$on('sessionExpired', function () {
             console.log('Received event sessionExpired');
             $modal.open({

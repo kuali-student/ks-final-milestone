@@ -6,7 +6,6 @@ angular.module('regCartApp', [
         'ngCookies',
         'ngResource',
         'ngSanitize',
-        'ngTouch',
         'ui.router',
         'ui.bootstrap'
     ])
