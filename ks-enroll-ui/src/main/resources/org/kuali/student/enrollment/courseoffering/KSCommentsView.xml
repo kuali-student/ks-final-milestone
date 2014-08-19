@@ -28,7 +28,7 @@
         </property>
         <property name="additionalScriptFiles">
             <list merge="true">
-                <value>themes/ksboot/tinymce/tinymce.min.js</value>
+                <value>plugins/tinymce/tinymce.min.js</value>
                 <value>themes/ksboot/scripts/ks-comments.js</value>
             </list>
         </property>
