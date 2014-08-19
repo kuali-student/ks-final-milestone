@@ -1085,6 +1085,9 @@
     <!-- Population Mock service (currently used by AppointmentService (see below for PopulationService) -->
     <!--TODO: KSENROLL-12397 Remove PopulationServiceMockImpl from configuration for Appt Windows-->
     <bean id="populationServiceMock" class="org.kuali.student.r2.core.population.service.impl.mock.PopulationServiceMockImpl">
+        <property name="populationDao" ref="populationDao" />
+        <property name="populationRuleDao" ref="populationRuleDao" />
+        <property name="criteriaLookupService" ref="defaultCriteriaLookupService" />
     </bean>
 
     <bean id="ks.exp.populationServiceMock" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
