@@ -46,7 +46,7 @@ public class CourseControllerTransactionHelperImpl implements CourseControllerTr
     }
 
     @Transactional(propagation = Propagation.REQUIRES_NEW)
-    public void performReturnToPreviousNodeWork(DocumentFormBase form, CourseController courseController) {
-        courseController.performReturnToPreviousNodeWork(form);
+    public void performCustomWorkflowActionSuper(DocumentFormBase form, String action, CourseController courseController) {
+        courseController.performCustomWorkflowActionSuper(form, action);
     }
 }

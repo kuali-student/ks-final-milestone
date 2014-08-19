@@ -132,6 +132,11 @@ public class CourseController extends CourseRuleEditorController {
         private UrlParams() {}  /* Constants class. Hide the contructor. */
     }
 
+    public static class WorkflowActions {
+        public static final String WITHDRAW = "withdraw";
+        public static final String RETURN_TO_PREVIOUS = "returnToPreviousNode";
+    }
+
     private static final String DECISIONS_DIALOG_KEY = "CM-Proposal-Course-DecisionDialog";
 
     private CourseService courseService;
@@ -569,7 +574,7 @@ public class CourseController extends CourseRuleEditorController {
                 if (confirmReturn) {
                     //route the document only if the rationale decision explanation is not null or redirect back to client to display confirm dialog with error
                     if(courseInfoWrapper.getUiHelper().getDialogExplanations().get(dialog)!=null){
-                        performReturnToPreviousNode(form,result, request,response);
+                        performReturnToPreviousNode(form,result, request,response, WorkflowActions.RETURN_TO_PREVIOUS);
                         addDecisionRationale(courseInfoWrapper.getProposalInfo().getId(), courseInfoWrapper.getUiHelper().getDialogExplanations().get(dialog), CommentServiceConstants.WORKFLOW_DECISIONS.RETURN_TO_PREVIOUS.getType());
                         // setShowMessage boolean decides whether to show the error message or not
                         courseInfoWrapper.getUiHelper().setShowMessage(false);
@@ -595,9 +600,9 @@ public class CourseController extends CourseRuleEditorController {
     }
 
     protected void performReturnToPreviousNode(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result,
-                                                    HttpServletRequest request, HttpServletResponse response) {
+                                                    HttpServletRequest request, HttpServletResponse response, String action) {
         CourseControllerTransactionHelper helper = GlobalResourceLoader.getService(new QName(CommonServiceConstants.REF_OBJECT_URI_GLOBAL_PREFIX + "courseControllerTransactionHelper", CourseControllerTransactionHelper.class.getSimpleName()));
-        helper.performReturnToPreviousNodeWork(form, this);
+        helper.performCustomWorkflowActionSuper(form, action, this);
         List<ErrorMessage> infoMessages = GlobalVariables.getMessageMap().getInfoMessagesForProperty(KRADConstants.GLOBAL_MESSAGES);
         if (infoMessages != null) {
             for (ErrorMessage message : infoMessages) {
@@ -608,41 +613,60 @@ public class CourseController extends CourseRuleEditorController {
     }
 
     /**
-     * This method is here to actually do the work of the return to previous action since that action is not built into the KRAD
+     * This method is here to actually do the work of the return to previous and withdraw actions since neither of those actions are built into the KRAD
      * {@link DocumentService}. This is an extrapolation of what would happen in the various KRAD classes in a single method in
      * this controller.
      */
-    public void performReturnToPreviousNodeWork(@ModelAttribute("KualiForm") DocumentFormBase form) {
+    public void performCustomWorkflowActionSuper(@ModelAttribute("KualiForm") DocumentFormBase form, String action) {
         MaintenanceDocument document = ((MaintenanceDocumentForm) form).getDocument();
         if (LOG.isDebugEnabled()) {
-            LOG.debug("Performing workflow action 'return to previous node' for document: " + document.getDocumentNumber());
+            LOG.debug("Performing custom workflow action " + action + "for document: " + document.getDocumentNumber());
         }
 
         try {
-            document.prepareForSave();
-            Document savedDocument = getDocumentService().validateAndPersistDocument(document, new ReturnToPreviousNodeDocumentEvent(document));
-            getDocumentService().prepareWorkflowDocument(savedDocument);
-            CourseInfoWrapper courseInfoWrapper = (CourseInfoWrapper)((MaintenanceDocument)savedDocument).getNewMaintainableObject().getDataObject();
-            savedDocument.getDocumentHeader().getWorkflowDocument().returnToPreviousNode(form.getAnnotation(), courseInfoWrapper.getReviewProposalDisplay().getReturnToPreviousNodeName());
-            UserSessionUtils.addWorkflowDocument(GlobalVariables.getUserSession(),
-                    savedDocument.getDocumentHeader().getWorkflowDocument());
+            String successMessageKey = null;
+            switch (action) {
+                case WorkflowActions.RETURN_TO_PREVIOUS:
+                    document.prepareForSave();
+                    Document savedDocument = getDocumentService().validateAndPersistDocument(document, new ReturnToPreviousNodeDocumentEvent(document));
+                    getDocumentService().prepareWorkflowDocument(savedDocument);
+                    CourseInfoWrapper courseInfoWrapper = (CourseInfoWrapper)((MaintenanceDocument)savedDocument).getNewMaintainableObject().getDataObject();
+                    savedDocument.getDocumentHeader().getWorkflowDocument().returnToPreviousNode(form.getAnnotation(), courseInfoWrapper.getReviewProposalDisplay().getReturnToPreviousNodeName());
+                    UserSessionUtils.addWorkflowDocument(GlobalVariables.getUserSession(),
+                            savedDocument.getDocumentHeader().getWorkflowDocument());
 
-            /*
-            In document service, for most of the ActionEvent calls, this is where the DocumentService.removeAdHocPersonsAndWorkgroups method is
-            called but since it's private and since CM does not use that functionality (in favor of our internal Auth/Collab stuff), we're
-            ignoring it for now
-            */
+                    /*
+                    In document service, for most of the ActionEvent calls, this is where the DocumentService.removeAdHocPersonsAndWorkgroups method is
+                    called but since it's private and since CM does not use that functionality (in favor of our internal Auth/Collab stuff), we're
+                    ignoring it for now
+                    */
 
-            // now push potentially updated document back into the form
-            form.setDocument(savedDocument);
+                    // now push potentially updated document back into the form
+                    form.setDocument(savedDocument);
 
-            GlobalVariables.getMessageMap().putInfo(KRADConstants.GLOBAL_MESSAGES, CurriculumManagementConstants.MessageKeys.SUCCESS_PROPOSAL_RETURN_TO_PREVIOUS_NODE);
+                    GlobalVariables.getMessageMap().putInfo(KRADConstants.GLOBAL_MESSAGES, CurriculumManagementConstants.MessageKeys.SUCCESS_PROPOSAL_RETURN_TO_PREVIOUS_NODE);
+                    successMessageKey = CurriculumManagementConstants.MessageKeys.SUCCESS_PROPOSAL_RETURN_TO_PREVIOUS_NODE;
+                    break;
+                case WorkflowActions.WITHDRAW:
+                    // TODO KSCM-2606 - fake the Document.DocumentHeader.WorkflowDocument value for the system user here
+                    getDocumentService().superUserDisapproveDocumentWithoutSaving(document,form.getAnnotation());
+                    // TODO KSCM-2606 - reset the 'document' variable to have the correct Document.DocumentHeader.WorkflowDocument value for the current user
+                    // TODO KSCM-2606 - add new success message key
+                    successMessageKey = RiceKeyConstants.MESSAGE_ROUTE_SUCCESSFUL;
+                    break;
+            }
+            // push potentially updated document back into the form
+            form.setDocument(document);
+
+            if (successMessageKey != null) {
+                GlobalVariables.getMessageMap().putInfo(KRADConstants.GLOBAL_MESSAGES, successMessageKey);
+            }
         } catch (ValidationException e) {
             // log the error and swallow exception so screen will draw with errors.
             // we don't want the exception to bubble up and the user to see an incident page, but instead just return to
             // the page and display the actual errors. This would need a fix to the API at some point.
             KRADUtils.logErrors();
-            LOG.error("Validation Exception occured for document :" + document.getDocumentNumber(), e);
+            LOG.error("Validation Exception occurred for document :" + document.getDocumentNumber(), e);
 
             // if no errors in map then throw runtime because something bad happened
             if (GlobalVariables.getMessageMap().hasNoErrors()) {
@@ -650,11 +674,11 @@ public class CourseController extends CourseRuleEditorController {
             }
         } catch (Exception e) {
             throw new RiceRuntimeException(
-                    "Exception trying to execute the 'return to previous node' for document: " + document
+                    "Exception trying to invoke custom action " + action + " for document: " + document
                             .getDocumentNumber(), e);
         }
 
-        form.setAnnotation("");
+        form.setAnnotation(""); // copied from parent class method
     }
 
     /**
