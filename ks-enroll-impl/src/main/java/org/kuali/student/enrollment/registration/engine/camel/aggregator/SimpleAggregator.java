@@ -3,7 +3,6 @@ package org.kuali.student.enrollment.registration.engine.camel.aggregator;
 import org.apache.camel.Exchange;
 import org.apache.camel.processor.aggregate.AggregationStrategy;
 import org.apache.camel.processor.aggregate.CompletionAwareAggregationStrategy;
-import org.apache.camel.processor.aggregate.OptimisticLockingAwareAggregationStrategy;
 import org.apache.camel.processor.aggregate.TimeoutAwareAggregationStrategy;
 import org.kuali.student.enrollment.registration.engine.dto.RegistrationRequestItemEngineMessage;
 import org.slf4j.Logger;
@@ -15,7 +14,7 @@ import java.util.Map;
 /**
  * Created by swedev on 3/19/14.
  */
-public class SimpleAggregator implements CompletionAwareAggregationStrategy, TimeoutAwareAggregationStrategy, OptimisticLockingAwareAggregationStrategy {
+public class SimpleAggregator implements CompletionAwareAggregationStrategy, TimeoutAwareAggregationStrategy {
     public static final Logger LOGGER = LoggerFactory.getLogger(SimpleAggregator.class);
 
     @Override
@@ -55,11 +54,4 @@ public class SimpleAggregator implements CompletionAwareAggregationStrategy, Tim
         LOGGER.error("Aggregation timed out (index) " + index + " (total) " + total + " (timeout)" + timeout + " (id)" +
                 exchange.getProperty(Exchange.AGGREGATED_CORRELATION_KEY));
     }
-
-    @Override
-    public void onOptimisticLockFailure(Exchange oldExchange, Exchange newExchange) {
-        LOGGER.error("Aggregate failure: optimistic locking " + oldExchange.getProperty(Exchange.AGGREGATED_CORRELATION_KEY) + " " +
-                newExchange.getProperty(Exchange.AGGREGATED_CORRELATION_KEY));
-    }
-
 }

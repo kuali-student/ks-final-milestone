@@ -116,7 +116,7 @@
             <setHeader headerName="regReqItemCount"> <!-- In order to join back later we need to know the req item count -->
                 <simple>${body.registrationRequest.registrationRequestItems.size}</simple>
             </setHeader>
-            <split parallelProcessing="true"> <!-- Split the RegRequestInfo into it's individual requestItems (add, drop, etc) -->
+            <split parallelProcessing="false"> <!-- Split the RegRequestInfo into it's individual requestItems (add, drop, etc) -->
                 <method ref="requestSplitter"  method="split" />   <!-- does the actual splitting -->
                 <setHeader headerName="JMSXGroupID"> <!-- This is CRITICAL. It is how we ensure valid seat check counts without db locking -->
                     <simple>FOID=${body.registrationGroup.formatOfferingId}</simple>  <!-- grouping on the foid -->
@@ -139,7 +139,7 @@
 
         <route>    <!-- This route joins items from the reg req item split. Once all items have completed, update lprTrans state-->
             <from uri="activemq:org.kuali.student.enrollment.registration.regReqItemJoinQueue" />  <!-- Every Reg Req Item will come here-->
-            <aggregate strategyRef="simpleAggregator" ignoreInvalidCorrelationKeys="false" optimisticLocking="true"> <!-- take all the Reg Req Items an join them to their req -->
+            <aggregate strategyRef="simpleAggregator" ignoreInvalidCorrelationKeys="false"> <!-- take all the Reg Req Items an join them to their req -->
                 <correlationExpression>
                     <header>regReqId</header> <!-- correlate on the regReqId we stored in the header -->
                 </correlationExpression>
