@@ -2,8 +2,14 @@ jQuery(function () {
     if(console){
         console.log("Document loaded");
     }
-    initEditors();
-    initReadonlyComments();
+    if (tinymce != undefined) {
+        initEditors();
+        initReadonlyComments();
+    }else{
+        if(console){
+            console.log();"tinymce is not loaded yet."
+        }
+    }
 });
 
 function initEditors() {
