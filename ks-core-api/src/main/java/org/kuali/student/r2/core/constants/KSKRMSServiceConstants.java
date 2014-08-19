@@ -41,7 +41,7 @@ public class KSKRMSServiceConstants {
     public static final String AGENDA_TYPE_COURSE_ENROLLMENTELIGIBILITY = "kuali.krms.agenda.type.course.enrollmentEligibility";
     public static final String AGENDA_TYPE_COURSE_CREDITCONSTRAINTS = "kuali.krms.agenda.type.course.creditConstraints";
     public static final String AGENDA_TYPE_SCHEDULE_ELIGIBILITY = "kuali.krms.agenda.type.schedule.eligibility";
-    public static final String AGENDA_TYPE_FINAL_EXAM_AO_DRIVEN= "kuali.krms.agenda.type.final.exam.activity.offering.driven";
+    public static final String AGENDA_TYPE_FINAL_EXAM_AO_DRIVEN = "kuali.krms.agenda.type.final.exam.activity.offering.driven";
     public static final String AGENDA_TYPE_FINAL_EXAM_CO_DRIVEN = "kuali.krms.agenda.type.final.exam.course.offering.driven";
 
     public static final String AGENDA_ATTRIBUTE_FINAL_EXAM_OWNER_TERM_TYPE = "kuali.krms.agenda.attribute.owner.term.type";
@@ -173,6 +173,7 @@ public class KSKRMSServiceConstants {
     public static final String TERM_PARAMETER_TYPE_PROGRAM_CLUSET_KEY = "kuali.term.parameter.type.program.cluSet.id";
     public static final String TERM_PARAMETER_TYPE_CLASS_STANDING_KEY = "kuali.term.parameter.type.classStanding";
     public static final String TERM_PARAMETER_TYPE_TERM_KEYDATE_TYPE_KEY = "kuali.term.parameter.type.keydate.typekey";
+    public static final String TERM_PARAMETER_TYPE_GES_PARAMETER_KEY = "kuali.term.parameter.type.ges.parameter.key";
 
     //note, this is a test as in assessment, not environment
     public static final String TERM_PARAMETER_TYPE_TEST_CLU_KEY = "kuali.term.parameter.type.test.clu.id";
@@ -261,7 +262,7 @@ public class KSKRMSServiceConstants {
     public static final String TERM_RESOLVER_COMPLETEDCOURSEFORTERM = "CompletedCourseForTerm";
     public static final String TERM_RESOLVER_COMPLETEDCOURSEPRIORTOTERM = "CompletedCoursePriorToTerm";
     public static final String TERM_RESOLVER_COMPLETEDCOURSEBETWEENTERMS = "CompletedCourseBetweenTerms";
-    public static final String TERM_RESOLVER_POPULATION= "Population";
+    public static final String TERM_RESOLVER_POPULATION = "Population";
     public static final String TERM_RESOLVER_INSTRUCTORPERMISSION = "InstructorPermission";
     public static final String TERM_RESOLVER_MATCHINGTIMESLOT = "MatchingTimeSlot";
     public static final String TERM_RESOLVER_MATCHINGCOURSE = "MatchingCourse";
@@ -270,6 +271,7 @@ public class KSKRMSServiceConstants {
     public static final String TERM_RESOLVER_CURRENT_COURSE_WITHIN_KEYDATE = "CurrentCourseWithinKeydate";
     public static final String TERM_RESOLVER_DATE_IN_TERM_KEY_DATE = "DateInTermKeyDate";
     public static final String TERM_RESOLVER_COURSE_RECORD_FOR_STUDENT = "CourseRecordForStudent";
+    public static final String TERM_RESOLVER_GES_VALUE = "GesValue";
 
     // natural language usage keys
     public static final String KRMS_NL_RULE_EDIT = "kuali.krms.edit";
