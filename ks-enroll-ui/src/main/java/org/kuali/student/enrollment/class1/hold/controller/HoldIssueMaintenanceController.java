@@ -22,6 +22,7 @@ import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.common.uif.form.KSUifMaintenanceDocumentForm;
 import org.kuali.student.common.uif.util.KSControllerHelper;
+import org.kuali.student.enrollment.class1.hold.dto.AuthorizationInfoWrapper;
 import org.kuali.student.enrollment.class1.hold.dto.HoldIssueMaintenanceWrapper;
 import org.kuali.student.enrollment.class1.hold.service.HoldIssueViewHelperService;
 import org.kuali.student.r2.common.dto.RichTextInfo;
@@ -109,16 +110,23 @@ public class HoldIssueMaintenanceController extends MaintenanceDocumentControlle
         RichTextInfo richTextInfo = new RichTextInfo();
         richTextInfo.setPlain(holdIssueWrapper.getDescr());
         holdIssueInfo.setDescr(richTextInfo);
-
-        HoldIssueInfo createHoldIssueInfo = this.getViewHelper(form).createHoldIssue(holdIssueInfo);
-
+        if(holdIssueWrapper.getId().equals(null)){
+             HoldIssueInfo createHoldIssueInfo = this.getViewHelper(form).createHoldIssue(holdIssueInfo);
+            holdIssueWrapper.setId(createHoldIssueInfo.getId());
+            holdIssueWrapper.setStateKey(createHoldIssueInfo.getStateKey());
+        }
+        else{
+            holdIssueInfo.setId(holdIssueWrapper.getId());
+            holdIssueInfo.setStateKey(holdIssueWrapper.getStateKey());
+            HoldIssueInfo updatedHoldIssueInfo = this.getViewHelper(form).updateHoldIssue(holdIssueInfo);
+        }
         form.getView().setApplyDirtyCheck(false);
         //holdIssueWrapper.setHoldIssueInfo(createHoldIssueInfo);
-        holdIssueWrapper.setId(createHoldIssueInfo.getId());
-        holdIssueWrapper.setStateKey(createHoldIssueInfo.getStateKey());
+
         holdIssueWrapper.setIsSaveSuccess(true);
         GlobalVariables.getMessageMap().putInfo("Process", "info.enroll.save.success");
         holdIssueWrapper.setIsSaveSuccess(true);
+        clearSearchValues(holdIssueWrapper);
         return refresh(form, result, request, response);
     }
 
@@ -130,6 +138,12 @@ public class HoldIssueMaintenanceController extends MaintenanceDocumentControlle
         holdIssueWrapper.setTypeKey("");
         holdIssueWrapper.setDescr("");
         holdIssueWrapper.setOrgName("");
+        holdIssueWrapper.setCode("");
+        holdIssueWrapper.setOrgAddress("");
+        holdIssueWrapper.setBaseType("");
+        holdIssueWrapper.setFirstDate("");
+        holdIssueWrapper.setFirstTerm("");
+        holdIssueWrapper.setOrganizationNames(new ArrayList<AuthorizationInfoWrapper>());
     }
 
     /**

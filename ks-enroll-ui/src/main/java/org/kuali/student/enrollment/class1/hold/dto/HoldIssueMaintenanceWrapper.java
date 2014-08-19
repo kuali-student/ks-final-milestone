@@ -46,6 +46,7 @@ public class HoldIssueMaintenanceWrapper implements Serializable {
     private String lastTerm;
     private String firstDate;
     private String lastDate;
+    private String holdHistory;
 
     private boolean isSaveSuccess;
 
@@ -220,6 +221,14 @@ public class HoldIssueMaintenanceWrapper implements Serializable {
 
     public void setHoldIssueInfoList(List<HoldIssueInfo> holdIssueInfoList) {
         this.holdIssueInfoList = holdIssueInfoList;
+    }
+
+    public String getHoldHistory() {
+        return holdHistory;
+    }
+
+    public void setHoldHistory(String holdHistory) {
+        this.holdHistory = holdHistory;
     }
 
     public Map<String, String> getAdminOrg() {

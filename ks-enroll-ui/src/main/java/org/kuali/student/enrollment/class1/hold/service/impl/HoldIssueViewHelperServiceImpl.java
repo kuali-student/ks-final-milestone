@@ -26,6 +26,7 @@ import static org.kuali.rice.core.api.criteria.PredicateFactory.like;
  */
 public class HoldIssueViewHelperServiceImpl extends KSViewHelperServiceImpl implements HoldIssueViewHelperService {
 
+
     public HoldIssueInfo createHoldIssue(HoldIssueInfo holdIssue){
         HoldIssueInfo createHoldIssueInfo = null;
         try {
@@ -37,6 +38,17 @@ public class HoldIssueViewHelperServiceImpl extends KSViewHelperServiceImpl impl
         return createHoldIssueInfo;
     }
 
+    @Override
+    public HoldIssueInfo updateHoldIssue(HoldIssueInfo holdIssue){
+        HoldIssueInfo updatedHoldIssueInfo = null;
+        try {
+            updatedHoldIssueInfo = HoldIssueResourceLoader.getHoldService().updateHoldIssue(holdIssue.getId(), holdIssue, createContextInfo());
+        } catch (Exception e) {
+
+            convertServiceExceptionsToUI(e);
+        }
+        return updatedHoldIssueInfo;
+    }
     @Override
     public List<HoldIssueInfo> searchHolds(HoldIssueMaintenanceWrapper holdIssueWrapper) {
 
