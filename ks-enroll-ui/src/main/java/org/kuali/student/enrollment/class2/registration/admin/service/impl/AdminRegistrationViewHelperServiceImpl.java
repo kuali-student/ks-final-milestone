@@ -102,14 +102,14 @@ public class AdminRegistrationViewHelperServiceImpl extends KSViewHelperServiceI
     public TermInfo getTermByCode(String termCode) {
 
         if (StringUtils.isBlank(termCode)) {
-            GlobalVariables.getMessageMap().putError(AdminRegConstants.TERM_CODE, AdminRegConstants.ADMIN_REG_MSG_ERROR_INVALID_TERM);
+            GlobalVariables.getMessageMap().putError(AdminRegConstants.TERM_CODE, AdminRegConstants.ADMIN_REG_MSG_ERROR_INVALID_TERM, termCode);
             return null;
         }
 
         try {
             TermInfo term = AdminRegClientCache.getTermByCode(termCode);
             if (term == null) {
-                GlobalVariables.getMessageMap().putError(AdminRegConstants.TERM_CODE, AdminRegConstants.ADMIN_REG_MSG_ERROR_INVALID_TERM);
+                GlobalVariables.getMessageMap().putError(AdminRegConstants.TERM_CODE, AdminRegConstants.ADMIN_REG_MSG_ERROR_INVALID_TERM, termCode);
             } else {
                 // check if SOC state is "published"
                 ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
