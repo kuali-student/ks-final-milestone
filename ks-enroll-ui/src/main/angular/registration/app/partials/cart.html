@@ -189,7 +189,7 @@
         <div class="kscr-Card-text-alert">
             <div ng-repeat="item in cartResultItem.schedule">
                 <span class="kscr-Card-courseTimes--results">
-                    <div class="kscr-Card-ao-type">{{item.activityOfferingType | limitTo : 3}}</div>
+                    <div class="kscr-Card-ao-type">{{item.activityOfferingTypeName | limitTo : 3}}</div>
                     <div ng-repeat="scheduleItem in item.activityOfferingLocationTime" class="kscr-Card-scheduleComponent">
                         <span ng-hide="scheduleItem.isTBA" class="util-Grid--floatLeft">{{scheduleItem.time.days}} {{scheduleItem.time.displayTime}}</span>
                         <span ng-hide="scheduleItem.isTBA" class="util-Grid--floatRight">{{scheduleItem.location.building}} {{scheduleItem.location.room}}</span>

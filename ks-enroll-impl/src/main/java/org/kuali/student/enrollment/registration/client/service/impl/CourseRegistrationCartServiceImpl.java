@@ -501,7 +501,8 @@ public class CourseRegistrationCartServiceImpl implements CourseRegistrationCart
                 aoSched = new ActivityOfferingScheduleResult();
                 aoSched.setActivityOfferingId(aoId);
                 String aoTypeName = aoType.substring(aoType.lastIndexOf(".") + 1);
-                aoSched.setActivityOfferingType(aoTypeName.length() >= 3 ? aoTypeName.substring(0, 1).toUpperCase() + aoTypeName.substring(1).toLowerCase() : "");
+                aoSched.setActivityOfferingTypeName(aoTypeName.length() >= 3 ? aoTypeName.substring(0, 1).toUpperCase() + aoTypeName.substring(1).toLowerCase() : "");
+                aoSched.setActivityOfferingType(aoType);
                 currentCartItem.getSchedule().add(aoSched);
             }
 
@@ -557,6 +558,26 @@ public class CourseRegistrationCartServiceImpl implements CourseRegistrationCart
                     aoScheduleResult.setInstructors(hmAOInstructors.get(aoScheduleResult.getActivityOfferingId()));
                 }
             }
+
+            // sorting over AO types: should be lecture, lab, discussion order
+            Map<String, List<ActivityOfferingScheduleResult>> hmAoSchedules = new HashMap<>();
+            List<String> aoTypes = new ArrayList<>();
+            for (ActivityOfferingScheduleResult aoScheduleResult : cartItemResult.getSchedule()) {
+                if (!hmAoSchedules.containsKey(aoScheduleResult.getActivityOfferingType())) {
+                    List<ActivityOfferingScheduleResult> aoSchedules = new ArrayList<>();
+                    aoSchedules.add(aoScheduleResult);
+                    hmAoSchedules.put(aoScheduleResult.getActivityOfferingType(), aoSchedules);
+                    aoTypes.add(aoScheduleResult.getActivityOfferingType());
+                } else {
+                    hmAoSchedules.get(aoScheduleResult.getActivityOfferingType()).add(aoScheduleResult);
+                }
+            }
+            CourseRegistrationAndScheduleOfClassesUtil.sortActivityOfferingTypeKeyList(aoTypes, contextInfo);  // sort the activity offerings type keys by priority order
+            List<ActivityOfferingScheduleResult> aoSchedules = new ArrayList<>();
+            for (String key : aoTypes) {
+                aoSchedules.addAll(hmAoSchedules.get(key));
+            }
+            cartItemResult.setSchedule(aoSchedules);
         }
 
         return cartResult;

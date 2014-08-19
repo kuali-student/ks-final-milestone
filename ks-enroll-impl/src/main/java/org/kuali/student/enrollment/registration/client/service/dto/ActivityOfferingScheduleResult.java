@@ -9,11 +9,12 @@ import java.util.List;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "ActivityOfferingLocationTimeResult", propOrder = {
-        "activityOfferingId", "activityOfferingType", "activityOfferingLocationTime", "instructors"})
+        "activityOfferingId", "activityOfferingType", "activityOfferingTypeName", "activityOfferingLocationTime", "instructors"})
 public class ActivityOfferingScheduleResult {
 
     private String activityOfferingId;
     private String activityOfferingType;
+    private String activityOfferingTypeName;
     private List<ActivityOfferingLocationTimeResult> activityOfferingLocationTime;
     private List<InstructorSearchResult> instructors;
 
@@ -51,4 +52,11 @@ public class ActivityOfferingScheduleResult {
         this.instructors = instructors;
     }
 
+    public String getActivityOfferingTypeName() {
+        return activityOfferingTypeName;
+    }
+
+    public void setActivityOfferingTypeName(String activityOfferingTypeName) {
+        this.activityOfferingTypeName = activityOfferingTypeName;
+    }
 }

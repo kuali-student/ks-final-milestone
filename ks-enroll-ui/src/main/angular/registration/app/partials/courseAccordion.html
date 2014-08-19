@@ -49,7 +49,7 @@
                     <!--AO info: type, time, location (cart -- closed) -->
                     <div ng-repeat="item in course.schedule" class="kscr-Card-detailsText--show" ng-show="!course.isopen" ng-if="type === courseTypes.cart">
                         <span class="kscr-Card-courseTimes">
-                            <div id="ao_type_{{course.courseCode}}_{{course.regGroupCode}}_{{$index}}" class="kscr-Card-ao-type">{{item.activityOfferingType | limitTo : 3}}</div>
+                            <div id="ao_type_{{course.courseCode}}_{{course.regGroupCode}}_{{$index}}" class="kscr-Card-ao-type">{{item.activityOfferingTypeName | limitTo : 3}}</div>
                             <div ng-repeat="scheduleItem in item.activityOfferingLocationTime" id="schedule_{{course.courseCode}}_{{course.regGroupCode}}_{{$parent.$index}}_{{$index}}" class="kscr-Card-scheduleComponent">
                                 <span ng-hide="scheduleItem.isTBA" class="util-Grid--floatLeft">{{scheduleItem.time.days}} {{scheduleItem.time.displayTime}}</span>
                                 <span ng-hide="scheduleItem.isTBA" class="util-Grid--floatRight">{{scheduleItem.location.building}} {{scheduleItem.location.room}}</span>
@@ -86,7 +86,7 @@
             <!--course time, day, building (cart)-->
             <div ng-repeat="item in course.schedule" class="kscr-Card-detailsText--edit" ng-if="type === courseTypes.cart">
                 <div>
-                    <span id="ao_type_long_{{course.courseCode}}_{{course.regGroupCode}}_{{$index}}">{{item.activityOfferingType}}</span>
+                    <span id="ao_type_long_{{course.courseCode}}_{{course.regGroupCode}}_{{$index}}">{{item.activityOfferingTypeName}}</span>
                     <span class="kscr-Card-ao-instructor">
                         <div ng-repeat="instructor in item.instructors">{{instructor.firstName}} {{instructor.lastName}}</div>
                     </span>
