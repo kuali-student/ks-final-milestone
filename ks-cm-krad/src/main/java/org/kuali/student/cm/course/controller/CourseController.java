@@ -353,8 +353,17 @@ public class CourseController extends CourseRuleEditorController {
             if (hasDialogBeenAnswered(dialog, form)) {
                 boolean confirmSubmit = getBooleanDialogResponse(dialog, form, request, response);
                 if (confirmSubmit) {
-                    ModelAndView modelAndView = super.cancel(form,result,request,response);
-                    return modelAndView;
+                    CourseInfoWrapper courseInfoWrapper = getCourseInfoWrapper(form);
+                    super.cancel(form,result,request,response);
+                    // setShowMessage boolean decides whether to show the error message or not
+                    courseInfoWrapper.getUiHelper().setShowMessage(false);
+                    form.getDialogManager().removeDialog(dialog);
+                    // Hide all the workflow action buttons on the review proposal page while the document is still in Enroute state(It is being processed at the back-end)
+                    courseInfoWrapper.getUiHelper().setPendingWorkflowAction(true);
+                    form.setPageId("CM-Proposal-Review-Course-Page");
+                    form.setMethodToCall("docHandler");
+                    String href = CourseProposalUtil.buildCourseProposalUrl("docHandler", "CM-Proposal-Review-Course-Page", form.getDocument().getDocumentNumber());
+                    return performRedirect(form,href);
                 }   else {
                     form.getDialogManager().removeDialog(dialog);
                 }
@@ -445,6 +454,7 @@ public class CourseController extends CourseRuleEditorController {
                         form.getDialogManager().removeDialog(dialog);
                         // Set the request redirect to false so that the user stays on the same page
                         form.setRequestRedirected(false);
+
                         // Hide all the workflow action buttons on the review proposal page while the document is still in Enroute state(It is being processed at the back-end)
                         courseInfoWrapper.getUiHelper().setPendingWorkflowAction(true);
                     } else {
