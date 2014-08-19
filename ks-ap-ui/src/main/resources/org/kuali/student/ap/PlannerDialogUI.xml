@@ -732,7 +732,7 @@
                             <bean parent="Uif-VerticalBoxSection" p:colSpan="7">
                                 <property name="items">
                                     <list>
-                                        <bean parent="planner_term_input" p:fieldLabel.render="false">
+                                        <bean parent="planner_term_input" p:fieldLabel.render="false" p:id="@{course.code}_termsInput" >
                                             <property name="propertyName" value="termId" />
                                             <property name="instructionalText" value="" />
                                         </bean>
