@@ -78,7 +78,7 @@
     <!--Alert message-->
     <div id="user_message" class="util-Alert util-Alert--{{userMessage.type}}" ng-if="userMessage.txt">
         <span class="kscr-Card-statusRemove"><a href="" ng-click="removeUserMessage()"></a></span>
-        <span class="kscr-Card-statusUndo" ng-if="userMessage.linkText"  ng-click="invokeActionLink(userMessage.actionLink)"><a href=""></a></span>
+        <span class="kscr-Card-statusUndo" ng-if="userMessage.linkText"  ng-click="invokeActionLink(userMessage.actionLink)"><a href="" title="Undo"></a></span>
         <span ng-bind-html="userMessage | formatValidationMessage"></span>
         <div class="kscr-Card-buttons" ng-if="userMessage.linkText">
             <button id="userMessageInvoke" class="kscr-Button" type="button" ng-click="invokeActionLink(userMessage.actionLink)">{{userMessage.linkText}}</button>
@@ -149,6 +149,13 @@
                         <div class="kscr-Card-button" ng-if="cartResultItem.statusMessages && (cartResultItem.status == statuses.action)">
                             <span>
                                 <button class="kscr-Button" id="waitlist_{{cartResultItem.courseCode}}_{{cartResultItem.regGroupCode}}" ng-click="addCartItemToWaitlist(cartResultItem)">Add to Waitlist</button>
+                            </span>
+                        </div>
+                        <!--Continue Registration-->
+                        <!--initial implementation, still needs to be wired up-->
+                        <div class="kscr-Card-button" ng-if="cartResultItem.statusMessages && (allowRepeatedCourses)">
+                            <span>
+                                <button class="kscr-Button" id="continueRegistration_{{cartResultItem.courseCode}}_{{cartResultItem.regGroupCode}}" ng-click="addCartItemToSchedule(cartResultItem)">Continue Registration</button>
                             </span>
                         </div>
                         <!-- Dismiss Button-->
