@@ -84,7 +84,7 @@ function preAddComment(elementId) {
 
 function afterAddComment(elementId) {
     if (console) {
-        console.log("After Add ........");
+        console.log("Reassigning the editors ........");
     }
     tinymce.remove();
     initEditors();
