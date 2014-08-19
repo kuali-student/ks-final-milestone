@@ -158,6 +158,21 @@ function ksapFilterCourseOffering (data){
     var activities = courseOffering.find(".ksap-activity-row");
     var validActivityIds = data.activities;
 
+
+    // Setup the add button if reg group is returned.
+    var regGroupId = data.regGroupId;
+    var addButton = jQuery("#"+data.termId+"_"+data.courseOfferingCode+"_"+data.formatOfferingId+"_addButton");
+    if(regGroupId.length){
+        addButton.removeClass("disabled");
+        addButton.removeAttr("disabled");
+        addButton.parent().removeClass("uif-tooltip");
+        addButton.attr("data-reggroupid",regGroupId);
+
+    }else{
+        addButton.addClass("disabled");
+        addButton.attr("disabled","disabled");
+    }
+
     // Check each activity under the course offering
     for(var i = 0; i < activities.length; i++){
         var activity = activities[i];
@@ -169,6 +184,9 @@ function ksapFilterCourseOffering (data){
         }else{
             jQuery(activity).removeClass("ksap-invalid-activity");
             jQuery(activity).removeClass("ksap-hide");
+            if(regGroupId.length){
+                jQuery(activity).find(":checkbox").prop("checked",true);
+            }
         }
     }
 
@@ -199,20 +217,6 @@ function ksapFilterCourseOffering (data){
         }
     }
 
-
-    // Setup the add button if reg group is returned.
-    var regGroupId = data.regGroupId;
-    var addButton = jQuery("#"+data.termId+"_"+data.courseOfferingCode+"_"+data.formatOfferingId+"_addButton");
-    if(regGroupId.length){
-        addButton.removeClass("disabled");
-        addButton.removeAttr("disabled");
-        addButton.parent().removeClass("uif-tooltip");
-        addButton.attr("data-reggroupid",regGroupId);
-
-    }else{
-        addButton.addClass("disabled");
-        addButton.attr("disabled","disabled");
-    }
     hideInvalidActivities();
     updateCourseOffering(courseOffering);
 }
