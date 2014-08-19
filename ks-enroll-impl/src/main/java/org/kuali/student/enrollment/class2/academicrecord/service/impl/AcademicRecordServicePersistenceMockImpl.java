@@ -67,7 +67,11 @@ public class AcademicRecordServicePersistenceMockImpl implements AcademicRecordS
 
         if (studentCourseRecords != null && !studentCourseRecords.isEmpty()) {
             for (StudentCourseRecordInfo studentCourseRecord : studentCourseRecords) {
-                if (studentCourseRecord.getCourseOfferingId().equals(courseId)) {
+                /*
+                The "course id" is actually the version independent id of the clu. For
+                mock purposes only it is stored as the id of the student course record.
+                 */
+                if (studentCourseRecord.getId().equals(courseId)) {
                     studentCourseRecordsFiltered.add(studentCourseRecord);
                 }
             }

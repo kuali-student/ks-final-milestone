@@ -57,19 +57,20 @@ public class TestAcademicRecordServicePersistenceMockImpl {
     @Test
     public void TestSingleStudentCourseRecordForCourse() throws PermissionDeniedException, MissingParameterException, InvalidParameterException, OperationFailedException, DoesNotExistException {
         String personId = "R.JESSEA";
-        String courseId = "39b47c39-451a-4aff-9c87-47092e8627f0";
+        String courseId = "339e49bd-bb68-47d6-92da-2b19ffc57bb0";
         ContextInfo contextInfo = new ContextInfo();
 
         List<StudentCourseRecordInfo> studentCourseRecordInfoList = academicRecordService.getStudentCourseRecordsForCourse(personId, courseId, contextInfo);
 
         assertNotNull(studentCourseRecordInfoList);
+        assertTrue(KSCollectionUtils.getOptionalZeroElement(studentCourseRecordInfoList).getCourseCode().equals("BSCI258"));
         assertTrue(KSCollectionUtils.getRequiredZeroElement(studentCourseRecordInfoList).getAssignedGradeValue().equals("A"));
     }
 
     @Test
     public void TestMultipleStudentCourseRecordForCourse() throws PermissionDeniedException, MissingParameterException, InvalidParameterException, OperationFailedException, DoesNotExistException {
         String personId = "R.JESSICAL";
-        String courseId = "CLUID-HIST499-198801000000";
+        String courseId = "68e20a79-5f25-4e89-8518-18da6f89dc03";
         ContextInfo contextInfo = new ContextInfo();
 
         List<StudentCourseRecordInfo> studentCourseRecordInfoList = academicRecordService.getStudentCourseRecordsForCourse(personId, courseId, contextInfo);
@@ -78,7 +79,9 @@ public class TestAcademicRecordServicePersistenceMockImpl {
         assertTrue(studentCourseRecordInfoList.size() == 2);
         boolean fall2010A = false;
         for (StudentCourseRecordInfo studentCourseRecordInfo:studentCourseRecordInfoList) {
-            if (studentCourseRecordInfo.getTermId().equals("201008") && studentCourseRecordInfo.getAssignedGradeValue().equals("A")) {
+            if (studentCourseRecordInfo.getTermId().equals("201008")
+                    && studentCourseRecordInfo.getAssignedGradeValue().equals("A")
+                    && studentCourseRecordInfo.getCourseCode().equals("HIST499")) {
                 fall2010A = true;
             }
         }
@@ -88,7 +91,7 @@ public class TestAcademicRecordServicePersistenceMockImpl {
     @Test
     public void TestIsRepeated() throws PermissionDeniedException, MissingParameterException, InvalidParameterException, OperationFailedException, DoesNotExistException {
         String personId = "R.JOANL";
-        String courseId = "d82b9c5c-d6d5-4857-ba92-f2a8f2561001";
+        String courseId = "8af491cf-9c23-409e-adc8-dc184dcbced6";
         ContextInfo contextInfo = new ContextInfo();
 
         List<StudentCourseRecordInfo> studentCourseRecordInfoList=academicRecordService.getStudentCourseRecordsForCourse(personId, courseId, contextInfo);
@@ -97,7 +100,9 @@ public class TestAcademicRecordServicePersistenceMockImpl {
         assertTrue(studentCourseRecordInfoList.size() == 2);
         boolean fall2011repeated = false;
         for (StudentCourseRecordInfo studentCourseRecordInfo:studentCourseRecordInfoList) {
-            if (studentCourseRecordInfo.getTermId().equals("201108") && studentCourseRecordInfo.getIsRepeated()) {
+            if (studentCourseRecordInfo.getTermId().equals("201108")
+                    && studentCourseRecordInfo.getIsRepeated()
+                    && studentCourseRecordInfo.getCourseCode().equals("PHYS260")) {
                 fall2011repeated = true;
             }
         }
@@ -107,25 +112,27 @@ public class TestAcademicRecordServicePersistenceMockImpl {
     @Test
     public void TestIncomplete() throws PermissionDeniedException, MissingParameterException, InvalidParameterException, OperationFailedException, DoesNotExistException {
         String personId = "R.JODYB";
-        String courseId = "CLUID-HIST352-199501000000";
+        String courseId = "acdf9452-99b1-4910-8a56-1b95d6393fab";
         ContextInfo contextInfo = new ContextInfo();
 
         List<StudentCourseRecordInfo> studentCourseRecordInfoList = academicRecordService.getStudentCourseRecordsForCourse(personId, courseId, contextInfo);
 
         assertNotNull(studentCourseRecordInfoList);
+        assertTrue(KSCollectionUtils.getRequiredZeroElement(studentCourseRecordInfoList).getCourseCode().equals("HIST352"));
         assertTrue(KSCollectionUtils.getRequiredZeroElement(studentCourseRecordInfoList).getAssignedGradeValue().equals("I"));
     }
 
     @Test
     public void TestWithdrawal() throws PermissionDeniedException, MissingParameterException, InvalidParameterException, OperationFailedException, DoesNotExistException {
         String personId = "R.JOEM";
-        String courseId = "ea600deb-8b10-4386-9a20-345bd3331737";
+        String courseId = "3c0548bd-06b5-43ef-b064-30fa1e501564";
         ContextInfo contextInfo = new ContextInfo();
 
         List<StudentCourseRecordInfo> studentCourseRecordInfoList = academicRecordService.getStudentCourseRecordsForCourse(personId, courseId, contextInfo);
 
         assertNotNull(studentCourseRecordInfoList);
         assertTrue(KSCollectionUtils.getRequiredZeroElement(studentCourseRecordInfoList).getStateKey().equals("kuali.academic.record.student.course.record.state.withdrawn"));
+        assertTrue(KSCollectionUtils.getRequiredZeroElement(studentCourseRecordInfoList).getCourseCode().equals("BSCI103"));
         assertTrue(KSCollectionUtils.getRequiredZeroElement(studentCourseRecordInfoList).getAssignedGradeValue().equals("W"));
     }
 
