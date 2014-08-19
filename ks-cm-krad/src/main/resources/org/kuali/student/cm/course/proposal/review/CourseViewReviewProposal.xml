@@ -380,6 +380,13 @@
                                   p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_APPROVE] and (!#uiHelper.pendingWorkflowAction)}"
                                   p:disabled="@{#dataObject.missingRequiredFields}"/>
                             <bean parent="Uif-PrimaryActionButton"
+                                  p:additionalCssClasses="btn-danger"
+                                  p:ajaxSubmit="false"
+                                  p:actionLabel="Reject"
+                                  p:methodToCall="disapprove"
+                                  p:performClientSideValidation="true"
+                                  p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_DISAPPROVE] and (!#uiHelper.pendingWorkflowAction)}"/>
+                            <bean parent="Uif-PrimaryActionButton"
                                   p:additionalCssClasses="btn-success"
                                   p:ajaxSubmit="false"
                                   p:methodToCall="acknowledge"
@@ -429,6 +436,13 @@
                                   p:performClientSideValidation="true"
                                   p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_APPROVE] and (!#uiHelper.pendingWorkflowAction)}"
                                   p:disabled="@{#dataObject.missingRequiredFields}"/>
+                            <bean parent="Uif-PrimaryActionButton"
+                                  p:additionalCssClasses="btn-danger"
+                                  p:ajaxSubmit="false"
+                                  p:actionLabel="Reject"
+                                  p:methodToCall="disapprove"
+                                  p:performClientSideValidation="true"
+                                  p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_DISAPPROVE] and (!#uiHelper.pendingWorkflowAction)}"/>
                             <bean parent="CM-Proposal-Button-Withdraw"/>
                             <bean parent="Uif-PrimaryActionButton"
                                   p:ajaxSubmit="false"
@@ -600,6 +614,38 @@
         <property name="availableResponses">
             <list>
                 <bean parent="Uif-KeyLabelPair" p:key="yes" p:value="Approve"/>
+                <bean parent="Uif-KeyLabelPair" p:key="no" p:value="Cancel"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KS-Proposal-Review-Course-ConfirmReject-Dialog" parent="KS-Proposal-Review-Course-ConfirmReject-Dialog-parentBean"/>
+    <bean id="KS-Proposal-Review-Course-ConfirmReject-Dialog-parentBean" parent="Uif-DialogGroup" abstract="true" class="org.kuali.student.cm.uif.container.CMDialogGroup">
+        <property name="renderHeader" value="true"/>
+        <property name="OnShowDialogScript" value="skipDirtyChecks();" />
+        <property name="header">
+            <bean parent="Uif-HeaderTwo" p:headerText="Reject Proposal"
+                  p:cssClasses="ks-dottedHeaderActions"/>
+        </property>
+        <property name="cssClasses" >
+            <list merge="true">
+                <value>returntopreviousnode_dialog</value>
+            </list>
+        </property>
+        <property name="promptText"
+                  value="You are rejecting the &quot;@{#uiHelper.proposalName}&quot; proposal. You must enter a Decision Rationale."/>
+        <property name="displayExplanation" value="false"/>
+        <property name="items">
+            <list>
+                <bean id="CM-DecisionRationale-Reject-Message" parent="CM-DecisionRationale-MessageSection"/>
+                <!-- manually add back in the explanation field and force the render flag -->
+                <bean id="CM-Reject-Dialog-Explanation" parent="KS-CM-DialogExplanation" p:render="true"
+                      p:label="Decision Rationale"/>
+            </list>
+        </property>
+        <property name="availableResponses">
+            <list>
+                <bean parent="Uif-KeyLabelPair" p:key="yes" p:value="Reject"/>
                 <bean parent="Uif-KeyLabelPair" p:key="no" p:value="Cancel"/>
             </list>
         </property>

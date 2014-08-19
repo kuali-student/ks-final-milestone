@@ -464,6 +464,55 @@ public class CourseController extends CourseRuleEditorController {
     }
 
     /**
+     * This method is called form the UI when a user wants to reject/disapprove a proposal.
+     * @param form
+     * @param result
+     * @param request
+     * @param response
+     * @return modelAndView object
+     * @throws Exception
+     */
+    @Override
+    public ModelAndView disapprove(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        CourseInfoWrapper courseInfoWrapper = getCourseInfoWrapper(form);
+        courseInfoWrapper.getUiHelper().setShowMessage(false);
+        String dialog = CurriculumManagementConstants.COURSE_REJECT_CONFIRMATION_DIALOG;
+        if ( ! hasDialogBeenDisplayed(dialog, form)) {
+            if (!GlobalVariables.getMessageMap().hasErrors()) {
+                //redirect back to client to display reject rationale dialog
+                return showDialog(dialog, form, request, response);
+            }
+        } else {
+            if (hasDialogBeenAnswered(dialog, form)) {
+                boolean confirmReject = getBooleanDialogResponse(dialog, form, request, response);
+                if (confirmReject) {
+                    //route the document only if the rationale decision explanation is not null or redirect back to client to display confirm dialog with error
+                    if(courseInfoWrapper.getUiHelper().getDialogExplanations().get(dialog)!=null){
+                        super.disapprove(form, result, request, response);
+                        addDecisionRationale(courseInfoWrapper.getProposalInfo().getId(), courseInfoWrapper.getUiHelper().getDialogExplanations().get(dialog), CommentServiceConstants.WORKFLOW_DECISIONS.REJECT.getType());
+                        // setShowMessage boolean decides whether to show the error message or not
+                        courseInfoWrapper.getUiHelper().setShowMessage(false);
+                        form.getDialogManager().removeDialog(dialog);
+                        // Set the request redirect to false so that the user stays on the same page
+                        form.setRequestRedirected(false);
+                        // Hide all the workflow action buttons on the review proposal page while the document is still in Enroute state(It is being processed at the back-end)
+                        courseInfoWrapper.getUiHelper().setPendingWorkflowAction(true);
+                    } else {
+                        form.getDialogManager().resetDialogStatus(dialog);
+                        courseInfoWrapper.getUiHelper().setShowMessage(true);
+                        return showDialog(dialog, form, request, response);
+                    }
+                } else {
+                    form.getDialogManager().removeDialog(dialog);
+                }
+            }else{
+                return showDialog(dialog, form, request, response);
+            }
+        }
+        return getUIFModelAndView(form);
+    }
+
+    /**
      * This method performs the KRAD UI data dictionary and Service layer data dictionary validation before it routes the document instance contained on the form.
      *
      * @param form - the form of the current users session

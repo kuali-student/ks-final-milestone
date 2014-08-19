@@ -194,6 +194,7 @@ public class CurriculumManagementConstants {
     public final static String COURSE_APPROVE_CONFIRMATION_DIALOG = "CM-Proposal-Review-Course-ConfirmApprove-Dialog";
     public final static String COURSE_BLANKET_APPROVE_CONFIRMATION_DIALOG = "CM-Proposal-Review-Course-ConfirmBlanketApprove-Dialog";
     public final static String COURSE_ACKNOWLEDGE_CONFIRMATION_DIALOG = "CM-Proposal-Review-Course-Acknowledge-Dialog";
+    public final static String COURSE_REJECT_CONFIRMATION_DIALOG = "CM-Proposal-Review-Course-ConfirmReject-Dialog";
 
     public static final String DATA_OBJECT_PATH = KRADPropertyConstants.DOCUMENT + "."
             + KRADPropertyConstants.NEW_MAINTAINABLE_OBJECT + ".dataObject";
