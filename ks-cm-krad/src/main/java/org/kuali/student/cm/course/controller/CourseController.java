@@ -574,7 +574,7 @@ public class CourseController extends CourseRuleEditorController {
                 if (confirmReturn) {
                     //route the document only if the rationale decision explanation is not null or redirect back to client to display confirm dialog with error
                     if(courseInfoWrapper.getUiHelper().getDialogExplanations().get(dialog)!=null){
-                        performReturnToPreviousNode(form,result, request,response, WorkflowActions.RETURN_TO_PREVIOUS);
+                        performCustomWorkflowAction(form,result, request,response, WorkflowActions.RETURN_TO_PREVIOUS);
                         addDecisionRationale(courseInfoWrapper.getProposalInfo().getId(), courseInfoWrapper.getUiHelper().getDialogExplanations().get(dialog), CommentServiceConstants.WORKFLOW_DECISIONS.RETURN_TO_PREVIOUS.getType());
                         // setShowMessage boolean decides whether to show the error message or not
                         courseInfoWrapper.getUiHelper().setShowMessage(false);
@@ -599,7 +599,7 @@ public class CourseController extends CourseRuleEditorController {
         return getUIFModelAndView(form);
     }
 
-    protected void performReturnToPreviousNode(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result,
+    protected void performCustomWorkflowAction(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result,
                                                     HttpServletRequest request, HttpServletResponse response, String action) {
         CourseControllerTransactionHelper helper = GlobalResourceLoader.getService(new QName(CommonServiceConstants.REF_OBJECT_URI_GLOBAL_PREFIX + "courseControllerTransactionHelper", CourseControllerTransactionHelper.class.getSimpleName()));
         helper.performCustomWorkflowActionSuper(form, action, this);
