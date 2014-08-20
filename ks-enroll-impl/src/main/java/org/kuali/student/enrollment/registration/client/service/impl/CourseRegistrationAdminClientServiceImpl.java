@@ -132,17 +132,14 @@ public class CourseRegistrationAdminClientServiceImpl extends CourseRegistration
 
     /**
      * Finds all LPRs for a given personId and deletes them. If term is passed - deletes LPRs only for that term.
-     * Returns an empty List of StudentScheduleCourseResult
+     * Returns an empty List of StudentScheduleCourseResult.
+     *
+     * This method goes directly to the database, bypassing the registration engine.
      *
      * @param personId Principal ID
      * @param termId - optional
      * @param termCode - optional, human readable code representing the term. ex: 201208
      * @return Empty Response Object or Response object with Error text
-     * @throws org.kuali.student.r2.common.exceptions.InvalidParameterException
-     * @throws org.kuali.student.r2.common.exceptions.MissingParameterException
-     * @throws org.kuali.student.r2.common.exceptions.OperationFailedException
-     * @throws org.kuali.student.r2.common.exceptions.PermissionDeniedException
-     * @throws org.kuali.student.r2.common.exceptions.DoesNotExistException
      */
     @Override
     public Response clearLPRsByPersonRS(String personId, String termId, String termCode) {

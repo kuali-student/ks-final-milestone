@@ -50,7 +50,7 @@ public interface CourseRegistrationAdminClientService {
      * @return Empty Response Object or Response object with Error text
      */
     @DELETE
-    @Path("/clearpersonlprs")
+    @Path("/clearSchedule")
     Response clearLPRsByPersonRS(@QueryParam("person") String personId,
                                  @QueryParam("termId") String termId,
                                  @QueryParam("termCode") String termCode);
