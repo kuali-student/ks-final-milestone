@@ -10,6 +10,7 @@
     <import resource="classpath:META-INF/default-property-config-context-test.xml"/>
     <import resource="classpath:ks-test-system-property-configurer.xml"/>
     <import resource="classpath:ks-core-test-data-dictionary-configuration.xml"/>
+    <import resource="classpath:ks-enroll-mock-academic-service.xml"/>
 
     <bean id="AtomikosTxMgr"
           class="com.atomikos.icatch.jta.UserTransactionManager"

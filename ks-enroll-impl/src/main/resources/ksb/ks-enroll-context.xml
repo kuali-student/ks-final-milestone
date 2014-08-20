@@ -1847,10 +1847,13 @@
                 <bean class="org.kuali.student.enrollment.krms.termresolver.RegistrationRequest2AtpIdTermResolver" />
                 <bean class="org.kuali.student.enrollment.krms.termresolver.RegistrationRequestId2RegistrationRequestTermResolver" />
                 <bean class="org.kuali.student.core.krms.termresolver.AtpId2AtpTermResolver" />
+                <bean class="org.kuali.student.enrollment.class2.courseoffering.krms.termresolver.StudentWithGradeForCourseTermResolver" />
+                <bean class="org.kuali.student.enrollment.class2.courseoffering.krms.termresolver.CourseCompletedAttemptsTermResolver" />
+                <bean class="org.kuali.student.enrollment.class2.courseoffering.krms.termresolver.CourseRegisteredCountTermResolver" />
+                <bean class="org.kuali.student.enrollment.class2.courseoffering.krms.termresolver.CourseTotalAttemptsTermResolver" />
                 <bean class="org.kuali.student.enrollment.class2.courseoffering.krms.termresolver.CourseRecordForStudentTermResolver">
                     <property name="academicRecordService" ref="academicRecordServiceCurrent"/>
                 </bean>
-                <bean class="org.kuali.student.enrollment.class2.courseoffering.krms.termresolver.StudentWithGradeForCourseTermResolver" />
                 <bean class="org.kuali.student.enrollment.class2.courseoffering.krms.termresolver.GesValueTermResolver">
                     <property name="gesService" ref="GesService"/>
                 </bean>

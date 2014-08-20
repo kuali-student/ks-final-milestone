@@ -23,6 +23,7 @@ import org.kuali.student.lum.lrc.service.util.MockLrcTestDataLoader;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.LocaleInfo;
 import org.kuali.student.r2.common.krms.data.KRMSEnrollmentEligibilityDataLoader;
+import org.kuali.student.r2.common.util.constants.AcademicRecordServiceConstants;
 import org.kuali.student.r2.core.atp.service.AtpService;
 import org.kuali.student.r2.core.class1.organization.service.impl.OrgTestDataLoader;
 import org.kuali.student.r2.core.constants.KSKRMSServiceConstants;
@@ -37,6 +38,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -89,6 +91,9 @@ public class TestTermResolvers {
 
     @Resource(name="gesServiceDataLoader")
     private AbstractMockServicesAwareDataLoader gesServiceDataLoader;
+
+    @Resource(name="studentToCourseRecordsMap")
+    private Map<String, List<StudentCourseRecordInfo>> studentToCourseRecordsMap;
 
     @Before
     public void setUp() throws Exception {
@@ -885,6 +890,79 @@ public class TestTermResolvers {
 
         assertNotNull(records);
         assertTrue(records.isEmpty());
+    }
+
+    @Test
+    public void testCourseCompletedAttemptsTermResolver() throws Exception {
+        //Setup the term resolver
+        CourseCompletedAttemptsTermResolver termResolver = new CourseCompletedAttemptsTermResolver();
+
+        List<StudentCourseRecordInfo> list01=studentToCourseRecordsMap.get("R.JESSICAL");
+        List<StudentCourseRecordInfo> list02=studentToCourseRecordsMap.get("R.JOHANNAC");
+
+        //Setup data for first test (all courses complete)
+        resolvedPrereqs.put(KSKRMSServiceConstants.TERM_RESOLVER_COURSE_RECORD_FOR_STUDENT, list01);
+
+        //Validate the term resolver
+        validateTermResolver(termResolver, resolvedPrereqs, parameters,
+                KSKRMSServiceConstants.TERM_RESOLVER_COURSE_COMPLETED_ATTEMPTS);
+
+        //Evaluate Term Resolver for the first test
+        Integer completedAttempts = termResolver.resolve(resolvedPrereqs, parameters);
+        assertNotNull(completedAttempts);
+        assertEquals(completedAttempts.intValue(), 2);
+
+        //Setup data for second test (one course withdrawn)
+        resolvedPrereqs.put(KSKRMSServiceConstants.TERM_RESOLVER_COURSE_RECORD_FOR_STUDENT, list02);
+
+        //Evaluate term Resolver for the second test
+        completedAttempts = termResolver.resolve(resolvedPrereqs, parameters);
+        assertNotNull(completedAttempts);
+        assertEquals(completedAttempts.intValue(), 1);
+    }
+
+    @Test
+    public void testCourseRegisteredCountTermResolver() throws Exception {
+        //Setup the term resolver
+        CourseRegisteredCountTermResolver termResolver = new CourseRegisteredCountTermResolver();
+
+        StudentCourseRecordInfo registeredCourse = new StudentCourseRecordInfo();
+        registeredCourse.setStateKey(AcademicRecordServiceConstants.COURSE_STATE_REGISTERED);
+
+        List<StudentCourseRecordInfo> courseRecordList = new ArrayList<>();
+        courseRecordList.addAll(studentToCourseRecordsMap.get("R.JESSICAL"));
+        courseRecordList.add(registeredCourse);
+
+        //Setup data for test
+        resolvedPrereqs.put(KSKRMSServiceConstants.TERM_RESOLVER_COURSE_RECORD_FOR_STUDENT, courseRecordList);
+
+        //Validate the term resolver
+        validateTermResolver(termResolver, resolvedPrereqs, parameters,
+                KSKRMSServiceConstants.TERM_RESOLVER_COURSE_REGISTERED_COUNT);
+
+        //Evaluate Term Resolver
+        Integer registeredCount = termResolver.resolve(resolvedPrereqs, parameters);
+        assertNotNull(registeredCount);
+        assertEquals(registeredCount.intValue(), 1);
+    }
+
+    @Test
+    public void testCourseTotalAttemptsTermResolver() throws Exception {
+        //Setup the term resolver
+        CourseTotalAttemptsTermResolver termResolver = new CourseTotalAttemptsTermResolver();
+
+        //Setup data for test
+        resolvedPrereqs.put(KSKRMSServiceConstants.TERM_RESOLVER_COURSE_COMPLETED_ATTEMPTS, 2);
+        resolvedPrereqs.put(KSKRMSServiceConstants.TERM_RESOLVER_COURSE_REGISTERED_COUNT, 1);
+
+        //Validate the term resolver
+        validateTermResolver(termResolver, resolvedPrereqs, parameters,
+                KSKRMSServiceConstants.TERM_RESOLVER_COURSE_TOTAL_ATTEMPTS);
+
+        //Evaluate Term Resolver
+        Integer registeredCount = termResolver.resolve(resolvedPrereqs, parameters);
+        assertNotNull(registeredCount);
+        assertEquals(registeredCount.intValue(), 3);
     }
 
     @Test

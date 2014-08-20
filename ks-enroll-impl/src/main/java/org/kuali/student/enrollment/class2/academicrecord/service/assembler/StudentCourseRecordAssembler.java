@@ -4,19 +4,21 @@ import org.kuali.student.enrollment.academicrecord.dto.StudentCourseRecordInfo;
 import org.kuali.student.enrollment.courseregistration.dto.CourseRegistrationInfo;
 import org.kuali.student.enrollment.grading.dto.GradeRosterEntryInfo;
 import org.kuali.student.enrollment.grading.service.GradingService;
-
-import org.kuali.student.enrollment.lui.service.LuiService;
-import org.kuali.student.enrollment.lui.dto.LuiInfo;
 import org.kuali.student.enrollment.lui.dto.LuiIdentifierInfo;
-
+import org.kuali.student.enrollment.lui.dto.LuiInfo;
+import org.kuali.student.enrollment.lui.service.LuiService;
 import org.kuali.student.r2.common.assembler.AssemblyException;
 import org.kuali.student.r2.common.assembler.DTOAssembler;
 import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.exceptions.*;
-
+import org.kuali.student.r2.common.exceptions.DisabledIdentifierException;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.exceptions.MissingParameterException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.common.util.constants.AcademicRecordServiceConstants;
 import org.kuali.student.r2.core.atp.dto.AtpInfo;
 import org.kuali.student.r2.core.atp.service.AtpService;
-
 import org.kuali.student.r2.lum.lrc.dto.ResultValueInfo;
 import org.kuali.student.r2.lum.lrc.service.LRCService;
 
@@ -97,6 +99,7 @@ public class StudentCourseRecordAssembler
                 courseRecord.setAdministrativeGradeScaleKey(getScaleKey(finalRosterEntry.getAdministrativeGradeKey(), context));
                 courseRecord.setCalculatedGradeValue(getValue(finalRosterEntry.getCalculatedGradeKey(), context));
                 courseRecord.setCalculatedGradeScaleKey(getScaleKey(finalRosterEntry.getCalculatedGradeKey(), context));
+                courseRecord.setStateKey(AcademicRecordServiceConstants.COURSE_STATE_REGISTERED);
                 
             } catch (DisabledIdentifierException e) {
                 throw new AssemblyException("DisabledIdentifierException: " + e.getMessage());
@@ -123,9 +126,9 @@ public class StudentCourseRecordAssembler
 	
 	private String getValue(String key, ContextInfo context) throws AssemblyException {
 		String value = null;
-		if(key != null){
+		if (key != null) {
 			try {
-				if(lrcService != null){
+				if (lrcService != null) {
 					ResultValueInfo resultValue = lrcService.getResultValue(key, context);
 					value = resultValue.getValue();
 				}
@@ -147,9 +150,9 @@ public class StudentCourseRecordAssembler
 	
 	private String getScaleKey(String key, ContextInfo context) throws AssemblyException {
 		String scaleKey = null;
-		if(key != null){
+		if (key != null) {
 			try {
-				if(lrcService != null){
+				if (lrcService != null) {
 					ResultValueInfo resultValue = lrcService.getResultValue(key, context);
 					scaleKey = resultValue.getResultScaleKey();
 				}

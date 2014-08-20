@@ -27,6 +27,7 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.util.constants.LprServiceConstants;
 import org.kuali.student.r2.core.class1.util.ValidationUtils;
+import org.kuali.student.r2.core.constants.KSKRMSServiceConstants;
 import org.kuali.student.r2.core.constants.ProcessServiceConstants;
 
 import java.util.ArrayList;
@@ -118,6 +119,7 @@ public class CourseRegistrationServiceProcessCheckDecorator
             MissingParameterException,
             OperationFailedException,
             PermissionDeniedException {
+
         Proposition prop = new ProcessProposition(ProcessServiceConstants.PROCESS_KEY_ELIGIBLE_FOR_COURSES);
         Map<String, Object> executionFacts = new LinkedHashMap<>();
 
@@ -155,6 +157,11 @@ public class CourseRegistrationServiceProcessCheckDecorator
             //Look up some reg group info
             RegistrationGroupInfo registrationGroupInfo = courseOfferingService.getRegistrationGroup(requestItem.getRegistrationGroupId(), contextInfo);
 
+            //Reset the total attempts counters
+            executionFacts.remove(KSKRMSServiceConstants.TERM_RESOLVER_COURSE_COMPLETED_ATTEMPTS);
+            executionFacts.remove(KSKRMSServiceConstants.TERM_RESOLVER_COURSE_REGISTERED_COUNT);
+            executionFacts.remove(KSKRMSServiceConstants.TERM_RESOLVER_COURSE_TOTAL_ATTEMPTS);
+
             //Put In facts that are needed for each reg request
             executionFacts.put(RulesExecutionConstants.REGISTRATION_GROUP_TERM.getName(), registrationGroupInfo);
             executionFacts.put(RulesExecutionConstants.REGISTRATION_REQUEST_ITEM_TERM.getName(), requestItem);
@@ -172,7 +179,7 @@ public class CourseRegistrationServiceProcessCheckDecorator
             allValidationResults.addAll(itemValidationResults);
 
             //If there are no errors add this request item to the list of simulated "successful" items
-            if(!ValidationUtils.checkForErrors(itemValidationResults)){
+            if (!ValidationUtils.checkForErrors(itemValidationResults)) {
                 simulatedCourses.add(convertRequestItemToCourseRegistration(requestItem, registrationGroupInfo));
             }
         }
