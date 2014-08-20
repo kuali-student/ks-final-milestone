@@ -102,7 +102,8 @@ angular.module('regCartApp')
         waitlistNotOffered: 'kuali.lpr.trans.message.waitlist.not.offered',      //"No seats available.<br/>(Waitlist not offered)"
         transactionException: 'kuali.lpr.trans.message.exception',
         transactionItemException: 'kuali.lpr.trans.item.message.exception',
-        courseNotOpen: 'kuali.lpr.trans.message.course.not.open'
+        courseNotOpen: 'kuali.lpr.trans.message.course.not.open',
+        courseGradeIncomplete: 'kuali.lpr.trans.message.course.grade.incomplete' // Student has an incomplete already in the course
     })
 
     .constant('GENERAL_ERROR_TYPE', {

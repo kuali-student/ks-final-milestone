@@ -35,7 +35,7 @@ angular.module('regCartApp').filter('formatValidationMessage', ['VALIDATION_ERRO
                         break;
 
                     case GENERAL_ERROR_TYPE.noRegGroup:
-                        message = formatCourse(data);
+                        message = formatCourse(data.txt, data.course);
                         break;
 
                     default:
@@ -44,7 +44,7 @@ angular.module('regCartApp').filter('formatValidationMessage', ['VALIDATION_ERRO
             }
         }
 
-        return message;
+        return formatCourse(message);
     };
 
     /**
@@ -136,13 +136,25 @@ angular.module('regCartApp').filter('formatValidationMessage', ['VALIDATION_ERRO
         return message;
     }
 
-    function formatCourse(data) {
-        var message = '';
+    function formatCourse(message, course) {
+        var courseCode = '';
+        if (angular.isString(course)) {
+            courseCode = course;
+        } else if (course && angular.isDefined(course.courseCode)) {
+            courseCode = course.courseCode;
+        } else {
+            // No course code found.
+            return message;
+        }
 
-        if (typeof(data.course) === 'string') {
-            if (data.txt !== '' && data.txt.indexOf(data.course) !== -1) {
-                message = data.txt.replace(data.course, '<strong>' + data.course + '</strong>');
-            }
+        // Replace any {{courseCode}} parameters with the courseCode value
+        if (message.indexOf('{{courseCode}}') !== -1) {
+            message = message.replace('{{courseCode}}', courseCode);
+        }
+
+        // Wrap the course code with <strong></strong>
+        if (message.indexOf(courseCode) !== -1) {
+            message = message.replace(courseCode, '<strong>' + courseCode + '</strong>');
         }
 
         return message;

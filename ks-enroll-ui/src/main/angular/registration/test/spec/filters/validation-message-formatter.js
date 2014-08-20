@@ -73,10 +73,22 @@ describe('Filter: FormatValidationMessage', function() {
         expect(filter('test message')).toBe('test message');
     });
 
+    it('should format the {{courseCode}} parameter in a message string correctly', function() {
+        expect(filter("Course {{courseCode}} Should Be 'code1'", { courseCode: 'code1' })).toContain('code1');
+    });
 
     describe('max credits', function() {
         it('should format the message correctly', function() {
+            // Base case
             expect(filterWithKey(VALIDATION_ERROR_TYPE.maxCredits)).toBe('Reached maximum credit limit');
+
+
+            // With maxCredits included
+            var max = '20.5',
+                msg = filter({messageKey: VALIDATION_ERROR_TYPE.maxCredits, maxCredits: max});
+
+            expect(msg).toContain('Reached maximum credit limit');
+            expect(msg).toContain(max + ' credits');
         });
 
         it('should handle a null course', function() {
