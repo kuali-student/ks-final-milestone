@@ -126,7 +126,7 @@ public class CourseLookupableImpl extends KSLookupableImpl implements CourseLook
 
         Properties props = new Properties();
         props.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, KRADConstants.START_METHOD);
-        props.put(UifConstants.UrlParams.VIEW_ID, CurriculumManagementConstants.CourseViewPageIds.VIEW_COURSE_VIEW);
+        props.put(UifConstants.UrlParams.VIEW_ID, CurriculumManagementConstants.CourseViewIds.VIEW_COURSE_VIEW);
         props.put("courseId", cluId);
         props.put(KRADConstants.RETURN_LOCATION_PARAMETER, CMUtils.getCMHomeUrl());
 

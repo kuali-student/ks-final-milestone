@@ -130,7 +130,7 @@
         <property name="propertyReplacers">
             <list>
                 <bean parent="Uif-ConditionalBeanPropertyReplacer" p:propertyName="validationMessages"
-                      p:condition="@{#form.viewId eq T(org.kuali.student.cm.common.util.CurriculumManagementConstants$CourseViewPageIds).VIEW_COURSE_VIEW}">
+                      p:condition="@{#form.viewId eq T(org.kuali.student.cm.common.util.CurriculumManagementConstants$CourseViewIds).VIEW_COURSE_VIEW}">
                     <property name="replacement">
                         <ref bean="KS-ValidationMessages-Off" />
                     </property>
@@ -220,7 +220,7 @@
                 <!-- This is to remove requiredness indicator from the view course while leaving it intact for review proposal -->
                 <bean parent="Uif-ConditionalBeanPropertyReplacer"
                       p:propertyName="simpleConstraint"
-                      p:condition="@{#form.viewId eq T(org.kuali.student.cm.common.util.CurriculumManagementConstants$CourseViewPageIds).VIEW_COURSE_VIEW}">
+                      p:condition="@{#form.viewId eq T(org.kuali.student.cm.common.util.CurriculumManagementConstants$CourseViewIds).VIEW_COURSE_VIEW}">
                     <property name="replacement">
                         <bean parent="SimpleConstraint" p:required="false"/>
                     </property>
@@ -254,7 +254,7 @@
 
     <bean id="CM-ViewCourseView-ReviewConstraint-Approve-PropertyReplacer" parent="Uif-ConditionalBeanPropertyReplacer"
           p:propertyName="simpleConstraint"
-          p:condition="@{#form.viewId eq T(org.kuali.student.cm.common.util.CurriculumManagementConstants$CourseViewPageIds).CREATE_COURSE_VIEW}">
+          p:condition="@{#form.viewId eq T(org.kuali.student.cm.common.util.CurriculumManagementConstants$CourseViewIds).CREATE_COURSE_VIEW}">
         <property name="replacement">
             <bean parent="CM-RequiredConstraints-Approve"/>
         </property>
@@ -262,7 +262,7 @@
 
     <bean id="CM-ViewCourseView-ReviewConstraint-PropertyReplacer" parent="Uif-ConditionalBeanPropertyReplacer"
             p:propertyName="simpleConstraint"
-            p:condition="@{#form.viewId eq T(org.kuali.student.cm.common.util.CurriculumManagementConstants$CourseViewPageIds).CREATE_COURSE_VIEW}">
+            p:condition="@{#form.viewId eq T(org.kuali.student.cm.common.util.CurriculumManagementConstants$CourseViewIds).CREATE_COURSE_VIEW}">
             <property name="replacement">
                 <bean parent="CM-RequiredConstraints-Enroute"/>
             </property>
@@ -270,7 +270,7 @@
 
     <bean id="CM-ViewCourseView-ReviewConstraintMaxLength-PropertyReplacer" parent="Uif-ConditionalBeanPropertyReplacer"
             p:propertyName="simpleConstraint"
-            p:condition="@{#form.viewId eq T(org.kuali.student.cm.common.util.CurriculumManagementConstants$CourseViewPageIds).CREATE_COURSE_VIEW}">
+            p:condition="@{#form.viewId eq T(org.kuali.student.cm.common.util.CurriculumManagementConstants$CourseViewIds).CREATE_COURSE_VIEW}">
             <property name="replacement">
                 <bean parent="CM-RequiredConstraints-Enroute" p:maxLength="1000"/>
             </property>
@@ -285,7 +285,7 @@
                     <property name="items">
                         <list>
                             <bean parent="CM-ReadOnlyInput" p:label="Proposal Title" id="CM-ViewCourseView-CourseInfo-Proposal-Name"
-                                  p:propertyName="proposalInfo.name" p:render="@{#form.viewId eq T(org.kuali.student.cm.common.util.CurriculumManagementConstants$CourseViewPageIds).CREATE_COURSE_VIEW}"/>
+                                  p:propertyName="proposalInfo.name" p:render="@{#form.viewId eq T(org.kuali.student.cm.common.util.CurriculumManagementConstants$CourseViewIds).CREATE_COURSE_VIEW}"/>
                             <bean parent="CM-ReadOnlyInput" p:label="Course Title" id="CM-ViewCourseView-CourseInfo-Course-Title"
                                   p:propertyName="courseInfo.courseTitle"/>
                             <bean parent="CM-ReadOnlyInput" p:label="Transcript Course Title"
@@ -314,7 +314,7 @@
                                 </property>
                             </bean>
                             <bean parent="CM-ReadOnlyInput" p:label="Proposal Rationale" id="CM-ViewCourseView-CourseInfo-Rationale"
-                                  p:propertyName="proposalInfo.rationale.plain" p:render="@{#form.viewId eq T(org.kuali.student.cm.common.util.CurriculumManagementConstants$CourseViewPageIds).CREATE_COURSE_VIEW}">
+                                  p:propertyName="proposalInfo.rationale.plain" p:render="@{#form.viewId eq T(org.kuali.student.cm.common.util.CurriculumManagementConstants$CourseViewIds).CREATE_COURSE_VIEW}">
                                 <!-- TODO:KSCM-2099 This is a temporary fix till the KRAD Data Dictionary works properly -->
                                 <property name="simpleConstraint">
                                     <bean parent="CM-RequiredConstraints-Enroute" p:maxLength="1000"/>
@@ -426,7 +426,7 @@
                             </bean>
                             <bean parent="CM-ReadOnlyInput" p:label="Final Exam Rationale"
                                   id="CM-ViewCourseView-Logistics-FinalExamRationale"
-                                  p:render="@{#form.viewId eq T(org.kuali.student.cm.common.util.CurriculumManagementConstants$CourseViewPageIds).CREATE_COURSE_VIEW}"
+                                  p:render="@{#form.viewId eq T(org.kuali.student.cm.common.util.CurriculumManagementConstants$CourseViewIds).CREATE_COURSE_VIEW}"
                                   p:propertyName="reviewProposalDisplay.courseLogisticsSection.finalExamStatusRationale"/>
 
                             <!-- This bean gets rendered if the outComes collection has items. Otherwise, the one below does. -->
@@ -435,7 +435,7 @@
                             <!-- This bean gets rendered if the outComes collection is empty. Otherwise, the one above does. -->
                             <bean parent="CM-ReadOnlyInput" p:label="Outcomes"
                                   p:propertyName="reviewProposalDisplay.courseLogisticsSection.emptyStringOutcomes"
-                                  p:render="@{#form.viewId eq T(org.kuali.student.cm.common.util.CurriculumManagementConstants$CourseViewPageIds).CREATE_COURSE_VIEW and
+                                  p:render="@{#form.viewId eq T(org.kuali.student.cm.common.util.CurriculumManagementConstants$CourseViewIds).CREATE_COURSE_VIEW and
                                               #emptyList(#dataObject.reviewProposalDisplay.courseLogisticsSection.outcomes)}">
                                 <!-- Make required for state enroute  -->
                                 <property name="simpleConstraint">
@@ -449,7 +449,7 @@
                             <!-- This bean gets rendered if the outComes collection is empty. Otherwise, the one above does. -->
                             <bean parent="CM-ReadOnlyInput" p:label="Course Formats" id="emptyStringFormats"
                                   p:propertyName="reviewProposalDisplay.courseLogisticsSection.emptyStringFormats"
-                                  p:render="@{#form.viewId eq T(org.kuali.student.cm.common.util.CurriculumManagementConstants$CourseViewPageIds).CREATE_COURSE_VIEW and 
+                                  p:render="@{#form.viewId eq T(org.kuali.student.cm.common.util.CurriculumManagementConstants$CourseViewIds).CREATE_COURSE_VIEW and
                                             #emptyList(#dataObject.reviewProposalDisplay.courseLogisticsSection.formatInfoWrappers)}">
                                 <!-- Make required for state enroute  -->
                                 <property name="simpleConstraint">
@@ -471,7 +471,7 @@
 
     <bean id="CM-ViewCourse-View-Course-OutcomeSection" parent="Uif-VerticalFieldGroup" p:label="Outcomes" p:colSpan="3"
           p:fieldLabel.renderColon="false"
-          p:render="@{#form.viewId eq T(org.kuali.student.cm.common.util.CurriculumManagementConstants$CourseViewPageIds).VIEW_COURSE_VIEW or
+          p:render="@{#form.viewId eq T(org.kuali.student.cm.common.util.CurriculumManagementConstants$CourseViewIds).VIEW_COURSE_VIEW or
                     !#emptyList(#dataObject.reviewProposalDisplay.courseLogisticsSection.outcomes)}">
         <property name="items">
             <list>
@@ -510,7 +510,7 @@
 
     <bean id="CM-ViewCourse-View-Course-FormatSection" parent="Uif-VerticalFieldGroup" p:label="Course Formats" p:colSpan="3"
           p:fieldLabel.renderColon="false"
-          p:render="@{#form.viewId eq T(org.kuali.student.cm.common.util.CurriculumManagementConstants$CourseViewPageIds).VIEW_COURSE_VIEW or
+          p:render="@{#form.viewId eq T(org.kuali.student.cm.common.util.CurriculumManagementConstants$CourseViewIds).VIEW_COURSE_VIEW or
                      !#emptyList(#dataObject.reviewProposalDisplay.courseLogisticsSection.formatInfoWrappers)}">
         <property name="items">
             <list>
@@ -542,7 +542,7 @@
                     <property name="propertyReplacers">
                         <list>
                             <bean parent="Uif-ConditionalBeanPropertyReplacer" p:propertyName="subCollections"
-                                  p:condition="@{#form.viewId eq T(org.kuali.student.cm.common.util.CurriculumManagementConstants$CourseViewPageIds).VIEW_COURSE_VIEW}">
+                                  p:condition="@{#form.viewId eq T(org.kuali.student.cm.common.util.CurriculumManagementConstants$CourseViewIds).VIEW_COURSE_VIEW}">
                                 <property name="replacement">
                                     <list>
                                         <bean parent="CM-ViewCourse-View-Course-ActivitySection">
@@ -615,7 +615,7 @@
                         <list>
                             <!-- If there are no LOs then just show a label alone -->
                             <bean parent="Uif-ConditionalBeanPropertyReplacer" p:propertyName="items"
-                                  p:condition="@{#form.viewId eq T(org.kuali.student.cm.common.util.CurriculumManagementConstants$CourseViewPageIds).CREATE_COURSE_VIEW and #emptyList(#dataObject.loDisplayWrapperModel.loWrappers)}">
+                                  p:condition="@{#form.viewId eq T(org.kuali.student.cm.common.util.CurriculumManagementConstants$CourseViewIds).CREATE_COURSE_VIEW and #emptyList(#dataObject.loDisplayWrapperModel.loWrappers)}">
                                 <property name="replacement">
                                     <list>
                                         <bean parent="CM-ReadOnlyInput" p:label="Learning Objectives" id="emptyStringLOs"
@@ -660,7 +660,7 @@
                                 <property name="propertyReplacers">
                                     <list>
                                         <bean parent="Uif-ConditionalBeanPropertyReplacer" p:propertyName="items"
-                                              p:condition="@{#form.viewId eq T(org.kuali.student.cm.common.util.CurriculumManagementConstants$CourseViewPageIds).VIEW_COURSE_VIEW}">
+                                              p:condition="@{#form.viewId eq T(org.kuali.student.cm.common.util.CurriculumManagementConstants$CourseViewIds).VIEW_COURSE_VIEW}">
                                             <property name="replacement">
                                                 <list>
                                                     <bean parent="CM-Proposal-Course-Requisites-AgendaSection">

@@ -253,10 +253,10 @@ public class CourseController extends CourseRuleEditorController {
 
         // if page id is empty, assume we want the REVIEW page (used by workflow)
         if (StringUtils.isBlank(formBase.getPageId())) {
-            formBase.setPageId(CurriculumManagementConstants.CourseViewPageIds.REVIEW_COURSE_PROPOSAL_PAGE);
+            formBase.setPageId(CurriculumManagementConstants.CoursePageIds.REVIEW_COURSE_PROPOSAL_PAGE);
         }
 
-        if (formBase.getPageId().equals(CurriculumManagementConstants.CourseViewPageIds.REVIEW_COURSE_PROPOSAL_PAGE)) {
+        if (formBase.getPageId().equals(CurriculumManagementConstants.CoursePageIds.REVIEW_COURSE_PROPOSAL_PAGE)) {
             //  Build a redirect to the reviewCourseProposal handler for validation.
             java.util.Map requestParameterMap = request.getParameterMap();
             Properties urlParameters = new Properties();
@@ -752,7 +752,7 @@ public class CourseController extends CourseRuleEditorController {
         {
             wrapper.setMissingRequiredFields(false);
         }
-        return getUIFModelAndView(form, CurriculumManagementConstants.CourseViewPageIds.REVIEW_COURSE_PROPOSAL_PAGE);
+        return getUIFModelAndView(form, CurriculumManagementConstants.CoursePageIds.REVIEW_COURSE_PROPOSAL_PAGE);
     }
 
     /**
@@ -777,7 +777,7 @@ public class CourseController extends CourseRuleEditorController {
             wrapper.getUiHelper().setSelectedSection(section);
         }
 
-        return getUIFModelAndView(form, CurriculumManagementConstants.CourseViewPageIds.CREATE_COURSE_PAGE);
+        return getUIFModelAndView(form, CurriculumManagementConstants.CoursePageIds.CREATE_COURSE_PAGE);
     }
 
     /**
@@ -916,7 +916,7 @@ public class CourseController extends CourseRuleEditorController {
             }
             return getUIFModelAndView(form);
         } else if (StringUtils.equalsIgnoreCase(nextOrCurrentPage, "CM-Proposal-Course-View-ReviewProposalLink")) {
-            return getUIFModelAndView(form, CurriculumManagementConstants.CourseViewPageIds.REVIEW_COURSE_PROPOSAL_PAGE);
+            return getUIFModelAndView(form, CurriculumManagementConstants.CoursePageIds.REVIEW_COURSE_PROPOSAL_PAGE);
         } else {
             return getUIFModelAndView(form);
         }
@@ -945,7 +945,7 @@ public class CourseController extends CourseRuleEditorController {
             // Hide all the workflow action buttons on the review proposal page while the document is still in Enroute state(It is being processed at the back-end)
             courseInfoWrapper.getUiHelper().setPendingWorkflowAction(true);
             //redirect back to client to display confirm dialog
-            return getUIFModelAndView(form, CurriculumManagementConstants.CourseViewPageIds.REVIEW_COURSE_PROPOSAL_PAGE);
+            return getUIFModelAndView(form, CurriculumManagementConstants.CoursePageIds.REVIEW_COURSE_PROPOSAL_PAGE);
         } else {
             return getUIFModelAndView(form);
         }
@@ -1431,7 +1431,7 @@ public class CourseController extends CourseRuleEditorController {
          * It should be always 'curriculum review' for both CS and faculty users for copy.
          */
         urlParameters.put(CourseController.UrlParams.USE_CURRICULUM_REVIEW,Boolean.TRUE.toString());
-        urlParameters.put(UifConstants.UrlParams.PAGE_ID, CurriculumManagementConstants.CourseViewPageIds.CREATE_COURSE_PAGE);
+        urlParameters.put(UifConstants.UrlParams.PAGE_ID, CurriculumManagementConstants.CoursePageIds.CREATE_COURSE_PAGE);
         urlParameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, KRADConstants.Maintenance.METHOD_TO_CALL_COPY);
         urlParameters.put(KRADConstants.DATA_OBJECT_CLASS_ATTRIBUTE, CourseInfoWrapper.class.getName());
         urlParameters.put(KRADConstants.RETURN_LOCATION_PARAMETER, CMUtils.getCMHomeUrl() );
@@ -1477,70 +1477,70 @@ public class CourseController extends CourseRuleEditorController {
 
                 switch(element) {
                     case "courseTitle":
-                        if (StringUtils.equals(CurriculumManagementConstants.CourseViewPageIds.CREATE_COURSE_PAGE, form.getPageId())) {
+                        if (StringUtils.equals(CurriculumManagementConstants.CoursePageIds.CREATE_COURSE_PAGE, form.getPageId())) {
                             elementPath = CurriculumManagementConstants.DATA_OBJECT_PATH + ".courseInfo.courseTitle";
                         } else {
                             elementPath = CurriculumManagementConstants.DATA_OBJECT_PATH + ".courseInfo.courseTitle";
                         }
                         break;
                     case "subjectArea":
-                        if (StringUtils.equals(CurriculumManagementConstants.CourseViewPageIds.CREATE_COURSE_PAGE, form.getPageId())) {
+                        if (StringUtils.equals(CurriculumManagementConstants.CoursePageIds.CREATE_COURSE_PAGE, form.getPageId())) {
                             elementPath = CurriculumManagementConstants.DATA_OBJECT_PATH + ".courseInfo.subjectArea";
                         } else {
                             elementPath = CurriculumManagementConstants.DATA_OBJECT_PATH + ".courseInfo.subjectArea";
                         }
                         break;
                     case "courseNumberSuffix":
-                        if (StringUtils.equals(CurriculumManagementConstants.CourseViewPageIds.CREATE_COURSE_PAGE, form.getPageId())) {
+                        if (StringUtils.equals(CurriculumManagementConstants.CoursePageIds.CREATE_COURSE_PAGE, form.getPageId())) {
                             elementPath = CurriculumManagementConstants.DATA_OBJECT_PATH + ".courseInfo.courseNumberSuffix";
                         } else {
                             elementPath = CurriculumManagementConstants.DATA_OBJECT_PATH + ".courseInfo.courseNumberSuffix";
                         }
                         break;
                     case "campusLocations":
-                        if (StringUtils.equals(CurriculumManagementConstants.CourseViewPageIds.CREATE_COURSE_PAGE, form.getPageId())) {
+                        if (StringUtils.equals(CurriculumManagementConstants.CoursePageIds.CREATE_COURSE_PAGE, form.getPageId())) {
                             elementPath = CurriculumManagementConstants.DATA_OBJECT_PATH + ".campusLocations";
                         } else {
                             elementPath = CurriculumManagementConstants.DATA_OBJECT_PATH + ".reviewProposalDisplay.governanceSection.campusLocationsAsString";
                         }
                         break;
                     case "startTerm":
-                        if (StringUtils.equals(CurriculumManagementConstants.CourseViewPageIds.CREATE_COURSE_PAGE, form.getPageId())) {
+                        if (StringUtils.equals(CurriculumManagementConstants.CoursePageIds.CREATE_COURSE_PAGE, form.getPageId())) {
                             elementPath = CurriculumManagementConstants.DATA_OBJECT_PATH + ".courseInfo.startTerm";
                         } else {
                             elementPath = CurriculumManagementConstants.DATA_OBJECT_PATH + ".reviewProposalDisplay.activeDatesSection.startTerm";
                         }
                         break;
                     case "transcriptTitle":
-                        if (StringUtils.equals(CurriculumManagementConstants.CourseViewPageIds.CREATE_COURSE_PAGE, form.getPageId())) {
+                        if (StringUtils.equals(CurriculumManagementConstants.CoursePageIds.CREATE_COURSE_PAGE, form.getPageId())) {
                             elementPath = CurriculumManagementConstants.DATA_OBJECT_PATH + ".courseInfo.transcriptTitle";
                         } else {
                             elementPath = CurriculumManagementConstants.DATA_OBJECT_PATH + ".courseInfo.transcriptTitle";
                         }
                         break;
                     case "finalExamStatus":
-                        if (StringUtils.equals(CurriculumManagementConstants.CourseViewPageIds.CREATE_COURSE_PAGE, form.getPageId())) {
+                        if (StringUtils.equals(CurriculumManagementConstants.CoursePageIds.CREATE_COURSE_PAGE, form.getPageId())) {
                             elementPath = CurriculumManagementConstants.DATA_OBJECT_PATH + ".finalExamStatus";
                         } else {
                             elementPath = CurriculumManagementConstants.DATA_OBJECT_PATH + ".reviewProposalDisplay.courseLogisticsSection.finalExamStatus";
                         }
                         break;
                     case "finalExamRationale":
-                        if (StringUtils.equals(CurriculumManagementConstants.CourseViewPageIds.CREATE_COURSE_PAGE, form.getPageId())) {
+                        if (StringUtils.equals(CurriculumManagementConstants.CoursePageIds.CREATE_COURSE_PAGE, form.getPageId())) {
                             elementPath = CurriculumManagementConstants.DATA_OBJECT_PATH + ".finalExamRationale";
                         } else {
                             elementPath = CurriculumManagementConstants.DATA_OBJECT_PATH + ".reviewProposalDisplay.courseLogisticsSection.finalExamStatusRationale";
                         }
                         break;
                     case "gradingOptions":
-                        if (StringUtils.equals(CurriculumManagementConstants.CourseViewPageIds.CREATE_COURSE_PAGE, form.getPageId())) {
+                        if (StringUtils.equals(CurriculumManagementConstants.CoursePageIds.CREATE_COURSE_PAGE, form.getPageId())) {
                             elementPath = CurriculumManagementConstants.DATA_OBJECT_PATH + ".courseInfo.gradingOptions";
                         } else {
                             elementPath = CurriculumManagementConstants.DATA_OBJECT_PATH + ".reviewProposalDisplay.courseLogisticsSection.gradingOptionsAsString";
                         }
                         break;
                     case "unitsContentOwner":
-                        if (StringUtils.equals(CurriculumManagementConstants.CourseViewPageIds.CREATE_COURSE_PAGE, form.getPageId())) {
+                        if (StringUtils.equals(CurriculumManagementConstants.CoursePageIds.CREATE_COURSE_PAGE, form.getPageId())) {
                             String collectionPath = CurriculumManagementConstants.DATA_OBJECT_PATH + ".unitsContentOwner";
                             CollectionGroup collectionGroup = (CollectionGroup) form.getView().getViewIndex().getComponentById("CM-Proposal-Course-Governance-CurriculumOversight-Section");
                             if (collectionGroup != null) {

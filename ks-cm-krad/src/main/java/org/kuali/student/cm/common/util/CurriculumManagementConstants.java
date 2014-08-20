@@ -67,13 +67,15 @@ public class CurriculumManagementConstants {
     /**
      * The bean ids of the pages within the view.
      */
-    public static class CourseViewPageIds {
-        public final static String REVIEW_COURSE_PROPOSAL_PAGE = "CM-Proposal-Review-Course-Page";
-        public final static String CREATE_COURSE_PAGE = "CM-Proposal-Course-Create-Page";
+    public static class CourseViewIds {
         public final static String CREATE_COURSE_VIEW = "CM-Proposal-Course-Create-View";
         public final static String VIEW_COURSE_VIEW = "ViewCourseView";
         public final static String CM_HOME_VIEW = "curriculumHomeView";
-        public final static String CM_DECISION_VIEW = "CM-Proposal-Course-Decision-View";
+    }
+
+    public static class CoursePageIds {
+        public final static String REVIEW_COURSE_PROPOSAL_PAGE = "CM-Proposal-Review-Course-Page";
+        public final static String CREATE_COURSE_PAGE = "CM-Proposal-Course-Create-Page";
     }
 
     /**

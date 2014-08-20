@@ -155,10 +155,10 @@ public class CourseRule extends KsMaintenanceDocumentRuleBase {
                 List<Person> persons = getPersonService().findPeople(searchCriteria);
 
                 if (persons.isEmpty()) {
-                    GlobalVariables.getMessageMap().putErrorForSectionId(CurriculumManagementConstants.CourseViewPageIds.CREATE_COURSE_PAGE, CurriculumManagementConstants.MessageKeys.ERROR_DATA_NOT_FOUND, "Instructor", principalName);
+                    GlobalVariables.getMessageMap().putErrorForSectionId(CurriculumManagementConstants.CoursePageIds.CREATE_COURSE_PAGE, CurriculumManagementConstants.MessageKeys.ERROR_DATA_NOT_FOUND, "Instructor", principalName);
                     return false;
                 } else if (persons.size() > 1) {
-                    GlobalVariables.getMessageMap().putErrorForSectionId(CurriculumManagementConstants.CourseViewPageIds.CREATE_COURSE_PAGE, CurriculumManagementConstants.MessageKeys.ERROR_DATA_MULTIPLE_MATCH_FOUND, "Instructor", principalName);
+                    GlobalVariables.getMessageMap().putErrorForSectionId(CurriculumManagementConstants.CoursePageIds.CREATE_COURSE_PAGE, CurriculumManagementConstants.MessageKeys.ERROR_DATA_MULTIPLE_MATCH_FOUND, "Instructor", principalName);
                     return false;
                 } else {
                     try {
@@ -198,16 +198,16 @@ public class CourseRule extends KsMaintenanceDocumentRuleBase {
                 List<Person> persons = getPersonService().findPeople(searchCriteria);
 
                 if (persons.isEmpty()) {
-                    GlobalVariables.getMessageMap().putErrorForSectionId(CurriculumManagementConstants.CourseViewPageIds.CREATE_COURSE_PAGE, CurriculumManagementConstants.MessageKeys.ERROR_DATA_NOT_FOUND, "Collaborator", principalName);
+                    GlobalVariables.getMessageMap().putErrorForSectionId(CurriculumManagementConstants.CoursePageIds.CREATE_COURSE_PAGE, CurriculumManagementConstants.MessageKeys.ERROR_DATA_NOT_FOUND, "Collaborator", principalName);
                     return false;
                 } else if (persons.size() > 1) {
-                    GlobalVariables.getMessageMap().putErrorForSectionId(CurriculumManagementConstants.CourseViewPageIds.CREATE_COURSE_PAGE, CurriculumManagementConstants.MessageKeys.ERROR_DATA_MULTIPLE_MATCH_FOUND, "Collaborator", principalName);
+                    GlobalVariables.getMessageMap().putErrorForSectionId(CurriculumManagementConstants.CoursePageIds.CREATE_COURSE_PAGE, CurriculumManagementConstants.MessageKeys.ERROR_DATA_MULTIPLE_MATCH_FOUND, "Collaborator", principalName);
                     return false;
                 } else {
                     try {
                         Person collabUser = KSCollectionUtils.getOptionalZeroElement(persons);
                         if (StringUtils.equals(GlobalVariables.getUserSession().getPrincipalId(), collabUser.getPrincipalId())) {
-                            GlobalVariables.getMessageMap().putErrorForSectionId(CurriculumManagementConstants.CourseViewPageIds.CREATE_COURSE_PAGE, CurriculumManagementConstants.MessageKeys.ERROR_PROPOSAL_COLLABORATORS_CANNOT_ADD_SELF, principalName);
+                            GlobalVariables.getMessageMap().putErrorForSectionId(CurriculumManagementConstants.CoursePageIds.CREATE_COURSE_PAGE, CurriculumManagementConstants.MessageKeys.ERROR_PROPOSAL_COLLABORATORS_CANNOT_ADD_SELF, principalName);
                             return false;
                         }
                         collaboratorWrapper.setPrincipalId(collabUser.getPrincipalId());
@@ -240,10 +240,10 @@ public class CourseRule extends KsMaintenanceDocumentRuleBase {
                 List<OrganizationInfoWrapper> orgs = OrganizationSearchUtil.searchForOrganizations(organizationInfoWrapper.getOrganizationName(), getOrganizationService());
 
                 if (orgs.isEmpty()) {
-                    GlobalVariables.getMessageMap().putErrorForSectionId(CurriculumManagementConstants.CourseViewPageIds.CREATE_COURSE_PAGE, CurriculumManagementConstants.MessageKeys.ERROR_DATA_NOT_FOUND, "Org", organizationInfoWrapper.getOrganizationName());
+                    GlobalVariables.getMessageMap().putErrorForSectionId(CurriculumManagementConstants.CoursePageIds.CREATE_COURSE_PAGE, CurriculumManagementConstants.MessageKeys.ERROR_DATA_NOT_FOUND, "Org", organizationInfoWrapper.getOrganizationName());
                     return false;
                 } else if (isMultipleOrganizationInfoFound(orgs)) {
-                    GlobalVariables.getMessageMap().putErrorForSectionId(CurriculumManagementConstants.CourseViewPageIds.CREATE_COURSE_PAGE, CurriculumManagementConstants.MessageKeys.ERROR_DATA_MULTIPLE_MATCH_FOUND, "Org", organizationInfoWrapper.getOrganizationName());
+                    GlobalVariables.getMessageMap().putErrorForSectionId(CurriculumManagementConstants.CoursePageIds.CREATE_COURSE_PAGE, CurriculumManagementConstants.MessageKeys.ERROR_DATA_MULTIPLE_MATCH_FOUND, "Org", organizationInfoWrapper.getOrganizationName());
                     return false;
                 } else {
                     dataObject.getCourseInfo().getUnitsDeployment().add(getOrganizationInfoWrapper(orgs, organizationInfoWrapper.getOrganizationName()).getId());

@@ -112,7 +112,7 @@ public class CourseRuleEditorController extends RuleEditorController {
                                        HttpServletRequest request, HttpServletResponse response) {
 
         CourseInfoWrapper courseInfoWrapper = (CourseInfoWrapper)((MaintenanceDocumentForm) form).getDocument().getNewMaintainableObject().getDataObject();
-        form.getActionParameters().put(UifParameters.NAVIGATE_TO_PAGE_ID, CurriculumManagementConstants.CourseViewPageIds.CREATE_COURSE_PAGE);
+        form.getActionParameters().put(UifParameters.NAVIGATE_TO_PAGE_ID, CurriculumManagementConstants.CoursePageIds.CREATE_COURSE_PAGE);
         courseInfoWrapper.getUiHelper().setSelectedSection(CurriculumManagementConstants.CourseViewSections.getSection(CurriculumManagementConstants.CourseViewSections.COURSE_REQUISITES.getSectionId()));
         return super.cancelEditRule(form, result, request, response);
     }
@@ -153,7 +153,7 @@ public class CourseRuleEditorController extends RuleEditorController {
 
         courseInfoWrapper.getUiHelper().setSelectedSection(CurriculumManagementConstants.CourseViewSections.COURSE_REQUISITES);
 
-        return getUIFModelAndView(form, CurriculumManagementConstants.CourseViewPageIds.CREATE_COURSE_PAGE);
+        return getUIFModelAndView(form, CurriculumManagementConstants.CoursePageIds.CREATE_COURSE_PAGE);
     }
 
     @Override

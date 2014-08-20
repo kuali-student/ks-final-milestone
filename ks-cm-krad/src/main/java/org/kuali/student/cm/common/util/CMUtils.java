@@ -37,7 +37,7 @@ public class CMUtils {
 
         StringBuilder cmHomeUrl = new StringBuilder(cmHomeControllerMapping);
         cmHomeUrl.append("?" + KRADConstants.DISPATCH_REQUEST_PARAMETER + "=").append(KRADConstants.START_METHOD);
-        cmHomeUrl.append("&" + UifConstants.UrlParams.VIEW_ID + "=").append(CurriculumManagementConstants.CourseViewPageIds.CM_HOME_VIEW);
+        cmHomeUrl.append("&" + UifConstants.UrlParams.VIEW_ID + "=").append(CurriculumManagementConstants.CourseViewIds.CM_HOME_VIEW);
 
         return cmHomeUrl.toString();
     }
