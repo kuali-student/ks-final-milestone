@@ -53,7 +53,7 @@
           p:creditsEarned="3"
             />
     <bean id="R.JESSICAR-1" class="org.kuali.student.enrollment.academicrecord.dto.StudentCourseRecordInfo"
-          p:id="TBA"
+          p:id="b1b40dfa-7b31-44f8-a68e-7084db13db69"
           p:typeKey="kuali.academic.record.type.student.course"
           p:stateKey="kuali.academic.record.course.state.completed"
           p:courseOfferingId="TBD"
