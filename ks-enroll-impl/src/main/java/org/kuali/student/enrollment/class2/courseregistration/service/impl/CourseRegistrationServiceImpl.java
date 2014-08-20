@@ -33,6 +33,7 @@ import org.kuali.student.r2.lum.util.constants.LrcServiceConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.jms.core.JmsTemplate;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.jms.JMSException;
@@ -70,11 +71,12 @@ public class CourseRegistrationServiceImpl extends AbstractCourseRegistrationSer
      * @throws PermissionDeniedException
      */
     @Override
+    @Transactional(propagation = Propagation.NOT_SUPPORTED)
     public RegistrationRequestInfo submitRegistrationRequest(String registrationRequestId, ContextInfo contextInfo)
             throws AlreadyExistsException, DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
 
-        LOG.info("Submitting Registration Request");
+        LOG.info("Submitting Registration Request for id:"+registrationRequestId);
 
         // had to create transactional helper methods
         RegistrationRequestInfo regRequestInfo =  getRegistrationRequestToSubmit(registrationRequestId,contextInfo);
