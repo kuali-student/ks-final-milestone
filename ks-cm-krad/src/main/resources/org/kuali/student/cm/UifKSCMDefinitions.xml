@@ -59,42 +59,7 @@
             <null/>
         </property>
         <property name="fieldLabel">
-            <bean parent="CM-StateAware-Label"/>
-        </property>
-    </bean>
-
-    <!--
-        An extended Uif-Label which conditionally replaces the requiredIndicator text based on workflow state.
-        This can be used for any input (not just required ones) because it doesn't get displayed unless the
-        simpleConstraint#required property true.
-    -->
-    <bean id="CM-StateAware-Label" parent="CM-StateAware-Label-parent" abstract="true" />
-    <bean id="CM-StateAware-Label-parent" parent="Uif-Label" abstract="true">
-        <property name="renderColon" value="false"/>
-        <property name="cssClasses">
-            <list merge="true">
-                <value>cm_requiredMessage_text</value>
-            </list>
-        </property>
-        <property name="propertyReplacers">
-            <list>
-                <bean parent="Uif-ConditionalBeanPropertyReplacer"
-                    p:propertyName="requiredIndicator"
-                    p:condition="@{#workflowDoc.saved}" >
-                    <property name="replacement">
-                        <!-- This should be read from the message service -->
-                        <value>Required for Submit</value>
-                    </property>
-                </bean>
-                <bean parent="Uif-ConditionalBeanPropertyReplacer"
-                     p:propertyName="requiredIndicator"
-                     p:condition="@{#workflowDoc.enroute}" >
-                    <property name="replacement">
-                        <!-- This should be read from the message service -->
-                        <value>Required for Approval</value>
-                    </property>
-                </bean>
-            </list>
+            <bean parent="CM-Required-Label"/>
         </property>
     </bean>
 
@@ -102,53 +67,15 @@
     <bean id="CM-IconLabelMessage-parentBean" parent="Uif-Message-parentBean" abstract="true"
           class="org.kuali.student.cm.uif.element.CMIconLabelMessage" scope="prototype" />
 
-    <!-- A section header that can display and info icon with a tooltip. -->
+    <!-- A section header that can display and info icon with a tooltip. As well as a required indicator (in the rightGroup). -->
     <bean id="Uif-KS-IconHeader" parent="Uif-SectionHeader">
         <property name="richHeaderMessage">
             <bean parent="CM-IconLabelMessage"/>
         </property>
-    </bean>
-
-    <!-- Provides required indicator text in section headers. -->
-    <bean id="CM-StateAwareRequiredIndicatorMessage" parent="CM-StateAwareRequiredIndicatorMessage-parentBean" abstract="true"/>
-    <bean id="CM-StateAwareRequiredIndicatorMessage-parentBean" parent="Uif-Message" abstract="true">
-        <property name="cssClasses">
-            <list merge="false">
-                <value>uif-requiredMessage</value>
-            </list>
-        </property>
-        <property name="messageText"
-                  value="Required for @{#form.view.stateMapping.getStateNameMessage(#form.view.stateMapping.getNextState(#this))}"/>
-    </bean>
-
-    <!-- A conditional property replacer (minus the condition) which provides state based required indicators
-         for section headers. Basically, this bean determines if the required indicator will be displayed.
-         CM-StateAwareRequiredIndicatorMessage determines what the text will be. -->
-    <bean id="CM-RightGroupConditionalRequiredIndicator-Base" parent="Uif-ConditionalBeanPropertyReplacer" abstract="true"
-        p:propertyName="rightGroup">
-        <property name="replacement">
-            <bean parent="Uif-VerticalBoxGroup">
-                <property name="cssClasses">
-                    <list merge="false">
-                        <value>cm_requiredMessage_text</value>
-                    </list>
-                </property>
-                <property name="items">
-                    <list>
-                         <bean parent="CM-StateAwareRequiredIndicatorMessage"/>
-                    </list>
-                </property>
-            </bean>
+        <property name="rightGroup">
+            <bean parent="Uif-VerticalBoxGroup" p:cssClasses="cm_requiredMessage_text"/>
         </property>
     </bean>
-
-    <!-- A section header required indicator for state enroute -->
-    <bean id="CM-RequiredIndicatorForEnroute" parent="CM-RightGroupConditionalRequiredIndicator-Base"
-        p:condition="@{#workflowDoc.saved or #workflowDoc.enroute}" />
-
-    <!-- A section header required indicator for state approved -->
-    <bean id="CM-RequiredIndicatorForApprove" parent="CM-RightGroupConditionalRequiredIndicator-Base"
-        p:condition="@{#workflowDoc.enroute}"/>
 
     <!-- This is used within org.kuali.student.cm.uif.element.CMIconLabelMessage -->
     <bean id="CM-IconImage" parent="CM-IconImage-parentBean"/>
@@ -226,6 +153,12 @@
             <bean parent="KS-Uif-TextControl"/>
         </property>
     </bean>
+    <!--
+        An extended Uif-Label which conditionally replaces the requiredIndicator text based on workflow state.
+    -->
+    <bean id="CM-Required-Label" parent="CM-Required-Label-parent" abstract="true" />
+    <bean id="CM-Required-Label-parent" parent="Uif-Label" abstract="true"
+            class="org.kuali.student.cm.uif.util.LabelWithRequiredIndicatorOverride">
 
     <bean id="CM-ExportAction" parent="CM-ExportAction-parent"/>
 
@@ -295,5 +228,143 @@
 
     </bean>
 </beans>
+        <property name="cssClasses">
+            <list merge="false">
+                <value>cm_requiredMessage_text</value>
+            </list>
+        </property>
+
+        <!--  These properties belong to  LabelWithRequiredIndicatorOverride -->
+        <property name="requiredIndicatorService" value="#{requiredIndicatorService}" />
+        <property name="parentPropertyName" value="@{#parent.propertyName}" />
+        <property name="workflowDocumentType" value="@{docTypeName}" />
+        <property name="workflowState" value="@{#workflowDoc.status.code}" />
+
+        <property name="renderColon" value="false"/>
+    </bean>
 
 
+    <bean id="CM-RequiredIndicator-Message" parent="CM-RequiredIndicator-Message-parent" abstract="true" />
+    <bean id="CM-RequiredIndicator-Message-parent" parent="Uif-Message" abstract="true"
+            class="org.kuali.student.cm.uif.util.RequiredIndicatorMessage">
+
+        <property name="cssClasses">
+            <list merge="false">
+                <value>uif-requiredMessage</value>
+                <value>cm_requiredMessage_text</value>
+            </list>
+        </property>
+
+        <property name="messageText" value="Needs a value to work properly"/>
+
+        <!--  These properties belong to RequiredIndicatorMessage -->
+        <property name="requiredIndicatorService" value="#{requiredIndicatorService}" />
+        <property name="messageKey" value="@{#component.id}" />
+        <property name="workflowDocumentType" value="@{docTypeName}" />
+        <property name="workflowState" value="@{#workflowDoc.status.code}" />
+    </bean>
+
+    <!--
+        Configuration for requiredIndicatorServiceImpl.
+    -->
+    <bean id="requiredIndicatorService" class="org.kuali.student.cm.uif.util.RequiredIndicatorServiceImpl">
+        <property name="indicatorTextMap">
+            <map>
+                <!-- Workflow document type or default -->
+                <entry key="default">
+                    <map>
+                        <entry key="I">
+                            <map>
+                                <entry key="text" value=""/>
+                                <entry key="propertyNames" value-ref="propertiesRequiredForSave"/>
+                            </map>
+                        </entry>
+
+                        <!-- State key -->
+                        <entry key="S">
+                            <map>
+                                <entry key="text" value="Required for Submit"/>
+                                <entry key="propertyNames" value-ref="propertiesRequiredForEnroute"/>
+                            </map>
+                        </entry>
+                        <entry key="R">
+                            <map>
+                                <entry key="text" value="Required for Approval"/>
+                                <entry key="propertyNames" value-ref="propertiesRequiredForApprove"/>
+                            </map>
+                        </entry>
+                    </map>
+                </entry>
+
+                <!-- Config for admin create course proposals -->
+                <entry key="#{T(org.kuali.student.cm.common.util.CurriculumManagementConstants$DocumentTypeNames$CourseProposal).COURSE_CREATE_ADMIN}">
+                     <map>
+                        <!-- Admin proposals are in state 'S'aved until they are approved. -->
+                        <entry key="S">
+                            <map>
+                                <entry key="text" value="Required for Approval"/>
+                                <entry key="propertyNames" value-ref="propertiesRequiredForApprove"/>
+                            </map>
+                        </entry>
+                    </map>
+                </entry>
+
+                <!-- Config for admin modify course proposals -->
+                <entry key="#{T(org.kuali.student.cm.common.util.CurriculumManagementConstants$DocumentTypeNames$CourseProposal).COURSE_MODIFY_ADMIN}">
+                     <map>
+                        <!-- Admin proposals are in state 'S'aved until they are approved. -->
+                        <entry key="S">
+                            <map>
+                                <entry key="text" value="Required for Approval"/>
+                                <entry key="propertyNames" value-ref="propertiesRequiredForApprove"/>
+                            </map>
+                        </entry>
+                    </map>
+                </entry>
+            </map>
+        </property>
+    </bean>
+
+    <!-- The propertyName of the InputField goes in these lists. (Unfortunately, util:list doesn't support merging items.)
+         Each of these fields includes the memebers of the previous lists for previous states. -->
+
+    <!-- Required properties to change to state 'S'aved -->
+    <bean id="propertiesRequiredForSave" class="org.springframework.beans.factory.config.ListFactoryBean">
+        <property name="sourceList">
+            <list>
+                <value>proposalInfo.name</value>
+                <value>courseInfo.courseTitle</value>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Required properties to change to state en'R'oute -->
+    <bean id="propertiesRequiredForEnroute" parent="propertiesRequiredForSave"
+          class="org.springframework.beans.factory.config.ListFactoryBean">
+        <property name="sourceList">
+            <list merge="true">
+                <value>courseInfo.subjectArea</value>
+                <value>courseInfo.descr.plain</value>
+                <value>proposalInfo.rationale.plain</value>
+                <value>gradingOptions</value>
+                <value>finalExamStatus</value>
+                <value>courseInfo.startTerm</value>
+                <value>curriculum_oversight_required_indicator</value>
+                <value>outcome_required_indicator</value>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Required properties to change to state a'P'proved -->
+    <bean id="propertiesRequiredForApprove" parent="propertiesRequiredForEnroute"
+          class="org.springframework.beans.factory.config.ListFactoryBean">
+        <property name="sourceList">
+            <list merge="true">
+                <value>courseInfo.transcriptTitle</value>
+                <value>courseInfo.courseNumberSuffix</value>
+                <value>campusLocations</value>
+                <value>formats_required_indicator</value>
+            </list>
+        </property>
+    </bean>
+</beans>

@@ -173,8 +173,7 @@
     </bean>
 
     <bean id="CM-Proposal-Course-Logistics-Outcome-Section" parent="KS-TableCollectionSubSection-BottomAddLine"
-                      p:layoutManager.style="width: 100%;"
-                      p:headerText="Outcome">
+            p:headerText="Outcome">
         <property name="collectionObjectClass" value="org.kuali.student.cm.course.form.wrapper.ResultValuesGroupInfoWrapper" />
         <property name="propertyName" value="creditOptionWrappers" />
         <property name="addBlankLineAction">
@@ -185,23 +184,24 @@
                 <property name="dirtyOnAction" value="true" />
             </bean>
         </property>
+        <property name="layoutManager.style" value="width: 100%;"/>
         <property name="layoutManager.renderSequenceField" value="false"/>
         <property name="layoutManager.generateAutoSequence" value="false"/>
         <property name="layoutManager.separateAddLine" value="false"/>
         <property name="layoutManager.richTable.render" value="false"/>
         <property name="layoutManager.applyAlternatingRowStyles" value="false"/>
         <property name="validationMessages" ref="KS-ValidationMessages-Off"/>
+
         <property name="header">
             <bean parent="Uif-KS-IconHeader">
-                <property name="propertyReplacers">
+                <property name="rightGroup.items">
                     <list>
-                        <!-- Conditional display of required indicator. Works by storing the required indicator
-                             in the rightGroup conditionally, based on state. -->
-                        <bean parent="CM-RequiredIndicatorForEnroute"/>
+                        <bean parent="CM-RequiredIndicator-Message" id="outcome_required_indicator"/>
                     </list>
                 </property>
             </bean>
         </property>
+
         <property name="cssClasses">
             <list merge="true">
                 <value>cm_requiredMessage_sectionHeader</value>
@@ -305,12 +305,20 @@
           p:propertyName="formats" p:collectionObjectClass="org.kuali.student.r2.lum.course.dto.FormatInfo">
         <property name="instructionalText"
                   value="Each course format can consist of any number of activities, and you may have more than one course format for this course." />
+
         <property name="header">
             <bean parent="Uif-KS-IconHeader">
                 <property name="richHeaderMessage.iconToolTipText"
                           value="Is your course taught differently in the school&lt;br&gt;year than it is in the summer? For example,&lt;br&gt;online in the summer, lecture/lab in the fall. If&lt;br&gt;so, you will need two course formats."/>
+
+                <property name="rightGroup.items">
+                    <list>
+                        <bean parent="CM-RequiredIndicator-Message" id="formats_required_indicator"/>
+                    </list>
+                </property>
             </bean>
         </property>
+
         <property name="addBlankLineAction">
             <bean parent="KS-BottomAddLine">
                 <property name="actionLabel" value="Add Format"/>
@@ -334,16 +342,6 @@
 
         <property name="validationMessages" ref="KS-ValidationMessages-Off"/>
 
-        <!-- Display the appropriate requiredness messaging -->
-        <property name="header.rightGroup">
-            <bean parent="Uif-VerticalBoxGroup">
-                <property name="items">
-                    <list>
-                        <bean parent="CM-StateAware-Label"/>
-                    </list>
-                </property>
-            </bean>
-        </property>
         <property name="layoutManager.lineGroupPrototype.header.rightGroup">
             <bean parent="Uif-HorizontalBoxGroup" p:additionalCssClasses="right-aligned">
                 <property name="items">

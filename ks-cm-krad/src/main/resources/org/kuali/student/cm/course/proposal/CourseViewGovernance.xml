@@ -60,17 +60,17 @@
         <property name="layoutManager.richTable.render" value="false"/>
         <property name="layoutManager.applyAlternatingRowStyles" value="false"/>
         <property name="validationMessages" ref="KS-ValidationMessages-Off"/>
+
         <property name="header">
             <bean parent="Uif-KS-IconHeader">
-                <property name="propertyReplacers">
+                <property name="rightGroup.items">
                     <list>
-                        <!-- Conditional display of required indicator. Works by storing the required indicator
-                             in the rightGroup conditionally, based on state. -->
-                        <bean parent="CM-RequiredIndicatorForEnroute"/>
+                        <bean parent="CM-RequiredIndicator-Message" id="curriculum_oversight_required_indicator"/>
                     </list>
                 </property>
             </bean>
         </property>
+
         <property name="cssClasses">
             <list merge="true">
                 <value>cm-collection-width</value>
