@@ -100,11 +100,11 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
     };
 
     @Override
-    public Response createAndSubmitAddCourseRegistrationRequest(String termCode, String courseCode, String regGroupCode, String regGroupId, String credits, String gradingOptionId, boolean okToWaitlist) {
+    public Response createAndSubmitAddCourseRegistrationRequest(String termCode, String courseCode, String regGroupCode, String regGroupId, String credits, String gradingOptionId, boolean okToWaitlist, boolean okToRepeat) {
         Response.ResponseBuilder response;
 
         try {
-            response = Response.ok(registerForRegistrationGroupLocal(termCode, courseCode, regGroupCode, regGroupId, credits, gradingOptionId, okToWaitlist, ContextUtils.createDefaultContextInfo()));
+            response = Response.ok(registerForRegistrationGroupLocal(termCode, courseCode, regGroupCode, regGroupId, credits, gradingOptionId, okToWaitlist, okToRepeat, ContextUtils.createDefaultContextInfo()));
         } catch (Exception e) {
             LOGGER.warn("Exception occurred", e);
             response = Response.serverError().entity(e.getMessage());
@@ -267,7 +267,7 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
         }
 
         //Create the request object
-        RegistrationRequestInfo regReqInfo = createRegistrationRequest(contextInfo.getPrincipalId(), null, null, masterLprId, null, null, LprServiceConstants.LPRTRANS_REGISTRATION_TYPE_KEY, LprServiceConstants.LPRTRANS_NEW_STATE_KEY, LprServiceConstants.REQ_ITEM_DROP_WAITLIST_TYPE_KEY, LprServiceConstants.LPRTRANS_ITEM_NEW_STATE_KEY, null, false);
+        RegistrationRequestInfo regReqInfo = createRegistrationRequest(contextInfo.getPrincipalId(), null, null, masterLprId, null, null, LprServiceConstants.LPRTRANS_REGISTRATION_TYPE_KEY, LprServiceConstants.LPRTRANS_NEW_STATE_KEY, LprServiceConstants.REQ_ITEM_DROP_WAITLIST_TYPE_KEY, LprServiceConstants.LPRTRANS_ITEM_NEW_STATE_KEY, null, false, false);
 
         // persist the request object in the service
         RegistrationRequestInfo newRegReq = CourseRegistrationAndScheduleOfClassesUtil.getCourseRegistrationService().createRegistrationRequest(LprServiceConstants.LPRTRANS_REGISTRATION_TYPE_KEY, regReqInfo, contextInfo);
@@ -276,7 +276,7 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
         return CourseRegistrationAndScheduleOfClassesUtil.getCourseRegistrationService().submitRegistrationRequest(newRegReq.getId(), contextInfo);
     }
 
-    private RegistrationRequestInfo registerForRegistrationGroupLocal(String termCode, String courseCode, String regGroupCode, String regGroupId, String credits, String gradingOptionId, boolean okToWaitlist, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DataValidationErrorException, DoesNotExistException, ReadOnlyException, AlreadyExistsException, LoginException {
+    private RegistrationRequestInfo registerForRegistrationGroupLocal(String termCode, String courseCode, String regGroupCode, String regGroupId, String credits, String gradingOptionId, boolean okToWaitlist, boolean okToRepeat, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DataValidationErrorException, DoesNotExistException, ReadOnlyException, AlreadyExistsException, LoginException {
         LOGGER.debug("REGISTRATION: user[{}] termCode[{}] courseCode[{}] regGroup[{}]",
                 contextInfo.getPrincipalId(), termCode, courseCode, regGroupCode);
 
@@ -290,7 +290,7 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
         credits = verifyRegistrationRequestCreditsGradingOption(courseOfferingInfo, credits, gradingOptionId, contextInfo);
 
         //Create the request object
-        RegistrationRequestInfo regReqInfo = createRegistrationRequest(contextInfo.getPrincipalId(), rg.getTermId(), rg.getRegGroupId(), null, credits, gradingOptionId, LprServiceConstants.LPRTRANS_REGISTRATION_TYPE_KEY, LprServiceConstants.LPRTRANS_NEW_STATE_KEY, LprServiceConstants.REQ_ITEM_ADD_TYPE_KEY, LprServiceConstants.LPRTRANS_ITEM_NEW_STATE_KEY, courseCode, okToWaitlist);
+        RegistrationRequestInfo regReqInfo = createRegistrationRequest(contextInfo.getPrincipalId(), rg.getTermId(), rg.getRegGroupId(), null, credits, gradingOptionId, LprServiceConstants.LPRTRANS_REGISTRATION_TYPE_KEY, LprServiceConstants.LPRTRANS_NEW_STATE_KEY, LprServiceConstants.REQ_ITEM_ADD_TYPE_KEY, LprServiceConstants.LPRTRANS_ITEM_NEW_STATE_KEY, courseCode, okToWaitlist, okToRepeat);
 
         // persist the request object in the service
         RegistrationRequestInfo newRegReq = CourseRegistrationAndScheduleOfClassesUtil.getCourseRegistrationService().createRegistrationRequest(LprServiceConstants.LPRTRANS_REGISTRATION_TYPE_KEY, regReqInfo, contextInfo);
@@ -315,7 +315,7 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
         LprInfo masterLpr = getLprService().getLpr(masterLprId, contextInfo);
 
         //Create the request object
-        RegistrationRequestInfo regReqInfo = createRegistrationRequest(contextInfo.getPrincipalId(), masterLpr.getAtpId(), masterLpr.getLuiId(), masterLprId, null, null, LprServiceConstants.LPRTRANS_REGISTRATION_TYPE_KEY, LprServiceConstants.LPRTRANS_NEW_STATE_KEY, LprServiceConstants.REQ_ITEM_DROP_TYPE_KEY, LprServiceConstants.LPRTRANS_ITEM_NEW_STATE_KEY, null, false);
+        RegistrationRequestInfo regReqInfo = createRegistrationRequest(contextInfo.getPrincipalId(), masterLpr.getAtpId(), masterLpr.getLuiId(), masterLprId, null, null, LprServiceConstants.LPRTRANS_REGISTRATION_TYPE_KEY, LprServiceConstants.LPRTRANS_NEW_STATE_KEY, LprServiceConstants.REQ_ITEM_DROP_TYPE_KEY, LprServiceConstants.LPRTRANS_ITEM_NEW_STATE_KEY, null, false, false);
 
         // persist the request object in the service
         RegistrationRequestInfo newRegReq = CourseRegistrationAndScheduleOfClassesUtil.getCourseRegistrationService().createRegistrationRequest(LprServiceConstants.LPRTRANS_REGISTRATION_TYPE_KEY, regReqInfo, contextInfo);
@@ -350,7 +350,7 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
         List<RegistrationRequestItemInfo> regReqItems = new ArrayList<>();
 
         for(LprInfo masterLpr : masterLprs){
-            RegistrationRequestItemInfo registrationRequestItem = CourseRegistrationAndScheduleOfClassesUtil.createNewRegistrationRequestItem(userId, masterLpr.getLuiId(), masterLpr.getMasterLprId(), null, null, LprServiceConstants.REQ_ITEM_DROP_TYPE_KEY, LprServiceConstants.LPRTRANS_ITEM_NEW_STATE_KEY, null, false);
+            RegistrationRequestItemInfo registrationRequestItem = CourseRegistrationAndScheduleOfClassesUtil.createNewRegistrationRequestItem(userId, masterLpr.getLuiId(), masterLpr.getMasterLprId(), null, null, LprServiceConstants.REQ_ITEM_DROP_TYPE_KEY, LprServiceConstants.LPRTRANS_ITEM_NEW_STATE_KEY, null, false, false);
             regReqItems.add(registrationRequestItem);
         }
 
@@ -729,16 +729,17 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
      * @param reqItemTypeKey  reqItemTypeKey
      * @param reqItemStateKey reqItemStateKey
      * @param okToWaitlist    flag to indicate that the student wants to be added to the waitlist if that option is available
+     * @param okToRepeat      flag to indicate that the student wants to repeat a course if that option is available
      * @return registration request
      */
-    private RegistrationRequestInfo createRegistrationRequest(String principalId, String termId, String regGroupId, String masterLprId, String credits, String gradingOptionId, String typeKey, String stateKey, String reqItemTypeKey, String reqItemStateKey, String courseCode, boolean okToWaitlist) {
+    private RegistrationRequestInfo createRegistrationRequest(String principalId, String termId, String regGroupId, String masterLprId, String credits, String gradingOptionId, String typeKey, String stateKey, String reqItemTypeKey, String reqItemStateKey, String courseCode, boolean okToWaitlist, boolean okToRepeat) {
         RegistrationRequestInfo regReqInfo = new RegistrationRequestInfo();
         regReqInfo.setRequestorId(principalId);
         regReqInfo.setTermId(termId); // bad bc we have it from the load call above
         regReqInfo.setTypeKey(typeKey);
         regReqInfo.setStateKey(stateKey);
 
-        RegistrationRequestItemInfo registrationRequestItem = CourseRegistrationAndScheduleOfClassesUtil.createNewRegistrationRequestItem(principalId, regGroupId, masterLprId, credits, gradingOptionId, reqItemTypeKey, reqItemStateKey, courseCode, okToWaitlist);
+        RegistrationRequestItemInfo registrationRequestItem = CourseRegistrationAndScheduleOfClassesUtil.createNewRegistrationRequestItem(principalId, regGroupId, masterLprId, credits, gradingOptionId, reqItemTypeKey, reqItemStateKey, courseCode, okToWaitlist, okToRepeat);
 
         regReqInfo.getRegistrationRequestItems().add(registrationRequestItem);
 
@@ -816,7 +817,7 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
 
         //Create Reg Request Item
         RegistrationRequestItemInfo registrationRequestItem = CourseRegistrationAndScheduleOfClassesUtil.createNewRegistrationRequestItem(userId, regGroupId,
-                masterLprId, credits, gradingOptionId, typeKey, LprServiceConstants.LPRTRANS_ITEM_NEW_STATE_KEY, courseCode, false);
+                masterLprId, credits, gradingOptionId, typeKey, LprServiceConstants.LPRTRANS_ITEM_NEW_STATE_KEY, courseCode, false, false);
         List<RegistrationRequestItemInfo> registrationRequestItemInfos = new ArrayList<RegistrationRequestItemInfo>();
         registrationRequestItemInfos.add(registrationRequestItem);
         registrationRequestInfo.setRegistrationRequestItems(registrationRequestItemInfos);

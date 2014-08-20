@@ -465,7 +465,8 @@ angular.module('regCartApp')
                 regGroupId: course.regGroupId || null,
                 gradingOption: course.gradingOptionId || null,
                 credits: course.credits || null,
-                allowWaitlist: course.allowWaitlist || true
+                allowWaitlist: course.allowWaitlist || true,
+                allowRepeatedCourses: course.allowRepeatedCourses || false
             }, function (regRequest) {
                 ScheduleService.pollRegistrationRequestStatus(regRequest.id)
                     .then(function(response) {

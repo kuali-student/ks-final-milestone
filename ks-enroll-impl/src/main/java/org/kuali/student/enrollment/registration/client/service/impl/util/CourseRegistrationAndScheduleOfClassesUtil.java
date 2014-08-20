@@ -438,9 +438,11 @@ public class CourseRegistrationAndScheduleOfClassesUtil {
      * @param gradingOptionId gradingOptionId
      * @param okToWaitlist    flag to set if student should automatically be waitlisted when adding to a full reg group
      *                        with available waitlist
+     * @param okToRepeat      flag to set if repeatability checks should fail when a student has repeated courses but
+     *                        is still under the max setting
      * @return registration request
      */
-    public static RegistrationRequestItemInfo createNewRegistrationRequestItem(String principalId, String regGroupId, String masterLprId, String credits, String gradingOptionId, String typeKey, String stateKey, String courseCode, boolean okToWaitlist) {
+    public static RegistrationRequestItemInfo createNewRegistrationRequestItem(String principalId, String regGroupId, String masterLprId, String credits, String gradingOptionId, String typeKey, String stateKey, String courseCode, boolean okToWaitlist, boolean okToRepeat) {
 
         RegistrationRequestItemInfo registrationRequestItem = new RegistrationRequestItemInfo();
         registrationRequestItem.setTypeKey(typeKey);
@@ -451,6 +453,7 @@ public class CourseRegistrationAndScheduleOfClassesUtil {
         registrationRequestItem.setCredits(new KualiDecimal(credits));
         registrationRequestItem.setGradingOptionId(gradingOptionId);
         registrationRequestItem.setOkToWaitlist(okToWaitlist);
+       // registrationRequestItem.setOkToRepeat(okToRepeat);
         registrationRequestItem.setCrossList(courseCode);
         return registrationRequestItem;
     }

@@ -16,6 +16,7 @@ import javax.ws.rs.core.Response;
 public interface CourseRegistrationClientService {
     public static final String LPRTRANS_ITEM_WAITLIST_STATE_KEY = "kuali.lpr.trans.item.state.waitlist";
     public static final String LPRTRANS_ITEM_WAITLIST_AVAILABLE_STATE_KEY = "kuali.lpr.trans.item.state.waitlistActionAvailable";
+
     /**
      * This is the "one click" registration method. It will first create a registration request then submit that
      * request to the registration engine.
@@ -27,6 +28,7 @@ public interface CourseRegistrationClientService {
      * @param gradingOptionId
      * @param credits
      * @param allowWaitlist
+     * @param allowRepeatedCourses
      * @return The response should be instant and give a handle to the registrationRequestId. The registration engine is
      * asynchronous so the client will need to poll the system for status updates.
      */
@@ -40,7 +42,8 @@ public interface CourseRegistrationClientService {
                                                          @FormParam("regGroupId") String regGroupId,
                                                          @FormParam("credits") String credits,
                                                          @FormParam("gradingOption") String gradingOptionId,
-                                                         @FormParam("allowWaitlist") boolean allowWaitlist);
+                                                         @FormParam("allowWaitlist") boolean allowWaitlist,
+                                                         @FormParam("allowRepeatedCourses") boolean allowRepeatedCourses);
 
     /**
      * This method drops a registration group. It will first create a drop request and then submit that request
