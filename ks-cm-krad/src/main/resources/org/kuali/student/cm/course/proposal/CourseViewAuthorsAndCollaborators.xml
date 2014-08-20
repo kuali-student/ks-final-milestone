@@ -112,29 +112,22 @@
                 <bean id="CM-Proposal-Course-AuthorsAndCollaborator-Permission" parent="KS-Uif-InputField-LabelTop" p:propertyName="permission"
                       p:label="Permission" p:required="true">
                     <property name="readOnly" value="@{!#empty(#line.actionRequestId)}"/>
+                    <property name="refreshWhenChangedPropertyNames" value="document.newMaintainableObject.dataObject.collaboratorWrappers[@{#index}].action" />
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.student.lum.lu.ui.course.keyvalues.AuthorCollaboratorPermissionValuesFinder" />
+                    </property>
                     <property name="control">
-                        <bean parent="KS-Uif-DropdownControl">
-                            <property name="options">
-                                <list>
-                                    <bean parent="Uif-KeyLabelPair" p:key="KS-SYS~Open Document" p:value="View"/>
-                                    <bean parent="Uif-KeyLabelPair" p:key="KS-SYS~Add a Comment" p:value="Comments, View"/>
-                                    <bean parent="Uif-KeyLabelPair" p:key="KR-NS~Edit Document" p:value="Edit, Comments, View"/>
-                                </list>
-                            </property>
-                        </bean>
+                        <bean parent="KS-Uif-DropdownControl" />
                     </property>
                 </bean>
                 <bean id="CM-Proposal-Course-AuthorsAndCollaborator-ActionRequest" parent="KS-Uif-InputField-LabelTop" p:propertyName="action"
                       p:label="Action Required" p:required="true" p:style="width:10em">
                     <property name="readOnly" value="@{!#empty(#line.actionRequestId)}"/>
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.student.lum.lu.ui.course.keyvalues.AuthorCollaboratorActionValuesFinder" />
+                    </property>
                     <property name="control">
-                        <bean parent="KS-Uif-DropdownControl">
-                            <property name="options">
-                                <list>
-                                    <bean parent="Uif-KeyLabelPair" p:key="F" p:value="FYI"/>
-                                </list>
-                            </property>
-                        </bean>
+                        <bean parent="KS-Uif-DropdownControl" />
                     </property>
                 </bean>
                 <bean parent="KS-Uif-InputField-LabelTop" p:propertyName="author" p:label="Author Notation"

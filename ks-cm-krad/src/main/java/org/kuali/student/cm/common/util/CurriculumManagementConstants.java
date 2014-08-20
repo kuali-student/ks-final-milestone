@@ -205,6 +205,18 @@ public class CurriculumManagementConstants {
     public static final String DATA_OBJECT_PATH = KRADPropertyConstants.DOCUMENT + "."
             + KRADPropertyConstants.NEW_MAINTAINABLE_OBJECT + ".dataObject";
 
+    // Permission Key/Value pairs for open/edit document and add comments.
+    public static final String OPEN_DOCUMENT_PERMISSION_KEY = "KS-SYS~Open Document";
+    public static final String OPEN_DOCUMENT_PERMISSION_LABEL = "View";
+    public static final String ADD_COMMENT_PERMISSION_KEY = "KS-SYS~Add a Comment";
+    public static final String ADD_COMMENT_PERMISSION_LABEL = "Comments, View";
+    public static final String EDIT_DOCUMENT_PERMISSION_KEY = "KR-NS~Edit Document";
+    public static final String EDIT_DOCUMENT_PERMISSION_LABEL = "Edit, Comments, View";
+
+    // Action types
+    public static final String ACTION_TYPE_APPROVE = "Approve";
+    public static final String ACTION_TYPE_ACKNOWLEDGE = "Acknowledge";
+
     /**
      * This delimiter to use when rendering collections as a String.
      */
