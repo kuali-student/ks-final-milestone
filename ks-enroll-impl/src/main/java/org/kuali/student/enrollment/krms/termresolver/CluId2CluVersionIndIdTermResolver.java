@@ -35,11 +35,11 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * This class consumes a Clu ID and outputs a CluInfo using the CluService.
+ * This class consumes a Clu ID and outputs a Clu Version Ind ID.
  *
  * @author Kuali Student Team
  */
-public class CluId2CluInfoTermResolver implements TermResolver<CluInfo> {
+public class CluId2CluVersionIndIdTermResolver implements TermResolver<String> {
 
     private final static Set<String> prereqs;
 
@@ -59,7 +59,7 @@ public class CluId2CluInfoTermResolver implements TermResolver<CluInfo> {
 
     @Override
     public String getOutput() {
-        return RulesExecutionConstants.CLU_INFO_TERM.getName();
+        return RulesExecutionConstants.CLU_VERSION_IND_ID_TERM.getName();
     }
 
     @Override
@@ -73,18 +73,19 @@ public class CluId2CluInfoTermResolver implements TermResolver<CluInfo> {
     }
 
     @Override
-    public CluInfo resolve(Map<String, Object> resolvedPrereqs, Map<String, String> parameters) throws TermResolutionException {
+    public String resolve(Map<String, Object> resolvedPrereqs, Map<String, String> parameters) throws TermResolutionException {
         ContextInfo contextInfo = (ContextInfo) resolvedPrereqs.get(RulesExecutionConstants.CONTEXT_INFO_TERM.getName());
         String cluId = (String) resolvedPrereqs.get(RulesExecutionConstants.CLU_ID_TERM.getName());
 
-        CluInfo cluInfo = null;
+        String versionIndId = null;
         try {
-            cluInfo = getCluService().getClu(cluId, contextInfo);
+            CluInfo cluInfo = getCluService().getClu(cluId, contextInfo);
+            versionIndId = cluInfo.getVersion().getVersionIndId();
         } catch (DoesNotExistException | InvalidParameterException | MissingParameterException | OperationFailedException | PermissionDeniedException e) {
             KSKRMSExecutionUtil.convertExceptionsToTermResolutionException(parameters, e, this);
         }
 
-        return cluInfo;
+        return versionIndId;
     }
 
     public CluService getCluService() {

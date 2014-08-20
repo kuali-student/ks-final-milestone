@@ -37,12 +37,13 @@ public class RegistrationGroup2CluIdTermResolver implements TermResolver<String>
     private final static Set<String> prereqs;
 
     static {
-        Set<String> temp = new HashSet<>(3);
+        Set<String> temp = new HashSet<>(2);
         temp.add(RulesExecutionConstants.CONTEXT_INFO_TERM.getName());
         temp.add(RulesExecutionConstants.REGISTRATION_GROUP_TERM.getName());
-        temp.add(RulesExecutionConstants.LUI_SERVICE.getName());
         prereqs = Collections.unmodifiableSet(temp);
     }
+
+    private LuiService luiService;
 
     @Override
     public Set<String> getPrerequisites() {
@@ -61,24 +62,31 @@ public class RegistrationGroup2CluIdTermResolver implements TermResolver<String>
 
     @Override
     public int getCost() {
-        return 2;
+        return 3;
     }
 
     @Override
     public String resolve(Map<String, Object> resolvedPrereqs, Map<String, String> parameters) throws TermResolutionException {
         ContextInfo contextInfo = (ContextInfo) resolvedPrereqs.get(RulesExecutionConstants.CONTEXT_INFO_TERM.getName());
         RegistrationGroupInfo rg = (RegistrationGroupInfo) resolvedPrereqs.get(RulesExecutionConstants.REGISTRATION_GROUP_TERM.getName());
-        LuiService luiService = (LuiService) resolvedPrereqs.get(RulesExecutionConstants.LUI_SERVICE.getName());
 
         String cluId = null;
         try {
             // Get the Lui so that we can get the Clu id out
-            LuiInfo luiInfo = luiService.getLui(rg.getCourseOfferingId(), contextInfo);
+            LuiInfo luiInfo = getLuiService().getLui(rg.getCourseOfferingId(), contextInfo);
             cluId = luiInfo.getCluId();
         } catch (DoesNotExistException | InvalidParameterException | MissingParameterException | OperationFailedException | PermissionDeniedException e) {
             KSKRMSExecutionUtil.convertExceptionsToTermResolutionException(parameters, e, this);
         }
 
         return cluId;
+    }
+
+    public LuiService getLuiService() {
+        return luiService;
+    }
+
+    public void setLuiService(LuiService luiService) {
+        this.luiService = luiService;
     }
 }

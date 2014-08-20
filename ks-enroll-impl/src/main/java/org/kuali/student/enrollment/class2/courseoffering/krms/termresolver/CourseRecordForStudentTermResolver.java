@@ -16,15 +16,13 @@
 package org.kuali.student.enrollment.class2.courseoffering.krms.termresolver;
 
 import org.kuali.rice.krms.api.engine.TermResolutionException;
+import org.kuali.rice.krms.api.engine.TermResolver;
 import org.kuali.student.common.util.krms.RulesExecutionConstants;
 import org.kuali.student.enrollment.academicrecord.dto.StudentCourseRecordInfo;
 import org.kuali.student.enrollment.academicrecord.service.AcademicRecordService;
-import org.kuali.student.enrollment.class2.courseoffering.krms.termresolver.util.AcademicRecordTermResolverSupport;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.krms.util.KSKRMSExecutionUtil;
 import org.kuali.student.r2.core.constants.KSKRMSServiceConstants;
-import org.kuali.student.r2.lum.clu.dto.CluInfo;
-import org.kuali.student.r2.lum.clu.service.CluService;
 
 import java.util.Collections;
 import java.util.HashSet;
@@ -40,7 +38,9 @@ import java.util.Set;
  *
  * @author Kuali Student Team
  */
-public class CourseRecordForStudentTermResolver extends AcademicRecordTermResolverSupport<List<StudentCourseRecordInfo>> {
+public class CourseRecordForStudentTermResolver implements TermResolver<List<StudentCourseRecordInfo>> {
+
+    private AcademicRecordService academicRecordService;
 
     @Override
     public String getOutput() {
@@ -54,12 +54,10 @@ public class CourseRecordForStudentTermResolver extends AcademicRecordTermResolv
 
     @Override
     public Set<String> getPrerequisites() {
-        Set<String> prereqs = new HashSet<>(5);
+        Set<String> prereqs = new HashSet<>(3);
         prereqs.add(RulesExecutionConstants.PERSON_ID_TERM.getName());
         prereqs.add(RulesExecutionConstants.CONTEXT_INFO_TERM.getName());
-        prereqs.add(RulesExecutionConstants.CLU_INFO_TERM.getName());
-        prereqs.add(RulesExecutionConstants.ACADEMIC_RECORD_SERVICE_TERM.getName());
-        prereqs.add(RulesExecutionConstants.CLU_SERVICE.getName());
+        prereqs.add(RulesExecutionConstants.CLU_VERSION_IND_ID_TERM.getName());
         return Collections.unmodifiableSet(prereqs);
     }
 
@@ -70,26 +68,26 @@ public class CourseRecordForStudentTermResolver extends AcademicRecordTermResolv
 
     @Override
     public List<StudentCourseRecordInfo> resolve(Map<String, Object> resolvedPrereqs, Map<String, String> parameters) throws TermResolutionException {
-        AcademicRecordService academicRecordService = (AcademicRecordService) resolvedPrereqs.get(RulesExecutionConstants.ACADEMIC_RECORD_SERVICE_TERM.getName());
-        this.setAcademicRecordService(academicRecordService);
-
-        CluService cluService = (CluService) resolvedPrereqs.get(RulesExecutionConstants.CLU_SERVICE.getName());
-        this.setCluService(cluService);
-
-
         ContextInfo context = (ContextInfo) resolvedPrereqs.get(RulesExecutionConstants.CONTEXT_INFO_TERM.getName());
         String personId = (String) resolvedPrereqs.get(RulesExecutionConstants.PERSON_ID_TERM.getName());
-        CluInfo cluInfo = (CluInfo) resolvedPrereqs.get(RulesExecutionConstants.CLU_INFO_TERM.getName());
+        String versionIndId = (String) resolvedPrereqs.get(RulesExecutionConstants.CLU_VERSION_IND_ID_TERM.getName());
 
+        List<StudentCourseRecordInfo> records = null;
         try {
-            // Retrieve the students academic record for this course.
-            List<StudentCourseRecordInfo> records = this.getAllCourseRecordsForCourse(personId, cluInfo.getVersion().getVersionIndId(), parameters, context);
-            return records;
+            records = getAcademicRecordService().getStudentCourseRecordsForCourse(personId, versionIndId, context);
         } catch (Exception e) {
             KSKRMSExecutionUtil.convertExceptionsToTermResolutionException(parameters, e, this);
         }
 
-        return null;
+        return records;
+    }
+
+    public AcademicRecordService getAcademicRecordService() {
+        return academicRecordService;
+    }
+
+    public void setAcademicRecordService(AcademicRecordService academicRecordService) {
+        this.academicRecordService = academicRecordService;
     }
 
 }
