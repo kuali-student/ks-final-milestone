@@ -367,14 +367,7 @@
                             <!-- !#uiHelper.pendingWorkflowAction (render condition) should be added to all the workflow action buttons to avoid any workflow action being taken back to back-->
                             <bean parent="CM-Proposal-Button-Submit"
                                   p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE] and (!#uiHelper.pendingWorkflowAction)}"/>
-                            <bean parent="Uif-PrimaryActionButton"
-                                  p:additionalCssClasses="btn-success"
-                                  p:ajaxSubmit="false"
-                                  p:actionLabel="@{((#workflowDoc.nodeNames.contains('PreRoute')) and (#workflowDoc.enroute))?'Resubmit':'Approve'}"
-                                  p:methodToCall="approve"
-                                  p:performClientSideValidation="true"
-                                  p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_APPROVE] and (!#uiHelper.pendingWorkflowAction)}"
-                                  p:disabled="@{#dataObject.missingRequiredFields}"/>
+                            <bean parent="CM-Proposal-Button-ApproveOrReSubmit" />
                             <bean parent="Uif-PrimaryActionButton"
                                   p:additionalCssClasses="btn-danger"
                                   p:ajaxSubmit="false"
@@ -423,14 +416,9 @@
                                   p:performClientSideValidation="true"
                                   p:disabled="@{#dataObject.missingRequiredFields}"
                                   p:render="@{(#actionFlags[#Constants.KUALI_ACTION_CAN_BLANKET_APPROVE]) and (#uiHelper.useReviewProcess) and (!#uiHelper.pendingWorkflowAction)}"/>
-                            <bean parent="Uif-PrimaryActionButton"
-                                  p:additionalCssClasses="btn-success"
-                                  p:ajaxSubmit="false"
-                                  p:actionLabel="@{((#workflowDoc.nodeNames.contains('PreRoute')) and (#workflowDoc.enroute))?'Resubmit':'Approve'}"
-                                  p:methodToCall="approve"
-                                  p:performClientSideValidation="true"
-                                  p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_APPROVE] and (!#uiHelper.pendingWorkflowAction)}"
-                                  p:disabled="@{#dataObject.missingRequiredFields}"/>
+
+                            <bean parent="CM-Proposal-Button-ApproveOrReSubmit" />
+
                             <bean parent="Uif-PrimaryActionButton"
                                   p:additionalCssClasses="btn-danger"
                                   p:ajaxSubmit="false"
@@ -463,6 +451,17 @@
         <property name="methodToCall" value="route"/>
         <property name="performClientSideValidation" value="true"/>
         <property name="disabled" value="@{#dataObject.missingRequiredFields}"/>
+    </bean>
+
+    <bean id="CM-Proposal-Button-ApproveOrReSubmit" parent="CM-Proposal-Button-ApproveOrReSubmit-parentBean" />
+    <bean id="CM-Proposal-Button-ApproveOrReSubmit-parentBean" parent="Uif-PrimaryActionButton" abstract="true">
+        <property name="additionalCssClasses" value="btn-success"/>
+        <property name="ajaxSubmit" value="false"/>
+        <property name="actionLabel" value="@{((#workflowDoc.nodeNames.contains('PreRoute')) and (#workflowDoc.enroute))?'Resubmit':'Approve'}"/>
+        <property name="methodToCall" value="approve"/>
+        <property name="performClientSideValidation" value="true"/>
+        <property name="disabled" value="@{#dataObject.missingRequiredFields}"/>
+        <property name="render" value="@{#actionFlags[#Constants.KUALI_ACTION_CAN_APPROVE] and (!#uiHelper.pendingWorkflowAction)}"/>
     </bean>
 
     <bean id="CM-Proposal-Button-ReturnToPrevious" parent="CM-Proposal-Button-ReturnToPrevious-parentBean" />
