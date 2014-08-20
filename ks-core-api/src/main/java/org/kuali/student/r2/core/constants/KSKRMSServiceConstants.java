@@ -272,6 +272,7 @@ public class KSKRMSServiceConstants {
     public static final String TERM_RESOLVER_DATE_IN_TERM_KEY_DATE = "DateInTermKeyDate";
     public static final String TERM_RESOLVER_COURSE_RECORD_FOR_STUDENT = "CourseRecordForStudent";
     public static final String TERM_RESOLVER_GES_VALUE = "GesValue";
+    public static final String TERM_RESOLVER_STUDENT_WITH_GRADE_FOR_COURSE= "GradeForCourse";
 
     // natural language usage keys
     public static final String KRMS_NL_RULE_EDIT = "kuali.krms.edit";
