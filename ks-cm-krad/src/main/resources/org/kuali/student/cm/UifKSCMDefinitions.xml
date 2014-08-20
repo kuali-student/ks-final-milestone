@@ -153,6 +153,7 @@
             <bean parent="KS-Uif-TextControl"/>
         </property>
     </bean>
+
     <!--
         An extended Uif-Label which conditionally replaces the requiredIndicator text based on workflow state.
     -->
@@ -160,74 +161,6 @@
     <bean id="CM-Required-Label-parent" parent="Uif-Label" abstract="true"
             class="org.kuali.student.cm.uif.util.LabelWithRequiredIndicatorOverride">
 
-    <bean id="CM-ExportAction" parent="CM-ExportAction-parent"/>
-
-    <bean id="CM-ExportAction-parent" parent="Uif-KS-NavigationActionLink-parentBean" abstract="true"
-          p:actionScript="showLightboxComponent('CM-Export-Lightbox');" p:title="Export">
-        <property name="actionImage">
-            <bean parent="Uif-Image" p:altText="Export" p:cssClasses="ks-fontello-icon-export" p:title="Export"/>
-        </property>
-        <property name="actionImagePlacement" value="IMAGE_ONLY"/>
-    </bean>
-
-    <bean id="CM-Export-Lightbox" parent="Uif-VerticalBoxSection" p:hidden="true">
-        <property name="validationMessages" ref="KS-ValidationMessages-Off"/>
-        <!--<property name="cssClasses">
-            <list merge="true">
-                <value>ks-cm-course_detail-section</value>
-            </list>
-        </property>-->
-        <property name="header">
-            <bean parent="Uif-HeaderThree">
-                <property name="headerText" value="Export Document"/>
-                <!--<property name="cssClasses">
-                    <list merge="true">
-                        <value>ks-dottedHeaderActions</value>
-                        <value>cm_dottedHeaderActions</value>
-                    </list>
-                </property>
-                <property name="rightGroup">
-                    <bean parent="KS-CourseView-ReviewLink"/>
-                </property>-->
-            </bean>
-        </property>
-        <property name="footer">
-            <bean parent="Uif-FooterBase">
-                <property name="items">
-                    <list>
-                        <bean parent="Uif-PrimaryActionButton"
-                              p:ajaxSubmit="false"
-                              p:methodToCall="export"
-                              p:actionLabel="Export" p:preSubmitCall="setExportSelectedOption(); return true;"/>
-                        <bean parent="Uif-ActionLink"
-                              p:actionLabel="Cancel"
-                              p:actionScript="closeLightbox();" />
-                    </list>
-                </property>
-            </bean>
-        </property>
-        <property name="items">
-            <list>
-                <bean parent="Uif-Message" p:messageText="The exported document will appear in a new page. Please disable pop-up blockers. Export document as:"/>
-                <bean id="CM-ExportLigBox-Field" parent="KS-Uif-InputField" p:propertyName="extensionData['export_type']">
-                    <property name="bindingInfo.bindToForm" value="true"/>
-                    <property name="defaultValue" value="@{T(org.kuali.student.cm.common.util.CurriculumManagementConstants$Export).PDF}"/>
-                    <property name="control">
-                        <bean parent="KS-Uif-VerticalRadioControl">
-                            <property name="options">
-                                <list>
-                                    <bean parent="Uif-KeyLabelPair" p:key="@{T(org.kuali.student.cm.common.util.CurriculumManagementConstants$Export).PDF}" p:value=".pdf (Adobe Acrobat)"/>
-                                    <bean parent="Uif-KeyLabelPair" p:key="@{T(org.kuali.student.cm.common.util.CurriculumManagementConstants$Export).DOC}" p:value=".doc (Microsoft Word)"/>
-                                </list>
-                            </property>
-                        </bean>
-                    </property>
-                </bean>
-            </list>
-        </property>
-
-    </bean>
-</beans>
         <property name="cssClasses">
             <list merge="false">
                 <value>cm_requiredMessage_text</value>
@@ -364,6 +297,73 @@
                 <value>courseInfo.courseNumberSuffix</value>
                 <value>campusLocations</value>
                 <value>formats_required_indicator</value>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="CM-ExportAction" parent="CM-ExportAction-parent"/>
+
+    <bean id="CM-ExportAction-parent" parent="Uif-KS-NavigationActionLink-parentBean" abstract="true"
+          p:actionScript="showLightboxComponent('CM-Export-Lightbox');" p:title="Export">
+        <property name="actionImage">
+            <bean parent="Uif-Image" p:altText="Export" p:cssClasses="ks-fontello-icon-export" p:title="Export"/>
+        </property>
+        <property name="actionImagePlacement" value="IMAGE_ONLY"/>
+    </bean>
+
+    <bean id="CM-Export-Lightbox" parent="Uif-VerticalBoxSection" p:hidden="true">
+        <property name="validationMessages" ref="KS-ValidationMessages-Off"/>
+        <!--<property name="cssClasses">
+            <list merge="true">
+                <value>ks-cm-course_detail-section</value>
+            </list>
+        </property>-->
+        <property name="header">
+            <bean parent="Uif-HeaderThree">
+                <property name="headerText" value="Export Document"/>
+                <!--<property name="cssClasses">
+                    <list merge="true">
+                        <value>ks-dottedHeaderActions</value>
+                        <value>cm_dottedHeaderActions</value>
+                    </list>
+                </property>
+                <property name="rightGroup">
+                    <bean parent="KS-CourseView-ReviewLink"/>
+                </property>-->
+            </bean>
+        </property>
+        <property name="footer">
+            <bean parent="Uif-FooterBase">
+                <property name="items">
+                    <list>
+                        <bean parent="Uif-PrimaryActionButton"
+                              p:ajaxSubmit="false"
+                              p:methodToCall="export"
+                              p:actionLabel="Export" p:preSubmitCall="setExportSelectedOption(); return true;"/>
+                        <bean parent="Uif-ActionLink"
+                              p:actionLabel="Cancel"
+                              p:actionScript="closeLightbox();" />
+                    </list>
+                </property>
+            </bean>
+        </property>
+        <property name="items">
+            <list>
+                <bean parent="Uif-Message" p:messageText="The exported document will appear in a new page. Please disable pop-up blockers. Export document as:"/>
+                <bean id="CM-ExportLigBox-Field" parent="KS-Uif-InputField" p:propertyName="extensionData['export_type']">
+                    <property name="bindingInfo.bindToForm" value="true"/>
+                    <property name="defaultValue" value="@{T(org.kuali.student.cm.common.util.CurriculumManagementConstants$Export).PDF}"/>
+                    <property name="control">
+                        <bean parent="KS-Uif-VerticalRadioControl">
+                            <property name="options">
+                                <list>
+                                    <bean parent="Uif-KeyLabelPair" p:key="@{T(org.kuali.student.cm.common.util.CurriculumManagementConstants$Export).PDF}" p:value=".pdf (Adobe Acrobat)"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="@{T(org.kuali.student.cm.common.util.CurriculumManagementConstants$Export).DOC}" p:value=".doc (Microsoft Word)"/>
+                                </list>
+                            </property>
+                        </bean>
+                    </property>
+                </bean>
             </list>
         </property>
     </bean>
