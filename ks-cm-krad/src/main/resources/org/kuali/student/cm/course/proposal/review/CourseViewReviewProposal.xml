@@ -409,12 +409,8 @@
                                   p:performClientSideValidation="true"
                                   p:performDirtyValidation="false"
                                   p:render="@{(!#emptyList(#workflowDoc.previousNodeNames)) and (#actionFlags[#Constants.KUALI_ACTION_CAN_APPROVE]) and (!#uiHelper.pendingWorkflowAction)}"/>
-                            <bean id="CM-Proposal-Review-Cancel"
-                                  parent="Uif-ActionLink"
-                                  p:actionLabel="Cancel"
-                                  p:methodToCall="back"
-                                  p:style="margin-right: 10px;"
-                                  p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_CLOSE]}"/>
+                            <bean parent="CM-Proposal-Button-Cancel"
+                                  p:style="margin-right: 10px;"/>
                         </list>
                     </property>
                 </bean>
@@ -467,17 +463,22 @@
                                   p:performClientSideValidation="true"
                                   p:disabled="@{#dataObject.missingRequiredFields}"
                                   p:render="@{(#uiHelper.useReviewProcess) and (#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]) and (!#uiHelper.pendingWorkflowAction)}"/>
-                            <bean id="CM-Proposal-Review-CurriculumSpecialist-Cancel"
-                                  parent="Uif-ActionLink"
-                                  p:actionLabel="Cancel"
-                                  p:methodToCall="back"
-                                  p:style="margin-right: 100px;"
-                                  p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_CLOSE]}"/>
+                            <bean parent="CM-Proposal-Button-Cancel"
+                                  p:style="margin-right: 100px;"/>
+
                         </list>
                     </property>
                 </bean>
             </list>
         </property>
+    </bean>
+
+    <!-- parent bean structure for Cancel button which should behave the same for both CS and regular users -->
+    <bean id="CM-Proposal-Button-Cancel" parent="CM-Proposal-Button-Cancel-parentBean" />
+    <bean id="CM-Proposal-Button-Cancel-parentBean" parent="Uif-ActionLink" abstract="true">
+        <property name="actionLabel" value="Cancel"/>
+        <property name="methodToCall" value="back"/>
+        <property name="render" value="@{#actionFlags[#Constants.KUALI_ACTION_CAN_CLOSE]}"/>
     </bean>
 
     <!-- parent bean structure for Withdraw button which should behave the same for both CS and regular users -->
