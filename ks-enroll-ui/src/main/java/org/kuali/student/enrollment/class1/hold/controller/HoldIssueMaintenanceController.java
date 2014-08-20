@@ -25,6 +25,7 @@ import org.kuali.student.common.uif.util.KSControllerHelper;
 import org.kuali.student.enrollment.class1.hold.dto.AuthorizationInfoWrapper;
 import org.kuali.student.enrollment.class1.hold.dto.HoldIssueMaintenanceWrapper;
 import org.kuali.student.enrollment.class1.hold.service.HoldIssueViewHelperService;
+import org.kuali.student.enrollment.class1.hold.util.HoldIssueConstants;
 import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.core.constants.HoldServiceConstants;
 import org.kuali.student.r2.core.hold.dto.HoldIssueInfo;
@@ -78,7 +79,7 @@ public class HoldIssueMaintenanceController extends MaintenanceDocumentControlle
             results = this.getViewHelper(form).searchHolds(holdIssueWrapper);
         } catch (Exception e) {
             e.printStackTrace();
-            throw new RuntimeException("Error Performing Search",e); //To change body of catch statement use File | Settings | File Templates.
+            throw new RuntimeException(HoldIssueConstants.HOLD_ISSUE_SEARCH_ERROR_MSG,e); //To change body of catch statement use File | Settings | File Templates.
         }
 
 
@@ -91,10 +92,8 @@ public class HoldIssueMaintenanceController extends MaintenanceDocumentControlle
     @RequestMapping(params = "methodToCall=addHold")
     public ModelAndView addHold(@ModelAttribute("KualiForm") MaintenanceDocumentForm form, BindingResult result,
                                HttpServletRequest request, HttpServletResponse response) throws Exception {
-        form.getActionParameters().put(UifParameters.NAVIGATE_TO_PAGE_ID, "KS-Hold-Create-Page");
+        form.getActionParameters().put(UifParameters.NAVIGATE_TO_PAGE_ID, HoldIssueConstants.HOLD_ISSUE_CREATE_PAGE);
         return super.navigate(form, result, request, response);
-
-
     }
 
     @RequestMapping(params = "methodToCall=create")
@@ -124,7 +123,7 @@ public class HoldIssueMaintenanceController extends MaintenanceDocumentControlle
         //holdIssueWrapper.setHoldIssueInfo(createHoldIssueInfo);
 
         holdIssueWrapper.setIsSaveSuccess(true);
-        GlobalVariables.getMessageMap().putInfo("Process", "info.enroll.save.success");
+        GlobalVariables.getMessageMap().putInfo(HoldIssueConstants.HOLD_ISSUE_PROCESS, HoldIssueConstants.HOLD_ISSUE_SAVE_SUCCESS_MSG);
         holdIssueWrapper.setIsSaveSuccess(true);
         clearSearchValues(holdIssueWrapper);
         return refresh(form, result, request, response);

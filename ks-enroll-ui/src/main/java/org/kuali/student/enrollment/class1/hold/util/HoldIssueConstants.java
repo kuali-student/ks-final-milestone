@@ -22,11 +22,13 @@ package org.kuali.student.enrollment.class1.hold.util;
  * @author Kuali Student Team
  */
 public class HoldIssueConstants {
-    public static final java.lang.String HOLD_ISSUE_NAME = "name";
-    public static final java.lang.String HOLD_ISSUE_TYPE = "holdIssueType";
-    public static final java.lang.String HOLD_ISSUE_STATE = "holdIssueState";
-    public static final java.lang.String HOLD_ISSUE_ORG_ID = "organizationId";
-    public static final java.lang.String HOLD_ISSUE_DESCR_PLAIN = "descrPlain";
-
-    public HoldIssueConstants() { /* compiled code */ }
+    public static final String HOLD_ISSUE_NAME = "name";
+    public static final String HOLD_ISSUE_TYPE = "holdIssueType";
+    public static final String HOLD_ISSUE_STATE = "holdIssueState";
+    public static final String HOLD_ISSUE_ORG_ID = "organizationId";
+    public static final String HOLD_ISSUE_DESCR_PLAIN = "descrPlain";
+    public static final String HOLD_ISSUE_SEARCH_ERROR_MSG = "Error Performing Search";
+    public static final String HOLD_ISSUE_CREATE_PAGE = "KS-Hold-Create-Page";
+    public static final String HOLD_ISSUE_PROCESS = "Process";
+    public static final String HOLD_ISSUE_SAVE_SUCCESS_MSG = "info.enroll.save.success";
 }
