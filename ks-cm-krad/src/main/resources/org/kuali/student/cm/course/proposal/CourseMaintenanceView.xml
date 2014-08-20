@@ -162,6 +162,14 @@
         </property>
     </bean>
 
+    <bean id="CM-Proposal-Course-LinkGroup-CancelCourse" parent="CM-Proposal-Course-LinkGroup-CancelCourse-parent"/>
+
+    <bean id="CM-Proposal-Course-LinkGroup-CancelCourse-parent" parent="KS-Uif-Cancel-NavigationActionLink" abstract="true"
+          p:methodToCall="cancel"
+          p:title="Cancel Proposal"
+          p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_CANCEL]}">
+    </bean>
+
     <bean id="CM-Proposal-Course-LinkGroup-Comments" parent="CM-Proposal-Course-LinkGroup-Comments-parent"/>
 
     <bean id="CM-Proposal-Course-LinkGroup-Comments-parent" parent="Uif-KS-NavigationActionLink-parentBean" abstract="true"

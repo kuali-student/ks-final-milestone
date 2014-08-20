@@ -86,15 +86,6 @@
           p:title="Copy to New Proposal">
     </bean>
 
-    <bean id="CM-Proposal-Course-LinkGroup-CancelCourse" parent="CM-Proposal-Course-LinkGroup-CancelCourse-parent"/>
-
-    <bean id="CM-Proposal-Course-LinkGroup-CancelCourse-parent" parent="KS-Uif-Cancel-NavigationActionLink" abstract="true"
-          p:methodToCall="cancelCourse"
-          p:title="Cancel Proposal"
-          p:disabled="@{#workflowDoc.initiated}">
-    </bean>
-
-
     <bean id="CM-Proposal-Course-LinkGroup-PrintCourse" parent="CM-Proposal-Course-LinkGroup-PrintCourse-parent"/>
 
     <bean id="CM-Proposal-Course-LinkGroup-PrintCourse-parent" parent="Uif-KS-NavigationActionLink-parentBean" abstract="true"
