@@ -2,6 +2,8 @@ package org.kuali.student.enrollment.registration.client.service.impl;
 
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.rice.core.api.criteria.Predicate;
+import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.student.common.collection.KSCollectionUtils;
@@ -9,6 +11,7 @@ import org.kuali.student.common.util.security.ContextUtils;
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestInfo;
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestItemInfo;
 import org.kuali.student.enrollment.courseregistration.service.CourseRegistrationService;
+import org.kuali.student.enrollment.lpr.dto.LprTransactionInfo;
 import org.kuali.student.enrollment.lpr.service.LprService;
 import org.kuali.student.enrollment.registration.client.service.CourseRegistrationCartClientServiceConstants;
 import org.kuali.student.enrollment.registration.client.service.CourseRegistrationCartService;
@@ -62,6 +65,9 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+
+import static org.kuali.rice.core.api.criteria.PredicateFactory.and;
+import static org.kuali.rice.core.api.criteria.PredicateFactory.equal;
 
 /**
  * This class contains methods needed to manage the student registration cart.
@@ -635,6 +641,47 @@ public class CourseRegistrationCartServiceImpl implements CourseRegistrationCart
         registrationRequest.setTypeKey(LprServiceConstants.LPRTRANS_REG_CART_TYPE_KEY);
         return getCourseRegistrationService().createRegistrationRequest(registrationRequest.getTypeKey(), registrationRequest, contextInfo);
     }
+
+    /**
+     * clears the cart for the passed in personId. Term is optional. If no term is passed in, all possible carts are cleared for this person.
+     * @param personId
+     * @param termId
+     * @param contextInfo
+     * @throws MissingParameterException
+     * @throws InvalidParameterException
+     * @throws OperationFailedException
+     * @throws PermissionDeniedException
+     * @throws DoesNotExistException
+     * @throws DataValidationErrorException
+     * @throws VersionMismatchException
+     */
+    @Transactional
+    protected void clearCartByPerson(String personId, String termId, ContextInfo contextInfo) throws MissingParameterException, InvalidParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException, DataValidationErrorException, VersionMismatchException {
+        QueryByCriteria.Builder qBuilder = QueryByCriteria.Builder.create();
+        qBuilder.setPredicates();
+        Predicate pred;
+
+        if(termId != null && !termId.isEmpty()) {
+          pred =  and(equal("requestingPersonId", personId),
+                    equal("atpId", termId));
+        }else {
+            pred =  equal("requestingPersonId", personId);
+        }
+        qBuilder.setPredicates(pred);
+
+        List<LprTransactionInfo> carts = getLprService().searchForLprTransactions(qBuilder.build(), contextInfo);
+
+        if(carts == null)return;
+
+        for(LprTransactionInfo cart : carts) {
+            if (cart != null && !cart.getLprTransactionItems().isEmpty()) {
+                cart.setLprTransactionItems(null);
+                getLprService().updateLprTransaction(cart.getId(), cart, contextInfo);
+            }
+        }
+
+    }
+
 
     public CourseRegistrationService getCourseRegistrationService() {
         if (courseRegistrationService == null) {

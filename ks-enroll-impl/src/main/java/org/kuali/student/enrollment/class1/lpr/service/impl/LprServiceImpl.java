@@ -813,13 +813,23 @@ public class LprServiceImpl implements LprService {
     @Override
     public List<LprTransactionInfo> searchForLprTransactions(QueryByCriteria criteria, ContextInfo context) throws
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new UnsupportedOperationException("Operation not implemented");
+        List<LprTransactionInfo> ids = new ArrayList<>();
+        GenericQueryResults<LprTransactionEntity> results = getCriteriaLookupService().lookup(LprTransactionEntity.class, criteria);
+        for (LprTransactionEntity entity : results.getResults()) {
+            ids.add(entity.toDto());
+        }
+        return ids;
     }
 
     @Override
     public List<String> searchForLprTransactionIds(QueryByCriteria criteria, ContextInfo context) throws InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new UnsupportedOperationException("Operation not implemented");
+        List<String> ids = new ArrayList<String>();
+        GenericQueryResults<LprTransactionEntity> results = getCriteriaLookupService().lookup(LprTransactionEntity.class, criteria);
+        for (LprTransactionEntity entity : results.getResults()) {
+            ids.add(entity.getId());
+        }
+        return ids;
     }
 
     @Override
@@ -1081,4 +1091,6 @@ public class LprServiceImpl implements LprService {
     public void setLprDao(LprDao lprDao) {
         this.lprDao = lprDao;
     }
+
+
 }

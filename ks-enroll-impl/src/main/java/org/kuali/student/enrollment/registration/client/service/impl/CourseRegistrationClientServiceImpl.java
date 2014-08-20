@@ -127,6 +127,41 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
         return response.build();
     }
 
+    @Override
+    public Response clearScheduleRS(String termId, String termCode) {
+        Response.ResponseBuilder response;
+
+
+        try {
+            termId = CourseRegistrationAndScheduleOfClassesUtil.getTermId(termId, termCode);
+            PersonScheduleResult scheduleResult = getStudentScheduleAndWaitlistedCoursesByTerm(termId,termCode);
+
+            List<StudentScheduleCourseResult> coursesToDrop = new ArrayList<>();
+            if(scheduleResult != null && scheduleResult.getStudentScheduleTermResults() != null){
+
+                for(StudentScheduleTermResult scheduleTermResult : scheduleResult.getStudentScheduleTermResults()){
+                    if(scheduleTermResult.getRegisteredCourseOfferings() != null){
+                        coursesToDrop.addAll(scheduleTermResult.getRegisteredCourseOfferings());
+                    }
+                    if(scheduleTermResult.getWaitlistCourseOfferings() != null){
+                        coursesToDrop.addAll(scheduleTermResult.getWaitlistCourseOfferings());
+                    }
+                }
+            }
+
+            List<String> masterLprIds = new ArrayList<>(coursesToDrop.size());
+            for(StudentScheduleCourseResult courseResult : coursesToDrop){
+                masterLprIds.add(courseResult.getMasterLprId());
+            }
+
+            response = Response.ok(dropRegistrationGroupsLocal(ContextUtils.createDefaultContextInfo(), masterLprIds,termId));
+        } catch (Exception e) {
+            LOGGER.warn("Exception occurred", e);
+            response = Response.serverError().entity(e.getMessage());
+        }
+
+        return response.build();
+    }
 
     /**
      * SEARCH for STUDENT REGISTRATION INFO based on person and termCode *
@@ -281,6 +316,45 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
 
         //Create the request object
         RegistrationRequestInfo regReqInfo = createRegistrationRequest(contextInfo.getPrincipalId(), masterLpr.getAtpId(), masterLpr.getLuiId(), masterLprId, null, null, LprServiceConstants.LPRTRANS_REGISTRATION_TYPE_KEY, LprServiceConstants.LPRTRANS_NEW_STATE_KEY, LprServiceConstants.REQ_ITEM_DROP_TYPE_KEY, LprServiceConstants.LPRTRANS_ITEM_DELETE_TYPE_KEY, null, false);
+
+        // persist the request object in the service
+        RegistrationRequestInfo newRegReq = CourseRegistrationAndScheduleOfClassesUtil.getCourseRegistrationService().createRegistrationRequest(LprServiceConstants.LPRTRANS_REGISTRATION_TYPE_KEY, regReqInfo, contextInfo);
+
+        // submit the request to the registration engine.
+        return CourseRegistrationAndScheduleOfClassesUtil.getCourseRegistrationService().submitRegistrationRequest(newRegReq.getId(), contextInfo);
+    }
+
+
+    private RegistrationRequestInfo dropRegistrationGroupsLocal(ContextInfo contextInfo, List<String> masterLprIds, String termId) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DataValidationErrorException, DoesNotExistException, ReadOnlyException, AlreadyExistsException, LoginException {
+
+        String userId = contextInfo.getPrincipalId();
+
+        LOGGER.debug("REGISTRATION: user[{}] masterLprId[{}]", userId, masterLprIds);
+
+
+        if (!StringUtils.isEmpty(userId)) {
+            contextInfo.setPrincipalId(userId);
+        } else if (StringUtils.isEmpty(contextInfo.getPrincipalId())) {
+            throw new LoginException("[CourseRegistrationClientServiceImpl::registerForRegistrationGroupLocal]User must be logged in to access this service");
+        }
+
+        List<LprInfo> masterLprs = getLprService().getLprsByIds(masterLprIds, contextInfo);
+
+        RegistrationRequestInfo regReqInfo = new RegistrationRequestInfo();
+        regReqInfo.setRequestorId(userId);
+        regReqInfo.setTermId(termId); // bad bc we have it from the load call above
+        regReqInfo.setTypeKey(LprServiceConstants.LPRTRANS_REGISTRATION_TYPE_KEY);
+        regReqInfo.setStateKey(LprServiceConstants.LPRTRANS_NEW_STATE_KEY);
+
+
+        List<RegistrationRequestItemInfo> regReqItems = new ArrayList<>();
+
+        for(LprInfo masterLpr : masterLprs){
+            RegistrationRequestItemInfo registrationRequestItem = CourseRegistrationAndScheduleOfClassesUtil.createNewRegistrationRequestItem(userId, masterLpr.getLuiId(), masterLpr.getMasterLprId(), null, null, LprServiceConstants.REQ_ITEM_DROP_TYPE_KEY, LprServiceConstants.LPRTRANS_ITEM_DELETE_TYPE_KEY, null, false);
+            regReqItems.add(registrationRequestItem);
+        }
+
+        regReqInfo.getRegistrationRequestItems().addAll(regReqItems);
 
         // persist the request object in the service
         RegistrationRequestInfo newRegReq = CourseRegistrationAndScheduleOfClassesUtil.getCourseRegistrationService().createRegistrationRequest(LprServiceConstants.LPRTRANS_REGISTRATION_TYPE_KEY, regReqInfo, contextInfo);

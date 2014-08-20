@@ -1,11 +1,5 @@
 package org.kuali.student.enrollment.registration.client.service;
 
-import org.kuali.student.r2.common.exceptions.DoesNotExistException;
-import org.kuali.student.r2.common.exceptions.InvalidParameterException;
-import org.kuali.student.r2.common.exceptions.MissingParameterException;
-import org.kuali.student.r2.common.exceptions.OperationFailedException;
-import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
-
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -54,17 +48,25 @@ public interface CourseRegistrationAdminClientService {
      * @param termId - optional
      * @param termCode - optional, human readable code representing the term. ex: 201208
      * @return Empty Response Object or Response object with Error text
-     * @throws org.kuali.student.r2.common.exceptions.InvalidParameterException
-     * @throws org.kuali.student.r2.common.exceptions.MissingParameterException
-     * @throws org.kuali.student.r2.common.exceptions.OperationFailedException
-     * @throws org.kuali.student.r2.common.exceptions.PermissionDeniedException
-     * @throws org.kuali.student.r2.common.exceptions.DoesNotExistException
      */
     @DELETE
     @Path("/clearpersonlprs")
     Response clearLPRsByPersonRS(@QueryParam("person") String personId,
                                  @QueryParam("termId") String termId,
-                                 @QueryParam("termCode") String termCode) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException;
+                                 @QueryParam("termCode") String termCode);
+
+    /**
+     * Find cart if it exists and delete all items from cart.
+     * @param personId
+     * @param termId   - optional, but more efficient to use
+     * @param termCode  - optional, but human readable. 201208
+     * @return
+     */
+    @DELETE
+    @Path("/clearCart")
+    public Response clearCartByPersonRS(@QueryParam("person") String personId,
+                                        @QueryParam("termId") String termId,
+                                        @QueryParam("termCode") String termCode);
 
     /**
      * This method returns a roster of students on a waitlist for a particular registration group.

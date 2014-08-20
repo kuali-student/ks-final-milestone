@@ -133,6 +133,19 @@ public interface CourseRegistrationCartClientService {
     @Path("/searchForCart")
     public Response searchForCartRS(@QueryParam("termId") String termId);
 
+
+    /**
+     * Find cart if it exists and delete all items from cart.
+     *
+     * @param termId   - optional, but more efficient to use
+     * @param termCode  - optional, but human readable. 201208
+     * @return
+     */
+    @DELETE
+    @Path("/clearCart")
+    public Response clearCartRS(@QueryParam("termId") String termId,
+                                        @QueryParam("termCode") String termCode);
+
 }
 
 

@@ -15,6 +15,7 @@ import org.kuali.student.enrollment.registration.client.service.dto.UserMessageR
 import org.kuali.student.enrollment.registration.client.service.exception.CourseDoesNotExistException;
 import org.kuali.student.enrollment.registration.client.service.exception.GenericUserException;
 import org.kuali.student.enrollment.registration.client.service.exception.MissingOptionException;
+import org.kuali.student.enrollment.registration.client.service.impl.util.CourseRegistrationAndScheduleOfClassesUtil;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
@@ -350,4 +351,36 @@ public class CourseRegistrationCartClientServiceImpl extends CourseRegistrationC
 
         return response.build();
     }
+
+    @Override
+    public Response clearCartRS(String termId, String termCode) {
+        Response.ResponseBuilder response;
+        try {
+            ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
+            // get termId
+            termId = CourseRegistrationAndScheduleOfClassesUtil.getTermId(termId, termCode);
+
+            if(contextInfo.getPrincipalId() == null || contextInfo.getPrincipalId().isEmpty()
+                    || termId == null || termId.isEmpty()){
+                UserMessageResult userMessage = new UserMessageResult();
+                userMessage.setGenericMessage("Error clearing cart");
+                String technicalInfo = String.format("Technical Info:(principalId:[%s] termId:[%s])", contextInfo.getPrincipalId(), termId);
+
+                userMessage.setConsoleMessage(technicalInfo);
+                response = getResponse(Response.Status.INTERNAL_SERVER_ERROR, userMessage);
+            } else {
+                super.clearCartByPerson(contextInfo.getPrincipalId(),termId,contextInfo);
+                response = Response.noContent();
+            }
+
+
+        } catch (Exception e) {
+            LOGGER.warn("Exception occurred", e);
+            response = Response.serverError().entity(e.getMessage());
+        }
+
+        return response.build();
+    }
+
+
 }

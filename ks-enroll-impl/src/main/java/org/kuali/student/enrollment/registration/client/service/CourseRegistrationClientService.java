@@ -54,6 +54,18 @@ public interface CourseRegistrationClientService {
     @Path("/registrationRequest")
     Response createAndSubmitDropCourseRegistrationRequest(@QueryParam("masterLprId") String masterLprId);
 
+    /**
+     * Finds all LPRs for a logged in personId and drops them. If term is passed - deletes LPRs only for that term.
+     * Returns a Response object with status.
+     *
+     * @param termId - optional
+     * @param termCode - optional, human readable code representing the term. ex: 201208
+     * @return Empty Response Object or Response object with Error text
+     */
+    @DELETE
+    @Path("/clearSchedule")
+    Response clearScheduleRS(@QueryParam("termId") String termId,
+                             @QueryParam("termCode") String termCode);
 
     /**
      * SEARCH for STUDENT REGISTRATION INFO

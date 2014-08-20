@@ -32,7 +32,6 @@ import org.kuali.student.enrollment.registration.client.service.impl.util.Course
 import org.kuali.student.enrollment.registration.client.service.impl.util.statistics.RegEngineMqStatisticsGenerator;
 import org.kuali.student.enrollment.registration.engine.util.MQPerformanceCounter;
 import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
@@ -146,7 +145,7 @@ public class CourseRegistrationAdminClientServiceImpl extends CourseRegistration
      * @throws org.kuali.student.r2.common.exceptions.DoesNotExistException
      */
     @Override
-    public Response clearLPRsByPersonRS(String personId, String termId, String termCode) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException {
+    public Response clearLPRsByPersonRS(String personId, String termId, String termCode) {
         Response.ResponseBuilder response;
         try {
             ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
@@ -160,6 +159,25 @@ public class CourseRegistrationAdminClientServiceImpl extends CourseRegistration
             for (LprInfo lprInfo : lprs) {
                 CourseRegistrationAndScheduleOfClassesUtil.getLprService().deleteLpr(lprInfo.getId(), contextInfo);
             }
+            response = Response.noContent();
+        } catch (Exception e) {
+            LOGGER.warn("Exception occurred", e);
+            response = Response.serverError().entity(e.getMessage());
+        }
+
+        return response.build();
+    }
+
+    @Override
+    public Response clearCartByPersonRS(String personId, String termId, String termCode){
+        Response.ResponseBuilder response;
+        try {
+            ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
+
+            // get termId
+            termId = CourseRegistrationAndScheduleOfClassesUtil.getTermId(termId, termCode);
+
+            super.clearCartByPerson(personId,termId,contextInfo);
             response = Response.noContent();
         } catch (Exception e) {
             LOGGER.warn("Exception occurred", e);
