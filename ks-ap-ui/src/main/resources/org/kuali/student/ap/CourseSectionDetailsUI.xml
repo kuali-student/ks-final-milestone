@@ -37,7 +37,8 @@
                     <property name="items">
                         <list>
                             <bean parent="Uif-HeaderThree" p:id="courseCodeTitle"
-                                  p:headerText="@{#textHelper.getFormattedMessage('details.course.section.title', new Object[]{courseCode})}"/>
+                                  p:headerText="@{#textHelper.getFormattedMessage('details.course.section.title', new Object[]{courseCode})}"
+                                    p:render="@{courseTermDetailsWrappers.size() > 0}"/>
                             <ref bean="course-term-list"/>
                             <ref bean="KSAP-CourseSectionDetails-PlannedSection-Template"/>
                             <ref bean="KSAP-CourseSectionDetails-PlannedSection-Activity-Template"/>
