@@ -387,7 +387,7 @@ function initializeForCurriculumSpecialist(currentSectionId) {
      * Scroll to the appropriate section unless it is the top one. Scrolling in that case causes the top part of the
      * header to disappear
      */
-    if (currentSectionId && currentSectionId !== "CM-Proposal-Course-CourseInfo-Page") {
+    if (currentSectionId && currentSectionId !== "CM-Proposal-Course-CourseInfo-Section") {
         scrollToSection("#" + currentSectionId, true);
     }
 }
