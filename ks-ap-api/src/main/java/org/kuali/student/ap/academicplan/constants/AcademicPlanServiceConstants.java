@@ -68,4 +68,14 @@ public class AcademicPlanServiceConstants {
     public static final String LEARNING_PLAN_ITEM_SHARED_TRUE_KEY = "true";
     public static final String LEARNING_PLAN_ITEM_SHARED_FALSE_KEY = "false";
 
+    /**
+     * PlanItem relation type key that maps a course to a registration group
+     */
+    public static final String PLAN_ITEM_RELATION_TYPE_COURSE2RG = "kuali.academicplan.item.item.relation.course2rg";
+
+    /**
+     * PlanItem relation type key that maps a registration group to a course
+     */
+    public static final String PLAN_ITEM_RELATION_TYPE_RG2COURSE = "kuali.academicplan.item.item.relation.rg2course";
+
 }
