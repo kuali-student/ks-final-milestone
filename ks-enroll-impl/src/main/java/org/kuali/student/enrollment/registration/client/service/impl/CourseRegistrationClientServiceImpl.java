@@ -315,7 +315,7 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
         LprInfo masterLpr = getLprService().getLpr(masterLprId, contextInfo);
 
         //Create the request object
-        RegistrationRequestInfo regReqInfo = createRegistrationRequest(contextInfo.getPrincipalId(), masterLpr.getAtpId(), masterLpr.getLuiId(), masterLprId, null, null, LprServiceConstants.LPRTRANS_REGISTRATION_TYPE_KEY, LprServiceConstants.LPRTRANS_NEW_STATE_KEY, LprServiceConstants.REQ_ITEM_DROP_TYPE_KEY, LprServiceConstants.LPRTRANS_ITEM_DELETE_TYPE_KEY, null, false);
+        RegistrationRequestInfo regReqInfo = createRegistrationRequest(contextInfo.getPrincipalId(), masterLpr.getAtpId(), masterLpr.getLuiId(), masterLprId, null, null, LprServiceConstants.LPRTRANS_REGISTRATION_TYPE_KEY, LprServiceConstants.LPRTRANS_NEW_STATE_KEY, LprServiceConstants.REQ_ITEM_DROP_TYPE_KEY, LprServiceConstants.LPRTRANS_ITEM_NEW_STATE_KEY, null, false);
 
         // persist the request object in the service
         RegistrationRequestInfo newRegReq = CourseRegistrationAndScheduleOfClassesUtil.getCourseRegistrationService().createRegistrationRequest(LprServiceConstants.LPRTRANS_REGISTRATION_TYPE_KEY, regReqInfo, contextInfo);
@@ -350,7 +350,7 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
         List<RegistrationRequestItemInfo> regReqItems = new ArrayList<>();
 
         for(LprInfo masterLpr : masterLprs){
-            RegistrationRequestItemInfo registrationRequestItem = CourseRegistrationAndScheduleOfClassesUtil.createNewRegistrationRequestItem(userId, masterLpr.getLuiId(), masterLpr.getMasterLprId(), null, null, LprServiceConstants.REQ_ITEM_DROP_TYPE_KEY, LprServiceConstants.LPRTRANS_ITEM_DELETE_TYPE_KEY, null, false);
+            RegistrationRequestItemInfo registrationRequestItem = CourseRegistrationAndScheduleOfClassesUtil.createNewRegistrationRequestItem(userId, masterLpr.getLuiId(), masterLpr.getMasterLprId(), null, null, LprServiceConstants.REQ_ITEM_DROP_TYPE_KEY, LprServiceConstants.LPRTRANS_ITEM_NEW_STATE_KEY, null, false);
             regReqItems.add(registrationRequestItem);
         }
 
