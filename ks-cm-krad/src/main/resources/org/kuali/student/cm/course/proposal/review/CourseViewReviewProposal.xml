@@ -396,14 +396,9 @@
                                   p:methodToCall="fyi"
                                   p:performClientSideValidation="true"
                                   p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_FYI]}"/>
-                            <bean parent="Uif-PrimaryActionButton"
 
-                                  p:ajaxSubmit="false"
-                                  p:actionLabel="Return to Previous"
-                                  p:methodToCall="returnToPreviousNode"
-                                  p:performClientSideValidation="true"
-                                  p:performDirtyValidation="false"
-                                  p:render="@{(!#emptyList(#workflowDoc.previousNodeNames)) and (#actionFlags[#Constants.KUALI_ACTION_CAN_APPROVE]) and (!#uiHelper.pendingWorkflowAction)}"/>
+                            <bean parent="CM-Proposal-Button-ReturnToPrevious"/>
+
                             <bean parent="CM-Proposal-Button-Cancel"
                                   p:style="margin-right: 10px;"/>
                         </list>
@@ -444,13 +439,8 @@
                                   p:performClientSideValidation="true"
                                   p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_DISAPPROVE] and (!#uiHelper.pendingWorkflowAction)}"/>
                             <bean parent="CM-Proposal-Button-Withdraw"/>
-                            <bean parent="Uif-PrimaryActionButton"
-                                  p:ajaxSubmit="false"
-                                  p:actionLabel="Return to Previous"
-                                  p:methodToCall="returnToPreviousNode"
-                                  p:performClientSideValidation="true"
-                                  p:performDirtyValidation="false"
-                                  p:render="@{(!#emptyList(#workflowDoc.previousNodeNames)) and (#actionFlags[#Constants.KUALI_ACTION_CAN_APPROVE]) and (!#uiHelper.pendingWorkflowAction)}"/>
+
+                            <bean parent="CM-Proposal-Button-ReturnToPrevious"/>
 
                             <bean parent="CM-Proposal-Button-Submit"
                                   p:render="@{(#uiHelper.useReviewProcess) and (#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]) and (!#uiHelper.pendingWorkflowAction)}"/>
@@ -473,6 +463,16 @@
         <property name="methodToCall" value="route"/>
         <property name="performClientSideValidation" value="true"/>
         <property name="disabled" value="@{#dataObject.missingRequiredFields}"/>
+    </bean>
+
+    <bean id="CM-Proposal-Button-ReturnToPrevious" parent="CM-Proposal-Button-ReturnToPrevious-parentBean" />
+    <bean id="CM-Proposal-Button-ReturnToPrevious-parentBean" parent="Uif-PrimaryActionButton" abstract="true">
+        <property name="ajaxSubmit" value="false"/>
+        <property name="actionLabel" value="Return to Previous"/>
+        <property name="methodToCall" value="returnToPreviousNode"/>
+        <property name="performClientSideValidation" value="true"/>
+        <property name="performDirtyValidation" value="false"/>
+        <property name="render" value="@{(!#emptyList(#workflowDoc.previousNodeNames)) and (#actionFlags[#Constants.KUALI_ACTION_CAN_APPROVE]) and (!#uiHelper.pendingWorkflowAction)}"/>
     </bean>
 
     <!-- parent bean structure for Cancel button which should behave the same for both CS and regular users -->
