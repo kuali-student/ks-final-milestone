@@ -864,6 +864,53 @@ public class TestTermResolvers {
     }
 
     @Test
+    public void testStudentWithGradeForCourseTermResolver() throws Exception {
+        //Setup the term resolver
+        StudentWithGradeForCourseTermResolver termResolver = new StudentWithGradeForCourseTermResolver();
+
+        // Case 1: Student has Grade (True)
+        List<StudentCourseRecordInfo> courseRecords = academicRecordService.getStudentCourseRecordsForCourse(
+                KRMSEnrollmentEligibilityDataLoader.STUDENT_ONE_ID,
+                "COURSE1",
+                contextInfo);
+
+
+        parameters.put(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_GRADE_KEY, "kuali.result.value.grade.letter.plus.minus.a+");
+        resolvedPrereqs.put(KSKRMSServiceConstants.TERM_RESOLVER_COURSE_RECORD_FOR_STUDENT, courseRecords);
+
+        validateTermResolver(termResolver, resolvedPrereqs, parameters,
+                KSKRMSServiceConstants.TERM_RESOLVER_STUDENT_WITH_GRADE_FOR_COURSE);
+
+        Boolean hasGrade = termResolver.resolve(resolvedPrereqs, parameters);
+        assertTrue(hasGrade);
+
+
+        // Case 2: Student has taken class but doesn't have grade (False)
+        parameters.put(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_GRADE_KEY, "kuali.result.value.grade.letter.plus.minus.b");
+
+        validateTermResolver(termResolver, resolvedPrereqs, parameters,
+                KSKRMSServiceConstants.TERM_RESOLVER_STUDENT_WITH_GRADE_FOR_COURSE);
+
+        hasGrade = termResolver.resolve(resolvedPrereqs, parameters);
+        assertFalse(hasGrade);
+
+
+        // Case 3: Student has not taken class and thus doesn't have grade (False)
+        courseRecords = academicRecordService.getStudentCourseRecordsForCourse(
+                KRMSEnrollmentEligibilityDataLoader.STUDENT_TWO_ID,
+                "COURSE1",
+                contextInfo);
+
+        resolvedPrereqs.put(KSKRMSServiceConstants.TERM_RESOLVER_COURSE_RECORD_FOR_STUDENT, courseRecords);
+
+        validateTermResolver(termResolver, resolvedPrereqs, parameters,
+                KSKRMSServiceConstants.TERM_RESOLVER_STUDENT_WITH_GRADE_FOR_COURSE);
+
+        hasGrade = termResolver.resolve(resolvedPrereqs, parameters);
+        assertFalse(hasGrade);
+    }
+
+    @Test
     public void testGesValueTermResolver() throws Exception {
         //Setup the term resolver
         GesValueTermResolver termResolver = new GesValueTermResolver();
