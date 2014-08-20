@@ -365,12 +365,7 @@
                     <property name="items">
                         <list>
                             <!-- !#uiHelper.pendingWorkflowAction (render condition) should be added to all the workflow action buttons to avoid any workflow action being taken back to back-->
-                            <bean parent="Uif-PrimaryActionButton"
-                                  p:ajaxSubmit="false"
-                                  p:actionLabel="Submit"
-                                  p:methodToCall="route"
-                                  p:performClientSideValidation="true"
-                                  p:disabled="@{#dataObject.missingRequiredFields}"
+                            <bean parent="CM-Proposal-Button-Submit"
                                   p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE] and (!#uiHelper.pendingWorkflowAction)}"/>
                             <bean parent="Uif-PrimaryActionButton"
                                   p:additionalCssClasses="btn-success"
@@ -456,13 +451,10 @@
                                   p:performClientSideValidation="true"
                                   p:performDirtyValidation="false"
                                   p:render="@{(!#emptyList(#workflowDoc.previousNodeNames)) and (#actionFlags[#Constants.KUALI_ACTION_CAN_APPROVE]) and (!#uiHelper.pendingWorkflowAction)}"/>
-                            <bean parent="Uif-PrimaryActionButton"
-                                  p:ajaxSubmit="false"
-                                  p:actionLabel="Submit"
-                                  p:methodToCall="route"
-                                  p:performClientSideValidation="true"
-                                  p:disabled="@{#dataObject.missingRequiredFields}"
+
+                            <bean parent="CM-Proposal-Button-Submit"
                                   p:render="@{(#uiHelper.useReviewProcess) and (#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]) and (!#uiHelper.pendingWorkflowAction)}"/>
+
                             <bean parent="CM-Proposal-Button-Cancel"
                                   p:style="margin-right: 100px;"/>
 
@@ -471,6 +463,16 @@
                 </bean>
             </list>
         </property>
+    </bean>
+
+
+    <bean id="CM-Proposal-Button-Submit" parent="CM-Proposal-Button-Submit-parentBean" />
+    <bean id="CM-Proposal-Button-Submit-parentBean" parent="Uif-PrimaryActionButton" abstract="true">
+        <property name="ajaxSubmit" value="false"/>
+        <property name="actionLabel" value="Submit"/>
+        <property name="methodToCall" value="route"/>
+        <property name="performClientSideValidation" value="true"/>
+        <property name="disabled" value="@{#dataObject.missingRequiredFields}"/>
     </bean>
 
     <!-- parent bean structure for Cancel button which should behave the same for both CS and regular users -->
