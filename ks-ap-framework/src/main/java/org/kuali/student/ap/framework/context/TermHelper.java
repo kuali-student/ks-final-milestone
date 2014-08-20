@@ -24,7 +24,7 @@ import java.util.List;
  */
 public interface TermHelper {
 
-	/**
+    /**
 	 * Front-load term and academic calendar data for the planner based on the
 	 * earliest ATP ID.
 	 * 
@@ -39,7 +39,19 @@ public interface TermHelper {
 	 */
 	void frontLoadForPlanner(String firstAtpId);
 
-	/**
+    /**
+     * Gets the Terms open for planning based on:
+     * 1. the current date
+     * 2. the config parameter PlanConstants.PLAN_FUTURE_YEAR
+     * 3. the "last date to add" classes (...in applicable terms)
+     *
+     * note-worthy assumption:  the Academic Calendar has been published for all future years & their assoc'd terms.
+     *
+     * @return A full List of terms to allow planning (e.g. for term drop-down in .
+     */
+    public List<Term> getTermsOpenForPlanning();
+
+    /**
 	 * Look up a term by ATP ID.
 	 * 
 	 * @param atpId

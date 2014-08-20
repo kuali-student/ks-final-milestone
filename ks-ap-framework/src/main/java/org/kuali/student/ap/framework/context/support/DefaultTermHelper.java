@@ -14,6 +14,7 @@
  */
 package org.kuali.student.ap.framework.context.support;
 
+import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
@@ -230,7 +231,76 @@ public class DefaultTermHelper implements TermHelper {
 		getTermMarker().frontLoad(start, end);
 	}
 
-	@Override
+    @Override
+    public List<Term> getTermsOpenForPlanning() {
+        Term currentTerm = null;
+        try {
+            currentTerm = KsapFrameworkServiceLocator.getTermHelper().getCurrentTerm();
+        } catch (IllegalArgumentException iae) {
+            // No current term.  Null is fine.
+        }
+
+        Date startDate = KsapHelperUtil.getCurrentDate();
+        Calendar c = Calendar.getInstance();
+        if (currentTerm != null) {
+            startDate = currentTerm.getStartDate();
+        }
+        int futureYears = Integer.parseInt(ConfigContext.getCurrentContextConfig().getProperty(
+                PlanConstants.PLAN_FUTURE_YEARS));
+        c.add(Calendar.YEAR, futureYears);
+        List<Term> calendarTerms = KsapFrameworkServiceLocator.getTermHelper().getTermsByDateRange(startDate,
+                c.getTime());
+        calendarTerms = KsapFrameworkServiceLocator.getTermHelper().sortTermsByStartDate(calendarTerms,true);
+
+        Term end = calendarTerms.get(calendarTerms.size()-1);
+
+        // Gets all terms in the academic year to round off the list
+        List<Term> endYear= KsapFrameworkServiceLocator.getTermHelper().getTermsInAcademicYear(new DefaultYearTerm(end.getId(),end.getTypeKey(),end.getStartDate().getYear()));
+
+        endYear = KsapFrameworkServiceLocator.getTermHelper().sortTermsByStartDate(endYear,true);
+
+        for(Term t : endYear){
+            if(t.getStartDate().compareTo(end.getStartDate())>0){
+                calendarTerms.add(t);
+            }
+        }
+
+        List<Term> termsAvailableForPlanning = new ArrayList<>();
+
+        //...now remove any term(s) that have passed lastDayToAddClasses
+        for (Term term: calendarTerms){
+            ContextInfo contextInfo = KsapFrameworkServiceLocator.getContext().getContextInfo();
+            KeyDateInfo lastDayToAddClasses = null;
+            try {
+                lastDayToAddClasses = getLastDayToAddClassesForTerm(term.getId(), contextInfo);
+            } catch (InvalidParameterException e) {
+                throw new IllegalArgumentException("Acal lookup failure", e);
+            } catch (MissingParameterException e) {
+                throw new IllegalArgumentException("Acal lookup failure", e);
+            } catch (OperationFailedException e) {
+                throw new IllegalStateException("Acal lookup failure", e);
+            } catch (PermissionDeniedException e) {
+                throw new IllegalStateException("Acal lookup failure", e);
+            } catch (DoesNotExistException e){
+                throw new IllegalStateException("Acal lookup failure", e);
+            }
+
+            if(lastDayToAddClasses == null || lastDayToAddClasses.getEndDate() == null){
+                termsAvailableForPlanning.add(term);
+            }else{
+                //Can add up to AND including last day to add
+                if ( KsapHelperUtil.getCurrentDate().after(lastDayToAddClasses.getEndDate())){
+                    continue;
+                } else {
+                    termsAvailableForPlanning.add(term);
+                }
+            }
+        }
+
+        return termsAvailableForPlanning;
+    }
+
+    @Override
 	public Term getTerm(String atpId) {
 		TermMarker tm = getTermMarker();
 		Term rv = tm.termMap.get(atpId);
@@ -687,10 +757,11 @@ public class DefaultTermHelper implements TermHelper {
                 List<Term> currentTermsForCourseSearch = new ArrayList<Term>();
                 for (Term term:rv){
                     KeyDateInfo lastDayToAddClasses = getLastDayToAddClassesForTerm(term.getId(), contextInfo);
-                    if(lastDayToAddClasses == null || lastDayToAddClasses.getStartDate() == null){
+                    if(lastDayToAddClasses == null || lastDayToAddClasses.getEndDate() == null){
                         currentTermsForCourseSearch.add(term);
                     }else{
-                        if ( lastDayToAddClasses.getStartDate().before(KsapHelperUtil.getCurrentDate())){
+                        //Can add up to AND including last day to add
+                        if ( KsapHelperUtil.getCurrentDate().after(lastDayToAddClasses.getEndDate())){
                             continue;
                         }else{
                             currentTermsForCourseSearch.add(term);
@@ -859,7 +930,7 @@ public class DefaultTermHelper implements TermHelper {
         searchRequest.addParam("milestone.queryParam.atpId", termId);
         //Specify the type key for "Last Day to Add Classes"
         List<String> keydateTypes = new ArrayList<String>();
-        keydateTypes.add("kuali.atp.milestone.AddDropPeriod1");
+        keydateTypes.add(AtpServiceConstants.MILESTONE_SCHEDULE_ADJUSTMENT_PERIOD_TYPE_KEY);
         // Make query
         searchRequest.addParam("milestone.queryParam.milestoneTypes", keydateTypes);
         SearchResultInfo searchResult = KsapFrameworkServiceLocator.getAtpService().search(searchRequest, context);

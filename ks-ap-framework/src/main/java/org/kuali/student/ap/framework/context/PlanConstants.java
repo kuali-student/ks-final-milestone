@@ -17,6 +17,9 @@ public class PlanConstants extends AcademicPlanServiceConstants {
     public static final int CART_PLAN_ITEM_CAPACITY = 8;
 	public static final int MAX_FUTURE_YEARS = 4;
 
+    //config parm: number [future] yrs open for planning
+    public static final String PLAN_FUTURE_YEARS = "ks.ap.planner.future.years";
+
 	public static final String PLAN_ITEM_RESPONSE_PAGE_ID = "plan_item_action_response_page";
 	public static final String PLAN_PAGE_ID = "planned_courses_detail_page";
 
