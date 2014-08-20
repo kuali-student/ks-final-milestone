@@ -83,15 +83,15 @@ public class CurriculumManagementConstants {
      */
     public enum CourseViewSections {
         CREATE_COURSE_ENTRY("CM-Proposal-Course-Create-Start-Page"),
-        COURSE_INFO("CM-Proposal-Course-CourseInfo-Page"),
-        GOVERNANCE("CM-Proposal-Course-Governance-Page"),
-        COURSE_LOGISTICS("CM-Proposal-Course-Logistics-Page"),
-        LEARNING_OBJECTIVES("CM-Proposal-Course-LearningObjectives-Page"),
-        COURSE_REQUISITES("CM-Proposal-Course-Requisites-Page"),
-        ACTIVE_DATES("CM-Proposal-Course-ActiveDates-Page"),
-        FINANCIALS("CM-Proposal-Course-Financials-Page"),
-        AUTHORS_AND_COLLABORATORS("CM-Proposal-Course-AuthorsAndCollaborators-Page"),
-        SUPPORTING_DOCUMENTS("CM-Proposal-Course-SupportingDocuments-Page"),
+        COURSE_INFO("CM-Proposal-Course-CourseInfo-Section"),
+        GOVERNANCE("CM-Proposal-Course-Governance-Section"),
+        COURSE_LOGISTICS("CM-Proposal-Course-Logistics-Section"),
+        LEARNING_OBJECTIVES("CM-Proposal-Course-LearningObjective-Section"),
+        COURSE_REQUISITES("CM-Proposal-CourseRequisites-Section"),
+        ACTIVE_DATES("CM-Proposal-Course-ActiveDates-Section"),
+        FINANCIALS("CM-Proposal-Course-Financial-Section"),
+        AUTHORS_AND_COLLABORATORS("CM-Proposal-Course-AuthorsAndCollaborator-Section"),
+        SUPPORTING_DOCUMENTS("CM-Proposal-Course-SupportingDocument-Section"),
         REVIEW_COURSE_PROPOSAL("CM-Proposal-Review-Course-Page");
 
         private String sectionId;

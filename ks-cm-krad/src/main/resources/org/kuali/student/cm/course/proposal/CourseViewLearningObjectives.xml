@@ -19,7 +19,7 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
                            http://www.springframework.org/schema/beans/spring-beans.xsd ">
 
-    <bean id="CM-Proposal-Course-LearningObjectives-Page" parent="CM-Proposal-Course-View-VerticalBoxSection">
+    <bean id="CM-Proposal-Course-LearningObjective-Section" parent="CM-Proposal-Course-View-VerticalBoxSection">
         <property name="headerText" value="Learning Objectives"/>
         <property name="items">
             <list>

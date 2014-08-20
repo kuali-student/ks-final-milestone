@@ -20,7 +20,7 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
                            http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-    <bean id="CM-Proposal-Course-CourseInfo-Page" parent="CM-Proposal-Course-View-VerticalBoxSection">
+    <bean id="CM-Proposal-Course-CourseInfo-Section" parent="CM-Proposal-Course-View-VerticalBoxSection">
         <!-- The header text for this section has to be set for the tabs to initialize properly.
              And, we don't want "CM-Proposal-Course-CourseInfo-CourseData-Section" (aka the Titles) sub-section to have a header.
              But since the validation messaging is weird in the sub-section without a header we are actually

@@ -28,7 +28,7 @@
         <property name="headerText" value="@{!#empty(document.newMaintainableObject.dataObject.ProposalInfo.name) ? document.newMaintainableObject.dataObject.ProposalInfo.name + ' (Proposal)': 'New Course (Proposal)'}" />
         <property name="header.render" value="false" />
         <property name="singlePageView" value="false"/><!-- Override the default to allow for navigation -->
-        <property name="entryPageId" value="CM-Proposal-Course-CourseInfo-Page" />
+        <property name="entryPageId" value="CM-Proposal-Course-CourseInfo-Section" />
         <property name="viewHelperServiceClass" value="org.kuali.student.cm.course.service.impl.CourseMaintainableImpl" />
         <property name="breadcrumbOptions.homewardPathBreadcrumbs">
             <list>

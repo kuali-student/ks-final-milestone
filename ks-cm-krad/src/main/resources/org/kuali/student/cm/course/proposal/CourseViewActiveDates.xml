@@ -9,7 +9,7 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
                            http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-    <bean id="CM-Proposal-Course-ActiveDates-Page" parent="CM-Proposal-Course-View-VerticalBoxSection">
+    <bean id="CM-Proposal-Course-ActiveDates-Section" parent="CM-Proposal-Course-View-VerticalBoxSection">
         <property name="headerText" value="Active Dates"/>
         <property name="validationMessages" ref="KS-ValidationMessages-Off"/>
         <property name="items">

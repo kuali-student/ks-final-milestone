@@ -470,15 +470,15 @@
                     <property name="validationMessages" ref="KS-ValidationMessages-Off"/>
                     <property name="items">
                         <list>
-                            <ref bean="CM-Proposal-Course-CourseInfo-Page"/>
-                            <ref bean="CM-Proposal-Course-Governance-Page"/>
-                            <ref bean="CM-Proposal-Course-Logistics-Page"/>
-                            <ref bean="CM-Proposal-Course-LearningObjectives-Page"/>
-                            <ref bean="CM-Proposal-Course-Requisites-Page"/>
-                            <ref bean="CM-Proposal-Course-ActiveDates-Page"/>
-                            <ref bean="CM-Proposal-Course-Financials-Page"/>
-                            <ref bean="CM-Proposal-Course-AuthorsAndCollaborators-Page"/>
-                            <ref bean="CM-Proposal-Course-SupportingDocuments-Page"/>
+                            <ref bean="CM-Proposal-Course-CourseInfo-Section"/>
+                            <ref bean="CM-Proposal-Course-Governance-Section"/>
+                            <ref bean="CM-Proposal-Course-Logistics-Section"/>
+                            <ref bean="CM-Proposal-Course-LearningObjective-Section"/>
+                            <ref bean="CM-Proposal-CourseRequisites-Section"/>
+                            <ref bean="CM-Proposal-Course-ActiveDates-Section"/>
+                            <ref bean="CM-Proposal-Course-Financial-Section"/>
+                            <ref bean="CM-Proposal-Course-AuthorsAndCollaborator-Section"/>
+                            <ref bean="CM-Proposal-Course-SupportingDocument-Section"/>
                         </list>
                     </property>
                     <property name="tabsWidget.templateOptionsJSString">

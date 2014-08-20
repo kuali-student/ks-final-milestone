@@ -19,7 +19,7 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
                            http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-    <bean id="CM-Proposal-Course-Requisites-Page" parent="CM-Proposal-Course-View-VerticalBoxSection">
+    <bean id="CM-Proposal-CourseRequisites-Section" parent="CM-Proposal-Course-View-VerticalBoxSection">
         <property name="headerText" value="Course Requisites"/>
         <property name="items">
             <list>

@@ -113,7 +113,7 @@
                 <bean p:id="CM-Proposal-Review-CourseInfo-Edit-Link" parent="CM-Proposal-Review-Course-Edit-Link">
                     <property name="actionParameters">
                         <map>
-                            <entry key="displaySection" value="CM-Proposal-Course-CourseInfo-Page"/>
+                            <entry key="displaySection" value="CM-Proposal-Course-CourseInfo-Section"/>
                         </map>
                     </property>
                 </bean>
@@ -127,7 +127,7 @@
                 <bean p:id="CM-Proposal-Review-Governance-Edit-Link" parent="CM-Proposal-Review-Course-Edit-Link">
                     <property name="actionParameters">
                         <map>
-                            <entry key="displaySection" value="CM-Proposal-Course-Governance-Page"/>
+                            <entry key="displaySection" value="CM-Proposal-Course-Governance-Section"/>
                         </map>
                     </property>
                 </bean>
@@ -141,7 +141,7 @@
                 <bean p:id="CM-Proposal-Review-CourseLogistics-Edit-Link" parent="CM-Proposal-Review-Course-Edit-Link">
                     <property name="actionParameters">
                         <map>
-                            <entry key="displaySection" value="CM-Proposal-Course-Logistics-Page"/>
+                            <entry key="displaySection" value="CM-Proposal-Course-Logistics-Section"/>
                         </map>
                     </property>
                 </bean>
@@ -155,7 +155,7 @@
                 <bean p:id="CM-Proposal-Review-LearningObjectives-Edit-Link" parent="CM-Proposal-Review-Course-Edit-Link">
                     <property name="actionParameters">
                         <map>
-                            <entry key="displaySection" value="CM-Proposal-Course-LearningObjectives-Page"/>
+                            <entry key="displaySection" value="CM-Proposal-Course-LearningObjective-Section"/>
                         </map>
                     </property>
                 </bean>
@@ -169,7 +169,7 @@
                 <bean p:id="CM-Proposal-Review-Requisites-Edit-Link" parent="CM-Proposal-Review-Course-Edit-Link">
                     <property name="actionParameters">
                         <map>
-                            <entry key="displaySection" value="CM-Proposal-Course-Requisites-Page"/>
+                            <entry key="displaySection" value="CM-Proposal-CourseRequisites-Section"/>
                         </map>
                     </property>
                 </bean>
@@ -183,7 +183,7 @@
                 <bean p:id="CM-Proposal-Review-ActiveDates-Edit-Link" parent="CM-Proposal-Review-Course-Edit-Link">
                     <property name="actionParameters">
                         <map>
-                            <entry key="displaySection" value="CM-Proposal-Course-ActiveDates-Page"/>
+                            <entry key="displaySection" value="CM-Proposal-Course-ActiveDates-Section"/>
                         </map>
                     </property>
                 </bean>
@@ -198,7 +198,7 @@
                 <bean p:id="CM-Proposal-Review-Financials-Edit-Link" parent="CM-Proposal-Review-Course-Edit-Link">
                     <property name="actionParameters">
                         <map>
-                            <entry key="displaySection" value="CM-Proposal-Course-Financials-Page"/>
+                            <entry key="displaySection" value="CM-Proposal-Course-Financial-Section"/>
                         </map>
                     </property>
                 </bean>
@@ -226,7 +226,7 @@
                 <bean p:id="CM-Proposal-Review-AuthorsCollaborators-Edit-Link" parent="CM-Proposal-Review-Course-Edit-Link">
                     <property name="actionParameters">
                         <map>
-                            <entry key="displaySection" value="CM-Proposal-Course-AuthorsAndCollaborators-Page"/>
+                            <entry key="displaySection" value="CM-Proposal-Course-AuthorsAndCollaborator-Section"/>
                         </map>
                     </property>
                 </bean>
@@ -303,7 +303,7 @@
                 <bean p:id="CM-Proposal-Review-SupportingDocuments-Edit-Link" parent="CM-Proposal-Review-Course-Edit-Link">
                     <property name="actionParameters">
                         <map>
-                            <entry key="displaySection" value="CM-Proposal-Course-SupportingDocuments-Page"/>
+                            <entry key="displaySection" value="CM-Proposal-Course-SupportingDocument-Section"/>
                         </map>
                     </property>
                 </bean>

@@ -12,7 +12,7 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
                            http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-    <bean id="CM-Proposal-Course-Logistics-Page" parent="CM-Proposal-Course-View-VerticalBoxSection">
+    <bean id="CM-Proposal-Course-Logistics-Section" parent="CM-Proposal-Course-View-VerticalBoxSection">
         <property name="validationMessages" ref="KS-ValidationMessages-Off"/>
         <property name="headerText" value="Course Logistics"/>
         <property name="items">

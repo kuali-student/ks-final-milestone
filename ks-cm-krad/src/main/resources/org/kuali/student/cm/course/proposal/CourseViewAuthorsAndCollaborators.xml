@@ -12,8 +12,8 @@
 
 
 
-    <bean id="CM-Proposal-Course-AuthorsAndCollaborators-Page" parent="CM-Proposal-Course-AuthorsAndCollaborators-Page-Parent"/>
-    <bean id="CM-Proposal-Course-AuthorsAndCollaborators-Page-Parent" parent="Uif-VerticalBoxSubSection" abstract="true">
+    <bean id="CM-Proposal-Course-AuthorsAndCollaborator-Section" parent="CM-Proposal-Course-AuthorsAndCollaborator-Section-Parent"/>
+    <bean id="CM-Proposal-Course-AuthorsAndCollaborator-Section-Parent" parent="Uif-VerticalBoxSubSection" abstract="true">
         <property name="additionalCssClasses">
             <list merge="true">
                 <value>ks-section</value>

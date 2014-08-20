@@ -9,7 +9,7 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
                            http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-    <bean id="CM-Proposal-Course-Financials-Page" parent="CM-Proposal-Course-View-VerticalBoxSection">
+    <bean id="CM-Proposal-Course-Financial-Section" parent="CM-Proposal-Course-View-VerticalBoxSection">
         <property name="headerText" value="Financials"/>
         <property name="items">
             <list>
