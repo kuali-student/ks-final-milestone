@@ -173,6 +173,15 @@
                 </property>
             </bean>
         </property>
+        <property name="lineActions">
+            <list>
+                <bean parent="KS-Uif-Edit-NavigationActionLink" p:methodToCall="edit"
+                      p:iconClass="ks-fontello-icon-pencil" p:style="color:#0088CC;"/>
+                <bean parent="KS-Uif-Delete-NavigationActionLink" p:methodToCall="delete"
+                      p:iconClass="ks-fontello-icon-cancel"
+                      p:style="color:#0088CC;"/>
+            </list>
+        </property>
         <property name="items">
             <list>
                 <bean parent="KS-Uif-DataField"
