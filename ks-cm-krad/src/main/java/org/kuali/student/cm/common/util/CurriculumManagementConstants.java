@@ -152,6 +152,8 @@ public class CurriculumManagementConstants {
         public final static String ERROR_PROPOSAL_COLLABORATORS_CANNOT_ADD_SELF = "error.proposal.collaborators.adding.self";
 
         public final static String SUCCESS_PROPOSAL_RETURN_TO_PREVIOUS_NODE = "success.proposal.returnToPreviousNode";
+
+        public final static String SUCCESS_PROPOSAL_WITHDRAW = "success.proposal.withdraw";
     }
 
     public static class OrganizationMessageKeys {
@@ -194,6 +196,7 @@ public class CurriculumManagementConstants {
     public final static String COURSE_APPROVE_CONFIRMATION_DIALOG = "CM-Proposal-Review-Course-ConfirmApprove-Dialog";
     public final static String COURSE_BLANKET_APPROVE_CONFIRMATION_DIALOG = "CM-Proposal-Review-Course-ConfirmBlanketApprove-Dialog";
     public final static String COURSE_ACKNOWLEDGE_CONFIRMATION_DIALOG = "CM-Proposal-Review-Course-ConfirmAcknowledge-Dialog";
+    public final static String COURSE_WITHDRAW_CONFIRMATION_DIALOG = "CM-Proposal-Review-Course-ConfirmWithdraw-Dialog";
     public final static String COURSE_REJECT_CONFIRMATION_DIALOG = "CM-Proposal-Review-Course-ConfirmReject-Dialog";
     public final static String COURSE_FYI_CONFIRMATION_DIALOG = "CM-Proposal-Review-Course-ConfirmFyi-Dialog";
 

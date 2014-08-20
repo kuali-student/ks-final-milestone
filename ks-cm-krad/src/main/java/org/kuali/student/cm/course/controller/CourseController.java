@@ -24,7 +24,10 @@ import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.kew.api.KewApiConstants;
+import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.krad.UserSessionUtils;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.exception.ValidationException;
@@ -659,11 +662,21 @@ public class CourseController extends CourseRuleEditorController {
                     successMessageKey = CurriculumManagementConstants.MessageKeys.SUCCESS_PROPOSAL_RETURN_TO_PREVIOUS_NODE;
                     break;
                 case WorkflowActions.WITHDRAW:
-                    // TODO KSCM-2606 - fake the Document.DocumentHeader.WorkflowDocument value for the system user here
+                    //fake the Document.DocumentHeader.WorkflowDocument value for the system user here
+                    Person person = KimApiServiceLocator.getPersonService().getPersonByPrincipalName("admin");
+                    WorkflowDocument workflowDocument = KRADServiceLocatorWeb.getWorkflowDocumentService().loadWorkflowDocument(document.getDocumentNumber(), person);
+                    document.getDocumentHeader().setWorkflowDocument(workflowDocument);
+                    // call superuserdisapprove for withdrawing the proposal
+
                     getDocumentService().superUserDisapproveDocumentWithoutSaving(document,form.getAnnotation());
-                    // TODO KSCM-2606 - reset the 'document' variable to have the correct Document.DocumentHeader.WorkflowDocument value for the current user
-                    // TODO KSCM-2606 - add new success message key
-                    successMessageKey = RiceKeyConstants.MESSAGE_ROUTE_SUCCESSFUL;
+
+                    //reset the 'document' variable to have the correct Document.DocumentHeader.WorkflowDocument value for the current user
+                    Person personReset = GlobalVariables.getUserSession().getPerson();
+                    WorkflowDocument workflowDocumentReset = KRADServiceLocatorWeb.getWorkflowDocumentService().loadWorkflowDocument(document.getDocumentNumber(), personReset);
+                    document.getDocumentHeader().setWorkflowDocument(workflowDocumentReset);
+
+                    GlobalVariables.getMessageMap().putInfo(KRADConstants.GLOBAL_MESSAGES, CurriculumManagementConstants.MessageKeys.SUCCESS_PROPOSAL_WITHDRAW);
+                    successMessageKey = CurriculumManagementConstants.MessageKeys.SUCCESS_PROPOSAL_WITHDRAW;
                     break;
             }
             // push potentially updated document back into the form
@@ -992,13 +1005,21 @@ public class CourseController extends CourseRuleEditorController {
     }
 
 
-    @Override
-    @RequestMapping(params = "methodToCall=blanketApprove")
-    public ModelAndView blanketApprove(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result,
+    /**
+     * This will withdraw the proposal.
+     *
+     * @param form     {@link MaintenanceDocumentForm} instance used for this action
+     * @param result
+     * @param request  {@link HttpServletRequest} instance of the actual HTTP request made
+     * @param response The intended {@link HttpServletResponse} sent back to the user
+     * @return The new {@link ModelAndView} that contains the newly created/updated {@CourseInfo} and {@ProposalInfo} information.
+     */
+    @RequestMapping(params = "methodToCall=withdraw")
+    public ModelAndView withdraw(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result,
                                        HttpServletRequest request, HttpServletResponse response) throws Exception {
         CourseInfoWrapper courseInfoWrapper = getCourseInfoWrapper(form);
         courseInfoWrapper.getUiHelper().setShowMessage(false);
-        String dialog = CurriculumManagementConstants.COURSE_BLANKET_APPROVE_CONFIRMATION_DIALOG;
+        String dialog = CurriculumManagementConstants.COURSE_WITHDRAW_CONFIRMATION_DIALOG;
         if ( ! hasDialogBeenDisplayed(dialog, form)) {
             doValidationForProposal(form, KewApiConstants.ROUTE_HEADER_PROCESSED_CD, DtoConstants.STATE_ACTIVE);
 
@@ -1012,7 +1033,7 @@ public class CourseController extends CourseRuleEditorController {
                 if (confirmBlanketApprove) {
                     //route the document only if the rationale decision explanation is not null or redirect back to client to display confirm dialog with error
                     if(courseInfoWrapper.getUiHelper().getDialogExplanations().get(dialog)!=null){
-                        super.blanketApprove(form, result, request, response);
+                        performCustomWorkflowActionSuper(form,WorkflowActions.WITHDRAW);
                         addDecisionRationale(courseInfoWrapper.getProposalInfo().getId(), courseInfoWrapper.getUiHelper().getDialogExplanations().get(dialog), CommentServiceConstants.WORKFLOW_DECISIONS.BLANKET_APPROVE.getType());
                         // setShowMessage boolean decides whether to show the error message or not
                         courseInfoWrapper.getUiHelper().setShowMessage(false);
@@ -1076,6 +1097,49 @@ public class CourseController extends CourseRuleEditorController {
                         courseInfoWrapper.getUiHelper().setShowMessage(true);
                         return showDialog(dialog, form, request, response);
                     }
+                } else {
+                    form.getDialogManager().removeDialog(dialog);
+                }
+            }else{
+                return showDialog(dialog, form, request, response);
+            }
+        }
+        return getUIFModelAndView(form);
+    }
+
+    @Override
+    @RequestMapping(params = "methodToCall=blanketApprove")
+    public ModelAndView blanketApprove(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result,
+                                       HttpServletRequest request, HttpServletResponse response) throws Exception {
+        CourseInfoWrapper courseInfoWrapper = getCourseInfoWrapper(form);
+        courseInfoWrapper.getUiHelper().setShowMessage(false);
+        String dialog = CurriculumManagementConstants.COURSE_BLANKET_APPROVE_CONFIRMATION_DIALOG;
+        if ( ! hasDialogBeenDisplayed(dialog, form)) {
+            doValidationForProposal(form, KewApiConstants.ROUTE_HEADER_PROCESSED_CD, DtoConstants.STATE_ACTIVE);
+
+            if (!GlobalVariables.getMessageMap().hasErrors()) {
+                //redirect back to client to display confirm dialog
+                return showDialog(dialog, form, request, response);
+            }
+        } else {
+            if (hasDialogBeenAnswered(dialog,form)) {
+                boolean confirmBlanketApprove = getBooleanDialogResponse(dialog, form, request, response);
+                if (confirmBlanketApprove) {
+                    //route the document only if the rationale decision explanation is not null or redirect back to client to display confirm dialog with error
+                    if(courseInfoWrapper.getUiHelper().getDialogExplanations().get(dialog)!=null){
+                        super.blanketApprove(form, result, request, response);
+                        addDecisionRationale(courseInfoWrapper.getProposalInfo().getId(), courseInfoWrapper.getUiHelper().getDialogExplanations().get(dialog), CommentServiceConstants.WORKFLOW_DECISIONS.BLANKET_APPROVE.getType());
+                        // setShowMessage boolean decides whether to show the error message or not
+                        courseInfoWrapper.getUiHelper().setShowMessage(false);
+                        form.getDialogManager().removeDialog(dialog);
+                        // Set the request redirect to false so that the user stays on the same page
+                        form.setRequestRedirected(false);
+                    } else {
+                        form.getDialogManager().resetDialogStatus(dialog);
+                        courseInfoWrapper.getUiHelper().setShowMessage(true);
+                        return showDialog(dialog, form, request, response);
+                    }
+
                 } else {
                     form.getDialogManager().removeDialog(dialog);
                 }

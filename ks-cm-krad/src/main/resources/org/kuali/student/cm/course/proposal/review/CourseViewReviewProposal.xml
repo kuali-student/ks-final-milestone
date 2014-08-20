@@ -760,6 +760,40 @@
         </property>
     </bean>
 
+    <bean id="KS-Proposal-Review-Course-ConfirmWithdraw-Dialog" parent="KS-Proposal-Review-Course-ConfirmWithdraw-Dialog-parentBean"/>
+    <bean id="KS-Proposal-Review-Course-ConfirmWithdraw-Dialog-parentBean" parent="Uif-DialogGroup" abstract="true" class="org.kuali.student.cm.uif.container.CMDialogGroup">
+        <property name="renderHeader" value="true"/>
+        <property name="OnShowDialogScript" value="skipDirtyChecks();" />
+        <property name="header">
+            <bean parent="Uif-HeaderTwo" p:headerText="Withdraw Proposal"
+                  p:cssClasses="ks-dottedHeaderActions"/>
+        </property>
+        <property name="cssClasses" >
+            <list merge="true">
+                <value>returntopreviousnode_dialog</value>
+                <value>decisionrationale_withdrawdialog</value>
+            </list>
+        </property>
+        <property name="promptText"
+                  value="You are Withdrawing the &quot;@{#uiHelper.proposalName}&quot; proposal. You must enter a Decision Rationale."/>
+        <!-- do not show the explanation because we need the route node name dropdown above it in the dialog screen -->
+        <property name="displayExplanation" value="false"/>
+        <property name="items">
+            <list>
+                <bean id="CM-DecisionRationale-Withdraw-Message" parent="CM-DecisionRationale-MessageSection"/>
+                <!-- manually add back in the explanation field and force the render flag -->
+                <bean id="CM-Withdraw-Dialog-Explanation" parent="KS-CM-DialogExplanation" p:render="true"
+                      p:label="Decision Rationale"/>
+            </list>
+        </property>
+        <property name="availableResponses">
+            <list>
+                <bean parent="Uif-KeyLabelPair" p:key="yes" p:value="Withdraw"/>
+                <bean parent="Uif-KeyLabelPair" p:key="no" p:value="Cancel"/>
+            </list>
+        </property>
+    </bean>
+
     <bean id="KS-HomewardPathBreadcrumbs-ReviewProposal-Page" parent="Uif-BreadcrumbItem">
         <property name="label" value="@{#uiHelper.proposalName}: Review Proposal"/>
     </bean>
