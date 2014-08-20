@@ -916,7 +916,9 @@
                             <bean parent="KS-Uif-InputField-LabelTop" p:propertyName="effectiveDate"
                                   p:label="Effective Date">
                                 <property name="control">
-                                    <bean parent="KS-Uif-Default-DateControl"/>
+                                    <!--KSENROLL-14124: using Uif-DateControl instead of KS-Uif-Default-DateControl as the validation does not work on the dialog
+                                        this results in being able to enter a blank value-->
+                                    <bean parent="Uif-DateControl"/>
                                 </property>
                             </bean>
 

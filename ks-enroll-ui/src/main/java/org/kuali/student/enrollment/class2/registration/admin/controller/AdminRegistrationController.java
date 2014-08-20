@@ -553,6 +553,8 @@ public class AdminRegistrationController extends UifControllerBase {
                 form.getCoursesInEdit(), LprServiceConstants.REQ_ITEM_UPDATE_TYPE_KEY));
 
         form.setClientState(AdminRegConstants.ClientStates.REGISTERING);
+        //reset the dialog
+        form.getDialogManager().resetDialogStatus(AdminRegConstants.COURSE_EDIT_DIALOG);
         return refresh(form, result, request, response);
     }
 
@@ -563,6 +565,8 @@ public class AdminRegistrationController extends UifControllerBase {
         form.getCoursesInEdit().clear();
         form.getEditingIssues().clear();
         form.setClientState(AdminRegConstants.ClientStates.READY);
+        //reset the dialog
+        form.getDialogManager().resetDialogStatus(AdminRegConstants.COURSE_EDIT_DIALOG);
         return refresh(form, result, request, response);
     }
 
