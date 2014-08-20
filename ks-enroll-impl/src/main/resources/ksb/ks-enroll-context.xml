@@ -37,7 +37,7 @@
     <alias name="courseRegistrationServiceProcessCheckDecorator" alias="CourseRegistrationService" />
     <alias name="processServiceValidationDecorator" alias="ProcessService" />
     <alias name="exemptionServiceMapImpl" alias="ExemptionService" />
-    <alias name="gesServiceEvaluationDecorator" alias="GesService" />
+    <alias name="gesServiceCacheDecorator" alias="GesService" />
     <alias name="schedulingServiceValidationDecorator" alias="SchedulingService" />
     <alias name="courseWaitListServiceImpl" alias="courseWaitListService" />
     <alias name="examServiceImpl" alias="ExamService" />
@@ -1843,7 +1843,9 @@
                 <bean class="org.kuali.student.core.krms.termresolver.AtpId2AtpTermResolver" />
                 <bean class="org.kuali.student.enrollment.class2.courseoffering.krms.termresolver.CourseRecordForStudentTermResolver" />
                 <bean class="org.kuali.student.enrollment.class2.courseoffering.krms.termresolver.StudentWithGradeForCourseTermResolver" />
-                <bean class="org.kuali.student.enrollment.class2.courseoffering.krms.termresolver.GesValueTermResolver" />
+                <bean class="org.kuali.student.enrollment.class2.courseoffering.krms.termresolver.GesValueTermResolver">
+                    <property name="gesService" ref="GesService"/>
+                </bean>
                 <bean class="org.kuali.student.enrollment.class2.courseoffering.krms.termresolver.CourseRegistrationKeyDateTermResolver">
                     <property name="atpService" ref="AtpService"/>
                     <property name="luiService" ref="LuiService"/>
@@ -1860,6 +1862,11 @@
     
     <!--TODO: KSENROLL-12393 Replace wiring to ExemptionServiceMapImpl once JPA impl is done-->
     <bean id="exemptionServiceMapImpl" class="org.kuali.student.core.exemption.service.impl.ExemptionServiceMapImpl" />
+
+    <bean id="gesServiceCacheDecorator" class="org.kuali.student.core.ges.service.decorators.GesServiceCacheDecorator">
+        <property name="nextDecorator" ref="gesServiceEvaluationDecorator" />
+        <property name="cacheManager" ref="ksCacheManager" />
+    </bean>
 
     <bean id="gesServiceEvaluationDecorator" class="org.kuali.student.core.ges.service.decorators.GesServiceEvaluationDecorator" >
         <property name="populationService" ref="PopulationService" />

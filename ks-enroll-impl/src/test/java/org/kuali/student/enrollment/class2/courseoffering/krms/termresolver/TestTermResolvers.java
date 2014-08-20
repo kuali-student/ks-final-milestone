@@ -914,9 +914,9 @@ public class TestTermResolvers {
     public void testGesValueTermResolver() throws Exception {
         //Setup the term resolver
         GesValueTermResolver termResolver = new GesValueTermResolver();
+        termResolver.setGesService(gesService);
 
         //Setup prerequisites
-        resolvedPrereqs.put(RulesExecutionConstants.GES_SERVICE_TERM.getName(), gesService);
         resolvedPrereqs.put(RulesExecutionConstants.CONTEXT_INFO_TERM.getName(), contextInfo);
         resolvedPrereqs.put(RulesExecutionConstants.PERSON_ID_TERM.getName(), "kuali.population.student.key.everyone100000077");
         resolvedPrereqs.put(RulesExecutionConstants.ATP_ID_TERM.getName(), dataLoader.getFallTermId());

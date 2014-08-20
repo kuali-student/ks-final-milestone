@@ -47,6 +47,8 @@ import java.util.Set;
  */
 public class GesValueTermResolver implements TermResolver<ValueInfo> {
 
+    private GesService gesService;
+
     @Override
     public String getOutput() {
         return KSKRMSServiceConstants.TERM_RESOLVER_GES_VALUE;
@@ -61,8 +63,7 @@ public class GesValueTermResolver implements TermResolver<ValueInfo> {
 
     @Override
     public Set<String> getPrerequisites() {
-        Set<String> prereqs = new HashSet<>(5);
-        prereqs.add(RulesExecutionConstants.GES_SERVICE_TERM.getName());
+        Set<String> prereqs = new HashSet<>(4);
         prereqs.add(RulesExecutionConstants.CONTEXT_INFO_TERM.getName());
         prereqs.add(RulesExecutionConstants.PERSON_ID_TERM.getName());
         prereqs.add(RulesExecutionConstants.ATP_ID_TERM.getName());
@@ -79,8 +80,6 @@ public class GesValueTermResolver implements TermResolver<ValueInfo> {
     @Override
     public ValueInfo resolve(Map<String, Object> resolvedPrereqs, Map<String, String> parameters) throws TermResolutionException {
         String gesParameterKey = parameters.get(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_GES_PARAMETER_KEY);
-
-        GesService gesService = (GesService) resolvedPrereqs.get(RulesExecutionConstants.GES_SERVICE_TERM.getName());
 
         ContextInfo contextInfo = (ContextInfo) resolvedPrereqs.get(RulesExecutionConstants.CONTEXT_INFO_TERM.getName());
         String personId = (String) resolvedPrereqs.get(RulesExecutionConstants.PERSON_ID_TERM.getName());
@@ -102,5 +101,9 @@ public class GesValueTermResolver implements TermResolver<ValueInfo> {
         }
 
         return value;
+    }
+
+    public void setGesService(GesService gesService) {
+        this.gesService = gesService;
     }
 }
