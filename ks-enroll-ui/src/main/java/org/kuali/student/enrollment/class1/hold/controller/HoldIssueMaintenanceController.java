@@ -15,16 +15,17 @@
  */
 package org.kuali.student.enrollment.class1.hold.controller;
 
-import org.kuali.rice.krad.uif.UifParameters;
+import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.web.controller.MaintenanceDocumentController;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.common.uif.form.KSUifMaintenanceDocumentForm;
 import org.kuali.student.common.uif.util.KSControllerHelper;
-import org.kuali.student.enrollment.class1.hold.dto.AuthorizationInfoWrapper;
+import org.kuali.student.enrollment.class1.hold.dto.AuthorizingOrgWrapper;
 import org.kuali.student.enrollment.class1.hold.dto.HoldIssueMaintenanceWrapper;
 import org.kuali.student.enrollment.class1.hold.service.HoldIssueViewHelperService;
+import org.kuali.student.enrollment.class1.hold.service.impl.HoldInfoMaintainableImpl;
 import org.kuali.student.enrollment.class1.hold.util.HoldIssueConstants;
 import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.core.constants.HoldServiceConstants;
@@ -66,42 +67,12 @@ public class HoldIssueMaintenanceController extends MaintenanceDocumentControlle
         return super.start(form, request, response);
     }
 
-
-    @RequestMapping(params = "methodToCall=search")
-    public ModelAndView search(@ModelAttribute("KualiForm") MaintenanceDocumentForm form, BindingResult result,
-                               HttpServletRequest request, HttpServletResponse response) throws Exception {
-        List<HoldIssueInfo> results = new ArrayList<HoldIssueInfo>();
-
-        HoldIssueMaintenanceWrapper holdIssueWrapper = (HoldIssueMaintenanceWrapper)form.getDocument().getNewMaintainableObject().getDataObject();
-
-        try {
-
-            results = this.getViewHelper(form).searchHolds(holdIssueWrapper);
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw new RuntimeException(HoldIssueConstants.HOLD_ISSUE_SEARCH_ERROR_MSG,e); //To change body of catch statement use File | Settings | File Templates.
-        }
-
-
-
-        holdIssueWrapper.setHoldIssueInfoList(results);
-        clearSearchValues(holdIssueWrapper);
-        return getUIFModelAndView(form);
-    }
-
-    @RequestMapping(params = "methodToCall=addHold")
-    public ModelAndView addHold(@ModelAttribute("KualiForm") MaintenanceDocumentForm form, BindingResult result,
-                               HttpServletRequest request, HttpServletResponse response) throws Exception {
-        form.getActionParameters().put(UifParameters.NAVIGATE_TO_PAGE_ID, HoldIssueConstants.HOLD_ISSUE_CREATE_PAGE);
-        return super.navigate(form, result, request, response);
-    }
-
     @RequestMapping(params = "methodToCall=create")
     public ModelAndView create(@ModelAttribute("KualiForm") MaintenanceDocumentForm form, BindingResult result,
                                HttpServletRequest request, HttpServletResponse response) throws Exception {
         HoldIssueInfo holdIssueInfo = new HoldIssueInfo();
-
         HoldIssueMaintenanceWrapper holdIssueWrapper = (HoldIssueMaintenanceWrapper)form.getDocument().getNewMaintainableObject().getDataObject();
+        HoldInfoMaintainableImpl maintainable = (HoldInfoMaintainableImpl) form.getDocument().getNewMaintainableObject();
         holdIssueInfo.setName(holdIssueWrapper.getName());
         holdIssueInfo.setTypeKey(holdIssueWrapper.getTypeKey());
         holdIssueInfo.setStateKey(HoldServiceConstants.ISSUE_ACTIVE_STATE_KEY);
@@ -109,15 +80,19 @@ public class HoldIssueMaintenanceController extends MaintenanceDocumentControlle
         RichTextInfo richTextInfo = new RichTextInfo();
         richTextInfo.setPlain(holdIssueWrapper.getDescr());
         holdIssueInfo.setDescr(richTextInfo);
-        if(holdIssueWrapper.getId().equals(null)){
-             HoldIssueInfo createHoldIssueInfo = this.getViewHelper(form).createHoldIssue(holdIssueInfo);
+        maintainable.validateHold(holdIssueWrapper);
+        if (GlobalVariables.getMessageMap().hasErrors()) {
+            return getUIFModelAndView(form);
+        }
+        if(StringUtils.isBlank(holdIssueWrapper.getId())){
+             HoldIssueInfo createHoldIssueInfo = maintainable.createHoldIssue(holdIssueInfo);
             holdIssueWrapper.setId(createHoldIssueInfo.getId());
             holdIssueWrapper.setStateKey(createHoldIssueInfo.getStateKey());
         }
         else{
             holdIssueInfo.setId(holdIssueWrapper.getId());
             holdIssueInfo.setStateKey(holdIssueWrapper.getStateKey());
-            HoldIssueInfo updatedHoldIssueInfo = this.getViewHelper(form).updateHoldIssue(holdIssueInfo);
+            HoldIssueInfo updatedHoldIssueInfo = maintainable.updateHoldIssue(holdIssueInfo);
         }
         form.getView().setApplyDirtyCheck(false);
         //holdIssueWrapper.setHoldIssueInfo(createHoldIssueInfo);
@@ -142,7 +117,7 @@ public class HoldIssueMaintenanceController extends MaintenanceDocumentControlle
         holdIssueWrapper.setBaseType("");
         holdIssueWrapper.setFirstDate("");
         holdIssueWrapper.setFirstTerm("");
-        holdIssueWrapper.setOrganizationNames(new ArrayList<AuthorizationInfoWrapper>());
+        holdIssueWrapper.setOrganizationNames(new ArrayList<AuthorizingOrgWrapper>());
     }
 
     /**

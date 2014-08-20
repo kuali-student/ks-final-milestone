@@ -25,16 +25,16 @@ import java.io.Serializable;
  *
  * @author Kuali Student Team
  */
-public class AuthorizationInfoWrapper implements Serializable {
+public class AuthorizingOrgWrapper implements Serializable {
     private String organizationName;
     private String id;
     private boolean authOrgApply;
     private boolean authOrgExpire;
 
-    public AuthorizationInfoWrapper() {
+    public AuthorizingOrgWrapper() {
     }
 
-    public AuthorizationInfoWrapper(OrgInfo orgInfo) {
+    public AuthorizingOrgWrapper(OrgInfo orgInfo) {
         this.id = orgInfo.getId();
         this.organizationName = orgInfo.getLongName();
     }

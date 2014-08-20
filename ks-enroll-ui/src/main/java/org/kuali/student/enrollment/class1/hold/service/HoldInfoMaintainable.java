@@ -11,9 +11,15 @@ import java.util.List;
  * Date: 17 July 2014
  * Utility Class for common auto generated reg group functions
  */
-public interface HoldIssueViewHelperService {
+public interface HoldInfoMaintainable {
 
-    public  List<HoldIssueInfo> searchHolds(HoldIssueMaintenanceWrapper holdIssueWrapper);
+
+    public HoldIssueInfo createHoldIssue(HoldIssueInfo holdIssue);
+
+    public HoldIssueInfo updateHoldIssue(HoldIssueInfo holdIssue);
+
+    public void validateHold(HoldIssueMaintenanceWrapper holdIssueWrapper);
+
 
 
 }

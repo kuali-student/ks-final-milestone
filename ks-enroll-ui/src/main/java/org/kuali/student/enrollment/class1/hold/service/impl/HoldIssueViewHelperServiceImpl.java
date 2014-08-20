@@ -3,6 +3,7 @@ package org.kuali.student.enrollment.class1.hold.service.impl;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.criteria.Predicate;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
+import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.student.common.uif.service.impl.KSViewHelperServiceImpl;
 import org.kuali.student.enrollment.class1.hold.dto.HoldIssueMaintenanceWrapper;
 import org.kuali.student.enrollment.class1.hold.service.HoldIssueViewHelperService;
@@ -27,28 +28,7 @@ import static org.kuali.rice.core.api.criteria.PredicateFactory.like;
 public class HoldIssueViewHelperServiceImpl extends KSViewHelperServiceImpl implements HoldIssueViewHelperService {
 
 
-    public HoldIssueInfo createHoldIssue(HoldIssueInfo holdIssue){
-        HoldIssueInfo createHoldIssueInfo = null;
-        try {
-            createHoldIssueInfo = HoldIssueResourceLoader.getHoldService().createHoldIssue(holdIssue.getTypeKey(), holdIssue, createContextInfo());
-        } catch (Exception e) {
 
-            convertServiceExceptionsToUI(e);
-        }
-        return createHoldIssueInfo;
-    }
-
-    @Override
-    public HoldIssueInfo updateHoldIssue(HoldIssueInfo holdIssue){
-        HoldIssueInfo updatedHoldIssueInfo = null;
-        try {
-            updatedHoldIssueInfo = HoldIssueResourceLoader.getHoldService().updateHoldIssue(holdIssue.getId(), holdIssue, createContextInfo());
-        } catch (Exception e) {
-
-            convertServiceExceptionsToUI(e);
-        }
-        return updatedHoldIssueInfo;
-    }
     @Override
     public List<HoldIssueInfo> searchHolds(HoldIssueMaintenanceWrapper holdIssueWrapper) {
 

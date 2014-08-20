@@ -22,6 +22,7 @@ package org.kuali.student.enrollment.class1.hold.util;
  * @author Kuali Student Team
  */
 public class HoldIssueConstants {
+
     public static final String HOLD_ISSUE_NAME = "name";
     public static final String HOLD_ISSUE_TYPE = "holdIssueType";
     public static final String HOLD_ISSUE_STATE = "holdIssueState";
@@ -31,4 +32,16 @@ public class HoldIssueConstants {
     public static final String HOLD_ISSUE_CREATE_PAGE = "KS-Hold-Create-Page";
     public static final String HOLD_ISSUE_PROCESS = "Process";
     public static final String HOLD_ISSUE_SAVE_SUCCESS_MSG = "info.enroll.save.success";
+    public static final java.lang.String HOLD_ISSUE_CODE = "code";
+    public static final java.lang.String HOLD_ISSUE_TYPE_KEY = "typeKey";
+    public static final java.lang.String HOLD_ISSUE_STATE_KEY = "stateKey";
+
+    public HoldIssueConstants() { /* compiled code */ }
+
+    //Message keys
+    public static final String HOLDS_ISSUE_MSG_ERROR_HOLD_ISSUE_NAME_REQUIRED = "error.hold.issue.name.required";
+    public static final String HOLDS_ISSUE_MSG_ERROR_HOLD_ISSUE_TYPE_REQUIRED = "error.hold.issue.type.required";
+    public static final String HOLDS_ISSUE_MSG_ERROR_HOLD_ISSUE_ORG_ID_REQUIRED = "error.hold.issue.orgId.required";
+    public static final String HOLDS_ISSUE_MSG_ERROR_HOLD_ISSUE_CODE_REQUIRED = "error.hold.issue.code.required";
+
 }

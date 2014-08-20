@@ -18,6 +18,7 @@ package org.kuali.student.enrollment.class1.hold.dto;
 
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.core.hold.dto.HoldIssueInfo;
+import org.kuali.student.r2.core.process.dto.ProcessInfo;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -55,7 +56,9 @@ public class HoldIssueMaintenanceWrapper implements Serializable {
 
     private List<HoldIssueInfo> holdIssueInfoList;
 
-    private List<AuthorizationInfoWrapper> organizationNames = new ArrayList<AuthorizationInfoWrapper>();;
+    private List<AuthorizingOrgWrapper> organizationNames = new ArrayList<AuthorizingOrgWrapper>();
+
+    private List<ProcessInfo> processNames = new ArrayList<ProcessInfo>();
 
     public HoldIssueMaintenanceWrapper() {
         super();
@@ -191,11 +194,11 @@ public class HoldIssueMaintenanceWrapper implements Serializable {
         this.firstTerm = firstTerm;
     }
 
-    public List<AuthorizationInfoWrapper> getOrganizationNames() {
+    public List<AuthorizingOrgWrapper> getOrganizationNames() {
         return organizationNames;
     }
 
-    public void setOrganizationNames(List<AuthorizationInfoWrapper> organizationNames) {
+    public void setOrganizationNames(List<AuthorizingOrgWrapper> organizationNames) {
         this.organizationNames = organizationNames;
     }
 
@@ -231,11 +234,19 @@ public class HoldIssueMaintenanceWrapper implements Serializable {
         this.holdHistory = holdHistory;
     }
 
+    public List<ProcessInfo> getProcessNames() {
+        return processNames;
+    }
+
+    public void setProcessNames(List<ProcessInfo> processNames) {
+        this.processNames = processNames;
+    }
+
     public Map<String, String> getAdminOrg() {
         Map<String, String> adminOrgMap = new HashMap<String, String>();
         if (organizationNames != null && !organizationNames.isEmpty()) {
             StringBuilder orgIDs = new StringBuilder("");
-            for (AuthorizationInfoWrapper organizationName : organizationNames) {
+            for (AuthorizingOrgWrapper organizationName : organizationNames) {
                 orgIDs.append(organizationName.getId()).append(",");
             }
             if (orgIDs.length() > 0) {
