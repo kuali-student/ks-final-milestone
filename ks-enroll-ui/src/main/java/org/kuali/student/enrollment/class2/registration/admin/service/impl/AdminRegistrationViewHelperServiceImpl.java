@@ -51,6 +51,8 @@ import org.kuali.student.r2.core.scheduling.util.SchedulingServiceUtil;
 import org.kuali.student.r2.lum.lrc.dto.ResultValueInfo;
 import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
 import org.kuali.student.r2.lum.util.constants.LrcServiceConstants;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -484,6 +486,7 @@ public class AdminRegistrationViewHelperServiceImpl extends KSViewHelperServiceI
     }
 
     @Override
+    @Transactional(propagation = Propagation.NOT_SUPPORTED)
     public String submitCourses(String studentId, String termId, List<RegistrationCourse> registrationCourses, String typeKey) {
 
         //Create the request object
@@ -500,6 +503,7 @@ public class AdminRegistrationViewHelperServiceImpl extends KSViewHelperServiceI
     }
 
     @Override
+    @Transactional(propagation = Propagation.NOT_SUPPORTED)
     public String submitCourse(String studentId, String termId, RegistrationCourse registrationCourse, String typeKey) {
         String regRequestId = submitRegistrationRequest(AdminRegistrationUtil.buildRegistrationRequest(studentId, termId, registrationCourse, typeKey));
         registrationCourse.setCurrentRegRequestId(regRequestId);
@@ -508,6 +512,7 @@ public class AdminRegistrationViewHelperServiceImpl extends KSViewHelperServiceI
     }
 
     @Override
+    @Transactional(propagation = Propagation.NOT_SUPPORTED)
     public String resubmitCourse(String studentId, String termId, RegistrationCourse registrationCourse, String typeKey) {
 
         //Build the request object
