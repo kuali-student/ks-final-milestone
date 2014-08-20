@@ -5,7 +5,7 @@
     <div class="kscr-Search-details-header">
         <div class="kscr-Search-details-tab-container" ng-repeat="tab in section.tabs"
              ng-class="{'kscr-Search-details-tab-container--wide': tab.wide}">
-            <div class="kscr-Search-details-tab" ng-click="select(section, '{{tab.id}}')"
+            <div class="kscr-Search-details-tab" ng-click="select(section, tab.id)"
                  ng-class="{'kscr-Search-details-tab--selected': section.tab==='{{tab.id}}'}">{{tab.name}}</div>
         </div>
         <div class="kscr-Search-details-tab-container">
