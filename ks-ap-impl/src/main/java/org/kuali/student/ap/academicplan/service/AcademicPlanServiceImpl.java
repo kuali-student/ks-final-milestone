@@ -6,6 +6,8 @@ import java.util.List;
 import javax.jws.WebParam;
 
 import org.kuali.student.ap.academicplan.constants.AcademicPlanServiceConstants;
+import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
+import org.kuali.student.ap.framework.context.PlanConstants;
 import org.kuali.student.common.util.UUIDHelper;
 import org.kuali.student.ap.academicplan.dao.LearningPlanDao;
 import org.kuali.student.ap.academicplan.dao.PlanItemDao;
@@ -13,6 +15,7 @@ import org.kuali.student.ap.academicplan.dto.LearningPlanInfo;
 import org.kuali.student.ap.academicplan.dto.PlanItemInfo;
 import org.kuali.student.ap.academicplan.model.LearningPlanEntity;
 import org.kuali.student.ap.academicplan.model.PlanItemEntity;
+import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
@@ -224,10 +227,27 @@ public class AcademicPlanServiceImpl implements AcademicPlanService {
     DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException,
     PermissionDeniedException {
 
+        planItem.setId(UUIDHelper.genStringUUID());
+
+        if(planItem.getRefObjectType().equals(PlanConstants.REG_GROUP_TYPE)){
+            String linkedCourseItemId = planItem.getAttributeValue(AcademicPlanServiceConstants.PLAN_ITEM_RELATION_TYPE_RG2COURSE);
+            PlanItemInfo linkedCourseItem;
+            try{
+                linkedCourseItem = KsapFrameworkServiceLocator.getAcademicPlanService().getPlanItem(linkedCourseItemId,context);
+                AttributeInfo course2rgLink = new AttributeInfo(AcademicPlanServiceConstants.PLAN_ITEM_RELATION_TYPE_COURSE2RG,planItem.getId());
+                linkedCourseItem.getAttributes().add(course2rgLink);
+                KsapFrameworkServiceLocator.getAcademicPlanService().updatePlanItem(linkedCourseItem.getId(),linkedCourseItem,context);
+            }catch(DoesNotExistException e){
+                throw new DataValidationErrorException("Missing link to plan item for related course", e);
+            }catch (VersionMismatchException ve){
+                throw new OperationFailedException("Unable to link to plan item for related course", ve);
+            }
+
+        }
+
 		//  For a given plan there should be only one planned course item per course id. So, do a lookup to see
 		//  if a plan item exists if the type is "planned" and do an update of ATPid instead of creating a new plan item.
 		PlanItemEntity pie = new PlanItemEntity();
-		planItem.setId(UUIDHelper.genStringUUID());
         pie.fromDto(planItem,learningPlanDao);
         pie.setEntityCreated(context);
 
