@@ -3,9 +3,9 @@ package org.kuali.student.enrollment.class1.hold.service.impl;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.criteria.Predicate;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
-import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.student.common.uif.service.impl.KSViewHelperServiceImpl;
-import org.kuali.student.enrollment.class1.hold.dto.HoldIssueMaintenanceWrapper;
+import org.kuali.student.enrollment.class1.hold.dto.HoldIssueInfoWrapper;
+import org.kuali.student.enrollment.class1.hold.form.HoldIssueManagementForm;
 import org.kuali.student.enrollment.class1.hold.service.HoldIssueViewHelperService;
 import org.kuali.student.enrollment.class1.hold.util.HoldIssueConstants;
 import org.kuali.student.enrollment.class1.hold.util.HoldIssueResourceLoader;
@@ -30,18 +30,29 @@ public class HoldIssueViewHelperServiceImpl extends KSViewHelperServiceImpl impl
 
 
     @Override
-    public List<HoldIssueInfo> searchHolds(HoldIssueMaintenanceWrapper holdIssueWrapper) {
+    public List<HoldIssueInfoWrapper> searchHolds(HoldIssueManagementForm holdIssueFrom) {
 
-        List<HoldIssueInfo> results = new ArrayList<HoldIssueInfo>();
-
+        List<HoldIssueInfoWrapper> holdIssueInfoWrappers = new ArrayList<HoldIssueInfoWrapper>();
+        List<HoldIssueInfo> holdIssueInfos = new ArrayList<HoldIssueInfo>();
         try {
-            QueryByCriteria.Builder query = buildQueryByCriteria(holdIssueWrapper.getName(),holdIssueWrapper.getTypeKey(),holdIssueWrapper.getStateKey(),holdIssueWrapper.getOrganizationId(),holdIssueWrapper.getDescr());
-            results = HoldIssueResourceLoader.getHoldService().searchForHoldIssues(query.build(), createContextInfo());
+            QueryByCriteria.Builder query = buildQueryByCriteria(holdIssueFrom.getName(),holdIssueFrom.getTypeKey(),holdIssueFrom.getState(),holdIssueFrom.getOrganizationId(),holdIssueFrom.getDescr());
+            holdIssueInfos = HoldIssueResourceLoader.getHoldService().searchForHoldIssues(query.build(), createContextInfo());
+
+            for (HoldIssueInfo holdIssueInfo : holdIssueInfos) {
+                HoldIssueInfoWrapper holdIssueInfoWrapper = new HoldIssueInfoWrapper();
+                holdIssueInfoWrapper.setHoldIssueInfo(holdIssueInfo);
+                //Test
+                holdIssueInfoWrapper.setCode("Test");
+                holdIssueInfoWrapper.setAuthorization("Authorization");
+                holdIssueInfoWrapper.setFirstDate("08/19/2014");
+                holdIssueInfoWrapper.setLastDate("12/31/2014");
+                holdIssueInfoWrappers.add(holdIssueInfoWrapper);
+            }
         } catch (Exception e) {
 
             convertServiceExceptionsToUI(e);
         }
-        return results;
+        return holdIssueInfoWrappers;
     }
 
 

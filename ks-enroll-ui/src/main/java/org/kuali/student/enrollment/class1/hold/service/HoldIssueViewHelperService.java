@@ -1,7 +1,7 @@
 package org.kuali.student.enrollment.class1.hold.service;
 
-import org.kuali.student.enrollment.class1.hold.dto.HoldIssueMaintenanceWrapper;
-import org.kuali.student.r2.core.hold.dto.HoldIssueInfo;
+import org.kuali.student.enrollment.class1.hold.dto.HoldIssueInfoWrapper;
+import org.kuali.student.enrollment.class1.hold.form.HoldIssueManagementForm;
 
 import java.util.List;
 
@@ -13,7 +13,7 @@ import java.util.List;
  */
 public interface HoldIssueViewHelperService {
 
-    public  List<HoldIssueInfo> searchHolds(HoldIssueMaintenanceWrapper holdIssueWrapper);
+    public  List<HoldIssueInfoWrapper> searchHolds(HoldIssueManagementForm holdIssueForm);
 
 
 }

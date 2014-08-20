@@ -16,8 +16,10 @@
 package org.kuali.student.enrollment.class1.hold.form;
 
 import org.kuali.rice.krad.web.form.UifFormBase;
+import org.kuali.student.enrollment.class1.hold.dto.HoldIssueInfoWrapper;
 import org.kuali.student.r2.core.hold.dto.HoldIssueInfo;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -28,39 +30,39 @@ import java.util.List;
 public class HoldIssueManagementForm extends UifFormBase {
     private static final long serialVersionUID = 4898118410378641665L;
 
-    private String id;
+//    private String id;
     private String name;
     private String typeKey;
     private String stateKey;
     private String descr;
     private String organizationId;
-    private String orgName;
-    private String orgAddress;
+//    private String orgName;
+//    private String orgAddress;
     private String code;
-    private String baseType;
-    private String lastTerm;
-    private String firstTerm;
-    private String firstDate;
-    private String lastDate;
+//    private String baseType;
+//    private String lastTerm;
+//    private String firstTerm;
+//    private String firstDate;
+//    private String lastDate;
 
-    private boolean isSaveSuccess;
+//    private boolean isSaveSuccess;
 
     private HoldIssueInfo holdIssueInfo;
 
-    private List<HoldIssueInfo> holdIssueInfoList;
+    private List<HoldIssueInfoWrapper> holdIssueInfoList = new ArrayList<HoldIssueInfoWrapper>();
 
     public HoldIssueManagementForm(){
         super();
     }
 
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
+//    public String getId() {
+//        return id;
+//    }
+//
+//    public void setId(String id) {
+//        this.id = id;
+//    }
+//
     public String getName() {
         return name;
     }
@@ -101,29 +103,29 @@ public class HoldIssueManagementForm extends UifFormBase {
         this.organizationId = organizationId;
     }
 
-    public List<HoldIssueInfo> getHoldIssueInfoList() {
+    public List<HoldIssueInfoWrapper> getHoldIssueInfoList() {
         return holdIssueInfoList;
     }
 
-    public void setHoldIssueInfoList(List<HoldIssueInfo> holdIssueInfos) {
-        this.holdIssueInfoList = holdIssueInfos;
+    public void setHoldIssueInfoList(List<HoldIssueInfoWrapper> holdIssueInfoList) {
+        this.holdIssueInfoList = holdIssueInfoList;
     }
 
-    public String getOrgName() {
-        return orgName;
-    }
+//    public String getOrgName() {
+//        return orgName;
+//    }
+//
+//    public void setOrgName(String orgName) {
+//        this.orgName = orgName;
+//    }
 
-    public void setOrgName(String orgName) {
-        this.orgName = orgName;
-    }
-
-    public boolean getIsSaveSuccess() {
-        return isSaveSuccess;
-    }
-
-    public void setIsSaveSuccess(boolean saveSuccess) {
-        isSaveSuccess = saveSuccess;
-    }
+//    public boolean getIsSaveSuccess() {
+//        return isSaveSuccess;
+//    }
+//
+//    public void setIsSaveSuccess(boolean saveSuccess) {
+//        isSaveSuccess = saveSuccess;
+//    }
 
     public HoldIssueInfo getHoldIssueInfo() {
         return holdIssueInfo;
@@ -133,14 +135,14 @@ public class HoldIssueManagementForm extends UifFormBase {
         this.holdIssueInfo = holdIssueInfo;
     }
 
-    public String getOrgAddress() {
-        return orgAddress;
-    }
-
-    public void setOrgAddress(String orgAddress) {
-        this.orgAddress = orgAddress;
-    }
-
+//    public String getOrgAddress() {
+//        return orgAddress;
+//    }
+//
+//    public void setOrgAddress(String orgAddress) {
+//        this.orgAddress = orgAddress;
+//    }
+//
     public String getCode() {
         return code;
     }
@@ -148,44 +150,44 @@ public class HoldIssueManagementForm extends UifFormBase {
     public void setCode(String code) {
         this.code = code;
     }
-
-    public String getBaseType() {
-        return baseType;
-    }
-
-    public void setBaseType(String baseType) {
-        this.baseType = baseType;
-    }
-
-    public String getLastTerm() {
-        return lastTerm;
-    }
-
-    public void setLastTerm(String lastTerm) {
-        this.lastTerm = lastTerm;
-    }
-
-    public String getFirstTerm() {
-        return firstTerm;
-    }
-
-    public void setFirstTerm(String firstTerm) {
-        this.firstTerm = firstTerm;
-    }
-
-    public String getFirstDate() {
-        return firstDate;
-    }
-
-    public void setFirstDate(String firstDate) {
-        this.firstDate = firstDate;
-    }
-
-    public String getLastDate() {
-        return lastDate;
-    }
-
-    public void setLastDate(String lastDate) {
-        this.lastDate = lastDate;
-    }
+//
+//    public String getBaseType() {
+//        return baseType;
+//    }
+//
+//    public void setBaseType(String baseType) {
+//        this.baseType = baseType;
+//    }
+//
+//    public String getLastTerm() {
+//        return lastTerm;
+//    }
+//
+//    public void setLastTerm(String lastTerm) {
+//        this.lastTerm = lastTerm;
+//    }
+//
+//    public String getFirstTerm() {
+//        return firstTerm;
+//    }
+//
+//    public void setFirstTerm(String firstTerm) {
+//        this.firstTerm = firstTerm;
+//    }
+//
+//    public String getFirstDate() {
+//        return firstDate;
+//    }
+//
+//    public void setFirstDate(String firstDate) {
+//        this.firstDate = firstDate;
+//    }
+//
+//    public String getLastDate() {
+//        return lastDate;
+//    }
+//
+//    public void setLastDate(String lastDate) {
+//        this.lastDate = lastDate;
+//    }
 }

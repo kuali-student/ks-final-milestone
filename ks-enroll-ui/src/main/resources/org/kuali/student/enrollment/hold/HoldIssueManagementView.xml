@@ -21,12 +21,12 @@
 
     <bean id="KS-HoldIssueManagementView" parent="KS-Uif-FormView">
         <property name="singlePageView" value="true"/>
-        <property name="header.render" value="false"/>
+        <property name="header.render" value="true"/>
+        <property name="headerText" value="Manage Holds"/>
         <property name="viewHelperServiceClass"
                   value="org.kuali.student.enrollment.class1.hold.service.impl.HoldIssueViewHelperServiceImpl"/>
         <property name="formClass"
                   value="org.kuali.student.enrollment.class1.hold.form.HoldIssueManagementForm"/>
-        <property name="headerText" value="Manage Holds"/>
         <property name="page">
             <bean id="KS-Hold-SearchInput-Page" parent="KS-Hold-SearchInput-Page-parent"/>
         </property>
@@ -65,17 +65,12 @@
         </property>
     </bean>
 
-    <bean id="KS-Hold-SearchInput-Page-parent" parent="KS-Uif-Page" p:disclosure.render="false">
+    <!--p:disclosure.render="false"-->
+    <bean id="KS-Hold-SearchInput-Page-parent" parent="KS-Uif-Page" >
         <property name="items">
             <list>
-                <bean parent="Uif-HorizontalBoxSection">
-                    <property name="items">
-                        <list>
-                            <ref bean="KS-Hold-CriteriaSection"/>
-                            <ref bean="KS-HoldSearch-ResultSection"/>
-                        </list>
-                    </property>
-                </bean>
+                <ref bean="KS-Hold-CriteriaSection"/>
+                <ref bean="KS-HoldSearch-Results"/>
             </list>
         </property>
         <property name="footer">
@@ -98,7 +93,6 @@
     </bean>
 
     <bean id="KS-Hold-CriteriaSection" parent="Uif-HorizontalBoxSection" >
-        <property name="disclosure.render" value="false"/>
         <property name="items">
             <list>
                 <bean parent="Uif-HorizontalBoxGroup">
@@ -132,7 +126,7 @@
                             </bean>
                             <bean parent="KS-Uif-SecondaryActionButton" p:performClientSideValidation="false"
                                   p:actionLabel="Show" p:style="margin-left: 10px;margin-top: 32px"
-                                  p:ajaxSubmit="false" p:methodToCall="search" p:id="show_button"/>
+                                  p:methodToCall="search" p:id="show_button"/>
                         </list>
                     </property>
                 </bean>
@@ -141,37 +135,9 @@
         </property>
     </bean>
 
-    <bean id="KS-HoldSearch-ResultSection" parent="Uif-VerticalBoxSection">
-        <property name="disclosure.render" value="false"/>
-        <property name="items">
-            <list>
-                <ref bean="KS-HoldSearch-Result"/>
-            </list>
-        </property>
-    </bean>
-
-    <bean id="KS-HoldSearch-Result" parent="Uif-TableCollectionSection"
-          p:renderLineActions="true">
-        <property name="collectionObjectClass" value="org.kuali.student.r2.core.hold.dto.HoldIssueInfo"/>
+    <bean id="KS-HoldSearch-ResultSection" parent="Uif-TableCollectionSubSection" p:renderLineActions="true">
+        <property name="collectionObjectClass" value="org.kuali.student.enrollment.class1.hold.dto.HoldIssueInfoWrapper"/>
         <property name="propertyName" value="holdIssueInfoList"/>
-        <property name="headerText" value=""/>
-        <property name="header">
-            <bean parent="Uif-SectionHeader">
-                <property name="rightGroup">
-                    <bean parent="Uif-ActionsGroup">
-                        <property name="items">
-                            <list>
-                                <bean parent="KS-Uif-NavigationActionLink" p:methodToCall="create" p:actionLabel="Add"
-                                      p:performActionAuthz="true" p:actionEvent="useActions"/>
-                            </list>
-                        </property>
-                    </bean>
-                </property>
-            </bean>
-        </property>
-        <property name="collectionLookup">
-            <bean parent="Uif-CollectionQuickFinder" p:quickfinderAction.render="false"/>
-        </property>
         <property name="layoutManager.richTable">
             <bean parent="KS-Uif-RichTable"/>
         </property>
@@ -188,15 +154,34 @@
             </map>
         </property>
         <property name="renderAddLine" value="false"/>
+    </bean>
+
+    <bean id="KS-HoldSearch-Results" parent="KS-HoldSearch-ResultSection"
+          p:propertyName="holdIssueInfoList">
+        <property name="headerText" value=""/>
+        <property name="header">
+            <bean parent="Uif-SectionHeader">
+                <property name="rightGroup">
+                    <bean parent="Uif-ActionsGroup">
+                        <property name="items">
+                            <list>
+                                <bean parent="KS-Uif-NavigationActionLink" p:methodToCall="addHold" p:actionLabel="Add"
+                                      p:performActionAuthz="true" p:actionEvent="useActions"/>
+                            </list>
+                        </property>
+                    </bean>
+                </property>
+            </bean>
+        </property>
         <property name="items">
             <list>
                 <bean parent="KS-Uif-DataField"
                       p:label="Hold Name"
-                      p:propertyName="name"/>
+                      p:propertyName="holdIssueInfo.name"/>
                 <bean parent="KS-Uif-DataField"
                       p:label="Hold Code"
-                      p:propertyName="name"/>
-                <bean parent="KS-Uif-InputField" p:label="Category Name" p:propertyName="typeKey" p:readOnly="true">
+                      p:propertyName="code"/>
+                <bean parent="KS-Uif-InputField" p:label="Category" p:propertyName="holdIssueInfo.typeKey" p:readOnly="true">
                     <property name="control">
                         <bean parent="KS-Uif-DropdownControl"/>
                     </property>
@@ -207,8 +192,8 @@
                 </bean>
                 <bean parent="KS-Uif-DataField"
                       p:label="Description"
-                      p:propertyName="descr.plain"/>
-                <bean parent="KS-Uif-InputField" p:label="Owning Org" p:propertyName="organizationId" p:readOnly="true">
+                      p:propertyName="holdIssueInfo.descr.plain"/>
+                <bean parent="KS-Uif-InputField" p:label="Owning Org" p:propertyName="holdIssueInfo.organizationId" p:readOnly="true">
                     <property name="control">
                         <bean parent="KS-Uif-DropdownControl"/>
                     </property>
@@ -216,20 +201,15 @@
                         <bean id="HoldOrgNames" class="org.kuali.student.enrollment.class1.util.OrgInfoNameKeyValues"/>
                     </property>
                 </bean>
-            </list>
-        </property>
-        <property name="layoutManager.actionFieldPrototype">
-            <bean parent="Uif-HorizontalFieldGroup" p:align="left" p:required="false" p:label="Actions"
-                  p:style="display:inline;"/>
-        </property>
-        <property name="lineActions">
-            <list>
-                <bean parent="KS-Uif-Edit-NavigationActionLink" p:methodToCall="edit"
-                      p:iconClass="ks-fontello-icon-pencil" p:style="color:#0088CC;"/>
-                <bean parent="KS-Uif-Delete-NavigationActionLink" p:methodToCall="delete"
-                      p:hidden="@{#line.state eq 'kuali.hold.issue.state.inactive'}"
-                      p:iconClass="ks-fontello-icon-cancel"
-                      p:style="color:#0088CC;"/>
+                <bean parent="KS-Uif-DataField"
+                      p:label="Start Date"
+                      p:propertyName="firstDate"/>
+                <bean parent="KS-Uif-DataField"
+                      p:label="End Date"
+                      p:propertyName="lastDate"/>
+                <bean parent="KS-Uif-DataField"
+                      p:label="Authorization"
+                      p:propertyName="authorization"/>
             </list>
         </property>
     </bean>
