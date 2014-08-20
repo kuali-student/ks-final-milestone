@@ -318,22 +318,11 @@
                 <value>ks-cm-course_detail-section</value>
             </list>
         </property>-->
-        <property name="header">
-            <bean parent="Uif-HeaderThree">
-                <property name="headerText" value="Export Document"/>
-                <!--<property name="cssClasses">
-                    <list merge="true">
-                        <value>ks-dottedHeaderActions</value>
-                        <value>cm_dottedHeaderActions</value>
-                    </list>
-                </property>
-                <property name="rightGroup">
-                    <bean parent="KS-CourseView-ReviewLink"/>
-                </property>-->
-            </bean>
-        </property>
+        <property name="headerText" value="Export Document"/>
+        <property name="header.id" value="CM-Export-Lightbox-Header"/>
         <property name="footer">
             <bean parent="Uif-FooterBase">
+                <property name="additionalCssClasses" value="cm-footer-right-aligned"/>
                 <property name="items">
                     <list>
                         <bean parent="Uif-PrimaryActionButton"
@@ -342,6 +331,7 @@
                               p:actionLabel="Export" p:preSubmitCall="setExportSelectedOption(); return true;"/>
                         <bean parent="Uif-ActionLink"
                               p:actionLabel="Cancel"
+                              p:style="margin-top:5px;"
                               p:actionScript="closeLightbox();" />
                     </list>
                 </property>
@@ -349,10 +339,11 @@
         </property>
         <property name="items">
             <list>
-                <bean parent="Uif-Message" p:messageText="The exported document will appear in a new page. Please disable pop-up blockers. Export document as:"/>
-                <bean id="CM-ExportLigBox-Field" parent="KS-Uif-InputField" p:propertyName="extensionData['export_type']">
+                <bean parent="Uif-Message" p:messageText="The exported document will appear in a new page. Please disable pop-up blockers. [br]Export document as:"/>
+                <bean parent="KS-Uif-InputField" p:propertyName="extensionData['export_type']">
                     <property name="bindingInfo.bindToForm" value="true"/>
                     <property name="defaultValue" value="@{T(org.kuali.student.cm.common.util.CurriculumManagementConstants$Export).PDF}"/>
+                    <property name="style" value="margin-top:10px;"/>
                     <property name="control">
                         <bean parent="KS-Uif-VerticalRadioControl">
                             <property name="options">
