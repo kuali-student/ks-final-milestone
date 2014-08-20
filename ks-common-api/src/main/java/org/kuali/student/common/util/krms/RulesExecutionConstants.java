@@ -47,6 +47,7 @@ public class RulesExecutionConstants {
     public static final Term REGISTRATION_GROUP_TERM = new Term("registrationGroup");
     public static final Term CLU_ID_TERM = new Term("cluId");
     public static final Term CLU_INFO_TERM = new Term("cluInfo");
+    public static final Term CLU_VERSION_IND_ID_TERM = new Term("cluVersionIndId");
     // services
     public static final Term ACADEMIC_RECORD_SERVICE_TERM = new Term("academicRecordService");
     public static final Term CLU_SERVICE = new Term("cluService");
