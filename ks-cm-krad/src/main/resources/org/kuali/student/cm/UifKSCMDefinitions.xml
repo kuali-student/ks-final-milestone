@@ -169,6 +169,7 @@
 
         <!--  These properties belong to  LabelWithRequiredIndicatorOverride -->
         <property name="requiredIndicatorService" value="#{requiredIndicatorService}" />
+        <!-- The parent input field property name must be in one of the lists in the required indicator config -->
         <property name="parentPropertyName" value="@{#parent.propertyName}" />
         <property name="workflowDocumentType" value="@{docTypeName}" />
         <property name="workflowState" value="@{#workflowDoc.status.code}" />
@@ -176,13 +177,13 @@
         <property name="renderColon" value="false"/>
     </bean>
 
-
+    <!-- An overridden Message which displays a requiredness indicator. -->
     <bean id="CM-RequiredIndicator-Message" parent="CM-RequiredIndicator-Message-parent" abstract="true" />
     <bean id="CM-RequiredIndicator-Message-parent" parent="Uif-Message" abstract="true"
             class="org.kuali.student.cm.uif.util.RequiredIndicatorMessage">
 
         <property name="cssClasses">
-            <list merge="false">
+            <list merge="true">
                 <value>uif-requiredMessage</value>
                 <value>cm_requiredMessage_text</value>
             </list>
@@ -192,6 +193,7 @@
 
         <!--  These properties belong to RequiredIndicatorMessage -->
         <property name="requiredIndicatorService" value="#{requiredIndicatorService}" />
+        <!-- The message bean has to be given an Id and the Id must be in one of the lists in the required indicator config -->
         <property name="messageKey" value="@{#component.id}" />
         <property name="workflowDocumentType" value="@{docTypeName}" />
         <property name="workflowState" value="@{#workflowDoc.status.code}" />
