@@ -47,7 +47,6 @@ public class ElasticEmbedded {
     public static final String KS_ELASTIC_INDEX = "ks";
     public static final String COURSEOFFERING_ELASTIC_TYPE = "courseoffering";
     public static final String REGISTRATION_GROUP_ELASTIC_TYPE = "registrationGroup";
-    public static final String COURSEOFFERING_DETAILS_ELASTIC_TYPE = "courseofferingDetails";
 
     private SearchService searchService;
     private LRCService lrcService;
@@ -61,7 +60,7 @@ public class ElasticEmbedded {
 
     private DateTime lastUpdated; //Keep track of timeout for the elastic "cache"
     private long timeToRefreshMs = (5 * 60 * 1000); //Max time before refreshing the cache/reindexing
-    private static int PARTITION_SIZE = 10000; // for large data sets we should partition
+    private final static int PARTITION_SIZE = 10000; // for large data sets we should partition
 
     /**
      * Starts up a node and gets a handle to the client. This is a hook for spring application context to start up
@@ -122,7 +121,7 @@ public class ElasticEmbedded {
         //Create a bulk request to push all data into elastic
         for (CourseSearchResult searchResult : courses) {
             String json = mapper.writeValueAsString(searchResult);
-            bulkRequest.add(client.prepareIndex(KS_ELASTIC_INDEX, COURSEOFFERING_ELASTIC_TYPE, searchResult.getCourseId()).setSource(json));
+            bulkRequest.add(client.prepareIndex(KS_ELASTIC_INDEX, COURSEOFFERING_ELASTIC_TYPE, searchResult.getCourseId()+"-"+searchResult.getCourseCode()).setSource(json));
         }
 
         //Execute the bulk operation
@@ -134,6 +133,8 @@ public class ElasticEmbedded {
         LOG.info("Done Loading Course Offering Data - " + (System.currentTimeMillis() - startTime.getTime()) + "ms");
     }
 
+    //Turn of index analysis for some fields so they do exact matches (Ids with "." or "-" in them were treated as
+    // multiple terms instead of a single string)
     private void applyCourseOfferingIndexMappings() throws IOException {
         XContentBuilder builder = XContentFactory.jsonBuilder().
                 startObject().
@@ -151,9 +152,11 @@ public class ElasticEmbedded {
                             startObject("state").
                                 field("type", "string").field("store", "yes").field("index", "not_analyzed").
                             endObject().
-                            // more mapping
+                            startObject("courseIdentifierType").
+                                field("type", "string").field("store", "yes").field("index", "not_analyzed").
                             endObject().
                         endObject().
+                    endObject().
                 endObject();
         client.admin().indices().preparePutMapping(KS_ELASTIC_INDEX).setType(COURSEOFFERING_ELASTIC_TYPE).setSource(builder).execute().actionGet();
 
@@ -247,11 +250,14 @@ public class ElasticEmbedded {
 
             CourseSearchResult courseSearchResult = new CourseSearchResult();
             courseSearchResult.setCluId(keyValue.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.CO_CLU_ID));
+            courseSearchResult.setCourseIdentifierType(keyValue.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.CO_IDENT_TYPE));
             courseSearchResult.setCourseCode(keyValue.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.LUI_CODE));
             courseSearchResult.setCourseId(keyValue.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.LUI_ID));
             courseSearchResult.setCourseLevel(keyValue.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.LUI_LEVEL));
             courseSearchResult.setCourseNumber(keyValue.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.COURSE_NUMBER));
-            courseSearchResult.setCoursePrefix(keyValue.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.COURSE_DIVISION));
+//            courseSearchResult.setCoursePrefix(keyValue.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.COURSE_DIVISION));
+            //crosslistings have a different prefix so grab a substring from the code
+            courseSearchResult.setCoursePrefix(courseSearchResult.getCourseCode().substring(0,4));
             courseSearchResult.setLongName(keyValue.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.LUI_LONG_NAME));
             courseSearchResult.setSeatsAvailable(Integer.parseInt(keyValue.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.SEATS_AVAILABLE)));
             courseSearchResult.setTermId(keyValue.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.ATP_ID));

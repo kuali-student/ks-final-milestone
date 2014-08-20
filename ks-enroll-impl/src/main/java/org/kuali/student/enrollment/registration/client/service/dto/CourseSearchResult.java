@@ -25,6 +25,7 @@ public class CourseSearchResult {
     private int seatsAvailable;
     private String termId;
     private String state;
+    private String courseIdentifierType;
 
     public String getCourseId() {
         return courseId;
@@ -123,5 +124,13 @@ public class CourseSearchResult {
 
     public void setState(String state) {
         this.state = state;
+    }
+
+    public String getCourseIdentifierType() {
+        return courseIdentifierType;
+    }
+
+    public void setCourseIdentifierType(String courseIdentifierType) {
+        this.courseIdentifierType = courseIdentifierType;
     }
 }

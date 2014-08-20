@@ -30,6 +30,8 @@ import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.LprServiceConstants;
 import org.kuali.student.r2.lum.util.constants.LrcServiceConstants;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -42,7 +44,7 @@ import java.util.List;
 import java.util.Map;
 
 public class CourseRegistrationServiceImpl extends AbstractCourseRegistrationService implements CourseRegistrationService {
-
+    public static final Logger LOG = LoggerFactory.getLogger(CourseRegistrationServiceImpl.class);
     private LprService lprService;
     private CourseOfferingService courseOfferingService;
     private RegistrationRequestTransformer registrationRequestTransformer;
@@ -72,8 +74,20 @@ public class CourseRegistrationServiceImpl extends AbstractCourseRegistrationSer
             throws AlreadyExistsException, DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
 
+        LOG.info("Submitting Registration Request");
+
         // had to create transactional helper methods
         RegistrationRequestInfo regRequestInfo =  getRegistrationRequestToSubmit(registrationRequestId,contextInfo);
+
+        //Check that this is a new item
+        if(!LprServiceConstants.LPRTRANS_NEW_STATE_KEY.equals(regRequestInfo.getStateKey())){
+            throw new RuntimeException("Cannot submit request that is already initialized requestId:"+regRequestInfo.getId());
+        }
+        for(RegistrationRequestItemInfo requestItemInfo:regRequestInfo.getRegistrationRequestItems()){
+            if(!LprServiceConstants.LPRTRANS_ITEM_NEW_STATE_KEY.equals(requestItemInfo.getStateKey())){
+                throw new RuntimeException("Cannot submit request item that is already initialized requestId:"+regRequestInfo.getId() +" itemId:"+requestItemInfo.getId());
+            }
+        }
 
         try {
             MapMessage mapMessage = new ActiveMQMapMessage();

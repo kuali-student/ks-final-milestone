@@ -1,6 +1,7 @@
 package org.kuali.student.enrollment.registration.client.service;
 
 
+import org.codehaus.jackson.JsonParseException;
 import org.kuali.student.enrollment.registration.client.service.dto.CourseOfferingDetailsSearchResult;
 import org.kuali.student.enrollment.registration.client.service.dto.CourseSearchResult;
 import org.kuali.student.enrollment.registration.client.service.dto.InstructorSearchResult;
@@ -10,6 +11,7 @@ import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.*;
 import org.kuali.student.r2.core.scheduling.dto.TimeSlotInfo;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -106,7 +108,7 @@ public interface ScheduleOfClassesService {
      * @throws PermissionDeniedException
      * @throws OperationFailedException
      */
-    CourseSearchResult getCourseOfferingById(String courseOfferingId, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, PermissionDeniedException, OperationFailedException, DoesNotExistException;
+    CourseSearchResult getCourseOfferingById(String courseOfferingId, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, PermissionDeniedException, OperationFailedException, DoesNotExistException, IOException;
 
 
 /** REGISTRATION GROUPS **/

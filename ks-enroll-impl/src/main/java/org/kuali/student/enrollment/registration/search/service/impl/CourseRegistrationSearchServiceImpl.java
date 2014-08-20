@@ -199,6 +199,7 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
         public static final String CO_CROSSLISTED_SUBJECT_AREA = "coCrossListedSubjectArea";
         public static final String CO_CLU_ID = "cluId";
         public static final String CO_STATE = "coState";
+        public static final String CO_IDENT_TYPE = "coIdentType";
 
         public static final String SEAT_COUNT = "seatCount";
         public static final String WAITLIST_COUNT = "waitlistCount";
@@ -486,6 +487,7 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
         List<String> atpIds = requestHelper.getParamAsList(SearchParameters.ATP_ID);
         String queryStr =
                 "SELECT\n" +
+                        "    luii.LUI_ID_TYPE          coIdentType,\n" +
                         "    lui.LUI_STATE             coState,\n" +
                         "    lui.CLU_ID                cluid,\n" +
                         "    lui.id                    luiid,\n" +
@@ -568,6 +570,7 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
         for (Object[] resultRow : results) {
             int i = 0;
             SearchResultRowInfo row = new SearchResultRowInfo();
+            row.addCell(SearchResultColumns.CO_IDENT_TYPE, (String) resultRow[i++]);
             row.addCell(SearchResultColumns.CO_STATE, (String) resultRow[i++]);
             row.addCell(SearchResultColumns.CO_CLU_ID, (String) resultRow[i++]);
             row.addCell(SearchResultColumns.LUI_ID, (String) resultRow[i++]);

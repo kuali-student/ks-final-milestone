@@ -23,8 +23,10 @@ import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.core.scheduling.dto.TimeSlotInfo;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -62,14 +64,28 @@ public class ScheduleOfClassesServiceCacheImpl extends ScheduleOfClassesServiceI
     }
 
     @Override
-    public CourseSearchResult getCourseOfferingById(String courseOfferingId, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, PermissionDeniedException, OperationFailedException, DoesNotExistException {
+    public CourseSearchResult getCourseOfferingById(String courseOfferingId, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, PermissionDeniedException, OperationFailedException, DoesNotExistException, IOException {
         CourseSearchResult searchResult = null;
-
-        GetResponse getResponse = elasticEmbedded.getClient().prepareGet(ElasticEmbedded.KS_ELASTIC_INDEX, ElasticEmbedded.COURSEOFFERING_ELASTIC_TYPE, courseOfferingId).execute().actionGet();
-        ObjectMapper objectMapper = new ObjectMapper();
         try {
-            if (getResponse.isExists()) {
-                searchResult = objectMapper.readValue(getResponse.getSourceAsString(), CourseSearchResult.class);
+            QueryBuilder query = QueryBuilders.filteredQuery(
+                    QueryBuilders.matchAllQuery(),
+                    FilterBuilders.termFilter("courseOfferingId", courseOfferingId));
+
+            SearchResponse sr = elasticEmbedded.getClient()
+                    .prepareSearch(ElasticEmbedded.KS_ELASTIC_INDEX)
+                    .setTypes(ElasticEmbedded.COURSEOFFERING_ELASTIC_TYPE)
+                    .setQuery(query)
+                    .execute().actionGet();
+
+            ObjectMapper objectMapper = new ObjectMapper();
+
+            for (SearchHit hit : sr.getHits().getHits()) {
+                CourseSearchResult courseSearchResult = objectMapper.readValue(hit.getSourceAsString(), CourseSearchResult.class);
+                //Other identifier types would be handled here for crosslisting/etc.
+                if(LuiServiceConstants.LUI_IDENTIFIER_OFFICIAL_TYPE_KEY.equals(courseSearchResult.getCourseIdentifierType())){
+                    searchResult = courseSearchResult;
+                    break;
+                }
             }
         } catch (Exception e) {
             throw new OperationFailedException("Error searching for course offering id. ", e);

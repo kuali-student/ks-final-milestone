@@ -270,8 +270,14 @@ public class CourseRegistrationEngineServiceImpl implements CourseRegistrationEn
                 = getCourseRegistrationService().getRegistrationRequest(regReqId, contextInfo);
 
         //Set the status on the Request to processing. This leaves the message out of sync as far as state and
+        if(!LprServiceConstants.LPRTRANS_NEW_STATE_KEY.equals(registrationRequestInfo.getStateKey())){
+            throw new RuntimeException("Cannot initialize request that is already initialized requestId:"+registrationRequestInfo.getId());
+        }
         registrationRequestInfo.setStateKey(LprServiceConstants.LPRTRANS_PROCESSING_STATE_KEY);
         for(RegistrationRequestItemInfo requestItemInfo:registrationRequestInfo.getRegistrationRequestItems()){
+            if(!LprServiceConstants.LPRTRANS_ITEM_NEW_STATE_KEY.equals(requestItemInfo.getStateKey())){
+                throw new RuntimeException("Cannot initialize request item that is already initialized requestId:"+registrationRequestInfo.getId() +" itemId:"+requestItemInfo.getId());
+            }
             requestItemInfo.setStateKey(LprServiceConstants.LPRTRANS_ITEM_PROCESSING_STATE_KEY);
         }
         registrationRequestInfo = getCourseRegistrationService().updateRegistrationRequest(registrationRequestInfo.getId(), registrationRequestInfo, contextInfo);
