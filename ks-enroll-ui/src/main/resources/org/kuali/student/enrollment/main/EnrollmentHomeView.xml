@@ -67,6 +67,8 @@
                       p:href="@{#ConfigProperties['application.url']}/kr-krad/finalExamRules?viewName=FEAgendaManagementView&amp;dataObjectClassName=org.kuali.student.enrollment.class1.krms.dto.FERuleManagementWrapper&amp;methodToCall=start&amp;withinPortal=false"/>
                 <bean parent="Uif-Link" p:linkText="Manage Time Slots"
                       p:href="@{#ConfigProperties['application.url']}/kr-krad/timeslot?viewId=timeSlotView&amp;pageId=timeSlotPage&amp;methodToCall=start&amp;withinPortal=false"/>
+                <bean parent="Uif-Link" p:linkText="Manage Hold Catalog"
+                      p:href="@{#ConfigProperties['application.url']}/kr-krad/holdIssueManagement?viewId=KS-HoldIssueManagementView&amp;methodToCall=start&amp;withinPortal=false"/>
             </list>
         </property>
     </bean>
@@ -91,6 +93,8 @@
             <list>
                 <bean parent="Uif-Link" p:linkText="Student Registration"
                       p:href="@{#ConfigProperties['application.url']}/registration/#/myCart"/>
+                <bean parent="Uif-Link" p:linkText="Admin Registration"
+                      p:href="@{#ConfigProperties['application.url']}/kr-krad/adminreg?viewId=KS-AdminRegistration&amp;methodToCall=start&amp;withinPortal=false"/>
             </list>
         </property>
     </bean>
