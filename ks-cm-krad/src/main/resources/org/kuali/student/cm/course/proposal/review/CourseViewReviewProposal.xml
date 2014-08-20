@@ -368,13 +368,7 @@
                             <bean parent="CM-Proposal-Button-Submit"
                                   p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE] and (!#uiHelper.pendingWorkflowAction)}"/>
                             <bean parent="CM-Proposal-Button-ApproveOrReSubmit" />
-                            <bean parent="Uif-PrimaryActionButton"
-                                  p:additionalCssClasses="btn-danger"
-                                  p:ajaxSubmit="false"
-                                  p:actionLabel="Reject"
-                                  p:methodToCall="disapprove"
-                                  p:performClientSideValidation="true"
-                                  p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_DISAPPROVE] and (!#uiHelper.pendingWorkflowAction)}"/>
+                            <bean parent="CM-Proposal-Button-Reject"/>
                             <bean parent="Uif-PrimaryActionButton"
                                   p:additionalCssClasses="btn-success"
                                   p:ajaxSubmit="false"
@@ -419,13 +413,8 @@
 
                             <bean parent="CM-Proposal-Button-ApproveOrReSubmit" />
 
-                            <bean parent="Uif-PrimaryActionButton"
-                                  p:additionalCssClasses="btn-danger"
-                                  p:ajaxSubmit="false"
-                                  p:actionLabel="Reject"
-                                  p:methodToCall="disapprove"
-                                  p:performClientSideValidation="true"
-                                  p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_DISAPPROVE] and (!#uiHelper.pendingWorkflowAction)}"/>
+                            <bean parent="CM-Proposal-Button-Reject"/>
+
                             <bean parent="CM-Proposal-Button-Withdraw"/>
 
                             <bean parent="CM-Proposal-Button-ReturnToPrevious"/>
@@ -462,6 +451,16 @@
         <property name="performClientSideValidation" value="true"/>
         <property name="disabled" value="@{#dataObject.missingRequiredFields}"/>
         <property name="render" value="@{#actionFlags[#Constants.KUALI_ACTION_CAN_APPROVE] and (!#uiHelper.pendingWorkflowAction)}"/>
+    </bean>
+
+    <bean id="CM-Proposal-Button-Reject" parent="CM-Proposal-Button-Reject-parentBean" />
+    <bean id="CM-Proposal-Button-Reject-parentBean" parent="Uif-PrimaryActionButton" abstract="true">
+        <property name="additionalCssClasses" value="btn-danger"/>
+        <property name="ajaxSubmit" value="false"/>
+        <property name="actionLabel" value="Reject"/>
+        <property name="methodToCall" value="disapprove"/>
+        <property name="performClientSideValidation" value="true"/>
+        <property name="render" value="@{#actionFlags[#Constants.KUALI_ACTION_CAN_DISAPPROVE] and (!#uiHelper.pendingWorkflowAction)}"/>
     </bean>
 
     <bean id="CM-Proposal-Button-ReturnToPrevious" parent="CM-Proposal-Button-ReturnToPrevious-parentBean" />
