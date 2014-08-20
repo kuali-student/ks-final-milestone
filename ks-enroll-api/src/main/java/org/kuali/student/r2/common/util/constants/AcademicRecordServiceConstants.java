@@ -76,5 +76,9 @@ public class AcademicRecordServiceConstants {
     public static final String LOAD_CODE_4_TIER_3_HT = "kuali.academic.record.load.code.4.tier.3.at.least.half.time";
     public static final String LOAD_CODE_4_TIER_4_FT = "kuali.academic.record.load.code.4.tier.4.full.time";
 
+    // Course States
+    public static final String COURSE_STATE_COMPLETED = "kuali.academic.record.course.state.completed";
+    public static final String COURSE_STATE_REGISTERED = "kuali.academic.record.course.state.registered";
+
 }
 
