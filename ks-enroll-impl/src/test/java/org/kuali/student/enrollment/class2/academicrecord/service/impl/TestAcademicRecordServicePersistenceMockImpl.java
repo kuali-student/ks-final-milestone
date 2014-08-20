@@ -79,7 +79,7 @@ public class TestAcademicRecordServicePersistenceMockImpl {
         assertTrue(studentCourseRecordInfoList.size() == 2);
         boolean fall2010A = false;
         for (StudentCourseRecordInfo studentCourseRecordInfo:studentCourseRecordInfoList) {
-            if (studentCourseRecordInfo.getTermId().equals("201008")
+            if (studentCourseRecordInfo.getTermId().equals("kuali.atp.2010Fall")
                     && studentCourseRecordInfo.getAssignedGradeValue().equals("A")
                     && studentCourseRecordInfo.getCourseCode().equals("HIST499")) {
                 fall2010A = true;
@@ -100,7 +100,7 @@ public class TestAcademicRecordServicePersistenceMockImpl {
         assertTrue(studentCourseRecordInfoList.size() == 2);
         boolean fall2011repeated = false;
         for (StudentCourseRecordInfo studentCourseRecordInfo:studentCourseRecordInfoList) {
-            if (studentCourseRecordInfo.getTermId().equals("201108")
+            if (studentCourseRecordInfo.getTermId().equals("kuali.atp.2011Fall")
                     && studentCourseRecordInfo.getIsRepeated()
                     && studentCourseRecordInfo.getCourseCode().equals("PHYS260")) {
                 fall2011repeated = true;
