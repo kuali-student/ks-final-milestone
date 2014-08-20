@@ -716,4 +716,29 @@ public class DefaultCourseHelper implements CourseHelper, Serializable {
         }
         return false;
     }
+
+    /**
+     * @see org.kuali.student.ap.framework.context.CourseHelper#validateCourseForAdd(org.kuali.student.r2.lum.course.infc.Course)
+     */
+    @Override
+    public String validateCourseForAdd(Course course) {
+
+        if(course == null){
+            return "No course found";
+        }
+
+        List<String> validStates = new ArrayList<String>();
+        validStates.add("Active");
+        validStates.add("Retired");
+        validStates.add("Superseded");
+        if(!validStates.contains(course.getStateKey())){
+            return "Course " + course.getCode() + " is not an active course";
+        }
+
+        if(course.getExpirationDate()!=null && course.getExpirationDate().before(KsapHelperUtil.getCurrentDate())){
+            return "Course " + course.getCode() + " is expired";
+        }
+
+        return null;
+    }
 }

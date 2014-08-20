@@ -137,4 +137,12 @@ public interface CourseHelper {
      * @return
      */
     List<String> getAllCourseIdsByVersionIndependentId(String versionIndependentId);
+
+    /**
+     * Validates that the course is able to be added to the learning plan
+     *
+     * @param course - Course to be added
+     * @return null if valid, response message otherwise
+     */
+    public String validateCourseForAdd(Course course);
 }

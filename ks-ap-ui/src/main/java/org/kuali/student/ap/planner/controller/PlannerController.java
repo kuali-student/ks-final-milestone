@@ -800,8 +800,9 @@ public class PlannerController extends KsapControllerBase {
 
         // Retrieve course information using the course code entered by the user
         Course course = KsapFrameworkServiceLocator.getCourseHelper().getCurrentVersionOfCourse(courseId);
-        if(course != null && !course.getStateKey().equals("Active")){
-            PlanEventUtils.sendJsonEvents(false, "Course " + course.getCode() + " not active", response, eventList);
+        String responseMessage =  KsapFrameworkServiceLocator.getCourseHelper().validateCourseForAdd(course);
+        if(responseMessage !=null){
+            PlanEventUtils.sendJsonEvents(false, responseMessage, response, eventList);
             return null;
         }
 

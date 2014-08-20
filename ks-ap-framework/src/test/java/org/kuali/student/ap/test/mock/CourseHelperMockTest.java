@@ -100,4 +100,15 @@ public class CourseHelperMockTest implements CourseHelper {
     public List<String> getAllCourseIdsByVersionIndependentId(String versionIndependentId) {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
+
+    /**
+     * Validates that the course is able to be added to the learning plan
+     *
+     * @param course - Course to be added
+     * @return null if valid, response message otherwise
+     */
+    @Override
+    public String validateCourseForAdd(Course course) {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
 }
