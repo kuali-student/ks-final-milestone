@@ -60,7 +60,7 @@ public class SearchableCrudDaoImpl {
 		
 		//retrieve the SELECT statement from search type definition
 		String queryString = queryMap.get(searchKey);
-		String optionalQueryString = "";
+		StringBuilder optionalQueryString = new StringBuilder();
 		if(null == queryString){
 			LOG.error("No SQL query was found for searchKey: {}", searchKey);
 		}
@@ -79,8 +79,8 @@ public class SearchableCrudDaoImpl {
 				// check to see if optional param has any values set.
 				if(queryParam.isOptional()&&queryParam.getKey().equals(searchParam.getKey())
                         &&searchParam.getValues()!=null&&searchParam.getValues().size()>0&&searchParam.getValues().get(0)!=null){
-					if(!optionalQueryString.isEmpty()){
-						optionalQueryString += " AND ";
+					if (optionalQueryString.length() != 0) {
+						optionalQueryString.append(" AND ");
 					}
 					
 					//if optional query parameter has only a column name then create proper search expression
@@ -104,14 +104,14 @@ public class SearchableCrudDaoImpl {
 					            if (strTokenizer.hasMoreElements()) {
 					                String strNum1 = strTokenizer.nextToken().trim();
 					                String strNum2 = strTokenizer.nextToken().trim();
-					                optionalQueryString += 
-					                    realCondition +
-					                    " BETWEEN " + "'" + strNum1 + "'" + " AND " + "'" + strNum2 + "'";
+					                optionalQueryString
+                                            .append(realCondition)
+                                            .append(" BETWEEN '").append(strNum1).append("' AND '").append(strNum2).append("'");
 					                internalQueryParms.remove(searchParam);
 					            }
 					        } else {
 					            // the value is just one number
-					            optionalQueryString += realCondition + " = '" + queryValue + "'";
+					            optionalQueryString.append(realCondition).append(" = '").append(queryValue).append( "'");
 					            internalQueryParms.remove(searchParam);
 					        }
 					    }
@@ -119,27 +119,27 @@ public class SearchableCrudDaoImpl {
 					    //this parameter is not entered by end user but rather it is set with a default context value	
 					    String dataType = queryParam.getFieldDescriptor().getDataType();
 					    if ((dataType != null) && "boolean".equals(dataType)) {
-					        optionalQueryString += queryMap.get(searchParam.getKey()).replace(":" + searchParam.getKey().replace(".", "_"), searchParam.getValues().get(0));
+					        optionalQueryString.append(queryMap.get(searchParam.getKey()).replace(":" + searchParam.getKey().replace(".", "_"), searchParam.getValues().get(0)));
 					        internalQueryParms.remove(searchParam);
 					    } else {					    
-					        optionalQueryString += queryMap.get(searchParam.getKey());
+					        optionalQueryString.append(queryMap.get(searchParam.getKey()));
 					    }						
 					} else {
 						//comparison should be case insensitive and should include wild card such that we match beginning of a text 
 						//and each word within text
 						//FIXME SQL injection can occur here - or NOT if we need to assemble SQL to cover various ways one can compare criteria to a text
-						optionalQueryString += 
-                                "(LOWER(" + queryMap.get(searchParam.getKey()) + ") LIKE LOWER(:"
-                                        + searchParam.getKey().replace(".", "_") + ") || '%' OR " +
-                                        "LOWER(" + queryMap.get(searchParam.getKey()) + ") LIKE '% ' || LOWER(:"
-                                        + searchParam.getKey().replace(".", "_") + ") || '%')";
+						optionalQueryString
+                                .append("(LOWER(").append(queryMap.get(searchParam.getKey())).append(") LIKE LOWER(:")
+                                .append(searchParam.getKey().replace(".", "_")).append(") || '%' OR ")
+                                .append("LOWER(").append(queryMap.get(searchParam.getKey())).append(") LIKE '% ' || LOWER(:")
+                                .append(searchParam.getKey().replace(".", "_")).append(") || '%')");
 					}
 				}
 			}
 		}
 		
 		//Add in the where clause or And clause if needed for the optional criteria
-		if(!optionalQueryString.isEmpty()){
+		if (optionalQueryString.length() != 0) {
 			if(!queryString.toUpperCase().contains(" WHERE ")){
 				queryString += " WHERE ";
 			}
