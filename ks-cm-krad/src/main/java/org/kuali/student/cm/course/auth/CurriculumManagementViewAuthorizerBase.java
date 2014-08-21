@@ -52,6 +52,10 @@ public class CurriculumManagementViewAuthorizerBase extends MaintenanceViewAutho
             actions.remove(CurriculumManagementConstants.ActionFlags.KUALI_ACTION_CAN_WITHDRAW);
         }
 
+        if (actions.contains(CurriculumManagementConstants.ActionFlags.KUALI_ACTION_CAN_ADD_COLLABORATOR) && !canAddCollaborators(document, user)) {
+            actions.remove(CurriculumManagementConstants.ActionFlags.KUALI_ACTION_CAN_ADD_COLLABORATOR);
+        }
+
         return actions;
     }
 
@@ -64,6 +68,15 @@ public class CurriculumManagementViewAuthorizerBase extends MaintenanceViewAutho
             throw new RuntimeException("Document Authorizer class is not assignable to proper interface");
         }
         return ((CurriculumManagementMaintenanceDocumentAuthorizerBase)documentAuthorizer).canWithdraw(document, user);
+    }
+
+    /**
+     * A Method to dictate whether the user can Add Collaborators to the document.
+     *
+     * Any user who is authorized to save the document may add collaborators.
+     */
+    public boolean canAddCollaborators(Document document, Person user) {
+        return getDocumentAuthorizer().canSave(document, user);
     }
 
 }

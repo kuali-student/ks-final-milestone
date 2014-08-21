@@ -8,6 +8,14 @@ import org.kuali.rice.krad.document.Document;
  */
 public interface CurriculumManagementViewAuthorizer {
 
+    /**
+     * A Method to dictate whether the user can Withdraw the document from Workflow.
+     */
     public boolean canWithdraw(Document document, Person user);
+
+    /**
+     * A Method to dictate whether the user can Add Collaborators to the document.
+     */
+    public boolean canAddCollaborators(Document document, Person user);
 
 }

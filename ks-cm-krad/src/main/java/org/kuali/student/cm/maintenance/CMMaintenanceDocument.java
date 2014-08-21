@@ -34,8 +34,9 @@ import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.krad.maintenance.MaintenanceDocumentBase;
 import org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent;
 import org.kuali.rice.krad.rules.rule.event.SaveEvent;
-import org.kuali.rice.student.bo.KualiStudentKimAttributes;
+import org.kuali.student.cm.course.form.wrapper.CourseInfoWrapper;
 import org.kuali.student.common.util.security.ContextUtils;
+import org.kuali.student.core.rice.authorization.DocumentCollaboratorHelper;
 import org.kuali.student.lum.workflow.CourseStateChangeServiceImpl;
 import org.kuali.student.r1.common.rice.StudentIdentityConstants;
 import org.kuali.student.r1.common.rice.StudentProposalRiceConstants;
@@ -141,6 +142,13 @@ public class CMMaintenanceDocument extends MaintenanceDocumentBase {
         super.prepareForSave(event);
 
         if (event instanceof SaveEvent) {
+            // set the application document id to the proposal id since this is needed for some KEW and KIM processing related to collaborators
+            if (getDocumentHeader() != null && getDocumentHeader().getWorkflowDocument() != null && getNewMaintainableObject().getDataObject() != null) {
+                CourseInfoWrapper courseInfoWrapper = (CourseInfoWrapper)getNewMaintainableObject().getDataObject();
+                if (courseInfoWrapper.getProposalInfo() != null) {
+                    getDocumentHeader().getWorkflowDocument().setApplicationDocumentId(courseInfoWrapper.getProposalInfo().getId());
+                }
+            }
             getNewMaintainableObject().saveDataObject();
         }
     }
@@ -238,31 +246,26 @@ public class CMMaintenanceDocument extends MaintenanceDocumentBase {
     */
     @Override
     public void doRouteLevelChange(DocumentRouteLevelChange documentRouteLevelChange) {
-
-        ProposalInfo proposalInfo = null;
-        try{
-        proposalInfo = getProposalService().getProposalByWorkflowId(documentRouteLevelChange.getDocumentId(), ContextUtils.createDefaultContextInfo());
-        }
-        catch(Exception e){
-            throw new RuntimeException("Error in route level change ", e);
-        }
-
         // if this is the initial route then clear only edit permissions as per KSLUM-192
         if (StringUtils.equals(StudentProposalRiceConstants.DEFAULT_WORKFLOW_DOCUMENT_START_NODE_NAME, documentRouteLevelChange.getOldNodeName())) {
             // remove edit perm for all adhoc action requests to a user for the route node we just exited
-            WorkflowDocument doc = WorkflowDocumentFactory.createDocument(getPrincipalIdForSystemUser(), proposalInfo.getType()/*documentRouteLevelChange.getDocumentId()*/);
-            // TODO: evaluate group or role level changes by not using isUserRequest()
+            WorkflowDocument doc = WorkflowDocumentFactory.loadDocument(getPrincipalIdForSystemUser(), documentRouteLevelChange.getDocumentId());
             for (ActionRequest actionRequest : doc.getRootActionRequests()) {
+                // we only care about the actionRequest if it is an adHoc request to a user since that's the only way collaborators are currently added
                 if (actionRequest.isAdHocRequest() && actionRequest.isUserRequest() &&
                         StringUtils.equals(documentRouteLevelChange.getOldNodeName(), actionRequest.getNodeName())) {
-                    LOG.info("Clearing EDIT permissions added via adhoc requests to principal id: {}", actionRequest.getPrincipalId());
-                    removeEditAdhocPermissions(actionRequest.getPrincipalId(), doc);
+                    try {
+                        LOG.info("Clearing EDIT permissions added via adhoc requests to principal id: {}", actionRequest.getPrincipalId());
+                        removeEditAdhocPermissions(actionRequest.getPrincipalId(), doc);
+                    } catch (OperationFailedException e) {
+                        LOG.error("Could not remove edit access for collaborator '{}' on doc id '{}'", actionRequest.getPrincipalId(), doc.getDocumentId());
+                        throw new RuntimeException("Could not remove edit access for collaborator '" + actionRequest.getPrincipalId() + " on doc id '" + doc.getDocumentId() + "'", e);
+                    }
                 }
             }
         } else {
-            LOG.warn("Will not clear any permissions added via adhoc requests");
+            LOG.warn("Will not clear any permissions added via adhoc requests during route level change to '{}' on doc id '{}'", documentRouteLevelChange.getNewNodeName(), documentRouteLevelChange.getDocumentId());
         }
-       // boolean success = processCustomRouteLevelChange(documentRouteLevelChange, proposalInfo);
     }
 
     /*
@@ -361,29 +364,25 @@ public class CMMaintenanceDocument extends MaintenanceDocumentBase {
         return newState;
     }
 
-
-    /*
-        This method is copied from KualiStudentPostProcessorBase
+    /**
+     * Helper method called when post processing should remove the Edit permission given to proposal Collaborators
+     *
+     * @param principalId id of the user who needs to be removed
+     * @param doc the document from which the person's access should be removed
      */
-
-    protected void removeEditAdhocPermissions(String principalId, WorkflowDocument doc) {
-        Map<String, String> qualifications = new LinkedHashMap<String, String>();
-        qualifications.put(KualiStudentKimAttributes.DOCUMENT_TYPE_NAME, doc.getDocumentTypeName());
-        qualifications.put(KualiStudentKimAttributes.QUALIFICATION_DATA_ID, doc.getApplicationDocumentId());
-        KimApiServiceLocator.getRoleService().removePrincipalFromRole(principalId, StudentProposalRiceConstants.ROLE_NAME_ADHOC_EDIT_PERMISSIONS_ROLE_NAMESPACE, StudentProposalRiceConstants.ROLE_NAME_ADHOC_EDIT_PERMISSIONS_ROLE_NAME, qualifications);
+    protected void removeEditAdhocPermissions(String principalId, WorkflowDocument doc) throws OperationFailedException {
+        DocumentCollaboratorHelper.removeEditAdhocPermission(principalId, doc.getDocumentTypeName(), doc.getApplicationDocumentId());
     }
 
-    /*
-        This method is copied from KualiStudentPostProcessorBase
+    /**
+     * Helper method called when post processing should remove the Comment permission given to proposal Collaborators
+     *
+     * @param principalId id of the user who needs to be removed
+     * @param doc the document from which the person's access should be removed
      */
-
-    protected void removeCommentAdhocPermissions(String roleNamespace, String roleName, String principalId, WorkflowDocument doc) {
-        Map<String, String> qualifications = new LinkedHashMap<String, String>();
-        qualifications.put(KualiStudentKimAttributes.DOCUMENT_TYPE_NAME, doc.getDocumentTypeName());
-        qualifications.put(KualiStudentKimAttributes.QUALIFICATION_DATA_ID, doc.getApplicationDocumentId());
-        KimApiServiceLocator.getRoleService().removePrincipalFromRole(principalId, StudentProposalRiceConstants.ROLE_NAME_ADHOC_ADD_COMMENT_PERMISSIONS_ROLE_NAMESPACE, StudentProposalRiceConstants.ROLE_NAME_ADHOC_ADD_COMMENT_PERMISSIONS_ROLE_NAME, qualifications);
+    protected void removeCommentAdhocPermissions(String principalId, WorkflowDocument doc) throws OperationFailedException {
+        DocumentCollaboratorHelper.removeCommentAdhocPermission(principalId, doc.getDocumentTypeName(), doc.getApplicationDocumentId());
     }
-
 
     /*
         This method is copied from KualiStudentPostProcessorBase

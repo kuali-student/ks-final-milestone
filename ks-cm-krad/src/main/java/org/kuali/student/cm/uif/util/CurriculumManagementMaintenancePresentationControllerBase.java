@@ -31,7 +31,7 @@ import java.util.Set;
  *
  * @author Kuali Student Team
  */
-public class CurriculumManagementMaintenancePresentationControllerBase extends MaintenanceViewPresentationControllerBase {
+public class CurriculumManagementMaintenancePresentationControllerBase extends MaintenanceViewPresentationControllerBase implements CurriculumManagementMaintenancePresentationController {
 
     @Override
     public Set<String> getActionFlags(View view, UifFormBase model) {
@@ -43,6 +43,11 @@ public class CurriculumManagementMaintenancePresentationControllerBase extends M
             documentActions.add(CurriculumManagementConstants.ActionFlags.KUALI_ACTION_CAN_WITHDRAW);
         }
 
+        if (canAddCollaborators(document)) {
+            documentActions.add(CurriculumManagementConstants.ActionFlags.KUALI_ACTION_CAN_ADD_COLLABORATOR);
+        }
+
+
         return documentActions;
     }
 
@@ -53,6 +58,13 @@ public class CurriculumManagementMaintenancePresentationControllerBase extends M
      * A Document can be Withdrawn if it can be saved.
      */
     public boolean canWithdraw(Document document) {
+        return canSave(document);
+    }
+
+    /**
+     * A Method to dictate whether the user can Add Collaborators to the document.
+     */
+    public boolean canAddCollaborators(Document document) {
         return canSave(document);
     }
 

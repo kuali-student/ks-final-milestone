@@ -56,6 +56,7 @@ public class CurriculumManagementConstants {
 
     public static class ActionFlags {
         public final static String KUALI_ACTION_CAN_WITHDRAW = "canWithdraw";
+        public final static String KUALI_ACTION_CAN_ADD_COLLABORATOR = "canAddCollaborator";
     }
 
     public static class ProposalCourseStartOptions {

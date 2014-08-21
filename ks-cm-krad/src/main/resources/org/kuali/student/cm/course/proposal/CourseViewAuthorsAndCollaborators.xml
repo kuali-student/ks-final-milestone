@@ -38,7 +38,7 @@
         <property name="collectionObjectClass" value="org.kuali.student.r1.core.workflow.dto.CollaboratorWrapper"/>
         <property name="propertyName" value="collaboratorWrappers"/>
         <property name="addBlankLineAction.actionLabel" value="Add Person"/>
-        <property name="addBlankLineAction.render" value="true"/>
+        <property name="addBlankLineAction.render" value="@{#actionFlags[T(org.kuali.student.cm.common.util.CurriculumManagementConstants$ActionFlags).KUALI_ACTION_CAN_ADD_COLLABORATOR]}"/>
         <property name="addBlankLineAction.id" value="CM-Proposal-Course-AddAuthorsAndCollaborators"/>
         <property name="addBlankLineAction.dirtyOnAction" value="true"/>
         <property name="validationMessages" ref="KS-ValidationMessages-Off"/>
@@ -72,7 +72,7 @@
                       p:actionLabel="Delete"
                       p:actionEvent="deleteLine"
                       p:dirtyOnAction="true"
-                      p:render="@{#line.canRevokeRequest}"/>
+                      p:render="@{(#line.canRevokeRequest) and (#actionFlags[T(org.kuali.student.cm.common.util.CurriculumManagementConstants$ActionFlags).KUALI_ACTION_CAN_ADD_COLLABORATOR])}"/>
             </list>
         </property>
         <property name="Items">

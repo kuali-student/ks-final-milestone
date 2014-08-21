@@ -480,7 +480,7 @@
         <property name="actionLabel" value="Withdraw"/>
         <property name="methodToCall" value="withdraw"/>
         <property name="performClientSideValidation" value="false"/>
-        <property name="render" value="@{#actionFlags[T(org.kuali.student.cm.common.util.CurriculumManagementConstants$ActionFlags).KUALI_ACTION_CAN_WITHDRAW]}"/>
+        <property name="render" value="@{#actionFlags[T(org.kuali.student.cm.common.util.CurriculumManagementConstants$ActionFlags).KUALI_ACTION_CAN_WITHDRAW] and (!#uiHelper.pendingWorkflowAction)}"/>
     </bean>
 
     <bean id="CM-Proposal-Review-ConfirmCancelProposal-Dialog" parent="CM-Proposal-Review-ConfirmCancelProposal-Dialog-parentBean" />

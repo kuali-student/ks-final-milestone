@@ -13,4 +13,9 @@ public interface CurriculumManagementMaintenancePresentationController {
      */
     public boolean canWithdraw(Document document);
 
+    /**
+     * A Method to dictate whether the user can Add Collaborators to the document.
+     */
+    public boolean canAddCollaborators(Document document);
+
 }
