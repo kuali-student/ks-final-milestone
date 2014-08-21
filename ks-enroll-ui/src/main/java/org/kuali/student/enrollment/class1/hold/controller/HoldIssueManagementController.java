@@ -64,9 +64,7 @@ public class HoldIssueManagementController extends UifControllerBase {
             e.printStackTrace();
             throw new RuntimeException(HoldIssueConstants.HOLD_ISSUE_SEARCH_ERROR_MSG,e); //To change body of catch statement use File | Settings | File Templates.
         }
-
-
-
+        form.setDisplayAddButton(true);
         form.setHoldIssueInfoList(results);
         return getUIFModelAndView(form);
     }
@@ -74,8 +72,8 @@ public class HoldIssueManagementController extends UifControllerBase {
     @RequestMapping(params = "methodToCall=addHold")
     public ModelAndView addHold(@ModelAttribute("KualiForm") HoldIssueManagementForm form, BindingResult result,
                                 HttpServletRequest request, HttpServletResponse response) throws Exception {
-        form.getActionParameters().put(UifParameters.NAVIGATE_TO_PAGE_ID, HoldIssueConstants.HOLD_ISSUE_CREATE_PAGE);
-        return super.navigate(form, result, request, response);
+        Properties urlParameters = this.editHold(form, "");
+        return super.performRedirect(form, "holdIssueMaintenance", urlParameters);
     }
 
     @RequestMapping(params = "methodToCall=edit")
@@ -86,6 +84,7 @@ public class HoldIssueManagementController extends UifControllerBase {
         Properties urlParameters = this.editHold(form, holdIssueInfoWrapper.getHoldIssueInfo().getId());
         return super.performRedirect(form, "holdIssueMaintenance", urlParameters);
     }
+
     private HoldIssueInfoWrapper getSelectedRegistrationCourse(HoldIssueManagementForm form) {
         return (HoldIssueInfoWrapper) this.getSelectedCollectionObject(form);
     }

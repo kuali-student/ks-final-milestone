@@ -56,7 +56,7 @@ public class HoldIssueMaintenanceController extends MaintenanceDocumentControlle
         }
         form.getView().setApplyDirtyCheck(false);
         holdIssueWrapper.setIsSaveSuccess(true);
-        GlobalVariables.getMessageMap().putInfo(HoldIssueConstants.HOLD_ISSUE_PROCESS, HoldIssueConstants.HOLD_ISSUE_SAVE_SUCCESS_MSG);
+        GlobalVariables.getMessageMap().putInfo(HoldIssueConstants.HOLD_ISSUE_PROCESS, HoldIssueConstants.HOLDS_ISSUE_MSG_INFO_HOLD_ISSUE_SAVE_SUCCESS);
         holdIssueWrapper.setIsSaveSuccess(true);
         clearSearchValues(holdIssueWrapper);
         return this.route(form, result, request, response);

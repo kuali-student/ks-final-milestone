@@ -43,7 +43,7 @@ public class HoldIssueViewHelperServiceImpl extends KSViewHelperServiceImpl impl
             for (HoldIssueInfo holdIssueInfo : holdIssueInfos) {
                 HoldIssueInfoWrapper holdIssueInfoWrapper = new HoldIssueInfoWrapper();
                 holdIssueInfoWrapper.setHoldIssueInfo(holdIssueInfo);
-                //Test
+                //Hardcoded values for Testing
                 holdIssueInfoWrapper.setCode("Test");
                 holdIssueInfoWrapper.setAuthorization("Authorization");
                 holdIssueInfoWrapper.setFirstDate("08/19/2014");

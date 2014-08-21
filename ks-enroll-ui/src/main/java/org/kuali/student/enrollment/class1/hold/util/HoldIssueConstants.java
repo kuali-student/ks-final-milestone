@@ -31,17 +31,16 @@ public class HoldIssueConstants {
     public static final String HOLD_ISSUE_SEARCH_ERROR_MSG = "Error Performing Search";
     public static final String HOLD_ISSUE_CREATE_PAGE = "KS-Hold-Create-Page";
     public static final String HOLD_ISSUE_PROCESS = "Process";
-    public static final String HOLD_ISSUE_SAVE_SUCCESS_MSG = "info.enroll.save.success";
-    public static final java.lang.String HOLD_ISSUE_CODE = "code";
-    public static final java.lang.String HOLD_ISSUE_TYPE_KEY = "typeKey";
-    public static final java.lang.String HOLD_ISSUE_STATE_KEY = "stateKey";
-
-    public HoldIssueConstants() { /* compiled code */ }
+    public static final String HOLD_ISSUE_CODE = "code";
+    public static final String HOLD_ISSUE_TYPE_KEY = "typeKey";
+    public static final String HOLD_ISSUE_STATE_KEY = "stateKey";
 
     //Message keys
     public static final String HOLDS_ISSUE_MSG_ERROR_HOLD_ISSUE_NAME_REQUIRED = "error.hold.issue.name.required";
     public static final String HOLDS_ISSUE_MSG_ERROR_HOLD_ISSUE_TYPE_REQUIRED = "error.hold.issue.type.required";
     public static final String HOLDS_ISSUE_MSG_ERROR_HOLD_ISSUE_ORG_ID_REQUIRED = "error.hold.issue.orgId.required";
     public static final String HOLDS_ISSUE_MSG_ERROR_HOLD_ISSUE_CODE_REQUIRED = "error.hold.issue.code.required";
+
+    public static final String HOLDS_ISSUE_MSG_INFO_HOLD_ISSUE_SAVE_SUCCESS = "info.enroll.save.success";
 
 }

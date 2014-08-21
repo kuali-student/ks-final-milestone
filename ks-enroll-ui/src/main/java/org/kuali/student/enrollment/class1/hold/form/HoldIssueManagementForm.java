@@ -45,7 +45,8 @@ public class HoldIssueManagementForm extends UifFormBase {
 //    private String firstDate;
 //    private String lastDate;
 
-//    private boolean isSaveSuccess;
+    //    private boolean isSaveSuccess;
+    private Boolean displayAddButton;
 
     private HoldIssueInfo holdIssueInfo;
 
@@ -53,6 +54,7 @@ public class HoldIssueManagementForm extends UifFormBase {
 
     public HoldIssueManagementForm(){
         super();
+        displayAddButton = false;
     }
 
 //    public String getId() {
@@ -190,4 +192,12 @@ public class HoldIssueManagementForm extends UifFormBase {
 //    public void setLastDate(String lastDate) {
 //        this.lastDate = lastDate;
 //    }
+
+    public Boolean getDisplayAddButton() {
+        return displayAddButton;
+    }
+
+    public void setDisplayAddButton(Boolean displayAddButton) {
+        this.displayAddButton = displayAddButton;
+    }
 }
