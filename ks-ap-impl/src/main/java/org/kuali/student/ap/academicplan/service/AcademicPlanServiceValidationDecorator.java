@@ -425,7 +425,7 @@ public class AcademicPlanServiceValidationDecorator extends
         try {
             planItems = this.getPlanItemsInPlanByCategory(planItemId, category, context);
         } catch (Exception e) {
-            new RuntimeException("unexpected exception: "+e.getMessage(),e);
+            throw new RuntimeException("unexpected exception: "+e.getMessage(),e);
         }
         for (PlanItemInfo p : planItems) {
             if (p.getRefObjectId().equals(courseId)) {
