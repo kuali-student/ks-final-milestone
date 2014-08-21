@@ -65,7 +65,7 @@ public interface CourseRegistrationClientService {
      * @param termCode - optional, human readable code representing the term. ex: 201208
      * @return Empty Response Object or Response object with Error text
      */
-    @DELETE
+    @GET
     @Path("/clearSchedule")
     Response clearScheduleRS(@QueryParam("termId") String termId,
                              @QueryParam("termCode") String termCode);

@@ -49,7 +49,7 @@ public interface CourseRegistrationAdminClientService {
      * @param termCode - optional, human readable code representing the term. ex: 201208
      * @return Empty Response Object or Response object with Error text
      */
-    @DELETE
+    @GET
     @Path("/clearSchedule")
     Response clearLPRsByPersonRS(@QueryParam("person") String personId,
                                  @QueryParam("termId") String termId,
@@ -62,7 +62,7 @@ public interface CourseRegistrationAdminClientService {
      * @param termCode  - optional, but human readable. 201208
      * @return
      */
-    @DELETE
+    @GET
     @Path("/clearCart")
     public Response clearCartByPersonRS(@QueryParam("person") String personId,
                                         @QueryParam("termId") String termId,

@@ -34,6 +34,7 @@ import org.kuali.student.enrollment.registration.client.service.dto.StudentSched
 import org.kuali.student.enrollment.registration.client.service.dto.StudentScheduleCourseResult;
 import org.kuali.student.enrollment.registration.client.service.dto.StudentScheduleTermResult;
 import org.kuali.student.enrollment.registration.client.service.dto.TermSearchResult;
+import org.kuali.student.enrollment.registration.client.service.dto.UserMessageResult;
 import org.kuali.student.enrollment.registration.client.service.impl.util.CourseRegistrationAndScheduleOfClassesUtil;
 import org.kuali.student.enrollment.registration.client.service.impl.util.SearchResultHelper;
 import org.kuali.student.enrollment.registration.search.service.impl.CourseRegistrationSearchServiceImpl;
@@ -130,31 +131,44 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
     @Override
     public Response clearScheduleRS(String termId, String termCode) {
         Response.ResponseBuilder response;
-
+        ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
 
         try {
             termId = CourseRegistrationAndScheduleOfClassesUtil.getTermId(termId, termCode);
-            PersonScheduleResult scheduleResult = getStudentScheduleAndWaitlistedCoursesByTerm(termId,termCode);
 
-            List<StudentScheduleCourseResult> coursesToDrop = new ArrayList<>();
-            if(scheduleResult != null && scheduleResult.getStudentScheduleTermResults() != null){
+            if(contextInfo.getPrincipalId() == null || contextInfo.getPrincipalId().isEmpty()
+                    || termId == null || termId.isEmpty()){
+                UserMessageResult userMessage = new UserMessageResult();
+                userMessage.setGenericMessage("Error clearing cart");
+                String technicalInfo = String.format("Technical Info:(principalId:[%s] termId:[%s])", contextInfo.getPrincipalId(), termId);
 
-                for(StudentScheduleTermResult scheduleTermResult : scheduleResult.getStudentScheduleTermResults()){
-                    if(scheduleTermResult.getRegisteredCourseOfferings() != null){
-                        coursesToDrop.addAll(scheduleTermResult.getRegisteredCourseOfferings());
-                    }
-                    if(scheduleTermResult.getWaitlistCourseOfferings() != null){
-                        coursesToDrop.addAll(scheduleTermResult.getWaitlistCourseOfferings());
+                userMessage.setConsoleMessage(technicalInfo);
+                response = getResponse(Response.Status.INTERNAL_SERVER_ERROR, userMessage);
+            } else {
+                PersonScheduleResult scheduleResult = getStudentScheduleAndWaitlistedCoursesByTerm(termId,termCode);
+
+                List<StudentScheduleCourseResult> coursesToDrop = new ArrayList<>();
+                if(scheduleResult != null && scheduleResult.getStudentScheduleTermResults() != null){
+
+                    for(StudentScheduleTermResult scheduleTermResult : scheduleResult.getStudentScheduleTermResults()){
+                        if(scheduleTermResult.getRegisteredCourseOfferings() != null){
+                            coursesToDrop.addAll(scheduleTermResult.getRegisteredCourseOfferings());
+                        }
+                        if(scheduleTermResult.getWaitlistCourseOfferings() != null){
+                            coursesToDrop.addAll(scheduleTermResult.getWaitlistCourseOfferings());
+                        }
                     }
                 }
+
+                List<String> masterLprIds = new ArrayList<>(coursesToDrop.size());
+                for(StudentScheduleCourseResult courseResult : coursesToDrop){
+                    masterLprIds.add(courseResult.getMasterLprId());
+                }
+
+                response = Response.ok(dropRegistrationGroupsLocal(contextInfo, masterLprIds,termId));
             }
 
-            List<String> masterLprIds = new ArrayList<>(coursesToDrop.size());
-            for(StudentScheduleCourseResult courseResult : coursesToDrop){
-                masterLprIds.add(courseResult.getMasterLprId());
-            }
 
-            response = Response.ok(dropRegistrationGroupsLocal(ContextUtils.createDefaultContextInfo(), masterLprIds,termId));
         } catch (Exception e) {
             LOGGER.warn("Exception occurred", e);
             response = Response.serverError().entity(e.getMessage());

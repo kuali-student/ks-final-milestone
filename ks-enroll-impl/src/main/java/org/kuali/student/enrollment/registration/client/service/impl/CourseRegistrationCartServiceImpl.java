@@ -661,11 +661,12 @@ public class CourseRegistrationCartServiceImpl implements CourseRegistrationCart
         qBuilder.setPredicates();
         Predicate pred;
 
+        pred =  and(equal("requestingPersonId", personId),
+                equal("lprTransType", LprServiceConstants.LPRTRANS_REG_CART_TYPE_KEY ),
+                equal("lprTransState",LprServiceConstants.LPRTRANS_NEW_STATE_KEY ));
+
         if(termId != null && !termId.isEmpty()) {
-          pred =  and(equal("requestingPersonId", personId),
-                    equal("atpId", termId));
-        }else {
-            pred =  equal("requestingPersonId", personId);
+          pred =  and(pred, equal("atpId", termId));
         }
         qBuilder.setPredicates(pred);
 

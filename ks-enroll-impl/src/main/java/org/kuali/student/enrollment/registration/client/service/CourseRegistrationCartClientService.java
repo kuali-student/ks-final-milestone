@@ -141,7 +141,7 @@ public interface CourseRegistrationCartClientService {
      * @param termCode  - optional, but human readable. 201208
      * @return
      */
-    @DELETE
+    @GET
     @Path("/clearCart")
     public Response clearCartRS(@QueryParam("termId") String termId,
                                         @QueryParam("termCode") String termCode);
