@@ -45,12 +45,15 @@ import java.util.Set;
         @NamedQuery(name = CommentEntity.COMMENT_QUERY_GET_IDS_BY_TYPE,
                 query = "select id from CommentEntity where typeKey = :type"),
         @NamedQuery(name = CommentEntity.COMMENT_QUERY_GET_COMMENTS_BY_REFERENCE_ID_REFERENCE_OBJECT_URI,
-                query = "select comment from CommentEntity comment where comment.refObjectId = :refObjectId AND comment.refObjectUri = :refObjectUri order by createTime desc")
+                query = "select comment from CommentEntity comment where comment.refObjectId = :refObjectId AND comment.refObjectUri = :refObjectUri order by createTime desc"),
+        @NamedQuery(name = CommentEntity.COMMENT_QUERY_GET_COMMENTS_BY_REFERENCE_ID_REFERENCE_OBJECT_URI_TYPE,
+                query = "select comment from CommentEntity comment where comment.refObjectId = :refObjectId AND comment.refObjectUri = :refObjectUri AND comment.typeKey = :type order by createTime desc")
 })
 public class CommentEntity extends MetaEntity implements AttributeOwner<CommentAttributeEntity> {
 
     public static final String COMMENT_QUERY_GET_IDS_BY_TYPE = "CommentEntity.getIdsByType";
     public static final String COMMENT_QUERY_GET_COMMENTS_BY_REFERENCE_ID_REFERENCE_OBJECT_URI = "CommentEntity.getCommentsByReferenceIdAndReferenceObjectUri";
+    public static final String COMMENT_QUERY_GET_COMMENTS_BY_REFERENCE_ID_REFERENCE_OBJECT_URI_TYPE = "CommentEntity.getCommentsByReferenceIdAndReferenceObjectUriType";
 
     @Column(name = "COMMENT_TYPE", nullable=false)
     private String typeKey;
