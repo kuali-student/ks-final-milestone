@@ -28,6 +28,7 @@
         </property>
         <property name="additionalScriptFiles">
             <list merge="true">
+                <value>plugins/tinymce/tinymce.min.js</value>
                 <value>themes/ksboot/scripts/ks-comments.js</value>
             </list>
         </property>
@@ -76,7 +77,7 @@
                                   p:additionalCssClasses="ks-comment-textArea-field"
                                   p:render="@{canAddComment}">
                                 <property name="control">
-                                    <bean parent="Uif-LargeTextAreaControl"/>
+                                    <bean parent="Uif-LargeTextAreaControl" p:additionalCssClasses="richtextitem"/>
                                 </property>
                             </bean>
                             <bean id="hiddenRefId" parent="KS-Uif-InputField" p:propertyName="referenceId"
@@ -105,7 +106,9 @@
                             </bean>
                             <bean parent="Uif-SecondaryActionButton" p:additionalCssClasses="ks-section"
                                   p:ajaxSubmit="true"
+                                  p:preSubmitCall="preAddComment('@{#component.id}');return true;"
                                   p:methodToCall="addComment"
+                                  p:successCallback="afterAddComment('@{#component.id}');"
                                   p:actionLabel="Add Comment"
                                   p:performClientSideValidation="true"
                                   p:render="@{canAddComment}"/>
@@ -132,7 +135,7 @@
                                 </property>
                                 <property name="items">
                                     <list>
-                                        <bean parent="Uif-StackedCollectionSection">
+                                        <bean parent="Uif-StackedCollectionSection" p:id="KS-Comment_Collection_ID">
                                             <property name="collectionObjectClass"
                                                       value="org.kuali.student.enrollment.class2.courseoffering.form.KSCommentWrapper"/>
                                             <property name="propertyName" value="comments"/>
@@ -140,13 +143,12 @@
                                             <property name="renderAddLine" value="false"/>
                                             <property name="items">
                                                 <list>
-                                                    <!--p:id="KS-Comment-Add"-->
-                                                    <bean id="KS-CommentField_UI_ID" parent="KS-Uif-DataField" p:propertyName="commentTextUI" p:additionalCssClasses="ks-toggleable,ks-deleted-comment"/>
+                                                    <bean id="KS-CommentField_UI_ID" parent="KS-Uif-DataField" p:propertyName="commentTextUI" p:additionalCssClasses="ks-toggleable,ks-deleted-comment,ks-readonly-comment"/>
                                                     <bean id="KS-CommentField_ID" parent="KS-Uif-InputField" p:label="" p:minLength="1" p:maxLength="500" p:constraintText="Comment must be 1-500 characters long"
                                                           p:propertyName="commentInfo.commentText.plain"
-                                                            p:style="display:none">
+                                                          p:style="display:none">
                                                         <property name="control">
-                                                            <bean parent="Uif-LargeTextAreaControl"/>
+                                                            <bean parent="Uif-LargeTextAreaControl" p:additionalCssClasses="richtextitem"/>
                                                         </property>
                                                         <property name="cssClasses">
                                                             <list merge="true">
