@@ -110,7 +110,7 @@ public class CourseOfferingServicePerformanceDecorator extends CourseOfferingSer
                 } else if (ActivityOfferingSearchServiceImpl.SearchResultColumns.ATP_ID.equals(cell.getKey())) {
                     rgInfo.setTermId(cell.getValue());
                 } else if (ActivityOfferingSearchServiceImpl.SearchResultColumns.RG_IS_GENERATED.equals(cell.getKey())) {
-                    rgInfo.setIsGenerated(new Boolean(cell.getValue()));
+                    rgInfo.setIsGenerated(Boolean.valueOf(cell.getValue()));
                 } else if (ActivityOfferingSearchServiceImpl.SearchResultColumns.AO_CLUSTER_ID.equals(cell.getKey())) {
                     rgInfo.setActivityOfferingClusterId(cell.getValue());
                 }
