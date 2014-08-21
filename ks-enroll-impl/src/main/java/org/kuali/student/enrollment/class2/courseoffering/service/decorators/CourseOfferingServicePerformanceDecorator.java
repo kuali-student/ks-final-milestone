@@ -62,7 +62,7 @@ public class CourseOfferingServicePerformanceDecorator extends CourseOfferingSer
         if(searchResult == null){
             throw new DoesNotExistException("Registration Group: [" + registrationGroupId + "] does not exist.");
         }
-        Map<String, RegistrationGroupInfo> rgInfoMap = new HashMap<String, RegistrationGroupInfo>(Math.round(searchResult.getRows().size()));
+        Map<String, RegistrationGroupInfo> rgInfoMap = new HashMap<>(searchResult.getRows().size());
 
         for (SearchResultRowInfo row : searchResult.getRows()) {
             RegistrationGroupInfo rgInfo = new RegistrationGroupInfo();
