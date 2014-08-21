@@ -87,7 +87,7 @@ import org.kuali.student.lum.lu.ui.krms.tree.LURuleViewTreeBuilder;
 import org.kuali.student.lum.lu.ui.krms.util.CluInformationHelper;
 import org.kuali.student.lum.program.client.ProgramConstants;
 import org.kuali.student.r1.common.rice.StudentIdentityConstants;
-import org.kuali.student.r1.common.rice.StudentWorkflowConstants.ActionRequestType;
+import org.kuali.student.r1.common.rice.StudentProposalRiceConstants.ActionRequestType;
 import org.kuali.student.r1.common.rice.authorization.ProposalPermissionTypes;
 import org.kuali.student.r1.core.personsearch.service.impl.QuickViewByGivenName;
 import org.kuali.student.r1.core.proposal.ProposalConstants;

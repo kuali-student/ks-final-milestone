@@ -29,12 +29,12 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.web.controller.KsUifControllerBase;
 import org.kuali.rice.krad.web.controller.MethodAccessible;
 import org.kuali.rice.krad.web.form.UifFormBase;
-import org.kuali.rice.student.StudentWorkflowConstants;
 import org.kuali.student.cm.comment.form.wrapper.CMCommentWrapper;
 import org.kuali.student.cm.common.util.CurriculumManagementConstants;
 import org.kuali.student.cm.comment.form.CMCommentForm;
 import org.kuali.student.common.util.security.ContextUtils;
 import org.kuali.student.lum.kim.KimIdentityServiceConstants;
+import org.kuali.student.r1.common.rice.StudentProposalRiceConstants;
 import org.kuali.student.r1.common.rice.StudentIdentityConstants;
 import org.kuali.student.r2.common.util.date.DateFormatters;
 import org.kuali.student.r2.core.comment.dto.CommentInfo;
@@ -294,7 +294,7 @@ public class CMCommentController extends KsUifControllerBase {
         roleQualifications.put(KimConstants.AttributeConstants.DOCUMENT_TYPE_NAME, workflowDocument.getDocumentTypeName());
 
         if (workflowDocument.isInitiated() || workflowDocument.isSaved()) {
-            roleQualifications.put(KimConstants.AttributeConstants.ROUTE_NODE_NAME, StudentWorkflowConstants.DEFAULT_WORKFLOW_DOCUMENT_START_NODE_NAME);
+            roleQualifications.put(KimConstants.AttributeConstants.ROUTE_NODE_NAME, StudentProposalRiceConstants.DEFAULT_WORKFLOW_DOCUMENT_START_NODE_NAME);
         } else {
             roleQualifications.put(KimConstants.AttributeConstants.ROUTE_NODE_NAME,
                     KRADServiceLocatorWeb.getWorkflowDocumentService().getCurrentRouteNodeNames(workflowDocument));

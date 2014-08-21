@@ -15,6 +15,10 @@
 
 package org.kuali.rice.student;
 
+/**
+ * @deprecated This class was replaced with {@link org.kuali.student.r1.common.rice.StudentProposalRiceConstants}
+ */
+@Deprecated
 public class StudentWorkflowConstants {
 
 	public static final String DEFAULT_WORKFLOW_DOCUMENT_START_NODE_NAME = "PreRoute";

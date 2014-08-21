@@ -34,17 +34,16 @@ import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.krad.maintenance.MaintenanceDocumentBase;
 import org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent;
 import org.kuali.rice.krad.rules.rule.event.SaveEvent;
-import org.kuali.rice.student.StudentWorkflowConstants;
 import org.kuali.rice.student.bo.KualiStudentKimAttributes;
 import org.kuali.student.common.util.security.ContextUtils;
 import org.kuali.student.lum.workflow.CourseStateChangeServiceImpl;
 import org.kuali.student.r1.common.rice.StudentIdentityConstants;
+import org.kuali.student.r1.common.rice.StudentProposalRiceConstants;
 import org.kuali.student.r1.core.proposal.ProposalConstants;
 import org.kuali.student.r1.core.statement.dto.ReqComponentInfo;
 import org.kuali.student.r1.core.statement.dto.StatementTreeViewInfo;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.DtoConstants;
-import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.util.AttributeHelper;
 import org.kuali.student.r2.core.proposal.dto.ProposalInfo;
@@ -54,7 +53,6 @@ import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.lum.course.service.CourseService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.Entity;
 import javax.xml.namespace.QName;
@@ -164,45 +162,44 @@ public class CMMaintenanceDocument extends MaintenanceDocumentBase {
         This method is copied from KualiStudentPostProcessorBase
      */
     @Override
-    public void doActionTaken(ActionTakenEvent actionTakenEvent)  {
+    public void doActionTaken(ActionTakenEvent actionTakenEvent) {
         boolean success = true;
         ActionTaken actionTaken = actionTakenEvent.getActionTaken();
         String actionTakeCode = actionTakenEvent.getActionTaken().getActionTaken().getCode();
-        try{
-        // on a save action we may not have access to the proposal object because the transaction may not have committed
-        if (!StringUtils.equals(KewApiConstants.ROUTE_HEADER_SAVED_CD, actionTakeCode)) {
-            ProposalInfo proposalInfo = getProposalService().getProposalByWorkflowId(actionTakenEvent.getDocumentId().toString(), ContextUtils.createDefaultContextInfo());
-            if (actionTaken == null) {
-                throw new RuntimeException("No action taken found for document id " + actionTakenEvent.getDocumentId());
-            }
-            if (StringUtils.equals(KewApiConstants.ACTION_TAKEN_SU_DISAPPROVED_CD, actionTakeCode)) {
-                // the custom method below is needed for the unique problem of the states being set for a Withdraw action in KS
-                processSuperUserDisapproveActionTaken(actionTakenEvent, actionTaken, proposalInfo);
-            }
-            /* only attempt to remove the adhoc permission if the action taken was not an adhoc revocation as an
-               as an adhoc revocation will have already removed the adhoc permissions for edit access
-             */
-            else if (!StringUtils.equals(KewApiConstants.ACTION_TAKEN_ADHOC_REVOKED_CD, actionTakeCode)) {
-                List<ActionRequest> actionRequests = getWorkflowDocumentService().getRootActionRequests(actionTakenEvent.getDocumentId());
-                for (ActionRequest actionRequest : actionRequests) {
-                    // for now we only care about adhoc requests to individual users (aka collaborators)
-                    if (actionRequest.isAdHocRequest() && actionRequest.isUserRequest()) {
-                        // only process actions taken on adhoc requests if the request is satisfied by the action taken
-                        if ((actionRequest.getActionTaken() != null) && (StringUtils.equals(actionTaken.getId(), actionRequest.getActionTaken().getId()))) {
-                            processActionTakenOnAdhocRequest(actionTakenEvent, actionRequest);
+        try {
+            // on a save action we may not have access to the proposal object because the transaction may not have committed
+            if (!StringUtils.equals(KewApiConstants.ROUTE_HEADER_SAVED_CD, actionTakeCode)) {
+                if (actionTaken == null) {
+                    throw new RuntimeException("No action taken found for document id " + actionTakenEvent.getDocumentId());
+                }
+                ProposalInfo proposalInfo = getProposalService().getProposalByWorkflowId(actionTakenEvent.getDocumentId().toString(), ContextUtils.createDefaultContextInfo());
+                if (StringUtils.equals(KewApiConstants.ACTION_TAKEN_SU_DISAPPROVED_CD, actionTakeCode)) {
+                    // the custom method below is needed for the unique problem of the states being set for a Withdraw action in KS
+                    processSuperUserDisapproveActionTaken(actionTakenEvent, actionTaken, proposalInfo);
+                }
+                /* only attempt to remove the adhoc permission if the action taken was not an adhoc revocation as an
+                    as an adhoc revocation will have already removed the adhoc permissions for edit access
+                */
+                else if (!StringUtils.equals(KewApiConstants.ACTION_TAKEN_ADHOC_REVOKED_CD, actionTakeCode)) {
+                    List<ActionRequest> actionRequests = getWorkflowDocumentService().getRootActionRequests(actionTakenEvent.getDocumentId());
+                    for (ActionRequest actionRequest : actionRequests) {
+                        // for now we only care about adhoc requests to individual users (aka collaborators)
+                        if (actionRequest.isAdHocRequest() && actionRequest.isUserRequest()) {
+                            // only process actions taken on adhoc requests if the request is satisfied by the action taken
+                            if ((actionRequest.getActionTaken() != null) && (StringUtils.equals(actionTaken.getId(), actionRequest.getActionTaken().getId()))) {
+                                processActionTakenOnAdhocRequest(actionTakenEvent, actionRequest);
+                            }
                         }
                     }
                 }
+                success = processCustomActionTaken(actionTakenEvent, actionTaken, proposalInfo);
+            } else {
+                success = processCustomSaveActionTaken(actionTakenEvent, actionTaken);
             }
-            success = processCustomActionTaken(actionTakenEvent, actionTaken, proposalInfo);
-        } else {
-            success = processCustomSaveActionTaken(actionTakenEvent, actionTaken);
-        }
-        }
-        catch(Exception e){
+        } catch (Exception e) {
             throw new RuntimeException("Error in action taken for document", e);
         }
-      //  return new ProcessDocReport(success);
+        //  return new ProcessDocReport(success);
     }
 
     /*
@@ -251,7 +248,7 @@ public class CMMaintenanceDocument extends MaintenanceDocumentBase {
         }
 
         // if this is the initial route then clear only edit permissions as per KSLUM-192
-        if (StringUtils.equals(StudentWorkflowConstants.DEFAULT_WORKFLOW_DOCUMENT_START_NODE_NAME, documentRouteLevelChange.getOldNodeName())) {
+        if (StringUtils.equals(StudentProposalRiceConstants.DEFAULT_WORKFLOW_DOCUMENT_START_NODE_NAME, documentRouteLevelChange.getOldNodeName())) {
             // remove edit perm for all adhoc action requests to a user for the route node we just exited
             WorkflowDocument doc = WorkflowDocumentFactory.createDocument(getPrincipalIdForSystemUser(), proposalInfo.getType()/*documentRouteLevelChange.getDocumentId()*/);
             // TODO: evaluate group or role level changes by not using isUserRequest()
@@ -373,7 +370,7 @@ public class CMMaintenanceDocument extends MaintenanceDocumentBase {
         Map<String, String> qualifications = new LinkedHashMap<String, String>();
         qualifications.put(KualiStudentKimAttributes.DOCUMENT_TYPE_NAME, doc.getDocumentTypeName());
         qualifications.put(KualiStudentKimAttributes.QUALIFICATION_DATA_ID, doc.getApplicationDocumentId());
-        KimApiServiceLocator.getRoleService().removePrincipalFromRole(principalId, StudentWorkflowConstants.ROLE_NAME_ADHOC_EDIT_PERMISSIONS_ROLE_NAMESPACE, StudentWorkflowConstants.ROLE_NAME_ADHOC_EDIT_PERMISSIONS_ROLE_NAME, qualifications);
+        KimApiServiceLocator.getRoleService().removePrincipalFromRole(principalId, StudentProposalRiceConstants.ROLE_NAME_ADHOC_EDIT_PERMISSIONS_ROLE_NAMESPACE, StudentProposalRiceConstants.ROLE_NAME_ADHOC_EDIT_PERMISSIONS_ROLE_NAME, qualifications);
     }
 
     /*
@@ -384,7 +381,7 @@ public class CMMaintenanceDocument extends MaintenanceDocumentBase {
         Map<String, String> qualifications = new LinkedHashMap<String, String>();
         qualifications.put(KualiStudentKimAttributes.DOCUMENT_TYPE_NAME, doc.getDocumentTypeName());
         qualifications.put(KualiStudentKimAttributes.QUALIFICATION_DATA_ID, doc.getApplicationDocumentId());
-        KimApiServiceLocator.getRoleService().removePrincipalFromRole(principalId, StudentWorkflowConstants.ROLE_NAME_ADHOC_ADD_COMMENT_PERMISSIONS_ROLE_NAMESPACE, StudentWorkflowConstants.ROLE_NAME_ADHOC_ADD_COMMENT_PERMISSIONS_ROLE_NAME, qualifications);
+        KimApiServiceLocator.getRoleService().removePrincipalFromRole(principalId, StudentProposalRiceConstants.ROLE_NAME_ADHOC_ADD_COMMENT_PERMISSIONS_ROLE_NAMESPACE, StudentProposalRiceConstants.ROLE_NAME_ADHOC_ADD_COMMENT_PERMISSIONS_ROLE_NAME, qualifications);
     }
 
 
@@ -662,7 +659,7 @@ public class CMMaintenanceDocument extends MaintenanceDocumentBase {
 
             //For a newly approved course (w/no prior active versions), make the new course the current version.
             if (DtoConstants.STATE_ACTIVE.equals(courseState) && courseInfo.getVersion().getCurrentVersionStart() == null) {
-                // TODO: set states of other approved courses to superseded
+                // How are other courses set to Superseded state?
 
                 // if current version's state is not active then we can set this course as the active course
                 //if (!DtoConstants.STATE_ACTIVE.equals(getCourseService().getCourse(getCourseService().getCurrentVersion(CourseServiceConstants.COURSE_NAMESPACE_URI, courseInfo.getVersion().getVersionIndId()).getId()).getState())) {
@@ -703,7 +700,8 @@ public class CMMaintenanceDocument extends MaintenanceDocumentBase {
 
     /*
      * Recursively set state for StatementTreeViewInfo
-     * TODO: We are not able to reuse the code in CourseStateUtil for dependency reason.
+     *
+     * We are not able to reuse the code in CourseStateUtil for dependency reason.
      */
     public void statementTreeViewInfoStateSetter(String courseState, Iterator<StatementTreeViewInfo> itr) {
         while (itr.hasNext()) {

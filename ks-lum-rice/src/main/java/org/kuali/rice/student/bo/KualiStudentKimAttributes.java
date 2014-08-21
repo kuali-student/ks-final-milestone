@@ -20,6 +20,8 @@ import java.util.LinkedHashMap;
 import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.krad.bo.ExternalizableBusinessObject;
 import org.kuali.rice.krad.bo.TransientBusinessObjectBase;
+import org.kuali.student.r1.common.rice.StudentIdentityConstants;
+
 /**
  * Data Dictionary entries for Kuali Student attributes needed by KIM
  * 
@@ -38,7 +40,7 @@ public class KualiStudentKimAttributes implements ExternalizableBusinessObject {
     public static final String QUALIFICATION_SUBJECT_AREA           = "subjectArea";
     public static final String QUALIFICATION_OFFERING_ADMIN_ORG_ID  = "offeringAdminOrgId";
 
-	public static final String QUALIFICATION_DATA_ID                = "dataId";
+	public static final String QUALIFICATION_DATA_ID                = StudentIdentityConstants.QUALIFICATION_DATA_ID;
 	public static final String QUALIFICATION_CLU_ID                 = "cluId";
 	public static final String QUALIFICATION_DTO_NAME               = "dtoName";
 	public static final String QUALIFICATION_DTO_FIELD_KEY          = "dtoFieldKey";
