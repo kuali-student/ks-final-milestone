@@ -8,7 +8,7 @@ import org.kuali.rice.kew.api.document.DocumentStatus;
 import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
 import org.kuali.rice.krad.uif.view.ViewModel;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
-import org.kuali.student.cm.common.util.CurriculumManagementConstants;
+import org.kuali.student.r1.common.rice.StudentWorkflowConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -36,8 +36,10 @@ public class AuthorCollaboratorActionValuesFinder  extends UifKeyValuesFinderBas
         }
 
         if (DocumentStatus.ENROUTE.getCode().equals(workflowDocument.getStatus().getCode())) {
-            permissionsKeyValues.add(new ConcreteKeyValue(ActionType.APPROVE.getCode(), CurriculumManagementConstants.ACTION_TYPE_APPROVE));
-            permissionsKeyValues.add(new ConcreteKeyValue(ActionType.ACKNOWLEDGE.getCode(), CurriculumManagementConstants.ACTION_TYPE_ACKNOWLEDGE));
+            permissionsKeyValues.add(new ConcreteKeyValue(ActionType.APPROVE.getCode(),
+                    StudentWorkflowConstants.ActionRequestType.APPROVE.getActionRequestLabel()));
+            permissionsKeyValues.add(new ConcreteKeyValue(ActionType.ACKNOWLEDGE.getCode(),
+                    StudentWorkflowConstants.ActionRequestType.ACKNOWLEDGE.getActionRequestLabel()));
             permissionsKeyValues.add(new ConcreteKeyValue(ActionType.FYI.getCode(), ActionType.FYI.getLabel()));
         }
         return permissionsKeyValues;

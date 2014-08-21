@@ -108,23 +108,33 @@
                             </property>
                         </bean>
                     </property>
-                </bean>
-                <bean id="CM-Proposal-Course-AuthorsAndCollaborator-Permission" parent="KS-Uif-InputField-LabelTop" p:propertyName="permission"
-                      p:label="Permission" p:required="true">
-                    <property name="readOnly" value="@{!#empty(#line.actionRequestId)}"/>
-                    <property name="refreshWhenChangedPropertyNames" value="document.newMaintainableObject.dataObject.collaboratorWrappers[@{#index}].action" />
-                    <property name="optionsFinder">
-                        <bean class="org.kuali.student.lum.lu.ui.course.keyvalues.AuthorCollaboratorPermissionValuesFinder" />
-                    </property>
-                    <property name="control">
-                        <bean parent="KS-Uif-DropdownControl" />
+                    <property name="dependencyConstraints">
+                        <list>
+                            <bean parent="PrerequisiteConstraint" p:propertyName="action">
+                                <property name="messageKey" value="error.proposal.collaborators.action.required"/>
+                            </bean>
+                            <bean parent="PrerequisiteConstraint" p:propertyName="permission">
+                                <property name="messageKey" value="error.proposal.collaborators.permission.required"/>
+                            </bean>
+                        </list>
                     </property>
                 </bean>
                 <bean id="CM-Proposal-Course-AuthorsAndCollaborator-ActionRequest" parent="KS-Uif-InputField-LabelTop" p:propertyName="action"
-                      p:label="Action Required" p:required="true" p:style="width:10em">
+                      p:label="Action Required" p:style="width:10em">
                     <property name="readOnly" value="@{!#empty(#line.actionRequestId)}"/>
                     <property name="optionsFinder">
                         <bean class="org.kuali.student.lum.lu.ui.course.keyvalues.AuthorCollaboratorActionValuesFinder" />
+                    </property>
+                    <property name="control">
+                        <bean parent="KS-Uif-DropdownControl"/>
+                    </property>
+                </bean>
+                <bean id="CM-Proposal-Course-AuthorsAndCollaborator-Permission" parent="KS-Uif-InputField-LabelTop" p:propertyName="permission"
+                      p:label="Permission">
+                    <property name="readOnly" value="@{!#empty(#line.actionRequestId)}"/>
+                    <property name="refreshWhenChangedPropertyNames" value="#dp.collaboratorWrappers[@{#index}].action" />
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.student.lum.lu.ui.course.keyvalues.AuthorCollaboratorPermissionValuesFinder" />
                     </property>
                     <property name="control">
                         <bean parent="KS-Uif-DropdownControl" />
