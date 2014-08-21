@@ -33,9 +33,7 @@ public class AuthorCollaboratorActionValuesFinder  extends UifKeyValuesFinderBas
 
         if (DocumentStatus.SAVED.getCode().equals(workflowDocument.getStatus().getCode())) {
             permissionsKeyValues.add(new ConcreteKeyValue(ActionType.FYI.getCode(), ActionType.FYI.getLabel()));
-        }
-
-        if (DocumentStatus.ENROUTE.getCode().equals(workflowDocument.getStatus().getCode())) {
+        } else {
             permissionsKeyValues.add(new ConcreteKeyValue(ActionType.APPROVE.getCode(),
                     StudentWorkflowConstants.ActionRequestType.APPROVE.getActionRequestLabel()));
             permissionsKeyValues.add(new ConcreteKeyValue(ActionType.ACKNOWLEDGE.getCode(),
