@@ -162,7 +162,7 @@ angular.module('regCartApp')
 
         $scope.$on('viewDetails', function(event, course) {
             // redirects the view to the search details screen
-            $state.go('root.search.details', { searchCriteria: $scope.searchCriteria, id: course.courseId });
+            $state.go('root.search.details', { searchCriteria: $scope.searchCriteria, id: course.courseId, code: course.courseCode });
         });
 
     }])

@@ -2,6 +2,7 @@ package org.kuali.student.enrollment.registration.client.service.impl;
 
 import net.sf.ehcache.CacheManager;
 import net.sf.ehcache.Element;
+import org.apache.commons.lang.StringUtils;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.elasticsearch.action.get.GetResponse;
 import org.elasticsearch.action.search.SearchResponse;
@@ -209,13 +210,13 @@ public class ScheduleOfClassesServiceCacheImpl extends ScheduleOfClassesServiceI
     }
 
     @Override
-    public CourseOfferingDetailsSearchResult searchForCourseOfferingDetails(String courseOfferingId, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, PermissionDeniedException, OperationFailedException, DoesNotExistException {
+    public CourseOfferingDetailsSearchResult searchForCourseOfferingDetails(String courseOfferingId, String courseCode, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, PermissionDeniedException, OperationFailedException, DoesNotExistException {
         CourseOfferingDetailsSearchResult courseOfferingSearchResults;
 
             Element cachedResult = getCacheManager().getCache(COURSE_DETAILS_CACHE_NAME).get(courseOfferingId);
-            if (cachedResult == null) {
+            if (cachedResult == null || !StringUtils.equals(((CourseOfferingDetailsSearchResult) cachedResult.getValue()).getCourseOfferingCode(), courseCode)) {
                 //Use the normal service calls to get live data
-                courseOfferingSearchResults = super.searchForCourseOfferingDetails(courseOfferingId, contextInfo);
+                courseOfferingSearchResults = super.searchForCourseOfferingDetails(courseOfferingId, courseCode, contextInfo);
                 getCacheManager().getCache(COURSE_DETAILS_CACHE_NAME).put(new Element(courseOfferingId, courseOfferingSearchResults));
             } else {
                 //Get cached data and update the seatcounts with live data

@@ -202,9 +202,10 @@ public interface ScheduleOfClassesService {
     /**
      * returns course offering details for a particular course offering id
      * @param courseOfferingId
+     * @param courseCode
      * @return
      */
-    public CourseOfferingDetailsSearchResult searchForCourseOfferingDetails(String courseOfferingId, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, PermissionDeniedException, OperationFailedException, DoesNotExistException ;
+    public CourseOfferingDetailsSearchResult searchForCourseOfferingDetails(String courseOfferingId, String courseCode, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, PermissionDeniedException, OperationFailedException, DoesNotExistException ;
 
     /**
      * returns a list of instructors by aoIds

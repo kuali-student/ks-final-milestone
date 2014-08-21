@@ -29,23 +29,22 @@ angular.module('regCartApp')
             $scope.stateParams = toParams;
 
             if (angular.isDefined(toParams.id)) {
-                loadCourse(toParams.id);
+                loadCourse(toParams.id, toParams.code);
             }
         });
 
 
         var lastCourseId = null;
-        function loadCourse(courseId) {
-            if (courseId === null || ($scope.course !== null && $scope.course.courseId !== null && courseId === $scope.course.courseId)) {
+        function loadCourse(courseId, courseCode) {
+            if (courseId === null || ($scope.course !== null && $scope.course.courseOfferingId !== null && courseId === $scope.course.courseOfferingId && $scope.course.courseOfferingCode !== null && courseCode === $scope.course.courseOfferingCode)) {
                 // Don't load a null courseId or the same course we already have.
                 return;
             }
 
-
-            console.log('Loading course "' + courseId + '"');
+            console.log('Loading course ' + courseId + ', ' + courseCode);
 
             lastCourseId = courseId;
-            SearchService.getCourse().query({courseOfferingId: courseId}, function(result) {
+            SearchService.getCourse().query({courseOfferingId: courseId, courseCode: courseCode}, function(result) {
                 if (lastCourseId === courseId) {
                     // This query matches the last one ran - it's current.
 

@@ -193,11 +193,13 @@ public interface ScheduleOfClassesClientService {
      * cross-listed courses, prereqs, and AO info (main info, schedule, instructor, reg groups).
      *
      * @param courseOfferingId required
+     * @param courseCode required
      * @return Returns info for given CO such as desc, name, AOs, etc.
      */
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/courseOfferingDetails")
-    Response searchForCourseOfferingDetailsRS(@QueryParam("courseOfferingId") String courseOfferingId);
+    Response searchForCourseOfferingDetailsRS(@QueryParam("courseOfferingId") String courseOfferingId,
+                                              @QueryParam("courseCode") String courseCode);
 
 }

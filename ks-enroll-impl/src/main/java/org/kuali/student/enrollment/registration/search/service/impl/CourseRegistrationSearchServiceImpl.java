@@ -123,6 +123,7 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
         public static final String LPR_STATES = "lprStates";
         public static final String LUI_IDS = "luiIds";
         public static final String CO_ID = "courseOfferingId";
+        public static final String COURSE_CODE = "courseCode";
         public static final String PERSON_ID = "personId";
         public static final String CART_ID = "cartId";
         public static final String CART_ITEM_ID = "cartItemId";
@@ -1537,7 +1538,8 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
                         // looking for cross-listed courses for given CO
                         "LEFT OUTER JOIN KSEN_LUI_IDENT coClId " +
                         "ON coClId.LUI_ID = coId.LUI_ID " +
-                        "AND coClId.LUI_ID_TYPE = '" + LuiServiceConstants.LUI_IDENTIFIER_CROSSLISTED_TYPE_KEY + "' " +
+                        "AND coClId.LUI_CD != coId.LUI_CD " +
+                        "AND coClId.LUI_ID_TYPE in ('" + LuiServiceConstants.LUI_IDENTIFIER_CROSSLISTED_TYPE_KEY + "','" + LuiServiceConstants.LUI_IDENTIFIER_OFFICIAL_TYPE_KEY + "') " +
                         "AND coClId.LUI_ID_STATE = '" + LuiServiceConstants.LUI_IDENTIFIER_ACTIVE_STATE_KEY + "' " +
                         // finding all AOs for the given CO
                         // looking for FO for given CO
@@ -1582,14 +1584,16 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
                         "LEFT OUTER JOIN KSEN_SCHED_TMSLOT schedTmslt " +
                         "ON schedTmslt.ID = schedCmpTmslt.TM_SLOT_ID " +
                         "WHERE coId.LUI_ID = co.ID " +
-                        "  AND coId.LUI_ID_TYPE = '" + LuiServiceConstants.LUI_IDENTIFIER_OFFICIAL_TYPE_KEY + "' " +
+//                        "  AND coId.LUI_ID_TYPE = '" + LuiServiceConstants.LUI_IDENTIFIER_OFFICIAL_TYPE_KEY + "' " +
                         "  AND coId.LUI_ID_STATE = '" + LuiServiceConstants.LUI_IDENTIFIER_ACTIVE_STATE_KEY + "' " +
                         "  AND co.LUI_TYPE = 'kuali.lui.type.course.offering' " +
                         "  AND co.ID = :courseOfferingId " +
+                        "  AND coId.LUI_CD = :courseCode " +
                         " ORDER BY aoId.LUI_CD";
 
         Query query = getEntityManager().createNativeQuery(queryStr);
         query.setParameter(SearchParameters.CO_ID, requestHelper.getParamAsString(SearchParameters.CO_ID));
+        query.setParameter(SearchParameters.COURSE_CODE, requestHelper.getParamAsString(SearchParameters.COURSE_CODE));
         List<Object[]> results = query.getResultList();
 
         for (Object[] resultRow : results) {

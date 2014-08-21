@@ -240,12 +240,12 @@ public class ScheduleOfClassesClientServiceImpl extends ScheduleOfClassesService
      * cross-listed courses, prereqs, and AO info (main info, schedule, instructor, reg groups).     *
      */
     @Override
-    public Response searchForCourseOfferingDetailsRS(String courseOfferingId) {
+    public Response searchForCourseOfferingDetailsRS(String courseOfferingId, String courseCode) {
         Response.ResponseBuilder response;
         ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
 
         try {
-            CourseOfferingDetailsSearchResult courseOfferingSearchResults = searchForCourseOfferingDetails(courseOfferingId, contextInfo);
+            CourseOfferingDetailsSearchResult courseOfferingSearchResults = searchForCourseOfferingDetails(courseOfferingId, courseCode, contextInfo);
             response = Response.ok(courseOfferingSearchResults);
         } catch (Exception e) {
             LOGGER.warn(EXCEPTION_MSG, e);

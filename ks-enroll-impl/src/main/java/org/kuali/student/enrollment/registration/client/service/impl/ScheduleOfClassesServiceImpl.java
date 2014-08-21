@@ -632,11 +632,12 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
 
     //   Returns a list of course offering details such as main info (code, name, desc, etc.), cross-listed courses, prereqs, and AO info (main info, schedule, instructor, reg groups).
     @Override
-    public CourseOfferingDetailsSearchResult searchForCourseOfferingDetails(String courseOfferingId, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, PermissionDeniedException, OperationFailedException, DoesNotExistException {
+    public CourseOfferingDetailsSearchResult searchForCourseOfferingDetails(String courseOfferingId, String courseCode, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, PermissionDeniedException, OperationFailedException, DoesNotExistException {
         long startTime = System.currentTimeMillis();
 
         SearchRequestInfo searchRequest = new SearchRequestInfo(CourseRegistrationSearchServiceImpl.CO_AND_AO_INFO_BY_CO_ID_SEARCH_TYPE.getKey());
         searchRequest.addParam(CourseOfferingManagementSearchImpl.SearchParameters.CO_ID, courseOfferingId);
+        searchRequest.addParam(CourseOfferingManagementSearchImpl.SearchParameters.COURSE_CODE, courseCode);
         SearchResultInfo searchResult = CourseRegistrationAndScheduleOfClassesUtil.getSearchService().search(searchRequest, contextInfo);
 
         CourseOfferingDetailsSearchResult courseSearchResult = new CourseOfferingDetailsSearchResult();
