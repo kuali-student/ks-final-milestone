@@ -20,6 +20,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.krad.uif.UifParameters;
 import org.kuali.rice.krad.uif.util.ObjectPropertyUtils;
 import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.krad.web.controller.MethodAccessible;
 import org.kuali.rice.krad.web.controller.UifControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.common.uif.util.KSControllerHelper;
@@ -90,6 +91,17 @@ public class HoldIssueManagementController extends UifControllerBase {
         return (HoldIssueInfoWrapper) this.getSelectedCollectionObject(form);
     }*/
 
+    /*
+      * Method used to refresh Manage hold page (e.g. after edit hold)
+      */
+    @MethodAccessible
+    @RequestMapping(params = "methodToCall=reloadManageHold")
+    public ModelAndView reloadManageHold(@ModelAttribute("KualiForm") HoldIssueManagementForm theForm) throws Exception {
+
+        //TODO Reload the page
+
+        return getUIFModelAndView(theForm, "KS-Hold-SearchInput-Page");
+    }
     private Object getSelectedCollectionObject(HoldIssueManagementForm form) {
 
         String selectedCollectionPath = form.getActionParamaterValue(UifParameters.SELECTED_COLLECTION_PATH);

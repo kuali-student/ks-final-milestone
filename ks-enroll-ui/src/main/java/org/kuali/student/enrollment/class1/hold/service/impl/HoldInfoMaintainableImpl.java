@@ -13,7 +13,8 @@ import java.util.Map;
 
 public class HoldInfoMaintainableImpl extends KSMaintainableImpl {
 
-
+    public static final String NEW_HOLD_ISSUE_DOCUMENT_TEXT = "New Hold Issue Document";
+    public static final String MODIFY_HOLD_ISSUE_DOCUMENT_TEXT = "Modify Hold Issue Document";
     @Override
     public Object retrieveObjectForEditOrCopy(MaintenanceDocument document, Map<String, String> dataObjectKeys) {
 
@@ -74,5 +75,21 @@ public class HoldInfoMaintainableImpl extends KSMaintainableImpl {
         }
 
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void processAfterNew(MaintenanceDocument document, Map<String, String[]> requestParameters) {
+        super.processAfterNew(document, requestParameters);
+        document.getDocumentHeader().setDocumentDescription(NEW_HOLD_ISSUE_DOCUMENT_TEXT);
+    }
+
+    @Override
+    public void processAfterEdit(MaintenanceDocument document, Map<String, String[]> requestParameters) {
+        super.processAfterEdit(document, requestParameters);
+        document.getDocumentHeader().setDocumentDescription(MODIFY_HOLD_ISSUE_DOCUMENT_TEXT);
+    }
+
 
 }
