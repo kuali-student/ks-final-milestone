@@ -2300,10 +2300,10 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
 
             for(SearchResultCellInfo cellInfo : row.getCells()){
                 if(CoreSearchServiceImpl.SearchResultColumns.MSTONE_INSTR_DAY.equals(cellInfo.getKey())){
-                    isInstDay = new Boolean(cellInfo.getValue());
+                    isInstDay = Boolean.valueOf(cellInfo.getValue());
                 }
                 if(CoreSearchServiceImpl.SearchResultColumns.MSTONE_DT_RANGE.equals(cellInfo.getKey())){
-                    isDateRange = new Boolean(cellInfo.getValue());
+                    isDateRange = Boolean.valueOf(cellInfo.getValue());
                 }
                 if(CoreSearchServiceImpl.SearchResultColumns.MSTONE_START_DT.equals(cellInfo.getKey())){
                     holStartDate = DateFormatters.DEFAULT_TIMESTAMP_FORMATTER.parse(cellInfo.getValue());
