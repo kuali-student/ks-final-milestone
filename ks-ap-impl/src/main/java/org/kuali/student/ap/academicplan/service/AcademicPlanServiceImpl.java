@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.jws.WebParam;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.kuali.student.ap.academicplan.constants.AcademicPlanServiceConstants;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
 import org.kuali.student.ap.framework.context.PlanConstants;
@@ -293,9 +294,25 @@ public class AcademicPlanServiceImpl implements AcademicPlanService {
 		}
 
         if (!planItemEntity.getTypeId().equals(planItem.getTypeKey())) {
-            throw new OperationFailedException("Passed in item type: "+planItem.getTypeKey()+" must match stored typeKey: "+planItemEntity.getTypeId()+" for planItemId: "+planItemId);
+            throw new OperationFailedException("Passed in item type: "+planItem.getTypeKey()
+                    +" must match stored typeKey: "+planItemEntity.getTypeId()+" for planItemId: "+planItemId);
         }
 
+        // Check if item is course item moving between terms
+        if(planItem.getRefObjectType().equals(PlanConstants.COURSE_TYPE)){
+            if(!(CollectionUtils.isEqualCollection(planItem.getPlanTermIds(),planItemEntity.getPlanTermIds()))){
+                // If moving between terms delete all linked reg group items
+                List<String> regGroupItems = planItem.getAttributeValueList(AcademicPlanServiceConstants.
+                        PLAN_ITEM_RELATION_TYPE_COURSE2RG);
+                for(String regGroupItem : regGroupItems){
+                    KsapFrameworkServiceLocator.getAcademicPlanService().deletePlanItem(regGroupItem,context);
+                }
+                // If items were deleted refresh planItemEntity to account for any changes to it
+                if(!regGroupItems.isEmpty()){
+                    planItemEntity = planItemDao.find(planItemId);
+                }
+            }
+        }
         planItemEntity.fromDto(planItem, learningPlanDao);
 
         //  Update meta data.
