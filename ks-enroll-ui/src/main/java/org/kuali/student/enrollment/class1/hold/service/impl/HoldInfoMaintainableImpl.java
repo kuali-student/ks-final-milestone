@@ -36,6 +36,7 @@ public class HoldInfoMaintainableImpl extends KSMaintainableImpl {
                 dataObject.setTypeKey(holdIssueInfo.getTypeKey());
                 dataObject.setStateKey(holdIssueInfo.getStateKey());
                 dataObject.setDescr(holdIssueInfo.getDescr().getPlain());
+                dataObject.setHoldIssueInfo(holdIssueInfo);
             }
         } catch (Exception e) {
 

@@ -25,6 +25,7 @@ limitations under the License.
                   value="org.kuali.student.enrollment.class1.hold.dto.HoldIssueMaintenanceWrapper"/>
         <property name="maintainableClass"
                   value="org.kuali.student.enrollment.class1.hold.service.impl.HoldInfoMaintainableImpl"/>
+        <property name="businessRulesClass" value="org.kuali.student.enrollment.class1.hold.rule.HoldIssueRule" />
         <property name="documentTypeName" value="HoldIssueMaintenanceDocument"/>
         <property name="lockingKeys">
             <list>
@@ -100,7 +101,7 @@ limitations under the License.
     <bean id="KSHOLD-DocumentPageFooter-SubmitCancel-parent" parent="Uif-DocumentPageFooter" abstract="true">
         <property name="items">
             <list>
-                <bean parent="KS-Uif-PrimaryActionButton" p:ajaxSubmit="false" p:methodToCall="create"
+                <bean parent="KS-Uif-PrimaryActionButton" p:ajaxSubmit="false" p:methodToCall="route"
                       p:actionLabel="Save" p:performClientSideValidation="true"
                       p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}"/>
                 <bean parent="KS-Uif-NavigationActionLink" p:ajaxSubmit="false" p:methodToCall="cancel"

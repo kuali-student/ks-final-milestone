@@ -30,6 +30,7 @@ public class HoldIssueConstants {
     public static final String HOLD_ISSUE_DESCR_PLAIN = "descrPlain";
     public static final String HOLD_ISSUE_SEARCH_ERROR_MSG = "Error Performing Search";
     public static final String HOLD_ISSUE_CREATE_PAGE = "KS-Hold-Create-Page";
+    public static final String HOLD_ISSUE_MANAGE_PAGE = "KS-Hold-SearchInput-Page";
     public static final String HOLD_ISSUE_PROCESS = "Process";
     public static final String HOLD_ISSUE_CODE = "code";
     public static final String HOLD_ISSUE_TYPE_KEY = "typeKey";
