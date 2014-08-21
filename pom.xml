@@ -31,7 +31,7 @@
     </repositories>
     <ciManagement>
         <system>jenkins</system>
-        <url>http://ci.rice.kuali.org</url>
+        <url>http://ci.kuali.org</url>
     </ciManagement>
     <properties>
         <ks.api.version>2.1.1-FR2-M1-SNAPSHOT</ks.api.version>
