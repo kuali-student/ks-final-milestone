@@ -52,9 +52,9 @@ public class DataTablesInputs {
         iColumns = (s = request.getParameter("iColumns")) == null ? 0
                 : Integer.parseInt(s);
         bRegex = (s = request.getParameter("bRegex")) == null ? false
-                : new Boolean(s);
+                : Boolean.valueOf(s);
         bSmart = (s = request.getParameter("bSmart")) == null ? false
-                : new Boolean(s);
+                : Boolean.valueOf(s);
         patSearch = (sSearch = escape(request.getParameter("sSearch"), "+")) == null
                 || !bRegex ? null : Pattern.compile(sSearch);
         sEcho = (s = request.getParameter("sEcho")) == null ? 0 : Integer
@@ -70,16 +70,16 @@ public class DataTablesInputs {
         mDataProp_ = new String[iColumns];
         for (int i = 0; i < iColumns; i++) {
             bSearchable_[i] = (s = request.getParameter("bSearchable_" + i)) == null ? false
-                    : new Boolean(s);
+                    : Boolean.valueOf(s);
             bRegex_[i] = (s = request.getParameter("bRegex_" + i)) == null ? false
-                    : new Boolean(s);
+                    : Boolean.valueOf(s);
             bSmart_[i] = (s = request.getParameter("bSmart_" + i)) == null ? false
-                    : new Boolean(s);
+                    : Boolean.valueOf(s);
             patSearch_[i] = (sSearch_[i] = escape(request.getParameter("sSearch_"
                     + i), "+")) == null
                     || !bRegex_[i] ? null : Pattern.compile(sSearch_[i]);
             bSortable_[i] = (s = request.getParameter("bSortable_" + i)) == null ? false
-                    : new Boolean(s);
+                    : Boolean.valueOf(s);
             mDataProp_[i] = request.getParameter("mDataProp_" + i);
         }
 
