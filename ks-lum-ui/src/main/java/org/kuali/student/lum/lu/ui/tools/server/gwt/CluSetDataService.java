@@ -69,7 +69,7 @@ public class CluSetDataService  implements DataService{
 
     @Override
     public Boolean isAuthorized(PermissionTypeGwt type, Map<String, String> attributes, ContextInfo contextInfo) {
-        return new Boolean(true);
+        return true;
     }
 
     @Override

@@ -318,7 +318,7 @@ public class CluSetsManagementController extends BasicLayout implements Requires
 	                    CluSetsManagementController.this.updateModel();
 	                    // set reusable flag here for CluSetManagement.
 //	                    CluSetHelper.wrap((Data)cluSetModel.getRoot().get("cluset")).setReusable(new Boolean(true));
-	                    CluSetHelper.wrap((Data)cluSetModel.getRoot()).setReusable(new Boolean(true));
+	                    CluSetHelper.wrap((Data)cluSetModel.getRoot()).setReusable(true);
 	                    saveModel(cluSetModel, saveActionEvent);
 	                }
 	                else{

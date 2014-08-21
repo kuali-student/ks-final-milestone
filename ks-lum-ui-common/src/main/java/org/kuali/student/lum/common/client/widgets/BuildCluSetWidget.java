@@ -160,8 +160,8 @@ public class BuildCluSetWidget extends FlowPanel implements AccessWidgetValue {
                         CluSetHelper cluSetHelper = CluSetHelper.wrap(ruleFieldsData.getRoot());
                         cluSetHelper.setType(cluSetType);
                         cluSetHelper.setName("AdHock");
-                        cluSetHelper.setReusable(new Boolean(false));
-                        cluSetHelper.setReferenceable(new Boolean(false));
+                        cluSetHelper.setReusable(false);
+                        cluSetHelper.setReferenceable(false);
                         cluSetHelper.setEffectiveDate(startCal.getTime());
                         cluSetHelper.setEffectiveDate(endCal.getTime());
                         

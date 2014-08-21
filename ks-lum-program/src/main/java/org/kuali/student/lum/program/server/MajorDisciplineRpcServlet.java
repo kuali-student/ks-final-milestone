@@ -306,11 +306,11 @@ public class MajorDisciplineRpcServlet extends DataGwtServlet implements MajorDi
 
             // If at least one proposal is returned, this is a proposal, so return true
             if (proposals != null && proposals.size() >= 1) {
-                return new Boolean(true);
+                return true;
             }
 
             // This was not a proposal, so return false
-            return new Boolean(false);
+            return false;
         } catch (Exception ex) {
             // Log exception 
             ex.printStackTrace();

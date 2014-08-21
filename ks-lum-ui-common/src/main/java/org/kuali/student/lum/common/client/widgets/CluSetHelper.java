@@ -149,14 +149,14 @@ private final static Set<String> properties = new HashSet<String>();
     public void setReusable(Boolean reusable) {
         Boolean newValue = reusable;
         if (reusable == null) {
-            newValue = new Boolean(false);
+            newValue = false;
         }
         data.set(Properties.REUSABLE.getKey(), newValue);
     }
     public Boolean getReusable() {
         Boolean reUsable = (Boolean) data.get(Properties.REUSABLE.getKey());
         if (reUsable == null) {
-            reUsable = new Boolean(false);
+            reUsable = false;
         }
         return reUsable;
     }
@@ -164,14 +164,14 @@ private final static Set<String> properties = new HashSet<String>();
     public void setReferenceable(Boolean referenceable) {
         Boolean newValue = referenceable;
         if (referenceable == null) {
-            newValue = new Boolean(false);
+            newValue = false;
         }
         data.set(Properties.REFERENCEABLE.getKey(), newValue);
     }
     public Boolean getReferenceable() {
         Boolean referenceable = (Boolean) data.get(Properties.REFERENCEABLE.getKey());
         if (referenceable == null) {
-            referenceable = new Boolean(false);
+            referenceable = false;
         }
         return referenceable;
     }

@@ -47,9 +47,9 @@ public class CourseStateChangeServiceImpl {
 				retireCourse(courseInfo,contextInfo);
 			}
 
-			ret.setSuccess(new Boolean(true));
+			ret.setSuccess(true);
 		} catch (Exception e) {
-			ret.setSuccess(new Boolean(false));
+			ret.setSuccess(false);
 			ret.setMessage(e.getMessage());
 		}
 

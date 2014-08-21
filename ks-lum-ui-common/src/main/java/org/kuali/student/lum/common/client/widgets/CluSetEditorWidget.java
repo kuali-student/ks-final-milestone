@@ -96,7 +96,7 @@ public class CluSetEditorWidget extends VerticalSectionView {
                     setDef(def);
                     setupEditor();
                     if (onReady != null) {
-                        onReady.exec(new Boolean(true));
+                        onReady.exec(true);
                     }
                     KSBlockingProgressIndicator.removeTask(initializeTask);                
                 }
@@ -106,7 +106,7 @@ public class CluSetEditorWidget extends VerticalSectionView {
             setDef(def);
             setupEditor();
             if (onReady != null) {
-                onReady.exec(new Boolean(true));
+                onReady.exec(true);
             }
             KSBlockingProgressIndicator.removeTask(initializeTask);                
         }

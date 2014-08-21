@@ -131,7 +131,7 @@ public class ClusetView extends VerticalSectionView {
                         setSearchDefinition(new DataModelDefinition(result));
                         setupView(clusetViewEnum);
                         if (onReady != null) {
-                            onReady.exec(new Boolean(true));
+                            onReady.exec(true);
                         }
                     }
                 });
