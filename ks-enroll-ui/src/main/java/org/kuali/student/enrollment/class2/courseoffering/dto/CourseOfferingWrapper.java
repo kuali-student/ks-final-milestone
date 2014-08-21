@@ -382,8 +382,8 @@ public class CourseOfferingWrapper implements Serializable{
         return isColocatedAoToCSR;
     }
 
-    public void setColocatedAoToCSR(boolean isColocatedAoToCSR) {
-        isColocatedAoToCSR = isColocatedAoToCSR;
+    public void setColocatedAoToCSR(boolean colocatedAoToCSR) {
+        isColocatedAoToCSR = colocatedAoToCSR;
     }
     /**
      * This method returns whether alternate code selection is allowed or not.
