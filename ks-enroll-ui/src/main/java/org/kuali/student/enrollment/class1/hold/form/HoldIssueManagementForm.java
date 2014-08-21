@@ -16,7 +16,7 @@
 package org.kuali.student.enrollment.class1.hold.form;
 
 import org.kuali.rice.krad.web.form.UifFormBase;
-import org.kuali.student.enrollment.class1.hold.dto.HoldIssueInfoWrapper;
+import org.kuali.student.enrollment.class1.hold.form.HoldIssueResult;
 import org.kuali.student.r2.core.hold.dto.HoldIssueInfo;
 
 import java.util.ArrayList;
@@ -50,7 +50,7 @@ public class HoldIssueManagementForm extends UifFormBase {
 
     private HoldIssueInfo holdIssueInfo;
 
-    private List<HoldIssueInfoWrapper> holdIssueInfoList = new ArrayList<HoldIssueInfoWrapper>();
+    private List<HoldIssueResult> holdIssueResultList = new ArrayList<HoldIssueResult>();
 
     public HoldIssueManagementForm(){
         super();
@@ -105,12 +105,12 @@ public class HoldIssueManagementForm extends UifFormBase {
         this.organizationId = organizationId;
     }
 
-    public List<HoldIssueInfoWrapper> getHoldIssueInfoList() {
-        return holdIssueInfoList;
+    public List<HoldIssueResult> getHoldIssueResultList() {
+        return holdIssueResultList;
     }
 
-    public void setHoldIssueInfoList(List<HoldIssueInfoWrapper> holdIssueInfoList) {
-        this.holdIssueInfoList = holdIssueInfoList;
+    public void setHoldIssueResultList(List<HoldIssueResult> holdIssueResultList) {
+        this.holdIssueResultList = holdIssueResultList;
     }
 
 //    public String getOrgName() {

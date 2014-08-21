@@ -14,14 +14,16 @@
  *
  * Created by dietrich on 2014/08/05
  */
-package org.kuali.student.enrollment.class1.hold.dto;
+package org.kuali.student.enrollment.class1.hold.form;
 
+import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.core.hold.dto.HoldIssueInfo;
 import org.kuali.student.r2.core.process.dto.ProcessInfo;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -30,18 +32,16 @@ import java.util.Map;
  *
  * @author Kuali Student Team
  */
-public class HoldIssueInfoWrapper implements Serializable {
+public class HoldIssueResult extends UifFormBase {
 
     private String code;
-    private String firstDate;
-    private String lastDate;
+    private String name;
+    private String descr;
+    private String typeKey;
+    private Date firstDate;
+    private Date lastDate;
     private String authorization;
-    private HoldIssueInfo holdIssueInfo;
-
-
-    public HoldIssueInfoWrapper() {
-        super();
-    }
+    private String organizationId;
 
     public String getCode() {
         return code;
@@ -51,19 +51,43 @@ public class HoldIssueInfoWrapper implements Serializable {
         this.code = code;
     }
 
-    public String getFirstDate() {
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getDescr() {
+        return descr;
+    }
+
+    public void setDescr(String descr) {
+        this.descr = descr;
+    }
+
+    public String getTypeKey() {
+        return typeKey;
+    }
+
+    public void setTypeKey(String typeKey) {
+        this.typeKey = typeKey;
+    }
+
+    public Date getFirstDate() {
         return firstDate;
     }
 
-    public void setFirstDate(String firstDate) {
+    public void setFirstDate(Date firstDate) {
         this.firstDate = firstDate;
     }
 
-    public String getLastDate() {
+    public Date getLastDate() {
         return lastDate;
     }
 
-    public void setLastDate(String lastDate) {
+    public void setLastDate(Date lastDate) {
         this.lastDate = lastDate;
     }
 
@@ -75,11 +99,11 @@ public class HoldIssueInfoWrapper implements Serializable {
         this.authorization = authorization;
     }
 
-    public HoldIssueInfo getHoldIssueInfo() {
-        return holdIssueInfo;
+    public String getOrganizationId() {
+        return organizationId;
     }
 
-    public void setHoldIssueInfo(HoldIssueInfo holdIssueInfo) {
-        this.holdIssueInfo = holdIssueInfo;
+    public void setOrganizationId(String organizationId) {
+        this.organizationId = organizationId;
     }
 }

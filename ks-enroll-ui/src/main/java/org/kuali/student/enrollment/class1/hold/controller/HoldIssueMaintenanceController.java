@@ -35,6 +35,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
+import java.util.Date;
 
 /**
  * This class provides a controller for HoldIssue objects
@@ -73,7 +74,7 @@ public class HoldIssueMaintenanceController extends MaintenanceDocumentControlle
         holdIssueWrapper.setCode("");
         holdIssueWrapper.setOrgAddress("");
         holdIssueWrapper.setBaseType("");
-        holdIssueWrapper.setFirstDate("");
+        holdIssueWrapper.setFirstDate(null);
         holdIssueWrapper.setFirstTerm("");
         holdIssueWrapper.setOrganizationNames(new ArrayList<AuthorizingOrgWrapper>());
     }

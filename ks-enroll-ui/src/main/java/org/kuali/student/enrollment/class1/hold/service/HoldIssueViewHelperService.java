@@ -1,8 +1,8 @@
 package org.kuali.student.enrollment.class1.hold.service;
 
-import org.kuali.student.enrollment.class1.hold.dto.HoldIssueInfoWrapper;
 import org.kuali.student.enrollment.class1.hold.dto.HoldIssueMaintenanceWrapper;
 import org.kuali.student.enrollment.class1.hold.form.HoldIssueManagementForm;
+import org.kuali.student.enrollment.class1.hold.form.HoldIssueResult;
 
 import java.util.List;
 
@@ -14,7 +14,7 @@ import java.util.List;
  */
 public interface HoldIssueViewHelperService {
 
-    public  List<HoldIssueInfoWrapper> searchHolds(HoldIssueManagementForm holdIssueForm);
+    public  List<HoldIssueResult> searchHolds(HoldIssueManagementForm holdIssueForm);
 
     public void validateHold(HoldIssueMaintenanceWrapper holdIssueWrapper);
 }

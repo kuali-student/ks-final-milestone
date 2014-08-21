@@ -128,8 +128,8 @@
     </bean>
 
     <bean id="KS-HoldSearch-ResultSection" parent="Uif-TableCollectionSubSection" p:renderLineActions="true">
-        <property name="collectionObjectClass" value="org.kuali.student.enrollment.class1.hold.dto.HoldIssueInfoWrapper"/>
-        <property name="propertyName" value="holdIssueInfoList"/>
+        <property name="collectionObjectClass" value="org.kuali.student.enrollment.class1.hold.form.HoldIssueResult"/>
+        <property name="propertyName" value="holdIssueResultList"/>
         <property name="layoutManager.richTable">
             <bean parent="KS-Uif-RichTable"/>
         </property>
@@ -149,7 +149,7 @@
     </bean>
 
     <bean id="KS-HoldSearch-Results" parent="KS-HoldSearch-ResultSection"
-          p:propertyName="holdIssueInfoList">
+          p:propertyName="holdIssueResultList">
         <property name="headerText" value=""/>
         <property name="header">
             <bean parent="Uif-SectionHeader">
@@ -177,11 +177,11 @@
             <list>
                 <bean parent="KS-Uif-DataField"
                       p:label="Hold Name"
-                      p:propertyName="holdIssueInfo.name"/>
+                      p:propertyName="name"/>
                 <bean parent="KS-Uif-DataField"
                       p:label="Hold Code"
                       p:propertyName="code"/>
-                <bean parent="KS-Uif-InputField" p:label="Category" p:propertyName="holdIssueInfo.typeKey" p:readOnly="true">
+                <bean parent="KS-Uif-InputField" p:label="Category" p:propertyName="typeKey" p:readOnly="true">
                     <property name="control">
                         <bean parent="KS-Uif-DropdownControl"/>
                     </property>
@@ -192,8 +192,8 @@
                 </bean>
                 <bean parent="KS-Uif-DataField"
                       p:label="Description"
-                      p:propertyName="holdIssueInfo.descr.plain"/>
-                <bean parent="KS-Uif-InputField" p:label="Owning Org" p:propertyName="holdIssueInfo.organizationId" p:readOnly="true">
+                      p:propertyName="descr"/>
+                <bean parent="KS-Uif-InputField" p:label="Owning Org" p:propertyName="organizationId" p:readOnly="true">
                     <property name="control">
                         <bean parent="KS-Uif-DropdownControl"/>
                     </property>

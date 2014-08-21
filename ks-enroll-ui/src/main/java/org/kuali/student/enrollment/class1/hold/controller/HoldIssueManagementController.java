@@ -23,9 +23,9 @@ import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.web.controller.UifControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.common.uif.util.KSControllerHelper;
-import org.kuali.student.enrollment.class1.hold.dto.HoldIssueInfoWrapper;
 import org.kuali.student.enrollment.class1.hold.dto.HoldIssueMaintenanceWrapper;
 import org.kuali.student.enrollment.class1.hold.form.HoldIssueManagementForm;
+import org.kuali.student.enrollment.class1.hold.form.HoldIssueResult;
 import org.kuali.student.enrollment.class1.hold.service.HoldIssueViewHelperService;
 import org.kuali.student.enrollment.class1.hold.util.HoldIssueConstants;
 import org.springframework.stereotype.Controller;
@@ -56,7 +56,7 @@ public class HoldIssueManagementController extends UifControllerBase {
     @RequestMapping(params = "methodToCall=search")
     public ModelAndView search(@ModelAttribute("KualiForm") HoldIssueManagementForm form, BindingResult result,
                                HttpServletRequest request, HttpServletResponse response) throws Exception {
-        List<HoldIssueInfoWrapper> results = new ArrayList<HoldIssueInfoWrapper>();
+        List<HoldIssueResult> results = new ArrayList<HoldIssueResult>();
         try {
 
             results = this.getViewHelper(form).searchHolds(form);
@@ -65,7 +65,7 @@ public class HoldIssueManagementController extends UifControllerBase {
             throw new RuntimeException(HoldIssueConstants.HOLD_ISSUE_SEARCH_ERROR_MSG,e); //To change body of catch statement use File | Settings | File Templates.
         }
         form.setDisplayAddButton(true);
-        form.setHoldIssueInfoList(results);
+        form.setHoldIssueResultList(results);
         return getUIFModelAndView(form);
     }
 
@@ -76,6 +76,7 @@ public class HoldIssueManagementController extends UifControllerBase {
         return super.performRedirect(form, "holdIssueMaintenance", urlParameters);
     }
 
+    /*
     @RequestMapping(params = "methodToCall=edit")
     public ModelAndView edit(@ModelAttribute("KualiForm") HoldIssueManagementForm form, BindingResult result,
                                 HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -87,7 +88,7 @@ public class HoldIssueManagementController extends UifControllerBase {
 
     private HoldIssueInfoWrapper getSelectedRegistrationCourse(HoldIssueManagementForm form) {
         return (HoldIssueInfoWrapper) this.getSelectedCollectionObject(form);
-    }
+    }*/
 
     private Object getSelectedCollectionObject(HoldIssueManagementForm form) {
 
