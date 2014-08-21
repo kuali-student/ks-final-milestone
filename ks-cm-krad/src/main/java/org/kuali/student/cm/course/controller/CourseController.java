@@ -159,7 +159,7 @@ public class CourseController extends CourseRuleEditorController {
         String useReviewProcessParam = request.getParameter(UrlParams.USE_CURRICULUM_REVIEW);
         // only do the manually setup of the MaintenanceDocumentForm fields if the URL_PARAM_USE_CURRICULUM_REVIEW param was passed in from initial view
         if (StringUtils.isNotBlank(useReviewProcessParam)) {
-            Boolean isUseReviewProcess = new Boolean(useReviewProcessParam);
+            Boolean isUseReviewProcess = Boolean.valueOf(useReviewProcessParam);
             // throw an exception if the user is not a CS user but attempts to disable Curriculum Review for a proposal
             if (!isUseReviewProcess && !CourseProposalUtil.isUserCurriculumSpecialist()) {
                 throw new RuntimeException(String.format("User (%s) is not allowed to disable Curriculum Review (Workflow Approval).",
