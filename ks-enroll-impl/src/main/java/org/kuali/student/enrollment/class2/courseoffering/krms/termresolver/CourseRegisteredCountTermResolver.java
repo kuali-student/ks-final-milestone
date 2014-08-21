@@ -70,7 +70,7 @@ public class CourseRegisteredCountTermResolver implements TermResolver<Integer> 
         List<StudentCourseRecordInfo> studentCourseRecordInfoList = (List<StudentCourseRecordInfo>) resolvedPrereqs.get(KSKRMSServiceConstants.TERM_RESOLVER_COURSE_RECORD_FOR_STUDENT);
 
         for (StudentCourseRecordInfo studentCourseRecordInfo:studentCourseRecordInfoList) {
-            if (studentCourseRecordInfo.getStateKey().equals(AcademicRecordServiceConstants.COURSE_STATE_REGISTERED)) {
+            if (studentCourseRecordInfo.getStateKey().equals(AcademicRecordServiceConstants.STUDENTCOURSERECORD_STATE_KEY_REGISTERED)) {
                 registeredCount++;
             }
         }

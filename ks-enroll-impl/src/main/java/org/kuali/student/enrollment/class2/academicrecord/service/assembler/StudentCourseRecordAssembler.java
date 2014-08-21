@@ -99,7 +99,7 @@ public class StudentCourseRecordAssembler
                 courseRecord.setAdministrativeGradeScaleKey(getScaleKey(finalRosterEntry.getAdministrativeGradeKey(), context));
                 courseRecord.setCalculatedGradeValue(getValue(finalRosterEntry.getCalculatedGradeKey(), context));
                 courseRecord.setCalculatedGradeScaleKey(getScaleKey(finalRosterEntry.getCalculatedGradeKey(), context));
-                courseRecord.setStateKey(AcademicRecordServiceConstants.COURSE_STATE_REGISTERED);
+                courseRecord.setStateKey(AcademicRecordServiceConstants.STUDENTCOURSERECORD_STATE_KEY_REGISTERED);
                 
             } catch (DisabledIdentifierException e) {
                 throw new AssemblyException("DisabledIdentifierException: " + e.getMessage());

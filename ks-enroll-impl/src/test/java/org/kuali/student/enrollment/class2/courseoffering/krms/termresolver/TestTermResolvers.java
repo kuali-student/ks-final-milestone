@@ -927,7 +927,7 @@ public class TestTermResolvers {
         CourseRegisteredCountTermResolver termResolver = new CourseRegisteredCountTermResolver();
 
         StudentCourseRecordInfo registeredCourse = new StudentCourseRecordInfo();
-        registeredCourse.setStateKey(AcademicRecordServiceConstants.COURSE_STATE_REGISTERED);
+        registeredCourse.setStateKey(AcademicRecordServiceConstants.STUDENTCOURSERECORD_STATE_KEY_REGISTERED);
 
         List<StudentCourseRecordInfo> courseRecordList = new ArrayList<>();
         courseRecordList.addAll(studentToCourseRecordsMap.get("R.JESSICAL"));
