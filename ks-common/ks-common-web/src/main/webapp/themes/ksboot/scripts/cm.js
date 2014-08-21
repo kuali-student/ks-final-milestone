@@ -94,14 +94,8 @@ function setExportSelectedOption(){
 }
 
 /**
- * This method has be copied from 'setupPage()' (krad.initialize.js). We're coping this method mainly to
- * refresh the entire view header on page load by looking at 'uif-viewHeader-contentWrapper' css instead of
- * 'uif-viewHeader'. uif-viewHeader div doesnt contain the lower group. We need to refresh the lower group
- * as we're having proposal state and last modified timestamp displays at the lower group.
- *
- * With this override, we need to remove validation error popups at fields (bubble popup).
- *
- * Whenever we upgrade rice, this method needs to be copied and just change the css class.
+ * TODO: Remove this method once we upgraded to rice 2.5 (KSCM-2650). Also, we need to find a way to
+ * not load the bubble popup here as we dont want that here from review page.
  *
  * @param validate
  */
