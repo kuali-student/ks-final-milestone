@@ -27,6 +27,7 @@ import org.kuali.student.ap.bookmark.form.BookmarkForm;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
 import org.kuali.student.ap.framework.context.PlanConstants;
 import org.kuali.student.ap.planner.util.PlanEventUtils;
+import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
@@ -114,11 +115,12 @@ public class BookmarkController extends KsapControllerBase {
         PlanItemInfo newBookmark = new PlanItemInfo();
         TypedObjectReferenceInfo typedRef = new TypedObjectReferenceInfo(PlanConstants.COURSE_TYPE,
                 course.getVersion().getVersionIndId());
-
+        // Attribute list
+        List<AttributeInfo> attributes = new ArrayList<AttributeInfo>();
         try {
             // If creating new add it to the database
             newBookmark = (PlanItemInfo) KsapFrameworkServiceLocator.getPlanHelper().addPlanItem(learningPlan.getId(),
-                    AcademicPlanServiceConstants.ItemCategory.WISHLIST,"",null,new ArrayList<String>(),typedRef);
+                    AcademicPlanServiceConstants.ItemCategory.WISHLIST,"",null,new ArrayList<String>(),typedRef, attributes);
         } catch (AlreadyExistsException e) {
             PlanEventUtils.sendJsonEvents(false, "Course " + course.getCode() + " is already bookmarked",
                     response, eventList);

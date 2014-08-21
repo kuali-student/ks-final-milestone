@@ -683,10 +683,10 @@ public class PlannerController extends KsapControllerBase {
         List<String> planTermIds = new ArrayList<String>(1);
         planTermIds.add(termId);
         TypedObjectReference planItemRef = new TypedObjectReferenceInfo(PlanConstants.COURSE_TYPE, course.getVersion().getVersionIndId());
-
+        List<AttributeInfo> attributes = new ArrayList<AttributeInfo>();
         try {
             planItemInfo = KsapFrameworkServiceLocator.getPlanHelper().addPlanItem(plan.getId(), category,
-                    form.getCourseNote(),form.getCreditsForPlanItem(course),planTermIds,planItemRef);
+                    form.getCourseNote(),form.getCreditsForPlanItem(course),planTermIds,planItemRef,attributes);
         } catch (AlreadyExistsException e) {
             LOG.warn(String.format("Course %s is already planned for %s", course.getCode(), term.getName()), e);
             PlanEventUtils.sendJsonEvents(false,

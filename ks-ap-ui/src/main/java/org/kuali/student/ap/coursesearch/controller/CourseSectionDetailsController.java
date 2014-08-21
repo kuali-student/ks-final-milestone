@@ -22,6 +22,7 @@ import org.kuali.student.ap.academicplan.constants.AcademicPlanServiceConstants;
 import org.kuali.student.ap.academicplan.dto.PlanItemInfo;
 import org.kuali.student.ap.academicplan.dto.TypedObjectReferenceInfo;
 import org.kuali.student.ap.academicplan.infc.LearningPlan;
+import org.kuali.student.ap.academicplan.infc.PlanItem;
 import org.kuali.student.ap.academicplan.infc.TypedObjectReference;
 import org.kuali.student.ap.coursesearch.dataobject.ActivityOfferingDetailsWrapper;
 import org.kuali.student.ap.coursesearch.form.CourseSectionDetailsDialogForm;
@@ -29,13 +30,17 @@ import org.kuali.student.ap.coursesearch.form.CourseSectionDetailsForm;
 import org.kuali.student.ap.coursesearch.service.CourseDetailsViewHelperService;
 import org.kuali.student.ap.coursesearch.service.impl.CourseDetailsViewHelperServiceImpl;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
+import org.kuali.student.ap.framework.context.CourseSearchConstants;
 import org.kuali.student.ap.framework.context.PlanConstants;
+import org.kuali.student.ap.framework.util.KsapHelperUtil;
 import org.kuali.student.ap.planner.util.PlanEventUtils;
+import org.kuali.student.common.collection.KSCollectionUtils;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
 import org.kuali.student.enrollment.courseoffering.infc.CourseOffering;
+import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
@@ -45,6 +50,9 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
 import org.kuali.student.r2.core.acal.infc.Term;
+import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
+import org.kuali.student.r2.core.search.dto.SearchResultInfo;
+import org.kuali.student.r2.core.search.infc.SearchResultRow;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -179,9 +187,14 @@ public class CourseSectionDetailsController extends KsapControllerBase {
             });
         }
 
-        // Create the new plan item
+
         Term term = KsapFrameworkServiceLocator.getTermHelper().getTerm(regGroup.getTermId());
         LearningPlan learningPlan = KsapFrameworkServiceLocator.getPlanHelper().getDefaultLearningPlan();
+
+        PlanItem coursePlanItem = KsapFrameworkServiceLocator.getPlanHelper().findCourseItem(course.getCourseId(),
+                term.getId(), learningPlan.getId());
+
+        // Create the new plan item
         TypedObjectReference planItemRef = new TypedObjectReferenceInfo(PlanConstants.REG_GROUP_TYPE,regGroup.getId());
 
 
@@ -194,10 +207,15 @@ public class CourseSectionDetailsController extends KsapControllerBase {
         List<String> terms = new ArrayList<String>();
         terms.add(regGroup.getTermId());
 
+        // Create attribute list
+        List<AttributeInfo> attributes = new ArrayList<AttributeInfo>();
+        AttributeInfo rg2CourseLink = new AttributeInfo(AcademicPlanServiceConstants.PLAN_ITEM_RELATION_TYPE_RG2COURSE,coursePlanItem.getId());
+        attributes.add(rg2CourseLink);
+
         // Save the new plan item to the database
         try{
             KsapFrameworkServiceLocator.getPlanHelper().addPlanItem(learningPlan.getId(),
-                    AcademicPlanServiceConstants.ItemCategory.PLANNED, "", creditValue, terms, planItemRef);
+                    coursePlanItem.getCategory(), "", creditValue, terms, planItemRef, attributes);
         }catch (AlreadyExistsException e){
             PlanEventUtils.sendJsonEvents(false,"Course " +course.getCourseCode() + " is already planned for " + term.getName(), response, eventList);
             return null;
@@ -211,6 +229,8 @@ public class CourseSectionDetailsController extends KsapControllerBase {
         eventList = getViewHelperService(form).createAddSectionEvent(course.getTermId(), course.getCourseOfferingCode(),regGroup.getCourseOfferingId(),regGroup.getFormatOfferingId(), activityWrappers, eventList);
         eventList = getViewHelperService(form).createFilterValidRegGroupsEvent(course.getTermId(), course.getCourseOfferingCode(), regGroup.getFormatOfferingId(), validRegGroups, eventList);
         eventList = getViewHelperService(form).createFilterValidRegGroupsForRemovalEvent(course.getTermId(), course.getCourseOfferingCode(), regGroup.getFormatOfferingId(), validRegGroupsToRemain, eventList);
+        List<PlanItem> planItems = KsapFrameworkServiceLocator.getPlanHelper().loadStudentsPlanItemsForCourse(coursePlanItem.getRefObjectId());
+        eventList = PlanEventUtils.makeUpdatePlanItemStatusMessage(planItems, eventList);
         PlanEventUtils.sendJsonEvents(true,"Registration Group For " +course.getCourseOfferingCode() + " added for " + term.getName(), response, eventList);
         return null;
     }

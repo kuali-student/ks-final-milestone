@@ -8,6 +8,7 @@ import org.kuali.student.ap.academicplan.infc.PlanItem;
 import org.kuali.student.ap.academicplan.infc.TypedObjectReference;
 import org.kuali.student.ap.framework.context.PlanHelper;
 import org.kuali.student.enrollment.academicrecord.dto.StudentCourseRecordInfo;
+import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.core.acal.infc.Term;
 import org.kuali.student.r2.lum.course.infc.Course;
 
@@ -88,7 +89,7 @@ public class PlanHelperMockTest implements PlanHelper{
      * @return
      */
     @Override
-    public PlanItem addPlanItem(String learningPlanId, AcademicPlanServiceConstants.ItemCategory category, String descr, BigDecimal units, List<String> termIds, TypedObjectReference ref) {
+    public PlanItem addPlanItem(String learningPlanId, AcademicPlanServiceConstants.ItemCategory category, String descr, BigDecimal units, List<String> termIds, TypedObjectReference ref,List<AttributeInfo> attributes) {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
@@ -282,6 +283,19 @@ public class PlanHelperMockTest implements PlanHelper{
 
     @Override
     public List<String> getTermIdsForPlanItems(List<PlanItem> planItems) {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    /**
+     * Retrieves the plan item associated with the course in a specific term
+     *
+     * @param courseId - Id of the course
+     * @param termId   - Id of the term the plan item is in
+     * @param planId   - Id for the plan to search in
+     * @return Plan Item found for course in the term.
+     */
+    @Override
+    public PlanItem findCourseItem(String courseId, String termId, String planId) {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 }

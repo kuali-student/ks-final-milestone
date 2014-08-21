@@ -24,6 +24,7 @@ import org.kuali.student.ap.academicplan.infc.PlanItem;
 import org.kuali.student.ap.academicplan.infc.TypedObjectReference;
 import org.kuali.student.ap.academicplan.service.AcademicPlanService;
 import org.kuali.student.enrollment.academicrecord.dto.StudentCourseRecordInfo;
+import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
 import org.kuali.student.r2.core.acal.infc.Term;
@@ -85,10 +86,11 @@ public interface PlanHelper {
      * @param credits - number of credits/units
      * @param termIds - planned term IDs
      * @param ref - Reference for the plan item
+     * @param attributes - attributes to be added to the plan item
      * @return - Copy of the new plan item created
      */
     public PlanItem addPlanItem(String learningPlanId, ItemCategory category, String descr, BigDecimal credits,
-                         List<String> termIds, TypedObjectReference ref) throws AlreadyExistsException;
+                         List<String> termIds, TypedObjectReference ref, List<AttributeInfo> attributes) throws AlreadyExistsException;
 
     /**
      * Updates a plan item in a learning plan.
@@ -236,4 +238,13 @@ public interface PlanHelper {
      * @return
      */
     List<String> getTermIdsForPlanItems(List<PlanItem> planItems);
+
+    /**
+     * Retrieves the plan item associated with the course in a specific term
+     * @param courseId - Id of the course
+     * @param termId - Id of the term the plan item is in
+     * @param planId - Id for the plan to search in
+     * @return Plan Item found for course in the term.
+     */
+    public PlanItem findCourseItem(String courseId, String termId, String planId);
 }

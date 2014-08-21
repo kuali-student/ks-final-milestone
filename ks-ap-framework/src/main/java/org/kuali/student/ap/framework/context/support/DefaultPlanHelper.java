@@ -21,11 +21,13 @@ import org.kuali.student.ap.academicplan.constants.AcademicPlanServiceConstants;
 import org.kuali.student.ap.academicplan.constants.AcademicPlanServiceConstants.ItemCategory;
 import org.kuali.student.ap.academicplan.dto.LearningPlanInfo;
 import org.kuali.student.ap.academicplan.dto.PlanItemInfo;
+import org.kuali.student.ap.academicplan.dto.TypedObjectReferenceInfo;
 import org.kuali.student.ap.academicplan.infc.Placeholder;
 import org.kuali.student.ap.academicplan.infc.PlaceholderInstance;
 import org.kuali.student.ap.academicplan.infc.PlanItem;
 import org.kuali.student.ap.academicplan.infc.TypedObjectReference;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
+import org.kuali.student.ap.framework.context.CourseSearchConstants;
 import org.kuali.student.ap.framework.context.PlanConstants;
 import org.kuali.student.ap.framework.context.PlanHelper;
 import org.kuali.student.ap.framework.util.KsapHelperUtil;
@@ -46,6 +48,9 @@ import org.kuali.student.r2.common.util.date.DateFormatters;
 import org.kuali.student.r2.core.acal.infc.Term;
 import org.kuali.student.r2.core.comment.dto.CommentInfo;
 import org.kuali.student.r2.core.comment.service.CommentService;
+import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
+import org.kuali.student.r2.core.search.dto.SearchResultInfo;
+import org.kuali.student.r2.core.search.infc.SearchResultRow;
 import org.kuali.student.r2.lum.course.infc.Course;
 import org.springframework.util.StringUtils;
 
@@ -210,11 +215,11 @@ public class DefaultPlanHelper implements PlanHelper {
     }
 
     /**
-     * @see org.kuali.student.ap.framework.context.PlanHelper#addPlanItem(String, org.kuali.student.ap.academicplan.constants.AcademicPlanServiceConstants.ItemCategory, String, java.math.BigDecimal, java.util.List, org.kuali.student.ap.academicplan.infc.TypedObjectReference)
+     * @see org.kuali.student.ap.framework.context.PlanHelper#addPlanItem(String, org.kuali.student.ap.academicplan.constants.AcademicPlanServiceConstants.ItemCategory, String, java.math.BigDecimal, java.util.List, org.kuali.student.ap.academicplan.infc.TypedObjectReference, java.util.List)
      */
     @Override
     public PlanItem addPlanItem(String learningPlanId, ItemCategory category, String descr, BigDecimal credits,
-                                List<String> termIds,TypedObjectReference ref) throws AlreadyExistsException{
+                                List<String> termIds,TypedObjectReference ref, List<AttributeInfo> attributes) throws AlreadyExistsException{
         PlanHelper planHelper = KsapFrameworkServiceLocator.getPlanHelper();
         PlanItem wishlistPlanItem = null;
 
@@ -263,6 +268,8 @@ public class DefaultPlanHelper implements PlanHelper {
             planItemInfo.setDescr(null);
         }
         planItemInfo.setCredit(credits);
+
+        planItemInfo.getAttributes().addAll(attributes);
 
         try {
             if (create) {
@@ -819,5 +826,59 @@ public class DefaultPlanHelper implements PlanHelper {
             }
         }
         return plannedTerms;
+    }
+
+    /**
+     * Assumes that the course id passed in is the clu id and translates it to the version independent id which is used
+     * as the plan items refObjId
+     * If plan item exist returns it
+     * If plan item does not exist creates default version in term.
+     *
+     * @see PlanHelper#findCourseItem(String, String, String)
+     */
+    @Override
+    public PlanItem findCourseItem(String courseId, String termId, String planId){
+
+        SearchRequestInfo request = new SearchRequestInfo(CourseSearchConstants.KSAP_COURSE_SEARCH_COURSE_IND_VERSION_BY_CLU_ID_KEY);
+        request.addParam(CourseSearchConstants.SearchParameters.CLU_ID,courseId);
+        try {
+
+            SearchResultInfo results = KsapFrameworkServiceLocator.getSearchService().search(request, KsapFrameworkServiceLocator.getContext().getContextInfo());
+            if(results.getRows().isEmpty()){
+                throw new IllegalArgumentException("No version id found for course with id " +courseId);
+            }
+            SearchResultRow row = KSCollectionUtils.getRequiredZeroElement(results.getRows());
+            String versionId = KsapHelperUtil.getCellValue(row,CourseSearchConstants.SearchResultColumns.COURSE_VERSION_INDEPENDENT_ID);
+            List<PlanItem> courseItems = KsapFrameworkServiceLocator.getPlanHelper().loadStudentsPlanItemsForCourse(versionId);
+            for(PlanItem item : courseItems){
+                if(item.getPlanTermIds().contains(termId)){
+                    return item;
+                }
+            }
+            // Create the new plan item
+            TypedObjectReference planItemRef = new TypedObjectReferenceInfo(PlanConstants.COURSE_TYPE,versionId);
+            BigDecimal creditValue = null;
+            List<String> terms = new ArrayList<String>();
+            terms.add(termId);
+            List<AttributeInfo> attributes = new ArrayList<AttributeInfo>();
+
+            // Save the new plan item to the database
+            try{
+                return KsapFrameworkServiceLocator.getPlanHelper().addPlanItem(planId,
+                        AcademicPlanServiceConstants.ItemCategory.PLANNED, "", creditValue, terms, planItemRef,attributes);
+            }catch (AlreadyExistsException e){
+                throw new RuntimeException("Unable to create course item for reg group item", e);
+            }
+
+        } catch (MissingParameterException e) {
+            throw new RuntimeException("Unable to load course item", e);
+        } catch (InvalidParameterException e) {
+            throw new RuntimeException("Unable to load course item", e);
+        } catch (OperationFailedException e) {
+            throw new RuntimeException("Unable to load course item", e);
+        } catch (PermissionDeniedException e) {
+            throw new RuntimeException("Unable to load course item", e);
+        }
+
     }
 }
