@@ -42,7 +42,7 @@
                        'kscr-Search-row--bottom' : last && $last}"
             ng-hide="searchResult.flags.hidden" ng-click="emitEvent(onClick, searchResult)">
             <td class="kscr-Search-results-indicator" ng-class="{'kscr-Search-results-indicator--show': searchResult.indicator}"></td>
-            <td ng-repeat="searchColumn in searchColumns" class="kscr-Search-results-cell kscr-Search-results-cell--{{searchColumn.name}}" ng-hide="searchColumn.optional && !hasData('{{searchColumn.field}}')"
+            <td ng-repeat="searchColumn in searchColumns" class="kscr-Search-results-cell kscr-courseSearch-results-cell--{{searchColumn.name}}" ng-hide="searchColumn.optional && !hasData('{{searchColumn.field}}')"
                 ng-class="{'kscr-Search-results--first' : $first}">
                 <a ng-if="searchColumn.url" compile="applyFilter(searchResult, searchColumn.field, searchColumn.filter)"></a>
                 <span ng-if="!searchColumn.url" compile="applyFilter(searchResult, searchColumn.field, searchColumn.filter)"></span>
