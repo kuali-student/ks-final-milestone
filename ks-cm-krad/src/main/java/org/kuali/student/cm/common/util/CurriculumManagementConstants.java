@@ -191,15 +191,15 @@ public class CurriculumManagementConstants {
 
     public final static String FILE_SIZE_CONSTRAINT = "Maximum File Size - 7.5MB";
 
-    public final static String COURSE_SUBMIT_CONFIRMATION_DIALOG = "CM-Proposal-Review-Course-ConfirmSubmit-Dialog";
-    public final static String CANCEL_COURSE_CONFIRMATION_DIALOG = "CM-Proposal-Review-Course-cancelCourse-Dialog";
+    public final static String COURSE_SUBMIT_CONFIRMATION_DIALOG = "Proposal-Review-Course-ConfirmSubmit-Dialog";
+    public final static String CANCEL_COURSE_CONFIRMATION_DIALOG = "Proposal-Review-Course-cancelCourse-Dialog";
 
-    public final static String COURSE_RETURN_TO_PREVIOUS_NODE_DIALOG = "CM-Proposal-Review-Course-ConfirmReturnToPreviousNode-Dialog";
-    public final static String COURSE_APPROVE_CONFIRMATION_DIALOG = "CM-Proposal-Review-Course-ConfirmApprove-Dialog";
-    public final static String COURSE_BLANKET_APPROVE_CONFIRMATION_DIALOG = "CM-Proposal-Review-Course-ConfirmBlanketApprove-Dialog";
-    public final static String COURSE_ACKNOWLEDGE_CONFIRMATION_DIALOG = "CM-Proposal-Review-Course-ConfirmAcknowledge-Dialog";
-    public final static String COURSE_WITHDRAW_CONFIRMATION_DIALOG = "CM-Proposal-Review-Course-ConfirmWithdraw-Dialog";
-    public final static String COURSE_REJECT_CONFIRMATION_DIALOG = "CM-Proposal-Review-Course-ConfirmReject-Dialog";
+    public final static String COURSE_RETURN_TO_PREVIOUS_NODE_DIALOG = "Proposal-Review-Course-ConfirmReturnToPreviousNode-Dialog";
+    public final static String COURSE_APPROVE_CONFIRMATION_DIALOG = "Proposal-Review-Course-ConfirmApprove-Dialog";
+    public final static String COURSE_BLANKET_APPROVE_CONFIRMATION_DIALOG = "Proposal-Review-Course-ConfirmBlanketApprove-Dialog";
+    public final static String COURSE_ACKNOWLEDGE_CONFIRMATION_DIALOG = "Proposal-Review-Course-ConfirmAcknowledge-Dialog";
+    public final static String COURSE_WITHDRAW_CONFIRMATION_DIALOG = "Proposal-Review-Course-ConfirmWithdraw-Dialog";
+    public final static String COURSE_REJECT_CONFIRMATION_DIALOG = "Proposal-Review-Course-ConfirmReject-Dialog";
 
     public static final String DATA_OBJECT_PATH = KRADPropertyConstants.DOCUMENT + "."
             + KRADPropertyConstants.NEW_MAINTAINABLE_OBJECT + ".dataObject";

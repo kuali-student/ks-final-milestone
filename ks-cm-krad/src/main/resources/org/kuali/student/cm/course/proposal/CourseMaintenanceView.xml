@@ -103,14 +103,14 @@
 
         <property name="dialogs">
             <list>
-                <bean id="CM-Proposal-Review-Course-cancelCourse-Dialog" parent="KS-Proposal-Review-Course-cancelCourse-Dialog"/>
-                <bean id="CM-Proposal-Review-Course-ConfirmSubmit-Dialog" parent="KS-Proposal-Review-Course-ConfirmSubmit-Dialog"/>
-                <bean id="CM-Proposal-Review-Course-ConfirmReturnToPreviousNode-Dialog" parent="KS-Proposal-Review-Course-ConfirmReturnToPreviousNode-Dialog"/>
-                <bean id="CM-Proposal-Review-Course-ConfirmApprove-Dialog" parent="KS-Proposal-Review-Course-ConfirmApprove-Dialog"/>
-                <bean id="CM-Proposal-Review-Course-ConfirmBlanketApprove-Dialog" parent="KS-Proposal-Review-Course-ConfirmBlanketApprove-Dialog"/>
-                <bean id="CM-Proposal-Review-Course-ConfirmReject-Dialog" parent="KS-Proposal-Review-Course-ConfirmReject-Dialog"/>
-                <bean id="CM-Proposal-Review-Course-ConfirmAcknowledge-Dialog" parent="KS-Proposal-Review-Course-ConfirmAcknowledge-Dialog"/>
-                <bean id="CM-Proposal-Review-Course-ConfirmWithdraw-Dialog" parent="KS-Proposal-Review-Course-ConfirmWithdraw-Dialog"/>
+                <bean id="Proposal-Review-Course-cancelCourse-Dialog" parent="CM-Proposal-Review-cancelCourse-Dialog"/>
+                <bean id="Proposal-Review-Course-ConfirmSubmit-Dialog" parent="CM-Proposal-Review-ConfirmSubmit-Dialog"/>
+                <bean id="Proposal-Review-Course-ConfirmReturnToPreviousNode-Dialog" parent="CM-Proposal-Review-ConfirmReturnToPreviousNode-Dialog"/>
+                <bean id="Proposal-Review-Course-ConfirmApprove-Dialog" parent="CM-Proposal-Review-ConfirmApprove-Dialog"/>
+                <bean id="Proposal-Review-Course-ConfirmBlanketApprove-Dialog" parent="CM-Proposal-Review-ConfirmBlanketApprove-Dialog"/>
+                <bean id="Proposal-Review-Course-ConfirmReject-Dialog" parent="CM-Proposal-Review-ConfirmReject-Dialog"/>
+                <bean id="Proposal-Review-Course-ConfirmAcknowledge-Dialog" parent="CM-Proposal-Review-ConfirmAcknowledge-Dialog"/>
+                <bean id="Proposal-Review-Course-ConfirmWithdraw-Dialog" parent="CM-Proposal-Review-ConfirmWithdraw-Dialog"/>
                 <bean id="CM-Proposal-Course-Rule-CourseRangeLookup" parent="KRMS-CourseRangeResult-Lookup"/>
                 <bean id="CM-Proposal-Course-Rule-WarningMessage" parent="KRMS-WarningMessagedYesNo"/>
             </list>
