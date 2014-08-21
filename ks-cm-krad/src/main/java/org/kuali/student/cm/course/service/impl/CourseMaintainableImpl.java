@@ -417,6 +417,12 @@ public class CourseMaintainableImpl extends RuleEditorMaintainableImpl implement
     }
 
 
+    /**
+     * Method will first attempt to return the proposal title and if that is unavailable it will return the KRAD Document
+     * Header description. If they end result of both of those is a blank string, this method will return "New Proposal"
+     * because if the method returns a blank string, the KRAD Maintenance Framework will attempt to default the return
+     * value to something that will be invalid for CM.
+     */
     @Override
     public String getDocumentTitle(MaintenanceDocument document) {
         String docTitle;
@@ -430,6 +436,7 @@ public class CourseMaintainableImpl extends RuleEditorMaintainableImpl implement
         }
         if (StringUtils.isBlank(docTitle)) {
             LOG.warn("doc title is blank... will return default value");
+            // returning this because the Maint Framework will default this to an invalid value
             return "New Proposal";
         }
         LOG.debug("returning doc title value '{}'", docTitle);
