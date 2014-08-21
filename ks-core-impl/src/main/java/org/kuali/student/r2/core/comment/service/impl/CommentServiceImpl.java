@@ -33,7 +33,6 @@ import org.kuali.student.r2.core.comment.dao.CommentDao;
 import org.kuali.student.r2.core.comment.dto.CommentInfo;
 import org.kuali.student.r2.core.comment.model.CommentEntity;
 import org.kuali.student.r2.core.comment.service.CommentService;
-import org.kuali.student.r2.core.constants.CommentServiceConstants;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
@@ -87,7 +86,7 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public List<CommentInfo> getCommentsByRefObject(String refObjectId, String refObjectUri, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        List<CommentEntity> entities = commentDao.getCommentsByRefObjectIdAndRefObjectUriAndType(refObjectId, refObjectUri, CommentServiceConstants.COMMENT_GENERAL_REMARKS_TYPE_KEY);
+        List<CommentEntity> entities = commentDao.getCommentsByRefObjectIdAndRefObjectUri(refObjectId, refObjectUri);
         List<CommentInfo> infoList = new ArrayList<CommentInfo>();
         for(CommentEntity entity : entities) {
             infoList.add(entity.toDto());
