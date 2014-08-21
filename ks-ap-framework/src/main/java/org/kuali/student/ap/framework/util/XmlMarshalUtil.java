@@ -40,8 +40,7 @@ public class XmlMarshalUtil {
 		try {
 			JAXBContext jaxbContext = JAXBContext.newInstance(bind);
 			Marshaller marshaller = jaxbContext.createMarshaller();
-			marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT,
-					new Boolean(true));
+			marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
 			marshaller.marshal(bean, baos);
 		} catch (JAXBException e) {
 			throw new IllegalStateException("Error marshalling", e);
