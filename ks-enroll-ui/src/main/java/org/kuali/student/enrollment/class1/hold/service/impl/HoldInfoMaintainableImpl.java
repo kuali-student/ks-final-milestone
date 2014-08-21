@@ -1,57 +1,77 @@
 package org.kuali.student.enrollment.class1.hold.service.impl;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.maintenance.MaintenanceDocument;
 import org.kuali.student.common.uif.service.impl.KSMaintainableImpl;
 import org.kuali.student.enrollment.class1.hold.dto.HoldIssueMaintenanceWrapper;
-import org.kuali.student.enrollment.class1.hold.service.HoldInfoMaintainable;
-import org.kuali.student.enrollment.class1.hold.util.HoldIssueConstants;
 import org.kuali.student.enrollment.class1.hold.util.HoldIssueResourceLoader;
+import org.kuali.student.r2.common.dto.RichTextInfo;
+import org.kuali.student.r2.core.constants.HoldServiceConstants;
 import org.kuali.student.r2.core.hold.dto.HoldIssueInfo;
 
-public class HoldInfoMaintainableImpl extends KSMaintainableImpl implements HoldInfoMaintainable {
+import java.util.Map;
+
+public class HoldInfoMaintainableImpl extends KSMaintainableImpl {
+
 
     @Override
-    public HoldIssueInfo createHoldIssue(HoldIssueInfo holdIssue){
-        HoldIssueInfo createHoldIssueInfo = null;
+    public Object retrieveObjectForEditOrCopy(MaintenanceDocument document, Map<String, String> dataObjectKeys) {
+
+        HoldIssueMaintenanceWrapper dataObject = new HoldIssueMaintenanceWrapper();
+
+        String holdId = dataObjectKeys.get("id");
+        setupDataObject(dataObject, holdId);
+
+        return dataObject;
+    }
+
+    public void setupDataObject(HoldIssueMaintenanceWrapper dataObject, String holdId) {
+        HoldIssueInfo holdIssueInfo = null;
         try {
-            createHoldIssueInfo = HoldIssueResourceLoader.getHoldService().createHoldIssue(holdIssue.getTypeKey(), holdIssue, createContextInfo());
+            holdIssueInfo = HoldIssueResourceLoader.getHoldService().getHoldIssue(holdId, createContextInfo());
+            if (!holdIssueInfo.equals(null)) {
+                dataObject.setId(holdIssueInfo.getId());
+                dataObject.setName(holdIssueInfo.getName());
+                dataObject.setOrganizationId(holdIssueInfo.getOrganizationId());
+                dataObject.setTypeKey(holdIssueInfo.getTypeKey());
+                dataObject.setStateKey(holdIssueInfo.getStateKey());
+                dataObject.setDescr(holdIssueInfo.getDescr().getPlain());
+            }
         } catch (Exception e) {
 
             convertServiceExceptionsToUI(e);
         }
-        return createHoldIssueInfo;
     }
 
     @Override
-    public HoldIssueInfo updateHoldIssue(HoldIssueInfo holdIssue){
-        HoldIssueInfo updatedHoldIssueInfo = null;
-        try {
-            updatedHoldIssueInfo = HoldIssueResourceLoader.getHoldService().updateHoldIssue(holdIssue.getId(), holdIssue, createContextInfo());
-        } catch (Exception e) {
+    public void saveDataObject() {
+        HoldIssueMaintenanceWrapper holdWrapper = (HoldIssueMaintenanceWrapper) getDataObject();
+        HoldIssueInfo holdIssueInfo = new HoldIssueInfo();
+        holdIssueInfo.setName(holdWrapper.getName());
+        holdIssueInfo.setTypeKey(holdWrapper.getTypeKey());
+        holdIssueInfo.setStateKey(HoldServiceConstants.ISSUE_ACTIVE_STATE_KEY);
+        holdIssueInfo.setOrganizationId(holdWrapper.getOrganizationId());
+        RichTextInfo richTextInfo = new RichTextInfo();
+        richTextInfo.setPlain(holdWrapper.getDescr());
+        holdIssueInfo.setDescr(richTextInfo);
+        if (StringUtils.isBlank(holdWrapper.getId())) {
 
-            convertServiceExceptionsToUI(e);
+            try {
+                HoldIssueInfo createHoldIssueInfo = HoldIssueResourceLoader.getHoldService().createHoldIssue(holdIssueInfo.getTypeKey(), holdIssueInfo, createContextInfo());
+            } catch (Exception e) {
+
+                convertServiceExceptionsToUI(e);
+            }
+        } else {
+            try {
+                holdIssueInfo.setId(holdWrapper.getId());
+                HoldIssueInfo updatedHoldIssueInfo = HoldIssueResourceLoader.getHoldService().updateHoldIssue(holdIssueInfo.getId(), holdIssueInfo, createContextInfo());
+            } catch (Exception e) {
+
+                convertServiceExceptionsToUI(e);
+            }
         }
-        return updatedHoldIssueInfo;
+
     }
-
-    @Override
-    public void validateHold(HoldIssueMaintenanceWrapper holdIssueWrapper){
-        if (StringUtils.isBlank(holdIssueWrapper.getName())) {
-            GlobalVariables.getMessageMap().putError(HoldIssueConstants.HOLD_ISSUE_NAME, HoldIssueConstants.HOLDS_ISSUE_MSG_ERROR_HOLD_ISSUE_NAME_REQUIRED);
-        }
-        if (StringUtils.isBlank(holdIssueWrapper.getCode())) {
-            GlobalVariables.getMessageMap().putError(HoldIssueConstants.HOLD_ISSUE_CODE, HoldIssueConstants.HOLDS_ISSUE_MSG_ERROR_HOLD_ISSUE_CODE_REQUIRED);
-        }
-        if (StringUtils.isBlank(holdIssueWrapper.getTypeKey())) {
-            GlobalVariables.getMessageMap().putError(HoldIssueConstants.HOLD_ISSUE_TYPE, HoldIssueConstants.HOLDS_ISSUE_MSG_ERROR_HOLD_ISSUE_TYPE_REQUIRED);
-        }
-
-        if (StringUtils.isBlank(holdIssueWrapper.getOrganizationId())) {
-            GlobalVariables.getMessageMap().putError(HoldIssueConstants.HOLD_ISSUE_ORG_ID, HoldIssueConstants.HOLDS_ISSUE_MSG_ERROR_HOLD_ISSUE_ORG_ID_REQUIRED);
-        }
-
-    }
-
 
 }

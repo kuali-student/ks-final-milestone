@@ -16,11 +16,15 @@
  */
 package org.kuali.student.enrollment.class1.hold.controller;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.krad.uif.UifParameters;
+import org.kuali.rice.krad.uif.util.ObjectPropertyUtils;
+import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.web.controller.UifControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.common.uif.util.KSControllerHelper;
 import org.kuali.student.enrollment.class1.hold.dto.HoldIssueInfoWrapper;
+import org.kuali.student.enrollment.class1.hold.dto.HoldIssueMaintenanceWrapper;
 import org.kuali.student.enrollment.class1.hold.form.HoldIssueManagementForm;
 import org.kuali.student.enrollment.class1.hold.service.HoldIssueViewHelperService;
 import org.kuali.student.enrollment.class1.hold.util.HoldIssueConstants;
@@ -33,7 +37,9 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+import java.util.Properties;
 
 /**
  * @author Kuali Student Team
@@ -72,8 +78,50 @@ public class HoldIssueManagementController extends UifControllerBase {
         return super.navigate(form, result, request, response);
     }
 
+    @RequestMapping(params = "methodToCall=edit")
+    public ModelAndView edit(@ModelAttribute("KualiForm") HoldIssueManagementForm form, BindingResult result,
+                                HttpServletRequest request, HttpServletResponse response) throws Exception {
+        HoldIssueInfoWrapper holdIssueInfoWrapper = getSelectedRegistrationCourse(form);
+
+        Properties urlParameters = this.editHold(form, holdIssueInfoWrapper.getHoldIssueInfo().getId());
+        return super.performRedirect(form, "holdIssueMaintenance", urlParameters);
+    }
+    private HoldIssueInfoWrapper getSelectedRegistrationCourse(HoldIssueManagementForm form) {
+        return (HoldIssueInfoWrapper) this.getSelectedCollectionObject(form);
+    }
+
+    private Object getSelectedCollectionObject(HoldIssueManagementForm form) {
+
+        String selectedCollectionPath = form.getActionParamaterValue(UifParameters.SELECTED_COLLECTION_PATH);
+        if (StringUtils.isBlank(selectedCollectionPath)) {
+            throw new RuntimeException("Selected collection path was not set for collection action");
+        }
+
+        String selectedLine = form.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX);
+        int selectedLineIndex = -1;
+        if (StringUtils.isNotBlank(selectedLine)) {
+            selectedLineIndex = Integer.parseInt(selectedLine);
+        }
+
+        // Retrieving the select registration result.
+        Collection<Object> collection = ObjectPropertyUtils.getPropertyValue(form, selectedCollectionPath);
+        Object item = ((List) collection).get(selectedLineIndex);
+
+        return item;
+
+    }
+
     protected HoldIssueViewHelperService getViewHelper(UifFormBase form) {
         return (HoldIssueViewHelperService) KSControllerHelper.getViewHelperService(form);
     }
 
+    public static Properties editHold(HoldIssueManagementForm theForm, String holdId) throws Exception {
+        Properties urlParameters = new Properties();
+        urlParameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, KRADConstants.Maintenance.METHOD_TO_CALL_EDIT);
+        urlParameters.put(KRADConstants.DATA_OBJECT_CLASS_ATTRIBUTE, HoldIssueMaintenanceWrapper.class.getName());
+        urlParameters.put(KRADConstants.OVERRIDE_KEYS,"id");
+        urlParameters.put("id", holdId);
+        urlParameters.put("viewName", "HoldIssueMaintenanceView");
+        return urlParameters;
+    }
 }

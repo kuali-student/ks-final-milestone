@@ -26,6 +26,11 @@ limitations under the License.
         <property name="maintainableClass"
                   value="org.kuali.student.enrollment.class1.hold.service.impl.HoldInfoMaintainableImpl"/>
         <property name="documentTypeName" value="HoldIssueMaintenanceDocument"/>
+        <property name="lockingKeys">
+            <list>
+                <value>id</value>
+            </list>
+        </property>
     </bean>
 
     <bean id="KS-HoldIssueMaintenanceView" parent="KS-Uif-MaintenanceView">
@@ -86,25 +91,22 @@ limitations under the License.
                 </bean>
             </list>
         </property>
-
         <property name="footer">
-            <bean parent="KS-Uif-FooterBase">
-                <property name="items">
-                    <list>
-                        <bean parent="Uif-HorizontalBoxSection">
-                            <property name="items">
-                                <list>
-                                    <bean parent="Uif-PrimaryActionButton" p:id="saveCreateHold"
-                                          p:methodToCall="create" p:actionLabel="Save"
-                                          p:performDirtyValidation="false"/>
-                                    <bean parent="Uif-ActionLink" p:actionLabel="Cancel"
-                                          p:methodToCall="close" p:id="cancelCreateHold"/>
-                                </list>
-                            </property>
-                        </bean>
-                    </list>
-                </property>
-            </bean>
+            <ref bean="KSHOLD-DocumentPageFooter-SubmitCancel"/>
+        </property>
+    </bean>
+
+    <bean id="KSHOLD-DocumentPageFooter-SubmitCancel" parent="KSHOLD-DocumentPageFooter-SubmitCancel-parent"/>
+    <bean id="KSHOLD-DocumentPageFooter-SubmitCancel-parent" parent="Uif-DocumentPageFooter" abstract="true">
+        <property name="items">
+            <list>
+                <bean parent="KS-Uif-PrimaryActionButton" p:ajaxSubmit="false" p:methodToCall="create"
+                      p:actionLabel="Save" p:performClientSideValidation="true"
+                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}"/>
+                <bean parent="KS-Uif-NavigationActionLink" p:ajaxSubmit="false" p:methodToCall="cancel"
+                      p:actionLabel="Cancel" p:performDirtyValidation="false"
+                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_CANCEL]}"/>
+            </list>
         </property>
     </bean>
 

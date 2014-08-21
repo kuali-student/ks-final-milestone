@@ -3,8 +3,10 @@ package org.kuali.student.enrollment.class1.hold.service.impl;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.criteria.Predicate;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
+import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.student.common.uif.service.impl.KSViewHelperServiceImpl;
 import org.kuali.student.enrollment.class1.hold.dto.HoldIssueInfoWrapper;
+import org.kuali.student.enrollment.class1.hold.dto.HoldIssueMaintenanceWrapper;
 import org.kuali.student.enrollment.class1.hold.form.HoldIssueManagementForm;
 import org.kuali.student.enrollment.class1.hold.service.HoldIssueViewHelperService;
 import org.kuali.student.enrollment.class1.hold.util.HoldIssueConstants;
@@ -96,4 +98,21 @@ public class HoldIssueViewHelperServiceImpl extends KSViewHelperServiceImpl impl
         return qBuilder;
     }
 
+    @Override
+    public void validateHold(HoldIssueMaintenanceWrapper holdIssueWrapper){
+        if (StringUtils.isBlank(holdIssueWrapper.getName())) {
+            GlobalVariables.getMessageMap().putError(HoldIssueConstants.HOLD_ISSUE_NAME, HoldIssueConstants.HOLDS_ISSUE_MSG_ERROR_HOLD_ISSUE_NAME_REQUIRED);
+        }
+        if (StringUtils.isBlank(holdIssueWrapper.getCode())) {
+            GlobalVariables.getMessageMap().putError(HoldIssueConstants.HOLD_ISSUE_CODE, HoldIssueConstants.HOLDS_ISSUE_MSG_ERROR_HOLD_ISSUE_CODE_REQUIRED);
+        }
+        if (StringUtils.isBlank(holdIssueWrapper.getTypeKey())) {
+            GlobalVariables.getMessageMap().putError(HoldIssueConstants.HOLD_ISSUE_TYPE, HoldIssueConstants.HOLDS_ISSUE_MSG_ERROR_HOLD_ISSUE_TYPE_REQUIRED);
+        }
+
+        if (StringUtils.isBlank(holdIssueWrapper.getOrganizationId())) {
+            GlobalVariables.getMessageMap().putError(HoldIssueConstants.HOLD_ISSUE_ORG_ID, HoldIssueConstants.HOLDS_ISSUE_MSG_ERROR_HOLD_ISSUE_ORG_ID_REQUIRED);
+        }
+
+    }
 }
