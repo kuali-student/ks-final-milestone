@@ -248,7 +248,7 @@ public class CatalogRateInfo
         return (this.transactionDateTypeKey);
     }
 
-    public void setTransactionDateTypeKey(String TransactionDateTypeKey) {
+    public void setTransactionDateTypeKey(String transactionDateTypeKey) {
         this.transactionDateTypeKey = transactionDateTypeKey;
     }
 
