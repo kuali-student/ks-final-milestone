@@ -966,40 +966,11 @@ public class CourseController extends CourseRuleEditorController {
     public ModelAndView fyi(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result,
                                            HttpServletRequest request, HttpServletResponse response) throws Exception {
         CourseInfoWrapper courseInfoWrapper = getCourseInfoWrapper(form);
-        courseInfoWrapper.getUiHelper().setShowMessage(false);
-        String dialog = CurriculumManagementConstants.COURSE_FYI_CONFIRMATION_DIALOG;
-        if ( ! hasDialogBeenDisplayed(dialog, form)) {
-            if (!GlobalVariables.getMessageMap().hasErrors()) {
-                //redirect back to client to display reject rationale dialog
-                return showDialog(dialog, form, request, response);
-            }
-        } else {
-            if (hasDialogBeenAnswered(dialog, form)) {
-                boolean confirmFyi = getBooleanDialogResponse(dialog, form, request, response);
-                if (confirmFyi) {
-                    //route the document only if the rationale decision explanation is not null or redirect back to client to display confirm dialog with error
-                    if(courseInfoWrapper.getUiHelper().getDialogExplanations().get(dialog)!=null){
-                        super.fyi(form, result, request, response);
-                        addDecisionRationale(courseInfoWrapper.getProposalInfo().getId(), courseInfoWrapper.getUiHelper().getDialogExplanations().get(dialog), CommentServiceConstants.WORKFLOW_DECISIONS.FYI.getType());
-                        // setShowMessage boolean decides whether to show the error message or not
-                        courseInfoWrapper.getUiHelper().setShowMessage(false);
-                        form.getDialogManager().removeDialog(dialog);
-                        // Set the request redirect to false so that the user stays on the same page
-                        form.setRequestRedirected(false);
-                        // Hide all the workflow action buttons on the review proposal page while the document is still in Enroute state(It is being processed at the back-end)
-                        courseInfoWrapper.getUiHelper().setPendingWorkflowAction(true);
-                    } else {
-                        form.getDialogManager().resetDialogStatus(dialog);
-                        courseInfoWrapper.getUiHelper().setShowMessage(true);
-                        return showDialog(dialog, form, request, response);
-                    }
-                } else {
-                    form.getDialogManager().removeDialog(dialog);
-                }
-            }else{
-                return showDialog(dialog, form, request, response);
-            }
-        }
+        super.fyi(form, result, request, response);
+        // Set the request redirect to false so that the user stays on the same page
+        form.setRequestRedirected(false);
+        // Hide all the workflow action buttons on the review proposal page while the document is still in Enroute state(It is being processed at the back-end)
+        courseInfoWrapper.getUiHelper().setPendingWorkflowAction(true);
         return getUIFModelAndView(form);
 
     }

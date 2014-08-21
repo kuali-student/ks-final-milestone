@@ -110,7 +110,6 @@
                 <bean id="CM-Proposal-Review-Course-ConfirmBlanketApprove-Dialog" parent="KS-Proposal-Review-Course-ConfirmBlanketApprove-Dialog"/>
                 <bean id="CM-Proposal-Review-Course-ConfirmReject-Dialog" parent="KS-Proposal-Review-Course-ConfirmReject-Dialog"/>
                 <bean id="CM-Proposal-Review-Course-ConfirmAcknowledge-Dialog" parent="KS-Proposal-Review-Course-ConfirmAcknowledge-Dialog"/>
-                <bean id="CM-Proposal-Review-Course-ConfirmFyi-Dialog" parent="KS-Proposal-Review-Course-ConfirmFyi-Dialog"/>
                 <bean id="CM-Proposal-Review-Course-ConfirmWithdraw-Dialog" parent="KS-Proposal-Review-Course-ConfirmWithdraw-Dialog"/>
                 <bean id="CM-Proposal-Course-Rule-CourseRangeLookup" parent="KRMS-CourseRangeResult-Lookup"/>
                 <bean id="CM-Proposal-Course-Rule-WarningMessage" parent="KRMS-WarningMessagedYesNo"/>
