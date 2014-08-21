@@ -214,6 +214,7 @@
                                   parent="Uif-PrimaryActionButton"
                                   p:ajaxSubmit="false"
                                   p:methodToCall="continueCreateCourse"
+                                  p:performClientSideValidation="true"
                                   p:actionLabel="Continue"/>
                             <bean id="CM-Proposal-Course-Start-Cancel"
                                   parent="Uif-CancelAction"
