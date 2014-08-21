@@ -1,8 +1,21 @@
 package org.kuali.student.r1.common.assembly;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import org.apache.commons.lang.StringUtils;
+import org.junit.Before;
+import org.junit.Test;
+import org.kuali.rice.kim.api.common.template.Template;
+import org.kuali.rice.kim.api.permission.Permission;
+import org.kuali.rice.kim.api.permission.PermissionService;
+import org.kuali.student.common.test.mock.MockProxy;
+import org.kuali.student.r1.common.assembly.data.Data;
+import org.kuali.student.r1.common.assembly.data.Metadata;
+import org.kuali.student.r1.common.assembly.dictionary.MetadataServiceImpl;
+import org.kuali.student.r1.common.assembly.dictionary.MockDictionaryService;
+import org.kuali.student.r1.common.assembly.transform.AuthorizationFilter;
+import org.kuali.student.r1.common.assembly.transform.AuthorizationFilter.PermissionEnum;
+import org.kuali.student.r1.common.assembly.transform.MetadataFilter;
+import org.kuali.student.r1.common.dictionary.service.impl.DictionaryServiceImpl;
+import org.kuali.student.r1.common.rice.StudentWorkflowConstants;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -10,28 +23,11 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
-import org.junit.Before;
-import org.junit.Ignore;
-import org.junit.Test;
-import org.kuali.rice.kim.api.common.template.Template;
-import org.kuali.rice.kim.api.permission.Permission;
-import org.kuali.rice.kim.api.permission.PermissionService;
-import org.kuali.student.r1.common.assembly.data.Data;
-import org.kuali.student.r1.common.assembly.data.Metadata;
-import org.kuali.student.r1.common.assembly.dictionary.MetadataServiceImpl;
-import org.kuali.student.r1.common.assembly.dictionary.MockDictionaryService;
-import org.kuali.student.r1.common.assembly.transform.AuthorizationFilter;
-import org.kuali.student.r1.common.assembly.transform.MetadataFilter;
-import org.kuali.student.r1.common.assembly.transform.AuthorizationFilter.PermissionEnum;
-import org.kuali.student.r1.common.dictionary.service.impl.DictionaryServiceImpl;
-import org.kuali.student.r1.common.rice.StudentWorkflowConstants;
-import org.kuali.student.common.test.mock.MockProxy;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 public class TestAuthorizationFilter {
-	final Logger LOG = Logger.getLogger(TestAuthorizationFilter.class);
-	
 	private static final String SIMPLE_STUDENT = "simpleStudent";
 	
 	DictionaryServiceImpl dictionaryDelegate = new DictionaryServiceImpl("classpath:test-validator-context.xml");
@@ -79,7 +75,7 @@ public class TestAuthorizationFilter {
 
 		
 		//Check edit permission when user not authorized to edit document
-		methodReturnMap.put("isAuthorizedByTemplate", new Boolean(false));
+		methodReturnMap.put("isAuthorizedByTemplate", false);
 		metadata = metadataService.getMetadata(SIMPLE_STUDENT);
 		authzFilter.applyMetadataFilter(SIMPLE_STUDENT, metadata, authzFilterProperties);
 		
@@ -92,7 +88,7 @@ public class TestAuthorizationFilter {
 		
 		
 		//Check individual field edit permission for dob edit access
-		methodReturnMap.put("isAuthorizedByTemplate", new Boolean(true));
+		methodReturnMap.put("isAuthorizedByTemplate", true);
 		methodReturnMap.put("getAuthorizedPermissionsByTemplate", getDobEditPermission());
 		
 		metadata = metadataService.getMetadata(SIMPLE_STUDENT);
@@ -124,7 +120,7 @@ public class TestAuthorizationFilter {
 		assertEquals("*********", studentData.get("ssn"));
 		
 		//Check to see partial unmask permission applied correctly
-		methodReturnMap.put("isAuthorizedByTemplate", new Boolean(true));		
+		methodReturnMap.put("isAuthorizedByTemplate", true);
 		methodReturnMap.put("getAuthorizedPermissionsByTemplate", getSsnMaskPermission(PermissionEnum.PARTIAL_UNMASK));
 		metadata = metadataService.getMetadata(SIMPLE_STUDENT);
 		authzFilter.applyMetadataFilter(SIMPLE_STUDENT, metadata, authzFilterProperties);

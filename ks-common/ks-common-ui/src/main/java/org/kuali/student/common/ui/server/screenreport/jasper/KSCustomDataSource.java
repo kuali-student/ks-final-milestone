@@ -65,7 +65,7 @@ public class KSCustomDataSource implements JRDataSource {
         } else {
             if (property.getValueType().equals(Data.class)) {
                 if ("sub".equals(fieldName)) {
-                    value = new Boolean(true);
+                    value = true;
                 } else if ("value".equals(fieldName)) {
                     value = null;
                 } else if ("subset".equals(fieldName)) {
@@ -73,7 +73,7 @@ public class KSCustomDataSource implements JRDataSource {
                 }
             } else {
                 if ("sub".equals(fieldName)) {
-                    value = new Boolean(false);
+                    value = false;
                 } else if ("value".equals(fieldName)) {
                     if (property.getValue() instanceof Date) {
                         value = df.get().format((Date) property.getValue());
