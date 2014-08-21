@@ -15,6 +15,7 @@ import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
 import org.kuali.student.ap.framework.context.support.DefaultKsapContext;
 import org.kuali.student.ap.service.mock.AcademicPlanServiceMockImpl;
 import org.kuali.student.common.test.util.AttributeTester;
+import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.MetaInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
@@ -300,8 +301,11 @@ public class AcademicPlanServiceImplTest extends TestAcademicPlanServiceImplConf
         expected.setTypeKey(validItemType);
         expected.setRefObjectType(validObjRefType);
         exception = false;
+        String planItemId ="";
         try {
-            testService.createPlanItem ( expected, contextInfo);
+            PlanItemInfo testItem = testService.createPlanItem ( expected, contextInfo);
+            planItemId = testItem.getId();
+
         } catch (InvalidParameterException e) {
             exception = true;
         }
@@ -318,6 +322,8 @@ public class AcademicPlanServiceImplTest extends TestAcademicPlanServiceImplConf
         expected.setTypeKey(validItemType);
         expected.setRefObjectType(validObjRefType);
         expected.setRefObjectId("RG-1");  //created in AcademicPlanServiceTstHelper.java
+        AttributeInfo attribute = new AttributeInfo(AcademicPlanServiceConstants.PLAN_ITEM_RELATION_TYPE_RG2COURSE,planItemId);
+        expected.getAttributes().add(attribute);
         exception = false;
         try {
             testService.createPlanItem ( expected, contextInfo);
