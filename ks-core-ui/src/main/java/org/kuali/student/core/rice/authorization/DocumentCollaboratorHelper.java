@@ -27,7 +27,7 @@ import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.student.common.util.security.SecurityUtils;
 import org.kuali.student.r1.common.rice.StudentIdentityConstants;
-import org.kuali.student.r1.common.rice.StudentWorkflowConstants;
+import org.kuali.student.r1.common.rice.StudentProposalRiceConstants;
 import org.kuali.student.r1.common.rice.authorization.ProposalPermissionTypes;
 import org.kuali.student.r1.core.workflow.dto.CollaboratorWrapper;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
@@ -55,14 +55,14 @@ public class DocumentCollaboratorHelper implements Serializable {
     private final static Logger LOG = LoggerFactory.getLogger(CollaboratorHelperGwt.class);
 
     public static void addCollaborator(String docId, String dataId, String recipientPrincipalId, String selectedPermissionCode, String actionRequestTypeCode, boolean participationRequired, String actionRequestLabel, String actionRequestResponsibilityDescription) throws OperationFailedException {
-        if(getWorkflowDocumentActionsService()==null){
+        if (getWorkflowDocumentActionsService() == null) {
             throw new OperationFailedException("Workflow Service is unavailable");
         }
 
         //get a user name
         String currentUserPrincipalId = SecurityUtils.getCurrentUserId();
 
-        StudentWorkflowConstants.ActionRequestType actionRequestEnum = StudentWorkflowConstants.ActionRequestType.getByCode(actionRequestTypeCode);
+        StudentProposalRiceConstants.ActionRequestType actionRequestEnum = StudentProposalRiceConstants.ActionRequestType.getByCode(actionRequestTypeCode);
         if (actionRequestEnum == null) {
             throw new OperationFailedException("No valid action request type found for code: " + actionRequestTypeCode);
         }
@@ -76,13 +76,13 @@ public class DocumentCollaboratorHelper implements Serializable {
 
         DocumentActionResult stdResp = null;
         try {
-            if (StudentWorkflowConstants.ActionRequestType.APPROVE.equals(actionRequestEnum)) {
+            if (StudentProposalRiceConstants.ActionRequestType.APPROVE.equals(actionRequestEnum)) {
                 ahtpBuilder.setResponsibilityDescription(KewApiConstants.ACTION_REQUEST_APPROVE_REQ_LABEL);
                 stdResp = getWorkflowDocumentActionsService().adHocToPrincipal(docActionParams, ahtpBuilder.build());
-            } else if (StudentWorkflowConstants.ActionRequestType.ACKNOWLEDGE.equals(actionRequestEnum)) {
+            } else if (StudentProposalRiceConstants.ActionRequestType.ACKNOWLEDGE.equals(actionRequestEnum)) {
                 ahtpBuilder.setResponsibilityDescription(KewApiConstants.ACTION_REQUEST_ACKNOWLEDGE_REQ_LABEL);
                 stdResp = getWorkflowDocumentActionsService().adHocToPrincipal(docActionParams, ahtpBuilder.build());
-            } else if (StudentWorkflowConstants.ActionRequestType.FYI.equals(actionRequestEnum)) {
+            } else if (StudentProposalRiceConstants.ActionRequestType.FYI.equals(actionRequestEnum)) {
                 ahtpBuilder.setResponsibilityDescription(KewApiConstants.ACTION_REQUEST_FYI_REQ_LABEL);
                 stdResp = getWorkflowDocumentActionsService().adHocToPrincipal(docActionParams, ahtpBuilder.build());
             } else {
@@ -105,11 +105,11 @@ public class DocumentCollaboratorHelper implements Serializable {
         }
         try {
             if (ProposalPermissionTypes.EDIT.equals(selectedPermType)) {
-                addRoleMember(StudentWorkflowConstants.ROLE_NAME_ADHOC_EDIT_PERMISSIONS_ROLE_NAMESPACE, StudentWorkflowConstants.ROLE_NAME_ADHOC_EDIT_PERMISSIONS_ROLE_NAME, docId, dataId, recipientPrincipalId);
-                addRoleMember(StudentWorkflowConstants.ROLE_NAME_ADHOC_ADD_COMMENT_PERMISSIONS_ROLE_NAMESPACE, StudentWorkflowConstants.ROLE_NAME_ADHOC_ADD_COMMENT_PERMISSIONS_ROLE_NAME, docId, dataId, recipientPrincipalId);
+                addRoleMember(StudentProposalRiceConstants.ROLE_NAME_ADHOC_EDIT_PERMISSIONS_ROLE_NAMESPACE, StudentProposalRiceConstants.ROLE_NAME_ADHOC_EDIT_PERMISSIONS_ROLE_NAME, docId, dataId, recipientPrincipalId);
+                addRoleMember(StudentProposalRiceConstants.ROLE_NAME_ADHOC_ADD_COMMENT_PERMISSIONS_ROLE_NAMESPACE, StudentProposalRiceConstants.ROLE_NAME_ADHOC_ADD_COMMENT_PERMISSIONS_ROLE_NAME, docId, dataId, recipientPrincipalId);
             }
             else if (ProposalPermissionTypes.ADD_COMMENT.equals(selectedPermType)) {
-                addRoleMember(StudentWorkflowConstants.ROLE_NAME_ADHOC_ADD_COMMENT_PERMISSIONS_ROLE_NAMESPACE, StudentWorkflowConstants.ROLE_NAME_ADHOC_ADD_COMMENT_PERMISSIONS_ROLE_NAME, docId, dataId, recipientPrincipalId);
+                addRoleMember(StudentProposalRiceConstants.ROLE_NAME_ADHOC_ADD_COMMENT_PERMISSIONS_ROLE_NAMESPACE, StudentProposalRiceConstants.ROLE_NAME_ADHOC_ADD_COMMENT_PERMISSIONS_ROLE_NAME, docId, dataId, recipientPrincipalId);
             }
         } catch (WorkflowException e) {
             LOG.error("Error adding principal id to adhoc permission roles.",e);
@@ -136,15 +136,15 @@ public class DocumentCollaboratorHelper implements Serializable {
             DocumentActionParameters docActionParams = DocumentActionParameters.Builder.create(docId, currentUserPrincipalId).build();
             try {
                 DocumentActionResult stdResp = getWorkflowDocumentActionsService().revokeAdHocRequestById(
-                        docActionParams, actionRequestId);
+                    docActionParams, actionRequestId);
             } catch (RuntimeException e) {
                 throw new OperationFailedException("Error found trying to remove collaborator");
             }
 
             // remove principal from edit permission
-            removeRoleMemberIfNeccesary(StudentWorkflowConstants.ROLE_NAME_ADHOC_EDIT_PERMISSIONS_ROLE_NAMESPACE, StudentWorkflowConstants.ROLE_NAME_ADHOC_EDIT_PERMISSIONS_ROLE_NAME, docId, dataId, recipientPrincipalId);
+            removeRoleMemberIfNeccesary(StudentProposalRiceConstants.ROLE_NAME_ADHOC_EDIT_PERMISSIONS_ROLE_NAMESPACE, StudentProposalRiceConstants.ROLE_NAME_ADHOC_EDIT_PERMISSIONS_ROLE_NAME, docId, dataId, recipientPrincipalId);
             // remove principal from comment permission
-            removeRoleMemberIfNeccesary(StudentWorkflowConstants.ROLE_NAME_ADHOC_ADD_COMMENT_PERMISSIONS_ROLE_NAMESPACE, StudentWorkflowConstants.ROLE_NAME_ADHOC_ADD_COMMENT_PERMISSIONS_ROLE_NAME, docId, dataId, recipientPrincipalId);
+            removeRoleMemberIfNeccesary(StudentProposalRiceConstants.ROLE_NAME_ADHOC_ADD_COMMENT_PERMISSIONS_ROLE_NAMESPACE, StudentProposalRiceConstants.ROLE_NAME_ADHOC_ADD_COMMENT_PERMISSIONS_ROLE_NAME, docId, dataId, recipientPrincipalId);
             return Boolean.TRUE;
         } catch (WorkflowException e) {
             LOG.error("Error getting actions Requested for principal id fetch.",e);
@@ -278,7 +278,7 @@ public class DocumentCollaboratorHelper implements Serializable {
         DocumentType docType = getDocumentTypeService().getDocumentTypeById(docDetail.getDocument().getDocumentTypeId());
         Map<String,String> roleMemberQuals = new LinkedHashMap<String,String>();
         roleMemberQuals.put(StudentIdentityConstants.DOCUMENT_TYPE_NAME,docType.getName());
-        roleMemberQuals.put(StudentIdentityConstants.QUALIFICATION_DATA_ID,dataId);
+        roleMemberQuals.put(StudentIdentityConstants.QUALIFICATION_DATA_ID, dataId);
         getRoleService().removePrincipalFromRole(recipientPrincipalId, roleNamespace, roleName, roleMemberQuals);
     }
 
