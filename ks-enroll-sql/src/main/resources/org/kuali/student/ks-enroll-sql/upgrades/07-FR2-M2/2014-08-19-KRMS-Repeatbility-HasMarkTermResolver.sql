@@ -37,7 +37,7 @@ values ('Y', 'GradeForCourse', 'KS-SYS', 'KS-KRMS-TS-GradeForCourse', 'KS-KRMS-T
 
 --Proposition Parameters
 insert into KRMS_PROP_PARM_T (PARM_TYP_CD, PARM_VAL, PROP_ID, PROP_PARM_ID, SEQ_NO, VER_NBR)
-values ('C', 'true', 'kuali.prop.grade.for.course', 'KS-KRMS-PPC-GradeForCourse', 2, 5)
+values ('C', 'false', 'kuali.prop.grade.for.course', 'KS-KRMS-PPC-GradeForCourse', 2, 5)
 /
 insert into KRMS_PROP_PARM_T (PARM_TYP_CD, PARM_VAL, PROP_ID, PROP_PARM_ID, SEQ_NO, VER_NBR)
 values ('O', '=', 'kuali.prop.grade.for.course', 'KS-KRMS-PPO-GradeForCourse', 3, 5)
