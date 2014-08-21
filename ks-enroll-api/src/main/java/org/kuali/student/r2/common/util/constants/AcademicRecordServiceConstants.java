@@ -34,23 +34,6 @@ import org.kuali.student.r2.common.constants.CommonServiceConstants;
  * @Author Sri komandur@uw.edu
  */
 public class AcademicRecordServiceConstants {
-    // TODO: Fix names of types/states once approved KSENROLL-14461
-    // StudentCourseRecord type
-    public static final String STUDENT_COURSE_RECORD_TYPE_KEY  = "kuali.academic.record.type.student.course.record";
-
-    // StudentCourseRecord lifecycle
-    public static final String STUDENT_COURSE_RECORD_LIFECYCLE_KEY
-            = "kuali.academic.record.student.course.record.lifecycle";
-
-    // StudentCourseRecord states
-    public static final String STUDENT_COURSE_RECORD_COMPLETED_STATE_KEY =
-            "kuali.academic.record.student.course.record.state.completed";
-    public static final String STUDENT_COURSE_RECORD_REGISTERED_STATE_KEY =
-            "kuali.academic.record.student.course.record.state.registered";
-
-    public static final String[] STUDENT_COURSE_RECORD_STATE_KEYS =
-            { STUDENT_COURSE_RECORD_COMPLETED_STATE_KEY, STUDENT_COURSE_RECORD_REGISTERED_STATE_KEY };
-
     /**
      * Reference Object URI's
      */
@@ -93,9 +76,19 @@ public class AcademicRecordServiceConstants {
     public static final String LOAD_CODE_4_TIER_3_HT = "kuali.academic.record.load.code.4.tier.3.at.least.half.time";
     public static final String LOAD_CODE_4_TIER_4_FT = "kuali.academic.record.load.code.4.tier.4.full.time";
 
-    // Course States
+    // Student Course Record Type
+    public static final String STUDENT_COURSE_RECORD_TYPE_KEY  = "kuali.academic.record.type.student.course.record";
+
+    // Student Course Record lifecycle
+    public static final String STUDENT_COURSE_RECORD_LIFECYCLE_KEY
+            = "kuali.academic.record.student.course.record.lifecycle";
+
+    // Student Course Record States
     public static final String COURSE_STATE_COMPLETED = "kuali.academic.record.course.state.completed";
     public static final String COURSE_STATE_REGISTERED = "kuali.academic.record.course.state.registered";
+
+    public static final String[] STUDENT_COURSE_RECORD_STATE_KEYS =
+            { COURSE_STATE_COMPLETED, COURSE_STATE_REGISTERED };
 
 }
 
