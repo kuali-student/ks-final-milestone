@@ -46,7 +46,7 @@
     <bean id="jmsConfig"
           class="org.apache.camel.component.jms.JmsConfiguration">
         <property name="connectionFactory" ref="connectionFactory"/>
-        <property name="concurrentConsumers" value="10"/>
+        <property name="concurrentConsumers" value="1"/>
     </bean>
 
     <bean id="activemq"
