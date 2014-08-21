@@ -106,7 +106,7 @@ public class CourseStateChangeServiceImpl {
             retireCourse(courseInfo, contextInfo);
         }
 
-        ret.setSuccess(new Boolean(true));
+        ret.setSuccess(true);
 
 		return ret;
 	}
