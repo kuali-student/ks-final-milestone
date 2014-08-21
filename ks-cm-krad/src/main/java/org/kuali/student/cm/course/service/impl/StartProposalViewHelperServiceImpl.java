@@ -54,7 +54,7 @@ public class StartProposalViewHelperServiceImpl extends ViewHelperServiceImpl {
      */
     public List<ProposalInfo> suggestProposal(String proposalTitle){
         QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
-        qbcBuilder.setPredicates(PredicateFactory.like("name", proposalTitle + "*"));
+        qbcBuilder.setPredicates(PredicateFactory.like("name", "*" + proposalTitle + "*"));
 
         QueryByCriteria qbc = qbcBuilder.build();
         try {
