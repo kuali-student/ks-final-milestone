@@ -30,20 +30,19 @@
         <property name="page">
             <bean id="KS-Hold-SearchInput-Page" parent="KS-Hold-SearchInput-Page-parent"/>
         </property>
-        <!--property name="breadcrumbOptions.homewardPathBreadcrumbs">
+        <property name="breadcrumbOptions.homewardPathBreadcrumbs">
             <list>
                 <ref bean="KS-HomewardPathBreadcrumbs-Home"/>
                 <ref bean="KS-HomewardPathBreadcrumbs-Enrollment"/>
                 <bean parent="Uif-BreadcrumbItem">
-                    <property name="label" value="Holds"/>
-                    <property name="url.controllerMapping" value="holdIssueMaintenanceController"/>
+                    <property name="url.controllerMapping" value="holdIssueManagement"/>
                     <property name="url.requestParameters">
                         <map key-type="java.lang.String" merge="true">
                             <entry key="methodToCall" value="start"/>
                             <entry key="dataObjectClassName"
                                    value="org.kuali.student.enrollment.class1.hold.dto.HoldIssueMaintenanceWrapper"/>
                             <entry key="hideReturnLink" value="true"/>
-                            <entry key="viewName" value="HoldIssueMaintenanceView"/>
+                            <entry key="viewName" value="HoldIssueManagementView"/>
                             <entry key="hideReturnLink" value="true"/>
                             <entry key="formKey" value="@{returnFormKey}"/>
                         </map>
@@ -51,13 +50,6 @@
                 </bean>
             </list>
         </property>
-        <property name="breadcrumbOptions.breadcrumbOverrides">
-            <list>
-                <bean parent="Uif-BreadcrumbItem">
-                    <property name="label" value="@{#dp.type.name}"/>
-                </bean>
-            </list>
-        </property-->
         <property name="additionalCssFiles">
             <list>
                 <value>themes/ksboot/stylesheets/holds.css</value>
