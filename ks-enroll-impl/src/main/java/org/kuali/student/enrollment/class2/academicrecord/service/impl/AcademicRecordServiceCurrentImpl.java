@@ -71,6 +71,8 @@ public class AcademicRecordServiceCurrentImpl implements AcademicRecordService {
             throw new OperationFailedException();
         } catch (AssemblyException e) {
             throw new OperationFailedException("AssemblyException : " + e.getMessage());
+        } catch (OperationFailedException e) {
+            //TODO KSENROLL-14148 need to implement this check in the course reg service
         }
 
         return courseRecords;

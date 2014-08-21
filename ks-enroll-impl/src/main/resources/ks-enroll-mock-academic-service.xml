@@ -154,7 +154,7 @@
           p:personId="R.JODYB"
           p:termId="kuali.atp.2011Fall"
           p:termName="Fall 2011"
-          p:assignedGradeValue="I"
+          p:assignedGradeValue="kuali.result.value.grade.admin.i"
           p:creditsAttempted="3"
           p:creditsEarned="0"
             />
@@ -167,7 +167,7 @@
           p:personId="R.JOEL-FRANCOISD"
           p:termId="kuali.atp.2011Fall"
           p:termName="Fall 2011"
-          p:assignedGradeValue="I"
+          p:assignedGradeValue="kuali.result.value.grade.admin.i"
           p:creditsAttempted="3"
           p:creditsEarned="0"
             />
@@ -386,7 +386,6 @@
         <entry key="R.JOHNL" value-ref="R.JOHNL"/>
         <entry key="R.JOHNM" value-ref="R.JOHNM"/>
         <entry key="R.JONATHANT" value-ref="R.JONATHANT"/>
-
     </util:map>
 
 </beans>

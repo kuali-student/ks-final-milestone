@@ -1806,7 +1806,7 @@
         <property name="defaultFacts">
             <map>
                 <!--needed services-->
-                <entry key="academicRecordService" value-ref="academicRecordServiceCurrent"/>
+                <entry key="academicRecordService" value-ref="academicRecordService"/>
                 <entry key="atpService" value-ref="AtpService"/>
                 <entry key="processService" value-ref="processService"/>
                 <entry key="courseRegistrationService" value-ref="CourseRegistrationService"/>
@@ -1852,7 +1852,7 @@
                 <bean class="org.kuali.student.enrollment.class2.courseoffering.krms.termresolver.CourseRegisteredCountTermResolver" />
                 <bean class="org.kuali.student.enrollment.class2.courseoffering.krms.termresolver.CourseTotalAttemptsTermResolver" />
                 <bean class="org.kuali.student.enrollment.class2.courseoffering.krms.termresolver.CourseRecordForStudentTermResolver">
-                    <property name="academicRecordService" ref="academicRecordServiceCurrent"/>
+                    <property name="academicRecordService" ref="academicRecordService"/>
                 </bean>
                 <bean class="org.kuali.student.enrollment.class2.courseoffering.krms.termresolver.GesValueTermResolver">
                     <property name="gesService" ref="GesService"/>
@@ -1896,8 +1896,6 @@
         <property name="scheduleOfClassesService"  ref="scheduleOfClassesService"/>
         <property name="searchService" ref="searchService"/>
     </bean>
-    
-
 
  </beans>
 

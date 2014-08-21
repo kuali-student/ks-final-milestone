@@ -120,7 +120,7 @@ public class TestAcademicRecordServicePersistenceMockImpl {
 
         assertNotNull(studentCourseRecordInfoList);
         assertTrue(KSCollectionUtils.getRequiredZeroElement(studentCourseRecordInfoList).getCourseCode().equals("HIST352"));
-        assertTrue(KSCollectionUtils.getRequiredZeroElement(studentCourseRecordInfoList).getAssignedGradeValue().equals("I"));
+        assertTrue(KSCollectionUtils.getRequiredZeroElement(studentCourseRecordInfoList).getAssignedGradeValue().equals("kuali.result.value.grade.admin.i"));
     }
 
     @Test
