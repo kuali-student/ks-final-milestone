@@ -383,9 +383,7 @@
                                   p:methodToCall="fyi"
                                   p:performClientSideValidation="true"
                                   p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_FYI]}"/>
-
                             <bean parent="CM-Proposal-Button-ReturnToPrevious"/>
-
                             <bean parent="CM-Proposal-Button-Cancel"
                                   p:style="margin-right: 10px;"/>
                         </list>
@@ -410,21 +408,14 @@
                                   p:performClientSideValidation="true"
                                   p:disabled="@{#dataObject.missingRequiredFields}"
                                   p:render="@{(#actionFlags[#Constants.KUALI_ACTION_CAN_BLANKET_APPROVE]) and (#uiHelper.useReviewProcess) and (!#uiHelper.pendingWorkflowAction)}"/>
-
                             <bean parent="CM-Proposal-Button-ApproveOrReSubmit" />
-
                             <bean parent="CM-Proposal-Button-Reject"/>
-
                             <bean parent="CM-Proposal-Button-Withdraw"/>
-
                             <bean parent="CM-Proposal-Button-ReturnToPrevious"/>
-
                             <bean parent="CM-Proposal-Button-Submit"
                                   p:render="@{(#uiHelper.useReviewProcess) and (#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]) and (!#uiHelper.pendingWorkflowAction)}"/>
-
                             <bean parent="CM-Proposal-Button-Cancel"
                                   p:style="margin-right: 100px;"/>
-
                         </list>
                     </property>
                 </bean>
@@ -492,10 +483,10 @@
         <property name="render" value="@{#actionFlags[T(org.kuali.student.cm.common.util.CurriculumManagementConstants$ActionFlags).KUALI_ACTION_CAN_WITHDRAW]}"/>
     </bean>
 
-    <bean id="CM-Proposal-Review-cancelCourse-Dialog" parent="CM-Proposal-Review-cancelCourse-Dialog-parentBean" />
-    <bean id="CM-Proposal-Review-cancelCourse-Dialog-parentBean" parent="Uif-DialogGroup" abstract="true" class="org.kuali.student.cm.uif.container.CMDialogGroup">
+    <bean id="CM-Proposal-Review-ConfirmCancelProposal-Dialog" parent="CM-Proposal-Review-ConfirmCancelProposal-Dialog-parentBean" />
+    <bean id="CM-Proposal-Review-ConfirmCancelProposal-Dialog-parentBean" parent="Uif-DialogGroup" abstract="true" class="org.kuali.student.cm.uif.container.CMDialogGroup">
         <property name="headerText" value="Cancel Proposal"/>
-        <property name="onDialogResponseScript" value="closeLightbox(); ;ajaxSubmitForm('cancelCourse');"/>
+        <property name="onDialogResponseScript" value="closeLightbox();ajaxSubmitForm('cancel');"/>
         <property name="renderHeader" value="true"/>
         <property name="cssClasses" >
             <list merge="true">
@@ -506,7 +497,7 @@
                   value="Are you sure you want to cancel the proposal?"/>
         <property name="availableResponses">
             <list>
-                <bean parent="Uif-KeyLabelPair" p:key="yes" p:value="Submit"/>
+                <bean parent="Uif-KeyLabelPair" p:key="yes" p:value="Confirm"/>
                 <bean parent="Uif-KeyLabelPair" p:key="no" p:value="Cancel"/>
             </list>
         </property>
@@ -547,6 +538,7 @@
 
     <bean id="CM-Proposal-Review-ConfirmReturnToPreviousNode-Dialog" parent="CM-Proposal-Review-ConfirmReturnToPreviousNode-Dialog-parentBean"/>
     <bean id="CM-Proposal-Review-ConfirmReturnToPreviousNode-Dialog-parentBean" parent="Uif-DialogGroup" abstract="true" class="org.kuali.student.cm.uif.container.CMDialogGroup">
+        <property name="onDialogResponseScript" value="closeLightbox();ajaxSubmitForm('returnToPreviousNode');"/>
         <property name="renderHeader" value="true"/>
         <property name="OnShowDialogScript" value="skipDirtyChecks();" />
         <property name="header">
@@ -592,6 +584,7 @@
 
     <bean id="CM-Proposal-Review-ConfirmApprove-Dialog" parent="CM-Proposal-Review-ConfirmApprove-Dialog-parentBean"/>
     <bean id="CM-Proposal-Review-ConfirmApprove-Dialog-parentBean" parent="Uif-DialogGroup" abstract="true" class="org.kuali.student.cm.uif.container.CMDialogGroup">
+        <property name="onDialogResponseScript" value="closeLightbox();ajaxSubmitForm('approve');"/>
         <property name="renderHeader" value="true"/>
         <property name="OnShowDialogScript" value="skipDirtyChecks();" />
         <property name="header">
@@ -625,6 +618,7 @@
 
     <bean id="CM-Proposal-Review-ConfirmBlanketApprove-Dialog" parent="CM-Proposal-Review-ConfirmBlanketApprove-Dialog-parentBean"/>
     <bean id="CM-Proposal-Review-ConfirmBlanketApprove-Dialog-parentBean" parent="Uif-DialogGroup" abstract="true" class="org.kuali.student.cm.uif.container.CMDialogGroup">
+        <property name="onDialogResponseScript" value="closeLightbox();ajaxSubmitForm('blanketApprove');"/>
         <property name="renderHeader" value="true"/>
         <property name="OnShowDialogScript" value="skipDirtyChecks();" />
         <property name="header">
@@ -658,6 +652,7 @@
 
     <bean id="CM-Proposal-Review-ConfirmReject-Dialog" parent="CM-Proposal-Review-ConfirmReject-Dialog-parentBean"/>
     <bean id="CM-Proposal-Review-ConfirmReject-Dialog-parentBean" parent="Uif-DialogGroup" abstract="true" class="org.kuali.student.cm.uif.container.CMDialogGroup">
+        <property name="onDialogResponseScript" value="closeLightbox();ajaxSubmitForm('disapprove');"/>
         <property name="renderHeader" value="true"/>
         <property name="OnShowDialogScript" value="skipDirtyChecks();" />
         <property name="header">
@@ -690,6 +685,7 @@
 
     <bean id="CM-Proposal-Review-ConfirmAcknowledge-Dialog" parent="CM-Proposal-Review-ConfirmAcknowledge-Dialog-parentBean"/>
     <bean id="CM-Proposal-Review-ConfirmAcknowledge-Dialog-parentBean" parent="Uif-DialogGroup" abstract="true" class="org.kuali.student.cm.uif.container.CMDialogGroup">
+        <property name="onDialogResponseScript" value="closeLightbox();ajaxSubmitForm('acknowledge');"/>
         <property name="responseInputField">
             <bean parent="Uif-DialogResponse" p:readOnly="false"/>
         </property>
@@ -727,6 +723,7 @@
 
     <bean id="CM-Proposal-Review-ConfirmWithdraw-Dialog" parent="CM-Proposal-Review-ConfirmWithdraw-Dialog-parentBean"/>
     <bean id="CM-Proposal-Review-ConfirmWithdraw-Dialog-parentBean" parent="Uif-DialogGroup" abstract="true" class="org.kuali.student.cm.uif.container.CMDialogGroup">
+        <property name="onDialogResponseScript" value="closeLightbox();ajaxSubmitForm('withdraw');"/>
         <property name="renderHeader" value="true"/>
         <property name="OnShowDialogScript" value="skipDirtyChecks();" />
         <property name="header">

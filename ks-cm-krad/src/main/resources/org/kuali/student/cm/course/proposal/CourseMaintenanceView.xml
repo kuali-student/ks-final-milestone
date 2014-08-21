@@ -103,7 +103,7 @@
 
         <property name="dialogs">
             <list>
-                <bean id="Proposal-Review-Course-cancelCourse-Dialog" parent="CM-Proposal-Review-cancelCourse-Dialog"/>
+                <bean id="Proposal-Review-Course-ConfirmCancelProposal-Dialog" parent="CM-Proposal-Review-ConfirmCancelProposal-Dialog"/>
                 <bean id="Proposal-Review-Course-ConfirmSubmit-Dialog" parent="CM-Proposal-Review-ConfirmSubmit-Dialog"/>
                 <bean id="Proposal-Review-Course-ConfirmReturnToPreviousNode-Dialog" parent="CM-Proposal-Review-ConfirmReturnToPreviousNode-Dialog"/>
                 <bean id="Proposal-Review-Course-ConfirmApprove-Dialog" parent="CM-Proposal-Review-ConfirmApprove-Dialog"/>
@@ -164,7 +164,7 @@
     <bean id="CM-Proposal-Course-LinkGroup-CancelCourse" parent="CM-Proposal-Course-LinkGroup-CancelCourse-parent"/>
 
     <bean id="CM-Proposal-Course-LinkGroup-CancelCourse-parent" parent="KS-Uif-Cancel-NavigationActionLink" abstract="true"
-          p:methodToCall="cancelCourse"
+          p:methodToCall="cancel"
           p:title="Cancel Proposal"
           p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_CANCEL]}">
     </bean>

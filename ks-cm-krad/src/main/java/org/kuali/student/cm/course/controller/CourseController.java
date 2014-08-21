@@ -66,7 +66,6 @@ import org.kuali.student.common.uif.util.GrowlIcon;
 import org.kuali.student.common.uif.util.KSUifUtils;
 import org.kuali.student.common.util.security.ContextUtils;
 import org.kuali.student.r1.common.rice.StudentIdentityConstants;
-import org.kuali.student.r1.core.proposal.ProposalConstants;
 import org.kuali.student.r1.core.subjectcode.service.SubjectCodeService;
 import org.kuali.student.r1.core.workflow.dto.CollaboratorWrapper;
 import org.kuali.student.r2.common.constants.CommonServiceConstants;
@@ -151,7 +150,7 @@ public class CourseController extends CourseRuleEditorController {
     /**
      * This method creates the form and in the case of a brand new proposal where this method is called after the user uses
      * the Initial Create Proposal screen, this method will also set the document type name based on the request parameter
-     * {@link org.kuali.student.cm.course.controller.CourseController.UrlParams.USE_CURRICULUM_REVIEW}
+     * {@link org.kuali.student.cm.course.controller.CourseController.UrlParams#USE_CURRICULUM_REVIEW}
      */
     @Override
     protected MaintenanceDocumentForm createInitialForm(HttpServletRequest request) {
@@ -339,45 +338,49 @@ public class CourseController extends CourseRuleEditorController {
         return getUIFModelAndView(form);
     }
 
-    @MethodAccessible
-    @RequestMapping(params = "methodToCall=cancelCourse")
-    public ModelAndView cancelCourse(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result, HttpServletRequest request, HttpServletResponse response) {
-
-        String dialog = CurriculumManagementConstants.proposalConfirmationDialogs.CANCEL_COURSE_CONFIRMATION_DIALOG;
-        if (!hasDialogBeenDisplayed(dialog, form)) {
-            return showDialog(dialog, form, request, response);
+    @Override
+    @RequestMapping(params = "methodToCall=cancel")
+    public ModelAndView cancel(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
+                               HttpServletRequest request, HttpServletResponse response) {
+        DocumentFormBase documentForm = (DocumentFormBase) form;
+        String dialog = CurriculumManagementConstants.proposalConfirmationDialogs.CANCEL_PROPOSAL_CONFIRMATION_DIALOG;
+        if (!hasDialogBeenDisplayed(dialog, documentForm)) {
+            return showDialog(dialog, documentForm, request, response);
         }
         else {
-            DialogManager dm = form.getDialogManager();
+            DialogManager dm = documentForm.getDialogManager();
             String dialogId = dm.getCurrentDialogId();
             if(dialogId != null) {
-                dm.setDialogAnswer(dialogId, form.getDialogResponse());
-                dm.setDialogExplanation(dialogId, form.getDialogExplanation());
+                dm.setDialogAnswer(dialogId, documentForm.getDialogResponse());
+                dm.setDialogExplanation(dialogId, documentForm.getDialogExplanation());
                 dm.setCurrentDialogId(null);
             }
-            if (hasDialogBeenAnswered(dialog, form)) {
-                boolean confirmSubmit = getBooleanDialogResponse(dialog, form, request, response);
+            if (hasDialogBeenAnswered(dialog, documentForm)) {
+                boolean confirmSubmit = getBooleanDialogResponse(dialog, documentForm, request, response);
                 if (confirmSubmit) {
-                    CourseInfoWrapper courseInfoWrapper = getCourseInfoWrapper(form);
-                    super.cancel(form,result,request,response);
+                    CourseInfoWrapper courseInfoWrapper = getCourseInfoWrapper(documentForm);
+//                    super.cancel(documentForm,result,request,response);
+                    // cannot call super class method as the redirect methods are causing an error when loading indicator is used after dialog confirmation is clicked
+                    performWorkflowAction(documentForm, UifConstants.WorkflowAction.CANCEL, false);
+
                     // setShowMessage boolean decides whether to show the error message or not
                     courseInfoWrapper.getUiHelper().setShowMessage(false);
-                    form.getDialogManager().removeDialog(dialog);
+                    documentForm.getDialogManager().removeDialog(dialog);
                     // Hide all the workflow action buttons on the review proposal page while the document is still in Enroute state(It is being processed at the back-end)
                     courseInfoWrapper.getUiHelper().setPendingWorkflowAction(true);
-                    form.setPageId("CM-Proposal-Review-Course-Page");
-                    form.setMethodToCall("docHandler");
-                    String href = CourseProposalUtil.buildCourseProposalUrl("docHandler", "CM-Proposal-Review-Course-Page", form.getDocument().getDocumentNumber());
-                    return performRedirect(form,href);
+                    documentForm.setPageId("CM-Proposal-Review-Course-Page");
+                    documentForm.setMethodToCall("docHandler");
+                    String href = CourseProposalUtil.buildCourseProposalUrl("docHandler", "CM-Proposal-Review-Course-Page", documentForm.getDocument().getDocumentNumber());
+                    return performRedirect(documentForm,href);
                 }   else {
-                    form.getDialogManager().removeDialog(dialog);
+                    documentForm.getDialogManager().removeDialog(dialog);
                 }
             }
             else{
-                return showDialog(dialog, form, request, response);
+                return showDialog(dialog, documentForm, request, response);
             }
         }
-        return getUIFModelAndView(form);
+        return getUIFModelAndView(documentForm);
     }
 
     /**
@@ -408,6 +411,7 @@ public class CourseController extends CourseRuleEditorController {
                 boolean confirmSubmit = getBooleanDialogResponse(dialog, form, request, response);
                 if (confirmSubmit) {
                     //route the document
+                    // since the route method does not redirect the user, we can use the superclass method
                     ModelAndView modelAndView = super.route(form,result, request,response);
                     form.getDialogManager().removeDialog(dialog);
                     CourseInfoWrapper wrapper = getCourseInfoWrapper(form);
@@ -435,6 +439,13 @@ public class CourseController extends CourseRuleEditorController {
      */
     @Override
     public ModelAndView approve(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        DialogManager dm = form.getDialogManager();
+        String dialogId = dm.getCurrentDialogId();
+        if(dialogId != null) {
+            dm.setDialogAnswer(dialogId, form.getDialogResponse());
+            dm.setDialogExplanation(dialogId, form.getDialogExplanation());
+            dm.setCurrentDialogId(null);
+        }
 
         CourseInfoWrapper courseInfoWrapper = getCourseInfoWrapper(form);
         courseInfoWrapper.getUiHelper().setShowMessage(false);
@@ -452,7 +463,10 @@ public class CourseController extends CourseRuleEditorController {
                 if (confirmApprove) {
                     //route the document only if the rationale decision explanation is not null or redirect back to client to display confirm dialog with error
                     if(courseInfoWrapper.getUiHelper().getDialogExplanations().get(dialog)!=null){
-                        super.approve(form,result, request,response);
+//                        super.approve(form,result, request,response);
+                        // cannot call super class method as the redirect methods are causing an error when loading indicator is used after dialog confirmation is clicked
+                        performWorkflowAction(form, UifConstants.WorkflowAction.APPROVE, true);
+
                         addDecisionRationale(courseInfoWrapper.getProposalInfo().getId(), courseInfoWrapper.getUiHelper().getDialogExplanations().get(dialog), CommentServiceConstants.WORKFLOW_DECISIONS.APPROVE.getType());
                         // setShowMessage boolean decides whether to show the error message or not
                         courseInfoWrapper.getUiHelper().setShowMessage(false);
@@ -488,6 +502,14 @@ public class CourseController extends CourseRuleEditorController {
      */
     @Override
     public ModelAndView disapprove(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        DialogManager dm = form.getDialogManager();
+        String dialogId = dm.getCurrentDialogId();
+        if(dialogId != null) {
+            dm.setDialogAnswer(dialogId, form.getDialogResponse());
+            dm.setDialogExplanation(dialogId, form.getDialogExplanation());
+            dm.setCurrentDialogId(null);
+        }
+
         CourseInfoWrapper courseInfoWrapper = getCourseInfoWrapper(form);
         courseInfoWrapper.getUiHelper().setShowMessage(false);
         String dialog = CurriculumManagementConstants.proposalConfirmationDialogs.COURSE_REJECT_CONFIRMATION_DIALOG;
@@ -502,7 +524,10 @@ public class CourseController extends CourseRuleEditorController {
                 if (confirmReject) {
                     //route the document only if the rationale decision explanation is not null or redirect back to client to display confirm dialog with error
                     if(courseInfoWrapper.getUiHelper().getDialogExplanations().get(dialog)!=null){
-                        super.disapprove(form, result, request, response);
+//                        super.disapprove(form, result, request, response);
+                        // cannot call super class method as the redirect methods are causing an error when loading indicator is used after dialog confirmation is clicked
+                        performWorkflowAction(form, UifConstants.WorkflowAction.DISAPPROVE, true);
+
                         addDecisionRationale(courseInfoWrapper.getProposalInfo().getId(), courseInfoWrapper.getUiHelper().getDialogExplanations().get(dialog), CommentServiceConstants.WORKFLOW_DECISIONS.REJECT.getType());
                         // setShowMessage boolean decides whether to show the error message or not
                         courseInfoWrapper.getUiHelper().setShowMessage(false);
@@ -572,6 +597,14 @@ public class CourseController extends CourseRuleEditorController {
     @RequestMapping(params = "methodToCall=returnToPreviousNode")
     public ModelAndView returnToPreviousNode(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result,
                                              HttpServletRequest request, HttpServletResponse response) {
+        DialogManager dm = form.getDialogManager();
+        String dialogId = dm.getCurrentDialogId();
+        if(dialogId != null) {
+            dm.setDialogAnswer(dialogId, form.getDialogResponse());
+            dm.setDialogExplanation(dialogId, form.getDialogExplanation());
+            dm.setCurrentDialogId(null);
+        }
+
         CourseInfoWrapper courseInfoWrapper = getCourseInfoWrapper(form);
         courseInfoWrapper.getUiHelper().setShowMessage(false);
         String dialog = CurriculumManagementConstants.proposalConfirmationDialogs.COURSE_RETURN_TO_PREVIOUS_NODE_DIALOG;
@@ -939,7 +972,10 @@ public class CourseController extends CourseRuleEditorController {
 
         doValidationForProposal(form, KewApiConstants.ROUTE_HEADER_PROCESSED_CD, DtoConstants.STATE_ACTIVE);
         if (!GlobalVariables.getMessageMap().hasErrors()) {
-            super.blanketApprove(form, result, request, response);
+//            super.blanketApprove(form, result, request, response);
+            // cannot call super class method as the redirect methods are causing an error when loading indicator is used after dialog confirmation is clicked
+            performWorkflowAction(form, UifConstants.WorkflowAction.BLANKETAPPROVE, true);
+
             // Set the request redirect to false so that the user stays on the same page
             form.setRequestRedirected(false);
             // Hide all the workflow action buttons on the review proposal page while the document is still in Enroute state(It is being processed at the back-end)
@@ -988,6 +1024,15 @@ public class CourseController extends CourseRuleEditorController {
     @RequestMapping(params = "methodToCall=withdraw")
     public ModelAndView withdraw(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result,
                                        HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        DialogManager dm = form.getDialogManager();
+        String dialogId = dm.getCurrentDialogId();
+        if(dialogId != null) {
+            dm.setDialogAnswer(dialogId, form.getDialogResponse());
+            dm.setDialogExplanation(dialogId, form.getDialogExplanation());
+            dm.setCurrentDialogId(null);
+        }
+
         CourseInfoWrapper courseInfoWrapper = getCourseInfoWrapper(form);
         courseInfoWrapper.getUiHelper().setShowMessage(false);
         String dialog = CurriculumManagementConstants.proposalConfirmationDialogs.COURSE_WITHDRAW_CONFIRMATION_DIALOG;
@@ -1042,6 +1087,14 @@ public class CourseController extends CourseRuleEditorController {
     @RequestMapping(params = "methodToCall=acknowledge")
     public ModelAndView acknowledge(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
+        DialogManager dm = form.getDialogManager();
+        String dialogId = dm.getCurrentDialogId();
+        if(dialogId != null) {
+            dm.setDialogAnswer(dialogId, form.getDialogResponse());
+            dm.setDialogExplanation(dialogId, form.getDialogExplanation());
+            dm.setCurrentDialogId(null);
+        }
+
         CourseInfoWrapper courseInfoWrapper = getCourseInfoWrapper(form);
         courseInfoWrapper.getUiHelper().setShowMessage(false);
         String dialog = CurriculumManagementConstants.proposalConfirmationDialogs.COURSE_ACKNOWLEDGE_CONFIRMATION_DIALOG;
@@ -1056,7 +1109,10 @@ public class CourseController extends CourseRuleEditorController {
                 if (confirmAcknowledge) {
                     //route the document only if the rationale decision explanation is not null or redirect back to client to display confirm dialog with error
                     if(courseInfoWrapper.getUiHelper().getDialogExplanations().get(dialog)!=null){
-                        super.acknowledge(form,result, request,response);
+//                        super.acknowledge(form,result, request,response);
+                        // cannot call super class method as the redirect methods are causing an error when loading indicator is used after dialog confirmation is clicked
+                        performWorkflowAction(form, UifConstants.WorkflowAction.ACKNOWLEDGE, false);
+
                         addDecisionRationale(courseInfoWrapper.getProposalInfo().getId(), courseInfoWrapper.getUiHelper().getDialogExplanations().get(dialog), CommentServiceConstants.WORKFLOW_DECISIONS.ACKNOWLEDGE.getType());
                         // setShowMessage boolean decides whether to show the error message or not
                         courseInfoWrapper.getUiHelper().setShowMessage(false);
@@ -1082,6 +1138,15 @@ public class CourseController extends CourseRuleEditorController {
     @RequestMapping(params = "methodToCall=blanketApprove")
     public ModelAndView blanketApprove(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result,
                                        HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        DialogManager dm = form.getDialogManager();
+        String dialogId = dm.getCurrentDialogId();
+        if(dialogId != null) {
+            dm.setDialogAnswer(dialogId, form.getDialogResponse());
+            dm.setDialogExplanation(dialogId, form.getDialogExplanation());
+            dm.setCurrentDialogId(null);
+        }
+
         CourseInfoWrapper courseInfoWrapper = getCourseInfoWrapper(form);
         courseInfoWrapper.getUiHelper().setShowMessage(false);
         String dialog = CurriculumManagementConstants.proposalConfirmationDialogs.COURSE_BLANKET_APPROVE_CONFIRMATION_DIALOG;
@@ -1098,7 +1163,10 @@ public class CourseController extends CourseRuleEditorController {
                 if (confirmBlanketApprove) {
                     //route the document only if the rationale decision explanation is not null or redirect back to client to display confirm dialog with error
                     if(courseInfoWrapper.getUiHelper().getDialogExplanations().get(dialog)!=null){
-                        super.blanketApprove(form, result, request, response);
+//                        super.blanketApprove(form, result, request, response);
+                        // cannot call super class method as the redirect methods are causing an error when loading indicator is used after dialog confirmation is clicked
+                        performWorkflowAction(form, UifConstants.WorkflowAction.BLANKETAPPROVE, true);
+
                         addDecisionRationale(courseInfoWrapper.getProposalInfo().getId(), courseInfoWrapper.getUiHelper().getDialogExplanations().get(dialog), CommentServiceConstants.WORKFLOW_DECISIONS.BLANKET_APPROVE.getType());
                         // setShowMessage boolean decides whether to show the error message or not
                         courseInfoWrapper.getUiHelper().setShowMessage(false);

@@ -174,7 +174,7 @@ public class CurriculumManagementConstants {
     public static class proposalConfirmationDialogs {
 
         public final static String COURSE_SUBMIT_CONFIRMATION_DIALOG = "Proposal-Review-Course-ConfirmSubmit-Dialog";
-        public final static String CANCEL_COURSE_CONFIRMATION_DIALOG = "Proposal-Review-Course-cancelCourse-Dialog";
+        public final static String CANCEL_PROPOSAL_CONFIRMATION_DIALOG = "Proposal-Review-Course-ConfirmCancelProposal-Dialog";
         public final static String COURSE_RETURN_TO_PREVIOUS_NODE_DIALOG = "Proposal-Review-Course-ConfirmReturnToPreviousNode-Dialog";
         public final static String COURSE_APPROVE_CONFIRMATION_DIALOG = "Proposal-Review-Course-ConfirmApprove-Dialog";
         public final static String COURSE_BLANKET_APPROVE_CONFIRMATION_DIALOG = "Proposal-Review-Course-ConfirmBlanketApprove-Dialog";
