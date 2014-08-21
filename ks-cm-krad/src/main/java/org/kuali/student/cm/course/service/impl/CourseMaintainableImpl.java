@@ -419,7 +419,21 @@ public class CourseMaintainableImpl extends RuleEditorMaintainableImpl implement
 
     @Override
     public String getDocumentTitle(MaintenanceDocument document) {
-        return document.getDocumentHeader().getDocumentDescription();
+        String docTitle;
+        CourseInfoWrapper courseInfoWrapper = (CourseInfoWrapper)getDataObject();
+        if (courseInfoWrapper != null) {
+            LOG.debug("returning proposal title as doc title");
+            docTitle = courseInfoWrapper.getProposalInfo().getName();
+        } else {
+            LOG.debug("returning document header description as doc title");
+            docTitle = document.getDocumentHeader().getDocumentDescription();
+        }
+        if (StringUtils.isBlank(docTitle)) {
+            LOG.warn("doc title is blank... will return default value");
+            return "New Proposal";
+        }
+        LOG.debug("returning doc title value '{}'", docTitle);
+        return docTitle;
     }
 
     @SuppressWarnings("deprecation")
