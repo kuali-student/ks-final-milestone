@@ -77,18 +77,18 @@ public class AcademicRecordServiceConstants {
     public static final String LOAD_CODE_4_TIER_4_FT = "kuali.academic.record.load.code.4.tier.4.full.time";
 
     // Student Course Record Type
-    public static final String STUDENT_COURSE_RECORD_TYPE_KEY  = "kuali.academic.record.type.student.course.record";
+    public static final String STUDENT_COURSE_RECORD_TYPE_KEY  = "kuali.academicrecord.studentcourserecord.type.course";
 
     // Student Course Record lifecycle
     public static final String STUDENT_COURSE_RECORD_LIFECYCLE_KEY
             = "kuali.academic.record.student.course.record.lifecycle";
 
     // Student Course Record States
-    public static final String COURSE_STATE_COMPLETED = "kuali.academic.record.course.state.completed";
-    public static final String COURSE_STATE_REGISTERED = "kuali.academic.record.course.state.registered";
+    public static final String STUDENTCOURSERECORD_STATE_KEY_COMPLETED = "kuali.academicrecord.studentcourserecord.state.completed";
+    public static final String STUDENTCOURSERECORD_STATE_KEY_REGISTERED = "kuali.academicrecord.studentcourserecord.state.registered";
 
     public static final String[] STUDENT_COURSE_RECORD_STATE_KEYS =
-            { COURSE_STATE_COMPLETED, COURSE_STATE_REGISTERED };
+            {STUDENTCOURSERECORD_STATE_KEY_COMPLETED, STUDENTCOURSERECORD_STATE_KEY_REGISTERED};
 
 }
 
