@@ -21,6 +21,7 @@
     <cache name="buildingRoomCodeCache" maxElementsInMemory="2000" eternal="true" timeToIdleSeconds="0" />
     <cache name="buildingCodeCache" maxElementsInMemory="2000" eternal="true" timeToIdleSeconds="0" />
     <cache name="atpCache" maxElementsInMemory="500" eternal="true" timeToIdleSeconds="0" />
+    <cache name="atpCodeCache" maxElementsInMemory="500" eternal="true" timeToIdleSeconds="0" />
     <cache name="milestoneCache" maxElementsInMemory="500" eternal="true" timeToIdleSeconds="0" />
     <cache name="cluCache" maxElementsInMemory="100" eternal="true" timeToIdleSeconds="0" />
     <cache name="clusetCache" maxElementsInMemory="100" eternal="true" timeToIdleSeconds="0" />
