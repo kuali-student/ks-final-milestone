@@ -86,10 +86,9 @@ public class AcademicRecordServiceConstants {
     // Student Course Record States
     public static final String STUDENTCOURSERECORD_STATE_KEY_COMPLETED = "kuali.academicrecord.studentcourserecord.state.completed";
     public static final String STUDENTCOURSERECORD_STATE_KEY_REGISTERED = "kuali.academicrecord.studentcourserecord.state.registered";
-    public static final String STUDENTCOURSERECORD_STATE_KEY_WITHDRAWN = "kuali.academicrecord.studentcourserecord.state.withdrawn";
 
     public static final String[] STUDENT_COURSE_RECORD_STATE_KEYS =
-            {STUDENTCOURSERECORD_STATE_KEY_COMPLETED, STUDENTCOURSERECORD_STATE_KEY_REGISTERED, STUDENTCOURSERECORD_STATE_KEY_WITHDRAWN};
+            {STUDENTCOURSERECORD_STATE_KEY_COMPLETED, STUDENTCOURSERECORD_STATE_KEY_REGISTERED };
 
 }
 
