@@ -67,9 +67,10 @@ public class StudentWithGradeForCourseTermResolver implements TermResolver<Boole
         try {
             String grade = parameters.get(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_GRADE_KEY);
 
+            @SuppressWarnings("unchecked")
             List<StudentCourseRecordInfo> studentCourseRecords = (List<StudentCourseRecordInfo>) resolvedPrereqs.get(KSKRMSServiceConstants.TERM_RESOLVER_COURSE_RECORD_FOR_STUDENT);
             for (StudentCourseRecordInfo record : studentCourseRecords) {
-                if (record.getAssignedGradeValue().equals(grade)) {
+                if (record.getAssignedGradeValue() != null && record.getAssignedGradeValue().equals(grade)) {
                     return true;
                 }
             }

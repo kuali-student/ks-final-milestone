@@ -74,21 +74,21 @@ public class CourseRegistrationServiceImpl extends AbstractCourseRegistrationSer
             throws AlreadyExistsException, DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
 
-        LOG.info("Submitting Registration Request for id:"+registrationRequestId);
+        LOG.info("Submitting Registration Request for id:" + registrationRequestId);
 
         // had to create transactional helper methods
-        RegistrationRequestInfo regRequestInfo =  getRegistrationRequestToSubmit(registrationRequestId,contextInfo);
+        RegistrationRequestInfo regRequestInfo = getRegistrationRequestToSubmit(registrationRequestId,contextInfo);
 
         //Check that this is a new item
-        if(!LprServiceConstants.LPRTRANS_NEW_STATE_KEY.equals(regRequestInfo.getStateKey())){
-            throw new RuntimeException("Cannot submit request that is already initialized requestId:"+regRequestInfo.getId());
+        if (!LprServiceConstants.LPRTRANS_NEW_STATE_KEY.equals(regRequestInfo.getStateKey())) {
+            throw new RuntimeException("Cannot submit request that is already initialized requestId:" + regRequestInfo.getId());
         }
-        if(regRequestInfo.getRegistrationRequestItems().isEmpty()){
-            throw new RuntimeException("Registration request must have registration request items:"+regRequestInfo.getId());
+        if (regRequestInfo.getRegistrationRequestItems().isEmpty()) {
+            throw new RuntimeException("Registration request must have registration request items:" + regRequestInfo.getId());
         }
-        for(RegistrationRequestItemInfo requestItemInfo:regRequestInfo.getRegistrationRequestItems()){
-            if(!LprServiceConstants.LPRTRANS_ITEM_NEW_STATE_KEY.equals(requestItemInfo.getStateKey())){
-                throw new RuntimeException("Cannot submit request item that is already initialized requestId:"+regRequestInfo.getId() +" itemId:"+requestItemInfo.getId());
+        for (RegistrationRequestItemInfo requestItemInfo:regRequestInfo.getRegistrationRequestItems()) {
+            if (!LprServiceConstants.LPRTRANS_ITEM_NEW_STATE_KEY.equals(requestItemInfo.getStateKey())) {
+                throw new RuntimeException("Cannot submit request item that is already initialized requestId:" + regRequestInfo.getId() +" itemId:" + requestItemInfo.getId());
             }
         }
 
@@ -220,6 +220,20 @@ public class CourseRegistrationServiceImpl extends AbstractCourseRegistrationSer
     }
 
     @Override
+    public List<CourseRegistrationInfo> getCourseRegistrationsByStudent(String studentId, ContextInfo contextInfo) throws MissingParameterException, InvalidParameterException, OperationFailedException, PermissionDeniedException {
+        // Do a query for all lprs that have a matching person id. Limit to RG and CO Lprs that are in state
+        // registrant(might want to change to active in future)
+        QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
+        qbcBuilder.setPredicates(PredicateFactory.equal("personId", studentId),
+                PredicateFactory.in("personRelationTypeId", LprServiceConstants.REGISTRANT_CO_LPR_TYPE_KEY, LprServiceConstants.REGISTRANT_RG_LPR_TYPE_KEY),
+                PredicateFactory.equal("personRelationStateId", LprServiceConstants.ACTIVE_STATE_KEY));
+        QueryByCriteria lprCriteria = qbcBuilder.build();
+        List<LprInfo> lprs = getLprService().searchForLprs(lprCriteria, contextInfo);
+
+        return getCourseRegistrationsFromLprs(lprs);
+    }
+
+    @Override
     public List<CourseRegistrationInfo> getCourseRegistrationsByStudentAndTerm(String studentId, String termId, ContextInfo contextInfo)
             throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 
@@ -233,22 +247,7 @@ public class CourseRegistrationServiceImpl extends AbstractCourseRegistrationSer
         QueryByCriteria lprCriteria = qbcBuilder.build();
         List<LprInfo> lprs = getLprService().searchForLprs(lprCriteria, contextInfo);
 
-        //Get a mapping from the master lprid to the COid since CourseRegistrationInfo has both CO and RG ids
-        Map<String,String> masterLprIdToCoIdMap = new HashMap<>();
-        for(LprInfo lpr:lprs){
-            if(LprServiceConstants.REGISTRANT_CO_LPR_TYPE_KEY.equals(lpr.getTypeKey())){
-                masterLprIdToCoIdMap.put(lpr.getMasterLprId(), lpr.getLuiId());
-            }
-        }
-
-        //FOr each RG lpr, greate a new courseRegistrationInfo and lookup the corresponding CO id
-        List<CourseRegistrationInfo> courseRegistrations = new ArrayList<>(lprs.size());
-        for(LprInfo lpr:lprs){
-            if(LprServiceConstants.REGISTRANT_RG_LPR_TYPE_KEY.equals(lpr.getTypeKey())){
-                courseRegistrations.add(toCourseRegistration(lpr, masterLprIdToCoIdMap.get(lpr.getMasterLprId())));
-            }
-        }
-        return courseRegistrations;
+        return getCourseRegistrationsFromLprs(lprs);
     }
 
     @Override
@@ -282,9 +281,29 @@ public class CourseRegistrationServiceImpl extends AbstractCourseRegistrationSer
         return activityRegistrations;
     }
 
+    private List<CourseRegistrationInfo> getCourseRegistrationsFromLprs(List<LprInfo> lprs) {
+        // Get a mapping from the master lprid to the COid since CourseRegistrationInfo has both CO and RG ids
+        Map<String,String> masterLprIdToCoIdMap = new HashMap<>();
+        for (LprInfo lpr:lprs) {
+            if (LprServiceConstants.REGISTRANT_CO_LPR_TYPE_KEY.equals(lpr.getTypeKey())) {
+                masterLprIdToCoIdMap.put(lpr.getMasterLprId(), lpr.getLuiId());
+            }
+        }
+
+        // For each RG lpr, create a new courseRegistrationInfo and lookup the corresponding CO id
+        List<CourseRegistrationInfo> courseRegistrations = new ArrayList<>(lprs.size());
+        for (LprInfo lpr:lprs) {
+            if (LprServiceConstants.REGISTRANT_RG_LPR_TYPE_KEY.equals(lpr.getTypeKey())) {
+                courseRegistrations.add(toCourseRegistration(lpr, masterLprIdToCoIdMap.get(lpr.getMasterLprId())));
+            }
+        }
+
+        return courseRegistrations;
+    }
+
     private CourseRegistrationInfo toCourseRegistration(LprInfo rgLpr, String courseOfferingId) {
         CourseRegistrationInfo courseRegistration = new CourseRegistrationInfo();
-        for(String rvgKey:rgLpr.getResultValuesGroupKeys()){
+        for (String rvgKey:rgLpr.getResultValuesGroupKeys()) {
             if (rvgKey.startsWith(LrcServiceConstants.RESULT_GROUP_KEY_GRADE_BASE)) {
                 courseRegistration.setGradingOptionId(rvgKey);
             } else if (rvgKey.startsWith(LrcServiceConstants.RESULT_GROUP_KEY_KUALI_CREDITTYPE_CREDIT_BASE)) {

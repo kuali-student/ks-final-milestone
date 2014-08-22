@@ -79,6 +79,7 @@ public class CluId2CluVersionIndIdTermResolver implements TermResolver<String> {
 
         String versionIndId = null;
         try {
+            //TODO KSENROLL-14492 -- the getClu service is very expensive, this should be replaced by a clu search for version id.
             CluInfo cluInfo = getCluService().getClu(cluId, contextInfo);
             versionIndId = cluInfo.getVersion().getVersionIndId();
         } catch (DoesNotExistException | InvalidParameterException | MissingParameterException | OperationFailedException | PermissionDeniedException e) {

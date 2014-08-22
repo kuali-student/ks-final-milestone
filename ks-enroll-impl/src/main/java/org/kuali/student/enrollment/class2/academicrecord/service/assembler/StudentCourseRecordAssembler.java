@@ -76,7 +76,7 @@ public class StudentCourseRecordAssembler
                 courseRecord.setCourseTitle(identifier != null ? identifier.getLongName() : null);
                 courseRecord.setCourseCode(identifier != null ? identifier.getCode() : null);
                 
-                //TODO:The code or number of the primary activity. how to determine which activity is primary?
+                //The code or number of the primary activity. how to determine which activity is primary?
                 /*            RegGroupRegistrationInfo regGroup = courseReg.getRegGroupRegistration();
                               if (regGroup.getActivityRegistrations()!= null && !regGroup.getActivityRegistrations().isEmpty()) {
                               courseRecord.setActivityCode(regGroup.getActivityRegistrations().get(0).getActivityOffering().getActivityCode());
@@ -91,14 +91,22 @@ public class StudentCourseRecordAssembler
                     courseRecord.setCourseEndDate(atp.getEndDate());
                 }
 
-                GradeRosterEntryInfo finalRosterEntry = null;
-                finalRosterEntry = gradingService.getFinalGradeForStudentInCourseOffering(courseReg.getPersonId(), lui.getId(), context);
-                courseRecord.setAssignedGradeValue(getValue(finalRosterEntry.getAssignedGradeKey(), context));
-                courseRecord.setAssignedGradeScaleKey(getScaleKey(finalRosterEntry.getAssignedGradeKey(), context));
-                courseRecord.setAdministrativeGradeValue(getValue(finalRosterEntry.getAdministrativeGradeKey(), context));
-                courseRecord.setAdministrativeGradeScaleKey(getScaleKey(finalRosterEntry.getAdministrativeGradeKey(), context));
-                courseRecord.setCalculatedGradeValue(getValue(finalRosterEntry.getCalculatedGradeKey(), context));
-                courseRecord.setCalculatedGradeScaleKey(getScaleKey(finalRosterEntry.getCalculatedGradeKey(), context));
+                try {
+                    @SuppressWarnings("deprecation")
+                    GradeRosterEntryInfo finalRosterEntry = getGradingService().getFinalGradeForStudentInCourseOffering(courseReg.getPersonId(), lui.getId(), context);
+                    courseRecord.setAssignedGradeValue(getValue(finalRosterEntry.getAssignedGradeKey(), context));
+                    courseRecord.setAssignedGradeScaleKey(getScaleKey(finalRosterEntry.getAssignedGradeKey(), context));
+                    courseRecord.setAdministrativeGradeValue(getValue(finalRosterEntry.getAdministrativeGradeKey(), context));
+                    courseRecord.setAdministrativeGradeScaleKey(getScaleKey(finalRosterEntry.getAdministrativeGradeKey(), context));
+                    courseRecord.setCalculatedGradeValue(getValue(finalRosterEntry.getCalculatedGradeKey(), context));
+                    courseRecord.setCalculatedGradeScaleKey(getScaleKey(finalRosterEntry.getCalculatedGradeKey(), context));
+                } catch (NullPointerException ex) {
+                    /*
+                        Grading service getFinalGradeForStudentInCourseOffering() is deprecated and
+                        throwing NullPointerException. Catch and continue until a replacement method
+                        for getting the grade can be determined.
+                    */
+                }
                 courseRecord.setStateKey(AcademicRecordServiceConstants.STUDENTCOURSERECORD_STATE_KEY_REGISTERED);
                 
             } catch (DisabledIdentifierException e) {

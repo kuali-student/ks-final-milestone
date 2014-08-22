@@ -24,6 +24,8 @@ import org.kuali.student.enrollment.academicrecord.dto.StudentProgramRecordInfo;
 import org.kuali.student.enrollment.academicrecord.dto.StudentTestScoreRecordInfo;
 import org.kuali.student.enrollment.academicrecord.service.AcademicRecordService;
 import org.kuali.student.enrollment.class2.academicrecord.service.assembler.StudentCourseRecordAssembler;
+import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
+import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.enrollment.courseregistration.dto.CourseRegistrationInfo;
 import org.kuali.student.enrollment.courseregistration.service.CourseRegistrationService;
 import org.kuali.student.r2.common.assembler.AssemblyException;
@@ -33,6 +35,7 @@ import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.lum.clu.service.CluService;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
@@ -47,6 +50,8 @@ import java.util.List;
 public class AcademicRecordServiceCurrentImpl implements AcademicRecordService {
     private CourseRegistrationService courseRegService;
     private StudentCourseRecordAssembler courseRecordAssembler;
+    private CourseOfferingService courseOfferingService;
+    private CluService cluService;
 
     @Override
     public List<StudentCourseRecordInfo> getStudentCourseRecordsForCourse(String personId, String courseId, ContextInfo contextInfo)
@@ -61,9 +66,15 @@ public class AcademicRecordServiceCurrentImpl implements AcademicRecordService {
             List<CourseRegistrationInfo> regs = courseRegService.getCourseRegistrationsByStudent(personId, contextInfo);
             if (regs != null && !regs.isEmpty()) {
                 for (CourseRegistrationInfo reg : regs) {
-                    StudentCourseRecordInfo courseRecord = courseRecordAssembler.assemble(reg, contextInfo);
-                    if (courseRecord != null) {
-                        courseRecords.add(courseRecord);
+                    CourseOfferingInfo courseOfferingInfo = courseOfferingService.getCourseOffering(reg.getCourseOfferingId(), contextInfo);
+                    String cluId = courseOfferingInfo.getCourseId();
+                    //TODO KSENROLL-14492 -- the getClu service is very expensive, this should be replaced by a clu search for version id.
+                    String regVersionIndId = cluService.getClu(cluId, contextInfo).getVersion().getVersionIndId();
+                    if (regVersionIndId.equals(courseId)) {
+                        StudentCourseRecordInfo courseRecord = courseRecordAssembler.assemble(reg, contextInfo);
+                        if (courseRecord != null) {
+                            courseRecords.add(courseRecord);
+                        }
                     }
                 }
             }
@@ -71,8 +82,6 @@ public class AcademicRecordServiceCurrentImpl implements AcademicRecordService {
             throw new OperationFailedException();
         } catch (AssemblyException e) {
             throw new OperationFailedException("AssemblyException : " + e.getMessage());
-        } catch (OperationFailedException e) {
-            //TODO KSENROLL-14148 need to implement this check in the course reg service
         }
 
         return courseRecords;
@@ -250,5 +259,13 @@ public class AcademicRecordServiceCurrentImpl implements AcademicRecordService {
 
     public void setCourseRecordAssembler(StudentCourseRecordAssembler courseRecordAssembler) {
         this.courseRecordAssembler = courseRecordAssembler;
+    }
+
+    public void setCourseOfferingService(CourseOfferingService courseOfferingService) {
+        this.courseOfferingService = courseOfferingService;
+    }
+
+    public void setCluService(CluService cluService) {
+        this.cluService = cluService;
     }
 }

@@ -394,7 +394,7 @@
     </bean>
 
     <bean id="coServiceImpl" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingServiceImpl">
-        <property name="luiService" ref="luiServiceValidationDecorator" />
+        <property name="luiService" ref="LuiService" />
         <property name="rgAssembler" ref="rgAssembler" />
         <property name="courseService" ref="courseServiceImpl" />
         <property name="acalService" ref="AcademicCalendarService" />
@@ -1024,6 +1024,8 @@
     <bean id="academicRecordServiceCurrent" class="org.kuali.student.enrollment.class2.academicrecord.service.impl.AcademicRecordServiceCurrentImpl">
         <property name="courseRegService" ref="CourseRegistrationService" />
         <property name="courseRecordAssembler" ref="courseRecordAssembler" />
+        <property name="courseOfferingService" ref="CourseOfferingService" />
+        <property name="cluService" ref="CluService" />
     </bean>
 
     <!-- publish to the bus -->
@@ -1044,6 +1046,7 @@
         <property name="atpService" ref="AtpService" />
         <property name="gradingService" ref="gradingService" />
         <property name="lrcService" ref="lrcServiceCache" />
+        <property name="luiService" ref="LuiService" />
     </bean>
 
     <bean id="activityTransformer" class="org.kuali.student.enrollment.class2.courseoffering.service.transformer.ActivityOfferingTransformer" >
@@ -1830,7 +1833,7 @@
                 <entry key="courseRegistrationService" value-ref="CourseRegistrationService"/>
                 <entry key="courseWaitListService" value-ref="courseWaitListService"/>
                 <entry key="courseOfferingService" value-ref="CourseOfferingService"/>
-                <entry key="luiService" value-ref="luiServiceCache"/>
+                <entry key="luiService" value-ref="LuiService"/>
                 <entry key="schedulingService" value-ref="SchedulingService"/>
                 <entry key="populationService" value-ref="PopulationService"/>
                 <entry key="exemptionService" value-ref="ExemptionService"/>
@@ -1859,7 +1862,7 @@
                     <property name="cluService" ref="CluService"/>
                 </bean>
                 <bean class="org.kuali.student.enrollment.krms.termresolver.RegistrationGroup2CluIdTermResolver">
-                    <property name="luiService" ref="luiServiceCache"/>
+                    <property name="luiService" ref="LuiService"/>
                 </bean>
                 <bean class="org.kuali.student.enrollment.krms.termresolver.RegistrationRequest2PersonIdTermResolver" />
                 <bean class="org.kuali.student.enrollment.krms.termresolver.RegistrationRequest2AtpIdTermResolver" />
