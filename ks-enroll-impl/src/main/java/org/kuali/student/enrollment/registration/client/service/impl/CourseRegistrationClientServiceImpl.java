@@ -130,25 +130,26 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
 
     @Override
     public Response clearScheduleRS(String termId, String termCode) {
-        Response.ResponseBuilder response;
+        Response.ResponseBuilder response = null;
         ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
 
         try {
             termId = CourseRegistrationAndScheduleOfClassesUtil.getTermId(termId, termCode);
 
-            if(contextInfo.getPrincipalId() == null || contextInfo.getPrincipalId().isEmpty()
-                    || termId == null || termId.isEmpty()){
-                UserMessageResult userMessage = new UserMessageResult();
-                userMessage.setGenericMessage("Error clearing cart");
-                String technicalInfo = String.format("Technical Info:(principalId:[%s] termId:[%s])", contextInfo.getPrincipalId(), termId);
+            // in case it errors
+            UserMessageResult userMessage = new UserMessageResult();
+            userMessage.setGenericMessage("Error clearing cart");
+            String technicalInfo = String.format("Technical Info:(principalId:[%s] termId:[%s])", contextInfo.getPrincipalId(), termId);
+            userMessage.setConsoleMessage(technicalInfo);
+            response = getResponse(Response.Status.INTERNAL_SERVER_ERROR, userMessage);
 
-                userMessage.setConsoleMessage(technicalInfo);
-                response = getResponse(Response.Status.INTERNAL_SERVER_ERROR, userMessage);
-            } else {
+            if(contextInfo.getPrincipalId() != null && !contextInfo.getPrincipalId().isEmpty()
+                    && termId != null && !termId.isEmpty()) {
                 PersonScheduleResult scheduleResult = getStudentScheduleAndWaitlistedCoursesByTerm(termId,termCode);
 
                 List<StudentScheduleCourseResult> coursesToDrop = new ArrayList<>();
-                if(scheduleResult != null && scheduleResult.getStudentScheduleTermResults() != null){
+                if(scheduleResult != null && scheduleResult.getStudentScheduleTermResults() != null
+                          && !scheduleResult.getStudentScheduleTermResults().isEmpty()){
 
                     for(StudentScheduleTermResult scheduleTermResult : scheduleResult.getStudentScheduleTermResults()){
                         if(scheduleTermResult.getRegisteredCourseOfferings() != null){
@@ -158,14 +159,22 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
                             coursesToDrop.addAll(scheduleTermResult.getWaitlistCourseOfferings());
                         }
                     }
-                }
 
-                List<String> masterLprIds = new ArrayList<>(coursesToDrop.size());
-                for(StudentScheduleCourseResult courseResult : coursesToDrop){
-                    masterLprIds.add(courseResult.getMasterLprId());
-                }
 
-                response = Response.ok(dropRegistrationGroupsLocal(contextInfo, masterLprIds,termId));
+                    List<String> masterLprIds = new ArrayList<>(coursesToDrop.size());
+                    for(StudentScheduleCourseResult courseResult : coursesToDrop){
+                        masterLprIds.add(courseResult.getMasterLprId());
+                    }
+
+                    if(!masterLprIds.isEmpty()) {
+                        response = Response.ok(dropRegistrationGroupsLocal(contextInfo, masterLprIds, termId));
+                    }else{
+                        userMessage.setGenericMessage("Could not find any courses in your schedule.");
+                        response = getResponse(Response.Status.NOT_FOUND, userMessage);
+                    }
+                }
+            }else {
+                userMessage.setGenericMessage("User and term must not be empty when clearing schedule.");
             }
 
 

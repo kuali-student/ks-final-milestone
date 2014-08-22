@@ -83,6 +83,9 @@ public class CourseRegistrationServiceImpl extends AbstractCourseRegistrationSer
         if(!LprServiceConstants.LPRTRANS_NEW_STATE_KEY.equals(regRequestInfo.getStateKey())){
             throw new RuntimeException("Cannot submit request that is already initialized requestId:"+regRequestInfo.getId());
         }
+        if(regRequestInfo.getRegistrationRequestItems().isEmpty()){
+            throw new RuntimeException("Registration request must have registration request items:"+regRequestInfo.getId());
+        }
         for(RegistrationRequestItemInfo requestItemInfo:regRequestInfo.getRegistrationRequestItems()){
             if(!LprServiceConstants.LPRTRANS_ITEM_NEW_STATE_KEY.equals(requestItemInfo.getStateKey())){
                 throw new RuntimeException("Cannot submit request item that is already initialized requestId:"+regRequestInfo.getId() +" itemId:"+requestItemInfo.getId());
