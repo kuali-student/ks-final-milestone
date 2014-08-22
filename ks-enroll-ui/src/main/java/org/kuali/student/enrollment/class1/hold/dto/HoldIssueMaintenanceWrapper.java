@@ -22,7 +22,6 @@ import org.kuali.student.r2.core.process.dto.ProcessInfo;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -46,10 +45,9 @@ public class HoldIssueMaintenanceWrapper implements Serializable {
     private String baseType;
     private String firstTerm;
     private String lastTerm;
-    private Date firstDate;
-    private Date lastDate;
+    private String firstDate;
+    private String lastDate;
     private String holdHistory;
-    private String authorization;
 
     private boolean isSaveSuccess;
 
@@ -172,19 +170,19 @@ public class HoldIssueMaintenanceWrapper implements Serializable {
         this.lastTerm = lastTerm;
     }
 
-    public Date getFirstDate() {
+    public String getFirstDate() {
         return firstDate;
     }
 
-    public void setFirstDate(Date firstDate) {
+    public void setFirstDate(String firstDate) {
         this.firstDate = firstDate;
     }
 
-    public Date getLastDate() {
+    public String getLastDate() {
         return lastDate;
     }
 
-    public void setLastDate(Date lastDate) {
+    public void setLastDate(String lastDate) {
         this.lastDate = lastDate;
     }
 
@@ -258,11 +256,5 @@ public class HoldIssueMaintenanceWrapper implements Serializable {
         return adminOrgMap;
     }
 
-    public String getAuthorization() {
-        return authorization;
-    }
 
-    public void setAuthorization(String authorization) {
-        this.authorization = authorization;
-    }
 }
