@@ -58,9 +58,7 @@ import org.slf4j.LoggerFactory;
 import javax.persistence.Entity;
 import javax.xml.namespace.QName;
 import java.util.Iterator;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Document class for all CM maintenance documents which skips the xml serialization of <class>MaintainableImpl</class>
