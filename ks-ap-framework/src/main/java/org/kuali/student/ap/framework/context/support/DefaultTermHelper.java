@@ -231,6 +231,16 @@ public class DefaultTermHelper implements TermHelper {
 		getTermMarker().frontLoad(start, end);
 	}
 
+    /**
+     * Gets the Terms open for planning based on:
+     * 1. the current date
+     * 2. the config parameter PlanConstants.PLAN_FUTURE_YEAR
+     * 3. the "last date to add" classes (...in applicable terms)
+     *
+     * note-worthy assumption:  the Academic Calendar has been published for all future years & their assoc'd terms.
+     *
+     * @return A full List of terms to allow planning (e.g. for term drop-down in .
+     */
     @Override
     public List<Term> getTermsOpenForPlanning() {
         Term currentTerm = null;

@@ -40,14 +40,9 @@ public interface TermHelper {
 	void frontLoadForPlanner(String firstAtpId);
 
     /**
-     * Gets the Terms open for planning based on:
-     * 1. the current date
-     * 2. the config parameter PlanConstants.PLAN_FUTURE_YEAR
-     * 3. the "last date to add" classes (...in applicable terms)
+     * Creates a list of terms considered open for planning
      *
-     * note-worthy assumption:  the Academic Calendar has been published for all future years & their assoc'd terms.
-     *
-     * @return A full List of terms to allow planning (e.g. for term drop-down in .
+     * @return A full List of terms allowing planning
      */
     public List<Term> getTermsOpenForPlanning();
 
