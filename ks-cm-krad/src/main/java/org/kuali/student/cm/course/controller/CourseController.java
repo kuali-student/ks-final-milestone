@@ -92,12 +92,13 @@ import org.kuali.student.r2.lum.course.service.CourseService;
 import org.kuali.student.r2.lum.util.constants.CourseServiceConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
@@ -338,29 +339,6 @@ public class CourseController extends CourseRuleEditorController {
         ((CourseInfoWrapper) viewHelper.getDataObject()).getUiHelper().setUseReviewProcess(
                 request.getParameter(CourseController.UrlParams.USE_CURRICULUM_REVIEW).equals(Boolean.TRUE.toString()));
         return getUIFModelAndView(form);
-    }
-
-    @MethodAccessible
-    @RequestMapping(params = "methodToCall=exportCourseProposal")
-    public ModelAndView exportCourseProposal(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result, HttpServletRequest request, HttpServletResponse response) {
-
-        ScreenReportProcessor processor = new JasperScreenReportProcessorImpl();
-        CourseInfoWrapper courseInfoWrapper = getCourseInfoWrapper(form);
-
-        ExportCourseHelperImpl exportCourseHelper = new ExportCourseHelperImpl();
-        List<ExportElement> exportElements = exportCourseHelper.constructExportElementBasedOnView(courseInfoWrapper);
-
-        byte[] docBytes = processor.createDoc(exportElements, "base.template", "Course Information");
-
-        byte[] pdfBytes = processor.createPdf(exportElements, "base.template", "Course Information");
-        try {
-            // printToFile(pdfBytes, "dataMap.pdf");
-             // printToFile(docBytes, "dataMap.doc");
-
-        }   catch(Exception ex){
-
-        }
-        return null;
     }
 
     @Override
@@ -1510,18 +1488,42 @@ public class CourseController extends CourseRuleEditorController {
     }
 
     @MethodAccessible
-    @RequestMapping(params = "methodToCall=export")
-    public ModelAndView export(@ModelAttribute("KualiForm") DocumentFormBase form) {
+    @ResponseBody
+    @RequestMapping(params = "methodToCall=export", method = RequestMethod.GET)
+    public ResponseEntity<byte[]> export(@ModelAttribute("KualiForm") DocumentFormBase form) {
 
         String exportType = (String)form.getExtensionData().get(CurriculumManagementConstants.Export.EXPORT_TYPE);
+        ScreenReportProcessor processor = new JasperScreenReportProcessorImpl();
+        CourseInfoWrapper courseInfoWrapper = getCourseInfoWrapper(form);
+        String fileName = courseInfoWrapper.getCourseInfo().getCourseTitle();
+        fileName = fileName.replace(" ","_") ;
 
+        ExportCourseHelperImpl exportCourseHelper = new ExportCourseHelperImpl();
+        List<ExportElement> exportElements = exportCourseHelper.constructExportElementBasedOnView(courseInfoWrapper);
+
+        HttpHeaders headers = new HttpHeaders();
+
+        ResponseEntity<byte[]> response = null;
         if (StringUtils.equals(exportType,CurriculumManagementConstants.Export.PDF)){
+
+            fileName = fileName + ".pdf";
+            byte[] pdfBytes = processor.createPdf(exportElements, "base.template", "Course Information");
+
+            headers.setContentType(MediaType.parseMediaType("application/pdf"));
+            headers.setContentDispositionFormData(fileName, fileName);
+            headers.setCacheControl("must-revalidate, post-check=0, pre-check=0");
+            response = new ResponseEntity<byte[]>(pdfBytes, headers, HttpStatus.OK);
 
         } else if (StringUtils.equals(exportType,CurriculumManagementConstants.Export.DOC)){
 
+            fileName = fileName + ".doc";
+            byte[] docBytes  = processor.createDoc(exportElements, "base.template", "Course Information");
+            headers.setContentType(MediaType.parseMediaType("application/doc"));
+            headers.setContentDispositionFormData(fileName, fileName);
+            headers.setCacheControl("must-revalidate, post-check=0, pre-check=0");
+            response = new ResponseEntity<byte[]>(docBytes, headers, HttpStatus.OK);
         }
-        return getUIFModelAndView(form);
-
+        return response ;
     }
 
     /**
