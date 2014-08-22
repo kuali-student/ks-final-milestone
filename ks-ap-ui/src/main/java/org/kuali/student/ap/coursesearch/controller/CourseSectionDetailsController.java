@@ -14,12 +14,10 @@
  */
 package org.kuali.student.ap.coursesearch.controller;
 
-import org.kuali.rice.krad.uif.service.ViewHelperService;
 import org.kuali.rice.krad.web.controller.MethodAccessible;
 import org.kuali.rice.krad.web.controller.extension.KsapControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.ap.academicplan.constants.AcademicPlanServiceConstants;
-import org.kuali.student.ap.academicplan.dto.PlanItemInfo;
 import org.kuali.student.ap.academicplan.dto.TypedObjectReferenceInfo;
 import org.kuali.student.ap.academicplan.infc.LearningPlan;
 import org.kuali.student.ap.academicplan.infc.PlanItem;
@@ -28,7 +26,6 @@ import org.kuali.student.ap.coursesearch.dataobject.ActivityOfferingDetailsWrapp
 import org.kuali.student.ap.coursesearch.form.CourseSectionDetailsDialogForm;
 import org.kuali.student.ap.coursesearch.form.CourseSectionDetailsForm;
 import org.kuali.student.ap.coursesearch.service.CourseDetailsViewHelperService;
-import org.kuali.student.ap.coursesearch.service.impl.CourseDetailsViewHelperServiceImpl;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
 import org.kuali.student.ap.framework.context.CourseSearchConstants;
 import org.kuali.student.ap.framework.context.PlanConstants;
@@ -42,7 +39,6 @@ import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
 import org.kuali.student.enrollment.courseoffering.infc.CourseOffering;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
-import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
@@ -74,7 +70,6 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
 /**
  * Controller handling the interactions of the course section portion of the Course Details Page.
@@ -227,7 +222,8 @@ public class CourseSectionDetailsController extends KsapControllerBase {
 
         // Create events needed to update the page
         eventList = getViewHelperService(form).createAddSectionEvent(course.getTermId(), course.getCourseOfferingCode(),regGroup.getCourseOfferingId(),regGroup.getFormatOfferingId(), activityWrappers, eventList);
-        eventList = getViewHelperService(form).createFilterValidRegGroupsEvent(course.getTermId(), course.getCourseOfferingCode(), regGroup.getFormatOfferingId(), validRegGroups, eventList);
+        eventList = getViewHelperService(form).createFilterValidRegGroupsEvent(course.getTermId(), course.getCourseOfferingCode(), regGroup.getFormatOfferingId(), validRegGroups, eventList,
+                new HashMap<Object, Object>());
         eventList = getViewHelperService(form).createFilterValidRegGroupsForRemovalEvent(course.getTermId(), course.getCourseOfferingCode(), regGroup.getFormatOfferingId(), validRegGroupsToRemain, eventList);
         List<PlanItem> planItems = KsapFrameworkServiceLocator.getPlanHelper().loadStudentsPlanItemsForCourse(coursePlanItem.getRefObjectId());
         eventList = PlanEventUtils.makeUpdatePlanItemStatusMessage(planItems, eventList);
@@ -286,7 +282,8 @@ public class CourseSectionDetailsController extends KsapControllerBase {
 
         //Create events needed to update the page
         eventList = getViewHelperService(form).createFilterValidRegGroupsEvent(activityOfferingInfo.getTermId(),
-                activityOfferingInfo.getCourseOfferingCode(),activityOfferingInfo.getFormatOfferingId(), regGroups, eventList);
+                activityOfferingInfo.getCourseOfferingCode(),activityOfferingInfo.getFormatOfferingId(), regGroups, eventList,
+                additionalRestrictions);
         PlanEventUtils.sendJsonEvents(true,"Filtered Activities for those only those in groups with " +
                 activityOfferingInfo.getCourseOfferingCode() + " - " + activityOfferingInfo.getActivityCode(),
                 response, eventList);

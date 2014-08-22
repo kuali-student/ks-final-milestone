@@ -99,14 +99,18 @@ public interface CourseDetailsViewHelperService extends ViewHelperService {
     /**
      * Creates the json object needed in the filtering course offerings event when dynamically updating the page
      *
+     *
      * @param termId - Id of the term of the course offering being filtered
      * @param courseOfferingCode - Code of the course offering being filtered
      * @param formatOfferingId - Id of the format offering for the activity
      * @param regGroupIds - A list of valid registration groups
      * @param eventList - List of currently being build
+     * @param additionalRestrictions - e.g. list of currently selected activities
      * @return  Current list of events being build with the new event added
      */
-    public JsonObjectBuilder createFilterValidRegGroupsEvent(String termId, String courseOfferingCode, String formatOfferingId, List<String> regGroupIds, JsonObjectBuilder eventList);
+    public JsonObjectBuilder createFilterValidRegGroupsEvent(String termId, String courseOfferingCode,
+            String formatOfferingId, List<String> regGroupIds, JsonObjectBuilder eventList,
+            Map<Object, Object> additionalRestrictions);
 
     /**
      * Creates the json object needed in the filtering course offerings event when dynamically updating the page

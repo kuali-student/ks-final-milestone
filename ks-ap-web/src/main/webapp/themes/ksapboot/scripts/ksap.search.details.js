@@ -184,8 +184,15 @@ function ksapFilterCourseOffering (data){
         }else{
             jQuery(activity).removeClass("ksap-invalid-activity");
             jQuery(activity).removeClass("ksap-hide");
+
+            //Autocheck all group activites if regGroupId is set (indicates single regGroup)
             if(regGroupId.length){
-                jQuery(activity).find(":checkbox").prop("checked",true);
+                var activityChkBox = jQuery(activity).find(":checkbox");
+
+                if (!jQuery(activityChkBox).attr('checked')) {
+                    activityChkBox.prop("checked",true);
+                    activityChkBox.attr("disabled",true);  //Disable auto-checked AO's
+                }
             }
         }
     }
@@ -317,7 +324,9 @@ function toggleFormatOfferingSections(element, divIdPrefix) {
 function clickActivity(selected,e){
     // Gather selected and checked information
     var selectedObjectId = selected.getAttribute("data-activityid");
-    var selectedObjectTerm = selected.getAttribute("data-termid").replace(/\./g,'-');
+    var selectedObjectTerm = selected.getAttribute("data-termid");
+    if (selectedObjectTerm!=null)
+        selectedObjectTerm = selectedObjectTerm.replace(/\./g,'-');
     var selectedObjectCourseOfferingCode = selected.getAttribute("data-coursecode");
     var selectedObjectFormatId = selected.getAttribute("data-formatid");
 
@@ -327,8 +336,15 @@ function clickActivity(selected,e){
     var checkedIds = [];
     for(var i = 0; i<checkedCheckboxes.length; i++){
         var checkedItem = checkedCheckboxes[i];
-        var activityId = checkedItem.getAttribute("data-activityid");
-        checkedIds.push(activityId);
+
+        //Check if user unchecked something...then disable auto checks
+        if (!jQuery(selected).attr('checked') && checkedItem.getAttribute("disabled")) {
+            checkedItem.removeAttribute("disabled");
+            jQuery(checkedItem).prop("checked",false);
+        } else {
+            var activityId = checkedItem.getAttribute("data-activityid");
+            checkedIds.push(activityId);
+        }
     }
 
     // Setup form submit
@@ -373,8 +389,9 @@ function resetCheckBoxes(section){
         highlightedRows.removeClass("ksap-selected-row");
     }
 
-
-
+    //enable all checkboxes
+    var disabledCheckboxes = jQuery("[type='checkbox']:disabled");
+    disabledCheckboxes.removeAttr("disabled");
 }
 
 /**

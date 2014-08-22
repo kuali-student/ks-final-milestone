@@ -707,27 +707,22 @@ public class CourseDetailsViewHelperServiceImpl extends ViewHelperServiceImpl im
     }
 
     /**
-     * @see org.kuali.student.ap.coursesearch.service.CourseDetailsViewHelperService#createFilterValidRegGroupsEvent(String, String, String, java.util.List, javax.json.JsonObjectBuilder)
+     * @see org.kuali.student.ap.coursesearch.service.CourseDetailsViewHelperService#createFilterValidRegGroupsEvent
      */
     @Override
-    public JsonObjectBuilder createFilterValidRegGroupsEvent(String termId, String courseOfferingCode, String formatOfferingId, List<String> regGroups, JsonObjectBuilder eventList){
+    public JsonObjectBuilder createFilterValidRegGroupsEvent(String termId, String courseOfferingCode,
+            String formatOfferingId, List<String> regGroups, JsonObjectBuilder eventList,
+            Map<Object, Object> additionalRestrictions){
         JsonObjectBuilder filterEvent = Json.createObjectBuilder();
         filterEvent.add("termId", termId.replace(".", "-"));
         filterEvent.add("courseOfferingCode", courseOfferingCode);
         filterEvent.add("formatOfferingId", formatOfferingId);
-        if(regGroups.size()==1){
-            try {
-                filterEvent.add("regGroupId",KSCollectionUtils.getRequiredZeroElement(regGroups));
-            } catch (OperationFailedException e) {
-                throw new IllegalArgumentException("Failure retrieving registration group", e);
-            }
-        }else{
-            filterEvent.add("regGroupId","");
-        }
 
         // Deconstruct reg groups into list of AO and FO ids
         List<String> validFormatOfferings = new ArrayList<String>();
         List<String> validActivities = new ArrayList<String>();
+
+        boolean singleRegGroupIdentified=false;
         for(String id : regGroups){
             List<String> activityIds = new ArrayList<>();
             List<String> formatIds = new ArrayList<>();
@@ -737,9 +732,17 @@ public class CourseDetailsViewHelperServiceImpl extends ViewHelperServiceImpl im
                 request.addParam(CourseSearchConstants.SearchParameters.REG_GROUP_ID, id);
                 List<SearchResultRowInfo> rows = KsapFrameworkServiceLocator.getSearchService().search(request,
                         KsapFrameworkServiceLocator.getContext().getContextInfo()).getRows();
+                boolean hasSelectedActivities=false;
                 for( SearchResultRowInfo row : rows){
-                    activityIds.add(KsapHelperUtil.getCellValue(row, CourseSearchConstants.SearchResultColumns
-                            .ACTIVITY_OFFERING_ID));
+                    String activityId = KsapHelperUtil.getCellValue(row, CourseSearchConstants.SearchResultColumns
+                            .ACTIVITY_OFFERING_ID);
+                    activityIds.add(activityId);
+
+                    //Determine if any activities of a single reg group have been selected
+                    if (regGroups.size()==1 && additionalRestrictions !=null
+                       && additionalRestrictions.get("selectedActivities")!=null
+                       && ((List<String>) additionalRestrictions.get("selectedActivities")).contains(activityId))
+                        singleRegGroupIdentified=true;
                 }
 
                 request = new SearchRequestInfo(CourseSearchConstants
@@ -766,6 +769,17 @@ public class CourseDetailsViewHelperServiceImpl extends ViewHelperServiceImpl im
             if(formatIds != null && !formatIds.isEmpty()){
                 validFormatOfferings.addAll(formatIds);
             }
+        }
+
+        //Send single regGroupId identified (i.e. selected) event
+        if(singleRegGroupIdentified){
+            try {
+                filterEvent.add("regGroupId",KSCollectionUtils.getRequiredZeroElement(regGroups));
+            } catch (OperationFailedException e) {
+                throw new IllegalArgumentException("Failure retrieving registration group", e);
+            }
+        }else{
+            filterEvent.add("regGroupId","");
         }
 
         // Create json array of valid activity ids and add it to event
