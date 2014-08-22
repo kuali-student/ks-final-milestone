@@ -16,6 +16,7 @@ import org.kuali.student.enrollment.courseregistration.dto.CourseRegistrationInf
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestInfo;
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestItemInfo;
 import org.kuali.student.enrollment.courseregistration.infc.RegistrationRequestItem;
+import org.kuali.student.enrollment.courseregistration.service.CourseRegistrationService;
 import org.kuali.student.enrollment.coursewaitlist.service.CourseWaitListService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
@@ -165,7 +166,6 @@ public class CourseRegistrationServiceProcessCheckDecorator
             executionFacts.put(RulesExecutionConstants.REGISTRATION_GROUP_TERM.getName(), registrationGroupInfo);
             executionFacts.put(RulesExecutionConstants.REGISTRATION_REQUEST_ITEM_TERM.getName(), requestItem);
             executionFacts.put(RulesExecutionConstants.REGISTRATION_REQUEST_ITEM_ID_TERM.getName(), requestItem.getId());
-            executionFacts.put(RulesExecutionConstants.REGISTRATION_REQUEST_ITEM_OK_TO_REPEAT_TERM.getName(), requestItem.getOkToRepeat());
 
             //Perform the rules execution
             EngineResults engineResults = this.krmsEvaluator.evaluateProposition(prop, executionFacts);
@@ -203,6 +203,13 @@ public class CourseRegistrationServiceProcessCheckDecorator
 
     public void setWaitlistService(CourseWaitListService waitlistService) {
         this.waitlistService = waitlistService;
+    }
+
+    public CourseRegistrationServiceProcessCheckDecorator() {
+    }
+
+    public CourseRegistrationServiceProcessCheckDecorator(CourseRegistrationService nextDecorator) {
+        setNextDecorator(nextDecorator);
     }
 
     public void setKrmsEvaluator(KRMSEvaluator krmsEvaluator) {

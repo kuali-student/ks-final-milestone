@@ -36,6 +36,7 @@ import org.kuali.student.r2.lum.util.constants.LrcServiceConstants;
 
 import javax.xml.namespace.QName;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -48,7 +49,6 @@ public class RegistrationRequestTransformer {
 
     public static final String OK_TO_WAITLIST = "kuali.lpr.trans.item.option.oktowaitlist";
     public static final String OK_TO_HOLD_UNTIL_LIST = "kuali.lpr.trans.item.option.oktoholduntillist";
-    public static final String OK_TO_REPEAT = "kuali.lpr.trans.item.option.oktorepeat";
     public static final String EFF_DATE = "kuali.lpr.trans.item.option.effective.date";
 
     public LprTransactionInfo regRequest2LprTransaction(RegistrationRequestInfo request, ContextInfo context)
@@ -137,16 +137,6 @@ public class RegistrationRequestTransformer {
         }
         okToHoldUntilListOption.setOptionValue(convertBooleanToString(okToHoldUntilList));
 
-        Boolean okToRepeat = requestItem.getOkToRepeat();
-        LprTransactionItemRequestOptionInfo okToRepeatOption =
-                findOptionByKey(OK_TO_REPEAT, item.getRequestOptions());
-        if (okToRepeatOption == null) {
-            okToRepeatOption = new LprTransactionItemRequestOptionInfo();
-            okToRepeatOption.setOptionKey(OK_TO_REPEAT);
-            item.getRequestOptions().add(okToRepeatOption);
-        }
-        okToHoldUntilListOption.setOptionValue(convertBooleanToString(okToRepeat));
-
         // Do a direct mapping on attributes.
         item.setAttributes(requestItem.getAttributes());
         return item;
@@ -220,9 +210,7 @@ public class RegistrationRequestTransformer {
         }
 
         for (LprTransactionItemRequestOptionInfo option : item.getRequestOptions()) {
-            if (option.getOptionKey().equals(OK_TO_REPEAT)) {
-                requestItem.setOkToRepeat(convertStringToBoolean(option.getOptionValue()));
-            } else if (option.getOptionKey().equals(OK_TO_WAITLIST)) {
+            if (option.getOptionKey().equals(OK_TO_WAITLIST)) {
                 requestItem.setOkToWaitlist(convertStringToBoolean(option.getOptionValue()));
             } else if (option.getOptionKey().equals(OK_TO_HOLD_UNTIL_LIST)) {
                 requestItem.setOkToHoldUntilList(convertStringToBoolean(option.getOptionValue()));
@@ -271,7 +259,7 @@ public class RegistrationRequestTransformer {
 
     protected  LRCService getLrcService() {
         if (lrcService == null) {
-            lrcService = GlobalResourceLoader.getService(new QName(LrcServiceConstants.NAMESPACE,
+            lrcService = (LRCService) GlobalResourceLoader.getService(new QName(LrcServiceConstants.NAMESPACE,
                     LrcServiceConstants.SERVICE_NAME_LOCAL_PART));
         }
         return lrcService;
