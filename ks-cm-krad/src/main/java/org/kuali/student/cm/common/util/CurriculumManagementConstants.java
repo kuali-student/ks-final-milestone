@@ -245,4 +245,93 @@ public class CurriculumManagementConstants {
         public static String DOC = "doc";
         public static String EXPORT_TYPE = "export_type";
     }
+
+    public static class ProposalViewFieldLabels {
+
+        public static class CourseInformation {
+
+            public static String SECTION_NAME = "Course Information";
+
+            public static String PROPOSAL_TITLE = "Proposal Title";
+            public static String COURSE_TITLE    = "Course Title";
+            public static String TRANSCRIPT_COURSE_TITLE = "Transcript Course Title";
+            public static String SUBJECT_CODE = "Subject Code";
+            public static String COURSE_NUMBER = "Course Number";
+            public static String INSTRUCTOR = "Instructor(s)";
+            public static String DESCRIPTION_AND_RATIONALE = "Description and Rationale";
+            public static String PROPOSAL_RATIONALE = "Proposal Rationale";
+        }
+
+        public static class Governance {
+
+            public static String SECTION_NAME = "Governance";
+
+            public static String CAMPUS_LOCATION = "Campus Locations";
+            public static String CURRICULUM_OVERSIGHT = "Curriculum Oversight";
+            public static String ADMINISTERING_ORGANIZATIONS = "Administering Organization(s)";
+        }
+
+        public static class CourseLogistics {
+
+            public static String SECTION_NAME = "Course Logistics";
+
+            public static String TERM = "Term";
+            public static String DURATION_TYPE = "Duration Type";
+            public static String DURATION_COUNT = "Duration Count";
+            public static String ASSESSMENT_SCALE = "Assessment Scale";
+            public static String AUDIT = "Audit";
+            public static String PASS_FAIL_TRANSCRIPT_GRADE = "Pass Fail Transcript Grade";
+            public static String FINAL_EXAM_STATUS = "Final Exam Status";
+            public static String OUTCOME = "Outcome";
+            public static String TYPE = "Type";
+            public static String CREDITS = "Credits";
+            public static String COURSE_FORMAT = "Course Format ";
+            public static String ACTIVITY = "Activity ";
+            public static String ACTIVITY_TYPE = "Type";
+            public static String CONTACT_HOURS = "Contact Hours";
+            public static String CONTACT_FREQUENCY = "Contact Frequency";
+            public static String CLASS_SIZE = "Class Size";
+        }
+
+        public static class LearningObjectives {
+            public static String SECTION_NAME = "Learning Objectives";
+
+            public static String LEARNING_OBJECTIVES = "Learning Objectives";
+
+        }
+
+        public static class CourseRequisites {
+            public static String SECTION_NAME = "Course Requisites";
+
+            public static String STUDENT_ELIGIBILITY = "Student Eligibility & Prerequisite";
+            public static String COREQUISITE = "Corequisite";
+            public static String RECOMMENDED_PREPARATION = "Recommended Preparation";
+            public static String ANTIREQUISITE = "Antirequisite";
+            public static String REPEATABLE_FOR_CREDIT = "Repeatable for Credit";
+            public static String COURSE_THAT_RESTRICTS_CREDITS = "Course that Restricts Credits";
+        }
+
+        public static class ActiveDates {
+
+            public static String SECTION_NAME = "Active Dates";
+            public static String START_TERM = "Start Term";
+            public static String PILOT_COURSE = "Pilot Course";
+            public static String END_TERM = "End Term";
+        }
+
+        public static class Financials {
+
+            public static String SECTION_NAME = "Financials";
+            public static String JUSTIFICATION_OF_FEES = "Justification of Fees";
+        }
+
+        public static class AuthorsCollaborators {
+
+            public static String SECTION_NAME = "Authors & Collaborators";
+            public static String Name = "Name";
+            public static String PERMISSION = "Permission";
+            public static String ACTION_REQUIRED = "Action Required";
+            public static String AUTHOR_NOTATION = "Author Notation";
+        }
+    }
 }

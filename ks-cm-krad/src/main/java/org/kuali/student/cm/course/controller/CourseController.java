@@ -59,9 +59,13 @@ import org.kuali.student.cm.course.form.wrapper.LoDisplayWrapperModel;
 import org.kuali.student.cm.course.form.wrapper.ResultValuesGroupInfoWrapper;
 import org.kuali.student.cm.course.form.wrapper.SupportingDocumentInfoWrapper;
 import org.kuali.student.cm.course.service.CourseMaintainable;
+import org.kuali.student.cm.course.service.ExportCourseHelperImpl;
 import org.kuali.student.cm.course.util.CourseProposalUtil;
 import org.kuali.student.common.object.KSObjectUtils;
+import org.kuali.student.common.ui.client.util.ExportElement;
 import org.kuali.student.common.ui.krad.rules.rule.event.ReturnToPreviousNodeDocumentEvent;
+import org.kuali.student.common.ui.server.screenreport.ScreenReportProcessor;
+import org.kuali.student.common.ui.server.screenreport.jasper.JasperScreenReportProcessorImpl;
 import org.kuali.student.common.uif.util.GrowlIcon;
 import org.kuali.student.common.uif.util.KSUifUtils;
 import org.kuali.student.common.util.security.ContextUtils;
@@ -99,8 +103,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.xml.namespace.QName;
-import java.io.BufferedInputStream;
-import java.io.ByteArrayInputStream;
+import java.io.*;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
@@ -335,6 +338,29 @@ public class CourseController extends CourseRuleEditorController {
         ((CourseInfoWrapper) viewHelper.getDataObject()).getUiHelper().setUseReviewProcess(
                 request.getParameter(CourseController.UrlParams.USE_CURRICULUM_REVIEW).equals(Boolean.TRUE.toString()));
         return getUIFModelAndView(form);
+    }
+
+    @MethodAccessible
+    @RequestMapping(params = "methodToCall=exportCourseProposal")
+    public ModelAndView exportCourseProposal(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result, HttpServletRequest request, HttpServletResponse response) {
+
+        ScreenReportProcessor processor = new JasperScreenReportProcessorImpl();
+        CourseInfoWrapper courseInfoWrapper = getCourseInfoWrapper(form);
+
+        ExportCourseHelperImpl exportCourseHelper = new ExportCourseHelperImpl();
+        List<ExportElement> exportElements = exportCourseHelper.constructExportElementBasedOnView(courseInfoWrapper);
+
+        byte[] docBytes = processor.createDoc(exportElements, "base.template", "Course Information");
+
+        byte[] pdfBytes = processor.createPdf(exportElements, "base.template", "Course Information");
+        try {
+            // printToFile(pdfBytes, "dataMap.pdf");
+             // printToFile(docBytes, "dataMap.doc");
+
+        }   catch(Exception ex){
+
+        }
+        return null;
     }
 
     @Override
