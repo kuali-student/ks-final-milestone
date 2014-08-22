@@ -31,7 +31,7 @@
                         http://activemq.apache.org/schema/core/activemq-core.xsd
                         http://www.springframework.org/schema/jms
                         http://www.springframework.org/schema/jms/spring-jms-2.5.xsd">
-    <import resource="classpath:mq-context.xml" />
+    <!--import resource="classpath:mq-context.xml" /-->
 
     <!-- freemarker config -->
     <bean id="freemarkerConfig" class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer">
