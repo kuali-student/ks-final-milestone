@@ -3,24 +3,21 @@ package org.kuali.student.enrollment.class2.registration.performance.kradlite.co
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
+import org.kuali.student.common.util.security.ContextUtils;
 import org.kuali.student.common.util.security.SecurityUtils;
 import org.kuali.student.enrollment.courseregistration.service.CourseRegistrationService;
 import org.kuali.student.enrollment.registration.client.service.ScheduleOfClassesService;
 import org.kuali.student.enrollment.registration.client.service.ScheduleOfClassesServiceConstants;
 import org.kuali.student.enrollment.registration.client.service.dto.CourseSearchResult;
-import org.kuali.student.enrollment.registration.engine.service.CourseRegistrationConstants;
 import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.common.util.security.ContextUtils;
 import org.kuali.student.r2.common.util.constants.CourseRegistrationServiceConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.jms.core.JmsTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.xml.namespace.QName;
 import java.util.Collections;
@@ -37,8 +34,6 @@ public class CRPerformanceTestController {
 
     ScheduleOfClassesService scheduleOfClassesService;
     CourseRegistrationService courseRegistrationService;
-
-    private JmsTemplate jmsTemplate;
 
     @RequestMapping(method = RequestMethod.GET)
     public String printHello(@RequestParam Map<String, String> allRequestParams, ModelMap model) {
@@ -82,17 +77,7 @@ public class CRPerformanceTestController {
         return ci;
     }
 
-    @RequestMapping(value = "/checkStatus", method = RequestMethod.GET)
-    @ResponseBody
-    public String checkStatus(@RequestParam Map<String, String> allRequestParams, ModelMap model) {
-        final String destination = CourseRegistrationConstants.USER_MESSAGE_QUEUE_PREFIX + SecurityUtils.getCurrentUserId();
-        String message = (String)jmsTemplate.receiveAndConvert(destination);
 
-        if(message == null || "".equals(message)){
-            message = "[" + System.currentTimeMillis() + "] There are no messages in user queue.";
-        }
-        return message;
-    }
 
     private ScheduleOfClassesService getScheduleOfClassesService() {
         if (scheduleOfClassesService == null) {
@@ -101,9 +86,7 @@ public class CRPerformanceTestController {
         return scheduleOfClassesService;
     }
 
-    public void setJmsTemplate(JmsTemplate jmsTemplate) {
-        this.jmsTemplate = jmsTemplate;
-    }
+
 
     public void setScheduleOfClassesService(ScheduleOfClassesService scheduleOfClassesService) {
         this.scheduleOfClassesService = scheduleOfClassesService;
