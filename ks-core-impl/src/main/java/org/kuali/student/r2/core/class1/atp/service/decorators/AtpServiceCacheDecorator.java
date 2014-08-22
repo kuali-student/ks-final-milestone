@@ -19,6 +19,7 @@ import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultInfo;
 
 import javax.jws.WebParam;
+import java.util.List;
 
 /**
  * Caches Atps and Milestones
@@ -27,7 +28,10 @@ public class AtpServiceCacheDecorator extends AtpServiceDecorator {
 
     private static final String ATP_CACHE_NAME = "atpCache";
     private static final String MILESTONE_CACHE_NAME = "milestoneCache";
+    private static final String ATP_CODE_CACHE_NAME = "atpCodeCache";
+
     private static final String ATP_SEARCH_KEY_PREFIX = "atpsearch";
+
 
     private static final String INVALIDATE_SEARCH_CACHE_ONLY_CONFIG_KEY = "atp.cache.search.invalidateSearchCacheOnly";
     private static final String VERIFY_RESULTS_BEFORE_INVALIDATE_CONFIG_KEY = "atp.cache.search.verifyResultsBeforeInvalidate";
@@ -126,5 +130,19 @@ public class AtpServiceCacheDecorator extends AtpServiceDecorator {
 
     public void setCacheManager(CacheManager cacheManager) {
         this.cacheManager = cacheManager;
+    }
+
+    @Override
+    public List<AtpInfo> getAtpsByCode(String code, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        Element cachedResult = getCacheManager().getCache(ATP_CODE_CACHE_NAME).get(code);
+        Object result;
+        if (cachedResult == null) {
+            result = getNextDecorator().getAtpsByCode(code, contextInfo);
+            getCacheManager().getCache(ATP_CODE_CACHE_NAME).put(new Element(code, result));
+        } else {
+            result = cachedResult.getValue();
+        }
+
+        return (List<AtpInfo>)result;
     }
 }
