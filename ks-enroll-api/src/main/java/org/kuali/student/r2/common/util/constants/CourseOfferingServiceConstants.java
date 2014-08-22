@@ -130,4 +130,7 @@ public class CourseOfferingServiceConstants {
     public static final String AUTOGEN_COUNTS_TOTAL_RGS = "kuali.search.type.course.offering.autogen.counts.total.rgs";
     public static final String AUTOGEN_COUNTS_TOTAL_INVALID_RGS = "kuali.search.type.course.offering.autogen.counts.total.invalid.rgs";
 
+    public static final String PREDICATE_PATH_FOR_FORMATOFFERINGID ="formatOfferingId";
+    public static final String PREDICATE_PATH_FOR_REGISTRATIONGROUP_NAME = "name";
+
 }

@@ -392,5 +392,6 @@ public class LuiServiceConstants {
     public static final String PREDICATE_PATH_FOR_LUILUIRELATIONTYPE = "luiLuiRelationType";
     public static final String PREDICATE_PATH_FOR_RELATEDLUI_NAME = "relatedLui.name";
     public static final String PREDICATE_PATH_FOR_LUI_ID = "lui.id";
+    public static final String PREDICATE_PATH_FOR_RELATEDLUI_LUITYPE ="relatedLui.luiType";
 
 }
