@@ -32,8 +32,7 @@
         </property>
         <property name="footer.items">
             <list>
-                <bean parent="CM-Proposal-Review-Course-Footer" p:render="@{!#uiHelper.curriculumSpecialistUser}"/>
-                <bean parent="CM-Proposal-Review-Course-CurriculumSpecialist-Footer" p:render="@{#uiHelper.curriculumSpecialistUser}"/>
+                <bean parent="CM-Proposal-Review-Course-Footer"/>
             </list>
         </property>
         <property name="breadcrumbOptions.homewardPathBreadcrumbs">
@@ -358,6 +357,26 @@
         </property>
     </bean>
 
+    <bean id="KS-HomewardPathBreadcrumbs-ReviewProposal-Page" parent="Uif-BreadcrumbItem">
+        <property name="label" value="@{#uiHelper.proposalName}: Review Proposal"/>
+    </bean>
+
+    <bean id="KS-CourseView-ReviewLink" parent="Uif-VerticalBoxGroup">
+        <property name="cssClasses">
+            <list merge="true">
+                <value>ks-header</value>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="CM-Proposal-Review-Course-Edit-Link" parent="Uif-ActionLink" abstract="true"
+          p:ajaxSubmit="false"
+          p:methodToCall="editCourseProposalPage"
+          p:actionLabel="Edit"
+          p:render="@{(#actionFlags[#Constants.KUALI_ACTION_CAN_EDIT]) and (!#uiHelper.pendingWorkflowAction)}"/>
+
+    <!-- FOOTER BEANS IN THIS SECTION BELOW -->
+
     <bean id="CM-Proposal-Review-Course-Footer" parent="Uif-FooterBase">
         <property name="items">
             <list>
@@ -365,24 +384,13 @@
                     <property name="items">
                         <list>
                             <!-- !#uiHelper.pendingWorkflowAction (render condition) should be added to all the workflow action buttons to avoid any workflow action being taken back to back-->
-                            <bean parent="CM-Proposal-Button-Submit"
-                                  p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE] and (!#uiHelper.pendingWorkflowAction)}"/>
+                            <bean parent="CM-Proposal-Button-Submit"/>
+                            <bean parent="CM-Proposal-Button-BlanketApprove"/>
                             <bean parent="CM-Proposal-Button-ApproveOrReSubmit" />
                             <bean parent="CM-Proposal-Button-Reject"/>
-                            <bean parent="Uif-PrimaryActionButton"
-                                  p:additionalCssClasses="btn-success"
-                                  p:ajaxSubmit="false"
-                                  p:methodToCall="acknowledge"
-                                  p:actionLabel="Acknowledge"
-                                  p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ACKNOWLEDGE]}"/>
+                            <bean parent="CM-Proposal-Button-Acknowledge"/>
+                            <bean parent="CM-Proposal-Button-Fyi"/>
                             <bean parent="CM-Proposal-Button-Withdraw"/>
-                            <bean parent="Uif-PrimaryActionButton"
-                                  p:additionalCssClasses="btn-success"
-                                  p:ajaxSubmit="false"
-                                  p:actionLabel="FYI"
-                                  p:methodToCall="fyi"
-                                  p:performClientSideValidation="true"
-                                  p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_FYI]}"/>
                             <bean parent="CM-Proposal-Button-ReturnToPrevious"/>
                             <bean parent="CM-Proposal-Button-Cancel"
                                   p:style="margin-right: 10px;"/>
@@ -393,36 +401,8 @@
         </property>
     </bean>
 
-    <bean id="CM-Proposal-Review-Course-CurriculumSpecialist-Footer" parent="Uif-FooterBase">
-        <property name="items">
-            <list>
-                <bean parent="Uif-HorizontalBoxGroup">
-                    <property name="items">
-                        <list>
-                            <!-- !#uiHelper.pendingWorkflowAction (render condition) should be added to all the workflow action buttons to avoid any workflow action being taken back to back-->
-                            <bean parent="Uif-PrimaryActionButton"
-                                  p:additionalCssClasses="btn-success"
-                                  p:ajaxSubmit="false"
-                                  p:actionLabel="Blanket Approve"
-                                  p:methodToCall="blanketApprove"
-                                  p:performClientSideValidation="true"
-                                  p:disabled="@{#dataObject.missingRequiredFields}"
-                                  p:render="@{(#actionFlags[#Constants.KUALI_ACTION_CAN_BLANKET_APPROVE]) and (#uiHelper.useReviewProcess) and (!#uiHelper.pendingWorkflowAction)}"/>
-                            <bean parent="CM-Proposal-Button-ApproveOrReSubmit" />
-                            <bean parent="CM-Proposal-Button-Reject"/>
-                            <bean parent="CM-Proposal-Button-Withdraw"/>
-                            <bean parent="CM-Proposal-Button-ReturnToPrevious"/>
-                            <bean parent="CM-Proposal-Button-Submit"
-                                  p:render="@{(#uiHelper.useReviewProcess) and (#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]) and (!#uiHelper.pendingWorkflowAction)}"/>
-                            <bean parent="CM-Proposal-Button-Cancel"
-                                  p:style="margin-right: 100px;"/>
-                        </list>
-                    </property>
-                </bean>
-            </list>
-        </property>
-    </bean>
-
+    <!-- FOOTER BEANS IN THIS SECTION ABOVE -->
+    <!-- BUTTON BEANS IN THIS SECTION BELOW -->
 
     <bean id="CM-Proposal-Button-Submit" parent="CM-Proposal-Button-Submit-parentBean" />
     <bean id="CM-Proposal-Button-Submit-parentBean" parent="Uif-PrimaryActionButton" abstract="true">
@@ -431,6 +411,39 @@
         <property name="methodToCall" value="route"/>
         <property name="performClientSideValidation" value="true"/>
         <property name="disabled" value="@{#dataObject.missingRequiredFields}"/>
+        <property name="render" value="@{(#uiHelper.useReviewProcess) and (#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]) and (!#uiHelper.pendingWorkflowAction)}"/>
+    </bean>
+
+    <bean id="CM-Proposal-Button-BlanketApprove" parent="CM-Proposal-Button-BlanketApprove-parentBean" />
+    <bean id="CM-Proposal-Button-BlanketApprove-parentBean" parent="Uif-PrimaryActionButton" abstract="true">
+        <property name="additionalCssClasses" value="btn-success"/>
+        <property name="ajaxSubmit" value="false"/>
+        <property name="actionLabel" value="Blanket Approve"/>
+        <property name="methodToCall" value="blanketApprove"/>
+        <property name="performClientSideValidation" value="true"/>
+        <property name="disabled" value="@{#dataObject.missingRequiredFields}"/>
+        <!-- we do not allow blanket approve on proposals that are not using curriculum review approvals -->
+        <property name="render" value="@{(#uiHelper.useReviewProcess) and (#actionFlags[#Constants.KUALI_ACTION_CAN_BLANKET_APPROVE]) and (!#uiHelper.pendingWorkflowAction)}"/>
+    </bean>
+
+    <bean id="CM-Proposal-Button-Fyi" parent="CM-Proposal-Button-Fyi-parentBean" />
+    <bean id="CM-Proposal-Button-Fyi-parentBean" parent="Uif-PrimaryActionButton" abstract="true">
+        <property name="additionalCssClasses" value="btn-success"/>
+        <property name="ajaxSubmit" value="false"/>
+        <property name="actionLabel" value="FYI"/>
+        <property name="methodToCall" value="fyi"/>
+        <property name="performClientSideValidation" value="true"/>
+        <property name="render" value="@{#actionFlags[#Constants.KUALI_ACTION_CAN_FYI] and (!#uiHelper.pendingWorkflowAction)}"/>
+    </bean>
+
+    <bean id="CM-Proposal-Button-Acknowledge" parent="CM-Proposal-Button-Acknowledge-parentBean" />
+    <bean id="CM-Proposal-Button-Acknowledge-parentBean" parent="Uif-PrimaryActionButton" abstract="true">
+        <property name="additionalCssClasses" value="btn-success"/>
+        <property name="ajaxSubmit" value="false"/>
+        <property name="actionLabel" value="Acknowledge"/>
+        <property name="methodToCall" value="acknowledge"/>
+        <property name="performClientSideValidation" value="true"/>
+        <property name="render" value="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ACKNOWLEDGE] and (!#uiHelper.pendingWorkflowAction)}"/>
     </bean>
 
     <bean id="CM-Proposal-Button-ApproveOrReSubmit" parent="CM-Proposal-Button-ApproveOrReSubmit-parentBean" />
@@ -480,7 +493,7 @@
         <property name="actionLabel" value="Withdraw"/>
         <property name="methodToCall" value="withdraw"/>
         <property name="performClientSideValidation" value="false"/>
-        <property name="render" value="@{#actionFlags[T(org.kuali.student.cm.common.util.CurriculumManagementConstants$ActionFlags).KUALI_ACTION_CAN_WITHDRAW] and (!#uiHelper.pendingWorkflowAction)}"/>
+        <property name="render" value="@{#actionFlags[T(org.kuali.student.cm.common.util.CurriculumManagementConstants$ActionFlags).KUALI_ACTION_CAN_WITHDRAW]}"/>
     </bean>
 
     <bean id="CM-Proposal-Review-ConfirmCancelProposal-Dialog" parent="CM-Proposal-Review-ConfirmCancelProposal-Dialog-parentBean" />
@@ -756,22 +769,6 @@
         </property>
     </bean>
 
-    <bean id="KS-HomewardPathBreadcrumbs-ReviewProposal-Page" parent="Uif-BreadcrumbItem">
-        <property name="label" value="@{#uiHelper.proposalName}: Review Proposal"/>
-    </bean>
-
-    <bean id="KS-CourseView-ReviewLink" parent="Uif-VerticalBoxGroup">
-        <property name="cssClasses">
-            <list merge="true">
-                <value>ks-header</value>
-            </list>
-        </property>
-    </bean>
-
-    <bean id="CM-Proposal-Review-Course-Edit-Link" parent="Uif-ActionLink" abstract="true"
-          p:ajaxSubmit="false"
-          p:methodToCall="editCourseProposalPage"
-          p:actionLabel="Edit"
-          p:render="@{(#actionFlags[#Constants.KUALI_ACTION_CAN_EDIT]) and (!#uiHelper.pendingWorkflowAction)}"/>
+    <!-- DIALOG BOX BEANS IN THIS SECTION ABOVE -->
 
 </beans>
