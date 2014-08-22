@@ -26,6 +26,8 @@ import org.kuali.rice.krad.web.controller.UifControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.common.uif.util.KSControllerHelper;
 import org.kuali.student.core.person.dto.PersonInfo;
+import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingContextBar;
+import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingManagementUtil;
 import org.kuali.student.enrollment.class2.registration.admin.form.AdminRegistrationForm;
 import org.kuali.student.enrollment.class2.registration.admin.form.RegistrationCourse;
 import org.kuali.student.enrollment.class2.registration.admin.form.RegistrationResult;
@@ -191,6 +193,7 @@ public class AdminRegistrationController extends UifControllerBase {
 
         form.clearCourseRegistrationValues();
         TermInfo term = getViewHelper(form).getTermByCode(form.getTerm().getCode());
+        form.setSocInfo(getViewHelper(form).getSocByTerm(term.getId()));
         if (GlobalVariables.getMessageMap().hasErrors()) {
             form.setClientState(AdminRegConstants.ClientStates.INITIALIZED);
             return getUIFModelAndView(form);
@@ -201,6 +204,8 @@ public class AdminRegistrationController extends UifControllerBase {
 
         form.setRegisteredCourses(getViewHelper(form).getCourseRegForStudentAndTerm(form.getPerson().getId(), form.getTerm().getId()));
         form.setWaitlistedCourses(getViewHelper(form).getCourseWaitListForStudentAndTerm(form.getPerson().getId(), form.getTerm().getId()));
+
+        form.setContextBar(getViewHelper(form).getContextBarInfo(form));
 
         printTime(form.getMethodToCall(), start);
 

@@ -18,7 +18,9 @@ package org.kuali.student.enrollment.class2.registration.admin.form;
 
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.core.person.dto.PersonInfo;
+import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingContextBar;
 import org.kuali.student.enrollment.class2.registration.admin.util.AdminRegConstants;
+import org.kuali.student.enrollment.courseofferingset.dto.SocInfo;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
 
 import java.io.Serializable;
@@ -106,6 +108,10 @@ public class AdminRegistrationForm extends UifFormBase implements Serializable {
      */
     private List<RegistrationCourse> coursesInEdit = new ArrayList<RegistrationCourse>();
     private List<String> editingIssues = new ArrayList<String>();
+
+    private CourseOfferingContextBar contextBar = CourseOfferingContextBar.NULL_SAFE_INSTANCE;
+
+    private SocInfo socInfo;
 
     public AdminRegistrationForm(){
         this.clientState = AdminRegConstants.ClientStates.OPEN;
@@ -338,5 +344,21 @@ public class AdminRegistrationForm extends UifFormBase implements Serializable {
 
     public void setEditingIssues(List<String> editingIssues) {
         this.editingIssues = editingIssues;
+    }
+
+    public CourseOfferingContextBar getContextBar() {
+        return contextBar;
+    }
+
+    public void setContextBar(CourseOfferingContextBar contextBar) {
+        this.contextBar = contextBar;
+    }
+
+    public SocInfo getSocInfo() {
+        return socInfo;
+    }
+
+    public void setSocInfo(SocInfo socInfo) {
+        this.socInfo = socInfo;
     }
 }

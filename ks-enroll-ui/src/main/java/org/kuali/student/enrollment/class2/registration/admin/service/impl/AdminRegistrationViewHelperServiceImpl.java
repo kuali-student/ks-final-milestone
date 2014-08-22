@@ -9,6 +9,7 @@ import org.kuali.student.common.util.security.ContextUtils;
 import org.kuali.student.core.person.dto.PersonAffiliationInfo;
 import org.kuali.student.core.person.dto.PersonInfo;
 import org.kuali.student.core.person.service.impl.PersonServiceConstants;
+import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingContextBar;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingViewHelperUtil;
 import org.kuali.student.enrollment.class2.registration.admin.form.AdminRegistrationForm;
 import org.kuali.student.enrollment.class2.registration.admin.form.RegistrationActivity;
@@ -100,7 +101,6 @@ public class AdminRegistrationViewHelperServiceImpl extends KSViewHelperServiceI
         return null;
     }
 
-    @Override
     public TermInfo getTermByCode(String termCode) {
 
         if (StringUtils.isBlank(termCode)) {
@@ -112,27 +112,43 @@ public class AdminRegistrationViewHelperServiceImpl extends KSViewHelperServiceI
             TermInfo term = AdminRegClientCache.getTermByCode(termCode);
             if (term == null) {
                 GlobalVariables.getMessageMap().putError(AdminRegConstants.TERM_CODE, AdminRegConstants.ADMIN_REG_MSG_ERROR_INVALID_TERM, termCode);
-            } else {
-                // check if SOC state is "published"
-                ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
-
-                SocInfo soc = AdminRegistrationUtil.getMainSocForTermId(term.getId(), contextInfo);
-                if (soc != null) {
-                    if (!soc.getStateKey().equals(AdminRegConstants.PUBLISHED_SOC_STATE_KEY)) {
-                        GlobalVariables.getMessageMap().putError(AdminRegConstants.TERM_CODE, AdminRegConstants.ADMIN_REG_MSG_ERROR_TERM_SOC_NOT_PUBLISHED);
-                        return null;
-                    }
-                } else {
-                    GlobalVariables.getMessageMap().putError(AdminRegConstants.TERM_CODE, AdminRegConstants.ADMIN_REG_MSG_ERROR_TERM_SOC_NOT_EXISTS);
-                    return null;
-                }
-
             }
             return term;
         } catch (Exception e) {
             throw convertServiceExceptionsToUI(e);
         }
     }
+
+    @Override
+    public SocInfo getSocByTerm(String termId) {
+
+        try {
+            SocInfo soc = AdminRegistrationUtil.getMainSocForTermId(termId, createContextInfo());
+            if (soc != null) {
+                if (!soc.getStateKey().equals(AdminRegConstants.PUBLISHED_SOC_STATE_KEY)) {
+                    GlobalVariables.getMessageMap().putError(AdminRegConstants.TERM_CODE, AdminRegConstants.ADMIN_REG_MSG_ERROR_TERM_SOC_NOT_PUBLISHED);
+                }
+                return soc;
+            } else {
+                GlobalVariables.getMessageMap().putError(AdminRegConstants.TERM_CODE, AdminRegConstants.ADMIN_REG_MSG_ERROR_TERM_SOC_NOT_EXISTS);
+                return null;
+            }
+        } catch (Exception e) {
+            throw convertServiceExceptionsToUI(e);
+        }
+    }
+
+    @Override
+    public CourseOfferingContextBar getContextBarInfo(AdminRegistrationForm form){
+
+        try {
+            return CourseOfferingContextBar.NEW_INSTANCE(form.getTerm(), form.getSocInfo().getStateKey(), getStateService(), AdminRegResourceLoader.getAcademicCalendarService(), createContextInfo());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
 
     @Override
     public List<String> checkStudentEligibilityForTermLocal(String studentId, String termId) {

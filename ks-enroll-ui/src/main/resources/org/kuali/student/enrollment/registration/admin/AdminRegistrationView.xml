@@ -26,6 +26,13 @@
         <property name="authorizer">
             <bean class="org.kuali.student.enrollment.main.view.KsViewAuthorizerBase"/>
         </property>
+
+        <property name="topGroup">
+            <bean id="AdminRegistration-ContextBar" parent="KS-CourseOffering-ContextBar" p:style="@{(term.code eq null)? 'display:none;' : 'display:block;'}">
+                <property name="onDocumentReadyScript" value="setSeasonalColor('AdminRegistration-ContextBar', '@{#dp.contextBar.termDayOfYear}', '@{#ConfigProperties['application.url']}');"/>
+            </bean>
+        </property>
+
         <property name="breadcrumbOptions.homewardPathBreadcrumbs">
             <list>
                 <ref bean="KS-HomewardPathBreadcrumbs-Home"/>
