@@ -1489,7 +1489,7 @@ public class CourseController extends CourseRuleEditorController {
 
     @MethodAccessible
     @ResponseBody
-    @RequestMapping(params = "methodToCall=export", method = RequestMethod.GET)
+    @RequestMapping(params = "methodToCall=export")
     public ResponseEntity<byte[]> export(@ModelAttribute("KualiForm") DocumentFormBase form) {
 
         String exportType = (String)form.getExtensionData().get(CurriculumManagementConstants.Export.EXPORT_TYPE);
