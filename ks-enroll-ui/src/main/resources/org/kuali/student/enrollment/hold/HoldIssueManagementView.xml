@@ -175,11 +175,11 @@
             <list>
                 <bean parent="KS-Uif-DataField"
                       p:label="Hold Name"
-                      p:propertyName="name"/>
+                      p:propertyName="name" />
                 <bean parent="KS-Uif-DataField"
                       p:label="Hold Code"
                       p:propertyName="code"/>
-                <bean parent="KS-Uif-InputField" p:label="Category" p:propertyName="typeKey" p:readOnly="true">
+                <bean parent="KS-Uif-InputField" p:label="Category" p:propertyName="typeKey" p:readOnly="true" p:style="width:50%;">
                     <property name="control">
                         <bean parent="KS-Uif-DropdownControl"/>
                     </property>
@@ -190,7 +190,7 @@
                 </bean>
                 <bean parent="KS-Uif-DataField"
                       p:label="Description"
-                      p:propertyName="descr"/>
+                      p:propertyName="descr" p:style="width:450px;"/>
                 <bean parent="KS-Uif-InputField" p:label="Owning Org" p:propertyName="organizationId" p:readOnly="true">
                     <property name="control">
                         <bean parent="KS-Uif-DropdownControl"/>
