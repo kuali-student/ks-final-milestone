@@ -164,7 +164,7 @@ public class CourseRegistrationCartServiceImpl implements CourseRegistrationCart
     protected RegistrationRequestInfo addCourseToRegRequest(String regRequestId, String regGroupId, String gradingOptionId, String credits, String courseCode, ContextInfo contextInfo) throws MissingParameterException, PermissionDeniedException, InvalidParameterException, OperationFailedException, DoesNotExistException, ReadOnlyException, DataValidationErrorException, VersionMismatchException, LoginException, MissingOptionException, GenericUserException {
 
         // Create new reg request item and add it to the cart
-        RegistrationRequestItemInfo registrationRequestItem = CourseRegistrationAndScheduleOfClassesUtil.createNewRegistrationRequestItem(contextInfo.getPrincipalId(), regGroupId, null, credits, gradingOptionId, LprServiceConstants.REQ_ITEM_ADD_TYPE_KEY, LprServiceConstants.LPRTRANS_ITEM_NEW_STATE_KEY, courseCode, false, false);
+        RegistrationRequestItemInfo registrationRequestItem = CourseRegistrationAndScheduleOfClassesUtil.createNewRegistrationRequestItem(CourseRegistrationAndScheduleOfClassesUtil.getIdentityService().getEntityByPrincipalId(contextInfo.getPrincipalId()).getId(), regGroupId, null, credits, gradingOptionId, LprServiceConstants.REQ_ITEM_ADD_TYPE_KEY, LprServiceConstants.LPRTRANS_ITEM_NEW_STATE_KEY, courseCode, false, false);
         registrationRequestItem.setMeta(new MetaInfo());
         registrationRequestItem.getMeta().setCreateId(contextInfo.getPrincipalId());//TODO KSENROLL-11755 we need a  better way to handle userIds (add as param in RS)
 
@@ -245,6 +245,9 @@ public class CourseRegistrationCartServiceImpl implements CourseRegistrationCart
 
         //Return just the item
         return cartItemResult;
+
+
+
     }
 
     protected ValidationResultInfo validateRegGroupSearchResult(RegGroupSearchResult regGroupSearchResult, String courseCode, String regGroupCode) {
@@ -321,6 +324,7 @@ public class CourseRegistrationCartServiceImpl implements CourseRegistrationCart
         RegistrationRequestInfo cartRegistrationRequest = getCourseRegistrationService().getRegistrationRequest(cartId, contextInfo);
 
         //Check that it is the users' cart
+        String entityId = CourseRegistrationAndScheduleOfClassesUtil.getIdentityService().getEntityByPrincipalId(contextInfo.getPrincipalId()).getId();
         if (!StringUtils.equals(cartRegistrationRequest.getRequestorId(), contextInfo.getPrincipalId())) {
             throw new PermissionDeniedException("User does not have permission to edit items on this registration cart");
         }

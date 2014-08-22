@@ -17,6 +17,7 @@ import org.kuali.student.enrollment.lpr.dto.LprTransactionItemInfo;
 import org.kuali.student.enrollment.lpr.infc.Lpr;
 import org.kuali.student.enrollment.lpr.service.LprService;
 import org.kuali.student.enrollment.lui.service.LuiService;
+import org.kuali.student.enrollment.registration.client.service.impl.util.CourseRegistrationAndScheduleOfClassesUtil;
 import org.kuali.student.enrollment.registration.client.service.impl.util.RegistrationValidationResultsUtil;
 import org.kuali.student.enrollment.registration.client.service.impl.util.SearchResultHelper;
 import org.kuali.student.enrollment.registration.engine.dto.RegistrationRequestEngineMessage;
@@ -155,7 +156,7 @@ public class CourseRegistrationEngineServiceImpl implements CourseRegistrationEn
         LprInfo lpr = new LprInfo();
         lpr.setTypeKey(lprType);
         lpr.setStateKey(stateKey);
-        lpr.setPersonId(context.getPrincipalId());
+        lpr.setPersonId(CourseRegistrationAndScheduleOfClassesUtil.getIdentityService().getEntityByPrincipalId(context.getPrincipalId()).getId());
         lpr.setLuiId(luiId);
         lpr.setMasterLprId(masterLprId);
         lpr.setEffectiveDate(effDate);

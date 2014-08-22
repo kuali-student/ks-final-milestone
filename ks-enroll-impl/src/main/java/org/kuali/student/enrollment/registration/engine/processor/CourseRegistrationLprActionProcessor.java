@@ -4,12 +4,14 @@ import org.apache.activemq.command.ActiveMQObjectMessage;
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
+import org.kuali.student.common.collection.KSCollectionUtils;
 import org.kuali.student.common.util.security.ContextUtils;
 import org.kuali.student.enrollment.courseregistration.infc.RegistrationRequestItem;
 import org.kuali.student.enrollment.courseseatcount.infc.SeatCount;
 import org.kuali.student.enrollment.lpr.dto.LprInfo;
 import org.kuali.student.enrollment.lpr.infc.LprTransaction;
 import org.kuali.student.enrollment.lpr.service.LprService;
+import org.kuali.student.enrollment.registration.client.service.impl.util.CourseRegistrationAndScheduleOfClassesUtil;
 import org.kuali.student.enrollment.registration.client.service.impl.util.RegistrationValidationResultsUtil;
 import org.kuali.student.enrollment.registration.engine.dto.RegistrationRequestItemEngineMessage;
 import org.kuali.student.enrollment.registration.engine.service.CourseRegistrationConstants;
@@ -27,7 +29,6 @@ import org.kuali.student.r2.common.util.constants.LprServiceConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.jms.core.JmsTemplate;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.jms.JMSException;
 import javax.jms.ObjectMessage;
@@ -48,7 +49,8 @@ public class CourseRegistrationLprActionProcessor {
         LOGGER.info("Trying to register requestItemId:"+ message.getRequestItem().getId());
         try {
             ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
-            contextInfo.setPrincipalId(message.getRequestItem().getPersonId());
+            String principalId = KSCollectionUtils.getRequiredZeroElement(CourseRegistrationAndScheduleOfClassesUtil.getIdentityService().getEntity(message.getRequestItem().getPersonId()).getPrincipals()).getPrincipalId();
+            contextInfo.setPrincipalId(principalId);
             RegistrationRequestItem registrationRequestItem = message.getRequestItem();
 
             if(LprServiceConstants.LPRTRANS_ITEM_FAILED_STATE_KEY.equals(registrationRequestItem.getStateKey())){

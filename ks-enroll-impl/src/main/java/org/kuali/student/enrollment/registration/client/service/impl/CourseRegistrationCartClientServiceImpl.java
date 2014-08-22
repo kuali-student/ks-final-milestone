@@ -41,6 +41,10 @@ public class CourseRegistrationCartClientServiceImpl extends CourseRegistrationC
 
     public static final Logger LOGGER = LoggerFactory.getLogger(CourseRegistrationCartClientServiceImpl.class);
 
+
+
+
+
     @Override
     public Response submitCartRS(String cartId) {
         Response.ResponseBuilder response;
@@ -70,6 +74,7 @@ public class CourseRegistrationCartClientServiceImpl extends CourseRegistrationC
 
         try {
             ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
+
 
             if(cartId == null || cartId.isEmpty()){
                 RegistrationRequestInfo request = createCart(contextInfo.getPrincipalId(), termId, contextInfo);

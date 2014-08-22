@@ -209,7 +209,8 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
             termId = CourseRegistrationAndScheduleOfClassesUtil.getTermId(termId, termCode);
         }
 
-        List<StudentScheduleTermResult> studentScheduleTermResults = getRegistrationScheduleByPersonAndTerm(userId, termId, contextInfo);
+        List<StudentScheduleTermResult> studentScheduleTermResults = getRegistrationScheduleByPersonAndTerm(
+                CourseRegistrationAndScheduleOfClassesUtil.getIdentityService().getEntityByPrincipalId(userId).getId(), termId, contextInfo);
 
         PersonScheduleResult personScheduleResult = new PersonScheduleResult();
         personScheduleResult.setStudentScheduleTermResults(studentScheduleTermResults);
@@ -373,7 +374,7 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
         List<RegistrationRequestItemInfo> regReqItems = new ArrayList<>();
 
         for(LprInfo masterLpr : masterLprs){
-            RegistrationRequestItemInfo registrationRequestItem = CourseRegistrationAndScheduleOfClassesUtil.createNewRegistrationRequestItem(userId, masterLpr.getLuiId(), masterLpr.getMasterLprId(), null, null, LprServiceConstants.REQ_ITEM_DROP_TYPE_KEY, LprServiceConstants.LPRTRANS_ITEM_NEW_STATE_KEY, null, false, false);
+            RegistrationRequestItemInfo registrationRequestItem = CourseRegistrationAndScheduleOfClassesUtil.createNewRegistrationRequestItem(CourseRegistrationAndScheduleOfClassesUtil.getIdentityService().getEntityByPrincipalId(contextInfo.getPrincipalId()).getId(), masterLpr.getLuiId(), masterLpr.getMasterLprId(), null, null, LprServiceConstants.REQ_ITEM_DROP_TYPE_KEY, LprServiceConstants.LPRTRANS_ITEM_NEW_STATE_KEY, null, false, false);
             regReqItems.add(registrationRequestItem);
         }
 
@@ -752,7 +753,6 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
      * @param reqItemTypeKey  reqItemTypeKey
      * @param reqItemStateKey reqItemStateKey
      * @param okToWaitlist    flag to indicate that the student wants to be added to the waitlist if that option is available
-     * @param okToRepeat      flag to indicate that the student wants to repeat a course if that option is available
      * @return registration request
      */
     private RegistrationRequestInfo createRegistrationRequest(String principalId, String termId, String regGroupId, String masterLprId, String credits, String gradingOptionId, String typeKey, String stateKey, String reqItemTypeKey, String reqItemStateKey, String courseCode, boolean okToWaitlist, boolean okToRepeat) {
@@ -762,7 +762,7 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
         regReqInfo.setTypeKey(typeKey);
         regReqInfo.setStateKey(stateKey);
 
-        RegistrationRequestItemInfo registrationRequestItem = CourseRegistrationAndScheduleOfClassesUtil.createNewRegistrationRequestItem(principalId, regGroupId, masterLprId, credits, gradingOptionId, reqItemTypeKey, reqItemStateKey, courseCode, okToWaitlist, okToRepeat);
+        RegistrationRequestItemInfo registrationRequestItem = CourseRegistrationAndScheduleOfClassesUtil.createNewRegistrationRequestItem(CourseRegistrationAndScheduleOfClassesUtil.getIdentityService().getEntityByPrincipalId(principalId).getId(), regGroupId, masterLprId, credits, gradingOptionId, reqItemTypeKey, reqItemStateKey, courseCode, okToWaitlist, okToRepeat);
 
         regReqInfo.getRegistrationRequestItems().add(registrationRequestItem);
 
@@ -839,7 +839,7 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
         registrationRequestInfo.setTypeKey(LprServiceConstants.LPRTRANS_REGISTRATION_TYPE_KEY);
 
         //Create Reg Request Item
-        RegistrationRequestItemInfo registrationRequestItem = CourseRegistrationAndScheduleOfClassesUtil.createNewRegistrationRequestItem(userId, regGroupId,
+        RegistrationRequestItemInfo registrationRequestItem = CourseRegistrationAndScheduleOfClassesUtil.createNewRegistrationRequestItem(CourseRegistrationAndScheduleOfClassesUtil.getIdentityService().getEntityByPrincipalId(contextInfo.getPrincipalId()).getId(), regGroupId,
                 masterLprId, credits, gradingOptionId, typeKey, LprServiceConstants.LPRTRANS_ITEM_NEW_STATE_KEY, courseCode, false, false);
         List<RegistrationRequestItemInfo> registrationRequestItemInfos = new ArrayList<RegistrationRequestItemInfo>();
         registrationRequestItemInfos.add(registrationRequestItem);
