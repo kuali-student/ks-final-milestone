@@ -6,6 +6,7 @@ import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kew.api.action.ActionRequestStatus;
 import org.kuali.rice.kew.api.action.ActionType;
 import org.kuali.rice.kew.api.document.DocumentStatus;
+import org.kuali.rice.krad.uif.UifConstants;
 import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
 import org.kuali.rice.krad.uif.field.InputField;
 import org.kuali.rice.krad.uif.view.ViewModel;
@@ -51,7 +52,7 @@ public class AuthorCollaboratorPermissionValuesFinder extends UifKeyValuesFinder
 
                 CourseInfoWrapper courseInfoWrapper = (CourseInfoWrapper) maintenanceForm.getDocument().getNewMaintainableObject().getDataObject();
                 List<CollaboratorWrapper> collaboratorWrapperList = courseInfoWrapper.getCollaboratorWrappers();
-                String index = field.getContext().get("index").toString();
+                String index = field.getContext().get(UifConstants.ContextVariableNames.INDEX).toString();
                 CollaboratorWrapper collaboratorWrapper = collaboratorWrapperList.get(Integer.valueOf(index));
 
                 // Edit permission is available for action type Approve and for the already ACTIVATED action request
