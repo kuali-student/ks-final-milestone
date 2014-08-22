@@ -174,7 +174,7 @@ function ksapPlannerAddPlanItem (data) {
     // Change status on the course search page
     if(jQuery("#"+data.courseId+"_status").length){
         var item = jQuery("#"+data.courseId+"_status");
-        item.addClass("planned").html("Planned");
+        item.html("Planned");
     }
 
 }

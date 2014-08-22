@@ -622,7 +622,6 @@ function ksapBookmarkAddOnSearch(data){
     var item = jQuery("#"+data.courseId+"_bookmark_anchor");
     if(item.length){
         item.addClass("ks-fontello-icon-star");
-        item.addClass("saved");
         item.removeClass("ks-fontello-icon-star-empty");
         item.attr('onclick', "deleteBookmarkCourse('', jQuery(this).data('courseid'), event);");
         item.attr('title', "Remove Bookmark");
@@ -639,7 +638,6 @@ function ksapBookmarkRemoveOnSearch(data){
     var item = jQuery("#"+data.courseId+"_bookmark_anchor");
     if(item.length){
         item.removeClass("ks-fontello-icon-star");
-        item.removeClass("saved");
         item.addClass("ks-fontello-icon-star-empty");
         item.attr('onclick', "bookmarkCourse(jQuery(this).data('courseid'), event);");
         item.attr('title', "Bookmark");
@@ -655,7 +653,6 @@ function ksapPlannerAddPlanItemOnSearch(data){
     var item = jQuery("#"+data.courseId+"_add_to_plan_anchor");
     if(item.length){
         item.addClass("ks-fontello-icon-ok-circled");
-        item.addClass("planned");
         item.removeClass("ks-fontello-icon-hollow-circled-plus");
         item.attr('title', "Planned");
         item.attr('onclick', null);

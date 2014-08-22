@@ -507,13 +507,13 @@ public class CourseSearchItemImpl implements CourseSearchItem {
 
 
         addBookmarkLink.addAttribute("id", cid + "_bookmark_anchor");
-        addBookmarkLink.addAttribute("class", "add-bookmark-link");
+//        addBookmarkLink.addAttribute("class", "add-bookmark-link");
         addBookmarkLink.addAttribute("data-courseid", courseId);
         addBookmarkLink.setText(" ");
 
         if (isSaved()) {
             //Currently bookmarked
-            addBookmarkLink.addAttribute("class", "ks-fontello-icon-star saved");
+            addBookmarkLink.addAttribute("class", "ks-fontello-icon-star");
             addBookmarkLink.addAttribute("onclick", "deleteBookmarkCourse('', jQuery(this).data('courseid'), event);");
             addBookmarkLink.addAttribute("title", "Remove Bookmark");
         } else {
@@ -537,7 +537,7 @@ public class CourseSearchItemImpl implements CourseSearchItem {
 
         if (isPlanned()) {
             //Currently Added to planner, somewhere
-            addToPlanLink.addAttribute("class", "ks-fontello-icon-ok-circled planned");
+            addToPlanLink.addAttribute("class", "ks-fontello-icon-ok-circled");
             addToPlanLink.addAttribute("title", "Planned");
         } else {
             //Not planned anywhere
