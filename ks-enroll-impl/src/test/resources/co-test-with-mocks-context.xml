@@ -44,7 +44,6 @@
         <property name="stateService" ref="stateService" />
         <property name="typeService" ref="typeService" />
         <property name="lprService" ref="lprService" />
-        <property name="criteriaLookupService" ref="coCriteriaLookupService"/>
         <property name="businessLogic" ref="coBusinessLogic" />
         <property name="lrcService" ref="LrcService"/>
         <property name="offeringCodeGenerator" ref="offeringCodeGenerator"/>
@@ -56,6 +55,11 @@
         <property name="examOfferingService" ref="examOfferingService"/>
         <property name="searchService" ref="searchService" />
         <property name="courseOfferingServiceExtender" ref="courseOfferingServiceExtender"/>
+        <property name="coCriteriaLookupService" ref="coCriteriaLookupService" />
+        <property name="foCriteriaLookupService" ref="foCriteriaLookupService" />
+        <property name="aoCriteriaLookupService" ref="aoCriteriaLookupService" />
+        <property name="rgCriteriaLookupService" ref="rgCriteriaLookupService" />
+        <property name="spCriteriaLookupService" ref="spCriteriaLookupService" />
     </bean>
 
     <bean id="courseWaitListService" class="org.kuali.student.enrollment.class2.coursewaitlist.service.impl.CourseWaitListServiceImpl">
@@ -143,7 +147,12 @@
     <!-- 	 This needs to be replaced with a real impl that follows the prescrivbed pattern -->
 	<bean id="regGroupCodeGenerator" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.UUIDRegistrationGroupCodeGenerator" />
 
+
     <bean id="coCriteriaLookupService" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.CriteriaLookupServiceMockImpl" />
+    <bean id="foCriteriaLookupService" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.CriteriaLookupServiceMockImpl" />
+    <bean id="aoCriteriaLookupService" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.CriteriaLookupServiceMockImpl" />
+    <bean id="rgCriteriaLookupService" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.CriteriaLookupServiceMockImpl" />
+    <bean id="spCriteriaLookupService" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.CriteriaLookupServiceMockImpl" />
 
     <bean id="schedulingServiceDataLoader" class="org.kuali.student.r2.core.scheduling.SchedulingServiceDataLoader">
         <property name="schedulingService"  ref="schedulingService"  />

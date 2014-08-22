@@ -57,6 +57,7 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
+import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.core.scheduling.dto.TimeSlotInfo;
@@ -78,8 +79,6 @@ public class CourseOfferingServiceCacheDecorator extends CourseOfferingServiceDe
     private static String formatOfferingCacheName = "formatOfferingCache";
     private static String registrationGroupCacheName = "registrationGroupCache";
     private static String seatPoolCacheName = "seatPoolCache";
-
-    private LuiService luiService;
 
     private CacheManager cacheManager;
 
@@ -604,9 +603,10 @@ public class CourseOfferingServiceCacheDecorator extends CourseOfferingServiceDe
     public List<RegistrationGroupInfo> getRegistrationGroupsByFormatOffering(String formatOfferingId, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 
-        // By retrieving the reg group ids for the format offering directly on the luiservice we can skip the registrationGroupTransformer
-        // in the course offering service, and return the registration groups that are already in the cache instead.
-        List<String> regGroupIds = luiService.getLuiIdsByLuiAndRelationType(formatOfferingId, LuiServiceConstants.LUI_LUI_RELATION_DELIVERED_VIA_FO_TO_RG_TYPE_KEY, context);
+        QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
+        qbcBuilder.setPredicates(PredicateFactory.equal(CourseOfferingServiceConstants.PREDICATE_PATH_FOR_FORMATOFFERINGID, formatOfferingId));
+
+        List<String> regGroupIds = getNextDecorator().searchForRegistrationGroupIds(qbcBuilder.build(), context);
 
         List<RegistrationGroupInfo> result = new ArrayList<RegistrationGroupInfo>();
         for (String id : regGroupIds) {
@@ -614,14 +614,6 @@ public class CourseOfferingServiceCacheDecorator extends CourseOfferingServiceDe
             result.add(getRegistrationGroup(id, context));
         }
         return result;
-    }
-
-    public LuiService getLuiService() {
-        return luiService;
-    }
-
-    public void setLuiService(LuiService luiService) {
-        this.luiService = luiService;
     }
 
     public CacheManager getCacheManager() {

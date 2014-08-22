@@ -102,16 +102,31 @@
     </bean>
     <!-- Seat count service END -->
 
-    <bean id="coCriteriaLookupService" class="org.kuali.student.r2.common.criteria.impl.CriteriaLookupServiceImpl">
-        <property name="criteriaLookupDao" ref="criterialookupDaoJpa"/>
+    <bean id="coCriteriaLookupService" parent="defaultCriteriaLookupService">
         <property name="predicateTransforms">
             <list>
-                <ref bean="coCodeTransform"/>
+                <bean id="coCodeTransform" class="org.kuali.student.enrollment.class2.courseoffering.service.criteria.transform.CourseOfferingCriteriaTransform"/>
             </list>
         </property>
     </bean>
+    <bean id="foCriteriaLookupService" parent="defaultCriteriaLookupService"/>
+    <bean id="aoCriteriaLookupService" parent="defaultCriteriaLookupService"/>
+    <bean id="rgCriteriaLookupService" parent="defaultCriteriaLookupService">
+        <property name="predicateTransforms">
+            <list merge="true">
+                <bean id="regGroupTransform" class="org.kuali.student.r2.common.criteria.transform.RenameTransform">
+                    <property name="renameAttributes">
+                        <map>
+                            <entry key="formatOfferingId" value="lui.id"/>
+                            <entry key="name" value="relatedLui.name"/>
+                        </map>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+    <bean id="spCriteriaLookupService" parent="defaultCriteriaLookupService"/>
 
-    <bean id="coCodeTransform" class="org.kuali.student.enrollment.class2.courseoffering.service.criteria.transform.CourseOfferingCriteriaTransform"/>
 
 <!--    THIS SHOULD BE USED FOR ALL Info objects that extend ID or KeyEntity becuase they have name, descr, meta and attributes-->
     <bean id="defaultCriteriaLookupService" class="org.kuali.student.r2.common.criteria.impl.CriteriaLookupServiceImpl">
@@ -375,7 +390,6 @@
 
     <bean id="courseOfferingServiceCache" class="org.kuali.student.enrollment.class2.courseoffering.service.decorators.CourseOfferingServiceCacheDecorator">
         <property name="cacheManager" ref="ksCacheManager"/>
-        <property name="luiService" ref="luiServiceCache"/>
         <property name="nextDecorator" ref="coServiceValidation"/>
     </bean>
 
@@ -386,7 +400,6 @@
         <property name="acalService" ref="AcademicCalendarService" />
         <property name="stateService" ref="stateServiceCacheDecorator" />
         <property name="lprService" ref="lprPersistenceServiceCache"/>
-        <property name="criteriaLookupService" ref="coCriteriaLookupService" />
         <property name="typeService" ref="typeServiceCacheDecorator" />
         <property name="businessLogic" ref="coBusinessLogic" />
         <property name="offeringCodeGenerator" ref="offeringCodeGenerator" />
@@ -404,6 +417,11 @@
         <property name="courseWaitListService" ref="courseWaitListServiceImpl"/>
         <property name="examOfferingService" ref="examOfferingServiceImpl"/>
         <property name="courseOfferingServiceExtender" ref="courseOfferingServiceExtender"/>
+        <property name="coCriteriaLookupService" ref="coCriteriaLookupService" />
+        <property name="foCriteriaLookupService" ref="foCriteriaLookupService" />
+        <property name="aoCriteriaLookupService" ref="aoCriteriaLookupService" />
+        <property name="rgCriteriaLookupService" ref="rgCriteriaLookupService" />
+        <property name="spCriteriaLookupService" ref="spCriteriaLookupService" />
     </bean>
 
     <bean id="courseWaitListServiceImpl" class="org.kuali.student.enrollment.class2.coursewaitlist.service.impl.CourseWaitListServiceImpl">

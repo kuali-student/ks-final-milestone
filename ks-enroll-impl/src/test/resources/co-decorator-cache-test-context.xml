@@ -269,7 +269,6 @@
         <property name="acalService" ref="acalService" />
         <property name="stateService" ref="stateService" />
         <property name="lprService" ref="lprService" />
-        <property name="criteriaLookupService" ref="coCriteriaLookupService"/>
         <property name="businessLogic" ref="coBusinessLogic" />
         <property name="typeService" ref="typeService"/>
         <property name="offeringCodeGenerator" ref="offeringCodeGenerator"/>
@@ -283,6 +282,11 @@
         <property name="courseWaitListService" ref="courseWaitListService"/>
         <property name="examOfferingService" ref="examOfferingService"/>
         <property name="courseOfferingServiceExtender" ref="courseOfferingServiceExtender"/>
+        <property name="coCriteriaLookupService" ref="coCriteriaLookupService" />
+        <property name="foCriteriaLookupService" ref="foCriteriaLookupService" />
+        <property name="aoCriteriaLookupService" ref="aoCriteriaLookupService" />
+        <property name="rgCriteriaLookupService" ref="rgCriteriaLookupService" />
+        <property name="spCriteriaLookupService" ref="spCriteriaLookupService" />
     </bean>
 
     <bean id="courseWaitListService" class="org.kuali.student.enrollment.class2.coursewaitlist.service.impl.CourseWaitListServiceImpl">
@@ -445,18 +449,8 @@
     	<property name="entityManager" ref="entityManager"/>
   	</bean>
 
-    <bean id="coCriteriaLookupService" class="org.kuali.student.r2.common.criteria.impl.CriteriaLookupServiceImpl">
-        <property name="criteriaLookupDao" ref="criterialookupDaoJpa"/>
-        <property name="predicateTransforms">
-            <list>
-                <ref bean="coCodeTransform"/>
-            </list>
-        </property>
-    </bean>
 
     <bean id="personService" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.PersonServiceMockImpl"/>
-
-    <bean id="coCodeTransform" class="org.kuali.student.enrollment.class2.courseoffering.service.criteria.transform.CourseOfferingCriteriaTransform"/>
 
     <bean id="codeGeneratorLocksDao" class="org.kuali.student.enrollment.class2.courseoffering.dao.CodeGeneratorLocksDao">
         <property name="em" ref="entityManager" />
@@ -467,6 +461,31 @@
     </bean>
 
     <tx:annotation-driven transaction-manager="JtaTxManager" order="1000" />
+
+    <bean id="coCriteriaLookupService" parent="defaultCriteriaLookupService">
+        <property name="predicateTransforms">
+            <list>
+                <bean id="coCodeTransform" class="org.kuali.student.enrollment.class2.courseoffering.service.criteria.transform.CourseOfferingCriteriaTransform"/>
+            </list>
+        </property>
+    </bean>
+    <bean id="foCriteriaLookupService" parent="defaultCriteriaLookupService"/>
+    <bean id="aoCriteriaLookupService" parent="defaultCriteriaLookupService"/>
+    <bean id="rgCriteriaLookupService" parent="defaultCriteriaLookupService">
+        <property name="predicateTransforms">
+            <list merge="true">
+                <bean id="regGroupTransform" class="org.kuali.student.r2.common.criteria.transform.RenameTransform">
+                    <property name="renameAttributes">
+                        <map>
+                            <entry key="formatOfferingId" value="lui.id"/>
+                            <entry key="name" value="relatedLui.name"/>
+                        </map>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+    <bean id="spCriteriaLookupService" parent="defaultCriteriaLookupService"/>
 
 </beans>
 

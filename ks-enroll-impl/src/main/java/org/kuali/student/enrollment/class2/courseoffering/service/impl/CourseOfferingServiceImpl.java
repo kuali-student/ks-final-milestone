@@ -22,6 +22,7 @@ import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.student.common.collection.KSCollectionUtils;
 import org.kuali.student.enrollment.class1.lui.model.LuiEntity;
+import org.kuali.student.enrollment.class1.lui.model.LuiLuiRelationEntity;
 import org.kuali.student.enrollment.class2.courseoffering.dao.ActivityOfferingClusterDaoApi;
 import org.kuali.student.enrollment.class2.courseoffering.dao.SeatPoolDefinitionDaoApi;
 import org.kuali.student.enrollment.class2.courseoffering.model.ActivityOfferingClusterAttributeEntity;
@@ -61,7 +62,9 @@ import org.kuali.student.enrollment.lpr.dto.LprInfo;
 import org.kuali.student.enrollment.lpr.service.LprService;
 import org.kuali.student.enrollment.lui.dto.LuiInfo;
 import org.kuali.student.enrollment.lui.dto.LuiLuiRelationInfo;
+import org.kuali.student.enrollment.lui.infc.LuiLuiRelation;
 import org.kuali.student.enrollment.lui.service.LuiService;
+import org.kuali.student.poc.jsonparser.json.SimpleJsonList;
 import org.kuali.student.r2.common.criteria.CriteriaLookupService;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.BulkStatusInfo;
@@ -133,7 +136,6 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
     private CourseService courseService;
     private CourseWaitListService courseWaitListService;
     private ExamOfferingService examOfferingService;
-    private CriteriaLookupService criteriaLookupService;
     private LprService lprService;
     private LRCService lrcService;
     private LuiService luiService;
@@ -153,6 +155,12 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
     private RegistrationGroupTransformer registrationGroupTransformer;
     private StateTransitionsHelper stateTransitionsHelper;
     private CourseOfferingServiceExtender courseOfferingServiceExtender;
+
+    private CriteriaLookupService coCriteriaLookupService;
+    private CriteriaLookupService aoCriteriaLookupService;
+    private CriteriaLookupService foCriteriaLookupService;
+    private CriteriaLookupService rgCriteriaLookupService;
+    private CriteriaLookupService spCriteriaLookupService;
 
     @Override
     @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
@@ -518,7 +526,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
 
         QueryByCriteria criteria = qbcBuilder.build();
 
-        GenericQueryResults<String> results = criteriaLookupService.lookupIds(LuiEntity.class, criteria);
+        GenericQueryResults<String> results = coCriteriaLookupService.lookupIds(LuiEntity.class, criteria);
 
         return results.getResults();
     }
@@ -2925,7 +2933,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
          //Add luiType Predicate
         QueryByCriteria newCriteria = addLuiTypeEqualPredicate(criteria, LuiServiceConstants.COURSE_OFFERING_TYPE_KEY);
 
-        GenericQueryResults<String> results =  criteriaLookupService.lookupIds(LuiEntity.class, newCriteria);
+        GenericQueryResults<String> results = coCriteriaLookupService.lookupIds(LuiEntity.class, newCriteria);
         
         if (results != null)
         	return results.getResults();
@@ -2994,7 +3002,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         //Add luiType Predicate
         QueryByCriteria newCriteria = addLuiTypeLikePredicate(criteria, "kuali.lui.type.activity.offering.*");
 
-        GenericQueryResults<LuiEntity> results = criteriaLookupService.lookup(LuiEntity.class, newCriteria);
+        GenericQueryResults<LuiEntity> results = aoCriteriaLookupService.lookup(LuiEntity.class, newCriteria);
 
         List<ActivityOfferingInfo> activityOfferingInfos = new ArrayList<ActivityOfferingInfo>(results.getResults().size());
         for (LuiEntity lui : results.getResults()) {
@@ -3015,7 +3023,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         //Add luiType Predicate
         QueryByCriteria newCriteria = addLuiTypeLikePredicate(criteria, "kuali.lui.type.activity.offering.*");
 
-        GenericQueryResults<String> results =  criteriaLookupService.lookupIds(LuiEntity.class, newCriteria);
+        GenericQueryResults<String> results =  aoCriteriaLookupService.lookupIds(LuiEntity.class, newCriteria);
         return results.getResults();
     }
 
@@ -3024,14 +3032,19 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
     public List<RegistrationGroupInfo> searchForRegistrationGroups(QueryByCriteria criteria, ContextInfo context)
             throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         //Add luiType Predicate
-        QueryByCriteria newCriteria = addLuiTypeEqualPredicate(criteria, LuiServiceConstants.REGISTRATION_GROUP_TYPE_KEY);
 
-        GenericQueryResults<LuiEntity> results = criteriaLookupService.lookup(LuiEntity.class, newCriteria);
+        QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
+        qbcBuilder.setPredicates(PredicateFactory.and(
+                criteria.getPredicate(),
+                PredicateFactory.equal(LuiServiceConstants.PREDICATE_PATH_FOR_RELATEDLUI_LUITYPE, LuiServiceConstants.REGISTRATION_GROUP_TYPE_KEY),
+                PredicateFactory.equal(LuiServiceConstants.PREDICATE_PATH_FOR_LUILUIRELATIONTYPE, LuiServiceConstants.LUI_LUI_RELATION_DELIVERED_VIA_FO_TO_RG_TYPE_KEY)));
+
+        GenericQueryResults<LuiLuiRelationEntity> results =  rgCriteriaLookupService.lookup(LuiLuiRelationEntity.class, qbcBuilder.build());
 
         List<RegistrationGroupInfo> regGroups = new ArrayList<RegistrationGroupInfo>();
-        for (LuiEntity lui : results.getResults()) {
+        for (LuiLuiRelationEntity  luiLuiRelation : results.getResults()) {
             try {
-                RegistrationGroupInfo rgInfo = registrationGroupTransformer.lui2Rg(lui.toDto(), context);
+                RegistrationGroupInfo rgInfo = registrationGroupTransformer.lui2Rg(luiLuiRelation.getRelatedLui().toDto(), context);
                 rgInfo.setCourseOfferingId(this.getFormatOffering(rgInfo.getFormatOfferingId(), context).getCourseOfferingId());
                 regGroups.add(rgInfo); // Add the reg group
             } catch (DoesNotExistException ex) {
@@ -3051,10 +3064,19 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
     public List<String> searchForRegistrationGroupIds(QueryByCriteria criteria, ContextInfo context) throws InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
         //Add luiType Predicate
-        QueryByCriteria newCriteria = addLuiTypeEqualPredicate(criteria, LuiServiceConstants.REGISTRATION_GROUP_TYPE_KEY);
+        List<String> relatedItems = new ArrayList<>();
 
-        GenericQueryResults<String> results =  criteriaLookupService.lookupIds(LuiEntity.class, newCriteria);
-        return results.getResults();
+        QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
+        qbcBuilder.setPredicates(PredicateFactory.and(
+                criteria.getPredicate(),
+                PredicateFactory.equal(LuiServiceConstants.PREDICATE_PATH_FOR_RELATEDLUI_LUITYPE, LuiServiceConstants.REGISTRATION_GROUP_TYPE_KEY),
+                PredicateFactory.equal(LuiServiceConstants.PREDICATE_PATH_FOR_LUILUIRELATIONTYPE, LuiServiceConstants.LUI_LUI_RELATION_DELIVERED_VIA_FO_TO_RG_TYPE_KEY)));
+
+        GenericQueryResults<LuiLuiRelationEntity> results =  rgCriteriaLookupService.lookup(LuiLuiRelationEntity.class, qbcBuilder.build());
+        for (LuiLuiRelationEntity items :results.getResults()){
+            relatedItems.add(items.getRelatedLui().getId());
+        }
+        return relatedItems;
     }
 
     private QueryByCriteria addLuiTypeLikePredicate(QueryByCriteria criteria, String luiType){
@@ -3078,7 +3100,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
     public List<SeatPoolDefinitionInfo> searchForSeatpoolDefinitions(QueryByCriteria criteria, ContextInfo context)
             throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 
-        GenericQueryResults<SeatPoolDefinitionEntity> results = criteriaLookupService.lookup(SeatPoolDefinitionEntity.class, criteria);
+        GenericQueryResults<SeatPoolDefinitionEntity> results = spCriteriaLookupService.lookup(SeatPoolDefinitionEntity.class, criteria);
         List<SeatPoolDefinitionInfo> seatPoolDefinitions = new ArrayList<SeatPoolDefinitionInfo>(results.getResults().size());
         for (SeatPoolDefinitionEntity seatPoolEntity : results.getResults()) {
             SeatPoolDefinitionInfo sp = seatPoolEntity.toDto();
@@ -3552,14 +3574,14 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
     @Override
     @Transactional(readOnly = true)
     public List<String> searchForActivityOfferingClusterIds(QueryByCriteria criteria, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        GenericQueryResults<String> results = criteriaLookupService.lookupIds(ActivityOfferingClusterEntity.class, criteria);
+        GenericQueryResults<String> results = aoCriteriaLookupService.lookupIds(ActivityOfferingClusterEntity.class, criteria);
         return results.getResults();
     }
 
     @Override
     @Transactional(readOnly = true)
     public List<ActivityOfferingClusterInfo> searchForActivityOfferingClusters(QueryByCriteria criteria, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        GenericQueryResults<ActivityOfferingClusterEntity> results = criteriaLookupService.lookup(ActivityOfferingClusterEntity.class, criteria);
+        GenericQueryResults<ActivityOfferingClusterEntity> results = aoCriteriaLookupService.lookup(ActivityOfferingClusterEntity.class, criteria);
         List<ActivityOfferingClusterInfo> activityOfferingClusterInfos = new ArrayList<ActivityOfferingClusterInfo>(results.getResults().size());
         for (ActivityOfferingClusterEntity activityOfferingClusterEntity : results.getResults()) {
             ActivityOfferingClusterInfo aocInfo = activityOfferingClusterEntity.toDto();
@@ -3574,7 +3596,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         //Add luiType Predicate
         QueryByCriteria newCriteria = addLuiTypeEqualPredicate(criteria, LuiServiceConstants.FORMAT_OFFERING_TYPE_KEY);
 
-        GenericQueryResults<String> results =  criteriaLookupService.lookupIds(LuiEntity.class, newCriteria);
+        GenericQueryResults<String> results = foCriteriaLookupService.lookupIds(LuiEntity.class, newCriteria);
         return results.getResults();
     }
 
@@ -3584,7 +3606,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         //Add luiType Predicate
         QueryByCriteria newCriteria = addLuiTypeEqualPredicate(criteria, LuiServiceConstants.FORMAT_OFFERING_TYPE_KEY);
 
-        GenericQueryResults<LuiEntity> results = criteriaLookupService.lookup(LuiEntity.class, newCriteria);
+        GenericQueryResults<LuiEntity> results = foCriteriaLookupService.lookup(LuiEntity.class, newCriteria);
         List<FormatOfferingInfo> infos = new ArrayList<FormatOfferingInfo>(results.getResults().size());
         for (LuiEntity lui : results.getResults()) {
             try {
@@ -3603,7 +3625,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
 
         QueryByCriteria criteria = qbcBuilder.build();
 
-        GenericQueryResults<String> results = criteriaLookupService.lookupIds(LuiEntity.class, criteria);
+        GenericQueryResults<String> results = coCriteriaLookupService.lookupIds(LuiEntity.class, criteria);
         List<String> ids = results.getResults();
 
         if( ids == null || ids.isEmpty() ) {
@@ -3708,8 +3730,24 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         this.examOfferingService = examOfferingService;
     }
 
-    public void setCriteriaLookupService(CriteriaLookupService criteriaLookupService) {
-        this.criteriaLookupService = criteriaLookupService;
+    public void setCoCriteriaLookupService(CriteriaLookupService coCriteriaLookupService) {
+        this.coCriteriaLookupService = coCriteriaLookupService;
+    }
+
+    public void setAoCriteriaLookupService(CriteriaLookupService aoCriteriaLookupService) {
+        this.aoCriteriaLookupService = aoCriteriaLookupService;
+    }
+
+    public void setFoCriteriaLookupService(CriteriaLookupService foCriteriaLookupService) {
+        this.foCriteriaLookupService = foCriteriaLookupService;
+    }
+
+    public void setRgCriteriaLookupService(CriteriaLookupService rgCriteriaLookupService) {
+        this.rgCriteriaLookupService = rgCriteriaLookupService;
+    }
+
+    public void setSpCriteriaLookupService(CriteriaLookupService spCriteriaLookupService) {
+        this.spCriteriaLookupService = spCriteriaLookupService;
     }
 
     public LprService getLprService() {

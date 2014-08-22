@@ -20,6 +20,7 @@ import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
 import org.slf4j.Logger;
@@ -233,8 +234,7 @@ public class AdminRegClientCache {
             return AdminRegResourceLoader.getCourseOfferingService().getRegistrationGroup(regGroupId, ContextUtils.createDefaultContextInfo());
         }
 
-        RegistrationGroupInfo regGroup = getRegGroupViaLuiService(courseOfferingId, section);
-        //RegistrationGroupInfo regGroup = getRegGroupViaCourseOfferingService(courseOfferingId, section);
+        RegistrationGroupInfo regGroup = getRegGroupViaCourseOfferingService(courseOfferingId, section);
         if(regGroup != null){
             getCache().put(new Element(cacheKey, regGroup.getId()));
         }
@@ -243,44 +243,19 @@ public class AdminRegClientCache {
 
     private static RegistrationGroupInfo getRegGroupViaCourseOfferingService(String courseOfferingId, String section)
             throws PermissionDeniedException, MissingParameterException, InvalidParameterException, OperationFailedException, DoesNotExistException {
-        //First get the format offerings for the course offering to get the registration groups linked to the FO.
-        List<FormatOfferingInfo> formatOfferings = AdminRegResourceLoader.getCourseOfferingService().getFormatOfferingsByCourseOffering(
-                courseOfferingId, ContextUtils.createDefaultContextInfo());
-
-        List<RegistrationGroupInfo> regGroups = new ArrayList<RegistrationGroupInfo>();
-        for (FormatOfferingInfo formatOffering : formatOfferings) {
-            regGroups.addAll(AdminRegResourceLoader.getCourseOfferingService().getRegistrationGroupsByFormatOffering(
-                    formatOffering.getId(), ContextUtils.createDefaultContextInfo()));
-        }
-
-        //Check if the input section matches a registration group.
-        for (RegistrationGroupInfo regGroup : regGroups) {
-            if (section.equals(regGroup.getName())) {
-                return regGroup;
-            }
-        }
-        return null;
-    }
-
-    private static RegistrationGroupInfo getRegGroupViaLuiService(String courseOfferingId, String section)
-            throws PermissionDeniedException, MissingParameterException, InvalidParameterException, OperationFailedException, DoesNotExistException {
         List<String> foIds = AdminRegResourceLoader.getLuiService().getLuiIdsByLuiAndRelationType(
                 courseOfferingId, LuiServiceConstants.LUI_LUI_RELATION_DELIVERED_VIA_CO_TO_FO_TYPE_KEY, ContextUtils.createDefaultContextInfo());
 
         QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
         qbcBuilder.setPredicates(PredicateFactory.and(
-                PredicateFactory.equal(LuiServiceConstants.PREDICATE_PATH_FOR_RELATEDLUI_NAME, section),
-                PredicateFactory.equal(LuiServiceConstants.PREDICATE_PATH_FOR_LUILUIRELATIONTYPE, LuiServiceConstants.LUI_LUI_RELATION_DELIVERED_VIA_FO_TO_RG_TYPE_KEY),
-                PredicateFactory.in(LuiServiceConstants.PREDICATE_PATH_FOR_LUI_ID, foIds)));
-        List<LuiLuiRelationInfo> luiLuiRelationInfos = AdminRegResourceLoader.getLuiService().searchForLuiLuiRelations(
-                qbcBuilder.build(), ContextUtils.createDefaultContextInfo());
+                PredicateFactory.equal(CourseOfferingServiceConstants.PREDICATE_PATH_FOR_REGISTRATIONGROUP_NAME, section),
+                PredicateFactory.in(CourseOfferingServiceConstants.PREDICATE_PATH_FOR_FORMATOFFERINGID, foIds)));
 
-        LuiLuiRelationInfo luiLuiRelation = KSCollectionUtils.getOptionalZeroElement(luiLuiRelationInfos);
-        if(luiLuiRelation != null){
-            return AdminRegResourceLoader.getCourseOfferingService().getRegistrationGroup(luiLuiRelation.getRelatedLuiId(), ContextUtils.createDefaultContextInfo());
-        }
-        return null;
+        List<RegistrationGroupInfo> registrationGroup = AdminRegResourceLoader.getCourseOfferingService().searchForRegistrationGroups(qbcBuilder.build(), ContextUtils.createDefaultContextInfo());
+
+        return KSCollectionUtils.getOptionalZeroElement(registrationGroup);
     }
+
 
     public static class CourseOfferingInfoComparator implements Comparator<CourseOfferingInfo> {
         private static CourseOfferingInfoComparator instance = new CourseOfferingInfoComparator();

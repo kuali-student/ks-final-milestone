@@ -95,7 +95,6 @@
         <property name="acalService" ref="acalService" />
         <property name="stateService" ref="stateService" />
         <property name="lprService" ref="lprPersistenceService" />
-        <property name="criteriaLookupService" ref="coCriteriaLookupService"/>
         <property name="businessLogic" ref="businessLogic" />
         <property name="typeService" ref="typeService"/>
         <property name="offeringCodeGenerator" ref="offeringCodeGenerator"/>
@@ -104,6 +103,11 @@
         <property name="atpService" ref="atpService"/>
         <property name="searchService" ref="searchService" />
         <property name="courseOfferingServiceExtender" ref="courseOfferingServiceExtender"/>
+        <property name="coCriteriaLookupService" ref="coCriteriaLookupService" />
+        <property name="foCriteriaLookupService" ref="foCriteriaLookupService" />
+        <property name="aoCriteriaLookupService" ref="aoCriteriaLookupService" />
+        <property name="rgCriteriaLookupService" ref="rgCriteriaLookupService" />
+        <property name="spCriteriaLookupService" ref="spCriteriaLookupService" />
     </bean>
 
     <bean id="schedulingService" class="org.kuali.student.r2.core.scheduling.service.impl.SchedulingServiceMockImpl">
@@ -245,6 +249,31 @@
             </list>
         </property>
     </bean>
+
+    <bean id="coCriteriaLookupService" parent="defaultCriteriaLookupService">
+        <property name="predicateTransforms">
+            <list>
+                <bean id="coCodeTransform" class="org.kuali.student.enrollment.class2.courseoffering.service.criteria.transform.CourseOfferingCriteriaTransform"/>
+            </list>
+        </property>
+    </bean>
+    <bean id="foCriteriaLookupService" parent="defaultCriteriaLookupService"/>
+    <bean id="aoCriteriaLookupService" parent="defaultCriteriaLookupService"/>
+    <bean id="rgCriteriaLookupService" parent="defaultCriteriaLookupService">
+        <property name="predicateTransforms">
+            <list merge="true">
+                <bean id="regGroupTransform" class="org.kuali.student.r2.common.criteria.transform.RenameTransform">
+                    <property name="renameAttributes">
+                        <map>
+                            <entry key="formatOfferingId" value="lui.id"/>
+                            <entry key="name" value="relatedLui.name"/>
+                        </map>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+    <bean id="spCriteriaLookupService" parent="defaultCriteriaLookupService"/>
 
 </beans>
 
