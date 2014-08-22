@@ -54,7 +54,7 @@ limitations under the License.
                 <ref bean="KS-HomewardPathBreadcrumbs-Enrollment"/>
                 <bean parent="Uif-BreadcrumbItem">
                     <property name="label" value="Manage Holds"/>
-                    <property name="url.viewId" value="holdIssueManagementView"/>
+                    <property name="url.viewId" value="KS-HoldIssueManagementView"/>
                     <property name="url.controllerMapping" value="holdIssueManagement"/>
                 </bean>
                 <bean parent="Uif-BreadcrumbItem">

@@ -19,7 +19,7 @@
      limitations under the License.
     -->
 
-    <bean id="KS-HoldIssueManagementView" parent="KS-Uif-FormView" p:id="holdIssueManagementView">
+    <bean id="KS-HoldIssueManagementView" parent="KS-Uif-FormView">
         <property name="singlePageView" value="true"/>
         <property name="header.render" value="true"/>
         <property name="headerText" value="Manage Holds"/>
