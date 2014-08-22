@@ -108,10 +108,10 @@ public class CourseRegistrationAndScheduleOfClassesUtil {
     /*
     Message keys
      */
-    private static final String COURSE_CODE_AND_SECTION_REQUIRED_MESSAGE_KEY="kuali.cr.cart.message.course.code.and.section.required";
-    private static final String COURSE_CODE_NOT_FOUND_MESSAGE_KEY="kuali.cr.cart.message.course.code.not.found";
-    private static final String COURSE_CODE_REQUIRED_MESSAGE_KEY="kuali.cr.cart.message.course.code.required";
-    private static final String SECTION_REQUIRED_MESSAGE_KEY="kuali.cr.cart.message.section.required";
+    private static final String COURSE_CODE_AND_SECTION_REQUIRED_MESSAGE_KEY = "kuali.cr.cart.message.course.code.and.section.required";
+    private static final String COURSE_CODE_NOT_FOUND_MESSAGE_KEY = "kuali.cr.cart.message.course.code.not.found";
+    private static final String COURSE_CODE_REQUIRED_MESSAGE_KEY = "kuali.cr.cart.message.course.code.required";
+    private static final String SECTION_REQUIRED_MESSAGE_KEY = "kuali.cr.cart.message.section.required";
 
     private static SearchService searchService;
     private static LprService lprService;
@@ -365,19 +365,19 @@ public class CourseRegistrationAndScheduleOfClassesUtil {
      * @throws DoesNotExistException
      */
     public static RegGroupSearchResult getRegGroup(String termId, String termCode, String courseCode, String regGroupCode, String regGroupId, ContextInfo contextInfo) throws PermissionDeniedException, MissingParameterException, InvalidParameterException, OperationFailedException, DoesNotExistException {
-        RegGroupSearchResult rg = null;
+        RegGroupSearchResult rg;
 
         if (!StringUtils.isEmpty(regGroupId)) {
             rg = getScheduleOfClassesService().getRegGroup(regGroupId, contextInfo);
         } else {
-            if(courseCode == null || courseCode.isEmpty()){
-                if(regGroupCode == null || regGroupCode.isEmpty()) {
+            if (courseCode == null || courseCode.isEmpty()) {
+                if (regGroupCode == null || regGroupCode.isEmpty()) {
                     throw new CourseDoesNotExistException(COURSE_CODE_AND_SECTION_REQUIRED_MESSAGE_KEY, "Course Code cannot be empty");
                 } else {
                     throw new CourseDoesNotExistException(COURSE_CODE_REQUIRED_MESSAGE_KEY, "Course Code cannot be empty");
                 }
             }
-            if(regGroupCode == null || regGroupCode.isEmpty()){
+            if (regGroupCode == null || regGroupCode.isEmpty()) {
                 throw new CourseDoesNotExistException(SECTION_REQUIRED_MESSAGE_KEY, courseCode, "Section cannot be empty");
             }
             // get the registration group
@@ -453,7 +453,7 @@ public class CourseRegistrationAndScheduleOfClassesUtil {
         registrationRequestItem.setCredits(new KualiDecimal(credits));
         registrationRequestItem.setGradingOptionId(gradingOptionId);
         registrationRequestItem.setOkToWaitlist(okToWaitlist);
-       // registrationRequestItem.setOkToRepeat(okToRepeat);
+        registrationRequestItem.setOkToRepeat(okToRepeat);
         registrationRequestItem.setCrossList(courseCode);
         return registrationRequestItem;
     }
