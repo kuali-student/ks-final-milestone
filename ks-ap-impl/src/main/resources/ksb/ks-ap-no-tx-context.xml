@@ -197,6 +197,8 @@
     <bean id="academicRecordServiceCurrentMock" class="org.kuali.student.enrollment.class2.academicrecord.service.impl.AcademicRecordServiceCurrentImpl">
         <property name="courseRegService" ref="courseRegistrationServiceMock" />
         <property name="courseRecordAssembler" ref="courseRecordAssemblerMock" />
+        <property name="courseOfferingService" ref="ksEnrollCourseOfferingService" />
+        <property name="cluService" ref="cluServiceCache" />
     </bean>
 
     <bean id="courseRegistrationServiceMock"
