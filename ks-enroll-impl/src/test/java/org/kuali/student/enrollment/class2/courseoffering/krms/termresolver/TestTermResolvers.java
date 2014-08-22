@@ -918,7 +918,7 @@ public class TestTermResolvers {
         //Evaluate term Resolver for the second test
         completedAttempts = termResolver.resolve(resolvedPrereqs, parameters);
         assertNotNull(completedAttempts);
-        assertEquals(completedAttempts.intValue(), 1);
+        assertEquals(2, completedAttempts.intValue());
     }
 
     @Test

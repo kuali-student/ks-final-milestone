@@ -132,7 +132,7 @@ public class TestAcademicRecordServicePersistenceMockImpl {
         List<StudentCourseRecordInfo> studentCourseRecordInfoList = academicRecordService.getStudentCourseRecordsForCourse(personId, courseId, contextInfo);
 
         assertNotNull(studentCourseRecordInfoList);
-        assertTrue(KSCollectionUtils.getRequiredZeroElement(studentCourseRecordInfoList).getStateKey().equals(AcademicRecordServiceConstants.STUDENTCOURSERECORD_STATE_KEY_WITHDRAWN));
+        assertTrue(KSCollectionUtils.getRequiredZeroElement(studentCourseRecordInfoList).getStateKey().equals(AcademicRecordServiceConstants.STUDENTCOURSERECORD_STATE_KEY_COMPLETED));
         assertTrue(KSCollectionUtils.getRequiredZeroElement(studentCourseRecordInfoList).getCourseCode().equals("BSCI103"));
         assertTrue(KSCollectionUtils.getRequiredZeroElement(studentCourseRecordInfoList).getAssignedGradeValue().equals("W"));
     }
