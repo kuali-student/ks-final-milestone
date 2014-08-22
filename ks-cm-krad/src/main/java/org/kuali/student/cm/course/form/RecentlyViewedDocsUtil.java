@@ -28,6 +28,10 @@ public class RecentlyViewedDocsUtil {
             for (RecentDocInfo doc : getRecentDocs()) {
                 if (location.equals(doc.getLocation())) {
                     docExists = true;
+                    if (!StringUtils.equals(doc.getName(), name)) {
+                        // if the same record has a different name, update the record
+                        doc.setName(name);
+                    }
                     break;
                 }
             }
