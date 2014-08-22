@@ -116,7 +116,7 @@
             <setHeader headerName="regReqItemCount"> <!-- In order to join back later we need to know the req item count -->
                 <simple>${body.registrationRequest.registrationRequestItems.size}</simple>
             </setHeader>
-            <split parallelProcessing="false" strategyRef="groupedExchangeAggregator"> <!-- Split the RegRequestInfo into it's individual requestItems (add, drop, etc) -->
+            <split parallelProcessing="false"> <!-- Split the RegRequestInfo into it's individual requestItems (add, drop, etc) -->
                 <method ref="requestSplitter"  method="split" />   <!-- does the actual splitting -->
                 <setHeader headerName="JMSXGroupID"> <!-- This is CRITICAL. It is how we ensure valid seat check counts without db locking -->
                     <simple>FOID=${body.registrationGroup.formatOfferingId}</simple>  <!-- grouping on the foid -->
@@ -139,11 +139,13 @@
 
         <route>    <!-- This route joins items from the reg req item split. Once all items have completed, update lprTrans state-->
             <from uri="activemq:org.kuali.student.enrollment.registration.regReqItemJoinQueue" />  <!-- Every Reg Req Item will come here-->
-            <aggregate strategyRef="groupedExchangeAggregator" ignoreInvalidCorrelationKeys="false" completionFromBatchConsumer="true"> <!-- take all the Reg Req Items an join them to their req -->
+            <aggregate strategyRef="simpleAggregator" ignoreInvalidCorrelationKeys="false"> <!-- take all the Reg Req Items an join them to their req -->
                 <correlationExpression>
                     <header>regReqId</header> <!-- correlate on the regReqId we stored in the header -->
                 </correlationExpression>
-
+                <completionSize>
+                    <header>regReqItemCount</header> <!-- stop aggregating when we've reached the reg req item count size-->
+                </completionSize>
                 <bean ref="courseRegistrationLprActionProcessor" method="updateRegistrationRequestStatus"/> <!-- update lprTrans status -->
                 <bean ref="regEnginePerfPojo" method="notifyPerfEnd(${header.regReqId})" /> <!-- notify perf listener that we're done -->
             </aggregate>
@@ -152,7 +154,6 @@
 
     <bean id="requestSplitter" class="org.kuali.student.enrollment.registration.engine.camel.splitter.RegistrationRequestSplitter"/>  <!-- pull reg info from db. transform into useful objects -->
     <bean id="simpleAggregator" class="org.kuali.student.enrollment.registration.engine.camel.aggregator.SimpleAggregator"/>  <!-- very simple aggregator that takes the ao results and combines them into a list. Should return a more complex object in future -->
-    <bean id="groupedExchangeAggregator" class="org.apache.camel.processor.aggregate.GroupedExchangeAggregationStrategy" />
     <bean id="regEnginePerfPojo" class="org.kuali.student.enrollment.registration.engine.processor.RegEnginePerformanceProcessor">  <!-- very simple aggregator that takes the ao results and combines them into a list. Should return a more complex object in future -->
         <property name="jmsTemplate" ref="jmsTemplate"/>
     </bean>
