@@ -1,9 +1,12 @@
 /*------------------- Colors ---------------------------*/
+@darkGray:                #333333;
+@lightGray:               #666666;
+
+
 //custom mobile colors
 @bodyColor:               #F4F4F4;
 @bodyColorDark:           #D7D7D7;
 @sectionColor:            #F4F4F4;
-@headerFontColor:         @whiteText;
 @supportHeading:          @lightGray;
 @cardBackgroundColor:     @whiteBackground;
 @cardBorderColor:         #E4E4E4;
@@ -12,34 +15,33 @@
 //Mask
 @mask-bgColor:            @black;
 
+//Card Badge
 @badgeColor:              @lightGray;
 
 // Text
 @whiteText:               #F8F8F8;
-@darkGray:                #333333;
-@lightGray:               #666666;
 @cardTextColor:           @lightGray;
 @primaryTextColor:        @darkGray;
 @secondaryTextColor:      @lightGray;
 @badgeTextColor:          #F2F2F2;
-
-@textColor: #000;
-@selectedText: @textColor;
+@headerFontColor:         @whiteText;
+@textColor:               @black;
+@selectedText:            @textColor;
 
 @menuHoverColor:          #EBEBEB;
 
 // Fading colors
 @backgroundColor--highlight: rgba(255, 255, 204, 0.5);    //#FFFFCC;
-@shadowColor--highlight: rgba(255, 255, 0, 0.5); //#FFFF00;
-@textColor--highlight: #ffff7f;
+@shadowColor--highlight:     rgba(255, 255, 0, 0.5); //#FFFF00;
+@textColor--highlight:       #ffff7f;
 
 // Highlight
 // -------------------------
-@highlightColor:           #FFFF99;
+@highlightColor:          #FFFF99;
 
 // Links
-@linkColor:             #5580FF;
-@linkColorHover:        darken(@linkColor, 25%);
+@linkColor:               #5580FF;
+@linkColorHover:          darken(@linkColor, 25%);
 
 // System Messages
 @successText:             #3B723B;
@@ -60,23 +62,51 @@
 
 
 //Font Icon
-@removeIconColor:       #818185;
+@removeIconColor:         #818185;
 
 // Borders
-@border-color: #AAAAAA;
-@border-light-color: #F2F2F2;
-@rightGroupRightAlignment: 0px;
+@border-color:            #AAAAAA;
+@border-light-color:      #F2F2F2;
+
 
 //Table
-@table-SelectedBackgroundColor: #C4C4C4;
-@table-SelectedRowBackgroundColor: #EFF7FD;
-@table-ShowIndicatorColor: #CCCCCC;
+@table-SelectedBackgroundColor:        #C4C4C4;
+@table-SelectedRowBackgroundColor:     #EFF7FD;
+@table-ShowIndicatorColor:             #CCCCCC;
 
 //Course search
-@courseSearchNoSeats:                        @red;
-@searchDetailsTextColor:                #68AAF9;
-@searchDetailsBackgroundColor:               #D0E9FD;
-@searchDetailsSelectedBackgroundColor:       @linkColor;
+@courseSearchNoSeats:                  @red;
+@searchDetailsTextColor:               @optionText;
+@searchDetailsBackgroundColor:         #D0E9FD;
+@searchDetailsSelectedBackgroundColor: @linkColor;
+
+
+// Form option lists
+// -------------------------
+@optionBackground:        #D5E8FF;
+@optionBorder:            @optionBackground;
+@optionOutline:           @optionBackground;
+@optionText:              @optionBackgroundSelected;
+@optionBackgroundSelected:#3366FF;
+@optionBorderSelected:    @optionBackground;
+@optionOutlineSelected:   @optionBackgroundSelected;
+@optionTextSelected:      @white;
+
+
+
+// Dropdowns
+// -------------------------
+@dropdownBackground:      @white;
+@dropdownBorder:          rgba(0,0,0,.2);
+@dropdownDividerTop:      #e5e5e5;
+@dropdownDividerBottom:   @white;
+
+@dropdownLinkColor:       @grayDark;
+@dropdownLinkColorHover:  @white;
+@dropdownLinkColorActive: @white;
+
+//@dropdownLinkBackgroundActive:  @linkColor;
+//@dropdownLinkBackgroundHover:   @dropdownLinkBackgroundActive;
 
 // Seats Colors
 @activityOfferingSelectedColor: @red;
@@ -84,11 +114,7 @@
 
 /*------------------- END KS NEW COLOR DEFINITIONS --------------------------*/
 
-/*------------------- BEGIN MISCELLANEOUS VARIABLES DEFINITIONS -------------------*/
-@horizontalLineBorder: 1px solid @border-light-color;
-// for dotted line border
-@dottedLineBorder: 1px dotted @border-color;
-/*------------------- END MISCELLANEOUS VARIABLES DEFINITIONS -------------------*/
+
 
 /*------------------- Calendar Colors -------------------*/
 @courseCardColor1:  #334D5C;
