@@ -32,6 +32,10 @@ function initEditors() {
                 {title: "Pre", format: "pre"}
             ]}
         ],
+        extended_valid_elements: 'a[href|target=_blank]',
+        target_list: [
+            {title: 'New Window', value: '_blank'}
+        ],
         statusbar : false,
         browser_spellcheck: true,
         spellchecker_rpc_url: 'plugins/spellchecker/rpc.php',
