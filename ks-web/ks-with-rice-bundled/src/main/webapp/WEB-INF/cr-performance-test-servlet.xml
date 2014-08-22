@@ -48,7 +48,6 @@
 
     <bean id="crPerformanceController"
           class="org.kuali.student.enrollment.class2.registration.performance.kradlite.controller.CRPerformanceTestController">
-        <property name="jmsTemplate" ref="jmsTemplate"/>
     </bean>
 
 
