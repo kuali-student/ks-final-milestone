@@ -1,6 +1,7 @@
 package org.kuali.student.ap.academicplan.service;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.jws.WebParam;
@@ -302,14 +303,18 @@ public class AcademicPlanServiceImpl implements AcademicPlanService {
         if(planItem.getRefObjectType().equals(PlanConstants.COURSE_TYPE)){
             if(!(CollectionUtils.isEqualCollection(planItem.getPlanTermIds(),planItemEntity.getPlanTermIds()))){
                 // If moving between terms delete all linked reg group items
-                List<String> regGroupItems = planItem.getAttributeValueList(AcademicPlanServiceConstants.
-                        PLAN_ITEM_RELATION_TYPE_COURSE2RG);
-                for(String regGroupItem : regGroupItems){
-                    KsapFrameworkServiceLocator.getAcademicPlanService().deletePlanItem(regGroupItem,context);
-                }
-                // If items were deleted refresh planItemEntity to account for any changes to it
-                if(!regGroupItems.isEmpty()){
-                    planItemEntity = planItemDao.find(planItemId);
+                Iterator<AttributeInfo> iter = planItem.getAttributes().iterator();
+                while(iter.hasNext()){
+                    AttributeInfo attribute = iter.next();
+                    if(attribute.getKey().equals(AcademicPlanServiceConstants.PLAN_ITEM_RELATION_TYPE_COURSE2RG)){
+                        String regGroupItem = attribute.getValue();
+                        PlanItemEntity pie = planItemDao.find(regGroupItem);
+                        if (pie == null) {
+                            throw new DoesNotExistException(String.format("Unknown plan item id [%s].", regGroupItem));
+                        }
+                        planItemDao.remove(pie);
+                        iter.remove();
+                    }
                 }
             }
         }
@@ -362,6 +367,40 @@ public class AcademicPlanServiceImpl implements AcademicPlanService {
 		if (pie == null) {
 			throw new DoesNotExistException(String.format("Unknown plan item id [%s].", planItemId));
 		}
+
+        if(pie.getRefObjectTypeKey().equals(PlanConstants.COURSE_TYPE)){
+            // If Course type delete all associated Reg group types
+            PlanItemInfo planItem = pie.toDto();
+            List<String> regGroupItems = planItem.getAttributeValueList(AcademicPlanServiceConstants.
+                    PLAN_ITEM_RELATION_TYPE_COURSE2RG);
+            for(String regGroupItem : regGroupItems){
+                PlanItemEntity regGroup = planItemDao.find(regGroupItem);
+                if (regGroup == null) {
+                    throw new DoesNotExistException(String.format("Unknown plan item id [%s].", regGroupItem));
+                }
+                planItemDao.remove(regGroup);
+            }
+        } else if(pie.getRefObjectTypeKey().equals(PlanConstants.REG_GROUP_TYPE)){
+            // If reg group type update associated course object to remove links to reg group item
+            PlanItemInfo planItem = pie.toDto();
+            String courseItemId = planItem.getAttributeValue(AcademicPlanServiceConstants.
+                    PLAN_ITEM_RELATION_TYPE_RG2COURSE);
+            PlanItemInfo courseItem = KsapFrameworkServiceLocator.getAcademicPlanService().getPlanItem(courseItemId,context);
+            Iterator<AttributeInfo> iter = courseItem.getAttributes().iterator();
+            while(iter.hasNext()){
+                AttributeInfo attribute = iter.next();
+                if(attribute.getKey().equals(AcademicPlanServiceConstants.PLAN_ITEM_RELATION_TYPE_COURSE2RG) && attribute.getValue().equals(planItem.getId())){
+                    iter.remove();
+                }
+            }
+            try {
+                KsapFrameworkServiceLocator.getAcademicPlanService().updatePlanItem(courseItem.getId(),courseItem,context);
+            } catch (DataValidationErrorException e) {
+               throw new OperationFailedException("Unable to update related course item",e);
+            } catch (VersionMismatchException e) {
+               throw new OperationFailedException("Unable to update related course item",e);
+            }
+        }
 
 		planItemDao.remove(pie);
 
