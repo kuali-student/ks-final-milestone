@@ -19,7 +19,7 @@
      limitations under the License.
     -->
 
-    <bean id="KS-HoldIssueManagementView" parent="KS-Uif-FormView">
+    <bean id="KS-HoldIssueManagementView" parent="KS-Uif-FormView" p:id="holdIssueManagementView">
         <property name="singlePageView" value="true"/>
         <property name="header.render" value="true"/>
         <property name="headerText" value="Manage Holds"/>
@@ -39,11 +39,8 @@
                     <property name="url.requestParameters">
                         <map key-type="java.lang.String" merge="true">
                             <entry key="methodToCall" value="start"/>
-                            <entry key="dataObjectClassName"
-                                   value="org.kuali.student.enrollment.class1.hold.dto.HoldIssueMaintenanceWrapper"/>
                             <entry key="hideReturnLink" value="true"/>
                             <entry key="viewName" value="HoldIssueManagementView"/>
-                            <entry key="hideReturnLink" value="true"/>
                             <entry key="formKey" value="@{returnFormKey}"/>
                         </map>
                     </property>
