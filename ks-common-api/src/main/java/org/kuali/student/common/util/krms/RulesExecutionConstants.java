@@ -39,6 +39,7 @@ public class RulesExecutionConstants {
     public static final Term EXISTING_WAITLISTED_REGISTRATIONS_TERM = new Term("existingWaitlistedRegistrations");
     public static final Term REGISTRATION_REQUEST_ITEM_TERM = new Term("registrationRequestItem");
     public static final Term REGISTRATION_REQUEST_ITEM_ID_TERM = new Term("registrationRequestItemId");
+    public static final Term REGISTRATION_REQUEST_ITEM_OK_TO_REPEAT_TERM = new Term("registrationRequestItemOkToRepeat");
     public static final Term REGISTRATION_REQUEST_TERM = new Term("registrationRequest");
     public static final Term ATP_ID_TERM = new Term("atpId");
     public static final Term ATP_TERM = new Term("atp");

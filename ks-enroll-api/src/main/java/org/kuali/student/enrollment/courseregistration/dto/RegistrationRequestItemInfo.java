@@ -47,7 +47,9 @@ import org.w3c.dom.Element;
         "gradingOptionId",
         "requestedEffectiveDate",
         "okToWaitlist",
-        "okToHoldUntilList", "validationResults",
+        "okToHoldUntilList",
+        "okToRepeat",
+        "validationResults",
         "crossList",
         "meta", "attributes", "_futureElements"})
 
@@ -85,6 +87,9 @@ public class RegistrationRequestItemInfo
     private Boolean okToHoldUntilList;
 
     @XmlElement
+    private Boolean okToRepeat;
+
+    @XmlElement
     private List<ValidationResultInfo> validationResults;
 
     @XmlElement
@@ -103,7 +108,7 @@ public class RegistrationRequestItemInfo
      * Constructs a new RegistrationRequestItemInfo from another
      * RegistrationRequestItem.
      *
-     * @param reqistrationRequestItem the RegistrationRequestItem to
+     * @param registrationRequestItem the RegistrationRequestItem to
      *        copy
      */
     public RegistrationRequestItemInfo(RegistrationRequestItem registrationRequestItem) {
@@ -121,8 +126,9 @@ public class RegistrationRequestItemInfo
             this.requestedEffectiveDate = registrationRequestItem.getRequestedEffectiveDate();
             this.okToWaitlist = registrationRequestItem.getOkToWaitlist();
             this.okToHoldUntilList = registrationRequestItem.getOkToHoldUntilList();
+            this.okToRepeat = registrationRequestItem.getOkToRepeat();
             this.crossList = registrationRequestItem.getCrossList();
-            this.validationResults = new ArrayList<ValidationResultInfo>();
+            this.validationResults = new ArrayList<>();
             for(ValidationResult validationResult:registrationRequestItem.getValidationResults ()){
                 this.getValidationResults().add(new ValidationResultInfo(validationResult));
             }
@@ -211,6 +217,15 @@ public class RegistrationRequestItemInfo
     }
 
     @Override
+    public Boolean getOkToRepeat() {
+        return okToRepeat;
+    }
+
+    public void setOkToRepeat(Boolean okToRepeat) {
+        this.okToRepeat = okToRepeat;
+    }
+
+    @Override
     public List<ValidationResultInfo> getValidationResults() {
         if (validationResults == null) {
             validationResults = new ArrayList<ValidationResultInfo>();
@@ -226,4 +241,5 @@ public class RegistrationRequestItemInfo
     public String getCrossList() { return crossList; }
 
     public void setCrossList(String crossList) { this.crossList = crossList; }
+
 }
