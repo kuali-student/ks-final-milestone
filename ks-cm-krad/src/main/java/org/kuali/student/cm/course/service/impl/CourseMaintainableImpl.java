@@ -1878,11 +1878,11 @@ public class CourseMaintainableImpl extends RuleEditorMaintainableImpl implement
             if (StringUtils.equals(rvg.getTypeKey(), LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_MULTIPLE)) {
 
                 StringBuilder resultValue = new StringBuilder("");
-                List<Integer> resultValueList = new ArrayList<Integer>();
+                List<String> resultValueList = new ArrayList<String>();
 
                 for (String rvKey : rvg.getResultValueKeys()) {
                     String value = StringUtils.strip(rvKey, LrcServiceConstants.RESULT_VALUE_KEY_CREDIT_DEGREE_PREFIX);
-                    resultValueList.add(Integer.valueOf(StringUtils.strip(value, ".0"))); // This can be only be integer at ui.
+                    resultValueList.add(StringUtils.strip(value, ".0")); // This can be only be integer at ui.
                 }
 
                 // Sort the values to be displayed at ui
