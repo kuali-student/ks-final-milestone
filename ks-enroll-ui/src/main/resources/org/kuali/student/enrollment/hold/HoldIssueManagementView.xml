@@ -85,6 +85,20 @@
     </bean>
 
     <bean id="KS-Hold-CriteriaSection" parent="Uif-HorizontalBoxSection" >
+        <property name="header">
+            <bean parent="Uif-SectionHeader">
+                <property name="lowerGroup">
+                    <bean parent="Uif-ActionsGroup">
+                        <property name="items">
+                            <list>
+                                <bean parent="KS-Uif-NavigationActionLink" p:methodToCall="addHold" p:actionLabel="Add Hold"
+                                      p:style="padding-left:0px;" p:render="true"/>
+                            </list>
+                        </property>
+                    </bean>
+                </property>
+            </bean>
+        </property>
         <property name="items">
             <list>
                 <bean parent="Uif-HorizontalBoxGroup">
@@ -151,19 +165,6 @@
     <bean id="KS-HoldSearch-Results" parent="KS-HoldSearch-ResultSection"
           p:propertyName="holdIssueResultList">
         <property name="headerText" value=""/>
-        <property name="header">
-            <bean parent="Uif-SectionHeader">
-                <property name="rightGroup">
-                    <bean parent="Uif-ActionsGroup">
-                        <property name="items">
-                            <list>
-                                <bean parent="KS-Uif-NavigationActionLink" p:methodToCall="addHold" p:actionLabel="Add Hold" p:render="@{displayAddButton}"/>
-                            </list>
-                        </property>
-                    </bean>
-                </property>
-            </bean>
-        </property>
         <property name="lineActions">
             <list>
                 <bean parent="KS-Uif-Edit-NavigationActionLink" p:methodToCall="edit"

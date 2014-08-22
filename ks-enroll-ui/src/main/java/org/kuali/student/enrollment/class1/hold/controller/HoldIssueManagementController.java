@@ -65,7 +65,6 @@ public class HoldIssueManagementController extends UifControllerBase {
             e.printStackTrace();
             throw new RuntimeException(HoldIssueConstants.HOLD_ISSUE_SEARCH_ERROR_MSG,e); //To change body of catch statement use File | Settings | File Templates.
         }
-        form.setDisplayAddButton(true);
         form.setHoldIssueResultList(results);
         return getUIFModelAndView(form);
     }
