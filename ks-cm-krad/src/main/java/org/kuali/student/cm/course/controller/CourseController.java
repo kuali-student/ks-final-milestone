@@ -675,13 +675,14 @@ public class CourseController extends CourseRuleEditorController {
 
         try {
             String successMessageKey = null;
+            String annotation = getCustomWorkflowActionAnnotation(form, action);
             switch (action) {
                 case WorkflowActions.RETURN_TO_PREVIOUS:
                     document.prepareForSave();
                     Document savedDocument = getDocumentService().validateAndPersistDocument(document, new ReturnToPreviousNodeDocumentEvent(document));
                     getDocumentService().prepareWorkflowDocument(savedDocument);
                     CourseInfoWrapper courseInfoWrapper = (CourseInfoWrapper)((MaintenanceDocument)savedDocument).getNewMaintainableObject().getDataObject();
-                    savedDocument.getDocumentHeader().getWorkflowDocument().returnToPreviousNode(form.getAnnotation(), courseInfoWrapper.getReviewProposalDisplay().getReturnToPreviousNodeName());
+                    savedDocument.getDocumentHeader().getWorkflowDocument().returnToPreviousNode(annotation, courseInfoWrapper.getReviewProposalDisplay().getReturnToPreviousNodeName());
                     UserSessionUtils.addWorkflowDocument(GlobalVariables.getUserSession(),
                             savedDocument.getDocumentHeader().getWorkflowDocument());
 
@@ -704,7 +705,7 @@ public class CourseController extends CourseRuleEditorController {
                     document.getDocumentHeader().setWorkflowDocument(workflowDocument);
                     // call superuserdisapprove for withdrawing the proposal
 
-                    getDocumentService().superUserDisapproveDocumentWithoutSaving(document,form.getAnnotation());
+                    getDocumentService().superUserDisapproveDocumentWithoutSaving(document, annotation);
 
                     //reset the 'document' variable to have the correct Document.DocumentHeader.WorkflowDocument value for the current user
                     Person personReset = GlobalVariables.getUserSession().getPerson();
@@ -739,6 +740,18 @@ public class CourseController extends CourseRuleEditorController {
         }
 
         form.setAnnotation(""); // copied from parent class method
+    }
+
+    protected String getCustomWorkflowActionAnnotation(DocumentFormBase form, String action) {
+        String annotation = form.getAnnotation();
+        switch (action) {
+            case WorkflowActions.WITHDRAW:
+                annotation = "Withdraw Document action performed by " + GlobalVariables.getUserSession().getPrincipalId();
+                break;
+            case WorkflowActions.RETURN_TO_PREVIOUS:
+                break;
+        }
+        return annotation;
     }
 
     /**
