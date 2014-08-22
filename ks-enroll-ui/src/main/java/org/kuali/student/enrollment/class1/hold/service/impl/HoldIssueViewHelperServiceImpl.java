@@ -44,6 +44,7 @@ public class HoldIssueViewHelperServiceImpl extends KSViewHelperServiceImpl impl
                 HoldIssueResult holdIssueResult = new HoldIssueResult();
                 //holdIssueResult.setHoldIssueInfo(holdIssueInfo);
                 //Hardcoded values for Testing
+                holdIssueResult.setId(holdIssueInfo.getId());
                 holdIssueResult.setCode(holdIssueInfo.getHoldCode());
                 holdIssueResult.setAuthorization("Authorization");
                 holdIssueResult.setTypeKey(holdIssueInfo.getTypeKey());
@@ -51,6 +52,7 @@ public class HoldIssueViewHelperServiceImpl extends KSViewHelperServiceImpl impl
                 holdIssueResult.setName(holdIssueInfo.getName());
                 holdIssueResult.setFirstDate(holdIssueInfo.getFirstAppliedDate());
                 holdIssueResult.setLastDate(holdIssueInfo.getLastAppliedDate());
+                holdIssueResult.setDescr(holdIssueInfo.getDescr().getPlain());
                 holdIssueResultList.add(holdIssueResult);
             }
         } catch (Exception e) {
