@@ -1,9 +1,9 @@
 <div class="kscr-Search-results-container">
     <!-- Search Facets -->
     <div sticky mask-screen="isExpanded" class="kscr-SearchFacets" ng-class="{'kscr-SearchFacets--expanded' : isExpanded}">
-        <div class="kscr-SearchFacets-toggle">
+        <div id="showFacetsToggle" class="kscr-SearchFacets-toggle">
             <a ng-click="isExpanded = !isExpanded">
-                <span class="kscr-SearchFacets-toggle-label">Filter</span>
+                <span id="showFacets" class="kscr-SearchFacets-toggle-label">Filter</span>
                 <span class="kscr-SearchFacets-toggle-countLabel" ng-show="filteredResults.length !== searchResults.length">(showing {{filteredResults.length}} of {{searchResults.length}})</span>
                 <span class="kscr-SearchFacets-toggle-showLabel">
                     <span class="kscr-SearchFacets-toggle-icon">&#x00bb;</span>
