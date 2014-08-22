@@ -138,14 +138,6 @@ public interface RegistrationRequestItem
     public Boolean getOkToHoldUntilList();
 
     /**
-     * If the student has taken the course but is still capable of
-     * registering for it, is it okay to proceed with the registration.
-     *
-     * @name Ok To Repeat
-     */
-    public Boolean getOkToRepeat();
-
-    /**
      * Validation messages that happen when submitted.
      *
      * @return list of validation results
