@@ -239,7 +239,7 @@ public class DefaultTermHelper implements TermHelper {
      *
      * note-worthy assumption:  the Academic Calendar has been published for all future years & their assoc'd terms.
      *
-     * @return A full List of terms to allow planning (e.g. for term drop-down in .
+     * @see  org.kuali.student.ap.framework.context.TermHelper#getTermsOpenForPlanning()
      */
     @Override
     public List<Term> getTermsOpenForPlanning() {
