@@ -76,19 +76,19 @@ public class HoldIssueManagementController extends UifControllerBase {
         return super.performRedirect(form, "holdIssueMaintenance", urlParameters);
     }
 
-    /*
+
     @RequestMapping(params = "methodToCall=edit")
     public ModelAndView edit(@ModelAttribute("KualiForm") HoldIssueManagementForm form, BindingResult result,
                                 HttpServletRequest request, HttpServletResponse response) throws Exception {
-        HoldIssueInfoWrapper holdIssueInfoWrapper = getSelectedRegistrationCourse(form);
+        HoldIssueResult holdIssueResult = getSelectedHoldIssue(form);
 
-        Properties urlParameters = this.editHold(form, holdIssueInfoWrapper.getHoldIssueInfo().getId());
+        Properties urlParameters = this.editHold(form, holdIssueResult.getId());
         return super.performRedirect(form, "holdIssueMaintenance", urlParameters);
     }
 
-    private HoldIssueInfoWrapper getSelectedRegistrationCourse(HoldIssueManagementForm form) {
-        return (HoldIssueInfoWrapper) this.getSelectedCollectionObject(form);
-    }*/
+    private HoldIssueResult getSelectedHoldIssue(HoldIssueManagementForm form) {
+        return (HoldIssueResult) this.getSelectedCollectionObject(form);
+    }
 
     /*
       * Method used to refresh Manage hold page (e.g. after edit hold)
