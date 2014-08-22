@@ -18553,6 +18553,11 @@
         <index name="KSPL_LRNG_PLAN_ITEM_ATTR_I1">
             <column>OWNER_ID</column>
         </index>
+        <uniqueConstraint name="PLANITEMATTR_UNIQUE">
+            <column>OWNER_ID</column>
+            <column>ATTR_KEY</column>
+            <column>ATTR_VALUE</column>
+        </uniqueConstraint>
     </table>
     <table name="KSPR_PROPOSAL">
         <column name="CREATEID" type="STRING">
