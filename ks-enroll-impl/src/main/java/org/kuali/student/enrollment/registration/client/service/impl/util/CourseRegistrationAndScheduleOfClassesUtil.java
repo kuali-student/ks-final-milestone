@@ -108,23 +108,23 @@ public class CourseRegistrationAndScheduleOfClassesUtil {
     /*
     Message keys
      */
-    private static final String COURSE_CODE_AND_SECTION_REQUIRED_MESSAGE_KEY="kuali.cr.cart.message.course.code.and.section.required";
-    private static final String COURSE_CODE_NOT_FOUND_MESSAGE_KEY="kuali.cr.cart.message.course.code.not.found";
-    private static final String COURSE_CODE_REQUIRED_MESSAGE_KEY="kuali.cr.cart.message.course.code.required";
-    private static final String SECTION_REQUIRED_MESSAGE_KEY="kuali.cr.cart.message.section.required";
+    private static final String COURSE_CODE_AND_SECTION_REQUIRED_MESSAGE_KEY = "kuali.cr.cart.message.course.code.and.section.required";
+    private static final String COURSE_CODE_NOT_FOUND_MESSAGE_KEY = "kuali.cr.cart.message.course.code.not.found";
+    private static final String COURSE_CODE_REQUIRED_MESSAGE_KEY = "kuali.cr.cart.message.course.code.required";
+    private static final String SECTION_REQUIRED_MESSAGE_KEY = "kuali.cr.cart.message.section.required";
 
-    private static SearchService searchService;
-    private static LprService lprService;
-    private static IdentityService identityService;
-    private static AtpService atpService;
-    private static CourseService courseService;
-    private static CourseOfferingService courseOfferingService;
-    private static TypeService typeService;
-    private static CourseOfferingSetService courseOfferingSetService;
-    private static LRCService lrcService;
-    private static ScheduleOfClassesService scheduleOfClassesService;
-    private static CourseRegistrationService courseRegistrationService;
-    private static RuleManagementService ruleManagementService;
+    private static volatile SearchService searchService;
+    private static volatile LprService lprService;
+    private static volatile IdentityService identityService;
+    private static volatile AtpService atpService;
+    private static volatile CourseService courseService;
+    private static volatile CourseOfferingService courseOfferingService;
+    private static volatile TypeService typeService;
+    private static volatile CourseOfferingSetService courseOfferingSetService;
+    private static volatile LRCService lrcService;
+    private static volatile ScheduleOfClassesService scheduleOfClassesService;
+    private static volatile CourseRegistrationService courseRegistrationService;
+    private static volatile RuleManagementService ruleManagementService;
 
     private static Map<String, Integer> activityPriorityMap = null;
 
@@ -365,19 +365,19 @@ public class CourseRegistrationAndScheduleOfClassesUtil {
      * @throws DoesNotExistException
      */
     public static RegGroupSearchResult getRegGroup(String termId, String termCode, String courseCode, String regGroupCode, String regGroupId, ContextInfo contextInfo) throws PermissionDeniedException, MissingParameterException, InvalidParameterException, OperationFailedException, DoesNotExistException {
-        RegGroupSearchResult rg = null;
+        RegGroupSearchResult rg;
 
         if (!StringUtils.isEmpty(regGroupId)) {
             rg = getScheduleOfClassesService().getRegGroup(regGroupId, contextInfo);
         } else {
-            if(courseCode == null || courseCode.isEmpty()){
-                if(regGroupCode == null || regGroupCode.isEmpty()) {
+            if (courseCode == null || courseCode.isEmpty()) {
+                if (regGroupCode == null || regGroupCode.isEmpty()) {
                     throw new CourseDoesNotExistException(COURSE_CODE_AND_SECTION_REQUIRED_MESSAGE_KEY, "Course Code cannot be empty");
                 } else {
                     throw new CourseDoesNotExistException(COURSE_CODE_REQUIRED_MESSAGE_KEY, "Course Code cannot be empty");
                 }
             }
-            if(regGroupCode == null || regGroupCode.isEmpty()){
+            if (regGroupCode == null || regGroupCode.isEmpty()) {
                 throw new CourseDoesNotExistException(SECTION_REQUIRED_MESSAGE_KEY, courseCode, "Section cannot be empty");
             }
             // get the registration group
@@ -453,7 +453,7 @@ public class CourseRegistrationAndScheduleOfClassesUtil {
         registrationRequestItem.setCredits(new KualiDecimal(credits));
         registrationRequestItem.setGradingOptionId(gradingOptionId);
         registrationRequestItem.setOkToWaitlist(okToWaitlist);
-       // registrationRequestItem.setOkToRepeat(okToRepeat);
+        registrationRequestItem.setOkToRepeat(okToRepeat);
         registrationRequestItem.setCrossList(courseCode);
         return registrationRequestItem;
     }
@@ -773,7 +773,7 @@ public class CourseRegistrationAndScheduleOfClassesUtil {
         return lrcService;
     }
 
-    public void setLrcService(LRCService lrcService) {
+    public static void setLrcService(LRCService lrcService) {
         CourseRegistrationAndScheduleOfClassesUtil.lrcService = lrcService;
     }
 
@@ -785,7 +785,7 @@ public class CourseRegistrationAndScheduleOfClassesUtil {
     }
 
     @SuppressWarnings("unused")
-    public void setScheduleOfClassesService(ScheduleOfClassesService scheduleOfClassesService) {
+    public static void setScheduleOfClassesService(ScheduleOfClassesService scheduleOfClassesService) {
         CourseRegistrationAndScheduleOfClassesUtil.scheduleOfClassesService = scheduleOfClassesService;
     }
 
@@ -796,7 +796,7 @@ public class CourseRegistrationAndScheduleOfClassesUtil {
         return courseRegistrationService;
     }
 
-    public void setCourseRegistrationService(CourseRegistrationService courseRegistrationService) {
+    public static void setCourseRegistrationService(CourseRegistrationService courseRegistrationService) {
         CourseRegistrationAndScheduleOfClassesUtil.courseRegistrationService = courseRegistrationService;
     }
 
@@ -807,7 +807,7 @@ public class CourseRegistrationAndScheduleOfClassesUtil {
         return ruleManagementService;
     }
 
-    public void setRuleManagementService(RuleManagementService ruleManagementService) {
+    public static void setRuleManagementService(RuleManagementService ruleManagementService) {
         CourseRegistrationAndScheduleOfClassesUtil.ruleManagementService = ruleManagementService;
     }
 
