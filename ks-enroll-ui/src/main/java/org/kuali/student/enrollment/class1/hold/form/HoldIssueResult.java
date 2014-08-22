@@ -34,6 +34,7 @@ import java.util.Map;
  */
 public class HoldIssueResult extends UifFormBase {
 
+    private String id;
     private String code;
     private String name;
     private String descr;
@@ -42,6 +43,14 @@ public class HoldIssueResult extends UifFormBase {
     private Date lastDate;
     private String authorization;
     private String organizationId;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public String getCode() {
         return code;
