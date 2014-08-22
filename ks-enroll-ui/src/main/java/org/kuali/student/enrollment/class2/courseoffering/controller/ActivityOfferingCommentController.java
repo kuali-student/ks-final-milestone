@@ -19,8 +19,8 @@ import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.krad.util.GlobalVariables;
-import org.kuali.student.enrollment.class2.courseoffering.form.KSCommentForm;
-import org.kuali.student.enrollment.class2.courseoffering.form.KSCommentWrapper;
+import org.kuali.student.common.uif.controller.KSCommentController;
+import org.kuali.student.common.uif.form.KSCommentForm;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -40,7 +40,7 @@ import java.util.Map;
  */
 @Controller
 @RequestMapping(value = "/activityOfferingComment")
-public class ActivityOfferingCommentController extends KSCommentController{
+public class ActivityOfferingCommentController extends KSCommentController {
 
     private static final Logger LOG = LoggerFactory.getLogger(ActivityOfferingCommentController.class);
     protected PersonService personService;

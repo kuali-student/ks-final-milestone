@@ -137,7 +137,7 @@
                                     <list>
                                         <bean parent="Uif-StackedCollectionSection" p:id="KS-Comment_Collection_ID">
                                             <property name="collectionObjectClass"
-                                                      value="org.kuali.student.enrollment.class2.courseoffering.form.KSCommentWrapper"/>
+                                                      value="org.kuali.student.common.uif.form.KSCommentWrapper"/>
                                             <property name="propertyName" value="comments"/>
                                             <property name="disclosure.render" value="false"/>
                                             <property name="renderAddLine" value="false"/>

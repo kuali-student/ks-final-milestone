@@ -15,41 +15,19 @@
  */
 package org.kuali.student.enrollment.class2.courseoffering.controller;
 
-import com.google.gwt.user.client.rpc.core.java.util.Collections;
-import org.apache.commons.lang.StringUtils;
-import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.kim.api.KimConstants;
-import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
-import org.kuali.rice.krad.uif.UifParameters;
 import org.kuali.rice.krad.util.GlobalVariables;
-import org.kuali.rice.krad.web.controller.KsUifControllerBase;
-import org.kuali.rice.krad.web.controller.MethodAccessible;
-import org.kuali.rice.krad.web.form.UifFormBase;
-import org.kuali.student.common.util.security.ContextUtils;
-import org.kuali.student.enrollment.class2.courseoffering.form.KSCommentForm;
-import org.kuali.student.enrollment.class2.courseoffering.form.KSCommentWrapper;
-import org.kuali.student.lum.kim.KimIdentityServiceConstants;
-import org.kuali.student.r1.common.rice.StudentIdentityConstants;
-import org.kuali.student.r2.common.util.date.DateFormatters;
-import org.kuali.student.r2.core.comment.dto.CommentInfo;
-import org.kuali.student.r2.core.comment.service.CommentService;
-import org.kuali.student.r2.core.constants.CommentServiceConstants;
+import org.kuali.student.common.uif.controller.KSCommentController;
+import org.kuali.student.common.uif.form.KSCommentForm;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.xml.namespace.QName;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 //import org.kuali.student.cm.course.form.CMCommentForm;
@@ -62,7 +40,7 @@ import java.util.Map;
  */
 @Controller
 @RequestMapping(value = "/courseOfferingComment")
-public class CourseOfferingCommentController extends KSCommentController{
+public class CourseOfferingCommentController extends KSCommentController {
 
     private static final Logger LOG = LoggerFactory.getLogger(CourseOfferingCommentController.class);
     protected PersonService personService;

@@ -20,6 +20,7 @@ import org.kuali.rice.krms.api.KrmsConstants;
 import org.kuali.rice.krms.api.repository.RuleManagementService;
 import org.kuali.rice.krms.api.repository.type.KrmsTypeRepositoryService;
 import org.kuali.student.common.uif.form.KSUifForm;
+import org.kuali.student.common.uif.util.CommentUtil;
 import org.kuali.student.common.util.security.ContextUtils;
 import org.kuali.student.enrollment.batch.BatchScheduler;
 import org.kuali.student.enrollment.batch.util.BatchSchedulerConstants;
