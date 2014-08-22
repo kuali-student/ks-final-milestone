@@ -46,7 +46,7 @@
     <bean id="jmsConfig"
           class="org.apache.camel.component.jms.JmsConfiguration">
         <property name="connectionFactory" ref="connectionFactory"/>
-        <property name="concurrentConsumers" value="1"/>
+        <property name="concurrentConsumers" value="10"/>
     </bean>
 
     <bean id="activemq"
@@ -138,7 +138,7 @@
         </route>
 
         <route>    <!-- This route joins items from the reg req item split. Once all items have completed, update lprTrans state-->
-            <from uri="activemq:org.kuali.student.enrollment.registration.regReqItemJoinQueue" />  <!-- Every Reg Req Item will come here-->
+            <from uri="activemq:org.kuali.student.enrollment.registration.regReqItemJoinQueue?concurrentConsumers=1" />  <!-- Every Reg Req Item will come here-->
             <aggregate strategyRef="simpleAggregator" ignoreInvalidCorrelationKeys="false"> <!-- take all the Reg Req Items an join them to their req -->
                 <correlationExpression>
                     <header>regReqId</header> <!-- correlate on the regReqId we stored in the header -->
