@@ -493,13 +493,36 @@
         <property name="actionLabel" value="Withdraw"/>
         <property name="methodToCall" value="withdraw"/>
         <property name="performClientSideValidation" value="false"/>
-        <property name="render" value="@{#actionFlags[T(org.kuali.student.cm.common.util.CurriculumManagementConstants$ActionFlags).KUALI_ACTION_CAN_WITHDRAW]}"/>
+        <property name="render" value="@{#actionFlags[T(org.kuali.student.cm.common.util.CurriculumManagementConstants$ActionFlags).KUALI_ACTION_CAN_WITHDRAW] and (!#uiHelper.pendingWorkflowAction)}"/>
+    </bean>
+
+    <!-- BUTTON BEANS IN THIS SECTION ABOVE -->
+    <!-- DIALOG BOX BEANS IN THIS SECTION BELOW -->
+
+    <bean id="CM-DialogExplanation-DecisionRationale" parent="CM-DialogExplanation-DecisionRationale-parentBean" />
+    <bean id="CM-DialogExplanation-DecisionRationale-parentBean" parent="Uif-DialogExplanation" abstract="true"
+          p:label="Decision Rationale"
+          p:render="true"
+          p:readOnly="false"/>
+
+    <bean id="CM-DecisionRationale-MessageSection" parent="Uif-HorizontalBoxSection">
+        <property name="render" value="@{#uiHelper.showMessage}"/>
+        <property name="disclosure.render" value="false"/>
+        <property name="items">
+            <list>
+                <bean id="CM-DecisionRationale-RequiredMessage" parent="Uif-Message"
+                      p:messageText="[image src=&quot;@{#ConfigProperties['krad.externalizable.images.url']}/validation/error.png&quot;]  Decision Rationale is required." />
+            </list>
+        </property>
     </bean>
 
     <bean id="CM-Proposal-Review-ConfirmCancelProposal-Dialog" parent="CM-Proposal-Review-ConfirmCancelProposal-Dialog-parentBean" />
     <bean id="CM-Proposal-Review-ConfirmCancelProposal-Dialog-parentBean" parent="Uif-DialogGroup" abstract="true" class="org.kuali.student.cm.uif.container.CMDialogGroup">
-        <property name="headerText" value="Cancel Proposal"/>
         <property name="onDialogResponseScript" value="closeLightbox();ajaxSubmitForm('cancel');"/>
+        <property name="responseInputField">
+            <bean parent="Uif-DialogResponse" p:readOnly="false"/>
+        </property>
+        <property name="headerText" value="Cancel Proposal"/>
         <property name="renderHeader" value="true"/>
         <property name="cssClasses" >
             <list merge="true">
@@ -518,8 +541,11 @@
 
     <bean id="CM-Proposal-Review-ConfirmSubmit-Dialog" parent="CM-Proposal-Review-ConfirmSubmit-Dialog-parentBean" />
     <bean id="CM-Proposal-Review-ConfirmSubmit-Dialog-parentBean" parent="Uif-DialogGroup" abstract="true" >
-        <property name="headerText" value="Submit Proposal"/>
         <property name="onDialogResponseScript" value="closeLightbox();ajaxSubmitForm('route');"/>
+        <property name="responseInputField">
+            <bean parent="Uif-DialogResponse" p:readOnly="false"/>
+        </property>
+        <property name="headerText" value="Submit Proposal"/>
         <property name="renderHeader" value="true"/>
         <property name="cssClasses" >
             <list merge="true">
@@ -536,22 +562,12 @@
         </property>
     </bean>
 
-    <bean id="KS-CM-DialogExplanation" parent="Uif-DialogExplanation"/>
-
-    <bean id="CM-DecisionRationale-MessageSection" parent="Uif-HorizontalBoxSection">
-        <property name="render" value="@{#uiHelper.showMessage}"/>
-        <property name="disclosure.render" value="false"/>
-        <property name="items">
-            <list>
-                <bean id="CM-DecisionRationale-RequiredMessage" parent="Uif-Message"
-                                  p:messageText="[image src=&quot;@{#ConfigProperties['krad.externalizable.images.url']}/validation/error.png&quot;]  Decision Rationale is required." />
-            </list>
-        </property>
-    </bean>
-
     <bean id="CM-Proposal-Review-ConfirmReturnToPreviousNode-Dialog" parent="CM-Proposal-Review-ConfirmReturnToPreviousNode-Dialog-parentBean"/>
     <bean id="CM-Proposal-Review-ConfirmReturnToPreviousNode-Dialog-parentBean" parent="Uif-DialogGroup" abstract="true" class="org.kuali.student.cm.uif.container.CMDialogGroup">
         <property name="onDialogResponseScript" value="closeLightbox();ajaxSubmitForm('returnToPreviousNode');"/>
+        <property name="responseInputField">
+            <bean parent="Uif-DialogResponse" p:readOnly="false"/>
+        </property>
         <property name="renderHeader" value="true"/>
         <property name="OnShowDialogScript" value="skipDirtyChecks();" />
         <property name="header">
@@ -572,8 +588,7 @@
                 <bean id="CM-DecisionRationale-Return-Message" parent="CM-DecisionRationale-MessageSection"/>
                 <bean id="CM-ReturnToPrevious-Dialog-NodeNamesDropdown" parent="CM-Dialog-PreviousNodeNames"/>
                 <!-- manually add back in the explanation field and force the render flag -->
-                <bean id="CM-ReturnToPrevious-Dialog-Explanation" parent="KS-CM-DialogExplanation" p:render="true"
-                      p:label="Decision Rationale"/>
+                <bean id="CM-ReturnToPrevious-Dialog-Explanation" parent="CM-DialogExplanation-DecisionRationale"/>
             </list>
         </property>
         <property name="availableResponses">
@@ -598,6 +613,9 @@
     <bean id="CM-Proposal-Review-ConfirmApprove-Dialog" parent="CM-Proposal-Review-ConfirmApprove-Dialog-parentBean"/>
     <bean id="CM-Proposal-Review-ConfirmApprove-Dialog-parentBean" parent="Uif-DialogGroup" abstract="true" class="org.kuali.student.cm.uif.container.CMDialogGroup">
         <property name="onDialogResponseScript" value="closeLightbox();ajaxSubmitForm('approve');"/>
+        <property name="responseInputField">
+            <bean parent="Uif-DialogResponse" p:readOnly="false"/>
+        </property>
         <property name="renderHeader" value="true"/>
         <property name="OnShowDialogScript" value="skipDirtyChecks();" />
         <property name="header">
@@ -617,8 +635,7 @@
             <list>
                 <bean id="CM-DecisionRationale-Approve-Message" parent="CM-DecisionRationale-MessageSection"/>
                 <!-- manually add back in the explanation field and force the render flag -->
-                <bean id="CM-Approve-Dialog-Explanation" parent="KS-CM-DialogExplanation" p:render="true"
-                      p:label="Decision Rationale"/>
+                <bean id="CM-Approve-Dialog-Explanation" parent="CM-DialogExplanation-DecisionRationale"/>
             </list>
         </property>
         <property name="availableResponses">
@@ -632,6 +649,9 @@
     <bean id="CM-Proposal-Review-ConfirmBlanketApprove-Dialog" parent="CM-Proposal-Review-ConfirmBlanketApprove-Dialog-parentBean"/>
     <bean id="CM-Proposal-Review-ConfirmBlanketApprove-Dialog-parentBean" parent="Uif-DialogGroup" abstract="true" class="org.kuali.student.cm.uif.container.CMDialogGroup">
         <property name="onDialogResponseScript" value="closeLightbox();ajaxSubmitForm('blanketApprove');"/>
+        <property name="responseInputField">
+            <bean parent="Uif-DialogResponse" p:readOnly="false"/>
+        </property>
         <property name="renderHeader" value="true"/>
         <property name="OnShowDialogScript" value="skipDirtyChecks();" />
         <property name="header">
@@ -651,8 +671,7 @@
             <list>
                 <bean id="CM-DecisionRationale-BlanketApprove-Message" parent="CM-DecisionRationale-MessageSection"/>
                 <!-- manually add back in the explanation field and force the render flag -->
-                <bean id="CM-BlanketApprove-Dialog-Explanation" parent="KS-CM-DialogExplanation" p:render="true"
-                      p:label="Decision Rationale"/>
+                <bean id="CM-BlanketApprove-Dialog-Explanation" parent="CM-DialogExplanation-DecisionRationale"/>
             </list>
         </property>
         <property name="availableResponses">
@@ -666,6 +685,9 @@
     <bean id="CM-Proposal-Review-ConfirmReject-Dialog" parent="CM-Proposal-Review-ConfirmReject-Dialog-parentBean"/>
     <bean id="CM-Proposal-Review-ConfirmReject-Dialog-parentBean" parent="Uif-DialogGroup" abstract="true" class="org.kuali.student.cm.uif.container.CMDialogGroup">
         <property name="onDialogResponseScript" value="closeLightbox();ajaxSubmitForm('disapprove');"/>
+        <property name="responseInputField">
+            <bean parent="Uif-DialogResponse" p:readOnly="false"/>
+        </property>
         <property name="renderHeader" value="true"/>
         <property name="OnShowDialogScript" value="skipDirtyChecks();" />
         <property name="header">
@@ -684,8 +706,7 @@
             <list>
                 <bean id="CM-DecisionRationale-Reject-Message" parent="CM-DecisionRationale-MessageSection"/>
                 <!-- manually add back in the explanation field and force the render flag -->
-                <bean id="CM-Reject-Dialog-Explanation" parent="KS-CM-DialogExplanation" p:render="true"
-                      p:label="Decision Rationale"/>
+                <bean id="CM-Reject-Dialog-Explanation" parent="CM-DialogExplanation-DecisionRationale"/>
             </list>
         </property>
         <property name="availableResponses">
@@ -722,8 +743,7 @@
             <list>
                 <bean id="CM-DecisionRationale-Acknowledge-Message" parent="CM-DecisionRationale-MessageSection"/>
                 <!-- manually add back in the explanation field and force the render flag -->
-                <bean id="CM-Acknowledge-Dialog-Explanation" parent="KS-CM-DialogExplanation" p:render="true" p:readOnly="false"
-                      p:label="Decision Rationale"/>
+                <bean id="CM-Acknowledge-Dialog-Explanation" parent="CM-DialogExplanation-DecisionRationale"/>
             </list>
         </property>
         <property name="availableResponses">
@@ -737,6 +757,9 @@
     <bean id="CM-Proposal-Review-ConfirmWithdraw-Dialog" parent="CM-Proposal-Review-ConfirmWithdraw-Dialog-parentBean"/>
     <bean id="CM-Proposal-Review-ConfirmWithdraw-Dialog-parentBean" parent="Uif-DialogGroup" abstract="true" class="org.kuali.student.cm.uif.container.CMDialogGroup">
         <property name="onDialogResponseScript" value="closeLightbox();ajaxSubmitForm('withdraw');"/>
+        <property name="responseInputField">
+            <bean parent="Uif-DialogResponse" p:readOnly="false"/>
+        </property>
         <property name="renderHeader" value="true"/>
         <property name="OnShowDialogScript" value="skipDirtyChecks();" />
         <property name="header">
@@ -757,8 +780,7 @@
             <list>
                 <bean id="CM-DecisionRationale-Withdraw-Message" parent="CM-DecisionRationale-MessageSection"/>
                 <!-- manually add back in the explanation field and force the render flag -->
-                <bean id="CM-Withdraw-Dialog-Explanation" parent="KS-CM-DialogExplanation" p:render="true"
-                      p:label="Decision Rationale"/>
+                <bean id="CM-Withdraw-Dialog-Explanation" parent="CM-DialogExplanation-DecisionRationale"/>
             </list>
         </property>
         <property name="availableResponses">
