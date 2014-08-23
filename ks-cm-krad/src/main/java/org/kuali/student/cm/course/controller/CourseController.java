@@ -1502,7 +1502,7 @@ public class CourseController extends CourseRuleEditorController {
 
     @MethodAccessible
     @ResponseBody
-    @RequestMapping(params = "methodToCall=export")
+    @RequestMapping(params = "methodToCall=export", method = RequestMethod.POST)
     public ResponseEntity<byte[]> export(@ModelAttribute("KualiForm") DocumentFormBase form) {
 
         String exportType = (String)form.getExtensionData().get(CurriculumManagementConstants.Export.EXPORT_TYPE);
@@ -1536,6 +1536,7 @@ public class CourseController extends CourseRuleEditorController {
             headers.setCacheControl("must-revalidate, post-check=0, pre-check=0");
             response = new ResponseEntity<byte[]>(docBytes, headers, HttpStatus.OK);
         }
+        form.setRenderedInLightBox(false);
         return response ;
     }
 
