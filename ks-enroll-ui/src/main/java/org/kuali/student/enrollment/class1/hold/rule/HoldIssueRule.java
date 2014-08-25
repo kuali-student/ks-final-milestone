@@ -12,7 +12,10 @@ import org.kuali.student.enrollment.class1.hold.dto.HoldIssueMaintenanceWrapper;
 import org.kuali.student.enrollment.class1.hold.util.HoldIssueResourceLoader;
 import org.kuali.student.r2.common.datadictionary.DataDictionaryValidator;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
+import org.kuali.student.r2.core.constants.HoldServiceConstants;
+import org.kuali.student.r2.core.hold.dto.HoldIssueInfo;
 
 import java.util.List;
 
@@ -26,6 +29,9 @@ public class HoldIssueRule extends KsMaintenanceDocumentRuleBase {
 
         boolean isValid = true;
         HoldIssueMaintenanceWrapper holdWrapper = (HoldIssueMaintenanceWrapper)maintenanceDocument.getNewMaintainableObject().getDataObject();
+        if (StringUtils.isBlank(holdWrapper.getStateKey())) {
+           holdWrapper.setStateKey(HoldServiceConstants.ISSUE_ACTIVE_STATE_KEY);
+        }
 
         isValid &= validateHold(holdWrapper);
 
@@ -56,9 +62,18 @@ public class HoldIssueRule extends KsMaintenanceDocumentRuleBase {
     private List<ValidationResultInfo> getValidationErrors(HoldIssueMaintenanceWrapper holdIssueWrapper) {
 
         List<ValidationResultInfo> errors = Collections.emptyList();
+        HoldIssueInfo holdIssueInfo = new HoldIssueInfo();
+        holdIssueInfo.setId(holdIssueWrapper.getId());
+        holdIssueInfo.setName(holdIssueWrapper.getName());
+        holdIssueInfo.setOrganizationId(holdIssueWrapper.getOrganizationId());
+        holdIssueInfo.setTypeKey(holdIssueWrapper.getTypeKey());
+        holdIssueInfo.setStateKey(holdIssueWrapper.getStateKey());
+        RichTextInfo richTextInfo = new RichTextInfo();
+        richTextInfo.setPlain(holdIssueWrapper.getDescr());
+        holdIssueInfo.setDescr(richTextInfo);
 
         try {
-            errors = HoldIssueResourceLoader.getHoldService().validateHoldIssue(DataDictionaryValidator.ValidationType.FULL_VALIDATION.toString(), holdIssueWrapper.getHoldIssueInfo(), createContextInfo());
+            errors = HoldIssueResourceLoader.getHoldService().validateHoldIssue(DataDictionaryValidator.ValidationType.FULL_VALIDATION.toString(), holdIssueInfo, createContextInfo());
         } catch (Exception e) {
             //  Capture the error if the service call fails.
             GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, e.getMessage());

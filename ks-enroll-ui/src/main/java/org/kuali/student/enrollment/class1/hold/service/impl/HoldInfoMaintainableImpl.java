@@ -3,10 +3,10 @@ package org.kuali.student.enrollment.class1.hold.service.impl;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
 import org.kuali.student.common.uif.service.impl.KSMaintainableImpl;
+import org.kuali.student.common.util.security.ContextUtils;
 import org.kuali.student.enrollment.class1.hold.dto.HoldIssueMaintenanceWrapper;
 import org.kuali.student.enrollment.class1.hold.util.HoldIssueResourceLoader;
 import org.kuali.student.r2.common.dto.RichTextInfo;
-import org.kuali.student.r2.core.constants.HoldServiceConstants;
 import org.kuali.student.r2.core.hold.dto.HoldIssueInfo;
 
 import java.util.Map;
@@ -29,7 +29,7 @@ public class HoldInfoMaintainableImpl extends KSMaintainableImpl {
     public void setupDataObject(HoldIssueMaintenanceWrapper dataObject, String holdId) {
         HoldIssueInfo holdIssueInfo = null;
         try {
-            holdIssueInfo = HoldIssueResourceLoader.getHoldService().getHoldIssue(holdId, createContextInfo());
+            holdIssueInfo = HoldIssueResourceLoader.getHoldService().getHoldIssue(holdId, ContextUtils.createDefaultContextInfo());
             if (!holdIssueInfo.equals(null)) {
                 dataObject.setId(holdIssueInfo.getId());
                 dataObject.setName(holdIssueInfo.getName());
@@ -51,7 +51,7 @@ public class HoldInfoMaintainableImpl extends KSMaintainableImpl {
         HoldIssueInfo holdIssueInfo = new HoldIssueInfo();
         holdIssueInfo.setName(holdWrapper.getName());
         holdIssueInfo.setTypeKey(holdWrapper.getTypeKey());
-        holdIssueInfo.setStateKey(HoldServiceConstants.ISSUE_ACTIVE_STATE_KEY);
+        holdIssueInfo.setStateKey(holdWrapper.getStateKey());
         holdIssueInfo.setOrganizationId(holdWrapper.getOrganizationId());
         RichTextInfo richTextInfo = new RichTextInfo();
         richTextInfo.setPlain(holdWrapper.getDescr());
@@ -59,7 +59,7 @@ public class HoldInfoMaintainableImpl extends KSMaintainableImpl {
         if (StringUtils.isBlank(holdWrapper.getId())) {
 
             try {
-                HoldIssueInfo createHoldIssueInfo = HoldIssueResourceLoader.getHoldService().createHoldIssue(holdIssueInfo.getTypeKey(), holdIssueInfo, createContextInfo());
+                HoldIssueInfo createHoldIssueInfo = HoldIssueResourceLoader.getHoldService().createHoldIssue(holdIssueInfo.getTypeKey(), holdIssueInfo, ContextUtils.createDefaultContextInfo());
             } catch (Exception e) {
 
                 convertServiceExceptionsToUI(e);
@@ -67,7 +67,7 @@ public class HoldInfoMaintainableImpl extends KSMaintainableImpl {
         } else {
             try {
                 holdIssueInfo.setId(holdWrapper.getId());
-                HoldIssueInfo updatedHoldIssueInfo = HoldIssueResourceLoader.getHoldService().updateHoldIssue(holdIssueInfo.getId(), holdIssueInfo, createContextInfo());
+                HoldIssueInfo updatedHoldIssueInfo = HoldIssueResourceLoader.getHoldService().updateHoldIssue(holdIssueInfo.getId(), holdIssueInfo, ContextUtils.createDefaultContextInfo());
             } catch (Exception e) {
 
                 convertServiceExceptionsToUI(e);
