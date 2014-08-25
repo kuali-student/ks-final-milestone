@@ -28,6 +28,7 @@ import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.enrollment.courseregistration.dto.CourseRegistrationInfo;
 import org.kuali.student.enrollment.courseregistration.service.CourseRegistrationService;
+import org.kuali.student.enrollment.registration.client.service.impl.util.CourseRegistrationAndScheduleOfClassesUtil;
 import org.kuali.student.r2.common.assembler.AssemblyException;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
@@ -61,9 +62,12 @@ public class AcademicRecordServiceCurrentImpl implements AcademicRecordService {
             OperationFailedException,
             PermissionDeniedException {
 
+        //convert personId into entityId
+        String entityId = CourseRegistrationAndScheduleOfClassesUtil.getIdentityService().getEntityByPrincipalId(personId).getId();
+
         List<StudentCourseRecordInfo> courseRecords = new ArrayList<>();
         try {
-            List<CourseRegistrationInfo> regs = courseRegService.getCourseRegistrationsByStudent(personId, contextInfo);
+            List<CourseRegistrationInfo> regs = courseRegService.getCourseRegistrationsByStudent(entityId, contextInfo);
             if (regs != null && !regs.isEmpty()) {
                 for (CourseRegistrationInfo reg : regs) {
                     CourseOfferingInfo courseOfferingInfo = courseOfferingService.getCourseOffering(reg.getCourseOfferingId(), contextInfo);

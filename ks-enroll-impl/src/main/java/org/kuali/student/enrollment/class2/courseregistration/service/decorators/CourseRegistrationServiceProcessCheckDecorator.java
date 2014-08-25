@@ -16,7 +16,6 @@ import org.kuali.student.enrollment.courseregistration.dto.CourseRegistrationInf
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestInfo;
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestItemInfo;
 import org.kuali.student.enrollment.courseregistration.infc.RegistrationRequestItem;
-import org.kuali.student.enrollment.courseregistration.service.CourseRegistrationService;
 import org.kuali.student.enrollment.coursewaitlist.service.CourseWaitListService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
@@ -27,7 +26,6 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.util.constants.LprServiceConstants;
 import org.kuali.student.r2.core.class1.util.ValidationUtils;
-import org.kuali.student.r2.core.constants.KSKRMSServiceConstants;
 import org.kuali.student.r2.core.constants.ProcessServiceConstants;
 
 import java.util.ArrayList;
@@ -157,30 +155,30 @@ public class CourseRegistrationServiceProcessCheckDecorator
             //Look up some reg group info
             RegistrationGroupInfo registrationGroupInfo = courseOfferingService.getRegistrationGroup(requestItem.getRegistrationGroupId(), contextInfo);
 
-            //Reset the total attempts counters
-            executionFacts.remove(KSKRMSServiceConstants.TERM_RESOLVER_COURSE_COMPLETED_ATTEMPTS);
-            executionFacts.remove(KSKRMSServiceConstants.TERM_RESOLVER_COURSE_REGISTERED_COUNT);
-            executionFacts.remove(KSKRMSServiceConstants.TERM_RESOLVER_COURSE_TOTAL_ATTEMPTS);
+            if (requestItem.getTypeKey().equals("kuali.course.registration.request.item.type.add")) {
 
-            //Put In facts that are needed for each reg request
-            executionFacts.put(RulesExecutionConstants.REGISTRATION_GROUP_TERM.getName(), registrationGroupInfo);
-            executionFacts.put(RulesExecutionConstants.REGISTRATION_REQUEST_ITEM_TERM.getName(), requestItem);
-            executionFacts.put(RulesExecutionConstants.REGISTRATION_REQUEST_ITEM_ID_TERM.getName(), requestItem.getId());
-            executionFacts.put(RulesExecutionConstants.REGISTRATION_REQUEST_ITEM_OK_TO_REPEAT_TERM.getName(), requestItem.getOkToRepeat());
+                //Put In facts that are needed for each reg request
+                executionFacts.put(RulesExecutionConstants.REGISTRATION_GROUP_TERM.getName(), registrationGroupInfo);
+                executionFacts.put(RulesExecutionConstants.REGISTRATION_REQUEST_ITEM_TERM.getName(), requestItem);
+                executionFacts.put(RulesExecutionConstants.REGISTRATION_REQUEST_ITEM_ID_TERM.getName(), requestItem.getId());
+                executionFacts.put(RulesExecutionConstants.REGISTRATION_REQUEST_ITEM_OK_TO_REPEAT_TERM.getName(), requestItem.getOkToRepeat());
 
-            //Perform the rules execution
-            EngineResults engineResults = this.krmsEvaluator.evaluateProposition(prop, executionFacts);
-            Exception ex = KRMSEvaluator.checkForExceptionDuringExecution(engineResults);
-            if (ex != null) {
-                throw new OperationFailedException("Unexpected exception while executing rules", ex);
-            }
+                //Perform the rules execution
+                EngineResults engineResults = this.krmsEvaluator.evaluateProposition(prop, executionFacts);
+                Exception ex = KRMSEvaluator.checkForExceptionDuringExecution(engineResults);
+                if (ex != null) {
+                    throw new OperationFailedException("Unexpected exception while executing rules", ex);
+                }
 
-            //Get the validation results
-            List<ValidationResultInfo> itemValidationResults = KRMSEvaluator.extractValidationResults(engineResults);
-            allValidationResults.addAll(itemValidationResults);
+                //Get the validation results
+                List<ValidationResultInfo> itemValidationResults = KRMSEvaluator.extractValidationResults(engineResults);
+                allValidationResults.addAll(itemValidationResults);
 
-            //If there are no errors add this request item to the list of simulated "successful" items
-            if (!ValidationUtils.checkForErrors(itemValidationResults)) {
+                //If there are no errors add this request item to the list of simulated "successful" items
+                if (!ValidationUtils.checkForErrors(itemValidationResults)) {
+                    simulatedCourses.add(convertRequestItemToCourseRegistration(requestItem, registrationGroupInfo));
+                }
+            } else {
                 simulatedCourses.add(convertRequestItemToCourseRegistration(requestItem, registrationGroupInfo));
             }
         }
@@ -204,13 +202,6 @@ public class CourseRegistrationServiceProcessCheckDecorator
 
     public void setWaitlistService(CourseWaitListService waitlistService) {
         this.waitlistService = waitlistService;
-    }
-
-    public CourseRegistrationServiceProcessCheckDecorator() {
-    }
-
-    public CourseRegistrationServiceProcessCheckDecorator(CourseRegistrationService nextDecorator) {
-        setNextDecorator(nextDecorator);
     }
 
     public void setKrmsEvaluator(KRMSEvaluator krmsEvaluator) {

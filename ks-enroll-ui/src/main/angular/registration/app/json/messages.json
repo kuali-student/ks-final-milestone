@@ -48,6 +48,10 @@
         "message":"{{courseCode}} has already been taken. Cannot repeat a course with a mark of 'I'."
     },
     {
+        "messageKey":"kuali.lpr.trans.message.course.already.registered",
+        "message":"You are already registered for this course."
+    },
+    {
         "messageKey":"kuali.lpr.trans.item.message.exception",
         "message":"There was an internal server error while processing this item."
     }
