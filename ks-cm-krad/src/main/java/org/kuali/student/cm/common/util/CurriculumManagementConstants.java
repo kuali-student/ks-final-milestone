@@ -172,7 +172,7 @@ public class CurriculumManagementConstants {
         public final static String ORG_SEARCH_GENERIC = "org.search.generic";
     }
 
-    public static class proposalConfirmationDialogs {
+    public static class ProposalConfirmationDialogs {
 
         public final static String COURSE_SUBMIT_CONFIRMATION_DIALOG = "Proposal-Review-Course-ConfirmSubmit-Dialog";
         public final static String CANCEL_PROPOSAL_CONFIRMATION_DIALOG = "Proposal-Review-Course-ConfirmCancelProposal-Dialog";

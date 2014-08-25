@@ -347,7 +347,7 @@ public class CourseController extends CourseRuleEditorController {
     public ModelAndView cancel(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
                                HttpServletRequest request, HttpServletResponse response) {
         DocumentFormBase documentForm = (DocumentFormBase) form;
-        String dialog = CurriculumManagementConstants.proposalConfirmationDialogs.CANCEL_PROPOSAL_CONFIRMATION_DIALOG;
+        String dialog = CurriculumManagementConstants.ProposalConfirmationDialogs.CANCEL_PROPOSAL_CONFIRMATION_DIALOG;
         if (!hasDialogBeenDisplayed(dialog, documentForm)) {
             return showDialog(dialog, documentForm, request, response);
         }
@@ -402,7 +402,7 @@ public class CourseController extends CourseRuleEditorController {
             dm.setCurrentDialogId(null);
         }
 
-        String dialog = CurriculumManagementConstants.proposalConfirmationDialogs.COURSE_SUBMIT_CONFIRMATION_DIALOG;
+        String dialog = CurriculumManagementConstants.ProposalConfirmationDialogs.COURSE_SUBMIT_CONFIRMATION_DIALOG;
         if ( ! hasDialogBeenDisplayed(dialog, form)) {
             doValidationForProposal(form, KewApiConstants.ROUTE_HEADER_ENROUTE_CD, null);
 
@@ -453,7 +453,7 @@ public class CourseController extends CourseRuleEditorController {
 
         CourseInfoWrapper courseInfoWrapper = getCourseInfoWrapper(form);
         courseInfoWrapper.getUiHelper().setShowMessage(false);
-        String dialog = CurriculumManagementConstants.proposalConfirmationDialogs.COURSE_APPROVE_CONFIRMATION_DIALOG;
+        String dialog = CurriculumManagementConstants.ProposalConfirmationDialogs.COURSE_APPROVE_CONFIRMATION_DIALOG;
         if ( ! hasDialogBeenDisplayed(dialog, form)) {
             doValidationForProposal(form, KewApiConstants.ROUTE_HEADER_PROCESSED_CD, DtoConstants.STATE_ACTIVE);
 
@@ -516,7 +516,7 @@ public class CourseController extends CourseRuleEditorController {
 
         CourseInfoWrapper courseInfoWrapper = getCourseInfoWrapper(form);
         courseInfoWrapper.getUiHelper().setShowMessage(false);
-        String dialog = CurriculumManagementConstants.proposalConfirmationDialogs.COURSE_REJECT_CONFIRMATION_DIALOG;
+        String dialog = CurriculumManagementConstants.ProposalConfirmationDialogs.COURSE_REJECT_CONFIRMATION_DIALOG;
         if ( ! hasDialogBeenDisplayed(dialog, form)) {
             if (!GlobalVariables.getMessageMap().hasErrors()) {
                 //redirect back to client to display reject rationale dialog
@@ -611,7 +611,7 @@ public class CourseController extends CourseRuleEditorController {
 
         CourseInfoWrapper courseInfoWrapper = getCourseInfoWrapper(form);
         courseInfoWrapper.getUiHelper().setShowMessage(false);
-        String dialog = CurriculumManagementConstants.proposalConfirmationDialogs.COURSE_RETURN_TO_PREVIOUS_NODE_DIALOG;
+        String dialog = CurriculumManagementConstants.ProposalConfirmationDialogs.COURSE_RETURN_TO_PREVIOUS_NODE_DIALOG;
         if ( ! hasDialogBeenDisplayed(dialog, form)) {
             doValidationForProposal(form, KewApiConstants.ROUTE_HEADER_PROCESSED_CD, null);
 
@@ -1052,7 +1052,7 @@ public class CourseController extends CourseRuleEditorController {
 
         CourseInfoWrapper courseInfoWrapper = getCourseInfoWrapper(form);
         courseInfoWrapper.getUiHelper().setShowMessage(false);
-        String dialog = CurriculumManagementConstants.proposalConfirmationDialogs.COURSE_WITHDRAW_CONFIRMATION_DIALOG;
+        String dialog = CurriculumManagementConstants.ProposalConfirmationDialogs.COURSE_WITHDRAW_CONFIRMATION_DIALOG;
         if ( ! hasDialogBeenDisplayed(dialog, form)) {
             doValidationForProposal(form, KewApiConstants.ROUTE_HEADER_PROCESSED_CD, DtoConstants.STATE_ACTIVE);
 
@@ -1114,7 +1114,7 @@ public class CourseController extends CourseRuleEditorController {
 
         CourseInfoWrapper courseInfoWrapper = getCourseInfoWrapper(form);
         courseInfoWrapper.getUiHelper().setShowMessage(false);
-        String dialog = CurriculumManagementConstants.proposalConfirmationDialogs.COURSE_ACKNOWLEDGE_CONFIRMATION_DIALOG;
+        String dialog = CurriculumManagementConstants.ProposalConfirmationDialogs.COURSE_ACKNOWLEDGE_CONFIRMATION_DIALOG;
         if ( ! hasDialogBeenDisplayed(dialog, form)) {
             if (!GlobalVariables.getMessageMap().hasErrors()) {
                 //redirect back to client to display confirm dialog
@@ -1166,7 +1166,7 @@ public class CourseController extends CourseRuleEditorController {
 
         CourseInfoWrapper courseInfoWrapper = getCourseInfoWrapper(form);
         courseInfoWrapper.getUiHelper().setShowMessage(false);
-        String dialog = CurriculumManagementConstants.proposalConfirmationDialogs.COURSE_BLANKET_APPROVE_CONFIRMATION_DIALOG;
+        String dialog = CurriculumManagementConstants.ProposalConfirmationDialogs.COURSE_BLANKET_APPROVE_CONFIRMATION_DIALOG;
         if ( ! hasDialogBeenDisplayed(dialog, form)) {
             doValidationForProposal(form, KewApiConstants.ROUTE_HEADER_PROCESSED_CD, DtoConstants.STATE_ACTIVE);
 
