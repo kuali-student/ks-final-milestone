@@ -1,4 +1,39 @@
-<div class="kscr-SearchDetails">
+<!-- Start Page Loading Skeleton View -->
+<div class="kscr-SearchDetails" ng-if="loading">
+    <!-- Search Details Header -->
+    <div class="kscr-SearchDetails-top">
+        Loading...<br>
+        <a id="returnToSearch" ui-sref="root.search.results(stateParams)"><span>&#x00ab;</span> Return to Search Results</a>
+    </div>
+
+    <!-- Search Details Content -->
+    <div class="kscr-SearchDetails-container">
+        <div class="kscr-SearchDetails-header util-Grid">
+            <span class="kscr-SearchDetails-courseHeader util-Grid-cell util-Grid">
+                <span class="kscr-SearchDetails-courseCode-skeleton"></span>
+                <span class="kscr-SearchDetails-courseTitle-skeleton util-Grid-cell"></span>
+            </span>
+            <span class="kscr-SearchDetails-credits-skeleton"></span>
+        </div>
+
+        <div class="kscr-SearchDetails-description-skeleton1"></div>
+        <div class="kscr-SearchDetails-description-skeleton2"></div>
+
+        <!-- Prerequisites -->
+        <div class="kscr-SearchDetails-prerequisites-skeleton"></div>
+
+        <!-- Selected Activity Offerings Area -->
+        <div sticky class="kscr-SearchDetails-actionsContainer util-Grid util-Grid--center">
+            <!-- Message -->
+            <div class="kscr-SearchDetails-selection kscr-SearchDetails-selection--empty util-Grid-cell">
+                <div class="kscr-SearchDetails-selection-skeleton"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End Page Loading Skeleton View -->
+
+<div class="kscr-SearchDetails" ng-if="!loading">
     <!-- Search Details Header - Back to Results Link -->
     <div class="kscr-SearchDetails-top">
         <a id="returnToSearch" ui-sref="root.search.results(stateParams)"><span>&#x00ab;</span> Return to Search Results</a>

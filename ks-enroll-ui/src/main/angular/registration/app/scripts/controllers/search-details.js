@@ -33,7 +33,7 @@ angular.module('regCartApp')
             }
         });
 
-
+        $scope.loading = false; // Course not yet loading
         var lastCourseId = null;
         function loadCourse(courseId, courseCode) {
             if (courseId === null || ($scope.course !== null && $scope.course.courseOfferingId !== null && courseId === $scope.course.courseOfferingId && $scope.course.courseOfferingCode !== null && courseCode === $scope.course.courseOfferingCode)) {
@@ -41,6 +41,7 @@ angular.module('regCartApp')
                 return;
             }
 
+            $scope.loading = true; // Course is still loading
             console.log('Loading course ' + courseId + ', ' + courseCode);
 
             lastCourseId = courseId;
@@ -99,11 +100,13 @@ angular.module('regCartApp')
                     $scope.availableRegGroups = regGroups;
                     $scope.aoMap = aoMap;
 
+                    $scope.loading = false;     // Course done loading
                     $scope.course = result;
 
                     $scope.updateAOStates();
                     $scope.singleRegGroup = singleRegGroup();
                 } else {
+                    $scope.loading = true; // Course loaded
                     console.log('Course load completed but not the most recent, ignoring: "' + courseId + '" !== "' + lastCourseId + '"');
                 }
             }, function(error) {

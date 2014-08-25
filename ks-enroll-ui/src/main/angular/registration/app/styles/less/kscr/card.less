@@ -206,7 +206,9 @@
     position: relative;
     width: 100%;
 
-    .util-transition-fade();
+  // Handles transition for adding and removing courses to cart
+  .util-transition-addCourse(30px);
+  .util-transition-removeCourse(130px);
 
     // Applied when an update request is processing for the course
     &--processing {

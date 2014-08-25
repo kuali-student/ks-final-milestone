@@ -62,17 +62,40 @@
 .kscr-SearchDetails-courseCode {
     font-weight: bold;
     margin-right: 2.5rem;
+
+  &-skeleton {
+    width: 10rem;
+    .util-skeleton-basic(2.5rem, @skeletonDarkGray);
+    .util-skeleton-animate();
+  }
 }
 .kscr-SearchDetails-courseTitle {
-
+  &-skeleton {
+    .util-skeleton-basic(2.5rem, @skeletonDarkGray);
+    .util-skeleton-animate();
+  }
 }
 .kscr-SearchDetails-credits {
     margin-left: 2rem; // Don't let the title get too close
+
+  &-skeleton {
+    width: 10rem;
+    .util-skeleton-basic(0, @skeletonLightGray);
+    .util-skeleton-animate();
+  }
 }
 
 
 // Course description
 .kscr-SearchDetails-description {
+  &-skeleton1 {
+    .util-skeleton-basic(20rem, @skeletonLightGray);
+    .util-skeleton-animate();
+  }
+  &-skeleton2 {
+    .util-skeleton-basic(10rem, @skeletonLightGray);
+    .util-skeleton-animate();
+  }
 }
 
 // Cross-listed courses
@@ -101,6 +124,12 @@
     }
 
     .details-list-mixin();
+
+    &-skeleton {
+      margin-top: 1rem;
+      .util-skeleton-basic(15rem, @skeletonLightGray);
+      .util-skeleton-animate();
+    }
 }
 
 // Grading Methods
@@ -112,6 +141,12 @@
     }
 
     .details-list-mixin();
+
+  &-skeleton {
+    margin: 1rem 0 0;
+    .util-skeleton-basic(10rem, @skeletonLightGray);
+    .util-skeleton-animate();
+  }
 }
 
 
@@ -167,6 +202,15 @@
             .kscr-SearchDetails-single-selection {
                 font-weight: bold;
             }
+        }
+
+        &-skeleton {
+          border-bottom: @horizontalLineBorder;
+          border-top: @horizontalLineBorder;
+          margin-top: 1rem;
+          width: 20rem;
+          .util-skeleton-basic(5rem, @skeletonLightGray);
+          .util-skeleton-animate();
         }
     }
 

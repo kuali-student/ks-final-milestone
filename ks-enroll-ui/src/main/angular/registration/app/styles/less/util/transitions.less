@@ -2,7 +2,6 @@
 @transitionSpeed:                0.25s;
 @transition:                    all linear @transitionSpeed;
 
-
 /**
  * Transition Mixin
  * @param @speed Speed with which to perform the transition (e.g. 2s). Defaults to @transitionSpeed value.
@@ -65,4 +64,88 @@
         .util-transitions-transition(all ease-in @speed);
         opacity: @opacity;
     }
+}
+
+// Fade in new item (200ms, ease out cubic)
+// Move existing items down (200ms, ease out cubic)
+.util-transition-addCourse(@targetHeight, @speed: 200ms) {
+  &.ng-enter // Item added through ng-repeat (base styles)
+  {
+    .util-transitions-transition(all cubic-bezier(0.215, 0.610, 0.355, 1.000) @speed);
+    position: relative;
+    display: block;
+    overflow: visible;
+    opacity: 0;
+    height: 0px;
+  }
+
+  &.ng-enter-active { //Item actively being added (target styles)
+    .util-transitions-transition(all cubic-bezier(0.215, 0.610, 0.355, 1.000) @speed);
+    opacity: 1;
+    height: @targetHeight;
+  }
+
+}
+
+// Fade out removed item (200ms, ease out cubic)
+// Move existing items up (200ms, ease out cubic)
+.util-transition-removeCourse(@targetHeight, @speed: 200ms) {
+    &.ng-leave{ // Item being removed (base styles)
+      .util-transitions-transition(all cubic-bezier(0.215, 0.610, 0.355, 1.000) @speed);
+      position: relative;
+      display: block;
+      overflow: hidden;
+      opacity: 1;
+      height: @targetHeight;
+    }
+
+    &.ng-leave-active { // Item actively being removed (target styles)
+      .util-transitions-transition(all cubic-bezier(0.215, 0.610, 0.355, 1.000) @speed);
+      opacity: 0;
+      height: 0px;
+    }
+}
+
+// Page load transition
+.util-transition-pageLoad() {
+  @pgLoadAnimationName: rippleAnimation;
+  @pgLoadAnimationDuration: 1s;
+  @pgLoadAnimationTimingFunction: linear;
+  @pgLoadAnimationIterationCount: infinite;
+  @pgLoadAnimationFillMode: forwards;
+
+  -webkit-animation: @pgLoadAnimationName @pgLoadAnimationDuration @pgLoadAnimationTimingFunction @pgLoadAnimationIterationCount @pgLoadAnimationFillMode;
+  -moz-animation: @pgLoadAnimationName @pgLoadAnimationDuration @pgLoadAnimationTimingFunction @pgLoadAnimationIterationCount @pgLoadAnimationFillMode;
+  -o-animation: @pgLoadAnimationName @pgLoadAnimationDuration @pgLoadAnimationTimingFunction @pgLoadAnimationIterationCount @pgLoadAnimationFillMode;
+  -animation: @pgLoadAnimationName @pgLoadAnimationDuration @pgLoadAnimationTimingFunction @pgLoadAnimationIterationCount @pgLoadAnimationFillMode;
+
+  @pgLoadAnimationDarkerColor: #f6f7f8;
+  @pgLoadAnimationLighterColor: #edeef1;
+
+  background: @pgLoadAnimationDarkerColor;
+  background-image: -webkit-linear-gradient(left, @pgLoadAnimationDarkerColor 0%, @pgLoadAnimationLighterColor 20%, @pgLoadAnimationDarkerColor 40%, @pgLoadAnimationDarkerColor 100%); // syntax from https://developer.mozilla.org/en-US/docs/Web/Guide/CSS/Using_CSS_gradients
+  background-image: -moz-linear-gradient(left, @pgLoadAnimationDarkerColor 0%, @pgLoadAnimationLighterColor 20%, @pgLoadAnimationDarkerColor 40%, @pgLoadAnimationDarkerColor 100%);
+  background-image: -o-linear-gradient(left, @pgLoadAnimationDarkerColor 0%, @pgLoadAnimationLighterColor 20%, @pgLoadAnimationDarkerColor 40%, @pgLoadAnimationDarkerColor 100%);
+  background-image: linear-gradient(to right, @pgLoadAnimationDarkerColor 0%, @pgLoadAnimationLighterColor 20%, @pgLoadAnimationDarkerColor 40%, @pgLoadAnimationDarkerColor 100%);
+  background-repeat: no-repeat;
+  background-size: 800px 10px;
+  position: relative;
+}
+
+// Rules to create animation rippleAnimation
+@-webkit-keyframes rippleAnimation {
+  from { background-position: -100px 0; }
+  to { background-position: 150px 0; }
+}
+@-moz-keyframes rippleAnimation {
+  from { background-position: -100px 0; }
+  to { background-position: 150px 0; }
+}
+@-o-keyframes rippleAnimation {
+  from { background-position: -100px 0; }
+  to { background-position: 150px 0; }
+}
+@keyframes rippleAnimation {
+  from { background-position: -100px 0; }
+  to { background-position: 150px 0; }
 }
