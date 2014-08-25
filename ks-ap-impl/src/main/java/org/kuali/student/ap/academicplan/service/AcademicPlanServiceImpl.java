@@ -239,10 +239,10 @@ public class AcademicPlanServiceImpl implements AcademicPlanService {
             String linkedCourseItemId = planItem.getAttributeValue(AcademicPlanServiceConstants.PLAN_ITEM_RELATION_TYPE_RG2COURSE);
             PlanItemInfo linkedCourseItem;
             try{
-                linkedCourseItem = KsapFrameworkServiceLocator.getAcademicPlanService().getPlanItem(linkedCourseItemId,context);
+                linkedCourseItem = getPlanItem(linkedCourseItemId,context);
                 AttributeInfo course2rgLink = new AttributeInfo(AcademicPlanServiceConstants.PLAN_ITEM_RELATION_TYPE_COURSE2RG,planItem.getId());
                 linkedCourseItem.getAttributes().add(course2rgLink);
-                KsapFrameworkServiceLocator.getAcademicPlanService().updatePlanItem(linkedCourseItem.getId(),linkedCourseItem,context);
+                updatePlanItem(linkedCourseItem.getId(),linkedCourseItem,context);
             }catch(DoesNotExistException e){
                 throw new DataValidationErrorException("Missing link to plan item for related course", e);
             }catch (VersionMismatchException ve){
@@ -386,9 +386,8 @@ public class AcademicPlanServiceImpl implements AcademicPlanService {
         } else if(pie.getRefObjectTypeKey().equals(PlanConstants.REG_GROUP_TYPE)){
             // If reg group type update associated course object to remove links to reg group item
             PlanItemInfo planItem = pie.toDto();
-            String courseItemId = planItem.getAttributeValue(AcademicPlanServiceConstants.
-                    PLAN_ITEM_RELATION_TYPE_RG2COURSE);
-            PlanItemInfo courseItem = KsapFrameworkServiceLocator.getAcademicPlanService().getPlanItem(courseItemId,context);
+            String courseItemId = planItem.getAttributeValue(AcademicPlanServiceConstants.PLAN_ITEM_RELATION_TYPE_RG2COURSE);
+            PlanItemInfo courseItem = getPlanItem(courseItemId,context);
             Iterator<AttributeInfo> iter = courseItem.getAttributes().iterator();
             while(iter.hasNext()){
                 AttributeInfo attribute = iter.next();
@@ -397,7 +396,7 @@ public class AcademicPlanServiceImpl implements AcademicPlanService {
                 }
             }
             try {
-                KsapFrameworkServiceLocator.getAcademicPlanService().updatePlanItem(courseItem.getId(),courseItem,context);
+                updatePlanItem(courseItem.getId(),courseItem,context);
             } catch (DataValidationErrorException e) {
                throw new OperationFailedException("Unable to update related course item",e);
             } catch (VersionMismatchException e) {
