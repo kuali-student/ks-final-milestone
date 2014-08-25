@@ -193,12 +193,12 @@ public class AdminRegistrationController extends UifControllerBase {
 
         form.clearCourseRegistrationValues();
         TermInfo term = getViewHelper(form).getTermByCode(form.getTerm().getCode());
-        form.setSocInfo(getViewHelper(form).getSocByTerm(term.getId()));
         if (GlobalVariables.getMessageMap().hasErrors()) {
             form.setClientState(AdminRegConstants.ClientStates.INITIALIZED);
             return getUIFModelAndView(form);
         } else {
             form.setTerm(term);
+            form.setSocInfo(getViewHelper(form).getSocByTerm(term.getId()));
         }
         long start = System.currentTimeMillis();
 
