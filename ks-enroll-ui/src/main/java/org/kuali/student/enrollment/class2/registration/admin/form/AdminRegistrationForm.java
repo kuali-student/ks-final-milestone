@@ -16,6 +16,7 @@
 
 package org.kuali.student.enrollment.class2.registration.admin.form;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.core.person.dto.PersonInfo;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingContextBar;
@@ -360,5 +361,14 @@ public class AdminRegistrationForm extends UifFormBase implements Serializable {
 
     public void setSocInfo(SocInfo socInfo) {
         this.socInfo = socInfo;
+    }
+
+    public String getPersonHeaderInfo() {
+
+        if (person.getId() != null) {
+            return ": " + person.getName() + " (" + person.getId() + ")";
+        }
+
+        return StringUtils.EMPTY;
     }
 }

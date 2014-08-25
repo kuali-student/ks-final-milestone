@@ -22,7 +22,12 @@
 
     <bean id="KS-AdminRegistration" parent="KS-Uif-FormView">
         <property name="singlePageView" value="true"/>
-        <property name="header.render" value="false"/>
+        <property name="headerText" value="Admin Registration@{personHeaderInfo}" />
+        <property name="header.cssClasses">
+            <list merge="true">
+                <value>uif-viewHeader</value>
+            </list>
+        </property>
         <property name="authorizer">
             <bean class="org.kuali.student.enrollment.main.view.KsViewAuthorizerBase"/>
         </property>
