@@ -43,7 +43,6 @@ public class AdminRegConstants {
     public static final String REG_CONFIRM_DIALOG = "registerConfirmDialog";
     public static final String DROP_COURSE_DIALOG = "dropCourseDialog";
     public static final String DROP_WAITLISTED_DIALOG = "dropWaitlistedDialog";
-    public static final String TERM_ELIGIBILITY_DIALOG = "termEligibilityDialog";
     public static final String COURSE_EDIT_DIALOG = "courseEditDialog";
 
     //Message keys

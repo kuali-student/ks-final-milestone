@@ -213,11 +213,7 @@ public class AdminRegistrationController extends UifControllerBase {
 
         if (!form.getTermIssues().isEmpty()) {
             form.setTermEligible(true);
-            if (form.getRegisteredCourses().isEmpty() && form.getWaitlistedCourses().isEmpty()) {
-                showDialog(AdminRegConstants.TERM_ELIGIBILITY_DIALOG, form, request, response);
-            } else {
-                form.setDisplayRegistrationTab(true);
-            }
+            form.setDisplayRegistrationTab(true);
         } else {
             form.setTermEligible(false);
             form.setDisplayRegistrationTab(true);

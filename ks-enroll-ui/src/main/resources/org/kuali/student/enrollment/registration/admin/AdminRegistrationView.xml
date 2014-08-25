@@ -78,7 +78,6 @@
                 <bean id="registerConfirmDialog" parent="KS-AdminRegistration-RegisterDialogResponse"/>
                 <bean id="dropCourseDialog" parent="KS-AdminRegistration-DropRegisteredDialog"/>
                 <bean id="dropWaitlistedDialog" parent="KS-AdminRegistration-DropWaitlistedDialog"/>
-                <bean id="termEligibilityDialog" parent="KS-AdminRegistration-TermEligibilityDialogResponse"/>
                 <bean id="courseEditDialog" parent="KS-AdminRegistration-RegisteredCourses-Edit"/>
 
             </list>
@@ -814,53 +813,6 @@
             </list>
         </property>
     </bean>
-
-
-    <bean id="KS-AdminRegistration-TermEligibilityDialogResponse" parent="Uif-DialogGroup">
-        <property name="headerText" value="Confirm Term"/>
-        <property name="items">
-            <list>
-                <bean id="KS-AdminRegistration-TermIssues" parent="Uif-TableCollectionGroup" p:colSpan="8">
-                    <property name="collectionObjectClass"
-                              value="java.lang.String"/>
-                    <property name="propertyName" value="termIssues"/>
-                    <property name="layoutManager.renderSequenceField" value="false"/>
-                    <property name="layoutManager.richTable.render" value="false"/>
-                    <property name="renderAddLine" value="false"/>
-                    <property name="renderLineActions" value="false"/>
-                    <property name="items">
-                        <list>
-                            <bean parent="Uif-MessageField" p:label="Eligibility Check" p:messageText="@{#line.toString()}"/>
-                            <bean parent="Uif-MessageField" p:id="termEligibityResult" p:messageText="[color=red][b]FAILED[/b][/color]"/>
-                        </list>
-                    </property>
-                </bean>
-                <bean parent="Uif-Message" p:id="promptText" p:messageText="Would you like to continue?"/>
-
-                <bean parent="Uif-HorizontalBoxSection">
-                    <property name="items">
-                        <list>
-
-                            <bean parent="Uif-PrimaryActionButton" p:preSubmitCall="closeLightbox(); return true;"
-                                  p:methodToCall="continueFailedEligibilityTerm" p:actionLabel="Continue"
-                                  p:id="termContinue_btn"/>
-                            <bean parent="Uif-ActionLink" p:actionLabel="Cancel"
-                                  p:methodToCall="cancelFailedEligibilityTerm" p:id="cancelTerm_link"
-                                  p:preSubmitCall="closeLightbox(); return true;"
-                                  p:additionalCssClasses="cancel_link"/>
-                        </list>
-                    </property>
-                </bean>
-            </list>
-        </property>
-        <property name="promptText"
-                  value=""/>
-        <property name="availableResponses">
-            <list>
-            </list>
-        </property>
-    </bean>
-
 
     <bean id="KS-AdminRegistration-RegisteredCourses-Edit" parent="Uif-DialogGroup">
         <property name="headerText" value="Edit Course Details"/>
