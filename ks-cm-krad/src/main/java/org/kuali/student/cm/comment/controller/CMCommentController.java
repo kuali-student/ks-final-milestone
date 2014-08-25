@@ -326,6 +326,9 @@ public class CMCommentController extends KsUifControllerBase {
 
         if (comments != null) {
             for (CommentInfo comment : comments) {
+                if (StringUtils.startsWith(comment.getTypeKey(),CommentServiceConstants.COMMENT_WORKFLOW_TYPE_KEY_PREFIX)) {
+                    continue;
+                }
                 CMCommentWrapper wrapper = new CMCommentWrapper();
                 setupCommentWrapper(wrapper,comment,proposal);
                 form.getComments().add(wrapper);
