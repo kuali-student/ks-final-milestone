@@ -1,6 +1,6 @@
 /*** Search Form Section  ***/
 
-@facetWidth: 200px;
+@facetWidth: 20rem;
 
 .kscr-Search-content {
     // Hide the sticky placeholder within the search content always
@@ -128,7 +128,6 @@
 
 // Small/Medium format styles
 @media screen and (max-width: @midFormatMax) {
-    @facetWidth: 240px;
 
     .kscr-Search-content {
         padding-top: 1rem;
@@ -148,7 +147,7 @@
             .box-shadow(0 0 0.3rem @lightGray);
 
             max-width: 75%; // Max-width used in case screen width is less than @facetWidth;
-            width: @facetWidth !important; // Important to override the sticky styles
+            width: @facetWidth + 4.5 !important; // Important to override the sticky styles
 
             .kscr-SearchFacets-facetsContainer {
                 display: block;
