@@ -4,6 +4,7 @@
  */
 
 function retrieveComponent(id, methodToCall, successCallback, additionalData, disableBlocking, formName) {
+
     var refreshComp = jQuery("#" + id);
 
     // if a call is made from refreshComponentUsingTimer() and the component does not exist on the page or is hidden
@@ -38,6 +39,20 @@ function retrieveComponent(id, methodToCall, successCallback, additionalData, di
     }
 
     kradRequest.send();
+}
+
+/**
+ * Override KRAD images
+ */
+function setupImages() {
+    errorImage = "<img class='" + kradVariables.VALIDATION_IMAGE_CLASS + "' src='" + getConfigParam(kradVariables.IMAGE_LOCATION) + "validation/error.png' alt='" + getMessage(kradVariables.MESSAGE_ERROR) + "' /> ";
+    errorGreyImage = "<img class='" + kradVariables.VALIDATION_IMAGE_CLASS + "' src='" + getConfigParam(kradVariables.IMAGE_LOCATION) + "validation/error-grey.png' alt='" + getMessage(kradVariables.MESSAGE_ERROR_FIELD_MODIFIED) + "' /> ";
+    warningImage = "<img class='" + kradVariables.VALIDATION_IMAGE_CLASS + "' src='" + getConfigParam(kradVariables.IMAGE_LOCATION) + "validation/warning.png' alt='" + getMessage(kradVariables.MESSAGE_WARNING) + "' /> ";
+    infoImage = "<img class='" + kradVariables.VALIDATION_IMAGE_CLASS + "' src='" + getConfigParam(kradVariables.IMAGE_LOCATION) + "validation/info.png' alt='" + getMessage(kradVariables.MESSAGE_INFORMATION) + "' /> ";
+    detailsOpenImage = jQuery("<img class='" + kradVariables.VALIDATION_IMAGE_CLASS + "' src='" + getConfigParam(kradVariables.IMAGE_LOCATION) + "details_open.png' alt='" + getMessage(kradVariables.MESSAGE_DETAILS) + "' /> ");
+    detailsCloseImage = jQuery("<img class='" + kradVariables.VALIDATION_IMAGE_CLASS + "' src='" + getConfigParam(kradVariables.IMAGE_LOCATION) + "details_close.png' alt='" + getMessage(kradVariables.MESSAGE_CLOSE_DETAILS) + "' /> ");
+    refreshImage = jQuery("<div class='ksap-loader'>" + getMessage(kradVariables.MESSAGE_LOADING) + "</div>");
+    navigationImage = jQuery("<div class='ksap-loader'>" + getMessage(kradVariables.MESSAGE_LOADING) + "</div>");
 }
 
 /**
