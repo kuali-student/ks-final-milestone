@@ -173,13 +173,10 @@
         </property>
         <property name="items">
             <list>
-                <bean parent="KS-Uif-DataField"
-                      p:label="Hold Name"
-                      p:propertyName="name" />
-                <bean parent="KS-Uif-DataField"
-                      p:label="Hold Code"
-                      p:propertyName="code"/>
-                <bean parent="KS-Uif-InputField" p:label="Category" p:propertyName="typeKey" p:readOnly="true" p:style="width:50%;">
+                <bean parent="KS-Uif-DataField" p:label="Hold Name" p:propertyName="name" p:style="white-space:nowrap;"/>
+                <bean parent="KS-Uif-DataField" p:label="Hold Code" p:propertyName="code"/>
+                <bean parent="KS-Uif-InputField" p:label="Category" p:propertyName="typeKey" p:readOnly="true"
+                      p:style="width:50%;white-space:nowrap;">
                     <property name="control">
                         <bean parent="KS-Uif-DropdownControl"/>
                     </property>
@@ -188,9 +185,7 @@
                               class="org.kuali.student.enrollment.class1.hold.keyvalues.HoldIssueInfoTypeKeyValues"/>
                     </property>
                 </bean>
-                <bean parent="KS-Uif-DataField"
-                      p:label="Description"
-                      p:propertyName="descr" p:style="width:450px;"/>
+                <bean parent="KS-Uif-DataField" p:label="Description" p:propertyName="descr" p:style="width:350px;"/>
                 <bean parent="KS-Uif-InputField" p:label="Owning Org" p:propertyName="organizationId" p:readOnly="true">
                     <property name="control">
                         <bean parent="KS-Uif-DropdownControl"/>
@@ -199,15 +194,9 @@
                         <bean id="HoldOrgNames" class="org.kuali.student.enrollment.class1.util.OrgInfoNameKeyValues"/>
                     </property>
                 </bean>
-                <bean parent="KS-Uif-DataField"
-                      p:label="Start Date"
-                      p:propertyName="firstDate"/>
-                <bean parent="KS-Uif-DataField"
-                      p:label="End Date"
-                      p:propertyName="lastDate"/>
-                <bean parent="KS-Uif-DataField"
-                      p:label="Authorization"
-                      p:propertyName="authorization"/>
+                <bean parent="KS-Uif-DataField" p:label="Start Date" p:propertyName="firstDate"/>
+                <bean parent="KS-Uif-DataField" p:label="End Date" p:propertyName="lastDate"/>
+                <bean parent="KS-Uif-DataField" p:label="Authorization" p:propertyName="authorization"/>
             </list>
         </property>
     </bean>
