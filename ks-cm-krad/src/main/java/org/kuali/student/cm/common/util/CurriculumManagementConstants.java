@@ -198,6 +198,11 @@ public class CurriculumManagementConstants {
 
     public final static String SUPPORTING_DOC_MIME_TYPE = "application/octet-stream";
 
+    public final static String PDF_MIME_TYPE = "application/pdf";
+    public final static String DOC_MIME_TYPE = "application/doc";
+
+    public final static String DOCUMENT_DOWNLOAD_CACHE_CONTROL = "must-revalidate, post-check=0, pre-check=0";
+
     public final static String REF_OBJECT_TYPE_KEY = "kuali.org.RefObjectType.CluInfo";
     public final static String REF_DOC_RELATION_TYPE_KEY = "kuali.org.DocRelation.allObjectTypes";
     public final static String DEFAULT_DOC_TYPE_KEY = "documentType.doc";

@@ -19,14 +19,21 @@ package org.kuali.student.cm.course.controller;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.krad.uif.UifConstants;
 import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.krad.util.KRADUtils;
 import org.kuali.rice.krad.web.controller.KsUifControllerBase;
 import org.kuali.rice.krad.web.controller.MethodAccessible;
+import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.cm.common.util.CMUtils;
 import org.kuali.student.cm.common.util.CurriculumManagementConstants;
 import org.kuali.student.cm.course.form.ViewCourseForm;
 import org.kuali.student.cm.course.form.wrapper.CourseInfoWrapper;
 import org.kuali.student.cm.course.service.CourseMaintainable;
+import org.kuali.student.cm.course.service.impl.ExportCourseHelperImpl;
+import org.kuali.student.common.ui.client.util.ExportElement;
+import org.kuali.student.common.ui.server.screenreport.ScreenReportProcessor;
+import org.kuali.student.common.ui.server.screenreport.jasper.JasperScreenReportProcessorImpl;
+import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -34,6 +41,9 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.BufferedInputStream;
+import java.io.ByteArrayInputStream;
+import java.util.List;
 import java.util.Properties;
 
 /**
@@ -108,18 +118,48 @@ public class ViewCourseController extends KsUifControllerBase{
 
     @MethodAccessible
     @RequestMapping(params = "methodToCall=export")
-    public ModelAndView export(@ModelAttribute("KualiForm") UifFormBase form) {
+    public ModelAndView export(@ModelAttribute("KualiForm") UifFormBase form,  HttpServletRequest request,
+                               HttpServletResponse response) {
 
         ViewCourseForm detailedViewForm = (ViewCourseForm) form;
 
-        String exportType = (String)detailedViewForm.getExtensionData().get(CurriculumManagementConstants.Export.EXPORT_TYPE);
+        ScreenReportProcessor processor = new JasperScreenReportProcessorImpl();
+        CourseInfoWrapper courseWrapper = detailedViewForm.getCourseInfoWrapper();
 
+        String fileName = courseWrapper.getCourseInfo().getCourseTitle();
+        fileName = fileName.replace(" ","_") ;
+
+        ExportCourseHelperImpl exportCourseHelper = new ExportCourseHelperImpl();
+        List<ExportElement> exportElements = exportCourseHelper.constructExportElementBasedOnView(courseWrapper, true);
+        HttpHeaders headers = new HttpHeaders();
+
+        String exportType = (String)detailedViewForm.getExtensionData().get(CurriculumManagementConstants.Export.EXPORT_TYPE);
+        String MIME_TYPE = "";
+
+        byte[] bytes = CurriculumManagementConstants.ProposalViewFieldLabels.CourseInformation.SECTION_NAME.getBytes() ;
         if (StringUtils.equals(exportType,CurriculumManagementConstants.Export.PDF)){
+
+            fileName = fileName +"." + CurriculumManagementConstants.Export.PDF;
+            bytes = processor.createPdf(exportElements, "base.template", CurriculumManagementConstants.ProposalViewFieldLabels.CourseInformation.SECTION_NAME);
+            MIME_TYPE = CurriculumManagementConstants.PDF_MIME_TYPE;
+
 
         } else if (StringUtils.equals(exportType,CurriculumManagementConstants.Export.DOC)){
 
+            fileName = fileName +"." + CurriculumManagementConstants.Export.DOC;
+            bytes  = processor.createDoc(exportElements, "base.template", CurriculumManagementConstants.ProposalViewFieldLabels.CourseInformation.SECTION_NAME);
+            MIME_TYPE = CurriculumManagementConstants.DOC_MIME_TYPE ;
+        }
+
+        BufferedInputStream byteStream = new BufferedInputStream(new ByteArrayInputStream(bytes));
+
+        try {
+            KRADUtils.addAttachmentToResponse(response, byteStream,
+                    MIME_TYPE, fileName,
+                    bytes.length);
+        } catch (Exception ex) {
+            throw new RuntimeException("An error has occurred while exporting the file. Please try again.", ex);
         }
         return getUIFModelAndView(form);
-
     }
 }

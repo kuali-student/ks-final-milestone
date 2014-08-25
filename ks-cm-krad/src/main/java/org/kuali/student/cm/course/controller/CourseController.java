@@ -59,7 +59,7 @@ import org.kuali.student.cm.course.form.wrapper.LoDisplayWrapperModel;
 import org.kuali.student.cm.course.form.wrapper.ResultValuesGroupInfoWrapper;
 import org.kuali.student.cm.course.form.wrapper.SupportingDocumentInfoWrapper;
 import org.kuali.student.cm.course.service.CourseMaintainable;
-import org.kuali.student.cm.course.service.ExportCourseHelperImpl;
+import org.kuali.student.cm.course.service.impl.ExportCourseHelperImpl;
 import org.kuali.student.cm.course.util.CourseProposalUtil;
 import org.kuali.student.common.object.KSObjectUtils;
 import org.kuali.student.common.ui.client.util.ExportElement;
@@ -104,7 +104,8 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.xml.namespace.QName;
-import java.io.*;
+import java.io.BufferedInputStream;
+import java.io.ByteArrayInputStream;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
@@ -1512,31 +1513,32 @@ public class CourseController extends CourseRuleEditorController {
         fileName = fileName.replace(" ","_") ;
 
         ExportCourseHelperImpl exportCourseHelper = new ExportCourseHelperImpl();
-        List<ExportElement> exportElements = exportCourseHelper.constructExportElementBasedOnView(courseInfoWrapper);
+        List<ExportElement> exportElements = exportCourseHelper.constructExportElementBasedOnView(courseInfoWrapper, false);
 
         HttpHeaders headers = new HttpHeaders();
 
         ResponseEntity<byte[]> response = null;
+        byte[] bytes = CurriculumManagementConstants.ProposalViewFieldLabels.CourseInformation.SECTION_NAME.getBytes() ;
         if (StringUtils.equals(exportType,CurriculumManagementConstants.Export.PDF)){
 
-            fileName = fileName + ".pdf";
-            byte[] pdfBytes = processor.createPdf(exportElements, "base.template", "Course Information");
+            fileName = fileName +"." + CurriculumManagementConstants.Export.PDF;
+            bytes = processor.createPdf(exportElements, "base.template", CurriculumManagementConstants.ProposalViewFieldLabels.CourseInformation.SECTION_NAME);
 
-            headers.setContentType(MediaType.parseMediaType("application/pdf"));
-            headers.setContentDispositionFormData(fileName, fileName);
-            headers.setCacheControl("must-revalidate, post-check=0, pre-check=0");
-            response = new ResponseEntity<byte[]>(pdfBytes, headers, HttpStatus.OK);
+            headers.setContentType(MediaType.parseMediaType(CurriculumManagementConstants.PDF_MIME_TYPE));
 
         } else if (StringUtils.equals(exportType,CurriculumManagementConstants.Export.DOC)){
 
-            fileName = fileName + ".doc";
-            byte[] docBytes  = processor.createDoc(exportElements, "base.template", "Course Information");
-            headers.setContentType(MediaType.parseMediaType("application/doc"));
-            headers.setContentDispositionFormData(fileName, fileName);
-            headers.setCacheControl("must-revalidate, post-check=0, pre-check=0");
-            response = new ResponseEntity<byte[]>(docBytes, headers, HttpStatus.OK);
+            fileName = fileName +"." + CurriculumManagementConstants.Export.DOC;
+            bytes  = processor.createDoc(exportElements, "base.template", CurriculumManagementConstants.ProposalViewFieldLabels.CourseInformation.SECTION_NAME);
+            headers.setContentType(MediaType.parseMediaType(CurriculumManagementConstants.DOC_MIME_TYPE));
         }
+
+        headers.setContentDispositionFormData(fileName, fileName);
+        headers.setCacheControl(CurriculumManagementConstants.DOCUMENT_DOWNLOAD_CACHE_CONTROL);
+        response = new ResponseEntity<byte[]>(bytes, headers, HttpStatus.OK);
+
         form.setRenderedInLightBox(false);
+        form.setLightboxScript("closeLightbox();");
         return response ;
     }
 
