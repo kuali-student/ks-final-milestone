@@ -145,4 +145,12 @@ public interface CourseHelper {
      * @return null if valid, response message otherwise
      */
     public String validateCourseForAdd(Course course);
+
+    /**
+     * Retrieve and format the list of projected terms to be displayed on the page
+     *
+     * @param course - Course that is being displayed
+     * @return Formatted list of projected terms
+     */
+    public List<String> getProjectedTermsForCourse(Course course);
 }

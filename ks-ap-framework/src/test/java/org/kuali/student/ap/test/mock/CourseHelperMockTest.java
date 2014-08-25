@@ -111,4 +111,15 @@ public class CourseHelperMockTest implements CourseHelper {
     public String validateCourseForAdd(Course course) {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
+
+    /**
+     * Retrieve and format the list of projected terms to be displayed on the page
+     *
+     * @param course - Course that is being displayed
+     * @return Formatted list of projected terms
+     */
+    @Override
+    public List<String> getProjectedTermsForCourse(Course course) {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
 }

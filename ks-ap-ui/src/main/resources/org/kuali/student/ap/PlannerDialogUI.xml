@@ -32,9 +32,7 @@
 				<ref bean="planner_copy_plan_item_page" />
 				<ref bean="planner_move_plan_item_page" />
 				<ref bean="planner_delete_plan_item_page" />
-                <ref bean="bookmark_add_course_page" />
                 <ref bean="bookmark_delete_course_page" />
-                <ref bean="course_add_course_page" />
 			</list>
 		</property>
 	</bean>
@@ -644,15 +642,45 @@
         </property>
     </bean>
 
-    <!-- Define "Add to Plan" popover from Course Detail Page   -->
-    <bean id="course_add_course_page" parent="course_add_course_page-parent" p:additionalCssClasses="ksap-dialog-centered"/>
-    <bean id="course_add_course_page-parent" abstract="true" parent="KSAP-PopoverPage">
-        <property name="id" value="course_add_course_page" />
-        <property name="innerViewWrapperId" value="course_add_course_page_inner" />
-        <property name="headerText" value="Add to Plan" />
+    <!-- Define "Add to Plan" popover on all pages  -->
+    <bean id="KSAP-AddToPlanDialog-FormView" parent="KSAP-AddToPlanDialog-FormView-parent"/>
+    <bean id="KSAP-AddToPlanDialog-FormView-parent" abstract="true" parent="KSAP-BaseDialog-FormView">
+        <property name="id" value="KSAP-AddToPlanDialog-FormView" />
+        <property name="formClass" value="org.kuali.student.ap.planner.form.AddCourseToPlanForm" />
+        <property name="page">
+            <bean parent="KSAP-PopoverPage" p:additionalCssClasses="ksap-dialog-centered">
+                <property name="id" value="course_add_course_page" />
+                <property name="innerViewWrapperId" value="course_add_course_page_inner" />
+                <property name="headerText" value="Add to Plan" />
+                <property name="footer">
+                    <bean parent="Uif-FooterBase">
+                        <property name="items">
+                            <list>
+                                <bean parent="Uif-VerticalBoxGroup">
+                                    <property name="items">
+                                        <list>
+                                            <bean parent="Uif-HorizontalBoxGroup">
+                                                <property name="items">
+                                                    <list>
+                                                        <bean parent="planner_submit_button" p:actionLabel="Add to Plan"
+                                                              p:actionScript="ksapSubmitDialog('course_add_course_page',e);"/>
+                                                        <bean parent="planner_cancel_button" />
+                                                    </list>
+                                                </property>
+                                            </bean>
+                                            <bean parent="planner_error_placeholder" />
+                                        </list>
+                                    </property>
+                                </bean>
+                            </list>
+                        </property>
+                    </bean>
+                </property>
+            </bean>
+        </property>
         <property name="items">
-            <list merge="true">
-                <bean parent="Uif-Message" p:messageText="@{course.code} @{course.courseTitle} (@{creditString} cr)"/>
+            <list>
+                <bean parent="Uif-Message" p:messageText="@{courseCode} @{courseTitle} (@{creditsDisplay} cr)"/>
                 <ref bean="planner_course_summary_details_data"/>
                 <bean parent="planner_term_input_field"/>
                 <!--<bean parent="planner_course_credit_input_field" />-->
@@ -662,30 +690,6 @@
                 <bean parent="planner_hidden_input" p:propertyName="courseId" />
                 <bean parent="planner_hidden_input" p:propertyName="uniqueId" />
             </list>
-        </property>
-        <property name="footer">
-            <bean parent="Uif-FooterBase">
-                <property name="items">
-                    <list>
-                        <bean parent="Uif-VerticalBoxGroup">
-                            <property name="items">
-                                <list>
-                                    <bean parent="Uif-HorizontalBoxGroup">
-                                        <property name="items">
-                                            <list>
-                                                <bean parent="planner_submit_button" p:actionLabel="Add to Plan"
-                                                      p:actionScript="ksapSubmitDialog('course_add_course_page',e);"/>
-                                                <bean parent="planner_cancel_button" />
-                                            </list>
-                                        </property>
-                                    </bean>
-                                    <bean parent="planner_error_placeholder" />
-                                </list>
-                            </property>
-                        </bean>
-                    </list>
-                </property>
-            </bean>
         </property>
     </bean>
 
@@ -942,5 +946,29 @@
 		p:actionLabel="Cancel" >
 		<property name="actionScript" value="fnClosePopup();" />
 	</bean>
+
+    <bean id="KSAP-BaseDialog-FormView" parent="KSAP-BaseDialog-FormView-parent"/>
+    <bean id="KSAP-BaseDialog-FormView-parent" abstract="true" parent="KSAPBaseFormView">
+        <property name="viewHelperServiceClass"
+                  value="org.kuali.student.ap.planner.service.impl.PlannerViewHelperServiceImpl"/>
+        <property name="id" value="BaseDialog-FormView" />
+        <property name="header">
+            <bean parent="Uif-HeaderFour">
+                <property name="headerText" value="&#160;" />
+                <property name="render" value="false" />
+            </bean>
+        </property>
+        <property name="footer.render" value="false" />
+        <property name="formClass" value="org.kuali.student.ap.planner.form.PlannerFormImpl" />
+        <property name="singlePageView" value="true" />
+        <property name="onSubmitScript" value="ksapSubmitDialog(e);" />
+        <property name="cssClasses">
+            <list merge="true">
+                <value>ksap-view</value>
+            </list>
+        </property>
+    </bean>
+
+
 
 </beans>

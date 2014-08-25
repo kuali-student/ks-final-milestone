@@ -173,7 +173,7 @@
                                                     <value>ks-fontello-icon-hollow-circled-plus</value>
                                                 </list>
                                             </property>
-                                            <property name="actionScript" value="ksapOpenPlanDialog('course_add_course_page','planner','startDialog', this, e);"/>
+                                            <property name="actionScript" value="ksapOpenPlanDialog('course_add_course_page','planner','startAddCourseToPlanDialog', this, e);"/>
                                             <property name="dataAttributes">
                                                 <map>
                                                     <entry key="courseid" value="@{#line.courseId}" />
@@ -414,7 +414,7 @@
                                                     <value>ks-fontello-icon-hollow-circled-plus</value>
                                                 </list>
                                             </property>
-                                            <property name="actionScript" value="ksapOpenPlanDialog('bookmark_add_course_page','planner','startDialog', this, e);"/>
+                                            <property name="actionScript" value="ksapOpenPlanDialog('course_add_course_page','planner','startAddCourseToPlanDialog', this, e);"/>
                                             <property name="dataAttributes">
                                                 <map>
                                                     <entry key="courseid" value="@{#line.courseDetailsWrapper.courseId}" />
@@ -800,70 +800,6 @@
                         </list>
                     </property>
                 </bean>
-
-
-                <!--<bean parent="Uif-HorizontalFieldGroup">-->
-                    <!--<property name="fieldLabel.render" value="false"/>-->
-                    <!--<property name="group.validationMessages.displayMessages" value="false"/>-->
-                    <!--<property name="cssClasses">-->
-                        <!--<list merge="true">-->
-                            <!--<value>ksap-bookmark-buttons</value>-->
-                        <!--</list>-->
-                    <!--</property>-->
-                    <!--<property name="items">-->
-                        <!--<list>-->
-                            <!--<bean parent="Uif-PrimaryActionButton-Small" p:actionLabel="Add to Plan">-->
-                                <!--<property name="cssClasses">-->
-                                    <!--<list merge="true">-->
-                                        <!--<value>uif-tooltip</value>-->
-                                    <!--</list>-->
-                                <!--</property>-->
-                                <!--<property name="actionScript"-->
-                                          <!--value="ksapOpenPlanDialog('bookmark_add_course_page','planner','startDialog', this, e);" />-->
-                                <!--<property name="dataAttributes">-->
-                                    <!--<map>-->
-                                        <!--<entry key="courseid" value="@{#line.courseDetailsWrapper.courseId}" />-->
-                                        <!--<entry key="learningplanid" value="@{#line.learningPlanId}" />-->
-                                        <!--<entry key="planitemid" value="@{#line.planItemId}" />-->
-                                        <!--<entry key="uniqueid" value="@{#line.uniqueId}" />-->
-                                    <!--</map>-->
-                                <!--</property>-->
-
-                            <!--</bean>-->
-                            <!--<bean parent="Uif-SecondaryActionButton-Small" p:actionLabel="Delete">-->
-                                <!--<property name="cssClasses">-->
-                                    <!--<list merge="true">-->
-                                        <!--<value>uif-tooltip</value>-->
-                                    <!--</list>-->
-                                <!--</property>-->
-                                <!--<property name="actionScript"-->
-                                          <!--value="ksapOpenPlanDialog('bookmark_delete_course_page','planner','startDialog', this, e);" />-->
-                                <!--<property name="dataAttributes">-->
-                                    <!--<map>-->
-                                        <!--<entry key="courseid" value="@{#line.courseDetailsWrapper.courseId}" />-->
-                                        <!--<entry key="learningplanid" value="@{#line.learningPlanId}" />-->
-                                        <!--<entry key="planitemid" value="@{#line.planItemId}" />-->
-                                        <!--<entry key="uniqueid" value="@{#line.uniqueId}" />-->
-                                    <!--</map>-->
-                                <!--</property>-->
-                            <!--</bean>-->
-                        <!--</list>-->
-                    <!--</property>-->
-                    <!--&lt;!&ndash;  Alternate rendering for advisors &ndash;&gt;-->
-                    <!--<property name="propertyReplacers">-->
-                        <!--<list>-->
-                            <!--<bean parent="Uif-ConditionalBeanPropertyReplacer" p:propertyName="items"-->
-                                  <!--p:condition="T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getUserSessionHelper().isAdviser()">-->
-                                <!--<property name="replacement">-->
-                                    <!--<list>-->
-                                        <!--<bean parent="Uif-Message" p:messageText=""/>-->
-                                    <!--</list>-->
-                                <!--</property>-->
-                            <!--</bean>-->
-                        <!--</list>-->
-                    <!--</property>-->
-                <!--</bean>-->
-
             </list>
         </property>
     </bean>

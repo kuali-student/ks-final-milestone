@@ -542,7 +542,7 @@ public class CourseSearchItemImpl implements CourseSearchItem {
         } else {
             //Not planned anywhere
             addToPlanLink.addAttribute("class", "ks-fontello-icon-hollow-circled-plus");
-            addToPlanLink.addAttribute("onclick", "ksapOpenPlanDialog('course_add_course_page','planner','startDialog', this, event);");
+            addToPlanLink.addAttribute("onclick", "ksapOpenPlanDialog('course_add_course_page','planner','startAddCourseToPlanDialog', this, event);");
             addToPlanLink.addAttribute("title", "Add to Plan");
         }
 

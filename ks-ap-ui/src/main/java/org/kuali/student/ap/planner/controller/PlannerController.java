@@ -10,12 +10,17 @@ import org.kuali.student.ap.academicplan.dto.TypedObjectReferenceInfo;
 import org.kuali.student.ap.academicplan.infc.LearningPlan;
 import org.kuali.student.ap.academicplan.infc.PlanItem;
 import org.kuali.student.ap.academicplan.infc.TypedObjectReference;
+import org.kuali.student.ap.coursesearch.CreditsFormatter;
+import org.kuali.student.ap.coursesearch.util.CourseDetailsUtil;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
 import org.kuali.student.ap.framework.context.PlanConstants;
 import org.kuali.student.ap.framework.util.KsapHelperUtil;
 import org.kuali.student.ap.framework.util.KsapStringUtil;
 import org.kuali.student.ap.planner.PlannerForm;
+import org.kuali.student.ap.planner.dataobject.CourseSummaryPopoverDetailsWrapper;
+import org.kuali.student.ap.planner.form.AddCourseToPlanForm;
 import org.kuali.student.ap.planner.form.PlannerFormImpl;
+import org.kuali.student.ap.planner.service.PlannerViewHelperService;
 import org.kuali.student.ap.planner.support.PlanItemControllerHelper;
 import org.kuali.student.ap.planner.util.PlanEventUtils;
 import org.kuali.student.common.collection.KSCollectionUtils;
@@ -53,6 +58,7 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Fix under KSAP-265
@@ -68,6 +74,7 @@ public class PlannerController extends KsapControllerBase {
 
 	private static final String PLANNER_FORM = "Planner-FormView";
 	private static final String DIALOG_FORM = "PlannerDialog-FormView";
+	private static final String ADD_TO_PLAN_DIALOG_FORM = "KSAP-AddToPlanDialog-FormView";
 
 	private static final String QUICKADD_COURSE_PAGE = "planner_add_course_page";
 	private static final String EDIT_TERM_NOTE_PAGE = "planner_edit_term_note_page";
@@ -809,5 +816,35 @@ public class PlannerController extends KsapControllerBase {
         // Add the course to the plan
         finishAddCourse(plan, form, course, termId, response);
         return null;
+    }
+
+    /**
+     * Loads the initial information for any dialog screen opened in the planner.
+     */
+    @MethodAccessible
+    @RequestMapping(params = "methodToCall=startAddCourseToPlanDialog")
+    public ModelAndView startAddCourseToPlanDialog(@ModelAttribute("KualiForm") UifFormBase form,
+                                    HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+
+        LearningPlan plan = PlanItemControllerHelper.getAuthorizedLearningPlan((PlannerFormImpl)form, request, response);
+        if (plan == null)
+            return null;
+
+        AddCourseToPlanForm dialogForm = new AddCourseToPlanForm();
+        super.start(dialogForm, request, response);
+
+        // Copy information from original view
+        dialogForm.setFormPostUrl(form.getFormPostUrl());
+        dialogForm.setRequestUrl(form.getRequestUrl());
+
+        dialogForm.setViewId(ADD_TO_PLAN_DIALOG_FORM);
+        dialogForm.setView(super.getViewService().getViewById(ADD_TO_PLAN_DIALOG_FORM));
+
+
+        UifFormBase completedForm = ((PlannerViewHelperService) dialogForm.getView().getViewHelperService())
+                .loadAddToPlanDialogForm(form,dialogForm,request,response);
+
+        return getUIFModelAndView(completedForm);
+
     }
 }

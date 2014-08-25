@@ -1,6 +1,7 @@
 package org.kuali.student.ap.framework.context.support;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.core.api.criteria.Predicate;
 import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
@@ -24,6 +25,7 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.core.acal.infc.Term;
+import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultRowInfo;
 import org.kuali.student.r2.core.versionmanagement.dto.VersionDisplayInfo;
@@ -40,6 +42,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -740,5 +743,52 @@ public class DefaultCourseHelper implements CourseHelper, Serializable {
         }
 
         return null;
+    }
+
+    /**
+     * Retrieve and format the list of projected terms to be displayed on the page
+     *
+     * @param course - Course that is being displayed
+     * @return Formatted list of projected terms
+     */
+    @Override
+    public List<String> getProjectedTermsForCourse(Course course){
+        List<String> courseTermsOffered = course.getTermsOffered();
+        Map<String, String> projectedTerms = new HashMap<String, String>();
+        if (courseTermsOffered != null) {
+            try {
+                for (TypeInfo typeInfo : KsapFrameworkServiceLocator.getTypeService().getTypesByKeys(courseTermsOffered,
+                        KsapFrameworkServiceLocator.getContext().getContextInfo()))
+                    projectedTerms.put(typeInfo.getKey(), typeInfo.getName());
+            } catch (org.kuali.student.r2.common.exceptions.DoesNotExistException e) {
+                throw new IllegalArgumentException("Type lookup error", e);
+            } catch (InvalidParameterException e) {
+                throw new IllegalArgumentException("Type lookup error", e);
+            } catch (MissingParameterException e) {
+                throw new IllegalArgumentException("Type lookup error", e);
+            } catch (OperationFailedException e) {
+                throw new IllegalStateException("Type lookup error", e);
+            } catch (PermissionDeniedException e) {
+                throw new IllegalStateException("Type lookup error", e);
+            }
+        }
+        return sortProjectedTerms(projectedTerms);
+    }
+
+    /**
+     * Sort the terms offered (projected) based off of config values
+     *
+     * @param - Map containing information on terms to sort
+     * @return A sorted List of Terms
+     */
+    protected List<String> sortProjectedTerms(Map<String, String> projectedTerms) {
+        List<String> sortedTerms = new ArrayList<String>();
+        String[] terms = ConfigContext.getCurrentContextConfig().getProperty(CourseSearchConstants.TERMS_OFFERED_SORTED_KEY).split(",");
+        for (int i = 0; i < terms.length; i++) {
+            String typeKey = terms[i];
+            if (projectedTerms.containsKey(typeKey))
+                sortedTerms.add(projectedTerms.get(typeKey));
+        }
+        return sortedTerms;
     }
 }

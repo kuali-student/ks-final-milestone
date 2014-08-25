@@ -61,7 +61,8 @@ td.jquerybubblepopup-innerHtml { /*Really needed?*/
   z-index:1000;
 }
 
-#PlannerDialog-FormView {
+#PlannerDialog-FormView,
+#KSAP-AddToPlanDialog-FormView{
   min-height: 0;
   width: 350px;
 }
@@ -200,6 +201,9 @@ td.jquerybubblepopup-innerHtml { /*Really needed?*/
   }
 }
 
+#popupForm .jquerybubblepopup{
+  display:none;   // Prevent tooltips that are added to the form from showing.
+}
 
 // Delete Bookmark Popover
 // --------------------------------------------------

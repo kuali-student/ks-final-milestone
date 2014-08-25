@@ -102,13 +102,13 @@ public class CourseDetailsInquiryHelperImpl2 extends KualiInquirableImpl {
         courseDetails.setCourseCredits(CreditsFormatter.formatCredits(course));
         courseDetails.setCourseTitle(course.getCourseTitle());
 
-//        courseDetails.setCourseRequisites(CourseDetailsUtil.getCourseRequisites(course));
+        // courseDetails.setCourseRequisites(CourseDetailsUtil.getCourseRequisites(course));
         courseDetails.setCourseRequisitesMap(CourseDetailsUtil.getCourseRequisitesMap(course));
 
         // Load Term information
         courseDetails.setScheduledTerms(KsapFrameworkServiceLocator.getCourseHelper()
                 .getScheduledTermsForCourse(course));
-        courseDetails.setProjectedTerms(getProjectedTerms(course));
+        courseDetails.setProjectedTerms(KsapFrameworkServiceLocator.getCourseHelper().getProjectedTermsForCourse(course));
 
         // Load Last Offered Term information if course is not scheduled
         if(courseDetails.getScheduledTerms().isEmpty()){
@@ -174,7 +174,7 @@ public class CourseDetailsInquiryHelperImpl2 extends KualiInquirableImpl {
         // Load Term information
         courseDetails.setScheduledTerms(KsapFrameworkServiceLocator.getCourseHelper()
                 .getScheduledTermsForCourse(course));
-        courseDetails.setProjectedTerms(getProjectedTerms(course));
+        courseDetails.setProjectedTerms(KsapFrameworkServiceLocator.getCourseHelper().getProjectedTermsForCourse(course));
 
         // Load Last Offered Term information if course is not scheduled
         if(courseDetails.getScheduledTerms().isEmpty()){
@@ -259,50 +259,5 @@ public class CourseDetailsInquiryHelperImpl2 extends KualiInquirableImpl {
         }
 
         return courseGenEdRequirements;
-    }
-
-    /**
-     * Retrieve and format the list of projected terms to be displayed on the page
-     *
-     * @param course - Course that is being displayed
-     * @return Formatted list of projected terms
-     */
-    protected List<String> getProjectedTerms(Course course){
-        List<String> courseTermsOffered = course.getTermsOffered();
-        Map<String, String> projectedTerms = new HashMap<String, String>();
-        if (courseTermsOffered != null) {
-            try {
-                for (TypeInfo typeInfo : KsapFrameworkServiceLocator.getTypeService().getTypesByKeys(courseTermsOffered,
-                        KsapFrameworkServiceLocator.getContext().getContextInfo()))
-                    projectedTerms.put(typeInfo.getKey(), typeInfo.getName());
-            } catch (org.kuali.student.r2.common.exceptions.DoesNotExistException e) {
-                throw new IllegalArgumentException("Type lookup error", e);
-            } catch (InvalidParameterException e) {
-                throw new IllegalArgumentException("Type lookup error", e);
-            } catch (MissingParameterException e) {
-                throw new IllegalArgumentException("Type lookup error", e);
-            } catch (OperationFailedException e) {
-                throw new IllegalStateException("Type lookup error", e);
-            } catch (PermissionDeniedException e) {
-                throw new IllegalStateException("Type lookup error", e);
-            }
-        }
-        return sortTerms(projectedTerms);
-    }
-
-    /**
-     * Sort the terms offered (projected) based off of config values
-     * @param projectedTerms
-     * @return
-     */
-    private List<String> sortTerms(Map<String, String> projectedTerms) {
-        List<String> sortedTerms = new ArrayList<String>();
-        String[] terms = ConfigContext.getCurrentContextConfig().getProperty(CourseSearchConstants.TERMS_OFFERED_SORTED_KEY).split(",");
-        for (int i = 0; i < terms.length; i++) {
-            String typeKey = terms[i];
-            if (projectedTerms.containsKey(typeKey))
-                sortedTerms.add(projectedTerms.get(typeKey));
-        }
-        return sortedTerms;
     }
 }
