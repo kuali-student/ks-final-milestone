@@ -230,7 +230,11 @@ public class AcademicPlanServiceImpl implements AcademicPlanService {
     PermissionDeniedException {
 
         planItem.setId(UUIDHelper.genStringUUID());
-
+        // when a planItem is actually a registration group (kuali.lui.type.registration.group)
+        //      -Get value of attribute with key "kuali.item.item.relation.rg2course"
+        //      -Retrieve Plan Item using attribute value as item id
+        //      -Update retrieved item with new attribute entry of ("kuali.item.item.relation.course2rg", addItemId)
+        //      -Then add new item as normal.
         if(planItem.getRefObjectType().equals(PlanConstants.REG_GROUP_TYPE)){
             String linkedCourseItemId = planItem.getAttributeValue(AcademicPlanServiceConstants.PLAN_ITEM_RELATION_TYPE_RG2COURSE);
             PlanItemInfo linkedCourseItem;
@@ -247,8 +251,7 @@ public class AcademicPlanServiceImpl implements AcademicPlanService {
 
         }
 
-		//  For a given plan there should be only one planned course item per course id. So, do a lookup to see
-		//  if a plan item exists if the type is "planned" and do an update of ATPid instead of creating a new plan item.
+	    // persist a plan item; it can be a Course type or a Registration Group type
 		PlanItemEntity pie = new PlanItemEntity();
         pie.fromDto(planItem,learningPlanDao);
         pie.setEntityCreated(context);
