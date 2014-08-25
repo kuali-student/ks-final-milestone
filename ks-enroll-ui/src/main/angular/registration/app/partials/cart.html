@@ -151,13 +151,6 @@
                                 <button class="kscr-Button" id="waitlist_{{cartResultItem.courseCode}}_{{cartResultItem.regGroupCode}}" ng-click="addCartItemToWaitlist(cartResultItem)">Add to Waitlist</button>
                             </span>
                         </div>
-                        <!--Continue Registration-->
-                        <!--initial implementation, still needs to be wired up-->
-                        <div class="kscr-Card-button" ng-if="cartResultItem.statusMessages && (allowRepeatedCourses)">
-                            <span>
-                                <button class="kscr-Button" id="continueRegistration_{{cartResultItem.courseCode}}_{{cartResultItem.regGroupCode}}" ng-click="addCartItemToSchedule(cartResultItem)">Continue Registration</button>
-                            </span>
-                        </div>
                         <!-- Dismiss Button-->
                         <div class="kscr-Card-button">
                             <span>

@@ -13,7 +13,7 @@
     },
     {
         "messageKey":"kuali.lpr.trans.message.credit.load.exceeded",
-        "message":"Reached maximum credit limit"
+        "message":"Exceeded maximum credit limit"
     },
     {
         "messageKey":"kuali.lpr.trans.message.time.conflict",
