@@ -87,9 +87,9 @@ function onProposalReviewLoad() {
  */
 function setExportSelectedOption(){
     if (jQuery("#CM-ExportLigBox-Field_control_0").prop( "checked")){
-        jQuery("#CM-ExportHiddenField_control").val('pdf');
+        jQuery("#CM-ExportHiddenField_control").val('PDF');
     } else {
-        jQuery("#CM-ExportHiddenField_control").val('doc');
+        jQuery("#CM-ExportHiddenField_control").val('DOC');
     }
 }
 
