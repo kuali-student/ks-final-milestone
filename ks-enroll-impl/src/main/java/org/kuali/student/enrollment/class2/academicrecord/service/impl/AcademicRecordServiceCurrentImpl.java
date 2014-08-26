@@ -62,12 +62,9 @@ public class AcademicRecordServiceCurrentImpl implements AcademicRecordService {
             OperationFailedException,
             PermissionDeniedException {
 
-        //convert personId into entityId
-        String entityId = CourseRegistrationAndScheduleOfClassesUtil.getIdentityService().getEntityByPrincipalId(personId).getId();
-
         List<StudentCourseRecordInfo> courseRecords = new ArrayList<>();
         try {
-            List<CourseRegistrationInfo> regs = courseRegService.getCourseRegistrationsByStudent(entityId, contextInfo);
+            List<CourseRegistrationInfo> regs = courseRegService.getCourseRegistrationsByStudent(personId, contextInfo);
             if (regs != null && !regs.isEmpty()) {
                 for (CourseRegistrationInfo reg : regs) {
                     CourseOfferingInfo courseOfferingInfo = courseOfferingService.getCourseOffering(reg.getCourseOfferingId(), contextInfo);
