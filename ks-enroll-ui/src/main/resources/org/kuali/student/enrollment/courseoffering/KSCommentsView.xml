@@ -143,7 +143,7 @@
                                             <property name="renderAddLine" value="false"/>
                                             <property name="items">
                                                 <list>
-                                                    <bean id="KS-CommentField_UI_ID" parent="KS-Uif-DataField" p:propertyName="commentTextUI" p:additionalCssClasses="ks-toggleable,ks-deleted-comment,ks-readonly-comment"/>
+                                                    <bean id="KS-CommentField_UI_ID" parent="KS-Uif-DataField" p:propertyName="commentTextUI" p:additionalCssClasses="ks-toggleable,ks-deleted-comment,ks-readonly-comment,uif-ks-toggleable-footer-space"/>
                                                     <bean id="KS-CommentField_ID" parent="KS-Uif-InputField" p:label="" p:minLength="1" p:maxLength="500" p:constraintText="Comment must be 1-500 characters long"
                                                           p:propertyName="commentInfo.commentText.plain"
                                                           p:style="display:none">
@@ -173,7 +173,9 @@
                                                     <bean id="KS-CommentDeleteAction_ID" parent="Uif-PrimaryActionButton" p:style="display:none;" p:additionalCssClasses="ks-toggle-delete"
                                                           p:actionScript="deleteComment('@{#ConfigProperties['application.url']}', '@{controllerUrl}', this);"
                                                           p:performDirtyValidation="false"
-                                                          p:actionLabel="Confirm Delete"/>
+                                                          p:actionLabel="Confirm Delete">
+                                                        <property name="onLoadScript" value="jQuery('#Uif-BreadcrumbWrapper').remove(); jQuery('.ks-unified-header').hide();"/>
+                                                    </bean>
                                                     <bean id="KS-CommentCancelDeleteAction_ID" p:id="KS-CommentCancelDeleteAction_ID" parent="Uif-CancelAction" p:style="display:none;" p:additionalCssClasses="ks-toggle-delete"
                                                           p:actionScript="cancelDeleteComment(this);"
                                                           p:performDirtyValidation="false"
