@@ -367,14 +367,18 @@
         <property name="onDocumentReadyScript" value="renderResults();"/>
         <property name="lineActions">
             <list>
-                <bean parent="Uif-PrimaryActionButton" p:id="allowActionButton" p:actionLabel="Allow"
-                      p:successCallback="setClientState('kuali.admin.reg.state.registering'); startPolling(1000);"
-                      p:methodToCall="allowCourse" p:render="@{#line.level eq 'kuali.admin.reg.result.level.warning'}"
-                      p:additionalCssClasses="hide-when-polling"/>
-                <bean parent="Uif-DeleteLineAction" p:id="denyActionButton" p:actionLabel="Deny"
-                      p:methodToCall="denyCourse"
+                <!--<bean parent="Uif-PrimaryActionButton" p:id="allowActionButton" p:actionLabel="Allow"-->
+                      <!--p:successCallback="setClientState('kuali.admin.reg.state.registering'); startPolling(1000);"-->
+                      <!--p:methodToCall="allowCourse" p:render="@{#line.level eq 'kuali.admin.reg.result.level.warning'}"-->
+                      <!--p:additionalCssClasses="hide-when-polling"/>-->
+                <!--<bean parent="Uif-DeleteLineAction" p:id="denyActionButton" p:actionLabel="Deny"-->
+                      <!--p:methodToCall="denyCourse"-->
+                      <!--p:render="@{#line.level eq 'kuali.admin.reg.result.level.warning'}"-->
+                      <!--p:additionalCssClasses="warning-result,hide-when-polling"/>-->
+                <bean parent="KS-Uif-Delete-ActionLink" p:actionLabel="Dismiss" p:methodToCall="deleteLine"
                       p:render="@{#line.level eq 'kuali.admin.reg.result.level.warning'}"
-                      p:additionalCssClasses="warning-result,hide-when-polling"/>
+                      p:additionalCssClasses="warning-result" p:onClickScript="writeCurrentPageToSession(this);"
+                      p:loadingMessageText="Deleting Line..."/>
                 <bean parent="KS-Uif-Delete-ActionLink" p:actionLabel="Dismiss" p:methodToCall="deleteLine"
                       p:render="@{#line.level eq 'kuali.admin.reg.result.level.success'}"
                       p:additionalCssClasses="success-result" p:onClickScript="writeCurrentPageToSession(this);"
