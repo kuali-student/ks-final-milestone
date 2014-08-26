@@ -57,7 +57,7 @@
     },
     {
         "messageKey":"kuali.lpr.trans.message.course.already.taken",
-        "message":"{{courseCode}} has already been taken. Courses cannot be repeated more than twice."
+        "message":"{{courseCode}} has already been taken twice. Courses cannot be repeated more than two times."
     },
     {
         "messageKey":"kuali.lpr.trans.item.message.exception",
