@@ -48,6 +48,10 @@ public class DateFormatters {
     public static final String QUERY_SERVICE_TIMESTAMP_FORMAT = "EEE MMM dd hh:mm:ss zzz yyyy";
     public static final String MONTH_DATE_YEAR_HOUR_MIN_CONCAT_AMPM_FORMAT = "MMMM dd, yyyy - hh:mmaaa";    //February 24, 2014 - 05:55PM
 
+
+
+    public static final String CM_DATE_FORMAT = "MMMM dd, yyyy, hh:mm aa";
+
     /**
      * DO NOT USE THIS CONSTANT unless you absolutely have to and for Date->String only.
      * The lower case z tells the formatter to use a 'short' timezone. ie. EST. This can
@@ -97,4 +101,5 @@ public class DateFormatters {
     public static final KSDateTimeFormatter MONTH_DATE_YEAR_HOUR_MIN_CONCAT_AMPM_FORMATTER = new KSDateTimeFormatter(MONTH_DATE_YEAR_HOUR_MIN_CONCAT_AMPM_FORMAT);
     public static final KSDateTimeFormatter EXAM_OFFERING_VIEW_EXAM_OFFERING_DATE_FORMATTER = new KSDateTimeFormatter(EXAM_OFFERING_VIEW_EXAM_OFFERING_DATE_FORMAT);
     public static final KSDateTimeFormatter SIMPLE_DATE_TIME_FORMATTER = new KSDateTimeFormatter(SIMPLE_DATE_TIME_FORMAT);
+    public static final KSDateTimeFormatter CM_DATE_FORMATTER = new KSDateTimeFormatter(CM_DATE_FORMAT);
 }
