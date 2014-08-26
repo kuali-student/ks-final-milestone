@@ -224,7 +224,10 @@ public class IdentityServiceMockImpl implements IdentityService, MockService {
 
     @Override
     public Entity getEntityByPrincipalId(String string) throws RiceIllegalArgumentException {
-        throw new UnsupportedOperationException("Not supported yet.");
+        Entity.Builder adminEntityBuilder = Entity.Builder.create();
+        adminEntityBuilder.setId("1100");
+        Entity adminEntity = adminEntityBuilder.build();
+        return adminEntity;
     }
 
     @Override
