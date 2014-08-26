@@ -272,6 +272,7 @@ public class KSKRMSServiceConstants {
     public static final String TERM_RESOLVER_DATE_IN_TERM_KEY_DATE = "DateInTermKeyDate";
     public static final String TERM_RESOLVER_COURSE_RECORD_FOR_STUDENT = "CourseRecordForStudent";
     public static final String TERM_RESOLVER_GES_VALUE = "GesValue";
+    public static final String TERM_RESOLVER_GES_INTEGER_VALUE = "GesIntegerValue";
     public static final String TERM_RESOLVER_STUDENT_WITH_GRADE_FOR_COURSE= "GradeForCourse";
     public static final String TERM_RESOLVER_COURSE_COMPLETED_ATTEMPTS = "CourseCompletedAttempts";
     public static final String TERM_RESOLVER_COURSE_REGISTERED_COUNT = "CourseRegisteredCount";
