@@ -4,6 +4,7 @@
  */
 package org.kuali.student.enrollment.class2.courseregistration.service.decorators;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.krms.api.engine.EngineResults;
 import org.kuali.rice.krms.framework.engine.Proposition;
 import org.kuali.student.common.util.UUIDHelper;
@@ -125,65 +126,75 @@ public class CourseRegistrationServiceProcessCheckDecorator
 
         //Get the person id for this request (we will assume it's the same for each reg request item)
         String personId = null;
+        int cntFailedRegRequestItems = 0;
         for (RegistrationRequestItemInfo requestItem : registrationRequest.getRegistrationRequestItems()) {
             if (personId != null && !personId.equals(requestItem.getPersonId())) {
                 throw new RuntimeException("Was expecting all items in the request to be for the same personID");
             }
             personId = requestItem.getPersonId();
+            if (StringUtils.equals(requestItem.getStateKey(), LprServiceConstants.LPRTRANS_ITEM_FAILED_STATE_KEY)) {
+                cntFailedRegRequestItems++;
+            }
         }
-
-        //Look up the existing courses currently registered for
-        List<CourseRegistrationInfo> existingCourses = getCourseRegistrationsByStudentAndTerm(personId, registrationRequest.getTermId(), contextInfo);
-        List<CourseRegistrationInfo> waitListedCourses = waitlistService.getCourseWaitListRegistrationsByStudentAndTerm(personId, registrationRequest.getTermId(), contextInfo);
-        List<CourseRegistrationInfo> simulatedCourses = new ArrayList<>();
-
-        //Add some facts
-        executionFacts.put(RulesExecutionConstants.EXISTING_REGISTRATIONS_TERM.getName(), existingCourses);
-        executionFacts.put(RulesExecutionConstants.EXISTING_WAITLISTED_REGISTRATIONS_TERM.getName(), waitListedCourses);
-        executionFacts.put(RulesExecutionConstants.SIMULATED_REGISTRATIONS_TERM.getName(), simulatedCourses);
-        executionFacts.put(RulesExecutionConstants.REGISTRATION_REQUEST_TERM.getName(), registrationRequest);
-        executionFacts.put(RulesExecutionConstants.REGISTRATION_REQUEST_ID_TERM.getName(), registrationRequestId);
-        executionFacts.put(RulesExecutionConstants.CONTEXT_INFO_TERM.getName(), contextInfo);
 
         List<ValidationResultInfo> allValidationResults = new ArrayList<>();
 
-        //Sort the requests so that everything is processed in the same order (using date)
-        Collections.sort(registrationRequest.getRegistrationRequestItems(), Collections.reverseOrder(REG_REQ_ITEM_CREATE_DATE));
+        //Look up the existing courses currently registered for
+        //If all regRequestItems are in failed state we don't want to do any validation (as they already failed)
+        if (!registrationRequest.getRegistrationRequestItems().isEmpty() && registrationRequest.getRegistrationRequestItems() != null &&
+                cntFailedRegRequestItems < registrationRequest.getRegistrationRequestItems().size()) {
+            List<CourseRegistrationInfo> existingCourses = getCourseRegistrationsByStudentAndTerm(personId, registrationRequest.getTermId(), contextInfo);
+            List<CourseRegistrationInfo> waitListedCourses = waitlistService.getCourseWaitListRegistrationsByStudentAndTerm(personId, registrationRequest.getTermId(), contextInfo);
+            List<CourseRegistrationInfo> simulatedCourses = new ArrayList<>();
 
-        //Make a separate validation for each course in the cart
-        for (RegistrationRequestItemInfo requestItem : registrationRequest.getRegistrationRequestItems()) {
-            //Look up some reg group info
-            RegistrationGroupInfo registrationGroupInfo = courseOfferingService.getRegistrationGroup(requestItem.getRegistrationGroupId(), contextInfo);
+            //Add some facts
+            executionFacts.put(RulesExecutionConstants.EXISTING_REGISTRATIONS_TERM.getName(), existingCourses);
+            executionFacts.put(RulesExecutionConstants.EXISTING_WAITLISTED_REGISTRATIONS_TERM.getName(), waitListedCourses);
+            executionFacts.put(RulesExecutionConstants.SIMULATED_REGISTRATIONS_TERM.getName(), simulatedCourses);
+            executionFacts.put(RulesExecutionConstants.REGISTRATION_REQUEST_TERM.getName(), registrationRequest);
+            executionFacts.put(RulesExecutionConstants.REGISTRATION_REQUEST_ID_TERM.getName(), registrationRequestId);
+            executionFacts.put(RulesExecutionConstants.CONTEXT_INFO_TERM.getName(), contextInfo);
+
+            //Sort the requests so that everything is processed in the same order (using date)
+            Collections.sort(registrationRequest.getRegistrationRequestItems(), Collections.reverseOrder(REG_REQ_ITEM_CREATE_DATE));
+
+            //Make a separate validation for each course in the cart
+            for (RegistrationRequestItemInfo requestItem : registrationRequest.getRegistrationRequestItems()) {
+                //Only call propositions when regRequestItem is not in failed state
+                if (!StringUtils.equals(requestItem.getStateKey(), LprServiceConstants.LPRTRANS_ITEM_FAILED_STATE_KEY)) {
+                    //Look up some reg group info
+                    RegistrationGroupInfo registrationGroupInfo = courseOfferingService.getRegistrationGroup(requestItem.getRegistrationGroupId(), contextInfo);
 
             // only validate rules for add requests
-            if (requestItem.getTypeKey().equals(LprServiceConstants.REQ_ITEM_ADD_TYPE_KEY) ||
-                requestItem.getTypeKey().equals(LprServiceConstants.REQ_ITEM_ADD_TO_WAITLIST_TYPE_KEY) ||
-                requestItem.getTypeKey().equals(LprServiceConstants.REQ_ITEM_ADD_FROM_WAITLIST_TYPE_KEY) ||
-                requestItem.getTypeKey().equals(LprServiceConstants.REQ_ITEM_ADD_TO_HOLD_UNTIL_LIST_TYPE_KEY)) {
+                    if (requestItem.getTypeKey().equals(LprServiceConstants.REQ_ITEM_ADD_TYPE_KEY) ||
+                        requestItem.getTypeKey().equals(LprServiceConstants.REQ_ITEM_ADD_TO_WAITLIST_TYPE_KEY) ||
+                        requestItem.getTypeKey().equals(LprServiceConstants.REQ_ITEM_ADD_FROM_WAITLIST_TYPE_KEY) ||
+                        requestItem.getTypeKey().equals(LprServiceConstants.REQ_ITEM_ADD_TO_HOLD_UNTIL_LIST_TYPE_KEY)) {
+                        //Put In facts that are needed for each reg request
+                        executionFacts.put(RulesExecutionConstants.REGISTRATION_GROUP_TERM.getName(), registrationGroupInfo);
+                        executionFacts.put(RulesExecutionConstants.REGISTRATION_REQUEST_ITEM_TERM.getName(), requestItem);
+                        executionFacts.put(RulesExecutionConstants.REGISTRATION_REQUEST_ITEM_ID_TERM.getName(), requestItem.getId());
+                        executionFacts.put(RulesExecutionConstants.REGISTRATION_REQUEST_ITEM_OK_TO_REPEAT_TERM.getName(), requestItem.getOkToRepeat());
 
-                //Put In facts that are needed for each reg request
-                executionFacts.put(RulesExecutionConstants.REGISTRATION_GROUP_TERM.getName(), registrationGroupInfo);
-                executionFacts.put(RulesExecutionConstants.REGISTRATION_REQUEST_ITEM_TERM.getName(), requestItem);
-                executionFacts.put(RulesExecutionConstants.REGISTRATION_REQUEST_ITEM_ID_TERM.getName(), requestItem.getId());
-                executionFacts.put(RulesExecutionConstants.REGISTRATION_REQUEST_ITEM_OK_TO_REPEAT_TERM.getName(), requestItem.getOkToRepeat());
+                        //Perform the rules execution
+                        EngineResults engineResults = this.krmsEvaluator.evaluateProposition(prop, executionFacts);
+                        Exception ex = KRMSEvaluator.checkForExceptionDuringExecution(engineResults);
+                        if (ex != null) {
+                            throw new OperationFailedException("Unexpected exception while executing rules", ex);
+                        }
 
-                //Perform the rules execution
-                EngineResults engineResults = this.krmsEvaluator.evaluateProposition(prop, executionFacts);
-                Exception ex = KRMSEvaluator.checkForExceptionDuringExecution(engineResults);
-                if (ex != null) {
-                    throw new OperationFailedException("Unexpected exception while executing rules", ex);
+                        //Get the validation results
+                        List<ValidationResultInfo> itemValidationResults = KRMSEvaluator.extractValidationResults(engineResults);
+                        allValidationResults.addAll(itemValidationResults);
+
+                        //If there are no errors add this request item to the list of simulated "successful" items
+                        if (!ValidationUtils.checkForErrors(itemValidationResults)) {
+                            simulatedCourses.add(convertRequestItemToCourseRegistration(requestItem, registrationGroupInfo));
+                        }
+                    } else {
+                        simulatedCourses.add(convertRequestItemToCourseRegistration(requestItem, registrationGroupInfo));
+                    }
                 }
-
-                //Get the validation results
-                List<ValidationResultInfo> itemValidationResults = KRMSEvaluator.extractValidationResults(engineResults);
-                allValidationResults.addAll(itemValidationResults);
-
-                //If there are no errors add this request item to the list of simulated "successful" items
-                if (!ValidationUtils.checkForErrors(itemValidationResults)) {
-                    simulatedCourses.add(convertRequestItemToCourseRegistration(requestItem, registrationGroupInfo));
-                }
-            } else {
-                simulatedCourses.add(convertRequestItemToCourseRegistration(requestItem, registrationGroupInfo));
             }
         }
 

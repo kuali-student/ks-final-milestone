@@ -17,8 +17,6 @@
 package org.kuali.student.enrollment.krms.proposition;
 
 
-import freemarker.template.utility.StringUtil;
-import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krms.api.engine.ExecutionEnvironment;
 import org.kuali.rice.krms.api.engine.ResultEvent;
@@ -85,6 +83,7 @@ public class BestEffortTimeConflictProposition extends AbstractBestEffortProposi
     private SearchService searchService;
     private ScheduleOfClassesService scheduleOfClassesService;
 
+
     private static final boolean ALLOW_ALL_NON_ADDS = true; // allow all non adds right now
 
     // this comparator is used to sort the reg req items in the order they are displayed on the screen.
@@ -103,6 +102,7 @@ public class BestEffortTimeConflictProposition extends AbstractBestEffortProposi
         }
     };
 
+
     @Override
     public PropositionResult evaluate(ExecutionEnvironment environment) {
         ContextInfo contextInfo = environment.resolveTerm(RulesExecutionConstants.CONTEXT_INFO_TERM, this);
@@ -111,41 +111,39 @@ public class BestEffortTimeConflictProposition extends AbstractBestEffortProposi
         //List<RegistrationRequestItemInfo> regRequestItems = request.getRegistrationRequestItems();
         //Changed this code to use a list of one from the environment
         RegistrationRequestItemInfo requestItemInfo = environment.resolveTerm(RulesExecutionConstants.REGISTRATION_REQUEST_ITEM_TERM, this);
+        List<RegistrationRequestItemInfo> regRequestItems = new ArrayList<RegistrationRequestItemInfo>();
+        regRequestItems.add(requestItemInfo);
 
-        if (!StringUtils.equals(requestItemInfo.getStateKey(), LprServiceConstants.LPRTRANS_ITEM_FAILED_STATE_KEY)) {
-            List<RegistrationRequestItemInfo> regRequestItems = new ArrayList<RegistrationRequestItemInfo>();
-            regRequestItems.add(requestItemInfo);
+        this.setCourseRegistrationService((CourseRegistrationService) environment.resolveTerm(RulesExecutionConstants.COURSE_REGISTRATION_SERVICE_TERM,
+                this));
+        this.setCourseWaitListService((CourseWaitListService) environment.resolveTerm(RulesExecutionConstants.COURSE_WAIT_LIST_SERVICE_TERM,
+                this));
+        this.setCourseOfferingService((CourseOfferingService) environment.resolveTerm(RulesExecutionConstants.COURSE_OFFERING_SERVICE_TERM, this));
+        this.setSchedulingService((SchedulingService) environment.resolveTerm(RulesExecutionConstants.SCHEDULING_SERVICE_TERM, this));
 
-            this.setCourseRegistrationService((CourseRegistrationService) environment.resolveTerm(RulesExecutionConstants.COURSE_REGISTRATION_SERVICE_TERM,
-                    this));
-            this.setCourseWaitListService((CourseWaitListService) environment.resolveTerm(RulesExecutionConstants.COURSE_WAIT_LIST_SERVICE_TERM,
-                    this));
-            this.setCourseOfferingService((CourseOfferingService) environment.resolveTerm(RulesExecutionConstants.COURSE_OFFERING_SERVICE_TERM, this));
-            this.setSchedulingService((SchedulingService) environment.resolveTerm(RulesExecutionConstants.SCHEDULING_SERVICE_TERM, this));
-
-            // Verify that all operations are add
-            boolean allAddOps = true;
-            for (RegistrationRequestItemInfo item: request.getRegistrationRequestItems()) {
-                if (!LprServiceConstants.REQ_ITEM_ADD_TYPE_KEY.equals(item.getTypeKey())) {
-                    allAddOps = false;
-                    break;
-                }
+        // Verify that all operations are add
+        boolean allAddOps = true;
+        for (RegistrationRequestItemInfo item: request.getRegistrationRequestItems()) {
+            if (!LprServiceConstants.REQ_ITEM_ADD_TYPE_KEY.equals(item.getTypeKey())) {
+                allAddOps = false;
+                break;
             }
-            if (!allAddOps) {
-                if (ALLOW_ALL_NON_ADDS) {
-                    return new PropositionResult(true, Collections.<String, Object>emptyMap());
-                }
-
-                // All of the operations were not "add", thus this is not a reg cart.
-                InvalidParameterException ex = new InvalidParameterException("Should be add ops only");
-                return KRMSEvaluator.constructExceptionPropositionResult(environment, ex, this);
+        }
+        if (!allAddOps) {
+            if (ALLOW_ALL_NON_ADDS) {
+                return new PropositionResult(true, Collections.<String, Object>emptyMap());
             }
 
-            // Fetch registrations
-            List<CourseRegistrationInfo> existingCrs = new ArrayList<CourseRegistrationInfo>();
-            existingCrs.addAll((List<CourseRegistrationInfo>) environment.resolveTerm(RulesExecutionConstants.EXISTING_REGISTRATIONS_TERM, this));
-            existingCrs.addAll((List<CourseRegistrationInfo>) environment.resolveTerm(RulesExecutionConstants.EXISTING_WAITLISTED_REGISTRATIONS_TERM, this));
-            existingCrs.addAll((List<CourseRegistrationInfo>) environment.resolveTerm(RulesExecutionConstants.SIMULATED_REGISTRATIONS_TERM, this));
+            // All of the operations were not "add", thus this is not a reg cart.
+            InvalidParameterException ex = new InvalidParameterException("Should be add ops only");
+            return KRMSEvaluator.constructExceptionPropositionResult(environment, ex, this);
+        }
+
+        // Fetch registrations
+        List<CourseRegistrationInfo> existingCrs = new ArrayList<CourseRegistrationInfo>();
+        existingCrs.addAll((List<CourseRegistrationInfo>) environment.resolveTerm(RulesExecutionConstants.EXISTING_REGISTRATIONS_TERM, this));
+        existingCrs.addAll((List<CourseRegistrationInfo>) environment.resolveTerm(RulesExecutionConstants.EXISTING_WAITLISTED_REGISTRATIONS_TERM, this));
+        existingCrs.addAll((List<CourseRegistrationInfo>) environment.resolveTerm(RulesExecutionConstants.SIMULATED_REGISTRATIONS_TERM, this));
 
 //        try {
 //            existingCrs = getCourseAndWaitlistRegistrations(request, personId, getCourseRegistrationService(), getCourseWaitListService(), contextInfo);
@@ -153,73 +151,73 @@ public class BestEffortTimeConflictProposition extends AbstractBestEffortProposi
 //            return KRMSEvaluator.constructExceptionPropositionResult(environment, ex, this);
 //        }
 
-            // Copy the existing registrations. The existringCrs might change
-            List<CourseRegistrationInfo> copyExistingCrs = new ArrayList<CourseRegistrationInfo>();
-            copyExistingCrs.addAll(existingCrs);
+        // Copy the existing registrations. The existringCrs might change
+        List<CourseRegistrationInfo> copyExistingCrs = new ArrayList<CourseRegistrationInfo>();
+        copyExistingCrs.addAll(existingCrs);
 
-            // sort the items for processing
-            sortRegRequestItemsForProcessing(regRequestItems);
+        // sort the items for processing
+        sortRegRequestItemsForProcessing(regRequestItems);
 
-            /*
-              Get time conflicts. we pass in reg req items and a list of existing courses
-             */
-            List<TimeConflictResult> timeConflicts = null;
-            try {
-                timeConflicts =  getTimeConflictInOrderResults(regRequestItems, existingCrs, getCourseOfferingService(), contextInfo);
-            } catch (Exception ex) {
-                return KRMSEvaluator.constructExceptionPropositionResult(environment, ex, this);
-            }
+        /*
+          Get time conflicts. we pass in reg req items and a list of existing courses
+         */
+        List<TimeConflictResult> timeConflicts = null;
+        try {
+            timeConflicts =  getTimeConflictInOrderResults(regRequestItems, existingCrs, getCourseOfferingService(), contextInfo);
+        } catch (Exception ex) {
+            return KRMSEvaluator.constructExceptionPropositionResult(environment, ex, this);
+        }
 
-            // loop through the reg requests and see if there are any conflicts
-            for (RegistrationRequestItemInfo item: regRequestItems) {
-                TimeConflictResult tcr = findTimeConflictInList(item.getId(), timeConflicts);  // does reg req item have conflicts?
-                if(tcr != null){   // is there a conflict for this reg req item
-                    List<ConflictCourseResult> itemConflicts = new ArrayList<ConflictCourseResult>();   // will store conflicts for this item
-                    for(String conflictingId : tcr.getConflictingItemMap().keySet()) {
-                        // we now know that there is a conflict, but we need to build the object to send back to the user
-                        // The conflict object themselves only contain an id, and a list of ao conflicts. so it doesn't
-                        // know the rg code, or course offering code.
+        // loop through the reg requests and see if there are any conflicts
+        for (RegistrationRequestItemInfo item: regRequestItems) {
 
-                        // we are dealing with two types of id's. lprIds and reg request ids.
-                        // first check if the id is in the existing course list, if it is, it's an lpr else it's a reg req
-                        ConflictCourseResult conflictCourseResult = null;
-                        CourseRegistrationInfo courseRegistrationInfo = findCoRegInfoInList(conflictingId, copyExistingCrs);
-                        if(courseRegistrationInfo != null){   // it's an existing course
-                            try {
-                                conflictCourseResult = buildConflictCourseResultForCourseRegInfo(courseRegistrationInfo, getCourseOfferingService(), contextInfo);
-                            } catch (Exception ex) {
-                                return KRMSEvaluator.constructExceptionPropositionResult(environment, ex, this);
-                            }
-                        } else {
-                            // In this case the conflicting ID == the Reg Req Id. So we need to get the reg group id
-                            // for that reg req id.
-                            try {
-                                String regGroupIdOfConflictingReq = findRegReqItemById(conflictingId, request.getRegistrationRequestItems()).getRegistrationGroupId();
-                                conflictCourseResult = buildConflictCourseResultForRegGroup(regGroupIdOfConflictingReq, getCourseOfferingService(), contextInfo);
-                                conflictCourseResult.setMasterLprId(conflictingId);   // this is incorrect. this is a reg req id, not master.
-                            } catch (Exception ex) {
-                                return KRMSEvaluator.constructExceptionPropositionResult(environment, ex, this);
-                            }
+            TimeConflictResult tcr = findTimeConflictInList(item.getId(), timeConflicts);  // does reg req item have conflicts?
+            if(tcr != null){   // is there a conflict for this reg req item
+                List<ConflictCourseResult> itemConflicts = new ArrayList<ConflictCourseResult>();   // will store conflicts for this item
+                for(String conflictingId : tcr.getConflictingItemMap().keySet()) {
+                    // we now know that there is a conflict, but we need to build the object to send back to the user
+                    // The conflict object themselves only contain an id, and a list of ao conflicts. so it doesn't
+                    // know the rg code, or course offering code.
+
+                    // we are dealing with two types of id's. lprIds and reg request ids.
+                    // first check if the id is in the existing course list, if it is, it's an lpr else it's a reg req
+                    ConflictCourseResult conflictCourseResult = null;
+                    CourseRegistrationInfo courseRegistrationInfo = findCoRegInfoInList(conflictingId, copyExistingCrs);
+                    if(courseRegistrationInfo != null){   // it's an existing course
+                        try {
+                            conflictCourseResult = buildConflictCourseResultForCourseRegInfo(courseRegistrationInfo, getCourseOfferingService(), contextInfo);
+                        } catch (Exception ex) {
+                            return KRMSEvaluator.constructExceptionPropositionResult(environment, ex, this);
                         }
-
-                        // add conflicts to the reg req item list
-                        if(conflictCourseResult != null){
-                            itemConflicts.add(conflictCourseResult);
+                    }else {
+                        // In this case the conflicting ID == the Reg Req Id. So we need to get the reg group id
+                        // for that reg req id.
+                        try {
+                            String regGroupIdOfConflictingReq = findRegReqItemById(conflictingId, request.getRegistrationRequestItems()).getRegistrationGroupId();
+                            conflictCourseResult = buildConflictCourseResultForRegGroup(regGroupIdOfConflictingReq, getCourseOfferingService(), contextInfo);
+                            conflictCourseResult.setMasterLprId(conflictingId);   // this is incorrect. this is a reg req id, not master.
+                        } catch (Exception ex) {
+                            return KRMSEvaluator.constructExceptionPropositionResult(environment, ex, this);
                         }
                     }
 
-                    // if the item has conflicts, build the validation results and let the rules engine do it's thing
-                    if(!itemConflicts.isEmpty()) {
-                        ValidationResultInfo vr = createValidationResultFailureForRegRequestItem(item, itemConflicts);
-                        Map<String, Object> executionDetails = new LinkedHashMap<String, Object>();
-                        executionDetails.put(RulesExecutionConstants.PROCESS_EVALUATION_RESULTS, vr);
-                        PropositionResult result = new PropositionResult(false, executionDetails);
-                        BasicResult br = new BasicResult(executionDetails, ResultEvent.PROPOSITION_EVALUATED, this, environment, result.
-                                getResult());
-                        environment.getEngineResults().addResult(br);
+                    // add conflicts to the reg req item list
+                    if(conflictCourseResult != null){
+                        itemConflicts.add(conflictCourseResult);
                     }
                 }
+                // if the item has conflicts, build the validation results and let the rules engine do it's thing
+                if(!itemConflicts.isEmpty()) {
+                    ValidationResultInfo vr = createValidationResultFailureForRegRequestItem(item, itemConflicts);
+                    Map<String, Object> executionDetails = new LinkedHashMap<String, Object>();
+                    executionDetails.put(RulesExecutionConstants.PROCESS_EVALUATION_RESULTS, vr);
+                    PropositionResult result = new PropositionResult(false, executionDetails);
+                    BasicResult br = new BasicResult(executionDetails, ResultEvent.PROPOSITION_EVALUATED, this, environment, result.
+                            getResult());
+                    environment.getEngineResults().addResult(br);
+                }
             }
+
         }
 
         // This result contains all the other results
