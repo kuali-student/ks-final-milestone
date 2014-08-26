@@ -342,7 +342,7 @@
         <property name="items">
             <list>
                 <bean parent="Uif-Message" p:messageText="The exported document will appear in a new page. Please disable pop-up blockers. [br]Export document as:"/>
-                <bean parent="KS-Uif-InputField" p:propertyName="extensionData['export_type']">
+                <bean parent="KS-Uif-InputField" p:propertyName="extensionData['export_type']" p:readOnly="false">
                     <property name="bindingInfo.bindToForm" value="true"/>
                     <property name="defaultValue" value="#{T(org.kuali.student.cm.common.util.CurriculumManagementConstants$Export$FileType).PDF.toString()}"/>
                     <property name="style" value="margin-top:10px;"/>
