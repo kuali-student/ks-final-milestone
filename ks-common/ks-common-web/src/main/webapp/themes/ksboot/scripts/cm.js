@@ -234,7 +234,7 @@ var previousAnchorBottom = 0;
  */
 function fixLeftNavElementPositioning(initial) {
     //  Get the position of the element that the nav components need to align under.
-    var anchorElement = jQuery("#CM-Proposal-Course-Create-View > header.uif-viewHeader-contentWrapper");
+    var anchorElement = jQuery("#CM-Proposal-Course-Create-View > header");
     if (anchorElement.length == 0) {
         console.error('Unable to find an anchor element. Nav elements were not positioned correctly.');
         return;
