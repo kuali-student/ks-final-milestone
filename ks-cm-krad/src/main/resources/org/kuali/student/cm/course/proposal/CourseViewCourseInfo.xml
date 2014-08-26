@@ -50,7 +50,7 @@
                     <property name="layoutManager.applyAlternatingRowStyles" value="false"/>
                     <property name="validationMessages" ref="KS-ValidationMessages-Off"/>
                     <property name="header">
-                        <bean parent="Uif-KS-IconHeader">
+                        <bean parent="CM-IconHeader">
                             <property name="richHeaderMessage.iconToolTipText"
                                       value="This is not a restrictive list - names here will not determine who will eventually teach this course."/>
                         </bean>
@@ -286,7 +286,7 @@
                     <property name="layoutManager.applyAlternatingRowStyles" value="false"/>
                     <property name="validationMessages" ref="KS-ValidationMessages-Off"/>
                     <property name="header">
-                        <bean parent="Uif-KS-IconHeader">
+                        <bean parent="CM-IconHeader">
                            <property name="rightGroup">
                                 <bean parent="Uif-VerticalBoxGroup">
                                     <property name="items">
@@ -365,7 +365,7 @@
                     <property name="layoutManager.applyAlternatingRowStyles" value="false"/>
                     <property name="validationMessages" ref="KS-ValidationMessages-Off"/>
                     <property name="header">
-                        <bean parent="Uif-KS-IconHeader">
+                        <bean parent="CM-IconHeader">
                             <property name="rightGroup">
                                 <bean parent="Uif-VerticalBoxGroup">
                                     <property name="items">
@@ -453,7 +453,7 @@
                     <property name="layoutManager.applyAlternatingRowStyles" value="false"/>
                     <property name="validationMessages" ref="KS-ValidationMessages-Off"/>
                     <property name="header">
-                        <bean parent="Uif-KS-IconHeader">
+                        <bean parent="CM-IconHeader">
                             <property name="rightGroup">
                                 <bean parent="Uif-VerticalBoxGroup">
                                     <property name="items">

@@ -19,11 +19,8 @@ package org.kuali.student.cm.course.controller;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.krad.uif.UifConstants;
 import org.kuali.rice.krad.util.KRADConstants;
-import org.kuali.rice.krad.util.KRADUtils;
 import org.kuali.rice.krad.web.controller.KsUifControllerBase;
 import org.kuali.rice.krad.web.controller.MethodAccessible;
-import org.kuali.rice.krad.web.form.DocumentFormBase;
-import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.cm.common.util.CMUtils;
 import org.kuali.student.cm.common.util.CurriculumManagementConstants;
@@ -43,9 +40,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.BufferedInputStream;
-import java.io.ByteArrayInputStream;
-import java.util.List;
 import java.util.Properties;
 
 /**
@@ -120,8 +114,16 @@ public class ViewCourseController extends KsUifControllerBase{
     }
 
     @MethodAccessible
-    @RequestMapping(params = "methodToCall=export")
-    public ModelAndView export(@ModelAttribute("KualiForm") UifFormBase form, HttpServletResponse response) {
+    @ResponseBody
+    @RequestMapping(params = "methodToCall=export", method = RequestMethod.POST)
+    public ResponseEntity<byte[]> export(@ModelAttribute("KualiForm") UifFormBase form, HttpServletRequest request) {
+
+        boolean useSaveHeaders = true;
+
+        String saveHeader = request.getParameter(CurriculumManagementConstants.Export.UrlParams.RETURN_SAVE_HEADERS);
+        if (StringUtils.isNotBlank(saveHeader)) {
+            useSaveHeaders = Boolean.valueOf(saveHeader);
+        }
 
         String requestParamValue = (String) form.getExtensionData().get(CurriculumManagementConstants.Export.UrlParams.EXPORT_TYPE);
         if (StringUtils.isBlank(requestParamValue)) {
@@ -132,19 +134,8 @@ public class ViewCourseController extends KsUifControllerBase{
         ViewCourseForm detailedViewForm = (ViewCourseForm) form;
         CourseInfoWrapper courseInfoWrapper = detailedViewForm.getCourseInfoWrapper();
 
-        ExportCourseHelperImpl exportCourseHelper = new ExportCourseHelperImpl(courseInfoWrapper, exportFileType);
+        ExportCourseHelperImpl exportCourseHelper = new ExportCourseHelperImpl(courseInfoWrapper, exportFileType, useSaveHeaders);
 
-        form.setRenderedInLightBox(false);
-        form.setLightboxScript("closeLightbox();");
-
-        byte[] bytes = exportCourseHelper.getBytes();
-        BufferedInputStream byteStream = new BufferedInputStream(new ByteArrayInputStream(bytes));
-
-        try {
-            KRADUtils.addAttachmentToResponse(response, byteStream, exportCourseHelper.getMimeType(), exportCourseHelper.getFileName(), bytes.length);
-        } catch (Exception ex) {
-            throw new RuntimeException("An error has occurred while exporting the file. Please try again.", ex);
-        }
-        return getUIFModelAndView(form);
+        return exportCourseHelper.getResponseEntity();
     }
 }

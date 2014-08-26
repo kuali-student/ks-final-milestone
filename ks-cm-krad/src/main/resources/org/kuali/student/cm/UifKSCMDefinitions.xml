@@ -68,7 +68,7 @@
           class="org.kuali.student.cm.uif.element.CMIconLabelMessage" scope="prototype" />
 
     <!-- A section header that can display and info icon with a tooltip. As well as a required indicator (in the rightGroup). -->
-    <bean id="Uif-KS-IconHeader" parent="Uif-SectionHeader">
+    <bean id="CM-IconHeader" parent="Uif-SectionHeader">
         <property name="richHeaderMessage">
             <bean parent="CM-IconLabelMessage"/>
         </property>

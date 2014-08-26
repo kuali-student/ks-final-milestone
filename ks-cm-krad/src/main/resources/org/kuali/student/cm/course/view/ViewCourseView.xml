@@ -89,13 +89,14 @@
     <bean id="CM-Proposal-Course-LinkGroup-PrintCourse" parent="CM-Proposal-Course-LinkGroup-PrintCourse-parent"/>
 
     <bean id="CM-Proposal-Course-LinkGroup-PrintCourse-parent" parent="Uif-KS-NavigationActionLink-parentBean" abstract="true"
-          p:methodToCall="export" p:title="Print">
+          p:methodToCall="export" p:title="Print" p:disableBlocking="true">
+        <property name="additionalSubmitData"
+                  value="#{T(org.kuali.student.cm.common.util.CurriculumManagementConstants$Export$UrlParams).RETURN_SAVE_HEADERS}:false" />
         <property name="actionImage">
             <bean parent="Uif-Image" p:altText="Print" p:cssClasses="ks-fontello-icon-print" p:title="Print"/>
         </property>
         <property name="actionImagePlacement" value="IMAGE_ONLY"/>
     </bean>
-
 
     <bean id="CM-ViewCourse-View-Right-Header-Group-Status" parent="KS-Unified-Right-Header-Group-Status">
         <property name="items">
@@ -103,8 +104,10 @@
                 <bean parent="Uif-VerticalBoxGroup">
                     <property name="items">
                         <list>
-                            <bean id="CM-ViewCourse-View-CourseStatus-Active-Lozenge" parent="KS-Lozenge-Green-Uif-Message" p:messageText="Active" p:render="@{courseInfoWrapper.courseInfo.stateKey eq 'Active'}"/>
-                            <bean id="CM-ViewCourse-View-CourseStatus-Retired-Lozenge" parent="KS-Lozenge-Orange-Uif-Message" p:messageText="Retired" p:render="@{courseInfoWrapper.courseInfo.stateKey eq 'Retired'}"/>
+                            <bean id="CM-ViewCourse-View-CourseStatus-Active-Lozenge" parent="KS-Lozenge-Green-Uif-Message"
+                                  p:messageText="Active" p:render="@{courseInfoWrapper.courseInfo.stateKey eq 'Active'}"/>
+                            <bean id="CM-ViewCourse-View-CourseStatus-Retired-Lozenge" parent="KS-Lozenge-Orange-Uif-Message"
+                                  p:messageText="Retired" p:render="@{courseInfoWrapper.courseInfo.stateKey eq 'Retired'}"/>
                         </list>
                     </property>
                 </bean>

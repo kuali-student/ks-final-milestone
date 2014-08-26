@@ -193,7 +193,7 @@
         <property name="validationMessages" ref="KS-ValidationMessages-Off"/>
 
         <property name="header">
-            <bean parent="Uif-KS-IconHeader">
+            <bean parent="CM-IconHeader">
                 <property name="rightGroup.items">
                     <list>
                         <bean parent="CM-RequiredIndicator-Message" id="outcome_required_indicator"/>
@@ -307,7 +307,7 @@
                   value="Each course format can consist of any number of activities, and you may have more than one course format for this course." />
 
         <property name="header">
-            <bean parent="Uif-KS-IconHeader">
+            <bean parent="CM-IconHeader">
                 <property name="richHeaderMessage.iconToolTipText"
                           value="Is your course taught differently in the school&lt;br&gt;year than it is in the summer? For example,&lt;br&gt;online in the summer, lecture/lab in the fall. If&lt;br&gt;so, you will need two course formats."/>
 
@@ -372,7 +372,7 @@
                     <property name="layoutManager.applyAlternatingRowStyles" value="false"/>
                     <property name="validationMessages" ref="KS-ValidationMessages-Off"/>
                     <property name="header">
-                        <bean parent="Uif-KS-IconHeader">
+                        <bean parent="CM-IconHeader">
                             <property name="richHeaderMessage.iconToolTipText" value="&lt;b&gt;Contacted Hours:&lt;/b&gt; Sum of contact hours will validate with credits(from learning results)&lt;br&gt;
                             &lt;b&gt;Duration Type:&lt;/b&gt; First select the duration type(term,month,week,weekend,day) then select the count of the duration for the course. Most courses will have 1 or 2 terms,for example &lt;br&gt;
                             &lt;b&gt;Anticipated Class Size:&lt;/b&gt; This does not have to be exact - it will be used as an estimate for evaluation purposes only."/>

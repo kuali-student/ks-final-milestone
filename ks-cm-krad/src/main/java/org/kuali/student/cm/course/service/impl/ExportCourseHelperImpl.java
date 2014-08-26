@@ -48,8 +48,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- *
- * A helper class to export course. this helper class is used to construct list of ExportElement based on courseInfoWrapper.
+ * A helper class to export course. Constructs a list of ExportElement based on courseInfoWrapper.
  *
  * @author Kuali Student Team
  */
@@ -58,24 +57,53 @@ public class ExportCourseHelperImpl implements ExportCourseHelper {
     private CourseInfoWrapper courseInfoWrapper;
     private FileType exportFileType;
     private String fileName;
-    private String mimeType;
+    private boolean saveDocument = true;
+
     private ScreenReportProcessor processor = new JasperScreenReportProcessorImpl();
 
+    /**
+     * Constructor. Sets headers to "save as".
+     *
+     * @param courseInfoWrapper The data object to export.
+     * @param exportFileType The metadata for the type of file to output.
+     */
     public ExportCourseHelperImpl(CourseInfoWrapper courseInfoWrapper, FileType exportFileType) {
+        this(courseInfoWrapper, exportFileType, true);
+    }
+
+    /**
+     * Constructor.
+     *
+     * @param courseInfoWrapper The data object to export.
+     * @param exportFileType The metadata for the type of file to output.
+     * @param saveDocument If 'true' sets the document headers to values which encourage the web browers to display a
+     *                     "save as" dialog. Otherwise, sets them values which encourage the browser to open the document..
+     */
+    public ExportCourseHelperImpl(CourseInfoWrapper courseInfoWrapper, FileType exportFileType, boolean saveDocument) {
         this.courseInfoWrapper = courseInfoWrapper;
         this.exportFileType = exportFileType;
 
         String courseTitle = courseInfoWrapper.getCourseInfo().getCourseTitle();
-        this.fileName = courseTitle.replace(" ", "_") + "."  + exportFileType.getFileSuffix();
-        this.mimeType = exportFileType.getMimeType();
+        //  Replace anything that isn't a number or a letter with underscore.
+        this.fileName = courseTitle.replaceAll("[^A-Za-z0-9]", "_") + "."  + exportFileType.getFileSuffix();
+
+        this.saveDocument = saveDocument;
     }
 
-    public String getMimeType() {
-        return this.mimeType;
+    public CourseInfoWrapper getCourseInfoWrapper() {
+        return this.courseInfoWrapper;
     }
 
     public String getFileName() {
-        return this.fileName;
+        return fileName;
+    }
+
+    public FileType getExportFileType() {
+        return exportFileType;
+    }
+
+    public boolean isSaveDocument() {
+        return this.saveDocument;
     }
 
     /**
@@ -84,15 +112,23 @@ public class ExportCourseHelperImpl implements ExportCourseHelper {
      */
     public ResponseEntity<byte[]> getResponseEntity() {
 
-        //  Create the data object.
-        List<ExportElement> exportElements = constructExportElementBasedOnView(courseInfoWrapper, false);
+        byte[] bytes = getBytes();
 
         HttpHeaders headers = new HttpHeaders();
 
-        byte[] bytes = getBytes();
+        /*
+         * Setup the header for the response.
+         */
+        if (isSaveDocument()) {
+            // Try to persuade the agent to save the document (in accordance with http://tools.ietf.org/html/rfc2616#section-19.5.1)
+            headers.setContentType(MediaType.parseMediaType("application/octet-stream"));
+            String contentDisposition = String.format("attachment; filename=%s", getFileName());
+            headers.set("Content-Disposition" , contentDisposition);
+        } else {
+            headers.setContentType(MediaType.parseMediaType(getExportFileType().getMimeType()));
+            headers.setContentDispositionFormData(getFileName(), getFileName());
+        }
 
-        headers.setContentType(MediaType.parseMediaType(exportFileType.getMimeType()));
-        headers.setContentDispositionFormData(fileName, fileName);
         headers.setCacheControl(CurriculumManagementConstants.Export.DOCUMENT_DOWNLOAD_CACHE_CONTROL);
 
         return new ResponseEntity<byte[]>(bytes, headers, HttpStatus.OK);
@@ -102,7 +138,7 @@ public class ExportCourseHelperImpl implements ExportCourseHelper {
         byte[] bytes = null;
 
         //  Create the data object.
-        List<ExportElement> exportElements = constructExportElementBasedOnView(courseInfoWrapper, false);
+        List<ExportElement> exportElements = constructExportElementBasedOnView(getCourseInfoWrapper(), false);
 
         switch (this.exportFileType) {
             case PDF:

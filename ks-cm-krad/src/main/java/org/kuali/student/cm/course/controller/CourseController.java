@@ -1515,12 +1515,8 @@ public class CourseController extends CourseRuleEditorController {
         CourseInfoWrapper courseInfoWrapper = getCourseInfoWrapper(form);
         ExportCourseHelperImpl exportCourseHelper = new ExportCourseHelperImpl(courseInfoWrapper, exportFileType);
 
-        ResponseEntity<byte[]> response = exportCourseHelper.getResponseEntity();
-
         form.setRenderedInLightBox(false);
-        form.setLightboxScript("closeLightbox();");
-
-        return response;
+        return exportCourseHelper.getResponseEntity();
     }
 
     /**

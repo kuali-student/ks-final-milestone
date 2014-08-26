@@ -252,6 +252,7 @@ public class CurriculumManagementConstants {
          */
         public static class UrlParams {
             public static String EXPORT_TYPE = "export_type";
+            public static String RETURN_SAVE_HEADERS = "return_save_headers";
         }
 
         /**
