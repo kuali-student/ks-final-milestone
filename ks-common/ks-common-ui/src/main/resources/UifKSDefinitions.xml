@@ -490,6 +490,10 @@
 
     <bean id="KS-Lozenge-Grey-Uif-Message" parent="Uif-Message" p:additionalCssClasses="state-draft"/>
 
+    <bean id="KS-Lozenge-Teal-Uif-Message" parent="Uif-Message" p:additionalCssClasses="state-ready"/>
+
+    <bean id="KS-Lozenge-Red-Uif-Message" parent="Uif-Message" p:additionalCssClasses="state-canceled"/>
+
     <bean id="KS-Lozenge-Grey-Uif-InputField" parent="Uif-InputField" p:additionalCssClasses="state-draft"
           p:fieldLabel.renderColon="false" p:fieldLabel.cssClasses="labelTop"
           p:instructionalMessage.render="false">
