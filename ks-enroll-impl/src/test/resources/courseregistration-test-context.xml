@@ -18,6 +18,7 @@
     <alias name="SearchService" alias="searchService" />
     <alias name="courseRegistrationValidatorServiceImpl" alias="CourseRegistrationService" />
     <alias name="lprService" alias="LprService" />
+    <alias name="kimIdentityService" alias="IdentityService" />
 
     <!--  Preloaded data -->
     <bean id="dataLoadListener" class="org.kuali.student.common.util.jpa.LoadSqlListener">
@@ -51,6 +52,9 @@
     <bean id="courseRegistrationValidatorServiceImpl" class="org.kuali.student.enrollment.class2.courseregistration.service.impl.TestCourseRegistrationValidationDecoratorMock">
         <property name="nextDecorator" ref="courseRegistrationServiceImpl"/>
         <property name="jmsTemplate" ref="jmsTemplate"/>
+    </bean>
+
+    <bean id="kimIdentityService" class="org.kuali.student.kim.permission.mock.IdentityServiceMockImpl">
     </bean>
 
     <bean id="courseRegistrationServiceImpl" class="org.kuali.student.enrollment.class2.courseregistration.service.impl.CourseRegistrationServiceImpl">

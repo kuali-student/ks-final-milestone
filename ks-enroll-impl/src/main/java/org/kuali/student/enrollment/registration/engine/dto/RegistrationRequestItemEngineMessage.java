@@ -10,11 +10,13 @@ public class RegistrationRequestItemEngineMessage implements Serializable {
     private RegistrationRequestItem requestItem;
     private RegistrationGroup registrationGroup;
     private ContextInfo contextInfo;
+    private String requestorId;
 
-    public RegistrationRequestItemEngineMessage(RegistrationRequestItem requestItem, RegistrationGroup registrationGroup, ContextInfo contextInfo) {
+    public RegistrationRequestItemEngineMessage(RegistrationRequestItem requestItem, RegistrationGroup registrationGroup, String requestorId, ContextInfo contextInfo) {
         this.requestItem = requestItem;
         this.registrationGroup = registrationGroup;
         this.contextInfo = contextInfo;
+        this.requestorId = requestorId;
     }
 
     public RegistrationRequestItem getRequestItem() {
@@ -40,4 +42,14 @@ public class RegistrationRequestItemEngineMessage implements Serializable {
     public void setContextInfo(ContextInfo contextInfo) {
         this.contextInfo = contextInfo;
     }
+
+
+    public String getRequestorId() {
+        return requestorId;
+    }
+
+    public void setRequestorId(String requestorId) {
+        this.requestorId = requestorId;
+    }
+
 }

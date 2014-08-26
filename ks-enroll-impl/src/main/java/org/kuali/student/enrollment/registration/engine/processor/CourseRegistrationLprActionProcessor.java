@@ -4,14 +4,12 @@ import org.apache.activemq.command.ActiveMQObjectMessage;
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
-import org.kuali.student.common.collection.KSCollectionUtils;
 import org.kuali.student.common.util.security.ContextUtils;
 import org.kuali.student.enrollment.courseregistration.infc.RegistrationRequestItem;
 import org.kuali.student.enrollment.courseseatcount.infc.SeatCount;
 import org.kuali.student.enrollment.lpr.dto.LprInfo;
 import org.kuali.student.enrollment.lpr.infc.LprTransaction;
 import org.kuali.student.enrollment.lpr.service.LprService;
-import org.kuali.student.enrollment.registration.client.service.impl.util.CourseRegistrationAndScheduleOfClassesUtil;
 import org.kuali.student.enrollment.registration.client.service.impl.util.RegistrationValidationResultsUtil;
 import org.kuali.student.enrollment.registration.engine.dto.RegistrationRequestItemEngineMessage;
 import org.kuali.student.enrollment.registration.engine.service.CourseRegistrationConstants;
@@ -49,8 +47,7 @@ public class CourseRegistrationLprActionProcessor {
         LOGGER.info("Trying to register requestItemId:"+ message.getRequestItem().getId());
         try {
             ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
-            String principalId = KSCollectionUtils.getRequiredZeroElement(CourseRegistrationAndScheduleOfClassesUtil.getIdentityService().getEntity(message.getRequestItem().getPersonId()).getPrincipals()).getPrincipalId();
-            contextInfo.setPrincipalId(principalId);
+            contextInfo.setPrincipalId(message.getRequestorId());
             RegistrationRequestItem registrationRequestItem = message.getRequestItem();
 
             if(LprServiceConstants.LPRTRANS_ITEM_FAILED_STATE_KEY.equals(registrationRequestItem.getStateKey())){

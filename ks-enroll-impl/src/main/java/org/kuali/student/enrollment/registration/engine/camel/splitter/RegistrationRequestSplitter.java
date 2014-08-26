@@ -16,6 +16,7 @@ public class RegistrationRequestSplitter {
         for (RegistrationRequestItem registrationRequestItem : message.getRegistrationRequest().getRegistrationRequestItems()) {
             outputMessageList.add(new RegistrationRequestItemEngineMessage(registrationRequestItem, 
                     message.getRegistrationGroupMap().get(registrationRequestItem.getRegistrationGroupId()),
+                    message.getContextInfo().getPrincipalId(),
                     message.getContextInfo()));
         }
         return outputMessageList;

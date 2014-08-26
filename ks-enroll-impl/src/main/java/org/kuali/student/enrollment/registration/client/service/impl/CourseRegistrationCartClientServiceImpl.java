@@ -41,10 +41,6 @@ public class CourseRegistrationCartClientServiceImpl extends CourseRegistrationC
 
     public static final Logger LOGGER = LoggerFactory.getLogger(CourseRegistrationCartClientServiceImpl.class);
 
-
-
-
-
     @Override
     public Response submitCartRS(String cartId) {
         Response.ResponseBuilder response;
@@ -66,7 +62,6 @@ public class CourseRegistrationCartClientServiceImpl extends CourseRegistrationC
 
         return response.build();
     }
-
 
     @Override
     public Response addCourseToCartRS(String termId, String cartId, String regGroupId, String courseCode,  String regGroupCode, String gradingOptionId, String credits) throws MissingParameterException, PermissionDeniedException, InvalidParameterException, OperationFailedException, DoesNotExistException, ReadOnlyException, DataValidationErrorException, VersionMismatchException {

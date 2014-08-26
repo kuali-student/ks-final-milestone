@@ -4,6 +4,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.kim.api.identity.IdentityService;
 import org.kuali.student.common.util.security.ContextUtils;
 import org.kuali.student.enrollment.class1.lui.service.impl.LuiServiceDataLoader;
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestInfo;
@@ -55,6 +56,7 @@ public class TestCourseRegistrationEngine {
     private static final String LETTER_GRADE = "kuali.resultComponent.grade.letter";
     private static final String SPRING_2012_TERM = "kuali.atp.2012Spring";
     private static final String ADMIN = "admin";
+    private static final String ADMINENTITYID = "1100";
     private ContextInfo CONTEXT;
 
     private static boolean FIRST_TEST = true;
@@ -71,6 +73,9 @@ public class TestCourseRegistrationEngine {
 
     @Resource(name= "luiServiceDataLoader")
     private LuiServiceDataLoader luiServiceDataLoader;
+
+    @Resource(name = "kimIdentityService")
+    private IdentityService identityService;
 
     @Transactional
     @Before
@@ -97,7 +102,7 @@ public class TestCourseRegistrationEngine {
     @Test
     public void testSimpleCourseRegistration() throws Exception {
 
-        RegistrationRequestInfo request = buildRegRequestsFor(ADMIN);
+        RegistrationRequestInfo request = buildRegRequestsFor(ADMIN, ADMINENTITYID);
         RegistrationRequestInfo requestResult =
                 courseRegistrationService.createRegistrationRequest(request.getTypeKey(),
                         request, CONTEXT);
@@ -131,7 +136,7 @@ public class TestCourseRegistrationEngine {
 
         CONTEXT.getAttributes().add(new AttributeInfo(VALIDATION_EXCEPTION, TRUE));
 
-        RegistrationRequestInfo request = buildRegRequestsFor(ADMIN);
+        RegistrationRequestInfo request = buildRegRequestsFor(ADMIN, ADMINENTITYID);
         RegistrationRequestInfo requestResult =
                 courseRegistrationService.createRegistrationRequest(request.getTypeKey(),
                         request, CONTEXT);
@@ -165,7 +170,7 @@ public class TestCourseRegistrationEngine {
 
         CONTEXT.getAttributes().add(new AttributeInfo(RESULT_EXCEPTION, TRUE));
 
-        RegistrationRequestInfo request = buildRegRequestsFor(ADMIN);
+        RegistrationRequestInfo request = buildRegRequestsFor(ADMIN, ADMINENTITYID);
         RegistrationRequestInfo requestResult =
                 courseRegistrationService.createRegistrationRequest(request.getTypeKey(),
                         request, CONTEXT);
@@ -199,7 +204,7 @@ public class TestCourseRegistrationEngine {
 
         CONTEXT.getAttributes().add(new AttributeInfo(RESULT_ITEM_EXCEPTION, TRUE));
 
-        RegistrationRequestInfo request = buildRegRequestsFor(ADMIN);
+        RegistrationRequestInfo request = buildRegRequestsFor(ADMIN, ADMINENTITYID);
         RegistrationRequestInfo requestResult =
                 courseRegistrationService.createRegistrationRequest(request.getTypeKey(),
                         request, CONTEXT);
@@ -239,7 +244,7 @@ public class TestCourseRegistrationEngine {
 
     }
 
-    protected RegistrationRequestInfo buildRegRequestsFor(String personId)
+    protected RegistrationRequestInfo buildRegRequestsFor(String principalId, String personId)
             throws DoesNotExistException, PermissionDeniedException, OperationFailedException,
             InvalidParameterException, ReadOnlyException, MissingParameterException,
             DataValidationErrorException, AlreadyExistsException {
@@ -254,7 +259,7 @@ public class TestCourseRegistrationEngine {
 
         RegistrationRequestInfo request = new RegistrationRequestInfo();
         request.setTermId(SPRING_2012_TERM);
-        request.setRequestorId(personId);
+        request.setRequestorId(principalId);
         request.setTypeKey(LprServiceConstants.LPRTRANS_REGISTRATION_TYPE_KEY);
         request.setStateKey(LprServiceConstants.LPRTRANS_NEW_STATE_KEY);
 
