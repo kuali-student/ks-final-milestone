@@ -38,16 +38,10 @@ public interface HoldIssue
     public String getOrganizationId();
 
     /**
-     * The flag that stores if the HoldIssue is a Term+Date based.
+     * The flag that stores if the HoldIssue is a Term based.
      * @required
      */
-    public Boolean getIsHoldIssueTermAndDateBased ();
-
-    /**
-     * The flag that stores if the HoldIssue is only Date-based.
-     * @required
-     */
-    public Boolean getIsHoldIssueDateBasedOnly ();
+    public Boolean getIsHoldIssueTermBased ();
 
     /**
      * Gets the first applied date as of which this HoldIssue can be applied to students.
