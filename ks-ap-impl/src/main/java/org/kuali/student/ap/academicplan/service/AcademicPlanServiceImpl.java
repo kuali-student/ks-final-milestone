@@ -291,20 +291,20 @@ public class AcademicPlanServiceImpl implements AcademicPlanService {
     throws DataValidationErrorException, InvalidParameterException, MissingParameterException,
     OperationFailedException, PermissionDeniedException, DoesNotExistException, VersionMismatchException {
 
-         //  See if the plan item exists before trying to update it.
-        PlanItemEntity existingPlanItemEntity = planItemDao.find(planItemId);
-        if (existingPlanItemEntity == null) {
+        //  See if the plan item exists before trying to update it.
+        PlanItemEntity planItemEntity = planItemDao.find(planItemId);
+        if (planItemEntity == null) {
 			throw new DoesNotExistException(planItemId);
 		}
 
-        if (!existingPlanItemEntity.getTypeId().equals(planItem.getTypeKey())) {
+        if (!planItemEntity.getTypeId().equals(planItem.getTypeKey())) {
             throw new OperationFailedException("Passed in item type: "+planItem.getTypeKey()
-                    +" must match stored typeKey: "+existingPlanItemEntity.getTypeId()+" for planItemId: "+planItemId);
+                    +" must match stored typeKey: "+planItemEntity.getTypeId()+" for planItemId: "+planItemId);
         }
 
         // Check if item is course item moving between terms
         if(planItem.getRefObjectType().equals(PlanConstants.COURSE_TYPE)){
-            if(!(CollectionUtils.isEqualCollection(planItem.getPlanTermIds(),existingPlanItemEntity.getPlanTermIds()))){
+            if(!(CollectionUtils.isEqualCollection(planItem.getPlanTermIds(),planItemEntity.getPlanTermIds()))){
                 // If moving between terms delete all linked reg group items
                 Iterator<AttributeInfo> iter = planItem.getAttributes().iterator();
                 while(iter.hasNext()){
@@ -321,17 +321,15 @@ public class AcademicPlanServiceImpl implements AcademicPlanService {
                 }
             }
         }
-
-        PlanItemEntity updatedPlanItemEntity = new PlanItemEntity();
-        updatedPlanItemEntity.fromDto(planItem, learningPlanDao);
+        planItemEntity.fromDto(planItem, learningPlanDao);
 
         //  Update meta data.
-        existingPlanItemEntity.setEntityUpdated(context);
+        planItemEntity.setEntityUpdated(context);
 
-        updatedPlanItemEntity = planItemDao.merge(updatedPlanItemEntity);
+        planItemEntity = planItemDao.merge(planItemEntity);
         planItemDao.getEm().flush();
 
-		return updatedPlanItemEntity.toDto();
+		return planItemEntity.toDto();
 	}
 
     @Override
@@ -395,7 +393,6 @@ public class AcademicPlanServiceImpl implements AcademicPlanService {
                 AttributeInfo attribute = iter.next();
                 if(attribute.getKey().equals(AcademicPlanServiceConstants.PLAN_ITEM_RELATION_TYPE_COURSE2RG) && attribute.getValue().equals(planItem.getId())){
                     iter.remove();
-                    break;
                 }
             }
             try {
