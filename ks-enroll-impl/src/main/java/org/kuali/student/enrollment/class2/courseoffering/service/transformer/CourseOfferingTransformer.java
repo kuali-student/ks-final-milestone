@@ -736,9 +736,9 @@ public class CourseOfferingTransformer {
             courseOfferingInfo.setCourseOfferingCode(courseInfo.getCode());
         }
 
-        //Set the units deployment orgs to the unit content owner of the course
+        //Set the units content orgs to the unit content owner of the course
         courseOfferingInfo.setUnitsContentOwnerOrgIds(courseInfo.getUnitsContentOwner());
-        courseOfferingInfo.setUnitsDeploymentOrgIds(courseInfo.getUnitsContentOwner());
+        //courseOfferingInfo.setUnitsDeploymentOrgIds(courseInfo.getUnitsContentOwner());
 
         //Split up the result keys for student registration options into a separate field.
         for(String resultValueGroupKey : courseInfo.getGradingOptions()){
