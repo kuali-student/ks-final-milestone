@@ -29,12 +29,16 @@
 
     </bean>
 
+    <bean id ="courseWaitListService" class="org.kuali.student.enrollment.class2.coursewaitlist.service.impl.AltCourseWaitListServiceMapImpl">
+        <property name="lprService" ref="lprService"/>
+        <property name="seatCountService" ref="seatCountService"/>
+        <property name="coService" ref="CourseOfferingService"/>
+    </bean>
+
     <bean id ="seatCountService" class="org.kuali.student.enrollment.class2.courseseatcount.service.impl.CourseSeatCountMapServiceImpl">
         <property name="lprService" ref="lprService"/>
     </bean>
-    <bean id="courseWaitListService" class="org.kuali.student.enrollment.class2.coursewaitlist.service.impl.CourseWaitListServiceImpl">
-        <property name="courseWaitListDao" ref="courseWaitListDao" />
-    </bean>
+
 
     <bean id="courseWaitListDao" class=" org.kuali.student.enrollment.class2.courseoffering.service.impl.MockCourseWaitListDao"/>
 
@@ -72,8 +76,6 @@
     </bean>
 
     <bean id="rolloverAssist" class="org.kuali.student.enrollment.class2.courseofferingset.service.facade.RolloverAssistImpl"/>
-
-    <bean id="courseWaitListServiceFacade" class="org.kuali.student.enrollment.class2.coursewaitlist.service.facade.CourseWaitListServiceFacadeImpl"/>
 
     <bean id="examOfferingServiceFacade" class="org.kuali.student.enrollment.class2.examoffering.service.facade.ExamOfferingServiceFacadeImpl">
         <property name="atpService" ref="atpService" />

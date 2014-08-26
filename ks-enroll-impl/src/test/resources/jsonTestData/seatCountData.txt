@@ -119,7 +119,7 @@
 {
     "type": "kuali.lui.type.registration.group",
     "state": "kuali.lui.registration.group.state.offered",
-    "id": "B2",
+    "id": "RG-B2",
     "coId": "CO-1",
     "foId": "FO-1",
     "aoIds": ["AO-Lec_B", "AO-Lab_2"],
@@ -130,7 +130,7 @@
 {
     "type": "kuali.lui.type.registration.group",
     "state": "kuali.lui.registration.group.state.offered",
-    "id": "B3",
+    "id": "RG-B3",
     "coId": "CO-1",
     "foId": "FO-1",
     "aoIds": ["AO-Lec_B", "AO-Lab_3"],
