@@ -1068,7 +1068,7 @@ public class CourseController extends CourseRuleEditorController {
                     //route the document only if the rationale decision explanation is not null or redirect back to client to display confirm dialog with error
                     if(courseInfoWrapper.getUiHelper().getDialogExplanations().get(dialog)!=null){
                         performCustomWorkflowActionSuper(form,WorkflowActions.WITHDRAW);
-                        addDecisionRationale(courseInfoWrapper.getProposalInfo().getId(), courseInfoWrapper.getUiHelper().getDialogExplanations().get(dialog), CommentServiceConstants.WORKFLOW_DECISIONS.BLANKET_APPROVE.getType());
+                        addDecisionRationale(courseInfoWrapper.getProposalInfo().getId(), courseInfoWrapper.getUiHelper().getDialogExplanations().get(dialog), CommentServiceConstants.WORKFLOW_DECISIONS.WITHDRAW.getType());
                         // setShowMessage boolean decides whether to show the error message or not
                         courseInfoWrapper.getUiHelper().setShowMessage(false);
                         form.getDialogManager().removeDialog(dialog);
