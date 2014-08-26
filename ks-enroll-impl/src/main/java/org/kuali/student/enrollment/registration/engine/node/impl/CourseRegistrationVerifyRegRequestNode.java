@@ -81,7 +81,8 @@ public class CourseRegistrationVerifyRegRequestNode extends AbstractCourseRegist
             LOG.error("Error during rules execution.", ex);
         }
         List<ValidationResultInfo> errors = this.getErrors(validationResults);
-        if (errors.isEmpty() && transactionException == null) {
+        List<ValidationResultInfo> warnings = this.getWarnings(validationResults);
+        if (errors.isEmpty() && warnings.isEmpty() && transactionException == null) {
             return message;
         }
 
@@ -89,7 +90,9 @@ public class CourseRegistrationVerifyRegRequestNode extends AbstractCourseRegist
             if (transactionException != null) {
                 message = courseRegistrationErrorProcessor.processRequest(message); // roll back the entire transaction
             } else {
-                //Error out the items
+                //Update the warning transactions
+                updateLprTransactionWithWarnings(regRequest.getId(), warnings, contextInfo);
+                //Update the error transactions
                 LprTransactionInfo trans = updateLprTransactionWithErrors(regRequest.getId(), errors, contextInfo);
 
                 // the operation above has changed the registration request. Pull from the database and update existing
@@ -105,6 +108,23 @@ public class CourseRegistrationVerifyRegRequestNode extends AbstractCourseRegist
 
         return message;
 
+    }
+
+    protected LprTransactionInfo updateLprTransactionWithWarnings(String lprTransactionId, List<ValidationResultInfo> warnings, ContextInfo contextInfo) throws PermissionDeniedException, MissingParameterException, InvalidParameterException, OperationFailedException, DoesNotExistException, VersionMismatchException, DataValidationErrorException, ReadOnlyException {
+
+        LprTransactionInfo trans = getLprService().getLprTransaction(lprTransactionId, contextInfo);
+
+        for (LprTransactionItemInfo item : trans.getLprTransactionItems()) {
+            for (ValidationResultInfo warning : warnings) {
+                //Match each error with the corresponding id.
+                String itemId = warning.getElement().replaceFirst("registrationRequestItems\\['([^']*)'\\]", "$1");
+                if (item.getId().equals(itemId)) {
+                    //Update the item with the warning validation state and result
+                    item.getValidationResults().add(new ValidationResultInfo(warning));
+                }
+            }
+        }
+        return getLprService().updateLprTransaction(lprTransactionId, trans, contextInfo);
     }
 
     protected LprTransactionInfo updateLprTransactionWithErrors(String lprTransactionId, List<ValidationResultInfo> errors, ContextInfo contextInfo) throws PermissionDeniedException, MissingParameterException, InvalidParameterException, OperationFailedException, DoesNotExistException, VersionMismatchException, DataValidationErrorException, ReadOnlyException {
@@ -123,8 +143,6 @@ public class CourseRegistrationVerifyRegRequestNode extends AbstractCourseRegist
             }
         }
         return getLprService().updateLprTransaction(lprTransactionId, trans, contextInfo);
-
-
     }
 
     protected void updateRegRequestWithErrors(RegistrationRequestInfo updatedRequestInfo, List<ValidationResultInfo> errors) {
@@ -169,6 +187,16 @@ public class CourseRegistrationVerifyRegRequestNode extends AbstractCourseRegist
             }
         }
         return errors;
+    }
+
+    private List<ValidationResultInfo> getWarnings(List<ValidationResultInfo> results) {
+        List<ValidationResultInfo> warnings = new ArrayList<>();
+        for (ValidationResultInfo vr : results) {
+            if (vr.isWarn()) {
+                warnings.add(vr);
+            }
+        }
+        return warnings;
     }
 
     public void setCourseRegistrationErrorProcessor(CourseRegistrationErrorProcessor courseRegistrationErrorProcessor) {
