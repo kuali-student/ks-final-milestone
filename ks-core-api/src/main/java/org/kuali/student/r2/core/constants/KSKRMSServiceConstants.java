@@ -174,6 +174,7 @@ public class KSKRMSServiceConstants {
     public static final String TERM_PARAMETER_TYPE_CLASS_STANDING_KEY = "kuali.term.parameter.type.classStanding";
     public static final String TERM_PARAMETER_TYPE_TERM_KEYDATE_TYPE_KEY = "kuali.term.parameter.type.keydate.typekey";
     public static final String TERM_PARAMETER_TYPE_GES_PARAMETER_KEY = "kuali.term.parameter.type.ges.parameter.key";
+    public static final String TERM_PARAMETER_TYPE_MAX_REPEAT_LVL_KEY = "kuali.term.parameter.type.max.repeat.level";
 
     //note, this is a test as in assessment, not environment
     public static final String TERM_PARAMETER_TYPE_TEST_CLU_KEY = "kuali.term.parameter.type.test.clu.id";
@@ -277,6 +278,7 @@ public class KSKRMSServiceConstants {
     public static final String TERM_RESOLVER_COURSE_COMPLETED_ATTEMPTS = "CourseCompletedAttempts";
     public static final String TERM_RESOLVER_COURSE_REGISTERED_COUNT = "CourseRegisteredCount";
     public static final String TERM_RESOLVER_COURSE_TOTAL_ATTEMPTS = "CourseTotalAttempts";
+    public static final String TERM_RESOLVER_GES_MAX_REPEATABILITY = "GesMaxRepeatability";
 
     // natural language usage keys
     public static final String KRMS_NL_RULE_EDIT = "kuali.krms.edit";
