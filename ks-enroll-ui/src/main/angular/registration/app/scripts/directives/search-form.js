@@ -50,24 +50,22 @@ angular.module('regCartApp')
 
 
                 $scope.submit = function() {
-                    if (getCriteriaFromState() !== $scope.courseSearchCriteria) {
-                        // Clear out the state parameters that we don't want to persist
-                        var params = angular.copy($state.params);
-                        angular.forEach(params, function(value, key) {
-                            switch (key) {
-                                case 'term':
-                                case 'searchCriteria':
-                                    break;
-                                default:
-                                    params[key] = null;
-                            }
-                        });
+                    // Clear out the state parameters that we don't want to persist
+                    var params = angular.copy($state.params);
+                    angular.forEach(params, function(value, key) {
+                        switch (key) {
+                            case 'term':
+                            case 'searchCriteria':
+                                break;
+                            default:
+                                params[key] = null;
+                        }
+                    });
 
-                        params.searchCriteria = $scope.courseSearchCriteria;
+                    params.searchCriteria = $scope.courseSearchCriteria;
 
-                        // Push the criteria into the $state
-                        $state.go('root.search.results', params);
-                    }
+                    // Push the criteria into the $state
+                    $state.go('root.search.results', params);
                 };
 
             }]
