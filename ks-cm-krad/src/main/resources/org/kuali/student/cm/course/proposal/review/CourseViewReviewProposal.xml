@@ -768,7 +768,7 @@
         </property>
         <property name="cssClasses" >
             <list merge="true">
-                <value>returntopreviousnode_dialog</value>
+                <value>decisionrationale_dialog</value>
                 <value>decisionrationale_withdrawdialog</value>
             </list>
         </property>

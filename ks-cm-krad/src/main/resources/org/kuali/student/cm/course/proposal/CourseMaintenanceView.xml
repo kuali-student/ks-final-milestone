@@ -73,21 +73,6 @@
             </list>
         </property>
         <property name="header.id" value="CM-Proposal-Course-Create-Header"/>
-        <property name="header.lowerGroup">
-            <bean id="KS-CourseView-LinkGroup" parent="Uif-LinkGroup" p:linkSeparator="|"
-                  p:additionalCssClasses="cm-StickyHeader-links">
-                <property name="items">
-                    <list>
-                        <bean parent="KS-Uif-DataField" p:label="Proposal Status"
-                              p:shortLabel="Status" p:propertyName="proposalInfo.stateKey"/>
-                        <bean parent="Uif-Space"/>
-                        <bean parent="KS-Uif-DataField" p:label="Last Updated"
-                              p:shortLabel="Updated" p:propertyName="lastUpdated"/>
-                    </list>
-                </property>
-            </bean>
-        </property>
-
         <property name="stateMapping">
             <bean parent="WorkflowStateMapping">
                 <property name="customClientSideValidationStates">
@@ -145,9 +130,16 @@
         </property>
     </bean>
 
-    <bean id="CM-Proposal-Course-Create-RightHeader" parent="CM-Proposal-Course-Create-RightHeader-parent"/>
+    <bean id="CM-Proposal-Course-Create-RightHeader" parent="KS-Unified-Header-Right-Group" p:additionalCssClasses="viewcourseview-header-status">
+        <property name="items">
+            <list>
+                <ref bean="CM-Proposal-Course-Right-Header-Action-Group"/>
+                <ref bean="CM-Proposal-Header-Right-Group-Status"/>
+            </list>
+        </property>
+    </bean>
 
-    <bean id="CM-Proposal-Course-Create-RightHeader-parent" parent="Uif-HorizontalBoxGroup" abstract="true"
+    <bean id="CM-Proposal-Course-Right-Header-Action-Group" parent="KS-Unified-Header-Action-Group"
           p:cssClasses="cm-unified-header-rightGroup-action">
         <property name="items">
             <list>
@@ -191,6 +183,33 @@
         <property name="actionImagePlacement" value="IMAGE_ONLY"/>
     </bean>
 
+
+    <bean id="CM-Proposal-Header-Right-Group-Status" parent="KS-Unified-Right-Header-Group-Status" p:render="@{!#workflowDoc.initiated and #dataObject.proposalInfo.meta!= null}">
+        <property name="items">
+            <list>
+                <bean parent="Uif-HorizontalBoxGroup">
+                    <property name="items">
+                        <list>
+                            <bean parent="Unified-Right-Header-Group-Status-Modified" p:messageText="@{(#dataObject.proposalInfo.meta eq null) ? '': 'Last modified by ' + {#dataObject.proposalInfo.meta.updateId} + ' on ' + {#dataObject.lastUpdated}}"/>
+                            <bean parent="Uif-VerticalBoxGroup">
+                                <property name="items">
+                                    <list>
+                                        <bean id="CM-Proposal-CourseStatus-Draft-Lozenge" parent="KS-Lozenge-Grey-Uif-Message" p:messageText="Draft" p:render="@{#dataObject.proposalInfo.stateKey eq 'Saved'}"/>
+                                        <bean id="CM-Proposal-CourseStatus-Cancelled-Lozenge" parent="KS-Lozenge-Red-Uif-Message" p:messageText="Cancelled" p:render="@{#dataObject.proposalInfo.stateKey eq 'Cancelled'}"/>
+                                        <bean id="CM-Proposal-CourseStatus-Enroute-Lozenge" parent="KS-Lozenge-Teal-Uif-Message" p:messageText="Enroute" p:render="@{#dataObject.proposalInfo.stateKey eq 'Enroute'}"/>
+                                        <bean id="CM-Proposal-CourseStatus-Withdrawn-Lozenge" parent="KS-Lozenge-Red-Uif-Message" p:messageText="Withdrawn" p:render="@{#dataObject.proposalInfo.stateKey eq 'Withdrawn'}"/>
+                                        <bean id="CM-Proposal-CourseStatus-Approved-Lozenge" parent="KS-Lozenge-Teal-Uif-Message" p:messageText="Approved" p:render="@{#dataObject.proposalInfo.stateKey eq 'Approved'}"/>
+                                        <bean id="CM-Proposal-CourseStatus-Rejected-Lozenge" parent="KS-Lozenge-Red-Uif-Message" p:messageText="Rejected" p:render="@{#dataObject.proposalInfo.stateKey eq 'Rejected'}"/>
+                                        <bean id="CM-Proposal-CourseStatus-Exception-Lozenge" parent="KS-Lozenge-Red-Uif-Message" p:messageText="Exception" p:render="@{#dataObject.proposalInfo.stateKey eq 'Exception'}"/>
+                                    </list>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
 
 
     <bean id="KS-HomewardPathBreadcrumbs-ProposalName" parent="Uif-BreadcrumbItem">

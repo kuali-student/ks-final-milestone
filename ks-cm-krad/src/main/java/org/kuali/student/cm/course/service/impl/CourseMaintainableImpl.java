@@ -844,7 +844,7 @@ public class CourseMaintainableImpl extends RuleEditorMaintainableImpl implement
         courseInfoWrapper.setAgendas(getAgendasForRef(courseInfoWrapper.getRefDiscriminatorType(), courseInfoWrapper.getRefObjectId()));
 
         courseInfoWrapper.getCourseInfo().setStateKey(DtoConstants.STATE_DRAFT);
-        courseInfoWrapper.setLastUpdated(DateFormatters.SIMPLE_TIMESTAMP_FORMATTER.format(new DateTime()));
+        courseInfoWrapper.setLastUpdated(DateFormatters.CM_DATE_FORMATTER.format(new DateTime()));
         courseInfoWrapper.getCourseInfo().setEffectiveDate(new java.util.Date());
 
         courseInfoWrapper.getCourseInfo().setTypeKey(CREDIT_COURSE_CLU_TYPE_KEY);
@@ -1102,7 +1102,7 @@ public class CourseMaintainableImpl extends RuleEditorMaintainableImpl implement
         if (StringUtils.isNotBlank(courseInfoWrapper.getProposalInfo().getId())){
             Date updateTime = courseInfoWrapper.getProposalInfo().getMeta().getUpdateTime();
             if (updateTime != null){
-                courseInfoWrapper.setLastUpdated(DateFormatUtils.format(updateTime, DateFormatters.SIMPLE_TIMESTAMP_FORMATTER.format(updateTime)));
+                courseInfoWrapper.setLastUpdated(DateFormatters.CM_DATE_FORMATTER.format(updateTime));
             }
         }
 
@@ -1536,10 +1536,10 @@ public class CourseMaintainableImpl extends RuleEditorMaintainableImpl implement
         if (StringUtils.isNotBlank(courseInfoWrapper.getProposalInfo().getId())){
             Date updateTime = courseInfoWrapper.getProposalInfo().getMeta().getUpdateTime();
             if (updateTime != null){
-                courseInfoWrapper.setLastUpdated(DateFormatUtils.format(updateTime, DateFormatters.SIMPLE_TIMESTAMP_FORMATTER.format(updateTime)));
+                courseInfoWrapper.setLastUpdated(DateFormatters.CM_DATE_FORMATTER.format(updateTime));
             }
         }else{
-            courseInfoWrapper.setLastUpdated(DateFormatters.SIMPLE_TIMESTAMP_FORMATTER.format(new DateTime()));
+            courseInfoWrapper.setLastUpdated(DateFormatters.CM_DATE_FORMATTER.format(new DateTime()));
         }
 
         courseInfoWrapper.getCourseInfo().getUnitsContentOwner().clear();
