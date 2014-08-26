@@ -155,7 +155,11 @@ public class CourseRegistrationServiceProcessCheckDecorator
             //Look up some reg group info
             RegistrationGroupInfo registrationGroupInfo = courseOfferingService.getRegistrationGroup(requestItem.getRegistrationGroupId(), contextInfo);
 
-            if (requestItem.getTypeKey().equals("kuali.course.registration.request.item.type.add")) {
+            // only validate rules for add requests
+            if (requestItem.getTypeKey().equals(LprServiceConstants.REQ_ITEM_ADD_TYPE_KEY) ||
+                requestItem.getTypeKey().equals(LprServiceConstants.REQ_ITEM_ADD_TO_WAITLIST_TYPE_KEY) ||
+                requestItem.getTypeKey().equals(LprServiceConstants.REQ_ITEM_ADD_FROM_WAITLIST_TYPE_KEY) ||
+                requestItem.getTypeKey().equals(LprServiceConstants.REQ_ITEM_ADD_TO_HOLD_UNTIL_LIST_TYPE_KEY)) {
 
                 //Put In facts that are needed for each reg request
                 executionFacts.put(RulesExecutionConstants.REGISTRATION_GROUP_TERM.getName(), registrationGroupInfo);
