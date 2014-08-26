@@ -344,14 +344,14 @@
                 <bean parent="Uif-Message" p:messageText="The exported document will appear in a new page. Please disable pop-up blockers. [br]Export document as:"/>
                 <bean parent="KS-Uif-InputField" p:propertyName="extensionData['export_type']">
                     <property name="bindingInfo.bindToForm" value="true"/>
-                    <property name="defaultValue" value="@{T(org.kuali.student.cm.common.util.CurriculumManagementConstants$Export).PDF}"/>
+                    <property name="defaultValue" value="#{T(org.kuali.student.cm.common.util.CurriculumManagementConstants$Export$FileType).PDF.toString()}"/>
                     <property name="style" value="margin-top:10px;"/>
                     <property name="control">
                         <bean parent="KS-Uif-VerticalRadioControl">
                             <property name="options">
                                 <list>
-                                    <bean parent="Uif-KeyLabelPair" p:key="@{T(org.kuali.student.cm.common.util.CurriculumManagementConstants$Export).PDF}" p:value=".pdf (Adobe Acrobat)"/>
-                                    <bean parent="Uif-KeyLabelPair" p:key="@{T(org.kuali.student.cm.common.util.CurriculumManagementConstants$Export).DOC}" p:value=".doc (Microsoft Word)"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="#{T(org.kuali.student.cm.common.util.CurriculumManagementConstants$Export$FileType).PDF.toString()}" p:value=".pdf (Adobe Acrobat)"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="#{T(org.kuali.student.cm.common.util.CurriculumManagementConstants$Export$FileType).DOC.toString()}" p:value=".doc (Microsoft Word)"/>
                                 </list>
                             </property>
                         </bean>

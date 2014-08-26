@@ -89,7 +89,7 @@
     <bean id="CM-Proposal-Course-LinkGroup-PrintCourse" parent="CM-Proposal-Course-LinkGroup-PrintCourse-parent"/>
 
     <bean id="CM-Proposal-Course-LinkGroup-PrintCourse-parent" parent="Uif-KS-NavigationActionLink-parentBean" abstract="true"
-          p:methodToCall="printCourse" p:title="Print">
+          p:methodToCall="export" p:title="Print">
         <property name="actionImage">
             <bean parent="Uif-Image" p:altText="Print" p:cssClasses="ks-fontello-icon-print" p:title="Print"/>
         </property>

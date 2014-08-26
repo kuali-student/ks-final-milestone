@@ -50,6 +50,7 @@ import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.cm.common.util.CMUtils;
 import org.kuali.student.cm.common.util.CurriculumManagementConstants;
 import org.kuali.student.cm.common.util.CurriculumManagementConstants.CourseViewSections;
+import org.kuali.student.cm.common.util.CurriculumManagementConstants.Export.FileType;
 import org.kuali.student.cm.course.form.RecentlyViewedDocsUtil;
 import org.kuali.student.cm.course.form.wrapper.CluInstructorInfoWrapper;
 import org.kuali.student.cm.course.form.wrapper.CourseCreateUnitsContentOwner;
@@ -176,7 +177,7 @@ public class CourseController extends CourseRuleEditorController {
                     : CurriculumManagementConstants.DocumentTypeNames.CourseProposal.COURSE_CREATE);
         }
 
-        form.getExtensionData().put(CurriculumManagementConstants.Export.EXPORT_TYPE,CurriculumManagementConstants.Export.PDF);
+        form.getExtensionData().put(CurriculumManagementConstants.Export.UrlParams.EXPORT_TYPE, CurriculumManagementConstants.Export.FileType.PDF);
 
         return form;
     }
@@ -1506,40 +1507,19 @@ public class CourseController extends CourseRuleEditorController {
     @RequestMapping(params = "methodToCall=export", method = RequestMethod.POST)
     public ResponseEntity<byte[]> export(@ModelAttribute("KualiForm") DocumentFormBase form) {
 
-        String exportType = (String)form.getExtensionData().get(CurriculumManagementConstants.Export.EXPORT_TYPE);
-        ScreenReportProcessor processor = new JasperScreenReportProcessorImpl();
+        String requestParamValue =  (String) form.getExtensionData().get(CurriculumManagementConstants.Export.UrlParams.EXPORT_TYPE);
+
+        FileType exportFileType = FileType.valueOf(requestParamValue);
+
         CourseInfoWrapper courseInfoWrapper = getCourseInfoWrapper(form);
-        String fileName = courseInfoWrapper.getCourseInfo().getCourseTitle();
-        fileName = fileName.replace(" ","_") ;
+        ExportCourseHelperImpl exportCourseHelper = new ExportCourseHelperImpl(courseInfoWrapper, exportFileType);
 
-        ExportCourseHelperImpl exportCourseHelper = new ExportCourseHelperImpl();
-        List<ExportElement> exportElements = exportCourseHelper.constructExportElementBasedOnView(courseInfoWrapper, false);
-
-        HttpHeaders headers = new HttpHeaders();
-
-        ResponseEntity<byte[]> response = null;
-        byte[] bytes = CurriculumManagementConstants.ProposalViewFieldLabels.CourseInformation.SECTION_NAME.getBytes() ;
-        if (StringUtils.equals(exportType,CurriculumManagementConstants.Export.PDF)){
-
-            fileName = fileName +"." + CurriculumManagementConstants.Export.PDF;
-            bytes = processor.createPdf(exportElements, "base.template", CurriculumManagementConstants.ProposalViewFieldLabels.CourseInformation.SECTION_NAME);
-
-            headers.setContentType(MediaType.parseMediaType(CurriculumManagementConstants.PDF_MIME_TYPE));
-
-        } else if (StringUtils.equals(exportType,CurriculumManagementConstants.Export.DOC)){
-
-            fileName = fileName +"." + CurriculumManagementConstants.Export.DOC;
-            bytes  = processor.createDoc(exportElements, "base.template", CurriculumManagementConstants.ProposalViewFieldLabels.CourseInformation.SECTION_NAME);
-            headers.setContentType(MediaType.parseMediaType(CurriculumManagementConstants.DOC_MIME_TYPE));
-        }
-
-        headers.setContentDispositionFormData(fileName, fileName);
-        headers.setCacheControl(CurriculumManagementConstants.DOCUMENT_DOWNLOAD_CACHE_CONTROL);
-        response = new ResponseEntity<byte[]>(bytes, headers, HttpStatus.OK);
+        ResponseEntity<byte[]> response = exportCourseHelper.getResponseEntity();
 
         form.setRenderedInLightBox(false);
         form.setLightboxScript("closeLightbox();");
-        return response ;
+
+        return response;
     }
 
     /**

@@ -198,11 +198,6 @@ public class CurriculumManagementConstants {
 
     public final static String SUPPORTING_DOC_MIME_TYPE = "application/octet-stream";
 
-    public final static String PDF_MIME_TYPE = "application/pdf";
-    public final static String DOC_MIME_TYPE = "application/doc";
-
-    public final static String DOCUMENT_DOWNLOAD_CACHE_CONTROL = "must-revalidate, post-check=0, pre-check=0";
-
     public final static String REF_OBJECT_TYPE_KEY = "kuali.org.RefObjectType.CluInfo";
     public final static String REF_DOC_RELATION_TYPE_KEY = "kuali.org.DocRelation.allObjectTypes";
     public final static String DEFAULT_DOC_TYPE_KEY = "documentType.doc";
@@ -245,10 +240,43 @@ public class CurriculumManagementConstants {
         }
     }
 
+    /**
+     * Export related constants.
+     */
     public static class Export {
-        public static String PDF = "pdf";
-        public static String DOC = "doc";
-        public static String EXPORT_TYPE = "export_type";
+
+        public final static String DOCUMENT_DOWNLOAD_CACHE_CONTROL = "must-revalidate, post-check=0, pre-check=0";
+
+        /**
+         * The request params used in print/export controller methods.
+         */
+        public static class UrlParams {
+            public static String EXPORT_TYPE = "export_type";
+        }
+
+        /**
+         * File export related constants.
+         */
+        public static enum FileType {
+            PDF("pdf", "application/pdf"),
+            DOC("doc", "application/doc");
+
+            private String fileSuffix;
+            private String mimeType;
+
+            FileType(String fileSuffix, String mimeType) {
+                this.fileSuffix = fileSuffix;
+                this.mimeType = mimeType;
+            }
+
+            public String getFileSuffix() {
+                return fileSuffix;
+            }
+
+            public String getMimeType() {
+                return mimeType;
+            }
+        }
     }
 
     public static class ProposalViewFieldLabels {
@@ -317,7 +345,6 @@ public class CurriculumManagementConstants {
         }
 
         public static class ActiveDates {
-
             public static String SECTION_NAME = "Active Dates";
             public static String START_TERM = "Start Term";
             public static String PILOT_COURSE = "Pilot Course";

@@ -22,21 +22,23 @@ import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.KRADUtils;
 import org.kuali.rice.krad.web.controller.KsUifControllerBase;
 import org.kuali.rice.krad.web.controller.MethodAccessible;
+import org.kuali.rice.krad.web.form.DocumentFormBase;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.cm.common.util.CMUtils;
 import org.kuali.student.cm.common.util.CurriculumManagementConstants;
+import org.kuali.student.cm.common.util.CurriculumManagementConstants.Export.FileType;
 import org.kuali.student.cm.course.form.ViewCourseForm;
 import org.kuali.student.cm.course.form.wrapper.CourseInfoWrapper;
 import org.kuali.student.cm.course.service.CourseMaintainable;
 import org.kuali.student.cm.course.service.impl.ExportCourseHelperImpl;
-import org.kuali.student.common.ui.client.util.ExportElement;
-import org.kuali.student.common.ui.server.screenreport.ScreenReportProcessor;
-import org.kuali.student.common.ui.server.screenreport.jasper.JasperScreenReportProcessorImpl;
-import org.springframework.http.HttpHeaders;
+
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
@@ -91,7 +93,8 @@ public class ViewCourseController extends KsUifControllerBase{
             throw new RuntimeException(e);
         }
 
-        form.getExtensionData().put(CurriculumManagementConstants.Export.EXPORT_TYPE,CurriculumManagementConstants.Export.PDF);
+        form.getExtensionData().put(CurriculumManagementConstants.Export.UrlParams.EXPORT_TYPE,
+                CurriculumManagementConstants.Export.FileType.PDF);
 
         return getUIFModelAndView(form);
     }
@@ -118,45 +121,27 @@ public class ViewCourseController extends KsUifControllerBase{
 
     @MethodAccessible
     @RequestMapping(params = "methodToCall=export")
-    public ModelAndView export(@ModelAttribute("KualiForm") UifFormBase form,  HttpServletRequest request,
-                               HttpServletResponse response) {
+    public ModelAndView export(@ModelAttribute("KualiForm") UifFormBase form, HttpServletResponse response) {
+
+        String requestParamValue = (String) form.getExtensionData().get(CurriculumManagementConstants.Export.UrlParams.EXPORT_TYPE);
+        if (StringUtils.isBlank(requestParamValue)) {
+            requestParamValue = FileType.PDF.toString();
+        }
+        FileType exportFileType = FileType.valueOf(requestParamValue);
 
         ViewCourseForm detailedViewForm = (ViewCourseForm) form;
+        CourseInfoWrapper courseInfoWrapper = detailedViewForm.getCourseInfoWrapper();
 
-        ScreenReportProcessor processor = new JasperScreenReportProcessorImpl();
-        CourseInfoWrapper courseWrapper = detailedViewForm.getCourseInfoWrapper();
+        ExportCourseHelperImpl exportCourseHelper = new ExportCourseHelperImpl(courseInfoWrapper, exportFileType);
 
-        String fileName = courseWrapper.getCourseInfo().getCourseTitle();
-        fileName = fileName.replace(" ","_") ;
+        form.setRenderedInLightBox(false);
+        form.setLightboxScript("closeLightbox();");
 
-        ExportCourseHelperImpl exportCourseHelper = new ExportCourseHelperImpl();
-        List<ExportElement> exportElements = exportCourseHelper.constructExportElementBasedOnView(courseWrapper, true);
-        HttpHeaders headers = new HttpHeaders();
-
-        String exportType = (String)detailedViewForm.getExtensionData().get(CurriculumManagementConstants.Export.EXPORT_TYPE);
-        String MIME_TYPE = "";
-
-        byte[] bytes = CurriculumManagementConstants.ProposalViewFieldLabels.CourseInformation.SECTION_NAME.getBytes() ;
-        if (StringUtils.equals(exportType,CurriculumManagementConstants.Export.PDF)){
-
-            fileName = fileName +"." + CurriculumManagementConstants.Export.PDF;
-            bytes = processor.createPdf(exportElements, "base.template", CurriculumManagementConstants.ProposalViewFieldLabels.CourseInformation.SECTION_NAME);
-            MIME_TYPE = CurriculumManagementConstants.PDF_MIME_TYPE;
-
-
-        } else if (StringUtils.equals(exportType,CurriculumManagementConstants.Export.DOC)){
-
-            fileName = fileName +"." + CurriculumManagementConstants.Export.DOC;
-            bytes  = processor.createDoc(exportElements, "base.template", CurriculumManagementConstants.ProposalViewFieldLabels.CourseInformation.SECTION_NAME);
-            MIME_TYPE = CurriculumManagementConstants.DOC_MIME_TYPE ;
-        }
-
+        byte[] bytes = exportCourseHelper.getBytes();
         BufferedInputStream byteStream = new BufferedInputStream(new ByteArrayInputStream(bytes));
 
         try {
-            KRADUtils.addAttachmentToResponse(response, byteStream,
-                    MIME_TYPE, fileName,
-                    bytes.length);
+            KRADUtils.addAttachmentToResponse(response, byteStream, exportCourseHelper.getMimeType(), exportCourseHelper.getFileName(), bytes.length);
         } catch (Exception ex) {
             throw new RuntimeException("An error has occurred while exporting the file. Please try again.", ex);
         }

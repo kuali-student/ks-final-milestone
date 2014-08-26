@@ -22,19 +22,25 @@ import org.kuali.rice.krms.dto.PropositionEditor;
 import org.kuali.rice.krms.dto.RuleEditor;
 import org.kuali.rice.krms.dto.RuleTypeInfo;
 import org.kuali.student.cm.common.util.CurriculumManagementConstants;
+import org.kuali.student.cm.common.util.CurriculumManagementConstants.Export.FileType;
 import org.kuali.student.cm.course.form.wrapper.CluInstructorInfoWrapper;
-import org.kuali.student.cm.course.form.wrapper.CourseCreateUnitsContentOwner;
 import org.kuali.student.cm.course.form.wrapper.CourseInfoWrapper;
 import org.kuali.student.cm.course.form.wrapper.ResultValuesGroupInfoWrapper;
 import org.kuali.student.cm.course.service.ExportCourseHelper;
 import org.kuali.student.common.ui.client.util.ExportElement;
-import org.kuali.student.core.rule.infc.Rule;
+import org.kuali.student.common.ui.server.screenreport.ScreenReportProcessor;
+import org.kuali.student.common.ui.server.screenreport.jasper.JasperScreenReportProcessorImpl;
 import org.kuali.student.r1.core.workflow.dto.CollaboratorWrapper;
 import org.kuali.student.r2.lum.clu.dto.CluInstructorInfo;
 import org.kuali.student.r2.lum.course.dto.ActivityInfo;
 import org.kuali.student.r2.lum.course.dto.FormatInfo;
 import org.kuali.student.r2.lum.course.dto.LoDisplayInfo;
 import org.kuali.student.r2.lum.lo.dto.LoCategoryInfo;
+
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -48,6 +54,69 @@ import java.util.Map;
  * @author Kuali Student Team
  */
 public class ExportCourseHelperImpl implements ExportCourseHelper {
+
+    private CourseInfoWrapper courseInfoWrapper;
+    private FileType exportFileType;
+    private String fileName;
+    private String mimeType;
+    private ScreenReportProcessor processor = new JasperScreenReportProcessorImpl();
+
+    public ExportCourseHelperImpl(CourseInfoWrapper courseInfoWrapper, FileType exportFileType) {
+        this.courseInfoWrapper = courseInfoWrapper;
+        this.exportFileType = exportFileType;
+
+        String courseTitle = courseInfoWrapper.getCourseInfo().getCourseTitle();
+        this.fileName = courseTitle.replace(" ", "_") + "."  + exportFileType.getFileSuffix();
+        this.mimeType = exportFileType.getMimeType();
+    }
+
+    public String getMimeType() {
+        return this.mimeType;
+    }
+
+    public String getFileName() {
+        return this.fileName;
+    }
+
+    /**
+     * Generates a response for the report.
+     * @return
+     */
+    public ResponseEntity<byte[]> getResponseEntity() {
+
+        //  Create the data object.
+        List<ExportElement> exportElements = constructExportElementBasedOnView(courseInfoWrapper, false);
+
+        HttpHeaders headers = new HttpHeaders();
+
+        byte[] bytes = getBytes();
+
+        headers.setContentType(MediaType.parseMediaType(exportFileType.getMimeType()));
+        headers.setContentDispositionFormData(fileName, fileName);
+        headers.setCacheControl(CurriculumManagementConstants.Export.DOCUMENT_DOWNLOAD_CACHE_CONTROL);
+
+        return new ResponseEntity<byte[]>(bytes, headers, HttpStatus.OK);
+    }
+
+    public byte[] getBytes() {
+        byte[] bytes = null;
+
+        //  Create the data object.
+        List<ExportElement> exportElements = constructExportElementBasedOnView(courseInfoWrapper, false);
+
+        switch (this.exportFileType) {
+            case PDF:
+                bytes = this.processor.createPdf(exportElements, "base.template",
+                    CurriculumManagementConstants.ProposalViewFieldLabels.CourseInformation.SECTION_NAME);
+                break;
+            case DOC:
+                bytes = this.processor.createDoc(exportElements, "base.template",
+                    CurriculumManagementConstants.ProposalViewFieldLabels.CourseInformation.SECTION_NAME);
+                break;
+        }
+
+        return bytes;
+    }
 
     /**
      * This method constructs list of exportElement based on each field in courseInfoWrapper.
@@ -221,7 +290,7 @@ public class ExportCourseHelperImpl implements ExportCourseHelper {
         for(ResultValuesGroupInfoWrapper resultValuesGroupInfoWrapper : courseInfoWrapper.getCreditOptionWrappers()){
 
             String typeKey = resultValuesGroupInfoWrapper.getTypeKey();
-            typeKey = typeKey.substring(typeKey.lastIndexOf(".") +1);
+            typeKey = typeKey.substring(typeKey.lastIndexOf(".") + 1);
             String creditOption = resultValuesGroupInfoWrapper.getUiHelper().getResultValue();
             ExportElement exportOutcome = populateExportElement(CurriculumManagementConstants.ProposalViewFieldLabels.CourseLogistics.OUTCOME + counter, null,CurriculumManagementConstants.ProposalViewFieldLabels.CourseLogistics.SECTION_NAME,-1 );
             ExportElement exportOutcomeType = populateExportElement(CurriculumManagementConstants.ProposalViewFieldLabels.CourseLogistics.TYPE, typeKey,CurriculumManagementConstants.ProposalViewFieldLabels.CourseLogistics.SECTION_NAME,-1 );
