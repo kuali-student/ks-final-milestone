@@ -113,18 +113,25 @@ public class ViewCourseController extends KsUifControllerBase{
         return performRedirect(form, courseBaseUrl, urlParameters);
     }
 
+    /**
+     * This method is used for export and print.
+     */
     @MethodAccessible
     @ResponseBody
     @RequestMapping(params = "methodToCall=export", method = RequestMethod.POST)
     public ResponseEntity<byte[]> export(@ModelAttribute("KualiForm") UifFormBase form, HttpServletRequest request) {
-
+        /*
+         * For export the "save" headers should be returned to the client. Default to true.
+         * The print action link should set this param.
+         */
         boolean useSaveHeaders = true;
-
         String saveHeader = request.getParameter(CurriculumManagementConstants.Export.UrlParams.RETURN_SAVE_HEADERS);
         if (StringUtils.isNotBlank(saveHeader)) {
             useSaveHeaders = Boolean.valueOf(saveHeader);
         }
-
+        /*
+         * PDF is the default document type.
+         */
         String requestParamValue = (String) form.getExtensionData().get(CurriculumManagementConstants.Export.UrlParams.EXPORT_TYPE);
         if (StringUtils.isBlank(requestParamValue)) {
             requestParamValue = FileType.PDF.toString();

@@ -73,7 +73,7 @@
         <property name="items">
             <list>
                 <ref bean="CM-Proposal-Course-LinkGroup-CopyCourse"/>
-                <ref bean="CM-Proposal-Course-LinkGroup-PrintCourse"/>
+                <ref bean="CM-PrintAction"/>
                 <ref bean="CM-ExportAction"/>
             </list>
         </property>
@@ -84,18 +84,6 @@
     <bean id="CM-Proposal-Course-LinkGroup-CopyCourse-parent" parent="KS-Uif-Copy-NavigationActionLink" abstract="true"
           p:methodToCall="copyCourse"
           p:title="Copy to New Proposal">
-    </bean>
-
-    <bean id="CM-Proposal-Course-LinkGroup-PrintCourse" parent="CM-Proposal-Course-LinkGroup-PrintCourse-parent"/>
-
-    <bean id="CM-Proposal-Course-LinkGroup-PrintCourse-parent" parent="Uif-KS-NavigationActionLink-parentBean" abstract="true"
-          p:methodToCall="export" p:title="Print" p:disableBlocking="true">
-        <property name="additionalSubmitData"
-                  value="#{T(org.kuali.student.cm.common.util.CurriculumManagementConstants$Export$UrlParams).RETURN_SAVE_HEADERS}:false" />
-        <property name="actionImage">
-            <bean parent="Uif-Image" p:altText="Print" p:cssClasses="ks-fontello-icon-print" p:title="Print"/>
-        </property>
-        <property name="actionImagePlacement" value="IMAGE_ONLY"/>
     </bean>
 
     <bean id="CM-ViewCourse-View-Right-Header-Group-Status" parent="KS-Unified-Right-Header-Group-Status">

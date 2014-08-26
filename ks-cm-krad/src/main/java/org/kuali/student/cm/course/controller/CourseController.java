@@ -1506,10 +1506,23 @@ public class CourseController extends CourseRuleEditorController {
     @MethodAccessible
     @ResponseBody
     @RequestMapping(params = "methodToCall=export", method = RequestMethod.POST)
-    public ResponseEntity<byte[]> export(@ModelAttribute("KualiForm") DocumentFormBase form) {
-
-        String requestParamValue =  (String) form.getExtensionData().get(CurriculumManagementConstants.Export.UrlParams.EXPORT_TYPE);
-
+    public ResponseEntity<byte[]> export(@ModelAttribute("KualiForm") DocumentFormBase form, HttpServletRequest request) {
+        /*
+         * For export the "save" headers should be returned to the client. Default to true.
+         * The print action link should set this param.
+         */
+        boolean useSaveHeaders = true;
+        String saveHeader = request.getParameter(CurriculumManagementConstants.Export.UrlParams.RETURN_SAVE_HEADERS);
+        if (StringUtils.isNotBlank(saveHeader)) {
+            useSaveHeaders = Boolean.valueOf(saveHeader);
+        }
+        /*
+         * PDF is the default document type.
+         */
+        String requestParamValue = (String) form.getExtensionData().get(CurriculumManagementConstants.Export.UrlParams.EXPORT_TYPE);
+        if (StringUtils.isBlank(requestParamValue)) {
+            requestParamValue = FileType.PDF.toString();
+        }
         FileType exportFileType = FileType.valueOf(requestParamValue);
 
         CourseInfoWrapper courseInfoWrapper = getCourseInfoWrapper(form);

@@ -147,7 +147,7 @@
                 <bean parent="CM-Proposal-Course-LinkGroup-CopyCourse" p:methodToCall="copyProposal" p:render="@{#form.pageId eq 'CM-Proposal-Review-Course-Page'}"/>
                 <bean parent="CM-Proposal-Course-LinkGroup-Comments"/>
                 <bean parent="CM-Proposal-Course-LinkGroup-Decisions"/>
-                <bean parent="CM-Proposal-Course-LinkGroup-PrintCourse" p:methodToCall="printProposal" p:render="@{!#workflowDoc.initiated}"/>
+                <bean parent="CM-PrintAction" p:render="@{!#workflowDoc.initiated}"/>
                 <bean parent="CM-ExportAction" p:render="@{!#workflowDoc.initiated}"/>
             </list>
         </property>

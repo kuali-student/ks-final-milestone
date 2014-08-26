@@ -303,8 +303,18 @@
         </property>
     </bean>
 
-    <bean id="CM-ExportAction" parent="CM-ExportAction-parent"/>
+    <bean id="CM-PrintAction" parent="CM-PrintAction-parent"/>
+    <bean id="CM-PrintAction-parent" parent="Uif-KS-NavigationActionLink-parentBean" abstract="true"
+          p:methodToCall="export" p:title="Print" p:disableBlocking="true">
+        <property name="additionalSubmitData"
+                  value="#{T(org.kuali.student.cm.common.util.CurriculumManagementConstants$Export$UrlParams).RETURN_SAVE_HEADERS}:false" />
+        <property name="actionImage">
+            <bean parent="Uif-Image" p:altText="Print" p:cssClasses="ks-fontello-icon-print" p:title="Print"/>
+        </property>
+        <property name="actionImagePlacement" value="IMAGE_ONLY"/>
+    </bean>
 
+    <bean id="CM-ExportAction" parent="CM-ExportAction-parent"/>
     <bean id="CM-ExportAction-parent" parent="Uif-KS-NavigationActionLink-parentBean" abstract="true"
           p:actionScript="showLightboxComponent('CM-Export-Lightbox');" p:title="Export">
         <property name="actionImage">
