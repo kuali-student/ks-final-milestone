@@ -377,11 +377,10 @@ public class CourseController extends CourseRuleEditorController {
                     documentForm.setMethodToCall("docHandler");
                     String href = CourseProposalUtil.buildCourseProposalUrl("docHandler", "CM-Proposal-Review-Course-Page", documentForm.getDocument().getDocumentNumber());
                     return performRedirect(documentForm,href);
-                }   else {
+                } else {
                     documentForm.getDialogManager().removeDialog(dialog);
                 }
-            }
-            else{
+            } else {
                 return showDialog(dialog, documentForm, request, response);
             }
         }
@@ -1137,6 +1136,7 @@ public class CourseController extends CourseRuleEditorController {
                         form.getDialogManager().removeDialog(dialog);
                         // Set the request redirect to false so that the user stays on the same page
                         form.setRequestRedirected(false);
+                        courseInfoWrapper.getUiHelper().setPendingWorkflowAction(true);
                     } else {
                         form.getDialogManager().resetDialogStatus(dialog);
                         courseInfoWrapper.getUiHelper().setShowMessage(true);
@@ -1191,6 +1191,7 @@ public class CourseController extends CourseRuleEditorController {
                         form.getDialogManager().removeDialog(dialog);
                         // Set the request redirect to false so that the user stays on the same page
                         form.setRequestRedirected(false);
+                        courseInfoWrapper.getUiHelper().setPendingWorkflowAction(true);
                     } else {
                         form.getDialogManager().resetDialogStatus(dialog);
                         courseInfoWrapper.getUiHelper().setShowMessage(true);
