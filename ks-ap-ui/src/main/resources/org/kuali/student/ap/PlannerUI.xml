@@ -542,9 +542,9 @@
     <bean id="planner_completed_collection" parent="planner_completed_collection-parent"/>
     <bean id="planner_completed_collection-parent" abstract="true" parent="planner_item_collection"
           p:headerText="@{#line.completed
-                        ? #textHelper.getText('planner.body.completed’)
+                        ? #textHelper.getText('planner.body.completed')
                         : (#line.academicRecord.size() gt 0 or !#line.planning)
-                        ? #textHelper.getText('planner.body.registered)
+                        ? #textHelper.getText('planner.body.registered')
                         : ''}"
           p:render="@{#line.completed or #line.academicRecord.size() gt 0 or !#line.planning}">
         <property name="propertyName" value="academicRecord" />
