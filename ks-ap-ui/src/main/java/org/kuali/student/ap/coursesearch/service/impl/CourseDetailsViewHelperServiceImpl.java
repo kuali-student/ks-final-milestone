@@ -348,6 +348,7 @@ public class CourseDetailsViewHelperServiceImpl extends ViewHelperServiceImpl im
                     formatOfferingWrappers.add(formatOfferingInfo);
 
                 }
+                Collections.sort(formatOfferingWrappers);
                 courseOfferingDetailsWrapper.setFormatOfferingInfoWrappers(formatOfferingWrappers);
                 courseOfferingDetailsWrapper.setPlannedActivityDetailsWrappers(plannedActivityOfferings);
             } catch (DoesNotExistException e) {
