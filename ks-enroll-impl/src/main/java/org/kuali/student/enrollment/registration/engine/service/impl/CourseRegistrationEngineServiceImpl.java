@@ -12,6 +12,7 @@ import org.kuali.student.enrollment.courseregistration.infc.RegistrationRequestI
 import org.kuali.student.enrollment.courseregistration.service.CourseRegistrationService;
 import org.kuali.student.enrollment.courseseatcount.infc.SeatCount;
 import org.kuali.student.enrollment.courseseatcount.service.CourseSeatCountService;
+import org.kuali.student.enrollment.krms.proposition.AbstractBestEffortProposition;
 import org.kuali.student.enrollment.lpr.dto.LprInfo;
 import org.kuali.student.enrollment.lpr.dto.LprTransactionItemInfo;
 import org.kuali.student.enrollment.lpr.infc.Lpr;
@@ -275,13 +276,12 @@ public class CourseRegistrationEngineServiceImpl implements CourseRegistrationEn
             throw new RuntimeException("Cannot initialize request that is already initialized requestId:"+registrationRequestInfo.getId());
         }
         registrationRequestInfo.setStateKey(LprServiceConstants.LPRTRANS_PROCESSING_STATE_KEY);
-        for(RegistrationRequestItemInfo requestItemInfo:registrationRequestInfo.getRegistrationRequestItems()){
+        for(RegistrationRequestItemInfo requestItemInfo : registrationRequestInfo.getRegistrationRequestItems()){
             if(!LprServiceConstants.LPRTRANS_ITEM_NEW_STATE_KEY.equals(requestItemInfo.getStateKey())){
                 throw new RuntimeException("Cannot initialize request item that is already initialized requestId:"+registrationRequestInfo.getId() +" itemId:"+requestItemInfo.getId());
             }
             requestItemInfo.setStateKey(LprServiceConstants.LPRTRANS_ITEM_PROCESSING_STATE_KEY);
         }
-        registrationRequestInfo = getCourseRegistrationService().updateRegistrationRequest(registrationRequestInfo.getId(), registrationRequestInfo, contextInfo);
 
         //Get reg group info
         Map<String, RegistrationGroup> regGroupIdToRegGroupMap = getRegistrationGroupsForRequest(registrationRequestInfo, contextInfo);
@@ -289,6 +289,16 @@ public class CourseRegistrationEngineServiceImpl implements CourseRegistrationEn
         //Create a message to send through the registration engine
         RegistrationRequestEngineMessage registrationMessage = new RegistrationRequestEngineMessage(registrationRequestInfo, regGroupIdToRegGroupMap, contextInfo);
 
+        //Check if reg group is in offered state. If not -> reg item should be in failed state
+        for (RegistrationRequestItemInfo regRequestItem : registrationRequestInfo.getRegistrationRequestItems()) {
+            if (!regGroupIdToRegGroupMap.get(regRequestItem.getRegistrationGroupId()).getStateKey().equals(LuiServiceConstants.REGISTRATION_GROUP_OFFERED_STATE_KEY)) {
+                regRequestItem.setStateKey(LprServiceConstants.LPRTRANS_ITEM_FAILED_STATE_KEY);
+                ValidationResultInfo vr = createValidationResultFailureForRegRequestItem(regRequestItem);
+                regRequestItem.getValidationResults().add(new ValidationResultInfo(vr));
+            }
+        }
+
+        registrationRequestInfo = getCourseRegistrationService().updateRegistrationRequest(registrationRequestInfo.getId(), registrationRequestInfo, contextInfo);
 
         return registrationMessage;
     }
@@ -644,7 +654,6 @@ public class CourseRegistrationEngineServiceImpl implements CourseRegistrationEn
             }
 
             registrationGroupIds.add(regRequestItem.getRegistrationGroupId());
-
         }
 
         List<RegistrationGroupInfo> registrationGroups = getCourseOfferingService().getRegistrationGroupsByIds(registrationGroupIds, contextInfo);
@@ -655,6 +664,11 @@ public class CourseRegistrationEngineServiceImpl implements CourseRegistrationEn
         }
 
         return regGroupIdToRegGroupMap;
+    }
+
+    private ValidationResultInfo createValidationResultFailureForRegRequestItem(RegistrationRequestItemInfo item) {
+        String msg = RegistrationValidationResultsUtil.marshallSimpleMessage(LprServiceConstants.LPRTRANS_ITEM_REG_GROUP_NOT_OFFERED_MESSAGE_KEY);
+        return AbstractBestEffortProposition.createValidationResultFailureForRegRequestItem(item, msg);
     }
 
     public CourseOfferingService getCourseOfferingService() {

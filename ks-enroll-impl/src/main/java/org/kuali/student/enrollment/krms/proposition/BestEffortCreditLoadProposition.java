@@ -16,6 +16,7 @@
  */
 package org.kuali.student.enrollment.krms.proposition;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.krms.api.engine.ExecutionEnvironment;
 import org.kuali.rice.krms.api.engine.ResultEvent;
@@ -65,53 +66,55 @@ public class BestEffortCreditLoadProposition extends AbstractBestEffortPropositi
     public PropositionResult evaluate(ExecutionEnvironment environment) {
         ContextInfo contextInfo = environment.resolveTerm(RulesExecutionConstants.CONTEXT_INFO_TERM, this);
         RegistrationRequestInfo request = environment.resolveTerm(RulesExecutionConstants.REGISTRATION_REQUEST_TERM, this);
+        String personId = environment.resolveTerm(RulesExecutionConstants.PERSON_ID_TERM, this);
         //List<RegistrationRequestItemInfo> regRequestItems = request.getRegistrationRequestItems();
         //Changed this code to use a list of one from the environment
         RegistrationRequestItemInfo requestItemInfo = environment.resolveTerm(RulesExecutionConstants.REGISTRATION_REQUEST_ITEM_TERM, this);
-        List<RegistrationRequestItemInfo> regRequestItems = new ArrayList<RegistrationRequestItemInfo>();
-        regRequestItems.add(requestItemInfo);
 
-        String personId = environment.resolveTerm(RulesExecutionConstants.PERSON_ID_TERM, this);
-        CourseRegistrationService crService = environment.resolveTerm(RulesExecutionConstants.COURSE_REGISTRATION_SERVICE_TERM,
-                this);
-        CourseWaitListService wlService = environment.resolveTerm(RulesExecutionConstants.COURSE_WAIT_LIST_SERVICE_TERM,
-                this);
-        CourseOfferingService coService = environment.resolveTerm(RulesExecutionConstants.COURSE_OFFERING_SERVICE_TERM, this);
+        if (!StringUtils.equals(requestItemInfo.getStateKey(), LprServiceConstants.LPRTRANS_ITEM_FAILED_STATE_KEY)) {
+            List<RegistrationRequestItemInfo> regRequestItems = new ArrayList<RegistrationRequestItemInfo>();
+            regRequestItems.add(requestItemInfo);
 
-        // Verify that all operations are add
-        boolean allAddOps = true;
-        for (RegistrationRequestItemInfo item: request.getRegistrationRequestItems()) {
-            if (!LprServiceConstants.REQ_ITEM_ADD_TYPE_KEY.equals(item.getTypeKey())) {
-                allAddOps = false;
-                break;
+            CourseRegistrationService crService = environment.resolveTerm(RulesExecutionConstants.COURSE_REGISTRATION_SERVICE_TERM,
+                    this);
+            CourseWaitListService wlService = environment.resolveTerm(RulesExecutionConstants.COURSE_WAIT_LIST_SERVICE_TERM,
+                    this);
+            CourseOfferingService coService = environment.resolveTerm(RulesExecutionConstants.COURSE_OFFERING_SERVICE_TERM, this);
+
+            // Verify that all operations are add
+            boolean allAddOps = true;
+            for (RegistrationRequestItemInfo item: request.getRegistrationRequestItems()) {
+                if (!LprServiceConstants.REQ_ITEM_ADD_TYPE_KEY.equals(item.getTypeKey())) {
+                    allAddOps = false;
+                    break;
+                }
             }
-        }
-        if (!allAddOps) {
-            if (ALLOW_ALL_NON_ADDS) {
-                return new PropositionResult(true, Collections.<String, Object>emptyMap());
+            if (!allAddOps) {
+                if (ALLOW_ALL_NON_ADDS) {
+                   return new PropositionResult(true, Collections.<String, Object>emptyMap());
+                }
+
+                // All of the operations were not "add", thus this is not a reg cart.
+                InvalidParameterException ex = new InvalidParameterException("Should be add ops only");
+                return KRMSEvaluator.constructExceptionPropositionResult(environment, ex, this);
             }
 
-            // All of the operations were not "add", thus this is not a reg cart.
-            InvalidParameterException ex = new InvalidParameterException("Should be add ops only");
-            return KRMSEvaluator.constructExceptionPropositionResult(environment, ex, this);
+            // Compute the credit limit (assume a fixed value, for now)
+            ValueInfo creditLimit;
+            try {
+                creditLimit = computeCreditLimit(environment);
+            } catch (Exception ex) {
+                return KRMSEvaluator.constructExceptionPropositionResult(environment, ex, this);
+            }
+            KualiDecimal creditLimitValue = creditLimit.getDecimalValue();
 
-        }
-        // Compute the credit limit (assume a fixed value, for now)
-        ValueInfo creditLimit;
-        try {
-            creditLimit = computeCreditLimit(environment);
-        } catch (Exception ex) {
-            return KRMSEvaluator.constructExceptionPropositionResult(environment, ex, this);
-        }
-        KualiDecimal creditLimitValue = creditLimit.getDecimalValue();
-
-        // Fetch registrations
-        List<CourseRegistrationInfo> existingCrs = new ArrayList<CourseRegistrationInfo>();
-        existingCrs.addAll((List<CourseRegistrationInfo>) environment.resolveTerm(RulesExecutionConstants.EXISTING_REGISTRATIONS_TERM, this));
-        if(countWaitlistedCoursesTowardsCreditLimit){
-            existingCrs.addAll((List<CourseRegistrationInfo>) environment.resolveTerm(RulesExecutionConstants.EXISTING_WAITLISTED_REGISTRATIONS_TERM, this));
-        }
-        existingCrs.addAll((List<CourseRegistrationInfo>) environment.resolveTerm(RulesExecutionConstants.SIMULATED_REGISTRATIONS_TERM, this));
+            // Fetch registrations
+            List<CourseRegistrationInfo> existingCrs = new ArrayList<CourseRegistrationInfo>();
+            existingCrs.addAll((List<CourseRegistrationInfo>) environment.resolveTerm(RulesExecutionConstants.EXISTING_REGISTRATIONS_TERM, this));
+            if(countWaitlistedCoursesTowardsCreditLimit){
+                existingCrs.addAll((List<CourseRegistrationInfo>) environment.resolveTerm(RulesExecutionConstants.EXISTING_WAITLISTED_REGISTRATIONS_TERM, this));
+            }
+            existingCrs.addAll((List<CourseRegistrationInfo>) environment.resolveTerm(RulesExecutionConstants.SIMULATED_REGISTRATIONS_TERM, this));
 
 //        try {
 //            existingCrs = getCourseAndWaitlistRegistrations(request, personId, getCourseRegistrationService(), getCourseWaitListService(), contextInfo);
@@ -120,38 +123,40 @@ public class BestEffortCreditLoadProposition extends AbstractBestEffortPropositi
 //        }
 
 
-        // Iterate over each item and check load
-        List<CourseRegistrationInfo> successFromCart = new ArrayList<CourseRegistrationInfo>();
+            // Iterate over each item and check load
+            List<CourseRegistrationInfo> successFromCart = new ArrayList<CourseRegistrationInfo>();
 //        for (RegistrationRequestItemInfo item: request.getRegistrationRequestItems()) {
-        for (RegistrationRequestItemInfo item: regRequestItems) {
-            List<CourseRegistrationInfo> copyExistingCrs = new ArrayList<CourseRegistrationInfo>();
-            // Copy the existing registrations
-            copyExistingCrs.addAll(existingCrs);
-            // Add the successful RGs from the cart (added from previous iterations)
-            copyExistingCrs.addAll(successFromCart);
-            // Add the item being iterated over
-            CourseRegistrationInfo regItem;
-            try {
-                regItem = createNewCourseRegistration(coService, item, contextInfo);
-            } catch (OperationFailedException ex) {
-                return KRMSEvaluator.constructExceptionPropositionResult(environment, ex, this);
-            }
-            copyExistingCrs.add(regItem);
-            // Verify the credit load
-            boolean loadVerified = verifyLoadIsOK(copyExistingCrs, creditLimitValue);
-            if (loadVerified) {
-                // Add the successful cart "registrations" to the list for use in next iteration
-                successFromCart.add(regItem);
-            } else {
-                ValidationResultInfo vr = createValidationResultFailureForRegRequestItem(item, creditLimitValue);
-                Map<String, Object> executionDetails = new LinkedHashMap<String, Object>();
-                executionDetails.put(RulesExecutionConstants.PROCESS_EVALUATION_RESULTS, vr);
-                PropositionResult result = new PropositionResult(false, executionDetails);
-                BasicResult br = new BasicResult(executionDetails, ResultEvent.PROPOSITION_EVALUATED, this, environment, result.
-                        getResult());
-                environment.getEngineResults().addResult(br);
+            for (RegistrationRequestItemInfo item: regRequestItems) {
+                List<CourseRegistrationInfo> copyExistingCrs = new ArrayList<CourseRegistrationInfo>();
+                // Copy the existing registrations
+                copyExistingCrs.addAll(existingCrs);
+                // Add the successful RGs from the cart (added from previous iterations)
+                copyExistingCrs.addAll(successFromCart);
+                // Add the item being iterated over
+                CourseRegistrationInfo regItem;
+                try {
+                    regItem = createNewCourseRegistration(coService, item, contextInfo);
+                } catch (OperationFailedException ex) {
+                    return KRMSEvaluator.constructExceptionPropositionResult(environment, ex, this);
+                }
+                copyExistingCrs.add(regItem);
+                // Verify the credit load
+                boolean loadVerified = verifyLoadIsOK(copyExistingCrs, creditLimitValue);
+                if (loadVerified) {
+                    // Add the successful cart "registrations" to the list for use in next iteration
+                    successFromCart.add(regItem);
+                } else {
+                    ValidationResultInfo vr = createValidationResultFailureForRegRequestItem(item, creditLimitValue);
+                    Map<String, Object> executionDetails = new LinkedHashMap<String, Object>();
+                    executionDetails.put(RulesExecutionConstants.PROCESS_EVALUATION_RESULTS, vr);
+                    PropositionResult result = new PropositionResult(false, executionDetails);
+                    BasicResult br = new BasicResult(executionDetails, ResultEvent.PROPOSITION_EVALUATED, this, environment, result.
+                            getResult());
+                    environment.getEngineResults().addResult(br);
+                }
             }
         }
+
         // This result contains all the other results
         return recordAllRegRequestItems(environment,  new ArrayList<ValidationResultInfo>());
     }

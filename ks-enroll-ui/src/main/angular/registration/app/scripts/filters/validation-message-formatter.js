@@ -34,6 +34,10 @@ angular.module('regCartApp').filter('formatValidationMessage', ['VALIDATION_ERRO
                         message = formatMaxCredits(data);
                         break;
 
+                    case VALIDATION_ERROR_TYPE.reggroupNotOffered:
+                        message = formatReggroupNotOffered(data, course);
+                        break;
+
                     case GENERAL_ERROR_TYPE.noRegGroup:
                         message = formatCourse(data.txt, data.course);
                         break;
@@ -132,6 +136,15 @@ angular.module('regCartApp').filter('formatValidationMessage', ['VALIDATION_ERRO
             var maxCredits = parseFloat(data.maxCredits); // convert to a float to eliminate unnecessary decimals
             message += ' (<strong>' + maxCredits + ' credits</strong>)';
         }
+
+        return message;
+    }
+
+    function formatReggroupNotOffered(data, course) {
+        // look up the core message text
+        var message = getMessage(data.messageKey);
+
+        message = message.replace('XXXX (RG)', course.courseCode + ' (' + course.regGroupCode + ') ');
 
         return message;
     }

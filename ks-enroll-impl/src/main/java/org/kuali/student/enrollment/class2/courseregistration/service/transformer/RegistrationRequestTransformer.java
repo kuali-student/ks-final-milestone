@@ -91,6 +91,7 @@ public class RegistrationRequestTransformer {
         item.setNewLuiId(requestItem.getRegistrationGroupId());
         item.setExistingLprId(requestItem.getExistingCourseRegistrationId());
         item.setCrossList(requestItem.getCrossList());
+        item.setValidationResults(requestItem.getValidationResults());
         item.getResultValuesGroupKeys().clear();
 
         LprTransactionItemRequestOptionInfo effDateOption =

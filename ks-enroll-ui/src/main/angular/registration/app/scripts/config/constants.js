@@ -96,6 +96,7 @@ angular.module('regCartApp')
     .constant('VALIDATION_ERROR_TYPE', {
         maxCredits: 'kuali.lpr.trans.message.credit.load.exceeded',
         timeConflict: 'kuali.lpr.trans.message.time.conflict',
+        reggroupNotOffered: 'kuali.lpr.trans.message.reggroup.notoffered',
         waitlistAvailable: 'kuali.lpr.trans.message.waitlist.available',        //"No seats available."
         waitlistWaitlisted: 'kuali.lpr.trans.message.waitlist.waitlisted',      //"Waitlisted" ??? Is it error or success? Status 'waitlist'
         waitlistFull: 'kuali.lpr.trans.message.waitlist.full',                  //"No seats available.<br/>(Waitlist full)"

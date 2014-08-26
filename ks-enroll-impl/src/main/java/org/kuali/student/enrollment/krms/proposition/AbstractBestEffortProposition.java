@@ -54,7 +54,7 @@ import java.util.Map;
  */
 public abstract class AbstractBestEffortProposition extends AbstractLeafProposition {
 
-    protected ValidationResultInfo createValidationResultFailureForRegRequestItem(RegistrationRequestItemInfo item, String msg) {
+    public static ValidationResultInfo createValidationResultFailureForRegRequestItem(RegistrationRequestItemInfo item, String msg) {
         ValidationResultInfo result = new ValidationResultInfo();
         result.setLevel(ValidationResult.ErrorLevel.ERROR);
         String elt = "registrationRequestItems['" + item.getId() + "']";

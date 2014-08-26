@@ -20,6 +20,10 @@
         "message":"Time conflict"
     },
     {
+        "messageKey":"kuali.lpr.trans.message.reggroup.notoffered",
+        "message":"Course <strong>XXXX (RG)</strong> is not offered in the selected term"
+    },
+    {
         "messageKey":"kuali.lpr.trans.message.waitlist.available",
         "message":"No seats available."
     },
