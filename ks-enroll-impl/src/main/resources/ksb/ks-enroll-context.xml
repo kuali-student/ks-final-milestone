@@ -1890,10 +1890,7 @@
                 <bean class="org.kuali.student.enrollment.class2.courseoffering.krms.termresolver.CourseRecordForStudentTermResolver">
                     <property name="academicRecordService" ref="academicRecordService"/>
                 </bean>
-                <bean class="org.kuali.student.enrollment.class2.courseoffering.krms.termresolver.GesValueTermResolver">
-                    <property name="gesService" ref="GesService"/>
-                </bean>
-                <bean class="org.kuali.student.enrollment.class2.courseoffering.krms.termresolver.GesIntegerValueTermResolver">
+                <bean class="org.kuali.student.enrollment.class2.courseoffering.krms.termresolver.GesMaxRepeatabilityTermResolver">
                     <property name="gesService" ref="GesService"/>
                 </bean>
                 <bean class="org.kuali.student.enrollment.class2.courseoffering.krms.termresolver.CourseRegistrationKeyDateTermResolver">

@@ -21,18 +21,13 @@ UPDATE KRMS_RULE_T set PROP_ID = 'kuali.prop.repeatability.warning' where RULE_I
 
 --Proposition Parameters
 insert into KRMS_PROP_PARM_T (PARM_TYP_CD, PARM_VAL, PROP_ID, PROP_PARM_ID, SEQ_NO, VER_NBR)
-  values ('T', 'KS-KRMS-TERM-CourseTotalAttempts', 'kuali.prop.repeatability.warning', 'KS-KRMS-PPT-RepeatabilityWarning', 1, 0)
-/
-/*
-insert into KRMS_PROP_PARM_T (PARM_TYP_CD, PARM_VAL, PROP_ID, PROP_PARM_ID, SEQ_NO, VER_NBR)
-  values ('T', 'KS-KRMS-TERM-GesMaxRepeatable', 'kuali.prop.repeatability.warning', 'KS-KRMS-PPT-GesMaxRepeatable', 2, 0)
-/
-*/
-insert into KRMS_PROP_PARM_T (PARM_TYP_CD, PARM_VAL, PROP_ID, PROP_PARM_ID, SEQ_NO, VER_NBR)
-  values ('C', '1', 'kuali.prop.repeatability.warning', 'KS-KRMS-PPC-RepeatabilityWarning', 1, 0)
+  values ('T', 'KS-KRMS-TERM-GesMaxRepeatability', 'kuali.prop.repeatability.warning', 'KS-KRMS-PPT-RepeatabilityWarning', 1, 0)
 /
 insert into KRMS_PROP_PARM_T (PARM_TYP_CD, PARM_VAL, PROP_ID, PROP_PARM_ID, SEQ_NO, VER_NBR)
-  values ('O', '<', 'kuali.prop.repeatability.warning', 'KS-KRMS-PPO-RepeatabilityWarning', 3, 0)
+  values ('C', 'kuali.max.repeatability.warning', 'kuali.prop.repeatability.warning', 'KS-KRMS-PPC-RepeatabilityWarning', 1, 0)
+/
+insert into KRMS_PROP_PARM_T (PARM_TYP_CD, PARM_VAL, PROP_ID, PROP_PARM_ID, SEQ_NO, VER_NBR)
+  values ('O', '!=', 'kuali.prop.repeatability.warning', 'KS-KRMS-PPO-RepeatabilityWarning', 3, 0)
 /
 
 

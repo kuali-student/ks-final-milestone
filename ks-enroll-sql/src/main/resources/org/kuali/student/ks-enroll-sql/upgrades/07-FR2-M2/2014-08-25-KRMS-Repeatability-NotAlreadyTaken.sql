@@ -20,44 +20,26 @@ UPDATE KRMS_RULE_T set PROP_ID = 'kuali.prop.course.already.taken' where RULE_ID
 
 -- Term Spec
 insert into KRMS_TERM_SPEC_T (ACTV, DESC_TXT, NM, NMSPC_CD, TERM_SPEC_ID, TYP, VER_NBR)
-  values ('Y', 'Number of times Student has attempted Course', 'CourseCompletedAttempts', 'KS-SYS', 'KS-KRMS-TS-CourseTotalAttempts', 'java.lang.Integer', 0)
+  values ('Y', 'Max Repeatability Error', 'GesMaxRepeatability', 'KS-SYS', 'KS-KRMS-TS-GesMaxRepeatability', 'java.lang.String', 0)
 /
 -- Term
 insert into KRMS_TERM_T (DESC_TXT, TERM_ID, TERM_SPEC_ID, VER_NBR)
-  values ('Number of attempts Student has made for Course Term', 'KS-KRMS-TERM-CourseTotalAttempts', 'KS-KRMS-TS-CourseTotalAttempts', 0)
+  values ('Max Repeatability Error Term', 'KS-KRMS-TERM-GesMaxRepeatability', 'KS-KRMS-TS-GesMaxRepeatability', 0)
 /
 -- Term Resolver
 insert into KRMS_TERM_RSLVR_T (ACTV, NM, NMSPC_CD, OUTPUT_TERM_SPEC_ID, TERM_RSLVR_ID, TYP_ID, VER_NBR)
-  values ('Y', 'CourseTotalAttempts', 'KS-SYS', 'KS-KRMS-TS-CourseTotalAttempts', 'KS-KRMS-TR-CourseTotalAttempts', 'kuali.krms.termresolver.type.check', 0)
-/
-
-
--- Term Spec
-insert into KRMS_TERM_SPEC_T (ACTV, DESC_TXT, NM, NMSPC_CD, TERM_SPEC_ID, TYP, VER_NBR)
-  values ('Y', 'Maximum Number of Course Attempts', 'GesIntegerValue', 'KS-SYS', 'KS-KRMS-TS-GesMaxRepeatable', 'java.lang.Integer', 0)
-/
--- Term
-insert into KRMS_TERM_T (DESC_TXT, TERM_ID, TERM_SPEC_ID, VER_NBR)
-  values ('Maximum Number of Course Attempts Term', 'KS-KRMS-TERM-GesMaxRepeatable', 'KS-KRMS-TS-GesMaxRepeatable', 0)
-/
--- Term Parameter: GES Parm
-insert into KRMS_TERM_PARM_T (NM, TERM_ID, TERM_PARM_ID, VAL, VER_NBR)
-  values ('kuali.term.parameter.type.ges.parameter.key', 'KS-KRMS-TERM-GesMaxRepeatable', 'KS-KRMS-TP-GesMaxRepeatable', 'kuali.ges.max.repeatable', 0)
-/
--- Term Resolver
-insert into KRMS_TERM_RSLVR_T (ACTV, NM, NMSPC_CD, OUTPUT_TERM_SPEC_ID, TERM_RSLVR_ID, TYP_ID, VER_NBR)
-  values ('Y', 'GesIntegerValue', 'KS-SYS', 'KS-KRMS-TS-GesMaxRepeatable', 'KS-KRMS-TR-GesMaxRepeatable', 'kuali.krms.termresolver.type.check', 0)
+  values ('Y', 'GesMaxRepeatability', 'KS-SYS', 'KS-KRMS-TS-GesMaxRepeatability', 'KS-KRMS-TR-GesMaxRepeatability', 'kuali.krms.termresolver.type.check', 0)
 /
 
 --Proposition Parameters
 insert into KRMS_PROP_PARM_T (PARM_TYP_CD, PARM_VAL, PROP_ID, PROP_PARM_ID, SEQ_NO, VER_NBR)
-  values ('T', 'KS-KRMS-TERM-CourseTotalAttempts', 'kuali.prop.course.already.taken', 'KS-KRMS-PPT-CourseTotalAttempts', 1, 0)
+  values ('T', 'KS-KRMS-TERM-GesMaxRepeatability', 'kuali.prop.course.already.taken', 'KS-KRMS-PPT-GesMaxRepeatability', 1, 0)
 /
 insert into KRMS_PROP_PARM_T (PARM_TYP_CD, PARM_VAL, PROP_ID, PROP_PARM_ID, SEQ_NO, VER_NBR)
-  values ('T', 'KS-KRMS-TERM-GesMaxRepeatable', 'kuali.prop.course.already.taken', 'KS-KRMS-PPT-GesMaxRepeatable', 2, 0)
+  values ('C', 'kuali.max.repeatability.error', 'kuali.prop.course.already.taken', 'KS-KRMS-PPC-GesMaxRepeatability', 2, 0)
 /
 insert into KRMS_PROP_PARM_T (PARM_TYP_CD, PARM_VAL, PROP_ID, PROP_PARM_ID, SEQ_NO, VER_NBR)
-  values ('O', '<', 'kuali.prop.course.already.taken', 'KS-KRMS-PPO-CourseTotalAttempts', 3, 0)
+  values ('O', '!=', 'kuali.prop.course.already.taken', 'KS-KRMS-PPO-CourseTotalAttempts', 3, 0)
 /
 
 
