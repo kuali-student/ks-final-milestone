@@ -71,7 +71,7 @@ public class GesMaxRepeatabilityTermResolver implements TermResolver<String> {
         prereqs.add(RulesExecutionConstants.PERSON_ID_TERM.getName());
         prereqs.add(RulesExecutionConstants.ATP_ID_TERM.getName());
         prereqs.add(RulesExecutionConstants.AS_OF_DATE_TERM.getName());
-        prereqs.add(KSKRMSServiceConstants.TERM_RESOLVER_COURSE_COMPLETED_ATTEMPTS);
+        prereqs.add(KSKRMSServiceConstants.TERM_RESOLVER_COURSE_TOTAL_ATTEMPTS);
 
         return Collections.unmodifiableSet(prereqs);
     }
@@ -90,7 +90,7 @@ public class GesMaxRepeatabilityTermResolver implements TermResolver<String> {
         String personId = (String) resolvedPrereqs.get(RulesExecutionConstants.PERSON_ID_TERM.getName());
         String atpId = (String) resolvedPrereqs.get(RulesExecutionConstants.ATP_ID_TERM.getName());
         Date asOfDate = (Date) resolvedPrereqs.get(RulesExecutionConstants.AS_OF_DATE_TERM.getName());
-        Integer totalAttempts = (Integer) resolvedPrereqs.get(KSKRMSServiceConstants.TERM_RESOLVER_COURSE_COMPLETED_ATTEMPTS);
+        Integer totalAttempts = (Integer) resolvedPrereqs.get(KSKRMSServiceConstants.TERM_RESOLVER_COURSE_TOTAL_ATTEMPTS);
 
         GesCriteriaInfo criteria = new GesCriteriaInfo();
         criteria.setPersonId(personId);

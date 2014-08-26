@@ -21,10 +21,13 @@ package org.kuali.student.enrollment.class2.courseoffering.krms.termresolver;
 
 import org.kuali.rice.krms.api.engine.TermResolutionException;
 import org.kuali.rice.krms.api.engine.TermResolver;
+import org.kuali.student.enrollment.academicrecord.dto.StudentCourseRecordInfo;
+import org.kuali.student.r2.common.util.constants.AcademicRecordServiceConstants;
 import org.kuali.student.r2.core.constants.KSKRMSServiceConstants;
 
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -47,9 +50,8 @@ public class CourseTotalAttemptsTermResolver implements TermResolver<Integer> {
 
     @Override
     public Set<String> getPrerequisites() {
-        Set<String> prereqs = new HashSet<>(2);
-        prereqs.add(KSKRMSServiceConstants.TERM_RESOLVER_COURSE_COMPLETED_ATTEMPTS);
-        prereqs.add(KSKRMSServiceConstants.TERM_RESOLVER_COURSE_REGISTERED_COUNT);
+        Set<String> prereqs = new HashSet<>(1);
+        prereqs.add(KSKRMSServiceConstants.TERM_RESOLVER_COURSE_RECORD_FOR_STUDENT);
 
         return Collections.unmodifiableSet(prereqs);
     }
@@ -62,9 +64,18 @@ public class CourseTotalAttemptsTermResolver implements TermResolver<Integer> {
     @Override
     public Integer resolve(Map<String, Object> resolvedPrereqs, Map<String, String> parameters) throws TermResolutionException {
 
-        Integer completedAttempts = (Integer) resolvedPrereqs.get(KSKRMSServiceConstants.TERM_RESOLVER_COURSE_COMPLETED_ATTEMPTS);
-        Integer registeredCount = (Integer) resolvedPrereqs.get(KSKRMSServiceConstants.TERM_RESOLVER_COURSE_REGISTERED_COUNT);
+        int totalAttempts = 0;
 
-        return completedAttempts + registeredCount;
+        @SuppressWarnings("unchecked")
+        List<StudentCourseRecordInfo> studentCourseRecordInfoList = (List<StudentCourseRecordInfo>) resolvedPrereqs.get(KSKRMSServiceConstants.TERM_RESOLVER_COURSE_RECORD_FOR_STUDENT);
+
+        for (StudentCourseRecordInfo studentCourseRecordInfo:studentCourseRecordInfoList) {
+            if (studentCourseRecordInfo.getStateKey().equals(AcademicRecordServiceConstants.STUDENTCOURSERECORD_STATE_KEY_COMPLETED) ||
+                studentCourseRecordInfo.getStateKey().equals(AcademicRecordServiceConstants.STUDENTCOURSERECORD_STATE_KEY_REGISTERED)) {
+                totalAttempts++;
+            }
+        }
+
+        return totalAttempts;
     }
 }

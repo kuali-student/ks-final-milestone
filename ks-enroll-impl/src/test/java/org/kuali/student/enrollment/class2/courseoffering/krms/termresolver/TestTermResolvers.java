@@ -951,9 +951,15 @@ public class TestTermResolvers {
         //Setup the term resolver
         CourseTotalAttemptsTermResolver termResolver = new CourseTotalAttemptsTermResolver();
 
+        StudentCourseRecordInfo registeredCourse = new StudentCourseRecordInfo();
+        registeredCourse.setStateKey(AcademicRecordServiceConstants.STUDENTCOURSERECORD_STATE_KEY_REGISTERED);
+
+        List<StudentCourseRecordInfo> courseRecordList = new ArrayList<>();
+        courseRecordList.addAll(studentToCourseRecordsMap.get("R.JESSICAL"));
+        courseRecordList.add(registeredCourse);
+
         //Setup data for test
-        resolvedPrereqs.put(KSKRMSServiceConstants.TERM_RESOLVER_COURSE_COMPLETED_ATTEMPTS, 2);
-        resolvedPrereqs.put(KSKRMSServiceConstants.TERM_RESOLVER_COURSE_REGISTERED_COUNT, 1);
+        resolvedPrereqs.put(KSKRMSServiceConstants.TERM_RESOLVER_COURSE_RECORD_FOR_STUDENT, courseRecordList);
 
         //Validate the term resolver
         validateTermResolver(termResolver, resolvedPrereqs, parameters,
@@ -1035,6 +1041,57 @@ public class TestTermResolvers {
         ValueInfo value = termResolver.resolve(resolvedPrereqs, parameters);
         assertNotNull(value);
         assertEquals(value.getDecimalValue().intValue(), 2);
+    }
+
+    @Test
+    public void testGesIntegerValueTermResolver() throws Exception {
+        //Setup the term resolver
+        GesIntegerValueTermResolver termResolver = new GesIntegerValueTermResolver();
+        termResolver.setGesService(gesService);
+
+        //Setup prerequisites
+        resolvedPrereqs.put(RulesExecutionConstants.CONTEXT_INFO_TERM.getName(), contextInfo);
+        resolvedPrereqs.put(RulesExecutionConstants.PERSON_ID_TERM.getName(), "kuali.population.student.key.everyone100000077");
+        resolvedPrereqs.put(RulesExecutionConstants.ATP_ID_TERM.getName(), dataLoader.getFallTermId());
+        resolvedPrereqs.put(RulesExecutionConstants.AS_OF_DATE_TERM.getName(), KRMSEnrollmentEligibilityDataLoader.START_FALL_TERM_DATE);
+
+        //Setup parameters
+        parameters.put(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_GES_PARAMETER_KEY, GesServiceConstants.PARAMETER_KEY_MAX_REPEATABLE);
+
+        //Validate the term resolver
+        validateTermResolver(termResolver, resolvedPrereqs, parameters,
+                KSKRMSServiceConstants.TERM_RESOLVER_GES_INTEGER_VALUE);
+
+        //Evaluate term Resolver
+        Integer value = termResolver.resolve(resolvedPrereqs, parameters);
+        assertNotNull(value);
+        assertEquals(value.intValue(), 2);
+    }
+
+    @Test
+    public void testGesMaxRepeatabilityTermResolver() throws Exception {
+        //Setup the term resolver
+        GesMaxRepeatabilityTermResolver termResolver = new GesMaxRepeatabilityTermResolver();
+        termResolver.setGesService(gesService);
+
+        //Setup prerequisites
+        resolvedPrereqs.put(RulesExecutionConstants.CONTEXT_INFO_TERM.getName(), contextInfo);
+        resolvedPrereqs.put(RulesExecutionConstants.PERSON_ID_TERM.getName(), "kuali.population.student.key.everyone100000077");
+        resolvedPrereqs.put(RulesExecutionConstants.ATP_ID_TERM.getName(), dataLoader.getFallTermId());
+        resolvedPrereqs.put(RulesExecutionConstants.AS_OF_DATE_TERM.getName(), KRMSEnrollmentEligibilityDataLoader.START_FALL_TERM_DATE);
+        resolvedPrereqs.put(KSKRMSServiceConstants.TERM_RESOLVER_COURSE_TOTAL_ATTEMPTS, 2);
+
+        //Setup parameters
+        parameters.put(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_GES_PARAMETER_KEY, GesServiceConstants.PARAMETER_KEY_MAX_REPEATABLE);
+
+        //Validate the term resolver
+        validateTermResolver(termResolver, resolvedPrereqs, parameters,
+                KSKRMSServiceConstants.TERM_RESOLVER_GES_MAX_REPEATABILITY);
+
+        //Evaluate term Resolver
+        String value = termResolver.resolve(resolvedPrereqs, parameters);
+        assertNotNull(value);
+        assertEquals(value, GesMaxRepeatabilityTermResolver.MAX_REPEATABILITY_ERROR);
     }
 
     @Test
