@@ -10,7 +10,7 @@ import org.kuali.student.enrollment.class1.hold.form.HoldIssueManagementForm;
 import org.kuali.student.enrollment.class1.hold.form.HoldIssueResult;
 import org.kuali.student.enrollment.class1.hold.service.HoldIssueViewHelperService;
 import org.kuali.student.enrollment.class1.hold.util.HoldIssueConstants;
-import org.kuali.student.enrollment.class1.hold.util.HoldIssueResourceLoader;
+import org.kuali.student.enrollment.class1.hold.util.HoldResourceLoader;
 import org.kuali.student.r2.core.hold.dto.HoldIssueInfo;
 
 import java.util.ArrayList;
@@ -38,7 +38,7 @@ public class HoldIssueViewHelperServiceImpl extends KSViewHelperServiceImpl impl
         List<HoldIssueInfo> holdIssueInfos = new ArrayList<HoldIssueInfo>();
         try {
             QueryByCriteria.Builder query = buildQueryByCriteria(holdIssueFrom.getName(),holdIssueFrom.getTypeKey(),holdIssueFrom.getState(),holdIssueFrom.getOrganizationId(),holdIssueFrom.getDescr());
-            holdIssueInfos = HoldIssueResourceLoader.getHoldService().searchForHoldIssues(query.build(), createContextInfo());
+            holdIssueInfos = HoldResourceLoader.getHoldService().searchForHoldIssues(query.build(), createContextInfo());
 
             for (HoldIssueInfo holdIssueInfo : holdIssueInfos) {
                 HoldIssueResult holdIssueResult = new HoldIssueResult();
@@ -106,17 +106,17 @@ public class HoldIssueViewHelperServiceImpl extends KSViewHelperServiceImpl impl
 
     @Override
     public void validateHold(HoldIssueMaintenanceWrapper holdIssueWrapper){
-        if (StringUtils.isBlank(holdIssueWrapper.getName())) {
+        if (StringUtils.isBlank(holdIssueWrapper.getHoldIssue().getName())) {
             GlobalVariables.getMessageMap().putError(HoldIssueConstants.HOLD_ISSUE_NAME, HoldIssueConstants.HOLDS_ISSUE_MSG_ERROR_HOLD_ISSUE_NAME_REQUIRED);
         }
-        if (StringUtils.isBlank(holdIssueWrapper.getCode())) {
+        if (StringUtils.isBlank(holdIssueWrapper.getHoldIssue().getHoldCode())) {
             GlobalVariables.getMessageMap().putError(HoldIssueConstants.HOLD_ISSUE_CODE, HoldIssueConstants.HOLDS_ISSUE_MSG_ERROR_HOLD_ISSUE_CODE_REQUIRED);
         }
-        if (StringUtils.isBlank(holdIssueWrapper.getTypeKey())) {
+        if (StringUtils.isBlank(holdIssueWrapper.getHoldIssue().getTypeKey())) {
             GlobalVariables.getMessageMap().putError(HoldIssueConstants.HOLD_ISSUE_TYPE, HoldIssueConstants.HOLDS_ISSUE_MSG_ERROR_HOLD_ISSUE_TYPE_REQUIRED);
         }
 
-        if (StringUtils.isBlank(holdIssueWrapper.getOrganizationId())) {
+        if (StringUtils.isBlank(holdIssueWrapper.getHoldIssue().getOrganizationId())) {
             GlobalVariables.getMessageMap().putError(HoldIssueConstants.HOLD_ISSUE_ORG_ID, HoldIssueConstants.HOLDS_ISSUE_MSG_ERROR_HOLD_ISSUE_ORG_ID_REQUIRED);
         }
 

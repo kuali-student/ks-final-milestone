@@ -5,73 +5,89 @@ import org.kuali.rice.krad.maintenance.MaintenanceDocument;
 import org.kuali.student.common.uif.service.impl.KSMaintainableImpl;
 import org.kuali.student.common.util.security.ContextUtils;
 import org.kuali.student.enrollment.class1.hold.dto.HoldIssueMaintenanceWrapper;
-import org.kuali.student.enrollment.class1.hold.util.HoldIssueResourceLoader;
+import org.kuali.student.enrollment.class1.hold.util.HoldResourceLoader;
 import org.kuali.student.r2.common.dto.RichTextInfo;
+import org.kuali.student.r2.common.util.date.DateFormatters;
+import org.kuali.student.r2.core.acal.dto.TermInfo;
 import org.kuali.student.r2.core.hold.dto.HoldIssueInfo;
 
+import java.util.Date;
 import java.util.Map;
 
 public class HoldInfoMaintainableImpl extends KSMaintainableImpl {
 
     public static final String NEW_HOLD_ISSUE_DOCUMENT_TEXT = "New Hold Issue Document";
     public static final String MODIFY_HOLD_ISSUE_DOCUMENT_TEXT = "Modify Hold Issue Document";
+
     @Override
     public Object retrieveObjectForEditOrCopy(MaintenanceDocument document, Map<String, String> dataObjectKeys) {
 
-        HoldIssueMaintenanceWrapper dataObject = new HoldIssueMaintenanceWrapper();
-
         String holdId = dataObjectKeys.get("id");
-        setupDataObject(dataObject, holdId);
+        if (holdId == null) {
+            return setupDataObjectForCreate();
+        } else {
+            return setupDataObjectForEdit(holdId);
+        }
+    }
 
+    public HoldIssueMaintenanceWrapper setupDataObjectForCreate() {
+
+        HoldIssueMaintenanceWrapper dataObject = new HoldIssueMaintenanceWrapper();
+        try {
+            HoldIssueInfo holdIssueInfo = new HoldIssueInfo();
+            dataObject.setTermBased(false);
+            dataObject.setFirstDate(DateFormatters.MONTH_DAY_YEAR_DATE_FORMATTER.format(new Date()));
+            dataObject.setHoldIssue(holdIssueInfo);
+
+        } catch (Exception e) {
+            convertServiceExceptionsToUI(e);
+        }
         return dataObject;
     }
 
-    public void setupDataObject(HoldIssueMaintenanceWrapper dataObject, String holdId) {
-        HoldIssueInfo holdIssueInfo = null;
-        try {
-            holdIssueInfo = HoldIssueResourceLoader.getHoldService().getHoldIssue(holdId, ContextUtils.createDefaultContextInfo());
-            if (!holdIssueInfo.equals(null)) {
-                dataObject.setId(holdIssueInfo.getId());
-                dataObject.setName(holdIssueInfo.getName());
-                dataObject.setOrganizationId(holdIssueInfo.getOrganizationId());
-                dataObject.setTypeKey(holdIssueInfo.getTypeKey());
-                dataObject.setStateKey(holdIssueInfo.getStateKey());
-                dataObject.setDescr(holdIssueInfo.getDescr().getPlain());
-                dataObject.setHoldIssueInfo(holdIssueInfo);
-            }
-        } catch (Exception e) {
+    public HoldIssueMaintenanceWrapper setupDataObjectForEdit(String holdId) {
 
+        HoldIssueMaintenanceWrapper dataObject = new HoldIssueMaintenanceWrapper();
+        try {
+            HoldIssueInfo holdIssueInfo = HoldResourceLoader.getHoldService().getHoldIssue(holdId, ContextUtils.createDefaultContextInfo());
+            dataObject.setDescr(holdIssueInfo.getDescr().getPlain());
+
+            // Set term information.
+            dataObject.setTermBased(holdIssueInfo.getIsHoldIssueTermBased());
+            if (holdIssueInfo.getIsHoldIssueTermBased()) {
+                TermInfo firstTerm = HoldResourceLoader.getAcademicCalendarService().getTerm(holdIssueInfo.getFirstApplicationTermId(), ContextUtils.createDefaultContextInfo());
+                dataObject.setFirstTerm(firstTerm.getCode());
+                TermInfo lastTerm = HoldResourceLoader.getAcademicCalendarService().getTerm(holdIssueInfo.getLastApplicationTermId(), ContextUtils.createDefaultContextInfo());
+                dataObject.setFirstTerm(lastTerm.getCode());
+            }
+
+            // Set date information.
+            dataObject.setFirstDate(DateFormatters.MONTH_DAY_YEAR_DATE_FORMATTER.format(holdIssueInfo.getFirstAppliedDate()));
+            if (holdIssueInfo.getLastAppliedDate() != null) {
+                dataObject.setFirstDate(DateFormatters.MONTH_DAY_YEAR_DATE_FORMATTER.format(holdIssueInfo.getLastAppliedDate()));
+            }
+            dataObject.setHoldIssue(holdIssueInfo);
+
+        } catch (Exception e) {
             convertServiceExceptionsToUI(e);
         }
+        return dataObject;
     }
 
     @Override
     public void saveDataObject() {
         HoldIssueMaintenanceWrapper holdWrapper = (HoldIssueMaintenanceWrapper) getDataObject();
-        HoldIssueInfo holdIssueInfo = new HoldIssueInfo();
-        holdIssueInfo.setName(holdWrapper.getName());
-        holdIssueInfo.setTypeKey(holdWrapper.getTypeKey());
-        holdIssueInfo.setStateKey(holdWrapper.getStateKey());
-        holdIssueInfo.setOrganizationId(holdWrapper.getOrganizationId());
-        RichTextInfo richTextInfo = new RichTextInfo();
-        richTextInfo.setPlain(holdWrapper.getDescr());
-        holdIssueInfo.setDescr(richTextInfo);
-        if (StringUtils.isBlank(holdWrapper.getId())) {
+        HoldIssueInfo holdIssueInfo = holdWrapper.getHoldIssue();
 
-            try {
-                HoldIssueInfo createHoldIssueInfo = HoldIssueResourceLoader.getHoldService().createHoldIssue(holdIssueInfo.getTypeKey(), holdIssueInfo, ContextUtils.createDefaultContextInfo());
-            } catch (Exception e) {
-
-                convertServiceExceptionsToUI(e);
+        try {
+            if (StringUtils.isBlank(holdWrapper.getHoldIssue().getId())) {
+                HoldResourceLoader.getHoldService().createHoldIssue(holdIssueInfo.getTypeKey(), holdIssueInfo, ContextUtils.createDefaultContextInfo());
+            } else {
+                holdIssueInfo.setId(holdWrapper.getHoldIssue().getId());
+                HoldResourceLoader.getHoldService().updateHoldIssue(holdIssueInfo.getId(), holdIssueInfo, ContextUtils.createDefaultContextInfo());
             }
-        } else {
-            try {
-                holdIssueInfo.setId(holdWrapper.getId());
-                HoldIssueInfo updatedHoldIssueInfo = HoldIssueResourceLoader.getHoldService().updateHoldIssue(holdIssueInfo.getId(), holdIssueInfo, ContextUtils.createDefaultContextInfo());
-            } catch (Exception e) {
-
-                convertServiceExceptionsToUI(e);
-            }
+        } catch (Exception e) {
+            convertServiceExceptionsToUI(e);
         }
 
     }
@@ -90,6 +106,5 @@ public class HoldInfoMaintainableImpl extends KSMaintainableImpl {
         super.processAfterEdit(document, requestParameters);
         document.getDocumentHeader().setDocumentDescription(MODIFY_HOLD_ISSUE_DOCUMENT_TEXT);
     }
-
 
 }

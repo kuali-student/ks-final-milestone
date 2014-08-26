@@ -9,7 +9,7 @@ import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.student.common.uif.rule.KsMaintenanceDocumentRuleBase;
 import org.kuali.student.common.util.security.ContextUtils;
 import org.kuali.student.enrollment.class1.hold.dto.HoldIssueMaintenanceWrapper;
-import org.kuali.student.enrollment.class1.hold.util.HoldIssueResourceLoader;
+import org.kuali.student.enrollment.class1.hold.util.HoldResourceLoader;
 import org.kuali.student.r2.common.datadictionary.DataDictionaryValidator;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
@@ -29,8 +29,8 @@ public class HoldIssueRule extends KsMaintenanceDocumentRuleBase {
 
         boolean isValid = true;
         HoldIssueMaintenanceWrapper holdWrapper = (HoldIssueMaintenanceWrapper)maintenanceDocument.getNewMaintainableObject().getDataObject();
-        if (StringUtils.isBlank(holdWrapper.getStateKey())) {
-           holdWrapper.setStateKey(HoldServiceConstants.ISSUE_ACTIVE_STATE_KEY);
+        if (StringUtils.isBlank(holdWrapper.getHoldIssue().getStateKey())) {
+           holdWrapper.getHoldIssue().setStateKey(HoldServiceConstants.ISSUE_ACTIVE_STATE_KEY);
         }
 
         isValid &= validateHold(holdWrapper);
@@ -62,18 +62,9 @@ public class HoldIssueRule extends KsMaintenanceDocumentRuleBase {
     private List<ValidationResultInfo> getValidationErrors(HoldIssueMaintenanceWrapper holdIssueWrapper) {
 
         List<ValidationResultInfo> errors = Collections.emptyList();
-        HoldIssueInfo holdIssueInfo = new HoldIssueInfo();
-        holdIssueInfo.setId(holdIssueWrapper.getId());
-        holdIssueInfo.setName(holdIssueWrapper.getName());
-        holdIssueInfo.setOrganizationId(holdIssueWrapper.getOrganizationId());
-        holdIssueInfo.setTypeKey(holdIssueWrapper.getTypeKey());
-        holdIssueInfo.setStateKey(holdIssueWrapper.getStateKey());
-        RichTextInfo richTextInfo = new RichTextInfo();
-        richTextInfo.setPlain(holdIssueWrapper.getDescr());
-        holdIssueInfo.setDescr(richTextInfo);
-
+        HoldIssueInfo holdIssueInfo = holdIssueWrapper.getHoldIssue();
         try {
-            errors = HoldIssueResourceLoader.getHoldService().validateHoldIssue(DataDictionaryValidator.ValidationType.FULL_VALIDATION.toString(), holdIssueInfo, createContextInfo());
+            errors = HoldResourceLoader.getHoldService().validateHoldIssue(DataDictionaryValidator.ValidationType.FULL_VALIDATION.toString(), holdIssueInfo, createContextInfo());
         } catch (Exception e) {
             //  Capture the error if the service call fails.
             GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, e.getMessage());
@@ -87,26 +78,22 @@ public class HoldIssueRule extends KsMaintenanceDocumentRuleBase {
         for( ValidationResultInfo error : validationErrors ) {
             String elementPath = error.getElement();
 
-            if( StringUtils.equals(elementPath, "name") ) {
-                elementPath = "document.newMaintainableObject.dataObject.name";
+            if( StringUtils.equals(elementPath, "holdIssue.name") ) {
+                elementPath = "document.newMaintainableObject.dataObject.holdIssue.name";
             }
 
-            if( StringUtils.equals(elementPath, "typeKey") ) {
-                elementPath = "document.newMaintainableObject.dataObject.typeKey";
+            if( StringUtils.equals(elementPath, "holdIssue.typeKey") ) {
+                elementPath = "document.newMaintainableObject.dataObject.holdIssue.typeKey";
             }
 
-            if( StringUtils.equals(elementPath, "organizationId") ) {
-                elementPath = "document.newMaintainableObject.dataObject.organizationId";
+            if( StringUtils.equals(elementPath, "holdIssue.organizationId") ) {
+                elementPath = "document.newMaintainableObject.dataObject.holdIssue.organizationId";
             }
-
-
-
             error.setElement( elementPath );
         }
 
         return validationErrors;
     }
-
 
     private ContextInfo createContextInfo() {
         return ContextUtils.createDefaultContextInfo();

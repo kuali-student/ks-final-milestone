@@ -25,10 +25,11 @@ import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.common.object.KSObjectUtils;
 import org.kuali.student.common.uif.util.KSControllerHelper;
-import org.kuali.student.enrollment.class1.hold.dto.AuthorizingOrgWrapper;
 import org.kuali.student.enrollment.class1.hold.dto.HoldIssueMaintenanceWrapper;
 import org.kuali.student.enrollment.class1.hold.service.HoldIssueViewHelperService;
-import org.kuali.student.enrollment.class1.hold.util.HoldIssueConstants;
+import org.kuali.student.enrollment.class1.krms.service.impl.FERuleEditorMaintainableImpl;
+import org.kuali.student.r2.common.dto.RichTextInfo;
+import org.kuali.student.r2.core.hold.dto.HoldIssueInfo;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -37,7 +38,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
 
 /**
  * This class provides a controller for HoldIssue objects
@@ -48,39 +48,6 @@ import java.util.ArrayList;
 @Controller
 @RequestMapping(value = "/holdIssueMaintenance")
 public class HoldIssueMaintenanceController extends MaintenanceDocumentController {
-
-    @RequestMapping(params = "methodToCall=create")
-    public ModelAndView create(@ModelAttribute("KualiForm") MaintenanceDocumentForm form, BindingResult result,
-                               HttpServletRequest request, HttpServletResponse response) throws Exception {
-        HoldIssueMaintenanceWrapper holdIssueWrapper = (HoldIssueMaintenanceWrapper)form.getDocument().getNewMaintainableObject().getDataObject();
-        this.getViewHelper(form).validateHold(holdIssueWrapper);
-        if (GlobalVariables.getMessageMap().hasErrors()) {
-            return getUIFModelAndView(form);
-        }
-        form.getView().setApplyDirtyCheck(false);
-        holdIssueWrapper.setIsSaveSuccess(true);
-        GlobalVariables.getMessageMap().putInfo(HoldIssueConstants.HOLD_ISSUE_PROCESS, HoldIssueConstants.HOLDS_ISSUE_MSG_INFO_HOLD_ISSUE_SAVE_SUCCESS);
-        holdIssueWrapper.setIsSaveSuccess(true);
-        clearSearchValues(holdIssueWrapper);
-        return this.route(form, result, request, response);
-    }
-
-    private void clearSearchValues( HoldIssueMaintenanceWrapper holdIssueWrapper) {
-        holdIssueWrapper.setName("");
-        holdIssueWrapper.setOrganizationId("");
-        holdIssueWrapper.setOrgName("");
-        holdIssueWrapper.setStateKey("");
-        holdIssueWrapper.setTypeKey("");
-        holdIssueWrapper.setDescr("");
-        holdIssueWrapper.setOrgName("");
-        holdIssueWrapper.setCode("");
-        holdIssueWrapper.setOrgAddress("");
-        holdIssueWrapper.setBaseType("");
-        holdIssueWrapper.setFirstDate(null);
-        holdIssueWrapper.setFirstTerm("");
-        holdIssueWrapper.setOrganizationNames(new ArrayList<AuthorizingOrgWrapper>());
-    }
-
 
     /**
      *
@@ -95,17 +62,18 @@ public class HoldIssueMaintenanceController extends MaintenanceDocumentControlle
     public ModelAndView route(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result,
                               HttpServletRequest request, HttpServletResponse response) {
         try {
-
             super.route(form, result, request, response);
         } catch (Exception e) {
             GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, KSObjectUtils.unwrapException(20, e).getMessage());
         }
+
         if (GlobalVariables.getMessageMap().hasErrors()) {
             return getUIFModelAndView(form);
         }
         return back(form, result, request, response);
 
     }
+
     /**
      *
      * @param form

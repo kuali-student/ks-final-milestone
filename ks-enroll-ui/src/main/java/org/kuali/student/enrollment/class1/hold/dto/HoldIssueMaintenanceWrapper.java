@@ -27,22 +27,14 @@ import java.util.List;
 import java.util.Map;
 
 /**
- *
  * @author Kuali Student Team
  */
 public class HoldIssueMaintenanceWrapper implements Serializable {
 
-    private TypeInfo type;
-    private String id;
-    private String name;
-    private String typeKey;
-    private String stateKey;
     private String descr;
-    private String organizationId;
     private String orgName;
     private String orgAddress;
-    private String code;
-    private String baseType;
+    private Boolean termBased;
     private String firstTerm;
     private String lastTerm;
     private String firstDate;
@@ -51,10 +43,8 @@ public class HoldIssueMaintenanceWrapper implements Serializable {
 
     private boolean isSaveSuccess;
 
-
-    private HoldIssueInfo holdIssueInfo;
-
-    private List<HoldIssueInfo> holdIssueInfoList;
+    private TypeInfo type;
+    private HoldIssueInfo holdIssue;
 
     private List<AuthorizingOrgWrapper> organizationNames = new ArrayList<AuthorizingOrgWrapper>();
 
@@ -65,54 +55,12 @@ public class HoldIssueMaintenanceWrapper implements Serializable {
         type = new TypeInfo();
     }
 
-
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getTypeKey() {
-        return typeKey;
-    }
-
-    public void setTypeKey(String typeKey) {
-        this.typeKey = typeKey;
-    }
-
-    public String getStateKey() {
-        return stateKey;
-    }
-
-    public void setStateKey(String stateKey) {
-        this.stateKey = stateKey;
-    }
-
     public String getDescr() {
         return descr;
     }
 
     public void setDescr(String descr) {
         this.descr = descr;
-    }
-
-    public String getOrganizationId() {
-        return organizationId;
-    }
-
-    public void setOrganizationId(String organizationId) {
-        this.organizationId = organizationId;
     }
 
     public String getOrgName() {
@@ -138,6 +86,7 @@ public class HoldIssueMaintenanceWrapper implements Serializable {
     public void setType(TypeInfo type) {
         this.type = type;
     }
+
     public String getOrgAddress() {
         return orgAddress;
     }
@@ -146,20 +95,20 @@ public class HoldIssueMaintenanceWrapper implements Serializable {
         this.orgAddress = orgAddress;
     }
 
-    public String getCode() {
-        return code;
+    public Boolean getTermBased() {
+        return termBased;
     }
 
-    public void setCode(String code) {
-        this.code = code;
+    public void setTermBased(Boolean termBased) {
+        this.termBased = termBased;
     }
 
-    public String getBaseType() {
-        return baseType;
+    public String getFirstTerm() {
+        return firstTerm;
     }
 
-    public void setBaseType(String baseType) {
-        this.baseType = baseType;
+    public void setFirstTerm(String firstTerm) {
+        this.firstTerm = firstTerm;
     }
 
     public String getLastTerm() {
@@ -186,14 +135,6 @@ public class HoldIssueMaintenanceWrapper implements Serializable {
         this.lastDate = lastDate;
     }
 
-    public String getFirstTerm() {
-        return firstTerm;
-    }
-
-    public void setFirstTerm(String firstTerm) {
-        this.firstTerm = firstTerm;
-    }
-
     public List<AuthorizingOrgWrapper> getOrganizationNames() {
         return organizationNames;
     }
@@ -210,20 +151,12 @@ public class HoldIssueMaintenanceWrapper implements Serializable {
         isSaveSuccess = saveSuccess;
     }
 
-    public HoldIssueInfo getHoldIssueInfo() {
-        return holdIssueInfo;
+    public HoldIssueInfo getHoldIssue() {
+        return holdIssue;
     }
 
-    public void setHoldIssueInfo(HoldIssueInfo holdIssueInfo) {
-        this.holdIssueInfo = holdIssueInfo;
-    }
-
-    public List<HoldIssueInfo> getHoldIssueInfoList() {
-        return holdIssueInfoList;
-    }
-
-    public void setHoldIssueInfoList(List<HoldIssueInfo> holdIssueInfoList) {
-        this.holdIssueInfoList = holdIssueInfoList;
+    public void setHoldIssue(HoldIssueInfo holdIssue) {
+        this.holdIssue = holdIssue;
     }
 
     public String getHoldHistory() {
@@ -255,6 +188,5 @@ public class HoldIssueMaintenanceWrapper implements Serializable {
         }
         return adminOrgMap;
     }
-
 
 }

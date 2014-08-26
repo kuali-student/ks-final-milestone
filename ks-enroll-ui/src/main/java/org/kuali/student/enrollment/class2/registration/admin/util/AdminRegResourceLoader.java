@@ -118,7 +118,6 @@ public class AdminRegResourceLoader {
         return luiService;
     }
 
-
     public static CourseOfferingSetService getSocService() {
         if (socService == null) {
             socService = (CourseOfferingSetService) GlobalResourceLoader.getService(new QName(CourseOfferingSetServiceConstants.NAMESPACE,
