@@ -32,18 +32,15 @@ import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
-import org.kuali.student.r2.common.krms.util.KSKRMSExecutionUtil;
 import org.kuali.student.r2.common.util.constants.AcademicRecordServiceConstants;
 import org.kuali.student.r2.common.util.constants.LprServiceConstants;
 import org.kuali.student.r2.core.class1.util.ValidationUtils;
-import org.kuali.student.r2.core.constants.KSKRMSServiceConstants;
 import org.kuali.student.r2.core.constants.ProcessServiceConstants;
 import org.kuali.student.r2.lum.clu.service.CluService;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -242,11 +239,15 @@ public class CourseRegistrationServiceProcessCheckDecorator
         criteria.setPersonId(personId);
         criteria.setAtpId(atpId);
         ValueInfo value;
-        try {
-            value = getGesService().evaluateValue(gesParameterKey,
-                    criteria,
-                    contextInfo);
-        } catch (PermissionDeniedException | MissingParameterException | InvalidParameterException | OperationFailedException | DoesNotExistException e) {
+        if (gesService != null) {
+            try {
+                value = getGesService().evaluateValue(gesParameterKey,
+                        criteria,
+                        contextInfo);
+            } catch (PermissionDeniedException | MissingParameterException | InvalidParameterException | OperationFailedException | DoesNotExistException e) {
+                value = null;
+            }
+        } else {
             value = null;
         }
 
