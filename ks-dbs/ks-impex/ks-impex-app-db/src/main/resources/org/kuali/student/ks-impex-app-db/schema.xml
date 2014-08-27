@@ -3206,14 +3206,35 @@
         <column name="DESCR_PLAIN" type="STRING">
             <size value="4000"/>
         </column>
+        <column name="FIRST_APPLIED_DT" type="TIMESTAMP">
+            <size scale="6" scaleSet="true" value="11"/>
+        </column>
+        <column name="FIRST_APP_TERM_ID" type="STRING">
+            <size value="255"/>
+        </column>
+        <column name="HOLD_CD" type="STRING">
+            <size value="255"/>
+        </column>
         <column name="HOLD_ISSUE_STATE" nullable="false" type="STRING">
             <size value="255"/>
+        </column>
+        <column name="HOLD_ISSUE_TERM_BASED_IND" nullable="false" type="FLOAT">
+            <size value="0"/>
         </column>
         <column name="HOLD_ISSUE_TYPE" nullable="false" type="STRING">
             <size value="255"/>
         </column>
         <column name="ID" nullable="false" primaryKey="true" type="STRING">
             <size value="55"/>
+        </column>
+        <column name="LAST_APPLIED_DT" type="TIMESTAMP">
+            <size scale="6" scaleSet="true" value="11"/>
+        </column>
+        <column name="LAST_APP_TERM_ID" type="STRING">
+            <size value="255"/>
+        </column>
+        <column name="MAINT_HIST_OF_APP_OF_HOLD_IND" nullable="false" type="FLOAT">
+            <size value="0"/>
         </column>
         <column name="NAME" type="STRING">
             <size value="255"/>
