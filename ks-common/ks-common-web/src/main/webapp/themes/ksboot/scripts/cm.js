@@ -83,17 +83,6 @@ function onProposalReviewLoad() {
 }
 
 /**
- * This method sets the user selected export option (pdf or doc) from the lightbox to an input field at the form
- */
-function setExportSelectedOption(){
-    if (jQuery("#CM-ExportLigBox-Field_control_0").prop( "checked")){
-        jQuery("#CM-ExportHiddenField_control").val('PDF');
-    } else {
-        jQuery("#CM-ExportHiddenField_control").val('DOC');
-    }
-}
-
-/**
  * TODO: Remove this method once we upgraded to rice 2.5 (KSCM-2650). Also, we need to find a way to
  * not load the bubble popup here as we dont want that here from review page.
  *
