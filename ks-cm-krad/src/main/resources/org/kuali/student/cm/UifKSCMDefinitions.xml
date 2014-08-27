@@ -344,19 +344,7 @@
 
     <bean id="CM-ExportAction" parent="CM-ExportAction-parent"/>
     <bean id="CM-ExportAction-parent" parent="Uif-KS-NavigationActionLink-parentBean" abstract="true"
-          p:actionScript="openPopupContent(e,'CM-Export-ActionLinks',{distance:'20px'});" p:title="Export">
-        <!--<property name="toolTip">
-            <bean parent="Uif-Tooltip">
-                &lt;!&ndash; As of Rice 2.3-m1, requires tooltipContent to render &ndash;&gt;
-                <property name="tooltipContent" value="REQUIRED_BUT_IGNORED"/>
-                <property name="templateOptions">
-                    <map merge = "true">
-                        <entry key="innerHtmlId" value="CM-Export-ActionLinks"/>
-                        <entry key="position" value="right"/>
-                    </map>
-                </property>
-            </bean>
-        </property>-->
+          p:actionScript="openPopupContent(e,'CM-Export-ActionLinks',{position:'top',align:'left'});" p:title="Export">
         <property name="actionImage">
             <bean parent="Uif-Image" p:altText="Export" p:cssClasses="ks-fontello-icon-export" p:title="Export"/>
         </property>
