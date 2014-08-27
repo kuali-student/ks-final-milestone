@@ -1102,7 +1102,7 @@ public class CourseMaintainableImpl extends RuleEditorMaintainableImpl implement
         if (StringUtils.isNotBlank(courseInfoWrapper.getProposalInfo().getId())){
             Date updateTime = courseInfoWrapper.getProposalInfo().getMeta().getUpdateTime();
             if (updateTime != null){
-                courseInfoWrapper.setLastUpdated(DateFormatters.CM_DATE_FORMATTER.format(updateTime));
+                courseInfoWrapper.setLastUpdated(CurriculumManagementConstants.CM_DATE_FORMATTER.format(updateTime));
             }
         }
 
@@ -1536,10 +1536,10 @@ public class CourseMaintainableImpl extends RuleEditorMaintainableImpl implement
         if (StringUtils.isNotBlank(courseInfoWrapper.getProposalInfo().getId())){
             Date updateTime = courseInfoWrapper.getProposalInfo().getMeta().getUpdateTime();
             if (updateTime != null){
-                courseInfoWrapper.setLastUpdated(DateFormatters.CM_DATE_FORMATTER.format(updateTime));
+                courseInfoWrapper.setLastUpdated(CurriculumManagementConstants.CM_DATE_FORMATTER.format(updateTime));
             }
         }else{
-            courseInfoWrapper.setLastUpdated(DateFormatters.CM_DATE_FORMATTER.format(new DateTime()));
+            courseInfoWrapper.setLastUpdated(CurriculumManagementConstants.CM_DATE_FORMATTER.format(new DateTime()));
         }
 
         courseInfoWrapper.getCourseInfo().getUnitsContentOwner().clear();

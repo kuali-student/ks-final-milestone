@@ -19,6 +19,7 @@ package org.kuali.student.cm.common.util;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.krad.util.KRADPropertyConstants;
+import org.kuali.student.r2.common.util.date.KSDateTimeFormatter;
 
 /**
  * This class defines constants used in the Curriculum Management UI
@@ -204,6 +205,10 @@ public class CurriculumManagementConstants {
     public final static String DOCUMENT_CATEGORY_PROPOSAL_TYPE_KEY = "documentCategory.proposal";
 
     public final static String FILE_SIZE_CONSTRAINT = "Maximum File Size - 7.5MB";
+
+    public static final String CM_DATE_FORMAT = "MMMM dd, yyyy, hh:mm aa";
+
+    public static final KSDateTimeFormatter CM_DATE_FORMATTER = new KSDateTimeFormatter(CM_DATE_FORMAT);
 
     public static final String DATA_OBJECT_PATH = KRADPropertyConstants.DOCUMENT + "."
             + KRADPropertyConstants.NEW_MAINTAINABLE_OBJECT + ".dataObject";
