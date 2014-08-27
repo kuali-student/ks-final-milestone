@@ -55,7 +55,7 @@
 	<bean id="planner_add_course_page-parent" abstract="true" parent="planner_dialog_page">
 		<property name="id" value="planner_add_course_page" />
 		<property name="innerViewWrapperId" value="planner_add_course_page_inner" />
-		<property name="headerText" value="What would you like to add to @{term.name}?" />
+		<property name="headerText" value="@{#textHelper.getFormattedMessage('dialog.planner.add.header', new Object[]{term.name})}" />
 		<property name="items">
 			<list merge="true">
 				<bean parent="planner_course_code_input" />
@@ -82,7 +82,7 @@
 									<bean parent="Uif-HorizontalBoxGroup">
 										<property name="items">
 											<list>
-												<bean parent="planner_submit_button" p:actionLabel="Add to Plan"
+												<bean parent="planner_submit_button" p:actionLabel="@{#textHelper.getText('dialog.planner.add.button')}"
                                                       p:actionScript="ksapSubmitDialog('planner_add_course_page',e);"/>
 												<bean parent="planner_cancel_button" />
 											</list>
@@ -102,7 +102,7 @@
     <bean id="planner_edit_term_note_page-parent" abstract="true" parent="planner_dialog_page">
 		<property name="id" value="planner_edit_term_note_page" />
 		<property name="innerViewWrapperId" value="planner_edit_term_note_page_inner" />
-		<property name="headerText" value="Term Note (@{term.name})" />
+		<property name="headerText" value="@{#textHelper.getFormattedMessage('dialog.planner.term.edit.header', new Object[]{term.name})}" />
     	<property name="items">
 	    	<list merge="true">
 				<bean parent="planner_term_note_input" />
@@ -118,7 +118,7 @@
 									<bean parent="Uif-HorizontalBoxGroup">
 										<property name="items">
 											<list>
-												<bean parent="planner_submit_button" p:actionLabel="Save"
+												<bean parent="planner_submit_button" p:actionLabel="@{#textHelper.getText('dialog.planner.term.edit.button')}"
                                                       p:actionScript="ksapSubmitDialog('planner_edit_term_note_page',e);"/>
 												<bean parent="planner_cancel_button" />
 											</list>
@@ -138,7 +138,7 @@
     <bean id="planner_course_summary_page-parent" abstract="true" parent="KSAP-PopoverPage">
 		<property name="id" value="planner_course_summary_page" />
 		<property name="innerViewWrapperId" value="planner_course_summary_page_inner" />
-		<property name="headerText" value="View course summary" />
+		<property name="headerText" value="@{#textHelper.getText('dialog.planner.summary.header')}" />
 	    <property name="items">
     		<list merge="true">
 				<ref bean="planner_course_summary_link" />
@@ -150,8 +150,8 @@
 				<property name="items">
 					<list>
 						<bean parent="planner_course_summary_link">
-							<property name="linkText" value="View more details"/>
-							<property name="title" value="View more details about @{courseSummaryDetails.code}"/>
+							<property name="linkText" value="@{#textHelper.getText('dialog.planner.summary.link.text')}"/>
+							<property name="title" value="@{#textHelper.getFormattedMessage('dialog.planner.term.edit.header', new Object[]{courseSummaryDetails.code})}}"/>
                             <property name="additionalCssClasses" value="modal-summary-details-link"/>
 						</bean>
 					</list>
@@ -211,7 +211,7 @@
                             <bean parent="Uif-VerticalBoxSection" p:colSpan="5" p:wrapperCssClasses="ksap-right-labels">
                                 <property name="items">
                                     <list>
-                                        <bean parent="Uif-Message" p:messageText="Scheduled Terms">
+                                        <bean parent="Uif-Message" p:messageText="@{#textHelper.getText('dialog.planner.summary.scheduled')}">
                                             <property name="cssClasses">
                                                 <list merge="true">
                                                     <value>ksap-label</value>
@@ -239,7 +239,7 @@
                             <bean parent="Uif-VerticalBoxSection" p:colSpan="5" p:wrapperCssClasses="ksap-right-labels">
                                 <property name="items">
                                     <list>
-                                        <bean parent="Uif-Message" p:messageText="Last Offered">
+                                        <bean parent="Uif-Message" p:messageText="@{#textHelper.getText('dialog.planner.summary.last.offered')}">
                                             <property name="cssClasses">
                                                 <list merge="true">
                                                     <value>ksap-label</value>
@@ -266,7 +266,7 @@
                             <bean parent="Uif-VerticalBoxSection" p:colSpan="5" p:wrapperCssClasses="ksap-right-labels">
                                 <property name="items">
                                     <list>
-                                        <bean parent="Uif-Message" p:messageText="Course Requisites">
+                                        <bean parent="Uif-Message" p:messageText="@{#textHelper.getText('dialog.planner.summary.requisites')}">
                                             <property name="cssClasses">
                                                 <list merge="true">
                                                     <value>ksap-label</value>
@@ -281,7 +281,7 @@
                                     <list>
                                         <bean p:id="courseRequisites" parent="Uif-MessageField"
                                               p:render="@{courseSummaryDetails.displayNone()}"
-                                              p:messageText="None">
+                                              p:messageText="@{#textHelper.getText('dialog.planner.summary.requisites.none')}">
                                             <property name="cssClasses">
                                                 <list merge="true">
                                                     <value>ksap-data-list</value>
@@ -326,7 +326,7 @@
                                             </property>
                                         </bean>
                                         <bean parent="Uif-Message"
-                                              p:messageText="Source: @{#textHelper.getText('DETAILS_REQUISITE_SOURCE_NAME')}">
+                                              p:messageText="@{#textHelper.getText('dialog.planner.summary.requisites.source')}: @{#textHelper.getText('DETAILS_REQUISITE_SOURCE_NAME')}">
                                             <property name="cssClasses">
                                                 <list merge="true">
                                                     <value>ksap-source</value>
@@ -347,7 +347,10 @@
 	<bean id="planner_edit_plan_item_page-parent" abstract="true" parent="planner_dialog_page">
 		<property name="id" value="planner_edit_plan_item_page" />
 		<property name="innerViewWrapperId" value="planner_edit_plan_item_page_inner" />
-		<property name="headerText" value="Edit @{course.code} @{termId eq null ? 'Bookmark' : 'from the '+term.name+' plan'}" />
+		<property name="headerText" value="@{#textHelper.getText('dialog.planner.edit.header1')}
+		                                    @{course.code} @{termId eq null
+		                                    ? #textHelper.getText('dialog.planner.edit.header2')
+		                                    : #textHelper.getFormattedMessage('dialog.planner.edit.header3', new Object[]{term.name})}" />
 		<property name="items">
 			<list merge="true">
 				<!--<bean parent="planner_course_credit_input" />-->
@@ -364,7 +367,7 @@
 									<bean parent="Uif-HorizontalBoxGroup">
 										<property name="items">
 											<list>
-												<bean parent="planner_submit_button" p:actionLabel="Save"
+												<bean parent="planner_submit_button" p:actionLabel="@{#textHelper.getText('dialog.planner.edit.button')}"
                                                       p:actionScript="ksapSubmitDialog('planner_edit_plan_item_page',e);"/>
 												<bean parent="planner_cancel_button" />
 											</list>
@@ -384,7 +387,7 @@
 	<bean id="planner_copy_course_page-parent" abstract="true" parent="planner_dialog_page">
 		<property name="id" value="planner_copy_course_page" />
 		<property name="innerViewWrapperId" value="planner_copy_course_page_inner" />
-		<property name="headerText" value="Which term would you like to copy &lt;strong&gt;@{course.code}&lt;/strong&gt; to?" />
+		<property name="headerText" value="@{#textHelper.getFormattedMessage('dialog.planner.copy.course.header', new Object[]{course.code})}" />
 		<property name="items">
 			<list merge="true">
 				<bean parent="planner_term_input" />
@@ -402,7 +405,7 @@
 									<bean parent="Uif-HorizontalBoxGroup">
 										<property name="items">
 											<list>
-												<bean parent="planner_submit_button" p:actionLabel="Copy"
+												<bean parent="planner_submit_button" p:actionLabel="@{#textHelper.getText('dialog.planner.copy.course.button')}"
                                                       p:actionScript="ksapSubmitDialog('planner_copy_course_page',e);"/>
 												<bean parent="planner_cancel_button" />
 											</list>
@@ -422,7 +425,7 @@
 	<bean id="planner_copy_plan_item_page-parent" abstract="true" parent="planner_dialog_page">
 		<property name="id" value="planner_copy_plan_item_page" />
 		<property name="innerViewWrapperId" value="planner_copy_plan_item_page_inner" />
-		<property name="headerText" value="Which term would you like to copy &lt;strong&gt;@{course.code}&lt;/strong&gt; to?" />
+		<property name="headerText" value="@{#textHelper.getFormattedMessage('dialog.planner.copy.term.header', new Object[]{course.code})}" />
 		<property name="items">
 			<list merge="true">
 				<bean parent="planner_term_input" />
@@ -438,7 +441,7 @@
 									<bean parent="Uif-HorizontalBoxGroup">
 										<property name="items">
 											<list>
-												<bean parent="planner_submit_button" p:actionLabel="Copy"
+												<bean parent="planner_submit_button" p:actionLabel="@{#textHelper.getText('dialog.planner.copy.term.button')}"
                                                       p:actionScript="ksapSubmitDialog('planner_copy_plan_item_page',e);"/>
 												<bean parent="planner_cancel_button" />
 											</list>
@@ -458,7 +461,7 @@
 	<bean id="planner_move_plan_item_page-parent" abstract="true" parent="planner_dialog_page">
 		<property name="id" value="planner_move_plan_item_page" />
 		<property name="innerViewWrapperId" value="planner_move_plan_item_page_inner" />
-		<property name="headerText" value="Which term would you like to move &lt;strong&gt;@{course.code}&lt;/strong&gt; to?" />
+		<property name="headerText" value="@{#textHelper.getFormattedMessage('dialog.planner.move.header', new Object[]{course.code})}" />
 		<property name="items">
 			<list merge="true">
 				<bean parent="planner_term_input" />
@@ -474,7 +477,7 @@
 									<bean parent="Uif-HorizontalBoxGroup">
 										<property name="items">
 											<list>
-												<bean parent="planner_submit_button" p:actionLabel="Move"
+												<bean parent="planner_submit_button" p:actionLabel="@{#textHelper.getText('dialog.planner.move.button')}"
                                                       p:actionScript="ksapSubmitDialog('planner_move_plan_item_page',e);"/>
 												<bean parent="planner_cancel_button" />
 											</list>
@@ -494,11 +497,14 @@
 	<bean id="planner_delete_plan_item_page-parent" abstract="true" parent="planner_dialog_page">
 		<property name="id" value="planner_delete_plan_item_page" />
 		<property name="innerViewWrapperId" value="planner_delete_plan_item_page_inner" />
-		<property name="headerText" value="Delete @{course.code} @{termId eq null ? 'bookmark' : 'from '+term.name}?" />
+		<property name="headerText" value="@{#textHelper.getText('dialog.planner.delete.header1')}
+		                                    @{course.code} @{termId eq null
+		                                    ? #textHelper.getText('dialog.planner.delete.header2')
+		                                    : #textHelper.getFormattedMessage('dialog.planner.edit.header3', new Object[]{term.name})}" />
 		<property name="items">
 			<list merge="true">
 				<bean parent="Uif-Message" p:cssClasses="ks-Popover-bodyLabel"
-						p:messageText="Are you sure that you want to delete &lt;strong&gt;@{course.code}&lt;/strong&gt;? Once deleted, you cannot undo."/>
+						p:messageText="@{#textHelper.getFormattedMessage('dialog.planner.delete.message', new Object[]{course.code})}"/>
 			</list>
 		</property>
 		<property name="footer">
@@ -511,7 +517,7 @@
 									<bean parent="Uif-HorizontalBoxGroup">
 										<property name="items">
 											<list>
-												<bean parent="planner_submit_button" p:actionLabel="Delete"
+												<bean parent="planner_submit_button" p:actionLabel="@{#textHelper.getText('dialog.planner.delete.button')}"
                                                       p:actionScript="ksapSubmitDialog('planner_delete_plan_item_page',e);"/>
 												<bean parent="planner_cancel_button" />
 											</list>
@@ -533,7 +539,7 @@
     <bean id="bookmark_add_course_page-parent" abstract="true" parent="KSAP-PopoverPage">
         <property name="id" value="bookmark_add_course_page" />
         <property name="innerViewWrapperId" value="bookmark_add_course_page_inner" />
-        <property name="headerText" value="Add to Plan" />
+        <property name="headerText" value="@{#textHelper.getText('dialog.bookmark.add.header')}" />
         <property name="items">
             <list merge="true">
                 <bean parent="Uif-Message" p:messageText="@{course.code} @{course.courseTitle} (@{creditString})"  p:cssClasses="bold"/>
@@ -557,7 +563,7 @@
                                     <bean parent="Uif-HorizontalBoxGroup">
                                         <property name="items">
                                             <list>
-                                                <bean parent="planner_submit_button" p:actionLabel="Add to Plan"
+                                                <bean parent="planner_submit_button" p:actionLabel="@{#textHelper.getText('dialog.bookmark.add.button')}"
                                                       p:actionScript="ksapSubmitDialog('bookmark_add_course_page',e);"/>
                                                 <bean parent="planner_cancel_button" />
                                             </list>
@@ -609,11 +615,11 @@
     <bean id="bookmark_delete_course_page-parent" abstract="true" parent="planner_dialog_page">
         <property name="id" value="bookmark_delete_course_page" />
         <property name="innerViewWrapperId" value="bookmark_delete_course_page_inner" />
-        <property name="headerText" value="Remove Bookmarked Course" />
+        <property name="headerText" value="@{#textHelper.getText('dialog.bookmark.remove.header')}" />
         <property name="items">
             <list merge="true">
-                <bean parent="Uif-Message" p:messageText="@{course.code} @{course.courseTitle} (@{creditString} cr)"/>
-                <bean parent="Uif-Message" p:messageText="Are you sure that you want to remove &lt;strong&gt;@{course.code}&lt;/strong&gt; from your Bookmarked Courses list?"/>
+                <bean parent="Uif-Message" p:messageText="@{course.code} @{course.courseTitle} (@{creditString} @{#textHelper.getText('dialog.bookmark.remove.message1')})"/>
+                <bean parent="Uif-Message" p:messageText="@{#textHelper.getFormattedMessage('dialog.bookmark.remove.message2', new Object[]{course.code})}"/>
             </list>
         </property>
         <property name="footer">
@@ -626,7 +632,7 @@
                                     <bean parent="Uif-HorizontalBoxGroup">
                                         <property name="items">
                                             <list>
-                                                <bean parent="planner_submit_button" p:actionLabel="Remove"
+                                                <bean parent="planner_submit_button" p:actionLabel="@{#textHelper.getText('dialog.bookmark.remove.button')}"
                                                       p:actionScript="ksapSubmitDialog('bookmark_delete_course_page',e);"/>
                                                 <bean parent="planner_cancel_button" />
                                             </list>
@@ -651,7 +657,7 @@
             <bean parent="KSAP-PopoverPage" p:additionalCssClasses="ksap-dialog-centered">
                 <property name="id" value="course_add_course_page" />
                 <property name="innerViewWrapperId" value="course_add_course_page_inner" />
-                <property name="headerText" value="Add to Plan" />
+                <property name="headerText" value="@{#textHelper.getText('dialog.all.add.header')}" />
                 <property name="footer">
                     <bean parent="Uif-FooterBase">
                         <property name="items">
@@ -663,7 +669,7 @@
                                                 <property name="items">
                                                     <list>
                                                         <bean parent="planner_submit_button"
-                                                              p:actionLabel="Add to Plan"
+                                                              p:actionLabel="@{#textHelper.getText('dialog.all.add.button')}"
                                                               p:actionScript="ksapSubmitDialog('course_add_course_page',e);"/>
                                                         <bean parent="planner_cancel_button" />
                                                     </list>
@@ -682,7 +688,7 @@
         <property name="items">
             <list>
                 <bean parent="Uif-Message"
-                      p:messageText="@{courseCode} @{courseTitle} (@{creditsDisplay} cr)"
+                      p:messageText="@{courseCode} @{courseTitle} @{#textHelper.getFormattedMessage('dialog.all.add.message', new Object[]{creditsDisplay})}"
                       p:additionalCssClasses="dialog-add-title"/>
                 <ref bean="planner_course_summary_details_data"/>
                 <bean parent="planner_term_input_field"/>
@@ -726,7 +732,7 @@
                             <bean parent="Uif-VerticalBoxSection" p:colSpan="5" p:wrapperCssClasses="ksap-right-labels">
                                 <property name="items">
                                     <list>
-                                        <bean parent="Uif-Message" p:messageText="Term &amp; Year">
+                                        <bean parent="Uif-Message" p:messageText="@{#textHelper.getText('dialog.component.term.label')}">
                                             <property name="cssClasses">
                                                 <list merge="true">
                                                     <value>ksap-label</value>
@@ -743,7 +749,7 @@
                                             <property name="propertyName" value="termId" />
                                             <property name="instructionalText" value="" />
                                         </bean>
-                                        <bean parent="Uif-Message" p:messageText="Note: Not all courses are offered every term.">
+                                        <bean parent="Uif-Message" p:messageText="@{#textHelper.getText('dialog.component.term.note')}">
                                             <property name="cssClasses">
                                                 <list merge="true">
                                                     <value>ksap-source</value>
@@ -763,9 +769,9 @@
     <bean id="planner_term_input" parent="planner_term_input-parent" p:id="planner_term_input"/>
 	<bean id="planner_term_input-parent" abstract="true" parent="planner_dialog_input">
 		<property name="propertyName" value="targetTermId" />
-		<property name="label" value="Term &amp; Year" />
+		<property name="label" value="@{#textHelper.getText('dialog.component.term2.label')}" />
         <property name="fieldLabel.renderColon" value="false"/>
-		<property name="instructionalText" value="Note: This course MAY NOT be offered in your selected term. Check back after the schedule of classes has been released." />
+		<property name="instructionalText" value="@{#textHelper.getText('dialog.component.term2.instructions')}" />
 		<property name="control">
 			<bean parent="KS-Uif-DropdownControl">
                 <property name="onDocumentReadyScript" value="ksapDisableTermsAsPlanned('#planner_term_input')"/>
@@ -784,11 +790,11 @@
     <bean id="planner_course_code_input" parent="planner_course_code_input-parent"/>
 	<bean id="planner_course_code_input-parent" abstract="true" parent="planner_dialog_input">
 		<property name="propertyName" value="courseCd" />
-		<property name="label" value="Enter subject and catalog number" />
+		<property name="label" value="@{#textHelper.getText('dialog.component.course.code.label')}" />
 		<property name="control">
 			<bean parent="KS-Uif-TextControl" p:additionalCssClasses="ksap-planner-courseCode">
                 <property name="onDocumentReadyScript" value="jQuery('.ksap-planner-courseCode').focus();" />
-				<property name="watermarkText" value="e.g. BL MATH-M 119" />
+				<property name="watermarkText" value="@{#textHelper.getText('dialog.component.course.code.watermark')}" />
 				<property name="maxLength" value="50" />
 				 <property name="size" value ="25"/>
 			</bean>
@@ -836,7 +842,7 @@
  	<bean id="planner_course_credit_input-parent" abstract="true" parent="planner_dialog_input">
         <property name="render" value="@{variableCredit}"/>
  		<property name="propertyName" value="courseCredit" />
- 		<property name="label" value="Credits" />
+ 		<property name="label" value="@{#textHelper.getText('dialog.component.credits.label')}" />
         <property name="fieldLabel.renderColon" value="false"/>
         <property name="control">
             <bean parent="KS-Uif-DropdownControl"/>
@@ -853,10 +859,10 @@
 	<bean id="planner_course_note_input-parent" abstract="true" parent="planner_dialog_input">
 		<property name="additionalCssClasses" value="ks-plan-Note" />
 		<property name="propertyName" value="courseNote" />
-		<property name="label" value="Notes" />
+		<property name="label" value="@{#textHelper.getText('dialog.component.course.notes.label')}" />
         <property name="fieldLabel.renderColon" value="false"/>
 		<property name="control">
-			<bean parent="Uif-TextAreaControl" p:watermarkText="Optional notes"
+			<bean parent="Uif-TextAreaControl" p:watermarkText="@{#textHelper.getText('dialog.component.course.notes.watermark')}"
 				p:maxLength="500">
 				<property name="cssClasses">
 					<list merge="true">
@@ -867,7 +873,7 @@
 			</bean>
 		</property>
 		<property name="constraintMessage">
-			<bean parent="KSAP-Message" p:messageText="characters remaining">
+			<bean parent="KSAP-Message" p:messageText="@{#textHelper.getText('dialog.component.course.notes.constraint')}">
 				<property name="onDocumentReadyScript"
 					      value="setNoteMessageLength(jQuery('.ksap-characterCount'), {maxLength:500});" />
 				<property name="cssClasses">
@@ -884,9 +890,9 @@
 	<bean id="planner_term_note_input-parent" abstract="true" parent="planner_dialog_input">
 		<property name="additionalCssClasses" value="ks-plan-Note" />
 		<property name="propertyName" value="termNote" />
-		<property name="label" value="Notes" />
+		<property name="label" value="@{#textHelper.getText('dialog.component.term.notes.label')}" />
 		<property name="control">
-			<bean parent="Uif-TextAreaControl" p:watermarkText="Enter a short note (500 characters max)"
+			<bean parent="Uif-TextAreaControl" p:watermarkText="@{#textHelper.getText('dialog.component.term.notes.watermark')}"
 				p:maxLength="500">
 				<property name="cssClasses">
 					<list merge="true">
@@ -897,7 +903,7 @@
 			</bean>
 		</property>
 		<property name="constraintMessage">
-			<bean parent="KSAP-Message" p:messageText="characters remaining">
+			<bean parent="KSAP-Message" p:messageText="@{#textHelper.getText('dialog.component.term.notes.constraint')}">
 				<property name="onDocumentReadyScript"
 					      value="setNoteMessageLength(jQuery('.ksap-characterCount'), {maxLength:500});" />
 				<property name="cssClasses">
@@ -914,7 +920,7 @@
         <property name="items">
             <list>
                 <bean parent="Uif-CheckboxInputField" p:propertyName="backup"
-                      p:fieldLabel.renderColon="false" p:control.checkboxLabel="Mark as backup"/>
+                      p:fieldLabel.renderColon="false" p:control.checkboxLabel="@{#textHelper.getText('dialog.component.backup.label')}"/>
             </list>
         </property>
     </bean>
@@ -946,7 +952,7 @@
 		p:additionalCssClasses="ks-Button ks-Button--primary"/>
 
 	<bean id="planner_cancel_button" parent="Uif-ActionLink"
-		p:actionLabel="Cancel" >
+		p:actionLabel="@{#textHelper.getText('dialog.component.cancel')}" >
 		<property name="actionScript" value="fnClosePopup();" />
 	</bean>
 
