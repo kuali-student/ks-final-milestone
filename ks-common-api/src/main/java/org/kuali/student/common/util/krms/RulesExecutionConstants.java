@@ -24,14 +24,15 @@ public class RulesExecutionConstants {
     public static final Term MILESTONES_BY_TYPE_TERM = new Term("milestonesByType");
     public static final Term MILESTONE_TERM = new Term("milestone");
     public static final Term STUDENT_REGISTRATION_HOLDS_TERM = new Term("studentRegistrationHolds");
-    public static final Term ORG_PERMISSION_TERM = new Term ("orgPermission");
-    public static final Term ADMIN_ORG_NUMBER_TERM = new Term ("adminOrgNumber");
-    public static final Term NR_OF_COMPLETED_COURSES_TERM = new Term ("numberOfCompletedCourses");
+    public static final Term ORG_PERMISSION_TERM = new Term("orgPermission");
+    public static final Term ADMIN_ORG_NUMBER_TERM = new Term("adminOrgNumber");
+    public static final Term NR_OF_COMPLETED_COURSES_TERM = new Term("numberOfCompletedCourses");
     public static final Term COMPLETED_COURSE_TERM = new Term("completedCourse");
     // data
     public static final Term PROCESS_KEY_TERM = new Term("processKey");
     public static final Term CONTEXT_INFO_TERM = new Term(contextInfo);
     public static final Term PERSON_ID_TERM = new Term(personId);
+    public static final Term ENTITY_ID_TERM = new Term("entityId");
     public static final Term REG_GROUP_ID_TERM = new Term("registrationGroupId");
     public static final Term REGISTRATION_REQUEST_ID_TERM = new Term("registrationRequestId");
     public static final Term SIMULATED_REGISTRATIONS_TERM = new Term("simulatedRegistrations");
