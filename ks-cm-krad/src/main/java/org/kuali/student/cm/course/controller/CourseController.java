@@ -704,7 +704,7 @@ public class CourseController extends CourseRuleEditorController {
                     break;
                 case WorkflowActions.WITHDRAW:
                     //fake the Document.DocumentHeader.WorkflowDocument value for the system user here
-                    Person person = KimApiServiceLocator.getPersonService().getPersonByPrincipalName("admin");
+                    Person person = KimApiServiceLocator.getPersonService().getPersonByPrincipalName(StudentIdentityConstants.SYSTEM_USER_PRINCIPAL_NAME);
                     WorkflowDocument workflowDocument = KRADServiceLocatorWeb.getWorkflowDocumentService().loadWorkflowDocument(document.getDocumentNumber(), person);
                     document.getDocumentHeader().setWorkflowDocument(workflowDocument);
                     // call superuserdisapprove for withdrawing the proposal
