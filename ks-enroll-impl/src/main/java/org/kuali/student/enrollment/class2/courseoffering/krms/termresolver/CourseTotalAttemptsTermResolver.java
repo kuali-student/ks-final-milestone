@@ -21,6 +21,7 @@ package org.kuali.student.enrollment.class2.courseoffering.krms.termresolver;
 
 import org.kuali.rice.krms.api.engine.TermResolutionException;
 import org.kuali.rice.krms.api.engine.TermResolver;
+import org.kuali.student.common.util.krms.RulesExecutionConstants;
 import org.kuali.student.enrollment.academicrecord.dto.StudentCourseRecordInfo;
 import org.kuali.student.r2.common.util.constants.AcademicRecordServiceConstants;
 import org.kuali.student.r2.core.constants.KSKRMSServiceConstants;
@@ -40,7 +41,7 @@ public class CourseTotalAttemptsTermResolver implements TermResolver<Integer> {
 
     @Override
     public String getOutput() {
-        return KSKRMSServiceConstants.TERM_RESOLVER_COURSE_TOTAL_ATTEMPTS;
+        return RulesExecutionConstants.TOTAL_COURSE_ATTEMPTS.getName();
     }
 
     @Override

@@ -116,11 +116,11 @@ describe('Filter: FormatValidationMessage', function() {
 
 
             // With parameters
-            data.attempts = 2;
+            data.attempts = 1;
             data.maxRepeats = 2;
             expect(filter(data, course)).toBe('This will be your 2nd attempt of <strong>code1</strong>. This course cannot be attempted more than twice.');
 
-            data.attempts = 3;
+            data.attempts = 2;
             data.maxRepeats = 3;
             expect(filter(data, course)).toBe('This will be your 3rd attempt of <strong>code1</strong>. This course cannot be attempted more than 3 times.');
         });

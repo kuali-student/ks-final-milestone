@@ -101,7 +101,7 @@ INSERT INTO KSEN_PROCESS_INSTRN
     'Y',
     '017B05F2-8EA3-1762-E050-007F01010640',
     'Course eligibility - Already Taken',
-    '"messageKey":"kuali.lpr.trans.message.course.already.taken"',
+    '"messageKey":"kuali.lpr.trans.message.course.already.taken","attempts":$totalCourseAttempts,"maxRepeats":$maxRepeatability',
     '017B05F2-8EA4-1762-E050-007F01010640',
     1,
     'kuali.process.registration.eligible.for.courses',

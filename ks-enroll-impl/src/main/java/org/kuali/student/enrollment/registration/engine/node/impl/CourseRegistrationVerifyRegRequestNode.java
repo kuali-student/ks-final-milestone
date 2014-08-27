@@ -145,6 +145,8 @@ public class CourseRegistrationVerifyRegRequestNode extends AbstractCourseRegist
                 //Match each error with the corresponding id.
                 String itemId = error.getElement().replaceFirst("registrationRequestItems\\['([^']*)'\\]", "$1");
                 if (item.getId().equals(itemId)) {
+                    //Remove any warnings
+                    removeWarnings(item);
                     //Update the item with the failed validation state and result
                     item.getValidationResults().add(new ValidationResultInfo(error));
                     if(stateKey!=null) {
@@ -154,6 +156,17 @@ public class CourseRegistrationVerifyRegRequestNode extends AbstractCourseRegist
             }
         }
         return getLprService().updateLprTransaction(lprTransactionId, trans, contextInfo);
+    }
+
+    protected void removeWarnings(LprTransactionItemInfo item) {
+        List<ValidationResultInfo> oldValidationResults = item.getValidationResults();
+        List<ValidationResultInfo> newValidationResults = new ArrayList<>();
+        for (ValidationResultInfo validationResultInfo: oldValidationResults) {
+            if (!validationResultInfo.isWarn()) {
+                newValidationResults.add(validationResultInfo);
+            }
+        }
+        item.setValidationResults(newValidationResults);
     }
 
     protected void updateRegRequestWithErrors(RegistrationRequestInfo updatedRequestInfo, List<ValidationResultInfo> errors,

@@ -44,7 +44,13 @@ angular.module('regCartApp').filter('formatValidationMessage', ['$filter', 'VALI
 
                     case VALIDATION_ERROR_TYPE.repeatabilityWarning:
                         // Humanize the # attempts & # max attempts
-                        data.attempts = $filter('ordinal')(data.attempts);
+                        var thisAttempt;
+                        if (angular.isNumber(data.attempts)) {
+                            thisAttempt = data.attempts + 1;
+                        } else {
+                            thisAttempt = data.attempts;
+                        }
+                        data.attempts = $filter('ordinal')(thisAttempt);
                         data.maxRepeats = $filter('multiplicativeAdverb')(data.maxRepeats, ' times');
 
                         message = getMessage(data.messageKey);

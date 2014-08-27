@@ -37,8 +37,7 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * Return an integer value from the GES service based on:
- * -- A GES parameter (parm)
+ * Return an integer value for Max Repeatability from the GES service based on:
  * -- The context info (prereq)
  * -- The person id (prereq)
  * -- The atp id (prereq)
@@ -46,17 +45,13 @@ import java.util.Set;
  *
  * @author Kuali Student Team
  */
-public class GesMaxRepeatabilityTermResolver implements TermResolver<String> {
-
-    public final static String MAX_REPEATABILITY_ERROR = "kuali.max.repeatability.error";
-    public final static String MAX_REPEATABILITY_WARNING = "kuali.max.repeatability.warning";
-    public final static String MAX_REPEATABILITY_SUCCESS = "kuali.max.repeatability.success";
+public class MaxRepeatabilityTermResolver implements TermResolver<Integer> {
 
     private GesService gesService;
 
     @Override
     public String getOutput() {
-        return KSKRMSServiceConstants.TERM_RESOLVER_GES_MAX_REPEATABILITY;
+        return RulesExecutionConstants.MAX_REPEATABILITY.getName();
     }
 
     @Override
@@ -66,9 +61,11 @@ public class GesMaxRepeatabilityTermResolver implements TermResolver<String> {
 
     @Override
     public Set<String> getPrerequisites() {
-        Set<String> prereqs = new HashSet<>(2);
-        prereqs.add(RulesExecutionConstants.TOTAL_COURSE_ATTEMPTS.getName());
-        prereqs.add(RulesExecutionConstants.MAX_REPEATABILITY.getName());
+        Set<String> prereqs = new HashSet<>(4);
+        prereqs.add(RulesExecutionConstants.CONTEXT_INFO_TERM.getName());
+        prereqs.add(RulesExecutionConstants.PERSON_ID_TERM.getName());
+        prereqs.add(RulesExecutionConstants.ATP_ID_TERM.getName());
+        prereqs.add(RulesExecutionConstants.AS_OF_DATE_TERM.getName());
 
         return Collections.unmodifiableSet(prereqs);
     }
@@ -79,22 +76,36 @@ public class GesMaxRepeatabilityTermResolver implements TermResolver<String> {
     }
 
     @Override
-    public String resolve(Map<String, Object> resolvedPrereqs, Map<String, String> parameters) throws TermResolutionException {
+    public Integer resolve(Map<String, Object> resolvedPrereqs, Map<String, String> parameters) throws TermResolutionException {
 
-        Integer maxRepeats = (Integer) resolvedPrereqs.get(RulesExecutionConstants.MAX_REPEATABILITY.getName());
-        Integer totalAttempts = (Integer) resolvedPrereqs.get(RulesExecutionConstants.TOTAL_COURSE_ATTEMPTS.getName());
+        String gesParameterKey = GesServiceConstants.PARAMETER_KEY_MAX_REPEATABLE;
 
-        String errorLevel = MAX_REPEATABILITY_SUCCESS;
+        ContextInfo contextInfo = (ContextInfo) resolvedPrereqs.get(RulesExecutionConstants.CONTEXT_INFO_TERM.getName());
+        String personId = (String) resolvedPrereqs.get(RulesExecutionConstants.PERSON_ID_TERM.getName());
+        String atpId = (String) resolvedPrereqs.get(RulesExecutionConstants.ATP_ID_TERM.getName());
+        Date asOfDate = (Date) resolvedPrereqs.get(RulesExecutionConstants.AS_OF_DATE_TERM.getName());
 
-        if (totalAttempts != null && maxRepeats != null) {
-            if (totalAttempts >= maxRepeats) {
-                errorLevel = MAX_REPEATABILITY_ERROR;
-            } else if (maxRepeats > 1 && totalAttempts >= maxRepeats - 1) {
-                errorLevel = MAX_REPEATABILITY_WARNING;
-            }
+        GesCriteriaInfo criteria = new GesCriteriaInfo();
+        criteria.setPersonId(personId);
+        criteria.setAtpId(atpId);
+        ValueInfo value;
+        try {
+            value = gesService.evaluateValueOnDate(gesParameterKey,
+                    criteria,
+                    asOfDate,
+                    contextInfo);
+        } catch (Exception e) {
+            KSKRMSExecutionUtil.convertExceptionsToTermResolutionException(parameters, e, this);
+            value = null;
         }
 
-        return errorLevel;
+        Integer maxRepeats = null;
+
+        if (value != null) {
+            maxRepeats = value.getDecimalValue().intValue();
+        }
+
+        return maxRepeats;
     }
 
     public void setGesService(GesService gesService) {

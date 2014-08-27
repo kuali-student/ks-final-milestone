@@ -9,8 +9,15 @@ import org.kuali.rice.krms.api.engine.EngineResults;
 import org.kuali.rice.krms.framework.engine.Proposition;
 import org.kuali.student.common.util.UUIDHelper;
 import org.kuali.student.common.util.krms.RulesExecutionConstants;
+import org.kuali.student.core.constants.GesServiceConstants;
+import org.kuali.student.core.ges.dto.GesCriteriaInfo;
+import org.kuali.student.core.ges.dto.ValueInfo;
+import org.kuali.student.core.ges.service.GesService;
 import org.kuali.student.core.process.evaluator.KRMSEvaluator;
 import org.kuali.student.core.process.evaluator.ProcessProposition;
+import org.kuali.student.enrollment.academicrecord.dto.StudentCourseRecordInfo;
+import org.kuali.student.enrollment.academicrecord.service.AcademicRecordService;
+import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.enrollment.courseregistration.dto.CourseRegistrationInfo;
@@ -25,13 +32,18 @@ import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.common.krms.util.KSKRMSExecutionUtil;
+import org.kuali.student.r2.common.util.constants.AcademicRecordServiceConstants;
 import org.kuali.student.r2.common.util.constants.LprServiceConstants;
 import org.kuali.student.r2.core.class1.util.ValidationUtils;
+import org.kuali.student.r2.core.constants.KSKRMSServiceConstants;
 import org.kuali.student.r2.core.constants.ProcessServiceConstants;
+import org.kuali.student.r2.lum.clu.service.CluService;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -44,6 +56,9 @@ public class CourseRegistrationServiceProcessCheckDecorator
 
     private CourseWaitListService waitlistService;
     private CourseOfferingService courseOfferingService;
+    private GesService gesService;
+    private AcademicRecordService academicRecordService;
+    private CluService cluService;
     private KRMSEvaluator krmsEvaluator;
 
     // this comparator is used to sort the reg req items in the order they are displayed on the screen.
@@ -154,6 +169,7 @@ public class CourseRegistrationServiceProcessCheckDecorator
             executionFacts.put(RulesExecutionConstants.REGISTRATION_REQUEST_TERM.getName(), registrationRequest);
             executionFacts.put(RulesExecutionConstants.REGISTRATION_REQUEST_ID_TERM.getName(), registrationRequestId);
             executionFacts.put(RulesExecutionConstants.CONTEXT_INFO_TERM.getName(), contextInfo);
+            executionFacts.put(RulesExecutionConstants.MAX_REPEATABILITY.getName(), getMaxRepeatability(contextInfo, personId, registrationRequest.getTermId()));
 
             //Sort the requests so that everything is processed in the same order (using date)
             Collections.sort(registrationRequest.getRegistrationRequestItems(), Collections.reverseOrder(REG_REQ_ITEM_CREATE_DATE));
@@ -175,6 +191,7 @@ public class CourseRegistrationServiceProcessCheckDecorator
                         executionFacts.put(RulesExecutionConstants.REGISTRATION_REQUEST_ITEM_TERM.getName(), requestItem);
                         executionFacts.put(RulesExecutionConstants.REGISTRATION_REQUEST_ITEM_ID_TERM.getName(), requestItem.getId());
                         executionFacts.put(RulesExecutionConstants.REGISTRATION_REQUEST_ITEM_OK_TO_REPEAT_TERM.getName(), requestItem.getOkToRepeat());
+                        executionFacts.put(RulesExecutionConstants.TOTAL_COURSE_ATTEMPTS.getName(), getTotalCourseAttempts(requestItem.getPersonId(), registrationGroupInfo.getCourseOfferingId(), contextInfo));
 
                         //Perform the rules execution
                         EngineResults engineResults = this.krmsEvaluator.evaluateProposition(prop, executionFacts);
@@ -215,6 +232,60 @@ public class CourseRegistrationServiceProcessCheckDecorator
         return courseRegistrationInfo;
     }
 
+    /*
+    Temporary solution because the resolved term wasn't getting added to the execution context
+     */
+    private Integer getMaxRepeatability(ContextInfo contextInfo, String personId, String atpId) {
+        String gesParameterKey = GesServiceConstants.PARAMETER_KEY_MAX_REPEATABLE;
+
+        GesCriteriaInfo criteria = new GesCriteriaInfo();
+        criteria.setPersonId(personId);
+        criteria.setAtpId(atpId);
+        ValueInfo value;
+        try {
+            value = getGesService().evaluateValue(gesParameterKey,
+                    criteria,
+                    contextInfo);
+        } catch (PermissionDeniedException | MissingParameterException | InvalidParameterException | OperationFailedException | DoesNotExistException e) {
+            value = null;
+        }
+
+        Integer maxRepeatability = null;
+
+        if (value != null) {
+            maxRepeatability = value.getDecimalValue().intValue();
+        }
+
+        return maxRepeatability;
+    }
+
+    /*
+    Temporary solution because the resolved term wasn't getting added to the execution context
+     */
+    private Integer getTotalCourseAttempts(String entityId, String courseOfferingId, ContextInfo contextInfo) {
+        Integer totalAttempts = 0;
+
+        try {
+            CourseOfferingInfo courseOfferingInfo = getCourseOfferingService().getCourseOffering(courseOfferingId, contextInfo);
+            String cluId = courseOfferingInfo.getCourseId();
+            //TODO KSENROLL-14492 -- the getClu service is very expensive, this should be replaced by a clu search for version id.
+            String versionIndId = getCluService().getClu(cluId, contextInfo).getVersion().getVersionIndId();
+
+            List<StudentCourseRecordInfo> studentCourseRecordInfoList = getAcademicRecordService().getStudentCourseRecordsForCourse(entityId, versionIndId, contextInfo);
+
+            for (StudentCourseRecordInfo studentCourseRecordInfo:studentCourseRecordInfoList) {
+                if (studentCourseRecordInfo.getStateKey().equals(AcademicRecordServiceConstants.STUDENTCOURSERECORD_STATE_KEY_COMPLETED) ||
+                        studentCourseRecordInfo.getStateKey().equals(AcademicRecordServiceConstants.STUDENTCOURSERECORD_STATE_KEY_REGISTERED)) {
+                    totalAttempts++;
+                }
+            }
+        } catch (Exception e) {
+            totalAttempts = null;
+        }
+
+        return totalAttempts;
+    }
+
     public void setWaitlistService(CourseWaitListService waitlistService) {
         this.waitlistService = waitlistService;
     }
@@ -231,4 +302,27 @@ public class CourseRegistrationServiceProcessCheckDecorator
         this.courseOfferingService = courseOfferingService;
     }
 
+    public GesService getGesService() {
+        return gesService;
+    }
+
+    public void setGesService(GesService gesService) {
+        this.gesService = gesService;
+    }
+
+    public AcademicRecordService getAcademicRecordService() {
+        return academicRecordService;
+    }
+
+    public void setAcademicRecordService(AcademicRecordService academicRecordService) {
+        this.academicRecordService = academicRecordService;
+    }
+
+    public CluService getCluService() {
+        return cluService;
+    }
+
+    public void setCluService(CluService cluService) {
+        this.cluService = cluService;
+    }
 }

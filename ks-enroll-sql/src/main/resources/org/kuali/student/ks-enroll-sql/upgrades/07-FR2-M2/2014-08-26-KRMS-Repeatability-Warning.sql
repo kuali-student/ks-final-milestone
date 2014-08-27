@@ -89,7 +89,7 @@ INSERT INTO KSEN_PROCESS_INSTRN
     'Y',
     '018C3BC6-26F9-B50C-E050-007F01010B99',
     'Course eligibility - Already Taken Warning',
-    '"messageKey":"kuali.lpr.trans.message.repeatability.warning"',
+    '"messageKey":"kuali.lpr.trans.message.repeatability.warning","attempts":$totalCourseAttempts,"maxRepeats":$maxRepeatability',
     '018C3BC6-26FA-B50C-E050-007F01010B99',
     1,
     'kuali.process.registration.eligible.for.courses',
