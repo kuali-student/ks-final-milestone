@@ -197,12 +197,12 @@ limitations under the License.
                 <bean parent="Uif-HorizontalFieldGroup">
                     <property name="items">
                         <list>
-                            <bean parent="Uif-InputField" p:label="First Applied Date" p:propertyName="firstDate">
+                            <bean parent="Uif-InputField" p:label="First Applied Date" p:propertyName="holdIssue.firstAppliedDate">
                                 <property name="control">
                                     <bean parent="KS-Uif-Default-DateControl" p:size="10"/>
                                 </property>
                             </bean>
-                            <bean parent="Uif-InputField" p:label="Last Applied Date" p:propertyName="lastDate">
+                            <bean parent="Uif-InputField" p:label="Last Applied Date" p:propertyName="holdIssue.lastAppliedDate">
                                 <property name="control">
                                     <bean parent="KS-Uif-Default-DateControl" p:size="10"/>
                                 </property>

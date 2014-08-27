@@ -29,8 +29,6 @@ import static org.kuali.rice.core.api.criteria.PredicateFactory.like;
  */
 public class HoldIssueViewHelperServiceImpl extends KSViewHelperServiceImpl implements HoldIssueViewHelperService {
 
-
-
     @Override
     public List<HoldIssueResult> searchHolds(HoldIssueManagementForm holdIssueFrom) {
 
@@ -68,32 +66,26 @@ public class HoldIssueViewHelperServiceImpl extends KSViewHelperServiceImpl impl
 
         QueryByCriteria.Builder qBuilder = QueryByCriteria.Builder.create();
         List<Predicate> pList = new ArrayList<Predicate>();
-        Predicate p;
 
         qBuilder.setPredicates();
         if (StringUtils.isNotBlank(name)){
-            p = like(HoldIssueConstants.HOLD_ISSUE_NAME, "%" + name + "%");
-            pList.add(p);
+            pList.add(like(HoldIssueConstants.HOLD_ISSUE_NAME, "%" + name + "%"));
         }
 
         if (StringUtils.isNotBlank(type)){
-            p = like(HoldIssueConstants.HOLD_ISSUE_TYPE, "%" + type + "%");
-            pList.add(p);
+            pList.add(equal(HoldIssueConstants.HOLD_ISSUE_TYPE_KEY, type));
         }
 
         if (StringUtils.isNotBlank(state)){
-            p = equal(HoldIssueConstants.HOLD_ISSUE_STATE, state);
-            pList.add(p);
+            pList.add(equal(HoldIssueConstants.HOLD_ISSUE_STATE_KEY, state));
         }
 
         if (StringUtils.isNotBlank(orgId)){
-            p = equal(HoldIssueConstants.HOLD_ISSUE_ORG_ID, orgId);
-            pList.add(p);
+            pList.add(equal(HoldIssueConstants.HOLD_ISSUE_ORG_ID, orgId));
         }
 
         if (StringUtils.isNotBlank(descr)){
-            p = like(HoldIssueConstants.HOLD_ISSUE_DESCR_PLAIN, "%" + descr + "%");
-            pList.add(p);
+            pList.add(like(HoldIssueConstants.HOLD_ISSUE_DESCR_PLAIN, "%" + descr + "%"));
         }
 
         if (!pList.isEmpty()){
@@ -104,21 +96,4 @@ public class HoldIssueViewHelperServiceImpl extends KSViewHelperServiceImpl impl
         return qBuilder;
     }
 
-    @Override
-    public void validateHold(HoldIssueMaintenanceWrapper holdIssueWrapper){
-        if (StringUtils.isBlank(holdIssueWrapper.getHoldIssue().getName())) {
-            GlobalVariables.getMessageMap().putError(HoldIssueConstants.HOLD_ISSUE_NAME, HoldIssueConstants.HOLDS_ISSUE_MSG_ERROR_HOLD_ISSUE_NAME_REQUIRED);
-        }
-        if (StringUtils.isBlank(holdIssueWrapper.getHoldIssue().getHoldCode())) {
-            GlobalVariables.getMessageMap().putError(HoldIssueConstants.HOLD_ISSUE_CODE, HoldIssueConstants.HOLDS_ISSUE_MSG_ERROR_HOLD_ISSUE_CODE_REQUIRED);
-        }
-        if (StringUtils.isBlank(holdIssueWrapper.getHoldIssue().getTypeKey())) {
-            GlobalVariables.getMessageMap().putError(HoldIssueConstants.HOLD_ISSUE_TYPE, HoldIssueConstants.HOLDS_ISSUE_MSG_ERROR_HOLD_ISSUE_TYPE_REQUIRED);
-        }
-
-        if (StringUtils.isBlank(holdIssueWrapper.getHoldIssue().getOrganizationId())) {
-            GlobalVariables.getMessageMap().putError(HoldIssueConstants.HOLD_ISSUE_ORG_ID, HoldIssueConstants.HOLDS_ISSUE_MSG_ERROR_HOLD_ISSUE_ORG_ID_REQUIRED);
-        }
-
-    }
 }

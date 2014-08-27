@@ -6,8 +6,6 @@ import org.kuali.student.common.uif.service.impl.KSMaintainableImpl;
 import org.kuali.student.common.util.security.ContextUtils;
 import org.kuali.student.enrollment.class1.hold.dto.HoldIssueMaintenanceWrapper;
 import org.kuali.student.enrollment.class1.hold.util.HoldResourceLoader;
-import org.kuali.student.r2.common.dto.RichTextInfo;
-import org.kuali.student.r2.common.util.date.DateFormatters;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
 import org.kuali.student.r2.core.hold.dto.HoldIssueInfo;
 
@@ -35,8 +33,10 @@ public class HoldInfoMaintainableImpl extends KSMaintainableImpl {
         HoldIssueMaintenanceWrapper dataObject = new HoldIssueMaintenanceWrapper();
         try {
             HoldIssueInfo holdIssueInfo = new HoldIssueInfo();
+            holdIssueInfo.setIsHoldIssueTermBased(false);
+            holdIssueInfo.setMaintainHistoryOfApplicationOfHold(false);
+            holdIssueInfo.setFirstAppliedDate(new Date());
             dataObject.setTermBased(false);
-            dataObject.setFirstDate(DateFormatters.MONTH_DAY_YEAR_DATE_FORMATTER.format(new Date()));
             dataObject.setHoldIssue(holdIssueInfo);
 
         } catch (Exception e) {
@@ -55,23 +55,31 @@ public class HoldInfoMaintainableImpl extends KSMaintainableImpl {
             // Set term information.
             dataObject.setTermBased(holdIssueInfo.getIsHoldIssueTermBased());
             if (holdIssueInfo.getIsHoldIssueTermBased()) {
-                TermInfo firstTerm = HoldResourceLoader.getAcademicCalendarService().getTerm(holdIssueInfo.getFirstApplicationTermId(), ContextUtils.createDefaultContextInfo());
-                dataObject.setFirstTerm(firstTerm.getCode());
-                TermInfo lastTerm = HoldResourceLoader.getAcademicCalendarService().getTerm(holdIssueInfo.getLastApplicationTermId(), ContextUtils.createDefaultContextInfo());
-                dataObject.setFirstTerm(lastTerm.getCode());
+                dataObject.setFirstTerm(getTermCodeForId(holdIssueInfo.getFirstApplicationTermId()));
+                dataObject.setLastTerm(getTermCodeForId(holdIssueInfo.getLastApplicationTermId()));
             }
 
-            // Set date information.
-            dataObject.setFirstDate(DateFormatters.MONTH_DAY_YEAR_DATE_FORMATTER.format(holdIssueInfo.getFirstAppliedDate()));
-            if (holdIssueInfo.getLastAppliedDate() != null) {
-                dataObject.setFirstDate(DateFormatters.MONTH_DAY_YEAR_DATE_FORMATTER.format(holdIssueInfo.getLastAppliedDate()));
-            }
             dataObject.setHoldIssue(holdIssueInfo);
 
         } catch (Exception e) {
             convertServiceExceptionsToUI(e);
         }
         return dataObject;
+    }
+
+    public String getTermCodeForId(String termId) {
+        if(termId==null){
+            return StringUtils.EMPTY;
+        }
+
+        try {
+            TermInfo term = HoldResourceLoader.getAcademicCalendarService().getTerm(termId, ContextUtils.createDefaultContextInfo());
+            term.getCode();
+        } catch (Exception e){
+            convertServiceExceptionsToUI(e);
+        }
+
+        return StringUtils.EMPTY;
     }
 
     @Override

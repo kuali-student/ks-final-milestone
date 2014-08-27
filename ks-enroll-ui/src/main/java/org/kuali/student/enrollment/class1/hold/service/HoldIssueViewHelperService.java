@@ -16,5 +16,4 @@ public interface HoldIssueViewHelperService {
 
     public  List<HoldIssueResult> searchHolds(HoldIssueManagementForm holdIssueForm);
 
-    public void validateHold(HoldIssueMaintenanceWrapper holdIssueWrapper);
 }

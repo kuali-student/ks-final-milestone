@@ -23,18 +23,23 @@ package org.kuali.student.enrollment.class1.hold.util;
  */
 public class HoldIssueConstants {
 
-    public static final String HOLD_ISSUE_NAME = "name";
-    public static final String HOLD_ISSUE_TYPE = "holdIssueType";
-    public static final String HOLD_ISSUE_STATE = "holdIssueState";
-    public static final String HOLD_ISSUE_ORG_ID = "organizationId";
     public static final String HOLD_ISSUE_DESCR_PLAIN = "descrPlain";
     public static final String HOLD_ISSUE_SEARCH_ERROR_MSG = "Error Performing Search";
-    public static final String HOLD_ISSUE_CREATE_PAGE = "KS-Hold-Create-Page";
-    public static final String HOLD_ISSUE_MANAGE_PAGE = "KS-Hold-SearchInput-Page";
     public static final String HOLD_ISSUE_PROCESS = "Process";
-    public static final String HOLD_ISSUE_CODE = "code";
+
+    //Hold Issue Attributes
+    public static final String HOLD_ISSUE_ID = "id";
+    public static final String HOLD_ISSUE_NAME = "name";
+    public static final String HOLD_ISSUE_ORG_ID = "organizationId";
+    public static final String HOLD_ISSUE_CODE = "holdCode";
     public static final String HOLD_ISSUE_TYPE_KEY = "typeKey";
     public static final String HOLD_ISSUE_STATE_KEY = "stateKey";
+    public static final String HOLD_ISSUE_FIRST_APP_TERM_ID = "firstApplicationTermId";
+    public static final String HOLD_ISSUE_LAST_APP_TERM_ID = "lastApplicationTermId";
+
+    //UI bean ids
+    public static final String HOLD_ISSUE_CREATE_PAGE = "KS-Hold-Create-Page";
+    public static final String HOLD_ISSUE_MANAGE_PAGE = "KS-Hold-SearchInput-Page";
 
     //Message keys
     public static final String HOLDS_ISSUE_MSG_ERROR_HOLD_ISSUE_NAME_REQUIRED = "error.hold.issue.name.required";

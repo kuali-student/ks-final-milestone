@@ -37,9 +37,7 @@ public class HoldIssueMaintenanceWrapper implements Serializable {
     private Boolean termBased;
     private String firstTerm;
     private String lastTerm;
-    private String firstDate;
-    private String lastDate;
-    private String holdHistory;
+    private Boolean holdHistory;
 
     private boolean isSaveSuccess;
 
@@ -119,22 +117,6 @@ public class HoldIssueMaintenanceWrapper implements Serializable {
         this.lastTerm = lastTerm;
     }
 
-    public String getFirstDate() {
-        return firstDate;
-    }
-
-    public void setFirstDate(String firstDate) {
-        this.firstDate = firstDate;
-    }
-
-    public String getLastDate() {
-        return lastDate;
-    }
-
-    public void setLastDate(String lastDate) {
-        this.lastDate = lastDate;
-    }
-
     public List<AuthorizingOrgWrapper> getOrganizationNames() {
         return organizationNames;
     }
@@ -159,11 +141,11 @@ public class HoldIssueMaintenanceWrapper implements Serializable {
         this.holdIssue = holdIssue;
     }
 
-    public String getHoldHistory() {
+    public Boolean getHoldHistory() {
         return holdHistory;
     }
 
-    public void setHoldHistory(String holdHistory) {
+    public void setHoldHistory(Boolean holdHistory) {
         this.holdHistory = holdHistory;
     }
 

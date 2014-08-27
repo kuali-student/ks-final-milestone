@@ -1355,7 +1355,24 @@
     <bean id="holdService" class="org.kuali.student.enrollment.class1.hold.service.impl.HoldServiceImpl">
         <property name="holdIssueDao" ref="holdIssueDao"/>
         <property name="appliedHoldDao" ref="appliedHoldDao"/>
-        <property name="criteriaLookupService" ref="defaultCriteriaLookupService"/>
+        <property name="criteriaLookupService" ref="holdCriteriaLookupService"/>
+    </bean>
+
+    <bean id="holdCriteriaLookupService" parent="defaultCriteriaLookupService">
+        <property name="predicateTransforms">
+            <list merge="true">
+                <bean class="org.kuali.student.r2.common.criteria.transform.RenameTransform">
+                    <property name="renameAttributes">
+                        <map>
+                            <entry key="descr.plain" value="plain"/>
+                            <entry key="descr.formatted" value="formatted"/>
+                            <entry key="typeKey" value="holdIssueType"/>
+                            <entry key="stateKey" value="holdIssueState"/>
+                        </map>
+                    </property>
+                </bean>
+            </list>
+        </property>
     </bean>
 
     <bean id="holdServiceValidation" class="org.kuali.student.enrollment.class1.hold.service.decorators.HoldServiceValidationDecorator">

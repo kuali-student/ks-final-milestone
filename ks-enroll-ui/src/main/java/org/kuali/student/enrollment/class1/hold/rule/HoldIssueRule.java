@@ -2,18 +2,27 @@ package org.kuali.student.enrollment.class1.hold.rule;
 
 import edu.emory.mathcs.backport.java.util.Collections;
 import org.apache.commons.lang.StringUtils;
+import org.kuali.rice.core.api.criteria.PredicateFactory;
+import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.student.common.collection.KSCollectionUtils;
 import org.kuali.student.common.uif.rule.KsMaintenanceDocumentRuleBase;
 import org.kuali.student.common.util.security.ContextUtils;
 import org.kuali.student.enrollment.class1.hold.dto.HoldIssueMaintenanceWrapper;
+import org.kuali.student.enrollment.class1.hold.util.HoldIssueConstants;
 import org.kuali.student.enrollment.class1.hold.util.HoldResourceLoader;
+import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingConstants;
+import org.kuali.student.enrollment.class2.registration.admin.util.AdminRegResourceLoader;
 import org.kuali.student.r2.common.datadictionary.DataDictionaryValidator;
 import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.exceptions.MissingParameterException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.core.constants.HoldServiceConstants;
 import org.kuali.student.r2.core.hold.dto.HoldIssueInfo;
 
@@ -23,30 +32,78 @@ public class HoldIssueRule extends KsMaintenanceDocumentRuleBase {
 
     @Override
     protected boolean isDocumentValidForSave(MaintenanceDocument maintenanceDocument) {
-        if ( ! super.isDocumentValidForSave(maintenanceDocument)) {
+        if (!super.isDocumentValidForSave(maintenanceDocument)) {
             return false;
         }
 
         boolean isValid = true;
-        HoldIssueMaintenanceWrapper holdWrapper = (HoldIssueMaintenanceWrapper)maintenanceDocument.getNewMaintainableObject().getDataObject();
-        if (StringUtils.isBlank(holdWrapper.getHoldIssue().getStateKey())) {
-           holdWrapper.getHoldIssue().setStateKey(HoldServiceConstants.ISSUE_ACTIVE_STATE_KEY);
+        HoldIssueMaintenanceWrapper holdWrapper = (HoldIssueMaintenanceWrapper) maintenanceDocument.getNewMaintainableObject().getDataObject();
+        HoldIssueInfo holdIssue = holdWrapper.getHoldIssue();
+        if (StringUtils.isBlank(holdIssue.getStateKey())) {
+            holdIssue.setStateKey(HoldServiceConstants.ISSUE_ACTIVE_STATE_KEY);
         }
+
+        holdIssue.setIsHoldIssueTermBased(holdWrapper.getTermBased());
+        try {
+            holdIssue.setFirstApplicationTermId(searchForTermIdByCode(holdWrapper.getFirstTerm()));
+        } catch (Exception e){
+            GlobalVariables.getMessageMap().putError(HoldIssueConstants.HOLD_ISSUE_FIRST_APP_TERM_ID, "Error setting first application term id");
+        }
+        try {
+            holdIssue.setLastApplicationTermId(searchForTermIdByCode(holdWrapper.getLastTerm()));
+        } catch (Exception e){
+            GlobalVariables.getMessageMap().putError(HoldIssueConstants.HOLD_ISSUE_LAST_APP_TERM_ID, "Error setting last application term id");
+        }
+        holdIssue.setMaintainHistoryOfApplicationOfHold(holdWrapper.getHoldHistory());
 
         isValid &= validateHold(holdWrapper);
 
         return isValid;
     }
 
+    public static String searchForTermIdByCode(String termCode)
+            throws MissingParameterException, InvalidParameterException, OperationFailedException, PermissionDeniedException {
+
+        if((termCode==null) || (termCode.isEmpty())){
+            return null;
+        }
+
+        QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
+        qbcBuilder.setPredicates(PredicateFactory.equal(CourseOfferingConstants.ATP_CODE, termCode));
+
+        List<String> termIds = AdminRegResourceLoader.getAcademicCalendarService().searchForTermIds(qbcBuilder.build(),
+                ContextUtils.createDefaultContextInfo());
+        return KSCollectionUtils.getOptionalZeroElement(termIds);
+    }
+
     /**
      * Performs a service layer validation of the HoldIssue. This validation is repeated in the call to
      *
      * @param holdIssueWrapper
-     * @return  True if the validation succeeds. Otherwise, false.
+     * @return True if the validation succeeds. Otherwise, false.
      */
     private boolean validateHold(HoldIssueMaintenanceWrapper holdIssueWrapper) {
 
-        List<ValidationResultInfo> errors = transformValidationErrors(getValidationErrors(holdIssueWrapper));
+        // Check if holdCode is unique.
+        HoldIssueInfo holdIssueInfo = holdIssueWrapper.getHoldIssue();
+        try {
+            QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
+            if (holdIssueInfo.getId() == null) {
+                qbcBuilder.setPredicates(PredicateFactory.equal(HoldIssueConstants.HOLD_ISSUE_CODE, holdIssueInfo.getHoldCode()));
+            } else {
+                qbcBuilder.setPredicates(PredicateFactory.and(PredicateFactory.equal(HoldIssueConstants.HOLD_ISSUE_CODE, holdIssueInfo.getHoldCode()),
+                        PredicateFactory.notEqual(HoldIssueConstants.HOLD_ISSUE_ID, holdIssueInfo.getId())));
+            }
+            List<String> issueIds = HoldResourceLoader.getHoldService().searchForHoldIssueIds(qbcBuilder.build(), createContextInfo());
+
+            if (issueIds.size() > 0) {
+                GlobalVariables.getMessageMap().putError(HoldIssueConstants.HOLD_ISSUE_CODE, "holdcode already exists");
+            }
+        } catch (Exception e) {
+            GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, e.getMessage());
+        }
+
+        List<ValidationResultInfo> errors = transformValidationErrors(getValidationErrors(holdIssueInfo));
 
         //  If any errors were found, put them in the message map.
         if (!errors.isEmpty()) {
@@ -59,10 +116,9 @@ public class HoldIssueRule extends KsMaintenanceDocumentRuleBase {
         return true;
     }
 
-    private List<ValidationResultInfo> getValidationErrors(HoldIssueMaintenanceWrapper holdIssueWrapper) {
+    private List<ValidationResultInfo> getValidationErrors(HoldIssueInfo holdIssueInfo) {
 
         List<ValidationResultInfo> errors = Collections.emptyList();
-        HoldIssueInfo holdIssueInfo = holdIssueWrapper.getHoldIssue();
         try {
             errors = HoldResourceLoader.getHoldService().validateHoldIssue(DataDictionaryValidator.ValidationType.FULL_VALIDATION.toString(), holdIssueInfo, createContextInfo());
         } catch (Exception e) {
@@ -73,23 +129,23 @@ public class HoldIssueRule extends KsMaintenanceDocumentRuleBase {
         return errors;
     }
 
-    private List<ValidationResultInfo> transformValidationErrors( List<ValidationResultInfo> validationErrors ) {
+    private List<ValidationResultInfo> transformValidationErrors(List<ValidationResultInfo> validationErrors) {
 
-        for( ValidationResultInfo error : validationErrors ) {
+        for (ValidationResultInfo error : validationErrors) {
             String elementPath = error.getElement();
 
-            if( StringUtils.equals(elementPath, "holdIssue.name") ) {
+            if (StringUtils.equals(elementPath, "holdIssue.name")) {
                 elementPath = "document.newMaintainableObject.dataObject.holdIssue.name";
             }
 
-            if( StringUtils.equals(elementPath, "holdIssue.typeKey") ) {
+            if (StringUtils.equals(elementPath, "holdIssue.typeKey")) {
                 elementPath = "document.newMaintainableObject.dataObject.holdIssue.typeKey";
             }
 
-            if( StringUtils.equals(elementPath, "holdIssue.organizationId") ) {
+            if (StringUtils.equals(elementPath, "holdIssue.organizationId")) {
                 elementPath = "document.newMaintainableObject.dataObject.holdIssue.organizationId";
             }
-            error.setElement( elementPath );
+            error.setElement(elementPath);
         }
 
         return validationErrors;
