@@ -81,28 +81,33 @@
                                 </property>
                             </bean>
                             <bean id="hiddenRefId" parent="KS-Uif-InputField" p:propertyName="referenceId"
-                                  p:fieldLabel.renderColon="false">
+                            p:fieldLabel.renderColon="false">
                                 <property name="control">
                                     <bean parent="KS-Uif-HiddenControl"/>
                                 </property>
+                                <property name="onDocumentReadyScript" value="jQuery('#hiddenRefId').hide();"/>
+
                             </bean>
                             <bean id="hiddenRefType" parent="KS-Uif-InputField" p:propertyName="referenceType"
                                   p:fieldLabel.renderColon="false">
                                 <property name="control">
                                     <bean parent="KS-Uif-HiddenControl"/>
                                 </property>
+                                <property name="onDocumentReadyScript" value="jQuery('#hiddenRefType').hide();"/>
                             </bean>
                             <bean id="hiddenRefName" parent="KS-Uif-InputField" p:propertyName="referenceName"
                                   p:fieldLabel.renderColon="false">
                                 <property name="control">
                                     <bean parent="KS-Uif-HiddenControl"/>
                                 </property>
+                                <property name="onDocumentReadyScript" value="jQuery('#hiddenRefName').hide();"/>
                             </bean>
                             <bean id="hiddenControllerUrlName" parent="KS-Uif-InputField" p:propertyName="controllerUrl"
                                   p:fieldLabel.renderColon="false">
                                 <property name="control">
                                     <bean parent="KS-Uif-HiddenControl"/>
                                 </property>
+                                <property name="onDocumentReadyScript" value="jQuery('#hiddenControllerUrlName').hide();"/>
                             </bean>
                             <bean parent="Uif-SecondaryActionButton" p:additionalCssClasses="ks-section"
                                   p:ajaxSubmit="true"
