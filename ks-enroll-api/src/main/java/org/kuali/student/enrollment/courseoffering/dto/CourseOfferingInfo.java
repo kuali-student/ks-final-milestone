@@ -95,7 +95,7 @@ public class CourseOfferingInfo
     private List<String> campusLocations;
 
     @XmlElement
-    private List<OfferingInstructorInfo> instructors;
+    private List<OfferingInstructorInfo> instructors;    //all instructional assignments (instructors, teaching assistants etc.)
 
     @XmlElement
     private List<String> unitsDeploymentOrgIds;

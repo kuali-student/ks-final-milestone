@@ -30,7 +30,7 @@ import org.kuali.student.r2.common.dto.TypeStateEntityInfo;
 import org.w3c.dom.Element;
 
 /**
- * Information about an instructor.
+ * Information about an instructor or another instructional assignment (teaching assistant etc.)
  */
  
 @XmlAccessorType(XmlAccessType.FIELD)
