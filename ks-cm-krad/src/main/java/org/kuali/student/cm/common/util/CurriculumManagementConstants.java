@@ -371,5 +371,9 @@ public class CurriculumManagementConstants {
             public static String ACTION_REQUIRED = "Action Required";
             public static String AUTHOR_NOTATION = "Author Notation";
         }
+
+        public static class SupportingDocument {
+            public static String SECTION_NAME = "Supporting Documents";
+        }
     }
 }
