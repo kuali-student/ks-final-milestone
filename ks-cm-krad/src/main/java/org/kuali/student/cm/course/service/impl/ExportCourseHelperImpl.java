@@ -24,6 +24,7 @@ import org.kuali.rice.krms.dto.RuleTypeInfo;
 import org.kuali.student.cm.common.util.CurriculumManagementConstants;
 import org.kuali.student.cm.common.util.CurriculumManagementConstants.Export.FileType;
 import org.kuali.student.cm.course.form.wrapper.CluInstructorInfoWrapper;
+import org.kuali.student.cm.course.form.wrapper.CourseCreateUnitsContentOwner;
 import org.kuali.student.cm.course.form.wrapper.CourseInfoWrapper;
 import org.kuali.student.cm.course.form.wrapper.ResultValuesGroupInfoWrapper;
 import org.kuali.student.cm.course.form.wrapper.SupportingDocumentInfoWrapper;
@@ -277,9 +278,9 @@ public class ExportCourseHelperImpl implements ExportCourseHelper {
         exportElements.add(exportCampusLocation);
 
         String curriculumOversight = "";
-        for(String courseCreateUnitsContentOwner  : courseInfoWrapper.getCourseInfo().getUnitsContentOwner()){
-            if (StringUtils.isNotBlank(courseCreateUnitsContentOwner)){
-                curriculumOversight = curriculumOversight  + courseCreateUnitsContentOwner + ";";
+        for(CourseCreateUnitsContentOwner courseCreateUnitsContentOwner  : courseInfoWrapper.getUnitsContentOwner()){
+            if (StringUtils.isNotBlank(courseCreateUnitsContentOwner.getRenderHelper().getOrgLongName())){
+                curriculumOversight = curriculumOversight  + courseCreateUnitsContentOwner.getRenderHelper().getOrgLongName() + ";";
             }
         }
         ExportElement exportCurriculumOversight = populateExportElement(CurriculumManagementConstants.ProposalViewFieldLabels.Governance.CURRICULUM_OVERSIGHT, curriculumOversight,CurriculumManagementConstants.ProposalViewFieldLabels.Governance.SECTION_NAME, -1);
@@ -323,7 +324,7 @@ public class ExportCourseHelperImpl implements ExportCourseHelper {
         exportElements.add(exportDurationType);
 
         String assessmentScale = "";
-        for(String gradingOption :courseInfoWrapper.getCourseInfo().getGradingOptions()) {
+        for(String gradingOption :courseInfoWrapper.getReviewProposalDisplay().getCourseLogisticsSection().getGradingOptions()){
             assessmentScale = assessmentScale +  gradingOption + ";";
         }
         ExportElement exportAssessmentScale = populateExportElement(CurriculumManagementConstants.ProposalViewFieldLabels.CourseLogistics.ASSESSMENT_SCALE, assessmentScale, CurriculumManagementConstants.ProposalViewFieldLabels.CourseLogistics.SECTION_NAME,-1 );
@@ -499,7 +500,7 @@ public class ExportCourseHelperImpl implements ExportCourseHelper {
         String endTerm  = courseInfoWrapper.getCourseInfo().getEndTerm();
         String isPilotCourse = (courseInfoWrapper.getCourseInfo().isPilotCourse() == false) ? "No" : "Yes";
         exportElements.add(populateExportElement(CurriculumManagementConstants.ProposalViewFieldLabels.ActiveDates.START_TERM, startTerm , CurriculumManagementConstants.ProposalViewFieldLabels.ActiveDates.SECTION_NAME, -1  ));
-        exportElements.add(populateExportElement(CurriculumManagementConstants.ProposalViewFieldLabels.ActiveDates.END_TERM, endTerm , CurriculumManagementConstants.ProposalViewFieldLabels.ActiveDates.SECTION_NAME, -1  ));
+        exportElements.add(populateExportElement(CurriculumManagementConstants.ProposalViewFieldLabels.ActiveDates.END_TERM, endTerm, CurriculumManagementConstants.ProposalViewFieldLabels.ActiveDates.SECTION_NAME, -1));
         exportElements.add(populateExportElement(CurriculumManagementConstants.ProposalViewFieldLabels.ActiveDates.PILOT_COURSE,isPilotCourse , CurriculumManagementConstants.ProposalViewFieldLabels.ActiveDates.SECTION_NAME, -1  ));
     }
 
