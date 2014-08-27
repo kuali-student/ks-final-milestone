@@ -481,7 +481,8 @@ public class CourseController extends CourseRuleEditorController {
                         // Hide all the workflow action buttons on the review proposal page while the document is still in Enroute state(It is being processed at the back-end)
                         courseInfoWrapper.getUiHelper().setPendingWorkflowAction(true);
                     } else {
-                        form.getDialogManager().resetDialogStatus(dialog);
+                        form.getDialogManager().removeDialog(dialog);
+                        form.setDialogResponse(null);
                         courseInfoWrapper.getUiHelper().setShowMessage(true);
                         return showDialog(dialog, form, request, response);
                     }
@@ -541,7 +542,8 @@ public class CourseController extends CourseRuleEditorController {
                         // Hide all the workflow action buttons on the review proposal page while the document is still in Enroute state(It is being processed at the back-end)
                         courseInfoWrapper.getUiHelper().setPendingWorkflowAction(true);
                     } else {
-                        form.getDialogManager().resetDialogStatus(dialog);
+                        form.getDialogManager().removeDialog(dialog);
+                        form.setDialogResponse(null);
                         courseInfoWrapper.getUiHelper().setShowMessage(true);
                         return showDialog(dialog, form, request, response);
                     }
@@ -633,7 +635,8 @@ public class CourseController extends CourseRuleEditorController {
                         // Hide all the workflow action buttons on the review proposal page while the document is still in Enroute state(It is being processed at the back-end)
                         courseInfoWrapper.getUiHelper().setPendingWorkflowAction(true);
                     }else{
-                        form.getDialogManager().resetDialogStatus(dialog);
+                        form.getDialogManager().removeDialog(dialog);
+                        form.setDialogResponse(null);
                         courseInfoWrapper.getUiHelper().setShowMessage(true);
                         return showDialog(dialog, form, request, response);
                     }
@@ -1076,7 +1079,8 @@ public class CourseController extends CourseRuleEditorController {
                         // Hide all the workflow action buttons on the review proposal page while the document is still in Enroute state(It is being processed at the back-end)
                         courseInfoWrapper.getUiHelper().setPendingWorkflowAction(true);
                     } else {
-                        form.getDialogManager().resetDialogStatus(dialog);
+                        form.getDialogManager().removeDialog(dialog);
+                        form.setDialogResponse(null);
                         courseInfoWrapper.getUiHelper().setShowMessage(true);
                         return showDialog(dialog, form, request, response);
                     }
@@ -1138,7 +1142,8 @@ public class CourseController extends CourseRuleEditorController {
                         form.setRequestRedirected(false);
                         courseInfoWrapper.getUiHelper().setPendingWorkflowAction(true);
                     } else {
-                        form.getDialogManager().resetDialogStatus(dialog);
+                        form.getDialogManager().removeDialog(dialog);
+                        form.setDialogResponse(null);
                         courseInfoWrapper.getUiHelper().setShowMessage(true);
                         return showDialog(dialog, form, request, response);
                     }
@@ -1193,7 +1198,8 @@ public class CourseController extends CourseRuleEditorController {
                         form.setRequestRedirected(false);
                         courseInfoWrapper.getUiHelper().setPendingWorkflowAction(true);
                     } else {
-                        form.getDialogManager().resetDialogStatus(dialog);
+                        form.getDialogManager().removeDialog(dialog);
+                        form.setDialogResponse(null);
                         courseInfoWrapper.getUiHelper().setShowMessage(true);
                         return showDialog(dialog, form, request, response);
                     }
