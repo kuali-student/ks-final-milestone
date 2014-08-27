@@ -60,7 +60,7 @@ public class AdminRegistrationUtil {
         regResult.setCourse(course);
         regResult.setLevel(AdminRegConstants.ResultLevels.RESULT_LEVEL_SUCCESS);
 
-        String msg = AdminRegistrationUtil.getMessageForKey(messageKey);
+        String msg = AdminRegistrationUtil.getMessageForKey(messageKey,course.getCode(),course.getSection());
         regResult.getItems().add(new RegistrationResultItem(msg));
         return regResult;
     }

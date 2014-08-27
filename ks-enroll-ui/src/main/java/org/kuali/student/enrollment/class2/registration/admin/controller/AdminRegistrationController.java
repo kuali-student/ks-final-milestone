@@ -31,6 +31,7 @@ import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingMan
 import org.kuali.student.enrollment.class2.registration.admin.form.AdminRegistrationForm;
 import org.kuali.student.enrollment.class2.registration.admin.form.RegistrationCourse;
 import org.kuali.student.enrollment.class2.registration.admin.form.RegistrationResult;
+import org.kuali.student.enrollment.class2.registration.admin.form.RegistrationResultItem;
 import org.kuali.student.enrollment.class2.registration.admin.service.AdminRegistrationViewHelperService;
 import org.kuali.student.enrollment.class2.registration.admin.util.AdminRegClientCache;
 import org.kuali.student.enrollment.class2.registration.admin.util.AdminRegConstants;
@@ -315,6 +316,7 @@ public class AdminRegistrationController extends UifControllerBase {
 
         Map<String, Object> result = new HashMap<String, Object>();
         Set<String> updateIds = new HashSet<String>();
+        List<String> growlMessages = new ArrayList<String>();
 
         // Only do polling while registration is in progress.
         if ((!AdminRegConstants.ClientStates.REGISTERING.equals(form.getClientState()) || (form.getRegRequestId() == null))) {
@@ -335,21 +337,33 @@ public class AdminRegistrationController extends UifControllerBase {
             for (RegistrationRequestItemInfo item : regRequest.getRegistrationRequestItems()) {
 
                 // Move item to appropriate list based on the item state.
-                String updateId = null;
+                RegistrationResult regResult = null;
                 if (LprServiceConstants.REQ_ITEM_ADD_TYPE_KEY.equals(item.getTypeKey())) {
-                    updateId = handleAddRequestItem(form, adminOverride, item);
+                    regResult = handleAddRequestItem(form, adminOverride, item);
                 } else if (LprServiceConstants.REQ_ITEM_UPDATE_TYPE_KEY.equals(item.getTypeKey())) {
-                    updateId = handleEditRequestItem(form, adminOverride, item);
+                    regResult = handleEditRequestItem(form, adminOverride, item);
                 } else if (LprServiceConstants.REQ_ITEM_DROP_TYPE_KEY.equals(item.getTypeKey())) {
-                    updateId = handleDropRequestItem(form, adminOverride, item);
+                    regResult = handleDropRequestItem(form, adminOverride, item);
                 }
-                if (updateId != null) {
-                    updateIds.add(updateId);
+
+                if (regResult != null) {
+                    if (regResult.getCollectionId() != null) {
+                        updateIds.add(regResult.getCollectionId());
+                    }
+                    if (AdminRegConstants.ResultLevels.RESULT_LEVEL_SUCCESS.equals(regResult.getLevel())) {
+                        for (RegistrationResultItem resultItem : regResult.getItems()) {
+                            growlMessages.add(resultItem.getDescription());
+                        }
+
+                    } else {
+                        form.getRegistrationResults().add(regResult);
+                    }
                 }
             }
         }
 
         // Set the ajax return values.
+        result.put(AdminRegConstants.POLLING_GROWL_MESSAGES, growlMessages);
         result.put(AdminRegConstants.POLLING_REFRESH, true);
         result.put(AdminRegConstants.POLLING_CLIENT_STATE, AdminRegConstants.ClientStates.READY);
         result.put(AdminRegConstants.POLLING_REGISTERED_CREDITS, form.getRegisteredCredits());
@@ -369,7 +383,8 @@ public class AdminRegistrationController extends UifControllerBase {
      * @param item
      * @return
      */
-    private String handleAddRequestItem(AdminRegistrationForm form, boolean adminOverride, RegistrationRequestItemInfo item) {
+    private RegistrationResult handleAddRequestItem(AdminRegistrationForm form, boolean adminOverride, RegistrationRequestItemInfo item) {
+
         RegistrationCourse addCourse;
         if (adminOverride) {
             addCourse = AdminRegistrationUtil.retrieveFromResultList(form.getRegistrationResults(), item).getCourse();
@@ -377,24 +392,24 @@ public class AdminRegistrationController extends UifControllerBase {
             addCourse = AdminRegistrationUtil.retrieveFromCourseList(form.getCoursesInProcess(), item);
         }
 
-        String updateId = null;
+        RegistrationResult result = null;
         if (LprServiceConstants.LPRTRANS_ITEM_SUCCEEDED_STATE_KEY.equals(item.getStateKey())) {
             //Not the best way to do. Normal Set would work but KRAD has a memory issue
             form.getRegisteredCourses().clear();
             form.getRegisteredCourses().addAll(getViewHelper(form).getCourseRegForStudentAndTerm(form.getPerson().getId(), form.getTerm().getId()));
-            form.getRegistrationResults().add(AdminRegistrationUtil.buildSuccessResult(addCourse, AdminRegConstants.ADMIN_REG_MSG_INFO_SUCCESSFULLY_REGISTERED));
-            updateId = AdminRegConstants.REG_COLL_ID;
+            result = AdminRegistrationUtil.buildSuccessResult(addCourse, AdminRegConstants.ADMIN_REG_MSG_INFO_SUCCESSFULLY_REGISTERED);
+            result.setCollectionId(AdminRegConstants.REG_COLL_ID);
         } else if (CourseRegistrationClientService.LPRTRANS_ITEM_WAITLIST_STATE_KEY.equals(item.getStateKey())) {
             form.getWaitlistedCourses().clear();
             form.getWaitlistedCourses().addAll(getViewHelper(form).getCourseWaitListForStudentAndTerm(form.getPerson().getId(), form.getTerm().getId()));
-            form.getRegistrationResults().add(AdminRegistrationUtil.buildSuccessResult(addCourse, AdminRegConstants.ADMIN_REG_MSG_INFO_SUCCESSFULLY_WAITLISTED));
-            updateId = AdminRegConstants.WAITLIST_COLL_ID;
+            result = AdminRegistrationUtil.buildSuccessResult(addCourse, AdminRegConstants.ADMIN_REG_MSG_INFO_SUCCESSFULLY_WAITLISTED);
+            result.setCollectionId(AdminRegConstants.WAITLIST_COLL_ID);
         } else if (CourseRegistrationClientService.LPRTRANS_ITEM_WAITLIST_AVAILABLE_STATE_KEY.equals(item.getStateKey()) ||
                 LprServiceConstants.LPRTRANS_ITEM_FAILED_STATE_KEY.equals(item.getStateKey())) {
-            form.getRegistrationResults().add(AdminRegistrationUtil.buildWarningResult(addCourse, item));
+            result = AdminRegistrationUtil.buildWarningResult(addCourse, item);
         }
 
-        return updateId;
+        return result;
     }
 
     /**
@@ -409,7 +424,7 @@ public class AdminRegistrationController extends UifControllerBase {
      * @param item
      * @return
      */
-    private String handleEditRequestItem(AdminRegistrationForm form, boolean adminOverride, RegistrationRequestItemInfo item) {
+    private RegistrationResult handleEditRequestItem(AdminRegistrationForm form, boolean adminOverride, RegistrationRequestItemInfo item) {
 
         // Retrieve the course that was updated.
         RegistrationCourse updatedCourse = null;
@@ -425,8 +440,9 @@ public class AdminRegistrationController extends UifControllerBase {
         if (LprServiceConstants.LPRTRANS_ITEM_SUCCEEDED_STATE_KEY.equals(item.getStateKey())) {
             form.getRegisteredCourses().remove(updatedCourse.getOriginCourse()); //remove old course.
             form.getRegisteredCourses().add(updatedCourse); // Add the edited course to the list.
-            form.getRegistrationResults().add(AdminRegistrationUtil.buildSuccessResult(updatedCourse, AdminRegConstants.ADMIN_REG_MSG_INFO_SUCCESSFULLY_UPDATED));
-            return AdminRegConstants.REG_COLL_ID;
+            RegistrationResult result = AdminRegistrationUtil.buildSuccessResult(updatedCourse, AdminRegConstants.ADMIN_REG_MSG_INFO_SUCCESSFULLY_UPDATED);
+            result.setCollectionId(AdminRegConstants.REG_COLL_ID);
+            return result;
         } else if (LprServiceConstants.LPRTRANS_ITEM_FAILED_STATE_KEY.equals(item.getStateKey())) {
             form.getRegistrationResults().add(AdminRegistrationUtil.buildWarningResult(updatedCourse, item));
         }
@@ -441,7 +457,7 @@ public class AdminRegistrationController extends UifControllerBase {
      * @param item
      * @return
      */
-    private String handleDropRequestItem(AdminRegistrationForm form, boolean adminOverride, RegistrationRequestItemInfo item) {
+    private RegistrationResult handleDropRequestItem(AdminRegistrationForm form, boolean adminOverride, RegistrationRequestItemInfo item) {
 
         // Retrieve the course that was updated.
         RegistrationCourse dropCourse = null;
@@ -455,8 +471,9 @@ public class AdminRegistrationController extends UifControllerBase {
 
         if (LprServiceConstants.LPRTRANS_ITEM_SUCCEEDED_STATE_KEY.equals(item.getStateKey())) {
             form.getRegisteredCourses().remove(dropCourse);
-            form.getRegistrationResults().add(AdminRegistrationUtil.buildSuccessResult(dropCourse, AdminRegConstants.ADMIN_REG_MSG_INFO_SUCCESSFULLY_DROPPED));
-            return AdminRegConstants.REG_COLL_ID;
+            RegistrationResult result = AdminRegistrationUtil.buildSuccessResult(dropCourse, AdminRegConstants.ADMIN_REG_MSG_INFO_SUCCESSFULLY_DROPPED);
+            result.setCollectionId(AdminRegConstants.REG_COLL_ID);
+            return result;
         } else if (LprServiceConstants.LPRTRANS_ITEM_FAILED_STATE_KEY.equals(item.getStateKey())) {
             form.getRegistrationResults().add(AdminRegistrationUtil.buildWarningResult(dropCourse, item));
         }

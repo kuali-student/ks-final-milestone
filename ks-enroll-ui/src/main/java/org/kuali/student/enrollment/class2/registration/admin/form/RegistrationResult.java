@@ -27,6 +27,11 @@ public class RegistrationResult {
     private String originRequestTypeKey;
 
     /**
+     * The collection (registered courses or waitlisted courses) that need to be updated.
+     */
+    private String collectionId;
+
+    /**
      * This list of registration results items.
      */
     private List<RegistrationResultItem> items = new ArrayList<RegistrationResultItem>();
@@ -53,6 +58,14 @@ public class RegistrationResult {
 
     public void setOriginRequestTypeKey(String originRequestTypeKey) {
         this.originRequestTypeKey = originRequestTypeKey;
+    }
+
+    public String getCollectionId() {
+        return collectionId;
+    }
+
+    public void setCollectionId(String collectionId) {
+        this.collectionId = collectionId;
     }
 
     public List<RegistrationResultItem> getItems() {
