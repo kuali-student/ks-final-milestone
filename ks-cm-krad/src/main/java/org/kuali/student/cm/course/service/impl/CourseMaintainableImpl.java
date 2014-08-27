@@ -2192,6 +2192,14 @@ public class CourseMaintainableImpl extends RuleEditorMaintainableImpl implement
             courseWrapper.getUnitsContentOwner().add(orgWrapper);
         }
 
+        if (courseWrapper.getCourseInfo().getUnitsContentOwner() == null) {
+            courseWrapper.getCourseInfo().setUnitsContentOwner(new ArrayList<String>());
+        }
+
+        CourseCreateUnitsContentOwner newCourseCreateUnitsContentOwner = new CourseCreateUnitsContentOwner();
+        newCourseCreateUnitsContentOwner.getRenderHelper().setNewRow(true);
+        courseWrapper.getUnitsContentOwner().add(newCourseCreateUnitsContentOwner);
+
         /*
          * Instructors
          */
