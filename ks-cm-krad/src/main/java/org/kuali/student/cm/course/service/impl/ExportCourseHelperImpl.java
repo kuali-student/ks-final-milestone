@@ -192,7 +192,7 @@ public class ExportCourseHelperImpl implements ExportCourseHelper {
 
         ExportElement exportElement = new ExportElement();
         exportElement.setFieldLabel(fieldLabel);
-        exportElement.setFieldValue(fieldValue);
+        exportElement.setFieldValue(StringUtils.defaultString(fieldValue));
         exportElement.setViewName(sectionName);
         exportElement.setSectionName(sectionName);
         exportElement.setPrintType(printType);
@@ -237,7 +237,9 @@ public class ExportCourseHelperImpl implements ExportCourseHelper {
         //ExportElement exportInstructors = populateExportElement(
         String instructors = "";
         for(CluInstructorInfo instructor : courseInfoWrapper.getInstructorWrappers()){
-           instructors = instructors +  ((CluInstructorInfoWrapper)instructor).getDisplayName() + ";";
+            if (StringUtils.isNotBlank(((CluInstructorInfoWrapper)instructor).getDisplayName())){
+                instructors = instructors +  ((CluInstructorInfoWrapper)instructor).getDisplayName() + ";";
+            }
         }
 
         ExportElement exportInstructors = populateExportElement(CurriculumManagementConstants.ProposalViewFieldLabels.CourseInformation.INSTRUCTOR, instructors , CurriculumManagementConstants.ProposalViewFieldLabels.CourseInformation.SECTION_NAME, -1);
@@ -275,7 +277,9 @@ public class ExportCourseHelperImpl implements ExportCourseHelper {
 
         String curriculumOversight = "";
         for(String courseCreateUnitsContentOwner  : courseInfoWrapper.getCourseInfo().getUnitsContentOwner()){
-            curriculumOversight = curriculumOversight  + courseCreateUnitsContentOwner + ";";
+            if (StringUtils.isNotBlank(courseCreateUnitsContentOwner)){
+                curriculumOversight = curriculumOversight  + courseCreateUnitsContentOwner + ";";
+            }
         }
         ExportElement exportCurriculumOversight = populateExportElement(CurriculumManagementConstants.ProposalViewFieldLabels.Governance.CURRICULUM_OVERSIGHT, curriculumOversight,CurriculumManagementConstants.ProposalViewFieldLabels.Governance.SECTION_NAME, -1);
         exportElements.add(exportCurriculumOversight);
