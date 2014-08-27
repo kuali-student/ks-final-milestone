@@ -8,7 +8,7 @@
                 <span class="kscr-Card-courseTimes--results">
                     <div class="kscr-Card-ao-type">{{item.activityOfferingTypeName | limitTo : 3}}</div>
                     <div ng-repeat="scheduleItem in item.activityOfferingLocationTime" class="kscr-Card-scheduleComponent">
-                        <span ng-hide="scheduleItem.isTBA" class="util-Grid--floatLeft">{{scheduleItem.time.days}} {{scheduleItem.time.displayTime}}</span>
+                        <span ng-hide="scheduleItem.isTBA" class="util-Grid--floatLeft  kscr-Card-ao-type--time">{{scheduleItem.time.days}} {{scheduleItem.time.displayTime}}</span>
                         <span ng-hide="scheduleItem.isTBA" class="util-Grid--floatRight">{{scheduleItem.location.building}} {{scheduleItem.location.room}}</span>
                         <span ng-show="scheduleItem.isTBA" class="util-Grid--floatRight">TBA</span>
                     </div>
