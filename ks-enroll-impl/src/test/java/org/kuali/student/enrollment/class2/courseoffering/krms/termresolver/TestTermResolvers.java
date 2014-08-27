@@ -963,7 +963,7 @@ public class TestTermResolvers {
 
         //Validate the term resolver
         validateTermResolver(termResolver, resolvedPrereqs, parameters,
-                KSKRMSServiceConstants.TERM_RESOLVER_COURSE_TOTAL_ATTEMPTS);
+                RulesExecutionConstants.TOTAL_COURSE_ATTEMPTS.getName());
 
         //Evaluate Term Resolver
         Integer registeredCount = termResolver.resolve(resolvedPrereqs, parameters);
@@ -1079,19 +1079,31 @@ public class TestTermResolvers {
         resolvedPrereqs.put(RulesExecutionConstants.PERSON_ID_TERM.getName(), "kuali.population.student.key.everyone100000077");
         resolvedPrereqs.put(RulesExecutionConstants.ATP_ID_TERM.getName(), dataLoader.getFallTermId());
         resolvedPrereqs.put(RulesExecutionConstants.AS_OF_DATE_TERM.getName(), KRMSEnrollmentEligibilityDataLoader.START_FALL_TERM_DATE);
-        resolvedPrereqs.put(KSKRMSServiceConstants.TERM_RESOLVER_COURSE_TOTAL_ATTEMPTS, 2);
-
-        //Setup parameters
-        parameters.put(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_GES_PARAMETER_KEY, GesServiceConstants.PARAMETER_KEY_MAX_REPEATABLE);
+        resolvedPrereqs.put(RulesExecutionConstants.MAX_REPEATABILITY.getName(), 2);
+        resolvedPrereqs.put(RulesExecutionConstants.TOTAL_COURSE_ATTEMPTS.getName(), 2);
 
         //Validate the term resolver
         validateTermResolver(termResolver, resolvedPrereqs, parameters,
                 KSKRMSServiceConstants.TERM_RESOLVER_GES_MAX_REPEATABILITY);
 
-        //Evaluate term Resolver
-        String value = termResolver.resolve(resolvedPrereqs, parameters);
+        String value;
+
+        //Evaluate term Resolver for error
+        value = termResolver.resolve(resolvedPrereqs, parameters);
         assertNotNull(value);
         assertEquals(value, GesMaxRepeatabilityTermResolver.MAX_REPEATABILITY_ERROR);
+
+        //Evaluate term Resolver for warning
+        resolvedPrereqs.put(RulesExecutionConstants.TOTAL_COURSE_ATTEMPTS.getName(), 1);
+        value = termResolver.resolve(resolvedPrereqs, parameters);
+        assertNotNull(value);
+        assertEquals(value, GesMaxRepeatabilityTermResolver.MAX_REPEATABILITY_WARNING);
+
+        //Evaluate term Resolver for success
+        resolvedPrereqs.put(RulesExecutionConstants.TOTAL_COURSE_ATTEMPTS.getName(), 0);
+        value = termResolver.resolve(resolvedPrereqs, parameters);
+        assertNotNull(value);
+        assertEquals(value, GesMaxRepeatabilityTermResolver.MAX_REPEATABILITY_SUCCESS);
     }
 
     @Test
