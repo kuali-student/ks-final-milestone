@@ -16,6 +16,7 @@ import org.kuali.student.enrollment.registration.client.service.dto.Registration
 import org.kuali.student.enrollment.registration.client.service.dto.RegistrationValidationResult;
 import org.kuali.student.enrollment.registration.client.service.impl.util.CourseRegistrationAndScheduleOfClassesUtil;
 import org.kuali.student.enrollment.registration.client.service.impl.util.RegistrationValidationResultsUtil;
+import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
@@ -55,28 +56,18 @@ public class AdminRegistrationUtil {
      * @param messageKey
      * @return
      */
-    public static RegistrationResult buildSuccessResult(RegistrationCourse course, String messageKey){
+    public static RegistrationResult buildRegistrationResult(RegistrationCourse course, String messageKey, List<ValidationResultInfo> results) {
         RegistrationResult regResult = new RegistrationResult();
         regResult.setCourse(course);
-        regResult.setLevel(AdminRegConstants.ResultLevels.RESULT_LEVEL_SUCCESS);
 
-        String msg = AdminRegistrationUtil.getMessageForKey(messageKey,course.getCode(),course.getSection());
-        regResult.getItems().add(new RegistrationResultItem(msg));
-        return regResult;
-    }
-
-    /**
-     * Builds a new RegistrationResult object based on the given with a warning level.
-     *
-     * @param course
-     * @return
-     */
-    public static RegistrationResult buildWarningResult(RegistrationCourse course, RegistrationRequestItemInfo item){
-        RegistrationResult regResult = new RegistrationResult();
-        regResult.setCourse(course);
-        regResult.setLevel(AdminRegConstants.ResultLevels.RESULT_LEVEL_WARNING);
-        regResult.setOriginRequestTypeKey(item.getTypeKey());
-        regResult.getItems().addAll(createRegResultsFromValidationResults(item.getValidationResults()));
+        if (results.isEmpty()) {
+            regResult.setLevel(AdminRegConstants.ResultLevels.RESULT_LEVEL_SUCCESS);
+            String msg = AdminRegistrationUtil.getMessageForKey(messageKey, course.getCode(), course.getSection());
+            regResult.getItems().add(new RegistrationResultItem(msg));
+        } else {
+            regResult.setLevel(AdminRegConstants.ResultLevels.RESULT_LEVEL_WARNING);
+            regResult.getItems().addAll(createRegResultsFromValidationResults(results));
+        }
         return regResult;
     }
 
@@ -93,7 +84,7 @@ public class AdminRegistrationUtil {
             Map<String, Object> validationMap = RegistrationValidationResultsUtil.unmarshallResult(validationResult.getMessage());
 
             String message = StringUtils.EMPTY;
-            if (validationMap.containsKey(AdminRegConstants.ADMIN_REG_VALIDATION_MSG_KEY_CONFLICTINGCOURSES)){
+            if (validationMap.containsKey(AdminRegConstants.ADMIN_REG_VALIDATION_MSG_KEY_CONFLICTINGCOURSES)) {
                 List<LinkedHashMap<String, Object>> conflictingCourses = (List<LinkedHashMap<String, Object>>) validationMap.get(AdminRegConstants.ADMIN_REG_VALIDATION_MSG_KEY_CONFLICTINGCOURSES);
                 StringBuilder conflictCourses = new StringBuilder();
                 for (LinkedHashMap<String, Object> conflictCourse : conflictingCourses) {
@@ -103,10 +94,10 @@ public class AdminRegistrationUtil {
                     conflictCourses.append(conflictCourse.get(AdminRegConstants.ADMIN_REG_VALIDATION_MSG_KEY_COURSES_CODE));
                 }
                 message = AdminRegistrationUtil.getMessageForKey((String) validationMap.get(AdminRegConstants.ADMIN_REG_VALIDATION_MSG_KEY), conflictCourses.toString());
-            } else if (validationMap.containsKey(AdminRegConstants.ADMIN_REG_VALIDATION_MSG_KEY)){
-                if(validationMap.get(AdminRegConstants.ADMIN_REG_VALIDATION_MSG_KEY).equals(AdminRegConstants.ADMIN_REG_CREDIT_LOAD_EXCEEDED_MESSAGE_KEY)){
+            } else if (validationMap.containsKey(AdminRegConstants.ADMIN_REG_VALIDATION_MSG_KEY)) {
+                if (validationMap.get(AdminRegConstants.ADMIN_REG_VALIDATION_MSG_KEY).equals(AdminRegConstants.ADMIN_REG_CREDIT_LOAD_EXCEEDED_MESSAGE_KEY)) {
                     message = AdminRegistrationUtil.getMessageForKey((String) validationMap.get(AdminRegConstants.ADMIN_REG_VALIDATION_MSG_KEY), validationMap.get(AdminRegConstants.ADMIN_REG_MAX_CREDITS).toString());
-                }else{
+                } else {
                     message = AdminRegistrationUtil.getMessageForKey((String) validationMap.get(AdminRegConstants.ADMIN_REG_VALIDATION_MSG_KEY));
                 }
             }
@@ -148,6 +139,11 @@ public class AdminRegistrationUtil {
         regReqInfo.setTermId(termId);
         regReqInfo.setTypeKey(LprServiceConstants.LPRTRANS_REGISTRATION_TYPE_KEY);
         regReqInfo.setStateKey(LprServiceConstants.LPRTRANS_NEW_STATE_KEY);
+
+        // Add dynamic attribute with override flag.
+        AttributeInfo attributeInfo = new AttributeInfo(CourseRegistrationServiceConstants.ELIGIBILITY_OVERRIDE_TYPE_KEY_ATTR,
+                String.valueOf(Boolean.TRUE));
+        regReqInfo.getAttributes().add(attributeInfo);
         return regReqInfo;
     }
 
@@ -199,7 +195,7 @@ public class AdminRegistrationUtil {
 
     /**
      * Check if this registration request was an administrative override.
-     *
+     * <p/>
      * NOTE: This is just a temporary solution for the override until the exemptions are ready to be built in .
      *
      * @param regRequest
@@ -222,7 +218,7 @@ public class AdminRegistrationUtil {
      * @param item
      * @return
      */
-    public static RegistrationResult retrieveFromResultList(List<RegistrationResult> results, RegistrationRequestItemInfo item){
+    public static RegistrationResult retrieveFromResultList(List<RegistrationResult> results, RegistrationRequestItemInfo item) {
         for (RegistrationResult regResult : results) {
             if (compareCourseAndItem(regResult.getCourse(), item)) {
                 results.remove(regResult);
@@ -239,7 +235,7 @@ public class AdminRegistrationUtil {
      * @param item
      * @return
      */
-    public static RegistrationCourse retrieveFromCourseList(List<RegistrationCourse> courses, RegistrationRequestItemInfo item){
+    public static RegistrationCourse retrieveFromCourseList(List<RegistrationCourse> courses, RegistrationRequestItemInfo item) {
         for (RegistrationCourse regCourse : courses) {
             if (compareCourseAndItem(regCourse, item)) {
                 courses.remove(regCourse);
@@ -267,11 +263,11 @@ public class AdminRegistrationUtil {
     /**
      * This method retrieve the soc given a term id.
      *
-     * @param termId   Term Id
+     * @param termId      Term Id
      * @param contextInfo information containing the principalId and locale
      *                    information about the caller of service operation
      * @return return the soc if there is one and only one soc with the type kuali.soc.type.main. Return NULL if
-     *         there are no socs, or no main soc, or more than one main soc given a term id.
+     * there are no socs, or no main soc, or more than one main soc given a term id.
      * @throws DoesNotExistException
      * @throws InvalidParameterException
      * @throws MissingParameterException
@@ -285,7 +281,7 @@ public class AdminRegistrationUtil {
 
         List<String> socIds = AdminRegResourceLoader.getSocService().getSocIdsByTerm(termId, contextInfo);
 
-        if (socIds!=null && !socIds.isEmpty()) {
+        if (socIds != null && !socIds.isEmpty()) {
             List<SocInfo> socInfos = AdminRegResourceLoader.getSocService().getSocsByIds(socIds, contextInfo);
 
             for (SocInfo socInfo : socInfos) {

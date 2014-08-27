@@ -534,11 +534,6 @@ public class AdminRegistrationViewHelperServiceImpl extends KSViewHelperServiceI
         //Build the request object
         RegistrationRequestInfo regRequest = AdminRegistrationUtil.buildRegistrationRequest(studentId, termId, registrationCourse, typeKey);
 
-        // Add dynamic attribute with override flag.
-        AttributeInfo attributeInfo = new AttributeInfo(CourseRegistrationServiceConstants.ELIGIBILITY_OVERRIDE_TYPE_KEY_ATTR,
-                String.valueOf(Boolean.TRUE));
-        regRequest.getAttributes().add(attributeInfo);
-
         String regRequestId = submitRegistrationRequest(regRequest);
         registrationCourse.setCurrentRegRequestId(regRequestId);
 

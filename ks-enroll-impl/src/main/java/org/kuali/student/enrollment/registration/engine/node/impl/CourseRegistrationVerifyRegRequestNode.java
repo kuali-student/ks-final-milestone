@@ -92,13 +92,17 @@ public class CourseRegistrationVerifyRegRequestNode extends AbstractCourseRegist
             } else {
                 //Update the warning transactions
                 updateLprTransactionWithWarnings(regRequest.getId(), warnings, contextInfo);
+
+                //Only set state to failed for non admin registration requests.
+                String stateKey = isAdminRegistration(regRequest) ? null : LprServiceConstants.LPRTRANS_ITEM_FAILED_STATE_KEY;
+
                 //Update the error transactions
-                LprTransactionInfo trans = updateLprTransactionWithErrors(regRequest.getId(), errors, contextInfo);
+                LprTransactionInfo trans = updateLprTransactionWithErrors(regRequest.getId(), errors, stateKey, contextInfo);
 
                 // the operation above has changed the registration request. Pull from the database and update existing
                 // message.
                 RegistrationRequestInfo updatedRequestInfo = getCourseRegistrationService().getRegistrationRequest(trans.getId(), contextInfo);
-                updateRegRequestWithErrors(updatedRequestInfo, errors);
+                updateRegRequestWithErrors(updatedRequestInfo, errors, stateKey);
                 message.setRegistrationRequest(updatedRequestInfo);
             }
 
@@ -110,7 +114,9 @@ public class CourseRegistrationVerifyRegRequestNode extends AbstractCourseRegist
 
     }
 
-    protected LprTransactionInfo updateLprTransactionWithWarnings(String lprTransactionId, List<ValidationResultInfo> warnings, ContextInfo contextInfo) throws PermissionDeniedException, MissingParameterException, InvalidParameterException, OperationFailedException, DoesNotExistException, VersionMismatchException, DataValidationErrorException, ReadOnlyException {
+    protected LprTransactionInfo updateLprTransactionWithWarnings(String lprTransactionId, List<ValidationResultInfo> warnings, ContextInfo contextInfo)
+            throws PermissionDeniedException, MissingParameterException, InvalidParameterException, OperationFailedException,
+            DoesNotExistException, VersionMismatchException, DataValidationErrorException, ReadOnlyException {
 
         LprTransactionInfo trans = getLprService().getLprTransaction(lprTransactionId, contextInfo);
 
@@ -127,7 +133,10 @@ public class CourseRegistrationVerifyRegRequestNode extends AbstractCourseRegist
         return getLprService().updateLprTransaction(lprTransactionId, trans, contextInfo);
     }
 
-    protected LprTransactionInfo updateLprTransactionWithErrors(String lprTransactionId, List<ValidationResultInfo> errors, ContextInfo contextInfo) throws PermissionDeniedException, MissingParameterException, InvalidParameterException, OperationFailedException, DoesNotExistException, VersionMismatchException, DataValidationErrorException, ReadOnlyException {
+    protected LprTransactionInfo updateLprTransactionWithErrors(String lprTransactionId, List<ValidationResultInfo> errors,
+                                                                String stateKey, ContextInfo contextInfo)
+            throws PermissionDeniedException, MissingParameterException, InvalidParameterException, OperationFailedException,
+            DoesNotExistException, VersionMismatchException, DataValidationErrorException, ReadOnlyException {
 
         LprTransactionInfo trans = getLprService().getLprTransaction(lprTransactionId, contextInfo);
 
@@ -138,37 +147,45 @@ public class CourseRegistrationVerifyRegRequestNode extends AbstractCourseRegist
                 if (item.getId().equals(itemId)) {
                     //Update the item with the failed validation state and result
                     item.getValidationResults().add(new ValidationResultInfo(error));
-                    item.setStateKey(LprServiceConstants.LPRTRANS_ITEM_FAILED_STATE_KEY);
+                    if(stateKey!=null) {
+                        item.setStateKey(stateKey);
+                    }
                 }
             }
         }
         return getLprService().updateLprTransaction(lprTransactionId, trans, contextInfo);
     }
 
-    protected void updateRegRequestWithErrors(RegistrationRequestInfo updatedRequestInfo, List<ValidationResultInfo> errors) {
+    protected void updateRegRequestWithErrors(RegistrationRequestInfo updatedRequestInfo, List<ValidationResultInfo> errors,
+                                              String stateKey) {
         for (ValidationResultInfo error : errors) {
             //Match each error with the corresponding id.
             String itemId = error.getElement().replaceFirst("registrationRequestItems\\['([^']*)'\\]", "$1");
             for (RegistrationRequestItemInfo requestItem : updatedRequestInfo.getRegistrationRequestItems()) {
                 if (requestItem.getId().equals(itemId)) {
-                    requestItem.setStateKey(LprServiceConstants.LPRTRANS_ITEM_FAILED_STATE_KEY);
                     requestItem.getValidationResults().add(new ValidationResultInfo(error));
+                    if(stateKey!=null) {
+                        requestItem.setStateKey(stateKey);
+                    }
                 }
             }
         }
     }
 
-    private boolean shouldValidate(RegistrationRequest regRequest) {
-
+    protected boolean isAdminRegistration(RegistrationRequest regRequest){
         // TODO: KSENROLL-13911 - This is only a temporary check while functionality is analyzed.
         // Check for admin user override (allow)
         for (Attribute attr : regRequest.getAttributes()) {
             if (attr.getKey().equals(CourseRegistrationServiceConstants.ELIGIBILITY_OVERRIDE_TYPE_KEY_ATTR)) {
                 if (Boolean.valueOf(attr.getValue())) {
-                    return false;
+                    return true;
                 }
             }
         }
+        return false;
+    }
+
+    private boolean shouldValidate(RegistrationRequest regRequest) {
 
         //Check if this is only a drop from waitlist request (if so no need to validate).
         for (RegistrationRequestItem item : regRequest.getRegistrationRequestItems()) {
