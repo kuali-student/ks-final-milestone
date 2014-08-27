@@ -81,6 +81,13 @@ public class TestHoldServiceMapImpl {
         expected.setOrganizationId("org1");
         expected.setTypeKey(HoldServiceConstants.ACADEMIC_PROGRESS_ISSUE_TYPE_KEY);
         expected.setStateKey(HoldServiceConstants.ISSUE_INACTIVE_STATE_KEY);
+        expected.setHoldCode("HC1");
+        expected.setFirstAppliedDate(new Date());
+        expected.setLastAppliedDate(new Date());
+        expected.setIsHoldIssueTermBased(true);
+        expected.setFirstApplicationTermId("201200");
+        expected.setLastApplicationTermId("201208");
+        expected.setMaintainHistoryOfApplicationOfHold(true);
         new AttributeTester().add2ForCreate(expected.getAttributes());
         HoldIssueInfo actual = holdService.createHoldIssue(expected.getTypeKey(), expected, callContext);
         assertNotNull(actual.getId());
@@ -97,10 +104,7 @@ public class TestHoldServiceMapImpl {
 //            itemInfo.setId(null);
 //        }
         actual = holdService.getHoldIssue(actual.getId(), callContext);
-        assertEquals(expected.getId(), actual.getId());
-        new IdEntityTester().check(expected, actual);
-        assertEquals(expected.getOrganizationId(), actual.getOrganizationId());
-        new AttributeTester().check(expected.getAttributes(), actual.getAttributes());
+        assertHoldIssue(expected, actual);
         new MetaTester().checkAfterGet(expected.getMeta(), actual.getMeta());
 
         // test update
@@ -111,19 +115,13 @@ public class TestHoldServiceMapImpl {
         expected.setOrganizationId("org2");
         new AttributeTester().delete1Update1Add1ForUpdate(expected.getAttributes());
         actual = holdService.updateHoldIssue(expected.getId(), expected, callContext);
-        assertEquals(expected.getId(), actual.getId());
-        new IdEntityTester().check(expected, actual);
-        assertEquals(expected.getOrganizationId(), actual.getOrganizationId());
-        new AttributeTester().check(expected.getAttributes(), actual.getAttributes());
+        assertHoldIssue(expected, actual);
         new MetaTester().checkAfterUpdate(expected.getMeta(), actual.getMeta());
 
         // test read after update
         expected = actual;
         actual = holdService.getHoldIssue(actual.getId(), callContext);
-        assertEquals(expected.getId(), actual.getId());
-        new IdEntityTester().check(expected, actual);
-        assertEquals(expected.getOrganizationId(), actual.getOrganizationId());
-        new AttributeTester().check(expected.getAttributes(), actual.getAttributes());
+        assertHoldIssue(expected, actual);
         new MetaTester().checkAfterGet(expected.getMeta(), actual.getMeta());
 
         HoldIssueInfo acadIssue = actual;
@@ -223,6 +221,20 @@ public class TestHoldServiceMapImpl {
             assertEquals(finAidIssue.getId(), dnee.getMessage());
         }
 
+    }
+
+    private void assertHoldIssue(HoldIssueInfo expected, HoldIssueInfo actual) {
+        assertEquals(expected.getId(), actual.getId());
+        new IdEntityTester().check(expected, actual);
+        assertEquals(expected.getOrganizationId(), actual.getOrganizationId());
+        new AttributeTester().check(expected.getAttributes(), actual.getAttributes());
+        assertEquals(expected.getHoldCode(), actual.getHoldCode());
+        assertEquals(expected.getFirstAppliedDate(), actual.getFirstAppliedDate());
+        assertEquals(expected.getLastAppliedDate(), actual.getLastAppliedDate());
+        assertEquals(expected.getIsHoldIssueTermBased(), actual.getIsHoldIssueTermBased());
+        assertEquals(expected.getFirstApplicationTermId(), actual.getFirstApplicationTermId());
+        assertEquals(expected.getLastApplicationTermId(), actual.getLastApplicationTermId());
+        assertEquals(expected.getMaintainHistoryOfApplicationOfHold(), actual.getMaintainHistoryOfApplicationOfHold());
     }
 
     private AppliedHoldInfo testCrudHold(HoldIssueInfo acadIssue,

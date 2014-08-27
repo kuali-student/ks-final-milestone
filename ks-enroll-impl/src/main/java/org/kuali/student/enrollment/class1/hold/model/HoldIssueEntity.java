@@ -30,10 +30,13 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 /**
  * This is a description of what this class does - andy don't forget to fill this in.
@@ -58,16 +61,34 @@ public class HoldIssueEntity
     private String organizationId;
     @Column(name = "HOLD_ISSUE_TYPE", nullable = false)
     private String holdIssueType;
+    @Column(name = "HOLD_ISSUE_STATE", nullable = false)
+    private String holdIssueState;
+
+    @Column(name = "HOLD_CD")
+    private String holdCode;
     @Column(name = "DESCR_PLAIN", length = KSEntityConstants.EXTRA_LONG_TEXT_LENGTH, nullable = false)
     private String descrPlain;
     @Column(name = "DESCR_FORMATTED", length = KSEntityConstants.EXTRA_LONG_TEXT_LENGTH)
     private String descrFormatted;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name="FIRST_APPLIED_DT")
+    private Date firstAppliedDate;
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name="LAST_APPLIED_DT")
+    private Date lastAppliedDate;
+
+    @Column(name = "HOLD_ISSUE_TERM_BASED_IND", nullable = false)
+    private Integer isHoldIssueTermBased;
+    @Column(name = "FIRST_APP_TERM_ID")
+    private String firstApplicationTermId;
+    @Column(name = "LAST_APP_TERM_ID")
+    private String lastApplicationTermId;
+
+    @Column(name = "MAINT_HIST_OF_APP_OF_HOLD_IND", nullable = false)
+    private Integer maintainHistoryOfApplicationOfHold;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner", fetch = FetchType.EAGER, orphanRemoval = true)
     private final Set<HoldIssueAttributeEntity> attributes = new HashSet<HoldIssueAttributeEntity>();
-    ;
-
-    @Column(name = "HOLD_ISSUE_STATE", nullable = false)
-    private String holdIssueState;
 
     public HoldIssueEntity() {
     }
@@ -85,12 +106,28 @@ public class HoldIssueEntity
         setName(dto.getName());
         setHoldIssueState(dto.getStateKey());
         setOrganizationId(dto.getOrganizationId());
+        setHoldCode(dto.getHoldCode());
         if (dto.getDescr() != null) {
             this.setDescrFormatted(dto.getDescr().getFormatted());
             this.setDescrPlain(dto.getDescr().getPlain());
         } else {
             this.setDescrFormatted(null);
             this.setDescrPlain(null);
+        }
+
+        setFirstAppliedDate(dto.getFirstAppliedDate());
+        setLastAppliedDate(dto.getLastAppliedDate());
+        if((dto.getIsHoldIssueTermBased()!=null) && (dto.getIsHoldIssueTermBased())) {
+            setIsHoldIssueTermBased(1);
+        } else {
+            setIsHoldIssueTermBased(0);
+        }
+        setFirstApplicationTermId(dto.getFirstApplicationTermId());
+        setLastApplicationTermId(dto.getLastApplicationTermId());
+        if((dto.getMaintainHistoryOfApplicationOfHold()!=null) && (dto.getMaintainHistoryOfApplicationOfHold())) {
+            setMaintainHistoryOfApplicationOfHold(1);
+        } else {
+            setMaintainHistoryOfApplicationOfHold(0);
         }
 
         // dynamic attributes
@@ -146,6 +183,14 @@ public class HoldIssueEntity
         this.holdIssueState = issueState;
     }
 
+    public String getHoldCode() {
+        return holdCode;
+    }
+
+    public void setHoldCode(String holdCode) {
+        this.holdCode = holdCode;
+    }
+
     public String getDescrPlain() {
         return descrPlain;
     }
@@ -162,6 +207,54 @@ public class HoldIssueEntity
         this.descrFormatted = formatted;
     }
 
+    public Date getFirstAppliedDate() {
+        return firstAppliedDate;
+    }
+
+    public void setFirstAppliedDate(Date firstAppliedDate) {
+        this.firstAppliedDate = firstAppliedDate;
+    }
+
+    public Date getLastAppliedDate() {
+        return lastAppliedDate;
+    }
+
+    public void setLastAppliedDate(Date lastAppliedDate) {
+        this.lastAppliedDate = lastAppliedDate;
+    }
+
+    public Integer getIsHoldIssueTermBased() {
+        return isHoldIssueTermBased;
+    }
+
+    public void setIsHoldIssueTermBased(Integer isHoldIssueTermBased) {
+        this.isHoldIssueTermBased = isHoldIssueTermBased;
+    }
+
+    public String getFirstApplicationTermId() {
+        return firstApplicationTermId;
+    }
+
+    public void setFirstApplicationTermId(String firstApplicationTermId) {
+        this.firstApplicationTermId = firstApplicationTermId;
+    }
+
+    public String getLastApplicationTermId() {
+        return lastApplicationTermId;
+    }
+
+    public void setLastApplicationTermId(String lastApplicationTermId) {
+        this.lastApplicationTermId = lastApplicationTermId;
+    }
+
+    public Integer getMaintainHistoryOfApplicationOfHold() {
+        return maintainHistoryOfApplicationOfHold;
+    }
+
+    public void setMaintainHistoryOfApplicationOfHold(Integer maintainHistoryOfApplicationOfHold) {
+        this.maintainHistoryOfApplicationOfHold = maintainHistoryOfApplicationOfHold;
+    }
+
     public HoldIssueInfo toDto() {
         HoldIssueInfo info = new HoldIssueInfo();
         info.setId(getId());
@@ -169,9 +262,18 @@ public class HoldIssueEntity
         info.setTypeKey(getHoldIssueType());
         info.setStateKey(getHoldIssueState());
         info.setOrganizationId(getOrganizationId());
+        info.setHoldCode(getHoldCode());
         if (descrPlain != null) {
             info.setDescr(new RichTextInfo(descrPlain, descrFormatted));
         }
+
+        info.setFirstAppliedDate(getFirstAppliedDate());
+        info.setLastAppliedDate(getLastAppliedDate());
+        info.setIsHoldIssueTermBased(getIsHoldIssueTermBased() == 1 ? true : false);
+        info.setFirstApplicationTermId(getFirstApplicationTermId());
+        info.setLastApplicationTermId(getLastApplicationTermId());
+
+        info.setMaintainHistoryOfApplicationOfHold(getMaintainHistoryOfApplicationOfHold() == 1 ? true : false);
         info.setMeta(super.toDTO());
         for (HoldIssueAttributeEntity att : getAttributes()) {
             AttributeInfo attInfo = att.toDto();
