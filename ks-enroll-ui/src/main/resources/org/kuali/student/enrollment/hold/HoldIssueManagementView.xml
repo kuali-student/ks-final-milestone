@@ -101,18 +101,18 @@
                 <bean parent="Uif-HorizontalBoxGroup">
                     <property name="items">
                         <list>
-                            <bean parent="KS-Uif-InputField-LabelTop" p:label="Hold Name" p:propertyName="name">
+                            <bean id="manageHoldNameField" parent="KS-Uif-InputField-LabelTop" p:label="Hold Name" p:propertyName="name">
                                 <property name="control">
                                     <bean parent="KS-Uif-TextControl" p:size="20"/>
                                 </property>
                             </bean>
-                            <bean parent="KS-Uif-InputField-LabelTop" p:label="Hold Code" p:propertyName="code"
+                            <bean id="manageHoldCodeField" parent="KS-Uif-InputField-LabelTop" p:label="Hold Code" p:propertyName="code"
                                     p:style="margin-left: 10px;">
                                 <property name="control">
                                     <bean parent="KS-Uif-TextControl" p:size="10"/>
                                 </property>
                             </bean>
-                            <bean parent="KS-Uif-InputField-LabelTop" p:label="Category" p:propertyName="typeKey"
+                            <bean id="manageHoldCategoryField" parent="KS-Uif-InputField-LabelTop" p:label="Category" p:propertyName="typeKey"
                                   p:style="margin-left: 10px;">
                                 <property name="control">
                                     <bean parent="KS-Uif-DropdownControl"/>
@@ -121,7 +121,7 @@
                                     <bean class="org.kuali.student.enrollment.class1.hold.keyvalues.HoldIssueInfoTypeKeyValues"/>
                                 </property>
                             </bean>
-                            <bean parent="KS-Uif-InputField-LabelTop" p:label="Phrase in Hold Description"
+                            <bean id="manageHoldDescrField" parent="KS-Uif-InputField-LabelTop" p:label="Phrase in Hold Description"
                                   p:style="margin-left: 10px;" p:propertyName="descr">
                                 <property name="control">
                                     <bean parent="Uif-SmallTextAreaControl"/>
@@ -164,9 +164,9 @@
         <property name="headerText" value=""/>
         <property name="lineActions">
             <list>
-                <bean parent="KS-Uif-Edit-NavigationActionLink" p:methodToCall="edit"
+                <bean id="manageHoldEditLink" parent="KS-Uif-Edit-NavigationActionLink" p:methodToCall="edit"
                       p:iconClass="ks-fontello-icon-pencil" p:style="color:#0088CC;"/>
-                <bean parent="KS-Uif-Delete-NavigationActionLink" p:methodToCall="delete"
+                <bean id="manageHoldDeleteLink" parent="KS-Uif-Delete-NavigationActionLink" p:methodToCall="delete"
                       p:iconClass="ks-fontello-icon-cancel"
                       p:style="color:#0088CC;"/>
             </list>
