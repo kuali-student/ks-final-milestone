@@ -55,7 +55,7 @@ public class CourseRecordForStudentTermResolver implements TermResolver<List<Stu
     @Override
     public Set<String> getPrerequisites() {
         Set<String> prereqs = new HashSet<>(3);
-        prereqs.add(RulesExecutionConstants.PERSON_ID_TERM.getName());
+        prereqs.add(RulesExecutionConstants.ENTITY_ID_TERM.getName());
         prereqs.add(RulesExecutionConstants.CONTEXT_INFO_TERM.getName());
         prereqs.add(RulesExecutionConstants.CLU_VERSION_IND_ID_TERM.getName());
         return Collections.unmodifiableSet(prereqs);
@@ -69,12 +69,12 @@ public class CourseRecordForStudentTermResolver implements TermResolver<List<Stu
     @Override
     public List<StudentCourseRecordInfo> resolve(Map<String, Object> resolvedPrereqs, Map<String, String> parameters) throws TermResolutionException {
         ContextInfo context = (ContextInfo) resolvedPrereqs.get(RulesExecutionConstants.CONTEXT_INFO_TERM.getName());
-        String personId = (String) resolvedPrereqs.get(RulesExecutionConstants.PERSON_ID_TERM.getName());
+        String entityId = (String) resolvedPrereqs.get(RulesExecutionConstants.ENTITY_ID_TERM.getName());
         String versionIndId = (String) resolvedPrereqs.get(RulesExecutionConstants.CLU_VERSION_IND_ID_TERM.getName());
 
         List<StudentCourseRecordInfo> records = null;
         try {
-            records = getAcademicRecordService().getStudentCourseRecordsForCourse(personId, versionIndId, context);
+            records = getAcademicRecordService().getStudentCourseRecordsForCourse(entityId, versionIndId, context);
         } catch (Exception e) {
             KSKRMSExecutionUtil.convertExceptionsToTermResolutionException(parameters, e, this);
         }

@@ -57,7 +57,7 @@ public class TestAcademicRecordServicePersistenceMockImpl {
 
     @Test
     public void TestSingleStudentCourseRecordForCourse() throws PermissionDeniedException, MissingParameterException, InvalidParameterException, OperationFailedException, DoesNotExistException {
-        String personId = "R.JESSEA";
+        String personId = "KS-2483";  // R.JESSEA
         String courseId = "339e49bd-bb68-47d6-92da-2b19ffc57bb0";
         ContextInfo contextInfo = new ContextInfo();
 
@@ -70,7 +70,7 @@ public class TestAcademicRecordServicePersistenceMockImpl {
 
     @Test
     public void TestMultipleStudentCourseRecordForCourse() throws PermissionDeniedException, MissingParameterException, InvalidParameterException, OperationFailedException, DoesNotExistException {
-        String personId = "R.JESSICAL";
+        String personId = "KS-5213"; // R.JESSICAL
         String courseId = "68e20a79-5f25-4e89-8518-18da6f89dc03";
         ContextInfo contextInfo = new ContextInfo();
 
@@ -91,7 +91,7 @@ public class TestAcademicRecordServicePersistenceMockImpl {
 
     @Test
     public void TestIsRepeated() throws PermissionDeniedException, MissingParameterException, InvalidParameterException, OperationFailedException, DoesNotExistException {
-        String personId = "R.JOANL";
+        String personId = "KS-7242"; // R.JOANL
         String courseId = "8af491cf-9c23-409e-adc8-dc184dcbced6";
         ContextInfo contextInfo = new ContextInfo();
 
@@ -112,7 +112,7 @@ public class TestAcademicRecordServicePersistenceMockImpl {
 
     @Test
     public void TestIncomplete() throws PermissionDeniedException, MissingParameterException, InvalidParameterException, OperationFailedException, DoesNotExistException {
-        String personId = "R.JODYB";
+        String personId = "KS-8006"; // R.JODYB
         String courseId = "acdf9452-99b1-4910-8a56-1b95d6393fab";
         ContextInfo contextInfo = new ContextInfo();
 
@@ -125,7 +125,7 @@ public class TestAcademicRecordServicePersistenceMockImpl {
 
     @Test
     public void TestWithdrawal() throws PermissionDeniedException, MissingParameterException, InvalidParameterException, OperationFailedException, DoesNotExistException {
-        String personId = "R.JOEM";
+        String personId = "KS-10253"; // R.JOEM
         String courseId = "3c0548bd-06b5-43ef-b064-30fa1e501564";
         ContextInfo contextInfo = new ContextInfo();
 
@@ -154,7 +154,7 @@ public class TestAcademicRecordServicePersistenceMockImpl {
 
     @Test
     public void TestCourseNotFound() throws PermissionDeniedException, MissingParameterException, InvalidParameterException, OperationFailedException, DoesNotExistException {
-        String personId = "R.JOER";
+        String personId = "KS-10438"; // R.JOER
         String courseId = "fakeCourseId";
         ContextInfo contextInfo = new ContextInfo();
 

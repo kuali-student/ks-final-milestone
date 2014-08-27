@@ -368,24 +368,24 @@
 
     <util:map id="studentToCourseRecordsMap" map-class="java.util.HashMap">
         <!-- repeatable for credit -->
-        <entry key="R.JESSEA" value-ref="R.JESSEA"/>
-        <entry key="R.JESSICAL" value-ref="R.JESSICAL"/>
-        <entry key="R.JESSICAR" value-ref="R.JESSICAR"/>
+        <entry key="KS-2483" value-ref="R.JESSEA"/>
+        <entry key="KS-5213" value-ref="R.JESSICAL"/>
+        <entry key="KS-2692" value-ref="R.JESSICAR"/>
         <!-- GES - max courses -->
-        <entry key="R.JOANL" value-ref="R.JOANL"/>
-        <entry key="R.JODIT" value-ref="R.JODIT"/>
+        <entry key="KS-7242" value-ref="R.JOANL"/>
+        <entry key="KS-12186" value-ref="R.JODIT"/>
         <!-- Incomplete -->
-        <entry key="R.JODYB" value-ref="R.JODYB"/>
-        <entry key="R.JOEL-FRANCOISD" value-ref="R.JOEL-FRANCOISD"/>
+        <entry key="KS-8006" value-ref="R.JODYB"/>
+        <entry key="KS-1885" value-ref="R.JOEL-FRANCOISD"/>
         <!-- Withdrawal -->
-        <entry key="R.JOEM" value-ref="R.JOEM"/>
+        <entry key="KS-10253" value-ref="R.JOEM"/>
         <!-- Other -->
-        <entry key="R.JOER" value-ref="R.JOER"/>
-        <entry key="R.JOHANNAC" value-ref="R.JOHANNAC"/>
-        <entry key="R.JOHNG" value-ref="R.JOHNG"/>
-        <entry key="R.JOHNL" value-ref="R.JOHNL"/>
-        <entry key="R.JOHNM" value-ref="R.JOHNM"/>
-        <entry key="R.JONATHANT" value-ref="R.JONATHANT"/>
+        <entry key="KS-10438" value-ref="R.JOER"/>
+        <entry key="KS-2471" value-ref="R.JOHANNAC"/>
+        <entry key="KS-7757" value-ref="R.JOHNG"/>
+        <entry key="KS-8061" value-ref="R.JOHNL"/>
+        <entry key="KS-3613" value-ref="R.JOHNM"/>
+        <entry key="KS-1899" value-ref="R.JONATHANT"/>
     </util:map>
 
 </beans>

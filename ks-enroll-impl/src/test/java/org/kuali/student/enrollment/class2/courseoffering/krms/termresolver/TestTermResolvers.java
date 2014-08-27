@@ -867,7 +867,7 @@ public class TestTermResolvers {
         String versionIndId = cluService.getClu(cluId, contextInfo).getVersion().getVersionIndId();
 
         //Setup data
-        resolvedPrereqs.put(RulesExecutionConstants.PERSON_ID_TERM.getName(), KRMSEnrollmentEligibilityDataLoader.STUDENT_THREE_ID);
+        resolvedPrereqs.put(RulesExecutionConstants.ENTITY_ID_TERM.getName(), KRMSEnrollmentEligibilityDataLoader.STUDENT_THREE_ID);
         resolvedPrereqs.put(RulesExecutionConstants.CLU_VERSION_IND_ID_TERM.getName(), versionIndId);
 
         //Validate the term resolver
@@ -897,8 +897,8 @@ public class TestTermResolvers {
         //Setup the term resolver
         CourseCompletedAttemptsTermResolver termResolver = new CourseCompletedAttemptsTermResolver();
 
-        List<StudentCourseRecordInfo> list01=studentToCourseRecordsMap.get("R.JESSICAL");
-        List<StudentCourseRecordInfo> list02=studentToCourseRecordsMap.get("R.JOHANNAC");
+        List<StudentCourseRecordInfo> list01=studentToCourseRecordsMap.get("KS-5213"); // R.JESSICAL
+        List<StudentCourseRecordInfo> list02=studentToCourseRecordsMap.get("KS-2471"); // R.JOHANNAC
 
         //Setup data for first test (all courses complete)
         resolvedPrereqs.put(KSKRMSServiceConstants.TERM_RESOLVER_COURSE_RECORD_FOR_STUDENT, list01);
@@ -930,7 +930,7 @@ public class TestTermResolvers {
         registeredCourse.setStateKey(AcademicRecordServiceConstants.STUDENTCOURSERECORD_STATE_KEY_REGISTERED);
 
         List<StudentCourseRecordInfo> courseRecordList = new ArrayList<>();
-        courseRecordList.addAll(studentToCourseRecordsMap.get("R.JESSICAL"));
+        courseRecordList.addAll(studentToCourseRecordsMap.get("KS-5213")); // R.JESSICAL
         courseRecordList.add(registeredCourse);
 
         //Setup data for test
@@ -955,7 +955,7 @@ public class TestTermResolvers {
         registeredCourse.setStateKey(AcademicRecordServiceConstants.STUDENTCOURSERECORD_STATE_KEY_REGISTERED);
 
         List<StudentCourseRecordInfo> courseRecordList = new ArrayList<>();
-        courseRecordList.addAll(studentToCourseRecordsMap.get("R.JESSICAL"));
+        courseRecordList.addAll(studentToCourseRecordsMap.get("KS-5213")); // R.JESSICAL
         courseRecordList.add(registeredCourse);
 
         //Setup data for test

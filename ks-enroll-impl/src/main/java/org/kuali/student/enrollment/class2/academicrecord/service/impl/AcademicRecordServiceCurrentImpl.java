@@ -16,7 +16,6 @@
  */
 package org.kuali.student.enrollment.class2.academicrecord.service.impl;
 
-import org.kuali.rice.kim.api.identity.entity.Entity;
 import org.kuali.student.enrollment.academicrecord.dto.GPAInfo;
 import org.kuali.student.enrollment.academicrecord.dto.LoadInfo;
 import org.kuali.student.enrollment.academicrecord.dto.StudentCourseRecordInfo;
@@ -29,7 +28,6 @@ import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.enrollment.courseregistration.dto.CourseRegistrationInfo;
 import org.kuali.student.enrollment.courseregistration.service.CourseRegistrationService;
-import org.kuali.student.enrollment.registration.client.service.impl.util.CourseRegistrationAndScheduleOfClassesUtil;
 import org.kuali.student.r2.common.assembler.AssemblyException;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
@@ -62,14 +60,6 @@ public class AcademicRecordServiceCurrentImpl implements AcademicRecordService {
             MissingParameterException,
             OperationFailedException,
             PermissionDeniedException {
-
-        //TODO KSENROLL-14067 -- this is a temporary (1-day) hack so that student reg can use this method w/o breaking admin reg
-        //convert personId into entityId if necessary
-        Entity entity = CourseRegistrationAndScheduleOfClassesUtil.getIdentityService().getEntityByPrincipalId(personId);
-        if (entity != null) {
-            personId = entity.getId();
-        }
-
         List<StudentCourseRecordInfo> courseRecords = new ArrayList<>();
         try {
             List<CourseRegistrationInfo> regs = courseRegService.getCourseRegistrationsByStudent(personId, contextInfo);
