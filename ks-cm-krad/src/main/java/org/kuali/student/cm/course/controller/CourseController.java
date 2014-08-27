@@ -1057,7 +1057,7 @@ public class CourseController extends CourseRuleEditorController {
         courseInfoWrapper.getUiHelper().setShowMessage(false);
         String dialog = CurriculumManagementConstants.ProposalConfirmationDialogs.COURSE_WITHDRAW_CONFIRMATION_DIALOG;
         if ( ! hasDialogBeenDisplayed(dialog, form)) {
-            doValidationForProposal(form, KewApiConstants.ROUTE_HEADER_PROCESSED_CD, DtoConstants.STATE_ACTIVE);
+            doValidationForProposal(form, KewApiConstants.ROUTE_HEADER_ENROUTE_CD, null);
 
             if (!GlobalVariables.getMessageMap().hasErrors()) {
                 //redirect back to client to display confirm dialog
