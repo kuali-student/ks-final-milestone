@@ -370,7 +370,11 @@
 
 // below this breakpoint, hide the table view for search details
 @media screen and (max-width: @searchDetailsTabbedMax) {
-  .kscr-SearchDetails-activityOfferings .kscr-Search-results-table {
-    display: none;
-  }
+    .kscr-SearchDetails-selection-sublabel {
+        display: block;
+    }
+
+    .kscr-SearchDetails-activityOfferings .kscr-Search-results-table {
+        display: none;
+    }
 }
