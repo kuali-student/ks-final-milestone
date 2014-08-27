@@ -15,6 +15,7 @@
  */
 package org.kuali.student.r2.lum.course.service.assembler;
 
+import org.kuali.student.common.util.UUIDHelper;
 import org.kuali.student.r1.common.assembly.BOAssembler;
 import org.kuali.student.r1.common.assembly.BaseDTOAssemblyNode;
 import org.kuali.student.r1.common.assembly.BaseDTOAssemblyNode.NodeOperation;
@@ -25,8 +26,6 @@ import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
-import org.kuali.student.common.conversion.util.R1R2ConverterUtil;
-import org.kuali.student.common.util.UUIDHelper;
 import org.kuali.student.r2.lum.clu.dto.CluCluRelationInfo;
 import org.kuali.student.r2.lum.clu.dto.CluInfo;
 import org.kuali.student.r2.lum.clu.service.CluService;
@@ -35,6 +34,8 @@ import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.lum.course.dto.FormatInfo;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -91,6 +92,22 @@ public class FormatAssembler implements BOAssembler<FormatInfo, CluInfo> {
 				throw new AssemblyException("Error getting related activities", e);
 			} 
 		}
+        Collections.sort(format.getActivities(), new Comparator<ActivityInfo>() {
+            @Override
+            public int compare(ActivityInfo a1, ActivityInfo a2) {
+                // Gracefully handle nulls, if any
+                if (a1 == a2) {
+                    return 0;
+                }
+                if ((a1 == null) || (a1.getMeta() == null) || (a1.getMeta().getCreateTime() == null)) {
+                    return -1;
+                }
+                if ((a2 == null) || (a2.getMeta() == null) || (a2.getMeta().getCreateTime() == null)) {
+                    return 1;
+                }
+                return a1.getMeta().getCreateTime().compareTo(a2.getMeta().getCreateTime());
+            }
+        });
 		return format;
 	}
 

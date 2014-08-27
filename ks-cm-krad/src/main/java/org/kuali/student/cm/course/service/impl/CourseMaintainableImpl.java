@@ -18,7 +18,6 @@ package org.kuali.student.cm.course.service.impl;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.lang.time.DateFormatUtils;
 import org.joda.time.DateTime;
 import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
@@ -117,7 +116,6 @@ import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.util.AttributeHelper;
 import org.kuali.student.r2.common.util.constants.LearningObjectiveServiceConstants;
-import org.kuali.student.r2.common.util.date.DateFormatters;
 import org.kuali.student.r2.core.atp.dto.AtpInfo;
 import org.kuali.student.r2.core.atp.service.AtpService;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
@@ -1838,6 +1836,7 @@ public class CourseMaintainableImpl extends RuleEditorMaintainableImpl implement
         CourseInfoWrapper courseInfoWrapper = (CourseInfoWrapper) getDataObject();
         courseInfoWrapper.getCourseInfo().getFormats().clear();
         List<ActivityInfo> activities;
+        long dateValue = System.currentTimeMillis();
         for (FormatInfo format : courseInfoWrapper.getFormats()) {
             activities = new ArrayList<ActivityInfo>();
             if (!isEmptyFormat(format)) {
@@ -1856,13 +1855,16 @@ public class CourseMaintainableImpl extends RuleEditorMaintainableImpl implement
                     if (activity.getId() == null && (activity.getTypeKey() == null)) {
                         continue;
                     }
+                    activity.getMeta().setCreateTime(new Date(dateValue));
+                    dateValue++;
                     // only non blank activities are added to the list
                     activities.add(activity);
                 }
                 format.getActivities().clear();
                 format.setActivities(activities);
+                format.getMeta().setCreateTime(new Date(dateValue));
+                dateValue++;
                 courseInfoWrapper.getCourseInfo().getFormats().add(format);
-
             }
         }
     }
