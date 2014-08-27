@@ -40,8 +40,9 @@ function initEditors() {
             ]}
         ],
         extended_valid_elements: 'a[href|target=_blank]',
+        link_title: false,
         target_list: [
-            {title: 'New Window', value: '_blank'}
+            {title: 'New Page', value: '_blank'}
         ],
         menu: {
             edit: {title: 'Edit', items: 'undo redo | cut copy paste pastetext | selectall'},
