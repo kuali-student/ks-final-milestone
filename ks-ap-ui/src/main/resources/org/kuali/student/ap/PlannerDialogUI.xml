@@ -662,7 +662,8 @@
                                             <bean parent="Uif-HorizontalBoxGroup">
                                                 <property name="items">
                                                     <list>
-                                                        <bean parent="planner_submit_button" p:actionLabel="Add to Plan"
+                                                        <bean parent="planner_submit_button"
+                                                              p:actionLabel="Add to Plan"
                                                               p:actionScript="ksapSubmitDialog('course_add_course_page',e);"/>
                                                         <bean parent="planner_cancel_button" />
                                                     </list>
@@ -680,7 +681,9 @@
         </property>
         <property name="items">
             <list>
-                <bean parent="Uif-Message" p:messageText="@{courseCode} @{courseTitle} (@{creditsDisplay} cr)"/>
+                <bean parent="Uif-Message"
+                      p:messageText="@{courseCode} @{courseTitle} (@{creditsDisplay} cr)"
+                      p:additionalCssClasses="dialog-add-title"/>
                 <ref bean="planner_course_summary_details_data"/>
                 <bean parent="planner_term_input_field"/>
                 <!--<bean parent="planner_course_credit_input_field" />-->
