@@ -39,6 +39,14 @@ angular.module('mockTransactionMessages', []).value('transactionMessages',
             "message":"{{courseCode}} has already been taken. Cannot repeat a course with a mark of 'I'."
         },
         {
+            "messageKey": "kuali.lpr.trans.message.course.already.taken",
+            "message": "{{courseCode}} has already been taken {{attempts}}. This course cannot be repeated more than {{maxRepeats}}."
+        },
+        {
+            "messageKey": "kuali.lpr.trans.message.repeatability.warning",
+            "message": "This will be your {{attempts}} attempt of {{courseCode}}. This course cannot be attempted more than {{maxRepeats}}."
+        },
+        {
             "messageKey":"kuali.lpr.trans.item.message.exception",
             "message":"There was an internal server error while processing this item."
         }

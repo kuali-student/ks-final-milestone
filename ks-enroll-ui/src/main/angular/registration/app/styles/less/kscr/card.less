@@ -74,6 +74,12 @@
         margin-bottom: 0.5rem;
     }
 
+    &--info { // e.g. Repeatability Info/Warning
+        .kscr-Card-detailsText-common();
+        border-color: @infoBorder;
+        color: @infoText;
+    }
+
     &--error { // e.g. Time Conflict Warning
         .kscr-Card-detailsText-common();
         border-color: @errorBorder;
@@ -477,6 +483,18 @@
         }
         .kscr-Card-buttons {
             border-color: @successBorder;
+        }
+    }
+
+    &--info {
+        .util-Alert-information-mixin();
+        .util-transitions-browserHelper();
+
+        .kscr-Card-icon {
+            background-image: @infoImage;
+        }
+        .kscr-Card-buttons {
+            border-color: @infoBorder;
         }
     }
 

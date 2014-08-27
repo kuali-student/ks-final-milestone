@@ -100,13 +100,15 @@
              ng-class="{'kscr-cartResult-responseHeading--success' : (cartResults.successCount > 0),
                         'kscr-cartResult-responseHeading--waitlisted' : (cartResults.waitlistedCount > 0),
                         'kscr-cartResult-responseHeading--waitlist' : (cartResults.waitlistCount > 0),
-                        'kscr-cartResult-responseHeading--fail' : (cartResults.errorCount > 0)}">
+                        'kscr-cartResult-responseHeading--fail' : (cartResults.errorCount > 0),
+                        'kscr-cartResult-responseHeading--info' : (cartResults.infoCount > 0)}">
             <span class="kscr-cartResult-responseLabel">Results</span>
             <span class="kscr-cartResult-responseCount">
                 <span ng-if="cartResults.successCount > 0" class="kscr-cartResult-responseCount--success">{{cartResults.successCount}}</span>
                 <span ng-if="cartResults.waitlistedCount > 0" class="kscr-cartResult-responseCount--waitlisted">{{cartResults.waitlistedCount}}</span>
                 <span ng-if="cartResults.waitlistCount > 0" class="kscr-cartResult-responseCount--waitlist">{{cartResults.waitlistCount}}</span>
                 <span ng-if="cartResults.errorCount > 0" class="kscr-cartResult-responseCount--fail">{{cartResults.errorCount}}</span>
+                <span ng-if="cartResults.infoCount > 0" class="kscr-cartResult-responseCount--info">{{cartResults.infoCount}}</span>
             </span>
             <span class="util-Grid--clearfix"></span>
         </div>

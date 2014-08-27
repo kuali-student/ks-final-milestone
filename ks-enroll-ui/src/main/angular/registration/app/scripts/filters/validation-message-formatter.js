@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('regCartApp').filter('formatValidationMessage', ['VALIDATION_ERROR_TYPE', 'GENERAL_ERROR_TYPE', 'MessageService', function(VALIDATION_ERROR_TYPE, GENERAL_ERROR_TYPE, MessageService) {
+angular.module('regCartApp').filter('formatValidationMessage', ['$filter', 'VALIDATION_ERROR_TYPE', 'GENERAL_ERROR_TYPE', 'MessageService', function($filter, VALIDATION_ERROR_TYPE, GENERAL_ERROR_TYPE, MessageService) {
 
     /**
      * In this method we take a course & validation message object and return a formatted
@@ -34,12 +34,24 @@ angular.module('regCartApp').filter('formatValidationMessage', ['VALIDATION_ERRO
                         message = formatMaxCredits(data);
                         break;
 
-                    case VALIDATION_ERROR_TYPE.reggroupNotOffered:
-                        message = formatReggroupNotOffered(data, course);
+                    case VALIDATION_ERROR_TYPE.courseAlreadyTaken:
+                        // Humanize the # attempts & # max attempts
+                        data.attempts = $filter('multiplicativeAdverb')(data.attempts, ' times');
+                        data.maxRepeats = $filter('multiplicativeAdverb')(data.maxRepeats, ' times');
+
+                        message = getMessage(data.messageKey);
+                        break;
+
+                    case VALIDATION_ERROR_TYPE.repeatabilityWarning:
+                        // Humanize the # attempts & # max attempts
+                        data.attempts = $filter('ordinal')(data.attempts);
+                        data.maxRepeats = $filter('multiplicativeAdverb')(data.maxRepeats, ' times');
+
+                        message = getMessage(data.messageKey);
                         break;
 
                     case GENERAL_ERROR_TYPE.noRegGroup:
-                        message = formatCourse(data.txt, data.course);
+                        message = parseMessage(data.txt, data, data.course);
                         break;
 
                     default:
@@ -48,11 +60,32 @@ angular.module('regCartApp').filter('formatValidationMessage', ['VALIDATION_ERRO
             }
         }
 
-        return formatCourse(message, course);
+        return parseMessage(message, data, course);
     };
 
+    /* ---------- Begin MessageKey-Specific Message Formatting Methods ---------- */
+
     /**
-     * Format time credits violation message
+     * Message - Max Credits Violation
+     *
+     * @param data
+     * @returns {string}
+     */
+    function formatMaxCredits(data) {
+        // look up the core message text
+        var message = getMessage(data.messageKey);
+
+        // if max credits are sent back with the message key, include them in the message back to the user
+        if (data.maxCredits) {
+            var maxCredits = parseFloat(data.maxCredits); // convert to a float to eliminate unnecessary decimals
+            message += ' (<strong>' + maxCredits + ' credits</strong>)';
+        }
+
+        return message;
+    }
+
+    /**
+     * Message - Time Credits Violation
      *
      * Cases:
      * 1. courseCode on root level:
@@ -83,9 +116,9 @@ angular.module('regCartApp').filter('formatValidationMessage', ['VALIDATION_ERRO
 
         // Case 2: Check for an array of conflictingCourses
         if (data.conflictingCourses) {
-            angular.forEach(data.conflictingCourses, function(item) {
-                conflicts.push(item);
-            });
+            for (var j = 0; j < data.conflictingCourses.length; j++) {
+                conflicts.push(data.conflictingCourses[j]);
+            }
         }
 
         // Parse the identified codes
@@ -127,54 +160,81 @@ angular.module('regCartApp').filter('formatValidationMessage', ['VALIDATION_ERRO
         return message;
     }
 
-    function formatMaxCredits(data) {
-        // look up the core message text
-        var message = getMessage(data.messageKey);
+    /* ---------- Begin General Use Methods ---------- */
 
-        // if max credits are sent back with the message key, include them in the message back to the user
-        if (data.maxCredits) {
-            var maxCredits = parseFloat(data.maxCredits); // convert to a float to eliminate unnecessary decimals
-            message += ' (<strong>' + maxCredits + ' credits</strong>)';
-        }
-
-        return message;
-    }
-
-    function formatReggroupNotOffered(data, course) {
-        // look up the core message text
-        var message = getMessage(data.messageKey);
-
-        message = message.replace('XXXX (RG)', course.courseCode + ' (' + course.regGroupCode + ') ');
-
-        return message;
-    }
-
-    function formatCourse(message, course) {
-        var courseCode = '';
-        if (angular.isString(course)) {
-            courseCode = course;
-        } else if (course && angular.isDefined(course.courseCode)) {
-            courseCode = course.courseCode;
-        } else {
-            // No course code found.
-            return message;
-        }
-
-        // Replace any {{courseCode}} parameters with the courseCode value
-        if (message.indexOf('{{courseCode}}') !== -1) {
-            message = message.replace('{{courseCode}}', courseCode);
-        }
-
-        // Wrap the course code with <strong></strong>
-        if (message.indexOf(courseCode) !== -1) {
-            message = message.replace(courseCode, '<strong>' + courseCode + '</strong>');
-        }
-
-        return message;
-    }
-
+    /**
+     * Get the base message from the MessageService
+     *
+     * @param messageKey
+     * @returns string
+     */
     function getMessage(messageKey) {
         return MessageService.getMessage(messageKey);
+    }
+
+    /**
+     * Parse the message and inject any additional parameters that are found
+     *
+     * @param message
+     * @param data
+     * @param course
+     * @returns parsed message
+     */
+    function parseMessage(message, data, course) {
+        // Create a copy of the data object so we don't mess with any base data
+        var params = angular.isObject(data) ? angular.copy(data) : {};
+        params.courseCode = '';
+        params.regGroupCode = '';
+
+        // Try to pull out the courseCode && regGroupCode and provide them as a standard parameters for the messages
+        if (angular.isString(course)) { // Allow a straight string to come through
+            params.courseCode = course;
+        } else if (angular.isObject(course)) { // Course object
+            if (angular.isDefined(course.courseCode)) {
+                params.courseCode = course.courseCode;
+            }
+
+            if (angular.isDefined(course.regGroupCode)) {
+                params.regGroupCode = course.regGroupCode;
+            }
+        }
+
+
+        // Iterate over the keys in the data object & replace the message parameters if they exist
+        if (angular.isObject(params)) {
+            for (var key in params) {
+                // Replace any {{[key]}} parameters with their value
+                if (message.indexOf('{{' + key + '}}') !== -1) {
+                    message = message.replace('{{' + key + '}}', params[key]);
+                }
+            }
+        }
+
+
+        // Wrap any instance of the course code with <strong></strong>
+        if (angular.isDefined(params.courseCode) && params.courseCode !== '') {
+            var checks = [];
+            if (angular.isDefined(params.regGroupCode) && params.regGroupCode !== '') {
+                checks.push(params.courseCode + ' (' + params.regGroupCode + ')');
+                checks.push(params.courseCode + ' ' + params.regGroupCode);
+            }
+
+            checks.push(params.courseCode);
+
+            for (var i = 0; i < checks.length; i++) {
+                var check = checks[i];
+                if (message.indexOf(check) !== -1) {
+                    var target = '<strong>' + check + '</strong>';
+                    if (message.indexOf(target) === -1) { // Don't rebold something that's already bolded
+                        message = message.replace(check, target);
+                    }
+
+                    break;
+                }
+            }
+        }
+
+        return message;
     }
 
 }]);

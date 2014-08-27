@@ -73,9 +73,59 @@ describe('Filter: FormatValidationMessage', function() {
         expect(filter('test message')).toBe('test message');
     });
 
-    it('should format the {{courseCode}} parameter in a message string correctly', function() {
-        expect(filter("Course {{courseCode}} Should Be 'code1'", { courseCode: 'code1' })).toContain('code1');
+
+    describe('parameterized messages', function() {
+        it('should format the {{courseCode}} parameter in a message string correctly', function() {
+            expect(filter("Course {{courseCode}} Should Be 'code1'", { courseCode: 'code1' })).toContain('code1');
+        });
     });
+
+
+    describe('course already taken', function() {
+        it('should format the message correctly', function() {
+            var data = {
+                    messageKey: VALIDATION_ERROR_TYPE.courseAlreadyTaken
+                },
+                course = { courseCode: 'code1' };
+
+            // Base case
+            expect(filter(data, course)).toContain('<strong>code1</strong> has already been taken');
+
+
+            // With parameters
+            data.attempts = 2;
+            data.maxRepeats = 2;
+            expect(filter(data, course)).toBe('<strong>code1</strong> has already been taken twice. This course cannot be repeated more than twice.');
+
+            data.attempts = 3;
+            data.maxRepeats = 3;
+            expect(filter(data, course)).toBe('<strong>code1</strong> has already been taken 3 times. This course cannot be repeated more than 3 times.');
+        });
+    });
+
+
+    describe('course repeatability warning', function() {
+        it('should format the message correctly', function() {
+            var data = {
+                    messageKey: VALIDATION_ERROR_TYPE.repeatabilityWarning
+                },
+                course = { courseCode: 'code1' };
+
+            // Base case
+            expect(filter(data, course)).toContain('attempt of <strong>code1</strong>.');
+
+
+            // With parameters
+            data.attempts = 2;
+            data.maxRepeats = 2;
+            expect(filter(data, course)).toBe('This will be your 2nd attempt of <strong>code1</strong>. This course cannot be attempted more than twice.');
+
+            data.attempts = 3;
+            data.maxRepeats = 3;
+            expect(filter(data, course)).toBe('This will be your 3rd attempt of <strong>code1</strong>. This course cannot be attempted more than 3 times.');
+        });
+    });
+
 
     describe('max credits', function() {
         it('should format the message correctly', function() {

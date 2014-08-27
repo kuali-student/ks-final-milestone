@@ -353,43 +353,70 @@ angular.module('regCartApp')
                 .then(function(response) { // Success
                     console.log('- Stop polling - Success');
 
-                    $scope.cart.state = response.state;
-                    $scope.cart.status = '';  // set the overall status to nothing... which is the default i guess
-                    $scope.cartResults.state = STATE.lpr.item.succeeded;
-
-                    // Map the data from the responseItems to the cartResultItems
-                    angular.forEach(response.responseItemResults, function(responseItem) {
-                        angular.forEach($scope.cartResults.items, function (cartResultItem) {
-                            if (cartResultItem.cartItemId === responseItem.registrationRequestItemId) {
-                                cartResultItem.state = responseItem.state;
-                                cartResultItem.type = responseItem.type;
-                                // we need to update the status, which is used to control css
-                                cartResultItem.status = GlobalVarsService.getCorrespondingStatusFromState(responseItem.state);
-                                cartResultItem.statusMessages = responseItem.messages;
-
-                                // Apply the waitlist message if the result was of that type
-                                switch (cartResultItem.status) {
-                                    case STATUS.waitlist:
-                                    case STATUS.action: //waitlist action available
-                                        cartResultItem.waitlistMessage = GlobalVarsService.getCorrespondingMessageFromStatus(cartResultItem.status);
-                                        break;
-                                }
-                            }
-                        });
-                    });
-
-                    // Calculate the result counts per status (clearing out initially to trigger the view to reset the values)
-                    calculateCartResultCounts(true);
-
-                    // After all the processing is complete, get the final Schedule counts.
-                    reloadSchedule();
-
+                    updateCartWithResults(response);
                 }, function(response) { // Error
                     console.log('- Stop polling - Error: ', response);
+
+                    updateCartWithResults(response);
                 }, function(response) { // Notify
                     console.log('- Continue polling');
                     $scope.cart.state = response.state;
                 });
+        }
+
+        // Update the cart results with the response from the cartPoller
+        function updateCartWithResults(response) {
+            if (angular.isDefined(response.state)) {
+                $scope.cart.state = response.state;
+            }
+
+            $scope.cart.status = '';  // set the overall status to nothing... which is the default i guess
+            $scope.cartResults.state = STATE.lpr.item.succeeded;
+
+            if (angular.isDefined(response.responseItemResults)) {
+                // Map the data from the responseItems to the cartResultItems
+                var newItems = [];
+                angular.forEach(response.responseItemResults, function(responseItem) {
+                    angular.forEach($scope.cartResults.items, function (cartResultItem) {
+                        if (cartResultItem.cartItemId === responseItem.registrationRequestItemId) {
+                            cartResultItem.state = responseItem.state;
+                            cartResultItem.type = responseItem.type;
+                            // we need to update the status, which is used to control css
+                            cartResultItem.status = GlobalVarsService.getCorrespondingStatusFromState(responseItem.state);
+                            cartResultItem.statusMessages = responseItem.messages;
+
+                            // Apply the waitlist message if the result was of that type
+                            switch (cartResultItem.status) {
+                                case STATUS.success:
+                                    if (angular.isArray(responseItem.messages) && responseItem.messages.length > 0) {
+                                        // This successful item has a message attached to it,
+                                        // pop it off an add it as a new info item right after the success result item
+                                        var infoItem = angular.copy(cartResultItem);
+                                        infoItem.status = STATUS.info;
+                                        newItems.push({ oldItem: cartResultItem, newItem: infoItem });
+                                    }
+                                    break;
+
+                                case STATUS.waitlist:
+                                case STATUS.action: // waitlist action available
+                                    cartResultItem.waitlistMessage = GlobalVarsService.getCorrespondingMessageFromStatus(cartResultItem.status);
+                                    break;
+                            }
+                        }
+                    });
+                });
+
+                // Add in any new items outside of the other loop as to avoid concurrent modification issues
+                for (var i = 0; i < newItems.length; i++) {
+                    $scope.cartResults.items.splice($scope.cartResults.items.indexOf(newItems[i].oldItem) + 1, 0, newItems[i].newItem);
+                }
+            }
+
+            // Calculate the result counts per status (clearing out initially to trigger the view to reset the values)
+            calculateCartResultCounts(true);
+
+            // After all the processing is complete, get the final Schedule counts.
+            reloadSchedule();
         }
 
         /**
@@ -401,13 +428,15 @@ angular.module('regCartApp')
                 $scope.cartResults.waitlistCount = 0;
                 $scope.cartResults.waitlistedCount = 0;
                 $scope.cartResults.errorCount = 0;
+                $scope.cartResults.infoCount = 0;
             }
 
             // Store as local variables so the $scope vars don't fire change events on increments
             var success = 0,
                 waitlist = 0,
                 waitlisted = 0,
-                error = 0;
+                error = 0,
+                info = 0;
 
             angular.forEach($scope.cartResults.items, function (item) {
                 switch (item.status) {
@@ -424,6 +453,9 @@ angular.module('regCartApp')
                     case STATUS.error:
                         error++;
                         break;
+                    case STATUS.info:
+                        info++;
+                        break;
                 }
             });
 
@@ -432,6 +464,7 @@ angular.module('regCartApp')
             $scope.cartResults.waitlistCount = waitlist;
             $scope.cartResults.waitlistedCount = waitlisted;
             $scope.cartResults.errorCount = error;
+            $scope.cartResults.infoCount = info;
         }
 
         function creditTotal() {

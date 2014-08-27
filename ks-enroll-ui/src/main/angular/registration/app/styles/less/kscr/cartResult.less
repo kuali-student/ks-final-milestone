@@ -44,6 +44,9 @@
     &--waitlist {
         background-image: @warningImage;
     }
+    &--info {
+        background-image: @infoImage;
+    }
 
     // Count of successfully waitlisted courses
     &--waitlisted {
@@ -126,9 +129,11 @@
         // Hide if only successes
         &--success {
             display: none;
+
             &.kscr-cartResult-responseHeading--waitlisted,
             &.kscr-cartResult-responseHeading--waitlist,
-            &.kscr-cartResult-responseHeading--fail {
+            &.kscr-cartResult-responseHeading--fail,
+            &.kscr-cartResult-responseHeading--info {
                 display: block;
             }
         }
