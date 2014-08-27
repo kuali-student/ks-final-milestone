@@ -328,11 +328,11 @@ public class ExportCourseHelperImpl implements ExportCourseHelper {
         ExportElement exportAssessmentScale = populateExportElement(CurriculumManagementConstants.ProposalViewFieldLabels.CourseLogistics.ASSESSMENT_SCALE, assessmentScale, CurriculumManagementConstants.ProposalViewFieldLabels.CourseLogistics.SECTION_NAME,-1 );
         exportElements.add(exportAssessmentScale);
 
-        String audit = new Boolean(courseInfoWrapper.isAudit()).toString();
+        String audit = (courseInfoWrapper.isAudit() == false) ? "No" : "Yes";
         ExportElement exportAudit = populateExportElement(CurriculumManagementConstants.ProposalViewFieldLabels.CourseLogistics.AUDIT, audit, CurriculumManagementConstants.ProposalViewFieldLabels.CourseLogistics.SECTION_NAME,-1 );
         exportElements.add(exportAudit);
 
-        String passFail = new Boolean(courseInfoWrapper.isPassFail()).toString();
+        String passFail = (courseInfoWrapper.isPassFail() == false) ? "No" : "Yes";
         ExportElement exportPassFail = populateExportElement(CurriculumManagementConstants.ProposalViewFieldLabels.CourseLogistics.PASS_FAIL_TRANSCRIPT_GRADE, passFail, CurriculumManagementConstants.ProposalViewFieldLabels.CourseLogistics.SECTION_NAME,-1 );
         exportElements.add(exportPassFail);
 
@@ -496,8 +496,7 @@ public class ExportCourseHelperImpl implements ExportCourseHelper {
 
         String startTerm = courseInfoWrapper.getCourseInfo().getStartTerm();
         String endTerm  = courseInfoWrapper.getCourseInfo().getEndTerm();
-        String isPilotCourse = new Boolean(courseInfoWrapper.getCourseInfo().isPilotCourse()).toString();
-
+        String isPilotCourse = (courseInfoWrapper.getCourseInfo().isPilotCourse() == false) ? "No" : "Yes";
         exportElements.add(populateExportElement(CurriculumManagementConstants.ProposalViewFieldLabels.ActiveDates.START_TERM, startTerm , CurriculumManagementConstants.ProposalViewFieldLabels.ActiveDates.SECTION_NAME, -1  ));
         exportElements.add(populateExportElement(CurriculumManagementConstants.ProposalViewFieldLabels.ActiveDates.END_TERM, endTerm , CurriculumManagementConstants.ProposalViewFieldLabels.ActiveDates.SECTION_NAME, -1  ));
         exportElements.add(populateExportElement(CurriculumManagementConstants.ProposalViewFieldLabels.ActiveDates.PILOT_COURSE,isPilotCourse , CurriculumManagementConstants.ProposalViewFieldLabels.ActiveDates.SECTION_NAME, -1  ));
