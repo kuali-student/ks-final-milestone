@@ -22,6 +22,7 @@ var POLLING_SHOW = ".show-when-polling";
 var ERROR_RESULT = ".error-result";
 var WARNING_RESULT = ".warning-result";
 var SUCCESS_RESULT = ".success-result";
+var GROWL_SUCCESS = "SUCCESS";
 
 var REGISTRATION_TABS_ID = "KS-AdminRegistration-RegistrationTabs";
 var REGISTERED_TAB_ID = "KS-AdminRegistration-RegisteredTab_tab";
@@ -118,6 +119,14 @@ function sendPoll() {
                 var refresh = data.refresh;
                 if (refresh) {
                     refreshRegistrationDetail(data);
+                }
+
+                var growlMessages = data.growlMessages;
+                if(growlMessages){
+                    jQuery(growlMessages).each(function (index,message) {
+                        showGrowl(message,'',GROWL_SUCCESS);
+                    });
+
                 }
 
             }
