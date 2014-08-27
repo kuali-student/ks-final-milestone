@@ -66,6 +66,8 @@ public abstract class KSCommentController extends UifControllerBase {
     public static final int OPERATION_DELETE = 3;
     public static final int OPERATION_ADD = 4;
 
+    public static final String VALID_TEXT = "VALID_TEXT";
+
     private Map<String, String[]> originalParametersMap;
     protected PersonService personService;
 
@@ -117,10 +119,13 @@ public abstract class KSCommentController extends UifControllerBase {
     @RequestMapping(params = "methodToCall=addComment")
     public ModelAndView addComment(@ModelAttribute("KualiForm") KSCommentForm form, HttpServletRequest request) throws Exception {
 
-        if (StringUtils.isEmpty(form.getCommentText())) {
-            GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, KSCommentsConstants.KSCOMMENT_MSG_ERROR_EMPTY_TEXT_FIELD);
+        String validationMessage = CommentUtil.isValidText(form.getCommentText(), 1, 500, 4000);
+        if(!validationMessage.equals(VALID_TEXT)){
+//            GlobalVariables.getMessageMap().putErrorForSectionId("commentText",  validationMessage);
+            GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath("commentText", validationMessage);
             return getUIFModelAndView(form);
         }
+
         if(!isOperationPermitted(OPERATION_ADD, form, originalParametersMap, request)){
             GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, KSCommentsConstants.KSCOMMENT_MSG_ERROR_NO_ADD_PERMISSION);
         }
@@ -156,6 +161,7 @@ public abstract class KSCommentController extends UifControllerBase {
     KSCommentJSONResponseData ajaxUpdateComment(@ModelAttribute("KualiForm") KSCommentForm form, HttpServletRequest request) throws Exception {
         KSCommentJSONResponseData responseData = new KSCommentJSONResponseData();
         responseData.setHasErrors(false);
+
         if (!isOperationPermitted(OPERATION_EDIT, form, originalParametersMap, request)) {
             GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, KSCommentsConstants.KSCOMMENT_MSG_ERROR_NO_EDIT_PERMISSION);
             responseData.setHasErrors(true);
@@ -163,13 +169,18 @@ public abstract class KSCommentController extends UifControllerBase {
             int index = Integer.parseInt(form.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX));
             KSCommentWrapper commentWrapper = form.getComments().get(index);
             CommentInfo comment = commentWrapper.getCommentInfo();
-            try {
-                comment = CommentUtil.getCommentService().updateComment(comment.getId(), comment, ContextUtils.createDefaultContextInfo());
-            } catch (Exception e) {
-                String message = String.format("Error updating comment for Ref Type %s with Ref Id %s ", form.getReferenceType(), form.getReferenceId());
-                LOG.error(message);
-                throw new RuntimeException(message, e);
-            }
+            String validationMessage = CommentUtil.isValidText(commentWrapper.getCommentInfo().getCommentText().getPlain(), 1, 500, 4000);
+            if (!validationMessage.equals(VALID_TEXT)) {
+                GlobalVariables.getMessageMap().putErrorForSectionId("commentInfo.commentText.plain", validationMessage);
+                responseData.setHasErrors(true);
+            } else {
+                try {
+                    comment = CommentUtil.getCommentService().updateComment(comment.getId(), comment, ContextUtils.createDefaultContextInfo());
+                } catch (Exception e) {
+                    String message = String.format("Error updating comment for Ref Type %s with Ref Id %s ", form.getReferenceType(), form.getReferenceId());
+                    LOG.error(message);
+                    throw new RuntimeException(message, e);
+                }     }
             setupCommentWrapper(form, commentWrapper, comment);
             responseData.setCommentWrapper(commentWrapper);
         }

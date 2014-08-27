@@ -16,10 +16,14 @@
  */
 package org.kuali.student.common.uif.util;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.criteria.Predicate;
 import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.student.common.uif.controller.KSCommentController;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
@@ -60,5 +64,22 @@ public class CommentUtil {
             commentService = (CommentService) GlobalResourceLoader.getService(new QName(CommentServiceConstants.NAMESPACE, CommentService.class.getSimpleName()));
         }
         return commentService;
+    }
+
+    public static String isValidText(String text, int minValue, int maxVisibleValue, int maxValue) {
+        int textLength = 0;
+        int textVisibleLength = 0;
+        if (!StringUtils.isEmpty(text)) {
+            textLength = text.length();
+            String strippedHtml = text.replaceAll("\\<.*?>", "");
+            textVisibleLength = strippedHtml.length();
+        }
+
+        if (textLength < minValue || textVisibleLength < minValue) {
+            return KSCommentsConstants.KSCOMMENT_MSG_ERROR_EMPTY_TEXT_FIELD;
+        } else if (textLength > maxValue || textVisibleLength > maxVisibleValue) {
+            return KSCommentsConstants.KSCOMMENT_MSG_ERROR_TOO_LONG;
+        }
+        return KSCommentController.VALID_TEXT;
     }
 }

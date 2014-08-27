@@ -1,3 +1,5 @@
+var totalErrorCount = 0;
+
 jQuery(function () {
     if(console){
         console.log("Document loaded");
@@ -14,8 +16,12 @@ jQuery(function () {
 
 function initEditors() {
     tinymce.init({
+        //        mode: "none",
         selector: 'textarea.richtextitem',
-//        mode: "none",
+        plugins: "link spellchecker hr",
+        statusbar : false,
+        browser_spellcheck: true,
+        spellchecker_rpc_url: 'plugins/spellchecker/rpc.php',
         style_formats: [
             {title: "Headers", items: [
                 {title: "Header 1", format: "h1"},
@@ -36,10 +42,6 @@ function initEditors() {
         target_list: [
             {title: 'New Window', value: '_blank'}
         ],
-        statusbar : false,
-        browser_spellcheck: true,
-        spellchecker_rpc_url: 'plugins/spellchecker/rpc.php',
-        plugins: "link spellchecker hr",
         menu: {
             edit: {title: 'Edit', items: 'undo redo | cut copy paste pastetext | selectall'},
             insert: {title: 'Insert', items: 'link | hr'},
@@ -111,12 +113,19 @@ function afterAddComment(elementId) {
     if (console) {
         console.log("Reassigning the editors ........");
     }
+
     tinymce.remove();
     initEditors();
     initReadonlyComments();
-    if (tinymce.get('KS-NewCommentField_control') != null) {
-        tinymce.get('KS-NewCommentField_control').setContent("");
+    if(jQuery("#KS-CommentSection_ID_messages").length){
+        totalErrorCount = 1;
+    }else{
+        totalErrorCount = 0;
+        if (tinymce.get('KS-NewCommentField_control') != null) {
+            tinymce.get('KS-NewCommentField_control').setContent("");
+        }
     }
+
     for (edId in tinyMCE.editors){
         //tinyMCE.editors[edId].save();
         var id = tinymce.editors[edId].id;
@@ -145,7 +154,7 @@ function deleteComment(baseUrl, controllerUrl, elem) {
     var formData = jQuery('#kualiForm').serialize() + '&' + jQuery.param(data);
     var targetUrl = baseUrl + "/kr-krad" + controllerUrl + "?methodToCall=ajaxDeleteComment";
 
-    jsonPost(baseUrl, targetUrl, formData, jQuery(elem).attr("id"), function(data){
+    jsonPost(baseUrl, targetUrl, formData, jQuery(elem).attr("id"), index, function(data){
         jQuery(rowContainer).remove();
         dirtyFormState.dirtyFieldCount--;
         jQuery("#Comment_list_Header").find("span").text("Comments(" + data.count + ")");
@@ -172,7 +181,7 @@ function updateComment(baseUrl, controllerUrl, elem) {
     var formData = jQuery('#kualiForm').serialize() + '&' + jQuery.param(submitData);
     var targetUrl = baseUrl + "/kr-krad" + controllerUrl + "?methodToCall=ajaxUpdateComment";
 
-    jsonPost(baseUrl, targetUrl, formData, jQuery(elem).attr("id"), function(data){
+    jsonPost(baseUrl, targetUrl, formData, jQuery(elem).attr("id"), index, function(data){
         toggleCommentButtons(elem);
         jQuery("#KS-CommentField_UI_ID_line" + index ).html(data.commentWrapper.commentTextUI);
         jQuery("#lastEditor-container-id_line" + index).show();
@@ -186,7 +195,7 @@ function updateComment(baseUrl, controllerUrl, elem) {
     });
 }
 
-function jsonPost(baseUrl, targetUrl, formData, spinnerElementId, callbackFunction){
+function jsonPost(baseUrl, targetUrl, formData, spinnerElementId, index, callbackFunction){
     var spinner = jQuery('<div id="spiner_' + spinnerElementId + '" class="blockUI blockMsg blockElement"><img src="' + baseUrl + '/themes/ksboot/images/loader.gif" alt="Loading..."> Loading...</div>');
     jQuery.ajax({
         dataType: "json",
@@ -206,6 +215,8 @@ function jsonPost(baseUrl, targetUrl, formData, spinnerElementId, callbackFuncti
                 processErrors(data, 'KS-collection-rowId_line'+index, baseUrl);
             }else{
                 callbackFunction(data);
+                clearSectionErrorMessage('KS-collection-rowId_line'+index);
+                clearPageError(baseUrl);
             }
         },
         error: function (jqXHR, status, error) {
@@ -228,25 +239,105 @@ function processException(request, parentId, baseUrl){
 }
 
 function processErrors(data, parentId, baseUrl){
-    // global errors on form
-    var globalErrorsUl;
-    if(data.messageMap.errorCount > 1) {
-        globalErrorsUl = jQuery('<ul id="pageValidationList" class="uif-validationMessagesList" aria-labelledby="pageValidationHeader" />');
-    } else {
-        globalErrorsUl = jQuery('<ul id="pageValidationList" class="uif-validationMessagesList uif-pageValidationMessage-single" aria-labelledby="pageValidationHeader" />');
-    }
-
-    jQuery.each(data.translatedErrorMessages, function(key, value){
-        var globalErrorLi = createGlobalErrorLi(value[0], baseUrl, parentId, data.messageMap.errorCount);
-        jQuery(globalErrorsUl).append(globalErrorLi);
-    });
-
-    // global errors on form
-    var globalErrorsDiv = createGlobalErrorsDiv(baseUrl, "KS-Comment-pageId", data.messageMap.errorCount, globalErrorsUl);
-    jQuery("#KS-Comment-pageId" + " header:eq(0)").after(globalErrorsDiv);
+    processSectionErrors(data, parentId);
+    processHeader(baseUrl);
+    var pageMessages = jQuery("#KS-Comment-pageId_messages");
+    jQuery(pageMessages).remove();
+    var page = jQuery("#KS-Comment-pageId");
+     jQuery(page).prepend(createPageErrors(data, parentId, baseUrl));
 }
 
-function cancelEditComment(elem){
+function createPageErrors(data, parentId, baseUrl){
+    var div;
+    if(totalErrorCount > 0){
+        var li = createPageErrorLink(baseUrl);
+        var ul = jQuery('<ul class="uif-validationMessagesList uif-pageValidationMessage-single" id="pageValidationList" aria-labelledby="pageValidationHeader"></ul>');
+        div = jQuery('<div id="KS-Comment-pageId_messages" class="uif-pageValidationMessages alert alert-danger" data-messages_for="KS-Comment-pageId" style=""></div>');
+        ul.append(li);
+        div.append(ul);
+    }
+    return div;
+}
+
+function processHeader(baseUrl){
+    var header = jQuery("#KS-CommentSection_Header_ID");
+    var div = jQuery(header).find('div.uif-messageCount');
+    jQuery(div).remove();
+    if (totalErrorCount > 0) {
+        var h1 = jQuery('<h1 class="uif-headerText"></h1>');
+        var div = jQuery('<div class="uif-messageCount"></div>');
+        var image = createErrorImage(baseUrl);
+        var message = totalErrorCount + (totalErrorCount > 1 ? "errors." : "error." );
+        h1.append(image);
+        h1.text(message);
+        div.append(h1);
+    }
+}
+
+function createErrorImage(baseUrl){
+    return jQuery('<img class="uif-validationImage" src="' + baseUrl + '/themes/ksboot/images/validation/error.png" alt="Error" />');
+}
+
+function createPageErrorLink(baseUrl) {
+    var sectionHeader = jQuery("#KS-CommentSection_Header_ID");
+    // filter to get the first one
+    var headerText = jQuery(sectionHeader).text();
+    var message = headerText + totalErrorCount + (totalErrorCount > 1 ? " errors." : " error." );
+    var li =  jQuery('<li class="uif-errorMessageItem" data-messageitemfor="KS-CommentSection_ID"></li>');
+    var errorImage = createErrorImage(baseUrl);
+    li.append(errorImage);
+    var anchor = jQuery('<a href="#">' + message  + '</a>');
+    li.append(anchor);
+    return li;
+}
+
+function clearSectionErrorMessage(parentId){
+    var commentSectionError = jQuery("#" + parentId + "_messages");
+    if(commentSectionError.length){
+        var errorCount = jQuery(commentSectionError).find('a').length;
+        if(errorCount != undefined){
+            totalErrorCount -= errorCount;
+        }
+        jQuery(commentSectionError).remove();
+    }
+}
+
+function refreshPageError(baseUrl){
+    var pageErrorMessage = jQuery("#KS-Comment-pageId_messages");
+    var li = createPageErrorLink(baseUrl);
+    jQuery(pageErrorMessage).find('li').replaceWith(li);
+}
+
+function clearPageError(baseUrl){
+    if(totalErrorCount == 0){
+        jQuery("#KS-Comment-pageId_messages").remove();
+    }else{
+        refreshPageError(baseUrl);
+    }
+}
+
+function createSectionErrorMessage(commentSectionId){
+    return jQuery('<div id="' + commentSectionId + '_messages" class="alert alert-danger" data-messages_for="' + commentSectionId + '" style="">' +
+        '<ul class="uif-validationMessagesList"></ul></div>');
+}
+
+function processSectionErrors(data, parentId){
+    var commentSection = jQuery("#" + parentId);
+    clearSectionErrorMessage(parentId);
+    var commentSectionError = createSectionErrorMessage(parentId);
+    var ul = jQuery(commentSectionError).find('ul');
+    jQuery.each(data.translatedErrorMessages, function(key, value){
+        var controlId = jQuery("#" + parentId).find('textarea[name*="' + key + '"]').attr("id");
+        var li = jQuery('<li data-messageitemfor="' + controlId + '" class="uif-errorMessageItem"></li>');
+        var anchor = jQuery('<a href="#">' + value[0] + '</a>');
+        jQuery(li).append(anchor);
+        jQuery(ul).append(li);
+        totalErrorCount++;
+    });
+    jQuery(commentSection).prepend(commentSectionError);
+}
+
+function cancelEditComment(elem, baseUrl){
     if(console){
         console.log("cancelEditComment() ... dirtyFieldCount = " + dirtyFormState.dirtyFieldCount);
     }
@@ -257,16 +348,20 @@ function cancelEditComment(elem){
         tinymce.get(this.id).setContent(this.value);
         jQuery(this).removeClass("dirty");
     });
+    clearSectionErrorMessage(jQuery(rowContainer).attr("id"));
+    clearPageError(baseUrl);
     toggleCommentButtons(elem);
 }
 
-function cancelDeleteComment(elem){
+function cancelDeleteComment(elem, baseUrl){
     if(console){
         console.log("cancelDeleteComment()... dirtyFieldCount = " + dirtyFormState.dirtyFieldCount);
     }
     var rowContainer = getRowContainer(elem);
     dirtyFormState.dirtyFieldCount--;
     jQuery(this).removeClass("dirty");
+    clearSectionErrorMessage(jQuery(rowContainer).attr("id"));
+    clearPageError(baseUrl);
     toggleDeleteElements(elem);
 }
 
