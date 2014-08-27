@@ -844,7 +844,7 @@ public class CourseMaintainableImpl extends RuleEditorMaintainableImpl implement
         courseInfoWrapper.setAgendas(getAgendasForRef(courseInfoWrapper.getRefDiscriminatorType(), courseInfoWrapper.getRefObjectId()));
 
         courseInfoWrapper.getCourseInfo().setStateKey(DtoConstants.STATE_DRAFT);
-        courseInfoWrapper.setLastUpdated(DateFormatters.CM_DATE_FORMATTER.format(new DateTime()));
+        courseInfoWrapper.setLastUpdated(CurriculumManagementConstants.CM_DATE_FORMATTER.format(new DateTime()));
         courseInfoWrapper.getCourseInfo().setEffectiveDate(new java.util.Date());
 
         courseInfoWrapper.getCourseInfo().setTypeKey(CREDIT_COURSE_CLU_TYPE_KEY);
