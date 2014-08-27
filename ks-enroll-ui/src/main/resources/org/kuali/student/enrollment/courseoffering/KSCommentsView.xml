@@ -63,9 +63,9 @@
         </property>
     </bean>
 
-    <bean id="KS-CommentSection" parent="Uif-VerticalBoxSection">
+    <bean id="KS-CommentSection" parent="Uif-VerticalBoxSection" p:id="KS-CommentSection_ID">
         <property name="header">
-            <bean parent="Uif-HeaderOne" p:headerText="Comments for @{referenceName}"
+            <bean parent="Uif-HeaderOne" p:headerText="Comments for @{referenceName}" p:id="KS-CommentSection_Header_ID"
                   p:additionalCssClasses="ks-dottedHeaderActions,ks-subSection,ks-commentHeader"/>
         </property>
         <property name="items">
@@ -73,9 +73,16 @@
                 <bean parent="Uif-VerticalBoxSection">
                     <property name="items">
                         <list>
-                            <bean id="KS-NewCommentField" parent="Uif-InputField" p:propertyName="commentText" p:minLength="1" p:maxLength="500" p:constraintText="Comment must be 1-500 characters long"
+                            <bean id="KS-NewCommentField" parent="Uif-InputField" p:propertyName="commentText"
                                   p:additionalCssClasses="ks-comment-textArea-field"
                                   p:render="@{canAddComment}">
+                                <!--<property name="simpleConstraint">-->
+                                    <!--<bean parent="SimpleConstraint">-->
+                                        <!--<property name="minLength" value="1"/>-->
+                                        <!--<property name="maxLength" value="500"/>-->
+                                        <!--<property name="messageKey" value="ks.enrollment.comment.tooLarge" />-->
+                                    <!--</bean>-->
+                                <!--</property>-->
                                 <property name="control">
                                     <bean parent="Uif-LargeTextAreaControl" p:additionalCssClasses="richtextitem"/>
                                 </property>
@@ -149,7 +156,7 @@
                                             <property name="items">
                                                 <list>
                                                     <bean id="KS-CommentField_UI_ID" parent="KS-Uif-DataField" p:propertyName="commentTextUI" p:additionalCssClasses="ks-toggleable,ks-deleted-comment,ks-readonly-comment,uif-ks-toggleable-footer-space"/>
-                                                    <bean id="KS-CommentField_ID" parent="KS-Uif-InputField" p:label="" p:minLength="1" p:maxLength="500" p:constraintText="Comment must be 1-500 characters long"
+                                                    <bean id="KS-CommentField_ID" parent="KS-Uif-InputField" p:label=""
                                                           p:propertyName="commentInfo.commentText.plain"
                                                           p:style="display:none">
                                                         <property name="control">
@@ -172,7 +179,7 @@
                                                           p:performDirtyValidation="false"
                                                           p:actionLabel="Save"/>
                                                     <bean id="KS-CommentCancelAction_ID" p:id="KS-CommentCancelAction_ID" parent="Uif-CancelActionButton" p:style="display:none;" p:additionalCssClasses="ks-toggleable"
-                                                          p:actionScript="cancelEditComment(this);"
+                                                          p:actionScript="cancelEditComment(this, '@{#ConfigProperties['application.url']}');"
                                                           p:performDirtyValidation="false"
                                                           p:actionLabel="Cancel"/>
                                                     <bean id="KS-CommentDeleteAction_ID" parent="Uif-PrimaryActionButton" p:style="display:none;" p:additionalCssClasses="ks-toggle-delete"
@@ -180,7 +187,7 @@
                                                           p:performDirtyValidation="false"
                                                           p:actionLabel="Confirm Delete"/>
                                                     <bean id="KS-CommentCancelDeleteAction_ID" p:id="KS-CommentCancelDeleteAction_ID" parent="Uif-CancelAction" p:style="display:none;" p:additionalCssClasses="ks-toggle-delete"
-                                                          p:actionScript="cancelDeleteComment(this);"
+                                                          p:actionScript="cancelDeleteComment(this, '@{#ConfigProperties['application.url']}');"
                                                           p:performDirtyValidation="false"
                                                           p:actionLabel="Cancel"/>
                                                 </list>
