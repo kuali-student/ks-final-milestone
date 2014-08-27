@@ -314,60 +314,52 @@
         <property name="actionImagePlacement" value="IMAGE_ONLY"/>
     </bean>
 
+    <!--
+        Popover content for export links
+     -->
+    <bean id="CM-Export-ActionLinks" parent="Uif-HorizontalBoxSection">
+        <property name="hidden" value="true"/>
+        <property name="cssClasses">
+            <list>
+                <value>uif-bubblepopup-content</value>
+            </list>
+        </property>
+        <property name="items">
+            <list>
+                <bean id="CM-ExportAction-PDF" parent="Uif-KS-NavigationActionLink-parentBean"
+                    p:methodToCall="export" p:title=".pdf (Adobe Acrobat)" p:actionLabel=".pdf (Adobe Acrobat)" p:disableBlocking="true">
+                    <property name="additionalSubmitData"
+                        value="#{T(org.kuali.student.cm.common.util.CurriculumManagementConstants$Export$UrlParams).EXPORT_TYPE}:#{T(org.kuali.student.cm.common.util.CurriculumManagementConstants$Export$FileType).PDF.toString()}" />
+                </bean>
+
+                <bean id="CM-ExportAction-DOC" parent="Uif-KS-NavigationActionLink-parentBean"
+                      p:methodToCall="export" p:title=".doc (Microsoft Word)" p:actionLabel=".doc (Microsoft Word)" p:disableBlocking="true">
+                   <property name="additionalSubmitData"
+                        value="#{T(org.kuali.student.cm.common.util.CurriculumManagementConstants$Export$UrlParams).EXPORT_TYPE}:#{T(org.kuali.student.cm.common.util.CurriculumManagementConstants$Export$FileType).DOC.toString()}" />
+
+                </bean>
+            </list>
+        </property>
+    </bean>
+
     <bean id="CM-ExportAction" parent="CM-ExportAction-parent"/>
     <bean id="CM-ExportAction-parent" parent="Uif-KS-NavigationActionLink-parentBean" abstract="true"
-          p:actionScript="showLightboxComponent('CM-Export-Lightbox');" p:title="Export">
+          p:actionScript="openPopupContent(e,'CM-Export-ActionLinks');" p:title="Export">
+        <property name="toolTip">
+            <bean parent="Uif-Tooltip">
+                <!-- As of Rice 2.3-m1, requires tooltipContent to render -->
+                <property name="tooltipContent" value="REQUIRED_BUT_IGNORED"/>
+                <property name="templateOptions">
+                    <map merge = "true">
+                        <entry key="innerHtmlId" value="CM-Export-ActionLinks"/>
+                        <entry key="position" value="right"/>
+                    </map>
+                </property>
+            </bean>
+        </property>
         <property name="actionImage">
             <bean parent="Uif-Image" p:altText="Export" p:cssClasses="ks-fontello-icon-export" p:title="Export"/>
         </property>
         <property name="actionImagePlacement" value="IMAGE_ONLY"/>
-    </bean>
-
-    <bean id="CM-Export-Lightbox" parent="Uif-VerticalBoxSection" p:hidden="true">
-        <property name="validationMessages" ref="KS-ValidationMessages-Off"/>
-        <!--<property name="cssClasses">
-            <list merge="true">
-                <value>ks-cm-course_detail-section</value>
-            </list>
-        </property>-->
-        <property name="headerText" value="Export Document"/>
-        <property name="header.id" value="CM-Export-Lightbox-Header"/>
-        <property name="footer">
-            <bean parent="Uif-FooterBase">
-                <property name="additionalCssClasses" value="cm-footer-right-aligned"/>
-                <property name="items">
-                    <list>
-                        <bean parent="Uif-PrimaryActionButton"
-                              p:ajaxSubmit="false"
-                              p:methodToCall="export"
-                              p:actionLabel="Export" p:preSubmitCall="setExportSelectedOption(); return true;"/>
-                        <bean parent="Uif-ActionLink"
-                              p:actionLabel="Cancel"
-                              p:style="margin-top:5px;"
-                              p:actionScript="closeLightbox();" />
-                    </list>
-                </property>
-            </bean>
-        </property>
-        <property name="items">
-            <list>
-                <bean parent="Uif-Message" p:messageText="The exported document will appear in a new page. Please disable pop-up blockers. [br]Export document as:"/>
-                <bean parent="KS-Uif-InputField" p:propertyName="extensionData['export_type']" p:readOnly="false">
-                    <property name="bindingInfo.bindToForm" value="true"/>
-                    <property name="defaultValue" value="#{T(org.kuali.student.cm.common.util.CurriculumManagementConstants$Export$FileType).PDF.toString()}"/>
-                    <property name="style" value="margin-top:10px;"/>
-                    <property name="control">
-                        <bean parent="KS-Uif-VerticalRadioControl">
-                            <property name="options">
-                                <list>
-                                    <bean parent="Uif-KeyLabelPair" p:key="#{T(org.kuali.student.cm.common.util.CurriculumManagementConstants$Export$FileType).PDF.toString()}" p:value=".pdf (Adobe Acrobat)"/>
-                                    <bean parent="Uif-KeyLabelPair" p:key="#{T(org.kuali.student.cm.common.util.CurriculumManagementConstants$Export$FileType).DOC.toString()}" p:value=".doc (Microsoft Word)"/>
-                                </list>
-                            </property>
-                        </bean>
-                    </property>
-                </bean>
-            </list>
-        </property>
     </bean>
 </beans>

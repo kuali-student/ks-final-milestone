@@ -132,11 +132,11 @@ public class ViewCourseController extends KsUifControllerBase{
         /*
          * PDF is the default document type.
          */
-        String requestParamValue = (String) form.getExtensionData().get(CurriculumManagementConstants.Export.UrlParams.EXPORT_TYPE);
-        if (StringUtils.isBlank(requestParamValue)) {
-            requestParamValue = FileType.PDF.toString();
+        String exportFileTypeText = request.getParameter(CurriculumManagementConstants.Export.UrlParams.EXPORT_TYPE);
+        if (StringUtils.isBlank(exportFileTypeText)) {
+            exportFileTypeText = FileType.PDF.toString();
         }
-        FileType exportFileType = FileType.valueOf(requestParamValue);
+        FileType exportFileType = FileType.valueOf(exportFileTypeText);
 
         ViewCourseForm detailedViewForm = (ViewCourseForm) form;
         CourseInfoWrapper courseInfoWrapper = detailedViewForm.getCourseInfoWrapper();

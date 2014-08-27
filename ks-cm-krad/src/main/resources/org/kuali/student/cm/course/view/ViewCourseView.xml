@@ -75,6 +75,7 @@
                 <ref bean="CM-Proposal-Course-LinkGroup-CopyCourse"/>
                 <ref bean="CM-PrintAction"/>
                 <ref bean="CM-ExportAction"/>
+                <ref bean="CM-Export-ActionLinks"/> <!-- This is the content for the export action popover -->
             </list>
         </property>
     </bean>

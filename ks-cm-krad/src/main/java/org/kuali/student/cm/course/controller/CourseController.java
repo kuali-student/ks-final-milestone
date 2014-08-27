@@ -1525,11 +1525,11 @@ public class CourseController extends CourseRuleEditorController {
         /*
          * PDF is the default document type.
          */
-        String requestParamValue = (String) form.getExtensionData().get(CurriculumManagementConstants.Export.UrlParams.EXPORT_TYPE);
-        if (StringUtils.isBlank(requestParamValue)) {
-            requestParamValue = FileType.PDF.toString();
+        String exportFileTypeText = request.getParameter(CurriculumManagementConstants.Export.UrlParams.EXPORT_TYPE);
+        if (StringUtils.isBlank(exportFileTypeText)) {
+            exportFileTypeText = FileType.PDF.toString();
         }
-        FileType exportFileType = FileType.valueOf(requestParamValue);
+        FileType exportFileType = FileType.valueOf(exportFileTypeText);
 
         CourseInfoWrapper courseInfoWrapper = getCourseInfoWrapper(form);
         ExportCourseHelperImpl exportCourseHelper = new ExportCourseHelperImpl(courseInfoWrapper, exportFileType);

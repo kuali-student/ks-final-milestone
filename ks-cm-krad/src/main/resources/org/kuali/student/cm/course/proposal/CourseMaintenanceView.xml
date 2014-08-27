@@ -149,6 +149,7 @@
                 <bean parent="CM-Proposal-Course-LinkGroup-Decisions"/>
                 <bean parent="CM-PrintAction" p:render="@{!#workflowDoc.initiated}"/>
                 <bean parent="CM-ExportAction" p:render="@{!#workflowDoc.initiated}"/>
+                <ref bean="CM-Export-ActionLinks"/> <!-- This is the content for the export action popover -->
             </list>
         </property>
     </bean>
