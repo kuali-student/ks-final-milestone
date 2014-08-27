@@ -50,6 +50,8 @@ public class RulesExecutionConstants {
     public static final Term CLU_ID_TERM = new Term("cluId");
     public static final Term CLU_INFO_TERM = new Term("cluInfo");
     public static final Term CLU_VERSION_IND_ID_TERM = new Term("cluVersionIndId");
+    public static final Term TOTAL_COURSE_ATTEMPTS = new Term("totalCourseAttempts");
+    public static final Term MAX_REPEATABILITY = new Term("maxRepeatability");
     // services
     public static final Term ACADEMIC_RECORD_SERVICE_TERM = new Term("academicRecordService");
     public static final Term CLU_SERVICE = new Term("cluService");
