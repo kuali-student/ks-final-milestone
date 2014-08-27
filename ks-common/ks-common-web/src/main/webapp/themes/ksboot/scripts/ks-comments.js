@@ -1,4 +1,5 @@
 var totalErrorCount = 0;
+var numberOfControlsOpen = 0;
 
 jQuery(function () {
     if(console){
@@ -113,7 +114,7 @@ function afterAddComment(elementId) {
     if (console) {
         console.log("Reassigning the editors ........");
     }
-
+    numberOfControlsOpen = 0;
     tinymce.remove();
     initEditors();
     initReadonlyComments();
@@ -217,6 +218,8 @@ function jsonPost(baseUrl, targetUrl, formData, spinnerElementId, index, callbac
                 callbackFunction(data);
                 clearSectionErrorMessage('KS-collection-rowId_line'+index);
                 clearPageError(baseUrl);
+                numberOfControlsOpen--;
+                toggleAddButton();
             }
         },
         error: function (jqXHR, status, error) {
@@ -225,6 +228,13 @@ function jsonPost(baseUrl, targetUrl, formData, spinnerElementId, index, callbac
     });
 }
 
+function toggleAddButton() {
+    if (numberOfControlsOpen > 0) {
+        jQuery("#KS-Comment_AddButton_Id").attr('disabled','disabled');
+    } else {
+        jQuery("#KS-Comment_AddButton_Id").removeAttr('disabled');
+    }
+}
 
 function processException(request, parentId, baseUrl){
     // global errors on form
@@ -351,6 +361,8 @@ function cancelEditComment(elem, baseUrl){
     clearSectionErrorMessage(jQuery(rowContainer).attr("id"));
     clearPageError(baseUrl);
     toggleCommentButtons(elem);
+    numberOfControlsOpen--;
+    toggleAddButton();
 }
 
 function cancelDeleteComment(elem, baseUrl){
@@ -363,6 +375,8 @@ function cancelDeleteComment(elem, baseUrl){
     clearSectionErrorMessage(jQuery(rowContainer).attr("id"));
     clearPageError(baseUrl);
     toggleDeleteElements(elem);
+    numberOfControlsOpen--;
+    toggleAddButton();
 }
 
 function confirmEditComment(elem){
@@ -370,6 +384,8 @@ function confirmEditComment(elem){
         console.log("confirmEditComment()... dirtyFieldCount = " + dirtyFormState.dirtyFieldCount);
     }
     toggleCommentButtons(elem);
+    numberOfControlsOpen++;
+    toggleAddButton();
 }
 
 function confirmDeleteComment(elem){
@@ -380,4 +396,6 @@ function confirmDeleteComment(elem){
     dirtyFormState.dirtyFieldCount++;
     jQuery(this).addClass("dirty");
     toggleDeleteElements(elem);
+    numberOfControlsOpen++;
+    toggleAddButton();
 }
