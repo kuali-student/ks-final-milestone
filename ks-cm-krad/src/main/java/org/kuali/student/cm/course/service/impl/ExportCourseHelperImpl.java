@@ -546,8 +546,9 @@ public class ExportCourseHelperImpl implements ExportCourseHelper {
 
             String description = supportingDocumentInfoWrapper.getDescription();
             String documentName = supportingDocumentInfoWrapper.getDocumentName();
-
-            exportElements.add(populateExportElement(CurriculumManagementConstants.ProposalViewFieldLabels.SupportingDocument.SECTION_NAME, documentName + " " + description, CurriculumManagementConstants.ProposalViewFieldLabels.SupportingDocument.SECTION_NAME, -1));
+            if (StringUtils.isNotBlank(description) || StringUtils.isNotBlank(documentName)){
+                exportElements.add(populateExportElement(CurriculumManagementConstants.ProposalViewFieldLabels.SupportingDocument.SECTION_NAME, documentName + " " + description, CurriculumManagementConstants.ProposalViewFieldLabels.SupportingDocument.SECTION_NAME, -1));
+            }
         }
     }
 
