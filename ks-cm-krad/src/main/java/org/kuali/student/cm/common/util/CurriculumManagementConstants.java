@@ -296,6 +296,11 @@ public class CurriculumManagementConstants {
             public static String TRANSCRIPT_COURSE_TITLE = "Transcript Course Title";
             public static String SUBJECT_CODE = "Subject Code";
             public static String COURSE_NUMBER = "Course Number";
+
+            public static String CROSS_LISTED_COURSES="Cross Listed Courses";
+            public static String JOINTLY_OFFERED_COURSES = "Jointly Offered Courses";
+            public static String VERSION_CODES = "Version Codes";
+
             public static String INSTRUCTOR = "Instructor(s)";
             public static String DESCRIPTION_AND_RATIONALE = "Description and Rationale";
             public static String PROPOSAL_RATIONALE = "Proposal Rationale";
@@ -340,14 +345,9 @@ public class CurriculumManagementConstants {
         }
 
         public static class CourseRequisites {
+
             public static String SECTION_NAME = "Course Requisites";
 
-            public static String STUDENT_ELIGIBILITY = "Student Eligibility & Prerequisite";
-            public static String COREQUISITE = "Corequisite";
-            public static String RECOMMENDED_PREPARATION = "Recommended Preparation";
-            public static String ANTIREQUISITE = "Antirequisite";
-            public static String REPEATABLE_FOR_CREDIT = "Repeatable for Credit";
-            public static String COURSE_THAT_RESTRICTS_CREDITS = "Course that Restricts Credits";
         }
 
         public static class ActiveDates {
