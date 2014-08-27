@@ -116,7 +116,7 @@
                                 </property>
                                 <property name="onDocumentReadyScript" value="jQuery('#hiddenControllerUrlName').hide();"/>
                             </bean>
-                            <bean parent="Uif-SecondaryActionButton" p:additionalCssClasses="ks-section"
+                            <bean parent="Uif-SecondaryActionButton" p:additionalCssClasses="ks-section" p:id="KS-Comment_AddButton_Id"
                                   p:ajaxSubmit="true"
                                   p:preSubmitCall="preAddComment('@{#component.id}');return true;"
                                   p:methodToCall="addComment"
