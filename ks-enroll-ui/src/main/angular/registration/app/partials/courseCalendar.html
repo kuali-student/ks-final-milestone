@@ -54,7 +54,7 @@
                                                   class="kscr-CourseCalendar-courseBlock-wrap"
                                                   ng-class="{'kscr-CourseCalendar-courseBlock-wrap--selected' : selectedCourse.index === course.index,
                                                              'kscr-CourseCalendar-courseBlock-wrap--conflicting' : course.conflictCount > 0}">
-                                <div class="kscr-CourseCalendar-courseBlock kscr-CourseCalendar-courseBlock--{{course.index}}"
+                                <div id="course_calendar_course_{{course.courseCode}}_item{{$index}}" class="kscr-CourseCalendar-courseBlock kscr-CourseCalendar-courseBlock--{{course.index}}"
                                      ng-class="{'kscr-CourseCalendar-courseBlock--registered' : course.type === 'REG',
                                                 'kscr-CourseCalendar-courseBlock--waitlisted' : course.type === 'WAIT',
                                                 'kscr-CourseCalendar-courseBlock--inCart' : course.type === 'CART'}">
