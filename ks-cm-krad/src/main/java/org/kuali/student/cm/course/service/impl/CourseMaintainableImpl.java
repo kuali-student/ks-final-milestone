@@ -1855,15 +1855,19 @@ public class CourseMaintainableImpl extends RuleEditorMaintainableImpl implement
                     if (activity.getId() == null && (activity.getTypeKey() == null)) {
                         continue;
                     }
-                    activity.getMeta().setCreateTime(new Date(dateValue));
-                    dateValue++;
+                    if (activity.getMeta() != null) {
+                        activity.getMeta().setCreateTime(new Date(dateValue));
+                        dateValue++;
+                    }
                     // only non blank activities are added to the list
                     activities.add(activity);
                 }
                 format.getActivities().clear();
                 format.setActivities(activities);
-                format.getMeta().setCreateTime(new Date(dateValue));
-                dateValue++;
+                if (format.getMeta() != null) {
+                    format.getMeta().setCreateTime(new Date(dateValue));
+                    dateValue++;
+                }
                 courseInfoWrapper.getCourseInfo().getFormats().add(format);
             }
         }
