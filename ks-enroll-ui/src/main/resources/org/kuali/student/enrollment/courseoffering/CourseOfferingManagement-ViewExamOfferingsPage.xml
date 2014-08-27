@@ -212,24 +212,16 @@
                 <entry key="bPaginate" value="false"/>
                 <entry key="aaSorting" value="[[1,'asc'],[2,'asc']]"/>
                 <entry key="bAutoWidth" value="false"/>
-                <entry key="aoColumns"
-                       value="[ {'sClass':'uif-activity-offering-item-status'},
-                                {'sClass':'uif-activity-offering-item-ac'},
-                                {'sClass':'uif-activity-offering-item-feac'},
-                                {'sClass':'uif-activity-offering-item-om'},
-                                {'sClass':'uif-activity-offering-item-day'},
-                                {'sClass':'uif-activity-offering-item-st'},
-                                {'sClass':'uif-activity-offering-item-et'},
-                                {'sClass':'uif-activity-offering-item-facility'},
-                                {'sClass':'uif-activity-offering-item-room'}]"/>
             </map>
         </property>
         <property name="items">
             <list>
                 <bean id="eoRsiStatus" parent="KS-Uif-DataField" p:label="Status" p:propertyName="labelState" p:escapeHtmlInPropertyValue="false">
+                    <property name="onDocumentReadyScript" value="jQuery(this).find('label').parent('th').addClass('uif-activity-offering-item-status');"/>
                 </bean>
 
                 <bean parent="Uif-HorizontalFieldGroup" p:fieldLabel.labelText="Activity Code" p:render="@{#lp.driverPerAO}">
+                    <property name="onDocumentReadyScript" value="jQuery(this).find('label').parent('th').addClass('uif-activity-offering-item-ac');"/>
                     <property name="items">
                         <list>
                             <bean parent="KS-Uif-DataField" p:propertyName="aoInfo.activityCode" p:fieldLabel.render="false">
@@ -244,10 +236,12 @@
                     </property>
                 </bean>
                 <bean parent="KS-Uif-DataField-LabelTop" p:propertyName="typeName" p:label="Final Exam Driver Activity" p:render="@{#lp.driverPerAO}"   >
+                    <property name="onDocumentReadyScript" value="jQuery('#hiddenRefName').hide();jQuery(this).find('label').parent('th').addClass('uif-activity-offering-item-feac');"/>
                 </bean>
 
                 <bean parent="Uif-VerticalFieldGroup" p:label="Override Matrix"
                       p:render="@{(!#dp.examOfferingWrapperList.isEmpty() and #dp.currentCourseOfferingWrapper.matrixOveridableCODriven) or (!#dp.eoClusterResultList.isEmpty() and #dp.currentCourseOfferingWrapper.matrixOveridableAODriven)}">
+                    <property name="onDocumentReadyScript" value="jQuery(this).find('label').parent('th').addClass('uif-activity-offering-item-om');"/>
                     <property name="items">
                         <list>
                             <bean id="eoOverrideMatrix" parent="Uif-InputField" p:propertyName="overrideMatrix">
@@ -279,6 +273,7 @@
                 </bean>
 
                 <bean parent="Uif-VerticalFieldGroup" p:label="Day">
+                    <property name="onDocumentReadyScript" value="jQuery(this).find('label').parent('th').addClass('uif-activity-offering-item-day');"/>
                     <property name="items">
                         <list>
                             <bean id="eoRsiDayInExamPeriod" parent="KS-Uif-InputField" p:propertyName="requestedSchedule.dayInExamPeriod" p:required="true">
@@ -309,6 +304,7 @@
                 </bean>
 
                 <bean parent="Uif-HorizontalFieldGroup" p:label="Start Time">
+                    <property name="onDocumentReadyScript" value="jQuery(this).find('label').parent('th').addClass('uif-activity-offering-item-st');"/>
                     <property name="items">
                         <list>
                             <bean id="eoRsiStartTime" parent="KS-Uif-InputField"
@@ -341,6 +337,7 @@
                 </bean>
 
                 <bean parent="Uif-HorizontalFieldGroup" p:label="End Time">
+                    <property name="onDocumentReadyScript" value="jQuery(this).find('label').parent('th').addClass('uif-activity-offering-item-et');"/>
                       <property name="items">
                         <list>
                             <bean id="eoRsiEndTime" parent="KS-Uif-InputField"
@@ -373,6 +370,7 @@
                 </bean>
 
                 <bean parent="Uif-VerticalFieldGroup" p:label="Facility">
+                    <property name="onDocumentReadyScript" value="jQuery(this).find('label').parent('th').addClass('uif-activity-offering-item-facility');"/>
                     <property name="items">
                         <list>
                             <bean id="eoRsiBuilding" parent="KS-Uif-InputField-LabelTop"
@@ -429,6 +427,7 @@
                 </bean>
 
                 <bean parent="Uif-VerticalFieldGroup" p:label="Room">
+                     <property name="onDocumentReadyScript" value="jQuery(this).find('label').parent('th').addClass('uif-activity-offering-item-room');"/>
                      <property name="items">
                         <list>
                             <bean id="eoRsiRoom" parent="KS-Uif-InputField"
@@ -479,7 +478,10 @@
             </list>
         </property>
         <property name="layoutManager.actionFieldPrototype">
-            <bean parent="Uif-HorizontalFieldGroup" p:align="left" p:required="false" p:label="" p:style="min-width:111px;"/>
+            <bean parent="Uif-HorizontalFieldGroup" p:align="left" p:required="false" p:label="" p:style="min-width:70px;">
+                <property name="onDocumentReadyScript" value="jQuery('.uif-collection-column-action').addClass('uif-activity-offering-item-icon');"/>
+
+            </bean>
         </property>
         <property name="lineActions">
             <list>
