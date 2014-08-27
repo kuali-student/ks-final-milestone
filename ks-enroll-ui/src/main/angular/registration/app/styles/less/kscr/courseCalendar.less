@@ -200,17 +200,17 @@
         // Horizontal Striping: default & explicitly small calendars:
         &,
         .kscr-CourseCalendar--small .kscr-CourseCalendar-calendar & {
-            background-image: repeating-linear-gradient(0deg, @whiteBackground 0rem, @whiteBackground 0.5rem, transparent 0.5rem, transparent 1rem); // white 0-0.5rem, transparent 0.5rem-1rem - repeated
+            background-image: repeating-linear-gradient(45deg, @whiteBackground 0rem, @whiteBackground 0.5rem, transparent 0.5rem, transparent 1rem); // white 0-0.5rem, transparent 0.5rem-1rem - repeated
         }
 
         // Vertical Striping: all toggles (legend)
         &.kscr-CourseCalendar-toggle {
-            background-image: repeating-linear-gradient(90deg, @whiteBackground 0rem, @whiteBackground 0.5rem, transparent 0.5rem, transparent 1rem); // white 0-0.5rem, transparent 0.5rem-1rem - repeated
+            background-image: repeating-linear-gradient(45deg, @whiteBackground 0rem, @whiteBackground 0.5rem, transparent 0.5rem, transparent 1rem); // white 0-0.5rem, transparent 0.5rem-1rem - repeated
         }
 
         // Vertical Striping: large format grids only
         @media screen and (min-width: @largeFormatMin) {
-            background-image: repeating-linear-gradient(90deg, @whiteBackground 0rem, @whiteBackground 0.5rem, transparent 0.5rem, transparent 1rem); // white 0-0.5rem, transparent 0.5rem-1rem - repeated
+            background-image: repeating-linear-gradient(45deg, @whiteBackground 0rem, @whiteBackground 0.5rem, transparent 0.5rem, transparent 1rem); // white 0-0.5rem, transparent 0.5rem-1rem - repeated
         }
     }
 }
