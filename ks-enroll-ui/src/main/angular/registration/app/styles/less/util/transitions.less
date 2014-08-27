@@ -68,7 +68,7 @@
 
 // Fade in new item (200ms, ease out cubic)
 // Move existing items down (200ms, ease out cubic)
-.util-transition-addCourse(@targetHeight, @speed: 200ms) {
+.util-transitions-addCourse(@targetHeight, @speed: 200ms) {
   &.ng-enter // Item added through ng-repeat (base styles)
   {
     .util-transitions-transition(all cubic-bezier(0.215, 0.610, 0.355, 1.000) @speed);
@@ -76,7 +76,7 @@
     display: block;
     overflow: visible;
     opacity: 0;
-    height: 0px;
+    height: 0;
   }
 
   &.ng-enter-active { //Item actively being added (target styles)
@@ -89,25 +89,25 @@
 
 // Fade out removed item (200ms, ease out cubic)
 // Move existing items up (200ms, ease out cubic)
-.util-transition-removeCourse(@targetHeight, @speed: 200ms) {
+.util-transitions-removeCourse(@targetHeight, @speed: 200ms) {
     &.ng-leave{ // Item being removed (base styles)
       .util-transitions-transition(all cubic-bezier(0.215, 0.610, 0.355, 1.000) @speed);
       position: relative;
       display: block;
       overflow: hidden;
+      height: 4rem;
       opacity: 1;
-      height: @targetHeight;
     }
 
     &.ng-leave-active { // Item actively being removed (target styles)
       .util-transitions-transition(all cubic-bezier(0.215, 0.610, 0.355, 1.000) @speed);
       opacity: 0;
-      height: 0px;
+      height: 0;
     }
 }
 
 // Page load transition
-.util-transition-pageLoad() {
+.util-transitions-pageLoad() {
   @pgLoadAnimationName: rippleAnimation;
   @pgLoadAnimationDuration: 1s;
   @pgLoadAnimationTimingFunction: linear;
@@ -119,7 +119,7 @@
   -o-animation: @pgLoadAnimationName @pgLoadAnimationDuration @pgLoadAnimationTimingFunction @pgLoadAnimationIterationCount @pgLoadAnimationFillMode;
   -animation: @pgLoadAnimationName @pgLoadAnimationDuration @pgLoadAnimationTimingFunction @pgLoadAnimationIterationCount @pgLoadAnimationFillMode;
 
-  @pgLoadAnimationDarkerColor: #f6f7f8;
+  @pgLoadAnimationDarkerColor: #f6f7f8; // Based on FB news feed animation
   @pgLoadAnimationLighterColor: #edeef1;
 
   background: @pgLoadAnimationDarkerColor;
@@ -128,24 +128,6 @@
   background-image: -o-linear-gradient(left, @pgLoadAnimationDarkerColor 0%, @pgLoadAnimationLighterColor 20%, @pgLoadAnimationDarkerColor 40%, @pgLoadAnimationDarkerColor 100%);
   background-image: linear-gradient(to right, @pgLoadAnimationDarkerColor 0%, @pgLoadAnimationLighterColor 20%, @pgLoadAnimationDarkerColor 40%, @pgLoadAnimationDarkerColor 100%);
   background-repeat: no-repeat;
-  background-size: 800px 10px;
+  background-size: 80rem 1rem;
   position: relative;
-}
-
-// Rules to create animation rippleAnimation
-@-webkit-keyframes rippleAnimation {
-  from { background-position: -100px 0; }
-  to { background-position: 150px 0; }
-}
-@-moz-keyframes rippleAnimation {
-  from { background-position: -100px 0; }
-  to { background-position: 150px 0; }
-}
-@-o-keyframes rippleAnimation {
-  from { background-position: -100px 0; }
-  to { background-position: 150px 0; }
-}
-@keyframes rippleAnimation {
-  from { background-position: -100px 0; }
-  to { background-position: 150px 0; }
 }
