@@ -2272,6 +2272,8 @@ public class CourseMaintainableImpl extends RuleEditorMaintainableImpl implement
         targetCourseWrapper.setCourseInfo(targetCourse);
         setDataObject(targetCourseWrapper); // Most of the populate methods and requisities are using this dataobject
 
+        targetCourseWrapper.setPreviousSubjectCode(sourceCourse.getSubjectArea());
+
         /**
          * As we cleaned up target course which doesnt have course Id, we need to populate requisities seperately
          */
