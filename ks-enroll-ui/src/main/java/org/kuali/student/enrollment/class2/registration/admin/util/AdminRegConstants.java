@@ -12,7 +12,6 @@ public class AdminRegConstants {
     //Admin Reg States
     public static class ClientStates{
         public static final String OPEN = "kuali.admin.reg.state.open";
-        public static final String INITIALIZED = "kuali.admin.reg.state.initialized";
         public static final String READY = "kuali.admin.reg.state.ready";
         public static final String REGISTERING = "kuali.admin.reg.state.registering";
     }
@@ -76,7 +75,7 @@ public class AdminRegConstants {
     public static final String ADMIN_REG_CREDIT_LOAD_EXCEEDED_MESSAGE_KEY = "kuali.lpr.trans.message.credit.load.exceeded";
     public static final String ADMIN_REG_MAX_CREDITS = "maxCredits";
     //sections ids
-    public static final String STUDENT_INFO_SECTION = "KS-AdminRegistration-StudentInfo";
+    public static final String STUDENT_AND_TERM_SECTION = "KS-AdminRegistration-StudentAndTermSection";
 
     //form property names
     public static final String PERSON_ID = "person.id";

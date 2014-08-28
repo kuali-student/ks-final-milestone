@@ -148,11 +148,11 @@ public class AdminRegistrationController extends UifControllerBase {
     }
 
     ///////////////////////////////////////////////
-    //Student methods
+    //Student and Term methods
     //////////////////////////////////////////////
 
     /**
-     * This method is called when the user has entered a student id to get the studentInfo
+     * This method is called when the user has entered a student id and a term code to get the studentInfo for the selected term
      *
      * @param form
      * @param result
@@ -160,48 +160,20 @@ public class AdminRegistrationController extends UifControllerBase {
      * @param response
      * @return
      */
-    @RequestMapping(method = RequestMethod.POST, params = "methodToCall=getStudentInfo")
-    public ModelAndView getStudentInfo(@ModelAttribute("KualiForm") AdminRegistrationForm form, BindingResult result,
+    @RequestMapping(method = RequestMethod.POST, params = "methodToCall=getStudentAndTermInfo")
+    public ModelAndView getStudentAndTermInfo(@ModelAttribute("KualiForm") AdminRegistrationForm form, BindingResult result,
                                        HttpServletRequest request, HttpServletResponse response) {
+        long start = System.currentTimeMillis();
 
-        form.clearTermValues();
+        form.clearCourseRegistrationValues();
+
         PersonInfo person = this.getViewHelper(form).getStudentById(form.getPerson().getId());
+        TermInfo term = this.getViewHelper(form).getTermByCode(form.getTerm().getCode());
         if (GlobalVariables.getMessageMap().hasErrors()) {
-            form.getPerson().setName(null);
             form.setClientState(AdminRegConstants.ClientStates.OPEN);
             return getUIFModelAndView(form);
         } else {
             form.setPerson(person);
-        }
-
-        form.setClientState(AdminRegConstants.ClientStates.INITIALIZED);
-        return getUIFModelAndView(form);
-    }
-
-    ///////////////////////////////////////////////
-    //Term methods
-    //////////////////////////////////////////////
-
-    /**
-     * This method is called when the user has entered a term code to get the termInfo
-     *
-     * @param form
-     * @param result
-     * @param request
-     * @param response
-     * @return
-     */
-    @MethodAccessible
-    @RequestMapping(method = RequestMethod.POST, params = "methodToCall=getTermInfo")
-    public ModelAndView getTermInfo(@ModelAttribute("KualiForm") AdminRegistrationForm form, BindingResult result,
-                                    HttpServletRequest request, HttpServletResponse response) {
-
-        form.clearCourseRegistrationValues();
-        TermInfo term = getViewHelper(form).getTermByCode(form.getTerm().getCode());
-        if (GlobalVariables.getMessageMap().hasErrors()) {
-            form.setClientState(AdminRegConstants.ClientStates.INITIALIZED);
-            return getUIFModelAndView(form);
-        } else {
             form.setTerm(term);
             form.setSocInfo(getViewHelper(form).getSocByTerm(term.getId()));
         }
@@ -216,9 +188,13 @@ public class AdminRegistrationController extends UifControllerBase {
             form.setTermEligible(true);
             form.setDisplayRegistrationTab(true);
         } else {
+            form.clearTermValues();
             form.setTermEligible(false);
             form.setDisplayRegistrationTab(true);
         }
+
+        printTime(form.getMethodToCall(), start);
+
         form.setClientState(AdminRegConstants.ClientStates.READY);
         return getUIFModelAndView(form);
     }
