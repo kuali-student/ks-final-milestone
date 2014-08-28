@@ -2175,6 +2175,10 @@ public class CourseMaintainableImpl extends RuleEditorMaintainableImpl implement
 
     /**
      * Populates the wrapper objects used on the create course proposal and course view pages.
+     *
+     * @param courseWrapper The wrapper to populate.
+     * @param course The CourseInfo from which to populate the CourseInfoWrapper.
+     * @param isCourseView True if the data is for the View Course page. Otherwise, false.
      */
     public void populateCourseWrapperData(CourseInfoWrapper courseWrapper, CourseInfo course, boolean isCourseView) throws Exception {
 
@@ -2193,9 +2197,12 @@ public class CourseMaintainableImpl extends RuleEditorMaintainableImpl implement
             courseWrapper.getCourseInfo().setUnitsContentOwner(new ArrayList<String>());
         }
 
-        CourseCreateUnitsContentOwner newCourseCreateUnitsContentOwner = new CourseCreateUnitsContentOwner();
-        newCourseCreateUnitsContentOwner.getRenderHelper().setNewRow(true);
-        courseWrapper.getUnitsContentOwner().add(newCourseCreateUnitsContentOwner);
+        //  Only add an add-line if the collection is empty.
+        if (courseWrapper.getUnitsContentOwner().isEmpty()) {
+            CourseCreateUnitsContentOwner newCourseCreateUnitsContentOwner = new CourseCreateUnitsContentOwner();
+            newCourseCreateUnitsContentOwner.getRenderHelper().setNewRow(true);
+            courseWrapper.getUnitsContentOwner().add(newCourseCreateUnitsContentOwner);
+        }
 
         /*
          * Instructors
