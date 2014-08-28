@@ -21,6 +21,7 @@ import org.kuali.rice.krms.impl.repository.language.VelocityTemplateEngine;
 import org.kuali.student.common.util.krms.RulesExecutionConstants;
 import org.kuali.student.common.util.krms.proposition.AbstractLeafProposition;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.infc.ValidationResult;
 import org.kuali.student.r2.core.constants.ExemptionServiceConstants;
@@ -28,12 +29,17 @@ import org.kuali.student.r2.core.exemption.dto.ExemptionInfo;
 import org.kuali.student.r2.core.exemption.service.ExemptionService;
 import org.kuali.student.r2.core.process.dto.CheckInfo;
 import org.kuali.student.r2.core.process.dto.InstructionInfo;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Base class for any check proposition
@@ -41,6 +47,8 @@ import java.util.Map;
  * @author nwright
  */
 public abstract class AbstractCheckProposition extends AbstractLeafProposition {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(AbstractCheckProposition.class);
 
     protected InstructionInfo instruction;
     protected CheckInfo check;
@@ -52,13 +60,13 @@ public abstract class AbstractCheckProposition extends AbstractLeafProposition {
     }
 
     public PropositionResult recordSuccessResult(ExecutionEnvironment environment) {
-        boolean recordSuccesses = (Boolean) environment.resolveTerm(RulesExecutionConstants.RECORD_INSTRUCTION_SUCCESSES_TERM, this);
+        boolean recordSuccesses = environment.resolveTerm(RulesExecutionConstants.RECORD_INSTRUCTION_SUCCESSES_TERM, this);
         if (recordSuccesses) {
             ValidationResultInfo vr = new ValidationResultInfo();
             vr.setElement(instruction.getId());
             vr.setLevel(ValidationResult.ErrorLevel.OK);
             vr.setMessage("Successfully passed this check: " + check.getName());
-            Map<String, Object> executionDetails = new LinkedHashMap<String, Object>();
+            Map<String, Object> executionDetails = new LinkedHashMap<>();
             executionDetails.put(RulesExecutionConstants.PROCESS_EVALUATION_RESULTS, vr);
             PropositionResult result = new PropositionResult(true, executionDetails);
             BasicResult br = new BasicResult(executionDetails, ResultEvent.PROPOSITION_EVALUATED, this,
@@ -83,11 +91,11 @@ public abstract class AbstractCheckProposition extends AbstractLeafProposition {
             return this.recordFailureResult(environment);
         }
         // exempted so record that exemption instead of the failure
-        PropositionResult result = null;
-        BasicResult br = null;
+        PropositionResult result;
+        BasicResult br;
         Boolean recordSuccesses = environment.resolveTerm(RulesExecutionConstants.RECORD_INSTRUCTION_SUCCESSES_TERM, this);
         if (recordSuccesses) {
-            Map<String, Object> executionDetails = new LinkedHashMap<String, Object>();
+            Map<String, Object> executionDetails = new LinkedHashMap<>();
             ValidationResultInfo vr = new ValidationResultInfo();
             vr.setElement(instruction.getId());
             vr.setLevel(ValidationResult.ErrorLevel.OK);
@@ -108,17 +116,12 @@ public abstract class AbstractCheckProposition extends AbstractLeafProposition {
 
     private PropositionResult recordFailureResult(ExecutionEnvironment environment) {
         // report error (or warning)
-        Map<String,Object> executionContext = new HashMap<>();
-        for(Map.Entry<Term,Object> factEntry:environment.getFacts().entrySet()){
-            executionContext.put(factEntry.getKey().getName(),factEntry.getValue());
+        Map<String, Object> executionContext = new HashMap<>();
+        for (Map.Entry<Term, Object> factEntry:environment.getFacts().entrySet()) {
+            executionContext.put(factEntry.getKey().getName(), factEntry.getValue());
         }
 
-        String messageData;
-        try {
-            messageData = templateEngine.evaluate(executionContext, instruction.getMessage().getFormatted());
-        } catch (Exception e){
-            messageData = "\"message\":\"" + instruction.getMessage().getPlain() + "\"";
-        }
+        String messageData = formatMessageData(environment, executionContext, instruction.getMessage());
 
         ValidationResultInfo vr = new ValidationResultInfo();
         vr.setElement("registrationRequestItems['" + executionContext.get("registrationRequestItemId") + "']");
@@ -127,7 +130,7 @@ public abstract class AbstractCheckProposition extends AbstractLeafProposition {
         } else {
             vr.setLevel(ValidationResult.ErrorLevel.ERROR);
         }
-        vr.setMessage("{\"instructionId\":\""+instruction.getId()+"\",\"checkId\":\""+instruction.getCheckId()+"\","+messageData+"}");
+        vr.setMessage("{\"instructionId\":\"" + instruction.getId() + "\",\"checkId\":\"" + instruction.getCheckId() + "\"," + messageData + "}");
         Map<String, Object> executionDetails = new LinkedHashMap<>();
         executionDetails.put(RulesExecutionConstants.PROCESS_EVALUATION_RESULTS, vr);
         PropositionResult result;
@@ -155,9 +158,34 @@ public abstract class AbstractCheckProposition extends AbstractLeafProposition {
                 personId,
                 asOfDate,
                 contextInfo);
-        if (!exemptions.isEmpty()) {
-            return true;
+        return !exemptions.isEmpty();
+    }
+
+    private String formatMessageData(ExecutionEnvironment environment, Map<String, Object> executionContext, RichTextInfo message) {
+        List<String> messageVariables = new ArrayList<>();
+        Matcher m = Pattern.compile("\\$([a-zA-Z]+)").matcher(message.getFormatted());
+        while (m.find()) {
+            messageVariables.add(m.group(1));
         }
-        return false;
+
+        for (String messageVariable:messageVariables) {
+            //check to see if the variable is already in the execution context
+            if (executionContext.get(messageVariable) == null) {
+                //not found, resolve the term and add it
+                Object resolved = environment.resolveTerm(new Term(messageVariable), this);
+                if (resolved != null) {
+                    executionContext.put(messageVariable, resolved);
+                } else {
+                    LOGGER.warn("Unable to resolve message variable: ${}");
+                }
+            }
+        }
+        String messageData;
+        try {
+            messageData = templateEngine.evaluate(executionContext, message.getFormatted());
+        } catch (Exception e) {
+            messageData = "\"message\":\"" + message.getPlain() + "\"";
+        }
+        return messageData;
     }
 }
