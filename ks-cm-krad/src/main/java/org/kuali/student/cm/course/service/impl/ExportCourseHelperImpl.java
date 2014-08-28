@@ -501,8 +501,8 @@ public class ExportCourseHelperImpl implements ExportCourseHelper {
             return;
         }
 
-        String startTerm = courseInfoWrapper.getCourseInfo().getStartTerm();
-        String endTerm  = courseInfoWrapper.getCourseInfo().getEndTerm();
+        String startTerm = courseInfoWrapper.getReviewProposalDisplay().getActiveDatesSection().getStartTerm();
+        String endTerm  = courseInfoWrapper.getReviewProposalDisplay().getActiveDatesSection().getEndTerm();
         String isPilotCourse = (courseInfoWrapper.getCourseInfo().isPilotCourse() == false) ? "No" : "Yes";
         exportElements.add(populateExportElement(CurriculumManagementConstants.ProposalViewFieldLabels.ActiveDates.START_TERM, startTerm , CurriculumManagementConstants.ProposalViewFieldLabels.ActiveDates.SECTION_NAME, -1  ));
         exportElements.add(populateExportElement(CurriculumManagementConstants.ProposalViewFieldLabels.ActiveDates.END_TERM, endTerm, CurriculumManagementConstants.ProposalViewFieldLabels.ActiveDates.SECTION_NAME, -1));
