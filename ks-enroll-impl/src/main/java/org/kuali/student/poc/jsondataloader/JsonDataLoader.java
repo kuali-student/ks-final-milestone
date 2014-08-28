@@ -16,6 +16,8 @@
  */
 package org.kuali.student.poc.jsondataloader;
 
+
+import org.apache.log4j.Logger;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.enrollment.lpr.service.LprService;
 import org.kuali.student.poc.jsonparser.json.BaseJsonObject;
@@ -30,6 +32,7 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
  * @author Kuali Student Team
  */
 public class JsonDataLoader {
+    public static final Logger LOGGER = Logger.getLogger(JsonDataLoader.class);
     private String resourcePath;
     private JsonCourseOfferingDataLoader coLoader;
     private JsonLprDataLoader lprLoader;
@@ -61,7 +64,7 @@ public class JsonDataLoader {
                 }
             }
         } catch (OperationFailedException e) {
-            e.printStackTrace();
+            LOGGER.equals(e.getMessage());
         }
     }
 }

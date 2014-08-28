@@ -80,7 +80,7 @@ public class JsonLprDataLoader implements JsonServiceDataLoader {
         try {
             lprService.createLpr(personId, luiId, typeKey, lpr, contextInfo);
         } catch (Exception e) {
-            throw new OperationFailedException();
+            throw new OperationFailedException(e);
         }
     }
 }

@@ -91,7 +91,7 @@ public class JsonCourseOfferingDataLoader implements JsonServiceDataLoader {
             List<String> options = new ArrayList<>();
             coService.createCourseOffering(courseId, termId, typeKey, coInfo, options, contextInfo);
         } catch (Exception e) {
-            throw new OperationFailedException();
+            throw new OperationFailedException(e);
         }
     }
 
@@ -125,7 +125,7 @@ public class JsonCourseOfferingDataLoader implements JsonServiceDataLoader {
             List<String> options = new ArrayList<>();
             coService.createFormatOffering(coId, formatId, typeKey, foInfo, contextInfo);
         } catch (Exception e) {
-            throw new OperationFailedException();
+            throw new OperationFailedException(e);
         }
     }
 
@@ -152,7 +152,7 @@ public class JsonCourseOfferingDataLoader implements JsonServiceDataLoader {
             List<String> options = new ArrayList<>();
             coService.createActivityOffering(foId, activityId, typeKey, aoInfo, contextInfo);
         } catch (Exception e) {
-            throw new OperationFailedException();
+            throw new OperationFailedException(e);
         }
     }
 
@@ -186,7 +186,7 @@ public class JsonCourseOfferingDataLoader implements JsonServiceDataLoader {
             List<String> options = new ArrayList<>();
             coService.createRegistrationGroup(foId, aoClusterId, typeKey, rgInfo, contextInfo);
         } catch (Exception e) {
-            throw new OperationFailedException();
+            throw new OperationFailedException(e);
         }
     }
 }
