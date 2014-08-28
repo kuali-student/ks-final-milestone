@@ -1836,7 +1836,6 @@ public class CourseMaintainableImpl extends RuleEditorMaintainableImpl implement
         CourseInfoWrapper courseInfoWrapper = (CourseInfoWrapper) getDataObject();
         courseInfoWrapper.getCourseInfo().getFormats().clear();
         List<ActivityInfo> activities;
-        long dateValue = System.currentTimeMillis();
         for (FormatInfo format : courseInfoWrapper.getFormats()) {
             activities = new ArrayList<ActivityInfo>();
             if (!isEmptyFormat(format)) {
@@ -1855,19 +1854,11 @@ public class CourseMaintainableImpl extends RuleEditorMaintainableImpl implement
                     if (activity.getId() == null && (activity.getTypeKey() == null)) {
                         continue;
                     }
-                    if (activity.getMeta() != null) {
-                        activity.getMeta().setCreateTime(new Date(dateValue));
-                        dateValue++;
-                    }
                     // only non blank activities are added to the list
                     activities.add(activity);
                 }
                 format.getActivities().clear();
                 format.setActivities(activities);
-                if (format.getMeta() != null) {
-                    format.getMeta().setCreateTime(new Date(dateValue));
-                    dateValue++;
-                }
                 courseInfoWrapper.getCourseInfo().getFormats().add(format);
             }
         }
