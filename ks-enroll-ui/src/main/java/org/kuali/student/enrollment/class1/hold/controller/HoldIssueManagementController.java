@@ -54,17 +54,37 @@ public class HoldIssueManagementController extends UifControllerBase {
         return new HoldIssueManagementForm();
     }
 
+    @Override
+    public ModelAndView start(@ModelAttribute("KualiForm") UifFormBase form, HttpServletRequest request,
+            HttpServletResponse response) {
+
+        HoldIssueManagementForm holdForm = (HoldIssueManagementForm) form;
+
+        holdForm.setHoldIssueResultList(searchHoldIssues(holdForm));
+        return super.start(form, request, response);
+    }
+
     @RequestMapping(params = "methodToCall=search")
     public ModelAndView search(@ModelAttribute("KualiForm") HoldIssueManagementForm form, BindingResult result,
-                               HttpServletRequest request, HttpServletResponse response) throws Exception {
+            HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        form.setHasSearchBeenCalled(true);
+
+        form.setHoldIssueResultList(searchHoldIssues(form));
+        return getUIFModelAndView(form);
+    }
+
+    private List<HoldIssueResult> searchHoldIssues(HoldIssueManagementForm form) {
         List<HoldIssueResult> results = new ArrayList<HoldIssueResult>();
         try {
-            results = this.getViewHelper(form).searchHolds(form);
+            if (form.isHasSearchBeenCalled()) {
+                results = this.getViewHelper(form).searchHolds(form);
+            }
         } catch (Exception e) {
-            throw new RuntimeException(HoldIssueConstants.HOLD_ISSUE_SEARCH_ERROR_MSG,e); //To change body of catch statement use File | Settings | File Templates.
+            throw new RuntimeException(HoldIssueConstants.HOLD_ISSUE_SEARCH_ERROR_MSG, e); //To change body of catch statement use File | Settings | File Templates.
         }
-        form.setHoldIssueResultList(results);
-        return getUIFModelAndView(form);
+
+        return results;
     }
 
     @RequestMapping(params = "methodToCall=addHold")

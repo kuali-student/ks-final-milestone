@@ -51,8 +51,11 @@ public class HoldIssueManagementForm extends UifFormBase {
 
     private List<HoldIssueResult> holdIssueResultList = new ArrayList<HoldIssueResult>();
 
+    private boolean hasSearchBeenCalled;
+
     public HoldIssueManagementForm(){
         super();
+        setHasSearchBeenCalled(false);
     }
 
 //    public String getId() {
@@ -150,6 +153,15 @@ public class HoldIssueManagementForm extends UifFormBase {
     public void setCode(String code) {
         this.code = code;
     }
+
+    public boolean isHasSearchBeenCalled() {
+        return hasSearchBeenCalled;
+    }
+
+    public void setHasSearchBeenCalled(boolean hasSearchBeenCalled) {
+        this.hasSearchBeenCalled = hasSearchBeenCalled;
+    }
+
 //
 //    public String getBaseType() {
 //        return baseType;
