@@ -500,6 +500,20 @@
         .kscr-Card-buttons {
             border-color: @infoBorder;
         }
+
+        // Hide the cartResult heading text when it is an info message
+        .kscr-cartResult-supportText,
+        .kscr-cartResult-heading,
+        .kscr-cartResult-aoInfo,
+        .kscr-Card-reason-label {
+            display: none;
+        }
+        .kscr-Card-reason-messages {
+            padding-left: 0;
+        }
+        .kscr-cartResult-content .kscr-Card-detailsText {
+            margin-top: 0;
+        }
     }
 
 
