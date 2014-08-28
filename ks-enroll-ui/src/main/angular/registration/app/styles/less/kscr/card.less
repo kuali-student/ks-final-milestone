@@ -217,8 +217,8 @@
     width: 100%;
 
   // Handles transition for adding and removing courses to cart
-  .util-transitions-addCourse(3rem);
-  .util-transitions-removeCourse(3rem);
+  .util-transitions-addCard(3rem);
+  .util-transitions-removeCard(3rem);
 
     // Applied when an update request is processing for the course
     &--processing {
@@ -422,6 +422,9 @@
 .kscr-Card-status {
   padding: 1rem 1rem 1rem 3.5rem;
     position: relative;
+
+  // Add removing animation here
+  .util-transitions-removeCard(4rem);
 
     // Primary status icon of cart results (e.g. Success check, Fail, Progressing spinner)
     .kscr-Card-icon {

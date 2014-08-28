@@ -106,10 +106,11 @@ angular.module('regCartApp')
                     $scope.updateAOStates();
                     $scope.singleRegGroup = singleRegGroup();
                 } else {
-                    $scope.loading = true; // Course loaded
+                    $scope.loading = false; // Course loaded
                     console.log('Course load completed but not the most recent, ignoring: "' + courseId + '" !== "' + lastCourseId + '"');
                 }
             }, function(error) {
+                $scope.loading = false;
                 console.log('Error loading course: ', error);
             });
         }

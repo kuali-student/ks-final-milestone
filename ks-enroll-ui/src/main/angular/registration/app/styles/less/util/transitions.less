@@ -68,7 +68,7 @@
 
 // Fade in new item (200ms, ease out cubic)
 // Move existing items down (200ms, ease out cubic)
-.util-transitions-addCourse(@targetHeight, @speed: 200ms) {
+.util-transitions-addCard(@targetHeight, @speed: 200ms) {
   &.ng-enter // Item added through ng-repeat (base styles)
   {
     .util-transitions-transition(all cubic-bezier(0.215, 0.610, 0.355, 1.000) @speed);
@@ -89,13 +89,13 @@
 
 // Fade out removed item (200ms, ease out cubic)
 // Move existing items up (200ms, ease out cubic)
-.util-transitions-removeCourse(@targetHeight, @speed: 200ms) {
+.util-transitions-removeCard(@targetHeight, @speed: 200ms) {
     &.ng-leave{ // Item being removed (base styles)
       .util-transitions-transition(all cubic-bezier(0.215, 0.610, 0.355, 1.000) @speed);
       position: relative;
       display: block;
       overflow: hidden;
-      height: 4rem;
+      height: @targetHeight;
       opacity: 1;
     }
 
