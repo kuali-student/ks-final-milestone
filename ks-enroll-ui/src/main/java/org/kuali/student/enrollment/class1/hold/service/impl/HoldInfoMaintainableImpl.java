@@ -50,7 +50,7 @@ public class HoldInfoMaintainableImpl extends KSMaintainableImpl {
         HoldIssueMaintenanceWrapper dataObject = new HoldIssueMaintenanceWrapper();
         try {
             HoldIssueInfo holdIssueInfo = HoldResourceLoader.getHoldService().getHoldIssue(holdId, ContextUtils.createDefaultContextInfo());
-            dataObject.setDescr(holdIssueInfo.getDescr().getPlain());
+            dataObject.setDescr(holdIssueInfo.getDescr() != null ? holdIssueInfo.getDescr().getPlain() : StringUtils.EMPTY);
 
             // Set term information.
             dataObject.setTermBased(holdIssueInfo.getIsHoldIssueTermBased());
