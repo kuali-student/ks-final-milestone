@@ -139,14 +139,13 @@ public class AdminRegistrationViewHelperServiceImpl extends KSViewHelperServiceI
     }
 
     @Override
-    public CourseOfferingContextBar getContextBarInfo(AdminRegistrationForm form){
+    public CourseOfferingContextBar getContextBarInfo(AdminRegistrationForm form) {
 
         try {
             return CourseOfferingContextBar.NEW_INSTANCE(form.getTerm(), form.getSocInfo().getStateKey(), getStateService(), AdminRegResourceLoader.getAcademicCalendarService(), createContextInfo());
         } catch (Exception e) {
-            e.printStackTrace();
+            throw convertServiceExceptionsToUI(e);
         }
-        return null;
     }
 
 
