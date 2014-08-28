@@ -20,23 +20,23 @@ UPDATE KRMS_RULE_T set PROP_ID = 'kuali.prop.course.already.taken' where RULE_ID
 
 -- Term Spec
 insert into KRMS_TERM_SPEC_T (ACTV, DESC_TXT, NM, NMSPC_CD, TERM_SPEC_ID, TYP, VER_NBR)
-  values ('Y', 'Max Repeatability Error', 'GesMaxRepeatability', 'KS-SYS', 'KS-KRMS-TS-GesMaxRepeatability', 'java.lang.String', 0)
+  values ('Y', 'Max Repeatability Error', 'CourseRepeatability', 'KS-SYS', 'KS-KRMS-TS-CourseRepeatability', 'java.lang.String', 0)
 /
 -- Term
 insert into KRMS_TERM_T (DESC_TXT, TERM_ID, TERM_SPEC_ID, VER_NBR)
-  values ('Max Repeatability Error Term', 'KS-KRMS-TERM-GesMaxRepeatability', 'KS-KRMS-TS-GesMaxRepeatability', 0)
+  values ('Max Repeatability Error Term', 'KS-KRMS-TERM-CourseRepeatability', 'KS-KRMS-TS-CourseRepeatability', 0)
 /
 -- Term Resolver
 insert into KRMS_TERM_RSLVR_T (ACTV, NM, NMSPC_CD, OUTPUT_TERM_SPEC_ID, TERM_RSLVR_ID, TYP_ID, VER_NBR)
-  values ('Y', 'GesMaxRepeatability', 'KS-SYS', 'KS-KRMS-TS-GesMaxRepeatability', 'KS-KRMS-TR-GesMaxRepeatability', 'kuali.krms.termresolver.type.check', 0)
+  values ('Y', 'CourseRepeatability', 'KS-SYS', 'KS-KRMS-TS-CourseRepeatability', 'KS-KRMS-TR-CourseRepeatability', 'kuali.krms.termresolver.type.check', 0)
 /
 
 --Proposition Parameters
 insert into KRMS_PROP_PARM_T (PARM_TYP_CD, PARM_VAL, PROP_ID, PROP_PARM_ID, SEQ_NO, VER_NBR)
-  values ('T', 'KS-KRMS-TERM-GesMaxRepeatability', 'kuali.prop.course.already.taken', 'KS-KRMS-PPT-GesMaxRepeatability', 1, 0)
+  values ('T', 'KS-KRMS-TERM-CourseRepeatability', 'kuali.prop.course.already.taken', 'KS-KRMS-PPT-CourseRepeatability', 1, 0)
 /
 insert into KRMS_PROP_PARM_T (PARM_TYP_CD, PARM_VAL, PROP_ID, PROP_PARM_ID, SEQ_NO, VER_NBR)
-  values ('C', 'kuali.max.repeatability.error', 'kuali.prop.course.already.taken', 'KS-KRMS-PPC-GesMaxRepeatability', 2, 0)
+  values ('C', 'kuali.max.repeatability.error', 'kuali.prop.course.already.taken', 'KS-KRMS-PPC-CourseRepeatability', 2, 0)
 /
 insert into KRMS_PROP_PARM_T (PARM_TYP_CD, PARM_VAL, PROP_ID, PROP_PARM_ID, SEQ_NO, VER_NBR)
   values ('O', '!=', 'kuali.prop.course.already.taken', 'KS-KRMS-PPO-CourseTotalAttempts', 3, 0)

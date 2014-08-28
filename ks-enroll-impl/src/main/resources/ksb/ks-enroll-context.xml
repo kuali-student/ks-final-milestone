@@ -1909,7 +1909,7 @@
                 <bean class="org.kuali.student.enrollment.class2.courseoffering.krms.termresolver.MaxRepeatabilityTermResolver">
                     <property name="gesService" ref="GesService"/>
                 </bean>
-                <bean class="org.kuali.student.enrollment.class2.courseoffering.krms.termresolver.GesMaxRepeatabilityTermResolver" />
+                <bean class="org.kuali.student.enrollment.class2.courseoffering.krms.termresolver.CourseRepeatabilityTermResolver" />
                 <bean class="org.kuali.student.enrollment.class2.courseoffering.krms.termresolver.CourseRegistrationKeyDateTermResolver">
                     <property name="atpService" ref="AtpService"/>
                     <property name="luiService" ref="LuiService"/>

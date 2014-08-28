@@ -42,7 +42,7 @@ import java.util.Set;
  *
  * @author Kuali Student Team
  */
-public class GesMaxRepeatabilityTermResolver implements TermResolver<String> {
+public class CourseRepeatabilityTermResolver implements TermResolver<String> {
 
     public final static String MAX_REPEATABILITY_ERROR = "kuali.max.repeatability.error";
     public final static String MAX_REPEATABILITY_WARNING = "kuali.max.repeatability.warning";
@@ -50,7 +50,7 @@ public class GesMaxRepeatabilityTermResolver implements TermResolver<String> {
 
     @Override
     public String getOutput() {
-        return KSKRMSServiceConstants.TERM_RESOLVER_GES_MAX_REPEATABILITY;
+        return KSKRMSServiceConstants.TERM_RESOLVER_COURSE_REPEATABILITY;
     }
 
     @Override

@@ -93,6 +93,7 @@ public class TestTermResolvers {
     private AbstractMockServicesAwareDataLoader gesServiceDataLoader;
 
     @Resource(name="studentToCourseRecordsMap")
+    @SuppressWarnings("all")
     private Map<String, List<StudentCourseRecordInfo>> studentToCourseRecordsMap;
 
     @Before
@@ -1071,7 +1072,7 @@ public class TestTermResolvers {
     @Test
     public void testGesMaxRepeatabilityTermResolver() throws Exception {
         //Setup the term resolver
-        GesMaxRepeatabilityTermResolver termResolver = new GesMaxRepeatabilityTermResolver();
+        CourseRepeatabilityTermResolver termResolver = new CourseRepeatabilityTermResolver();
 
         //Setup prerequisites
         resolvedPrereqs.put(RulesExecutionConstants.CONTEXT_INFO_TERM.getName(), contextInfo);
@@ -1083,26 +1084,26 @@ public class TestTermResolvers {
 
         //Validate the term resolver
         validateTermResolver(termResolver, resolvedPrereqs, parameters,
-                KSKRMSServiceConstants.TERM_RESOLVER_GES_MAX_REPEATABILITY);
+                KSKRMSServiceConstants.TERM_RESOLVER_COURSE_REPEATABILITY);
 
         String value;
 
         //Evaluate term Resolver for error
         value = termResolver.resolve(resolvedPrereqs, parameters);
         assertNotNull(value);
-        assertEquals(value, GesMaxRepeatabilityTermResolver.MAX_REPEATABILITY_ERROR);
+        assertEquals(value, CourseRepeatabilityTermResolver.MAX_REPEATABILITY_ERROR);
 
         //Evaluate term Resolver for warning
         resolvedPrereqs.put(RulesExecutionConstants.TOTAL_COURSE_ATTEMPTS.getName(), 1);
         value = termResolver.resolve(resolvedPrereqs, parameters);
         assertNotNull(value);
-        assertEquals(value, GesMaxRepeatabilityTermResolver.MAX_REPEATABILITY_WARNING);
+        assertEquals(value, CourseRepeatabilityTermResolver.MAX_REPEATABILITY_WARNING);
 
         //Evaluate term Resolver for success
         resolvedPrereqs.put(RulesExecutionConstants.TOTAL_COURSE_ATTEMPTS.getName(), 0);
         value = termResolver.resolve(resolvedPrereqs, parameters);
         assertNotNull(value);
-        assertEquals(value, GesMaxRepeatabilityTermResolver.MAX_REPEATABILITY_SUCCESS);
+        assertEquals(value, CourseRepeatabilityTermResolver.MAX_REPEATABILITY_SUCCESS);
     }
 
     @Test
