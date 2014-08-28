@@ -1,3 +1,3 @@
 INSERT INTO KRIM_ROLE_MBR_T (ACTV_FRM_DT,ACTV_TO_DT,LAST_UPDT_DT,MBR_ID,MBR_TYP_CD,OBJ_ID,ROLE_ID,ROLE_MBR_ID,VER_NBR)
-VALUES (null,null,sysdate,'ks', 'P', SYS_GUID(),(select role_id from KRIM_ROLE_T where NMSPC_CD='KS-SYS' and ROLE_NM='Student System User Role'),CONCAT('KS-KRIM-ROLE-MBR-',KRIM_ROLE_MBR_ID_S.NEXTVAL),1)
+VALUES (null,null,sysdate,(select PRNCPL_ID from KRIM_PRNCPL_T where PRNCPL_NM = 'ks'), 'P', SYS_GUID(),(select role_id from KRIM_ROLE_T where NMSPC_CD='KS-SYS' and ROLE_NM='Student System User Role'),CONCAT('KS-KRIM-ROLE-MBR-',KRIM_ROLE_MBR_ID_S.NEXTVAL),1)
 /

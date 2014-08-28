@@ -704,8 +704,7 @@ public class CourseController extends CourseRuleEditorController {
                     break;
                 case WorkflowActions.WITHDRAW:
                     //fake the Document.DocumentHeader.WorkflowDocument value for the system user here
-                    //Person person = KimApiServiceLocator.getPersonService().getPersonByPrincipalName(StudentIdentityConstants.SYSTEM_USER_PRINCIPAL_NAME);
-                    Person person = KimApiServiceLocator.getPersonService().getPersonByPrincipalName("admin");
+                    Person person = KimApiServiceLocator.getPersonService().getPersonByPrincipalName(StudentIdentityConstants.SYSTEM_USER_PRINCIPAL_NAME);
                     WorkflowDocument workflowDocument = KRADServiceLocatorWeb.getWorkflowDocumentService().loadWorkflowDocument(document.getDocumentNumber(), person);
                     document.getDocumentHeader().setWorkflowDocument(workflowDocument);
                     // call superuserdisapprove for withdrawing the proposal
@@ -736,10 +735,10 @@ public class CourseController extends CourseRuleEditorController {
 
             // if no errors in map then throw runtime because something bad happened
             if (GlobalVariables.getMessageMap().hasNoErrors()) {
-                throw new RiceRuntimeException("Validation Exception with no error message.", e);
+                throw new RuntimeException("Validation Exception with no error message.", e);
             }
         } catch (Exception e) {
-            throw new RiceRuntimeException(
+            throw new RuntimeException(
                     "Exception trying to invoke custom action " + action + " for document: " + document
                             .getDocumentNumber(), e);
         }
