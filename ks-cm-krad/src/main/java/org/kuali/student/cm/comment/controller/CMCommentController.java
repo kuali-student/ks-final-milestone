@@ -55,6 +55,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.xml.namespace.QName;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
@@ -324,9 +325,15 @@ public class CMCommentController extends KsUifControllerBase {
             throw new RuntimeException("Error retrieving comment(s) for the proposal [id=" + proposal.getId() + "]", e);
         }
 
-        if (comments != null) {
+        if (comments != null && !comments.isEmpty()) {
+            // build the list of decision rationale comment type keys from enum constant
+            HashSet<String> decisionRationaleTypeKeys = new HashSet<>();
+            for(CommentServiceConstants.WORKFLOW_DECISIONS workflowDecision : CommentServiceConstants.WORKFLOW_DECISIONS.values()){
+                decisionRationaleTypeKeys.add(workflowDecision.getType());
+            }
             for (CommentInfo comment : comments) {
-                if (StringUtils.startsWith(comment.getTypeKey(),CommentServiceConstants.COMMENT_WORKFLOW_TYPE_KEY_PREFIX)) {
+                // ignore any decision rationale comment types
+                if (decisionRationaleTypeKeys.contains(comment.getTypeKey())) {
                     continue;
                 }
                 CMCommentWrapper wrapper = new CMCommentWrapper();
