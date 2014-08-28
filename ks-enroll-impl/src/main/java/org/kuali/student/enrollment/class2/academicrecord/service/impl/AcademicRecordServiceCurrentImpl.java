@@ -78,9 +78,9 @@ public class AcademicRecordServiceCurrentImpl implements AcademicRecordService {
                 }
             }
         } catch (PermissionDeniedException e) {
-            throw new OperationFailedException();
+            throw new OperationFailedException(e);
         } catch (AssemblyException e) {
-            throw new OperationFailedException("AssemblyException : " + e.getMessage());
+            throw new OperationFailedException("AssemblyException : " + e.getMessage(), e);
         }
 
         return courseRecords;
@@ -103,9 +103,9 @@ public class AcademicRecordServiceCurrentImpl implements AcademicRecordService {
                 }
             }
         } catch (PermissionDeniedException e) {
-            throw new OperationFailedException();
+            throw new OperationFailedException(e);
         } catch (AssemblyException e) {
-            throw new OperationFailedException("AssemblyException : " + e.getMessage());
+            throw new OperationFailedException("AssemblyException : " + e.getMessage(), e);
         }
 
         return courseRecords;
@@ -121,7 +121,7 @@ public class AcademicRecordServiceCurrentImpl implements AcademicRecordService {
             List<CourseRegistrationInfo> regs = courseRegService.getCourseRegistrationsByStudent(personId, context);
             getCompletedCourseRecords(courseRecords, regs, context);
         } catch (PermissionDeniedException e) {
-            throw new OperationFailedException();
+            throw new OperationFailedException(e);
         }
 
         return courseRecords;
@@ -137,7 +137,7 @@ public class AcademicRecordServiceCurrentImpl implements AcademicRecordService {
             List<CourseRegistrationInfo> regs = courseRegService.getCourseRegistrationsByStudentAndTerm(personId, termId, context);
             getCompletedCourseRecords(courseRecords, regs, context);
         } catch (PermissionDeniedException e) {
-            throw new OperationFailedException();
+            throw new OperationFailedException(e);
         }
 
         return courseRecords;
@@ -240,7 +240,7 @@ public class AcademicRecordServiceCurrentImpl implements AcademicRecordService {
                 try {
                     courseRecord = courseRecordAssembler.assemble(reg, context);
                 } catch (AssemblyException e) {
-                    throw new OperationFailedException("AssemblyException : " + e.getMessage());
+                    throw new OperationFailedException("AssemblyException : " + e.getMessage(), e);
                 }
 
                 if (courseRecord != null) {
