@@ -64,14 +64,15 @@ angular.module('regCartApp')
             },
             templateUrl: 'dropMenu.html'
         };
-    })
+    });
 
-    /*
-    This directive binds and compiles an HTML element. It can be used as a
-    replacement for ng-bind-html when you need to include a custom element
-    (e.g. ng-click).
-     */
-    .directive('compile', function ($compile) {
+/*
+This directive binds and compiles an HTML element. It can be used as a
+replacement for ng-bind-html when you need to include a custom element
+(e.g. ng-click).
+ */
+angular.module('regCartApp')
+    .directive('compile', ['$compile', function ($compile) {
         return function(scope, element, attrs) {
             scope.$watch(
                 function(scope) {
@@ -83,9 +84,7 @@ angular.module('regCartApp')
                 }
             );
         };
-    })
-;
-
+    }]);
 
 
 

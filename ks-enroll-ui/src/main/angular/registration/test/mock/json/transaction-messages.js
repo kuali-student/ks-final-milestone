@@ -3,8 +3,8 @@
 angular.module('mockTransactionMessages', []).value('transactionMessages',
     [
         {
-            "messageKey":"kuali.lpr.trans.message.credit.load.exceeded",
-            "message":"Reached maximum credit limit"
+            "messageKey": "kuali.lpr.trans.message.credit.load.exceeded",
+            "message": "Exceeded maximum credit limit <strong ng-if='maxCredits'>({{maxCredits}} credits)</strong>"
         },
         {
             "messageKey":"kuali.lpr.trans.message.time.conflict",
@@ -35,16 +35,20 @@ angular.module('mockTransactionMessages', []).value('transactionMessages',
             "message":"Registration is not currently open"
         },
         {
-            "messageKey":"kuali.lpr.trans.message.course.grade.incomplete",
-            "message":"{{courseCode}} has already been taken. Cannot repeat a course with a mark of 'I'."
+            "messageKey": "kuali.lpr.trans.message.course.grade.incomplete",
+            "message": "{{courseCode}} has already been taken. Cannot repeat a course with a mark of 'I'."
+        },
+        {
+            "messageKey": "kuali.lpr.trans.message.course.already.registered",
+            "message": "You are already registered for this course."
         },
         {
             "messageKey": "kuali.lpr.trans.message.course.already.taken",
-            "message": "{{courseCode}} has already been taken {{attempts}}. This course cannot be repeated more than {{maxRepeats}}."
+            "message": "{{courseCode}} has already been taken {{attempts | multiplicativeAdverb : ' times'}}. This course cannot be repeated more than {{maxRepeats | multiplicativeAdverb : ' times'}}."
         },
         {
             "messageKey": "kuali.lpr.trans.message.repeatability.warning",
-            "message": "This will be your {{attempts}} attempt of {{courseCode}}. This course cannot be attempted more than {{maxRepeats}}."
+            "message": "This will be your {{attempts + 1 | ordinal}} attempt of {{courseCode}}. This course cannot be attempted more than {{maxRepeats | multiplicativeAdverb : ' times'}}."
         },
         {
             "messageKey":"kuali.lpr.trans.item.message.exception",

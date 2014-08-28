@@ -1,11 +1,13 @@
 'use strict';
 
-describe('Filter: FormatValidationMessage', function() {
+describe('Directive: ValidationMessage', function() {
 
     // load the module
     beforeEach(module('regCartApp', 'mockTransactionMessages'));
 
-    var _filter,
+    var $compile,
+        scope,
+        el,
         messages,
         VALIDATION_ERROR_TYPE,
         baseCourseId = 'BASE_COURSE_ID';
@@ -31,15 +33,23 @@ describe('Filter: FormatValidationMessage', function() {
     });
 
     // instantiate the filter
-    beforeEach(inject(function(formatValidationMessageFilter, _VALIDATION_ERROR_TYPE_, transactionMessages) {
-        _filter = formatValidationMessageFilter;
+    beforeEach(inject(function(_$compile_, _$rootScope_, _VALIDATION_ERROR_TYPE_, transactionMessages) {
+        $compile = _$compile_;
+        scope = _$rootScope_.$new();
         VALIDATION_ERROR_TYPE = _VALIDATION_ERROR_TYPE_;
         messages = transactionMessages;
     }));
 
 
-    function filter(data, course) {
-        return _filter(data, course);
+    function compile(data, course) {
+        scope.data = data;
+        scope.course = course || null;
+
+        // Compile the template and apply the scope
+        el = $compile('<validation-message message="data" course="course"></validation-message>')(scope);
+        scope.$digest();
+
+        return el.text();
     }
 
     function filterWithCourse(errorType, course) {
@@ -51,32 +61,32 @@ describe('Filter: FormatValidationMessage', function() {
             course.masterLprId = baseCourseId;
         }
 
-        return filterWithKey(errorType, course);
+        return compileWithKey(errorType, course);
     }
 
-    function filterWithKey(errorType, course) {
-        return filter({ messageKey: errorType }, course);
+    function compileWithKey(errorType, course) {
+        return compile({ messageKey: errorType }, course);
     }
 
 
     it('should handle garbage input elegantly', function() {
-        expect(filter()).toBe('');
-        expect(filter(false)).toBe('');
-        expect(filter(true)).toBe('');
-        expect(filter(true, 'string course???')).toBe('');
+        expect(compile()).toBe('');
+        expect(compile(false)).toBe('');
+        expect(compile(true)).toBe('');
+        expect(compile(true, 'string course???')).toBe('');
         expect(filterWithCourse(true)).toBe('');
-        expect(filter(['nonExistentMessageKey'])).toBe('');
-        expect(filter({messageKey: 'nonExistentMessageKey'})).toBe('');
+        expect(compile(['nonExistentMessageKey'])).toBe('');
+        expect(compile({messageKey: 'nonExistentMessageKey'})).toBe('');
     });
 
     it('should return a string message straight out', function() {
-        expect(filter('test message')).toBe('test message');
+        expect(compile('test message')).toBe('test message');
     });
 
 
     describe('parameterized messages', function() {
         it('should format the {{courseCode}} parameter in a message string correctly', function() {
-            expect(filter("Course {{courseCode}} Should Be 'code1'", { courseCode: 'code1' })).toContain('code1');
+            expect(compile("Course {{courseCode}} Should Be 'code1'", { courseCode: 'code1' })).toContain('code1');
         });
     });
 
@@ -89,17 +99,17 @@ describe('Filter: FormatValidationMessage', function() {
                 course = { courseCode: 'code1' };
 
             // Base case
-            expect(filter(data, course)).toContain('<strong>code1</strong> has already been taken');
+            expect(compile(data, course)).toContain('code1 has already been taken');
 
 
             // With parameters
             data.attempts = 2;
             data.maxRepeats = 2;
-            expect(filter(data, course)).toBe('<strong>code1</strong> has already been taken twice. This course cannot be repeated more than twice.');
+            expect(compile(data, course)).toBe('code1 has already been taken twice. This course cannot be repeated more than twice.');
 
             data.attempts = 3;
             data.maxRepeats = 3;
-            expect(filter(data, course)).toBe('<strong>code1</strong> has already been taken 3 times. This course cannot be repeated more than 3 times.');
+            expect(compile(data, course)).toBe('code1 has already been taken 3 times. This course cannot be repeated more than 3 times.');
         });
     });
 
@@ -112,17 +122,17 @@ describe('Filter: FormatValidationMessage', function() {
                 course = { courseCode: 'code1' };
 
             // Base case
-            expect(filter(data, course)).toContain('attempt of <strong>code1</strong>.');
+            expect(compile(data, course)).toContain('attempt of code1.');
 
 
             // With parameters
             data.attempts = 1;
             data.maxRepeats = 2;
-            expect(filter(data, course)).toBe('This will be your 2nd attempt of <strong>code1</strong>. This course cannot be attempted more than twice.');
+            expect(compile(data, course)).toBe('This will be your 2nd attempt of code1. This course cannot be attempted more than twice.');
 
             data.attempts = 2;
             data.maxRepeats = 3;
-            expect(filter(data, course)).toBe('This will be your 3rd attempt of <strong>code1</strong>. This course cannot be attempted more than 3 times.');
+            expect(compile(data, course)).toBe('This will be your 3rd attempt of code1. This course cannot be attempted more than 3 times.');
         });
     });
 
@@ -130,26 +140,26 @@ describe('Filter: FormatValidationMessage', function() {
     describe('max credits', function() {
         it('should format the message correctly', function() {
             // Base case
-            expect(filterWithKey(VALIDATION_ERROR_TYPE.maxCredits)).toBe('Reached maximum credit limit');
+            expect(compileWithKey(VALIDATION_ERROR_TYPE.maxCredits)).toContain('Exceeded maximum credit limit');
 
 
             // With maxCredits included
             var max = '20.5',
-                msg = filter({messageKey: VALIDATION_ERROR_TYPE.maxCredits, maxCredits: max});
+                msg = compile({messageKey: VALIDATION_ERROR_TYPE.maxCredits, maxCredits: max});
 
-            expect(msg).toContain('Reached maximum credit limit');
+            expect(msg).toContain('Exceeded maximum credit limit');
             expect(msg).toContain(max + ' credits');
         });
 
         it('should handle a null course', function() {
-            expect(filterWithKey(VALIDATION_ERROR_TYPE.maxCredits)).toBe('Reached maximum credit limit');
+            expect(compileWithKey(VALIDATION_ERROR_TYPE.maxCredits)).toContain('Exceeded maximum credit limit');
         });
     });
 
 
     describe('time conflict', function() {
         it('should return the correct message for garbage data', function() {
-            expect(filterWithKey(VALIDATION_ERROR_TYPE.timeConflict)).toBe('Time conflict');
+            expect(compileWithKey(VALIDATION_ERROR_TYPE.timeConflict)).toBe('Time conflict');
             expect(filterWithCourse(VALIDATION_ERROR_TYPE.timeConflict, {})).toBe('Time conflict');
             expect(filterWithCourse(VALIDATION_ERROR_TYPE.timeConflict, {conflictingCourses: []})).toBe('Time conflict');
         });
@@ -162,23 +172,23 @@ describe('Filter: FormatValidationMessage', function() {
             };
 
             // Base case
-            expect(filter(data, {})).toBe('Time conflict (<strong>code1</strong>)');
+            expect(compile(data, {})).toBe('Time conflict (code1)');
 
             // Malformed conflictingCourses array
             data.conflictingCourses = {};
-            expect(filter(data, {})).toBe('Time conflict (<strong>code1</strong>)');
+            expect(compile(data, {})).toBe('Time conflict (code1)');
 
             // Existing but empty conflictingCourses array
             data.conflictingCourses = [];
-            expect(filter(data, {})).toBe('Time conflict (<strong>code1</strong>)');
+            expect(compile(data, {})).toBe('Time conflict (code1)');
 
             // Populated conflicting items array
             data.conflictingCourses.push({courseCode: 'code2'});
-            expect(filter(data, {})).toBe('Time conflict (<strong>code1</strong>, <strong>code2</strong>)');
+            expect(compile(data, {})).toBe('Time conflict (code1, code2)');
 
             // Duplicate item in conflictingCourses array
             data.conflictingCourses.push({courseCode: 'code1', masterLprId: 'id1'});
-            expect(filter(data, {})).toBe('Time conflict (<strong>code1</strong>, <strong>code2</strong>)');
+            expect(compile(data, {})).toBe('Time conflict (code1, code2)');
         });
 
         it('should not show a conflicting courseCode that matches the current course', function() {
@@ -192,7 +202,7 @@ describe('Filter: FormatValidationMessage', function() {
                     masterLprId: baseCourseId
                 };
 
-            expect(filter(data, course)).toBe('Time conflict');
+            expect(compile(data, course)).toBe('Time conflict');
         });
 
         it('should handle an array of conflictingCourses', function() {
@@ -204,15 +214,15 @@ describe('Filter: FormatValidationMessage', function() {
             };
 
             // Single item base case
-            expect(filter(data, {})).toBe('Time conflict (<strong>code1</strong>)');
+            expect(compile(data, {})).toBe('Time conflict (code1)');
 
             // Multiple items
             data.conflictingCourses.push({courseCode: 'code2', masterLprId: 'id2'});
-            expect(filter(data, {})).toBe('Time conflict (<strong>code1</strong>, <strong>code2</strong>)');
+            expect(compile(data, {})).toBe('Time conflict (code1, code2)');
 
             // Duplicate item in conflictingCourses
             data.conflictingCourses.push({courseCode: 'code1', masterLprId: 'id1'});
-            expect(filter(data, {})).toBe('Time conflict (<strong>code1</strong>, <strong>code2</strong>)');
+            expect(compile(data, {})).toBe('Time conflict (code1, code2)');
         });
 
         it('should not show the course code in a conflictingItem that matches the current course', function() {
@@ -228,11 +238,11 @@ describe('Filter: FormatValidationMessage', function() {
                 };
 
             // Single item base case
-            expect(filter(data, course)).toBe('Time conflict (<strong>code1</strong>)');
+            expect(compile(data, course)).toBe('Time conflict (code1)');
 
             // Multiple items
             data.conflictingCourses.push({courseCode: 'BASE_COURSE_CODE', masterLprId: baseCourseId});
-            expect(filter(data, course)).toBe('Time conflict (<strong>code1</strong>)');
+            expect(compile(data, course)).toBe('Time conflict (code1)');
         });
     });
 
