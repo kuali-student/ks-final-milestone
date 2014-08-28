@@ -19,6 +19,7 @@ public class KimPermissionConstants {
      */
     public static final String DEFAULT_KIM_TYPE_ID = "0";
     public static final String KRAD_VIEW_KIM_TYPE_ID = "68";
+    public static final String DEFAULT_KUALI_KIM_TYPE_ID = "1";
     
     /**
      * Namespaces
