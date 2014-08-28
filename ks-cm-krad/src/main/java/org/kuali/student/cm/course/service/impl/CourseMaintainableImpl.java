@@ -18,6 +18,7 @@ package org.kuali.student.cm.course.service.impl;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.time.DateFormatUtils;
 import org.joda.time.DateTime;
 import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
@@ -116,6 +117,7 @@ import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.util.AttributeHelper;
 import org.kuali.student.r2.common.util.constants.LearningObjectiveServiceConstants;
+import org.kuali.student.r2.common.util.date.DateFormatters;
 import org.kuali.student.r2.core.atp.dto.AtpInfo;
 import org.kuali.student.r2.core.atp.service.AtpService;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
@@ -1860,6 +1862,7 @@ public class CourseMaintainableImpl extends RuleEditorMaintainableImpl implement
                 format.getActivities().clear();
                 format.setActivities(activities);
                 courseInfoWrapper.getCourseInfo().getFormats().add(format);
+
             }
         }
     }

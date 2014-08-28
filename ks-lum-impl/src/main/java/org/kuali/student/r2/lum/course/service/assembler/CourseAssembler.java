@@ -259,22 +259,7 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
                             null, false,contextInfo);
                     course.getFormats().add(formatInfo);
                 }
-                Collections.sort(course.getFormats(), new Comparator<FormatInfo>() {
-                    @Override
-                    public int compare(FormatInfo f1, FormatInfo f2) {
-                        // Gracefully handle nulls, if any
-                        if (f1 == f2) {
-                            return 0;
-                        }
-                        if ((f1 == null) || (f1.getMeta() == null) || (f1.getMeta().getCreateTime() == null)) {
-                            return -1;
-                        }
-                        if ((f2 == null) || (f2.getMeta() == null) || (f2.getMeta().getCreateTime() == null)) {
-                            return 1;
-                        }
-                        return f1.getMeta().getCreateTime().compareTo(f2.getMeta().getCreateTime());
-                    }
-                });
+
             } catch (DoesNotExistException e) {
             } catch (Exception e) {
                 throw new AssemblyException("Error getting related formats", e);
