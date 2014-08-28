@@ -59,7 +59,7 @@ public class ElasticEmbedded {
     }
 
     private DateTime lastUpdated; //Keep track of timeout for the elastic "cache"
-    private long timeToRefreshMs = (5 * 60 * 1000); //Max time before refreshing the cache/reindexing
+    private long timeToRefreshMs = (30 * 60 * 1000); //Max time before refreshing the cache/reindexing
     private final static int PARTITION_SIZE = 10000; // for large data sets we should partition
 
     /**
