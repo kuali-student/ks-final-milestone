@@ -60,7 +60,7 @@
                 display: block;
             }
         }
-        .kscr-Responsive-schedule {
+        .kscr-Responsive-scheduleTab {
             display: none;
             &--selected {
                 display: block;
@@ -68,6 +68,10 @@
         }
         .kscr-Card {
             margin-top: 0.5rem;
+        }
+        .kscr-Card,
+        .kscr-Splash { // Clear out the float from the toggles after the heading when viewing the list
+            clear: both;
         }
     }
     .kscr-Responsive-searchFormWrapper {

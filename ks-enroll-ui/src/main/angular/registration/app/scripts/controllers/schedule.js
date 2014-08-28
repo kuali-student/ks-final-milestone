@@ -54,12 +54,7 @@ angular.module('regCartApp')
                 angular.forEach(course.schedule, function(schedule) {
                     if (!showGrid) {
                         var locationTime = schedule.activityOfferingLocationTime;
-                        for (var i = 0; i < locationTime.length; i++) {
-                            if (!locationTime[i].isTBA) {
-                                showGrid = true;
-                                break;
-                            }
-                        }
+                        showGrid = !locationTime.isTBA;
                     }
                 });
             });
