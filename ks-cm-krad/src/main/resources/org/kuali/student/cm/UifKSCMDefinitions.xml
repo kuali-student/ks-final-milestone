@@ -344,7 +344,7 @@
 
     <bean id="CM-ExportAction" parent="CM-ExportAction-parent"/>
     <bean id="CM-ExportAction-parent" parent="Uif-KS-NavigationActionLink-parentBean" abstract="true"
-          p:actionScript="openPopupContent(e,'CM-Export-ActionLinks',{position:'top',align:'left'});" p:title="Export">
+          p:actionScript="openPopupContent(e,'CM-Export-ActionLinks',{position:'top',align:'center',tail: { hidden: true }});" p:title="Export">
         <property name="actionImage">
             <bean parent="Uif-Image" p:altText="Export" p:cssClasses="ks-fontello-icon-export" p:title="Export"/>
         </property>
