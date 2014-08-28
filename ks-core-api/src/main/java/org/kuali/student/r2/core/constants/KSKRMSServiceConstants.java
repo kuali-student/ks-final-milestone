@@ -277,8 +277,7 @@ public class KSKRMSServiceConstants {
     public static final String TERM_RESOLVER_STUDENT_WITH_GRADE_FOR_COURSE= "GradeForCourse";
     public static final String TERM_RESOLVER_COURSE_COMPLETED_ATTEMPTS = "CourseCompletedAttempts";
     public static final String TERM_RESOLVER_COURSE_REGISTERED_COUNT = "CourseRegisteredCount";
-    public static final String TERM_RESOLVER_COURSE_TOTAL_ATTEMPTS = "CourseTotalAttempts";
-    public static final String TERM_RESOLVER_GES_MAX_REPEATABILITY = "GesMaxRepeatability";
+    public static final String TERM_RESOLVER_COURSE_REPEATABILITY = "CourseRepeatability";
 
     // natural language usage keys
     public static final String KRMS_NL_RULE_EDIT = "kuali.krms.edit";
