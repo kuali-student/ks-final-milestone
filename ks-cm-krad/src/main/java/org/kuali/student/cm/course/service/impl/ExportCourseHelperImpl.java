@@ -232,6 +232,9 @@ public class ExportCourseHelperImpl implements ExportCourseHelper {
         ExportElement exportCourseNumber = populateExportElement(CurriculumManagementConstants.ProposalViewFieldLabels.CourseInformation.COURSE_NUMBER, courseNumber , CurriculumManagementConstants.ProposalViewFieldLabels.CourseInformation.SECTION_NAME, -1);
         exportElements.add(exportCourseNumber);
 
+        populateCrossListCourses(exportElements,courseInfoWrapper);
+        populateJointlyOfferedCourses(exportElements,courseInfoWrapper);
+        populateVersionCodes(exportElements,courseInfoWrapper);
 
         String instructors = "";
         for(CluInstructorInfo instructor : courseInfoWrapper.getInstructorWrappers()){
@@ -239,10 +242,6 @@ public class ExportCourseHelperImpl implements ExportCourseHelper {
                 instructors = instructors +  ((CluInstructorInfoWrapper)instructor).getDisplayName() + ";";
             }
         }
-
-        populateCrossListCourses(exportElements,courseInfoWrapper);
-        populateJointlyOfferedCourses(exportElements,courseInfoWrapper);
-        populateVersionCodes(exportElements,courseInfoWrapper);
 
         ExportElement exportInstructors = populateExportElement(CurriculumManagementConstants.ProposalViewFieldLabels.CourseInformation.INSTRUCTOR, instructors , CurriculumManagementConstants.ProposalViewFieldLabels.CourseInformation.SECTION_NAME, -1);
         exportElements.add(exportInstructors);
@@ -304,7 +303,9 @@ public class ExportCourseHelperImpl implements ExportCourseHelper {
 
         String termOffered = "";
         for(String term :courseInfoWrapper.getCourseInfo().getTermsOffered()){
-            termOffered = termOffered + term + ";";
+            if(term != null) {
+                termOffered = termOffered + (term.substring(term.lastIndexOf(".")+1)) + ";";
+            }
         }
         ExportElement exportTermOffered = populateExportElement(CurriculumManagementConstants.ProposalViewFieldLabels.CourseLogistics.TERM, termOffered , CurriculumManagementConstants.ProposalViewFieldLabels.CourseLogistics.SECTION_NAME,-1 );
         exportElements.add(exportTermOffered);
@@ -315,7 +316,10 @@ public class ExportCourseHelperImpl implements ExportCourseHelper {
             if(courseInfoWrapper.getCourseInfo().getDuration().getTimeQuantity() != null){
                 durationCount = courseInfoWrapper.getCourseInfo().getDuration().getTimeQuantity().toString();
             }
-            durationType = courseInfoWrapper.getCourseInfo().getDuration().getAtpDurationTypeKey();
+            if( courseInfoWrapper.getCourseInfo().getDuration().getAtpDurationTypeKey() != null){
+                durationType = courseInfoWrapper.getCourseInfo().getDuration().getAtpDurationTypeKey();
+                durationType = durationType.substring(durationType.lastIndexOf(".")+1);
+            }
         }
         ExportElement exportDuration = populateExportElement(CurriculumManagementConstants.ProposalViewFieldLabels.CourseLogistics.DURATION_COUNT,durationCount, CurriculumManagementConstants.ProposalViewFieldLabels.CourseLogistics.SECTION_NAME,-1 );
         exportElements.add(exportDuration);
@@ -325,7 +329,7 @@ public class ExportCourseHelperImpl implements ExportCourseHelper {
 
         String assessmentScale = "";
         for(String gradingOption :courseInfoWrapper.getReviewProposalDisplay().getCourseLogisticsSection().getGradingOptions()){
-            assessmentScale = assessmentScale +  gradingOption + ";";
+            assessmentScale = assessmentScale +  ((gradingOption.substring(gradingOption.lastIndexOf(".")+1))) + ";";
         }
         ExportElement exportAssessmentScale = populateExportElement(CurriculumManagementConstants.ProposalViewFieldLabels.CourseLogistics.ASSESSMENT_SCALE, assessmentScale, CurriculumManagementConstants.ProposalViewFieldLabels.CourseLogistics.SECTION_NAME,-1 );
         exportElements.add(exportAssessmentScale);
@@ -376,6 +380,7 @@ public class ExportCourseHelperImpl implements ExportCourseHelper {
                if (activityInfo.getDuration() != null) {
                    if(StringUtils.isNotBlank(activityInfo.getDuration().getAtpDurationTypeKey())){
                        activityDurationType =   activityInfo.getDuration().getAtpDurationTypeKey();
+                       activityDurationType = activityDurationType.substring(activityDurationType.lastIndexOf(".")+1);
                    }
 
                    if(activityInfo.getDuration().getTimeQuantity() != null){
@@ -558,7 +563,7 @@ public class ExportCourseHelperImpl implements ExportCourseHelper {
         for (CourseCrossListingInfo crossListing : courseInfoWrapper.getCourseInfo().getCrossListings()) {
 
             if (StringUtils.isNotBlank(crossListing.getCourseNumberSuffix()) && StringUtils.isNotBlank(crossListing.getSubjectArea())) {
-                crossListedCourses = crossListedCourses + crossListing.getCourseNumberSuffix() + crossListing.getSubjectArea() + ";";
+                crossListedCourses = crossListedCourses + crossListing.getSubjectArea() + crossListing.getCourseNumberSuffix() +  ";";
             }
         }
         exportElements.add(populateExportElement(CurriculumManagementConstants.ProposalViewFieldLabels.CourseInformation.CROSS_LISTED_COURSES, crossListedCourses , CurriculumManagementConstants.ProposalViewFieldLabels.CourseInformation.SECTION_NAME, -1));
@@ -570,7 +575,7 @@ public class ExportCourseHelperImpl implements ExportCourseHelper {
         for (CourseJointInfo courseJointInfo : courseInfoWrapper.getCourseInfo().getJoints()) {
 
             if (StringUtils.isNotBlank(courseJointInfo.getCourseNumberSuffix()) && StringUtils.isNotBlank(courseJointInfo.getSubjectArea())) {
-                jointlyOfferedCourses = jointlyOfferedCourses + courseJointInfo.getCourseNumberSuffix() + courseJointInfo.getSubjectArea() + ";";
+                jointlyOfferedCourses = jointlyOfferedCourses + courseJointInfo.getSubjectArea() + courseJointInfo.getCourseNumberSuffix()  + ";";
             }
         }
         exportElements.add(populateExportElement(CurriculumManagementConstants.ProposalViewFieldLabels.CourseInformation.JOINTLY_OFFERED_COURSES, jointlyOfferedCourses , CurriculumManagementConstants.ProposalViewFieldLabels.CourseInformation.SECTION_NAME, -1));
@@ -582,7 +587,7 @@ public class ExportCourseHelperImpl implements ExportCourseHelper {
         for (CourseVariationInfo courseVariationInfo : courseInfoWrapper.getCourseInfo().getVariations()) {
 
             if (StringUtils.isNotBlank(courseVariationInfo.getCourseNumberSuffix()) && StringUtils.isNotBlank(courseVariationInfo.getSubjectArea())) {
-                versionCodes = versionCodes + courseVariationInfo.getCourseNumberSuffix() + courseVariationInfo.getSubjectArea() + ";";
+                versionCodes = versionCodes + courseVariationInfo.getSubjectArea() + courseVariationInfo.getCourseNumberSuffix() +  ";";
             }
         }
         exportElements.add(populateExportElement(CurriculumManagementConstants.ProposalViewFieldLabels.CourseInformation.VERSION_CODES, versionCodes , CurriculumManagementConstants.ProposalViewFieldLabels.CourseInformation.SECTION_NAME, -1));
