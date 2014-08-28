@@ -517,6 +517,7 @@ public class CourseWaitListServiceImpl implements CourseWaitListService {
         courseRegistration.setCourseOfferingId(courseOfferingId);
         courseRegistration.setPersonId(rgLpr.getPersonId());
         courseRegistration.setTermId(rgLpr.getAtpId());
+        courseRegistration.setCrossList(rgLpr.getCrossList());
         courseRegistration.setAttributes(rgLpr.getAttributes());
         courseRegistration.setMeta(rgLpr.getMeta());
         courseRegistration.setEffectiveDate(rgLpr.getEffectiveDate());

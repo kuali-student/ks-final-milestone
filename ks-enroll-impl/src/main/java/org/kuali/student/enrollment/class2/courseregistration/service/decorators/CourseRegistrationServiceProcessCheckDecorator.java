@@ -222,6 +222,7 @@ public class CourseRegistrationServiceProcessCheckDecorator
         courseRegistrationInfo.setStateKey(LprServiceConstants.ACTIVE_STATE_KEY);
         courseRegistrationInfo.setPersonId(requestItem.getPersonId());
         courseRegistrationInfo.setCredits(requestItem.getCredits());
+        courseRegistrationInfo.setCrossList(requestItem.getCrossList());
         courseRegistrationInfo.setCourseOfferingId(registrationGroupInfo.getCourseOfferingId());
         courseRegistrationInfo.setPersonId(requestItem.getPersonId());
         courseRegistrationInfo.setTermId(registrationGroupInfo.getTermId());

@@ -17,6 +17,7 @@
 package org.kuali.student.enrollment.krms.proposition;
 
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krms.api.engine.ExecutionEnvironment;
 import org.kuali.rice.krms.api.engine.ResultEvent;
@@ -189,12 +190,12 @@ public class BestEffortTimeConflictProposition extends AbstractBestEffortProposi
                         } catch (Exception ex) {
                             return KRMSEvaluator.constructExceptionPropositionResult(environment, ex, this);
                         }
-                    }else {
+                    } else {
                         // In this case the conflicting ID == the Reg Req Id. So we need to get the reg group id
                         // for that reg req id.
                         try {
-                            String regGroupIdOfConflictingReq = findRegReqItemById(conflictingId, request.getRegistrationRequestItems()).getRegistrationGroupId();
-                            conflictCourseResult = buildConflictCourseResultForRegGroup(regGroupIdOfConflictingReq, getCourseOfferingService(), contextInfo);
+                            RegistrationRequestItemInfo regRequestItem = findRegReqItemById(conflictingId, request.getRegistrationRequestItems());
+                            conflictCourseResult = buildConflictCourseResultForRegGroup(regRequestItem, getCourseOfferingService(), contextInfo);
                             conflictCourseResult.setMasterLprId(conflictingId);   // this is incorrect. this is a reg req id, not master.
                         } catch (Exception ex) {
                             return KRMSEvaluator.constructExceptionPropositionResult(environment, ex, this);
@@ -240,7 +241,7 @@ public class BestEffortTimeConflictProposition extends AbstractBestEffortProposi
     /**
      * The validation results require a ConflictCourseResult. This method takes a reg group id and creates a
      * ConflictCourseResult object.
-     * @param rgId    registration group id of the reg request item
+     * @param item    registration request item we need to get reg group id and crossList code
      * @param coService  course offering service
      * @param contextInfo
      * @return
@@ -250,17 +251,21 @@ public class BestEffortTimeConflictProposition extends AbstractBestEffortProposi
      * @throws OperationFailedException
      * @throws DoesNotExistException
      */
-    private ConflictCourseResult buildConflictCourseResultForRegGroup(String rgId, CourseOfferingService coService, ContextInfo contextInfo) throws PermissionDeniedException, MissingParameterException, InvalidParameterException, OperationFailedException, DoesNotExistException {
-        RegistrationGroupInfo registrationGroupInfo = coService.getRegistrationGroup(rgId, contextInfo);
+    private ConflictCourseResult buildConflictCourseResultForRegGroup(RegistrationRequestItemInfo item, CourseOfferingService coService, ContextInfo contextInfo) throws PermissionDeniedException, MissingParameterException, InvalidParameterException, OperationFailedException, DoesNotExistException {
+        RegistrationGroupInfo registrationGroupInfo = coService.getRegistrationGroup(item.getRegistrationGroupId(), contextInfo);
         CourseOfferingInfo courseofferingInfo = coService.getCourseOffering(registrationGroupInfo.getCourseOfferingId(), contextInfo);
 
         ConflictCourseResult conflictCourseResult = new ConflictCourseResult();
 
-        conflictCourseResult.setCourseCode(courseofferingInfo.getCourseOfferingCode());
+        // checking if we are dealing with real course vs alias (cross-listed)
+        if (item.getCrossList() != null && !StringUtils.equals(item.getCrossList(), courseofferingInfo.getCourseOfferingCode())) {
+            conflictCourseResult.setCourseCode(item.getCrossList());
+        } else {
+            conflictCourseResult.setCourseCode(courseofferingInfo.getCourseOfferingCode());
+        }
         conflictCourseResult.setLongName(courseofferingInfo.getCourseOfferingTitle());
         conflictCourseResult.setRegGroupCode(registrationGroupInfo.getName());
         return conflictCourseResult;
-
     }
 
     /**
@@ -282,7 +287,12 @@ public class BestEffortTimeConflictProposition extends AbstractBestEffortProposi
 
         ConflictCourseResult conflictCourseResult = new ConflictCourseResult();
         conflictCourseResult.setMasterLprId(courseRegistrationInfo.getId());
-        conflictCourseResult.setCourseCode(courseofferingInfo.getCourseOfferingCode());
+        // checking if we are dealing with real course vs alias (cross-listed)
+        if (courseRegistrationInfo.getCrossList() != null && !StringUtils.equals(courseRegistrationInfo.getCrossList(), courseofferingInfo.getCourseOfferingCode())) {
+            conflictCourseResult.setCourseCode(courseRegistrationInfo.getCrossList());
+        } else {
+            conflictCourseResult.setCourseCode(courseofferingInfo.getCourseOfferingCode());
+        }
         conflictCourseResult.setLongName(courseofferingInfo.getCourseOfferingTitle());
         conflictCourseResult.setRegGroupCode(registrationGroupInfo.getName());
         return conflictCourseResult;
