@@ -41,8 +41,9 @@ import java.util.List;
         "courseOfferingId", 
         "registrationGroupId", 
         "credits", 
-        "gradingOptionId", 
-        "effectiveDate", 
+        "gradingOptionId",
+        "crossList",
+        "effectiveDate",
         "expirationDate", 
         "meta", 
         "attributes", 
@@ -73,6 +74,9 @@ public class CourseRegistrationInfo
     @XmlElement
     private String gradingOptionId;
 
+    @XmlElement
+    private String crossList;
+
     @XmlAnyElement
     private List<Element> _futureElements;
 
@@ -99,6 +103,7 @@ public class CourseRegistrationInfo
             this.registrationGroupId = courseRegistration.getRegistrationGroupId();
             this.credits = new KualiDecimal(courseRegistration.getCredits().bigDecimalValue());
             this.gradingOptionId = courseRegistration.getGradingOptionId();
+            this.crossList = courseRegistration.getCrossList();
          }
     }
 
@@ -120,8 +125,6 @@ public class CourseRegistrationInfo
         this.termId = termId;
     }
 
-    
-    
     @Override
     public String getCourseOfferingId() {
         return courseOfferingId;
@@ -157,4 +160,9 @@ public class CourseRegistrationInfo
     public void setGradingOptionId(String gradingOptionId) {
         this.gradingOptionId = gradingOptionId;
     }
+
+    @Override
+    public String getCrossList() { return crossList; }
+
+    public void setCrossList(String crossList) { this.crossList = crossList; }
 }

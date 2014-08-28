@@ -104,4 +104,15 @@ public interface CourseRegistration
      *       for grading system options
      */
     public String getGradingOptionId();
+
+    /**
+     * The code of the crosslisted course.
+     *
+     * For example if ENGL255 is actual course crosslisted with WMST255,
+     * when WMST255 is added id will be the one of ENGL255, and code
+     * WMST255 will be saved in crossList field (for displaying purpose)
+     *
+     * @name crossList
+     */
+    public String getCrossList();
 }
