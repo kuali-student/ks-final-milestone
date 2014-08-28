@@ -18,6 +18,7 @@ import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingCon
 import org.kuali.student.enrollment.class2.registration.admin.util.AdminRegResourceLoader;
 import org.kuali.student.r2.common.datadictionary.DataDictionaryValidator;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
@@ -41,6 +42,13 @@ public class HoldIssueRule extends KsMaintenanceDocumentRuleBase {
         HoldIssueInfo holdIssue = holdWrapper.getHoldIssue();
         if (StringUtils.isBlank(holdIssue.getStateKey())) {
             holdIssue.setStateKey(HoldServiceConstants.ISSUE_ACTIVE_STATE_KEY);
+        }
+
+        if(holdIssue.getDescr() != null){
+            holdIssue.getDescr().setPlain(holdWrapper.getDescr());
+        } else{
+            holdIssue.setDescr(new RichTextInfo());
+            holdIssue.getDescr().setPlain(holdWrapper.getDescr());
         }
 
         holdIssue.setIsHoldIssueTermBased(holdWrapper.getTermBased());
