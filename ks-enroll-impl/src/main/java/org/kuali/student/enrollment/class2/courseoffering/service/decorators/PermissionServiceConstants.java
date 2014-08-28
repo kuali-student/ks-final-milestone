@@ -29,6 +29,7 @@ public class PermissionServiceConstants {
     public static final String KR_RULE_TEST_NAMESPACE = "KR-RULE-TEST";
     public static final String KR_SYS_NAMESPACE = "KR-SYS";
     public static final String KR_WORKFLOW_NAMESPACE = "KR-WKFLW";
+    public static final String KS_HLD_NAMESPACE = "KS-HLD";
     
     
     /**
