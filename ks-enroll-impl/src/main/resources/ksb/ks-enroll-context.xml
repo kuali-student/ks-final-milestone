@@ -1852,9 +1852,6 @@
         <property name="krmsEvaluator" ref="krmsEvaluator"/>
         <property name="waitlistService" ref="courseWaitListServiceImpl"/>
         <property name="courseOfferingService" ref="CourseOfferingService"/>
-        <property name="gesService" ref="GesService"/>
-        <property name="academicRecordService" ref="academicRecordService" />
-        <property name="cluService" ref="CluService" />
     </bean>
 
 
@@ -1905,8 +1902,12 @@
                 <bean class="org.kuali.student.enrollment.krms.termresolver.RegistrationRequestId2RegistrationRequestTermResolver" />
                 <bean class="org.kuali.student.core.krms.termresolver.AtpId2AtpTermResolver" />
                 <bean class="org.kuali.student.enrollment.class2.courseoffering.krms.termresolver.StudentWithGradeForCourseTermResolver" />
+                <bean class="org.kuali.student.enrollment.class2.courseoffering.krms.termresolver.CourseTotalAttemptsTermResolver" />
                 <bean class="org.kuali.student.enrollment.class2.courseoffering.krms.termresolver.CourseRecordForStudentTermResolver">
                     <property name="academicRecordService" ref="academicRecordService"/>
+                </bean>
+                <bean class="org.kuali.student.enrollment.class2.courseoffering.krms.termresolver.MaxRepeatabilityTermResolver">
+                    <property name="gesService" ref="GesService"/>
                 </bean>
                 <bean class="org.kuali.student.enrollment.class2.courseoffering.krms.termresolver.GesMaxRepeatabilityTermResolver" />
                 <bean class="org.kuali.student.enrollment.class2.courseoffering.krms.termresolver.CourseRegistrationKeyDateTermResolver">

@@ -12,8 +12,10 @@
  * or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  *
- * This class is a term resolver for retrieving a value from the GES
- * service.
+ * This class is a term resolver for checking the total course attempts against
+ * the max repeatability rules for that course.
+ *
+ * Returns a string indicating error, warning, or success
  *
  * Created by Paul Richardson on 8/19/14
  */
@@ -22,27 +24,21 @@ package org.kuali.student.enrollment.class2.courseoffering.krms.termresolver;
 import org.kuali.rice.krms.api.engine.TermResolutionException;
 import org.kuali.rice.krms.api.engine.TermResolver;
 import org.kuali.student.common.util.krms.RulesExecutionConstants;
-import org.kuali.student.core.constants.GesServiceConstants;
-import org.kuali.student.core.ges.dto.GesCriteriaInfo;
-import org.kuali.student.core.ges.dto.ValueInfo;
-import org.kuali.student.core.ges.service.GesService;
-import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.krms.util.KSKRMSExecutionUtil;
 import org.kuali.student.r2.core.constants.KSKRMSServiceConstants;
 
 import java.util.Collections;
-import java.util.Date;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
 /**
- * Return an integer value from the GES service based on:
- * -- A GES parameter (parm)
- * -- The context info (prereq)
- * -- The person id (prereq)
- * -- The atp id (prereq)
- * -- The effective date (prereq)
+ * Returns String based on:
+ * -- total times the course has been attempted (prereq)
+ * -- max repeatability for this course (prereq)
+ *
+ * If total attempts >= max repeats, return an error string
+ * If total attempts < max repeats and total attempts >= (max repeats - 1), return a warning string
+ * Otherwise return a success string
  *
  * @author Kuali Student Team
  */
@@ -51,8 +47,6 @@ public class GesMaxRepeatabilityTermResolver implements TermResolver<String> {
     public final static String MAX_REPEATABILITY_ERROR = "kuali.max.repeatability.error";
     public final static String MAX_REPEATABILITY_WARNING = "kuali.max.repeatability.warning";
     public final static String MAX_REPEATABILITY_SUCCESS = "kuali.max.repeatability.success";
-
-    private GesService gesService;
 
     @Override
     public String getOutput() {
@@ -95,9 +89,5 @@ public class GesMaxRepeatabilityTermResolver implements TermResolver<String> {
         }
 
         return errorLevel;
-    }
-
-    public void setGesService(GesService gesService) {
-        this.gesService = gesService;
     }
 }

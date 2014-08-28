@@ -1072,7 +1072,6 @@ public class TestTermResolvers {
     public void testGesMaxRepeatabilityTermResolver() throws Exception {
         //Setup the term resolver
         GesMaxRepeatabilityTermResolver termResolver = new GesMaxRepeatabilityTermResolver();
-        termResolver.setGesService(gesService);
 
         //Setup prerequisites
         resolvedPrereqs.put(RulesExecutionConstants.CONTEXT_INFO_TERM.getName(), contextInfo);

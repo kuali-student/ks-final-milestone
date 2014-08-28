@@ -12,7 +12,7 @@
  * or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  *
- * This class is a term resolver for retrieving a value from the GES
+ * This class is a term resolver for retrieving max repeatability from the GES
  * service.
  *
  * Created by Paul Richardson on 8/19/14
@@ -28,7 +28,6 @@ import org.kuali.student.core.ges.dto.ValueInfo;
 import org.kuali.student.core.ges.service.GesService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.krms.util.KSKRMSExecutionUtil;
-import org.kuali.student.r2.core.constants.KSKRMSServiceConstants;
 
 import java.util.Collections;
 import java.util.Date;
