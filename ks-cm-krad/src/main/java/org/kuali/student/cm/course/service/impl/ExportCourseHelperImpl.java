@@ -491,18 +491,26 @@ public class ExportCourseHelperImpl implements ExportCourseHelper {
                                 exportNaturalLanguage = populateExportElement(null, naturalLanguage, CurriculumManagementConstants.ProposalViewFieldLabels.CourseRequisites.SECTION_NAME , -1 );
                                 exportElements.add(exportNaturalLanguage);
                                 for(PropositionEditor luPropositionEditor : (((PropositionEditor) (ruleEditor.getProposition())).getCompoundEditors())) {
-                                    Iterator compoundEditorsNaturalLanguage = luPropositionEditor.getNaturalLanguage().entrySet().iterator();
-                                    while(compoundEditorsNaturalLanguage.hasNext()) {
-                                        String ceNaturalLanguage = (String)((Map.Entry)compoundEditorsNaturalLanguage.next()).getValue();
-                                        ExportElement exportCENaturalLanguage = populateExportElement(null, ceNaturalLanguage, CurriculumManagementConstants.ProposalViewFieldLabels.CourseRequisites.SECTION_NAME , -1 );
-                                        exportElements.add(exportCENaturalLanguage);
-                                    }
+                                    populateEachRule(exportElements, luPropositionEditor);
                                 }
                             }
                         }
                     }
                 }
             }
+        }
+    }
+
+
+    protected  void populateEachRule(List<ExportElement> exportElements, PropositionEditor luPropositionEditor) {
+        Iterator compoundEditorsNaturalLanguage = luPropositionEditor.getNaturalLanguage().entrySet().iterator();
+        while(compoundEditorsNaturalLanguage.hasNext()) {
+            String ceNaturalLanguage = (String)((Map.Entry)compoundEditorsNaturalLanguage.next()).getValue();
+            ExportElement exportCENaturalLanguage = populateExportElement(null, ceNaturalLanguage, CurriculumManagementConstants.ProposalViewFieldLabels.CourseRequisites.SECTION_NAME , -1 );
+            exportElements.add(exportCENaturalLanguage);
+        }
+        for(PropositionEditor subLUPropositionEditor : luPropositionEditor.getCompoundEditors()) {
+            populateEachRule(exportElements,subLUPropositionEditor) ;
         }
     }
 
