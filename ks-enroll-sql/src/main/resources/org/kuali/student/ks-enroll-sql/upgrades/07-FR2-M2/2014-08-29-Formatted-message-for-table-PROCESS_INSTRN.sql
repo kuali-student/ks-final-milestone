@@ -25,7 +25,6 @@ update KSEN_PROCESS_INSTRN proc
  where proc.check_id = 'kuali.process.check.is.not.expelled'
    and proc.process_id = 'kuali.process.process.registration.eligibility'
 /
-
 update KSEN_PROCESS_INSTRN proc
    set proc.mesg_formatted = '"messageKey":"kuali.lpr.trans.message.registration.time.conflict"'
  where proc.check_id = 'kuali.check.best.effort.time.conflict'
