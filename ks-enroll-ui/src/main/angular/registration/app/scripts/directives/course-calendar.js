@@ -492,7 +492,7 @@ angular.module('regCartApp')
                         $timeout(function() {
                             var o = getOrientation();
                             if (o !== scope.orientation) {
-                                console.log('Orientation changed: ' + scope.orientation + ' to ' + o);
+                                // console.log('Orientation changed: ' + scope.orientation + ' to ' + o);
 
                                 scope.orientation = o;
                                 scope.$broadcast('orientationChanged', scope.orientation);

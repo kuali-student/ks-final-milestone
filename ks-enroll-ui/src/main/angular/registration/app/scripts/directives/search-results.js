@@ -29,7 +29,8 @@ angular.module('regCartApp')
                 noResults: '@'  //optional, template to show if there are no results
             },
             link: function(scope) {
-                $animate.enabled(false, angular.element(document.querySelector('.kscr-Search-row')));
+                $animate.enabled(false, angular.element(document.querySelector('.kscr-Search-row'))); // Large-format table rows
+                $animate.enabled(false, angular.element(document.querySelector('.kscr-Search-result'))); // Mobile cards
 
                 if (angular.isUndefined(scope.searchResults) && scope.preprocessor) {
                     scope.searchResults = $filter(scope.preprocessor)(scope.searchData);
