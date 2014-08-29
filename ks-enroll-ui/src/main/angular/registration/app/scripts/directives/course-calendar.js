@@ -369,7 +369,7 @@ angular.module('regCartApp')
     /*
     The calendar directive creates a graphical view of schedule data (registered, waitlist, and/or cart).
     */
-    .directive('courseCalendar', function() {
+    .directive('courseCalendar', ['$timeout', '$window', function($timeout, $window) {
         return {
             restrict: 'E',
             scope: {
@@ -432,6 +432,7 @@ angular.module('regCartApp')
                     size = 'large';
                 }
                 $scope.calendarSize = size;
+                $scope.orientation = '';
 
                 $scope.hideRegistered = false;
                 $scope.hideWaitlisted = false;
@@ -467,17 +468,48 @@ angular.module('regCartApp')
                 $scope.$watchCollection('registered', init);
                 $scope.$watchCollection('waitlisted', init);
                 $scope.$watchCollection('cart', init);
-            }]
+
+            }],
+            link: function(scope, element) {
+
+                /**
+                 * Helper method to calculate the current orientation of the calendar
+                 *
+                 * @return string - horizontal || vertical
+                 */
+                function getOrientation() {
+                    // This could be refactored to not use the helper elements or jQuery
+                    return (element.find('.kscr-CourseCalendar-orientation--horizontal:visible').length > 0 ? 'horizontal' : 'vertical');
+                }
+
+                // Store off the starting orientation
+                $timeout(function() {
+                    scope.orientation = getOrientation();
+                });
+
+                if (scope.calendarSize === 'large') {
+                    angular.element($window).on('resize', function() {
+                        $timeout(function() {
+                            var o = getOrientation();
+                            if (o !== scope.orientation) {
+                                console.log('Orientation changed: ' + scope.orientation + ' to ' + o);
+
+                                scope.orientation = o;
+                                scope.$broadcast('orientationChanged', scope.orientation);
+                            }
+                        });
+                    });
+                }
+            }
         };
-    })
-;
+    }]);
 
 
 /**
  * Course Calendar - Course Lane Directive
  */
 angular.module('regCartApp')
-    .directive('courseCalendarLane', ['$timeout', '$window', function($timeout, $window) {
+    .directive('courseCalendarLane', ['$timeout', function($timeout) {
         return {
             restrict: 'CAE',
             link: function(scope, element, attr) {
@@ -489,15 +521,15 @@ angular.module('regCartApp')
                  * Update the lane's height to be accurate to the # of visible elements in it
                  */
                 scope.updateLaneHeight = function() {
-                    var lanes = 0;
-                    angular.forEach(scope.day.courses, function(course) {
-                        if (lanes < (course.lane + 1)) {
-                            lanes = (course.lane + 1);
-                        }
-                    });
-
                     var items = element.children();
                     if (items.length > 0) {
+                        var lanes = 0;
+                        angular.forEach(scope.day.courses, function(course) {
+                            if (lanes < (course.lane + 1)) {
+                                lanes = (course.lane + 1);
+                            }
+                        });
+
                         var itemHeight = element.children()[0].offsetHeight,
                             targetHeight = (itemHeight * lanes);
 
@@ -510,8 +542,8 @@ angular.module('regCartApp')
 
                 $timeout(scope.updateLaneHeight);
 
-                // When the window is resized, update the parent element's height
-                angular.element($window).on('resize', function() {
+                // Update the lane height when the orientation changes
+                scope.$on('orientationChanged', function() {
                     $timeout(scope.updateLaneHeight);
                 });
 
@@ -528,7 +560,7 @@ angular.module('regCartApp')
  * Course Calendar - Course Item Directive
  */
 angular.module('regCartApp')
-    .directive('courseCalendarItem', ['$timeout', '$window', function($timeout, $window) {
+    .directive('courseCalendarItem', ['$timeout', function($timeout) {
         return {
             restrict: 'CAE',
             link: function(scope, element) {
@@ -584,9 +616,7 @@ angular.module('regCartApp')
                     };
 
                     if (scope.course.conflictCount > 0) {
-                        var parent = element.parent();
-
-                        if (parent.width() > parent.height()) {
+                        if (scope.orientation === 'horizontal') {
                             // Landscape / large-format layout - courses laid out horizontally
                             css.top = (scope.course.lane * element[0].offsetHeight) + 'px'; // Offset this block in px from the top according to its conflict position
                         } else {
@@ -609,7 +639,7 @@ angular.module('regCartApp')
                 $timeout(layout);
 
                 // When the window is resized, update the element's offset for conflicts
-                angular.element($window).on('resize', function() {
+                scope.$on('orientationChanged', function() {
                     $timeout(offsetForConflicts);
                 });
 
