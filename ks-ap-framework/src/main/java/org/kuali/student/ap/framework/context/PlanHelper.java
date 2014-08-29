@@ -267,6 +267,12 @@ public interface PlanHelper {
      */
     public PlannerItem createPlannerItem(PlanItem planItem);
 
+    /**
+     * Returns an ordered list of planner terms to display in the planner calendar
+     *
+     * @param learningPlan - Learning plan being displayed
+     * @return Order list of planner terms.
+     */
     public List<PlannerTerm> getPlannerCalendarTerms(LearningPlan learningPlan);
 
 }
