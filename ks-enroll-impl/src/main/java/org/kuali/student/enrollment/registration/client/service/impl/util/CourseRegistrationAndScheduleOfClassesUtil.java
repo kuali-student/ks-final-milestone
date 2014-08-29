@@ -25,15 +25,9 @@ import org.kuali.rice.core.api.criteria.QueryResults;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kim.api.identity.IdentityService;
-import org.kuali.rice.kim.api.identity.entity.EntityDefault;
-import org.kuali.rice.kim.api.identity.entity.EntityDefaultQueryResults;
-import org.kuali.rice.kim.api.identity.principal.Principal;
-import org.kuali.rice.kim.api.identity.principal.PrincipalQueryResults;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.kim.impl.KIMPropertyConstants;
-import org.kuali.rice.kim.impl.identity.entity.EntityBo;
 import org.kuali.rice.kim.impl.identity.name.EntityNameBo;
-import org.kuali.rice.kim.impl.identity.principal.PrincipalBo;
 import org.kuali.rice.krad.data.DataObjectService;
 import org.kuali.rice.krms.api.KrmsConstants;
 import org.kuali.rice.krms.api.repository.RuleManagementService;
@@ -290,7 +284,7 @@ public class CourseRegistrationAndScheduleOfClassesUtil {
     public static Map<String, List<InstructorSearchResult>> searchForInstructorsByAoIds(List<String> aoIds, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException {
 
         Map<String, List<InstructorSearchResult>> resultList = new HashMap<>();
-        Map<String, InstructorSearchResult> principalId2aoIdMap = new HashMap<>();
+        Map<String, InstructorSearchResult> personId2InstructorMap = new HashMap<>();
 
         // We want to pull only active instructors for the passed in AO's
         List<Predicate> predicates = new ArrayList<>();
@@ -315,8 +309,8 @@ public class CourseRegistrationAndScheduleOfClassesUtil {
                 } else {
                     result.setPrimary(true);
                 }
-                result.setPrincipalId(lprInfo.getPersonId());
-                principalId2aoIdMap.put(lprInfo.getPersonId(), result);
+                result.setPersonId(lprInfo.getPersonId());
+                personId2InstructorMap.put(lprInfo.getPersonId(), result);
                 result.setActivityOfferingId(aoId);
 
                 if (resultList.containsKey(aoId)) {
@@ -331,16 +325,11 @@ public class CourseRegistrationAndScheduleOfClassesUtil {
             // if we have a list of instructors
             if (!resultList.isEmpty()) {
                 // get the instructor entities from KIM.
-                EntityDefaultQueryResults results = getInstructorsInfoFromKim(new ArrayList<>(principalId2aoIdMap.keySet()));
+                List<EntityNameBo> results = getInstructorsInfoFromKim(new ArrayList<>(personId2InstructorMap.keySet()));
 
-                for (EntityDefault entity : results.getResults()) {
-                    // Each KIM entity can have multiple principals. So we need to loop through the principals
-                    for (Principal principal : entity.getPrincipals()) {
-                        if (principalId2aoIdMap.containsKey(principal.getPrincipalId())) {  // does this principal match the ks instructor
-                            InstructorSearchResult instructor = principalId2aoIdMap.get(principal.getPrincipalId());
-                            populateInstructorWithEntityInfo(instructor, entity);  // populate the instructor with KIM information
-                        }
-                    }
+                for (EntityNameBo entity : results) {
+                    InstructorSearchResult instructor = personId2InstructorMap.get(entity.getEntityId());
+                    populateInstructorWithEntityInfo(instructor, entity);  // populate the instructor with KIM information
                 }
 
             }
@@ -551,31 +540,21 @@ public class CourseRegistrationAndScheduleOfClassesUtil {
     /**
      * A faster way to get default names
      *
-     * @param principalIds a List of principal id strings
+     * @param personIds a List of entity id strings
      * @return EntityDefaultQueryResults with only default names populated
      */
-    private static EntityDefaultQueryResults getInstructorsInfoFromKimFast(List<String> principalIds) {
+    private static List<EntityNameBo> getInstructorsInfoFromKimFast(List<String> personIds) {
 
         //Find all the principals
         QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
-        qbcBuilder.setPredicates(
-                PredicateFactory.in("principalId", principalIds.toArray())
-        );
+
 
         QueryByCriteria criteria = qbcBuilder.build();
-
-        PrincipalQueryResults principalResults = CourseRegistrationAndScheduleOfClassesUtil.getIdentityService().findPrincipals(criteria);
-
-        //Get a mapping of entity Ids to principals
-        Map<String, Principal> entityId2Principal = new HashMap<>();
-        for (Principal principal : principalResults.getResults()) {
-            entityId2Principal.put(principal.getEntityId(), principal);
-        }
 
         //Create a query to get default names
         qbcBuilder = QueryByCriteria.Builder.create();
         qbcBuilder.setPredicates(
-                PredicateFactory.in(KIMPropertyConstants.Entity.ENTITY_ID, entityId2Principal.keySet().toArray()),
+                PredicateFactory.in(KIMPropertyConstants.Entity.ENTITY_ID, personIds.toArray()),
                 PredicateFactory.equal("defaultValue", Boolean.TRUE),
                 PredicateFactory.equal(KIMPropertyConstants.Entity.ACTIVE, Boolean.TRUE)
         );
@@ -589,42 +568,36 @@ public class CourseRegistrationAndScheduleOfClassesUtil {
         //Do the search
         QueryResults<EntityNameBo> results = dataObjectService.findMatching(EntityNameBo.class, criteria);
 
-        //Build up entityDefault structure
-        EntityDefaultQueryResults.Builder entityDefaultBuilder = EntityDefaultQueryResults.Builder.create();
-        entityDefaultBuilder.setMoreResultsAvailable(results.isMoreResultsAvailable());
-        entityDefaultBuilder.setTotalRowCount(results.getTotalRowCount());
-
-        final List<EntityDefault.Builder> entityDefaultBuilders = new ArrayList<>();
-        for (EntityNameBo entityName : results.getResults()) {
-            EntityBo bo = new EntityBo();
-            bo.getNames().add(entityName);
-            bo.getPrincipals().add(PrincipalBo.from(entityId2Principal.get(entityName.getEntityId())));
-            bo.setId(entityName.getEntityId());
-            entityDefaultBuilders.add(EntityDefault.Builder.create(bo));
-        }
-
-        entityDefaultBuilder.setResults(entityDefaultBuilders);
-
-        return entityDefaultBuilder.build();
+        return results.getResults();
     }
 
-    private static EntityDefaultQueryResults getInstructorsInfoFromKim(List<String> principalIds) {
-
-        //Try the fast way first
-        try {
-            return getInstructorsInfoFromKimFast(principalIds);
-        } catch (Exception ex) {
-            LOGGER.warn("Error getting ids", ex);
-        }
-
+    private static List<EntityNameBo> getInstructorsInfoFromKim(List<String> personIds) {
+        //Find all the principals
         QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
-        qbcBuilder.setPredicates(
-                PredicateFactory.in("principals.principalId", principalIds.toArray())
-        );
+
 
         QueryByCriteria criteria = qbcBuilder.build();
 
-        return CourseRegistrationAndScheduleOfClassesUtil.getIdentityService().findEntityDefaults(criteria);
+        //Create a query to get default names
+        qbcBuilder = QueryByCriteria.Builder.create();
+        qbcBuilder.setPredicates(
+                PredicateFactory.in(KIMPropertyConstants.Entity.ENTITY_ID, personIds.toArray()),
+                PredicateFactory.equal("defaultValue", Boolean.TRUE),
+                PredicateFactory.equal(KIMPropertyConstants.Entity.ACTIVE, Boolean.TRUE)
+        );
+
+        criteria = qbcBuilder.build();
+
+        //Get a handle to the dataObjectService. If this doesnt work then an exception will be thrown and
+        // the normal search for default entities will take over
+        DataObjectService dataObjectService = GlobalResourceLoader.getService("dataObjectService");
+
+        //Do the search
+        QueryResults<EntityNameBo> results = dataObjectService.findMatching(EntityNameBo.class, criteria);
+
+        return results.getResults();
+
+
     }
 
     /**
@@ -633,11 +606,11 @@ public class CourseRegistrationAndScheduleOfClassesUtil {
      * @param instructor Kuali Student Instructor
      * @param entity     Kim Entity object
      */
-    private static void populateInstructorWithEntityInfo(InstructorSearchResult instructor, EntityDefault entity) {
-        if (entity.getName() != null) {
-            instructor.setDisplayName(StringUtils.trim(entity.getName().getCompositeName()));
-            instructor.setFirstName(StringUtils.trim(entity.getName().getFirstName()));
-            instructor.setLastName(StringUtils.trim(entity.getName().getLastName()));
+    private static void populateInstructorWithEntityInfo(InstructorSearchResult instructor, EntityNameBo entity) {
+        if (entity != null) {
+            instructor.setDisplayName(StringUtils.trim(entity.getCompositeName()));
+            instructor.setFirstName(StringUtils.trim(entity.getFirstName()));
+            instructor.setLastName(StringUtils.trim(entity.getLastName()));
         }
     }
 

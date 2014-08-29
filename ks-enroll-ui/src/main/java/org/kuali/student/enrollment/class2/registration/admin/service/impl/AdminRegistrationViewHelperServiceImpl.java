@@ -29,7 +29,6 @@ import org.kuali.student.enrollment.courseregistration.dto.CourseRegistrationInf
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestInfo;
 import org.kuali.student.enrollment.registration.client.service.impl.util.CourseRegistrationAndScheduleOfClassesUtil;
 import org.kuali.student.enrollment.registration.client.service.impl.util.RegistrationValidationResultsUtil;
-import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
@@ -39,7 +38,6 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.infc.ValidationResult;
 import org.kuali.student.r2.common.util.TimeOfDayHelper;
-import org.kuali.student.r2.common.util.constants.CourseRegistrationServiceConstants;
 import org.kuali.student.r2.common.util.constants.LprServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
@@ -221,12 +219,10 @@ public class AdminRegistrationViewHelperServiceImpl extends KSViewHelperServiceI
             List<CourseRegistrationInfo> courseWaitListInfos = AdminRegResourceLoader.getCourseWaitlistService().getCourseWaitListRegistrationsByStudentAndTerm(
                     studentId, termCode, createContextInfo());
 
-            //TODO: KSENROLL-13558 :work around for incorrect Data
-            List<Principal> principals = AdminRegResourceLoader.getIdentityService().getPrincipalsByEntityId(studentId.toUpperCase());
-            for (Principal principal : principals) {
-                courseWaitListInfos.addAll(AdminRegResourceLoader.getCourseWaitlistService().getCourseWaitListRegistrationsByStudentAndTerm(
-                        principal.getPrincipalId(), termCode, createContextInfo()));
-            }
+
+            courseWaitListInfos.addAll(AdminRegResourceLoader.getCourseWaitlistService().getCourseWaitListRegistrationsByStudentAndTerm(
+                        studentId, termCode, createContextInfo()));
+
 
             for (CourseRegistrationInfo courseWaitListInfo : courseWaitListInfos) {
                 RegistrationCourse waitListCourse = createRegistrationCourse(courseWaitListInfo);

@@ -22,7 +22,6 @@ import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.identity.entity.EntityDefault;
 import org.kuali.rice.kim.api.identity.entity.EntityDefaultQueryResults;
-import org.kuali.rice.kim.api.identity.principal.Principal;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
@@ -32,6 +31,7 @@ import org.kuali.rice.krms.api.repository.type.KrmsTypeDefinition;
 import org.kuali.rice.krms.framework.engine.Agenda;
 import org.kuali.rice.krms.impl.repository.KrmsRepositoryServiceLocator;
 import org.kuali.student.common.collection.KSCollectionUtils;
+import org.kuali.student.common.uif.util.CommentUtil;
 import org.kuali.student.common.uif.util.GrowlIcon;
 import org.kuali.student.common.uif.util.KSUifUtils;
 import org.kuali.student.common.util.security.ContextUtils;
@@ -49,7 +49,6 @@ import org.kuali.student.enrollment.class2.courseoffering.form.CourseOfferingMan
 import org.kuali.student.enrollment.class2.courseoffering.service.CourseOfferingManagementViewHelperService;
 import org.kuali.student.enrollment.class2.courseoffering.service.decorators.PermissionServiceConstants;
 import org.kuali.student.enrollment.class2.courseoffering.service.facade.ActivityOfferingResult;
-import org.kuali.student.common.uif.util.CommentUtil;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingConstants;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingManagementToolbarUtil;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingManagementUtil;
@@ -529,36 +528,36 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
             lprInfos.addAll(CourseOfferingManagementUtil.getLprService().searchForLprs(criteria, contextInfo));
         }
         if (lprInfos != null) {
-            Map<String, Set<String>> principalId2aoIdMap = new HashMap<String, Set<String>>();
+            Map<String, Set<String>> personId2aoIdMap = new HashMap<String, Set<String>>();
             for (LprInfo lprInfo : lprInfos) {
                 //  Only include the main instructor.
                 if (!StringUtils.equals(lprInfo.getTypeKey(), LprServiceConstants.INSTRUCTOR_MAIN_TYPE_KEY)) {
                     continue;
                 }
-                Set<String> aoIds = principalId2aoIdMap.get(lprInfo.getPersonId());
+                Set<String> aoIds = personId2aoIdMap.get(lprInfo.getPersonId());
                 if (aoIds == null) {
                     aoIds = new HashSet<String>();
-                    principalId2aoIdMap.put(lprInfo.getPersonId(), aoIds);
+                    personId2aoIdMap.put(lprInfo.getPersonId(), aoIds);
                 }
                 aoIds.add(lprInfo.getLuiId());
             }
-            if (!principalId2aoIdMap.keySet().isEmpty()) {
-                EntityDefaultQueryResults results = getInstructorsInfoFromKim(new ArrayList<String>(principalId2aoIdMap.keySet()));
+            if (!personId2aoIdMap.keySet().isEmpty()) {
+                EntityDefaultQueryResults results = getInstructorsInfoFromKim(new ArrayList<String>(personId2aoIdMap.keySet()));
 
                 for (EntityDefault entity : results.getResults()) {
-                    for (Principal principal : entity.getPrincipals()) {
-                        Set<String> aoIds = principalId2aoIdMap.get(principal.getPrincipalId());
+
+                        Set<String> aoIds = personId2aoIdMap.get(entity.getEntityId());
                         if (aoIds != null) {
                             for (String aoId : aoIds) {
                                 ActivityOfferingWrapper activityOfferingWrapper = aoMap.get(aoId);
                                 if (entity.getName() != null) {
                                     activityOfferingWrapper.setInstructorDisplayNames(entity.getName().getCompositeName(), true);
                                 } else {
-                                    activityOfferingWrapper.setInstructorDisplayNames(principal.getPrincipalId());
+                                    activityOfferingWrapper.setInstructorDisplayNames(entity.getEntityId());
                                 }
                             }
                         }
-                    }
+
                 }
 
             }
@@ -1370,10 +1369,10 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
         return activityOfferingWrappers;
     }
 
-    protected EntityDefaultQueryResults getInstructorsInfoFromKim(List<String> principalIds) {
+    protected EntityDefaultQueryResults getInstructorsInfoFromKim(List<String> entityIds) {
         QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
         qbcBuilder.setPredicates(
-                PredicateFactory.in("principals.principalId", principalIds.toArray())
+                PredicateFactory.in("id", entityIds.toArray())
         );
 
         QueryByCriteria criteria = qbcBuilder.build();

@@ -116,7 +116,7 @@
                                         <property name="viewName" value="ks_simplePersonLookup" />
                                         <property name="fieldConversions">
                                             <map>
-                                                <entry key="principalId" value="instructor"/>
+                                                <entry key="entityId" value="instructor"/>
                                                 <entry key="principalName" value="instructorName" />
                                             </map>
                                         </property>

@@ -15,7 +15,6 @@
  */
 package org.kuali.student.enrollment.class2.courseoffering.service.transformer;
 
-import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
@@ -119,7 +118,7 @@ public class OfferingInstructorTransformer {
         //Build the search criteria
         QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
         qbcBuilder.setPredicates(
-                PredicateFactory.in("principals.principalId", personIds.toArray()),
+                PredicateFactory.in("id", personIds.toArray()),
                 PredicateFactory.equalIgnoreCase("entityTypeContactInfos.active", "Y"),
                 PredicateFactory.or(
                         PredicateFactory.equalIgnoreCase("entityTypeContactInfos.entityTypeCode", "PERSON"),
@@ -136,13 +135,13 @@ public class OfferingInstructorTransformer {
             }
         }
 
-        //construct the map of principalId to List<Person>
+        //construct the map of entityId to List<Person>
         for (Person person : people) {
             if (person != null) {
-                List<Person> personList = lpr2PersonMap.get(person.getPrincipalId());
+                List<Person> personList = lpr2PersonMap.get(person.getEntityId());
                 if (personList == null) {
                     personList = new ArrayList<Person>();
-                    lpr2PersonMap.put(person.getPrincipalId(), personList);
+                    lpr2PersonMap.put(person.getEntityId(), personList);
                 }
                 personList.add(person);
             }
@@ -174,7 +173,7 @@ public class OfferingInstructorTransformer {
 
     public static List<Person> getInstructorByPersonId(String personId) {
         Map<String, String> searchCriteria = new HashMap<String, String>();
-        searchCriteria.put(KIMPropertyConstants.Person.PRINCIPAL_ID, personId);
+        searchCriteria.put(KIMPropertyConstants.Person.ENTITY_ID, personId);
         List<Person> lstPerson = getPersonService().findPeople(searchCriteria);
         return lstPerson;
     }
