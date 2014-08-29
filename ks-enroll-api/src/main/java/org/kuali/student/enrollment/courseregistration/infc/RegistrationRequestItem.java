@@ -159,7 +159,24 @@ public interface RegistrationRequestItem
      * when WMST255 is added id will be the one of ENGL255, and code
      * WMST255 will be saved in crossList field (for displaying purpose)
      *
-     * @name crossList
+     * @name Cross Listed Course Code
      */
-    public String getCrossList();
+    public String getCrossListedCode();
+
+    /**
+     * Gets the course registration (if any) that resulted from this
+     * registration transaction.
+     *
+     * @name Course Registration Id
+     */
+    public String getCourseRegistrationId();
+
+    /**
+     * Gets the waitlist entry (if any) that resulted from this
+     * registration transaction.
+     *
+     * @name Course Waitlist Entry Id
+     */
+    public String getCourseWaitlistEntryId();
+
 }

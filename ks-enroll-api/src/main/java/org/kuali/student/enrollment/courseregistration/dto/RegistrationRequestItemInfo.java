@@ -50,7 +50,7 @@ import org.w3c.dom.Element;
         "okToHoldUntilList",
         "okToRepeat",
         "validationResults",
-        "crossList",
+        "crossListedCode", "courseRegistrationId", "courseWaitlistEntryId",
         "meta", "attributes", "_futureElements"})
 
 public class RegistrationRequestItemInfo
@@ -93,7 +93,13 @@ public class RegistrationRequestItemInfo
     private List<ValidationResultInfo> validationResults;
 
     @XmlElement
-    private String crossList;
+    private String crossListedCode;
+
+    @XmlElement
+    private String courseRegistrationId;
+
+    @XmlElement
+    private String courseWaitlistEntryId;
 
     @XmlAnyElement
     private List<Element> _futureElements;
@@ -127,8 +133,10 @@ public class RegistrationRequestItemInfo
             this.okToWaitlist = registrationRequestItem.getOkToWaitlist();
             this.okToHoldUntilList = registrationRequestItem.getOkToHoldUntilList();
             this.okToRepeat = registrationRequestItem.getOkToRepeat();
-            this.crossList = registrationRequestItem.getCrossList();
             this.validationResults = new ArrayList<>();
+            this.crossListedCode = registrationRequestItem.getCrossListedCode();
+            this.courseRegistrationId = registrationRequestItem.getCourseRegistrationId();
+            this.courseWaitlistEntryId = registrationRequestItem.getCourseWaitlistEntryId();
             for(ValidationResult validationResult:registrationRequestItem.getValidationResults ()){
                 this.getValidationResults().add(new ValidationResultInfo(validationResult));
             }
@@ -238,8 +246,25 @@ public class RegistrationRequestItemInfo
     }
 
     @Override
-    public String getCrossList() { return crossList; }
+    public String getCrossListedCode() { return crossListedCode; }
 
-    public void setCrossList(String crossList) { this.crossList = crossList; }
+    public void setCrossListedCode(String crossListedCode) { this.crossListedCode = crossListedCode; }
 
+    @Override
+    public String getCourseRegistrationId() {
+        return courseRegistrationId;
+    }
+
+    public void setCourseRegistrationId(String courseRegistrationId) {
+        this.courseRegistrationId = courseRegistrationId;
+    }
+
+    @Override
+    public String getCourseWaitlistEntryId() {
+        return courseWaitlistEntryId;
+    }
+
+    public void setCourseWaitlistEntryId(String courseWaitlistEntryId) {
+        this.courseWaitlistEntryId = courseWaitlistEntryId;
+    }
 }

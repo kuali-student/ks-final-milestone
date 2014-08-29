@@ -97,7 +97,7 @@ public interface Lpr
      * when WMST255 is added id will be the one of ENGL255, and code
      * WMST255 will be saved in crossList field (for displaying purpose)
      *
-     * @name crossList
+     * @name Cross Listed Code
      */
-    public String getCrossList();
+    public String getCrossListedCode();
 }
