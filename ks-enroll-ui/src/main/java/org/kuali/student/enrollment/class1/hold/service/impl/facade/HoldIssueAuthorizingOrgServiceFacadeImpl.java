@@ -197,10 +197,11 @@ public class HoldIssueAuthorizingOrgServiceFacadeImpl implements HoldIssueAuthor
     @Override
     public List<OrgInfo> getBindingByRoleAndHoldIssue(String roleId, String holdIssueId, ContextInfo contextInfo){
     // I leave this as an exercise for the developer
-        List<String> roleIds = new ArrayList<String>();
-        roleIds.add(roleId);
-        //List<RoleMembership> roleMembershipList=   this.getRoleService().getRoleMembers(roleIds,);
-
+        List<OrgInfo> orgs = new ArrayList<OrgInfo>();
+        QueryByCriteria query = QueryByCriteria.Builder.fromPredicates(PredicateFactory.and(
+                PredicateFactory.in("roleId",roleId)));
+        List<RoleMember> roleMemberList=   this.getRoleService().findRoleMembers(query).getResults();
+        //orgs = this.getOrganizationService().getOrgsByIds();
         return null;
     }
 
