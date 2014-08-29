@@ -336,7 +336,6 @@
                       p:methodToCall="export" p:title=".doc (Microsoft Word)" p:actionLabel=".doc (Microsoft Word)" p:disableBlocking="true">
                    <property name="additionalSubmitData"
                         value="#{T(org.kuali.student.cm.common.util.CurriculumManagementConstants$Export$UrlParams).EXPORT_TYPE}:#{T(org.kuali.student.cm.common.util.CurriculumManagementConstants$Export$FileType).DOC.toString()}" />
-
                 </bean>
             </list>
         </property>

@@ -45,9 +45,12 @@
         <property name="page">
             <bean parent="CM-ViewCourse-View-Course-Page"/>
         </property>
+
+        <property name="stickyFooter" value="true"/>
         <property name="footer">
-            <bean parent="Uif-FooterBase" />
+            <bean parent="CM-ViewCourse-Footer" />
         </property>
+
         <property name="additionalScriptFiles">
             <list>
                 <value>themes/ksboot/scripts/ruleMaintenance.js</value>
@@ -58,9 +61,15 @@
                 <value>themes/ksboot/stylesheets/krms.css</value>
             </list>
         </property>
+        <property name="expressionVariables">
+            <map merge="true">
+                <!-- <entry key="uiHelper" value="document.newMaintainableObject.dataObject.uiHelper"/> -->
+            </map>
+        </property>
     </bean>
 
-    <bean id="CM-ViewCourse-View-Right-Header-Group" parent="KS-Unified-Header-Right-Group" p:additionalCssClasses="viewcourseview-header-status">
+    <bean id="CM-ViewCourse-View-Right-Header-Group" parent="KS-Unified-Header-Right-Group"
+          p:additionalCssClasses="viewcourseview-header-status">
         <property name="items">
             <list>
                 <ref bean="CM-ViewCourse-View-Right-Header-Action-Group"/>
@@ -103,6 +112,45 @@
             </list>
         </property>
     </bean>
+
+    <!-- Parent for modify buttons. -->
+    <bean id="CM-VersionHistory-ModifyButton" parent="Uif-PrimaryActionButton" abstract="true">
+        <property name="additionalCssClasses" value="btn-success"/>
+        <property name="ajaxSubmit" value="false"/>
+        <property name="actionLabel" value="Modify"/>
+    </bean>
+
+    <bean id="CM-ViewCourse-Footer" parent="Uif-FooterBase">
+        <property name="items">
+            <list>
+                <bean parent="Uif-HorizontalBoxGroup">
+                    <property name="items">
+                        <list>
+
+                            <!-- Users with the Faculty role get this modify button -->
+                            <bean id="CM-VersionHistory-ModifyButton-Faculty" parent="CM-VersionHistory-ModifyButton">
+                                <property name="methodToCall" value="modifyCourseFaculty"/>
+                                <!--<property name="render" value="@{ ! #uiHelper.curriculumSpecialistUser}"/>  -->
+                            </bean>
+
+                            <!-- Users with the CS role get this modify button -->
+                            <bean id="CM-VersionHistory-ModifyButton-CurriculumSpecialist" parent="CM-VersionHistory-ModifyButton">
+                                <property name="methodToCall" value="modifyCourseCurriculumSpecialist"/>
+                                <!-- <property name="render" value="@{#uiHelper.curriculumSpecialistUser}"/> -->
+                            </bean>
+
+                            <bean id="CM-VersionHistory-Button" parent="Uif-SecondaryActionButton"
+                                p:ajaxSubmit="false"
+                                p:actionScript="alert('Version History!');"
+                                p:performClientSideValidation="false"
+                                p:actionLabel="Version History"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
 
     <bean id="CM-ViewCourse-View-Course-Page" parent="Uif-Page" p:style="margin-left: -18px;"
           p:headerText="View Course"
@@ -709,5 +757,4 @@
     <bean id="CM-HomewardPathBreadcrumbs-ViewCourseView" parent="Uif-BreadcrumbItem">
         <property name="label" value="@{courseInfoWrapper.courseInfo.courseTitle}"/>
     </bean>
-
 </beans>
