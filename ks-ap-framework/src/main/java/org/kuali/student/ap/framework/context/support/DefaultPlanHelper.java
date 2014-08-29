@@ -26,13 +26,16 @@ import org.kuali.student.ap.academicplan.infc.Placeholder;
 import org.kuali.student.ap.academicplan.infc.PlaceholderInstance;
 import org.kuali.student.ap.academicplan.infc.PlanItem;
 import org.kuali.student.ap.academicplan.infc.TypedObjectReference;
+import org.kuali.student.ap.coursesearch.CreditsFormatter;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
 import org.kuali.student.ap.framework.context.CourseSearchConstants;
 import org.kuali.student.ap.framework.context.PlanConstants;
 import org.kuali.student.ap.framework.context.PlanHelper;
 import org.kuali.student.ap.framework.util.KsapHelperUtil;
+import org.kuali.student.ap.planner.PlannerItem;
 import org.kuali.student.common.collection.KSCollectionUtils;
 import org.kuali.student.enrollment.academicrecord.dto.StudentCourseRecordInfo;
+import org.kuali.student.enrollment.courseoffering.infc.CourseOffering;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
@@ -44,6 +47,8 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
+import org.kuali.student.r2.common.infc.Attribute;
+import org.kuali.student.r2.common.infc.RichText;
 import org.kuali.student.r2.common.util.date.DateFormatters;
 import org.kuali.student.r2.core.acal.infc.Term;
 import org.kuali.student.r2.core.comment.dto.CommentInfo;
@@ -62,6 +67,7 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
+import java.util.UUID;
 
 /**
  * Default implementation of the PlanHelper
@@ -880,5 +886,103 @@ public class DefaultPlanHelper implements PlanHelper {
             throw new RuntimeException("Unable to load course item", e);
         }
 
+    }
+
+    /**
+     * @see org.kuali.student.ap.framework.context.PlanHelper#createPlannerItem(org.kuali.student.enrollment.academicrecord.dto.StudentCourseRecordInfo)
+     */
+    public PlannerItem createPlannerItem(StudentCourseRecordInfo courseRecord){
+        PlannerItem newPlannerItem = new PlannerItem();
+        newPlannerItem.setType(PlannerItem.COURSE_RECORD_ITEM);
+
+        newPlannerItem.setUniqueId(UUID.randomUUID().toString());
+        newPlannerItem.setTermId(courseRecord.getTermName());
+        newPlannerItem.setCourseCode(courseRecord.getCourseCode());
+
+        CourseOffering offering = null;
+        try {
+            offering = KsapFrameworkServiceLocator.getCourseOfferingService().getCourseOffering(courseRecord.getCourseOfferingId(), KsapFrameworkServiceLocator.getContext().getContextInfo());
+        } catch (DoesNotExistException e) {
+            throw new IllegalArgumentException("Course Offering Service failure", e);
+        } catch (InvalidParameterException e) {
+            throw new IllegalArgumentException("Course Offering Service failure", e);
+        } catch (MissingParameterException e) {
+            throw new IllegalArgumentException("Course Offering Service failure", e);
+        } catch (OperationFailedException e) {
+            throw new IllegalArgumentException("Course Offering Service failure", e);
+        } catch (PermissionDeniedException e) {
+            throw new IllegalArgumentException("Course Offering Service failure", e);
+        }
+
+        newPlannerItem.setCourseId(offering.getCourseId());
+        newPlannerItem.setCourseTitle(courseRecord.getCourseTitle());
+
+        String creditsString = courseRecord.getCreditsEarned();
+        try {
+            if(creditsString == null){
+                newPlannerItem.setMaxCredits(BigDecimal.ZERO);
+                newPlannerItem.setMinCredits(BigDecimal.ZERO);
+            }else{
+                newPlannerItem.setMaxCredits(new BigDecimal(creditsString));
+                newPlannerItem.setMinCredits(new BigDecimal(creditsString));
+            }
+        } catch (NumberFormatException e) {
+            LOG.warn(String.format("Invalid credits in course record %s", courseRecord.getCreditsEarned()), e);
+        }
+
+        String grade = courseRecord.getCalculatedGradeValue();
+        if (!"X".equalsIgnoreCase(grade)|| KsapFrameworkServiceLocator.getTermHelper().isCompleted(
+                newPlannerItem.getTermId())) {
+            newPlannerItem.setGrade(grade);
+        }
+
+        return newPlannerItem;
+    }
+
+    /**
+     * @see org.kuali.student.ap.framework.context.PlanHelper#createPlannerItem(org.kuali.student.ap.academicplan.infc.PlanItem)
+     */
+    public PlannerItem createPlannerItem(PlanItem planItem){
+        PlannerItem newPlannerItem = new PlannerItem();
+        newPlannerItem.setType(PlannerItem.PLAN_ITEM);
+
+        Course course = KsapFrameworkServiceLocator.getCourseHelper().getCurrentVersionOfCourseByVersionIndependentId(planItem.getRefObjectId());
+        if(course == null){
+           LOG.warn("No Current version of course found");
+           throw new RuntimeException("No Current version of course found");
+        }
+
+        newPlannerItem.setUniqueId(UUID.randomUUID().toString());
+        try{
+            newPlannerItem.setTermId(KSCollectionUtils.getRequiredZeroElement(planItem.getPlanTermIds()));
+        }catch (OperationFailedException e){
+            LOG.warn(String.format("No Term id found for %s", course.getCode()), e);
+        }
+        newPlannerItem.setLearningPlanId(planItem.getLearningPlanId());
+        newPlannerItem.setPlanItemId(planItem.getId());
+        newPlannerItem.setCategory(planItem.getCategory());
+
+        newPlannerItem.setCourseId(course.getId());
+        newPlannerItem.setCourseCode(course.getCode());
+        newPlannerItem.setCourseTitle(course.getCourseTitle());
+
+        BigDecimal credits = planItem.getCredits();
+        if (credits == null) {
+            CreditsFormatter.Range range = CreditsFormatter.getRange(course);
+            if (range != null) {
+                newPlannerItem.setMaxCredits(range.getMin());
+                newPlannerItem.setMinCredits(range.getMax());
+            }
+        } else {
+            newPlannerItem.setMaxCredits(credits);
+            newPlannerItem.setMinCredits(credits);
+        }
+
+        RichText descr = planItem.getDescr();
+        if (descr != null){
+            newPlannerItem.setCourseNote(descr.getPlain());
+        }
+
+        return newPlannerItem;
     }
 }

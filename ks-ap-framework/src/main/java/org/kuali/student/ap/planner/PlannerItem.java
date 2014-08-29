@@ -47,94 +47,15 @@ public class PlannerItem implements
 
 	private transient String creditString;
 
+    // PlannerItem types
+    public static final String BLANK_ITEM = "Blank";
+    public static final String COURSE_RECORD_ITEM = "CourseRecord";
+    public static final String ADD_ITEM = "CourseRecord";
+    public static final String PLAN_ITEM = "PlanItem";
+
+
+
 	public PlannerItem() {
-	}
-
-	public PlannerItem(StudentCourseRecordInfo completedRecord) {
-		uniqueId = UUID.randomUUID().toString();
-		termId = completedRecord.getTermName();
-		campusCode = completedRecord.getAttributeValue("campusCode");
-		courseCode = completedRecord.getCourseCode();
-        List<Course> courses = KsapFrameworkServiceLocator.getCourseHelper().getCoursesByCode(courseCode);
-        for(Course course : courses){
-            if(course.getStateKey().equals("Active")){
-                courseId = course.getId();
-                break;
-            }
-        }
-		activityCode = completedRecord.getActivityCode();
-		courseTitle = completedRecord.getCourseTitle();
-
-		String creditsString = completedRecord.getCreditsEarned();
-		try {
-			minCredits = maxCredits = creditsString == null ? BigDecimal.ZERO
-					: new BigDecimal(creditsString);
-		} catch (NumberFormatException e) {
-			LOG.warn(
-                    String.format("Invalid credits in course record %s", completedRecord.getCreditsEarned()), e);
-		}
-
-		String grade = completedRecord.getCalculatedGradeValue();
-		if (!"X".equalsIgnoreCase(grade)
-				|| KsapFrameworkServiceLocator.getTermHelper().isCompleted(
-						termId)) {
-			setGrade(grade);
-		}
-
-	}
-
-	public PlannerItem(PlanItem planItem, Course course) {
-		uniqueId = UUID.randomUUID().toString();
-        try{
-		    termId = KSCollectionUtils.getRequiredZeroElement(planItem.getPlanTermIds());
-        }catch (OperationFailedException e){
-            LOG.warn(String.format("No Term id found for %s", course.getCode()), e);
-        }
-		learningPlanId = planItem.getLearningPlanId();
-		planItemId = planItem.getId();
-		courseId = planItem.getRefObjectId();
-        setCategory(planItem.getCategory());
-        type = planItem.getTypeKey();
-
-		for (Attribute attr : planItem.getAttributes()) {
-			String key = attr.getKey();
-			if ("campusCode".equals(key))
-				campusCode = attr.getValue();
-			if ("activityCode".equals(key))
-				activityCode = attr.getValue();
-		}
-
-		for (Attribute attr : course.getAttributes()) {
-			String key = attr.getKey();
-			if ("campusCode".equals(key))
-				campusCode = attr.getValue();
-		}
-
-		BigDecimal credits = planItem.getCredits();
-		if (credits == null) {
-			CreditsFormatter.Range range = CreditsFormatter.getRange(course);
-			if (range != null) {
-				minCredits = range.getMin();
-				maxCredits = range.getMax();
-			}
-		} else {
-			minCredits = maxCredits = credits;
-		}
-
-		courseCode = course.getCode();
-		courseTitle = course.getCourseTitle();
-
-		RichText descr = planItem.getDescr();
-		if (descr != null)
-			courseNote = descr.getPlain();
-
-			menuSuffix = "";
-		if (AcademicPlanServiceConstants.ItemCategory.PLANNED
-				.equals(planItem.getCategory()) && campusCode != null
-					&& KsapFrameworkServiceLocator.getShoppingCartStrategy()
-							.isCartAvailable(termId, campusCode)) {
-				menuSuffix = "_cartavailable";
-	    }
 	}
 
 	public String getParentUniqueId() {

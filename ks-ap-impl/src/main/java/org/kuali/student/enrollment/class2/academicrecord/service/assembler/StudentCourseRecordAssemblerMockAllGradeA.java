@@ -32,6 +32,7 @@ public class StudentCourseRecordAssemblerMockAllGradeA extends StudentCourseReco
             
                 LuiInfo lui = this.getLuiService().getLui(courseReg.getCourseOfferingId(), context);
                 LuiIdentifierInfo identifier = lui.getOfficialIdentifier();
+                courseRecord.setCourseOfferingId(lui.getId());
                 courseRecord.setCourseTitle(identifier != null ? identifier.getLongName() : null);
                 courseRecord.setCourseCode(identifier != null ? identifier.getCode() : null);
 

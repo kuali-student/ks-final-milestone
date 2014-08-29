@@ -423,7 +423,7 @@ public class DefaultPlannerForm extends AbstractPlanItemForm implements
 					List<PlannerItem> itemList = completed.get(termId);
 					if (itemList == null)
 						completed.put(termId,itemList = new LinkedList<PlannerItem>());
-					itemList.add(new PlannerItem(completedRecord));
+					itemList.add(KsapFrameworkServiceLocator.getPlanHelper().createPlannerItem(completedRecord));
 				}
 
 			CourseHelper courseHelper = KsapFrameworkServiceLocator
@@ -432,7 +432,6 @@ public class DefaultPlannerForm extends AbstractPlanItemForm implements
 
 			for (PlanItem planItem : planItems) {
 				AcademicPlanServiceConstants.ItemCategory category = planItem.getCategory();
-				Course course = courseHelper.getCurrentVersionOfCourseByVersionIndependentId(planItem.getRefObjectId());
 
 				for (String termId : planItem.getPlanTermIds()) {
 					Map<String, List<PlannerItem>> itemMap;
@@ -454,7 +453,7 @@ public class DefaultPlannerForm extends AbstractPlanItemForm implements
 						itemMap.put(termId,
 								itemList = new LinkedList<PlannerItem>());
 
-					itemList.add(new PlannerItem(planItem, course));
+					itemList.add(KsapFrameworkServiceLocator.getPlanHelper().createPlannerItem(planItem));
 				}
 			}
 
