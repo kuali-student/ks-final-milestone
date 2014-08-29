@@ -30,6 +30,7 @@ import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.*;
 import org.kuali.student.r2.core.atp.dto.AtpInfo;
 import org.kuali.student.r2.core.class1.atp.model.AtpEntity;
+import org.kuali.student.r2.core.constants.AtpSearchServiceConstants;
 import org.kuali.student.r2.core.search.dto.*;
 import org.kuali.student.r2.core.search.service.SearchManager;
 import org.kuali.student.r2.core.search.service.SearchService;
@@ -3627,16 +3628,16 @@ public class CluServiceImpl implements CluService {
         }
         //Now do an atp search to translate ids to names
 
-        SearchRequestInfo atpSearchRequest = new SearchRequestInfo("atp.search.advancedAtpSearch");
-        atpSearchRequest.addParam("atp.advancedAtpSearchParam.optionalAtpIds", new ArrayList<String>(atpIdToCellMapping.keySet()));
+        SearchRequestInfo atpSearchRequest = new SearchRequestInfo(AtpSearchServiceConstants.ATP_SEARCH_ADVANCED);
+        atpSearchRequest.addParam(AtpSearchServiceConstants.ATP_ADVANCED_ATP_SEARCH_PARAM_OPTIONAL_ATP_IDS, new ArrayList<String>(atpIdToCellMapping.keySet()));
         SearchResultInfo atpSearchResults = searchDispatcher.search(atpSearchRequest, contextInfo);
         for(SearchResultRowInfo row:atpSearchResults.getRows()){
             String atpId = null;
             String atpName = null;
             for(SearchResultCellInfo cell:row.getCells()){
-                if("atp.resultColumn.atpId".equals(cell.getKey())){
+                if(AtpSearchServiceConstants.ATP_RESULTCOLUMN_ATP_ID.equals(cell.getKey())){
                     atpId = cell.getValue();
-                }else if("atp.resultColumn.atpShortName".equals(cell.getKey())){
+                }else if(AtpSearchServiceConstants.ATP_RESULTCOLUMN_ATP_SHORT_NAME.equals(cell.getKey())){
                     atpName = cell.getValue();
                 }
             }

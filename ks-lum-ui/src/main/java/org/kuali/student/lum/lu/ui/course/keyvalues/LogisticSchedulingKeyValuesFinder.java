@@ -30,7 +30,7 @@ import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
 import org.kuali.rice.krad.uif.view.ViewModel;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.common.util.security.ContextUtils;
-import org.kuali.student.r2.core.constants.AtpServiceConstants;
+import org.kuali.student.r2.core.constants.AtpSearchServiceConstants;
 import org.kuali.student.r2.core.constants.EnumerationManagementServiceConstants;
 import org.kuali.student.r2.core.enumerationmanagement.dto.EnumeratedValueInfo;
 import org.kuali.student.r2.core.enumerationmanagement.service.EnumerationManagementService;
@@ -54,7 +54,7 @@ public class LogisticSchedulingKeyValuesFinder extends UifKeyValuesFinderBase {
         try {
             final List<EnumeratedValueInfo> enumerationInfos =
                     getEnumerationManagementService().getEnumeratedValues
-                            (AtpServiceConstants.COURSE_SCHEDULING_TERM_ENUM_KEY, null, null, null,
+                            (AtpSearchServiceConstants.ATP_QUERYPARAM_SEASON_TYPE, null, null, null,
                                     ContextUtils.getContextInfo());
 
             sort(enumerationInfos, new Comparator<EnumeratedValueInfo>() {

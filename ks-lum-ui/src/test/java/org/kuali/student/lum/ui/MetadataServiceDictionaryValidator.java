@@ -25,6 +25,7 @@ import org.kuali.student.r1.common.assembly.data.LookupParamMetadata;
 import org.kuali.student.r1.common.assembly.data.LookupResultMetadata;
 import org.kuali.student.r1.common.assembly.data.Metadata;
 import org.kuali.student.r1.core.personsearch.service.impl.QuickViewByGivenNameSearchTypeCreator;
+import org.kuali.student.r2.core.constants.AtpSearchServiceConstants;
 import org.kuali.student.r2.core.search.dto.*;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -37,7 +38,8 @@ public class MetadataServiceDictionaryValidator {
 
 	private Map<String, SearchTypeInfo> searchInfoTypeMap = null;
 	
-	String[] excludingSearchTypeIDs = { "atp.search.atpSeasonTypes", "atp.search.atpDurationTypes" };
+	String[] excludingSearchTypeIDs = { AtpSearchServiceConstants.ATP_SEARCH_SEASONTYPES,
+            AtpSearchServiceConstants.ATP_SEARCH_DURATIONTYPES};
 
 	@SuppressWarnings("unchecked")
 	private Map<String, SearchTypeInfo> getSearchInfoTypeMap() {
