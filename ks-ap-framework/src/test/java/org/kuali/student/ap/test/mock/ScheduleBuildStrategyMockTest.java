@@ -152,15 +152,6 @@ public class ScheduleBuildStrategyMockTest implements ScheduleBuildStrategy {
         //To change body of implemented methods use File | Settings | File Templates.
     }
 
-    /**
-     * Get the initial shopping cart form.
-     *
-     * @return The initial shopping cart form.
-     */
-    @Override
-    public ShoppingCartForm getInitialCartForm() {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
-    }
 
     /**
      * Get a populated activity option for a given term, course, and

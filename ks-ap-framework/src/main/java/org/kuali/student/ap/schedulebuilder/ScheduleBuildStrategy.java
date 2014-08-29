@@ -139,13 +139,6 @@ public interface ScheduleBuildStrategy {
 			throws PermissionDeniedException;
 
 	/**
-	 * Get the initial shopping cart form.
-	 * 
-	 * @return The initial shopping cart form.
-	 */
-	ShoppingCartForm getInitialCartForm();
-
-	/**
 	 * Get a populated activity option for a given term, course, and
 	 * registration code.
 	 * 

@@ -6,11 +6,12 @@ import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.ap.academicplan.constants.AcademicPlanServiceConstants;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
 import org.kuali.student.ap.framework.context.PlanConstants;
-import org.kuali.student.ap.planner.support.PlanItemControllerHelper;
+import org.kuali.student.ap.planner.controller.PlanItemControllerHelper;
 import org.kuali.student.ap.planner.util.PlanEventUtils;
 import org.kuali.student.ap.schedulebuilder.ShoppingCartForm;
 import org.kuali.student.ap.schedulebuilder.ShoppingCartRequest;
 import org.kuali.student.ap.schedulebuilder.ShoppingCartStrategy;
+import org.kuali.student.ap.schedulebuilder.form.DefaultShoppingCartForm;
 import org.kuali.student.ap.schedulebuilder.infc.CourseOption;
 import org.kuali.student.ap.schedulebuilder.infc.PossibleScheduleOption;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
@@ -92,8 +93,7 @@ public class ShoppingCartController extends UifControllerBase {
 
 	@Override
 	protected UifFormBase createInitialForm(HttpServletRequest request) {
-		return (UifFormBase) KsapFrameworkServiceLocator
-				.getScheduleBuildStrategy().getInitialCartForm();
+		return new DefaultShoppingCartForm();
 	}
 
 	@RequestMapping(params = "pageId="

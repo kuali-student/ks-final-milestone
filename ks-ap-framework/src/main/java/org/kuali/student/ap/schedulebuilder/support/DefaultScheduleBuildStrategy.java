@@ -1052,9 +1052,4 @@ public class DefaultScheduleBuildStrategy implements ScheduleBuildStrategy,
 		updateScheduleBuildAttribute(requestedLearningPlanId, scheduleBuildInfo);
 	}
 
-	@Override
-	public ShoppingCartForm getInitialCartForm() {
-		return new DefaultShoppingCartForm();
-	}
-
 }

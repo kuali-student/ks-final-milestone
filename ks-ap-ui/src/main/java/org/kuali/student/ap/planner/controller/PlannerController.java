@@ -10,18 +10,14 @@ import org.kuali.student.ap.academicplan.dto.TypedObjectReferenceInfo;
 import org.kuali.student.ap.academicplan.infc.LearningPlan;
 import org.kuali.student.ap.academicplan.infc.PlanItem;
 import org.kuali.student.ap.academicplan.infc.TypedObjectReference;
-import org.kuali.student.ap.coursesearch.CreditsFormatter;
-import org.kuali.student.ap.coursesearch.util.CourseDetailsUtil;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
 import org.kuali.student.ap.framework.context.PlanConstants;
 import org.kuali.student.ap.framework.util.KsapHelperUtil;
 import org.kuali.student.ap.framework.util.KsapStringUtil;
 import org.kuali.student.ap.planner.PlannerForm;
-import org.kuali.student.ap.planner.dataobject.CourseSummaryPopoverDetailsWrapper;
 import org.kuali.student.ap.planner.form.AddCourseToPlanForm;
 import org.kuali.student.ap.planner.form.PlannerFormImpl;
 import org.kuali.student.ap.planner.service.PlannerViewHelperService;
-import org.kuali.student.ap.planner.support.PlanItemControllerHelper;
 import org.kuali.student.ap.planner.util.PlanEventUtils;
 import org.kuali.student.common.collection.KSCollectionUtils;
 import org.kuali.student.r2.common.dto.AttributeInfo;
@@ -58,7 +54,6 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 /**
  * Fix under KSAP-265

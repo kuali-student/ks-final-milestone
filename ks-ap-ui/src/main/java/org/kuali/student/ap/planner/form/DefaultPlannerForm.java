@@ -1,4 +1,4 @@
-package org.kuali.student.ap.planner.support;
+package org.kuali.student.ap.planner.form;
 
 import org.kuali.rice.krad.web.bind.RequestAccessible;
 import org.kuali.student.ap.academicplan.constants.AcademicPlanServiceConstants;

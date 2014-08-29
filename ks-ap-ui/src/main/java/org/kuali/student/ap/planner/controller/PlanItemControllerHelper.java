@@ -1,4 +1,4 @@
-package org.kuali.student.ap.planner.support;
+package org.kuali.student.ap.planner.controller;
 
 import java.io.IOException;
 

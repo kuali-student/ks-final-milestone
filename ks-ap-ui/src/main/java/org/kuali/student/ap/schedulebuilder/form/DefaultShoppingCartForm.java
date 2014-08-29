@@ -1,10 +1,10 @@
-package org.kuali.student.ap.schedulebuilder.support;
+package org.kuali.student.ap.schedulebuilder.form;
 
 import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
 import org.kuali.student.ap.framework.context.CourseHelper;
-import org.kuali.student.ap.planner.support.AbstractPlanItemForm;
+import org.kuali.student.ap.planner.form.AbstractPlanItemForm;
 import org.kuali.student.ap.schedulebuilder.ScheduleBuildStrategy;
 import org.kuali.student.ap.schedulebuilder.ShoppingCartForm;
 import org.kuali.student.ap.schedulebuilder.ShoppingCartRequest;

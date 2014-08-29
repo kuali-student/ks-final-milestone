@@ -3,7 +3,6 @@ package org.kuali.student.ap.planner.form;
 import org.kuali.student.ap.coursesearch.dataobject.CourseDetailsPopoverWrapper;
 import org.kuali.student.ap.coursesearch.service.impl.CourseDetailsInquiryHelperImpl2;
 import org.kuali.student.ap.planner.PlannerTerm;
-import org.kuali.student.ap.planner.support.DefaultPlannerForm;
 
 import java.util.ArrayList;
 import java.util.List;
