@@ -114,7 +114,7 @@ public class SimpleJsonTokenizer implements Iterable<BaseToken> {
                     try {
                         token = consumer.consume(producer);
                     } catch (ParseException e) {
-                        throw new RuntimeException("Parse error");
+                        throw new RuntimeException("Parse error", e);
                     }
                     if (token != null) {
                         return token;
