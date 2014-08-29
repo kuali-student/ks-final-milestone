@@ -88,6 +88,14 @@ public class KSPersonImpl implements KSPerson{
         }
     }
 
+    public String getEntityId(){
+        if (person != null){
+            return person.getEntityId();
+        } else {
+            return StringUtils.EMPTY;
+        }
+    }
+
     public String getPrincipalId(){
         if (person != null){
             return person.getPrincipalId();

@@ -53,7 +53,7 @@
             <property name="resultFields">
                 <list>
                     <bean parent="KS-Uif-DataField-Simple" p:propertyName="name" p:label="Name"/>
-                    <bean parent="KS-Uif-DataField-Simple" p:propertyName="principalId" p:label="ID"/>
+                    <bean parent="KS-Uif-DataField-Simple" p:propertyName="entityId" p:label="ID"/>
                     <bean parent="KS-Uif-DataField-Simple" p:propertyName="primaryDepartmentCode" p:label="Department"/>
                     <bean parent="KS-Uif-DataField-Simple" p:propertyName="personAffiliationType" p:label="Role"/>
                 </list>
