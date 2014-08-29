@@ -32,7 +32,6 @@ public class RulesExecutionConstants {
     public static final Term PROCESS_KEY_TERM = new Term("processKey");
     public static final Term CONTEXT_INFO_TERM = new Term(contextInfo);
     public static final Term PERSON_ID_TERM = new Term(personId);
-    public static final Term ENTITY_ID_TERM = new Term("entityId");
     public static final Term REG_GROUP_ID_TERM = new Term("registrationGroupId");
     public static final Term REGISTRATION_REQUEST_ID_TERM = new Term("registrationRequestId");
     public static final Term SIMULATED_REGISTRATIONS_TERM = new Term("simulatedRegistrations");
