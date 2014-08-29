@@ -735,11 +735,21 @@
     <bean id="planner_backup_collection-parent" abstract="true" parent="Uif-VerticalBoxGroup">
         <property name="items">
             <list>
-                <bean  parent="planner_item_collection" p:headerText="@{#textHelper.getText('planner.body.backup')}">
+                <bean  parent="planner_item_collection">
                     <property name="propertyName" value="backupList" />
                     <property name="validationMessages.displayMessages" value="false" />
-                    <property name="header.toolTip">
-                        <ref bean="planner_backup_help_tooltip"/>
+                    <property name="header.upperGroup">
+                        <bean p:id="planner_planned_collection_header" parent="Uif-HeaderUpperGroup">
+                            <property name="items">
+                                <list>
+                                    <bean parent="Uif-HeaderFive"  p:headerText="@{#textHelper.getText('planner.body.backup')}">
+                                        <property name="toolTip">
+                                            <ref bean="planner_backup_help_tooltip"/>
+                                        </property>
+                                    </bean>
+                                </list>
+                            </property>
+                        </bean>
                     </property>
                     <property name="dataAttributes">
                         <map merge="true">
