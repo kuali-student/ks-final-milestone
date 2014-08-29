@@ -164,7 +164,10 @@ public class AdminRegistrationViewHelperServiceImpl extends KSViewHelperServiceI
                 if (ValidationResult.ErrorLevel.ERROR.equals(vr.getLevel())) {
 
                     Map<String, Object> validationMap = RegistrationValidationResultsUtil.unmarshallResult(vr.getMessage());
-                    if (validationMap.containsKey(AdminRegConstants.ADMIN_REG_VALIDATION_MSG)) {
+
+                    if (validationMap.containsKey(AdminRegConstants.ADMIN_REG_VALIDATION_MSG_KEY)) {
+                        reasons.add(AdminRegistrationUtil.getMessageForKey((String) validationMap.get(AdminRegConstants.ADMIN_REG_VALIDATION_MSG_KEY)));
+                    } else if (validationMap.containsKey(AdminRegConstants.ADMIN_REG_VALIDATION_MSG)) {
                         reasons.add((String) validationMap.get(AdminRegConstants.ADMIN_REG_VALIDATION_MSG));
                     }
                 }
@@ -258,7 +261,7 @@ public class AdminRegistrationViewHelperServiceImpl extends KSViewHelperServiceI
 
         RegistrationCourse registrationCourse = new RegistrationCourse();
         registrationCourse.setCourseRegistrationId(courseRegistrationInfo.getId());
-        registrationCourse.setCredits(courseRegistrationInfo.getCredits().toString());
+        registrationCourse.setCredits((courseRegistrationInfo.getCredits() != null) ? courseRegistrationInfo.getCredits().toString() : StringUtils.EMPTY);
         registrationCourse.setTransactionalDate(courseRegistrationInfo.getMeta().getCreateTime());
         registrationCourse.setEffectiveDate(courseRegistrationInfo.getEffectiveDate());
         registrationCourse.setGradingOptionId(courseRegistrationInfo.getGradingOptionId());
