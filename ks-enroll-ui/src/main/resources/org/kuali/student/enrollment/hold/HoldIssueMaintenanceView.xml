@@ -175,12 +175,12 @@ limitations under the License.
                         </bean>
                     </property>
                 </bean>
-                <bean parent="KS-Uif-InputField-LabelTop" p:label="Organization Contact" p:propertyName="orgName">
+                <bean  id="holdIssueOwnOrgContact" parent="KS-Uif-InputField-LabelTop" p:label="Organization Contact" p:propertyName="orgName">
                     <property name="control">
                         <bean parent="KS-Uif-TextControl" p:size="20" p:disabled="false"/>
                     </property>
                 </bean>
-                <bean parent="KS-Uif-InputField-LabelTop" p:label="Contact Address" p:propertyName="orgAddress">
+                <bean id="holdIssueOwnOrgAddress" parent="KS-Uif-InputField-LabelTop" p:label="Contact Address" p:propertyName="orgAddress">
                     <property name="control">
                         <bean parent="KS-Uif-TextControl" p:size="20" p:disabled="false"/>
                     </property>
@@ -197,12 +197,12 @@ limitations under the License.
                 <bean parent="Uif-HorizontalFieldGroup">
                     <property name="items">
                         <list>
-                            <bean parent="Uif-InputField" p:label="First Applied Date" p:propertyName="holdIssue.firstAppliedDate">
+                            <bean id="holdFirstAppliedDate"  parent="Uif-InputField" p:label="First Applied Date" p:propertyName="holdIssue.firstAppliedDate">
                                 <property name="control">
                                     <bean parent="KS-Uif-Default-DateControl" p:size="10"/>
                                 </property>
                             </bean>
-                            <bean parent="Uif-InputField" p:label="Last Applied Date" p:propertyName="holdIssue.lastAppliedDate">
+                            <bean id="holdLastAppliedDate" parent="Uif-InputField" p:label="Last Applied Date" p:propertyName="holdIssue.lastAppliedDate">
                                 <property name="control">
                                     <bean parent="KS-Uif-Default-DateControl" p:size="10"/>
                                 </property>
@@ -210,7 +210,7 @@ limitations under the License.
                         </list>
                     </property>
                 </bean>
-                <bean parent="KS-Uif-InputField-LabelTop" p:label="Term" p:propertyName="termBased">
+                <bean id="holdTermBased" parent="KS-Uif-InputField-LabelTop" p:label="Term" p:propertyName="termBased">
                     <property name="control">
                         <bean parent="KS-Uif-CheckboxControl" p:checkboxLabel="Term Based"/>
                     </property>
@@ -218,13 +218,13 @@ limitations under the License.
                 <bean parent="Uif-HorizontalFieldGroup" p:progressiveRender="@{#dp.termBased}">
                     <property name="items">
                         <list>
-                            <bean parent="KS-Uif-InputField-LabelTop" p:label="First Application Term"
+                            <bean id="holdFirstAppTerm" parent="KS-Uif-InputField-LabelTop" p:label="First Application Term"
                                   p:propertyName="firstTerm" p:required="false">
                                 <property name="control">
                                     <bean parent="KS-Uif-TextControl" p:size="20" p:disabled="false"/>
                                 </property>
                             </bean>
-                            <bean parent="KS-Uif-InputField-LabelTop" p:label="Last Application Term"
+                            <bean id="holdLastAppTerm" parent="KS-Uif-InputField-LabelTop" p:label="Last Application Term"
                                   p:propertyName="lastTerm" p:required="false">
                                 <property name="control">
                                     <bean parent="KS-Uif-TextControl" p:size="20" p:disabled="false"/>
@@ -233,7 +233,7 @@ limitations under the License.
                         </list>
                     </property>
                 </bean>
-                <bean parent="KS-Uif-InputField-LabelTop" p:label="Hold History" p:propertyName="holdHistory">
+                <bean id="hold_History" parent="KS-Uif-InputField-LabelTop" p:label="Hold History" p:propertyName="holdHistory">
                     <property name="control">
                         <bean parent="KS-Uif-CheckboxControl" p:checkboxLabel="Maintain History"/>
                     </property>
@@ -265,7 +265,7 @@ limitations under the License.
                                 <property name="addBlankLineAction.dirtyOnAction" value="true"/>
                                 <property name="items">
                                     <list>
-                                        <bean parent="KS-Uif-InputField" p:label="Org Code/Org ID(Organization)"
+                                        <bean id="holdAuthOrg" parent="KS-Uif-InputField" p:label="Org Code/Org ID(Organization)"
                                               p:propertyName="id" p:style="font-weight:bold;white-space:nowrap;"
                                               p:additionalCssClasses="organization_id_create_hold">
                                             <property name="control">
