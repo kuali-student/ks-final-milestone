@@ -675,6 +675,7 @@ public class CourseOfferingServiceDecorator implements CourseOfferingService {
             throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException,
             PermissionDeniedException {
+    	
         return getNextDecorator().getActivityOfferingClustersIdsByFormatOffering(formatOfferingId, contextInfo);
     }
 

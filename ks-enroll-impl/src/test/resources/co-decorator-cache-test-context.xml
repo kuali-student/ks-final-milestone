@@ -247,9 +247,13 @@
 
     <bean id="courseOfferingServiceCache" class="org.kuali.student.enrollment.class2.courseoffering.service.decorators.CourseOfferingServiceCacheDecorator">
         <property name="cacheManager" ref="ksCacheManager"/>
-        <property name="nextDecorator" ref="coService"/>
+        <property name="nextDecorator" ref="methodCallCounter" />
     </bean>
 
+	<bean id="methodCallCounter" class="org.kuali.student.common.test.spring.MethodCountingInvocationHandlerFactoryBean">
+		<property name="proxiedObject" ref="coService" />
+	</bean>
+		
     <bean id="ksCacheManager" class="net.sf.ehcache.CacheManager">
         <constructor-arg index="0" type="java.net.URL" value="classpath:ks-test-ehcache.xml" />
     </bean>

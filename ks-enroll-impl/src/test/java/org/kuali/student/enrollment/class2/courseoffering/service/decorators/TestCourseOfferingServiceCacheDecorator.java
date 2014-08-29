@@ -1,12 +1,30 @@
 package org.kuali.student.enrollment.class2.courseoffering.service.decorators;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+
+import java.lang.reflect.Proxy;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
+import java.util.List;
+
+import javax.annotation.Resource;
+
 import org.apache.log4j.Logger;
 import org.junit.After;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
+import org.kuali.student.common.test.proxy.MethodCountingInvocationHandler;
 import org.kuali.student.common.test.util.AttributeTester;
 import org.kuali.student.common.test.util.ListOfStringTester;
 import org.kuali.student.common.test.util.MetaTester;
@@ -53,20 +71,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.annotation.Resource;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.List;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
-
 /*
  * This class was used to test the class1 backed implementation of CourseOfferingService for CourseOffering, FormatOffering and ActivityOffering.
  * 
@@ -84,6 +88,9 @@ public class TestCourseOfferingServiceCacheDecorator{
     @Resource(name = "CourseOfferingService")
     protected CourseOfferingService courseOfferingService;
 
+    @Resource(name="methodCallCounter")
+    private CourseOfferingService methodCountingService;
+    
     private static final Logger log = Logger
             .getLogger(TestCourseOfferingServiceImpl.class);
 
@@ -107,15 +114,20 @@ public class TestCourseOfferingServiceCacheDecorator{
 
     private final List<CourseOfferingCrossListingInfo> crossListings = new ArrayList<CourseOfferingCrossListingInfo>();
 
+	private MethodCountingInvocationHandler methodCountingHandler;
+
     @Before
     public void setup() throws Exception {
         callContext = new ContextInfo();
         callContext.setPrincipalId(principalId);
         CourseOfferingServiceScheduleHelper.setSchedulingService(schedulingService);
+        
+        methodCountingHandler = (MethodCountingInvocationHandler) Proxy.getInvocationHandler(methodCountingService);
     }
 
     @After
     public void teardown() throws Exception {
+    	methodCountingHandler.reset();
         dataLoader.afterTest();
     }
 
@@ -589,6 +601,9 @@ public class TestCourseOfferingServiceCacheDecorator{
 
     @Test
     public void testActivityOfferingClusters() throws Exception {
+    	
+    	this.methodCountingHandler.reset();
+    	
         new MockLrcTestDataLoader(this.lrcService).loadData();
         dataLoader.createStateTestData();
         dataLoader.beforeTest(false);
@@ -619,8 +634,12 @@ public class TestCourseOfferingServiceCacheDecorator{
 
         validateAoc(actual, expected, activities);
 
+        methodCountingHandler.reset();
         expected = actual;
         actual = courseOfferingService.getActivityOfferingCluster(expected.getId(), callContext);
+        
+        // aoc should be loaded through the cache
+        Assert.assertEquals (0, methodCountingHandler.getMethodCount("getActivityOfferingCluster"));
 
         validateAoc(actual, expected, activities);
 
@@ -628,7 +647,22 @@ public class TestCourseOfferingServiceCacheDecorator{
         aocIds.add(actual.getId());
         List<String> aocIdsTwo = courseOfferingService.getActivityOfferingClustersIdsByFormatOffering("CO-2:LEC-ONLY", callContext);
         aocIds.addAll(aocIdsTwo);
+        
+        methodCountingHandler.reset();
         List<ActivityOfferingClusterInfo> aocList = courseOfferingService.getActivityOfferingClustersByIds(aocIds, callContext);
+        
+        // the data loader is not using the cache right now it seems.  This first call falls down to pick up the AOC created in the data loader for format offering: CO-2:LEC-ONLY
+        Assert.assertEquals (1, methodCountingHandler.getMethodCount("getActivityOfferingClustersByIds"));
+        Assert.assertEquals (0, methodCountingHandler.getMethodCount("getActivityOfferingCluster"));
+        
+        methodCountingHandler.reset();
+        aocList = courseOfferingService.getActivityOfferingClustersByIds(aocIds, callContext);
+        
+        // second call should be handled by the cache decorator and not fall down to the impl (where the proxy monitors)
+
+        Assert.assertEquals (0, methodCountingHandler.getMethodCount("getActivityOfferingClustersByIds"));
+        Assert.assertEquals (0, methodCountingHandler.getMethodCount("getActivityOfferingCluster"));
+        
         assertEquals(2, aocList.size());
         assertTrue(aocList.get(0).getId().equals(aocIds.get(0)) || aocList.get(1).getId().equals(aocIds.get(0)));
         assertTrue(aocList.get(0).getId().equals(aocIds.get(1)) || aocList.get(1).getId().equals(aocIds.get(1)));
