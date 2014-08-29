@@ -26,15 +26,23 @@ public class PlannerTerm implements HasUniqueId, Serializable, Comparable<Planne
 	private boolean inProgress;
 	private boolean cartAvailable;
 	private boolean completed;
+	private boolean futureTerm;
+    private boolean registrationOpen;
 
 	private List<PlannerItem> plannedList;
 	private List<PlannerItem> backupList;
 	private List<PlannerItem> academicRecord;
 	private List<PlannerItem> cartList;
+	private List<PlannerItem> registrationList;
 	private List<PlannerTermNote> termNoteList;
 
 	private transient String allTermNotes;
 
+    private transient BigDecimal creditLineMinCredits;
+    private transient BigDecimal creditLineMaxCredits;
+    private transient String creditLineString;
+
+    // These will need delete when xml changes are complete
 	private transient BigDecimal totalCompletedMinCredits;
 	private transient BigDecimal totalCompletedMaxCredits;
 	private transient String completedCreditString;
@@ -46,6 +54,7 @@ public class PlannerTerm implements HasUniqueId, Serializable, Comparable<Planne
 	private transient BigDecimal totalPlannedMinCredits;
 	private transient BigDecimal totalPlannedMaxCredits;
 	private transient String plannedCreditString;
+
 
 	public PlannerTerm() {
 	}
@@ -311,6 +320,71 @@ public class PlannerTerm implements HasUniqueId, Serializable, Comparable<Planne
 		}
 		return plannedCreditString;
 	}
+
+    public BigDecimal getCreditLineMinCredits() {
+        if (creditLineMinCredits == null) {
+            creditLineMinCredits = BigDecimal.ZERO;
+        }
+        return creditLineMinCredits;
+    }
+
+    public BigDecimal getCreditLineMaxCredits() {
+        if (creditLineMaxCredits == null) {
+            creditLineMaxCredits = BigDecimal.ZERO;
+        }
+        return creditLineMaxCredits;
+    }
+
+    public String getCreditLineString() {
+        if (creditLineString == null) {
+            BigDecimal min = getCreditLineMinCredits();
+            BigDecimal max = getCreditLineMaxCredits();
+            StringBuilder sb = new StringBuilder();
+            sb.append(CreditsFormatter.trimCredits(min.toString()));
+            if (min.compareTo(max) < 0) {
+                sb.append(" - ");
+                sb.append(CreditsFormatter.trimCredits(max.toString()));
+            }
+            creditLineString = sb.toString();
+        }
+        return creditLineString;
+    }
+
+    public void setCreditLineMinCredits(BigDecimal creditLineMinCredits) {
+        this.creditLineMinCredits = creditLineMinCredits;
+    }
+
+    public void setCreditLineMaxCredits(BigDecimal creditLineMaxCredits) {
+        this.creditLineMaxCredits = creditLineMaxCredits;
+    }
+
+    public void setCreditLineString(String creditLineString) {
+        this.creditLineString = creditLineString;
+    }
+
+    public boolean isFutureTerm() {
+        return futureTerm;
+    }
+
+    public void setFutureTerm(boolean futureTerm) {
+        this.futureTerm = futureTerm;
+    }
+
+    public boolean isRegistrationOpen() {
+        return registrationOpen;
+    }
+
+    public void setRegistrationOpen(boolean registrationOpen) {
+        this.registrationOpen = registrationOpen;
+    }
+
+    public List<PlannerItem> getRegistrationList() {
+        return registrationList;
+    }
+
+    public void setRegistrationList(List<PlannerItem> registrationList) {
+        this.registrationList = registrationList;
+    }
 
     @Override
     public int compareTo(PlannerTerm o) {

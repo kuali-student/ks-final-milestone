@@ -898,6 +898,7 @@ public class DefaultPlanHelper implements PlanHelper {
         newPlannerItem.setUniqueId(UUID.randomUUID().toString());
         newPlannerItem.setTermId(courseRecord.getTermName());
         newPlannerItem.setCourseCode(courseRecord.getCourseCode());
+        newPlannerItem.setCategory(ItemCategory.COMPLETE);
 
         CourseOffering offering = null;
         try {
