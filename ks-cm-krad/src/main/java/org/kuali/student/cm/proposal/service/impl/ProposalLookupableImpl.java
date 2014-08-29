@@ -14,7 +14,7 @@
  *
  * Created by venkat on 3/3/14
  */
-package org.kuali.student.cm.proposal.service;
+package org.kuali.student.cm.proposal.service.impl;
 
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;

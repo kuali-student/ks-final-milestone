@@ -18,7 +18,7 @@ package org.kuali.student.cm.course.service.impl;
 
 import org.kuali.rice.krad.lookup.LookupForm;
 import org.kuali.student.cm.course.util.CourseProposalUtil;
-import org.kuali.student.cm.proposal.service.ProposalLookupableImpl;
+import org.kuali.student.cm.proposal.service.impl.ProposalLookupableImpl;
 
 import java.util.List;
 import java.util.Map;
