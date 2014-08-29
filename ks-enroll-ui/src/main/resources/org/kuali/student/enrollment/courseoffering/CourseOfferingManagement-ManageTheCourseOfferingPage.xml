@@ -116,7 +116,7 @@
         <property name="items">
             <list>
                 <ref bean="KS-CourseOfferingManagement-TitleAndCrossListInfoSection" />
-                <bean id="KS-Tab-Hidden-Input" parent="KS-Uif-InputField" p:defaultValue="0" p:showLabel="false" p:propertyName="selectedTabId" p:hidden="true">
+                <bean id="KS-Tab-Hidden-Input" parent="KS-Uif-InputField" p:showLabel="false" p:propertyName="selectedTabId" p:hidden="true">
                     <property name="control">
                         <bean parent="KS-Uif-HiddenControl"/>
                     </property>
