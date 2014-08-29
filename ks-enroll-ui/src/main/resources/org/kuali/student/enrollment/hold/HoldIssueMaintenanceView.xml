@@ -169,7 +169,7 @@ limitations under the License.
                             <property name="fieldConversions">
                                 <map>
                                     <entry key="id" value="holdIssue.organizationId"/>
-                                    <entry key="shortName" value="orgName"/>
+                                    <!--<entry key="shortName" value="orgName"/>-->
                                 </map>
                             </property>
                         </bean>

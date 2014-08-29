@@ -1,6 +1,7 @@
 package org.kuali.student.enrollment.class1.hold.util;
 
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
+import org.kuali.student.enrollment.class1.hold.service.impl.facade.HoldIssueAuthorizingOrgFacade;
 import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
 import org.kuali.student.r2.core.constants.AcademicCalendarServiceConstants;
 import org.kuali.student.r2.core.constants.HoldServiceConstants;
@@ -24,6 +25,7 @@ public class HoldResourceLoader {
     private static HoldService holdService;
     private static OrganizationService organizationService;
     private static AcademicCalendarService academicCalendarService;
+    private static HoldIssueAuthorizingOrgFacade holdIssueAuthorizingOrgFacade;
 
     public static HoldService getHoldService(){
         if(holdService == null) {
@@ -45,4 +47,12 @@ public class HoldResourceLoader {
         }
         return academicCalendarService;
     }
+
+    public static HoldIssueAuthorizingOrgFacade getHoldIssueAuthorizingOrgFacade() {
+        if (holdIssueAuthorizingOrgFacade == null) {
+            holdIssueAuthorizingOrgFacade = (HoldIssueAuthorizingOrgFacade) GlobalResourceLoader.getService(new QName(HoldIssueConstants.NAMESPACE, HoldIssueConstants.SERVICE_NAME_LOCAL_PART));
+        }
+        return holdIssueAuthorizingOrgFacade;
+    }
+
 }

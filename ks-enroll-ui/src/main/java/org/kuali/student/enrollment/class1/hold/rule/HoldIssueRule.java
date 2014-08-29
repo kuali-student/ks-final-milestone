@@ -55,12 +55,12 @@ public class HoldIssueRule extends KsMaintenanceDocumentRuleBase {
         try {
             holdIssue.setFirstApplicationTermId(searchForTermIdByCode(holdWrapper.getFirstTerm()));
         } catch (Exception e){
-            GlobalVariables.getMessageMap().putError(HoldIssueConstants.HOLD_ISSUE_FIRST_APP_TERM_ID, "Error setting first application term id");
+            GlobalVariables.getMessageMap().putError(HoldIssueConstants.HOLD_ISSUE_FIRST_APP_TERM_ID, HoldIssueConstants.HOLDS_ISSUE_MSG_ERROR_FIRST_APPLICATION_TERMID);
         }
         try {
             holdIssue.setLastApplicationTermId(searchForTermIdByCode(holdWrapper.getLastTerm()));
         } catch (Exception e){
-            GlobalVariables.getMessageMap().putError(HoldIssueConstants.HOLD_ISSUE_LAST_APP_TERM_ID, "Error setting last application term id");
+            GlobalVariables.getMessageMap().putError(HoldIssueConstants.HOLD_ISSUE_LAST_APP_TERM_ID, HoldIssueConstants.HOLDS_ISSUE_MSG_ERROR_LAST_APPLICATION_TERMID);
         }
         holdIssue.setMaintainHistoryOfApplicationOfHold(holdWrapper.getHoldHistory());
 
@@ -105,7 +105,7 @@ public class HoldIssueRule extends KsMaintenanceDocumentRuleBase {
             List<String> issueIds = HoldResourceLoader.getHoldService().searchForHoldIssueIds(qbcBuilder.build(), createContextInfo());
 
             if (issueIds.size() > 0) {
-                GlobalVariables.getMessageMap().putError(HoldIssueConstants.HOLD_ISSUE_CODE, "holdcode already exists");
+                GlobalVariables.getMessageMap().putError(HoldIssueConstants.HOLD_ISSUE_CODE, HoldIssueConstants.HOLDS_ISSUE_MSG_ERROR_HOLDCODE_ALREADY_EXISTS);
             }
         } catch (Exception e) {
             GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, e.getMessage());
@@ -140,20 +140,7 @@ public class HoldIssueRule extends KsMaintenanceDocumentRuleBase {
     private List<ValidationResultInfo> transformValidationErrors(List<ValidationResultInfo> validationErrors) {
 
         for (ValidationResultInfo error : validationErrors) {
-            String elementPath = error.getElement();
-
-            if (StringUtils.equals(elementPath, "holdIssue.name")) {
-                elementPath = "document.newMaintainableObject.dataObject.holdIssue.name";
-            }
-
-            if (StringUtils.equals(elementPath, "holdIssue.typeKey")) {
-                elementPath = "document.newMaintainableObject.dataObject.holdIssue.typeKey";
-            }
-
-            if (StringUtils.equals(elementPath, "holdIssue.organizationId")) {
-                elementPath = "document.newMaintainableObject.dataObject.holdIssue.organizationId";
-            }
-            error.setElement(elementPath);
+            error.setElement(HoldIssueConstants.HOLD_ISSUE_HOLDISSUE_ELEMENTPATH + "." + error.getElement());
         }
 
         return validationErrors;

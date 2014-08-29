@@ -8,6 +8,7 @@ import org.kuali.student.common.uif.service.impl.KSMaintainableImpl;
 import org.kuali.student.common.util.security.ContextUtils;
 import org.kuali.student.enrollment.class1.hold.dto.AuthorizingOrgWrapper;
 import org.kuali.student.enrollment.class1.hold.dto.HoldIssueMaintenanceWrapper;
+import org.kuali.student.enrollment.class1.hold.util.HoldIssueConstants;
 import org.kuali.student.enrollment.class1.hold.service.impl.facade.HoldIssueAuthorizingOrgFacade;
 import org.kuali.student.enrollment.class1.hold.util.HoldResourceLoader;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
@@ -22,17 +23,11 @@ import java.util.Map;
 
 public class HoldInfoMaintainableImpl extends KSMaintainableImpl {
 
-    public static final String NEW_HOLD_ISSUE_DOCUMENT_TEXT = "New Hold Issue Document";
-    public static final String MODIFY_HOLD_ISSUE_DOCUMENT_TEXT = "Modify Hold Issue Document";
-
-    public static final String APPLY_HOLD_ROLE_PERMISSION = "Hold Apply Hold Role";
-    public static final String EXPIRE_APPLIED_HOLD_ROLE_PERMISSION = "Hold Expire Applied Hold Role";
-
     private transient HoldIssueAuthorizingOrgFacade holdIssueAuthorizingOrgFacade;
     @Override
     public Object retrieveObjectForEditOrCopy(MaintenanceDocument document, Map<String, String> dataObjectKeys) {
 
-        String holdId = dataObjectKeys.get("id");
+        String holdId = dataObjectKeys.get(HoldIssueConstants.HOLD_ISSUE_ID);
         if (holdId == null) {
             return setupDataObjectForCreate();
         } else {
@@ -74,17 +69,17 @@ public class HoldInfoMaintainableImpl extends KSMaintainableImpl {
 
             dataObject.setHoldIssue(holdIssueInfo);
             List<OrgInfo> orgInfos = new ArrayList<OrgInfo>();
-            List<Role> roles =  this.getHoldIssueAuthorizingOrgFacade().getHold(ContextUtils.createDefaultContextInfo());
+            List<Role> roles = HoldResourceLoader.getHoldIssueAuthorizingOrgFacade().getHold(ContextUtils.createDefaultContextInfo());
             for (Role role : roles) {
-                orgInfos = this.getHoldIssueAuthorizingOrgFacade().getBindingByRoleAndHoldIssue(role.getId(), holdIssueInfo.getId(), ContextUtils.createDefaultContextInfo());
+                orgInfos = HoldResourceLoader.getHoldIssueAuthorizingOrgFacade().getBindingByRoleAndHoldIssue(role.getId(), holdIssueInfo.getId(), ContextUtils.createDefaultContextInfo());
                 for (OrgInfo org : orgInfos) {
                     AuthorizingOrgWrapper authorizingOrgWrapper = new AuthorizingOrgWrapper();
                     authorizingOrgWrapper.setId(org.getId());
                     authorizingOrgWrapper.setOrganizationName(org.getShortName());
-                    if (role.getName().equals(APPLY_HOLD_ROLE_PERMISSION)) {
+                    if (role.getName().equals(HoldIssueConstants.APPLY_HOLD_ROLE_PERMISSION)) {
                         authorizingOrgWrapper.isAuthOrgApply();
                     }
-                    if (role.getName().equals(EXPIRE_APPLIED_HOLD_ROLE_PERMISSION)) {
+                    if (role.getName().equals(HoldIssueConstants.EXPIRE_APPLIED_HOLD_ROLE_PERMISSION)) {
                         authorizingOrgWrapper.isAuthOrgExpire();
                     }
                     AuthOrgs.add(authorizingOrgWrapper);
@@ -121,26 +116,26 @@ public class HoldInfoMaintainableImpl extends KSMaintainableImpl {
         HoldIssueInfo holdIssueInfo = new HoldIssueInfo();
         try {
             if (StringUtils.isBlank(holdWrapper.getHoldIssue().getId())) {
-                holdIssueInfo =  HoldResourceLoader.getHoldService().createHoldIssue(holdWrapper.getHoldIssue().getTypeKey(), holdWrapper.getHoldIssue(), ContextUtils.createDefaultContextInfo());
+                holdIssueInfo = HoldResourceLoader.getHoldService().createHoldIssue(holdWrapper.getHoldIssue().getTypeKey(), holdWrapper.getHoldIssue(), ContextUtils.createDefaultContextInfo());
             } else {
-                holdIssueInfo =  HoldResourceLoader.getHoldService().updateHoldIssue(holdWrapper.getHoldIssue().getId(), holdWrapper.getHoldIssue(), ContextUtils.createDefaultContextInfo());
+                holdIssueInfo = HoldResourceLoader.getHoldService().updateHoldIssue(holdWrapper.getHoldIssue().getId(), holdWrapper.getHoldIssue(), ContextUtils.createDefaultContextInfo());
             }
-            List<Role> roles = this.getHoldIssueAuthorizingOrgFacade().getHold(ContextUtils.createDefaultContextInfo());
+            List<Role> roles = HoldResourceLoader.getHoldIssueAuthorizingOrgFacade().getHold(ContextUtils.createDefaultContextInfo());
 
             if (!holdWrapper.getOrganizationNames().isEmpty()) {
                 for (AuthorizingOrgWrapper authorizingOrgWrapper : holdWrapper.getOrganizationNames()) {
                     if (authorizingOrgWrapper.isAuthOrgApply()) {
                         for (Role role : roles) {
-                            if (role.getName().equals(APPLY_HOLD_ROLE_PERMISSION)) {
-                                this.getHoldIssueAuthorizingOrgFacade().storeBinding(holdIssueInfo.getId(), authorizingOrgWrapper.getId(), role, ContextUtils.createDefaultContextInfo());
+                            if (role.getName().equals(HoldIssueConstants.APPLY_HOLD_ROLE_PERMISSION)) {
+                                HoldResourceLoader.getHoldIssueAuthorizingOrgFacade().storeBinding(holdIssueInfo.getId(), authorizingOrgWrapper.getId(), role, ContextUtils.createDefaultContextInfo());
                             }
                         }
                     }
 
                     if (authorizingOrgWrapper.isAuthOrgExpire()) {
                         for (Role role : roles) {
-                            if (role.getName().equals(EXPIRE_APPLIED_HOLD_ROLE_PERMISSION)) {
-                                this.getHoldIssueAuthorizingOrgFacade().storeBinding(holdIssueInfo.getId(), authorizingOrgWrapper.getId(), role, ContextUtils.createDefaultContextInfo());
+                            if (role.getName().equals(HoldIssueConstants.EXPIRE_APPLIED_HOLD_ROLE_PERMISSION)) {
+                                HoldResourceLoader.getHoldIssueAuthorizingOrgFacade().storeBinding(holdIssueInfo.getId(), authorizingOrgWrapper.getId(), role, ContextUtils.createDefaultContextInfo());
 
                             }
                         }
@@ -159,20 +154,13 @@ public class HoldInfoMaintainableImpl extends KSMaintainableImpl {
     @Override
     public void processAfterNew(MaintenanceDocument document, Map<String, String[]> requestParameters) {
         super.processAfterNew(document, requestParameters);
-        document.getDocumentHeader().setDocumentDescription(NEW_HOLD_ISSUE_DOCUMENT_TEXT);
+        document.getDocumentHeader().setDocumentDescription(HoldIssueConstants.NEW_HOLD_ISSUE_DOCUMENT_TEXT);
     }
 
     @Override
     public void processAfterEdit(MaintenanceDocument document, Map<String, String[]> requestParameters) {
         super.processAfterEdit(document, requestParameters);
-        document.getDocumentHeader().setDocumentDescription(MODIFY_HOLD_ISSUE_DOCUMENT_TEXT);
+        document.getDocumentHeader().setDocumentDescription(HoldIssueConstants.MODIFY_HOLD_ISSUE_DOCUMENT_TEXT);
     }
 
-
-    public HoldIssueAuthorizingOrgFacade getHoldIssueAuthorizingOrgFacade() {
-        if (holdIssueAuthorizingOrgFacade == null) {
-            holdIssueAuthorizingOrgFacade = (HoldIssueAuthorizingOrgFacade) GlobalResourceLoader.getService(new QName("http://student.kuali.org/wsdl/HoldIssueAuthorizingOrgFacade", "HoldIssueAuthorizingOrgFacade"));
-        }
-        return holdIssueAuthorizingOrgFacade;
-    }
 }
