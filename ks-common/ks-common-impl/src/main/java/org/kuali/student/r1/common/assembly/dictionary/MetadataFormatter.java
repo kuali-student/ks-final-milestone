@@ -596,7 +596,7 @@ public class MetadataFormatter {
 		if (mi.getSmallestMaxLength() != null) {
 			if (mi.getLargestMinLength() != null
 					&& mi.getLargestMinLength() != 0) {
-				if (mi.getSmallestMaxLength() == mi.getLargestMinLength()) {
+				if (mi.getSmallestMaxLength().equals(mi.getLargestMinLength())) {
 					return ("(must be " + mi.getSmallestMaxLength() + ")");
 				}
 				return "(" + mi.getLargestMinLength() + " to "
