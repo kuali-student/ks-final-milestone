@@ -1,4 +1,5 @@
 // Loader
+// --------------------------------------------------
 #planner_courses_detail {
   .blockOverlay {
     height: 500px !important;
@@ -9,6 +10,39 @@
     top: 200px !important;
   }
 }
+
+// Planner Details
+// --------------------------------------------------
+#planner_courses_detail_list {
+
+  // Term Header
+  .ks-plan-TermsList-itemHeader {
+    background: #dcdcdc;
+
+    h4 {
+      padding: .5rem;
+    }
+  }
+
+  // Planned, Completed, Registered, Backup Headers
+  .uif-header-upperGroup {
+    background: #f0f0f0;
+    border-bottom: solid 1px #DDD;
+    font-weight: normal;
+    margin: 0;
+    padding: .5rem;
+
+    h5 {
+      padding: 0;
+    }
+  }
+
+  // Courses
+  .ks-plan-Bucket-item {
+    border-bottom: solid 1px #DDD;
+  }
+}
+
 
 .ks-plan-Bucket-headerStatusIcons{ right:5px;}
 .ksap-plan-loader div.blockElement {
@@ -97,87 +131,19 @@ button.uif-primaryActionButton.ksap-carousel-next.disabled img {
   height:100% !important; // Set as important to override carousel library auto set on element.
 }
 
-/*
-.ksap-carousel-list ul li > .uif-group > .uif-header {
-  margin: 0;
-  padding: 0;
-  height: auto;
-  line-height: inherit;
-  background: none;
-  border: none;
-}
-*/
-/* Tab header yellow */
-/*
-.ksap-carousel-list ul li > .uif-group > .uif-header h4 {
-  display: block;
-  white-space: nowrap;
-  text-align: center;
-  padding: 9px 0;
-  border: solid 1px #000000;
-  border-radius: 5px 5px 0px 0px;
-}
-*/
-/*
-.ksap-carousel-list ul li > .uif-group > .uif-header h4 .uif-headerText-span {
-  color: #555;
-  font-size: 13px;
-  text-transform: uppercase;
-  text-shadow: 0px 1px 0px #fcffff;
-}
-*/
-/*Planner Calendar other terms*/
-/*.ksap-carousel-list ul li > .uif-group.ksap-term-past > .uif-header h4 {
-  border: solid 1px #cccccc;
-  background-color: #dedede;
-}*/
-/* Planner Calendar current term */
-/*.ksap-carousel-list ul li > .uif-group.ksap-term-current > .uif-header h4 {
-  border: solid 1px #432f69;
-}
-
-.ksap-carousel-list ul li > .uif-group.ksap-term-current > .uif-header h4 .uif-headerText-span {
-  color: #f9f7f7;
-  text-shadow: 0px 1px 0px #000;
-}*/
 
 .ksap-carousel-list ul li > .uif-group{
-  /*
-      @TODO KSAP-961 Convert to a border style instead of an image
-  */
-  background: url('../images/bkgrdDotted.gif');
   min-height: 519px;
   border: solid 1px #dfdfdf;
   border-top: none;
-  border-radius: 0 0 5px 5px;
+  border-radius: 5px;
 }
 .ksap-carousel-list ul li .uif-group {
   overflow: hidden;
   padding: 0;
 }
 
-.ksap-carousel-list ul li .uif-header {
-  padding: 0 0 0 10px;
-  height: 27px;
-  line-height: 27px;
-  background-color: #F5F5F5;
-  background-image: linear-gradient(to bottom, #F5F5F5 0%, #EBEBEB 100%);
-  border-top: solid 1px #e2e2e2;
-  border-bottom: solid 1px #e2e2e2;
-  margin-bottom: -1px;
-}
 
-.ksap-carousel-list ul li .uif-header h6.uif-headerText {
-  color: #777;
-  font-weight: normal;
-  font-size: 12px;
-  vertical-align: middle;
-  display: inline-block;
-  text-transform: capitalize;
-}
-.ksap-carousel-list ul li .uif-tooltip h6.uif-headerText span{
-  border-bottom: 1px dotted #777;
-}
 
 .ksap-carousel-list ul li .uif-header .uif-helpImage {
   display: inline-block;
