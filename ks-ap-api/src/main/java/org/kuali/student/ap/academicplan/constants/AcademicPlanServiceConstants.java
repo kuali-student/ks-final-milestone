@@ -58,7 +58,7 @@ public class AcademicPlanServiceConstants {
     public static final String ADVISOR_AFFILIATION_TYPE_KEY = "ADVSR";
 
     public static enum ItemCategory {
-        PLANNED, BACKUP, WISHLIST, WHATIF, CART, COMPLETE;
+        PLANNED, BACKUP, WISHLIST, WHATIF, CART, COMPLETE, REGISTERED;
 
         public static ItemCategory fromString(String enumString) {
             return ItemCategory.valueOf(enumString.toUpperCase());
