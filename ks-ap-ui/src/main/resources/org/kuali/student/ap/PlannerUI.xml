@@ -549,7 +549,7 @@
           p:render="@{#line.completed or #line.academicRecord.size() gt 0 or !#line.planning}">
         <property name="propertyName" value="academicRecord" />
         <property name="header.toolTip">
-            <ref bean="academic_record_help_tooltip"/>
+            <ref bean="planner_academic_record_help_tooltip"/>
         </property>
         <property name="header.lowerGroup">
             <bean parent="Uif-HorizontalBoxGroup" p:additionalCssClasses="ks-plan-Bucket-headerStatusIcons">
@@ -616,7 +616,7 @@
         <property name="validationMessages.displayMessages" value="false" />
         <property name="propertyName" value="cartList" />
         <property name="header.toolTip">
-            <ref bean="cart_help_tooltip"/>
+            <ref bean="planner_cart_help_tooltip"/>
         </property>
         <property name="cssClasses">
             <list merge="false">
@@ -662,7 +662,7 @@
                     <property name="propertyName" value="plannedList" />
                     <property name="validationMessages.displayMessages" value="false" />
                     <property name="header.toolTip">
-                        <ref bean="planned_help_tooltip"/>
+                        <ref bean="planner_planned_help_tooltip"/>
                     </property>
                     <property name="cssClasses">
                         <list merge="false">
@@ -719,7 +719,7 @@
                     <property name="propertyName" value="backupList" />
                     <property name="validationMessages.displayMessages" value="false" />
                     <property name="header.toolTip">
-                        <ref bean="backup_help_tooltip"/>
+                        <ref bean="planner_backup_help_tooltip"/>
                     </property>
                     <property name="dataAttributes">
                         <map merge="true">
@@ -785,9 +785,6 @@
                 <value>ksap-carousel-term-total</value>
                 <value>ks-plan-Bucket-credit</value>
             </list>
-        </property>
-        <property name="toolTip">
-            <ref bean="total_credits_help_tooltip"/>
         </property>
         <property name="items">
             <list>

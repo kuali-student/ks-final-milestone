@@ -65,11 +65,10 @@
         </property>
     </bean>
 
-    <bean id="academic_record_help_tooltip" parent="KSAP-Tooltip" p:tooltipContent="@{#line.completed ? 'A completed term you registered for.' : 'A course you have enrolled in for current or future academic term(s).'}"/>
-    <bean id="cart_help_tooltip" parent="KSAP-Tooltip" p:tooltipContent="Items in the cart are those you have selected to register for but have not been submitted for registration yet."/>
-    <bean id="planned_help_tooltip" parent="KSAP-Tooltip" p:tooltipContent="A course you added to your plan for a specific term, but have not or cannot yet register for. KSAP allows you to create an academic plan, but does not register you.  Check the Time Schedule to verify that your planned courses will be offered that term."/>
-    <bean id="backup_help_tooltip" parent="KSAP-Tooltip" p:tooltipContent="A course you&#39;re considering in case a planned course is not available or is full."/>
-    <bean id="total_credits_help_tooltip" parent="KSAP-Tooltip" p:tooltipContent="The total number of credits attempted for a completed term. Check your transcript to verify earned credits."/>
+    <bean id="planner_academic_record_help_tooltip" parent="KSAP-Tooltip" p:tooltipContent="@{#line.completed ? #textHelper.getText('planner.body.completed.tooltip') : #textHelper.getText('planner.body.registered.tooltip')}"/>
+    <bean id="planner_cart_help_tooltip" parent="KSAP-Tooltip" p:tooltipContent="Items in the cart are those you have selected to register for but have not been submitted for registration yet."/>
+    <bean id="planner_planned_help_tooltip" parent="KSAP-Tooltip" p:tooltipContent="@{#textHelper.getText('planner.body.planned.tooltip')}"/>
+    <bean id="planner_backup_help_tooltip" parent="KSAP-Tooltip" p:tooltipContent="@{#textHelper.getText('planner.body.backup.tooltip')}"/>
     <bean id="bookmarks_help_tooltip" parent="KSAP-Tooltip" p:tooltipContent="Bookmark a course to save it for future planning. The course remains in your bookmarks until you've added it to your Plan or deleted it."/>
     <bean id="quarter_facet_help_tooltip" parent="KSAP-Tooltip" p:tooltipContent="@{#textHelper.getText('DETAILS_TERMS_TOOLTIP_TEXT')}"/>
     <bean id="gened_col_help_tooltip" parent="KSAP-Tooltip" p:tooltipContent="@{#textHelper.getText('help.coursesearch.col.gened')}"/>
