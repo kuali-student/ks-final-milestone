@@ -17,8 +17,6 @@
 package org.kuali.student.r2.core.acal.service.facade;
 
 import org.apache.commons.lang.StringUtils;
-import org.joda.time.DateMidnight;
-import org.joda.time.DateTimeConstants;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
@@ -30,15 +28,13 @@ import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.core.acal.dto.AcademicCalendarInfo;
 import org.kuali.student.r2.core.acal.dto.ExamPeriodInfo;
-import org.kuali.student.r2.core.acal.dto.HolidayInfo;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
 import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
-import org.kuali.student.r2.core.atp.dto.AtpInfo;
 import org.kuali.student.r2.core.atp.service.AtpService;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.core.class1.type.dto.TypeTypeRelationInfo;
 import org.kuali.student.r2.core.class1.type.service.TypeService;
-import org.kuali.student.r2.core.constants.AcademicCalendarServiceConstants;
+import org.kuali.student.r2.core.constants.AtpSearchServiceConstants;
 import org.kuali.student.r2.core.constants.AtpServiceConstants;
 import org.kuali.student.r2.core.constants.TypeServiceConstants;
 import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
@@ -49,7 +45,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -319,15 +314,16 @@ public class AcademicCalendarServiceFacadeImpl implements AcademicCalendarServic
         //Perform an atp search to get the search results
         List<String> includedTermIds = new ArrayList<String>();
 
-        SearchRequestInfo searchRequestInfo = new SearchRequestInfo("atp.search.relatedAtpIdsByAtpId");
-        searchRequestInfo.addParam("atp.queryParam.parentAtpId", atpId);
-        searchRequestInfo.addParam("atp.queryParam.relationType", relationTypeKey);
+        SearchRequestInfo searchRequestInfo = new SearchRequestInfo(
+                AtpSearchServiceConstants.ATP_SEARCH_RELATED_ATP_IDS_BY_ATP_ID);
+        searchRequestInfo.addParam(AtpSearchServiceConstants.ATP_QUERYPARAM_PARENT_ATP_ID, atpId);
+        searchRequestInfo.addParam(AtpSearchServiceConstants.ATP_QUERYPARAM_RELATION_TYPE, relationTypeKey);
         SearchResultInfo results = atpService.search(searchRequestInfo, context);
 
         if (results!=null && !results.getRows().isEmpty()) {
             for(SearchResultRowInfo row : results.getRows()){
                 for(SearchResultCellInfo cell: row.getCells()){
-                    if("atp.resultColumn.relatedAtpId".equals(cell.getKey())){
+                    if(AtpSearchServiceConstants.ATP_RESULTCOLUMN_RELATED_ATP_ID.equals(cell.getKey())){
                         includedTermIds.add(cell.getValue());
                     }
                 }
@@ -349,14 +345,15 @@ public class AcademicCalendarServiceFacadeImpl implements AcademicCalendarServic
             termTypeIds.add(typeRelation.getRelatedTypeKey());
         }
 
-        SearchRequestInfo searchRequestInfo = new SearchRequestInfo("atp.search.relatedAtpIdsByAtpId");
-        searchRequestInfo.addParam("atp.queryParam.parentAtpId", acalId);
-        searchRequestInfo.addParam("atp.queryParam.relatedAtpTypes", termTypeIds);
+        SearchRequestInfo searchRequestInfo = new SearchRequestInfo(
+                AtpSearchServiceConstants.ATP_SEARCH_RELATED_ATP_IDS_BY_ATP_ID);
+        searchRequestInfo.addParam(AtpSearchServiceConstants.ATP_QUERYPARAM_PARENT_ATP_ID, acalId);
+        searchRequestInfo.addParam(AtpSearchServiceConstants.ATP_QUERYPARAM_RELATED_ATP_TYPES, termTypeIds);
         SearchResultInfo results = atpService.search(searchRequestInfo, context);
 
         for(SearchResultRowInfo row : results.getRows()){
             for(SearchResultCellInfo cell: row.getCells()){
-                if("atp.resultColumn.relatedAtpId".equals(cell.getKey())){
+                if(AtpSearchServiceConstants.ATP_RESULTCOLUMN_RELATED_ATP_ID.equals(cell.getKey())){
                     includedTermIds.add(cell.getValue());
                 }
             }

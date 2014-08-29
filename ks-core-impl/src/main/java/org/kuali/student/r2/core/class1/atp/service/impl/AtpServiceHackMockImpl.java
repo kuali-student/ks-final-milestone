@@ -37,6 +37,7 @@ import org.kuali.student.r2.core.atp.dto.AtpInfo;
 import org.kuali.student.r2.core.atp.dto.MilestoneInfo;
 import org.kuali.student.r2.core.atp.service.AtpService;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
+import org.kuali.student.r2.core.constants.AtpSearchServiceConstants;
 import org.kuali.student.r2.core.constants.AtpServiceConstants;
 import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultCellInfo;
@@ -75,7 +76,8 @@ public class AtpServiceHackMockImpl extends AtpServiceMockImpl {
             throws MissingParameterException, InvalidParameterException, OperationFailedException,
                    PermissionDeniedException {
         // Hack
-        if (searchRequest.getSearchKey().equals("atp.search.relatedAtpIdsByAtpId")) {
+        if (searchRequest.getSearchKey().equals(AtpSearchServiceConstants.ATP_SEARCH_RELATED_ATP_IDS_BY_ATP_ID)
+                ) {
             SearchResultInfo resultInfo = new SearchResultInfo();
             List<SearchResultRowInfo> rows = new ArrayList<SearchResultRowInfo>();
             String parentAtpId = searchRequest.getParams().get(0).getValues().get(0);
@@ -84,7 +86,7 @@ public class AtpServiceHackMockImpl extends AtpServiceMockImpl {
                     List<TermInfo> terms = acalService.getIncludedTermsInTerm(parentAtpId, contextInfo);
                     for (TermInfo term: terms) {
                         SearchResultRowInfo row = new SearchResultRowInfo();
-                        row.addCell("atp.resultColumn.relatedAtpId", term.getId());
+                        row.addCell(AtpSearchServiceConstants.ATP_RESULTCOLUMN_RELATED_ATP_ID, term.getId());
                         rows.add(row);
                     }
                     resultInfo.setRows(rows);

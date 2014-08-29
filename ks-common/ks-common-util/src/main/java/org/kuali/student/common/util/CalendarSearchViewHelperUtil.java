@@ -9,6 +9,7 @@ import org.kuali.student.r2.core.atp.service.AtpService;
 import org.kuali.student.r2.core.class1.type.dto.TypeTypeRelationInfo;
 import org.kuali.student.r2.core.class1.type.service.TypeService;
 import org.kuali.student.r2.core.constants.AcademicCalendarServiceConstants;
+import org.kuali.student.r2.core.constants.AtpSearchServiceConstants;
 import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultCellInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultInfo;
@@ -29,13 +30,13 @@ public class CalendarSearchViewHelperUtil {
 
         List<TermInfo> termInfoList = new ArrayList<TermInfo>();
 
-        SearchRequestInfo searchRequest = new SearchRequestInfo("atp.search.advancedAtpSearch");
-        searchRequest.addParam("atp.advancedAtpSearchParam.atpType", termTypeKeys);
+        SearchRequestInfo searchRequest = new SearchRequestInfo(AtpSearchServiceConstants.ATP_SEARCH_ADVANCED);
+        searchRequest.addParam(AtpSearchServiceConstants.ATP_ADVANCED_QUERYPARAM_ATP_TYPE, termTypeKeys);
         if(nameParam!=null&&!nameParam.isEmpty()){
-            searchRequest.addParam("atp.advancedAtpSearchParam.atpShortName", nameParam);
+            searchRequest.addParam(AtpSearchServiceConstants.ATP_ADVANCED_QUERYPARAM_ATP_SHORT_NAME, nameParam);
         }
         if(yearParam!=null&&!yearParam.isEmpty()){
-            searchRequest.addParam("atp.advancedAtpSearchParam.atpYear", yearParam);
+            searchRequest.addParam(AtpSearchServiceConstants.ATP_ADVANCED_QUERYPARAM_ATP_YEAR, yearParam);
         }
         SearchResultInfo searchResults = atpService.search(searchRequest, context);
 
@@ -48,15 +49,15 @@ public class CalendarSearchViewHelperUtil {
             String stateKey = null;
 
             for(SearchResultCellInfo cell : row.getCells()){
-                if("atp.resultColumn.atpId".equals(cell.getKey())){
+                if(AtpSearchServiceConstants.ATP_RESULTCOLUMN_ATP_ID.equals(cell.getKey())){
                     id = cell.getValue();
-                }else if("atp.resultColumn.atpShortName".equals(cell.getKey())){
+                }else if(AtpSearchServiceConstants.ATP_RESULTCOLUMN_ATP_SHORT_NAME.equals(cell.getKey())){
                     name = cell.getValue();
-                }else if("atp.resultColumn.atpStartDate".equals(cell.getKey())){
+                }else if(AtpSearchServiceConstants.ATP_RESULTCOLUMN_ATP_START_DATE.equals(cell.getKey())){
                     startDate = cell.getValue();
-                }else if("atp.resultColumn.atpEndDate".equals(cell.getKey())){
+                }else if(AtpSearchServiceConstants.ATP_RESULTCOLUMN_ATP_END_DATE.equals(cell.getKey())){
                     endDate = cell.getValue();
-                }else if("atp.resultColumn.atpState".equals(cell.getKey())){
+                }else if(AtpSearchServiceConstants.ATP_RESULTCOLUMN_ATP_STATE.equals(cell.getKey())){
                     stateKey = cell.getValue();
                 }
             }
@@ -79,13 +80,13 @@ public class CalendarSearchViewHelperUtil {
 
         List<AcademicCalendarInfo> acalInfoList = new ArrayList<AcademicCalendarInfo>();
 
-        SearchRequestInfo searchRequest = new SearchRequestInfo("atp.search.advancedAtpSearch");
-        searchRequest.addParam("atp.advancedAtpSearchParam.atpType", AcademicCalendarServiceConstants.ACADEMIC_CALENDAR_TYPE_KEY);
+        SearchRequestInfo searchRequest = new SearchRequestInfo(AtpSearchServiceConstants.ATP_SEARCH_ADVANCED);
+        searchRequest.addParam(AtpSearchServiceConstants.ATP_ADVANCED_QUERYPARAM_ATP_TYPE, AcademicCalendarServiceConstants.ACADEMIC_CALENDAR_TYPE_KEY);
         if(nameParam!=null&&!nameParam.isEmpty()){
-            searchRequest.addParam("atp.advancedAtpSearchParam.atpShortName", nameParam);
+            searchRequest.addParam(AtpSearchServiceConstants.ATP_ADVANCED_QUERYPARAM_ATP_SHORT_NAME, nameParam);
         }
         if(yearParam!=null&&!yearParam.isEmpty()){
-            searchRequest.addParam("atp.advancedAtpSearchParam.atpYear", yearParam);
+            searchRequest.addParam(AtpSearchServiceConstants.ATP_ADVANCED_QUERYPARAM_ATP_YEAR, yearParam);
         }
         SearchResultInfo searchResults = atpService.search(searchRequest, context);
 
@@ -98,15 +99,15 @@ public class CalendarSearchViewHelperUtil {
             String stateKey = null;
 
             for(SearchResultCellInfo cell : row.getCells()){
-                if("atp.resultColumn.atpId".equals(cell.getKey())){
+                if(AtpSearchServiceConstants.ATP_RESULTCOLUMN_ATP_ID.equals(cell.getKey())){
                     id = cell.getValue();
-                }else if("atp.resultColumn.atpShortName".equals(cell.getKey())){
+                }else if(AtpSearchServiceConstants.ATP_RESULTCOLUMN_ATP_SHORT_NAME.equals(cell.getKey())){
                     name = cell.getValue();
-                }else if("atp.resultColumn.atpStartDate".equals(cell.getKey())){
+                }else if(AtpSearchServiceConstants.ATP_RESULTCOLUMN_ATP_START_DATE.equals(cell.getKey())){
                     startDate = cell.getValue();
-                }else if("atp.resultColumn.atpEndDate".equals(cell.getKey())){
+                }else if(AtpSearchServiceConstants.ATP_RESULTCOLUMN_ATP_END_DATE.equals(cell.getKey())){
                     endDate = cell.getValue();
-                }else if("atp.resultColumn.atpState".equals(cell.getKey())){
+                }else if(AtpSearchServiceConstants.ATP_RESULTCOLUMN_ATP_STATE.equals(cell.getKey())){
                     stateKey = cell.getValue();
                 }
             }
@@ -128,13 +129,13 @@ public class CalendarSearchViewHelperUtil {
     public static List<HolidayCalendarInfo> searchForHolidayCalendars(String nameParam, String yearParam, ContextInfo context, AtpService atpService) throws Exception {
         List<HolidayCalendarInfo> hCals = new ArrayList<HolidayCalendarInfo>();
 
-        SearchRequestInfo searchRequest = new SearchRequestInfo("atp.search.advancedAtpSearch");
-        searchRequest.addParam("atp.advancedAtpSearchParam.atpType", AcademicCalendarServiceConstants.HOLIDAY_CALENDAR_TYPE_KEY);
+        SearchRequestInfo searchRequest = new SearchRequestInfo(AtpSearchServiceConstants.ATP_SEARCH_ADVANCED);
+        searchRequest.addParam(AtpSearchServiceConstants.ATP_ADVANCED_QUERYPARAM_ATP_TYPE, AcademicCalendarServiceConstants.HOLIDAY_CALENDAR_TYPE_KEY);
         if(nameParam!=null&&!nameParam.isEmpty()){
-            searchRequest.addParam("atp.advancedAtpSearchParam.atpShortName", nameParam);
+            searchRequest.addParam(AtpSearchServiceConstants.ATP_ADVANCED_QUERYPARAM_ATP_SHORT_NAME, nameParam);
         }
         if(yearParam!=null&&!yearParam.isEmpty()){
-            searchRequest.addParam("atp.advancedAtpSearchParam.atpYear", yearParam);
+            searchRequest.addParam(AtpSearchServiceConstants.ATP_ADVANCED_QUERYPARAM_ATP_YEAR, yearParam);
         }
         SearchResultInfo searchResults = atpService.search(searchRequest, context);
 
@@ -147,15 +148,15 @@ public class CalendarSearchViewHelperUtil {
             String stateKey = null;
 
             for(SearchResultCellInfo cell : row.getCells()){
-                if("atp.resultColumn.atpId".equals(cell.getKey())){
+                if(AtpSearchServiceConstants.ATP_RESULTCOLUMN_ATP_ID.equals(cell.getKey())){
                     id = cell.getValue();
-                }else if("atp.resultColumn.atpShortName".equals(cell.getKey())){
+                }else if(AtpSearchServiceConstants.ATP_RESULTCOLUMN_ATP_SHORT_NAME.equals(cell.getKey())){
                     name = cell.getValue();
-                }else if("atp.resultColumn.atpStartDate".equals(cell.getKey())){
+                }else if(AtpSearchServiceConstants.ATP_RESULTCOLUMN_ATP_START_DATE.equals(cell.getKey())){
                     startDate = cell.getValue();
-                }else if("atp.resultColumn.atpEndDate".equals(cell.getKey())){
+                }else if(AtpSearchServiceConstants.ATP_RESULTCOLUMN_ATP_END_DATE.equals(cell.getKey())){
                     endDate = cell.getValue();
-                }else if("atp.resultColumn.atpState".equals(cell.getKey())){
+                }else if(AtpSearchServiceConstants.ATP_RESULTCOLUMN_ATP_STATE.equals(cell.getKey())){
                     stateKey = cell.getValue();
                 }
             }

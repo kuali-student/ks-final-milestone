@@ -15,6 +15,7 @@ import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.core.atp.dto.AtpInfo;
 import org.kuali.student.r2.core.atp.dto.MilestoneInfo;
 import org.kuali.student.r2.core.class1.util.SearchCacheDecoratorUtil;
+import org.kuali.student.r2.core.constants.AtpSearchServiceConstants;
 import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultInfo;
 
@@ -57,7 +58,7 @@ public class AtpServiceCacheDecorator extends AtpServiceDecorator {
         StatusInfo result = getNextDecorator().deleteAtp(atpId, context);
         getCacheManager().getCache(ATP_CACHE_NAME).remove(atpId);
         SearchCacheDecoratorUtil.invalidateCache(getCacheManager().getCache(ATP_CACHE_NAME), ATP_SEARCH_KEY_PREFIX,
-                INVALIDATE_SEARCH_CACHE_ONLY_CONFIG_KEY, VERIFY_RESULTS_BEFORE_INVALIDATE_CONFIG_KEY, atpId, "atp.resultColumn.atpId");
+                INVALIDATE_SEARCH_CACHE_ONLY_CONFIG_KEY, VERIFY_RESULTS_BEFORE_INVALIDATE_CONFIG_KEY, atpId,AtpSearchServiceConstants.ATP_RESULTCOLUMN_ATP_ID);
         return result;
     }
 
@@ -65,7 +66,7 @@ public class AtpServiceCacheDecorator extends AtpServiceDecorator {
     public AtpInfo createAtp(String atpTypeKey, AtpInfo atpInfo, ContextInfo context) throws DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
         AtpInfo result = getNextDecorator().createAtp(atpTypeKey, atpInfo, context);
         SearchCacheDecoratorUtil.invalidateCache(getCacheManager().getCache(ATP_CACHE_NAME), ATP_SEARCH_KEY_PREFIX,
-                INVALIDATE_SEARCH_CACHE_ONLY_CONFIG_KEY, VERIFY_RESULTS_BEFORE_INVALIDATE_CONFIG_KEY, null, "atp.resultColumn.atpId");
+                INVALIDATE_SEARCH_CACHE_ONLY_CONFIG_KEY, VERIFY_RESULTS_BEFORE_INVALIDATE_CONFIG_KEY, null,AtpSearchServiceConstants.ATP_RESULTCOLUMN_ATP_ID);
         getCacheManager().getCache(ATP_CACHE_NAME).put(new Element(result.getId(), result));
         return result;
     }
@@ -75,7 +76,7 @@ public class AtpServiceCacheDecorator extends AtpServiceDecorator {
         AtpInfo result = getNextDecorator().updateAtp(atpId, atpInfo, context);
         getCacheManager().getCache(ATP_CACHE_NAME).remove(atpId);
         SearchCacheDecoratorUtil.invalidateCache(getCacheManager().getCache(ATP_CACHE_NAME), ATP_SEARCH_KEY_PREFIX,
-                INVALIDATE_SEARCH_CACHE_ONLY_CONFIG_KEY, VERIFY_RESULTS_BEFORE_INVALIDATE_CONFIG_KEY, atpId, "atp.resultColumn.atpId");
+                INVALIDATE_SEARCH_CACHE_ONLY_CONFIG_KEY, VERIFY_RESULTS_BEFORE_INVALIDATE_CONFIG_KEY, atpId,AtpSearchServiceConstants.ATP_RESULTCOLUMN_ATP_ID);
         getCacheManager().getCache(ATP_CACHE_NAME).put(new Element(atpId, result));
         return result;
     }

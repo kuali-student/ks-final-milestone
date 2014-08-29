@@ -51,6 +51,7 @@ import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.core.class1.type.dto.TypeTypeRelationInfo;
 import org.kuali.student.r2.core.class1.type.service.TypeService;
 import org.kuali.student.r2.core.constants.AcademicCalendarServiceConstants;
+import org.kuali.student.r2.core.constants.AtpSearchServiceConstants;
 import org.kuali.student.r2.core.constants.AtpServiceConstants;
 import org.kuali.student.r2.core.constants.TypeServiceConstants;
 import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
@@ -1031,8 +1032,9 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
         }
         // Find the registration/instructional milestone types.  These appear to, collectively,
         // constitute the keydate types.
-        SearchRequestInfo searchRequest = new SearchRequestInfo("milestone.search.milestoneIdsByAtpId");
-        searchRequest.addParam("milestone.queryParam.atpId", termId);
+        SearchRequestInfo searchRequest = new SearchRequestInfo(AtpSearchServiceConstants
+                .ATP_SEARCH_MILESTONE_IDS_BY_ATP_ID);
+        searchRequest.addParam(AtpSearchServiceConstants.ATP_QUERYPARAM_MILESTONE_ATP_ID, termId);
         List<TypeTypeRelationInfo> typeTypeRels =
                 typeService.getTypeTypeRelationsByOwnerAndType("kuali.milestone.type.group.instructional",
                         TypeServiceConstants.TYPE_TYPE_RELATION_GROUP_TYPE_KEY, context);
@@ -1047,7 +1049,7 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
         List<String> keydateTypes = new ArrayList<String>();
         keydateTypes.addAll(keydateTypesSet);
         // Make query
-        searchRequest.addParam("milestone.queryParam.milestoneTypes", keydateTypes);
+        searchRequest.addParam(AtpSearchServiceConstants.ATP_QUERYPARAM_MILESTONE_TYPES, keydateTypes);
         SearchResultInfo searchResult = atpService.search(searchRequest, context);
         List<String> keyDateIds = new ArrayList<String>();
         //Code Changed for JIRA-9075 - SONAR Critical issues - Use get(0) with caution - 5

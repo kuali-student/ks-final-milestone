@@ -155,7 +155,7 @@ public class AtpServiceImpl implements AtpService {
     @Transactional(readOnly = true, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public SearchResultInfo search(SearchRequestInfo searchRequest, ContextInfo contextInfo) throws MissingParameterException, PermissionDeniedException, OperationFailedException, InvalidParameterException {
         SearchResultInfo searchResult = this.searchManager.search(searchRequest, contextInfo);
-//        if (searchRequest.getSearchKey().equals("atp.search.advancedAtpSearch")){
+//        if (searchRequest.getSearchKey().equals(AtpSearchServiceConstants.ATP_SEARCH_ADVANCED)){
             //TODO: populate the duration en seasonal types.
             /*"atp.resultColumn.atpSeasonalType" />
 			"atp.resultColumn.atpDurType"*/

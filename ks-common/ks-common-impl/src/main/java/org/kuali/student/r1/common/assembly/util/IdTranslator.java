@@ -23,6 +23,7 @@ import org.kuali.student.r1.common.assembly.data.LookupMetadata;
 import org.kuali.student.r1.common.assembly.data.LookupParamMetadata;
 import org.kuali.student.r1.common.assembly.data.Metadata.WriteAccess;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.core.constants.AtpSearchServiceConstants;
 import org.kuali.student.r2.core.search.dto.*;
 import org.kuali.student.r2.core.search.service.SearchService;
 import org.kuali.student.common.util.security.ContextUtils;
@@ -36,7 +37,7 @@ import org.slf4j.LoggerFactory;
  *
  */
 public class IdTranslator {
-    
+
     private static final String ENUMERATION = "enumeration";
 	private List<SearchParamInfo> additionalParams = new ArrayList<SearchParamInfo>();
     private SearchService searchDispatcher;
@@ -137,10 +138,10 @@ public class IdTranslator {
 
     public String getTranslationForAtp(String value, ContextInfo contextInfo) {
         SearchRequestInfo searchRequest = new SearchRequestInfo();
-        searchRequest.setSearchKey("atp.search.advancedAtpSearch");
+        searchRequest.setSearchKey(AtpSearchServiceConstants.ATP_SEARCH_ADVANCED);
         ArrayList<SearchParamInfo> searchParams = new ArrayList<SearchParamInfo>();
         SearchParamInfo searchParam = new SearchParamInfo();
-        searchParam.setKey("atp.advancedAtpSearchParam.atpId");
+        searchParam.setKey(AtpSearchServiceConstants.ATP_ADVANCED_QUERYPARAM_ATP_ID);
         searchParam.getValues().add(value);
         searchParams.add(searchParam);
         searchRequest.setParams(searchParams);
@@ -153,7 +154,7 @@ public class IdTranslator {
         if(searchResult!= null){
             for (SearchResultRowInfo resultRow : searchResult.getRows()) {
                 for (SearchResultCellInfo searchResultCell : resultRow.getCells()) {
-                    if(searchResultCell.getKey().equals("atp.resultColumn.atpDescrPlain")){
+                    if(searchResultCell.getKey().equals(AtpSearchServiceConstants.ATP_RESULTCOLUMN_ATP_DESCR_PLAIN)){
                         return searchResultCell.getValue();
                     }
                 }
