@@ -50,7 +50,7 @@ public class MaxRepeatabilityTermResolver implements TermResolver<Integer> {
 
     @Override
     public String getOutput() {
-        return RulesExecutionConstants.MAX_REPEATABILITY.getName();
+        return RulesExecutionConstants.MAX_REPEATABILITY_TERM.getName();
     }
 
     @Override

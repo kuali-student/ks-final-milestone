@@ -1913,6 +1913,14 @@
                     <property name="atpService" ref="AtpService"/>
                     <property name="luiService" ref="LuiService"/>
                 </bean>
+                <bean class="org.kuali.student.enrollment.class2.courseoffering.krms.termresolver.CourseWaitlistedAttemptsTermResolver">
+                    <property name="cluService" ref="CluService" />
+                    <property name="courseOfferingService" ref="CourseOfferingService" />
+                </bean>
+                <bean class="org.kuali.student.enrollment.class2.courseoffering.krms.termresolver.CourseSimulatedAttemptsTermResolver">
+                    <property name="cluService" ref="CluService" />
+                    <property name="courseOfferingService" ref="CourseOfferingService" />
+                </bean>
             </list>
         </property>
     </bean>

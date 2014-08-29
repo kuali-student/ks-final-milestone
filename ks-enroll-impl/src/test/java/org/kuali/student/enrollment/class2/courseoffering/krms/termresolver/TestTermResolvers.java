@@ -961,15 +961,30 @@ public class TestTermResolvers {
 
         //Setup data for test
         resolvedPrereqs.put(KSKRMSServiceConstants.TERM_RESOLVER_COURSE_RECORD_FOR_STUDENT, courseRecordList);
+        resolvedPrereqs.put(RulesExecutionConstants.WAITLISTED_ATTEMPTS_TERM.getName(), 0);
+        resolvedPrereqs.put(RulesExecutionConstants.SIMULATED_ATTEMPTS_TERM.getName(), 0);
 
         //Validate the term resolver
         validateTermResolver(termResolver, resolvedPrereqs, parameters,
-                RulesExecutionConstants.TOTAL_COURSE_ATTEMPTS.getName());
+                RulesExecutionConstants.TOTAL_COURSE_ATTEMPTS_TERM.getName());
 
         //Evaluate Term Resolver
         Integer registeredCount = termResolver.resolve(resolvedPrereqs, parameters);
         assertNotNull(registeredCount);
-        assertEquals(registeredCount.intValue(), 3);
+        assertEquals(3, registeredCount.intValue());
+
+        //Add in waitlisted courses
+        resolvedPrereqs.put(RulesExecutionConstants.WAITLISTED_ATTEMPTS_TERM.getName(), 2);
+        registeredCount = termResolver.resolve(resolvedPrereqs, parameters);
+        assertNotNull(registeredCount);
+        assertEquals(5, registeredCount.intValue());
+
+        //Add in simulated courses
+        //Add in waitlisted courses
+        resolvedPrereqs.put(RulesExecutionConstants.SIMULATED_ATTEMPTS_TERM.getName(), 1);
+        registeredCount = termResolver.resolve(resolvedPrereqs, parameters);
+        assertNotNull(registeredCount);
+        assertEquals(6, registeredCount.intValue());
     }
 
     @Test
@@ -1079,8 +1094,8 @@ public class TestTermResolvers {
         resolvedPrereqs.put(RulesExecutionConstants.PERSON_ID_TERM.getName(), "kuali.population.student.key.everyone100000077");
         resolvedPrereqs.put(RulesExecutionConstants.ATP_ID_TERM.getName(), dataLoader.getFallTermId());
         resolvedPrereqs.put(RulesExecutionConstants.AS_OF_DATE_TERM.getName(), KRMSEnrollmentEligibilityDataLoader.START_FALL_TERM_DATE);
-        resolvedPrereqs.put(RulesExecutionConstants.MAX_REPEATABILITY.getName(), 2);
-        resolvedPrereqs.put(RulesExecutionConstants.TOTAL_COURSE_ATTEMPTS.getName(), 2);
+        resolvedPrereqs.put(RulesExecutionConstants.MAX_REPEATABILITY_TERM.getName(), 2);
+        resolvedPrereqs.put(RulesExecutionConstants.TOTAL_COURSE_ATTEMPTS_TERM.getName(), 2);
 
         //Validate the term resolver
         validateTermResolver(termResolver, resolvedPrereqs, parameters,
@@ -1094,13 +1109,13 @@ public class TestTermResolvers {
         assertEquals(value, CourseRepeatabilityTermResolver.MAX_REPEATABILITY_ERROR);
 
         //Evaluate term Resolver for warning
-        resolvedPrereqs.put(RulesExecutionConstants.TOTAL_COURSE_ATTEMPTS.getName(), 1);
+        resolvedPrereqs.put(RulesExecutionConstants.TOTAL_COURSE_ATTEMPTS_TERM.getName(), 1);
         value = termResolver.resolve(resolvedPrereqs, parameters);
         assertNotNull(value);
         assertEquals(value, CourseRepeatabilityTermResolver.MAX_REPEATABILITY_WARNING);
 
         //Evaluate term Resolver for success
-        resolvedPrereqs.put(RulesExecutionConstants.TOTAL_COURSE_ATTEMPTS.getName(), 0);
+        resolvedPrereqs.put(RulesExecutionConstants.TOTAL_COURSE_ATTEMPTS_TERM.getName(), 0);
         value = termResolver.resolve(resolvedPrereqs, parameters);
         assertNotNull(value);
         assertEquals(value, CourseRepeatabilityTermResolver.MAX_REPEATABILITY_SUCCESS);

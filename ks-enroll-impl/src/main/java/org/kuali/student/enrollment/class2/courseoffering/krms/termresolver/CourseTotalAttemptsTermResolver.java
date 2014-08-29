@@ -41,7 +41,7 @@ public class CourseTotalAttemptsTermResolver implements TermResolver<Integer> {
 
     @Override
     public String getOutput() {
-        return RulesExecutionConstants.TOTAL_COURSE_ATTEMPTS.getName();
+        return RulesExecutionConstants.TOTAL_COURSE_ATTEMPTS_TERM.getName();
     }
 
     @Override
@@ -51,8 +51,10 @@ public class CourseTotalAttemptsTermResolver implements TermResolver<Integer> {
 
     @Override
     public Set<String> getPrerequisites() {
-        Set<String> prereqs = new HashSet<>(1);
+        Set<String> prereqs = new HashSet<>(3);
         prereqs.add(KSKRMSServiceConstants.TERM_RESOLVER_COURSE_RECORD_FOR_STUDENT);
+        prereqs.add(RulesExecutionConstants.WAITLISTED_ATTEMPTS_TERM.getName());
+        prereqs.add(RulesExecutionConstants.SIMULATED_ATTEMPTS_TERM.getName());
 
         return Collections.unmodifiableSet(prereqs);
     }
@@ -75,6 +77,16 @@ public class CourseTotalAttemptsTermResolver implements TermResolver<Integer> {
                 studentCourseRecordInfo.getStateKey().equals(AcademicRecordServiceConstants.STUDENTCOURSERECORD_STATE_KEY_REGISTERED)) {
                 totalAttempts++;
             }
+        }
+
+        Integer waitlistedAttempts = (Integer) resolvedPrereqs.get(RulesExecutionConstants.WAITLISTED_ATTEMPTS_TERM.getName());
+        if (waitlistedAttempts != null) {
+            totalAttempts += waitlistedAttempts;
+        }
+
+        Integer simulatedAttempts = (Integer) resolvedPrereqs.get(RulesExecutionConstants.SIMULATED_ATTEMPTS_TERM.getName());
+        if (simulatedAttempts != null) {
+            totalAttempts += simulatedAttempts;
         }
 
         return totalAttempts;

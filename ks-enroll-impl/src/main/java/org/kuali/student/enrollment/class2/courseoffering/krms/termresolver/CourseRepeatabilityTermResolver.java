@@ -61,8 +61,8 @@ public class CourseRepeatabilityTermResolver implements TermResolver<String> {
     @Override
     public Set<String> getPrerequisites() {
         Set<String> prereqs = new HashSet<>(2);
-        prereqs.add(RulesExecutionConstants.TOTAL_COURSE_ATTEMPTS.getName());
-        prereqs.add(RulesExecutionConstants.MAX_REPEATABILITY.getName());
+        prereqs.add(RulesExecutionConstants.TOTAL_COURSE_ATTEMPTS_TERM.getName());
+        prereqs.add(RulesExecutionConstants.MAX_REPEATABILITY_TERM.getName());
 
         return Collections.unmodifiableSet(prereqs);
     }
@@ -75,8 +75,8 @@ public class CourseRepeatabilityTermResolver implements TermResolver<String> {
     @Override
     public String resolve(Map<String, Object> resolvedPrereqs, Map<String, String> parameters) throws TermResolutionException {
 
-        Integer maxRepeats = (Integer) resolvedPrereqs.get(RulesExecutionConstants.MAX_REPEATABILITY.getName());
-        Integer totalAttempts = (Integer) resolvedPrereqs.get(RulesExecutionConstants.TOTAL_COURSE_ATTEMPTS.getName());
+        Integer maxRepeats = (Integer) resolvedPrereqs.get(RulesExecutionConstants.MAX_REPEATABILITY_TERM.getName());
+        Integer totalAttempts = (Integer) resolvedPrereqs.get(RulesExecutionConstants.TOTAL_COURSE_ATTEMPTS_TERM.getName());
 
         String errorLevel = MAX_REPEATABILITY_SUCCESS;
 

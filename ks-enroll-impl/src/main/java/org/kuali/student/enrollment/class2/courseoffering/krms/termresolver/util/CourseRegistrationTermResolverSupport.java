@@ -9,6 +9,11 @@ import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestIn
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestItemInfo;
 import org.kuali.student.enrollment.courseregistration.service.CourseRegistrationService;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.exceptions.MissingParameterException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.krms.util.KSKRMSExecutionUtil;
 
 import java.util.ArrayList;
@@ -23,15 +28,15 @@ public abstract class CourseRegistrationTermResolverSupport<T> extends CourseOff
     private CourseRegistrationService courseRegistrationService;
 
     public boolean checkCourseEnrolled(String personId, String versionIndId, String termId, Map<String, String> parameters, ContextInfo context) throws TermResolutionException {
-        try{
+        try {
             List<String> courseIds = this.getCluIdsFromVersionIndId(versionIndId, parameters, context);
 
             //First check in the students current registration requests
-            List<String> regGroupIds = new ArrayList<String>();
-            List<RegistrationRequestInfo> regRequests = this.getCourseRegistrationService().getUnsubmittedRegistrationRequestsByRequestorAndTerm(personId, termId, context) ;
-            for(RegistrationRequestInfo request : regRequests){
-                for(RegistrationRequestItemInfo regItem : request.getRegistrationRequestItems()){
-                    if(regItem.getExistingCourseRegistrationId()!=null){
+            List<String> regGroupIds = new ArrayList<>();
+            List<RegistrationRequestInfo> regRequests = this.getCourseRegistrationService().getUnsubmittedRegistrationRequestsByRequestorAndTerm(personId, termId, context);
+            for (RegistrationRequestInfo request : regRequests) {
+                for (RegistrationRequestItemInfo regItem : request.getRegistrationRequestItems()) {
+                    if (regItem.getExistingCourseRegistrationId() != null) {
                         // FIXME KSENROLL-11465
                         // the existing registration is an lpr  so this can't work this way.
                         regGroupIds.remove(regItem.getExistingCourseRegistrationId());
@@ -41,19 +46,19 @@ public abstract class CourseRegistrationTermResolverSupport<T> extends CourseOff
             }
 
             //Check to see if one of the course version is in the registration request.
-            for(String regGroupId : regGroupIds){
+            for (String regGroupId : regGroupIds) {
                 RegistrationGroupInfo regGroup = this.getCourseOfferingService().getRegistrationGroup(regGroupId, context);
                 CourseOfferingInfo courseOffering = this.getCourseOfferingService().getCourseOffering(regGroup.getCourseOfferingId(), context);
-                if(courseIds.contains(courseOffering.getCourseId())){
+                if (courseIds.contains(courseOffering.getCourseId())) {
                     return true;
                 }
             }
 
             //Also check for already enrolled but not yet completed courses.
             List<CourseRegistrationInfo> recordInfoList = this.getCourseRegistrationService().getCourseRegistrationsByStudent(personId, context);
-            for(CourseRegistrationInfo studentRecord : recordInfoList){
+            for (CourseRegistrationInfo studentRecord : recordInfoList) {
                 CourseOffering courseOffering = this.getCourseOfferingService().getCourseOffering(studentRecord.getCourseOfferingId(), context);
-                if(courseIds.contains(courseOffering.getCourseId())){
+                if (courseIds.contains(courseOffering.getCourseId())) {
                     return true;
                 }
             }
@@ -61,6 +66,24 @@ public abstract class CourseRegistrationTermResolverSupport<T> extends CourseOff
             KSKRMSExecutionUtil.convertExceptionsToTermResolutionException(parameters, e, this);
         }
         return false;
+    }
+
+    protected String getVersionIndIdFromCourseOfferingId(String courseOfferingId, ContextInfo contextInfo) throws PermissionDeniedException, MissingParameterException, InvalidParameterException, OperationFailedException, DoesNotExistException {
+        CourseOfferingInfo courseOfferingInfo = getCourseOfferingService().getCourseOffering(courseOfferingId, contextInfo);
+        String cluId = courseOfferingInfo.getCourseId();
+        //TODO KSENROLL-14492 -- the getClu service is very expensive, this should be replaced by a clu search for version id.
+        return getCluService().getClu(cluId, contextInfo).getVersion().getVersionIndId();
+    }
+
+    protected Integer getMatchedCoursesCount(String versionIndId, List<CourseRegistrationInfo> courseRegistrationInfoList, ContextInfo contextInfo) throws MissingParameterException, PermissionDeniedException, InvalidParameterException, OperationFailedException, DoesNotExistException {
+        Integer matchedCourses = 0;
+        for (CourseRegistrationInfo courseRegistrationInfo:courseRegistrationInfoList) {
+            String waitlistVersionIndId = getVersionIndIdFromCourseOfferingId(courseRegistrationInfo.getCourseOfferingId(), contextInfo);
+            if (waitlistVersionIndId.equals(versionIndId)) {
+                matchedCourses++;
+            }
+        }
+        return matchedCourses;
     }
 
     public CourseRegistrationService getCourseRegistrationService() {
