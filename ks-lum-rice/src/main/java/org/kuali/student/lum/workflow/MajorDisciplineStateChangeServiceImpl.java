@@ -188,7 +188,7 @@ public class MajorDisciplineStateChangeServiceImpl implements StateChangeService
 		}
 
 		for (VersionDisplayInfo versionInfo : versions) {
-			if (versionInfo.getSequenceNumber() >= startSeq  && versionInfo.getSequenceNumber() != selectedVersion.getVersion().getSequenceNumber()) {
+			if (versionInfo.getSequenceNumber() >= startSeq  && !versionInfo.getSequenceNumber().equals(selectedVersion.getVersion().getSequenceNumber())) {
 				MajorDisciplineInfo otherProgram = null; 
 				otherProgram = programService.getMajorDiscipline(versionInfo.getId(), contextInfo);
 				if (otherProgram.getStateKey().equals(DtoConstants.STATE_APPROVED) ||

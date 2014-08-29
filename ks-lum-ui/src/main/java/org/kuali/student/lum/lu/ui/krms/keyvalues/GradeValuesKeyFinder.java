@@ -23,11 +23,10 @@ import org.kuali.rice.krad.uif.view.ViewModel;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 import org.kuali.rice.krms.dto.PropositionEditor;
 import org.kuali.rice.krms.dto.RuleEditor;
-import org.kuali.rice.krms.dto.RuleManagementWrapper;
 import org.kuali.rice.krms.dto.RuleManager;
-import org.kuali.student.lum.lu.ui.krms.dto.LUPropositionEditor;
 import org.kuali.rice.krms.util.PropositionTreeUtil;
 import org.kuali.student.common.util.ContextBuilder;
+import org.kuali.student.lum.lu.ui.krms.dto.LUPropositionEditor;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.lum.lrc.dto.ResultValueInfo;
 import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
@@ -74,9 +73,7 @@ public class GradeValuesKeyFinder extends UifKeyValuesFinderBase {
 
                     @Override
                     public int compare(ResultValueInfo o1, ResultValueInfo o2) {
-                        Integer first = Integer.valueOf(o1.getNumericValue());
-                        Integer second = Integer.valueOf(o2.getNumericValue());
-                        return (second < first) ? -1 : ((second == first) ? 0 : 1);
+                        return Integer.compare(Integer.parseInt(o1.getNumericValue()), Integer.parseInt(o2.getNumericValue()));
                     }
                 });
 
