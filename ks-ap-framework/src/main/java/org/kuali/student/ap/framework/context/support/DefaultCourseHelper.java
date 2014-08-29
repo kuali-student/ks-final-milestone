@@ -350,15 +350,15 @@ public class DefaultCourseHelper implements CourseHelper, Serializable {
 					LOG.debug(msg.toString());
 				cm.activityOfferingDisplaysByCourseAndTerm.put(k, rv);
 			} catch (DoesNotExistException e) {
-				throw new IllegalArgumentException("CO lookup failure");
+				throw new IllegalArgumentException("CO lookup failure", e);
 			} catch (InvalidParameterException e) {
-				throw new IllegalArgumentException("CO lookup failure");
+				throw new IllegalArgumentException("CO lookup failure", e);
 			} catch (MissingParameterException e) {
-				throw new IllegalArgumentException("CO lookup failure");
+				throw new IllegalArgumentException("CO lookup failure", e);
 			} catch (OperationFailedException e) {
-				throw new IllegalStateException("CO lookup failure");
+				throw new IllegalStateException("CO lookup failure", e);
 			} catch (PermissionDeniedException e) {
-				throw new IllegalStateException("CO lookup failure");
+				throw new IllegalStateException("CO lookup failure", e);
 			}
 		return rv;
 	}
