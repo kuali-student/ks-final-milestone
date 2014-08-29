@@ -1887,7 +1887,6 @@
                 <bean class="org.kuali.student.core.krms.termresolver.ContextInfo2AsOfDateTermResolver" />
                 <bean class="org.kuali.student.core.krms.termresolver.AtpId2AtpTermResolver" />
                 <bean class="org.kuali.student.enrollment.class2.courseoffering.krms.termresolver.DateInKeyDateRangeTermResolver" />
-                <bean class="org.kuali.student.enrollment.krms.termresolver.PersonId2EntityIdTermResolver" />
                 <bean class="org.kuali.student.enrollment.krms.termresolver.CluId2CluInfoTermResolver">
                     <property name="cluService" ref="CluService"/>
                 </bean>

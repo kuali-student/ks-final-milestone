@@ -868,7 +868,7 @@ public class TestTermResolvers {
         String versionIndId = cluService.getClu(cluId, contextInfo).getVersion().getVersionIndId();
 
         //Setup data
-        resolvedPrereqs.put(RulesExecutionConstants.ENTITY_ID_TERM.getName(), KRMSEnrollmentEligibilityDataLoader.STUDENT_THREE_ID);
+        resolvedPrereqs.put(RulesExecutionConstants.PERSON_ID_TERM.getName(), KRMSEnrollmentEligibilityDataLoader.STUDENT_THREE_ID);
         resolvedPrereqs.put(RulesExecutionConstants.CLU_VERSION_IND_ID_TERM.getName(), versionIndId);
 
         //Validate the term resolver

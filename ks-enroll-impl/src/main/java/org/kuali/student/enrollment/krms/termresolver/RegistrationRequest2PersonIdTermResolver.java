@@ -19,6 +19,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestInfo;
+import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestItemInfo;
 
 /**
  * @author alubbers
@@ -58,8 +59,11 @@ public class RegistrationRequest2PersonIdTermResolver implements TermResolver<St
 
         RegistrationRequestInfo request = (RegistrationRequestInfo) resolvedPrereqs.get(
                 RulesExecutionConstants.REGISTRATION_REQUEST_TERM.getName());
-        // right now the requestor is the person but services may revisit this and we have to get person id from another field
-        return request.getRequestorId();
+        for(RegistrationRequestItemInfo requestItemInfo:request.getRegistrationRequestItems()){
+            return requestItemInfo.getPersonId();
+        }
+
+        throw new TermResolutionException("No person id was fount for the requestId",this,parameters);
 
     }
 }
