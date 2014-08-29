@@ -312,7 +312,7 @@ public class CurriculumManagementConstants {
 
             public static String CAMPUS_LOCATION = "Campus Locations";
             public static String CURRICULUM_OVERSIGHT = "Curriculum Oversight";
-            public static String ADMINISTERING_ORGANIZATIONS = "Administering Organization(s)";
+            public static String ADMINISTERING_ORGANIZATIONS = "Administering Organization";
         }
 
         public static class CourseLogistics {

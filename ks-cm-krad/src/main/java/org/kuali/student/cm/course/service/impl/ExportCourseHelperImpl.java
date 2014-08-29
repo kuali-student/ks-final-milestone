@@ -225,7 +225,7 @@ public class ExportCourseHelperImpl implements ExportCourseHelper {
         ExportElement exportTranscriptCourseTitle = populateExportElement(CurriculumManagementConstants.ProposalViewFieldLabels.CourseInformation.TRANSCRIPT_COURSE_TITLE, transcriptCourseTitle, CurriculumManagementConstants.ProposalViewFieldLabels.CourseInformation.SECTION_NAME, -1);
         exportElements.add(exportTranscriptCourseTitle);
 
-        String subjectCode = courseInfoWrapper.getCourseInfo().getCode();
+        String subjectCode = courseInfoWrapper.getReviewProposalDisplay().getCourseSection().getSubjectArea();
         ExportElement exportSubjectCode = populateExportElement(CurriculumManagementConstants.ProposalViewFieldLabels.CourseInformation.SUBJECT_CODE, subjectCode, CurriculumManagementConstants.ProposalViewFieldLabels.CourseInformation.SECTION_NAME, -1);
         exportElements.add(exportSubjectCode);
 
@@ -288,7 +288,13 @@ public class ExportCourseHelperImpl implements ExportCourseHelper {
         ExportElement exportCurriculumOversight = populateExportElement(CurriculumManagementConstants.ProposalViewFieldLabels.Governance.CURRICULUM_OVERSIGHT, curriculumOversight,CurriculumManagementConstants.ProposalViewFieldLabels.Governance.SECTION_NAME, -1);
         exportElements.add(exportCurriculumOversight);
 
-       // String  administeringOrganization = "";
+        StringBuilder  administeringOrganizations = new StringBuilder("");
+        for(String administeringOrganization : courseInfoWrapper.getReviewProposalDisplay().getGovernanceSection().getAdministeringOrganization()){
+            administeringOrganizations.append(administeringOrganization);
+            administeringOrganizations.append(";");
+        }
+        ExportElement exportAdministeringOrganizations = populateExportElement(CurriculumManagementConstants.ProposalViewFieldLabels.Governance.ADMINISTERING_ORGANIZATIONS,administeringOrganizations.toString(),CurriculumManagementConstants.ProposalViewFieldLabels.Governance.SECTION_NAME, -1);
+        exportElements.add(exportAdministeringOrganizations);
     }
 
     /**
@@ -347,10 +353,19 @@ public class ExportCourseHelperImpl implements ExportCourseHelper {
         ExportElement exportPassFail = populateExportElement(CurriculumManagementConstants.ProposalViewFieldLabels.CourseLogistics.PASS_FAIL_TRANSCRIPT_GRADE, passFail, CurriculumManagementConstants.ProposalViewFieldLabels.CourseLogistics.SECTION_NAME,-1 );
         exportElements.add(exportPassFail);
 
-        String finalExamStatus = courseInfoWrapper.getFinalExamStatus();
+        String finalExamStatus = courseInfoWrapper.getReviewProposalDisplay().getCourseLogisticsSection().getFinalExamStatus();
         ExportElement exportFinalExamStatus = populateExportElement(CurriculumManagementConstants.ProposalViewFieldLabels.CourseLogistics.FINAL_EXAM_STATUS, finalExamStatus, CurriculumManagementConstants.ProposalViewFieldLabels.CourseLogistics.SECTION_NAME,-1 );
         exportElements.add(exportFinalExamStatus);
 
+        String finalExamStatusRationale = courseInfoWrapper.getReviewProposalDisplay().getCourseLogisticsSection().getFinalExamStatusRationale();
+        ExportElement exportFinalExamStatusRationale = populateExportElement(CurriculumManagementConstants.ProposalViewFieldLabels.CourseLogistics.FINAL_EXAM_STATUS, finalExamStatusRationale, CurriculumManagementConstants.ProposalViewFieldLabels.CourseLogistics.SECTION_NAME,-1 );
+        exportElements.add(exportFinalExamStatusRationale);
+
+        populateOutcome(exportElements,courseInfoWrapper);
+        populateCourseFormat(exportElements,courseInfoWrapper);
+    }
+
+    protected void populateOutcome(List<ExportElement> exportElements, CourseInfoWrapper courseInfoWrapper) {
         int counter = 1;
         for(ResultValuesGroupInfoWrapper resultValuesGroupInfoWrapper : courseInfoWrapper.getCreditOptionWrappers()){
 
@@ -366,57 +381,62 @@ public class ExportCourseHelperImpl implements ExportCourseHelper {
             exportElements.add(exportCredit);
             counter ++;
         }
-        counter = 1;
+    }
+
+    protected void populateCourseFormat(List<ExportElement> exportElements, CourseInfoWrapper courseInfoWrapper) {
+
+        int counter = 1;
         for(FormatInfo formatInfo : courseInfoWrapper.getFormats()) {
 
-           ExportElement exportCourseFormat = populateExportElement(CurriculumManagementConstants.ProposalViewFieldLabels.CourseLogistics.COURSE_FORMAT + counter , null,CurriculumManagementConstants.ProposalViewFieldLabels.CourseLogistics.SECTION_NAME,-1 );
+            ExportElement exportCourseFormat = populateExportElement(CurriculumManagementConstants.ProposalViewFieldLabels.CourseLogistics.COURSE_FORMAT + counter , null,CurriculumManagementConstants.ProposalViewFieldLabels.CourseLogistics.SECTION_NAME,-1 );
             exportElements.add(exportCourseFormat);
             int activityCounter = 1;
-           for(ActivityInfo activityInfo : formatInfo.getActivities()) {
+            for(ActivityInfo activityInfo : formatInfo.getActivities()) {
 
-               ExportElement exportFormatActivity = populateExportElement(CurriculumManagementConstants.ProposalViewFieldLabels.CourseLogistics.ACTIVITY + activityCounter , null,CurriculumManagementConstants.ProposalViewFieldLabels.CourseLogistics.SECTION_NAME,-1 );
-               exportElements.add(exportFormatActivity);
+                ExportElement exportFormatActivity = populateExportElement(CurriculumManagementConstants.ProposalViewFieldLabels.CourseLogistics.ACTIVITY + activityCounter , null,CurriculumManagementConstants.ProposalViewFieldLabels.CourseLogistics.SECTION_NAME,-1 );
+                exportElements.add(exportFormatActivity);
 
-               String activityType = activityInfo.getTypeKey();
-               ExportElement exportActivityType = populateExportElement(CurriculumManagementConstants.ProposalViewFieldLabels.CourseLogistics.ACTIVITY_TYPE, activityType, CurriculumManagementConstants.ProposalViewFieldLabels.CourseLogistics.SECTION_NAME,-1 );
-               exportElements.add(exportActivityType);
+                String activityType = activityInfo.getTypeKey();
+                activityType = StringUtils.substringAfterLast(activityType, ".");
+                ExportElement exportActivityType = populateExportElement(CurriculumManagementConstants.ProposalViewFieldLabels.CourseLogistics.ACTIVITY_TYPE, activityType, CurriculumManagementConstants.ProposalViewFieldLabels.CourseLogistics.SECTION_NAME,-1 );
+                exportElements.add(exportActivityType);
 
-               String activityDurationCount = "";
-               String activityDurationType ="";
-               if (activityInfo.getDuration() != null) {
-                   if(StringUtils.isNotBlank(activityInfo.getDuration().getAtpDurationTypeKey())){
-                       activityDurationType =   activityInfo.getDuration().getAtpDurationTypeKey();
-                       activityDurationType = activityDurationType.substring(activityDurationType.lastIndexOf('.')+1);
-                   }
+                String activityDurationCount = "";
+                String activityDurationType ="";
+                if (activityInfo.getDuration() != null) {
+                    if(StringUtils.isNotBlank(activityInfo.getDuration().getAtpDurationTypeKey())){
+                        activityDurationType =   activityInfo.getDuration().getAtpDurationTypeKey();
+                        activityDurationType = activityDurationType.substring(activityDurationType.lastIndexOf('.')+1);
+                    }
 
-                   if(activityInfo.getDuration().getTimeQuantity() != null){
-                       activityDurationCount = activityInfo.getDuration().getTimeQuantity().toString();
-                   }
-                   exportElements.add(populateExportElement(CurriculumManagementConstants.ProposalViewFieldLabels.CourseLogistics.DURATION_TYPE, activityDurationType, CurriculumManagementConstants.ProposalViewFieldLabels.CourseLogistics.SECTION_NAME, -1));
-                   exportElements.add(populateExportElement(CurriculumManagementConstants.ProposalViewFieldLabels.CourseLogistics.DURATION_COUNT, activityDurationCount, CurriculumManagementConstants.ProposalViewFieldLabels.CourseLogistics.SECTION_NAME, -1));
-               }
+                    if(activityInfo.getDuration().getTimeQuantity() != null){
+                        activityDurationCount = activityInfo.getDuration().getTimeQuantity().toString();
+                    }
+                    exportElements.add(populateExportElement(CurriculumManagementConstants.ProposalViewFieldLabels.CourseLogistics.DURATION_TYPE, activityDurationType, CurriculumManagementConstants.ProposalViewFieldLabels.CourseLogistics.SECTION_NAME, -1));
+                    exportElements.add(populateExportElement(CurriculumManagementConstants.ProposalViewFieldLabels.CourseLogistics.DURATION_COUNT, activityDurationCount, CurriculumManagementConstants.ProposalViewFieldLabels.CourseLogistics.SECTION_NAME, -1));
+                }
 
-               String contactHours = "";
-               if (activityInfo.getContactHours() != null) {
-                   String contactType = activityInfo.getContactHours().getUnitTypeKey();
-                   contactType = StringUtils.substringAfterLast(contactType, ".");
+                String contactHours = "";
+                if (activityInfo.getContactHours() != null) {
+                    String contactType = activityInfo.getContactHours().getUnitTypeKey();
+                    contactType = StringUtils.substringAfterLast(contactType, ".");
 
-                   if (activityInfo.getContactHours().getUnitQuantity() != null) {
-                       contactHours = activityInfo.getContactHours().getUnitQuantity();
-                   }
-                   if (StringUtils.isNotBlank(contactType)) {
-                       contactHours = contactHours + " per " + StringUtils.lowerCase(contactType);
-                   }
-               }
-               exportElements.add(populateExportElement(CurriculumManagementConstants.ProposalViewFieldLabels.CourseLogistics.CONTACT_HOURS, contactHours , CurriculumManagementConstants.ProposalViewFieldLabels.CourseLogistics.SECTION_NAME,-1 ));
-               String anticipatedClassSize = "";
+                    if (activityInfo.getContactHours().getUnitQuantity() != null) {
+                        contactHours = activityInfo.getContactHours().getUnitQuantity();
+                    }
+                    if (StringUtils.isNotBlank(contactType)) {
+                        contactHours = contactHours + " per " + StringUtils.lowerCase(contactType);
+                    }
+                }
+                exportElements.add(populateExportElement(CurriculumManagementConstants.ProposalViewFieldLabels.CourseLogistics.CONTACT_HOURS, contactHours , CurriculumManagementConstants.ProposalViewFieldLabels.CourseLogistics.SECTION_NAME,-1 ));
+                String anticipatedClassSize = "";
 
-               if(activityInfo.getDefaultEnrollmentEstimate() != null) {
-                   anticipatedClassSize = activityInfo.getDefaultEnrollmentEstimate().toString();
-               }
-               exportElements.add(populateExportElement(CurriculumManagementConstants.ProposalViewFieldLabels.CourseLogistics.CLASS_SIZE, anticipatedClassSize,CurriculumManagementConstants.ProposalViewFieldLabels.CourseLogistics.SECTION_NAME,-1 ));
-               activityCounter++;
-           }
+                if(activityInfo.getDefaultEnrollmentEstimate() != null) {
+                    anticipatedClassSize = activityInfo.getDefaultEnrollmentEstimate().toString();
+                }
+                exportElements.add(populateExportElement(CurriculumManagementConstants.ProposalViewFieldLabels.CourseLogistics.CLASS_SIZE, anticipatedClassSize,CurriculumManagementConstants.ProposalViewFieldLabels.CourseLogistics.SECTION_NAME,-1 ));
+                activityCounter++;
+            }
             counter ++;
         }
     }
@@ -560,7 +580,7 @@ public class ExportCourseHelperImpl implements ExportCourseHelper {
      */
     protected void populateAuthorsCollaborators(List<ExportElement> exportElements, CourseInfoWrapper courseInfoWrapper) {
 
-        for(CollaboratorWrapper collabaratorWrapper : courseInfoWrapper.getCollaboratorWrappers())    {
+        for(CollaboratorWrapper collabaratorWrapper : courseInfoWrapper.getReviewProposalDisplay().getCollaboratorSection().getCollaboratorWrappers())    {
 
             String displayName = collabaratorWrapper.getDisplayName();
             String actionRequest = collabaratorWrapper.getAction();
@@ -612,11 +632,10 @@ public class ExportCourseHelperImpl implements ExportCourseHelper {
     protected void populateVersionCodes(List<ExportElement> exportElements, CourseInfoWrapper courseInfoWrapper) {
 
         StringBuilder versionCodes = new StringBuilder("");
-        for (CourseVariationInfo courseVariationInfo : courseInfoWrapper.getCourseInfo().getVariations()) {
+        for (String courseVariation : courseInfoWrapper.getReviewProposalDisplay().getCourseSection().getVariations()) {
 
-            if (StringUtils.isNotBlank(courseVariationInfo.getCourseNumberSuffix()) && StringUtils.isNotBlank(courseVariationInfo.getSubjectArea())) {
-                versionCodes.append(courseVariationInfo.getSubjectArea());
-                versionCodes.append(courseVariationInfo.getCourseNumberSuffix());
+            if (StringUtils.isNotBlank(courseVariation)) {
+                versionCodes.append(courseVariation);
                 versionCodes.append(";");
             }
         }
