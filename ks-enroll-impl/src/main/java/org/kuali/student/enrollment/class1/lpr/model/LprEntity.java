@@ -65,7 +65,7 @@ public class LprEntity extends MetaEntity implements AttributeOwner<LprAttribute
     private String personRelationStateId;
 
     @Column(name = "CROSSLIST")
-    private String crossList;
+    private String crossListedCode;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner", orphanRemoval = true, fetch = FetchType.EAGER)
     private final Set<LprAttributeEntity> attributes = new HashSet<LprAttributeEntity>();
@@ -99,7 +99,7 @@ public class LprEntity extends MetaEntity implements AttributeOwner<LprAttribute
         this.setPersonRelationTypeId(dto.getTypeKey());
         this.setAtpId(dto.getAtpId());
         this.setMasterLprId(dto.getMasterLprId());
-        this.setCrossList(dto.getCrossList());
+        this.setCrossListedCode(dto.getCrossListedCode());
         fromDto(dto);
     }
 
@@ -122,7 +122,7 @@ public class LprEntity extends MetaEntity implements AttributeOwner<LprAttribute
         this.setEffectiveDate(dto.getEffectiveDate());
         this.setPersonRelationStateId(dto.getStateKey());
         this.setMasterLprId(dto.getMasterLprId());
-        this.setCrossList(dto.getCrossList());
+        this.setCrossListedCode(dto.getCrossListedCode());
 
         // Set these fields on the LPR (makes access easier).
         for (String rvgKey:dto.getResultValuesGroupKeys()) {
@@ -191,12 +191,12 @@ public class LprEntity extends MetaEntity implements AttributeOwner<LprAttribute
         this.personRelationStateId = personRelationStateId;
     }
 
-    public String getCrossList() {
-        return crossList;
+    public String getCrossListedCode() {
+        return crossListedCode;
     }
 
-    public void setCrossList(String crossList) {
-        this.crossList = crossList;
+    public void setCrossListedCode(String crossListedCode) {
+        this.crossListedCode = crossListedCode;
     }
 
     public LprInfo toDto() {
@@ -213,7 +213,7 @@ public class LprEntity extends MetaEntity implements AttributeOwner<LprAttribute
         lprInfo.setStateKey(personRelationStateId);
         lprInfo.setMasterLprId(masterLprId);
         lprInfo.setAtpId(atpId);
-        lprInfo.setCrossList(crossList);
+        lprInfo.setCrossListedCode(crossListedCode);
 
         // instead need to create a new JPA entity to hold the lpr to rvg
         // mapping

@@ -258,8 +258,8 @@ public class BestEffortTimeConflictProposition extends AbstractBestEffortProposi
         ConflictCourseResult conflictCourseResult = new ConflictCourseResult();
 
         // checking if we are dealing with real course vs alias (cross-listed)
-        if (item.getCrossList() != null && !StringUtils.equals(item.getCrossList(), courseofferingInfo.getCourseOfferingCode())) {
-            conflictCourseResult.setCourseCode(item.getCrossList());
+        if (item.getCrossListedCode() != null && !StringUtils.equals(item.getCrossListedCode(), courseofferingInfo.getCourseOfferingCode())) {
+            conflictCourseResult.setCourseCode(item.getCrossListedCode());
         } else {
             conflictCourseResult.setCourseCode(courseofferingInfo.getCourseOfferingCode());
         }
@@ -288,8 +288,8 @@ public class BestEffortTimeConflictProposition extends AbstractBestEffortProposi
         ConflictCourseResult conflictCourseResult = new ConflictCourseResult();
         conflictCourseResult.setMasterLprId(courseRegistrationInfo.getId());
         // checking if we are dealing with real course vs alias (cross-listed)
-        if (courseRegistrationInfo.getCrossList() != null && !StringUtils.equals(courseRegistrationInfo.getCrossList(), courseofferingInfo.getCourseOfferingCode())) {
-            conflictCourseResult.setCourseCode(courseRegistrationInfo.getCrossList());
+        if (courseRegistrationInfo.getCrossListedCode() != null && !StringUtils.equals(courseRegistrationInfo.getCrossListedCode(), courseofferingInfo.getCourseOfferingCode())) {
+            conflictCourseResult.setCourseCode(courseRegistrationInfo.getCrossListedCode());
         } else {
             conflictCourseResult.setCourseCode(courseofferingInfo.getCourseOfferingCode());
         }

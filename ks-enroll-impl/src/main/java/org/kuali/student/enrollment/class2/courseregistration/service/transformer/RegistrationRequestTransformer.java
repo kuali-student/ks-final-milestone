@@ -20,15 +20,18 @@ import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestInfo;
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestItemInfo;
+import org.kuali.student.enrollment.lpr.dto.LprInfo;
 import org.kuali.student.enrollment.lpr.dto.LprTransactionInfo;
 import org.kuali.student.enrollment.lpr.dto.LprTransactionItemInfo;
 import org.kuali.student.enrollment.lpr.dto.LprTransactionItemRequestOptionInfo;
+import org.kuali.student.enrollment.lpr.service.LprService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.common.util.constants.LprServiceConstants;
 import org.kuali.student.r2.common.util.date.DateFormatters;
 import org.kuali.student.r2.lum.lrc.dto.ResultValueInfo;
 import org.kuali.student.r2.lum.lrc.service.LRCService;
@@ -45,6 +48,7 @@ import java.util.List;
  */
 public class RegistrationRequestTransformer {
     private LRCService lrcService;
+    private LprService lprService;
 
     public static final String OK_TO_WAITLIST = "kuali.lpr.trans.item.option.oktowaitlist";
     public static final String OK_TO_HOLD_UNTIL_LIST = "kuali.lpr.trans.item.option.oktoholduntillist";
@@ -90,7 +94,7 @@ public class RegistrationRequestTransformer {
         item.setTransactionId(requestItem.getRegistrationRequestId());
         item.setNewLuiId(requestItem.getRegistrationGroupId());
         item.setExistingLprId(requestItem.getExistingCourseRegistrationId());
-        item.setCrossList(requestItem.getCrossList());
+        item.setCrossListedCode(requestItem.getCrossListedCode());
         item.setValidationResults(requestItem.getValidationResults());
         item.getResultValuesGroupKeys().clear();
 
@@ -200,7 +204,16 @@ public class RegistrationRequestTransformer {
         requestItem.setRegistrationGroupId(item.getNewLuiId());
         requestItem.setExistingCourseRegistrationId(item.getExistingLprId());
         requestItem.setValidationResults(item.getValidationResults());
-        requestItem.setCrossList(item.getCrossList());
+        requestItem.setCrossListedCode(item.getCrossListedCode());
+
+        if(item.getResultingLprId()!=null){
+            LprInfo lpr = getLprService().getLpr(item.getResultingLprId(), context);
+            if(LprServiceConstants.WAITLIST_CO_LPR_TYPE_KEY.equals(lpr.getTypeKey())){
+                requestItem.setCourseWaitlistEntryId(item.getResultingLprId());
+            } else if (LprServiceConstants.REGISTRANT_CO_LPR_TYPE_KEY.equals(lpr.getTypeKey())){
+                requestItem.setCourseRegistrationId(item.getResultingLprId());
+            }
+        }
 
         // Admittedly, a hacky way of doing things, so open for better ways to do this
         for (String s : item.getResultValuesGroupKeys()) {
@@ -269,7 +282,6 @@ public class RegistrationRequestTransformer {
         }
     }
 
-
     protected  LRCService getLrcService() {
         if (lrcService == null) {
             lrcService = GlobalResourceLoader.getService(new QName(LrcServiceConstants.NAMESPACE,
@@ -280,5 +292,16 @@ public class RegistrationRequestTransformer {
 
     public void setLrcService(LRCService lrcService) {
         this.lrcService = lrcService;
+    }
+
+    public LprService getLprService() {
+        if (lprService == null) {
+            lprService = GlobalResourceLoader.getService(new QName(LprServiceConstants.NAMESPACE, LprServiceConstants.SERVICE_NAME_LOCAL_PART));
+        }
+        return lprService;
+    }
+
+    public void setLprService(LprService lprService) {
+        this.lprService = lprService;
     }
 }

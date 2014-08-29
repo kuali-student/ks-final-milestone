@@ -162,7 +162,7 @@ public class CourseRegistrationEngineServiceImpl implements CourseRegistrationEn
         lpr.setMasterLprId(masterLprId);
         lpr.setEffectiveDate(effDate);
         lpr.setAtpId(atpId);
-        lpr.setCrossList(crossList);
+        lpr.setCrossListedCode(crossList);
         if (!StringUtils.isEmpty(credits)) {
             lpr.getResultValuesGroupKeys().add(LrcServiceConstants.RESULT_VALUE_KEY_CREDIT_DEGREE_PREFIX + credits);
         }
@@ -628,7 +628,9 @@ public class CourseRegistrationEngineServiceImpl implements CourseRegistrationEn
     public void registerPersonForCourse(RegistrationRequestItemEngineMessage message, ContextInfo contextInfo) throws PermissionDeniedException, ReadOnlyException, OperationFailedException, VersionMismatchException, InvalidParameterException, DataValidationErrorException, MissingParameterException, DoesNotExistException {
         String creditStr = message.getRequestItem().getCredits() == null ? "" : message.getRequestItem().getCredits().bigDecimalValue().setScale(1).toPlainString();
 
-        List<LprInfo> registeredLprs = buildRegisteredLprs(message.getRequestItem().getRegistrationGroupId(), message.getRegistrationGroup().getTermId(), creditStr, message.getRequestItem().getGradingOptionId(), message.getRequestItem().getRequestedEffectiveDate(), message.getRequestItem().getCrossList(),message.getRequestItem().getPersonId(), contextInfo);
+        List<LprInfo> registeredLprs = buildRegisteredLprs(message.getRequestItem().getRegistrationGroupId(), message.getRegistrationGroup().getTermId(),
+                creditStr, message.getRequestItem().getGradingOptionId(), message.getRequestItem().getRequestedEffectiveDate(),
+                message.getRequestItem().getCrossListedCode(),message.getRequestItem().getPersonId(), contextInfo);
 
         String masterLprId = registeredLprs.get(0).getMasterLprId();
         LprTransactionItemInfo updatedItem =  updateLprTransactionItemResult(message.getRequestItem().getRegistrationRequestId(),

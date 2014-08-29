@@ -454,7 +454,7 @@ public class CourseRegistrationAndScheduleOfClassesUtil {
         registrationRequestItem.setGradingOptionId(gradingOptionId);
         registrationRequestItem.setOkToWaitlist(okToWaitlist);
         registrationRequestItem.setOkToRepeat(okToRepeat);
-        registrationRequestItem.setCrossList(courseCode);
+        registrationRequestItem.setCrossListedCode(courseCode);
         return registrationRequestItem;
     }
 

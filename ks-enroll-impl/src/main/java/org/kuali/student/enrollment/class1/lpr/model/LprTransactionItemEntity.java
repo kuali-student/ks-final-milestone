@@ -79,7 +79,7 @@ public class LprTransactionItemEntity extends MetaEntity implements AttributeOwn
     private String lprTransactionItemState;
 
     @Column(name = "CROSSLIST")
-    private String crossList;
+    private String crossListedCode;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner", orphanRemoval = true, fetch = FetchType.EAGER)
     private final Set<LprTransactionItemAttributeEntity> attributes = new HashSet<LprTransactionItemAttributeEntity>();
@@ -120,7 +120,7 @@ public class LprTransactionItemEntity extends MetaEntity implements AttributeOwn
         this.setLprTransactionItemState(lprTransactionItem.getStateKey());
         this.setLprTransactionItemType(lprTransactionItem.getTypeKey());
 
-        this.setCrossList(lprTransactionItem.getCrossList());
+        this.setCrossListedCode(lprTransactionItem.getCrossListedCode());
 
         if (lprTransactionItem.getDescr() != null) {
             this.setDescrFormatted(lprTransactionItem.getDescr()
@@ -169,7 +169,7 @@ public class LprTransactionItemEntity extends MetaEntity implements AttributeOwn
         lprTransItemInfo.setExistingLprId(this.getExistingLuiId());
         lprTransItemInfo.setNewLuiId(this.getNewLuiId());
         lprTransItemInfo.setPersonId(this.getPersonId());
-        lprTransItemInfo.setCrossList(this.getCrossList());
+        lprTransItemInfo.setCrossListedCode(this.getCrossList());
 
         lprTransItemInfo.setTransactionId(this.owner);
 
@@ -286,11 +286,11 @@ public class LprTransactionItemEntity extends MetaEntity implements AttributeOwn
     }
 
     public String getCrossList() {
-        return crossList;
+        return crossListedCode;
     }
 
-    public void setCrossList(String crossList) {
-        this.crossList = crossList;
+    public void setCrossListedCode(String crossListedCode) {
+        this.crossListedCode = crossListedCode;
     }
 
     public Set<LprTransactionItemAttributeEntity> getAttributes() {
