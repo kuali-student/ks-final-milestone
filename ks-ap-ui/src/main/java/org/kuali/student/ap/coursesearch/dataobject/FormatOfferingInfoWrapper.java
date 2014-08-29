@@ -18,7 +18,7 @@ import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 
 import java.util.List;
 
-public class FormatOfferingInfoWrapper implements Comparable {
+public class FormatOfferingInfoWrapper implements Comparable<FormatOfferingInfoWrapper> {
     private String formatOfferingName;
     private String formatOfferingId;
     private boolean selected;
@@ -130,11 +130,11 @@ public class FormatOfferingInfoWrapper implements Comparable {
     }
 
     @Override
-    public int compareTo(Object o) {
-        if (this.getFormatOfferingName()==null || o==null ||((FormatOfferingInfoWrapper)o).getFormatOfferingName()
+    public int compareTo(FormatOfferingInfoWrapper  o) {
+        if (this.getFormatOfferingName()==null || o==null ||o.getFormatOfferingName()
                 ==null ) {
             return 0; //return 0 since they can't be compared anyway
         }
-        return this.getFormatOfferingName().compareTo(((FormatOfferingInfoWrapper)o).getFormatOfferingName());  //To change
+        return this.getFormatOfferingName().compareTo(o.getFormatOfferingName());  //To change
     }
 }
