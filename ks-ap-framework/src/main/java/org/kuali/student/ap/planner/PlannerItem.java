@@ -50,7 +50,7 @@ public class PlannerItem implements
     // PlannerItem types
     public static final String BLANK_ITEM = "Blank";
     public static final String COURSE_RECORD_ITEM = "CourseRecord";
-    public static final String ADD_ITEM = "CourseRecord";
+    public static final String ADD_ITEM = "AddItem";
     public static final String PLAN_ITEM = "PlanItem";
 
 
