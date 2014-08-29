@@ -2610,6 +2610,13 @@ public class CourseMaintainableImpl extends RuleEditorMaintainableImpl implement
         return cluInfoHelper;
     }
 
+    protected CourseStateChangeServiceImpl getCourseStateChangeService() {
+        if (this.courseStateChangeService == null) {
+            this.courseStateChangeService = new CourseStateChangeServiceImpl();
+            this.courseStateChangeService.setCourseService(getCourseService());
+        }
+        return this.courseStateChangeService;
+    }
 
     /**
      * As we're using this maintainable in course maintenace document (CourseMaintenanceView.xml) as well as
@@ -2661,43 +2668,37 @@ public class CourseMaintainableImpl extends RuleEditorMaintainableImpl implement
         This method is copied from KualiStudentPostProcessorBase
     */
     @Override
-    public void doActionTaken(ActionTakenEvent actionTakenEvent) {
-        boolean success = true;
+    public void doActionTaken(ActionTakenEvent actionTakenEvent) throws Exception {
         ActionTaken actionTaken = actionTakenEvent.getActionTaken();
         String actionTakeCode = actionTakenEvent.getActionTaken().getActionTaken().getCode();
-        try {
-            // on a save action we may not have access to the proposal object because the transaction may not have committed
-            if (!StringUtils.equals(KewApiConstants.ROUTE_HEADER_SAVED_CD, actionTakeCode)) {
-                if (actionTaken == null) {
-                    throw new RuntimeException("No action taken found for document id " + actionTakenEvent.getDocumentId());
-                }
-                ProposalInfo proposalInfo = getProposalService().getProposalByWorkflowId(actionTakenEvent.getDocumentId().toString(), ContextUtils.createDefaultContextInfo());
-                if (StringUtils.equals(KewApiConstants.ACTION_TAKEN_SU_DISAPPROVED_CD, actionTakeCode)) {
-                    // the custom method below is needed for the unique problem of the states being set for a Withdraw action in KS
-                    processSuperUserDisapproveActionTaken(actionTakenEvent, actionTaken, proposalInfo);
-                }
-                // only attempt to remove the adhoc permission if the action taken was not an adhoc revocation as an
-                //    as an adhoc revocation will have already removed the adhoc permissions for edit access
-                else if (!StringUtils.equals(KewApiConstants.ACTION_TAKEN_ADHOC_REVOKED_CD, actionTakeCode)) {
-                    List<ActionRequest> actionRequests = getWorkflowDocumentService().getRootActionRequests(actionTakenEvent.getDocumentId());
-                    for (ActionRequest actionRequest : actionRequests) {
-                        // for now we only care about adhoc requests to individual users (aka collaborators)
-                        if (actionRequest.isAdHocRequest() && actionRequest.isUserRequest()) {
-                            // only process actions taken on adhoc requests if the request is satisfied by the action taken
-                            if ((actionRequest.getActionTaken() != null) && (StringUtils.equals(actionTaken.getId(), actionRequest.getActionTaken().getId()))) {
-                                processActionTakenOnAdhocRequest(actionTakenEvent, actionRequest);
-                            }
+        // on a save action we may not have access to the proposal object because the transaction may not have committed
+        if (!StringUtils.equals(KewApiConstants.ROUTE_HEADER_SAVED_CD, actionTakeCode)) {
+            if (actionTaken == null) {
+                throw new RuntimeException("No action taken found for document id " + actionTakenEvent.getDocumentId());
+            }
+            ProposalInfo proposalInfo = getProposalService().getProposalByWorkflowId(actionTakenEvent.getDocumentId().toString(), ContextUtils.createDefaultContextInfo());
+            if (StringUtils.equals(KewApiConstants.ACTION_TAKEN_SU_DISAPPROVED_CD, actionTakeCode)) {
+                // the custom method below is needed for the unique problem of the states being set for a Withdraw action in KS
+                processSuperUserDisapproveActionTaken(actionTakenEvent, actionTaken, proposalInfo);
+            }
+            // only attempt to remove the adhoc permission if the action taken was not an adhoc revocation as an
+            //    as an adhoc revocation will have already removed the adhoc permissions for edit access
+            else if (!StringUtils.equals(KewApiConstants.ACTION_TAKEN_ADHOC_REVOKED_CD, actionTakeCode)) {
+                List<ActionRequest> actionRequests = getWorkflowDocumentService().getRootActionRequests(actionTakenEvent.getDocumentId());
+                for (ActionRequest actionRequest : actionRequests) {
+                    // for now we only care about adhoc requests to individual users (aka collaborators)
+                    if (actionRequest.isAdHocRequest() && actionRequest.isUserRequest()) {
+                        // only process actions taken on adhoc requests if the request is satisfied by the action taken
+                        if ((actionRequest.getActionTaken() != null) && (StringUtils.equals(actionTaken.getId(), actionRequest.getActionTaken().getId()))) {
+                            processActionTakenOnAdhocRequest(actionTakenEvent, actionRequest);
                         }
                     }
                 }
-                success = processCustomActionTaken(actionTakenEvent, actionTaken, proposalInfo);
-            } else {
-                success = processCustomSaveActionTaken(actionTakenEvent, actionTaken);
             }
-        } catch (Exception e) {
-            throw new RuntimeException("Error in action taken for document", e);
+            processCustomActionTaken(actionTakenEvent, actionTaken, proposalInfo);
+        } else {
+            processCustomSaveActionTaken(actionTakenEvent, actionTaken);
         }
-        //  return new ProcessDocReport(success);
     }
 
 
@@ -2705,7 +2706,9 @@ public class CourseMaintainableImpl extends RuleEditorMaintainableImpl implement
         This method is copied from KualiStudentPostProcessorBase
     */
     @Override
-    public void doRouteLevelChange(DocumentRouteLevelChange documentRouteLevelChange) {
+    public void doRouteLevelChange(DocumentRouteLevelChange documentRouteLevelChange) throws Exception {
+        ProposalInfo proposalInfo = getProposalService().getProposalByWorkflowId(documentRouteLevelChange.getDocumentId(), ContextUtils.getContextInfo());
+
         // if this is the initial route then clear only edit permissions as per KSLUM-192
         if (StringUtils.equals(StudentProposalRiceConstants.DEFAULT_WORKFLOW_DOCUMENT_START_NODE_NAME, documentRouteLevelChange.getOldNodeName())) {
             // remove edit perm for all adhoc action requests to a user for the route node we just exited
@@ -2726,33 +2729,33 @@ public class CourseMaintainableImpl extends RuleEditorMaintainableImpl implement
         } else {
             LOG.warn("Will not clear any permissions added via adhoc requests during route level change to '{}' on doc id '{}'", documentRouteLevelChange.getNewNodeName(), documentRouteLevelChange.getDocumentId());
         }
+        processCustomRouteLevelChange(documentRouteLevelChange, proposalInfo);
+    }
+
+    protected void processCustomRouteLevelChange(
+            DocumentRouteLevelChange documentRouteLevelChange,
+            ProposalInfo proposalInfo) throws Exception {
+        //Update the proposal with the new node name
+        new AttributeHelper(proposalInfo.getAttributes()).put("workflowNode", documentRouteLevelChange.getNewNodeName());
+        getProposalService().updateProposal(proposalInfo.getId(), proposalInfo, ContextUtils.createDefaultContextInfo());
     }
 
     /*
         This method is copied from KualiStudentPostProcessorBase
     */
     @Override
-    public void doRouteStatusChange(DocumentRouteStatusChange documentRouteStatusChange) {
-        boolean success = true;
+    public void doRouteStatusChange(DocumentRouteStatusChange documentRouteStatusChange) throws Exception {
         // if document is transitioning from INITIATED to SAVED then transaction prevents us from retrieving the proposal
         if (StringUtils.equals(KewApiConstants.ROUTE_HEADER_INITIATED_CD, documentRouteStatusChange.getOldRouteStatus()) &&
                 StringUtils.equals(KewApiConstants.ROUTE_HEADER_SAVED_CD, documentRouteStatusChange.getNewRouteStatus())) {
             // assume the proposal status is already correct
-            try {
-                success = processCustomRouteStatusSavedStatusChange(documentRouteStatusChange);
-            } catch (Exception e) {
-                throw new RuntimeException("Error in custom route status change ", e);
-            }
+            processCustomRouteStatusSavedStatusChange(documentRouteStatusChange);
         } else {
-            try {
-                ProposalInfo proposalInfo = getProposalService().getProposalByWorkflowId(documentRouteStatusChange.getDocumentId(), ContextUtils.createDefaultContextInfo());
-                // update the proposal state if the proposalState value is not null (allows for clearing of the state)
-                String proposalState = getProposalStateForRouteStatus(proposalInfo.getState(), documentRouteStatusChange.getNewRouteStatus());
-                updateProposal(documentRouteStatusChange, proposalState, proposalInfo);
-                success = processCustomRouteStatusChange(documentRouteStatusChange, proposalInfo);
-            } catch (Exception e) {
-                throw new RuntimeException("Error in custom route status change ", e);
-            }
+            ProposalInfo proposalInfo = getProposalService().getProposalByWorkflowId(documentRouteStatusChange.getDocumentId(), ContextUtils.createDefaultContextInfo());
+            // update the proposal state if the proposalState value is not null (allows for clearing of the state)
+            String proposalState = getProposalStateForRouteStatus(proposalInfo.getState(), documentRouteStatusChange.getNewRouteStatus());
+            updateProposal(documentRouteStatusChange, proposalState, proposalInfo);
+            processCustomRouteStatusChange(documentRouteStatusChange, proposalInfo);
         }
     }
 
@@ -2777,9 +2780,18 @@ public class CourseMaintainableImpl extends RuleEditorMaintainableImpl implement
         DocumentCollaboratorHelper.removeEditAdhocPermission(principalId, doc.getDocumentTypeName(), doc.getApplicationDocumentId());
     }
 
-    protected boolean processCustomRouteStatusSavedStatusChange(DocumentRouteStatusChange statusChangeEvent) throws Exception {
+    /**
+     * Helper method called when post processing should remove the Comment permission given to proposal Collaborators
+     *
+     * @param principalId id of the user who needs to be removed
+     * @param doc the document from which the person's access should be removed
+     */
+    protected void removeCommentAdhocPermissions(String principalId, WorkflowDocument doc) throws OperationFailedException {
+        DocumentCollaboratorHelper.removeCommentAdhocPermission(principalId, doc.getDocumentTypeName(), doc.getApplicationDocumentId());
+    }
+
+    protected void processCustomRouteStatusSavedStatusChange(DocumentRouteStatusChange statusChangeEvent) throws Exception {
         // do nothing but allow override
-        return true;
     }
 
     /**
@@ -2820,7 +2832,7 @@ public class CourseMaintainableImpl extends RuleEditorMaintainableImpl implement
         LOG.info("Setting state '{}' on Proposal with docId='{}' and proposalId='{}'", proposalState, proposalInfo.getWorkflowId(), proposalInfo.getId());
         boolean requiresSave = false;
         if (proposalState != null) {
-            proposalInfo.setState(proposalState);
+            proposalInfo.setStateKey(proposalState);
             requiresSave = true;
         }
         requiresSave |= preProcessProposalSave(iDocumentEvent, proposalInfo);
@@ -2834,7 +2846,7 @@ public class CourseMaintainableImpl extends RuleEditorMaintainableImpl implement
      * of the clu should be, then routes the clu I, and the new state
      * to CourseStateChangeServiceImpl.java
      */
-    protected boolean processCustomRouteStatusChange(DocumentRouteStatusChange statusChangeEvent, ProposalInfo proposalInfo) throws Exception {
+    protected void processCustomRouteStatusChange(DocumentRouteStatusChange statusChangeEvent, ProposalInfo proposalInfo) throws Exception {
 
         String courseId = getCourseId(proposalInfo);
         String prevEndTermAtpId = new AttributeHelper(proposalInfo.getAttributes()).get("prevEndTerm");
@@ -2847,24 +2859,23 @@ public class CourseMaintainableImpl extends RuleEditorMaintainableImpl implement
 
         //Use the state change service to update to active and update preceding versions
         if (newCourseState != null) {
-            if (DtoConstants.STATE_ACTIVE.equals(newCourseState)) {
-
-                // Change the state using the effective date as the version start date
-                // update course and save it for retire if state = retire
-                getCourseStateChangeService().changeState(courseId, newCourseState, prevEndTermAtpId, ContextUtils.createDefaultContextInfo());
-            } else
-
-                // Retire By Proposal will come through here, extra data will need
-                // to be copied from the proposalInfo to the courseInfo fields before
-                // the save happens.
-                if (DtoConstants.STATE_RETIRED.equals(newCourseState)) {
+            switch (newCourseState) {
+                case DtoConstants.STATE_ACTIVE:
+                    // Change the state using the effective date as the version start date
+                    // update course and save it for retire if state = retire
+                    getCourseStateChangeService().changeState(courseId, newCourseState, prevEndTermAtpId, ContextUtils.createDefaultContextInfo());
+                    break;
+                case DtoConstants.STATE_RETIRED:
+                    // Retire By Proposal will come through here, extra data will need
+                    // to be copied from the proposalInfo to the courseInfo fields before
+                    // the save happens.
                     retireCourseByProposalCopyAndSave(newCourseState, courseInfo, proposalInfo);
                     getCourseStateChangeService().changeState(courseId, newCourseState, prevEndTermAtpId, ContextUtils.createDefaultContextInfo());
-                } else { // newCourseState of null comes here, is this desired?
-                    updateCourse(statusChangeEvent, newCourseState, courseInfo, proposalInfo);
-                }
+                    break;
+                default:
+                    updateCourseIfNecessary(statusChangeEvent, newCourseState, courseInfo, proposalInfo);
+            }
         }
-        return true;
     }
 
     /**
@@ -2880,6 +2891,7 @@ public class CourseMaintainableImpl extends RuleEditorMaintainableImpl implement
 
 
     protected boolean preProcessProposalSave(IDocumentEvent iDocumentEvent, ProposalInfo proposalInfo) {
+        // do nothing
         return false;
     }
 
@@ -2936,15 +2948,6 @@ public class CourseMaintainableImpl extends RuleEditorMaintainableImpl implement
         }
     }
 
-
-    protected CourseStateChangeServiceImpl getCourseStateChangeService() {
-        if (this.courseStateChangeService == null) {
-            this.courseStateChangeService = new CourseStateChangeServiceImpl();
-            this.courseStateChangeService.setCourseService(getCourseService());
-        }
-        return this.courseStateChangeService;
-    }
-
     /**
      * In this method, the proposal object fields are copied to the cluInfo object
      * fields to pass validation. This method copies data from the custom Retire
@@ -2965,46 +2968,47 @@ public class CourseMaintainableImpl extends RuleEditorMaintainableImpl implement
      * @param proposalInfo - proposal object which has the on-screen fields we are copying from
      */
     protected void retireCourseByProposalCopyAndSave(String courseState, CourseInfo courseInfo, ProposalInfo proposalInfo) throws Exception {
+        if (!StringUtils.equals(DtoConstants.STATE_RETIRED, courseState)) {
+            throw new RuntimeException("Attempted to call a retire operation using course state '" + courseState + "'");
+        }
 
         // Copy the data to the object -
         // These Proposal Attribs need to go back to courseInfo Object
         // to pass validation.
-        if (DtoConstants.STATE_RETIRED.equals(courseState)) {
-            if ((proposalInfo != null) && (proposalInfo.getAttributes() != null)) {
-                String rationale = null;
-                if (proposalInfo.getRationale() != null) {
-                    rationale = proposalInfo.getRationale().getPlain();
-                }
-                String proposedEndTerm = new AttributeHelper(proposalInfo.getAttributes()).get("proposedEndTerm");
-                String proposedLastTermOffered = new AttributeHelper(proposalInfo.getAttributes()).get("proposedLastTermOffered");
-                String proposedLastCourseCatalogYear = new AttributeHelper(proposalInfo.getAttributes()).get("proposedLastCourseCatalogYear");
+        if ((proposalInfo != null) && (proposalInfo.getAttributes() != null)) {
+            String rationale = null;
+            if (proposalInfo.getRationale() != null) {
+                rationale = proposalInfo.getRationale().getPlain();
+            }
+            String proposedEndTerm = new AttributeHelper(proposalInfo.getAttributes()).get("proposedEndTerm");
+            String proposedLastTermOffered = new AttributeHelper(proposalInfo.getAttributes()).get("proposedLastTermOffered");
+            String proposedLastCourseCatalogYear = new AttributeHelper(proposalInfo.getAttributes()).get("proposedLastCourseCatalogYear");
 
-                courseInfo.setEndTerm(proposedEndTerm);
-                courseInfo.getAttributes().add(new AttributeInfo("retirementRationale", rationale));
-                courseInfo.getAttributes().add(new AttributeInfo("lastTermOffered", proposedLastTermOffered));
-                courseInfo.getAttributes().add(new AttributeInfo("lastPublicationYear", proposedLastCourseCatalogYear));
+            courseInfo.setEndTerm(proposedEndTerm);
+            courseInfo.getAttributes().add(new AttributeInfo("retirementRationale", rationale));
+            courseInfo.getAttributes().add(new AttributeInfo("lastTermOffered", proposedLastTermOffered));
+            courseInfo.getAttributes().add(new AttributeInfo("lastPublicationYear", proposedLastCourseCatalogYear));
 
-                // lastTermOffered is a special case field, as it is required upon retire state
-                // but not required for submit.  Therefore it is possible for a user to submit a retire proposal
-                // without this field filled out, then when the course gets approved, and the state changes to RETIRED
-                // validation would fail and the proposal will then go into exception routing.
-                // We can't simply make lastTermOffered a required field as it is not a desired field
-                // on the course proposal screen.
-                //
-                // So in the case of lastTermOffered being null when a course is retired,
-                // Just copy the "proposalInfo.proposedEndTerm" value (required for saves, so it will be filled out)
-                // into "courseInfo.lastTermOffered" to pass validation.
-                if ((proposalInfo != null) && (courseInfo != null)
-                        && (courseInfo.getAttributeValue("lastTermOffered") == null)) {
-                    courseInfo.getAttributes().add(new AttributeInfo("lastTermOffered", new AttributeHelper(proposalInfo.getAttributes()).get("proposedEndTerm")));
-                }
+            // lastTermOffered is a special case field, as it is required upon retire state
+            // but not required for submit.  Therefore it is possible for a user to submit a retire proposal
+            // without this field filled out, then when the course gets approved, and the state changes to RETIRED
+            // validation would fail and the proposal will then go into exception routing.
+            // We can't simply make lastTermOffered a required field as it is not a desired field
+            // on the course proposal screen.
+            //
+            // So in the case of lastTermOffered being null when a course is retired,
+            // Just copy the "proposalInfo.proposedEndTerm" value (required for saves, so it will be filled out)
+            // into "courseInfo.lastTermOffered" to pass validation.
+            if ((proposalInfo != null) && (courseInfo != null)
+                    && (courseInfo.getAttributeValue("lastTermOffered") == null)) {
+                courseInfo.getAttributes().add(new AttributeInfo("lastTermOffered", new AttributeHelper(proposalInfo.getAttributes()).get("proposedEndTerm")));
             }
         }
         // Save the Data to the DB
         getCourseService().updateCourse(courseInfo.getId(), courseInfo, ContextUtils.createDefaultContextInfo());
     }
 
-    protected void updateCourse(IDocumentEvent iDocumentEvent, String courseState, CourseInfo courseInfo, ProposalInfo proposalInfo) throws Exception {
+    protected void updateCourseIfNecessary(IDocumentEvent iDocumentEvent, String courseState, CourseInfo courseInfo, ProposalInfo proposalInfo) throws Exception {
         // only change the state if the course is not currently set to that state
         boolean requiresSave = false;
         if (courseState != null) {
@@ -3015,7 +3019,8 @@ public class CourseMaintainableImpl extends RuleEditorMaintainableImpl implement
         LOG.info("Running preProcessCluSave with cluId='{}'", courseInfo.getId());
         requiresSave |= preProcessCourseSave(iDocumentEvent, courseInfo);
 
-        if (requiresSave) {getCourseService().updateCourse(courseInfo.getId(), courseInfo, ContextUtils.createDefaultContextInfo());
+        if (requiresSave) {
+            getCourseService().updateCourse(courseInfo.getId(), courseInfo, ContextUtils.createDefaultContextInfo());
 
             //For a newly approved course (w/no prior active versions), make the new course the current version.
             if (DtoConstants.STATE_ACTIVE.equals(courseState) && courseInfo.getVersion().getCurrentVersionStart() == null) {
@@ -3052,6 +3057,7 @@ public class CourseMaintainableImpl extends RuleEditorMaintainableImpl implement
     }
 
     protected boolean preProcessCourseSave(IDocumentEvent iDocumentEvent, CourseInfo courseInfo) {
+        // do nothing
         return false;
     }
 
@@ -3116,7 +3122,7 @@ public class CourseMaintainableImpl extends RuleEditorMaintainableImpl implement
                 CourseInfo courseInfo = getCourseService().getCourse(
                         getCourseId(proposalInfo), ContextUtils.createDefaultContextInfo());
                 // Update Clu
-                updateCourse(actionTakenEvent, DtoConstants.STATE_NOT_APPROVED,
+                updateCourseIfNecessary(actionTakenEvent, DtoConstants.STATE_NOT_APPROVED,
                         courseInfo, proposalInfo);
             }
             // Retire proposal is the only proposal type at this time which will not require a
@@ -3130,12 +3136,11 @@ public class CourseMaintainableImpl extends RuleEditorMaintainableImpl implement
         }
     }
 
-    protected boolean processCustomActionTaken(ActionTakenEvent actionTakenEvent, ActionTaken actionTaken, ProposalInfo proposalInfo) throws Exception {
+    protected void processCustomActionTaken(ActionTakenEvent actionTakenEvent, ActionTaken actionTaken, ProposalInfo proposalInfo) throws Exception {
         String cluId = getCourseId(proposalInfo);
         CourseInfo courseInfo = getCourseService().getCourse(cluId, ContextUtils.createDefaultContextInfo());
         // submit, blanket approve action taken comes through here.
-        updateCourse(actionTakenEvent, null, courseInfo, proposalInfo);
-        return true;
+        updateCourseIfNecessary(actionTakenEvent, null, courseInfo, proposalInfo);
     }
 
     /*
@@ -3161,8 +3166,7 @@ public class CourseMaintainableImpl extends RuleEditorMaintainableImpl implement
        This method is copied from KualiStudentPostProcessorBase
     */
 
-    protected boolean processCustomSaveActionTaken(ActionTakenEvent actionTakenEvent, ActionTaken actionTaken) throws Exception {
+    protected void processCustomSaveActionTaken(ActionTakenEvent actionTakenEvent, ActionTaken actionTaken) throws Exception {
         // do nothing
-        return true;
     }
 }

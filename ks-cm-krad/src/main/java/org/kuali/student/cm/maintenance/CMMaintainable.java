@@ -29,9 +29,9 @@ import org.kuali.student.common.uif.service.KSMaintainable;
  */
 public interface CMMaintainable extends KSMaintainable {
 
-    public void doActionTaken(ActionTakenEvent actionTakenEvent);
-    public void doRouteLevelChange(DocumentRouteLevelChange documentRouteLevelChange);
-    public void doRouteStatusChange(DocumentRouteStatusChange documentRouteStatusChange);
+    public void doActionTaken(ActionTakenEvent actionTakenEvent) throws Exception;
+    public void doRouteLevelChange(DocumentRouteLevelChange documentRouteLevelChange) throws Exception;
+    public void doRouteStatusChange(DocumentRouteStatusChange documentRouteStatusChange) throws Exception;
     public void retrieveDataObject();
 
 }
