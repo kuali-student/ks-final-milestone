@@ -560,6 +560,7 @@
                 </property>
             </bean>
         </property>
+        <!-- Hide until we get to messages. Empty div creates one pixel line of white space in planner. Will need to add render property so this element does not display if not needed
         <property name="header.lowerGroup">
             <bean parent="Uif-HorizontalBoxGroup" p:additionalCssClasses="ks-plan-Bucket-headerStatusIcons">
                 <property name="validationMessages.displayMessages" value="false" />
@@ -572,14 +573,14 @@
                                     <value>@{#line.completed ? 'locked' : (#line.planning ?'unlocked' : 'locked')}</value>
                                     <value>ksap-registration-status</value>
                                     <value>ks-plan-Icon</value>
-                                    <value>@{#line.completed ? 'ks-plan-Icon--locked' : (#line.planning ? 'ks-plan-Icon--unlocked' : 'ks-plan-Icon--locked')}</value>
+                                    <value>@{#line.completed ? 'ks-plan-Icon-locked' : (#line.planning ? 'ks-plan-Icon-unlocked' : 'ks-plan-Icon-locked')}</value>
                                 </list>
                             </property>
                         </bean>
                     </list>
                 </property>
             </bean>
-        </property>
+        </property> -->
         <property name="layoutManager.lineGroupPrototype.footer.render"
                   value="false" />
         <property name="layoutManager.lineGroupPrototype.validationMessages.displayMessages"

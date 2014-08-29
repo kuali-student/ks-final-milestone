@@ -323,7 +323,7 @@
                 <value>@{#parentLine.completedTerm ? 'locked' : (#parentLine.openForPlanning ? 'unlocked' : 'locked')}</value>
                 <value>ksap-registration-status</value>
                 <value>ks-plan-Icon</value>
-                <value>@{#parentLine.completedTerm ? 'ks-plan-Icon--locked' : (#parentLine.openForPlanning ? 'ks-plan-Icon--unlocked' : 'ks-plan-Icon--locked')}</value>
+                <value>@{#parentLine.completedTerm ? 'ks-plan-Icon-locked' : (#parentLine.openForPlanning ? 'ks-plan-Icon-unlocked' : 'ks-plan-Icon-locked')}</value>
             </list>
         </property>
     </bean>
