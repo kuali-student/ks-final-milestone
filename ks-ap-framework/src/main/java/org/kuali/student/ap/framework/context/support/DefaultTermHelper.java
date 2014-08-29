@@ -43,6 +43,7 @@ import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
 import org.kuali.student.r2.core.atp.dto.AtpInfo;
 import org.kuali.student.r2.core.atp.service.AtpService;
 import org.kuali.student.r2.core.constants.AcademicCalendarServiceConstants;
+import org.kuali.student.r2.core.constants.AtpSearchServiceConstants;
 import org.kuali.student.r2.core.constants.AtpServiceConstants;
 import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultCellInfo;
@@ -936,13 +937,14 @@ public class DefaultTermHelper implements TermHelper {
         KeyDateInfo  lastDayToAddClasses = null;
         // Find the registration/instructional milestone types.  These appear to, collectively,
         // constitute the keydate types.
-        SearchRequestInfo searchRequest = new SearchRequestInfo("milestone.search.milestoneIdsByAtpId");
-        searchRequest.addParam("milestone.queryParam.atpId", termId);
+        SearchRequestInfo searchRequest = new SearchRequestInfo(
+                AtpSearchServiceConstants.ATP_SEARCH_MILESTONE_IDS_BY_ATP_ID);
+        searchRequest.addParam(AtpSearchServiceConstants.ATP_QUERYPARAM_MILESTONE_ATP_ID, termId);
         //Specify the type key for "Last Day to Add Classes"
         List<String> keydateTypes = new ArrayList<String>();
         keydateTypes.add(AtpServiceConstants.MILESTONE_SCHEDULE_ADJUSTMENT_PERIOD_TYPE_KEY);
         // Make query
-        searchRequest.addParam("milestone.queryParam.milestoneTypes", keydateTypes);
+        searchRequest.addParam(AtpSearchServiceConstants.ATP_QUERYPARAM_MILESTONE_TYPES, keydateTypes);
         SearchResultInfo searchResult = KsapFrameworkServiceLocator.getAtpService().search(searchRequest, context);
         if(searchResult.getRows().size()== 0){
             //No lastDayToAddClasses has been defined for the specified term
