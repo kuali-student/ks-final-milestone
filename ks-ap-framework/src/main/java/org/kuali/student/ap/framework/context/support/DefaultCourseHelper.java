@@ -276,16 +276,8 @@ public class DefaultCourseHelper implements CourseHelper, Serializable {
 				}
 			}
 
-		} catch (DoesNotExistException e) {
+		} catch (DoesNotExistException | InvalidParameterException | MissingParameterException | OperationFailedException | PermissionDeniedException e) {
 			throw new IllegalArgumentException("CO lookup error", e);
-		} catch (InvalidParameterException e) {
-			throw new IllegalArgumentException("CO lookup error", e);
-		} catch (MissingParameterException e) {
-			throw new IllegalArgumentException("CO lookup error", e);
-		} catch (OperationFailedException e) {
-			throw new IllegalStateException("CO lookup error", e);
-		} catch (PermissionDeniedException e) {
-			throw new IllegalStateException("CO lookup error", e);
 		} finally {
 			if (sb != null)
 				LOG.debug(sb.toString());
@@ -306,14 +298,8 @@ public class DefaultCourseHelper implements CourseHelper, Serializable {
 								KsapFrameworkServiceLocator.getContext().getContextInfo()));
 			} catch (DoesNotExistException e) {
 				return null;
-			} catch (MissingParameterException e) {
+			} catch (MissingParameterException | InvalidParameterException | OperationFailedException | PermissionDeniedException e) {
 				throw new IllegalArgumentException("CLU lookup error", e);
-			} catch (InvalidParameterException e) {
-				throw new IllegalArgumentException("CLU lookup error", e);
-			} catch (OperationFailedException e) {
-				throw new IllegalStateException("CLU lookup error", e);
-			} catch (PermissionDeniedException e) {
-				throw new IllegalStateException("CLU lookup error", e);
 			}
 		return rv;
 	}
@@ -349,16 +335,8 @@ public class DefaultCourseHelper implements CourseHelper, Serializable {
 				if (msg != null)
 					LOG.debug(msg.toString());
 				cm.activityOfferingDisplaysByCourseAndTerm.put(k, rv);
-			} catch (DoesNotExistException e) {
+			} catch (DoesNotExistException | InvalidParameterException | MissingParameterException | OperationFailedException | PermissionDeniedException e) {
 				throw new IllegalArgumentException("CO lookup failure", e);
-			} catch (InvalidParameterException e) {
-				throw new IllegalArgumentException("CO lookup failure", e);
-			} catch (MissingParameterException e) {
-				throw new IllegalArgumentException("CO lookup failure", e);
-			} catch (OperationFailedException e) {
-				throw new IllegalStateException("CO lookup failure", e);
-			} catch (PermissionDeniedException e) {
-				throw new IllegalStateException("CO lookup failure", e);
 			}
 		return rv;
 	}
@@ -388,16 +366,8 @@ public class DefaultCourseHelper implements CourseHelper, Serializable {
                 }
             }
 			return scheduledTerms;
-		} catch (InvalidParameterException e) {
+		} catch (InvalidParameterException | MissingParameterException | OperationFailedException | PermissionDeniedException | DoesNotExistException e) {
 			throw new IllegalArgumentException("CO lookup failure", e);
-		} catch (MissingParameterException e) {
-			throw new IllegalArgumentException("CO lookup failure", e);
-		} catch (OperationFailedException e) {
-			throw new IllegalStateException("CO lookup failure", e);
-		} catch (PermissionDeniedException e) {
-			throw new IllegalStateException("CO lookup failure", e);
-		} catch (DoesNotExistException e){
-            throw new IllegalStateException("CO lookup failure", e);
         }
 	}
 
@@ -420,15 +390,9 @@ public class DefaultCourseHelper implements CourseHelper, Serializable {
                     equal("luiState", LuiServiceConstants.LUI_CO_STATE_OFFERED_KEY));
             offerings = KsapFrameworkServiceLocator.getCourseOfferingService()
                     .searchForCourseOfferings(query,KsapFrameworkServiceLocator.getContext().getContextInfo());
-        } catch (InvalidParameterException e) {
+        } catch (InvalidParameterException | MissingParameterException | OperationFailedException | PermissionDeniedException e) {
             throw new IllegalArgumentException("ATP lookup failed", e);
-        } catch (MissingParameterException e) {
-            throw new IllegalArgumentException("ATP lookup failed", e);
-        } catch (OperationFailedException e) {
-            throw new IllegalStateException("ATP lookup failed", e);
-        } catch (PermissionDeniedException e) {
-            throw new IllegalStateException("ATP lookup failed", e);
-        }
+         }
 
         return offerings;
     }
@@ -447,14 +411,8 @@ public class DefaultCourseHelper implements CourseHelper, Serializable {
                     equal("luiState", LuiServiceConstants.LUI_CO_STATE_OFFERED_KEY));
             offerings = KsapFrameworkServiceLocator.getCourseOfferingService()
                     .searchForCourseOfferings(query,KsapFrameworkServiceLocator.getContext().getContextInfo());
-        } catch (InvalidParameterException e) {
+        } catch (InvalidParameterException | MissingParameterException | OperationFailedException | PermissionDeniedException e) {
             throw new IllegalArgumentException("ATP lookup failed", e);
-        } catch (MissingParameterException e) {
-            throw new IllegalArgumentException("ATP lookup failed", e);
-        } catch (OperationFailedException e) {
-            throw new IllegalStateException("ATP lookup failed", e);
-        } catch (PermissionDeniedException e) {
-            throw new IllegalStateException("ATP lookup failed", e);
         }
 
         return offerings;
@@ -496,16 +454,8 @@ public class DefaultCourseHelper implements CourseHelper, Serializable {
                     }
                 }
             }
-		} catch (InvalidParameterException e) {
+		} catch (InvalidParameterException | MissingParameterException | OperationFailedException | PermissionDeniedException | DoesNotExistException e) {
 			throw new IllegalArgumentException("CO lookup failure", e);
-		} catch (MissingParameterException e) {
-			throw new IllegalArgumentException("CO lookup failure", e);
-		} catch (OperationFailedException e) {
-			throw new IllegalStateException("CO lookup failure", e);
-		} catch (PermissionDeniedException e) {
-			throw new IllegalStateException("CO lookup failure", e);
-		} catch (DoesNotExistException e){
-            throw new IllegalStateException("CO lookup failure", e);
         }
 
         return lastOfferedTerm;
@@ -522,14 +472,8 @@ public class DefaultCourseHelper implements CourseHelper, Serializable {
 					.searchForCourses(
 							QueryByCriteria.Builder.fromPredicates(PredicateFactory.equal("officialIdentifier.code",
                                     cleanedCourseCd)), KsapFrameworkServiceLocator.getContext().getContextInfo()));
-		} catch (InvalidParameterException e) {
+		} catch (InvalidParameterException | MissingParameterException | OperationFailedException | PermissionDeniedException e) {
 			throw new IllegalArgumentException("Course lookup error", e);
-		} catch (MissingParameterException e) {
-			throw new IllegalArgumentException("Course lookup error", e);
-		} catch (OperationFailedException e) {
-			throw new IllegalStateException("Course lookup error", e);
-		} catch (PermissionDeniedException e) {
-			throw new IllegalStateException("Course lookup error", e);
 		}
 	}
 
@@ -550,15 +494,7 @@ public class DefaultCourseHelper implements CourseHelper, Serializable {
             course = KsapFrameworkServiceLocator.getCourseService().getCourse(courseId, contextInfo);
             VersionDisplayInfo currentVersion = KsapFrameworkServiceLocator.getCluService().getCurrentVersion(CluServiceConstants.CLU_NAMESPACE_URI, course.getVersion().getVersionIndId(), contextInfo);
             course = KsapFrameworkServiceLocator.getCourseService().getCourse(currentVersion.getId(), contextInfo);
-        } catch (PermissionDeniedException e) {
-            throw new IllegalArgumentException("Course service failure", e);
-        } catch (MissingParameterException e) {
-            throw new IllegalArgumentException("Course service failure", e);
-        } catch (InvalidParameterException e) {
-            throw new IllegalArgumentException("Course service failure", e);
-        } catch (OperationFailedException e) {
-            throw new IllegalArgumentException("Course service failure", e);
-        } catch (DoesNotExistException e) {
+        } catch (PermissionDeniedException | MissingParameterException | InvalidParameterException | OperationFailedException | DoesNotExistException e) {
             throw new IllegalArgumentException("Course service failure", e);
         }
         return course;
@@ -576,40 +512,18 @@ public class DefaultCourseHelper implements CourseHelper, Serializable {
             LOG.warn("No Current Version of Course Found Using Latest Version");
             try {
                 currentVersion = KsapFrameworkServiceLocator.getCluService().getLatestVersion(CluServiceConstants.CLU_NAMESPACE_URI, versionIndependentId, contextInfo);
-            } catch (DoesNotExistException e1) {
-                throw new IllegalArgumentException("Clu service failure", e1);
-            } catch (InvalidParameterException e1) {
-                throw new IllegalArgumentException("Clu service failure", e1);
-            } catch (MissingParameterException e1) {
-                throw new IllegalArgumentException("Clu service failure", e1);
-            } catch (OperationFailedException e1) {
-                throw new IllegalArgumentException("Clu service failure", e1);
-            } catch (PermissionDeniedException e1) {
+            } catch (DoesNotExistException | InvalidParameterException | MissingParameterException | OperationFailedException | PermissionDeniedException e1) {
                 throw new IllegalArgumentException("Clu service failure", e1);
             }
-        } catch (InvalidParameterException e) {
+        } catch (InvalidParameterException | MissingParameterException | OperationFailedException | PermissionDeniedException e) {
             throw new IllegalArgumentException("Clu service failure", e);
-        } catch (MissingParameterException e) {
-            throw new IllegalArgumentException("Clu service failure", e);
-        } catch (OperationFailedException e) {
-            throw new IllegalArgumentException("Clu service failure", e);
-        } catch (PermissionDeniedException e) {
-            throw new IllegalArgumentException("Clu service failure", e);
-        }
+         }
 
         try {
             course = KsapFrameworkServiceLocator.getCourseService().getCourse(currentVersion.getId(), contextInfo);
-        } catch (PermissionDeniedException e) {
+        } catch (PermissionDeniedException | MissingParameterException | InvalidParameterException | OperationFailedException | DoesNotExistException e) {
             throw new IllegalArgumentException("Course service failure", e);
-        } catch (MissingParameterException e) {
-            throw new IllegalArgumentException("Course service failure", e);
-        } catch (InvalidParameterException e) {
-            throw new IllegalArgumentException("Course service failure", e);
-        } catch (OperationFailedException e) {
-            throw new IllegalArgumentException("Course service failure", e);
-        } catch (DoesNotExistException e) {
-            throw new IllegalArgumentException("Course service failure", e);
-        }
+         }
         return course;
     }
 
@@ -622,13 +536,7 @@ public class DefaultCourseHelper implements CourseHelper, Serializable {
         try {
             rows = KsapFrameworkServiceLocator.getSearchService().search(request,
                     KsapFrameworkServiceLocator.getContext().getContextInfo()).getRows();
-        } catch (MissingParameterException e) {
-            throw new IllegalArgumentException("Search service failure", e);
-        } catch (InvalidParameterException e) {
-            throw new IllegalArgumentException("Search service failure", e);
-        } catch (OperationFailedException e) {
-            throw new IllegalArgumentException("Search service failure", e);
-        } catch (PermissionDeniedException e) {
+        } catch (MissingParameterException | InvalidParameterException | OperationFailedException | PermissionDeniedException e) {
             throw new IllegalArgumentException("Search service failure", e);
         }
         for(SearchResultRowInfo row : rows){
@@ -643,16 +551,8 @@ public class DefaultCourseHelper implements CourseHelper, Serializable {
 		try {
 			activityDisplayInfo = KsapFrameworkServiceLocator.getCourseOfferingService().getActivityOfferingDisplay(
 					activityId, KsapFrameworkServiceLocator.getContext().getContextInfo());
-		} catch (DoesNotExistException e) {
+		} catch (DoesNotExistException | MissingParameterException | InvalidParameterException | OperationFailedException | PermissionDeniedException e) {
 			throw new IllegalArgumentException("CO lookup error", e);
-		} catch (MissingParameterException e) {
-			throw new IllegalArgumentException("CO lookup error", e);
-		} catch (InvalidParameterException e) {
-			throw new IllegalArgumentException("CO lookup error", e);
-		} catch (OperationFailedException e) {
-			throw new IllegalStateException("CO lookup error", e);
-		} catch (PermissionDeniedException e) {
-			throw new IllegalStateException("CO lookup error", e);
 		}
 		assert activityDisplayInfo != null : "activity id " + activityId + " returned null";
 
@@ -671,16 +571,8 @@ public class DefaultCourseHelper implements CourseHelper, Serializable {
             } else {
                 return null;
             }
-		} catch (DoesNotExistException e) {
+		} catch (DoesNotExistException | MissingParameterException | InvalidParameterException | OperationFailedException | PermissionDeniedException e) {
 			throw new IllegalArgumentException("CO lookup error", e);
-		} catch (MissingParameterException e) {
-			throw new IllegalArgumentException("CO lookup error", e);
-		} catch (InvalidParameterException e) {
-			throw new IllegalArgumentException("CO lookup error", e);
-		} catch (OperationFailedException e) {
-			throw new IllegalStateException("CO lookup error", e);
-		} catch (PermissionDeniedException e) {
-			throw new IllegalStateException("CO lookup error", e);
 		}
 	}
 
@@ -697,16 +589,8 @@ public class DefaultCourseHelper implements CourseHelper, Serializable {
                 }
             }
             return cos != null && !cos.isEmpty();
-        } catch (DoesNotExistException e) {
+        } catch (DoesNotExistException | InvalidParameterException | MissingParameterException | OperationFailedException | PermissionDeniedException e) {
             return false;
-        } catch (InvalidParameterException e) {
-            throw new IllegalArgumentException("CO lookup failure", e);
-        } catch (MissingParameterException e) {
-            throw new IllegalArgumentException("CO lookup failure", e);
-        } catch (OperationFailedException e) {
-            throw new IllegalStateException("CO lookup failure", e);
-        } catch (PermissionDeniedException e) {
-            throw new IllegalStateException("CO lookup failure", e);
         }
     }
 
@@ -760,16 +644,8 @@ public class DefaultCourseHelper implements CourseHelper, Serializable {
                 for (TypeInfo typeInfo : KsapFrameworkServiceLocator.getTypeService().getTypesByKeys(courseTermsOffered,
                         KsapFrameworkServiceLocator.getContext().getContextInfo()))
                     projectedTerms.put(typeInfo.getKey(), typeInfo.getName());
-            } catch (org.kuali.student.r2.common.exceptions.DoesNotExistException e) {
+            } catch (DoesNotExistException | InvalidParameterException | MissingParameterException | OperationFailedException | PermissionDeniedException e) {
                 throw new IllegalArgumentException("Type lookup error", e);
-            } catch (InvalidParameterException e) {
-                throw new IllegalArgumentException("Type lookup error", e);
-            } catch (MissingParameterException e) {
-                throw new IllegalArgumentException("Type lookup error", e);
-            } catch (OperationFailedException e) {
-                throw new IllegalStateException("Type lookup error", e);
-            } catch (PermissionDeniedException e) {
-                throw new IllegalStateException("Type lookup error", e);
             }
         }
         return sortProjectedTerms(projectedTerms);
