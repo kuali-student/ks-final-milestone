@@ -261,7 +261,7 @@ public class AdminRegistrationViewHelperServiceImpl extends KSViewHelperServiceI
 
         RegistrationCourse registrationCourse = new RegistrationCourse();
         registrationCourse.setCourseRegistrationId(courseRegistrationInfo.getId());
-        registrationCourse.setCredits((courseRegistrationInfo.getCredits() != null) ? courseRegistrationInfo.getCredits().toString() : StringUtils.EMPTY);
+        registrationCourse.setCredits((courseRegistrationInfo.getCredits() != null) ? courseRegistrationInfo.getCredits().toString() : "0.0");
         registrationCourse.setTransactionalDate(courseRegistrationInfo.getMeta().getCreateTime());
         registrationCourse.setEffectiveDate(courseRegistrationInfo.getEffectiveDate());
         registrationCourse.setGradingOptionId(courseRegistrationInfo.getGradingOptionId());
