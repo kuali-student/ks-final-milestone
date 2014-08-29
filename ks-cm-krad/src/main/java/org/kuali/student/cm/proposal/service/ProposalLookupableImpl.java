@@ -14,7 +14,7 @@
  *
  * Created by venkat on 3/3/14
  */
-package org.kuali.student.cm.course.service;
+package org.kuali.student.cm.proposal.service;
 
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
@@ -32,7 +32,6 @@ import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 import org.kuali.rice.krad.uif.UifConstants;
 import org.kuali.rice.krad.uif.element.Action;
 import org.kuali.rice.krad.util.GlobalVariables;
-import org.kuali.student.cm.course.util.CourseProposalUtil;
 import org.kuali.student.cm.maintenance.CMMaintenanceDocument;
 import org.kuali.student.common.uif.service.impl.KSLookupableImpl;
 import org.kuali.student.common.util.security.ContextUtils;
@@ -54,12 +53,12 @@ import java.util.List;
 import java.util.Map;
 
 /**
+ * Lookupable class for ProposalInfo objects
  *
  * @author Kuali Student Team
  */
-public class ProposalLookupableImpl extends KSLookupableImpl {
+public abstract class ProposalLookupableImpl extends KSLookupableImpl {
 
-    private static final long serialVersionUID = 1L;
     private transient ProposalService proposalService;
 
     protected final String PROPOSAL_TITLE_LEY = "proposal.queryParam.proposalOptionalName";
@@ -237,9 +236,9 @@ public class ProposalLookupableImpl extends KSLookupableImpl {
 
         Object dataObject = actionLink.getContext().get(UifConstants.ContextVariableNames.LINE);
 
-        String workflowDocId = ((ProposalInfo)dataObject).getWorkflowId();
+        ProposalInfo proposalInfo = (ProposalInfo) dataObject;
 
-        String href = CourseProposalUtil.buildCourseProposalUrl(maintenanceMethodToCall, pageId, workflowDocId);
+        String href = buildHrefForActionLink(maintenanceMethodToCall, pageId, proposalInfo.getWorkflowId(), proposalInfo.getTypeKey());
 
         if (StringUtils.isBlank(href)) {
             actionLink.setRender(false);
@@ -251,6 +250,8 @@ public class ProposalLookupableImpl extends KSLookupableImpl {
         // rice 2.4 upgrade - commented out
 //        lookupForm.setAtLeastOneRowHasActions(true);
     }
+
+    public abstract String buildHrefForActionLink(String maintenanceMethodToCall, String pageId, String workflowDocId, String proposalType);
 
     protected ProposalService getProposalService() {
         if (proposalService == null) {

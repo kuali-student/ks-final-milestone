@@ -31,8 +31,8 @@ limitations under the License.
         <property name="viewName" value="ProposalLookup"/>
         <property name="headerText" value="Find a Proposal" />
         <property name="dataObjectClassName" value="org.kuali.student.r2.core.proposal.dto.ProposalInfo" />
-        <property name="viewHelperServiceClass" value="org.kuali.student.cm.course.service.ProposalLookupableImpl" />
-        <property name="authorizerClass" value="org.kuali.student.cm.course.auth.ProposalLookupViewAuthorizerBase"/>
+        <property name="viewHelperServiceClass" value="org.kuali.student.cm.course.service.impl.CourseProposalLookupableImpl" />
+        <property name="authorizerClass" value="org.kuali.student.cm.proposal.auth.ProposalLookupViewAuthorizerBase"/>
         <property name="renderMaintenanceLinks" value="true"/>
 
         <property name="applicationHeader">

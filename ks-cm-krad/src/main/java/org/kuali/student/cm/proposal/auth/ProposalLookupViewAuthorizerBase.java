@@ -14,7 +14,7 @@
  *
  * Created by delyea on 3/10/14
  */
-package org.kuali.student.cm.course.auth;
+package org.kuali.student.cm.proposal.auth;
 
 import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.identity.Person;
@@ -59,11 +59,11 @@ public class ProposalLookupViewAuthorizerBase extends LookupViewAuthorizerBase {
     }
 
     /**
-     * Overriden because document initiation should not occur on the lookup for Course Proposals
+     * Overriden because document initiation should not occur on the lookup for Proposals
      * and because default implementation looks up the document type based on the dataObject class
-     * which is invalid for Course Proposalss (since there are multiple document types used).
+     * which is invalid for Proposals (since there are multiple document types used).
      *
-     * @see LookupViewAuthorizerBase#canInitiateDocument(org.kuali.rice.krad.web.form.LookupForm, org.kuali.rice.kim.api.identity.Person)
+     * @see LookupViewAuthorizerBase#canInitiateMaintenanceDocument(String, org.kuali.rice.kim.api.identity.Person)
      *
      * @return will always return false
      */

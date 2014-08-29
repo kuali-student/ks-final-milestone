@@ -246,16 +246,15 @@ public class CourseStateChangeServiceImpl {
 
 		if (statementTreeViewInfos != null){
 			// Recursively update state on all requirements/statements in the tree
-			for (Iterator<StatementTreeViewInfo> it = statementTreeViewInfos
-					.iterator(); it.hasNext();)
-				StatementUtil.updateStatementTreeViewInfoState(courseInfo
-						.getStateKey(), it.next());
-	
+			for (Iterator<StatementTreeViewInfo> it = statementTreeViewInfos.iterator(); it.hasNext();){
+				StatementUtil.updateStatementTreeViewInfoState(courseInfo.getStateKey(), it.next());
+            }
+
 			// Call the course web service and update the requirement/statement tree
 			// with the new state
-			for (Iterator<StatementTreeViewInfo> it = statementTreeViewInfos
-					.iterator(); it.hasNext();)
+			for (Iterator<StatementTreeViewInfo> it = statementTreeViewInfos.iterator(); it.hasNext();){
 				courseService.updateCourseStatement(courseInfo.getId(),null, it.next(),contextInfo);
+            }
 		}
 	}
 

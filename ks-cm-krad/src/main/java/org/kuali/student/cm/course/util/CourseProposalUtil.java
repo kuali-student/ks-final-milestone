@@ -26,13 +26,14 @@ import org.kuali.rice.krad.util.UrlFactory;
 import org.kuali.student.cm.common.util.CMUtils;
 import org.kuali.student.cm.common.util.CurriculumManagementConstants;
 import org.kuali.student.cm.course.form.wrapper.CourseInfoWrapper;
+import org.kuali.student.cm.proposal.util.ProposalUtil;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 
 /**
- * This class is a Util class designed to hold common code that should be shared across multiple classes
+ * This class is a Util class designed to hold common course proposal related code that should be shared across multiple classes
  *
  * @author Kuali Student Team
  */
@@ -42,27 +43,15 @@ public class CourseProposalUtil {
      * @return true if the user has the access of a Curriculum Specialist as defined by Kuali Identity Management
      */
     public static boolean isUserCurriculumSpecialist() {
-        Map<String,String> permDetails = new HashMap<String, String>();
-        permDetails.put(KewApiConstants.DOCUMENT_TYPE_NAME_DETAIL, CurriculumManagementConstants.DocumentTypeNames.CourseProposal.COURSE_CREATE_ADMIN);
-        // method below uses 'PermissionService.hasPermissionByTemplate' because we do not use role qualifiers to define who can initiate the ADMIN course document type
-        return KimApiServiceLocator.getPermissionService().hasPermissionByTemplate(GlobalVariables.getUserSession().getPrincipalId(), KRADConstants.KUALI_RICE_SYSTEM_NAMESPACE, KewApiConstants.INITIATE_PERMISSION, permDetails);
+        return ProposalUtil.isUserCurriculumSpecialist(CurriculumManagementConstants.DocumentTypeNames.CourseProposal.COURSE_CREATE_ADMIN);
     }
 
     /**
      * Constructs a text URL for a particular course proposal.
      */
     public static String buildCourseProposalUrl(String methodToCall, String pageId, String workflowDocId) {
-        Properties props = new Properties();
-        props.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, methodToCall);
-        props.put(KRADConstants.PARAMETER_COMMAND, KRADConstants.METHOD_DISPLAY_DOC_SEARCH_VIEW);
-        props.put(KRADConstants.RETURN_LOCATION_PARAMETER, CMUtils.getCMHomeUrl());
-
+        Properties props = ProposalUtil.getProposalUrlProperties(methodToCall, pageId, workflowDocId);
         props.put(UifParameters.DATA_OBJECT_CLASS_NAME, CourseInfoWrapper.class.getCanonicalName());
-        if (StringUtils.isNotBlank(pageId)) {
-            props.put(UifParameters.PAGE_ID, pageId);
-        }
-        props.put(KRADConstants.PARAMETER_DOC_ID, workflowDocId);
-
         String courseBaseUrl = CurriculumManagementConstants.ControllerRequestMappings.COURSE_MAINTENANCE.replaceFirst("/", "");
         return UrlFactory.parameterizeUrl(courseBaseUrl, props);
     }
