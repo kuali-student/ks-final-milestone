@@ -18,12 +18,14 @@ package org.kuali.student.ap.framework.context;
 import org.kuali.student.ap.academicplan.constants.AcademicPlanServiceConstants.ItemCategory;
 import org.kuali.student.ap.academicplan.dto.LearningPlanInfo;
 import org.kuali.student.ap.academicplan.dto.PlanItemInfo;
+import org.kuali.student.ap.academicplan.infc.LearningPlan;
 import org.kuali.student.ap.academicplan.infc.Placeholder;
 import org.kuali.student.ap.academicplan.infc.PlaceholderInstance;
 import org.kuali.student.ap.academicplan.infc.PlanItem;
 import org.kuali.student.ap.academicplan.infc.TypedObjectReference;
 import org.kuali.student.ap.academicplan.service.AcademicPlanService;
 import org.kuali.student.ap.planner.PlannerItem;
+import org.kuali.student.ap.planner.PlannerTerm;
 import org.kuali.student.enrollment.academicrecord.dto.StudentCourseRecordInfo;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
@@ -264,5 +266,7 @@ public interface PlanHelper {
      * @return Filled in planner item
      */
     public PlannerItem createPlannerItem(PlanItem planItem);
+
+    public List<PlannerTerm> getPlannerCalendarTerms(LearningPlan learningPlan);
 
 }
