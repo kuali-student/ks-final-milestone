@@ -106,7 +106,7 @@ limitations under the License.
     <bean id="KSHOLD-DocumentPageFooter-SubmitCancel-parent" parent="Uif-DocumentPageFooter" abstract="true">
         <property name="items">
             <list>
-                <bean parent="KS-Uif-PrimaryActionButton" p:ajaxSubmit="false" p:methodToCall="route"
+                <bean id="saveHoldButton" parent="KS-Uif-PrimaryActionButton" p:ajaxSubmit="false" p:methodToCall="route"
                       p:actionLabel="Save" p:performClientSideValidation="true"
                       p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}"/>
                 <bean parent="KS-Uif-NavigationActionLink" p:ajaxSubmit="false" p:methodToCall="cancel"
@@ -122,7 +122,7 @@ limitations under the License.
         <property name="headerText" value="Hold Details"/>
         <property name="items">
             <list>
-                <bean parent="KS-Uif-InputField-LabelTop" p:label="Hold Type (Category)" p:propertyName="holdIssue.typeKey"
+                <bean id="holdIssueType" parent="KS-Uif-InputField-LabelTop" p:label="Hold Type (Category)" p:propertyName="holdIssue.typeKey"
                       p:required="true">
                     <property name="control">
                         <bean parent="KS-Uif-DropdownControl"/>
@@ -131,19 +131,19 @@ limitations under the License.
                         <bean class="org.kuali.student.enrollment.class1.hold.keyvalues.HoldIssueInfoTypeKeyValues"/>
                     </property>
                 </bean>
-                <bean parent="KS-Uif-InputField-LabelTop" p:label="Hold Name" p:propertyName="holdIssue.name"
+                <bean id="holdIssueName" parent="KS-Uif-InputField-LabelTop" p:label="Hold Name" p:propertyName="holdIssue.name"
                       p:required="true">
                     <property name="control">
                         <bean parent="KS-Uif-TextControl" p:size="20"/>
                     </property>
                 </bean>
-                <bean parent="KS-Uif-InputField-LabelTop" p:label="Hold Code" p:propertyName="holdIssue.holdCode"
+                <bean id="holdIssueCode" parent="KS-Uif-InputField-LabelTop" p:label="Hold Code" p:propertyName="holdIssue.holdCode"
                       p:required="true">
                     <property name="control">
                         <bean parent="KS-Uif-TextControl" p:size="10"/>
                     </property>
                 </bean>
-                <bean parent="KS-Uif-InputField-LabelTop" p:label="Hold Description" p:propertyName="descr">
+                <bean id="holdIssueDescr" parent="KS-Uif-InputField-LabelTop" p:label="Hold Description" p:propertyName="descr">
                     <property name="control">
                         <bean parent="Uif-SmallTextAreaControl"/>
                     </property>
@@ -157,7 +157,7 @@ limitations under the License.
         <property name="style" value="margin-bottom:10px;"/>
         <property name="items">
             <list>
-                <bean parent="KS-Uif-InputField-LabelTop" p:label="Owning Organization"
+                <bean id="holdIssueOwnOrg" parent="KS-Uif-InputField-LabelTop" p:label="Owning Organization"
                       p:propertyName="holdIssue.organizationId" p:required="true">
                     <property name="control">
                         <bean parent="KS-Uif-TextControl" p:size="20" p:disabled="true"/>
