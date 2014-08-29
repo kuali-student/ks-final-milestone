@@ -127,12 +127,6 @@ public class AtpServiceConstants {
     // exam periods
     public static final String ATP_EXAM_PERIOD_TYPE_KEY = "kuali.atp.type.ExamPeriod";
 
-    // season types
-    public static final String ATP_SEARCH_SEASONTYPES = "atp.search.atpSeasonTypes";
-    public static final String ATP_RESULTCOLUMN_ID = "atp.resultColumn.atpSeasonType";
-    public static final String ATP_RESULTCOLUMN_NAME = "atp.resultColumn.atpSeasonTypeName";
-    public static final String ATP_RESULTCOLUM_DESC = "atp.resultColumn.atpSeasonTypeDesc";
-
     /**
      * Milstone types
      */
@@ -331,9 +325,5 @@ public class AtpServiceConstants {
     public static final String CAMPUS_LOCATION = "CampusLocation";
     
     public static final String MILESTONE_KEYDATE_GROUP = "kuali.milestone.type.group.keydate";
-    
-    /**
-     * OpenCollab/rSmart KRAD CM Conversion Alliance!
-     */
-    public static final String COURSE_SCHEDULING_TERM_ENUM_KEY = "atp.queryParam.atpSeasonType";
+
 }
