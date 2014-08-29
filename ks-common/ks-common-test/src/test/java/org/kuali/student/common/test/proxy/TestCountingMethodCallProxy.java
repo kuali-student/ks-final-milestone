@@ -14,6 +14,7 @@
  */
 package org.kuali.student.common.test.proxy;
 
+import java.io.Serializable;
 import java.lang.reflect.Proxy;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -21,11 +22,24 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import net.sf.ehcache.Cache;
+import net.sf.ehcache.Element;
+import net.sf.ehcache.config.CacheConfiguration;
+
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.BlockJUnit4ClassRunner;
+import org.kuali.student.common.cache.KSCacheUtils;
+import org.kuali.student.common.cache.KSCacheUtils.BulkCacheElementLoader;
+import org.kuali.student.common.cache.KSCacheUtils.SingleCacheElementLoader;
 import org.kuali.student.common.mock.MockService;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.exceptions.MissingParameterException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.common.infc.HasId;
 
 
 /**
@@ -37,7 +51,7 @@ import org.kuali.student.common.mock.MockService;
 @RunWith(value=BlockJUnit4ClassRunner.class)
 public class TestCountingMethodCallProxy {
 
-	private class DTO {
+	private class DTO implements HasId, Serializable {
 		
 		private String id;
 		
@@ -49,6 +63,7 @@ public class TestCountingMethodCallProxy {
 			this.value = value;
 		}
 
+		@Override
 		public String getId() {
 			return id;
 		}
@@ -60,9 +75,9 @@ public class TestCountingMethodCallProxy {
 		
 	}
 	private interface SimpleService extends MockService {
-		public DTO getOne(String id);
+		public DTO getOne(String id) throws DoesNotExistException, OperationFailedException, InvalidParameterException, MissingParameterException, PermissionDeniedException;
 		
-		public List<DTO>getMany(List<String>ids);
+		public List<DTO>getMany(List<String>ids) throws DoesNotExistException, OperationFailedException, InvalidParameterException, MissingParameterException, PermissionDeniedException;
 	}
 	
 	private class SimpleServiceDecorator implements SimpleService {
@@ -76,12 +91,12 @@ public class TestCountingMethodCallProxy {
 		}
 
 		@Override
-		public DTO getOne(String id) {
+		public DTO getOne(String id) throws DoesNotExistException, OperationFailedException, InvalidParameterException, MissingParameterException, PermissionDeniedException {
 			return nextDecorator.getOne(id);
 		}
 
 		@Override
-		public List<DTO> getMany(List<String> ids) {
+		public List<DTO> getMany(List<String> ids) throws DoesNotExistException, OperationFailedException, InvalidParameterException, MissingParameterException, PermissionDeniedException {
 			return nextDecorator.getMany(ids);
 		}
 
@@ -94,45 +109,58 @@ public class TestCountingMethodCallProxy {
 	}
 	private class SimpleServiceCacheDecorator extends SimpleServiceDecorator {
 
-		private Map<String, DTO>dtoCache = new HashMap<String, TestCountingMethodCallProxy.DTO>();
+		private Cache dtoCache = new Cache(new CacheConfiguration("dtoCache", 0));
 		
 		private boolean bulkAwareMode = false;
 		
 		public SimpleServiceCacheDecorator(SimpleService nextDecorator) {
 			super(nextDecorator);
+			
+			dtoCache.initialise();
 		}
 
 		@Override
-		public DTO getOne(String id) {
+		public DTO getOne(String id) throws DoesNotExistException, OperationFailedException, InvalidParameterException, MissingParameterException, PermissionDeniedException {
 			
-			DTO result = dtoCache.get(id);
-			
-			if (result != null)
-				return result;
-			else {
+			return KSCacheUtils.cacheAwareLoad(dtoCache, id, new SingleCacheElementLoader<DTO>() {
+
+				@Override
+				public DTO load(String key) throws DoesNotExistException,
+						OperationFailedException, InvalidParameterException,
+						MissingParameterException, PermissionDeniedException {
+					return nextDecorator.getOne(key);
+				}
 				
-				result = nextDecorator.getOne(id);
-				
-				if (result != null)
-					dtoCache.put(id, result);
-				
-				return result;	
-			}
+			});
+//			DTO result = dtoCache.get(id);
+//			
+//			if (result != null)
+//				return result;
+//			else {
+//				
+//				result = 
+//				
+//				if (result != null)
+//					dtoCache.put(id, result);
+//				
+//				return result;	
+//			}
 			
 		}
 
-		private void simpleGetMany(List<String>ids, List<DTO>results) {
+		private void simpleGetMany(List<String>ids, List<DTO>results) throws DoesNotExistException, OperationFailedException, InvalidParameterException, MissingParameterException, PermissionDeniedException {
 			for (String id : ids) {
-				DTO result = dtoCache.get(id);
 				
-				if (result == null)
-					result = getOne(id);
+				Element cachedResult = dtoCache.get(id);
 				
-				results.add(result);
+				if (cachedResult == null)
+					results.add (getOne(id));
+				else 
+					results.add((DTO) cachedResult.getValue());
 			}
 		}
 		@Override
-		public List<DTO> getMany(List<String> ids) {
+		public List<DTO> getMany(List<String> ids) throws OperationFailedException, InvalidParameterException, MissingParameterException, PermissionDeniedException, DoesNotExistException {
 			
 			List<DTO>results = new ArrayList<TestCountingMethodCallProxy.DTO>();
 			
@@ -144,30 +172,20 @@ public class TestCountingMethodCallProxy {
 			return results;
 		}
 
-		private void bulkAwareGetMany(List<String> ids, List<DTO> results) {
+		private void bulkAwareGetMany(List<String> ids, List<DTO> results) throws OperationFailedException, InvalidParameterException, MissingParameterException, PermissionDeniedException {
 			
-			List<String>cacheMissIds = new ArrayList<String>();
-			
-			for (String id : ids) {
-				
-				DTO result = this.dtoCache.get(id);
-				
-				if (result == null) {
-					// cache-miss
-					cacheMissIds.add(id);
+			results.addAll(KSCacheUtils.cacheAwareBulkLoad(dtoCache, ids, new BulkCacheElementLoader<DTO>() {
+
+				@Override
+				public List<DTO> load(List<String> cacheMissKeys)
+						throws DoesNotExistException, OperationFailedException,
+						InvalidParameterException, MissingParameterException,
+						PermissionDeniedException {
+					return nextDecorator.getMany(cacheMissKeys);
 				}
-				else {
-					results.add(result);
-				}
-			}
-			
-			List<DTO>cacheMisses = nextDecorator.getMany(cacheMissIds);
-			
-			for (DTO dto : cacheMisses) {
-				this.dtoCache.put(dto.getId(), dto);
-			}
-			
-			results.addAll(cacheMisses);
+				
+				
+			}));
 		}
 
 		public void setBulkAwareMode(boolean bulkAwareMode) {
@@ -177,7 +195,7 @@ public class TestCountingMethodCallProxy {
 		@Override
 		public void clear() {
 			super.clear();
-			this.dtoCache.clear();
+			this.dtoCache.removeAll();
 		}
 		
 		
@@ -220,7 +238,7 @@ public class TestCountingMethodCallProxy {
 		
 	}
 	@Test
-	public void testSimpleProxy() {
+	public void testSimpleProxy() throws OperationFailedException, InvalidParameterException, MissingParameterException, PermissionDeniedException, DoesNotExistException {
 		
 		SimpleServiceMapImpl base = new SimpleServiceMapImpl();
 		
