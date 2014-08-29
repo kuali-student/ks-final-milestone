@@ -162,26 +162,26 @@ public abstract class AbstractCheckProposition extends AbstractLeafProposition {
     }
 
     private String formatMessageData(ExecutionEnvironment environment, Map<String, Object> executionContext, RichTextInfo message) {
-        List<String> messageVariables = new ArrayList<>();
-        Matcher m = Pattern.compile("\\$([a-zA-Z]+)").matcher(message.getFormatted());
-        while (m.find()) {
-            messageVariables.add(m.group(1));
-        }
-
-        for (String messageVariable:messageVariables) {
-            //check to see if the variable is already in the execution context
-            if (executionContext.get(messageVariable) == null) {
-                //not found, resolve the term and add it
-                Object resolved = environment.resolveTerm(new Term(messageVariable), this);
-                if (resolved != null) {
-                    executionContext.put(messageVariable, resolved);
-                } else {
-                    LOGGER.warn("Unable to resolve message variable: ${}");
-                }
-            }
-        }
         String messageData;
         try {
+            List<String> messageVariables = new ArrayList<>();
+            Matcher m = Pattern.compile("\\$([a-zA-Z]+)").matcher(message.getFormatted());
+            while (m.find()) {
+                messageVariables.add(m.group(1));
+            }
+
+            for (String messageVariable:messageVariables) {
+                //check to see if the variable is already in the execution context
+                if (executionContext.get(messageVariable) == null) {
+                    //not found, resolve the term and add it
+                    Object resolved = environment.resolveTerm(new Term(messageVariable), this);
+                    if (resolved != null) {
+                        executionContext.put(messageVariable, resolved);
+                    } else {
+                        LOGGER.warn("Unable to resolve message variable: ${}");
+                    }
+                }
+            }
             messageData = templateEngine.evaluate(executionContext, message.getFormatted());
         } catch (Exception e) {
             messageData = "\"message\":\"" + message.getPlain() + "\"";
