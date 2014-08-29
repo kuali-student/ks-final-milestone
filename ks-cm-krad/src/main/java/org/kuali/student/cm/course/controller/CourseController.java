@@ -962,7 +962,7 @@ public class CourseController extends CourseRuleEditorController {
         String nextOrCurrentPage = form.getActionParameters().get("displayPage");
 
         if (StringUtils.equalsIgnoreCase(nextOrCurrentPage, "NEXT")) {
-            CourseViewSections currentSection = courseInfoWrapper.getUiHelper().getSelectedSection();
+            CourseViewSections currentSection = (CourseViewSections)courseInfoWrapper.getUiHelper().getSelectedSection();
             if (currentSection.ordinal() < CourseViewSections.values().length) {
                 CourseViewSections nextSection = CourseViewSections.values()[currentSection.ordinal() + 1];
                 courseInfoWrapper.getUiHelper().setSelectedSection(nextSection);

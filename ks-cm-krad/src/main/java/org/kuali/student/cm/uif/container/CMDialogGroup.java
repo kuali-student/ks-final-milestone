@@ -21,6 +21,7 @@ import org.kuali.rice.krad.uif.container.DialogGroup;
 import org.kuali.rice.krad.uif.control.TextAreaControl;
 import org.kuali.rice.krad.uif.field.InputField;
 import org.kuali.student.cm.course.form.wrapper.CourseInfoWrapper;
+import org.kuali.student.cm.proposal.form.wrapper.ProposalElementsWrapper;
 
 /**
  * This class is a workaround to get Dialogs working when using Rice 2.4.1. It binds the explanation field
@@ -41,7 +42,7 @@ public class CMDialogGroup extends DialogGroup {
             if (component instanceof InputField) {
                 InputField inputField = (InputField)component;
                 if (inputField.getControl() instanceof TextAreaControl) {
-                    inputField.setPropertyName("uiHelper." + CourseInfoWrapper.CreateCourseUIHelper.DIALOG_EXPLANATIONS_PROPERTY + "['" + getId() + "']");
+                    inputField.setPropertyName("uiHelper." + ProposalElementsWrapper.ProposalUIHelper.DIALOG_EXPLANATIONS_PROPERTY + "['" + getId() + "']");
                     inputField.getBindingInfo().setBindToForm(false);
                 }
             }

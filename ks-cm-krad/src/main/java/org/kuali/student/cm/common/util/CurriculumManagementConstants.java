@@ -80,10 +80,14 @@ public class CurriculumManagementConstants {
         public final static String CREATE_COURSE_PAGE = "CM-Proposal-Course-Create-Page";
     }
 
+    public static interface UserInterfaceSections {
+        public String getSectionId();
+    }
+
     /**
      * The bean ids of the tab sections.
      */
-    public enum CourseViewSections {
+    public static enum CourseViewSections implements UserInterfaceSections {
         CREATE_COURSE_ENTRY("CM-Proposal-Course-Create-Start-Page"),
         COURSE_INFO("CM-Proposal-Course-CourseInfo-Section"),
         GOVERNANCE("CM-Proposal-Course-Governance-Section"),

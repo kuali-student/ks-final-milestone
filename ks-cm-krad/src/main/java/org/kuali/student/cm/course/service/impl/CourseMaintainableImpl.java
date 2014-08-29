@@ -1313,7 +1313,7 @@ public class CourseMaintainableImpl extends RuleEditorMaintainableImpl implement
         CourseInfo savedCourseInfo = courseInfoWrapper.getCourseInfo();
         ProposalInfo proposalInfo = courseInfoWrapper.getProposalInfo();
 
-        reviewData.getCourseSection().setProposalName(courseInfoWrapper.getProposalInfo().getName());
+        reviewData.getCourseSection().setProposalName(proposalInfo.getName());
 
         if (proposalInfo.getRationale() != null) {
             reviewData.getCourseSection().setRationale(proposalInfo.getRationale().getPlain());
