@@ -575,9 +575,6 @@ public class CourseRegistrationAndScheduleOfClassesUtil {
         //Find all the principals
         QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
 
-
-        QueryByCriteria criteria = qbcBuilder.build();
-
         //Create a query to get default names
         qbcBuilder = QueryByCriteria.Builder.create();
         qbcBuilder.setPredicates(
@@ -586,18 +583,15 @@ public class CourseRegistrationAndScheduleOfClassesUtil {
                 PredicateFactory.equal(KIMPropertyConstants.Entity.ACTIVE, Boolean.TRUE)
         );
 
-        criteria = qbcBuilder.build();
+        QueryByCriteria criteria = qbcBuilder.build();
 
-        //Get a handle to the dataObjectService. If this doesnt work then an exception will be thrown and
-        // the normal search for default entities will take over
+        //Get a handle to the dataObjectService.
         DataObjectService dataObjectService = GlobalResourceLoader.getService("dataObjectService");
 
         //Do the search
         QueryResults<EntityNameBo> results = dataObjectService.findMatching(EntityNameBo.class, criteria);
 
         return results.getResults();
-
-
     }
 
     /**
