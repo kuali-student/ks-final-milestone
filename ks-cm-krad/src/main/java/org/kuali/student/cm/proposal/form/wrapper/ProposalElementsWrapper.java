@@ -51,8 +51,6 @@ public class ProposalElementsWrapper extends LURuleManagementWrapper implements 
 
     public ProposalElementsWrapper(boolean curriculumSpecialistUser, CurriculumManagementConstants.UserInterfaceSections selectedSection) {
         uiHelper = new ProposalUIHelper(curriculumSpecialistUser, selectedSection);
-//        uiHelper =  new ProposalUIHelper(ProposalUtil.isUserCurriculumSpecialist(CurriculumManagementConstants.DocumentTypeNames.CourseProposal.COURSE_CREATE_ADMIN),
-//                CurriculumManagementConstants.CourseViewSections.COURSE_INFO);
     }
 
     public List<String> getDeletedCollaboratorWrapperActionRequestIds() {
