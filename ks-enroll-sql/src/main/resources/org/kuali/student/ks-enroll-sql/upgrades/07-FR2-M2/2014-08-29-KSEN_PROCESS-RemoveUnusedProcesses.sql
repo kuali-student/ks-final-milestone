@@ -23,7 +23,7 @@ WHERE PROCESS_ID IN (
   'kuali.process.process.dummy.inactive',
   'kuali.process.process.registration.eligibility'
 )
-
+/
 
 -- Delete the unused Checks
 DELETE FROM KSEN_PROCESS_CHECK
@@ -33,7 +33,7 @@ WHERE ID IN (
   'kuali.process.check.is.not.suspended',
   'kuali.process.check.paid.all.fees'
 )
-
+/
 
 -- Delete the unused Processes
 DELETE FROM KSEN_PROCESS
@@ -44,3 +44,4 @@ WHERE ID IN (
   'kuali.process.process.dummy.inactive',
   'kuali.process.process.registration.eligibility'
 )
+/
