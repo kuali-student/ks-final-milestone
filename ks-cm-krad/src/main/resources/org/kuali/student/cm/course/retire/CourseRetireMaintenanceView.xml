@@ -19,47 +19,76 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
                            http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-    <!-- Controller Class: CourseController.java View Helper Class: CourseViewHelperServiceImpl.java UX : http://ux.ks.kuali.org.s3.amazonaws.com/wireframes/ENR/Scheduling_Interface/v3/start.html
-        This view has couple of pages (edit and copy) with all the beans defined at 1. CourseViewCourseInfoPage.xml -->
+    <!--
+        The data dictionary for the RetireCourseWrapper class.
+    -->
+    <bean id="RetireCourseWrapper" parent="RetireCourseWrapper-parentBean"/>
+    <bean id="RetireCourseWrapper-parentBean" abstract="true" parent="DataObjectEntry">
+        <property name="dataObjectClass" value="org.kuali.student.cm.course.form.wrapper.RetireCourseWrapper"/>
+        <property name="titleAttribute" value="courseInfo.id"/>
+        <property name="attributes">
+            <list/>
+        </property>
+        <property name="complexAttributes">
+            <list/>
+        </property>
+        <property name="objectLabel" value="Retire Course Wrapper"/>
+        <property name="primaryKeys">
+            <list>
+                <value>courseInfo.id</value>
+            </list>
+        </property>
+    </bean>
 
-    <bean id="KS-CourseRetirementView" parent="KS-Uif-MaintenanceView">
-        <property name="defaultBindingObjectPath" value="document.newMaintainableObject" />
-        <property name="dataObjectClassName" value="org.kuali.student.cm.course.form.wrapper.CourseInfoWrapper"/>
-        <property name="headerText" value="@{!#empty(document.newMaintainableObject.dataObject.ProposalInfo.name) ? document.newMaintainableObject.dataObject.ProposalInfo.name + ' (Proposal)': 'New Course (Proposal)'}" />
-        <property name="header.render" value="false" />
-        <property name="singlePageView" value="false"/><!-- Override the default to allow for navigation -->
-        <property name="entryPageId" value="CM-Proposal-Course-CourseInfo-Section" />
-        <property name="viewHelperServiceClass" value="org.kuali.student.cm.course.service.impl.CourseMaintainableImpl" />
+    <!-- Controller Class: RetireCourseController.java ViewHelperServiceClass: RetireCourseMaintainableImpl.java-->
+
+    <bean id="CM-Proposal-Course-Retire-View" parent="KS-Uif-MaintenanceView">
+        <property name="dataObjectClassName" value="org.kuali.student.cm.course.form.wrapper.RetireCourseWrapper"/>
+        <property name="headerText" value="@{(#uiHelper.headerText) + ' (Proposed Retirement)'}"/>
+        <property name="singlePageView" value="false"/>
+        <!-- Override the default to allow for navigation -->
+        <property name="viewHelperServiceClass"
+                  value="org.kuali.student.cm.course.service.impl.RetireCourseMaintainableImpl"/>
+        <property name="presentationControllerClass"
+                  value="org.kuali.student.cm.uif.util.CurriculumManagementMaintenancePresentationControllerBase" />
+        <property name="authorizerClass"
+                  value="org.kuali.student.cm.course.auth.CurriculumManagementViewAuthorizerBase" />
+        <property name="applyDirtyCheck" value="true"/>
         <property name="breadcrumbOptions.homewardPathBreadcrumbs">
             <list>
                 <ref bean="KS-HomewardPathBreadcrumbs-Home"/>
                 <ref bean="KS-HomewardPathBreadcrumbs-CurriculumManagement"/>
             </list>
         </property>
+        <property name="breadcrumbOptions.breadcrumbOverrides">
+            <list>
+                <ref bean="KS-HomewardPathBreadcrumbs-ProposalName"/>
+                <ref bean="KS-HomewardPathBreadcrumbs-CreateCourse"/>
+            </list>
+        </property>
+        <property name="header.id" value="CM-Proposal-Course-Retire-Header"/>
         <property name="stateMapping">
             <bean parent="WorkflowStateMapping">
                 <property name="customClientSideValidationStates">
                     <map>
-                        <entry key="I" value="A"/>
+                        <entry key="I" value="S"/>
+                        <entry key="S" value="S"/>
+                        <entry key="R" value="S"/>
+                        <entry key="P" value="S"/>
                     </map>
                 </property>
             </bean>
         </property>
-        <property name="dialogs">
+        <property name="items">
             <list>
-                <ref bean="commentsLightBox" />
-                <ref bean="CM-Proposal-Course-DecisionDialog" />
-                <!-- <bean id="compareRuleLightBox" parent="KS-KRMS-CompareRule">
-                    <property name="headerText" value="Compare Catalog and Course Offering Rules"/>
-                </bean> -->
-                <bean id="CM-Proposal-Course-Rule-CourseRangeLookup" parent="KRMS-CourseRangeResult-Lookup"/>
-                <bean id="CM-Proposal-Course-Rule-WarningMessage" parent="KRMS-WarningMessagedYesNo"/>
+                <ref bean="CM-Proposal-Course-Retire-Page"/>
+                <ref bean="CM-Proposal-Review-Course-Retire-Page"/>
+                <ref bean="KS-RuleMaintenance-Page-Parent"/>
             </list>
         </property>
         <property name="additionalScriptFiles">
             <list>
                 <value>themes/ksboot/scripts/ruleMaintenance.js</value>
-                <value>themes/ksboot/scripts/toolbar.js</value>
             </list>
         </property>
         <property name="additionalCssFiles">
@@ -67,25 +96,208 @@
                 <value>themes/ksboot/stylesheets/krms.css</value>
             </list>
         </property>
+        <property name="expressionVariables">
+            <map merge="true">
+                <entry key="dataObject" value="document.newMaintainableObject.dataObject"/>
+                <entry key="uiHelper" value="document.newMaintainableObject.dataObject.uiHelper"/>
+                <entry key="workflowDoc" value="document.documentHeader.workflowDocument"/>
+                <entry key="htmlUtils" value="T(org.springframework.web.util.HtmlUtils)"/>
+            </map>
+        </property>
+        <property name="header.rightGroup">
+            <ref bean="CM-Proposal-Course-Retire-RightHeader"/>
+        </property>
+    </bean>
+
+    <bean id="CM-Proposal-Course-Retire-RightHeader" parent="KS-Unified-Header-Right-Group" p:additionalCssClasses="viewcourseview-header-status">
         <property name="items">
             <list>
-                <ref bean="KS-CourseRetireView-CourseInfoPage" />
-                <ref bean="KS-CourseRetireView-AuthorsAndCollaboratorsPage" />
-                <ref bean="KS-CourseRetireView-ReviewProposalPage" />
+                <ref bean="CM-Proposal-Course-Retire-Right-Header-Action-Group"/>
+                <ref bean="CM-Proposal-Header-Right-Group-Status"/>
             </list>
         </property>
     </bean>
 
-    <bean id="CourseInfoRetireMaintenanceDocument" parent="uifMaintenanceDocumentEntry">
-        <property name="dataObjectClass" value="org.kuali.student.cm.course.form.wrapper.CourseInfoWrapper" />
-        <property name="maintainableClass" value="org.kuali.student.cm.course.service.impl.CourseMaintainableImpl"/>
-        <property name="documentTypeName" value="kuali.proposal.type.course.retire"/>
-        <property name="documentAuthorizerClass"
-                  value="org.kuali.student.cm.course.auth.CurriculumManagementMaintenanceDocumentAuthorizerBase"/>
-        <property name="lockingKeys">
+    <bean id="CM-Proposal-Course-Retire-Right-Header-Action-Group" parent="KS-Unified-Header-Action-Group"
+          p:cssClasses="cm-unified-header-rightGroup-action">
+        <property name="items">
             <list>
-                <value>id</value>
+                <bean parent="CM-Proposal-Course-LinkGroup-Comments"/>
+                <bean parent="CM-Proposal-Course-LinkGroup-Decisions"/>
+                <bean parent="CM-PrintAction" p:render="@{!#workflowDoc.initiated}"/>
+                <bean parent="CM-ExportAction" p:render="@{!#workflowDoc.initiated}"/>
+                <ref bean="CM-Export-ActionLinks"/> <!-- This is the content for the export action popover -->
             </list>
         </property>
     </bean>
+
+    <bean id="CourseRetireMaintenanceDocument-Base" parent="CourseRetireMaintenanceDocument-Base-parent" abstract="true"/>
+
+    <bean id="CourseRetireMaintenanceDocument-Base-parent" parent="uifMaintenanceDocumentEntry" abstract="true">
+        <property name="dataObjectClass" value="org.kuali.student.cm.course.form.wrapper.RetireCourseWrapper"/>
+        <property name="maintainableClass" value="org.kuali.student.cm.course.service.impl.RetireCourseMaintainableImpl"/>
+        <property name="documentClass" value="org.kuali.student.cm.maintenance.CMMaintenanceDocument"/>
+        <property name="documentAuthorizerClass"
+                  value="org.kuali.student.cm.course.auth.CurriculumManagementMaintenanceDocumentAuthorizerBase"/>
+        <property name="businessRulesClass" value="org.kuali.student.cm.course.rule.CourseRule"/>
+        <property name="lockingKeys">
+            <list>
+                <value>courseInfo.id</value>
+            </list>
+        </property>
+        <property name="workflowAttributes">
+            <ref bean="CourseInfoMaintenanceDocument-workflowAttributes"/>
+        </property>
+    </bean>
+
+    <bean id="RetireCourseMaintenanceDocument" parent="CourseRetireMaintenanceDocument-Base">
+        <property name="documentTypeName" value="kuali.proposal.type.course.retire"/>
+    </bean>
+
+    <bean id="RetireCourseAdminMaintenanceDocument" parent="CourseRetireMaintenanceDocument-Base">
+        <property name="documentTypeName" value="kuali.proposal.type.course.retire.admin"/>
+    </bean>
+
+    <bean id="CM-Proposal-Course-Retire-Page" parent="Uif-MaintenancePage" p:disclosure.render="false">
+        <property name="header" value="true"/>
+        <property name="headerText" value="Create Course"/>
+        <property name="footer.items">
+            <list>
+                <bean parent="CM-Proposal-Course-Retire-Footer" p:render="@{!#uiHelper.curriculumSpecialistUser}"/>
+                <bean parent="CM-Proposal-Course-Retire-CurriculumSpecialistFooter"
+                      p:render="@{#uiHelper.curriculumSpecialistUser}"/>
+            </list>
+        </property>
+        <property name="onDocumentReadyScript"
+                  value="onCourseLoad(@{#uiHelper.curriculumSpecialistUser}, '@{#uiHelper.selectedSection.sectionId}')"/>
+        <property name="items">
+            <list>
+                <bean parent="Uif-TabGroup" p:id="course_tabs">
+                    <property name="validationMessages.displayMessages" value="false"/>
+                    <property name="validationMessages" ref="KS-ValidationMessages-Off"/>
+                    <property name="items">
+                        <list>
+                            <ref bean="CM-Proposal-Course-RetireInfo-Section"/>
+                            <ref bean="CM-Proposal-Course-AuthorsAndCollaborator-Section"/>
+                            <ref bean="CM-Proposal-Course-SupportingDocument-Section"/>
+                        </list>
+                    </property>
+                    <property name="tabsWidget.templateOptionsJSString">
+                        <value>
+                            { selected: @{#uiHelper.selectedSection.ordinal() - 1} }
+                        </value>
+                    </property>
+                    <property name="tabsWidget.position" value="LEFT"/>
+                </bean>
+
+                <!-- The text above the tab panel. This gets fixed positioning via JS. -->
+                <bean id="CM-Proposal-Course-View-TabHeader" parent="Uif-VerticalBoxGroup"
+                      p:render="@{!#uiHelper.adminProposal}">
+                    <property name="header">
+                        <bean parent="Uif-HeaderFour">
+                            <property name="cssClasses">
+                                <list merge="true">
+                                    <value>course_tabs_header_text</value>
+                                </list>
+                            </property>
+                            <property name="headerText" value="1. Course Information"/>
+                        </bean>
+                    </property>
+                </bean>
+
+                <!-- The text and link below the tab panel. This gets fixed positioning via JS. -->
+                <bean id="CM-Proposal-Course-View-ReviewProposalLink" parent="Uif-VerticalBoxGroup"
+                      p:render="@{(!#uiHelper.adminProposal) and !#workflowDoc.initiated}">
+                    <property name="header">
+                        <bean id="CM-Proposal-Course-View-Tab-ReviewHeader" parent="Uif-HeaderFour">
+                            <property name="cssClasses">
+                                <list merge="true">
+                                    <value>course_tabs_header_text</value>
+                                </list>
+                            </property>
+                            <property name="headerText" value="2. Review and Submit"/>
+                        </bean>
+                    </property>
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-NavigationActionLink">
+                                <property name="id" value="CM-Proposal-Course-Retire-ReviewProposalLink"/>
+                                <property name="actionLabel" value="Review Proposal"/>
+                                <property name="render" value="@{#actionFlags[#Constants.KUALI_ACTION_CAN_EDIT]}"/>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+                <ref bean="CM-ExportHiddenField"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="CM-Proposal-Course-Retire-CurriculumSpecialistFooter" parent="Uif-FooterBase">
+        <property name="items">
+            <list>
+                <bean parent="Uif-SecondaryActionButton"
+                      p:additionalCssClasses="btn-success"
+                      p:ajaxSubmit="false"
+                      p:actionLabel="Retire"
+                      p:methodToCall="retire"
+                      p:performClientSideValidation="true"
+                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_RETIRE] and (!#workflowDoc.initiated) and #uiHelper.adminProposal}"/>
+                <bean parent="Uif-SecondaryActionButton"
+                      p:ajaxSubmit="false"
+                      p:methodToCall="saveProposal"
+                      p:performClientSideValidation="true"
+                      p:actionLabel="Save Progress"
+                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_SAVE]}"
+                      p:jumpToIdAfterSubmit="TOP">
+                </bean>
+                <bean parent="Uif-ActionLink" p:id="CM-Proposal-Course-View-Admin-Cancel"
+                      p:actionLabel="Cancel"
+                      p:methodToCall="back"
+                      p:style="margin-top:5px;"
+                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_CLOSE]}"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="CM-Proposal-Course-Retire-Footer" parent="Uif-FooterBase">
+        <property name="items">
+            <list>
+                <bean parent="Uif-HorizontalBoxGroup">
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-SaveAction"
+                                  p:ajaxSubmit="false"
+                                  p:methodToCall="saveProposal"
+                                  p:actionLabel="Save and Continue"
+                                  p:performClientSideValidation="true"
+                                  p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_SAVE]}">
+                                <property name="actionParameters">
+                                    <map>
+                                        <entry key="displayPage" value="NEXT"/>
+                                    </map>
+                                </property>
+                            </bean>
+                            <bean parent="Uif-ActionLink" p:id="CM-Proposal-Course-View-Cancel"
+                                  p:actionLabel="Cancel"
+                                  p:methodToCall="back"
+                                  p:style="margin-top:5px;"
+                                  p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_CLOSE]}"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KS-HomewardPathBreadcrumbs-RetireCourse-information" parent="Uif-BreadcrumbItem">
+        <property name="label" value="Retirement Information"></property>
+    </bean>
+    <bean id="KS-HomewardPathBreadcrumbs-RetireCourse" parent="Uif-BreadcrumbItem">
+        <property name="label"
+                  value=" @{#uiHelper.headerText}"/>
+        <property name="url.baseUrl" value="cmHome"/>
+        <property name="url.viewId" value="curriculumHomeView"/>
+    </bean>
+
 </beans>

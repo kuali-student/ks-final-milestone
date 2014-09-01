@@ -28,6 +28,7 @@
                     <value>classpath:org/kuali/student/cm/course/proposal/CourseMaintenanceView.xml</value>
                     <value>classpath:org/kuali/student/cm/course/proposal/StartProposalView.xml</value>
                     <value>classpath:org/kuali/student/cm/course/view/ViewCourseView.xml</value>
+                    <value>classpath:org/kuali/student/cm/course/retire/CourseRetireMaintenanceView.xml</value>
                     <value>classpath:org/kuali/student/cm/krms/CourseRuleMaintenance.xml</value>
                     <value>classpath:org/kuali/student/cm/course/proposal/CourseViewCourseInfo.xml</value>
                     <value>classpath:org/kuali/student/cm/course/proposal/CourseViewGovernance.xml</value>

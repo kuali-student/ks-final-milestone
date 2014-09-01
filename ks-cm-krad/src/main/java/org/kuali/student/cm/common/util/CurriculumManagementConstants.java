@@ -34,6 +34,7 @@ public class CurriculumManagementConstants {
         public final static String CM_DECISION = "/cm_decision";
         public final static String VIEW_COURSE = "/view_course";
         public final static String CM_HOME = "/cmHome";
+        public final static String CM_RETIRE_COURSE = "/retireCourse";
     }
 
     public static class DocumentTypeNames {
