@@ -289,6 +289,9 @@ public class ReviewProposalDisplay {
         private List<FormatInfoWrapper> formatInfoWrappers;
 
         public CourseLogisticsSectionWrapper() {
+            outcomes = new ArrayList<OutcomeReviewSection>();
+            formatInfoWrappers = new ArrayList<FormatInfoWrapper>();
+            terms = new ArrayList<String>();
         }
 
         public List<FormatInfoWrapper> getFormatInfoWrappers() {
@@ -545,6 +548,9 @@ public class ReviewProposalDisplay {
          * @return An empty String if no authors and collaborators have been defined. Otherwise, returns some text.
          */
         public String getEmptyStringAuthorAndCollaborator() {
+            if (collaboratorWrappers == null) {
+                collaboratorWrappers = new ArrayList<CollaboratorWrapper>();
+            }
             return collaboratorWrappers.isEmpty() ? "" : "Has Authors and Collaborators";
         }
 

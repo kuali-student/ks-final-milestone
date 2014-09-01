@@ -63,7 +63,9 @@
         </property>
         <property name="expressionVariables">
             <map merge="true">
-                 <entry key="uiHelper" value="courseInfoWrapper.uiHelper"/>
+                <entry key="isCompareView" value="viewId eq T(org.kuali.student.cm.common.util.CurriculumManagementConstants$CourseViewIds).VIEW_COURSE_VIEW and compareCourseInfoWrapper != null"/>
+                <entry key="isViewCourseView" value="viewId eq T(org.kuali.student.cm.common.util.CurriculumManagementConstants$CourseViewIds).VIEW_COURSE_VIEW"/>
+                <entry key="uiHelper" value="courseInfoWrapper.uiHelper"/>
             </map>
         </property>
     </bean>
@@ -217,13 +219,29 @@
         <property name="url.viewId" value="CM-Proposal-Course-FindCourse"/>
     </bean>
 
-    <bean id="CM-ViewCourse-View-Course-GridGroup" parent="Uif-GridGroup" p:layoutManager.numberOfColumns="4" abstract="true">
+    <bean id="CM-ViewCourse-View-Course-GridGroup" parent="Uif-GridGroup" p:layoutManager.numberOfColumns="@{#isCompareView ? 7 : 4}" abstract="true">
         <property name="cssClasses">
             <list merge="true">
                 <value>course_details-grid</value>
                 <value>ks-no-margins</value>
                 <value>ks-subSection</value>
             </list>
+        </property>
+        <!--<property name="conditionalRowCssClasses">
+          <map>
+            <entry key="all" value="uif-all"/>
+            <entry key="odd" value="uif-odd"/>
+            <entry key="even" value="uif-even"/>
+            <entry key="@{#line.field4 eq '3'}" value="special"/>
+          </map>
+        </property>-->
+        <property name="layoutManager.renderFirstRowHeader" value="@{#isCompareView}"/>
+        <property name="layoutManager.renderRowFirstCellHeader" value="@{#isCompareView}"/>
+        <property name="componentModifiers">
+          <list>
+              <bean parent="Uif-LabelSeparator-Modifier" p:runPhase="FINALIZE"/>
+              <bean parent="CM-ViewCourse-View-Compare-Modifier" p:runPhase="APPLY_MODEL" p:runCondition="@{#isCompareView}"/>
+          </list>
         </property>
     </bean>
 

@@ -72,6 +72,7 @@ public class ViewCourseController extends KsUifControllerBase{
         ViewCourseForm detailedViewForm = (ViewCourseForm) form;
 
         String courseId = request.getParameter("courseId");
+        String compareCourseId = request.getParameter("compareCourseId");
 
         if (StringUtils.isBlank(courseId)) {
             throw new RuntimeException("Missing Course Id");
@@ -83,6 +84,13 @@ public class ViewCourseController extends KsUifControllerBase{
             ((CourseMaintainable)form.getViewHelperService()).populateCourseAndReviewData(courseId, courseWrapper, true);
             detailedViewForm.setCourseInfoWrapper(courseWrapper);
 
+            if (StringUtils.isNotBlank(compareCourseId)){
+                CourseInfoWrapper compareCourseWrapper = new CourseInfoWrapper();
+                ((CourseMaintainable)form.getViewHelperService()).setDataObject(compareCourseWrapper);
+//                ((CourseMaintainable)form.getViewHelperService()).populateCourseAndReviewData(compareCourseId, compareCourseWrapper, true);
+                ((CourseMaintainable)form.getViewHelperService()).loadCourseCompareVersion(courseId);
+                detailedViewForm.setCompareCourseInfoWrapper(compareCourseWrapper);
+            }
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

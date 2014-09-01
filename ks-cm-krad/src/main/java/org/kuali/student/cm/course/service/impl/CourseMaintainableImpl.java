@@ -2160,6 +2160,23 @@ public class CourseMaintainableImpl extends RuleEditorMaintainableImpl implement
         return subjectArea + suffixNumber;
     }
 
+    public void loadCourseCompareVersion(String courseId) throws Exception {
+
+        CourseInfoWrapper dataObject = (CourseInfoWrapper) getDataObject();
+
+        populateCourseAndReviewData(courseId,dataObject,false);
+
+        String title = dataObject.getCourseInfo().getCourseTitle();
+        dataObject.getCourseInfo().setCourseTitle(title + "a");
+
+
+        String subArea = dataObject.getCourseInfo().getSubjectArea();
+        dataObject.getCourseInfo().setSubjectArea(subArea + "a");
+
+        dataObject.getReviewProposalDisplay().getCourseLogisticsSection().getFormatInfoWrappers().remove(0);
+
+    }
+
     public void retrieveDataObject() {
 
         CourseInfoWrapper dataObject = (CourseInfoWrapper) getDataObject();

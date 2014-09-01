@@ -75,4 +75,6 @@ public interface CourseMaintainable extends CMMaintainable {
 
     public CourseInfoWrapper copyProposal(String sourceProposalId) throws Exception;
 
+    public void loadCourseCompareVersion(String courseId) throws Exception;
+
 }

@@ -29,6 +29,7 @@ public class ViewCourseForm extends KSUifForm {
 
     private CurriculumManagementConstants.ViewCourseType viewType;
     private CourseInfoWrapper courseInfoWrapper;
+    private CourseInfoWrapper compareCourseInfoWrapper;
 
     public ViewCourseForm(){
         viewType = CurriculumManagementConstants.ViewCourseType.COURSE_VIEW;
@@ -81,6 +82,19 @@ public class ViewCourseForm extends KSUifForm {
      */
     public void setCourseInfoWrapper(CourseInfoWrapper courseInfoWrapper) {
         this.courseInfoWrapper = courseInfoWrapper;
+    }
+
+    public CourseInfoWrapper getCompareCourseInfoWrapper() {
+        return compareCourseInfoWrapper;
+    }
+
+    /**
+     * Model to compare with #getCourseInfoWrapper(). This is used only for course compare view.
+     *
+     * @param compareCourseInfoWrapper
+     */
+    public void setCompareCourseInfoWrapper(CourseInfoWrapper compareCourseInfoWrapper) {
+        this.compareCourseInfoWrapper = compareCourseInfoWrapper;
     }
 
 }
