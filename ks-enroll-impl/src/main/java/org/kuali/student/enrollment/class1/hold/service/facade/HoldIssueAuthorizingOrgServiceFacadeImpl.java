@@ -55,6 +55,9 @@ public class HoldIssueAuthorizingOrgServiceFacadeImpl implements HoldIssueAuthor
     public static final String HOLD_AUTHORIZATION_ORGID = "org.kuali.student.hold.authorization.orgId";
     public static final String HOLD_AUTHORIZATION_ISSUEIDS = "org.kuali.student.hold.authorization.holdIssueIds";
 
+    public static final String HOLD_AUTHORIZATION_GROUP_TYPE_NAME = "KS Hold Org Authorization Group Type";
+    public static final String HOLD_AUTHORIZATION_ROLE_TYPE_NAME = "KS Hold Issue Authorization Role Type";
+
     @Override
     public List<Role> getHold(ContextInfo contextInfo) {
         QueryByCriteria query = QueryByCriteria.Builder.fromPredicates(PredicateFactory.and(
@@ -182,7 +185,7 @@ public class HoldIssueAuthorizingOrgServiceFacadeImpl implements HoldIssueAuthor
             DoesNotExistException {
 
         OrgInfo org = this.getOrganizationService().getOrg(orgId, contextInfo);
-        KimType holdAuthType = KimApiServiceLocator.getKimTypeInfoService().findKimTypeByNameAndNamespace(PermissionServiceConstants.KS_HLD_NAMESPACE, "KS Hold Authorization Role Type");
+        KimType holdAuthType = KimApiServiceLocator.getKimTypeInfoService().findKimTypeByNameAndNamespace(PermissionServiceConstants.KS_HLD_NAMESPACE, HOLD_AUTHORIZATION_GROUP_TYPE_NAME);
         Group.Builder builder = Group.Builder.create(PermissionServiceConstants.KS_HLD_NAMESPACE, "Hold Functionaries for " + org.getShortName(),
                 holdAuthType.getId());
         builder.setNamespaceCode(PermissionServiceConstants.KS_HLD_NAMESPACE);

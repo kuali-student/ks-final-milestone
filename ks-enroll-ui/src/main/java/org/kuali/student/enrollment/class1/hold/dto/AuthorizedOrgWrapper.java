@@ -25,27 +25,27 @@ import java.io.Serializable;
  *
  * @author Kuali Student Team
  */
-public class AuthorizingOrgWrapper implements Serializable {
-    private String organizationName;
+public class AuthorizedOrgWrapper implements Serializable {
+
     private String id;
+    private String name;
     private boolean authOrgApply;
     private boolean authOrgExpire;
 
-    public AuthorizingOrgWrapper() {
+    public AuthorizedOrgWrapper() {
     }
 
-    public AuthorizingOrgWrapper(OrgInfo orgInfo) {
+    public AuthorizedOrgWrapper(OrgInfo orgInfo) {
         this.id = orgInfo.getId();
-        this.organizationName = orgInfo.getLongName();
+        this.name = orgInfo.getShortName();
     }
 
-
-    public String getOrganizationName() {
-        return organizationName;
+    public String getName() {
+        return name;
     }
 
-    public void setOrganizationName(String organizationName) {
-        this.organizationName = organizationName;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getId() {

@@ -42,8 +42,25 @@ public class HoldIssueConstants {
     public static final String HOLD_ISSUE_STATE_KEY = "stateKey";
     public static final String HOLD_ISSUE_FIRST_APP_TERM_ID = "firstApplicationTermId";
     public static final String HOLD_ISSUE_LAST_APP_TERM_ID = "lastApplicationTermId";
-    public static final String HOLD_ISSUE_LAST_APPLIED_DATE_ID = "holdLastAppliedDate";
-    public static final String HOLD_ISSUE_HOLDISSUE_ELEMENTPATH = "document.newMaintainableObject.dataObject.holdIssue";
+    public static final String HOLD_ISSUE_FIRST_APPLIED_DATE = "firstAppliedDate";
+    public static final String HOLD_ISSUE_LAST_APPLIED_DATE = "lastAppliedDate";
+
+    //Hold Issue property names
+    public static final String HOLD_ISSUE_DATAOBJECT_PATH = "document.newMaintainableObject.dataObject";
+
+    public static final String HOLD_ISSUE_PROP_NAME = "holdIssue";
+    public static final String HOLD_ISSUE_HOLDISSUE_PATH = HOLD_ISSUE_DATAOBJECT_PATH + "." + HOLD_ISSUE_PROP_NAME;
+    public static final String HOLD_ISSUE_PROP_NAME_CODE = HOLD_ISSUE_HOLDISSUE_PATH + "." + HOLD_ISSUE_CODE;
+
+    public static final String HOLD_ISSUE_PROP_NAME_FIRST_APPLIED_DATE = HOLD_ISSUE_HOLDISSUE_PATH + "." + HOLD_ISSUE_FIRST_APPLIED_DATE;
+    public static final String HOLD_ISSUE_PROP_NAME_LAST_APPLIED_DATE = HOLD_ISSUE_HOLDISSUE_PATH + "." + HOLD_ISSUE_LAST_APPLIED_DATE;
+
+    public static final String HOLD_ISSUE_PROP_NAME_FIRST_TERM = HOLD_ISSUE_DATAOBJECT_PATH + "." + "firstTerm";
+    public static final String HOLD_ISSUE_PROP_NAME_LAST_TERM = HOLD_ISSUE_DATAOBJECT_PATH + "." + "lastTerm";
+
+    public static final String HOLD_ISSUE_PROP_NAME_AUTH_ORGS = HOLD_ISSUE_DATAOBJECT_PATH + "." + "authorizedOrgs";
+    public static final String HOLD_ISSUE_PROP_NAME_AUTH_ORG_NAME = "name";
+
 
     //UI bean ids
     public static final String HOLD_ISSUE_CREATE_PAGE = "KS-Hold-Create-Page";
@@ -58,6 +75,7 @@ public class HoldIssueConstants {
     public static final String HOLDS_ISSUE_MSG_ERROR_FIRST_APPLICATION_TERMID = "error.hold.issue.first.application.term.id";
     public static final String HOLDS_ISSUE_MSG_ERROR_LAST_APPLICATION_TERMID = "error.hold.issue.last.application.term.id";
     public static final String HOLDS_ISSUE_MSG_ERROR_INVALID_DATE_RANGE = "error.hold.daterange.invalid";
+    public static final String HOLDS_ISSUE_MSG_ERROR_AUTHORIZED_ORG = "error.hold.issue.no.permission.selected";
 
     //info Message keys
     public static final String HOLDS_ISSUE_MSG_INFO_HOLD_ISSUE_SAVE_SUCCESS = "info.enroll.save.success";

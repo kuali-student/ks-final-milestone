@@ -45,7 +45,7 @@ public class HoldIssueMaintenanceWrapper implements Serializable {
     private TypeInfo type;
     private HoldIssueInfo holdIssue;
 
-    private List<AuthorizingOrgWrapper> organizationNames = new ArrayList<AuthorizingOrgWrapper>();
+    private List<AuthorizedOrgWrapper> authorizedOrgs = new ArrayList<AuthorizedOrgWrapper>();
 
     private List<ProcessInfo> processNames = new ArrayList<ProcessInfo>();
 
@@ -118,12 +118,12 @@ public class HoldIssueMaintenanceWrapper implements Serializable {
         this.lastTerm = lastTerm;
     }
 
-    public List<AuthorizingOrgWrapper> getOrganizationNames() {
-        return organizationNames;
+    public List<AuthorizedOrgWrapper> getAuthorizedOrgs() {
+        return authorizedOrgs;
     }
 
-    public void setOrganizationNames(List<AuthorizingOrgWrapper> organizationNames) {
-        this.organizationNames = organizationNames;
+    public void setAuthorizedOrgs(List<AuthorizedOrgWrapper> authorizedOrgs) {
+        this.authorizedOrgs = authorizedOrgs;
     }
 
     public boolean isSaveSuccess() {
@@ -168,10 +168,10 @@ public class HoldIssueMaintenanceWrapper implements Serializable {
 
     public Map<String, String> getAdminOrg() {
         Map<String, String> adminOrgMap = new HashMap<String, String>();
-        if (organizationNames != null && !organizationNames.isEmpty()) {
+        if (authorizedOrgs != null && !authorizedOrgs.isEmpty()) {
             StringBuilder orgIDs = new StringBuilder("");
-            for (AuthorizingOrgWrapper organizationName : organizationNames) {
-                orgIDs.append(organizationName.getId()).append(",");
+            for (AuthorizedOrgWrapper authorizedOrg : authorizedOrgs) {
+                orgIDs.append(authorizedOrg.getId()).append(",");
             }
             if (orgIDs.length() > 0) {
                 adminOrgMap.put("offeringAdminOrgId", orgIDs.substring(0, orgIDs.length() - 1));

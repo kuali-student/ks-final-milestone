@@ -11,6 +11,7 @@ import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.student.common.collection.KSCollectionUtils;
 import org.kuali.student.common.uif.rule.KsMaintenanceDocumentRuleBase;
 import org.kuali.student.common.util.security.ContextUtils;
+import org.kuali.student.enrollment.class1.hold.dto.AuthorizedOrgWrapper;
 import org.kuali.student.enrollment.class1.hold.dto.HoldIssueMaintenanceWrapper;
 import org.kuali.student.enrollment.class1.hold.util.HoldIssueConstants;
 import org.kuali.student.enrollment.class1.hold.util.HoldResourceLoader;
@@ -45,30 +46,15 @@ public class HoldIssueRule extends KsMaintenanceDocumentRuleBase {
             holdIssue.setStateKey(HoldServiceConstants.ISSUE_ACTIVE_STATE_KEY);
         }
 
-        if(holdIssue.getDescr() != null){
+        if (holdIssue.getDescr() != null) {
             holdIssue.getDescr().setPlain(holdWrapper.getDescr());
-        } else{
+        } else {
             holdIssue.setDescr(new RichTextInfo());
             holdIssue.getDescr().setPlain(holdWrapper.getDescr());
         }
 
-        //Check if the StartDate and EndDate is in range
-        if (!AcalCommonUtils.isValidDateRange(holdIssue.getFirstAppliedDate(), holdIssue.getLastAppliedDate())){
-            GlobalVariables.getMessageMap().putError(HoldIssueConstants.HOLD_ISSUE_LAST_APPLIED_DATE_ID,HoldIssueConstants.HOLDS_ISSUE_MSG_ERROR_INVALID_DATE_RANGE,AcalCommonUtils.formatDate(holdIssue.getFirstAppliedDate()), AcalCommonUtils.formatDate(holdIssue.getLastAppliedDate()));
-        }
-
         holdIssue.setIsHoldIssueTermBased(holdWrapper.getTermBased());
         holdIssue.setMaintainHistoryOfApplicationOfHold(holdWrapper.getHoldHistory());
-        try {
-            holdIssue.setFirstApplicationTermId(searchForTermIdByCode(holdWrapper.getFirstTerm()));
-        } catch (Exception e){
-            GlobalVariables.getMessageMap().putError(HoldIssueConstants.HOLD_ISSUE_FIRST_APP_TERM_ID, HoldIssueConstants.HOLDS_ISSUE_MSG_ERROR_FIRST_APPLICATION_TERMID);
-        }
-        try {
-            holdIssue.setLastApplicationTermId(searchForTermIdByCode(holdWrapper.getLastTerm()));
-        } catch (Exception e){
-            GlobalVariables.getMessageMap().putError(HoldIssueConstants.HOLD_ISSUE_LAST_APP_TERM_ID, HoldIssueConstants.HOLDS_ISSUE_MSG_ERROR_LAST_APPLICATION_TERMID);
-        }
         holdIssue.setMaintainHistoryOfApplicationOfHold(holdWrapper.getHoldHistory());
 
         isValid &= validateHold(holdWrapper);
@@ -79,7 +65,7 @@ public class HoldIssueRule extends KsMaintenanceDocumentRuleBase {
     public static String searchForTermIdByCode(String termCode)
             throws MissingParameterException, InvalidParameterException, OperationFailedException, PermissionDeniedException {
 
-        if((termCode==null) || (termCode.isEmpty())){
+        if ((termCode == null) || (termCode.isEmpty())) {
             return null;
         }
 
@@ -99,43 +85,76 @@ public class HoldIssueRule extends KsMaintenanceDocumentRuleBase {
      */
     private boolean validateHold(HoldIssueMaintenanceWrapper holdIssueWrapper) {
 
+        boolean isValid = true;
+        HoldIssueInfo holdIssue = holdIssueWrapper.getHoldIssue();
+
+        //Check if the StartDate and EndDate is in range
+        if (!AcalCommonUtils.isValidDateRange(holdIssue.getFirstAppliedDate(), holdIssue.getLastAppliedDate())) {
+            GlobalVariables.getMessageMap().putError(HoldIssueConstants.HOLD_ISSUE_PROP_NAME_LAST_APPLIED_DATE, HoldIssueConstants.HOLDS_ISSUE_MSG_ERROR_INVALID_DATE_RANGE,
+                    AcalCommonUtils.formatDate(holdIssue.getFirstAppliedDate()), AcalCommonUtils.formatDate(holdIssue.getLastAppliedDate()));
+            isValid = false;
+        }
+
+        // Check if term exist for code.
+        try {
+            holdIssue.setFirstApplicationTermId(searchForTermIdByCode(holdIssueWrapper.getFirstTerm()));
+        } catch (Exception e) {
+            GlobalVariables.getMessageMap().putError(HoldIssueConstants.HOLD_ISSUE_PROP_NAME_FIRST_TERM, HoldIssueConstants.HOLDS_ISSUE_MSG_ERROR_FIRST_APPLICATION_TERMID);
+            isValid = false;
+        }
+        try {
+            holdIssue.setLastApplicationTermId(searchForTermIdByCode(holdIssueWrapper.getLastTerm()));
+        } catch (Exception e) {
+            GlobalVariables.getMessageMap().putError(HoldIssueConstants.HOLD_ISSUE_PROP_NAME_LAST_TERM, HoldIssueConstants.HOLDS_ISSUE_MSG_ERROR_LAST_APPLICATION_TERMID);
+            isValid = false;
+        }
+
         // Check if holdCode is unique.
-        HoldIssueInfo holdIssueInfo = holdIssueWrapper.getHoldIssue();
         try {
             QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
-            if (holdIssueInfo.getId() == null) {
-                qbcBuilder.setPredicates(PredicateFactory.equal(HoldIssueConstants.HOLD_ISSUE_CODE, holdIssueInfo.getHoldCode()));
+            if (holdIssue.getId() == null) {
+                qbcBuilder.setPredicates(PredicateFactory.equal(HoldIssueConstants.HOLD_ISSUE_CODE, holdIssue.getHoldCode()));
             } else {
-                qbcBuilder.setPredicates(PredicateFactory.and(PredicateFactory.equal(HoldIssueConstants.HOLD_ISSUE_CODE, holdIssueInfo.getHoldCode()),
-                        PredicateFactory.notEqual(HoldIssueConstants.HOLD_ISSUE_ID, holdIssueInfo.getId())));
+                qbcBuilder.setPredicates(PredicateFactory.and(PredicateFactory.equal(HoldIssueConstants.HOLD_ISSUE_CODE, holdIssue.getHoldCode()),
+                        PredicateFactory.notEqual(HoldIssueConstants.HOLD_ISSUE_ID, holdIssue.getId())));
             }
             List<String> issueIds = HoldResourceLoader.getHoldService().searchForHoldIssueIds(qbcBuilder.build(), createContextInfo());
 
             if (issueIds.size() > 0) {
-                GlobalVariables.getMessageMap().putError(HoldIssueConstants.HOLD_ISSUE_CODE, HoldIssueConstants.HOLDS_ISSUE_MSG_ERROR_HOLDCODE_ALREADY_EXISTS);
+                GlobalVariables.getMessageMap().putError(HoldIssueConstants.HOLD_ISSUE_PROP_NAME_CODE, HoldIssueConstants.HOLDS_ISSUE_MSG_ERROR_HOLDCODE_ALREADY_EXISTS);
+                isValid = false;
             }
         } catch (Exception e) {
             GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, e.getMessage());
+            isValid = false;
         }
 
-        List<ValidationResultInfo> errors = transformValidationErrors(getValidationErrors(holdIssueInfo));
+        // Validate the authorized orgs.
+        for (int i = 0; i < holdIssueWrapper.getAuthorizedOrgs().size(); i++) {
+            AuthorizedOrgWrapper authorizedOrg = holdIssueWrapper.getAuthorizedOrgs().get(i);
+            if (!authorizedOrg.isAuthOrgApply() && !authorizedOrg.isAuthOrgExpire()) {
+                GlobalVariables.getMessageMap().putError(HoldIssueConstants.HOLD_ISSUE_PROP_NAME_AUTH_ORGS + "[" + i + "]." + HoldIssueConstants.HOLD_ISSUE_PROP_NAME_AUTH_ORG_NAME,
+                        HoldIssueConstants.HOLDS_ISSUE_MSG_ERROR_AUTHORIZED_ORG);
+                isValid = false;
+            }
+        }
 
         //  If any errors were found, put them in the message map.
+        List<ValidationResultInfo> errors = transformValidationErrors(getValidationErrors(holdIssue));
         if (!errors.isEmpty()) {
             for (ValidationResultInfo error : errors) {
                 String elementPath = error.getElement();
-                if (StringUtils.equals(elementPath, HoldIssueConstants.HOLD_ISSUE_HOLDISSUE_ELEMENTPATH + "." + HoldIssueConstants.HOLD_ISSUE_ORG_ID)) {
+                if (StringUtils.equals(elementPath, HoldIssueConstants.HOLD_ISSUE_HOLDISSUE_PATH + "." + HoldIssueConstants.HOLD_ISSUE_ORG_ID)) {
                     GlobalVariables.getMessageMap().putError(error.getElement(), HoldIssueConstants.HOLDS_ISSUE_MSG_ERROR_HOLD_ISSUE_ORG_ID_REQUIRED);
-                }
-                else{
+                } else {
                     GlobalVariables.getMessageMap().putError(error.getElement(), RiceKeyConstants.ERROR_CUSTOM, error.getMessage());
                 }
 
             }
-            return false;
+            isValid = false;
         }
 
-        return true;
+        return isValid;
     }
 
     private List<ValidationResultInfo> getValidationErrors(HoldIssueInfo holdIssueInfo) {
@@ -154,7 +173,7 @@ public class HoldIssueRule extends KsMaintenanceDocumentRuleBase {
     private List<ValidationResultInfo> transformValidationErrors(List<ValidationResultInfo> validationErrors) {
 
         for (ValidationResultInfo error : validationErrors) {
-            error.setElement(HoldIssueConstants.HOLD_ISSUE_HOLDISSUE_ELEMENTPATH + "." + error.getElement());
+            error.setElement(HoldIssueConstants.HOLD_ISSUE_HOLDISSUE_PATH + "." + error.getElement());
         }
 
         return validationErrors;
