@@ -26,6 +26,12 @@
     </div>
 
     <div class="kscr-CourseCalendar-calendar" mask-when="selectedCourse">
+        <!-- Orientation helper elements. Though not visible to user, necessary for directive to know what the orientation of the calendar is. -->
+        <div class="kscr-CourseCalendar-orientation">
+            <div class="kscr-CourseCalendar-orientation--horizontal">&nbsp;</div>
+            <div class="kscr-CourseCalendar-orientation--vertical">&nbsp;</div>
+        </div>
+
         <div class="kscr-CourseCalendar-times util-Grid util-Grid--center">
             <div class="kscr-CourseCalendar-time" ng-class="{'util-Grid-cell' : !$last}"
                  id="course_calendar_time_{{time | date:'ha'}}" ng-repeat="time in times | filter:timeFilter">
@@ -49,6 +55,10 @@
 
                     <div class="kscr-CourseCalendar-day-lane-wrap">
                         <div course-calendar-lane class="kscr-CourseCalendar-day-lane">
+                            <!-- Spacer element to prevent row from collapsing (clears bg in Chrome) -->
+                            <span ng-if="day.courses.length === 0">&nbsp;</span>
+
+                            <!-- Course block item -->
                             <course-calendar-item ng-repeat="course in day.courses | filter:courseFilter"
                                                   id="course_calendar_course_{{course.courseCode}}" title="{{course.courseCode}}"
                                                   class="kscr-CourseCalendar-courseBlock-wrap"

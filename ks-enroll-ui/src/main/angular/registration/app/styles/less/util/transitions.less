@@ -57,15 +57,13 @@
     &.ng-leave.ng-leave-active { // Item actively being removed (target styles)
         .util-transitions-transition(all ease-out @speed);
         opacity: 0;
-        top: auto;
     }
 
     &.ng-leave, // Item being removed (base styles)
     &.ng-enter.ng-enter-active { // Item actively being added (target styles)
         .util-transitions-transition(all ease-in @speed);
         opacity: @opacity;
-        top: auto;
-        height: auto;
+        top: inherit;
     }
 }
 

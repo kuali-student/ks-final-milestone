@@ -93,4 +93,14 @@ public class AdminRegConstants {
     //Soc state
     public static final String PUBLISHED_SOC_STATE_KEY = "kuali.soc.state.published";
 
+    //PROCESS_INSTRN messageKey
+    public static final String ADMIN_REG_MESSAGEKEY_REGISTRATION_TERM_NOT_OPEN = "kuali.lpr.trans.message.registration.term.not.open";
+    public static final String ADMIN_REG_MESSAGEKEY_REGISTRATION_TIME_CONFLICT = "kuali.lpr.trans.message.registration.time.conflict";
+    public static final String ADMIN_REG_MESSAGEKEY_REGISTRATION_FEES_OUTSTANDING = "kuali.lpr.trans.message.registration.fees.outstanding";
+    public static final String ADMIN_REG_MESSAGEKEY_REGISTRATION_SUSPENDED = "kuali.lpr.trans.message.registration.suspended";
+    public static final String ADMIN_REG_MESSAGEKEY_REGISTRATION_EXPELLED = "kuali.lpr.trans.message.registration.expelled";
+    public static final String ADMIN_REG_MESSAGEKEY_REGISTRATION_CREDIT_LIMIT_EXCEEDED = "kuali.lpr.trans.message.registration.credit.limit.exceeded";
+    public static final String ADMIN_REG_MESSAGEKEY_BASIC_NOT_ALIVE = "kuali.lpr.trans.message.basic.not.alive";
+
+
 }

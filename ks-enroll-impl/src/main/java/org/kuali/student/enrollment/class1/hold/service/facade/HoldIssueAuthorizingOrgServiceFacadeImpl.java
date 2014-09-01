@@ -1,7 +1,8 @@
-package org.kuali.student.enrollment.class1.hold.service.impl.facade;
+package org.kuali.student.enrollment.class1.hold.service.facade;
 
 import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
+import org.kuali.rice.core.api.membership.MemberType;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.kim.api.group.Group;
 import org.kuali.rice.kim.api.group.GroupService;
@@ -11,10 +12,16 @@ import org.kuali.rice.kim.api.role.RoleMember;
 import org.kuali.rice.kim.api.role.RoleMembership;
 import org.kuali.rice.kim.api.role.RoleService;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
+import org.kuali.rice.kim.api.type.KimType;
 import org.kuali.student.common.collection.KSCollectionUtils;
 import org.kuali.student.enrollment.class2.courseoffering.service.decorators.PermissionServiceConstants;
 import org.kuali.student.kim.permission.map.KimPermissionConstants;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.exceptions.MissingParameterException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.core.hold.dto.HoldIssueInfo;
 import org.kuali.student.r2.core.hold.service.HoldService;
 import org.kuali.student.r2.core.organization.dto.OrgInfo;
@@ -22,7 +29,6 @@ import org.kuali.student.r2.core.organization.service.OrganizationService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.xml.namespace.QName;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -46,6 +52,8 @@ public class HoldIssueAuthorizingOrgServiceFacadeImpl implements HoldIssueAuthor
     public static final String APPLY_HOLD_ROLE_PERMISSION = "Hold Apply Hold Role";
     public static final String EXPIRE_APPLIED_HOLD_ROLE_PERMISSION = "Hold Expire Applied Hold Role";
 
+    public static final String HOLD_AUTHORIZATION_ORGID = "org.kuali.student.hold.authorization.orgId";
+    public static final String HOLD_AUTHORIZATION_ISSUEIDS = "org.kuali.student.hold.authorization.holdIssueIds";
 
     @Override
     public List<Role> getHold(ContextInfo contextInfo) {
@@ -62,9 +70,11 @@ public class HoldIssueAuthorizingOrgServiceFacadeImpl implements HoldIssueAuthor
         return null;
     }
 
-
     @Override
-    public void storeBinding(String holdIssueId, String orgId, Role role, ContextInfo contextInfo) {
+    public void storeBinding(String holdIssueId, String orgId, Role role, ContextInfo contextInfo)
+            throws DoesNotExistException, MissingParameterException, InvalidParameterException, OperationFailedException,
+            PermissionDeniedException {
+
         Group group = findCreateGroupMatchingOrg(orgId, contextInfo);
         RoleMembership roleMembership = findCreateRoleMembershipForGroupAndRole(group.getId(), role, contextInfo);
         if (!containsHoldIssueId(roleMembership.getQualifier(), holdIssueId)) {
@@ -74,33 +84,30 @@ public class HoldIssueAuthorizingOrgServiceFacadeImpl implements HoldIssueAuthor
     }
 
     protected boolean containsHoldIssueId(Map<String, String> qualifiers, String holdIssueId) {
-        String issueIds = qualifiers.get("HOLD_ISSUES");
+        String issueIds = qualifiers.get(HOLD_AUTHORIZATION_ISSUEIDS);
         if (issueIds == null) {
             return false;
         }
-        if (("," + issueIds + ",").contains("," + holdIssueId + ",")) {
-            return true;
-        }
-        return false;
+        return issueIds.contains(holdIssueId);
     }
 
     protected RoleMembership addHoldIssueIdToQualifier(RoleMembership roleMembership, String holdIssueId) {
         if (containsHoldIssueId(roleMembership.getQualifier(), holdIssueId)) {
             return roleMembership;
         }
-        String issueIds = roleMembership.getQualifier().get("HOLD_ISSUES");
+
+        String issueIds = roleMembership.getQualifier().get(HOLD_AUTHORIZATION_ISSUEIDS);
         if (issueIds == null) {
-            roleMembership.getQualifier().put("HOLD_ISSUES", holdIssueId);
+            roleMembership.getQualifier().put(HOLD_AUTHORIZATION_ISSUEIDS, holdIssueId);
             return roleMembership;
         }
         issueIds = issueIds + "," + holdIssueId;
-        roleMembership.getQualifier().put("HOLD_ISSUES", issueIds);
+        roleMembership.getQualifier().put(HOLD_AUTHORIZATION_ISSUEIDS, issueIds);
         return roleMembership;
     }
 
     protected void addHoldIssueToQualifier(RoleMembership roleMembership, String holdIssueId, ContextInfo contextInfo) {
         addHoldIssueIdToQualifier(roleMembership, holdIssueId);
-
     }
 
     protected void updateRoleMembership(RoleMembership roleMembership, ContextInfo contextInfo) {
@@ -110,47 +117,48 @@ public class HoldIssueAuthorizingOrgServiceFacadeImpl implements HoldIssueAuthor
     }
 
     protected RoleMember convertRoleMembership2RoleMember(RoleMembership roleMembership, ContextInfo contextInfo) {
-        RoleMember.Builder roleMemberBldr;
-        roleMemberBldr = RoleMember.Builder.create(roleMembership.getRoleId(), roleMembership.getId(),roleMembership.getMemberId(), roleMembership.getType(), null, null, roleMembership.getQualifier(),roleMembership.getType().name(),PermissionServiceConstants.KS_HLD_NAMESPACE);
+
+        RoleMember.Builder roleMemberBldr = RoleMember.Builder.create(roleMembership.getRoleId(), roleMembership.getId(), roleMembership.getMemberId(),
+                roleMembership.getType(), null, null, roleMembership.getQualifier(), roleMembership.getType().name(), PermissionServiceConstants.KS_HLD_NAMESPACE);
+
         roleMemberBldr.setId(roleMembership.getId());
         // Rice is messed up in roleMember the qualifiers are called attributes!
         roleMemberBldr.setAttributes(roleMembership.getQualifier());
         return roleMemberBldr.build();
     }
 
-    protected RoleMembership findCreateRoleMembershipForGroupAndRole(String groupId, Role role, ContextInfo contextInfo) {
+    protected RoleMembership findCreateRoleMembershipForGroupAndRole(String groupId, Role role, ContextInfo contextInfo)
+            throws OperationFailedException {
+
         RoleMembership roleMembership = findRoleMembershipForGroupAndRole(groupId, role, contextInfo);
         if (roleMembership == null) {
             roleMembership = createRoleMembershipForGroupAndRole(groupId, role, contextInfo);
         }
         return roleMembership;
-
     }
 
-    protected RoleMembership findRoleMembershipForGroupAndRole(String groupId, Role role, ContextInfo contextInfo) {
-        List<String> roleIds = new ArrayList<String>();
-        List<RoleMembership> roleMembershipships = new ArrayList<RoleMembership>();
-        roleIds.add(role.getId());
-        roleMembershipships = this.getRoleService().getFirstLevelRoleMembers(roleIds);
-        for (RoleMembership roleMembership : roleMembershipships) {
-            if (roleMembership.getType().name().equals("GROUP")) {
-                if (roleMembership.getMemberId().equals(groupId)) {
-                    return roleMembership;
-                }
-            }
-        }
-        return null;
+    protected RoleMembership findRoleMembershipForGroupAndRole(String groupId, Role role, ContextInfo contextInfo)
+            throws OperationFailedException {
+
+        QueryByCriteria query = QueryByCriteria.Builder.fromPredicates(PredicateFactory.and(
+                PredicateFactory.in("roleId", role.getId()), PredicateFactory.in("typeCode", MemberType.GROUP.getCode()),
+                PredicateFactory.in("memberId", groupId)));
+        List<RoleMembership> roleMemberships = KimApiServiceLocator.getRoleService().findRoleMemberships(query).getResults();
+        return KSCollectionUtils.getOptionalZeroElement(roleMemberships);
     }
 
+    protected RoleMembership createRoleMembershipForGroupAndRole(String groupId, Role role, ContextInfo contextInfo)
+            throws OperationFailedException {
 
-    protected RoleMembership createRoleMembershipForGroupAndRole(String groupId, Role role, ContextInfo contextInfo) {
         Map<String, String> qualifications = new HashMap<String, String>();
-        RoleMember roleMember = this.getRoleService().assignGroupToRole(groupId, PermissionServiceConstants.KS_HLD_NAMESPACE, role.getName(), qualifications);
+        RoleMember roleMember = this.getRoleService().assignGroupToRole(groupId, PermissionServiceConstants.KS_HLD_NAMESPACE,
+                role.getName(), qualifications);
         return findRoleMembershipForGroupAndRole(groupId, role, contextInfo);
     }
 
+    protected Group findCreateGroupMatchingOrg(String orgId, ContextInfo contextInfo)
+            throws MissingParameterException, PermissionDeniedException, InvalidParameterException, OperationFailedException, DoesNotExistException {
 
-    protected Group findCreateGroupMatchingOrg(String orgId, ContextInfo contextInfo) {
         Group group = findGroupMatchingOrg(orgId, contextInfo);
         if (group == null) {
             group = createGroupMatchingOrg(orgId, contextInfo);
@@ -158,64 +166,69 @@ public class HoldIssueAuthorizingOrgServiceFacadeImpl implements HoldIssueAuthor
         return group;
     }
 
-    protected Group findGroupMatchingOrg(String orgId, ContextInfo contextInfo) {
-        OrgInfo org = null;
-        Group group = null;
-        try {
-            org = this.getOrganizationService().getOrg(orgId, contextInfo);
-        QueryByCriteria query = QueryByCriteria.Builder.fromPredicates(PredicateFactory.and(
-                PredicateFactory.in("namespaceCode", PermissionServiceConstants.KS_HLD_NAMESPACE), PredicateFactory.in("name","Functionaries for" + org.getShortName() )));
-        List<Group> groups = this.getGroupService().findGroups(query).getResults();
-        if (groups.isEmpty()){
-            return null;
-        }
-            group = KSCollectionUtils.getRequiredZeroElement(groups);
-        } catch (Exception e) {
+    protected Group findGroupMatchingOrg(String orgId, ContextInfo contextInfo)
+            throws PermissionDeniedException, MissingParameterException, InvalidParameterException, OperationFailedException,
+            DoesNotExistException {
 
-        }
-        return group;
+        OrgInfo org = this.getOrganizationService().getOrg(orgId, contextInfo);
+        QueryByCriteria query = QueryByCriteria.Builder.fromPredicates(PredicateFactory.and(
+                PredicateFactory.in("namespaceCode", PermissionServiceConstants.KS_HLD_NAMESPACE), PredicateFactory.in("name", "Hold Functionaries for " + org.getShortName())));
+        List<Group> groups = this.getGroupService().findGroups(query).getResults();
+        return KSCollectionUtils.getOptionalZeroElement(groups);
     }
 
-    protected Group createGroupMatchingOrg(String orgId, ContextInfo contextInfo) {
-        OrgInfo org = null;
-        try {
-            org = this.getOrganizationService().getOrg(orgId, contextInfo);
-        } catch (Exception e) {
+    protected Group createGroupMatchingOrg(String orgId, ContextInfo contextInfo)
+            throws PermissionDeniedException, MissingParameterException, InvalidParameterException, OperationFailedException,
+            DoesNotExistException {
 
-        }
-
-        Group.Builder builder;
-        builder = Group.Builder.create(PermissionServiceConstants.KS_HLD_NAMESPACE, "Hold Functionaries for " + org.getShortName() , KimPermissionConstants.KRAD_VIEW_KIM_TYPE_ID);
+        OrgInfo org = this.getOrganizationService().getOrg(orgId, contextInfo);
+        KimType holdAuthType = KimApiServiceLocator.getKimTypeInfoService().findKimTypeByNameAndNamespace(PermissionServiceConstants.KS_HLD_NAMESPACE, "KS Hold Authorization Role Type");
+        Group.Builder builder = Group.Builder.create(PermissionServiceConstants.KS_HLD_NAMESPACE, "Hold Functionaries for " + org.getShortName(),
+                holdAuthType.getId());
         builder.setNamespaceCode(PermissionServiceConstants.KS_HLD_NAMESPACE);
         builder.setName("Hold Functionaries for " + org.getShortName());
+        builder.setActive(true);
+        Group group = this.getGroupService().createGroup(builder.build());
+
+        builder = Group.Builder.create(group);
         Map<String, String> attributes = new HashMap<String, String>();
-        attributes.put("ORG_ID", org.getId());
+        attributes.put(HOLD_AUTHORIZATION_ORGID, org.getId());
         builder.setAttributes(attributes);
-        return this.getGroupService().createGroup(builder.build());
+        return this.getGroupService().updateGroup(builder.build());
     }
 
     @Override
-    public List<OrgInfo> getBindingByRoleAndHoldIssue(String roleId, String holdIssueId, ContextInfo contextInfo){
-    // I leave this as an exercise for the developer
-        List<OrgInfo> orgs = new ArrayList<OrgInfo>();
+    public List<OrgInfo> getBindingByRoleAndHoldIssue(String roleId, String holdIssueId, ContextInfo contextInfo)
+            throws PermissionDeniedException, MissingParameterException, InvalidParameterException, OperationFailedException, DoesNotExistException {
+
         QueryByCriteria query = QueryByCriteria.Builder.fromPredicates(PredicateFactory.and(
-                PredicateFactory.in("roleId",roleId)));
-        List<RoleMember> roleMemberList=   this.getRoleService().findRoleMembers(query).getResults();
-        //orgs = this.getOrganizationService().getOrgsByIds();
-        return null;
+                PredicateFactory.in("roleId", roleId), PredicateFactory.in("typeCode", MemberType.GROUP.getCode())));
+        List<RoleMembership> roleMemberships = KimApiServiceLocator.getRoleService().findRoleMemberships(query).getResults();
+
+        List<String> groupIds = new ArrayList<>();
+        for(RoleMembership roleMembership : roleMemberships){
+            if(roleMembership.getQualifier().containsKey(HOLD_AUTHORIZATION_ISSUEIDS)){
+                String holdIssueIds = roleMembership.getQualifier().get(HOLD_AUTHORIZATION_ISSUEIDS);
+                if(holdIssueIds.contains(holdIssueId)){
+                    groupIds.add(roleMembership.getMemberId());
+                }
+            }
+        }
+
+        List<OrgInfo> orgs = new ArrayList<>();
+        for(String groupId : groupIds){
+            Map<String, String> attributes = this.getGroupService().getAttributes(groupId);
+            if(attributes.containsKey(HOLD_AUTHORIZATION_ORGID)) {
+                orgs.add(this.getOrganizationService().getOrg(attributes.get(HOLD_AUTHORIZATION_ORGID), contextInfo));
+            }
+        }
+
+        return orgs;
     }
-
-
-    public List<HoldIssueInfo> getBindingByRoleAndOrg(String roleId, String orgId, ContextInfo contextInfo) {
-        return null;
-    }
-    // I leave this as an exercise for the developer
-
 
     public PermissionService getPermissionService() {
         if (permissionService == null) {
-            permissionService = (PermissionService) GlobalResourceLoader.getService(new QName(PermissionServiceConstants.PERMISSION_SERVICE_NAMESPACE,
-                    PermissionServiceConstants.PERMISSION_SERVICE_NAME_LOCAL_PART));
+            permissionService = KimApiServiceLocator.getPermissionService();
         }
         return permissionService;
     }

@@ -1,9 +1,9 @@
 'use strict';
 
 angular.module('regCartApp')
-    .controller('MainCtrl', ['$scope', '$location', '$state', '$modal', 'APP_URL', 'DEFAULT_TERM',
+    .controller('MainCtrl', ['$scope', '$window', '$location', '$state', '$modal', 'APP_URL', 'DEFAULT_TERM',
         'GlobalVarsService', 'LoginService', 'TermsService', 'ScheduleService', 'CartService', 'MessageService',
-    function MainCtrl($scope, $location, $state, $modal, APP_URL, DEFAULT_TERM, GlobalVarsService, LoginService, TermsService, ScheduleService, CartService, MessageService) {
+    function MainCtrl($scope, $window, $location, $state, $modal, APP_URL, DEFAULT_TERM, GlobalVarsService, LoginService, TermsService, ScheduleService, CartService, MessageService) {
         console.log('>> MainCtrl');
 
         $scope.appUrl = APP_URL.replace('/services/', '/');
@@ -57,20 +57,27 @@ angular.module('regCartApp')
         // Load up the messages
         MessageService.getMessages();
 
-        $scope.logout = function(){
+        var logout = function() {
+            console.log('Logging out');
             LoginService.logout().query({}, function () {
-                //After logging in, reload the page.
-                console.log('Logging out');
-                location.reload();
+                // After logging in, reload the page.
+                var url = $location.absUrl();
+                url = url.substring(0, url.indexOf('#'));
+
+                console.log('- Logged out, redirecting to: ' + url);
+                $window.location.href = url;
             });
         };
+        $scope.logout = logout;
 
         $scope.$on('sessionExpired', function () {
             console.log('Received event sessionExpired');
             $modal.open({
                 backdrop: 'static',
                 templateUrl: 'sessionExpired.html',
-                controller: 'SessionCtrl',
+                controller: ['$scope', function($s) {
+                    $s.logout = logout;
+                }],
                 size: 'sm'
             });
         });
@@ -171,14 +178,4 @@ angular.module('regCartApp')
                 });
             }
         }
-    }])
-
-    .controller('SessionCtrl', ['$scope', 'LoginService', function SessionCtrl($scope, LoginService) {
-        $scope.logout = function() {
-            LoginService.logout().query({}, function () {
-                //After logging in, reload the page.
-                console.log('Session expired...logging out');
-                location.reload();
-            });
-        };
     }]);

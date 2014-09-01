@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('regCartApp')
-    .controller('SearchCtrl', ['$scope', '$filter', '$state', 'CourseSearchFacets', 'TermsService', 'SearchService',
-    function SearchCtrl($scope, $filter, $state, CourseSearchFacets, TermsService, SearchService) {
+    .controller('SearchCtrl', ['$scope', '$filter', '$state', '$timeout', 'CourseSearchFacets', 'TermsService', 'SearchService',
+    function SearchCtrl($scope, $filter, $state, $timeout, CourseSearchFacets, TermsService, SearchService) {
         console.log('>> SearchCtrl');
 
         $scope.facets = CourseSearchFacets; // Facet definitions
@@ -52,11 +52,12 @@ angular.module('regCartApp')
 
             // Build out the facet filter values
             var selectedFacets = {};
-            angular.forEach($scope.facets, function(facet) {
+            for (var i = 0; i < $scope.facets.length; i++) {
+                var facet = $scope.facets[i];
                 if (angular.isArray(facet.selectedOptions) && facet.selectedOptions.length > 0) {
                     selectedFacets[facet.id] = facet.selectedOptions;
                 }
-            });
+            }
 
             // Push the selected facets into the URL parameters as a JSON string since ui-router doesn't handle object parameters
             params.filters = Object.keys(selectedFacets).length > 0 ? JSON.stringify(selectedFacets) : null;
@@ -79,14 +80,16 @@ angular.module('regCartApp')
                 selectedFacets = JSON.parse(params.filters) || {};
             }
 
-            angular.forEach($scope.facets, function(facet) {
-                var selection = [];
+            for (var i = 0; i < $scope.facets.length; i++) {
+                var selection = [],
+                    facet = $scope.facets[i];
+
                 if (angular.isDefined(selectedFacets[facet.id])) {
                     selection = selectedFacets[facet.id];
                 }
 
                 facet.selectedOptions = selection;
-            });
+            }
         }
 
 
@@ -95,19 +98,27 @@ angular.module('regCartApp')
             var filter = $filter('facetFilter'),
                 filtered = [];
 
-            angular.forEach($scope.searchResults, function(item) {
-                if (filter(item, $scope.facets)) {
-                    filtered.push(item);
+            for (var i = 0; i < $scope.searchResults.length; i++) {
+                if (filter($scope.searchResults[i], $scope.facets)) {
+                    filtered.push($scope.searchResults[i]);
                 }
-            });
+            }
 
             $scope.filteredResults = filtered;
         }
 
         // Watch for selected facets to change, persist the change & filter the results
+        var facetTimeoutPromise;
         $scope.$watch('facets', function() {
-            persistSearchState();
-            filterResults();
+            if (facetTimeoutPromise) {
+                // Cancel out any previous timer that's still running (if they click before the timeout fires).
+                $timeout.cancel(facetTimeoutPromise);
+            }
+
+            facetTimeoutPromise = $timeout(function() {
+                filterResults();
+                persistSearchState();
+            }, 20);
         }, true);
 
 
@@ -176,20 +187,19 @@ angular.module('regCartApp')
 
     .filter('facetFilter', function() {
         return function(item, facets) {
-            var select = true;
-            angular.forEach(facets, function(facet) {
-                if (select) {
-                    // Only filter on the facet if it has selected options
-                    if (angular.isArray(facet.selectedOptions) && facet.selectedOptions.length > 0) {
-                        if (!facet.filter(item, facet.selectedOptions)) {
-                            // The item does not match the facet filter. Exclude it.
-                            select = false;
-                        }
+            for (var i = 0; i < facets.length; i++) {
+                var facet = facets[i];
+
+                // Only filter on the facet if it has selected options
+                if (angular.isArray(facet.selectedOptions) && facet.selectedOptions.length > 0) {
+                    if (!facet.filter(item, facet.selectedOptions)) {
+                        // The item does not match the facet filter. Exclude it.
+                        return false;
                     }
                 }
-            });
+            }
 
-            return select;
+            return true;
         };
     })
 

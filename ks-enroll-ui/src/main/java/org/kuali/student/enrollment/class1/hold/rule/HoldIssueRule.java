@@ -52,6 +52,7 @@ public class HoldIssueRule extends KsMaintenanceDocumentRuleBase {
         }
 
         holdIssue.setIsHoldIssueTermBased(holdWrapper.getTermBased());
+        holdIssue.setMaintainHistoryOfApplicationOfHold(holdWrapper.getHoldHistory());
         try {
             holdIssue.setFirstApplicationTermId(searchForTermIdByCode(holdWrapper.getFirstTerm()));
         } catch (Exception e){

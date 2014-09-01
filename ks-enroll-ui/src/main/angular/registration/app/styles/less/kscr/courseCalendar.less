@@ -6,6 +6,27 @@
     margin: 1rem 0.5rem 2rem;
 }
 
+
+// Calendar orientation helper widgets
+.kscr-CourseCalendar-orientation {
+    right: -99rem; // Position outside of normal view
+    position: absolute;
+    top: -999rem;
+
+    &--horizontal,
+    &--vertical {
+        display: none;
+    }
+
+    &--horizontal {
+        display: none;
+    }
+    &--vertical {
+        display: block;
+    }
+}
+
+
 // Header/Top row of course calendar (including the legend)
 .kscr-CourseCalendar-header {
 
@@ -117,7 +138,7 @@
     position: relative;
 
     .kscr-CourseCalendar-courseBlock-wrap {
-        left: -999em; // Initialize offset to the left. This prevents them popping into place while the browser is rendering.
+        right: -99rem; // Initialize offset to the right. This prevents them popping into place while the browser is rendering.
         position: absolute;
         top: 0;
     }
@@ -300,6 +321,11 @@
     border: none;
     padding: 0;
 
+    // Show the vertical layout helper element when in small format
+    .kscr-CourseCalendar-orientation--vertical {
+        display: block;
+    }
+
     .kscr-CourseCalendar-calendar {
         .util-Grid;
         .kscr-Card-mixin();
@@ -396,6 +422,11 @@
 /*** BEGIN Large Format Styles ***/
 @media screen and (min-width: @largeFormatMin) {
     .kscr-CourseCalendar--large {
+        // Show the horizontal layout helper element when in small format
+        .kscr-CourseCalendar-orientation--horizontal {
+            display: block;
+        }
+
         .kscr-CourseCalendar-day {
             align-items: center; // Center all items in the layout (day label & content)
         }

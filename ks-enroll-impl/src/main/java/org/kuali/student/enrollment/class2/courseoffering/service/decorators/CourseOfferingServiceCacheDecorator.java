@@ -18,17 +18,19 @@
  */
 package org.kuali.student.enrollment.class2.courseoffering.service.decorators;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import net.sf.ehcache.Cache;
 import net.sf.ehcache.CacheManager;
 import net.sf.ehcache.Element;
-import net.sf.ehcache.search.Query;
-import net.sf.ehcache.search.Result;
-import net.sf.ehcache.search.Results;
+
 import org.apache.commons.collections.keyvalue.MultiKey;
-import org.jacorb.imr.Registration;
 import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
-import org.kuali.student.enrollment.class1.lui.service.decorators.LuiServiceDecorator;
+import org.kuali.student.common.cache.KSCacheUtils;
+import org.kuali.student.common.cache.KSCacheUtils.BulkCacheElementLoader;
+import org.kuali.student.common.cache.KSCacheUtils.SingleCacheElementLoader;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingClusterInfo;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingDisplayInfo;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
@@ -37,16 +39,8 @@ import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
 import org.kuali.student.enrollment.courseoffering.dto.SeatPoolDefinitionInfo;
-import org.kuali.student.enrollment.courseoffering.infc.ActivityOffering;
-import org.kuali.student.enrollment.courseofferingset.dto.SocRolloverResultItemInfo;
-import org.kuali.student.enrollment.lui.dto.LuiInfo;
-import org.kuali.student.enrollment.lui.dto.LuiLuiRelationInfo;
-import org.kuali.student.enrollment.lui.service.LuiService;
-import org.kuali.student.r2.common.dto.BulkStatusInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
-import org.kuali.student.r2.common.dto.TimeOfDayInfo;
-import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
 import org.kuali.student.r2.common.exceptions.DependentObjectsExistException;
@@ -58,13 +52,7 @@ import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
-import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
-import org.kuali.student.r2.core.scheduling.dto.TimeSlotInfo;
-
-import javax.jws.WebParam;
-import java.util.ArrayList;
-import java.util.List;
 
 /*
  * Decorator for CourseOfferingService to add caching to CourseOffering service methods.
@@ -292,72 +280,110 @@ public class CourseOfferingServiceCacheDecorator extends CourseOfferingServiceDe
     }
 
     @Override
-    public CourseOfferingInfo getCourseOffering(String courseOfferingId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public CourseOfferingInfo getCourseOffering(String courseOfferingId, final ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         Cache cache = getCacheManager().getCache(courseOfferingCacheName);
-        Element cachedResult = cache.get(courseOfferingId);
-        Object result;
-        if (cachedResult == null) {
-            result = getNextDecorator().getCourseOffering(courseOfferingId, context);
-            cache.put(new Element(courseOfferingId, result));
-        } else {
-            result = cachedResult.getValue();
-        }
-        return (CourseOfferingInfo) result;
+        
+        return KSCacheUtils.cacheAwareLoad(cache, courseOfferingId, new SingleCacheElementLoader<CourseOfferingInfo>() {
+
+			@Override
+			public CourseOfferingInfo load(String id)
+					throws DoesNotExistException, OperationFailedException,
+					InvalidParameterException, MissingParameterException,
+					PermissionDeniedException {
+				return getNextDecorator().getCourseOffering(id, context);
+			}
+        	
+		});
+        
     }
 
     @Override
-    public List<ActivityOfferingClusterInfo> getActivityOfferingClustersByIds(List<String> activityOfferingClusterIds, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        List<ActivityOfferingClusterInfo> result = new ArrayList<ActivityOfferingClusterInfo>();
-        for (String id : activityOfferingClusterIds) {
-            result.add(getActivityOfferingCluster(id, context));
-        }
-        return result;
+    public List<ActivityOfferingClusterInfo> getActivityOfferingClustersByIds(List<String> activityOfferingClusterIds, final ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        
+        Cache cache = getCacheManager().getCache(activityOfferingClusterCacheName);
+        
+        return KSCacheUtils.cacheAwareBulkLoad(cache, activityOfferingClusterIds, new BulkCacheElementLoader<ActivityOfferingClusterInfo>() {
+
+			@Override
+			public List<ActivityOfferingClusterInfo> load(List<String> cacheMissIds)
+					throws DoesNotExistException, OperationFailedException, InvalidParameterException, MissingParameterException, PermissionDeniedException {
+				
+					return getNextDecorator().getActivityOfferingClustersByIds(cacheMissIds, context);
+			}
+        	
+		});
     }
 
     @Override
-    public List<RegistrationGroupInfo> getRegistrationGroupsByIds(List<String> registrationGroupIds, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<RegistrationGroupInfo> getRegistrationGroupsByIds(List<String> registrationGroupIds, final ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 
-        List<RegistrationGroupInfo> result = new ArrayList<RegistrationGroupInfo>();
-        for (String id : registrationGroupIds) {
-            result.add(getRegistrationGroup(id, context));
-        }
-        return result;
+        Cache cache = getCacheManager().getCache(registrationGroupCacheName);
+        
+        return KSCacheUtils.cacheAwareBulkLoad(cache, registrationGroupIds, new BulkCacheElementLoader<RegistrationGroupInfo>() {
 
+			@Override
+			public List<RegistrationGroupInfo> load(List<String> cacheMissIds)
+					throws DoesNotExistException, OperationFailedException,
+					InvalidParameterException, MissingParameterException,
+					PermissionDeniedException {
+				return getNextDecorator().getRegistrationGroupsByIds(cacheMissIds, context);
+			}
+        	
+		});
+        
     }
 
     @Override
-    public List<CourseOfferingInfo> getCourseOfferingsByIds(List<String> courseOfferingIds, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        List<CourseOfferingInfo> result = new ArrayList<CourseOfferingInfo>();
-        for (String id : courseOfferingIds) {
-            result.add(getCourseOffering(id, context));
-        }
-        return result;
+    public List<CourseOfferingInfo> getCourseOfferingsByIds(List<String> courseOfferingIds, final ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        
+        Cache cache = getCacheManager().getCache(courseOfferingCacheName);
+        
+        return KSCacheUtils.cacheAwareBulkLoad(cache, courseOfferingIds, new BulkCacheElementLoader<CourseOfferingInfo>() {
+
+			@Override
+			public List<CourseOfferingInfo> load(List<String> cacheMissIds)
+					throws DoesNotExistException, OperationFailedException,
+					InvalidParameterException, MissingParameterException,
+					PermissionDeniedException {
+				return getNextDecorator().getCourseOfferingsByIds(cacheMissIds, context);
+			}
+        	
+		});
     }
 
     @Override
     public List<CourseOfferingDisplayInfo> getCourseOfferingDisplaysByIds(List<String> courseOfferingIds, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 
-        List<CourseOfferingDisplayInfo> result = new ArrayList<CourseOfferingDisplayInfo>();
-        for (String id : courseOfferingIds) {
-            result.add(getCourseOfferingDisplay(id, context));
-        }
-        return result;
+    	  return getNextDecorator().getCourseOfferingDisplaysByIds(courseOfferingIds, context);
+    	  
+    	  // TODO KSENROLL-14538 for now delegating to the next decorator is more efficient.
+    	  
+//        List<CourseOfferingDisplayInfo> result = new ArrayList<CourseOfferingDisplayInfo>();
+//        for (String id : courseOfferingIds) {
+//            result.add(getCourseOfferingDisplay(id, context));
+//        }
+//        return result;
     }
 
     @Override
-    public ActivityOfferingDisplayInfo getActivityOfferingDisplay(String activityOfferingId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public ActivityOfferingDisplayInfo getActivityOfferingDisplay(String activityOfferingId, final ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 
         Cache cache = getCacheManager().getCache(activityOfferingCacheName);
+        
         MultiKey cacheKey = new MultiKey("ActivityOfferingDisplay", activityOfferingId);
-        Element cachedResult = cache.get(cacheKey);
-        Object result;
-        if (cachedResult == null) {
-            result = getNextDecorator().getActivityOfferingDisplay(activityOfferingId, contextInfo);
-            cache.put(new Element(cacheKey, result));
-        } else {
-            result = cachedResult.getValue();
-        }
-        return (ActivityOfferingDisplayInfo) result;
+
+        return KSCacheUtils.cacheAwareLoad(cache, activityOfferingId, cacheKey, new SingleCacheElementLoader<ActivityOfferingDisplayInfo>() {
+
+			@Override
+			public ActivityOfferingDisplayInfo load(String id)
+					throws DoesNotExistException, OperationFailedException,
+					InvalidParameterException, MissingParameterException,
+					PermissionDeniedException {
+				return getNextDecorator().getActivityOfferingDisplay(id, contextInfo);
+			}
+        	
+		});
+        
     }
 
     @Override
@@ -370,42 +396,59 @@ public class CourseOfferingServiceCacheDecorator extends CourseOfferingServiceDe
     }
 
     @Override
-    public ActivityOfferingInfo getActivityOffering(String activityOfferingId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public ActivityOfferingInfo getActivityOffering(String activityOfferingId, final ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 
         Cache cache = getCacheManager().getCache(activityOfferingCacheName);
-        Element cachedResult = cache.get(activityOfferingId);
-        Object result;
-        if (cachedResult == null) {
-            result = getNextDecorator().getActivityOffering(activityOfferingId, context);
-            cache.put(new Element(activityOfferingId, result));
-        } else {
-            result = cachedResult.getValue();
-        }
-        return (ActivityOfferingInfo) result;
+        
+        return KSCacheUtils.cacheAwareLoad(cache, activityOfferingId, new SingleCacheElementLoader<ActivityOfferingInfo>() {
+
+			@Override
+			public ActivityOfferingInfo load(String id)
+					throws DoesNotExistException, OperationFailedException,
+					InvalidParameterException, MissingParameterException,
+					PermissionDeniedException {
+				return getNextDecorator().getActivityOffering(id, context);
+			}
+		
+        });
+       
     }
 
     @Override
-    public List<ActivityOfferingInfo> getActivityOfferingsByIds(List<String> activityOfferingIds, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<ActivityOfferingInfo> getActivityOfferingsByIds(List<String> activityOfferingIds, final ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 
-        List<ActivityOfferingInfo> result = new ArrayList<ActivityOfferingInfo>();
-        for (String id : activityOfferingIds) {
-            result.add(getActivityOffering(id, context));
-        }
-        return result;
+        Cache cache = getCacheManager().getCache(activityOfferingCacheName);
+        
+        return KSCacheUtils.cacheAwareBulkLoad(cache, activityOfferingIds, new BulkCacheElementLoader<ActivityOfferingInfo>() {
+
+			@Override
+			public List<ActivityOfferingInfo> load(List<String> cacheMissIds)
+					throws DoesNotExistException, OperationFailedException, InvalidParameterException, MissingParameterException, PermissionDeniedException {
+				
+					return getNextDecorator().getActivityOfferingsByIds(cacheMissIds, context);
+			}
+        	
+		});
+        
+       
     }
 
     @Override
-    public TypeInfo getActivityOfferingType(String activityOfferingTypeKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public TypeInfo getActivityOfferingType(String activityOfferingTypeKey, final ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         Cache cache = getCacheManager().getCache(activityOfferingTypeCacheName);
-        Element cachedResult = cache.get(activityOfferingTypeKey);
-        Object result;
-        if (cachedResult == null) {
-            result = getNextDecorator().getActivityOfferingType(activityOfferingTypeKey, context);
-            cache.put(new Element(activityOfferingTypeKey, result));
-        } else {
-            result = cachedResult.getValue();
-        }
-        return (TypeInfo) result;
+        
+        return KSCacheUtils.cacheAwareLoad(cache, activityOfferingTypeKey, new SingleCacheElementLoader<TypeInfo>() {
+
+			@Override
+			public TypeInfo load(String key) throws DoesNotExistException,
+					OperationFailedException, InvalidParameterException,
+					MissingParameterException, PermissionDeniedException {
+				return getNextDecorator().getActivityOfferingType(key, context);
+			}
+		
+        	
+        });
+       
     }
 
     @Override
@@ -608,11 +651,8 @@ public class CourseOfferingServiceCacheDecorator extends CourseOfferingServiceDe
 
         List<String> regGroupIds = getNextDecorator().searchForRegistrationGroupIds(qbcBuilder.build(), context);
 
-        List<RegistrationGroupInfo> result = new ArrayList<RegistrationGroupInfo>();
-        for (String id : regGroupIds) {
-            // Look for reg group in the cache before retrieving from db.
-            result.add(getRegistrationGroup(id, context));
-        }
+        List<RegistrationGroupInfo> result = getRegistrationGroupsByIds(regGroupIds, context);
+
         return result;
     }
 

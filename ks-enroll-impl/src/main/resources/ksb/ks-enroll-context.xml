@@ -1887,7 +1887,6 @@
                 <bean class="org.kuali.student.core.krms.termresolver.ContextInfo2AsOfDateTermResolver" />
                 <bean class="org.kuali.student.core.krms.termresolver.AtpId2AtpTermResolver" />
                 <bean class="org.kuali.student.enrollment.class2.courseoffering.krms.termresolver.DateInKeyDateRangeTermResolver" />
-                <bean class="org.kuali.student.enrollment.krms.termresolver.PersonId2EntityIdTermResolver" />
                 <bean class="org.kuali.student.enrollment.krms.termresolver.CluId2CluInfoTermResolver">
                     <property name="cluService" ref="CluService"/>
                 </bean>
@@ -1913,6 +1912,14 @@
                 <bean class="org.kuali.student.enrollment.class2.courseoffering.krms.termresolver.CourseRegistrationKeyDateTermResolver">
                     <property name="atpService" ref="AtpService"/>
                     <property name="luiService" ref="LuiService"/>
+                </bean>
+                <bean class="org.kuali.student.enrollment.class2.courseoffering.krms.termresolver.CourseWaitlistedAttemptsTermResolver">
+                    <property name="cluService" ref="CluService" />
+                    <property name="courseOfferingService" ref="CourseOfferingService" />
+                </bean>
+                <bean class="org.kuali.student.enrollment.class2.courseoffering.krms.termresolver.CourseSimulatedAttemptsTermResolver">
+                    <property name="cluService" ref="CluService" />
+                    <property name="courseOfferingService" ref="CourseOfferingService" />
                 </bean>
             </list>
         </property>
@@ -1951,7 +1958,7 @@
     </bean>
 
 
-    <bean id="HoldIssueAuthorizingOrgServiceFacade" class="org.kuali.student.enrollment.class1.hold.service.impl.facade.HoldIssueAuthorizingOrgServiceFacadeImpl">
+    <bean id="HoldIssueAuthorizingOrgServiceFacade" class="org.kuali.student.enrollment.class1.hold.service.facade.HoldIssueAuthorizingOrgServiceFacadeImpl">
         <property name="holdService" ref="HoldService" />
         <property name="organizationService" ref="orgServiceImplNew"/>
     </bean>
@@ -1961,7 +1968,7 @@
         <property name="serviceDefinition">
             <bean class="org.kuali.rice.ksb.api.bus.support.JavaServiceDefinition">
                 <property name="service" ref="HoldIssueAuthorizingOrgServiceFacade" /> <!-- Must match id in the bean -->
-                <property name="serviceInterface" value="org.kuali.student.enrollment.class1.hold.service.impl.facade.HoldIssueAuthorizingOrgFacade" />
+                <property name="serviceInterface" value="org.kuali.student.enrollment.class1.hold.service.facade.HoldIssueAuthorizingOrgFacade" />
                 <property name="localServiceName" value="HoldIssueAuthorizingOrgFacade" /> <!-- Part of the QName -->
                 <property name="serviceNameSpaceURI" value="http://student.kuali.org/wsdl/HoldIssueAuthorizingOrgFacade" />
                 <property name="busSecurity" value="${ks.enroll.bus.security}" />

@@ -18,20 +18,31 @@
  */
 package org.kuali.student.enrollment.class1.lui.service.decorators;
 
-import net.sf.ehcache.CacheManager;
+import java.util.List;
+
 import net.sf.ehcache.Cache;
+import net.sf.ehcache.CacheManager;
 import net.sf.ehcache.Element;
 import net.sf.ehcache.search.Query;
 import net.sf.ehcache.search.Result;
 import net.sf.ehcache.search.Results;
+
+import org.kuali.student.common.cache.KSCacheUtils;
+import org.kuali.student.common.cache.KSCacheUtils.BulkCacheElementLoader;
+import org.kuali.student.common.cache.KSCacheUtils.SingleCacheElementLoader;
 import org.kuali.student.enrollment.lui.dto.LuiInfo;
 import org.kuali.student.enrollment.lui.dto.LuiLuiRelationInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
-import org.kuali.student.r2.common.exceptions.*;
-
-import java.util.ArrayList;
-import java.util.List;
+import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
+import org.kuali.student.r2.common.exceptions.DependentObjectsExistException;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.exceptions.MissingParameterException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.common.exceptions.ReadOnlyException;
+import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 
 /*
  * Decorator for LuiService to add caching to lui service methods.
@@ -47,42 +58,53 @@ public class LuiServiceCacheDecorator extends LuiServiceDecorator {
     private CacheManager cacheManager;
 
     @Override
-    public LuiInfo getLui(String luiId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public LuiInfo getLui(String luiId, final ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         Cache luiCache = getCacheManager().getCache(luiCacheName);
-        Element cachedResult = luiCache.get(luiId);
-        Object result;
-        if (cachedResult == null) {
-            result = getNextDecorator().getLui(luiId, contextInfo);
-            luiCache.put(new Element(luiId, result));
-        } else {
-            result = cachedResult.getValue();
-        }
+        
+        return KSCacheUtils.cacheAwareLoad(luiCache, luiId, new SingleCacheElementLoader<LuiInfo>() {
 
-        return (LuiInfo) result;
+			@Override
+			public LuiInfo load(String key) throws DoesNotExistException,
+					OperationFailedException, InvalidParameterException,
+					MissingParameterException, PermissionDeniedException {
+				return getNextDecorator().getLui(key, contextInfo);
+			}
+        	
+		});
+        
     }
 
     @Override
-    public List<LuiInfo> getLuisByIds(List<String> luiIds, ContextInfo contextInfo)
+    public List<LuiInfo> getLuisByIds(List<String> luiIds, final ContextInfo contextInfo)
             throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException,
             PermissionDeniedException {
-        List<LuiInfo> luiInfos = new ArrayList<LuiInfo>();
-        for (String id : luiIds) {
-            luiInfos.add(getLui(id, contextInfo));
-        }
-        return luiInfos;
+    	
+    	Cache luiCache = getCacheManager().getCache(luiCacheName);
+    	 
+        return KSCacheUtils.cacheAwareBulkLoad(luiCache, luiIds, new BulkCacheElementLoader<LuiInfo>() {
+
+			@Override
+			public List<LuiInfo> load(List<String> cacheMissKeys)
+					throws DoesNotExistException, OperationFailedException,
+					InvalidParameterException, MissingParameterException,
+					PermissionDeniedException {
+				return getNextDecorator().getLuisByIds(cacheMissKeys, contextInfo);
+			}
+		
+        });
     }
 
     @Override
     public List<LuiInfo> getLuisByAtpAndType(String atpId, String luiTypeKey, ContextInfo contextInfo) throws
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         List<String> luiIds = getNextDecorator().getLuiIdsByAtpAndType(atpId, luiTypeKey, contextInfo);
+        
         try {
-            // Look for LuiInfos on cache decorator.
-            return getLuisByIds(luiIds, contextInfo);
-        } catch (DoesNotExistException e) {
-            throw new OperationFailedException(e);
-        }
+			return getLuisByIds(luiIds, contextInfo);
+		} catch (DoesNotExistException e) {
+			throw new OperationFailedException("Failed to do actual load of luis by atp("+atpId+") and lui type ("+luiTypeKey+")", e);
+		}
     }
 
     @Override
@@ -125,51 +147,54 @@ public class LuiServiceCacheDecorator extends LuiServiceDecorator {
             OperationFailedException, PermissionDeniedException {
 
         List<String> luiIds = this.getNextDecorator().getLuiIdsByRelatedLuiAndRelationType(relatedLuiId, luiLuiRelationTypeKey, context);
-        List<LuiInfo> infoList = new ArrayList<LuiInfo>();
+        
         try {
-            for (String luiId : luiIds) {
-                infoList.add(this.getLui(luiId, context));
-            }
+        	return getLuisByIds(luiIds, context);
         } catch (DoesNotExistException e) {
             throw new OperationFailedException(e);
         }
 
-        return infoList;
     }
 
     @Override
-    public LuiLuiRelationInfo getLuiLuiRelation(String luiLuiRelationId, ContextInfo contextInfo)
+    public LuiLuiRelationInfo getLuiLuiRelation(String luiLuiRelationId, final ContextInfo contextInfo)
             throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException,
             PermissionDeniedException {
         Cache luiCache = getCacheManager().getCache(luiLuiCacheName);
-        Element cachedResult = luiCache.get(luiLuiRelationId);
-        Object result;
-        if (cachedResult == null) {
-            result = getNextDecorator().getLuiLuiRelation(luiLuiRelationId, contextInfo);
-            luiCache.put(new Element(luiLuiRelationId, result));
-        } else {
-            result = cachedResult.getValue();
-        }
+        
+        return KSCacheUtils.cacheAwareLoad(luiCache, luiLuiRelationId, new SingleCacheElementLoader<LuiLuiRelationInfo>() {
 
-        return (LuiLuiRelationInfo) result;
+			@Override
+			public LuiLuiRelationInfo load(String key)
+					throws DoesNotExistException, OperationFailedException,
+					InvalidParameterException, MissingParameterException,
+					PermissionDeniedException {
+				return getNextDecorator().getLuiLuiRelation(key, contextInfo);
+			}
+		
+        });
     }
 
     @Override
     public List<LuiLuiRelationInfo> getLuiLuiRelationsByIds(List<String> luiLuiRelationIds,
-                                                            ContextInfo context)
+                                                            final ContextInfo context)
             throws InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
 
-        List<LuiLuiRelationInfo> result = new ArrayList<LuiLuiRelationInfo>();
-        try {
-            for (String relationdId : luiLuiRelationIds) {
-                result.add(this.getLuiLuiRelation(relationdId, context));
-            }
-        } catch (DoesNotExistException e) {
-            throw new OperationFailedException(e);
-        }
-        return result;
+        Cache cache = getCacheManager().getCache(luiLuiCacheName);
+        
+        return KSCacheUtils.cacheAwareBulkLoad(cache, luiLuiRelationIds, new BulkCacheElementLoader<LuiLuiRelationInfo>() {
+
+			@Override
+			public List<LuiLuiRelationInfo> load(List<String> cacheMissKeys)
+					throws DoesNotExistException, OperationFailedException,
+					InvalidParameterException, MissingParameterException,
+					PermissionDeniedException {
+				return getNextDecorator().getLuiLuiRelationsByIds(cacheMissKeys, context);
+			}
+		
+        });
     }
 
     @Override
@@ -178,17 +203,13 @@ public class LuiServiceCacheDecorator extends LuiServiceDecorator {
                                                             ContextInfo context)
             throws OperationFailedException, MissingParameterException, InvalidParameterException, PermissionDeniedException {
 
-        List<LuiInfo> result = new ArrayList<LuiInfo>();
         List<String> luiIds = getNextDecorator().getLuiIdsByLuiAndRelationType(luiId, luiLuiRelationTypeKey, context);
         try {
-            for (String resultId : luiIds) {
-                result.add(this.getLui(resultId, context));
-            }
+           return getLuisByIds(luiIds, context);
         } catch (DoesNotExistException e) {
             throw new OperationFailedException(e);
         }
 
-        return result;
     }
 
     @Override

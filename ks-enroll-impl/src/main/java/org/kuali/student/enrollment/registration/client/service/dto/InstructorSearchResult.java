@@ -10,13 +10,13 @@ import java.io.Serializable;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "CourseSearchResult", propOrder = {
         "displayName", "firstName", "lastName", "activityOfferingId",
-        "isPrimary"})
+        "isPrimary", "personId"})
 public class InstructorSearchResult implements Serializable {
     private String displayName;
     private String firstName;
     private String lastName;
     private String activityOfferingId;
-    private String principalId;
+    private String personId;
     private boolean isPrimary;
 
     public String getDisplayName() {
@@ -59,11 +59,11 @@ public class InstructorSearchResult implements Serializable {
         this.lastName = lastName;
     }
 
-    public String getPrincipalId() {
-        return principalId;
+    public String getPersonId() {
+        return personId;
     }
 
-    public void setPrincipalId(String principalId) {
-        this.principalId = principalId;
+    public void setPersonId(String personId) {
+        this.personId = personId;
     }
 }
