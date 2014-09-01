@@ -1,7 +1,6 @@
 package org.kuali.student.enrollment.class1.hold.service.impl;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.kim.api.role.Role;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
 import org.kuali.student.common.uif.service.impl.KSMaintainableImpl;
@@ -9,13 +8,12 @@ import org.kuali.student.common.util.security.ContextUtils;
 import org.kuali.student.enrollment.class1.hold.dto.AuthorizingOrgWrapper;
 import org.kuali.student.enrollment.class1.hold.dto.HoldIssueMaintenanceWrapper;
 import org.kuali.student.enrollment.class1.hold.util.HoldIssueConstants;
-import org.kuali.student.enrollment.class1.hold.service.impl.facade.HoldIssueAuthorizingOrgFacade;
+import org.kuali.student.enrollment.class1.hold.service.facade.HoldIssueAuthorizingOrgFacade;
 import org.kuali.student.enrollment.class1.hold.util.HoldResourceLoader;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
 import org.kuali.student.r2.core.hold.dto.HoldIssueInfo;
 import org.kuali.student.r2.core.organization.dto.OrgInfo;
 
-import javax.xml.namespace.QName;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;

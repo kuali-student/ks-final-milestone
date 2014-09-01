@@ -1,7 +1,7 @@
 package org.kuali.student.enrollment.class1.hold.util;
 
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
-import org.kuali.student.enrollment.class1.hold.service.impl.facade.HoldIssueAuthorizingOrgFacade;
+import org.kuali.student.enrollment.class1.hold.service.facade.HoldIssueAuthorizingOrgFacade;
 import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
 import org.kuali.student.r2.core.constants.AcademicCalendarServiceConstants;
 import org.kuali.student.r2.core.constants.HoldServiceConstants;
