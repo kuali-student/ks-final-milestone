@@ -1,7 +1,12 @@
-package org.kuali.student.enrollment.class1.hold.service.impl.facade;
+package org.kuali.student.enrollment.class1.hold.service.facade;
 
 import org.kuali.rice.kim.api.role.Role;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.exceptions.MissingParameterException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.core.organization.dto.OrgInfo;
 
 import java.util.List;
@@ -35,7 +40,7 @@ public interface HoldIssueAuthorizingOrgFacade {
      * @param role
      * @return
      */
-    void storeBinding(String holdIssueId, String orgId, Role role, ContextInfo contextInfo);
+    void storeBinding(String holdIssueId, String orgId, Role role, ContextInfo contextInfo) throws DoesNotExistException, MissingParameterException, InvalidParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
      * Retrieves binding by the Function and Hold Issue so we can display the list of orgs are associated with this hold issue and function.
@@ -45,5 +50,5 @@ public interface HoldIssueAuthorizingOrgFacade {
      * @return
      */
     // Fetch this
-    List<OrgInfo> getBindingByRoleAndHoldIssue(String roleId, String holdIssueId, ContextInfo contextInfo);
+    List<OrgInfo> getBindingByRoleAndHoldIssue(String roleId, String holdIssueId, ContextInfo contextInfo) throws PermissionDeniedException, MissingParameterException, InvalidParameterException, OperationFailedException, DoesNotExistException;
 }
