@@ -64,6 +64,8 @@ public class HoldInfoMaintainableImpl extends KSMaintainableImpl {
                 dataObject.setFirstTerm(getTermCodeForId(holdIssueInfo.getFirstApplicationTermId()));
                 dataObject.setLastTerm(getTermCodeForId(holdIssueInfo.getLastApplicationTermId()));
             }
+            //Setup AdminOrg <OrgInfo> data
+            dataObject.setOrgName(HoldResourceLoader.getOrganizationService().getOrg(holdIssueInfo.getOrganizationId(),ContextUtils.createDefaultContextInfo()).getShortName());
             dataObject.setHoldHistory(holdIssueInfo.getMaintainHistoryOfApplicationOfHold());
             dataObject.setHoldIssue(holdIssueInfo);
             List<OrgInfo> orgInfos = new ArrayList<OrgInfo>();

@@ -156,8 +156,8 @@ limitations under the License.
         <property name="style" value="margin-bottom:10px;"/>
         <property name="items">
             <list>
-                <bean id="holdIssueOwnOrg" parent="KS-Uif-InputField-LabelTop" p:label="Owning Organization"
-                      p:propertyName="holdIssue.organizationId" p:required="true">
+                <bean id="holdIssueOwnOrg" parent="KS-Uif-InputField-LabelTop" p:label="Organization"
+                      p:propertyName="orgName" p:required="true">
                     <property name="control">
                         <bean parent="KS-Uif-TextControl" p:size="20" p:disabled="true"/>
                     </property>
@@ -168,7 +168,7 @@ limitations under the License.
                             <property name="fieldConversions">
                                 <map>
                                     <entry key="id" value="holdIssue.organizationId"/>
-                                    <!--<entry key="shortName" value="orgName"/>-->
+                                    <entry key="shortName" value="orgName"/>
                                 </map>
                             </property>
                         </bean>
