@@ -42,6 +42,7 @@ public class HoldIssueConstants {
     public static final String HOLD_ISSUE_STATE_KEY = "stateKey";
     public static final String HOLD_ISSUE_FIRST_APP_TERM_ID = "firstApplicationTermId";
     public static final String HOLD_ISSUE_LAST_APP_TERM_ID = "lastApplicationTermId";
+    public static final String HOLD_ISSUE_LAST_APPLIED_DATE_ID = "holdLastAppliedDate";
     public static final String HOLD_ISSUE_HOLDISSUE_ELEMENTPATH = "document.newMaintainableObject.dataObject.holdIssue";
 
     //UI bean ids
@@ -56,6 +57,7 @@ public class HoldIssueConstants {
     public static final String HOLDS_ISSUE_MSG_ERROR_HOLDCODE_ALREADY_EXISTS = "error.hold.issue.code.exist";
     public static final String HOLDS_ISSUE_MSG_ERROR_FIRST_APPLICATION_TERMID = "error.hold.issue.first.application.term.id";
     public static final String HOLDS_ISSUE_MSG_ERROR_LAST_APPLICATION_TERMID = "error.hold.issue.last.application.term.id";
+    public static final String HOLDS_ISSUE_MSG_ERROR_INVALID_DATE_RANGE = "error.hold.daterange.invalid";
 
     //info Message keys
     public static final String HOLDS_ISSUE_MSG_INFO_HOLD_ISSUE_SAVE_SUCCESS = "info.enroll.save.success";

@@ -14,6 +14,7 @@ import org.kuali.student.common.util.security.ContextUtils;
 import org.kuali.student.enrollment.class1.hold.dto.HoldIssueMaintenanceWrapper;
 import org.kuali.student.enrollment.class1.hold.util.HoldIssueConstants;
 import org.kuali.student.enrollment.class1.hold.util.HoldResourceLoader;
+import org.kuali.student.enrollment.class2.acal.util.AcalCommonUtils;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingConstants;
 import org.kuali.student.enrollment.class2.registration.admin.util.AdminRegResourceLoader;
 import org.kuali.student.r2.common.datadictionary.DataDictionaryValidator;
@@ -49,6 +50,11 @@ public class HoldIssueRule extends KsMaintenanceDocumentRuleBase {
         } else{
             holdIssue.setDescr(new RichTextInfo());
             holdIssue.getDescr().setPlain(holdWrapper.getDescr());
+        }
+
+        //Check if the StartDate and EndDate is in range
+        if (!AcalCommonUtils.isValidDateRange(holdIssue.getFirstAppliedDate(), holdIssue.getLastAppliedDate())){
+            GlobalVariables.getMessageMap().putError(HoldIssueConstants.HOLD_ISSUE_LAST_APPLIED_DATE_ID,HoldIssueConstants.HOLDS_ISSUE_MSG_ERROR_INVALID_DATE_RANGE,AcalCommonUtils.formatDate(holdIssue.getFirstAppliedDate()), AcalCommonUtils.formatDate(holdIssue.getLastAppliedDate()));
         }
 
         holdIssue.setIsHoldIssueTermBased(holdWrapper.getTermBased());

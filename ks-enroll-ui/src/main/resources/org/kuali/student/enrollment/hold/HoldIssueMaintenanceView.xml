@@ -174,7 +174,7 @@ limitations under the License.
                         </bean>
                     </property>
                 </bean>
-                <bean  id="holdIssueOwnOrgContact" parent="KS-Uif-InputField-LabelTop" p:label="Organization Contact" p:propertyName="orgName">
+                <bean  id="holdIssueOwnOrgContact" parent="KS-Uif-InputField-LabelTop" p:label="Organization Contact" p:propertyName="orgContact">
                     <property name="control">
                         <bean parent="KS-Uif-TextControl" p:size="20" p:disabled="false"/>
                     </property>

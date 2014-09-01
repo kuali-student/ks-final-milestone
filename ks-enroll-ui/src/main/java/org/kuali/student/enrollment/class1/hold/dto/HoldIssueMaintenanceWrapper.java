@@ -38,6 +38,7 @@ public class HoldIssueMaintenanceWrapper implements Serializable {
     private String firstTerm;
     private String lastTerm;
     private Boolean holdHistory;
+    private String orgContact;
 
     private boolean isSaveSuccess;
 
@@ -155,6 +156,14 @@ public class HoldIssueMaintenanceWrapper implements Serializable {
 
     public void setProcessNames(List<ProcessInfo> processNames) {
         this.processNames = processNames;
+    }
+
+    public String getOrgContact() {
+        return orgContact;
+    }
+
+    public void setOrgContact(String orgContact) {
+        this.orgContact = orgContact;
     }
 
     public Map<String, String> getAdminOrg() {
