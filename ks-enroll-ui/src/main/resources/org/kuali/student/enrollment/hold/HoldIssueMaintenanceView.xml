@@ -91,7 +91,6 @@ limitations under the License.
                             <ref bean="KS-CreateHold-OrgSection"/>
                             <ref bean="KS-CreateHold-TermSection"/>
                             <ref bean="KS-CreateHold-AuthorizationSection"/>
-                            <ref bean="KS-CreateHold-ProcessSection"/>
                         </list>
                     </property>
                 </bean>
@@ -309,37 +308,6 @@ limitations under the License.
                                         <bean parent="KS-Uif-Delete-ActionLink" p:methodToCall="deleteLine"
                                               p:actionLabel="Delete" p:actionEvent="deleteLine" p:dirtyOnAction="true"
                                               p:additionalCssClasses="delete_authorization"/>
-                                    </list>
-                                </property>
-                            </bean>
-                        </list>
-                    </property>
-                </bean>
-            </list>
-        </property>
-    </bean>
-
-    <bean id="KS-CreateHold-ProcessSection" parent="Uif-VerticalBoxSection">
-        <property name="disclosure.render" value="false"/>
-        <property name="style" value="margin-bottom:10px;"/>
-        <property name="headerText" value="Process"/>
-        <property name="items">
-            <list>
-                <!--Beginning of Authorization Section of Create Hold-->
-                <bean parent="Uif-HorizontalFieldGroup">
-                    <property name="items">
-                        <list>
-                            <bean parent="Uif-TableCollectionSubSection" p:renderLineActions="false"
-                                  p:layoutManager.style="width: 57em;" p:layoutManager.numberOfColumns="1"
-                                  p:collectionObjectClass="org.kuali.student.r2.core.process.dto.ProcessInfo"
-                                  p:propertyName="processNames" p:layoutManager.renderSequenceField="false"
-                                  p:layoutManager.generateAutoSequence="false" p:layoutManager.separateAddLine="false"
-                                  p:layoutManager.richTable.disableTableSort="true" p:layoutManager.richTable.render="false"
-                                  p:layoutManager.applyAlternatingRowStyles="false">
-                                <property name="items">
-                                    <list>
-                                        <bean parent="KS-Uif-DataField" p:propertyName="name" p:label="Process Name"
-                                              p:additionalCssClasses="process_name_create_hold"/>
                                     </list>
                                 </property>
                             </bean>
