@@ -802,6 +802,11 @@
                             <entry key="termid" value="@{#line.termId}" />
                         </map>
                     </property>
+                    <property name="additionalCssClasses">
+                        <list merge="true">
+                            <value>ks-fontello-icon-hollow-circled-plus</value>
+                        </list>
+                    </property>
                 </bean>
             </list>
         </property>
