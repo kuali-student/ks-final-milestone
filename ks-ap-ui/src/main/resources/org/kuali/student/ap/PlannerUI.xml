@@ -45,15 +45,6 @@
                                 <property name="items">
                                     <list>
                                         <ref bean="planner_courses_detail" />
-                                        <bean parent="Uif-LinkField" p:target="_blank">
-                                            <property name="linkText" value="@{#textHelper.getText('planner.header.print')}"/>
-                                            <property name="title" value="@{#textHelper.getText('planner.header.print')}"/>
-                                            <property name="href"
-                                                      value="../kr-krad/lookup?methodToCall=search&amp;viewId=FullPlannedCourses-LookupView"/>
-                                            <property name="lightBox">
-                                                <bean parent="Uif-LightBox" p:width="90%"/>
-                                            </property>
-                                        </bean>
                                     </list>
                                 </property>
                             </bean>
@@ -189,6 +180,16 @@
                                         </bean>
                                     </list>
                                 </property>
+                            </bean>
+                            <bean parent="Uif-Link" p:target="_blank">
+                                <property name="linkText" value="@{#textHelper.getText('planner.header.print')}"/>
+                                <property name="title" value="@{#textHelper.getText('planner.header.print')}"/>
+                                <property name="href"
+                                          value="../kr-krad/lookup?methodToCall=search&amp;viewId=FullPlannedCourses-LookupView"/>
+                                <property name="lightBox">
+                                    <bean parent="Uif-LightBox" p:width="90%"/>
+                                </property>
+                                <property name="additionalCssClasses" value="ks-fontello-icon-print"/>
                             </bean>
                         </list>
                     </property>
