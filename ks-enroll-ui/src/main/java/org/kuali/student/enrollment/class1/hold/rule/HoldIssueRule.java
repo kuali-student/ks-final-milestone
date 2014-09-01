@@ -123,7 +123,14 @@ public class HoldIssueRule extends KsMaintenanceDocumentRuleBase {
         //  If any errors were found, put them in the message map.
         if (!errors.isEmpty()) {
             for (ValidationResultInfo error : errors) {
-                GlobalVariables.getMessageMap().putError(error.getElement(), RiceKeyConstants.ERROR_CUSTOM, error.getMessage());
+                String elementPath = error.getElement();
+                if (StringUtils.equals(elementPath, HoldIssueConstants.HOLD_ISSUE_HOLDISSUE_ELEMENTPATH + "." + HoldIssueConstants.HOLD_ISSUE_ORG_ID)) {
+                    GlobalVariables.getMessageMap().putError(error.getElement(), HoldIssueConstants.HOLDS_ISSUE_MSG_ERROR_HOLD_ISSUE_ORG_ID_REQUIRED);
+                }
+                else{
+                    GlobalVariables.getMessageMap().putError(error.getElement(), RiceKeyConstants.ERROR_CUSTOM, error.getMessage());
+                }
+
             }
             return false;
         }
