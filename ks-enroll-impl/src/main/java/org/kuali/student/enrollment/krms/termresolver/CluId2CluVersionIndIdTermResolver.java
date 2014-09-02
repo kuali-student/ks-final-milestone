@@ -18,6 +18,7 @@ package org.kuali.student.enrollment.krms.termresolver;
 
 import org.kuali.rice.krms.api.engine.TermResolutionException;
 import org.kuali.rice.krms.api.engine.TermResolver;
+import org.kuali.student.common.collection.KSCollectionUtils;
 import org.kuali.student.common.util.krms.RulesExecutionConstants;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
@@ -28,6 +29,7 @@ import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.krms.util.KSKRMSExecutionUtil;
 import org.kuali.student.r2.lum.clu.dto.CluInfo;
 import org.kuali.student.r2.lum.clu.service.CluService;
+import org.kuali.student.r2.lum.util.constants.CluServiceConstants;
 
 import java.util.Collections;
 import java.util.HashSet;
@@ -79,9 +81,7 @@ public class CluId2CluVersionIndIdTermResolver implements TermResolver<String> {
 
         String versionIndId = null;
         try {
-            //TODO KSENROLL-14492 -- the getClu service is very expensive, this should be replaced by a clu search for version id.
-            CluInfo cluInfo = getCluService().getClu(cluId, contextInfo);
-            versionIndId = cluInfo.getVersion().getVersionIndId();
+            versionIndId = cluService.getVersionIndependentId(cluId, contextInfo);
         } catch (DoesNotExistException | InvalidParameterException | MissingParameterException | OperationFailedException | PermissionDeniedException e) {
             KSKRMSExecutionUtil.convertExceptionsToTermResolutionException(parameters, e, this);
         }

@@ -16,6 +16,7 @@
  */
 package org.kuali.student.enrollment.class2.academicrecord.service.impl;
 
+import org.kuali.student.common.collection.KSCollectionUtils;
 import org.kuali.student.enrollment.academicrecord.dto.GPAInfo;
 import org.kuali.student.enrollment.academicrecord.dto.LoadInfo;
 import org.kuali.student.enrollment.academicrecord.dto.StudentCourseRecordInfo;
@@ -36,6 +37,7 @@ import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.lum.clu.service.CluService;
+import org.kuali.student.r2.lum.util.constants.CluServiceConstants;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
@@ -67,8 +69,7 @@ public class AcademicRecordServiceCurrentImpl implements AcademicRecordService {
                 for (CourseRegistrationInfo reg : regs) {
                     CourseOfferingInfo courseOfferingInfo = courseOfferingService.getCourseOffering(reg.getCourseOfferingId(), contextInfo);
                     String cluId = courseOfferingInfo.getCourseId();
-                    //TODO KSENROLL-14492 -- the getClu service is very expensive, this should be replaced by a clu search for version id.
-                    String regVersionIndId = cluService.getClu(cluId, contextInfo).getVersion().getVersionIndId();
+                    String regVersionIndId = cluService.getVersionIndependentId(cluId, contextInfo);
                     if (regVersionIndId.equals(courseId)) {
                         StudentCourseRecordInfo courseRecord = courseRecordAssembler.assemble(reg, contextInfo);
                         if (courseRecord != null) {
