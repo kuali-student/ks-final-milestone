@@ -108,8 +108,15 @@ angular.module('regCartApp')
         }
 
         // Watch for selected facets to change, persist the change & filter the results
+        var facetTimeoutPromise;
         $scope.$on('facetSelectionChange', function() {
-            $timeout(function() {
+
+            if (facetTimeoutPromise) {
+                // Cancel out any previous timer that's still running (if they click before the timeout fires).
+                $timeout.cancel(facetTimeoutPromise);
+            }
+
+            facetTimeoutPromise = $timeout(function() {
                 filterResults();
                 persistSearchState();
             }, 20, false);
