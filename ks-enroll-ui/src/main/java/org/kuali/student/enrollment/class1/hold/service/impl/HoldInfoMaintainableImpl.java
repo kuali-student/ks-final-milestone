@@ -104,7 +104,7 @@ public class HoldInfoMaintainableImpl extends KSMaintainableImpl {
 
         try {
             TermInfo term = HoldResourceLoader.getAcademicCalendarService().getTerm(termId, ContextUtils.createDefaultContextInfo());
-            term.getCode();
+            return term.getCode();
         } catch (Exception e){
             convertServiceExceptionsToUI(e);
         }

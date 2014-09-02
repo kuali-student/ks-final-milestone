@@ -17,7 +17,6 @@ import org.kuali.student.enrollment.class1.hold.util.HoldIssueConstants;
 import org.kuali.student.enrollment.class1.hold.util.HoldResourceLoader;
 import org.kuali.student.enrollment.class2.acal.util.AcalCommonUtils;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingConstants;
-import org.kuali.student.enrollment.class2.registration.admin.util.AdminRegResourceLoader;
 import org.kuali.student.r2.common.datadictionary.DataDictionaryValidator;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
@@ -26,6 +25,7 @@ import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.core.acal.dto.TermInfo;
 import org.kuali.student.r2.core.constants.HoldServiceConstants;
 import org.kuali.student.r2.core.hold.dto.HoldIssueInfo;
 
@@ -62,7 +62,7 @@ public class HoldIssueRule extends KsMaintenanceDocumentRuleBase {
         return isValid;
     }
 
-    public static String searchForTermIdByCode(String termCode)
+    public static TermInfo searchForTermIdByCode(String termCode)
             throws MissingParameterException, InvalidParameterException, OperationFailedException, PermissionDeniedException {
 
         if ((termCode == null) || (termCode.isEmpty())) {
@@ -72,9 +72,9 @@ public class HoldIssueRule extends KsMaintenanceDocumentRuleBase {
         QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
         qbcBuilder.setPredicates(PredicateFactory.equal(CourseOfferingConstants.ATP_CODE, termCode));
 
-        List<String> termIds = AdminRegResourceLoader.getAcademicCalendarService().searchForTermIds(qbcBuilder.build(),
-                ContextUtils.createDefaultContextInfo());
-        return KSCollectionUtils.getOptionalZeroElement(termIds);
+
+        List<TermInfo> results = HoldResourceLoader.getAcademicCalendarService().getTermsByCode(termCode,   ContextUtils.createDefaultContextInfo());
+        return KSCollectionUtils.getOptionalZeroElement(results);
     }
 
     /**
@@ -96,17 +96,8 @@ public class HoldIssueRule extends KsMaintenanceDocumentRuleBase {
         }
 
         // Check if term exist for code.
-        try {
-            holdIssue.setFirstApplicationTermId(searchForTermIdByCode(holdIssueWrapper.getFirstTerm()));
-        } catch (Exception e) {
-            GlobalVariables.getMessageMap().putError(HoldIssueConstants.HOLD_ISSUE_PROP_NAME_FIRST_TERM, HoldIssueConstants.HOLDS_ISSUE_MSG_ERROR_FIRST_APPLICATION_TERMID);
-            isValid = false;
-        }
-        try {
-            holdIssue.setLastApplicationTermId(searchForTermIdByCode(holdIssueWrapper.getLastTerm()));
-        } catch (Exception e) {
-            GlobalVariables.getMessageMap().putError(HoldIssueConstants.HOLD_ISSUE_PROP_NAME_LAST_TERM, HoldIssueConstants.HOLDS_ISSUE_MSG_ERROR_LAST_APPLICATION_TERMID);
-            isValid = false;
+        if(holdIssue.getIsHoldIssueTermBased()) {
+            isValid &= validateTerm(holdIssueWrapper,holdIssue);
         }
 
         // Check if holdCode is unique.
@@ -177,6 +168,51 @@ public class HoldIssueRule extends KsMaintenanceDocumentRuleBase {
         }
 
         return validationErrors;
+
+   }
+
+    /**
+     * Performs a service layer validation of the HoldIssue. This validation is repeated in the call to
+     *
+     * @param holdIssueWrapper
+     * @param holdIssue
+     * @return True if the validation succeeds. Otherwise, false.
+     */
+    private boolean validateTerm(HoldIssueMaintenanceWrapper holdIssueWrapper, HoldIssueInfo holdIssue ) {
+
+        TermInfo firstTermInfo = null;
+        TermInfo lastTermInfo = null;
+        if(StringUtils.isBlank(holdIssueWrapper.getFirstTerm())){
+            GlobalVariables.getMessageMap().putError(HoldIssueConstants.HOLD_ISSUE_PROP_NAME_FIRST_TERM, HoldIssueConstants.HOLDS_ISSUE_MSG_ERROR_FIRST_TERM_REQUIRED);
+            return false;
+        }
+        try {
+            firstTermInfo = searchForTermIdByCode(holdIssueWrapper.getFirstTerm());
+            if(firstTermInfo != null){
+            holdIssue.setFirstApplicationTermId(firstTermInfo.getId());
+            }
+            else{
+                GlobalVariables.getMessageMap().putError(HoldIssueConstants.HOLD_ISSUE_PROP_NAME_FIRST_TERM, HoldIssueConstants.HOLDS_ISSUE_MSG_ERROR_INVALID_TERM, holdIssueWrapper.getFirstTerm());
+            }
+        } catch (Exception e) {
+            GlobalVariables.getMessageMap().putError(HoldIssueConstants.HOLD_ISSUE_PROP_NAME_FIRST_TERM, HoldIssueConstants.HOLDS_ISSUE_MSG_ERROR_FIRST_APPLICATION_TERMID);
+            return false;
+        }
+        try {
+            if(!StringUtils.isBlank(holdIssueWrapper.getLastTerm())){
+                lastTermInfo =searchForTermIdByCode(holdIssueWrapper.getLastTerm());
+                if(lastTermInfo != null){
+                   holdIssue.setLastApplicationTermId(lastTermInfo.getId());
+                }
+                else{
+                    GlobalVariables.getMessageMap().putError(HoldIssueConstants.HOLD_ISSUE_PROP_NAME_LAST_TERM, HoldIssueConstants.HOLDS_ISSUE_MSG_ERROR_INVALID_TERM,holdIssueWrapper.getLastTerm());
+                }
+            }
+        } catch (Exception e) {
+            GlobalVariables.getMessageMap().putError(HoldIssueConstants.HOLD_ISSUE_PROP_NAME_LAST_TERM, HoldIssueConstants.HOLDS_ISSUE_MSG_ERROR_LAST_APPLICATION_TERMID);
+            return false;
+        }
+        return true;
     }
 
     private ContextInfo createContextInfo() {
