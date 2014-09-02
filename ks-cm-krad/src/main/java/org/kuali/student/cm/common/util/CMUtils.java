@@ -41,4 +41,15 @@ public class CMUtils {
 
         return cmHomeUrl.toString();
     }
+
+    public static String getViewCourseUrl(){
+
+        String cmViewCourseControllerMapping = CurriculumManagementConstants.ControllerRequestMappings.VIEW_COURSE.replaceFirst("/", "");
+
+        StringBuilder cmViewCourseUrl = new StringBuilder(cmViewCourseControllerMapping);
+        cmViewCourseUrl.append("?" + KRADConstants.DISPATCH_REQUEST_PARAMETER + "=").append(KRADConstants.START_METHOD);
+        cmViewCourseUrl.append("&" + UifConstants.UrlParams.VIEW_ID + "=").append(CurriculumManagementConstants.CourseViewIds.VIEW_COURSE_VIEW);
+
+        return cmViewCourseUrl.toString();
+    }
 }
