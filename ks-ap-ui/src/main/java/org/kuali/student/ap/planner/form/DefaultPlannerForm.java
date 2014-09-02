@@ -29,6 +29,7 @@ import org.kuali.student.r2.lum.course.infc.Course;
 import org.kuali.student.r2.lum.lrc.dto.ResultValueInfo;
 import org.kuali.student.r2.lum.lrc.dto.ResultValueRangeInfo;
 import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
+import org.kuali.student.r2.lum.util.constants.LrcServiceConstants;
 import org.springframework.util.StringUtils;
 
 import java.math.BigDecimal;
@@ -179,7 +180,7 @@ public class DefaultPlannerForm extends AbstractPlanItemForm implements
                 throw new RuntimeException("Invalid Credit Options", e);
             }
             String type = rci.getTypeKey();
-            if (type.equals("kuali.result.values.group.type.fixed")) {
+            if (type.equals(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_FIXED)) {
                 boolean useAttributes = rci.getResultValueKeys().isEmpty();
                 if (!useAttributes)
                     try {
@@ -210,7 +211,7 @@ public class DefaultPlannerForm extends AbstractPlanItemForm implements
                 if (useAttributes)
                     minCredit = maxCredit = new BigDecimal(
                             rci.getAttributeValue("fixedCreditValue"));
-            } else if (type.equals("kuali.result.values.group.type.range")) {
+            } else if (type.equals(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_RANGE)) {
                 ResultValueRangeInfo rvr = rci.getResultValueRange();
                 if (rvr != null) {
                     minCredit = new BigDecimal(rvr.getMinValue());
