@@ -24,6 +24,7 @@ import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.lum.course.infc.Course;
 import org.kuali.student.r2.lum.lrc.dto.ResultValueInfo;
@@ -61,7 +62,7 @@ public class CreditsFormatter {
      */
 	public static class Range {
 		private final BigDecimal min;
-		private final BigDecimal max;
+        private final BigDecimal max;
 		private final List<BigDecimal> multiple;
 
 		public Range(BigDecimal min, BigDecimal max) {
@@ -71,9 +72,23 @@ public class CreditsFormatter {
 		}
 
 		public Range(List<BigDecimal> multiple) {
-			this.min = multiple.get(0);
-			this.max = multiple.get(multiple.size()-1);
-			this.multiple = multiple;
+
+            if (multiple == null || multiple.isEmpty()) {
+                LOG.warn("the input of a multiple-value list is empty or null");
+                this.min = null;
+                this.max = null;
+                this.multiple = multiple;
+            }
+            else if (multiple.size() == 1){
+                this.min = multiple.get(0);
+                this.max = multiple.get(0);
+                this.multiple = multiple;
+            } else {
+                Collections.sort(multiple);
+                this.min = multiple.get(0);
+                this.max = multiple.get(multiple.size()-1);
+                this.multiple = multiple;
+            }
 		}
 
 		public BigDecimal getMin() {
