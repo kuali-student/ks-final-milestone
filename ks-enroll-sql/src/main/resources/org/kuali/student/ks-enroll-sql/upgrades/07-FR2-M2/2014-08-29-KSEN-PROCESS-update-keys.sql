@@ -1,0 +1,596 @@
+-- KSENROLL-14627: Course Registration Process Key configuration
+
+-- Student Eligible for Term --
+INSERT INTO KSEN_PROCESS (CREATEID, CREATETIME, DESCR_PLAIN, ID, NAME, OBJ_ID, OWNER_ORG_ID, PROCESS_STATE, PROCESS_TYPE, UPDATEID, UPDATETIME, VER_NBR )
+    VALUES ('Admin',
+            TO_DATE( '2014-08-29', 'YYYY-MM-DD' ),
+            'Performs all the instructions that are associated with checking that a student is Eligible for a term',
+            'kuali.process.registration.eligible.for.term',
+            'Eligible for Term',
+            '01CC67C7-6A38-82C3-E050-007F010105C1',
+            '222',
+            'kuali.process.process.state.active',
+            'kuali.process.process.type',
+            'Admin',
+            TO_DATE( '2014-08-29', 'YYYY-MM-DD' ),
+            0
+    )
+/
+UPDATE KSEN_PROCESS_INSTRN
+  SET PROCESS_ID = 'kuali.process.registration.eligible.for.term',
+      UPDATETIME = TO_DATE( '2014-08-29', 'YYYY-MM-DD' )
+  WHERE PROCESS_ID = 'kuali.process.registration.eligibility.for.term'
+/
+DELETE FROM KSEN_PROCESS
+  WHERE ID = 'kuali.process.registration.eligibility.for.term'
+/
+
+-- Student Eligible to Add Course --
+INSERT INTO KSEN_PROCESS (CREATEID, CREATETIME, DESCR_PLAIN, ID, NAME, OBJ_ID, OWNER_ORG_ID, PROCESS_STATE, PROCESS_TYPE, UPDATEID, UPDATETIME, VER_NBR )
+  VALUES ('Admin',
+          TO_DATE( '2014-08-29', 'YYYY-MM-DD' ),
+          'Performs all the instructions that are associated with checking that a student is Eligible to add a course',
+          'kuali.process.course.eligible.for.add',
+          'Course Eligible for Add',
+          '01CC67C7-6A3A-82C3-E050-007F010105C1',
+          '222',
+          'kuali.process.process.state.active',
+          'kuali.process.process.type',
+          'Admin',
+          TO_DATE( '2014-08-29', 'YYYY-MM-DD' ),
+          0
+  )
+/
+UPDATE KSEN_PROCESS_INSTRN
+SET PROCESS_ID = 'kuali.process.course.eligible.for.add',
+  UPDATETIME = TO_DATE( '2014-08-29', 'YYYY-MM-DD' )
+WHERE PROCESS_ID = 'kuali.process.registration.eligible.for.courses'
+/
+DELETE FROM KSEN_PROCESS
+WHERE ID = 'kuali.process.registration.eligible.for.courses'
+/
+
+-- Student Eligible to Add Course to Waitlist --
+INSERT INTO KSEN_PROCESS (CREATEID, CREATETIME, DESCR_PLAIN, ID, NAME, OBJ_ID, OWNER_ORG_ID, PROCESS_STATE, PROCESS_TYPE, UPDATEID, UPDATETIME, VER_NBR )
+  VALUES ('Admin',
+          TO_DATE( '2014-08-29', 'YYYY-MM-DD' ),
+          'Performs all the instructions that are associated with checking that a student is Eligible to add a course to the waitlist',
+          'kuali.process.course.eligible.for.waitlist.add',
+          'Course Eligible for Add to Waitlist',
+          '01CC67C7-6A3B-82C3-E050-007F010105C1',
+          '222',
+          'kuali.process.process.state.active',
+          'kuali.process.process.type',
+          'Admin',
+          TO_DATE( '2014-08-29', 'YYYY-MM-DD' ),
+          0
+  )
+/
+INSERT INTO KSEN_PROCESS_INSTRN
+(APPLD_POPULATION_ID,
+ CHECK_ID,
+ CONT_ON_FAILED_IND,
+ CREATEID,
+ CREATETIME,
+ EFF_DT,
+ EXEMPTIBLE_IND,
+ ID,
+ MESG_PLAIN,
+ MESG_FORMATTED,
+ OBJ_ID,
+ POSITION,
+ PROCESS_ID,
+ PROCESS_INSTRN_STATE,
+ PROCESS_INSTRN_TYPE,
+ UPDATEID,
+ UPDATETIME,
+ VER_NBR,
+ WARNING_IND)
+  VALUES (
+    'kuali.population.student.key.everyone',
+    'kuali.check.course.attempts',
+    'Y',
+    'Admin',
+    TO_DATE( '2014-08-29', 'YYYY-MM-DD' ),
+    TO_DATE( '2014-08-29', 'YYYY-MM-DD' ),
+    'Y',
+    '01CC67C7-6A3E-82C3-E050-007F010105C1',
+    'Course eligibility - Incomplete Grade for Course',
+    '"messageKey":"kuali.lpr.trans.message.course.grade.incomplete"',
+    '01CC67C7-6A3F-82C3-E050-007F010105C1',
+    1,
+    'kuali.process.course.eligible.for.waitlist.add',
+    'kuali.process.instruction.state.active',
+    'kuali.process.instruction.type.instruction',
+    'Admin',
+    TO_DATE( '2014-08-29', 'YYYY-MM-DD' ),
+    0,
+    'N')
+/
+INSERT INTO KSEN_PROCESS_INSTRN
+(APPLD_POPULATION_ID,
+ CHECK_ID,
+ CONT_ON_FAILED_IND,
+ CREATEID,
+ CREATETIME,
+ EFF_DT,
+ EXEMPTIBLE_IND,
+ ID,
+ MESG_PLAIN,
+ OBJ_ID,
+ POSITION,
+ PROCESS_ID,
+ PROCESS_INSTRN_STATE,
+ PROCESS_INSTRN_TYPE,
+ UPDATEID,
+ UPDATETIME,
+ VER_NBR,
+ WARNING_IND)
+  VALUES (
+    'kuali.population.student.key.everyone',
+    'kuali.check.best.effort.credit.load',
+    'Y',
+    'Admin',
+    TO_DATE( '2014-08-29', 'YYYY-MM-DD' ),
+    TO_DATE( '2014-08-29', 'YYYY-MM-DD' ),
+    'Y',
+    '01CC67C7-6A40-82C3-E050-007F010105C1',
+    'Registration eligibility - Credit Limit Exceeded',
+    '01CC67C7-6A41-82C3-E050-007F010105C1',
+    2,
+    'kuali.process.course.eligible.for.waitlist.add',
+    'kuali.process.instruction.state.active',
+    'kuali.process.instruction.type.instruction',
+    'Admin',
+    TO_DATE( '2014-08-29', 'YYYY-MM-DD' ),
+    0,
+    'N')
+/
+INSERT INTO KSEN_PROCESS_INSTRN
+(APPLD_POPULATION_ID,
+ CHECK_ID,
+ CONT_ON_FAILED_IND,
+ CREATEID,
+ CREATETIME,
+ EFF_DT,
+ EXEMPTIBLE_IND,
+ ID,
+ MESG_PLAIN,
+ OBJ_ID,
+ POSITION,
+ PROCESS_ID,
+ PROCESS_INSTRN_STATE,
+ PROCESS_INSTRN_TYPE,
+ UPDATEID,
+ UPDATETIME,
+ VER_NBR,
+ WARNING_IND)
+  VALUES (
+    'kuali.population.student.key.everyone',
+    'kuali.check.best.effort.time.conflict',
+    'Y',
+    'Admin',
+    TO_DATE( '2014-08-29', 'YYYY-MM-DD' ),
+    TO_DATE( '2014-08-29', 'YYYY-MM-DD' ),
+    'Y',
+    '01CC67C7-6A3C-82C3-E050-007F010105C1',
+    'Registration eligibility - Time Conflict',
+    '01CC67C7-6A3D-82C3-E050-007F010105C1',
+    1,
+    'kuali.process.course.eligible.for.waitlist.add',
+    'kuali.process.instruction.state.active',
+    'kuali.process.instruction.type.instruction',
+    'Admin',
+    TO_DATE( '2014-08-29', 'YYYY-MM-DD' ),
+    0,
+    'N')
+/
+INSERT INTO KSEN_PROCESS_INSTRN
+(APPLD_POPULATION_ID,
+ CHECK_ID,
+ CONT_ON_FAILED_IND,
+ CREATEID,
+ CREATETIME,
+ EFF_DT,
+ EXEMPTIBLE_IND,
+ ID,
+ MESG_PLAIN,
+ MESG_FORMATTED,
+ OBJ_ID,
+ POSITION,
+ PROCESS_ID,
+ PROCESS_INSTRN_STATE,
+ PROCESS_INSTRN_TYPE,
+ UPDATEID,
+ UPDATETIME,
+ VER_NBR,
+ WARNING_IND)
+  VALUES (
+    'kuali.population.student.key.everyone',
+    'kuali.check.registration.open',
+    'Y',
+    'Admin',
+    TO_DATE( '2014-08-29', 'YYYY-MM-DD' ),
+    TO_DATE( '2014-08-29', 'YYYY-MM-DD' ),
+    'Y',
+    '01CC67C7-6A46-82C3-E050-007F010105C1',
+    'Course eligibility - Registration is not open',
+    '"messageKey":"kuali.lpr.trans.message.course.not.open","asOfDate":"$asOfDate"',
+    '01CC67C7-6A47-82C3-E050-007F010105C1',
+    1,
+    'kuali.process.course.eligible.for.waitlist.add',
+    'kuali.process.instruction.state.active',
+    'kuali.process.instruction.type.instruction',
+    'Admin',
+    TO_DATE( '2014-08-29', 'YYYY-MM-DD' ),
+    0,
+    'N')
+/
+INSERT INTO KSEN_PROCESS_INSTRN
+  (APPLD_POPULATION_ID,
+  CHECK_ID,
+  CONT_ON_FAILED_IND,
+  CREATEID,
+  CREATETIME,
+  EFF_DT,
+  EXEMPTIBLE_IND,
+  ID,
+  MESG_PLAIN,
+  MESG_FORMATTED,
+  OBJ_ID,
+  POSITION,
+  PROCESS_ID,
+  PROCESS_INSTRN_STATE,
+  PROCESS_INSTRN_TYPE,
+  UPDATEID,
+  UPDATETIME,
+  VER_NBR,
+  WARNING_IND)
+    VALUES (
+      'kuali.population.student.key.everyone',
+      'kuali.check.course.with.incomplete.grade',
+      'Y',
+      'Admin',
+      TO_DATE( '2014-08-29', 'YYYY-MM-DD' ),
+      TO_DATE( '2014-08-29', 'YYYY-MM-DD' ),
+      'Y',
+      '01CC67C7-6A44-82C3-E050-007F010105C1',
+      'Course eligibility - Already Taken',
+      '"messageKey":"kuali.lpr.trans.message.course.already.taken","attempts":$totalCourseAttempts,"maxRepeats":$maxRepeatability',
+      '01CC67C7-6A45-82C3-E050-007F010105C1',
+      1,
+      'kuali.process.course.eligible.for.waitlist.add',
+      'kuali.process.instruction.state.active',
+      'kuali.process.instruction.type.instruction',
+      'Admin',
+      TO_DATE( '2014-08-29', 'YYYY-MM-DD' ),
+      0,
+      'N')
+/
+INSERT INTO KSEN_PROCESS_INSTRN
+(APPLD_POPULATION_ID,
+ CHECK_ID,
+ CONT_ON_FAILED_IND,
+ CREATEID,
+ CREATETIME,
+ EFF_DT,
+ EXEMPTIBLE_IND,
+ ID,
+ MESG_PLAIN,
+ MESG_FORMATTED,
+ OBJ_ID,
+ POSITION,
+ PROCESS_ID,
+ PROCESS_INSTRN_STATE,
+ PROCESS_INSTRN_TYPE,
+ UPDATEID,
+ UPDATETIME,
+ VER_NBR,
+ WARNING_IND)
+  VALUES (
+    'kuali.population.student.key.everyone',
+    'kuali.check.course.attempts.for.warning',
+    'Y',
+    'Admin',
+    TO_DATE( '2014-08-29', 'YYYY-MM-DD' ),
+    TO_DATE( '2014-08-29', 'YYYY-MM-DD' ),
+    'Y',
+    '01CC67C7-6A42-82C3-E050-007F010105C1',
+    'Course eligibility - Already Taken Warning',
+    '"messageKey":"kuali.lpr.trans.message.repeatability.warning","attempts":$totalCourseAttempts,"maxRepeats":$maxRepeatability',
+    '01CC67C7-6A43-82C3-E050-007F010105C1',
+    1,
+    'kuali.process.course.eligible.for.waitlist.add',
+    'kuali.process.instruction.state.active',
+    'kuali.process.instruction.type.instruction',
+    'Admin',
+    TO_DATE( '2014-08-29', 'YYYY-MM-DD' ),
+    0,
+    'Y')
+/
+
+-- Student Eligible to Register for Course from Waitlist --
+INSERT INTO KSEN_PROCESS (CREATEID, CREATETIME, DESCR_PLAIN, ID, NAME, OBJ_ID, OWNER_ORG_ID, PROCESS_STATE, PROCESS_TYPE, UPDATEID, UPDATETIME, VER_NBR )
+  VALUES ('Admin',
+          TO_DATE( '2014-08-29', 'YYYY-MM-DD' ),
+          'Performs all the instructions that are associated with checking that a student is Eligible to register for a course from the waitlist',
+          'kuali.process.course.eligible.for.add.from.waitlist',
+          'Course Eligible for Registration from Waitlist',
+          '01CC67C7-6A4D-82C3-E050-007F010105C1',
+          '222',
+          'kuali.process.process.state.active',
+          'kuali.process.process.type',
+          'Admin',
+          TO_DATE( '2014-08-29', 'YYYY-MM-DD' ),
+          0
+  )
+/
+INSERT INTO KSEN_PROCESS_INSTRN
+(APPLD_POPULATION_ID,
+ CHECK_ID,
+ CONT_ON_FAILED_IND,
+ CREATEID,
+ CREATETIME,
+ EFF_DT,
+ EXEMPTIBLE_IND,
+ ID,
+ MESG_PLAIN,
+ MESG_FORMATTED,
+ OBJ_ID,
+ POSITION,
+ PROCESS_ID,
+ PROCESS_INSTRN_STATE,
+ PROCESS_INSTRN_TYPE,
+ UPDATEID,
+ UPDATETIME,
+ VER_NBR,
+ WARNING_IND)
+  VALUES (
+    'kuali.population.student.key.everyone',
+    'kuali.check.registration.open',
+    'Y',
+    'Admin',
+    TO_DATE( '2014-08-29', 'YYYY-MM-DD' ),
+    TO_DATE( '2014-08-29', 'YYYY-MM-DD' ),
+    'Y',
+    '01CC67C7-6A4E-82C3-E050-007F010105C1',
+    'Course eligibility - Registration is not open',
+    '"messageKey":"kuali.lpr.trans.message.course.not.open","asOfDate":"$asOfDate"',
+    '01CC67C7-6A4F-82C3-E050-007F010105C1',
+    1,
+    'kuali.process.course.eligible.for.add.from.waitlist',
+    'kuali.process.instruction.state.active',
+    'kuali.process.instruction.type.instruction',
+    'Admin',
+    TO_DATE( '2014-08-29', 'YYYY-MM-DD' ),
+    0,
+    'N')
+/
+
+-- Student Eligible to Edit a waitlisted course --
+INSERT INTO KSEN_PROCESS (CREATEID, CREATETIME, DESCR_PLAIN, ID, NAME, OBJ_ID, OWNER_ORG_ID, PROCESS_STATE, PROCESS_TYPE, UPDATEID, UPDATETIME, VER_NBR )
+  VALUES ('Admin',
+          TO_DATE( '2014-08-29', 'YYYY-MM-DD' ),
+          'Performs all the instructions that are associated with checking that a student is Eligible to edit a waitlisted course',
+          'kuali.process.course.eligible.for.waitlist.edit',
+          'Course Eligible for Waitlist Edit',
+          '01CC67C7-6A50-82C3-E050-007F010105C1',
+          '222',
+          'kuali.process.process.state.active',
+          'kuali.process.process.type',
+          'Admin',
+          TO_DATE( '2014-08-29', 'YYYY-MM-DD' ),
+          0
+  )
+/
+INSERT INTO KSEN_PROCESS_INSTRN
+(APPLD_POPULATION_ID,
+ CHECK_ID,
+ CONT_ON_FAILED_IND,
+ CREATEID,
+ CREATETIME,
+ EFF_DT,
+ EXEMPTIBLE_IND,
+ ID,
+ MESG_PLAIN,
+ MESG_FORMATTED,
+ OBJ_ID,
+ POSITION,
+ PROCESS_ID,
+ PROCESS_INSTRN_STATE,
+ PROCESS_INSTRN_TYPE,
+ UPDATEID,
+ UPDATETIME,
+ VER_NBR,
+ WARNING_IND)
+  VALUES (
+    'kuali.population.student.key.everyone',
+    'kuali.check.registration.open',
+    'Y',
+    'Admin',
+    TO_DATE( '2014-08-29', 'YYYY-MM-DD' ),
+    TO_DATE( '2014-08-29', 'YYYY-MM-DD' ),
+    'Y',
+    '01CC67C7-6A51-82C3-E050-007F010105C1',
+    'Course eligibility - Registration is not open',
+    '"messageKey":"kuali.lpr.trans.message.course.not.open","asOfDate":"$asOfDate"',
+    '01CC67C7-6A52-82C3-E050-007F010105C1',
+    1,
+    'kuali.process.course.eligible.for.waitlist.edit',
+    'kuali.process.instruction.state.active',
+    'kuali.process.instruction.type.instruction',
+    'Admin',
+    TO_DATE( '2014-08-29', 'YYYY-MM-DD' ),
+    0,
+    'N')
+/
+INSERT INTO KSEN_PROCESS_INSTRN
+(APPLD_POPULATION_ID,
+ CHECK_ID,
+ CONT_ON_FAILED_IND,
+ CREATEID,
+ CREATETIME,
+ EFF_DT,
+ EXEMPTIBLE_IND,
+ ID,
+ MESG_PLAIN,
+ OBJ_ID,
+ POSITION,
+ PROCESS_ID,
+ PROCESS_INSTRN_STATE,
+ PROCESS_INSTRN_TYPE,
+ UPDATEID,
+ UPDATETIME,
+ VER_NBR,
+ WARNING_IND)
+  VALUES (
+    'kuali.population.student.key.everyone',
+    'kuali.check.best.effort.credit.load',
+    'Y',
+    'Admin',
+    TO_DATE( '2014-08-29', 'YYYY-MM-DD' ),
+    TO_DATE( '2014-08-29', 'YYYY-MM-DD' ),
+    'Y',
+    '01CC67C7-6A53-82C3-E050-007F010105C1',
+    'Registration eligibility - Credit Limit Exceeded',
+    '01CC67C7-6A54-82C3-E050-007F010105C1',
+    2,
+    'kuali.process.course.eligible.for.waitlist.edit',
+    'kuali.process.instruction.state.active',
+    'kuali.process.instruction.type.instruction',
+    'Admin',
+    TO_DATE( '2014-08-29', 'YYYY-MM-DD' ),
+    0,
+    'N')
+/
+
+-- Student Eligible to Edit a registered course --
+INSERT INTO KSEN_PROCESS (CREATEID, CREATETIME, DESCR_PLAIN, ID, NAME, OBJ_ID, OWNER_ORG_ID, PROCESS_STATE, PROCESS_TYPE, UPDATEID, UPDATETIME, VER_NBR )
+  VALUES ('Admin',
+          TO_DATE( '2014-08-29', 'YYYY-MM-DD' ),
+          'Performs all the instructions that are associated with checking that a student is Eligible to edit a registered course',
+          'kuali.process.course.eligible.for.edit',
+          'Course Eligible for Edit',
+          '01CC67C7-6A55-82C3-E050-007F010105C1',
+          '222',
+          'kuali.process.process.state.active',
+          'kuali.process.process.type',
+          'Admin',
+          TO_DATE( '2014-08-29', 'YYYY-MM-DD' ),
+          0
+  )
+/
+INSERT INTO KSEN_PROCESS_INSTRN
+(APPLD_POPULATION_ID,
+ CHECK_ID,
+ CONT_ON_FAILED_IND,
+ CREATEID,
+ CREATETIME,
+ EFF_DT,
+ EXEMPTIBLE_IND,
+ ID,
+ MESG_PLAIN,
+ MESG_FORMATTED,
+ OBJ_ID,
+ POSITION,
+ PROCESS_ID,
+ PROCESS_INSTRN_STATE,
+ PROCESS_INSTRN_TYPE,
+ UPDATEID,
+ UPDATETIME,
+ VER_NBR,
+ WARNING_IND)
+  VALUES (
+    'kuali.population.student.key.everyone',
+    'kuali.check.registration.open',
+    'Y',
+    'Admin',
+    TO_DATE( '2014-08-29', 'YYYY-MM-DD' ),
+    TO_DATE( '2014-08-29', 'YYYY-MM-DD' ),
+    'Y',
+    '01CC67C7-6A56-82C3-E050-007F010105C1',
+    'Course eligibility - Registration is not open',
+    '"messageKey":"kuali.lpr.trans.message.course.not.open","asOfDate":"$asOfDate"',
+    '01CC67C7-6A57-82C3-E050-007F010105C1',
+    1,
+    'kuali.process.course.eligible.for.edit',
+    'kuali.process.instruction.state.active',
+    'kuali.process.instruction.type.instruction',
+    'Admin',
+    TO_DATE( '2014-08-29', 'YYYY-MM-DD' ),
+    0,
+    'N')
+/
+INSERT INTO KSEN_PROCESS_INSTRN
+(APPLD_POPULATION_ID,
+ CHECK_ID,
+ CONT_ON_FAILED_IND,
+ CREATEID,
+ CREATETIME,
+ EFF_DT,
+ EXEMPTIBLE_IND,
+ ID,
+ MESG_PLAIN,
+ OBJ_ID,
+ POSITION,
+ PROCESS_ID,
+ PROCESS_INSTRN_STATE,
+ PROCESS_INSTRN_TYPE,
+ UPDATEID,
+ UPDATETIME,
+ VER_NBR,
+ WARNING_IND)
+  VALUES (
+    'kuali.population.student.key.everyone',
+    'kuali.check.best.effort.credit.load',
+    'Y',
+    'Admin',
+    TO_DATE( '2014-08-29', 'YYYY-MM-DD' ),
+    TO_DATE( '2014-08-29', 'YYYY-MM-DD' ),
+    'Y',
+    '01CC67C7-6A58-82C3-E050-007F010105C1',
+    'Registration eligibility - Credit Limit Exceeded',
+    '01CC67C7-6A59-82C3-E050-007F010105C1',
+    2,
+    'kuali.process.course.eligible.for.edit',
+    'kuali.process.instruction.state.active',
+    'kuali.process.instruction.type.instruction',
+    'Admin',
+    TO_DATE( '2014-08-29', 'YYYY-MM-DD' ),
+    0,
+    'N')
+/
+
+-- Student Eligible to drop a waitlisted course --
+INSERT INTO KSEN_PROCESS (CREATEID, CREATETIME, DESCR_PLAIN, ID, NAME, OBJ_ID, OWNER_ORG_ID, PROCESS_STATE, PROCESS_TYPE, UPDATEID, UPDATETIME, VER_NBR )
+  VALUES ('Admin',
+          TO_DATE( '2014-08-29', 'YYYY-MM-DD' ),
+          'Performs all the instructions that are associated with checking that a student is Eligible to drop a waitlisted course',
+          'kuali.process.course.eligible.for.waitlist.drop',
+          'Course Eligible for Drop from Waitlist',
+          '01CC67C7-6A5A-82C3-E050-007F010105C1',
+          '222',
+          'kuali.process.process.state.active',
+          'kuali.process.process.type',
+          'Admin',
+          TO_DATE( '2014-08-29', 'YYYY-MM-DD' ),
+          0
+  )
+/
+
+-- Student Eligible to drop a registered course --
+INSERT INTO KSEN_PROCESS (CREATEID, CREATETIME, DESCR_PLAIN, ID, NAME, OBJ_ID, OWNER_ORG_ID, PROCESS_STATE, PROCESS_TYPE, UPDATEID, UPDATETIME, VER_NBR )
+  VALUES ('Admin',
+          TO_DATE( '2014-08-29', 'YYYY-MM-DD' ),
+          'Performs all the instructions that are associated with checking that a student is Eligible to drop a registered course',
+          'kuali.process.course.eligible.for.drop',
+          'Course Eligible for Drop',
+          '01CC67C7-6A5B-82C3-E050-007F010105C1',
+          '222',
+          'kuali.process.process.state.active',
+          'kuali.process.process.type',
+          'Admin',
+          TO_DATE( '2014-08-29', 'YYYY-MM-DD' ),
+          0
+  )
+/

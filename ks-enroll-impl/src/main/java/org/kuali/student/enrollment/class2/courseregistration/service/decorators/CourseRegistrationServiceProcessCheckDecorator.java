@@ -119,7 +119,7 @@ public class CourseRegistrationServiceProcessCheckDecorator
             OperationFailedException,
             PermissionDeniedException {
 
-        Proposition prop = new ProcessProposition(ProcessServiceConstants.PROCESS_KEY_ELIGIBLE_FOR_COURSES);
+        Proposition prop = new ProcessProposition(ProcessServiceConstants.PROCESS_KEY_ELIGIBLE_FOR_COURSE);
         Map<String, Object> executionFacts = new LinkedHashMap<>();
 
         RegistrationRequestInfo registrationRequest = getRegistrationRequest(registrationRequestId, contextInfo);
