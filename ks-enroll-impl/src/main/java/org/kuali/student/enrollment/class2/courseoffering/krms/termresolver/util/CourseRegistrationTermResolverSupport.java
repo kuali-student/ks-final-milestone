@@ -71,8 +71,7 @@ public abstract class CourseRegistrationTermResolverSupport<T> extends CourseOff
     protected String getVersionIndIdFromCourseOfferingId(String courseOfferingId, ContextInfo contextInfo) throws PermissionDeniedException, MissingParameterException, InvalidParameterException, OperationFailedException, DoesNotExistException {
         CourseOfferingInfo courseOfferingInfo = getCourseOfferingService().getCourseOffering(courseOfferingId, contextInfo);
         String cluId = courseOfferingInfo.getCourseId();
-        //TODO KSENROLL-14492 -- the getClu service is very expensive, this should be replaced by a clu search for version id.
-        return getCluService().getClu(cluId, contextInfo).getVersion().getVersionIndId();
+        return getCluService().getVersionIndependentId(cluId, contextInfo);
     }
 
     protected Integer getMatchedCoursesCount(String versionIndId, List<CourseRegistrationInfo> courseRegistrationInfoList, ContextInfo contextInfo) throws MissingParameterException, PermissionDeniedException, InvalidParameterException, OperationFailedException, DoesNotExistException {
