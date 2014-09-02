@@ -28,6 +28,7 @@ public class CurriculumManagementConstants {
 
     public static class ControllerRequestMappings {
         public final static String START_PROPOSAL = "/start_proposal";
+        public final static String START_RETIRE_COURSE = "/start_retire";
         //KSAP uses 'course' as their mapping for Course search. so, please aware of that before changing this mapping.
         public final static String COURSE_MAINTENANCE = "/courses";
         public final static String CM_COMMENT = "/cm_comment";
@@ -67,11 +68,18 @@ public class CurriculumManagementConstants {
         public final static String COPY_PROPOSED_COURSE = "copyProposedCourse";
     }
 
+    public static class StartRetireCourseOptions {
+        public final static String ADMIN_RETIRE = "startAdministrativeRetire";
+        public final static String RETIRE_BY_PROPOSAL = "startRetireByProposal";
+    }
+
     /**
      * The bean ids of the pages within the view.
      */
     public static class CourseViewIds {
         public final static String CREATE_COURSE_VIEW = "CM-Proposal-Course-Create-View";
+        public final static String START_RETIRE_COURSE_VIEW = "CM-Proposal-Course-Retire-Start-View";
+        public final static String RETIRE_COURSE_VIEW = "CM-Proposal-Course-Retire-View";
         public final static String VIEW_COURSE_VIEW = "ViewCourseView";
         public final static String CM_HOME_VIEW = "curriculumHomeView";
     }
@@ -79,6 +87,8 @@ public class CurriculumManagementConstants {
     public static class CoursePageIds {
         public final static String REVIEW_COURSE_PROPOSAL_PAGE = "CM-Proposal-Review-Course-Page";
         public final static String CREATE_COURSE_PAGE = "CM-Proposal-Course-Create-Page";
+        public final static String RETIRE_COURSE_PAGE = "CM-Proposal-Course-Retire-Page";
+        public final static String START_RETIRE_COURSE_PAGE = "CM-Proposal-Course-Retire-Start-Page";
     }
 
     public static interface UserInterfaceSections {

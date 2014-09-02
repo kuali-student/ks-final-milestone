@@ -47,8 +47,8 @@
         <property name="headerText" value="@{(#uiHelper.headerText) + ' (Proposed Retirement)'}"/>
         <property name="singlePageView" value="false"/>
         <!-- Override the default to allow for navigation -->
-        <property name="viewHelperServiceClass"
-                  value="org.kuali.student.cm.course.service.impl.RetireCourseMaintainableImpl"/>
+        <!--<property name="viewHelperServiceClass"
+                  value="org.kuali.student.cm.course.service.impl.RetireCourseMaintainableImpl"/>-->
         <property name="presentationControllerClass"
                   value="org.kuali.student.cm.uif.util.CurriculumManagementMaintenancePresentationControllerBase" />
         <property name="authorizerClass"
@@ -62,8 +62,8 @@
         </property>
         <property name="breadcrumbOptions.breadcrumbOverrides">
             <list>
-                <ref bean="KS-HomewardPathBreadcrumbs-ProposalName"/>
-                <ref bean="KS-HomewardPathBreadcrumbs-CreateCourse"/>
+                <ref bean="KS-HomewardPathBreadcrumbs-RetireCourseName"/>
+                <ref bean="KS-HomewardPathBreadcrumbs-Retire-Course"/>
             </list>
         </property>
         <property name="header.id" value="CM-Proposal-Course-Retire-Header"/>
@@ -82,8 +82,7 @@
         <property name="items">
             <list>
                 <ref bean="CM-Proposal-Course-Retire-Page"/>
-                <ref bean="CM-Proposal-Review-Course-Retire-Page"/>
-                <ref bean="KS-RuleMaintenance-Page-Parent"/>
+                <!--<ref bean="CM-Proposal-Review-Course-Page"/> Include the review proposal page once done -->
             </list>
         </property>
         <property name="additionalScriptFiles">
@@ -131,6 +130,22 @@
         </property>
     </bean>
 
+    <bean id="KS-HomewardPathBreadcrumbs-RetireCourseName" parent="Uif-BreadcrumbItem">
+        <property name="label" value="@{#htmlUtils.htmlEscape(#uiHelper.headerText)}"/>
+        <property name="url.viewId" value="startAdminRetireCourseView"/>
+        <property name="url.controllerMapping" value="@{T(org.kuali.student.cm.common.util.CurriculumManagementConstants$ControllerRequestMappings).START_RETIRE_COURSE}"/>
+        <property name="url.requestParameters">
+            <map key-type="java.lang.String" merge="true">
+                <entry key="methodToCall" value="start"/>
+                <entry key="hideReturnLink" value="true"/>
+            </map>
+        </property>
+    </bean>
+
+    <bean id="KS-HomewardPathBreadcrumbs-Retire-Course" parent="Uif-BreadcrumbItem">
+        <property name="label" value="Retire Course"/>
+    </bean>
+
     <bean id="CourseRetireMaintenanceDocument-Base" parent="CourseRetireMaintenanceDocument-Base-parent" abstract="true"/>
 
     <bean id="CourseRetireMaintenanceDocument-Base-parent" parent="uifMaintenanceDocumentEntry" abstract="true">
@@ -159,8 +174,7 @@
     </bean>
 
     <bean id="CM-Proposal-Course-Retire-Page" parent="Uif-MaintenancePage" p:disclosure.render="false">
-        <property name="header" value="true"/>
-        <property name="headerText" value="Create Course"/>
+        <property name="headerText" value="Retire Course"/>
         <property name="footer.items">
             <list>
                 <bean parent="CM-Proposal-Course-Retire-Footer" p:render="@{!#uiHelper.curriculumSpecialistUser}"/>
@@ -191,8 +205,7 @@
                 </bean>
 
                 <!-- The text above the tab panel. This gets fixed positioning via JS. -->
-                <bean id="CM-Proposal-Course-View-TabHeader" parent="Uif-VerticalBoxGroup"
-                      p:render="@{!#uiHelper.adminProposal}">
+                <bean id="CM-Proposal-Course-View-TabHeader" parent="Uif-VerticalBoxGroup"> <!-- p:render="@{!#uiHelper.adminProposal}" -->
                     <property name="header">
                         <bean parent="Uif-HeaderFour">
                             <property name="cssClasses">
@@ -206,8 +219,7 @@
                 </bean>
 
                 <!-- The text and link below the tab panel. This gets fixed positioning via JS. -->
-                <bean id="CM-Proposal-Course-View-ReviewProposalLink" parent="Uif-VerticalBoxGroup"
-                      p:render="@{(!#uiHelper.adminProposal) and !#workflowDoc.initiated}">
+                <bean id="CM-Proposal-Course-View-ReviewProposalLink" parent="Uif-VerticalBoxGroup"> <!-- p:render="@{(!#workflowDoc.initiated}" -->
                     <property name="header">
                         <bean id="CM-Proposal-Course-View-Tab-ReviewHeader" parent="Uif-HeaderFour">
                             <property name="cssClasses">
@@ -223,7 +235,7 @@
                             <bean parent="Uif-NavigationActionLink">
                                 <property name="id" value="CM-Proposal-Course-Retire-ReviewProposalLink"/>
                                 <property name="actionLabel" value="Review Proposal"/>
-                                <property name="render" value="@{#actionFlags[#Constants.KUALI_ACTION_CAN_EDIT]}"/>
+                                <!--<property name="render" value="@{#actionFlags[#Constants.KUALI_ACTION_CAN_EDIT]}"/> -->
                             </bean>
                         </list>
                     </property>
@@ -241,21 +253,18 @@
                       p:ajaxSubmit="false"
                       p:actionLabel="Retire"
                       p:methodToCall="retire"
-                      p:performClientSideValidation="true"
-                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_RETIRE] and (!#workflowDoc.initiated) and #uiHelper.adminProposal}"/>
+                      p:performClientSideValidation="true"/> <!-- p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_RETIRE] and (!#workflowDoc.initiated) and #uiHelper.adminProposal}" -->
                 <bean parent="Uif-SecondaryActionButton"
                       p:ajaxSubmit="false"
                       p:methodToCall="saveProposal"
                       p:performClientSideValidation="true"
                       p:actionLabel="Save Progress"
-                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_SAVE]}"
-                      p:jumpToIdAfterSubmit="TOP">
+                      p:jumpToIdAfterSubmit="TOP"> <!-- p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_SAVE]}" -->
                 </bean>
                 <bean parent="Uif-ActionLink" p:id="CM-Proposal-Course-View-Admin-Cancel"
                       p:actionLabel="Cancel"
                       p:methodToCall="back"
-                      p:style="margin-top:5px;"
-                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_CLOSE]}"/>
+                      p:style="margin-top:5px;"/> <!-- p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_CLOSE]}" -->
             </list>
         </property>
     </bean>
@@ -270,8 +279,7 @@
                                   p:ajaxSubmit="false"
                                   p:methodToCall="saveProposal"
                                   p:actionLabel="Save and Continue"
-                                  p:performClientSideValidation="true"
-                                  p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_SAVE]}">
+                                  p:performClientSideValidation="true"> <!-- p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_SAVE]}" -->
                                 <property name="actionParameters">
                                     <map>
                                         <entry key="displayPage" value="NEXT"/>
@@ -281,8 +289,7 @@
                             <bean parent="Uif-ActionLink" p:id="CM-Proposal-Course-View-Cancel"
                                   p:actionLabel="Cancel"
                                   p:methodToCall="back"
-                                  p:style="margin-top:5px;"
-                                  p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_CLOSE]}"/>
+                                  p:style="margin-top:5px;"/> <!-- p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_CLOSE]}" -->
                         </list>
                     </property>
                 </bean>

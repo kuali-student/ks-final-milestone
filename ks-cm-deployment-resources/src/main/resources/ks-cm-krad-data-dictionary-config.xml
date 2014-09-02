@@ -29,6 +29,7 @@
                     <value>classpath:org/kuali/student/cm/course/proposal/StartProposalView.xml</value>
                     <value>classpath:org/kuali/student/cm/course/view/ViewCourseView.xml</value>
                     <value>classpath:org/kuali/student/cm/course/retire/CourseRetireMaintenanceView.xml</value>
+                    <value>classpath:org/kuali/student/cm/course/retire/StartAdminRetireCourseView.xml</value>
                     <value>classpath:org/kuali/student/cm/krms/CourseRuleMaintenance.xml</value>
                     <value>classpath:org/kuali/student/cm/course/proposal/CourseViewCourseInfo.xml</value>
                     <value>classpath:org/kuali/student/cm/course/proposal/CourseViewGovernance.xml</value>
@@ -62,6 +63,7 @@
                     <value>classpath:org/kuali/student/cm/lookup/ProposalLookup.xml</value>
                     <value>classpath:org/kuali/student/cm/comment/CMCommentView.xml</value>
                     <value>classpath:org/kuali/student/cm/comment/CMDecisionView.xml</value>
+                    <value>classpath:org/kuali/student/cm/course/retire/RetireCourseRetireInfo.xml</value>
                 </list>
             </constructor-arg>
         </bean>
