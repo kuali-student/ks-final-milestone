@@ -366,6 +366,45 @@ INSERT INTO KSEN_PROCESS_INSTRN
     0,
     'N')
 /
+INSERT INTO KSEN_PROCESS_INSTRN
+(APPLD_POPULATION_ID,
+ CHECK_ID,
+ CONT_ON_FAILED_IND,
+ CREATEID,
+ CREATETIME,
+ EFF_DT,
+ EXEMPTIBLE_IND,
+ ID,
+ MESG_PLAIN,
+ OBJ_ID,
+ POSITION,
+ PROCESS_ID,
+ PROCESS_INSTRN_STATE,
+ PROCESS_INSTRN_TYPE,
+ UPDATEID,
+ UPDATETIME,
+ VER_NBR,
+ WARNING_IND)
+  VALUES (
+    'kuali.population.student.key.everyone',
+    'kuali.check.best.effort.time.conflict',
+    'Y',
+    'Admin',
+    TO_DATE( '2014-08-29', 'YYYY-MM-DD' ),
+    TO_DATE( '2014-08-29', 'YYYY-MM-DD' ),
+    'Y',
+    '01CC67C7-6A5C-82C3-E050-007F010105C1',
+    'Registration eligibility - Time Conflict',
+    '01CC67C7-6A5D-82C3-E050-007F010105C1',
+    1,
+    'kuali.process.course.eligible.for.add.from.waitlist',
+    'kuali.process.instruction.state.active',
+    'kuali.process.instruction.type.instruction',
+    'Admin',
+    TO_DATE( '2014-08-29', 'YYYY-MM-DD' ),
+    0,
+    'N')
+/
 
 -- Student Eligible to Edit a waitlisted course --
 INSERT INTO KSEN_PROCESS (CREATEID, CREATETIME, DESCR_PLAIN, ID, NAME, OBJ_ID, OWNER_ORG_ID, PROCESS_STATE, PROCESS_TYPE, UPDATEID, UPDATETIME, VER_NBR )
