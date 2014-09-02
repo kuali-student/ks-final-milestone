@@ -34,8 +34,17 @@ public class CurriculumManagementConstants {
         public final static String CM_COMMENT = "/cm_comment";
         public final static String CM_DECISION = "/cm_decision";
         public final static String VIEW_COURSE = "/view_course";
+        public final static String COURSE_VERSIONS = "/course_versions";
         public final static String CM_HOME = "/cmHome";
         public final static String CM_RETIRE_COURSE = "/retireCourse";
+    }
+
+    /**
+     * URL Parameters used in controllers.
+     */
+    public static class UrlParams {
+        public static final String COURSE_ID = "courseId";
+        public static final String VERSION_INDEPENDENT_ID = "viId";
     }
 
     public static class DocumentTypeNames {
@@ -231,11 +240,11 @@ public class CurriculumManagementConstants {
     /**
      * This delimiter to use when rendering collections as a String.
      */
-    public static String COLLECTION_ITEMS_DELIMITER = "; ";
-    public static String COLLECTION_ITEMS_COMMA_DELIMITER = ", ";
-    public static String COLLECTION_ITEMS_NEWLINE_DELIMITER = "\n";
-    public static String COLLECTION_ITEMS_WHITESPACE_DELIMITER = " ";
-    public static String COLLECTION_ITEM_PLURAL_END = "(s)";
+    public static final String COLLECTION_ITEMS_DELIMITER = "; ";
+    public static final String COLLECTION_ITEMS_COMMA_DELIMITER = ", ";
+    public static final String COLLECTION_ITEMS_NEWLINE_DELIMITER = "\n";
+    public static final String COLLECTION_ITEMS_WHITESPACE_DELIMITER = " ";
+    public static final String COLLECTION_ITEM_PLURAL_END = "(s)";
 
     /**
      * LO dynamic attribute keys.
