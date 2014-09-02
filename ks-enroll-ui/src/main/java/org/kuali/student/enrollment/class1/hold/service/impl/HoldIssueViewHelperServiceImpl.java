@@ -25,10 +25,16 @@ import static org.kuali.rice.core.api.criteria.PredicateFactory.like;
  * User: Blue Team (SA)
  * Date: 17 July 2014
  * <p/>
- * Implementation of the HoldIssueViewHelperService that contains helper methods that support the Hold Issue Maintenance Controller.
+ * Implementation of the HoldIssueViewHelperService that contains helper methods that support the Hold Issue Management Controller.
  */
 public class HoldIssueViewHelperServiceImpl extends KSViewHelperServiceImpl implements HoldIssueViewHelperService {
 
+    /**
+     * This method is used to search for hold issues and map them to HoldIssueResult
+     *
+     * @param holdIssueFrom
+     * @return List holdIssueResultList
+     */
     @Override
     public List<HoldIssueResult> searchHolds(HoldIssueManagementForm holdIssueFrom) {
 
@@ -40,8 +46,6 @@ public class HoldIssueViewHelperServiceImpl extends KSViewHelperServiceImpl impl
 
             for (HoldIssueInfo holdIssueInfo : holdIssueInfos) {
                 HoldIssueResult holdIssueResult = new HoldIssueResult();
-                //holdIssueResult.setHoldIssueInfo(holdIssueInfo);
-                //Hardcoded values for Testing
                 holdIssueResult.setId(holdIssueInfo.getId());
                 holdIssueResult.setName(holdIssueInfo.getName());
                 holdIssueResult.setCode(holdIssueInfo.getHoldCode());
