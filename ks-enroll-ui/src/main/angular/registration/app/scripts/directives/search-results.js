@@ -114,7 +114,7 @@ angular.module('regCartApp')
                  * -- reset the page to 1
                  * -- increment the limit
                  */
-                scope.$watch('displayLimit', function(limit) {
+                scope.$watch('displayLimit', function() {
                     scope.page = 1;
                     scope.limit += stagger;
                 });
@@ -153,6 +153,11 @@ angular.module('regCartApp')
 
                 // apply the given filter name to the value (if it's an array)
                 scope.applyFilter = function(row, field, filterName) {
+                    // Check for the cached value
+                    if (angular.isDefined(row._cachedValues) && angular.isDefined(row._cachedValues[field])) {
+                        return row._cachedValues[field];
+                    }
+
                     var value = null;
                     if (field && angular.isUndefined(row[field]) && field.indexOf('.') !== -1) {
                         var workingValue = row,
@@ -176,11 +181,20 @@ angular.module('regCartApp')
                         value = row[field];
                     }
 
+                    // Apply the filter if one was provided
                     if (angular.isArray(value) && filterName) {
-                        return $filter(filterName)(value);
-                    } else{
-                        return value;
+                        value = $filter(filterName)(value);
                     }
+
+                    // Make sure the cache is defined
+                    if (angular.isUndefined(row._cachedValues)) {
+                        row._cachedValues = {};
+                    }
+
+                    // Cache the filtered value
+                    row._cachedValues[field] = value;
+
+                    return value;
                 };
 
                 // returns the customizable id for the given search result

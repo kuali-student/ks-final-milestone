@@ -2,13 +2,19 @@
 
 angular.module('regCartApp')
 
-    /**
-     * Search facet directive. A facet is a filter over a single piece of data (e.g. Course prefix 'CHEM').
-     *
-     * @example <div search-facet="facet"></div>
-     * @example <search-facet facet="facet"></div>
-     * @example <div class="search-facet" facet="facet"></div>
-     */
+/**
+ * Search facet directive. A facet is a filter over a single piece of data (e.g. Course prefix 'CHEM').
+ *
+ * @example <div search-facet="facet"></div>
+ * @example <search-facet facet="facet"></div>
+ * @example <div class="search-facet" facet="facet"></div>
+ *
+ * Event Handling:
+ *  Emits:
+ *    - facetSelectionChange (facet) - Emitted when selected options change.
+ *  Broadcasts: none
+ *  Receives: none
+ */
     .directive('searchFacet', ['SearchFacetService', function(SearchFacetService) {
         return {
             restrict: 'ECA',
@@ -33,18 +39,18 @@ angular.module('regCartApp')
                  */
                 function tallyOptionCounts (options, results) {
                     // First, reset the counts
-                    angular.forEach(options, function(option) {
-                        option.count = 0;
-                    });
+                    for (var i = 0; i < options.length; i++) {
+                        options[i].count = 0;
+                    }
 
                     // Iterate through the results, if the filter method matches the option, increment the count.
-                    angular.forEach(results, function(item) {
-                        angular.forEach(options, function(option) {
-                            if ($scope.facet.filter(item, option.value)) {
-                                option.count++;
+                    for (i = 0; i < results.length; i++) {
+                        for (var j = 0; j < options.length; j++) {
+                            if ($scope.facet.filter(results[i], options[j].value)) {
+                                options[j].count++;
                             }
-                        });
-                    });
+                        }
+                    }
 
                     return options;
                 }
@@ -108,6 +114,15 @@ angular.module('regCartApp')
                 $scope.$watch('results', function(results) {
                     // console.log('Search Results changed, updating facets');
                     reset(results);
+                });
+
+
+                // Watch for changes to the selected options & emit a 'facetSelectionChange' event when they occur
+                $scope.$watchCollection('facet.selectedOptions', function(newOptions, oldOptions) {
+                    if (angular.isArray(newOptions) &&
+                        (!angular.isArray(oldOptions) || !(newOptions.length === oldOptions.length && newOptions.length === 0))) {
+                        $scope.$emit('facetSelectionChange', $scope.facet, newOptions, oldOptions || []);
+                    }
                 });
 
 
@@ -190,18 +205,18 @@ angular.module('regCartApp')
     }])
 
 
-    /**
-     * Search Facet Service
-     *
-     * Configures the default optionsProvider & filter on the facets. This is generic to the type of facet defined.
-     */
+/**
+ * Search Facet Service
+ *
+ * Configures the default optionsProvider & filter on the facets. This is generic to the type of facet defined.
+ */
     .service('SearchFacetService', function SearchFacetService() {
 
         this.initFacets = function(facets) {
             // Iterate over the facet definitions and make sure they have an optionsProvider & filter.
-            angular.forEach(facets, function(facet) {
-                this.initFacet(facet);
-            }, this);
+            for (var i = 0; i < facets.length; i++) {
+                this.initFacet(facets[i]);
+            }
 
             return facets;
         };
@@ -216,7 +231,9 @@ angular.module('regCartApp')
                     // The default options provider requires the optionsKey. Don't proceed if it's not set.
                     if (angular.isDefined(facet.optionsKey) && facet.optionsKey !== null) {
                         // Loop through the results and configure an option object for each unique value.
-                        angular.forEach(results, function(item) {
+                        for (var i = 0; i < results.length; i++) {
+                            var item = results[i];
+
                             if (angular.isDefined(item[facet.optionsKey])) { // Make sure the item has the optionsKey field
                                 // To facilitate processing of arrays, push everything to an array.
                                 var values = item[facet.optionsKey];
@@ -224,14 +241,17 @@ angular.module('regCartApp')
                                     values = [values];
                                 }
 
-                                angular.forEach(values, function(value) {
+                                for (var j = 0; j < values.length; j++) {
+                                    var value = values[j];
+
                                     // Try to find an existing option with a matching value.
                                     var option = null;
-                                    angular.forEach(options, function(o) {
-                                        if (option === null && o.value === value) {
-                                            option = o;
+                                    for (var k = 0; k < options.length; k++) {
+                                        if (options[k].value === value) {
+                                            option = options[k];
+                                            break;
                                         }
-                                    });
+                                    }
 
                                     if (option === null) {
                                         // The existing option doesn't exist. Create it anew.
@@ -245,9 +265,9 @@ angular.module('regCartApp')
 
                                     // Increment the count of results identified with this option.
                                     option.count++;
-                                });
+                                }
                             }
-                        });
+                        }
                     } else {
                         console.log('Facet "' + facet.id + '" is missing the required optionsKey value');
                     }
@@ -269,21 +289,21 @@ angular.module('regCartApp')
                     function valueExists(value, array) {
                         var exists = false;
                         if (angular.isArray(value)) {
-                            angular.forEach(value, function(v) {
-                                if (!exists) {
-                                    exists = valueExists(v, array);
+                            for (var i = 0; i < value.length; i++) {
+                                if (valueExists(value[i], array)) {
+                                    exists = true;
+                                    break;
                                 }
-                            });
-                        } else {
-                            if (angular.isArray(array)) {
-                                angular.forEach(array, function(item) {
-                                    if (!exists) {
-                                        exists = valueExists(value, item);
-                                    }
-                                });
-                            } else {
-                                exists = value === array;
                             }
+                        } else if (angular.isArray(array)) {
+                            for (var j = 0; j < array.length; j++) {
+                                if (valueExists(value, array[j])) {
+                                    exists = true;
+                                    break;
+                                }
+                            }
+                        } else {
+                            exists = (value === array);
                         }
 
                         return exists;

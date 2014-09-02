@@ -52,11 +52,11 @@ angular.module('regCartApp')
             autoCollapse: false, // Don't auto-collapse Seats Available
             optionsProvider: function(results) {
                 var itemsWithSeats = 0;
-                angular.forEach(results, function(item) {
-                    if (item.seatsAvailable > 0) {
+                for (var i = 0; i < results.length; i++) {
+                    if (results[i].seatsAvailable > 0) {
                         itemsWithSeats++;
                     }
-                });
+                }
 
                 var options = [];
                 if (itemsWithSeats > 0) {
@@ -84,8 +84,9 @@ angular.module('regCartApp')
 
                 // Bucket all credit options into integer values where 1 matches 1 <= X < 2.
                 // Furthermore, bucket everything larger than 6 into a 6+ option.
-                angular.forEach(originalOptions, function(option) {
-                    var newValue = Math.floor(option.value),
+                for (var i = 0; i < originalOptions.length; i++) {
+                    var option = originalOptions[i],
+                        newValue = Math.floor(option.value),
                         newLabel = newValue;
 
 
@@ -97,9 +98,9 @@ angular.module('regCartApp')
 
                     // Check to see if this new option has already been handled
                     var existingOption = null;
-                    for (var i = 0; i < options.length; i++) {
-                        if (options[i].value.indexOf(newValue) !== -1) {
-                            existingOption = options[i];
+                    for (var j = 0; j < options.length; j++) {
+                        if (options[j].value.indexOf(newValue) !== -1) {
+                            existingOption = options[j];
                             break;
                         }
                     }
@@ -124,7 +125,7 @@ angular.module('regCartApp')
 
                         existingOption.label = newLabel;
                     }
-                });
+                }
 
                 return options;
             }

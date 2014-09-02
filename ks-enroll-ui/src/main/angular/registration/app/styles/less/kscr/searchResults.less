@@ -59,6 +59,10 @@ If more specific styling needs to take place add to courseSearch.less
 
 .kscr-Search-results-cell {
   padding: 1rem @leftRightPadding;
+
+  &--clickable {
+    &:extend(a);
+  }
 }
 
 .kscr-Search-results--selected {
