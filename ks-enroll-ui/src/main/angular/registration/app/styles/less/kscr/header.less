@@ -52,7 +52,7 @@
     }
 
     &-selector {
-        display: none; // hide the selector by default (small-format)
+        display: block; // show the selector by default (large-format)
 
         &-label {
           .kscr-Header-moreOptions;
@@ -148,7 +148,12 @@
 }
 
 @media screen and (max-width: @largeFormatMin) {
-  .kscr-Header-menu {
-    display: none; /* only shown in large view */
-  }
+
+    .kscr-Header-termName-selector {
+        display: none; // hide the term label selector in small format only
+    }
+
+    .kscr-Header-menu {
+        display: none; /* only shown in large view */
+    }
 }
