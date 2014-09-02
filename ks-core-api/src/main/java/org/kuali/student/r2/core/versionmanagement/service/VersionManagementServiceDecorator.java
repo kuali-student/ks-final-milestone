@@ -76,4 +76,10 @@ public class VersionManagementServiceDecorator implements VersionManagementServi
     public List<VersionDisplayInfo> getVersionsInDateRange(String refObjectUri, String refObjectId, Date from, Date to, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return nextDecorator.getVersionsInDateRange(refObjectUri, refObjectId, from, to, contextInfo);
     }
+
+    @Override
+    public String getVersionIndependentId(String refObjectId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return nextDecorator.getVersionIndependentId(refObjectId, contextInfo);
+    }
+
 }

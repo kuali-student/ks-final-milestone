@@ -39,8 +39,6 @@ public class ProgramServiceDecorator implements ProgramService {
         return nextDecorator;
     }
 
-
-
     @Override
     public CredentialProgramInfo getCredentialProgram(String credentialProgramId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return this.getNextDecorator().getCredentialProgram(credentialProgramId, contextInfo);
@@ -299,6 +297,11 @@ public class ProgramServiceDecorator implements ProgramService {
        
         SearchResultInfo sr = this.getNextDecorator().search(searchRequestInfo, contextInfo);
         return sr;
+    }
+
+    @Override
+    public String getVersionIndependentId(String refObjectId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return this.nextDecorator.getVersionIndependentId(refObjectId, contextInfo);
     }
 
     @Override

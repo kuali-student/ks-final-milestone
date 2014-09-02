@@ -168,4 +168,19 @@ public interface VersionManagementService {
      * @throws PermissionDeniedException an authorization failure occurred
      */
     public List<VersionDisplayInfo> getVersionsInDateRange(@WebParam(name = "refObjectUri") String refObjectUri, @WebParam(name = "refObjectId") String refObjectId, @WebParam(name = "from") Date from, @WebParam(name = "to") Date to, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
+     * Retrieves a list of versions associated with the objectId.
+     *
+     * @param refObjectId  reference object Id
+     * @param contextInfo  context information containing the principalId and
+     *                     locale information about the caller of service operation
+     * @return version independent id for given clu
+     * @throws DoesNotExistException     refObjectId not found
+     * @throws InvalidParameterException invalid contextInfo
+     * @throws MissingParameterException refObjectId or contextInfo is missing or null
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public String getVersionIndependentId(@WebParam(name = "refObjectId") String refObjectId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 }
