@@ -1959,7 +1959,6 @@
 
 
     <bean id="HoldIssueAuthorizingOrgServiceFacade" class="org.kuali.student.enrollment.class1.hold.service.facade.HoldIssueAuthorizingOrgServiceFacadeImpl">
-        <property name="holdService" ref="HoldService" />
         <property name="organizationService" ref="orgServiceImplNew"/>
     </bean>
 

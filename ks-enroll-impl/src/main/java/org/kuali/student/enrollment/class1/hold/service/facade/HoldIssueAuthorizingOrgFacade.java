@@ -23,14 +23,7 @@ public interface HoldIssueAuthorizingOrgFacade {
      * Expire the Applied Hold on Students
      * @return
      */
-    List<Role> getHold(ContextInfo contextInfo);
-
-
-    /**
-     * Produce a list organizations that the user can pick from to specify as applying to each of these functions
-     * @return
-     */
-    List<OrgInfo> getPossibleHoldsOrgs(ContextInfo contextInfo);
+    List<Role> getHoldFunctions(ContextInfo contextInfo);
 
     /**
      * Store (or persist) the binding between:The Hold Issue,he Org Id, The Function (Apply or Expire)
@@ -40,15 +33,27 @@ public interface HoldIssueAuthorizingOrgFacade {
      * @param role
      * @return
      */
-    void storeBinding(String holdIssueId, String orgId, Role role, ContextInfo contextInfo) throws DoesNotExistException, MissingParameterException, InvalidParameterException, OperationFailedException, PermissionDeniedException;
+    void storeBinding(String holdIssueId, String orgId, Role role, ContextInfo contextInfo)
+            throws DoesNotExistException, MissingParameterException, InvalidParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
+     * Store (or persist) the binding between:The Hold Issue,he Org Id, The Function (Apply or Expire)
+     *
+     * @param holdIssueId
+     * @param orgId
+     * @param role
+     * @return
+     */
+    void removeBinding(String holdIssueId, String orgId, Role role, ContextInfo contextInfo)
+            throws DoesNotExistException, MissingParameterException, InvalidParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
      * Retrieves binding by the Function and Hold Issue so we can display the list of orgs are associated with this hold issue and function.
      *
      * @param roleId
      * @param holdIssueId
-     * @return
+     * @return list of org ids
      */
-    // Fetch this
-    List<OrgInfo> getBindingByRoleAndHoldIssue(String roleId, String holdIssueId, ContextInfo contextInfo) throws PermissionDeniedException, MissingParameterException, InvalidParameterException, OperationFailedException, DoesNotExistException;
+    List<String> getBindingByRoleAndHoldIssue(String roleId, String holdIssueId, ContextInfo contextInfo)
+            throws PermissionDeniedException, MissingParameterException, InvalidParameterException, OperationFailedException, DoesNotExistException;
 }

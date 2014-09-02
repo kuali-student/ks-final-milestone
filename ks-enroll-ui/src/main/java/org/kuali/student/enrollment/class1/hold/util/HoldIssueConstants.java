@@ -75,7 +75,9 @@ public class HoldIssueConstants {
     public static final String HOLDS_ISSUE_MSG_ERROR_FIRST_APPLICATION_TERMID = "error.hold.issue.first.application.term.id";
     public static final String HOLDS_ISSUE_MSG_ERROR_LAST_APPLICATION_TERMID = "error.hold.issue.last.application.term.id";
     public static final String HOLDS_ISSUE_MSG_ERROR_INVALID_DATE_RANGE = "error.hold.daterange.invalid";
-    public static final String HOLDS_ISSUE_MSG_ERROR_AUTHORIZED_ORG = "error.hold.issue.no.permission.selected";
+    public static final String HOLDS_ISSUE_MSG_ERROR_AUTHORIZED_ORG = "error.hold.issue.org.no.permission.selected";
+    public static final String HOLDS_ISSUE_MSG_ERROR_AUTHORIZED_ORG_REQUIRED = "error.hold.issue.org.required";
+    public static final String HOLDS_ISSUE_MSG_ERROR_AUTHORIZED_ORG_DUPLICATE = "error.hold.issue.org.duplicate";
     public static final String HOLDS_ISSUE_MSG_ERROR_INVALID_TERM = "error.hold.issue.term.invalid";
     public static final String HOLDS_ISSUE_MSG_ERROR_FIRST_TERM_REQUIRED = "error.hold.issue.first.term.required";
 
