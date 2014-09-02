@@ -78,11 +78,6 @@ public class CreditsFormatter {
                 this.min = null;
                 this.max = null;
                 this.multiple = multiple;
-            }
-            else if (multiple.size() == 1){
-                this.min = multiple.get(0);
-                this.max = multiple.get(0);
-                this.multiple = multiple;
             } else {
                 Collections.sort(multiple);
                 this.min = multiple.get(0);
