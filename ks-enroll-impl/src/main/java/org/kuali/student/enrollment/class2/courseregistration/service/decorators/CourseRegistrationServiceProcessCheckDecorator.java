@@ -28,6 +28,8 @@ import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.util.constants.LprServiceConstants;
 import org.kuali.student.r2.core.class1.util.ValidationUtils;
 import org.kuali.student.r2.core.constants.ProcessServiceConstants;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -41,6 +43,8 @@ import java.util.Map;
  */
 public class CourseRegistrationServiceProcessCheckDecorator
         extends CourseRegistrationServiceDecorator {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(CourseRegistrationServiceProcessCheckDecorator.class);
 
     private CourseWaitListService waitlistService;
     private CourseOfferingService courseOfferingService;
@@ -119,7 +123,6 @@ public class CourseRegistrationServiceProcessCheckDecorator
             OperationFailedException,
             PermissionDeniedException {
 
-        Proposition prop = new ProcessProposition(ProcessServiceConstants.PROCESS_KEY_ELIGIBLE_FOR_COURSE);
         Map<String, Object> executionFacts = new LinkedHashMap<>();
 
         RegistrationRequestInfo registrationRequest = getRegistrationRequest(registrationRequestId, contextInfo);
@@ -165,33 +168,28 @@ public class CourseRegistrationServiceProcessCheckDecorator
                     //Look up some reg group info
                     RegistrationGroupInfo registrationGroupInfo = courseOfferingService.getRegistrationGroup(requestItem.getRegistrationGroupId(), contextInfo);
 
-            // only validate rules for add requests
-                    if (requestItem.getTypeKey().equals(LprServiceConstants.REQ_ITEM_ADD_TYPE_KEY) ||
-                        requestItem.getTypeKey().equals(LprServiceConstants.REQ_ITEM_ADD_TO_WAITLIST_TYPE_KEY) ||
-                        requestItem.getTypeKey().equals(LprServiceConstants.REQ_ITEM_ADD_FROM_WAITLIST_TYPE_KEY) ||
-                        requestItem.getTypeKey().equals(LprServiceConstants.REQ_ITEM_ADD_TO_HOLD_UNTIL_LIST_TYPE_KEY)) {
-                        //Put In facts that are needed for each reg request
-                        executionFacts.put(RulesExecutionConstants.REGISTRATION_GROUP_TERM.getName(), registrationGroupInfo);
-                        executionFacts.put(RulesExecutionConstants.REGISTRATION_REQUEST_ITEM_TERM.getName(), requestItem);
-                        executionFacts.put(RulesExecutionConstants.REGISTRATION_REQUEST_ITEM_ID_TERM.getName(), requestItem.getId());
-                        executionFacts.put(RulesExecutionConstants.REGISTRATION_REQUEST_ITEM_OK_TO_REPEAT_TERM.getName(), requestItem.getOkToRepeat());
+                    //Build the proposition based on the reg item request type
+                    Proposition prop = buildProposition(requestItem.getTypeKey());
 
-                        //Perform the rules execution
-                        EngineResults engineResults = this.krmsEvaluator.evaluateProposition(prop, executionFacts);
-                        Exception ex = KRMSEvaluator.checkForExceptionDuringExecution(engineResults);
-                        if (ex != null) {
-                            throw new OperationFailedException("Unexpected exception while executing rules", ex);
-                        }
+                    //Put In facts that are needed for each reg request
+                    executionFacts.put(RulesExecutionConstants.REGISTRATION_GROUP_TERM.getName(), registrationGroupInfo);
+                    executionFacts.put(RulesExecutionConstants.REGISTRATION_REQUEST_ITEM_TERM.getName(), requestItem);
+                    executionFacts.put(RulesExecutionConstants.REGISTRATION_REQUEST_ITEM_ID_TERM.getName(), requestItem.getId());
+                    executionFacts.put(RulesExecutionConstants.REGISTRATION_REQUEST_ITEM_OK_TO_REPEAT_TERM.getName(), requestItem.getOkToRepeat());
 
-                        //Get the validation results
-                        List<ValidationResultInfo> itemValidationResults = KRMSEvaluator.extractValidationResults(engineResults);
-                        allValidationResults.addAll(itemValidationResults);
+                    //Perform the rules execution
+                    EngineResults engineResults = this.krmsEvaluator.evaluateProposition(prop, executionFacts);
+                    Exception ex = KRMSEvaluator.checkForExceptionDuringExecution(engineResults);
+                    if (ex != null) {
+                        throw new OperationFailedException("Unexpected exception while executing rules", ex);
+                    }
 
-                        //If there are no errors add this request item to the list of simulated "successful" items
-                        if (!ValidationUtils.checkForErrors(itemValidationResults)) {
-                            simulatedCourses.add(convertRequestItemToCourseRegistration(requestItem, registrationGroupInfo));
-                        }
-                    } else {
+                    //Get the validation results
+                    List<ValidationResultInfo> itemValidationResults = KRMSEvaluator.extractValidationResults(engineResults);
+                    allValidationResults.addAll(itemValidationResults);
+
+                    //If there are no errors add this request item to the list of simulated "successful" items
+                    if (!ValidationUtils.checkForErrors(itemValidationResults)) {
                         simulatedCourses.add(convertRequestItemToCourseRegistration(requestItem, registrationGroupInfo));
                     }
                 }
@@ -214,6 +212,42 @@ public class CourseRegistrationServiceProcessCheckDecorator
         courseRegistrationInfo.setTermId(registrationGroupInfo.getTermId());
         courseRegistrationInfo.setId(UUIDHelper.genStringUUID());
         return courseRegistrationInfo;
+    }
+
+    /*
+    Determine the process key based on the registration request item type
+     */
+    private Proposition buildProposition(String registrationRequestItemType) {
+        String processKey;
+
+        switch (registrationRequestItemType) {
+            case (LprServiceConstants.REQ_ITEM_ADD_TYPE_KEY):
+                processKey = ProcessServiceConstants.PROCESS_KEY_ELIGIBLE_FOR_COURSE;
+                break;
+            case (LprServiceConstants.REQ_ITEM_ADD_TO_WAITLIST_TYPE_KEY):
+                processKey = ProcessServiceConstants.PROCESS_KEY_ELIGIBLE_FOR_WAITLIST;
+                break;
+            case (LprServiceConstants.REQ_ITEM_ADD_FROM_WAITLIST_TYPE_KEY):
+                processKey = ProcessServiceConstants.PROCESS_KEY_ELIGIBLE_FOR_ADD_FROM_WL;
+                break;
+            case (LprServiceConstants.REQ_ITEM_UPDATE_WAITLIST_TYPE_KEY):
+                processKey = ProcessServiceConstants.PROCESS_KEY_ELIGIBLE_FOR_WL_EDIT;
+                break;
+            case (LprServiceConstants.REQ_ITEM_DROP_WAITLIST_TYPE_KEY):
+                processKey = ProcessServiceConstants.PROCESS_KEY_ELIGIBLE_FOR_WL_DROP;
+                break;
+            case (LprServiceConstants.REQ_ITEM_UPDATE_TYPE_KEY):
+                processKey = ProcessServiceConstants.PROCESS_KEY_ELIGIBLE_FOR_COURSE_EDIT;
+                break;
+            case (LprServiceConstants.REQ_ITEM_DROP_TYPE_KEY):
+                processKey = ProcessServiceConstants.PROCESS_KEY_ELIGIBLE_FOR_COURSE_DROP;
+                break;
+            default:
+                LOGGER.warn("Unable to determine process key for request item type: {}", registrationRequestItemType);
+                processKey = null;
+        }
+
+        return new ProcessProposition(processKey);
     }
 
     public void setWaitlistService(CourseWaitListService waitlistService) {
