@@ -89,6 +89,7 @@ public interface LuDao extends CrudDao {
 			String refObjectTypeURI);
 	public VersionDisplayInfo getCurrentVersionOnDate(String refObjectId,
 			String refObjectTypeURI, Date date);
+    public String getVersionIndependentId(String refObjectId);
 	public List<CluPublication> getCluPublicationsByType(
 			String luPublicationTypeKey);
 	public List<CluPublication> getCluPublicationsByCluId(String cluId);

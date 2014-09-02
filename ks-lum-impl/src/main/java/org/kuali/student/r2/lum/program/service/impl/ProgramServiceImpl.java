@@ -58,7 +58,7 @@ import java.util.List;
 import org.kuali.student.r2.core.document.dto.RefDocRelationInfo;
 import org.kuali.student.r2.core.document.service.DocumentService;
 
-public class ProgramServiceImpl implements ProgramService{
+public class ProgramServiceImpl implements ProgramService {
 	private static final Logger LOG = LoggerFactory.getLogger(ProgramServiceImpl.class);
 
     private CluService cluService;
@@ -1414,7 +1414,15 @@ public class ProgramServiceImpl implements ProgramService{
 		throw new InvalidParameterException("Object type: " + refObjectTypeURI + " is not known to this implementation");
 	}
 
-	@Override
+    @Override
+    @Transactional(readOnly=true)
+    public String getVersionIndependentId(String refObjectId, ContextInfo contextInfo) throws DoesNotExistException,
+            InvalidParameterException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException {
+        return cluService.getVersionIndependentId(refObjectId, contextInfo);
+    }
+
+    @Override
     @Transactional(readOnly=true)
 	public List<VersionDisplayInfo> getVersionsInDateRange(
             String refObjectTypeURI, String refObjectId, Date from, Date to, ContextInfo contextInfo)

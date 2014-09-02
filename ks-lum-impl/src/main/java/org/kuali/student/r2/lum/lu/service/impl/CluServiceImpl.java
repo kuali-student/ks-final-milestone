@@ -3867,6 +3867,12 @@ public class CluServiceImpl implements CluService {
         return versionInfos;
     }
 
+    @Override
+    public String getVersionIndependentId(String refObjectId, ContextInfo context)
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return luDao.getVersionIndependentId(refObjectId);
+    }
+
     public void setSearchDispatcher(SearchService searchDispatcher) {
         this.searchDispatcher = searchDispatcher;
     }

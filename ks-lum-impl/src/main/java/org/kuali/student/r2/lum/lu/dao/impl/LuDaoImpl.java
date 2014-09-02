@@ -498,7 +498,15 @@ public class LuDaoImpl extends AbstractCrudDaoImpl implements LuDao {
         return versionDisplayInfos;
 	}
 
-	@Override
+    @Override
+    public String getVersionIndependentId(String refObjectId) {
+        Query query = em.createNamedQuery("Clu.findVersionIndependentId");
+        query.setParameter("cluId", refObjectId);
+        String versionIndependentId = (String)query.getSingleResult();
+        return versionIndependentId;
+    }
+
+    @Override
 	public List<VersionDisplayInfo> getVersionsInDateRange(String versionIndId,
 			String objectTypeURI, Date from, Date to) {
 		if(from==null&&to==null){

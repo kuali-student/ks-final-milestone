@@ -91,6 +91,7 @@ import org.kuali.student.r1.common.entity.VersionEntity;
     		"FROM Clu c " +
     		"WHERE c.version.versionIndId = :versionIndId " +
     		"AND c.version.currentVersionStart >= :date"),
+    @NamedQuery(name = "Clu.findVersionIndependentId", query = "SELECT c.version.versionIndId FROM Clu c WHERE c.id = :cluId "),
     @NamedQuery(name = "Clu.findLatestClu", query = "SELECT c FROM Clu c WHERE c.version.versionIndId = :versionIndId AND c.version.sequenceNumber IN (SELECT MAX(nc.version.sequenceNumber) FROM Clu nc WHERE nc.version.versionIndId = :versionIndId)"),
     @NamedQuery(name = "Clu.findCurrentClu", query = "SELECT c FROM Clu c WHERE c.version.versionIndId = :versionIndId AND c.version.currentVersionStart <= :currentTime AND (c.version.currentVersionEnd > :currentTime OR c.version.currentVersionEnd IS NULL)"),
     @NamedQuery(name = "Clu.findClusByIdList", query = "SELECT c FROM Clu c WHERE c.id IN (:idList)"),

@@ -1129,6 +1129,19 @@ public class CluServiceMockImpl implements CluService {
     }
 
     @Override
+    public String getVersionIndependentId(String refObjectId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        String versionIndependentId = null;
+        for (CluInfo cluInfo : cluMap.values()) {
+            VersionInfo version = cluInfo.getVersion();
+            if (cluInfo.getId().equals(refObjectId)) {
+                versionIndependentId = version.getVersionIndId();
+                break;
+            }
+        }
+        return versionIndependentId;
+    }
+
+    @Override
     public VersionDisplayInfo getFirstVersion(String refObjectUri, String refObjectId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
