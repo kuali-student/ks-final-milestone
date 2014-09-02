@@ -55,15 +55,14 @@
 
     &.ng-enter, // Item added though ng-repeat (base styles)
     &.ng-leave.ng-leave-active { // Item actively being removed (target styles)
-        .util-transitions-transition(all ease-out @speed);
+        .util-transitions-transition(opacity ease-out @speed);
         opacity: 0;
     }
 
     &.ng-leave, // Item being removed (base styles)
     &.ng-enter.ng-enter-active { // Item actively being added (target styles)
-        .util-transitions-transition(all ease-in @speed);
+        .util-transitions-transition(opacity ease-in @speed);
         opacity: @opacity;
-        top: inherit;
     }
 }
 
