@@ -29,11 +29,9 @@ import org.kuali.student.ap.academicplan.infc.PlanItem;
 import org.kuali.student.ap.academicplan.infc.TypedObjectReference;
 import org.kuali.student.ap.coursesearch.CreditsFormatter;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
-import org.kuali.student.ap.framework.context.CourseHelper;
 import org.kuali.student.ap.framework.context.CourseSearchConstants;
 import org.kuali.student.ap.framework.context.PlanConstants;
 import org.kuali.student.ap.framework.context.PlanHelper;
-import org.kuali.student.ap.framework.context.TermHelper;
 import org.kuali.student.ap.framework.util.KsapHelperUtil;
 import org.kuali.student.ap.planner.PlannerItem;
 import org.kuali.student.ap.planner.PlannerTerm;
@@ -908,7 +906,7 @@ public class DefaultPlanHelper implements PlanHelper {
         newPlannerItem.setType(PlannerItem.COURSE_RECORD_ITEM);
 
         newPlannerItem.setUniqueId(UUID.randomUUID().toString());
-        newPlannerItem.setTermId(courseRecord.getTermName());
+        newPlannerItem.setTermId(courseRecord.getTermId());
         newPlannerItem.setCourseCode(courseRecord.getCourseCode());
         newPlannerItem.setCategory(ItemCategory.COMPLETE);
 
@@ -1004,143 +1002,28 @@ public class DefaultPlanHelper implements PlanHelper {
      * @see org.kuali.student.ap.framework.context.PlanHelper#getPlannerCalendarTerms(org.kuali.student.r2.core.acal.infc.Term)
      */
     public List<PlannerTerm> getPlannerCalendarTerms(LearningPlan learningPlan) {
-        List<PlannerTerm> terms;
-
-        Map<String, List<PlannerItem>> planned = new HashMap<String, List<PlannerItem>>();
-        Map<String, List<PlannerItem>> backup = new HashMap<String, List<PlannerItem>>();
-        Map<String, List<PlannerItem>> cart = new HashMap<String, List<PlannerItem>>();
-        Map<String, List<PlannerItem>> completed = new HashMap<String, List<PlannerItem>>();
-        Map<String, List<PlannerTermNote>> termNotes = new HashMap<String, List<PlannerTermNote>>();
-
         List<StudentCourseRecordInfo> completedRecords = retrieveCourseRecords(learningPlan.getStudentId());
-
         List<PlanItem> planItems = retrieveCoursePlanItems(learningPlan.getId());
 
-        List<String> courseIds = new ArrayList<String>(
-                completedRecords.size() + planItems.size());
-        SortedSet<String> termIds = new TreeSet<String>();
-
-        Iterator<PlanItem> planItemIterator = planItems.iterator();
-        while (planItemIterator.hasNext()) {
-            PlanItem planItem = planItemIterator.next();
-            List<String> planTermIds = planItem.getPlanTermIds();
-            termIds.addAll(planTermIds);
-            courseIds.add(KsapFrameworkServiceLocator.getCourseHelper().getCurrentVersionOfCourseByVersionIndependentId(planItem.getRefObjectId()).getId());
+        List<PlannerItem> plannerItems = new ArrayList<PlannerItem>();
+        for(StudentCourseRecordInfo record : completedRecords){
+            PlannerItem newItem = KsapFrameworkServiceLocator.getPlanHelper().createPlannerItem(record);
+            plannerItems.add(newItem);
         }
-
-        if (completedRecords != null)
-            for (StudentCourseRecordInfo completedRecord : completedRecords) {
-                String termId =completedRecord.getTermId();
-                termIds.add(termId);
-                List<PlannerItem> itemList = completed.get(termId);
-                if (itemList == null)
-                    completed.put(termId,itemList = new LinkedList<PlannerItem>());
-                itemList.add(KsapFrameworkServiceLocator.getPlanHelper().createPlannerItem(completedRecord));
-            }
-
-        CourseHelper courseHelper = KsapFrameworkServiceLocator
-                .getCourseHelper();
-        courseHelper.frontLoad(courseIds);
-
-        for (PlanItem planItem : planItems) {
-            AcademicPlanServiceConstants.ItemCategory category = planItem.getCategory();
-
-            for (String termId : planItem.getPlanTermIds()) {
-                Map<String, List<PlannerItem>> itemMap;
-                if (AcademicPlanServiceConstants.ItemCategory.CART
-                        .equals(category))
-                    itemMap = cart;
-                else if (AcademicPlanServiceConstants.ItemCategory.PLANNED
-                        .equals(category))
-                    itemMap = planned;
-                else if (AcademicPlanServiceConstants.ItemCategory.BACKUP
-                        .equals(category))
-                    itemMap = backup;
-                else
-                    throw new UnsupportedOperationException(
-                            "Plan item category " + category);
-
-                List<PlannerItem> itemList = itemMap.get(termId);
-                if (itemList == null)
-                    itemMap.put(termId,
-                            itemList = new LinkedList<PlannerItem>());
-
-                itemList.add(KsapFrameworkServiceLocator.getPlanHelper().createPlannerItem(planItem));
-            }
+        for(PlanItem planItem : planItems){
+            PlannerItem newItem = KsapFrameworkServiceLocator.getPlanHelper().createPlannerItem(planItem);
+            plannerItems.add(newItem);
         }
-
-        TermHelper termHelper = KsapFrameworkServiceLocator.getTermHelper();
-        List<Term> tempTerms = new ArrayList<Term>();
-        for(String tempId : termIds){
-            tempTerms.add(termHelper.getTerm(tempId));
-        }
-        String firstTermId;
-        if(termIds.isEmpty()){
-            firstTermId = termHelper.getCurrentTerm().getId();
-        }else{
-            firstTermId = termIds.first();
-        }
-        Term firstTerm;
-        if(tempTerms.size()>0){
-            tempTerms = termHelper.sortTermsByStartDate(tempTerms,true);
-            firstTerm = tempTerms.get(0);
-            firstTermId = firstTerm.getId();
-        }else{
-            firstTerm = termHelper.getTerm(firstTermId);
-        }
-        termHelper.frontLoadForPlanner(firstTermId);
-
-        List<Term> calendarTerms = KsapFrameworkServiceLocator.getPlanHelper().getPlannerCalendarTerms(firstTerm);
-        String focusTermId = KsapFrameworkServiceLocator.getPlanHelper().getPlannerFirstTermId();
-
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(firstTerm.getStartDate());
+        Map<String,List<PlannerItem>> plannerItemMap = createTermPlannerItemMap(plannerItems);
 
         List<PlannerTermNote> notes = retrieveTermNotes(learningPlan.getId());
-        termNotes = createTermTermNoteMap(notes);
+        Map<String,List<PlannerTermNote>> termNotesMap = createTermTermNoteMap(notes);
 
-        List<PlannerTerm> pterms = new ArrayList<PlannerTerm>(
-                termIds.size());
-        for(Term t : calendarTerms){
-            String termId = t.getId();
-            PlannerTerm pterm = new PlannerTerm(termId);
-            pterm.setUniqueId(UUID.randomUUID().toString());
+        String startTermId = findFirstTermForStudent(plannerItemMap,termNotesMap);
 
-            List<PlannerItem> completedList = completed.get(termId);
-            pterm.setAcademicRecord(completedList == null ? completedList = new ArrayList<PlannerItem>()
-                    : completedList);
-            for (PlannerItem item : completedList)
-                item.setParentUniqueId(pterm.getUniqueId());
+        List<Term> calendarTerms = KsapFrameworkServiceLocator.getPlanHelper().getPlannerCalendarTerms(KsapFrameworkServiceLocator.getTermHelper().getTerm(startTermId));
 
-            List<PlannerItem> cartList = cart.get(termId);
-            pterm.setCartList(cartList == null ? cartList = new ArrayList<PlannerItem>()
-                    : cartList);
-            for (PlannerItem item : cartList)
-                item.setParentUniqueId(pterm.getUniqueId());
-
-            List<PlannerItem> plannedList = planned.get(termId);
-            pterm.setPlannedList(plannedList == null ? plannedList = new ArrayList<PlannerItem>()
-                    : plannedList);
-            for (PlannerItem item : plannedList)
-                item.setParentUniqueId(pterm.getUniqueId());
-
-            List<PlannerItem> backupList = backup.get(termId);
-            pterm.setBackupList(backupList == null ? backupList = new ArrayList<PlannerItem>()
-                    : backupList);
-            for (PlannerItem item : backupList)
-                item.setParentUniqueId(pterm.getUniqueId());
-
-            List<PlannerTermNote> termNotesList = termNotes.get(termId);
-            pterm.setTermNoteList(termNotesList == null ? termNotesList = new ArrayList<PlannerTermNote>()
-                    : termNotesList);
-            for (PlannerTermNote termNote : termNotesList)
-                termNote.setParentUniqueId(pterm.getUniqueId());
-
-            pterms.add(pterm);
-        }
-
-        terms = pterms;
-        Collections.sort(terms);
+        List<PlannerTerm> terms = createPlannerTerms(calendarTerms,plannerItemMap,termNotesMap);
 
         return terms;
     }
@@ -1281,7 +1164,7 @@ public class DefaultPlanHelper implements PlanHelper {
         return itemMap;
     }
 
-    private String findFirstTermForStudent(Map<String,List<PlannerTerm>> items, Map<String,List<PlannerTermNote>> notes){
+    private String findFirstTermForStudent(Map<String,List<PlannerItem>> items, Map<String,List<PlannerTermNote>> notes){
         if(items.isEmpty() && notes.isEmpty()){
             return KsapFrameworkServiceLocator.getTermHelper().getCurrentTerm().getId();
         }
@@ -1320,15 +1203,17 @@ public class DefaultPlanHelper implements PlanHelper {
         List<PlannerItem> planned = new ArrayList<PlannerItem>();
         List<PlannerItem> backup = new ArrayList<PlannerItem>();
 
-        for(PlannerItem item : items){
-            if(item.getCategory().equals(AcademicPlanServiceConstants.ItemCategory.PLANNED)){
-                planned.add(item);
-            }else if(item.getCategory().equals(AcademicPlanServiceConstants.ItemCategory.BACKUP)){
-                backup.add(item);
-            }else if(item.getCategory().equals(AcademicPlanServiceConstants.ItemCategory.COMPLETE)){
-                completed.add(item);
-            }else if(item.getCategory().equals(AcademicPlanServiceConstants.ItemCategory.REGISTERED)){
-                registered.add(item);
+        if(items != null){
+            for(PlannerItem item : items){
+                if(item.getCategory().equals(AcademicPlanServiceConstants.ItemCategory.PLANNED)){
+                    planned.add(item);
+                }else if(item.getCategory().equals(AcademicPlanServiceConstants.ItemCategory.BACKUP)){
+                    backup.add(item);
+                }else if(item.getCategory().equals(AcademicPlanServiceConstants.ItemCategory.COMPLETE)){
+                    completed.add(item);
+                }else if(item.getCategory().equals(AcademicPlanServiceConstants.ItemCategory.REGISTERED)){
+                    registered.add(item);
+                }
             }
         }
 
@@ -1336,8 +1221,10 @@ public class DefaultPlanHelper implements PlanHelper {
         if(term.isPlanning()){
             PlannerItem addPlanned = new PlannerItem();
             addPlanned.setType(PlannerItem.ADD_ITEM);
+            addPlanned.setTermId(term.getTermId());
             PlannerItem addBackup = new PlannerItem();
             addBackup.setType(PlannerItem.ADD_ITEM);
+            addBackup.setTermId(term.getTermId());
             planned.add(addPlanned);
             backup.add(addBackup);
         }
@@ -1422,8 +1309,12 @@ public class DefaultPlanHelper implements PlanHelper {
         BigDecimal minCredits = BigDecimal.ZERO;
         BigDecimal maxCredits = BigDecimal.ZERO;
         for(PlannerItem item : items){
-            minCredits.add(item.getMinCredits());
-            maxCredits.add(item.getMaxCredits());
+            if(item.getMinCredits()!=null){
+                minCredits = minCredits.add(item.getMinCredits());
+            }
+            if(item.getMaxCredits()!=null){
+                maxCredits = maxCredits.add(item.getMaxCredits());
+            }
         }
 
         term.setCreditLineMinCredits(minCredits);

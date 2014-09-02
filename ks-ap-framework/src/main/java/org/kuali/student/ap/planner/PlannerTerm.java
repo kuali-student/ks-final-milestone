@@ -68,12 +68,12 @@ public class PlannerTerm implements HasUniqueId, Serializable, Comparable<Planne
 		planning = termHelper.isPlanning(termId);
 		official = termHelper.isOfficial(termId);
 		completed = termHelper.isCompleted(termId);
-		cartAvailable = KsapFrameworkServiceLocator.getShoppingCartStrategy()
-				.isCartAvailable(termId, null);
 
 		Date now = KsapHelperUtil.getCurrentDate();
 		inProgress = !now.before(term.getStartDate())
 				&& !now.after(term.getEndDate());
+
+        futureTerm = now.before(term.getStartDate());
 	}
 
 	public String getUniqueId() {

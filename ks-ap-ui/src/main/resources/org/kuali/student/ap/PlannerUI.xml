@@ -345,6 +345,248 @@
         </property>
     </bean>
 
+    <bean id="KSAP-Planner-Item-Base" parent="KSAP-Planner-Item-Base-parent"/>
+    <bean id="KSAP-Planner-Item-Base-parent" parent="Uif-HorizontalFieldGroup">
+        <property name="group.validationMessages.displayMessages" value="false" />
+        <property name="cssClasses">
+            <list merge="true">
+                <value>ksap-course-valid</value>
+                <value>ks-plan-Bucket-item</value>
+                <value>ks-plan-Bucket-item--valid</value>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KSAP-Planner-Item-PlanItem" parent="KSAP-Planner-Item-PlanItem-parent"/>
+    <bean id="KSAP-Planner-Item-PlanItem-parent" parent="KSAP-Planner-Item-Base">
+        <property name="id" value="@{#line.uniqueId}"/>
+        <property name="title" value="@{#line.courseTitle}"/>
+        <property name="render" value="@{#line.type == 'PlanItem'}"/>
+        <property name="onDocumentReadyScript" value='ksapSetStaticCourseIDs("@{#line.uniqueId}_code", "@{#line.uniqueId}_courseNote")' />
+        <property name="onClickScript"
+                  value="openMenu('@{#line.uniqueId}','planner_menu_@{#line.categoryString != null ? #line.categoryString : 'completed' }@{#line.menuSuffix}', null, e,
+									'.uif-collectionItem', 'uif-boxLayoutHorizontalItem test4', {tail: {align:'top'}, align:'top', position:'right'}, false);" />
+        <property name="dataAttributes">
+            <map>
+                <entry key="termid" value="@{#line.termId}" />
+                <entry key="courseid" value="@{#line.courseId}" />
+                <entry key="learningplanid" value="@{#line.learningPlanId}" />
+                <entry key="planitemid" value="@{#line.planItemId}" />
+                <entry key="uniqueid" value="@{#line.uniqueId}" />
+                <entry key="coursecode" value="@{#line.courseCode}" />
+            </map>
+        </property>
+        <property name="items">
+            <list>
+                <bean p:id="@{#line.uniqueId}_code" parent="Uif-MessageField">
+                    <property name="messageText"
+                              value="@{#line.campusCode} @{#line.courseCode} @{#line.activityCode}" />
+                    <property name="cssClasses">
+                        <list merge="true">
+                            <value>code</value>
+                            <value>ks-plan-Bucket-itemCode</value>
+                        </list>
+                    </property>
+                    <property name="dataAttributes">
+                        <map>
+                            <entry key="termid" value="@{#line.termId}" />
+                            <entry key="courseid" value="@{#line.courseId}" />
+                            <entry key="learningplanid" value="@{#line.learningPlanId}" />
+                            <entry key="planitemid" value="@{#line.planItemId}" />
+                            <entry key="uniqueid" value="@{#line.uniqueId}" />
+                            <entry key="coursecode" value="@{#line.courseCode}" />
+                        </map>
+                    </property>
+                </bean>
+                <bean p:id="@{#line.uniqueId}_courseNote" parent="course_note_icon">
+                    <property name="render" value="@{!#empty(#line.courseNote)}"/>
+                    <property name="title" value="@{#line.courseNote}"/>
+                    <property name="onClickScript"
+                              value="ksapOpenPlanDialog('planner_edit_plan_item_page','planner','startDialog', this, e);" />
+                    <property name="dataAttributes">
+                        <map>
+                            <entry key="termid" value="@{#line.termId}" />
+                            <entry key="courseid" value="@{#line.courseId}" />
+                            <entry key="learningplanid" value="@{#line.learningPlanId}" />
+                            <entry key="planitemid" value="@{#line.planItemId}" />
+                            <entry key="uniqueid" value="@{#line.uniqueId}" />
+                            <entry key="coursecode" value="@{#line.courseCode}" />
+                        </map>
+                    </property>
+                </bean>
+                <bean p:id="@{#line.uniqueId}_courseNote" parent="course_note_icon">
+                    <property name="render" value="@{#empty(#line.courseNote)}"/>
+                    <property name="cssClasses">
+                        <list merge="true">
+                            <value>invisible</value>
+                        </list>
+                    </property>
+                    <property name="onClickScript"
+                              value="ksapOpenPlanDialog('planner_edit_plan_item_page','planner','startDialog', this, e);" />
+                    <property name="dataAttributes">
+                        <map>
+                            <entry key="termid" value="@{#line.termId}" />
+                            <entry key="courseid" value="@{#line.courseId}" />
+                            <entry key="learningplanid" value="@{#line.learningPlanId}" />
+                            <entry key="planitemid" value="@{#line.planItemId}" />
+                            <entry key="uniqueid" value="@{#line.uniqueId}" />
+                            <entry key="coursecode" value="@{#line.courseCode}" />
+                        </map>
+                    </property>
+                </bean>
+                <bean parent="Uif-MessageField">
+                    <property name="messageText" value="@{#line.creditString}" />
+                    <property name="cssClasses">
+                        <list merge="true">
+                            <value>credit</value>
+                            <value>ks-plan-Bucket-itemCreditCount</value>
+                        </list>
+                    </property>
+                </bean>
+                <bean parent="Uif-MessageField" p:render="@{#line.grade ne null}">
+                    <property name="messageText" value="@{#line.grade}" />
+                    <property name="cssClasses">
+                        <list merge="true">
+                            <value>grade</value>
+                            <value>ks-plan-Bucket-itemGrade</value>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KSAP-Planner-Item-CourseRecord" parent="KSAP-Planner-Item-CourseRecord-parent"/>
+    <bean id="KSAP-Planner-Item-CourseRecord-parent" parent="KSAP-Planner-Item-Base">
+        <property name="id" value="@{#line.uniqueId}"/>
+        <property name="title" value="@{#line.courseTitle}"/>
+        <property name="render" value="@{#line.type == 'CourseRecord'}"/>
+        <property name="onDocumentReadyScript" value='ksapSetStaticCourseIDs("@{#line.uniqueId}_code", "@{#line.uniqueId}_courseNote")' />
+        <property name="onClickScript"
+                  value="openMenu('@{#line.uniqueId}','planner_menu_@{#line.categoryString != null ? #line.categoryString : 'completed' }@{#line.menuSuffix}', null, e,
+									'.uif-collectionItem', 'uif-boxLayoutHorizontalItem test4', {tail: {align:'top'}, align:'top', position:'right'}, false);" />
+        <property name="dataAttributes">
+            <map>
+                <entry key="termid" value="@{#line.termId}" />
+                <entry key="courseid" value="@{#line.courseId}" />
+                <entry key="learningplanid" value="@{#line.learningPlanId}" />
+                <entry key="planitemid" value="@{#line.planItemId}" />
+                <entry key="uniqueid" value="@{#line.uniqueId}" />
+                <entry key="coursecode" value="@{#line.courseCode}" />
+            </map>
+        </property>
+        <property name="items">
+            <list>
+                <bean p:id="@{#line.uniqueId}_code" parent="Uif-MessageField">
+                    <property name="messageText"
+                              value="@{#line.campusCode} @{#line.courseCode} @{#line.activityCode}" />
+                    <property name="cssClasses">
+                        <list merge="true">
+                            <value>code</value>
+                            <value>ks-plan-Bucket-itemCode</value>
+                        </list>
+                    </property>
+                    <property name="dataAttributes">
+                        <map>
+                            <entry key="termid" value="@{#line.termId}" />
+                            <entry key="courseid" value="@{#line.courseId}" />
+                            <entry key="learningplanid" value="@{#line.learningPlanId}" />
+                            <entry key="planitemid" value="@{#line.planItemId}" />
+                            <entry key="uniqueid" value="@{#line.uniqueId}" />
+                            <entry key="coursecode" value="@{#line.courseCode}" />
+                        </map>
+                    </property>
+                </bean>
+                <bean p:id="@{#line.uniqueId}_courseNote" parent="course_note_icon">
+                    <property name="render" value="@{!#empty(#line.courseNote)}"/>
+                    <property name="title" value="@{#line.courseNote}"/>
+                    <property name="onClickScript"
+                              value="ksapOpenPlanDialog('planner_edit_plan_item_page','planner','startDialog', this, e);" />
+                    <property name="dataAttributes">
+                        <map>
+                            <entry key="termid" value="@{#line.termId}" />
+                            <entry key="courseid" value="@{#line.courseId}" />
+                            <entry key="learningplanid" value="@{#line.learningPlanId}" />
+                            <entry key="planitemid" value="@{#line.planItemId}" />
+                            <entry key="uniqueid" value="@{#line.uniqueId}" />
+                            <entry key="coursecode" value="@{#line.courseCode}" />
+                        </map>
+                    </property>
+                </bean>
+                <bean p:id="@{#line.uniqueId}_courseNote" parent="course_note_icon">
+                    <property name="render" value="@{#empty(#line.courseNote)}"/>
+                    <property name="cssClasses">
+                        <list merge="true">
+                            <value>invisible</value>
+                        </list>
+                    </property>
+                    <property name="onClickScript"
+                              value="ksapOpenPlanDialog('planner_edit_plan_item_page','planner','startDialog', this, e);" />
+                    <property name="dataAttributes">
+                        <map>
+                            <entry key="termid" value="@{#line.termId}" />
+                            <entry key="courseid" value="@{#line.courseId}" />
+                            <entry key="learningplanid" value="@{#line.learningPlanId}" />
+                            <entry key="planitemid" value="@{#line.planItemId}" />
+                            <entry key="uniqueid" value="@{#line.uniqueId}" />
+                            <entry key="coursecode" value="@{#line.courseCode}" />
+                        </map>
+                    </property>
+                </bean>
+                <bean parent="Uif-MessageField">
+                    <property name="messageText" value="@{#line.creditString}" />
+                    <property name="cssClasses">
+                        <list merge="true">
+                            <value>credit</value>
+                            <value>ks-plan-Bucket-itemCreditCount</value>
+                        </list>
+                    </property>
+                </bean>
+                <bean parent="Uif-MessageField" p:render="@{#line.grade ne null}">
+                    <property name="messageText" value="@{#line.grade}" />
+                    <property name="cssClasses">
+                        <list merge="true">
+                            <value>grade</value>
+                            <value>ks-plan-Bucket-itemGrade</value>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KSAP-Planner-Item-BlankItem" parent="KSAP-Planner-Item-BlankItem-parent"/>
+    <bean id="KSAP-Planner-Item-BlankItem-parent" parent="KSAP-Planner-Item-Base">
+        <property name="render" value="@{#line.type == 'BlankItem'}"/>
+        <property name="items">
+            <list>
+                <bean parent="Uif-MessageField">
+                    <property name="messageText" value="&#160;" />
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KSAP-Planner-Item-AddItem" parent="KSAP-Planner-Item-AddItem-parent"/>
+    <bean id="KSAP-Planner-Item-AddItem-parent" parent="KSAP-Planner-Item-Base">
+        <property name="render" value="@{#line.type == 'AddItem'}"/>
+        <property name="onClickScript"
+                  value="ksapOpenPlanDialog('planner_add_course_page', 'planner', 'startDialog', this, e);" />
+        <property name="dataAttributes">
+            <map>
+                <entry key="termid" value="@{#line.termId}" />
+                <entry key="backup" value="false" />
+            </map>
+        </property>
+        <property name="items">
+            <list>
+                <bean parent="Uif-MessageField">
+                    <property name="messageText" value="@{#textHelper.getText('planner.body.add.course')}" />
+                </bean>
+            </list>
+        </property>
+    </bean>
+
     <bean id="planner_item_collection" parent="planner_item_collection-parent" abstract="true"/>
     <bean id="planner_item_collection-parent" abstract="true" parent="Uif-StackedCollectionGroup">
         <property name="validationMessages.displayMessages" value="false" />
@@ -385,109 +627,10 @@
         <property name="collectionObjectClass" value="org.kuali.student.ap.planner.PlannerItem" />
         <property name="items">
             <list>
-                <bean p:id="@{#line.uniqueId}" parent="Uif-HorizontalFieldGroup"
-                      p:title="@{#line.courseTitle}">
-                    <property name="group.validationMessages.displayMessages" value="false" />
-                    <property name="onDocumentReadyScript" value='ksapSetStaticCourseIDs("@{#line.uniqueId}_code", "@{#line.uniqueId}_courseNote")' />
-                    <property name="onClickScript"
-                              value="openMenu('@{#line.uniqueId}','planner_menu_@{#line.categoryString != null ? #line.categoryString : 'completed' }@{#line.menuSuffix}', null, e,
-									'.uif-collectionItem', 'uif-boxLayoutHorizontalItem test4', {tail: {align:'top'}, align:'top', position:'right'}, false);" />
-                    <property name="dataAttributes">
-                        <map>
-                            <entry key="termid" value="@{#line.termId}" />
-                            <entry key="courseid" value="@{#line.courseId}" />
-                            <entry key="learningplanid" value="@{#line.learningPlanId}" />
-                            <entry key="planitemid" value="@{#line.planItemId}" />
-                            <entry key="uniqueid" value="@{#line.uniqueId}" />
-                            <entry key="coursecode" value="@{#line.courseCode}" />
-                        </map>
-                    </property>
-                    <property name="cssClasses">
-                        <list merge="true">
-                            <value>ksap-course-valid</value>
-                            <value>ks-plan-Bucket-item</value>
-                            <value>ks-plan-Bucket-item--valid</value>
-                        </list>
-                    </property>
-                    <property name="items">
-                        <list>
-                            <bean p:id="@{#line.uniqueId}_code" parent="Uif-MessageField">
-                                <property name="messageText"
-                                          value="@{#line.campusCode} @{#line.courseCode} @{#line.activityCode}" />
-                                <property name="cssClasses">
-                                    <list merge="true">
-                                        <value>code</value>
-                                        <value>ks-plan-Bucket-itemCode</value>
-                                    </list>
-                                </property>
-                                <property name="dataAttributes">
-                                    <map>
-                                        <entry key="termid" value="@{#line.termId}" />
-                                        <entry key="courseid" value="@{#line.courseId}" />
-                                        <entry key="learningplanid" value="@{#line.learningPlanId}" />
-                                        <entry key="planitemid" value="@{#line.planItemId}" />
-                                        <entry key="uniqueid" value="@{#line.uniqueId}" />
-                                        <entry key="coursecode" value="@{#line.courseCode}" />
-                                    </map>
-                                </property>
-                            </bean>
-                            <bean p:id="@{#line.uniqueId}_courseNote" parent="course_note_icon">
-                                <property name="render" value="@{!#empty(#line.courseNote)}"/>
-                                <property name="title" value="@{#line.courseNote}"/>
-                                <property name="onClickScript"
-                                          value="ksapOpenPlanDialog('planner_edit_plan_item_page','planner','startDialog', this, e);" />
-                                <property name="dataAttributes">
-                                    <map>
-                                        <entry key="termid" value="@{#line.termId}" />
-                                        <entry key="courseid" value="@{#line.courseId}" />
-                                        <entry key="learningplanid" value="@{#line.learningPlanId}" />
-                                        <entry key="planitemid" value="@{#line.planItemId}" />
-                                        <entry key="uniqueid" value="@{#line.uniqueId}" />
-                                        <entry key="coursecode" value="@{#line.courseCode}" />
-                                    </map>
-                                </property>
-                            </bean>
-                            <bean p:id="@{#line.uniqueId}_courseNote" parent="course_note_icon">
-                                <property name="render" value="@{#empty(#line.courseNote)}"/>
-                                <property name="cssClasses">
-                                    <list merge="true">
-                                        <value>invisible</value>
-                                    </list>
-                                </property>
-                                <property name="onClickScript"
-                                          value="ksapOpenPlanDialog('planner_edit_plan_item_page','planner','startDialog', this, e);" />
-                                <property name="dataAttributes">
-                                    <map>
-                                        <entry key="termid" value="@{#line.termId}" />
-                                        <entry key="courseid" value="@{#line.courseId}" />
-                                        <entry key="learningplanid" value="@{#line.learningPlanId}" />
-                                        <entry key="planitemid" value="@{#line.planItemId}" />
-                                        <entry key="uniqueid" value="@{#line.uniqueId}" />
-                                        <entry key="coursecode" value="@{#line.courseCode}" />
-                                    </map>
-                                </property>
-                            </bean>
-                            <bean parent="Uif-MessageField">
-                                <property name="messageText" value="@{#line.creditString}" />
-                                <property name="cssClasses">
-                                    <list merge="true">
-                                        <value>credit</value>
-                                        <value>ks-plan-Bucket-itemCreditCount</value>
-                                    </list>
-                                </property>
-                            </bean>
-                            <bean parent="Uif-MessageField" p:render="@{#line.grade ne null}">
-                                <property name="messageText" value="@{#line.grade}" />
-                                <property name="cssClasses">
-                                    <list merge="true">
-                                        <value>grade</value>
-                                        <value>ks-plan-Bucket-itemGrade</value>
-                                    </list>
-                                </property>
-                            </bean>
-                        </list>
-                    </property>
-                </bean>
+                <ref bean="KSAP-Planner-Item-PlanItem"/>
+                <ref bean="KSAP-Planner-Item-CourseRecord"/>
+                <ref bean="KSAP-Planner-Item-BlankItem"/>
+                <ref bean="KSAP-Planner-Item-AddItem"/>
             </list>
         </property>
         <property name="collectionLookup.render" value="false" />
@@ -564,22 +707,13 @@
                 <entry key="plantype" value="completed" />
             </map>
         </property>
-        <property name="footer">
-            <bean parent="planner_credits_footer" p:render="@{!#line.planning}">
-                <property name="items">
-                    <list merge="true">
-                        <bean parent="planner_term_total_credits_text" p:messageText="@{#line.completedCreditString}" />
-                    </list>
-                </property>
-            </bean>
-        </property>
     </bean>
 
     <bean id="planner_cart_collection" parent="planner_cart_collection-parent"/>
     <bean id="planner_cart_collection-parent" abstract="true" parent="planner_item_collection"
-          p:headerText="Cart" p:render="@{#line.cartAvailable}">
+          p:headerText="Registered" p:render="@{#line.registrationList.size()>0}">
         <property name="validationMessages.displayMessages" value="false" />
-        <property name="propertyName" value="cartList" />
+        <property name="propertyName" value="registrationList" />
         <property name="header.toolTip">
             <ref bean="planner_cart_help_tooltip"/>
         </property>
@@ -593,29 +727,8 @@
         </property>
         <property name="dataAttributes">
             <map merge="true">
-                <entry key="plantype" value="cart" />
+                <entry key="plantype" value="registered" />
             </map>
-        </property>
-        <property name="footer">
-            <bean parent="Uif-VerticalBoxGroup">
-                <property name="validationMessages.displayMessages" value="false" />
-                <property name="items">
-                    <list>
-                        <bean p:id="@{#line.uniqueId}_cart_credits" parent="planner_credits_footer">
-                            <property name="cssClasses">
-                                <list merge="true">
-                                    <value>ks-plan-Bucket-footer-@{#line.cartList.size() gt 0 ? 'show' : 'hide'}"</value>
-                                </list>
-                            </property>
-                            <property name="items">
-                                <list merge="true">
-                                    <bean parent="planner_term_total_credits_text" p:messageText="@{#line.cartCreditString}" />
-                                </list>
-                            </property>
-                        </bean>
-                    </list>
-                </property>
-            </bean>
         </property>
     </bean>
 
@@ -663,24 +776,6 @@
                         </list>
                     </property>
                     <property name="validationMessages.displayMessages" value="false" />
-                    <property name="items">
-                        <list>
-                            <bean p:id='@{#line.termId.replaceAll("kuali\.atp\.", "").replaceAll("\.","-")}_planned_add' parent="planner_quick_add">
-                                <property name="items[0].dataAttributes">
-                                    <map merge="true">
-                                        <entry key="backup" value="false" />
-                                    </map>
-                                </property>
-                            </bean>
-                            <bean p:id="@{#line.uniqueId}_planned_credits" parent="planner_credits_footer">
-                                <property name="items">
-                                    <list merge="true">
-                                        <bean parent="planner_term_total_credits_text" p:messageText="@{#line.plannedCreditString}" />
-                                    </list>
-                                </property>
-                            </bean>
-                        </list>
-                    </property>
                 </bean>
             </list>
         </property>
@@ -722,20 +817,6 @@
                             <value>@{#line.termId.replaceAll("\.","-")}</value>
                             <value>ksap-term-backup</value>
                             <value>ks-plan-Bucket</value>
-                        </list>
-                    </property>
-                </bean>
-                <bean parent="Uif-VerticalBoxGroup">
-                    <property name="validationMessages.displayMessages" value="false" />
-                    <property name="items">
-                        <list>
-                            <bean p:id='@{#line.termId.replaceAll("\.","-")}_backup_add' parent="planner_quick_add">
-                                <property name="items[0].dataAttributes">
-                                    <map merge="true">
-                                        <entry key="backup" value="true" />
-                                    </map>
-                                </property>
-                            </bean>
                         </list>
                     </property>
                 </bean>

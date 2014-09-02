@@ -48,7 +48,7 @@ public class PlannerItem implements
 	private transient String creditString;
 
     // PlannerItem types
-    public static final String BLANK_ITEM = "Blank";
+    public static final String BLANK_ITEM = "BlankItem";
     public static final String COURSE_RECORD_ITEM = "CourseRecord";
     public static final String ADD_ITEM = "AddItem";
     public static final String PLAN_ITEM = "PlanItem";
@@ -56,6 +56,7 @@ public class PlannerItem implements
 
 
 	public PlannerItem() {
+        setType(BLANK_ITEM);
 	}
 
 	public String getParentUniqueId() {
