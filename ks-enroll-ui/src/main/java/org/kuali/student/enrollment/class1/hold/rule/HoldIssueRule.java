@@ -16,7 +16,6 @@ import org.kuali.student.enrollment.class1.hold.dto.HoldIssueMaintenanceWrapper;
 import org.kuali.student.enrollment.class1.hold.util.HoldIssueConstants;
 import org.kuali.student.enrollment.class1.hold.util.HoldResourceLoader;
 import org.kuali.student.enrollment.class2.acal.util.AcalCommonUtils;
-import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingConstants;
 import org.kuali.student.r2.common.datadictionary.DataDictionaryValidator;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
@@ -206,9 +205,6 @@ public class HoldIssueRule extends KsMaintenanceDocumentRuleBase {
         if ((termCode == null) || (termCode.isEmpty())) {
             return null;
         }
-
-        QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
-        qbcBuilder.setPredicates(PredicateFactory.equal(CourseOfferingConstants.ATP_CODE, termCode));
 
         List<TermInfo> results = HoldResourceLoader.getAcademicCalendarService().getTermsByCode(termCode, ContextUtils.createDefaultContextInfo());
         return KSCollectionUtils.getOptionalZeroElement(results);
