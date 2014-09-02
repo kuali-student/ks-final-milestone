@@ -1395,6 +1395,10 @@ public class ProgramServiceMockTest implements ProgramService {
 		// intentionally not implemented
 		return null;
 	}
-    
-    
+
+    @Override
+    public String getVersionIndependentId(@WebParam(name = "refObjectId") String refObjectId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return null;
+    }
+
 }
