@@ -87,7 +87,7 @@ public class ViewCourseController extends KsUifControllerBase{
             if (StringUtils.isNotBlank(compareCourseId)){
                 CourseInfoWrapper compareCourseWrapper = new CourseInfoWrapper();
                 ((CourseMaintainable)form.getViewHelperService()).setDataObject(compareCourseWrapper);
-                ((CourseMaintainable)form.getViewHelperService()).loadCourseCompareVersion(courseId);
+                ((CourseMaintainable)form.getViewHelperService()).populateCourseAndReviewData(compareCourseId,compareCourseWrapper,true);
                 detailedViewForm.setCompareCourseInfoWrapper(compareCourseWrapper);
             }
         } catch (Exception e) {
