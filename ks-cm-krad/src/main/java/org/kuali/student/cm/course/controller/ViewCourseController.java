@@ -27,6 +27,7 @@ import org.kuali.student.cm.common.util.CurriculumManagementConstants;
 import org.kuali.student.cm.common.util.CurriculumManagementConstants.Export.FileType;
 import org.kuali.student.cm.course.form.ViewCourseForm;
 import org.kuali.student.cm.course.form.wrapper.CourseInfoWrapper;
+import org.kuali.student.cm.course.form.wrapper.RetireCourseWrapper;
 import org.kuali.student.cm.course.service.CourseMaintainable;
 import org.kuali.student.cm.course.service.impl.ExportCourseHelperImpl;
 
@@ -117,6 +118,25 @@ public class ViewCourseController extends KsUifControllerBase{
         urlParameters.put(KRADConstants.RETURN_LOCATION_PARAMETER, CMUtils.getCMHomeUrl());
         urlParameters.put(CourseController.UrlParams.COPY_CLU_ID, detailedViewForm.getCourseInfoWrapper().getCourseInfo().getId());
         String courseBaseUrl = CurriculumManagementConstants.ControllerRequestMappings.COURSE_MAINTENANCE.replaceFirst("/", "");
+        return performRedirect(form, courseBaseUrl, urlParameters);
+    }
+
+    @MethodAccessible
+    @RequestMapping(params = "methodToCall=retireCourse")
+    public ModelAndView retireCourse(@ModelAttribute("KualiForm") UifFormBase form) {
+
+        ViewCourseForm detailedViewForm = (ViewCourseForm) form;
+
+        Properties urlParameters = new Properties();
+        /**
+         * It should be always 'curriculum review' for both CS and faculty users for copy.
+         */
+        urlParameters.put(UifConstants.UrlParams.PAGE_ID, CurriculumManagementConstants.CoursePageIds.START_RETIRE_COURSE_PAGE);
+        urlParameters.put(UifConstants.UrlParams.VIEW_ID, "startAdminRetireCourseView");
+        urlParameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, KRADConstants.MAINTENANCE_NEW_METHOD_TO_CALL);
+        urlParameters.put(KRADConstants.DATA_OBJECT_CLASS_ATTRIBUTE, RetireCourseWrapper.class.getName());
+        urlParameters.put(KRADConstants.RETURN_LOCATION_PARAMETER, CMUtils.getViewCourseUrl());
+        String courseBaseUrl = CurriculumManagementConstants.ControllerRequestMappings.START_RETIRE_COURSE.replaceFirst("/", "");
         return performRedirect(form, courseBaseUrl, urlParameters);
     }
 

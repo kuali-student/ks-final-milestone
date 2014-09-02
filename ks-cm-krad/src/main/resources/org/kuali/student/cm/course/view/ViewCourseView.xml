@@ -87,6 +87,7 @@
                 <ref bean="CM-PrintAction"/>
                 <ref bean="CM-ExportAction"/>
                 <ref bean="CM-Export-ActionLinks"/> <!-- This is the content for the export action popover -->
+                <ref bean="CM-Proposal-Course-LinkGroup-RetireCourse"/>
             </list>
         </property>
     </bean>
@@ -97,6 +98,8 @@
           p:methodToCall="copyCourse"
           p:title="Copy to New Proposal">
     </bean>
+
+    <bean id="CM-Proposal-Course-LinkGroup-RetireCourse" parent="CM-RetireAction" p:methodToCall="retireCourse" p:title="Retire Course"/>
 
     <bean id="CM-ViewCourse-View-Right-Header-Group-Status" parent="KS-Unified-Right-Header-Group-Status">
         <property name="items">

@@ -349,4 +349,12 @@
         </property>
         <property name="actionImagePlacement" value="IMAGE_ONLY"/>
     </bean>
+
+    <bean id="CM-RetireAction" parent="CM-RetireAction-parent"/>
+    <bean id="CM-RetireAction-parent" parent="Uif-KS-NavigationActionLink-parentBean" abstract="true">
+        <property name="actionImage">
+            <bean parent="Uif-Image" p:altText="Retire" p:cssClasses="ks-fontello-icon-wrench" p:title="Retire"/>
+        </property>
+        <property name="actionImagePlacement" value="IMAGE_ONLY"/>
+    </bean>
 </beans>
