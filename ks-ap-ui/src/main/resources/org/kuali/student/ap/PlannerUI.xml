@@ -246,7 +246,15 @@
                         <list>
                             <ref bean="planner_completed_collection" />
                             <ref bean="planner_cart_collection" />
-                            <ref bean="planner_planned_collection" />
+                            <bean parent="planner_planned_collection" p:render="@{#line.planning}" />
+                            <bean parent="planner_credits_footer">
+                                <property name="items">
+                                    <list merge="true">
+                                        <bean parent="planner_term_total_credits_text" p:messageText="@{#line.creditLineString}" />
+                                    </list>
+                                </property>
+                            </bean>
+                            <bean parent="planner_planned_collection" p:render="@{!#line.planning}" />
                             <ref bean="planner_backup_collection" />
                         </list>
                     </property>
@@ -757,7 +765,6 @@
                             <value>ksap-carousel-term</value>
                             <value>@{#line.termId.replaceAll("\.","-")}</value>
                             <value>ksap-term-planned</value>
-                            <value>@{#line.planning ? 'ksap-term-fixed-height' : ''}</value>
                             <value>ks-plan-Bucket</value>
                         </list>
                     </property>
