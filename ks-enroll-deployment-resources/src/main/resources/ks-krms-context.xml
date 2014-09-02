@@ -29,7 +29,9 @@
                     </bean>
                 </entry>
                 <entry key="kuali.prop.best.effort.time.conflict">
-                    <bean class="org.kuali.student.enrollment.krms.proposition.BestEffortTimeConflictProposition"/>
+                    <bean class="org.kuali.student.enrollment.krms.proposition.BestEffortTimeConflictProposition">
+                        <property name="countWaitlistedCoursesTowardsTimeConflict" value="true"/>
+                    </bean>
                 </entry>
                 <entry key="kuali.prop.course.requisites">
                     <bean class="org.kuali.student.enrollment.krms.proposition.RequisitesProposition"/>
