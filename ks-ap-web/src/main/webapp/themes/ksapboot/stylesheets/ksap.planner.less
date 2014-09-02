@@ -11,11 +11,52 @@
   }
 }
 
+// Planner Header
+// --------------------------------------------------
+#planner_courses_detail {
+  .ksap-plan-header {
+    margin-bottom: 2rem;
+  }
+  .ksap-plan-header > div {
+     margin-left: 100px;
+  }
+
+  // Academic Year Heading
+  h2 {
+    line-height: normal;
+    text-align: center;
+    width: 320px;
+  }
+
+  // Carousel buttons
+  .ksap-carousel-btn-prev {
+    margin-right: 2rem;
+  }
+  .ksap-carousel-btn-next {
+    margin-left: 2rem;
+  }
+  .ksap-carousel-btn-prev,
+  .ksap-carousel-btn-next {
+    font-size: 14px;
+    margin-top: .5rem;
+  }
+  [class*="ksap-carousel-btn-"].disabled {
+    visibility: hidden;
+  }
+
+  // Print
+  .ks-fontello-icon-print {
+    float: right;
+    margin-top: .5rem;
+  }
+}
+
+
 // Planner Details
 // --------------------------------------------------
 #planner_courses_detail_list {
 
-  // Term Header
+  // Term header
   .ks-plan-TermsList-itemHeader {
     background: #dcdcdc;
 
@@ -24,7 +65,7 @@
     }
   }
 
-  // Planned, Completed, Registered, Backup Headers
+  // Planned, Completed, Registered, Backup headers
   .uif-header-upperGroup {
     background: #f0f0f0;
     border-bottom: solid 1px #DDD;
@@ -37,94 +78,42 @@
     }
   }
 
-  // Courses
-  .ks-plan-Bucket-item {
+  // Cells
+  .ks-plan-Bucket-item,
+  .quick-add-cell a {
     border-bottom: solid 1px #DDD;
-    font-size: 0.8462em;
-    padding: .5rem
+    padding: .5rem;
   }
-
   .ksap-course-valid:hover,
   .quick-add-cell:hover {
     background-color: #f5f5f5;
     cursor: pointer;
   }
 
+  // Courses
+  .ks-plan-Bucket-item {
+    font-size: 0.8462em;
+  }
   // Add Courses
   .quick-add-cell a {
     display: block;
-    padding: .5rem;
     text-align: center;
   }
 
+  // Backup Courses
+  .ksap-planner-backup .quick-add-cell a {
+    border-bottom: 0; //No border after quick add under backup
+  }
 }
+
+
+
 
 
 .ks-plan-Bucket-headerStatusIcons{ right:5px;}
 .ksap-plan-loader div.blockElement {
   left: 180px !important;
   top: 20px !important;
-}
-
-button.uif-primaryActionButton.ksap-carousel-prev,
-button.uif-primaryActionButton.ksap-carousel-next {
-  font-weight: bold;
-  padding: 6px 14px;
-}
-
-button.uif-primaryActionButton.ksap-carousel-prev {
-  border-radius: 15px 0 0 15px;
-}
-
-button.uif-primaryActionButton.ksap-carousel-next {
-  border-radius: 0 15px 15px 0;
-}
-
-button.uif-primaryActionButton.ksap-carousel-prev img,
-button.uif-primaryActionButton.ksap-carousel-next img {
-  width: 9px;
-  height: 15px;
-}
-
-button.uif-primaryActionButton.ksap-carousel-prev img,
-button.uif-primaryActionButton.ksap-carousel-next img {
-  width: 9px;
-  height: 15px;
-  margin: 0;
-  /*
-      @TODO ksap-961 use icon font instead of images
-  */
-  background: url('../images/ksap_icon_sprites.png') no-repeat;
-}
-
-button.uif-primaryActionButton.ksap-carousel-prev img {
-  background-position: 0 -100px;
-}
-
-button.uif-primaryActionButton.ksap-carousel-next img {
-  background-position: -10px -100px;
-}
-
-button.uif-primaryActionButton.ksap-carousel-prev.disabled img {
-  background-position: -20px -100px;
-}
-
-button.uif-primaryActionButton.ksap-carousel-next.disabled img {
-  background-position: -30px -100px;
-}
-
-.ksap-plan-heading {
-  margin: 10px 0;
-}
-.ksap-plan-header {
-  text-align: center;
-  width: 450px;
-  font-size: 30px;
-  line-height: 30px;
-}
-
-.ksap-carousel-list > .uif-headerField .uif-header {
-  text-align: center;
 }
 
 .ksap-carousel-list {
@@ -149,7 +138,6 @@ button.uif-primaryActionButton.ksap-carousel-next.disabled img {
 
 
 .ksap-carousel-list ul li > .uif-group{
-  min-height: 519px;
   border: solid 1px #dfdfdf;
   border-top: none;
   border-radius: 5px;
@@ -298,7 +286,8 @@ label.scheduled {
   display: inline-block;
 }
 
-/* Printer Friendly - Full Plan */
+// Printer-Friendly
+// --------------------------------------------------
 #full_planned_courses_detail_page {
   //Reset these ksboot styles
   table td,
@@ -462,28 +451,9 @@ label.scheduled {
   width: 280px !important;
 }
 
-.ks-plan-Header-headline {
-  margin: 0 !important;
-  width: 440px !important;
-}
 
-.ks-plan-Header-buttonWrapper {
-  margin: 0 !important;
-  text-align: right !important;
-  width: 90px !important;
-}
 
-.ks-plan-Header-button {
-  margin: 0 !important;
-}
 
-.ks-plan-Header-button--next {}
-
-.ks-plan-Header-button--previous {}
-
-.ks-plan-Header-buttonImage {
-  margin: 0 !important;
-}
 
 .ks-plan-Loader {
   margin-right: 10px !important;
@@ -560,27 +530,7 @@ label.scheduled {
 }
 
 
-button img.rightArrowLarge {
-  width: 8px;
-  height: 12px;
-  margin: 0 0 0 2px;
-  /*
-      @TODO ksap-961 use icon font instead of images
-  */
-  background: url('../images/ksap_icon_sprites.png') no-repeat -42px -101px;
-  vertical-align: -1px;
-}
 
-button img.rightArrowSmall {
-  width: 7px;
-  height: 10px;
-  margin: 0 0 0 2px;
-  /*
-      @TODO ksap-961 use icon font instead of images
-  */
-  background: url('../images/ksap_icon_sprites.png') no-repeat -55px -102px;
-  vertical-align: -1px;
-}
 
 // Bookmarked Courses List Popover
 .ksap-view .ksap-popup-detail-label { /*Remove unneeded - On Planner, bookmarked list, add to plan popover. Popover needs layout changed to CSSGridLayout*/

@@ -96,91 +96,45 @@
                     <property name="validationMessages.displayMessages" value="false" />
                     <property name="cssClasses">
                         <list merge="true">
-                            <value>ksap-plan-heading</value>
-                            <value>ks-plan-Header</value>
+                            <value>ksap-plan-header</value>
                         </list>
                     </property>
                     <property name="items">
                         <list>
-                            <bean parent="Uif-VerticalBoxGroup">
-                                <property name="cssClasses">
-                                    <list merge="true">
-                                        <value>ks-plan-Header-buttonWrapper</value>
-                                        <value>ks-plan-Header-buttonWrapper--previous</value>
-                                    </list>
-                                </property>
-                                <property name="validationMessages.displayMessages" value="false" />
+                            <bean parent="Uif-HorizontalBoxGroup">
                                 <property name="items">
                                     <list>
-                                        <bean p:id="previous_year_button" parent="Uif-PrimaryActionButton"
+                                        <!-- Previous Year Button -->
+                                        <bean p:id="previous_year_button"
+                                              parent="Uif-ActionLink"
                                               p:actionScript="doNothing();" p:title="@{#textHelper.getText('planner.header.previous')}">
-                                            <property name="actionImage">
-                                                <bean parent="Uif-Image"
-                                                      p:source="@{#ConfigProperties['ks.ap.externalizable.images.url']}pixel.gif">
-                                                    <property name="cssClasses">
-                                                        <list merge="true">
-                                                            <value>ks-plan-Header-buttonImage</value>
-                                                        </list>
-                                                    </property>
-                                                </bean>
-                                            </property>
                                             <property name="cssClasses">
                                                 <list merge="true">
-                                                    <value>ksap-carousel-prev</value>
-                                                    <value>ks-plan-Header-button</value>
-                                                    <value>ks-plan-Header-button--previous</value>
+                                                    <value>ksap-carousel-btn-prev</value>
+                                                    <value>ks-fontello-icon-left-open</value>
                                                 </list>
                                             </property>
                                         </bean>
-                                    </list>
-                                </property>
-                            </bean>
 
-                            <bean parent="Uif-MessageField">
-                                <property name="cssClasses">
-                                    <list merge="true">
-                                        <value>ksap-plan-header</value>
-                                        <value>ks-plan-Header-headline</value>
-                                    </list>
-                                </property>
-                                <property name="message">
-                                    <bean parent="Uif-Message" p:messageText="@{#textHelper.getText('planner.header.title')}" />
-                                </property>
-                            </bean>
+                                        <!-- Planner Calendar Year Title -->
+                                        <bean parent="Uif-HeaderTwo" p:headerText="@{#textHelper.getText('planner.header.title')}" />
 
-                            <bean parent="Uif-VerticalBoxGroup">
-                                <property name="cssClasses">
-                                    <list merge="true">
-                                        <value>ks-plan-Header-buttonWrapper</value>
-                                        <value>ks-plan-Header-buttonWrapper--next</value>
-                                    </list>
-                                </property>
-                                <property name="validationMessages.displayMessages" value="false" />
-                                <property name="items">
-                                    <list>
-                                        <bean p:id="next_year_button" parent="Uif-PrimaryActionButton"
-                                              p:actionScript="doNothing();" p:title="@{#textHelper.getText('planner.header.next')}">
-                                            <property name="actionImage">
-                                                <bean parent="Uif-Image"
-                                                      p:source="@{#ConfigProperties['ks.ap.externalizable.images.url']}pixel.gif">
-                                                    <property name="cssClasses">
-                                                        <list merge="true">
-                                                            <value>ks-plan-Header-buttonImage</value>
-                                                        </list>
-                                                    </property>
-                                                </bean>
-                                            </property>
+                                        <!-- Next Year Button -->
+                                        <bean p:id="next_year_button"
+                                              parent="Uif-ActionLink"
+                                              p:actionScript="doNothing();"
+                                              p:title="@{#textHelper.getText('planner.header.next')}">
                                             <property name="cssClasses">
                                                 <list merge="true">
-                                                    <value>ksap-carousel-next</value>
-                                                    <value>ks-plan-Header-button</value>
-                                                    <value>ks-plan-Header-button--next</value>
+                                                    <value>ksap-carousel-btn-next</value>
+                                                    <value>ks-fontello-icon-right-open</value>
                                                 </list>
                                             </property>
                                         </bean>
-                                    </list>
+                                     </list>
                                 </property>
                             </bean>
+                            <!-- Planner Print Link -->
                             <bean parent="Uif-Link" p:target="_blank">
                                 <property name="linkText" value="@{#textHelper.getText('planner.header.print')}"/>
                                 <property name="title" value="@{#textHelper.getText('planner.header.print')}"/>
@@ -734,6 +688,11 @@
 
     <bean id="planner_backup_collection" parent="planner_backup_collection-parent"/>
     <bean id="planner_backup_collection-parent" abstract="true" parent="Uif-VerticalBoxGroup">
+        <property name="cssClasses">
+            <list merge="true">
+                <value>ksap-planner-backup</value>
+            </list>
+        </property>
         <property name="items">
             <list>
                 <bean  parent="planner_item_collection">

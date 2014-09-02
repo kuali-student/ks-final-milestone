@@ -33,8 +33,8 @@ function ksapInitializePlannerItems(pageSize) {
         }
 
         detailList.jCarouselLite({
-            btnNext : '.ksap-carousel-next',
-            btnPrev : '.ksap-carousel-prev',
+            btnNext : '.ksap-carousel-btn-next',
+            btnPrev : '.ksap-carousel-btn-prev',
             circular:false,
             scroll : pageSize,
             visible : pageSize,
@@ -63,10 +63,12 @@ function ksapInitializePlannerItems(pageSize) {
 function ksapPlannerUpdateTitle(a) {
     var aFirst = jQuery.trim(jQuery(a[0]).find(
         "div:hidden[id^='plan_base_atpId']").text());
+    var aFirstFinal = aFirst.slice(-4);
     var aLast = jQuery.trim(jQuery(a[a.length - 1]).find(
         "div:hidden[id^='plan_base_atpId']").text());
-    jQuery("#planner_courses_detail .ksap-plan-header")
-        .html(aFirst + ' - ' + aLast);
+    var aLastFinal = aLast.slice(-4);
+    jQuery("#planner_courses_detail .ksap-planner-term-year")
+        .html(aFirstFinal + ' &ndash; ' + aLastFinal);
 }
 
 /**
