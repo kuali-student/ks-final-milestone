@@ -54,21 +54,21 @@ public class ProcessIntegrationTestProcessServiceDataLoadingDecoratorTest {
         ProcessService processService = new ProcessServiceMapImpl();
         processService = new ProcessIntegrationTestProcessServiceDataLoadingDecorator(processService);
 
-        ProcessInfo process = null;
+        ProcessInfo process;
         process = processService.getProcess(ProcessServiceConstants.PROCESS_KEY_BASIC_ELIGIBILITY, context);
         assertEquals(ProcessServiceConstants.PROCESS_KEY_BASIC_ELIGIBILITY, process.getKey());
         process = processService.getProcess(ProcessServiceConstants.PROCESS_KEY_ELIGIBILITY_FOR_TERM, context);
         assertEquals(ProcessServiceConstants.PROCESS_KEY_ELIGIBILITY_FOR_TERM, process.getKey());
 
-        CheckInfo check = null;
+        CheckInfo check;
         check = processService.getCheck(ProcessIntegrationTestConstants.CHECK_ID_IS_ALIVE, context);
         assertEquals(ProcessServiceConstants.DIRECT_RULE_CHECK_TYPE_KEY, check.getTypeKey());
 
         check = processService.getCheck(ProcessIntegrationTestConstants.CHECK_ID_HAS_OVERDUE_LIBRARY_BOOK, context);
         assertEquals(ProcessServiceConstants.HOLD_CHECK_TYPE_KEY, check.getTypeKey());
 
-        List<InstructionInfo> instructions = null;
-        InstructionInfo instruction = null;
+        List<InstructionInfo> instructions;
+        InstructionInfo instruction;
         instructions = processService.getInstructionsByProcess(ProcessServiceConstants.PROCESS_KEY_BASIC_ELIGIBILITY, context);
         assertEquals(1, instructions.size());
         instruction = instructions.get(0);
@@ -94,7 +94,7 @@ public class ProcessIntegrationTestProcessServiceDataLoadingDecoratorTest {
         assertEquals(new Integer(5), instructions.get(3).getPosition());
         assertEquals(new Integer(9), instructions.get(4).getPosition());
         
-        instructions = processService.getInstructionsForEvaluation(ProcessServiceConstants.PROCESS_KEY_ELIGIBLE_FOR_COURSES,
+        instructions = processService.getInstructionsForEvaluation(ProcessServiceConstants.PROCESS_KEY_ELIGIBLE_FOR_COURSE,
                 context);
         assertEquals(3, instructions.size());
         assertEquals(new Integer(1), instructions.get(0).getPosition());
