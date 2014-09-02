@@ -2,7 +2,6 @@ package org.kuali.student.enrollment.registration.client.service.impl;
 
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
-import org.codehaus.jackson.JsonParseException;
 import org.joda.time.DateTime;
 import org.kuali.rice.core.api.criteria.Predicate;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
@@ -1467,7 +1466,11 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
      * @throws PermissionDeniedException
      */
     protected void updateSeatcounts(CourseOfferingDetailsSearchResult courseOfferingSearchResults, ContextInfo contextInfo) throws MissingParameterException, InvalidParameterException, OperationFailedException, PermissionDeniedException {
-       //Build up references to the AOs
+        if (courseOfferingSearchResults.getActivityOfferingTypes() == null || courseOfferingSearchResults.getActivityOfferingTypes().isEmpty()) {
+            return;
+        }
+
+        //Build up references to the AOs
         Map<String,StudentScheduleActivityOfferingResult> aoId2Ao = new HashMap<>();
         for(ActivityOfferingTypesSearchResult aoType: courseOfferingSearchResults.getActivityOfferingTypes()){
             for(StudentScheduleActivityOfferingResult ao :aoType.getActivityOfferings()){
