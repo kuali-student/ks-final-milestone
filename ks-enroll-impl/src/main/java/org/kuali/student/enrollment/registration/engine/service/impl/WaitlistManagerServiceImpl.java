@@ -1,10 +1,13 @@
 package org.kuali.student.enrollment.registration.engine.service.impl;
 
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
+import org.kuali.rice.kim.api.identity.entity.Entity;
+import org.kuali.student.common.collection.KSCollectionUtils;
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestInfo;
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestItemInfo;
 import org.kuali.student.enrollment.courseregistration.infc.RegistrationRequest;
 import org.kuali.student.enrollment.courseregistration.service.CourseRegistrationService;
+import org.kuali.student.enrollment.registration.client.service.impl.util.CourseRegistrationAndScheduleOfClassesUtil;
 import org.kuali.student.enrollment.registration.client.service.impl.util.SearchResultHelper;
 import org.kuali.student.enrollment.registration.engine.service.WaitlistManagerService;
 import org.kuali.student.enrollment.registration.search.service.impl.CourseRegistrationSearchServiceImpl;
@@ -137,34 +140,41 @@ public class WaitlistManagerServiceImpl implements WaitlistManagerService {
         List<RegistrationRequest> createdRegRequests = new ArrayList<>();
 
         //Get an ordered list of people to process off of the waitlist
-        List<WaitlistInfo> waitlistInfos = getPeopleToProcessFromWaitlist (aoIds, null, contextInfo);
+        List<WaitlistInfo> waitlistInfos = getPeopleToProcessFromWaitlist(aoIds, null, contextInfo);
         Map<String, RegistrationRequestInfo> person2RegRequest = new HashMap<>();
 
-        if(!waitlistInfos.isEmpty()){
-            for(WaitlistInfo waitlistInfo : waitlistInfos){
+        if (!waitlistInfos.isEmpty()) {
+            for (WaitlistInfo waitlistInfo : waitlistInfos) {
+                Entity entity = CourseRegistrationAndScheduleOfClassesUtil.getIdentityService().getEntity(waitlistInfo.personId);
+                String personId;
+                if (entity != null) {
+                    personId = KSCollectionUtils.getRequiredZeroElement(entity.getPrincipals()).getPrincipalId();
+                } else {
+                    personId = waitlistInfo.personId;
+                }
                 //Make a new reg request for each person being processed off of the waitlist
-                RegistrationRequestInfo regRequest = person2RegRequest.get(waitlistInfo.personId);
-                if(regRequest == null){
+                RegistrationRequestInfo regRequest = person2RegRequest.get(personId);
+                if (regRequest == null) {
                     regRequest = new RegistrationRequestInfo();
                     regRequest.setTypeKey(LprServiceConstants.LPRTRANS_REGISTRATION_TYPE_KEY);
                     regRequest.setStateKey(LprServiceConstants.LPRTRANS_NEW_STATE_KEY);
                     regRequest.setTermId(waitlistInfo.atpId);
-                    regRequest.setRequestorId(waitlistInfo.personId);
-                    person2RegRequest.put(waitlistInfo.personId, regRequest);
+                    regRequest.setRequestorId(personId);
+                    person2RegRequest.put(personId, regRequest);
                 }
 
                 //Add a reg request item to process the person off of the waitlist
                 RegistrationRequestItemInfo item = new RegistrationRequestItemInfo();
                 item.setExistingCourseRegistrationId(waitlistInfo.masterLprId);
                 item.setRegistrationGroupId(waitlistInfo.rgId);
-                item.setPersonId(waitlistInfo.personId);
+                item.setPersonId(personId);
                 item.setTypeKey(LprServiceConstants.REQ_ITEM_ADD_FROM_WAITLIST_TYPE_KEY);
                 item.setStateKey(LprServiceConstants.LPRTRANS_ITEM_NEW_STATE_KEY);
                 regRequest.getRegistrationRequestItems().add(item);
             }
 
             //Use the CourseRegistrationService to create and submit the requests
-            for(RegistrationRequestInfo regRequest:person2RegRequest.values()){
+            for (RegistrationRequestInfo regRequest:person2RegRequest.values()) {
                 RegistrationRequest createdRegRequest = getCourseRegistrationService().createRegistrationRequest(regRequest.getTypeKey(), regRequest, contextInfo);
                 getCourseRegistrationService().submitRegistrationRequest(createdRegRequest.getId(), contextInfo);
                 createdRegRequests.add(createdRegRequest);
