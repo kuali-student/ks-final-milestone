@@ -509,10 +509,11 @@ public class DefaultCourseHelper implements CourseHelper, Serializable {
         try {
             currentVersion = KsapFrameworkServiceLocator.getCluService().getCurrentVersion(CluServiceConstants.CLU_NAMESPACE_URI, versionIndependentId, contextInfo);
         } catch (DoesNotExistException e) {
-            LOG.warn("No Current Version of Course Found Using Latest Version");
+            LOG.warn("No Current Version of Course Found, try to use the Latest Version.", e);
             try {
                 currentVersion = KsapFrameworkServiceLocator.getCluService().getLatestVersion(CluServiceConstants.CLU_NAMESPACE_URI, versionIndependentId, contextInfo);
             } catch (DoesNotExistException | InvalidParameterException | MissingParameterException | OperationFailedException | PermissionDeniedException e1) {
+                LOG.warn("No Latest Version of Course Found.");
                 throw new IllegalArgumentException("Clu service failure", e1);
             }
         } catch (InvalidParameterException | MissingParameterException | OperationFailedException | PermissionDeniedException e) {
