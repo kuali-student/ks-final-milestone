@@ -4,9 +4,6 @@
  */
 package org.kuali.student.enrollment.process.service.integration.test;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
@@ -16,6 +13,7 @@ import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.util.RichTextHelper;
+import org.kuali.student.r2.core.constants.AtpServiceConstants;
 import org.kuali.student.r2.core.constants.ProcessServiceConstants;
 import org.kuali.student.r2.core.process.dto.CheckInfo;
 import org.kuali.student.r2.core.process.dto.InstructionInfo;
@@ -23,8 +21,9 @@ import org.kuali.student.r2.core.process.dto.ProcessInfo;
 import org.kuali.student.r2.core.process.service.ProcessService;
 import org.kuali.student.r2.core.process.service.decorators.ProcessServiceDecorator;
 
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
-import org.kuali.student.r2.core.constants.AtpServiceConstants;
 
 /**
  *
@@ -32,6 +31,7 @@ import org.kuali.student.r2.core.constants.AtpServiceConstants;
  */
 public class ProcessIntegrationTestProcessServiceDataLoadingDecorator extends ProcessServiceDecorator {
 
+    @SuppressWarnings("unused")
     public ProcessIntegrationTestProcessServiceDataLoadingDecorator() {
     }
 
@@ -45,7 +45,7 @@ public class ProcessIntegrationTestProcessServiceDataLoadingDecorator extends Pr
         ContextInfo context = new ContextInfo();
         context.setPrincipalId("Test-Initializer");
         try {
-            ProcessInfo info = this.getNextDecorator().getProcess(ProcessServiceConstants.PROCESS_KEY_BASIC_ELIGIBILITY, context);
+            this.getNextDecorator().getProcess(ProcessServiceConstants.PROCESS_KEY_BASIC_ELIGIBILITY, context);
         } catch (DoesNotExistException ex) {
             return false;
         } catch (Exception ex) {
@@ -140,15 +140,11 @@ public class ProcessIntegrationTestProcessServiceDataLoadingDecorator extends Pr
                 "kuali.check.false", "Summer only students cannot register for fall, winter or spring terms", 9, false, true, true,
                 context);
         _createInstruction(ProcessServiceConstants.PROCESS_KEY_ELIGIBLE_FOR_COURSE, "kuali.population.everyone",
-                "kuali.check.eligibility.for.term", "", 1, false, false, true, context);
-        _createInstruction(ProcessServiceConstants.PROCESS_KEY_ELIGIBLE_FOR_COURSE, "kuali.population.everyone",
-                "kuali.check.has.the.necessary.prereq", "", 2, false, true, true, context);
-        _createInstruction(ProcessServiceConstants.PROCESS_KEY_ELIGIBLE_FOR_COURSES, "kuali.population.everyone",
                 "kuali.check.eligibility.for.term", "You are not eligible to register for the term", 1, false, false, true,
                 context);
-        _createInstruction(ProcessServiceConstants.PROCESS_KEY_ELIGIBLE_FOR_COURSES, "kuali.population.everyone",
+        _createInstruction(ProcessServiceConstants.PROCESS_KEY_ELIGIBLE_FOR_COURSE, "kuali.population.everyone",
                 "kuali.check.does.not.exceed.credit.limit", "You have exceeded your credit limit", 2, false, false, true, context);
-        _createInstruction(ProcessServiceConstants.PROCESS_KEY_ELIGIBLE_FOR_COURSES, "kuali.population.everyone",
+        _createInstruction(ProcessServiceConstants.PROCESS_KEY_ELIGIBLE_FOR_COURSE, "kuali.population.everyone",
                 "kuali.check.does.not.meet.credit.minimum", "You have not registered for enough courses", 3, false, false, true,
                 context);
     }
@@ -162,7 +158,7 @@ public class ProcessIntegrationTestProcessServiceDataLoadingDecorator extends Pr
             boolean continueOnFail,
             boolean canBeExempted,
             ContextInfo context) {
-        List<String> atpTypeKeys = Collections.EMPTY_LIST;
+        List<String> atpTypeKeys = Collections.emptyList();
         this._createInstruction(processKey, populationKey, atpTypeKeys, checkKey, message, position, isWarning, continueOnFail,
                 canBeExempted, context);
     }
@@ -191,7 +187,7 @@ public class ProcessIntegrationTestProcessServiceDataLoadingDecorator extends Pr
         info.setIsWarning(isWarning);
         info.setIsExemptible(canBeExempted);
         try {
-            info = this.createInstruction(info.getProcessKey(), info.getCheckId(), info.getTypeKey(), info, context);
+            this.createInstruction(info.getProcessKey(), info.getCheckId(), info.getTypeKey(), info, context);
         } catch (Exception ex) {
             throw new RuntimeException("error creating exemption request", ex);
         }
