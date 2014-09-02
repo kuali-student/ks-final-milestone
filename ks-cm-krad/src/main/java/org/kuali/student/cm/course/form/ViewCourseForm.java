@@ -30,9 +30,11 @@ public class ViewCourseForm extends KSUifForm {
     private CurriculumManagementConstants.ViewCourseType viewType;
     private CourseInfoWrapper courseInfoWrapper;
     private CourseInfoWrapper compareCourseInfoWrapper;
+    private boolean currentVersion;
 
     public ViewCourseForm(){
         viewType = CurriculumManagementConstants.ViewCourseType.COURSE_VIEW;
+        currentVersion = true;
     }
 
     /**
@@ -95,6 +97,14 @@ public class ViewCourseForm extends KSUifForm {
      */
     public void setCompareCourseInfoWrapper(CourseInfoWrapper compareCourseInfoWrapper) {
         this.compareCourseInfoWrapper = compareCourseInfoWrapper;
+    }
+
+    public boolean isCurrentVersion() {
+        return currentVersion;
+    }
+
+    public void setCurrentVersion(boolean currentVersion) {
+        this.currentVersion = currentVersion;
     }
 
 }

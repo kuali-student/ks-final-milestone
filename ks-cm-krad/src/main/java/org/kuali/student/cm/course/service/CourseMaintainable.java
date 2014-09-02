@@ -25,6 +25,7 @@ import org.kuali.student.cm.course.form.wrapper.SubjectCodeWrapper;
 import org.kuali.student.cm.course.form.wrapper.SupportingDocumentInfoWrapper;
 import org.kuali.student.cm.maintenance.CMMaintainable;
 import org.kuali.student.lum.lu.ui.krms.dto.CluInformation;
+import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.lum.clu.dto.MembershipQueryInfo;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
 
@@ -74,5 +75,7 @@ public interface CourseMaintainable extends CMMaintainable {
     public CourseInfoWrapper copyCourse(String sourceCourseId) throws Exception;
 
     public CourseInfoWrapper copyProposal(String sourceProposalId) throws Exception;
+
+    public CourseInfo getCurrentVersionOfCourse(CourseInfo course,ContextInfo contextInfo) throws Exception;
 
 }

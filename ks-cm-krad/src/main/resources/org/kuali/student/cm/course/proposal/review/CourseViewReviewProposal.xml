@@ -76,6 +76,22 @@
         </property>
     </bean>
 
+    <bean id="CM-Proposal-Review-Compare-Modifier" parent="CM-Proposal-Review-Compare-Modifier-parentBean"/>
+    <bean id="CM-Proposal-Review-Compare-Modifier-parentBean" abstract="true" parent="Uif-CompareFieldCreate-Modifier">
+        <property name="headerFieldPrototype">
+          <bean parent="Uif-HeaderSix"/>
+        </property>
+        <property name="comparables">
+          <list>
+            <bean parent="Uif-CompareConfig" p:readOnly="true" p:headerText="Course 1" p:compareToForValueChange="true"
+                  p:bindingObjectPath="document.oldMaintainableObject.dataObject"/>
+            <bean parent="Uif-CompareConfig" p:headerText="Course 2"
+                  p:bindingObjectPath="document.newMaintainableObject.dataObject" p:readOnly="true"/>
+          </list>
+        </property>
+        <property name="generateCompareHeaders" value="false"/>
+    </bean>
+
     <bean id="CM-Proposal-Review-Course-Page-ReviewErrorMessageLink" parent="Uif-VerticalBoxGroup"
           p:render="@{#dataObject.missingRequiredFields}" p:additionalCssClasses="ks-cm-reviewproposal-validation-spacing">
         <property name="items">

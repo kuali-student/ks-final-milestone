@@ -31,6 +31,8 @@ import org.kuali.student.cm.course.form.wrapper.RetireCourseWrapper;
 import org.kuali.student.cm.course.service.CourseMaintainable;
 import org.kuali.student.cm.course.service.impl.ExportCourseHelperImpl;
 
+import org.kuali.student.common.util.security.ContextUtils;
+import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -90,6 +92,13 @@ public class ViewCourseController extends KsUifControllerBase{
                 ((CourseMaintainable)form.getViewHelperService()).setDataObject(compareCourseWrapper);
                 ((CourseMaintainable)form.getViewHelperService()).populateCourseAndReviewData(compareCourseId,compareCourseWrapper,true);
                 detailedViewForm.setCompareCourseInfoWrapper(compareCourseWrapper);
+            }
+
+            if (StringUtils.isBlank(compareCourseId)) {
+                CourseInfo currentCourse = ((CourseMaintainable)form.getViewHelperService()).getCurrentVersionOfCourse(courseWrapper.getCourseInfo(), ContextUtils.createDefaultContextInfo());
+                if (!StringUtils.equals(currentCourse.getId(),courseWrapper.getCourseInfo().getId())){
+                    detailedViewForm.setCurrentVersion(false);
+                }
             }
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -172,4 +181,25 @@ public class ViewCourseController extends KsUifControllerBase{
 
         return exportCourseHelper.getResponseEntity();
     }
+
+    @RequestMapping(params = "methodToCall=viewCurrentVersion")
+    public ModelAndView viewCurrentVersion(@ModelAttribute("KualiForm") UifFormBase form){
+
+        ViewCourseForm detailedViewForm = (ViewCourseForm) form;
+
+        try {
+            CourseInfo currentCourse = ((CourseMaintainable)form.getViewHelperService()).getCurrentVersionOfCourse(detailedViewForm.getCourseInfoWrapper().getCourseInfo(), ContextUtils.createDefaultContextInfo());
+            CourseInfoWrapper courseWrapper = new CourseInfoWrapper();
+            ((CourseMaintainable)form.getViewHelperService()).setDataObject(courseWrapper);
+            ((CourseMaintainable)form.getViewHelperService()).populateCourseAndReviewData(currentCourse.getId(), courseWrapper, true);
+            detailedViewForm.setCourseInfoWrapper(courseWrapper);
+            detailedViewForm.setCompareCourseInfoWrapper(null);
+            detailedViewForm.setCurrentVersion(true);
+        }catch (Exception e){
+            throw new RuntimeException(e);
+        }
+
+        return getUIFModelAndView(form);
+    }
+
 }

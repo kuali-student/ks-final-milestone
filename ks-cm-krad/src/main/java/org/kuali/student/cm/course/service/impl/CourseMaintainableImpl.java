@@ -110,6 +110,7 @@ import org.kuali.student.r1.core.subjectcode.service.SubjectCodeService;
 import org.kuali.student.r1.core.workflow.dto.CollaboratorWrapper;
 import org.kuali.student.r2.common.constants.CommonServiceConstants;
 import org.kuali.student.r2.common.dto.AttributeInfo;
+import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.DtoConstants;
 import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
@@ -145,6 +146,7 @@ import org.kuali.student.r2.core.search.dto.SearchResultCellInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultRowInfo;
 import org.kuali.student.r2.core.search.service.SearchService;
+import org.kuali.student.r2.core.versionmanagement.dto.VersionDisplayInfo;
 import org.kuali.student.r2.lum.clu.CLUConstants;
 import org.kuali.student.r2.lum.clu.dto.CluInstructorInfo;
 import org.kuali.student.r2.lum.clu.dto.MembershipQueryInfo;
@@ -3168,5 +3170,21 @@ public class CourseMaintainableImpl extends RuleEditorMaintainableImpl implement
 
     protected void processCustomSaveActionTaken(ActionTakenEvent actionTakenEvent, ActionTaken actionTaken) throws Exception {
         // do nothing
+    }
+
+    public CourseInfo getCurrentVersionOfCourse(CourseInfo course,ContextInfo contextInfo)
+            throws Exception {
+        // Get version independent id of course
+        String verIndId = course.getVersion().getVersionIndId();
+
+        // Get id of current version of course given the versionindependen id
+        VersionDisplayInfo curVerDisplayInfo = getCourseService().getCurrentVersion(
+        org.kuali.student.r1.lum.course.service.CourseServiceConstants.COURSE_NAMESPACE_URI, verIndId,contextInfo);
+        String curVerId = curVerDisplayInfo.getId();
+
+        // Return the current version of the course
+        CourseInfo currVerCourse = getCourseService().getCourse(curVerId,contextInfo);
+
+        return currVerCourse;
     }
 }

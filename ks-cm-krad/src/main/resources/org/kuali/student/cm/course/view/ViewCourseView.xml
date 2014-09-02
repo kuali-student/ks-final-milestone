@@ -206,6 +206,7 @@
         <property name="fieldBindingObjectPath" value="courseInfoWrapper"/>
         <property name="items">
             <list>
+                <ref bean="CM-ViewCourse-View-Course-NotCurentVersionSection"/>
                 <ref bean="CM-ViewCourse-View-Course-CourseInfoSection"/>
                 <ref bean="CM-ViewCourse-View-Course-GovernanceSection"/>
                 <ref bean="CM-ViewCourse-View-Course-CourseLogisticsSection"/>
@@ -243,7 +244,8 @@
         <property name="componentModifiers">
           <list>
               <bean parent="Uif-LabelSeparator-Modifier" p:runPhase="FINALIZE"/>
-              <bean parent="CM-ViewCourse-View-Compare-Modifier" p:runPhase="APPLY_MODEL" p:runCondition="@{#isCompareView}"/>
+              <bean parent="CM-ViewCourse-View-Compare-Modifier" p:runPhase="APPLY_MODEL" p:runCondition="@{#isCompareView and #isViewCourseView}"/>
+              <bean parent="CM-Proposal-Review-Compare-Modifier" p:runPhase="APPLY_MODEL" p:runCondition="@{#isCompareView and !#isViewCourseView}"/>
           </list>
         </property>
     </bean>
@@ -305,6 +307,7 @@
     </bean>
 
     <bean id="CM-ViewCourse-View-Compare-Modifier" parent="CM-ViewCourse-View-Compare-Modifier-parentBean"/>
+
     <bean id="CM-ViewCourse-View-Compare-Modifier-parentBean" abstract="true" parent="Uif-CompareFieldCreate-Modifier">
         <property name="headerFieldPrototype">
           <bean parent="Uif-HeaderSix"/>
@@ -342,6 +345,29 @@
             <property name="replacement">
                 <bean parent="CM-RequiredConstraints-Enroute" p:maxLength="1000"/>
             </property>
+    </bean>
+
+    <bean id="CM-ViewCourse-View-Course-NotCurentVersionSection" parent="Uif-HorizontalFieldGroup"
+          p:render="@{!currentVersion and !#isCompareView}"
+          p:additionalCssClasses="uif-validationMessages,uif-groupValidationMessages,uif-pageValidationMessages-warning,ks-subSection">
+        <property name="items">
+            <list>
+                <bean parent="Uif-Message" p:id="CM-ViewCourse-View-Course-NotCurentVersion-Message"
+                      p:messageText="Note: This is not the current version of this course."
+                      p:style="margin-right: 0pt; margin-top: 5px;">
+                </bean>
+                <bean parent="KS-Uif-ActionLink" p:id="CM-ViewCourse-View-Course-CurentVersion-Link"
+                      p:methodToCall="viewCurrentVersion"
+                      p:ajaxSubmit="false"
+                      p:actionLabel="View Current Version">
+                    <property name="cssClasses">
+                        <list merge="true">
+                            <value>review_proposal_ReviewErrorMessageActionLink</value>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
     </bean>
 
     <bean id="CM-ViewCourse-View-Course-CourseInfoSection" parent="CM-ViewCourse-View-Course-VerticalBoxSection"
