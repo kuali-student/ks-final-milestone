@@ -142,6 +142,13 @@ public class HoldIssueManagementController extends UifControllerBase {
         return (HoldIssueViewHelperService) KSControllerHelper.getViewHelperService(form);
     }
 
+
+    /**
+     * This method is used to populate the urlParameters so that the Hold data is loaded when navigating
+     * to the Hold Maintenance screen
+     * @param holdId
+     * @return urlParameters
+     */
     public static Properties getMaintainHoldParameters(String holdId) throws Exception {
         Properties urlParameters = new Properties();
         urlParameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, KRADConstants.Maintenance.METHOD_TO_CALL_EDIT);
