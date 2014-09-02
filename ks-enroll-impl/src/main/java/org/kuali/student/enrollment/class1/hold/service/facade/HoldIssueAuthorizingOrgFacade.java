@@ -7,7 +7,6 @@ import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
-import org.kuali.student.r2.core.organization.dto.OrgInfo;
 
 import java.util.List;
 
@@ -19,40 +18,60 @@ import java.util.List;
 public interface HoldIssueAuthorizingOrgFacade {
 
     /**
-     * Retrieves a list of Functions that apply to holds:Apply Hold to a Student
+     * Retrieves a list of Roles/Functions that apply to hold issues
+     *
+     * Apply Hold to a Student
      * Expire the Applied Hold on Students
-     * @return
+     *
+     * @param contextInfo
+     * @return list of Roles
      */
     List<Role> getHoldFunctions(ContextInfo contextInfo);
 
     /**
-     * Store (or persist) the binding between:The Hold Issue,he Org Id, The Function (Apply or Expire)
+     * Store (or persist) the binding between the Hold Issue, the Org Id, and the Role/Function (Apply or Expire)
      *
      * @param holdIssueId
      * @param orgId
      * @param role
-     * @return
+     * @param contextInfo
+     * @throws DoesNotExistException
+     * @throws MissingParameterException
+     * @throws InvalidParameterException
+     * @throws OperationFailedException
+     * @throws PermissionDeniedException
      */
     void storeBinding(String holdIssueId, String orgId, Role role, ContextInfo contextInfo)
             throws DoesNotExistException, MissingParameterException, InvalidParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
-     * Store (or persist) the binding between:The Hold Issue,he Org Id, The Function (Apply or Expire)
+     * Remove the binding between:The Hold Issue, the Org Id, and the Role/Function (Apply or Expire)
      *
      * @param holdIssueId
      * @param orgId
      * @param role
-     * @return
+     * @param contextInfo
+     * @throws DoesNotExistException
+     * @throws MissingParameterException
+     * @throws InvalidParameterException
+     * @throws OperationFailedException
+     * @throws PermissionDeniedException
      */
     void removeBinding(String holdIssueId, String orgId, Role role, ContextInfo contextInfo)
             throws DoesNotExistException, MissingParameterException, InvalidParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
-     * Retrieves binding by the Function and Hold Issue so we can display the list of orgs are associated with this hold issue and function.
+     * Retrieves bindings by the Function and Hold Issue so we can display the list of orgs associated with this hold issue and function.
      *
      * @param roleId
      * @param holdIssueId
+     * @param contextInfo
      * @return list of org ids
+     * @throws PermissionDeniedException
+     * @throws MissingParameterException
+     * @throws InvalidParameterException
+     * @throws OperationFailedException
+     * @throws DoesNotExistException
      */
     List<String> getBindingByRoleAndHoldIssue(String roleId, String holdIssueId, ContextInfo contextInfo)
             throws PermissionDeniedException, MissingParameterException, InvalidParameterException, OperationFailedException, DoesNotExistException;
