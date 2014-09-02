@@ -1055,6 +1055,12 @@ public class DefaultPlanHelper implements PlanHelper {
         return completedRecords;
     }
 
+    /**
+     * Retrieve all plan items for the plan
+     *
+     * @param planId - Id of the plan being loaded
+     * @return List of items for the plan
+     */
     private List<PlanItem> retrieveCoursePlanItems(String planId){
         List<PlanItem> itemsToReturn = new ArrayList<PlanItem>();
         List<PlanItem> planItems = KsapFrameworkServiceLocator.getPlanHelper().getPlanItems(planId);
@@ -1072,7 +1078,14 @@ public class DefaultPlanHelper implements PlanHelper {
         return itemsToReturn;
     }
 
-    private Map<String, List<PlannerItem>> createTermPlannerItemMap(List<PlannerItem> items){
+    /**
+     * Sort a list of items into a ordered map based on the term
+     *
+     * @param items - List of items to sort
+     * @return A ordered Map of term to term items
+     */
+    protected Map<String, List<PlannerItem>> createTermPlannerItemMap(List<PlannerItem> items){
+        // Setup map and its comparator
         Map<String, List<PlannerItem>> itemMap = new TreeMap<String, List<PlannerItem>>() {
             @Override
             public Comparator<? super String> comparator() {
@@ -1087,6 +1100,7 @@ public class DefaultPlanHelper implements PlanHelper {
             }
         };
 
+        // Sort items into map
         for(PlannerItem item : items){
             List<PlannerItem> existingItems;
             if(itemMap.containsKey(item.getTermId())){
@@ -1102,10 +1116,18 @@ public class DefaultPlanHelper implements PlanHelper {
         return itemMap;
     }
 
-    private List<PlannerTermNote> retrieveTermNotes(String planId){
+    /**
+     * Retrieve a list of term notes for a the plan
+     *
+     * @param planId - Id of the plan being loaded
+     * @return List of term notes for the plan
+     */
+    protected List<PlannerTermNote> retrieveTermNotes(String planId){
         List<PlannerTermNote> termNotes = new ArrayList<PlannerTermNote>();
         CommentService commentService = KsapFrameworkServiceLocator.getCommentService();
         List<CommentInfo> commentInfos;
+
+        // Retrieve comments containing the notes
         try {
             commentInfos = commentService.getCommentsByRefObject(planId,PlanConstants.TERM_NOTE_COMMENT_TYPE,
                     KsapFrameworkServiceLocator.getContext().getContextInfo());
@@ -1121,6 +1143,7 @@ public class DefaultPlanHelper implements PlanHelper {
             throw new IllegalStateException("Comment lookup failure", e);
         }
 
+        // Convert comments into term notes
         for (CommentInfo comment : commentInfos) {
             PlannerTermNote newTermNote = new PlannerTermNote();
             String termId = comment.getAttributeValue(PlanConstants.TERM_NOTE_COMMENT_ATTRIBUTE_ATPID);
@@ -1134,7 +1157,14 @@ public class DefaultPlanHelper implements PlanHelper {
         return termNotes;
     }
 
-    private Map<String, List<PlannerTermNote>> createTermTermNoteMap(List<PlannerTermNote> items){
+    /**
+     * Sort a list of notes into a ordered map based on the term
+     *
+     * @param items - List of notes to sort
+     * @return A ordered Map of term to term notes
+     */
+    protected Map<String, List<PlannerTermNote>> createTermTermNoteMap(List<PlannerTermNote> items){
+        // Setup map and its comparator
         Map<String, List<PlannerTermNote>> itemMap = new TreeMap<String, List<PlannerTermNote>>() {
             @Override
             public Comparator<? super String> comparator() {
@@ -1149,6 +1179,7 @@ public class DefaultPlanHelper implements PlanHelper {
             }
         };
 
+        // Sort items into map
         for(PlannerTermNote item : items){
             List<PlannerTermNote> existingItems;
             if(itemMap.containsKey(item.getTermId())){
@@ -1164,26 +1195,53 @@ public class DefaultPlanHelper implements PlanHelper {
         return itemMap;
     }
 
-    private String findFirstTermForStudent(Map<String,List<PlannerItem>> items, Map<String,List<PlannerTermNote>> notes){
+    /**
+     * Calculates the id of the first term the student has activity in
+     * This algorithm needs to be redone to take into account items/notes only in future terms.
+     *
+     * @param items - Map of planner items in each term
+     * @param notes - Map of term notes in each term
+     * @return Id of the first term with activity
+     */
+    protected String findFirstTermForStudent(Map<String,List<PlannerItem>> items, Map<String,List<PlannerTermNote>> notes){
+        Term current = KsapFrameworkServiceLocator.getTermHelper().getCurrentTerm();
+        Term toCompare = null;
         if(items.isEmpty() && notes.isEmpty()){
-            return KsapFrameworkServiceLocator.getTermHelper().getCurrentTerm().getId();
+            // If no items or notes are set use the current date
+            return current.getId();
         }
+
         if(items.isEmpty()){
-            return notes.keySet().iterator().next();
+            // If no items are set use first notes term
+            toCompare=  KsapFrameworkServiceLocator.getTermHelper().getTerm(notes.keySet().iterator().next());
         }
         if(notes.isEmpty()){
-            return items.keySet().iterator().next();
+            // If no notes are set use first item term
+            toCompare=  KsapFrameworkServiceLocator.getTermHelper().getTerm(items.keySet().iterator().next());
         }
-        String earliestItemTerm = items.keySet().iterator().next();
-        String earliestNoteTerm = notes.keySet().iterator().next();
-        Term t1 = KsapFrameworkServiceLocator.getTermHelper().getTerm(earliestItemTerm);
-        Term t2 = KsapFrameworkServiceLocator.getTermHelper().getTerm(earliestNoteTerm);
-        int compare = t1.getStartDate().compareTo(t2.getStartDate());
-        if(compare<0) return earliestNoteTerm;
-        return earliestItemTerm;
+        if(toCompare == null){
+            String earliestItemTerm = items.keySet().iterator().next();
+            String earliestNoteTerm = notes.keySet().iterator().next();
+            Term t1 = KsapFrameworkServiceLocator.getTermHelper().getTerm(earliestItemTerm);
+            Term t2 = KsapFrameworkServiceLocator.getTermHelper().getTerm(earliestNoteTerm);
+            int compare = t2.getStartDate().compareTo(t1.getStartDate());
+            if(compare<0) toCompare = t2;
+            toCompare = t1;
+        }
+        int compare = toCompare.getStartDate().compareTo(current.getStartDate());
+        if(compare<0) return toCompare.getId();
+        return current.getId();
     }
 
-    private List<PlannerTerm> createPlannerTerms(List<Term> terms, Map<String,List<PlannerItem>> itemsMap, Map<String,List<PlannerTermNote>> notesMap){
+    /**
+     * Create the terms to be displayed in the planner
+     *
+     * @param terms - List of terms being displayed
+     * @param itemsMap - Map of planner items in each term
+     * @param notesMap - Map of term notes in each term
+     * @return A completed list of planner terms
+     */
+    protected List<PlannerTerm> createPlannerTerms(List<Term> terms, Map<String,List<PlannerItem>> itemsMap, Map<String,List<PlannerTermNote>> notesMap){
         List<PlannerTerm> plannerTerms = new ArrayList<PlannerTerm>();
 
         for(Term term : terms){
@@ -1195,7 +1253,16 @@ public class DefaultPlanHelper implements PlanHelper {
         return plannerTerms;
     }
 
-    private PlannerTerm fillPlannerTerm(PlannerTerm term, List<PlannerItem> items, List<PlannerTermNote> notes){
+    /**
+     * Fill in information for a planner term based on the items and notes for the term.
+     *
+     * @param term - Term to fill in
+     * @param items - List of items in the term
+     * @param notes - List of notes for the term
+     * @return A completed planner term
+     */
+    protected PlannerTerm fillPlannerTerm(PlannerTerm term, List<PlannerItem> items, List<PlannerTermNote> notes){
+        // Set term notes
         term.setTermNoteList(notes);
 
         List<PlannerItem> completed = new ArrayList<PlannerItem>();
@@ -1203,6 +1270,7 @@ public class DefaultPlanHelper implements PlanHelper {
         List<PlannerItem> planned = new ArrayList<PlannerItem>();
         List<PlannerItem> backup = new ArrayList<PlannerItem>();
 
+        // Separated list of items to individual categories.
         if(items != null){
             for(PlannerItem item : items){
                 if(item.getCategory().equals(AcademicPlanServiceConstants.ItemCategory.PLANNED)){
@@ -1229,45 +1297,65 @@ public class DefaultPlanHelper implements PlanHelper {
             backup.add(addBackup);
         }
 
+        // Set Categories
         term.setAcademicRecord(completed);
         term.setRegistrationList(registered);
         term.setPlannedList(planned);
         term.setBackupList(backup);
 
+        // Calculate the credit line
         term = calculateCreditLineForPlannerTerm(term);
+
+        // Pad categories to min level
         term = padCategory(term);
 
         return term;
     }
 
-    private PlannerTerm padCategory(PlannerTerm term){
-        int numberToAdd = 6;
+    /**
+     * Calculates and adds any needed padding to the list of categories
+     *
+     * @param term - Term to add padding to
+     * @return Term with categories padded as needed
+     */
+    protected PlannerTerm padCategory(PlannerTerm term){
+        int numberToAdd = Integer.parseInt(ConfigContext.getCurrentContextConfig()
+                .getProperty("ks.ap.planner.item.min"));
         if(term.isCompleted()){
+            // If term is completed only completed items are above the credit line
             numberToAdd = numberToAdd - term.getAcademicRecord().size();
             term.setAcademicRecord(padCategory(term.getAcademicRecord(),numberToAdd));
         } else if(term.isFutureTerm()){
+            // If term is in the future Registered and/or planned items are above credit line
             if(term.isRegistrationOpen()){
                 if(term.getRegistrationList().isEmpty()){
+                    // If no registered items exist only planned is above credit line
                     numberToAdd = numberToAdd - term.getPlannedList().size();
                     term.setPlannedList(padCategory(term.getPlannedList(),numberToAdd));
                 } else{
+                    // If there are registered items then both  are displayed with 1 extra space for planned header
                     numberToAdd = numberToAdd - term.getPlannedList().size() - term.getRegistrationList().size()-1;
                     term.setPlannedList(padCategory(term.getPlannedList(),numberToAdd));
                 }
             } else{
+                // If registration is closed then only planned items
                 numberToAdd = numberToAdd - term.getPlannedList().size();
                 term.setPlannedList(padCategory(term.getPlannedList(),numberToAdd));
             }
         } else if(term.isInProgress()){
+            // If term is in progress Registered and/or planned items are above credit line
             if(term.isRegistrationOpen()){
                 if(term.getRegistrationList().isEmpty()){
+                    // If no registered items exist only planned is above credit line
                     numberToAdd = numberToAdd - term.getPlannedList().size();
                     term.setPlannedList(padCategory(term.getPlannedList(),numberToAdd));
                 } else{
+                    // If there are registered items then both  are displayed with 1 extra space for planned header
                     numberToAdd = numberToAdd - term.getPlannedList().size() - term.getRegistrationList().size()-1;
                     term.setPlannedList(padCategory(term.getPlannedList(),numberToAdd));
                 }
             } else{
+                // If registration is closed then only registration items
                 numberToAdd = numberToAdd - term.getRegistrationList().size();
                 term.setRegistrationList(padCategory(term.getRegistrationList(),numberToAdd));
             }
@@ -1275,7 +1363,14 @@ public class DefaultPlanHelper implements PlanHelper {
         return term;
     }
 
-    private List<PlannerItem> padCategory(List<PlannerItem> category, int numberToAdd){
+    /**
+     * Adds extra blank line items to a list of existing items
+     *
+     * @param category - List of items to add to
+     * @param numberToAdd - The number of blank items to add
+     * @return Modified list of items
+     */
+    protected List<PlannerItem> padCategory(List<PlannerItem> category, int numberToAdd){
         for(int i = 0; i<numberToAdd; i++){
             PlannerItem blank = new PlannerItem();
             category.add(blank);
@@ -1284,7 +1379,13 @@ public class DefaultPlanHelper implements PlanHelper {
     }
 
 
-    private PlannerTerm calculateCreditLineForPlannerTerm(PlannerTerm term){
+    /**
+     * Determine the items needed to get the terms credit sum and set the value.
+     *
+     * @param term - Term credits are being calculated on
+     * @return Term with the credit line set
+     */
+    protected PlannerTerm calculateCreditLineForPlannerTerm(PlannerTerm term){
         List<PlannerItem> itemsToTotal = new ArrayList<PlannerItem>();
 
         if(term.isCompleted()){
@@ -1305,7 +1406,14 @@ public class DefaultPlanHelper implements PlanHelper {
 
     }
 
-    private PlannerTerm calculateCreditLineForPlannerTerm(PlannerTerm term, List<PlannerItem> items){
+    /**
+     * Calculate the total sum of the min and max credits for a list of planner items
+     *
+     * @param term - Planner term being set
+     * @param items - List of items to sum
+     * @return Planner term with the credit updated
+     */
+    protected PlannerTerm calculateCreditLineForPlannerTerm(PlannerTerm term, List<PlannerItem> items){
         BigDecimal minCredits = BigDecimal.ZERO;
         BigDecimal maxCredits = BigDecimal.ZERO;
         for(PlannerItem item : items){
