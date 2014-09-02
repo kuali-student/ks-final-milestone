@@ -120,15 +120,23 @@ public class ProcessServiceConstants {
      * known process keys
      */
     public static final String PROCESS_KEY_BASIC_ELIGIBILITY = "kuali.process.registration.basic.eligibility";
-    public static final String PROCESS_KEY_ELIGIBILITY_FOR_TERM = "kuali.process.registration.eligibility.for.term";
     public static final String PROCESS_KEY_HOLDS_CLEARED = "kuali.process.registration.holds.cleared";
     public static final String PROCESS_KEY_ACKNOWLEDGEMENTS_CONFIRMED = "kuali.process.registration.acknowledgements.confirmed";
-    public static final String PROCESS_KEY_ELIGIBLE_FOR_COURSE = "kuali.process.registration.eligible.for.course";
     public static final String PROCESS_KEY_ELIGIBLE_FOR_COURSES = "kuali.process.registration.eligible.for.courses";
     public static final String PROCESS_KEY_REGISTER_FOR_COURSES = "kuali.process.registration.register.for.courses";
     public static final String PROCESS_KEY_VIEW_GRADES = "kuali.process.acad.record.view.grades";
     public static final String PROCESS_KEY_VIEW_GRADES_FOR_TERM = "kuali.process.acad.record.view.grades.for.term";
     public static final String PROCESS_KEY_VIEW_COURSE_GRADE = "kuali.process.acad.record.view.course.grade";
+
+    public static final String PROCESS_KEY_ELIGIBILITY_FOR_TERM = "kuali.process.registration.eligible.for.term";
+    public static final String PROCESS_KEY_ELIGIBLE_FOR_COURSE = "kuali.process.course.eligible.for.add";
+    public static final String PROCESS_KEY_ELIGIBLE_FOR_WAITLIST = "kuali.process.course.eligible.for.waitlist.add";
+    public static final String PROCESS_KEY_ELIGIBLE_FOR_ADD_FROM_WL = "kuali.process.course.eligible.for.add.from.waitlist";
+    public static final String PROCESS_KEY_ELIGIBLE_FOR_WL_EDIT = "kuali.process.course.eligible.for.waitlist.edit";
+    public static final String PROCESS_KEY_ELIGIBLE_FOR_WL_DROP = "kuali.process.course.eligible.for.waitlist.drop";
+    public static final String PROCESS_KEY_ELIGIBLE_FOR_COURSE_EDIT = "kuali.process.course.eligible.for.edit";
+    public static final String PROCESS_KEY_ELIGIBLE_FOR_COURSE_DROP = "kuali.process.course.eligible.for.drop";
+
 
     /**
      * known rule ids / names
