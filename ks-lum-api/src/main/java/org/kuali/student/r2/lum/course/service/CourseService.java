@@ -403,10 +403,8 @@ public interface CourseService extends DictionaryService {
      * @throws PermissionDeniedException
      *             authorization failure
      */
-    @Deprecated
     public VersionDisplayInfo getCurrentVersion(@WebParam(name = "refObjectTypeURI") String refObjectTypeURI, @WebParam(name = "refObjectId") String refObjectId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
-    
-    @Deprecated
+
     public List<VersionDisplayInfo> getVersions(String refObjectTypeURI,
             String refObjectId, ContextInfo contextInfo) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException,
