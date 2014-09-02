@@ -3,14 +3,12 @@ package org.kuali.student.enrollment.class1.hold.service.impl;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.criteria.Predicate;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
-import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.student.common.uif.service.impl.KSViewHelperServiceImpl;
-import org.kuali.student.enrollment.class1.hold.dto.HoldIssueMaintenanceWrapper;
 import org.kuali.student.enrollment.class1.hold.form.HoldIssueManagementForm;
 import org.kuali.student.enrollment.class1.hold.form.HoldIssueResult;
 import org.kuali.student.enrollment.class1.hold.service.HoldIssueViewHelperService;
-import org.kuali.student.enrollment.class1.hold.util.HoldIssueConstants;
-import org.kuali.student.enrollment.class1.hold.util.HoldResourceLoader;
+import org.kuali.student.enrollment.class1.hold.util.HoldsConstants;
+import org.kuali.student.enrollment.class1.hold.util.HoldsResourceLoader;
 import org.kuali.student.r2.core.hold.dto.HoldIssueInfo;
 
 import java.util.ArrayList;
@@ -42,7 +40,7 @@ public class HoldIssueViewHelperServiceImpl extends KSViewHelperServiceImpl impl
         List<HoldIssueInfo> holdIssueInfos = new ArrayList<HoldIssueInfo>();
         try {
             QueryByCriteria.Builder query = buildQueryByCriteria(holdIssueFrom.getName(),holdIssueFrom.getTypeKey(),holdIssueFrom.getState(),holdIssueFrom.getOrganizationId(),holdIssueFrom.getDescr());
-            holdIssueInfos = HoldResourceLoader.getHoldService().searchForHoldIssues(query.build(), createContextInfo());
+            holdIssueInfos = HoldsResourceLoader.getHoldService().searchForHoldIssues(query.build(), createContextInfo());
 
             for (HoldIssueInfo holdIssueInfo : holdIssueInfos) {
                 HoldIssueResult holdIssueResult = new HoldIssueResult();
@@ -73,23 +71,23 @@ public class HoldIssueViewHelperServiceImpl extends KSViewHelperServiceImpl impl
 
         qBuilder.setPredicates();
         if (StringUtils.isNotBlank(name)){
-            pList.add(like(HoldIssueConstants.HOLD_ISSUE_NAME, "%" + name + "%"));
+            pList.add(like(HoldsConstants.HOLD_ISSUE_NAME, "%" + name + "%"));
         }
 
         if (StringUtils.isNotBlank(type)){
-            pList.add(equal(HoldIssueConstants.HOLD_ISSUE_TYPE_KEY, type));
+            pList.add(equal(HoldsConstants.HOLD_ISSUE_TYPE_KEY, type));
         }
 
         if (StringUtils.isNotBlank(state)){
-            pList.add(equal(HoldIssueConstants.HOLD_ISSUE_STATE_KEY, state));
+            pList.add(equal(HoldsConstants.HOLD_ISSUE_STATE_KEY, state));
         }
 
         if (StringUtils.isNotBlank(orgId)){
-            pList.add(equal(HoldIssueConstants.HOLD_ISSUE_ORG_ID, orgId));
+            pList.add(equal(HoldsConstants.HOLD_ISSUE_ORG_ID, orgId));
         }
 
         if (StringUtils.isNotBlank(descr)){
-            pList.add(like(HoldIssueConstants.HOLD_ISSUE_DESCR_PLAIN, "%" + descr + "%"));
+            pList.add(like(HoldsConstants.HOLD_ISSUE_DESCR_PLAIN, "%" + descr + "%"));
         }
 
         if (!pList.isEmpty()){

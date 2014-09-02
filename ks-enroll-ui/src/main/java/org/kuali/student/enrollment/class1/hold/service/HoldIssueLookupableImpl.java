@@ -43,7 +43,7 @@ import static org.kuali.rice.core.api.criteria.PredicateFactory.like;
  *
  * @author Kuali Student Team
  */
-public class HoldIssueInfoLookupableImpl extends LookupableImpl {
+public class HoldIssueLookupableImpl extends LookupableImpl {
     private HoldService holdService;
     ContextInfo contextInfo = new ContextInfo();
 

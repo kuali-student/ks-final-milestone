@@ -23,7 +23,7 @@ import org.kuali.student.core.person.service.PersonServiceNamespace;
  *
  * @author Kuali Student Team
  */
-public class HoldIssueConstants {
+public class HoldsConstants {
 
 
     public static final String NAMESPACE = "http://student.kuali.org/wsdl/HoldIssueAuthorizingOrgFacade";

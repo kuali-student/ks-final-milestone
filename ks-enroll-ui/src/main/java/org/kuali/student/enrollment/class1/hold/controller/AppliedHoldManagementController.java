@@ -25,7 +25,7 @@ import org.kuali.rice.krad.web.controller.UifControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.common.uif.util.KSControllerHelper;
 import org.kuali.student.enrollment.class1.hold.dto.HoldIssueMaintenanceWrapper;
-import org.kuali.student.enrollment.class1.hold.form.HoldIssueManagementForm;
+import org.kuali.student.enrollment.class1.hold.form.AppliedHoldManagementForm;
 import org.kuali.student.enrollment.class1.hold.form.HoldIssueResult;
 import org.kuali.student.enrollment.class1.hold.service.HoldIssueViewHelperService;
 import org.kuali.student.enrollment.class1.hold.util.HoldsConstants;
@@ -46,26 +46,26 @@ import java.util.Properties;
  * @author Kuali Student Team
  */
 @Controller
-@RequestMapping(value = "/holdIssueManagement")
-public class HoldIssueManagementController extends UifControllerBase {
+@RequestMapping(value = "/appliedHoldIssueManagement")
+public class AppliedHoldManagementController extends UifControllerBase {
 
     @Override
     protected UifFormBase createInitialForm(HttpServletRequest request) {
-        return new HoldIssueManagementForm();
+        return new AppliedHoldManagementForm();
     }
 
     @Override
     public ModelAndView start(@ModelAttribute("KualiForm") UifFormBase form, HttpServletRequest request,
             HttpServletResponse response) {
 
-        HoldIssueManagementForm holdForm = (HoldIssueManagementForm) form;
+        //AppliedHoldManagementForm holdForm = (AppliedHoldManagementForm) form;
 
-        holdForm.setHoldIssueResultList(searchHoldIssues(holdForm));
+        //holdForm.setHoldIssueResultList(searchHoldIssues(holdForm));
         return super.start(form, request, response);
     }
 
     @RequestMapping(params = "methodToCall=search")
-    public ModelAndView search(@ModelAttribute("KualiForm") HoldIssueManagementForm form, BindingResult result,
+    public ModelAndView search(@ModelAttribute("KualiForm") AppliedHoldManagementForm form, BindingResult result,
             HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         form.setHasSearchBeenCalled(true);
@@ -74,11 +74,11 @@ public class HoldIssueManagementController extends UifControllerBase {
         return getUIFModelAndView(form);
     }
 
-    private List<HoldIssueResult> searchHoldIssues(HoldIssueManagementForm form) {
+    private List<HoldIssueResult> searchHoldIssues(AppliedHoldManagementForm form) {
         List<HoldIssueResult> results = new ArrayList<HoldIssueResult>();
         try {
             if (form.isHasSearchBeenCalled()) {
-                results = this.getViewHelper(form).searchHolds(form);
+                //results = this.getViewHelper(form).searchHolds(form);
             }
         } catch (Exception e) {
             throw new RuntimeException(HoldsConstants.HOLD_ISSUE_SEARCH_ERROR_MSG, e); //To change body of catch statement use File | Settings | File Templates.
@@ -88,14 +88,14 @@ public class HoldIssueManagementController extends UifControllerBase {
     }
 
     @RequestMapping(params = "methodToCall=addHold")
-    public ModelAndView addHold(@ModelAttribute("KualiForm") HoldIssueManagementForm form, BindingResult result,
+    public ModelAndView addHold(@ModelAttribute("KualiForm") AppliedHoldManagementForm form, BindingResult result,
                                 HttpServletRequest request, HttpServletResponse response) throws Exception {
         Properties urlParameters = this.getMaintainHoldParameters(null);
         return super.performRedirect(form, "holdIssueMaintenance", urlParameters);
     }
 
     @RequestMapping(params = "methodToCall=edit")
-    public ModelAndView edit(@ModelAttribute("KualiForm") HoldIssueManagementForm form, BindingResult result,
+    public ModelAndView edit(@ModelAttribute("KualiForm") AppliedHoldManagementForm form, BindingResult result,
                                 HttpServletRequest request, HttpServletResponse response) throws Exception {
         HoldIssueResult holdIssueResult = getSelectedHoldIssue(form);
 
@@ -103,7 +103,7 @@ public class HoldIssueManagementController extends UifControllerBase {
         return super.performRedirect(form, "holdIssueMaintenance", urlParameters);
     }
 
-    private HoldIssueResult getSelectedHoldIssue(HoldIssueManagementForm form) {
+    private HoldIssueResult getSelectedHoldIssue(AppliedHoldManagementForm form) {
         return (HoldIssueResult) this.getSelectedCollectionObject(form);
     }
 
@@ -112,12 +112,12 @@ public class HoldIssueManagementController extends UifControllerBase {
       */
     @MethodAccessible
     @RequestMapping(params = "methodToCall=reloadManageHold")
-    public ModelAndView reloadManageHold(@ModelAttribute("KualiForm") HoldIssueManagementForm theForm) throws Exception {
+    public ModelAndView reloadManageHold(@ModelAttribute("KualiForm") AppliedHoldManagementForm theForm) throws Exception {
         //TODO KSENROLL-14464 Reload the page
         return getUIFModelAndView(theForm, "KS-Hold-SearchInput-Page");
     }
 
-    private Object getSelectedCollectionObject(HoldIssueManagementForm form) {
+    private Object getSelectedCollectionObject(AppliedHoldManagementForm form) {
 
         String selectedCollectionPath = form.getActionParamaterValue(UifParameters.SELECTED_COLLECTION_PATH);
         if (StringUtils.isBlank(selectedCollectionPath)) {
@@ -142,13 +142,6 @@ public class HoldIssueManagementController extends UifControllerBase {
         return (HoldIssueViewHelperService) KSControllerHelper.getViewHelperService(form);
     }
 
-
-    /**
-     * This method is used to populate the urlParameters so that the Hold data is loaded when navigating
-     * to the Hold Maintenance screen
-     * @param holdId
-     * @return urlParameters
-     */
     public static Properties getMaintainHoldParameters(String holdId) throws Exception {
         Properties urlParameters = new Properties();
         urlParameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, KRADConstants.Maintenance.METHOD_TO_CALL_EDIT);

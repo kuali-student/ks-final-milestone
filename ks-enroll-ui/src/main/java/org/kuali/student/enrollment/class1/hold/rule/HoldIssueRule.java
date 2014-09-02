@@ -13,8 +13,8 @@ import org.kuali.student.common.uif.rule.KsMaintenanceDocumentRuleBase;
 import org.kuali.student.common.util.security.ContextUtils;
 import org.kuali.student.enrollment.class1.hold.dto.AuthorizedOrgWrapper;
 import org.kuali.student.enrollment.class1.hold.dto.HoldIssueMaintenanceWrapper;
-import org.kuali.student.enrollment.class1.hold.util.HoldIssueConstants;
-import org.kuali.student.enrollment.class1.hold.util.HoldResourceLoader;
+import org.kuali.student.enrollment.class1.hold.util.HoldsConstants;
+import org.kuali.student.enrollment.class1.hold.util.HoldsResourceLoader;
 import org.kuali.student.enrollment.class2.acal.util.AcalCommonUtils;
 import org.kuali.student.r2.common.datadictionary.DataDictionaryValidator;
 import org.kuali.student.r2.common.dto.ContextInfo;
@@ -81,7 +81,7 @@ public class HoldIssueRule extends KsMaintenanceDocumentRuleBase {
 
         //Check if the StartDate and EndDate is in range
         if (!AcalCommonUtils.isValidDateRange(holdIssue.getFirstAppliedDate(), holdIssue.getLastAppliedDate())) {
-            messages.putError(HoldIssueConstants.HOLD_ISSUE_PROP_NAME_LAST_APPLIED_DATE, HoldIssueConstants.HOLDS_ISSUE_MSG_ERROR_INVALID_DATE_RANGE,
+            messages.putError(HoldsConstants.HOLD_ISSUE_PROP_NAME_LAST_APPLIED_DATE, HoldsConstants.HOLDS_ISSUE_MSG_ERROR_INVALID_DATE_RANGE,
                     AcalCommonUtils.formatDate(holdIssue.getFirstAppliedDate()), AcalCommonUtils.formatDate(holdIssue.getLastAppliedDate()));
             isValid = false;
         }
@@ -90,15 +90,15 @@ public class HoldIssueRule extends KsMaintenanceDocumentRuleBase {
         try {
             QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
             if (holdIssue.getId() == null) {
-                qbcBuilder.setPredicates(PredicateFactory.equal(HoldIssueConstants.HOLD_ISSUE_CODE, holdIssue.getHoldCode()));
+                qbcBuilder.setPredicates(PredicateFactory.equal(HoldsConstants.HOLD_ISSUE_CODE, holdIssue.getHoldCode()));
             } else {
-                qbcBuilder.setPredicates(PredicateFactory.and(PredicateFactory.equal(HoldIssueConstants.HOLD_ISSUE_CODE, holdIssue.getHoldCode()),
-                        PredicateFactory.notEqual(HoldIssueConstants.HOLD_ISSUE_ID, holdIssue.getId())));
+                qbcBuilder.setPredicates(PredicateFactory.and(PredicateFactory.equal(HoldsConstants.HOLD_ISSUE_CODE, holdIssue.getHoldCode()),
+                        PredicateFactory.notEqual(HoldsConstants.HOLD_ISSUE_ID, holdIssue.getId())));
             }
 
-            List<String> issueIds = HoldResourceLoader.getHoldService().searchForHoldIssueIds(qbcBuilder.build(), createContextInfo());
+            List<String> issueIds = HoldsResourceLoader.getHoldService().searchForHoldIssueIds(qbcBuilder.build(), createContextInfo());
             if (issueIds.size() > 0) {
-                messages.putError(HoldIssueConstants.HOLD_ISSUE_PROP_NAME_CODE, HoldIssueConstants.HOLDS_ISSUE_MSG_ERROR_HOLDCODE_ALREADY_EXISTS);
+                messages.putError(HoldsConstants.HOLD_ISSUE_PROP_NAME_CODE, HoldsConstants.HOLDS_ISSUE_MSG_ERROR_HOLDCODE_ALREADY_EXISTS);
                 isValid = false;
             }
         } catch (Exception e) {
@@ -111,18 +111,18 @@ public class HoldIssueRule extends KsMaintenanceDocumentRuleBase {
         for (int i = 0; i < holdIssueWrapper.getAuthorizedOrgs().size(); i++) {
             AuthorizedOrgWrapper authorizedOrg = holdIssueWrapper.getAuthorizedOrgs().get(i);
             if (authorizedOrg.getId() == null) {
-                messages.putError(HoldIssueConstants.HOLD_ISSUE_PROP_NAME_AUTH_ORGS + "[" + i + "]." + HoldIssueConstants.HOLD_ISSUE_PROP_NAME_AUTH_ORG_NAME,
-                        HoldIssueConstants.HOLDS_ISSUE_MSG_ERROR_AUTHORIZED_ORG_REQUIRED);
+                messages.putError(HoldsConstants.HOLD_ISSUE_PROP_NAME_AUTH_ORGS + "[" + i + "]." + HoldsConstants.HOLD_ISSUE_PROP_NAME_AUTH_ORG_NAME,
+                        HoldsConstants.HOLDS_ISSUE_MSG_ERROR_AUTHORIZED_ORG_REQUIRED);
                 isValid = false;
             }
             if (orgIds.contains(authorizedOrg.getId())) {
-                messages.putError(HoldIssueConstants.HOLD_ISSUE_PROP_NAME_AUTH_ORGS + "[" + i + "]." + HoldIssueConstants.HOLD_ISSUE_PROP_NAME_AUTH_ORG_NAME,
-                        HoldIssueConstants.HOLDS_ISSUE_MSG_ERROR_AUTHORIZED_ORG_DUPLICATE);
+                messages.putError(HoldsConstants.HOLD_ISSUE_PROP_NAME_AUTH_ORGS + "[" + i + "]." + HoldsConstants.HOLD_ISSUE_PROP_NAME_AUTH_ORG_NAME,
+                        HoldsConstants.HOLDS_ISSUE_MSG_ERROR_AUTHORIZED_ORG_DUPLICATE);
                 isValid = false;
             }
             if (!authorizedOrg.isAuthOrgApply() && !authorizedOrg.isAuthOrgExpire()) {
-                messages.putError(HoldIssueConstants.HOLD_ISSUE_PROP_NAME_AUTH_ORGS + "[" + i + "]." + HoldIssueConstants.HOLDS_ISSUE_MSG_ERROR_AUTHORIZED_ORG_REQUIRED,
-                        HoldIssueConstants.HOLDS_ISSUE_MSG_ERROR_AUTHORIZED_ORG);
+                messages.putError(HoldsConstants.HOLD_ISSUE_PROP_NAME_AUTH_ORGS + "[" + i + "]." + HoldsConstants.HOLDS_ISSUE_MSG_ERROR_AUTHORIZED_ORG_REQUIRED,
+                        HoldsConstants.HOLDS_ISSUE_MSG_ERROR_AUTHORIZED_ORG);
                 isValid = false;
             }
             orgIds.add(authorizedOrg.getId());
@@ -135,16 +135,16 @@ public class HoldIssueRule extends KsMaintenanceDocumentRuleBase {
     private boolean validateBasicHold(HoldIssueInfo holdIssueInfo) {
 
         try {
-            List<ValidationResultInfo> errors = HoldResourceLoader.getHoldService().validateHoldIssue(DataDictionaryValidator.ValidationType.FULL_VALIDATION.toString(),
+            List<ValidationResultInfo> errors = HoldsResourceLoader.getHoldService().validateHoldIssue(DataDictionaryValidator.ValidationType.FULL_VALIDATION.toString(),
                     holdIssueInfo, createContextInfo());
             if (errors.isEmpty()) {
                 return true;
             } else {
                 for (ValidationResultInfo error : errors) {
-                    if (StringUtils.equals(error.getElement(), HoldIssueConstants.HOLD_ISSUE_ORG_ID)) {
-                        GlobalVariables.getMessageMap().putError(error.getElement(), HoldIssueConstants.HOLDS_ISSUE_MSG_ERROR_HOLD_ISSUE_ORG_ID_REQUIRED);
+                    if (StringUtils.equals(error.getElement(), HoldsConstants.HOLD_ISSUE_ORG_ID)) {
+                        GlobalVariables.getMessageMap().putError(error.getElement(), HoldsConstants.HOLDS_ISSUE_MSG_ERROR_HOLD_ISSUE_ORG_ID_REQUIRED);
                     } else {
-                        error.setElement(HoldIssueConstants.HOLD_ISSUE_HOLDISSUE_PATH + "." + error.getElement());
+                        error.setElement(HoldsConstants.HOLD_ISSUE_HOLDISSUE_PATH + "." + error.getElement());
                         GlobalVariables.getMessageMap().putError(error.getElement(), RiceKeyConstants.ERROR_CUSTOM, error.getMessage());
                     }
                 }
@@ -168,16 +168,16 @@ public class HoldIssueRule extends KsMaintenanceDocumentRuleBase {
 
         boolean isValid = true;
         if (StringUtils.isBlank(holdIssueWrapper.getFirstTerm())) {
-            GlobalVariables.getMessageMap().putError(HoldIssueConstants.HOLD_ISSUE_PROP_NAME_FIRST_TERM, HoldIssueConstants.HOLDS_ISSUE_MSG_ERROR_FIRST_TERM_REQUIRED);
+            GlobalVariables.getMessageMap().putError(HoldsConstants.HOLD_ISSUE_PROP_NAME_FIRST_TERM, HoldsConstants.HOLDS_ISSUE_MSG_ERROR_FIRST_TERM_REQUIRED);
             isValid = false;
         } else {
-            holdIssue.setFirstApplicationTermId(resolveTermId(holdIssueWrapper.getFirstTerm(), HoldIssueConstants.HOLD_ISSUE_PROP_NAME_FIRST_TERM));
+            holdIssue.setFirstApplicationTermId(resolveTermId(holdIssueWrapper.getFirstTerm(), HoldsConstants.HOLD_ISSUE_PROP_NAME_FIRST_TERM));
             if (holdIssue.getFirstApplicationTermId() == null) {
                 isValid = false;
             }
         }
         if (!StringUtils.isBlank(holdIssueWrapper.getLastTerm())) {
-            holdIssue.setLastApplicationTermId(resolveTermId(holdIssueWrapper.getLastTerm(), HoldIssueConstants.HOLD_ISSUE_PROP_NAME_LAST_TERM));
+            holdIssue.setLastApplicationTermId(resolveTermId(holdIssueWrapper.getLastTerm(), HoldsConstants.HOLD_ISSUE_PROP_NAME_LAST_TERM));
             if (holdIssue.getLastApplicationTermId() == null) {
                 isValid = false;
             }
@@ -191,10 +191,10 @@ public class HoldIssueRule extends KsMaintenanceDocumentRuleBase {
             if (firstTermInfo != null) {
                 return firstTermInfo.getId();
             } else {
-                GlobalVariables.getMessageMap().putError(propertyName, HoldIssueConstants.HOLDS_ISSUE_MSG_ERROR_INVALID_TERM, termCode);
+                GlobalVariables.getMessageMap().putError(propertyName, HoldsConstants.HOLDS_ISSUE_MSG_ERROR_INVALID_TERM, termCode);
             }
         } catch (Exception e) {
-            GlobalVariables.getMessageMap().putError(propertyName, HoldIssueConstants.HOLDS_ISSUE_MSG_ERROR_FIRST_APPLICATION_TERMID);
+            GlobalVariables.getMessageMap().putError(propertyName, HoldsConstants.HOLDS_ISSUE_MSG_ERROR_FIRST_APPLICATION_TERMID);
         }
         return null;
     }
@@ -206,7 +206,7 @@ public class HoldIssueRule extends KsMaintenanceDocumentRuleBase {
             return null;
         }
 
-        List<TermInfo> results = HoldResourceLoader.getAcademicCalendarService().getTermsByCode(termCode, ContextUtils.createDefaultContextInfo());
+        List<TermInfo> results = HoldsResourceLoader.getAcademicCalendarService().getTermsByCode(termCode, ContextUtils.createDefaultContextInfo());
         return KSCollectionUtils.getOptionalZeroElement(results);
     }
 

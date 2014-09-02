@@ -24,7 +24,7 @@ limitations under the License.
         <property name="dataObjectClass"
                   value="org.kuali.student.enrollment.class1.hold.dto.HoldIssueMaintenanceWrapper"/>
         <property name="maintainableClass"
-                  value="org.kuali.student.enrollment.class1.hold.service.impl.HoldInfoMaintainableImpl"/>
+                  value="org.kuali.student.enrollment.class1.hold.service.impl.HoldIssueMaintainableImpl"/>
         <property name="businessRulesClass" value="org.kuali.student.enrollment.class1.hold.rule.HoldIssueRule"/>
         <property name="documentTypeName" value="HoldIssueMaintenanceDocument"/>
         <property name="lockingKeys">

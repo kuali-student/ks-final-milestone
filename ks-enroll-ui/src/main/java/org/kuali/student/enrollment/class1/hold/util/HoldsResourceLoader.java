@@ -20,7 +20,7 @@ import javax.xml.namespace.QName;
  *
  * Utility Class for common auto generated reg group functions
  */
-public class HoldResourceLoader {
+public class HoldsResourceLoader {
 
     private static HoldService holdService;
     private static OrganizationService organizationService;
@@ -50,7 +50,7 @@ public class HoldResourceLoader {
 
     public static HoldIssueAuthorizingOrgFacade getHoldIssueAuthorizingOrgFacade() {
         if (holdIssueAuthorizingOrgFacade == null) {
-            holdIssueAuthorizingOrgFacade = (HoldIssueAuthorizingOrgFacade) GlobalResourceLoader.getService(new QName(HoldIssueConstants.NAMESPACE, HoldIssueConstants.SERVICE_NAME_LOCAL_PART));
+            holdIssueAuthorizingOrgFacade = (HoldIssueAuthorizingOrgFacade) GlobalResourceLoader.getService(new QName(HoldsConstants.NAMESPACE, HoldsConstants.SERVICE_NAME_LOCAL_PART));
         }
         return holdIssueAuthorizingOrgFacade;
     }
