@@ -53,6 +53,7 @@ public class ElasticEmbedded {
     private ScheduleOfClassesService scheduleOfClassesService;
     private Node node;
     private Client client;
+    private boolean indexOnStartup = true;
 
     public ElasticEmbedded() throws IOException {
         super();
@@ -96,7 +97,9 @@ public class ElasticEmbedded {
         LOG.info("Elastic Client Started");
 
         //Prefetch the data
-        getClient();
+        if(indexOnStartup) {
+            getClient();
+        }
     }
 
     /**
@@ -359,5 +362,19 @@ public class ElasticEmbedded {
 
     public void setScheduleOfClassesService(ScheduleOfClassesService scheduleOfClassesService) {
         this.scheduleOfClassesService = scheduleOfClassesService;
+    }
+
+    public boolean isIndexOnStartup() {
+        return indexOnStartup;
+    }
+
+    /**
+     * when the application starts, this allows you to disable the automatic index.
+     *
+     * By default this is set to true
+     * @param indexOnStartup
+     */
+    public void setIndexOnStartup(boolean indexOnStartup) {
+        this.indexOnStartup = indexOnStartup;
     }
 }
