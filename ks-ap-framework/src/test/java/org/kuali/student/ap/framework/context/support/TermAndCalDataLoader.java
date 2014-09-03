@@ -98,6 +98,7 @@ public class TermAndCalDataLoader {
         loadType("Winter Term", "", "http://student.kuali.org/wsdl/atp/AtpInfo", "http://student.kuali.org/wsdl/atp/AtpService", AtpServiceConstants.ATP_WINTER_TYPE_KEY);
 
         loadAtpAtpRel("ksapAtpNow-ksapAtpNow2", yesterday, tomorrow, AtpServiceConstants.ATP_ATP_RELATION_ACTIVE_STATE_KEY, "ksapAtpNow", AtpServiceConstants.ATP_ATP_RELATION_INCLUDES_TYPE_KEY, "ksapAtpNow2");
+        loadAtpAtpRel("ksapAtpNow-ksapAtpFuture", yesterday, tomorrow, AtpServiceConstants.ATP_ATP_RELATION_ACTIVE_STATE_KEY, "ksapAtpNow", AtpServiceConstants.ATP_ATP_RELATION_INCLUDES_TYPE_KEY, "ksapAtpFuture");
 
     }
 
