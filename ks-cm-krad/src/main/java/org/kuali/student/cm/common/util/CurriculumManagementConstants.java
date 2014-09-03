@@ -87,6 +87,7 @@ public class CurriculumManagementConstants {
      */
     public static class CourseViewIds {
         public final static String CREATE_COURSE_VIEW = "CM-Proposal-Course-Create-View";
+        public final static String START_RETIRE_VIEW = "startAdminRetireCourseView";
         public final static String START_RETIRE_COURSE_VIEW = "CM-Proposal-Course-Retire-Start-View";
         public final static String RETIRE_COURSE_VIEW = "CM-Proposal-Course-Retire-View";
         public final static String VIEW_COURSE_VIEW = "ViewCourseView";

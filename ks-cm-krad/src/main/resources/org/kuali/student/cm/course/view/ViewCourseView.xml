@@ -99,7 +99,15 @@
           p:title="Copy to New Proposal">
     </bean>
 
-    <bean id="CM-Proposal-Course-LinkGroup-RetireCourse" parent="CM-RetireAction" p:methodToCall="retireCourse" p:title="Retire Course"/>
+    <bean id="CM-Proposal-Course-LinkGroup-RetireCourse" parent="CM-Proposal-Course-LinkGroup-RetireCourse-parent"/>
+
+    <bean id="CM-Proposal-Course-LinkGroup-RetireCourse-parent" parent="Uif-KS-NavigationActionLink-parentBean" abstract="true"
+          p:methodToCall="retireCourse" p:title="Retire Course">
+        <property name="actionImage">
+            <bean parent="Uif-Image" p:altText="Retire" p:cssClasses="ks-fontello-icon-wrench" p:title="Retire"/>
+        </property>
+        <property name="actionImagePlacement" value="IMAGE_ONLY"/>
+    </bean>
 
     <bean id="CM-ViewCourse-View-Right-Header-Group-Status" parent="KS-Unified-Right-Header-Group-Status">
         <property name="items">

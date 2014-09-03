@@ -142,7 +142,7 @@ public class ViewCourseController extends KsUifControllerBase{
          * It should be always 'curriculum review' for both CS and faculty users for copy.
          */
         urlParameters.put(UifConstants.UrlParams.PAGE_ID, CurriculumManagementConstants.CoursePageIds.START_RETIRE_COURSE_PAGE);
-        urlParameters.put(UifConstants.UrlParams.VIEW_ID, "startAdminRetireCourseView");
+        urlParameters.put(UifConstants.UrlParams.VIEW_ID, CurriculumManagementConstants.CourseViewIds.START_RETIRE_VIEW);
         urlParameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, KRADConstants.MAINTENANCE_NEW_METHOD_TO_CALL);
         urlParameters.put(KRADConstants.DATA_OBJECT_CLASS_ATTRIBUTE, RetireCourseWrapper.class.getName());
         urlParameters.put(KRADConstants.RETURN_LOCATION_PARAMETER, CourseProposalUtil.getViewCourseUrl());
