@@ -477,6 +477,11 @@
                         <ref bean="basicContext"/>
                     </list>
                 </entry>
+                <entry key="kuali.krms.proposition.type.repeatability.no.limit">
+                    <list>
+                        <ref bean="basicContext"/>
+                    </list>
+                </entry>
             </map>
         </constructor-arg>
     </bean>

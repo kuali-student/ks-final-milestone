@@ -537,6 +537,13 @@ limitations under the License.
                                   value="org.kuali.rice.krms.builder.SimpleTextComponentBuilder"/>
                     </bean>
                 </entry>
+
+                <entry key="kuali.krms.proposition.type.repeatability.no.limit">
+                    <bean parent="TemplateInfo-parent"
+                          p:termSpecName="NoLimitOnCourseRepeatability"
+                          p:value="true">
+                    </bean>
+                </entry>
             </map>
         </property>
     </bean>

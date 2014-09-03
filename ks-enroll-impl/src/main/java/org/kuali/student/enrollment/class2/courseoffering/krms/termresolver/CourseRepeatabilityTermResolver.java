@@ -21,13 +21,28 @@
  */
 package org.kuali.student.enrollment.class2.courseoffering.krms.termresolver;
 
+import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
+import org.kuali.rice.krms.api.KrmsConstants;
+import org.kuali.rice.krms.api.engine.EngineResults;
 import org.kuali.rice.krms.api.engine.TermResolutionException;
 import org.kuali.rice.krms.api.engine.TermResolver;
+import org.kuali.rice.krms.api.repository.RuleManagementService;
+import org.kuali.rice.krms.api.repository.agenda.AgendaDefinition;
+import org.kuali.rice.krms.api.repository.reference.ReferenceObjectBinding;
+import org.kuali.rice.krms.framework.engine.Agenda;
+import org.kuali.rice.krms.impl.repository.KrmsRepositoryServiceLocator;
 import org.kuali.student.common.util.krms.RulesExecutionConstants;
+import org.kuali.student.core.process.evaluator.KRMSEvaluator;
+import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
+import org.kuali.student.r2.common.dto.ValidationResultInfo;
+import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
+import org.kuali.student.r2.core.class1.util.ValidationUtils;
 import org.kuali.student.r2.core.constants.KSKRMSServiceConstants;
 
+import javax.xml.namespace.QName;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -48,6 +63,8 @@ public class CourseRepeatabilityTermResolver implements TermResolver<String> {
     public final static String MAX_REPEATABILITY_WARNING = "kuali.max.repeatability.warning";
     public final static String MAX_REPEATABILITY_SUCCESS = "kuali.max.repeatability.success";
 
+    private RuleManagementService ruleManagementService;
+
     @Override
     public String getOutput() {
         return KSKRMSServiceConstants.TERM_RESOLVER_COURSE_REPEATABILITY;
@@ -63,7 +80,8 @@ public class CourseRepeatabilityTermResolver implements TermResolver<String> {
         Set<String> prereqs = new HashSet<>(2);
         prereqs.add(RulesExecutionConstants.TOTAL_COURSE_ATTEMPTS_TERM.getName());
         prereqs.add(RulesExecutionConstants.MAX_REPEATABILITY_TERM.getName());
-
+        prereqs.add(RulesExecutionConstants.REGISTRATION_GROUP_TERM.getName());
+//        prereqs.add(RulesExecutionConstants.KRMS_EVALUATOR_TERM.getName());
         return Collections.unmodifiableSet(prereqs);
     }
 
@@ -88,6 +106,50 @@ public class CourseRepeatabilityTermResolver implements TermResolver<String> {
             }
         }
 
+        //Check if the course has a custom repeatability rule on it.
+
+        //Grab prereqs
+        RegistrationGroupInfo rg = (RegistrationGroupInfo) resolvedPrereqs.get(RulesExecutionConstants.REGISTRATION_GROUP_TERM.getName());
+//        KRMSEvaluator krmsEvaluator = (KRMSEvaluator) resolvedPrereqs.get(RulesExecutionConstants.KRMS_EVALUATOR_TERM);
+
+        //See if the course has any custom rules on it
+        List<ReferenceObjectBinding> bindings = getRuleManagementService().findReferenceObjectBindingsByReferenceObject(CourseOfferingServiceConstants.REF_OBJECT_URI_COURSE_OFFERING, rg.getCourseOfferingId());
+        for (ReferenceObjectBinding binding : bindings) {
+            //Grab agenda definitions of a specific type
+            if ("Agenda".equals(binding.getKrmsDiscriminatorType())) {
+                AgendaDefinition agendaDefinition = getRuleManagementService().getAgenda(binding.getKrmsObjectId());
+                //Check that the agenda is of type "kuali.krms.agenda.type.course.creditConstraints"
+                if ("10000".equals(agendaDefinition.getContextId()) && "10003".equals(agendaDefinition.getTypeId())) {
+                    //If there is a repeatability rule, exclude this course from repeatability by always returning success
+                    errorLevel = MAX_REPEATABILITY_SUCCESS;
+//                    //Pull the agenda and execute the rule
+//                    Agenda agenda = KrmsRepositoryServiceLocator.getKrmsRepositoryToEngineTranslator().translateAgendaDefinition(agendaDefinition);
+//                    EngineResults engineResults = krmsEvaluator.evaluateAgenda(agenda, Collections.<String, Object>emptyMap(), Collections.<String, String>emptyMap());
+//
+//                    //Parse the results for errors
+//                    List<ValidationResultInfo> validationResults = KRMSEvaluator.extractValidationResults(engineResults);
+//
+//                    if (ValidationUtils.checkForErrors(validationResults)) {
+//                        return MAX_REPEATABILITY_ERROR;
+//                    }else{
+//                        errorLevel = MAX_REPEATABILITY_SUCCESS;
+//                    }
+                }
+            }
+        }
+
         return errorLevel;
     }
+
+    public RuleManagementService getRuleManagementService() {
+        if (ruleManagementService == null) {
+            ruleManagementService = GlobalResourceLoader.getService(new QName(KrmsConstants.Namespaces.KRMS_NAMESPACE_2_0, "ruleManagementService"));
+        }
+        return ruleManagementService;
+    }
+
+    public void setRuleManagementService(RuleManagementService ruleManagementService) {
+        this.ruleManagementService = ruleManagementService;
+    }
+
 }

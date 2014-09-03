@@ -157,6 +157,8 @@ public class CourseRegistrationServiceProcessCheckDecorator
             executionFacts.put(RulesExecutionConstants.REGISTRATION_REQUEST_TERM.getName(), registrationRequest);
             executionFacts.put(RulesExecutionConstants.REGISTRATION_REQUEST_ID_TERM.getName(), registrationRequestId);
             executionFacts.put(RulesExecutionConstants.CONTEXT_INFO_TERM.getName(), contextInfo);
+            executionFacts.put(RulesExecutionConstants.KRMS_EVALUATOR_TERM.getName(), this.krmsEvaluator);
+
 
             //Sort the requests so that everything is processed in the same order (using date)
             Collections.sort(registrationRequest.getRegistrationRequestItems(), Collections.reverseOrder(REG_REQ_ITEM_CREATE_DATE));
