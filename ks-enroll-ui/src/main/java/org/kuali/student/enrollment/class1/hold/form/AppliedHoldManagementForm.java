@@ -26,10 +26,11 @@ import java.util.List;
  *
  * @author Kuali Student Team
  */
-public class AppliedHoldManagementForm extends LookupForm {
+public class AppliedHoldManagementForm extends UifFormBase {
 
     private static final long serialVersionUID = 4898118410378641665L;
 
+    private String studentId;
     private String name;
     private String typeKey;
     private String stateKey;
@@ -44,6 +45,14 @@ public class AppliedHoldManagementForm extends LookupForm {
     public AppliedHoldManagementForm(){
         super();
         setHasSearchBeenCalled(false);
+    }
+
+    public String getStudentId() {
+        return studentId;
+    }
+
+    public void setStudentId(String studentId) {
+        this.studentId = studentId;
     }
 
     public String getName() {

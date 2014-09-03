@@ -46,7 +46,7 @@ import java.util.Properties;
  * @author Kuali Student Team
  */
 @Controller
-@RequestMapping(value = "/appliedHoldIssueManagement")
+@RequestMapping(value = "/appliedHoldManagement")
 public class AppliedHoldManagementController extends UifControllerBase {
 
     @Override
@@ -58,7 +58,7 @@ public class AppliedHoldManagementController extends UifControllerBase {
     public ModelAndView start(@ModelAttribute("KualiForm") UifFormBase form, HttpServletRequest request,
             HttpServletResponse response) {
 
-        //AppliedHoldManagementForm holdForm = (AppliedHoldManagementForm) form;
+        AppliedHoldManagementForm holdForm = (AppliedHoldManagementForm) form;
 
         //holdForm.setHoldIssueResultList(searchHoldIssues(holdForm));
         return super.start(form, request, response);

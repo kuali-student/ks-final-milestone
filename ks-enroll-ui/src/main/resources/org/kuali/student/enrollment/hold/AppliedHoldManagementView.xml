@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+    <!--
+     Copyright 2007-2009 The Kuali Foundation
+
+     Licensed under the Educational Community License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+
+     http://www.opensource.org/licenses/ecl2.php
+
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+    -->
+
+    <bean id="KS-AppliedHoldManagementView" parent="KS-Uif-FormView">
+        <property name="singlePageView" value="true"/>
+        <property name="header.render" value="true"/>
+        <property name="headerText" value="Applied Holds"/>
+        <property name="viewHelperServiceClass"
+                  value="org.kuali.student.enrollment.class1.hold.service.impl.HoldIssueViewHelperServiceImpl"/>
+        <property name="formClass"
+                  value="org.kuali.student.enrollment.class1.hold.form.AppliedHoldManagementForm"/>
+        <property name="page">
+            <bean id="KS-Hold-SearchInput-Page" parent="KS-Hold-SearchInput-Page-parent"/>
+        </property>
+        <property name="breadcrumbOptions.homewardPathBreadcrumbs">
+            <list>
+                <ref bean="KS-HomewardPathBreadcrumbs-Home"/>
+                <ref bean="KS-HomewardPathBreadcrumbs-Enrollment"/>
+                <bean parent="Uif-BreadcrumbItem">
+                    <property name="url.controllerMapping" value="appliedHoldManagement"/>
+                    <property name="url.requestParameters">
+                        <map key-type="java.lang.String" merge="true">
+                            <entry key="methodToCall" value="start"/>
+                            <entry key="hideReturnLink" value="true"/>
+                            <entry key="viewName" value="AppliedHoldManagementView"/>
+                            <entry key="formKey" value="@{returnFormKey}"/>
+                        </map>
+                    </property>
+                </bean>
+            </list>
+        </property>
+        <property name="additionalCssFiles">
+            <list>
+                <value>themes/ksboot/stylesheets/holds.css</value>
+            </list>
+        </property>
+    </bean>
+
+    <!--p:disclosure.render="false"-->
+    <bean id="KS-Hold-SearchInput-Page-parent" parent="KS-Uif-Page" >
+        <property name="items">
+            <list>
+                <ref bean="KS-Hold-CriteriaSection"/>
+                <ref bean="KS-HoldSearch-Results"/>
+            </list>
+        </property>
+        <property name="footer">
+            <bean parent="KS-Uif-FooterBase">
+                <property name="items">
+                    <list>
+                        <bean parent="Uif-HorizontalBoxGroup">
+                            <property name="items">
+                                <list>
+                                    <bean parent="KS-Uif-NavigationActionLink" p:ajaxSubmit="false"
+                                          p:methodToCall="cancel" p:actionLabel="Cancel"
+                                          p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_CANCEL]}"/>
+                                </list>
+                            </property>
+                        </bean>
+                    </list>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="KS-Hold-CriteriaSection" parent="Uif-HorizontalBoxSection" >
+        <property name="items">
+            <list>
+                <bean parent="Uif-HorizontalBoxGroup">
+                    <property name="header">
+                        <bean parent="Uif-SectionHeader">
+                            <property name="lowerGroup">
+                                <bean parent="Uif-ActionsGroup">
+                                    <property name="items">
+                                        <list>
+                                            <bean parent="KS-Uif-NavigationActionLink" p:methodToCall="addHold" p:actionLabel="Add Hold"
+                                                  p:style="padding-left:0px;" p:render="true"/>
+                                        </list>
+                                    </property>
+                                </bean>
+                            </property>
+                        </bean>
+                    </property>
+                    <property name="items">
+                        <list>
+                            <bean id="studentIDField" parent="KS-Uif-InputField-LabelTop" p:label="Student ID" p:propertyName="studentId">
+                                <property name="control">
+                                    <bean parent="KS-Uif-TextControl" p:size="20"/>
+                                </property>
+                            </bean>
+                            <bean parent="KS-Uif-SecondaryActionButton" p:performClientSideValidation="false"
+                                  p:actionLabel="Show" p:style="margin-left: 10px;margin-top: 32px"
+                                  p:methodToCall="search" p:id="show_button"/>
+                        </list>
+                    </property>
+                </bean>
+
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KS-HoldSearch-ResultSection" parent="Uif-TableCollectionSubSection" p:renderLineActions="true">
+        <property name="collectionObjectClass" value="org.kuali.student.enrollment.class1.hold.form.HoldIssueResult"/>
+        <property name="propertyName" value="holdIssueResultList"/>
+        <property name="layoutManager.richTable">
+            <bean parent="KS-Uif-RichTable"/>
+        </property>
+        <property name="layoutManager.richTable.render" value="true"/>
+        <property name="layoutManager.renderSequenceField" value="false"/>
+        <property name="layoutManager.applyDefaultCellWidths" value="false"/>
+        <property name="layoutManager.richTable.templateOptions">
+            <map merge="true">
+                <entry key="sDom" value="opir"/>
+                <entry key="aaSorting" value="[[0, 'asc']]"/>
+                <entry key="bPaginate" value="false"/>
+                <entry key="bAutoWidth" value="true"/>
+                <entry key="bInfo" value="true"/>
+            </map>
+        </property>
+        <property name="renderAddLine" value="false"/>
+    </bean>
+
+    <bean id="KS-HoldSearch-Results" parent="KS-HoldSearch-ResultSection"
+          p:propertyName="holdIssueResultList">
+        <property name="headerText" value=""/>
+        <property name="lineActions">
+            <list>
+                <bean id="manageHoldEditLink" parent="KS-Uif-Edit-NavigationActionLink" p:methodToCall="edit"
+                      p:iconClass="ks-fontello-icon-pencil" p:style="color:#0088CC;"/>
+                <bean id="manageHoldDeleteLink" parent="KS-Uif-Delete-NavigationActionLink" p:methodToCall="delete"
+                      p:iconClass="ks-fontello-icon-cancel"
+                      p:style="color:#0088CC;"/>
+            </list>
+        </property>
+        <property name="items">
+            <list>
+                <bean parent="KS-Uif-DataField" p:label="Hold Name" p:propertyName="name" p:style="white-space:nowrap;"/>
+                <bean parent="KS-Uif-DataField" p:label="Hold Code" p:propertyName="code"/>
+                <bean parent="KS-Uif-InputField" p:label="Category" p:propertyName="typeKey" p:readOnly="true"
+                      p:style="width:50%;white-space:nowrap;">
+                    <property name="control">
+                        <bean parent="KS-Uif-DropdownControl"/>
+                    </property>
+                    <property name="optionsFinder">
+                        <bean id="HoldIssueTypes"
+                              class="org.kuali.student.enrollment.class1.hold.keyvalues.HoldIssueInfoTypeKeyValues"/>
+                    </property>
+                </bean>
+                <bean parent="KS-Uif-DataField" p:label="Description" p:propertyName="descr" p:style="width:350px;"/>
+                <bean parent="KS-Uif-InputField" p:label="Owning Org" p:propertyName="organizationId" p:readOnly="true">
+                    <property name="control">
+                        <bean parent="KS-Uif-DropdownControl"/>
+                    </property>
+                    <property name="optionsFinder">
+                        <bean id="HoldOrgNames" class="org.kuali.student.enrollment.class1.util.OrgInfoNameKeyValues"/>
+                    </property>
+                </bean>
+                <bean parent="KS-Uif-DataField" p:label="Start Date" p:propertyName="firstDate"/>
+                <bean parent="KS-Uif-DataField" p:label="End Date" p:propertyName="lastDate"/>
+                <bean parent="KS-Uif-DataField" p:label="Authorization" p:propertyName="authorization"/>
+            </list>
+        </property>
+    </bean>
+
+</beans>
