@@ -34,6 +34,7 @@ import org.kuali.student.r2.core.class1.state.dto.StateChangeInfo;
 import org.kuali.student.r2.core.class1.state.dto.StateConstraintInfo;
 import org.kuali.student.r2.core.class1.state.dto.StateInfo;
 import org.kuali.student.r2.core.class1.state.dto.StatePropagationInfo;
+import org.kuali.student.r2.core.constants.AtpServiceConstants;
 
 import java.util.List;
 
@@ -49,9 +50,9 @@ public class StateServiceMockDataImpl
     public StateServiceMockDataImpl()
         throws Exception {
 
-        addLifecycle("kuali.atp.process", "ATP Lifecycle", "Lifecycle process for Academic Time Periods.", "");
-        addState("kuali.atp.process", "kuali.atp.state.Draft", "Draft", "Indicates that this ATP is tentative.");
-        addState("kuali.atp.process", "kuali.atp.state.Official", "Official", "Indicates that this ATP has been established.");
+        addLifecycle(AtpServiceConstants.ATP_LIFECYCLE_KEY, "ATP Lifecycle", "Lifecycle process for Academic Time Periods.", "");
+        addState(AtpServiceConstants.ATP_LIFECYCLE_KEY, AtpServiceConstants.ATP_DRAFT_STATE_KEY, "Draft", "Indicates that this ATP is tentative.");
+        addState(AtpServiceConstants.ATP_LIFECYCLE_KEY, AtpServiceConstants.ATP_OFFICIAL_STATE_KEY, "Official", "Indicates that this ATP has been established.");
 
         addLifecycle("kuali.milestone.process", "Milestone Lifecycle", "Lifecycle process for Milestones.", "");
         addState("kuali.milestone.process", "kuali.milestone.state.Draft", "Draft", "Indicates that this Milestone is tentative.");

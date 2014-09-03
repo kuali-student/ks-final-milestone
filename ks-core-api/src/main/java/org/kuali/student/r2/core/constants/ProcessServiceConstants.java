@@ -97,11 +97,6 @@ public class ProcessServiceConstants {
     public static final String[] CHECK_LIFECYCLE_KEYS = {PROCESS_CHECK_STATE_ACTIVE, PROCESS_CHECK_STATE_DISABLED, PROCESS_CHECK_STATE_INACTIVE};
 
     /**
-     * Milestone Types
-     */
-    public static final String MILESTONE_TYPE_ATP_REGISTRATION_PERIOD = "kuali.atp.milestone.RegistrationPeriod";
-
-    /**
      * Population Types/States
      */
     public static final String POPULATION_TYPE_KEY_AUTOMATIC = "kuali.population.type.automatic";

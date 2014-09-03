@@ -128,10 +128,8 @@ public class LprServiceConstants {
     /**
      * LprRoster types
      */
-    public static final String LPRROSTER_COURSE_FINAL_GRADEROSTER_TYPE_KEY = "kuali.lpr.roster.type.course.grade.final";
     // reverted public static final String LPRROSTER_COURSE_FINAL_GRADEROSTER_TYPE_KEY = "kuali.roster.type.course.assessment.final ";
     // roster type keys
-    // TODO: rename the one above to the one below as they point to the same thing
     public static final String LPRROSTER_COURSE_FINAL_GRADE_TYPE_KEY = "kuali.lpr.roster.type.course.grade.final";
     public static final String LPRROSTER_COURSE_MIDTERM_GRADE_TYPE_KEY = "kuali.lpr.roster.type.course.assessment.interim.midterm";
     public static final String LPRROSTER_COURSE_WAITLIST_TYPE_KEY = "kuali.lpr.roster.type.course.waitlist";
