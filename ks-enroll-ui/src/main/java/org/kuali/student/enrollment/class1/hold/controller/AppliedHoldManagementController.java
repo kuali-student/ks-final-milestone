@@ -27,6 +27,7 @@ import org.kuali.student.common.uif.util.KSControllerHelper;
 import org.kuali.student.enrollment.class1.hold.dto.AppliedHoldMaintenanceWrapper;
 import org.kuali.student.enrollment.class1.hold.dto.HoldIssueMaintenanceWrapper;
 import org.kuali.student.enrollment.class1.hold.form.AppliedHoldManagementForm;
+import org.kuali.student.enrollment.class1.hold.form.AppliedHoldResult;
 import org.kuali.student.enrollment.class1.hold.form.HoldIssueResult;
 import org.kuali.student.enrollment.class1.hold.service.HoldsViewHelperService;
 import org.kuali.student.enrollment.class1.hold.util.HoldsConstants;
@@ -63,7 +64,7 @@ public class AppliedHoldManagementController extends UifControllerBase {
 
         AppliedHoldManagementForm holdForm = (AppliedHoldManagementForm) form;
 
-        //holdForm.setHoldIssueResultList(searchHoldIssues(holdForm));
+        holdForm.setHoldResultList(searchAppliedHolds(holdForm));
         return super.start(form, request, response);
     }
 
@@ -72,16 +73,15 @@ public class AppliedHoldManagementController extends UifControllerBase {
                                HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         form.setHasSearchBeenCalled(true);
-
-        form.setHoldIssueResultList(searchHoldIssues(form));
+        form.setHoldResultList(searchAppliedHolds(form));
         return getUIFModelAndView(form);
     }
 
-    private List<HoldIssueResult> searchHoldIssues(AppliedHoldManagementForm form) {
-        List<HoldIssueResult> results = new ArrayList<HoldIssueResult>();
+    private List<AppliedHoldResult> searchAppliedHolds(AppliedHoldManagementForm form) {
+        List<AppliedHoldResult> results = new ArrayList<AppliedHoldResult>();
         try {
             if (form.isHasSearchBeenCalled()) {
-                //results = this.getViewHelper(form).searchHolds(form);
+                results = this.getViewHelper(form).searchAppliedHolds(form);
             }
         } catch (Exception e) {
             throw new RuntimeException(HoldsConstants.HOLD_ISSUE_SEARCH_ERROR_MSG, e); //To change body of catch statement use File | Settings | File Templates.

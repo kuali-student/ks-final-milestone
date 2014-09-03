@@ -4,11 +4,14 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.criteria.Predicate;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.common.uif.service.impl.KSViewHelperServiceImpl;
+import org.kuali.student.enrollment.class1.hold.form.AppliedHoldManagementForm;
+import org.kuali.student.enrollment.class1.hold.form.AppliedHoldResult;
 import org.kuali.student.enrollment.class1.hold.form.HoldIssueManagementForm;
 import org.kuali.student.enrollment.class1.hold.form.HoldIssueResult;
 import org.kuali.student.enrollment.class1.hold.service.HoldsViewHelperService;
 import org.kuali.student.enrollment.class1.hold.util.HoldsConstants;
 import org.kuali.student.enrollment.class1.hold.util.HoldsResourceLoader;
+import org.kuali.student.r2.core.hold.dto.AppliedHoldInfo;
 import org.kuali.student.r2.core.hold.dto.HoldIssueInfo;
 
 import java.util.ArrayList;
@@ -97,6 +100,44 @@ public class HoldsViewHelperServiceImpl extends KSViewHelperServiceImpl implemen
             qBuilder.setPredicates(and(preds));
         }
         return qBuilder;
+    }
+
+    /**
+     * This method is used to search for applied holds and map them to AppliedHoldResult
+     *
+     * @param holdFrom
+     * @return List holdResultList
+     */
+    @Override
+    public List<AppliedHoldResult> searchAppliedHolds(AppliedHoldManagementForm holdFrom) {
+
+        List<AppliedHoldResult> holdResultList = new ArrayList<AppliedHoldResult>();
+        List<AppliedHoldInfo> appliedHoldInfos = new ArrayList<AppliedHoldInfo>();
+
+
+        try {
+            appliedHoldInfos = HoldsResourceLoader.getHoldService().getAppliedHoldsByPerson(holdFrom.getStudentId(), createContextInfo());
+
+            for (AppliedHoldInfo appliedHoldInfo : appliedHoldInfos) {
+
+                AppliedHoldResult appliedHoldResult = new AppliedHoldResult();
+                //appliedHoldResult.setId(appliedHoldInfo.getId());
+                appliedHoldResult.setHoldName(appliedHoldInfo.getName());
+                appliedHoldResult.setCode("");
+                appliedHoldResult.setTypeKey(appliedHoldInfo.getTypeKey());
+                appliedHoldResult.setConsequence((appliedHoldInfo.getDescr() != null ? appliedHoldInfo.getDescr().getPlain() : StringUtils.EMPTY));
+                appliedHoldResult.setStartDate(appliedHoldInfo.getEffectiveDate());
+                appliedHoldResult.setEndDate(appliedHoldInfo.getExpirationDate());
+                appliedHoldResult.setStartTerm("");
+                appliedHoldResult.setEndTerm("");
+
+                holdResultList.add(appliedHoldResult);
+            }
+        } catch (Exception e) {
+
+            convertServiceExceptionsToUI(e);
+        }
+        return holdResultList;
     }
 
 }

@@ -101,9 +101,10 @@
                     </property>
                     <property name="items">
                         <list>
-                            <bean id="studentIDField" parent="KS-Uif-InputField-LabelTop" p:label="Student ID" p:propertyName="studentId">
+                            <bean parent="KS-Uif-InputField-LabelLeft" p:propertyName="studentId"
+                                  p:label="Student ID" p:readOnly="false" p:id="studentIdField">
                                 <property name="control">
-                                    <bean parent="KS-Uif-TextControl" p:size="20"/>
+                                    <bean parent="KS-Uif-TextControl" p:size="12" p:maxLength="40"/>
                                 </property>
                             </bean>
                             <bean parent="KS-Uif-SecondaryActionButton" p:performClientSideValidation="false"
@@ -118,8 +119,8 @@
     </bean>
 
     <bean id="KS-HoldSearch-ResultSection" parent="Uif-TableCollectionSubSection" p:renderLineActions="true">
-        <property name="collectionObjectClass" value="org.kuali.student.enrollment.class1.hold.form.HoldIssueResult"/>
-        <property name="propertyName" value="holdIssueResultList"/>
+        <property name="collectionObjectClass" value="org.kuali.student.enrollment.class1.hold.form.AppliedHoldResult"/>
+        <property name="propertyName" value="holdResultList"/>
         <property name="layoutManager.richTable">
             <bean parent="KS-Uif-RichTable"/>
         </property>
@@ -139,7 +140,7 @@
     </bean>
 
     <bean id="KS-HoldSearch-Results" parent="KS-HoldSearch-ResultSection"
-          p:propertyName="holdIssueResultList">
+          p:propertyName="holdResultList">
         <property name="headerText" value=""/>
         <property name="lineActions">
             <list>
@@ -152,7 +153,7 @@
         </property>
         <property name="items">
             <list>
-                <bean parent="KS-Uif-DataField" p:label="Hold Name" p:propertyName="name" p:style="white-space:nowrap;"/>
+                <bean parent="KS-Uif-DataField" p:label="Applied Name" p:propertyName="holdName" p:style="white-space:nowrap;"/>
                 <bean parent="KS-Uif-DataField" p:label="Hold Code" p:propertyName="code"/>
                 <bean parent="KS-Uif-InputField" p:label="Category" p:propertyName="typeKey" p:readOnly="true"
                       p:style="width:50%;white-space:nowrap;">
@@ -164,18 +165,12 @@
                               class="org.kuali.student.enrollment.class1.hold.keyvalues.HoldIssueTypeKeyValues"/>
                     </property>
                 </bean>
-                <bean parent="KS-Uif-DataField" p:label="Description" p:propertyName="descr" p:style="width:350px;"/>
-                <bean parent="KS-Uif-InputField" p:label="Owning Org" p:propertyName="organizationId" p:readOnly="true">
-                    <property name="control">
-                        <bean parent="KS-Uif-DropdownControl"/>
-                    </property>
-                    <property name="optionsFinder">
-                        <bean id="HoldOrgNames" class="org.kuali.student.enrollment.class1.util.OrgInfoNameKeyValues"/>
-                    </property>
-                </bean>
-                <bean parent="KS-Uif-DataField" p:label="Start Date" p:propertyName="firstDate"/>
-                <bean parent="KS-Uif-DataField" p:label="End Date" p:propertyName="lastDate"/>
-                <bean parent="KS-Uif-DataField" p:label="Authorization" p:propertyName="authorization"/>
+                <bean parent="KS-Uif-DataField" p:label="Consequence" p:propertyName="descr" p:style="width:350px;"/>
+                <bean parent="KS-Uif-InputField" p:label="State" p:propertyName="organizationId" p:readOnly="true"/>
+                <bean parent="KS-Uif-DataField" p:label="Start Date" p:propertyName="startDate"/>
+                <bean parent="KS-Uif-DataField" p:label="End Date" p:propertyName="endDate"/>
+                <bean parent="KS-Uif-DataField" p:label="Start Term" p:propertyName="startTerm"/>
+                <bean parent="KS-Uif-DataField" p:label="End Term" p:propertyName="endTerm"/>
             </list>
         </property>
     </bean>

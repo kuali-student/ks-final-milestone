@@ -17,6 +17,7 @@ package org.kuali.student.enrollment.class1.hold.form;
 
 import org.kuali.rice.krad.lookup.LookupForm;
 import org.kuali.rice.krad.web.form.UifFormBase;
+import org.kuali.student.core.person.dto.PersonInfo;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,15 +31,12 @@ public class AppliedHoldManagementForm extends UifFormBase {
 
     private static final long serialVersionUID = 4898118410378641665L;
 
+    /**
+     * Contains the personal information for the selected student.
+     */
     private String studentId;
-    private String name;
-    private String typeKey;
-    private String stateKey;
-    private String descr;
-    private String organizationId;
-    private String code;
 
-    private List<HoldIssueResult> holdIssueResultList = new ArrayList<HoldIssueResult>();
+    private List<AppliedHoldResult> holdResultList = new ArrayList<AppliedHoldResult>();
 
     private boolean hasSearchBeenCalled;
 
@@ -55,60 +53,12 @@ public class AppliedHoldManagementForm extends UifFormBase {
         this.studentId = studentId;
     }
 
-    public String getName() {
-        return name;
+    public List<AppliedHoldResult> getHoldResultList() {
+        return holdResultList;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getTypeKey() {
-        return typeKey;
-    }
-
-    public void setTypeKey(String typeKey) {
-        this.typeKey = typeKey;
-    }
-
-    public String getStateKey() {
-        return stateKey;
-    }
-
-    public void setStateKey(String stateKey) {
-        this.stateKey = stateKey;
-    }
-
-    public String getDescr() {
-        return descr;
-    }
-
-    public void setDescr(String descr) {
-        this.descr = descr;
-    }
-
-    public String getOrganizationId() {
-        return organizationId;
-    }
-
-    public void setOrganizationId(String organizationId) {
-        this.organizationId = organizationId;
-    }
-
-    public String getCode() {
-        return code;
-    }
-
-    public void setCode(String code) {
-        this.code = code;
-    }
-
-    public List<HoldIssueResult> getHoldIssueResultList() {
-        return holdIssueResultList;
-    }
-
-    public void setHoldIssueResultList(List<HoldIssueResult> holdIssueResultList) {
-        this.holdIssueResultList = holdIssueResultList;
+    public void setHoldResultList(List<AppliedHoldResult> holdResultList) {
+        this.holdResultList = holdResultList;
     }
 
     public boolean isHasSearchBeenCalled() {
