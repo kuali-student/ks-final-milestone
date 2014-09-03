@@ -31,6 +31,16 @@ public class StartRetireCourseForm extends UifFormBase {
 
     private String courseId;
 
+    // disallow the curriculumSpecialistUser property to be set by the request
+    @RequestProtected
+    private boolean curriculumSpecialistUser;
+
+    public StartRetireCourseForm() {
+        super();
+        // assume user is not a Curriculum Specialist (CS) user
+        curriculumSpecialistUser = false;
+    }
+
     public String getStartRetireCourseAction() {
         return startRetireCourseAction;
     }
@@ -47,4 +57,11 @@ public class StartRetireCourseForm extends UifFormBase {
         this.courseId = courseId;
     }
 
+    public boolean isCurriculumSpecialistUser() {
+        return curriculumSpecialistUser;
+    }
+
+    public void setCurriculumSpecialistUser(boolean curriculumSpecialistUser) {
+        this.curriculumSpecialistUser = curriculumSpecialistUser;
+    }
 }
