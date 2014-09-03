@@ -56,18 +56,24 @@
 #planner_courses_detail_list {
 
   // Term header
-  .ks-plan-TermsList-itemHeader {
+  .ksap-planner-term-header {
     background: #dcdcdc;
+    text-align: center;
 
     h4 {
       padding: .5rem;
     }
   }
 
+  .ksap-term-current .ksap-planner-term-header {
+    background: #3a87ad;
+    color: #fff;
+  }
+
   // Planned, Completed, Registered, Backup headers
   .uif-header-upperGroup {
     background: #f0f0f0;
-    border-bottom: solid 1px #DDD;
+    border-bottom: solid 1px #ddd;
     font-weight: normal;
     margin: 0;
     padding: .5rem;
@@ -79,7 +85,8 @@
 
   // Cells
   .ksap-planner-cell {
-    border-bottom: solid 1px #DDD;
+    border-bottom: solid 1px #ddd;
+    height: 28px;
     padding: .5rem;
   }
   .ksap-course-valid:hover {
@@ -93,18 +100,18 @@
   }
   // Add Courses
   .ksap-planner-cell.ksap-planner-add {
-    padding: 0;
+    padding: 0; //Remove padding from cell for Add Course
   }
   .ksap-planner-add a {
     display: block;
     font-size: 1.3rem;
-    padding: .5rem;
+    padding: .4rem;
     text-align: center;
   }
 
   // Backup Courses
   .ksap-planner-backup .ksap-planner-add {
-    border-bottom: 0; //No border after quick add under backup
+    border-bottom: 0; //No border after Add Course under backup
   }
 
   // Registration Groups

@@ -162,7 +162,7 @@
                   value="true" />
         <property
                 name="layoutManager.lineGroupPrototype.header.additionalCssClasses"
-                value="ks-plan-TermsList-itemHeader" />
+                value="ksap-planner-term-header" />
         <property name="layoutManager.lineGroupPrototype.headerText"
                   value="@{#line.termName}" />
         <property name="layoutManager.lineGroupPrototype.validationMessages.displayMessages"
