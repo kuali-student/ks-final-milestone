@@ -875,7 +875,7 @@ public class DefaultPlanHelper implements PlanHelper {
 
             // Save the new plan item to the database
             try{
-                return KsapFrameworkServiceLocator.getPlanHelper().addPlanItem(planId,
+                return addPlanItem(planId,
                         AcademicPlanServiceConstants.ItemCategory.PLANNED, "", creditValue, terms, planItemRef,attributes);
             }catch (AlreadyExistsException e){
                 throw new RuntimeException("Unable to create course item for reg group item", e);
@@ -976,8 +976,11 @@ public class DefaultPlanHelper implements PlanHelper {
         if (credits == null) {
             CreditsFormatter.Range range = CreditsFormatter.getRange(course);
             if (range != null) {
-                newPlannerItem.setMaxCredits(range.getMin());
-                newPlannerItem.setMinCredits(range.getMax());
+                newPlannerItem.setMaxCredits(range.getMax());
+                newPlannerItem.setMinCredits(range.getMin());
+            }
+            if(range.getMultiple() != null)  {
+                newPlannerItem.setMultipleCredits(range.getMultiple());
             }
         } else {
             newPlannerItem.setMaxCredits(credits);
@@ -1033,11 +1036,11 @@ public class DefaultPlanHelper implements PlanHelper {
 
         List<PlannerItem> plannerItems = new ArrayList<PlannerItem>();
         for(StudentCourseRecordInfo record : completedRecords){
-            PlannerItem newItem = KsapFrameworkServiceLocator.getPlanHelper().createPlannerItem(record);
+            PlannerItem newItem = createPlannerItem(record);
             plannerItems.add(newItem);
         }
         for(PlanItem planItem : planItems){
-            PlannerItem newItem = KsapFrameworkServiceLocator.getPlanHelper().createPlannerItem(planItem);
+            PlannerItem newItem = createPlannerItem(planItem);
             plannerItems.add(newItem);
         }
         Map<String,List<PlannerItem>> plannerItemMap = createTermPlannerItemMap(plannerItems);
@@ -1089,7 +1092,7 @@ public class DefaultPlanHelper implements PlanHelper {
      */
     private List<PlanItem> retrieveCoursePlanItems(String planId){
         List<PlanItem> itemsToReturn = new ArrayList<PlanItem>();
-        List<PlanItem> planItems = KsapFrameworkServiceLocator.getPlanHelper().getPlanItems(planId);
+        List<PlanItem> planItems = getPlanItems(planId);
 
         for(PlanItem item : planItems){
             if(!item.getRefObjectType().equals(PlanConstants.COURSE_TYPE)){

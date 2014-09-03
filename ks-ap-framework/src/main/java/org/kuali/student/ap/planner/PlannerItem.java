@@ -34,6 +34,7 @@ public class PlannerItem implements
 	private String courseNote;
 	private BigDecimal minCredits;
 	private BigDecimal maxCredits;
+    private List<BigDecimal> multipleCredits;
 	private String grade;
     private AcademicPlanServiceConstants.ItemCategory category;
     private String categoryString;
@@ -50,6 +51,7 @@ public class PlannerItem implements
 
 	public PlannerItem() {
         setType(BLANK_ITEM);
+        multipleCredits = new ArrayList<BigDecimal>();
 	}
 
 	public String getParentUniqueId() {
@@ -174,10 +176,27 @@ public class PlannerItem implements
 		this.creditString = null;
 	}
 
-	public String getCreditString() {
+    public List<BigDecimal> getMultipleCredits() {
+        return multipleCredits;
+    }
+
+    public void setMultipleCredits(List<BigDecimal> multipleCredits) {
+        this.multipleCredits = multipleCredits;
+        this.creditString = null;
+    }
+
+    public String getCreditString() {
 		if (creditString == null && minCredits != null && maxCredits != null) {
 			StringBuilder sb = new StringBuilder();
 			sb.append(CreditsFormatter.trimCredits(minCredits.toString()));
+            if (multipleCredits != null && !multipleCredits.isEmpty()){
+                if (multipleCredits.size() == 2 ){
+                    sb.append(",");
+                    sb.append(CreditsFormatter.trimCredits(multipleCredits.get(1).toString()));
+                    creditString = sb.toString();
+                    return creditString;
+                }
+            }
 			if (minCredits.compareTo(maxCredits) < 0) {
 				sb.append(" - ");
 				sb.append(CreditsFormatter.trimCredits(maxCredits.toString()));
