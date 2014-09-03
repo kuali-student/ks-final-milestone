@@ -33,12 +33,6 @@ public class CourseServiceConstants {
     public static final String FINAL_EXAM_RATIONALE = "finalExamRationale";
     
     /*
-     * Constants needed to search for personSearch
-     */
-    public static final String NAMESPACE_PERSONSEACH = CommonServiceConstants.REF_OBJECT_URI_GLOBAL_PREFIX + "personsearch";
-    public static final String PERSONSEACH_SERVICE_NAME_LOCAL_PART = "PersonSearchService";
-    
-    /*
      * Constants needed to search for subjectCode
      */
     public static final String NAMESPACE_SUBJECTCODE = CommonServiceConstants.REF_OBJECT_URI_GLOBAL_PREFIX + "subjectCode";
