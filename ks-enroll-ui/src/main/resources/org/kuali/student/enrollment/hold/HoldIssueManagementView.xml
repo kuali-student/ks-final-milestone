@@ -152,7 +152,7 @@
                 <entry key="sDom" value="opir"/>
                 <entry key="aaSorting" value="[[0, 'asc']]"/>
                 <entry key="bPaginate" value="false"/>
-                <entry key="bAutoWidth" value="true"/>
+                <entry key="bAutoWidth" value="false"/>
                 <entry key="bInfo" value="true"/>
             </map>
         </property>
@@ -172,10 +172,10 @@
         </property>
         <property name="items">
             <list>
-                <bean parent="KS-Uif-DataField" p:label="Hold Name" p:propertyName="name" p:style="white-space:nowrap;"/>
+                <bean parent="KS-Uif-DataField" p:label="Hold Name" p:propertyName="name" p:additionalCssClasses="nowrap"/>
                 <bean parent="KS-Uif-DataField" p:label="Hold Code" p:propertyName="code"/>
-                <bean parent="KS-Uif-InputField" p:label="Category" p:propertyName="typeKey" p:readOnly="true"
-                      p:style="width:50%;white-space:nowrap;">
+                <bean parent="KS-Uif-InputField" p:label="Category" p:propertyName="typeKey" p:readOnly="true" p:additionalCssClasses="nowrap"
+                      p:style="width:50%;">
                     <property name="control">
                         <bean parent="KS-Uif-DropdownControl"/>
                     </property>
@@ -192,9 +192,8 @@
                         <bean class="org.kuali.student.enrollment.class1.util.OrgInfoNameKeyValues"/>
                     </property>
                 </bean>
-                <bean parent="KS-Uif-DataField" p:label="Start Date" p:propertyName="firstDate"/>
-                <bean parent="KS-Uif-DataField" p:label="End Date" p:propertyName="lastDate"/>
-                <bean parent="KS-Uif-DataField" p:label="Authorization" p:propertyName="authorization"/>
+                <bean parent="KS-Uif-DataField" p:label="Start Date" p:propertyName="firstDate" p:additionalCssClasses="nowrap"/>
+                <bean parent="KS-Uif-DataField" p:label="End Date" p:propertyName="lastDate" p:additionalCssClasses="nowrap" p:style="min-width:56px;"/>
             </list>
         </property>
     </bean>
