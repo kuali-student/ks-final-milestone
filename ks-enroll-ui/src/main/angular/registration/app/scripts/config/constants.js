@@ -105,6 +105,8 @@ angular.module('regCartApp')
         transactionException: 'kuali.lpr.trans.message.exception',
         transactionItemException: 'kuali.lpr.trans.item.message.exception',
         courseNotOpen: 'kuali.lpr.trans.message.course.not.open',
+        courseNotOpenEarly: 'kuali.lpr.trans.message.course.not.open.early',
+        courseNotOpenLate: 'kuali.lpr.trans.message.course.not.open.late',
         courseGradeIncomplete: 'kuali.lpr.trans.message.course.grade.incomplete',// Student has an incomplete already in the course
         courseAlreadyTaken: 'kuali.lpr.trans.message.course.already.taken',      // Student has already taken the course and has hit the repeatability limit
         repeatabilityWarning: 'kuali.lpr.trans.message.repeatability.warning'    // Repeatability warning that is returned when the student is repeating a course

@@ -22,7 +22,8 @@ angular.module('regCartApp')
                 data: '=message',
                 course: '=?' // optional handle on the course
             },
-            controller: ['$scope', 'VALIDATION_ERROR_TYPE', 'GENERAL_ERROR_TYPE', 'MessageService', function($scope, VALIDATION_ERROR_TYPE, GENERAL_ERROR_TYPE, MessageService) {
+            controller: ['$scope', 'VALIDATION_ERROR_TYPE', 'GENERAL_ERROR_TYPE', 'MessageService', 'RegUtil',
+            function($scope, VALIDATION_ERROR_TYPE, GENERAL_ERROR_TYPE, MessageService, RegUtil) {
 
                 // Make the data object available at the root level to the formatted messages
                 if (angular.isObject($scope.data)) {
@@ -53,6 +54,10 @@ angular.module('regCartApp')
 
                                 case VALIDATION_ERROR_TYPE.timeConflict:
                                     message = formatTimeConflict(data, course);
+                                    break;
+
+                                case VALIDATION_ERROR_TYPE.courseNotOpen:
+                                    message = formatCourseNotOpen(data);
                                     break;
 
                                 case GENERAL_ERROR_TYPE.noRegGroup:
@@ -146,6 +151,45 @@ angular.module('regCartApp')
                     }
 
                     return message;
+                }
+
+                /**
+                 * Message - Course Not Open
+                 *
+                 * Cases:
+                 * 1. actionDate on root level:
+                 *    { messageKey: '...', actionDate: '...', startDate: '...', endDate" '...' }
+                 *
+                 * @param data
+                 * @returns {string}
+                 *
+                 *
+                 * Compare the action date (the date the user is taking the action -- e.g. attempting
+                 * registration) to the start and end date, and format the message accordingly (letting
+                 * the student know if it is too early or too late to register).
+                 */
+                function formatCourseNotOpen(data) {
+
+                    var messageKey = data.messageKey;
+
+                    var actionDate = RegUtil.convertStringToDate(data.actionDate);
+                    var startDate = RegUtil.convertStringToDate(data.startDate);
+                    var endDate = RegUtil.convertStringToDate(data.endDate);
+
+                    if (angular.isDefined(actionDate) && angular.isDate(actionDate)) {
+                        if (angular.isDefined(startDate) && angular.isDate(startDate)) {
+                            if (actionDate < startDate) {
+                                messageKey = VALIDATION_ERROR_TYPE.courseNotOpenEarly;
+                            }
+                        }
+                        if(angular.isDefined(endDate) && angular.isDate(endDate)) {
+                            if (actionDate > endDate) {
+                                messageKey = VALIDATION_ERROR_TYPE.courseNotOpenLate;
+                            }
+                        }
+                    }
+
+                    return getBaseMessage(messageKey);
                 }
 
                 /* ---------- Begin General Use Methods ---------- */

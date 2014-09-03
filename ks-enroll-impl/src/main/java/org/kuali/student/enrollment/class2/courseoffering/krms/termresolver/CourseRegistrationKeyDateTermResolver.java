@@ -17,15 +17,12 @@
 package org.kuali.student.enrollment.class2.courseoffering.krms.termresolver;
 
 import org.kuali.rice.krms.api.engine.TermResolutionException;
-import org.kuali.rice.krms.api.engine.TermResolver;
 import org.kuali.student.common.util.krms.RulesExecutionConstants;
+import org.kuali.student.enrollment.class2.courseoffering.krms.termresolver.util.KeyDateTermResolverSupport;
 import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
-import org.kuali.student.enrollment.lui.dto.LuiInfo;
-import org.kuali.student.enrollment.lui.service.LuiService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.krms.util.KSKRMSExecutionUtil;
 import org.kuali.student.r2.core.atp.dto.MilestoneInfo;
-import org.kuali.student.r2.core.atp.service.AtpService;
 import org.kuali.student.r2.core.constants.KSKRMSServiceConstants;
 
 import java.util.Collections;
@@ -44,10 +41,7 @@ import java.util.Set;
  *
  * @author Kuali Student Team
  */
-public class CourseRegistrationKeyDateTermResolver implements TermResolver<Boolean> {
-
-    private LuiService luiService;
-    private AtpService atpService;
+public class CourseRegistrationKeyDateTermResolver extends KeyDateTermResolverSupport<Boolean> {
 
     @Override
     public Set<String> getPrerequisites() {
@@ -71,7 +65,7 @@ public class CourseRegistrationKeyDateTermResolver implements TermResolver<Boole
 
     @Override
     public int getCost() {
-        return 0;
+        return 2;
     }
 
     @Override
@@ -82,70 +76,23 @@ public class CourseRegistrationKeyDateTermResolver implements TermResolver<Boole
         // Date user did the action (tried to submit registration for the regGroupInfo)
         Date userActionDate = context.getCurrentDate();
         String keydateTypeParameter = parameters.get(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_TERM_KEYDATE_TYPE_KEY);
+        boolean allowRegistration = true;
         try {
-            String termId;
-            // getting CO and AOs for the RegGroup to find the correct term
-            LuiInfo coLui = getLuiService().getLui(regGroupInfo.getCourseOfferingId(), context);
-            List<LuiInfo> aoLuis = getLuiService().getLuisByIds(regGroupInfo.getActivityOfferingIds(), context);
-
-            // We have CO and AO terms.  There is special business logic to determine which term to use.
-            // The logic: find out if all AO terms are the same, and if so use the AO term, else use CO term
-            if(isAllAtpIdsTheSame(aoLuis)){
-                //Get(0) is appropriate here since we are testing that they are all the same as part of business logic
-                termId = aoLuis.get(0).getAtpId();
-            } else {
-                termId = coLui.getAtpId();
-            }
-
-            // Milestones store start and end date information. All KeyDates are Milestones
             // Have to check if user action date is within KeyDate (say, Registration Adjustment Period) start/end dates
-            List<MilestoneInfo> mstones = getAtpService().getMilestonesByTypeForAtp(termId, keydateTypeParameter, context);
+            List<MilestoneInfo> mstones = getMilestones(context, regGroupInfo, keydateTypeParameter);
             for (MilestoneInfo mstone : mstones) {
                 if ((mstone.getStartDate() != null && mstone.getStartDate().compareTo(userActionDate) > 0) ||
                         (mstone.getEndDate() != null && mstone.getEndDate().compareTo(userActionDate) < 0)) {
-                    return false;
+                    allowRegistration = false;
+                    break;
                 }
             }
-            return true;
         } catch (Exception e) {
             KSKRMSExecutionUtil.convertExceptionsToTermResolutionException(parameters, e, this);
+            allowRegistration = false;
         }
 
-        return false;
+        return allowRegistration;
     }
 
-    /**
-     * helper method that takes in a list of luis and returns if all atpIds are the same
-     * @param l
-     * @return
-     */
-    private static boolean isAllAtpIdsTheSame(List<LuiInfo> l) {
-        Set<String> set = new HashSet<>(l.size());
-        for (LuiInfo o : l) {
-            if (set.isEmpty()) {
-                set.add(o.getAtpId());
-            } else {
-                if (set.add(o.getAtpId())) {
-                    return false;
-                }
-            }
-        }
-        return true;
-    }
-
-    public LuiService getLuiService() {
-        return luiService;
-    }
-
-    public void setLuiService(LuiService luiService) {
-        this.luiService = luiService;
-    }
-
-    public AtpService getAtpService() {
-        return atpService;
-    }
-
-    public void setAtpService(AtpService atpService) {
-        this.atpService = atpService;
-    }
 }

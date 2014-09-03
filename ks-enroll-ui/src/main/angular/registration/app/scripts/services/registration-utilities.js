@@ -26,5 +26,19 @@ angular.module('regCartApp')
 
             return time;
         };
+
+        /*
+         * Converts a date string in format mm/dd/yyyy to a Date object
+         */
+        this.convertStringToDate = function(str) {
+            var parts = str.split('/');
+            var date;
+            if (parts.length === 3) {
+                date = new Date(parts[2],parts[0]-1,parts[1]);
+            } else {
+                console.log('Invalid date string: '+str);
+            }
+            return date;
+        }
     }])
 ;
