@@ -1867,7 +1867,6 @@ public class CourseMaintainableImpl extends ProposalMaintainableImpl implements 
         return this.getRuleManagementService().findReferenceObjectBindingsByReferenceObject(CourseServiceConstants.REF_OBJECT_URI_COURSE, refObjectId);
     }
 
-    // TODO delyea: where did this come from?
     protected String getCourseId(ProposalInfo proposalInfo) throws OperationFailedException {
         if (proposalInfo.getProposalReference().size() != 1) {
             String message = String.format("Found %s CLU objects linked to proposal with docId='%s' and proposalId='%s'. Must have exactly 1 linked.",
