@@ -490,25 +490,14 @@ public class DefaultTermHelper implements TermHelper {
 	@Override
 	public List<Term> getPlanningTerms() {
         if(getTermMarker().planningTerms == null){
-            try {
-                QueryByCriteria query = QueryByCriteria.Builder.fromPredicates(equal("atpStatus", PlanConstants.PUBLISHED),
-                        or(KsapHelperUtil.getTermPredicates()), greaterThanOrEqual("endDate",KsapHelperUtil.getCurrentDate()));
-                List<TermInfo> rl = KsapFrameworkServiceLocator.getAcademicCalendarService().searchForTerms(query,
-                        KsapFrameworkServiceLocator.getContext().getContextInfo());
-                if (rl == null || rl.isEmpty())
-                    throw new IllegalStateException("AcademicCalendarService did not return any planning terms");
-                List<Term> temp = new ArrayList<Term>(rl);
-                sortTermsByStartDate(temp,true);
-                getTermMarker().planningTerms = getTermMarker().cache(temp);
-            } catch (InvalidParameterException e) {
-                throw new IllegalArgumentException("Acal lookup failure", e);
-            } catch (MissingParameterException e) {
-                throw new IllegalArgumentException("Acal lookup failure", e);
-            } catch (OperationFailedException e) {
-                throw new IllegalStateException("Acal lookup failure", e);
-            } catch (PermissionDeniedException e) {
-                throw new IllegalStateException("Acal lookup failure", e);
+            List<Term> planningTerms = new ArrayList<Term>();
+            List<Term> officialTerms = KsapFrameworkServiceLocator.getTermHelper().getOfficialTerms();
+            for(Term term : officialTerms){
+                if(KsapFrameworkServiceLocator.getTermHelper().isPlanning(term.getId())){
+                    planningTerms.add(term);
+                }
             }
+            getTermMarker().planningTerms = planningTerms;
         }
         return getTermMarker().planningTerms;
 	}
@@ -547,22 +536,101 @@ public class DefaultTermHelper implements TermHelper {
 		return false;
 	}
 
+    /**
+     * @see org.kuali.student.ap.framework.context.TermHelper#isPlanning(String)
+     */
 	@Override
-	public boolean isPlanning(String atpId) {
-		for (Term t : getPlanningTerms())
-			if (t.getId().equals(atpId))
-				return true;
+	public boolean isPlanning(String termId) {
+        Date now = KsapHelperUtil.getCurrentDate();
+        Term term = KsapFrameworkServiceLocator.getTermHelper().getTerm(termId);
+        if(now.before(term.getStartDate())){
+            return true;
+        }
+        if(now.after(term.getEndDate())){
+            return false;
+        }
+        if(isRegistrationOpen(termId)){
+            return true;
+        }
 		return false;
 	}
 
+    /**
+     * @see org.kuali.student.ap.framework.context.TermHelper#isCompleted(String)
+     */
 	@Override
-	public boolean isCompleted(String atpId) {
-		return getTerm(atpId).getEndDate().before(KsapHelperUtil.getCurrentDate());
+	public boolean isCompleted(String termId) {
+        Date now = KsapHelperUtil.getCurrentDate();
+        Term term = KsapFrameworkServiceLocator.getTermHelper().getTerm(termId);
+        boolean complete = term.getEndDate().before(now);
+		return complete;
 	}
 
+    /**
+     * @see org.kuali.student.ap.framework.context.TermHelper#isInProgress(String)
+     */
+    @Override
+    public boolean isInProgress(String termId) {
+        Date now = KsapHelperUtil.getCurrentDate();
+        Term term = KsapFrameworkServiceLocator.getTermHelper().getTerm(termId);
+        boolean inProgress = !now.before(term.getStartDate()) && !now.after(term.getEndDate());
+        return inProgress;
+    }
+
+    /**
+     * @see org.kuali.student.ap.framework.context.TermHelper#isFutureTerm(String)
+     */
+    @Override
+    public boolean isFutureTerm(String termId) {
+        Date now = KsapHelperUtil.getCurrentDate();
+        Term term = KsapFrameworkServiceLocator.getTermHelper().getTerm(termId);
+        boolean futureTerm = now.before(term.getStartDate());
+        return futureTerm;
+    }
+
+    /**
+     * @see org.kuali.student.ap.framework.context.TermHelper#isCurrentTerm(String)
+     */
+    @Override
+    public boolean isCurrentTerm(String termId) {
+        Term current = KsapFrameworkServiceLocator.getTermHelper().getCurrentTerm();
+        if(current.getId().equals(termId)){
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Registration is considered open so long as the schedule adjustment period has not ended.
+     *
+     * @see org.kuali.student.ap.framework.context.TermHelper#isRegistrationOpen(String)
+     */
+    @Override
+    public boolean isRegistrationOpen(String termId) {
+        Date now = KsapHelperUtil.getCurrentDate();
+        KeyDateInfo endOfScheduleAdjustment = null;
+        try {
+            endOfScheduleAdjustment = getLastDayToAddClassesForTerm(termId, KsapFrameworkServiceLocator.getContext().getContextInfo());
+        } catch (DoesNotExistException e) {
+            throw new IllegalArgumentException("Acal lookup failure", e);
+        } catch (InvalidParameterException e) {
+            throw new IllegalArgumentException("Acal lookup failure", e);
+        } catch (MissingParameterException e) {
+            throw new IllegalArgumentException("Acal lookup failure", e);
+        } catch (OperationFailedException e) {
+            throw new IllegalArgumentException("Acal lookup failure", e);
+        } catch (PermissionDeniedException e) {
+            throw new IllegalArgumentException("Acal lookup failure", e);
+        }
+        boolean isRegistrationOpen = false;
+        if(endOfScheduleAdjustment!=null){
+            isRegistrationOpen = endOfScheduleAdjustment.getEndDate().before(now);
+        }
+        return isRegistrationOpen;
+    }
 
 
-	@Override
+    @Override
 	public List<Term> getOfficialTerms() {
         if(getTermMarker().officialTerms == null){
             try {

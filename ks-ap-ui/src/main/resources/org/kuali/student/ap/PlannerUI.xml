@@ -173,10 +173,10 @@
                 <value>uif-boxGroup</value>
                 <value>uif-verticalBoxGroup</value>
                 <value>uif-boxSection</value>
-                <value>@{#line.inProgress ? 'ksap-term-current' : (!#line.inProgress and #line.planning ? 'ksap-term-future' : 'ksap-term-past')}</value>
+                <value>@{#line.currentTerm ? 'ksap-term-current' : (!#line.currentTerm and #line.planning ? 'ksap-term-future' : 'ksap-term-past')}</value>
                 <value>@{#line.planning ? 'open' : 'closed'}</value>
                 <value>ks-plan-TermsList-item</value>
-                <value>@{#line.inProgress ? 'ks-plan-TermsList-item--current' : (!#line.inProgress and #line.planning ? 'ks-plan-TermsList-item--future' : 'ks-plan-TermsList-item--past')}</value>
+                <value>@{#line.currentTerm ? 'ks-plan-TermsList-item--current' : (!#line.currentTerm and #line.planning ? 'ks-plan-TermsList-item--future' : 'ks-plan-TermsList-item--past')}</value>
                 <value>@{#line.planning ? 'ks-plan-TermsList-item--open' : 'ks-plan-TermsList-item--closed'}</value>
             </list>
         </property>
@@ -677,7 +677,7 @@
 
     <bean id="planner_completed_collection" parent="planner_completed_collection-parent"/>
     <bean id="planner_completed_collection-parent" abstract="true" parent="planner_item_collection"
-          p:render="@{#line.completed or #line.academicRecord.size() gt 0 or !#line.planning}">
+          p:render="@{#line.completed or #line.academicRecord.size() gt 0}">
         <property name="propertyName" value="academicRecord" />
         <property name="header.upperGroup">
             <bean p:id="planner_planned_collection_header" parent="Uif-HeaderUpperGroup">

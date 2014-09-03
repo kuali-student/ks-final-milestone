@@ -1,3 +1,18 @@
+/*
+ * Copyright 2014 The Kuali Foundation Licensed under the
+ * Educational Community License, Version 2.0 (the "License"); you may
+ * not use this file except in compliance with the License. You may
+ * obtain a copy of the License at
+ *
+ * http://www.osedu.org/licenses/ECL-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an "AS IS"
+ * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing
+ * permissions and limitations under the License.
+ */
+
 package org.kuali.student.ap.planner;
 
 import org.kuali.student.ap.common.infc.HasUniqueId;
@@ -13,6 +28,11 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * Data Object class for displaying a term in the planner calendar
+ * Used for beans:
+ * PlannerUI.xml#
+ */
 public class PlannerTerm implements HasUniqueId, Serializable, Comparable<PlannerTerm> {
 
 	private static final long serialVersionUID = 5885238483581189013L;
@@ -24,9 +44,9 @@ public class PlannerTerm implements HasUniqueId, Serializable, Comparable<Planne
 	private boolean planning;
 	private boolean official;
 	private boolean inProgress;
-	private boolean cartAvailable;
 	private boolean completed;
 	private boolean futureTerm;
+	private boolean currentTerm;
     private boolean registrationOpen;
 
 	private List<PlannerItem> plannedList;
@@ -42,20 +62,6 @@ public class PlannerTerm implements HasUniqueId, Serializable, Comparable<Planne
     private transient BigDecimal creditLineMaxCredits;
     private transient String creditLineString;
 
-    // These will need delete when xml changes are complete
-	private transient BigDecimal totalCompletedMinCredits;
-	private transient BigDecimal totalCompletedMaxCredits;
-	private transient String completedCreditString;
-
-	private transient BigDecimal totalCartMinCredits;
-	private transient BigDecimal totalCartMaxCredits;
-	private transient String cartCreditString;
-
-	private transient BigDecimal totalPlannedMinCredits;
-	private transient BigDecimal totalPlannedMaxCredits;
-	private transient String plannedCreditString;
-
-
 	public PlannerTerm() {
 	}
 
@@ -68,12 +74,10 @@ public class PlannerTerm implements HasUniqueId, Serializable, Comparable<Planne
 		planning = termHelper.isPlanning(termId);
 		official = termHelper.isOfficial(termId);
 		completed = termHelper.isCompleted(termId);
-
-		Date now = KsapHelperUtil.getCurrentDate();
-		inProgress = !now.before(term.getStartDate())
-				&& !now.after(term.getEndDate());
-
-        futureTerm = now.before(term.getStartDate());
+        inProgress = termHelper.isInProgress(termId);
+        futureTerm = termHelper.isFutureTerm(termId);
+        registrationOpen = termHelper.isRegistrationOpen(termId);
+        currentTerm = termHelper.isCurrentTerm(termId);
 	}
 
 	public String getUniqueId() {
@@ -116,14 +120,6 @@ public class PlannerTerm implements HasUniqueId, Serializable, Comparable<Planne
 		this.completed = completed;
 	}
 
-	public boolean isCartAvailable() {
-		return cartAvailable;
-	}
-
-	public void setCartAvailable(boolean cartAvailable) {
-		this.cartAvailable = cartAvailable;
-	}
-
 	public String getTermId() {
 		return termId;
 	}
@@ -146,9 +142,6 @@ public class PlannerTerm implements HasUniqueId, Serializable, Comparable<Planne
 
 	public void setPlannedList(List<PlannerItem> plannedList) {
 		this.plannedList = plannedList;
-		this.totalPlannedMinCredits = null;
-		this.totalPlannedMaxCredits = null;
-		this.plannedCreditString = null;
 	}
 
 	public List<PlannerItem> getBackupList() {
@@ -165,9 +158,6 @@ public class PlannerTerm implements HasUniqueId, Serializable, Comparable<Planne
 
 	public void setAcademicRecord(List<PlannerItem> academicRecord) {
 		this.academicRecord = academicRecord;
-		this.totalCompletedMinCredits = null;
-		this.totalCompletedMaxCredits = null;
-		this.completedCreditString = null;
 	}
 
 	public List<PlannerItem> getCartList() {
@@ -176,9 +166,6 @@ public class PlannerTerm implements HasUniqueId, Serializable, Comparable<Planne
 
 	public void setCartList(List<PlannerItem> cartList) {
 		this.cartList = cartList;
-		this.totalCartMinCredits = null;
-		this.totalCartMaxCredits = null;
-		this.cartCreditString = null;
 	}
 
 	public List<PlannerTermNote> getTermNoteList() {
@@ -202,123 +189,6 @@ public class PlannerTerm implements HasUniqueId, Serializable, Comparable<Planne
 			allTermNotes = sb.toString();
 		}
 		return allTermNotes;
-	}
-
-	public BigDecimal getTotalCompletedMinCredits() {
-		if (totalCompletedMinCredits == null) {
-			BigDecimal credits = BigDecimal.ZERO;
-			if (academicRecord != null)
-				for (PlannerItem item : academicRecord)
-					if (item.getMinCredits() != null)
-						credits = credits.add(item.getMinCredits());
-			totalCompletedMinCredits = credits;
-		}
-		return totalCompletedMinCredits;
-	}
-
-	public BigDecimal getTotalCompletedMaxCredits() {
-		if (totalCompletedMaxCredits == null) {
-			BigDecimal credits = BigDecimal.ZERO;
-			if (academicRecord != null)
-				for (PlannerItem item : academicRecord)
-					if (item.getMaxCredits() != null)
-						credits = credits.add(item.getMaxCredits());
-			totalCompletedMaxCredits = credits;
-		}
-		return totalCompletedMaxCredits;
-	}
-
-	public String getCompletedCreditString() {
-		if (completedCreditString == null) {
-			BigDecimal min = getTotalCompletedMinCredits();
-			BigDecimal max = getTotalCompletedMaxCredits();
-			StringBuilder sb = new StringBuilder();
-			sb.append(CreditsFormatter.trimCredits(min.toString()));
-			if (min.compareTo(max) < 0) {
-				sb.append(" - ");
-				sb.append(CreditsFormatter.trimCredits(max.toString()));
-			}
-			completedCreditString = sb.toString();
-		}
-		return completedCreditString;
-	}
-
-	public BigDecimal getTotalCartMinCredits() {
-		if (totalCartMinCredits == null) {
-			BigDecimal credits = BigDecimal.ZERO;
-			if (cartList != null)
-				for (PlannerItem item : cartList)
-					if (item.getMinCredits() != null)
-						credits = credits.add(item.getMinCredits());
-			totalCartMinCredits = credits;
-		}
-		return totalCartMinCredits;
-	}
-
-	public BigDecimal getTotalCartMaxCredits() {
-		if (totalCartMaxCredits == null) {
-			BigDecimal credits = BigDecimal.ZERO;
-			if (cartList != null)
-				for (PlannerItem item : cartList)
-					if (item.getMaxCredits() != null)
-						credits = credits.add(item.getMaxCredits());
-			totalCartMaxCredits = credits;
-		}
-		return totalCartMaxCredits;
-	}
-
-	public String getCartCreditString() {
-		if (cartCreditString == null) {
-			BigDecimal min = getTotalCartMinCredits();
-			BigDecimal max = getTotalCartMaxCredits();
-			StringBuilder sb = new StringBuilder();
-			sb.append(CreditsFormatter.trimCredits(min.toString()));
-			if (min.compareTo(max) < 0) {
-				sb.append(" - ");
-				sb.append(CreditsFormatter.trimCredits(max.toString()));
-			}
-			cartCreditString = sb.toString();
-		}
-		return cartCreditString;
-	}
-
-	public BigDecimal getTotalPlannedMinCredits() {
-		if (totalPlannedMinCredits == null) {
-			BigDecimal credits = BigDecimal.ZERO;
-			if (plannedList != null)
-				for (PlannerItem item : plannedList)
-					if (item.getMinCredits() != null)
-						credits = credits.add(item.getMinCredits());
-			totalPlannedMinCredits = credits;
-		}
-		return totalPlannedMinCredits;
-	}
-
-	public BigDecimal getTotalPlannedMaxCredits() {
-		if (totalPlannedMaxCredits == null) {
-			BigDecimal credits = BigDecimal.ZERO;
-			if (plannedList != null)
-				for (PlannerItem item : plannedList)
-					if (item.getMaxCredits() != null)
-						credits = credits.add(item.getMaxCredits());
-			totalPlannedMaxCredits = credits;
-		}
-		return totalPlannedMaxCredits;
-	}
-
-	public String getPlannedCreditString() {
-		if (plannedCreditString == null) {
-			BigDecimal min = getTotalPlannedMinCredits();
-			BigDecimal max = getTotalPlannedMaxCredits();
-			StringBuilder sb = new StringBuilder();
-			sb.append(CreditsFormatter.trimCredits(min.toString()));
-			if (min.compareTo(max) < 0) {
-				sb.append(" - ");
-				sb.append(CreditsFormatter.trimCredits(max.toString()));
-			}
-			plannedCreditString = sb.toString();
-		}
-		return plannedCreditString;
 	}
 
     public BigDecimal getCreditLineMinCredits() {
@@ -384,6 +254,14 @@ public class PlannerTerm implements HasUniqueId, Serializable, Comparable<Planne
 
     public void setRegistrationList(List<PlannerItem> registrationList) {
         this.registrationList = registrationList;
+    }
+
+    public boolean isCurrentTerm() {
+        return currentTerm;
+    }
+
+    public void setCurrentTerm(boolean currentTerm) {
+        this.currentTerm = currentTerm;
     }
 
     @Override

@@ -196,6 +196,50 @@ public class TermHelperMockTest implements TermHelper {
     }
 
     /**
+     * Checks if a term is currently in progress
+     *
+     * @param termId - The term ID.
+     * @return True if the term is in progress, false if not
+     */
+    @Override
+    public boolean isInProgress(String termId) {
+        return false;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    /**
+     * Checks if a term is in the future
+     *
+     * @param termId - The term ID.
+     * @return True if the term is scheduled in the future, false if not
+     */
+    @Override
+    public boolean isFutureTerm(String termId) {
+        return false;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    /**
+     * Checks if a term is considered the Current Term
+     *
+     * @param termId - The term ID.
+     * @return True if the term is the current term, false if not
+     */
+    @Override
+    public boolean isCurrentTerm(String termId) {
+        return false;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    /**
+     * Checks if the registration period for a term is open
+     *
+     * @param termId - The term ID.
+     * @return True if the registration period for the term is open, false if not
+     */
+    @Override
+    public boolean isRegistrationOpen(String termId) {
+        return false;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    /**
      * Gets a list of published terms.
      *
      * @return

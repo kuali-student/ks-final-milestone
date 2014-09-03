@@ -138,8 +138,7 @@ public interface TermHelper {
 	/**
 	 * Returns true if a term is available for planning.
 	 * 
-	 * @param termId
-	 *            The term ID.
+	 * @param termId - The term ID.
 	 * @return True if the term is available for planning, false if not.
 	 */
 	boolean isPlanning(String termId);
@@ -147,22 +146,51 @@ public interface TermHelper {
 	/**
 	 * Returns true if a term official on the schedule of classes.
 	 * 
-	 * @param termId
-	 *            The term ID.
-	 * @return True if the term is official on the schedule of classes, false
-	 *         if not.
+	 * @param termId - The term ID.
+	 * @return True if the term is official on the schedule of classes, false if not.
 	 */
 	boolean isOfficial(String termId);
 
 	/**
-	 * Returns true if an ATP is considered present or greater in the context of
-	 * the current term's term. Otherwise, false.
+	 * Returns true if an ATP is considered present or greater in the context of the current term's term. Otherwise,
+     * false.
 	 * 
-	 * @param atpId
-	 * @return
+	 * @param termId - The term ID.
+	 * @return True if the term is completed, false if not.
 	 */
-	boolean isCompleted(String atpId);
+	boolean isCompleted(String termId);
 
+    /**
+     * Checks if a term is currently in progress
+     *
+     * @param termId - The term ID.
+     * @return True if the term is in progress, false if not
+     */
+    public boolean isInProgress(String termId);
+
+    /**
+     * Checks if a term is in the future
+     *
+     * @param termId - The term ID.
+     * @return True if the term is scheduled in the future, false if not
+     */
+    public boolean isFutureTerm(String termId);
+
+    /**
+     * Checks if a term is considered the Current Term
+     *
+     * @param termId - The term ID.
+     * @return True if the term is the current term, false if not
+     */
+    public boolean isCurrentTerm(String termId);
+
+    /**
+     * Checks if the registration period for a term is open
+     *
+     * @param termId - The term ID.
+     * @return True if the registration period for the term is open, false if not
+     */
+    public boolean isRegistrationOpen(String termId);
 
 
 	/**
