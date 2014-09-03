@@ -28,6 +28,8 @@ import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.UnsupportedActionException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
+import org.kuali.student.r2.core.constants.AtpServiceConstants;
+import org.kuali.student.r2.core.constants.StatementServiceConstants;
 import org.kuali.student.r2.core.statement.dto.ReqCompFieldInfo;
 import org.kuali.student.r2.core.statement.dto.ReqComponentInfo;
 import org.kuali.student.r2.core.statement.dto.StatementOperator;
@@ -141,7 +143,7 @@ public class TestProgramServiceImpl {
         assertEquals("Edit Wiki Message Structure", loInfo1.getName());
         assertEquals("kuali.loRepository.key.singleUse", loInfo1.getLoRepositoryKey());
         assertEquals(DtoConstants.STATE_DRAFT, loInfo1.getStateKey());
-        assertEquals("kuali.lo.type.singleUse", loInfo1.getTypeKey());
+        assertEquals(CourseAssemblerConstants.COURSE_LO_TYPE, loInfo1.getTypeKey());
     }
 
     @Test
@@ -318,7 +320,7 @@ public class TestProgramServiceImpl {
         assertEquals("kuali.resultComponent.degree.bsc", major.getResultOptions().get(1));
 
         assertNotNull(major.getStdDuration());
-        assertEquals("kuali.atp.duration.Week", major.getStdDuration().getAtpDurationTypeKey());
+        assertEquals(AtpServiceConstants.DURATION_WEEK_TYPE_KEY, major.getStdDuration().getAtpDurationTypeKey());
         assertEquals(new Integer(100), major.getStdDuration().getTimeQuantity());
         assertNotNull(major.getStartTerm());
         assertEquals("start_term", major.getStartTerm());
@@ -898,13 +900,13 @@ public class TestProgramServiceImpl {
         // req components
         ReqComponentInfo rc1 = new ReqComponentInfo();
         rc1.setDescr(toRichText("REQCOMP-1"));
-        rc1.setTypeKey("kuali.reqComponent.type.course.courseset.completed.all");
+        rc1.setTypeKey(StatementServiceConstants.ALL_OF_REQUIRED_COURSES_COMPLETED_REQ_COM_TYPE);
         ReqComponentInfo rc2 = new ReqComponentInfo();
         rc2.setDescr(toRichText("REQCOMP-2"));
         rc2.setTypeKey("kuali.reqComponent.type.course.courseset.gpa.min");
         ReqComponentInfo rc3 = new ReqComponentInfo();
         rc3.setDescr(toRichText("REQCOMP-3"));
-        rc3.setTypeKey("kuali.reqComponent.type.course.courseset.completed.nof");
+        rc3.setTypeKey(StatementServiceConstants.N_OF_REQUIRED_COURSES_COMPLETED_REQ_COM_TYPE);
         ReqComponentInfo rc4 = new ReqComponentInfo();
         rc4.setDescr(toRichText("REQCOMP-4"));
         rc4.setTypeKey("kuali.reqComponent.type.course.permission.instructor.required");
@@ -958,7 +960,7 @@ public class TestProgramServiceImpl {
         List<ReqComponentInfo> reqCompList1 = new ArrayList<ReqComponentInfo>(3);
         ReqComponentInfo rc1 = new ReqComponentInfo();
         rc1.setDescr(toRichText("REQCOMP-1"));
-        rc1.setTypeKey("kuali.reqComponent.type.course.courseset.completed.all");
+        rc1.setTypeKey(StatementServiceConstants.ALL_OF_REQUIRED_COURSES_COMPLETED_REQ_COM_TYPE);
         ReqComponentInfo rc2 = new ReqComponentInfo();
         rc2.setDescr(toRichText("REQCOMP-2"));
         rc2.setTypeKey("kuali.reqComponent.type.course.courseset.gpa.min");

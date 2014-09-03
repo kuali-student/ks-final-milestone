@@ -61,6 +61,7 @@ import org.kuali.student.r2.lum.lrc.dto.ResultValueRangeInfo;
 import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
 import org.kuali.student.r2.lum.lrc.service.LRCService;
 import org.kuali.student.r2.lum.service.assembler.CluAssemblerUtils;
+import org.kuali.student.r2.lum.util.constants.CluServiceConstants;
 import org.kuali.student.r2.lum.util.constants.LrcServiceConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -319,7 +320,7 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
         if (null == course.getId()) {
             course.setId(clu.getId());
         }
-        clu.setTypeKey(CourseAssemblerConstants.COURSE_TYPE);
+        clu.setTypeKey(CluServiceConstants.CREDIT_COURSE_LU_TYPE_KEY);
         clu.setStateKey(course.getStateKey());
         clu.setIsEnrollable(false);
 
@@ -660,13 +661,13 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 
             try{
                 try {
-                    resultValueGroupIds.addAll(lrcService.getResultValuesGroupKeysByType(CourseAssemblerConstants.COURSE_RESULT_COMP_TYPE_CREDIT_FIXED, contextInfo));
+                    resultValueGroupIds.addAll(lrcService.getResultValuesGroupKeysByType(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_FIXED, contextInfo));
                 } catch (DoesNotExistException e) {}
                 try {
-                    resultValueGroupIds.addAll(lrcService.getResultValuesGroupKeysByType(CourseAssemblerConstants.COURSE_RESULT_COMP_TYPE_CREDIT_MULTIPLE, contextInfo));
+                    resultValueGroupIds.addAll(lrcService.getResultValuesGroupKeysByType(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_MULTIPLE, contextInfo));
                 } catch (DoesNotExistException e) {}
                 try {
-                    resultValueGroupIds.addAll(lrcService.getResultValuesGroupKeysByType(CourseAssemblerConstants.COURSE_RESULT_COMP_TYPE_CREDIT_VARIABLE, contextInfo));
+                    resultValueGroupIds.addAll(lrcService.getResultValuesGroupKeysByType(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_RANGE, contextInfo));
                 } catch (DoesNotExistException e) {}
 
                 //Create any LRCs that do not yet exist
@@ -677,16 +678,16 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
                     List<String> resultValues = null;
                     ResultValueRangeInfo resultValueRange = null;
                     //Depending on the type, set the id, type and result values differently
-                    if(CourseAssemblerConstants.COURSE_RESULT_COMP_TYPE_CREDIT_FIXED.equals(creditOption.getTypeKey())){
+                    if(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_FIXED.equals(creditOption.getTypeKey())){
                         float fixedCreditValue = Float.parseFloat(creditOption.getResultValueRange().getMinValue());
                         id = CourseAssemblerConstants.COURSE_RESULT_COMP_CREDIT_PREFIX + fixedCreditValue;
-                        type = CourseAssemblerConstants.COURSE_RESULT_COMP_TYPE_CREDIT_FIXED;
+                        type = LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_FIXED;
                         resultValues = new ArrayList<String>();
                         resultValues.add(String.valueOf(fixedCreditValue));
                         resultValueRange = new ResultValueRangeInfo();
                         resultValueRange.setMinValue(String.valueOf(fixedCreditValue));
                         resultValueRange.setMaxValue(String.valueOf(fixedCreditValue));
-                    } else if (CourseAssemblerConstants.COURSE_RESULT_COMP_TYPE_CREDIT_MULTIPLE.equals(creditOption.getTypeKey())){
+                    } else if (LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_MULTIPLE.equals(creditOption.getTypeKey())){
                         List<String> resultVals = _computeResultValues(creditOption.getResultValueKeys(), contextInfo);
                         Collections.sort(resultVals, new Comparator<String>() {
                             public int compare(String o1, String o2) {
@@ -703,10 +704,10 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
                             }
                         }
                         id = sb.toString();
-                        type = CourseAssemblerConstants.COURSE_RESULT_COMP_TYPE_CREDIT_MULTIPLE;
+                        type = LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_MULTIPLE;
                         resultValues = new ArrayList<String>();
                         resultValues.addAll(creditOption.getResultValueKeys());
-                    }else if(CourseAssemblerConstants.COURSE_RESULT_COMP_TYPE_CREDIT_VARIABLE.equals(creditOption.getTypeKey())){
+                    }else if(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_RANGE.equals(creditOption.getTypeKey())){
                         /*
                                * For variable credits create a Result values that goes from min to max with the specified increment.
                                * If no increment is specified, use 1.0 as the increment. The increment can be specified as a float.
@@ -723,7 +724,7 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
                             id += (" by " + creditValueIncr);
                         }
 
-                        type = CourseAssemblerConstants.COURSE_RESULT_COMP_TYPE_CREDIT_VARIABLE;
+                        type = LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_RANGE;
                         resultValues = new ArrayList<String>();
                         for(float i = minCredits; i <= maxCredits; i+=increment){
                             // TODO: Refer KSCM-1910

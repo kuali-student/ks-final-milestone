@@ -5,6 +5,7 @@ import org.apache.commons.beanutils.converters.DateConverter;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.web.controller.UifControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
+import org.kuali.student.cm.common.util.CurriculumManagementConstants;
 import org.kuali.student.cm.course.form.LoCategoryForm;
 import org.kuali.student.common.util.security.ContextUtils;
 import org.kuali.student.r2.common.util.constants.LearningObjectiveServiceConstants;
@@ -51,7 +52,7 @@ public class LoCategoryController extends UifControllerBase {
         List<LoCategoryInfo> loCategories = new ArrayList<LoCategoryInfo>();
         try {
             List<LoCategoryInfo> retrievedCategories = getLoService().getLoCategoriesByLoRepository(
-                    "kuali.loRepository.key.singleUse", ContextUtils.createDefaultContextInfo());
+                    CurriculumManagementConstants.KUALI_LO_REPOSITORY_KEY_SINGLE_USE, ContextUtils.createDefaultContextInfo());
             for (LoCategoryInfo loCat : retrievedCategories) {
                 if ("Active".equalsIgnoreCase(loCat.getStateKey())) {
                     loCategories.add(loCat);

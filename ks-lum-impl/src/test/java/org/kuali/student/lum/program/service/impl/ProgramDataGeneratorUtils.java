@@ -162,7 +162,7 @@ public class ProgramDataGeneratorUtils {
 			}
 			
 			if("loInfo".equals(parentPropertyName)){
-				return "kuali.lo.type.singleUse";
+				return CourseAssemblerConstants.COURSE_LO_TYPE;
 			}
 			
 			if("loCategoryInfoList".equals(parentPropertyName)){

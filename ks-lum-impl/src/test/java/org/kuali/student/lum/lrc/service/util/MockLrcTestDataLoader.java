@@ -16,19 +16,15 @@
  */
 package org.kuali.student.lum.lrc.service.util;
 
-import org.kuali.student.common.test.mock.data.AbstractMockServicesAwareDataLoader;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.util.RichTextHelper;
 import org.kuali.student.r2.lum.lrc.dto.ResultValueInfo;
 import org.kuali.student.r2.lum.lrc.dto.ResultValueRangeInfo;
 import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
-import org.kuali.student.r2.lum.lrc.infc.ResultValueRange;
 import org.kuali.student.r2.lum.lrc.service.LRCService;
+import org.kuali.student.r2.lum.util.constants.LrcServiceConstants;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
@@ -58,22 +54,22 @@ public class MockLrcTestDataLoader  {
         loadResultValueInfo("kuali.result.value.grade.completed.ip", "In-Progress", "In-Progress", "kuali.result.scale.grade.completed", "1");
         loadResultValueInfo("kuali.result.value.grade.completed.nc", "Not-Completed", "Not-Completed", "kuali.result.scale.grade.completed", "0");
 
-        loadResultValueInfo("kuali.result.value.grade.letter.plus.minus.a+", "A+", "A+", "kuali.result.scale.grade.letter.plus.minus", "12");
-        loadResultValueInfo("kuali.result.value.grade.letter.plus.minus.a", "A", "A", "kuali.result.scale.grade.letter.plus.minus", "11");
-        loadResultValueInfo("kuali.result.value.grade.letter.plus.minus.a-", "A-", "A-", "kuali.result.scale.grade.letter.plus.minus", "10");
-        loadResultValueInfo("kuali.result.value.grade.letter.plus.minus.b+", "B+", "B+", "kuali.result.scale.grade.letter.plus.minus", "9");
-        loadResultValueInfo("kuali.result.value.grade.letter.plus.minus.b", "B", "B", "kuali.result.scale.grade.letter.plus.minus", "8");
-        loadResultValueInfo("kuali.result.value.grade.letter.plus.minus.b-", "B-", "B-", "kuali.result.scale.grade.letter.plus.minus", "7");
-        loadResultValueInfo("kuali.result.value.grade.letter.plus.minus.c+", "C+", "C+", "kuali.result.scale.grade.letter.plus.minus", "6");
-        loadResultValueInfo("kuali.result.value.grade.letter.plus.minus.c", "C", "C", "kuali.result.scale.grade.letter.plus.minus", "5");
-        loadResultValueInfo("kuali.result.value.grade.letter.plus.minus.c-", "C-", "C-", "kuali.result.scale.grade.letter.plus.minus", "4");
-        loadResultValueInfo("kuali.result.value.grade.letter.plus.minus.d+", "D+", "D+", "kuali.result.scale.grade.letter.plus.minus", "3");
-        loadResultValueInfo("kuali.result.value.grade.letter.plus.minus.d", "D", "D", "kuali.result.scale.grade.letter.plus.minus", "2");
-        loadResultValueInfo("kuali.result.value.grade.letter.plus.minus.d-", "D-", "D-", "kuali.result.scale.grade.letter.plus.minus", "1");
-        loadResultValueInfo("kuali.result.value.grade.letter.plus.minus.f", "F", "F", "kuali.result.scale.grade.letter.plus.minus", "0");
+        loadResultValueInfo("kuali.result.value.grade.letter.plus.minus.a+", "A+", "A+", LrcServiceConstants.RESULT_SCALE_KEY_GRADE_LETTER_PLUS_MINUS, "12");
+        loadResultValueInfo("kuali.result.value.grade.letter.plus.minus.a", "A", "A", LrcServiceConstants.RESULT_SCALE_KEY_GRADE_LETTER_PLUS_MINUS, "11");
+        loadResultValueInfo("kuali.result.value.grade.letter.plus.minus.a-", "A-", "A-", LrcServiceConstants.RESULT_SCALE_KEY_GRADE_LETTER_PLUS_MINUS, "10");
+        loadResultValueInfo("kuali.result.value.grade.letter.plus.minus.b+", "B+", "B+", LrcServiceConstants.RESULT_SCALE_KEY_GRADE_LETTER_PLUS_MINUS, "9");
+        loadResultValueInfo("kuali.result.value.grade.letter.plus.minus.b", "B", "B", LrcServiceConstants.RESULT_SCALE_KEY_GRADE_LETTER_PLUS_MINUS, "8");
+        loadResultValueInfo("kuali.result.value.grade.letter.plus.minus.b-", "B-", "B-", LrcServiceConstants.RESULT_SCALE_KEY_GRADE_LETTER_PLUS_MINUS, "7");
+        loadResultValueInfo("kuali.result.value.grade.letter.plus.minus.c+", "C+", "C+", LrcServiceConstants.RESULT_SCALE_KEY_GRADE_LETTER_PLUS_MINUS, "6");
+        loadResultValueInfo("kuali.result.value.grade.letter.plus.minus.c", "C", "C", LrcServiceConstants.RESULT_SCALE_KEY_GRADE_LETTER_PLUS_MINUS, "5");
+        loadResultValueInfo("kuali.result.value.grade.letter.plus.minus.c-", "C-", "C-", LrcServiceConstants.RESULT_SCALE_KEY_GRADE_LETTER_PLUS_MINUS, "4");
+        loadResultValueInfo("kuali.result.value.grade.letter.plus.minus.d+", "D+", "D+", LrcServiceConstants.RESULT_SCALE_KEY_GRADE_LETTER_PLUS_MINUS, "3");
+        loadResultValueInfo("kuali.result.value.grade.letter.plus.minus.d", "D", "D", LrcServiceConstants.RESULT_SCALE_KEY_GRADE_LETTER_PLUS_MINUS, "2");
+        loadResultValueInfo("kuali.result.value.grade.letter.plus.minus.d-", "D-", "D-", LrcServiceConstants.RESULT_SCALE_KEY_GRADE_LETTER_PLUS_MINUS, "1");
+        loadResultValueInfo("kuali.result.value.grade.letter.plus.minus.f", "F", "F", LrcServiceConstants.RESULT_SCALE_KEY_GRADE_LETTER_PLUS_MINUS, "0");
 
-        loadResultValuesGroupInfo("kuali.creditType.credit.degree.1.0", "kuali.result.values.group.type.fixed", "kuali.result.values.group.state.approved", "1 Credit", "1 Academic Credit", "kuali.result.scale.credit.degree", "1", "1");
-        loadResultValuesGroupInfo("kuali.creditType.credit.degree.2.0", "kuali.result.values.group.type.fixed", "kuali.result.values.group.state.approved", "1 Credit", "1 Academic Credit", "kuali.result.scale.credit.degree", "1", "1");
+        loadResultValuesGroupInfo(LrcServiceConstants.RESULT_GROUP_KEY_KUALI_CREDITTYPE_CREDIT_1_0, LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_FIXED, LrcServiceConstants.RESULT_GROUPS_STATE_APPROVED, "1 Credit", "1 Academic Credit", "kuali.result.scale.credit.degree", "1", "1");
+        loadResultValuesGroupInfo(LrcServiceConstants.RESULT_GROUP_KEY_KUALI_CREDITTYPE_CREDIT_2_0, LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_FIXED, LrcServiceConstants.RESULT_GROUPS_STATE_APPROVED, "1 Credit", "1 Academic Credit", "kuali.result.scale.credit.degree", "1", "1");
     }
 
     public void loadResultValuesGroupInfo(String id, String type, String state, String name, String description, String resultScaleKey, String maxValue, String minValue) {
@@ -109,7 +105,7 @@ public class MockLrcTestDataLoader  {
     }
 
     public void loadResultValueInfo(String id, String name, String description, String resultScaleKey, String numericValue){
-        loadResultValueInfo(id, "kuali.result.value.type.value", "kuali.result.value.state.approved", name, description, resultScaleKey, numericValue);
+        loadResultValueInfo(id, LrcServiceConstants.RESULT_VALUE_TYPE_KEY_VALUE, "kuali.result.value.state.approved", name, description, resultScaleKey, numericValue);
     }
 
     public void loadResultValueInfo(String id, String type, String state, String name, String description, String resultScaleKey, String numericValue) {

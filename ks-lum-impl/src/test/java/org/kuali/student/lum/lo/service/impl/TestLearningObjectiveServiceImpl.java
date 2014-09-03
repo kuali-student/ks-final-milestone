@@ -58,6 +58,7 @@ import org.kuali.student.common.test.spring.Dao;
 import org.kuali.student.common.test.spring.Daos;
 import org.kuali.student.common.test.spring.PersistenceFileLocation;
 import org.kuali.student.common.test.util.ContextInfoTestUtility;
+import org.kuali.student.r2.lum.course.service.assembler.CourseAssemblerConstants;
 import org.kuali.student.r2.lum.lo.dto.LoCategoryInfo;
 import org.kuali.student.r2.lum.lo.dto.LoInfo;
 import org.kuali.student.r2.lum.lo.dto.LoLoRelationInfo;
@@ -91,10 +92,10 @@ public class TestLearningObjectiveServiceImpl extends AbstractServiceTest {
         List<AttributeInfo> attributes = new ArrayList<AttributeInfo>();
         attributes.add(rAttributeInfo);
         loInfo.setAttributes(attributes);
-        loInfo.setTypeKey("kuali.lo.type.singleUse");
+        loInfo.setTypeKey(CourseAssemblerConstants.COURSE_LO_TYPE);
         loInfo.setStateKey(DtoConstants.STATE_DRAFT);
 
-        LoInfo created = client.createLo("kuali.loRepository.key.singleUse", "kuali.lo.type.singleUse", loInfo, contextInfo);
+        LoInfo created = client.createLo("kuali.loRepository.key.singleUse", CourseAssemblerConstants.COURSE_LO_TYPE, loInfo, contextInfo);
         assertNotNull(created);
         String loId = created.getId();
         assertNotNull(loId);
@@ -110,7 +111,7 @@ public class TestLearningObjectiveServiceImpl extends AbstractServiceTest {
         assertNotNull(created.getAttributes());
         assertEquals("attrValue", created.getAttributes().get(0).getValue());
         assertEquals("attrKey", created.getAttributes().get(0).getKey());
-        assertEquals("kuali.lo.type.singleUse", created.getTypeKey()); 
+        assertEquals(CourseAssemblerConstants.COURSE_LO_TYPE, created.getTypeKey());
         assertEquals(DtoConstants.STATE_DRAFT, created.getStateKey());
 
         loInfo = client.getLo(loId, contextInfo);
@@ -128,7 +129,7 @@ public class TestLearningObjectiveServiceImpl extends AbstractServiceTest {
         assertNotNull(updated.getAttributes());
         assertEquals("attrValue", updated.getAttributes().get(0).getValue());
         assertEquals("attrKey", updated.getAttributes().get(0).getKey());
-        assertEquals("kuali.lo.type.singleUse", updated.getTypeKey()); 
+        assertEquals(CourseAssemblerConstants.COURSE_LO_TYPE, updated.getTypeKey());
         assertEquals(DtoConstants.STATE_DRAFT, updated.getStateKey());
 
         try {
@@ -142,7 +143,7 @@ public class TestLearningObjectiveServiceImpl extends AbstractServiceTest {
         // Detecting expected errors
         loInfo = new LoInfo();
         try {
-            client.createLo(null, "kuali.lo.type.singleUse", loInfo, contextInfo);
+            client.createLo(null, CourseAssemblerConstants.COURSE_LO_TYPE, loInfo, contextInfo);
             fail("MissingParameterException expected for loRepositoryId");
         } catch (MissingParameterException e) {
             assertNotNull(e.getMessage());
@@ -156,7 +157,7 @@ public class TestLearningObjectiveServiceImpl extends AbstractServiceTest {
             assertEquals("loType can not be null", e.getMessage());
         }
         try {
-            client.createLo("kuali.loRepository.key.singleUse", "kuali.lo.type.singleUse", null, contextInfo);
+            client.createLo("kuali.loRepository.key.singleUse", CourseAssemblerConstants.COURSE_LO_TYPE, null, contextInfo);
             fail("MissingParameterException expected for loInfo");
         } catch (MissingParameterException e) {
             assertNotNull(e.getMessage());
@@ -272,11 +273,11 @@ public class TestLearningObjectiveServiceImpl extends AbstractServiceTest {
         List<AttributeInfo> attributes = new ArrayList<AttributeInfo>();
         attributes.add(rAttributeInfo);
         loInfo.setAttributes(attributes);
-        loInfo.setTypeKey("kuali.lo.type.singleUse");
+        loInfo.setTypeKey(CourseAssemblerConstants.COURSE_LO_TYPE);
         loInfo.setStateKey(DtoConstants.STATE_DRAFT);
 
         try {
-        	client.createLo("kuali.loRepository.key.singleUse", "kuali.lo.type.singleUse", loInfo, contextInfo);
+        	client.createLo("kuali.loRepository.key.singleUse", CourseAssemblerConstants.COURSE_LO_TYPE, loInfo, contextInfo);
             fail("DataValidationErrorException expected when creating Lo with empty description");
         } catch (DataValidationErrorException dvee) {
             assertNotNull(dvee.getMessage());

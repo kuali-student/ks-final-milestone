@@ -24,6 +24,8 @@ import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
+import org.kuali.student.r2.core.constants.AtpServiceConstants;
+import org.kuali.student.r2.core.constants.StatementServiceConstants;
 import org.kuali.student.r2.core.statement.dto.ReqCompFieldInfo;
 import org.kuali.student.r2.core.statement.dto.ReqComponentInfo;
 import org.kuali.student.r2.core.statement.dto.StatementOperator;
@@ -44,7 +46,9 @@ import org.kuali.student.r2.lum.lo.dto.LoCategoryInfo;
 import org.kuali.student.r2.lum.lo.dto.LoInfo;
 import org.kuali.student.r2.lum.lrc.dto.ResultValueRangeInfo;
 import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
+import org.kuali.student.r2.lum.util.constants.CluServiceConstants;
 import org.kuali.student.r2.lum.util.constants.CourseServiceConstants;
+import org.kuali.student.r2.lum.util.constants.LrcServiceConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -135,7 +139,7 @@ public class TestCourseServiceImpl{
         CourseInfo createdCourse = courseService.createCourse(cInfo, contextInfo);
         assertNotNull(createdCourse);
         assertEquals(DtoConstants.STATE_DRAFT, createdCourse.getStateKey());
-        assertEquals("kuali.lu.type.CreditCourse", createdCourse.getTypeKey());
+        assertEquals(CluServiceConstants.CREDIT_COURSE_LU_TYPE_KEY, createdCourse.getTypeKey());
         assertEquals(cInfo.getStartTerm(), createdCourse.getStartTerm());
         assertEquals(cInfo.getEndTerm(), createdCourse.getEndTerm());
         assertEquals(cInfo.getCreditOptions().get(0).getName(), createdCourse.getCreditOptions().get(0).getName());
@@ -180,7 +184,7 @@ public class TestCourseServiceImpl{
 
         assertEquals(2, retrievedCourse.getFormats().size());
         FormatInfo info = retrievedCourse.getFormats().get(0);
-        assertEquals("kuali.lu.type.CreditCourseFormatShell", info.getTypeKey());
+        assertEquals(CluServiceConstants.COURSE_FORMAT_TYPE_KEY, info.getTypeKey());
         assertEquals(2, info.getActivities().size());
        assertTrue(info.getActivities().get(1).getTypeKey().startsWith("kuali.lu.type.activity."));
 
@@ -222,7 +226,7 @@ public class TestCourseServiceImpl{
         assertEquals("unitsDeployment-61", retrievedCourse.getUnitsDeployment().get(0));
 
         TimeAmountInfo timeInfo = retrievedCourse.getDuration();
-        assertEquals("kuali.atp.duration.Semester", timeInfo.getAtpDurationTypeKey());
+        assertEquals(AtpServiceConstants.DURATION_SEMESTER_TYPE_KEY, timeInfo.getAtpDurationTypeKey());
         assertEquals(19, timeInfo.getTimeQuantity().intValue());
 
         // TODO - check effective/expiration dates
@@ -245,7 +249,7 @@ public class TestCourseServiceImpl{
         assertEquals(DtoConstants.STATE_DRAFT, retrievedCourse.getStateKey());
         assertTrue(subjectAreaSet.contains(retrievedCourse.getSubjectArea()));
 
-        assertEquals("kuali.lu.type.CreditCourse", retrievedCourse.getTypeKey());
+        assertEquals(CluServiceConstants.CREDIT_COURSE_LU_TYPE_KEY, retrievedCourse.getTypeKey());
 //
 //              assertEquals(2, retrievedCourse.getCreditOptions().size());
 //            assertEquals("kuali.creditType.credit.degree.11.0", retrievedCourse.getCreditOptions().get(0));
@@ -280,7 +284,7 @@ public class TestCourseServiceImpl{
 
         // minimal sanity check
         assertNotNull(createdCourse);
-        assertEquals("kuali.lu.type.CreditCourse", createdCourse.getTypeKey());
+        assertEquals(CluServiceConstants.CREDIT_COURSE_LU_TYPE_KEY, createdCourse.getTypeKey());
         assertEquals("courseTitle-12", createdCourse.getCourseTitle());
         assertEquals(2, createdCourse.getUnitsContentOwner().size());
         assertEquals(4, createdCourse.getAttributes().size());
@@ -302,11 +306,11 @@ public class TestCourseServiceImpl{
 
         // Add two New formats
         FormatInfo newFormat = new FormatInfo();
-        newFormat.setTypeKey(CourseAssemblerConstants.COURSE_FORMAT_TYPE);
+        newFormat.setTypeKey(CluServiceConstants.COURSE_FORMAT_TYPE_KEY);
         newFormat.setStateKey(DtoConstants.STATE_DRAFT);
         
         TimeAmountInfo timeInfo = new TimeAmountInfo();
-        timeInfo.setAtpDurationTypeKey("kuali.atp.duration.Semester");
+        timeInfo.setAtpDurationTypeKey(AtpServiceConstants.DURATION_SEMESTER_TYPE_KEY);
         timeInfo.setTimeQuantity(12);        
         newFormat.setDuration(timeInfo);
         
@@ -323,19 +327,19 @@ public class TestCourseServiceImpl{
 
         // Add two new activities to new formats
         ActivityInfo newActivity1 = new ActivityInfo();
-        newActivity1.setTypeKey(CourseAssemblerConstants.COURSE_ACTIVITY_DIRECTED_TYPE);
+        newActivity1.setTypeKey(CluServiceConstants.COURSE_ACTIVITY_DIRECTED_TYPE_KEY);
         newActivity1.setStateKey(DtoConstants.STATE_DRAFT);
         newFormat.getActivities().add(newActivity1);
 
         ActivityInfo newActivity2 = new ActivityInfo();
-        newActivity2.setTypeKey(CourseAssemblerConstants.COURSE_ACTIVITY_LAB_TYPE);
+        newActivity2.setTypeKey(CluServiceConstants.COURSE_ACTIVITY_LAB_TYPE_KEY);
         newActivity2.setStateKey(DtoConstants.STATE_DRAFT);
         newFormat.getActivities().add(newActivity2);
 
         createdCourse.getFormats().add(newFormat);
 
         FormatInfo newFormat2 = new FormatInfo();
-        newFormat2.setTypeKey(CourseAssemblerConstants.COURSE_FORMAT_TYPE);
+        newFormat2.setTypeKey(CluServiceConstants.COURSE_FORMAT_TYPE_KEY);
         newFormat2.setStateKey(DtoConstants.STATE_DRAFT);
         createdCourse.getFormats().add(newFormat2);
 
@@ -352,7 +356,7 @@ public class TestCourseServiceImpl{
 
         createdCourse.getCreditOptions().remove(1);
         ResultValuesGroupInfo rsltComp = new ResultValuesGroupInfo();
-        rsltComp.setTypeKey(CourseAssemblerConstants.COURSE_RESULT_COMP_TYPE_CREDIT_MULTIPLE);
+        rsltComp.setTypeKey(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_MULTIPLE);
         rsltComp.getResultValueKeys().add("1");
         rsltComp.getResultValueKeys().add("3");
         createdCourse.getCreditOptions().add(rsltComp); 
@@ -398,7 +402,7 @@ public class TestCourseServiceImpl{
             if (uFrmt.getAttributes().contains("FRMT")) {
                 assertEquals(2, uFrmt.getActivities().size());
                 String actType = uFrmt.getActivities().get(0).getTypeKey();
-                assertTrue(CourseAssemblerConstants.COURSE_ACTIVITY_DIRECTED_TYPE.equals(actType) || CourseAssemblerConstants.COURSE_ACTIVITY_LAB_TYPE.equals(actType));
+                assertTrue(CluServiceConstants.COURSE_ACTIVITY_DIRECTED_TYPE_KEY.equals(actType) || CluServiceConstants.COURSE_ACTIVITY_LAB_TYPE_KEY.equals(actType));
 
                 assertEquals(1, uFrmt.getTermsOffered().size());
                 assertEquals("FALL2010", uFrmt.getTermsOffered().get(0));
@@ -491,7 +495,7 @@ public class TestCourseServiceImpl{
         CourseInfo createdCourse = courseService.createCourse(cInfo, contextInfo);
         assertNotNull(createdCourse);
         assertEquals(DtoConstants.STATE_DRAFT, createdCourse.getStateKey());
-        assertEquals("kuali.lu.type.CreditCourse", createdCourse.getTypeKey());
+        assertEquals(CluServiceConstants.CREDIT_COURSE_LU_TYPE_KEY, createdCourse.getTypeKey());
         String courseId = createdCourse.getId();
         CourseInfo retrievedCourse = courseService.getCourse(courseId, contextInfo);
         assertNotNull(retrievedCourse);
@@ -579,7 +583,7 @@ public class TestCourseServiceImpl{
 
         // Check to see if variable credit with float increment works
         ResultValuesGroupInfo rc1 = new ResultValuesGroupInfo();
-        rc1.setTypeKey(CourseAssemblerConstants.COURSE_RESULT_COMP_TYPE_CREDIT_VARIABLE);
+        rc1.setTypeKey(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_RANGE);
         ResultValueRangeInfo resultValueRangeInfo = new ResultValueRangeInfo();
         resultValueRangeInfo.setMinValue("5.0");
         resultValueRangeInfo.setMaxValue("6.0");
@@ -588,7 +592,7 @@ public class TestCourseServiceImpl{
 
         // Check to see if variable credit with no increments
         ResultValuesGroupInfo rc2 = new ResultValuesGroupInfo();
-        rc2.setTypeKey(CourseAssemblerConstants.COURSE_RESULT_COMP_TYPE_CREDIT_VARIABLE);
+        rc2.setTypeKey(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_RANGE);
         ResultValueRangeInfo resultValueRangeInfo2 = new ResultValueRangeInfo();
         resultValueRangeInfo2.setMinValue("1.0");
         resultValueRangeInfo2.setMaxValue("5.0");
@@ -596,7 +600,7 @@ public class TestCourseServiceImpl{
 
         // Check to see floating point multiple is accepted
         ResultValuesGroupInfo rc3 = new ResultValuesGroupInfo();
-        rc3.setTypeKey(CourseAssemblerConstants.COURSE_RESULT_COMP_TYPE_CREDIT_MULTIPLE);
+        rc3.setTypeKey(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_MULTIPLE);
         List<String> rv = new ArrayList<String>();
         rv.add("1.0");
         rv.add("1.5");
@@ -605,7 +609,7 @@ public class TestCourseServiceImpl{
 
         // Check to see if fixed w/ description & name is accepted
         ResultValuesGroupInfo rc4 = new ResultValuesGroupInfo();
-        rc4.setTypeKey(CourseAssemblerConstants.COURSE_RESULT_COMP_TYPE_CREDIT_FIXED);
+        rc4.setTypeKey(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_FIXED);
         ResultValueRangeInfo rv4 = new ResultValueRangeInfo();
         rc4.setName( "rvg-name" );
         rv4.setMinValue("1.0");
@@ -634,14 +638,14 @@ public class TestCourseServiceImpl{
 
         // Check to see if multiple was set properly
         for(ResultValuesGroupInfo rc : co) {
-            if(CourseAssemblerConstants.COURSE_RESULT_COMP_TYPE_CREDIT_MULTIPLE.equals(rc.getTypeKey())){
+            if(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_MULTIPLE.equals(rc.getTypeKey())){
                 assertEquals(3, rc.getResultValueKeys().size());
                 assertTrue(rc.getResultValueKeys().contains("1.0"));
                 assertTrue(rc.getResultValueKeys().contains("1.5"));
                 assertTrue(rc.getResultValueKeys().contains("2.0"));
             }
 
-            if(CourseAssemblerConstants.COURSE_RESULT_COMP_TYPE_CREDIT_VARIABLE.equals(rc.getTypeKey())){
+            if(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_RANGE.equals(rc.getTypeKey())){
                 if("kuali.creditType.credit.degree.1.0-5.0".equals(rc.getKey())) {
                     assertEquals(5, rc.getResultValueKeys().size());
                     assertTrue(rc.getResultValueRange().getMinValue().contains("1.0"));
@@ -652,7 +656,7 @@ public class TestCourseServiceImpl{
                     assertTrue(rc.getResultValueRange().getMaxValue().contains("6.0"));
                 }
             }
-            if(CourseAssemblerConstants.COURSE_RESULT_COMP_TYPE_CREDIT_FIXED.equals(rc.getTypeKey())){
+            if(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_FIXED.equals(rc.getTypeKey())){
                 assertEquals( "rvg-name", rc.getName());
                 assertEquals("1.0", rc.getResultValueRange().getMaxValue());
                 assertEquals("plain-descr",  rc.getDescr().getPlain());
@@ -682,9 +686,9 @@ public class TestCourseServiceImpl{
         cInfo.setAttributes(attributes);
 
         FormatInfo fInfo = new FormatInfo();
-        fInfo.setTypeKey(CourseAssemblerConstants.COURSE_FORMAT_TYPE);
+        fInfo.setTypeKey(CluServiceConstants.COURSE_FORMAT_TYPE_KEY);
         ActivityInfo aInfo = new ActivityInfo();
-        aInfo.setTypeKey(CourseAssemblerConstants.COURSE_ACTIVITY_DIRECTED_TYPE);
+        aInfo.setTypeKey(CluServiceConstants.COURSE_ACTIVITY_DIRECTED_TYPE_KEY);
 
         //Map<String, String> activityAttrs = new HashMap<String, String>();
        // activityAttrs.put("ACTIVITY_KEY", "ACTIVITY_VALUE");
@@ -917,7 +921,7 @@ public class TestCourseServiceImpl{
         List<ReqComponentInfo> reqCompList1 = new ArrayList<ReqComponentInfo>(3);
         ReqComponentInfo rc1 = new ReqComponentInfo();
         rc1.setDescr(toRichText("REQCOMP-1"));
-        rc1.setTypeKey("kuali.reqComponent.type.course.courseset.completed.all");
+        rc1.setTypeKey(StatementServiceConstants.ALL_OF_REQUIRED_COURSES_COMPLETED_REQ_COM_TYPE);
         ReqComponentInfo rc2 = new ReqComponentInfo();
         rc2.setDescr(toRichText("REQCOMP-2"));
         rc2.setTypeKey("kuali.reqComponent.type.course.courseset.gpa.min");
@@ -1008,13 +1012,13 @@ public class TestCourseServiceImpl{
         // req components
         ReqComponentInfo rc1 = new ReqComponentInfo();
         rc1.setDescr(toRichText("REQCOMP-1"));
-        rc1.setTypeKey("kuali.reqComponent.type.course.courseset.completed.all");
+        rc1.setTypeKey(StatementServiceConstants.ALL_OF_REQUIRED_COURSES_COMPLETED_REQ_COM_TYPE);
         ReqComponentInfo rc2 = new ReqComponentInfo();
         rc2.setDescr(toRichText("REQCOMP-2"));
         rc2.setTypeKey("kuali.reqComponent.type.course.courseset.gpa.min");
         ReqComponentInfo rc3 = new ReqComponentInfo();
         rc3.setDescr(toRichText("REQCOMP-3"));
-        rc3.setTypeKey("kuali.reqComponent.type.course.courseset.completed.nof");
+        rc3.setTypeKey(StatementServiceConstants.N_OF_REQUIRED_COURSES_COMPLETED_REQ_COM_TYPE);
         ReqComponentInfo rc4 = new ReqComponentInfo();
         rc4.setDescr(toRichText("REQCOMP-4"));
         rc4.setTypeKey("kuali.reqComponent.type.course.permission.instructor.required");
@@ -1027,7 +1031,7 @@ public class TestCourseServiceImpl{
         statementTree.setDescr(toRichText("STMT-1"));
         statementTree.setOperator(StatementOperator.OR);
         //statementTree.setTypeKey("kuali.statement.type.program.entrance");
-        statementTree.setTypeKey("kuali.statement.type.course.academicReadiness.coreq");
+        statementTree.setTypeKey(StatementServiceConstants.COREQUISITE_STATEMENT_TYPE);
 
         StatementTreeViewInfo subTree1 = new StatementTreeViewInfo();
         subTree1.setDescr(toRichText("STMT-2"));
@@ -1039,7 +1043,7 @@ public class TestCourseServiceImpl{
         subTree2.setDescr(toRichText("STMT-3"));
         subTree2.setOperator(StatementOperator.AND);
         //subTree2.setType("kuali.statement.type.program.entrance");
-        subTree2.setTypeKey("kuali.statement.type.course.academicReadiness.antireq");
+        subTree2.setTypeKey(StatementServiceConstants.ANTIREQUISITE_STATEMENT_TYPE);
 
         // construct tree with statements and req components
         reqCompList1.add(rc1);

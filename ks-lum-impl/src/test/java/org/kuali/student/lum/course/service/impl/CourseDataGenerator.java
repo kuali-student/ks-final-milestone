@@ -1,13 +1,13 @@
 package org.kuali.student.lum.course.service.impl;
 
-import org.apache.commons.beanutils.BeanUtils;
-import org.kuali.student.r2.lum.course.service.assembler.CourseAssemblerConstants;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.DtoConstants;
-import org.kuali.student.r2.common.dto.RichTextInfo;
-import org.kuali.student.r2.common.infc.RichText;
+import org.kuali.student.r2.core.constants.AtpServiceConstants;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
+import org.kuali.student.r2.lum.course.service.assembler.CourseAssemblerConstants;
 import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
+import org.kuali.student.r2.lum.util.constants.CluServiceConstants;
+import org.kuali.student.r2.lum.util.constants.LrcServiceConstants;
 
 import java.beans.BeanInfo;
 import java.beans.IntrospectionException;
@@ -17,7 +17,12 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Random;
 
 /**
  * Use this class to generate test data for a course (it may need improvements for creating real relationships for more
@@ -25,8 +30,8 @@ import java.util.*;
  */
 public class CourseDataGenerator {
     private static final String[] campusLocations = {CourseAssemblerConstants.COURSE_CAMPUS_LOCATION_CD_NORTH, CourseAssemblerConstants.COURSE_CAMPUS_LOCATION_CD_SOUTH};
-    String activities[] = {CourseAssemblerConstants.COURSE_ACTIVITY_LAB_TYPE, CourseAssemblerConstants.COURSE_ACTIVITY_DISCUSSION_TYPE, CourseAssemblerConstants.COURSE_ACTIVITY_TUTORIAL_TYPE,
-            CourseAssemblerConstants.COURSE_ACTIVITY_LECTURE_TYPE, CourseAssemblerConstants.COURSE_ACTIVITY_WEBLECTURE_TYPE,
+    String activities[] = {CluServiceConstants.COURSE_ACTIVITY_LAB_TYPE_KEY, CluServiceConstants.COURSE_ACTIVITY_DISCUSSION_TYPE_KEY, CluServiceConstants.COURSE_ACTIVITY_TUTORIAL_TYPE_KEY,
+            CluServiceConstants.COURSE_ACTIVITY_LECTURE_TYPE_KEY, CluServiceConstants.COURSE_ACTIVITY_WEBLECTURE_TYPE_KEY,
             /*
               * \
               * *
@@ -37,7 +42,7 @@ public class CourseDataGenerator {
               */// not
                 // in
             // DB
-            CourseAssemblerConstants.COURSE_ACTIVITY_DIRECTED_TYPE};
+            CluServiceConstants.COURSE_ACTIVITY_DIRECTED_TYPE_KEY};
     public static String subjectAreas[] = {"GEOG", "COMP", "BIOL", "ENGL", "SOCY"};
     public static String loCategories[] = {"category-1", "category-2"};
     public static String loDisplayInfo[] = {"displayInfo-1", "displayInfo-2"};
@@ -197,37 +202,37 @@ public class CourseDataGenerator {
         }
         if ("typeKey".equals(name)) {
             if ("formats".equals(parentPropertyName)) {
-                return CourseAssemblerConstants.COURSE_FORMAT_TYPE;
+                return CluServiceConstants.COURSE_FORMAT_TYPE_KEY;
             }
             if ("activities".equals(parentPropertyName)) {
                 return activities[generator.nextInt(activities.length)];
             }
             if (null == parentPropertyName) {
-                return "kuali.lu.type.CreditCourse";
+                return CluServiceConstants.CREDIT_COURSE_LU_TYPE_KEY;
             }
             if ("loCategoryInfoList".equals(parentPropertyName)) {
                 return "loCategoryType.skillarea";
             }
             if ("loInfo".equals(parentPropertyName)) {
-                return "kuali.lo.type.singleUse";
+                return CourseAssemblerConstants.COURSE_LO_TYPE;
             }
             if ("crossListings".equals(parentPropertyName)) {
                 return "kuali.lu.type.CreditCourse.identifier.cross-listed";
             }
             if ("joints".equals(parentPropertyName)) {
-                return "kuali.lu.relation.type.co-located";
+                return CourseAssemblerConstants.JOINT_RELATION_TYPE;
             }
             if ("variations".equals(parentPropertyName)) {
-                return "kuali.lu.type.CreditCourse.identifier.variation";
+                return CourseAssemblerConstants.COURSE_VARIATION_IDENT_TYPE;
             }
             if ("unitsDeployment".equals(parentPropertyName)) {
-                return "kuali.adminOrg.type.Administration";
+                return CourseAssemblerConstants.ADMIN_ORG;
             }
             if ("unitsContentOwner".equals(parentPropertyName)) {
                 return "kuali.adminOrg.type.unitsContentOwner";
             }
             if ("creditOptions".equals(parentPropertyName)) {
-                return CourseAssemblerConstants.COURSE_RESULT_COMP_TYPE_CREDIT_FIXED;
+                return LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_FIXED;
             }
             if ("loDisplayInfoList".equals(parentPropertyName)) {
                 return null;
@@ -256,19 +261,19 @@ public class CourseDataGenerator {
             return DtoConstants.STATE_DRAFT;
         }
         if ("contactHours".equals(parentPropertyName) && "unitTypeKey".equals(name)) {
-            return "kuali.atp.duration.day";
+            return AtpServiceConstants.DURATION_DAY_TYPE_KEY;
         }
         if ("contactHours".equals(parentPropertyName) && "unitQuantity".equals(name)) {
             return propertyIndex.toString();
         }
         if ("duration".equals(parentPropertyName) && "atpDurationTypeKey".equals(name)) {
-            return "kuali.atp.duration.Semester";
+            return AtpServiceConstants.DURATION_SEMESTER_TYPE_KEY;
         }
         if ("duration".equals(parentPropertyName) && "timeQuantity".equals(name)) {
             return propertyIndex.toString();
         }
         if ("outOfClassHours".equals(parentPropertyName) && "unitTypeKey".equals(name)) {
-            return "kuali.atp.duration.Week";
+            return AtpServiceConstants.DURATION_WEEK_TYPE_KEY;
         }
         if ("outOfClassHours".equals(parentPropertyName) && "unitQuantity".equals(name)) {
             return propertyIndex.toString();

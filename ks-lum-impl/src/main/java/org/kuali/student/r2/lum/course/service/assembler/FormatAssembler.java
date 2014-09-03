@@ -33,6 +33,7 @@ import org.kuali.student.r2.lum.clu.service.CluService;
 import org.kuali.student.r2.lum.course.dto.ActivityInfo;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.lum.course.dto.FormatInfo;
+import org.kuali.student.r2.lum.util.constants.CluServiceConstants;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -125,7 +126,7 @@ public class FormatAssembler implements BOAssembler<FormatInfo, CluInfo> {
 															// for creating
 															// relations)
 
-		clu.setTypeKey(CourseAssemblerConstants.COURSE_FORMAT_TYPE);
+		clu.setTypeKey(CluServiceConstants.COURSE_FORMAT_TYPE_KEY);
 		clu.setStateKey(format.getStateKey());
 		clu.setIsEnrollable(false);
 	

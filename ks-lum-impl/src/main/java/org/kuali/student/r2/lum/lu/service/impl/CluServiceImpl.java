@@ -28,8 +28,6 @@ import org.kuali.student.r2.common.dto.DtoConstants;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.*;
-import org.kuali.student.r2.core.atp.dto.AtpInfo;
-import org.kuali.student.r2.core.class1.atp.model.AtpEntity;
 import org.kuali.student.r2.core.constants.AtpSearchServiceConstants;
 import org.kuali.student.r2.core.search.dto.*;
 import org.kuali.student.r2.core.search.service.SearchManager;
@@ -40,9 +38,11 @@ import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.core.versionmanagement.dto.VersionDisplayInfo;
 import org.kuali.student.r2.lum.clu.dto.*;
 import org.kuali.student.r2.lum.clu.service.CluService;
+import org.kuali.student.r2.lum.course.service.assembler.CourseAssemblerConstants;
 import org.kuali.student.r2.lum.lu.dao.LuDao;
 import org.kuali.student.r2.lum.lu.entity.*;
 import org.kuali.student.r2.lum.util.constants.CluServiceConstants;
+import org.kuali.student.r2.lum.util.constants.LrcServiceConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
@@ -3026,9 +3026,9 @@ public class CluServiceImpl implements CluService {
         //The result component types need to be mapped back as well
         SearchRequestInfo resultComponentSearchRequest = new SearchRequestInfo(SEARCH_KEY_RESULT_COMPONENT);
         resultComponentSearchRequest.addParam("lrc.queryParam.resultComponent.type",
-                "kuali.result.values.group.type.fixed");
+                LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_FIXED);
         resultComponentSearchRequest.addParam("lrc.queryParam.resultComponent.resultScaleId",
-                "kuali.result.scale.degree");
+                LrcServiceConstants.RESULT_SCALE_KEY_DEGREE);
 
         SearchResultInfo resultComponentSearchResults = searchDispatcher.search(resultComponentSearchRequest, contextInfo);
 
@@ -3473,7 +3473,7 @@ public class CluServiceImpl implements CluService {
         }
 
         //Get any joints here and add them into the results
-        List<Clu> joints = luDao.getClusByRelation(cluId, "kuali.lu.relation.type.co-located");
+        List<Clu> joints = luDao.getClusByRelation(cluId, CourseAssemblerConstants.JOINT_RELATION_TYPE);
         if (joints != null) {
             for (Clu clu : joints) {
 
@@ -3492,7 +3492,7 @@ public class CluServiceImpl implements CluService {
 
         //Lookup cross-listings and add to the results
         for (CluIdentifier altId : triggerClu.getAlternateIdentifiers()) {
-            if ("kuali.lu.type.CreditCourse.identifier.crosslisting".equals(altId.getType())) {
+            if (CourseAssemblerConstants.COURSE_CROSSLISTING_IDENT_TYPE.equals(altId.getType())) {
                 SearchResultRowInfo resultRow = new SearchResultRowInfo();
 
                 resultRow.addCell("lu.resultColumn.luOptionalCode", altId.getCode());
@@ -3556,7 +3556,7 @@ public class CluServiceImpl implements CluService {
         //First do a search of courses with said code
         SearchRequestInfo sr = new SearchRequestInfo("lu.search.mostCurrent.union");
         sr.addParam("lu.queryParam.luOptionalCode", courseCode);
-        sr.addParam("lu.queryParam.luOptionalType","kuali.lu.type.CreditCourse");
+        sr.addParam("lu.queryParam.luOptionalType", CluServiceConstants.CREDIT_COURSE_LU_TYPE_KEY);
         SearchResultInfo results = search(sr, contextInfo);
         Map<String,String> cluIdToCodeMap = new HashMap<String,String>();
         for(SearchResultRowInfo row:results.getRows()){

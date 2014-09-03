@@ -3,7 +3,6 @@ package org.kuali.student.r2.lum.program.service.assembler;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.DtoConstants;
 import org.kuali.student.r2.lum.course.service.assembler.CourseAssemblerConstants;
-import org.kuali.student.r2.lum.course.service.assembler.CourseAssemblerConstants;
 import org.kuali.student.r2.lum.program.dto.MajorDisciplineInfo;
 
 import java.beans.BeanInfo;
@@ -171,7 +170,7 @@ public class MajorDisciplineDataGenerator {
 			}
 			
 			if("loInfo".equals(parentPropertyName)){
-				return "kuali.lo.type.singleUse";
+				return CourseAssemblerConstants.COURSE_LO_TYPE;
 			}
 			
 			if("loCategoryInfoList".equals(parentPropertyName)){

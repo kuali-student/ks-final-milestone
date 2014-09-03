@@ -13,10 +13,6 @@ package org.kuali.student.r2.lum.course.service.assembler;
  */
 public class CourseAssemblerConstants {
 
-	public static final String COURSE_TYPE = "kuali.lu.type.CreditCourse";
-
-	public static final String COURSE_FORMAT_TYPE = "kuali.lu.type.CreditCourseFormatShell";
-
 	public static final String COURSE_FORMAT_RELATION_TYPE = "luLuRelationType.hasCourseFormat";
 
 	public static final String JOINT_RELATION_TYPE = "kuali.lu.relation.type.co-located";
@@ -31,14 +27,6 @@ public class CourseAssemblerConstants {
 	public static final String PROPOSAL_REFERENCE_TYPE = "kuali.proposal.referenceType.clu";
 
 	public static final String COURSE_ACTIVITY_RELATION_TYPE = "luLuRelationType.contains";
-
-	public static final String COURSE_ACTIVITY_LAB_TYPE 	   = "kuali.lu.type.activity.Lab";
-	public static final String COURSE_ACTIVITY_DISCUSSION_TYPE = "kuali.lu.type.activity.Discussion";
-	public static final String COURSE_ACTIVITY_TUTORIAL_TYPE   = "kuali.lu.type.activity.Tutorial";
-	public static final String COURSE_ACTIVITY_LECTURE_TYPE    = "kuali.lu.type.activity.Lecture";
-	public static final String COURSE_ACTIVITY_WEBLECTURE_TYPE = "kuali.lu.type.activity.WebLecture";
-	public static final String COURSE_ACTIVITY_WEBDISCUSS_TYPE = "kuali.lu.type.activity.WebDiscussion";
-	public static final String COURSE_ACTIVITY_DIRECTED_TYPE   = "kuali.lu.type.activity.Directed";
 
 	// Course Official Identifier
 	public static final String COURSE_OFFICIAL_IDENT_TYPE  = "kuali.lu.type.CreditCourse.identifier.official";
@@ -61,9 +49,6 @@ public class CourseAssemblerConstants {
 //	public final static String COURSE_RESULT_TYPE_CREDITS = "kuali.resultType.credits";
 	public final static String COURSE_RESULT_TYPE_GRADE   = "kuali.resultType.gradeCourseResult";
 	public final static String COURSE_RESULT_TYPE_CREDITS = "kuali.resultType.creditCourseResult";
-	public final static String COURSE_RESULT_COMP_TYPE_CREDIT_FIXED = "kuali.result.values.group.type.fixed";
-	public final static String COURSE_RESULT_COMP_TYPE_CREDIT_VARIABLE = "kuali.result.values.group.type.range";
-	public final static String COURSE_RESULT_COMP_TYPE_CREDIT_MULTIPLE = "kuali.result.values.group.type.multiple";
 	public static final String COURSE_RESULT_COMP_GRADE_PASSFAIL = "kuali.resultComponent.grade.passFail";
 	public static final String COURSE_RESULT_COMP_GRADE_AUDIT = "kuali.resultComponent.grade.audit";
 	public static final String COURSE_RESULT_COMP_ATTR_PASSFAIL = "passFail";

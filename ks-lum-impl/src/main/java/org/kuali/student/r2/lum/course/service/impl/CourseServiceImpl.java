@@ -205,10 +205,10 @@ public class CourseServiceImpl implements CourseService {
         checkForMissingParameter(courseId, "courseId");
 
         CluInfo clu = cluService.getClu(courseId, contextInfo);
-        if (!CourseAssemblerConstants.COURSE_TYPE.equals(clu.getTypeKey())) {
+        if (!CluServiceConstants.CREDIT_COURSE_LU_TYPE_KEY.equals(clu.getTypeKey())) {
             throw new DoesNotExistException("Specified CLU is not a Course");
         }
-        List<RefStatementRelationInfo> relations = R1R2ConverterUtil.convertLists(statementService.getRefStatementRelationsByRef(CourseAssemblerConstants.COURSE_TYPE, clu.getId()), RefStatementRelationInfo.class);
+        List<RefStatementRelationInfo> relations = R1R2ConverterUtil.convertLists(statementService.getRefStatementRelationsByRef(CluServiceConstants.CREDIT_COURSE_LU_TYPE_KEY, clu.getId()), RefStatementRelationInfo.class);
         if (relations == null) {
             return new ArrayList<StatementTreeViewInfo>(0);
         }
@@ -249,7 +249,7 @@ public class CourseServiceImpl implements CourseService {
             StatementTreeViewInfo tree = statementService.createStatementTreeView(statementTreeViewInfo);
             RefStatementRelationInfo relation = new RefStatementRelationInfo();
             relation.setRefObjectId(courseId);
-            relation.setRefObjectTypeKey(CourseAssemblerConstants.COURSE_TYPE);
+            relation.setRefObjectTypeKey(CluServiceConstants.CREDIT_COURSE_LU_TYPE_KEY);
             relation.setStatementId(tree.getId());
             relation.setType(CourseAssemblerConstants.COURSE_REFERENCE_TYPE);
             relation.setState(CourseAssemblerConstants.ACTIVE);
@@ -526,7 +526,7 @@ public class CourseServiceImpl implements CourseService {
      * @throws DoesNotExistException
      */
     private RefStatementRelationInfo findStatementReference(String courseId, StatementTreeViewInfo statementTreeViewInfo, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, DoesNotExistException {
-        List<RefStatementRelationInfo> course = R1R2ConverterUtil.convertLists(statementService.getRefStatementRelationsByRef(CourseAssemblerConstants.COURSE_TYPE, courseId), RefStatementRelationInfo.class);
+        List<RefStatementRelationInfo> course = R1R2ConverterUtil.convertLists(statementService.getRefStatementRelationsByRef(CluServiceConstants.CREDIT_COURSE_LU_TYPE_KEY, courseId), RefStatementRelationInfo.class);
         if (course != null) {
             for (RefStatementRelationInfo refRelation : course) {
                 if (refRelation.getStatementId().equals(statementTreeViewInfo.getId())) {
