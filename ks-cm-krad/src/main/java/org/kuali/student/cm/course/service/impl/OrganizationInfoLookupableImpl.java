@@ -55,9 +55,7 @@ public class OrganizationInfoLookupableImpl extends LookupableImpl {
     public static final String ID = "id";
     private static final Logger LOG = LoggerFactory.getLogger(OrganizationInfoLookupableImpl.class);
 
-    private SearchService searchService;
 	private OrganizationService organizationService;
-
 
 	@Override
 	public List<?> performSearch(final LookupForm form,
@@ -128,13 +126,6 @@ public class OrganizationInfoLookupableImpl extends LookupableImpl {
 		return retval;
 	}
 	
-	protected SearchService getSearchService() {
-		if (searchService == null) {
-			searchService = GlobalResourceLoader.getService(new QName(CourseServiceConstants.NAMESPACE_PERSONSEACH, CourseServiceConstants.PERSONSEACH_SERVICE_NAME_LOCAL_PART));
-		}
-		return searchService;
-	}
-
 	protected OrganizationService getOrganizationService() {
 		if (organizationService == null) {
 	        organizationService = (OrganizationService) GlobalResourceLoader
