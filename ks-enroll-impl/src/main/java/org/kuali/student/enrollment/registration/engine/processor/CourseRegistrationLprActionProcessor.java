@@ -191,7 +191,7 @@ public class CourseRegistrationLprActionProcessor {
         // in the future we might want to inspect each item
         for (RegistrationRequestItemEngineMessage regItem : regItems) {
             regReqId = regItem.getRequestItem().getRegistrationRequestId();
-            requestorId = regItem.getRequestItem().getPersonId();
+            requestorId = regItem.getRequestorId();
             break;
         }
 

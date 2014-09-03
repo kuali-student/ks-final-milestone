@@ -88,7 +88,7 @@ public class CourseRegistrationErrorProcessor {
         RegistrationRequestItem registrationRequestItem=message.getRequestItem();
 
         ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
-        contextInfo.setPrincipalId(registrationRequestItem.getPersonId());
+        contextInfo.setPrincipalId(message.getRequestorId()); // this should be the principal id
 
         String transactionItemId = registrationRequestItem.getId();
 
