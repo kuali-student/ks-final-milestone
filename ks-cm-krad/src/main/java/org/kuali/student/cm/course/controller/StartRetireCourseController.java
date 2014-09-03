@@ -71,7 +71,7 @@ public class StartRetireCourseController extends UifControllerBase {
         urlParameters.put(UifConstants.UrlParams.VIEW_ID, CurriculumManagementConstants.CourseViewIds.RETIRE_COURSE_VIEW);
         urlParameters.put(KRADConstants.PARAMETER_COMMAND, KewApiConstants.INITIATE_COMMAND);
         urlParameters.put(KRADConstants.DATA_OBJECT_CLASS_ATTRIBUTE, RetireCourseWrapper.class.getName());
-        urlParameters.put(KRADConstants.RETURN_LOCATION_PARAMETER, CMUtils.getViewCourseUrl() );
+        urlParameters.put(KRADConstants.RETURN_LOCATION_PARAMETER, CourseProposalUtil.getViewCourseUrl() );
         urlParameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, KRADConstants.DOC_HANDLER_METHOD);
         String uri = request.getRequestURL().toString().replace(CurriculumManagementConstants.ControllerRequestMappings.START_RETIRE_COURSE,CurriculumManagementConstants.ControllerRequestMappings.CM_RETIRE_COURSE);
 

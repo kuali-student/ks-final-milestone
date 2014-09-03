@@ -19,6 +19,7 @@ package org.kuali.student.cm.course.util;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
+import org.kuali.rice.krad.uif.UifConstants;
 import org.kuali.rice.krad.uif.UifParameters;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
@@ -54,6 +55,22 @@ public class CourseProposalUtil {
         props.put(UifParameters.DATA_OBJECT_CLASS_NAME, CourseInfoWrapper.class.getCanonicalName());
         String courseBaseUrl = CurriculumManagementConstants.ControllerRequestMappings.COURSE_MAINTENANCE.replaceFirst("/", "");
         return UrlFactory.parameterizeUrl(courseBaseUrl, props);
+    }
+
+    /**
+     * Constructs the url for view course for redirect from retire course page.
+     */
+
+
+    public static String getViewCourseUrl(){
+
+        String cmViewCourseControllerMapping = CurriculumManagementConstants.ControllerRequestMappings.VIEW_COURSE.replaceFirst("/", "");
+
+        StringBuilder cmViewCourseUrl = new StringBuilder(cmViewCourseControllerMapping);
+        cmViewCourseUrl.append("?" + KRADConstants.DISPATCH_REQUEST_PARAMETER + "=").append(KRADConstants.START_METHOD);
+        cmViewCourseUrl.append("&" + UifConstants.UrlParams.VIEW_ID + "=").append(CurriculumManagementConstants.CourseViewIds.VIEW_COURSE_VIEW);
+
+        return cmViewCourseUrl.toString();
     }
 
 }

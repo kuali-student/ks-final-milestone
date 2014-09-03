@@ -29,23 +29,7 @@ public class StartRetireCourseForm extends UifFormBase {
 
     private String startRetireCourseAction;
 
-    private String courseCode;
-
     private String courseId;
-
-    private String proposalId;
-
-    private String proposalTitle;
-
-    // disallow the curriculumSpecialistUser property to be set by the request
-    @RequestProtected
-    private boolean curriculumSpecialistUser;
-
-    public StartRetireCourseForm() {
-        super();
-        // assume user is not a Curriculum Specialist (CS) user
-        curriculumSpecialistUser = false;
-    }
 
     public String getStartRetireCourseAction() {
         return startRetireCourseAction;
@@ -53,14 +37,6 @@ public class StartRetireCourseForm extends UifFormBase {
 
     public void setStartRetireCourseAction(String startRetireCourseAction) {
         this.startRetireCourseAction = startRetireCourseAction;
-    }
-
-    public String getCourseCode() {
-        return courseCode;
-    }
-
-    public void setCourseCode(String courseCode) {
-        this.courseCode = courseCode;
     }
 
     public String getCourseId() {
@@ -71,27 +47,4 @@ public class StartRetireCourseForm extends UifFormBase {
         this.courseId = courseId;
     }
 
-    public String getProposalTitle() {
-        return proposalTitle;
-    }
-
-    public void setProposalTitle(String proposalTitle) {
-        this.proposalTitle = proposalTitle;
-    }
-
-    public String getProposalId() {
-        return proposalId;
-    }
-
-    public void setProposalId(String proposalId) {
-        this.proposalId = proposalId;
-    }
-
-    public boolean isCurriculumSpecialistUser() {
-        return curriculumSpecialistUser;
-    }
-
-    public void setCurriculumSpecialistUser(boolean curriculumSpecialistUser) {
-        this.curriculumSpecialistUser = curriculumSpecialistUser;
-    }
 }

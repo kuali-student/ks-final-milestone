@@ -31,6 +31,7 @@ import org.kuali.student.cm.course.form.wrapper.RetireCourseWrapper;
 import org.kuali.student.cm.course.service.CourseMaintainable;
 import org.kuali.student.cm.course.service.impl.ExportCourseHelperImpl;
 
+import org.kuali.student.cm.course.util.CourseProposalUtil;
 import org.kuali.student.common.util.security.ContextUtils;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.springframework.http.ResponseEntity;
@@ -144,7 +145,7 @@ public class ViewCourseController extends KsUifControllerBase{
         urlParameters.put(UifConstants.UrlParams.VIEW_ID, "startAdminRetireCourseView");
         urlParameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, KRADConstants.MAINTENANCE_NEW_METHOD_TO_CALL);
         urlParameters.put(KRADConstants.DATA_OBJECT_CLASS_ATTRIBUTE, RetireCourseWrapper.class.getName());
-        urlParameters.put(KRADConstants.RETURN_LOCATION_PARAMETER, CMUtils.getViewCourseUrl());
+        urlParameters.put(KRADConstants.RETURN_LOCATION_PARAMETER, CourseProposalUtil.getViewCourseUrl());
         String courseBaseUrl = CurriculumManagementConstants.ControllerRequestMappings.START_RETIRE_COURSE.replaceFirst("/", "");
         return performRedirect(form, courseBaseUrl, urlParameters);
     }
