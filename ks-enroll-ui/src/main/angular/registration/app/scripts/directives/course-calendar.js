@@ -1,7 +1,8 @@
 'use strict';
 
 angular.module('regCartApp')
-    .service('CourseCalendarDataParser', ['DAY_CONSTANTS', 'RegUtil', 'GlobalVarsService', function(DAY_CONSTANTS, RegUtil, GlobalVarsService) {
+    .service('CourseCalendarDataParser', ['GRID_CONSTANTS', 'DAY_CONSTANTS', 'RegUtil', 'GlobalVarsService',
+    function(GRID_CONSTANTS, DAY_CONSTANTS, RegUtil, GlobalVarsService) {
         var conflictMap;
 
         /*
@@ -169,13 +170,17 @@ angular.module('regCartApp')
         /*
          Take the full day map and convert to the full calendar format,
          looking for conflicts along the way.
+
+         The default start and end times determine the base grid. If
+         courses go outside of that initial range the grid will be
+         expanded to fit.
          */
         function convertMapToCalendar(dayMap) {
             var typeArray = ['REG', 'WAIT', 'CART'],
                 days = [],
-                startTime = null,
-                endTime = null,
-                buffer = 60; // the amount of buffer (in minutes) to give to either side of the calendar.
+                startTime = GRID_CONSTANTS.defaultStart,
+                endTime = GRID_CONSTANTS.defaultEnd,
+                buffer = GRID_CONSTANTS.defaultBuffer; // the amount of buffer (in minutes) to give to either side of the calendar.
 
             angular.forEach(DAY_CONSTANTS.dayArray, function(dayString) {
                 var courses = dayMap[dayString];

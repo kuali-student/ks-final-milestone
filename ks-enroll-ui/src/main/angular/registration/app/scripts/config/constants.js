@@ -140,4 +140,13 @@ angular.module('regCartApp')
         dayArray: ['M', 'Tu', 'W', 'Th', 'F', 'Sa', 'Su']
     })
 
+    /*
+    Constants for the schedule grid
+     */
+    .constant('GRID_CONSTANTS', {
+        defaultStart: 7*60, // 7am
+        defaultEnd: 19*60,  // 7pm
+        defaultBuffer: 15
+    })
+
 ;
