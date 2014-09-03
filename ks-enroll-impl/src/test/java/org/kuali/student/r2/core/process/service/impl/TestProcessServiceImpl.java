@@ -17,6 +17,7 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
+import org.kuali.student.r2.core.constants.AtpServiceConstants;
 import org.kuali.student.r2.core.constants.ProcessServiceConstants;
 import org.kuali.student.r2.core.process.dto.CheckInfo;
 import org.kuali.student.r2.core.process.dto.InstructionInfo;
@@ -106,7 +107,7 @@ public class TestProcessServiceImpl {
     public void testCrudCheck() throws DependentObjectsExistException, InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException, DataValidationErrorException, AlreadyExistsException, ReadOnlyException, VersionMismatchException {
 
         // Create Process for testing
-        final String processId = "kuali.process.registration.basic.eligibility";
+        final String processId = ProcessServiceConstants.PROCESS_KEY_BASIC_ELIGIBILITY;
         ProcessInfo process = new ProcessInfo();
         process.setName("Basic Eligibility");
         process.setOwnerOrgId("Owner1");
@@ -119,7 +120,7 @@ public class TestProcessServiceImpl {
         check.setRuleId("AgendaId-1");
         check.setHoldIssueId("Hold-Issue-2");
         check.setMilestoneTypeKey("milestoneTypeKey-1");
-        check.setChildProcessKey("kuali.process.registration.basic.eligibility");
+        check.setChildProcessKey(ProcessServiceConstants.PROCESS_KEY_BASIC_ELIGIBILITY);
         check.setStateKey(ProcessServiceConstants.PROCESS_CHECK_STATE_ACTIVE);
         check.setTypeKey("kuali.process.check.type.dummy");
         CheckInfo checkR = processService.createCheck(ProcessServiceConstants.HOLD_CHECK_TYPE_KEY, check, context);
@@ -128,7 +129,7 @@ public class TestProcessServiceImpl {
         assertEquals("AgendaId-1", check.getRuleId());
         assertEquals("Hold-Issue-2", check.getHoldIssueId());
         assertEquals("milestoneTypeKey-1", check.getMilestoneTypeKey());
-        assertEquals("kuali.process.registration.basic.eligibility", check.getChildProcessKey());
+        assertEquals(ProcessServiceConstants.PROCESS_KEY_BASIC_ELIGIBILITY, check.getChildProcessKey());
         assertEquals(ProcessServiceConstants.HOLD_CHECK_TYPE_KEY, check.getTypeKey());
         assertEquals(ProcessServiceConstants.PROCESS_CHECK_STATE_ACTIVE,check.getStateKey());
 
@@ -185,7 +186,7 @@ public class TestProcessServiceImpl {
 
         // Create & Read
         InstructionInfo instruction = new InstructionInfo();
-        instruction.setAppliedAtpTypeKeys(new ArrayList<String>(){{add("kuali.atp.type.Fall");}});
+        instruction.setAppliedAtpTypeKeys(new ArrayList<String>(){{add(AtpServiceConstants.ATP_FALL_TYPE_KEY);}});
         instruction.setAppliedPopulationId("Population-1");
         // instruction.setAppliedPopulationKeys(new ArrayList<String>(){{add("Population-1");}});
 //        instruction.setAttributes();
@@ -207,7 +208,7 @@ public class TestProcessServiceImpl {
         instruction = processService.getInstruction(instructionId, context);
         assertNotNull(instruction.getAppliedAtpTypeKeys());
         assertEquals(1, instruction.getAppliedAtpTypeKeys().size());
-        assertTrue(instruction.getAppliedAtpTypeKeys().contains("kuali.atp.type.Fall"));
+        assertTrue(instruction.getAppliedAtpTypeKeys().contains(AtpServiceConstants.ATP_FALL_TYPE_KEY));
         assertNotNull(instruction.getAppliedPopulationId());
 //        assertEquals(1, instruction.getAppliedPopulationKeys().size());
 //        assertTrue(instruction.getAppliedPopulationKeys().contains("Population-1"));
@@ -223,7 +224,7 @@ public class TestProcessServiceImpl {
         assertEquals(ProcessServiceConstants.INSTRUCTION_TYPE_KEY, instruction.getTypeKey());
 
         // Create Process and Check for testing
-        processId = "kuali.process.registration.register.for.courses";
+        processId = ProcessServiceConstants.PROCESS_KEY_REGISTER_FOR_COURSES;
         process = new ProcessInfo();
         process.setName("Registration for Courses");
         process.setOwnerOrgId("Owner1");
@@ -242,7 +243,7 @@ public class TestProcessServiceImpl {
         processService.createCheck(ProcessServiceConstants.HOLD_CHECK_TYPE_KEY, check, context);
 
         // Update
-        instruction.setAppliedAtpTypeKeys(new ArrayList<String>(){{add("kuali.atp.type.Spring");}});
+        instruction.setAppliedAtpTypeKeys(new ArrayList<String>(){{add(AtpServiceConstants.ATP_SPRING_TYPE_KEY);}});
         instruction.setAppliedPopulationId("Population-2");
         // instruction.setAppliedPopulationKeys(new ArrayList<String>(){{add("Population-2");}});
 //        instruction.setAttributes();
@@ -255,14 +256,14 @@ public class TestProcessServiceImpl {
         instruction.setMessage(new RichTextInfo(){{setPlain("Message-2");setFormatted("<p>Message-2<p>");}});
 //        instruction.setMeta();
         instruction.setPosition(6);
-        instruction.setProcessKey("kuali.process.registration.register.for.courses");
+        instruction.setProcessKey(ProcessServiceConstants.PROCESS_KEY_REGISTER_FOR_COURSES);
         instruction.setStateKey(ProcessServiceConstants.INSTRUCTION_DISABLED_STATE_KEY);
         instruction.setTypeKey(ProcessServiceConstants.INSTRUCTION_TYPE_KEY);
         processService.updateInstruction(instruction.getId(), instruction, context);
         instruction = processService.getInstruction(instructionId, context);
         assertNotNull(instruction.getAppliedAtpTypeKeys());
         assertEquals(1, instruction.getAppliedAtpTypeKeys().size());
-//        assertTrue(instruction.getAppliedAtpTypeKeys().contains("kuali.atp.type.Spring"));
+//        assertTrue(instruction.getAppliedAtpTypeKeys().contains(AtpServiceConstants.ATP_SPRING_TYPE_KEY));
         assertNotNull(instruction.getAppliedPopulationId());
 //        assertEquals(1, instruction.getAppliedPopulationKeys().size());
 //        assertTrue(instruction.getAppliedPopulationKeys().contains("Population-1"));
@@ -273,7 +274,7 @@ public class TestProcessServiceImpl {
         assertFalse(instruction.getIsWarning());
         assertEquals("Message-2", instruction.getMessage().getPlain());
         assertEquals(new Integer(6), instruction.getPosition());
-        assertEquals("kuali.process.registration.register.for.courses", instruction.getProcessKey());
+        assertEquals(ProcessServiceConstants.PROCESS_KEY_REGISTER_FOR_COURSES, instruction.getProcessKey());
         assertEquals(ProcessServiceConstants.INSTRUCTION_DISABLED_STATE_KEY, instruction.getStateKey());
         assertEquals(ProcessServiceConstants.INSTRUCTION_TYPE_KEY, instruction.getTypeKey());
 
@@ -323,7 +324,7 @@ public class TestProcessServiceImpl {
 
         // Create Instruction to search
         InstructionInfo instruction = new InstructionInfo();
-        instruction.setAppliedAtpTypeKeys(new ArrayList<String>(){{add("kuali.atp.type.Fall");}});
+        instruction.setAppliedAtpTypeKeys(new ArrayList<String>(){{add(AtpServiceConstants.ATP_FALL_TYPE_KEY);}});
         instruction.setAppliedPopulationId("Population-1");
         instruction.setCheckId("kuali.check.paid.bill.prior.term");
         instruction.setContinueOnFail(Boolean.TRUE);

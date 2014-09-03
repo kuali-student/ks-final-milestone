@@ -108,6 +108,7 @@ import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.lum.course.service.CourseService;
 import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
 import org.kuali.student.r2.lum.lrc.service.LRCService;
+import org.kuali.student.r2.lum.util.constants.CluServiceConstants;
 import org.kuali.student.r2.lum.util.constants.LrcServiceConstants;
 
 import javax.xml.namespace.QName;
@@ -890,7 +891,7 @@ public class CourseOfferingManagementUtil {
 
         SearchParamInfo qpv = new SearchParamInfo();
         qpv.setKey("lu.queryParam.luOptionalType");
-        qpv.getValues().add("kuali.lu.type.CreditCourse");
+        qpv.getValues().add(CluServiceConstants.CREDIT_COURSE_LU_TYPE_KEY);
         searchParams.add(qpv);
 
         //Include course states of: Active, Superseded and Retired

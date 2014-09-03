@@ -38,6 +38,7 @@ import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.util.RichTextHelper;
+import org.kuali.student.r2.common.util.constants.ExamOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.core.atp.service.impl.AtpTestDataLoader;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
@@ -304,7 +305,7 @@ public class TestExamOfferingServiceImpl {
         typeService.createType(type1.getKey(), type1, callContext);
 
         TypeInfo type2 = new TypeInfo();
-        type2.setKey("kuali.lui.type.exam.offering.final");
+        type2.setKey(ExamOfferingServiceConstants.EXAM_OFFERING_FINAL_TYPE_KEY);
         type2.setName("Final Exam Offering");
         type2.setDescr(new RichTextHelper().fromPlain("Final Exam Offering"));
         type2.setEffectiveDate(new Date());

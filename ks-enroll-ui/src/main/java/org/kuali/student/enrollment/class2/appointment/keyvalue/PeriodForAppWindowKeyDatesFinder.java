@@ -45,7 +45,7 @@ public class PeriodForAppWindowKeyDatesFinder extends UifKeyValuesFinderBase imp
                 if (!keyDateInfoList.isEmpty())
                     keyValues.add(new ConcreteKeyValue("", "Select Period..."));
                 try{
-                    List<TypeTypeRelationInfo> relations = getTypeService().getTypeTypeRelationsByOwnerAndType(AtpServiceConstants.MILESTONE_REGISTRATION_PERIOD_GROUP_TYPE_KEY,"kuali.type.type.relation.type.group",context);
+                    List<TypeTypeRelationInfo> relations = getTypeService().getTypeTypeRelationsByOwnerAndType(AtpServiceConstants.MILESTONE_REGISTRATION_PERIOD_GROUP_TYPE_KEY, TypeServiceConstants.TYPE_TYPE_RELATION_GROUP_TYPE_KEY,context);
                     for (KeyDateInfo keyDateInfo : keyDateInfoList) {
                         for (TypeTypeRelationInfo relationInfo : relations) {
                             String relatedTypeKey = relationInfo.getRelatedTypeKey();

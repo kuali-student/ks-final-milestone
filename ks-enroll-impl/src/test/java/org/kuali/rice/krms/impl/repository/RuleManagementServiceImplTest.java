@@ -42,6 +42,7 @@ import org.kuali.rice.krms.impl.repository.mock.KrmsConfigurationLoader;
 import org.kuali.student.common.util.UUIDHelper;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.*;
+import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.core.constants.KSKRMSServiceConstants;
 import org.kuali.student.r2.core.process.krms.KSKRMSTestCase;
 import org.kuali.student.r2.core.versionmanagement.dto.VersionDisplayInfo;
@@ -119,9 +120,9 @@ public class RuleManagementServiceImplTest extends KSKRMSTestCase {
     @Test
     public void testCopyingSimpleProposition() {
         String namespace = KSKRMSServiceConstants.NAMESPACE_CODE;
-        String fromReferenceDiscriminatorType = "kuali.lu.type.CreditCourse";
+        String fromReferenceDiscriminatorType = CluServiceConstants.CREDIT_COURSE_LU_TYPE_KEY;
         String fromReferenceObjectId = "COURSE1";
-        String toReferenceDiscriminatorType = "kuali.lui.type.course.offering";
+        String toReferenceDiscriminatorType = LuiServiceConstants.COURSE_OFFERING_TYPE_KEY;
         String toReferenceObjectId = "COURSEOFFERING1";
 
         // delete any rules if there are any
@@ -159,7 +160,7 @@ public class RuleManagementServiceImplTest extends KSKRMSTestCase {
         assertEquals(1, list.size());
         ReferenceObjectBinding copy = list.get(0);
         assertEquals(toReferenceObjectId, copy.getReferenceObjectId());
-        assertEquals("kuali.lui.type.course.offering", copy.getReferenceDiscriminatorType());
+        assertEquals(LuiServiceConstants.COURSE_OFFERING_TYPE_KEY, copy.getReferenceDiscriminatorType());
         checkCopy(binding, list.get(0));
 
 
@@ -177,11 +178,11 @@ public class RuleManagementServiceImplTest extends KSKRMSTestCase {
         String namespace = KSKRMSServiceConstants.NAMESPACE_CODE;
         // TODO: KSENROLL-7291 convert the discriminator type to use the ref object uri instead of the lu type type
 //        String fromReferenceDiscriminatorType = CourseServiceConstants.COURSE_NAMESPACE_URI;
-        String fromReferenceDiscriminatorType = "kuali.lu.type.CreditCourse";
+        String fromReferenceDiscriminatorType = CluServiceConstants.CREDIT_COURSE_LU_TYPE_KEY;
         String fromReferenceObjectId = "COURSE2";
         // TODO: KSENROLL-7291 convert the discriminator type to use the ref object uri instead of the lu type type
 //        String toReferenceDiscriminatorType = CourseOfferingServiceConstants.REF_OBJECT_URI_COURSE_OFFERING,
-        String toReferenceDiscriminatorType = "kuali.lui.type.course.offering";
+        String toReferenceDiscriminatorType = LuiServiceConstants.COURSE_OFFERING_TYPE_KEY;
         String toReferenceObjectId = "COURSEOFFERING2";
 
         // delete any rules if there are any
@@ -234,7 +235,7 @@ public class RuleManagementServiceImplTest extends KSKRMSTestCase {
         assertEquals(1, list.size());
         ReferenceObjectBinding copy = list.get(0);
         assertEquals(toReferenceObjectId, copy.getReferenceObjectId());
-        assertEquals("kuali.lui.type.course.offering", copy.getReferenceDiscriminatorType());
+        assertEquals(LuiServiceConstants.COURSE_OFFERING_TYPE_KEY, copy.getReferenceDiscriminatorType());
         checkCopy(binding, list.get(0));
 
         // delete any rules that were created

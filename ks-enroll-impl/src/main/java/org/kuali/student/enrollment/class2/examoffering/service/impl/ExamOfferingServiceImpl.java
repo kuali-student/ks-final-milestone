@@ -284,7 +284,7 @@ public class ExamOfferingServiceImpl implements ExamOfferingService {
             throw new OperationFailedException("Didn't retrieve the exam period with the examPeriodId: " + examPeriodId);
         }
 
-        List<String> examOfferingIds = luiService.getLuiIdsByAtpAndType(examPeriodId, LuiServiceConstants.FINAL_EXAM_OFFERING_TYPE_KEY, contextInfo);
+        List<String> examOfferingIds = luiService.getLuiIdsByAtpAndType(examPeriodId, ExamOfferingServiceConstants.EXAM_OFFERING_FINAL_TYPE_KEY, contextInfo);
         List<ExamOfferingInfo> examOfferingInfos = new ArrayList<ExamOfferingInfo>(examOfferingIds.size());
         examOfferingTransformer.luis2ExamOfferings(examOfferingIds, examOfferingInfos, schedulingService, contextInfo);
 

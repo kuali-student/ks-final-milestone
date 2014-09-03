@@ -12,6 +12,7 @@ import org.kuali.student.enrollment.class2.courseoffering.krms.naturallanguage.u
 import org.kuali.student.r2.core.krms.naturallanguage.TermParameterTypes;
 import org.kuali.student.r2.lum.clu.dto.CluInfo;
 import org.kuali.student.r2.lum.clu.service.CluService;
+import org.kuali.student.r2.lum.util.constants.CluServiceConstants;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -75,7 +76,7 @@ public class CluContextImplTest extends AbstractServiceTest {
 		Assert.assertEquals("CLU-1", programClu.getId());
 		Assert.assertEquals("CLU-1", testClu.getId());
 
-		Assert.assertEquals("kuali.lu.type.CreditCourse", clu.getTypeKey());
+		Assert.assertEquals(CluServiceConstants.CREDIT_COURSE_LU_TYPE_KEY, clu.getTypeKey());
 		Assert.assertEquals("Chem 123", clu.getOfficialIdentifier().getShortName());
 		Assert.assertEquals("Chemistry 123", clu.getOfficialIdentifier().getLongName());
 	}

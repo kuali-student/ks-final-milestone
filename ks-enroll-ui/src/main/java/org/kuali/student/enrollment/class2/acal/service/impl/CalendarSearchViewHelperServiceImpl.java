@@ -57,7 +57,7 @@ public class CalendarSearchViewHelperServiceImpl extends KSViewHelperServiceImpl
         List<String> subtermTypeKeys = new ArrayList<String>();
         if(CalendarConstants.TERM.equals(calendarType) || CalendarConstants.SUBTERM.equals(calendarType))   {
             //get all term and subterm typeKeys
-            List<TypeTypeRelationInfo> typeRelations = getTypeService().getTypeTypeRelationsByOwnerAndType("kuali.atp.type.group.term", "kuali.type.type.relation.type.group", contextInfo);
+            List<TypeTypeRelationInfo> typeRelations = getTypeService().getTypeTypeRelationsByOwnerAndType(AtpServiceConstants.ATP_TERM_GROUPING_TYPE_KEY, TypeServiceConstants.TYPE_TYPE_RELATION_GROUP_TYPE_KEY, contextInfo);
             List<String> allTermTypeKeys = new ArrayList<String>(typeRelations.size());
             for(TypeTypeRelationInfo typeRelation:typeRelations){
                 allTermTypeKeys.add(typeRelation.getRelatedTypeKey());

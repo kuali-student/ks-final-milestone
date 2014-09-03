@@ -157,7 +157,7 @@ public class GradingServiceImpl implements GradingService {
             MissingParameterException, OperationFailedException, PermissionDeniedException {
         List<GradeRosterInfo> gradeRosterInfos = new ArrayList<GradeRosterInfo>();
 
-        List<LprRosterInfo> lprRosters = lprRosterService.getLprRostersByTypeAndLui(LprServiceConstants.LPRROSTER_COURSE_FINAL_GRADEROSTER_TYPE_KEY, courseOfferingId, context);
+        List<LprRosterInfo> lprRosters = lprRosterService.getLprRostersByTypeAndLui(LprServiceConstants.LPRROSTER_COURSE_FINAL_GRADE_TYPE_KEY, courseOfferingId, context);
         for (LprRosterInfo lprRoster : lprRosters) {
             GradeRosterInfo gradeRosterInfo = assembleGradeRoster(lprRoster, context);
             gradeRosterInfos.add(gradeRosterInfo);
@@ -461,7 +461,7 @@ public class GradingServiceImpl implements GradingService {
             MissingParameterException, OperationFailedException, PermissionDeniedException, DisabledIdentifierException {
 
         int firstLprInfo = 0;
-        List<LprRosterInfo> lprRosters = lprRosterService.getLprRostersByTypeAndLui(LprServiceConstants.LPRROSTER_COURSE_FINAL_GRADEROSTER_TYPE_KEY, courseOfferingId, context);
+        List<LprRosterInfo> lprRosters = lprRosterService.getLprRostersByTypeAndLui(LprServiceConstants.LPRROSTER_COURSE_FINAL_GRADE_TYPE_KEY, courseOfferingId, context);
         Map<String, LprRosterEntryInfo> lprIdToRosterEntryMap = new HashMap<String, LprRosterEntryInfo>();
         for (LprRosterInfo lprRoster : lprRosters) {
             String rosterId = lprRoster.getId();

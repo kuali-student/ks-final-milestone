@@ -23,6 +23,7 @@ import org.kuali.rice.krad.uif.view.ViewModel;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingManagementUtil;
 import org.kuali.student.common.util.security.ContextUtils;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
+import org.kuali.student.r2.core.constants.AtpServiceConstants;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -42,7 +43,7 @@ public class SeatPoolExpirationMilestoneTypeKeyValues extends UifKeyValuesFinder
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
         keyValues.add(new ConcreteKeyValue("NONE", "NONE"));
         try {
-            List<TypeInfo> typeInfos = CourseOfferingManagementUtil.getTypeService().getTypesForGroupType("kuali.milestone.type.group.seatpool", ContextUtils.createDefaultContextInfo());
+            List<TypeInfo> typeInfos = CourseOfferingManagementUtil.getTypeService().getTypesForGroupType(AtpServiceConstants.MILESTONE_SEATPOOL_GROUPING_TYPE_KEY, ContextUtils.createDefaultContextInfo());
 
             if (typeInfos != null) {
                 for (TypeInfo typeInfo : typeInfos) {

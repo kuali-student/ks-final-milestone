@@ -100,7 +100,7 @@ public class AppointmentWindowWrapperLookupableImpl extends LookupableImpl {
         if (keyDates != null) {
 
             //Get the valid period types
-            List<TypeTypeRelationInfo> milestoneTypeRelations = getTypeService().getTypeTypeRelationsByOwnerAndType(AtpServiceConstants.MILESTONE_REGISTRATION_PERIOD_GROUP_TYPE_KEY, "kuali.type.type.relation.type.group", new ContextInfo());
+            List<TypeTypeRelationInfo> milestoneTypeRelations = getTypeService().getTypeTypeRelationsByOwnerAndType(AtpServiceConstants.MILESTONE_REGISTRATION_PERIOD_GROUP_TYPE_KEY, TypeServiceConstants.TYPE_TYPE_RELATION_GROUP_TYPE_KEY, new ContextInfo());
             List<String> validMilestoneTypes = new ArrayList<String>();
             for (TypeTypeRelationInfo milestoneTypeRelation : milestoneTypeRelations) {
                 validMilestoneTypes.add(milestoneTypeRelation.getRelatedTypeKey());

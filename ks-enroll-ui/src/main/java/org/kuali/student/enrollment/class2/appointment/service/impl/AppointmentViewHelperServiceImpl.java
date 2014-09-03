@@ -125,7 +125,7 @@ public class AppointmentViewHelperServiceImpl extends ViewHelperServiceImpl impl
         if (keyDates != null) {
 
             //Get the valid period types
-            List<TypeTypeRelationInfo> milestoneTypeRelations = getTypeService().getTypeTypeRelationsByOwnerAndType(AtpServiceConstants.MILESTONE_REGISTRATION_PERIOD_GROUP_TYPE_KEY, "kuali.type.type.relation.type.group", new ContextInfo());
+            List<TypeTypeRelationInfo> milestoneTypeRelations = getTypeService().getTypeTypeRelationsByOwnerAndType(AtpServiceConstants.MILESTONE_REGISTRATION_PERIOD_GROUP_TYPE_KEY, TypeServiceConstants.TYPE_TYPE_RELATION_GROUP_TYPE_KEY, new ContextInfo());
             List<String> validMilestoneTypes = new ArrayList<String>();
             for (TypeTypeRelationInfo milestoneTypeRelation : milestoneTypeRelations) {
                 validMilestoneTypes.add(milestoneTypeRelation.getRelatedTypeKey());
@@ -166,7 +166,7 @@ public class AppointmentViewHelperServiceImpl extends ViewHelperServiceImpl impl
         ContextInfo context = TestHelper.getContext1();
         List<KeyDateInfo> periodMilestones = new ArrayList<KeyDateInfo>();
         List<KeyDateInfo> keyDateInfoList = getAcalService().getKeyDatesForTerm(termId, context);
-        List<TypeTypeRelationInfo> relations = getTypeService().getTypeTypeRelationsByOwnerAndType(AtpServiceConstants.MILESTONE_REGISTRATION_PERIOD_GROUP_TYPE_KEY, "kuali.type.type.relation.type.group", context);
+        List<TypeTypeRelationInfo> relations = getTypeService().getTypeTypeRelationsByOwnerAndType(AtpServiceConstants.MILESTONE_REGISTRATION_PERIOD_GROUP_TYPE_KEY, TypeServiceConstants.TYPE_TYPE_RELATION_GROUP_TYPE_KEY, context);
         for (KeyDateInfo keyDateInfo : keyDateInfoList) {
             for (TypeTypeRelationInfo relationInfo : relations) {
                 String relatedTypeKey = relationInfo.getRelatedTypeKey();

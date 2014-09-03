@@ -15,6 +15,7 @@ import org.kuali.student.r2.core.search.dto.SearchResultCellInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultRowInfo;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
+import org.kuali.student.r2.lum.util.constants.CluServiceConstants;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -76,7 +77,7 @@ public class CourseInfoLookupableImpl extends LookupableImpl {
         List<SearchParamInfo> searchParams = new ArrayList<SearchParamInfo>();
         SearchParamInfo qpv1 = new SearchParamInfo();
         qpv1.setKey("lu.queryParam.luOptionalType");
-        qpv1.getValues().add("kuali.lu.type.CreditCourse");
+        qpv1.getValues().add(CluServiceConstants.CREDIT_COURSE_LU_TYPE_KEY);
         searchParams.add(qpv1);
 
         qpv1 = new SearchParamInfo();

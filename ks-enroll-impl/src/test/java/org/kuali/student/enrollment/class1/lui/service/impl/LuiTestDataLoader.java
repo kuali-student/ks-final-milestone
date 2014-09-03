@@ -63,15 +63,15 @@ public class LuiTestDataLoader {
                     ""+LuiServiceConstants.LUI_LUI_RELATION_ASSOCIATED_TYPE_KEY);
         }
 
-        loadLui("Lui-1", "Lui one", "cluId1", "atpId1", "kuali.lui.type.course.offering", "kuali.lui.state.draft", "Lui Desc 101", 200, 50, "ref.url", "LUI-IDENT-2", "lui_one_official", "Chem 123", "attr1", "attr2");
-        loadLui("Lui-2", "Lui rwo", "cluId2", "atpId2", "kuali.lui.type.activity.offering.lecture", "kuali.lui.state.draft", "Lui Desc 201", 200, 50, "ref.url", "LUI-IDENT-3", "lui_two_official", "Phy 123");
-        loadLui("Lui-3", "Lui three", "cluId3", "atpId3", "kuali.lui.type.course.offering", "kuali.lui.state.draft", "Lui Desc 301 for deletion", 200, 50, "ref.url", "lui_three_additional", "lui_three_official", "Bio 123");
-        loadLui("Lui-4", "Lui four", "cluId4", "atpId4", "kuali.lui.type.activity.offering.lecture", "kuali.lui.state.draft", "Lui Desc 401 for deletion", 200, 50, "ref.url", "lui_four_additional", "lui_four_official", "Phil 123");
-        loadLui("Lui-5", "Lui five", "cluId5", "atpId5", "kuali.lui.type.activity.offering.lab", "kuali.lui.state.draft", "Lui Desc 501", 200, 50, "ref.url", "lui_five_additional", "lui_five_official", "XX");
+        loadLui("Lui-1", "Lui one", "cluId1", "atpId1", LuiServiceConstants.COURSE_OFFERING_TYPE_KEY, LuiServiceConstants.LUI_DRAFT_STATE_KEY, "Lui Desc 101", 200, 50, "ref.url", "LUI-IDENT-2", "lui_one_official", "Chem 123", "attr1", "attr2");
+        loadLui("Lui-2", "Lui rwo", "cluId2", "atpId2", LuiServiceConstants.LECTURE_ACTIVITY_OFFERING_TYPE_KEY, LuiServiceConstants.LUI_DRAFT_STATE_KEY, "Lui Desc 201", 200, 50, "ref.url", "LUI-IDENT-3", "lui_two_official", "Phy 123");
+        loadLui("Lui-3", "Lui three", "cluId3", "atpId3", LuiServiceConstants.COURSE_OFFERING_TYPE_KEY, LuiServiceConstants.LUI_DRAFT_STATE_KEY, "Lui Desc 301 for deletion", 200, 50, "ref.url", "lui_three_additional", "lui_three_official", "Bio 123");
+        loadLui("Lui-4", "Lui four", "cluId4", "atpId4", LuiServiceConstants.LECTURE_ACTIVITY_OFFERING_TYPE_KEY, LuiServiceConstants.LUI_DRAFT_STATE_KEY, "Lui Desc 401 for deletion", 200, 50, "ref.url", "lui_four_additional", "lui_four_official", "Phil 123");
+        loadLui("Lui-5", "Lui five", "cluId5", "atpId5", LuiServiceConstants.LAB_ACTIVITY_OFFERING_TYPE_KEY, LuiServiceConstants.LUI_DRAFT_STATE_KEY, "Lui Desc 501", 200, 50, "ref.url", "lui_five_additional", "lui_five_official", "XX");
 
-        loadLuiLuiRel("LUILUIREL-1", "2011-01-01 00:00:00.0", "2100-01-01 00:00:00.0", "kuali.lui.lui.relation.state.active", "<p>LUILUIREL-1 Formatted</p>", "LUILUIREL-1 Plain", "Lui-1", "kuali.lui.lui.relation.associated", "Lui-2");
-        loadLuiLuiRel("LUILUIREL-2", "2011-01-01 00:00:00.0", "2100-01-01 00:00:00.0", "kuali.lui.lui.relation.state.active", "<p>LUILUIREL-2 Formatted</p>", "LUILUIREL-2 Plain", "Lui-3", "kuali.lui.lui.relation.associated", "Lui-4");
-        loadLuiLuiRel("LUILUIREL-3", "2011-01-01 00:00:00.0", "2100-01-01 00:00:00.0", "kuali.lui.lui.relation.state.active", "<p>LUILUIREL-3 Formatted</p>", "LUILUIREL-3 Plain", "Lui-5", "kuali.lui.lui.relation.associated", "Lui-2");
+        loadLuiLuiRel("LUILUIREL-1", "2011-01-01 00:00:00.0", "2100-01-01 00:00:00.0", LuiServiceConstants.LUI_LUI_RELATION_ACTIVE_STATE_KEY, "<p>LUILUIREL-1 Formatted</p>", "LUILUIREL-1 Plain", "Lui-1", LuiServiceConstants.LUI_LUI_RELATION_ASSOCIATED_TYPE_KEY, "Lui-2");
+        loadLuiLuiRel("LUILUIREL-2", "2011-01-01 00:00:00.0", "2100-01-01 00:00:00.0", LuiServiceConstants.LUI_LUI_RELATION_ACTIVE_STATE_KEY, "<p>LUILUIREL-2 Formatted</p>", "LUILUIREL-2 Plain", "Lui-3", LuiServiceConstants.LUI_LUI_RELATION_ASSOCIATED_TYPE_KEY, "Lui-4");
+        loadLuiLuiRel("LUILUIREL-3", "2011-01-01 00:00:00.0", "2100-01-01 00:00:00.0", LuiServiceConstants.LUI_LUI_RELATION_ACTIVE_STATE_KEY, "<p>LUILUIREL-3 Formatted</p>", "LUILUIREL-3 Plain", "Lui-5", LuiServiceConstants.LUI_LUI_RELATION_ASSOCIATED_TYPE_KEY, "Lui-2");
 
     }
 

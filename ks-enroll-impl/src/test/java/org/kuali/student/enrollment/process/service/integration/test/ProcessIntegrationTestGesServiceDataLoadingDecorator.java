@@ -17,6 +17,7 @@ import org.kuali.student.core.ges.dto.ValueInfo;
 import org.kuali.student.core.ges.service.GesService;
 import org.kuali.student.core.ges.service.GesServiceDecorator;
 import org.kuali.student.r2.common.util.RichTextHelper;
+import org.kuali.student.r2.core.constants.AtpServiceConstants;
 
 /**
  *
@@ -47,7 +48,7 @@ public class ProcessIntegrationTestGesServiceDataLoadingDecorator extends GesSer
                 "The Load Calculation to use for credit limit checks", GesValueTypeEnum.STRING, contextInfo);
 
         _createValue(GesServiceConstants.PARAMETER_KEY_CREDIT_LIMIT, 1, new KualiDecimal(6),
-                "kuali.population.everyone", "kuali.atp.type.Summer", contextInfo);
+                "kuali.population.everyone", AtpServiceConstants.ATP_SUMMER_TYPE_KEY, contextInfo);
         _createValue(GesServiceConstants.PARAMETER_KEY_CREDIT_LIMIT, 2, new KualiDecimal(9),
                 "kuali.population.everyone", "kuali.atp.type.Fall, kuali.atp.type.Spring", contextInfo);
         _createValue(GesServiceConstants.PARAMETER_KEY_CREDIT_LIMIT, 3, new KualiDecimal(15),
@@ -66,7 +67,7 @@ public class ProcessIntegrationTestGesServiceDataLoadingDecorator extends GesSer
         _createValue(GesServiceConstants.PARAMETER_KEY_CREDIT_MINIMUM, 3, new KualiDecimal(1),
                 "kuali.population.everyone", "kuali.atp.type.Fall, kuali.atp.type.Spring", contextInfo);
         _createValue(GesServiceConstants.PARAMETER_KEY_CREDIT_MINIMUM, 4, new KualiDecimal(0),
-                "kuali.population.everyone", "kuali.atp.type.Summer", contextInfo);
+                "kuali.population.everyone", AtpServiceConstants.ATP_SUMMER_TYPE_KEY, contextInfo);
 
         _createValue(GesServiceConstants.PARAMETER_KEY_LOAD_CALCULATION_FOR_CREDIT_CHECKS,
                 1, "kuali.academic.record.calculation.type.load.credit.decimal",

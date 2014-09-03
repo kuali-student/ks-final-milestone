@@ -83,13 +83,13 @@ public class ProcessIntegrationTestProcessServiceDataLoadingDecorator extends Pr
                 "kuali.hold.issue.financial.unpaid.tuition.prior.term", "", "", "", "has not paid bill from prior term",
                 "Checks if student has an unpaid bill from a prior term", context);
         _createCheck(ProcessIntegrationTestConstants.CHECK_ID_STUDENT_HAS_BASIC_ELIGIBILITY, ProcessServiceConstants.PROCESS_CHECK_TYPE_KEY,
-                "", "", "", "kuali.process.registration.basic.eligibility", "student has basic eligibility",
+                "", "", "", ProcessServiceConstants.PROCESS_KEY_BASIC_ELIGIBILITY, "student has basic eligibility",
                 "Checks all the checks defined in the basic eligibility process", context);
         _createCheck(ProcessIntegrationTestConstants.CHECK_ID_REGISTRATION_PERIOD_IS_OPEN, ProcessServiceConstants.START_DATE_CHECK_TYPE_KEY,
-                "", "kuali.atp.milestone.RegistrationPeriod", "", "", "registration period is open",
+                "", AtpServiceConstants.MILESTONE_REGISTRATION_PERIOD_TYPE_KEY, "", "", "registration period is open",
                 "Checks that the registration period is open", context);
         _createCheck(ProcessIntegrationTestConstants.CHECK_ID_REGISTRATION_PERIOD_IS_NOT_CLOSED,
-                ProcessServiceConstants.DEADLINE_CHECK_TYPE_KEY, "", "kuali.atp.milestone.RegistrationPeriod", "", "",
+                ProcessServiceConstants.DEADLINE_CHECK_TYPE_KEY, "", AtpServiceConstants.MILESTONE_REGISTRATION_PERIOD_TYPE_KEY, "", "",
                 "registration period is not closed", "Checks that the registration period is not yet closed", context);
         _createCheck(ProcessIntegrationTestConstants.CHECK_ID_REGISTRATION_HOLDS_CLEARED, ProcessServiceConstants.PROCESS_CHECK_TYPE_KEY, "",
                 "", "", "kuali.process.registration.holds.cleared", "Registration Holds Cleared",

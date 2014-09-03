@@ -13,6 +13,7 @@ import org.kuali.student.core.ges.infc.GesValueTypeEnum;
 import org.kuali.student.core.ges.service.GesService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.util.RichTextHelper;
+import org.kuali.student.r2.core.constants.AtpServiceConstants;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -38,7 +39,7 @@ public class KRMSGesServiceDataLoader extends AbstractMockServicesAwareDataLoade
 
         // values
         _createValue(GesServiceConstants.PARAMETER_KEY_MAX_REPEATABLE, 1, 2,
-                "kuali.population.student.key.everyone", "kuali.atp.type.Fall", contextInfo);
+                "kuali.population.student.key.everyone", AtpServiceConstants.ATP_FALL_TYPE_KEY, contextInfo);
     }
 
     private ParameterInfo _createParam(String key, String name, String descr, GesValueTypeEnum gesValueTypeEnum, ContextInfo context) {

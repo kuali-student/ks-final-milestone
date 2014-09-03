@@ -21,6 +21,7 @@ import org.kuali.student.r2.common.constants.CommonServiceConstants;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.exceptions.*;
+import org.kuali.student.r2.core.constants.AtpServiceConstants;
 import org.kuali.student.r2.core.constants.ProcessServiceConstants;
 import org.kuali.student.r2.core.process.dto.CheckInfo;
 import org.kuali.student.r2.core.process.dto.InstructionInfo;
@@ -381,7 +382,7 @@ public class ProcessServiceDataLoader {
                     "Checks that the registration period is open",
                     "Checks that the registration period is open",
                     null, // issue id
-                    ProcessServiceConstants.MILESTONE_TYPE_ATP_REGISTRATION_PERIOD, // milestone type
+                    AtpServiceConstants.MILESTONE_REGISTRATION_PERIOD_TYPE_KEY, // milestone type
                     null, // agenda id
                     null, // right
                     null, // left
@@ -391,7 +392,7 @@ public class ProcessServiceDataLoader {
                     "Checks that the registration period is not yet closed",
                     "Checks that the registration period is not yet closed",
                     null, // issue id
-                    ProcessServiceConstants.MILESTONE_TYPE_ATP_REGISTRATION_PERIOD, // milestone type
+                    AtpServiceConstants.MILESTONE_REGISTRATION_PERIOD_TYPE_KEY, // milestone type
                     null, // agenda id
                     null, // right
                     null, // left

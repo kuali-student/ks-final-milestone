@@ -5,6 +5,7 @@ import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
 import org.kuali.rice.krad.uif.view.ViewModel;
 import org.kuali.student.enrollment.class2.courseoffering.util.FormatOfferingConstants;
+import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -21,7 +22,7 @@ public class FormatOfferingInfoByTypeKeyValues extends UifKeyValuesFinderBase im
 
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
         keyValues.add(new ConcreteKeyValue(FormatOfferingConstants.BLANK, FormatOfferingConstants.SELECT_FORMAT_OFFERING_TYPE_KEY ));
-        keyValues.add(new ConcreteKeyValue(FormatOfferingConstants.FORMAT_OFFERING_TYPE_KEY_VALUE, FormatOfferingConstants.FORMAT_OFFERING_TYPE_KEY_VALUE));
+        keyValues.add(new ConcreteKeyValue(LuiServiceConstants.FORMAT_OFFERING_TYPE_KEY, LuiServiceConstants.FORMAT_OFFERING_TYPE_KEY));
 
         return keyValues;
     }

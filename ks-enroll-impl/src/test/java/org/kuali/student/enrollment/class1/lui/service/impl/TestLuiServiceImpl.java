@@ -201,7 +201,7 @@ public class TestLuiServiceImpl {
     @Test
     public void testGetLuiIdsByRelation() throws Exception {
         try {
-            List<String> luiIds = luiService.getLuiIdsByRelatedLuiAndRelationType("Lui-2", "kuali.lui.lui.relation.associated", callContext);
+            List<String> luiIds = luiService.getLuiIdsByRelatedLuiAndRelationType("Lui-2", LuiServiceConstants.LUI_LUI_RELATION_ASSOCIATED_TYPE_KEY, callContext);
             assertNotNull(luiIds);
             assertEquals(2, luiIds.size());
             assertEquals("Lui-1", luiIds.get(0));
@@ -215,7 +215,7 @@ public class TestLuiServiceImpl {
 //    @Ignore
     public void testGetLuisByRelation() throws Exception {
         try {
-            List<LuiInfo> luis = luiService.getLuisByRelatedLuiAndRelationType("Lui-2", "kuali.lui.lui.relation.associated", callContext);
+            List<LuiInfo> luis = luiService.getLuisByRelatedLuiAndRelationType("Lui-2", LuiServiceConstants.LUI_LUI_RELATION_ASSOCIATED_TYPE_KEY, callContext);
             assertNotNull(luis);
             assertEquals(2, luis.size());
             assertEquals("Lui-1", luis.get(0).getId());
@@ -230,7 +230,7 @@ public class TestLuiServiceImpl {
     @Test
     public void testGenericLookup() throws Exception {
         QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
-        qbcBuilder.setPredicates(PredicateFactory.like("luiType", "kuali.lui.type.course.offering"));
+        qbcBuilder.setPredicates(PredicateFactory.like("luiType", LuiServiceConstants.COURSE_OFFERING_TYPE_KEY));
         QueryByCriteria criteria = qbcBuilder.build();
 
         try{
@@ -611,7 +611,7 @@ public class TestLuiServiceImpl {
     @Test
     public void testGetLuiIdsByType() throws Exception {
 
-        List<String> luis =  luiService.getLuiIdsByType("kuali.lui.type.course.offering", callContext);
+        List<String> luis =  luiService.getLuiIdsByType(LuiServiceConstants.COURSE_OFFERING_TYPE_KEY, callContext);
 
         assertNotNull(luis);
         assertTrue(luis.size() == 2);
@@ -621,11 +621,11 @@ public class TestLuiServiceImpl {
 
     @Test
     public void testGetLuiIdsByAtpAndType() throws Exception{
-        List<String> luiIds =  luiService.getLuiIdsByAtpAndType( "atpId1", "kuali.lui.type.course.offering", callContext);
+        List<String> luiIds =  luiService.getLuiIdsByAtpAndType( "atpId1", LuiServiceConstants.COURSE_OFFERING_TYPE_KEY, callContext);
         assertNotNull(luiIds);
         assertEquals(luiIds.size(), 1);
         assertEquals(luiIds.get(0) ,"Lui-1");
-        List<String> luiIdsNonExistent =  luiService.getLuiIdsByAtpAndType( "atpId21", "kuali.lui.type.course.offering", callContext);
+        List<String> luiIdsNonExistent =  luiService.getLuiIdsByAtpAndType( "atpId21", LuiServiceConstants.COURSE_OFFERING_TYPE_KEY, callContext);
         assertNotNull(luiIdsNonExistent);
         assertEquals(luiIdsNonExistent.size(),0);
 
@@ -633,12 +633,12 @@ public class TestLuiServiceImpl {
 
     @Test
     public void testGetLuisByAtpAndType() throws Exception{
-        List<LuiInfo> luis = luiService.getLuisByAtpAndType("atpId1", "kuali.lui.type.course.offering", callContext);
+        List<LuiInfo> luis = luiService.getLuisByAtpAndType("atpId1", LuiServiceConstants.COURSE_OFFERING_TYPE_KEY, callContext);
         assertNotNull(luis);
         assertEquals(luis.size(), 1);
         assertEquals(luis.get(0).getId(), "Lui-1");
 
-        List<LuiInfo> luisNonExistent =  luiService.getLuisByAtpAndType( "atpId21", "kuali.lui.type.course.offering", callContext);
+        List<LuiInfo> luisNonExistent =  luiService.getLuisByAtpAndType( "atpId21", LuiServiceConstants.COURSE_OFFERING_TYPE_KEY, callContext);
         assertNotNull(luisNonExistent);
         assertEquals(luisNonExistent.size(),0);
 
@@ -646,7 +646,7 @@ public class TestLuiServiceImpl {
 
     @Test
     public void testGetRelatedLuiIdsByLui() throws Exception{
-        List<String> luiRelationIds =  luiService.getLuiIdsByLuiAndRelationType("Lui-1", "kuali.lui.lui.relation.associated", callContext);
+        List<String> luiRelationIds =  luiService.getLuiIdsByLuiAndRelationType("Lui-1", LuiServiceConstants.LUI_LUI_RELATION_ASSOCIATED_TYPE_KEY, callContext);
         assertNotNull(luiRelationIds);
         assertEquals( 1, luiRelationIds.size());
         assertEquals("Lui-2", luiRelationIds.get(0) );
@@ -654,7 +654,7 @@ public class TestLuiServiceImpl {
     }
     @Test
     public void testGetRelatedLuisByLui() throws Exception{
-        List<LuiInfo> luiRelations =  luiService.getRelatedLuisByLuiAndRelationType("Lui-3", "kuali.lui.lui.relation.associated", callContext);
+        List<LuiInfo> luiRelations =  luiService.getRelatedLuisByLuiAndRelationType("Lui-3", LuiServiceConstants.LUI_LUI_RELATION_ASSOCIATED_TYPE_KEY, callContext);
         assertNotNull(luiRelations);
         assertEquals( 1, luiRelations.size());
         assertEquals("Lui-4", luiRelations.get(0).getId() );
