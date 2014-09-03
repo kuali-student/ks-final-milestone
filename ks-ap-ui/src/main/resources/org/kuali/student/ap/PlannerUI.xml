@@ -71,7 +71,7 @@
     <bean id="planner_sidebar_section-parent" abstract="true" parent="ksap_section">
         <property name="cssClasses">
             <list merge="true">
-                <value>ks-plan-Widgets</value>
+                <value>ksap-planner-widgets</value>
             </list>
         </property>
         <property name="items">
@@ -186,7 +186,7 @@
             </map>
         </property>
         <property name="layoutManager.lineGroupPrototype.style"
-                  value="width:@{588/T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTermHelper().getNumberOfTermsInAcademicYear()}px;
+                  value="width:@{605/T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTermHelper().getNumberOfTermsInAcademicYear()}px;
                   margin:0 @{20/T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTermHelper().getNumberOfTermsInAcademicYear()}px;" />
         <property name="header">
             <bean parent="Uif-HeaderFour" />
@@ -287,8 +287,8 @@
                     <property name="cssClasses">
                         <list merge="true">
                             <value>ksap-course-valid</value>
-                            <value>ks-plan-Bucket-item</value>
-                            <value>ks-plan-Bucket-item--valid</value>
+                            <value>ksap-planner-cell</value>
+                            <value>ksap-planner-cell-valid</value>
                         </list>
                     </property>
                     <property name="dataAttributes">
@@ -307,7 +307,7 @@
                                 <property name="cssClasses">
                                     <list merge="true">
                                         <value>code</value>
-                                        <value>ks-plan-Bucket-itemCode</value>
+                                        <value>ksap-planner-cell-Code</value>
                                     </list>
                                 </property>
                                 <property name="dataAttributes">
@@ -342,7 +342,7 @@
                                 <property name="cssClasses">
                                     <list merge="true">
                                         <value>credit</value>
-                                        <value>ks-plan-Bucket-itemCreditCount</value>
+                                        <value>ksap-planner-cell-CreditCount</value>
                                     </list>
                                 </property>
                             </bean>
@@ -359,8 +359,8 @@
         <property name="cssClasses">
             <list merge="true">
                 <value>ksap-course-valid</value>
-                <value>ks-plan-Bucket-item</value>
-                <value>ks-plan-Bucket-item--valid</value>
+                <value>ksap-planner-cell</value>
+                <value>ksap-planner-cell-valid</value>
             </list>
         </property>
     </bean>
@@ -392,7 +392,7 @@
                     <property name="cssClasses">
                         <list merge="true">
                             <value>code</value>
-                            <value>ks-plan-Bucket-itemCode</value>
+                            <value>ksap-planner-cell-Code</value>
                         </list>
                     </property>
                     <property name="dataAttributes">
@@ -462,7 +462,7 @@
                     <property name="cssClasses">
                         <list merge="true">
                             <value>credit</value>
-                            <value>ks-plan-Bucket-itemCreditCount</value>
+                            <value>ksap-planner-cell-CreditCount</value>
                         </list>
                     </property>
                 </bean>
@@ -471,7 +471,7 @@
                     <property name="cssClasses">
                         <list merge="true">
                             <value>grade</value>
-                            <value>ks-plan-Bucket-itemGrade</value>
+                            <value>ksap-planner-cell-Grade</value>
                         </list>
                     </property>
                 </bean>
@@ -506,7 +506,7 @@
                     <property name="cssClasses">
                         <list merge="true">
                             <value>code</value>
-                            <value>ks-plan-Bucket-itemCode</value>
+                            <value>ksap-planner-cell-Code</value>
                         </list>
                     </property>
                     <property name="dataAttributes">
@@ -561,7 +561,7 @@
                     <property name="cssClasses">
                         <list merge="true">
                             <value>credit</value>
-                            <value>ks-plan-Bucket-itemCreditCount</value>
+                            <value>ksap-planner-cell-CreditCount</value>
                         </list>
                     </property>
                 </bean>
@@ -570,7 +570,7 @@
                     <property name="cssClasses">
                         <list merge="true">
                             <value>grade</value>
-                            <value>ks-plan-Bucket-itemGrade</value>
+                            <value>ksap-planner-cell-Grade</value>
                         </list>
                     </property>
                 </bean>
@@ -592,6 +592,11 @@
 
     <bean id="KSAP-Planner-Item-AddItem" parent="KSAP-Planner-Item-AddItem-parent"/>
     <bean id="KSAP-Planner-Item-AddItem-parent" parent="KSAP-Planner-Item-Base">
+        <property name="cssClasses">
+            <list merge="true">
+                <value>ksap-planner-add</value>
+            </list>
+        </property>
         <property name="render" value="@{#line.type == 'AddItem'}"/>
         <property name="onClickScript"
                   value="ksapOpenPlanDialog('planner_add_course_page', 'planner', 'startDialog', this, e);" />
@@ -603,8 +608,19 @@
         </property>
         <property name="items">
             <list>
-                <bean parent="Uif-MessageField">
-                    <property name="messageText" value="@{#textHelper.getText('planner.body.add.course')}" />
+                <bean parent="Uif-ActionLink"
+                      p:actionLabel="@{#textHelper.getText('planner.body.add.course')}"
+                      p:actionScript="ksapOpenPlanDialog('planner_add_course_page', 'planner', 'startDialog', this, e);">
+                    <property name="dataAttributes">
+                        <map>
+                            <entry key="termid" value="@{#line.termId}" />
+                        </map>
+                    </property>
+                    <property name="additionalCssClasses">
+                        <list merge="true">
+                            <value>ks-fontello-icon-hollow-circled-plus</value>
+                        </list>
+                    </property>
                 </bean>
             </list>
         </property>
@@ -734,11 +750,21 @@
 
     <bean id="planner_cart_collection" parent="planner_cart_collection-parent"/>
     <bean id="planner_cart_collection-parent" abstract="true" parent="planner_item_collection"
-          p:headerText="Registered" p:render="@{#line.registrationList.size()>0}">
+          p:render="@{#line.registrationList.size()>0}">
         <property name="validationMessages.displayMessages" value="false" />
         <property name="propertyName" value="registrationList" />
-        <property name="header.toolTip">
-            <ref bean="planner_cart_help_tooltip"/>
+        <property name="header.upperGroup">
+            <bean p:id="planner_planned_collection_header" parent="Uif-HeaderUpperGroup">
+                <property name="items">
+                    <list>
+                        <bean parent="Uif-HeaderFive" p:headerText="@{#textHelper.getText('planner.body.registered')}">
+                            <property name="toolTip">
+                                <ref bean="planner_cart_help_tooltip"/>
+                            </property>
+                        </bean>
+                    </list>
+                </property>
+            </bean>
         </property>
         <property name="cssClasses">
             <list merge="false">
@@ -839,35 +865,6 @@
                             <value>@{#line.termId.replaceAll("\.","-")}</value>
                             <value>ksap-term-backup</value>
                             <value>ks-plan-Bucket</value>
-                        </list>
-                    </property>
-                </bean>
-            </list>
-        </property>
-    </bean>
-
-    <bean abstract="true" id="planner_quick_add" parent="planner_quick_add-parent"/>
-    <bean abstract="true" id="planner_quick_add-parent" parent="Uif-HorizontalBoxGroup">
-        <property name="validationMessages.displayMessages" value="false" />
-        <property name="cssClasses">
-            <list merge="true">
-                <value>quick-add-cell</value>
-                <value>ks-plan-Bucket-addItem</value>
-            </list>
-        </property>
-        <property name="items">
-            <list>
-                <bean parent="Uif-ActionLink"
-                      p:actionLabel="@{#textHelper.getText('planner.body.add.course')}"
-                      p:actionScript="ksapOpenPlanDialog('planner_add_course_page', 'planner', 'startDialog', this, e);">
-                    <property name="dataAttributes">
-                        <map>
-                            <entry key="termid" value="@{#line.termId}" />
-                        </map>
-                    </property>
-                    <property name="additionalCssClasses">
-                        <list merge="true">
-                            <value>ks-fontello-icon-hollow-circled-plus</value>
                         </list>
                     </property>
                 </bean>
