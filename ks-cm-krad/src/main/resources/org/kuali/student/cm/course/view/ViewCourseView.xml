@@ -766,7 +766,45 @@
                                     </list>
                                 </property>
                             </bean>
+                            <bean id="CM-Proposal-Course-Requisites-CollectionSection2" parent="Uif-VerticalFieldGroup" p:colSpan="3" p:fieldLabel.renderColon="false" >
+                                <property name="render" value="@{#isCompareView and #isViewCourseView}"/>
+                                <property name="items">
+                                    <list>
+                                        <bean id="CM-Proposal-Course-Requisites-AgendaSection" parent="CM-Proposal-Course-AgendaManage-Section" class="org.kuali.student.cm.course.service.util.CourseAgendaSection">
+
+                                            <property name="rulePrototype">
+                                                <bean id="CM-Proposal-CoursePreview-AgendaManage-RulePrototype" parent="CM-Proposal-Course-AgendaManage-RulePrototype-CoursePreview">
+                                                    <property name="items">
+                                                        <list>
+                                                            <ref bean="CM-Proposal-Course-AgendaManage-ViewRule"/>
+                                                        </list>
+                                                    </property>
+                                                </bean>
+                                            </property>
+
+                                        </bean>
+                                    </list>
+                                </property>
+                                <property name="propertyReplacers">
+                                    <list>
+                                        <bean parent="Uif-ConditionalBeanPropertyReplacer" p:propertyName="items"
+                                              p:condition="@{#form.viewId eq T(org.kuali.student.cm.common.util.CurriculumManagementConstants$CourseViewIds).VIEW_COURSE_VIEW}">
+                                            <property name="replacement">
+                                                <list>
+                                                    <bean parent="CM-Proposal-Course-Requisites-AgendaSection">
+                                                        <property name="propertyName" value="compareCourseInfoWrapper.agendas"/>
+                                                    </bean>
+                                                </list>
+                                            </property>
+                                        </bean>
+                                    </list>
+                                </property>
+                            </bean>
                         </list>
+                    </property>
+                    <property name="componentModifiers">
+                      <list>
+                      </list>
                     </property>
                 </bean>
             </list>
