@@ -16,6 +16,7 @@
 package org.kuali.student.r1.core.personsearch.service.impl;
 
 import org.kuali.rice.kim.api.identity.IdentityService;
+import org.kuali.student.r2.common.constants.CommonServiceConstants;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
@@ -47,6 +48,8 @@ public class PersonSearchServiceImpl implements SearchService {
     private IdentityService identityService;
 
     public static final String PERSON_ENTITY_TYPE = "PERSON";
+    public static final String NAMESPACE_PERSONSEACH = CommonServiceConstants.REF_OBJECT_URI_GLOBAL_PREFIX + "personsearch";
+    public static final String PERSONSEACH_SERVICE_NAME_LOCAL_PART = "PersonSearchService";
 
     static final public Map<String,String> PERSON_CRITERIA = new HashMap<String,String>();
 
