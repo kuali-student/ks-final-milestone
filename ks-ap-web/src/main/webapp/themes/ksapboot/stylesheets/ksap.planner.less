@@ -35,8 +35,7 @@
   .ksap-carousel-btn-next {
     margin-left: 2rem;
   }
-  .ksap-carousel-btn-prev,
-  .ksap-carousel-btn-next {
+  [class*="ksap-carousel-btn-"] {
     font-size: 14px;
     margin-top: .5rem;
   }
@@ -104,6 +103,15 @@
   .ksap-planner-backup .quick-add-cell a {
     border-bottom: 0; //No border after quick add under backup
   }
+}
+
+
+// Planner Sidebar
+// --------------------------------------------------
+.ksap-planner-widgets {
+  float: right;
+  margin: 0;
+  width: 300px;
 }
 
 
@@ -420,9 +428,7 @@ label.scheduled {
   padding: 10px 5px;
   background: #ccc;
 }
-.ks-plan-Widgets .ksap-widget {
-  margin-bottom: 10px;
-}
+
 .ks-plan-Bucket-emptyLabel {
   display: block !important;
   font-size: 0.8462em !important;
@@ -478,13 +484,9 @@ label.scheduled {
 
 .ks-plan-View-pageDetails {
   margin-right: 10px;
-  width: 620px;
+  width: 640px;
 }
 
-.ks-plan-Widgets {
-  margin: 0 !important;
-  width: 310px !important;
-}
 
 .ks-plan-TermsList-itemHeader {
   position: relative;
