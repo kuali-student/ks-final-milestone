@@ -57,7 +57,7 @@
     },
     {
         "messageKey": "kuali.lpr.trans.message.course.already.taken",
-        "message": "{{courseCode}} has already been taken {{attempts | multiplicativeAdverb : ' times'}}. This course cannot be repeated more than {{maxRepeats | multiplicativeAdverb : ' times'}}."
+        "message": "{{courseCode}} has already been taken {{attempts | multiplicativeAdverb : ' times'}}. This course cannot be repeated more than {{maxRepeats - 1 | multiplicativeAdverb : ' times'}}."
     },
     {
         "messageKey": "kuali.lpr.trans.message.repeatability.warning",
