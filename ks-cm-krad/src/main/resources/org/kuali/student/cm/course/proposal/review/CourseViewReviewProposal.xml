@@ -532,15 +532,23 @@
         </property>
     </bean>
 
-    <bean id="CM-Proposal-Review-ConfirmCancelProposal-Dialog" parent="CM-Proposal-Review-ConfirmCancelProposal-Dialog-parentBean" />
-    <bean id="CM-Proposal-Review-ConfirmCancelProposal-Dialog-parentBean" parent="Uif-DialogGroup" abstract="true" class="org.kuali.student.cm.uif.container.CMDialogGroup">
-        <property name="onDialogResponseScript" value="closeLightbox();ajaxSubmitForm('cancel');"/>
+    <bean id="KS-Dialog" parent="KS-Dialog-parentBean" />
+    <bean id="KS-Dialog-parentBean" parent="Uif-DialogGroup" class="org.kuali.student.cm.uif.container.CMDialogGroup" abstract="true" >
+        <property name="renderHeader" value="true"/>
         <property name="responseInputField">
             <bean parent="Uif-DialogResponse" p:readOnly="false"/>
         </property>
+        <!-- do not show the explanation because we need the route node name dropdown above it in the dialog screen -->
+        <property name="displayExplanation" value="false"/>
+    </bean>
+
+    <bean id="KS-DottedHeaderTwo" parent="Uif-HeaderTwo" p:cssClasses="ks-dottedHeaderActions"/>
+
+    <bean id="CM-Proposal-Review-ConfirmCancelProposal-Dialog" parent="CM-Proposal-Review-ConfirmCancelProposal-Dialog-parentBean" />
+    <bean id="CM-Proposal-Review-ConfirmCancelProposal-Dialog-parentBean" parent="KS-Dialog" abstract="true">
+        <property name="onDialogResponseScript" value="closeLightbox();ajaxSubmitForm('cancel');"/>
         <property name="headerText" value="Cancel Proposal"/>
-        <property name="renderHeader" value="true"/>
-        <property name="cssClasses" >
+        <property name="cssClasses">
             <list merge="true">
                 <value>submitcourse_dialog</value>
             </list>
@@ -579,16 +587,11 @@
     </bean>
 
     <bean id="CM-Proposal-Review-ConfirmReturnToPreviousNode-Dialog" parent="CM-Proposal-Review-ConfirmReturnToPreviousNode-Dialog-parentBean"/>
-    <bean id="CM-Proposal-Review-ConfirmReturnToPreviousNode-Dialog-parentBean" parent="Uif-DialogGroup" abstract="true" class="org.kuali.student.cm.uif.container.CMDialogGroup">
+    <bean id="CM-Proposal-Review-ConfirmReturnToPreviousNode-Dialog-parentBean" parent="KS-Dialog" abstract="true">
         <property name="onDialogResponseScript" value="closeLightbox();ajaxSubmitForm('returnToPreviousNode');"/>
-        <property name="responseInputField">
-            <bean parent="Uif-DialogResponse" p:readOnly="false"/>
-        </property>
-        <property name="renderHeader" value="true"/>
         <property name="OnShowDialogScript" value="skipDirtyChecks();" />
         <property name="header">
-            <bean parent="Uif-HeaderTwo" p:headerText="Return Proposal to Previous Node"
-                  p:cssClasses="ks-dottedHeaderActions"/>
+            <bean parent="KS-DottedHeaderTwo" p:headerText="Return Proposal to Previous Node"/>
         </property>
         <property name="cssClasses" >
             <list merge="true">
@@ -627,16 +630,11 @@
     </bean>
 
     <bean id="CM-Proposal-Review-ConfirmApprove-Dialog" parent="CM-Proposal-Review-ConfirmApprove-Dialog-parentBean"/>
-    <bean id="CM-Proposal-Review-ConfirmApprove-Dialog-parentBean" parent="Uif-DialogGroup" abstract="true" class="org.kuali.student.cm.uif.container.CMDialogGroup">
+    <bean id="CM-Proposal-Review-ConfirmApprove-Dialog-parentBean" parent="KS-Dialog" abstract="true">
         <property name="onDialogResponseScript" value="closeLightbox();ajaxSubmitForm('approve');"/>
-        <property name="responseInputField">
-            <bean parent="Uif-DialogResponse" p:readOnly="false"/>
-        </property>
-        <property name="renderHeader" value="true"/>
         <property name="OnShowDialogScript" value="skipDirtyChecks();" />
         <property name="header">
-            <bean parent="Uif-HeaderTwo" p:headerText="Approve Proposal"
-                  p:cssClasses="ks-dottedHeaderActions"/>
+            <bean parent="KS-DottedHeaderTwo" p:headerText="Approve Proposal"/>
         </property>
         <property name="cssClasses" >
             <list merge="true">
@@ -645,8 +643,6 @@
         </property>
         <property name="promptText"
                   value="You are approving the &quot;@{#uiHelper.proposalName}&quot; proposal. You must enter a Decision Rationale."/>
-        <!-- do not show the explanation because we need the route node name dropdown above it in the dialog screen -->
-        <property name="displayExplanation" value="false"/>
         <property name="items">
             <list>
                 <bean id="CM-DecisionRationale-Approve-Message" parent="CM-DecisionRationale-MessageSection"/>
@@ -663,16 +659,11 @@
     </bean>
 
     <bean id="CM-Proposal-Review-ConfirmBlanketApprove-Dialog" parent="CM-Proposal-Review-ConfirmBlanketApprove-Dialog-parentBean"/>
-    <bean id="CM-Proposal-Review-ConfirmBlanketApprove-Dialog-parentBean" parent="Uif-DialogGroup" abstract="true" class="org.kuali.student.cm.uif.container.CMDialogGroup">
+    <bean id="CM-Proposal-Review-ConfirmBlanketApprove-Dialog-parentBean" parent="KS-Dialog" abstract="true" class="org.kuali.student.cm.uif.container.CMDialogGroup">
         <property name="onDialogResponseScript" value="closeLightbox();ajaxSubmitForm('blanketApprove');"/>
-        <property name="responseInputField">
-            <bean parent="Uif-DialogResponse" p:readOnly="false"/>
-        </property>
-        <property name="renderHeader" value="true"/>
         <property name="OnShowDialogScript" value="skipDirtyChecks();" />
         <property name="header">
-            <bean parent="Uif-HeaderTwo" p:headerText="Blanket Approve Proposal"
-                  p:cssClasses="ks-dottedHeaderActions"/>
+            <bean parent="KS-DottedHeaderTwo" p:headerText="Blanket Approve Proposal"/>
         </property>
         <property name="cssClasses" >
             <list merge="true">
@@ -681,8 +672,6 @@
         </property>
         <property name="promptText"
                   value="You are blanket approving the &quot;@{#uiHelper.proposalName}&quot; proposal. You must enter a Decision Rationale."/>
-        <!-- do not show the explanation because we need the route node name dropdown above it in the dialog screen -->
-        <property name="displayExplanation" value="false"/>
         <property name="items">
             <list>
                 <bean id="CM-DecisionRationale-BlanketApprove-Message" parent="CM-DecisionRationale-MessageSection"/>
@@ -699,16 +688,11 @@
     </bean>
 
     <bean id="CM-Proposal-Review-ConfirmReject-Dialog" parent="CM-Proposal-Review-ConfirmReject-Dialog-parentBean"/>
-    <bean id="CM-Proposal-Review-ConfirmReject-Dialog-parentBean" parent="Uif-DialogGroup" abstract="true" class="org.kuali.student.cm.uif.container.CMDialogGroup">
+    <bean id="CM-Proposal-Review-ConfirmReject-Dialog-parentBean" parent="KS-Dialog" abstract="true">
         <property name="onDialogResponseScript" value="closeLightbox();ajaxSubmitForm('disapprove');"/>
-        <property name="responseInputField">
-            <bean parent="Uif-DialogResponse" p:readOnly="false"/>
-        </property>
-        <property name="renderHeader" value="true"/>
         <property name="OnShowDialogScript" value="skipDirtyChecks();" />
         <property name="header">
-            <bean parent="Uif-HeaderTwo" p:headerText="Reject Proposal"
-                  p:cssClasses="ks-dottedHeaderActions"/>
+            <bean parent="KS-DottedHeaderTwo" p:headerText="Reject Proposal"/>
         </property>
         <property name="cssClasses" >
             <list merge="true">
@@ -717,7 +701,6 @@
         </property>
         <property name="promptText"
                   value="You are rejecting the &quot;@{#uiHelper.proposalName}&quot; proposal. You must enter a Decision Rationale."/>
-        <property name="displayExplanation" value="false"/>
         <property name="items">
             <list>
                 <bean id="CM-DecisionRationale-Reject-Message" parent="CM-DecisionRationale-MessageSection"/>
@@ -734,16 +717,11 @@
     </bean>
 
     <bean id="CM-Proposal-Review-ConfirmAcknowledge-Dialog" parent="CM-Proposal-Review-ConfirmAcknowledge-Dialog-parentBean"/>
-    <bean id="CM-Proposal-Review-ConfirmAcknowledge-Dialog-parentBean" parent="Uif-DialogGroup" abstract="true" class="org.kuali.student.cm.uif.container.CMDialogGroup">
+    <bean id="CM-Proposal-Review-ConfirmAcknowledge-Dialog-parentBean" parent="KS-Dialog" abstract="true">
         <property name="onDialogResponseScript" value="closeLightbox();ajaxSubmitForm('acknowledge');"/>
-        <property name="responseInputField">
-            <bean parent="Uif-DialogResponse" p:readOnly="false"/>
-        </property>
-        <property name="renderHeader" value="true"/>
         <property name="OnShowDialogScript" value="skipDirtyChecks();" />
         <property name="header">
-            <bean parent="Uif-HeaderTwo" p:headerText="Acknowledge Proposal"
-                  p:cssClasses="ks-dottedHeaderActions"/>
+            <bean parent="KS-DottedHeaderTwo" p:headerText="Acknowledge Proposal"/>
         </property>
         <property name="cssClasses" >
             <list merge="true">
@@ -753,8 +731,6 @@
         </property>
         <property name="promptText"
                   value="You are Acknowledging the &quot;@{#uiHelper.proposalName}&quot; proposal. You must enter a Decision Rationale."/>
-        <!-- do not show the explanation because we need the route node name dropdown above it in the dialog screen -->
-        <property name="displayExplanation" value="false"/>
         <property name="items">
             <list>
                 <bean id="CM-DecisionRationale-Acknowledge-Message" parent="CM-DecisionRationale-MessageSection"/>
@@ -771,16 +747,11 @@
     </bean>
 
     <bean id="CM-Proposal-Review-ConfirmWithdraw-Dialog" parent="CM-Proposal-Review-ConfirmWithdraw-Dialog-parentBean"/>
-    <bean id="CM-Proposal-Review-ConfirmWithdraw-Dialog-parentBean" parent="Uif-DialogGroup" abstract="true" class="org.kuali.student.cm.uif.container.CMDialogGroup">
+    <bean id="CM-Proposal-Review-ConfirmWithdraw-Dialog-parentBean" parent="KS-Dialog" abstract="true">
         <property name="onDialogResponseScript" value="closeLightbox();ajaxSubmitForm('withdraw');"/>
-        <property name="responseInputField">
-            <bean parent="Uif-DialogResponse" p:readOnly="false"/>
-        </property>
-        <property name="renderHeader" value="true"/>
         <property name="OnShowDialogScript" value="skipDirtyChecks();" />
         <property name="header">
-            <bean parent="Uif-HeaderTwo" p:headerText="Withdraw Proposal"
-                  p:cssClasses="ks-dottedHeaderActions"/>
+            <bean parent="KS-DottedHeaderTwo" p:headerText="Withdraw Proposal"/>
         </property>
         <property name="cssClasses" >
             <list merge="true">
@@ -790,8 +761,6 @@
         </property>
         <property name="promptText"
                   value="You are Withdrawing the &quot;@{#uiHelper.proposalName}&quot; proposal. You must enter a Decision Rationale."/>
-        <!-- do not show the explanation because we need the route node name dropdown above it in the dialog screen -->
-        <property name="displayExplanation" value="false"/>
         <property name="items">
             <list>
                 <bean id="CM-DecisionRationale-Withdraw-Message" parent="CM-DecisionRationale-MessageSection"/>
