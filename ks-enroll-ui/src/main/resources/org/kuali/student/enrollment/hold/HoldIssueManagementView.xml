@@ -159,8 +159,7 @@
         <property name="renderAddLine" value="false"/>
     </bean>
 
-    <bean id="KS-HoldSearch-Results" parent="KS-HoldSearch-ResultSection"
-          p:propertyName="holdIssueResultList">
+    <bean id="KS-HoldSearch-Results" parent="KS-HoldSearch-ResultSection" p:propertyName="holdIssueResultList">
         <property name="headerText" value=""/>
         <property name="lineActions">
             <list>
@@ -181,8 +180,7 @@
                         <bean parent="KS-Uif-DropdownControl"/>
                     </property>
                     <property name="optionsFinder">
-                        <bean id="HoldIssueTypes"
-                              class="org.kuali.student.enrollment.class1.hold.keyvalues.HoldIssueInfoTypeKeyValues"/>
+                        <bean class="org.kuali.student.enrollment.class1.hold.keyvalues.HoldIssueInfoTypeKeyValues"/>
                     </property>
                 </bean>
                 <bean parent="KS-Uif-DataField" p:label="Description" p:propertyName="descr" p:style="width:350px;"/>
@@ -191,7 +189,7 @@
                         <bean parent="KS-Uif-DropdownControl"/>
                     </property>
                     <property name="optionsFinder">
-                        <bean id="HoldOrgNames" class="org.kuali.student.enrollment.class1.util.OrgInfoNameKeyValues"/>
+                        <bean class="org.kuali.student.enrollment.class1.util.OrgInfoNameKeyValues"/>
                     </property>
                 </bean>
                 <bean parent="KS-Uif-DataField" p:label="Start Date" p:propertyName="firstDate"/>
