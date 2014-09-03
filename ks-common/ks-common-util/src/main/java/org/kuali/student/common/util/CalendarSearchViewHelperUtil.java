@@ -10,6 +10,8 @@ import org.kuali.student.r2.core.class1.type.dto.TypeTypeRelationInfo;
 import org.kuali.student.r2.core.class1.type.service.TypeService;
 import org.kuali.student.r2.core.constants.AcademicCalendarServiceConstants;
 import org.kuali.student.r2.core.constants.AtpSearchServiceConstants;
+import org.kuali.student.r2.core.constants.AtpServiceConstants;
+import org.kuali.student.r2.core.constants.TypeServiceConstants;
 import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultCellInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultInfo;
@@ -22,7 +24,7 @@ public class CalendarSearchViewHelperUtil {
 
     public static List<TermInfo> searchForTerms(String nameParam, String yearParam, ContextInfo context, AtpService atpService, TypeService typeService) throws Exception {
 
-        List<TypeTypeRelationInfo> typeRelations= typeService.getTypeTypeRelationsByOwnerAndType("kuali.atp.type.group.term", "kuali.type.type.relation.type.group", context);
+        List<TypeTypeRelationInfo> typeRelations= typeService.getTypeTypeRelationsByOwnerAndType(AtpServiceConstants.ATP_TERM_GROUPING_TYPE_KEY, TypeServiceConstants.TYPE_TYPE_RELATION_GROUP_TYPE_KEY, context);
         List<String> termTypeKeys = new ArrayList<String>(typeRelations.size());
         for(TypeTypeRelationInfo typeRelation:typeRelations){
             termTypeKeys.add(typeRelation.getRelatedTypeKey());

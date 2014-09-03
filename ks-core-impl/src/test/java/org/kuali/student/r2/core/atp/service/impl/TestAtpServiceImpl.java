@@ -105,8 +105,8 @@ public class TestAtpServiceImpl implements ApplicationContextAware {
         assertEquals("testAtpId1", atpInfo.getId());
         assertEquals("testAtp1", atpInfo.getName());
         assertEquals("Desc 101", atpInfo.getDescr().getPlain());
-        assertEquals("kuali.atp.state.Draft", atpInfo.getStateKey());
-        assertEquals("kuali.atp.type.AcademicCalendar", atpInfo.getTypeKey());
+        assertEquals(AtpServiceConstants.ATP_DRAFT_STATE_KEY, atpInfo.getStateKey());
+        assertEquals(AtpServiceConstants.ATP_ACADEMIC_CALENDAR_TYPE_KEY, atpInfo.getTypeKey());
         try {
             atpService.getAtp("totallyBogusAtpId999", callContext);
             fail("AtpService did not throw DoesNotExistException on getAtp() of nonexistent ATP");
@@ -122,8 +122,8 @@ public class TestAtpServiceImpl implements ApplicationContextAware {
      // test create
         AtpInfo atpInfo = new AtpInfo();
         atpInfo.setName("newId");
-        atpInfo.setTypeKey("kuali.atp.type.AcademicCalendar");
-        atpInfo.setStateKey("kuali.atp.state.Draft");
+        atpInfo.setTypeKey(AtpServiceConstants.ATP_ACADEMIC_CALENDAR_TYPE_KEY);
+        atpInfo.setStateKey(AtpServiceConstants.ATP_DRAFT_STATE_KEY);
         atpInfo.setStartDate(Calendar.getInstance().getTime());
         RichTextInfo rt = new RichTextInfo();
         rt.setPlain("TestDesc1");
@@ -161,8 +161,8 @@ public class TestAtpServiceImpl implements ApplicationContextAware {
      // test create
         AtpInfo atpInfo = new AtpInfo();
         atpInfo.setName("newId");
-        atpInfo.setTypeKey("kuali.atp.type.AcademicCalendar");
-        atpInfo.setStateKey("kuali.atp.state.Draft");
+        atpInfo.setTypeKey(AtpServiceConstants.ATP_ACADEMIC_CALENDAR_TYPE_KEY);
+        atpInfo.setStateKey(AtpServiceConstants.ATP_DRAFT_STATE_KEY);
         atpInfo.setStartDate(Calendar.getInstance().getTime());
         RichTextInfo rt = new RichTextInfo();
         rt.setPlain("TestDesc1");
@@ -179,8 +179,8 @@ public class TestAtpServiceImpl implements ApplicationContextAware {
         assertEquals(created.getId(), fetched.getId());
         assertEquals("newId", fetched.getName());
         assertEquals("TestDesc1", fetched.getDescr().getPlain());
-        assertEquals("kuali.atp.state.Draft", fetched.getStateKey());
-        assertEquals("kuali.atp.type.AcademicCalendar", fetched.getTypeKey());
+        assertEquals(AtpServiceConstants.ATP_DRAFT_STATE_KEY, fetched.getStateKey());
+        assertEquals(AtpServiceConstants.ATP_ACADEMIC_CALENDAR_TYPE_KEY, fetched.getTypeKey());
 
         // test update
         String atpNameOrig = fetched.getName();
@@ -246,8 +246,8 @@ public class TestAtpServiceImpl implements ApplicationContextAware {
         String atpId = null;
         AtpInfo atpInfo = new AtpInfo();
         atpInfo.setName("newId2");
-        atpInfo.setTypeKey("kuali.atp.type.AcademicCalendar");
-        atpInfo.setStateKey("kuali.atp.state.Draft");
+        atpInfo.setTypeKey(AtpServiceConstants.ATP_ACADEMIC_CALENDAR_TYPE_KEY);
+        atpInfo.setStateKey(AtpServiceConstants.ATP_DRAFT_STATE_KEY);
         atpInfo.setStartDate(Calendar.getInstance().getTime());
         atpInfo.setEndDate(Calendar.getInstance().getTime());
         RichTextInfo rti = new RichTextInfo();
@@ -341,7 +341,7 @@ public class TestAtpServiceImpl implements ApplicationContextAware {
         milestone.setIsInstructionalDay(false);
         milestone.setIsRelative(false);
         milestone.setStateKey(AtpServiceConstants.MILESTONE_DRAFT_STATE_KEY);
-        milestone.setTypeKey("kuali.atp.milestone.RegistrationPeriod");
+        milestone.setTypeKey(AtpServiceConstants.MILESTONE_REGISTRATION_PERIOD_TYPE_KEY);
         RichTextInfo descr = new RichTextInfo();
         descr.setPlain("Test");
         milestone.setDescr(descr);
@@ -375,7 +375,7 @@ public class TestAtpServiceImpl implements ApplicationContextAware {
         milestone.setIsDateRange(false);
         milestone.setIsAllDay(true);
         milestone.setStateKey(AtpServiceConstants.MILESTONE_DRAFT_STATE_KEY);
-        milestone.setTypeKey("kuali.atp.milestone.RegistrationPeriod");
+        milestone.setTypeKey(AtpServiceConstants.MILESTONE_REGISTRATION_PERIOD_TYPE_KEY);
 
         RichTextInfo descr = new RichTextInfo();
         descr.setPlain("Test");
@@ -452,7 +452,7 @@ public class TestAtpServiceImpl implements ApplicationContextAware {
         assertEquals("testId", milestoneInfo.getName());
         assertEquals("Desc 105", milestoneInfo.getDescr().getPlain());
         assertEquals(AtpServiceConstants.MILESTONE_DRAFT_STATE_KEY, milestoneInfo.getStateKey());
-        assertEquals("kuali.atp.milestone.AdvancedRegistrationPeriod", milestoneInfo.getTypeKey());
+        assertEquals(AtpServiceConstants.MILESTONE_ADVANCED_REGISTRATION_PERIOD_TYPE_KEY, milestoneInfo.getTypeKey());
 
         try {
             atpService.getMilestone("fakeKey", callContext);
@@ -550,7 +550,7 @@ public class TestAtpServiceImpl implements ApplicationContextAware {
     @Test
     public void testGetMilestoneIdsByType() throws InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        String expectedMilestoneType = "kuali.atp.milestone.RegistrationPeriod";
+        String expectedMilestoneType = AtpServiceConstants.MILESTONE_REGISTRATION_PERIOD_TYPE_KEY;
         List<String> milestoneIds = atpService.getMilestoneIdsByType(expectedMilestoneType, callContext);
         assertTrue(milestoneIds.contains("testId2"));
 
@@ -591,7 +591,7 @@ public class TestAtpServiceImpl implements ApplicationContextAware {
             OperationFailedException, PermissionDeniedException {
         QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
         qbcBuilder.setPredicates(PredicateFactory.equal("id", "testId2"),
-                PredicateFactory.equal("typeKey", "kuali.atp.milestone.RegistrationPeriod"));
+                PredicateFactory.equal("typeKey", AtpServiceConstants.MILESTONE_REGISTRATION_PERIOD_TYPE_KEY));
         QueryByCriteria qbc = qbcBuilder.build();
 
         List<MilestoneInfo> milestoneInfos = atpService.searchForMilestones(qbc, callContext);
@@ -645,7 +645,7 @@ public class TestAtpServiceImpl implements ApplicationContextAware {
         AtpInfo atpInfo = new AtpInfo();
         atpInfo.setName("testAtpId1 to new holiday calendar");
         atpInfo.setTypeKey(AtpServiceConstants.ATP_HOLIDAY_CALENDAR_TYPE_KEY);
-        atpInfo.setStateKey("kuali.atp.state.Draft");
+        atpInfo.setStateKey(AtpServiceConstants.ATP_DRAFT_STATE_KEY);
         atpInfo.setStartDate(Calendar.getInstance().getTime());
         atpInfo.setEndDate(Calendar.getInstance().getTime());
         RichTextInfo richTextInfo = new RichTextInfo();

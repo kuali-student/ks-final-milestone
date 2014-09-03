@@ -33,6 +33,7 @@ import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.util.RichTextHelper;
+import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.core.class1.type.dto.TypeTypeRelationInfo;
 import org.kuali.student.r2.core.class1.type.service.TypeService;
@@ -133,7 +134,7 @@ public class TypeServiceMockImpl implements TypeService, MockService {
     public List<TypeInfo> getTypesForGroupType(String groupTypeKey,  ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         List<TypeInfo> result = new ArrayList<TypeInfo>();
         TypeInfo typeInfo = new TypeInfo();
-        typeInfo.setKey("kuali.lui.type.activity.offering.lecture");
+        typeInfo.setKey(LuiServiceConstants.LECTURE_ACTIVITY_OFFERING_TYPE_KEY);
         result.add(typeInfo);
         return result;
 
@@ -350,10 +351,10 @@ public class TypeServiceMockImpl implements TypeService, MockService {
 
     private void init() {
         List<String[]> typeArrays = new ArrayList<String[]>();
-        typeArrays.add(new String[]{"kuali.atp.type.AcademicCalendar", "Academic Calendar", "Academic Calendar", AtpServiceConstants.REF_OBJECT_URI_ATP});
-        typeArrays.add(new String[]{"kuali.atp.type.HolidayCalendar", "Holiday Calendar", "Holiday Calendar", AtpServiceConstants.REF_OBJECT_URI_ATP});
-        typeArrays.add(new String[]{"kuali.atp.type.Fall", "Fall", "Fall Semester", AtpServiceConstants.REF_OBJECT_URI_ATP});
-        typeArrays.add(new String[]{"kuali.atp.type.Spring", "Spring", "Spring Semester", AtpServiceConstants.REF_OBJECT_URI_ATP});
+        typeArrays.add(new String[]{AtpServiceConstants.ATP_ACADEMIC_CALENDAR_TYPE_KEY, "Academic Calendar", "Academic Calendar", AtpServiceConstants.REF_OBJECT_URI_ATP});
+        typeArrays.add(new String[]{AtpServiceConstants.ATP_HOLIDAY_CALENDAR_TYPE_KEY, "Holiday Calendar", "Holiday Calendar", AtpServiceConstants.REF_OBJECT_URI_ATP});
+        typeArrays.add(new String[]{AtpServiceConstants.ATP_FALL_TYPE_KEY, "Fall", "Fall Semester", AtpServiceConstants.REF_OBJECT_URI_ATP});
+        typeArrays.add(new String[]{AtpServiceConstants.ATP_SPRING_TYPE_KEY, "Spring", "Spring Semester", AtpServiceConstants.REF_OBJECT_URI_ATP});
         typeArrays.add(new String[]{"kuali.atp.type.FallSpring", "Fall-Spring", "Fall & Spring Semesters", AtpServiceConstants.REF_OBJECT_URI_ATP});
         typeArrays.add(new String[]{"kuali.atp.type.AY", "AY", "Full Academic Year", AtpServiceConstants.REF_OBJECT_URI_ATP});
         typeArrays.add(new String[]{"kuali.atp.type.FY", "FY", "Fiscal Year", AtpServiceConstants.REF_OBJECT_URI_ATP});
@@ -372,52 +373,52 @@ public class TypeServiceMockImpl implements TypeService, MockService {
         typeArrays.add(new String[]{"kuali.atp.type.Session2", "Session 2", "Session 2", AtpServiceConstants.REF_OBJECT_URI_ATP});
         typeArrays.add(new String[]{"kuali.atp.type.SessionG1", "Session G1", "Session G1", AtpServiceConstants.REF_OBJECT_URI_ATP});
         typeArrays.add(new String[]{"kuali.atp.type.SessionG2", "Session G2", "Session G2", AtpServiceConstants.REF_OBJECT_URI_ATP});
-        typeArrays.add(new String[]{"kuali.atp.type.Summer", "Summer", "Summer Semester", AtpServiceConstants.REF_OBJECT_URI_ATP});
+        typeArrays.add(new String[]{AtpServiceConstants.ATP_SUMMER_TYPE_KEY, "Summer", "Summer Semester", AtpServiceConstants.REF_OBJECT_URI_ATP});
         typeArrays.add(new String[]{"kuali.atp.type.SummerEve", "Summer Eve", "Summer Eve", AtpServiceConstants.REF_OBJECT_URI_ATP});
-        typeArrays.add(new String[]{"kuali.atp.type.Winter", "Winter", "Winter", AtpServiceConstants.REF_OBJECT_URI_ATP});
+        typeArrays.add(new String[]{AtpServiceConstants.ATP_WINTER_TYPE_KEY, "Winter", "Winter", AtpServiceConstants.REF_OBJECT_URI_ATP});
         typeArrays.add(new String[]{"kuali.atp.type.Adhoc", "Ad hoc", "Ad hoc", AtpServiceConstants.REF_OBJECT_URI_ATP});
 
         //holidays
-        typeArrays.add(new String[]{"kuali.atp.milestone.Christmas", "Christmas", "Christmas", AtpServiceConstants.REF_OBJECT_URI_MILESTONE});
-        typeArrays.add(new String[]{"kuali.atp.milestone.ChristmasObserved", "Christmas Observed", "Christmas Observed", AtpServiceConstants.REF_OBJECT_URI_MILESTONE});
-        typeArrays.add(new String[]{"kuali.atp.milestone.FallBreak", "Fall Break", "Fall Break", AtpServiceConstants.REF_OBJECT_URI_MILESTONE});
-        typeArrays.add(new String[]{"kuali.atp.milestone.LaborDay", "Labor Day", "Labor Day", AtpServiceConstants.REF_OBJECT_URI_MILESTONE});
-        typeArrays.add(new String[]{"kuali.atp.milestone.IndependenceDay", "Independence Day", "Independence Day", AtpServiceConstants.REF_OBJECT_URI_MILESTONE});
-        typeArrays.add(new String[]{"kuali.atp.milestone.IndependenceDayObserved", "Independence Day Observed", "Independence Day Observed", AtpServiceConstants.REF_OBJECT_URI_MILESTONE});
-        typeArrays.add(new String[]{"kuali.atp.milestone.MemorialDay", "Memorial Day", "Memorial Day", AtpServiceConstants.REF_OBJECT_URI_MILESTONE});
-        typeArrays.add(new String[]{"kuali.atp.milestone.MemorialDayObserved", "Memorial Day Observed", "Memorial Day Observed", AtpServiceConstants.REF_OBJECT_URI_MILESTONE});
-        typeArrays.add(new String[]{"kuali.atp.milestone.MLKDay", "Martin Luther King Day", "Martin Luther King Day", AtpServiceConstants.REF_OBJECT_URI_MILESTONE});
-        typeArrays.add(new String[]{"kuali.atp.milestone.MLKDayObserved", "MLK Day Observed", "MLK Day Observed", AtpServiceConstants.REF_OBJECT_URI_MILESTONE});
-        typeArrays.add(new String[]{"kuali.atp.milestone.NewYearsDay", "New Years Day", "New Years Day", AtpServiceConstants.REF_OBJECT_URI_MILESTONE});
-        typeArrays.add(new String[]{"kuali.atp.milestone.NewYearsDayObserved", "New Years Day Observed", "New Years Day Observed", AtpServiceConstants.REF_OBJECT_URI_MILESTONE});
-        typeArrays.add(new String[]{"kuali.atp.milestone.PresidentsDay", "Presidents Day", "Presidents Day", AtpServiceConstants.REF_OBJECT_URI_MILESTONE});
-        typeArrays.add(new String[]{"kuali.atp.milestone.SpringBreak", "Spring Break", "Spring Break", AtpServiceConstants.REF_OBJECT_URI_MILESTONE});
-        typeArrays.add(new String[]{"kuali.atp.milestone.ThanksgivingBreak", "Thanksgiving Break", "Thanksgiving Break", AtpServiceConstants.REF_OBJECT_URI_MILESTONE});
-        typeArrays.add(new String[]{"kuali.atp.milestone.VeteransDay", "Veterans Day", "Veterans Day", AtpServiceConstants.REF_OBJECT_URI_MILESTONE});
-        typeArrays.add(new String[]{"kuali.atp.milestone.VeteransDayObserved", "Veterans Day Observed", "Veterans Day Observed", AtpServiceConstants.REF_OBJECT_URI_MILESTONE});
+        typeArrays.add(new String[]{AtpServiceConstants.MILESTONE_CHRISTMAS_TYPE_KEY, "Christmas", "Christmas", AtpServiceConstants.REF_OBJECT_URI_MILESTONE});
+        typeArrays.add(new String[]{AtpServiceConstants.MILESTONE_CHRISTMAS_OBSERVED_TYPE_KEY, "Christmas Observed", "Christmas Observed", AtpServiceConstants.REF_OBJECT_URI_MILESTONE});
+        typeArrays.add(new String[]{AtpServiceConstants.MILESTONE_FALL_BREAK_TYPE_KEY, "Fall Break", "Fall Break", AtpServiceConstants.REF_OBJECT_URI_MILESTONE});
+        typeArrays.add(new String[]{AtpServiceConstants.MILESTONE_LABOR_DAY_TYPE_KEY, "Labor Day", "Labor Day", AtpServiceConstants.REF_OBJECT_URI_MILESTONE});
+        typeArrays.add(new String[]{AtpServiceConstants.MILESTONE_INDEPENDENCE_DAY_TYPE_KEY, "Independence Day", "Independence Day", AtpServiceConstants.REF_OBJECT_URI_MILESTONE});
+        typeArrays.add(new String[]{AtpServiceConstants.MILESTONE_INDEPENDENCE_DAY_OBSERVED_TYPE_KEY, "Independence Day Observed", "Independence Day Observed", AtpServiceConstants.REF_OBJECT_URI_MILESTONE});
+        typeArrays.add(new String[]{AtpServiceConstants.MILESTONE_MEMORIAL_DAY_TYPE_KEY, "Memorial Day", "Memorial Day", AtpServiceConstants.REF_OBJECT_URI_MILESTONE});
+        typeArrays.add(new String[]{AtpServiceConstants.MILESTONE_MEMORIAL_DAY_OBSERVED_TYPE_KEY, "Memorial Day Observed", "Memorial Day Observed", AtpServiceConstants.REF_OBJECT_URI_MILESTONE});
+        typeArrays.add(new String[]{AtpServiceConstants.MILESTONE_MLK_DAY_TYPE_KEY, "Martin Luther King Day", "Martin Luther King Day", AtpServiceConstants.REF_OBJECT_URI_MILESTONE});
+        typeArrays.add(new String[]{AtpServiceConstants.MILESTONE_MLK_DAY_OBSERVED_TYPE_KEY, "MLK Day Observed", "MLK Day Observed", AtpServiceConstants.REF_OBJECT_URI_MILESTONE});
+        typeArrays.add(new String[]{AtpServiceConstants.MILESTONE_NEW_YEAR_DAY_TYPE_KEY, "New Years Day", "New Years Day", AtpServiceConstants.REF_OBJECT_URI_MILESTONE});
+        typeArrays.add(new String[]{AtpServiceConstants.MILESTONE_NEW_YEAR_DAY_OBSERVED_TYPE_KEY, "New Years Day Observed", "New Years Day Observed", AtpServiceConstants.REF_OBJECT_URI_MILESTONE});
+        typeArrays.add(new String[]{AtpServiceConstants.MILESTONE_PRESIDENTS_DAY_TYPE_KEY, "Presidents Day", "Presidents Day", AtpServiceConstants.REF_OBJECT_URI_MILESTONE});
+        typeArrays.add(new String[]{AtpServiceConstants.MILESTONE_SPRING_BREAK_TYPE_KEY, "Spring Break", "Spring Break", AtpServiceConstants.REF_OBJECT_URI_MILESTONE});
+        typeArrays.add(new String[]{AtpServiceConstants.MILESTONE_THANKSGIVING_BREAK_TYPE_KEY, "Thanksgiving Break", "Thanksgiving Break", AtpServiceConstants.REF_OBJECT_URI_MILESTONE});
+        typeArrays.add(new String[]{AtpServiceConstants.MILESTONE_VETERANS_DAY_TYPE_KEY, "Veterans Day", "Veterans Day", AtpServiceConstants.REF_OBJECT_URI_MILESTONE});
+        typeArrays.add(new String[]{AtpServiceConstants.MILESTONE_VETERANS_DAY_OBSERVED_TYPE_KEY, "Veterans Day Observed", "Veterans Day Observed", AtpServiceConstants.REF_OBJECT_URI_MILESTONE});
 
         //events    -- type_key, name, type_descr, REF_OBJECT_URI
-        typeArrays.add(new String[]{"kuali.atp.milestone.FamilyWeekend", "Family Weekend", "Family Weekend", AtpServiceConstants.REF_OBJECT_URI_MILESTONE});
-        typeArrays.add(new String[]{"kuali.atp.milestone.Homecoming", "Homecoming", "Homecoming", AtpServiceConstants.REF_OBJECT_URI_MILESTONE});
-        typeArrays.add(new String[]{"kuali.atp.milestone.GraduationApplicationDeadline", "Graduation Application Deadline", "Deadline to apply for Graduation", AtpServiceConstants.REF_OBJECT_URI_MILESTONE});
-        typeArrays.add(new String[]{"kuali.atp.milestone.AlumniDay", "Alumni Day", "Alumni Day", AtpServiceConstants.REF_OBJECT_URI_MILESTONE});
-        typeArrays.add(new String[]{"kuali.atp.milestone.Baccalaureate", "Baccalaureate", "Baccalaureate", AtpServiceConstants.REF_OBJECT_URI_MILESTONE});
-        typeArrays.add(new String[]{"kuali.atp.milestone.Commencement", "Commencement", "Commencement", AtpServiceConstants.REF_OBJECT_URI_MILESTONE});
+        typeArrays.add(new String[]{AtpServiceConstants.MILESTONE_FAMILY_WEEKEND_TYPE_KEY, "Family Weekend", "Family Weekend", AtpServiceConstants.REF_OBJECT_URI_MILESTONE});
+        typeArrays.add(new String[]{AtpServiceConstants.MILESTONE_HOMECOMING_TYPE_KEY, "Homecoming", "Homecoming", AtpServiceConstants.REF_OBJECT_URI_MILESTONE});
+        typeArrays.add(new String[]{AtpServiceConstants.MILESTONE_GRADUATION_APPLICATION_DEADLINE_TYPE_KEY, "Graduation Application Deadline", "Deadline to apply for Graduation", AtpServiceConstants.REF_OBJECT_URI_MILESTONE});
+        typeArrays.add(new String[]{AtpServiceConstants.MILESTONE_ALUMNI_DAY_TYPE_KEY, "Alumni Day", "Alumni Day", AtpServiceConstants.REF_OBJECT_URI_MILESTONE});
+        typeArrays.add(new String[]{AtpServiceConstants.MILESTONE_BACCALAUREATE_TYPE_KEY, "Baccalaureate", "Baccalaureate", AtpServiceConstants.REF_OBJECT_URI_MILESTONE});
+        typeArrays.add(new String[]{AtpServiceConstants.MILESTONE_COMMENCEMENT_TYPE_KEY, "Commencement", "Commencement", AtpServiceConstants.REF_OBJECT_URI_MILESTONE});
 
         //for AtpAtpRelations
-        typeArrays.add(new String[]{"kuali.atp.atp.relation.includes", "includes", "Includes", TypeServiceConstants.REF_OBJECT_URI_TYPE_TYPE_RELATION});
-        typeArrays.add(new String[]{"kuali.atp.atp.relation.associated", "associated", "Associated", TypeServiceConstants.REF_OBJECT_URI_TYPE_TYPE_RELATION});
+        typeArrays.add(new String[]{AtpServiceConstants.ATP_ATP_RELATION_INCLUDES_TYPE_KEY, "includes", "Includes", TypeServiceConstants.REF_OBJECT_URI_TYPE_TYPE_RELATION});
+        typeArrays.add(new String[]{AtpServiceConstants.ATP_ATP_RELATION_ASSOCIATED_TYPE_KEY, "associated", "Associated", TypeServiceConstants.REF_OBJECT_URI_TYPE_TYPE_RELATION});
 
         //Population
-        typeArrays.add(new String[]{"kuali.population.rule.type.person", "Population person", "Population person", PopulationServiceConstants.REF_OBJECT_URI_POPULATION_RULE});
-        typeArrays.add(new String[]{"kuali.population.rule.type.rule", "Population rule", "Population rule", PopulationServiceConstants.REF_OBJECT_URI_POPULATION_RULE});
-        typeArrays.add(new String[]{"kuali.population.rule.type.search", "Population search", "Population search", PopulationServiceConstants.REF_OBJECT_URI_POPULATION_RULE});
-        typeArrays.add(new String[]{"kuali.population.rule.type.union", "Population union", "Population union", PopulationServiceConstants.REF_OBJECT_URI_POPULATION_RULE});
-        typeArrays.add(new String[]{"kuali.population.rule.type.intersection", "Population intersection", "Population intersection", PopulationServiceConstants.REF_OBJECT_URI_POPULATION_RULE});
-        typeArrays.add(new String[]{"kuali.population.rule.type.exclusion", "Population exclusion", "Population exclusion", PopulationServiceConstants.REF_OBJECT_URI_POPULATION_RULE});
-        typeArrays.add(new String[]{"kuali.population.type.population", "Population population", "Population population", PopulationServiceConstants.REF_OBJECT_URI_POPULATION_RULE});
-        typeArrays.add(new String[]{"kuali.population.type.student", "Population student", "Population student", PopulationServiceConstants.REF_OBJECT_URI_POPULATION_RULE});
-        typeArrays.add(new String[]{"kuali.population.type.population.category", "Population category", "Population category", PopulationServiceConstants.REF_OBJECT_URI_POPULATION_RULE});
+        typeArrays.add(new String[]{PopulationServiceConstants.POPULATION_RULE_TYPE_PERSON_KEY, "Population person", "Population person", PopulationServiceConstants.REF_OBJECT_URI_POPULATION_RULE});
+        typeArrays.add(new String[]{PopulationServiceConstants.POPULATION_RULE_TYPE_RULE_KEY, "Population rule", "Population rule", PopulationServiceConstants.REF_OBJECT_URI_POPULATION_RULE});
+        typeArrays.add(new String[]{PopulationServiceConstants.POPULATION_RULE_TYPE_SEARCH_KEY, "Population search", "Population search", PopulationServiceConstants.REF_OBJECT_URI_POPULATION_RULE});
+        typeArrays.add(new String[]{PopulationServiceConstants.POPULATION_RULE_TYPE_UNION_KEY, "Population union", "Population union", PopulationServiceConstants.REF_OBJECT_URI_POPULATION_RULE});
+        typeArrays.add(new String[]{PopulationServiceConstants.POPULATION_RULE_TYPE_INTERSECTION_KEY, "Population intersection", "Population intersection", PopulationServiceConstants.REF_OBJECT_URI_POPULATION_RULE});
+        typeArrays.add(new String[]{PopulationServiceConstants.POPULATION_RULE_TYPE_EXCLUSION_KEY, "Population exclusion", "Population exclusion", PopulationServiceConstants.REF_OBJECT_URI_POPULATION_RULE});
+        typeArrays.add(new String[]{PopulationServiceConstants.POPULATION_TYPE_KEY, "Population population", "Population population", PopulationServiceConstants.REF_OBJECT_URI_POPULATION_RULE});
+        typeArrays.add(new String[]{PopulationServiceConstants.POPULATION_STUDENT_TYPE_KEY, "Population student", "Population student", PopulationServiceConstants.REF_OBJECT_URI_POPULATION_RULE});
+        typeArrays.add(new String[]{PopulationServiceConstants.POPULATION_CATEGORY_TYPE_KEY, "Population category", "Population category", PopulationServiceConstants.REF_OBJECT_URI_POPULATION_RULE});
 
         for (String[] typeArray : typeArrays) {
             createTypeInfo(typeArray[0], typeArray[1], typeArray[2], typeArray[3]);
@@ -425,18 +426,18 @@ public class TypeServiceMockImpl implements TypeService, MockService {
 
         // Term Types Grouping
         Set<TypeInfo> termGroup = new HashSet<TypeInfo>();
-        TypeInfo termGroupType = createTypeInfo("kuali.atp.type.group.term", "Group for Terms", "Group for terms", AtpServiceConstants.REF_OBJECT_URI_ATP);
+        TypeInfo termGroupType = createTypeInfo(AtpServiceConstants.ATP_TERM_GROUPING_TYPE_KEY, "Group for Terms", "Group for terms", AtpServiceConstants.REF_OBJECT_URI_ATP);
 
-        termGroup.add(getType("kuali.atp.type.Fall"));
+        termGroup.add(getType(AtpServiceConstants.ATP_FALL_TYPE_KEY));
         termGroup.add(getType("kuali.atp.type.FallSpring"));
         termGroup.add(getType("kuali.atp.type.HalfFall1"));
         termGroup.add(getType("kuali.atp.type.HalfFall2"));
-        termGroup.add(getType("kuali.atp.type.Winter"));
-        termGroup.add(getType("kuali.atp.type.Spring"));
+        termGroup.add(getType(AtpServiceConstants.ATP_WINTER_TYPE_KEY));
+        termGroup.add(getType(AtpServiceConstants.ATP_SPRING_TYPE_KEY));
         termGroup.add(getType("kuali.atp.type.HalfSpring1"));
         termGroup.add(getType("kuali.atp.type.HalfSpring2"));
         termGroup.add(getType("kuali.atp.type.SpringBreak"));
-        termGroup.add(getType("kuali.atp.type.Summer"));
+        termGroup.add(getType(AtpServiceConstants.ATP_SUMMER_TYPE_KEY));
         termGroup.add(getType("kuali.atp.type.SummerEve"));
         termGroup.add(getType("kuali.atp.type.Session1"));
         termGroup.add(getType("kuali.atp.type.Mini-mester1A"));
@@ -452,21 +453,21 @@ public class TypeServiceMockImpl implements TypeService, MockService {
         }
 
         //keydates
-        typeArrays.add(new String[]{"kuali.atp.milestone.AdvancedRegistrationPeriod", "Advance Registration Period", "Advance Registration Period", AtpServiceConstants.REF_OBJECT_URI_MILESTONE});
-        typeArrays.add(new String[]{"kuali.atp.milestone.RegistrationPeriod", "Registration Period", "Registration Period", AtpServiceConstants.REF_OBJECT_URI_MILESTONE});
-        typeArrays.add(new String[]{"kuali.atp.milestone.RegistrationBeginsTransfer", "Registration Begins Transfer", "Registration Begins Transfer", AtpServiceConstants.REF_OBJECT_URI_MILESTONE});
-        typeArrays.add(new String[]{"kuali.atp.milestone.DropDeadlineWithoutRecord", "Drop Deadline Without Record", "Drop Deadline Without Record", AtpServiceConstants.REF_OBJECT_URI_MILESTONE});
-        typeArrays.add(new String[]{"kuali.atp.milestone.FinalExamPeriod", "Final Exam Period", "Final Exam Period", AtpServiceConstants.REF_OBJECT_URI_MILESTONE});
-        typeArrays.add(new String[]{"kuali.atp.milestone.GradesDue", "Grades Due", "Grades Due", AtpServiceConstants.REF_OBJECT_URI_MILESTONE});
-        typeArrays.add(new String[]{"kuali.atp.milestone.InstructionalPeriod", "Instructional Period", "Instructional Period", AtpServiceConstants.REF_OBJECT_URI_MILESTONE});
-        typeArrays.add(new String[]{"kuali.atp.milestone.FinancialAidCensus", "FinancialAid Census", "FinancialAid Census", AtpServiceConstants.REF_OBJECT_URI_MILESTONE});
-        typeArrays.add(new String[]{"kuali.atp.milestone.CourseSelectionPeriodEnd", "CourseSelectionPeriodEnd", "CourseSelectionPeriodEnd", AtpServiceConstants.REF_OBJECT_URI_MILESTONE});
-        typeArrays.add(new String[]{"kuali.atp.milestone.DropDate", "DropDate", "DropDate",  AtpServiceConstants.REF_OBJECT_URI_MILESTONE});
+        typeArrays.add(new String[]{AtpServiceConstants.MILESTONE_ADVANCED_REGISTRATION_PERIOD_TYPE_KEY, "Advance Registration Period", "Advance Registration Period", AtpServiceConstants.REF_OBJECT_URI_MILESTONE});
+        typeArrays.add(new String[]{AtpServiceConstants.MILESTONE_REGISTRATION_PERIOD_TYPE_KEY, "Registration Period", "Registration Period", AtpServiceConstants.REF_OBJECT_URI_MILESTONE});
+        typeArrays.add(new String[]{AtpServiceConstants.MILESTONE_REGISTRATION_BEGINS_TRANSFER_TYPE_KEY, "Registration Begins Transfer", "Registration Begins Transfer", AtpServiceConstants.REF_OBJECT_URI_MILESTONE});
+        typeArrays.add(new String[]{AtpServiceConstants.MILESTONE_DROP_DEADLINE_WITHOUT_RECORD_TYPE_KEY, "Drop Deadline Without Record", "Drop Deadline Without Record", AtpServiceConstants.REF_OBJECT_URI_MILESTONE});
+        typeArrays.add(new String[]{AtpServiceConstants.MILESTONE_FINAL_EXAM_PERIOD_TYPE_KEY, "Final Exam Period", "Final Exam Period", AtpServiceConstants.REF_OBJECT_URI_MILESTONE});
+        typeArrays.add(new String[]{AtpServiceConstants.MILESTONE_GRADES_DUE_TYPE_KEY, "Grades Due", "Grades Due", AtpServiceConstants.REF_OBJECT_URI_MILESTONE});
+        typeArrays.add(new String[]{AtpServiceConstants.MILESTONE_INSTRUCTIONAL_PERIOD_TYPE_KEY, "Instructional Period", "Instructional Period", AtpServiceConstants.REF_OBJECT_URI_MILESTONE});
+        typeArrays.add(new String[]{AtpServiceConstants.MILESTONE_FINANCIAL_AID_CENSUS_TYPE_KEY, "FinancialAid Census", "FinancialAid Census", AtpServiceConstants.REF_OBJECT_URI_MILESTONE});
+        typeArrays.add(new String[]{AtpServiceConstants.MILESTONE_COURSE_SELECTION_PERIOD_END_TYPE_KEY, "CourseSelectionPeriodEnd", "CourseSelectionPeriodEnd", AtpServiceConstants.REF_OBJECT_URI_MILESTONE});
+        typeArrays.add(new String[]{AtpServiceConstants.MILESTONE_DROP_DATE_TYPE_KEY, "DropDate", "DropDate",  AtpServiceConstants.REF_OBJECT_URI_MILESTONE});
 
         //curriculum
-        typeArrays.add(new String[]{"kuali.atp.milestone.CoordinatorsKickoffMeeting", "Coordinators Kickoff Meeting", "Coordinators Kickoff Meeting", AtpServiceConstants.REF_OBJECT_URI_MILESTONE});
-        typeArrays.add(new String[]{"kuali.atp.milestone.ProposalPeriod", "Proposal Period", "Proposal Period", AtpServiceConstants.REF_OBJECT_URI_MILESTONE});
-        typeArrays.add(new String[]{"kuali.atp.milestone.ReviewPeriod", "Review Period", "Review Period", AtpServiceConstants.REF_OBJECT_URI_MILESTONE});
+        typeArrays.add(new String[]{AtpServiceConstants.MILESTONE_COORDINATORS_KICKOFF_MEETING_TYPE_KEY, "Coordinators Kickoff Meeting", "Coordinators Kickoff Meeting", AtpServiceConstants.REF_OBJECT_URI_MILESTONE});
+        typeArrays.add(new String[]{AtpServiceConstants.MILESTONE_PROPOSAL_PERIOD_TYPE_KEY, "Proposal Period", "Proposal Period", AtpServiceConstants.REF_OBJECT_URI_MILESTONE});
+        typeArrays.add(new String[]{AtpServiceConstants.MILESTONE_REVIEW_PERIOD_TYPE_KEY, "Review Period", "Review Period", AtpServiceConstants.REF_OBJECT_URI_MILESTONE});
 
         for (String[] typeArray : typeArrays) {
             createTypeInfo(typeArray[0], typeArray[1], typeArray[2], typeArray[3]);
@@ -474,14 +475,14 @@ public class TypeServiceMockImpl implements TypeService, MockService {
 
         //Keydates grouping
         Set<TypeInfo> keydateGroup = new HashSet<TypeInfo>();
-        TypeInfo keydateGroupType = createTypeInfo("kuali.milestone.type.group.keydate", "Group for key dates", "Group for key dates", AtpServiceConstants.REF_OBJECT_URI_MILESTONE);
-        keydateGroup.add(getType("kuali.atp.milestone.AdvancedRegistrationPeriod"));
-        keydateGroup.add(getType("kuali.atp.milestone.InstructionalPeriod"));
-        keydateGroup.add(getType("kuali.atp.milestone.RegistrationPeriod"));
-        keydateGroup.add(getType("kuali.atp.milestone.RegistrationBeginsTransfer"));
-        keydateGroup.add(getType("kuali.atp.milestone.DropDeadlineWithoutRecord"));
-        keydateGroup.add(getType("kuali.atp.milestone.FinalExamPeriod"));
-        keydateGroup.add(getType("kuali.atp.milestone.GradesDue"));
+        TypeInfo keydateGroupType = createTypeInfo(AtpServiceConstants.MILESTONE_KEYDATE_GROUP, "Group for key dates", "Group for key dates", AtpServiceConstants.REF_OBJECT_URI_MILESTONE);
+        keydateGroup.add(getType(AtpServiceConstants.MILESTONE_ADVANCED_REGISTRATION_PERIOD_TYPE_KEY));
+        keydateGroup.add(getType(AtpServiceConstants.MILESTONE_INSTRUCTIONAL_PERIOD_TYPE_KEY));
+        keydateGroup.add(getType(AtpServiceConstants.MILESTONE_REGISTRATION_PERIOD_TYPE_KEY));
+        keydateGroup.add(getType(AtpServiceConstants.MILESTONE_REGISTRATION_BEGINS_TRANSFER_TYPE_KEY));
+        keydateGroup.add(getType(AtpServiceConstants.MILESTONE_DROP_DEADLINE_WITHOUT_RECORD_TYPE_KEY));
+        keydateGroup.add(getType(AtpServiceConstants.MILESTONE_FINAL_EXAM_PERIOD_TYPE_KEY));
+        keydateGroup.add(getType(AtpServiceConstants.MILESTONE_GRADES_DUE_TYPE_KEY));
         for (TypeInfo type : keydateGroup) {
             createTypeTypeRelationInfo(keydateGroupType, type);
         }
@@ -489,10 +490,10 @@ public class TypeServiceMockImpl implements TypeService, MockService {
         //Instructional Keydates grouping
         Set<TypeInfo> inskeydateGroup = new HashSet<TypeInfo>();
         TypeInfo inskeydateGroupType = createTypeInfo("kuali.milestone.type.group.registration", "Group for instructional key dates", "Group for instructional key dates", AtpServiceConstants.REF_OBJECT_URI_MILESTONE);
-        inskeydateGroup.add(getType("kuali.atp.milestone.AdvancedRegistrationPeriod"));
-        inskeydateGroup.add(getType("kuali.atp.milestone.RegistrationPeriod"));
-        inskeydateGroup.add(getType("kuali.atp.milestone.RegistrationBeginsTransfer"));
-        inskeydateGroup.add(getType("kuali.atp.milestone.DropDeadlineWithoutRecord"));
+        inskeydateGroup.add(getType(AtpServiceConstants.MILESTONE_ADVANCED_REGISTRATION_PERIOD_TYPE_KEY));
+        inskeydateGroup.add(getType(AtpServiceConstants.MILESTONE_REGISTRATION_PERIOD_TYPE_KEY));
+        inskeydateGroup.add(getType(AtpServiceConstants.MILESTONE_REGISTRATION_BEGINS_TRANSFER_TYPE_KEY));
+        inskeydateGroup.add(getType(AtpServiceConstants.MILESTONE_DROP_DEADLINE_WITHOUT_RECORD_TYPE_KEY));
         for (TypeInfo type : inskeydateGroup) {
             createTypeTypeRelationInfo(inskeydateGroupType, type);
         }
@@ -501,13 +502,13 @@ public class TypeServiceMockImpl implements TypeService, MockService {
         //registration Keydates grouping
         Set<TypeInfo> regkeydateGroup = new HashSet<TypeInfo>();
         TypeInfo regkeydateGroupType = createTypeInfo("kuali.milestone.type.group.instructional", "Group for registration key dates", "Group for registration key dates", AtpServiceConstants.REF_OBJECT_URI_MILESTONE);
-        regkeydateGroup.add(getType("kuali.atp.milestone.FinalExamPeriod"));
-        regkeydateGroup.add(getType("kuali.atp.milestone.GradesDue"));
-        regkeydateGroup.add(getType("kuali.atp.milestone.FinancialAidCensus"));
-        regkeydateGroup.add(getType("kuali.atp.milestone.Commencement"));
-        regkeydateGroup.add(getType("kuali.atp.milestone.CourseSelectionPeriodEnd"));
-        regkeydateGroup.add(getType("kuali.atp.milestone.DropDate"));
-        regkeydateGroup.add(getType("kuali.atp.milestone.InstructionalPeriod"));
+        regkeydateGroup.add(getType(AtpServiceConstants.MILESTONE_FINAL_EXAM_PERIOD_TYPE_KEY));
+        regkeydateGroup.add(getType(AtpServiceConstants.MILESTONE_GRADES_DUE_TYPE_KEY));
+        regkeydateGroup.add(getType(AtpServiceConstants.MILESTONE_FINANCIAL_AID_CENSUS_TYPE_KEY));
+        regkeydateGroup.add(getType(AtpServiceConstants.MILESTONE_COMMENCEMENT_TYPE_KEY));
+        regkeydateGroup.add(getType(AtpServiceConstants.MILESTONE_COURSE_SELECTION_PERIOD_END_TYPE_KEY));
+        regkeydateGroup.add(getType(AtpServiceConstants.MILESTONE_DROP_DATE_TYPE_KEY));
+        regkeydateGroup.add(getType(AtpServiceConstants.MILESTONE_INSTRUCTIONAL_PERIOD_TYPE_KEY));
         for (TypeInfo type : regkeydateGroup) {
             createTypeTypeRelationInfo(regkeydateGroupType, type);
         }
@@ -516,34 +517,34 @@ public class TypeServiceMockImpl implements TypeService, MockService {
         Set<TypeInfo> curriculumGroup = new HashSet<TypeInfo>();
         TypeInfo curriculumGroupType = createTypeInfo("kuali.milestone.type.group.curriculum", "Curriculum", "Curriculum", AtpServiceConstants.REF_OBJECT_URI_MILESTONE);
 
-        curriculumGroup.add(getType("kuali.atp.milestone.CoordinatorsKickoffMeeting"));
-        curriculumGroup.add(getType("kuali.atp.milestone.ProposalPeriod"));
-        curriculumGroup.add(getType("kuali.atp.milestone.ReviewPeriod"));
+        curriculumGroup.add(getType(AtpServiceConstants.MILESTONE_COORDINATORS_KICKOFF_MEETING_TYPE_KEY));
+        curriculumGroup.add(getType(AtpServiceConstants.MILESTONE_PROPOSAL_PERIOD_TYPE_KEY));
+        curriculumGroup.add(getType(AtpServiceConstants.MILESTONE_REVIEW_PERIOD_TYPE_KEY));
         for (TypeInfo type : curriculumGroup) {
             createTypeTypeRelationInfo(curriculumGroupType, type);
         }
 
         //Holiday types Grouping
         Set<TypeInfo> holidayGroup = new HashSet<TypeInfo>();
-        TypeInfo holidayGroupType = createTypeInfo("kuali.milestone.type.group.holiday", "Holidays", "Holidays", AtpServiceConstants.REF_OBJECT_URI_MILESTONE);
+        TypeInfo holidayGroupType = createTypeInfo(AtpServiceConstants.MILESTONE_HOLIDAY_GROUPING_TYPE_KEY, "Holidays", "Holidays", AtpServiceConstants.REF_OBJECT_URI_MILESTONE);
 
-        holidayGroup.add(getType("kuali.atp.milestone.Christmas"));
-        holidayGroup.add(getType("kuali.atp.milestone.ChristmasObserved"));
-        holidayGroup.add(getType("kuali.atp.milestone.FallBreak"));
-        holidayGroup.add(getType("kuali.atp.milestone.LaborDay"));
-        holidayGroup.add(getType("kuali.atp.milestone.IndependenceDay"));
-        holidayGroup.add(getType("kuali.atp.milestone.IndependenceDayObserved"));
-        holidayGroup.add(getType("kuali.atp.milestone.MemorialDay"));
-        holidayGroup.add(getType("kuali.atp.milestone.MemorialDayObserved"));
-        holidayGroup.add(getType("kuali.atp.milestone.MLKDay"));
-        holidayGroup.add(getType("kuali.atp.milestone.MLKDayObserved"));
-        holidayGroup.add(getType("kuali.atp.milestone.NewYearsDay"));
-        holidayGroup.add(getType("kuali.atp.milestone.NewYearsDayObserved"));
-        holidayGroup.add(getType("kuali.atp.milestone.PresidentsDay"));
-        holidayGroup.add(getType("kuali.atp.milestone.SpringBreak"));
-        holidayGroup.add(getType("kuali.atp.milestone.ThanksgivingBreak"));
-        holidayGroup.add(getType("kuali.atp.milestone.VeteransDay"));
-        holidayGroup.add(getType("kuali.atp.milestone.VeteransDayObserved"));
+        holidayGroup.add(getType(AtpServiceConstants.MILESTONE_CHRISTMAS_TYPE_KEY));
+        holidayGroup.add(getType(AtpServiceConstants.MILESTONE_CHRISTMAS_OBSERVED_TYPE_KEY));
+        holidayGroup.add(getType(AtpServiceConstants.MILESTONE_FALL_BREAK_TYPE_KEY));
+        holidayGroup.add(getType(AtpServiceConstants.MILESTONE_LABOR_DAY_TYPE_KEY));
+        holidayGroup.add(getType(AtpServiceConstants.MILESTONE_INDEPENDENCE_DAY_TYPE_KEY));
+        holidayGroup.add(getType(AtpServiceConstants.MILESTONE_INDEPENDENCE_DAY_OBSERVED_TYPE_KEY));
+        holidayGroup.add(getType(AtpServiceConstants.MILESTONE_MEMORIAL_DAY_TYPE_KEY));
+        holidayGroup.add(getType(AtpServiceConstants.MILESTONE_MEMORIAL_DAY_OBSERVED_TYPE_KEY));
+        holidayGroup.add(getType(AtpServiceConstants.MILESTONE_MLK_DAY_TYPE_KEY));
+        holidayGroup.add(getType(AtpServiceConstants.MILESTONE_MLK_DAY_OBSERVED_TYPE_KEY));
+        holidayGroup.add(getType(AtpServiceConstants.MILESTONE_NEW_YEAR_DAY_TYPE_KEY));
+        holidayGroup.add(getType(AtpServiceConstants.MILESTONE_NEW_YEAR_DAY_OBSERVED_TYPE_KEY));
+        holidayGroup.add(getType(AtpServiceConstants.MILESTONE_PRESIDENTS_DAY_TYPE_KEY));
+        holidayGroup.add(getType(AtpServiceConstants.MILESTONE_SPRING_BREAK_TYPE_KEY));
+        holidayGroup.add(getType(AtpServiceConstants.MILESTONE_THANKSGIVING_BREAK_TYPE_KEY));
+        holidayGroup.add(getType(AtpServiceConstants.MILESTONE_VETERANS_DAY_TYPE_KEY));
+        holidayGroup.add(getType(AtpServiceConstants.MILESTONE_VETERANS_DAY_OBSERVED_TYPE_KEY));
 
         for (TypeInfo type : holidayGroup) {
             createTypeTypeRelationInfo(holidayGroupType, type);
@@ -551,78 +552,77 @@ public class TypeServiceMockImpl implements TypeService, MockService {
 
         //Event types Grouping
         Set<TypeInfo> eventGroup = new HashSet<TypeInfo>();
-        //MILESTONE_EVENT_GROUPING_TYPE_KEY = "kuali.milestone.type.group.event";
         TypeInfo eventGroupType = createTypeInfo(AtpServiceConstants.MILESTONE_EVENT_GROUPING_TYPE_KEY, "Acal Events", "Acal Events", AtpServiceConstants.REF_OBJECT_URI_MILESTONE);
 
-        eventGroup.add(getType("kuali.atp.milestone.FamilyWeekend"));
-        eventGroup.add(getType("kuali.atp.milestone.Homecoming"));
-        eventGroup.add(getType("kuali.atp.milestone.GraduationApplicationDeadline"));
-        eventGroup.add(getType("kuali.atp.milestone.AlumniDay"));
-        eventGroup.add(getType("kuali.atp.milestone.Baccalaureate"));
-        eventGroup.add(getType("kuali.atp.milestone.Commencement"));
+        eventGroup.add(getType(AtpServiceConstants.MILESTONE_FAMILY_WEEKEND_TYPE_KEY));
+        eventGroup.add(getType(AtpServiceConstants.MILESTONE_HOMECOMING_TYPE_KEY));
+        eventGroup.add(getType(AtpServiceConstants.MILESTONE_GRADUATION_APPLICATION_DEADLINE_TYPE_KEY));
+        eventGroup.add(getType(AtpServiceConstants.MILESTONE_ALUMNI_DAY_TYPE_KEY));
+        eventGroup.add(getType(AtpServiceConstants.MILESTONE_BACCALAUREATE_TYPE_KEY));
+        eventGroup.add(getType(AtpServiceConstants.MILESTONE_COMMENCEMENT_TYPE_KEY));
         for (TypeInfo type : eventGroup) {
             createTypeTypeRelationInfo(eventGroupType, type);
         }
 
         // Allowed type relations
         List<String[]> allowedArrays = new ArrayList<String[]>();
-//        allowedArrays.add(new String[] {"kuali.atp.type.type.relation.allowed.1", "kuali.type.type.relation.type.allowed", "kuali.atp.type.AcademicCalendar", "kuali.atp.type.FallSpring", "1", "AcademicCalendar can contain FallSpring"});
-        allowedArrays.add(new String[]{"kuali.atp.type.type.relation.allowed.2", "kuali.type.type.relation.type.allowed", "kuali.atp.type.AcademicCalendar", "kuali.atp.type.Fall", "2", "AcademicCalendar can contain Fall"});
-        allowedArrays.add(new String[]{"kuali.atp.type.type.relation.allowed.3", "kuali.type.type.relation.type.allowed", "kuali.atp.type.Fall", "kuali.atp.type.HalfFall1", "1", "Fall can contain HalfFall1"});
-        allowedArrays.add(new String[]{"kuali.atp.type.type.relation.allowed.4", "kuali.type.type.relation.type.allowed", "kuali.atp.type.Fall", "kuali.atp.type.HalfFall2", "2", "Fall can contain HalfFall2"});
-        allowedArrays.add(new String[]{"kuali.atp.type.type.relation.allowed.5", "kuali.type.type.relation.type.allowed", "kuali.atp.type.AcademicCalendar", "kuali.atp.type.Winter", "3", "AcademicCalendar can contain Winter"});
-        allowedArrays.add(new String[]{"kuali.atp.type.type.relation.allowed.6", "kuali.type.type.relation.type.allowed", "kuali.atp.type.AcademicCalendar", "kuali.atp.type.Spring", "4", "AcademicCalendar can contain Spring"});
-        allowedArrays.add(new String[]{"kuali.atp.type.type.relation.allowed.7", "kuali.type.type.relation.type.allowed", "kuali.atp.type.Spring", "kuali.atp.type.HalfSpring1", "1", "Spring can contain HalfSpring1"});
-        allowedArrays.add(new String[]{"kuali.atp.type.type.relation.allowed.8", "kuali.type.type.relation.type.allowed", "kuali.atp.type.Spring", "kuali.atp.type.SpringBreak", "2", "Spring can contain SpringBreak"});
-        allowedArrays.add(new String[]{"kuali.atp.type.type.relation.allowed.9", "kuali.type.type.relation.type.allowed", "kuali.atp.type.Spring", "kuali.atp.type.HalfSpring2", "3", "Spring can contain HalfSpring2"});
-//        allowedArrays.add(new String[] {"kuali.atp.type.type.relation.allowed.10", "kuali.type.type.relation.type.allowed", "kuali.atp.type.AcademicCalendar", "kuali.atp.type.Session1", "5", "AcademicCalendar can contain Session1"});
-        allowedArrays.add(new String[]{"kuali.atp.type.type.relation.allowed.11", "kuali.type.type.relation.type.allowed", "kuali.atp.type.Session1", "kuali.atp.type.Mini-mester1A", "1", "Session1 can contain Mini-mester1A"});
-        allowedArrays.add(new String[]{"kuali.atp.type.type.relation.allowed.12", "kuali.type.type.relation.type.allowed", "kuali.atp.type.Session1", "kuali.atp.type.Mini-mester1B", "2", "Session1 can contain Mini-mester1B"});
-        allowedArrays.add(new String[]{"kuali.atp.type.type.relation.allowed.13", "kuali.type.type.relation.type.allowed", "kuali.atp.type.Summer", "kuali.atp.type.Session2", "2", "Summer can contain Session2"});
-        allowedArrays.add(new String[]{"kuali.atp.type.type.relation.allowed.14", "kuali.type.type.relation.type.allowed", "kuali.atp.type.Session2", "kuali.atp.type.Mini-mester2C", "1", "Session2 can contain Mini-mester2C"});
-        allowedArrays.add(new String[]{"kuali.atp.type.type.relation.allowed.15", "kuali.type.type.relation.type.allowed", "kuali.atp.type.Session2", "kuali.atp.type.Mini-mester2D", "2", "Session2 can contain Mini-mester2D"});
-        allowedArrays.add(new String[]{"kuali.atp.type.type.relation.allowed.16", "kuali.type.type.relation.type.allowed", "kuali.atp.type.AcademicCalendar", "kuali.atp.type.Summer", "6", "AcademicCalendar can contain SummerEve"});
-        allowedArrays.add(new String[]{"kuali.atp.type.type.relation.allowed.17", "kuali.type.type.relation.type.allowed", "kuali.atp.type.SummerEve", "kuali.atp.type.SessionG1", "1", "SummerEve can contain SessionG1"});
-        allowedArrays.add(new String[]{"kuali.atp.type.type.relation.allowed.18", "kuali.type.type.relation.type.allowed", "kuali.atp.type.SummerEve", "kuali.atp.type.SessionG2", "2", "SummerEve can contain SessionG2"});
+//        allowedArrays.add(new String[] {"kuali.atp.type.type.relation.allowed.1", TypeServiceConstants.TYPE_TYPE_RELATION_ALLOWED_TYPE_KEY, AtpServiceConstants.ATP_ACADEMIC_CALENDAR_TYPE_KEY, "kuali.atp.type.FallSpring", "1", "AcademicCalendar can contain FallSpring"});
+        allowedArrays.add(new String[]{"kuali.atp.type.type.relation.allowed.2", TypeServiceConstants.TYPE_TYPE_RELATION_ALLOWED_TYPE_KEY, AtpServiceConstants.ATP_ACADEMIC_CALENDAR_TYPE_KEY, AtpServiceConstants.ATP_FALL_TYPE_KEY, "2", "AcademicCalendar can contain Fall"});
+        allowedArrays.add(new String[]{"kuali.atp.type.type.relation.allowed.3", TypeServiceConstants.TYPE_TYPE_RELATION_ALLOWED_TYPE_KEY, AtpServiceConstants.ATP_FALL_TYPE_KEY, "kuali.atp.type.HalfFall1", "1", "Fall can contain HalfFall1"});
+        allowedArrays.add(new String[]{"kuali.atp.type.type.relation.allowed.4", TypeServiceConstants.TYPE_TYPE_RELATION_ALLOWED_TYPE_KEY, AtpServiceConstants.ATP_FALL_TYPE_KEY, "kuali.atp.type.HalfFall2", "2", "Fall can contain HalfFall2"});
+        allowedArrays.add(new String[]{"kuali.atp.type.type.relation.allowed.5", TypeServiceConstants.TYPE_TYPE_RELATION_ALLOWED_TYPE_KEY, AtpServiceConstants.ATP_ACADEMIC_CALENDAR_TYPE_KEY, AtpServiceConstants.ATP_WINTER_TYPE_KEY, "3", "AcademicCalendar can contain Winter"});
+        allowedArrays.add(new String[]{"kuali.atp.type.type.relation.allowed.6", TypeServiceConstants.TYPE_TYPE_RELATION_ALLOWED_TYPE_KEY, AtpServiceConstants.ATP_ACADEMIC_CALENDAR_TYPE_KEY, AtpServiceConstants.ATP_SPRING_TYPE_KEY, "4", "AcademicCalendar can contain Spring"});
+        allowedArrays.add(new String[]{"kuali.atp.type.type.relation.allowed.7", TypeServiceConstants.TYPE_TYPE_RELATION_ALLOWED_TYPE_KEY, AtpServiceConstants.ATP_SPRING_TYPE_KEY, "kuali.atp.type.HalfSpring1", "1", "Spring can contain HalfSpring1"});
+        allowedArrays.add(new String[]{"kuali.atp.type.type.relation.allowed.8", TypeServiceConstants.TYPE_TYPE_RELATION_ALLOWED_TYPE_KEY, AtpServiceConstants.ATP_SPRING_TYPE_KEY, "kuali.atp.type.SpringBreak", "2", "Spring can contain SpringBreak"});
+        allowedArrays.add(new String[]{"kuali.atp.type.type.relation.allowed.9", TypeServiceConstants.TYPE_TYPE_RELATION_ALLOWED_TYPE_KEY, AtpServiceConstants.ATP_SPRING_TYPE_KEY, "kuali.atp.type.HalfSpring2", "3", "Spring can contain HalfSpring2"});
+//        allowedArrays.add(new String[] {"kuali.atp.type.type.relation.allowed.10", TypeServiceConstants.TYPE_TYPE_RELATION_ALLOWED_TYPE_KEY, AtpServiceConstants.ATP_ACADEMIC_CALENDAR_TYPE_KEY, "kuali.atp.type.Session1", "5", "AcademicCalendar can contain Session1"});
+        allowedArrays.add(new String[]{"kuali.atp.type.type.relation.allowed.11", TypeServiceConstants.TYPE_TYPE_RELATION_ALLOWED_TYPE_KEY, "kuali.atp.type.Session1", "kuali.atp.type.Mini-mester1A", "1", "Session1 can contain Mini-mester1A"});
+        allowedArrays.add(new String[]{"kuali.atp.type.type.relation.allowed.12", TypeServiceConstants.TYPE_TYPE_RELATION_ALLOWED_TYPE_KEY, "kuali.atp.type.Session1", "kuali.atp.type.Mini-mester1B", "2", "Session1 can contain Mini-mester1B"});
+        allowedArrays.add(new String[]{"kuali.atp.type.type.relation.allowed.13", TypeServiceConstants.TYPE_TYPE_RELATION_ALLOWED_TYPE_KEY, AtpServiceConstants.ATP_SUMMER_TYPE_KEY, "kuali.atp.type.Session2", "2", "Summer can contain Session2"});
+        allowedArrays.add(new String[]{"kuali.atp.type.type.relation.allowed.14", TypeServiceConstants.TYPE_TYPE_RELATION_ALLOWED_TYPE_KEY, "kuali.atp.type.Session2", "kuali.atp.type.Mini-mester2C", "1", "Session2 can contain Mini-mester2C"});
+        allowedArrays.add(new String[]{"kuali.atp.type.type.relation.allowed.15", TypeServiceConstants.TYPE_TYPE_RELATION_ALLOWED_TYPE_KEY, "kuali.atp.type.Session2", "kuali.atp.type.Mini-mester2D", "2", "Session2 can contain Mini-mester2D"});
+        allowedArrays.add(new String[]{"kuali.atp.type.type.relation.allowed.16", TypeServiceConstants.TYPE_TYPE_RELATION_ALLOWED_TYPE_KEY, AtpServiceConstants.ATP_ACADEMIC_CALENDAR_TYPE_KEY, AtpServiceConstants.ATP_SUMMER_TYPE_KEY, "6", "AcademicCalendar can contain SummerEve"});
+        allowedArrays.add(new String[]{"kuali.atp.type.type.relation.allowed.17", TypeServiceConstants.TYPE_TYPE_RELATION_ALLOWED_TYPE_KEY, "kuali.atp.type.SummerEve", "kuali.atp.type.SessionG1", "1", "SummerEve can contain SessionG1"});
+        allowedArrays.add(new String[]{"kuali.atp.type.type.relation.allowed.18", TypeServiceConstants.TYPE_TYPE_RELATION_ALLOWED_TYPE_KEY, "kuali.atp.type.SummerEve", "kuali.atp.type.SessionG2", "2", "SummerEve can contain SessionG2"});
         // key dates for fall term
-        allowedArrays.add(new String[]{"kuali.atp.type.type.relation.allowed.20", "kuali.type.type.relation.type.allowed", "kuali.atp.type.Fall", "kuali.atp.milestone.AdvancedRegistrationPeriod", "1", "Fall can have an advanced reg period"});
-        allowedArrays.add(new String[]{"kuali.atp.type.type.relation.allowed.21", "kuali.type.type.relation.type.allowed", "kuali.atp.type.Fall", "kuali.atp.milestone.InstructionalPeriod", "2", "Fall can have an instructional period"});
-        allowedArrays.add(new String[]{"kuali.atp.type.type.relation.allowed.22", "kuali.type.type.relation.type.allowed", "kuali.atp.type.Fall", "kuali.atp.milestone.RegistrationPeriod", "3", "Fall can have an reg period"});
-        allowedArrays.add(new String[]{"kuali.atp.type.type.relation.allowed.23", "kuali.type.type.relation.type.allowed", "kuali.atp.type.Fall", "kuali.atp.milestone.RegistrationBeginsTransfer", "4", "Fall can transfer reg period"});
-        allowedArrays.add(new String[]{"kuali.atp.type.type.relation.allowed.24", "kuali.type.type.relation.type.allowed", "kuali.atp.type.Fall", "kuali.atp.milestone.DropDeadlineWithoutRecord", "6", "Fall can have drop deadline"});
-        allowedArrays.add(new String[]{"kuali.atp.type.type.relation.allowed.25", "kuali.type.type.relation.type.allowed", "kuali.atp.type.Fall", "kuali.atp.milestone.FinalExamPeriod", "6", "Fall can have a final exam period"});
-        allowedArrays.add(new String[]{"kuali.atp.type.type.relation.allowed.26", "kuali.type.type.relation.type.allowed", "kuali.atp.type.Fall", "kuali.atp.milestone.GradesDue", "7", "Fall can have a grading period"});
-        allowedArrays.add(new String[]{"kuali.atp.type.type.relation.allowed.27", "kuali.type.type.relation.type.allowed", "kuali.atp.type.Fall", "kuali.atp.milestone.FinancialAidCensus", "7", "Fall can have a financialaid"});
+        allowedArrays.add(new String[]{"kuali.atp.type.type.relation.allowed.20", TypeServiceConstants.TYPE_TYPE_RELATION_ALLOWED_TYPE_KEY, AtpServiceConstants.ATP_FALL_TYPE_KEY, AtpServiceConstants.MILESTONE_ADVANCED_REGISTRATION_PERIOD_TYPE_KEY, "1", "Fall can have an advanced reg period"});
+        allowedArrays.add(new String[]{"kuali.atp.type.type.relation.allowed.21", TypeServiceConstants.TYPE_TYPE_RELATION_ALLOWED_TYPE_KEY, AtpServiceConstants.ATP_FALL_TYPE_KEY, AtpServiceConstants.MILESTONE_INSTRUCTIONAL_PERIOD_TYPE_KEY, "2", "Fall can have an instructional period"});
+        allowedArrays.add(new String[]{"kuali.atp.type.type.relation.allowed.22", TypeServiceConstants.TYPE_TYPE_RELATION_ALLOWED_TYPE_KEY, AtpServiceConstants.ATP_FALL_TYPE_KEY, AtpServiceConstants.MILESTONE_REGISTRATION_PERIOD_TYPE_KEY, "3", "Fall can have an reg period"});
+        allowedArrays.add(new String[]{"kuali.atp.type.type.relation.allowed.23", TypeServiceConstants.TYPE_TYPE_RELATION_ALLOWED_TYPE_KEY, AtpServiceConstants.ATP_FALL_TYPE_KEY, AtpServiceConstants.MILESTONE_REGISTRATION_BEGINS_TRANSFER_TYPE_KEY, "4", "Fall can transfer reg period"});
+        allowedArrays.add(new String[]{"kuali.atp.type.type.relation.allowed.24", TypeServiceConstants.TYPE_TYPE_RELATION_ALLOWED_TYPE_KEY, AtpServiceConstants.ATP_FALL_TYPE_KEY, AtpServiceConstants.MILESTONE_DROP_DEADLINE_WITHOUT_RECORD_TYPE_KEY, "6", "Fall can have drop deadline"});
+        allowedArrays.add(new String[]{"kuali.atp.type.type.relation.allowed.25", TypeServiceConstants.TYPE_TYPE_RELATION_ALLOWED_TYPE_KEY, AtpServiceConstants.ATP_FALL_TYPE_KEY, AtpServiceConstants.MILESTONE_FINAL_EXAM_PERIOD_TYPE_KEY, "6", "Fall can have a final exam period"});
+        allowedArrays.add(new String[]{"kuali.atp.type.type.relation.allowed.26", TypeServiceConstants.TYPE_TYPE_RELATION_ALLOWED_TYPE_KEY, AtpServiceConstants.ATP_FALL_TYPE_KEY, AtpServiceConstants.MILESTONE_GRADES_DUE_TYPE_KEY, "7", "Fall can have a grading period"});
+        allowedArrays.add(new String[]{"kuali.atp.type.type.relation.allowed.27", TypeServiceConstants.TYPE_TYPE_RELATION_ALLOWED_TYPE_KEY, AtpServiceConstants.ATP_FALL_TYPE_KEY, AtpServiceConstants.MILESTONE_FINANCIAL_AID_CENSUS_TYPE_KEY, "7", "Fall can have a financialaid"});
         // key dates for winter
-        allowedArrays.add(new String[]{"kuali.atp.type.type.relation.allowed.30", "kuali.type.type.relation.type.allowed", "kuali.atp.type.Winter", "kuali.atp.milestone.AdvancedRegistrationPeriod", "1", "Winter can have an advanced reg period"});
-        allowedArrays.add(new String[]{"kuali.atp.type.type.relation.allowed.31", "kuali.type.type.relation.type.allowed", "kuali.atp.type.Winter", "kuali.atp.milestone.InstructionalPeriod", "2", "Winter can have an instructional period"});
-        allowedArrays.add(new String[]{"kuali.atp.type.type.relation.allowed.32", "kuali.type.type.relation.type.allowed", "kuali.atp.type.Winter", "kuali.atp.milestone.RegistrationPeriod", "3", "Winter can have an reg period"});
-        allowedArrays.add(new String[]{"kuali.atp.type.type.relation.allowed.33", "kuali.type.type.relation.type.allowed", "kuali.atp.type.Winter", "kuali.atp.milestone.RegistrationBeginsTransfer", "4", "Winter can transfer reg period"});
-        allowedArrays.add(new String[]{"kuali.atp.type.type.relation.allowed.34", "kuali.type.type.relation.type.allowed", "kuali.atp.type.Winter", "kuali.atp.milestone.DropDeadlineWithoutRecord", "6", "Winter can have drop deadline"});
-        allowedArrays.add(new String[]{"kuali.atp.type.type.relation.allowed.35", "kuali.type.type.relation.type.allowed", "kuali.atp.type.Winter", "kuali.atp.milestone.FinalExamPeriod", "6", "Winter can have a final exam period"});
-        allowedArrays.add(new String[]{"kuali.atp.type.type.relation.allowed.36", "kuali.type.type.relation.type.allowed", "kuali.atp.type.Winter", "kuali.atp.milestone.GradesDue", "7", "Winter can have a grading period"});
-        allowedArrays.add(new String[]{"kuali.atp.type.type.relation.allowed.37", "kuali.type.type.relation.type.allowed", "kuali.atp.type.Fall", "kuali.atp.milestone.FinancialAidCensus", "7", "Fall can have a financialaid"});
+        allowedArrays.add(new String[]{"kuali.atp.type.type.relation.allowed.30", TypeServiceConstants.TYPE_TYPE_RELATION_ALLOWED_TYPE_KEY, AtpServiceConstants.ATP_WINTER_TYPE_KEY, AtpServiceConstants.MILESTONE_ADVANCED_REGISTRATION_PERIOD_TYPE_KEY, "1", "Winter can have an advanced reg period"});
+        allowedArrays.add(new String[]{"kuali.atp.type.type.relation.allowed.31", TypeServiceConstants.TYPE_TYPE_RELATION_ALLOWED_TYPE_KEY, AtpServiceConstants.ATP_WINTER_TYPE_KEY, AtpServiceConstants.MILESTONE_INSTRUCTIONAL_PERIOD_TYPE_KEY, "2", "Winter can have an instructional period"});
+        allowedArrays.add(new String[]{"kuali.atp.type.type.relation.allowed.32", TypeServiceConstants.TYPE_TYPE_RELATION_ALLOWED_TYPE_KEY, AtpServiceConstants.ATP_WINTER_TYPE_KEY, AtpServiceConstants.MILESTONE_REGISTRATION_PERIOD_TYPE_KEY, "3", "Winter can have an reg period"});
+        allowedArrays.add(new String[]{"kuali.atp.type.type.relation.allowed.33", TypeServiceConstants.TYPE_TYPE_RELATION_ALLOWED_TYPE_KEY, AtpServiceConstants.ATP_WINTER_TYPE_KEY, AtpServiceConstants.MILESTONE_REGISTRATION_BEGINS_TRANSFER_TYPE_KEY, "4", "Winter can transfer reg period"});
+        allowedArrays.add(new String[]{"kuali.atp.type.type.relation.allowed.34", TypeServiceConstants.TYPE_TYPE_RELATION_ALLOWED_TYPE_KEY, AtpServiceConstants.ATP_WINTER_TYPE_KEY, AtpServiceConstants.MILESTONE_DROP_DEADLINE_WITHOUT_RECORD_TYPE_KEY, "6", "Winter can have drop deadline"});
+        allowedArrays.add(new String[]{"kuali.atp.type.type.relation.allowed.35", TypeServiceConstants.TYPE_TYPE_RELATION_ALLOWED_TYPE_KEY, AtpServiceConstants.ATP_WINTER_TYPE_KEY, AtpServiceConstants.MILESTONE_FINAL_EXAM_PERIOD_TYPE_KEY, "6", "Winter can have a final exam period"});
+        allowedArrays.add(new String[]{"kuali.atp.type.type.relation.allowed.36", TypeServiceConstants.TYPE_TYPE_RELATION_ALLOWED_TYPE_KEY, AtpServiceConstants.ATP_WINTER_TYPE_KEY, AtpServiceConstants.MILESTONE_GRADES_DUE_TYPE_KEY, "7", "Winter can have a grading period"});
+        allowedArrays.add(new String[]{"kuali.atp.type.type.relation.allowed.37", TypeServiceConstants.TYPE_TYPE_RELATION_ALLOWED_TYPE_KEY, AtpServiceConstants.ATP_FALL_TYPE_KEY, AtpServiceConstants.MILESTONE_FINANCIAL_AID_CENSUS_TYPE_KEY, "7", "Fall can have a financialaid"});
         // key dates for spring
-        allowedArrays.add(new String[]{"kuali.atp.type.type.relation.allowed.40", "kuali.type.type.relation.type.allowed", "kuali.atp.type.Spring", "kuali.atp.milestone.AdvancedRegistrationPeriod", "1", "Spring can have an advanced reg period"});
-        allowedArrays.add(new String[]{"kuali.atp.type.type.relation.allowed.41", "kuali.type.type.relation.type.allowed", "kuali.atp.type.Spring", "kuali.atp.milestone.InstructionalPeriod", "2", "Spring can have an instructional period"});
-        allowedArrays.add(new String[]{"kuali.atp.type.type.relation.allowed.42", "kuali.type.type.relation.type.allowed", "kuali.atp.type.Spring", "kuali.atp.milestone.RegistrationPeriod", "3", "Spring can have an reg period"});
-        allowedArrays.add(new String[]{"kuali.atp.type.type.relation.allowed.43", "kuali.type.type.relation.type.allowed", "kuali.atp.type.Spring", "kuali.atp.milestone.RegistrationBeginsTransfer", "4", "Spring can transfer reg period"});
-        allowedArrays.add(new String[]{"kuali.atp.type.type.relation.allowed.44", "kuali.type.type.relation.type.allowed", "kuali.atp.type.Spring", "kuali.atp.milestone.DropDeadlineWithoutRecord", "6", "Spring can have drop deadline"});
-        allowedArrays.add(new String[]{"kuali.atp.type.type.relation.allowed.45", "kuali.type.type.relation.type.allowed", "kuali.atp.type.Spring", "kuali.atp.milestone.FinalExamPeriod", "6", "Spring can have a final exam period"});
-        allowedArrays.add(new String[]{"kuali.atp.type.type.relation.allowed.46", "kuali.type.type.relation.type.allowed", "kuali.atp.type.Spring", "kuali.atp.milestone.GradesDue", "7", "Spring can have a grading period"});
+        allowedArrays.add(new String[]{"kuali.atp.type.type.relation.allowed.40", TypeServiceConstants.TYPE_TYPE_RELATION_ALLOWED_TYPE_KEY, AtpServiceConstants.ATP_SPRING_TYPE_KEY, AtpServiceConstants.MILESTONE_ADVANCED_REGISTRATION_PERIOD_TYPE_KEY, "1", "Spring can have an advanced reg period"});
+        allowedArrays.add(new String[]{"kuali.atp.type.type.relation.allowed.41", TypeServiceConstants.TYPE_TYPE_RELATION_ALLOWED_TYPE_KEY, AtpServiceConstants.ATP_SPRING_TYPE_KEY, AtpServiceConstants.MILESTONE_INSTRUCTIONAL_PERIOD_TYPE_KEY, "2", "Spring can have an instructional period"});
+        allowedArrays.add(new String[]{"kuali.atp.type.type.relation.allowed.42", TypeServiceConstants.TYPE_TYPE_RELATION_ALLOWED_TYPE_KEY, AtpServiceConstants.ATP_SPRING_TYPE_KEY, AtpServiceConstants.MILESTONE_REGISTRATION_PERIOD_TYPE_KEY, "3", "Spring can have an reg period"});
+        allowedArrays.add(new String[]{"kuali.atp.type.type.relation.allowed.43", TypeServiceConstants.TYPE_TYPE_RELATION_ALLOWED_TYPE_KEY, AtpServiceConstants.ATP_SPRING_TYPE_KEY, AtpServiceConstants.MILESTONE_REGISTRATION_BEGINS_TRANSFER_TYPE_KEY, "4", "Spring can transfer reg period"});
+        allowedArrays.add(new String[]{"kuali.atp.type.type.relation.allowed.44", TypeServiceConstants.TYPE_TYPE_RELATION_ALLOWED_TYPE_KEY, AtpServiceConstants.ATP_SPRING_TYPE_KEY, AtpServiceConstants.MILESTONE_DROP_DEADLINE_WITHOUT_RECORD_TYPE_KEY, "6", "Spring can have drop deadline"});
+        allowedArrays.add(new String[]{"kuali.atp.type.type.relation.allowed.45", TypeServiceConstants.TYPE_TYPE_RELATION_ALLOWED_TYPE_KEY, AtpServiceConstants.ATP_SPRING_TYPE_KEY, AtpServiceConstants.MILESTONE_FINAL_EXAM_PERIOD_TYPE_KEY, "6", "Spring can have a final exam period"});
+        allowedArrays.add(new String[]{"kuali.atp.type.type.relation.allowed.46", TypeServiceConstants.TYPE_TYPE_RELATION_ALLOWED_TYPE_KEY, AtpServiceConstants.ATP_SPRING_TYPE_KEY, AtpServiceConstants.MILESTONE_GRADES_DUE_TYPE_KEY, "7", "Spring can have a grading period"});
 
         // key dates for summer
-        allowedArrays.add(new String[]{"kuali.atp.type.type.relation.allowed.50", "kuali.type.type.relation.type.allowed", "kuali.atp.type.Summer", "kuali.atp.milestone.AdvancedRegistrationPeriod", "1", "Summer can have an advanced reg period"});
-        allowedArrays.add(new String[]{"kuali.atp.type.type.relation.allowed.51", "kuali.type.type.relation.type.allowed", "kuali.atp.type.Summer", "kuali.atp.milestone.InstructionalPeriod", "2", "Summer can have an instructional period"});
-        allowedArrays.add(new String[]{"kuali.atp.type.type.relation.allowed.52", "kuali.type.type.relation.type.allowed", "kuali.atp.type.Summer", "kuali.atp.milestone.RegistrationPeriod", "3", "Summer can have an reg period"});
-        allowedArrays.add(new String[]{"kuali.atp.type.type.relation.allowed.53", "kuali.type.type.relation.type.allowed", "kuali.atp.type.Summer", "kuali.atp.milestone.RegistrationBeginsTransfer", "4", "Summer can transfer reg period"});
-        allowedArrays.add(new String[]{"kuali.atp.type.type.relation.allowed.54", "kuali.type.type.relation.type.allowed", "kuali.atp.type.Summer", "kuali.atp.milestone.DropDeadlineWithoutRecord", "6", "Summer can have drop deadline"});
-        allowedArrays.add(new String[]{"kuali.atp.type.type.relation.allowed.55", "kuali.type.type.relation.type.allowed", "kuali.atp.type.Summer", "kuali.atp.milestone.FinalExamPeriod", "6", "Summer can have a final exam period"});
-        allowedArrays.add(new String[]{"kuali.atp.type.type.relation.allowed.56", "kuali.type.type.relation.type.allowed", "kuali.atp.type.Summer", "kuali.atp.milestone.GradesDue", "7", "Summer can have a grading period"});
+        allowedArrays.add(new String[]{"kuali.atp.type.type.relation.allowed.50", TypeServiceConstants.TYPE_TYPE_RELATION_ALLOWED_TYPE_KEY, AtpServiceConstants.ATP_SUMMER_TYPE_KEY, AtpServiceConstants.MILESTONE_ADVANCED_REGISTRATION_PERIOD_TYPE_KEY, "1", "Summer can have an advanced reg period"});
+        allowedArrays.add(new String[]{"kuali.atp.type.type.relation.allowed.51", TypeServiceConstants.TYPE_TYPE_RELATION_ALLOWED_TYPE_KEY, AtpServiceConstants.ATP_SUMMER_TYPE_KEY, AtpServiceConstants.MILESTONE_INSTRUCTIONAL_PERIOD_TYPE_KEY, "2", "Summer can have an instructional period"});
+        allowedArrays.add(new String[]{"kuali.atp.type.type.relation.allowed.52", TypeServiceConstants.TYPE_TYPE_RELATION_ALLOWED_TYPE_KEY, AtpServiceConstants.ATP_SUMMER_TYPE_KEY, AtpServiceConstants.MILESTONE_REGISTRATION_PERIOD_TYPE_KEY, "3", "Summer can have an reg period"});
+        allowedArrays.add(new String[]{"kuali.atp.type.type.relation.allowed.53", TypeServiceConstants.TYPE_TYPE_RELATION_ALLOWED_TYPE_KEY, AtpServiceConstants.ATP_SUMMER_TYPE_KEY, AtpServiceConstants.MILESTONE_REGISTRATION_BEGINS_TRANSFER_TYPE_KEY, "4", "Summer can transfer reg period"});
+        allowedArrays.add(new String[]{"kuali.atp.type.type.relation.allowed.54", TypeServiceConstants.TYPE_TYPE_RELATION_ALLOWED_TYPE_KEY, AtpServiceConstants.ATP_SUMMER_TYPE_KEY, AtpServiceConstants.MILESTONE_DROP_DEADLINE_WITHOUT_RECORD_TYPE_KEY, "6", "Summer can have drop deadline"});
+        allowedArrays.add(new String[]{"kuali.atp.type.type.relation.allowed.55", TypeServiceConstants.TYPE_TYPE_RELATION_ALLOWED_TYPE_KEY, AtpServiceConstants.ATP_SUMMER_TYPE_KEY, AtpServiceConstants.MILESTONE_FINAL_EXAM_PERIOD_TYPE_KEY, "6", "Summer can have a final exam period"});
+        allowedArrays.add(new String[]{"kuali.atp.type.type.relation.allowed.56", TypeServiceConstants.TYPE_TYPE_RELATION_ALLOWED_TYPE_KEY, AtpServiceConstants.ATP_SUMMER_TYPE_KEY, AtpServiceConstants.MILESTONE_GRADES_DUE_TYPE_KEY, "7", "Summer can have a grading period"});
 
         //keydates group
-        allowedArrays.add(new String[]{"kuali.atp.type.type.relation.allowed.60", "kuali.type.type.relation.type.allowed", "kuali.atp.type.Fall", "kuali.milestone.type.group.instructional", "1", "Summer can have a final exam period"});
-        allowedArrays.add(new String[]{"kuali.atp.type.type.relation.allowed.61", "kuali.type.type.relation.type.allowed", "kuali.atp.type.Fall", "kuali.milestone.type.group.registration", "2", "Summer can have a grading period"});
+        allowedArrays.add(new String[]{"kuali.atp.type.type.relation.allowed.60", TypeServiceConstants.TYPE_TYPE_RELATION_ALLOWED_TYPE_KEY, AtpServiceConstants.ATP_FALL_TYPE_KEY, "kuali.milestone.type.group.instructional", "1", "Summer can have a final exam period"});
+        allowedArrays.add(new String[]{"kuali.atp.type.type.relation.allowed.61", TypeServiceConstants.TYPE_TYPE_RELATION_ALLOWED_TYPE_KEY, AtpServiceConstants.ATP_FALL_TYPE_KEY, "kuali.milestone.type.group.registration", "2", "Summer can have a grading period"});
 
 
         for (String[] allowedArray : allowedArrays) {
@@ -632,14 +632,14 @@ public class TypeServiceMockImpl implements TypeService, MockService {
         // Population Rule Types Grouping
 
         Set<TypeInfo> populationRuleGroup = new HashSet<TypeInfo>();
-        TypeInfo populationRuleGroupType = createTypeInfo("kuali.population.rule.type.rule", "Group for Population Rule", "Group for Population Rule", PopulationServiceConstants.REF_OBJECT_URI_POPULATION_RULE);
+        TypeInfo populationRuleGroupType = createTypeInfo(PopulationServiceConstants.POPULATION_RULE_TYPE_RULE_KEY, "Group for Population Rule", "Group for Population Rule", PopulationServiceConstants.REF_OBJECT_URI_POPULATION_RULE);
 
-        populationRuleGroup.add(getType("kuali.population.rule.type.person"));
-        populationRuleGroup.add(getType("kuali.population.rule.type.rule"));
-        populationRuleGroup.add(getType("kuali.population.rule.type.search"));
-        populationRuleGroup.add(getType("kuali.population.rule.type.union"));
-        populationRuleGroup.add(getType("kuali.population.rule.type.intersection"));
-        populationRuleGroup.add(getType("kuali.population.rule.type.exclusion"));
+        populationRuleGroup.add(getType(PopulationServiceConstants.POPULATION_RULE_TYPE_PERSON_KEY));
+        populationRuleGroup.add(getType(PopulationServiceConstants.POPULATION_RULE_TYPE_RULE_KEY));
+        populationRuleGroup.add(getType(PopulationServiceConstants.POPULATION_RULE_TYPE_SEARCH_KEY));
+        populationRuleGroup.add(getType(PopulationServiceConstants.POPULATION_RULE_TYPE_UNION_KEY));
+        populationRuleGroup.add(getType(PopulationServiceConstants.POPULATION_RULE_TYPE_INTERSECTION_KEY));
+        populationRuleGroup.add(getType(PopulationServiceConstants.POPULATION_RULE_TYPE_EXCLUSION_KEY));
 
         for (TypeInfo type : populationRuleGroup) {
             createTypeTypeRelationInfo(populationRuleGroupType, type);
@@ -649,8 +649,8 @@ public class TypeServiceMockImpl implements TypeService, MockService {
         Set<TypeInfo> populationGroup = new HashSet<TypeInfo>();
         TypeInfo populationGroupType = createTypeInfo("kuali.population.population.type", "Group for Population", "Group for Population", PopulationServiceConstants.REF_OBJECT_URI_POPULATION);
 
-        populationGroup.add(getType("kuali.population.type.population"));
-        populationGroup.add(getType("kuali.population.type.student"));
+        populationGroup.add(getType(PopulationServiceConstants.POPULATION_TYPE_KEY));
+        populationGroup.add(getType(PopulationServiceConstants.POPULATION_STUDENT_TYPE_KEY));
 
         for (TypeInfo type : populationGroup) {
             createTypeTypeRelationInfo(populationGroupType, type);
@@ -660,7 +660,7 @@ public class TypeServiceMockImpl implements TypeService, MockService {
         Set<TypeInfo> populationCategoryGroup = new HashSet<TypeInfo>();
         TypeInfo populationCategoryGroupType = createTypeInfo("kuali.population.population.category.type", "Group for Population Category", "Group for Population Category", PopulationServiceConstants.REF_OBJECT_URI_POPULATION);
 
-        populationCategoryGroup.add(getType("kuali.population.type.population.category"));
+        populationCategoryGroup.add(getType(PopulationServiceConstants.POPULATION_CATEGORY_TYPE_KEY));
 
         for (TypeInfo type : populationCategoryGroup) {
             createTypeTypeRelationInfo(populationCategoryGroupType, type);

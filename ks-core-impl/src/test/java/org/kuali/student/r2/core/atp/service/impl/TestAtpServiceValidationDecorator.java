@@ -29,6 +29,7 @@ import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.core.atp.dto.AtpInfo;
 import org.kuali.student.r2.core.atp.dto.MilestoneInfo;
 import org.kuali.student.r2.core.class1.atp.service.decorators.AtpServiceValidationDecorator;
+import org.kuali.student.r2.core.constants.AtpServiceConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -83,13 +84,13 @@ public class TestAtpServiceValidationDecorator {
         // populate two of the three required fields (key, type, state) and validation
         // should now return a list with only one error, for the "stateKey" field
         milestone.setId("newId");
-        milestone.setTypeKey("kuali.atp.milestone.RegistrationPeriod");
+        milestone.setTypeKey(AtpServiceConstants.MILESTONE_REGISTRATION_PERIOD_TYPE_KEY);
         validationResults = atpService.validateMilestone("FULL_VALIDATION", milestone, callContext);
         assertEquals(5, validationResults.size());
         assertEquals("stateKey", validationResults.get(0).getElement());
 
         // validation should pass once the stateKey is provided
-        milestone.setStateKey("kuali.atp.state.Draft");
+        milestone.setStateKey(AtpServiceConstants.ATP_DRAFT_STATE_KEY);
         validationResults = atpService.validateMilestone("FULL_VALIDATION", milestone, callContext);
         assertNotNull("validateMilestone() should return an empty list, not null.", milestone);
         assertEquals("validateMilestone() should have returned zero errors.", 4, validationResults.size());
@@ -108,13 +109,13 @@ public class TestAtpServiceValidationDecorator {
         // populate two of the three required fields (key, type, state) and validation
         // should now return a list with only one error, for the "stateKey" field
         atpInfo.setId("newId");
-        atpInfo.setTypeKey("kuali.atp.type.AcademicCalendar");
+        atpInfo.setTypeKey(AtpServiceConstants.ATP_ACADEMIC_CALENDAR_TYPE_KEY);
         validationResults = atpService.validateAtp("FULL_VALIDATION", atpInfo.getId(), atpInfo, callContext);
         assertEquals(3, validationResults.size());
         assertEquals("stateKey", validationResults.get(0).getElement());
 
         // validation should pass once the stateKey is provided
-        atpInfo.setStateKey("kuali.atp.state.Draft");
+        atpInfo.setStateKey(AtpServiceConstants.ATP_DRAFT_STATE_KEY);
         validationResults = atpService.validateAtp("FULL_VALIDATION", atpInfo.getId(), atpInfo, callContext);
         assertNotNull("validateAtp() should return an empty list, not null.", atpInfo);
         assertEquals("validateAtp() should have returned zero errors.", 2, validationResults.size());

@@ -26,6 +26,7 @@ import org.kuali.rice.krad.web.controller.UifControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.common.uif.util.GrowlIcon;
 import org.kuali.student.common.uif.util.KSUifUtils;
+import org.kuali.student.r2.core.constants.AtpServiceConstants;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -157,8 +158,8 @@ public class KitchenSinkController extends UifControllerBase {
                                       HttpServletRequest request, HttpServletResponse response) {
 
         List<KitchenSinkFormCollection1> collectionList = new ArrayList<KitchenSinkFormCollection1>();
-        collectionList.add(new KitchenSinkFormCollection1("Fall 1997", "kuali.atp.type.Fall", "1997-09-01"));
-        collectionList.add(new KitchenSinkFormCollection1("Winter 2000", "kuali.atp.type.Winter", "2000-01-01"));
+        collectionList.add(new KitchenSinkFormCollection1("Fall 1997", AtpServiceConstants.ATP_FALL_TYPE_KEY, "1997-09-01"));
+        collectionList.add(new KitchenSinkFormCollection1("Winter 2000", AtpServiceConstants.ATP_WINTER_TYPE_KEY, "2000-01-01"));
         form.setCollection(collectionList);
 
         return getUIFModelAndView(form);

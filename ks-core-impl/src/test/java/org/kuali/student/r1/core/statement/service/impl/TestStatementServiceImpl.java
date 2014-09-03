@@ -35,6 +35,7 @@ import org.kuali.student.r2.common.dto.MetaInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.*;
+import org.kuali.student.r2.core.constants.StatementServiceConstants;
 import org.kuali.student.r2.core.search.dto.SearchParamInfo;
 import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultCellInfo;
@@ -328,7 +329,7 @@ public class TestStatementServiceImpl extends AbstractServiceTest {
 		assertEquals(3, types.size());
 		assertTrue(containsTypeId(types, "kuali.statement.type.course"));
 		assertTrue(containsTypeId(types, "kuali.statement.type.course.academicReadiness.prereq"));
-		assertTrue(containsTypeId(types, "kuali.statement.type.course.academicReadiness.coreq"));
+		assertTrue(containsTypeId(types, StatementServiceConstants.COREQUISITE_STATEMENT_TYPE));
 	}
 
     @Test
@@ -356,7 +357,7 @@ public class TestStatementServiceImpl extends AbstractServiceTest {
 
 		assertEquals(2, allowedTypes.size());
 		assertEquals("kuali.statement.type.course.academicReadiness.prereq", allowedTypes.get(0));
-		assertEquals("kuali.statement.type.course.academicReadiness.coreq", allowedTypes.get(1));
+		assertEquals(StatementServiceConstants.COREQUISITE_STATEMENT_TYPE, allowedTypes.get(1));
     }
 
     @Test
@@ -714,7 +715,7 @@ public class TestStatementServiceImpl extends AbstractServiceTest {
         stmt.setName("STMT 3");
         stmt.setOperator(StatementOperatorTypeKey.OR);
         stmt.setState("ACTIVE");
-        stmt.setType("kuali.statement.type.course.academicReadiness.coreq");
+        stmt.setType(StatementServiceConstants.COREQUISITE_STATEMENT_TYPE);
 
         MetaInfo mf = new MetaInfo();
 
@@ -723,10 +724,10 @@ public class TestStatementServiceImpl extends AbstractServiceTest {
 
         stmt.setMetaInfo(mf);
 
-        StatementInfo createdSmt = statementService.createStatement("kuali.statement.type.course.academicReadiness.coreq", stmt);
+        StatementInfo createdSmt = statementService.createStatement(StatementServiceConstants.COREQUISITE_STATEMENT_TYPE, stmt);
 
         assertNotNull(createdSmt.getId());
-        assertEquals(createdSmt.getType(), "kuali.statement.type.course.academicReadiness.coreq");
+        assertEquals(createdSmt.getType(), StatementServiceConstants.COREQUISITE_STATEMENT_TYPE);
         assertEquals(createdSmt.getOperator(), StatementOperatorTypeKey.OR);
         assertEquals(createdSmt.getState(), "ACTIVE");
         assertEquals(createdSmt.getName(), "STMT 3");

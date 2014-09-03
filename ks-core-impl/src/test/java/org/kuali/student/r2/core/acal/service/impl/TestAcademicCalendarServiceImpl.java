@@ -665,7 +665,7 @@ public class TestAcademicCalendarServiceImpl {
 
         assertNotNull(results);
         List<String> expectedIds = new ArrayList<String>(2);
-        expectedIds.addAll(Arrays.asList("kuali.atp.type.Fall", "kuali.atp.type.Spring"));
+        expectedIds.addAll(Arrays.asList(AtpServiceConstants.ATP_FALL_TYPE_KEY, AtpServiceConstants.ATP_SPRING_TYPE_KEY));
 
         // check that all the expected Ids came back
         for (TypeInfo info : results) {
@@ -1029,9 +1029,9 @@ public class TestAcademicCalendarServiceImpl {
         List<String> atpTypes = new ArrayList<String>();
         List<String> atpStates = new ArrayList<String>();
 
-        atpTypes.add("kuali.atp.type.AcademicCalendar");
-        atpStates.add("kuali.atp.state.Official");
-        atpStates.add("kuali.atp.state.Draft");
+        atpTypes.add(AtpServiceConstants.ATP_ACADEMIC_CALENDAR_TYPE_KEY);
+        atpStates.add(AtpServiceConstants.ATP_OFFICIAL_STATE_KEY);
+        atpStates.add(AtpServiceConstants.ATP_DRAFT_STATE_KEY);
         String acalId = "testAtpId1";
         String acalName = "";
         String acalYear = "";
@@ -1092,7 +1092,7 @@ public class TestAcademicCalendarServiceImpl {
         assertNotNull(originalCalendar.getTypeKey());
         assertEquals(originalCalendar.getTypeKey(), copiedCalendar.getTypeKey());
         assertNotNull(originalCalendar.getStateKey());
-        assertEquals("kuali.atp.state.Draft", copiedCalendar.getStateKey());
+        assertEquals(AtpServiceConstants.ATP_DRAFT_STATE_KEY, copiedCalendar.getStateKey());
         assertNotNull(originalCalendar.getStartDate());
         assertEquals(startDate, copiedCalendar.getStartDate());
         assertNotNull(originalCalendar.getEndDate());
