@@ -17,6 +17,7 @@
 package org.kuali.student.enrollment.class1.hold.dto;
 
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
+import org.kuali.student.r2.core.hold.dto.AppliedHoldInfo;
 import org.kuali.student.r2.core.hold.dto.HoldIssueInfo;
 import org.kuali.student.r2.core.process.dto.ProcessInfo;
 
@@ -31,153 +32,26 @@ import java.util.Map;
  */
 public class AppliedHoldMaintenanceWrapper implements Serializable {
 
-    private String descr;
-    private String orgName;
-    private String orgAddress;
-    private Boolean termBased;
-    private String firstTerm;
-    private String lastTerm;
-    private Boolean holdHistory;
-    private String orgContact;
-
-    private boolean isSaveSuccess;
-
-    private TypeInfo type;
-    private HoldIssueInfo holdIssue;
-
-    private List<AuthorizedOrgWrapper> authorizedOrgs = new ArrayList<AuthorizedOrgWrapper>();
-
-    private List<ProcessInfo> processNames = new ArrayList<ProcessInfo>();
+    private String holdCode;
+    private AppliedHoldInfo appliedHold;
 
     public AppliedHoldMaintenanceWrapper() {
         super();
-        type = new TypeInfo();
     }
 
-    public String getDescr() {
-        return descr;
+    public String getHoldCode() {
+        return holdCode;
     }
 
-    public void setDescr(String descr) {
-        this.descr = descr;
+    public void setHoldCode(String holdCode) {
+        this.holdCode = holdCode;
     }
 
-    public String getOrgName() {
-        return orgName;
+    public AppliedHoldInfo getAppliedHold() {
+        return appliedHold;
     }
 
-    public void setOrgName(String orgName) {
-        this.orgName = orgName;
+    public void setAppliedHold(AppliedHoldInfo appliedHold) {
+        this.appliedHold = appliedHold;
     }
-
-    public boolean getIsSaveSuccess() {
-        return isSaveSuccess;
-    }
-
-    public void setIsSaveSuccess(boolean saveSuccess) {
-        isSaveSuccess = saveSuccess;
-    }
-
-    public TypeInfo getType() {
-        return type;
-    }
-
-    public void setType(TypeInfo type) {
-        this.type = type;
-    }
-
-    public String getOrgAddress() {
-        return orgAddress;
-    }
-
-    public void setOrgAddress(String orgAddress) {
-        this.orgAddress = orgAddress;
-    }
-
-    public Boolean getTermBased() {
-        return termBased;
-    }
-
-    public void setTermBased(Boolean termBased) {
-        this.termBased = termBased;
-    }
-
-    public String getFirstTerm() {
-        return firstTerm;
-    }
-
-    public void setFirstTerm(String firstTerm) {
-        this.firstTerm = firstTerm;
-    }
-
-    public String getLastTerm() {
-        return lastTerm;
-    }
-
-    public void setLastTerm(String lastTerm) {
-        this.lastTerm = lastTerm;
-    }
-
-    public List<AuthorizedOrgWrapper> getAuthorizedOrgs() {
-        return authorizedOrgs;
-    }
-
-    public void setAuthorizedOrgs(List<AuthorizedOrgWrapper> authorizedOrgs) {
-        this.authorizedOrgs = authorizedOrgs;
-    }
-
-    public boolean isSaveSuccess() {
-        return isSaveSuccess;
-    }
-
-    public void setSaveSuccess(boolean saveSuccess) {
-        isSaveSuccess = saveSuccess;
-    }
-
-    public HoldIssueInfo getHoldIssue() {
-        return holdIssue;
-    }
-
-    public void setHoldIssue(HoldIssueInfo holdIssue) {
-        this.holdIssue = holdIssue;
-    }
-
-    public Boolean getHoldHistory() {
-        return holdHistory;
-    }
-
-    public void setHoldHistory(Boolean holdHistory) {
-        this.holdHistory = holdHistory;
-    }
-
-    public List<ProcessInfo> getProcessNames() {
-        return processNames;
-    }
-
-    public void setProcessNames(List<ProcessInfo> processNames) {
-        this.processNames = processNames;
-    }
-
-    public String getOrgContact() {
-        return orgContact;
-    }
-
-    public void setOrgContact(String orgContact) {
-        this.orgContact = orgContact;
-    }
-
-    public Map<String, String> getAdminOrg() {
-        Map<String, String> adminOrgMap = new HashMap<String, String>();
-        if (authorizedOrgs != null && !authorizedOrgs.isEmpty()) {
-            StringBuilder orgIDs = new StringBuilder("");
-            for (AuthorizedOrgWrapper authorizedOrg : authorizedOrgs) {
-                orgIDs.append(authorizedOrg.getId()).append(",");
-            }
-            if (orgIDs.length() > 0) {
-                adminOrgMap.put("offeringAdminOrgId", orgIDs.substring(0, orgIDs.length() - 1));
-            }
-        }
-        return adminOrgMap;
-    }
-
 }

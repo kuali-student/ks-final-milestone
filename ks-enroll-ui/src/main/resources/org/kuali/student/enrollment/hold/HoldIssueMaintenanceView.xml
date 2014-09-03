@@ -40,7 +40,7 @@ limitations under the License.
         <property name="dataObjectClassName"
                   value="org.kuali.student.enrollment.class1.hold.dto.HoldIssueMaintenanceWrapper"/>
         <property name="viewHelperServiceClass"
-                  value="org.kuali.student.enrollment.class1.hold.service.impl.HoldIssueViewHelperServiceImpl"/>
+                  value="org.kuali.student.enrollment.class1.hold.service.impl.HoldsViewHelperServiceImpl"/>
         <property name="headerText" value="@{#dp.holdIssue.id == null ? 'Create Hold' : 'Edit Hold'}"/>
         <property name="items">
             <list>
@@ -126,7 +126,7 @@ limitations under the License.
                         <bean parent="KS-Uif-DropdownControl"/>
                     </property>
                     <property name="optionsFinder">
-                        <bean class="org.kuali.student.enrollment.class1.hold.keyvalues.HoldIssueInfoTypeKeyValues"/>
+                        <bean class="org.kuali.student.enrollment.class1.hold.keyvalues.HoldIssueTypeKeyValues"/>
                     </property>
                 </bean>
                 <bean parent="KS-Uif-InputField-LabelTop" p:label="Hold Name" p:propertyName="holdIssue.name" p:required="true">

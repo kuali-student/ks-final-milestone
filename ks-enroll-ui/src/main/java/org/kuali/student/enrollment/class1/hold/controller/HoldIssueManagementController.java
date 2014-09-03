@@ -27,7 +27,7 @@ import org.kuali.student.common.uif.util.KSControllerHelper;
 import org.kuali.student.enrollment.class1.hold.dto.HoldIssueMaintenanceWrapper;
 import org.kuali.student.enrollment.class1.hold.form.HoldIssueManagementForm;
 import org.kuali.student.enrollment.class1.hold.form.HoldIssueResult;
-import org.kuali.student.enrollment.class1.hold.service.HoldIssueViewHelperService;
+import org.kuali.student.enrollment.class1.hold.service.HoldsViewHelperService;
 import org.kuali.student.enrollment.class1.hold.util.HoldsConstants;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -43,7 +43,9 @@ import java.util.List;
 import java.util.Properties;
 
 /**
- * @author Kuali Student Team
+ * Controller class for Hold Issue management.
+ *
+ * @author Kuali Student Blue Team (SA)
  */
 @Controller
 @RequestMapping(value = "/holdIssueManagement")
@@ -56,7 +58,7 @@ public class HoldIssueManagementController extends UifControllerBase {
 
     @Override
     public ModelAndView start(@ModelAttribute("KualiForm") UifFormBase form, HttpServletRequest request,
-            HttpServletResponse response) {
+                              HttpServletResponse response) {
 
         HoldIssueManagementForm holdForm = (HoldIssueManagementForm) form;
 
@@ -66,7 +68,7 @@ public class HoldIssueManagementController extends UifControllerBase {
 
     @RequestMapping(params = "methodToCall=search")
     public ModelAndView search(@ModelAttribute("KualiForm") HoldIssueManagementForm form, BindingResult result,
-            HttpServletRequest request, HttpServletResponse response) throws Exception {
+                               HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         form.setHasSearchBeenCalled(true);
 
@@ -91,16 +93,16 @@ public class HoldIssueManagementController extends UifControllerBase {
     public ModelAndView addHold(@ModelAttribute("KualiForm") HoldIssueManagementForm form, BindingResult result,
                                 HttpServletRequest request, HttpServletResponse response) throws Exception {
         Properties urlParameters = this.getMaintainHoldParameters(null);
-        return super.performRedirect(form, "holdIssueMaintenance", urlParameters);
+        return super.performRedirect(form, HoldsConstants.HOLD_ISSUE_BASEURL, urlParameters);
     }
 
     @RequestMapping(params = "methodToCall=edit")
     public ModelAndView edit(@ModelAttribute("KualiForm") HoldIssueManagementForm form, BindingResult result,
-                                HttpServletRequest request, HttpServletResponse response) throws Exception {
+                             HttpServletRequest request, HttpServletResponse response) throws Exception {
         HoldIssueResult holdIssueResult = getSelectedHoldIssue(form);
 
         Properties urlParameters = this.getMaintainHoldParameters(holdIssueResult.getId());
-        return super.performRedirect(form, "holdIssueMaintenance", urlParameters);
+        return super.performRedirect(form, HoldsConstants.HOLD_ISSUE_BASEURL, urlParameters);
     }
 
     private HoldIssueResult getSelectedHoldIssue(HoldIssueManagementForm form) {
@@ -138,14 +140,15 @@ public class HoldIssueManagementController extends UifControllerBase {
 
     }
 
-    protected HoldIssueViewHelperService getViewHelper(UifFormBase form) {
-        return (HoldIssueViewHelperService) KSControllerHelper.getViewHelperService(form);
+    protected HoldsViewHelperService getViewHelper(UifFormBase form) {
+        return (HoldsViewHelperService) KSControllerHelper.getViewHelperService(form);
     }
 
 
     /**
      * This method is used to populate the urlParameters so that the Hold data is loaded when navigating
      * to the Hold Maintenance screen
+     *
      * @param holdId
      * @return urlParameters
      */
@@ -153,11 +156,11 @@ public class HoldIssueManagementController extends UifControllerBase {
         Properties urlParameters = new Properties();
         urlParameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, KRADConstants.Maintenance.METHOD_TO_CALL_EDIT);
         urlParameters.put(KRADConstants.DATA_OBJECT_CLASS_ATTRIBUTE, HoldIssueMaintenanceWrapper.class.getName());
-        urlParameters.put(KRADConstants.OVERRIDE_KEYS,"id");
-        if(holdId!=null) {
+        urlParameters.put(KRADConstants.OVERRIDE_KEYS, "id");
+        if (holdId != null) {
             urlParameters.put("id", holdId);
         }
-        urlParameters.put("viewName", "HoldIssueMaintenanceView");
+        urlParameters.put("viewName", HoldsConstants.HOLD_ISSUE_MAINTENANCE_VIEWNAME);
         return urlParameters;
     }
 }

@@ -31,6 +31,11 @@ import org.kuali.student.r2.core.hold.dto.HoldIssueInfo;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Maintenance document rule class to perform bussiness rule validation on applied holds.
+ *
+ * @author Kuali Student Blue Team (SA)
+ */
 public class HoldIssueRule extends KsMaintenanceDocumentRuleBase {
 
     @Override

@@ -24,7 +24,7 @@
         <property name="header.render" value="true"/>
         <property name="headerText" value="Applied Holds"/>
         <property name="viewHelperServiceClass"
-                  value="org.kuali.student.enrollment.class1.hold.service.impl.HoldIssueViewHelperServiceImpl"/>
+                  value="org.kuali.student.enrollment.class1.hold.service.impl.HoldsViewHelperServiceImpl"/>
         <property name="formClass"
                   value="org.kuali.student.enrollment.class1.hold.form.AppliedHoldManagementForm"/>
         <property name="page">
@@ -91,7 +91,7 @@
                                 <bean parent="Uif-ActionsGroup">
                                     <property name="items">
                                         <list>
-                                            <bean parent="KS-Uif-NavigationActionLink" p:methodToCall="addHold" p:actionLabel="Add Hold"
+                                            <bean parent="KS-Uif-NavigationActionLink" p:methodToCall="applyHold" p:actionLabel="Apply Hold"
                                                   p:style="padding-left:0px;" p:render="true"/>
                                         </list>
                                     </property>
@@ -161,7 +161,7 @@
                     </property>
                     <property name="optionsFinder">
                         <bean id="HoldIssueTypes"
-                              class="org.kuali.student.enrollment.class1.hold.keyvalues.HoldIssueInfoTypeKeyValues"/>
+                              class="org.kuali.student.enrollment.class1.hold.keyvalues.HoldIssueTypeKeyValues"/>
                     </property>
                 </bean>
                 <bean parent="KS-Uif-DataField" p:label="Description" p:propertyName="descr" p:style="width:350px;"/>

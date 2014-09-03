@@ -37,12 +37,11 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * This class provides a controller for HoldIssue objects
  *
- * @author Kuali Student Team
+ * @author Kuali Student Blue Team (SA)
  */
-
 @Controller
-@RequestMapping(value = "/holdIssueMaintenance")
-public class HoldIssueMaintenanceController extends MaintenanceDocumentController {
+@RequestMapping(value = "/appliedHoldMaintenance")
+public class AppliedHoldMaintenanceController extends MaintenanceDocumentController {
 
     @Override
     @RequestMapping(params = "methodToCall=route")

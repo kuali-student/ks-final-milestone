@@ -22,14 +22,14 @@ limitations under the License.
 
     <bean id="AppliedHoldMaintenanceDocument" parent="uifMaintenanceDocumentEntry">
         <property name="dataObjectClass"
-                  value="org.kuali.student.enrollment.class1.hold.dto.HoldIssueMaintenanceWrapper"/>
+                  value="org.kuali.student.enrollment.class1.hold.dto.AppliedHoldMaintenanceWrapper"/>
         <property name="maintainableClass"
-                  value="org.kuali.student.enrollment.class1.hold.service.impl.HoldIssueMaintainableImpl"/>
-        <property name="businessRulesClass" value="org.kuali.student.enrollment.class1.hold.rule.HoldIssueRule"/>
-        <property name="documentTypeName" value="HoldIssueMaintenanceDocument"/>
+                  value="org.kuali.student.enrollment.class1.hold.service.impl.AppliedHoldMaintainableImpl"/>
+        <property name="businessRulesClass" value="org.kuali.student.enrollment.class1.hold.rule.AppliedHoldRule"/>
+        <property name="documentTypeName" value="AppliedHoldMaintenanceDocument"/>
         <property name="lockingKeys">
             <list>
-                <value>holdIssue.id</value>
+                <value>appliedHold.id</value>
             </list>
         </property>
     </bean>
@@ -38,13 +38,13 @@ limitations under the License.
         <property name="viewName" value="AppliedHoldMaintenanceView"/>
         <property name="formClass" value="org.kuali.rice.krad.web.form.MaintenanceDocumentForm"/>
         <property name="dataObjectClassName"
-                  value="org.kuali.student.enrollment.class1.hold.dto.HoldIssueMaintenanceWrapper"/>
+                  value="org.kuali.student.enrollment.class1.hold.dto.AppliedHoldMaintenanceWrapper"/>
         <property name="viewHelperServiceClass"
-                  value="org.kuali.student.enrollment.class1.hold.service.impl.HoldIssueViewHelperServiceImpl"/>
-        <property name="headerText" value="@{#dp.holdIssue.id == null ? 'Create Hold' : 'Edit Hold'}"/>
+                  value="org.kuali.student.enrollment.class1.hold.service.impl.HoldsViewHelperServiceImpl"/>
+        <property name="headerText" value="@{#dp.appliedHold.id == null ? 'Create Hold' : 'Edit Hold'}"/>
         <property name="items">
             <list>
-                <bean id="KS-Hold-Create-Page" parent="KS-Hold-Create-Page-parent"/>
+                <bean id="KS-Hold-Apply-Page" parent="KS-Hold-Apply-Page-parent"/>
             </list>
         </property>
 
@@ -55,17 +55,17 @@ limitations under the License.
                 <bean parent="Uif-BreadcrumbItem">
                     <property name="label" value="Manage Holds"/>
                     <property name="url.viewId" value="KS-AppliedHoldManagementView"/>
-                    <property name="url.controllerMapping" value="holdIssueManagement"/>
+                    <property name="url.controllerMapping" value="appliedHoldManagement"/>
                 </bean>
                 <bean parent="Uif-BreadcrumbItem">
-                    <property name="url.controllerMapping" value="holdIssueMaintenance"/>
+                    <property name="url.controllerMapping" value="appliedHoldManagement"/>
                     <property name="url.requestParameters">
                         <map key-type="java.lang.String" merge="true">
                             <entry key="methodToCall" value="start"/>
                             <entry key="dataObjectClassName"
-                                   value="org.kuali.student.enrollment.class1.hold.dto.HoldIssueMaintenanceWrapper"/>
+                                   value="org.kuali.student.enrollment.class1.hold.dto.AppliedHoldMaintenanceWrapper"/>
                             <entry key="hideReturnLink" value="true"/>
-                            <entry key="viewName" value="HoldIssueMaintenanceView"/>
+                            <entry key="viewName" value="AppliedHoldMaintenanceView"/>
                             <entry key="formKey" value="@{returnFormKey}"/>
                         </map>
                     </property>
@@ -81,32 +81,29 @@ limitations under the License.
         </property>
     </bean>
 
-    <bean id="KS-Hold-Create-Page-parent" parent="KS-Uif-Page" p:disclosure.render="false">
+    <bean id="KS-Hold-Apply-Page-parent" parent="KS-Uif-Page" p:disclosure.render="false">
         <property name="items">
             <list>
                 <bean parent="Uif-VerticalBoxSection">
                     <property name="items">
                         <list>
-                            <ref bean="KS-CreateHold-HoldSection"/>
-                            <ref bean="KS-CreateHold-OrgSection"/>
-                            <ref bean="KS-CreateHold-TermSection"/>
-                            <ref bean="KS-CreateHold-AuthorizationSection"/>
+                            <ref bean="KS-ApplyHold-HoldSection"/>
                         </list>
                     </property>
                 </bean>
             </list>
         </property>
         <property name="footer">
-            <ref bean="KSHOLD-DocumentPageFooter-SubmitCancel"/>
+            <ref bean="KS-ApplyHold-SubmitCancel"/>
         </property>
     </bean>
 
-    <bean id="KSHOLD-DocumentPageFooter-SubmitCancel" parent="KSHOLD-DocumentPageFooter-SubmitCancel-parent"/>
-    <bean id="KSHOLD-DocumentPageFooter-SubmitCancel-parent" parent="Uif-DocumentPageFooter" abstract="true">
+    <bean id="KS-ApplyHold-SubmitCancel" parent="KS-ApplyHold-SubmitCancel-parent"/>
+    <bean id="KS-ApplyHold-SubmitCancel-parent" parent="Uif-DocumentPageFooter" abstract="true">
         <property name="items">
             <list>
-                <bean id="saveHoldButton" parent="KS-Uif-PrimaryActionButton" p:ajaxSubmit="false"
-                      p:methodToCall="route" p:actionLabel="Save" p:performClientSideValidation="true"
+                <bean id="applyHoldButton" parent="KS-Uif-PrimaryActionButton" p:ajaxSubmit="false"
+                      p:methodToCall="route" p:actionLabel="Apply Hold" p:performClientSideValidation="true"
                       p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}"/>
                 <bean parent="KS-Uif-NavigationActionLink" p:ajaxSubmit="false" p:methodToCall="cancel"
                       p:actionLabel="Cancel" p:performDirtyValidation="false"
@@ -115,194 +112,31 @@ limitations under the License.
         </property>
     </bean>
 
-    <bean id="KS-CreateHold-HoldSection" parent="Uif-VerticalBoxSection">
+    <bean id="KS-ApplyHold-HoldSection" parent="Uif-VerticalBoxSection">
         <property name="disclosure.render" value="false"/>
         <property name="style" value="margin-bottom:10px;"/>
         <property name="headerText" value="Hold Details"/>
         <property name="items">
             <list>
-                <bean parent="KS-Uif-InputField-LabelTop" p:label="Hold Type (Category)" p:propertyName="holdIssue.typeKey" p:required="true">
-                    <property name="control">
-                        <bean parent="KS-Uif-DropdownControl"/>
-                    </property>
-                    <property name="optionsFinder">
-                        <bean class="org.kuali.student.enrollment.class1.hold.keyvalues.HoldIssueInfoTypeKeyValues"/>
-                    </property>
-                </bean>
-                <bean parent="KS-Uif-InputField-LabelTop" p:label="Hold Name" p:propertyName="holdIssue.name" p:required="true">
-                    <property name="control">
-                        <bean parent="KS-Uif-TextControl" p:size="20"/>
-                    </property>
-                </bean>
-                <bean parent="KS-Uif-InputField-LabelTop" p:label="Hold Code" p:propertyName="holdIssue.holdCode" p:required="true">
+                <bean parent="KS-Uif-InputField-LabelTop" p:label="Hold Code" p:propertyName="holdCode" p:required="true">
                     <property name="control">
                         <bean parent="KS-Uif-TextControl" p:size="10"/>
                     </property>
                 </bean>
-                <bean parent="KS-Uif-InputField-LabelTop" p:label="Hold Description" p:propertyName="descr">
-                    <property name="control">
-                        <bean parent="Uif-SmallTextAreaControl"/>
-                    </property>
-                </bean>
-            </list>
-        </property>
-    </bean>
-
-    <bean id="KS-CreateHold-OrgSection" parent="Uif-HorizontalBoxSection">
-        <property name="disclosure.render" value="false"/>
-        <property name="style" value="margin-bottom:10px;"/>
-        <property name="items">
-            <list>
-                <bean parent="KS-Uif-InputField-LabelTop" p:label="Organization" p:propertyName="orgName" p:required="true">
-                    <property name="control">
-                        <bean parent="KS-Uif-TextControl" p:size="20" p:disabled="true"/>
-                    </property>
-                    <property name="quickfinder">
-                        <bean parent="Uif-QuickFinder">
-                            <property name="dataObjectClassName" value="org.kuali.student.r2.core.organization.dto.OrgInfo"/>
-                            <property name="fieldConversions">
-                                <map>
-                                    <entry key="id" value="holdIssue.organizationId"/>
-                                    <entry key="shortName" value="orgName"/>
-                                </map>
-                            </property>
-                        </bean>
-                    </property>
-                </bean>
-                <bean parent="KS-Uif-InputField-LabelTop" p:label="Organization Contact" p:propertyName="orgContact">
-                    <property name="control">
-                        <bean parent="KS-Uif-TextControl" p:size="20" p:disabled="false"/>
-                    </property>
-                </bean>
-                <bean parent="KS-Uif-InputField-LabelTop" p:label="Contact Address" p:propertyName="orgAddress">
-                    <property name="control">
-                        <bean parent="KS-Uif-TextControl" p:size="20" p:disabled="false"/>
-                    </property>
-                </bean>
-            </list>
-        </property>
-    </bean>
-
-    <bean id="KS-CreateHold-TermSection" parent="Uif-VerticalBoxSection">
-        <property name="disclosure.render" value="false"/>
-        <property name="style" value="margin-bottom:10px;"/>
-        <property name="items">
-            <list>
                 <bean parent="Uif-HorizontalBoxGroup">
                     <property name="validationMessages" ref="KS-ValidationMessages-Off"/>
                     <property name="items">
                         <list>
-                            <bean parent="Uif-InputField" p:label="First Applied Date" p:propertyName="holdIssue.firstAppliedDate">
+                            <bean parent="Uif-InputField" p:label="First Applied Date" p:propertyName="appliedHold.effectiveDate">
                                 <property name="control">
                                     <bean parent="KS-Uif-Default-DateControl" p:size="10"/>
                                 </property>
                             </bean>
-                            <bean parent="Uif-InputField" p:label="Last Applied Date" p:propertyName="holdIssue.lastAppliedDate">
+                            <bean parent="Uif-InputField" p:label="Last Applied Date" p:propertyName="appliedHold.expirationDate">
                                 <property name="control">
                                     <bean parent="KS-Uif-Default-DateControl" p:size="10"/>
                                 </property>
                             </bean>
-                        </list>
-                    </property>
-                </bean>
-                <bean parent="KS-Uif-InputField-LabelTop" p:label="Term" p:propertyName="termBased">
-                    <property name="control">
-                        <bean parent="KS-Uif-CheckboxControl" p:checkboxLabel="Term Based"/>
-                    </property>
-                </bean>
-                <bean parent="Uif-HorizontalBoxGroup" p:progressiveRender="@{#dp.termBased}">
-                    <property name="validationMessages" ref="KS-ValidationMessages-Off"/>
-                    <property name="items">
-                        <list>
-                            <bean parent="KS-Uif-InputField-LabelTop" p:label="First Application Term" p:propertyName="firstTerm" p:required="false">
-                                <property name="control">
-                                    <bean parent="KS-Uif-TextControl" p:size="20" p:minLength="6" p:maxLength="6" p:disabled="false"/>
-                                </property>
-                                <!-- Constrain to 6 digits and use a custom message. -->
-                                <property name="validCharactersConstraint">
-                                    <bean parent="NumericPatternConstraint"
-                                          p:messageKey="error.hold.issue.termcode.invalid" p:value="^\d{6}$"/>
-                                </property>
-                            </bean>
-                            <bean parent="KS-Uif-InputField-LabelTop" p:label="Last Application Term" p:propertyName="lastTerm" p:required="false">
-                                <property name="control">
-                                    <bean parent="KS-Uif-TextControl" p:size="20" p:minLength="6" p:maxLength="6" p:disabled="false"/>
-                                </property>
-                                <!-- Constrain to 6 digits and use a custom message. -->
-                                <property name="validCharactersConstraint">
-                                    <bean parent="NumericPatternConstraint"
-                                          p:messageKey="error.hold.issue.termcode.invalid" p:value="^\d{6}$"/>
-                                </property>
-                            </bean>
-                        </list>
-                    </property>
-                </bean>
-                <bean parent="KS-Uif-InputField-LabelTop" p:label="Hold History" p:propertyName="holdHistory">
-                    <property name="control">
-                        <bean parent="KS-Uif-CheckboxControl" p:checkboxLabel="Maintain History"/>
-                    </property>
-                </bean>
-            </list>
-        </property>
-    </bean>
-
-    <bean id="KS-CreateHold-AuthorizationSection" parent="Uif-VerticalBoxSection">
-        <property name="disclosure.render" value="false"/>
-        <property name="style" value="margin-bottom:10px;"/>
-        <property name="headerText" value="Authorization"/>
-        <property name="items">
-            <list>
-                <!--Beginning of Authorization Section of Create Hold-->
-                <bean id="KS-CreateHold-Auth-OrgSection" parent="KS-TableCollectionSubSection-BottomAddLine"
-                      p:layoutManager.style="width: 57em;" p:layoutManager.numberOfColumns="1"
-                      p:collectionObjectClass="org.kuali.student.enrollment.class1.hold.dto.AuthorizedOrgWrapper"
-                      p:propertyName="authorizedOrgs" p:layoutManager.renderSequenceField="false"
-                      p:layoutManager.generateAutoSequence="false" p:layoutManager.separateAddLine="false"
-                      p:layoutManager.richTable.disableTableSort="true" p:layoutManager.richTable.render="false"
-                      p:layoutManager.applyAlternatingRowStyles="false">
-                    <property name="addBlankLineAction.actionLabel" value="Add Org"/>
-                    <property name="addBlankLineAction.id" value="KS-CreateHold-AuthorizationSection_Add"/>
-                    <property name="addBlankLineAction.dirtyOnAction" value="true"/>
-                    <property name="items">
-                        <list>
-                            <bean parent="KS-Uif-InputField" p:label="Organization" p:propertyName="name"
-                                  p:style="font-weight:bold;white-space:nowrap;" p:additionalCssClasses="organization_id_create_hold">
-                                <property name="control">
-                                    <bean parent="KS-Uif-TextControl" p:size="16" p:readOnly="true"/>
-                                </property>
-                                <property name="quickfinder">
-                                    <bean parent="Uif-QuickFinder">
-                                        <property name="dataObjectClassName" value="org.kuali.student.r2.core.organization.dto.OrgInfo"/>
-                                        <property name="fieldConversions">
-                                            <map>
-                                                <entry key="id" value="id"/>
-                                                <entry key="shortName" value="name"/>
-                                            </map>
-                                        </property>
-                                    </bean>
-                                </property>
-                            </bean>
-                            <bean parent="Uif-InputField" p:label="Apply (Place)" p:propertyName="authOrgApply" p:required="false">
-                                <property name="control">
-                                    <bean parent="Uif-CheckboxControl">
-                                        <property name="onChangeScript" value=""/>
-                                    </bean>
-                                </property>
-                            </bean>
-                            <bean parent="Uif-InputField" p:label="Expire (Resolve)" p:propertyName="authOrgExpire" p:required="false">
-                                <property name="control">
-                                    <bean parent="Uif-CheckboxControl">
-                                        <property name="onChangeScript" value=""/>
-                                    </bean>
-                                </property>
-                            </bean>
-                        </list>
-                    </property>
-                    <property name="lineActions">
-                        <list>
-                            <bean parent="KS-Uif-Delete-ActionLink" p:methodToCall="deleteLine"
-                                  p:actionLabel="Delete" p:actionEvent="deleteLine" p:dirtyOnAction="true"
-                                  p:additionalCssClasses="delete_authorization"/>
                         </list>
                     </property>
                 </bean>

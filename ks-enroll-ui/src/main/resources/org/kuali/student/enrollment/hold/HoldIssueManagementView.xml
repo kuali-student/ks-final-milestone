@@ -24,7 +24,7 @@
         <property name="header.render" value="true"/>
         <property name="headerText" value="Manage Holds"/>
         <property name="viewHelperServiceClass"
-                  value="org.kuali.student.enrollment.class1.hold.service.impl.HoldIssueViewHelperServiceImpl"/>
+                  value="org.kuali.student.enrollment.class1.hold.service.impl.HoldsViewHelperServiceImpl"/>
         <property name="formClass"
                   value="org.kuali.student.enrollment.class1.hold.form.HoldIssueManagementForm"/>
         <property name="page">
@@ -118,7 +118,7 @@
                                     <bean parent="KS-Uif-DropdownControl"/>
                                 </property>
                                 <property name="optionsFinder">
-                                    <bean class="org.kuali.student.enrollment.class1.hold.keyvalues.HoldIssueInfoTypeKeyValues"/>
+                                    <bean class="org.kuali.student.enrollment.class1.hold.keyvalues.HoldIssueTypeKeyValues"/>
                                 </property>
                             </bean>
                             <bean id="manageHoldDescrField" parent="KS-Uif-InputField-LabelTop" p:label="Phrase in Hold Description"
@@ -180,7 +180,7 @@
                         <bean parent="KS-Uif-DropdownControl"/>
                     </property>
                     <property name="optionsFinder">
-                        <bean class="org.kuali.student.enrollment.class1.hold.keyvalues.HoldIssueInfoTypeKeyValues"/>
+                        <bean class="org.kuali.student.enrollment.class1.hold.keyvalues.HoldIssueTypeKeyValues"/>
                     </property>
                 </bean>
                 <bean parent="KS-Uif-DataField" p:label="Description" p:propertyName="descr" p:style="width:350px;"/>

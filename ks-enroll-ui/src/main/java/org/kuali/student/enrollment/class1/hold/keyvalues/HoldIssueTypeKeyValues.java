@@ -25,7 +25,7 @@ import java.util.List;
  * Time: 5:12 PM
  * To change this template use File | Settings | File Templates.
  */
-public class HoldIssueInfoTypeKeyValues extends UifKeyValuesFinderBase implements Serializable {
+public class HoldIssueTypeKeyValues extends UifKeyValuesFinderBase implements Serializable {
 
     private static final long serialVersionUID = 1L;
 

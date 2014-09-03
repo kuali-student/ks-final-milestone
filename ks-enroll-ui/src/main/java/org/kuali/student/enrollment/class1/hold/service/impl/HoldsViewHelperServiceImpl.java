@@ -6,7 +6,7 @@ import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.common.uif.service.impl.KSViewHelperServiceImpl;
 import org.kuali.student.enrollment.class1.hold.form.HoldIssueManagementForm;
 import org.kuali.student.enrollment.class1.hold.form.HoldIssueResult;
-import org.kuali.student.enrollment.class1.hold.service.HoldIssueViewHelperService;
+import org.kuali.student.enrollment.class1.hold.service.HoldsViewHelperService;
 import org.kuali.student.enrollment.class1.hold.util.HoldsConstants;
 import org.kuali.student.enrollment.class1.hold.util.HoldsResourceLoader;
 import org.kuali.student.r2.core.hold.dto.HoldIssueInfo;
@@ -25,7 +25,7 @@ import static org.kuali.rice.core.api.criteria.PredicateFactory.like;
  * <p/>
  * Implementation of the HoldIssueViewHelperService that contains helper methods that support the Hold Issue Management Controller.
  */
-public class HoldIssueViewHelperServiceImpl extends KSViewHelperServiceImpl implements HoldIssueViewHelperService {
+public class HoldsViewHelperServiceImpl extends KSViewHelperServiceImpl implements HoldsViewHelperService {
 
     /**
      * This method is used to search for hold issues and map them to HoldIssueResult
@@ -39,7 +39,8 @@ public class HoldIssueViewHelperServiceImpl extends KSViewHelperServiceImpl impl
         List<HoldIssueResult> holdIssueResultList = new ArrayList<HoldIssueResult>();
         List<HoldIssueInfo> holdIssueInfos = new ArrayList<HoldIssueInfo>();
         try {
-            QueryByCriteria.Builder query = buildQueryByCriteria(holdIssueFrom.getName(),holdIssueFrom.getTypeKey(),holdIssueFrom.getState(),holdIssueFrom.getOrganizationId(),holdIssueFrom.getDescr());
+            QueryByCriteria.Builder query = buildQueryByCriteria(holdIssueFrom.getName(), holdIssueFrom.getTypeKey(),
+                    holdIssueFrom.getState(), holdIssueFrom.getOrganizationId(), holdIssueFrom.getDescr());
             holdIssueInfos = HoldsResourceLoader.getHoldService().searchForHoldIssues(query.build(), createContextInfo());
 
             for (HoldIssueInfo holdIssueInfo : holdIssueInfos) {
@@ -48,7 +49,7 @@ public class HoldIssueViewHelperServiceImpl extends KSViewHelperServiceImpl impl
                 holdIssueResult.setName(holdIssueInfo.getName());
                 holdIssueResult.setCode(holdIssueInfo.getHoldCode());
                 holdIssueResult.setTypeKey(holdIssueInfo.getTypeKey());
-                holdIssueResult.setDescr((holdIssueInfo.getDescr() != null?holdIssueInfo.getDescr().getPlain():StringUtils.EMPTY));
+                holdIssueResult.setDescr((holdIssueInfo.getDescr() != null ? holdIssueInfo.getDescr().getPlain() : StringUtils.EMPTY));
                 holdIssueResult.setOrganizationId(holdIssueInfo.getOrganizationId());
                 holdIssueResult.setFirstDate(holdIssueInfo.getFirstAppliedDate());
                 holdIssueResult.setLastDate(holdIssueInfo.getLastAppliedDate());
@@ -64,33 +65,33 @@ public class HoldIssueViewHelperServiceImpl extends KSViewHelperServiceImpl impl
     }
 
 
-    private static QueryByCriteria.Builder buildQueryByCriteria(String name, String type,String state, String orgId, String descr){
+    private static QueryByCriteria.Builder buildQueryByCriteria(String name, String type, String state, String orgId, String descr) {
 
         QueryByCriteria.Builder qBuilder = QueryByCriteria.Builder.create();
         List<Predicate> pList = new ArrayList<Predicate>();
 
         qBuilder.setPredicates();
-        if (StringUtils.isNotBlank(name)){
+        if (StringUtils.isNotBlank(name)) {
             pList.add(like(HoldsConstants.HOLD_ISSUE_NAME, "%" + name + "%"));
         }
 
-        if (StringUtils.isNotBlank(type)){
+        if (StringUtils.isNotBlank(type)) {
             pList.add(equal(HoldsConstants.HOLD_ISSUE_TYPE_KEY, type));
         }
 
-        if (StringUtils.isNotBlank(state)){
+        if (StringUtils.isNotBlank(state)) {
             pList.add(equal(HoldsConstants.HOLD_ISSUE_STATE_KEY, state));
         }
 
-        if (StringUtils.isNotBlank(orgId)){
+        if (StringUtils.isNotBlank(orgId)) {
             pList.add(equal(HoldsConstants.HOLD_ISSUE_ORG_ID, orgId));
         }
 
-        if (StringUtils.isNotBlank(descr)){
+        if (StringUtils.isNotBlank(descr)) {
             pList.add(like(HoldsConstants.HOLD_ISSUE_DESCR_PLAIN, "%" + descr + "%"));
         }
 
-        if (!pList.isEmpty()){
+        if (!pList.isEmpty()) {
             Predicate[] preds = new Predicate[pList.size()];
             pList.toArray(preds);
             qBuilder.setPredicates(and(preds));

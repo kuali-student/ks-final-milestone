@@ -12,7 +12,7 @@ import java.util.List;
  * Date: 17 July 2014
  * Utility Class for common auto generated reg group functions
  */
-public interface HoldIssueViewHelperService {
+public interface HoldsViewHelperService {
 
     public  List<HoldIssueResult> searchHolds(HoldIssueManagementForm holdIssueForm);
 

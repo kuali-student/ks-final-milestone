@@ -33,6 +33,12 @@ public class HoldsConstants {
     public static final String HOLD_ISSUE_SEARCH_ERROR_MSG = "Error Performing Search";
     public static final String HOLD_ISSUE_PROCESS = "Process";
 
+    public static final String HOLD_ISSUE_BASEURL = "holdIssueMaintenance";
+    public static final String APPLIED_HOLD_BASEURL = "appliedHoldMaintenance";
+
+    public static final String HOLD_ISSUE_MAINTENANCE_VIEWNAME = "HoldIssueMaintenanceView";
+    public static final String APPLIED_HOLD_MAINTENANCE_VIEWNAME = "AppliedHoldMaintenanceView";
+
     //Hold Issue Attributes
     public static final String HOLD_ISSUE_ID = "id";
     public static final String HOLD_ISSUE_NAME = "name";
@@ -60,11 +66,6 @@ public class HoldsConstants {
 
     public static final String HOLD_ISSUE_PROP_NAME_AUTH_ORGS = HOLD_ISSUE_DATAOBJECT_PATH + "." + "authorizedOrgs";
     public static final String HOLD_ISSUE_PROP_NAME_AUTH_ORG_NAME = "name";
-
-
-    //UI bean ids
-    public static final String HOLD_ISSUE_CREATE_PAGE = "KS-Hold-Create-Page";
-    public static final String HOLD_ISSUE_MANAGE_PAGE = "KS-Hold-SearchInput-Page";
 
     //error Message keys
     public static final String HOLDS_ISSUE_MSG_ERROR_HOLD_ISSUE_NAME_REQUIRED = "error.hold.issue.name.required";
