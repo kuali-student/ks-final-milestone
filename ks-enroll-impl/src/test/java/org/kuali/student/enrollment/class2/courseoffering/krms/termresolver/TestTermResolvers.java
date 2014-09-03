@@ -4,6 +4,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.kuali.rice.krms.api.engine.TermResolver;
+import org.kuali.rice.krms.api.repository.RuleManagementService;
 import org.kuali.student.common.test.mock.data.AbstractMockServicesAwareDataLoader;
 import org.kuali.student.common.util.krms.RulesExecutionConstants;
 import org.kuali.student.core.constants.GesServiceConstants;
@@ -95,6 +96,9 @@ public class TestTermResolvers {
     @Resource(name="studentToCourseRecordsMap")
     @SuppressWarnings("all")
     private Map<String, List<StudentCourseRecordInfo>> studentToCourseRecordsMap;
+
+    @Resource(name = "ruleManagementService")
+    private RuleManagementService ruleManagementService;
 
     @Before
     public void setUp() throws Exception {
@@ -1088,6 +1092,7 @@ public class TestTermResolvers {
     public void testGesMaxRepeatabilityTermResolver() throws Exception {
         //Setup the term resolver
         CourseRepeatabilityTermResolver termResolver = new CourseRepeatabilityTermResolver();
+        termResolver.setRuleManagementService(ruleManagementService);
 
         //Setup prerequisites
         resolvedPrereqs.put(RulesExecutionConstants.CONTEXT_INFO_TERM.getName(), contextInfo);
@@ -1096,6 +1101,7 @@ public class TestTermResolvers {
         resolvedPrereqs.put(RulesExecutionConstants.AS_OF_DATE_TERM.getName(), KRMSEnrollmentEligibilityDataLoader.START_FALL_TERM_DATE);
         resolvedPrereqs.put(RulesExecutionConstants.MAX_REPEATABILITY_TERM.getName(), 2);
         resolvedPrereqs.put(RulesExecutionConstants.TOTAL_COURSE_ATTEMPTS_TERM.getName(), 2);
+        resolvedPrereqs.put(RulesExecutionConstants.REGISTRATION_GROUP_TERM.getName(), new RegistrationGroupInfo());
 
         //Validate the term resolver
         validateTermResolver(termResolver, resolvedPrereqs, parameters,

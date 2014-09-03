@@ -166,4 +166,8 @@
     <bean id="gesServiceMapImpl" class="org.kuali.student.core.ges.service.impl.GesServiceMapImpl" />
 
     <bean id="krmsServices" class="org.kuali.student.krms.mock.KRMSEngineService"/>
+
+    <bean id="ruleManagementService" class="org.kuali.rice.krms.impl.repository.mock.RuleManagementServiceMockImpl">
+        
+    </bean>
 </beans>
