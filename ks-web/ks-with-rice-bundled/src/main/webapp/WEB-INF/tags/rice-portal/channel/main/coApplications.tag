@@ -18,7 +18,7 @@
     <ul class="chan">
         <li><a class="portal_link" title="Create Hold Issue" href="${ConfigProperties.lum.application.url}/kr-krad/holdIssueMaintenance?viewName=HoldIssueMaintenanceView&dataObjectClassName=org.kuali.student.enrollment.class1.hold.dto.HoldIssueMaintenanceWrapper&methodToCall=start">Create Hold Issue</a></li>
         <li><a class="portal_link" title="Manage Hold Catalog" href="${ConfigProperties.lum.application.url}/kr-krad/holdIssueManagement?viewId=KS-HoldIssueManagementView&methodToCall=start">Manage Hold Catalog</a></li>
-        <li><a class="portal_link" title="Manage Applied Holds" href="${ConfigProperties.lum.application.url}/kr-krad/appliedHoldIssueManagement?viewId=holdIssueInfoLookupView&methodToCall=start">Manage Applied Holds</a></li>
+        <li><a class="portal_link" title="Manage Applied Holds" href="${ConfigProperties.lum.application.url}/kr-krad/appliedHoldManagement?viewId=KS-AppliedHoldManagementView&methodToCall=start">Manage Applied Holds</a></li>
     </ul>
     <strong>Process (In Progress)</strong>
     <ul class="chan">
