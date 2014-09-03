@@ -774,7 +774,7 @@
                                     </list>
                                 </property>
                             </bean>
-                            <bean id="CM-Proposal-Course-Requisites-CollectionSection2" parent="Uif-VerticalFieldGroup" p:colSpan="3" p:fieldLabel.renderColon="false" >
+                            <!--<bean id="CM-Proposal-Course-Requisites-CollectionSection2" parent="Uif-VerticalFieldGroup" p:colSpan="3" p:fieldLabel.renderColon="false" >
                                 <property name="render" value="@{#isCompareView and #isViewCourseView}"/>
                                 <property name="items">
                                     <list>
@@ -807,13 +807,14 @@
                                         </bean>
                                     </list>
                                 </property>
-                            </bean>
+                            </bean>-->
                         </list>
                     </property>
-                    <property name="componentModifiers">
+                    <!--<property name="componentModifiers">
                       <list>
+                          <bean parent="Uif-LabelSeparator-Modifier" p:runPhase="FINALIZE"/>
                       </list>
-                    </property>
+                    </property>-->
                 </bean>
             </list>
         </property>

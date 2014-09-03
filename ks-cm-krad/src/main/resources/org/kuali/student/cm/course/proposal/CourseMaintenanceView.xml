@@ -123,7 +123,7 @@
                 <entry key="uiHelper" value="document.newMaintainableObject.dataObject.uiHelper"/>
                 <entry key="workflowDoc" value="document.documentHeader.workflowDocument"/>
                 <entry key="htmlUtils" value="T(org.springframework.web.util.HtmlUtils)"/>
-                <entry key="isCompareView" value="pageId eq T(org.kuali.student.cm.common.util.CurriculumManagementConstants$CoursePageIds).REVIEW_COURSE_PROPOSAL_PAGE and document.oldMaintainableObject.dataObject.proposalInfo != null"/>
+                <entry key="isCompareView" value="pageId eq T(org.kuali.student.cm.common.util.CurriculumManagementConstants$CoursePageIds).REVIEW_COURSE_PROPOSAL_PAGE and document.oldMaintainableObject.dataObject.courseInfo.id != null"/>
                 <entry key="isViewCourseView" value="viewId eq T(org.kuali.student.cm.common.util.CurriculumManagementConstants$CourseViewIds).VIEW_COURSE_VIEW"/>
             </map>
         </property>
