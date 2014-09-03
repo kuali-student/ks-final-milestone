@@ -406,6 +406,21 @@
                         </map>
                     </property>
                 </bean>
+                <bean p:id="@{#line.uniqueId}_regGroupCount" parent="Uif-MessageField"
+                        p:render="@{#line.registrationGroupCodes != null and #line.registrationGroupCodes.size() > 0}">
+                    <property name="messageText"
+                              value="@{#line.registrationGroupCodes.size()}" />
+                    <property name="cssClasses">
+                        <list merge="true">
+                            <value>regGroupCount</value>
+                            <value>ks-plan-Bucket-itemRegGroupCount</value>
+                        </list>
+                    </property>
+                    <property name="toolTip">
+                        <bean parent="KSAP-Tooltip"
+                              p:tooltipContent="@{#textHelper.getFormattedMessage('planner.body.item.regGroups.tooltip', new Object[]{#line.getRegistrationGroupCodesforUI()})}"/>
+                    </property>
+                </bean>
                 <bean p:id="@{#line.uniqueId}_courseNote" parent="course_note_icon">
                     <property name="render" value="@{!#empty(#line.courseNote)}"/>
                     <property name="title" value="@{#line.courseNote}"/>

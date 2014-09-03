@@ -1,22 +1,14 @@
 package org.kuali.student.ap.planner;
 
-import java.io.Serializable;
-import java.math.BigDecimal;
-import java.util.List;
-import java.util.UUID;
-
-import org.kuali.student.ap.academicplan.infc.PlanItem;
 import org.kuali.student.ap.academicplan.constants.AcademicPlanServiceConstants;
-import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
 import org.kuali.student.ap.coursesearch.CreditsFormatter;
-import org.kuali.student.common.collection.KSCollectionUtils;
-import org.kuali.student.enrollment.academicrecord.dto.StudentCourseRecordInfo;
-import org.kuali.student.r2.common.exceptions.OperationFailedException;
-import org.kuali.student.r2.common.infc.Attribute;
-import org.kuali.student.r2.common.infc.RichText;
-import org.kuali.student.r2.lum.course.infc.Course;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.io.Serializable;
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 public class PlannerItem implements
 		org.kuali.student.ap.common.infc.HasUniqueId, Serializable {
@@ -38,6 +30,7 @@ public class PlannerItem implements
 	private String courseCode;
 	private String courseTitle;
 	private String activityCode;
+	private List<String> registrationGroupCodes = new ArrayList<String>();
 	private String courseNote;
 	private BigDecimal minCredits;
 	private BigDecimal maxCredits;
@@ -138,7 +131,21 @@ public class PlannerItem implements
 
 	public void setActivityCode(String activityCode) {
 		this.activityCode = activityCode;
+    }
+
+    public List<String> getRegistrationGroupCodes() {
+        return registrationGroupCodes;
+    }
+
+    public void setRegistrationGroupCodes(List<String> registrationGroupCodes) {
+        this.registrationGroupCodes = registrationGroupCodes;
 	}
+
+    public String getRegistrationGroupCodesforUI() {
+        RegistrationGroupCodePropertyEditor editor = new RegistrationGroupCodePropertyEditor();
+        editor.setValue(registrationGroupCodes);
+        return editor.getAsText();
+    }
 
 	public String getCourseNote() {
 		if(courseNote==null)courseNote="";

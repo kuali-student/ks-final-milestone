@@ -38,6 +38,7 @@ import org.kuali.student.ap.planner.PlannerTerm;
 import org.kuali.student.ap.planner.PlannerTermNote;
 import org.kuali.student.common.collection.KSCollectionUtils;
 import org.kuali.student.enrollment.academicrecord.dto.StudentCourseRecordInfo;
+import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
 import org.kuali.student.enrollment.courseoffering.infc.CourseOffering;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
@@ -50,7 +51,6 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
-import org.kuali.student.r2.common.infc.Attribute;
 import org.kuali.student.r2.common.infc.RichText;
 import org.kuali.student.r2.common.util.date.DateFormatters;
 import org.kuali.student.r2.core.acal.infc.Term;
@@ -68,15 +68,10 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.SortedSet;
 import java.util.TreeMap;
-import java.util.TreeSet;
 import java.util.UUID;
 
 /**
@@ -992,6 +987,37 @@ public class DefaultPlanHelper implements PlanHelper {
         RichText descr = planItem.getDescr();
         if (descr != null){
             newPlannerItem.setCourseNote(descr.getPlain());
+        }
+
+        //Find any associated plan items of the registration group variety
+        List<String> registrationGroupCodes = new ArrayList<String>();
+        PlanItemInfo planItemInfo = new PlanItemInfo(planItem);
+        List<String> planItemIdsForRegGroups = planItemInfo.getAttributeValueList(AcademicPlanServiceConstants.
+                PLAN_ITEM_RELATION_TYPE_COURSE2RG);
+
+        List<String> regGroupIds = new ArrayList<String>();
+
+        //Get the registration group IDs
+        for (String planItemIdForRegGroup : planItemIdsForRegGroups) {
+            PlanItem planItemForRegGroup = getPlanItem(planItemIdForRegGroup);
+            regGroupIds.add(planItemForRegGroup.getRefObjectId());
+        }
+
+        //Look up the reg groups
+        List<RegistrationGroupInfo> regGroups = null;
+        if (regGroupIds.size() > 0) {
+            try {
+                regGroups = KsapFrameworkServiceLocator.getCourseOfferingService().getRegistrationGroupsByIds(
+                        regGroupIds,KsapFrameworkServiceLocator.getContext().getContextInfo());
+            } catch (DoesNotExistException | InvalidParameterException | MissingParameterException | OperationFailedException | PermissionDeniedException e) {
+                throw new IllegalStateException("CO lookup failure", e);
+            }
+
+            //Get the name (really the display value for the reg group)
+            for (RegistrationGroupInfo regGroup : regGroups) {
+                registrationGroupCodes.add(regGroup.getName());
+            }
+            newPlannerItem.setRegistrationGroupCodes(registrationGroupCodes);
         }
 
         return newPlannerItem;
