@@ -53,6 +53,9 @@ public class RulesExecutionConstants {
     public static final Term MAX_REPEATABILITY_TERM = new Term("maxRepeatability");
     public static final Term WAITLISTED_ATTEMPTS_TERM = new Term("waitlistedAttempts");
     public static final Term SIMULATED_ATTEMPTS_TERM = new Term("simulatedAttempts");
+    public static final Term USER_ACTION_DATE_TERM = new Term("userActionDate");
+    public static final Term SCHEDULE_ADJUSTMENT_START_TERM = new Term("scheduleAdjustmentStart");
+    public static final Term SCHEDULE_ADJUSTMENT_END_TERM = new Term("scheduleAdjustmentEnd");
     // services
     public static final Term ACADEMIC_RECORD_SERVICE_TERM = new Term("academicRecordService");
     public static final Term CLU_SERVICE = new Term("cluService");
