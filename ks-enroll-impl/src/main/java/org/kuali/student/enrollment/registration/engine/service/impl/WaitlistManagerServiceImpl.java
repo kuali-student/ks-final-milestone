@@ -145,29 +145,30 @@ public class WaitlistManagerServiceImpl implements WaitlistManagerService {
 
         if (!waitlistInfos.isEmpty()) {
             for (WaitlistInfo waitlistInfo : waitlistInfos) {
-                Entity entity = CourseRegistrationAndScheduleOfClassesUtil.getIdentityService().getEntity(waitlistInfo.personId);
-                String personId;
+                String entityId = waitlistInfo.personId;
+                Entity entity = CourseRegistrationAndScheduleOfClassesUtil.getIdentityService().getEntity(entityId);
+                String principalId;
                 if (entity != null) {
-                    personId = KSCollectionUtils.getRequiredZeroElement(entity.getPrincipals()).getPrincipalId();
+                    principalId = KSCollectionUtils.getRequiredZeroElement(entity.getPrincipals()).getPrincipalId();
                 } else {
-                    personId = waitlistInfo.personId;
+                    principalId = entityId;
                 }
                 //Make a new reg request for each person being processed off of the waitlist
-                RegistrationRequestInfo regRequest = person2RegRequest.get(personId);
+                RegistrationRequestInfo regRequest = person2RegRequest.get(principalId);
                 if (regRequest == null) {
                     regRequest = new RegistrationRequestInfo();
                     regRequest.setTypeKey(LprServiceConstants.LPRTRANS_REGISTRATION_TYPE_KEY);
                     regRequest.setStateKey(LprServiceConstants.LPRTRANS_NEW_STATE_KEY);
                     regRequest.setTermId(waitlistInfo.atpId);
-                    regRequest.setRequestorId(personId);
-                    person2RegRequest.put(personId, regRequest);
+                    regRequest.setRequestorId(principalId);
+                    person2RegRequest.put(principalId, regRequest);
                 }
 
                 //Add a reg request item to process the person off of the waitlist
                 RegistrationRequestItemInfo item = new RegistrationRequestItemInfo();
                 item.setExistingCourseRegistrationId(waitlistInfo.masterLprId);
                 item.setRegistrationGroupId(waitlistInfo.rgId);
-                item.setPersonId(personId);
+                item.setPersonId(entityId);
                 item.setTypeKey(LprServiceConstants.REQ_ITEM_ADD_FROM_WAITLIST_TYPE_KEY);
                 item.setStateKey(LprServiceConstants.LPRTRANS_ITEM_NEW_STATE_KEY);
                 regRequest.getRegistrationRequestItems().add(item);
