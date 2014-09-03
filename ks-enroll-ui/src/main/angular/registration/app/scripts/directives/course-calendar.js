@@ -427,19 +427,31 @@ angular.module('regCartApp')
                 };
 
 
+                // Init the calendar size to be 'small' || 'large'
                 var size = $scope.size;
                 if (size !== 'small') {
                     size = 'large';
                 }
                 $scope.calendarSize = size;
-                $scope.orientation = '';
+                $scope.orientation = ''; // Used by course-items to scale & position themselves correctly
+
 
                 $scope.hideRegistered = false;
                 $scope.hideWaitlisted = false;
                 $scope.hideCart = false;
 
-                $scope.visibleTimeRange = [];
+                // Watch the hideX variables and clear the selected course when then change.
+                var clearSelectedCourse = function() {
+                    if ($scope.selectedCourse !== null) {
+                        $scope.selectedCourse = null;
+                    }
+                };
+                $scope.$watch('hideRegistered', clearSelectedCourse);
+                $scope.$watch('hideWaitlisted', clearSelectedCourse);
+                $scope.$watch('hideCart', clearSelectedCourse);
 
+
+                $scope.visibleTimeRange = [];
 
                 // Create the list of times (date objects) to be shown in the view
                 $scope.times = [];
