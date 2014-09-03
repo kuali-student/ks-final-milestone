@@ -19,17 +19,33 @@ import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.DtoConstants;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
-import org.kuali.student.r2.common.exceptions.*;
-import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
-import org.kuali.student.r2.core.search.dto.SearchResultInfo;
-import org.kuali.student.r2.core.search.service.SearchManager;
+import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
+import org.kuali.student.r2.common.exceptions.CircularReferenceException;
+import org.kuali.student.r2.common.exceptions.CircularRelationshipException;
+import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
+import org.kuali.student.r2.common.exceptions.DependentObjectsExistException;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.IllegalVersionSequencingException;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.exceptions.MissingParameterException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.common.exceptions.ReadOnlyException;
+import org.kuali.student.r2.common.exceptions.UnsupportedActionException;
+import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.util.constants.ProgramServiceConstants;
 import org.kuali.student.r2.common.validator.Validator;
 import org.kuali.student.r2.common.validator.ValidatorFactory;
 import org.kuali.student.r2.core.atp.dto.AtpInfo;
 import org.kuali.student.r2.core.atp.service.AtpService;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
+import org.kuali.student.r2.core.document.dto.RefDocRelationInfo;
+import org.kuali.student.r2.core.document.service.DocumentService;
+import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
+import org.kuali.student.r2.core.search.dto.SearchResultInfo;
+import org.kuali.student.r2.core.search.service.SearchManager;
 import org.kuali.student.r2.core.versionmanagement.dto.VersionDisplayInfo;
+import org.kuali.student.r2.lum.clu.CLUConstants;
 import org.kuali.student.r2.lum.clu.dto.CluCluRelationInfo;
 import org.kuali.student.r2.lum.clu.dto.CluInfo;
 import org.kuali.student.r2.lum.clu.dto.CluSetInfo;
@@ -37,7 +53,13 @@ import org.kuali.student.r2.lum.clu.service.CluService;
 import org.kuali.student.r2.lum.course.dto.LoDisplayInfo;
 import org.kuali.student.r2.lum.course.infc.LoDisplay;
 import org.kuali.student.r2.lum.course.service.impl.CourseServiceUtils;
-import org.kuali.student.r2.lum.program.dto.*;
+import org.kuali.student.r2.lum.program.dto.CoreProgramInfo;
+import org.kuali.student.r2.lum.program.dto.CredentialProgramInfo;
+import org.kuali.student.r2.lum.program.dto.HonorsProgramInfo;
+import org.kuali.student.r2.lum.program.dto.MajorDisciplineInfo;
+import org.kuali.student.r2.lum.program.dto.MinorDisciplineInfo;
+import org.kuali.student.r2.lum.program.dto.ProgramRequirementInfo;
+import org.kuali.student.r2.lum.program.dto.ProgramVariationInfo;
 import org.kuali.student.r2.lum.program.service.ProgramService;
 import org.kuali.student.r2.lum.program.service.assembler.CoreProgramAssembler;
 import org.kuali.student.r2.lum.program.service.assembler.CredentialProgramAssembler;
@@ -48,18 +70,22 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.jws.WebParam;
-
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
 
-import org.kuali.student.r2.core.document.dto.RefDocRelationInfo;
-import org.kuali.student.r2.core.document.service.DocumentService;
-
 public class ProgramServiceImpl implements ProgramService {
-	private static final Logger LOG = LoggerFactory.getLogger(ProgramServiceImpl.class);
+    private static final Logger LOG = LoggerFactory.getLogger(ProgramServiceImpl.class);
+    private static final String OBJECT_VALIDATION = "OBJECT";
+    private static final String VALIDATION_ERROR = "Validation error!";
+    private static final String ERROR_DISASSEMBLING_CREDENTIAL_PROGRAM = "Error disassembling Credential Program";
+    private static final String ERROR_CREATING_MAJOR_DISCIPLINE = "Error creating Major Discipline";
+    private static final String END_INST_ADMIT_TERM = "endInstAdmitTerm";
+    private static final String ERROR_DISASSEMBLING_MAJOR_DISCIPLINE = "Error disassembling MajorDiscipline";
+    private static final String ERROR_ASSEMBLING_MAJOR_DISCIPLINE = "Error assembling MajorDiscipline";
+    private static final String ERROR_ASSEMBLING_PROGRAM_VARIATION = "Error assembling ProgramVariation";
+    private static final String ERROR_DISASSEMBLING_CORE_PROGRAM = "Error disassembling CoreProgram";
+    private static final String ERROR_ASSEMBLING_CORE_PROGRAM = "Error assembling CoreProgram";
 
     private CluService cluService;
     private ValidatorFactory validatorFactory;
@@ -85,16 +111,16 @@ public class ProgramServiceImpl implements ProgramService {
         checkForMissingParameter(credentialProgramInfo, "CredentialProgramInfo");
 
         // Validate
-        List<ValidationResultInfo> validationResults = validateCredentialProgram("OBJECT", credentialProgramInfo,contextInfo);
+        List<ValidationResultInfo> validationResults = validateCredentialProgram(OBJECT_VALIDATION, credentialProgramInfo,contextInfo);
         if (ValidatorUtils.hasErrors(validationResults)) {
-            throw new DataValidationErrorException("Validation error!", validationResults);
+            throw new DataValidationErrorException(VALIDATION_ERROR, validationResults);
         }
 
         try {
             return processCredentialProgramInfo(credentialProgramInfo, NodeOperation.CREATE,contextInfo);
         } catch (AssemblyException e) {
-            LOG.error("Error disassembling Credential Program", e);
-            throw new OperationFailedException("Error disassembling Credential Program");
+            LOG.error(ERROR_DISASSEMBLING_CREDENTIAL_PROGRAM, e);
+            throw new OperationFailedException(ERROR_DISASSEMBLING_CREDENTIAL_PROGRAM, e);
         }
     }
 
@@ -115,9 +141,9 @@ public class ProgramServiceImpl implements ProgramService {
         checkForMissingParameter(programRequirementInfo, "programRequirementInfo");
 
         // Validate
-        List<ValidationResultInfo> validationResults = validateProgramRequirement("OBJECT", programRequirementInfo,contextInfo);
+        List<ValidationResultInfo> validationResults = validateProgramRequirement(OBJECT_VALIDATION, programRequirementInfo,contextInfo);
         if (ValidatorUtils.hasErrors(validationResults)) {
-        	throw new DataValidationErrorException("Validation error!", validationResults);
+        	throw new DataValidationErrorException(VALIDATION_ERROR, validationResults);
         }
 
         try {
@@ -138,16 +164,16 @@ public class ProgramServiceImpl implements ProgramService {
         checkForMissingParameter(majorDisciplineInfo, "MajorDisciplineInfo");
 
         // Validate
-        List<ValidationResultInfo> validationResults = validateMajorDiscipline("OBJECT", majorDisciplineInfo,contextInfo);
+        List<ValidationResultInfo> validationResults = validateMajorDiscipline(OBJECT_VALIDATION, majorDisciplineInfo,contextInfo);
         if (ValidatorUtils.hasErrors(validationResults)) {
-            throw new DataValidationErrorException("Validation error!", validationResults);
+            throw new DataValidationErrorException(VALIDATION_ERROR, validationResults);
         }
 
         try {
             return processMajorDisciplineInfo(majorDisciplineInfo, NodeOperation.CREATE,contextInfo);
         } catch (AssemblyException e) {
-            LOG.error("Error creating Major Discipline", e);
-            throw new OperationFailedException("Error creating Major Discipline");
+            LOG.error(ERROR_CREATING_MAJOR_DISCIPLINE, e);
+            throw new OperationFailedException(ERROR_CREATING_MAJOR_DISCIPLINE, e);
         }
     }
     
@@ -184,20 +210,10 @@ public class ProgramServiceImpl implements ProgramService {
 			programServiceMethodInvoker.invokeServiceCalls(results, contextInfo);
 
 			return results.getBusinessDTORef();
-		} catch(AssemblyException e) {
-			throw new OperationFailedException("Error creating new MajorDiscipline version",e);
-		} catch (AlreadyExistsException e) {
-			throw new OperationFailedException("Error creating new MajorDiscipline version",e);
-		} catch (DependentObjectsExistException e) {
-			throw new OperationFailedException("Error creating new MajorDiscipline version",e);
-		} catch (CircularRelationshipException e) {
-			throw new OperationFailedException("Error creating new MajorDiscipline version",e);
-		} catch (UnsupportedActionException e) {
-			throw new OperationFailedException("Error creating new MajorDiscipline version",e);
-		} catch (CircularReferenceException e) {
+		} catch(AssemblyException | AlreadyExistsException | CircularRelationshipException | UnsupportedActionException | CircularReferenceException | DependentObjectsExistException e ) {
 			throw new OperationFailedException("Error creating new MajorDiscipline version",e);
 		}
-	}
+    }
     
     /**
      * This method will update the requirement state.
@@ -266,12 +282,14 @@ public class ProgramServiceImpl implements ProgramService {
         List<ReqComponentInfo> reqComponents = statementTreeViewInfo.getReqComponents();
         
         // Loop over requirements and set the state for each requirement
-        for(Iterator<ReqComponentInfo> it = reqComponents.iterator(); it.hasNext();)
-            it.next().setState(state);
+        for (ReqComponentInfo reqComponent : reqComponents) {
+            reqComponent.setState(state);
+        }
         
         // Loop over each statement and set the state for each statement (recursively calling this method)
-        for(Iterator<StatementTreeViewInfo> itr = statementTreeViewInfo.getStatements().iterator(); itr.hasNext();)
-            updateStatementTreeViewInfoState(state, (StatementTreeViewInfo)itr.next());
+        for (StatementTreeViewInfo statementTreeViewInfo1 : statementTreeViewInfo.getStatements()) {
+            updateStatementTreeViewInfoState(state, statementTreeViewInfo1);
+        }
     }
     
 	/**
@@ -337,7 +355,7 @@ public class ProgramServiceImpl implements ProgramService {
     	majorDiscipline.setStartTerm(null);
     	majorDiscipline.setEndTerm(null);
     	majorDiscipline.setEndProgramEntryTerm(null);
-    	majorDiscipline.getAttributes().remove("endInstAdmitTerm");
+    	majorDiscipline.getAttributes().remove(END_INST_ADMIT_TERM);
     	
     	//Clear Los
 		for(LoDisplayInfo lo:majorDiscipline.getLearningObjectives()){
@@ -359,7 +377,7 @@ public class ProgramServiceImpl implements ProgramService {
 	    	variation.setStartTerm(null);
 	    	variation.setEndTerm(null);
 	    	variation.setEndProgramEntryTerm(null);
-	    	variation.getAttributes().remove("endInstAdmitTerm");
+	    	variation.getAttributes().remove(END_INST_ADMIT_TERM);
 	    	
 			//Create new variation version
 		   	String variationVersionIndId = variation.getVersion().getVersionIndId();
@@ -394,12 +412,12 @@ public class ProgramServiceImpl implements ProgramService {
 		copyProgramRequirements(majorDiscipline.getProgramRequirements(),majorDiscipline.getStateKey(),contextInfo);
 
 		//Copy documents(create new relations to the new version)
-		List<RefDocRelationInfo> docRelations = documentService.getRefDocRelationsByRef("kuali.org.RefObjectType.ProposalInfo", originalId, contextInfo);
+		List<RefDocRelationInfo> docRelations = documentService.getRefDocRelationsByRef(CLUConstants.REF_DOC_RELATION_PROPOSAL_TYPE, originalId, contextInfo);
 		if(docRelations!=null){
 			for(RefDocRelationInfo docRelation:docRelations){
 				docRelation.setId(null);
 				docRelation.setRefObjectId(majorDiscipline.getId());
-				documentService.createRefDocRelation("kuali.org.RefObjectType.ProposalInfo", 
+				documentService.createRefDocRelation(CLUConstants.REF_DOC_RELATION_PROPOSAL_TYPE,
                                         majorDiscipline.getId(), 
                                         docRelation.getDocumentId(), 
                                         docRelation.getTypeKey(), 
@@ -426,12 +444,12 @@ public class ProgramServiceImpl implements ProgramService {
 		copyProgramRequirements(originaCredentialProgram.getProgramRequirements(),originaCredentialProgram.getStateKey(),contextInfo);
 
 		//Copy documents(create new relations to the new version)
-		List<RefDocRelationInfo> docRelations = documentService.getRefDocRelationsByRef("kuali.org.RefObjectType.ProposalInfo", originalId, contextInfo);
+		List<RefDocRelationInfo> docRelations = documentService.getRefDocRelationsByRef(CLUConstants.REF_DOC_RELATION_PROPOSAL_TYPE, originalId, contextInfo);
 		if(docRelations!=null){
 			for(RefDocRelationInfo docRelation:docRelations){
 				docRelation.setId(null);
 				docRelation.setRefObjectId(originaCredentialProgram.getId());
-				documentService.createRefDocRelation("kuali.org.RefObjectType.ProposalInfo", 
+				documentService.createRefDocRelation(CLUConstants.REF_DOC_RELATION_PROPOSAL_TYPE,
                                         originaCredentialProgram.getId(), 
                                         docRelation.getDocumentId(), 
                                         docRelation.getTypeKey(), 
@@ -455,12 +473,12 @@ public class ProgramServiceImpl implements ProgramService {
 		copyProgramRequirements(originalCoreProgram.getProgramRequirements(),originalCoreProgram.getStateKey(),contextInfo);
 
 		//Copy documents(create new relations to the new version)
-		List<RefDocRelationInfo> docRelations = documentService.getRefDocRelationsByRef("kuali.org.RefObjectType.ProposalInfo", originalId, contextInfo);
+		List<RefDocRelationInfo> docRelations = documentService.getRefDocRelationsByRef(CLUConstants.REF_DOC_RELATION_PROPOSAL_TYPE, originalId, contextInfo);
 		if(docRelations!=null){
 			for(RefDocRelationInfo docRelation:docRelations){
 				docRelation.setId(null);
 				docRelation.setRefObjectId(originalCoreProgram.getId());
-				documentService.createRefDocRelation("kuali.org.RefObjectType.ProposalInfo", 
+				documentService.createRefDocRelation(CLUConstants.REF_DOC_RELATION_PROPOSAL_TYPE,
                                         originalCoreProgram.getId(), 
                                         docRelation.getDocumentId(), 
                                         docRelation.getTypeKey(), 
@@ -596,8 +614,8 @@ public class ProgramServiceImpl implements ProgramService {
             return getStatus();
 
         } catch (AssemblyException e) {
-            LOG.error("Error disassembling MajorDiscipline", e);
-            throw new OperationFailedException("Error disassembling MajorDiscipline");
+            LOG.error(ERROR_DISASSEMBLING_MAJOR_DISCIPLINE, e);
+            throw new OperationFailedException(ERROR_DISASSEMBLING_MAJOR_DISCIPLINE, e);
         }
     }
 
@@ -626,7 +644,7 @@ public class ProgramServiceImpl implements ProgramService {
             return getStatus();
 
         } catch (AssemblyException e) {
-            LOG.error("Error disassembling MajorDiscipline", e);
+            LOG.error(ERROR_DISASSEMBLING_MAJOR_DISCIPLINE, e);
             throw new OperationFailedException("Error disassembling ProgramRequirement", e);
         }
 
@@ -664,29 +682,6 @@ public class ProgramServiceImpl implements ProgramService {
 //		}
     }
 
-//    @Override
-//    public LuTypeInfo getCredentialProgramType(String credentialProgramTypeKey, ContextInfo contextInfo)
-//            throws DoesNotExistException, InvalidParameterException,
-//            MissingParameterException, OperationFailedException {
-//        // TODO Auto-generated method stub
-//        return null;
-//    }
-
-//    @Override
-//    public List<LuTypeInfo> getCredentialProgramTypes(ContextInfo contextInfo)
-//            throws OperationFailedException {
-//        // TODO Auto-generated method stub
-//        return null;
-//    }
-
-//    @Override
-//    public List<String> getHonorsByCredentialProgramType(String programType, ContextInfo contextInfo)
-//            throws DoesNotExistException, InvalidParameterException,
-//            MissingParameterException, OperationFailedException {
-//        // TODO Auto-generated method stub
-//        return null;
-//    }
-
     @Override
     public HonorsProgramInfo getHonorsProgram(String honorsProgramId, ContextInfo contextInfo) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
@@ -711,8 +706,8 @@ public class ProgramServiceImpl implements ProgramService {
             }
             majorDiscipline = majorDisciplineAssembler.assemble(clu, null, false,contextInfo);
         } catch (AssemblyException e) {
-            LOG.error("Error assembling MajorDiscipline", e);
-            throw new OperationFailedException("Error assembling MajorDiscipline");
+            LOG.error(ERROR_ASSEMBLING_MAJOR_DISCIPLINE, e);
+            throw new OperationFailedException(ERROR_ASSEMBLING_MAJOR_DISCIPLINE, e);
         }
         return majorDiscipline;
 		// comment out the above, and uncomment below to get auto-generated data
@@ -724,21 +719,12 @@ public class ProgramServiceImpl implements ProgramService {
 //		}
 	}
 
-//	@Override
-//	public List<String> getMajorIdsByCredentialProgramType(String programType, ContextInfo contextInfo)
-//			throws DoesNotExistException, InvalidParameterException,
-//			MissingParameterException, OperationFailedException {
-//		// TODO Auto-generated method stub
-//		return null;
-//	}
-
 	@Override
 	public MinorDisciplineInfo getMinorDiscipline(String minorDisciplineId,ContextInfo contextInfo)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
 	    throw new UnsupportedOperationException("getMinorDiscipline");
-		//return null;
 	}
 
 	@Override
@@ -746,7 +732,6 @@ public class ProgramServiceImpl implements ProgramService {
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
 	    throw new UnsupportedOperationException("getMinorsByCredentialProgramType");
-		//return null;
 	}
 
 	@Override
@@ -764,8 +749,7 @@ public class ProgramServiceImpl implements ProgramService {
 			throw new DoesNotExistException("Specified CLU is not a Program Requirement");
 		}
 		try {
-			ProgramRequirementInfo progReqInfo = programRequirementAssembler.assemble(clu, null, false, contextInfo);
-			return progReqInfo;
+            return programRequirementAssembler.assemble(clu, null, false, contextInfo);
 		} catch (AssemblyException e) {
             LOG.error("Error assembling program requirement", e);
             throw new OperationFailedException("Error assembling program requirement: " + e.getMessage(), e);
@@ -792,11 +776,10 @@ public class ProgramServiceImpl implements ProgramService {
 		        	}
 		        }
 		    } catch (AssemblyException e) {
-		        LOG.error("Error assembling ProgramVariation", e);
-		        throw new OperationFailedException("Error assembling ProgramVariation");
+		        LOG.error(ERROR_ASSEMBLING_PROGRAM_VARIATION, e);
+		        throw new OperationFailedException(ERROR_ASSEMBLING_PROGRAM_VARIATION, e);
 		    } catch (PermissionDeniedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+                LOG.error("Permission denied exception: ", e);
 			}
 
         return pvInfos;
@@ -814,9 +797,9 @@ public class ProgramServiceImpl implements ProgramService {
         checkForMissingParameter(credentialProgramInfo, "CredentialProgramInfo");
 
         // Validate
-        List<ValidationResultInfo> validationResults = validateCredentialProgram("OBJECT", credentialProgramInfo,contextInfo);
+        List<ValidationResultInfo> validationResults = validateCredentialProgram(OBJECT_VALIDATION, credentialProgramInfo,contextInfo);
         if (ValidatorUtils.hasErrors(validationResults)) {
-            throw new DataValidationErrorException("Validation error!", validationResults);
+            throw new DataValidationErrorException(VALIDATION_ERROR, validationResults);
         }
 
         try {
@@ -824,22 +807,10 @@ public class ProgramServiceImpl implements ProgramService {
             return processCredentialProgramInfo(credentialProgramInfo, NodeOperation.UPDATE,contextInfo);
 
         } catch (AssemblyException e) {
-            LOG.error("Error disassembling Credential Program", e);
-            throw new OperationFailedException("Error disassembling Credential Program");
+            LOG.error(ERROR_DISASSEMBLING_CREDENTIAL_PROGRAM, e);
+            throw new OperationFailedException(ERROR_DISASSEMBLING_CREDENTIAL_PROGRAM, e);
         }
     }
-
-//    @Override
-//    @Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
-//	public HonorsProgramInfo updateHonorsProgram(
-//            HonorsProgramInfo honorsProgramInfo, ContextInfo contextInfo)
-//            throws DataValidationErrorException, DoesNotExistException,
-//            InvalidParameterException, MissingParameterException,
-//            VersionMismatchException, OperationFailedException,
-//            PermissionDeniedException {
-//        // TODO Auto-generated method stub
-//        return null;
-//    }
 
     @Override
     @Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
@@ -853,9 +824,9 @@ public class ProgramServiceImpl implements ProgramService {
         checkForMissingParameter(majorDisciplineInfo, "MajorDisciplineInfo");
 
         // Validate
-        List<ValidationResultInfo> validationResults = validateMajorDiscipline("OBJECT", majorDisciplineInfo,contextInfo);
+        List<ValidationResultInfo> validationResults = validateMajorDiscipline(OBJECT_VALIDATION, majorDisciplineInfo,contextInfo);
         if (ValidatorUtils.hasErrors(validationResults)) {
-            throw new DataValidationErrorException("Validation error!", validationResults);
+            throw new DataValidationErrorException(VALIDATION_ERROR, validationResults);
         }
 
         try {
@@ -863,8 +834,8 @@ public class ProgramServiceImpl implements ProgramService {
             return processMajorDisciplineInfo(majorDisciplineInfo, NodeOperation.UPDATE,contextInfo);
 
         } catch (AssemblyException e) {
-            LOG.error("Error disassembling majorDiscipline", e);
-            throw new OperationFailedException("Error disassembling majorDiscipline");
+            LOG.error(ERROR_DISASSEMBLING_MAJOR_DISCIPLINE, e);
+            throw new OperationFailedException(ERROR_DISASSEMBLING_MAJOR_DISCIPLINE, e);
         }
     }
 
@@ -889,9 +860,9 @@ public class ProgramServiceImpl implements ProgramService {
             PermissionDeniedException {
     	checkForMissingParameter(programRequirementInfo, "programRequirementInfo");
         // Validate
-        List<ValidationResultInfo> validationResults = validateProgramRequirement("OBJECT", programRequirementInfo,contextInfo);
+        List<ValidationResultInfo> validationResults = validateProgramRequirement(OBJECT_VALIDATION, programRequirementInfo,contextInfo);
         if (ValidatorUtils.hasErrors(validationResults)) {
-        	throw new DataValidationErrorException("Validation error!", validationResults);
+        	throw new DataValidationErrorException(VALIDATION_ERROR, validationResults);
         }
 
         try {
@@ -1020,7 +991,6 @@ public class ProgramServiceImpl implements ProgramService {
     }
 
     private ProgramRequirementInfo processProgramRequirement(ProgramRequirementInfo programRequirementInfo, NodeOperation operation, ContextInfo contextInfo) throws AssemblyException {
-    	BOAssembler<ProgramRequirementInfo, CluInfo> passAlong;
         BaseDTOAssemblyNode<ProgramRequirementInfo, CluInfo> results = programRequirementAssembler.disassemble(programRequirementInfo, operation, contextInfo);
         invokeServiceCalls(results, contextInfo);
         return results.getBusinessDTORef();
@@ -1030,8 +1000,6 @@ public class ProgramServiceImpl implements ProgramService {
         // Use the results to make the appropriate service calls here
         try {
             programServiceMethodInvoker.invokeServiceCalls(results, contextInfo);
-        } catch (AssemblyException e) {
-        	throw e;
         } catch (Exception e) {
             throw new AssemblyException(e);
         }
@@ -1130,16 +1098,16 @@ public class ProgramServiceImpl implements ProgramService {
         checkForMissingParameter(coreProgramInfo, "CoreProgramInfo");
         
         // Validate
-        List<ValidationResultInfo> validationResults = validateCoreProgram("OBJECT", coreProgramInfo, contextInfo );
+        List<ValidationResultInfo> validationResults = validateCoreProgram(OBJECT_VALIDATION, coreProgramInfo, contextInfo );
         if (ValidatorUtils.hasErrors(validationResults)) {
-            throw new DataValidationErrorException("Validation error!", validationResults);
+            throw new DataValidationErrorException(VALIDATION_ERROR, validationResults);
         }
 
         try {
             return processCoreProgramInfo(coreProgramInfo, NodeOperation.CREATE,contextInfo);
         } catch (AssemblyException e) {
-            LOG.error("Error disassembling CoreProgram", e);
-            throw new OperationFailedException("Error disassembling CoreProgram");
+            LOG.error(ERROR_DISASSEMBLING_CORE_PROGRAM, e);
+            throw new OperationFailedException(ERROR_DISASSEMBLING_CORE_PROGRAM, e);
         }
     }
 
@@ -1174,20 +1142,10 @@ public class ProgramServiceImpl implements ProgramService {
 			programServiceMethodInvoker.invokeServiceCalls(results, contextInfo);
 
 			return results.getBusinessDTORef();
-		} catch(AssemblyException e) {
-			throw new OperationFailedException("Error creating new MajorDiscipline version",e);
-		} catch (AlreadyExistsException e) {
-			throw new OperationFailedException("Error creating new MajorDiscipline version",e);
-		} catch (DependentObjectsExistException e) {
-			throw new OperationFailedException("Error creating new MajorDiscipline version",e);
-		} catch (CircularRelationshipException e) {
-			throw new OperationFailedException("Error creating new MajorDiscipline version",e);
-		} catch (UnsupportedActionException e) {
-			throw new OperationFailedException("Error creating new MajorDiscipline version",e);
-		} catch (CircularReferenceException e) {
+		} catch(AssemblyException | AlreadyExistsException | CircularRelationshipException | UnsupportedActionException | CircularReferenceException | DependentObjectsExistException e) {
 			throw new OperationFailedException("Error creating new MajorDiscipline version",e);
 		}
-	}
+    }
     
 
 
@@ -1195,18 +1153,7 @@ public class ProgramServiceImpl implements ProgramService {
     @Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
 	public StatusInfo deleteCoreProgram(String coreProgramId, ContextInfo contextInfo) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException{
-//        try {
-//        	CoreProgramInfo coreProgramInfo = getCoreProgram(coreProgramId);
-//
-//            processCoreProgramInfo(coreProgramInfo, NodeOperation.DELETE);
-//
-//            return getStatus();
-//
-//        } catch (AssemblyException e) {
-//            LOG.error("Error disassembling CoreProgram", e);
-//            throw new OperationFailedException("Error disassembling CoreProgram");
-//        }
-    	throw new OperationFailedException("Deletion of CoreProgram is not supported."); 
+    	throw new OperationFailedException("Deletion of CoreProgram is not supported.");
     }
 
     @Override
@@ -1221,8 +1168,8 @@ public class ProgramServiceImpl implements ProgramService {
             }
             coreProgramInfo = coreProgramAssembler.assemble(clu, null, false, contextInfo);
         } catch (AssemblyException e) {
-            LOG.error("Error assembling CoreProgram", e);
-            throw new OperationFailedException("Error assembling CoreProgram");
+            LOG.error(ERROR_ASSEMBLING_CORE_PROGRAM, e);
+            throw new OperationFailedException(ERROR_ASSEMBLING_CORE_PROGRAM, e);
         }
         return coreProgramInfo;
 		// comment out the above, and uncomment below to get auto-generated data
@@ -1242,9 +1189,9 @@ public class ProgramServiceImpl implements ProgramService {
         checkForMissingParameter(coreProgramInfo, "CoreProgramInfo");
         
         // Validate
-        List<ValidationResultInfo> validationResults = validateCoreProgram("OBJECT", coreProgramInfo,contextInfo);
+        List<ValidationResultInfo> validationResults = validateCoreProgram(OBJECT_VALIDATION, coreProgramInfo,contextInfo);
         if (ValidatorUtils.hasErrors(validationResults)) {
-            throw new DataValidationErrorException("Validation error!", validationResults);
+            throw new DataValidationErrorException(VALIDATION_ERROR, validationResults);
         }
 
         try {
@@ -1252,8 +1199,8 @@ public class ProgramServiceImpl implements ProgramService {
             return processCoreProgramInfo(coreProgramInfo, NodeOperation.UPDATE,contextInfo);
 
         } catch (AssemblyException e) {
-            LOG.error("Error disassembling CoreProgram", e);
-            throw new OperationFailedException("Error disassembling CoreProgram");
+            LOG.error(ERROR_DISASSEMBLING_CORE_PROGRAM, e);
+            throw new OperationFailedException(ERROR_DISASSEMBLING_CORE_PROGRAM);
         }
     }
 
@@ -1446,9 +1393,9 @@ public class ProgramServiceImpl implements ProgramService {
 	private void validateMajorDisciplineAtps(MajorDisciplineInfo majorDisciplineInfo, List<ValidationResultInfo> validationResults,ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 		String startTerm = majorDisciplineInfo.getStartTerm();
 
-        String endInstAdmitTerm = majorDisciplineInfo.getAttributeValue("endInstAdmitTerm");
+        String endInstAdmitTerm = majorDisciplineInfo.getAttributeValue(END_INST_ADMIT_TERM);
 		if(endInstAdmitTerm != null) {
-            compareAtps(startTerm, endInstAdmitTerm, validationResults, "End Inst Admin Term", "endInstAdmitTerm",contextInfo);
+            compareAtps(startTerm, endInstAdmitTerm, validationResults, "End Inst Admin Term", END_INST_ADMIT_TERM,contextInfo);
 		}
 		if(!isEmpty(majorDisciplineInfo.getEndProgramEntryTerm())){
 			compareAtps(startTerm, majorDisciplineInfo.getEndTerm(), validationResults, "End Program Entry Term", "endProgramEntryTerm",contextInfo);
@@ -1472,7 +1419,7 @@ public class ProgramServiceImpl implements ProgramService {
 	private void validateVariationAtps(ProgramVariationInfo programVariationInfo, List<ValidationResultInfo> validationResults, int idx,ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException,PermissionDeniedException{
 		
 		String startTerm = programVariationInfo.getStartTerm();
-        String endInstAdmitTerm = programVariationInfo.getAttributeValue("endInstAdmitTerm");
+        String endInstAdmitTerm = programVariationInfo.getAttributeValue(END_INST_ADMIT_TERM);
 		if(endInstAdmitTerm != null) {
             compareAtps(startTerm, endInstAdmitTerm, validationResults, "End Inst Admin Term",  "variations/" + idx + "/endInstAdmitTerm",contextInfo);
 		}
@@ -1502,7 +1449,7 @@ public class ProgramServiceImpl implements ProgramService {
 			atpInfo2 = getAtpInfo(aptKey2,contextInfo);
 		}catch(DoesNotExistException e){}
 		
-		if(atpInfo1 != null && atpInfo1 != null){
+		if(atpInfo1 != null && atpInfo2 != null){
 			if(atpInfo1.getStartDate()!= null && atpInfo2.getStartDate() != null){			
 				boolean compareResult = ValidatorUtils.compareValues(atpInfo2.getStartDate(), atpInfo1.getStartDate(), DataType.DATE, "greater_than_equal", true, new ServerDateParser());
 				if(!compareResult){
@@ -1517,7 +1464,7 @@ public class ProgramServiceImpl implements ProgramService {
 	}
 	
 	private boolean isEmpty(String value){
-		return value == null || (value != null && "".equals(value));
+		return value == null || "".equals(value);
 	}
 
 	public void setDocumentService(DocumentService documentService) {
@@ -1535,7 +1482,6 @@ public class ProgramServiceImpl implements ProgramService {
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
 	    throw new UnsupportedOperationException("getCredentialProgramsByIds");
-		//return null;
 	}
 
 	@Override
@@ -1545,7 +1491,6 @@ public class ProgramServiceImpl implements ProgramService {
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
 	    throw new UnsupportedOperationException("getMajorDisciplinesByIds");
-		//return null;
 	}
 
 	@Override
@@ -1554,7 +1499,6 @@ public class ProgramServiceImpl implements ProgramService {
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
 	    throw new UnsupportedOperationException("getMajorDisciplineIdsByCredentialProgramType");
-		//return null;
 	}
 
 	@Override
@@ -1564,7 +1508,6 @@ public class ProgramServiceImpl implements ProgramService {
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
 	    throw new UnsupportedOperationException("getHonorsProgramsByIds");
-		//return null;
 	}
 
 	@Override
@@ -1573,7 +1516,6 @@ public class ProgramServiceImpl implements ProgramService {
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
 	    throw new UnsupportedOperationException("getHonorProgramIdsByCredentialProgramType");
-		//return null;
 	}
 
 	@Override
@@ -1584,7 +1526,6 @@ public class ProgramServiceImpl implements ProgramService {
 			MissingParameterException, VersionMismatchException,
 			OperationFailedException, PermissionDeniedException {
 	    throw new UnsupportedOperationException("updateHonorsProgram");
-		//return null;
 	}
 
 	@Override
@@ -1594,7 +1535,6 @@ public class ProgramServiceImpl implements ProgramService {
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
 	    throw new UnsupportedOperationException("getCoreProgramsByIds");
-		//return null;
 	}
 
 	@Override
@@ -1604,7 +1544,6 @@ public class ProgramServiceImpl implements ProgramService {
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
 	    throw new UnsupportedOperationException("getProgramRequirementsByIds");
-		//return null;
 	}
 
 	@Override
@@ -1613,7 +1552,6 @@ public class ProgramServiceImpl implements ProgramService {
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
 	    throw new UnsupportedOperationException("getProgramVariationsByMajorDiscipline");
-		//return null;
 	}
 
 	@Override
