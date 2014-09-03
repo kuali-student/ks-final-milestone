@@ -368,7 +368,6 @@
     <bean id="KSAP-Planner-Item-PlanItem" parent="KSAP-Planner-Item-PlanItem-parent"/>
     <bean id="KSAP-Planner-Item-PlanItem-parent" parent="KSAP-Planner-Item-Base">
         <property name="id" value="@{#line.uniqueId}"/>
-        <property name="title" value="@{#line.courseTitle}"/>
         <property name="render" value="@{#line.type == 'PlanItem'}"/>
         <property name="onDocumentReadyScript" value='ksapSetStaticCourseIDs("@{#line.uniqueId}_code", "@{#line.uniqueId}_courseNote")' />
         <property name="onClickScript"
@@ -389,6 +388,7 @@
                 <bean p:id="@{#line.uniqueId}_code" parent="Uif-MessageField">
                     <property name="messageText"
                               value="@{#line.campusCode} @{#line.courseCode} @{#line.activityCode}" />
+                    <property name="title" value="@{#line.courseTitle}"/>
                     <property name="cssClasses">
                         <list merge="true">
                             <value>code</value>
@@ -412,8 +412,7 @@
                               value="@{#line.registrationGroupCodes.size()}" />
                     <property name="cssClasses">
                         <list merge="true">
-                            <value>regGroupCount</value>
-                            <value>ks-plan-Bucket-itemRegGroupCount</value>
+                            <value>ksap-planner-reggroup</value>
                         </list>
                     </property>
                     <property name="toolTip">
