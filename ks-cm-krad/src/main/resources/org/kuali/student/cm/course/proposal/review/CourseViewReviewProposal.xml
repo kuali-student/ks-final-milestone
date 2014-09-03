@@ -84,9 +84,9 @@
         <property name="comparables">
           <list>
             <bean parent="Uif-CompareConfig" p:readOnly="true" p:headerText="Course 1" p:compareToForValueChange="true"
-                  p:bindingObjectPath="document.oldMaintainableObject.dataObject"/>
+                  p:bindingObjectPath="document.oldMaintainableObject.dataObject" p:idSuffix="old"/>
             <bean parent="Uif-CompareConfig" p:headerText="Course 2"
-                  p:bindingObjectPath="document.newMaintainableObject.dataObject" p:readOnly="true"/>
+                  p:bindingObjectPath="document.newMaintainableObject.dataObject" p:readOnly="true" p:idSuffix="new"/>
           </list>
         </property>
         <property name="generateCompareHeaders" value="false"/>
@@ -186,6 +186,38 @@
                         <map>
                             <entry key="displaySection" value="CM-Proposal-CourseRequisites-Section"/>
                         </map>
+                    </property>
+                </bean>
+            </list>
+        </property>
+        <property name="items">
+            <list>
+                <bean parent="CM-ViewCourse-View-Course-GridGroup">
+                    <property name="items">
+                        <list>
+                            <bean id="CM-Proposal-Course-Requisites-CollectionSection" parent="Uif-VerticalFieldGroup" p:colSpan="3" p:fieldLabel.renderColon="false" >
+                                <property name="items">
+                                    <list>
+                                        <bean parent="CM-ViewCourse-View-Course-Requisites-AgendaSection"/>
+                                    </list>
+                                </property>
+                            </bean>
+                            <bean id="CM-Proposal-Course-Requisites-CollectionSection2" parent="Uif-VerticalFieldGroup" p:colSpan="3" p:fieldLabel.render="false" >
+                                <property name="render" value="@{#isCompareView}"/>
+                                <property name="items">
+                                    <list>
+                                        <bean parent="CM-ViewCourse-View-Course-Requisites-AgendaSection">
+                                            <property name="propertyName" value="agendas"/>
+                                        </bean>
+                                    </list>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                    <property name="componentModifiers">
+                      <list>
+                          <bean parent="Uif-LabelSeparator-Modifier" p:runPhase="FINALIZE"/>
+                      </list>
                     </property>
                 </bean>
             </list>

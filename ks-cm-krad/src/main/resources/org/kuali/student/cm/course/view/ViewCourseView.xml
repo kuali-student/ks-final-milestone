@@ -316,16 +316,17 @@
 
     <bean id="CM-ViewCourse-View-Compare-Modifier" parent="CM-ViewCourse-View-Compare-Modifier-parentBean"/>
 
-    <bean id="CM-ViewCourse-View-Compare-Modifier-parentBean" abstract="true" parent="Uif-CompareFieldCreate-Modifier">
+    <bean id="CM-ViewCourse-View-Compare-Modifier-parentBean" abstract="true" parent="Uif-CompareFieldCreate-Modifier"
+          class="org.kuali.student.cm.uif.modifier.CMCourseFieldCompareModifier">
         <property name="headerFieldPrototype">
           <bean parent="Uif-HeaderSix"/>
         </property>
         <property name="comparables">
           <list>
             <bean parent="Uif-CompareConfig" p:readOnly="true" p:headerText="Course 1" p:compareToForValueChange="true"
-                  p:bindingObjectPath="courseInfoWrapper"/>
+                  p:bindingObjectPath="courseInfoWrapper" p:idSuffix="ver1"/>
             <bean parent="Uif-CompareConfig" p:headerText="Course 2"
-                  p:bindingObjectPath="compareCourseInfoWrapper" p:readOnly="true"/>
+                  p:bindingObjectPath="compareCourseInfoWrapper" p:readOnly="true" p:idSuffix="ver2"/>
           </list>
         </property>
         <property name="generateCompareHeaders" value="false"/>
@@ -740,84 +741,52 @@
                 <bean parent="CM-ViewCourse-View-Course-GridGroup">
                     <property name="items">
                         <list>
-                            <bean id="CM-Proposal-Course-Requisites-CollectionSection" parent="Uif-VerticalFieldGroup" p:colSpan="3" p:fieldLabel.renderColon="false" >
+                            <bean id="CM-ViewCourse-View-Course-Requisites-CollectionSection" parent="Uif-VerticalFieldGroup" p:colSpan="3" p:fieldLabel.renderColon="false" >
 
                                 <property name="items">
                                     <list>
-                                        <bean id="CM-Proposal-Course-Requisites-AgendaSection" parent="CM-Proposal-Course-AgendaManage-Section" class="org.kuali.student.cm.course.service.util.CourseAgendaSection">
-
-                                            <property name="rulePrototype">
-                                                <bean id="CM-Proposal-CoursePreview-AgendaManage-RulePrototype" parent="CM-Proposal-Course-AgendaManage-RulePrototype-CoursePreview">
-                                                    <property name="items">
-                                                        <list>
-                                                            <ref bean="CM-Proposal-Course-AgendaManage-ViewRule"/>
-                                                        </list>
-                                                    </property>
-                                                </bean>
-                                            </property>
-
-                                        </bean>
-                                    </list>
-                                </property>
-                                <property name="propertyReplacers">
-                                    <list>
-                                        <bean parent="Uif-ConditionalBeanPropertyReplacer" p:propertyName="items"
-                                              p:condition="@{#form.viewId eq T(org.kuali.student.cm.common.util.CurriculumManagementConstants$CourseViewIds).VIEW_COURSE_VIEW}">
-                                            <property name="replacement">
-                                                <list>
-                                                    <bean parent="CM-Proposal-Course-Requisites-AgendaSection">
-                                                        <property name="propertyName" value="courseInfoWrapper.agendas"/>
-                                                    </bean>
-                                                </list>
-                                            </property>
+                                        <bean parent="CM-ViewCourse-View-Course-Requisites-AgendaSection">
+                                            <property name="propertyName" value="courseInfoWrapper.agendas"/>
                                         </bean>
                                     </list>
                                 </property>
                             </bean>
-                            <!--<bean id="CM-Proposal-Course-Requisites-CollectionSection2" parent="Uif-VerticalFieldGroup" p:colSpan="3" p:fieldLabel.renderColon="false" >
-                                <property name="render" value="@{#isCompareView and #isViewCourseView}"/>
+                            <bean id="CM-ViewCourse-View-Course-Requisites-CollectionSection2" parent="Uif-VerticalFieldGroup" p:colSpan="3" p:fieldLabel.render="false" >
+                                <property name="render" value="@{#isCompareView}"/>
                                 <property name="items">
                                     <list>
-                                        <bean id="CM-Proposal-Course-Requisites-AgendaSection" parent="CM-Proposal-Course-AgendaManage-Section" class="org.kuali.student.cm.course.service.util.CourseAgendaSection">
-
-                                            <property name="rulePrototype">
-                                                <bean id="CM-Proposal-CoursePreview-AgendaManage-RulePrototype" parent="CM-Proposal-Course-AgendaManage-RulePrototype-CoursePreview">
-                                                    <property name="items">
-                                                        <list>
-                                                            <ref bean="CM-Proposal-Course-AgendaManage-ViewRule"/>
-                                                        </list>
-                                                    </property>
-                                                </bean>
-                                            </property>
-
+                                        <bean parent="CM-ViewCourse-View-Course-Requisites-AgendaSection">
+                                            <property name="propertyName" value="compareCourseInfoWrapper.agendas"/>
                                         </bean>
                                     </list>
                                 </property>
-                                <property name="propertyReplacers">
-                                    <list>
-                                        <bean parent="Uif-ConditionalBeanPropertyReplacer" p:propertyName="items"
-                                              p:condition="@{#form.viewId eq T(org.kuali.student.cm.common.util.CurriculumManagementConstants$CourseViewIds).VIEW_COURSE_VIEW}">
-                                            <property name="replacement">
-                                                <list>
-                                                    <bean parent="CM-Proposal-Course-Requisites-AgendaSection">
-                                                        <property name="propertyName" value="compareCourseInfoWrapper.agendas"/>
-                                                    </bean>
-                                                </list>
-                                            </property>
-                                        </bean>
-                                    </list>
-                                </property>
-                            </bean>-->
+                            </bean>
                         </list>
                     </property>
-                    <!--<property name="componentModifiers">
+                    <property name="componentModifiers">
                       <list>
                           <bean parent="Uif-LabelSeparator-Modifier" p:runPhase="FINALIZE"/>
                       </list>
-                    </property>-->
+                    </property>
                 </bean>
             </list>
         </property>
+    </bean>
+
+    <bean id="CM-ViewCourse-View-Course-Requisites-AgendaSection" parent="CM-ViewCourse-View-Course-Requisites-AgendaSection-parent"/>
+
+    <bean id="CM-ViewCourse-View-Course-Requisites-AgendaSection-parent" parent="CM-Proposal-Course-AgendaManage-Section" class="org.kuali.student.cm.course.service.util.CourseAgendaSection">
+
+        <property name="rulePrototype">
+            <bean id="CM-Proposal-CoursePreview-AgendaManage-RulePrototype" parent="CM-Proposal-Course-AgendaManage-RulePrototype-CoursePreview">
+                <property name="items">
+                    <list>
+                        <ref bean="CM-Proposal-Course-AgendaManage-ViewRule"/>
+                    </list>
+                </property>
+            </bean>
+        </property>
+
     </bean>
 
     <bean id="CM-ViewCourse-View-Course-ActiveDatesSection" parent="CM-ViewCourse-View-Course-VerticalBoxSection">
