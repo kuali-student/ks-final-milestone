@@ -274,6 +274,7 @@ public class KSKRMSServiceConstants {
     public static final String TERM_RESOLVER_COURSE_COMPLETED_ATTEMPTS = "CourseCompletedAttempts";
     public static final String TERM_RESOLVER_COURSE_REGISTERED_COUNT = "CourseRegisteredCount";
     public static final String TERM_RESOLVER_COURSE_REPEATABILITY = "CourseRepeatability";
+    public static final String TERM_RESOLVER_CUSTOM_COURSE_REPEATABILITY_RULE = "CustomCourseRepeatabilityRule";
 
     // natural language usage keys
     public static final String KRMS_NL_RULE_EDIT = "kuali.krms.edit";

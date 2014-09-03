@@ -57,6 +57,7 @@ public class RulesExecutionConstants {
     public static final Term SCHEDULE_ADJUSTMENT_START_TERM = new Term("scheduleAdjustmentStart");
     public static final Term SCHEDULE_ADJUSTMENT_END_TERM = new Term("scheduleAdjustmentEnd");
     // services
+    public static final Term KRMS_EVALUATOR_TERM = new Term("krmsEvaluator");
     public static final Term ACADEMIC_RECORD_SERVICE_TERM = new Term("academicRecordService");
     public static final Term CLU_SERVICE = new Term("cluService");
     public static final Term LUI_SERVICE = new Term("luiService");
