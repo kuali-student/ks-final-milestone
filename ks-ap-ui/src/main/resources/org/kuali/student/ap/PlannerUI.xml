@@ -342,7 +342,6 @@
                                 <property name="cssClasses">
                                     <list merge="true">
                                         <value>credit</value>
-                                        <value>ksap-planner-cell-CreditCount</value>
                                     </list>
                                 </property>
                             </bean>
@@ -461,7 +460,6 @@
                     <property name="cssClasses">
                         <list merge="true">
                             <value>credit</value>
-                            <value>ksap-planner-cell-CreditCount</value>
                         </list>
                     </property>
                 </bean>
@@ -560,7 +558,6 @@
                     <property name="cssClasses">
                         <list merge="true">
                             <value>credit</value>
-                            <value>ksap-planner-cell-CreditCount</value>
                         </list>
                     </property>
                 </bean>
