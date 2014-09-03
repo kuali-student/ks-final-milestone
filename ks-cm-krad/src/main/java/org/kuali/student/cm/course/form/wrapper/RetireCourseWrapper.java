@@ -31,14 +31,16 @@ import java.io.Serializable;
 public class RetireCourseWrapper extends ProposalElementsWrapper implements Serializable {
 
     private CourseInfo courseInfo = new CourseInfo();
+    private ReviewProposalDisplay reviewProposalDisplay = new ReviewProposalDisplay();
 
     private String lastTerm;
-
     private String publicationYear;
-
     private RichText otherComment;
-
     private String retireEndTerm;
+
+    public RetireCourseWrapper(boolean curriculumSpecialistUser, CurriculumManagementConstants.UserInterfaceSections selectedSection) {
+        super(curriculumSpecialistUser, selectedSection);
+    }
 
     public CourseInfo getCourseInfo() {
         return courseInfo;
@@ -72,16 +74,21 @@ public class RetireCourseWrapper extends ProposalElementsWrapper implements Seri
         this.otherComment = otherComment;
     }
 
-    public RetireCourseWrapper(boolean curriculumSpecialistUser, CurriculumManagementConstants.UserInterfaceSections selectedSection) {
-        super(curriculumSpecialistUser, selectedSection);
-    }
-
     public String getRetireEndTerm() {
         return retireEndTerm;
     }
 
     public void setRetireEndTerm(String retireEndTerm) {
         this.retireEndTerm = retireEndTerm;
+    }
+
+    @Override
+    public ReviewProposalDisplay getReviewProposalDisplay() {
+        return reviewProposalDisplay;
+    }
+
+    public void setReviewProposalDisplay(ReviewProposalDisplay reviewProposalDisplay) {
+        this.reviewProposalDisplay = reviewProposalDisplay;
     }
 
 }

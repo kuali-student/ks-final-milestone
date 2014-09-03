@@ -18,7 +18,6 @@ package org.kuali.student.cm.course.controller;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
-import org.kuali.rice.core.api.exception.RiceRuntimeException;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
@@ -58,15 +57,13 @@ import org.kuali.student.cm.course.form.wrapper.CourseInfoWrapper;
 import org.kuali.student.cm.course.form.wrapper.LoDisplayInfoWrapper;
 import org.kuali.student.cm.course.form.wrapper.LoDisplayWrapperModel;
 import org.kuali.student.cm.course.form.wrapper.ResultValuesGroupInfoWrapper;
-import org.kuali.student.cm.course.form.wrapper.SupportingDocumentInfoWrapper;
 import org.kuali.student.cm.course.service.CourseMaintainable;
 import org.kuali.student.cm.course.service.impl.ExportCourseHelperImpl;
 import org.kuali.student.cm.course.util.CourseProposalUtil;
+import org.kuali.student.cm.proposal.form.wrapper.ProposalElementsWrapper;
+import org.kuali.student.cm.proposal.form.wrapper.SupportingDocumentInfoWrapper;
 import org.kuali.student.common.object.KSObjectUtils;
-import org.kuali.student.common.ui.client.util.ExportElement;
 import org.kuali.student.common.ui.krad.rules.rule.event.ReturnToPreviousNodeDocumentEvent;
-import org.kuali.student.common.ui.server.screenreport.ScreenReportProcessor;
-import org.kuali.student.common.ui.server.screenreport.jasper.JasperScreenReportProcessorImpl;
 import org.kuali.student.common.uif.util.GrowlIcon;
 import org.kuali.student.common.uif.util.KSUifUtils;
 import org.kuali.student.common.util.security.ContextUtils;
@@ -93,13 +90,14 @@ import org.kuali.student.r2.lum.course.service.CourseService;
 import org.kuali.student.r2.lum.util.constants.CourseServiceConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
@@ -323,7 +321,7 @@ public class CourseController extends CourseRuleEditorController {
             String copyProposalId = request.getParameter(UrlParams.COPY_PROPOSAL_ID);
             if (StringUtils.isNotBlank(copyProposalId)) {
                 try {
-                    CourseInfoWrapper target = viewHelper.copyProposal(copyProposalId);
+                    ProposalElementsWrapper target = viewHelper.copyProposal(copyProposalId);
                     viewHelper.setDataObject(target);
                 } catch (Exception e) {
                     String msg = String.format("Unable to copy proposal [%s].", copyProposalId);

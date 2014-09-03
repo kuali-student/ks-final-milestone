@@ -30,9 +30,9 @@ import org.kuali.student.cm.course.form.wrapper.CourseInfoWrapper;
 import org.kuali.student.cm.course.form.wrapper.LoDisplayInfoWrapper;
 import org.kuali.student.cm.course.form.wrapper.OrganizationInfoWrapper;
 import org.kuali.student.cm.course.form.wrapper.ResultValuesGroupInfoWrapper;
-import org.kuali.student.cm.course.form.wrapper.SupportingDocumentInfoWrapper;
-import org.kuali.student.cm.course.service.CourseMaintainable;
 import org.kuali.student.cm.course.service.util.OrganizationSearchUtil;
+import org.kuali.student.cm.proposal.form.wrapper.SupportingDocumentInfoWrapper;
+import org.kuali.student.cm.proposal.service.ProposalMaintainable;
 import org.kuali.student.common.collection.KSCollectionUtils;
 import org.kuali.student.common.uif.rule.KsMaintenanceDocumentRuleBase;
 import org.kuali.student.r1.core.workflow.dto.CollaboratorWrapper;
@@ -276,7 +276,7 @@ public class CourseRule extends KsMaintenanceDocumentRuleBase {
         List<SupportingDocumentInfoWrapper> emptyDocsToDelete = new ArrayList<>();
         boolean result = true;
 
-        CourseMaintainable maintainable = (CourseMaintainable)maintenanceDocument.getNewMaintainableObject();
+        ProposalMaintainable maintainable = (ProposalMaintainable)maintenanceDocument.getNewMaintainableObject();
 
         for (SupportingDocumentInfoWrapper supportingDoc : courseInfoWrapper.getSupportingDocs()){
 

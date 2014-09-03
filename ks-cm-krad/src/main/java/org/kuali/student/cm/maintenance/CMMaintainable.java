@@ -16,9 +16,6 @@
  */
 package org.kuali.student.cm.maintenance;
 
-import org.kuali.rice.kew.framework.postprocessor.ActionTakenEvent;
-import org.kuali.rice.kew.framework.postprocessor.DocumentRouteLevelChange;
-import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
 import org.kuali.student.common.uif.service.KSMaintainable;
 
 /**
@@ -29,9 +26,6 @@ import org.kuali.student.common.uif.service.KSMaintainable;
  */
 public interface CMMaintainable extends KSMaintainable {
 
-    public void doActionTaken(ActionTakenEvent actionTakenEvent) throws Exception;
-    public void doRouteLevelChange(DocumentRouteLevelChange documentRouteLevelChange) throws Exception;
-    public void doRouteStatusChange(DocumentRouteStatusChange documentRouteStatusChange) throws Exception;
     public void retrieveDataObject();
 
 }

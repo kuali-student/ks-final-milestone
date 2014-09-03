@@ -24,7 +24,8 @@ import org.kuali.rice.krad.maintenance.Maintainable;
 import org.kuali.rice.krad.maintenance.MaintenanceDocumentBase;
 import org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent;
 import org.kuali.rice.krad.rules.rule.event.SaveEvent;
-import org.kuali.student.cm.course.form.wrapper.CourseInfoWrapper;
+import org.kuali.student.cm.proposal.service.ProposalMaintainable;
+import org.kuali.student.r2.core.proposal.dto.ProposalInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -108,9 +109,11 @@ public class CMMaintenanceDocument extends MaintenanceDocumentBase {
         if (event instanceof SaveEvent) {
             // set the application document id to the proposal id since this is needed for some KEW and KIM processing related to collaborators
             if (getDocumentHeader() != null && getDocumentHeader().getWorkflowDocument() != null && getNewMaintainableObject().getDataObject() != null) {
-                CourseInfoWrapper courseInfoWrapper = (CourseInfoWrapper)getNewMaintainableObject().getDataObject();
-                if (courseInfoWrapper.getProposalInfo() != null) {
-                    getDocumentHeader().getWorkflowDocument().setApplicationDocumentId(courseInfoWrapper.getProposalInfo().getId());
+                if (ProposalMaintainable.class.isAssignableFrom(getNewMaintainableObject().getClass())) {
+                    ProposalInfo proposalInfo = ((ProposalMaintainable)getNewMaintainableObject()).getProposalInfo();
+                    if (proposalInfo != null) {
+                        getDocumentHeader().getWorkflowDocument().setApplicationDocumentId(proposalInfo.getId());
+                    }
                 }
             }
             getNewMaintainableObject().saveDataObject();
@@ -134,11 +137,11 @@ public class CMMaintenanceDocument extends MaintenanceDocumentBase {
     public void doActionTaken(ActionTakenEvent actionTakenEvent) {
         Maintainable maintainable = getNewMaintainableObject();
         Class clazz = (maintainable!=null)?maintainable.getClass() : null;
-        if (clazz==null || !CMMaintainable.class.isAssignableFrom(clazz)) {
-            throw new RuntimeException("Maintainable should be of CMMaintainable type");
+        if (clazz==null || !ProposalMaintainable.class.isAssignableFrom(clazz)) {
+            throw new RuntimeException("Maintainable should be of ProposalMaintainable type");
         }
         try {
-            ((CMMaintainable)getNewMaintainableObject()).doActionTaken(actionTakenEvent);
+            ((ProposalMaintainable)getNewMaintainableObject()).doActionTaken(actionTakenEvent);
         } catch (Exception e) {
             LOG.error("Error caught operating on action taken", e);
             throw new RuntimeException(e);
@@ -149,11 +152,11 @@ public class CMMaintenanceDocument extends MaintenanceDocumentBase {
     public void doRouteLevelChange(DocumentRouteLevelChange documentRouteLevelChange) {
         Maintainable maintainable = getNewMaintainableObject();
         Class clazz = (maintainable!=null)?maintainable.getClass() : null;
-        if (clazz==null || !CMMaintainable.class.isAssignableFrom(clazz)) {
-            throw new RuntimeException("Maintainable should be of CMMaintainable type");
+        if (clazz==null || !ProposalMaintainable.class.isAssignableFrom(clazz)) {
+            throw new RuntimeException("Maintainable should be of ProposalMaintainable type");
         }
         try {
-            ((CMMaintainable)getNewMaintainableObject()).doRouteLevelChange(documentRouteLevelChange);
+            ((ProposalMaintainable)getNewMaintainableObject()).doRouteLevelChange(documentRouteLevelChange);
         } catch (Exception e) {
             LOG.error("Error caught performing route level change", e);
             throw new RuntimeException(e);
@@ -164,11 +167,11 @@ public class CMMaintenanceDocument extends MaintenanceDocumentBase {
     public void doRouteStatusChange(DocumentRouteStatusChange documentRouteStatusChange) {
         Maintainable maintainable = getNewMaintainableObject();
         Class clazz = (maintainable!=null)?maintainable.getClass() : null;
-        if (clazz==null || !CMMaintainable.class.isAssignableFrom(clazz)) {
-            throw new RuntimeException("Maintainable should be of CMMaintainable type");
+        if (clazz==null || !ProposalMaintainable.class.isAssignableFrom(clazz)) {
+            throw new RuntimeException("Maintainable should be of ProposalMaintainable type");
         }
         try {
-            ((CMMaintainable)getNewMaintainableObject()).doRouteStatusChange(documentRouteStatusChange);
+            ((ProposalMaintainable)getNewMaintainableObject()).doRouteStatusChange(documentRouteStatusChange);
         } catch (Exception e) {
             LOG.error("Error caught performing route status change", e);
             throw new RuntimeException(e);

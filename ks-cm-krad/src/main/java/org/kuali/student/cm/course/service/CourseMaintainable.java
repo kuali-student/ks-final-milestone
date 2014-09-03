@@ -22,8 +22,7 @@ import org.kuali.student.cm.course.form.wrapper.CourseJointInfoWrapper;
 import org.kuali.student.cm.course.form.wrapper.LoCategoryInfoWrapper;
 import org.kuali.student.cm.course.form.wrapper.OrganizationInfoWrapper;
 import org.kuali.student.cm.course.form.wrapper.SubjectCodeWrapper;
-import org.kuali.student.cm.course.form.wrapper.SupportingDocumentInfoWrapper;
-import org.kuali.student.cm.maintenance.CMMaintainable;
+import org.kuali.student.cm.proposal.service.ProposalMaintainable;
 import org.kuali.student.lum.lu.ui.krms.dto.CluInformation;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.lum.clu.dto.MembershipQueryInfo;
@@ -36,7 +35,7 @@ import java.util.List;
  *
  * @author OpenCollab/rSmart KRAD CM Conversion Alliance!
  */
-public interface CourseMaintainable extends CMMaintainable {
+public interface CourseMaintainable extends ProposalMaintainable {
 
     /**
      * Method called when queryMethodToCall is executed for Administering Organizations in order 
@@ -57,24 +56,13 @@ public interface CourseMaintainable extends CMMaintainable {
 
     List<AgendaEditor> getAgendasForRef(String discriminatorType, String refObjectId);
 
-    /**
-     * Updates the ReviewProposalDisplay object for the Course Proposal
-     *
-     * NOTE: Will force a refresh of remote data elements (such as Collaborator data)
-     */
-    public void updateReview();
-
     public void setLOActions();
-
-    public void populateSupportingDocBytes(SupportingDocumentInfoWrapper supportingDoc);
 
     public List<CluInformation> getCoursesInRange(MembershipQueryInfo membershipQuery);
 
-    public void populateCourseAndReviewData(String courseId, CourseInfoWrapper courseWrapper, boolean isCourseView ) throws Exception;
+    public void populateCourseAndReviewData(String courseId, CourseInfoWrapper courseWrapper ) throws Exception;
 
     public CourseInfoWrapper copyCourse(String sourceCourseId) throws Exception;
-
-    public CourseInfoWrapper copyProposal(String sourceProposalId) throws Exception;
 
     public CourseInfo getCurrentVersionOfCourse(CourseInfo course,ContextInfo contextInfo) throws Exception;
 

@@ -20,8 +20,6 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.krad.web.bind.RequestAccessible;
 import org.kuali.rice.krad.web.bind.RequestProtected;
 import org.kuali.student.cm.common.util.CurriculumManagementConstants;
-import org.kuali.student.cm.course.form.wrapper.SupportingDocumentInfoWrapper;
-import org.kuali.student.cm.proposal.util.ProposalUtil;
 import org.kuali.student.lum.lu.ui.krms.dto.LURuleManagementWrapper;
 import org.kuali.student.r1.core.workflow.dto.CollaboratorWrapper;
 import org.kuali.student.r2.core.proposal.dto.ProposalInfo;
@@ -35,7 +33,7 @@ import java.util.Map;
 /**
  * Base class for all the wrappers that are specific to Proposal data that involve
  */
-public class ProposalElementsWrapper extends LURuleManagementWrapper implements Serializable {
+public abstract class ProposalElementsWrapper extends LURuleManagementWrapper implements Serializable {
     private static final String DEFAULT_REQUIRED_WORKFLOW_MODE = "Submit";
 
     private ProposalInfo proposalInfo = new ProposalInfo();
@@ -46,11 +44,20 @@ public class ProposalElementsWrapper extends LURuleManagementWrapper implements 
 
     private String requiredWorkflowMode = DEFAULT_REQUIRED_WORKFLOW_MODE;
     private boolean missingRequiredFields;
+    private boolean agendaDirty;
 
     private transient ProposalUIHelper uiHelper;
 
     public ProposalElementsWrapper(boolean curriculumSpecialistUser, CurriculumManagementConstants.UserInterfaceSections selectedSection) {
         uiHelper = new ProposalUIHelper(curriculumSpecialistUser, selectedSection);
+    }
+
+    public boolean isAgendaDirty() {
+        return agendaDirty;
+    }
+
+    public void setAgendaDirty(boolean agendaDirty) {
+        this.agendaDirty = agendaDirty;
     }
 
     public List<String> getDeletedCollaboratorWrapperActionRequestIds() {
@@ -62,9 +69,9 @@ public class ProposalElementsWrapper extends LURuleManagementWrapper implements 
     }
 
     /**
-     * Flag used on the Review Course Proposal page to indicate whether the "yellow bar" should be displayed.
+     * Flag used on the Review Proposal page to indicate whether the "yellow bar" should be displayed.
      *
-     * @return True if the course is missing required fields for the next state or routing node. Otherwise, false.
+     * @return True if the proposal is missing required fields for the next state or routing node. Otherwise, false.
      */
     public boolean isMissingRequiredFields() {
         return missingRequiredFields;
@@ -122,6 +129,8 @@ public class ProposalElementsWrapper extends LURuleManagementWrapper implements 
         this.collaboratorWrappers = collaboratorWrappers;
     }
 
+    public abstract ReviewProposalDisplay getReviewProposalDisplay();
+
     /**
      * A helper class which holds all the properties needed for display at the ui but not part of the model.
      * As {@link ProposalElementsWrapper} is just a wrapper for @{link ProposalInfo} and it's associated objects
@@ -130,7 +139,7 @@ public class ProposalElementsWrapper extends LURuleManagementWrapper implements 
      * Also, the same {@link ProposalElementsWrapper} class can be used at other views, we can have multiple ui helper
      * implementation if needed to support multiple ways to display the same data.
      * <p/>
-     * For example, <method>getHeaderText</method> is used to display the header text at Create Course view only and not
+     * For example, <method>getHeaderText</method> is used to display the header text in the UI view only and not
      * involved in data persistance.
      */
     public class ProposalUIHelper {

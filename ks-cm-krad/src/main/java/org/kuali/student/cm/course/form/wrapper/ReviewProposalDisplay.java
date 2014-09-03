@@ -17,7 +17,6 @@ package org.kuali.student.cm.course.form.wrapper;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.student.cm.common.util.CurriculumManagementConstants;
-import org.kuali.student.r1.core.workflow.dto.CollaboratorWrapper;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -26,7 +25,7 @@ import java.util.List;
 /**
  * Display data for review course proposal.
  */
-public class ReviewProposalDisplay {
+public class ReviewProposalDisplay extends org.kuali.student.cm.proposal.form.wrapper.ReviewProposalDisplay  {
 
     private CourseSectionWrapper courseSection;
     private GovernanceSectionWrapper governanceSection;
@@ -34,33 +33,6 @@ public class ReviewProposalDisplay {
     private CourseRequisitesSectionWrapper courseRequisitesSection;
     private ActiveDatesSectionWrapper activeDatesSection;
     private FinancialsSectionWrapper financialsSection;
-    private CollaboratorSectionWrapper collaboratorSection;
-    private SupportingDocumentsSectionWrapper supportingDocumentsSection;
-
-    private String returnToPreviousNodeName;
-    private boolean showUnknownErrors;
-
-    /**
-     * If any unknown error occurs during CourseController#doValidationForProposal then we show those errors to user
-     * otherwise by default the page level error messages are disabled
-     *
-     * @return True if unknown error occurs. Otherwise, false.
-     */
-    public boolean isShowUnknownErrors() {
-        return showUnknownErrors;
-    }
-
-    public void setShowUnknownErrors(boolean showUnknownErrors) {
-        this.showUnknownErrors = showUnknownErrors;
-    }
-
-    public String getReturnToPreviousNodeName() {
-        return returnToPreviousNodeName;
-    }
-
-    public void setReturnToPreviousNodeName(String returnToPreviousNodeName) {
-        this.returnToPreviousNodeName = returnToPreviousNodeName;
-    }
 
     public CourseSectionWrapper getCourseSection() {
         if (this.courseSection == null) {
@@ -103,21 +75,6 @@ public class ReviewProposalDisplay {
             financialsSection = new FinancialsSectionWrapper();
         }
         return financialsSection;
-
-    }
-
-    public CollaboratorSectionWrapper getCollaboratorSection() {
-        if (this.collaboratorSection == null) {
-            collaboratorSection = new CollaboratorSectionWrapper();
-        }
-        return collaboratorSection;
-    }
-
-    public SupportingDocumentsSectionWrapper getSupportingDocumentsSection() {
-        if (this.supportingDocumentsSection == null) {
-            supportingDocumentsSection = new SupportingDocumentsSectionWrapper();
-        }
-        return supportingDocumentsSection;
 
     }
 
@@ -509,50 +466,4 @@ public class ReviewProposalDisplay {
         }
     }
 
-    public class SupportingDocumentsSectionWrapper {
-
-        protected List<SupportingDocumentInfoWrapper> supportingDocuments;
-
-        public List<SupportingDocumentInfoWrapper> getSupportingDocuments() {
-            if (supportingDocuments == null){
-                supportingDocuments = new ArrayList<SupportingDocumentInfoWrapper>();
-            }
-            return supportingDocuments;
-        }
-
-        public void setSupportingDocuments(List<SupportingDocumentInfoWrapper> supportingDocuments) {
-            this.supportingDocuments = supportingDocuments;
-        }
-    }
-
-    public class CollaboratorSectionWrapper {
-
-        private List<CollaboratorWrapper> collaboratorWrappers;
-
-        public List<CollaboratorWrapper> getCollaboratorWrappers() {
-            if (collaboratorWrappers == null) {
-                collaboratorWrappers = new ArrayList<CollaboratorWrapper>();
-            }
-            return collaboratorWrappers;
-        }
-
-        public void setCollaboratorWrappers(List<CollaboratorWrapper> collaboratorWrappers) {
-            this.collaboratorWrappers = collaboratorWrappers;
-        }
-        /**
-         * This is for the authors and collaborators "empty collection" input field. KRAD needs a property name to bind the constraints.
-         * Using the same property name for two input fields causes the constraints to be overwritten. Simply setting a
-         * KRAD component render=false doesn't prevent it from being considered during validation, so if authors and collaborators are
-         * defined there needs to be some text in the input field.
-         *
-         * @return An empty String if no authors and collaborators have been defined. Otherwise, returns some text.
-         */
-        public String getEmptyStringAuthorAndCollaborator() {
-            if (collaboratorWrappers == null) {
-                collaboratorWrappers = new ArrayList<CollaboratorWrapper>();
-            }
-            return collaboratorWrappers.isEmpty() ? "" : "Has Authors and Collaborators";
-        }
-
-    }
 }

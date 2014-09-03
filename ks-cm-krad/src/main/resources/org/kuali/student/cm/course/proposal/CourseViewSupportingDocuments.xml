@@ -41,7 +41,7 @@
     <bean id="CM-Proposal-Course-SupportingDocuments-Section-Parent" parent="KS-TableCollectionSubSection-BottomAddLine"
           p:layoutManager.id="cc-supportingdocumentsgroup-table" p:layoutManager.style="width: 60em;"
           class="org.kuali.student.cm.uif.container.CMCollectionGroupBase" abstract="true">
-        <property name="collectionObjectClass" value="org.kuali.student.cm.course.form.wrapper.SupportingDocumentInfoWrapper"/>
+        <property name="collectionObjectClass" value="org.kuali.student.cm.proposal.form.wrapper.SupportingDocumentInfoWrapper"/>
         <property name="propertyName" value="supportingDocs"/>
         <property name="addBlankLineAction.actionLabel" value="Add Document"/>
         <property name="addBlankLineAction.render" value="true"/>

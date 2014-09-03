@@ -30,7 +30,6 @@ import org.kuali.student.cm.course.form.wrapper.CourseInfoWrapper;
 import org.kuali.student.cm.course.form.wrapper.RetireCourseWrapper;
 import org.kuali.student.cm.course.service.CourseMaintainable;
 import org.kuali.student.cm.course.service.impl.ExportCourseHelperImpl;
-
 import org.kuali.student.cm.course.util.CourseProposalUtil;
 import org.kuali.student.common.util.security.ContextUtils;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
@@ -84,14 +83,16 @@ public class ViewCourseController extends KsUifControllerBase{
 
         try {
             CourseInfoWrapper courseWrapper = new CourseInfoWrapper();
+            courseWrapper.setProposalDataRequired(false);
             ((CourseMaintainable)form.getViewHelperService()).setDataObject(courseWrapper);
-            ((CourseMaintainable)form.getViewHelperService()).populateCourseAndReviewData(courseId, courseWrapper, true);
+            ((CourseMaintainable)form.getViewHelperService()).populateCourseAndReviewData(courseId, courseWrapper);
             detailedViewForm.setCourseInfoWrapper(courseWrapper);
 
             if (StringUtils.isNotBlank(compareCourseId)){
                 CourseInfoWrapper compareCourseWrapper = new CourseInfoWrapper();
+                compareCourseWrapper.setProposalDataRequired(false);
                 ((CourseMaintainable)form.getViewHelperService()).setDataObject(compareCourseWrapper);
-                ((CourseMaintainable)form.getViewHelperService()).populateCourseAndReviewData(compareCourseId,compareCourseWrapper,true);
+                ((CourseMaintainable)form.getViewHelperService()).populateCourseAndReviewData(compareCourseId,compareCourseWrapper);
                 detailedViewForm.setCompareCourseInfoWrapper(compareCourseWrapper);
             }
 
@@ -191,8 +192,9 @@ public class ViewCourseController extends KsUifControllerBase{
         try {
             CourseInfo currentCourse = ((CourseMaintainable)form.getViewHelperService()).getCurrentVersionOfCourse(detailedViewForm.getCourseInfoWrapper().getCourseInfo(), ContextUtils.createDefaultContextInfo());
             CourseInfoWrapper courseWrapper = new CourseInfoWrapper();
+            courseWrapper.setProposalDataRequired(false);
             ((CourseMaintainable)form.getViewHelperService()).setDataObject(courseWrapper);
-            ((CourseMaintainable)form.getViewHelperService()).populateCourseAndReviewData(currentCourse.getId(), courseWrapper, true);
+            ((CourseMaintainable)form.getViewHelperService()).populateCourseAndReviewData(currentCourse.getId(), courseWrapper);
             detailedViewForm.setCourseInfoWrapper(courseWrapper);
             detailedViewForm.setCompareCourseInfoWrapper(null);
             detailedViewForm.setCurrentVersion(true);

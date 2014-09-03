@@ -20,6 +20,7 @@ package org.kuali.student.cm.common.util;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.krad.util.KRADPropertyConstants;
 import org.kuali.student.r2.common.util.date.KSDateTimeFormatter;
+import org.kuali.student.r2.lum.clu.CLUConstants;
 
 /**
  * This class defines constants used in the Curriculum Management UI
@@ -224,10 +225,10 @@ public class CurriculumManagementConstants {
 
     public final static String SUPPORTING_DOC_MIME_TYPE = "application/octet-stream";
 
-    public final static String REF_OBJECT_TYPE_KEY = "kuali.org.RefObjectType.CluInfo";
+    public final static String REF_DOC_RELATION_PROPOSAL_TYPE = CLUConstants.REF_DOC_RELATION_PROPOSAL_TYPE;
     public final static String REF_DOC_RELATION_TYPE_KEY = "kuali.org.DocRelation.allObjectTypes";
     public final static String DEFAULT_DOC_TYPE_KEY = "documentType.doc";
-    public final static String DOCUMENT_CATEGORY_PROPOSAL_TYPE_KEY = "documentCategory.proposal";
+    public final static String DEFAULT_DOC_CATEGORY_KEY = "documentCategory.proposal";
 
     public final static String FILE_SIZE_CONSTRAINT = "Maximum File Size - 7.5MB";
 

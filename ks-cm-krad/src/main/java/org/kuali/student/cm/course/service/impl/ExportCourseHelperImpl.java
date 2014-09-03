@@ -27,17 +27,19 @@ import org.kuali.student.cm.course.form.wrapper.CluInstructorInfoWrapper;
 import org.kuali.student.cm.course.form.wrapper.CourseCreateUnitsContentOwner;
 import org.kuali.student.cm.course.form.wrapper.CourseInfoWrapper;
 import org.kuali.student.cm.course.form.wrapper.ResultValuesGroupInfoWrapper;
-import org.kuali.student.cm.course.form.wrapper.SupportingDocumentInfoWrapper;
 import org.kuali.student.cm.course.service.ExportCourseHelper;
+import org.kuali.student.cm.proposal.form.wrapper.SupportingDocumentInfoWrapper;
 import org.kuali.student.common.ui.client.util.ExportElement;
 import org.kuali.student.common.ui.server.screenreport.ScreenReportProcessor;
 import org.kuali.student.common.ui.server.screenreport.jasper.JasperScreenReportProcessorImpl;
-import org.kuali.student.lum.lu.ui.krms.dto.LUPropositionEditor;
 import org.kuali.student.r1.core.workflow.dto.CollaboratorWrapper;
 import org.kuali.student.r2.lum.clu.dto.CluInstructorInfo;
-import org.kuali.student.r2.lum.course.dto.*;
+import org.kuali.student.r2.lum.course.dto.ActivityInfo;
+import org.kuali.student.r2.lum.course.dto.CourseCrossListingInfo;
+import org.kuali.student.r2.lum.course.dto.CourseJointInfo;
+import org.kuali.student.r2.lum.course.dto.FormatInfo;
+import org.kuali.student.r2.lum.course.dto.LoDisplayInfo;
 import org.kuali.student.r2.lum.lo.dto.LoCategoryInfo;
-
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -168,7 +170,7 @@ public class ExportCourseHelperImpl implements ExportCourseHelper {
         populateCourseInformation(exportElements, courseInfoWrapper , isProposal);
         populateGovernance(exportElements, courseInfoWrapper);
         populateCourseLogistics(exportElements, courseInfoWrapper);
-        populateLearningObjectives(exportElements,courseInfoWrapper);
+        populateLearningObjectives(exportElements, courseInfoWrapper);
         populateCourseRequisites(exportElements,courseInfoWrapper);
         populateActiveDates(exportElements,courseInfoWrapper);
         if(!isProposal) {
@@ -331,7 +333,7 @@ public class ExportCourseHelperImpl implements ExportCourseHelper {
                 durationType = durationType.substring(durationType.lastIndexOf('.')+1);
             }
         }
-        ExportElement exportDuration = populateExportElement(CurriculumManagementConstants.ProposalViewFieldLabels.CourseLogistics.DURATION_COUNT,durationCount, CurriculumManagementConstants.ProposalViewFieldLabels.CourseLogistics.SECTION_NAME,-1 );
+        ExportElement exportDuration = populateExportElement(CurriculumManagementConstants.ProposalViewFieldLabels.CourseLogistics.DURATION_COUNT, durationCount, CurriculumManagementConstants.ProposalViewFieldLabels.CourseLogistics.SECTION_NAME, -1);
         exportElements.add(exportDuration);
 
         ExportElement exportDurationType = populateExportElement(CurriculumManagementConstants.ProposalViewFieldLabels.CourseLogistics.DURATION_TYPE,durationType, CurriculumManagementConstants.ProposalViewFieldLabels.CourseLogistics.SECTION_NAME,-1 );
