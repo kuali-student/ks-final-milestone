@@ -28,5 +28,5 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequestMapping(value = CurriculumManagementConstants.ControllerRequestMappings.CM_RETIRE_COURSE)
-public class RetireCourseController extends CourseRuleEditorController {
+public class RetireCourseController extends CourseController {
 }

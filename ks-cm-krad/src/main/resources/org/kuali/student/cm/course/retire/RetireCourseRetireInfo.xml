@@ -69,7 +69,7 @@
                                 </property>
                             </bean>
 
-                            <bean id="CM-Proposal-RetireCourse-EndTerm" parent="KS-Uif-InputField-LabelTop" p:propertyName="courseInfo.endTerm" p:label="End Term"
+                            <bean id="CM-Proposal-RetireCourse-EndTerm" parent="KS-Uif-InputField-LabelTop" p:propertyName="retireEndTerm" p:label="End Term"
                                   p:required="true">
                                 <property name="instructionalText" value="Last term in which the course can be offered." />
                                 <property name="control">

@@ -23,5 +23,5 @@ import org.kuali.student.cm.course.service.RetireCourseMaintainable;
  *
  * @author Kuali Student Team
  */
-public class RetireCourseMaintainableImpl implements RetireCourseMaintainable {
+public class RetireCourseMaintainableImpl extends CourseMaintainableImpl implements RetireCourseMaintainable {
 }

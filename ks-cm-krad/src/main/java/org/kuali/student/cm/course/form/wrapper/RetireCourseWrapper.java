@@ -38,6 +38,8 @@ public class RetireCourseWrapper extends ProposalElementsWrapper implements Seri
 
     private RichText otherComment;
 
+    private String retireEndTerm;
+
     public CourseInfo getCourseInfo() {
         return courseInfo;
     }
@@ -73,4 +75,13 @@ public class RetireCourseWrapper extends ProposalElementsWrapper implements Seri
     public RetireCourseWrapper(boolean curriculumSpecialistUser, CurriculumManagementConstants.UserInterfaceSections selectedSection) {
         super(curriculumSpecialistUser, selectedSection);
     }
+
+    public String getRetireEndTerm() {
+        return retireEndTerm;
+    }
+
+    public void setRetireEndTerm(String retireEndTerm) {
+        this.retireEndTerm = retireEndTerm;
+    }
+
 }
