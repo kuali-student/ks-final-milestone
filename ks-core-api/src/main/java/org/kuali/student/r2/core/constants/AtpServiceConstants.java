@@ -157,6 +157,7 @@ public class AtpServiceConstants {
     public static final String MILESTONE_REGISTRATION_SERVICES_OPEN_TYPE_KEY = "kuali.atp.milestone.registrationservicesopen";
     public static final String MILESTONE_PREREGISTRATION_PERIOD_TYPE_KEY = "kuali.atp.milestone.preregistrationperiod";
     public static final String MILESTONE_SCHEDULE_ADJUSTMENT_PERIOD_TYPE_KEY = "kuali.atp.milestone.scheduleadjustmentperiod";
+    public static final String MILESTONE_DROP_PERIOD_TYPE_KEY = "kuali.atp.milestone.dropperiod";
     //registration period group type (used in type-type relations to group registration periods)
     public static final String MILESTONE_REGISTRATION_PERIOD_GROUP_TYPE_KEY = "kuali.milestone.type.group.appt.regperiods";
 
