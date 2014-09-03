@@ -77,7 +77,7 @@ public class CourseInfoLookupableImpl extends LookupableImpl {
         List<SearchParamInfo> searchParams = new ArrayList<SearchParamInfo>();
         SearchParamInfo qpv1 = new SearchParamInfo();
         qpv1.setKey("lu.queryParam.luOptionalType");
-        qpv1.getValues().add("kuali.lu.type.CreditCourse");
+        qpv1.getValues().add(CluServiceConstants.CREDIT_COURSE_LU_TYPE_KEY);
         searchParams.add(qpv1);
 
         qpv1 = new SearchParamInfo();

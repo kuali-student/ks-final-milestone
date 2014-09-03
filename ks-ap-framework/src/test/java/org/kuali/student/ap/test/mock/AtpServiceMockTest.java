@@ -20,6 +20,7 @@ import org.kuali.student.r2.core.atp.dto.AtpInfo;
 import org.kuali.student.r2.core.atp.dto.MilestoneInfo;
 import org.kuali.student.r2.core.atp.service.AtpService;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
+import org.kuali.student.r2.core.constants.AtpServiceConstants;
 import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultInfo;
 import org.kuali.student.r2.core.search.service.SearchService;
@@ -57,7 +58,7 @@ public class AtpServiceMockTest implements AtpService {
         if (searchableAtps == null) {
             searchableAtps = new HashMap<String, AtpInfo>();
             searchableAtps.put("and(\nequal(atpStatus, kuali.atp.state.Official), \nor(\nequal(typeKey, kuali.atp.type.Winter), \nequal(typeKey, kuali.atp.type.Fall), \nequal(typeKey, kuali.atp.type.Spring), \nequal(typeKey, kuali.atp.type.Summer1) \n) \n)",
-                    createAtpInfo("76e1d98a-0f82-485b-atp-1", null,"ATP 1", DateFormatters.DEFAULT_DATE_FORMATTER.parse("2011-01-01"),DateFormatters.DEFAULT_DATE_FORMATTER.parse("2011-03-31"), null, "kuali.atp.type.Winter"));
+                    createAtpInfo("76e1d98a-0f82-485b-atp-1", null,"ATP 1", DateFormatters.DEFAULT_DATE_FORMATTER.parse("2011-01-01"),DateFormatters.DEFAULT_DATE_FORMATTER.parse("2011-03-31"), null, AtpServiceConstants.ATP_WINTER_TYPE_KEY));
 
 
         }

@@ -3,7 +3,7 @@ package org.kuali.student.ap.framework.context;
 import org.kuali.student.ap.academicplan.constants.AcademicPlanServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.core.constants.AtpServiceConstants;
-import org.kuali.student.r2.lum.clu.CLUConstants;
+import org.kuali.student.r2.lum.util.constants.CluServiceConstants;
 
 public class PlanConstants extends AcademicPlanServiceConstants {
 
@@ -23,7 +23,7 @@ public class PlanConstants extends AcademicPlanServiceConstants {
 	public static final String PLAN_ITEM_RESPONSE_PAGE_ID = "plan_item_action_response_page";
 	public static final String PLAN_PAGE_ID = "planned_courses_detail_page";
 
-	public static final String COURSE_TYPE = CLUConstants.CLU_TYPE_CREDIT_COURSE;
+	public static final String COURSE_TYPE = CluServiceConstants.CREDIT_COURSE_LU_TYPE_KEY;
     public static final String REG_GROUP_TYPE = LuiServiceConstants.REGISTRATION_GROUP_TYPE_KEY;
 	public static final String SECTION_TYPE = "kuali.lu.type.CourseSection";
     public static final String TERM_NOTE_COMMENT_TYPE ="kuali.academicplan.type.note.term";

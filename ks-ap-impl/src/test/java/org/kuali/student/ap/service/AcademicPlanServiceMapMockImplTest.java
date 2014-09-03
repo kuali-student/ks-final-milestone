@@ -20,8 +20,8 @@ import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
-import org.kuali.student.r2.lum.clu.CLUConstants;
 import org.kuali.student.r2.lum.course.service.impl.CourseServiceMapImpl;
+import org.kuali.student.r2.lum.util.constants.CluServiceConstants;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
@@ -30,9 +30,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
@@ -158,7 +155,7 @@ public class AcademicPlanServiceMapMockImplTest extends TestAcademicPlanServiceI
         planItem.setCategory(AcademicPlanServiceConstants.ItemCategory.WISHLIST);
 
         String courseId = "c796aecc-7234-4482-993c-bf00b8088e84";
-        String courseType = CLUConstants.CLU_TYPE_CREDIT_COURSE;
+        String courseType = CluServiceConstants.CREDIT_COURSE_LU_TYPE_KEY;
 
         planItem.setRefObjectId(courseId);
         planItem.setRefObjectType(courseType);
@@ -194,7 +191,7 @@ public class AcademicPlanServiceMapMockImplTest extends TestAcademicPlanServiceI
         planItem.setTypeKey(AcademicPlanServiceConstants.LEARNING_PLAN_ITEM_TYPE);
         planItem.setCategory(AcademicPlanServiceConstants.ItemCategory.WISHLIST);
         String courseId = null;
-        String courseType = CLUConstants.CLU_TYPE_CREDIT_COURSE;
+        String courseType = CluServiceConstants.CREDIT_COURSE_LU_TYPE_KEY;
 
         planItem.setRefObjectId(courseId);
         planItem.setRefObjectType(courseType);
@@ -237,7 +234,7 @@ public class AcademicPlanServiceMapMockImplTest extends TestAcademicPlanServiceI
 //        String courseType = CLUConstants.CLU_TYPE_CREDIT_COURSE;
 
         planItem.setRefObjectId("XX");
-        planItem.setRefObjectType(CLUConstants.CLU_TYPE_CREDIT_COURSE);
+        planItem.setRefObjectType(CluServiceConstants.CREDIT_COURSE_LU_TYPE_KEY);
         planItem.setTypeKey(AcademicPlanServiceConstants.LEARNING_PLAN_ITEM_TYPE);
         planItem.setStateKey(AcademicPlanServiceConstants.LEARNING_PLAN_ITEM_ACTIVE_STATE_KEY);
         planItem.setCategory(AcademicPlanServiceConstants.ItemCategory.PLANNED);
@@ -254,7 +251,7 @@ public class AcademicPlanServiceMapMockImplTest extends TestAcademicPlanServiceI
         PlanItemInfo planItemInfo = new PlanItemInfo();
         planItemInfo.setLearningPlanId("lp1");
         planItemInfo.setRefObjectId("XX");
-        planItemInfo.setRefObjectType(CLUConstants.CLU_TYPE_CREDIT_COURSE);
+        planItemInfo.setRefObjectType(CluServiceConstants.CREDIT_COURSE_LU_TYPE_KEY);
         planItemInfo.setStateKey(AcademicPlanServiceConstants.LEARNING_PLAN_ITEM_ACTIVE_STATE_KEY);
         planItemInfo.setTypeKey(AcademicPlanServiceConstants.LEARNING_PLAN_ITEM_TYPE);
         planItemInfo.setCategory(AcademicPlanServiceConstants.ItemCategory.PLANNED);
@@ -280,7 +277,7 @@ public class AcademicPlanServiceMapMockImplTest extends TestAcademicPlanServiceI
         PlanItemInfo planItemInfo = new PlanItemInfo();
         planItemInfo.setLearningPlanId("lp1");
         planItemInfo.setRefObjectId("XX");
-        planItemInfo.setRefObjectType(CLUConstants.CLU_TYPE_CREDIT_COURSE);
+        planItemInfo.setRefObjectType(CluServiceConstants.CREDIT_COURSE_LU_TYPE_KEY);
         planItemInfo.setStateKey(AcademicPlanServiceConstants.LEARNING_PLAN_ITEM_ACTIVE_STATE_KEY);
         planItemInfo.setTypeKey(AcademicPlanServiceConstants.LEARNING_PLAN_ITEM_TYPE);
         planItemInfo.setCategory(AcademicPlanServiceConstants.ItemCategory.BACKUP);

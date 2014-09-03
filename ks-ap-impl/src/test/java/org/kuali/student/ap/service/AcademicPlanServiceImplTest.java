@@ -360,7 +360,7 @@ public class AcademicPlanServiceImplTest extends TestAcademicPlanServiceImplConf
 
 		String planId = "lp1";
 		String refObjectId = "006476b5-18d8-4830-bbb6-2bb9e79600fb";
-		String refObjectType = "kuali.lu.type.CreditCourse";
+		String refObjectType = CluServiceConstants.CREDIT_COURSE_LU_TYPE_KEY;
 
 		List<PlanItemInfo> planItems = KsapFrameworkServiceLocator.getAcademicPlanService()
 				.getPlanItemsInPlanByRefObjectIdByRefObjectType(planId,
@@ -397,7 +397,7 @@ public class AcademicPlanServiceImplTest extends TestAcademicPlanServiceImplConf
 		planItemInfo.setPlanTermIds(planTermIds);
 
 		String courseId = "ENGL101ind";
-		String courseType = CLUConstants.CLU_TYPE_CREDIT_COURSE;
+		String courseType = CluServiceConstants.CREDIT_COURSE_LU_TYPE_KEY;
 
 		planItemInfo.setRefObjectId(courseId);
 		planItemInfo.setRefObjectType(courseType);

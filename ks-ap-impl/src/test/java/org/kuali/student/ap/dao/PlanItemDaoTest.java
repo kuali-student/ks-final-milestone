@@ -10,6 +10,7 @@ import org.kuali.student.ap.academicplan.dao.PlanItemDao;
 import org.kuali.student.ap.academicplan.constants.AcademicPlanServiceConstants;
 import org.kuali.student.ap.academicplan.model.LearningPlanEntity;
 import org.kuali.student.ap.academicplan.model.PlanItemEntity;
+import org.kuali.student.r2.lum.util.constants.CluServiceConstants;
 
 import java.util.*;
 
@@ -63,7 +64,7 @@ public class PlanItemDaoTest extends AbstractTransactionalDaoTest {
     public void testGetPlanItemsByCourse() {
         String planId = "lp1";
         String refObjectId = "006476b5-18d8-4830-bbb6-2bb9e79600fb";
-        String refObjectType1 = "kuali.lu.type.CreditCourse";
+        String refObjectType1 = CluServiceConstants.CREDIT_COURSE_LU_TYPE_KEY;
         String refObjectType2 = "kuali.lu.type.NonCreditCourse";
 
         List<PlanItemEntity> planItems = planItemDao.getLearningPlanItemsByRefObjectIdByRefType(planId, refObjectId,
@@ -132,7 +133,7 @@ public class PlanItemDaoTest extends AbstractTransactionalDaoTest {
         pie.setLearningPlan(learningPlanEntity);
         pie.setCategory(AcademicPlanServiceConstants.ItemCategory.WISHLIST.toString());
         pie.setRefObjectId("02711400-c66d-4ecb-aca5-565118f167cf");
-        pie.setRefObjectTypeKey("kuali.lu.type.CreditCourse");
+        pie.setRefObjectTypeKey(CluServiceConstants.CREDIT_COURSE_LU_TYPE_KEY);
         pie.setCreateId("student1");
         pie.setCreateTime(new Date());
         pie.setTypeId(AcademicPlanServiceConstants.LEARNING_PLAN_ITEM_TYPE);
@@ -159,7 +160,7 @@ public class PlanItemDaoTest extends AbstractTransactionalDaoTest {
         pie.setLearningPlan(learningPlanEntity);
         pie.setCategory(AcademicPlanServiceConstants.ItemCategory.PLANNED.toString());
         pie.setRefObjectId("02711400-c66d-4ecb-aca5-565118f167cf");
-        pie.setRefObjectTypeKey("kuali.lu.type.CreditCourse");
+        pie.setRefObjectTypeKey(CluServiceConstants.CREDIT_COURSE_LU_TYPE_KEY);
         pie.setCreateId("student1");
         pie.setCreateTime(new Date());
         pie.setTypeId(AcademicPlanServiceConstants.LEARNING_PLAN_ITEM_TYPE);
@@ -197,7 +198,7 @@ public class PlanItemDaoTest extends AbstractTransactionalDaoTest {
         pie.setLearningPlan(learningPlanEntity);
         pie.setCategory(AcademicPlanServiceConstants.ItemCategory.BACKUP.toString());
         pie.setRefObjectId("02711400-c66d-4ecb-aca5-565118f167cf");
-        pie.setRefObjectTypeKey("kuali.lu.type.CreditCourse");
+        pie.setRefObjectTypeKey(CluServiceConstants.CREDIT_COURSE_LU_TYPE_KEY);
         pie.setCreateId("student1");
         pie.setCreateTime(new Date());
         pie.setTypeId(AcademicPlanServiceConstants.LEARNING_PLAN_ITEM_TYPE);

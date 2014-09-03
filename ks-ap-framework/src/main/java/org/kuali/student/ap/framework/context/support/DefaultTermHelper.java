@@ -699,7 +699,7 @@ public class DefaultTermHelper implements TermHelper {
     public AcademicCalendar getCurrentAcademicCalendar() {
         try{
             QueryByCriteria query = QueryByCriteria.Builder.fromPredicates(equal("atpStatus", PlanConstants.PUBLISHED),
-                    or(equal("typeKey", "kuali.atp.type.AcademicCalendar")), lessThanOrEqual("startDate", KsapHelperUtil.getCurrentDate()),greaterThanOrEqual("endDate",KsapHelperUtil.getCurrentDate()));
+                    or(equal("typeKey", AtpServiceConstants.ATP_ACADEMIC_CALENDAR_TYPE_KEY)), lessThanOrEqual("startDate", KsapHelperUtil.getCurrentDate()),greaterThanOrEqual("endDate",KsapHelperUtil.getCurrentDate()));
             List<AcademicCalendarInfo> rv = KsapFrameworkServiceLocator.getAcademicCalendarService().searchForAcademicCalendars(query,
                     KsapFrameworkServiceLocator.getContext().getContextInfo());
             AcademicCalendarInfo acal =null;
