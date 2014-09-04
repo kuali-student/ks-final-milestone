@@ -16,16 +16,9 @@
  */
 package org.kuali.student.enrollment.class1.hold.dto;
 
-import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.core.hold.dto.AppliedHoldInfo;
-import org.kuali.student.r2.core.hold.dto.HoldIssueInfo;
-import org.kuali.student.r2.core.process.dto.ProcessInfo;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 /**
  * @author Kuali Student Team

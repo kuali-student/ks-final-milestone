@@ -28,7 +28,7 @@
         <property name="formClass"
                   value="org.kuali.student.enrollment.class1.hold.form.AppliedHoldManagementForm"/>
         <property name="page">
-            <bean id="KS-Hold-SearchInput-Page" parent="KS-Hold-SearchInput-Page-parent"/>
+            <bean id="KS-AppliedHold-SearchInput-Page" parent="KS-AppliedHold-SearchInput-Page-parent"/>
         </property>
         <property name="breadcrumbOptions.homewardPathBreadcrumbs">
             <list>
@@ -55,11 +55,11 @@
     </bean>
 
     <!--p:disclosure.render="false"-->
-    <bean id="KS-Hold-SearchInput-Page-parent" parent="KS-Uif-Page" >
+    <bean id="KS-AppliedHold-SearchInput-Page-parent" parent="KS-Uif-Page" >
         <property name="items">
             <list>
-                <ref bean="KS-Hold-CriteriaSection"/>
-                <ref bean="KS-HoldSearch-Results"/>
+                <ref bean="KS-AppliedHold-CriteriaSection"/>
+                <ref bean="KS-AppliedHold-SearchResults"/>
             </list>
         </property>
         <property name="footer">
@@ -81,7 +81,7 @@
         </property>
     </bean>
 
-    <bean id="KS-Hold-CriteriaSection" parent="Uif-HorizontalBoxSection" >
+    <bean id="KS-AppliedHold-CriteriaSection" parent="Uif-HorizontalBoxSection" >
         <property name="items">
             <list>
                 <bean parent="Uif-HorizontalBoxGroup">
@@ -118,7 +118,7 @@
         </property>
     </bean>
 
-    <bean id="KS-HoldSearch-ResultSection" parent="Uif-TableCollectionSubSection" p:renderLineActions="true">
+    <bean id="KS-AppliedHold-ResultSection" parent="Uif-TableCollectionSubSection" p:renderLineActions="true">
         <property name="collectionObjectClass" value="org.kuali.student.enrollment.class1.hold.form.AppliedHoldResult"/>
         <property name="propertyName" value="holdResultList"/>
         <property name="layoutManager.richTable">
@@ -139,7 +139,7 @@
         <property name="renderAddLine" value="false"/>
     </bean>
 
-    <bean id="KS-HoldSearch-Results" parent="KS-HoldSearch-ResultSection"
+    <bean id="KS-AppliedHold-SearchResults" parent="KS-AppliedHold-ResultSection"
           p:propertyName="holdResultList">
         <property name="headerText" value=""/>
         <property name="lineActions">
