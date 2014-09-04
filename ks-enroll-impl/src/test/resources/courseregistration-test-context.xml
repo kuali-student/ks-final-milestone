@@ -12,7 +12,7 @@
 
     <import resource="classpath:META-INF/default-property-config-context-test.xml"/>
     <import resource="classpath:base-courseregistration-test-context.xml" />
-    <import resource="classpath:mq-context.xml" />
+    <import resource="classpath:ks-enroll-mq-context.xml" />
 
     <alias name="luiService" alias="LuiService" />
     <alias name="SearchService" alias="searchService" />

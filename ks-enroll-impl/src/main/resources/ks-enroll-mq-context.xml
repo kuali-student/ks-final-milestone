@@ -8,20 +8,12 @@
             http://www.springframework.org/schema/jms http://www.springframework.org/schema/jms/spring-jms-2.5.xsd
             http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/camel-spring.xsd">
 
-    <!-- NOTE: these declarations must be maintained in ALPHABETICAL-order or they will break the build
-         http://stackoverflow.com/a/2785026
-    -->
-    <amq:broker useJmx="false" persistent="false">
-        <amq:plugins>
-            <amq:statisticsBrokerPlugin />
-        </amq:plugins>
-        <amq:transportConnectors>
-            <amq:transportConnector uri="tcp://localhost:0" />
-        </amq:transportConnectors>
-    </amq:broker>
 
     <!-- Basic AMQ connection factory -->
-    <amq:connectionFactory id="amqConnectionFactory" brokerURL="vm://localhost" />
+    <!-- <amq:connectionFactory id="amqConnectionFactory" brokerURL="vm://localhost" /> -->
+    <!-- In many cases the ActiveMQ broker will be embedded. If this is the case, connect via the vm transport. If you
+         can't connect via the vm transport, use the configured connection url -->
+    <amq:connectionFactory id="amqConnectionFactory" brokerURL="${ks.mqlistener.url}" />
 
     <!-- Wraps the AMQ connection factory in Spring's caching (ie: pooled) factory
          From the AMQ "Spring Support"-page: "You can use the PooledConnectionFactory for efficient pooling... or you
@@ -49,6 +41,7 @@
         <property name="concurrentConsumers" value="10"/>
     </bean>
 
+    <!-- The ActiveMQ camel component allows messages to be sent to a JMS Queue or Topic or messages to be consumed from a JMS Queue or Topic using Apache ActiveMQ -->
     <bean id="activemq"
           class="org.apache.activemq.camel.component.ActiveMQComponent">
         <property name="configuration" ref="jmsConfig"/>

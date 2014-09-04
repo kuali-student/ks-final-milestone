@@ -19,7 +19,7 @@
 
     <import resource="classpath:enrollDao.xml" />
     <import resource="classpath:statement-context.xml" />
-    <import resource="classpath:mq-context.xml" />
+    <import resource="classpath:ks-enroll-mq-context.xml" />
     <import resource="classpath:ks-enroll-batch-context.xml" />
     <import resource="classpath:ks-enroll-mock-academic-service.xml" />
     <!-- import resource="classpath:ks-enroll-mock-room-data-context.xml"/ -->
