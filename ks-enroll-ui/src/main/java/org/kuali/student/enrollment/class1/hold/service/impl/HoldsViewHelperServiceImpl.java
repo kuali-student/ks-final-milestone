@@ -111,7 +111,7 @@ public class HoldsViewHelperServiceImpl extends KSViewHelperServiceImpl implemen
     public PersonInfo getStudentById(String studentId) {
 
         if (StringUtils.isBlank(studentId)) {
-            GlobalVariables.getMessageMap().putError(HoldsConstants.PERSON_ID, HoldsConstants.APPLIED_HOLDS_MSG_ERROR_STUDENT_REQUIRED);
+            GlobalVariables.getMessageMap().putError(HoldsConstants.APPLIED_HOLDS_PERSON_ID, HoldsConstants.APPLIED_HOLDS_MSG_ERROR_STUDENT_REQUIRED);
             return null;
         }
 
@@ -121,17 +121,17 @@ public class HoldsViewHelperServiceImpl extends KSViewHelperServiceImpl implemen
             Boolean validStudent = false;
             List<PersonAffiliationInfo> personAffiliationInfos = HoldsResourceLoader.getPersonService().getPersonAffiliationsByPerson(personInfo.getId(), createContextInfo());
             for (PersonAffiliationInfo personAffiliationInfo : personAffiliationInfos) {
-                if (personAffiliationInfo.getTypeKey().equals(PersonServiceConstants.PERSON_AFFILIATION_TYPE_PREFIX + HoldsConstants.STUDENT_AFFILIATION_TYPE_CODE.toLowerCase())) {
+                if (personAffiliationInfo.getTypeKey().equals(PersonServiceConstants.PERSON_AFFILIATION_STUDENT_TYPE_KEY)) {
                     validStudent = true;
                 }
             }
             if (!validStudent) {
-                GlobalVariables.getMessageMap().putError(HoldsConstants.PERSON_ID, HoldsConstants.APPLIED_HOLDS_MSG_ERROR_NO_STUDENT_AFFILIATION, studentId);
+                GlobalVariables.getMessageMap().putError(HoldsConstants.APPLIED_HOLDS_PERSON_ID, HoldsConstants.APPLIED_HOLDS_MSG_ERROR_NO_STUDENT_AFFILIATION, studentId);
                 return null;
             }
             return personInfo;
         } catch (DoesNotExistException dne) {
-            GlobalVariables.getMessageMap().putError(HoldsConstants.PERSON_ID, HoldsConstants.APPLIED_HOLDS_MSG_ERROR_INVALID_STUDENT, studentId);
+            GlobalVariables.getMessageMap().putError(HoldsConstants.APPLIED_HOLDS_PERSON_ID, HoldsConstants.APPLIED_HOLDS_MSG_ERROR_INVALID_STUDENT, studentId);
         } catch (Exception e) {
             throw convertServiceExceptionsToUI(e);
         }

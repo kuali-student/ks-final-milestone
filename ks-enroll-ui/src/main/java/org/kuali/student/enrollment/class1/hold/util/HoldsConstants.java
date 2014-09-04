@@ -67,6 +67,9 @@ public class HoldsConstants {
     public static final String HOLD_ISSUE_PROP_NAME_AUTH_ORGS = HOLD_ISSUE_DATAOBJECT_PATH + "." + "authorizedOrgs";
     public static final String HOLD_ISSUE_PROP_NAME_AUTH_ORG_NAME = "name";
 
+    //Applied Hold property names
+    public static final String APPLIED_HOLDS_PERSON_ID = "person.id";
+
     //error Message keys
     public static final String HOLDS_ISSUE_MSG_ERROR_HOLD_ISSUE_NAME_REQUIRED = "error.hold.issue.name.required";
     public static final String HOLDS_ISSUE_MSG_ERROR_HOLD_ISSUE_TYPE_REQUIRED = "error.hold.issue.type.required";
@@ -95,10 +98,5 @@ public class HoldsConstants {
     //Permissions
     public static final String APPLY_HOLD_ROLE_PERMISSION = "Hold Apply Hold Role";
     public static final String EXPIRE_APPLIED_HOLD_ROLE_PERMISSION = "Hold Expire Applied Hold Role";
-
-    //applied holds
-    public static final String PERSON_ID = "person.id";
-    //Affiliation Types
-    public static final String STUDENT_AFFILIATION_TYPE_CODE= "STDNT";
 
 }
