@@ -1,0 +1,27 @@
+<beans
+        xmlns="http://www.springframework.org/schema/beans"
+        xmlns:amq="http://activemq.apache.org/schema/core"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+            http://activemq.apache.org/schema/core http://activemq.apache.org/schema/core/activemq-core.xsd">
+
+    <!-- NOTE: these declarations must be maintained in ALPHABETICAL-order or they will break the build
+             http://stackoverflow.com/a/2785026
+        -->
+
+    <amq:broker useJmx="false" persistent="false" brokerName="ksbroker">
+        <amq:plugins>
+            <amq:statisticsBrokerPlugin />
+        </amq:plugins>
+        <amq:transportConnectors>
+            <amq:transportConnector uri="${ks.mqbroker.url}" />
+            <amq:transportConnector name="vm" uri="vm://ksbroker" />   <!-- ksbroker == brokerName -->
+        </amq:transportConnectors>
+        <amq:shutdownHooks>
+            <bean xmlns="http://www.springframework.org/schema/beans" class="org.apache.activemq.hooks.SpringContextHook" />
+        </amq:shutdownHooks>
+
+    </amq:broker>
+
+
+</beans>
