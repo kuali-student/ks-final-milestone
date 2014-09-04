@@ -277,7 +277,7 @@
                 <bean parent="KS-Uif-Edit-NavigationActionLink" p:methodToCall="edit" p:actionLabel="Edit"
                       p:render="@{#line.isEnableEditAOActionLink()}" p:actionEvent="editAOonManageAOsPage">
                 </bean>
-                <bean parent="KS-Uif-ActionLink" p:cssClasses="ks-fontello-icon-comment" p:actionLabel="(@{#lp.commentCount})"
+                <bean parent="KS-Uif-ActionLink" p:cssClasses="ks-fontello-icon-comment uif-ks-link" p:actionLabel="(@{#lp.commentCount})"
                       p:actionScript="showCommentLightboxUrl('@{#ConfigProperties['application.url']}/kr-krad/activityOfferingComment?viewId=KS-Comment-FormView&amp;methodToCall=start&amp;refId=@{#lp.aoInfo.id}&amp;refType=@{#lp.activityOfferingRefUri}&amp;refName=@{currentCourseOfferingWrapper.courseOfferingCode}, Activity Offering: @{#lp.aoInfo.activityCode}&amp;socState=@{socStateKey}&amp;subjectArea=@{subjectCode}&amp;offeringAdminOrgId=@{adminOrg}',{afterClose:function (){ refreshActivityOfferingOncloseCommentLightbox('@{#ConfigProperties['application.url']}','@{#component.id}') }});">
                 </bean>
                 <bean parent="KS-Uif-Requisite-NavigationActionLink" p:methodToCall="manageAORules" p:actionLabel="Requisites"/>
