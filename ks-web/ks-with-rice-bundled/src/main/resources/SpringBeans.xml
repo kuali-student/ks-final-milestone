@@ -70,7 +70,8 @@
 <beans profile="ks-core">
 
 	<import resource="classpath:ksb/ks-core-no-tx-context.xml"/>
-	
+    <import resource="classpath:mq/ks-mq-context.xml"/>
+
 	<import resource="classpath:ks-core-krad-data-dictionary-config.xml"/>
 </beans>
 

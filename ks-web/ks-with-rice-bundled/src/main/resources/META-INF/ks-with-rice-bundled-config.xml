@@ -42,6 +42,10 @@
     <!-- used to show KS links in Rice Portal -->
     <param name="portal.show.sample.app">true</param>
 
+    <!-- URL that the Active MQ Broker is deployed -->
+    <param name="ks.mqbroker.url">nio://localhost:7003</param>
+    <param name="ks.mqlistener.url">vm:ksbroker:(${ks.mqbroker.url})?create=false;waitForStart=10000</param>
+
     <param name="appserver.url">http://localhost:8081</param>
     <param name="app.code">ks-with-rice-bundled</param>
     <param name="krad.externalizable.images.url">${application.url}/themes/ksboot/images/</param>
