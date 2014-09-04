@@ -44,9 +44,9 @@
         </property>
     </bean>
 
-    <bean id="CM-CourseVersions-Page" parent="Uif-Page" p:disclosure.render="false" p:headerText="Programming 101">
+    <bean id="CM-CourseVersions-Page" parent="Uif-Page" p:disclosure.render="false" p:headerText="@{courseTitle}">
         <property name="header">
-            <bean id="CM-CourseVersionsPage-Header" parent="Uif-HeaderOne"  p:headerText="Programming 101" p:render="true">
+            <bean id="CM-CourseVersionsPage-Header" parent="Uif-HeaderOne" p:render="true">
             </bean>
         </property>
         <!-- Because the display attribute of the breadcrumb wrapper is set to 'display: block !important' we need to just remove it. -->
@@ -102,11 +102,11 @@
            </list>
         </property>
     </bean>
-                                                                          <!-- This should be in CSS -->
-    <bean id="CM-CourseVersion-Footer" parent="KS-Uif-FooterBase" p:style="border-top: 1px solid;border-color:lightgray">
+
+    <bean id="CM-CourseVersion-Footer" parent="KS-Uif-FooterBase" p:cssClasses="cm-footer">
         <property name="items">
-            <list>                                            <!-- This should be in CSS -->
-                <bean id="CM-CourseVersion-Button-Group" parent="Uif-HorizontalBoxGroup" p:style="float:right; padding-top:10px">
+            <list>
+                <bean id="CM-CourseVersion-Button-Group" parent="Uif-HorizontalBoxGroup">
                     <property name="items">
                         <list>
                             <!-- This button starts out disabled but the change handler on the checkboxes above
@@ -119,8 +119,8 @@
                                   p:methodToCall="showVersions"
                                   p:successCallback="courseVersions.redirectToViewCourse()" />
 
-                            <bean id="CM-CourseVersion-Footer-Button-Cancel" parent="Uif-ActionLink">
-                                <property name="actionLabel" value="Cancel"/>
+                            <bean id="CM-CourseVersion-Footer-Button-Close" parent="Uif-ActionLink">
+                                <property name="actionLabel" value="Close"/>
                                 <property name="actionScript" value="e.preventDefault(); closeLightbox();"/>
                             </bean>
                         </list>

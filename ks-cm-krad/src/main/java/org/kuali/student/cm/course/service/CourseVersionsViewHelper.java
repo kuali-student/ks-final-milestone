@@ -14,4 +14,9 @@ public interface CourseVersionsViewHelper extends ViewHelperService {
      * @param viCluId The version independent id of the series of courses.
      */
     List<VersionWrapper> getVersions(String viCluId);
+
+    /**
+     * Gets the title of the current version of the course.
+     */
+    String getCourseTitle(String viCluId);
 }

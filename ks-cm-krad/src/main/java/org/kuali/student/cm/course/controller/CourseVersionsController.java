@@ -66,18 +66,6 @@ public class CourseVersionsController extends KsUifControllerBase {
         return new CourseVersionsForm();
     }
 
-    /**
-     * This method populates the course details model to be displayed at 'course view'.
-     */
-    @MethodAccessible
-    @RequestMapping(params = "methodToCall=start")
-    public ModelAndView start(@ModelAttribute(UifConstants.DEFAULT_MODEL_NAME) UifFormBase form,
-                              HttpServletRequest request, HttpServletResponse response) {
-
-
-        return getUIFModelAndView(form);
-    }
-
     @MethodAccessible
     @RequestMapping(params = "methodToCall=showVersionHistory")
     public ModelAndView showVersionHistory(@ModelAttribute(UifConstants.DEFAULT_MODEL_NAME) CourseVersionsForm form,
@@ -89,6 +77,9 @@ public class CourseVersionsController extends KsUifControllerBase {
 
         String versionIndependentId = request.getParameter(UrlParams.VERSION_INDEPENDENT_ID);
         courseVersionsForm.setVersions(viewHelper.getVersions(versionIndependentId));
+
+        String courseTitle =  viewHelper.getCourseTitle(versionIndependentId);
+        courseVersionsForm.setCourseTitle(courseTitle);
 
         courseVersionsForm.setVersionIndependentId(versionIndependentId);
 

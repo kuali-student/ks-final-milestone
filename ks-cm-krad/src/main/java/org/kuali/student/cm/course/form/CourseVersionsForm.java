@@ -29,10 +29,19 @@ public class CourseVersionsForm extends KSUifForm {
 
     private String versionIndependentId;
 
-    //@SessionTransient
     private List<VersionWrapper> versions;
 
     private String redirectUri;
+
+    private String courseTitle;
+
+    public String getCourseTitle() {
+        return courseTitle;
+    }
+
+    public void setCourseTitle(String courseTitle) {
+        this.courseTitle = courseTitle;
+    }
 
     /**
      * The version independent id of the CLU to fetch the versions for.
