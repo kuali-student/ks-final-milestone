@@ -640,9 +640,9 @@ public class TestCourseServiceImpl{
         for(ResultValuesGroupInfo rc : co) {
             if(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_MULTIPLE.equals(rc.getTypeKey())){
                 assertEquals(3, rc.getResultValueKeys().size());
-                assertTrue(rc.getResultValueKeys().contains("1.0"));
-                assertTrue(rc.getResultValueKeys().contains("1.5"));
-                assertTrue(rc.getResultValueKeys().contains("2.0"));
+                assertTrue(rc.getResultValueKeys().contains("kuali.result.value.credit.degree.1.0"));
+                assertTrue(rc.getResultValueKeys().contains("kuali.result.value.credit.degree.1.5"));
+                assertTrue(rc.getResultValueKeys().contains("kuali.result.value.credit.degree.2.0"));
             }
 
             if(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_RANGE.equals(rc.getTypeKey())){
