@@ -1901,6 +1901,8 @@ function refreshActivityOfferingOncloseCommentLightbox(baseUrl, elementId) {
     var formData = jQuery('#kualiForm').serialize() + '&' + jQuery.param(data);
     refreshCommentCountOnCloseLightbox(targetUrl, formData, function(data){
         jQuery("#" + elementId).text(" (" + data + ")");
+        var i = jQuery('<i class="ks-fontello-icon-comment"></i>');
+        jQuery("#" + elementId).prepend(i);
     });
 }
 
