@@ -286,9 +286,8 @@
 								{tail: {align:'top'}, align:'top', position:'right'}, false);" />
                     <property name="cssClasses">
                         <list merge="true">
-                            <value>ksap-course-valid</value>
+                            <value>ksap-planner-course-valid</value>
                             <value>ksap-planner-cell</value>
-                            <value>ksap-planner-cell-valid</value>
                         </list>
                     </property>
                     <property name="dataAttributes">
@@ -341,7 +340,7 @@
                                 <property name="messageText" value="__KSAP__CREDITS__" />
                                 <property name="cssClasses">
                                     <list merge="true">
-                                        <value>credit</value>
+                                        <value>ksap-planner-credits</value>
                                     </list>
                                 </property>
                             </bean>
@@ -357,9 +356,8 @@
         <property name="group.validationMessages.displayMessages" value="false" />
         <property name="cssClasses">
             <list merge="true">
-                <value>ksap-course-valid</value>
+                <value>ksap-planner-course-valid</value>
                 <value>ksap-planner-cell</value>
-                <value>ksap-planner-cell-valid</value>
             </list>
         </property>
     </bean>
@@ -459,7 +457,7 @@
                     <property name="messageText" value="@{#line.creditString}" />
                     <property name="cssClasses">
                         <list merge="true">
-                            <value>credit</value>
+                            <value>ksap-planner-credits</value>
                         </list>
                     </property>
                 </bean>
@@ -557,7 +555,7 @@
                     <property name="messageText" value="@{#line.creditString}" />
                     <property name="cssClasses">
                         <list merge="true">
-                            <value>credit</value>
+                            <value>ksap-planner-credits</value>
                         </list>
                     </property>
                 </bean>
@@ -873,14 +871,14 @@
         <property name="validationMessages.displayMessages" value="false" />
         <property name="cssClasses">
             <list merge="true">
-                <value>ksap-carousel-term-total</value>
-                <value>ks-plan-Bucket-credit</value>
+                <value>ksap-planner-credits-total</value>
+                <value>ksap-planner-cell</value>
             </list>
         </property>
         <property name="items">
             <list>
                 <bean p:id="planner_term_total_credits_label" parent="Uif-MessageField"
-                      p:messageText="@{#textHelper.getText('planner.body.credits')}" p:cssClasses="ks-plan-Bucket-creditLabel" />
+                      p:messageText="@{#textHelper.getText('planner.body.credits')}" />
             </list>
         </property>
     </bean>
@@ -889,8 +887,7 @@
     <bean abstract="true" id="planner_term_total_credits_text-parent" parent="Uif-MessageField">
         <property name="cssClasses">
             <list merge="true">
-                <value>credits</value>
-                <value>ks-plan-Bucket-creditCount</value>
+                <value>ksap-planner-credits</value>
             </list>
         </property>
     </bean>

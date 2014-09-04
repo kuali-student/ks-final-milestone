@@ -89,15 +89,26 @@
     height: 28px;
     padding: .5rem;
   }
-  .ksap-course-valid:hover {
-    background-color: #f5f5f5;
-    cursor: pointer;
-  }
 
   // Courses
-  .ksap-planner-cell {
+  [class*="ksap-planner-course-"] {
+    cursor: pointer;
     font-size: 0.8462em;
   }
+  [class*="ksap-planner-course-"]:hover {
+    background-color: #f5f5f5;
+  }
+
+  //Credits
+  .ksap-planner-credits {
+    float: right;
+  }
+
+  .ksap-planner-credits-total {
+    background: #dee6eb;
+    font: 1.3rem 'Lato', sans-serif;
+  }
+
   // Add Courses
   .ksap-planner-cell.ksap-planner-add {
     padding: 0; //Remove padding from cell for Add Course
@@ -186,11 +197,7 @@
   margin: 5px 0 0 5px;
 }
 
-.ksap-carousel-list ul li .ksap-carousel-term-total .uif-helpImage {
-  display: inline-block;
-  vertical-align: middle;
-  margin: 5px 0 0 5px;
-}
+
 
 .ksap-carousel-list ul li .ksap-carousel-term .uif-header .uif-header-rightGroup {
   position: relative;
@@ -244,9 +251,6 @@
   color: #666;
 }
 
-.ksap-carousel-list ul li .ksap-carousel-term .uif-collectionItem .credit {
-  float: right;
-}
 
 .ksap-carousel-list ul li .ksap-carousel-term .uif-collectionItem .grade {
   color: #777;
@@ -258,8 +262,8 @@
 .ksap-carousel-list ul li .ksap-carousel-term .uif-collectionItem .schedule {
   padding: 0 5px 0 4px;
 }
-.ksap-course-valid.not-scheduled,
-.ksap-course-invalid.not-scheduled {
+.ksap-planner-course-valid.not-scheduled,
+.ksap-planner-course-invalid.not-scheduled {
   /*@TODO: ksap-961 Use icon font or point to ksboot resource instead*/
   background: url('../images/iconWarning.png') no-repeat 4px;
 }
@@ -283,21 +287,6 @@
 }
 
 
-.ksap-carousel-list .ksap-carousel-term-total {
-  /*background: #f6ebcd;*/
-  /*color: #39275b;*/
-  font-size: 12px;
-  height: 26px;
-  line-height: 26px;
-  display: block;
-  padding: 0 10px !important;
-}
-
-
-.ksap-carousel-list .ksap-carousel-term-total .credits {
-  float: right;
-  font-size: 14px;
-}
 
 .ks-plan-Instructions {
   margin: 15px 0;
@@ -400,14 +389,6 @@ label.scheduled {
       min-height: 100px;
     }
 
-    //"Credits" styling
-    .ksap-term-credits {
-      border-top: dotted 1px #A9A9A9;
-      color: #999;
-      font-size: 90%;
-      padding: 0 5px;
-      text-align: right;
-    }
   } // End Entire Academic Plan Section
 }
 /* End Printer Friendly - Full Plan */
@@ -431,11 +412,7 @@ label.scheduled {
   padding: 10px 5px;
 }
 
-.ksap-quarter-detail .ksap-course-item {
-  border: solid 1px #ccc;
-  border-bottom: none;
-  padding: 5px;
-}
+
 
 .ksap-quarter-detail .ksap-course-sections table {
   border-bottom: none;
@@ -446,10 +423,7 @@ label.scheduled {
   margin: 0;
 }
 
-.ksap-quarter-detail .ksap-credit-total {
-  padding: 10px 5px;
-  background: #ccc;
-}
+
 
 .ks-plan-Bucket-emptyLabel {
   display: block !important;

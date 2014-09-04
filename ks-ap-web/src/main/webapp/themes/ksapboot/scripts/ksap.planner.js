@@ -188,7 +188,7 @@ function ksapPlannerAddPlanItem (data) {
  */
 function ksapPlannerUpdatePlanItem (data) {
     var item = jQuery("#" + data.uniqueId);
-    item.find(".credit p").text(data.credit);
+    item.find(".ksap-planner-credits p").text(data.credit);
     item.find(".coursenote").attr("title",data.courseNote);
     if(data.courseNoteRender == 'false'){
         item.find(".coursenote").addClass("invisible");
@@ -215,14 +215,14 @@ function ksapPlannerRemovePlanItem (data) {
  */
 function ksapPlannerUpdateCredits (data) {
     var planbucket = jQuery(".ksap-term-planned." + data.termId);
-    var planunitcell = planbucket.find(".ksap-carousel-term-total");
-    planunitcell.find(".credits p.uif-message").fadeOut(250, function() {
+    var planunitcell = planbucket.find(".ksap-planner-credits-total");
+    planunitcell.find(".ksap-planner-credits-total .ksap-planner-credits").fadeOut(250, function() {
         jQuery(this).text(data.totalCredits).fadeIn(250);
     });
 
     var cartbucket = jQuery(".ksap-term-cart." + data.termId);
-    var cartunitcell = cartbucket.find(".ksap-carousel-term-total");
-    cartunitcell.find(".credits p.uif-message").fadeOut(250, function() {
+    var cartunitcell = cartbucket.find(".ksap-planner-credits-total");
+    cartunitcell.find(".ksap-planner-credits-total .ksap-planner-credits").fadeOut(250, function() {
         jQuery(this).text(data.cartCredits).fadeIn(250);
     });
 }
