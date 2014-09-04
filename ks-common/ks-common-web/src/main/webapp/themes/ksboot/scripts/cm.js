@@ -1167,3 +1167,86 @@ function setDirtyManually(dirtyFlag) {
     dirtyFormState.dirtyFormInput.val(dirtyFlag);
 }
 
+
+/**
+ * Scripts used in the Course Versions view.
+ */
+var courseVersions = {
+
+    /*
+     * Checkbox tracking. The most recently checked checkbox goes in slot one.
+     */
+    checkedCheckboxes: {slot1: "", slot2: ""},
+
+    /*
+     * Make sure a maximum of two checkboxes are checked and hanled enable/disable of submit button.
+     */
+    manageWidgets: function (item) {
+        changedCheckBoxId = item.id + "_control";
+
+        //  Get the current contents of the checkbox tracking slots for convenience
+        currentSlotId1 = this.checkedCheckboxes['slot1'];
+        currentSlotId2 = this.checkedCheckboxes['slot2'];
+
+        hasBecomeChecked = jQuery("#" + changedCheckBoxId).is(':checked');
+
+        //  If the checkbox change was that it became checked then manage the slots
+        if (hasBecomeChecked) {
+            //  Uncheck the oldest/slot2 checkbox if it has a value
+            if (currentSlotId2) {
+                jQuery("#" + currentSlotId2).prop('checked', false);
+            }
+            //  Write slot1 into slot2 if it has a value
+            if (currentSlotId1) {
+                this.checkedCheckboxes['slot2'] = this.checkedCheckboxes['slot1'];
+            }
+            //  Write the changed checkbox id into slot1
+            this.checkedCheckboxes['slot1'] = changedCheckBoxId;
+        } else {
+            //  If a checkbox has become unchecked. No 'else' needed here.
+            if (changedCheckBoxId === currentSlotId1) {
+                //  Copy slot 2 to slot one and make slot 2 empty
+                this.checkedCheckboxes['slot1'] = this.checkedCheckboxes['slot2'];
+            }
+            //  Make slot 2 empty
+            this.checkedCheckboxes['slot2'] = "";
+        }
+
+        //  Adjust the button based on the contents of slot 1
+        if (this.checkedCheckboxes['slot1']) {
+            jQuery("#CM-CourseVersion-Button-ShowVersions").removeAttr("disabled");
+            jQuery("#CM-CourseVersion-Button-ShowVersions").removeClass("disabled");
+        } else {
+           jQuery("#CM-CourseVersion-Button-ShowVersions").attr("disabled", "disabled");
+           jQuery("#CM-CourseVersion-Button-ShowVersions").addClass("disabled");
+        }
+    },
+
+    /*
+     * Called by the Show Version(s) button successCallback. Redirects to View Course
+     * for the selected versions.
+     */
+    redirectToViewCourse: function () {
+        var queryData = {};
+        queryData.methodToCall = 'getRedirectUri';
+        queryData.ajaxReturnType = 'update-none';
+        queryData.ajaxRequest = true;
+        queryData.formKey = jQuery("input[name='" + kradVariables.FORM_KEY + "']").val();
+
+        //  Perform the redirect on success. Otherwise, the view course page will be displayed in the iframe.
+        var successFunction = function (data) {
+            window.top.location.href = data['uri'];
+        };
+
+        //  Call back to the controller to get the URI to redirect to.
+        jQuery.ajax({
+            url:jQuery('form#kualiForm').attr("action"),
+            dataType:"json",
+            async:false,
+            beforeSend:null,
+            complete:null,
+            data:queryData,
+            success:successFunction,
+        });
+    }
+}
