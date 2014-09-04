@@ -27,6 +27,7 @@ import org.kuali.student.ap.academicplan.service.AcademicPlanService;
 import org.kuali.student.ap.planner.PlannerItem;
 import org.kuali.student.ap.planner.PlannerTerm;
 import org.kuali.student.enrollment.academicrecord.dto.StudentCourseRecordInfo;
+import org.kuali.student.enrollment.courseregistration.dto.CourseRegistrationInfo;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
@@ -275,4 +276,8 @@ public interface PlanHelper {
      */
     public List<PlannerTerm> getPlannerTerms(LearningPlan learningPlan);
 
+    /**
+     * @see PlanHelper#createPlannerItem(org.kuali.student.enrollment.courseregistration.dto.CourseRegistrationInfo)
+     */
+    PlannerItem createPlannerItem(CourseRegistrationInfo registrationRecord);
 }

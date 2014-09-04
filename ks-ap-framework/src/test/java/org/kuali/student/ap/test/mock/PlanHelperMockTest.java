@@ -11,6 +11,7 @@ import org.kuali.student.ap.framework.context.PlanHelper;
 import org.kuali.student.ap.planner.PlannerItem;
 import org.kuali.student.ap.planner.PlannerTerm;
 import org.kuali.student.enrollment.academicrecord.dto.StudentCourseRecordInfo;
+import org.kuali.student.enrollment.courseregistration.dto.CourseRegistrationInfo;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.core.acal.infc.Term;
 import org.kuali.student.r2.lum.course.infc.Course;
@@ -326,6 +327,11 @@ public class PlanHelperMockTest implements PlanHelper{
 
     @Override
     public List<PlannerTerm> getPlannerTerms(LearningPlan learningPlan) {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public PlannerItem createPlannerItem(CourseRegistrationInfo registrationRecord) {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 }

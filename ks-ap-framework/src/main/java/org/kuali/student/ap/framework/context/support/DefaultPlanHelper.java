@@ -16,6 +16,9 @@
 package org.kuali.student.ap.framework.context.support;
 
 import org.kuali.rice.core.api.config.property.ConfigContext;
+import org.kuali.rice.kim.api.identity.entity.Entity;
+import org.kuali.rice.kim.api.identity.principal.Principal;
+import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.student.ap.academicplan.constants.AcademicPlanServiceConstants;
 import org.kuali.student.ap.academicplan.constants.AcademicPlanServiceConstants.ItemCategory;
 import org.kuali.student.ap.academicplan.dto.LearningPlanInfo;
@@ -39,6 +42,7 @@ import org.kuali.student.common.collection.KSCollectionUtils;
 import org.kuali.student.enrollment.academicrecord.dto.StudentCourseRecordInfo;
 import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
 import org.kuali.student.enrollment.courseoffering.infc.CourseOffering;
+import org.kuali.student.enrollment.courseregistration.dto.CourseRegistrationInfo;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
@@ -893,6 +897,46 @@ public class DefaultPlanHelper implements PlanHelper {
 
     }
 
+    @Override
+    /**
+     * @see org.kuali.student.ap.framework.context.PlanHelper#createPlannerItem(org.kuali.student.enrollment.courseregistration.dto.CourseRegistrationInfo)
+     */
+    public PlannerItem createPlannerItem(CourseRegistrationInfo registrationRecord) {
+        PlannerItem newPlannerItem = new PlannerItem();
+        newPlannerItem.setType(PlannerItem.COURSE_RECORD_ITEM);
+
+        newPlannerItem.setUniqueId(UUID.randomUUID().toString());
+        newPlannerItem.setTermId(registrationRecord.getTermId());
+        newPlannerItem.setCategory(ItemCategory.REGISTERED);
+
+        CourseOffering offering = null;
+        try {
+            offering = KsapFrameworkServiceLocator.getCourseOfferingService().getCourseOffering(registrationRecord.getCourseOfferingId(), KsapFrameworkServiceLocator.getContext().getContextInfo());
+        } catch (DoesNotExistException|InvalidParameterException|MissingParameterException|OperationFailedException|PermissionDeniedException
+                e) {
+            throw new IllegalArgumentException("Course Offering Service failure", e);
+        }
+
+        newPlannerItem.setCourseCode(offering.getCourseOfferingCode());
+        newPlannerItem.setCourseId(offering.getCourseId());
+        newPlannerItem.setCourseTitle(offering.getCourseOfferingTitle());
+
+        String creditsString = registrationRecord.getCredits().toString();
+        try {
+            if(registrationRecord.getCredits() == null){
+                newPlannerItem.setMaxCredits(BigDecimal.ZERO);
+                newPlannerItem.setMinCredits(BigDecimal.ZERO);
+            }else{
+                newPlannerItem.setMaxCredits(registrationRecord.getCredits().bigDecimalValue());
+                newPlannerItem.setMinCredits(registrationRecord.getCredits().bigDecimalValue());
+            }
+        } catch (NumberFormatException e) {
+            LOG.warn(String.format("Invalid credits in registration record %s", registrationRecord.getCredits()), e);
+        }
+
+        return newPlannerItem;
+    }
+
     /**
      * @see org.kuali.student.ap.framework.context.PlanHelper#createPlannerItem(org.kuali.student.enrollment.academicrecord.dto.StudentCourseRecordInfo)
      */
@@ -945,6 +989,7 @@ public class DefaultPlanHelper implements PlanHelper {
         return newPlannerItem;
     }
 
+    @Override
     /**
      * @see org.kuali.student.ap.framework.context.PlanHelper#createPlannerItem(org.kuali.student.ap.academicplan.infc.PlanItem)
      */
@@ -1033,11 +1078,20 @@ public class DefaultPlanHelper implements PlanHelper {
         LOG.info("Retrieve Completed Records: {}",System.currentTimeMillis());
         List<StudentCourseRecordInfo> completedRecords = retrieveCourseRecords(learningPlan.getStudentId());
         LOG.info("Retrieve PlanItems: {}",System.currentTimeMillis());
+        Principal student = KimApiServiceLocator.getIdentityService().
+                getPrincipalByPrincipalName(learningPlan.getStudentId());
+
+        List<CourseRegistrationInfo> registeredRecords=retrieveRegistrationRecords(student.getEntityId());
+
         List<PlanItem> planItems = retrieveCoursePlanItems(learningPlan.getId());
         LOG.info("Create Planner Items: {}",System.currentTimeMillis());
         List<PlannerItem> plannerItems = new ArrayList<PlannerItem>();
         for(StudentCourseRecordInfo record : completedRecords){
             PlannerItem newItem = KsapFrameworkServiceLocator.getPlanHelper().createPlannerItem(record);
+            plannerItems.add(newItem);
+        }
+        for(CourseRegistrationInfo registrationRecord : registeredRecords){
+            PlannerItem newItem = KsapFrameworkServiceLocator.getPlanHelper().createPlannerItem(registrationRecord);
             plannerItems.add(newItem);
         }
         for(PlanItem planItem : planItems){
@@ -1061,6 +1115,27 @@ public class DefaultPlanHelper implements PlanHelper {
         List<PlannerTerm> terms = createPlannerTerms(calendarTerms,plannerItemMap,termNotesMap);
         LOG.info("Return terms: {}",System.currentTimeMillis());
         return terms;
+    }
+
+    /**
+     * Retrieve student's registrationRecords (...ignore completed terms)
+     * @param studentId - Id of student
+     */
+    private List<CourseRegistrationInfo> retrieveRegistrationRecords(String studentId) {
+        List<CourseRegistrationInfo> registeredRecords=new ArrayList<>();
+        try {
+            List<CourseRegistrationInfo> tempRegisteredRecords = KsapFrameworkServiceLocator
+                    .getCourseRegistrationService().getCourseRegistrationsByStudent(
+                            studentId,KsapFrameworkServiceLocator.getContext().getContextInfo());
+            for (CourseRegistrationInfo record : tempRegisteredRecords) {
+                if (!KsapFrameworkServiceLocator.getTermHelper().isCompleted(record.getTermId())) {
+                    registeredRecords.add(record);
+                }
+            }
+        } catch (InvalidParameterException|MissingParameterException|OperationFailedException|PermissionDeniedException  e) {
+            throw new IllegalArgumentException("Registered Records lookup failure", e);
+        }
+        return registeredRecords;
     }
 
     /**

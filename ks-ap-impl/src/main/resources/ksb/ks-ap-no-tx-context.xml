@@ -51,7 +51,7 @@
         <property name="learningPlanReviewStrategy" ref="learningPlanReviewStrategy"/>
         <property name="scheduleBuildStrategy" ref="scheduleBuildStrategy"/>
         <property name="shoppingCartStrategy" ref="shoppingCartStrategy"/>
-        <property name="courseRegistrationService" ref="courseRegistrationServiceMock"/>
+        <property name="courseRegistrationService" ref="ksCourseRegistrationService"/>
         <property name="courseSeatCountService" ref ="ksCourseSeatCountService"/>
         <property name="searchService" ref ="ksSearchService"/>
 
@@ -220,6 +220,13 @@
             </list>
         </property>
         <property name="courseOfferingService" ref="CourseOfferingService"/>
+    </bean>
+
+    <bean id="ksCourseRegistrationService" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
+        <property name="serviceEndpointInterface"
+                  value="org.kuali.student.enrollment.courseregistration.service.CourseRegistrationService"/>
+        <property name="serviceQName"
+                  value="{http://student.kuali.org/wsdl/courseRegistrationService}CourseRegistrationService"/>
     </bean>
 
     <bean id="ksapContext" class="org.kuali.student.ap.framework.context.support.DefaultKsapContext"/>

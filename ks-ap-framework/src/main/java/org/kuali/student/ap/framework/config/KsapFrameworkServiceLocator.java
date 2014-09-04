@@ -250,8 +250,8 @@ public final class KsapFrameworkServiceLocator {
      *
      * @return the KS course registration service
      */
-    public CourseRegistrationService getCourseRegistrationService() {
-        return courseRegistrationService;
+    public static CourseRegistrationService getCourseRegistrationService() {
+        return getInstance().courseRegistrationService;
     }
 
     /**
