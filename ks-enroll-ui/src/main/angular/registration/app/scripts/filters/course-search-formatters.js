@@ -60,7 +60,7 @@ angular.module('regCartApp')
                 var location = '';                                      // location column
                 var instructorList = '';                                // instructors column
                 var seatsOpen = '';                                     // seats open column
-                var additionalInfo;                                     // additional info column
+                var additionalInfo = undefined;                         // additional info column
 
                 var indicator = false;                                  // determines if we show the row indicator on the left
 
@@ -97,7 +97,8 @@ angular.module('regCartApp')
                 seatsOpen = addSortField(seatsOpen, zeroPad(ao.seatsOpen, 3) + zeroPad(ao.seatsAvailable, 3));
 
                 var subterm = false,
-                    requisites = false;
+                    requisites = false,
+                    honors = ao.honors;
 
                 if (ao.subterm !== null) {
                     subterm = true;
@@ -105,17 +106,17 @@ angular.module('regCartApp')
                 if (angular.isArray(ao.requisites) && ao.requisites.length > 0) {
                     requisites = true;
                 }
-                if (subterm || requisites) {
+                if (subterm || requisites || honors) {
                     additionalInfo = '';
                 }
                 if (subterm) {
-                    additionalInfo += '<span class="kscr-SearchDetails-icon--subterm" ng-click="$emit(\'showSubterm\', searchResult.aoId); $event.stopPropagation();"></span>';
+                    additionalInfo += '<span class="kscr-SearchDetails-icon--subterm" title="Sub Term Offering" ng-click="$emit(\'showSubterm\', searchResult.aoId); $event.stopPropagation();"></span>';
                 }
                 if (requisites) {
-                    if (!subterm) {
-                        additionalInfo += '<span class="kscr-SearchDetails-icon">&nbsp;</span>';
-                    }
-                    additionalInfo += '<span class="kscr-SearchDetails-icon--requisites" ng-click="$emit(\'showRequisites\', searchResult.aoId); $event.stopPropagation();"></span>';
+                    additionalInfo += '<span class="kscr-SearchDetails-icon--requisites" title="Requisites" ng-click="$emit(\'showRequisites\', searchResult.aoId); $event.stopPropagation();"></span>';
+                }
+                if (honors) {
+                    additionalInfo += '<span class="kscr-SearchDetails-icon--honors" title="Honors Course" />';
                 }
 
                 var aoId = ao.activityOfferingCode;

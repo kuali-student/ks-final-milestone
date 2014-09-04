@@ -154,6 +154,7 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
         public static final String WEEKDAYS = "weekdays";
         public static final String START_TIME_MS = "startTimeMs";
         public static final String END_TIME_MS = "endTimeMs";
+        public static final String HONORS_FLAG = "honorsFlag";
         public static final String ATP_ID = "atpId";
         public static final String ATP_CD = "atpCd";
         public static final String ATP_NAME = "atpName";
@@ -877,7 +878,7 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
         for (Object[] resultRow : results) {
             int i = 0;
             SearchResultRowInfo row = new SearchResultRowInfo();
-            row.addCell(SearchResultColumns.SEAT_COUNT, resultRow[i] == null ? null : ((BigDecimal) resultRow[i]).toString());
+            row.addCell(SearchResultColumns.SEAT_COUNT, resultRow[i] == null ? null : (resultRow[i]).toString());
             i++;
             row.addCell(SearchResultColumns.LUI_ID, (String) resultRow[i++]);
             row.addCell(SearchResultColumns.LPR_TYPE, (String) resultRow[i++]);
@@ -1527,7 +1528,8 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
                         "    AND lpr_wl.LPR_STATE = '" + LprServiceConstants.ACTIVE_STATE_KEY + "') numWaitlistedForRG, " +
                         "rg.ID as rgId, rg.NAME as rgCode, " +
                         "schedCmp.TBA_IND, room.ROOM_CD, rBldg.BUILDING_CD, " +
-                        "schedTmslt.WEEKDAYS, schedTmslt.START_TIME_MS, schedTmslt.END_TIME_MS " +
+                        "schedTmslt.WEEKDAYS, schedTmslt.START_TIME_MS, schedTmslt.END_TIME_MS, " +
+                        "honorsCd.value as honorsFlag " +
                         "FROM KSEN_LUI co, KSEN_LUI_IDENT coId " +
                         // looking for grading and credit options for given CO
                         "LEFT OUTER JOIN KSEN_LUI_RESULT_VAL_GRP coRes " +
@@ -1583,6 +1585,9 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
                         "ON schedCmpTmslt.SCHED_CMP_ID = schedCmp.ID " +
                         "LEFT OUTER JOIN KSEN_SCHED_TMSLOT schedTmslt " +
                         "ON schedTmslt.ID = schedCmpTmslt.TM_SLOT_ID " +
+                        // Honors
+                        "left outer join KSEN_LUI_LU_CD honorsCd " +
+                        "on honorsCd.lui_id = ao.id and honorsCd.lui_lucd_type = 'kuali.lu.code.honorsOffering' " +
                         "WHERE coId.LUI_ID = co.ID " +
 //                        "  AND coId.LUI_ID_TYPE = '" + LuiServiceConstants.LUI_IDENTIFIER_OFFICIAL_TYPE_KEY + "' " +
                         "  AND coId.LUI_ID_STATE = '" + LuiServiceConstants.LUI_IDENTIFIER_ACTIVE_STATE_KEY + "' " +
@@ -1649,8 +1654,9 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
             row.addCell(SearchResultColumns.WEEKDAYS, (String) resultRow[i++]);
             BigDecimal startTimeMs = (BigDecimal) resultRow[i++];
             row.addCell(SearchResultColumns.START_TIME_MS, (startTimeMs == null) ? "" : startTimeMs.toString());
-            BigDecimal endTimeMs = (BigDecimal) resultRow[i];
+            BigDecimal endTimeMs = (BigDecimal) resultRow[i++];
             row.addCell(SearchResultColumns.END_TIME_MS, (endTimeMs == null) ? "" : endTimeMs.toString());
+            row.addCell(SearchResultColumns.HONORS_FLAG, (String) resultRow[i]);
 
             resultInfo.getRows().add(row);
         }

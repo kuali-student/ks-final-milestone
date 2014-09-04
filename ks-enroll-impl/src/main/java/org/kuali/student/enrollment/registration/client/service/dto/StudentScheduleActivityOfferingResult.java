@@ -12,7 +12,8 @@ import java.util.Map;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "StudentScheduleActivityOfferingResult", propOrder = {
         "activityOfferingId", "activityOfferingTypeName", "activityOfferingType", "activityOfferingCode",
-        "seatsAvailable", "seatsOpen", "scheduleComponents", "instructors", "regGroupInfos", "requisites", "subterm"})
+        "seatsAvailable", "seatsOpen", "scheduleComponents", "instructors", "regGroupInfos", "requisites", "subterm",
+        "honors"})
 public class StudentScheduleActivityOfferingResult  implements Serializable {
     private String activityOfferingId;
     private String activityOfferingTypeName;
@@ -27,6 +28,7 @@ public class StudentScheduleActivityOfferingResult  implements Serializable {
     private Map<String, RegGroupLimitedInfoSearchResult> regGroupInfos;
     private List<String> requisites;
     private SubTermOfferingResult subterm;
+    private boolean honors;
 
     public String getActivityOfferingId() {
         return activityOfferingId;
@@ -135,11 +137,18 @@ public class StudentScheduleActivityOfferingResult  implements Serializable {
 
     public Map<String, RegGroupLimitedInfoSearchResult> getRegGroupInfos() {
         if(regGroupInfos == null){
-            regGroupInfos = new HashMap<String, RegGroupLimitedInfoSearchResult>();
+            regGroupInfos = new HashMap<>();
         }
         return regGroupInfos;
     }
 
     public void setRegGroupInfos(Map<String, RegGroupLimitedInfoSearchResult> regGroupInfos) { this.regGroupInfos = regGroupInfos; }
 
+    public boolean isHonors() {
+        return honors;
+    }
+
+    public void setHonors(boolean honors) {
+        this.honors = honors;
+    }
 }
