@@ -216,13 +216,13 @@ function ksapPlannerRemovePlanItem (data) {
 function ksapPlannerUpdateCredits (data) {
     var planbucket = jQuery(".ksap-term-planned." + data.termId);
     var planunitcell = planbucket.find(".ksap-planner-credits-total");
-    planunitcell.find(".ksap-planner-credits-total .ksap-planner-credits").fadeOut(250, function() {
+    planunitcell.find(".ksap-planner-credits-total .ksap-planner-credits p.uif-message").fadeOut(250, function() {
         jQuery(this).text(data.totalCredits).fadeIn(250);
     });
 
     var cartbucket = jQuery(".ksap-term-cart." + data.termId);
     var cartunitcell = cartbucket.find(".ksap-planner-credits-total");
-    cartunitcell.find(".ksap-planner-credits-total .ksap-planner-credits").fadeOut(250, function() {
+    cartunitcell.find(".ksap-planner-credits-total .ksap-planner-credits p.uif-message").fadeOut(250, function() {
         jQuery(this).text(data.cartCredits).fadeIn(250);
     });
 }
