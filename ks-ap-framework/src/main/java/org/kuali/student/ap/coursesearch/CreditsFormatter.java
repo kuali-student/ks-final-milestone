@@ -329,6 +329,7 @@ public class CreditsFormatter {
 
 	/**
 	 * Formats credit values of a course
+     *
 	 * 
 	 * @param course - The course to retrieve credit value for
 	 * @return Formatted string of the credit values of the course
@@ -339,6 +340,7 @@ public class CreditsFormatter {
 
     /**
      * Formats credit values of a range
+     * For multi credits should always display all the possible values:1, 1.5, 2, 2.5, 3
      *
      * @param range - The range of values to format
      * @return Formatted string from the range values
@@ -361,7 +363,51 @@ public class CreditsFormatter {
 		return sb.toString();
 	}
 
-	/**
+    /**
+     * Formats credit values of a course with a short version
+     *
+     *
+     * @param course - The course to retrieve credit value for
+     * @return Formatted string of the credit values of the course
+     */
+    public static String formatCreditsShortVersion(Course course) {
+        return formatCreditsShortVersion(getRange(course));
+    }
+
+    /**
+     * Formats credit values of a range
+     * For multi credits with only two credit options should display as: 1, 5
+     * For multi credits with more than two credit options should display as a range: 1-5.5
+     *
+     * @param range - The range of values to format
+     * @return Formatted string from the range values
+     */
+    public static String formatCreditsShortVersion(Range range) {
+        StringBuilder sb = new StringBuilder();
+        if (range != null) {
+            if (range.multiple != null && !range.multiple.isEmpty() ) {
+                if (range.multiple.size()>2){
+                    sb.append(trimCredits(range.min.toString()));
+                    sb.append(" - ").append(trimCredits(range.max.toString()));
+                }
+                else if (range.multiple.size()== 2){
+                    sb.append(trimCredits(range.min.toString()));
+                    sb.append(" , ").append(trimCredits(range.max.toString()));
+                }
+                else if (range.multiple.size()== 1){
+                    sb.append(trimCredits(range.min.toString()));
+                }
+            } else {
+                sb.append(trimCredits(range.min.toString()));
+                if (range.min.compareTo(range.max) < 0)
+                    sb.append(" - ").append(trimCredits(range.max.toString()));
+            }
+        }
+        return sb.toString();
+    }
+
+
+    /**
 	 * Drop the decimal point and and trailing zero from credits.
 	 * 
 	 * @return The supplied value minus the trailing ".0"

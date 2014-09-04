@@ -81,8 +81,11 @@ public class BookmarkSideBarLookupableHelper extends
                 bookmark.setCourseCd(course.getCode());
                 bookmark.setCourseTitle(course.getCourseTitle());
                 bookmark.setDateAdded(planItem.getMeta().getCreateTime());
-                if(planItem.getCredits()!=null) bookmark.setCredits(planItem.getCredits().toString());
-                else bookmark.setCredits(CreditsFormatter.formatCredits(course));
+                if(planItem.getCredits()!=null){
+                    bookmark.setCredits(planItem.getCredits().toString());
+                }else {
+                    bookmark.setCredits(CreditsFormatter.formatCreditsShortVersion(course));
+                }
 
                 bookmark.setUniqueId(UUID.randomUUID().toString());
 
