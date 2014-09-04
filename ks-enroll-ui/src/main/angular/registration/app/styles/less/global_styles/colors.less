@@ -252,7 +252,7 @@
     @_primaryLightness: round((@_baseLightness * @_primaryLuma) / @_baseLuma, 2);
     @primaryContrastColor: hsl(hue(@base), saturation(@base), @_primaryLightness);
 
-    // Since the
+    // Since we are only approximating the luma > lightness conversion, we need to get the actual new luma for the primary color.
     @_primaryNewLuma: unit(luma(@primaryContrastColor)) / 100;
     @_primaryContrastRatio: `api.contrastRatio(@{_baseLuma}, @{_primaryNewLuma})`;
 
