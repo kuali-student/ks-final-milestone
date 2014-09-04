@@ -6,11 +6,15 @@ import org.kuali.student.r2.core.acal.infc.Term;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.Serializable;
+
 /**
  * Data Storage for the Term and Year of a single atp. Formats different output
  * forms of the data
  */
-public class DefaultYearTerm implements YearTerm, Comparable<YearTerm> {
+public class DefaultYearTerm implements YearTerm, Comparable<YearTerm>, Serializable {
+
+    private static final long serialVersionUID = -2043370757827665126L;
 
 	private static final Logger LOG = LoggerFactory.getLogger(DefaultYearTerm.class);
 

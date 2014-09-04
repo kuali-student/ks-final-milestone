@@ -25,7 +25,7 @@
         <property name="ksapUserSessionHelper" ref="ksapUserSessionHelper"/>
         <property name="ksapEnumerationHelper" ref="ksapEnumerationHelper"/>
         <property name="ksapOrgHelper" ref="ksapOrgHelper"/>
-        <property name="ksapCourseHelper" ref="ksapCourseHelper"/>
+        <property name="ksapCourseHelper" ref="ksapCourseHelperCacheDecorator"/>
         <property name="shoppingCartHelper" ref="shoppingCartHelper"/>
         <property name="planHelper" ref="planHelper"/>
         <property name="academicCalendarService" ref="ksEnrollAcalService"/>
@@ -245,7 +245,13 @@
     <bean name="enrollStatusHelper"
           class="org.kuali.student.ap.framework.context.support.DefaultEnrollmentStatusHelper"/>
 
-    <bean id="ksapCourseHelper" class="org.kuali.student.ap.framework.context.support.DefaultCourseHelper"/>
+    <bean id="ksapDefaultCourseHelper" class="org.kuali.student.ap.framework.context.support.DefaultCourseHelper"/>
+    <bean id="ksapCourseHelperCacheDecorator" class="org.kuali.student.ap.framework.context.decorators.CourseHelperCacheDecorator">
+        <property name="nextDecorator">
+            <ref bean="ksapDefaultCourseHelper"/>
+        </property>
+        <property name="cacheManager" ref="ksCacheManager"/>
+    </bean>
 
     <bean name="shoppingCartHelper" class="org.kuali.student.ap.framework.context.support.MockShoppingCartHelper"/>
 
