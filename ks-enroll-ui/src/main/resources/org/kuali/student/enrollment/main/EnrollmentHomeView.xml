@@ -95,6 +95,8 @@
                       p:href="@{#ConfigProperties['application.url']}/registration/#/myCart"/>
                 <bean parent="Uif-Link" p:linkText="Admin Registration"
                       p:href="@{#ConfigProperties['application.url']}/kr-krad/adminreg?viewId=KS-AdminRegistration&amp;methodToCall=start&amp;withinPortal=false"/>
+                <bean parent="Uif-Link" p:linkText="Manage Applied Holds"
+                      p:href="@{#ConfigProperties['application.url']}/kr-krad/appliedHoldManagement?viewId=KS-AppliedHoldManagementView&amp;methodToCall=start&amp;withinPortal=false"/>
             </list>
         </property>
     </bean>
