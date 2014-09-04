@@ -21,7 +21,7 @@
     <bean class="org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator" factory-method="getInstance">
         <property name="ksapContext" ref="ksapContext"/>
         <property name="ksapTextHelper" ref="ksapTextHelper"/>
-        <property name="ksapTermHelper" ref="ksapTermHelper"/>
+        <property name="ksapTermHelper" ref="ksapTermHelperCacheDecorator"/>
         <property name="ksapUserSessionHelper" ref="ksapUserSessionHelper"/>
         <property name="ksapEnumerationHelper" ref="ksapEnumerationHelper"/>
         <property name="ksapOrgHelper" ref="ksapOrgHelper"/>
@@ -228,7 +228,13 @@
         <property name="messageGroup" value="ksap"/>
     </bean>
 
-    <bean id="ksapTermHelper" class="org.kuali.student.ap.framework.context.support.DefaultTermHelper"/>
+    <bean id="ksapDefaultTermHelper" class="org.kuali.student.ap.framework.context.support.DefaultTermHelper"/>
+    <bean id="ksapTermHelperCacheDecorator" class="org.kuali.student.ap.framework.context.decorators.TermHelperCacheDecorator">
+        <property name="nextDecorator">
+            <ref bean="ksapDefaultTermHelper"/>
+        </property>
+        <property name="cacheManager" ref="ksCacheManager"/>
+    </bean>
 
     <bean id="ksapUserSessionHelper" class="org.kuali.student.ap.framework.context.support.DefaultUserSessionHelper"/>
 

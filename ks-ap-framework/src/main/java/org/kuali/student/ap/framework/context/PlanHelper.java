@@ -273,6 +273,6 @@ public interface PlanHelper {
      * @param learningPlan - Learning plan being displayed
      * @return Order list of planner terms.
      */
-    public List<PlannerTerm> getPlannerCalendarTerms(LearningPlan learningPlan);
+    public List<PlannerTerm> getPlannerTerms(LearningPlan learningPlan);
 
 }

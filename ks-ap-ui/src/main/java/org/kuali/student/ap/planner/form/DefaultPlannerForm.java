@@ -2,20 +2,14 @@ package org.kuali.student.ap.planner.form;
 
 import org.kuali.rice.krad.web.bind.RequestAccessible;
 import org.kuali.student.ap.academicplan.constants.AcademicPlanServiceConstants;
-import org.kuali.student.ap.academicplan.infc.LearningPlan;
 import org.kuali.student.ap.academicplan.infc.PlanItem;
 import org.kuali.student.ap.coursesearch.CreditsFormatter;
 import org.kuali.student.ap.coursesearch.CreditsFormatter.Range;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
-import org.kuali.student.ap.framework.context.CourseHelper;
 import org.kuali.student.ap.framework.context.PlanConstants;
-import org.kuali.student.ap.framework.context.TermHelper;
 import org.kuali.student.ap.planner.PlannerForm;
-import org.kuali.student.ap.planner.PlannerItem;
 import org.kuali.student.ap.planner.PlannerTerm;
-import org.kuali.student.ap.planner.PlannerTermNote;
 import org.kuali.student.common.collection.KSCollectionUtils;
-import org.kuali.student.enrollment.academicrecord.dto.StudentCourseRecordInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
@@ -362,7 +356,7 @@ public class DefaultPlannerForm extends AbstractPlanItemForm implements
 
     public List<PlannerTerm> getTerms() {
         if (terms == null) {
-            terms = KsapFrameworkServiceLocator.getPlanHelper().getPlannerCalendarTerms(getLearningPlan());
+            terms = KsapFrameworkServiceLocator.getPlanHelper().getPlannerTerms(getLearningPlan());
         }
 
         return terms;

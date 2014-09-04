@@ -15,7 +15,6 @@
 
 package org.kuali.student.ap.framework.context.support;
 
-import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.student.ap.academicplan.constants.AcademicPlanServiceConstants;
 import org.kuali.student.ap.academicplan.constants.AcademicPlanServiceConstants.ItemCategory;
@@ -60,6 +59,7 @@ import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultInfo;
 import org.kuali.student.r2.core.search.infc.SearchResultRow;
 import org.kuali.student.r2.lum.course.infc.Course;
+import org.slf4j.LoggerFactory;
 import org.springframework.util.StringUtils;
 
 import java.math.BigDecimal;
@@ -80,7 +80,7 @@ import java.util.UUID;
 public class DefaultPlanHelper implements PlanHelper {
 
     private static final long serialVersionUID = 3987763030779110660L;
-    private static final Logger LOG = Logger.getLogger(DefaultPlanHelper.class);
+    private static final org.slf4j.Logger LOG = LoggerFactory.getLogger(DefaultPlanHelper.class);
 
 	/**
 	 * Retrieves the first plan item of type PlanConstants.Learning_Plan_Type_Plan for the student as the default plan.
@@ -875,7 +875,7 @@ public class DefaultPlanHelper implements PlanHelper {
 
             // Save the new plan item to the database
             try{
-                return addPlanItem(planId,
+                return KsapFrameworkServiceLocator.getPlanHelper().addPlanItem(planId,
                         AcademicPlanServiceConstants.ItemCategory.PLANNED, "", creditValue, terms, planItemRef,attributes);
             }catch (AlreadyExistsException e){
                 throw new RuntimeException("Unable to create course item for reg group item", e);
@@ -1030,30 +1030,37 @@ public class DefaultPlanHelper implements PlanHelper {
      *
      * @see org.kuali.student.ap.framework.context.PlanHelper#getPlannerCalendarTerms(org.kuali.student.r2.core.acal.infc.Term)
      */
-    public List<PlannerTerm> getPlannerCalendarTerms(LearningPlan learningPlan) {
+    public List<PlannerTerm> getPlannerTerms(LearningPlan learningPlan) {
+        //LOG.info("Retrieve Completed Records: {}",System.currentTimeMillis());
         List<StudentCourseRecordInfo> completedRecords = retrieveCourseRecords(learningPlan.getStudentId());
+        //LOG.info("Retrieve PlanItems: {}",System.currentTimeMillis());
         List<PlanItem> planItems = retrieveCoursePlanItems(learningPlan.getId());
-
+        //LOG.info("Create Planner Items: {}",System.currentTimeMillis());
         List<PlannerItem> plannerItems = new ArrayList<PlannerItem>();
         for(StudentCourseRecordInfo record : completedRecords){
-            PlannerItem newItem = createPlannerItem(record);
+            PlannerItem newItem = KsapFrameworkServiceLocator.getPlanHelper().createPlannerItem(record);
             plannerItems.add(newItem);
         }
         for(PlanItem planItem : planItems){
-            PlannerItem newItem = createPlannerItem(planItem);
+            PlannerItem newItem = KsapFrameworkServiceLocator.getPlanHelper().createPlannerItem(planItem);
             plannerItems.add(newItem);
         }
+        //LOG.info("Create Planner Item Map: {}",System.currentTimeMillis());
         Map<String,List<PlannerItem>> plannerItemMap = createTermPlannerItemMap(plannerItems);
-
+        //LOG.info("Retrieve Term Notes: {}",System.currentTimeMillis());
         List<PlannerTermNote> notes = retrieveTermNotes(learningPlan.getId());
+        //LOG.info("Create Term note map: {}",System.currentTimeMillis());
         Map<String,List<PlannerTermNote>> termNotesMap = createTermTermNoteMap(notes);
 
+        //LOG.info("Find first term: {}",System.currentTimeMillis());
         String startTermId = findFirstTermForStudent(plannerItemMap,termNotesMap);
 
+        //LOG.info("Find term list: {}",System.currentTimeMillis());
         List<Term> calendarTerms = KsapFrameworkServiceLocator.getPlanHelper().getPlannerCalendarTerms(KsapFrameworkServiceLocator.getTermHelper().getTerm(startTermId));
 
+        //LOG.info("Create Planner Terms: {}",System.currentTimeMillis());
         List<PlannerTerm> terms = createPlannerTerms(calendarTerms,plannerItemMap,termNotesMap);
-
+        //LOG.info("Return terms: {}",System.currentTimeMillis());
         return terms;
     }
 
@@ -1092,7 +1099,7 @@ public class DefaultPlanHelper implements PlanHelper {
      */
     private List<PlanItem> retrieveCoursePlanItems(String planId){
         List<PlanItem> itemsToReturn = new ArrayList<PlanItem>();
-        List<PlanItem> planItems = getPlanItems(planId);
+        List<PlanItem> planItems = KsapFrameworkServiceLocator.getPlanHelper().getPlanItems(planId);
 
         for(PlanItem item : planItems){
             if(!item.getRefObjectType().equals(PlanConstants.COURSE_TYPE)){

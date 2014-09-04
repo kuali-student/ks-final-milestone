@@ -325,7 +325,7 @@ public class PlanHelperMockTest implements PlanHelper{
     }
 
     @Override
-    public List<PlannerTerm> getPlannerCalendarTerms(LearningPlan learningPlan) {
+    public List<PlannerTerm> getPlannerTerms(LearningPlan learningPlan) {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 }
