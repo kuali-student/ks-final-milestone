@@ -118,6 +118,11 @@
 // Misc
 @transparent: rgba(0,0,0,0);
 
+//Skeleton colors
+@skeletonBlue       : #D6E0FF;
+@skeletonLightGray  : #E9E9E9;
+@skeletonDarkGray   : #D7D7D7;
+
 /*------------------- END KS NEW COLOR DEFINITIONS --------------------------*/
 
 
@@ -145,11 +150,6 @@
 @courseCardColor18: #b686ca;
 @courseCardColor19: #95ab8b;
 @courseCardColor20: #809aba;
-
-//Skeleton colors
-@skeletonBlue       : #D6E0FF;
-@skeletonLightGray  : #E9E9E9;
-@skeletonDarkGray   : #D7D7D7;
 
 /**
  * Algorithm for defining the course color for a given index
@@ -209,6 +209,56 @@
 // To handle fringe cases, default to the first defined color for everything else
 .defineCourseColor(@n) when (120 < @n) {
     @courseColor: @courseCardColor1;
+}
+
+
+/**
+ * This mixin defines a primary and a secondary color to contrast against a provided color.
+ * It is to be used as part of a color palette generation algorithm to provide
+ * colors that pass contrast compatibility standards (7:1 for WCAG AAA).
+ *
+ * The calculation first takes the base color and tries to see if it can be tweaked enough to meet the desired contrast ratio.
+ * If it can, the primary contrast color will be the tweaked color and the secondary contrast color will be set to the base color.
+ *
+ * If the base color cannot be tweaked to meet the desired contrast ratio,
+ * a color within the same HSL space is picked that meets the contrast ratio against WHITE.
+ * In this case, the primary contrast color will be set to WHITE and the secondary will be set to the new color.
+ *
+ * Formula to calculate contrast ratio between 2 colors (assume luma(color1) > luma(color2))
+ *      http://www.w3.org/TR/2008/REC-WCAG20-20081211/#contrast-ratiodef
+ *      ratio = (luma(color1) + .05) / (luma(color2) + .05)
+ *
+ * @param @base - Base color to work with
+ * @param @ratio - Integer for target contrast ratio (optional, defaults to @courseCardColorContrastRatio) - e.g. 7 for a 7:1 ratio
+ *
+ * @output @primaryContrastColor - Primary contrasting color (tweaked color that meets ratio || white)
+ * @output @secondaryContrastColor - Secondary contrasting color (base color if tweakable to meet ratio || base color tweaked to meet ratio with white)
+ */
+@courseCardColorContrastRatio: 7; // Contrast ratio of at least 7:1 for WCAG2.0 AAA
+.defineCourseContrastColors(@base, @ratio: @courseCardColorContrastRatio) {
+
+    // Create some helper methods and make them avaiable via JavaScript
+    @apiInjector: `(function() { this.api = {}; return "Injected"; })()`;
+    @apiInjector: `api.contrastRatio = function(luma1, luma2) { var l1 = luma1 + .05, l2 = luma2 + .05, r = l1 / l2; return (l2 > l1 ? 1 / r : r); }`;
+    @apiInjector: `api.calculateTargetLuma = function(luma, ratio) { var targetLuma = ((luma + .05) / ratio) - .05; return (targetLuma > 0 ? targetLuma : 1); }`; // If it can be darkened enough, cool. Otherwise, go with white (1).
+
+
+    @_baseLuma: unit(luma(@base)) / 100;
+    @_baseLightness: round(unit(lightness(@base)) / 100, 2);
+
+    @_primaryLuma: `api.calculateTargetLuma(@{_baseLuma}, @{ratio})`;
+    // Calculations so far are in luma's, we need to go back to Lightness to stay in line with what HSL expects.
+    // This is uses a simple proportion to 'approximate' the target lightness. If anyone is up for busting out the actual formula, dive in.
+    @_primaryLightness: round((@_baseLightness * @_primaryLuma) / @_baseLuma, 2);
+    @primaryContrastColor: hsl(hue(@base), saturation(@base), @_primaryLightness);
+
+    // Since the
+    @_primaryNewLuma: unit(luma(@primaryContrastColor)) / 100;
+    @_primaryContrastRatio: `api.contrastRatio(@{_baseLuma}, @{_primaryNewLuma})`;
+
+    @_secondaryLuma: `(function() { return (api.contrastRatio(@{_baseLuma}, @{_primaryNewLuma}) >= @{ratio} ? @{_baseLuma} : api.calculateTargetLuma(@{_primaryNewLuma}, @{ratio})); })()`;
+    @_secondaryLightness: round(`(function() { var lightness = @{_baseLightness}; if (@{ratio} > @{_primaryContrastRatio}) { lightness = (lightness * @{_secondaryLuma}) / @{_baseLuma}; } return lightness; })()`, 2);
+    @secondaryContrastColor: hsl(hue(@base), saturation(@base), @_secondaryLightness);
 }
 
 /*-------------------End Calendar Colors -------------------*/

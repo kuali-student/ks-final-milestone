@@ -37,4 +37,5 @@ angular.module('regCartApp').factory('loginInterceptor', function ($q, $injector
             return $q.reject(rejection);
         }
     };
+
 });
