@@ -17,14 +17,17 @@
 package org.kuali.student.cm.course.controller;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.krad.uif.UifConstants;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.web.controller.KsUifControllerBase;
 import org.kuali.rice.krad.web.controller.MethodAccessible;
+import org.kuali.rice.krad.web.form.DocumentFormBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.cm.common.util.CMUtils;
 import org.kuali.student.cm.common.util.CurriculumManagementConstants;
 import org.kuali.student.cm.common.util.CurriculumManagementConstants.Export.FileType;
+import org.kuali.student.cm.course.form.StartProposalForm;
 import org.kuali.student.cm.course.form.ViewCourseForm;
 import org.kuali.student.cm.course.form.wrapper.CourseInfoWrapper;
 import org.kuali.student.cm.course.form.wrapper.RetireCourseWrapper;
@@ -152,6 +155,19 @@ public class ViewCourseController extends KsUifControllerBase{
         return performRedirect(form, courseBaseUrl, urlParameters);
     }
 
+    @RequestMapping(params = "methodToCall=modifyCourseCurriculumSpecialist")
+    public ModelAndView modifyCourseCurriculumSpecialist(@ModelAttribute("KualiForm") UifFormBase form, HttpServletRequest request) {
+
+        ViewCourseForm detailedViewForm = (ViewCourseForm) form;
+        detailedViewForm.setPageId("CM-Modify-Version-Start-Page");
+        detailedViewForm.setMethodToCall("start");
+        detailedViewForm.setViewId("startProposalView");
+        String uri = request.getRequestURL().toString().replace("/view_course",CurriculumManagementConstants.ControllerRequestMappings.START_PROPOSAL);
+       // String href = CourseProposalUtil.buildCourseProposalUrl("start", "CM-Modify-Version-Start-Page", detailedViewForm.getDocument().getDocumentNumber());
+
+        return performRedirect(detailedViewForm,uri);
+    }
+
     /**
      * This method is used for export and print.
      */
@@ -183,6 +199,23 @@ public class ViewCourseController extends KsUifControllerBase{
         ExportCourseHelperImpl exportCourseHelper = new ExportCourseHelperImpl(courseInfoWrapper, exportFileType, useSaveHeaders);
 
         return exportCourseHelper.getResponseEntity();
+    }
+
+
+    public ModelAndView modifyCourseFaculty(@ModelAttribute("KualiForm") UifFormBase form){
+
+        ViewCourseForm detailedViewForm = (ViewCourseForm) form;
+
+
+        return null;
+    }
+
+    public ModelAndView modifyCourseCurriculumSpecialist(@ModelAttribute("KualiForm") UifFormBase form){
+
+        ViewCourseForm detailedViewForm = (ViewCourseForm) form;
+
+
+        return null;
     }
 
     @RequestMapping(params = "methodToCall=viewCurrentVersion")

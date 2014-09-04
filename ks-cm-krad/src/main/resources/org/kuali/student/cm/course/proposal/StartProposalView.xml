@@ -38,6 +38,60 @@
         </property>
     </bean>
 
+    <bean id="CM-Modify-Version-Start-Page" parent="KS-Uif-Page">
+        <property name="breadcrumbOptions.breadcrumbOverrides">
+            <list>
+                <ref bean="KS-HomewardPathBreadcrumbs-Home"/>
+                <ref bean="KS-HomewardPathBreadcrumbs-CurriculumManagement"/>
+                <ref bean="CM-HomewardPathBreadcrumbs-ModifyCourseStart-Page"/>
+            </list>
+        </property>
+
+        <property name="items">
+            <list>
+                <ref bean="CM-Modify-Course-Start-Widgets"/>
+            </list>
+        </property>
+        <property name="footer">
+            <bean parent="CM-Proposal-Course-Create-Start-Footer"/>
+        </property>
+    </bean>
+
+    <bean id="CM-Modify-Course-Start-Widgets" parent="Uif-VerticalBoxSection" p:style="margin-top: 20px;">
+        <property name="header">
+            <bean parent="Uif-HeaderThree"/>
+        </property>
+        <property name="cssClasses">
+            <list>
+                <value>ks-cm-create-course-message-text</value>
+            </list>
+        </property>
+        <property name="headerText" value="Which type of modify action do you want?"/>
+
+        <property name="items">
+            <list>
+                <bean parent="KS-Uif-InputField" id="CM-Modify-Course-StartOptions"
+                      p:propertyName="startProposalCourseAction"
+                      p:required="true" p:bindingInfo.bindToForm="true"
+                      p:defaultValue="modifyThisVersion" p:style="line-height: 200%;margin-top: 8px">
+                    <property name="control">
+                        <bean parent="KS-Uif-VerticalRadioControl">
+                            <property name="options">
+                                <list>
+                                    <bean id="CM-Proposal-Course-StartOptions-BlankProposal" parent="Uif-KeyLabelPair"
+                                          p:key="@{T(org.kuali.student.cm.common.util.CurriculumManagementConstants$ModifyCourseStartOptions).MODIFY_THIS_VERSION}" p:value="Modify this version"/>
+                                    <bean id="CM-Proposal-Course-StartOptions-CopyApproved" parent="Uif-KeyLabelPair"
+                                          p:key="@{T(org.kuali.student.cm.common.util.CurriculumManagementConstants$ModifyCourseStartOptions).MODIFY_WITH_A_NEW_VERSION}" p:value="Modify with a new version"/>
+                                </list>
+                            </property>
+                        </bean>
+                    </property>
+                </bean>
+                <ref bean="CM-Proposal-Course-Create-Start-ReviewSection"/>
+            </list>
+        </property>
+    </bean>
+
     <bean id="CM-Proposal-Course-Create-Start-View" parent="KS-Uif-FormView">
         <property name="id" value="startProposalView"/>
         <property name="header.headerText" value="Create Course "/>
@@ -51,6 +105,7 @@
         <property name="items">
             <list>
                 <ref bean="CM-Proposal-Course-Create-Start-Page"/>
+                <ref bean="CM-Modify-Version-Start-Page" />
             </list>
         </property>
     </bean>
