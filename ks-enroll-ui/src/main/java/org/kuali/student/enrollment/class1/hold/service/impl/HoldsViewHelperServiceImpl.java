@@ -151,22 +151,23 @@ public class HoldsViewHelperServiceImpl extends KSViewHelperServiceImpl implemen
         List<AppliedHoldResult> holdResultList = new ArrayList<AppliedHoldResult>();
         List<AppliedHoldInfo> appliedHoldInfoList;
 
-
         try {
             appliedHoldInfoList = HoldsResourceLoader.getHoldService().getAppliedHoldsByPerson(holdFrom.getPerson().getId(), createContextInfo());
 
             for (AppliedHoldInfo appliedHoldInfo : appliedHoldInfoList) {
 
                 AppliedHoldResult appliedHoldResult = new AppliedHoldResult();
-                //appliedHoldResult.setId(appliedHoldInfo.getId());
+                HoldIssueInfo holdIssue = HoldsResourceLoader.getHoldService().getHoldIssue(appliedHoldInfo.getHoldIssueId(), createContextInfo());
+
                 appliedHoldResult.setHoldName(appliedHoldInfo.getName());
-                appliedHoldResult.setCode("");
-                appliedHoldResult.setTypeKey(appliedHoldInfo.getTypeKey());
+                appliedHoldResult.setCode(holdIssue.getHoldCode());
+                appliedHoldResult.setState(getStateInfo(appliedHoldInfo.getStateKey()).getName());
+                appliedHoldResult.setTypeKey(holdIssue.getTypeKey());
                 appliedHoldResult.setConsequence((appliedHoldInfo.getDescr() != null ? appliedHoldInfo.getDescr().getPlain() : StringUtils.EMPTY));
                 appliedHoldResult.setStartDate(appliedHoldInfo.getEffectiveDate());
                 appliedHoldResult.setEndDate(appliedHoldInfo.getExpirationDate());
-                appliedHoldResult.setStartTerm("");
-                appliedHoldResult.setEndTerm("");
+                appliedHoldResult.setStartTerm(holdIssue.getFirstApplicationTermId());
+                appliedHoldResult.setEndTerm(holdIssue.getLastApplicationTermId());
 
                 holdResultList.add(appliedHoldResult);
             }

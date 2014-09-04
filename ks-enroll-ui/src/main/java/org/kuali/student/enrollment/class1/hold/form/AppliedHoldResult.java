@@ -30,7 +30,6 @@ public class AppliedHoldResult extends UifFormBase {
     private String code;
     private String consequence;
     private String typeKey;
-    private String stateKey;
     private Date startDate;
     private Date endDate;
     private String startTerm;
@@ -66,14 +65,6 @@ public class AppliedHoldResult extends UifFormBase {
 
     public void setTypeKey(String typeKey) {
         this.typeKey = typeKey;
-    }
-
-    public String getStateKey() {
-        return stateKey;
-    }
-
-    public void setStateKey(String stateKey) {
-        this.stateKey = stateKey;
     }
 
     public Date getStartDate() {

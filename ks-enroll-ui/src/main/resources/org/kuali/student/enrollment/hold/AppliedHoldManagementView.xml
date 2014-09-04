@@ -91,7 +91,7 @@
     <bean id="KS-AppliedHold-CriteriaSection" parent="Uif-HorizontalBoxSection" >
         <property name="items">
             <list>
-                <bean parent="Uif-HorizontalBoxGroup">
+                <bean parent="Uif-HorizontalFieldGroup">
                     <property name="items">
                         <list>
                             <bean parent="KS-Uif-InputField-LabelLeft" p:propertyName="person.id"
@@ -101,8 +101,7 @@
                                 </property>
                             </bean>
                             <bean parent="KS-Uif-SecondaryActionButton" p:performClientSideValidation="false"
-                                  p:actionLabel="Show" p:style="margin-left: 10px;margin-top: 32px"
-                                  p:methodToCall="search" p:id="show_button"/>
+                                  p:actionLabel="Show" p:methodToCall="search" p:id="show_button"/>
                         </list>
                     </property>
                 </bean>
@@ -167,7 +166,7 @@
         </property>
         <property name="items">
             <list>
-                <bean parent="KS-Uif-DataField" p:label="Applied Name" p:propertyName="holdName" p:style="white-space:nowrap;"/>
+                <bean parent="KS-Uif-DataField" p:label="Applied Hold" p:propertyName="holdName" p:style="white-space:nowrap;"/>
                 <bean parent="KS-Uif-DataField" p:label="Hold Code" p:propertyName="code"/>
                 <bean parent="KS-Uif-InputField" p:label="Category" p:propertyName="typeKey" p:readOnly="true"
                       p:style="width:50%;white-space:nowrap;">
@@ -179,8 +178,8 @@
                               class="org.kuali.student.enrollment.class1.hold.keyvalues.HoldIssueTypeKeyValues"/>
                     </property>
                 </bean>
-                <bean parent="KS-Uif-DataField" p:label="Consequence" p:propertyName="descr" p:style="width:350px;"/>
-                <bean parent="KS-Uif-InputField" p:label="State" p:propertyName="organizationId" p:readOnly="true"/>
+                <bean parent="KS-Uif-DataField" p:label="Consequence" p:propertyName="consequence" p:style="width:350px;"/>
+                <bean parent="KS-Uif-InputField" p:label="State" p:propertyName="state" p:readOnly="true"/>
                 <bean parent="KS-Uif-DataField" p:label="Start Date" p:propertyName="startDate"/>
                 <bean parent="KS-Uif-DataField" p:label="End Date" p:propertyName="endDate"/>
                 <bean parent="KS-Uif-DataField" p:label="Start Term" p:propertyName="startTerm"/>
