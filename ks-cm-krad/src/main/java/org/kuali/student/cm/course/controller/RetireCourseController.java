@@ -16,9 +16,29 @@
  */
 package org.kuali.student.cm.course.controller;
 
+import org.apache.commons.lang.ArrayUtils;
+import org.apache.commons.lang.StringUtils;
+import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.web.form.DocumentFormBase;
+import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 import org.kuali.student.cm.common.util.CurriculumManagementConstants;
+import org.kuali.student.cm.course.form.wrapper.RetireCourseWrapper;
+import org.kuali.student.cm.course.service.RetireCourseMaintainable;
+import org.kuali.student.cm.course.util.CourseProposalUtil;
+import org.kuali.student.common.util.security.ContextUtils;
+import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.Arrays;
+import java.util.Map;
+import java.util.Properties;
 
 /**
  * This controller handles all the requests from the 'Retire Course' UI
@@ -29,4 +49,94 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequestMapping(value = CurriculumManagementConstants.ControllerRequestMappings.CM_RETIRE_COURSE)
 public class RetireCourseController extends CourseController {
+
+    @Override
+    protected MaintenanceDocumentForm createInitialForm(HttpServletRequest request) {
+        MaintenanceDocumentForm form = new MaintenanceDocumentForm();
+
+            // set the doc type name based on the whether the user is CS and if they have chosen to use curriculum review
+            form.setDocTypeName(CurriculumManagementConstants.DocumentTypeNames.CourseProposal.COURSE_RETIRE);
+
+        return form;
+    }
+
+    /**
+     * Digs the CourseInfoWrapper out of DocumentFormBase.
+     *
+     * @param form The DocumentFormBase.
+     * @return The CourseInfoWrapper.
+     */
+    protected RetireCourseWrapper getRetireCourseWrapper(DocumentFormBase form) {
+        return ((RetireCourseWrapper) ((MaintenanceDocumentForm) form).getDocument().getNewMaintainableObject().getDataObject());
+    }
+
+    /**
+     * Overridden because we needed a point at which the form is loaded with the document before we can initialize some
+     * form fields. This method is used for when a new document is created.
+     *
+     * @param form - form instance that contains the doc type parameter and where
+     *             the new document instance should be set
+     */
+    @Override
+    protected void createDocument(DocumentFormBase form) throws WorkflowException {
+        super.createDocument(form);
+        // at this point we have the document type name set on the form so we use it to update the Course specific fields
+        updateCourseForm(form);
+    }
+
+    /**
+     * Overridden because we needed a point at which the form is loaded with the document before we can initialize some
+     * form fields. This method is used for loading an existing document.
+     *
+     * @param form - form instance that contains the doc id parameter and where
+     *             the retrieved document instance should be set
+     */
+    @Override
+    protected void loadDocument(DocumentFormBase form) throws WorkflowException {
+        super.loadDocument(form);
+        // at this point we have the document type name set on the form so we use it to update the Course specific fields
+        updateCourseForm(form);
+    }
+
+    /**
+     * Updates the MaintenanceDocumentForm to set the 'useReviewProcess' property based on the document type name. If
+     * the document type name is CurriculumManagementConstants#DocumentTypeNames#CourseProposal#COURSE_CREATE_ADMIN or
+     * CurriculumManagementConstants#DocumentTypeNames#CourseProposal#COURSE_MODIFY_ADMIN then set 'useReviewProcss' to
+     * false.
+     *
+     * @param form the DocumentFormBase object to update
+     */
+    protected void updateCourseForm(DocumentFormBase form) {
+        RetireCourseWrapper wrapper = getRetireCourseWrapper(form);
+        wrapper.getUiHelper()
+                .setCurriculumSpecialistUser(CourseProposalUtil.isUserCurriculumSpecialist());
+
+        String courseId = StringUtils.join(form.getInitialRequestParameters().get(CurriculumManagementConstants.UrlParams.CLU_ID));
+
+        //String courseId = Arrays.toString(form.getInitialRequestParameters().get(CurriculumManagementConstants.UrlParams.CLU_ID));
+        if (StringUtils.isBlank(courseId)) {
+            throw new RuntimeException("Missing Course Id");
+        }
+        try{
+            ((RetireCourseMaintainable)form.getViewHelperService()).populateCourseData(courseId, wrapper);
+        }catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+
+    /**
+     * This method is being overridden
+     * <p/>
+     * {@inheritDoc}
+     */
+    @Override
+    @RequestMapping(params = "methodToCall=docHandler")
+    public ModelAndView docHandler(@ModelAttribute("KualiForm") DocumentFormBase formBase, BindingResult result, HttpServletRequest request,
+                                   HttpServletResponse response) throws Exception {
+        ModelAndView modelAndView = super.docHandler(formBase, result, request, response);
+        return modelAndView;
+    }
+
+
 }

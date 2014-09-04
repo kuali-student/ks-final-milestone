@@ -25,10 +25,12 @@ import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
 import org.kuali.rice.krad.uif.view.ViewModel;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 import org.kuali.student.cm.course.form.wrapper.CourseInfoWrapper;
+import org.kuali.student.cm.course.form.wrapper.RetireCourseWrapper;
 import org.kuali.student.common.util.security.ContextUtils;
 import org.kuali.student.r2.core.atp.dto.AtpInfo;
 import org.kuali.student.r2.core.atp.service.AtpService;
 import org.kuali.student.r2.core.constants.AtpServiceConstants;
+import org.kuali.student.r2.lum.course.infc.Course;
 
 import javax.xml.namespace.QName;
 import java.util.ArrayList;
@@ -82,11 +84,27 @@ public class DatesKeyValuesFinder extends UifKeyValuesFinderBase {
             List<AtpInfo> searchResult) {
         if (model instanceof MaintenanceDocumentForm) {
             MaintenanceDocumentForm courseForm = (MaintenanceDocumentForm) model;
-            CourseInfoWrapper courseInfoWrapper = ((CourseInfoWrapper) courseForm.getDocument().getNewMaintainableObject().getDataObject());
-            if (courseInfoWrapper.getCourseInfo().isPilotCourse() && StringUtils.isNotEmpty(courseInfoWrapper.getCourseInfo().getStartTerm())) {
 
-                for (int i = 0; i < searchResult.size(); i++) {
+            if(courseForm.getDocument().getNewMaintainableObject().getDataObject() instanceof CourseInfoWrapper){
+                CourseInfoWrapper courseInfoWrapper = ((CourseInfoWrapper) courseForm.getDocument().getNewMaintainableObject().getDataObject());
+                if (courseInfoWrapper.getCourseInfo().isPilotCourse() && StringUtils.isNotEmpty(courseInfoWrapper.getCourseInfo().getStartTerm())) {
+
+                    for (int i = 0; i < searchResult.size(); i++) {
                         if (courseInfoWrapper.getCourseInfo().getStartTerm().equals(searchResult.get(i).getId().toString())) {
+                            break;
+                        }
+                        else {
+                            searchResult.remove(searchResult.get(i));
+                            i--;
+                        }
+                    }
+                }else if(!courseInfoWrapper.getCourseInfo().isPilotCourse()){
+                    courseInfoWrapper.getCourseInfo().setEndTerm(null);
+                }
+            } else if(courseForm.getDocument().getNewMaintainableObject().getDataObject() instanceof RetireCourseWrapper){
+                RetireCourseWrapper retireCourseWrapper = ((RetireCourseWrapper) courseForm.getDocument().getNewMaintainableObject().getDataObject());
+                for (int i = 0; i < searchResult.size(); i++) {
+                    if (retireCourseWrapper.getCourseInfo().getStartTerm().equals(searchResult.get(i).getId().toString())) {
                         break;
                     }
                     else {
@@ -94,12 +112,12 @@ public class DatesKeyValuesFinder extends UifKeyValuesFinderBase {
                         i--;
                     }
                 }
-            }else if(!courseInfoWrapper.getCourseInfo().isPilotCourse()){
-                courseInfoWrapper.getCourseInfo().setEndTerm(null);
             }
+
             for (AtpInfo result : searchResult) {
                 keyValues.add(new ConcreteKeyValue(result.getId(), result.getName()));
             }
+
         }
     }
 

@@ -47,8 +47,8 @@
         <property name="headerText" value="@{(#uiHelper.headerText) + ' (Proposed Retirement)'}"/>
         <property name="singlePageView" value="false"/>
         <!-- Override the default to allow for navigation -->
-        <!--<property name="viewHelperServiceClass"
-                  value="org.kuali.student.cm.course.service.impl.RetireCourseMaintainableImpl"/>-->
+        <property name="viewHelperServiceClass"
+                  value="org.kuali.student.cm.course.service.impl.RetireCourseMaintainableImpl"/>
         <property name="presentationControllerClass"
                   value="org.kuali.student.cm.uif.util.CurriculumManagementMaintenancePresentationControllerBase" />
         <property name="authorizerClass"

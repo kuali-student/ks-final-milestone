@@ -46,6 +46,7 @@ public class CurriculumManagementConstants {
     public static class UrlParams {
         public static final String COURSE_ID = "courseId";
         public static final String VERSION_INDEPENDENT_ID = "viId";
+        public static final String CLU_ID = "cluId";
     }
 
     public static class DocumentTypeNames {
@@ -140,6 +141,40 @@ public class CurriculumManagementConstants {
          */
         public static CourseViewSections getSection(String id) {
             for (CourseViewSections section : CourseViewSections.values()) {
+                if (StringUtils.equalsIgnoreCase(section.getSectionId(), id)) {
+                    return section;
+                }
+            }
+            return null;
+        }
+    }
+
+    public static enum CourseRetireSections implements UserInterfaceSections {
+        RETIRE_COURSE_ENTRY("CM-Proposal-Course-Retire-Start-Page"),
+        RETIRE_INFO("CM-Proposal-Course-RetireInfo-Section"),
+        ACTIVE_DATES("CM-Proposal-Course-ActiveDates-Section"),
+        AUTHORS_AND_COLLABORATORS("CM-Proposal-Course-AuthorsAndCollaborator-Section"),
+        SUPPORTING_DOCUMENTS("CM-Proposal-Course-SupportingDocument-Section");
+        /*REVIEW_COURSE_PROPOSAL("CM-Proposal-Review-Course-Page");*/
+
+        private String sectionId;
+
+        CourseRetireSections(String sectionId) {
+            this.sectionId = sectionId;
+        }
+
+        public String getSectionId() {
+            return this.sectionId;
+        }
+
+        /**
+         * Gets a CourseViewSections given a sectionId (aka bean name).
+         *
+         * @param id The sectionId of the CourseViewSections.
+         * @return The corresponding CourseViewSections if one matches. Otherwise, null.
+         */
+        public static CourseRetireSections getSection(String id) {
+            for (CourseRetireSections section : CourseRetireSections.values()) {
                 if (StringUtils.equalsIgnoreCase(section.getSectionId(), id)) {
                     return section;
                 }

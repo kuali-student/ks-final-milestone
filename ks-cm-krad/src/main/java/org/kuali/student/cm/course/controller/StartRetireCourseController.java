@@ -54,6 +54,7 @@ public class StartRetireCourseController extends UifControllerBase {
     protected UifFormBase createInitialForm(HttpServletRequest httpServletRequest) {
         StartRetireCourseForm retireCourseForm= new StartRetireCourseForm();
         retireCourseForm.setCurriculumSpecialistUser(CourseProposalUtil.isUserCurriculumSpecialist());
+        retireCourseForm.setCourseId(httpServletRequest.getParameter(CurriculumManagementConstants.UrlParams.CLU_ID));
         return retireCourseForm;
     }
 
@@ -73,6 +74,7 @@ public class StartRetireCourseController extends UifControllerBase {
         urlParameters.put(KRADConstants.DATA_OBJECT_CLASS_ATTRIBUTE, RetireCourseWrapper.class.getName());
         urlParameters.put(KRADConstants.RETURN_LOCATION_PARAMETER, CourseProposalUtil.getViewCourseUrl() );
         urlParameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, KRADConstants.DOC_HANDLER_METHOD);
+        urlParameters.put(CurriculumManagementConstants.UrlParams.CLU_ID, ((StartRetireCourseForm)form).getCourseId());
         String uri = request.getRequestURL().toString().replace(CurriculumManagementConstants.ControllerRequestMappings.START_RETIRE_COURSE,CurriculumManagementConstants.ControllerRequestMappings.CM_RETIRE_COURSE);
 
         return performRedirect(form, uri, urlParameters);

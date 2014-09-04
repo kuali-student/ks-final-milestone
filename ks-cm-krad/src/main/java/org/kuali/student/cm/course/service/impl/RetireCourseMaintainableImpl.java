@@ -16,7 +16,22 @@
  */
 package org.kuali.student.cm.course.service.impl;
 
+import org.apache.commons.lang.BooleanUtils;
+import org.joda.time.DateTime;
+import org.kuali.rice.krad.maintenance.MaintenanceDocument;
+import org.kuali.student.cm.common.util.CurriculumManagementConstants;
+import org.kuali.student.cm.course.form.wrapper.CluInstructorInfoWrapper;
+import org.kuali.student.cm.course.form.wrapper.RetireCourseWrapper;
 import org.kuali.student.cm.course.service.RetireCourseMaintainable;
+import org.kuali.student.common.util.security.ContextUtils;
+import org.kuali.student.r2.common.dto.DtoConstants;
+import org.kuali.student.r2.core.constants.KSKRMSServiceConstants;
+import org.kuali.student.r2.lum.course.dto.CourseInfo;
+import org.kuali.student.r2.lum.util.constants.CourseServiceConstants;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 /**
  * This class handles the operation related to course retire
@@ -24,4 +39,33 @@ import org.kuali.student.cm.course.service.RetireCourseMaintainable;
  * @author Kuali Student Team
  */
 public class RetireCourseMaintainableImpl extends CourseMaintainableImpl implements RetireCourseMaintainable {
+
+    @Override
+    public void processAfterNew(MaintenanceDocument document, Map<String, String[]> requestParameters) {
+
+        RetireCourseWrapper retireCourseWrapper = (RetireCourseWrapper) getDataObject();
+
+        // We can actually get this from the workflow document initiator id. It doesn't need to be stored in the form.
+        retireCourseWrapper.setUserId(ContextUtils.createDefaultContextInfo().getPrincipalId());
+
+        // Initialize Course Requisites
+        retireCourseWrapper.setNamespace(KSKRMSServiceConstants.NAMESPACE_CODE);
+        retireCourseWrapper.setRefDiscriminatorType(CourseServiceConstants.REF_OBJECT_URI_COURSE);
+        retireCourseWrapper.setRefObjectId(retireCourseWrapper.getCourseInfo().getId());
+        retireCourseWrapper.setAgendas(getAgendasForRef(retireCourseWrapper.getRefDiscriminatorType(), retireCourseWrapper.getRefObjectId()));
+
+        retireCourseWrapper.getCourseInfo().setStateKey(DtoConstants.STATE_DRAFT);
+        retireCourseWrapper.setLastUpdated(CurriculumManagementConstants.CM_DATE_FORMATTER.format(new DateTime()));
+        retireCourseWrapper.getCourseInfo().setEffectiveDate(new java.util.Date());
+
+    }
+
+    public void populateCourseData(String courseId, RetireCourseWrapper courseWrapper) throws Exception {
+
+        CourseInfo course = getCourseService().getCourse(courseId, createContextInfo());
+        courseWrapper.setCourseInfo(course);
+    }
+
+
+
 }

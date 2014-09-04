@@ -18,6 +18,7 @@ package org.kuali.student.cm.course.form.wrapper;
 
 import org.kuali.student.cm.common.util.CurriculumManagementConstants;
 import org.kuali.student.cm.proposal.form.wrapper.ProposalElementsWrapper;
+import org.kuali.student.cm.proposal.util.ProposalUtil;
 import org.kuali.student.r2.common.infc.RichText;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
 
@@ -38,9 +39,9 @@ public class RetireCourseWrapper extends ProposalElementsWrapper implements Seri
     private RichText otherComment;
     private String retireEndTerm;
 
-    public RetireCourseWrapper(boolean curriculumSpecialistUser, CurriculumManagementConstants.UserInterfaceSections selectedSection) {
-        super(curriculumSpecialistUser, selectedSection);
-    }
+    private String userId = "";
+
+    private String lastUpdated;
 
     public CourseInfo getCourseInfo() {
         return courseInfo;
@@ -74,6 +75,16 @@ public class RetireCourseWrapper extends ProposalElementsWrapper implements Seri
         this.otherComment = otherComment;
     }
 
+    public RetireCourseWrapper() {
+        super(ProposalUtil.isUserCurriculumSpecialist(CurriculumManagementConstants.DocumentTypeNames.CourseProposal.COURSE_RETIRE),
+                CurriculumManagementConstants.CourseRetireSections.RETIRE_INFO);
+    }
+
+
+    public RetireCourseWrapper(boolean curriculumSpecialistUser, CurriculumManagementConstants.UserInterfaceSections selectedSection) {
+        super(curriculumSpecialistUser, selectedSection);
+    }
+
     public String getRetireEndTerm() {
         return retireEndTerm;
     }
@@ -89,6 +100,22 @@ public class RetireCourseWrapper extends ProposalElementsWrapper implements Seri
 
     public void setReviewProposalDisplay(ReviewProposalDisplay reviewProposalDisplay) {
         this.reviewProposalDisplay = reviewProposalDisplay;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    public String getLastUpdated() {
+        return lastUpdated;
+    }
+
+    public void setLastUpdated(String lastUpdated) {
+        this.lastUpdated = lastUpdated;
     }
 
 }

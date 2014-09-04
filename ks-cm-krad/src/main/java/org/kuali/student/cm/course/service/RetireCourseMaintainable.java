@@ -16,6 +16,7 @@
  */
 package org.kuali.student.cm.course.service;
 
+import org.kuali.student.cm.course.form.wrapper.RetireCourseWrapper;
 import org.kuali.student.cm.maintenance.CMMaintainable;
 
 /**
@@ -24,4 +25,7 @@ import org.kuali.student.cm.maintenance.CMMaintainable;
  * @author Kuali Student Team
  */
 public interface RetireCourseMaintainable {
+
+    public void populateCourseData(String courseId, RetireCourseWrapper courseWrapper) throws Exception;
+
 }
