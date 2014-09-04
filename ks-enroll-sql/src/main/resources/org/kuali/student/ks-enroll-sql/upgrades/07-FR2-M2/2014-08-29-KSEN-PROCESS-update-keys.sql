@@ -398,7 +398,7 @@ INSERT INTO KSEN_PROCESS_INSTRN
     '01CC67C7-6A5D-82C3-E050-007F010105C1',
     1,
     'kuali.process.course.eligible.for.add.from.waitlist',
-    'kuali.process.instruction.state.active',
+    'kuali.process.instruction.state.disabled',
     'kuali.process.instruction.type.instruction',
     'Admin',
     TO_DATE( '2014-08-29', 'YYYY-MM-DD' ),
