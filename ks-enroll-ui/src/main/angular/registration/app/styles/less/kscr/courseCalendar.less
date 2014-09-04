@@ -225,22 +225,22 @@
     }
 
     &.kscr-CourseCalendar-courseBlock--waitlisted {
-        // Horizontal Striping: default & explicitly small calendars:
+        // Diagonal Striping: default & explicitly small calendars:
         &,
         .kscr-CourseCalendar--small .kscr-CourseCalendar-calendar & {
             background-image: repeating-linear-gradient(45deg, @whiteBackground 0rem, @whiteBackground 0.5rem, transparent 0.5rem, transparent 1rem); // white 0-0.5rem, transparent 0.5rem-1rem - repeated
         }
 
-        // Vertical Striping: all toggles (legend)
+        // Diagonal Striping: all toggles (legend)
         &.kscr-CourseCalendar-toggle {
             background-image: repeating-linear-gradient(45deg, @whiteBackground 0rem, @whiteBackground 0.5rem, transparent 0.5rem, transparent 1rem); // white 0-0.5rem, transparent 0.5rem-1rem - repeated
            i {
-            background: @waitlistedBgColor;
-            box-shadow: 0px 0px 0px 2px @waitlistedBgColor;
+              background: @waitlistedBgColor;
+              box-shadow: 0px 0px 0px 2px @waitlistedBgColor;
           }
         }
 
-        // Vertical Striping: large format grids only
+        // Diagonal Striping: large format grids only
         @media screen and (min-width: @largeFormatMin) {
             background-image: repeating-linear-gradient(45deg, @whiteBackground 0rem, @whiteBackground 0.5rem, transparent 0.5rem, transparent 1rem); // white 0-0.5rem, transparent 0.5rem-1rem - repeated
         }
@@ -421,6 +421,17 @@
     .kscr-CourseCalendar {
         .kscr-CourseCalendar--small;
     }
+
+    .kscr-Responsive-scheduleWrapper {
+        .kscr-Responsive-calendar {
+            display: none;
+            margin-top: 1.5rem;
+
+            &--selected {
+              display: block;
+            }
+        }
+    }
 }
 /*** END Small / Mobile Styles ***/
 
@@ -463,6 +474,25 @@
             }
             .kscr-CourseCalendar-courseDetails-wrap {
                 display: none; // Never show the course details for the selected course in the large format
+            }
+        }
+    }
+
+    // Schedule in sidebar (search only)
+    .kscr-Responsive-sidebar {
+        .kscr-Responsive-scheduleWrapper {
+
+              // Course Calendar Container in Sidebar
+              .kscr-CourseCalendar {
+                .kscr-Card-mixin();
+                margin: 0;
+
+                &-calendar {
+                  background: none;
+                  border: none;
+                  margin-bottom: 0;
+                  padding: 0;
+                }
             }
         }
     }

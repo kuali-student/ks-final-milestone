@@ -12,3 +12,31 @@
     color: @primaryTextColor;
     .font-size(13);
 }
+
+
+@media screen and (min-width: @largeFormatMin) {
+    // Waitlisted coursed container
+    .kscr-Responsive-waitlisted {
+      .flex(1); /*set to take up the same percentage as registered (1/2 the size of the container)*/
+
+      &--inactive {
+        display: none; /* when there is no waitlist information, hide the section so that registered section takes up all of the space */
+      }
+    }
+
+    .kscr-Responsive-sidebar {
+          // Schedule in sidebar (search only)
+          .kscr-Responsive-scheduleWrapper {
+              // Waitlisted course list container
+              .kscr-Responsive-waitlisted {
+                border-top: @horizontalLineBorder;
+                margin-top: 0.1rem;
+
+                // Waitlist container when no courses exist in it
+                &--inactive {
+                  display: none;
+                }
+            }
+        }
+    }
+}

@@ -157,3 +157,17 @@
         display: none; /* only shown in large view */
     }
 }
+
+@media screen and (min-width: @largeFormatMin) {
+    .kscr-Responsive-header {
+      & .kscr-Header-logo { // use the larger logo in the expanded mode
+        background-image: url('../images/logo_kuali_bak.png');
+        padding-left: 11.5rem;
+      }
+
+      & .kscr-Header-title,
+      & .kscr-Header-separator {
+        display: block; /* show the header title & separator in large format only */
+      }
+    }
+}

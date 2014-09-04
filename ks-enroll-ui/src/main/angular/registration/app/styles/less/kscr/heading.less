@@ -39,4 +39,49 @@
     .kscr-Heading-sub {
         color: @primaryTextColor;
     }
+
+    // Main/left content area
+    .kscr-Responsive-content {
+      .kscr-Heading-sub {
+        padding: 0 1rem;
+
+        // Credits count
+        .kscr-Heading-support {
+          padding-right: 0;
+        }
+      }
+    }
+
+    .kscr-Responsive-sidebar {
+        // Update sub-headings in the sidebar to have better spacing from sibling elements (Cart Results, Registered, Waitlisted)
+        .kscr-Heading-sub {
+          padding: 1rem 0;
+        }
+
+        // Schedule in sidebar (search only)
+        .kscr-Responsive-scheduleWrapper {
+            // Sub-headings, make sure they are well spaced in the schedule (Registered & Waitlisted)
+            .kscr-Heading-sub {
+                background-color: @sectionColor;
+                border-bottom: @horizontalLineBorder;
+                margin: 0 0 0.1rem;
+                padding: 0.5rem 1rem;
+
+                // Empty schedule heading
+                &.kscr-Heading-scheduleHeading--empty {
+                  background-color: @whiteBackground;
+                }
+
+                // Credits count
+                .kscr-Heading-support {
+                  padding-right: 0;
+                }
+
+                .kscr-Heading-message {
+                  display: block;
+                  padding: 0;
+                }
+            }
+        }
+    }
 }

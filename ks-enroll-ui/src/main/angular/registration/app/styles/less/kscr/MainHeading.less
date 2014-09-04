@@ -25,7 +25,27 @@
         -khtml-user-drag: element;
         -webkit-user-drag: element;
     }
+
+      @media @sm-Max {
+        // Main Cart heading in small format
+        &-CartHeading {
+          padding: 0 0.5rem;
+
+          // Styles for when stuck
+          &.util-sticky--stuck {
+            padding: 0;
+          }
+
+          & .kscr-MainHeading {
+            background-color: @whiteBackground;
+            border: 1px @cardBorderColor solid;
+            border-bottom-width: 2px;
+          }
+        }
+      }
 }
+
+
 
 .kscr-MainHeading.ng-hide-remove {
     .util-transitions-browserHelper();
@@ -60,10 +80,18 @@
         .box-shadow(0 0 0 5px @bodyColorDark);
         .Rounded(1px);
     }
+
+      @media @sm-Max {
+        // Main heading icons (cart & schedule)
+        // Shown only in small-format
+        display: block;
+      }
 }
+
 .kscr-MainHeading-icon-left {
     float: left;
 }
+
 .kscr-MainHeading-icon-right {
     float: right;
     text-align: right;
@@ -83,6 +111,13 @@
         font-weight: normal;
         padding: 1.8rem 1.8rem 1.8rem 4.5rem;
     }
+
+      @media @md-Max {
+        text-align: center;
+      }
+      @media @lg-Min {
+        text-align: left;
+      }
 }
 
 // Heading link icon (>>)
@@ -98,6 +133,9 @@
     float: none;
     width: auto;
     text-align: left !important;
+      @media @sm-Max {
+        display: none;
+      }
 
     .util-sticky--stuck & {
         // Show only when stuck
@@ -147,6 +185,18 @@
     }
 }
 
+#kscr-CartHeading {
+    @media @lg-Min {
+        // Disable the stickiness of the main heading in large format
+        & .util-sticky-placeholder {
+          display: none;
+        }
+        & .kscr-MainHeading-CartHeading {
+          .util-sticky--disabled();
+        }
+    }
+}
+
 
 
 @media screen and (max-width: @smallFormatMax) {
@@ -155,28 +205,13 @@
         display: none; // Don't show the large-format credit count element in small-format
     }
 
-    // Main heading icons (cart & schedule)
-    .kscr-MainHeading-icon-left,
-    .kscr-MainHeading-icon-right {
-        // Shown only in small-format
-        display: block;
+
+  .kscr-Responsive-scheduleWrapper {
+    .kscr-MainHeading-toggles {
+      float: right;
+      margin: 0 0.5rem 0.5rem 0;
     }
-
-    // Main Cart heading in small format
-    .kscr-MainHeading-CartHeading {
-        padding: 0 0.5rem;
-
-        // Styles for when stuck
-        &.util-sticky--stuck {
-            padding: 0;
-        }
-
-        & .kscr-MainHeading {
-            background-color: @whiteBackground;
-            border: 1px @cardBorderColor solid;
-            border-bottom-width: 2px;
-        }
-    }
+  }
 }
 
 
@@ -204,6 +239,12 @@
             }
         }
 
+        .kscr-Responsive-cart {
+            .kscr-MainHeading-icons  {
+              display: none;
+            }
+        }
+
         // Cart heading-specific styles in large format
         .kscr-MainHeading-CartHeading .kscr-MainHeading {
             // Styles need a bit of tweaking to maintain the alignment of the Cart heading to the Schedule/Waitlist sections
@@ -218,5 +259,23 @@
         .kscr-MainHeading-link-icon {
             display: inline;
         }
+
+        .kscr-Responsive-scheduleWrapper {
+            .kscr-MainHeading-header {
+              cursor: pointer;
+            }
+
+            // Toggles
+            .kscr-MainHeading-toggles {
+              display: block;
+            }
+        }
+    }
+
+    // List/Grid toggle buttons
+    .kscr-Responsive-scheduleWrapper {
+      .kscr-MainHeading-toggles {
+        display: none; // Hide the main buttons in large-format
+      }
     }
 }

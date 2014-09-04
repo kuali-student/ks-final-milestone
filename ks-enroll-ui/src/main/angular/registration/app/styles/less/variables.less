@@ -65,11 +65,22 @@
 @largeFormatMin: 41.25em;   // 660px
 @largeFormatMax: 112.5em;   // 1800px
 @wideFormatMin: 53.75em;    // 860px
+
+//Used inside of class. @media @sm-Min {}
+@sm-Min: ~'(min-width: @{smallFormatMin})';
+@sm-Max: ~'(max-width: @{smallFormatMax})';
+//@md-Min: ~'(min-width: @{midFormatMin})';
+@md-Max: ~'(max-width: @{midFormatMax})';
+@lg-Min: ~'(min-width: @{largeFormatMin})';
+@lg-Max: ~'(max-width: @{largeFormatMax})';
 // END Responsive breakpoints
 
 // Custom responsive breakpoints for pages that need them
 @searchDetailsTabbedMax: 61.8125em; // 989px
 @searchDetailsTableMin: 61.875em;   // 990px
+
+@searchDetailsTabbed-Max:  ~'(min-width: @{searchDetailsTabbedMax})';
+@searchDetailsTable-Min:  ~'(max-width: @{searchDetailsTableMin})';
 // END Custom responsive breakpoints
 
 @largeFormatSidebarWidth: 32rem;

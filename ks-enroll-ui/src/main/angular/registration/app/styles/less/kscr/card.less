@@ -170,11 +170,15 @@
 }
 
 .kscr-Card-statusUndo a {
-  &:extend(.kscr-Responsive-smallFormatMax--displayNone);
+//  &:extend(.kscr-Responsive-smallFormatMax--displayNone);
   .undo-icon;
   float: right;
   margin-right: 0.5rem;
   padding: 1rem 1rem 0.5rem;
+
+  @media @sm-Max {
+    display: none;
+  }
 }
 
 .kscr-Card-buttons {
@@ -552,6 +556,17 @@
   }
 }
 
+@media screen and (max-width: @smallFormatMax) {
+  .kscr-Responsive-scheduleWrapper {
+      .kscr-Card {
+        margin-top: 0.5rem;
+      }
+      .kscr-Card,
+      .kscr-Splash { // Clear out the float from the toggles after the heading when viewing the list
+        clear: both;
+      }
+  }
+}
 
 @media screen and (min-width: @largeFormatMin) {
 
@@ -641,6 +656,11 @@
                 border-top: @horizontalLineBorder !important; // Important to override the styles on .kscr-Responsive-cart .panel-group .panel
                 padding: 1rem 0 1rem 2.5rem;
 
+                // Hide success messages in large-format
+                &--success {
+                  display: none;
+                }
+
                 // No button bar border in large-format
                 .kscr-Card-buttons {
                     border-top: none;
@@ -652,6 +672,19 @@
                     left: 0;
                 }
             }
+        }
+
+        .kscr-Responsive-scheduleWrapper {
+            // Course card list
+            .kscr-Card {
+                background-color: @whiteBackground;
+
+                .kscr-Card-status {
+                  border: none;
+                  margin-bottom: 0.1rem;
+                }
+            }
+
         }
     }
 }

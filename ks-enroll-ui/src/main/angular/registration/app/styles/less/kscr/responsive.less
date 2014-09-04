@@ -28,14 +28,6 @@
         display: none; /* hide the logout button if the menu is present */
     }
 
-    .kscr-MainHeading-stickyHeader {
-        display: none;
-    }
-
-    .kscr-Responsive-smallFormatMax--displayNone {
-      display: none;
-    }
-
   .kscr-Responsive-cartWrapper {
         display: none;
         &--active {
@@ -46,11 +38,6 @@
         display: none;
         &--active {
             display: block; /* show only when active */
-        }
-
-        .kscr-MainHeading-toggles {
-            float: right;
-            margin: 0 0.5rem 0.5rem 0;
         }
 
         .kscr-Responsive-calendar {
@@ -66,13 +53,6 @@
                 display: block;
             }
         }
-        .kscr-Card {
-            margin-top: 0.5rem;
-        }
-        .kscr-Card,
-        .kscr-Splash { // Clear out the float from the toggles after the heading when viewing the list
-            clear: both;
-        }
     }
     .kscr-Responsive-searchFormWrapper {
         display: none;
@@ -86,51 +66,17 @@
         flex-direction: column; /* items appear vertically stacked*/
     }
 
-    .kscr-MainHeading-header {
-        text-align: center;
-    }
 }
 
 
 /* Styles for large-size screens */
 @media screen and (min-width: @largeFormatMin) {
-    .kscr-Responsive-largeFormatMin--displayNone {
-      display: none;
-    }
 
-    .kscr-Main-content {
-        border-top: 10px solid @bodyColorDark;
-    }
-
-    .kscr-Responsive-header {
-        & .kscr-Header-logo { // use the larger logo in the expanded mode
-            background-image: url('../images/logo_kuali_bak.png');
-            padding-left: 11.5rem;
-        }
-
-        & .kscr-Header-title,
-        & .kscr-Header-separator {
-            display: block; /* show the header title & separator in large format only */
-        }
-    }
 
     .kscr-Header-termName-label {
         display: none; // show the term label selector in large format only
     }
 
-    #kscr-CartHeading {
-        // Disable the stickiness of the main heading in large format
-        & .util-sticky-placeholder {
-            display: none;
-        }
-        & .kscr-MainHeading-CartHeading {
-            .util-sticky--disabled();
-        }
-    }
-
-    .kscr-MainHeading-header {
-        text-align: left;
-    }
 
 
     // Parent container of the content & sidebar areas
@@ -152,30 +98,6 @@
             color: @primaryTextColor;
         }
 
-        // Registered courses container
-        .kscr-Responsive-registered {
-            .flex(1); /* set to take up the same percentage as waitlisted (1/2 the size of the container) */
-            display: block; /*show initially*/
-        }
-
-        // Waitlisted coursed container
-        .kscr-Responsive-waitlisted {
-            .flex(1); /*set to take up the same percentage as registered (1/2 the size of the container)*/
-
-            &--inactive {
-                display: none; /* when there is no waitlist information, hide the section so that registered section takes up all of the space */
-            }
-        }
-
-
-        .kscr-Heading-sub {
-            padding: 0 1rem;
-
-            // Credits count
-            .kscr-Heading-support {
-                padding-right: 0;
-            }
-        }
     }
 
 
@@ -187,108 +109,18 @@
         width: @largeFormatSidebarWidth; /* fixed width for sidebar */
 
 
-        // Update sub-headings in the sidebar to have better spacing from sibling elements (Cart Results, Registered, Waitlisted)
-        .kscr-Heading-sub {
-            padding: 1rem 0;
-        }
-
-        .kscr-Responsive-cart {
-            .kscr-MainHeading-icons  {
-                display: none;
-            }
-
-            // Add to Cart Form
-            .kscr-addToCart {
-                border: none;
-                margin: 0.1rem 0 0.1rem 0;
-            }
-
-            // Hide success messages in large-format
-            .kscr-Card-status--success {
-                display: none;
-            }
-        }
-
         // Schedule in sidebar (search only)
         .kscr-Responsive-scheduleWrapper {
             margin: 1rem 0 0;
 
-            .kscr-MainHeading-header {
-                cursor: pointer;
-            }
-
-            // Toggles
-            .kscr-MainHeading-toggles {
-                display: block;
-            }
 
             // Schedule contents
             .kscr-Responsive-schedule {
                 margin: 0.1rem 0;
             }
 
-            // Waitlisted course list container
-            .kscr-Responsive-waitlisted {
-                border-top: @horizontalLineBorder;
-                margin-top: 0.1rem;
-
-                // Waitlist container when no courses exist in it
-                &--inactive {
-                    display: none;
-                }
-            }
-
-            // Course card list
-            .kscr-Card {
-                background-color: @whiteBackground;
-
-                .kscr-Card-status {
-                    border: none;
-                    margin-bottom: 0.1rem;
-                }
-            }
-
-            // Sub-headings, make sure they are well spaced in the schedule (Registered & Waitlisted)
-            .kscr-Heading-sub {
-                background-color: @sectionColor;
-                border-bottom: @horizontalLineBorder;
-                margin: 0 0 0.1rem;
-                padding: 0.5rem 1rem;
-
-                // Empty schedule heading
-                &.kscr-Heading-scheduleHeading--empty {
-                    background-color: @whiteBackground;
-                }
-
-                // Credits count
-                .kscr-Heading-support {
-                    padding-right: 0;
-                }
-
-                .kscr-Heading-message {
-                    display: block;
-                    padding: 0;
-                }
-            }
-
-            // Course Calendar Container in Sidebar
-            .kscr-CourseCalendar {
-                .kscr-Card-mixin();
-                margin: 0;
-
-                &-calendar {
-                    background: none;
-                    border: none;
-                    margin-bottom: 0;
-                    padding: 0;
-                }
-            }
         }
 
-        // Splash page/message shown in schedule when nothing is registered
-        .kscr-Splash {
-            display: none;
-        }
     }
 
     .kscr-Responsive-searchWrapper .kscr-MainHeading {
