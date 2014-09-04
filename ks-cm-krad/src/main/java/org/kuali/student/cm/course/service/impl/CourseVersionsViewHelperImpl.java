@@ -33,7 +33,7 @@ public class CourseVersionsViewHelperImpl extends ViewHelperServiceImpl implemen
         param.setKey("lu.queryParam.cluVersionIndId");
         param.getValues().add(viCluId);
         params.add(param);
-        sr.setSortDirection(SortDirection.DESC);
+        sr.setSortDirection(SortDirection.ASC);
         sr.setParams(params);
         sr.setSearchKey("lu.search.clu.versions");
         sr.setSortColumn("lu.resultColumn.luOptionalVersionSeqNum");
@@ -76,5 +76,4 @@ public class CourseVersionsViewHelperImpl extends ViewHelperServiceImpl implemen
         }
         return cluService;
     }
-
 }

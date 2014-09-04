@@ -47,6 +47,7 @@ public class CurriculumManagementConstants {
         public static final String COURSE_ID = "courseId";
         public static final String VERSION_INDEPENDENT_ID = "viId";
         public static final String CLU_ID = "cluId";
+        public static final String COMPARE_COURSE_ID = "compareCourseId";
     }
 
     public static class DocumentTypeNames {
@@ -101,6 +102,7 @@ public class CurriculumManagementConstants {
         public final static String CREATE_COURSE_PAGE = "CM-Proposal-Course-Create-Page";
         public final static String RETIRE_COURSE_PAGE = "CM-Proposal-Course-Retire-Page";
         public final static String START_RETIRE_COURSE_PAGE = "CM-Proposal-Course-Retire-Start-Page";
+        public final static String VIEW_COURSE_PAGE = "CM-ViewCourse-View-Course-Page";
     }
 
     public static interface UserInterfaceSections {

@@ -17,13 +17,9 @@
 package org.kuali.student.cm.course.form;
 
 import org.kuali.rice.krad.uif.util.SessionTransient;
-import org.kuali.student.cm.common.util.CurriculumManagementConstants.ViewCourseType;
-import org.kuali.student.cm.course.form.wrapper.CourseInfoWrapper;
 import org.kuali.student.cm.course.form.wrapper.VersionWrapper;
 import org.kuali.student.common.uif.form.KSUifForm;
-import org.kuali.student.r2.lum.course.dto.CourseInfo;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -31,20 +27,22 @@ import java.util.List;
  */
 public class CourseVersionsForm extends KSUifForm {
 
-    private String cluId;
+    private String versionIndependentId;
 
-    @SessionTransient
+    //@SessionTransient
     private List<VersionWrapper> versions;
 
+    private String redirectUri;
+
     /**
-     * The id of the CLU to fetch the versions for.
+     * The version independent id of the CLU to fetch the versions for.
      */
-    public String getCluId() {
-        return cluId;
+    public String getVersionIndependentId() {
+        return versionIndependentId;
     }
 
-    public void setCluId(String cluId) {
-        this.cluId = cluId;
+    public void setVersionIndependentId(String versionIndependentId) {
+        this.versionIndependentId = versionIndependentId;
     }
 
     public List<VersionWrapper> getVersions() {
@@ -53,5 +51,13 @@ public class CourseVersionsForm extends KSUifForm {
 
     public void setVersions(List<VersionWrapper> versions) {
         this.versions = versions;
+    }
+
+    public String getRedirectUri() {
+        return redirectUri;
+    }
+
+    public void setRedirectUri(String redirectUri) {
+        this.redirectUri = redirectUri;
     }
 }

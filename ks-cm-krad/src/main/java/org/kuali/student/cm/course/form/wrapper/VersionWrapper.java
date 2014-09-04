@@ -27,6 +27,8 @@ public class VersionWrapper {
     private String startTerm;
     private String endTerm;
 
+    private boolean checked;
+
     public VersionWrapper() {}
 
     public VersionWrapper(String cluId, Long sequence, String courseStatus, String startTerm, String endTerm) {
@@ -75,5 +77,13 @@ public class VersionWrapper {
 
     public void setEndTerm(String endTerm) {
         this.endTerm = endTerm;
+    }
+
+    public boolean isChecked() {
+        return checked;
+    }
+
+    public void setChecked(boolean isChecked) {
+        this.checked = isChecked;
     }
 }

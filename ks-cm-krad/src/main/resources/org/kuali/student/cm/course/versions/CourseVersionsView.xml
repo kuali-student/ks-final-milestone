@@ -37,6 +37,11 @@
         <property name="page">
             <bean parent="CM-CourseVersions-Page"/>
         </property>
+
+        <property name="stickyFooter" value="true"/>
+        <property name="footer">
+            <ref bean="CM-CourseVersion-Footer"/>
+        </property>
     </bean>
 
     <bean id="CM-CourseVersions-Page" parent="Uif-Page" p:disclosure.render="false" p:headerText="Programming 101">
@@ -54,7 +59,7 @@
         </property>
     </bean>
 
-    <bean id="CM-CourseVersion-TableSection" parent="Uif-TableCollectionSection" p:layoutManager.numberOfColumns="4">
+    <bean id="CM-CourseVersion-TableSection" parent="Uif-TableCollectionSection" p:layoutManager.numberOfColumns="5">
         <property name="headerText" value="Version History"/>
         <property name="header.render" value="true"/>
         <property name="header.lowerGroup">
@@ -83,11 +88,45 @@
         <property name="renderLineActions" value="false"/>
         <property name="items">
            <list>
+               <bean id="CM-CourseVersions-resultSet-checkbox" parent="KS-Uif-InputField"
+                     p:propertyName="checked"
+                     p:onChangeScript="courseVersions.manageWidgets(this)" >
+                    <property name="control">
+                        <bean parent="KS-Uif-CheckboxControl"/>
+                    </property>
+                </bean>
                <bean parent="KS-Uif-DataField" p:label="Version" p:propertyName="sequence"/>
                <bean parent="KS-Uif-DataField" p:label="Course Status" p:propertyName="courseStatus"/>
                <bean parent="KS-Uif-DataField" p:label="Start Term" p:propertyName="startTerm"/>
                <bean parent="KS-Uif-DataField" p:label="End Term" p:propertyName="endTerm"/>
            </list>
+        </property>
+    </bean>
+                                                                          <!-- This should be in CSS -->
+    <bean id="CM-CourseVersion-Footer" parent="KS-Uif-FooterBase" p:style="border-top: 1px solid;border-color:lightgray">
+        <property name="items">
+            <list>                                            <!-- This should be in CSS -->
+                <bean id="CM-CourseVersion-Button-Group" parent="Uif-HorizontalBoxGroup" p:style="float:right; padding-top:10px">
+                    <property name="items">
+                        <list>
+                            <!-- This button starts out disabled but the change handler on the checkboxes above
+                                 will toggle it to enabled if appropriate. -->
+                            <bean id="CM-CourseVersion-Button-ShowVersions"
+                                  parent="Uif-PrimaryActionButton"
+                                  p:actionLabel="Show Version(s)"
+                                  p:disabled="true"
+                                  p:ajaxSubmit="true"
+                                  p:methodToCall="showVersions"
+                                  p:successCallback="courseVersions.redirectToViewCourse()" />
+
+                            <bean id="CM-CourseVersion-Footer-Button-Cancel" parent="Uif-ActionLink">
+                                <property name="actionLabel" value="Cancel"/>
+                                <property name="actionScript" value="e.preventDefault(); closeLightbox();"/>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+            </list>
         </property>
     </bean>
 

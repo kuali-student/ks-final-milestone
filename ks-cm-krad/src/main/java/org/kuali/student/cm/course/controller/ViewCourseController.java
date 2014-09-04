@@ -28,6 +28,7 @@ import org.kuali.student.cm.common.util.CMUtils;
 import org.kuali.student.cm.common.util.CurriculumManagementConstants;
 import org.kuali.student.cm.common.util.CurriculumManagementConstants.Export.FileType;
 import org.kuali.student.cm.course.form.StartProposalForm;
+import org.kuali.student.cm.common.util.CurriculumManagementConstants.UrlParams;
 import org.kuali.student.cm.course.form.ViewCourseForm;
 import org.kuali.student.cm.course.form.wrapper.CourseInfoWrapper;
 import org.kuali.student.cm.course.form.wrapper.RetireCourseWrapper;
@@ -77,8 +78,8 @@ public class ViewCourseController extends KsUifControllerBase{
 
         ViewCourseForm detailedViewForm = (ViewCourseForm) form;
 
-        String courseId = request.getParameter("courseId");
-        String compareCourseId = request.getParameter("compareCourseId");
+        String courseId = request.getParameter(UrlParams.COURSE_ID);
+        String compareCourseId = request.getParameter(UrlParams.COMPARE_COURSE_ID);
 
         if (StringUtils.isBlank(courseId)) {
             throw new RuntimeException("Missing Course Id");
@@ -126,6 +127,7 @@ public class ViewCourseController extends KsUifControllerBase{
          * It should be always 'curriculum review' for both CS and faculty users for copy.
          */
         urlParameters.put(CourseController.UrlParams.USE_CURRICULUM_REVIEW,Boolean.TRUE.toString());
+
         urlParameters.put(UifConstants.UrlParams.PAGE_ID, CurriculumManagementConstants.CoursePageIds.CREATE_COURSE_PAGE);
         urlParameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, KRADConstants.Maintenance.METHOD_TO_CALL_COPY);
         urlParameters.put(KRADConstants.DATA_OBJECT_CLASS_ATTRIBUTE, CourseInfoWrapper.class.getName());
