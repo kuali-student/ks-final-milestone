@@ -59,7 +59,7 @@
     <bean id="gradeRosterEntryAssembler" class="org.kuali.student.enrollment.class2.grading.service.assembler.GradeRosterEntryAssembler"></bean>
 
     <bean id="gradingService" class="org.kuali.student.enrollment.class2.grading.service.impl.GradingServiceImpl"
-    scope="singleton">
+          scope="singleton">
         <property name="lprService" ref="LprService" />
         <property name="courseOfferingService" ref="CourseOfferingService" />
         <property name="gradeRosterAssembler" ref="gradeRosterAssembler" />
@@ -128,30 +128,30 @@
     <bean id="spCriteriaLookupService" parent="defaultCriteriaLookupService"/>
 
 
-<!--    THIS SHOULD BE USED FOR ALL Info objects that extend ID or KeyEntity becuase they have name, descr, meta and attributes-->
+    <!--    THIS SHOULD BE USED FOR ALL Info objects that extend ID or KeyEntity becuase they have name, descr, meta and attributes-->
     <bean id="defaultCriteriaLookupService" class="org.kuali.student.r2.common.criteria.impl.CriteriaLookupServiceImpl">
         <property name="criteriaLookupDao" ref="criterialookupDaoJpa"/>
         <property name="predicateTransforms">
             <list>
                 <ref bean="keyword2LikeTransform"/>
                 <ref bean="descrTransform"/>
-                <ref bean="metaTransform"/> 
+                <ref bean="metaTransform"/>
                 <ref bean="attributeTransform"/>
             </list>
         </property>
     </bean>
-       
-<!--     THIS SHOULD BE USED FOR ALL RELATIONSHIP OBJECTS-->
+
+    <!--     THIS SHOULD BE USED FOR ALL RELATIONSHIP OBJECTS-->
     <bean id="defaultRelationCriteriaLookupService" class="org.kuali.student.r2.common.criteria.impl.CriteriaLookupServiceImpl">
         <property name="criteriaLookupDao" ref="criterialookupDaoJpa"/>
         <property name="predicateTransforms">
             <list>
-                <ref bean="metaTransform"/> 
+                <ref bean="metaTransform"/>
                 <ref bean="attributeTransform"/>
             </list>
         </property>
     </bean>
-    
+
 
     <bean id="stateService" class="org.kuali.student.r2.core.class1.state.service.impl.StateServiceImpl">
         <property name="stateDao" ref="stateDao" />
@@ -163,18 +163,18 @@
             <bean parent="defaultCriteriaLookupService">
                 <property name="predicateTransforms">
                     <list merge="false">
-                        <bean parent="keyword2LikeTransform">                               
+                        <bean parent="keyword2LikeTransform">
                             <property name="likeAttributes">
-<!--                            Also scan the key and the lifecyle key when doing a keyword search-->
+                                <!--                            Also scan the key and the lifecyle key when doing a keyword search-->
                                 <list merge="true">
-                                    <value>key</value> 
-                                    <value>lifecycleKey</value>                        
+                                    <value>key</value>
+                                    <value>lifecycleKey</value>
                                 </list>
                             </property>
                         </bean>
                         <ref bean="key2IdTransform"/>
                         <ref bean="descrTransform"/>
-                        <ref bean="metaTransform"/> 
+                        <ref bean="metaTransform"/>
                         <ref bean="attributeTransform"/>
                     </list>
                 </property>
@@ -184,18 +184,18 @@
             <bean parent="defaultCriteriaLookupService">
                 <property name="predicateTransforms">
                     <list merge="false">
-                        <bean parent="keyword2LikeTransform">                               
+                        <bean parent="keyword2LikeTransform">
                             <property name="likeAttributes">
-<!--                            Also scan the key and the refObjectUri when doing a keyword search-->
+                                <!--                            Also scan the key and the refObjectUri when doing a keyword search-->
                                 <list merge="true">
-                                    <value>key</value> 
-                                    <value>refObjectUri</value>                        
+                                    <value>key</value>
+                                    <value>refObjectUri</value>
                                 </list>
                             </property>
-                        </bean> 
+                        </bean>
                         <ref bean="key2IdTransform"/>
                         <ref bean="descrTransform"/>
-                        <ref bean="metaTransform"/> 
+                        <ref bean="metaTransform"/>
                         <ref bean="attributeTransform"/>
                     </list>
                 </property>
@@ -210,13 +210,13 @@
             <bean parent="defaultCriteriaLookupService">
                 <property name="predicateTransforms">
                     <list merge="false">
-                        <bean parent="keyword2LikeTransform">                               
+                        <bean parent="keyword2LikeTransform">
                             <property name="likeAttributes">
-<!--                            Also scan the key when doing a keyword search-->
+                                <!--                            Also scan the key when doing a keyword search-->
                                 <list merge="true">
-                                    <value>key</value>    
-                                    <value>refObjectURI</value>    
-                                    <value>serviceUri</value>                       
+                                    <value>key</value>
+                                    <value>refObjectURI</value>
+                                    <value>serviceUri</value>
                                 </list>
                             </property>
                         </bean>
@@ -229,7 +229,7 @@
                         </bean>
                         <ref bean="key2IdTransform"/>
                         <ref bean="descrTransform"/>
-                        <ref bean="metaTransform"/> 
+                        <ref bean="metaTransform"/>
                         <ref bean="attributeTransform"/>
                     </list>
                 </property>
@@ -239,17 +239,17 @@
             <bean parent="defaultRelationCriteriaLookupService">
                 <property name="predicateTransforms">
                     <list merge="false">
-                        <bean parent="keyword2LikeTransform">                               
+                        <bean parent="keyword2LikeTransform">
                             <property name="likeAttributes">
-<!--                            scan the keys when doing a keyword search-->
+                                <!--                            scan the keys when doing a keyword search-->
                                 <list merge="false">
-                                    <value>typeKey</value> 
-                                    <value>stateKey</value> 
-                                    <value>ownerTypeKey</value>    
-                                    <value>relatedTypeKey</value>                       
+                                    <value>typeKey</value>
+                                    <value>stateKey</value>
+                                    <value>ownerTypeKey</value>
+                                    <value>relatedTypeKey</value>
                                 </list>
                             </property>
-                        </bean> 
+                        </bean>
                         <bean class="org.kuali.student.r2.common.criteria.transform.RenameTransform">
                             <property name="renameAttributes">
                                 <map>
@@ -260,7 +260,7 @@
                                 </map>
                             </property>
                         </bean>
-                        <ref bean="metaTransform"/> 
+                        <ref bean="metaTransform"/>
                         <ref bean="attributeTransform"/>
                     </list>
                 </property>
@@ -288,7 +288,7 @@
 
     <bean id="socBusinessLogic" class="org.kuali.student.enrollment.class2.courseofferingset.service.impl.CourseOfferingSetServiceBusinessLogicImpl">
         <property name="socDao" ref="socDao" />
-        <property name="courseService" ref="courseServiceImpl" />
+        <property name="courseService" ref="CourseService" />
         <property name="acalService" ref="AcademicCalendarService" />
         <property name="coService" ref="CourseOfferingService" />
         <property name="schedulingService" ref="SchedulingService"/>
@@ -361,7 +361,7 @@
 
     <!-- Note: this is not a decorator -->
     <bean id="coBusinessLogic" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingServiceBusinessLogicImpl">
-        <property name="courseService" ref="courseServiceImpl" />
+        <property name="courseService" ref="CourseService" />
         <property name="acalService" ref="AcademicCalendarService" />
         <property name="registrationCodeGeneratorFactory" ref="regGroupCodeGeneratorFactory" />
         <property name="courseOfferingTransformer" ref="courseOfferingTransformer" />
@@ -396,7 +396,7 @@
     <bean id="coServiceImpl" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingServiceImpl">
         <property name="luiService" ref="LuiService" />
         <property name="rgAssembler" ref="rgAssembler" />
-        <property name="courseService" ref="courseServiceImpl" />
+        <property name="courseService" ref="CourseService" />
         <property name="acalService" ref="AcademicCalendarService" />
         <property name="stateService" ref="stateServiceCacheDecorator" />
         <property name="lprService" ref="lprPersistenceServiceCache"/>
@@ -472,29 +472,29 @@
     </bean>
 
     <util:map id="stateHelperMap" map-class="java.util.HashMap">
-         <entry key="kuali.lui.activity.offering" value-ref="aoStateHelper"/>
-         <entry key="kuali.lui.format.offering" value-ref="foStateHelper"/>
-         <entry key="kuali.lui.course.offering" value-ref="coStateHelper"/>
-         <entry key="kuali.lui.registration.group" value-ref="rgStateHelperImpl"/>
-         <entry key="kuali.soc" value-ref="socStateHelper"/>
-         <entry key="kuali.soc.scheduling" value-ref="socSchedStateHelper"/>
-         <entry key="kuali.lui.exam.offering" value-ref="eoStateHelper"/>
+        <entry key="kuali.lui.activity.offering" value-ref="aoStateHelper"/>
+        <entry key="kuali.lui.format.offering" value-ref="foStateHelper"/>
+        <entry key="kuali.lui.course.offering" value-ref="coStateHelper"/>
+        <entry key="kuali.lui.registration.group" value-ref="rgStateHelperImpl"/>
+        <entry key="kuali.soc" value-ref="socStateHelper"/>
+        <entry key="kuali.soc.scheduling" value-ref="socSchedStateHelper"/>
+        <entry key="kuali.lui.exam.offering" value-ref="eoStateHelper"/>
     </util:map>
 
     <util:map id="relatedObjectHelperMap" map-class="java.util.HashMap">
-         <entry key="kuali.lui.activity.offering:kuali.lui.format.offering" value-ref="aoToFoRelatedObjHelper"/>
-         <entry key="kuali.lui.format.offering:kuali.lui.course.offering" value-ref="foToCoRelatedObjHelper"/>
-         <entry key="kuali.lui.course.offering:kuali.lui.format.offering" value-ref="coToFoRelatedObjHelper"/>
-         <entry key="kuali.lui.format.offering:kuali.lui.activity.offering" value-ref="foToAoRelatedObjHelper"/>
-         <entry key="kuali.lui.activity.offering:kuali.lui.registration.group" value-ref="aoToRgRelatedObjHelper"/>
-         <entry key="kuali.lui.registration.group:kuali.lui.activity.offering" value-ref="rgToAoRelatedObjHelper"/>
-         <entry key="kuali.lui.activity.offering:kuali.lui.activity.offering.scheduling" value-ref="aoToAoSchedRelatedObjHelper"/>
-         <entry key="kuali.soc:kuali.lui.activity.offering" value-ref="socToAORelatedObjHelper"/>
-         <entry key="kuali.lui.activity.offering:kuali.soc" value-ref="aotoSOCRelatedObjHelper"/>
-         <entry key="kuali.lui.activity.offering:kuali.lui.exam.offering" value-ref="aoToEoRelatedObjHelper"/>
-         <entry key="kuali.lui.course.offering:kuali.lui.exam.offering" value-ref="coToEoRelatedObjHelper"/>
-         <entry key="kuali.lui.exam.offering:kuali.lui.activity.offering" value-ref="eoToAoRelatedObjHelper"/>
-         <entry key="kuali.lui.format.offering:kuali.lui.exam.offering" value-ref="foToEoRelatedObjHelper"/>
+        <entry key="kuali.lui.activity.offering:kuali.lui.format.offering" value-ref="aoToFoRelatedObjHelper"/>
+        <entry key="kuali.lui.format.offering:kuali.lui.course.offering" value-ref="foToCoRelatedObjHelper"/>
+        <entry key="kuali.lui.course.offering:kuali.lui.format.offering" value-ref="coToFoRelatedObjHelper"/>
+        <entry key="kuali.lui.format.offering:kuali.lui.activity.offering" value-ref="foToAoRelatedObjHelper"/>
+        <entry key="kuali.lui.activity.offering:kuali.lui.registration.group" value-ref="aoToRgRelatedObjHelper"/>
+        <entry key="kuali.lui.registration.group:kuali.lui.activity.offering" value-ref="rgToAoRelatedObjHelper"/>
+        <entry key="kuali.lui.activity.offering:kuali.lui.activity.offering.scheduling" value-ref="aoToAoSchedRelatedObjHelper"/>
+        <entry key="kuali.soc:kuali.lui.activity.offering" value-ref="socToAORelatedObjHelper"/>
+        <entry key="kuali.lui.activity.offering:kuali.soc" value-ref="aotoSOCRelatedObjHelper"/>
+        <entry key="kuali.lui.activity.offering:kuali.lui.exam.offering" value-ref="aoToEoRelatedObjHelper"/>
+        <entry key="kuali.lui.course.offering:kuali.lui.exam.offering" value-ref="coToEoRelatedObjHelper"/>
+        <entry key="kuali.lui.exam.offering:kuali.lui.activity.offering" value-ref="eoToAoRelatedObjHelper"/>
+        <entry key="kuali.lui.format.offering:kuali.lui.exam.offering" value-ref="foToEoRelatedObjHelper"/>
     </util:map>
 
     <bean id="aoStateHelper" class="org.kuali.student.enrollment.class1.state.impl.AOStateHelperImpl"/>
@@ -569,11 +569,11 @@
     <bean id="timeSlotCodeGenerator" class="org.kuali.student.r2.core.scheduling.util.impl.TimeSlotCodeGeneratorImpl">
         <property name="timeSlotDao" ref="timeSlotDao" />
     </bean>
-   
+
     <bean id="krmsRuleManagementCopyMethods" class="org.kuali.rice.krms.impl.util.KrmsRuleManagementCopyMethodsImpl">
-    <!--       If I uncomment this next one it fails because ruleManagementService is not defined but if I have it commented out
-       the program will get the rule management service by calling the global resource locator-->
-       <!--<property name="ruleManagementService" ref="ruleManagementService" />-->
+        <!--       If I uncomment this next one it fails because ruleManagementService is not defined but if I have it commented out
+the program will get the rule management service by calling the global resource locator-->
+        <!--<property name="ruleManagementService" ref="ruleManagementService" />-->
     </bean>
 
     <bean id="courseOfferingTransformer" class="org.kuali.student.enrollment.class2.courseoffering.service.transformer.CourseOfferingTransformer">
@@ -587,23 +587,23 @@
     <bean id="regGroupCodeGeneratorFactory" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.FourDigitRegistrationGroupCodeGeneratorFactory" />
 
     <bean id="coMockService" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingServiceImpl">
-        <property name="courseService" ref="courseServiceImpl" />
+        <property name="courseService" ref="CourseService" />
         <property name="courseOfferingTransformer" ref="courseOfferingTransformer" />
         <property name="activityOfferingTransformer" ref="activityTransformer" />
         <property name="registrationGroupTransformer" ref="registrationGroupTransformer" />
     </bean>
 
     <!--<bean id="ks.exp.courseOfferingMockService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">-->
-        <!--<property name="serviceDefinition">-->
-            <!--<bean class="org.kuali.rice.ksb.api.bus.support.SoapServiceDefinition">-->
-                <!--<property name="jaxWsService" value="true" />-->
-                <!--<property name="service" ref="coMockService" />-->
-                <!--<property name="serviceInterface" value="org.kuali.student.enrollment.courseoffering.service.CourseOfferingService" />-->
-                <!--<property name="localServiceName" value="CourseOfferingMockService" />-->
-                <!--<property name="serviceNameSpaceURI" value="http://student.kuali.org/wsdl/courseOffering" />-->
-                <!--<property name="busSecurity" value="${ks.enroll.bus.security}" />-->
-            <!--</bean>-->
-        <!--</property>-->
+    <!--<property name="serviceDefinition">-->
+    <!--<bean class="org.kuali.rice.ksb.api.bus.support.SoapServiceDefinition">-->
+    <!--<property name="jaxWsService" value="true" />-->
+    <!--<property name="service" ref="coMockService" />-->
+    <!--<property name="serviceInterface" value="org.kuali.student.enrollment.courseoffering.service.CourseOfferingService" />-->
+    <!--<property name="localServiceName" value="CourseOfferingMockService" />-->
+    <!--<property name="serviceNameSpaceURI" value="http://student.kuali.org/wsdl/courseOffering" />-->
+    <!--<property name="busSecurity" value="${ks.enroll.bus.security}" />-->
+    <!--</bean>-->
+    <!--</property>-->
     <!--</bean>-->
 
 
@@ -617,16 +617,16 @@
     </bean>
 
     <!--<bean id="ks.exp.courseOfferingValidationService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">-->
-        <!--<property name="serviceDefinition">-->
-            <!--<bean class="org.kuali.rice.ksb.api.bus.support.SoapServiceDefinition">-->
-                <!--<property name="jaxWsService" value="true" />-->
-                <!--<property name="service" ref="coServiceValidation" />-->
-                <!--<property name="serviceInterface" value="org.kuali.student.enrollment.courseoffering.service.CourseOfferingService" />-->
-                <!--<property name="localServiceName" value="CourseOfferingService" />-->
-                <!--<property name="serviceNameSpaceURI" value="http://student.kuali.org/wsdl/courseOffering" />-->
-                <!--<property name="busSecurity" value="${ks.enroll.bus.security}" />-->
-            <!--</bean>-->
-        <!--</property>-->
+    <!--<property name="serviceDefinition">-->
+    <!--<bean class="org.kuali.rice.ksb.api.bus.support.SoapServiceDefinition">-->
+    <!--<property name="jaxWsService" value="true" />-->
+    <!--<property name="service" ref="coServiceValidation" />-->
+    <!--<property name="serviceInterface" value="org.kuali.student.enrollment.courseoffering.service.CourseOfferingService" />-->
+    <!--<property name="localServiceName" value="CourseOfferingService" />-->
+    <!--<property name="serviceNameSpaceURI" value="http://student.kuali.org/wsdl/courseOffering" />-->
+    <!--<property name="busSecurity" value="${ks.enroll.bus.security}" />-->
+    <!--</bean>-->
+    <!--</property>-->
     <!--</bean>-->
 
 
@@ -715,7 +715,7 @@
 
     <bean id="examOfferingScheduleEvaluator" class="org.kuali.student.enrollment.class2.examoffering.krms.evaluator.ExamOfferingSlottingEvaluatorImpl">
         <property name="schedulingService" ref="SchedulingService"/>
-        <property name="courseService" ref="courseServiceImpl"/>
+        <property name="courseService" ref="CourseService"/>
     </bean>
 
     <!-- Put facade on the bus -->
@@ -833,10 +833,10 @@
     </bean>
 
     <bean id="lrcServiceValidation"
-    class="org.kuali.student.r2.lum.lrc.service.impl.LRCServiceValidationDecorator">
-    <property name="nextDecorator" ref="lrcServiceCache" />
-    <property name="validator" ref="validator" />
-</bean>
+          class="org.kuali.student.r2.lum.lrc.service.impl.LRCServiceValidationDecorator">
+        <property name="nextDecorator" ref="lrcServiceCache" />
+        <property name="validator" ref="validator" />
+    </bean>
 
     <bean id="lrcServiceCache" class="org.kuali.student.r2.lum.lrc.service.impl.LRCServiceCacheDecorator">
         <property name="nextDecorator" ref="lrcPersistenceService" />
@@ -852,16 +852,16 @@
             <bean parent="defaultCriteriaLookupService">
                 <property name="predicateTransforms">
                     <list merge="false">
-                        <bean parent="keyword2LikeTransform">                               
+                        <bean parent="keyword2LikeTransform">
                             <property name="likeAttributes">
-<!--                            Also scan the key when doing a keyword search-->
+                                <!--                            Also scan the key when doing a keyword search-->
                                 <list merge="true">
-                                    <value>key</value> 
-                                    <value>typeKey</value>    
-                                    <value>stateKey</value>                       
+                                    <value>key</value>
+                                    <value>typeKey</value>
+                                    <value>stateKey</value>
                                 </list>
                             </property>
-                        </bean> 
+                        </bean>
                         <bean class="org.kuali.student.r2.common.criteria.transform.RenameTransform">
                             <property name="renameAttributes">
                                 <map>
@@ -874,8 +874,8 @@
                             </property>
                         </bean>
                         <ref bean="key2IdTransform"/>
-                        <ref bean="descrTransform"/>                   
-                        <ref bean="metaTransform"/> 
+                        <ref bean="descrTransform"/>
+                        <ref bean="metaTransform"/>
                         <ref bean="attributeTransform"/>
                     </list>
                 </property>
@@ -885,15 +885,15 @@
             <bean parent="defaultCriteriaLookupService">
                 <property name="predicateTransforms">
                     <list merge="false">
-                        <bean parent="keyword2LikeTransform">                               
+                        <bean parent="keyword2LikeTransform">
                             <property name="likeAttributes">
-<!--                            Also scan the key when doing a keyword search-->
+                                <!--                            Also scan the key when doing a keyword search-->
                                 <list merge="true">
                                     <value>key</value>
-                                    <value>resultScaleKey</value>                    
+                                    <value>resultScaleKey</value>
                                 </list>
                             </property>
-                        </bean> 
+                        </bean>
                         <bean class="org.kuali.student.r2.common.criteria.transform.RenameTransform">
                             <property name="renameAttributes">
                                 <map>
@@ -902,10 +902,10 @@
                                     <entry key="resultScaleKey" value="resultScaleId"/>
                                 </map>
                             </property>
-                        </bean> 
+                        </bean>
                         <ref bean="key2IdTransform"/>
-                        <ref bean="descrTransform"/>              
-                        <ref bean="metaTransform"/> 
+                        <ref bean="descrTransform"/>
+                        <ref bean="metaTransform"/>
                         <ref bean="attributeTransform"/>
                     </list>
                 </property>
@@ -915,15 +915,15 @@
             <bean parent="defaultCriteriaLookupService">
                 <property name="predicateTransforms">
                     <list merge="false">
-                        <bean parent="keyword2LikeTransform">                               
+                        <bean parent="keyword2LikeTransform">
                             <property name="likeAttributes">
-<!--                                Also scan the key when doing a keyword search-->
+                                <!--                                Also scan the key when doing a keyword search-->
                                 <list merge="true">
                                     <value>key</value>
-                                    <value>resultScaleKey</value>               
+                                    <value>resultScaleKey</value>
                                 </list>
                             </property>
-                        </bean> 
+                        </bean>
                         <bean class="org.kuali.student.r2.common.criteria.transform.RenameTransform">
                             <property name="renameAttributes">
                                 <map>
@@ -937,8 +937,8 @@
                             </property>
                         </bean>
                         <ref bean="key2IdTransform"/>
-                        <ref bean="descrTransform"/>              
-                        <ref bean="metaTransform"/> 
+                        <ref bean="descrTransform"/>
+                        <ref bean="metaTransform"/>
                         <ref bean="attributeTransform"/>
                     </list>
                 </property>
@@ -962,7 +962,7 @@
     <bean id="gradeValuesGroupAssembler" class="org.kuali.student.enrollment.class2.grading.assembler.GradeValuesGroupAssembler" />
 
     <bean id="courseRegistrationServiceValidator"
-    class="org.kuali.student.enrollment.class2.courseregistration.service.decorators.CourseRegistrationServiceValidationDecorator">
+          class="org.kuali.student.enrollment.class2.courseregistration.service.decorators.CourseRegistrationServiceValidationDecorator">
         <property name="validator" ref="validator" />
         <property name="nextDecorator" ref="courseRegistrationImpl" />
     </bean>
@@ -1063,7 +1063,7 @@
     </bean>
 
     <bean id="processServiceValidationDecorator"
-    class="org.kuali.student.r2.core.process.service.decorators.ProcessServiceValidationDecorator">
+          class="org.kuali.student.r2.core.process.service.decorators.ProcessServiceValidationDecorator">
         <property name="nextDecorator" ref="processService"/>
         <property name="validator" ref="validator"/>
     </bean>
@@ -1186,7 +1186,7 @@
         <property name="coService" ref="CourseOfferingService" />
         <property name="activityOfferingClusterDao" ref="activityOfferingClusterDao" />
         <property name="typeService" ref="typeService" />
-        <property name="courseService" ref="courseServiceImpl" />
+        <property name="courseService" ref="CourseService" />
         <property name="courseWaitListService" ref="courseWaitListService" />
         <property name="waitListServiceFacade" ref="courseWaitListServiceFacade" />
         <property name="examOfferingServiceFacade" ref="examOfferingServiceFacade" />
@@ -1325,30 +1325,30 @@
     <bean id="searchService" class="org.kuali.student.r2.common.class1.search.SearchServiceDispatcherImpl">
         <property name="searchServices">
             <list>
-                 <ref bean="apptWindowCountsSearchImpl" />
-                 <ref bean="courseOfferingHistorySearchImpl"/>
-                 <ref bean="CourseOfferingManagementSearchImpl"/>
-                 <ref bean="AutogenCountSearchServiceImpl"/>
-                 <ref bean="ActivityOfferingSearchServiceImpl"/>
-                 <ref bean="CoreSearchServiceImpl"/> <!-- This bean lives in ks-core-no-tx-context.xml  -->
-                 <ref bean="InstructorSearchServiceImpl"/>
-                 <ref bean="CourseRegistrationSearchServiceImpl"/>
+                <ref bean="apptWindowCountsSearchImpl" />
+                <ref bean="courseOfferingHistorySearchImpl"/>
+                <ref bean="CourseOfferingManagementSearchImpl"/>
+                <ref bean="AutogenCountSearchServiceImpl"/>
+                <ref bean="ActivityOfferingSearchServiceImpl"/>
+                <ref bean="CoreSearchServiceImpl"/> <!-- This bean lives in ks-core-no-tx-context.xml  -->
+                <ref bean="InstructorSearchServiceImpl"/>
+                <ref bean="CourseRegistrationSearchServiceImpl"/>
             </list>
-        </property>                
+        </property>
     </bean>
 
 
     <bean id="ks.exp.searchService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
-    <property name="serviceDefinition">
-        <bean class="org.kuali.rice.ksb.api.bus.support.SoapServiceDefinition">
-            <property name="jaxWsService" value="true" />
-            <property name="service" ref="searchService" />
-            <property name="serviceInterface" value="org.kuali.student.r2.core.search.service.SearchService" />
-            <property name="localServiceName" value="SearchService" />
-            <property name="serviceNameSpaceURI" value="http://student.kuali.org/wsdl/search" />
-            <property name="busSecurity" value="${ks.enroll.bus.security}" />
-        </bean>
-    </property>
+        <property name="serviceDefinition">
+            <bean class="org.kuali.rice.ksb.api.bus.support.SoapServiceDefinition">
+                <property name="jaxWsService" value="true" />
+                <property name="service" ref="searchService" />
+                <property name="serviceInterface" value="org.kuali.student.r2.core.search.service.SearchService" />
+                <property name="localServiceName" value="SearchService" />
+                <property name="serviceNameSpaceURI" value="http://student.kuali.org/wsdl/search" />
+                <property name="busSecurity" value="${ks.enroll.bus.security}" />
+            </bean>
+        </property>
     </bean>
 
     <!-- Hold Service -->
@@ -1523,7 +1523,7 @@
     <!--This is a ref data utility that should be removed in the future -->
     <bean id="CluFixer" class="org.kuali.student.enrollment.class2.courseoffering.refdata.CluFixerImpl">
         <property name="coService" ref="CourseOfferingService"/>
-        <property name="courseService" ref="courseServiceImpl"/>
+        <property name="courseService" ref="CourseService"/>
     </bean>
 
     <bean id="ks.exp.cluFixer" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
@@ -1849,7 +1849,7 @@
         </property>
     </bean>
 
-   
+
     <bean id="courseRegistrationServiceProcessCheckDecorator" class="org.kuali.student.enrollment.class2.courseregistration.service.decorators.CourseRegistrationServiceProcessCheckDecorator" >
         <property name="nextDecorator" ref="courseRegistrationImpl"/>
         <property name="krmsEvaluator" ref="krmsEvaluator"/>
@@ -1877,7 +1877,7 @@
                 <entry key="gesService" value-ref="GesService"/>
                 <entry key="ruleFactory" value-ref="ruleFactoryImpl"/>
                 <!--flag to tell if should log sucesses as well as failures-->
-                <entry key="shouldRecordInstructionSuccesses" > 
+                <entry key="shouldRecordInstructionSuccesses" >
                     <bean class="java.lang.Boolean">
                         <constructor-arg value="true" />
                     </bean>
@@ -1942,7 +1942,7 @@
     <bean id="populationServiceEvaluationDecorator" class="org.kuali.student.core.population.service.decorators.PopulationServiceIsMemberEvaluatorDecorator">
         <property name="nextDecorator" ref="populationServiceImpl"/>
     </bean>
-    
+
     <!--TODO: KSENROLL-12393 Replace wiring to ExemptionServiceMapImpl once JPA impl is done-->
     <bean id="exemptionServiceMapImpl" class="org.kuali.student.core.exemption.service.impl.ExemptionServiceMapImpl" />
 
@@ -1955,15 +1955,15 @@
         <property name="populationService" ref="PopulationService" />
         <property name="atpService" ref="AtpService" />
         <property name="nextDecorator" ref="gesServiceImpl" />
-    </bean>    
+    </bean>
 
     <bean id="gesServiceImpl" class="org.kuali.student.core.ges.service.impl.GesServiceImpl" >
         <property name="parameterDao" ref="parameterDao" />
         <property name="valueDao" ref="valueDao" />
     </bean>
-    
+
     <bean id="elasticEmbedded" class="org.kuali.student.enrollment.registration.search.elastic.ElasticEmbedded" init-method="init" destroy-method="shutdown"
-            depends-on="LRCService, searchService">
+          depends-on="LRCService, searchService">
         <property name="lrcService" ref="LRCService"/>
         <property name="scheduleOfClassesService"  ref="scheduleOfClassesService"/>
         <property name="searchService" ref="searchService"/>
