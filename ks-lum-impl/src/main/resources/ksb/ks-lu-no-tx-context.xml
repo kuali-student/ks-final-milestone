@@ -82,7 +82,7 @@
                 <entry key="hibernate.hbm2ddl.auto"
                        value="${ks.lum.jpa.JpaProperties.hibernate.hbm2ddl.auto}"/>
                 <entry key="hibernate.connection.release_mode"
-                	   value="${ks.lum.jpa.JpaProperties.hibernate.connection.release_mode}"/>
+                       value="${ks.lum.jpa.JpaProperties.hibernate.connection.release_mode}"/>
                 <entry key="hibernate.default_batch_fetch_size"
                        value="${ks.lum.jpa.JpaProperties.hibernate.default_batch_fetch_size}"/>
             </map>
@@ -164,8 +164,8 @@
         <property name="luDao" ref="luDao"/>
         <property name="searchManager" ref="luSearchManager"/>
         <property name="dictionaryServiceDelegate" ref="lumDictionaryService"/>
-		<property name="validatorFactory" ref="lumValidatorFactory"/>
-		<property name="searchDispatcher" ref="lumSearchDispatcher"/>
+        <property name="validatorFactory" ref="lumValidatorFactory"/>
+        <property name="searchDispatcher" ref="lumSearchDispatcher"/>
         <property name="cluCriteriaLookupService" ref="cluDefaultCriteriaLookupService"/>
     </bean>
 
@@ -325,7 +325,7 @@
         <property name="loDao" ref="loDao"/>
         <property name="searchManager" ref="loSearchManager"/>
         <property name="dictionaryServiceDelegate" ref="lumDictionaryService"/>
-        <property name="validatorFactory" ref="lumValidatorFactory"/>        
+        <property name="validatorFactory" ref="lumValidatorFactory"/>
     </bean>
 
     <bean id="ks.exp.loService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
@@ -359,6 +359,10 @@
     </bean>
 
     <!-- CourseService config -->
+
+    <!-- Top Level Alias -->
+    <alias name="courseServiceCacheDecorator" alias="CourseService" />
+
     <bean id="courseServiceImpl"
           class="org.kuali.student.r2.lum.course.service.impl.CourseServiceImpl">
         <property name="cluService" ref="CluService"/>
@@ -374,7 +378,7 @@
         <property name="serviceDefinition">
             <bean class="org.kuali.rice.ksb.api.bus.support.SoapServiceDefinition">
                 <property name="jaxWsService" value="true"/>
-                <property name="service" ref="courseServiceImpl"/>
+                <property name="service" ref="CourseService"/>
                 <property name="serviceInterface"
                           value="org.kuali.student.r2.lum.course.service.CourseService"/>
                 <property name="localServiceName" value="CourseService"/>
@@ -383,12 +387,17 @@
             </bean>
         </property>
     </bean>
- 
+
     <bean id="courseServiceMethodInvoker"
           class="org.kuali.student.r2.lum.course.service.impl.CourseServiceMethodInvoker">
         <property name="cluService" ref="CluService"/>
         <property name="loService" ref="loClient"/>
         <property name="lrcService" ref="lrcClient"/>
+    </bean>
+
+    <bean id="courseServiceCacheDecorator" class="org.kuali.student.r2.lum.course.service.CourseServiceCacheDecorator">
+        <property name="nextDecorator" ref="courseServiceImpl" />
+        <property name="cacheManager" ref="ksCacheManager" />
     </bean>
 
     <bean id="courseAssembler"
@@ -473,29 +482,29 @@
           abstract="true" class="org.kuali.student.r2.common.validator.ValidatorFactory">
         <property name="defaultValidator" ref="lumServiceValidator"/>
         <property name="validatorList">
-        	<list>
-				<!--  Add Custom Validators Here -->
-				<bean class="org.kuali.student.r2.lum.program.service.validation.ProgramManagingBodiesValidator" >
-        			<property name="messageService" ref="ks.messageServiceMock"/>
-       				<property name="searchDispatcher" ref="lumSearchDispatcher"/>
-				</bean>
+            <list>
+                <!--  Add Custom Validators Here -->
+                <bean class="org.kuali.student.r2.lum.program.service.validation.ProgramManagingBodiesValidator" >
+                    <property name="messageService" ref="ks.messageServiceMock"/>
+                    <property name="searchDispatcher" ref="lumSearchDispatcher"/>
+                </bean>
 
-				<!--  Custom Validator for Revenue. Checks to see if the sum of all the orgs adds up to 100% -->
-			    <bean class="org.kuali.student.r2.lum.course.service.utils.RevenuePercentValidator"/>
-			    <bean class="org.kuali.student.r2.lum.course.service.utils.ExpenditurePercentValidator"/>
-				<bean class="org.kuali.student.r2.lum.course.service.utils.ActiveDatesValidator">
-					<property name="atpService" ref="atpClient"/>
-				</bean>
-				<bean class="org.kuali.student.r2.lum.course.service.utils.SubjectAreaUnitOwnerValidator">
-					<property name="searchDispatcher" ref="lumSearchDispatcher"/>
-				</bean>
-				<bean class="org.kuali.student.r2.lum.course.service.utils.ActivityTypeValidator"/>
-			</list>
+                <!--  Custom Validator for Revenue. Checks to see if the sum of all the orgs adds up to 100% -->
+                <bean class="org.kuali.student.r2.lum.course.service.utils.RevenuePercentValidator"/>
+                <bean class="org.kuali.student.r2.lum.course.service.utils.ExpenditurePercentValidator"/>
+                <bean class="org.kuali.student.r2.lum.course.service.utils.ActiveDatesValidator">
+                    <property name="atpService" ref="atpClient"/>
+                </bean>
+                <bean class="org.kuali.student.r2.lum.course.service.utils.SubjectAreaUnitOwnerValidator">
+                    <property name="searchDispatcher" ref="lumSearchDispatcher"/>
+                </bean>
+                <bean class="org.kuali.student.r2.lum.course.service.utils.ActivityTypeValidator"/>
+            </list>
         </property>
     </bean>
 
     <bean id="lumValidatorFactory" parent="lumValidatorFactory-parent"/>
-	
+
     <!-- Program Service Config -->
     <bean id="programSearchManager"
           class="org.kuali.student.r2.common.class1.search.SearchManagerImpl">
@@ -504,7 +513,7 @@
     </bean>
 
     <bean id="statementTreeViewAssembler" class="org.kuali.student.r1.core.statement.service.assembler.StatementTreeViewAssembler">
-   </bean>
+    </bean>
 
     <bean id="programRequirementAssembler"
           class="org.kuali.student.r2.lum.program.service.impl.ProgramRequirementAssembler">
@@ -519,7 +528,7 @@
     </bean>
 
     <bean id="loAssembler"
-              class="org.kuali.student.r2.lum.course.service.assembler.LoAssembler">
+          class="org.kuali.student.r2.lum.course.service.assembler.LoAssembler">
         <property name="loService" ref="loServiceImpl"/>
     </bean>
 
@@ -545,7 +554,7 @@
         <property name="cluAssemblerUtils" ref="cluAssemblerUtils"/>
     </bean>
 
- 	<bean id="credentialProgramAssembler"
+    <bean id="credentialProgramAssembler"
           class="org.kuali.student.r2.lum.program.service.assembler.CredentialProgramAssembler">
         <property name="programAssemblerUtils" ref="programAssemblerUtils"/>
         <property name="cluAssemblerUtils" ref="cluAssemblerUtils"/>
@@ -626,7 +635,7 @@
         </property>
     </bean>
 
- 	<!-- Clients to external Services -->
+    <!-- Clients to external Services -->
     <bean id="atpClient"
           class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
         <property name="serviceEndpointInterface"
@@ -634,7 +643,7 @@
         <property name="serviceQName"
                   value="{http://student.kuali.org/wsdl/atp}AtpService"/>
     </bean>
-    
+
     <bean id="documentClient" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
         <property name="serviceEndpointInterface" value="org.kuali.student.r2.core.document.service.DocumentService"/>
         <property name="serviceQName" value="{http://student.kuali.org/wsdl/document}DocumentService"/>
@@ -697,15 +706,15 @@
             </list>
         </property>
     </bean>
-    
-    
+
+
     <!-- ### The next part was duplicated from ks-enroll-context to load LrcService ### -->
-    
+
     <!-- Top Level Alias -->
     <alias name="lrcServiceValidation" alias="LRCService" />
 
     <bean id="lrcServiceValidation"
-        class="org.kuali.student.r2.lum.lrc.service.impl.LRCServiceValidationDecorator">
+          class="org.kuali.student.r2.lum.lrc.service.impl.LRCServiceValidationDecorator">
         <property name="nextDecorator" ref="lrcServiceCache" />
         <property name="validator" ref="validator" />
     </bean>
@@ -716,7 +725,7 @@
                 <property name="jaxWsService" value="true" />
                 <property name="service" ref="lrcServiceCache" />
                 <property name="serviceInterface"
-                    value="org.kuali.student.r2.lum.lrc.service.LRCService" />
+                          value="org.kuali.student.r2.lum.lrc.service.LRCService" />
                 <property name="localServiceName" value="LrcService" />
                 <property name="serviceNameSpaceURI" value="http://student.kuali.org/wsdl/lrc" />
                 <property name="busSecurity" value="${ks.lum.bus.security}" />
@@ -725,13 +734,13 @@
     </bean>
 
     <bean id="lrcServiceCache"
-        class="org.kuali.student.r2.lum.lrc.service.impl.LRCServiceCacheDecorator">
+          class="org.kuali.student.r2.lum.lrc.service.impl.LRCServiceCacheDecorator">
         <property name="nextDecorator" ref="lrcPersistenceService" />
         <property name="cacheManager" ref="ksCacheManager" />
     </bean>
 
     <bean id="lrcPersistenceService"
-        class="org.kuali.student.r2.lum.lrc.service.impl.LRCServiceImpl">
+          class="org.kuali.student.r2.lum.lrc.service.impl.LRCServiceImpl">
         <property name="resultValuesGroupDao" ref="resultValuesGroupDao" />
         <property name="resultValueDao" ref="resultValueDao" />
         <property name="resultScaleDao" ref="resultScaleDao" />
@@ -751,7 +760,7 @@
                             </property>
                         </bean>
                         <bean
-                            class="org.kuali.student.r2.common.criteria.transform.RenameTransform">
+                                class="org.kuali.student.r2.common.criteria.transform.RenameTransform">
                             <property name="renameAttributes">
                                 <map>
                                     <entry key="typeKey" value="type" />
@@ -784,7 +793,7 @@
                             </property>
                         </bean>
                         <bean
-                            class="org.kuali.student.r2.common.criteria.transform.RenameTransform">
+                                class="org.kuali.student.r2.common.criteria.transform.RenameTransform">
                             <property name="renameAttributes">
                                 <map>
                                     <entry key="typeKey" value="type" />
@@ -815,7 +824,7 @@
                             </property>
                         </bean>
                         <bean
-                            class="org.kuali.student.r2.common.criteria.transform.RenameTransform">
+                                class="org.kuali.student.r2.common.criteria.transform.RenameTransform">
                             <property name="renameAttributes">
                                 <map>
                                     <entry key="typeKey" value="type" />
@@ -836,10 +845,10 @@
             </bean>
         </property>
     </bean>
-    
+
     <!-- Setup natural language template information service -->
     <import resource="classpath:org/kuali/student/cm/krms/PropositionTypeTemplateData.xml"/>
-    
+
     <bean id="templateResolverService" class="org.kuali.rice.krms.service.impl.TemplateRegistryImpl">
         <property name="templatesMap" ref="templatesMap"/>
     </bean>
