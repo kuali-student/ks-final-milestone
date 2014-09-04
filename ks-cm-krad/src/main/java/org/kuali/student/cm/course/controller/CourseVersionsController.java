@@ -36,6 +36,8 @@ import org.kuali.student.cm.course.service.CourseMaintainable;
 import org.kuali.student.cm.course.service.CourseVersionsViewHelper;
 import org.kuali.student.cm.course.service.impl.ExportCourseHelperImpl;
 import org.kuali.student.common.object.KSObjectUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -61,34 +63,41 @@ import java.util.Set;
 @RequestMapping(value = ControllerRequestMappings.COURSE_VERSIONS)
 public class CourseVersionsController extends KsUifControllerBase {
 
+    private static final Logger LOG = LoggerFactory.getLogger(CourseVersionsController.class);
+
     @Override
     protected CourseVersionsForm createInitialForm(HttpServletRequest request) {
         return new CourseVersionsForm();
     }
 
+    /**
+     * Sets up data for the Course Versions page.
+     */
     @MethodAccessible
     @RequestMapping(params = "methodToCall=showVersionHistory")
     public ModelAndView showVersionHistory(@ModelAttribute(UifConstants.DEFAULT_MODEL_NAME) CourseVersionsForm form,
                                      HttpServletRequest request) {
 
-        CourseVersionsForm courseVersionsForm = (CourseVersionsForm) form;
-
         CourseVersionsViewHelper viewHelper = (CourseVersionsViewHelper) form.getViewHelperService();
 
         String versionIndependentId = request.getParameter(UrlParams.VERSION_INDEPENDENT_ID);
-        courseVersionsForm.setVersions(viewHelper.getVersions(versionIndependentId));
+        form.setVersions(viewHelper.getVersions(versionIndependentId));
 
         String courseTitle =  viewHelper.getCourseTitle(versionIndependentId);
-        courseVersionsForm.setCourseTitle(courseTitle);
+        form.setCourseTitle(courseTitle);
 
-        courseVersionsForm.setVersionIndependentId(versionIndependentId);
+        form.setVersionIndependentId(versionIndependentId);
 
         return getUIFModelAndView(form);
     }
 
 
-    @RequestMapping(params = "methodToCall=showVersions")
-    public ModelAndView showVersions(@ModelAttribute(UifConstants.DEFAULT_MODEL_NAME) CourseVersionsForm form,
+    /**
+     * The submit handler for the Course Versions page. Really just constructs a URI from the selected courses for the
+     * selected courses in the View Course page.
+     */
+    @RequestMapping(params = "methodToCall=buildViewCourseUri")
+    public ModelAndView buildViewCourseUri(@ModelAttribute(UifConstants.DEFAULT_MODEL_NAME) CourseVersionsForm form,
                                      HttpServletRequest request) {
         /*
          * Get the cluIds of the courses to compare.
@@ -129,9 +138,13 @@ public class CourseVersionsController extends KsUifControllerBase {
         String redirectUrl = UrlFactory.parameterizeUrl(uri, urlParameters);
         form.setRedirectUri(redirectUrl);
 
-        return getUIFModelAndView(form);
+        //  No need send anything back to be rendered.
+        return null;
     }
 
+    /**
+     * Returns a JSON object containing the URI for the courses that were selected on the Course Versions page.
+     */
     @MethodAccessible
     @ResponseBody
     @RequestMapping(params = "methodToCall=getRedirectUri")
@@ -144,8 +157,9 @@ public class CourseVersionsController extends KsUifControllerBase {
         try {
             response.getWriter().println(uri);
         } catch (IOException e) {
-            e.printStackTrace();
+            LOG.error("Query for the redirect URI failed.", e);
         }
+        //  Don't return a model and view.
         return null;
     }
 }

@@ -37,7 +37,7 @@ import java.util.List;
  */
 public class CourseVersionsViewHelperImpl extends ViewHelperServiceImpl implements CourseVersionsViewHelper {
 
-    private static final Logger LOG = LoggerFactory.getLogger(CourseMaintainableImpl.class);
+    private static final Logger LOG = LoggerFactory.getLogger(CourseVersionsViewHelperImpl.class);
 
     private CluService cluService;
     private CourseService courseService;

@@ -116,7 +116,8 @@
                                   p:actionLabel="Show Version(s)"
                                   p:disabled="true"
                                   p:ajaxSubmit="true"
-                                  p:methodToCall="showVersions"
+                                  p:clearDirtyOnAction="true"
+                                  p:methodToCall="buildViewCourseUri"
                                   p:successCallback="courseVersions.redirectToViewCourse()" />
 
                             <bean id="CM-CourseVersion-Footer-Button-Close" parent="Uif-ActionLink">
