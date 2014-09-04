@@ -18,6 +18,7 @@ package org.kuali.student.r2.lum.course.service;
 
 import net.sf.ehcache.Cache;
 import net.sf.ehcache.CacheManager;
+import net.sf.ehcache.Element;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.common.cache.KSCacheUtils;
 import org.kuali.student.r1.common.dictionary.dto.ObjectStructureDefinition;
@@ -60,65 +61,10 @@ public class CourseServiceCacheDecorator extends CourseServiceDecorator {
 
 
     @Override
-    public List<ValidationResultInfo> validateCourseStatement(String courseId, StatementTreeViewInfo statementTreeViewInfo, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return getNextDecorator().validateCourseStatement(courseId, statementTreeViewInfo, contextInfo);
-    }
-
-    @Override
-    public List<ValidationResultInfo> validateCourse(String validationType, CourseInfo courseInfo, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        return getNextDecorator().validateCourse(validationType, courseInfo, contextInfo);
-    }
-
-    @Override
-    public StatementTreeViewInfo updateCourseStatement(String courseId, String statementId, StatementTreeViewInfo statementTreeViewInfo, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DataValidationErrorException, VersionMismatchException {
-        return getNextDecorator().updateCourseStatement(courseId, statementId, statementTreeViewInfo, contextInfo);
-    }
-
-    @Override
     public CourseInfo updateCourse(String courseId, CourseInfo courseInfo, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, VersionMismatchException, OperationFailedException, PermissionDeniedException, UnsupportedActionException, DependentObjectsExistException, AlreadyExistsException, CircularRelationshipException, CircularReferenceException, ReadOnlyException {
         CourseInfo result = getNextDecorator().updateCourse(courseId, courseInfo, contextInfo);
-        getCacheManager().getCache(courseCacheName).remove(courseId);
+        getCacheManager().getCache(courseCacheName).put(new Element(courseId, result));
         return result;
-    }
-
-    @Override
-    public StatusInfo setCurrentCourseVersion(String courseVersionId, Date currentVersionStart, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, IllegalVersionSequencingException, OperationFailedException, PermissionDeniedException, DataValidationErrorException {
-        return getNextDecorator().setCurrentCourseVersion(courseVersionId, currentVersionStart, contextInfo);
-    }
-
-    @Override
-    public List<CourseInfo> searchForCourses(QueryByCriteria criteria, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return getNextDecorator().searchForCourses(criteria, contextInfo);
-    }
-
-    @Override
-    public List<String> searchForCourseIds(QueryByCriteria criteria, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return getNextDecorator().searchForCourseIds(criteria, contextInfo);
-    }
-
-    @Override
-    public List<CourseInfo> getCoursesByIds(List<String> courseIds, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return getNextDecorator().getCoursesByIds(courseIds, contextInfo);
-    }
-
-    @Override
-    public List<StatementTreeViewInfo> getCourseStatements(String courseId, String nlUsageTypeKey, String language, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return getNextDecorator().getCourseStatements(courseId, nlUsageTypeKey, language, contextInfo);
-    }
-
-    @Override
-    public List<LoDisplayInfo> getCourseLearningObjectivesByCourse(String courseId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return getNextDecorator().getCourseLearningObjectivesByCourse(courseId, contextInfo);
-    }
-
-    @Override
-    public List<FormatInfo> getCourseFormatsByCourse(String courseId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return getNextDecorator().getCourseFormatsByCourse(courseId, contextInfo);
-    }
-
-    @Override
-    public List<ActivityInfo> getCourseActivitiesByCourseFormat(String formatId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return getNextDecorator().getCourseActivitiesByCourseFormat(formatId, contextInfo);
     }
 
     @Override
@@ -139,30 +85,10 @@ public class CourseServiceCacheDecorator extends CourseServiceDecorator {
     }
 
     @Override
-    public StatusInfo deleteCourseStatement(String courseId, StatementTreeViewInfo statementTreeViewInfo, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return getNextDecorator().deleteCourseStatement(courseId, statementTreeViewInfo, contextInfo);
-    }
-
-    @Override
     public StatusInfo deleteCourse(String courseId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException, DataValidationErrorException, AlreadyExistsException, UnsupportedActionException, DependentObjectsExistException, CircularRelationshipException, CircularReferenceException, ReadOnlyException {
         StatusInfo result = getNextDecorator().deleteCourse(courseId, contextInfo);
         getCacheManager().getCache(courseCacheName).remove(courseId);
         return result;
-    }
-
-    @Override
-    public CourseInfo createNewCourseVersion(String courseId, String versionComment, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException, ReadOnlyException {
-        return getNextDecorator().createNewCourseVersion(courseId, versionComment, contextInfo);
-    }
-
-    @Override
-    public StatementTreeViewInfo createCourseStatement(String courseId, StatementTreeViewInfo statementTreeViewInfo, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DataValidationErrorException {
-        return getNextDecorator().createCourseStatement(courseId, statementTreeViewInfo, contextInfo);
-    }
-
-    @Override
-    public CourseInfo createCourse(CourseInfo courseInfo, ContextInfo contextInfo) throws DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
-        return getNextDecorator().createCourse(courseInfo, contextInfo);
     }
 
     @Deprecated
@@ -175,25 +101,6 @@ public class CourseServiceCacheDecorator extends CourseServiceDecorator {
     @Override
     public VersionDisplayInfo getCurrentVersion(String refObjectTypeURI, String refObjectId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return getNextDecorator().getCurrentVersion(refObjectTypeURI, refObjectId, contextInfo);
-    }
-
-    @Override
-    public ObjectStructureDefinition getObjectStructure(String objectTypeKey) {
-        try {
-            return getNextDecorator().getObjectStructure(objectTypeKey);
-        } catch (OperationFailedException e) {
-            return null;
-        }
-
-    }
-
-    @Override
-    public List<String> getObjectTypes() {
-        try {
-            return getNextDecorator().getObjectTypes();
-        } catch (OperationFailedException e) {
-            return null;
-        }
     }
 
     public CacheManager getCacheManager() {
