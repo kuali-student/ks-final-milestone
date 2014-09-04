@@ -1830,6 +1830,7 @@ the program will get the rule management service by calling the global resource 
         <entry key="R.JOHNL" value="2012-09-05@00:01" />
         <entry key="R.JOHNM" value="2012-09-05@00:01" />
         <entry key="R.JONATHANT" value="2012-09-05@00:01" />
+        <entry key="SYSTEM" value="2012-09-05@00:01" />
         <!-- Drop Period window -->
         <entry key="R.IANK" value="2012-09-14@00:01" />
         <!-- Drop Period window closed -->

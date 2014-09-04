@@ -1,13 +1,10 @@
 package org.kuali.student.enrollment.registration.engine.service.impl;
 
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
-import org.kuali.rice.kim.api.identity.entity.Entity;
-import org.kuali.student.common.collection.KSCollectionUtils;
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestInfo;
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestItemInfo;
 import org.kuali.student.enrollment.courseregistration.infc.RegistrationRequest;
 import org.kuali.student.enrollment.courseregistration.service.CourseRegistrationService;
-import org.kuali.student.enrollment.registration.client.service.impl.util.CourseRegistrationAndScheduleOfClassesUtil;
 import org.kuali.student.enrollment.registration.client.service.impl.util.SearchResultHelper;
 import org.kuali.student.enrollment.registration.engine.service.WaitlistManagerService;
 import org.kuali.student.enrollment.registration.search.service.impl.CourseRegistrationSearchServiceImpl;
@@ -21,6 +18,7 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.util.constants.CourseRegistrationServiceConstants;
+import org.kuali.student.r2.common.util.constants.KimIdentityServiceConstants;
 import org.kuali.student.r2.common.util.constants.LprServiceConstants;
 import org.kuali.student.r2.core.constants.SearchServiceConstants;
 import org.kuali.student.r2.core.search.dto.SearchParamInfo;
@@ -146,13 +144,8 @@ public class WaitlistManagerServiceImpl implements WaitlistManagerService {
         if (!waitlistInfos.isEmpty()) {
             for (WaitlistInfo waitlistInfo : waitlistInfos) {
                 String entityId = waitlistInfo.personId;
-                Entity entity = CourseRegistrationAndScheduleOfClassesUtil.getIdentityService().getEntity(entityId);
-                String principalId;
-                if (entity != null) {
-                    principalId = KSCollectionUtils.getRequiredZeroElement(entity.getPrincipals()).getPrincipalId();
-                } else {
-                    principalId = entityId;
-                }
+                String principalId = KimIdentityServiceConstants.SYSTEM_ENTITY_TYPE_KEY;
+
                 //Make a new reg request for each person being processed off of the waitlist
                 RegistrationRequestInfo regRequest = person2RegRequest.get(principalId);
                 if (regRequest == null) {
