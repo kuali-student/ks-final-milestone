@@ -27,7 +27,6 @@ import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.common.uif.util.KSControllerHelper;
 import org.kuali.student.core.person.dto.PersonInfo;
 import org.kuali.student.enrollment.class1.hold.dto.AppliedHoldMaintenanceWrapper;
-import org.kuali.student.enrollment.class1.hold.dto.HoldIssueMaintenanceWrapper;
 import org.kuali.student.enrollment.class1.hold.form.AppliedHoldManagementForm;
 import org.kuali.student.enrollment.class1.hold.form.AppliedHoldResult;
 import org.kuali.student.enrollment.class1.hold.form.HoldIssueResult;
@@ -103,7 +102,7 @@ public class AppliedHoldManagementController extends UifControllerBase {
     @RequestMapping(params = "methodToCall=applyHold")
     public ModelAndView applyHold(@ModelAttribute("KualiForm") AppliedHoldManagementForm form, BindingResult result,
                                   HttpServletRequest request, HttpServletResponse response) throws Exception {
-        Properties urlParameters = this.getMaintainHoldParameters(null);
+        Properties urlParameters = this.getMaintainHoldParameters(null, form.getPerson().getId());
         return super.performRedirect(form, HoldsConstants.APPLIED_HOLD_BASEURL, urlParameters);
     }
 
@@ -112,7 +111,7 @@ public class AppliedHoldManagementController extends UifControllerBase {
                              HttpServletRequest request, HttpServletResponse response) throws Exception {
         HoldIssueResult holdIssueResult = getSelectedHoldIssue(form);
 
-        Properties urlParameters = this.getMaintainHoldParameters(holdIssueResult.getId());
+        Properties urlParameters = this.getMaintainHoldParameters(holdIssueResult.getId(),form.getPerson().getId());
         return super.performRedirect(form, HoldsConstants.APPLIED_HOLD_BASEURL, urlParameters);
     }
 
@@ -155,13 +154,16 @@ public class AppliedHoldManagementController extends UifControllerBase {
         return (HoldsViewHelperService) KSControllerHelper.getViewHelperService(form);
     }
 
-    public static Properties getMaintainHoldParameters(String holdId) throws Exception {
+    public static Properties getMaintainHoldParameters(String holdId, String personId) throws Exception {
         Properties urlParameters = new Properties();
         urlParameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, KRADConstants.Maintenance.METHOD_TO_CALL_EDIT);
         urlParameters.put(KRADConstants.DATA_OBJECT_CLASS_ATTRIBUTE, AppliedHoldMaintenanceWrapper.class.getName());
-        urlParameters.put(KRADConstants.OVERRIDE_KEYS, "id");
+        urlParameters.put(KRADConstants.OVERRIDE_KEYS, "personId");
         if (holdId != null) {
             urlParameters.put("id", holdId);
+        }
+        if (personId != null) {
+            urlParameters.put("personId", personId);
         }
         urlParameters.put("viewName", HoldsConstants.APPLIED_HOLD_MAINTENANCE_VIEWNAME);
         return urlParameters;

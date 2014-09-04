@@ -7,25 +7,15 @@ import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
-import org.kuali.rice.krad.util.MessageMap;
 import org.kuali.student.common.collection.KSCollectionUtils;
 import org.kuali.student.common.uif.rule.KsMaintenanceDocumentRuleBase;
 import org.kuali.student.common.util.security.ContextUtils;
 import org.kuali.student.enrollment.class1.hold.dto.AppliedHoldMaintenanceWrapper;
-import org.kuali.student.enrollment.class1.hold.dto.AuthorizedOrgWrapper;
-import org.kuali.student.enrollment.class1.hold.dto.HoldIssueMaintenanceWrapper;
 import org.kuali.student.enrollment.class1.hold.util.HoldsConstants;
 import org.kuali.student.enrollment.class1.hold.util.HoldsResourceLoader;
-import org.kuali.student.enrollment.class2.acal.util.AcalCommonUtils;
 import org.kuali.student.r2.common.datadictionary.DataDictionaryValidator;
 import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
-import org.kuali.student.r2.common.exceptions.InvalidParameterException;
-import org.kuali.student.r2.common.exceptions.MissingParameterException;
-import org.kuali.student.r2.common.exceptions.OperationFailedException;
-import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
-import org.kuali.student.r2.core.acal.dto.TermInfo;
 import org.kuali.student.r2.core.constants.HoldServiceConstants;
 import org.kuali.student.r2.core.hold.dto.AppliedHoldInfo;
 import org.kuali.student.r2.core.hold.dto.HoldIssueInfo;
@@ -47,7 +37,11 @@ public class AppliedHoldRule extends KsMaintenanceDocumentRuleBase {
 
         AppliedHoldMaintenanceWrapper holdWrapper = (AppliedHoldMaintenanceWrapper) maintenanceDocument.getNewMaintainableObject().getDataObject();
         AppliedHoldInfo appliedHold = holdWrapper.getAppliedHold();
+        if (StringUtils.isBlank(appliedHold.getStateKey())) {
+            appliedHold.setStateKey(HoldServiceConstants.ISSUE_ACTIVE_STATE_KEY);
+        }
 
+        isValid &= validateAppliedHold(holdWrapper, appliedHold);
         isValid &= validateBasicHold(appliedHold);
 
         return isValid;
@@ -72,6 +66,51 @@ public class AppliedHoldRule extends KsMaintenanceDocumentRuleBase {
         }
 
         return false;
+    }
+
+    private boolean validateAppliedHold(AppliedHoldMaintenanceWrapper holdWrapper, AppliedHoldInfo appliedHold) {
+        boolean isValid = true;
+        try {
+            HoldIssueInfo holdIssueInfo = searchHoldIssueByCode(holdWrapper.getHoldCode());
+            if (!holdIssueInfo.equals(null)) {
+                List<AppliedHoldInfo> appliedHolds = HoldsResourceLoader.getHoldService().getActiveAppliedHoldsByIssueAndPerson(holdIssueInfo.getId(), appliedHold.getPersonId(), createContextInfo());
+                if (appliedHolds.size() == 0) {
+                    appliedHold.setHoldIssueId(holdIssueInfo.getId());
+                    appliedHold.setTypeKey(holdIssueInfo.getTypeKey());
+                    appliedHold.setName(holdIssueInfo.getName());
+                    appliedHold.setDescr(holdIssueInfo.getDescr());
+                } else {
+                    isValid = false;
+                    //Message for hold already applied to student?.
+                    GlobalVariables.getMessageMap().putError(HoldsConstants.APPLIED_HOLDS_PROP_NAME_CODE, HoldsConstants.APPLIED_HOLDS_MSG_ERROR_HOLD_CODE_INVALID);
+                }
+            } else {
+                //Invalid Hold Code
+                GlobalVariables.getMessageMap().putError(HoldsConstants.APPLIED_HOLDS_PROP_NAME_CODE, HoldsConstants.APPLIED_HOLDS_MSG_ERROR_HOLD_CODE_INVALID);
+                isValid = false;
+            }
+        } catch (Exception e) {
+            //  Capture the error if the service call fails.
+            GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, e.getMessage());
+        }
+        return isValid;
+    }
+
+
+    public HoldIssueInfo searchHoldIssueByCode(String holdCode) {
+        HoldIssueInfo holdIssueInfo = new HoldIssueInfo();
+        List<HoldIssueInfo> holdIssueInfos = new ArrayList<HoldIssueInfo>();
+        QueryByCriteria query = QueryByCriteria.Builder.fromPredicates(PredicateFactory.and(
+                PredicateFactory.in(HoldsConstants.HOLD_ISSUE_CODE, holdCode)));
+
+        try {
+            holdIssueInfos = HoldsResourceLoader.getHoldService().searchForHoldIssues(query, createContextInfo());
+            holdIssueInfo = KSCollectionUtils.getOptionalZeroElement(holdIssueInfos);
+        } catch (Exception e) {
+
+            GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, e.getMessage());
+        }
+        return holdIssueInfo;
     }
 
     private ContextInfo createContextInfo() {

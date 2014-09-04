@@ -9,6 +9,7 @@ import org.kuali.student.enrollment.class1.hold.service.facade.HoldIssueAuthoriz
 import org.kuali.student.enrollment.class1.hold.util.HoldsConstants;
 import org.kuali.student.enrollment.class1.hold.util.HoldsResourceLoader;
 import org.kuali.student.r2.core.hold.dto.AppliedHoldInfo;
+import org.kuali.student.r2.core.hold.dto.HoldIssueInfo;
 
 import java.util.Map;
 
@@ -19,19 +20,21 @@ public class AppliedHoldMaintainableImpl extends KSMaintainableImpl {
     @Override
     public Object retrieveObjectForEditOrCopy(MaintenanceDocument document, Map<String, String> dataObjectKeys) {
 
-        String holdId = dataObjectKeys.get(HoldsConstants.HOLD_ISSUE_ID);
-        if (holdId == null) {
-            return setupDataObjectForCreate();
+        String appliedHoldId = dataObjectKeys.get("id");
+        String personId = dataObjectKeys.get("personId");
+        if (appliedHoldId == null) {
+            return setupDataObjectForCreate(personId);
         } else {
-            return setupDataObjectForEdit(holdId);
+            return setupDataObjectForEdit(appliedHoldId);
         }
     }
 
-    public AppliedHoldMaintenanceWrapper setupDataObjectForCreate() {
+    public AppliedHoldMaintenanceWrapper setupDataObjectForCreate(String personId) {
 
         AppliedHoldMaintenanceWrapper dataObject = new AppliedHoldMaintenanceWrapper();
         try {
             AppliedHoldInfo appliedHold = new AppliedHoldInfo();
+            appliedHold.setPersonId(personId);
             dataObject.setAppliedHold(appliedHold);
 
         } catch (Exception e) {
@@ -45,8 +48,9 @@ public class AppliedHoldMaintainableImpl extends KSMaintainableImpl {
         AppliedHoldMaintenanceWrapper dataObject = new AppliedHoldMaintenanceWrapper();
         try {
             AppliedHoldInfo appliedHold = HoldsResourceLoader.getHoldService().getAppliedHold(appliedHoldId, ContextUtils.createDefaultContextInfo());
+            HoldIssueInfo holdIssueInfo = HoldsResourceLoader.getHoldService().getHoldIssue(appliedHold.getHoldIssueId(), ContextUtils.createDefaultContextInfo());
             dataObject.setAppliedHold(appliedHold);
-
+            dataObject.setHoldCode(holdIssueInfo.getHoldCode());
         } catch (Exception e) {
             convertServiceExceptionsToUI(e);
         }
