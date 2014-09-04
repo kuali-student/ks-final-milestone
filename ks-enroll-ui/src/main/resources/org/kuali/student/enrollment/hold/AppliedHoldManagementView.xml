@@ -52,6 +52,12 @@
                 <value>themes/ksboot/stylesheets/holds.css</value>
             </list>
         </property>
+        <property name="additionalScriptFiles">
+            <list merge="true">
+                <value>themes/ksboot/scripts/toolbar.js</value>
+                <value>themes/ksboot/scripts/krad.utility.js</value>
+            </list>
+        </property>
     </bean>
 
     <!--p:disclosure.render="false"-->
@@ -59,6 +65,7 @@
         <property name="items">
             <list>
                 <ref bean="KS-AppliedHold-CriteriaSection"/>
+                <ref bean="KS-Hold-ToolBarSection"/>
                 <ref bean="KS-AppliedHold-SearchResults"/>
             </list>
         </property>
@@ -85,20 +92,6 @@
         <property name="items">
             <list>
                 <bean parent="Uif-HorizontalBoxGroup">
-                    <property name="header">
-                        <bean parent="Uif-SectionHeader">
-                            <property name="lowerGroup">
-                                <bean parent="Uif-ActionsGroup">
-                                    <property name="items">
-                                        <list>
-                                            <bean parent="KS-Uif-NavigationActionLink" p:methodToCall="applyHold" p:actionLabel="Apply Hold"
-                                                  p:style="padding-left:0px;" p:render="true"/>
-                                        </list>
-                                    </property>
-                                </bean>
-                            </property>
-                        </bean>
-                    </property>
                     <property name="items">
                         <list>
                             <bean parent="KS-Uif-InputField-LabelLeft" p:propertyName="person.id"
@@ -115,6 +108,27 @@
                 </bean>
 
             </list>
+        </property>
+    </bean>
+
+    <bean id="KS-Hold-ToolBarSection" parent="KS-Uif-HorizontalBoxSection-ToolbarSection">
+        <property name="items">
+            <list>
+                <bean parent="KS-Uif-HorizontalBoxGroup-ToolbarGroup" p:noLeftBorder="true">
+                    <property name="items">
+                        <list>
+                            <bean id="KS-Hold-ToolBar-Add-Applied-Hold" parent="KS-Hold-ToolBar-Add-parent" p:methodToCall="applyHold" p:disabled="false"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KS-Hold-ToolBar-Add-parent" parent="KS-Uif-ToolBar-Button">
+        <property name="actionLabel" value="Apply New Hold"/>
+        <property name="actionImage">
+            <bean parent="Uif-Image" p:source="" p:cssClasses="ks-fontello-icon-plus-1"/>
         </property>
     </bean>
 
