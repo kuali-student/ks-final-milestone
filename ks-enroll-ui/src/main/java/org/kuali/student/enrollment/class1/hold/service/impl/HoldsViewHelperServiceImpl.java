@@ -3,7 +3,11 @@ package org.kuali.student.enrollment.class1.hold.service.impl;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.criteria.Predicate;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
+import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.student.common.uif.service.impl.KSViewHelperServiceImpl;
+import org.kuali.student.core.person.dto.PersonAffiliationInfo;
+import org.kuali.student.core.person.dto.PersonInfo;
+import org.kuali.student.core.person.service.impl.PersonServiceConstants;
 import org.kuali.student.enrollment.class1.hold.form.AppliedHoldManagementForm;
 import org.kuali.student.enrollment.class1.hold.form.AppliedHoldResult;
 import org.kuali.student.enrollment.class1.hold.form.HoldIssueManagementForm;
@@ -11,6 +15,7 @@ import org.kuali.student.enrollment.class1.hold.form.HoldIssueResult;
 import org.kuali.student.enrollment.class1.hold.service.HoldsViewHelperService;
 import org.kuali.student.enrollment.class1.hold.util.HoldsConstants;
 import org.kuali.student.enrollment.class1.hold.util.HoldsResourceLoader;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.core.hold.dto.AppliedHoldInfo;
 import org.kuali.student.r2.core.hold.dto.HoldIssueInfo;
 
@@ -102,8 +107,40 @@ public class HoldsViewHelperServiceImpl extends KSViewHelperServiceImpl implemen
         return qBuilder;
     }
 
+    @Override
+    public PersonInfo getStudentById(String studentId) {
+
+        if (StringUtils.isBlank(studentId)) {
+            GlobalVariables.getMessageMap().putError(HoldsConstants.PERSON_ID, HoldsConstants.APPLIED_HOLDS_MSG_ERROR_STUDENT_REQUIRED);
+            return null;
+        }
+
+        try {
+            PersonInfo personInfo = HoldsResourceLoader.getPersonService().getPerson(studentId.toUpperCase(), createContextInfo());
+
+            Boolean validStudent = false;
+            List<PersonAffiliationInfo> personAffiliationInfos = HoldsResourceLoader.getPersonService().getPersonAffiliationsByPerson(personInfo.getId(), createContextInfo());
+            for (PersonAffiliationInfo personAffiliationInfo : personAffiliationInfos) {
+                if (personAffiliationInfo.getTypeKey().equals(PersonServiceConstants.PERSON_AFFILIATION_TYPE_PREFIX + HoldsConstants.STUDENT_AFFILIATION_TYPE_CODE.toLowerCase())) {
+                    validStudent = true;
+                }
+            }
+            if (!validStudent) {
+                GlobalVariables.getMessageMap().putError(HoldsConstants.PERSON_ID, HoldsConstants.APPLIED_HOLDS_MSG_ERROR_NO_STUDENT_AFFILIATION, studentId);
+                return null;
+            }
+            return personInfo;
+        } catch (DoesNotExistException dne) {
+            GlobalVariables.getMessageMap().putError(HoldsConstants.PERSON_ID, HoldsConstants.APPLIED_HOLDS_MSG_ERROR_INVALID_STUDENT, studentId);
+        } catch (Exception e) {
+            throw convertServiceExceptionsToUI(e);
+        }
+
+        return null;
+    }
+
     /**
-     * This method is used to search for applied holds and map them to AppliedHoldResult
+     * This method is used to search for holds applied to a person and map them to AppliedHoldResult
      *
      * @param holdFrom
      * @return List holdResultList
@@ -112,13 +149,13 @@ public class HoldsViewHelperServiceImpl extends KSViewHelperServiceImpl implemen
     public List<AppliedHoldResult> searchAppliedHolds(AppliedHoldManagementForm holdFrom) {
 
         List<AppliedHoldResult> holdResultList = new ArrayList<AppliedHoldResult>();
-        List<AppliedHoldInfo> appliedHoldInfos = new ArrayList<AppliedHoldInfo>();
+        List<AppliedHoldInfo> appliedHoldInfoList;
 
 
         try {
-            appliedHoldInfos = HoldsResourceLoader.getHoldService().getAppliedHoldsByPerson(holdFrom.getStudentId(), createContextInfo());
+            appliedHoldInfoList = HoldsResourceLoader.getHoldService().getAppliedHoldsByPerson(holdFrom.getPerson().getId(), createContextInfo());
 
-            for (AppliedHoldInfo appliedHoldInfo : appliedHoldInfos) {
+            for (AppliedHoldInfo appliedHoldInfo : appliedHoldInfoList) {
 
                 AppliedHoldResult appliedHoldResult = new AppliedHoldResult();
                 //appliedHoldResult.setId(appliedHoldInfo.getId());

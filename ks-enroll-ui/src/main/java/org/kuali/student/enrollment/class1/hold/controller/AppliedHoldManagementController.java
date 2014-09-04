@@ -19,11 +19,13 @@ package org.kuali.student.enrollment.class1.hold.controller;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.krad.uif.UifParameters;
 import org.kuali.rice.krad.uif.util.ObjectPropertyUtils;
+import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.web.controller.MethodAccessible;
 import org.kuali.rice.krad.web.controller.UifControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.common.uif.util.KSControllerHelper;
+import org.kuali.student.core.person.dto.PersonInfo;
 import org.kuali.student.enrollment.class1.hold.dto.AppliedHoldMaintenanceWrapper;
 import org.kuali.student.enrollment.class1.hold.dto.HoldIssueMaintenanceWrapper;
 import org.kuali.student.enrollment.class1.hold.form.AppliedHoldManagementForm;
@@ -73,7 +75,15 @@ public class AppliedHoldManagementController extends UifControllerBase {
                                HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         form.setHasSearchBeenCalled(true);
-        form.setHoldResultList(searchAppliedHolds(form));
+        PersonInfo person = this.getViewHelper(form).getStudentById(form.getPerson().getId());
+        if (GlobalVariables.getMessageMap().hasErrors()) {
+            form.clear();
+            return getUIFModelAndView(form);
+        } else {
+            form.setPerson(person);
+            form.setHoldResultList(searchAppliedHolds(form));
+        }
+
         return getUIFModelAndView(form);
     }
 

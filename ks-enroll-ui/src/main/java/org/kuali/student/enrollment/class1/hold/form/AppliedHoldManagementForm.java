@@ -15,6 +15,7 @@
  */
 package org.kuali.student.enrollment.class1.hold.form;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.krad.lookup.LookupForm;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.core.person.dto.PersonInfo;
@@ -34,7 +35,7 @@ public class AppliedHoldManagementForm extends UifFormBase {
     /**
      * Contains the personal information for the selected student.
      */
-    private String studentId;
+    private PersonInfo person;
 
     private List<AppliedHoldResult> holdResultList = new ArrayList<AppliedHoldResult>();
 
@@ -42,15 +43,20 @@ public class AppliedHoldManagementForm extends UifFormBase {
 
     public AppliedHoldManagementForm(){
         super();
+        this.person = new PersonInfo();
         setHasSearchBeenCalled(false);
     }
 
-    public String getStudentId() {
-        return studentId;
+    public void clear() {
+        this.person = new PersonInfo();
     }
 
-    public void setStudentId(String studentId) {
-        this.studentId = studentId;
+    public PersonInfo getPerson() {
+        return person;
+    }
+
+    public void setPerson(PersonInfo person) {
+        this.person = person;
     }
 
     public List<AppliedHoldResult> getHoldResultList() {
@@ -67,6 +73,15 @@ public class AppliedHoldManagementForm extends UifFormBase {
 
     public void setHasSearchBeenCalled(boolean hasSearchBeenCalled) {
         this.hasSearchBeenCalled = hasSearchBeenCalled;
+    }
+
+    public String getPersonHeaderInfo() {
+
+        if (person.getId() != null) {
+            return ": " + person.getName() + " (" + person.getId() + ")";
+        }
+
+        return StringUtils.EMPTY;
     }
 
 }

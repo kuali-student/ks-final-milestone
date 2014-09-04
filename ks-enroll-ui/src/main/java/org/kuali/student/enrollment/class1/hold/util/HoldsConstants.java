@@ -81,6 +81,10 @@ public class HoldsConstants {
     public static final String HOLDS_ISSUE_MSG_ERROR_AUTHORIZED_ORG_DUPLICATE = "error.hold.issue.org.duplicate";
     public static final String HOLDS_ISSUE_MSG_ERROR_INVALID_TERM = "error.hold.issue.term.invalid";
     public static final String HOLDS_ISSUE_MSG_ERROR_FIRST_TERM_REQUIRED = "error.hold.issue.first.term.required";
+    //applied holds error msg
+    public static final String APPLIED_HOLDS_MSG_ERROR_STUDENT_REQUIRED = "error.admin.reg.studentId.required";
+    public static final String APPLIED_HOLDS_MSG_ERROR_INVALID_STUDENT = "error.admin.reg.studentId.invalid";
+    public static final String APPLIED_HOLDS_MSG_ERROR_NO_STUDENT_AFFILIATION = "error.admin.reg.studentId.no.affiliation";
 
     //info Message keys
     public static final String HOLDS_ISSUE_MSG_INFO_HOLD_ISSUE_SAVE_SUCCESS = "info.enroll.save.success";
@@ -91,5 +95,10 @@ public class HoldsConstants {
     //Permissions
     public static final String APPLY_HOLD_ROLE_PERMISSION = "Hold Apply Hold Role";
     public static final String EXPIRE_APPLIED_HOLD_ROLE_PERMISSION = "Hold Expire Applied Hold Role";
+
+    //applied holds
+    public static final String PERSON_ID = "person.id";
+    //Affiliation Types
+    public static final String STUDENT_AFFILIATION_TYPE_CODE= "STDNT";
 
 }
