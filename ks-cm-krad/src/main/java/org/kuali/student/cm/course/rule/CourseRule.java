@@ -71,51 +71,53 @@ public class CourseRule extends KsMaintenanceDocumentRuleBase {
         }
 
         MaintenanceDocument maintenanceDocument = (MaintenanceDocument) document;
-        CourseInfoWrapper dataObject = (CourseInfoWrapper) maintenanceDocument.getNewMaintainableObject().getDataObject();
 
-        if (StringUtils.isBlank(dataObject.getProposalInfo().getName())) {
-            GlobalVariables.getMessageMap().putError(CurriculumManagementConstants.DATA_OBJECT_PATH + ".proposalInfo.name",
-                    CurriculumManagementConstants.MessageKeys.ERROR_PROPOSAL_TITLE_REQUIRED);
-            success = false;
-        }
+        if (maintenanceDocument.getNewMaintainableObject().getDataObject() instanceof CourseInfoWrapper) {
 
-        if (StringUtils.isBlank(dataObject.getCourseInfo().getCourseTitle())) {
-            GlobalVariables.getMessageMap().putError(CurriculumManagementConstants.DATA_OBJECT_PATH + ".courseInfo.courseTitle",
-                    CurriculumManagementConstants.MessageKeys.ERROR_COURSE_TITLE_REQUIRED);
-            success = false;
-        }
-
-        if (dataObject.getCourseInfo().getDuration() != null) {
-            if (dataObject.getCourseInfo().getDuration().getTimeQuantity() == null
-                    || StringUtils.isBlank(dataObject.getCourseInfo().getDuration().getTimeQuantity().toString())) {
-                if (StringUtils.isNotBlank(dataObject.getCourseInfo().getDuration().getAtpDurationTypeKey())) {
-                    GlobalVariables.getMessageMap().putError(CurriculumManagementConstants.DATA_OBJECT_PATH + ".courseInfo.duration.timeQuantity",
-                            CurriculumManagementConstants.MessageKeys.ERROR_COURSE_DURATION_COUNT_REQUIRED);
-                    success = false;
-                }
+            CourseInfoWrapper dataObject = (CourseInfoWrapper) maintenanceDocument.getNewMaintainableObject().getDataObject();
+            if (StringUtils.isBlank(dataObject.getProposalInfo().getName())) {
+                GlobalVariables.getMessageMap().putError(CurriculumManagementConstants.DATA_OBJECT_PATH + ".proposalInfo.name",
+                        CurriculumManagementConstants.MessageKeys.ERROR_PROPOSAL_TITLE_REQUIRED);
+                success = false;
             }
-        }
 
-        if (dataObject.getCourseInfo().getVariations() != null) {
-            for (CourseVariationInfo courseVariationInfo : dataObject.getCourseInfo().getVariations()) {
-                if (courseVariationInfo.getVariationCode() != null && courseVariationInfo.getVariationTitle() != null) {
-                    if ((StringUtils.isBlank(courseVariationInfo.getVariationCode()) && StringUtils.isNotBlank(courseVariationInfo.getVariationTitle())) ||
-                            StringUtils.isNotBlank(courseVariationInfo.getVariationCode()) && StringUtils.isBlank(courseVariationInfo.getVariationTitle())) {
-                        GlobalVariables.getMessageMap().putError(CurriculumManagementConstants.DATA_OBJECT_PATH + ".courseInfo.CourseVariationInfo",
-                                CurriculumManagementConstants.MessageKeys.ERROR_COURSE_VERSION_CODE_AND_TITLE_REQUIRED);
+            if (StringUtils.isBlank(dataObject.getCourseInfo().getCourseTitle())) {
+                GlobalVariables.getMessageMap().putError(CurriculumManagementConstants.DATA_OBJECT_PATH + ".courseInfo.courseTitle",
+                        CurriculumManagementConstants.MessageKeys.ERROR_COURSE_TITLE_REQUIRED);
+                success = false;
+            }
+
+            if (dataObject.getCourseInfo().getDuration() != null) {
+                if (dataObject.getCourseInfo().getDuration().getTimeQuantity() == null
+                        || StringUtils.isBlank(dataObject.getCourseInfo().getDuration().getTimeQuantity().toString())) {
+                    if (StringUtils.isNotBlank(dataObject.getCourseInfo().getDuration().getAtpDurationTypeKey())) {
+                        GlobalVariables.getMessageMap().putError(CurriculumManagementConstants.DATA_OBJECT_PATH + ".courseInfo.duration.timeQuantity",
+                                CurriculumManagementConstants.MessageKeys.ERROR_COURSE_DURATION_COUNT_REQUIRED);
                         success = false;
                     }
                 }
             }
+
+            if (dataObject.getCourseInfo().getVariations() != null) {
+                for (CourseVariationInfo courseVariationInfo : dataObject.getCourseInfo().getVariations()) {
+                    if (courseVariationInfo.getVariationCode() != null && courseVariationInfo.getVariationTitle() != null) {
+                        if ((StringUtils.isBlank(courseVariationInfo.getVariationCode()) && StringUtils.isNotBlank(courseVariationInfo.getVariationTitle())) ||
+                                StringUtils.isNotBlank(courseVariationInfo.getVariationCode()) && StringUtils.isBlank(courseVariationInfo.getVariationTitle())) {
+                            GlobalVariables.getMessageMap().putError(CurriculumManagementConstants.DATA_OBJECT_PATH + ".courseInfo.CourseVariationInfo",
+                                    CurriculumManagementConstants.MessageKeys.ERROR_COURSE_VERSION_CODE_AND_TITLE_REQUIRED);
+                            success = false;
+                        }
+                    }
+                }
+            }
+
+            success = success && validateOutcomes(dataObject);
+            success = success && validateInstructor(dataObject);
+            success = success && validateOrganization(dataObject);
+            success = success && validateLearningObjectives(dataObject);
+            success = success && validateAuthorsAndCollaborators(dataObject);
+            success = success && validateSupportingDocuments(maintenanceDocument,dataObject);
         }
-
-        success = success && validateOutcomes(dataObject);
-        success = success && validateInstructor(dataObject);
-        success = success && validateOrganization(dataObject);
-        success = success && validateLearningObjectives(dataObject);
-        success = success && validateAuthorsAndCollaborators(dataObject);
-        success = success && validateSupportingDocuments(maintenanceDocument,dataObject);
-
         return success;
     }
 

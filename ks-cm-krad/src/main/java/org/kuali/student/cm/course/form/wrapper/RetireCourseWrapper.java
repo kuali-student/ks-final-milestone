@@ -19,6 +19,7 @@ package org.kuali.student.cm.course.form.wrapper;
 import org.kuali.student.cm.common.util.CurriculumManagementConstants;
 import org.kuali.student.cm.proposal.form.wrapper.ProposalElementsWrapper;
 import org.kuali.student.cm.proposal.util.ProposalUtil;
+import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.infc.RichText;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
 
@@ -36,7 +37,7 @@ public class RetireCourseWrapper extends ProposalElementsWrapper implements Seri
 
     private String lastTerm;
     private String publicationYear;
-    private RichText otherComment;
+    private RichTextInfo otherComment;
     private String retireEndTerm;
 
     private String userId = "";
@@ -68,10 +69,13 @@ public class RetireCourseWrapper extends ProposalElementsWrapper implements Seri
     }
 
     public RichText getOtherComment() {
+        if (otherComment == null) {
+            otherComment = new RichTextInfo();
+        }
         return otherComment;
     }
 
-    public void setOtherComment(RichText otherComment) {
+    public void setOtherComment(RichTextInfo otherComment) {
         this.otherComment = otherComment;
     }
 

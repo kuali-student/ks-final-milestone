@@ -16,29 +16,26 @@
  */
 package org.kuali.student.cm.course.controller;
 
-import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
+import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.web.form.DocumentFormBase;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 import org.kuali.student.cm.common.util.CurriculumManagementConstants;
+import org.kuali.student.cm.course.form.RecentlyViewedDocsUtil;
 import org.kuali.student.cm.course.form.wrapper.RetireCourseWrapper;
 import org.kuali.student.cm.course.service.RetireCourseMaintainable;
 import org.kuali.student.cm.course.util.CourseProposalUtil;
-import org.kuali.student.common.util.security.ContextUtils;
-import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.Arrays;
-import java.util.Map;
-import java.util.Properties;
 
 /**
  * This controller handles all the requests from the 'Retire Course' UI
@@ -138,5 +135,41 @@ public class RetireCourseController extends CourseController {
         return modelAndView;
     }
 
+    @Override
+    public ModelAndView saveProposal(@ModelAttribute("KualiForm") MaintenanceDocumentForm form, BindingResult result, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        RetireCourseWrapper wrapper = (RetireCourseWrapper) form.getDocument().getNewMaintainableObject().getDataObject();
+        form.getDocument().getDocumentHeader().setDocumentDescription(wrapper.getProposalInfo().getName());
 
-}
+        ModelAndView modelAndView;
+
+        modelAndView = save(form, result, request, response);
+
+        if (GlobalVariables.getMessageMap().hasErrors()) {
+            return modelAndView;
+        }
+
+        RecentlyViewedDocsUtil.addRecentDoc(form.getDocument().getDocumentHeader().getDocumentDescription(),
+                form.getDocument().getDocumentHeader().getWorkflowDocument().getDocumentHandlerUrl() + "&"
+                        + KewApiConstants.COMMAND_PARAMETER + "="
+                        + KewApiConstants.DOCSEARCH_COMMAND + "&"
+                        + KewApiConstants.DOCUMENT_ID_PARAMETER + "="
+                        + form.getDocument().getDocumentHeader().getWorkflowDocument().getDocumentId());
+
+        String nextOrCurrentPage = form.getActionParameters().get("displayPage");
+
+        if (StringUtils.equalsIgnoreCase(nextOrCurrentPage, "NEXT")) {
+            CurriculumManagementConstants.CourseRetireSections currentSection = (CurriculumManagementConstants.CourseRetireSections)wrapper.getUiHelper().getSelectedSection();
+            if (currentSection.ordinal() < CurriculumManagementConstants.CourseRetireSections.values().length) {
+                CurriculumManagementConstants.CourseRetireSections nextSection = CurriculumManagementConstants.CourseRetireSections.values()[currentSection.ordinal() + 1];
+                wrapper.getUiHelper().setSelectedSection(nextSection);
+            }
+            return getUIFModelAndView(form);
+        } else if (StringUtils.equalsIgnoreCase(nextOrCurrentPage, "CM-Proposal-Course-View-ReviewProposalLink")) {
+            return getUIFModelAndView(form, CurriculumManagementConstants.CoursePageIds.REVIEW_COURSE_PROPOSAL_PAGE);
+        } else {
+            return getUIFModelAndView(form);
+        }
+    }
+
+
+    }

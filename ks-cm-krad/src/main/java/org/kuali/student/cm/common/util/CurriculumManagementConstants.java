@@ -274,6 +274,10 @@ public class CurriculumManagementConstants {
     public static final String DATA_OBJECT_PATH = KRADPropertyConstants.DOCUMENT + "."
             + KRADPropertyConstants.NEW_MAINTAINABLE_OBJECT + ".dataObject";
 
+    public static final String PROPOSED_END_TERM = "proposedEndTerm";
+    public static final String PROPOSED_LAST_TERM_OFFERED = "proposedLastTermOffered";
+    public static final String PROPOSED_LAST_COURSE_CATALOG_YEAR = "proposedLastCourseCatalogYear";
+
     /**
      * This delimiter to use when rendering collections as a String.
      */
