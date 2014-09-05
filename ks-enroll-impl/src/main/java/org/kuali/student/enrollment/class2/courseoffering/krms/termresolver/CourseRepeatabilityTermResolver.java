@@ -23,20 +23,14 @@ package org.kuali.student.enrollment.class2.courseoffering.krms.termresolver;
 
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krms.api.KrmsConstants;
-import org.kuali.rice.krms.api.engine.EngineResults;
 import org.kuali.rice.krms.api.engine.TermResolutionException;
 import org.kuali.rice.krms.api.engine.TermResolver;
 import org.kuali.rice.krms.api.repository.RuleManagementService;
 import org.kuali.rice.krms.api.repository.agenda.AgendaDefinition;
 import org.kuali.rice.krms.api.repository.reference.ReferenceObjectBinding;
-import org.kuali.rice.krms.framework.engine.Agenda;
-import org.kuali.rice.krms.impl.repository.KrmsRepositoryServiceLocator;
 import org.kuali.student.common.util.krms.RulesExecutionConstants;
-import org.kuali.student.core.process.evaluator.KRMSEvaluator;
 import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
-import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
-import org.kuali.student.r2.core.class1.util.ValidationUtils;
 import org.kuali.student.r2.core.constants.KSKRMSServiceConstants;
 
 import javax.xml.namespace.QName;
@@ -50,7 +44,7 @@ import java.util.Set;
  * Returns String based on:
  * -- total times the course has been attempted (prereq)
  * -- max repeatability for this course (prereq)
- *
+ * <p/>
  * If total attempts >= max repeats, return an error string
  * If total attempts < max repeats and total attempts >= (max repeats - 1), return a warning string
  * Otherwise return a success string
@@ -62,6 +56,10 @@ public class CourseRepeatabilityTermResolver implements TermResolver<String> {
     public final static String MAX_REPEATABILITY_ERROR = "kuali.max.repeatability.error";
     public final static String MAX_REPEATABILITY_WARNING = "kuali.max.repeatability.warning";
     public final static String MAX_REPEATABILITY_SUCCESS = "kuali.max.repeatability.success";
+
+    public static final String KRMS_COURSE_CONTEXT = "10000";
+    public static final String KRMS_REPEATABILITY_TYPE = "10003";
+    public static final String KRMS_AGENDA = "Agenda";
 
     private RuleManagementService ruleManagementService;
 
@@ -81,7 +79,7 @@ public class CourseRepeatabilityTermResolver implements TermResolver<String> {
         prereqs.add(RulesExecutionConstants.TOTAL_COURSE_ATTEMPTS_TERM.getName());
         prereqs.add(RulesExecutionConstants.MAX_REPEATABILITY_TERM.getName());
         prereqs.add(RulesExecutionConstants.REGISTRATION_GROUP_TERM.getName());
-//        prereqs.add(RulesExecutionConstants.KRMS_EVALUATOR_TERM.getName());
+//        prereqs.add(RulesExecutionConstants.KRMS_EVALUATOR_TERM.getName());//Needed for rule execution
         return Collections.unmodifiableSet(prereqs);
     }
 
@@ -110,16 +108,16 @@ public class CourseRepeatabilityTermResolver implements TermResolver<String> {
 
         //Grab prereqs
         RegistrationGroupInfo rg = (RegistrationGroupInfo) resolvedPrereqs.get(RulesExecutionConstants.REGISTRATION_GROUP_TERM.getName());
-//        KRMSEvaluator krmsEvaluator = (KRMSEvaluator) resolvedPrereqs.get(RulesExecutionConstants.KRMS_EVALUATOR_TERM);
+//        KRMSEvaluator krmsEvaluator = (KRMSEvaluator) resolvedPrereqs.get(RulesExecutionConstants.KRMS_EVALUATOR_TERM);//needed for rule execution
 
         //See if the course has any custom rules on it
         List<ReferenceObjectBinding> bindings = getRuleManagementService().findReferenceObjectBindingsByReferenceObject(CourseOfferingServiceConstants.REF_OBJECT_URI_COURSE_OFFERING, rg.getCourseOfferingId());
         for (ReferenceObjectBinding binding : bindings) {
             //Grab agenda definitions of a specific type
-            if ("Agenda".equals(binding.getKrmsDiscriminatorType())) {
+            if (KRMS_AGENDA.equals(binding.getKrmsDiscriminatorType())) {
                 AgendaDefinition agendaDefinition = getRuleManagementService().getAgenda(binding.getKrmsObjectId());
                 //Check that the agenda is of type "kuali.krms.agenda.type.course.creditConstraints"
-                if ("10000".equals(agendaDefinition.getContextId()) && "10003".equals(agendaDefinition.getTypeId())) {
+                if (KRMS_COURSE_CONTEXT.equals(agendaDefinition.getContextId()) && KRMS_REPEATABILITY_TYPE.equals(agendaDefinition.getTypeId())) {
                     //If there is a repeatability rule, exclude this course from repeatability by always returning success
                     errorLevel = MAX_REPEATABILITY_SUCCESS;
 //                    //Pull the agenda and execute the rule

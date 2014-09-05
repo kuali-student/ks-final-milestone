@@ -1,10 +1,14 @@
 package org.kuali.student.enrollment.class2.courseoffering.krms.termresolver;
 
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.kuali.rice.krms.api.engine.TermResolver;
 import org.kuali.rice.krms.api.repository.RuleManagementService;
+import org.kuali.rice.krms.api.repository.agenda.AgendaDefinition;
+import org.kuali.rice.krms.api.repository.reference.ReferenceObjectBinding;
+import org.kuali.rice.krms.impl.repository.mock.RuleManagementServiceMockImpl;
 import org.kuali.student.common.test.mock.data.AbstractMockServicesAwareDataLoader;
 import org.kuali.student.common.util.krms.RulesExecutionConstants;
 import org.kuali.student.core.constants.GesServiceConstants;
@@ -59,6 +63,7 @@ public class TestTermResolvers {
     Map<String, Object> resolvedPrereqs = null;
     Map<String, String> parameters = null;
     private static boolean notSetup = true;
+    private static boolean initialized = false;
 
     @Resource(name = "orgServiceImpl")
     private OrganizationService organizationService;
@@ -114,12 +119,27 @@ public class TestTermResolvers {
                 loadPopulationData();
                 loadOrgData();
                 new MockLrcTestDataLoader(this.lrcService).loadData();
+
+                //Add a rule for a course with id "COCustomRule"
+                try{
+                    if(!initialized){
+                        RuleManagementServiceMockImpl ruleManagementServiceMock = (RuleManagementServiceMockImpl)ruleManagementService;
+                        AgendaDefinition agendaDefinition = ruleManagementServiceMock.createAgenda(AgendaDefinition.Builder.create(null,"Agenda1","10003","10000").build());
+                        ReferenceObjectBinding referenceObjectBinding =  ReferenceObjectBinding.Builder.create("Agenda",agendaDefinition.getId(),"KS","http://student.kuali.org/wsdl/courseOffering/CourseOfferingInfo","COCustomRule").build();
+                        ruleManagementServiceMock.createReferenceObjectBinding(referenceObjectBinding);
+                        initialized = true;
+                    }
+                }catch(Exception e){
+                    throw new RuntimeException("Errors!",e);
+                }
                 gesServiceDataLoader.beforeTest();
+
                 notSetup = false;
             }
 
             resolvedPrereqs = getDefaultPrerequisites();
             parameters = getDefaultParameters();
+
     }
 
     private CompletedCourseTermResolver getCompletedCourseTermResolver(){
@@ -1122,6 +1142,18 @@ public class TestTermResolvers {
 
         //Evaluate term Resolver for success
         resolvedPrereqs.put(RulesExecutionConstants.TOTAL_COURSE_ATTEMPTS_TERM.getName(), 0);
+        value = termResolver.resolve(resolvedPrereqs, parameters);
+        assertNotNull(value);
+        assertEquals(value, CourseRepeatabilityTermResolver.MAX_REPEATABILITY_SUCCESS);
+
+        //Evaluate term Resolver for error, but the CO in the RG should have a custom rule
+        //Set the CO to an ID that has a custom Repeatability rule on it
+        RegistrationGroupInfo regGroup = new RegistrationGroupInfo();
+        regGroup.setCourseOfferingId("COCustomRule");
+        resolvedPrereqs.put(RulesExecutionConstants.REGISTRATION_GROUP_TERM.getName(), regGroup);
+        resolvedPrereqs.put(RulesExecutionConstants.MAX_REPEATABILITY_TERM.getName(), 1);
+        resolvedPrereqs.put(RulesExecutionConstants.TOTAL_COURSE_ATTEMPTS_TERM.getName(), 2);
+
         value = termResolver.resolve(resolvedPrereqs, parameters);
         assertNotNull(value);
         assertEquals(value, CourseRepeatabilityTermResolver.MAX_REPEATABILITY_SUCCESS);

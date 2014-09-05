@@ -167,7 +167,6 @@
 
     <bean id="krmsServices" class="org.kuali.student.krms.mock.KRMSEngineService"/>
 
-    <bean id="ruleManagementService" class="org.kuali.rice.krms.impl.repository.mock.RuleManagementServiceMockImpl">
-        
-    </bean>
+    <bean id="ruleManagementService" class="org.kuali.student.enrollment.class2.courseoffering.krms.termresolver.KSRuleManagementServiceMockImpl"/>
+
 </beans>
