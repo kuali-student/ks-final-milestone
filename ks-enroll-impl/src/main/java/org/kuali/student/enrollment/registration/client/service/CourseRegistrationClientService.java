@@ -1,6 +1,6 @@
 package org.kuali.student.enrollment.registration.client.service;
 
-import org.kuali.student.enrollment.registration.client.service.dto.PersonScheduleResult;
+import org.kuali.student.enrollment.registration.client.service.dto.StudentScheduleTermResult;
 import org.kuali.student.r2.common.exceptions.*;
 
 import javax.security.auth.login.LoginException;
@@ -79,8 +79,8 @@ public interface CourseRegistrationClientService {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/studentSchedule")
-    PersonScheduleResult getStudentScheduleAndWaitlistedCoursesByTerm(@QueryParam("termId") String termId,
-                                                                      @QueryParam("termCode") String termCode) throws LoginException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException;
+    StudentScheduleTermResult getStudentScheduleAndWaitlistedCoursesByTerm(@QueryParam("termId") String termId,
+                                                                        @QueryParam("termCode") String termCode) throws LoginException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException;
 
     /**
      * Creates a new RegistrationRequest with type Update

@@ -3,7 +3,7 @@
 describe('Service: ScheduleService', function () {
 
     // load the service's module
-    beforeEach(module('regCartApp', 'mockPersonSchedule'));
+    beforeEach(module('regCartApp', 'mockStudentScheduleTermResult'));
 
     var ScheduleService;
 
@@ -45,10 +45,10 @@ describe('Service: ScheduleService', function () {
     });
 
     describe('update schedule counts', function() {
-        it('should correctly process the schedule response json', inject(function(_personSchedule_) {
-            ScheduleService.updateScheduleCounts(_personSchedule_);
+        it('should correctly process the schedule response json', inject(function(_studentScheduleTermResult_) {
+            ScheduleService.updateScheduleCounts(_studentScheduleTermResult_);
 
-            expect(ScheduleService.getSchedules()).toBe(_personSchedule_.studentScheduleTermResults);
+            expect(ScheduleService.getSchedules()).toEqual(_studentScheduleTermResult_.registeredCourseOfferings.concat(_studentScheduleTermResult_.waitlistCourseOfferings));
 
             expect(ScheduleService.getRegisteredCourseCount()).toBe(3);
             expect(ScheduleService.getRegisteredCredits()).toBe(7);

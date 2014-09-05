@@ -14,10 +14,10 @@
     <span class="kscr-Heading-message" ng-show="type === courseTypes.registered && credits === 0">You are not registered for any courses.</span>
 </div>
 <div class="kscr-Card">
-    <div ng-repeat="schedule in schedules">
-        <div ng-repeat="course in courseOfferings(schedule)" class="kscr-Course-container kscr-Course-course{{courseIndex(course)}}" ng-switch on="type" ng-class="{'kscr-Course-container--processing' : course.requestProcessing}">
-            <div ng-switch-when="registered">
-                <!--Drop from Registered section-->
+    <div ng-switch on="type">
+        <!--Drop from Registered section-->
+        <div ng-switch-when="registered">
+            <div ng-repeat="course in registeredCourseOfferings" class="kscr-Course-container kscr-Course-course{{courseIndex(course)}}" ng-class="{'kscr-Course-container--processing' : course.requestProcessing}">
                 <div id="course_status_message" class="kscr-Card-status kscr-Card-status--{{course.statusMessage.type}} util-Alert--{{course.statusMessage.type}}"
                      ng-class="(course.dropped || course.dropProcessing) ? 'util-Alert--card--dropped' : 'util-Alert--card'" ng-if="course.statusMessage.txt">
                     <span class="kscr-Card-statusRemove"><a href="" ng-click="(!course.dropProcessing ? removeStatusMessage(course) : '')"></a></span>
@@ -43,9 +43,12 @@
                         </div>
                     </div>
                 </div>
+                <course-accordion course="course" type="{{type}}" card-index="$index"></course-accordion>
             </div>
-            <div ng-switch-when="waitlist">
-                <!--Dropped from Waitlist section-->
+        </div>
+        <!--Dropped from Waitlist section-->
+        <div ng-switch-when="waitlist">
+            <div ng-repeat="course in waitlistCourseOfferings" class="kscr-Course-container kscr-Course-course{{courseIndex(course)}}" ng-switch on="type" ng-class="{'kscr-Course-container--processing' : course.requestProcessing}">
                 <div id="waitlist_course_status_message" class="kscr-Card-status kscr-Card-status--{{course.statusMessage.type}} util-Alert--{{course.statusMessage.type}}"
                      ng-class="(course.dropped || course.dropProcessing) ? 'util-Alert--card--dropped' : 'util-Alert--card'" ng-if="course.statusMessage.txt">
                     <span class="kscr-Card-statusRemove"><a href="" ng-click="(!course.dropProcessing ? removeStatusMessage(course) : '')"></a></span>
@@ -71,8 +74,8 @@
                         </div>
                     </div>
                 </div>
+                <course-accordion course="course" type="{{type}}" card-index="$index"></course-accordion>
             </div>
-            <course-accordion course="course" type="{{type}}" card-index="$index"></course-accordion>
         </div>
     </div>
 </div>

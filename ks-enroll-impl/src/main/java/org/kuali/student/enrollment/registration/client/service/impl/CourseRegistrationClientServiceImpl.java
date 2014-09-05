@@ -25,7 +25,6 @@ import org.kuali.student.enrollment.registration.client.service.dto.ActivityOffe
 import org.kuali.student.enrollment.registration.client.service.dto.CourseSearchResult;
 import org.kuali.student.enrollment.registration.client.service.dto.InstructorSearchResult;
 import org.kuali.student.enrollment.registration.client.service.dto.LearningPlanItemResult;
-import org.kuali.student.enrollment.registration.client.service.dto.PersonScheduleResult;
 import org.kuali.student.enrollment.registration.client.service.dto.RegGroupSearchResult;
 import org.kuali.student.enrollment.registration.client.service.dto.RegistrationResponseItemResult;
 import org.kuali.student.enrollment.registration.client.service.dto.RegistrationResponseResult;
@@ -145,21 +144,17 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
 
             if(contextInfo.getPrincipalId() != null && !contextInfo.getPrincipalId().isEmpty()
                     && termId != null && !termId.isEmpty()) {
-                PersonScheduleResult scheduleResult = getStudentScheduleAndWaitlistedCoursesByTerm(termId,termCode);
+                StudentScheduleTermResult scheduleResult = getStudentScheduleAndWaitlistedCoursesByTerm(termId,termCode);
 
                 List<StudentScheduleCourseResult> coursesToDrop = new ArrayList<>();
-                if(scheduleResult != null && scheduleResult.getStudentScheduleTermResults() != null
-                          && !scheduleResult.getStudentScheduleTermResults().isEmpty()){
-
-                    for(StudentScheduleTermResult scheduleTermResult : scheduleResult.getStudentScheduleTermResults()){
-                        if(scheduleTermResult.getRegisteredCourseOfferings() != null){
-                            coursesToDrop.addAll(scheduleTermResult.getRegisteredCourseOfferings());
-                        }
-                        if(scheduleTermResult.getWaitlistCourseOfferings() != null){
-                            coursesToDrop.addAll(scheduleTermResult.getWaitlistCourseOfferings());
-                        }
+                if(scheduleResult != null){
+                    if(scheduleResult.getRegisteredCourseOfferings() != null){
+                        coursesToDrop.addAll(scheduleResult.getRegisteredCourseOfferings());
                     }
 
+                    if(scheduleResult.getWaitlistCourseOfferings() != null){
+                        coursesToDrop.addAll(scheduleResult.getWaitlistCourseOfferings());
+                    }
 
                     List<String> masterLprIds = new ArrayList<>(coursesToDrop.size());
                     for(StudentScheduleCourseResult courseResult : coursesToDrop){
@@ -190,7 +185,7 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
      * SEARCH for STUDENT REGISTRATION INFO based on person and termCode *
      */
     @Override
-    public PersonScheduleResult getStudentScheduleAndWaitlistedCoursesByTerm(String termId, String termCode) throws LoginException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException {
+    public StudentScheduleTermResult getStudentScheduleAndWaitlistedCoursesByTerm(String termId, String termCode) throws LoginException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException {
 
         ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
         String userId = contextInfo.getPrincipalId();
@@ -212,11 +207,17 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
         String entityId = CourseRegistrationAndScheduleOfClassesUtil.getIdentityService().getEntityByPrincipalId(userId).getId();
         List<StudentScheduleTermResult> studentScheduleTermResults = getRegistrationScheduleByPersonAndTerm(entityId , termId, contextInfo);
 
-        PersonScheduleResult personScheduleResult = new PersonScheduleResult();
-        personScheduleResult.setStudentScheduleTermResults(studentScheduleTermResults);
-        personScheduleResult.setUserId(userId);
+        StudentScheduleTermResult studentScheduleTermResult = new StudentScheduleTermResult();
 
-        return personScheduleResult;
+        if (!studentScheduleTermResults.isEmpty()) {
+            studentScheduleTermResult = KSCollectionUtils.getOptionalZeroElement(studentScheduleTermResults);
+        }
+        studentScheduleTermResult.setUserId(userId);
+        TermSearchResult termInfo = new TermSearchResult();
+        termInfo.setTermId(termId);
+        studentScheduleTermResult.setTerm(termInfo);
+
+        return studentScheduleTermResult;
     }
 
     @Override
@@ -458,216 +459,223 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
             throw new OperationFailedException("Search of registration schedule for person " + userId + " and term " + termId + " failed: ", e);
         }
 
-        for (SearchResultHelper.KeyValue row : SearchResultHelper.wrap(searchResult)) {
-            String atpId = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.ATP_ID);
-            String atpCode = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.ATP_CD);
-            String atpName = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.ATP_NAME);
-            String luiId = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.LUI_ID);
-            String masterLprId = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.MASTER_LPR_ID);
-            String personLuiType = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.PERSON_LUI_TYPE);
-            String lprState = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.LPR_STATE);
-            String credits = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.CREDITS);
-            String gradingOptionId = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.GRADING_OPTION_ID);
-            String crossList = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.CROSSLIST);
-            String luiCode = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.LUI_CODE);
-            String luiName = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.LUI_NAME);
-            String luiDesc = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.LUI_DESC);
-            String luiType = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.LUI_TYPE);
-            String luiLongName = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.LUI_LONG_NAME);
-            String isTBA = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.TBA_IND);
-            String roomCode = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.ROOM_CODE);
-            String buildingCode = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.BUILDING_CODE);
-            String weekdays = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.WEEKDAYS);
-            String startTimeMs = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.START_TIME_MS);
-            String endTimeMs = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.END_TIME_MS);
-            String resultValuesGroupKey = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.RES_VAL_GROUP_KEY);
-            String aoName = (luiName != null && luiName.length() >= 3 ? luiName.substring(0, 1).toUpperCase() + luiName.substring(1).toLowerCase() : "");
+        if (searchResult.getRows().isEmpty()) {
+            // Initialize if no results are found
+            TermSearchResult termInfo = new TermSearchResult();
+            termInfo.setTermId(termId);
+            StudentScheduleTermResult studentScheduleTermResult = new StudentScheduleTermResult();
+            studentScheduleTermResult.setTerm(termInfo);
+        } else {
+            for (SearchResultHelper.KeyValue row : SearchResultHelper.wrap(searchResult)) {
+                String atpId = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.ATP_ID);
+                String atpCode = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.ATP_CD);
+                String atpName = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.ATP_NAME);
+                String luiId = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.LUI_ID);
+                String masterLprId = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.MASTER_LPR_ID);
+                String personLuiType = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.PERSON_LUI_TYPE);
+                String lprState = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.LPR_STATE);
+                String credits = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.CREDITS);
+                String gradingOptionId = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.GRADING_OPTION_ID);
+                String crossList = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.CROSSLIST);
+                String luiCode = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.LUI_CODE);
+                String luiName = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.LUI_NAME);
+                String luiDesc = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.LUI_DESC);
+                String luiType = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.LUI_TYPE);
+                String luiLongName = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.LUI_LONG_NAME);
+                String isTBA = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.TBA_IND);
+                String roomCode = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.ROOM_CODE);
+                String buildingCode = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.BUILDING_CODE);
+                String weekdays = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.WEEKDAYS);
+                String startTimeMs = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.START_TIME_MS);
+                String endTimeMs = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.END_TIME_MS);
+                String resultValuesGroupKey = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.RES_VAL_GROUP_KEY);
+                String aoName = (luiName != null && luiName.length() >= 3 ? luiName.substring(0, 1).toUpperCase() + luiName.substring(1).toLowerCase() : "");
 
-            // running over the list of results returned. One CO can have multiple AOs
-            if (hmCourseOffering.containsKey(masterLprId)) {
-                StudentScheduleCourseResult studentScheduleCourseResult = hmCourseOffering.get(masterLprId);
-                if (StringUtils.equals(personLuiType, LprServiceConstants.REGISTRANT_CO_LPR_TYPE_KEY) || StringUtils.equals(personLuiType, LprServiceConstants.WAITLIST_CO_LPR_TYPE_KEY)) {
-                    if (!StringUtils.isEmpty(crossList) && !StringUtils.equals(crossList, luiCode)) {
-                        studentScheduleCourseResult.setCourseCode(crossList);
-                    } else {
-                        studentScheduleCourseResult.setCourseCode(luiCode);
+                // running over the list of results returned. One CO can have multiple AOs
+                if (hmCourseOffering.containsKey(masterLprId)) {
+                    StudentScheduleCourseResult studentScheduleCourseResult = hmCourseOffering.get(masterLprId);
+                    if (StringUtils.equals(personLuiType, LprServiceConstants.REGISTRANT_CO_LPR_TYPE_KEY) || StringUtils.equals(personLuiType, LprServiceConstants.WAITLIST_CO_LPR_TYPE_KEY)) {
+                        if (!StringUtils.isEmpty(crossList) && !StringUtils.equals(crossList, luiCode)) {
+                            studentScheduleCourseResult.setCourseCode(crossList);
+                        } else {
+                            studentScheduleCourseResult.setCourseCode(luiCode);
+                        }
+                        studentScheduleCourseResult.setDescription(luiDesc);
+                        studentScheduleCourseResult.setCredits(credits);
+                        studentScheduleCourseResult.setGradingOptionId(gradingOptionId);
+                        studentScheduleCourseResult.setLongName(luiLongName);
+                        studentScheduleCourseResult.setMasterLprId(masterLprId);
+                        if (StringUtils.equals(personLuiType, LprServiceConstants.WAITLIST_CO_LPR_TYPE_KEY)) {
+                            studentScheduleCourseResult.setWaitlisted(true);
+                        } else {
+                            studentScheduleCourseResult.setWaitlisted(false);
+                        }
+                        if (resultValuesGroupKey != null && resultValuesGroupKey.startsWith(LrcServiceConstants.RESULT_GROUP_KEY_KUALI_CREDITTYPE_CREDIT_BASE_OLD)) {
+                            studentScheduleCourseResult.setCreditOptions(getCourseOfferingCreditOptionValues(resultValuesGroupKey, contextInfo));
+                        } else {
+                            if (!studentScheduleCourseResult.getGradingOptions().containsKey(resultValuesGroupKey)) {
+                                String gradingOptionName = CourseRegistrationAndScheduleOfClassesUtil.translateGradingOptionKeyToName(resultValuesGroupKey);
+                                if (!StringUtils.isEmpty(gradingOptionName)) {
+                                    studentScheduleCourseResult.getGradingOptions().put(resultValuesGroupKey, gradingOptionName);
+                                }
+                            }
+                        }
+                    } else if (StringUtils.equals(personLuiType, LprServiceConstants.REGISTRANT_RG_LPR_TYPE_KEY) || StringUtils.equals(personLuiType, LprServiceConstants.WAITLIST_RG_LPR_TYPE_KEY)) {
+                        studentScheduleCourseResult.setRegGroupCode(luiName);
+                        studentScheduleCourseResult.setRegGroupId(luiId);
+                    } else if (StringUtils.equals(personLuiType, LprServiceConstants.REGISTRANT_AO_LPR_TYPE_KEY) || StringUtils.equals(personLuiType, LprServiceConstants.WAITLIST_AO_LPR_TYPE_KEY)) {
+                        // Scheduling info
+                        ActivityOfferingScheduleComponentResult scheduleComponent = CourseRegistrationAndScheduleOfClassesUtil.getActivityOfferingScheduleComponent(isTBA, roomCode, buildingCode,
+                                weekdays, startTimeMs, endTimeMs);
+
+                        // have to check if we already have the AO in our list, because we can have multiple schedules for the same AO
+                        HashMap<String, StudentScheduleActivityOfferingResult> aoHm = new HashMap<String, StudentScheduleActivityOfferingResult>();
+                        for (StudentScheduleActivityOfferingResult activityOfferingResult : studentScheduleCourseResult.getActivityOfferings()) {
+                            aoHm.put(activityOfferingResult.getActivityOfferingId(), activityOfferingResult);
+                        }
+                        if (!aoHm.containsKey(luiId)) {
+                            StudentScheduleActivityOfferingResult activityOffering = new StudentScheduleActivityOfferingResult();
+
+                            // AO basic info
+                            activityOffering.setActivityOfferingId(luiId);
+                            activityOffering.setActivityOfferingTypeName(aoName);
+                            activityOffering.setActivityOfferingType(luiType);  // to sort over priorities
+
+                            // adding schedule to AO
+                            List<ActivityOfferingScheduleComponentResult> scheduleComponents = new ArrayList<ActivityOfferingScheduleComponentResult>();
+                            scheduleComponents.add(scheduleComponent);
+                            activityOffering.setScheduleComponents(scheduleComponents);
+
+                            // adding AO to result
+                            if (studentScheduleCourseResult.getActivityOfferings().isEmpty()) {
+                                List<StudentScheduleActivityOfferingResult> activityOfferings = new ArrayList<StudentScheduleActivityOfferingResult>();
+                                activityOfferings.add(activityOffering);
+                                studentScheduleCourseResult.setActivityOfferings(activityOfferings);
+                            } else {
+                                studentScheduleCourseResult.getActivityOfferings().add(activityOffering);
+                            }
+                        } else {
+                            StudentScheduleActivityOfferingResult activityOffering = aoHm.get(luiId);
+                            studentScheduleCourseResult.getActivityOfferings().remove(activityOffering);
+                            activityOffering.getScheduleComponents().add(scheduleComponent);
+                            studentScheduleCourseResult.getActivityOfferings().add(activityOffering);
+                        }
+
+                        // adding AOID to the list to search for instructors
+                        if (!activityOfferingList.contains(luiId)) {
+                            activityOfferingList.add(luiId);
+                        }
                     }
-                    studentScheduleCourseResult.setCourseId(luiId);
-                    studentScheduleCourseResult.setDescription(luiDesc);
-                    studentScheduleCourseResult.setCredits(credits);
-                    studentScheduleCourseResult.setGradingOptionId(gradingOptionId);
-                    studentScheduleCourseResult.setLongName(luiLongName);
-                    studentScheduleCourseResult.setMasterLprId(masterLprId);
-                    if (StringUtils.equals(personLuiType, LprServiceConstants.WAITLIST_CO_LPR_TYPE_KEY)) {
-                        studentScheduleCourseResult.setWaitlisted(true);
-                    } else {
-                        studentScheduleCourseResult.setWaitlisted(false);
-                    }
-                    if (resultValuesGroupKey != null && resultValuesGroupKey.startsWith(LrcServiceConstants.RESULT_GROUP_KEY_KUALI_CREDITTYPE_CREDIT_BASE_OLD)) {
-                        studentScheduleCourseResult.setCreditOptions(getCourseOfferingCreditOptionValues(resultValuesGroupKey, contextInfo));
-                    } else {
-                        if (!studentScheduleCourseResult.getGradingOptions().containsKey(resultValuesGroupKey)) {
+                } else {
+                    StudentScheduleCourseResult studentScheduleCourseResult = new StudentScheduleCourseResult();
+                    if (StringUtils.equals(personLuiType, LprServiceConstants.REGISTRANT_CO_LPR_TYPE_KEY) || StringUtils.equals(personLuiType, LprServiceConstants.WAITLIST_CO_LPR_TYPE_KEY)) {
+                        if (!StringUtils.isEmpty(crossList) && !StringUtils.equals(crossList, luiCode)) {
+                            studentScheduleCourseResult.setCourseCode(crossList);
+                        } else {
+                            studentScheduleCourseResult.setCourseCode(luiCode);
+                        }
+                        studentScheduleCourseResult.setDescription(luiDesc);
+                        studentScheduleCourseResult.setCredits(credits);
+                        studentScheduleCourseResult.setGradingOptionId(gradingOptionId);
+                        studentScheduleCourseResult.setLongName(luiLongName);
+                        studentScheduleCourseResult.setMasterLprId(masterLprId);
+                        if (StringUtils.equals(personLuiType, LprServiceConstants.WAITLIST_CO_LPR_TYPE_KEY)) {
+                            studentScheduleCourseResult.setWaitlisted(true);
+                        } else {
+                            studentScheduleCourseResult.setWaitlisted(false);
+                        }
+                        if (resultValuesGroupKey != null && resultValuesGroupKey.startsWith(LrcServiceConstants.RESULT_GROUP_KEY_KUALI_CREDITTYPE_CREDIT_BASE_OLD)) {
+                            studentScheduleCourseResult.setCreditOptions(getCourseOfferingCreditOptionValues(resultValuesGroupKey, contextInfo));
+                        } else {
+                            studentScheduleCourseResult.setGradingOptions(new HashMap<String, String>());
                             String gradingOptionName = CourseRegistrationAndScheduleOfClassesUtil.translateGradingOptionKeyToName(resultValuesGroupKey);
                             if (!StringUtils.isEmpty(gradingOptionName)) {
                                 studentScheduleCourseResult.getGradingOptions().put(resultValuesGroupKey, gradingOptionName);
                             }
                         }
-                    }
-                } else if (StringUtils.equals(personLuiType, LprServiceConstants.REGISTRANT_RG_LPR_TYPE_KEY) || StringUtils.equals(personLuiType, LprServiceConstants.WAITLIST_RG_LPR_TYPE_KEY)) {
-                    studentScheduleCourseResult.setRegGroupCode(luiName);
-                    studentScheduleCourseResult.setRegGroupId(luiId);
-                } else if (StringUtils.equals(personLuiType, LprServiceConstants.REGISTRANT_AO_LPR_TYPE_KEY) || StringUtils.equals(personLuiType, LprServiceConstants.WAITLIST_AO_LPR_TYPE_KEY)) {
-                    // Scheduling info
-                    ActivityOfferingScheduleComponentResult scheduleComponent = CourseRegistrationAndScheduleOfClassesUtil.getActivityOfferingScheduleComponent(isTBA, roomCode, buildingCode,
-                            weekdays, startTimeMs, endTimeMs);
-
-                    // have to check if we already have the AO in our list, because we can have multiple schedules for the same AO
-                    HashMap<String, StudentScheduleActivityOfferingResult> aoHm = new HashMap<String, StudentScheduleActivityOfferingResult>();
-                    for (StudentScheduleActivityOfferingResult activityOfferingResult : studentScheduleCourseResult.getActivityOfferings()) {
-                        aoHm.put(activityOfferingResult.getActivityOfferingId(), activityOfferingResult);
-                    }
-                    if (!aoHm.containsKey(luiId)) {
+                        hmCourseOffering.put(masterLprId, studentScheduleCourseResult);
+                    } else if (StringUtils.equals(personLuiType, LprServiceConstants.REGISTRANT_RG_LPR_TYPE_KEY) || StringUtils.equals(personLuiType, LprServiceConstants.WAITLIST_RG_LPR_TYPE_KEY)) {
+                        studentScheduleCourseResult.setRegGroupCode(luiName);
+                        hmCourseOffering.put(masterLprId, studentScheduleCourseResult);
+                    } else if (StringUtils.equals(personLuiType, LprServiceConstants.REGISTRANT_AO_LPR_TYPE_KEY) || StringUtils.equals(personLuiType, LprServiceConstants.WAITLIST_AO_LPR_TYPE_KEY)) {
+                        List<StudentScheduleActivityOfferingResult> activityOfferings = new ArrayList<StudentScheduleActivityOfferingResult>();
                         StudentScheduleActivityOfferingResult activityOffering = new StudentScheduleActivityOfferingResult();
-
                         // AO basic info
                         activityOffering.setActivityOfferingId(luiId);
                         activityOffering.setActivityOfferingTypeName(aoName);
                         activityOffering.setActivityOfferingType(luiType);  // to sort over priorities
 
-                        // adding schedule to AO
+                        // Scheduling info
                         List<ActivityOfferingScheduleComponentResult> scheduleComponents = new ArrayList<ActivityOfferingScheduleComponentResult>();
+                        ActivityOfferingScheduleComponentResult scheduleComponent = CourseRegistrationAndScheduleOfClassesUtil.getActivityOfferingScheduleComponent(isTBA, roomCode, buildingCode,
+                                weekdays, startTimeMs, endTimeMs);
                         scheduleComponents.add(scheduleComponent);
                         activityOffering.setScheduleComponents(scheduleComponents);
+                        // End scheduling info
 
-                        // adding AO to result
-                        if (studentScheduleCourseResult.getActivityOfferings().isEmpty()) {
-                            List<StudentScheduleActivityOfferingResult> activityOfferings = new ArrayList<StudentScheduleActivityOfferingResult>();
-                            activityOfferings.add(activityOffering);
-                            studentScheduleCourseResult.setActivityOfferings(activityOfferings);
-                        } else {
-                            studentScheduleCourseResult.getActivityOfferings().add(activityOffering);
-                        }
-                    } else {
-                        StudentScheduleActivityOfferingResult activityOffering = aoHm.get(luiId);
-                        studentScheduleCourseResult.getActivityOfferings().remove(activityOffering);
-                        activityOffering.getScheduleComponents().add(scheduleComponent);
-                        studentScheduleCourseResult.getActivityOfferings().add(activityOffering);
-                    }
+                        activityOfferings.add(activityOffering);
+                        studentScheduleCourseResult.setActivityOfferings(activityOfferings);
+                        hmCourseOffering.put(masterLprId, studentScheduleCourseResult);
 
-                    // adding AOID to the list to search for instructors
-                    if (!activityOfferingList.contains(luiId)) {
-                        activityOfferingList.add(luiId);
-                    }
-                }
-            } else {
-                StudentScheduleCourseResult studentScheduleCourseResult = new StudentScheduleCourseResult();
-                if (StringUtils.equals(personLuiType, LprServiceConstants.REGISTRANT_CO_LPR_TYPE_KEY) || StringUtils.equals(personLuiType, LprServiceConstants.WAITLIST_CO_LPR_TYPE_KEY)) {
-                    if (!StringUtils.isEmpty(crossList) && !StringUtils.equals(crossList, luiCode)) {
-                        studentScheduleCourseResult.setCourseCode(crossList);
-                    } else {
-                        studentScheduleCourseResult.setCourseCode(luiCode);
-                    }
-                    studentScheduleCourseResult.setCourseId(luiId);
-                    studentScheduleCourseResult.setDescription(luiDesc);
-                    studentScheduleCourseResult.setCredits(credits);
-                    studentScheduleCourseResult.setGradingOptionId(gradingOptionId);
-                    studentScheduleCourseResult.setLongName(luiLongName);
-                    studentScheduleCourseResult.setMasterLprId(masterLprId);
-                    if (StringUtils.equals(personLuiType, LprServiceConstants.WAITLIST_CO_LPR_TYPE_KEY)) {
-                        studentScheduleCourseResult.setWaitlisted(true);
-                    } else {
-                        studentScheduleCourseResult.setWaitlisted(false);
-                    }
-                    if (resultValuesGroupKey != null && resultValuesGroupKey.startsWith(LrcServiceConstants.RESULT_GROUP_KEY_KUALI_CREDITTYPE_CREDIT_BASE_OLD)) {
-                        studentScheduleCourseResult.setCreditOptions(getCourseOfferingCreditOptionValues(resultValuesGroupKey, contextInfo));
-                    } else {
-                        studentScheduleCourseResult.setGradingOptions(new HashMap<String, String>());
-                        String gradingOptionName = CourseRegistrationAndScheduleOfClassesUtil.translateGradingOptionKeyToName(resultValuesGroupKey);
-                        if (!StringUtils.isEmpty(gradingOptionName)) {
-                            studentScheduleCourseResult.getGradingOptions().put(resultValuesGroupKey, gradingOptionName);
+                        // adding AOID to the list to search for instructors
+                        if (!activityOfferingList.contains(luiId)) {
+                            activityOfferingList.add(luiId);
                         }
                     }
-                    hmCourseOffering.put(masterLprId, studentScheduleCourseResult);
-                } else if (StringUtils.equals(personLuiType, LprServiceConstants.REGISTRANT_RG_LPR_TYPE_KEY) || StringUtils.equals(personLuiType, LprServiceConstants.WAITLIST_RG_LPR_TYPE_KEY)) {
-                    studentScheduleCourseResult.setRegGroupCode(luiName);
-                    hmCourseOffering.put(masterLprId, studentScheduleCourseResult);
-                } else if (StringUtils.equals(personLuiType, LprServiceConstants.REGISTRANT_AO_LPR_TYPE_KEY) || StringUtils.equals(personLuiType, LprServiceConstants.WAITLIST_AO_LPR_TYPE_KEY)) {
-                    List<StudentScheduleActivityOfferingResult> activityOfferings = new ArrayList<StudentScheduleActivityOfferingResult>();
-                    StudentScheduleActivityOfferingResult activityOffering = new StudentScheduleActivityOfferingResult();
-                    // AO basic info
-                    activityOffering.setActivityOfferingId(luiId);
-                    activityOffering.setActivityOfferingTypeName(aoName);
-                    activityOffering.setActivityOfferingType(luiType);  // to sort over priorities
-
-                    // Scheduling info
-                    List<ActivityOfferingScheduleComponentResult> scheduleComponents = new ArrayList<ActivityOfferingScheduleComponentResult>();
-                    ActivityOfferingScheduleComponentResult scheduleComponent = CourseRegistrationAndScheduleOfClassesUtil.getActivityOfferingScheduleComponent(isTBA, roomCode, buildingCode,
-                            weekdays, startTimeMs, endTimeMs);
-                    scheduleComponents.add(scheduleComponent);
-                    activityOffering.setScheduleComponents(scheduleComponents);
-                    // End scheduling info
-
-                    activityOfferings.add(activityOffering);
-                    studentScheduleCourseResult.setActivityOfferings(activityOfferings);
-                    hmCourseOffering.put(masterLprId, studentScheduleCourseResult);
-
-                    // adding AOID to the list to search for instructors
-                    if (!activityOfferingList.contains(luiId)) {
-                        activityOfferingList.add(luiId);
-                    }
                 }
-            }
 
-            // Adding all course offerings for the particular term
-            if (!hmTerm.containsKey(termId)) {
-                List<String> masterLprIds = new ArrayList<String>();
-                masterLprIds.add(masterLprId);
-                hmTerm.put(termId, masterLprIds);
-                TermSearchResult termInfo = new TermSearchResult();
-                termInfo.setTermId(atpId);
-                termInfo.setTermCode(atpCode);
-                termInfo.setTermName(atpName);
-                hmTermInfo.put(termId, termInfo);
-            } else {
-                if (!hmTerm.get(termId).contains(masterLprId)) {
-                    hmTerm.get(termId).add(masterLprId);
-                }
-            }
-        }
-
-        // getting instructor info for AOs
-        Map<String, List<InstructorSearchResult>> hmAOInstructors = new HashMap<String, List<InstructorSearchResult>>();
-        if (!activityOfferingList.isEmpty()) {
-            hmAOInstructors = CourseRegistrationAndScheduleOfClassesUtil.searchForInstructorsByAoIds(activityOfferingList, contextInfo);
-        }
-
-        for (Map.Entry<String, List<String>> pair : hmTerm.entrySet()) {
-            List<StudentScheduleCourseResult> studentScheduleRegisteredCourseResults = new ArrayList<StudentScheduleCourseResult>();
-            List<StudentScheduleCourseResult> studentScheduleWaitlistCourseResults = new ArrayList<StudentScheduleCourseResult>();
-            TermSearchResult termInfo = hmTermInfo.get(pair.getKey());
-            List<String> masterLuiIds = pair.getValue();
-            for (String masterLuiId : masterLuiIds) {
-                StudentScheduleCourseResult studentScheduleCourseResult = hmCourseOffering.get(masterLuiId);
-                if (studentScheduleCourseResult.getActivityOfferings().size() > 1) {
-                    CourseRegistrationAndScheduleOfClassesUtil.sortActivityOfferingReslutList(studentScheduleCourseResult.getActivityOfferings(), contextInfo);
-                }
-                for (StudentScheduleActivityOfferingResult activityOffering : studentScheduleCourseResult.getActivityOfferings()) {
-                    if (hmAOInstructors.containsKey(activityOffering.getActivityOfferingId())) {
-                        activityOffering.setInstructors(hmAOInstructors.get(activityOffering.getActivityOfferingId()));
-                    }
-                }
-                if (studentScheduleCourseResult.isWaitlisted()) {
-                    studentScheduleWaitlistCourseResults.add(studentScheduleCourseResult);
+                // Adding all course offerings for the particular term
+                if (!hmTerm.containsKey(termId)) {
+                    List<String> masterLprIds = new ArrayList<String>();
+                    masterLprIds.add(masterLprId);
+                    hmTerm.put(termId, masterLprIds);
+                    TermSearchResult termInfo = new TermSearchResult();
+                    termInfo = new TermSearchResult();
+                    termInfo.setTermId(atpId);
+                    termInfo.setTermCode(atpCode);
+                    termInfo.setTermName(atpName);
+                    hmTermInfo.put(termId, termInfo);
                 } else {
-                    studentScheduleRegisteredCourseResults.add(studentScheduleCourseResult);
+                    if (!hmTerm.get(termId).contains(masterLprId)) {
+                        hmTerm.get(termId).add(masterLprId);
+                    }
                 }
             }
-            StudentScheduleTermResult studentScheduleTermResult = new StudentScheduleTermResult();
-            studentScheduleTermResult.setTerm(termInfo);
-            studentScheduleTermResult.setRegisteredCourseOfferings(studentScheduleRegisteredCourseResults);
-            studentScheduleTermResult.setWaitlistCourseOfferings(studentScheduleWaitlistCourseResults);
 
-            studentScheduleTermResults.add(studentScheduleTermResult);
+            // getting instructor info for AOs
+            Map<String, List<InstructorSearchResult>> hmAOInstructors = new HashMap<String, List<InstructorSearchResult>>();
+            if (!activityOfferingList.isEmpty()) {
+                hmAOInstructors = CourseRegistrationAndScheduleOfClassesUtil.searchForInstructorsByAoIds(activityOfferingList, contextInfo);
+            }
+
+            for (Map.Entry<String, List<String>> pair : hmTerm.entrySet()) {
+                List<StudentScheduleCourseResult> studentScheduleRegisteredCourseResults = new ArrayList<StudentScheduleCourseResult>();
+                List<StudentScheduleCourseResult> studentScheduleWaitlistCourseResults = new ArrayList<StudentScheduleCourseResult>();
+                TermSearchResult termInfo = hmTermInfo.get(pair.getKey());
+                List<String> masterLuiIds = pair.getValue();
+                for (String masterLuiId : masterLuiIds) {
+                    StudentScheduleCourseResult studentScheduleCourseResult = hmCourseOffering.get(masterLuiId);
+                    if (studentScheduleCourseResult.getActivityOfferings().size() > 1) {
+                        CourseRegistrationAndScheduleOfClassesUtil.sortActivityOfferingReslutList(studentScheduleCourseResult.getActivityOfferings(), contextInfo);
+                    }
+                    for (StudentScheduleActivityOfferingResult activityOffering : studentScheduleCourseResult.getActivityOfferings()) {
+                        if (hmAOInstructors.containsKey(activityOffering.getActivityOfferingId())) {
+                            activityOffering.setInstructors(hmAOInstructors.get(activityOffering.getActivityOfferingId()));
+                        }
+                    }
+                    if (studentScheduleCourseResult.isWaitlisted()) {
+                        studentScheduleWaitlistCourseResults.add(studentScheduleCourseResult);
+                    } else {
+                        studentScheduleRegisteredCourseResults.add(studentScheduleCourseResult);
+                    }
+                }
+                StudentScheduleTermResult studentScheduleTermResult = new StudentScheduleTermResult();
+                studentScheduleTermResult.setTerm(termInfo);
+                studentScheduleTermResult.setRegisteredCourseOfferings(studentScheduleRegisteredCourseResults);
+                studentScheduleTermResult.setWaitlistCourseOfferings(studentScheduleWaitlistCourseResults);
+
+                studentScheduleTermResults.add(studentScheduleTermResult);
+            }
         }
 
         return studentScheduleTermResults;

@@ -41,17 +41,18 @@ angular.module('regCartApp')
         // Listen for the termIdChanged event that is fired when a term has been changed & processed
         $scope.$on('termIdChanged', function(event, newValue) {
             // Go and get the schedule for the new term
-            ScheduleService.getSchedule(newValue).then(function (result) {
-                console.log('called rest service to get schedule data - in main.js');
-                ScheduleService.updateScheduleCounts(result);
-                $scope.cartCredits = CartService.getCartCredits;
-                $scope.cartCourseCount = CartService.getCartCourseCount;
-                $scope.registeredCredits = ScheduleService.getRegisteredCredits;
-                $scope.registeredCourseCount = ScheduleService.getRegisteredCourseCount;
-                $scope.waitlistedCredits = ScheduleService.getWaitlistedCredits;
-                $scope.waitlistedCourseCount = ScheduleService.getWaitlistedCourseCount;
-                $scope.userId = GlobalVarsService.getUserId;
-            });
+            ScheduleService.getSchedule(newValue)
+                .then(function (result) {
+                    console.log('called rest service to get schedule data - in main.js');
+                    ScheduleService.updateScheduleCounts(result);
+                    $scope.cartCredits = CartService.getCartCredits;
+                    $scope.cartCourseCount = CartService.getCartCourseCount;
+                    $scope.registeredCredits = ScheduleService.getRegisteredCredits;
+                    $scope.registeredCourseCount = ScheduleService.getRegisteredCourseCount;
+                    $scope.waitlistedCredits = ScheduleService.getWaitlistedCredits;
+                    $scope.waitlistedCourseCount = ScheduleService.getWaitlistedCourseCount;
+                    $scope.userId = GlobalVarsService.getUserId;
+                });
         });
 
         // Load up the messages

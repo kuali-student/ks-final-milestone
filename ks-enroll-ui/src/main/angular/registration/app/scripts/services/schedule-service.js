@@ -135,8 +135,18 @@ angular.module('regCartApp')
          * @param personSchedule
          */
         this.updateScheduleCounts = function (personSchedule) {
+            var scheduleList = [];
 
-            var scheduleList = personSchedule.studentScheduleTermResults;
+            if (personSchedule.registeredCourseOfferings != null && personSchedule.waitlistCourseOfferings != null) {
+                var registeredCO = personSchedule.registeredCourseOfferings;
+                var waitlistedCO = personSchedule.waitlistCourseOfferings;
+                scheduleList = registeredCO.concat(waitlistedCO);
+            } else if (personSchedule.registeredCourseOfferings == null && personSchedule.waitlistCourseOfferings != null) {
+                scheduleList = personSchedule.waitlistCourseOfferings;
+            } else if (personSchedule.registeredCourseOfferings != null && personSchedule.waitlistCourseOfferings == null) {
+                scheduleList = personSchedule.registeredCourseOfferings;
+            }
+
             var userId = personSchedule.userId;
 
             //Calculate credit count, course count and grading option count
@@ -147,29 +157,27 @@ angular.module('regCartApp')
             waitlistedCourses.splice(0, waitlistedCourses.length);
 
             this.setSchedules(scheduleList);
-            angular.forEach(scheduleList, function (schedule) {
-                angular.forEach(schedule.registeredCourseOfferings, function (course) {
-                    creditCount += parseFloat(course.credits);
-                    registeredCourses.push(course);
+            angular.forEach(personSchedule.registeredCourseOfferings, function (course) {
+                creditCount += parseFloat(course.credits);
+                registeredCourses.push(course);
 
-                    var gradingOptionCount = 0;
-                    //grading options are an object (map) so there's no easy way to get the object size without this code
-                    angular.forEach(course.gradingOptions, function () {
-                        gradingOptionCount++;
-                    });
-                    course.gradingOptionCount = gradingOptionCount;
+                var gradingOptionCount = 0;
+                //grading options are an object (map) so there's no easy way to get the object size without this code
+                angular.forEach(course.gradingOptions, function () {
+                    gradingOptionCount++;
                 });
-                angular.forEach(schedule.waitlistCourseOfferings, function (course) {
-                    waitlistCreditCount += parseFloat(course.credits);
-                    waitlistedCourses.push(course);
+                course.gradingOptionCount = gradingOptionCount;
+            });
+            angular.forEach(personSchedule.waitlistCourseOfferings, function (course) {
+                waitlistCreditCount += parseFloat(course.credits);
+                waitlistedCourses.push(course);
 
-                    var gradingOptionCount = 0;
-                    //grading options are an object (map) so there's no easy way to get the object size without this code
-                    angular.forEach(course.gradingOptions, function () {
-                        gradingOptionCount++;
-                    });
-                    course.gradingOptionCount = gradingOptionCount;
+                var gradingOptionCount = 0;
+                //grading options are an object (map) so there's no easy way to get the object size without this code
+                angular.forEach(course.gradingOptions, function () {
+                    gradingOptionCount++;
                 });
+                course.gradingOptionCount = gradingOptionCount;
             });
 
             this.setRegisteredCourseCount(registeredCourses.length);

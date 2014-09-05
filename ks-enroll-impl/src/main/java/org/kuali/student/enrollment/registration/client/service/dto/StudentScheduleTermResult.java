@@ -25,12 +25,17 @@ import java.util.List;
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "StudentScheduleCourseResult", propOrder = {
-        "term", "registeredCourseOfferings", "waitlistCourseOfferings"})
+        "userId", "term", "registeredCourseOfferings", "waitlistCourseOfferings"})
 public class StudentScheduleTermResult {
 
+    private String userId;
     private TermSearchResult term;
     private List<StudentScheduleCourseResult> registeredCourseOfferings;
     private List<StudentScheduleCourseResult> waitlistCourseOfferings;
+
+    public String getUserId() { return userId; }
+
+    public void setUserId(String userId) { this.userId = userId; }
 
     public TermSearchResult getTerm() { return term; }
 

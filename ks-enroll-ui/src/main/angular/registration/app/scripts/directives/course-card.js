@@ -45,8 +45,8 @@ angular.module('regCartApp')
     The CartCtrl controller handles various operations for both the course-card and
     course-accordion directives.
      */
-    .controller('CardCtrl', ['$scope', '$state', '$timeout', 'STATUS', 'GRADING_OPTION', 'COURSE_TYPES', 'GlobalVarsService',
-        function($scope, $state, $timeout, STATUS, GRADING_OPTION, COURSE_TYPES, GlobalVarsService) {
+    .controller('CardCtrl', ['$scope', '$timeout', 'STATUS', 'GRADING_OPTION', 'COURSE_TYPES', 'GlobalVarsService', 'ScheduleService',
+        function($scope, $timeout, STATUS, GRADING_OPTION, COURSE_TYPES, GlobalVarsService, ScheduleService) {
             /*
              Utility function for providing configuration variables based on
              whether the course in scope is registered, waitlist, or cart.
@@ -89,24 +89,8 @@ angular.module('regCartApp')
             $scope.config = getConfig();
             $scope.courseTypes = COURSE_TYPES;
 
-
-
-            /*
-            Returns either registered or waitlisted course offerings based on the
-            type in scope
-             */
-            $scope.courseOfferings = function(schedule) {
-                var offerings;
-                switch ($scope.type) {
-                    case COURSE_TYPES.waitlisted:
-                        offerings = schedule.waitlistCourseOfferings;
-                        break;
-                    default: // 'registered'
-                        offerings = schedule.registeredCourseOfferings;
-                }
-
-                return offerings;
-            };
+            $scope.registeredCourseOfferings = ScheduleService.getRegisteredCourses();
+            $scope.waitlistCourseOfferings = ScheduleService.getWaitlistedCourses();
 
             /*
             Closes the drop confirmation dialog

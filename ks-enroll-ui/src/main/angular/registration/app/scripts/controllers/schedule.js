@@ -5,7 +5,7 @@ angular.module('regCartApp')
     function ($scope, $modal, $timeout, STATUS, GRADING_OPTION, COURSE_TYPES, GlobalVarsService, TermsService, ScheduleService, CartService) {
         console.log('>> ScheduleCtrl');
 
-        $scope.getSchedules = ScheduleService.getSchedules;
+        $scope.schedule = ScheduleService.getSchedule();
         $scope.registeredCredits = ScheduleService.getRegisteredCredits;
         $scope.registeredCourseCount = ScheduleService.getRegisteredCourseCount;
         $scope.waitlistedCredits = ScheduleService.getWaitlistedCredits;
