@@ -1287,7 +1287,7 @@ public class CourseMaintainableImpl extends ProposalMaintainableImpl implements 
 
                 rvgWrapper.getUiHelper().setResultValue(minValue + "-" + maxValue);
             } else if (StringUtils.equals(rvg.getTypeKey(), LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_FIXED)) {
-                rvgWrapper.getUiHelper().setResultValue(rvg.getResultValueRange().getMinValue());
+                rvgWrapper.getUiHelper().setResultValue(StringUtils.strip(rvg.getResultValueRange().getMinValue(), ".0"));
             }
             courseInfoWrapper.getCreditOptionWrappers().add(rvgWrapper);
         }
