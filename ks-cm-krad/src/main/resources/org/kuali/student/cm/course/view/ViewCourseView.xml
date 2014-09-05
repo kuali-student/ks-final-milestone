@@ -28,6 +28,7 @@
         <property name="formClass" value="org.kuali.student.cm.course.form.ViewCourseForm" />
         <property name="viewHelperServiceClass"
                           value="org.kuali.student.cm.course.service.impl.CourseMaintainableImpl"/>
+        <property name="onDocumentReadyScript" value="viewCourseView.removeNonBreakingSpacesFromPreTags()"/>
         <property name="singlePageView" value="true" />
         <property name="breadcrumbOptions.homewardPathBreadcrumbs">
             <list>
@@ -163,7 +164,6 @@
             </list>
         </property>
     </bean>
-
 
     <bean id="CM-ViewCourse-View-Course-Page" parent="Uif-Page" p:style="margin-left: -18px;"
           p:headerText="View Course"
