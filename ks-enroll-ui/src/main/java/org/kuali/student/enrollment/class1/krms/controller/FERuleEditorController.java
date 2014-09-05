@@ -63,7 +63,7 @@ public class FERuleEditorController extends EnrolRuleEditorController {
     public ModelAndView show(@ModelAttribute("KualiForm") UifFormBase form, @SuppressWarnings("unused") BindingResult result,
                              @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) {
 
-        MaintenanceDocumentForm document = (MaintenanceDocumentForm) form;
+        MaintenanceDocumentForm document = this.getMaintenanceDocumentForm( form);
         FERuleManagementWrapper ruleWrapper = (FERuleManagementWrapper) AgendaUtilities.getRuleWrapper(document);
 
         String refObjectId = ruleWrapper.getType().getKey();
@@ -115,7 +115,7 @@ public class FERuleEditorController extends EnrolRuleEditorController {
                                 @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) {
 
 
-        MaintenanceDocumentForm document = (MaintenanceDocumentForm) form;
+        MaintenanceDocumentForm document = this.getMaintenanceDocumentForm( form);
         FERuleManagementWrapper ruleWrapper = (FERuleManagementWrapper) AgendaUtilities.getRuleWrapper(document);
         ruleWrapper.setAgendaEditor(this.getSelectedAgenda(document, "Edit"));
 
@@ -127,7 +127,7 @@ public class FERuleEditorController extends EnrolRuleEditorController {
             rule.setTypeId(ruleType.getId());
             rule.setRuleTypeInfo(ruleType);
         } catch (OperationFailedException e) {
-            throw new RuntimeException("Could not retrieve default rule type.");
+            throw new RuntimeException("Could not retrieve default rule type.", e);
         }
         rule.setDummy(Boolean.TRUE);
         ruleWrapper.setRuleEditor(rule);
@@ -158,7 +158,7 @@ public class FERuleEditorController extends EnrolRuleEditorController {
     public ModelAndView deleteRule(@ModelAttribute("KualiForm") UifFormBase form, @SuppressWarnings("unused") BindingResult result,
                                    @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) {
 
-        MaintenanceDocumentForm document = (MaintenanceDocumentForm) form;
+        MaintenanceDocumentForm document = this.getMaintenanceDocumentForm( form);
         FERuleManagementWrapper ruleWrapper = (FERuleManagementWrapper)AgendaUtilities.getRuleWrapper(document);
         //TODO: KSENROLL-11286 remove this workournd once krad jira is fixed.
         if (document.getDocument().getNewMaintainableObject() instanceof FERuleEditorMaintainableImpl) {
@@ -197,7 +197,7 @@ public class FERuleEditorController extends EnrolRuleEditorController {
         //Clear the client state on new edit rule.
         form.getClientStateForSyncing().clear();
 
-        MaintenanceDocumentForm document = (MaintenanceDocumentForm) form;
+        MaintenanceDocumentForm document = this.getMaintenanceDocumentForm( form);
         FERuleManagementWrapper ruleWrapper = (FERuleManagementWrapper)AgendaUtilities.getRuleWrapper(document);
         RuleEditor ruleEditor = getSelectedRule(document, "Edit");
         if(!ruleEditor.isInitialized()){
@@ -230,7 +230,7 @@ public class FERuleEditorController extends EnrolRuleEditorController {
     public ModelAndView loadTermType(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
                                      HttpServletRequest request, HttpServletResponse response) {
 
-        MaintenanceDocumentForm maintenanceDocumentForm = (MaintenanceDocumentForm) form;
+        MaintenanceDocumentForm maintenanceDocumentForm = this.getMaintenanceDocumentForm( form);
         FERuleEditorMaintainableImpl maintainable = (FERuleEditorMaintainableImpl) maintenanceDocumentForm.getDocument().getNewMaintainableObject();
         FERuleManagementWrapper wrapper = (FERuleManagementWrapper) maintainable.getDataObject();
 
@@ -297,9 +297,9 @@ public class FERuleEditorController extends EnrolRuleEditorController {
                                    HttpServletRequest request, HttpServletResponse response) {
 
         FERuleEditor ruleEditor = (FERuleEditor) getRuleEditor(form);
-        RuleManager ruleWrapper = AgendaUtilities.getRuleWrapper((MaintenanceDocumentForm) form);
+        RuleManager ruleWrapper = AgendaUtilities.getRuleWrapper(this.getMaintenanceDocumentForm( form));
 
-        MaintenanceDocumentForm feRuleMaintenanceForm = (MaintenanceDocumentForm) form;
+        MaintenanceDocumentForm feRuleMaintenanceForm = this.getMaintenanceDocumentForm( form);
         FERuleManagementWrapper feRuleMgtWrapper = (FERuleManagementWrapper)AgendaUtilities.getRuleWrapper(feRuleMaintenanceForm);
         if (this.getViewHelper(form).validateRule(ruleEditor)) {
             return getUIFModelAndView(form);

@@ -105,13 +105,13 @@ public class FERuleEditorMaintainableImpl extends RuleEditorMaintainableImpl {
         try {
             dataObject.setType(this.getTypeService().getType(typeKey, this.createContextInfo()));
         } catch (Exception e) {
-            throw new RuntimeException("Could not retrieve type for " + typeKey);
+            throw new RuntimeException("Could not retrieve type for " + typeKey, e);
         }
 
         try {
             dataObject.setLocation(this.getExamOfferingServiceFacade().isSetLocation());
         } catch (Exception e) {
-            throw new RuntimeException("Could not retrieve location setting.");
+            throw new RuntimeException("Could not retrieve location setting.", e);
         }
 
         try {
@@ -132,7 +132,7 @@ public class FERuleEditorMaintainableImpl extends RuleEditorMaintainableImpl {
                 }
             }
         } catch (Exception e) {
-            throw new RuntimeException("Could not retrieve linked term types.");
+            throw new RuntimeException("Could not retrieve linked term types.", e);
         }
     }
 
@@ -207,34 +207,37 @@ public class FERuleEditorMaintainableImpl extends RuleEditorMaintainableImpl {
         //Get all existing rules.
         if (agenda.getId() != null) {
             AgendaItemDefinition firstItem = this.getRuleManagementService().getAgendaItem(agenda.getFirstItemId());
-            FEAgendaEditor feAgenda = (FEAgendaEditor) agenda;
+            FEAgendaEditor feAgenda;
+            if (agenda instanceof FEAgendaEditor) {
+                feAgenda = (FEAgendaEditor) agenda;
 
-            List<String> ruleIds = new ArrayList<String>();
-            List<RuleEditor> rules = getRuleEditorsFromTree(firstItem, true);
-            for (RuleEditor rule : rules) {
-                ruleIds.add(rule.getId());
-            }
-
-            List<NaturalLanguage> nlList = getRuleManagementService().translateNaturalLanguageForObjects(this.getUsageId(), "rule", ruleIds, "en");
-
-            try {
-                RuleTypeInfo ruleType = KSCollectionUtils.getRequiredZeroElement(agenda.getAgendaTypeInfo().getRuleTypes());
+                List<String> ruleIds = new ArrayList<String>();
+                List<RuleEditor> rules = getRuleEditorsFromTree(firstItem, true);
                 for (RuleEditor rule : rules) {
-                    rule.setRuleTypeInfo(ruleType);
-                    rule.setKey((String) alphaIterator.next());
-                    for (NaturalLanguage nl : nlList) {
-                        if (nl.getKrmsObjectId().equals(rule.getId())) {
-                            String description = nl.getNaturalLanguage();
-                            int index = description.indexOf(": ");
-                            rule.setDescription(description.substring(index + 1));
-                            break;
+                    ruleIds.add(rule.getId());
+                }
+
+                List<NaturalLanguage> nlList = getRuleManagementService().translateNaturalLanguageForObjects(this.getUsageId(), "rule", ruleIds, "en");
+
+                try {
+                    RuleTypeInfo ruleType = KSCollectionUtils.getRequiredZeroElement(agenda.getAgendaTypeInfo().getRuleTypes());
+                    for (RuleEditor rule : rules) {
+                        rule.setRuleTypeInfo(ruleType);
+                        rule.setKey((String) alphaIterator.next());
+                        for (NaturalLanguage nl : nlList) {
+                            if (nl.getKrmsObjectId().equals(rule.getId())) {
+                                String description = nl.getNaturalLanguage();
+                                int index = description.indexOf(": ");
+                                rule.setDescription(description.substring(index + 1));
+                                break;
+                            }
                         }
                     }
-                }
-                feAgenda.setRules(rules);
+                    feAgenda.setRules(rules);
 
-            } catch (OperationFailedException e) {
-                throw new RuntimeException("Unable to retrieve single ruletype from agenda.");
+                } catch (OperationFailedException e) {
+                    throw new RuntimeException("Unable to retrieve single ruletype from agenda.", e);
+                }
             }
         }
 
@@ -278,7 +281,7 @@ public class FERuleEditorMaintainableImpl extends RuleEditorMaintainableImpl {
                     try {
                         ruleEditor.setBuilding(this.getRoomService().getBuilding(buildingId, this.createContextInfo()));
                     } catch (Exception e) {
-                        throw new RuntimeException("Could not retrieve building for " + buildingId);
+                        throw new RuntimeException("Could not retrieve building for " + buildingId, e);
                     }
                 }
             }
@@ -288,7 +291,7 @@ public class FERuleEditorMaintainableImpl extends RuleEditorMaintainableImpl {
                     try {
                         ruleEditor.setRoom(this.getRoomService().getRoom(roomId, this.createContextInfo()));
                     } catch (Exception e) {
-                        throw new RuntimeException("Could not retrieve room for " + roomId);
+                        throw new RuntimeException("Could not retrieve room for " + roomId, e);
                     }
                 }
             }
@@ -369,7 +372,7 @@ public class FERuleEditorMaintainableImpl extends RuleEditorMaintainableImpl {
             } catch (OjbOperationException e) {
                 //OptimisticLockException
                 if (e.getCause() instanceof OptimisticLockException) {
-                    throw new KRMSOptimisticLockingException();
+                    throw new KRMSOptimisticLockingException("Optimistic locking exception", e);
                 } else {
                     throw e;
                 }
@@ -391,32 +394,37 @@ public class FERuleEditorMaintainableImpl extends RuleEditorMaintainableImpl {
     public AgendaItemDefinition maintainAgendaItems(AgendaEditor agenda, String namePrefix, String nameSpace) {
 
         Queue<RuleDefinition.Builder> rules = new LinkedList<RuleDefinition.Builder>();
-        FEAgendaEditor feAgenda = (FEAgendaEditor) agenda;
-        for (RuleEditor rule : feAgenda.getRules()) {
-            if (!rule.isDummy()) {
-                rules.add(this.finRule(rule, namePrefix, nameSpace));
-            }
-        }
-
-        AgendaItemDefinition.Builder rootItemBuilder = manageFirstItem(agenda);
-
-        AgendaItemDefinition.Builder itemToDelete = null;
-        AgendaItemDefinition.Builder itemBuilder = rootItemBuilder;
-        while (rules.peek() != null) {
-            itemBuilder.setRule(rules.poll());
-            itemBuilder.setRuleId(itemBuilder.getRule().getId());
-            if (rules.peek() != null) {
-                if(itemBuilder.getWhenFalse()==null){
-                    itemBuilder.setWhenFalse(AgendaItemDefinition.Builder.create(null, agenda.getId()));
+        FEAgendaEditor feAgenda;
+        if (agenda instanceof FEAgendaEditor) {
+            feAgenda = (FEAgendaEditor) agenda;
+            for (RuleEditor rule : feAgenda.getRules()) {
+                if (!rule.isDummy()) {
+                    rules.add(this.finRule(rule, namePrefix, nameSpace));
                 }
-                itemBuilder = itemBuilder.getWhenFalse();
-            } else {
-                itemToDelete = itemBuilder.getWhenFalse();
-                itemBuilder.setWhenFalse(null);
             }
+
+            AgendaItemDefinition.Builder rootItemBuilder = manageFirstItem(agenda);
+
+            AgendaItemDefinition.Builder itemToDelete = null;
+            AgendaItemDefinition.Builder itemBuilder = rootItemBuilder;
+            while (rules.peek() != null) {
+                itemBuilder.setRule(rules.poll());
+                itemBuilder.setRuleId(itemBuilder.getRule().getId());
+                if (rules.peek() != null) {
+                    if(itemBuilder.getWhenFalse()==null){
+                        itemBuilder.setWhenFalse(AgendaItemDefinition.Builder.create(null, agenda.getId()));
+                    }
+                    itemBuilder = itemBuilder.getWhenFalse();
+                } else {
+                    itemToDelete = itemBuilder.getWhenFalse();
+                    itemBuilder.setWhenFalse(null);
+                }
+            }
+
+            return manageAgendaItems(agenda, rootItemBuilder, itemToDelete);
         }
 
-        return manageAgendaItems(agenda, rootItemBuilder, itemToDelete);
+        return null;
     }
 
     @Override

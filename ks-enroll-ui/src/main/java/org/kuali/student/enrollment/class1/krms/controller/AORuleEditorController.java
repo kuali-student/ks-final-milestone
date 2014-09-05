@@ -51,7 +51,7 @@ public class AORuleEditorController extends EnrolRuleEditorController {
         //Clear the client state on new edit rule.
         form.getClientStateForSyncing().clear();
 
-        AORuleEditor ruleEditor = (AORuleEditor) AgendaUtilities.retrieveSelectedRuleEditor((MaintenanceDocumentForm) form);
+        AORuleEditor ruleEditor = (AORuleEditor) AgendaUtilities.retrieveSelectedRuleEditor(this.getMaintenanceDocumentForm( form));
 
         this.getViewHelper(form).refreshInitTrees(ruleEditor);
         return super.navigate(form, result, request, response);
@@ -108,7 +108,7 @@ public class AORuleEditorController extends EnrolRuleEditorController {
         form.getActionParameters().put(UifParameters.NAVIGATE_TO_PAGE_ID, EnrolKRMSConstants.KSKRMS_AGENDA_AO_MAINTENANCE_PAGE_ID);
 
         //KSENROLL-7267: workaround to display browser warning when leaving AO requisite screen without saving
-        MaintenanceDocumentForm ruleMaintenanceForm = (MaintenanceDocumentForm) form;
+        MaintenanceDocumentForm ruleMaintenanceForm = this.getMaintenanceDocumentForm( form);
         AORuleManagementWrapper aoRuleMgtWrapper = (AORuleManagementWrapper) AgendaUtilities.getRuleWrapper(ruleMaintenanceForm);
         aoRuleMgtWrapper.setAgendaDirty(true);
 
@@ -152,7 +152,7 @@ public class AORuleEditorController extends EnrolRuleEditorController {
     public ModelAndView compareRules(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
                                      HttpServletRequest request, HttpServletResponse response) {
 
-        MaintenanceDocumentForm document = (MaintenanceDocumentForm) form;
+        MaintenanceDocumentForm document = this.getMaintenanceDocumentForm( form);
         AORuleManagementWrapper ruleWrapper = (AORuleManagementWrapper) document.getDocument().getNewMaintainableObject().getDataObject();
 
         RuleEditor aoRuleEditor = ruleWrapper.getRuleEditor();
@@ -187,12 +187,12 @@ public class AORuleEditorController extends EnrolRuleEditorController {
     public ModelAndView viewCoAndCluRules(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
                                           HttpServletRequest request, HttpServletResponse response) {
 
-        MaintenanceDocumentForm document = (MaintenanceDocumentForm) form;
+        MaintenanceDocumentForm document = this.getMaintenanceDocumentForm( form);
         Object dataObject = document.getDocument().getNewMaintainableObject().getDataObject();
         if (dataObject instanceof AORuleManagementWrapper) {
             AORuleManagementWrapper ruleWrapper = (AORuleManagementWrapper) dataObject;
             String ruleId = document.getActionParamaterValue("ruleKey");
-            RuleEditor aoRuleEditor = null;
+            RuleEditor aoRuleEditor;
             if ((ruleId != null) && (StringUtils.isNotBlank(ruleId))) {
                 //Get a specific ruleEditor based on the ruleId.
                 aoRuleEditor = AgendaUtilities.getSelectedRuleEditor(ruleWrapper, ruleId);
@@ -201,7 +201,10 @@ public class AORuleEditorController extends EnrolRuleEditorController {
                 aoRuleEditor = ruleWrapper.getRuleEditor();
             }
 
-            RuleEditor cluRuleEditor = ((AORuleEditor) aoRuleEditor).getCluEditor();
+            RuleEditor cluRuleEditor = null;
+            if (aoRuleEditor != null) {
+                cluRuleEditor = ((AORuleEditor) aoRuleEditor).getCluEditor();
+            }
             //Build the compare rule tree
             ruleWrapper.setCompareTree(this.getViewHelper(form).buildMultiViewTree(cluRuleEditor, aoRuleEditor.getParent()));
             ruleWrapper.setCompareLightBoxHeader(aoRuleEditor.getRuleTypeInfo().getDescription());
@@ -224,7 +227,7 @@ public class AORuleEditorController extends EnrolRuleEditorController {
     public ModelAndView deleteRuleStatements(@ModelAttribute("KualiForm") UifFormBase form, @SuppressWarnings("unused") BindingResult result,
                                              @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) {
 
-        MaintenanceDocumentForm document = (MaintenanceDocumentForm) form;
+        MaintenanceDocumentForm document = this.getMaintenanceDocumentForm( form);
         RuleManager ruleWrapper = AgendaUtilities.getRuleWrapper(document);
         String ruleKey = AgendaUtilities.getRuleKey(document);
 
@@ -261,7 +264,7 @@ public class AORuleEditorController extends EnrolRuleEditorController {
 
         //Clear the client state on new edit rule.
         form.getClientStateForSyncing().clear();
-        MaintenanceDocumentForm document = (MaintenanceDocumentForm) form;
+        MaintenanceDocumentForm document = this.getMaintenanceDocumentForm( form);
 
         AORuleEditor ruleEditor = (AORuleEditor) AgendaUtilities.getSelectedRuleEditor(document);
         AORuleEditor enrolRuleEditor = new AORuleEditor(ruleEditor.getKey(), false, ruleEditor.getRuleTypeInfo());
@@ -300,7 +303,7 @@ public class AORuleEditorController extends EnrolRuleEditorController {
     public ModelAndView deleteRule(@ModelAttribute("KualiForm") UifFormBase form, @SuppressWarnings("unused") BindingResult result,
                                    @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) {
 
-        MaintenanceDocumentForm document = (MaintenanceDocumentForm) form;
+        MaintenanceDocumentForm document = this.getMaintenanceDocumentForm( form);
         RuleManager ruleWrapper = AgendaUtilities.getRuleWrapper(document);
         String ruleKey = AgendaUtilities.getRuleKey(document);
 

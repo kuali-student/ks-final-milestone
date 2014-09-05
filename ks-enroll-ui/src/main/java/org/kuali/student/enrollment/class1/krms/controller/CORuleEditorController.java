@@ -97,7 +97,7 @@ public class CORuleEditorController extends EnrolRuleEditorController {
         form.getActionParameters().put(UifParameters.NAVIGATE_TO_PAGE_ID, EnrolKRMSConstants.KSKRMS_AGENDA_CO_MAINTENANCE_PAGE_ID);
 
         //KSENROLL-7267: workaround to display browser warning when leaving AO requisite screen without saving
-        MaintenanceDocumentForm ruleMaintenanceForm = (MaintenanceDocumentForm) form;
+        MaintenanceDocumentForm ruleMaintenanceForm = this.getMaintenanceDocumentForm( form);
         CORuleManagementWrapper coRuleMgtWrapper = (CORuleManagementWrapper) AgendaUtilities.getRuleWrapper(ruleMaintenanceForm);
         coRuleMgtWrapper.setAgendaDirty(true);
 
@@ -119,7 +119,7 @@ public class CORuleEditorController extends EnrolRuleEditorController {
                                    HttpServletRequest request, HttpServletResponse response) {
 
         //KSENROLL-7267: workaround to display browser warning when leaving CO requisite screen without saving
-        MaintenanceDocumentForm ruleMaintenanceForm = (MaintenanceDocumentForm) form;
+        MaintenanceDocumentForm ruleMaintenanceForm = this.getMaintenanceDocumentForm( form);
         CORuleManagementWrapper coRuleMgtWrapper = (CORuleManagementWrapper) AgendaUtilities.getRuleWrapper(ruleMaintenanceForm);
         coRuleMgtWrapper.setAgendaDirty(true);
 

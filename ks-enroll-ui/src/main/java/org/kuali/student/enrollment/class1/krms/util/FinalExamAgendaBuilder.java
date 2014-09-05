@@ -41,25 +41,29 @@ public class FinalExamAgendaBuilder extends AgendaBuilder {
      */
     public Component buildAgenda(AgendaEditor agenda, int index, AgendaSection agendaSection) {
 
-        FinalExamAgendaSection feAgendaSection = (FinalExamAgendaSection) agendaSection;
+        FinalExamAgendaSection feAgendaSection;
+        if (agendaSection instanceof FinalExamAgendaSection) {
+            feAgendaSection = (FinalExamAgendaSection) agendaSection;
 
-        String agendaSuffix = "_agenda" + Integer.toString(index);
-        Group group = ComponentUtils.copy(feAgendaSection.getAgendaPrototypeMap().get(agenda.getAgendaTypeInfo().getType()), agendaSuffix);
-        group.setHeaderText(agenda.getAgendaTypeInfo().getDescription());
+            String agendaSuffix = "_agenda" + Integer.toString(index);
+            Group group = ComponentUtils.copy(feAgendaSection.getAgendaPrototypeMap().get(agenda.getAgendaTypeInfo().getType()), agendaSuffix);
+            group.setHeaderText(agenda.getAgendaTypeInfo().getDescription());
 
-        String bindingPrefix = "agendas[" + index + "]";
-        List<CollectionGroup> components = ViewLifecycleUtils.getElementsOfTypeDeep(group, CollectionGroup.class);
-        for (CollectionGroup fieldCollectionGroup : components) {
-            ComponentUtils.prefixBindingPath(fieldCollectionGroup, bindingPrefix);
-            fieldCollectionGroup.setSubCollectionSuffix(agendaSuffix);
+            String bindingPrefix = "agendas[" + index + "]";
+            List<CollectionGroup> components = ViewLifecycleUtils.getElementsOfTypeDeep(group, CollectionGroup.class);
+            for (CollectionGroup fieldCollectionGroup : components) {
+                ComponentUtils.prefixBindingPath(fieldCollectionGroup, bindingPrefix);
+                fieldCollectionGroup.setSubCollectionSuffix(agendaSuffix);
+            }
+
+            List<Action> actionLinks = ViewLifecycleUtils.getElementsOfTypeDeep(group, Action.class);
+            for (Action actionLink : actionLinks) {
+                actionLink.getActionParameters().put(UifParameters.SELECTED_LINE_INDEX, "" + index);
+            }
+
+            return group;
         }
-
-        List<Action> actionLinks = ViewLifecycleUtils.getElementsOfTypeDeep(group, Action.class);
-        for (Action actionLink : actionLinks) {
-            actionLink.getActionParameters().put(UifParameters.SELECTED_LINE_INDEX, "" + index);
-        }
-
-        return group;
+        throw new RuntimeException("Error retrieving Maintenance document form from UifFormBase");
     }
 
 }
