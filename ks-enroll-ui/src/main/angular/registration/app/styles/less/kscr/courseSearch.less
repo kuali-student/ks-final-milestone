@@ -11,6 +11,9 @@ and apply more specific styling here based on the field name.
   font-family: @secondaryFontFamily;
   color: @cardTextColor;
   font-weight: normal;
+  .kscr-SearchDetails-icon--honors {
+    float:right;
+  }
 }
 
 .kscr-Search-result-column-courseCode {
@@ -25,6 +28,24 @@ and apply more specific styling here based on the field name.
 
 .kscr-Search-result-column-longName {
   color: @primaryTextColor;
+}
+
+.kscr-Search-results {
+  .kscr-Search-results-cell {
+    .kscr-SearchDetails-icon--honors {
+      float:right;
+    }
+  }
+}
+
+.kscr-SearchDetails-activityOfferingGroups {
+  .kscr-SearchDetails-activityOfferings {
+    .kscr-Search-results-cell {
+      .kscr-SearchDetails-icon--honors {
+        float:left;
+      }
+    }
+  }
 }
 
 .kscr-Search-results-cell .kscr-Search-results-no-seats,

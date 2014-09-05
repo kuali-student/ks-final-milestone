@@ -22,7 +22,7 @@
     <div class="kscr-Search-results" ng-show="searchCriteria.length > 0">
         <search-results>
             <search-column name="Code" field="courseCode" order="1"></search-column>
-            <search-column name="Title" field="longName" order="2" url="#"></search-column>
+            <search-column name="Title" field="title" order="2" url="#"></search-column>
             <search-column name="Credits" field="creditOptions" order="3" filter="creditRangeFormatter"></search-column>
             <search-list search-results="filteredResults"
                          search-columns="searchColumns"

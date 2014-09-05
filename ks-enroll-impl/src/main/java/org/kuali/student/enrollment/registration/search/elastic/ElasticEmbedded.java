@@ -85,7 +85,7 @@ public class ElasticEmbedded {
         client.admin().cluster().prepareHealth().setWaitForYellowStatus().execute().actionGet();
 
         boolean indexExists = client.admin().indices().prepareExists(KS_ELASTIC_INDEX).execute().actionGet().isExists();
-        if(indexExists) {
+        if (indexExists) {
             LOG.info("index exists. Deleting index then reinitializing.");
             client.admin().indices().prepareDelete(KS_ELASTIC_INDEX).execute().actionGet();  // on init always delete existing indexes
         }
@@ -97,7 +97,7 @@ public class ElasticEmbedded {
         LOG.info("Elastic Client Started");
 
         //Prefetch the data
-        if(indexOnStartup) {
+        if (indexOnStartup) {
             getClient();
         }
     }
@@ -124,7 +124,7 @@ public class ElasticEmbedded {
         //Create a bulk request to push all data into elastic
         for (CourseSearchResult searchResult : courses) {
             String json = mapper.writeValueAsString(searchResult);
-            bulkRequest.add(client.prepareIndex(KS_ELASTIC_INDEX, COURSEOFFERING_ELASTIC_TYPE, searchResult.getCourseId()+"-"+searchResult.getCourseCode()).setSource(json));
+            bulkRequest.add(client.prepareIndex(KS_ELASTIC_INDEX, COURSEOFFERING_ELASTIC_TYPE, searchResult.getCourseId() + "-" + searchResult.getCourseCode()).setSource(json));
         }
 
         //Execute the bulk operation
@@ -205,7 +205,7 @@ public class ElasticEmbedded {
 
         Iterator<List<RegGroupSearchResult>> iterator = regGroupSubSets.iterator();
         int partition = 0;
-        while(iterator.hasNext()){
+        while (iterator.hasNext()) {
             List<RegGroupSearchResult> regGroups = iterator.next();
             BulkRequestBuilder bulkRequest = client.prepareBulk();
             ObjectMapper mapper = new ObjectMapper();
@@ -266,6 +266,11 @@ public class ElasticEmbedded {
             courseSearchResult.setTermId(keyValue.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.ATP_ID));
             courseSearchResult.setCourseDescription(keyValue.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.LUI_DESC));
             courseSearchResult.setState(keyValue.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.CO_STATE));
+
+            // Set honors flag
+            String honorsFlag = keyValue.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.HONORS_FLAG);
+            courseSearchResult.setHonors(honorsFlag != null && honorsFlag.equalsIgnoreCase("true"));
+
             // Grab Learning Results data
             // These two calls are cached so they are actually more performant
             List<String> creditResultsValueKeys = lrcService.getResultValuesGroup(keyValue.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.CREDITS), context).getResultValueKeys();
@@ -311,13 +316,13 @@ public class ElasticEmbedded {
     public synchronized Client getClient() {
         if (lastUpdated == null || DateTime.now().getMillis() > (lastUpdated.getMillis() + timeToRefreshMs)) {
             try {
-                if(lastUpdated == null){
+                if (lastUpdated == null) {
                     //If this is a first time run, block while indexing
                     indexCourseOfferingData();
                     indexRegistrationGroupData();
-                }else{
+                } else {
                     //Otherwise async start a reindex and continue with stale data
-                    new Thread(){
+                    new Thread() {
                         @Override
                         public void run() {
                             try {
@@ -326,8 +331,8 @@ public class ElasticEmbedded {
                                 throw new RuntimeException("Error updating course offering data", e);
                             }
                         }
-                    }.start();
-                    new Thread(){
+                    } .start();
+                    new Thread() {
                         @Override
                         public void run() {
                             try {
@@ -336,7 +341,7 @@ public class ElasticEmbedded {
                                 throw new RuntimeException("Error updating reg group data", e);
                             }
                         }
-                    }.start();
+                    } .start();
                 }
             } catch (Exception e) {
                 throw new RuntimeException("Error updating data", e);
@@ -356,7 +361,7 @@ public class ElasticEmbedded {
         this.lrcService = lrcService;
     }
 
-    public void setTimeToRefreshMs(long timeToRefreshMs) {
+    public synchronized void setTimeToRefreshMs(long timeToRefreshMs) {
         this.timeToRefreshMs = timeToRefreshMs;
     }
 

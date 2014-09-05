@@ -510,13 +510,14 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
                         "        WHERE\n" +
                         "            lpr.LUI_ID=lui.id\n" +
                         "        AND lpr.LPR_STATE='" + LprServiceConstants.ACTIVE_STATE_KEY + "'\n" +
-                        "        AND lpr.LPR_TYPE='" + LprServiceConstants.REGISTRANT_CO_LPR_TYPE_KEY + "') seatsAvailable\n" +
+                        "        AND lpr.LPR_TYPE='" + LprServiceConstants.REGISTRANT_CO_LPR_TYPE_KEY + "') seatsAvailable,\n" +
+                        "    honorsCd.value            honorsFlag\n" +
                         "FROM\n" +
-                        "    KSEN_LUI lui,\n" +
-                        "    KSLU_CLU clu,\n" +
-                        "    KSLU_CLU_IDENT clui,\n" +
-                        "    KSEN_LUI_IDENT luii,\n" +
-                        "    (\n" +
+                        "    KSEN_LUI lui\n" +
+                        "    INNER JOIN KSLU_CLU clu ON clu.id = lui.CLU_ID\n" +
+                        "    INNER JOIN KSLU_CLU_IDENT clui on clui.id = clu.OFFIC_CLU_ID\n" +
+                        "    INNER JOIN KSEN_LUI_IDENT luii ON luii.LUI_ID = lui.ID\n" +
+                        "    INNER JOIN (\n" +
                         "        SELECT\n" +
                         "            luiid      luiid,\n" +
                         "            SUM(aomax) sumao\n" +
@@ -545,18 +546,14 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
                         "                    co2fo.LUI_ID,\n" +
                         "                    rg2ao.LUI_ID )\n" +
                         "        GROUP BY\n" +
-                        "            luiid) freeseats,\n" +
-                        "    KSEN_LUI_RESULT_VAL_GRP credits\n" +
+                        "            luiid) freeseats on freeseats.luiid=lui.id\n" +
+                        "    INNER JOIN KSEN_LUI_RESULT_VAL_GRP credits on credits.LUI_ID = lui.id\n" +
+                        "    LEFT OUTER JOIN KSEN_LUI_LU_CD honorsCd on honorsCd.lui_id = luiId and honorsCd.lui_lucd_type = 'kuali.lu.code.honorsOffering'\n" +
                         "WHERE\n" +
                         "    lui.LUI_TYPE='" + LuiServiceConstants.COURSE_OFFERING_TYPE_KEY + "'\n" +
-                        "AND clu.ID = lui.CLU_ID\n" +
-                        "AND clui.id = clu.OFFIC_CLU_ID\n" +
-                        "AND luii.LUI_ID = lui.ID\n" +
-                        "AND freeseats.luiid=lui.id\n" +
-                        "AND credits.LUI_ID = lui.id\n" +
                         "AND credits.RESULT_VAL_GRP_ID LIKE 'kuali.creditType.credit.degree.%'\n" +
                         (atpIds == null || atpIds.isEmpty() ? "" : "AND lui.ATP_ID IN(:atpIds)\n") + //Optional parameter to filter by luiids
-                        (luiIds == null || luiIds.isEmpty() ? "" : "AND lui.ID IN(:luiIds)\n");//Optional parameter to filter my term
+                        (luiIds == null || luiIds.isEmpty() ? "" : "AND lui.ID IN(:luiIds)\n"); //Optional parameter to filter by term
 
         Query query = entityManager.createNativeQuery(queryStr);
 
@@ -584,7 +581,8 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
             row.addCell(SearchResultColumns.COURSE_DIVISION, (String) resultRow[i++]);
             row.addCell(SearchResultColumns.COURSE_NUMBER, (String) resultRow[i++]);
             row.addCell(SearchResultColumns.CREDITS, (String) resultRow[i++]);
-            row.addCell(SearchResultColumns.SEATS_AVAILABLE, resultRow[i].toString());
+            row.addCell(SearchResultColumns.SEATS_AVAILABLE, resultRow[i++].toString());
+            row.addCell(SearchResultColumns.HONORS_FLAG, (String) resultRow[i]);
             resultInfo.getRows().add(row);
         }
 
@@ -1180,7 +1178,7 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
         String personId = requestHelper.getParamAsString(SearchParameters.PERSON_ID);
         List<String> lprTypes = requestHelper.getParamAsList(SearchParameters.LPR_TYPE);
 
-        StringBuilder queryBuilder=new StringBuilder("");
+        StringBuilder queryBuilder = new StringBuilder("");
 
         queryBuilder.append(
                 "SELECT atp.ID, atp.ATP_CD, atp.NAME as atp_name, " +

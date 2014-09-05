@@ -61,7 +61,9 @@
          ng-click="emitEvent(onClick, searchResult)" ng-repeat="searchResult in searchResults | limitTo:mobileLimit">
         <div id="search-result-column-{{filteredDefault}}-{{searchColumn.field}}"
              class="kscr-Search-result-column-{{searchColumn.field}}"
-             ng-repeat="searchColumn in searchColumns">{{applyFilter(searchResult, searchColumn.field, searchColumn.filter)}}</div>
+             ng-repeat="searchColumn in searchColumns"
+             ng-bind-html="applyFilter(searchResult, searchColumn.field, searchColumn.filter)">
+        </div>
     </div>
 </div>
 <div class="kscr-Search-results-paginate" ng-show="searchCriteria && (lastPage() > 1)">

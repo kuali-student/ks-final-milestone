@@ -11,7 +11,8 @@ import java.util.List;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "CourseSearchResult", propOrder = {
         "cluId", "courseId", "courseCode", "courseLevel", "courseNumber",
-        "coursePrefix", "creditOptions", "longName", "seatsAvailable", "termId"})
+        "coursePrefix", "creditOptions", "longName", "seatsAvailable",
+        "termId", "honors" })
 public class CourseSearchResult {
     private String cluId;
     private String courseId;
@@ -26,6 +27,7 @@ public class CourseSearchResult {
     private String termId;
     private String state;
     private String courseIdentifierType;
+    private boolean honors;
 
     public String getCourseId() {
         return courseId;
@@ -132,5 +134,13 @@ public class CourseSearchResult {
 
     public void setCourseIdentifierType(String courseIdentifierType) {
         this.courseIdentifierType = courseIdentifierType;
+    }
+
+    public boolean isHonors() {
+        return honors;
+    }
+
+    public void setHonors(boolean honors) {
+        this.honors = honors;
     }
 }
