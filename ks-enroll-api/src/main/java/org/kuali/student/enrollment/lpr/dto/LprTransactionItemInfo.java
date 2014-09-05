@@ -204,5 +204,5 @@ public class LprTransactionItemInfo
     @Override
     public String getCrossListedCode() { return crossListedCode; }
 
-    public void setCrossListedCode(String crossList) { this.crossListedCode = crossListedCode; }
+    public void setCrossListedCode(String crossListedCode) { this.crossListedCode = crossListedCode; }
 }
