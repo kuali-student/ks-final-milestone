@@ -182,7 +182,7 @@
                 <bean parent="KS-Uif-InputField" p:label="State" p:propertyName="state" p:readOnly="true"/>
                 <bean parent="KS-Uif-DataField" p:label="Start Date" p:propertyName="startDate" p:additionalCssClasses="nowrap"/>
                 <bean parent="KS-Uif-DataField" p:label="End Date" p:propertyName="endDate" p:additionalCssClasses="nowrap" p:style="min-width:56px;"/>
-                <bean parent="KS-Uif-DataField" p:label="Start Term" p:propertyName="startTerm" p:additionalCssClasses="nowrap">
+                <bean parent="KS-Uif-DataField" p:label="Start Term" p:propertyName="startTerm" p:additionalCssClasses="nowrap"/>
                 <bean parent="KS-Uif-DataField" p:label="End Term" p:propertyName="endTerm" p:additionalCssClasses="nowrap" p:style="min-width:56px;"/>
             </list>
         </property>
