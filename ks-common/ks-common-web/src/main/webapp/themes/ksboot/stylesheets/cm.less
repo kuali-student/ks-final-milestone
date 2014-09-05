@@ -3,7 +3,7 @@
 @import "ks-fonts";
 
 /* Colors used in compare views when rows contain differences */
-@diff-highlight-color: #fcf8e3;
+@diff-highlight-color: #ffffcc;
 @diff-border-color:  #fbeed5;
 
 /*
@@ -17,6 +17,7 @@ pre {
     color: #000000;
     background: inherit;
     margin-bottom: 0px;
+    word-break: break-word;
 }
 
 /* Labels in the header link group should be on the left. */
@@ -329,6 +330,17 @@ a[id *= "LearningObjectives-Icon-"]:hover {
 
 .course_details-grid table.uif-gridLayout th[scope="row"] label {
     padding-top: 0px;
+}
+
+/* Makes the label in the top row float right in compare view. */
+.course_details-grid table.uif-gridLayout th[scope="col"] label {
+    float: right;
+    margin-right: 3px;
+}
+
+/* Lowers the text a bit in compare mode. */
+.course_details-grid div {
+    margin-top: 2px;
 }
 
 .course_details-grid table,
