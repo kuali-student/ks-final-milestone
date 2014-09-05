@@ -3,7 +3,8 @@
     <!-- Search Details Header -->
     <div class="kscr-SearchDetails-top">
         Loading...<br>
-        <a id="returnToSearch" ui-sref="root.search.results(stateParams)"><span>&#x00ab;</span> Return to Search Results</a>
+        <a id="returnToSearch" ui-sref="root.search.results(stateParams)" ng-if="!fromSchedule"><span>&#x00ab;</span> Return to Search Results</a>
+        <a id="returnToSchedule" ui-sref="root.schedule" ng-if="fromSchedule"><span>&#x00ab;</span> Return to Schedule</a>
     </div>
 
     <!-- Search Details Content -->
@@ -36,7 +37,8 @@
 <div class="kscr-SearchDetails" ng-if="!loading">
     <!-- Search Details Header - Back to Results Link -->
     <div class="kscr-SearchDetails-top">
-        <a id="returnToSearch" ui-sref="root.search.results(stateParams)"><span>&#x00ab;</span> Return to Search Results</a>
+        <a id="returnToSearch" ui-sref="root.search.results(stateParams)" ng-if="!fromSchedule"><span>&#x00ab;</span> Return to Search Results</a>
+        <a id="returnToSchedule" ui-sref="root.schedule" ng-if="fromSchedule"><span>&#x00ab;</span> Return to Schedule</a>
     </div>
 
     <!-- Search Details Content -->

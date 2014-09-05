@@ -149,4 +149,9 @@ angular.module('regCartApp')
         defaultBuffer: 15
     })
 
+    // Search criteria constants
+    .constant('SEARCH_CRITERIA', {
+        fromSchedule: 'fromschedule'
+    })
+
 ;

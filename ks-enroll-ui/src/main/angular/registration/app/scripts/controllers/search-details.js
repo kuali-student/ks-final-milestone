@@ -10,8 +10,8 @@
  * -- Receives: "toggleAO" -- received from the search list directives, select/deselects the given ao
  */
 angular.module('regCartApp')
-    .controller('SearchDetailsCtrl', ['$scope', '$rootScope', '$state', '$filter', '$modal', 'STATUS', 'FEATURE_TOGGLES', 'SearchService', 'CartService', 'ScheduleService',
-    function SearchDetailsCtrl($scope, $rootScope, $state, $filter, $modal, STATUS, FEATURE_TOGGLES, SearchService, CartService, ScheduleService) {
+    .controller('SearchDetailsCtrl', ['$scope', '$rootScope', '$state', '$filter', '$modal', 'STATUS', 'FEATURE_TOGGLES', 'SEARCH_CRITERIA', 'SearchService', 'CartService', 'ScheduleService',
+    function SearchDetailsCtrl($scope, $rootScope, $state, $filter, $modal, STATUS, FEATURE_TOGGLES, SEARCH_CRITERIA, SearchService, CartService, ScheduleService) {
         console.log('>> SearchDetailsCtrl');
 
         $scope.stateParams = $state.params; // Expose the state parameters to the scope so they can be used in the back link
@@ -29,6 +29,12 @@ angular.module('regCartApp')
             $scope.stateParams = toParams;
 
             if (angular.isDefined(toParams.id)) {
+                // checking if user comes to course details from search vs schedule
+                if (toParams.searchCriteria == SEARCH_CRITERIA.fromSchedule) {
+                    $scope.fromSchedule = true;
+                } else {
+                    $scope.fromSchedule = false;
+                }
                 loadCourse(toParams.id, toParams.code);
             }
         });

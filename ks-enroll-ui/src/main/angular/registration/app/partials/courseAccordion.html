@@ -106,7 +106,7 @@
             <!--Course Edit/Remove Buttons-->
             <div class="kscr-Card-buttons">
                 <span>
-                    <div class="util-Grid--floatLeft"><button class="kscr-Button" ng-click="viewDetails(course)">Details</button></div>
+                    <div class="util-Grid--floatLeft"><button class="kscr-Button" id="{{config.prefix2}}details_{{course.courseCode}}_{{course.regGroupCode}}" ng-click="viewDetails(course)">Details</button></div>
                     <button class="kscr-Button" id="{{config.prefix2}}edit_{{course.courseCode}}_{{course.regGroupCode}}" ng-click="editItem(course)" ng-show="course.creditOptions.length > 1 || course.gradingOptionCount > 1">Edit</button>
                     <div class="global-Base-divider"></div>
                     <button class="kscr-Button" id="{{config.prefix2}}remove_{{course.courseCode}}_{{course.regGroupCode}}" ng-click="dropCourse(course)">{{config.remove}}</button>

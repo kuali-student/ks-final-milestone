@@ -17,10 +17,9 @@ angular.module('regCartApp')
 
                 $scope.courseSearchCriteria = '';
 
-
                 function getCriteriaFromState () {
                     var criteria = null;
-                    if (angular.isDefined($state.params) && angular.isDefined($state.params.searchCriteria)) {
+                    if (angular.isDefined($state.params) && angular.isDefined($state.params.searchCriteria) && $state.params.searchCriteria !== 'fromschedule') {
                         criteria = $state.params.searchCriteria;
                     }
 
