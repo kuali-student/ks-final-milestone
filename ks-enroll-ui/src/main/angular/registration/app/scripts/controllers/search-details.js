@@ -30,11 +30,7 @@ angular.module('regCartApp')
 
             if (angular.isDefined(toParams.id)) {
                 // checking if user comes to course details from search vs schedule
-                if (toParams.searchCriteria == SEARCH_CRITERIA.fromSchedule) {
-                    $scope.fromSchedule = true;
-                } else {
-                    $scope.fromSchedule = false;
-                }
+                $scope.fromSchedule = toParams.searchCriteria == SEARCH_CRITERIA.fromSchedule;
                 loadCourse(toParams.id, toParams.code);
             }
         });
@@ -88,7 +84,10 @@ angular.module('regCartApp')
                                 });
 
                                 // Check to see if there are any additional info icons to display for this course
-                                if (!$scope.additionalInfo && (ao.subterm !== null || (angular.isArray(ao.requisites) && ao.requisites.length > 0))) {
+                                if (!$scope.additionalInfo
+                                    && (ao.subterm !== null
+                                        || (angular.isArray(ao.requisites) && ao.requisites.length > 0))
+                                        || ao.honors === 'true') {
                                     $scope.additionalInfo = true;
                                 }
 
@@ -314,6 +313,37 @@ angular.module('regCartApp')
                 });
             });
         };
+
+        /*
+        If:
+        -- the available reg groups has changed
+        -- a regGroupId is defined in the url
+        -- no other reg group is selected
+        Then select the reg group (if it exists and is selectable)
+         */
+        $scope.$watch('availableRegGroups', function() {
+            if (angular.isDefined($scope.availableRegGroups)
+                && angular.isDefined($scope.stateParams.regGroupId)
+                && (angular.isUndefined($scope.selectedRegGroup) || $scope.selectedRegGroup === null)) {
+                var regGroupId = $scope.stateParams.regGroupId;
+                var selectableRegGroups = getSelectableRegGroups();
+                //a forEach loop is needed here because this is a map
+                angular.forEach(selectableRegGroups, function(selectableRegGroup) {
+                    if (regGroupId === selectableRegGroup.regGroupId) {
+                        $scope.selectedRegGroup = selectableRegGroup;
+                        for (var i=0; i<selectableRegGroup.activityOfferingIds.length; i++) {
+                            //a forEach loops is needed here because this is a map
+                            angular.forEach($scope.aoMap, function(ao) {
+                                if (ao.activityOfferingId === selectableRegGroup.activityOfferingIds[i]) {
+                                    selectAO(ao);
+                                    $scope.updateAOStates();
+                                }
+                            });
+                        }
+                    }
+                });
+            }
+        });
 
         /**
          * Method for determining how many possible reg groups are available --
