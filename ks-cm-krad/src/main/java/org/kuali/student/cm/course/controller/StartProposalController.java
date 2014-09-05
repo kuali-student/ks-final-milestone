@@ -53,18 +53,14 @@ public class StartProposalController extends UifControllerBase {
         StartProposalForm courseForm= new StartProposalForm();
         courseForm.setUseReviewProcess(false);
         courseForm.setCurriculumSpecialistUser(CourseProposalUtil.isUserCurriculumSpecialist());
+        String cluId = httpServletRequest.getParameter(CurriculumManagementConstants.UrlParams.CLU_ID);
+        courseForm.setCourseId(cluId);
         return courseForm;
     }
 
-    /**
-     * After the Create course initial data is filled call the method to show the navigation panel and
-     * setup the maintenance object
-     */
-    @RequestMapping(params = "methodToCall=continueCreateCourse")
-    public ModelAndView continueCreateCourse(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
-                                             HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-        Properties urlParameters = new Properties();
+    protected void setUrlParameters(Properties urlParameters,UifFormBase form){
+
         if (!CourseProposalUtil.isUserCurriculumSpecialist()) {
             // if user is not a CS user, then curriculum review must be used because only CS users can disable curriculum review
             urlParameters.put(CourseController.UrlParams.USE_CURRICULUM_REVIEW,Boolean.TRUE.toString());
@@ -76,9 +72,32 @@ public class StartProposalController extends UifControllerBase {
         urlParameters.put(KRADConstants.PARAMETER_COMMAND, KewApiConstants.INITIATE_COMMAND);
         urlParameters.put(KRADConstants.DATA_OBJECT_CLASS_ATTRIBUTE, CourseInfoWrapper.class.getName());
         urlParameters.put(KRADConstants.RETURN_LOCATION_PARAMETER, CMUtils.getCMHomeUrl() );
-        setMethodToCall(urlParameters, (StartProposalForm)form);
-        String uri = request.getRequestURL().toString().replace(CurriculumManagementConstants.ControllerRequestMappings.START_PROPOSAL,CurriculumManagementConstants.ControllerRequestMappings.COURSE_MAINTENANCE);
+    }
 
+    /**
+     * After the Create course initial data is filled call the method to show the navigation panel and
+     * setup the maintenance object
+     */
+    @RequestMapping(params = "methodToCall=continueCreateCourse")
+    public ModelAndView continueCreateCourse(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
+                                             HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        Properties urlParameters = new Properties();
+        setUrlParameters(urlParameters,form);
+
+        String startProposalCourseAction = ((StartProposalForm)form).getStartProposalCourseAction();
+        if(StringUtils.equalsIgnoreCase(startProposalCourseAction,CurriculumManagementConstants.ModifyCourseStartOptions.MODIFY_THIS_VERSION) ||
+                StringUtils.equalsIgnoreCase(startProposalCourseAction,CurriculumManagementConstants.ModifyCourseStartOptions.MODIFY_WITH_A_NEW_VERSION)) {
+
+            urlParameters.put(CurriculumManagementConstants.UrlParams.CLU_ID,((StartProposalForm)form).getCourseId());
+            urlParameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, "modifyCourseCurriculumSpecialist");
+            urlParameters.put(CourseController.UrlParams.MODIFY_ACTION, startProposalCourseAction);
+        }
+
+        else{
+            setMethodToCall(urlParameters, (StartProposalForm)form);
+        }
+        String uri = request.getRequestURL().toString().replace(CurriculumManagementConstants.ControllerRequestMappings.START_PROPOSAL,CurriculumManagementConstants.ControllerRequestMappings.COURSE_MAINTENANCE);
         return performRedirect(form, uri, urlParameters);
     }
 

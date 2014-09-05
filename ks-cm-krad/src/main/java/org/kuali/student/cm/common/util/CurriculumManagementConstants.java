@@ -80,6 +80,11 @@ public class CurriculumManagementConstants {
         public final static String COPY_PROPOSED_COURSE = "copyProposedCourse";
     }
 
+    public static class ModifyCourseStartOptions {
+        public final static String MODIFY_THIS_VERSION = "modifyThisVersion";
+        public final static String MODIFY_WITH_A_NEW_VERSION = "modifyNewVersion";
+    }
+
     public static class StartRetireCourseOptions {
         public final static String ADMIN_RETIRE = "startAdministrativeRetire";
         public final static String RETIRE_BY_PROPOSAL = "startRetireByProposal";

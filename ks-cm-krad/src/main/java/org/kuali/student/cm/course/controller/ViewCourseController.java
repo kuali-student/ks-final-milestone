@@ -161,13 +161,13 @@ public class ViewCourseController extends KsUifControllerBase{
     public ModelAndView modifyCourseCurriculumSpecialist(@ModelAttribute("KualiForm") UifFormBase form, HttpServletRequest request) {
 
         ViewCourseForm detailedViewForm = (ViewCourseForm) form;
-        detailedViewForm.setPageId("CM-Modify-Version-Start-Page");
-        detailedViewForm.setMethodToCall("start");
-        detailedViewForm.setViewId("startProposalView");
-        String uri = request.getRequestURL().toString().replace("/view_course",CurriculumManagementConstants.ControllerRequestMappings.START_PROPOSAL);
-       // String href = CourseProposalUtil.buildCourseProposalUrl("start", "CM-Modify-Version-Start-Page", detailedViewForm.getDocument().getDocumentNumber());
-
-        return performRedirect(detailedViewForm,uri);
+        Properties urlParameters = new Properties();
+        urlParameters.put(UifConstants.UrlParams.PAGE_ID, "CM-Modify-Version-Start-Page");
+        urlParameters.put(UifConstants.UrlParams.VIEW_ID, "startProposalView");
+        urlParameters.put(KRADConstants.RETURN_LOCATION_PARAMETER, CMUtils.getCMHomeUrl());
+        urlParameters.put(CurriculumManagementConstants.UrlParams.CLU_ID, detailedViewForm.getCourseInfoWrapper().getCourseInfo().getId());
+        String courseBaseUrl = CurriculumManagementConstants.ControllerRequestMappings.START_PROPOSAL.replaceFirst("/", "");
+        return performRedirect(form, courseBaseUrl, urlParameters);
     }
 
     /**

@@ -105,6 +105,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.xml.namespace.QName;
 import java.io.BufferedInputStream;
 import java.io.ByteArrayInputStream;
+import java.security.URIParameter;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
@@ -134,6 +135,8 @@ public class CourseController extends CourseRuleEditorController {
          * Specifies that this proposal should copy from the ProposalInfo with the given Id.
          */
         public static final String COPY_PROPOSAL_ID = "copyProposalId";
+
+        public static final String MODIFY_ACTION = "modifyAction";
 
         private UrlParams() {}  /* Constants class. Hide the contructor. */
     }
@@ -283,6 +286,30 @@ public class CourseController extends CourseRuleEditorController {
             return mv;
         }
         return modelAndView;
+    }
+
+
+    /**
+     *
+     */
+    @MethodAccessible
+    @RequestMapping(params = "methodToCall=modifyCourseCurriculumSpecialist" )
+    public ModelAndView modifyCourseCurriculumSpecialist(@ModelAttribute("KualiForm") MaintenanceDocumentForm form, BindingResult result,
+                                                         HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        /*
+         * Just initialize the document here. Calling the super method causes the entire maintainableImpl to get serialized
+         * which is too much overhead for what we need (Start create a new document and prefill the data from an existing model).
+         */
+        createDocument(form);
+
+        CourseMaintainable viewHelper = (CourseMaintainable) form.getDocument().getNewMaintainableObject();
+
+
+
+
+        return getUIFModelAndView(form);
+
     }
 
     /**
