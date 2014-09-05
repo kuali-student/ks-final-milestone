@@ -161,50 +161,39 @@
                                     </list>
                                 </property>
                             </bean>
-                            <bean parent="Uif-FieldGroupBase">
+                            <bean parent="Uif-Message" p:messageText="(@{#line.credits} cr)" p:additionalCssClasses="ksap-bookmark-widget-credits"/>
+                            <bean parent="Uif-ActionLink" p:render="true">
+                                <property name="id" value="@{#line.planItemId}_addLink"/>
                                 <property name="cssClasses">
                                     <list>
-                                        <value>ksap-bookmark-widget-btns</value>
+                                        <value>ks-fontello-icon-hollow-circled-plus</value>
                                     </list>
                                 </property>
-                                <property name="items">
+                                <property name="actionScript" value="ksapOpenPlanDialog('course_add_course_page','planner','startAddCourseToPlanDialog', this, e);"/>
+                                <property name="dataAttributes">
+                                    <map>
+                                        <entry key="courseid" value="@{#line.courseId}" />
+                                        <entry key="learningplanid" value="@{#line.learningPlanId}" />
+                                        <entry key="planitemid" value="@{#line.planItemId}" />
+                                        <entry key="uniqueid" value="@{#line.uniqueId}" />
+                                    </map>
+                                </property>
+                            </bean>
+                            <bean parent="Uif-ActionLink" p:render="true">
+                                <property name="id" value="@{#line.planItemId}_deleteLink"/>
+                                <property name="cssClasses">
                                     <list>
-                                        <bean parent="Uif-Message" p:messageText="(@{#line.credits} cr)" p:additionalCssClasses="ksap-bookmark-widget-credits"/>
-                                        <bean parent="Uif-ActionLink" p:render="true">
-                                            <property name="id" value="@{#line.planItemId}_addLink"/>
-                                            <property name="cssClasses">
-                                                <list>
-                                                    <value>ks-fontello-icon-hollow-circled-plus</value>
-                                                </list>
-                                            </property>
-                                            <property name="actionScript" value="ksapOpenPlanDialog('course_add_course_page','planner','startAddCourseToPlanDialog', this, e);"/>
-                                            <property name="dataAttributes">
-                                                <map>
-                                                    <entry key="courseid" value="@{#line.courseId}" />
-                                                    <entry key="learningplanid" value="@{#line.learningPlanId}" />
-                                                    <entry key="planitemid" value="@{#line.planItemId}" />
-                                                    <entry key="uniqueid" value="@{#line.uniqueId}" />
-                                                </map>
-                                            </property>
-                                        </bean>
-                                        <bean parent="Uif-ActionLink" p:render="true">
-                                            <property name="id" value="@{#line.planItemId}_deleteLink"/>
-                                            <property name="cssClasses">
-                                                <list>
-                                                    <value>ks-fontello-icon-cancel</value>
-                                                </list>
-                                            </property>
-                                            <property name="actionScript" value="ksapOpenPlanDialog('bookmark_delete_course_page','planner','startDialog', this, e);"/>
-                                            <property name="dataAttributes">
-                                                <map>
-                                                    <entry key="courseid" value="@{#line.courseId}" />
-                                                    <entry key="learningplanid" value="@{#line.learningPlanId}" />
-                                                    <entry key="planitemid" value="@{#line.planItemId}" />
-                                                    <entry key="uniqueid" value="@{#line.uniqueId}" />
-                                                </map>
-                                            </property>
-                                        </bean>
+                                        <value>ks-fontello-icon-cancel</value>
                                     </list>
+                                </property>
+                                <property name="actionScript" value="ksapOpenPlanDialog('bookmark_delete_course_page','planner','startDialog', this, e);"/>
+                                <property name="dataAttributes">
+                                    <map>
+                                        <entry key="courseid" value="@{#line.courseId}" />
+                                        <entry key="learningplanid" value="@{#line.learningPlanId}" />
+                                        <entry key="planitemid" value="@{#line.planItemId}" />
+                                        <entry key="uniqueid" value="@{#line.uniqueId}" />
+                                    </map>
                                 </property>
                             </bean>
                         </list>
