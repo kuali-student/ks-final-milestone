@@ -76,7 +76,7 @@
         <property name="propertyName" value="versions"/>
         <property name="layoutManager.renderSequenceField" value="false"/>
         <property name="layoutManager.richTable">
-           <bean parent="KS-Uif-RichTable">
+           <bean id="CM-CourseVersions-resultSet-table" parent="KS-Uif-RichTable">
                <property name="templateOptions">
                    <map merge="true">
                        <entry key="aoColumnDefs" value="{ bSortable: true, aTargets: [ ] }, { bSortable: false, aTargets: [ '_all' ] }"/>
@@ -95,10 +95,10 @@
                         <bean parent="KS-Uif-CheckboxControl"/>
                     </property>
                 </bean>
-               <bean parent="KS-Uif-DataField" p:label="Version" p:propertyName="sequence"/>
-               <bean parent="KS-Uif-DataField" p:label="Course Status" p:propertyName="courseStatus"/>
-               <bean parent="KS-Uif-DataField" p:label="Start Term" p:propertyName="startTerm"/>
-               <bean parent="KS-Uif-DataField" p:label="End Term" p:propertyName="endTerm"/>
+               <bean id="CM-CourseVersions-resultSet-version" parent="KS-Uif-DataField" p:label="Version" p:propertyName="sequence"/>
+               <bean id="CM-CourseVersions-resultSet-courseStatus" parent="KS-Uif-DataField" p:label="Course Status" p:propertyName="courseStatus"/>
+               <bean id="CM-CourseVersions-resultSet-startTerm" parent="KS-Uif-DataField" p:label="Start Term" p:propertyName="startTerm"/>
+               <bean id="CM-CourseVersions-resultSet-endTerm" parent="KS-Uif-DataField" p:label="End Term" p:propertyName="endTerm"/>
            </list>
         </property>
     </bean>
