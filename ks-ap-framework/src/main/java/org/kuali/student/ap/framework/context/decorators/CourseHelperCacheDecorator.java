@@ -21,7 +21,6 @@ import net.sf.ehcache.CacheManager;
 import net.sf.ehcache.Element;
 import org.apache.commons.collections.keyvalue.MultiKey;
 import org.kuali.student.r2.core.acal.infc.Term;
-import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.lum.course.infc.Course;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -47,7 +46,7 @@ public class CourseHelperCacheDecorator extends CourseHelperDecorator {
     }
 
     @Override
-    public CourseInfo getCourseInfo(String courseId) {
+    public Course getCourseInfo(String courseId) {
         MultiKey cacheKey = new MultiKey(COURSE_HELPER_COURSE_PREFIX + "course", courseId);
         Cache cache = getCacheManager().getCache(COURSE_HELPER_CACHE);
         Element cachedResult = cache.get(cacheKey);
@@ -61,7 +60,7 @@ public class CourseHelperCacheDecorator extends CourseHelperDecorator {
             result = cachedResult.getValue();
         }
 
-        return (CourseInfo) result;
+        return (Course) result;
     }
 
     @Override
@@ -125,7 +124,7 @@ public class CourseHelperCacheDecorator extends CourseHelperDecorator {
     }
 
     @Override
-    public CourseInfo getCurrentVersionOfCourseByVersionIndependentId(String versionIndependentId) {
+    public Course getCurrentVersionOfCourseByVersionIndependentId(String versionIndependentId) {
         MultiKey cacheKey = new MultiKey(COURSE_HELPER_COURSE_PREFIX + "currentversionofcoursebyversionIndId", versionIndependentId);
         Cache cache = getCacheManager().getCache(COURSE_HELPER_CACHE);
         Element cachedResult = cache.get(cacheKey);
@@ -139,7 +138,7 @@ public class CourseHelperCacheDecorator extends CourseHelperDecorator {
             result = cachedResult.getValue();
         }
 
-        return (CourseInfo) result;
+        return (Course) result;
     }
 
     @Override

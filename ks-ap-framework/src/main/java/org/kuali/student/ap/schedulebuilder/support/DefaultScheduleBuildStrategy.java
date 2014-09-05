@@ -49,6 +49,7 @@ import org.kuali.student.ap.schedulebuilder.infc.SecondaryActivityOptions;
 import org.kuali.student.common.collection.KSCollectionUtils;
 import org.kuali.student.enrollment.academicrecord.dto.StudentCourseRecordInfo;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingDisplayInfo;
+import org.kuali.student.enrollment.courseoffering.infc.ActivityOfferingDisplay;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.TimeOfDayInfo;
@@ -68,6 +69,7 @@ import org.kuali.student.r2.core.room.infc.Room;
 import org.kuali.student.r2.core.scheduling.constants.SchedulingServiceConstants;
 import org.kuali.student.r2.core.scheduling.dto.ScheduleDisplayInfo;
 import org.kuali.student.r2.core.scheduling.infc.ScheduleComponentDisplay;
+import org.kuali.student.r2.core.scheduling.infc.ScheduleDisplay;
 import org.kuali.student.r2.core.scheduling.infc.TimeSlot;
 import org.kuali.student.r2.lum.course.infc.Course;
 import org.slf4j.Logger;
@@ -323,7 +325,7 @@ public class DefaultScheduleBuildStrategy implements ScheduleBuildStrategy,
 		return meeting;
 	}
 
-	private ActivityOptionInfo getActivityOption(Term term, ActivityOfferingDisplayInfo aodi,
+	private ActivityOptionInfo getActivityOption(Term term, ActivityOfferingDisplay aodi,
 			int courseIndex, String courseId, String campusCode, StringBuilder msg,
             KSDateTimeFormatter tdf, KSDateTimeFormatter udf, KSDateTimeFormatter ddf, Calendar sdcal, Calendar edcal,
 			Calendar tcal) {
@@ -359,7 +361,7 @@ public class DefaultScheduleBuildStrategy implements ScheduleBuildStrategy,
 		Date sessionEndDate = term.getEndDate();
 		BigDecimal minCredits = BigDecimal.ZERO;
 		BigDecimal maxCredits = BigDecimal.ZERO;
-		for (AttributeInfo attrib : aodi.getAttributes()) {
+		for (Attribute attrib : aodi.getAttributes()) {
 			String key = attrib.getKey();
 			String value = attrib.getValue();
 			if ("PrimaryActivityOfferingId".equalsIgnoreCase(key)) {
@@ -424,7 +426,7 @@ public class DefaultScheduleBuildStrategy implements ScheduleBuildStrategy,
 		activityOption.setMaxCredits(maxCredits);
 
 		List<ClassMeetingTime> meetingTimes = new LinkedList<ClassMeetingTime>();
-		ScheduleDisplayInfo sdi = aodi.getScheduleDisplay();
+		ScheduleDisplay sdi = aodi.getScheduleDisplay();
 		for (ScheduleComponentDisplay scdi : sdi
 				.getScheduleComponentDisplays())
 			for (TimeSlot timeSlot : scdi.getTimeSlots())
@@ -456,7 +458,7 @@ public class DefaultScheduleBuildStrategy implements ScheduleBuildStrategy,
 		if (term == null)
 			return null;
 
-		for (ActivityOfferingDisplayInfo aodi : courseHelper
+		for (ActivityOfferingDisplay aodi : courseHelper
 				.getActivityOfferingDisplaysByCourseAndTerm(courseId,
 						termId))
 			if (regCode.equals(aodi.getActivityOfferingCode())) {
@@ -516,7 +518,7 @@ public class DefaultScheduleBuildStrategy implements ScheduleBuildStrategy,
 			StringBuilder msg = null;
 			if (LOG.isDebugEnabled())
 				msg = new StringBuilder();
-			for (ActivityOfferingDisplayInfo aodi : courseHelper
+			for (ActivityOfferingDisplay aodi : courseHelper
 					.getActivityOfferingDisplaysByCourseAndTerm(courseId,
 							termId)) {
 				ActivityOptionInfo activityOption = getActivityOption(term, aodi, courseIndex,
@@ -524,7 +526,7 @@ public class DefaultScheduleBuildStrategy implements ScheduleBuildStrategy,
 
 				boolean enrollmentGroup = false;
 				String primaryOfferingId = null;
-				for (AttributeInfo attrib : aodi.getAttributes()) {
+				for (Attribute attrib : aodi.getAttributes()) {
 					String key = attrib.getKey();
 					String value = attrib.getValue();
 

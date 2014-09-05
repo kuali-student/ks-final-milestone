@@ -473,7 +473,7 @@ public class DefaultTermHelper implements TermHelper {
         }
         boolean isRegistrationOpen = false;
         if(endOfScheduleAdjustment!=null){
-            isRegistrationOpen = endOfScheduleAdjustment.getEndDate().before(now);
+            isRegistrationOpen = !endOfScheduleAdjustment.getEndDate().before(now);
         }
         return isRegistrationOpen;
     }

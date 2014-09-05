@@ -2,10 +2,9 @@ package org.kuali.student.ap.framework.context;
 
 import org.kuali.student.ap.academicplan.infc.PlanItem;
 import org.kuali.student.ap.coursesearch.CourseSearchItem;
-import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingDisplayInfo;
-import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
+import org.kuali.student.enrollment.courseoffering.infc.ActivityOfferingDisplay;
+import org.kuali.student.enrollment.courseoffering.infc.CourseOffering;
 import org.kuali.student.r2.core.acal.infc.Term;
-import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.lum.course.infc.Course;
 
 import java.util.List;
@@ -29,7 +28,7 @@ public interface CourseHelper {
      * @param courseId
      * @return
      */
-	CourseInfo getCourseInfo(String courseId);
+	Course getCourseInfo(String courseId);
 
     /**
      * Get the list of ActivityOfferingDisplayInfo objects for the given courseId and term
@@ -37,7 +36,7 @@ public interface CourseHelper {
      * @param term
      * @return
      */
-	List<ActivityOfferingDisplayInfo> getActivityOfferingDisplaysByCourseAndTerm(String courseId, String term);
+	List<ActivityOfferingDisplay> getActivityOfferingDisplaysByCourseAndTerm(String courseId, String term);
 
     /**
      * Get the last/latest offered term in the past for a course
@@ -59,7 +58,7 @@ public interface CourseHelper {
      * @param courses - List of courses
      * @return List of all offerings for each course id that occurs during one of the listed terms
      */
-    List<CourseOfferingInfo> getCourseOfferingsForCourses(List<CourseSearchItem> courses);
+    List<CourseOffering> getCourseOfferingsForCourses(List<CourseSearchItem> courses);
 
     /**
      * Get a list of offerings for a list of course ids in a given list of terms
@@ -67,7 +66,7 @@ public interface CourseHelper {
      * @param terms - List of terms
      * @return List of all offerings for each course id that occurs during one of the listed terms
      */
-    List<CourseOfferingInfo> getCourseOfferingsForCoursesAndTerms(List<String> courseIds, List<Term> terms);
+    List<CourseOffering> getCourseOfferingsForCoursesAndTerms(List<String> courseIds, List<Term> terms);
 
     /**
      * Takes a courseId that can be either a version independent Id or a version
@@ -129,7 +128,7 @@ public interface CourseHelper {
      * @param versionIndependentId
      * @return The current version of the CourseInfo
      */
-    CourseInfo getCurrentVersionOfCourseByVersionIndependentId(String versionIndependentId);
+    Course getCurrentVersionOfCourseByVersionIndependentId(String versionIndependentId);
 
     /**
      * Get all courseIds (clu IDs) for a particular version independent id

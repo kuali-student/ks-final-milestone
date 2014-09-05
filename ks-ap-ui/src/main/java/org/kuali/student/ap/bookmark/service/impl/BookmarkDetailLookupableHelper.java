@@ -16,7 +16,7 @@ import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
-import org.kuali.student.r2.lum.course.dto.CourseInfo;
+import org.kuali.student.r2.lum.course.infc.Course;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -79,7 +79,7 @@ public class BookmarkDetailLookupableHelper extends
                 bookmark.setDateAdded(planItem.getMeta().getCreateTime());
                 bookmark.setUniqueId(UUID.randomUUID().toString());
 
-                CourseInfo course = KsapFrameworkServiceLocator.getCourseHelper().getCurrentVersionOfCourseByVersionIndependentId
+                Course course = KsapFrameworkServiceLocator.getCourseHelper().getCurrentVersionOfCourseByVersionIndependentId
                         (planItem.getRefObjectId());
                 CourseDetailsWrapper courseDetails = getCourseDetailsInquiryService().retrieveCourseSummary(course);
                 bookmark.setCourseDetailsWrapper(courseDetails);

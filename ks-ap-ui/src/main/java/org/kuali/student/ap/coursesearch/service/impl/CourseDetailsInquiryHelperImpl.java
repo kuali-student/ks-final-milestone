@@ -102,7 +102,7 @@ public class CourseDetailsInquiryHelperImpl extends KualiInquirableImpl {
 	 * @return
 	 */
 	public CourseSummaryDetails retrieveCourseSummaryById(String courseId) {
-		CourseInfo course = KsapFrameworkServiceLocator.getCourseHelper().getCourseInfo(courseId);
+		CourseInfo course = (CourseInfo)KsapFrameworkServiceLocator.getCourseHelper().getCourseInfo(courseId);
 		CourseSummaryDetails courseDetails = retrieveCourseSummary(course);
 		return courseDetails;
 	}
@@ -242,7 +242,7 @@ public class CourseDetailsInquiryHelperImpl extends KualiInquirableImpl {
 	public CourseDetails retrieveCourseDetails(String courseId, String termId, String studentId,
 			boolean loadActivityOffering) {
 		CourseDetails courseDetails = new CourseDetails();
-		final CourseInfo course = KsapFrameworkServiceLocator.getCourseHelper().getCourseInfo(courseId);
+		final CourseInfo course = (CourseInfo)KsapFrameworkServiceLocator.getCourseHelper().getCourseInfo(courseId);
 
 		CourseSummaryDetails courseSummaryDetails = retrieveCourseSummary(course);
 		courseDetails.setCourseSummaryDetails(courseSummaryDetails);
@@ -276,7 +276,7 @@ public class CourseDetailsInquiryHelperImpl extends KualiInquirableImpl {
 	 * @return
 	 */
 	public PlannedCourseSummary getPlannedCourseSummaryById(String courseId, String studentId) {
-		CourseInfo course = KsapFrameworkServiceLocator.getCourseHelper().getCourseInfo(courseId);
+		CourseInfo course = (CourseInfo)KsapFrameworkServiceLocator.getCourseHelper().getCourseInfo(courseId);
 		return getPlannedCourseSummary(course, studentId);
 	}
 
@@ -376,7 +376,7 @@ public class CourseDetailsInquiryHelperImpl extends KualiInquirableImpl {
 	 * @return
 	 */
 	public List<CourseOfferingInstitution> getCourseOfferingInstitutionsById(String courseId, List<String> terms) {
-		CourseInfo course = KsapFrameworkServiceLocator.getCourseHelper().getCourseInfo(courseId);
+		CourseInfo course = (CourseInfo)KsapFrameworkServiceLocator.getCourseHelper().getCourseInfo(courseId);
 		return getCourseOfferingInstitutions(course, terms);
 	}
 
@@ -538,7 +538,7 @@ public class CourseDetailsInquiryHelperImpl extends KualiInquirableImpl {
 		List<ActivityOfferingItem> activityOfferingItems = new ArrayList<ActivityOfferingItem>();
 
 		try {
-			CourseInfo course = KsapFrameworkServiceLocator.getCourseHelper().getCourseInfo(courseId);
+			CourseInfo course = (CourseInfo)KsapFrameworkServiceLocator.getCourseHelper().getCourseInfo(courseId);
 			List<CourseOfferingInfo> courseOfferingInfoList = KsapFrameworkServiceLocator.getCourseOfferingService()
 					.getCourseOfferingsByCourseAndTerm(courseId, termId,
 							KsapFrameworkServiceLocator.getContext().getContextInfo());

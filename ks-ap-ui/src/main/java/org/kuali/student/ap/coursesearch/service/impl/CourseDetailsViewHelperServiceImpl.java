@@ -21,12 +21,9 @@ import org.kuali.rice.krad.uif.container.GroupBase;
 import org.kuali.rice.krad.uif.service.impl.ViewHelperServiceImpl;
 import org.kuali.rice.krad.uif.widget.Disclosure;
 import org.kuali.rice.krad.web.form.UifFormBase;
-import org.kuali.student.ap.academicplan.constants.AcademicPlanServiceConstants;
 import org.kuali.student.ap.academicplan.dto.PlanItemInfo;
-import org.kuali.student.ap.academicplan.dto.TypedObjectReferenceInfo;
 import org.kuali.student.ap.academicplan.infc.LearningPlan;
 import org.kuali.student.ap.academicplan.infc.PlanItem;
-import org.kuali.student.ap.academicplan.infc.TypedObjectReference;
 import org.kuali.student.ap.coursesearch.CreditsFormatter;
 import org.kuali.student.ap.coursesearch.dataobject.ActivityFormatDetailsWrapper;
 import org.kuali.student.ap.coursesearch.dataobject.ActivityOfferingDetailsWrapper;
@@ -45,15 +42,13 @@ import org.kuali.student.ap.framework.util.KsapHelperUtil;
 import org.kuali.student.common.collection.KSCollectionUtils;
 import org.kuali.student.common.util.security.ContextUtils;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
-import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo;
 import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
+import org.kuali.student.enrollment.courseoffering.infc.CourseOffering;
 import org.kuali.student.enrollment.courseseatcount.infc.SeatCount;
-import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.TimeOfDayInfo;
-import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
@@ -71,10 +66,8 @@ import org.kuali.student.r2.core.scheduling.dto.ScheduleComponentInfo;
 import org.kuali.student.r2.core.scheduling.dto.ScheduleInfo;
 import org.kuali.student.r2.core.scheduling.dto.TimeSlotInfo;
 import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
-import org.kuali.student.r2.core.search.dto.SearchResultInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultRowInfo;
-import org.kuali.student.r2.core.search.infc.SearchResultRow;
-import org.kuali.student.r2.lum.course.dto.CourseInfo;
+import org.kuali.student.r2.lum.course.infc.Course;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -113,7 +106,7 @@ public class CourseDetailsViewHelperServiceImpl extends ViewHelperServiceImpl im
      * @param courseId - Id of the course being loaded
      */
     private void load(CourseSectionDetailsForm form, String courseId)  {
-        CourseInfo courseInfo = KsapFrameworkServiceLocator.getCourseHelper().getCourseInfo(courseId);
+        Course courseInfo = KsapFrameworkServiceLocator.getCourseHelper().getCourseInfo(courseId);
         form.setCourseTitle(courseInfo.getCourseTitle());
         form.setCourseCode(courseInfo.getCode());
         List<String> termIds = KsapFrameworkServiceLocator.getCourseHelper().getScheduledTermsForCourse(courseInfo);
@@ -187,10 +180,10 @@ public class CourseDetailsViewHelperServiceImpl extends ViewHelperServiceImpl im
     /**
      * Comparator implementation so that I can sort CourseOfferingInfo objects by the course offering code
      */
-    public class CourseOfferingInfoComparator implements Comparator<CourseOfferingInfo> {
+    public class CourseOfferingInfoComparator implements Comparator<CourseOffering> {
 
         @Override
-        public int compare(CourseOfferingInfo o1, CourseOfferingInfo o2) {
+        public int compare(CourseOffering o1, CourseOffering o2) {
             return o1.getCourseOfferingCode().compareTo(o2.getCourseOfferingCode());
         }
     }
@@ -211,12 +204,12 @@ public class CourseDetailsViewHelperServiceImpl extends ViewHelperServiceImpl im
      */
     @Override
     public Map<String, List<CourseOfferingDetailsWrapper>> processCourseOfferingsByTerm(List<String> courseIds, List<Term> terms) {
-        List<CourseOfferingInfo> courseOfferings = KsapFrameworkServiceLocator.getCourseHelper().getCourseOfferingsForCoursesAndTerms(courseIds, terms);
+        List<CourseOffering> courseOfferings = KsapFrameworkServiceLocator.getCourseHelper().getCourseOfferingsForCoursesAndTerms(courseIds, terms);
         Collections.sort(courseOfferings, new CourseOfferingInfoComparator());
         Map<String, List<CourseOfferingDetailsWrapper>> map = new HashMap<String, List<CourseOfferingDetailsWrapper>>();
         ContextInfo contextInfo = KsapFrameworkServiceLocator.getContext().getContextInfo();
 
-        for (CourseOfferingInfo offering : courseOfferings) {
+        for (CourseOffering offering : courseOfferings) {
             String termId = offering.getTermId();
             List<CourseOfferingDetailsWrapper> offeringsByTerm = map.get(termId);
             if (offeringsByTerm == null)
@@ -1343,7 +1336,7 @@ public class CourseDetailsViewHelperServiceImpl extends ViewHelperServiceImpl im
     /**
      * {@inheritDoc}
      */
-    public boolean isVariableCreditCourse(CourseOfferingInfo courseOffering) {
+    public boolean isVariableCreditCourse(CourseOffering courseOffering) {
 
         CreditsFormatter.Range range = CreditsFormatter.getRange(courseOffering);
 

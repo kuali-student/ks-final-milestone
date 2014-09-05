@@ -15,7 +15,7 @@
 package org.kuali.student.ap.coursesearch.dataobject;
 
 import org.kuali.student.ap.coursesearch.util.CourseDetailsUtil;
-import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
+import org.kuali.student.enrollment.courseoffering.infc.CourseOffering;
 
 import java.util.List;
 
@@ -38,7 +38,7 @@ public class CourseOfferingDetailsWrapper {
 
     private List<PlannedRegistrationGroupDetailsWrapper> plannedActivityDetailsWrappers;
 
-    public CourseOfferingDetailsWrapper (CourseOfferingInfo courseOfferingInfo) {
+    public CourseOfferingDetailsWrapper (CourseOffering courseOfferingInfo) {
         courseOfferingId = courseOfferingInfo.getId();
         courseOfferingCode = courseOfferingInfo.getCourseOfferingCode();
         courseOfferingTitle = courseOfferingInfo.getCourseOfferingTitle();

@@ -3,10 +3,9 @@ package org.kuali.student.ap.test.mock;
 import org.kuali.student.ap.academicplan.infc.PlanItem;
 import org.kuali.student.ap.coursesearch.CourseSearchItem;
 import org.kuali.student.ap.framework.context.CourseHelper;
-import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingDisplayInfo;
-import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
+import org.kuali.student.enrollment.courseoffering.infc.ActivityOfferingDisplay;
+import org.kuali.student.enrollment.courseoffering.infc.CourseOffering;
 import org.kuali.student.r2.core.acal.infc.Term;
-import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.lum.course.infc.Course;
 
 import java.util.List;
@@ -25,12 +24,12 @@ public class CourseHelperMockTest implements CourseHelper {
     }
 
     @Override
-    public CourseInfo getCourseInfo(String courseId) {
+    public Course getCourseInfo(String courseId) {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
     @Override
-    public List<ActivityOfferingDisplayInfo> getActivityOfferingDisplaysByCourseAndTerm(String courseId, String term) {
+    public List<ActivityOfferingDisplay> getActivityOfferingDisplaysByCourseAndTerm(String courseId, String term) {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
@@ -51,12 +50,12 @@ public class CourseHelperMockTest implements CourseHelper {
      * @return List of all offerings for each course id that occurs during one of the listed terms
      */
     @Override
-    public List<CourseOfferingInfo> getCourseOfferingsForCourses(List<CourseSearchItem> courses) {
+    public List<CourseOffering> getCourseOfferingsForCourses(List<CourseSearchItem> courses) {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
     @Override
-    public List<CourseOfferingInfo> getCourseOfferingsForCoursesAndTerms(List<String> courseIds, List<Term> terms) {
+    public List<CourseOffering> getCourseOfferingsForCoursesAndTerms(List<String> courseIds, List<Term> terms) {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
@@ -92,7 +91,7 @@ public class CourseHelperMockTest implements CourseHelper {
     }
 
     @Override
-    public CourseInfo getCurrentVersionOfCourseByVersionIndependentId(String versionIndependentId) {
+    public Course getCurrentVersionOfCourseByVersionIndependentId(String versionIndependentId) {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 

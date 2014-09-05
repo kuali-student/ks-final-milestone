@@ -22,6 +22,10 @@ public class PlannerFormImpl extends DefaultPlannerForm {
 
     private boolean loadCalendar;
 
+    public PlannerFormImpl(){
+        this.setFocusTermIndex(-1);
+    }
+
 	@Override
 	public void setLearningPlanId(String learningPlanId) {
 		super.setLearningPlanId(learningPlanId);

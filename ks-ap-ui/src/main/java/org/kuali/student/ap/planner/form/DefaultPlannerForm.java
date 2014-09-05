@@ -82,7 +82,7 @@ public class DefaultPlannerForm extends AbstractPlanItemForm implements
     private String targetTermId;
 
     @RequestAccessible
-    private int focusTermIndex = -1;
+    private int focusTermIndex;
 
     @RequestAccessible
     private transient boolean termNoteInitialized;
@@ -311,8 +311,9 @@ public class DefaultPlannerForm extends AbstractPlanItemForm implements
         if(focusTermIndex<0){
             focusTermIndex=0;
             String focusTermId = KsapFrameworkServiceLocator.getPlanHelper().getPlannerFirstTermId();
-            for(int i =0; i<getTerms().size();i++){
-                PlannerTerm term = getTerms().get(i);
+            List<PlannerTerm> terms = getTerms();
+            for(int i =0; i<terms.size();i++){
+                PlannerTerm term = terms.get(i);
                 if(term.getTermId().equals(focusTermId)){
                     focusTermIndex=i;
                     break;

@@ -1,7 +1,6 @@
 package org.kuali.student.ap.coursesearch.service.impl;
 
 import org.apache.cxf.common.util.StringUtils;
-import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.kns.inquiry.KualiInquirableImpl;
 import org.kuali.student.ap.academicplan.infc.PlanItem;
 import org.kuali.student.ap.coursesearch.CreditsFormatter;
@@ -19,17 +18,14 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.infc.RichText;
 import org.kuali.student.r2.core.acal.infc.Term;
-import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
 import org.kuali.student.r2.core.search.infc.SearchResult;
 import org.kuali.student.r2.core.search.infc.SearchResultRow;
-import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.lum.course.infc.Course;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -77,7 +73,7 @@ public class CourseDetailsInquiryHelperImpl2 extends KualiInquirableImpl {
      */
     public CourseDetailsWrapper retrieveCourseDetails(String courseId, String termId, String studentId,
                                                       boolean loadActivityOffering) {
-        final CourseInfo course = KsapFrameworkServiceLocator.getCourseHelper().getCourseInfo(courseId);
+        final Course course = KsapFrameworkServiceLocator.getCourseHelper().getCourseInfo(courseId);
 
         CourseDetailsWrapper courseDetails = retrieveCourseSummary(course);
 
@@ -91,7 +87,7 @@ public class CourseDetailsInquiryHelperImpl2 extends KualiInquirableImpl {
      * @return Compiled data object for popover
      */
     public CourseDetailsPopoverWrapper retrieveCoursePopoverDetails(String courseId){
-        final CourseInfo course = KsapFrameworkServiceLocator.getCourseHelper().getCourseInfo(courseId);
+        final Course course = KsapFrameworkServiceLocator.getCourseHelper().getCourseInfo(courseId);
 
         if(course == null) return null;
 
@@ -138,7 +134,7 @@ public class CourseDetailsInquiryHelperImpl2 extends KualiInquirableImpl {
      * @return
      */
     public CourseDetailsWrapper retrieveCourseSummaryById(String courseId) {
-        CourseInfo course = KsapFrameworkServiceLocator.getCourseHelper().getCourseInfo(courseId);
+        Course course = KsapFrameworkServiceLocator.getCourseHelper().getCourseInfo(courseId);
         return retrieveCourseSummary(course);
     }
 

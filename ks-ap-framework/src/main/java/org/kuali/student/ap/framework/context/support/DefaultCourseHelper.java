@@ -14,7 +14,8 @@ import org.kuali.student.ap.framework.context.CourseSearchConstants;
 import org.kuali.student.ap.framework.util.KsapHelperUtil;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingDisplayInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
-import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
+import org.kuali.student.enrollment.courseoffering.infc.ActivityOfferingDisplay;
+import org.kuali.student.enrollment.courseoffering.infc.CourseOffering;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
@@ -31,12 +32,9 @@ import org.kuali.student.r2.core.search.dto.SearchResultRowInfo;
 import org.kuali.student.r2.core.versionmanagement.dto.VersionDisplayInfo;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.lum.course.infc.Course;
-import org.kuali.student.r2.lum.course.service.CourseService;
 import org.kuali.student.r2.lum.util.constants.CluServiceConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.transaction.support.TransactionSynchronizationAdapter;
-import org.springframework.transaction.support.TransactionSynchronizationManager;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -62,7 +60,7 @@ public class DefaultCourseHelper implements CourseHelper, Serializable {
 	}
 
     @Override
-	public CourseInfo getCourseInfo(String courseId) {
+	public Course getCourseInfo(String courseId) {
 		// call through service locator to facilitate proxying delegate override of getCurrentVersionIdOfCourse
 		String verifiedCourseId = KsapFrameworkServiceLocator.getCourseHelper().getCurrentVersionIdOfCourse(courseId);
 		CourseInfo rv;
@@ -78,32 +76,23 @@ public class DefaultCourseHelper implements CourseHelper, Serializable {
 	}
 
 	@Override
-	public List<ActivityOfferingDisplayInfo> getActivityOfferingDisplaysByCourseAndTerm(String courseId, String termId) {
-		List<ActivityOfferingDisplayInfo> rv;
+	public List<ActivityOfferingDisplay> getActivityOfferingDisplaysByCourseAndTerm(String courseId, String termId) {
+		List<ActivityOfferingDisplay> rv;
         try {
             CourseOfferingService courseOfferingService = KsapFrameworkServiceLocator.getCourseOfferingService();
             ContextInfo context = KsapFrameworkServiceLocator.getContext().getContextInfo();
-            rv = new java.util.LinkedList<ActivityOfferingDisplayInfo>();
-            StringBuilder msg = null;
-            if (LOG.isDebugEnabled())
-                msg = new StringBuilder("CO cache miss ").append(courseId).append(" ").append(termId);
+            rv = new java.util.LinkedList<ActivityOfferingDisplay>();
             for (CourseOfferingInfo co : courseOfferingService.getCourseOfferingsByCourseAndTerm(courseId, termId,
                     context)) {
                 if (LuiServiceConstants.LUI_CO_STATE_OFFERED_KEY.equalsIgnoreCase(co.getStateKey())) {
-                    if (msg != null)
-                        msg.append("\n  CO ").append(co.getId());
                     List<ActivityOfferingDisplayInfo> aol = KsapFrameworkServiceLocator.getCourseOfferingService()
                             .getActivityOfferingDisplaysForCourseOffering(co.getId(),
                                     KsapFrameworkServiceLocator.getContext().getContextInfo());
                     for (ActivityOfferingDisplayInfo aodi : aol) {
-                        if (msg != null)
-                            msg.append("\n    AO ").append(aodi.getId());
                         rv.add(aodi);
                     }
                 }
             }
-            if (msg != null)
-                LOG.debug(msg.toString());
         } catch (DoesNotExistException | InvalidParameterException | MissingParameterException | OperationFailedException | PermissionDeniedException e) {
             throw new IllegalArgumentException("CO lookup failure", e);
         }
@@ -141,8 +130,8 @@ public class DefaultCourseHelper implements CourseHelper, Serializable {
 	}
 
     @Override
-    public List<CourseOfferingInfo> getCourseOfferingsForCourses(List<CourseSearchItem> courses){
-        List<CourseOfferingInfo> offerings = new ArrayList<CourseOfferingInfo>();
+    public List<CourseOffering> getCourseOfferingsForCourses(List<CourseSearchItem> courses){
+        List<CourseOffering> offerings = new ArrayList<CourseOffering>();
         try {
             // Load list of terms to find offerings in
             List<Term> terms = new ArrayList<Term>();
@@ -157,8 +146,11 @@ public class DefaultCourseHelper implements CourseHelper, Serializable {
             QueryByCriteria query = QueryByCriteria.Builder.fromPredicates(or(coursePredicates),
                     or(termPredicates), equal("luiType", LuiServiceConstants.COURSE_OFFERING_TYPE_KEY),
                     equal("luiState", LuiServiceConstants.LUI_CO_STATE_OFFERED_KEY));
-            offerings = KsapFrameworkServiceLocator.getCourseOfferingService()
+            List<CourseOfferingInfo> tempOfferings = KsapFrameworkServiceLocator.getCourseOfferingService()
                     .searchForCourseOfferings(query,KsapFrameworkServiceLocator.getContext().getContextInfo());
+            for(CourseOffering temp : tempOfferings){
+                offerings.add(temp);
+            }
         } catch (InvalidParameterException | MissingParameterException | OperationFailedException | PermissionDeniedException e) {
             throw new IllegalArgumentException("ATP lookup failed", e);
          }
@@ -167,8 +159,8 @@ public class DefaultCourseHelper implements CourseHelper, Serializable {
     }
 
     @Override
-    public List<CourseOfferingInfo> getCourseOfferingsForCoursesAndTerms(List<String> courseIds, List<Term> terms){
-        List<CourseOfferingInfo> offerings = new ArrayList<CourseOfferingInfo>();
+    public List<CourseOffering> getCourseOfferingsForCoursesAndTerms(List<String> courseIds, List<Term> terms){
+        List<CourseOffering> offerings = new ArrayList<CourseOffering>();
         try {
             // Load list of terms to find offerings in
             // Search for all course offerings of search results in terms
@@ -178,8 +170,11 @@ public class DefaultCourseHelper implements CourseHelper, Serializable {
             QueryByCriteria query = QueryByCriteria.Builder.fromPredicates(or(coursePredicates),
                     or(termPredicates), equal("luiType", LuiServiceConstants.COURSE_OFFERING_TYPE_KEY),
                     equal("luiState", LuiServiceConstants.LUI_CO_STATE_OFFERED_KEY));
-            offerings = KsapFrameworkServiceLocator.getCourseOfferingService()
+            List<CourseOfferingInfo> tempOfferings = KsapFrameworkServiceLocator.getCourseOfferingService()
                     .searchForCourseOfferings(query,KsapFrameworkServiceLocator.getContext().getContextInfo());
+            for(CourseOffering temp : tempOfferings){
+                offerings.add(temp);
+            }
         } catch (InvalidParameterException | MissingParameterException | OperationFailedException | PermissionDeniedException e) {
             throw new IllegalArgumentException("ATP lookup failed", e);
         }
@@ -270,7 +265,7 @@ public class DefaultCourseHelper implements CourseHelper, Serializable {
     }
 
     @Override
-    public CourseInfo getCurrentVersionOfCourseByVersionIndependentId(String versionIndependentId) {
+    public Course getCurrentVersionOfCourseByVersionIndependentId(String versionIndependentId) {
         // Retrieve course information using the course code entered by the user
         CourseInfo course;
         ContextInfo contextInfo = KsapFrameworkServiceLocator.getContext().getContextInfo();

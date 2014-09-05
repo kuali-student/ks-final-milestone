@@ -25,6 +25,7 @@ import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.infc.Attribute;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
 import org.kuali.student.r2.core.acal.infc.Term;
+import org.kuali.student.r2.lum.course.dto.CourseInfo;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -110,7 +111,7 @@ public class DefaultShoppingCartStrategy implements ShoppingCartStrategy,
 		for (CourseOption courseOption : courseOptions) {
 			ShoppingCartRequestInfo cartRequest = new ShoppingCartRequestInfo();
 			cartRequest.setTerm(new TermInfo(term));
-			cartRequest.setCourse(courseHelper.getCourseInfo(courseOption
+			cartRequest.setCourse((CourseInfo)courseHelper.getCourseInfo(courseOption
 					.getCourseId()));
 			cartRequest.setAddToCart(courseOption.isSelected());
 
@@ -191,7 +192,7 @@ public class DefaultShoppingCartStrategy implements ShoppingCartStrategy,
 			String courseId = planItem.getRefObjectId();
 			ShoppingCartRequestInfo cartRequest = new ShoppingCartRequestInfo();
 			cartRequest.setAddToCart(false);
-			cartRequest.setCourse(KsapFrameworkServiceLocator.getCourseHelper()
+			cartRequest.setCourse((CourseInfo)KsapFrameworkServiceLocator.getCourseHelper()
 					.getCourseInfo(courseId));
 			cartRequest.setPrimaryRegistrationCode(acodes.get(0));
 			if (acodes.size() > 1)
@@ -254,7 +255,7 @@ public class DefaultShoppingCartStrategy implements ShoppingCartStrategy,
 			if (cartRequest == null) {
 				cartRequest = new ShoppingCartRequestInfo();
 				cartRequest.setAddToCart(true);
-				cartRequest.setCourse(KsapFrameworkServiceLocator
+				cartRequest.setCourse((CourseInfo)KsapFrameworkServiceLocator
 						.getCourseHelper().getCourseInfo(courseId));
 				List<ActivityOption> aol = aoe.getValue();
                 if(!aol.isEmpty()){

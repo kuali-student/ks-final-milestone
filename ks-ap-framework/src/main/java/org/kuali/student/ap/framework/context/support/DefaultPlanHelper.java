@@ -1436,20 +1436,13 @@ public class DefaultPlanHelper implements PlanHelper {
             numberToAdd = numberToAdd - term.getAcademicRecord().size();
             term.setAcademicRecord(padCategory(term.getAcademicRecord(),numberToAdd));
         } else if(term.isFutureTerm()){
-            // If term is in the future Registered and/or planned items are above credit line
-            if(term.isRegistrationOpen()){
-                if(term.getRegistrationList().isEmpty()){
-                    // If no registered items exist only planned is above credit line
-                    numberToAdd = numberToAdd - term.getPlannedList().size();
-                    term.setPlannedList(padCategory(term.getPlannedList(),numberToAdd));
-                } else{
-                    // If there are registered items then both  are displayed with 1 extra space for planned header
-                    numberToAdd = numberToAdd - term.getPlannedList().size() - term.getRegistrationList().size()-1;
-                    term.setPlannedList(padCategory(term.getPlannedList(),numberToAdd));
-                }
-            } else{
-                // If registration is closed then only planned items
+            if(term.getRegistrationList().isEmpty()){
+                // If no registered items exist only planned is above credit line
                 numberToAdd = numberToAdd - term.getPlannedList().size();
+                term.setPlannedList(padCategory(term.getPlannedList(),numberToAdd));
+            } else{
+                // If there are registered items then both  are displayed with 1 extra space for planned header
+                numberToAdd = numberToAdd - term.getPlannedList().size() - term.getRegistrationList().size()-1;
                 term.setPlannedList(padCategory(term.getPlannedList(),numberToAdd));
             }
         } else if(term.isInProgress()){
@@ -1502,9 +1495,7 @@ public class DefaultPlanHelper implements PlanHelper {
             itemsToTotal.addAll(term.getAcademicRecord());
         }else if(term.isFutureTerm()){
             itemsToTotal.addAll(term.getPlannedList());
-            if(term.isRegistrationOpen()){
-                itemsToTotal.addAll(term.getRegistrationList());
-            }
+            itemsToTotal.addAll(term.getRegistrationList());
         }else if(term.isInProgress()){
             itemsToTotal.addAll(term.getRegistrationList());
             if(term.isRegistrationOpen()){

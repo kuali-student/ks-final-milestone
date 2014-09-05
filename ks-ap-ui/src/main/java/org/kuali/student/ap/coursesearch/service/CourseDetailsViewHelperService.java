@@ -20,8 +20,8 @@ import org.kuali.student.ap.coursesearch.dataobject.ActivityOfferingDetailsWrapp
 import org.kuali.student.ap.coursesearch.dataobject.CourseOfferingDetailsWrapper;
 import org.kuali.student.ap.coursesearch.form.CourseSectionDetailsDialogForm;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
-import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
+import org.kuali.student.enrollment.courseoffering.infc.CourseOffering;
 import org.kuali.student.r2.core.acal.infc.Term;
 
 import javax.json.JsonObjectBuilder;
@@ -135,8 +135,8 @@ public interface CourseDetailsViewHelperService extends ViewHelperService {
 
     /**
      * Determines if a passed courseOffering is a variable credit course
-     * @param courseOffering - CourseOfferingInfo object to check
+     * @param courseOffering - CourseOffering object to check
      * @return - True if the course offering is a variable credit, false otherwise
      */
-    public boolean isVariableCreditCourse(CourseOfferingInfo courseOffering);
+    public boolean isVariableCreditCourse(CourseOffering courseOffering);
 }
