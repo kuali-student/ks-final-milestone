@@ -76,14 +76,13 @@ public class AppointmentWindowWrapperInquiryViewHelperServiceImpl extends Inquir
             SearchResultInfo searchResult = getSearchService().search(searchRequest, null);
 
             SearchResultHelper resultHelper = new SearchResultHelper(searchResult);
-            if (resultHelper.getSearchResult().getTotalResults() != null && resultHelper.getSearchResult().getTotalResults() > 0){
+            if (!resultHelper.getSearchResult().getRows().isEmpty()){
                 Integer numberOfSlots = resultHelper.getAsInteger(0, ApptWindowCountsSearchImpl.NUM_SLOTS);
                 Integer numberOfStudents = resultHelper.getAsInteger(0, ApptWindowCountsSearchImpl.NUM_APPTS);
                 double meanStudentsPerSlot = Math.ceil(numberOfStudents/(float)numberOfSlots);
                 String firstSlotPopulated = resultHelper.get(0, ApptWindowCountsSearchImpl.FIRST_SLOT);
                 String lastSlotPopulated = resultHelper.get(0, ApptWindowCountsSearchImpl.LAST_SLOT);
                 Date windowCreate = resultHelper.getAsDate(0, ApptWindowCountsSearchImpl.CREATE_TIME);
-
 
                 appointmentWindowWrapper.setNumberOfSlots(numberOfSlots);
                 appointmentWindowWrapper.setNumberOfStudents(numberOfStudents);

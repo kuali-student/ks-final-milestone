@@ -49,6 +49,9 @@ import java.util.Set;
  * If total attempts < max repeats and total attempts >= (max repeats - 1), return a warning string
  * Otherwise return a success string
  *
+ * In addition, if there is a repeatability rule on the course offering, the result will always be a
+ * success string
+ *
  * @author Kuali Student Team
  */
 public class CourseRepeatabilityTermResolver implements TermResolver<String> {
