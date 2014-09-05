@@ -1,7 +1,10 @@
 package org.kuali.student.ap.planner;
 
 import org.kuali.student.ap.academicplan.constants.AcademicPlanServiceConstants;
+import org.kuali.student.ap.common.infc.HasUniqueId;
 import org.kuali.student.ap.coursesearch.CreditsFormatter;
+import org.kuali.student.r2.common.infc.HasMeta;
+import org.kuali.student.r2.common.infc.Meta;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -10,8 +13,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PlannerItem implements
-		org.kuali.student.ap.common.infc.HasUniqueId, Serializable {
+public class PlannerItem implements HasUniqueId, HasMeta, Serializable {
 
 	private static final long serialVersionUID = -2043370757872665126L;
 
@@ -38,6 +40,8 @@ public class PlannerItem implements
 	private String grade;
     private AcademicPlanServiceConstants.ItemCategory category;
     private String categoryString;
+
+    private Meta meta;
 
 	private transient String creditString;
 
@@ -244,5 +248,14 @@ public class PlannerItem implements
     }
     public void setCategoryString(String categoryString) {
         this.categoryString=categoryString;
+    }
+
+    @Override
+    public Meta getMeta() {
+        return meta;
+    }
+
+    public void setMeta(Meta meta) {
+        this.meta = meta;
     }
 }

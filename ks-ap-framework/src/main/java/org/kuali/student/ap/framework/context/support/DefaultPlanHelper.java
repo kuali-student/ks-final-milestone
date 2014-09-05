@@ -16,7 +16,6 @@
 package org.kuali.student.ap.framework.context.support;
 
 import org.kuali.rice.core.api.config.property.ConfigContext;
-import org.kuali.rice.kim.api.identity.entity.Entity;
 import org.kuali.rice.kim.api.identity.principal.Principal;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.student.ap.academicplan.constants.AcademicPlanServiceConstants;
@@ -921,6 +920,8 @@ public class DefaultPlanHelper implements PlanHelper {
         newPlannerItem.setCourseId(offering.getCourseId());
         newPlannerItem.setCourseTitle(offering.getCourseOfferingTitle());
 
+        newPlannerItem.setMeta(registrationRecord.getMeta());
+
         String creditsString = registrationRecord.getCredits().toString();
         try {
             if(registrationRecord.getCredits() == null){
@@ -966,6 +967,8 @@ public class DefaultPlanHelper implements PlanHelper {
 
         newPlannerItem.setCourseId(offering.getCourseId());
         newPlannerItem.setCourseTitle(courseRecord.getCourseTitle());
+
+        newPlannerItem.setMeta(courseRecord.getMeta());
 
         String creditsString = courseRecord.getCreditsEarned();
         try {
@@ -1016,6 +1019,8 @@ public class DefaultPlanHelper implements PlanHelper {
         newPlannerItem.setCourseId(course.getId());
         newPlannerItem.setCourseCode(course.getCode());
         newPlannerItem.setCourseTitle(course.getCourseTitle());
+
+        newPlannerItem.setMeta(planItem.getMeta());
 
         BigDecimal credits = planItem.getCredits();
         if (credits == null) {
@@ -1382,6 +1387,8 @@ public class DefaultPlanHelper implements PlanHelper {
 
         // Separated list of items to individual categories.
         if(items != null){
+            //Sort items by date the item was added
+            sortPlannerItemsByDate(items);
             for(PlannerItem item : items){
                 if(item.getCategory().equals(AcademicPlanServiceConstants.ItemCategory.PLANNED)){
                     planned.add(item);
@@ -1421,6 +1428,21 @@ public class DefaultPlanHelper implements PlanHelper {
 
         return term;
     }
+
+    /**
+     * Sorts a list of planner items by the creation date
+     * @param plannerItems - List of planner items to sort
+     */
+    protected void sortPlannerItemsByDate(List<PlannerItem> plannerItems) {
+        Collections.sort(plannerItems, new Comparator<PlannerItem>() {
+            @Override
+            public int compare(PlannerItem o1, PlannerItem o2) {
+                return o1.getMeta().getCreateTime().compareTo(o2.getMeta().getCreateTime());
+            }
+        });
+
+    }
+
 
     /**
      * Calculates and adds any needed padding to the list of categories
