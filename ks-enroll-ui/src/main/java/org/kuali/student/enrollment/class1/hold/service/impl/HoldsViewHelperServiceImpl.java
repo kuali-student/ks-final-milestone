@@ -158,18 +158,21 @@ public class HoldsViewHelperServiceImpl extends KSViewHelperServiceImpl implemen
 
                 AppliedHoldResult appliedHoldResult = new AppliedHoldResult();
                 HoldIssueInfo holdIssue = HoldsResourceLoader.getHoldService().getHoldIssue(appliedHoldInfo.getHoldIssueId(), createContextInfo());
+                //if(holdIssue.getMaintainHistoryOfApplicationOfHold()){
+                    appliedHoldResult.setHoldIssue(holdIssue);
+                    appliedHoldResult.setHoldName(holdIssue.getName());
+                    appliedHoldResult.setCode(holdIssue.getHoldCode());
+                    appliedHoldResult.setState(getStateInfo(appliedHoldInfo.getStateKey()).getName());
+                    appliedHoldResult.setTypeKey(holdIssue.getTypeKey());
+                    //Consequence lookup needed
+                    appliedHoldResult.setConsequence("");
+                    appliedHoldResult.setStartDate(appliedHoldInfo.getEffectiveDate());
+                    appliedHoldResult.setEndDate(appliedHoldInfo.getExpirationDate());
+                    appliedHoldResult.setStartTerm(holdIssue.getFirstApplicationTermId());
+                    appliedHoldResult.setEndTerm(holdIssue.getLastApplicationTermId());
 
-                appliedHoldResult.setHoldName(appliedHoldInfo.getName());
-                appliedHoldResult.setCode(holdIssue.getHoldCode());
-                appliedHoldResult.setState(getStateInfo(appliedHoldInfo.getStateKey()).getName());
-                appliedHoldResult.setTypeKey(holdIssue.getTypeKey());
-                appliedHoldResult.setConsequence((appliedHoldInfo.getDescr() != null ? appliedHoldInfo.getDescr().getPlain() : StringUtils.EMPTY));
-                appliedHoldResult.setStartDate(appliedHoldInfo.getEffectiveDate());
-                appliedHoldResult.setEndDate(appliedHoldInfo.getExpirationDate());
-                appliedHoldResult.setStartTerm(holdIssue.getFirstApplicationTermId());
-                appliedHoldResult.setEndTerm(holdIssue.getLastApplicationTermId());
-
-                holdResultList.add(appliedHoldResult);
+                    holdResultList.add(appliedHoldResult);
+                //}
             }
         } catch (Exception e) {
 

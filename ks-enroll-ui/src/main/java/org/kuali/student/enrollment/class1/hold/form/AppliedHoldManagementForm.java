@@ -48,6 +48,7 @@ public class AppliedHoldManagementForm extends UifFormBase {
     }
 
     public void clear() {
+        this.holdResultList = new ArrayList<AppliedHoldResult>();
         this.person = new PersonInfo();
     }
 

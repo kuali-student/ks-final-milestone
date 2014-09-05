@@ -17,6 +17,7 @@
 package org.kuali.student.enrollment.class1.hold.form;
 
 import org.kuali.rice.krad.web.form.UifFormBase;
+import org.kuali.student.r2.core.hold.dto.HoldIssueInfo;
 
 import java.util.Date;
 
@@ -34,6 +35,7 @@ public class AppliedHoldResult extends UifFormBase {
     private Date endDate;
     private String startTerm;
     private String endTerm;
+    private HoldIssueInfo holdIssue;
 
     public String getHoldName() {
         return holdName;
@@ -97,5 +99,13 @@ public class AppliedHoldResult extends UifFormBase {
 
     public void setEndTerm(String endTerm) {
         this.endTerm = endTerm;
+    }
+
+    public HoldIssueInfo getHoldIssue() {
+        return holdIssue;
+    }
+
+    public void setHoldIssue(HoldIssueInfo holdIssue) {
+        this.holdIssue = holdIssue;
     }
 }
