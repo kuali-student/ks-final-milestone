@@ -350,6 +350,13 @@ a[id *= "LearningObjectives-Icon-"]:hover {
     border: none !important;
 }
 
+/* The notCompareView class is set conditionally in the KRAD code. inline-block breads the page in compare mode. */
+#CM-ViewCourse-View-Course-CourseInfoSection.notCompareView .course_details-grid table th,
+#CM-ViewCourse-View-Course-CourseInfoSection.notCompareView .course_details-grid td {
+    display: inline-block;  /* This is needed because the first row of the course info section is 'display: none' which messes up the width. */
+
+}
+
 /* The tr in compare view gets this class */
 .cm-compare-highlighter {
     background-color: @diff-highlight-color;
