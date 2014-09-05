@@ -51,6 +51,7 @@ import org.kuali.student.r2.core.search.dto.SearchResultInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultRowInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
@@ -250,7 +251,7 @@ public class DefaultTermHelper implements TermHelper {
 		try {
 			Term t = getTerm(yearTerm);
 			List<AcademicCalendarInfo> acl = KsapFrameworkServiceLocator.getAcademicCalendarService().getAcademicCalendarsForTerm(
-								t.getId(), KsapFrameworkServiceLocator.getContext().getContextInfo());
+                    t.getId(), KsapFrameworkServiceLocator.getContext().getContextInfo());
             if (acl == null || acl.isEmpty())
                 throw new IllegalStateException(
                         "AcademicCalendarService did not return an academic calendar for year/term " + yearTerm);
@@ -346,6 +347,7 @@ public class DefaultTermHelper implements TermHelper {
                 planningTerms.add(term);
             }
         }
+        sortTermsByStartDate(planningTerms, true);
         return planningTerms;
 	}
 
