@@ -195,14 +195,14 @@ public class PlannerItem implements HasUniqueId, HasMeta, Serializable {
 			sb.append(CreditsFormatter.trimCredits(minCredits.toString()));
             if (multipleCredits != null && !multipleCredits.isEmpty()){
                 if (multipleCredits.size() == 2 ){
-                    sb.append(",");
+                    sb.append(", ");
                     sb.append(CreditsFormatter.trimCredits(multipleCredits.get(1).toString()));
                     creditString = sb.toString();
                     return creditString;
                 }
             }
 			if (minCredits.compareTo(maxCredits) < 0) {
-				sb.append(" - ");
+				sb.append("&ndash;");
 				sb.append(CreditsFormatter.trimCredits(maxCredits.toString()));
 			}
 			creditString = sb.toString();

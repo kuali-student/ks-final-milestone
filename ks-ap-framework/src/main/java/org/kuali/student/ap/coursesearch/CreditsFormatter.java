@@ -357,7 +357,7 @@ public class CreditsFormatter {
             } else {
                 sb.append(trimCredits(range.min.toString()));
                 if (range.min.compareTo(range.max) < 0)
-                    sb.append(" - ").append(trimCredits(range.max.toString()));
+                    sb.append("&ndash;").append(trimCredits(range.max.toString()));
             }
         }
 		return sb.toString();
@@ -388,11 +388,11 @@ public class CreditsFormatter {
             if (range.multiple != null && !range.multiple.isEmpty() ) {
                 if (range.multiple.size()>2){
                     sb.append(trimCredits(range.min.toString()));
-                    sb.append(" - ").append(trimCredits(range.max.toString()));
+                    sb.append("&ndash;").append(trimCredits(range.max.toString()));
                 }
                 else if (range.multiple.size()== 2){
                     sb.append(trimCredits(range.min.toString()));
-                    sb.append(" , ").append(trimCredits(range.max.toString()));
+                    sb.append(", ").append(trimCredits(range.max.toString()));
                 }
                 else if (range.multiple.size()== 1){
                     sb.append(trimCredits(range.min.toString()));
@@ -400,7 +400,7 @@ public class CreditsFormatter {
             } else {
                 sb.append(trimCredits(range.min.toString()));
                 if (range.min.compareTo(range.max) < 0)
-                    sb.append(" - ").append(trimCredits(range.max.toString()));
+                    sb.append("&ndash;").append(trimCredits(range.max.toString()));
             }
         }
         return sb.toString();
@@ -414,8 +414,15 @@ public class CreditsFormatter {
 	 */
 	public static String trimCredits(String credits) {
 		credits = credits == null ? "" : credits.trim();
-		if (credits.endsWith(".0"))
+		if (credits.endsWith(".0")) {
 			credits = credits.substring(0, credits.length() - 2);
+        }
+        else if (credits.endsWith(".00")){
+            credits = credits.substring(0, credits.length() - 3);
+        }
+        else if (credits.endsWith("0")){
+            credits = credits.substring(0, credits.length() - 1);
+        }
 		return credits;
 	}
 
