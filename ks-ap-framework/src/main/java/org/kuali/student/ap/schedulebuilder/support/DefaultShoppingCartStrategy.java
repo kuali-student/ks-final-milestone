@@ -1,7 +1,6 @@
 package org.kuali.student.ap.schedulebuilder.support;
 
 import org.kuali.student.ap.academicplan.constants.AcademicPlanServiceConstants;
-import org.kuali.student.ap.academicplan.constants.AcademicPlanServiceConstants;
 import org.kuali.student.ap.academicplan.dto.PlanItemInfo;
 import org.kuali.student.ap.academicplan.infc.PlanItem;
 import org.kuali.student.ap.academicplan.service.AcademicPlanService;
@@ -111,8 +110,8 @@ public class DefaultShoppingCartStrategy implements ShoppingCartStrategy,
 		for (CourseOption courseOption : courseOptions) {
 			ShoppingCartRequestInfo cartRequest = new ShoppingCartRequestInfo();
 			cartRequest.setTerm(new TermInfo(term));
-			cartRequest.setCourse((CourseInfo)courseHelper.getCourseInfo(courseOption
-					.getCourseId()));
+			cartRequest.setCourse((CourseInfo)courseHelper.getCurrentVersionOfCourse(courseOption
+                    .getCourseId()));
 			cartRequest.setAddToCart(courseOption.isSelected());
 
 			ActivityOption primary = null;
@@ -193,7 +192,7 @@ public class DefaultShoppingCartStrategy implements ShoppingCartStrategy,
 			ShoppingCartRequestInfo cartRequest = new ShoppingCartRequestInfo();
 			cartRequest.setAddToCart(false);
 			cartRequest.setCourse((CourseInfo)KsapFrameworkServiceLocator.getCourseHelper()
-					.getCourseInfo(courseId));
+					.getCurrentVersionOfCourse(courseId));
 			cartRequest.setPrimaryRegistrationCode(acodes.get(0));
 			if (acodes.size() > 1)
 				cartRequest.setSecondaryRegistrationCodes(acodes.subList(1,
@@ -256,7 +255,7 @@ public class DefaultShoppingCartStrategy implements ShoppingCartStrategy,
 				cartRequest = new ShoppingCartRequestInfo();
 				cartRequest.setAddToCart(true);
 				cartRequest.setCourse((CourseInfo)KsapFrameworkServiceLocator
-						.getCourseHelper().getCourseInfo(courseId));
+						.getCourseHelper().getCurrentVersionOfCourse(courseId));
 				List<ActivityOption> aol = aoe.getValue();
                 if(!aol.isEmpty()){
 				    cartRequest.setPrimaryRegistrationCode(aol.get(0)

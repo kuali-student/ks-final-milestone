@@ -319,7 +319,7 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
      */
     @Override
     public List<? extends CourseSearchItem> loadCourseItems(List<String> courseIDs, String studentId, CourseSearchForm form) {
-        LOG.debug("Start of method getCourseInfo of CourseSearchController: {}",
+        LOG.debug("Start of method getCurrentVersionOfCourse of CourseSearchController: {}",
                 System.currentTimeMillis());
         List<CourseSearchItem> listOfCourses = new ArrayList<CourseSearchItem>();
 
@@ -381,7 +381,7 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
         loadTermsOffered(listOfCourses, courseIDs);
         loadGenEduReqs(listOfCourses);
 
-        LOG.debug("End of method getCourseInfo of CourseSearchController: {}",
+        LOG.debug("End of method getCurrentVersionOfCourse of CourseSearchController: {}",
                 System.currentTimeMillis());
         return listOfCourses;
     }

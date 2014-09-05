@@ -145,7 +145,7 @@ public class DefaultShoppingCartForm extends AbstractPlanItemForm implements Sho
 		for (ActivityOption keep : byRegCode.values()) {
 			String courseId = keep.getCourseId();
 			if (!courseMap.containsKey(courseId))
-				courseMap.put(courseId, courseHelper.getCourseInfo(courseId));
+				courseMap.put(courseId, courseHelper.getCurrentVersionOfCourse(courseId));
 
 			List<ActivityOption> keepList = keepMap.get(courseId);
 			if (keepList == null)

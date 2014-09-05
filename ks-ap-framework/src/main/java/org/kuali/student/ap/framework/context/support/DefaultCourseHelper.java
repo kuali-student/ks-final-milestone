@@ -60,7 +60,7 @@ public class DefaultCourseHelper implements CourseHelper, Serializable {
 	}
 
     @Override
-	public Course getCourseInfo(String courseId) {
+	public Course getCurrentVersionOfCourse(String courseId) {
 		// call through service locator to facilitate proxying delegate override of getCurrentVersionIdOfCourse
 		String verifiedCourseId = KsapFrameworkServiceLocator.getCourseHelper().getCurrentVersionIdOfCourse(courseId);
 		CourseInfo rv;
@@ -171,7 +171,7 @@ public class DefaultCourseHelper implements CourseHelper, Serializable {
                     or(termPredicates), equal("luiType", LuiServiceConstants.COURSE_OFFERING_TYPE_KEY),
                     equal("luiState", LuiServiceConstants.LUI_CO_STATE_OFFERED_KEY));
             List<CourseOfferingInfo> tempOfferings = KsapFrameworkServiceLocator.getCourseOfferingService()
-                    .searchForCourseOfferings(query,KsapFrameworkServiceLocator.getContext().getContextInfo());
+                    .searchForCourseOfferings(query, KsapFrameworkServiceLocator.getContext().getContextInfo());
             for(CourseOffering temp : tempOfferings){
                 offerings.add(temp);
             }
@@ -243,26 +243,19 @@ public class DefaultCourseHelper implements CourseHelper, Serializable {
 
 	@Override
 	public String getCurrentVersionIdOfCourse(String courseId) {
-		Course course = getCurrentVersionOfCourse(courseId);
-        if (course != null)
-            return course.getId();
-        return null;
-	}
-
-    @Override
-    public Course getCurrentVersionOfCourse(String courseId) {
-        // Retrieve course information using the course code entered by the user
+        ContextInfo contextInfo = KsapFrameworkServiceLocator.getContext().getContextInfo();
         Course course;
+        VersionDisplayInfo currentVersion;
         try {
-            ContextInfo contextInfo = KsapFrameworkServiceLocator.getContext().getContextInfo();
             course = KsapFrameworkServiceLocator.getCourseService().getCourse(courseId, contextInfo);
-            VersionDisplayInfo currentVersion = KsapFrameworkServiceLocator.getCluService().getCurrentVersion(CluServiceConstants.CLU_NAMESPACE_URI, course.getVersion().getVersionIndId(), contextInfo);
-            course = KsapFrameworkServiceLocator.getCourseService().getCourse(currentVersion.getId(), contextInfo);
+            currentVersion = KsapFrameworkServiceLocator.getCluService().getCurrentVersion(CluServiceConstants.CLU_NAMESPACE_URI, course.getVersion().getVersionIndId(), contextInfo);
         } catch (PermissionDeniedException | MissingParameterException | InvalidParameterException | OperationFailedException | DoesNotExistException e) {
             throw new IllegalArgumentException("Course service failure", e);
         }
-        return course;
-    }
+        if (currentVersion != null)
+            return currentVersion.getId();
+        return null;
+	}
 
     @Override
     public Course getCurrentVersionOfCourseByVersionIndependentId(String versionIndependentId) {

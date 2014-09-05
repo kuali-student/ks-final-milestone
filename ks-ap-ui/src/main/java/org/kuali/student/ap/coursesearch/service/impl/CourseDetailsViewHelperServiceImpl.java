@@ -74,7 +74,6 @@ import org.slf4j.LoggerFactory;
 import javax.json.Json;
 import javax.json.JsonArrayBuilder;
 import javax.json.JsonObjectBuilder;
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -106,7 +105,7 @@ public class CourseDetailsViewHelperServiceImpl extends ViewHelperServiceImpl im
      * @param courseId - Id of the course being loaded
      */
     private void load(CourseSectionDetailsForm form, String courseId)  {
-        Course courseInfo = KsapFrameworkServiceLocator.getCourseHelper().getCourseInfo(courseId);
+        Course courseInfo = KsapFrameworkServiceLocator.getCourseHelper().getCurrentVersionOfCourse(courseId);
         form.setCourseTitle(courseInfo.getCourseTitle());
         form.setCourseCode(courseInfo.getCode());
         List<String> termIds = KsapFrameworkServiceLocator.getCourseHelper().getScheduledTermsForCourse(courseInfo);

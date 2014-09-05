@@ -180,7 +180,7 @@ public abstract class AbstractPlanItemForm extends UifFormBase implements PlanIt
 			} else{
                 // Retrieve course using the course id
                 if (courseId != null) {
-                    course = KsapFrameworkServiceLocator.getCourseHelper().getCourseInfo(courseId);
+                    course = KsapFrameworkServiceLocator.getCourseHelper().getCurrentVersionOfCourse(courseId);
                 }
             }
 		}

@@ -46,14 +46,14 @@ public class CourseHelperCacheDecorator extends CourseHelperDecorator {
     }
 
     @Override
-    public Course getCourseInfo(String courseId) {
+    public Course getCurrentVersionOfCourse(String courseId) {
         MultiKey cacheKey = new MultiKey(COURSE_HELPER_COURSE_PREFIX + "course", courseId);
         Cache cache = getCacheManager().getCache(COURSE_HELPER_CACHE);
         Element cachedResult = cache.get(cacheKey);
         Object result;
         if (cachedResult == null) {
             LOG.debug("Cache ({}) miss for search of {}", cache.getName(), courseId);
-            result = getNextDecorator().getCourseInfo(courseId);
+            result = getNextDecorator().getCurrentVersionOfCourse(courseId);
             cache.put(new Element(cacheKey, result));
         } else {
             LOG.debug("Cache ({}) hit for search of {}", cache.getName(), courseId);
@@ -103,24 +103,6 @@ public class CourseHelperCacheDecorator extends CourseHelperDecorator {
         }
 
         return (Term) result;
-    }
-
-    @Override
-    public Course getCurrentVersionOfCourse(String courseId) {
-        MultiKey cacheKey = new MultiKey(COURSE_HELPER_COURSE_PREFIX + "currentversionofcourse", courseId);
-        Cache cache = getCacheManager().getCache(COURSE_HELPER_CACHE);
-        Element cachedResult = cache.get(cacheKey);
-        Object result;
-        if (cachedResult == null) {
-            LOG.debug("Cache ({}) miss for search of {}", cache.getName(), courseId);
-            result = getNextDecorator().getCurrentVersionOfCourse(courseId);
-            cache.put(new Element(cacheKey, result));
-        } else {
-            LOG.debug("Cache ({}) hit for search of {}", cache.getName(), courseId);
-            result = cachedResult.getValue();
-        }
-
-        return (Course) result;
     }
 
     @Override

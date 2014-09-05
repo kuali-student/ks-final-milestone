@@ -73,7 +73,7 @@ public class CourseDetailsInquiryHelperImpl2 extends KualiInquirableImpl {
      */
     public CourseDetailsWrapper retrieveCourseDetails(String courseId, String termId, String studentId,
                                                       boolean loadActivityOffering) {
-        final Course course = KsapFrameworkServiceLocator.getCourseHelper().getCourseInfo(courseId);
+        final Course course = KsapFrameworkServiceLocator.getCourseHelper().getCurrentVersionOfCourse(courseId);
 
         CourseDetailsWrapper courseDetails = retrieveCourseSummary(course);
 
@@ -87,7 +87,7 @@ public class CourseDetailsInquiryHelperImpl2 extends KualiInquirableImpl {
      * @return Compiled data object for popover
      */
     public CourseDetailsPopoverWrapper retrieveCoursePopoverDetails(String courseId){
-        final Course course = KsapFrameworkServiceLocator.getCourseHelper().getCourseInfo(courseId);
+        final Course course = KsapFrameworkServiceLocator.getCourseHelper().getCurrentVersionOfCourse(courseId);
 
         if(course == null) return null;
 
@@ -134,7 +134,7 @@ public class CourseDetailsInquiryHelperImpl2 extends KualiInquirableImpl {
      * @return
      */
     public CourseDetailsWrapper retrieveCourseSummaryById(String courseId) {
-        Course course = KsapFrameworkServiceLocator.getCourseHelper().getCourseInfo(courseId);
+        Course course = KsapFrameworkServiceLocator.getCourseHelper().getCurrentVersionOfCourse(courseId);
         return retrieveCourseSummary(course);
     }
 

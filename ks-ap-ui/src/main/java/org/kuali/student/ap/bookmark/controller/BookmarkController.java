@@ -22,15 +22,12 @@ import org.kuali.student.ap.academicplan.dto.PlanItemInfo;
 import org.kuali.student.ap.academicplan.dto.TypedObjectReferenceInfo;
 import org.kuali.student.ap.academicplan.infc.LearningPlan;
 import org.kuali.student.ap.academicplan.infc.PlanItem;
-import org.kuali.student.ap.academicplan.infc.TypedObjectReference;
 import org.kuali.student.ap.bookmark.form.BookmarkForm;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
 import org.kuali.student.ap.framework.context.PlanConstants;
 import org.kuali.student.ap.planner.util.PlanEventUtils;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
-import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
-import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
@@ -104,7 +101,7 @@ public class BookmarkController extends KsapControllerBase {
 
         String courseId = request.getParameter("courseId");
 
-        Course course = KsapFrameworkServiceLocator.getCourseHelper().getCourseInfo(courseId);
+        Course course = KsapFrameworkServiceLocator.getCourseHelper().getCurrentVersionOfCourse(courseId);
         if(course==null){
             LOG.warn(String.format("Course %s cannot be found", courseId));
             PlanEventUtils.sendJsonEvents(false,"Course cannot be found ", response, eventList);
@@ -148,7 +145,7 @@ public class BookmarkController extends KsapControllerBase {
         LearningPlan learningPlan = KsapFrameworkServiceLocator.getPlanHelper().getDefaultLearningPlan();
 
         String courseId = request.getParameter("courseId");
-        Course course = KsapFrameworkServiceLocator.getCourseHelper().getCourseInfo(courseId);
+        Course course = KsapFrameworkServiceLocator.getCourseHelper().getCurrentVersionOfCourse(courseId);
         String versionIndependentId = course.getVersion().getVersionIndId();
 
         String uniqueId = request.getParameter("uniqueId");

@@ -32,7 +32,6 @@ import org.kuali.student.ap.framework.context.CourseHelper;
 import org.kuali.student.ap.framework.context.PlanConstants;
 import org.kuali.student.ap.schedulebuilder.ScheduleBuildForm;
 import org.kuali.student.ap.schedulebuilder.ScheduleBuildStrategy;
-import org.kuali.student.ap.schedulebuilder.ShoppingCartForm;
 import org.kuali.student.ap.schedulebuilder.ShoppingCartStrategy;
 import org.kuali.student.ap.schedulebuilder.dto.ActivityOptionInfo;
 import org.kuali.student.ap.schedulebuilder.dto.ClassMeetingTimeInfo;
@@ -48,7 +47,6 @@ import org.kuali.student.ap.schedulebuilder.infc.ReservedTime;
 import org.kuali.student.ap.schedulebuilder.infc.SecondaryActivityOptions;
 import org.kuali.student.common.collection.KSCollectionUtils;
 import org.kuali.student.enrollment.academicrecord.dto.StudentCourseRecordInfo;
-import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingDisplayInfo;
 import org.kuali.student.enrollment.courseoffering.infc.ActivityOfferingDisplay;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
@@ -67,7 +65,6 @@ import org.kuali.student.r2.common.util.date.KSDateTimeFormatter;
 import org.kuali.student.r2.core.acal.infc.Term;
 import org.kuali.student.r2.core.room.infc.Room;
 import org.kuali.student.r2.core.scheduling.constants.SchedulingServiceConstants;
-import org.kuali.student.r2.core.scheduling.dto.ScheduleDisplayInfo;
 import org.kuali.student.r2.core.scheduling.infc.ScheduleComponentDisplay;
 import org.kuali.student.r2.core.scheduling.infc.ScheduleDisplay;
 import org.kuali.student.r2.core.scheduling.infc.TimeSlot;
@@ -445,7 +442,7 @@ public class DefaultScheduleBuildStrategy implements ScheduleBuildStrategy,
 			return null;
 
 		CourseHelper courseHelper = KsapFrameworkServiceLocator.getCourseHelper();
-		Course course = courseHelper.getCourseInfo(courseId);
+		Course course = courseHelper.getCurrentVersionOfCourse(courseId);
 		if (course == null)
 			return null;
 
@@ -493,7 +490,7 @@ public class DefaultScheduleBuildStrategy implements ScheduleBuildStrategy,
 		int courseIndex = -1;
 		for (String courseId : courseIds) {
 			courseIndex++;
-			Course c = courseHelper.getCourseInfo(courseId);
+			Course c = courseHelper.getCurrentVersionOfCourse(courseId);
 			if (c == null)
 				continue;
 			CourseOptionInfo courseOption = new CourseOptionInfo();

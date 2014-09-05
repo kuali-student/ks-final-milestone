@@ -22,16 +22,15 @@ public interface CourseHelper {
 	void frontLoad(List<String> courseIds, String... termId);
 
     /**
-     * returns the courseInfo for the given courseId by verifying the courseId to
-     * be a verifiedCourseId
+     * Get the current version of the course by using an existing clu's id
      *
-     * @param courseId
-     * @return
+     * @param courseId - A clu id
+     * @return The course for the current version of the clu
      */
-	Course getCourseInfo(String courseId);
+	Course getCurrentVersionOfCourse(String courseId);
 
     /**
-     * Get the list of ActivityOfferingDisplayInfo objects for the given courseId and term
+     * Get the list of ActivityOfferingDisplay objects for the given courseId and term
      * @param courseId
      * @param term
      * @return
@@ -69,24 +68,12 @@ public interface CourseHelper {
     List<CourseOffering> getCourseOfferingsForCoursesAndTerms(List<String> courseIds, List<Term> terms);
 
     /**
-     * Takes a courseId that can be either a version independent Id or a version
-     * dependent Id and returns a version dependent Id. In case of being passed
-     * in a version depend
+     * Get the current version id of the course by using an existing clu's id
      *
-     * @param courseId
-     * @return
+     * @param courseId - A clu id
+     * @return The clu id for the current clu version
      */
 	String getCurrentVersionIdOfCourse(String courseId);
-
-    /**
-     * Takes a courseId that can be either a version independent Id or a version
-     * dependent Id and returns a version dependent course. In case of being passed
-     * in a version depend
-     *
-     * @param courseId
-     * @return
-     */
-    Course getCurrentVersionOfCourse(String courseId);
 
     /**
      * returns the course code from given activityId
@@ -125,15 +112,16 @@ public interface CourseHelper {
 
     /**
      * Get the current version of the course by using it's version independent id
-     * @param versionIndependentId
-     * @return The current version of the CourseInfo
+     *
+     * @param versionIndependentId - Version independent id of the course
+     * @return The current version of the Course
      */
     Course getCurrentVersionOfCourseByVersionIndependentId(String versionIndependentId);
 
     /**
      * Get all courseIds (clu IDs) for a particular version independent id
-     * @param versionIndependentId
-     * @return
+     * @param versionIndependentId - Version independent id of the course
+     * @return A list of all clu ids linked by a common version id.
      */
     List<String> getAllCourseIdsByVersionIndependentId(String versionIndependentId);
 

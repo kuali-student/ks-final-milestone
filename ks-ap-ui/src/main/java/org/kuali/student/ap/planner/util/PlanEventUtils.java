@@ -96,7 +96,7 @@ public class PlanEventUtils {
         assert PlanConstants.COURSE_TYPE.equals(planItem.getRefObjectType()) : planItem
                 .getRefObjectType() + " " + planItem.getId();
 
-        Course course = courseHelper.getCourseInfo(planItem.getRefObjectId());
+        Course course = courseHelper.getCurrentVersionOfCourse(planItem.getRefObjectId());
         assert course != null : "Missing course for plan item "
                 + planItem.getId() + ", ref ID " + planItem.getRefObjectId();
 
@@ -218,7 +218,7 @@ public class PlanEventUtils {
                     .trimCredits(planItem.getCredits().toString()));
         } else {
             Course course = KsapFrameworkServiceLocator.getCourseHelper()
-                    .getCourseInfo(planItem.getRefObjectId());
+                    .getCurrentVersionOfCourse(planItem.getRefObjectId());
             updateCreditsEvent.add("credit",
                     CreditsFormatter.formatCredits(course));
         }

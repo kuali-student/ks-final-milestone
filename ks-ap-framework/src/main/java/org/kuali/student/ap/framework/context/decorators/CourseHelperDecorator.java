@@ -48,8 +48,8 @@ public class CourseHelperDecorator implements CourseHelper {
     }
 
     @Override
-    public Course getCourseInfo(String courseId) {
-        return getNextDecorator().getCourseInfo(courseId);
+    public Course getCurrentVersionOfCourse(String courseId) {
+        return getNextDecorator().getCurrentVersionOfCourse(courseId);
     }
 
     @Override
@@ -80,11 +80,6 @@ public class CourseHelperDecorator implements CourseHelper {
     @Override
     public String getCurrentVersionIdOfCourse(String courseId) {
         return getNextDecorator().getCurrentVersionIdOfCourse(courseId);
-    }
-
-    @Override
-    public Course getCurrentVersionOfCourse(String courseId) {
-        return getNextDecorator().getCurrentVersionOfCourse(courseId);
     }
 
     @Override
