@@ -1278,4 +1278,11 @@ public class RuleEditorController extends MaintenanceDocumentController {
         return AgendaUtilities.retrieveSelectedRuleEditor(document);
     }
 
+    protected MaintenanceDocumentForm getMaintenanceDocumentForm(UifFormBase form) {
+        if (form instanceof MaintenanceDocumentForm) {
+            return (MaintenanceDocumentForm) form;
+        }
+        throw new RuntimeException("Error retrieving Maintenance document form from UifFormBase");
+    }
+
 }
