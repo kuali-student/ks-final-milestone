@@ -2,10 +2,22 @@
 @import "mixins";
 @import "ks-fonts";
 
-/*.ks-curriculum-home > .uif-header {
-    border-bottom: solid 2px #000;
-    margin-bottom: 5px; margin-top:15px;
-}*/
+/* Colors used in compare views when rows contain differences */
+@diff-highlight-color: #fcf8e3;
+@diff-border-color:  #fbeed5;
+
+/*
+ * Style the pre tags to look like normal content. All of the inputs are rendered
+ * in pres when the page is read-only. We need them to have same styling as the read-only inputs.
+ */
+pre {
+    font-family: 'Lato', sans-serif;
+    font-weight: normal;
+    font-size: 1em;
+    color: #000000;
+    background: inherit;
+    margin-bottom: 0px;
+}
 
 /* Labels in the header link group should be on the left. */
 #KS-CourseView-LinkGroup label {
@@ -322,8 +334,20 @@ a[id *= "LearningObjectives-Icon-"]:hover {
 .course_details-grid table,
 .course_details-grid table th,
 .course_details-grid table td {
-    background-color: #ffffff !important;
+    background-color: #ffffff;
     border: none !important;
+}
+
+/* The tr in compare view gets this class */
+.cm-compare-highlighter {
+    background-color: @diff-highlight-color;
+    border: 1px solid @diff-border-color;
+}
+
+/* This is for rows that are highlighted in compare view */
+table tr.cm-compare-highlighter th,
+table tr.cm-compare-highlighter td {
+    background-color: @diff-highlight-color;
 }
 
 .course_details-grid table th,
@@ -921,12 +945,6 @@ fieldset .uif-actionLink{
 #CM-Proposal-Course-Retire-Start-Widgets {
   padding-top: 20px;
 }
-
-.cm-compare-highlighter {
-    background-color: #fcf8e3;
-    border: 1px solid #fbeed5;
-}
-
 
 /*
  *  Course Versions classes

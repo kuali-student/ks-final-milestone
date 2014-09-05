@@ -1167,6 +1167,17 @@ function setDirtyManually(dirtyFlag) {
     dirtyFormState.dirtyFormInput.val(dirtyFlag);
 }
 
+/**
+ * Scripts related to the View Course view
+ */
+var viewCourseView = {
+    removeNonBreakingSpacesFromPreTags: function() {
+        jQuery("pre").each(function (index) {
+            var text = jQuery(this).html().replace(/&nbsp;/g, ' ');
+            jQuery(this).html(text);
+        });
+    }
+}
 
 /**
  * Scripts used in the Course Versions view.
@@ -1217,8 +1228,8 @@ var courseVersions = {
             jQuery("#CM-CourseVersion-Button-ShowVersions").removeAttr("disabled");
             jQuery("#CM-CourseVersion-Button-ShowVersions").removeClass("disabled");
         } else {
-           jQuery("#CM-CourseVersion-Button-ShowVersions").attr("disabled", "disabled");
-           jQuery("#CM-CourseVersion-Button-ShowVersions").addClass("disabled");
+            jQuery("#CM-CourseVersion-Button-ShowVersions").attr("disabled", "disabled");
+            jQuery("#CM-CourseVersion-Button-ShowVersions").addClass("disabled");
         }
     },
 
