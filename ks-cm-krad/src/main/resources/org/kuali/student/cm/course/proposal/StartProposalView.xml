@@ -285,4 +285,11 @@
     <bean id="CM-HomewardPathBreadcrumbs-CreateCourseStart-Page" parent="Uif-BreadcrumbItem">
         <property name="label" value="Create Course"></property>
     </bean>
+
+
+    <bean id="CM-HomewardPathBreadcrumbs-ModifyCourseStart-Page" parent="Uif-BreadcrumbItem">
+        <property name="label" value="Modify Course"></property>
+    </bean>
+
+
 </beans>
