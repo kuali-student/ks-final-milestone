@@ -1,22 +1,6 @@
 // Javascripts for the KSAP Module Planner Page.
 
 /**
- * Loads the items for the Planner Calendar.
- * If they are already loaded initializes events and base settings for the planner.
- *
- * @param loaded - Boolean on whether the plan items have already been loaded or not
- * @param pageSize - The number of terms to display for each view of the calender.
- */
-function ksapLoadPlannerItems(loaded,pageSize) {
-    if(!loaded){
-        setupImages();
-        retrieveComponent('planner_courses_detail','load');
-    }else{
-        ksapInitializePlannerItems(pageSize);
-    }
-}
-
-/**
  * Initialize the Carousel settings for the calender and any additional settings or events needed.
  *
  * @param pageSize - The number of terms to display for each view of the calender.

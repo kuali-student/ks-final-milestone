@@ -68,6 +68,7 @@ public class PlannerController extends KsapControllerBase {
 	private static final Logger LOG = LoggerFactory.getLogger(PlannerController.class);
 
 	private static final String PLANNER_FORM = "Planner-FormView";
+    private static final String PLANNER_CALENDAR_FORM = "PlannerCalendar-FormView";
 	private static final String DIALOG_FORM = "PlannerDialog-FormView";
 	private static final String ADD_TO_PLAN_DIALOG_FORM = "KSAP-AddToPlanDialog-FormView";
 
@@ -115,8 +116,8 @@ public class PlannerController extends KsapControllerBase {
      * to load the calendar term data.
      */
     @MethodAccessible
-    @RequestMapping(params = "methodToCall=load")
-	public ModelAndView loadPlanner(@ModelAttribute("KualiForm") PlannerForm form,
+    @RequestMapping(params = "methodToCall=loadCalendar")
+	public ModelAndView loadPlannerCalendar(@ModelAttribute("KualiForm") PlannerForm form,
 			HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 		if (PlanItemControllerHelper.getAuthorizedLearningPlan(form, request, response) == null)
 			return null;
@@ -128,11 +129,12 @@ public class PlannerController extends KsapControllerBase {
         newForm.getTerms();
 
 		UifFormBase uifForm = (UifFormBase) newForm;
+
+		uifForm.setViewId(PLANNER_CALENDAR_FORM);
+		uifForm.setView(super.getViewService().getViewById(PLANNER_CALENDAR_FORM));
+
         uifForm.getView().setAuthorizer(new ViewAuthorizerBase());
 		super.start(uifForm, request, response);
-
-		uifForm.setViewId(PLANNER_FORM);
-		uifForm.setView(super.getViewService().getViewById(PLANNER_FORM));
 
 		return getUIFModelAndView(uifForm);
 	}

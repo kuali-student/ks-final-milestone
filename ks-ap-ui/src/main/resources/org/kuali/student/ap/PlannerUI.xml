@@ -44,7 +44,7 @@
                             <bean parent="Uif-VerticalBoxGroup">
                                 <property name="items">
                                     <list>
-                                        <ref bean="planner_courses_detail" />
+                                        <ref bean="PlannerCalendar-Holder" />
                                     </list>
                                 </property>
                             </bean>
@@ -63,7 +63,6 @@
 			</list>
 		</property>
 		<property name="footer.render" value="false" />
-        <property name="persistFormToSession" value="true"/>
 		<property name="formClass" value="org.kuali.student.ap.planner.PlannerForm" />
 	</bean>
 
@@ -84,11 +83,71 @@
     </bean>
 
     <!-- Planner Calendar -->
+    <bean id="PlannerCalendar-Holder" parent="Uif-VerticalBoxGroup">
+        <property name="items">
+            <list>
+                <bean p:id="planner_calendar_placeholder" parent="Uif-VerticalBoxGroup">
+                    <property name="onDocumentReadyScript" value="ksapRetrieveComponent('PlannerCalendar-Holder','plan-calendar-page','loadCalendar','planner',{}, null, {message:'&lt;div class=&quot;ksap-loader&quot;&gt;Loading...&lt;/div&gt;Loading...', fadeIn:0, fadeOut:0, overlayCSS:{backgroundColor:'#fff',opacity:0,cursor:'wait'}, css:{border:'0'}});"/>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="PlannerCalendar-FormView" parent="PlannerCalendar-FormView-parent" />
+    <bean abstract="true" id="PlannerCalendar-FormView-parent" parent="KSAPFormView">
+        <property name="id" value="PlannerCalendar-FormView" />
+        <property name="cssClasses">
+            <list merge="true">
+                <value>ksap-view</value>
+                <value>ks-plan-View</value>
+            </list>
+        </property>
+        <property name="additionalCssFiles">
+            <list>
+                <value>themes/ksapboot/stylesheets/ksap.planner.css</value>
+            </list>
+        </property>
+        <property name="additionalScriptFiles">
+            <list>
+                <value>plugins/jcarousellite/jcarousellite_1.0.1.min.js</value>
+                <value>themes/ksapboot/scripts/ksap.planner.js</value>
+            </list>
+        </property>
+        <property name="items">
+            <list>
+                <bean parent="Ksap-Page" p:id="plan-calendar-page">
+                    <property name="cssClasses">
+                        <list merge="true">
+                            <value>ks-plan-View-page</value>
+                        </list>
+                    </property>
+                    <property name="layoutManager">
+                        <bean parent="Uif-HorizontalBoxLayout" />
+                    </property>
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-VerticalBoxGroup">
+                                <property name="items">
+                                    <list>
+                                        <ref bean="planner_courses_detail" />
+                                    </list>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                    <property name="stickyFooter" value="false"/>
+                </bean>
+            </list>
+        </property>
+        <property name="footer.render" value="false" />
+        <property name="formClass" value="org.kuali.student.ap.planner.PlannerForm" />
+    </bean>
+
     <bean id="planner_courses_detail" parent="planner_courses_detail_parent" />
     <bean id="planner_courses_detail_parent" parent="Uif-VerticalBoxSubSection"
           abstract="true" p:cssClasses="ks-plan-View-pageDetails" p:forceSessionPersistence="true">
         <property name="onDocumentReadyScript"
-                  value="ksapLoadPlannerItems(@{loadCalendar},@{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTermHelper().getNumberOfTermsInAcademicYear()});" />
+                  value="ksapInitializePlannerItems(@{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTermHelper().getNumberOfTermsInAcademicYear()});" />
         <property name="validationMessages.displayMessages" value="false" />
         <property name="items">
             <list>
