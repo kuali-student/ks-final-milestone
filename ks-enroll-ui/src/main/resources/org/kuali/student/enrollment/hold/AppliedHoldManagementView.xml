@@ -110,7 +110,7 @@
         </property>
     </bean>
 
-    <bean id="KS-Hold-ToolBarSection" parent="KS-Uif-HorizontalBoxSection-ToolbarSection">
+    <bean id="KS-Hold-ToolBarSection" parent="KS-Uif-HorizontalBoxSection-ToolbarSection" p:render="@{!#empty(personHeaderInfo)}">
         <property name="items">
             <list>
                 <bean parent="KS-Uif-HorizontalBoxGroup-ToolbarGroup" p:noLeftBorder="true">
