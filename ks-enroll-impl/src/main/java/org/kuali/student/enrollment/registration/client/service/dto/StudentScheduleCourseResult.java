@@ -12,8 +12,9 @@ import java.util.Map;
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "StudentScheduleCourseResult", propOrder = {
-        "courseCode", "description", "credits", "longName","regGroupId", "activityOfferings"})
+        "courseId", "courseCode", "description", "credits", "longName","regGroupId", "activityOfferings"})
 public class StudentScheduleCourseResult {
+    private String courseId;
     private String courseCode;
     private String description;
     private String credits;
@@ -36,6 +37,14 @@ public class StudentScheduleCourseResult {
 
     public void setActivityOfferings(List<StudentScheduleActivityOfferingResult> activityOfferings) {
         this.activityOfferings = activityOfferings;
+    }
+
+    public String getCourseId() {
+        return courseId;
+    }
+
+    public void setCourseId(String courseId) {
+        this.courseId = courseId;
     }
 
     public String getCourseCode() {

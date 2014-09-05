@@ -492,6 +492,7 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
                     } else {
                         studentScheduleCourseResult.setCourseCode(luiCode);
                     }
+                    studentScheduleCourseResult.setCourseId(luiId);
                     studentScheduleCourseResult.setDescription(luiDesc);
                     studentScheduleCourseResult.setCredits(credits);
                     studentScheduleCourseResult.setGradingOptionId(gradingOptionId);
@@ -566,6 +567,7 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
                     } else {
                         studentScheduleCourseResult.setCourseCode(luiCode);
                     }
+                    studentScheduleCourseResult.setCourseId(luiId);
                     studentScheduleCourseResult.setDescription(luiDesc);
                     studentScheduleCourseResult.setCredits(credits);
                     studentScheduleCourseResult.setGradingOptionId(gradingOptionId);
