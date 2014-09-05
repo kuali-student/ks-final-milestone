@@ -140,12 +140,12 @@ function ksapPlannerAddPlanItem (data) {
         itemElement
             .attr("id", data.uid+"_wrap")
             .attr("class", "uif-collectionItem uif-boxCollectionItem")
-            .appendTo(".ksap-carousel-term." + termUid + ".ksap-term-" + data.category)
-            .css({backgroundColor:"#ffffcc"})
+            .appendTo(".ksap-planner-section." + termUid + ".ksap-planner-term-" + data.category)
+            .css({backgroundColor:"#ffc"})
             .hide()
             .fadeIn(250, function() {
-                var bucket = jQuery("ks-plan-Bucket-Footer.ksap-term-" + data.category + "." + termUid);
-                var unitcell = bucket.find(".ksap-carousel-term-total");
+                var bucket = jQuery("ksap-planner-footer.ksap-planner-term-" + data.category + "." + termUid);
+                var unitcell = bucket.find(".ksap-planner-credits-total");
                 unitcell.addClass("ks-plan-Bucket-footer-show");
                 unitcell.removeClass("ks-plan-Bucket-footer-hide");
             })
@@ -198,13 +198,13 @@ function ksapPlannerRemovePlanItem (data) {
  * @param data - Data needed to removed the object
  */
 function ksapPlannerUpdateCredits (data) {
-    var planbucket = jQuery(".ksap-term-planned." + data.termId);
+    var planbucket = jQuery(".ksap-planner-term-planned." + data.termId);
     var planunitcell = planbucket.find(".ksap-planner-credits-total");
     planunitcell.find(".ksap-planner-credits-total .ksap-planner-credits p.uif-message").fadeOut(250, function() {
         jQuery(this).text(data.totalCredits).fadeIn(250);
     });
 
-    var cartbucket = jQuery(".ksap-term-cart." + data.termId);
+    var cartbucket = jQuery(".ksap-planner-term-cart." + data.termId);
     var cartunitcell = cartbucket.find(".ksap-planner-credits-total");
     cartunitcell.find(".ksap-planner-credits-total .ksap-planner-credits p.uif-message").fadeOut(250, function() {
         jQuery(this).text(data.cartCredits).fadeIn(250);

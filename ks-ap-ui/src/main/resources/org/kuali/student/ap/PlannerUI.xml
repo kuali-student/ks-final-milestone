@@ -10,7 +10,6 @@
 		<property name="cssClasses">
 			<list merge="true">
 				<value>ksap-view</value>
-				<value>ks-plan-View</value>
 			</list>
 		</property>
         <property name="additionalCssFiles">
@@ -33,7 +32,7 @@
                     <property name="onDocumentReadyScript" value="registerPlannerEvents(jQuery('#plan-page')); registerClickOutsideMenu(e); registerPlannerEventsForBookmarks(jQuery('#plan-page'));"/>
                     <property name="cssClasses">
 						<list merge="true">
-							<value>ks-plan-View-page</value>
+							<value>ksap-planner</value>
 						</list>
 					</property>
 					<property name="layoutManager">
@@ -99,7 +98,6 @@
         <property name="cssClasses">
             <list merge="true">
                 <value>ksap-view</value>
-                <value>ks-plan-View</value>
             </list>
         </property>
         <property name="additionalCssFiles">
@@ -118,7 +116,7 @@
                 <bean parent="Ksap-Page" p:id="plan-calendar-page">
                     <property name="cssClasses">
                         <list merge="true">
-                            <value>ks-plan-View-page</value>
+                            <value>ksap-planner</value>
                         </list>
                     </property>
                     <property name="layoutManager">
@@ -145,7 +143,7 @@
 
     <bean id="planner_courses_detail" parent="planner_courses_detail_parent" />
     <bean id="planner_courses_detail_parent" parent="Uif-VerticalBoxSubSection"
-          abstract="true" p:cssClasses="ks-plan-View-pageDetails" p:forceSessionPersistence="true">
+          abstract="true" p:cssClasses="ksap-planner-details" p:forceSessionPersistence="true">
         <property name="onDocumentReadyScript"
                   value="ksapInitializePlannerItems(@{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTermHelper().getNumberOfTermsInAcademicYear()});" />
         <property name="validationMessages.displayMessages" value="false" />
@@ -155,7 +153,7 @@
                     <property name="validationMessages.displayMessages" value="false" />
                     <property name="cssClasses">
                         <list merge="true">
-                            <value>ksap-plan-header</value>
+                            <value>ksap-planner-header</value>
                         </list>
                     </property>
                     <property name="items">
@@ -228,15 +226,9 @@
                   value="false" />
         <property name="layoutManager.lineGroupPrototype.cssClasses">
             <list merge="true">
-                <value>uif-group</value>
-                <value>uif-boxGroup</value>
-                <value>uif-verticalBoxGroup</value>
-                <value>uif-boxSection</value>
-                <value>@{#line.currentTerm ? 'ksap-term-current' : (!#line.currentTerm and #line.planning ? 'ksap-term-future' : 'ksap-term-past')}</value>
-                <value>@{#line.planning ? 'open' : 'closed'}</value>
-                <value>ks-plan-TermsList-item</value>
-                <value>@{#line.currentTerm ? 'ks-plan-TermsList-item--current' : (!#line.currentTerm and #line.planning ? 'ks-plan-TermsList-item--future' : 'ks-plan-TermsList-item--past')}</value>
-                <value>@{#line.planning ? 'ks-plan-TermsList-item--open' : 'ks-plan-TermsList-item--closed'}</value>
+                <value>ksap-planner-term</value>
+                <value>@{#line.currentTerm ? 'ksap-planner-term-current' : (!#line.currentTerm and #line.planning ? 'ksap-planner-term-future' : 'ksap-planner-term-past')}</value>
+                <value>@{#line.planning ? 'ksap-planner-term-open' : 'ksap-planner-term-closed'}</value>
             </list>
         </property>
         <property name="dataAttributes">
@@ -251,7 +243,7 @@
             <bean parent="Uif-HeaderFour" />
         </property>
         <property name="layoutManager.lineGroupPrototype.header.rightGroup">
-            <bean parent="Uif-HorizontalBoxGroup" p:additionalCssClasses="ks-plan-Bucket-headerStatusIcons">
+            <bean parent="Uif-HorizontalBoxGroup">
                 <property name="validationMessages.displayMessages" value="false" />
                 <property name="items">
                     <list>
@@ -288,9 +280,7 @@
 
         <property name="cssClasses">
             <list merge="true">
-                <value>ksap-carousel-list</value>
-                <value>ksap-remove-margin</value>
-                <value>ks-plan-TermsList</value>
+                <value>ksap-planner-carousel</value>
             </list>
         </property>
         <property name="header.render" value="true" />
@@ -324,13 +314,6 @@
 
     <bean id="planner_item_template" parent="planner_item_template-parent"/>
     <bean id="planner_item_template-parent" abstract="true" p:id="planner_item_template" parent="Uif-VerticalBoxGroup" p:hidden="true">
-        <property name="cssClasses">
-            <list merge="true">
-                <value>ks-plan-Bucket-collection</value>
-                <value>uif-collectionItem</value>
-                <value>uif-boxCollectionItem</value>
-            </list>
-        </property>
         <property name="dataAttributes">
             <map>
                 <entry key="open" value="false" />
@@ -364,8 +347,7 @@
                                 <property name="messageText" value="__KSAP__CODE__" />
                                 <property name="cssClasses">
                                     <list merge="true">
-                                        <value>code</value>
-                                        <value>ksap-planner-cell-Code</value>
+                                        <value>ksap-planner-code</value>
                                     </list>
                                 </property>
                                 <property name="dataAttributes">
@@ -524,8 +506,7 @@
                     <property name="messageText" value="@{#line.grade}" />
                     <property name="cssClasses">
                         <list merge="true">
-                            <value>grade</value>
-                            <value>ksap-planner-cell-Grade</value>
+                            <value>ksap-planner-grade</value>
                         </list>
                     </property>
                 </bean>
@@ -559,8 +540,7 @@
                               value="@{#line.campusCode} @{#line.courseCode} @{#line.activityCode}" />
                     <property name="cssClasses">
                         <list merge="true">
-                            <value>code</value>
-                            <value>ksap-planner-cell-Code</value>
+                            <value>ksap-planner-code</value>
                         </list>
                     </property>
                     <property name="dataAttributes">
@@ -622,8 +602,7 @@
                     <property name="messageText" value="@{#line.grade}" />
                     <property name="cssClasses">
                         <list merge="true">
-                            <value>grade</value>
-                            <value>ksap-planner-cell-Grade</value>
+                            <value>ksap-planner-grade</value>
                         </list>
                     </property>
                 </bean>
@@ -696,11 +675,6 @@
         </property>
         <property name="layoutManager">
             <bean parent="Uif-StackedCollectionLayout-WithBoxItems">
-                <property name="cssClasses">
-                    <list merge="true">
-                        <value>ks-plan-Bucket-collection</value>
-                    </list>
-                </property>
                 <property name="lineGroupPrototype">
                     <bean parent="Uif-CollectionVerticalBoxItem" />
                 </property>
@@ -752,7 +726,7 @@
         </property>
         <!-- Hide until we get to messages. Empty div creates one pixel line of white space in planner. Will need to add render property so this element does not display if not needed
         <property name="header.lowerGroup">
-            <bean parent="Uif-HorizontalBoxGroup" p:additionalCssClasses="ks-plan-Bucket-headerStatusIcons">
+            <bean parent="Uif-HorizontalBoxGroup">
                 <property name="validationMessages.displayMessages" value="false" />
                 <property name="items">
                     <list>
@@ -777,11 +751,6 @@
                   value="false" />
         <property name="layoutManager">
             <bean parent="Uif-StackedCollectionLayout-WithBoxItems">
-                <property name="cssClasses">
-                    <list merge="true">
-                        <value>ks-plan-Bucket-collection</value>
-                    </list>
-                </property>
                 <property name="lineGroupPrototype">
                     <bean parent="Uif-CollectionVerticalBoxItem" />
                 </property>
@@ -789,9 +758,8 @@
         </property>
         <property name="cssClasses">
             <list merge="false">
-                <value>ksap-carousel-term</value>
-                <value>ksap-term-completed</value>
-                <value>ks-plan-Bucket</value>
+                <value>ksap-planner-section</value>
+                <value>ksap-planner-term-completed</value>
             </list>
         </property>
         <property name="dataAttributes">
@@ -821,10 +789,9 @@
         </property>
         <property name="cssClasses">
             <list merge="false">
-                <value>ksap-carousel-term</value>
+                <value>ksap-planner-section</value>
                 <value>@{#line.termId.replaceAll("\.","-")}</value>
-                <value>ksap-term-cart</value>
-                <value>ks-plan-Bucket</value>
+                <value>ksap-planner-term-reg</value>
             </list>
         </property>
         <property name="dataAttributes">
@@ -856,10 +823,9 @@
                     </property>
                     <property name="cssClasses">
                         <list merge="false">
-                            <value>ksap-carousel-term</value>
+                            <value>ksap-planner-section</value>
                             <value>@{#line.termId.replaceAll("\.","-")}</value>
-                            <value>ksap-term-planned</value>
-                            <value>ks-plan-Bucket</value>
+                            <value>ksap-planner-term-planned</value>
                         </list>
                     </property>
                     <property name="dataAttributes">
@@ -872,8 +838,8 @@
                     <property name="cssClasses">
                         <list merge="false">
                             <value>@{#line.termId.replaceAll("\.","-")}</value>
-                            <value>ksap-term-planned</value>
-                            <value>ks-plan-Bucket-Footer</value>
+                            <value>ksap-planner-term-planned</value>
+                            <value>ksap-planner-footer</value>
                         </list>
                     </property>
                     <property name="validationMessages.displayMessages" value="false" />
@@ -914,10 +880,9 @@
                     </property>
                     <property name="cssClasses">
                         <list merge="false">
-                            <value>ksap-carousel-term</value>
+                            <value>ksap-planner-section</value>
                             <value>@{#line.termId.replaceAll("\.","-")}</value>
-                            <value>ksap-term-backup</value>
-                            <value>ks-plan-Bucket</value>
+                            <value>ksap-planner-term-backup</value>
                         </list>
                     </property>
                 </bean>
