@@ -303,6 +303,18 @@ angular.module('regCartApp')
                 });
 
                 course.conflictCount = Math.max(maxConflictLane, course.lane);
+
+                // Create the truncated version of the course code based on # of conflicts
+                switch (course.conflictCount) {
+                    case 0:
+                        course.truncated = course.courseCode;
+                        break;
+                    case 1:
+                        course.truncated = course.courseCode.substring(0, 1) + '...';
+                        break;
+                    default:
+                        course.courseCode.substring(0, 1);
+                }
             });
 
             return courses;
@@ -372,7 +384,7 @@ angular.module('regCartApp')
         function parseCourseCode(courseCode) {
             var prefix = courseCode.match(/^[a-zA-Z]+/);
             var level = courseCode.replace(prefix, '');
-            return (prefix+'\u200B'+level);
+            return (prefix+'&#8203;'+level);
         }
     }]);
 
