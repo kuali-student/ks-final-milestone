@@ -239,14 +239,6 @@
                 <value>ks-subSection</value>
             </list>
         </property>
-        <!--<property name="conditionalRowCssClasses">
-          <map>
-            <entry key="all" value="uif-all"/>
-            <entry key="odd" value="uif-odd"/>
-            <entry key="even" value="uif-even"/>
-            <entry key="@{#line.field4 eq '3'}" value="special"/>
-          </map>
-        </property>-->
         <property name="layoutManager.renderFirstRowHeader" value="@{#isCompareView}"/>
         <property name="layoutManager.renderRowFirstCellHeader" value="@{#isCompareView}"/>
         <property name="componentModifiers">
@@ -379,8 +371,10 @@
         </property>
     </bean>
 
+    <!-- The conditional rendering of the 'notCompareView' is to make it possible to have a CSS selector that only affects
+         this section in non-compare mode. Inline-block rendering breaks this section in compare mode. -->
     <bean id="CM-ViewCourse-View-Course-CourseInfoSection" parent="CM-ViewCourse-View-Course-VerticalBoxSection"
-          p:additionalCssClasses="ks-cm-course_detail-section">
+          p:additionalCssClasses="ks-cm-course_detail-section @{#isCompareView ?  '' : 'notCompareView'}">
         <property name="headerText" value="Course Information"/>
         <property name="items">
             <list>
