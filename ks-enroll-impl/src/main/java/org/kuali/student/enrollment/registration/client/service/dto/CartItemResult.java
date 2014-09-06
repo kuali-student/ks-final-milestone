@@ -12,12 +12,13 @@ import java.util.Map;
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "CartItemResult", propOrder = {
-        "termId", "cartItemId", "courseCode", "regGroupCode", "courseTitle",
+        "termId", "cartItemId", "courseId", "courseCode", "regGroupCode", "courseTitle",
         "credits", "grading", "creditOptions", "gradingOptions", "gradingOptionCount",
         "schedule", "state", "cartId"})
 public class CartItemResult {
     private String termId;
     private String cartItemId;
+    private String courseId;
     private String courseCode;
     private String regGroupId;
     private String regGroupCode;
@@ -35,6 +36,14 @@ public class CartItemResult {
     public String getCartItemId() { return cartItemId; }
 
     public void setCartItemId(String cartItemId) { this.cartItemId = cartItemId; }
+
+    public String getCourseId() {
+        return courseId;
+    }
+
+    public void setCourseId(String courseId) {
+        this.courseId = courseId;
+    }
 
     public String getCourseCode() { return courseCode; }
 

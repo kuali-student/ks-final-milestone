@@ -490,6 +490,7 @@ public class CourseRegistrationCartServiceImpl implements CourseRegistrationCart
                 } else {
                     currentCartItem.setCourseCode(courseCode);
                 }
+                currentCartItem.setCourseId(courseId);
                 currentCartItem.setCourseTitle(courseTitle);
                 currentCartItem.setCredits(creditsStr);
                 currentCartItem.setGrading(grading);
