@@ -819,10 +819,31 @@ public class CourseController extends CourseRuleEditorController {
     public ModelAndView reviewCourseProposal(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result,
                                              HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-        ((CourseMaintainable) ((MaintenanceDocumentForm) form).getDocument().getNewMaintainableObject()).updateReview();
+        MaintenanceDocumentForm maintForm = (MaintenanceDocumentForm)form;
+        CourseInfoWrapper wrapper = getCourseInfoWrapper(form);
+
+        ((CourseMaintainable) maintForm.getDocument().getNewMaintainableObject()).updateReview();
+
+        if (ArrayUtils.contains(CurriculumManagementConstants.DocumentTypeNames.COURSE_MODIFY_DOC_TYPE_NAMES,maintForm.getDocTypeName()) &&
+            maintForm.getWorkflowDocument().isSaved()){
+
+            CourseInfoWrapper compareCourseWrapper = new CourseInfoWrapper();
+            CourseMaintainable oldMaintainble = (CourseMaintainable)((MaintenanceDocumentForm)form).getDocument().getOldMaintainableObject();
+            CourseInfo currentVersion = oldMaintainble.getCurrentVersionOfCourse(wrapper.getCourseInfo(),ContextUtils.createDefaultContextInfo());
+            oldMaintainble.setDataObject(compareCourseWrapper);
+            oldMaintainble.populateCourseAndReviewData(currentVersion.getId(),compareCourseWrapper);
+
+//            String title = compareCourseWrapper.getCourseInfo().getCourseTitle();
+//            compareCourseWrapper.getCourseInfo().setCourseTitle(title + "a");
+//
+//
+//            String subArea = compareCourseWrapper.getCourseInfo().getSubjectArea();
+//            compareCourseWrapper.getCourseInfo().setSubjectArea(subArea + "a");
+//            OutcomeReviewSection outcome = new OutcomeReviewSection("test","1");
+//            compareCourseWrapper.getReviewProposalDisplay().getCourseLogisticsSection().getOutcomes().add(outcome);
+        }
 
         //  Validate
-        CourseInfoWrapper wrapper = getCourseInfoWrapper(form);
         KRADServiceLocatorWeb.getViewValidationService().validateViewAgainstNextState(form);
         if (GlobalVariables.getMessageMap().hasErrors()) {
             wrapper.setMissingRequiredFields(true);
@@ -830,6 +851,7 @@ public class CourseController extends CourseRuleEditorController {
         {
             wrapper.setMissingRequiredFields(false);
         }
+
         return getUIFModelAndView(form, CurriculumManagementConstants.CoursePageIds.REVIEW_COURSE_PROPOSAL_PAGE);
     }
 

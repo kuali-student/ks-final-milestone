@@ -1674,7 +1674,12 @@ public class CourseMaintainableImpl extends ProposalMaintainableImpl implements 
     public void populateCourseAndReviewData(String courseId, CourseInfoWrapper courseWrapper) throws Exception {
 
         CourseInfo course = getCourseService().getCourse(courseId, createContextInfo());
-        courseWrapper.setCourseInfo(course);
+
+        //This is to avoid using the same instance from cache.
+        CourseInfo courseCopy = new CourseInfo();
+        BeanUtils.copyProperties(course, courseCopy);
+
+        courseWrapper.setCourseInfo(courseCopy);
 
         populateWrapperData(courseWrapper);
 

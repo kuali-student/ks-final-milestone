@@ -55,6 +55,9 @@ public class CurriculumManagementConstants {
         public final static String[] ADMIN_DOC_TYPE_NAMES =
                 {CourseProposal.COURSE_CREATE_ADMIN, CourseProposal.COURSE_MODIFY_ADMIN};
 
+        public final static String[] COURSE_MODIFY_DOC_TYPE_NAMES =
+                {CourseProposal.COURSE_MODIFY, CourseProposal.COURSE_MODIFY_ADMIN};
+
         public static class CourseProposal {
             public final static String COURSE_CREATE = "kuali.proposal.type.course.create";
             public final static String COURSE_MODIFY = "kuali.proposal.type.course.modify";

@@ -77,16 +77,17 @@
     </bean>
 
     <bean id="CM-Proposal-Review-Compare-Modifier" parent="CM-Proposal-Review-Compare-Modifier-parentBean"/>
-    <bean id="CM-Proposal-Review-Compare-Modifier-parentBean" abstract="true" parent="Uif-CompareFieldCreate-Modifier">
+    <bean id="CM-Proposal-Review-Compare-Modifier-parentBean" abstract="true" parent="Uif-CompareFieldCreate-Modifier"
+          class="org.kuali.student.cm.uif.modifier.CMCourseFieldCompareModifier">
         <property name="headerFieldPrototype">
           <bean parent="Uif-HeaderSix"/>
         </property>
         <property name="comparables">
           <list>
-            <bean parent="Uif-CompareConfig" p:readOnly="true" p:headerText="Course 1" p:compareToForValueChange="true"
+            <bean parent="Uif-CompareConfig" p:headerText="Course 1" p:compareToForValueChange="true"
+                  p:bindingObjectPath="document.newMaintainableObject.dataObject" p:idSuffix="new"/>
+            <bean parent="Uif-CompareConfig" p:headerText="Course 2" p:readOnly="true"
                   p:bindingObjectPath="document.oldMaintainableObject.dataObject" p:idSuffix="old"/>
-            <bean parent="Uif-CompareConfig" p:headerText="Course 2"
-                  p:bindingObjectPath="document.newMaintainableObject.dataObject" p:readOnly="true" p:idSuffix="new"/>
           </list>
         </property>
         <property name="generateCompareHeaders" value="false"/>
@@ -106,7 +107,7 @@
                                   p:style="margin-right: 0pt; margin-top: 5px;">
                             </bean>
                             <bean parent="KS-Uif-ActionLink" p:id="CM-Proposal-Review-Error-Message-Expand-Option-Link"
-                                  p:actionScript="showHideReviewProposalErrorFields('CM-Proposal-Review-Course-PageSections');"
+                                  p:actionScript="showHideReviewProposalErrorFields('CM-Proposal-Review-Course-PageSections','@{document.oldMaintainableObject.dataObject.courseInfo.id != null}');"
                                   p:actionLabel="Hide error highlighting.">
                                 <property name="cssClasses">
                                     <list merge="true">
@@ -202,7 +203,7 @@
                                     </list>
                                 </property>
                             </bean>
-                            <bean id="CM-Proposal-Course-Requisites-CollectionSection2" parent="Uif-VerticalFieldGroup" p:colSpan="3" p:fieldLabel.render="false" >
+                            <bean id="CM-Proposal-Course-Requisites-CollectionSection2" parent="Uif-VerticalFieldGroup" p:colSpan="3" p:fieldLabel.render="false" p:readOnly="true">
                                 <property name="render" value="@{#isCompareView}"/>
                                 <property name="items">
                                     <list>
