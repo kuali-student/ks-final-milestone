@@ -881,7 +881,7 @@ function durationCountOnBlur() {
     return;
 }
 
-function showHideReviewProposalErrorFields(sectionId) {
+function showHideReviewProposalErrorFields(sectionId,isCompareView) {
     var hideMissed = "Hide error highlighting.";
     var showMissed = "Show what's missing.";
 
@@ -890,10 +890,10 @@ function showHideReviewProposalErrorFields(sectionId) {
     if (actualShowMsg != null && actualShowMsg.toString().trim() == showMissed) {
         jQuery("#CM-Proposal-Review-Error-Message-Expand-Option-Link").text(hideMissed);
         /* highlight the missing element rows */
-        highlightMissingElements(sectionId, true);
+        highlightMissingElements(sectionId, true,isCompareView);
     } else {
         jQuery("#CM-Proposal-Review-Error-Message-Expand-Option-Link").text(showMissed);
-        highlightMissingElements(sectionId, false);
+        highlightMissingElements(sectionId, false,isCompareView);
     }
     jQuery("#CM-Proposal-Review-CourseInfo-Edit-Link").focus();
 
@@ -904,7 +904,7 @@ function showHideReviewProposalErrorFields(sectionId) {
  Then looping through all text areas and according to it has value or not to toggle the default border from the
  validated result border.
  */
-function highlightMissingElements(sectionId, showError) {
+function highlightMissingElements(sectionId, showError,isCompareView) {
     var whiteBorderStyle = "border: rgb(255,255,255) !important;";
     var style = jQuery('#' + sectionId).find('table td textarea').attr("style");
     var hasBorderStyle = style.indexOf(whiteBorderStyle);
@@ -928,6 +928,9 @@ function highlightMissingElements(sectionId, showError) {
             if (inputLength < 1) {
                 jQuery(this).attr("style", originalStyle);
                 jQuery('#' + jQuery(this).GetBubblePopupID()).removeClass("alwaysHide");
+                if (isCompareView && jQuery('#' + this.id).parent().parent().parent().find('th span.uif-requiredMessage').length != 0) {
+                    jQuery('#' + this.id).parents('tr').show();
+                }
             }
         });
     } else {
@@ -940,6 +943,9 @@ function highlightMissingElements(sectionId, showError) {
             if (inputLength < 1) {
                 jQuery(this).attr("style", whiteBorder);
                 jQuery('#' + jQuery(this).GetBubblePopupID()).addClass("alwaysHide");
+                if (isCompareView && jQuery('#' + this.id).parent().parent().parent().find('th span.uif-requiredMessage').length != 0) {
+                    jQuery('#' + this.id).parents('tr').hide();
+                }
             }
         });
     }
