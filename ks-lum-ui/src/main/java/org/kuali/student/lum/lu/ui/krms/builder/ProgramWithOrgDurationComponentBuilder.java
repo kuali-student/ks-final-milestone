@@ -65,15 +65,13 @@ public class ProgramWithOrgDurationComponentBuilder extends ProgramComponentBuil
 
     @Override
     public Map<String, String> buildTermParameters(LUPropositionEditor propositionEditor) {
-        Map<String, String> termParameters = new HashMap<String, String>();
-        termParameters = super.buildTermParameters(propositionEditor);
+        Map<String, String> termParameters = super.buildTermParameters(propositionEditor);
         termParameters.put(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_DURATION_TYPE_KEY, propositionEditor.getDurationType());
         termParameters.put(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_DURATION_KEY, propositionEditor.getDuration().toString());
         if (propositionEditor.getOrgInfo() != null){
             termParameters.put(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_ORGANIZATION_KEY, propositionEditor.getOrgInfo().getId());
         }
         return termParameters;
-
 
     }
 

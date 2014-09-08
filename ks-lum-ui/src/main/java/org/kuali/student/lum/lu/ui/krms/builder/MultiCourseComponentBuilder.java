@@ -96,11 +96,10 @@ public class MultiCourseComponentBuilder extends CluComponentBuilder {
             }
         } catch (Exception ex) {
             if(ex instanceof VersionMismatchException){
-                throw new KRMSOptimisticLockingException();
+                throw new KRMSOptimisticLockingException("Unable to create a Course Set",ex);
             }else{
                 throw new IllegalArgumentException(ex);
             }
-
         }
     }
 
@@ -149,7 +148,7 @@ public class MultiCourseComponentBuilder extends CluComponentBuilder {
         int nrOfMembershipQueries = cluSet.getCluSetRanges().size();
 
         //Check if we require a wrapper cluset, if not set the information and return.
-        if ((cluSet.getCluSets() == null) && (cluSet.getCluSets().isEmpty())) {
+        if ((cluSet.getCluSets() == null) || cluSet.getCluSets().isEmpty()) {
             if (hasCluIds && nrOfMembershipQueries==0) {
                 cluSetInfo.setCluIds(cluSet.getCluIds());
                 return cluSetInfo;

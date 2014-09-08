@@ -23,6 +23,8 @@ public class ProgramConstants {
     public static final String RUNTIME_DATA = "_runtimeData";
     public static final String ID_TRANSLATION = "id-translation";
     public static final String HAS_CORE_PROGRAM = "kuali.lu.lu.relation.type.hasCoreProgram";
+    public static final String HAS_PROGRAM_VARIATION = "kuali.lu.lu.relation.type.hasVariationProgram";
+    public final static String COURSE_RESULT_TYPE_CREDITS = "kuali.resultType.creditCourseResult";
 
     //Identifying Details
     public static final String CODE = "code";

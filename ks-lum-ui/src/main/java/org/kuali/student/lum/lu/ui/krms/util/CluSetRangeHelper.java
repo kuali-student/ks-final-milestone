@@ -17,8 +17,10 @@ package org.kuali.student.lum.lu.ui.krms.util;
 
 import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.commons.lang.StringUtils;
+import org.joda.time.DateTime;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krms.util.PropositionTreeUtil;
+import org.kuali.student.lum.common.client.lu.LUUIConstants;
 import org.kuali.student.lum.lu.ui.krms.dto.CluSetRangeInformation;
 import org.kuali.student.lum.lu.ui.krms.dto.CluSetRangeWrapper;
 import org.kuali.student.lum.lu.ui.krms.dto.LUPropositionEditor;
@@ -57,9 +59,6 @@ public class CluSetRangeHelper implements Serializable {
     public static final String CLU_SEARCH_GENERIC = "lu.search.generic";
     public static final String CLU_SEARCH_PARM_DATE1 = "lu.queryParam.luOptionalEffectiveDate1";
     public static final String CLU_SEARCH_PARM_DATE2 = "lu.queryParam.luOptionalEffectiveDate2";
-
-    // Do not use DateFormatters' DateTimeFormat as it cannot format timezones.
-    public static DateFormat sdf = new SimpleDateFormat(DateFormatters.QUERY_SERVICE_TIMESTAMP_FORMAT);
 
     /**
      * Create a new membership query, set the parameters
@@ -154,7 +153,7 @@ public class CluSetRangeHelper implements Serializable {
 
         List<SearchParamInfo> queryParams = new ArrayList<SearchParamInfo>();
         queryParams.add(createSearchParam(CluSetRangeHelper.LO_SEARCH_PARM_LODESC, range.getLearningObjective()));
-        queryParams.add(createSearchParam(CluSetRangeHelper.LO_SEARCH_PARM_LUTYPE, "kuali.lu.type.CreditCourse"));
+        queryParams.add(createSearchParam(CluSetRangeHelper.LO_SEARCH_PARM_LUTYPE, LUUIConstants.CLU_TYPE_CREDIT_COURSE));
         membershipQueryInfo.setQueryParamValues(queryParams);
     }
 
@@ -188,6 +187,9 @@ public class CluSetRangeHelper implements Serializable {
      */
     public static String buildEffectiveDateLabel(String effectiveFrom, String effectiveTo) {
         try {
+            // Do not use DateFormatters' DateTimeFormat as it cannot format timezones.
+            DateFormat sdf = new SimpleDateFormat(DateFormatters.QUERY_SERVICE_TIMESTAMP_FORMAT);
+
             String fromDate = DateFormatters.DEFAULT_DATE_FORMATTER.format(sdf.parse(effectiveFrom));
             fromDate = StringEscapeUtils.escapeHtml(fromDate);
 

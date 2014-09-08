@@ -124,27 +124,15 @@ public class CluSetWrapper implements Serializable {
     }
 
     public int getCluListSize(){
-        if (this.getClus() != null) {
-            return this.getClus().size();
-        } else {
-            return 0;
-        }
+        return this.getClus().size();
     }
 
     public int getCluSetListSize(){
-        if (this.getCluSets() != null) {
-            return this.getCluSets().size();
-        } else {
-            return 0;
-        }
+        return this.getCluSets().size();
     }
 
     public int getCluRangeListSize(){
-        if (this.getCluSetRanges() != null) {
-            return this.getCluSetRanges().size();
-        } else {
-            return 0;
-        }
+        return this.getCluSetRanges().size();
     }
 
     /**

@@ -91,7 +91,7 @@ public class ProgramComponentBuilder extends CluComponentBuilder {
             }
         } catch (Exception ex) {
             if(ex instanceof VersionMismatchException){
-                throw new KRMSOptimisticLockingException();
+                throw new KRMSOptimisticLockingException("Unable to create a Course Set",ex);
             }else{
                 throw new IllegalArgumentException(ex);
             }
@@ -129,7 +129,7 @@ public class ProgramComponentBuilder extends CluComponentBuilder {
         boolean hasCluIds = programSetInformation.hasClus();
 
         //Set the cluset ids on the cluset
-        if ((programSetInformation.getCluSets() == null) && (programSetInformation.getCluSets().isEmpty())) {
+        if ((programSetInformation.getCluSets() == null) || programSetInformation.getCluSets().isEmpty()) {
             if (hasCluIds) {
                 cluSetInfo.setCluIds(programSetInformation.getCluIds());
                 return cluSetInfo;

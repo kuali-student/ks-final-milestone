@@ -23,7 +23,9 @@ import org.kuali.student.lum.lu.ui.krms.dto.CluInformation;
 import org.kuali.student.lum.lu.ui.krms.dto.CluSetRangeInformation;
 import org.kuali.student.common.util.security.ContextUtils;
 import org.kuali.student.lum.lu.ui.krms.dto.CluSetWrapper;
+import org.kuali.student.lum.program.client.ProgramConstants;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.util.date.DateFormatters;
 import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultCellInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultInfo;
@@ -39,6 +41,8 @@ import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
 import org.kuali.student.r2.lum.lrc.service.LRCService;
 import org.kuali.student.r2.lum.util.constants.CluServiceConstants;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -181,13 +185,13 @@ public class CluInformationHelper {
 
     private String getParentCluId(CluInfo cluInfo) {
         //If the clu type is variation, get the parent clu id.
-        if ("kuali.lu.type.Variation".equals(cluInfo.getTypeKey())) {
+        if (ProgramConstants.VARIATION_TYPE_KEY.equals(cluInfo.getTypeKey())) {
             int firstClu = 0;
             List<String> clus = null;
             try {
-                clus = this.getCluService().getCluIdsByRelatedCluAndRelationType(cluInfo.getId(), "kuali.lu.lu.relation.type.hasVariationProgram", ContextUtils.getContextInfo());
+                clus = this.getCluService().getCluIdsByRelatedCluAndRelationType(cluInfo.getId(), ProgramConstants.HAS_PROGRAM_VARIATION, ContextUtils.getContextInfo());
             } catch (Exception e) {
-                throw new RuntimeException("Could not retrieve parent clu.");
+                throw new RuntimeException("Could not retrieve parent clu.", e);
             }
             if (clus == null || clus.size() == 0) {
                 throw new RuntimeException("Statement Dependency clu found, but no parent Program exists");
@@ -205,14 +209,14 @@ public class CluInformationHelper {
         try {
             cluResultInfos = this.getCluService().getCluResultByClu(cluId, ContextUtils.getContextInfo());
         } catch (Exception e) {
-            throw new RuntimeException("Could not retrieve clu results for " + cluId);
+            throw new RuntimeException("Could not retrieve clu results for " + cluId, e);
         }
         if (cluResultInfos != null) {
             for (CluResultInfo cluResultInfo : cluResultInfos) {
                 String cluType = cluResultInfo.getTypeKey();
 
                 //ignore non-credit results
-                if ((cluType == null) || (!cluType.equals("kuali.resultType.creditCourseResult"))) {
+                if ((cluType == null) || (!cluType.equals(ProgramConstants.COURSE_RESULT_TYPE_CREDITS))) {
                     continue;
                 }
 
@@ -236,6 +240,9 @@ public class CluInformationHelper {
 
     public List<CluInformation> getCluInfosForQuery(MembershipQueryInfo membershipQuery) {
 
+        // Do not use DateFormatters' DateTimeFormat as it cannot format timezones.
+        DateFormat sdf = new SimpleDateFormat(DateFormatters.QUERY_SERVICE_TIMESTAMP_FORMAT);
+
         if (membershipQuery != null) {
 
             // Handle Date queries for the course ranges.
@@ -246,8 +253,8 @@ public class CluInformationHelper {
 
                 try {
                     QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
-                    qbcBuilder.setPredicates(PredicateFactory.greaterThanOrEqual("effectiveDate", CluSetRangeHelper.sdf.parse(date1)),
-                            PredicateFactory.lessThanOrEqual("effectiveDate", CluSetRangeHelper.sdf.parse(date2)));
+                    qbcBuilder.setPredicates(PredicateFactory.greaterThanOrEqual("effectiveDate", sdf.parse(date1)),
+                            PredicateFactory.lessThanOrEqual("effectiveDate", sdf.parse(date2)));
 
                     List<CluInfo> cluInfos = this.getCluService().searchForClus(qbcBuilder.build(), ContextUtils.getContextInfo());
 
