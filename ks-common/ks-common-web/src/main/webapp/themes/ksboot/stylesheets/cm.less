@@ -369,6 +369,21 @@ table tr.cm-compare-highlighter td {
     background-color: @diff-highlight-color;
 }
 
+/* These rules are all special handling for the compare view "column header" section in compare mode. */
+#CM-ViewCourse-View-Course-VersionNumberColumns th:first-child {
+  width: 263px; /* Sizing for the left column of the version section in compare view */
+  border-bottom: 0px !important;
+}
+#CM-ViewCourse-View-Course-VersionNumberColumns th {
+  border-bottom: 4px solid @lightGray !important;  /* The underline for version section in compare view */
+}
+#CM-ViewCourse-View-Course-VersionNumberColumns th {
+  background: white; /* The underline for version section in compare view */
+}
+#CM-ViewCourse-View-Course-VersionNumberColumns tr {
+  border: 0; /* The underline for version section in compare view */
+}
+
 .course_details-grid table th,
 .course_details-grid td {
     padding: 2px 5px 0px 0px !important;

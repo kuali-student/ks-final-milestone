@@ -49,7 +49,7 @@ function onCourseLoad(isCurriculumSpecialist, currentSectionId) {
  *
  * @param href
  */
-function showCommentLightBox(href) {
+function showViewInLightBox(href) {
     if (!Date.now) {
         Date.now = function () {
             return new Date().getTime();
