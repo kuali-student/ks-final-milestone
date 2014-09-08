@@ -84,4 +84,21 @@ public interface CourseRegistrationAdminClientService {
                                @QueryParam("termCode") String termCode,
                                @QueryParam("courseCode") String courseCode,
                                @QueryParam("regGroupCode") String regGroupCode);
+
+    /**
+     * This method returns a roster of students for a particular registration group.
+     *
+     * @param termId - optional
+     * @param termCode - human readable code representing the term. ex: 201208
+     * @param courseCode - human readable code representing the course. ex: CHEM231
+     * @param regGroupCode - human readable code representing the reg group. ex: 1001
+     * @return Map<LprTypeKey, LprInfo> LprTypeKey is a string that represents the lpr type.
+     */
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/roster")
+    Response getRoster(@QueryParam("termId") String termId,
+                               @QueryParam("termCode") String termCode,
+                               @QueryParam("courseCode") String courseCode,
+                               @QueryParam("regGroupCode") String regGroupCode);
 }

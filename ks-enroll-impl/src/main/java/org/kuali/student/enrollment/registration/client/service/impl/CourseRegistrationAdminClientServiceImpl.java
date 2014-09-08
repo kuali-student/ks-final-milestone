@@ -43,6 +43,7 @@ import org.slf4j.LoggerFactory;
 import javax.jms.JMSException;
 import javax.ws.rs.core.Response;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -197,6 +198,60 @@ public class CourseRegistrationAdminClientServiceImpl extends CourseRegistration
         }
 
         return response.build();
+    }
+
+    @Override
+    public Response getRoster(String termId, String termCode, String courseCode, String regGroupCode) {
+        Response.ResponseBuilder response;
+
+        try {
+            List<LprInfo> searchResults = searchForRosterLocal(termId, termCode, courseCode, regGroupCode, ContextUtils.createDefaultContextInfo());
+
+            Map<String, List<LprInfo>>  rosterMap = new HashMap<>();
+            for(LprInfo lprInfo : searchResults){
+                if(!rosterMap.containsKey(lprInfo.getTypeKey())){
+                    rosterMap.put(lprInfo.getTypeKey(), new ArrayList<LprInfo>());
+                }
+                rosterMap.get(lprInfo.getTypeKey()).add(lprInfo);
+            }
+
+            response = Response.ok(rosterMap);
+        } catch (Exception e) {
+            LOGGER.warn("Exception Thrown", e);
+            response = Response.serverError().entity(e.getMessage());
+        }
+
+        return response.build();
+    }
+
+    /**
+     * returns a list of LprInfo objects based on the parameters passed in.
+     * @param termId
+     * @param termCode
+     * @param courseCode
+     * @param regGroupCode
+     * @param contextInfo
+     * @return
+     * @throws InvalidParameterException
+     * @throws MissingParameterException
+     * @throws OperationFailedException
+     * @throws PermissionDeniedException
+     */
+    private List<LprInfo> searchForRosterLocal(String termId, String termCode, String courseCode, String regGroupCode, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        List<LprInfo>  results =   new ArrayList<>();
+        RegGroupSearchResult regGroupSearchResult =  getScheduleOfClassesService().searchForRegistrationGroupByTermAndCourseAndRegGroup(termId, termCode, courseCode, regGroupCode, contextInfo);
+
+        // array of valid waitlist types. We might want to pass this in to make it configurable?
+        String[] lprTypes = {LprServiceConstants.WAITLIST_RG_LPR_TYPE_KEY,
+                LprServiceConstants.REGISTRANT_RG_LPR_TYPE_KEY};
+        if (regGroupSearchResult != null) {
+
+            // they will be in process order
+            results = getLprEntries(Arrays.asList(regGroupSearchResult.getRegGroupId()), contextInfo, lprTypes);
+
+        }
+
+        return results;
     }
 
 
