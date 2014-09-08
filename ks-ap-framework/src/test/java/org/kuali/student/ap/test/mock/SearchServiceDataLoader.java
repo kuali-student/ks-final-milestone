@@ -37,6 +37,16 @@ public class SearchServiceDataLoader extends SearchServiceMockImplAbstractDataLo
         this.searchServiceMock.addSearchResult(makeSearchRequestInfo(CourseSearchConstants.KSAP_COURSE_SEARCH_ALL_DIVISION_CODES_KEY, params),
                 makeSearchResultInfo(Arrays.asList(row1, row2, row3)));
 
+        params = new HashMap<String, String[]>();
 
+        row1 = new HashMap<String, String>();
+        row2 = new HashMap<String, String>();
+        row3 = new HashMap<String, String>();
+
+        row1.put(CourseSearchConstants.SearchResultColumns.COURSE_VERSION_INDEPENDENT_ID, "Clu-1");
+        String param[] = {"cluId1"};
+        params.put(CourseSearchConstants.SearchParameters.CLU_ID,param);
+        this.searchServiceMock.addSearchResult(makeSearchRequestInfo(CourseSearchConstants.KSAP_COURSE_SEARCH_COURSE_IND_VERSION_BY_CLU_ID_KEY, params),
+                makeSearchResultInfo(Arrays.asList(row1)));
     }
 }
