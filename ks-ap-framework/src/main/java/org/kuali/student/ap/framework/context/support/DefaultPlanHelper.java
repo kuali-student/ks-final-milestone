@@ -1437,6 +1437,12 @@ public class DefaultPlanHelper implements PlanHelper {
         Collections.sort(plannerItems, new Comparator<PlannerItem>() {
             @Override
             public int compare(PlannerItem o1, PlannerItem o2) {
+                if (o1.getMeta() == null && o2.getMeta() != null)
+                    return 1;
+                if (o1.getMeta() != null && o2.getMeta() == null)
+                    return -1;
+                if (o1.getMeta() == null && o2.getMeta() == null)
+                    return 0;
                 return o1.getMeta().getCreateTime().compareTo(o2.getMeta().getCreateTime());
             }
         });
