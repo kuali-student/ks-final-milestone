@@ -60,7 +60,20 @@ public interface CourseMaintainable extends ProposalMaintainable {
 
     public List<CluInformation> getCoursesInRange(MembershipQueryInfo membershipQuery);
 
-    public void populateCourseAndReviewData(String courseId, CourseInfoWrapper courseWrapper ) throws Exception;
+    /**
+     * Loads course data into the data object.
+     * @param courseId The id of the course to load.
+     * @param courseWrapper The data object to populate.
+     */
+    public void populateCourseAndReviewData(String courseId, CourseInfoWrapper courseWrapper) throws Exception;
+
+    /**
+     * Loads course data into the data object with the added option of populating version data.
+     * @param courseId The id of the course to load.
+     * @param courseWrapper The data object to populate.
+     * @param loadVersionData If true, version data (currentVersion, versionDisplay) for the course will be loaded. Otherwise, it will not be loaded.
+     */
+    public void populateCourseAndReviewData(String courseId, CourseInfoWrapper courseWrapper, boolean loadVersionData) throws Exception;
 
     public CourseInfoWrapper copyCourse(String sourceCourseId) throws Exception;
 

@@ -30,13 +30,11 @@ public class ViewCourseForm extends KSUifForm {
     private CurriculumManagementConstants.ViewCourseType viewType;
     private CourseInfoWrapper courseInfoWrapper;
     private CourseInfoWrapper compareCourseInfoWrapper;
-    private boolean currentVersion;
     private boolean canRetireCourse;
     private boolean useReviewProcess;
 
     public ViewCourseForm(){
         viewType = CurriculumManagementConstants.ViewCourseType.COURSE_VIEW;
-        currentVersion = true;
         canRetireCourse = false;
         // defaulted to false because only the CS user should ever see this as a checkbox
         useReviewProcess = false;
@@ -102,14 +100,6 @@ public class ViewCourseForm extends KSUifForm {
      */
     public void setCompareCourseInfoWrapper(CourseInfoWrapper compareCourseInfoWrapper) {
         this.compareCourseInfoWrapper = compareCourseInfoWrapper;
-    }
-
-    public boolean isCurrentVersion() {
-        return currentVersion;
-    }
-
-    public void setCurrentVersion(boolean currentVersion) {
-        this.currentVersion = currentVersion;
     }
 
     public boolean isCanRetireCourse() {

@@ -157,7 +157,7 @@
 
                             <bean id="CM-VersionHistory-Button" parent="Uif-SecondaryActionButton"
                                 p:ajaxSubmit="false"
-                                p:actionScript="showCommentLightBox('@{#ConfigProperties['application.url']}/kr-krad/course_versions?viewId=CourseVersionsView&amp;methodToCall=showVersionHistory&amp;#{T(org.kuali.student.cm.common.util.CurriculumManagementConstants$UrlParams).VERSION_INDEPENDENT_ID}=@{courseInfoWrapper.courseInfo.version.versionIndId}');"
+                                p:actionScript="showViewInLightBox('@{#ConfigProperties['application.url']}/kr-krad/course_versions?viewId=CourseVersionsView&amp;methodToCall=showVersionHistory&amp;#{T(org.kuali.student.cm.common.util.CurriculumManagementConstants$UrlParams).VERSION_INDEPENDENT_ID}=@{courseInfoWrapper.courseInfo.version.versionIndId}');"
                                 p:performClientSideValidation="false"
                                 p:actionLabel="Version History"/>
                         </list>
@@ -250,6 +250,7 @@
         <property name="items">
             <list>
                 <ref bean="CM-ViewCourse-View-Course-NotCurentVersionSection"/>
+                <ref bean="CM-ViewCourse-View-Course-VersionNumberColumns"/>
                 <ref bean="CM-ViewCourse-View-Course-CourseInfoSection"/>
                 <ref bean="CM-ViewCourse-View-Course-GovernanceSection"/>
                 <ref bean="CM-ViewCourse-View-Course-CourseLogisticsSection"/>
@@ -384,7 +385,7 @@
     </bean>
 
     <bean id="CM-ViewCourse-View-Course-NotCurentVersionSection" parent="Uif-HorizontalFieldGroup"
-          p:render="@{!currentVersion and !#isCompareView}"
+          p:render="@{!courseInfoWrapper.currentVersion and !#isCompareView}"
           p:additionalCssClasses="uif-validationMessages,uif-groupValidationMessages,uif-pageValidationMessages-warning,ks-subSection">
         <property name="items">
             <list>
@@ -399,6 +400,23 @@
                     <property name="cssClasses">
                         <list merge="true">
                             <value>review_proposal_ReviewErrorMessageActionLink</value>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Displays the version numbers at the top of the column in compare mode -->
+    <bean id="CM-ViewCourse-View-Course-VersionNumberColumns" parent="CM-ViewCourse-View-Course-VerticalBoxSection">
+        <property name="headerText" value="Compare Versions"/>
+        <property name="render" value="@{#isCompareView}"/>
+        <property name="items">
+            <list>
+                <bean parent="CM-ViewCourse-View-Course-GridGroup">
+                    <property name="items">
+                        <list>
+                            <bean id="CM-ViewCourse-VersionName" parent="KS-Uif-DataField" p:label=" " p:propertyName="versionText"/>
                         </list>
                     </property>
                 </bean>

@@ -49,6 +49,7 @@ public class CourseInfoWrapper extends ProposalElementsWrapper implements Serial
     private ReviewProposalDisplay reviewProposalDisplay = new ReviewProposalDisplay();
     private List<String> campusLocations;
     private CourseInfo courseInfo = new CourseInfo();
+
     private List<FormatInfo> formats = new ArrayList<FormatInfo>();
 
     private String crossListingDisclosureSection;
@@ -71,6 +72,20 @@ public class CourseInfoWrapper extends ProposalElementsWrapper implements Serial
 
     private String previousSubjectCode;
 
+    private boolean currentVersion = true;
+    private String versionText;
+
+    /**
+     * This is a display property for the course version (e.g. "Version 2 (current version)") on View Course compare view.
+     */
+    public String getVersionText() {
+        return versionText;
+    }
+
+    public void setVersionText(String versionText) {
+        this.versionText = versionText;
+    }
+
     public String getHiddenDescr() {
         return hiddenDescr;
     }
@@ -86,6 +101,18 @@ public class CourseInfoWrapper extends ProposalElementsWrapper implements Serial
         super(ProposalUtil.isUserCurriculumSpecialist(CurriculumManagementConstants.DocumentTypeNames.CourseProposal.COURSE_CREATE_ADMIN),
                 CurriculumManagementConstants.CourseViewSections.COURSE_INFO);
     }
+
+    /**
+     * @return True if this is the current version of the course (aka the most recent course in state active). Otherwise, false.
+     */
+    public boolean isCurrentVersion() {
+        return currentVersion;
+    }
+
+    public void setCurrentVersion(boolean currentVersion) {
+        this.currentVersion = currentVersion;
+    }
+
 
     public Date getEffectiveDate() {
         return effectiveDate;

@@ -78,6 +78,8 @@ public class ViewCourseController extends KsUifControllerBase {
 
         ViewCourseForm detailedViewForm = (ViewCourseForm) form;
 
+        boolean isComparison = false;
+
         String courseId = request.getParameter(UrlParams.COURSE_ID);
         String compareCourseId = request.getParameter(UrlParams.COMPARE_COURSE_ID);
 
@@ -85,27 +87,26 @@ public class ViewCourseController extends KsUifControllerBase {
             throw new RuntimeException("Missing Course Id");
         }
 
+        if (StringUtils.isNotBlank(compareCourseId)) {
+            isComparison = true;
+        }
+
         try {
+            //  Load the data for the primary/courseId course (including the version data).
             CourseInfoWrapper courseWrapper = new CourseInfoWrapper();
             courseWrapper.setProposalDataRequired(false);
             ((CourseMaintainable) form.getViewHelperService()).setDataObject(courseWrapper);
-            ((CourseMaintainable) form.getViewHelperService()).populateCourseAndReviewData(courseId, courseWrapper);
+            ((CourseMaintainable) form.getViewHelperService()).populateCourseAndReviewData(courseId, courseWrapper, true);
             detailedViewForm.setCourseInfoWrapper(courseWrapper);
             detailedViewForm.setCanRetireCourse(((CourseMaintainable) form.getViewHelperService()).canInitiateRetireProposal());
 
-            if (StringUtils.isNotBlank(compareCourseId)) {
+            //  Load the data for the other/compare-to course.
+            if (isComparison) {
                 CourseInfoWrapper compareCourseWrapper = new CourseInfoWrapper();
                 compareCourseWrapper.setProposalDataRequired(false);
                 ((CourseMaintainable) form.getViewHelperService()).setDataObject(compareCourseWrapper);
-                ((CourseMaintainable) form.getViewHelperService()).populateCourseAndReviewData(compareCourseId, compareCourseWrapper);
+                ((CourseMaintainable)form.getViewHelperService()).populateCourseAndReviewData(compareCourseId, compareCourseWrapper, true);
                 detailedViewForm.setCompareCourseInfoWrapper(compareCourseWrapper);
-            }
-
-            if (StringUtils.isBlank(compareCourseId)) {
-                CourseInfo currentCourse = ((CourseMaintainable) form.getViewHelperService()).getCurrentVersionOfCourse(courseWrapper.getCourseInfo(), ContextUtils.createDefaultContextInfo());
-                if (!StringUtils.equals(currentCourse.getId(), courseWrapper.getCourseInfo().getId())) {
-                    detailedViewForm.setCurrentVersion(false);
-                }
             }
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -263,10 +264,9 @@ public class ViewCourseController extends KsUifControllerBase {
             CourseInfoWrapper courseWrapper = new CourseInfoWrapper();
             courseWrapper.setProposalDataRequired(false);
             ((CourseMaintainable) form.getViewHelperService()).setDataObject(courseWrapper);
-            ((CourseMaintainable) form.getViewHelperService()).populateCourseAndReviewData(currentCourse.getId(), courseWrapper);
+            ((CourseMaintainable) form.getViewHelperService()).populateCourseAndReviewData(currentCourse.getId(), courseWrapper, true);
             detailedViewForm.setCourseInfoWrapper(courseWrapper);
             detailedViewForm.setCompareCourseInfoWrapper(null);
-            detailedViewForm.setCurrentVersion(true);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

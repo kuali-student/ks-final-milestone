@@ -124,6 +124,7 @@ import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
 import org.kuali.student.r2.lum.lrc.service.LRCService;
 import org.kuali.student.r2.lum.util.constants.CluServiceConstants;
 import org.kuali.student.r2.lum.util.constants.CourseServiceConstants;
+import static org.kuali.student.r1.lum.course.service.CourseServiceConstants.COURSE_NAMESPACE_URI;
 import org.kuali.student.r2.lum.util.constants.LrcServiceConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -1548,7 +1549,7 @@ public class CourseMaintainableImpl extends ProposalMaintainableImpl implements 
      */
     @Override
     public void populateWrapperData(ProposalElementsWrapper proposalElementsWrapper) throws Exception {
-        CourseInfoWrapper courseWrapper = (CourseInfoWrapper)proposalElementsWrapper;
+        CourseInfoWrapper courseWrapper = (CourseInfoWrapper) proposalElementsWrapper;
         CourseInfo course = courseWrapper.getCourseInfo();
         /*
          * Curriculum Oversight
@@ -1672,6 +1673,13 @@ public class CourseMaintainableImpl extends ProposalMaintainableImpl implements 
      * @throws Exception
      */
     public void populateCourseAndReviewData(String courseId, CourseInfoWrapper courseWrapper) throws Exception {
+         populateCourseAndReviewData(courseId, courseWrapper, false);
+    }
+
+    /**
+     * Same as above, but adds the option to load version data.
+     */
+    public void populateCourseAndReviewData(String courseId, CourseInfoWrapper courseWrapper, boolean loadVersionData) throws Exception {
 
         CourseInfo course = getCourseService().getCourse(courseId, createContextInfo());
 
@@ -1684,6 +1692,28 @@ public class CourseMaintainableImpl extends ProposalMaintainableImpl implements 
         populateWrapperData(courseWrapper);
 
         updateReview(courseWrapper, false);
+        if (loadVersionData) {
+            loadVersionData(courseWrapper);
+        }
+    }
+
+    /**
+     * Populates .
+     *
+     * @param courseWrapper
+     */
+    protected void loadVersionData(CourseInfoWrapper courseWrapper) throws Exception {
+        String currentCourseSuffix = "";
+
+        if (isCurrentVersionOfCourse(courseWrapper.getCourseInfo(), this.createContextInfo())) {
+            courseWrapper.setCurrentVersion(true);
+            currentCourseSuffix = "(current version)";
+        } else {
+            courseWrapper.setCurrentVersion(false);
+        }
+
+        courseWrapper.setVersionText(String.format("Version %s %s",
+                courseWrapper.getCourseInfo().getVersion().getSequenceNumber(), currentCourseSuffix));
     }
 
     protected void populateRequisities(CourseInfoWrapper courseInfoWrapper, String courseId) {
@@ -2279,19 +2309,27 @@ public class CourseMaintainableImpl extends ProposalMaintainableImpl implements 
         // do nothing
     }
 
-    public CourseInfo getCurrentVersionOfCourse(CourseInfo course,ContextInfo contextInfo)
-            throws Exception {
+    public CourseInfo getCurrentVersionOfCourse(CourseInfo course,ContextInfo contextInfo) throws Exception {
         // Get version independent id of course
         String verIndId = course.getVersion().getVersionIndId();
 
-        // Get id of current version of course given the versionindependen id
-        VersionDisplayInfo curVerDisplayInfo = getCourseService().getCurrentVersion(
-        org.kuali.student.r1.lum.course.service.CourseServiceConstants.COURSE_NAMESPACE_URI, verIndId,contextInfo);
+        // Get id of current version of course given the version independent id
+        VersionDisplayInfo curVerDisplayInfo = getCourseService().getCurrentVersion(COURSE_NAMESPACE_URI, verIndId, contextInfo);
         String curVerId = curVerDisplayInfo.getId();
 
         // Return the current version of the course
         CourseInfo currVerCourse = getCourseService().getCourse(curVerId,contextInfo);
 
         return currVerCourse;
+    }
+
+    public boolean isCurrentVersionOfCourse(CourseInfo course, ContextInfo contextInfo) throws Exception {
+        String courseId = course.getId();
+        String verIndId = course.getVersion().getVersionIndId();
+
+        // Get id of current version of course given the version independent id
+        VersionDisplayInfo currentVersion = getCourseService().getCurrentVersion(COURSE_NAMESPACE_URI, verIndId, contextInfo);
+
+        return currentVersion.getId().equals(courseId) ? true : false;
     }
 }
