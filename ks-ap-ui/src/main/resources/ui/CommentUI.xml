@@ -499,6 +499,7 @@
                                                           p:render="@{#line.comments.size() gt 0}" p:style="margin-left:0.5em;">
                                                         <property name="cssClasses">
                                                             <list merge="true">
+                                                                <!--@TODO KSAP-2009 convert to icon font instead of image-->
                                                                 <value>ksap-comment-bubble</value>
                                                             </list>
                                                         </property>

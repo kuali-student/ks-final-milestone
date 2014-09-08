@@ -149,31 +149,8 @@ table.ksap-course-search-results-datatable .blockUI { /*Really needed?*/
   th[aria-sort='descending'] {
     color: #06c;
   }
-  th .DataTables_sort_wrapper {
-    cursor: default;
-    display: inline;
-  }
-  th.sortable,
-  th.sortable .DataTables_sort_wrapper {
+  th.sortable {
     cursor: pointer;
-  }
-  th .DataTables_sort_wrapper .ui-icon {
-    background: url('../images/ksap_icon_sprites.png') no-repeat 0 -48px transparent; /* @TODO ksap-961 use icon font instead of images */
-    display: inline-block;
-    height: 16px;
-    margin: 0 0 0 5px;
-    vertical-align: middle;
-    width: 16px;
-
-  }
-  th .DataTables_sort_wrapper .ui-icon.ui-icon-carat-2-n-s {
-    background-position: 0 -48px;
-  }
-  th .DataTables_sort_wrapper .ui-icon.ui-icon-triangle-1-n {
-    background-position: -16px -48px;
-  }
-  th .DataTables_sort_wrapper .ui-icon.ui-icon-triangle-1-s {
-    background-position: -32px -48px;
   }
 }
 

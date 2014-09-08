@@ -96,7 +96,7 @@ function openDialogWindow(getId, retrieveData, formAction, popupStyle, popupOpti
         if (jQuery("#KSAP-Popover").length) {
             popupItem.SetPopOverInnerHtml(component);
             fnPositionDialogWindow(popupId);
-            //@TODO ksap-961 Convert to icon font instead of image
+            //@TODO ksap-2006 Convert to icon font instead of image
             var imageUrl = getConfigParam("kradUrl")+"/../themes/ksapboot/images/btnClose.png";
             if (popupOptions.close || typeof popupOptions.close === 'undefined') jQuery("#" + popupId + " .jquerypopover-innerHtml").append('<img src="'+imageUrl+'" class="ksap-popup-close"/>');
             jQuery("#" + popupId + " img.ksap-popup-close").on('click', function () {

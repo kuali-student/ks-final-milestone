@@ -1115,7 +1115,7 @@
                 <value>coursenote</value>
             </list>
         </property>
-        <!--@TODO: ksap-961 convert to icon font instead of image-->
+        <!--@TODO: ksap-2005 convert to icon font instead of image-->
         <property name="source" value="@{#ConfigProperties['ks.ap.externalizable.images.url']}iconInfo.png"/>
         <property name="title" value=""/>
     </bean>
@@ -1127,7 +1127,7 @@
                 <value>termnote</value>
             </list>
         </property>
-        <!--@TODO: ksap-961 convert to icon font instead of image-->
+        <!--@TODO: ksap-2003 convert to icon font instead of image-->
         <property name="source" value="@{#ConfigProperties['ks.ap.externalizable.images.url']}iconInfo.png"/>
         <property name="title" value=""/>
     </bean>

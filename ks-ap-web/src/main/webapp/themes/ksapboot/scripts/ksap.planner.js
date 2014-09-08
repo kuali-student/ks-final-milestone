@@ -219,11 +219,11 @@ function ksapPlannerUpdateCredits (data) {
 function ksapPlannerUpdateTermNote (data) {
     if (data.termNote == null || data.termNote == "") {
         jQuery("#"+data.uniqueId+"_termNote").attr("title","");
-        //@TODO: ksap-961 convert to icon font instead of image
+        //@TODO: ksap-2003 convert to icon font instead of image
         jQuery("#"+data.uniqueId+"_termNote").attr("src","../ks-ap/images/btnAdd.png");
     } else {
         jQuery("#"+data.uniqueId+"_termNote").attr("title",data.termNote);
-        //@TODO: ksap-961 convert to icon font instead of image
+        //@TODO: ksap-2003 convert to icon font instead of image
         jQuery("#"+data.uniqueId+"_termNote").attr("src","../ks-ap/images/iconInfo.png");
     }
 
@@ -365,7 +365,7 @@ function openMenu(id, getId, atpId, e, selector, popupClasses, popupOptions, clo
         });
     });
 
-    //@TODO: ksap-961 Convert to icon font instead of image
+    //@TODO: ksap-2006 Convert to icon font instead of image
     if (close || typeof close === 'undefined') jQuery("#" + popupBoxId + " .jquerybubblepopup-innerHtml").append('<img src="../themes/ksapboot/images/btnClose.png" class="ksap-popup-close"/>');
 
     runHiddenScripts(id + "_popup");
