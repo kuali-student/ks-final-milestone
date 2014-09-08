@@ -1968,6 +1968,7 @@ the program will get the rule management service by calling the global resource 
         <property name="lrcService" ref="LRCService"/>
         <property name="scheduleOfClassesService"  ref="scheduleOfClassesService"/>
         <property name="searchService" ref="searchService"/>
+        <property name="indexOnStartup" value="false"/>
     </bean>
 
 
