@@ -20,6 +20,7 @@ import org.kuali.student.enrollment.lui.dto.LuiLuiRelationInfo;
 import org.kuali.student.enrollment.lui.service.LuiService;
 import org.kuali.student.r2.common.constants.CommonServiceConstants;
 
+import javax.xml.namespace.QName;
 import java.util.HashSet;
 
 /**
@@ -34,6 +35,8 @@ public class LuiServiceConstants {
     public static final String REF_OBJECT_URI_LUI = NAMESPACE + "/" + LuiInfo.class.getSimpleName();
     public static final String REF_OBJECT_URI_LUI_LUI_RELATION = NAMESPACE + "/" + LuiLuiRelationInfo.class.getSimpleName();
     public static final String LUI_KEY_PREFIX = "kuali.lui";
+
+    public static final QName Q_NAME = new QName(NAMESPACE, SERVICE_NAME_LOCAL_PART);
 
     /**
      * Course Offering, Format Offering, Registration Group Types
