@@ -16,7 +16,7 @@
 package org.kuali.student.ap.search.decorator;
 
 import net.sf.ehcache.CacheManager;
-import org.kuali.student.ap.search.KsapSearchSupportImpl;
+import org.kuali.student.ap.search.KsapCourseSearchCluSearchImpl;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
@@ -33,23 +33,23 @@ import org.slf4j.LoggerFactory;
  *  Cache uses time base invalidation as it is not connected directly to service that modify the tables used in
  *  custom sqls.
  */
-public class KsapSearchSupportCacheDecorator extends KsapSearchSupportImpl {
-    private static final Logger LOG = LoggerFactory.getLogger(KsapSearchSupportCacheDecorator.class);
+public class KsapCourseSearchCluSearchCacheDecorator extends KsapCourseSearchCluSearchImpl {
+    private static final Logger LOG = LoggerFactory.getLogger(KsapCourseSearchCluSearchCacheDecorator.class);
 
-    private static final String ACADEMIC_PLAN_SEARCH_CACHE = "ksapSearchSupportCache";
-    private static final String ACADEMIC_PLAN_SEARCH_KEY_PREFIX = "ksapsearchsupport";
+    private static final String ACADEMIC_PLAN_SEARCH_CACHE = "ksapCourseSearchCluCache";
+    private static final String ACADEMIC_PLAN_SEARCH_KEY_PREFIX = "ksapsearch";
 
     // Cache manager used in storing search results for sqls
     private CacheManager cacheManager;
 
     // Next academic plan course search object decorator to reference
-    private KsapSearchSupportImpl nextDecorator;
+    private KsapCourseSearchCluSearchImpl nextDecorator;
 
     /**
      * Uses SearchCacheDecoratorUtil to attempt to retrieve cache results for the search.
      * If results can not be found using the cache delegates responsibility to next decorator
      *
-     * @see org.kuali.student.ap.search.KsapSearchSupportImpl#search(org.kuali.student.r2.core.search.dto.SearchRequestInfo, org.kuali.student.r2.common.dto.ContextInfo)
+     * @see org.kuali.student.ap.search.KsapCourseSearchCluSearchImpl#search(org.kuali.student.r2.core.search.dto.SearchRequestInfo, org.kuali.student.r2.common.dto.ContextInfo)
      */
     @Override
     public SearchResultInfo search(SearchRequestInfo searchRequestInfo, ContextInfo contextInfo) throws MissingParameterException, OperationFailedException, PermissionDeniedException {
@@ -72,7 +72,7 @@ public class KsapSearchSupportCacheDecorator extends KsapSearchSupportImpl {
         this.cacheManager = cacheManager;
     }
 
-    public KsapSearchSupportImpl getNextDecorator() throws OperationFailedException {
+    public KsapCourseSearchCluSearchImpl getNextDecorator() throws OperationFailedException {
         if (null == nextDecorator) {
             throw new OperationFailedException("Misconfigured application: nextDecorator is null");
         }
@@ -80,7 +80,7 @@ public class KsapSearchSupportCacheDecorator extends KsapSearchSupportImpl {
         return nextDecorator;
     }
 
-    public void setNextDecorator(KsapSearchSupportImpl nextDecorator) {
+    public void setNextDecorator(KsapCourseSearchCluSearchImpl nextDecorator) {
         this.nextDecorator = nextDecorator;
     }
 }

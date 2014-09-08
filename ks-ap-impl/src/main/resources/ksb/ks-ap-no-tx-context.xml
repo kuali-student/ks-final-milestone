@@ -57,19 +57,12 @@
 
     </bean>
 
-    <bean id="ksSearchService" class="org.kuali.student.r2.common.class1.search.SearchServiceDispatcherImpl">
+    <bean id="ksSearchService" parent="searchService">
         <property name="searchServices">
-            <list>
-                <ref bean="apptWindowCountsSearchImpl" />
-                <ref bean="courseOfferingHistorySearchImpl"/>
-                <ref bean="CourseOfferingManagementSearchImpl"/>
-                <ref bean="AutogenCountSearchServiceImpl"/>
-                <ref bean="ActivityOfferingSearchServiceImpl"/>
-                <ref bean="CoreSearchServiceImpl"/> <!-- This bean lives in ks-core-no-tx-context.xml  -->
-                <ref bean="InstructorSearchServiceImpl"/>
-                <ref bean="CourseRegistrationSearchServiceImpl"/>
-                <ref bean="KsapCourseSearchCacheDecorator"/>
-                <ref bean="KsapSearchSupportCacheDecorator"/>
+            <list merge="true">
+                <ref bean="KsapCourseSearchCluSearchCacheDecorator"/>
+                <ref bean="KsapCourseSearchSupportCluSearchCacheDecorator"/>
+                <ref bean="KsapLuiSearchCacheDecorator"/>
             </list>
         </property>
     </bean>
@@ -387,19 +380,30 @@
     <bean id="shoppingCartStrategy"
           class="org.kuali.student.ap.schedulebuilder.support.DefaultShoppingCartStrategy"/>
 
-    <bean id="KsapCourseSearchImpl" class="org.kuali.student.ap.search.KsapCourseSearchImpl">
-        <property name="entityManager" ref="enrollEntityManager"/>
-    </bean>
-    <bean id="KsapSearchSupportImpl" class="org.kuali.student.ap.search.KsapSearchSupportImpl">
+    <bean id="KsapCourseSearchCluSearchImpl" class="org.kuali.student.ap.search.KsapCourseSearchCluSearchImpl">
         <property name="entityManager" ref="enrollEntityManager"/>
     </bean>
 
-    <bean id="KsapCourseSearchCacheDecorator" class="org.kuali.student.ap.search.decorator.KsapCourseSearchCacheDecorator">
-        <property name="nextDecorator" ref="KsapCourseSearchImpl"/>
+    <bean id="KsapCourseSearchSupportCluSearchImpl" class="org.kuali.student.ap.search.KsapCourseSearchSupportCluSearchImpl">
+        <property name="entityManager" ref="enrollEntityManager"/>
+    </bean>
+
+    <bean id="KsapLuiSearchImpl" class="org.kuali.student.ap.search.KsapLuiSearchService">
+        <property name="entityManager" ref="enrollEntityManager"/>
+    </bean>
+
+    <bean id="KsapCourseSearchCluSearchCacheDecorator" class="org.kuali.student.ap.search.decorator.KsapCourseSearchCluSearchCacheDecorator">
+        <property name="nextDecorator" ref="KsapCourseSearchCluSearchImpl"/>
         <property name="cacheManager" ref="ksCacheManager"/>
     </bean>
-    <bean id="KsapSearchSupportCacheDecorator" class="org.kuali.student.ap.search.decorator.KsapSearchSupportCacheDecorator">
-        <property name="nextDecorator" ref="KsapSearchSupportImpl"/>
+
+    <bean id="KsapCourseSearchSupportCluSearchCacheDecorator" class="org.kuali.student.ap.search.decorator.KsapCourseSearchSupportCluSearchCacheDecorator">
+        <property name="nextDecorator" ref="KsapCourseSearchSupportCluSearchImpl"/>
+        <property name="cacheManager" ref="ksCacheManager"/>
+    </bean>
+
+    <bean id="KsapLuiSearchCacheDecorator" class="org.kuali.student.ap.search.decorator.KsapLuiSearchCacheDecorator">
+        <property name="nextDecorator" ref="KsapLuiSearchImpl"/>
         <property name="cacheManager" ref="ksCacheManager"/>
     </bean>
 

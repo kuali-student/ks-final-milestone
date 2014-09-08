@@ -63,6 +63,7 @@ public class CourseSearchConstants {
 
     // Custom Search Keys
     public static final String KSAP_COURSE_SEARCH_KEY = "kuali.search.type.ksap.coursesearch";
+    public static final String KSAP_LUI_SEARCH_KEY = "kuali.search.type.lui.";
     public static final String KSAP_COURSE_SEARCH_COURSEVERSIONIDS_BY_TERM_SCHEDULED_KEY = "kuali.search.type.ksap.coursesearch.versionid.by.term.scheduled";
     public static final String KSAP_COURSE_SEARCH_COURSEIDS_BY_TERM_OFFERED_KEY = "kuali.search.type.ksap.coursesearch.cluid.by.term.offered";
     public static final String KSAP_COURSE_SEARCH_OFFERED_REG_GROUP_IDS_BY_CO_ID_KEY = "kuali.search.type.ksap.offered.reg.group.ids.by.co.id";

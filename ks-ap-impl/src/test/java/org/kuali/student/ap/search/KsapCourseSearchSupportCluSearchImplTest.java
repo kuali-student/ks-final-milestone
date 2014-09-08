@@ -34,9 +34,9 @@ import static org.junit.Assert.assertNotNull;
 @ContextConfiguration(locations = { "classpath:ks-ap-test-context.xml" })
 @TransactionConfiguration(transactionManager = "JtaTxManager", defaultRollback = true)
 @Transactional
-public class KsapSearchSupportImplTest {
+public class KsapCourseSearchSupportCluSearchImplTest {
 
-    KsapSearchSupportImpl searchImpl;
+    KsapCourseSearchSupportCluSearchImpl searchImpl;
 
     @Resource
     EntityManager emEntityManager;
@@ -47,7 +47,7 @@ public class KsapSearchSupportImplTest {
     public void setUp() throws Exception {
         DefaultKsapContext.before("student1");
         contextInfo= KsapFrameworkServiceLocator.getContext().getContextInfo();
-        searchImpl = new KsapSearchSupportImpl();
+        searchImpl = new KsapCourseSearchSupportCluSearchImpl();
         searchImpl.setEntityManager(emEntityManager);
 
     }
