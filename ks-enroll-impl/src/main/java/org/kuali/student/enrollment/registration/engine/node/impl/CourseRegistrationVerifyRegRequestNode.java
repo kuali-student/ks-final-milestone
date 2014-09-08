@@ -4,7 +4,6 @@ import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestInfo;
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestItemInfo;
 import org.kuali.student.enrollment.courseregistration.infc.RegistrationRequest;
-import org.kuali.student.enrollment.courseregistration.infc.RegistrationRequestItem;
 import org.kuali.student.enrollment.courseregistration.service.CourseRegistrationService;
 import org.kuali.student.enrollment.lpr.dto.LprTransactionInfo;
 import org.kuali.student.enrollment.lpr.dto.LprTransactionItemInfo;
@@ -200,15 +199,11 @@ public class CourseRegistrationVerifyRegRequestNode extends AbstractCourseRegist
         return false;
     }
 
+    @SuppressWarnings("unused")
     private boolean shouldValidate(RegistrationRequest regRequest) {
 
-        //Check if this is only a drop from waitlist request (if so no need to validate).
-        for (RegistrationRequestItem item : regRequest.getRegistrationRequestItems()) {
-            if (!LprServiceConstants.REQ_ITEM_DROP_WAITLIST_TYPE_KEY.equals(item.getTypeKey())) {
-                return true;
-            }
-        }
-        return false;
+        //We are currently validating all requests
+        return true;
     }
 
     private List<ValidationResultInfo> getErrors(List<ValidationResultInfo> results) {

@@ -599,37 +599,3 @@ INSERT INTO KSEN_PROCESS_INSTRN
     0,
     'N')
 /
-
--- Student Eligible to drop a waitlisted course --
-INSERT INTO KSEN_PROCESS (CREATEID, CREATETIME, DESCR_PLAIN, ID, NAME, OBJ_ID, OWNER_ORG_ID, PROCESS_STATE, PROCESS_TYPE, UPDATEID, UPDATETIME, VER_NBR )
-  VALUES ('Admin',
-          TO_DATE( '2014-08-29', 'YYYY-MM-DD' ),
-          'Performs all the instructions that are associated with checking that a student is Eligible to drop a waitlisted course',
-          'kuali.process.course.eligible.for.waitlist.drop',
-          'Course Eligible for Drop from Waitlist',
-          '01CC67C7-6A5A-82C3-E050-007F010105C1',
-          '222',
-          'kuali.process.process.state.active',
-          'kuali.process.process.type',
-          'Admin',
-          TO_DATE( '2014-08-29', 'YYYY-MM-DD' ),
-          0
-  )
-/
-
--- Student Eligible to drop a registered course --
-INSERT INTO KSEN_PROCESS (CREATEID, CREATETIME, DESCR_PLAIN, ID, NAME, OBJ_ID, OWNER_ORG_ID, PROCESS_STATE, PROCESS_TYPE, UPDATEID, UPDATETIME, VER_NBR )
-  VALUES ('Admin',
-          TO_DATE( '2014-08-29', 'YYYY-MM-DD' ),
-          'Performs all the instructions that are associated with checking that a student is Eligible to drop a registered course',
-          'kuali.process.course.eligible.for.drop',
-          'Course Eligible for Drop',
-          '01CC67C7-6A5B-82C3-E050-007F010105C1',
-          '222',
-          'kuali.process.process.state.active',
-          'kuali.process.process.type',
-          'Admin',
-          TO_DATE( '2014-08-29', 'YYYY-MM-DD' ),
-          0
-  )
-/

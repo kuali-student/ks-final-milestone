@@ -50,7 +50,7 @@ public class CourseRegistrationLprActionProcessor {
             contextInfo.setPrincipalId(message.getRequestorId());
             RegistrationRequestItem registrationRequestItem = message.getRequestItem();
 
-            if(LprServiceConstants.LPRTRANS_ITEM_FAILED_STATE_KEY.equals(registrationRequestItem.getStateKey())){
+            if (LprServiceConstants.LPRTRANS_ITEM_FAILED_STATE_KEY.equals(registrationRequestItem.getStateKey())) {
                 //Don't process this if it has failed.
                 return message;
             }
@@ -103,7 +103,7 @@ public class CourseRegistrationLprActionProcessor {
             } else {
                 throw new UnsupportedOperationException("Unknown Registration Request Item Type: " + registrationRequestItem.getTypeKey());
             }
-            LOGGER.info("Completed registering requestItemId:"+ message.getRequestItem().getId());
+            LOGGER.info("Completed registering requestItemId:" +  message.getRequestItem().getId());
             return message;
         } catch (Exception e) {
             throw new RuntimeException("Error processing", e);
@@ -187,27 +187,29 @@ public class CourseRegistrationLprActionProcessor {
         String requestorId = null;
         String lprTransFinalState = LprServiceConstants.LPRTRANS_SUCCEEDED_STATE_KEY;
 
-        // for this implementation we just want the requestId and the id of the person initiating the request.
-        // in the future we might want to inspect each item
+        // if any items have failed, mark the whole transaction as failed.
+        // additionally, retrieve the requestId and the id of the person initiating the request.
         for (RegistrationRequestItemEngineMessage regItem : regItems) {
             regReqId = regItem.getRequestItem().getRegistrationRequestId();
             requestorId = regItem.getRequestorId();
-            break;
+            if (regItem.getRequestItem().getStateKey().equals(LprServiceConstants.LPRTRANS_ITEM_FAILED_STATE_KEY)) {
+                lprTransFinalState = LprServiceConstants.LPRTRANS_FAILED_STATE_KEY;
+            }
         }
 
-        LOGGER.info("Updating Registration Request Status to succeed for: " + regReqId);
+        LOGGER.info("Updating Registration Request Status to {} for: {}", lprTransFinalState, regReqId);
 
         // Each node can update the LPR transaction. If an exception happens, the LPR trans state should have been
         // updated to failure. Pull it now
         LprTransaction lprTransaction = getLprService().getLprTransaction(regReqId, contextInfo);
-        if(!lprTransaction.getStateKey().equals(LprServiceConstants.LPRTRANS_PROCESSING_STATE_KEY)){
+        if (!lprTransaction.getStateKey().equals(LprServiceConstants.LPRTRANS_PROCESSING_STATE_KEY)) {
             lprTransFinalState = lprTransaction.getStateKey();
         }
 
         contextInfo.setPrincipalId(requestorId);
         getLprService().changeLprTransactionState(regReqId, lprTransFinalState, contextInfo);
 
-        LOGGER.info("Successfully updated Registration Request Status to succeed for: " + regReqId);
+        LOGGER.info("Successfully updated Registration Request Status to {} for: {}", lprTransFinalState, regReqId);
     }
 
     private void updateRegistration(RegistrationRequestItemEngineMessage message, ContextInfo contextInfo) throws DoesNotExistException, PermissionDeniedException, OperationFailedException, VersionMismatchException, InvalidParameterException, ReadOnlyException, MissingParameterException, DataValidationErrorException {
@@ -237,7 +239,7 @@ public class CourseRegistrationLprActionProcessor {
         if (StringUtils.equals(registrationRequestItem.getTypeKey(), LprServiceConstants.REQ_ITEM_DROP_TYPE_KEY)) {
             // Getting list of AO IDs for the given Waitlist to pass it to the listener
             List<LprInfo> lprInfos = getLprService().getLprsByMasterLprId(registrationRequestItem.getExistingCourseRegistrationId(), contextInfo);
-            ArrayList<String> aoIDs = new ArrayList<String>();
+            ArrayList<String> aoIDs = new ArrayList<>();
             for (LprInfo lprInfo : lprInfos) {
                 if (StringUtils.equals(lprInfo.getTypeKey(), LprServiceConstants.REGISTRANT_AO_LPR_TYPE_KEY)) {
                     aoIDs.add(lprInfo.getLuiId());
@@ -296,7 +298,7 @@ public class CourseRegistrationLprActionProcessor {
 
     public LprService getLprService() {
         if (lprService == null) {
-            lprService = (LprService) GlobalResourceLoader.getService(new QName(LprServiceConstants.NAMESPACE, LprServiceConstants.SERVICE_NAME_LOCAL_PART));
+            lprService = GlobalResourceLoader.getService(new QName(LprServiceConstants.NAMESPACE, LprServiceConstants.SERVICE_NAME_LOCAL_PART));
         }
         return lprService;
     }
