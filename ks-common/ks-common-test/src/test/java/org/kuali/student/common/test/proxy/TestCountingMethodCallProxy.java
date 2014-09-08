@@ -32,6 +32,7 @@ import org.junit.runner.RunWith;
 import org.junit.runners.BlockJUnit4ClassRunner;
 import org.kuali.student.common.cache.KSCacheUtils;
 import org.kuali.student.common.cache.KSCacheUtils.BulkCacheElementLoader;
+import org.kuali.student.common.cache.KSCacheUtils.CacheElementCopier;
 import org.kuali.student.common.cache.KSCacheUtils.SingleCacheElementLoader;
 import org.kuali.student.common.mock.MockService;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
@@ -53,10 +54,19 @@ public class TestCountingMethodCallProxy {
 
 	private class DTO implements HasId, Serializable {
 		
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 4788688618267922206L;
+
 		private String id;
 		
 		private String value;
 
+		public DTO (DTO source) {
+			this (source.getId(), source.getValue());
+		}
+		
 		public DTO(String id, String value) {
 			super();
 			this.id = id;
@@ -71,6 +81,14 @@ public class TestCountingMethodCallProxy {
 		public String getValue() {
 			return value;
 		}
+
+		public void setId(String id) {
+			this.id = id;
+		}
+
+		public void setValue(String value) {
+			this.value = value;
+		}
 		
 		
 	}
@@ -79,6 +97,15 @@ public class TestCountingMethodCallProxy {
 		
 		public List<DTO>getMany(List<String>ids) throws DoesNotExistException, OperationFailedException, InvalidParameterException, MissingParameterException, PermissionDeniedException;
 	}
+	
+	private CacheElementCopier<DTO>copier = new CacheElementCopier<TestCountingMethodCallProxy.DTO>() {
+
+		@Override
+		public DTO deepCopy(DTO source) {
+			return new DTO(source);
+		}
+		
+	}; 
 	
 	private class SimpleServiceDecorator implements SimpleService {
 
@@ -122,7 +149,7 @@ public class TestCountingMethodCallProxy {
 		@Override
 		public DTO getOne(String id) throws DoesNotExistException, OperationFailedException, InvalidParameterException, MissingParameterException, PermissionDeniedException {
 			
-			return KSCacheUtils.cacheAwareLoad(dtoCache, id, new SingleCacheElementLoader<DTO>() {
+			return KSCacheUtils.cacheAwareLoad(dtoCache, id, copier, new SingleCacheElementLoader<DTO>() {
 
 				@Override
 				public DTO load(String key) throws DoesNotExistException,
@@ -174,7 +201,7 @@ public class TestCountingMethodCallProxy {
 
 		private void bulkAwareGetMany(List<String> ids, List<DTO> results) throws OperationFailedException, InvalidParameterException, MissingParameterException, PermissionDeniedException {
 			
-			results.addAll(KSCacheUtils.cacheAwareBulkLoad(dtoCache, ids, new BulkCacheElementLoader<DTO>() {
+			results.addAll(KSCacheUtils.cacheAwareBulkLoad(dtoCache, ids, copier, new BulkCacheElementLoader<DTO>() {
 
 				@Override
 				public List<DTO> load(List<String> cacheMissKeys)
@@ -237,6 +264,7 @@ public class TestCountingMethodCallProxy {
 		
 		
 	}
+	
 	@Test
 	public void testSimpleProxy() throws OperationFailedException, InvalidParameterException, MissingParameterException, PermissionDeniedException, DoesNotExistException {
 		
@@ -277,6 +305,37 @@ public class TestCountingMethodCallProxy {
 		oneCount = handler.getMethodCount("getOne");
 		
 		Assert.assertEquals(1, oneCount);
+		
+	}
+	
+	@Test
+	public void testCacheImmutability() throws OperationFailedException, InvalidParameterException, MissingParameterException, PermissionDeniedException, DoesNotExistException {
+		
+		/*
+		 * 
+		 */
+	
+		SimpleServiceMapImpl base = new SimpleServiceMapImpl();
+		
+		MethodCountingInvocationHandler handler = new MethodCountingInvocationHandler(base);
+		
+		SimpleService instance = (SimpleService) Proxy.newProxyInstance(getClass().getClassLoader(), new Class[] {SimpleService.class}, handler);
+		
+		SimpleServiceCacheDecorator top = new SimpleServiceCacheDecorator(instance);
+		
+		base.storeDTO(new DTO("1", "one"));
+		base.storeDTO(new DTO("2", "two"));
+		base.storeDTO(new DTO("3", "three"));
+		
+		top.setBulkAwareMode(true);
+		
+		DTO cachedTwo = top.getOne("2");
+		
+		cachedTwo.setValue("Four");
+		
+		DTO secondTwo = top.getOne("2");
+		
+		Assert.assertNotEquals("Expected object ids to be different", cachedTwo, secondTwo);
 		
 	}
 	
