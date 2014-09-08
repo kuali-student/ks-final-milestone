@@ -27,6 +27,14 @@ angular.module('mockTransactionMessages', []).value('transactionMessages',
             "message":"Registration is not currently open"
         },
         {
+            "messageKey": "kuali.lpr.trans.message.drop.period.closed",
+            "message": "Deadline for dropping has passed"
+        },
+        {
+            "messageKey": "kuali.lpr.trans.message.edit.period.closed",
+            "message": "Deadline for editing has passed"
+        },
+        {
             "messageKey":"kuali.lpr.trans.message.exception",
             "message":"There was an internal server error while processing your registration request."
         },

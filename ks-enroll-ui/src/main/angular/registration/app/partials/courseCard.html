@@ -18,10 +18,21 @@
         <!--Drop from Registered section-->
         <div ng-switch-when="registered">
             <div ng-repeat="course in registeredCourseOfferings" class="kscr-Course-container kscr-Course-course{{courseIndex(course)}}" ng-class="{'kscr-Course-container--processing' : course.requestProcessing}">
-                <div id="course_status_message" class="kscr-Card-status kscr-Card-status--{{course.statusMessage.type}} util-Alert--{{course.statusMessage.type}}"
-                     ng-class="(course.dropped || course.dropProcessing) ? 'util-Alert--card--dropped' : 'util-Alert--card'" ng-if="course.statusMessage.txt">
+                <div id="course_status_message_{{course.courseCode}}_{{course.regGroupCode}}"
+                     class="kscr-Card-status kscr-Card-status--{{course.statusMessage.type}} util-Alert--{{course.statusMessage.type}}"
+                     ng-class="(course.dropped || course.dropProcessing) ? 'util-Alert--card--dropped' : 'util-Alert--card'"
+                     ng-if="course.statusMessage">
                     <span class="kscr-Card-statusRemove"><a href="" ng-click="(!course.dropProcessing ? removeStatusMessage(course) : '')"></a></span>
-                    <div ng-bind-html="course.statusMessage.txt"></div>
+
+                    <div ng-if="course.statusMessage.type === statuses.error"
+                         class="kscr-Card-status-heading"
+                         id="course_status_message_heading_{{course.courseCode}}_{{course.regGroupCode}}">
+                        <span ng-if="course.statusMessage.action === 'drop'">Drop Failed</span>
+                        <span ng-if="course.statusMessage.action === 'update'">Changes Failed</span>
+                    </div>
+
+                    <div id="course_status_message_message_{{course.courseCode}}_{{course.regGroupCode}}"
+                         validation-message message="course.statusMessage" course="course"></div>
                 </div>
                 <div class="kscr-dropCourse-container" ng-show="course.dropping">
                     <div class="kscr-dropCourse-background"></div>
@@ -49,10 +60,22 @@
         <!--Dropped from Waitlist section-->
         <div ng-switch-when="waitlist">
             <div ng-repeat="course in waitlistCourseOfferings" class="kscr-Course-container kscr-Course-course{{courseIndex(course)}}" ng-switch on="type" ng-class="{'kscr-Course-container--processing' : course.requestProcessing}">
-                <div id="waitlist_course_status_message" class="kscr-Card-status kscr-Card-status--{{course.statusMessage.type}} util-Alert--{{course.statusMessage.type}}"
-                     ng-class="(course.dropped || course.dropProcessing) ? 'util-Alert--card--dropped' : 'util-Alert--card'" ng-if="course.statusMessage.txt">
+                <div id="waitlist_course_status_message_{{course.courseCode}}_{{course.regGroupCode}}"
+                     class="kscr-Card-status kscr-Card-status--{{course.statusMessage.type}} util-Alert--{{course.statusMessage.type}}"
+                     ng-class="(course.dropped || course.dropProcessing) ? 'util-Alert--card--dropped' : 'util-Alert--card'"
+                     ng-if="course.statusMessage">
                     <span class="kscr-Card-statusRemove"><a href="" ng-click="(!course.dropProcessing ? removeStatusMessage(course) : '')"></a></span>
-                    <div class="kscr-Card-alert-spacing" ng-bind-html="course.statusMessage.txt"></div>
+
+                    <div ng-if="course.statusMessage.type === statuses.error"
+                         class="kscr-Card-status-heading"
+                         id="waitlist_course_status_message_heading_{{course.courseCode}}_{{course.regGroupCode}}">
+                        <span ng-if="course.statusMessage.action === 'drop'">Drop Failed</span>
+                        <span ng-if="course.statusMessage.action === 'update'">Changes Failed</span>
+                    </div>
+
+                    <div id="waitlist_course_status_message_message_{{course.courseCode}}_{{course.regGroupCode}}"
+                         class="kscr-Card-alert-spacing"
+                         validation-message message="course.statusMessage" course="course"></div>
                 </div>
                 <div class="kscr-dropCourse-container" ng-show="course.dropping">
                     <div class="kscr-dropCourse-background"></div>

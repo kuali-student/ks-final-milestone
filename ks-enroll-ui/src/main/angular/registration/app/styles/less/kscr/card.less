@@ -424,11 +424,8 @@
 
 // Status styles for Cards
 .kscr-Card-status {
-  padding: 1rem 1rem 1rem 3.5rem;
+    padding: 1rem 1rem 1rem 3.5rem;
     position: relative;
-
-  // Add removing animation here
-  .util-transitions-removeCard(4rem);
 
     // Primary status icon of cart results (e.g. Success check, Fail, Progressing spinner)
     .kscr-Card-icon {
@@ -439,6 +436,14 @@
         position: absolute;
         top: 0;
         width: 3rem;
+    }
+
+    // Heading styles (Edit/Drop Changes)
+    &-heading {
+        border-bottom: @horizontalLineBorder;
+        font-weight: bold;
+        margin-bottom: 0.75rem;
+        padding-bottom: 0.75rem;
     }
 
     // Processing styles
@@ -464,7 +469,8 @@
         .kscr-Card-icon {
             background-image: @errorImage;
         }
-        .kscr-Card-buttons {
+        .kscr-Card-buttons,
+        .kscr-Card-status-heading {
             border-color: @errorBorder;
         }
     }
@@ -477,8 +483,11 @@
         .kscr-Card-icon {
             background-image: @warningImage;
         }
-        .kscr-Card-buttons {
+        .kscr-Card-buttons,
+        .kscr-Card-status-heading {
             border-color: @warningBorder;
+        }
+        .kscr-Card-buttons {
             padding-bottom: 0;
         }
     }
@@ -492,7 +501,8 @@
             background-image: @successImage;
             background-color: inherit;
         }
-        .kscr-Card-buttons {
+        .kscr-Card-buttons,
+        .kscr-Card-status-heading {
             border-color: @successBorder;
         }
     }
@@ -504,7 +514,8 @@
         .kscr-Card-icon {
             background-image: @infoImage;
         }
-        .kscr-Card-buttons {
+        .kscr-Card-buttons,
+        .kscr-Card-status-heading {
             border-color: @infoBorder;
         }
 
@@ -527,6 +538,9 @@
         }
     }
 
+
+    // Add removing animation here
+    .util-transitions-removeCard(4rem);
 
     // Transition styles while styles are being added
     &--success-add-active,

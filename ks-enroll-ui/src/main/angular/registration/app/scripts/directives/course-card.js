@@ -88,6 +88,7 @@ angular.module('regCartApp')
 
             $scope.config = getConfig();
             $scope.courseTypes = COURSE_TYPES;
+            $scope.statuses = STATUS;
 
             $scope.registeredCourseOfferings = ScheduleService.getRegisteredCourses();
             $scope.waitlistCourseOfferings = ScheduleService.getWaitlistedCourses();
@@ -134,11 +135,13 @@ angular.module('regCartApp')
             };
 
             /*
-             Closes a status message card
+             Closes a status message for the card
              */
             $scope.removeStatusMessage = function (course) {
+                var statusMessage = course.statusMessage;
                 course.statusMessage = null;
-                $scope.$emit('courseStatusMessageRemoved', $scope.type, course);
+
+                $scope.$emit('courseStatusMessageRemoved', $scope.type, course, statusMessage);
             };
 
             /*
@@ -169,10 +172,9 @@ angular.module('regCartApp')
                 course.dropping = false; // used to display confirmation popup
                 course.dropProcessing = true; // used to display spinner while poll is running
 
-                course.statusMessage = {
-                    txt: '<strong>' + course.courseCode + ' (' + course.regGroupCode + ')</strong> drop processing',
-                    type: STATUS.processing
-                };
+                setCourseStatusMessage('drop', course,
+                    '<strong>' + course.courseCode + ' (' + course.regGroupCode + ')</strong> drop processing',
+                    STATUS.processing);
 
 
                 $scope.$emit('dropCourse', $scope.type, course, function() {
@@ -189,11 +191,12 @@ angular.module('regCartApp')
                             break;
                     }
 
-                    course.statusMessage = {txt: message, type: STATUS.success};
+                    setCourseStatusMessage('drop', course, message, STATUS.success);
 
                 }, function(message) {
                     course.dropProcessing = false;
-                    course.statusMessage = {txt: message, type: STATUS.error};
+                    course.isopen = false; // collapse the card
+                    setCourseStatusMessage('drop', course, message, STATUS.error);
                 });
             };
 
@@ -214,7 +217,9 @@ angular.module('regCartApp')
                     updateCard(course);
                 }, function(message) {
                     course.requestProcessing = false;
-                    course.statusMessage = {txt: message, type: STATUS.error};
+                    course.isopen = false; // collapse the card
+                    revertCourseUpdates(course);
+                    setCourseStatusMessage('update', course, message, STATUS.error);
                 });
             };
 
@@ -242,6 +247,27 @@ angular.module('regCartApp')
                 course.gradingOptionId = course.newGrading;
 
                 return course;
+            }
+
+            /*
+             Helper method for setting the course status message
+             */
+            function setCourseStatusMessage(action, course, message, type) {
+                if (!angular.isObject(message)) {
+                    message = { txt: message };
+                }
+
+                message.action = action;
+                message.type = type;
+                course.statusMessage = message;
+            }
+
+            /*
+             Revert the changes made on a course
+             */
+            function revertCourseUpdates(course) {
+                course.newCredits = course.credits;
+                course.newGrading = course.gradingOptionId;
             }
 
             /*

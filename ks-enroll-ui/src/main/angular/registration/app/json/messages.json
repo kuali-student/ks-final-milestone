@@ -52,6 +52,14 @@
         "message": "Last day of Registration was {{endDate}}"
     },
     {
+        "messageKey": "kuali.lpr.trans.message.drop.period.closed",
+        "message": "Deadline for dropping has passed"
+    },
+    {
+        "messageKey": "kuali.lpr.trans.message.edit.period.closed",
+        "message": "Deadline for editing has passed"
+    },
+    {
         "messageKey": "kuali.lpr.trans.message.course.grade.incomplete",
         "message": "{{courseCode}} has already been taken. Cannot repeat a course with a mark of 'I'."
     },

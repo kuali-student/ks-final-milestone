@@ -80,17 +80,19 @@ angular.module('regCartApp')
         };
 
         /*
-         Listens for the "courseStatusMessageRemoved" event and removes the card for the given course.
+         Listens for the "courseStatusMessageRemoved" event and removes the course from the persisted courses
          */
-        $scope.$on('courseStatusMessageRemoved',function (event, type, course) {
-            // Splice course card when message is dismissed
-            ScheduleService.spliceCourse(type, course);
-            switch (type) {
-                case COURSE_TYPES.waitlisted:
-                    numberOfDroppedWailistedCourses--;
-                    break;
-                case COURSE_TYPES.registered:
-                    numberOfDroppedCourses--;
+        $scope.$on('courseStatusMessageRemoved',function (event, type, course, statusMessage) {
+            if (angular.isObject(statusMessage) && statusMessage.action === 'drop' && statusMessage.type === STATUS.success) {
+                // Splice course card when message is dismissed
+                ScheduleService.spliceCourse(type, course);
+                switch (type) {
+                    case COURSE_TYPES.waitlisted:
+                        numberOfDroppedWailistedCourses--;
+                        break;
+                    case COURSE_TYPES.registered:
+                        numberOfDroppedCourses--;
+                }
             }
         });
 
