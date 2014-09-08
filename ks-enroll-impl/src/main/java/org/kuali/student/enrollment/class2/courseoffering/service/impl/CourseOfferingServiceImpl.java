@@ -16,7 +16,9 @@ import java.util.Set;
 import javax.xml.namespace.QName;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.rice.core.api.criteria.AndPredicate;
 import org.kuali.rice.core.api.criteria.GenericQueryResults;
+import org.kuali.rice.core.api.criteria.Predicate;
 import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
@@ -547,19 +549,18 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
     @Transactional(readOnly = true)
     public List<String> getCourseOfferingIdsByTermAndUnitsContentOwner(String termId, String unitsContentOwnerId, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        List<String> luiIds = luiService.getLuiIdsByAtpAndType(termId, LuiServiceConstants.COURSE_OFFERING_TYPE_KEY, context);
-        List<String> results = new ArrayList<String>();
-
-        List<LuiInfo> luis = luiService.getLuisByIds(luiIds, context);
+    	
+    	QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
+    	
+        qbcBuilder.setPredicates(PredicateFactory.and(
+                PredicateFactory.equal("luiType", LuiServiceConstants.COURSE_OFFERING_TYPE_KEY),
+                PredicateFactory.equal("atpId", termId), PredicateFactory.equal("unitsContentOwner", unitsContentOwnerId)));
         
-        for (LuiInfo lui : luis) {
-
-            if (lui.getUnitsContentOwner().contains(unitsContentOwnerId)) {
-                results.add(lui.getId());
-            }
-        }
-
-        return results;
+        QueryByCriteria criteria = qbcBuilder.build();
+    			
+        List<String> luiIds = luiService.searchForLuiIds(criteria, context);
+        
+        return luiIds;
 
     }
 

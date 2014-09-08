@@ -57,11 +57,14 @@ public class LuiServiceCacheDecorator extends LuiServiceDecorator {
 
     private CacheManager cacheManager;
 
+    private LuiInfoCopier luiCopier = new LuiInfoCopier();
+    private LuiLuiRelationInfoCopier llrCopier = new LuiLuiRelationInfoCopier();
+    
     @Override
     public LuiInfo getLui(String luiId, final ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         Cache luiCache = getCacheManager().getCache(luiCacheName);
         
-        return KSCacheUtils.cacheAwareLoad(luiCache, luiId, new SingleCacheElementLoader<LuiInfo>() {
+        return KSCacheUtils.cacheAwareLoad(luiCache, luiId, luiCopier, new SingleCacheElementLoader<LuiInfo>() {
 
 			@Override
 			public LuiInfo load(String key) throws DoesNotExistException,
@@ -82,7 +85,7 @@ public class LuiServiceCacheDecorator extends LuiServiceDecorator {
     	
     	Cache luiCache = getCacheManager().getCache(luiCacheName);
     	 
-        return KSCacheUtils.cacheAwareBulkLoad(luiCache, luiIds, new BulkCacheElementLoader<LuiInfo>() {
+        return KSCacheUtils.cacheAwareBulkLoad(luiCache, luiIds, luiCopier, new BulkCacheElementLoader<LuiInfo>() {
 
 			@Override
 			public List<LuiInfo> load(List<String> cacheMissKeys)
@@ -110,15 +113,19 @@ public class LuiServiceCacheDecorator extends LuiServiceDecorator {
     @Override
     public LuiInfo createLui(String luiId, String atpId, String luiTypeKey, LuiInfo luiInfo, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
         LuiInfo result = getNextDecorator().createLui(luiId, atpId, luiTypeKey, luiInfo, contextInfo);
-        getCacheManager().getCache(luiCacheName).put(new Element(luiId, result));
-        return result;
+        
+        KSCacheUtils.updateCacheElement(getCacheManager().getCache(luiCacheName), luiId, result, luiCopier);
+        
+        return luiCopier.deepCopy(result);
     }
 
     @Override
     public LuiInfo updateLui(String luiId, LuiInfo luiInfo, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException {
         LuiInfo result = getNextDecorator().updateLui(luiId, luiInfo, contextInfo);
-        getCacheManager().getCache(luiCacheName).put(new Element(luiId, result));
-        return result;
+ 
+        KSCacheUtils.updateCacheElement(getCacheManager().getCache(luiCacheName), luiId, result, luiCopier);
+        
+        return luiCopier.deepCopy(result);
     }
 
     @Override
@@ -163,7 +170,7 @@ public class LuiServiceCacheDecorator extends LuiServiceDecorator {
             PermissionDeniedException {
         Cache luiCache = getCacheManager().getCache(luiLuiCacheName);
         
-        return KSCacheUtils.cacheAwareLoad(luiCache, luiLuiRelationId, new SingleCacheElementLoader<LuiLuiRelationInfo>() {
+        return KSCacheUtils.cacheAwareLoad(luiCache, luiLuiRelationId, llrCopier, new SingleCacheElementLoader<LuiLuiRelationInfo>() {
 
 			@Override
 			public LuiLuiRelationInfo load(String key)
@@ -184,7 +191,7 @@ public class LuiServiceCacheDecorator extends LuiServiceDecorator {
 
         Cache cache = getCacheManager().getCache(luiLuiCacheName);
         
-        return KSCacheUtils.cacheAwareBulkLoad(cache, luiLuiRelationIds, new BulkCacheElementLoader<LuiLuiRelationInfo>() {
+        return KSCacheUtils.cacheAwareBulkLoad(cache, luiLuiRelationIds, llrCopier, new BulkCacheElementLoader<LuiLuiRelationInfo>() {
 
 			@Override
 			public List<LuiLuiRelationInfo> load(List<String> cacheMissKeys)
@@ -228,8 +235,10 @@ public class LuiServiceCacheDecorator extends LuiServiceDecorator {
             OperationFailedException, PermissionDeniedException,
             ReadOnlyException {
         LuiLuiRelationInfo result = getNextDecorator().createLuiLuiRelation(luiId, relatedLuiId, luiLuiRelationTypeKey, luiLuiRelationInfo, contextInfo);
-        getCacheManager().getCache(luiLuiCacheName).put(new Element(result.getId(), result));
-        return result;
+ 
+        KSCacheUtils.updateCacheElement(getCacheManager().getCache(luiLuiCacheName), result.getId(), result, llrCopier);
+        
+        return llrCopier.deepCopy(result);
     }
 
     @Override
@@ -240,8 +249,10 @@ public class LuiServiceCacheDecorator extends LuiServiceDecorator {
             ReadOnlyException, VersionMismatchException {
 
         LuiLuiRelationInfo result = getNextDecorator().updateLuiLuiRelation(luiLuiRelationId, luiLuiRelationInfo, contextInfo);
-        getCacheManager().getCache(luiLuiCacheName).put(new Element(result.getId(), result));
-        return result;
+ 
+        KSCacheUtils.updateCacheElement(getCacheManager().getCache(luiLuiCacheName), result.getId(), result, llrCopier);
+        
+        return llrCopier.deepCopy(result);
     }
 
     public CacheManager getCacheManager() {

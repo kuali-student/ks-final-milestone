@@ -34,6 +34,7 @@ import org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOff
 import org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingServiceTestDataUtils;
 import org.kuali.student.enrollment.class2.courseoffering.service.impl.TestCourseOfferingServiceImpl;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingClusterInfo;
+import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingDisplayInfo;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingSetInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingCrossListingInfo;
@@ -531,6 +532,40 @@ public class TestCourseOfferingServiceCacheDecorator{
 
     }
 
+    @Test
+    public void testActivityOfferingDisplay() throws Exception {
+    	
+    	new MockLrcTestDataLoader(this.lrcService).loadData();
+        dataLoader.createStateTestData();
+        dataLoader.loadTerms();
+        createCourseCHEM123(dataLoader.fall2012, callContext);
+
+        CourseOfferingInfo courseOffering = createCourseOffering();
+        FormatOfferingInfo fo = createFormatOffering(courseOffering.getId(), courseOffering.getTermId());
+
+        ActivityOfferingInfo created = createActivityOffering(courseOffering, fo.getId());
+        assertNotNull(created);
+
+    	methodCountingHandler.reset();
+    	
+    	String aoId = created.getId();
+    	
+    	ActivityOfferingDisplayInfo aod = courseOfferingService.getActivityOfferingDisplay(aoId, callContext);
+    	
+    	int count = methodCountingHandler.getMethodCount("getActivityOfferingDisplay");
+    	
+    	Assert.assertEquals("Expected one method call", 1, count);
+    	
+    	methodCountingHandler.reset();
+    	
+    	aod = courseOfferingService.getActivityOfferingDisplay(aoId, callContext);
+    	
+    	count = methodCountingHandler.getMethodCount("getActivityOfferingDisplay");
+    	
+    	Assert.assertEquals("Expected zero method calls (it should be cached)", 0, count);
+    	
+    	
+    }
     @Test
     public void testDeleteCourseOfferingCascaded() throws Exception {
         new MockLrcTestDataLoader(this.lrcService).loadData();
