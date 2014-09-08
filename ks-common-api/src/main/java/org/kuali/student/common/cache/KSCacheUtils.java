@@ -46,6 +46,18 @@ public final class KSCacheUtils {
 		// intentionally private
 	}
 	
+	public static interface CacheElementCopier<T> {
+		
+		/**
+		 * Create a deep copy of the source element for storing in the cache.
+		 * 
+		 * It will also be applied cache elements being returned to service method callers.
+		 * 
+		 * @param source
+		 * @return a new instance of the source object that is a deep copy.
+		 */
+		public T deepCopy(T source);
+	}
 	/**
 	 * 
 	 * A mechanism to load a single element using its key when it is not available in the cache.
@@ -104,8 +116,8 @@ public final class KSCacheUtils {
 	 * @throws OperationFailedException 
 	 * @throws DoesNotExistException 
 	 */
-	public static <T extends HasPrimaryKey> T cacheAwareLoad (Cache cache, String key, SingleCacheElementLoader<T>loader) throws DoesNotExistException, OperationFailedException, InvalidParameterException, MissingParameterException, PermissionDeniedException {
-		return cacheAwareLoad (cache, key, null, loader);
+	public static <T extends HasPrimaryKey> T cacheAwareLoad (Cache cache, String key, CacheElementCopier<T>copier, SingleCacheElementLoader<T>loader) throws DoesNotExistException, OperationFailedException, InvalidParameterException, MissingParameterException, PermissionDeniedException {
+		return cacheAwareLoad (cache, key, null, copier, loader);
 	}
 	
 	/**
@@ -122,7 +134,7 @@ public final class KSCacheUtils {
 	 * @throws MissingParameterException
 	 * @throws PermissionDeniedException
 	 */
-	public static <T extends HasPrimaryKey> T cacheAwareLoad (Cache cache, String key, MultiKey multiKey, SingleCacheElementLoader<T>loader) throws DoesNotExistException, OperationFailedException, InvalidParameterException, MissingParameterException, PermissionDeniedException {
+	public static <T extends HasPrimaryKey> T cacheAwareLoad (Cache cache, String key, MultiKey multiKey, CacheElementCopier<T>copier, SingleCacheElementLoader<T>loader) throws DoesNotExistException, OperationFailedException, InvalidParameterException, MissingParameterException, PermissionDeniedException {
 		
 		Element cachedResult = null;
 		
@@ -138,24 +150,34 @@ public final class KSCacheUtils {
 			if (loadedElement == null)
 				throw new DoesNotExistException("cacheAwareLoad no such element for key = " + key);
 			
+			T cacheCopy = copier.deepCopy(loadedElement);
+			
 			// store the loaded element into the cache
-			if (multiKey != null) 
-				cache.put(new Element(multiKey, loadedElement));			
+			if (multiKey != null) {
+				
+				cache.put(new Element(multiKey, cacheCopy));
+			}
 			else {
 				
 				if (loadedElement instanceof HasId) 
-					cache.put(new Element(((HasId)loadedElement).getId(), loadedElement));
+					cache.put(new Element(((HasId)loadedElement).getId(), cacheCopy));
 				else if (loadedElement instanceof HasType)
-					cache.put(new Element(((HasType)loadedElement).getTypeKey(), loadedElement));
+					cache.put(new Element(((HasType)loadedElement).getTypeKey(), cacheCopy));
 				else
 					throw new OperationFailedException("unsupported cache element of type: " + loadedElement.getClass().getName());
 			}
 			
-			return loadedElement;
+			T callerCopy = copier.deepCopy(loadedElement);
+			
+			return callerCopy;
 		}
 		else {
 			// use cached value
-			return (T)cachedResult.getValue();
+			T cachedValue =  (T)cachedResult.getValue();
+			
+			T callerCopy = copier.deepCopy(cachedValue);
+			
+			return callerCopy;
 		}
 	}
 	/**
@@ -172,7 +194,7 @@ public final class KSCacheUtils {
 	 * @throws MissingParameterException 
 	 * @throws InvalidParameterException 
 	 */
-	public static <T extends HasPrimaryKey> List<T> cacheAwareBulkLoad (Cache cache, List<String>elementKeys, BulkCacheElementLoader<T> loader) throws OperationFailedException, InvalidParameterException, MissingParameterException, PermissionDeniedException {
+	public static <T extends HasPrimaryKey> List<T> cacheAwareBulkLoad (Cache cache, List<String>elementKeys, CacheElementCopier<T>copier, BulkCacheElementLoader<T> loader) throws OperationFailedException, InvalidParameterException, MissingParameterException, PermissionDeniedException {
 	        
 			List<T>result = new ArrayList<T>();
 			
@@ -185,7 +207,10 @@ public final class KSCacheUtils {
 	              if (cachedResult != null) { 
 	            	  // a value exists for the key in the cache so use it
 	            	  T cachedInfo = (T)cachedResult.getValue();
-	            	  result.add(cachedInfo);
+	            	  
+	            	  T callerCopy = copier.deepCopy(cachedInfo);
+	            	  
+	            	  result.add(callerCopy);
 	              }
 	              else {
 	            	  // a cache-miss so accumulate the key
@@ -202,15 +227,19 @@ public final class KSCacheUtils {
 					for (T fetchedDto : fetchedResults) {
 	
 						// add to the result
-						result.add(fetchedDto);
+						T callerCopy = copier.deepCopy(fetchedDto);
+						
+						T cacheCopy = copier.deepCopy(fetchedDto);
+						
+						result.add(callerCopy);
 	
 						// store into the cache
 						if (fetchedDto instanceof HasId)
 							cache.put(new Element(((HasId) fetchedDto).getId(),
-									fetchedDto));
+									cacheCopy));
 						else if (fetchedDto instanceof HasType)
 							cache.put(new Element(((HasType) fetchedDto)
-									.getTypeKey(), fetchedDto));
+									.getTypeKey(), cacheCopy));
 						else
 							throw new OperationFailedException(
 									"unsuppoeted cache element of type: "
@@ -223,6 +252,14 @@ public final class KSCacheUtils {
 			}
 	        
 	        return result;
+	}
+
+	public static <T extends HasPrimaryKey> void updateCacheElement(Cache cache, String cacheKey,
+			T courseInfo, CacheElementCopier<T> cacheElementCopier) {
+
+		T copy = cacheElementCopier.deepCopy(courseInfo);
+		
+    	cache.put(new Element(cacheKey, copy));
 	}
 
 }
