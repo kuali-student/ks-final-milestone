@@ -18,6 +18,7 @@ package org.kuali.student.cm.course.form;
 
 import org.kuali.student.cm.common.util.CurriculumManagementConstants;
 import org.kuali.student.cm.course.form.wrapper.CourseInfoWrapper;
+import org.kuali.student.cm.course.form.wrapper.RetireCourseWrapper;
 import org.kuali.student.common.uif.form.KSUifForm;
 
 /**
@@ -29,6 +30,7 @@ public class ViewCourseForm extends KSUifForm {
 
     private CurriculumManagementConstants.ViewCourseType viewType;
     private CourseInfoWrapper courseInfoWrapper;
+    private RetireCourseWrapper retireCourseWrapper;
     private CourseInfoWrapper compareCourseInfoWrapper;
     private boolean currentVersion;
 
@@ -105,6 +107,14 @@ public class ViewCourseForm extends KSUifForm {
 
     public void setCurrentVersion(boolean currentVersion) {
         this.currentVersion = currentVersion;
+    }
+
+    public RetireCourseWrapper getRetireCourseWrapper() {
+        return retireCourseWrapper;
+    }
+
+    public void setRetireCourseWrapper(RetireCourseWrapper retireCourseWrapper) {
+        this.retireCourseWrapper = retireCourseWrapper;
     }
 
 }

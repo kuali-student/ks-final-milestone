@@ -43,7 +43,7 @@
             <list>
                 <ref bean="KS-HomewardPathBreadcrumbs-Home"/>
                 <ref bean="KS-HomewardPathBreadcrumbs-CurriculumManagement"/>
-                <ref bean="CM-HomewardPathBreadcrumbs-ModifyCourseStart-Page"/>
+                <!--<ref bean="CM-HomewardPathBreadcrumbs-ModifyCourseStart-Page"/>-->
             </list>
         </property>
 

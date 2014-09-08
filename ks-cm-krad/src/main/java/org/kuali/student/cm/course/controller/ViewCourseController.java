@@ -19,6 +19,8 @@ package org.kuali.student.cm.course.controller;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.krad.uif.UifConstants;
+import org.kuali.rice.krad.uif.view.DialogManager;
+import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.web.controller.KsUifControllerBase;
 import org.kuali.rice.krad.web.controller.MethodAccessible;
@@ -36,6 +38,7 @@ import org.kuali.student.cm.course.service.CourseMaintainable;
 import org.kuali.student.cm.course.service.impl.ExportCourseHelperImpl;
 import org.kuali.student.cm.course.util.CourseProposalUtil;
 import org.kuali.student.common.util.security.ContextUtils;
+import org.kuali.student.r2.core.constants.CommentServiceConstants;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -138,26 +141,86 @@ public class ViewCourseController extends KsUifControllerBase{
     }
 
     @MethodAccessible
-    @RequestMapping(params = "methodToCall=retireCourse")
-    public ModelAndView retireCourse(@ModelAttribute("KualiForm") UifFormBase form) {
+    @RequestMapping(params = "methodToCall=retireCourseCurriculumSpecialist")
+    public ModelAndView retireCourseCurriculumSpecialist(@ModelAttribute("KualiForm") UifFormBase form, HttpServletRequest request,
+                                     HttpServletResponse response) {
 
         ViewCourseForm detailedViewForm = (ViewCourseForm) form;
 
         Properties urlParameters = new Properties();
-        /**
-         * It should be always 'curriculum review' for both CS and faculty users for copy.
-         */
-        urlParameters.put(UifConstants.UrlParams.PAGE_ID, CurriculumManagementConstants.CoursePageIds.START_RETIRE_COURSE_PAGE);
-        urlParameters.put(UifConstants.UrlParams.VIEW_ID, CurriculumManagementConstants.CourseViewIds.START_RETIRE_VIEW);
-        urlParameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, KRADConstants.MAINTENANCE_NEW_METHOD_TO_CALL);
-        urlParameters.put(KRADConstants.DATA_OBJECT_CLASS_ATTRIBUTE, RetireCourseWrapper.class.getName());
-        urlParameters.put(KRADConstants.RETURN_LOCATION_PARAMETER, CourseProposalUtil.getViewCourseUrl());
-        urlParameters.put(CurriculumManagementConstants.UrlParams.CLU_ID, detailedViewForm.getCourseInfoWrapper().getCourseInfo().getId());
-        String courseBaseUrl = CurriculumManagementConstants.ControllerRequestMappings.START_RETIRE_COURSE.replaceFirst("/", "");
+
+        String courseBaseUrl = null;
+
+        DialogManager dm = form.getDialogManager();
+        String dialogId = dm.getCurrentDialogId();
+        if(dialogId != null) {
+            dm.setDialogAnswer(dialogId, form.getDialogResponse());
+            dm.setDialogExplanation(dialogId, form.getDialogExplanation());
+            dm.setCurrentDialogId(null);
+        }
+
+        String dialog = CurriculumManagementConstants.ProposalConfirmationDialogs.COURSE_RETIRE_CONFIRMATION_DIALOG;
+        if ( ! hasDialogBeenDisplayed(dialog, form)) {
+            if (!GlobalVariables.getMessageMap().hasErrors()) {
+                //redirect back to client to display confirm dialog
+                return showDialog(dialog, form, request, response);
+            }
+        } else {
+            if (hasDialogBeenAnswered(dialog, form)) {
+                boolean confirmRetire = getBooleanDialogResponse(dialog, form, request, response);
+                if (confirmRetire) {
+                    if (!CourseProposalUtil.isUserCurriculumSpecialist()) {
+                        // if user is not a CS user, then curriculum review must be used because only CS users can disable curriculum review
+                        urlParameters.put(CourseController.UrlParams.USE_CURRICULUM_REVIEW,Boolean.TRUE.toString());
+                    } else {
+                        // if user is a CS user, check the checkbox value
+                        urlParameters.put(CourseController.UrlParams.USE_CURRICULUM_REVIEW,Boolean.toString(((StartProposalForm) form).isUseReviewProcess()));
+                    }
+
+                    urlParameters.put(UifConstants.UrlParams.PAGE_ID, CurriculumManagementConstants.CoursePageIds.RETIRE_COURSE_PAGE);
+                    urlParameters.put(UifConstants.UrlParams.VIEW_ID, CurriculumManagementConstants.CourseViewIds.RETIRE_COURSE_VIEW);
+                    urlParameters.put(KRADConstants.PARAMETER_COMMAND, KewApiConstants.INITIATE_COMMAND);
+                    urlParameters.put(KRADConstants.DATA_OBJECT_CLASS_ATTRIBUTE, RetireCourseWrapper.class.getName());
+                    urlParameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, KRADConstants.DOC_HANDLER_METHOD);
+                    urlParameters.put(KRADConstants.RETURN_LOCATION_PARAMETER, CourseProposalUtil.getViewCourseUrl());
+                    urlParameters.put(CurriculumManagementConstants.UrlParams.CLU_ID, detailedViewForm.getCourseInfoWrapper().getCourseInfo().getId());
+                    courseBaseUrl = CurriculumManagementConstants.ControllerRequestMappings.CM_RETIRE_COURSE.replaceFirst("/", "");
+
+                } else {
+                    form.getDialogManager().removeDialog(dialog);
+                }
+            }else{
+                return showDialog(dialog, form, request, response);
+            }
+        }
+
         return performRedirect(form, courseBaseUrl, urlParameters);
     }
 
-    @RequestMapping(params = "methodToCall=modifyCourseCurriculumSpecialist")
+    @MethodAccessible
+    @RequestMapping(params = "methodToCall=retireCourseFaculty")
+    public ModelAndView retireCourseFaculty(@ModelAttribute("KualiForm") UifFormBase form, HttpServletRequest request,
+                                                         HttpServletResponse response) {
+
+        ViewCourseForm detailedViewForm = (ViewCourseForm) form;
+
+        Properties urlParameters = new Properties();
+
+        urlParameters.put(CurriculumManagementConstants.UrlParams.USE_CURRICULUM_REVIEW,Boolean.TRUE.toString());
+        urlParameters.put(UifConstants.UrlParams.PAGE_ID, CurriculumManagementConstants.CoursePageIds.RETIRE_COURSE_PAGE);
+        urlParameters.put(UifConstants.UrlParams.VIEW_ID, CurriculumManagementConstants.CourseViewIds.RETIRE_COURSE_VIEW);
+        urlParameters.put(KRADConstants.PARAMETER_COMMAND, KewApiConstants.INITIATE_COMMAND);
+        urlParameters.put(KRADConstants.DATA_OBJECT_CLASS_ATTRIBUTE, RetireCourseWrapper.class.getName());
+        urlParameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, KRADConstants.DOC_HANDLER_METHOD);
+        urlParameters.put(KRADConstants.RETURN_LOCATION_PARAMETER, CourseProposalUtil.getViewCourseUrl());
+        urlParameters.put(CurriculumManagementConstants.UrlParams.CLU_ID, detailedViewForm.getCourseInfoWrapper().getCourseInfo().getId());
+        String courseBaseUrl = CurriculumManagementConstants.ControllerRequestMappings.CM_RETIRE_COURSE.replaceFirst("/", "");
+
+        return performRedirect(form, courseBaseUrl, urlParameters);
+    }
+
+
+        @RequestMapping(params = "methodToCall=modifyCourseCurriculumSpecialist")
     public ModelAndView modifyCourseCurriculumSpecialist(@ModelAttribute("KualiForm") UifFormBase form, HttpServletRequest request) {
 
         ViewCourseForm detailedViewForm = (ViewCourseForm) form;

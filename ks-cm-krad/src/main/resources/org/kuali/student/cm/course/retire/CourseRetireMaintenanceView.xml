@@ -103,10 +103,50 @@
                 <entry key="htmlUtils" value="T(org.springframework.web.util.HtmlUtils)"/>
             </map>
         </property>
+        <!--<property name="dialogs">
+            <list>
+                <bean id="Course-Retire-ConfirmRetire-Dialog" parent="CM-Course-ConfirmRetire-Dialog"/>
+            </list>
+        </property>-->
         <property name="header.rightGroup">
             <ref bean="CM-Proposal-Course-Retire-RightHeader"/>
         </property>
     </bean>
+
+  <!--  <bean id="CM-Course-ConfirmRetire-Dialog" parent="CM-Course-ConfirmRetire-Dialog-parentBean"/>
+    <bean id="CM-Course-ConfirmRetire-Dialog-parentBean" parent="KS-Dialog" abstract="true">
+        <property name="onDialogResponseScript" value="closeLightbox();ajaxSubmitForm('acknowledge');"/>
+        <property name="OnShowDialogScript" value="skipDirtyChecks();" />
+        <property name="header">
+            <bean parent="KS-DottedHeaderTwo" p:headerText="Retire Course"/>
+        </property>
+        <property name="cssClasses" >
+            <list merge="true">
+                <value>decisionrationale_dialog</value>
+                <value>decisionrationale_acknowledgedialog</value>
+            </list>
+        </property>
+        <property name="promptText"
+                  value="Do you want to use the curriculum review process?"/>
+        <property name="items">
+            <list>
+                <bean id="CM-Proposal-Course-Retire-ReviewProcess"
+                      parent="KS-Uif-InputField"
+                      p:propertyName="useCurriculumReview" p:bindingInfo.bindToForm="true"
+                      p:required="false">
+                    <property name="control">
+                        <bean parent="KS-Uif-CheckboxControl" p:checkboxLabel="Use curriculum review process"/>
+                    </property>
+                </bean>
+            </list>
+        </property>
+        <property name="availableResponses">
+            <list>
+                <bean parent="Uif-KeyLabelPair" p:key="yes" p:value="Continue"/>
+                <bean parent="Uif-KeyLabelPair" p:key="no" p:value="Cancel"/>
+            </list>
+        </property>
+    </bean>-->
 
     <bean id="CM-Proposal-Course-Retire-RightHeader" parent="KS-Unified-Header-Right-Group" p:additionalCssClasses="viewcourseview-header-status">
         <property name="items">
@@ -121,11 +161,9 @@
           p:cssClasses="cm-unified-header-rightGroup-action">
         <property name="items">
             <list>
+                <bean parent="CM-Proposal-Course-LinkGroup-CancelCourse"/>
                 <bean parent="CM-Proposal-Course-LinkGroup-Comments"/>
                 <bean parent="CM-Proposal-Course-LinkGroup-Decisions"/>
-                <bean parent="CM-PrintAction" p:render="@{!#workflowDoc.initiated}"/>
-                <bean parent="CM-ExportAction" p:render="@{!#workflowDoc.initiated}"/>
-                <ref bean="CM-Export-ActionLinks"/> <!-- This is the content for the export action popover -->
             </list>
         </property>
     </bean>
@@ -183,7 +221,7 @@
             </list>
         </property>
         <property name="onDocumentReadyScript"
-                  value="onCourseLoad(@{#uiHelper.curriculumSpecialistUser}, '@{#uiHelper.selectedSection.sectionId}')"/>
+                  value="onCourseRetireLoad(@{#uiHelper.curriculumSpecialistUser}, '@{#uiHelper.selectedSection.sectionId}')"/>
         <property name="items">
             <list>
                 <bean parent="Uif-TabGroup" p:id="course_tabs">
@@ -205,7 +243,7 @@
                 </bean>
 
                 <!-- The text above the tab panel. This gets fixed positioning via JS. -->
-                <bean id="CM-Proposal-Course-View-TabHeader" parent="Uif-VerticalBoxGroup"> <!-- p:render="@{!#uiHelper.adminProposal}" -->
+                <bean id="CM-Proposal-Course-Retire-TabHeader" parent="Uif-VerticalBoxGroup"> <!-- p:render="@{!#uiHelper.adminProposal}" -->
                     <property name="header">
                         <bean parent="Uif-HeaderFour">
                             <property name="cssClasses">
@@ -213,13 +251,13 @@
                                     <value>course_tabs_header_text</value>
                                 </list>
                             </property>
-                            <property name="headerText" value="1. Course Information"/>
+                            <property name="headerText" value="1. Section Information"/>
                         </bean>
                     </property>
                 </bean>
 
                 <!-- The text and link below the tab panel. This gets fixed positioning via JS. -->
-                <bean id="CM-Proposal-Course-View-ReviewProposalLink" parent="Uif-VerticalBoxGroup"> <!-- p:render="@{(!#workflowDoc.initiated}" -->
+                <bean id="CM-Proposal-Course-Retire-ReviewProposalLink" parent="Uif-VerticalBoxGroup"> <!-- p:render="@{(!#workflowDoc.initiated}" -->
                     <property name="header">
                         <bean id="CM-Proposal-Course-View-Tab-ReviewHeader" parent="Uif-HeaderFour">
                             <property name="cssClasses">
@@ -251,7 +289,7 @@
                 <bean parent="Uif-SecondaryActionButton"
                       p:additionalCssClasses="btn-success"
                       p:ajaxSubmit="false"
-                      p:actionLabel="Retire"
+                      p:actionLabel="Approve and Retire"
                       p:methodToCall="retire"
                       p:performClientSideValidation="true"/> <!-- p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_RETIRE] and (!#workflowDoc.initiated) and #uiHelper.adminProposal}" -->
                 <bean parent="Uif-SecondaryActionButton"
@@ -285,6 +323,13 @@
                                         <entry key="displayPage" value="NEXT"/>
                                     </map>
                                 </property>
+                            </bean>
+                            <bean parent="Uif-SecondaryActionButton"
+                                  p:ajaxSubmit="false"
+                                  p:methodToCall="saveProposal"
+                                  p:performClientSideValidation="true"
+                                  p:actionLabel="Save Progress"
+                                  p:jumpToIdAfterSubmit="TOP"> <!-- p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_SAVE]}" -->
                             </bean>
                             <bean parent="Uif-ActionLink" p:id="CM-Proposal-Course-View-Cancel"
                                   p:actionLabel="Cancel"

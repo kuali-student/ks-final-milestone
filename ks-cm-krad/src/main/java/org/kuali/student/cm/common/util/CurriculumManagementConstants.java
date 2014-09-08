@@ -48,6 +48,7 @@ public class CurriculumManagementConstants {
         public static final String VERSION_INDEPENDENT_ID = "viId";
         public static final String CLU_ID = "cluId";
         public static final String COMPARE_COURSE_ID = "compareCourseId";
+        public static final String USE_CURRICULUM_REVIEW = "useCurriculumReview";
     }
 
     public static class DocumentTypeNames {
@@ -62,6 +63,7 @@ public class CurriculumManagementConstants {
             public final static String COURSE_CREATE = "kuali.proposal.type.course.create";
             public final static String COURSE_MODIFY = "kuali.proposal.type.course.modify";
             public final static String COURSE_RETIRE = "kuali.proposal.type.course.retire";
+            public final static String COURSE_RETIRE_ADMIN = "kuali.proposal.type.course.retire.admin";
             public final static String COURSE_CREATE_ADMIN = "kuali.proposal.type.course.create.admin";
             public final static String COURSE_MODIFY_ADMIN = "kuali.proposal.type.course.modify.admin";
         }
@@ -254,7 +256,7 @@ public class CurriculumManagementConstants {
         public final static String COURSE_ACKNOWLEDGE_CONFIRMATION_DIALOG = "Proposal-Review-Course-ConfirmAcknowledge-Dialog";
         public final static String COURSE_WITHDRAW_CONFIRMATION_DIALOG = "Proposal-Review-Course-ConfirmWithdraw-Dialog";
         public final static String COURSE_REJECT_CONFIRMATION_DIALOG = "Proposal-Review-Course-ConfirmReject-Dialog";
-
+        public final static String COURSE_RETIRE_CONFIRMATION_DIALOG = "Course-Retire-ConfirmRetire-Dialog";
     }
 
     //  Learning Objective Repository keys

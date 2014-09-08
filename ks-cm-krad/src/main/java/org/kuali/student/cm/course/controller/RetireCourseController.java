@@ -50,9 +50,22 @@ public class RetireCourseController extends CourseController {
     @Override
     protected MaintenanceDocumentForm createInitialForm(HttpServletRequest request) {
         MaintenanceDocumentForm form = new MaintenanceDocumentForm();
+        String useReviewProcessParam = request.getParameter(UrlParams.USE_CURRICULUM_REVIEW);
 
+        if (StringUtils.isNotBlank(useReviewProcessParam)) {
+            Boolean isUseReviewProcess = Boolean.valueOf(useReviewProcessParam);
+            // throw an exception if the user is not a CS user but attempts to disable Curriculum Review for a proposal
+            if (!isUseReviewProcess && !CourseProposalUtil.isUserCurriculumSpecialist()) {
+                throw new RuntimeException(String.format("User (%s) is not allowed to disable Curriculum Review (Workflow Approval).",
+                        GlobalVariables.getUserSession().getPerson().getPrincipalName()));
+            }
             // set the doc type name based on the whether the user is CS and if they have chosen to use curriculum review
-            form.setDocTypeName(CurriculumManagementConstants.DocumentTypeNames.CourseProposal.COURSE_RETIRE);
+            form.setDocTypeName((!isUseReviewProcess)
+                    ? CurriculumManagementConstants.DocumentTypeNames.CourseProposal.COURSE_RETIRE_ADMIN
+                    : CurriculumManagementConstants.DocumentTypeNames.CourseProposal.COURSE_RETIRE);
+        }
+            // set the doc type name based on the whether the user is CS and if they have chosen to use curriculum review
+        //form.setDocTypeName(CurriculumManagementConstants.DocumentTypeNames.CourseProposal.COURSE_RETIRE);
 
         return form;
     }
@@ -104,13 +117,14 @@ public class RetireCourseController extends CourseController {
      * @param form the DocumentFormBase object to update
      */
     protected void updateCourseForm(DocumentFormBase form) {
+
         RetireCourseWrapper wrapper = getRetireCourseWrapper(form);
+
         wrapper.getUiHelper()
                 .setCurriculumSpecialistUser(CourseProposalUtil.isUserCurriculumSpecialist());
 
         String courseId = StringUtils.join(form.getInitialRequestParameters().get(CurriculumManagementConstants.UrlParams.CLU_ID));
 
-        //String courseId = Arrays.toString(form.getInitialRequestParameters().get(CurriculumManagementConstants.UrlParams.CLU_ID));
         if (StringUtils.isBlank(courseId)) {
             throw new RuntimeException("Missing Course Id");
         }
@@ -132,6 +146,12 @@ public class RetireCourseController extends CourseController {
     public ModelAndView docHandler(@ModelAttribute("KualiForm") DocumentFormBase formBase, BindingResult result, HttpServletRequest request,
                                    HttpServletResponse response) throws Exception {
         ModelAndView modelAndView = super.docHandler(formBase, result, request, response);
+        MaintenanceDocumentForm maintenanceDocumentForm = (MaintenanceDocumentForm)formBase;
+        RetireCourseMaintainable viewHelper = (RetireCourseMaintainable) maintenanceDocumentForm.getDocument().getNewMaintainableObject();
+        //  set the Curriculum review status on the uiHelper
+        ((RetireCourseWrapper) viewHelper.getDataObject()).getUiHelper().setUseReviewProcess(
+                request.getParameter(CourseController.UrlParams.USE_CURRICULUM_REVIEW).equals(Boolean.TRUE.toString()));
+
         return modelAndView;
     }
 
@@ -170,6 +190,9 @@ public class RetireCourseController extends CourseController {
             return getUIFModelAndView(form);
         }
     }
+
+
+
 
 
     }
