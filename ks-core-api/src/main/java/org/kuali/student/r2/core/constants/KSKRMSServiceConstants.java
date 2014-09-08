@@ -266,6 +266,7 @@ public class KSKRMSServiceConstants {
     public static final String TERM_RESOLVER_MATCHINGCOURSESET = "MatchingCourseSet";
     public static final String TERM_RESOLVER_EXAM_FREEFORMTEXT = "ExamFreeFormText";
     public static final String TERM_RESOLVER_CURRENT_COURSE_WITHIN_KEYDATE = "CurrentCourseWithinKeydate";
+    public static final String TERM_RESOLVER_COURSE_IN_DROP_OR_ADJ_PERIOD = "CourseInDropOrAdj";
     public static final String TERM_RESOLVER_DATE_IN_TERM_KEY_DATE = "DateInTermKeyDate";
     public static final String TERM_RESOLVER_COURSE_RECORD_FOR_STUDENT = "CourseRecordForStudent";
     public static final String TERM_RESOLVER_GES_VALUE = "GesValue";
