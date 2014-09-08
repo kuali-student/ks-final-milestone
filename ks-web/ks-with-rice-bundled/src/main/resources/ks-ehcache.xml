@@ -48,8 +48,9 @@
     <cache name="courseCache" maxElementsInMemory="500" eternal="false" timeToIdleSeconds="0" timeToLiveSeconds="600" />
 
     <!-- Cache Setup for KSAP search with elements in validating after 12hr life span.-->
-    <cache name="ksapCourseSearchCache" maxElementsInMemory="100" eternal="false" timeToIdleSeconds="0" timeToLiveSeconds="43200" />
-    <cache name="ksapSearchSupportCache" maxElementsInMemory="100" eternal="false" timeToIdleSeconds="0" timeToLiveSeconds="43200" />
+    <cache name="ksapCourseSearchCluCache" maxElementsInMemory="100" eternal="false" timeToIdleSeconds="0" timeToLiveSeconds="60" />
+    <cache name="ksapCourseSearchLuiCache" maxElementsInMemory="100" eternal="false" timeToIdleSeconds="0" timeToLiveSeconds="43200" />
+    <cache name="ksapCourseSearchSupportCluCache" maxElementsInMemory="100" eternal="false" timeToIdleSeconds="0" timeToLiveSeconds="43200" />
     <cache name="ksapTermHelperCache" maxElementsInMemory="500" eternal="false" timeToIdleSeconds="0" timeToLiveSeconds="43200" />
     <cache name="ksapCourseHelperCache" maxElementsInMemory="500" eternal="false" timeToIdleSeconds="0" timeToLiveSeconds="43200" />
 
