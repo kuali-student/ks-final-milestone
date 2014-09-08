@@ -16,7 +16,7 @@
 package org.kuali.student.ap.search.decorator;
 
 import net.sf.ehcache.CacheManager;
-import org.kuali.student.ap.search.KsapLuiSearchService;
+import org.kuali.student.ap.search.KsapLuiSearchServiceImpl;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
@@ -35,7 +35,7 @@ import org.slf4j.LoggerFactory;
  *
  *  Note: Move into the Enroll Modules when rework of the search system complete
  */
-public class KsapLuiSearchCacheDecorator extends KsapLuiSearchService {
+public class KsapLuiSearchCacheDecorator extends KsapLuiSearchServiceImpl {
     private static final Logger LOG = LoggerFactory.getLogger(KsapLuiSearchCacheDecorator.class);
 
     private static final String ACADEMIC_PLAN_SEARCH_CACHE = "ksapCourseSearchLuiCache";
@@ -45,7 +45,7 @@ public class KsapLuiSearchCacheDecorator extends KsapLuiSearchService {
     private CacheManager cacheManager;
 
     // Next academic plan course search object decorator to reference
-    private KsapLuiSearchService nextDecorator;
+    private KsapLuiSearchServiceImpl nextDecorator;
 
     /**
      * Uses SearchCacheDecoratorUtil to attempt to retrieve cache results for the search.
@@ -74,7 +74,7 @@ public class KsapLuiSearchCacheDecorator extends KsapLuiSearchService {
         this.cacheManager = cacheManager;
     }
 
-    public KsapLuiSearchService getNextDecorator() throws OperationFailedException {
+    public KsapLuiSearchServiceImpl getNextDecorator() throws OperationFailedException {
         if (null == nextDecorator) {
             throw new OperationFailedException("Misconfigured application: nextDecorator is null");
         }
@@ -82,7 +82,7 @@ public class KsapLuiSearchCacheDecorator extends KsapLuiSearchService {
         return nextDecorator;
     }
 
-    public void setNextDecorator(KsapLuiSearchService nextDecorator) {
+    public void setNextDecorator(KsapLuiSearchServiceImpl nextDecorator) {
         this.nextDecorator = nextDecorator;
     }
 }

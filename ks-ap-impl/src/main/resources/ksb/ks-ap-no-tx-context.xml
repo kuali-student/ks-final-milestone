@@ -388,7 +388,7 @@
         <property name="entityManager" ref="enrollEntityManager"/>
     </bean>
 
-    <bean id="KsapLuiSearchImpl" class="org.kuali.student.ap.search.KsapLuiSearchService">
+    <bean id="KsapLuiSearchImpl" class="org.kuali.student.ap.search.KsapLuiSearchServiceImpl">
         <property name="entityManager" ref="enrollEntityManager"/>
     </bean>
 

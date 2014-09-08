@@ -47,8 +47,8 @@ import java.util.List;
  *
  * Note: Move into the Enroll Modules when rework of the search system complete
  */
-public class KsapLuiSearchService extends SearchServiceAbstractHardwiredImpl {
-    private static final Logger LOG = LoggerFactory.getLogger(KsapLuiSearchService.class);
+public class KsapLuiSearchServiceImpl extends SearchServiceAbstractHardwiredImpl {
+    private static final Logger LOG = LoggerFactory.getLogger(KsapLuiSearchServiceImpl.class);
 
     public static final TypeInfo KSAP_LUI_SEARCH;
     public static final TypeInfo KSAP_COURSE_SEARCH_OFFERED_REG_GROUP_IDS_BY_CO_ID;
