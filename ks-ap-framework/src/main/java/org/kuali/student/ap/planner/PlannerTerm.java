@@ -212,7 +212,7 @@ public class PlannerTerm implements HasUniqueId, Serializable, Comparable<Planne
             StringBuilder sb = new StringBuilder();
             sb.append(CreditsFormatter.trimCredits(min.toString()));
             if (min.compareTo(max) < 0) {
-                sb.append(" - ");
+                sb.append("&ndash;");
                 sb.append(CreditsFormatter.trimCredits(max.toString()));
             }
             creditLineString = sb.toString();
