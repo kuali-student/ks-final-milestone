@@ -200,7 +200,7 @@
                                 <property name="items">
                                     <list>
                                         <bean parent="CM-ViewCourse-View-Course-Requisites-AgendaSection">
-                                            <property name=" bindingInfo.bindingObjectPath" value="document.newMaintainableImpl.dataObject"/>
+                                            <property name="bindingInfo.bindingObjectPath" value="document.newMaintainableImpl.dataObject"/>
                                         </bean>
                                     </list>
                                 </property>
