@@ -201,6 +201,7 @@
                                     <list>
                                         <bean parent="CM-ViewCourse-View-Course-Requisites-AgendaSection">
                                             <property name="bindingInfo.bindingObjectPath" value="document.newMaintainableImpl.dataObject"/>
+                                            <property name="bindingInfo.bindToForm" value="true"/>
                                         </bean>
                                     </list>
                                 </property>
