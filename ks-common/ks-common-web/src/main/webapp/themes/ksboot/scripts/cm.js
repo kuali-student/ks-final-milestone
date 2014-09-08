@@ -1173,6 +1173,110 @@ function setDirtyManually(dirtyFlag) {
     dirtyFormState.dirtyFormInput.val(dirtyFlag);
 }
 
+function onCourseRetireLoad(isCurriculumSpecialist, currentSectionId) {
+    /*
+     * Handler for fixing nav position when the window is scrolled (because the sticky header changes).
+     *
+     */
+    if (!hasScrollEvent(leftNavPositioningEventNamespace)) {
+        jQuery(window).on('scroll.' + leftNavPositioningEventNamespace, handleNavPanelRepositioningOnWindowScrollForRetire);
+    }
+
+    if (isCurriculumSpecialist) {
+        initializeForCurriculumSpecialistRetire(currentSectionId);
+    }
+
+    fixLeftNavElementPositioningForRetire(true);
+}
+
+function handleNavPanelRepositioningOnWindowScrollForRetire() {
+    //  Fix the position of the nav elements if the header changes.
+    fixLeftNavElementPositioningForRetire(false);
+}
+
+/**
+ * Hacks for Curriculum Specialist single-page view.
+ */
+function initializeForCurriculumSpecialistRetire(currentSectionId) {
+    //  Add a CSS class that prevents the tabs from being hidden.
+    jQuery("div[data-type='TabWrapper']").addClass('never_hide');
+
+    //  Register a handler for tab clicks.
+    jQuery(tabPanelId).on("tabsactivate",
+        function (event, ui) {
+            //  Checking the event type to make sure it's a click.
+            if (typeof event.originalEvent.originalEvent !== 'undefined'
+                && event.originalEvent.originalEvent.type == "click") {
+                //  Scroll to the section corresponding to the clicked tab.
+                scrollToSection("#" + ui.newPanel.attr('id').replace('_tab', ''), true);
+            }
+        }
+    );
+
+    //  Bind window scroll handler for active tab.
+    jQuery(window).on('scroll.' + activateTabEventNamespace, handleActiveTabOnWindowScroll);
+
+    /*
+     * Scroll to the appropriate section unless it is the top one. Scrolling in that case causes the top part of the
+     * header to disappear
+     */
+    if (currentSectionId && currentSectionId !== "CM-Proposal-Course-RetireInfo-Section") {
+        scrollToSection("#" + currentSectionId, true);
+    }
+}
+
+/**
+ * Do fixed positioning of left nav elements.
+ *
+ * Some elements are only present for certain proposal doc types, so the presence of each element it checked except the
+ * tab panel itself and the elements are positioned to the bottom of the previous element, starting at the bottom of the
+ * sticky header.
+ */
+function fixLeftNavElementPositioningForRetire(initial) {
+    //  Get the position of the element that the nav components need to align under.
+    var anchorElement = jQuery("#CM-Proposal-Course-Retire-View > header");
+    if (anchorElement.length == 0) {
+        console.error('Unable to find an anchor element. Nav elements were not positioned correctly.');
+        return;
+    }
+
+    var anchorBottom = getBottom(anchorElement);
+    if (!initial) {
+        //  If we are repositioning then see if the view header has moved. If it hasn't then no need to proceed.
+        if (anchorBottom != previousAnchorBottom) {
+            previousAnchorBottom = anchorBottom;
+        } else {
+            return;
+        }
+    }
+
+    var tabListId = "#course_tabs_tabList";
+
+    var tabPanelHeader = jQuery("#CM-Proposal-Course-Retire-TabHeader");
+    var tabPanel = jQuery(tabListId);
+    if (tabPanel.length == 0) {
+        console.error('Unable to find the tab panel. Nav elements may not be positioned correctly.');
+        return;
+    }
+    var tabPanelFooter = jQuery("#CM-Proposal-Course-Retire-ReviewProposalLink");
+
+    //  If the header text for the tab exists then position it.
+    if (tabPanelHeader.length != 0) {
+        tabPanelHeader.css({ top:anchorBottom });
+        anchorElement = tabPanelHeader;
+        anchorBottom = getBottom(anchorElement);
+    }
+
+    //  Position the tab panel.
+    tabPanel.css({top:anchorBottom});
+
+    //  Position the text under the tab panel if it exists.
+    if (tabPanelFooter.length != 0) {
+        anchorBottom = getBottom(tabPanel);
+        tabPanelFooter.css({ top:anchorBottom });
+    }
+}
+
 /**
  * Scripts related to the View Course view
  */
