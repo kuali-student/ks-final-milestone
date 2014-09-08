@@ -21,7 +21,7 @@
                 <div id="course_status_message" class="kscr-Card-status kscr-Card-status--{{course.statusMessage.type}} util-Alert--{{course.statusMessage.type}}"
                      ng-class="(course.dropped || course.dropProcessing) ? 'util-Alert--card--dropped' : 'util-Alert--card'" ng-if="course.statusMessage.txt">
                     <span class="kscr-Card-statusRemove"><a href="" ng-click="(!course.dropProcessing ? removeStatusMessage(course) : '')"></a></span>
-                    <div  ng-bind-html="course.statusMessage.txt"></div>
+                    <div ng-bind-html="course.statusMessage.txt"></div>
                 </div>
                 <div class="kscr-dropCourse-container" ng-show="course.dropping">
                     <div class="kscr-dropCourse-background"></div>

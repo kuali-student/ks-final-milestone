@@ -82,7 +82,9 @@ angular.module('regCartApp')
         /*
          Listens for the "courseStatusMessageRemoved" event and removes the card for the given course.
          */
-        $scope.$on('courseStatusMessageRemoved',function (event, type) {
+        $scope.$on('courseStatusMessageRemoved',function (event, type, course) {
+            // Splice course card when message is dismissed
+            ScheduleService.spliceCourse(type, course);
             switch (type) {
                 case COURSE_TYPES.waitlisted:
                     numberOfDroppedWailistedCourses--;

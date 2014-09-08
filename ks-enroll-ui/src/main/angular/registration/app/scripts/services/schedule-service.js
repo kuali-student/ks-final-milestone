@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('regCartApp')
-    .service('ScheduleService', ['$q', '$timeout', 'URLS', 'STATUS', 'ServiceUtilities', 'GlobalVarsService', function ScheduleService($q, $timeout, URLS, STATUS, ServiceUtilities, GlobalVarsService) {
+    .service('ScheduleService', ['$q', '$timeout', 'URLS', 'STATUS', 'ServiceUtilities', 'GlobalVarsService', 'COURSE_TYPES', function ScheduleService($q, $timeout, URLS, STATUS, ServiceUtilities, GlobalVarsService, COURSE_TYPES) {
 
         var registeredCredits;
         var registeredCourseCount = 0;
@@ -88,18 +88,28 @@ angular.module('regCartApp')
         };
 
         this.removeRegisteredCourse = function(course) {
-            this.getRegisteredCourses().splice(this.getRegisteredCourses().indexOf(course), 1);
+            //this.getRegisteredCourses().splice(this.getRegisteredCourses().indexOf(course), 1);
 
             this.setRegisteredCredits(parseFloat(this.getRegisteredCredits()) - parseFloat(course.credits));
             this.setRegisteredCourseCount(parseInt(this.getRegisteredCourseCount()) - 1);
         };
 
         this.removeWaitlistedCourse = function(course) {
-            this.getWaitlistedCourses().splice(this.getWaitlistedCourses().indexOf(course), 1);
+            //this.getWaitlistedCourses().splice(this.getWaitlistedCourses().indexOf(course), 1);
 
             this.setWaitlistedCredits(parseFloat(this.getWaitlistedCredits()) - parseFloat(course.credits));
             this.setWaitlistedCourseCount(this.getWaitlistedCourses().length);
         };
+
+        this.spliceCourse = function(type, course) {
+            switch (type) {
+                case COURSE_TYPES.waitlisted:
+                    this.getWaitlistedCourses().splice(this.getWaitlistedCourses().indexOf(course), 1);
+                    break;
+                case COURSE_TYPES.registered:
+                    this.getRegisteredCourses().splice(this.getRegisteredCourses().indexOf(course), 1);
+            }
+        }
 
         this.updateRegisteredCourse = function(oldCourse, newCourse) {
             var credits = parseFloat(this.getRegisteredCredits()) - parseFloat(oldCourse.credits) + parseFloat(newCourse.credits);
