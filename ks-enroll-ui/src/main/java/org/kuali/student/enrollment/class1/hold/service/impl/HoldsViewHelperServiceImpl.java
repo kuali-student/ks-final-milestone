@@ -2,8 +2,12 @@ package org.kuali.student.enrollment.class1.hold.service.impl;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.criteria.Predicate;
+import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
+import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.student.common.collection.KSCollectionUtils;
 import org.kuali.student.common.uif.service.impl.KSViewHelperServiceImpl;
 import org.kuali.student.core.person.dto.PersonAffiliationInfo;
 import org.kuali.student.core.person.dto.PersonInfo;
@@ -179,6 +183,20 @@ public class HoldsViewHelperServiceImpl extends KSViewHelperServiceImpl implemen
             convertServiceExceptionsToUI(e);
         }
         return holdResultList;
+    }
+
+    public HoldIssueInfo searchHoldIssueByCode(String holdCode) {
+
+        try {
+            QueryByCriteria query = QueryByCriteria.Builder.fromPredicates(PredicateFactory.and(
+                    PredicateFactory.in(HoldsConstants.HOLD_ISSUE_CODE, holdCode)));
+
+            List<HoldIssueInfo> holdIssueInfos = HoldsResourceLoader.getHoldService().searchForHoldIssues(query, createContextInfo());
+            return KSCollectionUtils.getOptionalZeroElement(holdIssueInfos);
+        } catch (Exception e) {
+            GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, e.getMessage());
+        }
+        return null;
     }
 
 }

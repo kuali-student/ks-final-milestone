@@ -52,26 +52,26 @@ public class HoldsConstants {
     public static final String HOLD_ISSUE_LAST_APPLIED_DATE = "lastAppliedDate";
 
     //Hold Issue property names
-    public static final String HOLD_ISSUE_DATAOBJECT_PATH = "document.newMaintainableObject.dataObject";
+    public static final String HOLDS_DATAOBJECT_PATH = "document.newMaintainableObject.dataObject";
 
     public static final String HOLD_ISSUE_PROP_NAME = "holdIssue";
-    public static final String HOLD_ISSUE_HOLDISSUE_PATH = HOLD_ISSUE_DATAOBJECT_PATH + "." + HOLD_ISSUE_PROP_NAME;
+    public static final String HOLD_ISSUE_HOLDISSUE_PATH = HOLDS_DATAOBJECT_PATH + "." + HOLD_ISSUE_PROP_NAME;
     public static final String HOLD_ISSUE_PROP_NAME_CODE = HOLD_ISSUE_HOLDISSUE_PATH + "." + HOLD_ISSUE_CODE;
 
     public static final String HOLD_ISSUE_PROP_NAME_FIRST_APPLIED_DATE = HOLD_ISSUE_HOLDISSUE_PATH + "." + HOLD_ISSUE_FIRST_APPLIED_DATE;
     public static final String HOLD_ISSUE_PROP_NAME_LAST_APPLIED_DATE = HOLD_ISSUE_HOLDISSUE_PATH + "." + HOLD_ISSUE_LAST_APPLIED_DATE;
 
-    public static final String HOLD_ISSUE_PROP_NAME_FIRST_TERM = HOLD_ISSUE_DATAOBJECT_PATH + "." + "firstTerm";
-    public static final String HOLD_ISSUE_PROP_NAME_LAST_TERM = HOLD_ISSUE_DATAOBJECT_PATH + "." + "lastTerm";
+    public static final String HOLD_ISSUE_PROP_NAME_FIRST_TERM = HOLDS_DATAOBJECT_PATH + "." + "firstTerm";
+    public static final String HOLD_ISSUE_PROP_NAME_LAST_TERM = HOLDS_DATAOBJECT_PATH + "." + "lastTerm";
 
-    public static final String HOLD_ISSUE_PROP_NAME_AUTH_ORGS = HOLD_ISSUE_DATAOBJECT_PATH + "." + "authorizedOrgs";
+    public static final String HOLD_ISSUE_PROP_NAME_AUTH_ORGS = HOLDS_DATAOBJECT_PATH + "." + "authorizedOrgs";
     public static final String HOLD_ISSUE_PROP_NAME_AUTH_ORG_NAME = "name";
 
     //Applied Hold property names
     public static final String APPLIED_HOLDS_PERSON_ID = "person.id";
 
     public static final String APPLIED_HOLDS_PROP_NAME = "appliedHold";
-    public static final String APPLIED_HOLDS_PATH = HOLD_ISSUE_DATAOBJECT_PATH;
+    public static final String APPLIED_HOLDS_PATH = HOLDS_DATAOBJECT_PATH;
     public static final String APPLIED_HOLDS_PROP_NAME_CODE =  APPLIED_HOLDS_PATH + "." + HOLD_ISSUE_CODE;
 
     //error Message keys

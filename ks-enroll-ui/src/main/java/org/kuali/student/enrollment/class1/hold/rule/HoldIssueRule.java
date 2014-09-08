@@ -36,7 +36,7 @@ import java.util.List;
  *
  * @author Kuali Student Blue Team (SA)
  */
-public class HoldIssueRule extends KsMaintenanceDocumentRuleBase {
+public class HoldIssueRule extends BasicHoldsRule {
 
     @Override
     protected boolean isDocumentValidForSave(MaintenanceDocument maintenanceDocument) {
@@ -190,32 +190,4 @@ public class HoldIssueRule extends KsMaintenanceDocumentRuleBase {
         return isValid;
     }
 
-    private String resolveTermId(String termCode, String propertyName) {
-        try {
-            TermInfo firstTermInfo = searchForTermIdByCode(termCode);
-            if (firstTermInfo != null) {
-                return firstTermInfo.getId();
-            } else {
-                GlobalVariables.getMessageMap().putError(propertyName, HoldsConstants.HOLDS_ISSUE_MSG_ERROR_INVALID_TERM, termCode);
-            }
-        } catch (Exception e) {
-            GlobalVariables.getMessageMap().putError(propertyName, HoldsConstants.HOLDS_ISSUE_MSG_ERROR_FIRST_APPLICATION_TERMID);
-        }
-        return null;
-    }
-
-    private static TermInfo searchForTermIdByCode(String termCode)
-            throws MissingParameterException, InvalidParameterException, OperationFailedException, PermissionDeniedException {
-
-        if ((termCode == null) || (termCode.isEmpty())) {
-            return null;
-        }
-
-        List<TermInfo> results = HoldsResourceLoader.getAcademicCalendarService().getTermsByCode(termCode, ContextUtils.createDefaultContextInfo());
-        return KSCollectionUtils.getOptionalZeroElement(results);
-    }
-
-    private ContextInfo createContextInfo() {
-        return ContextUtils.createDefaultContextInfo();
-    }
 }

@@ -17,6 +17,8 @@
 package org.kuali.student.enrollment.class1.hold.dto;
 
 import org.kuali.student.r2.core.hold.dto.AppliedHoldInfo;
+import org.kuali.student.r2.core.hold.dto.HoldIssueInfo;
+import org.kuali.student.r2.core.hold.infc.HoldIssue;
 
 import java.io.Serializable;
 
@@ -26,6 +28,9 @@ import java.io.Serializable;
 public class AppliedHoldMaintenanceWrapper implements Serializable {
 
     private String holdCode;
+    private String firstTerm;
+    private String lastTerm;
+    private HoldIssueInfo holdIssue;
     private AppliedHoldInfo appliedHold;
 
     public AppliedHoldMaintenanceWrapper() {
@@ -38,6 +43,30 @@ public class AppliedHoldMaintenanceWrapper implements Serializable {
 
     public void setHoldCode(String holdCode) {
         this.holdCode = holdCode;
+    }
+
+    public String getFirstTerm() {
+        return firstTerm;
+    }
+
+    public void setFirstTerm(String firstTerm) {
+        this.firstTerm = firstTerm;
+    }
+
+    public String getLastTerm() {
+        return lastTerm;
+    }
+
+    public void setLastTerm(String lastTerm) {
+        this.lastTerm = lastTerm;
+    }
+
+    public HoldIssueInfo getHoldIssue() {
+        return holdIssue;
+    }
+
+    public void setHoldIssue(HoldIssueInfo holdIssue) {
+        this.holdIssue = holdIssue;
     }
 
     public AppliedHoldInfo getAppliedHold() {
