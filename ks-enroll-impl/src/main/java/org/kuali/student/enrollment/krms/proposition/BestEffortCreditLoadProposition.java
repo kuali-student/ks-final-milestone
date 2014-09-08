@@ -29,10 +29,7 @@ import org.kuali.student.core.ges.service.GesService;
 import org.kuali.student.core.process.evaluator.KRMSEvaluator;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.enrollment.courseregistration.dto.CourseRegistrationInfo;
-import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestInfo;
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestItemInfo;
-import org.kuali.student.enrollment.courseregistration.service.CourseRegistrationService;
-import org.kuali.student.enrollment.coursewaitlist.service.CourseWaitListService;
 import org.kuali.student.enrollment.registration.client.service.impl.util.RegistrationValidationResultsUtil;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
@@ -45,7 +42,6 @@ import org.kuali.student.r2.common.util.constants.LprServiceConstants;
 import org.kuali.student.r2.core.constants.PopulationServiceConstants;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -58,44 +54,19 @@ import java.util.Map;
  */
 public class BestEffortCreditLoadProposition extends AbstractBestEffortProposition {
     public static final KualiDecimal NO_CREDIT_LIMIT = new KualiDecimal(-1);
-    private static final boolean ALLOW_ALL_NON_ADDS = true; // allow all non adds right now
     private boolean countWaitlistedCoursesTowardsCreditLimit = true;
 
     @Override
     public PropositionResult evaluate(ExecutionEnvironment environment) {
         ContextInfo contextInfo = environment.resolveTerm(RulesExecutionConstants.CONTEXT_INFO_TERM, this);
-        RegistrationRequestInfo request = environment.resolveTerm(RulesExecutionConstants.REGISTRATION_REQUEST_TERM, this);
-        //List<RegistrationRequestItemInfo> regRequestItems = request.getRegistrationRequestItems();
-        //Changed this code to use a list of one from the environment
+
+        // Retrieve the registration request from the environment
         RegistrationRequestItemInfo requestItemInfo = environment.resolveTerm(RulesExecutionConstants.REGISTRATION_REQUEST_ITEM_TERM, this);
-        List<RegistrationRequestItemInfo> regRequestItems = new ArrayList<RegistrationRequestItemInfo>();
+        List<RegistrationRequestItemInfo> regRequestItems = new ArrayList<>();
         regRequestItems.add(requestItemInfo);
 
-        String personId = environment.resolveTerm(RulesExecutionConstants.PERSON_ID_TERM, this);
-        CourseRegistrationService crService = environment.resolveTerm(RulesExecutionConstants.COURSE_REGISTRATION_SERVICE_TERM,
-                this);
-        CourseWaitListService wlService = environment.resolveTerm(RulesExecutionConstants.COURSE_WAIT_LIST_SERVICE_TERM,
-                this);
         CourseOfferingService coService = environment.resolveTerm(RulesExecutionConstants.COURSE_OFFERING_SERVICE_TERM, this);
 
-        // Verify that all operations are add
-        boolean allAddOps = true;
-        for (RegistrationRequestItemInfo item: request.getRegistrationRequestItems()) {
-            if (!LprServiceConstants.REQ_ITEM_ADD_TYPE_KEY.equals(item.getTypeKey())) {
-                allAddOps = false;
-                break;
-            }
-        }
-        if (!allAddOps) {
-            if (ALLOW_ALL_NON_ADDS) {
-                return new PropositionResult(true, Collections.<String, Object>emptyMap());
-            }
-
-            // All of the operations were not "add", thus this is not a reg cart.
-            InvalidParameterException ex = new InvalidParameterException("Should be add ops only");
-            return KRMSEvaluator.constructExceptionPropositionResult(environment, ex, this);
-
-        }
         // Compute the credit limit (assume a fixed value, for now)
         ValueInfo creditLimit;
         try {
@@ -106,9 +77,9 @@ public class BestEffortCreditLoadProposition extends AbstractBestEffortPropositi
         KualiDecimal creditLimitValue = creditLimit.getDecimalValue();
 
         // Fetch registrations
-        List<CourseRegistrationInfo> existingCrs = new ArrayList<CourseRegistrationInfo>();
+        List<CourseRegistrationInfo> existingCrs = new ArrayList<>();
         existingCrs.addAll((List<CourseRegistrationInfo>) environment.resolveTerm(RulesExecutionConstants.EXISTING_REGISTRATIONS_TERM, this));
-        if(countWaitlistedCoursesTowardsCreditLimit){
+        if (countWaitlistedCoursesTowardsCreditLimit) {
             existingCrs.addAll((List<CourseRegistrationInfo>) environment.resolveTerm(RulesExecutionConstants.EXISTING_WAITLISTED_REGISTRATIONS_TERM, this));
         }
         existingCrs.addAll((List<CourseRegistrationInfo>) environment.resolveTerm(RulesExecutionConstants.SIMULATED_REGISTRATIONS_TERM, this));
@@ -121,10 +92,10 @@ public class BestEffortCreditLoadProposition extends AbstractBestEffortPropositi
 
 
         // Iterate over each item and check load
-        List<CourseRegistrationInfo> successFromCart = new ArrayList<CourseRegistrationInfo>();
+        List<CourseRegistrationInfo> successFromCart = new ArrayList<>();
 //        for (RegistrationRequestItemInfo item: request.getRegistrationRequestItems()) {
         for (RegistrationRequestItemInfo item: regRequestItems) {
-            List<CourseRegistrationInfo> copyExistingCrs = new ArrayList<CourseRegistrationInfo>();
+            List<CourseRegistrationInfo> copyExistingCrs = new ArrayList<>();
             // Copy the existing registrations
             copyExistingCrs.addAll(existingCrs);
             // Add the successful RGs from the cart (added from previous iterations)
@@ -144,7 +115,7 @@ public class BestEffortCreditLoadProposition extends AbstractBestEffortPropositi
                 successFromCart.add(regItem);
             } else {
                 ValidationResultInfo vr = createValidationResultFailureForRegRequestItem(item, creditLimitValue);
-                Map<String, Object> executionDetails = new LinkedHashMap<String, Object>();
+                Map<String, Object> executionDetails = new LinkedHashMap<>();
                 executionDetails.put(RulesExecutionConstants.PROCESS_EVALUATION_RESULTS, vr);
                 PropositionResult result = new PropositionResult(false, executionDetails);
                 BasicResult br = new BasicResult(executionDetails, ResultEvent.PROPOSITION_EVALUATED, this, environment, result.
@@ -158,7 +129,7 @@ public class BestEffortCreditLoadProposition extends AbstractBestEffortPropositi
 
     private ValidationResultInfo createValidationResultFailureForRegRequestItem(RegistrationRequestItemInfo item, KualiDecimal creditLimitValue) {
         String msg = RegistrationValidationResultsUtil.marshallMaxCreditMessage(
-                LprServiceConstants.LPRTRANS_ITEM_CREDIT_LOAD_EXCEEDED_MESSAGE_KEY, creditLimitValue.toString());
+                LprServiceConstants.LPRTRANS_ITEM_CREDIT_LOAD_EXCEEDED_MESSAGE_KEY, creditLimitValue.bigDecimalValue().stripTrailingZeros().toPlainString());
         return createValidationResultFailureForRegRequestItem(item, msg);
     }
 
@@ -236,6 +207,7 @@ public class BestEffortCreditLoadProposition extends AbstractBestEffortPropositi
         return value;
     }
 
+    @SuppressWarnings("unused")
     public void setCountWaitlistedCoursesTowardsCreditLimit(boolean countWaitlistedCoursesTowardsCreditLimit) {
         this.countWaitlistedCoursesTowardsCreditLimit = countWaitlistedCoursesTowardsCreditLimit;
     }

@@ -44,7 +44,7 @@ public class CourseRegistrationLprActionProcessor {
     private JmsTemplate jmsTemplate;  // needed to call ActiveMQ based Registration Engine
 
     public RegistrationRequestItemEngineMessage process(RegistrationRequestItemEngineMessage message) {
-        LOGGER.info("Trying to register requestItemId:"+ message.getRequestItem().getId());
+        LOGGER.info("Trying to register requestItemId:" + message.getRequestItem().getId());
         try {
             ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
             contextInfo.setPrincipalId(message.getRequestorId());
@@ -194,6 +194,7 @@ public class CourseRegistrationLprActionProcessor {
             requestorId = regItem.getRequestorId();
             if (regItem.getRequestItem().getStateKey().equals(LprServiceConstants.LPRTRANS_ITEM_FAILED_STATE_KEY)) {
                 lprTransFinalState = LprServiceConstants.LPRTRANS_FAILED_STATE_KEY;
+                break;
             }
         }
 
