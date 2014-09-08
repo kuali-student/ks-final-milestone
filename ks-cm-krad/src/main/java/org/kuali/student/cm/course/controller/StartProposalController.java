@@ -55,8 +55,6 @@ public class StartProposalController extends UifControllerBase {
         courseForm.setCurriculumSpecialistUser(CourseProposalUtil.isUserCurriculumSpecialist());
         String versionIndId = httpServletRequest.getParameter(CurriculumManagementConstants.UrlParams.VERSION_IND_ID);
         courseForm.setVersionIndId(versionIndId);
-        String versionComment = httpServletRequest.getParameter(CurriculumManagementConstants.UrlParams.VERSION_COMMENT);
-        courseForm.setVersionComment(versionComment);
         String courseId = httpServletRequest.getParameter(CurriculumManagementConstants.UrlParams.CLU_ID);
         courseForm.setCourseId(courseId);
         return courseForm;
@@ -94,7 +92,6 @@ public class StartProposalController extends UifControllerBase {
 
             urlParameters.put(CurriculumManagementConstants.UrlParams.VERSION_IND_ID,((StartProposalForm)form).getVersionIndId());
             urlParameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, startProposalCourseAction);
-            urlParameters.put(CurriculumManagementConstants.UrlParams.VERSION_COMMENT, ((StartProposalForm)form).getVersionComment() );
             urlParameters.put(CourseController.UrlParams.MODIFY_ACTION, startProposalCourseAction);
         }
         else if(StringUtils.equalsIgnoreCase(startProposalCourseAction,CurriculumManagementConstants.ModifyCourseStartOptions.MODIFY_THIS_VERSION)){

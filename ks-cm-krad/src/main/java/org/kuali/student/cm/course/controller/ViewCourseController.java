@@ -206,7 +206,6 @@ public class ViewCourseController extends KsUifControllerBase {
         urlParameters.put(UifConstants.UrlParams.VIEW_ID, "startProposalView");
         urlParameters.put(KRADConstants.RETURN_LOCATION_PARAMETER, CMUtils.getCMHomeUrl());
         urlParameters.put(CurriculumManagementConstants.UrlParams.VERSION_IND_ID, detailedViewForm.getCourseInfoWrapper().getCourseInfo().getVersion().getVersionIndId());
-        urlParameters.put(CurriculumManagementConstants.UrlParams.VERSION_COMMENT, detailedViewForm.getCourseInfoWrapper().getCourseInfo().getVersion().getVersionComment());
         urlParameters.put(CurriculumManagementConstants.UrlParams.CLU_ID, detailedViewForm.getCourseInfoWrapper().getCourseInfo().getId());
         String courseBaseUrl = CurriculumManagementConstants.ControllerRequestMappings.START_PROPOSAL.replaceFirst("/", "");
         return performRedirect(form, courseBaseUrl, urlParameters);

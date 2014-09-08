@@ -324,33 +324,33 @@ public class CourseController extends CourseRuleEditorController {
                                           HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         form.setDocTypeName(CurriculumManagementConstants.DocumentTypeNames.CourseProposal.COURSE_MODIFY);
-        createDocument(form);
+        super.createDocument(form);
 
-        String versionComment = request.getParameter(CurriculumManagementConstants.UrlParams.VERSION_COMMENT);
         String versionIndId = request.getParameter(CurriculumManagementConstants.UrlParams.VERSION_IND_ID);
 
-        CourseInfo courseInfo = getCourseService().createNewCourseVersion(versionIndId,versionComment, ContextUtils.createDefaultContextInfo());
+        CourseInfo courseInfo = getCourseService().createNewCourseVersion(versionIndId,"", ContextUtils.createDefaultContextInfo());
 
         ProposalInfo proposalInfo = new ProposalInfo();
 
         CourseInfoWrapper courseInfoWrapper = new CourseInfoWrapper();
         courseInfoWrapper.setCourseInfo(courseInfo);
         courseInfoWrapper.setProposalInfo(proposalInfo);
-        form.setDataObjectClassName(CourseInfo.class.getName());
-        ((MaintenanceDocumentForm) form).getDocument().getNewMaintainableObject().setDataObject(courseInfoWrapper);
+//        form.setDataObjectClassName(CourseInfo.class.getName());
+//        ((MaintenanceDocumentForm) form).getDocument().getNewMaintainableObject().setDataObject(courseInfoWrapper);
 
-        ((CourseMaintainable)form.getViewHelperService()).setDataObject(courseInfoWrapper);
-        ((CourseMaintainable)form.getViewHelperService()).populateCourseAndReviewData(courseInfo.getId(), courseInfoWrapper);
+//        ((CourseMaintainable)form.getViewHelperService()).setDataObject(courseInfoWrapper);
+//        ((CourseMaintainable)form.getViewHelperService()).populateCourseAndReviewData(courseInfo.getId(), courseInfoWrapper);
 
-        createDocument(form);
+//        createDocument(form);
         save(form, result, request, response);
 
+        return getUIFModelAndView(form);
 
-        courseInfoWrapper.getUiHelper().setPendingWorkflowAction(true);
-        form.setPageId(getReviewPageKradPageId());
-        form.setMethodToCall("docHandler");
-        String href = CourseProposalUtil.buildCourseProposalUrl("docHandler", getReviewPageKradPageId(), form.getDocument().getDocumentNumber(), courseInfoWrapper.getProposalInfo().getTypeKey());
-        return performRedirect(form,href);
+//        courseInfoWrapper.getUiHelper().setPendingWorkflowAction(true);
+//        form.setPageId(getReviewPageKradPageId());
+//        form.setMethodToCall("docHandler");
+//        String href = CourseProposalUtil.buildCourseProposalUrl("docHandler", getReviewPageKradPageId(), form.getDocument().getDocumentNumber(), courseInfoWrapper.getProposalInfo().getTypeKey());
+//        return performRedirect(form,href);
 
     }
 

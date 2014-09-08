@@ -1683,11 +1683,7 @@ public class CourseMaintainableImpl extends ProposalMaintainableImpl implements 
 
         CourseInfo course = getCourseService().getCourse(courseId, createContextInfo());
 
-        //This is to avoid using the same instance from cache.
-        CourseInfo courseCopy = new CourseInfo();
-        BeanUtils.copyProperties(course, courseCopy);
-
-        courseWrapper.setCourseInfo(courseCopy);
+        courseWrapper.setCourseInfo(course);
 
         populateWrapperData(courseWrapper);
 
