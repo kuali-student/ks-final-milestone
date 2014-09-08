@@ -1,14 +1,7 @@
 // Loader
 // --------------------------------------------------
-#planner_courses_detail {
-  .blockOverlay {
-    height: 500px !important;
-  }
-
-  div.blockElement {
-    left: 278px !important;
-    top: 200px !important;
-  }
+#PlannerCalendar-Holder .blockElement {
+ width: 100%;
 }
 
 
@@ -79,6 +72,14 @@
       right: .5rem;
       top: .5rem;
     }
+  }
+
+  .ksap-planner-term {
+    border: solid 1px #dfdfdf;
+    border-top: none;
+    border-radius: 5px;
+    overflow: hidden;
+    padding: 0;
   }
 
   .ksap-planner-term-current .ksap-planner-term-header {
@@ -202,14 +203,6 @@
     float: left;
     height:100% !important; // Set as important to override carousel library auto set on element.
   }
-}
-
-.ksap-planner-term {
-  border: solid 1px #dfdfdf;
-  border-top: none;
-  border-radius: 5px;
-  overflow: hidden;
-  padding: 0;
 }
 
 

@@ -82,7 +82,7 @@
     </bean>
 
     <!-- Planner Calendar -->
-    <bean id="PlannerCalendar-Holder" parent="Uif-VerticalBoxGroup">
+    <bean id="PlannerCalendar-Holder" parent="Uif-VerticalBoxGroup" p:cssClasses="ksap-planner-details">
         <property name="items">
             <list>
                 <bean p:id="planner_calendar_placeholder" parent="Uif-VerticalBoxGroup">
