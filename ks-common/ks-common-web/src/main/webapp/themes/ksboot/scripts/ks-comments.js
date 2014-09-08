@@ -19,7 +19,7 @@ function initEditors() {
     tinymce.init({
         //        mode: "none",
         selector: 'textarea.richtextitem',
-        plugins: "link spellchecker hr",
+        plugins: "advlist link spellchecker hr",
         statusbar : false,
         browser_spellcheck: true,
         spellchecker_rpc_url: 'plugins/spellchecker/rpc.php',
