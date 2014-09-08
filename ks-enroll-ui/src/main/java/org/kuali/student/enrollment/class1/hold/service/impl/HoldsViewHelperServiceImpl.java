@@ -134,6 +134,7 @@ public class HoldsViewHelperServiceImpl extends KSViewHelperServiceImpl implemen
         return holdResultList;
     }
 
+    @Override
     public HoldIssueInfo searchHoldIssueByCode(String holdCode) {
 
         try {

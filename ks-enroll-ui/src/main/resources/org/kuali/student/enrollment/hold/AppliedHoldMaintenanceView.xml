@@ -149,16 +149,27 @@ limitations under the License.
                         </bean>
                     </property>
                 </bean>
-                <bean parent="Uif-HorizontalBoxGroup">
+                <bean parent="Uif-HorizontalBoxGroup"  >
                     <property name="validationMessages" ref="KS-ValidationMessages-Off"/>
+                    <property name="refreshWhenChangedPropertyNames">
+                        <list>
+                            <value>#dp.holdCode</value>
+                        </list>
+                    </property>
+                    <property name="methodToCallOnRefresh" value="searchHoldIssueByCode"/>
                     <property name="items">
                         <list>
-                            <bean parent="Uif-InputField" p:label="First Applied Date" p:propertyName="appliedHold.effectiveDate">
+                            <bean parent="KS-Uif-InputField-LabelTop" p:label="First Application Term" p:propertyName="firstTerm" p:required="false" p:progressiveRender="@{#dp.holdIssue.isHoldIssueTermBased}">
                                 <property name="control">
-                                    <bean parent="KS-Uif-Default-DateControl" p:size="10"/>
+                                    <bean parent="KS-Uif-TextControl" p:size="20" p:minLength="6" p:maxLength="6" p:disabled="false"/>
+                                </property>
+                                <!-- Constrain to 6 digits and use a custom message. -->
+                                <property name="validCharactersConstraint">
+                                    <bean parent="NumericPatternConstraint"
+                                          p:messageKey="error.hold.issue.termcode.invalid" p:value="^\d{6}$"/>
                                 </property>
                             </bean>
-                            <bean parent="Uif-InputField" p:label="Last Applied Date" p:propertyName="appliedHold.expirationDate">
+                            <bean parent="Uif-InputField" p:label="First Applied Date" p:propertyName="appliedHold.effectiveDate">
                                 <property name="control">
                                     <bean parent="KS-Uif-Default-DateControl" p:size="10"/>
                                 </property>

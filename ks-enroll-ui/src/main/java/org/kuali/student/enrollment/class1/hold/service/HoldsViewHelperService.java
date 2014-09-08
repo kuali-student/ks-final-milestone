@@ -6,6 +6,7 @@ import org.kuali.student.enrollment.class1.hold.form.AppliedHoldManagementForm;
 import org.kuali.student.enrollment.class1.hold.form.AppliedHoldResult;
 import org.kuali.student.enrollment.class1.hold.form.HoldIssueManagementForm;
 import org.kuali.student.enrollment.class1.hold.form.HoldIssueResult;
+import org.kuali.student.r2.core.hold.dto.HoldIssueInfo;
 
 import java.util.List;
 
@@ -22,5 +23,7 @@ public interface HoldsViewHelperService {
     public PersonInfo getStudentById(String studentId);
 
     public List<AppliedHoldResult> searchAppliedHolds(AppliedHoldManagementForm holdFrom);
+
+    public HoldIssueInfo searchHoldIssueByCode(String holdCode);
 
 }

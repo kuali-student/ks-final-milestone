@@ -21,9 +21,11 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.web.controller.MaintenanceDocumentController;
 import org.kuali.rice.krad.web.form.DocumentFormBase;
+import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.common.object.KSObjectUtils;
 import org.kuali.student.common.uif.util.KSControllerHelper;
+import org.kuali.student.enrollment.class1.hold.dto.AppliedHoldMaintenanceWrapper;
 import org.kuali.student.enrollment.class1.hold.service.HoldsViewHelperService;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -71,6 +73,23 @@ public class AppliedHoldMaintenanceController extends MaintenanceDocumentControl
         return back(form,result,request,response);
     }
 
+
+    @RequestMapping(params = "methodToCall=searchHoldIssueByCode")
+    public ModelAndView searchHoldIssueByCode(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
+                               HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        MaintenanceDocumentForm document = this.getMaintenanceDocumentForm( form);
+        AppliedHoldMaintenanceWrapper holdWrapper = (AppliedHoldMaintenanceWrapper) document.getDocument().getNewMaintainableObject().getDataObject();
+        holdWrapper.setHoldIssue(this.getViewHelper(form).searchHoldIssueByCode(holdWrapper.getHoldCode()));
+
+        if (GlobalVariables.getMessageMap().hasErrors()) {
+            return getUIFModelAndView(form);
+        } else {
+        //Set Defaults
+        }
+        return getUIFModelAndView(form);
+    }
+
     /**
      * @param form
      * @return
@@ -79,4 +98,11 @@ public class AppliedHoldMaintenanceController extends MaintenanceDocumentControl
         return (HoldsViewHelperService) KSControllerHelper.getViewHelperService(form);
     }
 
+    //Method for checking if the form is an instance of maintenanceDocumentForm, then returning the casted form
+    protected MaintenanceDocumentForm getMaintenanceDocumentForm(UifFormBase form) {
+        if (form instanceof MaintenanceDocumentForm) {
+            return (MaintenanceDocumentForm) form;
+        }
+        throw new RuntimeException("Error retrieving Maintenance document form from UifFormBase");
+    }
 }
