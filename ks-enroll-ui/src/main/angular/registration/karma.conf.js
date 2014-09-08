@@ -20,9 +20,17 @@ module.exports = function(config) {
       'bower_components/angular-cookies/angular-cookies.js',
       'bower_components/angular-sanitize/angular-sanitize.js',
       'bower_components/angular-ui-router/release/angular-ui-router.js',
+
+      // Base scripts
       'scripts/*.js',
       'scripts/**/*.js',
+      'components/{,*/}*.js',
+
+      // HTML Partials
       '**/*.html',
+
+      // Tests
+      'components/{,*/}*.spec.js',
       '../test/spec/**/*.js',
 
       //'../test/mock/*.js',

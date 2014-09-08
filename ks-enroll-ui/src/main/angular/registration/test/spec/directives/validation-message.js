@@ -88,6 +88,17 @@ describe('Directive: ValidationMessage', function() {
         it('should format the {{courseCode}} parameter in a message string correctly', function() {
             expect(compile("Course {{courseCode}} Should Be 'code1'", { courseCode: 'code1' })).toContain('code1');
         });
+
+        it('should a variety of parameters in the message string correctly', function() {
+            messages.push({
+                messageKey: 'dummyKey',
+                message: '{{p1}} {{p2}} {{p3 | date:"yyyy/MM/dd"}} {{p4 | ordinal}} {{2 | multiplicativeAdverb}}'
+            });
+
+            var data = { messageKey: 'dummyKey', p1: 'code1', p2: 'abcdefg', p3: '2014-09-08', p4: 3 };
+
+            expect(compile(data)).toBe('code1 abcdefg 2014/09/08 3rd twice');
+        });
     });
 
 

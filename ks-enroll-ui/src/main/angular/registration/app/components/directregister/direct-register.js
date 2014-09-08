@@ -1,5 +1,33 @@
 'use strict';
 
+/**
+ * Direct Register Controller
+ *
+ * This controller is intended to be used as the controller for a $modal dialog.
+ * It takes a course and walks the user through a wizard style process
+ * so they can directly register without going through the cart.
+ *
+ * Usage:
+        var modal = $modal.open({
+            backdrop: 'static',
+            controller: 'DirectRegisterCtrl',
+            windowClass: 'kscr-DirectRegister-window',
+            templateUrl: 'components/directregister/directRegister.html',
+            size: 'sm',
+            resolve: {
+                course: function () {
+                    return course;
+                }
+            }
+        });
+ *
+ * Events:
+ * - broadcast:
+ *      - registerForCourse - broadcast when the full course object exists (credit & grading option) & it is confirmed
+ *      - addCourseToCart - broadcast when the user clicks the Keep in Cart button in the event of a failure
+ * - emits: none
+ * - catches: none
+ */
 angular.module('regCartApp')
     .controller('DirectRegisterCtrl', ['$scope', '$rootScope', '$modalInstance', 'GRADING_OPTION', 'STATUS', 'GlobalVarsService', 'course',
         function ($scope, $rootScope, $modalInstance, GRADING_OPTION, STATUS, GlobalVarsService, course) {
@@ -9,7 +37,6 @@ angular.module('regCartApp')
             $scope.course = course;
             $scope.results = [];
 
-            console.log(course);
 
             var confirmed = false,
                 processing = false;
@@ -59,8 +86,8 @@ angular.module('regCartApp')
             };
 
             $scope.addCartItemToWaitlist = function() {
-                // Clear out the result
-                $scope.result = null;
+                // Clear out the results
+                $scope.results = [];
 
                 // Push the course back through the confirmation process with allowWaitlist = true
                 $scope.course.allowWaitlist = true;
@@ -108,7 +135,7 @@ angular.module('regCartApp')
 
             // Shows the grading badge (unless it is letter -- the default)
             $scope.showBadge = function () {
-                return $scope.course.gradingOptionId !== GRADING_OPTION.letter || $scope.course.editGradingOption;
+                return $scope.course.gradingOptionId !== GRADING_OPTION.letter;
             };
 
 
@@ -160,7 +187,7 @@ angular.module('regCartApp')
 
                         case STATUS.waitlist:
                         case STATUS.action: // waitlist action available
-                            responseItem.waitlistMessage = GlobalVarsService.getCorrespondingMessageFromStatus(responseItem.status);
+                            resultItem.waitlistMessage = GlobalVarsService.getCorrespondingMessageFromStatus(resultItem.status);
                             break;
                     }
                 }
