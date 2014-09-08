@@ -24,21 +24,28 @@
                      ng-if="course.statusMessage">
                     <span class="kscr-Card-statusRemove"><a href="" ng-click="(!course.dropProcessing ? removeStatusMessage(course) : '')"></a></span>
 
-                    <div ng-if="course.statusMessage.type === statuses.error"
-                         class="kscr-Card-status-heading"
-                         id="course_status_message_heading_{{course.courseCode}}_{{course.regGroupCode}}">
-                        <span ng-if="course.statusMessage.action === 'drop'">Drop Failed</span>
-                        <span ng-if="course.statusMessage.action === 'update'">Changes Failed</span>
-                    </div>
+                    <div ng-if="course.statusMessage.type === statuses.error">
+                        <div class="kscr-Card-status-heading"
+                             id="course_status_message_heading_{{course.courseCode}}_{{course.regGroupCode}}">
+                            <span ng-if="course.statusMessage.action === 'drop'">Drop Failed</span>
+                            <span ng-if="course.statusMessage.action === 'update'">Changes Failed</span>
+                        </div>
 
-                    <div class="kscr-Card-reason">
-                        <div class="kscr-Card-reason-label"><strong>Reason:</strong></div>
-                        <div class="kscr-Card-reason-messages">
-                            <div class="kscr-Card-reason-message" ng-repeat="message in course.statusMessage.messages">
-                                <span id="course_status_message_message_{{course.courseCode}}_{{course.regGroupCode}}_{{$index}}"
-                                      validation-message message="message" course="course"></span>
+                        <div class="kscr-Card-reason">
+                            <div class="kscr-Card-reason-label"><strong>Reason:</strong></div>
+                            <div class="kscr-Card-reason-messages">
+                                <div class="kscr-Card-reason-message" ng-repeat="message in course.statusMessage.messages">
+                                    <span id="course_status_message_message_{{course.courseCode}}_{{course.regGroupCode}}_{{$index}}"
+                                          validation-message message="message" course="course"></span>
+                                </div>
                             </div>
                         </div>
+                    </div>
+
+                    <div ng-if="course.statusMessage.type !== statuses.error">
+                        <div ng-repeat="message in course.statusMessage.messages"
+                             id="course_status_message_message_{{course.courseCode}}_{{course.regGroupCode}}"
+                              validation-message message="message" course="course"></div>
                     </div>
                 </div>
                 <div class="kscr-dropCourse-container" ng-show="course.dropping">
@@ -73,21 +80,28 @@
                      ng-if="course.statusMessage">
                     <span class="kscr-Card-statusRemove"><a href="" ng-click="(!course.dropProcessing ? removeStatusMessage(course) : '')"></a></span>
 
-                    <div ng-if="course.statusMessage.type === statuses.error"
-                         class="kscr-Card-status-heading"
-                         id="waitlist_course_status_message_heading_{{course.courseCode}}_{{course.regGroupCode}}">
-                        <span ng-if="course.statusMessage.action === 'drop'">Drop Failed</span>
-                        <span ng-if="course.statusMessage.action === 'update'">Changes Failed</span>
-                    </div>
+                    <div ng-if="course.statusMessage.type === statuses.error">
+                        <div class="kscr-Card-status-heading"
+                             id="waitlist_course_status_message_heading_{{course.courseCode}}_{{course.regGroupCode}}">
+                            <span ng-if="course.statusMessage.action === 'drop'">Drop Failed</span>
+                            <span ng-if="course.statusMessage.action === 'update'">Changes Failed</span>
+                        </div>
 
-                    <div class="kscr-Card-reason">
-                        <div class="kscr-Card-reason-label"><strong>Reason:</strong></div>
-                        <div class="kscr-Card-reason-messages">
-                            <div class="kscr-Card-reason-message" ng-repeat="message in course.statusMessage.messages">
-                                <span id="waitlist_course_status_message_message_{{course.courseCode}}_{{course.regGroupCode}}_{{$index}}"
-                                      validation-message message="message" course="course"></span>
+                        <div class="kscr-Card-reason">
+                            <div class="kscr-Card-reason-label"><strong>Reason:</strong></div>
+                            <div class="kscr-Card-reason-messages">
+                                <div class="kscr-Card-reason-message" ng-repeat="message in course.statusMessage.messages">
+                                    <span id="waitlist_course_status_message_message_{{course.courseCode}}_{{course.regGroupCode}}_{{$index}}"
+                                          validation-message message="message" course="course"></span>
+                                </div>
                             </div>
                         </div>
+                    </div>
+
+                    <div ng-if="course.statusMessage.type !== statuses.error">
+                        <div ng-repeat="message in course.statusMessage.messages"
+                             id="waitlist_course_status_message_message_{{course.courseCode}}_{{course.regGroupCode}}"
+                             validation-message message="message" course="course"></div>
                     </div>
                 </div>
                 <div class="kscr-dropCourse-container" ng-show="course.dropping">
