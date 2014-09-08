@@ -40,7 +40,7 @@ public class CourseProposalLookupableImpl extends ProposalLookupableImpl {
 
     @Override
     public String buildHrefForActionLink(String maintenanceMethodToCall, String pageId, String workflowDocId, String proposalType) {
-        return CourseProposalUtil.buildCourseProposalUrl(maintenanceMethodToCall, pageId, workflowDocId);
+        return CourseProposalUtil.buildCourseProposalUrl(maintenanceMethodToCall, pageId, workflowDocId, proposalType);
     }
 
 }

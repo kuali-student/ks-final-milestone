@@ -20,6 +20,7 @@ package org.kuali.student.cm.common.util;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.krad.util.KRADPropertyConstants;
 import org.kuali.student.r2.common.util.date.KSDateTimeFormatter;
+import org.kuali.student.r2.core.constants.ProposalServiceConstants;
 import org.kuali.student.r2.lum.clu.CLUConstants;
 
 /**
@@ -38,6 +39,43 @@ public class CurriculumManagementConstants {
         public final static String COURSE_VERSIONS = "/course_versions";
         public final static String CM_HOME = "/cmHome";
         public final static String CM_RETIRE_COURSE = "/retireCourse";
+
+        public static enum MappingsByProposalType {
+            CREATE_COURSE_MAPPING(ProposalServiceConstants.PROPOSAL_TYPE_COURSE_CREATE_KEY, COURSE_MAINTENANCE),
+            MODIFY_COURSE_MAPPING(ProposalServiceConstants.PROPOSAL_TYPE_COURSE_MODIFY_KEY, COURSE_MAINTENANCE),
+            RETIRE_COURSE_MAPPING(ProposalServiceConstants.PROPOSAL_TYPE_COURSE_RETIRE_KEY, CM_RETIRE_COURSE);
+
+            private String proposalTypeKey;
+            private String controllerMapping;
+
+            MappingsByProposalType(String proposalTypeKey, String controllerMapping) {
+                this.proposalTypeKey = proposalTypeKey;
+                this.controllerMapping = controllerMapping;
+            }
+
+            public String getProposalTypeKey() {
+                return proposalTypeKey;
+            }
+
+            public String getControllerMapping() {
+                return controllerMapping;
+            }
+
+            /**
+             * Gets a controller mapping given a proposal type key
+             *
+             * @param proposalTypeKey The proposal type key given
+             * @return The corresponding Request Mapping if one matches. Otherwise, null.
+             */
+            public static String getControllerMapping(String proposalTypeKey) {
+                for (MappingsByProposalType mapping : MappingsByProposalType.values()) {
+                    if (StringUtils.equalsIgnoreCase(mapping.getProposalTypeKey(), proposalTypeKey)) {
+                        return mapping.getControllerMapping();
+                    }
+                }
+                return null;
+            }
+        }
     }
 
     /**
@@ -50,6 +88,10 @@ public class CurriculumManagementConstants {
         public static final String COMPARE_COURSE_ID = "compareCourseId";
         public static final String VERSION_IND_ID = "VersionIndId";
         public static final String VERSION_COMMENT = "versionComment";
+
+        /**
+         * A flag which indicates whether workflow should be used or not.
+         */
         public static final String USE_CURRICULUM_REVIEW = "useCurriculumReview";
     }
 
@@ -65,9 +107,9 @@ public class CurriculumManagementConstants {
             public final static String COURSE_CREATE = "kuali.proposal.type.course.create";
             public final static String COURSE_MODIFY = "kuali.proposal.type.course.modify";
             public final static String COURSE_RETIRE = "kuali.proposal.type.course.retire";
-            public final static String COURSE_RETIRE_ADMIN = "kuali.proposal.type.course.retire.admin";
             public final static String COURSE_CREATE_ADMIN = "kuali.proposal.type.course.create.admin";
             public final static String COURSE_MODIFY_ADMIN = "kuali.proposal.type.course.modify.admin";
+            public final static String COURSE_RETIRE_ADMIN = "kuali.proposal.type.course.retire.admin";
         }
 
         public static class ProgramProposal {
@@ -135,7 +177,7 @@ public class CurriculumManagementConstants {
         FINANCIALS("CM-Proposal-Course-Financial-Section"),
         AUTHORS_AND_COLLABORATORS("CM-Proposal-Course-AuthorsAndCollaborator-Section"),
         SUPPORTING_DOCUMENTS("CM-Proposal-Course-SupportingDocument-Section"),
-        REVIEW_COURSE_PROPOSAL("CM-Proposal-Review-Course-Page");
+        REVIEW_COURSE_PROPOSAL(CoursePageIds.REVIEW_COURSE_PROPOSAL_PAGE);
 
         private String sectionId;
 
@@ -169,7 +211,7 @@ public class CurriculumManagementConstants {
         ACTIVE_DATES("CM-Proposal-Course-ActiveDates-Section"),
         AUTHORS_AND_COLLABORATORS("CM-Proposal-Course-AuthorsAndCollaborator-Section"),
         SUPPORTING_DOCUMENTS("CM-Proposal-Course-SupportingDocument-Section");
-        /*REVIEW_COURSE_PROPOSAL("CM-Proposal-Review-Course-Page");*/
+        /*REVIEW_COURSE_PROPOSAL(CoursePageIds.REVIEW_COURSE_PROPOSAL_PAGE);*/
 
         private String sectionId;
 
@@ -291,6 +333,7 @@ public class CurriculumManagementConstants {
     public static final String PROPOSED_END_TERM = "proposedEndTerm";
     public static final String PROPOSED_LAST_TERM_OFFERED = "proposedLastTermOffered";
     public static final String PROPOSED_LAST_COURSE_CATALOG_YEAR = "proposedLastCourseCatalogYear";
+    public static final String PROPOSED_OTHER_COMMENTS = "courseRetireOtherComments";
 
     /**
      * This delimiter to use when rendering collections as a String.

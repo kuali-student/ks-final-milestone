@@ -50,10 +50,14 @@ public class CourseProposalUtil {
     /**
      * Constructs a text URL for a particular course proposal.
      */
-    public static String buildCourseProposalUrl(String methodToCall, String pageId, String workflowDocId) {
+    public static String buildCourseProposalUrl(String methodToCall, String pageId, String workflowDocId, String proposalType) {
         Properties props = ProposalUtil.getProposalUrlProperties(methodToCall, pageId, workflowDocId);
         props.put(UifParameters.DATA_OBJECT_CLASS_NAME, CourseInfoWrapper.class.getCanonicalName());
-        String courseBaseUrl = CurriculumManagementConstants.ControllerRequestMappings.COURSE_MAINTENANCE.replaceFirst("/", "");
+        String controllerRequestMapping = CurriculumManagementConstants.ControllerRequestMappings.MappingsByProposalType.getControllerMapping(proposalType);
+        if (StringUtils.isBlank(controllerRequestMapping)) {
+            throw new RuntimeException("Cannot find request mapping for proposal type: " + proposalType);
+        }
+        String courseBaseUrl = controllerRequestMapping.replaceFirst("/", "");
         return UrlFactory.parameterizeUrl(courseBaseUrl, props);
     }
 

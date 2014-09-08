@@ -67,7 +67,7 @@ public class DatesKeyValuesFinder extends UifKeyValuesFinderBase {
             populateAtpInfoWithStartEndDateCheck(model, keyValues, searchResult);
 
         } catch (Exception ex) {
-            throw new RuntimeException("Could not retrieve the ATP duration Dates: " + ex);
+            throw new RuntimeException("Could not retrieve the ATP duration Dates", ex);
         }
         return keyValues;
     }

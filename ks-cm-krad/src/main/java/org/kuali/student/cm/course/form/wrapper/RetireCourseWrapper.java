@@ -44,6 +44,15 @@ public class RetireCourseWrapper extends ProposalElementsWrapper implements Seri
 
     private String lastUpdated;
 
+    public RetireCourseWrapper() {
+        super(ProposalUtil.isUserCurriculumSpecialist(CurriculumManagementConstants.DocumentTypeNames.CourseProposal.COURSE_RETIRE),
+                CurriculumManagementConstants.CourseRetireSections.RETIRE_INFO);
+    }
+
+    public RetireCourseWrapper(boolean curriculumSpecialistUser, CurriculumManagementConstants.UserInterfaceSections selectedSection) {
+        super(curriculumSpecialistUser, selectedSection);
+    }
+
     public CourseInfo getCourseInfo() {
         return courseInfo;
     }
@@ -79,16 +88,6 @@ public class RetireCourseWrapper extends ProposalElementsWrapper implements Seri
         this.otherComment = otherComment;
     }
 
-    public RetireCourseWrapper() {
-        super(ProposalUtil.isUserCurriculumSpecialist(CurriculumManagementConstants.DocumentTypeNames.CourseProposal.COURSE_RETIRE),
-                CurriculumManagementConstants.CourseRetireSections.RETIRE_INFO);
-    }
-
-
-    public RetireCourseWrapper(boolean curriculumSpecialistUser, CurriculumManagementConstants.UserInterfaceSections selectedSection) {
-        super(curriculumSpecialistUser, selectedSection);
-    }
-
     public String getRetireEndTerm() {
         return retireEndTerm;
     }
@@ -121,6 +120,5 @@ public class RetireCourseWrapper extends ProposalElementsWrapper implements Seri
     public void setLastUpdated(String lastUpdated) {
         this.lastUpdated = lastUpdated;
     }
-
 
 }

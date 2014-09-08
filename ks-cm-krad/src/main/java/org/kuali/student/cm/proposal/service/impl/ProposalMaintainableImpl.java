@@ -53,7 +53,6 @@ import org.kuali.rice.krms.tree.RuleViewTreeBuilder;
 import org.kuali.rice.krms.tree.node.CompareTreeNode;
 import org.kuali.rice.krms.util.NaturalLanguageHelper;
 import org.kuali.student.cm.common.util.CurriculumManagementConstants;
-import org.kuali.student.cm.course.controller.CourseController;
 import org.kuali.student.cm.course.service.impl.CourseRuleViewHelperServiceImpl;
 import org.kuali.student.cm.proposal.form.wrapper.ProposalElementsWrapper;
 import org.kuali.student.cm.proposal.form.wrapper.SupportingDocumentInfoWrapper;
@@ -195,6 +194,10 @@ public abstract class ProposalMaintainableImpl extends RuleEditorMaintainableImp
         }
         try {
             for (CollaboratorWrapper collaboratorWrapper : proposalElementsWrapper.getCollaboratorWrappers()) {
+                // if the collaboratorWrapper is functionally empty, do nothing
+                if (StringUtils.isBlank(collaboratorWrapper.getDisplayName())) {
+                    continue;
+                }
                 // need to clone the object because we're hacking the use of the 'action' and 'permission' fields on the CollaboratorWrapper object
                 CollaboratorWrapper reviewPageCollaboratorWrapper = collaboratorWrapper.clone();
                 StudentProposalRiceConstants.ActionRequestType actionRequestType = StudentProposalRiceConstants.ActionRequestType.getByCode(reviewPageCollaboratorWrapper.getAction());
@@ -644,9 +647,9 @@ public abstract class ProposalMaintainableImpl extends RuleEditorMaintainableImp
             proposalElementsWrapper.getSupportingDocs().add(new SupportingDocumentInfoWrapper());
         }
 
-        if (requestParameters.get(CourseController.UrlParams.USE_CURRICULUM_REVIEW) != null &&
-                requestParameters.get(CourseController.UrlParams.USE_CURRICULUM_REVIEW).length != 0) {
-            Boolean isUseReviewProcess = BooleanUtils.toBoolean(requestParameters.get(CourseController.UrlParams.USE_CURRICULUM_REVIEW)[0]);
+        if (requestParameters.get(CurriculumManagementConstants.UrlParams.USE_CURRICULUM_REVIEW) != null &&
+                requestParameters.get(CurriculumManagementConstants.UrlParams.USE_CURRICULUM_REVIEW).length != 0) {
+            Boolean isUseReviewProcess = BooleanUtils.toBoolean(requestParameters.get(CurriculumManagementConstants.UrlParams.USE_CURRICULUM_REVIEW)[0]);
             proposalElementsWrapper.getUiHelper().setUseReviewProcess(isUseReviewProcess);
         }
     }
@@ -666,6 +669,9 @@ public abstract class ProposalMaintainableImpl extends RuleEditorMaintainableImp
                     collaboratorWrapper.setAuthor(true);
                 }
                 proposalElementsWrapper.getCollaboratorWrappers().add(collaboratorWrapper);
+            }
+            if (proposalElementsWrapper.getCollaboratorWrappers().isEmpty()) {
+                proposalElementsWrapper.getCollaboratorWrappers().add(new CollaboratorWrapper());
             }
         } catch (Exception e) {
             LOG.error("Error updating Collaborators", e);
@@ -795,7 +801,7 @@ public abstract class ProposalMaintainableImpl extends RuleEditorMaintainableImp
 
     protected abstract String getProposalTypeKey();
 
-    protected abstract String getProposalReferenceType();
+    public abstract String getProposalReferenceType();
 
     protected abstract String getProposalReference();
 

@@ -232,8 +232,6 @@ public abstract class ProposalLookupableImpl extends KSLookupableImpl {
      */
     public void buildProposalActionLink(Action actionLink, Object model, String maintenanceMethodToCall, String pageId) {
 
-        LookupForm lookupForm = (LookupForm) model;
-
         Object dataObject = actionLink.getContext().get(UifConstants.ContextVariableNames.LINE);
 
         ProposalInfo proposalInfo = (ProposalInfo) dataObject;

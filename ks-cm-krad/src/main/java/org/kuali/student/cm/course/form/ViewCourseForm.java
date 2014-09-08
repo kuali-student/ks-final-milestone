@@ -18,7 +18,6 @@ package org.kuali.student.cm.course.form;
 
 import org.kuali.student.cm.common.util.CurriculumManagementConstants;
 import org.kuali.student.cm.course.form.wrapper.CourseInfoWrapper;
-import org.kuali.student.cm.course.form.wrapper.RetireCourseWrapper;
 import org.kuali.student.common.uif.form.KSUifForm;
 
 /**
@@ -30,13 +29,17 @@ public class ViewCourseForm extends KSUifForm {
 
     private CurriculumManagementConstants.ViewCourseType viewType;
     private CourseInfoWrapper courseInfoWrapper;
-    private RetireCourseWrapper retireCourseWrapper;
     private CourseInfoWrapper compareCourseInfoWrapper;
     private boolean currentVersion;
+    private boolean canRetireCourse;
+    private boolean useReviewProcess;
 
     public ViewCourseForm(){
         viewType = CurriculumManagementConstants.ViewCourseType.COURSE_VIEW;
         currentVersion = true;
+        canRetireCourse = false;
+        // defaulted to false because only the CS user should ever see this as a checkbox
+        useReviewProcess = false;
     }
 
     /**
@@ -109,12 +112,20 @@ public class ViewCourseForm extends KSUifForm {
         this.currentVersion = currentVersion;
     }
 
-    public RetireCourseWrapper getRetireCourseWrapper() {
-        return retireCourseWrapper;
+    public boolean isCanRetireCourse() {
+        return canRetireCourse;
     }
 
-    public void setRetireCourseWrapper(RetireCourseWrapper retireCourseWrapper) {
-        this.retireCourseWrapper = retireCourseWrapper;
+    public void setCanRetireCourse(boolean canRetireCourse) {
+        this.canRetireCourse = canRetireCourse;
+    }
+
+    public boolean isUseReviewProcess() {
+        return useReviewProcess;
+    }
+
+    public void setUseReviewProcess(boolean useReviewProcess) {
+        this.useReviewProcess = useReviewProcess;
     }
 
 }

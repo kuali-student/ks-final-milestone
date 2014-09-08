@@ -69,7 +69,6 @@ import org.kuali.student.common.uif.util.KSUifUtils;
 import org.kuali.student.common.util.security.ContextUtils;
 import org.kuali.student.r1.common.rice.StudentIdentityConstants;
 import org.kuali.student.r1.core.subjectcode.service.SubjectCodeService;
-import org.kuali.student.r1.core.workflow.dto.CollaboratorWrapper;
 import org.kuali.student.r2.common.constants.CommonServiceConstants;
 import org.kuali.student.r2.common.dto.DtoConstants;
 import org.kuali.student.r2.common.dto.RichTextInfo;
@@ -106,7 +105,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.xml.namespace.QName;
 import java.io.BufferedInputStream;
 import java.io.ByteArrayInputStream;
-import java.security.URIParameter;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
@@ -124,10 +123,6 @@ public class CourseController extends CourseRuleEditorController {
      * Request Parameters used by CourseController.
      */
     public static class UrlParams {
-        /**
-         * A flag which indicates whether workflow should be used or not.
-         */
-        public static final String USE_CURRICULUM_REVIEW = "useCurriculumReview";
         /**
          * Specifies that this proposal should copy from the CLU with the given Id.
          */
@@ -158,25 +153,17 @@ public class CourseController extends CourseRuleEditorController {
     /**
      * This method creates the form and in the case of a brand new proposal where this method is called after the user uses
      * the Initial Create Proposal screen, this method will also set the document type name based on the request parameter
-     * {@link org.kuali.student.cm.course.controller.CourseController.UrlParams#USE_CURRICULUM_REVIEW}
+     * {@link CurriculumManagementConstants.UrlParams#USE_CURRICULUM_REVIEW}
      */
     @Override
     protected MaintenanceDocumentForm createInitialForm(HttpServletRequest request) {
         MaintenanceDocumentForm form = new MaintenanceDocumentForm();
 
-        String useReviewProcessParam = request.getParameter(UrlParams.USE_CURRICULUM_REVIEW);
-        // only do the manually setup of the MaintenanceDocumentForm fields if the URL_PARAM_USE_CURRICULUM_REVIEW param was passed in from initial view
+        String useReviewProcessParam = request.getParameter(CurriculumManagementConstants.UrlParams.USE_CURRICULUM_REVIEW);
+        // only do the manually setup of the MaintenanceDocumentForm fields if the USE_CURRICULUM_REVIEW param was passed in from initial view
         if (StringUtils.isNotBlank(useReviewProcessParam)) {
             Boolean isUseReviewProcess = Boolean.valueOf(useReviewProcessParam);
-            // throw an exception if the user is not a CS user but attempts to disable Curriculum Review for a proposal
-            if (!isUseReviewProcess && !CourseProposalUtil.isUserCurriculumSpecialist()) {
-                throw new RuntimeException(String.format("User (%s) is not allowed to disable Curriculum Review (Workflow Approval).",
-                    GlobalVariables.getUserSession().getPerson().getPrincipalName()));
-            }
-            // set the doc type name based on the whether the user is CS and if they have chosen to use curriculum review
-            form.setDocTypeName((!isUseReviewProcess)
-                    ? CurriculumManagementConstants.DocumentTypeNames.CourseProposal.COURSE_CREATE_ADMIN
-                    : CurriculumManagementConstants.DocumentTypeNames.CourseProposal.COURSE_CREATE);
+            form.setDocTypeName(getDocumentTypeNameForProposal(isUseReviewProcess, request));
         }
 
         form.getExtensionData().put(CurriculumManagementConstants.Export.UrlParams.EXPORT_TYPE, CurriculumManagementConstants.Export.FileType.PDF);
@@ -184,12 +171,25 @@ public class CourseController extends CourseRuleEditorController {
         return form;
     }
 
+    protected String getDocumentTypeNameForProposal(Boolean isUseReviewProcess, HttpServletRequest request) {
+        // throw an exception if the user is not a CS user but attempts to disable Curriculum Review for a proposal
+        if (!isUseReviewProcess && !CourseProposalUtil.isUserCurriculumSpecialist()) {
+            throw new RuntimeException(String.format("User (%s) is not allowed to disable Curriculum Review (Workflow Approval).",
+                    GlobalVariables.getUserSession().getPerson().getPrincipalName()));
+        }
+        // set the doc type name based on the whether the user is CS and if they have chosen to use curriculum review
+        return ((!isUseReviewProcess)
+                ? CurriculumManagementConstants.DocumentTypeNames.CourseProposal.COURSE_CREATE_ADMIN
+                : CurriculumManagementConstants.DocumentTypeNames.CourseProposal.COURSE_CREATE);
+    }
+
     // TODO: Remove this workaround class once KS has been updated to Rice 2.5 (https://jira.kuali.org/browse/KSCM-2560)
     @Override
     protected ModelAndView showDialog(String dialogId, UifFormBase form, HttpServletRequest request,
                                       HttpServletResponse response) {
         ModelAndView modelAndView = super.showDialog(dialogId, form, request, response);
-        getCourseInfoWrapper((DocumentFormBase)form).getUiHelper().getDialogExplanations().put(dialogId, "");
+        ProposalElementsWrapper proposalElementsWrapper = (ProposalElementsWrapper) ((MaintenanceDocumentForm) form).getDocument().getNewMaintainableObject().getDataObject();
+        proposalElementsWrapper.getUiHelper().getDialogExplanations().put(dialogId, "");
         return modelAndView;
     }
 
@@ -240,7 +240,7 @@ public class CourseController extends CourseRuleEditorController {
      * @param form the DocumentFormBase object to update
      */
     protected void updateCourseForm(DocumentFormBase form) {
-        CourseInfoWrapper wrapper = getCourseInfoWrapper(form);
+        ProposalElementsWrapper wrapper = (ProposalElementsWrapper)((MaintenanceDocumentForm) form).getDocument().getNewMaintainableObject().getDataObject();
         wrapper.getUiHelper()
                 .setUseReviewProcess(!ArrayUtils.contains(CurriculumManagementConstants.DocumentTypeNames.ADMIN_DOC_TYPE_NAMES, form.getDocTypeName()));
         wrapper.getUiHelper()
@@ -260,10 +260,10 @@ public class CourseController extends CourseRuleEditorController {
 
         // if page id is empty, assume we want the REVIEW page (used by workflow)
         if (StringUtils.isBlank(formBase.getPageId())) {
-            formBase.setPageId(CurriculumManagementConstants.CoursePageIds.REVIEW_COURSE_PROPOSAL_PAGE);
+            formBase.setPageId(getReviewPageKradPageId());
         }
 
-        if (formBase.getPageId().equals(CurriculumManagementConstants.CoursePageIds.REVIEW_COURSE_PROPOSAL_PAGE)) {
+        if (formBase.getPageId().equals(getReviewPageKradPageId())) {
             //  Build a redirect to the reviewCourseProposal handler for validation.
             java.util.Map requestParameterMap = request.getParameterMap();
             Properties urlParameters = new Properties();
@@ -347,9 +347,9 @@ public class CourseController extends CourseRuleEditorController {
 
 
         courseInfoWrapper.getUiHelper().setPendingWorkflowAction(true);
-        form.setPageId("CM-Proposal-Review-Course-Page");
+        form.setPageId(getReviewPageKradPageId());
         form.setMethodToCall("docHandler");
-        String href = CourseProposalUtil.buildCourseProposalUrl("docHandler", "CM-Proposal-Review-Course-Page", form.getDocument().getDocumentNumber());
+        String href = CourseProposalUtil.buildCourseProposalUrl("docHandler", getReviewPageKradPageId(), form.getDocument().getDocumentNumber(), courseInfoWrapper.getProposalInfo().getTypeKey());
         return performRedirect(form,href);
 
     }
@@ -406,7 +406,7 @@ public class CourseController extends CourseRuleEditorController {
 
         //  set the Curriculum review status on the uiHelper
         ((CourseInfoWrapper) viewHelper.getDataObject()).getUiHelper().setUseReviewProcess(
-                request.getParameter(CourseController.UrlParams.USE_CURRICULUM_REVIEW).equals(Boolean.TRUE.toString()));
+                request.getParameter(CurriculumManagementConstants.UrlParams.USE_CURRICULUM_REVIEW).equals(Boolean.TRUE.toString()));
         return getUIFModelAndView(form);
     }
 
@@ -430,19 +430,19 @@ public class CourseController extends CourseRuleEditorController {
             if (hasDialogBeenAnswered(dialog, documentForm)) {
                 boolean confirmSubmit = getBooleanDialogResponse(dialog, documentForm, request, response);
                 if (confirmSubmit) {
-                    CourseInfoWrapper courseInfoWrapper = getCourseInfoWrapper(documentForm);
+                    ProposalElementsWrapper proposalElementsWrapper = (ProposalElementsWrapper) ((MaintenanceDocumentForm) form).getDocument().getNewMaintainableObject().getDataObject();
 //                    super.cancel(documentForm,result,request,response);
                     // cannot call super class method as the redirect methods are causing an error when loading indicator is used after dialog confirmation is clicked
                     performWorkflowAction(documentForm, UifConstants.WorkflowAction.CANCEL, false);
 
                     // setShowMessage boolean decides whether to show the error message or not
-                    courseInfoWrapper.getUiHelper().setShowMessage(false);
+                    proposalElementsWrapper.getUiHelper().setShowMessage(false);
                     documentForm.getDialogManager().removeDialog(dialog);
                     // Hide all the workflow action buttons on the review proposal page while the document is still in Enroute state(It is being processed at the back-end)
-                    courseInfoWrapper.getUiHelper().setPendingWorkflowAction(true);
-                    documentForm.setPageId("CM-Proposal-Review-Course-Page");
+                    proposalElementsWrapper.getUiHelper().setPendingWorkflowAction(true);
+                    documentForm.setPageId(getReviewPageKradPageId());
                     documentForm.setMethodToCall("docHandler");
-                    String href = CourseProposalUtil.buildCourseProposalUrl("docHandler", "CM-Proposal-Review-Course-Page", documentForm.getDocument().getDocumentNumber());
+                    String href = CourseProposalUtil.buildCourseProposalUrl("docHandler", getReviewPageKradPageId(), documentForm.getDocument().getDocumentNumber(), proposalElementsWrapper.getProposalInfo().getTypeKey());
                     return performRedirect(documentForm,href);
                 } else {
                     documentForm.getDialogManager().removeDialog(dialog);
@@ -485,9 +485,9 @@ public class CourseController extends CourseRuleEditorController {
                     // since the route method does not redirect the user, we can use the superclass method
                     ModelAndView modelAndView = super.route(form,result, request,response);
                     form.getDialogManager().removeDialog(dialog);
-                    CourseInfoWrapper wrapper = getCourseInfoWrapper(form);
+                    ProposalElementsWrapper proposalElementsWrapper = (ProposalElementsWrapper) ((MaintenanceDocumentForm) form).getDocument().getNewMaintainableObject().getDataObject();
                     // Hide all the workflow action buttons on the review proposal page while the document is still in Enroute state(It is being processed at the back-end)
-                    wrapper.getUiHelper().setPendingWorkflowAction(true);
+                    proposalElementsWrapper.getUiHelper().setPendingWorkflowAction(true);
                     return modelAndView;
                 } else {
                     form.getDialogManager().removeDialog(dialog);
@@ -518,8 +518,8 @@ public class CourseController extends CourseRuleEditorController {
             dm.setCurrentDialogId(null);
         }
 
-        CourseInfoWrapper courseInfoWrapper = getCourseInfoWrapper(form);
-        courseInfoWrapper.getUiHelper().setShowMessage(false);
+        ProposalElementsWrapper proposalElementsWrapper = (ProposalElementsWrapper) ((MaintenanceDocumentForm) form).getDocument().getNewMaintainableObject().getDataObject();
+        proposalElementsWrapper.getUiHelper().setShowMessage(false);
         String dialog = CurriculumManagementConstants.ProposalConfirmationDialogs.COURSE_APPROVE_CONFIRMATION_DIALOG;
         if ( ! hasDialogBeenDisplayed(dialog, form)) {
             doValidationForProposal(form, KewApiConstants.ROUTE_HEADER_PROCESSED_CD, DtoConstants.STATE_ACTIVE);
@@ -533,24 +533,24 @@ public class CourseController extends CourseRuleEditorController {
                 boolean confirmApprove = getBooleanDialogResponse(dialog, form, request, response);
                 if (confirmApprove) {
                     //route the document only if the rationale decision explanation is not null or redirect back to client to display confirm dialog with error
-                    if(courseInfoWrapper.getUiHelper().getDialogExplanations().get(dialog)!=null){
+                    if(proposalElementsWrapper.getUiHelper().getDialogExplanations().get(dialog)!=null){
 //                        super.approve(form,result, request,response);
                         // cannot call super class method as the redirect methods are causing an error when loading indicator is used after dialog confirmation is clicked
                         performWorkflowAction(form, UifConstants.WorkflowAction.APPROVE, true);
 
-                        addDecisionRationale(courseInfoWrapper.getProposalInfo().getId(), courseInfoWrapper.getUiHelper().getDialogExplanations().get(dialog), CommentServiceConstants.WORKFLOW_DECISIONS.APPROVE.getType());
+                        addDecisionRationale(proposalElementsWrapper.getProposalInfo().getId(), proposalElementsWrapper.getUiHelper().getDialogExplanations().get(dialog), CommentServiceConstants.WORKFLOW_DECISIONS.APPROVE.getType());
                         // setShowMessage boolean decides whether to show the error message or not
-                        courseInfoWrapper.getUiHelper().setShowMessage(false);
+                        proposalElementsWrapper.getUiHelper().setShowMessage(false);
                         form.getDialogManager().removeDialog(dialog);
                         // Set the request redirect to false so that the user stays on the same page
                         form.setRequestRedirected(false);
 
                         // Hide all the workflow action buttons on the review proposal page while the document is still in Enroute state(It is being processed at the back-end)
-                        courseInfoWrapper.getUiHelper().setPendingWorkflowAction(true);
+                        proposalElementsWrapper.getUiHelper().setPendingWorkflowAction(true);
                     } else {
                         form.getDialogManager().removeDialog(dialog);
                         form.setDialogResponse(null);
-                        courseInfoWrapper.getUiHelper().setShowMessage(true);
+                        proposalElementsWrapper.getUiHelper().setShowMessage(true);
                         return showDialog(dialog, form, request, response);
                     }
                 } else {
@@ -582,8 +582,8 @@ public class CourseController extends CourseRuleEditorController {
             dm.setCurrentDialogId(null);
         }
 
-        CourseInfoWrapper courseInfoWrapper = getCourseInfoWrapper(form);
-        courseInfoWrapper.getUiHelper().setShowMessage(false);
+        ProposalElementsWrapper proposalElementsWrapper = (ProposalElementsWrapper) ((MaintenanceDocumentForm) form).getDocument().getNewMaintainableObject().getDataObject();
+        proposalElementsWrapper.getUiHelper().setShowMessage(false);
         String dialog = CurriculumManagementConstants.ProposalConfirmationDialogs.COURSE_REJECT_CONFIRMATION_DIALOG;
         if ( ! hasDialogBeenDisplayed(dialog, form)) {
             if (!GlobalVariables.getMessageMap().hasErrors()) {
@@ -595,23 +595,23 @@ public class CourseController extends CourseRuleEditorController {
                 boolean confirmReject = getBooleanDialogResponse(dialog, form, request, response);
                 if (confirmReject) {
                     //route the document only if the rationale decision explanation is not null or redirect back to client to display confirm dialog with error
-                    if(courseInfoWrapper.getUiHelper().getDialogExplanations().get(dialog)!=null){
+                    if(proposalElementsWrapper.getUiHelper().getDialogExplanations().get(dialog)!=null){
 //                        super.disapprove(form, result, request, response);
                         // cannot call super class method as the redirect methods are causing an error when loading indicator is used after dialog confirmation is clicked
                         performWorkflowAction(form, UifConstants.WorkflowAction.DISAPPROVE, true);
 
-                        addDecisionRationale(courseInfoWrapper.getProposalInfo().getId(), courseInfoWrapper.getUiHelper().getDialogExplanations().get(dialog), CommentServiceConstants.WORKFLOW_DECISIONS.REJECT.getType());
+                        addDecisionRationale(proposalElementsWrapper.getProposalInfo().getId(), proposalElementsWrapper.getUiHelper().getDialogExplanations().get(dialog), CommentServiceConstants.WORKFLOW_DECISIONS.REJECT.getType());
                         // setShowMessage boolean decides whether to show the error message or not
-                        courseInfoWrapper.getUiHelper().setShowMessage(false);
+                        proposalElementsWrapper.getUiHelper().setShowMessage(false);
                         form.getDialogManager().removeDialog(dialog);
                         // Set the request redirect to false so that the user stays on the same page
                         form.setRequestRedirected(false);
                         // Hide all the workflow action buttons on the review proposal page while the document is still in Enroute state(It is being processed at the back-end)
-                        courseInfoWrapper.getUiHelper().setPendingWorkflowAction(true);
+                        proposalElementsWrapper.getUiHelper().setPendingWorkflowAction(true);
                     } else {
                         form.getDialogManager().removeDialog(dialog);
                         form.setDialogResponse(null);
-                        courseInfoWrapper.getUiHelper().setShowMessage(true);
+                        proposalElementsWrapper.getUiHelper().setShowMessage(true);
                         return showDialog(dialog, form, request, response);
                     }
                 } else {
@@ -622,39 +622,6 @@ public class CourseController extends CourseRuleEditorController {
             }
         }
         return getUIFModelAndView(form);
-    }
-
-    /**
-     * This method performs the KRAD UI data dictionary and Service layer data dictionary validation before it routes the document instance contained on the form.
-     *
-     * @param form - the form of the current users session
-     * @param workflowStatusCode - the status code that should be used to perform KRAD view validation
-     * @param forcedCourseStateKey - the stateKey that needs to be faked for the CourseService.validationCourse() method (if null, uses state in CourseInfo object)
-     */
-    protected void doValidationForProposal(DocumentFormBase form, String workflowStatusCode, String forcedCourseStateKey){
-        //Perform KRAD UI Data Dictionary Validation
-        // manually call the view validation service as this validation cannot be run client-side in current setup
-        KRADServiceLocatorWeb.getViewValidationService().validateView(form, workflowStatusCode);
-
-        //Perform Rules validation
-        KRADServiceLocatorWeb.getKualiRuleService().applyRules(new RouteDocumentEvent(form.getDocument()));
-
-        List<ValidationResultInfo> validationResultInfoList = null;
-
-        try {
-            //Perform Service Layer Data Dictionary validation
-            CourseInfoWrapper courseInfoWrapper = getCourseInfoWrapper(form);
-            CourseInfo courseInfoToValidate = (CourseInfo) ObjectUtils.deepCopy(courseInfoWrapper.getCourseInfo());
-            if (StringUtils.isNotBlank(forcedCourseStateKey)) {
-                courseInfoToValidate.setStateKey(forcedCourseStateKey);
-            }
-            validationResultInfoList = getCourseService().validateCourse("OBJECT", courseInfoToValidate, ContextUtils.createDefaultContextInfo());
-        } catch (Exception ex) {
-            LOG.error("Error occurred while performing service layer validation for Submit", ex);
-            GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, KSObjectUtils.unwrapException(20, ex).getMessage());
-        }
-
-        bindValidationErrorsToPath(validationResultInfoList, form);
     }
 
     /**
@@ -678,8 +645,8 @@ public class CourseController extends CourseRuleEditorController {
             dm.setCurrentDialogId(null);
         }
 
-        CourseInfoWrapper courseInfoWrapper = getCourseInfoWrapper(form);
-        courseInfoWrapper.getUiHelper().setShowMessage(false);
+        ProposalElementsWrapper proposalElementsWrapper = (ProposalElementsWrapper) ((MaintenanceDocumentForm) form).getDocument().getNewMaintainableObject().getDataObject();
+        proposalElementsWrapper.getUiHelper().setShowMessage(false);
         String dialog = CurriculumManagementConstants.ProposalConfirmationDialogs.COURSE_RETURN_TO_PREVIOUS_NODE_DIALOG;
         if ( ! hasDialogBeenDisplayed(dialog, form)) {
             doValidationForProposal(form, KewApiConstants.ROUTE_HEADER_PROCESSED_CD, null);
@@ -693,18 +660,18 @@ public class CourseController extends CourseRuleEditorController {
                 boolean confirmReturn = getBooleanDialogResponse(dialog, form, request, response);
                 if (confirmReturn) {
                     //route the document only if the rationale decision explanation is not null or redirect back to client to display confirm dialog with error
-                    if(courseInfoWrapper.getUiHelper().getDialogExplanations().get(dialog)!=null){
+                    if(proposalElementsWrapper.getUiHelper().getDialogExplanations().get(dialog)!=null){
                         performCustomWorkflowAction(form, result, request, response, WorkflowActions.RETURN_TO_PREVIOUS);
-                        addDecisionRationale(courseInfoWrapper.getProposalInfo().getId(), courseInfoWrapper.getUiHelper().getDialogExplanations().get(dialog), CommentServiceConstants.WORKFLOW_DECISIONS.RETURN_TO_PREVIOUS.getType());
+                        addDecisionRationale(proposalElementsWrapper.getProposalInfo().getId(), proposalElementsWrapper.getUiHelper().getDialogExplanations().get(dialog), CommentServiceConstants.WORKFLOW_DECISIONS.RETURN_TO_PREVIOUS.getType());
                         // setShowMessage boolean decides whether to show the error message or not
-                        courseInfoWrapper.getUiHelper().setShowMessage(false);
+                        proposalElementsWrapper.getUiHelper().setShowMessage(false);
                         form.getDialogManager().removeDialog(dialog);
                         // Hide all the workflow action buttons on the review proposal page while the document is still in Enroute state(It is being processed at the back-end)
-                        courseInfoWrapper.getUiHelper().setPendingWorkflowAction(true);
+                        proposalElementsWrapper.getUiHelper().setPendingWorkflowAction(true);
                     }else{
                         form.getDialogManager().removeDialog(dialog);
                         form.setDialogResponse(null);
-                        courseInfoWrapper.getUiHelper().setShowMessage(true);
+                        proposalElementsWrapper.getUiHelper().setShowMessage(true);
                         return showDialog(dialog, form, request, response);
                     }
                     /*
@@ -893,8 +860,15 @@ public class CourseController extends CourseRuleEditorController {
         {
             wrapper.setMissingRequiredFields(false);
         }
+        
+        return getUIFModelAndView(form, getReviewPageKradPageId());
+    }
 
-        return getUIFModelAndView(form, CurriculumManagementConstants.CoursePageIds.REVIEW_COURSE_PROPOSAL_PAGE);
+    /**
+     * Returns the KRAD pageId that will be used for the Review Page display
+     */
+    protected String getReviewPageKradPageId() {
+        return CurriculumManagementConstants.CoursePageIds.REVIEW_COURSE_PROPOSAL_PAGE;
     }
 
     /**
@@ -908,9 +882,6 @@ public class CourseController extends CourseRuleEditorController {
         CourseInfoWrapper wrapper = getCourseInfoWrapper(form);
         if (wrapper.getInstructorWrappers().size() == 0) {
             wrapper.getInstructorWrappers().add(new CluInstructorInfoWrapper());
-        }
-        if (wrapper.getCollaboratorWrappers().size() == 0) {
-            wrapper.getCollaboratorWrappers().add(new CollaboratorWrapper());
         }
         if (displaySectionId == null) {
             wrapper.getUiHelper().setSelectedSection(CourseViewSections.COURSE_INFO);
@@ -1058,7 +1029,7 @@ public class CourseController extends CourseRuleEditorController {
             }
             return getUIFModelAndView(form);
         } else if (StringUtils.equalsIgnoreCase(nextOrCurrentPage, "CM-Proposal-Course-View-ReviewProposalLink")) {
-            return getUIFModelAndView(form, CurriculumManagementConstants.CoursePageIds.REVIEW_COURSE_PROPOSAL_PAGE);
+            return getUIFModelAndView(form, getReviewPageKradPageId());
         } else {
             return getUIFModelAndView(form);
         }
@@ -1090,7 +1061,7 @@ public class CourseController extends CourseRuleEditorController {
             // Hide all the workflow action buttons on the review proposal page while the document is still in Enroute state(It is being processed at the back-end)
             courseInfoWrapper.getUiHelper().setPendingWorkflowAction(true);
             //redirect back to client to display confirm dialog
-            return getUIFModelAndView(form, CurriculumManagementConstants.CoursePageIds.REVIEW_COURSE_PROPOSAL_PAGE);
+            return getUIFModelAndView(form, getReviewPageKradPageId());
         } else {
             return getUIFModelAndView(form);
         }
@@ -1110,12 +1081,12 @@ public class CourseController extends CourseRuleEditorController {
     @RequestMapping(params = "methodToCall=fyi")
     public ModelAndView fyi(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result,
                                            HttpServletRequest request, HttpServletResponse response) throws Exception {
-        CourseInfoWrapper courseInfoWrapper = getCourseInfoWrapper(form);
+        ProposalElementsWrapper proposalElementsWrapper = (ProposalElementsWrapper) ((MaintenanceDocumentForm) form).getDocument().getNewMaintainableObject().getDataObject();
         super.fyi(form, result, request, response);
         // Set the request redirect to false so that the user stays on the same page
         form.setRequestRedirected(false);
         // Hide all the workflow action buttons on the review proposal page while the document is still in Enroute state(It is being processed at the back-end)
-        courseInfoWrapper.getUiHelper().setPendingWorkflowAction(true);
+        proposalElementsWrapper.getUiHelper().setPendingWorkflowAction(true);
         return getUIFModelAndView(form);
 
     }
@@ -1142,8 +1113,8 @@ public class CourseController extends CourseRuleEditorController {
             dm.setCurrentDialogId(null);
         }
 
-        CourseInfoWrapper courseInfoWrapper = getCourseInfoWrapper(form);
-        courseInfoWrapper.getUiHelper().setShowMessage(false);
+        ProposalElementsWrapper proposalElementsWrapper = (ProposalElementsWrapper) ((MaintenanceDocumentForm) form).getDocument().getNewMaintainableObject().getDataObject();
+        proposalElementsWrapper.getUiHelper().setShowMessage(false);
         String dialog = CurriculumManagementConstants.ProposalConfirmationDialogs.COURSE_WITHDRAW_CONFIRMATION_DIALOG;
         if ( ! hasDialogBeenDisplayed(dialog, form)) {
             doValidationForProposal(form, KewApiConstants.ROUTE_HEADER_ENROUTE_CD, null);
@@ -1157,20 +1128,20 @@ public class CourseController extends CourseRuleEditorController {
                 boolean confirmBlanketApprove = getBooleanDialogResponse(dialog, form, request, response);
                 if (confirmBlanketApprove) {
                     //route the document only if the rationale decision explanation is not null or redirect back to client to display confirm dialog with error
-                    if(courseInfoWrapper.getUiHelper().getDialogExplanations().get(dialog)!=null){
+                    if(proposalElementsWrapper.getUiHelper().getDialogExplanations().get(dialog)!=null){
                         performCustomWorkflowAction(form, result, request, response, WorkflowActions.WITHDRAW);
-                        addDecisionRationale(courseInfoWrapper.getProposalInfo().getId(), courseInfoWrapper.getUiHelper().getDialogExplanations().get(dialog), CommentServiceConstants.WORKFLOW_DECISIONS.WITHDRAW.getType());
+                        addDecisionRationale(proposalElementsWrapper.getProposalInfo().getId(), proposalElementsWrapper.getUiHelper().getDialogExplanations().get(dialog), CommentServiceConstants.WORKFLOW_DECISIONS.WITHDRAW.getType());
                         // setShowMessage boolean decides whether to show the error message or not
-                        courseInfoWrapper.getUiHelper().setShowMessage(false);
+                        proposalElementsWrapper.getUiHelper().setShowMessage(false);
                         form.getDialogManager().removeDialog(dialog);
                         // Set the request redirect to false so that the user stays on the same page
                         form.setRequestRedirected(false);
                         // Hide all the workflow action buttons on the review proposal page while the document is still in Enroute state(It is being processed at the back-end)
-                        courseInfoWrapper.getUiHelper().setPendingWorkflowAction(true);
+                        proposalElementsWrapper.getUiHelper().setPendingWorkflowAction(true);
                     } else {
                         form.getDialogManager().removeDialog(dialog);
                         form.setDialogResponse(null);
-                        courseInfoWrapper.getUiHelper().setShowMessage(true);
+                        proposalElementsWrapper.getUiHelper().setShowMessage(true);
                         return showDialog(dialog, form, request, response);
                     }
 
@@ -1205,8 +1176,8 @@ public class CourseController extends CourseRuleEditorController {
             dm.setCurrentDialogId(null);
         }
 
-        CourseInfoWrapper courseInfoWrapper = getCourseInfoWrapper(form);
-        courseInfoWrapper.getUiHelper().setShowMessage(false);
+        ProposalElementsWrapper proposalElementsWrapper = (ProposalElementsWrapper) ((MaintenanceDocumentForm) form).getDocument().getNewMaintainableObject().getDataObject();
+        proposalElementsWrapper.getUiHelper().setShowMessage(false);
         String dialog = CurriculumManagementConstants.ProposalConfirmationDialogs.COURSE_ACKNOWLEDGE_CONFIRMATION_DIALOG;
         if ( ! hasDialogBeenDisplayed(dialog, form)) {
             if (!GlobalVariables.getMessageMap().hasErrors()) {
@@ -1218,22 +1189,22 @@ public class CourseController extends CourseRuleEditorController {
                 boolean confirmAcknowledge = getBooleanDialogResponse(dialog, form, request, response);
                 if (confirmAcknowledge) {
                     //route the document only if the rationale decision explanation is not null or redirect back to client to display confirm dialog with error
-                    if(courseInfoWrapper.getUiHelper().getDialogExplanations().get(dialog)!=null){
+                    if(proposalElementsWrapper.getUiHelper().getDialogExplanations().get(dialog)!=null){
 //                        super.acknowledge(form,result, request,response);
                         // cannot call super class method as the redirect methods are causing an error when loading indicator is used after dialog confirmation is clicked
                         performWorkflowAction(form, UifConstants.WorkflowAction.ACKNOWLEDGE, false);
 
-                        addDecisionRationale(courseInfoWrapper.getProposalInfo().getId(), courseInfoWrapper.getUiHelper().getDialogExplanations().get(dialog), CommentServiceConstants.WORKFLOW_DECISIONS.ACKNOWLEDGE.getType());
+                        addDecisionRationale(proposalElementsWrapper.getProposalInfo().getId(), proposalElementsWrapper.getUiHelper().getDialogExplanations().get(dialog), CommentServiceConstants.WORKFLOW_DECISIONS.ACKNOWLEDGE.getType());
                         // setShowMessage boolean decides whether to show the error message or not
-                        courseInfoWrapper.getUiHelper().setShowMessage(false);
+                        proposalElementsWrapper.getUiHelper().setShowMessage(false);
                         form.getDialogManager().removeDialog(dialog);
                         // Set the request redirect to false so that the user stays on the same page
                         form.setRequestRedirected(false);
-                        courseInfoWrapper.getUiHelper().setPendingWorkflowAction(true);
+                        proposalElementsWrapper.getUiHelper().setPendingWorkflowAction(true);
                     } else {
                         form.getDialogManager().removeDialog(dialog);
                         form.setDialogResponse(null);
-                        courseInfoWrapper.getUiHelper().setShowMessage(true);
+                        proposalElementsWrapper.getUiHelper().setShowMessage(true);
                         return showDialog(dialog, form, request, response);
                     }
                 } else {
@@ -1259,8 +1230,8 @@ public class CourseController extends CourseRuleEditorController {
             dm.setCurrentDialogId(null);
         }
 
-        CourseInfoWrapper courseInfoWrapper = getCourseInfoWrapper(form);
-        courseInfoWrapper.getUiHelper().setShowMessage(false);
+        ProposalElementsWrapper proposalElementsWrapper = (ProposalElementsWrapper) ((MaintenanceDocumentForm) form).getDocument().getNewMaintainableObject().getDataObject();
+        proposalElementsWrapper.getUiHelper().setShowMessage(false);
         String dialog = CurriculumManagementConstants.ProposalConfirmationDialogs.COURSE_BLANKET_APPROVE_CONFIRMATION_DIALOG;
         if ( ! hasDialogBeenDisplayed(dialog, form)) {
             doValidationForProposal(form, KewApiConstants.ROUTE_HEADER_PROCESSED_CD, DtoConstants.STATE_ACTIVE);
@@ -1274,22 +1245,22 @@ public class CourseController extends CourseRuleEditorController {
                 boolean confirmBlanketApprove = getBooleanDialogResponse(dialog, form, request, response);
                 if (confirmBlanketApprove) {
                     //route the document only if the rationale decision explanation is not null or redirect back to client to display confirm dialog with error
-                    if(courseInfoWrapper.getUiHelper().getDialogExplanations().get(dialog)!=null){
+                    if(proposalElementsWrapper.getUiHelper().getDialogExplanations().get(dialog)!=null){
 //                        super.blanketApprove(form, result, request, response);
                         // cannot call super class method as the redirect methods are causing an error when loading indicator is used after dialog confirmation is clicked
                         performWorkflowAction(form, UifConstants.WorkflowAction.BLANKETAPPROVE, true);
 
-                        addDecisionRationale(courseInfoWrapper.getProposalInfo().getId(), courseInfoWrapper.getUiHelper().getDialogExplanations().get(dialog), CommentServiceConstants.WORKFLOW_DECISIONS.BLANKET_APPROVE.getType());
+                        addDecisionRationale(proposalElementsWrapper.getProposalInfo().getId(), proposalElementsWrapper.getUiHelper().getDialogExplanations().get(dialog), CommentServiceConstants.WORKFLOW_DECISIONS.BLANKET_APPROVE.getType());
                         // setShowMessage boolean decides whether to show the error message or not
-                        courseInfoWrapper.getUiHelper().setShowMessage(false);
+                        proposalElementsWrapper.getUiHelper().setShowMessage(false);
                         form.getDialogManager().removeDialog(dialog);
                         // Set the request redirect to false so that the user stays on the same page
                         form.setRequestRedirected(false);
-                        courseInfoWrapper.getUiHelper().setPendingWorkflowAction(true);
+                        proposalElementsWrapper.getUiHelper().setPendingWorkflowAction(true);
                     } else {
                         form.getDialogManager().removeDialog(dialog);
                         form.setDialogResponse(null);
-                        courseInfoWrapper.getUiHelper().setShowMessage(true);
+                        proposalElementsWrapper.getUiHelper().setShowMessage(true);
                         return showDialog(dialog, form, request, response);
                     }
 
@@ -1323,9 +1294,9 @@ public class CourseController extends CourseRuleEditorController {
         String selectedLine = form.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX);
         final int selectedLineIndex = Integer.parseInt(selectedLine);
 
-        CourseInfoWrapper courseInfoWrapper = getCourseInfoWrapper(form);
+        ProposalElementsWrapper proposalElementsWrapper = (ProposalElementsWrapper) ((MaintenanceDocumentForm) form).getDocument().getNewMaintainableObject().getDataObject();
 
-        SupportingDocumentInfoWrapper supportingDocument = courseInfoWrapper.getSupportingDocs().get(selectedLineIndex);
+        SupportingDocumentInfoWrapper supportingDocument = proposalElementsWrapper.getSupportingDocs().get(selectedLineIndex);
         DocumentInfo document = null;
         String documentName = null;
         byte[] bytes = null;
@@ -1583,7 +1554,7 @@ public class CourseController extends CourseRuleEditorController {
         /**
          * It should be always 'curriculum review' for both CS and faculty users for copy.
          */
-        urlParameters.put(CourseController.UrlParams.USE_CURRICULUM_REVIEW,Boolean.TRUE.toString());
+        urlParameters.put(CurriculumManagementConstants.UrlParams.USE_CURRICULUM_REVIEW,Boolean.TRUE.toString());
         urlParameters.put(UifConstants.UrlParams.PAGE_ID, CurriculumManagementConstants.CoursePageIds.CREATE_COURSE_PAGE);
         urlParameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, KRADConstants.Maintenance.METHOD_TO_CALL_COPY);
         urlParameters.put(KRADConstants.DATA_OBJECT_CLASS_ATTRIBUTE, CourseInfoWrapper.class.getName());
@@ -1620,11 +1591,55 @@ public class CourseController extends CourseRuleEditorController {
         }
         FileType exportFileType = FileType.valueOf(exportFileTypeText);
 
+        // TODO -- KSCM-2759 -- convert the export to be available for all proposal types (all course types and potentially all program types?)
         CourseInfoWrapper courseInfoWrapper = getCourseInfoWrapper(form);
         ExportCourseHelperImpl exportCourseHelper = new ExportCourseHelperImpl(courseInfoWrapper, exportFileType);
 
         form.setRenderedInLightBox(false);
         return exportCourseHelper.getResponseEntity();
+    }
+
+    /**
+     * This method performs the KRAD UI data dictionary and Service layer data dictionary validation before it routes the document instance contained on the form.
+     *
+     * @param form - the form of the current users session
+     * @param workflowStatusCode - the status code that should be used to perform KRAD view validation
+     * @param forcedCourseStateKey - the stateKey that needs to be faked for the CourseService.validationCourse() method (if null, uses state in CourseInfo object)
+     */
+    protected void doValidationForProposal(DocumentFormBase form, String workflowStatusCode, String forcedCourseStateKey) {
+        //Perform KRAD UI Data Dictionary Validation
+        // manually call the view validation service as this validation cannot be run client-side in current setup
+        KRADServiceLocatorWeb.getViewValidationService().validateView(form, workflowStatusCode);
+
+        //Perform Rules validation
+        KRADServiceLocatorWeb.getKualiRuleService().applyRules(new RouteDocumentEvent(form.getDocument()));
+
+        List<ValidationResultInfo> validationResultInfoList = runCourseServiceValidation(form, forcedCourseStateKey);
+        bindValidationErrorsToPath(validationResultInfoList, form);
+    }
+
+    /**
+     * Method that will run the Kuali student course service validation.
+     *
+     * @param form - the form of the current users session
+     * @param forcedCourseStateKey - the stateKey that needs to be faked for the CourseService.validationCourse() method (if null, uses state in CourseInfo object)
+     * @return a list of errors from the CourseService validation method if it was properly executed and errors were found
+     */
+    protected List<ValidationResultInfo> runCourseServiceValidation(DocumentFormBase form, String forcedCourseStateKey) {
+        CourseInfoWrapper courseInfoWrapper = getCourseInfoWrapper(form);
+        try {
+            //Perform Service Layer Data Dictionary validation
+            CourseInfo courseInfoToValidate = (CourseInfo) ObjectUtils.deepCopy(courseInfoWrapper.getCourseInfo());
+            if (StringUtils.isNotBlank(forcedCourseStateKey)) {
+                courseInfoToValidate.setStateKey(forcedCourseStateKey);
+            }
+            return getCourseService().validateCourse("OBJECT", courseInfoToValidate, ContextUtils.createDefaultContextInfo());
+        } catch (Exception ex) {
+            LOG.error("Error occurred while performing service layer validation for Submit", ex);
+            GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, KSObjectUtils.unwrapException(20, ex).getMessage());
+            courseInfoWrapper.getReviewProposalDisplay().setShowUnknownErrors(true);
+        }
+        return Collections.EMPTY_LIST;
     }
 
     /**

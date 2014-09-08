@@ -29,6 +29,8 @@ public interface ProposalMaintainable extends CMMaintainable {
 
     public void populateSupportingDocBytes(SupportingDocumentInfoWrapper supportingDoc);
 
+    public abstract String getProposalReferenceType();
+
     /**
      * This method builds a proposal copy and returns the wrapper object complete with related objects.
      *

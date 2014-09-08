@@ -69,6 +69,11 @@
                 <entry key="uiHelper" value="courseInfoWrapper.uiHelper"/>
             </map>
         </property>
+        <property name="dialogs">
+            <list>
+                <bean id="Course-Retire-ConfirmRetire-Dialog" parent="CM-Course-ConfirmRetire-Dialog"/>
+            </list>
+        </property>
     </bean>
 
     <bean id="CM-ViewCourse-View-Right-Header-Group" parent="KS-Unified-Header-Right-Group"
@@ -123,14 +128,6 @@
         <property name="actionLabel" value="Modify"/>
     </bean>
 
-    <!-- Parent for Retire buttons. -->
-    <bean id="CM-Course-RetireButton" parent="Uif-PrimaryActionButton" abstract="true">
-        <property name="additionalCssClasses" value="btn-success"/>
-        <property name="ajaxSubmit" value="false"/>
-        <property name="actionLabel" value="Retire"/>
-    </bean>
-
-
     <bean id="CM-ViewCourse-Footer" parent="Uif-FooterBase">
         <property name="items">
             <list>
@@ -150,16 +147,12 @@
                                  <property name="render" value="@{#uiHelper.curriculumSpecialistUser}"/>
                             </bean>
 
-                            <!-- Users with the Faculty role get this modify button -->
-                            <bean id="CM-Course-RetireButton-Faculty" parent="CM-Course-RetireButton">
-                                <property name="methodToCall" value="retireCourseFaculty"/>
-                                <property name="render" value="@{ ! #uiHelper.curriculumSpecialistUser}"/>
-                            </bean>
-
-                            <!-- Users with the CS role get this modify button -->
-                            <bean id="CM-Course-RetireButton-CurriculumSpecialist" parent="CM-Course-RetireButton">
-                                <property name="methodToCall" value="retireCourseCurriculumSpecialist"/>
-                                <property name="render" value="@{#uiHelper.curriculumSpecialistUser}"/>
+                            <bean id="CM-Course-RetireButton" parent="Uif-PrimaryActionButton">
+                                <property name="additionalCssClasses" value="btn-success"/>
+                                <property name="ajaxSubmit" value="false"/>
+                                <property name="actionLabel" value="Retire"/>
+                                <property name="methodToCall" value="retireCourse"/>
+                                <property name="render" value="@{canRetireCourse and !(courseInfoWrapper.courseInfo.stateKey eq 'Retired')}"/>
                             </bean>
 
                             <bean id="CM-VersionHistory-Button" parent="Uif-SecondaryActionButton"
@@ -174,13 +167,11 @@
         </property>
     </bean>
 
-    <!--<bean id="CM-Course-ConfirmRetire-Dialog" parent="CM-Course-ConfirmRetire-Dialog-parentBean"/>
-    <bean id="CM-Course-ConfirmRetire-Dialog-parentBean" parent="KS-Dialog" abstract="true">
-        <property name="onDialogResponseScript" value="closeLightbox();ajaxSubmitForm('acknowledge');"/>
+    <bean id="CM-Course-ConfirmRetire-Dialog" parent="CM-Course-ConfirmRetire-Dialog-parentBean"/>
+    <bean id="CM-Course-ConfirmRetire-Dialog-parentBean" parent="Uif-DialogGroup" abstract="true">
+        <property name="onDialogResponseScript" value="closeLightbox();ajaxSubmitForm('retireCourse');"/>
         <property name="OnShowDialogScript" value="skipDirtyChecks();" />
-        <property name="header">
-            <bean parent="KS-DottedHeaderTwo" p:headerText="Retire Course"/>
-        </property>
+        <property name="headerText" value="Retire Course" />
         <property name="cssClasses" >
             <list merge="true">
                 <value>decisionrationale_dialog</value>
@@ -193,7 +184,7 @@
             <list>
                 <bean id="CM-Proposal-Course-Retire-ReviewProcess"
                       parent="KS-Uif-InputField"
-                      p:propertyName="retireCourseWrapper.uiHelper.useReviewProcess" p:bindingInfo.bindToForm="true"
+                      p:propertyName="useReviewProcess" p:bindingInfo.bindToForm="true"
                       p:required="false">
                     <property name="control">
                         <bean parent="KS-Uif-CheckboxControl" p:checkboxLabel="Use curriculum review process"/>
@@ -207,7 +198,7 @@
                 <bean parent="Uif-KeyLabelPair" p:key="no" p:value="Cancel"/>
             </list>
         </property>
-    </bean>-->
+    </bean>
 
     <bean id="CM-ViewCourse-View-Course-Page" parent="Uif-Page" p:style="margin-left: -18px;"
           p:headerText="View Course"

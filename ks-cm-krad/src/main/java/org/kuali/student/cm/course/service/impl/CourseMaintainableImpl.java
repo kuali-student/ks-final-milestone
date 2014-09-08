@@ -62,6 +62,7 @@ import org.kuali.student.cm.course.service.util.LoCategorySearchUtil;
 import org.kuali.student.cm.course.service.util.OrganizationSearchUtil;
 import org.kuali.student.cm.course.util.CourseProposalUtil;
 import org.kuali.student.cm.proposal.form.wrapper.ProposalElementsWrapper;
+import org.kuali.student.cm.proposal.service.ProposalMaintainable;
 import org.kuali.student.cm.proposal.service.impl.ProposalMaintainableImpl;
 import org.kuali.student.common.collection.KSCollectionUtils;
 import org.kuali.student.common.util.security.ContextUtils;
@@ -74,7 +75,6 @@ import org.kuali.student.r1.core.personsearch.service.impl.QuickViewByGivenName;
 import org.kuali.student.r1.core.statement.dto.ReqComponentInfo;
 import org.kuali.student.r1.core.statement.dto.StatementTreeViewInfo;
 import org.kuali.student.r1.core.subjectcode.service.SubjectCodeService;
-import org.kuali.student.r1.core.workflow.dto.CollaboratorWrapper;
 import org.kuali.student.r2.common.constants.CommonServiceConstants;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
@@ -1684,12 +1684,6 @@ public class CourseMaintainableImpl extends ProposalMaintainableImpl implements 
         populateWrapperData(courseWrapper);
 
         updateReview(courseWrapper, false);
-
-        // Initialize Author & Collaborator
-        if (courseWrapper.isProposalDataRequired() && courseWrapper.getCollaboratorWrappers().isEmpty()) {
-            courseWrapper.getCollaboratorWrappers().add(new CollaboratorWrapper());
-        }
-
     }
 
     protected void populateRequisities(CourseInfoWrapper courseInfoWrapper, String courseId) {
@@ -1826,7 +1820,7 @@ public class CourseMaintainableImpl extends ProposalMaintainableImpl implements 
         return ProposalServiceConstants.PROPOSAL_TYPE_COURSE_CREATE_KEY;
     }
 
-    protected String getProposalReferenceType() {
+    public String getProposalReferenceType() {
         return ProposalServiceConstants.PROPOSAL_DOC_RELATION_TYPE_CLU_KEY;
     }
 
@@ -1842,7 +1836,13 @@ public class CourseMaintainableImpl extends ProposalMaintainableImpl implements 
     protected void buildProposalActionLink(Action actionLink, MaintenanceDocumentForm form, String methodToCall, String pageId) {
         String docId = form.getDocument().getDocumentNumber();
 
-        String href = CourseProposalUtil.buildCourseProposalUrl(methodToCall, pageId, docId);
+        String href = StringUtils.EMPTY;
+        if (form.getDocument() != null && form.getDocument().getNewMaintainableObject() != null && form.getDocument().getNewMaintainableObject().getDataObject() != null) {
+            String proposalTypeKey = ((ProposalMaintainable) form.getDocument().getNewMaintainableObject()).getProposalInfo().getTypeKey();
+            if (StringUtils.isNotBlank(proposalTypeKey)) {
+                href = CourseProposalUtil.buildCourseProposalUrl(methodToCall, pageId, docId, proposalTypeKey);
+            }
+        }
 
         if (StringUtils.isBlank(href)) {
             actionLink.setRender(false);
@@ -1855,6 +1855,30 @@ public class CourseMaintainableImpl extends ProposalMaintainableImpl implements 
     @Override
     public String getViewTypeNameForProposal() {
         return KSKRMSServiceConstants.AGENDA_TYPE_COURSE;
+    }
+
+    /**
+     * @see org.kuali.student.cm.course.service.CourseMaintainable#canInitiateRetireProposal()
+     */
+    public boolean canInitiateRetireProposal() throws Exception {
+        // Fill the request with the key to identify the search
+        SearchRequestInfo request = new SearchRequestInfo("proposal.search.countForProposals");
+
+        // Add search parms.  In this case, we will use the cluId of the course
+        // we are trying to retire
+        CourseInfoWrapper courseInfoWrapper = (CourseInfoWrapper)getDataObject();
+        if (courseInfoWrapper.getCourseInfo() == null) {
+            throw new RuntimeException("Cannot verify if retire proposal can be created without valid course");
+        }
+        request.addParam("proposal.queryParam.cluId", courseInfoWrapper.getCourseInfo().getId());
+
+        // Perform search and get the result
+        SearchResultInfo result = getProposalService().search(request, ContextUtils.getContextInfo());
+        String resultString = result.getRows().get(0).getCells().get(0).getValue();
+
+        // If there are no retire proposals enroute or in saved status/
+        // return false, else return true
+        return "0".equals(resultString);
     }
 
     /**

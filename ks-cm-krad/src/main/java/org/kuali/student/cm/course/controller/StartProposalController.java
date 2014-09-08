@@ -67,10 +67,10 @@ public class StartProposalController extends UifControllerBase {
 
         if (!CourseProposalUtil.isUserCurriculumSpecialist()) {
             // if user is not a CS user, then curriculum review must be used because only CS users can disable curriculum review
-            urlParameters.put(CourseController.UrlParams.USE_CURRICULUM_REVIEW,Boolean.TRUE.toString());
+            urlParameters.put(CurriculumManagementConstants.UrlParams.USE_CURRICULUM_REVIEW,Boolean.TRUE.toString());
         } else {
             // if user is a CS user, check the checkbox value
-            urlParameters.put(CourseController.UrlParams.USE_CURRICULUM_REVIEW,Boolean.toString(((StartProposalForm) form).isUseReviewProcess()));
+            urlParameters.put(CurriculumManagementConstants.UrlParams.USE_CURRICULUM_REVIEW,Boolean.toString(((StartProposalForm) form).isUseReviewProcess()));
         }
         urlParameters.put(UifConstants.UrlParams.PAGE_ID, CurriculumManagementConstants.CoursePageIds.CREATE_COURSE_PAGE);
         urlParameters.put(KRADConstants.PARAMETER_COMMAND, KewApiConstants.INITIATE_COMMAND);

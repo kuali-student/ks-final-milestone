@@ -145,7 +145,7 @@
           p:cssClasses="cm-unified-header-rightGroup-action">
         <property name="items">
             <list>
-                <bean parent="CM-Proposal-Course-LinkGroup-CancelCourse"/>
+                <bean parent="CM-Proposal-Course-LinkGroup-CancelProposal"/>
                 <bean parent="CM-Proposal-Course-LinkGroup-CopyCourse" p:methodToCall="copyProposal" p:render="@{#form.pageId eq 'CM-Proposal-Review-Course-Page'}"/>
                 <bean parent="CM-Proposal-Course-LinkGroup-Comments"/>
                 <bean parent="CM-Proposal-Course-LinkGroup-Decisions"/>
@@ -156,9 +156,9 @@
         </property>
     </bean>
 
-    <bean id="CM-Proposal-Course-LinkGroup-CancelCourse" parent="CM-Proposal-Course-LinkGroup-CancelCourse-parent"/>
+    <bean id="CM-Proposal-Course-LinkGroup-CancelProposal" parent="CM-Proposal-Course-LinkGroup-CancelProposal-parent"/>
 
-    <bean id="CM-Proposal-Course-LinkGroup-CancelCourse-parent" parent="KS-Uif-Cancel-NavigationActionLink" abstract="true"
+    <bean id="CM-Proposal-Course-LinkGroup-CancelProposal-parent" parent="KS-Uif-Cancel-NavigationActionLink" abstract="true"
           p:methodToCall="cancel"
           p:title="Cancel Proposal" p:disabled="@{#workflowDoc.initiated}"
           p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_CANCEL]}">
@@ -699,7 +699,10 @@
         </property>
     </bean>
 
-    <bean id="CM-Proposal-Course-Create-Footer" parent="Uif-FooterBase">
+    <bean id="CM-Proposal-Course-Create-Footer" parent="CM-Proposal-Course-EditPage-Footer"/>
+
+    <bean id="CM-Proposal-Course-EditPage-Footer" parent="CM-Proposal-Course-EditPage-Footer-parentBean"/>
+    <bean id="CM-Proposal-Course-EditPage-Footer-parentBean" parent="Uif-FooterBase" abstract="true">
         <property name="items">
             <list>
                 <bean parent="Uif-HorizontalBoxGroup">
