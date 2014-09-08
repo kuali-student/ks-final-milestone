@@ -53,8 +53,12 @@ public class StartProposalController extends UifControllerBase {
         StartProposalForm courseForm= new StartProposalForm();
         courseForm.setUseReviewProcess(false);
         courseForm.setCurriculumSpecialistUser(CourseProposalUtil.isUserCurriculumSpecialist());
-        String cluId = httpServletRequest.getParameter(CurriculumManagementConstants.UrlParams.CLU_ID);
-        courseForm.setCourseId(cluId);
+        String versionIndId = httpServletRequest.getParameter(CurriculumManagementConstants.UrlParams.VERSION_IND_ID);
+        courseForm.setVersionIndId(versionIndId);
+        String versionComment = httpServletRequest.getParameter(CurriculumManagementConstants.UrlParams.VERSION_COMMENT);
+        courseForm.setVersionComment(versionComment);
+        String courseId = httpServletRequest.getParameter(CurriculumManagementConstants.UrlParams.CLU_ID);
+        courseForm.setCourseId(courseId);
         return courseForm;
     }
 
@@ -86,12 +90,16 @@ public class StartProposalController extends UifControllerBase {
         setUrlParameters(urlParameters,form);
 
         String startProposalCourseAction = ((StartProposalForm)form).getStartProposalCourseAction();
-        if(StringUtils.equalsIgnoreCase(startProposalCourseAction,CurriculumManagementConstants.ModifyCourseStartOptions.MODIFY_THIS_VERSION) ||
-                StringUtils.equalsIgnoreCase(startProposalCourseAction,CurriculumManagementConstants.ModifyCourseStartOptions.MODIFY_WITH_A_NEW_VERSION)) {
+        if( StringUtils.equalsIgnoreCase(startProposalCourseAction,CurriculumManagementConstants.ModifyCourseStartOptions.MODIFY_WITH_A_NEW_VERSION)) {
 
-            urlParameters.put(CurriculumManagementConstants.UrlParams.CLU_ID,((StartProposalForm)form).getCourseId());
-            urlParameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, "modifyCourseCurriculumSpecialist");
+            urlParameters.put(CurriculumManagementConstants.UrlParams.VERSION_IND_ID,((StartProposalForm)form).getVersionIndId());
+            urlParameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, startProposalCourseAction);
+            urlParameters.put(CurriculumManagementConstants.UrlParams.VERSION_COMMENT, ((StartProposalForm)form).getVersionComment() );
             urlParameters.put(CourseController.UrlParams.MODIFY_ACTION, startProposalCourseAction);
+        }
+        else if(StringUtils.equalsIgnoreCase(startProposalCourseAction,CurriculumManagementConstants.ModifyCourseStartOptions.MODIFY_THIS_VERSION)){
+            urlParameters.put(CurriculumManagementConstants.UrlParams.CLU_ID , ((StartProposalForm)form).getCourseId()) ;
+            urlParameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, startProposalCourseAction);
         }
 
         else{

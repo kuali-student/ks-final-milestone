@@ -81,6 +81,7 @@ import org.kuali.student.r2.core.constants.DocumentServiceConstants;
 import org.kuali.student.r2.core.constants.ProposalServiceConstants;
 import org.kuali.student.r2.core.document.dto.DocumentInfo;
 import org.kuali.student.r2.core.document.service.DocumentService;
+import org.kuali.student.r2.core.proposal.dto.ProposalInfo;
 import org.kuali.student.r2.core.proposal.service.ProposalService;
 import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultCellInfo;
@@ -293,22 +294,63 @@ public class CourseController extends CourseRuleEditorController {
      *
      */
     @MethodAccessible
-    @RequestMapping(params = "methodToCall=modifyCourseCurriculumSpecialist" )
-    public ModelAndView modifyCourseCurriculumSpecialist(@ModelAttribute("KualiForm") MaintenanceDocumentForm form, BindingResult result,
+    @RequestMapping(params = "methodToCall=modifyThisVersion" )
+    public ModelAndView modifyThisVersion(@ModelAttribute("KualiForm") MaintenanceDocumentForm form, BindingResult result,
                                                          HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-        /*
-         * Just initialize the document here. Calling the super method causes the entire maintainableImpl to get serialized
-         * which is too much overhead for what we need (Start create a new document and prefill the data from an existing model).
-         */
+        String courseId = request.getParameter(CurriculumManagementConstants.UrlParams.CLU_ID);
+
+        CourseInfo courseInfo = getCourseService().getCourse( courseId , ContextUtils.createDefaultContextInfo());
+
+        ProposalInfo proposalInfo = new ProposalInfo();
+
+        CourseInfoWrapper courseInfoWrapper = new CourseInfoWrapper();
+        courseInfoWrapper.setCourseInfo(courseInfo);
+        courseInfoWrapper.setProposalInfo(proposalInfo);
+        form.setDataObjectClassName(CourseInfo.class.getName());
+        ((MaintenanceDocumentForm) form).getDocument().getNewMaintainableObject().setDataObject(courseInfoWrapper);
+
+        form.setDocTypeName(CurriculumManagementConstants.DocumentTypeNames.CourseProposal.COURSE_MODIFY);
+        return getUIFModelAndView(form);
+    }
+
+
+    /**
+     *
+     */
+    @MethodAccessible
+    @RequestMapping(params = "methodToCall=modifyNewVersion" )
+    public ModelAndView modifyNewVersion(@ModelAttribute("KualiForm") MaintenanceDocumentForm form, BindingResult result,
+                                          HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        form.setDocTypeName(CurriculumManagementConstants.DocumentTypeNames.CourseProposal.COURSE_MODIFY);
         createDocument(form);
 
-        CourseMaintainable viewHelper = (CourseMaintainable) form.getDocument().getNewMaintainableObject();
+        String versionComment = request.getParameter(CurriculumManagementConstants.UrlParams.VERSION_COMMENT);
+        String versionIndId = request.getParameter(CurriculumManagementConstants.UrlParams.VERSION_IND_ID);
+
+        CourseInfo courseInfo = getCourseService().createNewCourseVersion(versionIndId,versionComment, ContextUtils.createDefaultContextInfo());
+
+        ProposalInfo proposalInfo = new ProposalInfo();
+
+        CourseInfoWrapper courseInfoWrapper = new CourseInfoWrapper();
+        courseInfoWrapper.setCourseInfo(courseInfo);
+        courseInfoWrapper.setProposalInfo(proposalInfo);
+        form.setDataObjectClassName(CourseInfo.class.getName());
+        ((MaintenanceDocumentForm) form).getDocument().getNewMaintainableObject().setDataObject(courseInfoWrapper);
+
+        ((CourseMaintainable)form.getViewHelperService()).setDataObject(courseInfoWrapper);
+        ((CourseMaintainable)form.getViewHelperService()).populateCourseAndReviewData(courseInfo.getId(), courseInfoWrapper);
+
+        createDocument(form);
+        save(form, result, request, response);
 
 
-
-
-        return getUIFModelAndView(form);
+        courseInfoWrapper.getUiHelper().setPendingWorkflowAction(true);
+        form.setPageId("CM-Proposal-Review-Course-Page");
+        form.setMethodToCall("docHandler");
+        String href = CourseProposalUtil.buildCourseProposalUrl("docHandler", "CM-Proposal-Review-Course-Page", form.getDocument().getDocumentNumber());
+        return performRedirect(form,href);
 
     }
 

@@ -39,6 +39,10 @@ public class StartProposalForm extends UifFormBase {
 
     private String proposalTitle;
 
+    private String versionIndId;
+
+    private String versionComment;
+
     // disallow the curriculumSpecialistUser property to be set by the request
     @RequestProtected
     private boolean curriculumSpecialistUser;
@@ -53,6 +57,22 @@ public class StartProposalForm extends UifFormBase {
 
     public String getStartProposalCourseAction() {
         return startProposalCourseAction;
+    }
+
+    public String getVersionComment() {
+        return versionComment;
+    }
+
+    public void setVersionComment(String versionComment) {
+        this.versionComment = versionComment;
+    }
+
+    public String getVersionIndId() {
+        return versionIndId;
+    }
+
+    public void setVersionIndId(String versionIndId) {
+        this.versionIndId = versionIndId;
     }
 
     public void setStartProposalCourseAction(String startProposalCourseAction) {

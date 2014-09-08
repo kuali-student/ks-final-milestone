@@ -48,6 +48,8 @@ public class CurriculumManagementConstants {
         public static final String VERSION_INDEPENDENT_ID = "viId";
         public static final String CLU_ID = "cluId";
         public static final String COMPARE_COURSE_ID = "compareCourseId";
+        public static final String VERSION_IND_ID = "VersionIndId";
+        public static final String VERSION_COMMENT = "versionComment";
         public static final String USE_CURRICULUM_REVIEW = "useCurriculumReview";
     }
 
