@@ -31,8 +31,15 @@
                         <span ng-if="course.statusMessage.action === 'update'">Changes Failed</span>
                     </div>
 
-                    <div id="course_status_message_message_{{course.courseCode}}_{{course.regGroupCode}}"
-                         validation-message message="course.statusMessage" course="course"></div>
+                    <div class="kscr-Card-reason">
+                        <div class="kscr-Card-reason-label"><strong>Reason:</strong></div>
+                        <div class="kscr-Card-reason-messages">
+                            <div class="kscr-Card-reason-message" ng-repeat="message in course.statusMessage.messages">
+                                <span id="course_status_message_message_{{course.courseCode}}_{{course.regGroupCode}}_{{$index}}"
+                                      validation-message message="message" course="course"></span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div class="kscr-dropCourse-container" ng-show="course.dropping">
                     <div class="kscr-dropCourse-background"></div>
@@ -73,9 +80,15 @@
                         <span ng-if="course.statusMessage.action === 'update'">Changes Failed</span>
                     </div>
 
-                    <div id="waitlist_course_status_message_message_{{course.courseCode}}_{{course.regGroupCode}}"
-                         class="kscr-Card-alert-spacing"
-                         validation-message message="course.statusMessage" course="course"></div>
+                    <div class="kscr-Card-reason">
+                        <div class="kscr-Card-reason-label"><strong>Reason:</strong></div>
+                        <div class="kscr-Card-reason-messages">
+                            <div class="kscr-Card-reason-message" ng-repeat="message in course.statusMessage.messages">
+                                <span id="waitlist_course_status_message_message_{{course.courseCode}}_{{course.regGroupCode}}_{{$index}}"
+                                      validation-message message="message" course="course"></span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div class="kscr-dropCourse-container" ng-show="course.dropping">
                     <div class="kscr-dropCourse-background"></div>

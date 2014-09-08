@@ -80,10 +80,10 @@ angular.module('regCartApp')
         };
 
         /*
-         Listens for the "courseStatusMessageRemoved" event and removes the course from the persisted courses
+         Listens for the "courseStatusMessageRemoved" event and removes the card for the given course.
          */
         $scope.$on('courseStatusMessageRemoved',function (event, type, course, statusMessage) {
-            if (angular.isObject(statusMessage) && statusMessage.action === 'drop' && statusMessage.type === STATUS.success) {
+            if (angular.isObject(statusMessage) && angular.isDefined(statusMessage.action) && statusMessage.action === 'drop' && statusMessage.type === STATUS.success) {
                 // Splice course card when message is dismissed
                 ScheduleService.spliceCourse(type, course);
                 switch (type) {
@@ -197,7 +197,7 @@ angular.module('regCartApp')
 
                         // Call the error callback function with the error message
                         if (angular.isFunction(errorCallback)) {
-                            errorCallback(response.responseItemResults[0].messages[0]);
+                            errorCallback(response.responseItemResults[0].messages);
                         }
                     }, function() { // Notify
                         console.log('-- Continue polling');
@@ -251,7 +251,7 @@ angular.module('regCartApp')
 
                         // Call the error callback function with the error message
                         if (angular.isFunction(errorCallback)) {
-                            errorCallback(response.responseItemResults[0].messages[0]);
+                            errorCallback(response.responseItemResults[0].messages);
                         }
                     }, function() { // Notify
                         console.log('-- Continue polling');

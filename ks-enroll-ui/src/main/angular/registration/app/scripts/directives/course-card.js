@@ -193,10 +193,10 @@ angular.module('regCartApp')
 
                     setCourseStatusMessage('drop', course, message, STATUS.success);
 
-                }, function(message) {
+                }, function(messages) {
                     course.dropProcessing = false;
                     course.isopen = false; // collapse the card
-                    setCourseStatusMessage('drop', course, message, STATUS.error);
+                    setCourseStatusMessage('drop', course, messages, STATUS.error);
                 });
             };
 
@@ -215,11 +215,12 @@ angular.module('regCartApp')
                 $scope.$emit('updateCourse', $scope.type, course, newCourse, function() {
                     course.requestProcessing = false;
                     updateCard(course);
-                }, function(message) {
+                }, function(messages) {
                     course.requestProcessing = false;
+                    course.editing = false;
                     course.isopen = false; // collapse the card
                     revertCourseUpdates(course);
-                    setCourseStatusMessage('update', course, message, STATUS.error);
+                    setCourseStatusMessage('update', course, messages, STATUS.error);
                 });
             };
 
@@ -250,16 +251,19 @@ angular.module('regCartApp')
             }
 
             /*
-             Helper method for setting the course status message
+             Helper method for setting the course status messages
              */
-            function setCourseStatusMessage(action, course, message, type) {
-                if (!angular.isObject(message)) {
-                    message = { txt: message };
+            function setCourseStatusMessage(action, course, messages, type) {
+                if (!angular.isArray(messages)) {
+                    // Push the messages to an array
+                    messages = [ messages ];
                 }
 
-                message.action = action;
-                message.type = type;
-                course.statusMessage = message;
+                course.statusMessage = {
+                    action: action,
+                    type: type,
+                    messages: messages
+                };
             }
 
             /*
