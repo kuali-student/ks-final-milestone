@@ -1,9 +1,9 @@
 'use strict';
 
 angular.module('regCartApp')
-    .controller('CartCtrl', ['$scope', '$modal', '$timeout', 'STATE', 'STATUS', 'GRADING_OPTION', 'ACTION_LINK', 'COURSE_TYPES', 'GENERAL_ERROR_TYPE',
-        'GlobalVarsService', 'MessageService', 'TermsService', 'CartService', 'ScheduleService',
-    function ($scope, $modal, $timeout, STATE, STATUS, GRADING_OPTION, ACTION_LINK, COURSE_TYPES, GENERAL_ERROR_TYPE, GlobalVarsService, MessageService, TermsService, CartService, ScheduleService) {
+    .controller('CartCtrl', ['$scope', '$modal', '$timeout', '$q', 'STATE', 'STATUS', 'GRADING_OPTION', 'ACTION_LINK', 'COURSE_TYPES', 'GENERAL_ERROR_TYPE',
+        'GlobalVarsService', 'MessageService', 'TermsService', 'CartService', 'ScheduleService', 'RegUtil',
+    function ($scope, $modal, $timeout, $q, STATE, STATUS, GRADING_OPTION, ACTION_LINK, COURSE_TYPES, GENERAL_ERROR_TYPE, GlobalVarsService, MessageService, TermsService, CartService, ScheduleService, RegUtil) {
         console.log('>> CartCtrl');
 
         $scope.states = STATE;
@@ -107,14 +107,32 @@ angular.module('regCartApp')
             });
         };
 
-        // Listens for the "addCourseToCart" event and adds the course to the waitlist.
-        $scope.$on('addCourseToCart', function (event, course, successCallback, errorCallback) {
-            addCourseToCart(course, successCallback, errorCallback);
+        // Listens for the "addCourseToCart" event and adds the course to the cart.
+        $scope.$on('addCourseToCart', function (event, course) {
+            event.promise = addCourseToCart(course);
         });
 
-        // Listens for the "directRegister" event and directly registers the regGroupId.
-        $scope.$on('registerForCourse', function(event, course, successCallback, errorCallback) {
-            registerForCourse(course, successCallback, errorCallback);
+        // Listens for the "registerForCourse" event and registers the course.
+        $scope.$on('registerForCourse', function(event, course) {
+            event.promise = registerForCourse(course);
+        });
+
+        // Listens for the "directRegisterForCourse" event and launches the direct register modal wizard
+        $scope.$on('directRegisterForCourse', function(event, course) {
+            var modal = $modal.open({
+                backdrop: 'static',
+                controller: 'DirectRegisterCtrl',
+                windowClass: 'kscr-DirectRegister-window',
+                templateUrl: 'components/directregister/directRegister.html',
+                size: 'sm',
+                resolve: {
+                    course: function () {
+                        return course;
+                    }
+                }
+            });
+
+            event.promise = modal.result;
         });
 
 
@@ -124,7 +142,9 @@ angular.module('regCartApp')
             addCourseToCart(cartItem);
         };
 
-        function addCourseToCart(course, successCallback, errorCallback) {
+        function addCourseToCart(course, deferred) {
+            deferred = deferred || $q.defer();
+
             $scope.courseAdded = false; // reset cursor focus
 
             if (course.courseCode) {
@@ -158,9 +178,7 @@ angular.module('regCartApp')
 
                 $scope.courseAdded = true; // refocus cursor back to course code
 
-                if (angular.isFunction(successCallback)) {
-                    successCallback(response);
-                }
+                deferred.resolve(response);
             }, function (error) {
                 var errorText;
                 if (error.status === 404) {
@@ -179,13 +197,11 @@ angular.module('regCartApp')
                     $scope.userMessage = {txt: errorText, messageKey: GENERAL_ERROR_TYPE.noRegGroup, type: STATUS.error, course: course.courseCode};
                     $scope.courseAdded = true;  // refocus cursor back to course code
 
-                    if (angular.isFunction(errorCallback)) {
-                        errorCallback($scope.userMessage);
-                    }
+                    deferred.reject($scope.userMessage);
                 } else if (error.status === 400) {
                     //Additional options are required
-                    showAdditionalOptionsModal(error.data, function(newCartItem) {
-                        addCourseToCart(newCartItem, successCallback, errorCallback);
+                    showAdditionalOptionsModal(error.data, function(course) {
+                        addCourseToCart(course, deferred);
                     });
                     $scope.courseAdded = true; // refocus cursor back to course code
                 } else {
@@ -195,17 +211,12 @@ angular.module('regCartApp')
                     $scope.userMessage = {txt: errorText, messageKey: GENERAL_ERROR_TYPE.noRegGroup, type: error.data.type, detail: error.data.detailedMessage, course: course.courseCode + ' (' + course.regGroupCode + ')'};
                     $scope.courseAdded = true; // refocus cursor back to course code
 
-                    if (angular.isFunction(errorCallback)) {
-                        errorCallback($scope.userMessage);
-                    }
+                    deferred.reject($scope.userMessage);
                 }
             });
-        }
 
-        $scope.cancelNewCartItem = function () {
-            $scope.newCartItem = null;
-            $scope.showNew = false;
-        };
+            return deferred.promise;
+        }
 
         /*
         Listens for the "deleteCartItem" event and calls the cart service to
@@ -480,16 +491,20 @@ angular.module('regCartApp')
         }
 
         // Direct register for a course
-        function registerForCourse(course, successCallback, errorCallback) {
+        function registerForCourse(course, deferred) {
+            deferred = deferred || $q.defer();
+
+
             if (!course.credits || !course.gradingOptionId) {
+                // Show the additional options modal if either the credit or grading options have not been set
                 showAdditionalOptionsModal(course, function(newCourse) {
                     course.gradingOptionId = newCourse.gradingOptionId;
                     course.credits = newCourse.credits;
 
-                    registerForCourse(course, successCallback, errorCallback);
+                    registerForCourse(course, deferred);
                 });
 
-                return;
+                return deferred.promise;
             }
 
 
@@ -498,7 +513,7 @@ angular.module('regCartApp')
                 regGroupId: course.regGroupId || null,
                 gradingOption: course.gradingOptionId || null,
                 credits: course.credits || null,
-                allowWaitlist: course.allowWaitlist || true,
+                allowWaitlist: course.allowWaitlist || false,
                 allowRepeatedCourses: course.allowRepeatedCourses || false
             }, function (regRequest) {
                 ScheduleService.pollRegistrationRequestStatus(regRequest.id)
@@ -511,19 +526,21 @@ angular.module('regCartApp')
                         });
 
                         if (state === STATE.lpr.item.failed) {
-                            if (angular.isFunction(errorCallback)) {
-                                errorCallback(response);
-                            }
+                            deferred.resolve(response);
                         } else {
                             // After all the processing is complete, get the final Schedule counts.
                             reloadSchedule();
 
-                            if (angular.isFunction(successCallback)) {
-                                successCallback(response);
-                            }
+                            deferred.resolve(response);
                         }
-                    }, errorCallback);
-            }, errorCallback);
+                    }, function(error) {
+                        deferred.reject(error);
+                    });
+            }, function(error) {
+                deferred.reject(error);
+            });
+
+            return deferred.promise;
         }
 
         // Reload the schedule & update the schedule counts
@@ -549,19 +566,6 @@ angular.module('regCartApp')
                 },
                 controller: ['$scope', 'item', function ($scope, item) {
                     console.log('Controller for modal... Item: ', item);
-                    var defaultGradingOption = null;
-                    if (angular.isDefined(item.gradingOptions[GRADING_OPTION.letter])) {
-                        defaultGradingOption = GRADING_OPTION.letter;
-                    } else {
-                        angular.forEach(item.gradingOptions, function (v, k) {
-                            if (defaultGradingOption === null) {
-                                defaultGradingOption = k;
-                            }
-                        });
-                    }
-
-                    item.gradingOptionId = item.newGrading = defaultGradingOption;
-                    item.credits = item.newCredits = item.creditOptions[0];
 
                     $scope.newCartItem = item;
                     $scope.newCartItem.editing = true;
@@ -589,9 +593,7 @@ angular.module('regCartApp')
         }
 
         function standardizeCourseData(course) {
-            // Standardize the fields between cart & scheduled courses. This should really be done on the REST side.
-            course.longName = course.courseTitle;
-            course.gradingOptionId = course.grading;
+            return RegUtil.standardizeCartCourse(course);
         }
 
     }]);

@@ -36,11 +36,11 @@
 
 <!--Edit buttons-->
 <div class="kscr-Card-buttons">
-        <span>
-            <button id="{{prefix}}save_{{course.courseCode}}_{{course.regGroupCode}}" class="kscr-Button--primary" type="submit" ng-click="submit()"
-                    focus-me='course.editing'>Save Changes</button>
-            <div class="global-Base-divider"></div>
-            <button id="{{prefix}}cancel_{{course.courseCode}}_{{course.regGroupCode}}" class="kscr-Button" type="button" ng-click="cancel()">Cancel</button>
-        </span>
+    <span>
+        <button id="{{prefix}}save_{{course.courseCode}}_{{course.regGroupCode}}" class="kscr-Button--primary" type="submit" ng-click="submit()"
+                focus-me='course.editing'>{{submitText || 'Save Changes'}}</button>
+        <div class="global-Base-divider"></div>
+        <button id="{{prefix}}cancel_{{course.courseCode}}_{{course.regGroupCode}}" class="kscr-Button" type="button" ng-click="cancel()">{{cancelText || 'Cancel'}}</button>
+    </span>
 </div>
 <div class="util-Grid--clearfix"></div>

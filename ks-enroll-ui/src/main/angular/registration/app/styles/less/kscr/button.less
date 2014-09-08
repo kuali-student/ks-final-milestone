@@ -1,14 +1,23 @@
-/****Button Styles *****/
+/**** Button Styles *****/
+
+// Base button
 @buttonBackgroundColor:#F8F8F8;
+@buttonGradientColor:#EFEFEF;
 @buttonBorderColor:#BCBCBC;
 @buttonTextColor:#333333;
+
+// Base button - Disabled
 @buttonDisabledBackgroundColor:#FBFBFB;
 @buttonDisabledBorderColor:#CCCCCC;
 @buttonDisabledTextColor:#777777;
 
+// Primary button
 @buttonPrimaryBackgroundColor:#3366FF;
+@buttonPrimaryGradientColor:#003FF9;
 @buttonPrimaryBorderColor:#3333CC;
 @buttonPrimaryTextColor:#F2F2F2;
+
+// Primary button - Disabled
 @buttonPrimaryDisabledBackgroundColor:#617CDA;
 @buttonPrimaryDisabledBorderColor:#516084;
 @buttonPrimaryDisabledTextColor:#E8E8E8;
@@ -17,69 +26,124 @@
 
 @defaultRadius:30px;
 
-.kscr-Button{
-    background:@buttonBackgroundColor;
-    background: -webkit-gradient(linear, top, bottom, from(@buttonBackgroundColor), to(#EFEFEF));
-    background: -moz-linear-gradient(top,  @buttonBackgroundColor,  #EFEFEF);
-    filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#F8F8F8', endColorstr='#EFEFEF');
-    border:1px solid @buttonBorderColor;
-    border-bottom: 2px solid @buttonBorderColor;
-    color: @buttonTextColor;
-    font-family: @secondaryFontFamily;
-    .font-size(13);
-    font-weight: normal;
-    .Rounded(@buttonRadius);
-    padding: 0.5rem 1rem;
-}
 
-.kscr-Button--primary{
-    background:@buttonPrimaryBackgroundColor;
-    background: -webkit-gradient(linear, top, bottom, from(@buttonPrimaryBackgroundColor), to(#003FF9));
-    background: -moz-linear-gradient(top,  @buttonPrimaryBackgroundColor,  #003FF9);
-    filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#3366FF', endColorstr='#003FF9');
-    border:1px solid @buttonPrimaryBorderColor;
-    color: @buttonPrimaryTextColor;
-    font-family: @secondaryFontFamily;
-    .font-size(13);
-    font-weight: bold;
-    .Rounded(@buttonRadius);
-    padding: 0.5rem 1rem;
-    border-bottom: 2px solid @buttonPrimaryBorderColor;
-}
+// Base button
+.kscr-Button {
+    .kscr-Button-common(@buttonBackgroundColor, @buttonGradientColor, @buttonBorderColor, @buttonTextColor);
 
-.kscr-Button[disabled], .kscr-Button:disabled {
-    background-color:@buttonDisabledBackgroundColor;
-    border:1px solid @buttonDisabledBorderColor;
-    color: @buttonDisabledTextColor;
-    font-family: @secondaryFontFamily;
-    .font-size(13);
-    font-weight: bold;
-    .Rounded(@buttonRadius);
-    padding: 0.5rem 1rem;
-    border-bottom: 2px solid @buttonDisabledBorderColor;
- }
-
-.kscr-Button--primary[disabled], .kscr-Button--primary:disabled {
-    background-color:@buttonPrimaryDisabledBackgroundColor;
-    border:1px solid @buttonPrimaryDisabledBorderColor;
-    color: @buttonPrimaryDisabledTextColor;
-    font-family: @secondaryFontFamily;
-    .font-size(13);
-    font-weight: bold;
-    .Rounded(@buttonRadius);
-    padding: 0.5rem 1rem;
-    border-bottom: 2px solid @buttonPrimaryDisabledBorderColor;
+    &[disabled], &:disabled {
+        background-color: @buttonDisabledBackgroundColor;
+        border-color: @buttonDisabledBorderColor;
+        color: @buttonDisabledTextColor;
+        font-weight: bold;
+    }
 }
 
 
+// Primary Button
+.kscr-Button--primary {
+    .kscr-Button-common(@buttonPrimaryBackgroundColor, @buttonPrimaryGradientColor, @buttonPrimaryBorderColor, @buttonPrimaryTextColor);
 
+    font-weight: bold;
+
+    &[disabled], &:disabled {
+        background-color: @buttonPrimaryDisabledBackgroundColor;
+        border-color: @buttonPrimaryDisabledBorderColor;
+        color: @buttonPrimaryDisabledTextColor;
+    }
+}
+
+
+// Outline button
 .kscr-Button--outline {
-    background: @whiteBackground;
-    border: 1px solid @buttonBorderColor;
-    color: @buttonTextColor;
+    .kscr-Button-common(@whiteBackground, @buttonBorderColor, @buttonTextColor);
+
+    border-bottom-width: 1px;
+}
+
+
+// Button Group
+.kscr-Button-group {
+    position: relative; // For dropmenus
+
+    > .kscr-Button {
+        display: inline-block;
+
+        &:focus {
+            outline: 0;
+        }
+    }
+
+    .dropdown-toggle {
+        // Cut the padding down a bit
+        padding-left: 0.8rem;
+        padding-right: 0.8rem;
+
+        .caret {
+            // The caret is purely borders, to change the size we only need to alter the border-width.
+            border-width: 6px;
+            margin-left: 0;
+        }
+    }
+
+    &.open > .dropdown-toggle {
+        // Put a shadow in the dropdown toggle when the menu is open
+        .box-shadow(inset 0 3px 5px rgba(0, 0, 0, 0.125));
+    }
+
+    .kscr-Button + .kscr-Button { // Prevent double borders
+        border-left: none;
+    }
+
+    // Clear the right border from all but the last element
+    // Need .dropdown-toggle since :last-child doesn't apply given a .dropdown-menu immediately after it
+    > *:not(:last-child):not(.dropdown-toggle) {
+        .border-right-radius(0);
+    }
+
+    // Clear the left border-radius from the last element
+    > *:last-child:not(:first-child),
+    .dropdown-toggle:not(:first-child) {
+        .border-left-radius(0);
+    }
+
+    // Clear the border-radius for all but the first and last element
+    > *:not(:first-child):not(:last-child):not(.dropdown-toggle) {
+        border-radius: 0;
+    }
+}
+
+
+
+
+
+// Common button styles mixin
+.kscr-Button-common(@bgColor, @borderColor, @textColor) {
+    background: @bgColor;
+
+    border: 1px solid @borderColor;
+    border-bottom-width: 2px;
+    .Rounded(@buttonRadius);
+
+    color: @textColor;
+
     font-family: @secondaryFontFamily;
     .font-size(13);
-    font-weight: normal;
-    .Rounded(@buttonRadius);
+
     padding: 0.5rem 1rem;
+
+    &:active:not([disabled]):not(:disabled),
+    &.active:not([disabled]):not(:disabled) {
+        outline: 0;
+        .box-shadow(inset 0 3px 5px rgba(0,0,0,.125));
+    }
+}
+
+// Overloaded Mixin for gradient background
+.kscr-Button-common(@bgColor, @bgColor2, @borderColor, @textColor) {
+    .kscr-Button-common(@bgColor, @borderColor, @textColor); // Call the base mixin
+
+    background: -webkit-gradient(linear, top, bottom, from(@bgColor), to(@bgColor2));
+    background: -moz-linear-gradient(top,  @bgColor,  @bgColor2);
+    filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='@{bgColor}', endColorstr='@{bgColor2}');
 }

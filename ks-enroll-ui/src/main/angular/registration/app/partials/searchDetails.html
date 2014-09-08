@@ -124,23 +124,35 @@
             <!-- Actions -->
             <div class="kscr-SearchDetails-actions">
                 <!-- Add to Cart / Waitlist - Only if not in cart || waitlist already -->
-                <div class="kscr-SearchDetails-button" ng-if="!isSelectedRegGroupInCart() && (!allowDirectAddToWaitlist() || !isSelectedRegGroupInWaitlist())">
+                <div class="kscr-SearchDetails-button kscr-Button-group" ng-if="!isSelectedRegGroupInCart() && !isSelectedRegGroupInWaitlist()">
                     <!-- Add to Cart -->
                     <button id="search_details_add_to_cart" name="submit" class="kscr-Button"
                             ng-disabled="!selectedRegGroup || (selectedRegGroup.isFull && !selectedRegGroup.isWaitlistAvailable)" ng-click="addToCart()"
-                            ng-if="!allowDirectAddToWaitlist() || !selectedRegGroup || !selectedRegGroup.isFull || !selectedRegGroup.isWaitlistAvailable">Add to Cart</button>
+                            ng-if="!selectedRegGroup || !selectedRegGroup.isFull || !selectedRegGroup.isWaitlistAvailable">Add to Cart</button>
 
                     <!-- Add to Waitlist -->
                     <button id="search_details_add_to_waitlist" name="submit" class="kscr-Button"
                             ng-disabled="!selectedRegGroup" ng-click="addToWaitlist()"
-                            ng-if="allowDirectAddToWaitlist() && selectedRegGroup && selectedRegGroup.isFull && selectedRegGroup.isWaitlistAvailable">Add to Waitlist</button>
+                            ng-if="selectedRegGroup && selectedRegGroup.isFull && selectedRegGroup.isWaitlistAvailable">Add to Waitlist</button>
+
+                    <!-- Split Button Dropdown -->
+                    <button class="kscr-Button dropdown-toggle" data-toggle="dropdown" type="button" ng-disabled="!selectedRegGroup">
+                        <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu" role="menu">
+                        <!-- Alt Add to Cart - Only when Add to Waitlist takes over the primary action -->
+                        <li ng-if="selectedRegGroup && selectedRegGroup.isFull && selectedRegGroup.isWaitlistAvailable"><a ng-click="addToCart()">Add to Cart</a></li>
+
+                        <!-- Direct Register - Only when Add to Cart is the primary action -->
+                        <li ng-if="!selectedRegGroup || !selectedRegGroup.isFull || !selectedRegGroup.isWaitlistAvailable"><a ng-click="directRegister()">Register Now</a></li>
+                    </ul>
                 </div>
 
                 <!-- In Cart / Waitlist - Only if in cart / waitlist -->
                 <div class="kscr-SearchDetails-button" ng-if="isSelectedRegGroupInCart()">
                     <button id="search_details_in_cart" class="kscr-Button--outline" ng-disabled="true">In Cart</button>
                 </div>
-                <div class="kscr-SearchDetails-button" ng-if="allowDirectAddToWaitlist() && isSelectedRegGroupInWaitlist()">
+                <div class="kscr-SearchDetails-button" ng-if="isSelectedRegGroupInWaitlist()">
                     <button id="search_details_in_waitlist" class="kscr-Button--outline" ng-disabled="true">In Waitlist</button>
                 </div>
 
@@ -148,7 +160,8 @@
                 <div class="kscr-SearchDetails-actionMessage" ng-if="actionStatus === 'error'" ng-class="{'kscr-SearchDetails-actionMessage--{{actionStatus}}' : actionStatus}">
                     <i class="kscr-SearchDetails-actionMessage-icon"></i>
                     <a class="kscr-SearchDetails-actionMessage-remove" ng-click="removeActionMessage()"></a>
-                    <span>Failed to add <strong>{{course.courseOfferingCode}}</strong> to {{actionType}}</span>
+                    <span ng-if="actionType === 'register'">Failed to register for <strong>{{course.courseOfferingCode}}</strong></span>
+                    <span ng-if="actionType !== 'register'">Failed to add <strong>{{course.courseOfferingCode}}</strong> to {{actionType}}</span>
                 </div>
             </div>
         </div>

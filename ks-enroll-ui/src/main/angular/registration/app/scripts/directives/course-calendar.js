@@ -69,23 +69,6 @@ angular.module('regCartApp')
                         regGroup: course.regGroupCode
                     };
 
-                    // Standardize the activity offering data structure between the cart & the other types
-                    if (type === 'CART' && angular.isUndefined(course.activityOfferings)) {
-                        course.activityOfferings = [];
-                        angular.forEach(course.schedule, function(ao) {
-                            if (angular.isUndefined(ao.scheduleComponents)) {
-                                ao.scheduleComponents = [];
-                                angular.forEach(ao.activityOfferingLocationTime, function (locationTime) {
-                                    ao.scheduleComponents.push(locationTime.time);
-                                });
-                            }
-                            if (angular.isUndefined(ao.activityOfferingTypeName)) {
-                                ao.activityOfferingTypeName = ao.activityOfferingType;
-                            }
-                            course.activityOfferings.push(ao);
-                        });
-                    }
-
                     // iterate over activity offerings
                     angular.forEach(course.activityOfferings, function(ao) {
                         angular.forEach(ao.scheduleComponents, function (scheduleComponent) {

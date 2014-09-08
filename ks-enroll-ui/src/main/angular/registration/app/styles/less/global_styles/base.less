@@ -43,17 +43,43 @@ input:-moz-placeholder {
             border-radius:@radius;
 }
 
-// Drop shadows (Pulled from bootstrap mixins.less)
-.box-shadow(@shadow) {
-    -webkit-box-shadow: @shadow; // iOS <4.3 & Android <4.1
-    box-shadow: @shadow;
-}
-
 .global-Base-divider {
     width: 0.5rem;
     height: auto;
     display: inline-block;
 }
+
+
+
+// -----------------------------------------------
+// Misc Mixins Pulled from Bootstrap mixins.less
+// -----------------------------------------------
+
+// Single side border-radius
+.border-top-radius(@radius) {
+    border-top-right-radius: @radius;
+    border-top-left-radius: @radius;
+}
+.border-right-radius(@radius) {
+    border-bottom-right-radius: @radius;
+    border-top-right-radius: @radius;
+}
+.border-bottom-radius(@radius) {
+    border-bottom-right-radius: @radius;
+    border-bottom-left-radius: @radius;
+}
+.border-left-radius(@radius) {
+    border-bottom-left-radius: @radius;
+    border-top-left-radius: @radius;
+}
+
+
+// Drop shadows
+.box-shadow(@shadow) {
+    -webkit-box-shadow: @shadow; // iOS <4.3 & Android <4.1
+    box-shadow: @shadow;
+}
+
 
 //bootstrap classes to be added in after bootsrap removal
 //table {

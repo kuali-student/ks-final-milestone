@@ -109,7 +109,7 @@ angular.module('regCartApp')
                 case COURSE_TYPES.registered:
                     this.getRegisteredCourses().splice(this.getRegisteredCourses().indexOf(course), 1);
             }
-        }
+        };
 
         this.updateRegisteredCourse = function(oldCourse, newCourse) {
             var credits = parseFloat(this.getRegisteredCredits()) - parseFloat(oldCourse.credits) + parseFloat(newCourse.credits);
@@ -147,13 +147,13 @@ angular.module('regCartApp')
         this.updateScheduleCounts = function (personSchedule) {
             var scheduleList = [];
 
-            if (personSchedule.registeredCourseOfferings != null && personSchedule.waitlistCourseOfferings != null) {
+            if (personSchedule.registeredCourseOfferings !== null && personSchedule.waitlistCourseOfferings !== null) {
                 var registeredCO = personSchedule.registeredCourseOfferings;
                 var waitlistedCO = personSchedule.waitlistCourseOfferings;
                 scheduleList = registeredCO.concat(waitlistedCO);
-            } else if (personSchedule.registeredCourseOfferings == null && personSchedule.waitlistCourseOfferings != null) {
+            } else if (personSchedule.registeredCourseOfferings === null && personSchedule.waitlistCourseOfferings !== null) {
                 scheduleList = personSchedule.waitlistCourseOfferings;
-            } else if (personSchedule.registeredCourseOfferings != null && personSchedule.waitlistCourseOfferings == null) {
+            } else if (personSchedule.registeredCourseOfferings !== null && personSchedule.waitlistCourseOfferings === null) {
                 scheduleList = personSchedule.registeredCourseOfferings;
             }
 

@@ -10,8 +10,8 @@
  * -- Receives: "toggleAO" -- received from the search list directives, select/deselects the given ao
  */
 angular.module('regCartApp')
-    .controller('SearchDetailsCtrl', ['$scope', '$rootScope', '$state', '$filter', '$modal', 'STATUS', 'FEATURE_TOGGLES', 'SEARCH_CRITERIA', 'SearchService', 'CartService', 'ScheduleService',
-    function SearchDetailsCtrl($scope, $rootScope, $state, $filter, $modal, STATUS, FEATURE_TOGGLES, SEARCH_CRITERIA, SearchService, CartService, ScheduleService) {
+    .controller('SearchDetailsCtrl', ['$scope', '$rootScope', '$state', '$filter', '$modal', 'STATUS', 'SEARCH_CRITERIA', 'SearchService', 'CartService', 'ScheduleService',
+    function SearchDetailsCtrl($scope, $rootScope, $state, $filter, $modal, STATUS, SEARCH_CRITERIA, SearchService, CartService, ScheduleService) {
         console.log('>> SearchDetailsCtrl');
 
         $scope.stateParams = $state.params; // Expose the state parameters to the scope so they can be used in the back link
@@ -30,7 +30,7 @@ angular.module('regCartApp')
 
             if (angular.isDefined(toParams.id)) {
                 // checking if user comes to course details from search vs schedule
-                $scope.fromSchedule = toParams.searchCriteria == SEARCH_CRITERIA.fromSchedule;
+                $scope.fromSchedule = toParams.searchCriteria === SEARCH_CRITERIA.fromSchedule;
                 loadCourse(toParams.id, toParams.code);
             }
         });
@@ -84,10 +84,10 @@ angular.module('regCartApp')
                                 });
 
                                 // Check to see if there are any additional info icons to display for this course
-                                if (!$scope.additionalInfo
-                                    && (ao.subterm !== null
-                                        || (angular.isArray(ao.requisites) && ao.requisites.length > 0))
-                                        || ao.honors === 'true') {
+                                if (!$scope.additionalInfo &&
+                                    (ao.subterm !== null ||
+                                        (angular.isArray(ao.requisites) && ao.requisites.length > 0)) ||
+                                        ao.honors === 'true') {
                                     $scope.additionalInfo = true;
                                 }
 
@@ -145,12 +145,6 @@ angular.module('regCartApp')
         };
 
 
-        // Check whether or not the Direct Add to Waitlist feature is enabled
-        $scope.allowDirectAddToWaitlist = function() {
-            return FEATURE_TOGGLES.searchDetails.directAddToWaitlist || false;
-        };
-
-
         // Method for checking if the selected reg group is in the cart
         $scope.isSelectedRegGroupInCart = function() {
             return $scope.selectedRegGroup && CartService.isCourseInCart($scope.selectedRegGroup.regGroupId);
@@ -172,32 +166,55 @@ angular.module('regCartApp')
             performAction('cart', 'addCourseToCart');
         };
 
-        // Perform the Add to Waitlist action when that button is clicked
-        $scope.addToWaitlist = function() {
-            // Only allow direct add to waitlist if it is enabled & the waitlist is available for this RG.
-            if (!$scope.selectedRegGroup || !$scope.selectedRegGroup.isWaitlistAvailable || !$scope.allowDirectAddToWaitlist()) {
+        // Perform the Direct Register action when that button is clicked
+        $scope.directRegister = function() {
+            if (!$scope.selectedRegGroup) {
                 return;
             }
 
             // Broadcast an directRegisterForCourse event that is caught in the cart.js controller
-            performAction('waitlist', 'registerForCourse');
+            performAction('register', 'directRegisterForCourse');
         };
 
-        // Helper method for performing the action (addToCart or addToWaitlist)
-        function performAction(actionType, event) {
+        // Perform the Add to Waitlist action when that button is clicked
+        $scope.addToWaitlist = function() {
+            // Only allow direct add to waitlist if it is enabled & the waitlist is available for this RG.
+            if (!$scope.selectedRegGroup || !$scope.selectedRegGroup.isWaitlistAvailable) {
+                return;
+            }
+
+            // Set the allowWaitlist flag = true to bypass the waitlist warnings
+            $scope.course.allowWaitlist = true;
+
+            // Broadcast an directRegisterForCourse event that is caught in the cart.js controller
+            performAction('waitlist', 'directRegisterForCourse');
+        };
+
+        // Helper method for performing the action (addToCart, directRegister, addToWaitlist)
+        function performAction(actionType, eventAction) {
             $scope.actionType = actionType;
             $scope.actionStatus = null;
 
             var course = angular.copy($scope.course);
             course.courseCode = course.courseOfferingCode;
+            course.longName = course.courseOfferingLongName;
             course.regGroupId = $scope.selectedRegGroup.regGroupId;
             course.regGroupCode = $scope.selectedRegGroup.regGroupCode;
+            course.sourceAction = actionType; // Put the action type into the course so it can be accessed by the direct register system
+
+            // Pin the selected RG's AOs in the schedule format on the course object
+            course.activityOfferings = $scope.selectedAOs; // Selected AOs should be the exhaustive list of AOs for this RG
 
             // Broadcast the event that is caught and handled elsewhere (cart.js controller)
-            $rootScope.$broadcast(event, course, function() {
+            // cart.js controller puts the promise from the objects onto the event object.
+            var event = $rootScope.$broadcast(eventAction, course);
+            event.promise.then(function() {
                 $scope.actionStatus = STATUS.success;
-            }, function() {
-                $scope.actionStatus = STATUS.error;
+            }, function(reason) {
+                // Bubble up the error if there was one
+                if (reason !== 'cancel') { // 'cancel' comes when the Direct Reg modal is canceled/closed
+                    $scope.actionStatus = STATUS.error;
+                }
             });
         }
 
@@ -214,10 +231,11 @@ angular.module('regCartApp')
                 templateUrl: 'partials/additionalInfo.html',
                 controller: 'AdditionalInfoCtrl',
                 size: 'sm',
-                resolve: {subterm: function() {
-                    return subterm;
-                },
-                requisites: undefined
+                resolve: {
+                    subterm: function() {
+                        return subterm;
+                    },
+                    requisites: undefined
                 }
             });
         });
@@ -244,7 +262,7 @@ angular.module('regCartApp')
         // When several AOs selected such as they build a Reg Group -> passing ID and Code for this Reg Group on UI
         $scope.$on('toggleAO', function (event, formattedOffering) {
 
-            var ao=$scope.aoMap[formattedOffering.aoId];
+            var ao = $scope.aoMap[formattedOffering.aoId];
 
             var selected = false;
             if (isAOSelected(ao)) {
@@ -322,16 +340,16 @@ angular.module('regCartApp')
         Then select the reg group (if it exists and is selectable)
          */
         $scope.$watch('availableRegGroups', function() {
-            if (angular.isDefined($scope.availableRegGroups)
-                && angular.isDefined($scope.stateParams.regGroupId)
-                && (angular.isUndefined($scope.selectedRegGroup) || $scope.selectedRegGroup === null)) {
+            if (angular.isDefined($scope.availableRegGroups) &&
+                angular.isDefined($scope.stateParams.regGroupId) &&
+                (angular.isUndefined($scope.selectedRegGroup) || $scope.selectedRegGroup === null)) {
                 var regGroupId = $scope.stateParams.regGroupId;
                 var selectableRegGroups = getSelectableRegGroups();
                 //a forEach loop is needed here because this is a map
                 angular.forEach(selectableRegGroups, function(selectableRegGroup) {
                     if (regGroupId === selectableRegGroup.regGroupId) {
                         $scope.selectedRegGroup = selectableRegGroup;
-                        for (var i=0; i<selectableRegGroup.activityOfferingIds.length; i++) {
+                        for (var i = 0; i < selectableRegGroup.activityOfferingIds.length; i++) {
                             //a forEach loops is needed here because this is a map
                             angular.forEach($scope.aoMap, function(ao) {
                                 if (ao.activityOfferingId === selectableRegGroup.activityOfferingIds[i]) {

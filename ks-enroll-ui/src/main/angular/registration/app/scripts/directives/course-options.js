@@ -2,7 +2,7 @@
 
 angular.module('regCartApp')
 
-    .directive('courseOptions', function () {
+    .directive('courseOptions', ['GRADING_OPTION', function (GRADING_OPTION) {
         return {
             restrict: 'E',
             transclude: true,
@@ -16,6 +16,8 @@ angular.module('regCartApp')
                 prefix: '@', // Element ID prefix (e.g. waitlist_)
                 showAll: '@', // Show all items, preventing the More toggle from showing [true, false]
                 moreButtonSelectBehavior: '@moreBehavior', // Behavior of more/expand button when it is selected [expand, dialog]
+                cancelText: '@', // Cancel button text
+                submitText: '@', // Submit button text
                 cancelFn: '&onCancel', // Function to call when canceling the form, provides course as parameter, usage: on-submit="processSubmit(course)"
                 submitFn: '&onSubmit' // Function to call when submitting the form, provides course as parameter, usage: on-submit="processCancel(course)"
             },
@@ -45,6 +47,29 @@ angular.module('regCartApp')
 
                     return (f1 === f2 ? 0 : (f1 > f2 ? 1 : -1));
                 });
+
+
+                // Set the newGrading value
+                if (course.gradingOptionId) {
+                    // There is already a selected value, use that
+                    course.newGrading = course.gradingOptionId;
+                } else {
+                    if (angular.isDefined(course.gradingOptions[GRADING_OPTION.letter])) {
+                        // Default to Letter if it is an option
+                        course.newGrading = GRADING_OPTION.letter;
+                    } else {
+                        // Default to the first item in the list
+                        course.newGrading = $scope.gradingOptions[0];
+                    }
+                }
+
+                // Set the newCredits value
+                if (course.credits) {
+                    course.newCredits = course.credits;
+                } else {
+                    // Default to the first credit option
+                    course.newCredits = course.creditOptions[0];
+                }
 
 
                 $scope.creditOptionsFilter = function (option) {
@@ -184,5 +209,5 @@ angular.module('regCartApp')
                 }
             }]
         };
-    })
+    }])
 ;

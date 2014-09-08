@@ -113,96 +113,10 @@
             <span class="util-Grid--clearfix"></span>
         </div>
         <div id="resultsSection" class="panel-group">
-            <div ng-repeat="cartResultItem in cartResults.items" is-open="isopen" class="panel kscr-cartResult-item kscr-Card-status kscr-Card-status--{{cartResultItem.status}}">
-                <div class="kscr-Card-icon">&nbsp;</div>
-
-                <!-- Displays block with course info if course is not waitlisted -->
-                <div class="kscr-cartResult-content" ng-if="cartResultItem.status != statuses.waitlist">
-                    <!--credits-->
-                    <div class="kscr-cartResult-supportText">
-                        <ng-pluralize count="cartResultItem.credits" when="{'1': '{} cr', 'other': '{} cr'}"></ng-pluralize>
-                    </div>
-                    <!--Course Header Section-->
-                    <div class="ng-scope kscr-cartResult-heading">
-                        <span class="kscr-Card-title-alert" id="course_code_{{cartResultItem.courseCode}}_{{cartResultItem.regGroupCode}}">{{cartResultItem.courseCode}} ({{cartResultItem.regGroupCode}}) {{getStatusMessageFromStatus(cartResultItem.status)}}</span>
-                    </div>
-                    <div class="kscr-cartResult-aoInfo">
-                        <ng-include src="'aoInfo.html'"></ng-include>
-                    </div>
-                    <div ng-if="cartResultItem.statusMessages && (cartResultItem.status != statuses.success) && (cartResultItem.status != statuses.processing)"
-                         id="result_status_{{cartResultItem.courseCode}}_{{cartResultItem.regGroupCode}}"
-                         class="kscr-Card-detailsText kscr-Card-detailsText--{{cartResultItem.status}}"
-                         ng-show='cartResultItem.statusMessages'>
-                        <div class="kscr-Card-reason">
-                            <div class="kscr-Card-reason-label"><strong>Reason:</strong></div>
-                            <div class="kscr-Card-reason-messages">
-                                <div class="kscr-Card-reason-message" ng-repeat="message in cartResultItem.statusMessages">
-                                    <span id="reason_message_{{cartResultItem.courseCode}}_{{cartResultItem.regGroupCode}}"
-                                          validation-message message="message" course="cartResultItem"></span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- All Error cards must provide the ability to add the item back into the cart -->
-                    <div class="kscr-Card-buttons">
-                        <div class="kscr-Card-button" ng-if="(cartResultItem.status == statuses.error)">
-                            <span>
-                                <!-- Add to cart, then remove the result item-->
-                                <button class="kscr-Button" id="addBackToCart_{{cartResultItem.courseCode}}_{{cartResultItem.regGroupCode}}" ng-click="addCartItemToCart(cartResultItem);  removeCartResultItem($index);">Keep in Cart</button>
-                            </span>
-                        </div>
-                        <div class="kscr-Card-button" ng-if="cartResultItem.statusMessages && (cartResultItem.status == statuses.action)">
-                            <span>
-                                <button class="kscr-Button" id="waitlist_{{cartResultItem.courseCode}}_{{cartResultItem.regGroupCode}}" ng-click="addCartItemToWaitlist(cartResultItem)">Add to Waitlist</button>
-                            </span>
-                        </div>
-                        <!-- Dismiss Button-->
-                        <div class="kscr-Card-button">
-                            <span>
-                                <button class="kscr-Button" id="course_remove_{{cartResultItem.courseCode}}_{{cartResultItem.regGroupCode}}" ng-click="removeCartResultItem($index)">Dismiss</button>
-                            </span>
-                        </div>
-                    </div>
-                </div>
-                <!-- Displays block with course info if course is waitlisted (even though it technically "failed" we display it as "success" that it was added to waitlist) -->
-                <div class="kscr-cartResult-content" ng-if="cartResultItem.status == statuses.waitlist">
-                    <div class="ng-scope kscr-cartResult-heading">
-                        <span class="kscr-Card-title-alert" id="waitlisted_{{cartResultItem.courseCode}}_{{cartResultItem.regGroupCode}}">Added to Waitlist</span>
-                    </div>
-                    <div class="kscr-Card-text-alert" id="waitlisted_message_{{cartResultItem.courseCode}}_{{cartResultItem.regGroupCode}}">{{cartResultItem.waitlistMessage}}</div>
-                    <div class="kscr-Card-detailsText kscr-Card-detailsText--waitlist">
-                        <div class="ng-scope">
-                            <span class="kscr-Card-title-alert" id="waitlisted_course_code_{{cartResultItem.courseCode}}_{{cartResultItem.regGroupCode}}">{{cartResultItem.courseCode}} ({{cartResultItem.regGroupCode}})</span>
-                        </div>
-                        <ng-include src="'aoInfo.html'"></ng-include>
-                    </div>
-                    <div class="kscr-Card-buttons">
-                        <!-- Dismiss Button-->
-                        <div class="kscr-Card-button">
-                            <span>
-                                <button class="kscr-Button" id="course_remove_{{cartResultItem.courseCode}}_{{cartResultItem.regGroupCode}}" ng-click="removeCartResultItem($index)">Dismiss</button>
-                            </span>
-                        </div>
-                    </div>
-                </div>
+            <div ng-repeat="cartResultItem in cartResults.items" is-open="isopen" class="panel">
+                <ng-include src="'partials/cartResult.html'"></ng-include>
             </div>
         </div>
     </div>
 
-    <script type="text/ng-template" id="aoInfo.html">
-        <!--AO info: type, time, location-->
-        <div class="kscr-Card-text-alert">
-            <div ng-repeat="item in cartResultItem.schedule">
-                <span class="kscr-Card-courseTimes--results">
-                    <div class="kscr-Card-ao-type">{{item.activityOfferingTypeName | limitTo : 3}}</div>
-                    <div ng-repeat="scheduleItem in item.activityOfferingLocationTime" class="kscr-Card-scheduleComponent">
-                        <span ng-hide="scheduleItem.isTBA" class="util-Grid--floatLeft  kscr-Card-ao-type--time">{{scheduleItem.time.days}} {{scheduleItem.time.displayTime}}</span>
-                        <span ng-hide="scheduleItem.isTBA" class="util-Grid--floatRight">{{scheduleItem.location.building}} {{scheduleItem.location.room}}</span>
-                        <span ng-show="scheduleItem.isTBA" class="util-Grid--floatRight">TBA</span>
-                    </div>
-                    <div class="util-Grid--clearfix"></div>
-                </span>
-            </div>
-        </div>
-    </script>
 </div>

@@ -219,9 +219,14 @@
         padding: 0.5rem 0; // Additional padding to keep container from popping when Clear Selection link is shown
         text-align: right;
 
-        // Button
-        .kscr-SearchDetails-button .kscr-Button {
-            font-weight: normal;
+        // Button Group
+        .kscr-SearchDetails-button {
+            .flexbox();
+            justify-content: flex-end;
+
+            .kscr-Button {
+                font-weight: normal;
+            }
         }
 
         // Message below button of action status

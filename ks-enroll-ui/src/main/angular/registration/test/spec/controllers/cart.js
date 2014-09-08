@@ -35,17 +35,6 @@ describe('Controller: CartCtrl', function () {
         expect(scope.getStatusMessageFromStatus('')).toBe('');
     }));
 
-    // Test cancelNewCartItem()
-    it('should cancel the new cart item', function() {
-        scope.newCartItem = {};
-        scope.showNew = true;
-
-        scope.cancelNewCartItem();
-
-        expect(scope.newCartItem).toBeNull();
-        expect(scope.showNew).toBeFalsy();
-    });
-
     // Test removeAlertMessage(cartItem);
     it('should remove the alert message from the cart item', function() {
         var cartItem = { alertMessage: 'test message' };

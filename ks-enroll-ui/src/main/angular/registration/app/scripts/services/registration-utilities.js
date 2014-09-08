@@ -39,6 +39,56 @@ angular.module('regCartApp')
                 console.log('Invalid date string: '+str);
             }
             return date;
-        }
+        };
+
+
+        /**
+         * Standardize the fields between cart & scheduled courses.
+         * This should really be done on the REST side.
+         *
+         * @param course standardized
+         * @returns course
+         */
+        this.standardizeCartCourse = function(course) {
+            // Schedule has the courseTitle as longName
+            course.longName = course.courseTitle;
+
+            // Schedule uses gradingOptionId to denote the selected grading option
+            course.gradingOptionId = course.grading;
+
+            // Schedule AO's are structured quite differently than the cart
+            var activityOfferings = [];
+            if (angular.isArray(course.schedule)) {
+                for (var i = 0; i < course.schedule.length; i++) {
+                    var ao = course.schedule[i];
+                    ao.scheduleComponents = [];
+
+                    for (var j = 0; j < ao.activityOfferingLocationTime.length; j++) {
+                        var component = {},
+                            locationTime = ao.activityOfferingLocationTime[j];
+
+                        // Flatten the location, time, & isTBA
+                        component.buildingCode = locationTime.location.building;
+                        component.roomCode = locationTime.location.room;
+                        angular.extend(component, locationTime.time);
+                        component.isTBA = locationTime.isTBA;
+
+                        ao.scheduleComponents.push(component);
+                    }
+
+                    // Delete the old data structure
+                    delete ao.activityOfferingLocationTime;
+
+                    activityOfferings.push(ao);
+                }
+
+                // Delete the old data structure
+                delete course.schedule;
+            }
+
+            course.activityOfferings = activityOfferings;
+
+            return course;
+        };
     }])
 ;

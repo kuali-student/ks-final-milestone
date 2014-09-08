@@ -1,0 +1,89 @@
+/*** Direct Register Styles ***/
+
+// Parent modal window
+//.kscr-DirectRegister-window {
+//    .modal-dialog {
+//        width: 400px; // Set a custom width on the modal dialog
+//    }
+//}
+
+// Modal container
+.kscr-DirectRegister {
+    padding: 1rem;
+}
+
+// Modal header
+.kscr-DirectRegister-header {
+    color: @primaryTextColor;
+    font-family: @secondaryFontFamily;
+    .font-size(16);
+    font-weight: bold;
+    text-align: center;
+    text-transform: uppercase;
+
+    &-course {
+        color: @secondaryTextColor;
+    }
+}
+
+// Main content container
+.kscr-DirectRegister-content {
+    font-family: @secondaryFontFamily;
+    margin-top: 1rem;
+}
+
+
+// Options step
+.kscr-DirectRegister-options {
+
+}
+
+
+// Confirm / Details Step
+.kscr-DirectRegister-details {
+    &-header {
+        font-weight: bold;
+        text-align: center;
+    }
+
+    &-overview {
+        border-top: @horizontalLineBorder;
+        margin-top: 1rem;
+        padding: 1rem 0;
+    }
+
+    &-activityOfferings {
+        border-top: @horizontalLineBorder;
+        padding-top: 1rem;
+    }
+}
+
+
+// Processing Step
+.kscr-DirectRegister-processing {
+    .kscr-MainHeading-header--processing {
+        background-position: center;
+        padding: 4rem 0;
+    }
+}
+
+
+// Results Step
+.kscr-DirectRegister-results {
+    // Single Result Item
+    .kscr-DirectRegister-result {
+        &:not(:last-child) .kscr-Card-buttons {
+            // Hide all but the last buttons
+            display: none;
+        }
+    }
+
+    // Card result w/ status (e.g. processing, error, success)
+    .kscr-Card-status {
+        // Don't show background shading
+        background: none;
+        .box-shadow(none);
+
+        padding: 0.5rem 0 0 3.5rem;
+    }
+}
