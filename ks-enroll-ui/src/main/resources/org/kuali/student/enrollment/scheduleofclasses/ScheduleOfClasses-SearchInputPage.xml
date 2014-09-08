@@ -106,9 +106,9 @@
                                     </bean>
                                 </property>
                             </bean>
-                            <bean parent="KS-Uif-InputField" p:propertyName="instructorName" p:required="true" p:additionalCssClasses="ks-uif-quickFinder" p:style="margin-top:18px;" p:progressiveRender="@{#dp.searchType eq 'instructor'}" p:id="instructor_search_text" p:onKeyUpScript="toggleShowButton();" p:onMouseOutScript="toggleShowButton();">
+                            <bean parent="KS-Uif-InputField" p:propertyName="instructor" p:required="true" p:additionalCssClasses="ks-uif-quickFinder" p:style="margin-top:18px;" p:progressiveRender="@{#dp.searchType eq 'instructor'}" p:id="instructor_search_text" p:onKeyUpScript="toggleShowButton();" p:onMouseOutScript="toggleShowButton();">
                                 <property name="control">
-                                    <bean parent="KS-Uif-TextControl" p:size="40" p:readOnly="false" p:watermarkText="Type principal name or use search" p:style="height:31px"/>
+                                    <bean parent="KS-Uif-TextControl" p:size="40" p:readOnly="false" p:watermarkText="Type ID or use search" p:style="height:31px"/>
                                 </property>
                                 <property name="quickfinder">
                                     <bean parent="Uif-QuickFinderByScript">
