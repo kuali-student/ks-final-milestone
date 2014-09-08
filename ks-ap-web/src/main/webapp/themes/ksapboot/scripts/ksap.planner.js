@@ -34,6 +34,10 @@ function ksapInitializePlannerItems(pageSize) {
             initCallback : function(a) {
                 ksapPlannerUpdateTitle(a);
                 jQuery.unblockUI();
+            },
+            init : function(opts, a) {
+                // a is the full list, so need to get the visible list
+                ksapPlannerUpdateTitle(a.slice(opts.start, opts.visible-1));
             }
         });
     }
@@ -47,12 +51,10 @@ function ksapInitializePlannerItems(pageSize) {
 function ksapPlannerUpdateTitle(a) {
     var aFirst = jQuery.trim(jQuery(a[0]).find(
         "div:hidden[id^='plan_base_atpId']").text());
-    var aFirstFinal = aFirst.slice(-4);
     var aLast = jQuery.trim(jQuery(a[a.length - 1]).find(
         "div:hidden[id^='plan_base_atpId']").text());
-    var aLastFinal = aLast.slice(-4);
     jQuery("#planner_courses_detail .ksap-planner-term-year")
-        .html(aFirstFinal + ' &ndash; ' + aLastFinal);
+        .html(aFirst + ' &ndash; ' + aLast);
 }
 
 /**

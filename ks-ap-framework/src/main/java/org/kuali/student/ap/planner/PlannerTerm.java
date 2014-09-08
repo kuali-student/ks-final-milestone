@@ -16,16 +16,14 @@
 package org.kuali.student.ap.planner;
 
 import org.kuali.student.ap.common.infc.HasUniqueId;
+import org.kuali.student.ap.coursesearch.CreditsFormatter;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
 import org.kuali.student.ap.framework.context.TermHelper;
-import org.kuali.student.ap.coursesearch.CreditsFormatter;
-import org.kuali.student.ap.framework.util.KsapHelperUtil;
 import org.kuali.student.r2.core.acal.infc.Term;
 import org.springframework.web.util.HtmlUtils;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -40,6 +38,7 @@ public class PlannerTerm implements HasUniqueId, Serializable, Comparable<Planne
 	private String uniqueId;
 	private String termId;
 	private String termName;
+    private int termYear;
 
 	private boolean planning;
 	private boolean official;
@@ -71,6 +70,7 @@ public class PlannerTerm implements HasUniqueId, Serializable, Comparable<Planne
 		TermHelper termHelper = KsapFrameworkServiceLocator.getTermHelper();
 		Term term = termHelper.getTerm(termId);
 		termName = term.getName();
+        termYear = termHelper.getYearTerm(term).getYear();
 		planning = termHelper.isPlanning(termId);
 		official = termHelper.isOfficial(termId);
 		completed = termHelper.isCompleted(termId);
@@ -138,6 +138,14 @@ public class PlannerTerm implements HasUniqueId, Serializable, Comparable<Planne
 
 	public void setTermName(String termName) {
 		this.termName = termName;
+	}
+
+    public int getTermYear() {
+        return termYear;
+    }
+
+    public void setTermYear(int termYear) {
+        this.termYear = termYear;
 	}
 
 	public void setPlannedList(List<PlannerItem> plannedList) {

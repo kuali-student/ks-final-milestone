@@ -20,7 +20,7 @@
         </property>
         <property name="additionalScriptFiles">
 			<list>
-				<value>plugins/jcarousellite/jcarousellite_1.0.1.min.js</value>
+				<value>plugins/jcarousellite/jcarousellite_1.9.2.min.js</value>
 				<value>themes/ksapboot/scripts/ksap.planner.js</value>
                 <!-- ksap.bookmark.js is needed for the sidebar -->
                 <value>themes/ksapboot/scripts/ksap.bookmark.js</value>
@@ -287,7 +287,7 @@
         <property name="items">
             <list>
                 <bean id="plan_base_atpId" parent="KS-Uif-DataField"
-                      p:propertyName="termName" p:cssClasses="ksap-hide">
+                      p:propertyName="termYear" p:cssClasses="ksap-hide">
                     <property name="fieldLabel.render" value="false" />
                 </bean>
                 <bean parent="Uif-VerticalFieldGroup">
