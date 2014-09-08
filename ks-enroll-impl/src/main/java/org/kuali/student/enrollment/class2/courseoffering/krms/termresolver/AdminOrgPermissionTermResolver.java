@@ -61,15 +61,15 @@ public class AdminOrgPermissionTermResolver implements TermResolver<Boolean> {
 
     @Override
     public Boolean resolve(Map<String, Object> resolvedPrereqs, Map<String, String> parameters) throws TermResolutionException {
-        ContextInfo context = (ContextInfo) resolvedPrereqs.get(RulesExecutionConstants.CONTEXT_INFO_TERM.getName());
-        String orgId = parameters.get(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_ORGANIZATION_KEY);
-        
-        try {
-            OrgInfo org = organizationService.getOrg(orgId, context);
-            //TODO KSENROLL-4659: Determine permision???
-        } catch (Exception e) {
-            KSKRMSExecutionUtil.convertExceptionsToTermResolutionException(parameters, e, this);
-        }
+//        ContextInfo context = (ContextInfo) resolvedPrereqs.get(RulesExecutionConstants.CONTEXT_INFO_TERM.getName());
+//        String orgId = parameters.get(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_ORGANIZATION_KEY);
+//
+//        try {
+//            OrgInfo org = organizationService.getOrg(orgId, context);
+//            //TODO KSENROLL-4659: Determine permision???
+//        } catch (Exception e) {
+//            KSKRMSExecutionUtil.convertExceptionsToTermResolutionException(parameters, e, this);
+//        }
 
         return true;
     }

@@ -62,17 +62,17 @@ public class ScoreTermResolver implements TermResolver<Integer> {
 
     @Override
     public Integer resolve(Map<String, Object> resolvedPrereqs, Map<String, String> parameters) throws TermResolutionException {
-        ContextInfo context = (ContextInfo) resolvedPrereqs.get(RulesExecutionConstants.CONTEXT_INFO_TERM.getName());
-        String personId = parameters.get(RulesExecutionConstants.PERSON_ID_TERM.getName());
-        String testIds = parameters.get(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_TEST_CLU_KEY);
+//        ContextInfo context = (ContextInfo) resolvedPrereqs.get(RulesExecutionConstants.CONTEXT_INFO_TERM.getName());
+//        String personId = parameters.get(RulesExecutionConstants.PERSON_ID_TERM.getName());
+//        String testIds = parameters.get(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_TEST_CLU_KEY);
         
         Integer result = 0;
-        List<StudentTestScoreRecordInfo> recordInfoList = null;
-        try {
-            recordInfoList = academicRecordService.getTestScoreRecords(personId, context);
-        } catch (Exception e) {
-            KSKRMSExecutionUtil.convertExceptionsToTermResolutionException(parameters, e, this);
-        }
+//        List<StudentTestScoreRecordInfo> recordInfoList = null;
+//        try {
+//            recordInfoList = academicRecordService.getTestScoreRecords(personId, context);
+//        } catch (Exception e) {
+//            KSKRMSExecutionUtil.convertExceptionsToTermResolutionException(parameters, e, this);
+//        }
 
         return result;
     }

@@ -207,63 +207,6 @@ public class ExamOfferingTransformer {
 
     }
 
-    private static String getSchedulingState(ExamOfferingInfo eo, SchedulingService schedulingService, ContextInfo context)
-            throws PermissionDeniedException, MissingParameterException, InvalidParameterException, OperationFailedException, DoesNotExistException {
-        ScheduleInfo schedule = schedulingService.getSchedule(eo.getScheduleId(), context);
-
-        for (ScheduleComponentInfo componentInfo : schedule.getScheduleComponents()) {
-            if (!componentInfo.getIsTBA()) {
-                return null; //Should be SCHEDULED_STATE_KEY
-            }
-        }
-
-        return ExamOfferingServiceConstants.EXAM_OFFERING_SCHEDULING_EXEMPT_STATE_KEY;
-    }
-
-    private static String getSchedulingState(ExamOfferingInfo eo, Map<String, ScheduleInfo> scheduleIdToScheduleMap) {
-        ScheduleInfo schedule = scheduleIdToScheduleMap.get(eo.getScheduleId());
-
-        for (ScheduleComponentInfo componentInfo : schedule.getScheduleComponents()) {
-            if (!componentInfo.getIsTBA()) {
-                return null; //Should be SCHEDULED_STATE_KEY
-            }
-        }
-
-        return ExamOfferingServiceConstants.EXAM_OFFERING_SCHEDULING_EXEMPT_STATE_KEY;
-    }
-
-    private static String getSchedulingStateByScheduleRequest(ExamOfferingInfo eo, SchedulingService schedulingService, ContextInfo context)
-            throws MissingParameterException, InvalidParameterException, OperationFailedException, PermissionDeniedException {
-        // get the schedule request for this AO
-        List<ScheduleRequestInfo> requests = schedulingService.getScheduleRequestsByRefObject(ExamOfferingServiceConstants.REF_OBJECT_URI_EXAM_OFFERING, eo.getId(), context);
-
-        return getSchedulingStateByScheduleRequest(eo, requests, schedulingService, context);
-    }
-
-    private static String getSchedulingStateByScheduleRequest(ExamOfferingInfo eo, List<ScheduleRequestInfo> requests, SchedulingService schedulingService, ContextInfo context) {
-        if (requests == null || requests.isEmpty()) {
-            // if there are no requests, the EO scheduling state is Unscheduled
-            return ExamOfferingServiceConstants.EXAM_OFFERING_SCHEDULING_UNSCHEDULED_STATE_KEY;
-        }
-
-        for (ScheduleRequestInfo request : requests) {
-            if(request.getStateKey().equals(SchedulingServiceConstants.SCHEDULE_REQUEST_STATE_ERROR)){
-                removeRDLForExamOffering(eo.getId(), schedulingService, context);
-                return ExamOfferingServiceConstants.EXAM_OFFERING_SCHEDULING_MATRIX_ERROR_STATE_KEY;
-            }
-            // if all the schedule request components are set as TBA, the EO scheduling state is Exempt
-            // otherwise, it's Unscheduled
-            for (ScheduleRequestComponentInfo reqComp : request.getScheduleRequestComponents()) {
-                if (!reqComp.getIsTBA()) {
-                    return ExamOfferingServiceConstants.EXAM_OFFERING_SCHEDULING_UNSCHEDULED_STATE_KEY;
-                }
-            }
-
-        }
-
-        return ExamOfferingServiceConstants.EXAM_OFFERING_SCHEDULING_EXEMPT_STATE_KEY;
-    }
-
     private static void removeRDLForExamOffering(String examOfferingId, SchedulingService schedulingService, ContextInfo context) {
         List<ScheduleRequestSetInfo> scheduleRequestSetInfoList = null;
         try {

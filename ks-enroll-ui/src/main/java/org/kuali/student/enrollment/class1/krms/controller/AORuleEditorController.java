@@ -165,10 +165,12 @@ public class AORuleEditorController extends EnrolRuleEditorController {
             }
         }
 
-        RuleEditor cluRuleEditor = ((AORuleEditor) aoRuleEditor).getCluEditor();
-        //Build the compare rule tree
-        ruleWrapper.setCompareTree(this.getViewHelper(form).buildCompareTree(cluRuleEditor, aoRuleEditor));
-        ruleWrapper.setCompareLightBoxHeader(aoRuleEditor.getRuleTypeInfo().getDescription());
+        if (aoRuleEditor != null){
+            RuleEditor cluRuleEditor = ((AORuleEditor) aoRuleEditor).getCluEditor();
+            //Build the compare rule tree
+            ruleWrapper.setCompareTree(this.getViewHelper(form).buildCompareTree(cluRuleEditor, aoRuleEditor));
+            ruleWrapper.setCompareLightBoxHeader(aoRuleEditor.getRuleTypeInfo().getDescription());
+        }
 
         // redirect back to client to display lightbox
         return showDialog(EnrolKRMSConstants.KSKRMS_DIALOG_COMPARE_CLU_CO_AO, form, request, response);
@@ -204,10 +206,10 @@ public class AORuleEditorController extends EnrolRuleEditorController {
             RuleEditor cluRuleEditor = null;
             if (aoRuleEditor != null) {
                 cluRuleEditor = ((AORuleEditor) aoRuleEditor).getCluEditor();
+                //Build the compare rule tree
+                ruleWrapper.setCompareTree(this.getViewHelper(form).buildMultiViewTree(cluRuleEditor, aoRuleEditor.getParent()));
+                ruleWrapper.setCompareLightBoxHeader(aoRuleEditor.getRuleTypeInfo().getDescription());
             }
-            //Build the compare rule tree
-            ruleWrapper.setCompareTree(this.getViewHelper(form).buildMultiViewTree(cluRuleEditor, aoRuleEditor.getParent()));
-            ruleWrapper.setCompareLightBoxHeader(aoRuleEditor.getRuleTypeInfo().getDescription());
         }
 
         // redirect back to client to display lightbox
@@ -242,7 +244,7 @@ public class AORuleEditorController extends EnrolRuleEditorController {
                 ruleEditor.setDummy(false);
             }
             //Compare rule with parent rule.
-            compareRulePropositions((MaintenanceDocumentForm) form, ruleEditor);
+            compareRulePropositions(this.getMaintenanceDocumentForm( form), ruleEditor);
             this.getViewHelper(form).refreshViewTree(ruleEditor);
 
         }
