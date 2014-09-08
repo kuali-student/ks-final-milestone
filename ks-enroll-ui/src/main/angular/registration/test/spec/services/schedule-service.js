@@ -50,6 +50,10 @@ describe('Service: ScheduleService', function () {
 
             expect(ScheduleService.getSchedules()).toEqual(_studentScheduleTermResult_.registeredCourseOfferings.concat(_studentScheduleTermResult_.waitlistCourseOfferings));
 
+            expect(ScheduleService.getRegisteredCourses()[0]).toEqual(_studentScheduleTermResult_.registeredCourseOfferings[1]);
+            expect(ScheduleService.getRegisteredCourses()[1]).toEqual(_studentScheduleTermResult_.registeredCourseOfferings[0]);
+            expect(ScheduleService.getRegisteredCourses()[2]).toEqual(_studentScheduleTermResult_.registeredCourseOfferings[2]);
+
             expect(ScheduleService.getRegisteredCourseCount()).toBe(3);
             expect(ScheduleService.getRegisteredCredits()).toBe(7);
 

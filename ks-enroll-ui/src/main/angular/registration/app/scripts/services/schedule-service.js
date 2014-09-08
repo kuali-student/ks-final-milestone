@@ -173,6 +173,7 @@ angular.module('regCartApp')
 
                 var gradingOptionCount = 0;
                 //grading options are an object (map) so there's no easy way to get the object size without this code
+                //used for checking if Edit button is needed
                 angular.forEach(course.gradingOptions, function () {
                     gradingOptionCount++;
                 });
@@ -184,10 +185,19 @@ angular.module('regCartApp')
 
                 var gradingOptionCount = 0;
                 //grading options are an object (map) so there's no easy way to get the object size without this code
+                //used for checking if Edit button is needed
                 angular.forEach(course.gradingOptions, function () {
                     gradingOptionCount++;
                 });
                 course.gradingOptionCount = gradingOptionCount;
+            });
+
+            // Sort courses according to date registered/added to waitlist (latest first)
+            registeredCourses.sort(function(course1, course2) {
+                return course1.createTime < course2.createTime;
+            });
+            waitlistedCourses.sort(function(course1, course2) {
+                return course1.createTime < course2.createTime;
             });
 
             this.setRegisteredCourseCount(registeredCourses.length);

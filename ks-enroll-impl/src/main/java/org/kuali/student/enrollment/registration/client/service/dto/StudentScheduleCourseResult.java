@@ -27,6 +27,7 @@ public class StudentScheduleCourseResult {
     private Map<String, String> gradingOptions;
     private List<StudentScheduleActivityOfferingResult> activityOfferings;
     private boolean isWaitlisted;
+    private String createTime;
 
     public List<StudentScheduleActivityOfferingResult> getActivityOfferings() {
         if (activityOfferings == null) {
@@ -119,5 +120,13 @@ public class StudentScheduleCourseResult {
 
     public void setRegGroupId(String regGroupId) {
         this.regGroupId = regGroupId;
+    }
+
+    public void setCreateTime (String createTime) {
+        this.createTime = createTime;
+    }
+
+    public String getCreateTime () {
+        return this.createTime;
     }
 }

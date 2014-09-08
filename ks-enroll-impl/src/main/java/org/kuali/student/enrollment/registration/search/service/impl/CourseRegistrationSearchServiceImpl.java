@@ -213,6 +213,8 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
         public static final String PERSON_ID = "personId";
 
         public static final String EFF_DATE = "effectiveDate";
+
+        public static final String LPR_CREATETIME = "lprCreateTime";
     }
 
     /**
@@ -1182,7 +1184,7 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
 
         queryBuilder.append(
                 "SELECT atp.ID, atp.ATP_CD, atp.NAME as atp_name, " +
-                        "lpr.LUI_ID, lpr.MASTER_LPR_ID, lpr.LPR_TYPE, lpr.LPR_STATE, lpr.CREDITS, lpr.GRADING_OPT_ID, lpr.CROSSLIST, " +
+                        "lpr.LUI_ID, lpr.MASTER_LPR_ID, lpr.LPR_TYPE, lpr.LPR_STATE, lpr.CREDITS, lpr.GRADING_OPT_ID, lpr.CROSSLIST, lpr.CREATETIME, " +
                         "luiId.LUI_CD, lui.NAME as lui_name, lui.DESCR_FORMATTED, lui.LUI_TYPE, luiId.LNG_NAME, " +
                         "luiRes.RESULT_VAL_GRP_ID, schedCmp.TBA_IND, " +
                         "room.ROOM_CD, rBldg.BUILDING_CD, " +
@@ -1241,6 +1243,8 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
             row.addCell(SearchResultColumns.CREDITS, (String) resultRow[i++]);
             row.addCell(SearchResultColumns.GRADING_OPTION_ID, (String) resultRow[i++]);
             row.addCell(SearchResultColumns.CROSSLIST, (String) resultRow[i++]);
+            Date lprCreateTime = (Date) resultRow[i++];
+            row.addCell(SearchResultColumns.LPR_CREATETIME, lprCreateTime.toString());
             row.addCell(SearchResultColumns.LUI_CODE, (String) resultRow[i++]);
             row.addCell(SearchResultColumns.LUI_NAME, (String) resultRow[i++]);
             row.addCell(SearchResultColumns.LUI_DESC, (String) resultRow[i++]);

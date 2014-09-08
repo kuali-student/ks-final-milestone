@@ -19,6 +19,7 @@ angular.module('mockStudentScheduleTermResult', []).value('studentScheduleTermRe
             "longName": "Academic Writing",
             "regGroupCode": "1001",
             "masterLprId": "0a9367a4-7627-4f91-b2e3-8526db033439",
+            "createTime": "2014-09-08 15:19:41.45",
             "creditOptions": [
                 "3.0"
             ],
@@ -70,6 +71,7 @@ angular.module('mockStudentScheduleTermResult', []).value('studentScheduleTermRe
             "longName": "Organic Chemistry Laboratory I",
             "regGroupCode": "1001",
             "masterLprId": "e69fbfe6-853d-4be5-a193-ac072dc99dba",
+            "createTime": "2014-09-08 15:24:39.626",
             "creditOptions": [
                 "1.0"
             ],
@@ -121,6 +123,7 @@ angular.module('mockStudentScheduleTermResult', []).value('studentScheduleTermRe
             "longName": "Inventing Western Literature: Ancient and Medieval Traditions",
             "regGroupCode": "1001",
             "masterLprId": "e259c124-ac80-441f-900b-74e3c66ec549",
+            "createTime": "2014-09-08 10:31:23.627",
             "creditOptions": [
                 "3.0"
             ],
@@ -176,6 +179,7 @@ angular.module('mockStudentScheduleTermResult', []).value('studentScheduleTermRe
             "longName": "Introduction to Chemical Research",
             "regGroupCode": "1001",
             "masterLprId": "b98e971f-ec54-40b9-83ed-badb079d567d",
+            "createTime": "2014-09-08 11:31:23.627",
             "creditOptions": [
                 "1.0",
                 "1.5",

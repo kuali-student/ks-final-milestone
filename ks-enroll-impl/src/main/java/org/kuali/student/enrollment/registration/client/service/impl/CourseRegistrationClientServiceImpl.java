@@ -490,6 +490,7 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
                 String endTimeMs = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.END_TIME_MS);
                 String resultValuesGroupKey = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.RES_VAL_GROUP_KEY);
                 String aoName = (luiName != null && luiName.length() >= 3 ? luiName.substring(0, 1).toUpperCase() + luiName.substring(1).toLowerCase() : "");
+                String lprCreateTime = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.LPR_CREATETIME);
 
                 // running over the list of results returned. One CO can have multiple AOs
                 if (hmCourseOffering.containsKey(masterLprId)) {
@@ -506,6 +507,7 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
                         studentScheduleCourseResult.setGradingOptionId(gradingOptionId);
                         studentScheduleCourseResult.setLongName(luiLongName);
                         studentScheduleCourseResult.setMasterLprId(masterLprId);
+                        studentScheduleCourseResult.setCreateTime(lprCreateTime);
                         if (StringUtils.equals(personLuiType, LprServiceConstants.WAITLIST_CO_LPR_TYPE_KEY)) {
                             studentScheduleCourseResult.setWaitlisted(true);
                         } else {
@@ -581,6 +583,7 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
                         studentScheduleCourseResult.setGradingOptionId(gradingOptionId);
                         studentScheduleCourseResult.setLongName(luiLongName);
                         studentScheduleCourseResult.setMasterLprId(masterLprId);
+                        studentScheduleCourseResult.setCreateTime(lprCreateTime);
                         if (StringUtils.equals(personLuiType, LprServiceConstants.WAITLIST_CO_LPR_TYPE_KEY)) {
                             studentScheduleCourseResult.setWaitlisted(true);
                         } else {
