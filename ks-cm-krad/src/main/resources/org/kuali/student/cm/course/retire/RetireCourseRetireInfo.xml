@@ -32,7 +32,7 @@
                     <property name="items">
                         <list>
                             <bean id="CM-Proposal-RetireCourse-ProposalTitle" parent="KS-Uif-InputField" p:label="Proposal Title"
-                                  p:propertyName="retireProposalName" p:required="true">
+                                  p:propertyName="proposalInfo.name" p:required="true">
                                 <property name="fieldLabel.renderColon" value="false"/>
                                 <property name="instructionalText"
                                           value="This title is used for identifying the proposal through the approval process."/>

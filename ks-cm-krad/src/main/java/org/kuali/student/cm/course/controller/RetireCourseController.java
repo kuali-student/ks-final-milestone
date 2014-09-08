@@ -91,7 +91,7 @@ public class RetireCourseController extends CourseController {
     protected void createDocument(DocumentFormBase form) throws WorkflowException {
         super.createDocument(form);
         // at this point we have the document type name set on the form so we use it to update the Course specific fields
-        updateCourseForm(form);
+        //updateCourseForm(form);
     }
 
     /**
@@ -133,6 +133,7 @@ public class RetireCourseController extends CourseController {
         }catch (Exception e) {
             throw new RuntimeException(e);
         }
+        wrapper.getProposalInfo().setName("Retire:" + wrapper.getCourseInfo().getCourseTitle());
 
     }
 

@@ -44,8 +44,6 @@ public class RetireCourseWrapper extends ProposalElementsWrapper implements Seri
 
     private String lastUpdated;
 
-    private String retireProposalName;
-
     public CourseInfo getCourseInfo() {
         return courseInfo;
     }
@@ -124,12 +122,5 @@ public class RetireCourseWrapper extends ProposalElementsWrapper implements Seri
         this.lastUpdated = lastUpdated;
     }
 
-    public String getRetireProposalName() {
-        return "Retire:" + getCourseInfo().getCourseTitle();
-    }
-
-    public void setRetireProposalName(String retireProposalName) {
-        this.retireProposalName = retireProposalName;
-    }
 
 }
