@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Copyright 2007-2013 The Kuali Foundation
+
+Licensed under the Educational Community License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.opensource.org/licenses/ecl2.php
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="CM-FindProposal-LookupView" abstract="true" parent="CM-FindProposal-LookupView-ParentBean"/>
+
+    <bean id="CM-FindProposal-LookupView-ParentBean" abstract="true"
+            class="org.kuali.student.cm.uif.view.ProposalLookupView" parent="KS-Uif-LookupView">
+    </bean>
+
+    <bean id="CM-FindProposal" parent="CM-FindProposal-LookupView">
+        <property name="id" value="ksCMProposalLookup"/>
+        <property name="viewName" value="ProposalLookup"/>
+        <property name="headerText" value="Find a Proposal" />
+        <property name="dataObjectClassName" value="org.kuali.student.r2.core.proposal.dto.ProposalInfo" />
+        <property name="viewHelperServiceClass" value="org.kuali.student.cm.course.service.impl.CourseProposalLookupableImpl" />
+        <property name="authorizerClass" value="org.kuali.student.cm.proposal.auth.ProposalLookupViewAuthorizerBase"/>
+        <property name="renderMaintenanceLinks" value="true"/>
+
+        <property name="applicationHeader">
+            <bean parent="KS-Uif-FormView-ApplicationHeader"/>
+        </property>
+        <!-- Rice 2.4 fix - The stickyHeader cannot be added in definitions xml since it impacts lookups everywhere -->
+        <property name="stickyHeader" value="true"/>
+        <property name="header.cssClasses">
+            <list merge="true">
+                <value>ks-unified-header</value>
+            </list>
+        </property>
+
+        <property name="breadcrumbOptions.homewardPathBreadcrumbs">
+            <list>
+                <ref bean="KS-HomewardPathBreadcrumbs-Home"/>
+                <ref bean="KS-HomewardPathBreadcrumbs-CurriculumManagement"/>
+            </list>
+        </property>
+
+        <property name="cssClasses">
+            <list>
+                <value>ks-cm-find-course-proposal</value>
+            </list>
+        </property>
+
+        <property name="page.header">
+            <null/>
+        </property>
+
+        <property name="page.instructionalMessage">
+            <bean parent="Uif-Message" p:width="auto">
+                <property name="messageText" value="Search for keywords found within the title of a proposal." />
+            </bean>
+        </property>
+
+        <property name="criteriaGroup">
+            <bean parent="Uif-HorizontalBoxSection">
+                <property name="fieldBindingObjectPath" value="lookupCriteria"/>
+                <property name="footer">
+                  <bean parent="Uif-LookupCriteriaFooter"/>
+                </property>
+                <property name="items">
+                    <list>
+                        <bean id="CM-FindProposal-Lookup-Title" parent="Uif-LookupCriteriaInputField" p:propertyName="title"
+                              p:label="Title" p:required="true" p:fieldLabel.renderColon="false"/>
+                        <bean id="CM-FindProposal-Lookup-Search" parent="Uif-SecondaryActionButton" p:methodToCall="search"
+                              p:actionLabel="Find Course Proposal" p:performClientSideValidation="true"/>
+                    </list>
+                </property>
+            </bean>
+        </property>
+
+        <property name="resultFields">
+            <list>
+                <bean parent="KS-Uif-DataField-Simple" p:propertyName="name" p:label="Title" p:id="@{#lp.name}"/>
+                <bean parent="KS-Uif-DataField-Simple" p:propertyName="meta.createId" p:label="Author"/>
+            </list>
+        </property>
+
+        <property name="resultsGroup.renderLineActions" value="true"/>
+        <property name="resultsGroup.layoutManager.actionColumnPlacement" value="RIGHT"/>
+
+        <property name="resultsGroup.layoutManager.richTable">
+            <bean parent="KS-Uif-RichTable"/>
+        </property>
+
+        <property name="resultsGroup.layoutManager.richTable.templateOptions">
+            <map merge="true">
+                <entry key="aoColumnDefs"
+                   value="[ {'aTargets':[0,1], 'bSortable':true} ]"/>
+            </map>
+        </property>
+
+        <property name="resultsGroup.lineActions">
+            <list>
+              <bean parent="KS-Uif-View-NavigationActionLink">
+                <property name="id" value="@{#lp.name}_view"/>
+                <property name="actionLabel" value="Review Proposal"/>
+                <property name="finalizeMethodToCall" value="buildProposalActionLink"/>
+                <property name="finalizeMethodAdditionalArguments">
+                  <list>
+                    <value>docHandler</value>
+                    <value>CM-Proposal-Review-Course-Page</value>
+                  </list>
+                </property>
+                <property name="actionParameters">
+                    <map>
+                      <entry key="pageId" value="CM-Proposal-Review-Course-Page"/>
+                    </map>
+                </property>
+                <property name="render" value="@{#ViewHelper.allowsProposalOpenAction(#line)}"/>
+              </bean>
+              <bean parent="KS-Uif-Edit-NavigationActionLink">
+                <property name="id" value="@{#lp.name}_edit"/>
+                <property name="actionLabel" value="Edit"/>
+                <property name="finalizeMethodToCall" value="buildProposalActionLink"/>
+                <property name="finalizeMethodAdditionalArguments">
+                  <list>
+                    <value>docHandler</value>
+                    <value>CM-Proposal-Course-Create-Page</value>
+                  </list>
+                </property>
+                <property name="render" value="@{#ViewHelper.allowsProposalEditAction(#line) and view.renderMaintenanceLinks}"/>
+              </bean>
+            </list>
+          </property>
+
+        <property name="footer.items">
+            <list>
+            </list>
+        </property>
+    </bean>
+</beans>

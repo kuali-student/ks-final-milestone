@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+  Copyright 2005-2013 The Kuali Foundation
+ 
+  Licensed under the Educational Community License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+ 
+  http://www.opensource.org/licenses/ecl2.php
+ 
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="CM-Proposal-CourseRequisites-Section" parent="CM-Proposal-Course-View-VerticalBoxSection">
+        <property name="headerText" value="Course Requisites"/>
+        <property name="items">
+            <list>
+                <ref bean="CM-Proposal-Course-Requisites-NoRequiredMessageLink" />
+                <ref bean="CM-Proposal-Course-Requisites-Section" />
+            </list>
+        </property>
+    </bean>
+    <bean id="CM-Proposal-Course-Requisites-NoRequiredMessageLink" parent="Uif-HorizontalFieldGroup" >
+        <property name="style" value="display: none;" />
+        <property name="cssClasses">
+            <list merge="true">
+                <value>hide-when-show-all-fields</value>
+            </list>
+        </property>
+        <property name="items">
+            <list>
+                <bean parent="Uif-Message" p:id="CM-Proposal-Course-CourseRequisites-NoRequiredMessage"
+                      p:messageText="No required fields." p:style="margin-top: 5px; margin-right: 0px;">
+                </bean>
+                <bean parent="KS-Uif-ActionLink" p:id="CM-Proposal-Course-CourseRequisites-NoRequiredMessage-ExpandLink"
+                      p:actionScript="createCourseShowHideObjectiveElements('CM-Proposal-Course-Requisites-NoRequiredMessageLink', 'CM-Proposal-Course-Requisites-Section');"
+                      p:actionLabel="Show all fields" p:style="margin-right: 15pt; margin-top: 0px;">
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="CM-Proposal-Course-Requisites-Section" parent="Uif-VerticalBoxSection" p:headerText="">
+        <property name="cssClasses">
+            <list merge="true">
+                <value>admin-not-required-field</value>
+                <value>CourseRequisites-DisclosureLinks</value>
+            </list>
+        </property>
+        <property name="onDocumentReadyScript" value="setDirtyManually(@{#dp.agendaDirty});" />
+        <property name="items">
+            <list>
+                <bean id="CM-Proposal-Course-CourseRequisites-DisclosureLinks-AgendaMaintenance" parent="KRMS-AgendaMaintenance-DisclosureLinks"/>
+                <!-- KSCM-1727 - Move the Rules wrapper within CourseInfoWrapper-->
+                <bean parent="KRMS-AgendaManage-Section" class="org.kuali.student.cm.course.service.util.CourseAgendaSection">
+                    <property name="rulePrototype">
+                        <ref bean="CM-Proposal-Course-AgendaManage-RulePrototype"/>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+
+    <!--
+Custom RulePrototype for Requisites on Course Review screen.
+-->
+    <bean id="CM-Proposal-CoursePreview-AgendaManage-RulePrototype" parent="CM-Proposal-Course-AgendaManage-RulePrototype-CoursePreview">
+        <property name="items">
+            <list>
+                <ref bean="CM-Proposal-Course-AgendaManage-ViewRule"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="CM-Proposal-Course-AgendaManage-RulePrototype-CoursePreview" parent="CM-VerticalBoxSubSection">
+    </bean>
+
+    <bean id="CM-Proposal-Course-AgendaManage-ViewRule" parent="KRMS-AgendaManage-EditRule">
+        <property name="items">
+            <list>
+                <bean id="CM-Proposal-Course-ReviewTree-Group" parent="Uif-VerticalBoxGroup"
+                      p:cssClasses="ks-form-panel">
+                    <property name="items">
+                        <list>
+                            <ref bean="CM-Proposal-Course-ViewTree-Section"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="CM-Proposal-Course-AgendaManage-Section" parent="Uif-VerticalBoxSection"
+          class="org.kuali.rice.krms.util.AgendaSection">
+        <property name="validationMessages.displayMessages" value="false"/>
+        <property name="bindingInfo">
+            <ref bean="Uif-BindingInfo"/>
+        </property>
+        <property name="propertyName" value="agendas"/>
+        <property name="agendaPrototype">
+            <ref bean="CM-Proposal-Course-AgendaManage-AgendaPrototype"/>
+        </property>
+        <property name="rulePrototype">
+            <ref bean="KRMS-AgendaManage-RulePrototype"/>
+        </property>
+    </bean>
+
+    <bean id="CM-Proposal-Course-AgendaManage-AgendaPrototype" parent="Uif-VerticalBoxSection">
+        <property name="validationMessages.displayMessages" value="false"/>
+        <property name="header">
+            <bean parent="Uif-HeaderFour" p:additionalCssClasses="krms-agendaHeader">
+            </bean>
+        </property>
+    </bean>
+
+
+
+
+
+
+</beans>

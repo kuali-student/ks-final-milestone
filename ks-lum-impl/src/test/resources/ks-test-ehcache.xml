@@ -1,0 +1,15 @@
+<ehcache name="ks-ehcache">
+    <defaultCache maxElementsInMemory="10" eternal="false" timeToIdleSeconds="300" timeToLiveSeconds="300" />
+    <cache name="cluCache" maxElementsInMemory="100" eternal="true" timeToIdleSeconds="0" />
+    <cache name="clusetCache" maxElementsInMemory="100" eternal="true" timeToIdleSeconds="0" />
+    <cache name="cluCluRelationCache" maxElementsInMemory="100" eternal="true" timeToIdleSeconds="0">
+        <searchable>
+            <searchAttribute name="cluId"/>
+            <searchAttribute name="relatedCluId"/>
+        </searchable>
+    </cache>
+    
+    <!-- Cache for Course Service -->
+    <cache name="courseCache" maxElementsInMemory="500" eternal="false" timeToIdleSeconds="0" timeToLiveSeconds="600" />
+    
+</ehcache>

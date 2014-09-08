@@ -6,11 +6,12 @@
         <artifactId>student</artifactId>
         <version>2.1.1-FR2-M1-SNAPSHOT</version>
     </parent>
-    <groupId>org.kuali.student.api</groupId>
-    <artifactId>ks-api</artifactId>
+    <groupId>org.kuali.student.lum</groupId>
+    <artifactId>ks-lum</artifactId>
     <version>2.1.1-FR2-M1-SNAPSHOT</version>
+    <name>KS Lum</name>
+    <description>KS Learning Unit Management</description>
     <packaging>pom</packaging>
-    <name>KS API</name>
     <profiles>
         <profile>
             <id>default</id>
@@ -18,18 +19,57 @@
                 <activeByDefault>true</activeByDefault>
             </activation>
             <modules>
-                <module>ks-common-api</module>
-                <module>ks-core-api</module>
-                <module>ks-lum-api</module>
-                <module>ks-enroll-api</module>
-                <module>ks-ap-api</module>
+                <module>ks-lum-sql</module>
+                <module>ks-lum-impl</module>
+                <module>ks-lum-rice</module>
+                <module>ks-lum-ui</module>
+                <module>ks-lum-program</module>
+                <module>ks-lum-ui-common</module>
+                <module>ks-cm-krad</module>
+                <module>ks-cm-deployment-resources</module>
+            </modules>
+        </profile>
+        <profile>
+            <id>sql-only</id>
+            <modules>
+                <module>ks-lum-sql</module>
+            </modules>
+        </profile>
+        <profile>
+            <id>skip-all-wars</id>
+            <modules>
+                <module>ks-lum-sql</module>
+                <module>ks-lum-impl</module>
+                <module>ks-lum-rice</module>
+                <module>ks-lum-ui</module>
+                <module>ks-lum-program</module>
+                <module>ks-lum-ui-common</module>
+                <module>ks-cm-krad</module>
+            </modules>
+        </profile>
+        <profile>
+            <id>test-only</id>
+            <modules>
+                <module>ks-lum-impl</module>
+                <module>ks-lum-rice</module>
+                <module>ks-lum-ui</module>
+                <module>ks-lum-program</module>
+                <module>ks-lum-ui-common</module>
+            </modules>
+        </profile>
+        <profile>
+            <id>skip-ui</id>
+            <modules>
+                <module>ks-lum-sql</module>
+                <module>ks-lum-impl</module>
+                <module>ks-lum-rice</module>
             </modules>
         </profile>
         <profile>
             <id>skip-surefire-tests</id>
             <activation>
                 <property>
-                    <name>skip.api.tests</name>
+                    <name>skip.lum.tests</name>
                 </property>
             </activation>
             <build>
@@ -42,13 +82,14 @@
                     </plugin>
                 </plugins>
             </build>
-            <!-- include all the modules from the default profile -->
+            <!-- include all the modules from the default profile (except SQL modules) -->
             <modules>
-                <module>ks-common-api</module>
-                <module>ks-core-api</module>
-                <module>ks-lum-api</module>
-                <module>ks-enroll-api</module>
-                <module>ks-ap-api</module>
+                <module>ks-lum-impl</module>
+                <module>ks-lum-rice</module>
+                <module>ks-lum-ui</module>
+                <module>ks-lum-program</module>
+                <module>ks-lum-ui-common</module>
+                <module>ks-cm-krad</module>
             </modules>
         </profile>
     </profiles>

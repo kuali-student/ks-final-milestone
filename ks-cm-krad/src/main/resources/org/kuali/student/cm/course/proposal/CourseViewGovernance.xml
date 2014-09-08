@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Copyright 2005-2013 The Kuali Foundation
+
+  Licensed under the Educational Community License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+  http://www.opensource.org/licenses/ecl2.php
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="CM-Proposal-Course-Governance-Section" parent="CM-Proposal-Course-View-VerticalBoxSection">
+        <property name="headerText" value="Governance"/>
+        <property name="items">
+            <list>
+                <bean parent="CM-InputField" p:propertyName="campusLocations" p:label="Campus Locations"
+                      p:instructionalText="" p:width="auto" >
+                    <property name="control">
+                        <bean parent="Uif-VerticalCheckboxesControl" />
+                    </property>
+                    <property name="simpleConstraint">
+                        <bean parent="CM-RequiredConstraints-Approve"/>
+                    </property>
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.student.lum.lu.ui.course.keyvalues.CampusLocationsKeyValuesFinder"
+                              p:addBlankOption="false" />
+
+                    </property>
+                </bean>
+                <ref bean="CM-Proposal-Course-Governance-CurriculumOversight-Section" />
+                <ref bean="CM-Proposal-Course-Governance-AdministeringOrganization-Section" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="CM-Proposal-Course-Governance-CurriculumOversight-Section" parent="KS-TableCollectionSubSection-BottomAddLine" p:forceSessionPersistence="true"
+                      p:layoutManager.style="width: 100%;"
+                      p:instructionalText="This is the organization(s) responsible for the content of the course. This selection will determine the workflow/approval process for this proposal."
+                      p:headerText="Curriculum Oversight">
+        <property name="collectionObjectClass" value="org.kuali.student.cm.course.form.wrapper.CourseCreateUnitsContentOwner" />
+        <property name="refreshWhenChangedPropertyNames" value="#dp.dataObject.courseInfo.subjectArea"/>
+        <property name="methodToCallOnRefresh" value="refreshOversightSection"/>
+        <property name="propertyName" value="unitsContentOwner" />
+        <property name="addBlankLineAction.actionLabel" value="Add Organization"/>
+        <property name="addBlankLineAction.id" value="CM-Proposal-Course-Governance-CurriculumOversight-Add"/>
+        <property name="addBlankLineAction.dirtyOnAction" value="true" />
+        <property name="layoutManager.renderSequenceField" value="false"/>
+        <property name="layoutManager.generateAutoSequence" value="false"/>
+        <property name="layoutManager.separateAddLine" value="false"/>
+        <property name="layoutManager.richTable.render" value="false"/>
+        <property name="layoutManager.applyAlternatingRowStyles" value="false"/>
+        <property name="validationMessages" ref="KS-ValidationMessages-Off"/>
+
+        <property name="header">
+            <bean parent="CM-IconHeader">
+                <property name="rightGroup.items">
+                    <list>
+                        <bean parent="CM-RequiredIndicator-Message" id="curriculum_oversight_required_indicator"/>
+                    </list>
+                </property>
+            </bean>
+        </property>
+
+        <property name="cssClasses">
+            <list merge="true">
+                <value>cm-collection-width</value>
+                <value>admin-not-required-field</value>
+                <value>cm_requiredMessage_sectionHeader</value>
+                <value>cm-CurriculumOversight-subtext</value>
+            </list>
+        </property>
+        <property name="items">
+            <list>
+                <bean id="CM-Proposal-Course-Governance-CurriculumOversight-Name" parent="CM-InputField" p:label="Name"
+                      p:propertyName="orgId" p:readOnly="@{!#lp.renderHelper.newRow and !#empty(#lp.orgId)}" p:readOnlyDisplayReplacementPropertyName="renderHelper.orgLongName">
+                    <!-- Make required for approval -->
+                    <property name="simpleConstraint">
+                        <bean parent="CM-RequiredConstraints-Approve"/>
+                    </property>
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.student.lum.lu.ui.course.keyvalues.OrgsBySubjectCodeValuesFinder"
+                              p:blankOption="true" />
+                    </property>
+                    <property name="control">
+                        <bean parent="KS-Uif-DropdownControl" />
+                    </property>
+                </bean>
+            </list>
+        </property>
+        <property name="lineActions">
+            <list>
+                <bean parent="KS-Uif-Delete-ActionLink" p:id="CM-Proposal-Course-Governance-CurriculumOversight-Delete" p:methodToCall="deleteLine" p:actionLabel="Delete"
+                                      p:actionEvent="deleteLine" p:dirtyOnAction="true"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="CM-Proposal-Course-Governance-AdministeringOrganization-Section" parent="KS-TableCollectionSubSection-BottomAddLine"
+                      p:id="CM-Proposal-Course-Governance-AdministeringOrganization" p:layoutManager.style="width: 100%;"
+                      p:instructionalText="List the organization(s) that can administer, or offer, this course. In most cases this will be the same as the Curriculum Oversight organization, but additional and/or alternate organizations can also be listed as administering organizations."
+                      p:headerText="Administering Organization(s)">
+        <property name="collectionObjectClass" value="org.kuali.student.cm.course.form.wrapper.OrganizationInfoWrapper" />
+        <property name="propertyName" value="administeringOrganizations" />
+        <property name="addBlankLineAction.actionLabel" value="Add Organization"/>
+        <property name="addBlankLineAction.id" value="CM-Proposal-Course-Governance-AdministeringOrganization-Add"/>
+        <property name="addBlankLineAction.onDocumentReadyScript" value="reDisplayAdministeringOrganization();"/>
+        <property name="addBlankLineAction.dirtyOnAction" value="true" />
+        <property name="layoutManager.renderSequenceField" value="false"/>
+        <property name="layoutManager.generateAutoSequence" value="false"/>
+        <property name="layoutManager.separateAddLine" value="false"/>
+        <property name="layoutManager.richTable.disableTableSort" value="true"/>
+        <property name="layoutManager.richTable.render" value="false"/>
+        <property name="layoutManager.applyAlternatingRowStyles" value="false"/>
+        <property name="validationMessages" ref="KS-ValidationMessages-Off"/>
+        <property name="header">
+            <bean parent="CM-IconHeader">
+                <property name="richHeaderMessage.iconToolTipText" value="This is not a restrictive list - organizations here are additional organizations that can administer this course."/>
+            </bean>
+        </property>
+        <property name="cssClasses">
+            <list merge="true">
+                <value>cm-collection-width</value>
+                <value>admin-not-required-field</value>
+            </list>
+        </property>
+        <property name="items">
+            <list>
+                <bean parent="KS-Uif-InputField" p:propertyName="organizationName" p:id="CM-Proposal-Course-Governance-OrganizationName" >
+                    <property name="refreshWhenChangedPropertyNames" value="organizationName"/>
+                    <property name="control">
+                        <bean parent="KS-Uif-TextControl" p:size="50" p:cssClasses="validOrganizationName" />
+                    </property>
+                    <property name="suggest">
+                        <bean parent="Uif-Suggest" p:render="true" p:valuePropertyName="organizationName">
+                            <property name="returnFullQueryObject" value="true"/>
+                            <property name="suggestQuery">
+                                <bean parent="Uif-AttributeQueryConfig" p:queryMethodToCall="getOrganizationsForSuggest"/>
+                            </property>
+                            <property name="templateOptions">
+                                <map merge="true">
+                                    <entry key="minLength" value="1"/>
+                                </map>
+                            </property>
+                        </bean>
+                    </property>
+                </bean>
+            </list>
+        </property>
+        <property name="lineActions">
+            <list>
+                <bean parent="KS-Uif-Delete-ActionLink" p:id="CM-Proposal-Course-Governance-AdministeringOrganization-Delete" p:methodToCall="deleteLine" p:actionLabel="Delete"
+                      p:actionEvent="deleteLine" p:dirtyOnAction="true"/>
+            </list>
+        </property>
+    </bean>
+</beans>

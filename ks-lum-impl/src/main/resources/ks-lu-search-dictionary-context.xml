@@ -1,0 +1,243 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+ <import resource="classpath:ks-base-dictionary-context.xml" />
+ <import resource="classpath:ks-cluset-ui-object-dictionary-context.xml" />
+
+ <!-- freestanding fields used just for searching -->
+
+ <bean id="freestanding.search-parent"  abstract="true" parent="objectStructureDefinition">
+  <property name="name" value="search"/>
+  <property name="attributes">
+   <list>
+    <ref bean="freestanding.search.cluset" />
+    <ref bean="freestanding.search.courseset" />
+    <ref bean="freestanding.search.findCourse" />
+    <ref bean="freestanding.search.courseId" />
+    <ref bean="freestanding.search.courseVersions" />
+    <ref bean="freestanding.search.findCourseProposal" />
+    <ref bean="freestanding.search.findProgramProposal" />
+    <ref bean="freestanding.search.findMajor" />
+    <ref bean="freestanding.search.findCredentialProgram" />
+    <ref bean="freestanding.search.findCoreProgram" />
+
+    <!--Not sure these are actually used-->
+    <ref bean="freestanding.search.approvedCourses" />
+    <ref bean="freestanding.search.approvedCoursesByTitle" />
+    <ref bean="freestanding.search.proposedCoursesByCode" />
+    <ref bean="freestanding.search.proposedCoursesByTitle" />
+    <ref bean="freestanding.search.proposedCourses" />
+    <ref bean="freestanding.search.reusableCluSets" />
+    <ref bean="freestanding.search.courseRanges" />
+   </list>
+  </property>
+  <property name="hasMetaData" value="false"/>
+ </bean>
+ <bean id="freestanding.search" parent="freestanding.search-parent" />
+
+ <bean id="freestanding.search.cluset-parent" abstract="true" parent="baseComplex">
+  <property name="name" value="cluset" />
+  <property name="dataObjectStructure"
+            ref="freestanding.cluset" />
+ </bean>
+ <bean id="freestanding.search.cluset" parent="freestanding.search.cluset-parent" />
+
+ <bean id="freestanding.search.courseset-parent" abstract="true" parent="baseComplex">
+  <property name="name" value="courseSet" />
+  <property name="dataObjectStructure"
+            ref="freestanding.courseSet" />
+ </bean>
+ <bean id="freestanding.search.courseset" parent="freestanding.search.courseset-parent" />
+
+ <bean id="freestanding.search.findCourse-parent" abstract="true" parent="baseKualiCluId">
+  <property name="name" value="findCourse" />
+ </bean>
+ <bean id="freestanding.search.findCourse" parent="freestanding.search.findCourse-parent" />
+
+ <bean id="freestanding.search.courseId-parent" abstract="true" parent="baseKualiCluId">
+  <property name="name" value="courseId" />
+ </bean>
+ <bean id="freestanding.search.courseId" parent="freestanding.search.courseId-parent" />
+
+
+ <bean id="freestanding.search.findCourseProposal-parent" abstract="true" parent="baseKualiProposalId">
+  <property name="name" value="findCourseProposal" />
+ </bean>
+ <bean id="freestanding.search.findCourseProposal" parent="freestanding.search.findCourseProposal-parent" />
+
+
+ <bean id="freestanding.search.findProgramProposal-parent" abstract="true" parent="baseKualiProposalId">
+  <property name="name" value="findProgramProposal" />
+ </bean>
+ <bean id="freestanding.search.findProgramProposal" parent="freestanding.search.findProgramProposal-parent" />
+
+ <bean id="freestanding.search.findMajor-parent" abstract="true" parent="baseKualiCluId">
+  <property name="name" value="findMajor" />
+ </bean>
+ <bean id="freestanding.search.findMajor" parent="freestanding.search.findMajor-parent" />
+
+ <bean id="freestanding.search.findCredentialProgram-parent" abstract="true" parent="baseKualiCluId">
+  <property name="name" value="findCredentialProgram" />
+ </bean>
+ <bean id="freestanding.search.findCredentialProgram" parent="freestanding.search.findCredentialProgram-parent" />
+
+ <bean id="freestanding.search.findCoreProgram-parent" abstract="true" parent="baseKualiCluId">
+  <property name="name" value="findCoreProgram" />
+ </bean>
+ <bean id="freestanding.search.findCoreProgram" parent="freestanding.search.findCoreProgram-parent" />
+
+ <bean id="freestanding.search.approvedCourses-parent" abstract="true" parent="baseKualiProposalId">
+  <property name="name" value="approvedCourses" />
+ </bean>
+ <bean id="freestanding.search.approvedCourses" parent="freestanding.search.approvedCourses-parent" />
+
+ <bean id="freestanding.search.approvedCoursesByTitle-parent" abstract="true" parent="baseKualiProposalId">
+  <property name="name" value="approvedCoursesByTitle" />
+ </bean>
+ <bean id="freestanding.search.approvedCoursesByTitle" parent="freestanding.search.approvedCoursesByTitle-parent" />
+
+ <bean id="freestanding.search.proposedCourses-parent" abstract="true" parent="baseKualiCluId">
+  <property name="name" value="proposedCourses" />
+ </bean>
+ <bean id="freestanding.search.proposedCourses" parent="freestanding.search.proposedCourses-parent" />
+
+ <bean id="freestanding.search.proposedCoursesByTitle-parent" abstract="true" parent="baseKualiCluId">
+  <property name="name" value="proposedCoursesByTitle" />
+ </bean>
+ <bean id="freestanding.search.proposedCoursesByTitle" parent="freestanding.search.proposedCoursesByTitle-parent" />
+
+ <bean id="freestanding.search.proposedCoursesByCode-parent" abstract="true" parent="baseKualiCluId">
+  <property name="name" value="proposedCoursesByCode" />
+ </bean>
+ <bean id="freestanding.search.proposedCoursesByCode" parent="freestanding.search.proposedCoursesByCode-parent" />
+
+ <bean id="freestanding.search.courseVersions-parent" parent="baseKualiId">
+  <property name="name" value="searchCourseVersions" />
+ </bean>
+ <bean id="freestanding.search.courseVersions" parent="freestanding.search.courseVersions-parent" />
+
+<bean id="freestanding.search.programVersions-parent" parent="baseKualiId">
+  <property name="name" value="searchProgramVersions" />
+ </bean>
+ <bean id="freestanding.search.programVersions" parent="freestanding.search.programVersions-parent" />
+
+
+ <bean id="freestanding.search.reusableCluSets-parent" abstract="true" parent="baseKualiCluSetId">
+  <property name="name" value="reusableCluSets" />
+ </bean>
+ <bean id="freestanding.search.reusableCluSets" parent="freestanding.search.reusableCluSets-parent" />
+ 
+ <bean id="freestanding.search.courseRanges-parent" abstract="true" parent="baseKualiCluId">
+  <property name="name" value="courseRanges" />
+ </bean>
+ <bean id="freestanding.search.courseRanges" parent="freestanding.search.courseRanges-parent" />
+
+<!-- Browse -->
+ <bean id="freestanding.browse-parent"  abstract="true" parent="objectStructureDefinition">
+  <property name="name" value="browse"/>
+  <property name="attributes">
+   <list>
+    <ref bean="freestanding.browse.courseCatalog" />
+   </list>
+  </property>
+  <property name="hasMetaData" value="false"/>
+ </bean>
+ <bean id="freestanding.browse" parent="freestanding.browse-parent" />
+
+<bean id="freestanding.browse.courseCatalog-parent" abstract="true" parent="baseComplex">
+  <property name="name" value="courseCatalog" />
+  <property name="dataObjectStructure"
+            ref="freestanding.browse.courseCatalogObject" />
+ </bean>
+ <bean id="freestanding.browse.courseCatalog" parent="freestanding.browse.courseCatalog-parent" />
+
+<bean id="freestanding.browse.courseCatalogObject-parent" abstract="true" parent="objectStructureDefinition">
+  <property name="name" value="browse.courseCatalog"/>
+  <property name="attributes">
+   <list>
+    <ref bean="freestanding.browse.courseCatalog.bySchoolOrCollege"/>
+    <ref bean="freestanding.browse.courseCatalog.bySubjectArea"/>
+   </list>
+  </property>
+  <property name="hasMetaData" value="false"/>
+ </bean>
+ <bean id="freestanding.browse.courseCatalogObject" parent="freestanding.browse.courseCatalogObject-parent"/>
+
+<bean id="freestanding.browse.courseCatalog.bySchoolOrCollege-parent" abstract="true" parent="baseComplex">
+  <property name="name" value="bySchoolOrCollege" />
+  <property name="dataObjectStructure"
+            ref="freestanding.browse.courseCatalog.bySchoolOrCollegeObject" />
+ </bean>
+ <bean id="freestanding.browse.courseCatalog.bySchoolOrCollege" parent="freestanding.browse.courseCatalog.bySchoolOrCollege-parent" />
+
+<bean id="freestanding.browse.courseCatalog.bySchoolOrCollegeObject-parent" abstract="true" parent="objectStructureDefinition">
+  <property name="name" value="BySchoolOrCollege"/>
+  <property name="attributes">
+   <list>
+    <ref bean="freestanding.browse.courseId"/>
+   </list>
+  </property>
+  <property name="hasMetaData" value="false"/>
+ </bean>
+ <bean id="freestanding.browse.courseCatalog.bySchoolOrCollegeObject" parent="freestanding.browse.courseCatalog.bySchoolOrCollegeObject-parent"/>
+
+ <bean id="freestanding.browse.courseId-parent" abstract="true" parent="baseKualiCluId">
+  <property name="name" value="courseId" />
+ </bean>
+ <bean id="freestanding.browse.courseId" parent="freestanding.browse.courseId-parent" />
+
+ <bean id="freestanding.browse.courseCatalog.bySubjectArea-parent" abstract="true" parent="baseComplex">
+  <property name="name" value="bySubjectArea" />
+  <property name="dataObjectStructure"
+            ref="freestanding.browse.courseCatalog.bySubjectAreaObject" />
+ </bean>
+ <bean id="freestanding.browse.courseCatalog.bySubjectArea" parent="freestanding.browse.courseCatalog.bySubjectArea-parent" />
+
+<bean id="freestanding.browse.courseCatalog.bySubjectAreaObject-parent" abstract="true" parent="objectStructureDefinition">
+  <property name="name" value="BySubjectArea"/>
+  <property name="attributes">
+   <list>
+    <ref bean="freestanding.browse.courseId"/>
+   </list>
+  </property>
+  <property name="hasMetaData" value="false"/>
+ </bean>
+ <bean id="freestanding.browse.courseCatalog.bySubjectAreaObject" parent="freestanding.browse.courseCatalog.bySubjectAreaObject-parent"/>
+
+	<!-- Dependency Analysis -->
+	<bean id="freestanding.dependency-parent" abstract="true" parent="objectStructureDefinition">
+		<property name="name" value="dependency" />
+		<property name="attributes">
+			<list>
+				<bean id="freestanding.dependency.filter" parent="baseString">
+					<property name="name" value="filter" />
+				</bean>
+				<bean id="freestanding.dependency.courseId" parent="baseString">
+					<property name="name" value="courseId" />
+				</bean>
+			</list>
+		</property>
+		<property name="hasMetaData" value="false" />
+	</bean>
+	<bean id="freestanding.dependency" parent="freestanding.dependency-parent" />
+
+	<!-- Browse Program search and filters -->
+	<bean id="freestanding.browseProgram-parent" abstract="true" parent="objectStructureDefinition">
+		<property name="name" value="browseProgram" />
+		<property name="attributes">
+			<list>
+				<bean id="freestanding.browseProgram.filter" parent="baseString">
+					<property name="name" value="filter" />
+				</bean>
+				<bean id="freestanding.browseProgram.search" parent="baseString">
+					<property name="name" value="search" />
+				</bean>
+			</list>
+		</property>
+		<property name="hasMetaData" value="false" />
+	</bean>
+	<bean id="freestanding.browseProgram" parent="freestanding.browseProgram-parent" />
+
+
+
+</beans>

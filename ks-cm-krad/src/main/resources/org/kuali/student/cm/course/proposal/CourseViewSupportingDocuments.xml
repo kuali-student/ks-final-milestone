@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Copyright 2005-2013 The Kuali Foundation
+
+  Licensed under the Educational Community License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+  http://www.opensource.org/licenses/ecl2.php
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.canRevokeRequest
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="CM-Proposal-Course-SupportingDocument-Section" parent="CM-Proposal-Course-View-VerticalBoxSection">
+        <property name="headerText" value="Supporting Documents"/>
+        <property name="header">
+            <bean parent="CM-IconHeader">
+                <property name="richHeaderMessage.iconToolTipText"
+                          value="Files that will be submitted with the Course Proposal that support it."/>
+            </bean>
+        </property>
+        <property name="header.headerLevel" value="h2"/>
+        <property name="items">
+            <list>
+                <ref bean="CM-Proposal-Course-SupportingDocuments-NoRequiredMessageLink" />
+                <ref bean="CM-Proposal-Course-SupportingDocuments-Section" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="CM-Proposal-Course-SupportingDocuments-Section"  parent="CM-Proposal-Course-SupportingDocuments-Section-Parent"/>
+
+    <bean id="CM-Proposal-Course-SupportingDocuments-Section-Parent" parent="KS-TableCollectionSubSection-BottomAddLine"
+          p:layoutManager.id="cc-supportingdocumentsgroup-table" p:layoutManager.style="width: 60em;"
+          class="org.kuali.student.cm.uif.container.CMCollectionGroupBase" abstract="true">
+        <property name="collectionObjectClass" value="org.kuali.student.cm.proposal.form.wrapper.SupportingDocumentInfoWrapper"/>
+        <property name="propertyName" value="supportingDocs"/>
+        <property name="addBlankLineAction.actionLabel" value="Add Document"/>
+        <property name="addBlankLineAction.render" value="true"/>
+        <property name="addBlankLineAction.id" value="CM-Proposal-Course-AddSupportingDocument"/>
+        <property name="addBlankLineAction.dirtyOnAction" value="true"/>
+        <property name="validationMessages" ref="KS-ValidationMessages-Off"/>
+        <property name="layoutManager.renderSequenceField" value="false"/>
+        <property name="layoutManager.generateAutoSequence" value="false"/>
+        <property name="layoutManager.separateAddLine" value="false"/>
+        <property name="layoutManager.richTable.disableTableSort" value="true"/>
+        <property name="layoutManager.richTable.render" value="false"/>
+        <property name="onDocumentReadyScript" value="setupCharCounters();"/>
+        <property name="header.lowerGroup">
+            <bean parent="Uif-VerticalBoxGroup">
+                <property name="render" value="@{#workflowDoc.initiated}"/>
+                <property name="items">
+                    <list>
+                        <bean parent="Uif-Message"
+                              p:messageText="[image src=&quot;@{#ConfigProperties['krad.externalizable.images.url']}/validation/info.png&quot;]  The proposal must be saved before supporting documents can be added.">
+                            <property name="additionalCssClasses">
+                                <list merge="true">
+                                    <value>ks-informational-message-for-field</value>
+                                </list>
+                            </property>
+                        </bean>
+                    </list>
+                </property>
+            </bean>
+        </property>
+        <property name="cssClasses">
+            <list merge="true">
+                <value>cm-collection-width</value>
+                <value>admin-not-required-field</value>
+            </list>
+        </property>
+
+        <property name="lineActions">
+            <list>
+                <bean parent="KS-Uif-Delete-ActionLink"
+                      p:methodToCall="deleteLine"
+                      p:actionLabel="Delete"
+                      p:actionEvent="deleteLine"
+                      p:dirtyOnAction="true"/>
+            </list>
+        </property>
+        <property name="Items">
+            <list>
+                <bean parent="Uif-InputField" p:label="File" p:propertyName="documentUpload" p:render="@{#empty(#line.documentName)}">
+                    <property name="control">
+                        <bean parent="Uif-FileControl" p:size="30"/>
+                    </property>
+                    <property name="constraintText" value="@{T(org.kuali.student.cm.common.util.CurriculumManagementConstants).FILE_SIZE_CONSTRAINT}"/>
+                </bean>
+                <bean parent="Uif-ActionLinkField" p:label="File" p:actionLabel="@{#line.documentName}" p:methodToCall="downloadSupportingDoc"  p:render="@{!#empty(#line.documentName)}"
+                      p:ajaxSubmit="false"
+                      p:disableBlocking="true"
+                      p:onClickScript="writeHiddenToForm(&quot;ajaxReturnType&quot;, &quot;update-none&quot;);"
+                      p:additionalCssClasses="supporting-doc-download-link" />
+                <bean parent="Uif-InputField" p:label="Description" p:propertyName="description" p:readOnly="@{!#empty(#line.documentName)}"
+                      p:escapeHtmlInPropertyValue="false" class="org.kuali.student.cm.uif.element.InputFieldWithNonClobberableFieldLabel">
+                    <property name="control">
+                        <bean parent="Uif-MediumTextAreaControl">
+                            <property name="cssClasses">
+                                <list merge="true">
+                                    <value>cm-charcount-max-200</value>
+                                </list>
+                            </property>
+                        </bean>
+                    </property>
+                    <property name="dependencyConstraints">
+                        <list>
+                            <bean parent="PrerequisiteConstraint" p:propertyName="documentUpload">
+                                <property name="messageKey" value="error.supportingdocuments.required"/>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="CM-Proposal-Course-SupportingDocuments-NoRequiredMessageLink" parent="Uif-HorizontalFieldGroup" >
+        <property name="style" value="display: none;" />
+        <property name="cssClasses">
+            <list merge="true">
+                <value>hide-when-show-all-fields</value>
+            </list>
+        </property>
+        <property name="items">
+            <list>
+                <bean parent="Uif-Message" p:id="SupportingDocuments-NoRequiredMessage"
+                      p:messageText="No required fields." p:style="margin-top: 5px; margin-right: 0px;">
+                </bean>
+                <bean parent="KS-Uif-ActionLink" p:id="SupportingDocuments-NoRequiredMessage-expand-link"
+                      p:actionScript="createCourseShowHideObjectiveElements('CM-Proposal-Course-SupportingDocuments-NoRequiredMessageLink', 'KS-SupportingDocuments-Section');"
+                      p:actionLabel="Show all fields" p:style="margin-right: 15pt; margin-top: 0px;">
+                </bean>
+            </list>
+        </property>
+    </bean>
+</beans>

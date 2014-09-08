@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+  Copyright 2005-2013 The Kuali Foundation
+ 
+  Licensed under the Educational Community License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+ 
+  http://www.opensource.org/licenses/ecl2.php
+ 
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="CM-Proposal-Course-LoCategory-DataObjectEntry" parent="DataObjectEntry">
+        <property name="objectLabel" value="LoCategoryInfoWrapper"/>
+        <property name="dataObjectClass" value="org.kuali.student.cm.course.form.wrapper.LoCategoryInfoWrapper"/>
+    </bean>
+
+    <bean id="CM-Proposal-Course-LoCategory-LookupView" parent="Uif-LookupView"
+          p:onDocumentReadyScript="categoryTypeSelection('true'); jQuery('#LoCategoryInfoWrapper-Category-Filter_fieldset').find('legend').attr('style', 'display: block');">
+        <property name="viewName" value="CM-Proposal-Course-LoCategory-LookupView"/>
+        <property name="headerText" value="Select Categories"/>
+        <property name="theme">
+            <bean parent="KSTheme"/>
+        </property>
+        <property name="onLoadScript" value="jQuery(&quot;#Uif-BreadcrumbWrapper&quot;).remove();"/>
+        <property name="dataObjectClassName"
+                  value="org.kuali.student.cm.course.form.wrapper.LoCategoryInfoWrapper"/>
+        <property name="viewHelperServiceClass"
+                  value="org.kuali.student.cm.course.service.impl.LoCategoryInfoLookupableImpl"/>
+        <property name="multipleValuesSelect" value="true"/>
+        <property name="criteriaGroup.render" value="false"/>
+        <property name="formClass" value="org.kuali.student.cm.course.form.LoCategoryTypeBrowseForm"/>
+        <!-- Removing property. Looks like Rice no longer supports it: KULRICE-10618
+        <property name="resultsGroup.layoutManager.richTable.showSearchAndExportOptions" value="true" />
+        -->
+        <property name="resultsGroup.includeLineSelectionField" value="true"/>
+
+        <property name="resultsGroup.layoutManager.richTable.templateOptions">
+            <map>
+                <entry key="sDom" value="p"/>
+                <entry key="bPaginate" value="false"/>
+                <entry key="bAutoWidth" value="false"/>
+            </map>
+        </property>
+        <!-- Must define the criteriaFields even though it's not being rendered, because of framework restriction. -->
+        <property name="criteriaFields">
+            <list>
+                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="name"/>
+            </list>
+        </property>
+        <property name="page.items">
+            <list>
+                <ref bean="CM-Proposal-Course-LoCategory-Type-Selection"/>
+                <ref bean="CM-Proposal-Course-LoCategory-Type-Checkboxes"/>
+                <ref bean="CM-Proposal-Course-LoCategory-LookupView-Filter"/>
+            </list>
+        </property>
+        <property name="resultFields">
+            <list>
+                <bean id="CM-Proposal-Course-LoCategory-Result-Name" parent="KS-Uif-DataField" p:propertyName="name"
+                      p:label="Category"/>
+                <bean id="CM-Proposal-Course-LoCategory-Result-Type" parent="KS-Uif-DataField" p:propertyName="typeName"
+                      p:label="Type"/>
+            </list>
+        </property>
+        <property name="resultsGroup.layoutManager.actionColumnPlacement" value="RIGHT"/>
+        <property name="resultsGroup.footer.items">
+            <list>
+                <bean id="CM-Proposal-Course-LoCategory-Footer" parent="Uif-HorizontalFieldGroup"
+                      p:style="float: right;">
+                    <property name="items">
+                        <list>
+
+                            <bean id="CM-Proposal-Course-LoCategory-AddCategory" parent="Uif-PrimaryActionButton"
+                                  p:methodToCall="returnSelected"
+                                  p:actionLabel="Add Categories"
+                                  p:preSubmitCall="setupMultiValueReturn();return true;"
+                                  p:disabled="@{#form.selectedLookupResultsCache.size() == 0}" p:ajaxSubmit="false">
+                                <property name="cssClasses">
+                                    <list merge="true">
+                                        <value>uif-returnSelectedAction</value>
+                                    </list>
+                                </property>
+                            </bean>
+                            <bean id="CM-Proposal-Course-LoCategory-Cancel" parent="Uif-CancelAction"
+                                  p:onClickScript="closeLightbox();return false;"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+
+    </bean>
+
+    <bean id="CM-Proposal-Course-LoCategory-Type-Selection" parent="Uif-HorizontalFieldGroup">
+        <property name="items">
+            <list>
+                <bean parent="Uif-Message" p:id="CM-Proposal-Course-LoCategory-TypeSelectMsg"
+                      p:messageText="Filter by Category Type (">
+                </bean>
+                <bean parent="KS-Uif-ActionLink"
+                      p:id="Lo-type-selection-select-all-link"
+                      p:actionScript="categoryTypeSelection('true');"
+                      p:actionLabel="Select All">
+                </bean>
+                <bean parent="Uif-Message" p:id="CM-Proposal-Course-LoCategory-TypeSelectMsg-Deliminator"
+                      p:messageText="|">
+                </bean>
+                <bean parent="KS-Uif-ActionLink"
+                      p:id="CM-Proposal-Course-LoCategoryDeselectAll"
+                      p:actionScript="categoryTypeSelection('fales');"
+                      p:actionLabel="Clear All">
+                </bean>
+                <bean parent="Uif-Message" p:id="CM-Proposal-Course-LoCategory-TypeSelMsgEnd"
+                      p:messageText=")">
+                </bean>
+
+            </list>
+        </property>
+    </bean>
+
+    <bean id="CM-Proposal-Course-LoCategory-Type-Checkboxes" parent="Uif-VerticalBoxSection">
+        <property name="items">
+            <list>
+                <bean id="CM-Proposal-Course-LoCategory-ListTypeGroup" parent="KS-Uif-InputField" p:propertyName="typeList"
+                      p:onChangeScript="filterCategoriesByTypes();">
+                    <property name="control">
+                        <bean id="CM-Proposal-Course-LoCategory-ListType" parent="Uif-VerticalCheckboxesControl"/>
+                    </property>
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.student.lum.lu.ui.course.keyvalues.LoCategoryInfoTypeKeyValueFinder"
+                              p:addBlankOption="false"/>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+<!-- TODO This is a work around for KRAD filter bug as in KULRICE-8451. After the KRAD bug is fixed please use the KRAD feature
+     and remove this piece of code.
+ -->
+    <bean id="CM-Proposal-Course-LoCategory-LookupView-Filter" parent="Uif-HorizontalFieldGroup">
+        <property name="items">
+            <list>
+                <bean id="CM-Proposal-Course-LoCategory-Filter-Input" parent="KS-Uif-InputField-LabelLeft" p:label="Filter"
+                      p:style="float: right;"
+                      p:propertyName="categoryFilter" p:fieldLabel.style="float:left;"
+                      p:fieldLabel.renderColon="true">
+                    <property name="control">
+                        <bean parent="KS-Uif-TextControl" p:size="30" p:onKeyUpScript="filterCategoriesByName();"/>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+</beans>
