@@ -14,6 +14,15 @@ If more specific styling needs to take place add to courseSearch.less
   .font-size(14);
   font-weight: normal;
   position: relative;
+
+  @media screen and @lg-Min {
+      margin: 2.5rem 1rem 0 1rem;
+  }
+
+  // wide format styling
+  @media screen and  @wide-Min {
+      margin: 0 1rem 1rem 0;
+  }
 }
 
 .kscr-Search-result {
@@ -29,6 +38,10 @@ If more specific styling needs to take place add to courseSearch.less
   &--small {
     margin-right: 1rem;
     text-align: right;
+
+      @media screen and @lg-Min {
+        display: none;
+      }
   }
 }
 
@@ -199,26 +212,12 @@ If more specific styling needs to take place add to courseSearch.less
 
 // large format styling
 @media screen and (min-width: @largeFormatMin) {
-  .kscr-Search-results {
-    margin: 2.5rem 1rem 0 1rem;
-  }
 
   .kscr-Search-results-container {
     .util-Grid;
   }
 
-  .kscr-Search-results-heading--small {
-    display: none;
-  }
-
   .kscr-Search-results-list {
     display: none;
-  }
-}
-
-// wide format styling
-@media screen and (min-width: @wideFormatMin) {
-  .kscr-Search-results {
-    margin: 0 1rem 1rem 0;
   }
 }

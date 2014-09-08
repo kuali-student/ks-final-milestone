@@ -22,6 +22,11 @@
     &.ng-hide-remove.ng-hide-remove-active {
         opacity: 1;
     }
+
+    // No border on confirmation box in large-format
+    @media screen and @lg-Min {
+      border: none;
+    }
 }
 
 .kscr-Confirmation-header {
@@ -36,13 +41,4 @@
 .kscr-Confirmation-buttons {
     padding: 1rem 0 0.5rem;
     text-align: right;
-}
-
-
-
-@media screen and (min-width: @largeFormatMin) {
-    // No border on confirmation box in large-format
-    .kscr-Confirmation-container {
-        border: none;
-    }
 }

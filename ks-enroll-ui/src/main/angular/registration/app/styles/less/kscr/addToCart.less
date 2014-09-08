@@ -9,6 +9,14 @@
     margin: 1rem 0.5rem;
     padding: 0 1rem 0.5rem 0;
     position: relative;
+
+  /* Styles for large-size screens */
+  @media screen and @lg-Min {
+    .kscr-Responsive-sidebar .kscr-Responsive-cart & {
+      border: none;
+      margin: 0.1rem 0 0.1rem 0;
+    }
+  }
 }
 
 .kscr-addToCart-heading{
@@ -48,14 +56,4 @@
     width: 9.2rem;
 }
 
-/* Styles for large-size screens */
-@media screen and (min-width: @largeFormatMin) {
-  .kscr-Responsive-sidebar {
-    .kscr-Responsive-cart {
-      .kscr-addToCart {
-        border: none;
-        margin: 0.1rem 0 0.1rem 0;
-      }
-    }
-  }
-}
+

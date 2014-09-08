@@ -7,6 +7,10 @@
     font-weight: bold;
     padding: 0 0.7rem;
     text-transform: uppercase;
+
+    @media screen and @lg-Min {
+        color: @primaryTextColor;
+    }
 }
 
 .kscr-Heading-support {
@@ -15,6 +19,15 @@
     font-family: @primaryFontFamily;
     .font-size(14);
     font-weight: normal;
+
+    @media screen and @sm-Max {
+        display: block;
+    }
+
+    @media screen and @lg-Min {
+        float: right;
+        padding-right: 1rem;
+    }
 }
 
 .kscr-Heading-message {
@@ -25,20 +38,9 @@
     padding: 0;
 }
 
-@media screen and (max-width: @smallFormatMax) {
-    .kscr-Heading-support {
-        display: block;
-    }
-}
 
 @media screen and (min-width: @largeFormatMin) {
-    .kscr-Heading-support {
-        float: right;
-        padding-right: 1rem;
-    }
-    .kscr-Heading-sub {
-        color: @primaryTextColor;
-    }
+
 
     // Main/left content area
     .kscr-Responsive-content {
