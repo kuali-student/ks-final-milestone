@@ -24,6 +24,7 @@ import org.kuali.student.r2.core.hold.dto.AppliedHoldInfo;
 import org.kuali.student.r2.core.hold.dto.HoldIssueInfo;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import static org.kuali.rice.core.api.criteria.PredicateFactory.and;
@@ -197,6 +198,31 @@ public class HoldsViewHelperServiceImpl extends KSViewHelperServiceImpl implemen
             GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, e.getMessage());
         }
         return null;
+    }
+
+    public List<String> retrieveHoldCodes( String holdCode) {
+
+        List<String> holdIssueCodeList = new ArrayList<String>();
+
+        if (holdCode.length() >= 3){
+            try {
+                QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
+                qbcBuilder.setPredicates(PredicateFactory.like(HoldsConstants.HOLD_ISSUE_CODE, "%" + holdCode + "%"));
+
+                List<HoldIssueInfo> holdIssueInfos = HoldsResourceLoader.getHoldService().searchForHoldIssues(
+                        qbcBuilder.build(), createContextInfo());
+
+                for (HoldIssueInfo holdIssueInfo : holdIssueInfos) {
+                    holdIssueCodeList.add(holdIssueInfo.getHoldCode());
+                }
+            } catch (Exception e) {
+                convertServiceExceptionsToUI(e);
+            }
+
+            Collections.sort(holdIssueCodeList);
+        }
+
+        return holdIssueCodeList;
     }
 
 }

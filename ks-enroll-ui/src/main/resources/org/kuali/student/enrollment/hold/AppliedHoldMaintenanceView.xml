@@ -123,6 +123,20 @@ limitations under the License.
                     <property name="control">
                         <bean parent="KS-Uif-TextControl" p:size="10"/>
                     </property>
+                    <!-- The hold code auto-complete -->
+                    <property name="suggest">
+                        <bean parent="Uif-Suggest" p:render="true" p:valuePropertyName="holdCode">
+                            <property name="returnFullQueryObject" value="true"/>
+                            <property name="suggestQuery">
+                                <bean parent="Uif-AttributeQueryConfig" p:queryMethodToCall="retrieveHoldCodes"/>
+                            </property>
+                            <property name="templateOptions">
+                                <map merge="true">
+                                    <entry key="minLength" value="3"/>
+                                </map>
+                            </property>
+                        </bean>
+                    </property>
                 </bean>
                 <bean parent="Uif-HorizontalBoxGroup">
                     <property name="validationMessages" ref="KS-ValidationMessages-Off"/>
