@@ -58,6 +58,7 @@ public class KsapLuiSearchService extends SearchServiceAbstractHardwiredImpl {
     public static final TypeInfo KSAP_COURSE_SEARCH_LU_BY_LUI_TITLE;
     public static final TypeInfo KSAP_COURSE_SEARCH_LU_BY_LUI_DESCRIPTION;
     public static final TypeInfo KSAP_SEARCH_COURSEIDS_BY_TERM_SCHEDULED;
+    public static final TypeInfo KSAP_SEARCH_LUI_NAME_BY_LUI_ID;
 
     public static final String DEFAULT_EFFECTIVE_DATE = "01/01/2012";
     static {
@@ -129,6 +130,14 @@ public class KsapLuiSearchService extends SearchServiceAbstractHardwiredImpl {
         info.setDescr(new RichTextHelper().fromPlain("Search for course ids based on if COs for course are offered in a term"));
         info.setEffectiveDate(DateFormatters.MONTH_DAY_YEAR_DATE_FORMATTER.parse(DEFAULT_EFFECTIVE_DATE));
         KSAP_SEARCH_COURSEIDS_BY_TERM_SCHEDULED = info;
+
+         // Create search that retrieves a reg group name using the id of the reg group
+        info = new TypeInfo();
+        info.setKey(CourseSearchConstants.KSAP_SEARCH_LUI_NAME_BY_LUI_ID_KEY);
+        info.setName("Lui Name Search By lui Id");
+        info.setDescr(new RichTextHelper().fromPlain("Search for lui name based on its id"));
+        info.setEffectiveDate(DateFormatters.MONTH_DAY_YEAR_DATE_FORMATTER.parse(DEFAULT_EFFECTIVE_DATE));
+        KSAP_SEARCH_LUI_NAME_BY_LUI_ID = info;
     }
 
     /**
@@ -163,6 +172,8 @@ public class KsapLuiSearchService extends SearchServiceAbstractHardwiredImpl {
             return KSAP_COURSE_SEARCH_LU_BY_LUI_TITLE;
         } else if (CourseSearchConstants.KSAP_COURSE_SEARCH_COURSEVERSIONIDS_BY_TERM_SCHEDULED_KEY.equals(searchTypeKey)) {
             return KSAP_SEARCH_COURSEIDS_BY_TERM_SCHEDULED;
+        } else if (CourseSearchConstants.KSAP_SEARCH_LUI_NAME_BY_LUI_ID_KEY.equals(searchTypeKey)) {
+            return KSAP_SEARCH_LUI_NAME_BY_LUI_ID;
         }
 
         // If no matching search type is found throw exception
@@ -190,6 +201,8 @@ public class KsapLuiSearchService extends SearchServiceAbstractHardwiredImpl {
             resultInfo =  searchForLuByLuiDescription(searchRequestInfo, contextInfo);
         } else if (StringUtils.equals(searchRequestInfo.getSearchKey(), KSAP_SEARCH_COURSEIDS_BY_TERM_SCHEDULED.getKey())) {
             resultInfo =  searchForClusScheduledForTerms(searchRequestInfo, contextInfo);
+        }  else if (StringUtils.equals(searchRequestInfo.getSearchKey(), KSAP_SEARCH_LUI_NAME_BY_LUI_ID.getKey())) {
+            resultInfo =  searchForLuiNameByLuiId(searchRequestInfo, contextInfo);
         } else {
             // If no matching search is found throw exception
             throw new OperationFailedException("Unsupported search type: " + searchRequestInfo.getSearchKey());
@@ -500,6 +513,43 @@ public class KsapLuiSearchService extends SearchServiceAbstractHardwiredImpl {
         for(Object resultRow : results){
             SearchResultRowInfo row = new SearchResultRowInfo();
             row.addCell(CourseSearchConstants.SearchResultColumns.COURSE_VERSION_INDEPENDENT_ID, getVersionId((String)resultRow));
+            resultInfo.getRows().add(row);
+        }
+
+        return resultInfo;
+    }
+
+    /**
+     * Routed To from search method based on search type key pasted in the search request.
+     * Used to create and execute for search type key KSAP_SEARCH_LUI_NAME_BY_LUI_ID_KEY.
+     *
+     * @see #search(org.kuali.student.r2.core.search.dto.SearchRequestInfo, org.kuali.student.r2.common.dto.ContextInfo)
+     */
+    protected SearchResultInfo searchForLuiNameByLuiId(SearchRequestInfo searchRequestInfo, ContextInfo contextInfo)
+            throws MissingParameterException, OperationFailedException {
+
+        SearchRequestHelper requestHelper = new SearchRequestHelper(searchRequestInfo);
+        String luiId = requestHelper.getParamAsString(CourseSearchConstants.SearchParameters.LUI_ID);
+        SearchResultInfo resultInfo = new SearchResultInfo();
+
+        // Create sql string
+        String queryStr = "SELECT" +
+                "    lui.NAME";
+        queryStr = queryStr +
+                "    FROM" +
+                "    KSEN_LUI lui ";
+        queryStr = queryStr +
+                "    WHERE" +
+                "    lui.ID = :luiId ";
+        // Set params and execute search
+        Query query = getEntityManager().createNativeQuery(queryStr);
+        query.setParameter(CourseSearchConstants.SearchParameters.LUI_ID, luiId);
+        List<Object> results = query.getResultList();
+
+        // Compile results
+        for(Object resultRow : results){
+            SearchResultRowInfo row = new SearchResultRowInfo();
+            row.addCell(CourseSearchConstants.SearchResultColumns.LUI_NAME, (String)resultRow);
             resultInfo.getRows().add(row);
         }
 

@@ -89,6 +89,8 @@ public class CourseSearchConstants {
             ".codes";
     public static final String KSAP_COURSE_SEARCH_COURSEIDS_BY_VERSION_IND_ID_KEY = "kuali.search.type.ksap.coursesearch.cluid.by.versionIndependentId";
     public static final String KSAP_COURSE_SEARCH_COURSE_IND_VERSION_BY_CLU_ID_KEY = "kuali.search.type.ksap.coursesearch.versionIndependentId.by.cluid";
+    public static final String KSAP_SEARCH_LUI_NAME_BY_LUI_ID_KEY = "kuali.search.type.ksap.lui.name.by.lui.id";
+
 
     // Custom Search Result Column Keys
     public static final class SearchResultColumns {
@@ -109,12 +111,14 @@ public class CourseSearchConstants {
         public static final String COURSE_CODE = "course.code";
         public static final String COURSE_VERSION_INDEPENDENT_ID = "course.versionIndId";
         public static final String COURSE_CREDITS = "course.credits";
+        public static final String LUI_NAME = "lui.name";
     }
 
     // Custom Search Parameter Keys
     public static final class SearchParameters {
         public static final String ATP_ID = "atpId";
         public static final String CLU_ID = "cluID";
+        public static final String LUI_ID = "luiId";
         public static final String ATP_TYPE_KEY = "atpTypeKey";
         public static final String GENED_KEY = "genEdKey";
         public static final String COURSE_OFFERING_ID = "courseOfferingId";

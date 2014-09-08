@@ -1058,18 +1058,20 @@ public class DefaultPlanHelper implements PlanHelper {
 
         //Look up the reg groups
         List<RegistrationGroupInfo> regGroups = null;
-        if (regGroupIds.size() > 0) {
+        for(String regGroupId : regGroupIds){
+            SearchRequestInfo request = new SearchRequestInfo(CourseSearchConstants.KSAP_SEARCH_LUI_NAME_BY_LUI_ID_KEY);
+            request.addParam(CourseSearchConstants.SearchParameters.LUI_ID,regGroupId);
             try {
-                regGroups = KsapFrameworkServiceLocator.getCourseOfferingService().getRegistrationGroupsByIds(
-                        regGroupIds,KsapFrameworkServiceLocator.getContext().getContextInfo());
-            } catch (DoesNotExistException | InvalidParameterException | MissingParameterException | OperationFailedException | PermissionDeniedException e) {
+                SearchResultInfo results = KsapFrameworkServiceLocator.getSearchService().search(
+                        request,KsapFrameworkServiceLocator.getContext().getContextInfo());
+                String regGroupName = KsapHelperUtil.getCellValue(KSCollectionUtils.getOptionalZeroElement(
+                        results.getRows()),CourseSearchConstants.SearchResultColumns.LUI_NAME);
+                registrationGroupCodes.add(regGroupName);
+            } catch ( InvalidParameterException | MissingParameterException | OperationFailedException | PermissionDeniedException e) {
                 throw new IllegalStateException("CO lookup failure", e);
             }
-
-            //Get the name (really the display value for the reg group)
-            for (RegistrationGroupInfo regGroup : regGroups) {
-                registrationGroupCodes.add(regGroup.getName());
-            }
+        }
+        if (registrationGroupCodes.size() > 0) {
             newPlannerItem.setRegistrationGroupCodes(registrationGroupCodes);
         }
         return newPlannerItem;
