@@ -137,6 +137,17 @@ limitations under the License.
                             </property>
                         </bean>
                     </property>
+                    <property name="quickfinder">
+                        <bean parent="Uif-QuickFinder">
+                            <property name="dataObjectClassName" value="org.kuali.student.r2.core.hold.dto.HoldIssueInfo"/>
+                            <property name="fieldConversions">
+                                <map>
+                                    <entry key="holdCode" value="holdCode"/>
+                                    <!--<entry key="shortName" value="orgName"/>-->
+                                </map>
+                            </property>
+                        </bean>
+                    </property>
                 </bean>
                 <bean parent="Uif-HorizontalBoxGroup">
                     <property name="validationMessages" ref="KS-ValidationMessages-Off"/>
