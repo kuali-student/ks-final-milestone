@@ -1,5 +1,6 @@
 package org.kuali.student.enrollment.registration.engine.service;
 
+import org.kuali.student.common.eventing.EventMessage;
 import org.kuali.student.enrollment.courseregistration.infc.RegistrationRequest;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
@@ -21,6 +22,21 @@ public interface WaitlistManagerService {
     public List<WaitlistInfo> getPeopleToProcessFromWaitlist(List<String> aoIds, Map<String, Integer> aoid2openSeatsMap, ContextInfo contextInfo) throws MissingParameterException, InvalidParameterException, OperationFailedException, PermissionDeniedException;
 
     public List<RegistrationRequest> processPeopleOffOfWaitlist(List<String> aoIds, ContextInfo contextInfo) throws MissingParameterException, InvalidParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException, DataValidationErrorException, ReadOnlyException, AlreadyExistsException;
+
+    /**
+     * This method notifies the waitlist manager that a lui has changed. It determines if there are seats available
+     * in the particular LUI and if so processes people from the waitlist.
+     * @param message
+     * @throws PermissionDeniedException
+     * @throws MissingParameterException
+     * @throws InvalidParameterException
+     * @throws OperationFailedException
+     * @throws DoesNotExistException
+     * @throws ReadOnlyException
+     * @throws DataValidationErrorException
+     * @throws AlreadyExistsException
+     */
+    public void processLuiChangeEvent(EventMessage message) throws PermissionDeniedException, MissingParameterException, InvalidParameterException, OperationFailedException, DoesNotExistException, ReadOnlyException, DataValidationErrorException, AlreadyExistsException;
 
     /**
      * Structure to store waitlist information

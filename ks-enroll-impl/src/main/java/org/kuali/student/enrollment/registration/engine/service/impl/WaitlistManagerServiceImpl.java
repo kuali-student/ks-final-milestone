@@ -1,10 +1,15 @@
 package org.kuali.student.enrollment.registration.engine.service.impl;
 
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
+import org.kuali.student.common.eventing.EventMessage;
+import org.kuali.student.common.util.security.ContextUtils;
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestInfo;
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestItemInfo;
 import org.kuali.student.enrollment.courseregistration.infc.RegistrationRequest;
 import org.kuali.student.enrollment.courseregistration.service.CourseRegistrationService;
+import org.kuali.student.enrollment.courseseatcount.infc.SeatCount;
+import org.kuali.student.enrollment.courseseatcount.service.CourseSeatCountService;
+import org.kuali.student.enrollment.lui.service.LuiService;
 import org.kuali.student.enrollment.registration.client.service.impl.util.SearchResultHelper;
 import org.kuali.student.enrollment.registration.engine.service.WaitlistManagerService;
 import org.kuali.student.enrollment.registration.search.service.impl.CourseRegistrationSearchServiceImpl;
@@ -18,16 +23,21 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.util.constants.CourseRegistrationServiceConstants;
+import org.kuali.student.r2.common.util.constants.CourseSeatCountServiceConstants;
 import org.kuali.student.r2.common.util.constants.KimIdentityServiceConstants;
 import org.kuali.student.r2.common.util.constants.LprServiceConstants;
+import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.core.constants.SearchServiceConstants;
 import org.kuali.student.r2.core.search.dto.SearchParamInfo;
 import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultInfo;
 import org.kuali.student.r2.core.search.service.SearchService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.xml.namespace.QName;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -39,8 +49,12 @@ import java.util.Set;
  */
 public class WaitlistManagerServiceImpl implements WaitlistManagerService {
 
+    public static final Logger LOGGER = LoggerFactory.getLogger(WaitlistManagerServiceImpl.class);
+
     private SearchService searchService;
     private CourseRegistrationService courseRegistrationService;
+    private CourseSeatCountService courseSeatCountService;
+    private LuiService luiService;
 
     /**
      * @param aoIds             list of aoIds that were in the RG that has free seats now.
@@ -147,14 +161,14 @@ public class WaitlistManagerServiceImpl implements WaitlistManagerService {
                 String principalId = KimIdentityServiceConstants.SYSTEM_ENTITY_TYPE_KEY;
 
                 //Make a new reg request for each person being processed off of the waitlist
-                RegistrationRequestInfo regRequest = person2RegRequest.get(principalId);
+                RegistrationRequestInfo regRequest = person2RegRequest.get(entityId);
                 if (regRequest == null) {
                     regRequest = new RegistrationRequestInfo();
                     regRequest.setTypeKey(LprServiceConstants.LPRTRANS_REGISTRATION_TYPE_KEY);
                     regRequest.setStateKey(LprServiceConstants.LPRTRANS_NEW_STATE_KEY);
                     regRequest.setTermId(waitlistInfo.atpId);
                     regRequest.setRequestorId(principalId);
-                    person2RegRequest.put(principalId, regRequest);
+                    person2RegRequest.put(entityId, regRequest);
                 }
 
                 //Add a reg request item to process the person off of the waitlist
@@ -176,6 +190,62 @@ public class WaitlistManagerServiceImpl implements WaitlistManagerService {
         }
 
         return createdRegRequests;
+    }
+
+    @Override
+    public void processLuiChangeEvent(EventMessage message) throws PermissionDeniedException, MissingParameterException, InvalidParameterException, OperationFailedException, DoesNotExistException, ReadOnlyException, DataValidationErrorException, AlreadyExistsException {
+
+        //Set system user in context since this is a system task
+        ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
+        contextInfo.setPrincipalId(KimIdentityServiceConstants.SYSTEM_ENTITY_TYPE_KEY);
+        contextInfo.setAuthenticatedPrincipalId(KimIdentityServiceConstants.SYSTEM_ENTITY_TYPE_KEY);
+
+        if(message != null){
+            if(LOGGER.isInfoEnabled()) {
+                LOGGER.info("Activity Offering has changed, check if we can process people from waitlist." + message.toString());
+            }
+
+            String luiId = message.getId();
+            // this pulls live data. Just see if there are seats available. There's currently no way to detect
+            // iff a seat has changed. we just know that a lui has changed somehow.
+            // In the future we should set up caching on the seat count service. So we would 1. get cached value.
+            // 2. compare against live lui value. process ppl. The call below is too expensive to call all
+            // the time.
+            SeatCount seatCount = getCourseSeatCountService().getSeatCountForActivityOffering(luiId, contextInfo);
+
+            // if seat available, process ppl
+            if(seatCount != null && seatCount.getWaitListSize() > 0 && seatCount.getAvailableSeats() > 0){
+                if(LOGGER.isInfoEnabled()) {
+                    String technicalInfo = String.format("We should process people from waitlist. peopleOnWaitlist:[%s] availableSeats:[%s])",
+                            seatCount.getWaitListSize(), seatCount.getAvailableSeats());
+                    LOGGER.info(technicalInfo + " " + message.toString());
+                }
+                processPeopleOffOfWaitlist(Arrays.asList(luiId), contextInfo);
+            }
+        }
+
+    }
+
+    public LuiService getLuiService() {
+        if (luiService == null) {
+            luiService = GlobalResourceLoader.getService(LuiServiceConstants.Q_NAME);
+        }
+        return luiService;
+    }
+
+    public void setLuiService(LuiService luiService) {
+        this.luiService = luiService;
+    }
+
+    public CourseSeatCountService getCourseSeatCountService() {
+        if (courseSeatCountService == null) {
+            courseSeatCountService = GlobalResourceLoader.getService(CourseSeatCountServiceConstants.Q_NAME);
+        }
+        return courseSeatCountService;
+    }
+
+    public void setCourseSeatCountService(CourseSeatCountService courseSeatCountService) {
+        this.courseSeatCountService = courseSeatCountService;
     }
 
     public SearchService getSearchService() {

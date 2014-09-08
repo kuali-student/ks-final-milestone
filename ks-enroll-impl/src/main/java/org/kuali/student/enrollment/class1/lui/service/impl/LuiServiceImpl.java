@@ -40,6 +40,8 @@ import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.*;
 import org.kuali.student.r2.common.infc.ValidationResult;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
@@ -48,6 +50,8 @@ import java.util.List;
 
 public class LuiServiceImpl 
     implements LuiService {
+
+    public static final Logger LOGGER = LoggerFactory.getLogger(LuiServiceImpl.class);
 
     private CriteriaLookupService criteriaLookupService;
 
@@ -301,6 +305,7 @@ public class LuiServiceImpl
                OperationFailedException, PermissionDeniedException, 
                ReadOnlyException, VersionMismatchException {
 
+        LOGGER.error("UpdateLui" + luiId + " " + luiInfo.getTypeKey());
         LuiEntity entity = luiDao.find(luiId);
 
         if (!luiId.equals(luiInfo.getId())) {

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:mockito="http://www.mockito.org/spring/mockito"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+          http://www.mockito.org/spring/mockito http://www.mockito.org/spring/mockito.xsd
+          http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+          http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd ">
+
+    <context:annotation-config/>
+
+    <!--
+    <import resource="classpath:lui-test-context.xml"/>
+        -->
+
+
+    <mockito:mock id="luiService" name="luiService"
+                  class="org.kuali.student.enrollment.class1.lui.service.impl.LuiServiceImpl"/>
+
+    <!-- AOP of LUI Service. Needed for Eventing -->
+    <mockito:mock id="luiBroadcastAspect" name="luiBroadcastAspect"
+                  class="org.kuali.student.enrollment.class1.lui.aop.LuiBroadcastAspect"/>
+    <!--
+        <property name="jmsDestination" value="org.kuali.student.enrollment.lui.service.LuiEventTopic"/>
+    </bean>
+        -->
+    <aop:config proxy-target-class="true">
+        <aop:aspect ref="luiBroadcastAspect">
+            <aop:pointcut id="luiUpdate"
+                          expression="execution(* org.kuali.student.enrollment.class1.lui.service.impl.LuiServiceImpl.updateLui(..))"/>
+            <aop:around pointcut-ref="luiUpdate" method="updateLuiAdvise"/>
+        </aop:aspect>
+    </aop:config>
+
+
+</beans>
