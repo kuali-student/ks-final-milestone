@@ -55,7 +55,6 @@ import java.util.Map;
  * @author Kuali Student Team
  */
 public class RuleEditorController extends MaintenanceDocumentController {
-
     /**
      * Method used to invoke the CO inquiry view from Manage Course Offering screen while search input is Course Offering
      * Code (04a screen)
@@ -73,7 +72,7 @@ public class RuleEditorController extends MaintenanceDocumentController {
         //Clear the client state on new edit rule.
         form.getClientStateForSyncing().clear();
 
-        RuleEditor ruleEditor = this.retrieveSelectedRuleEditor((MaintenanceDocumentForm) form);
+        RuleEditor ruleEditor = this.retrieveSelectedRuleEditor(this.getMaintenanceDocumentForm(form));
         this.getViewHelper(form).refreshInitTrees(ruleEditor);
 
         if (!form.getActionParameters().containsKey(UifParameters.NAVIGATE_TO_PAGE_ID)) {
@@ -81,7 +80,7 @@ public class RuleEditorController extends MaintenanceDocumentController {
         }
 
         //Compare rule with parent rule.
-        compareRulePropositions((MaintenanceDocumentForm) form, ruleEditor);
+        compareRulePropositions(this.getMaintenanceDocumentForm(form), ruleEditor);
 
         return super.navigate(form, result, request, response);
     }
@@ -100,7 +99,7 @@ public class RuleEditorController extends MaintenanceDocumentController {
     public ModelAndView deleteRule(@ModelAttribute("KualiForm") UifFormBase form, @SuppressWarnings("unused") BindingResult result,
                                    @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) {
 
-        MaintenanceDocumentForm document = (MaintenanceDocumentForm) form;
+        MaintenanceDocumentForm document = this.getMaintenanceDocumentForm(form);
         RuleManager ruleWrapper = AgendaUtilities.getRuleWrapper(document);
         String ruleKey = AgendaUtilities.getRuleKey(document);
 
@@ -137,7 +136,7 @@ public class RuleEditorController extends MaintenanceDocumentController {
         //Clear the client state on new edit rule.
         form.getClientStateForSyncing().clear();
 
-        RuleEditor ruleEditor = this.retrieveSelectedRuleEditor((MaintenanceDocumentForm) form);
+        RuleEditor ruleEditor = this.retrieveSelectedRuleEditor(this.getMaintenanceDocumentForm(form));
 
         this.getViewHelper(form).refreshInitTrees(ruleEditor);
 
@@ -535,7 +534,7 @@ public class RuleEditorController extends MaintenanceDocumentController {
 
         }
         //Compare rule with parent rule.
-        compareRulePropositions((MaintenanceDocumentForm) form, ruleEditor);
+        compareRulePropositions(this.getMaintenanceDocumentForm(form), ruleEditor);
         return getUIFModelAndView(form);
     }
 
@@ -585,7 +584,7 @@ public class RuleEditorController extends MaintenanceDocumentController {
             }
         }
         //Compare rule with parent rule.
-        compareRulePropositions((MaintenanceDocumentForm) form, ruleEditor);
+        compareRulePropositions(this.getMaintenanceDocumentForm(form), ruleEditor);
         return getUIFModelAndView(form);
     }
 
@@ -732,7 +731,7 @@ public class RuleEditorController extends MaintenanceDocumentController {
         }
 
         //Compare rule with parent rule.
-        compareRulePropositions((MaintenanceDocumentForm) form, ruleEditor);
+        compareRulePropositions(this.getMaintenanceDocumentForm(form), ruleEditor);
 
         // call the super method to avoid the agenda tree being reloaded from the db
         return getUIFModelAndView(form);
@@ -803,7 +802,7 @@ public class RuleEditorController extends MaintenanceDocumentController {
         }
 
         //Compare rule with parent rule.
-        compareRulePropositions((MaintenanceDocumentForm) form, ruleEditor);
+        compareRulePropositions(this.getMaintenanceDocumentForm(form), ruleEditor);
 
         this.getViewHelper(form).refreshInitTrees(ruleEditor);
         return getUIFModelAndView(form);
@@ -836,7 +835,7 @@ public class RuleEditorController extends MaintenanceDocumentController {
         viewHelper.refreshInitTrees(ruleEditor);
 
         //Compare rule with parent rule.
-        compareRulePropositions((MaintenanceDocumentForm) form, ruleEditor);
+        compareRulePropositions(this.getMaintenanceDocumentForm(form), ruleEditor);
 
         return getUIFModelAndView(form);
     }
@@ -903,7 +902,7 @@ public class RuleEditorController extends MaintenanceDocumentController {
         form.getDialogManager().resetDialogStatus(KRMSConstants.KSKRMS_DIALOG_YESNO_WARNING);
 
         //Compare rule with parent rule.
-        compareRulePropositions((MaintenanceDocumentForm) form, ruleEditor);
+        compareRulePropositions(this.getMaintenanceDocumentForm(form), ruleEditor);
 
         //Remove the edit mode
         PropositionTreeUtil.resetEditModeOnPropositionTree(ruleEditor.getPropositionEditor());
@@ -988,7 +987,7 @@ public class RuleEditorController extends MaintenanceDocumentController {
         this.getViewHelper(form).refreshViewTree(ruleEditor);
 
         //Replace edited rule with existing rule.
-        RuleManager ruleWrapper = AgendaUtilities.getRuleWrapper((MaintenanceDocumentForm) form);
+        RuleManager ruleWrapper = AgendaUtilities.getRuleWrapper(this.getMaintenanceDocumentForm(form));
         AgendaEditor agendaEditor = AgendaUtilities.getSelectedAgendaEditor(ruleWrapper, ruleEditor.getKey());
         agendaEditor.getRuleEditors().put(ruleEditor.getKey(), ruleEditor);
 
@@ -1120,7 +1119,7 @@ public class RuleEditorController extends MaintenanceDocumentController {
         this.getViewHelper(form).refreshInitTrees(ruleEditor);
 
         //Compare rule with parent rule.
-        compareRulePropositions((MaintenanceDocumentForm) form, ruleEditor);
+        compareRulePropositions(this.getMaintenanceDocumentForm(form), ruleEditor);
 
         return getUIFModelAndView(form);
     }
@@ -1278,6 +1277,7 @@ public class RuleEditorController extends MaintenanceDocumentController {
         return AgendaUtilities.retrieveSelectedRuleEditor(document);
     }
 
+    //Method for checking if the form is an instance of maintenanceDocumentForm, then returning the casted form
     protected MaintenanceDocumentForm getMaintenanceDocumentForm(UifFormBase form) {
         if (form instanceof MaintenanceDocumentForm) {
             return (MaintenanceDocumentForm) form;

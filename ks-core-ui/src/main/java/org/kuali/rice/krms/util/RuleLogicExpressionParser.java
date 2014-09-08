@@ -80,12 +80,8 @@ public class RuleLogicExpressionParser {
         for (int i = 0; i < tokens.size(); i++) {
             ExpressionToken token = tokens.get(i);
 
-            ExpressionToken prevToken = null;
-            ExpressionToken nextToken = null;
-            if (tokens != null) {
-                prevToken = i - 1 < 0 ? null : tokens.get(i - 1);
-                nextToken = i + 1 >= tokens.size() ? null : tokens.get(i + 1);
-            }
+            ExpressionToken prevToken = i - 1 < 0 ? null : tokens.get(i - 1);
+            ExpressionToken nextToken = i + 1 >= tokens.size() ? null : tokens.get(i + 1);
 
             if (token.getType() == ExpressionToken.OPERATOR_AND) {
                 if (!checkAnd(errorMessages, prevToken, nextToken)) {
