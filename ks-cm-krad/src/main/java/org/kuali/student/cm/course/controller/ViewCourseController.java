@@ -60,7 +60,7 @@ import java.util.Properties;
  */
 @Controller
 @RequestMapping(value = CurriculumManagementConstants.ControllerRequestMappings.VIEW_COURSE)
-public class ViewCourseController extends KsUifControllerBase{
+public class ViewCourseController extends KsUifControllerBase {
 
     @Override
     protected UifFormBase createInitialForm(HttpServletRequest request) {
@@ -91,21 +91,21 @@ public class ViewCourseController extends KsUifControllerBase{
         try {
             CourseInfoWrapper courseWrapper = new CourseInfoWrapper();
             courseWrapper.setProposalDataRequired(false);
-            ((CourseMaintainable)form.getViewHelperService()).setDataObject(courseWrapper);
-            ((CourseMaintainable)form.getViewHelperService()).populateCourseAndReviewData(courseId, courseWrapper);
+            ((CourseMaintainable) form.getViewHelperService()).setDataObject(courseWrapper);
+            ((CourseMaintainable) form.getViewHelperService()).populateCourseAndReviewData(courseId, courseWrapper);
             detailedViewForm.setCourseInfoWrapper(courseWrapper);
 
-            if (StringUtils.isNotBlank(compareCourseId)){
+            if (StringUtils.isNotBlank(compareCourseId)) {
                 CourseInfoWrapper compareCourseWrapper = new CourseInfoWrapper();
                 compareCourseWrapper.setProposalDataRequired(false);
-                ((CourseMaintainable)form.getViewHelperService()).setDataObject(compareCourseWrapper);
-                ((CourseMaintainable)form.getViewHelperService()).populateCourseAndReviewData(compareCourseId,compareCourseWrapper);
+                ((CourseMaintainable) form.getViewHelperService()).setDataObject(compareCourseWrapper);
+                ((CourseMaintainable) form.getViewHelperService()).populateCourseAndReviewData(compareCourseId, compareCourseWrapper);
                 detailedViewForm.setCompareCourseInfoWrapper(compareCourseWrapper);
             }
 
             if (StringUtils.isBlank(compareCourseId)) {
-                CourseInfo currentCourse = ((CourseMaintainable)form.getViewHelperService()).getCurrentVersionOfCourse(courseWrapper.getCourseInfo(), ContextUtils.createDefaultContextInfo());
-                if (!StringUtils.equals(currentCourse.getId(),courseWrapper.getCourseInfo().getId())){
+                CourseInfo currentCourse = ((CourseMaintainable) form.getViewHelperService()).getCurrentVersionOfCourse(courseWrapper.getCourseInfo(), ContextUtils.createDefaultContextInfo());
+                if (!StringUtils.equals(currentCourse.getId(), courseWrapper.getCourseInfo().getId())) {
                     detailedViewForm.setCurrentVersion(false);
                 }
             }
@@ -129,7 +129,7 @@ public class ViewCourseController extends KsUifControllerBase{
         /**
          * It should be always 'curriculum review' for both CS and faculty users for copy.
          */
-        urlParameters.put(CourseController.UrlParams.USE_CURRICULUM_REVIEW,Boolean.TRUE.toString());
+        urlParameters.put(CourseController.UrlParams.USE_CURRICULUM_REVIEW, Boolean.TRUE.toString());
 
         urlParameters.put(UifConstants.UrlParams.PAGE_ID, CurriculumManagementConstants.CoursePageIds.CREATE_COURSE_PAGE);
         urlParameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, KRADConstants.Maintenance.METHOD_TO_CALL_COPY);
@@ -143,7 +143,7 @@ public class ViewCourseController extends KsUifControllerBase{
     @MethodAccessible
     @RequestMapping(params = "methodToCall=retireCourseCurriculumSpecialist")
     public ModelAndView retireCourseCurriculumSpecialist(@ModelAttribute("KualiForm") UifFormBase form, HttpServletRequest request,
-                                     HttpServletResponse response) {
+                                                         HttpServletResponse response) {
 
         ViewCourseForm detailedViewForm = (ViewCourseForm) form;
 
@@ -153,14 +153,14 @@ public class ViewCourseController extends KsUifControllerBase{
 
         DialogManager dm = form.getDialogManager();
         String dialogId = dm.getCurrentDialogId();
-        if(dialogId != null) {
+        if (dialogId != null) {
             dm.setDialogAnswer(dialogId, form.getDialogResponse());
             dm.setDialogExplanation(dialogId, form.getDialogExplanation());
             dm.setCurrentDialogId(null);
         }
 
         String dialog = CurriculumManagementConstants.ProposalConfirmationDialogs.COURSE_RETIRE_CONFIRMATION_DIALOG;
-        if ( ! hasDialogBeenDisplayed(dialog, form)) {
+        if (!hasDialogBeenDisplayed(dialog, form)) {
             if (!GlobalVariables.getMessageMap().hasErrors()) {
                 //redirect back to client to display confirm dialog
                 return showDialog(dialog, form, request, response);
@@ -171,10 +171,10 @@ public class ViewCourseController extends KsUifControllerBase{
                 if (confirmRetire) {
                     if (!CourseProposalUtil.isUserCurriculumSpecialist()) {
                         // if user is not a CS user, then curriculum review must be used because only CS users can disable curriculum review
-                        urlParameters.put(CourseController.UrlParams.USE_CURRICULUM_REVIEW,Boolean.TRUE.toString());
+                        urlParameters.put(CourseController.UrlParams.USE_CURRICULUM_REVIEW, Boolean.TRUE.toString());
                     } else {
                         // if user is a CS user, check the checkbox value
-                        urlParameters.put(CourseController.UrlParams.USE_CURRICULUM_REVIEW,Boolean.toString(((StartProposalForm) form).isUseReviewProcess()));
+                        urlParameters.put(CourseController.UrlParams.USE_CURRICULUM_REVIEW, Boolean.toString(((StartProposalForm) form).isUseReviewProcess()));
                     }
 
                     urlParameters.put(UifConstants.UrlParams.PAGE_ID, CurriculumManagementConstants.CoursePageIds.RETIRE_COURSE_PAGE);
@@ -189,7 +189,7 @@ public class ViewCourseController extends KsUifControllerBase{
                 } else {
                     form.getDialogManager().removeDialog(dialog);
                 }
-            }else{
+            } else {
                 return showDialog(dialog, form, request, response);
             }
         }
@@ -200,13 +200,13 @@ public class ViewCourseController extends KsUifControllerBase{
     @MethodAccessible
     @RequestMapping(params = "methodToCall=retireCourseFaculty")
     public ModelAndView retireCourseFaculty(@ModelAttribute("KualiForm") UifFormBase form, HttpServletRequest request,
-                                                         HttpServletResponse response) {
+                                            HttpServletResponse response) {
 
         ViewCourseForm detailedViewForm = (ViewCourseForm) form;
 
         Properties urlParameters = new Properties();
 
-        urlParameters.put(CurriculumManagementConstants.UrlParams.USE_CURRICULUM_REVIEW,Boolean.TRUE.toString());
+        urlParameters.put(CurriculumManagementConstants.UrlParams.USE_CURRICULUM_REVIEW, Boolean.TRUE.toString());
         urlParameters.put(UifConstants.UrlParams.PAGE_ID, CurriculumManagementConstants.CoursePageIds.RETIRE_COURSE_PAGE);
         urlParameters.put(UifConstants.UrlParams.VIEW_ID, CurriculumManagementConstants.CourseViewIds.RETIRE_COURSE_VIEW);
         urlParameters.put(KRADConstants.PARAMETER_COMMAND, KewApiConstants.INITIATE_COMMAND);
@@ -220,7 +220,7 @@ public class ViewCourseController extends KsUifControllerBase{
     }
 
 
-        @RequestMapping(params = "methodToCall=modifyCourseCurriculumSpecialist")
+    @RequestMapping(params = "methodToCall=modifyCourseCurriculumSpecialist")
     public ModelAndView modifyCourseCurriculumSpecialist(@ModelAttribute("KualiForm") UifFormBase form, HttpServletRequest request) {
 
         ViewCourseForm detailedViewForm = (ViewCourseForm) form;
@@ -269,15 +269,7 @@ public class ViewCourseController extends KsUifControllerBase{
     }
 
 
-    public ModelAndView modifyCourseFaculty(@ModelAttribute("KualiForm") UifFormBase form){
-
-        ViewCourseForm detailedViewForm = (ViewCourseForm) form;
-
-
-        return null;
-    }
-
-    public ModelAndView modifyCourseCurriculumSpecialist(@ModelAttribute("KualiForm") UifFormBase form){
+    public ModelAndView modifyCourseFaculty(@ModelAttribute("KualiForm") UifFormBase form) {
 
         ViewCourseForm detailedViewForm = (ViewCourseForm) form;
 
@@ -286,20 +278,20 @@ public class ViewCourseController extends KsUifControllerBase{
     }
 
     @RequestMapping(params = "methodToCall=viewCurrentVersion")
-    public ModelAndView viewCurrentVersion(@ModelAttribute("KualiForm") UifFormBase form){
+    public ModelAndView viewCurrentVersion(@ModelAttribute("KualiForm") UifFormBase form) {
 
         ViewCourseForm detailedViewForm = (ViewCourseForm) form;
 
         try {
-            CourseInfo currentCourse = ((CourseMaintainable)form.getViewHelperService()).getCurrentVersionOfCourse(detailedViewForm.getCourseInfoWrapper().getCourseInfo(), ContextUtils.createDefaultContextInfo());
+            CourseInfo currentCourse = ((CourseMaintainable) form.getViewHelperService()).getCurrentVersionOfCourse(detailedViewForm.getCourseInfoWrapper().getCourseInfo(), ContextUtils.createDefaultContextInfo());
             CourseInfoWrapper courseWrapper = new CourseInfoWrapper();
             courseWrapper.setProposalDataRequired(false);
-            ((CourseMaintainable)form.getViewHelperService()).setDataObject(courseWrapper);
-            ((CourseMaintainable)form.getViewHelperService()).populateCourseAndReviewData(currentCourse.getId(), courseWrapper);
+            ((CourseMaintainable) form.getViewHelperService()).setDataObject(courseWrapper);
+            ((CourseMaintainable) form.getViewHelperService()).populateCourseAndReviewData(currentCourse.getId(), courseWrapper);
             detailedViewForm.setCourseInfoWrapper(courseWrapper);
             detailedViewForm.setCompareCourseInfoWrapper(null);
             detailedViewForm.setCurrentVersion(true);
-        }catch (Exception e){
+        } catch (Exception e) {
             throw new RuntimeException(e);
         }
 
