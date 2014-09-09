@@ -116,11 +116,11 @@ describe('Directive: ValidationMessage', function() {
             // With parameters
             data.attempts = 2;
             data.maxRepeats = 2;
-            expect(compile(data, course)).toBe('code1 has already been taken twice. This course cannot be repeated more than twice.');
+            expect(compile(data, course)).toBe('code1 has already been taken twice. This course cannot be repeated more than once.');
 
             data.attempts = 3;
             data.maxRepeats = 3;
-            expect(compile(data, course)).toBe('code1 has already been taken 3 times. This course cannot be repeated more than 3 times.');
+            expect(compile(data, course)).toBe('code1 has already been taken 3 times. This course cannot be repeated more than twice.');
         });
     });
 
@@ -254,6 +254,30 @@ describe('Directive: ValidationMessage', function() {
             // Multiple items
             data.conflictingCourses.push({courseCode: 'BASE_COURSE_CODE', masterLprId: baseCourseId});
             expect(compile(data, course)).toBe('Time conflict (code1)');
+        });
+    });
+
+    describe('registration not open', function() {
+        it('should format the message correctly', function() {
+            var data = {
+                    messageKey: VALIDATION_ERROR_TYPE.courseNotOpen
+                },
+                course = { courseCode: 'code1' };
+
+            // Base case
+            expect(compile(data, course)).toContain('Registration is not currently open');
+
+            // With parameters
+            data.startDate = '09/10/2014';
+            data.endDate = '10/10/2014';
+
+            // Registration not yet available
+            data.actionDate = '09/09/2014';
+            expect(compile(data, course)).toBe('First day of Registration is not until 09/10/2014');
+
+            // Registration window has passed
+            data.actionDate = '10/11/2014';
+            expect(compile(data, course)).toBe('Last day of Registration was 10/10/2014');
         });
     });
 

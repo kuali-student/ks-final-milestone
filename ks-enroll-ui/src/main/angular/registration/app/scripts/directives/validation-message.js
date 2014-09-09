@@ -172,9 +172,15 @@ angular.module('regCartApp')
 
                     var messageKey = data.messageKey;
 
-                    var actionDate = RegUtil.convertStringToDate(data.actionDate);
-                    var startDate = RegUtil.convertStringToDate(data.startDate);
-                    var endDate = RegUtil.convertStringToDate(data.endDate);
+                    if (angular.isDefined(data.actionDate) && angular.isString(data.actionDate)) {
+                        var actionDate = RegUtil.convertStringToDate(data.actionDate);
+                    }
+                    if (angular.isDefined(data.startDate) && angular.isString(data.startDate)) {
+                        var startDate = RegUtil.convertStringToDate(data.startDate);
+                    }
+                    if (angular.isDefined(data.endDate) && angular.isString(data.endDate)) {
+                        var endDate = RegUtil.convertStringToDate(data.endDate);
+                    }
 
                     if (angular.isDefined(actionDate) && angular.isDate(actionDate)) {
                         if (angular.isDefined(startDate) && angular.isDate(startDate)) {
