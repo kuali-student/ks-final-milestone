@@ -21,6 +21,7 @@ import javax.xml.namespace.QName;
  * 
  * @author nwright
  */
+@SuppressWarnings("unused")
 public class LprServiceConstants {
 
     /**
@@ -97,6 +98,7 @@ public class LprServiceConstants {
     public static final String LPRTRANS_ITEM_SEAT_UNAVAILABLE_MESSAGE_KEY = "kuali.lpr.trans.message.seat.unavailable";
     public static final String LPRTRANS_ITEM_PERSON_REGISTERED_MESSAGE_KEY = "kuali.lpr.trans.message.person.registered";
     public static final String LPRTRANS_ITEM_CREDIT_LOAD_EXCEEDED_MESSAGE_KEY = "kuali.lpr.trans.message.credit.load.exceeded";
+    public static final String LPRTRANS_ITEM_CREDIT_LOAD_REACHED_MESSAGE_KEY = "kuali.lpr.trans.message.credit.load.reached";
     public static final String LPRTRANS_ITEM_TIME_CONFLICT_MESSAGE_KEY = "kuali.lpr.trans.message.time.conflict";
     public static final String LPRTRANS_ITEM_REG_GROUP_NOT_OFFERED_MESSAGE_KEY = "kuali.lpr.trans.message.reggroup.notoffered";
 
