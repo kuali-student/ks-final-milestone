@@ -101,8 +101,11 @@ public class HoldsConstants {
     //workflow
     public static final String NEW_HOLD_ISSUE_DOCUMENT_TEXT = "New Hold Issue Document";
     public static final String MODIFY_HOLD_ISSUE_DOCUMENT_TEXT = "Modify Hold Issue Document";
+
     //Permissions
     public static final String APPLY_HOLD_ROLE_PERMISSION = "Hold Apply Hold Role";
     public static final String EXPIRE_APPLIED_HOLD_ROLE_PERMISSION = "Hold Expire Applied Hold Role";
+    public static final String APPLIED_HOLD_ACTION_EVENT_APPLY_HOLD = "Apply Hold";
+    public static final String APPLIED_HOLD_ACTION_EVENT_EXPIRE_HOLD = "Expire Hold";
 
 }

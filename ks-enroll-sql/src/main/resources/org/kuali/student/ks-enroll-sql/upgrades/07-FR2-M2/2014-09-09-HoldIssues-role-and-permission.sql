@@ -25,7 +25,7 @@ insert into KRIM_ATTR_DEFN_T (KIM_ATTR_DEFN_ID, OBJ_ID, VER_NBR, NM, LBL, ACTV_I
 /
 
 insert into KRIM_TYP_T (KIM_TYP_ID, OBJ_ID, VER_NBR, NM, SRVC_NM, ACTV_IND, NMSPC_CD)
-  values ('KS-KRIM-TYP-1012', SYS_GUID(), 1, 'KS Hold Issue Authorization Role Type', 'kimRoleTypeService', 'Y', 'KS-HLD')
+  values ('KS-KRIM-TYP-1012', SYS_GUID(), 1, 'KS Hold Issue Authorization Role Type', '{http://student.kuali.org/kim}kimRoleTypeService', 'Y', 'KS-HLD')
 /
 
 insert into KRIM_TYP_ATTR_T (KIM_TYP_ATTR_ID, OBJ_ID, VER_NBR, SORT_CD, KIM_TYP_ID, KIM_ATTR_DEFN_ID, ACTV_IND)
@@ -37,10 +37,30 @@ insert into KRIM_TYP_ATTR_T (KIM_TYP_ATTR_ID, OBJ_ID, VER_NBR, SORT_CD, KIM_TYP_
 --////////////////////////////////////////////////////////////////////////
 -- Insert apply hold permission, role and permission-role relationship.
 --////////////////////////////////////////////////////////////////////////
+
+insert into KRIM_TYP_T (KIM_TYP_ID, OBJ_ID, VER_NBR, NM, SRVC_NM, ACTV_IND, NMSPC_CD)
+  values ('KS-KRIM-TYP-1013', SYS_GUID(), 1, 'KS Hold Issue Authorization Permissions Type', '{http://student.kuali.org/kim}defaultPermissionTypeService', 'Y', 'KS-HLD')
+/
+
+insert into KRIM_PERM_TMPL_T (PERM_TMPL_ID, OBJ_ID, VER_NBR, NMSPC_CD, NM, DESC_TXT, KIM_TYP_ID, ACTV_IND)
+  values ('KS-KRIM-PERM-TMPL-1015', SYS_GUID(), 1, 'KS-HLD', 'Manage Hold', 'Manage Hold',
+    (SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NM='KS Hold Issue Authorization Permission Type' AND NMSPC_CD='KS-HLD'), 'Y')
+/
+
+--////////////////////////////////////////////////////////////////////////
+-- Insert apply hold permission, role and permission-role relationship.
+--////////////////////////////////////////////////////////////////////////
 insert into KRIM_PERM_T (PERM_ID, OBJ_ID, VER_NBR, PERM_TMPL_ID, NMSPC_CD, NM, DESC_TXT, ACTV_IND)
   values ('KS-KRIM-PERM-'||KRIM_PERM_ID_S.NEXTVAL, SYS_GUID(), 1,
-    (SELECT perm_tmpl_id FROM krim_perm_tmpl_t where nm = 'Apply Hold' and nmspc_cd = 'KS-HLD'),
+    (SELECT perm_tmpl_id FROM krim_perm_tmpl_t where nm = 'Manage Hold' and nmspc_cd = 'KS-HLD'),
     'KS-HLD', 'Allow Organizations to Apply Hold to Student', 'Perform Action to Apply Hold to Students', 'Y')
+/
+
+insert into KRIM_PERM_ATTR_DATA_T (ATTR_DATA_ID, OBJ_ID, VER_NBR, PERM_ID, KIM_TYP_ID, KIM_ATTR_DEFN_ID, ATTR_VAL)
+  values ('KS-KRIM-PERM-ATTR-DATA-4005', SYS_GUID(), 1,
+  (SELECT perm_id from krim_perm_t where nm = 'Allow Organizations to Apply Hold to Student' and nmspc_cd = 'KS-HLD'),
+  (SELECT kim_typ_id from krim_typ_t where nm = 'Default' and nmspc_cd = 'KUALI'),
+  (SELECT kim_attr_defn_id from krim_attr_defn_t where nm = 'actionEvent' and nmspc_cd = 'KR-KRAD'), 'Apply Hold')
 /
 
 insert into KRIM_ROLE_T (ROLE_ID, OBJ_ID, VER_NBR, ROLE_NM, NMSPC_CD, DESC_TXT, KIM_TYP_ID, ACTV_IND, LAST_UPDT_DT)
@@ -62,9 +82,16 @@ insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID, OBJ_ID, VER_NBR, ROLE_ID, PERM_ID, A
 --////////////////////////////////////////////////////////////////////////
 insert into KRIM_PERM_T (PERM_ID, OBJ_ID, VER_NBR, PERM_TMPL_ID, NMSPC_CD, NM, DESC_TXT, ACTV_IND)
   values ('KS-KRIM-PERM-'||KRIM_PERM_ID_S.NEXTVAL, SYS_GUID(), 1,
-   (SELECT perm_tmpl_id FROM krim_perm_tmpl_t where nm = 'Expire Applied Hold' and nmspc_cd = 'KS-HLD'),
+   (SELECT perm_tmpl_id FROM krim_perm_tmpl_t where nm = 'Manage Hold' and nmspc_cd = 'KS-HLD'),
    'KS-HLD', 'Allow Organizations to Expire Applied Hold to Student', 'Perform Action to Expire Applied Hold to Students',
    'Y')
+/
+
+insert into KRIM_PERM_ATTR_DATA_T (ATTR_DATA_ID, OBJ_ID, VER_NBR, PERM_ID, KIM_TYP_ID, KIM_ATTR_DEFN_ID, ATTR_VAL)
+  values ('KS-KRIM-PERM-ATTR-DATA-4006', SYS_GUID(), 1,
+  (SELECT perm_id from krim_perm_t where nm = 'Allow Organizations to Expire Applied Hold to Student' and nmspc_cd = 'KS-HLD'),
+  (SELECT kim_typ_id from krim_typ_t where nm = 'Default' and nmspc_cd = 'KUALI'),
+  (SELECT kim_attr_defn_id from krim_attr_defn_t where nm = 'actionEvent' and nmspc_cd = 'KR-KRAD'), 'Expire Hold')
 /
 
 insert into KRIM_ROLE_T (ROLE_ID, OBJ_ID, VER_NBR, ROLE_NM, NMSPC_CD, DESC_TXT, KIM_TYP_ID, ACTV_IND, LAST_UPDT_DT)

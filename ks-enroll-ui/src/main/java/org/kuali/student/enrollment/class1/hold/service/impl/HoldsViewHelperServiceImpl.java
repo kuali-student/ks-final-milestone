@@ -8,6 +8,7 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.student.common.collection.KSCollectionUtils;
 import org.kuali.student.common.uif.service.impl.KSViewHelperServiceImpl;
+import org.kuali.student.common.util.security.SecurityUtils;
 import org.kuali.student.core.person.dto.PersonAffiliationInfo;
 import org.kuali.student.core.person.dto.PersonInfo;
 import org.kuali.student.core.person.service.impl.PersonServiceConstants;
@@ -128,10 +129,14 @@ public class HoldsViewHelperServiceImpl extends KSViewHelperServiceImpl implemen
                 //}
             }
         } catch (Exception e) {
-
             convertServiceExceptionsToUI(e);
         }
         return holdResultList;
+    }
+
+    public boolean canApply(String holdIssueId){
+        return HoldsResourceLoader.getHoldIssueAuthorizingOrgFacade().canPerformFunction(SecurityUtils.getCurrentUserId(),
+                holdIssueId, HoldsConstants.APPLIED_HOLD_ACTION_EVENT_APPLY_HOLD);
     }
 
     @Override

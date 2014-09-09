@@ -3,6 +3,7 @@ package org.kuali.student.enrollment.class1.hold.service.facade;
 import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.membership.MemberType;
+import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.group.Group;
 import org.kuali.rice.kim.api.group.GroupService;
 import org.kuali.rice.kim.api.permission.PermissionService;
@@ -61,6 +62,7 @@ public class HoldIssueAuthorizingOrgServiceFacadeImpl implements HoldIssueAuthor
 
     public static final String HOLD_AUTHORIZATION_GROUP_TYPE_NAME = "KS Hold Org Authorization Group Type";
     public static final String HOLD_AUTHORIZATION_ROLE_TYPE_NAME = "KS Hold Issue Authorization Role Type";
+    public static final String HOLD_AUTHORIZATION_TEMPLATE_NAME = "Manage Hold";
 
     @Override
     public List<Role> getHoldFunctions(ContextInfo contextInfo) {
@@ -140,7 +142,7 @@ public class HoldIssueAuthorizingOrgServiceFacadeImpl implements HoldIssueAuthor
     /**
      * Removes the given hold issue id from the hold issue id list on the qualifier map.
      *
-     * @param qualifiers
+     * @param qualifier
      * @param holdIssueId
      * @return
      */
@@ -313,7 +315,7 @@ public class HoldIssueAuthorizingOrgServiceFacadeImpl implements HoldIssueAuthor
         PredicateFactory.like("attributeDetails.attributeValue", "%"+holdIssueId+"%")));
         List<RoleMembership> roleMemberships = KimApiServiceLocator.getRoleService().findRoleMemberships(query).getResults();
 
-        // Retrieve the group ids from the relationshiops.
+        // Retrieve the group ids from the relationships.
         List<String> groupIds = new ArrayList<>();
         for (RoleMembership roleMembership : roleMemberships) {
             groupIds.add(roleMembership.getMemberId());
@@ -329,6 +331,22 @@ public class HoldIssueAuthorizingOrgServiceFacadeImpl implements HoldIssueAuthor
         }
 
         return orgIds;
+    }
+
+    /**
+     * @see org.kuali.rice.krad.bo.DataObjectAuthorizer#isAuthorizedByTemplate(java.lang.Object, java.lang.String, java.lang.String,
+     * java.lang.String)
+     */
+    public boolean canPerformFunction(String principalId, String holdIssueId, String actionEvent) {
+
+        Map<String, String> roleQualifiers = new HashMap<String, String>();
+        roleQualifiers.put(HOLD_AUTHORIZATION_ISSUEIDS, holdIssueId);
+
+        Map<String, String> permissionDetails = new HashMap<String, String>();
+        permissionDetails.put(KimConstants.AttributeConstants.ACTION_EVENT, actionEvent);
+
+        return getPermissionService().isAuthorizedByTemplate(principalId, PermissionServiceConstants.KS_HLD_NAMESPACE,
+                HOLD_AUTHORIZATION_TEMPLATE_NAME, permissionDetails, roleQualifiers);
     }
 
     public PermissionService getPermissionService() {

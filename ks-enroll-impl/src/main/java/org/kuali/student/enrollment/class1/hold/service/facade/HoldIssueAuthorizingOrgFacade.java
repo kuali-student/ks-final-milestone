@@ -75,4 +75,13 @@ public interface HoldIssueAuthorizingOrgFacade {
      */
     List<String> getBindingByRoleAndHoldIssue(String roleId, String holdIssueId, ContextInfo contextInfo)
             throws PermissionDeniedException, MissingParameterException, InvalidParameterException, OperationFailedException, DoesNotExistException;
+
+    /**
+     *
+     * @param principalId
+     * @param holdIssueId
+     * @param actionEvent
+     * @return
+     */
+    public boolean canPerformFunction(String principalId, String holdIssueId, String actionEvent);
 }
