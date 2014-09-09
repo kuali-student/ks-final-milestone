@@ -176,8 +176,7 @@
         <property name="headerText" value="Retire Course" />
         <property name="cssClasses" >
             <list merge="true">
-                <value>decisionrationale_dialog</value>
-                <value>decisionrationale_acknowledgedialog</value>
+                <value>retire_dialog</value>
             </list>
         </property>
         <property name="promptText"
