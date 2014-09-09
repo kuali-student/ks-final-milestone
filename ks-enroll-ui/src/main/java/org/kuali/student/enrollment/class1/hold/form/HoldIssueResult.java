@@ -41,6 +41,8 @@ public class HoldIssueResult extends UifFormBase {
     private String typeKey;
     private Date firstDate;
     private Date lastDate;
+    private String startTerm;
+    private String endTerm;
     private String authorization;
     private String organizationId;
 
@@ -98,6 +100,22 @@ public class HoldIssueResult extends UifFormBase {
 
     public void setLastDate(Date lastDate) {
         this.lastDate = lastDate;
+    }
+
+    public String getStartTerm() {
+        return startTerm;
+    }
+
+    public void setStartTerm(String startTerm) {
+        this.startTerm = startTerm;
+    }
+
+    public String getEndTerm() {
+        return endTerm;
+    }
+
+    public void setEndTerm(String endTerm) {
+        this.endTerm = endTerm;
     }
 
     public String getAuthorization() {

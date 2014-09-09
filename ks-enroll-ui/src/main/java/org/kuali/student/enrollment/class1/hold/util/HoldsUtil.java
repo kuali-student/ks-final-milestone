@@ -3,7 +3,13 @@ package org.kuali.student.enrollment.class1.hold.util;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.criteria.Predicate;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
+import org.kuali.student.common.util.security.ContextUtils;
 import org.kuali.student.enrollment.class1.hold.form.HoldIssueResult;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.exceptions.MissingParameterException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.core.hold.dto.HoldIssueInfo;
 
 import java.util.ArrayList;
@@ -73,6 +79,13 @@ public class HoldsUtil {
         holdIssueResult.setOrganizationId(holdIssueInfo.getOrganizationId());
         holdIssueResult.setFirstDate(holdIssueInfo.getFirstAppliedDate());
         holdIssueResult.setLastDate(holdIssueInfo.getLastAppliedDate());
+        try {
+            holdIssueResult.setState(HoldsResourceLoader.getStateService().getState(holdIssueInfo.getStateKey(), ContextUtils.createDefaultContextInfo()).getName());
+        } catch (Exception e) {
+            throw new RuntimeException("Error Performing Search", e);
+        }
+        holdIssueResult.setStartTerm(holdIssueInfo.getFirstApplicationTermId());
+        holdIssueResult.setEndTerm(holdIssueInfo.getLastApplicationTermId());
         holdIssueResult.setAuthorization("Authorization");
         return holdIssueResult;
     }

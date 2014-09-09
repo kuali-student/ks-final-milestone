@@ -5,10 +5,12 @@ import org.kuali.student.core.person.service.PersonService;
 import org.kuali.student.core.person.service.PersonServiceNamespace;
 import org.kuali.student.enrollment.class1.hold.service.facade.HoldIssueAuthorizingOrgFacade;
 import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
+import org.kuali.student.r2.core.class1.state.service.StateService;
 import org.kuali.student.r2.core.constants.AcademicCalendarServiceConstants;
 import org.kuali.student.r2.core.constants.HoldServiceConstants;
 import org.kuali.student.r2.core.constants.OrganizationServiceConstants;
 
+import org.kuali.student.r2.core.constants.StateServiceConstants;
 import org.kuali.student.r2.core.hold.service.HoldService;
 import org.kuali.student.r2.core.organization.service.OrganizationService;
 
@@ -29,6 +31,7 @@ public class HoldsResourceLoader {
     private static AcademicCalendarService academicCalendarService;
     private static HoldIssueAuthorizingOrgFacade holdIssueAuthorizingOrgFacade;
     private static PersonService personService;
+    private static StateService stateService;
 
     public static HoldService getHoldService(){
         if(holdService == null) {
@@ -63,6 +66,13 @@ public class HoldsResourceLoader {
             personService = GlobalResourceLoader.getService(new QName(PersonServiceNamespace.NAMESPACE, PersonServiceNamespace.SERVICE_NAME_LOCAL_PART));
         }
         return personService;
+    }
+
+    public static StateService getStateService(){
+        if (stateService == null){
+            stateService = GlobalResourceLoader.getService(new QName(StateServiceConstants.NAMESPACE, StateServiceConstants.SERVICE_NAME_LOCAL_PART));
+        }
+        return stateService;
     }
 
 }

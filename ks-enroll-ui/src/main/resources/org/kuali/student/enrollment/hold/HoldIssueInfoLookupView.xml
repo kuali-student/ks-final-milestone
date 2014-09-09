@@ -11,9 +11,13 @@
         <property name="headerText" value="Hold Lookup"/>
         <property name="dataObjectClassName" value="org.kuali.student.r2.core.hold.dto.HoldIssueInfo"/>
         <property name="viewHelperServiceClass" value="org.kuali.student.enrollment.class1.hold.service.HoldIssueLookupableImpl"/>
+        <property name="additionalCssFiles">
+            <list merge="true">
+                <value>themes/ksboot/stylesheets/admin-registration.css</value>
+            </list>
+        </property>
         <property name="criteriaFields">
             <list>
-
                 <bean parent="Uif-LookupCriteriaInputField" p:propertyName="holdCode" p:label="Hold Code"/>
                 <bean parent="Uif-LookupCriteriaInputField" p:propertyName="name" p:label="Hold Name"/>
                 <bean parent="Uif-LookupCriteriaInputField" p:propertyName="typeKey" p:label="Hold Category">
@@ -40,13 +44,12 @@
 
             </list>
         </property>
-
         <property name="resultFields">
             <list>
-                <!--
-                <bean parent="KS-Uif-DataField" p:label="Hold Name" p:propertyName="name" p:additionalCssClasses="nowrap"/>
-                <bean parent="KS-Uif-DataField" p:label="Hold Code" p:propertyName="code"/>
-                <bean parent="KS-Uif-InputField" p:label="Category" p:propertyName="typeKey" p:readOnly="true" p:additionalCssClasses="nowrap"
+                <bean parent="KS-Uif-DataField" p:propertyName="code" p:label="Hold Code"/>
+                <bean parent="KS-Uif-DataField"
+                      p:propertyName="name" p:label="Hold Name"/>
+                <bean parent="KS-Uif-InputField" p:label="Hold Category" p:propertyName="typeKey" p:readOnly="true" p:additionalCssClasses="nowrap"
                       p:style="width:50%;">
                     <property name="control">
                         <bean parent="KS-Uif-DropdownControl"/>
@@ -55,26 +58,19 @@
                         <bean class="org.kuali.student.enrollment.class1.hold.keyvalues.HoldIssueTypeKeyValues"/>
                     </property>
                 </bean>
-                <bean parent="KS-Uif-DataField" p:label="Description" p:propertyName="descr" p:style="width:350px;"/>
-                <bean parent="KS-Uif-InputField" p:label="Owning Org" p:propertyName="organizationId" p:readOnly="true">
+                <!--<bean parent="KS-Uif-InputField" p:label="Owning Organization" p:propertyName="organizationId" p:readOnly="true">
                     <property name="control">
                         <bean parent="KS-Uif-DropdownControl"/>
                     </property>
                     <property name="optionsFinder">
                         <bean class="org.kuali.student.enrollment.class1.util.OrgInfoNameKeyValues"/>
                     </property>
-                </bean>
+                </bean>-->
+                <bean parent="KS-Uif-DataField" p:label="State" p:propertyName="state" p:additionalCssClasses="nowrap"/>
                 <bean parent="KS-Uif-DataField" p:label="Start Date" p:propertyName="firstDate" p:additionalCssClasses="nowrap"/>
                 <bean parent="KS-Uif-DataField" p:label="End Date" p:propertyName="lastDate" p:additionalCssClasses="nowrap" p:style="min-width:56px;"/>
--->
-
-                <bean parent="KS-Uif-DataField" p:propertyName="code" p:label="Hold Code"/>
-                <bean parent="KS-Uif-DataField"
-                      p:propertyName="name" p:label="Hold Name"/>
-                <bean parent="KS-Uif-DataField"
-                      p:propertyName="typeKey" p:label="Hold Category"/>
-                <bean parent="KS-Uif-DataField"
-                      p:propertyName="organizationId" p:label="Owning Organization"/>
+                <bean parent="KS-Uif-DataField" p:label="Start Term" p:propertyName="startTerm" p:additionalCssClasses="nowrap"/>
+                <bean parent="KS-Uif-DataField" p:label="End Term" p:propertyName="endTerm" p:additionalCssClasses="nowrap" p:style="min-width:56px;"/>
             </list>
         </property>
     </bean>
