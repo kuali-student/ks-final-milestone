@@ -46,91 +46,131 @@ public interface Value extends IdNamelessEntity, HasEffectiveDates {
      * @readOnly
      * @required
      */
-    String getParameterKey();
+    public String getParameterKey();
 
     /**
      *  An Integer that sets the priority of this value relative to other values associated with
      *  a specific parameter.
      * @name Priority
      */
-    Integer getPriority();
+    public Integer getPriority();
 
     /**
-     *  An optional list of ATP type keys that restricts the applicability of this value.
-     * @name ATP Type Keys
+     * An optional id for an ATP if the value is restricted for a specific term.
      */
-    List<String> getAtpTypeKeys();
+    public String getAtpId();
 
     /**
-     *  An optional Population Id that restricts the applicability of this value.
-     * @name Population Id
+     *  An ATP type key that restricts the applicability of this value.
+     * @name ATP Type Key
      */
-    String getPopulationId();
+    public String getAtpTypeKey();
 
     /**
      * An optional Rule Id that restricts the applicability of this value.
      * @name Rule Id
      */
-    String getRuleId();
+    public String getRuleId();
 
+    /**
+     * An optional Organization Id that restricts the applicability of this value.
+     * @name Org Id
+     */
+    public String getOrgId();
+
+    //////////////////////////////////
+    // Person Specific Quantifiers
+    //////////////////////////////////
+
+    /**
+     *  An optional Population Id that restricts the applicability of this value.
+     * @name Population Id
+     */
+    public String getPopulationId();
+
+    //////////////////////////////////
+    // Course Specific Quantifiers
+    //////////////////////////////////
+
+    /**
+     * An optional CLU (Canonical Learning Unit) Id that restricts the applicability of this value.
+     * @name CLU ID
+     */
+    public String getCluId();
+
+    /**
+     * An optional SOC (Set of Courses) Id that restricts the applicability of this value.
+     * @name SOC ID
+     */
+    public String getSocId();
+
+    /**
+     * An optional Subject Code that restricts the applicability of this value.
+     * @name Subject Code
+     */
+    public String getSubjectCode();
+
+    //////////////////////////////////
+    // Value Variables
+    //////////////////////////////////
 
     /**
      * The Boolean value contained within this entity
      * @name Boolean Value
      */
-    Boolean getBooleanValue();
+    public Boolean getBooleanValue();
 
     /**
      * The Date value contained within this entity
      * @name Date Value
      */
-    Date getDateValue();
+    public Date getDateValue();
 
     /**
      * The Numeric value contained within this entity.
      * @name Numeric Value
      */
-    Long getNumericValue();
+    public Long getNumericValue();
 
     /**
      * The KualiDecimal value contained within this entity
      * @name Decimal Value
      */
-    KualiDecimal getDecimalValue();
+    public KualiDecimal getDecimalValue();
 
     /**
      * The String value contained within this entity
      * @name String Value
      */
-    String getStringValue();
+    public String getStringValue();
 
     /**
      * The Amount value contained within this entity
      * @name Amount Value
      */
-    Amount getAmountValue();
+    public Amount getAmountValue();
 
     /**
      * The CurrencyAmount value contained within this entity
      * @name Currency Amount Value
      */
-    CurrencyAmount getCurrencyAmountValue();
+    public CurrencyAmount getCurrencyAmountValue();
 
     /**
      * The TimeAmount value contained within this entity
      * @name Time Amount Value
      */
-    TimeAmount getTimeAmountValue();
+    public TimeAmount getTimeAmountValue();
 
     /**
      * The TimeOfDay value contained within this entity
      * @name Time of Day Value
      */
-    TimeOfDay getTimeOfDayValue();
+    public TimeOfDay getTimeOfDayValue();
 
     /**
      * The custom value contained within this entity
      * @name Custom Value
      */
-    GesCustomValue getCustomValue();
+    public GesCustomValue getCustomValue();
 }

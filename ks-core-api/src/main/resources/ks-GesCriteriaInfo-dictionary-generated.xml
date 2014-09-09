@@ -1,0 +1,126 @@
+<!--
+ Copyright 2011 The Kuali Foundation
+
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+ http://www.opensource.org/licenses/ecl2.php
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+
+	<!-- ********************************************************
+		                       WARNING 
+		             DO NOT UPDATE THIS FILE MANUALLY
+		This dictionary file was automatically generated
+		The DictionaryGeneratorMojo reads the service contract 
+		and creates these ks-XXXX-dictionary-generated.xml files.
+
+		If this file is out of sync with the contract re-run the mojo.
+
+		To add additional constraints or change these default values (perhaps
+		because the generator is not perfect) please update the corresponding 
+		ks-XXXX-dictionary.xml instead of this one.
+	************************************************************* -->
+
+	<!-- GesCriteriaInfo-->
+	<bean id="GesCriteriaInfo-generated" abstract="true" parent="DataObjectEntry">
+		<property name="name" value="gesCriteriaInfo"/>
+		<property name="dataObjectClass" value="org.kuali.student.core.ges.dto.GesCriteriaInfo"/>
+		<property name="objectLabel" value="Ges Criteria"/>
+		<property name="objectDescription">
+			<value>
+Criteria used to evaluate the applicability of a value(s) associated with a parameter.
+			</value>
+		</property>
+		<property name="primaryKeys">
+			<list>
+				<value>personId</value>
+			</list>
+		</property>
+
+		<property name="attributes">
+			<list>
+				<ref bean="GesCriteriaInfo.personId"/>
+				<ref bean="GesCriteriaInfo.courseId"/>
+				<ref bean="GesCriteriaInfo.atpId"/>
+			</list>
+		</property>
+
+		<property name="complexAttributes">
+			<list>
+			</list>
+		</property>
+
+		<property name="collections">
+			<list>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="GesCriteriaInfo.personId-generated" abstract="true" parent="BaseKuali.personId">
+		<property name="name" value="personId"/>
+		<property name="shortLabel" value="Person Id"/>
+		<property name="summary">
+			<value>
+Person Id used to derive attributes that constrain the applicability of a value.
+
+			</value>
+		</property>
+		<property name="label" value="Person Id"/>
+		<property name="description">
+			<value>
+Person Id used to derive attributes that constrain the applicability of a value.
+An empty or null value is treated as a wild card.
+			</value>
+		</property>
+		<property name="required" value="false"/>
+	</bean>
+
+	<bean id="GesCriteriaInfo.courseId-generated" abstract="true" parent="BaseKuali.string">
+		<property name="name" value="courseId"/>
+		<property name="shortLabel" value="Course Id"/>
+		<property name="summary">
+			<value>
+Course Id used to derive attributes that constrain the applicability of a value.
+
+			</value>
+		</property>
+		<property name="label" value="Course Id"/>
+		<property name="description">
+			<value>
+Course Id used to derive attributes that constrain the applicability of a value.
+An empty or null value is treated as a wild card.
+			</value>
+		</property>
+		<property name="required" value="false"/>
+	</bean>
+
+	<bean id="GesCriteriaInfo.atpId-generated" abstract="true" parent="BaseKuali.atpId">
+		<property name="name" value="atpId"/>
+		<property name="shortLabel" value="Atp Id"/>
+		<property name="summary">
+			<value>
+ATP used to restrict the value(s) returned by evaluations using this criteria.
+
+			</value>
+		</property>
+		<property name="label" value="Atp Id"/>
+		<property name="description">
+			<value>
+ATP used to restrict the value(s) returned by evaluations using this criteria.
+An empty or null value is treated as a wild card.
+			</value>
+		</property>
+		<property name="required" value="false"/>
+	</bean>
+</beans>

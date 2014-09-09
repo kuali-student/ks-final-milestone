@@ -36,9 +36,18 @@ import java.util.List;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "ValueInfo", propOrder = {"id", "typeKey", "stateKey", "effectiveDate", "expirationDate",
-        "parameterKey","priority","atpTypeKeys","populationId","ruleId","stringValue","numericValue","dateValue","booleanValue",
-        "decimalValue","amountValue","currencyAmountValue","timeAmountValue","timeOfDayValue","customValue", "meta", "attributes", "_futureElements" })
+        "parameterKey","priority","atpId", "atpTypeKey","ruleId","orgId",
+        "populationId",
+        "cluId","socId","subjectCode",
+        "stringValue","numericValue","dateValue","booleanValue",
+        "decimalValue","amountValue","currencyAmountValue","timeAmountValue","timeOfDayValue","customValue",
+        "meta", "attributes", "_futureElements" })
 public class ValueInfo extends IdNamelessEntityInfo implements Value, HasEffectiveDates {
+
+    //////////////////////////////////
+    // Data Variables
+    //////////////////////////////////
+
     @XmlElement
     private Date effectiveDate;
     @XmlElement
@@ -48,11 +57,33 @@ public class ValueInfo extends IdNamelessEntityInfo implements Value, HasEffecti
     @XmlElement
     private Integer priority;
     @XmlElement
-    private List<String> atpTypeKeys;
+    private String atpId;
     @XmlElement
-    private String populationId;
+    private String atpTypeKey;
+    // private List<String> atpTypeKeys;
     @XmlElement
     private String ruleId;
+    @XmlElement
+    private String orgId;
+
+    // Person Quantifiers
+    // -----------------------
+
+    @XmlElement
+    private String populationId;
+
+    // Course Quantifiers
+    // -----------------------
+
+    @XmlElement
+    private String cluId;
+    @XmlElement
+    private String socId;
+    @XmlElement
+    private String subjectCode;
+
+    // Value Variables
+    // -----------------------
     @XmlElement
     private String stringValue;
     @XmlElement
@@ -76,41 +107,50 @@ public class ValueInfo extends IdNamelessEntityInfo implements Value, HasEffecti
     @XmlAnyElement
     private List<Object> _futureElements;
 
+    //////////////////////////////////
+    // Constructors
+    //////////////////////////////////
+
     public ValueInfo(){
 
     }
+
     public ValueInfo(Value value) throws OperationFailedException {
         super(value);
         if(value != null) {
             parameterKey = value.getParameterKey();
             priority = value.getPriority();
+            atpId = value.getAtpId();
+            atpTypeKey = value.getAtpTypeKey();
+            /*
             if (value.getAtpTypeKeys().size() > 0){
                 atpTypeKeys = new ArrayList<String>(value.getAtpTypeKeys());
             }
-            populationId = value.getPopulationId();
+            */
             ruleId = value.getRuleId();
+            orgId = value.getOrgId();
+
             if(value.getEffectiveDate() != null) {
                 effectiveDate = new Date(value.getEffectiveDate().getTime());
             }
             if(value.getExpirationDate() != null) {
                 expirationDate = new Date(value.getExpirationDate().getTime());
             }
+
+            populationId = value.getPopulationId();
+
+            cluId = value.getCluId();
+            socId = value.getSocId();
+            subjectCode = value.getSubjectCode();
+
             stringValue = value.getStringValue();
-
             numericValue = value.getNumericValue();
-
             dateValue = value.getDateValue();
-
             booleanValue = value.getBooleanValue();
-
             decimalValue = value.getDecimalValue();
-
             amountValue = value.getAmountValue();
-
             currencyAmountValue = value.getCurrencyAmountValue();
-
             timeAmountValue = value.getTimeAmountValue();
-
             timeOfDayValue = value.getTimeOfDayValue();
 
             if(value.getCustomValue() != null) {
@@ -119,6 +159,10 @@ public class ValueInfo extends IdNamelessEntityInfo implements Value, HasEffecti
 
         }
     }
+
+    //////////////////////////////////
+    // Getters and Setters
+    //////////////////////////////////
 
     @Override
     public Date getEffectiveDate() {
@@ -156,6 +200,15 @@ public class ValueInfo extends IdNamelessEntityInfo implements Value, HasEffecti
     }
 
     @Override
+    public String getAtpId() {
+        return atpId;
+    }
+
+    public void setAtpId(String atpId) {
+        this.atpId = atpId;
+    }
+
+    /*
     public List<String> getAtpTypeKeys() {
         if (atpTypeKeys == null){
             atpTypeKeys = new ArrayList<String>();
@@ -165,6 +218,34 @@ public class ValueInfo extends IdNamelessEntityInfo implements Value, HasEffecti
 
     public void setAtpTypeKeys(List<String> atpTypeKey) {
         this.atpTypeKeys = atpTypeKey;
+    }
+    */
+
+    @Override
+    public String getAtpTypeKey() {
+        return atpTypeKey;
+    }
+
+    public void setAtpTypeKey(String atpTypeKey) {
+        this.atpTypeKey = atpTypeKey;
+    }
+
+    @Override
+    public String getRuleId() {
+        return ruleId;
+    }
+
+    public void setRuleId(String ruleId) {
+        this.ruleId = ruleId;
+    }
+
+    @Override
+    public String getOrgId() {
+        return orgId;
+    }
+
+    public void setOrgId(String orgId) {
+        this.orgId = orgId;
     }
 
     @Override
@@ -176,13 +257,28 @@ public class ValueInfo extends IdNamelessEntityInfo implements Value, HasEffecti
         this.populationId = populationId;
     }
 
-    @Override
-    public String getRuleId() {
-        return ruleId;
+    public String getCluId() {
+        return cluId;
     }
 
-    public void setRuleId(String ruleId) {
-        this.ruleId = ruleId;
+    public void setCluId(String cluId) {
+        this.cluId = cluId;
+    }
+
+    public String getSocId() {
+        return socId;
+    }
+
+    public void setSocId(String socId) {
+        this.socId = socId;
+    }
+
+    public String getSubjectCode() {
+        return subjectCode;
+    }
+
+    public void setSubjectCode(String subjectCode) {
+        this.subjectCode = subjectCode;
     }
 
     @Override

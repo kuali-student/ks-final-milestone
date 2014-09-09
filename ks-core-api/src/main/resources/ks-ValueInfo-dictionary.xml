@@ -67,8 +67,8 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
 	<!-- insert any overrides to the generated attribute definitions here -->
 	</bean>
 
-	<bean id="ValueInfo.parameterId" parent="ValueInfo.parameterId-parent"/>
-	<bean id="ValueInfo.parameterId-parent" abstract="true" parent="ValueInfo.parameterId-generated">
+	<bean id="ValueInfo.parameterKey" parent="ValueInfo.parameterKey-parent"/>
+	<bean id="ValueInfo.parameterKey-parent" abstract="true" parent="ValueInfo.parameterKey-generated">
 	<!-- insert any overrides to the generated attribute definitions here -->
 	</bean>
 
@@ -77,8 +77,23 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
 	<!-- insert any overrides to the generated attribute definitions here -->
 	</bean>
 
+	<bean id="ValueInfo.atpId" parent="ValueInfo.atpId-parent"/>
+	<bean id="ValueInfo.atpId-parent" abstract="true" parent="ValueInfo.atpId-generated">
+	<!-- insert any overrides to the generated attribute definitions here -->
+	</bean>
+
 	<bean id="ValueInfo.atpTypeKey" parent="ValueInfo.atpTypeKey-parent"/>
 	<bean id="ValueInfo.atpTypeKey-parent" abstract="true" parent="ValueInfo.atpTypeKey-generated">
+	<!-- insert any overrides to the generated attribute definitions here -->
+	</bean>
+
+	<bean id="ValueInfo.ruleId" parent="ValueInfo.ruleId-parent"/>
+	<bean id="ValueInfo.ruleId-parent" abstract="true" parent="ValueInfo.ruleId-generated">
+	<!-- insert any overrides to the generated attribute definitions here -->
+	</bean>
+
+	<bean id="ValueInfo.orgId" parent="ValueInfo.orgId-parent"/>
+	<bean id="ValueInfo.orgId-parent" abstract="true" parent="ValueInfo.orgId-generated">
 	<!-- insert any overrides to the generated attribute definitions here -->
 	</bean>
 
@@ -87,8 +102,178 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
 	<!-- insert any overrides to the generated attribute definitions here -->
 	</bean>
 
-	<bean id="ValueInfo.ruleId" parent="ValueInfo.ruleId-parent"/>
-	<bean id="ValueInfo.ruleId-parent" abstract="true" parent="ValueInfo.ruleId-generated">
+	<bean id="ValueInfo.cluId" parent="ValueInfo.cluId-parent"/>
+	<bean id="ValueInfo.cluId-parent" abstract="true" parent="ValueInfo.cluId-generated">
+	<!-- insert any overrides to the generated attribute definitions here -->
+	</bean>
+
+	<bean id="ValueInfo.socId" parent="ValueInfo.socId-parent"/>
+	<bean id="ValueInfo.socId-parent" abstract="true" parent="ValueInfo.socId-generated">
+	<!-- insert any overrides to the generated attribute definitions here -->
+	</bean>
+
+	<bean id="ValueInfo.subjectCode" parent="ValueInfo.subjectCode-parent"/>
+	<bean id="ValueInfo.subjectCode-parent" abstract="true" parent="ValueInfo.subjectCode-generated">
+	<!-- insert any overrides to the generated attribute definitions here -->
+	</bean>
+
+	<bean id="ValueInfo.stringValue" parent="ValueInfo.stringValue-parent"/>
+	<bean id="ValueInfo.stringValue-parent" abstract="true" parent="ValueInfo.stringValue-generated">
+	<!-- insert any overrides to the generated attribute definitions here -->
+	</bean>
+
+	<bean id="ValueInfo.numericValue" parent="ValueInfo.numericValue-parent"/>
+	<bean id="ValueInfo.numericValue-parent" abstract="true" parent="ValueInfo.numericValue-generated">
+	<!-- insert any overrides to the generated attribute definitions here -->
+	</bean>
+
+	<bean id="ValueInfo.dateValue" parent="ValueInfo.dateValue-parent"/>
+	<bean id="ValueInfo.dateValue-parent" abstract="true" parent="ValueInfo.dateValue-generated">
+	<!-- insert any overrides to the generated attribute definitions here -->
+	</bean>
+
+	<bean id="ValueInfo.booleanValue" parent="ValueInfo.booleanValue-parent"/>
+	<bean id="ValueInfo.booleanValue-parent" abstract="true" parent="ValueInfo.booleanValue-generated">
+	<!-- insert any overrides to the generated attribute definitions here -->
+	</bean>
+
+	<bean id="ValueInfo.decimalValue" parent="ValueInfo.decimalValue-parent"/>
+	<bean id="ValueInfo.decimalValue-parent" abstract="true" parent="ValueInfo.decimalValue-generated">
+	<!-- insert any overrides to the generated attribute definitions here -->
+	</bean>
+
+	<bean id="ValueInfo.decimalValue.negative" parent="ValueInfo.decimalValue.negative-parent"/>
+	<bean id="ValueInfo.decimalValue.negative-parent" abstract="true" parent="ValueInfo.decimalValue.negative-generated">
+	<!-- insert any overrides to the generated attribute definitions here -->
+	</bean>
+
+	<bean id="ValueInfo.decimalValue.zero" parent="ValueInfo.decimalValue.zero-parent"/>
+	<bean id="ValueInfo.decimalValue.zero-parent" abstract="true" parent="ValueInfo.decimalValue.zero-generated">
+	<!-- insert any overrides to the generated attribute definitions here -->
+	</bean>
+
+	<bean id="ValueInfo.decimalValue.positive" parent="ValueInfo.decimalValue.positive-parent"/>
+	<bean id="ValueInfo.decimalValue.positive-parent" abstract="true" parent="ValueInfo.decimalValue.positive-generated">
+	<!-- insert any overrides to the generated attribute definitions here -->
+	</bean>
+
+	<bean id="ValueInfo.decimalValue.nonZero" parent="ValueInfo.decimalValue.nonZero-parent"/>
+	<bean id="ValueInfo.decimalValue.nonZero-parent" abstract="true" parent="ValueInfo.decimalValue.nonZero-generated">
+	<!-- insert any overrides to the generated attribute definitions here -->
+	</bean>
+
+	<bean id="ValueInfo.amountValue" parent="ValueInfo.amountValue-parent"/>
+	<bean id="ValueInfo.amountValue-parent" abstract="true" parent="ValueInfo.amountValue-generated">
+	<!-- insert any overrides to the generated attribute definitions here -->
+	</bean>
+
+	<bean id="ValueInfo.amountValue.unitTypeKey" parent="ValueInfo.amountValue.unitTypeKey-parent"/>
+	<bean id="ValueInfo.amountValue.unitTypeKey-parent" abstract="true" parent="ValueInfo.amountValue.unitTypeKey-generated">
+	<!-- insert any overrides to the generated attribute definitions here -->
+	</bean>
+
+	<bean id="ValueInfo.amountValue.unitQuantity" parent="ValueInfo.amountValue.unitQuantity-parent"/>
+	<bean id="ValueInfo.amountValue.unitQuantity-parent" abstract="true" parent="ValueInfo.amountValue.unitQuantity-generated">
+	<!-- insert any overrides to the generated attribute definitions here -->
+	</bean>
+
+	<bean id="ValueInfo.currencyAmountValue" parent="ValueInfo.currencyAmountValue-parent"/>
+	<bean id="ValueInfo.currencyAmountValue-parent" abstract="true" parent="ValueInfo.currencyAmountValue-generated">
+	<!-- insert any overrides to the generated attribute definitions here -->
+	</bean>
+
+	<bean id="ValueInfo.currencyAmountValue.currencyTypeKey" parent="ValueInfo.currencyAmountValue.currencyTypeKey-parent"/>
+	<bean id="ValueInfo.currencyAmountValue.currencyTypeKey-parent" abstract="true" parent="ValueInfo.currencyAmountValue.currencyTypeKey-generated">
+	<!-- insert any overrides to the generated attribute definitions here -->
+	</bean>
+
+	<bean id="ValueInfo.currencyAmountValue.currencyQuantity" parent="ValueInfo.currencyAmountValue.currencyQuantity-parent"/>
+	<bean id="ValueInfo.currencyAmountValue.currencyQuantity-parent" abstract="true" parent="ValueInfo.currencyAmountValue.currencyQuantity-generated">
+	<!-- insert any overrides to the generated attribute definitions here -->
+	</bean>
+
+	<bean id="ValueInfo.timeAmountValue" parent="ValueInfo.timeAmountValue-parent"/>
+	<bean id="ValueInfo.timeAmountValue-parent" abstract="true" parent="ValueInfo.timeAmountValue-generated">
+	<!-- insert any overrides to the generated attribute definitions here -->
+	</bean>
+
+	<bean id="ValueInfo.timeAmountValue.atpDurationTypeKey" parent="ValueInfo.timeAmountValue.atpDurationTypeKey-parent"/>
+	<bean id="ValueInfo.timeAmountValue.atpDurationTypeKey-parent" abstract="true" parent="ValueInfo.timeAmountValue.atpDurationTypeKey-generated">
+	<!-- insert any overrides to the generated attribute definitions here -->
+	</bean>
+
+	<bean id="ValueInfo.timeAmountValue.timeQuantity" parent="ValueInfo.timeAmountValue.timeQuantity-parent"/>
+	<bean id="ValueInfo.timeAmountValue.timeQuantity-parent" abstract="true" parent="ValueInfo.timeAmountValue.timeQuantity-generated">
+	<!-- insert any overrides to the generated attribute definitions here -->
+	</bean>
+
+	<bean id="ValueInfo.timeOfDayValue" parent="ValueInfo.timeOfDayValue-parent"/>
+	<bean id="ValueInfo.timeOfDayValue-parent" abstract="true" parent="ValueInfo.timeOfDayValue-generated">
+	<!-- insert any overrides to the generated attribute definitions here -->
+	</bean>
+
+	<bean id="ValueInfo.timeOfDayValue.hour" parent="ValueInfo.timeOfDayValue.hour-parent"/>
+	<bean id="ValueInfo.timeOfDayValue.hour-parent" abstract="true" parent="ValueInfo.timeOfDayValue.hour-generated">
+	<!-- insert any overrides to the generated attribute definitions here -->
+	</bean>
+
+	<bean id="ValueInfo.timeOfDayValue.minute" parent="ValueInfo.timeOfDayValue.minute-parent"/>
+	<bean id="ValueInfo.timeOfDayValue.minute-parent" abstract="true" parent="ValueInfo.timeOfDayValue.minute-generated">
+	<!-- insert any overrides to the generated attribute definitions here -->
+	</bean>
+
+	<bean id="ValueInfo.timeOfDayValue.second" parent="ValueInfo.timeOfDayValue.second-parent"/>
+	<bean id="ValueInfo.timeOfDayValue.second-parent" abstract="true" parent="ValueInfo.timeOfDayValue.second-generated">
+	<!-- insert any overrides to the generated attribute definitions here -->
+	</bean>
+
+	<bean id="ValueInfo.timeOfDayValue.milliSeconds" parent="ValueInfo.timeOfDayValue.milliSeconds-parent"/>
+	<bean id="ValueInfo.timeOfDayValue.milliSeconds-parent" abstract="true" parent="ValueInfo.timeOfDayValue.milliSeconds-generated">
+	<!-- insert any overrides to the generated attribute definitions here -->
+	</bean>
+
+	<bean id="ValueInfo.customValue" parent="ValueInfo.customValue-parent"/>
+	<bean id="ValueInfo.customValue-parent" abstract="true" parent="ValueInfo.customValue-generated">
+	<!-- insert any overrides to the generated attribute definitions here -->
+	</bean>
+
+	<bean id="ValueInfo.customValue.typeKey" parent="ValueInfo.customValue.typeKey-parent"/>
+	<bean id="ValueInfo.customValue.typeKey-parent" abstract="true" parent="ValueInfo.customValue.typeKey-generated">
+	<!-- insert any overrides to the generated attribute definitions here -->
+	</bean>
+
+	<bean id="ValueInfo.customValue.value" parent="ValueInfo.customValue.value-parent"/>
+	<bean id="ValueInfo.customValue.value-parent" abstract="true" parent="ValueInfo.customValue.value-generated">
+	<!-- insert any overrides to the generated attribute definitions here -->
+	</bean>
+
+	<bean id="ValueInfo.meta" parent="ValueInfo.meta-parent"/>
+	<bean id="ValueInfo.meta-parent" abstract="true" parent="ValueInfo.meta-generated">
+	<!-- insert any overrides to the generated attribute definitions here -->
+	</bean>
+
+	<bean id="ValueInfo.meta.versionInd" parent="ValueInfo.meta.versionInd-parent"/>
+	<bean id="ValueInfo.meta.versionInd-parent" abstract="true" parent="ValueInfo.meta.versionInd-generated">
+	<!-- insert any overrides to the generated attribute definitions here -->
+	</bean>
+
+	<bean id="ValueInfo.meta.createTime" parent="ValueInfo.meta.createTime-parent"/>
+	<bean id="ValueInfo.meta.createTime-parent" abstract="true" parent="ValueInfo.meta.createTime-generated">
+	<!-- insert any overrides to the generated attribute definitions here -->
+	</bean>
+
+	<bean id="ValueInfo.meta.createId" parent="ValueInfo.meta.createId-parent"/>
+	<bean id="ValueInfo.meta.createId-parent" abstract="true" parent="ValueInfo.meta.createId-generated">
+	<!-- insert any overrides to the generated attribute definitions here -->
+	</bean>
+
+	<bean id="ValueInfo.meta.updateTime" parent="ValueInfo.meta.updateTime-parent"/>
+	<bean id="ValueInfo.meta.updateTime-parent" abstract="true" parent="ValueInfo.meta.updateTime-generated">
+	<!-- insert any overrides to the generated attribute definitions here -->
+	</bean>
+
+	<bean id="ValueInfo.meta.updateId" parent="ValueInfo.meta.updateId-parent"/>
+	<bean id="ValueInfo.meta.updateId-parent" abstract="true" parent="ValueInfo.meta.updateId-generated">
 	<!-- insert any overrides to the generated attribute definitions here -->
 	</bean>
 </beans>

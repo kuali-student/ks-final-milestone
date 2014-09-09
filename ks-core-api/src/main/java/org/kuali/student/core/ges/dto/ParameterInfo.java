@@ -27,11 +27,11 @@ import java.util.List;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "ParameterInfo", propOrder = {"key", "typeKey", "stateKey","name","descr",
-        "gesGesValueTypeEnum","requireUniquePriorities", "meta", "attributes", "_futureElements" })
+        "gesValueTypeEnum","requireUniquePriorities", "meta", "attributes", "_futureElements" })
 public class ParameterInfo extends KeyEntityInfo implements Parameter {
 
     @XmlElement
-    private GesValueTypeEnum gesGesValueTypeEnum;
+    private GesValueTypeEnum gesValueTypeEnum;
     @XmlElement
     private Boolean requireUniquePriorities;
     @XmlAnyElement
@@ -44,17 +44,17 @@ public class ParameterInfo extends KeyEntityInfo implements Parameter {
         super(parameter);
 
         if(parameter != null) {
-            gesGesValueTypeEnum = parameter.getGesGesValueTypeEnum();
+            gesValueTypeEnum = parameter.getGesValueTypeEnum();
             requireUniquePriorities = parameter.getRequireUniquePriorities();
         }
     }
 
-    public GesValueTypeEnum getGesGesValueTypeEnum() {
-        return gesGesValueTypeEnum;
+    public GesValueTypeEnum getGesValueTypeEnum() {
+        return gesValueTypeEnum;
     }
 
-    public void setGesGesValueTypeEnum(GesValueTypeEnum gesGesValueTypeEnum) {
-        this.gesGesValueTypeEnum = gesGesValueTypeEnum;
+    public void setGesValueTypeEnum(GesValueTypeEnum gesValueTypeEnum) {
+        this.gesValueTypeEnum = gesValueTypeEnum;
     }
 
     @Override

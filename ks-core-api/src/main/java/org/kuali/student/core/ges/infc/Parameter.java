@@ -18,7 +18,7 @@ import org.kuali.student.r2.common.infc.KeyEntity;
 
 /**
  * A key to a possibly empty set of values.
-*/
+ */
 public interface Parameter extends KeyEntity {
 
     /**
@@ -26,7 +26,7 @@ public interface Parameter extends KeyEntity {
      * @name Ges Value Type
      * @required
      */
-    GesValueTypeEnum getGesGesValueTypeEnum();
+    GesValueTypeEnum getGesValueTypeEnum();
 
     /**
      * Indicates if duplicate priorities are allowed for all values associated with this parameter.

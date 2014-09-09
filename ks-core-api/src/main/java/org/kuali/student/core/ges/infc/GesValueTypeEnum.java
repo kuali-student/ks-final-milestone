@@ -14,7 +14,9 @@
  */
 package org.kuali.student.core.ges.infc;
 
+import javax.xml.bind.annotation.XmlEnum;
 
+@XmlEnum
 public enum GesValueTypeEnum {
     STRING,
     BOOLEAN,

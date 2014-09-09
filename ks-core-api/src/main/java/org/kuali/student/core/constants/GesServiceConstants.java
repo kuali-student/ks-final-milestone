@@ -23,23 +23,53 @@ import org.kuali.student.core.ges.service.GesServiceNamespace;
  */
 public class GesServiceConstants
         extends GesServiceNamespace {
-   
-    //Value Types
+
+    // Value Types
+    // ----------------
     public static final String GES_VALUE_TYPE_KEY = "kuali.ges.value.type";
-    //Parameter Types
+
+    // Parameter Types
+    // -------------------
     public static final String GES_PARAMETER_TYPE_KEY = "kuali.ges.parameter.type";
-    //Value State
+    public static final String GES_PARAMETER_TYPE_COURSE_KEY = "kuali.ges.parameter.type.course";
+
+    // Parameter Group Types
+    // -------------------------
+    public static final String GES_PARAMETER_GROUP_TYPE_KEY = "kuali.ges.parametergroup.type";
+
+    // Value States
+    // -----------------
     public static final String GES_VALUE_ACTIVE_STATE_KEY = "kuali.ges.value.state.active";
     public static final String GES_VALUE_INACTIVE_STATE_KEY = "kuali.ges.value.state.inactive";
-    //Parameter State
+
+    // Parameter States
+    // --------------------
     public static final String GES_PARAMETER_ACTIVE_STATE_KEY = "kuali.ges.parameter.state.active";
     public static final String GES_PARAMETER_INACTIVE_STATE_KEY = "kuali.ges.parameter.state.inactive";
+
+    // Parameter Group States
+    // -------------------------
+    public static final String GES_PARAMETER_GROUP_ACTIVE_STATE_KEY = "kuali.ges.parametergroup.state.active";
+
+    // Parameter Group Keys
+    // -------------------------
+    public static final String GES_PARAMETER_GROUP_KEY_ROLLOVER = "kuali.student.ges.parametergroup.key.rollover";
+
     /**
      * known parameters
      */
     public static final String PARAMETER_KEY_CREDIT_MINIMUM = "kuali.ges.credit.minimum";
     public static final String PARAMETER_KEY_CREDIT_LIMIT = "kuali.ges.credit.limit";
     public static final String PARAMETER_KEY_LOAD_CALCULATION_FOR_CREDIT_CHECKS = "kuali.ges.load.calculation.for.credit.checks";
+    public static final String PARAMETER_KEY_CLASS_STANDING_CREDIT_THRESHOLDS = "kuali.ges.class.standing.credit.thresholds";
+
+    // Rollover Priorities
+    // ------------------------
+    public static final String GES_ROLLOVER_PRIORITY_LEVEL_HARD_RULE = "100";
+    public static final String GES_ROLLOVER_PRIORITY_LEVEL_COURSE = "200";
+    public static final String GES_ROLLOVER_PRIORITY_LEVEL_SUBJECT_CODE = "300";
+    public static final String GES_ROLLOVER_PRIORITY_LEVEL_ORG_COURSE = "400";
+    public static final String GES_ROLLOVER_PRIORITY_LEVEL_GENERAL = "600";
 
     // Course repeatability
     public static final String PARAMETER_KEY_MAX_REPEATABLE = "kuali.ges.max.repeatable";
