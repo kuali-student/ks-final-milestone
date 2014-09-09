@@ -61,9 +61,10 @@ public class CourseServiceCacheDecorator extends CourseServiceDecorator {
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException,
 			VersionMismatchException {
+    	
 		CourseInfo result =  getNextDecorator().createCourse(courseInfo, contextInfo);
 		
-		KSCacheUtils.updateCacheElement(cacheManager.getCache(courseCacheName), courseInfo.getId(), courseInfo, courseInfoCopier);
+		KSCacheUtils.updateCacheElement(cacheManager.getCache(courseCacheName), courseInfo.getId(), result, courseInfoCopier);
         
         return courseInfoCopier.deepCopy(result);
 		
@@ -73,7 +74,7 @@ public class CourseServiceCacheDecorator extends CourseServiceDecorator {
     public CourseInfo updateCourse(String courseId, CourseInfo courseInfo, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, VersionMismatchException, OperationFailedException, PermissionDeniedException, UnsupportedActionException, DependentObjectsExistException, AlreadyExistsException, CircularRelationshipException, CircularReferenceException, ReadOnlyException {
         CourseInfo result = getNextDecorator().updateCourse(courseId, courseInfo, contextInfo);
         
-        KSCacheUtils.updateCacheElement(cacheManager.getCache(courseCacheName), courseId, courseInfo, courseInfoCopier);
+        KSCacheUtils.updateCacheElement(cacheManager.getCache(courseCacheName), courseId, result, courseInfoCopier);
         
         return courseInfoCopier.deepCopy(result);
     }
