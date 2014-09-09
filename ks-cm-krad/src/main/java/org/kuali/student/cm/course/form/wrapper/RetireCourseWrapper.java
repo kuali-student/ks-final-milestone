@@ -40,6 +40,7 @@ public class RetireCourseWrapper extends ProposalElementsWrapper implements Seri
     private String publicationYear;
     private RichTextInfo otherComment;
     private String retireEndTerm;
+    private String retireStartTerm;
 
     private String userId = "";
 
@@ -122,4 +123,11 @@ public class RetireCourseWrapper extends ProposalElementsWrapper implements Seri
         this.lastUpdated = lastUpdated;
     }
 
+    public String getRetireStartTerm() {
+        return retireStartTerm;
+    }
+
+    public void setRetireStartTerm(String retireStartTerm) {
+        this.retireStartTerm = retireStartTerm;
+    }
 }

@@ -17,6 +17,9 @@
 package org.kuali.student.cm.course.controller;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.rice.core.api.criteria.PredicateFactory;
+import org.kuali.rice.core.api.criteria.QueryByCriteria;
+import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.api.exception.WorkflowException;
@@ -33,10 +36,14 @@ import org.kuali.student.cm.course.form.RecentlyViewedDocsUtil;
 import org.kuali.student.cm.course.form.wrapper.RetireCourseWrapper;
 import org.kuali.student.cm.course.service.RetireCourseMaintainable;
 import org.kuali.student.cm.course.util.CourseProposalUtil;
+import org.kuali.student.common.collection.KSCollectionUtils;
 import org.kuali.student.common.object.KSObjectUtils;
 import org.kuali.student.common.util.security.ContextUtils;
 import org.kuali.student.r2.common.dto.DtoConstants;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
+import org.kuali.student.r2.core.atp.dto.AtpInfo;
+import org.kuali.student.r2.core.atp.service.AtpService;
+import org.kuali.student.r2.core.constants.AtpServiceConstants;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -49,6 +56,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.xml.namespace.QName;
 import java.util.Collections;
 import java.util.List;
 
@@ -62,6 +70,8 @@ import java.util.List;
 @RequestMapping(value = CurriculumManagementConstants.ControllerRequestMappings.CM_RETIRE_COURSE)
 public class RetireCourseController extends CourseController {
     private static final Logger LOG = LoggerFactory.getLogger(RetireCourseController.class);
+
+    private transient AtpService atpService;
 
     @Override
     protected MaintenanceDocumentForm createInitialForm(HttpServletRequest request) {
@@ -122,7 +132,8 @@ public class RetireCourseController extends CourseController {
         try {
             CourseInfo course = getCourseService().getCourse(courseId, ContextUtils.createDefaultContextInfo());
             courseWrapper.setCourseInfo(course);
-            courseWrapper.getProposalInfo().setName("Retire: " + course.getCourseTitle());        
+            courseWrapper.getProposalInfo().setName("Retire: " + course.getCourseTitle());
+            courseWrapper.setRetireStartTerm(getTermDesc(course.getStartTerm()));
         } catch (Exception e) {
             throw new RuntimeException("Could not fetch course", e);
         }
@@ -261,7 +272,41 @@ public class RetireCourseController extends CourseController {
         return getUIFModelAndView(form, CurriculumManagementConstants.CoursePageIds.REVIEW_RETIRE_COURSE_PROPOSAL_PAGE);
     }
 
+    private String getTermDesc(String term) {
 
+        String result = "";
+
+        if (StringUtils.isNotEmpty(term)) {
+
+            QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
+            qbcBuilder.setPredicates(PredicateFactory.in("id", term));
+
+            QueryByCriteria qbc = qbcBuilder.build();
+            try {
+
+                List<AtpInfo> searchResult = getAtpService().searchForAtps(qbc, ContextUtils.createDefaultContextInfo());
+
+                AtpInfo atpInfo = KSCollectionUtils.getOptionalZeroElement(searchResult);
+
+                if (atpInfo != null) {
+                    result = atpInfo.getName();
+                }
+
+            } catch (Exception ex) {
+                throw new RuntimeException("Could not retrieve description of Term \"" + term + "\" : " + ex);
+            }
+        }
+
+        return result;
+    }
+
+    protected AtpService getAtpService() {
+        if (atpService == null) {
+            QName qname = new QName(AtpServiceConstants.NAMESPACE, AtpServiceConstants.SERVICE_NAME_LOCAL_PART);
+            atpService = (AtpService) GlobalResourceLoader.getService(qname);
+        }
+        return atpService;
+    }
 
 
 }

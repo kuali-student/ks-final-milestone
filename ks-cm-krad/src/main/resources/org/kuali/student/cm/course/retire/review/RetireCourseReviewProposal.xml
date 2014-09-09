@@ -61,12 +61,41 @@
     <bean id="CM-Proposal-Review-RetireCourse-PageSections" parent="CM-Proposal-Course-View-VerticalBoxSection">
         <property name="items">
             <list>
-                <ref bean="CM-Proposal-Review-Course-Page-ReviewErrorMessageLink"/>
+                <ref bean="CM-Proposal-Review-RetireCourse-Page-ReviewErrorMessageLink"/>
                 <ref bean="CM-Proposal-Review-Section"/>
                 <ref bean="CM-Proposal-Review-RetireCourseSection"/>
                 <ref bean="CM-Proposal-Review-Course-AuthorsAndCollaboratorsSection"/>
                 <ref bean="CM-Proposal-Review-Course-SupportingDocumentsSection"/>
                 <ref bean="CM-ExportHiddenField"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="CM-Proposal-Review-RetireCourse-Page-ReviewErrorMessageLink" parent="Uif-VerticalBoxGroup"
+          p:render="@{#dataObject.missingRequiredFields}" p:additionalCssClasses="ks-cm-reviewproposal-validation-spacing">
+        <property name="items">
+            <list>
+                <bean id="CM-Proposal-Course-View-AdminMessage-TreeExpandCollapse" parent="Uif-HorizontalFieldGroup"
+                      p:showLabel="false"
+                      p:additionalCssClasses="uif-validationMessages,uif-groupValidationMessages,uif-pageValidationMessages-warning,ks-subSection">
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-Message" p:id="CM-Proposal-Review-Error-Message"
+                                  p:messageText="This proposal is incomplete."
+                                  p:style="margin-right: 0pt; margin-top: 5px;">
+                            </bean>
+                            <bean parent="KS-Uif-ActionLink" p:id="CM-Proposal-Review-Error-Message-Expand-Option-Link"
+                                  p:actionScript="showHideReviewProposalErrorFields('CM-Proposal-Review-RetireCourse-PageSections');"
+                                  p:actionLabel="Hide error highlighting.">
+                                <property name="cssClasses">
+                                    <list merge="true">
+                                        <value>review_proposal_ReviewErrorMessageActionLink</value>
+                                    </list>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
             </list>
         </property>
     </bean>
@@ -116,15 +145,15 @@
                         <list>
                             <bean parent="CM-ReadOnlyInput" p:label="Proposal Title" id="CM-Proposal-Review-RetireCourse-Proposal-Name"
                                   p:propertyName="proposalInfo.name"/>
-                            <!--<bean parent="CM-ReadOnlyInput" p:label="Rationale for Retirement" id="CM-Proposal-Review-RetireCourse-Rationale"
+                            <bean parent="CM-ReadOnlyInput" p:label="Rationale for Retirement" id="CM-Proposal-Review-RetireCourse-Rationale"
                                   p:propertyName="proposalInfo.rationale.plain">
-                                  TODO:KSCM-2099 This is a temporary fix till the KRAD Data Dictionary works properly
+                                  <!--TODO:KSCM-2099 This is a temporary fix till the KRAD Data Dictionary works properly -->
                                  <property name="simpleConstraint">
                                     <bean parent="CM-RequiredConstraints-Enroute" p:maxLength="1000"/>
                                  </property>
-                            </bean> -->
+                            </bean>
                             <bean parent="CM-ReadOnlyInput" p:label="Start Term" id="CM-Proposal-Review-RetireCourse-StartTerm"
-                                  p:propertyName="courseInfo.startTerm"/>
+                                  p:propertyName="retireStartTerm"/>
                             <bean parent="CM-ReadOnlyInput" p:label="End Term" id="CM-Proposal-Review-RetireCourse-EndTerm"
                                   p:propertyName="reviewProposalDisplay.retireCourseSection.endTerm"/>
                             <bean parent="CM-ReadOnlyInput" p:label="Last Term Offered" id="CM-Proposal-Review-RetireCourse-LastTerm"

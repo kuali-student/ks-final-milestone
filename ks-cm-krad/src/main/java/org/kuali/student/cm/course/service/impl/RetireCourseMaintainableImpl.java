@@ -18,6 +18,8 @@ package org.kuali.student.cm.course.service.impl;
 
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
+import org.kuali.rice.core.api.criteria.PredicateFactory;
+import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
@@ -38,6 +40,9 @@ import org.kuali.student.r1.core.subjectcode.service.SubjectCodeService;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.util.AttributeHelper;
+import org.kuali.student.r2.core.atp.dto.AtpInfo;
+import org.kuali.student.r2.core.atp.service.AtpService;
+import org.kuali.student.r2.core.constants.AtpServiceConstants;
 import org.kuali.student.r2.core.constants.KSKRMSServiceConstants;
 import org.kuali.student.r2.core.constants.ProposalServiceConstants;
 import org.kuali.student.r2.core.proposal.dto.ProposalInfo;
@@ -56,6 +61,7 @@ import org.slf4j.LoggerFactory;
 import javax.xml.namespace.QName;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -69,6 +75,8 @@ public class RetireCourseMaintainableImpl extends ProposalMaintainableImpl imple
     private static final Logger LOG = LoggerFactory.getLogger(RetireCourseMaintainableImpl.class);
 
     private transient SubjectCodeService subjectCodeService;
+
+    private transient AtpService atpService;
 
     @Override
     public void processAfterNew(MaintenanceDocument document, Map<String, String[]> requestParameters) {
@@ -118,6 +126,7 @@ public class RetireCourseMaintainableImpl extends ProposalMaintainableImpl imple
         CourseInfo course = getCourseService().getCourse(getProposalInfo().getProposalReference().get(0), createContextInfo());
         courseWrapper.setCourseInfo(course);
 
+        courseWrapper.setRetireStartTerm(getTermDesc(course.getStartTerm()));
         // copy data from proposal to wrapper object
         courseWrapper.setRetireEndTerm(courseWrapper.getProposalInfo().getAttributeValue(CurriculumManagementConstants.PROPOSED_END_TERM));
         courseWrapper.setLastTerm(courseWrapper.getProposalInfo().getAttributeValue(CurriculumManagementConstants.PROPOSED_LAST_TERM_OFFERED));
@@ -243,9 +252,9 @@ public class RetireCourseMaintainableImpl extends ProposalMaintainableImpl imple
         super.updateReview();
         RetireCourseWrapper retireCourseWrapper = (RetireCourseWrapper) getDataObject();
         RetireCourseReviewProposalDisplay reviewProposalDisplay = (RetireCourseReviewProposalDisplay) retireCourseWrapper.getReviewProposalDisplay();
-        reviewProposalDisplay.getRetireCourseSection().setEndTerm(new AttributeHelper(retireCourseWrapper.getProposalInfo().getAttributes()).get(CurriculumManagementConstants.PROPOSED_END_TERM));
-        reviewProposalDisplay.getRetireCourseSection().setLastTerm(new AttributeHelper(retireCourseWrapper.getProposalInfo().getAttributes()).get(CurriculumManagementConstants.PROPOSED_LAST_TERM_OFFERED));
-        reviewProposalDisplay.getRetireCourseSection().setPublicationYear(new AttributeHelper(retireCourseWrapper.getProposalInfo().getAttributes()).get(CurriculumManagementConstants.PROPOSED_LAST_COURSE_CATALOG_YEAR));
+        reviewProposalDisplay.getRetireCourseSection().setEndTerm(getTermDesc(new AttributeHelper(retireCourseWrapper.getProposalInfo().getAttributes()).get(CurriculumManagementConstants.PROPOSED_END_TERM)));
+        reviewProposalDisplay.getRetireCourseSection().setLastTerm(getTermDesc(new AttributeHelper(retireCourseWrapper.getProposalInfo().getAttributes()).get(CurriculumManagementConstants.PROPOSED_LAST_TERM_OFFERED)));
+        reviewProposalDisplay.getRetireCourseSection().setPublicationYear(getTermDesc(new AttributeHelper(retireCourseWrapper.getProposalInfo().getAttributes()).get(CurriculumManagementConstants.PROPOSED_LAST_COURSE_CATALOG_YEAR)));
         RichTextInfo otherComment = new RichTextInfo();
         otherComment.setPlain(new AttributeHelper(retireCourseWrapper.getProposalInfo().getAttributes()).get(CurriculumManagementConstants.PROPOSED_OTHER_COMMENTS));
         otherComment.setFormatted(otherComment.getPlain());
@@ -262,6 +271,13 @@ public class RetireCourseMaintainableImpl extends ProposalMaintainableImpl imple
         if (!retireCourseWrapper.getCourseInfo().getJoints().isEmpty()) {
             for (CourseJointInfo jointInfo : retireCourseWrapper.getCourseInfo().getJoints()) {
                 reviewProposalDisplay.getReferenceDataSection().getJointlyOfferedCourses().add(jointInfo.getSubjectArea() + jointInfo.getCourseNumberSuffix());
+            }
+        }
+
+        if (StringUtils.isNotBlank(retireCourseWrapper.getProposalInfo().getId())){
+            Date updateTime = retireCourseWrapper.getProposalInfo().getMeta().getUpdateTime();
+            if (updateTime != null){
+                retireCourseWrapper.setLastUpdated(CurriculumManagementConstants.CM_DATE_FORMATTER.format(updateTime));
             }
         }
 
@@ -337,6 +353,42 @@ public class RetireCourseMaintainableImpl extends ProposalMaintainableImpl imple
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+    }
+
+    private String getTermDesc(String term) {
+
+        String result = "";
+
+        if (StringUtils.isNotEmpty(term)) {
+
+            QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
+            qbcBuilder.setPredicates(PredicateFactory.in("id", term));
+
+            QueryByCriteria qbc = qbcBuilder.build();
+            try {
+
+                List<AtpInfo> searchResult = getAtpService().searchForAtps(qbc, ContextUtils.createDefaultContextInfo());
+
+                AtpInfo atpInfo = KSCollectionUtils.getOptionalZeroElement(searchResult);
+
+                if (atpInfo != null) {
+                    result = atpInfo.getName();
+                }
+
+            } catch (Exception ex) {
+                throw new RuntimeException("Could not retrieve description of Term \"" + term + "\" : " + ex);
+            }
+        }
+
+        return result;
+    }
+
+    protected AtpService getAtpService() {
+        if (atpService == null) {
+            QName qname = new QName(AtpServiceConstants.NAMESPACE, AtpServiceConstants.SERVICE_NAME_LOCAL_PART);
+            atpService = (AtpService) GlobalResourceLoader.getService(qname);
+        }
+        return atpService;
     }
 
     protected SubjectCodeService getSubjectCodeService() {
