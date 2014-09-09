@@ -228,7 +228,7 @@ public class RetireCourseMaintainableImpl extends ProposalMaintainableImpl imple
     protected void buildProposalActionLink(Action actionLink, MaintenanceDocumentForm form, String methodToCall, String pageId) {
         String docId = form.getDocument().getDocumentNumber();
 
-        String href = CourseProposalUtil.buildRetireCourseProposalUrl(methodToCall, pageId, docId);
+        String href = CourseProposalUtil.buildCourseProposalUrl(methodToCall, pageId, docId, ProposalServiceConstants.PROPOSAL_TYPE_COURSE_RETIRE_KEY);
 
         if (StringUtils.isBlank(href)) {
             actionLink.setRender(false);

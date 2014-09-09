@@ -116,7 +116,8 @@ limitations under the License.
                 <property name="finalizeMethodAdditionalArguments">
                   <list>
                     <value>docHandler</value>
-                    <value>CM-Proposal-Review-Course-Page</value>
+                      <value>@{(#lp.typeKey eq T(org.kuali.student.r2.core.constants.ProposalServiceConstants).PROPOSAL_TYPE_COURSE_RETIRE_KEY) ?
+                          'CM-Proposal-Review-RetireCourse-Page' : 'CM-Proposal-Review-Course-Page'}</value>
                   </list>
                 </property>
                 <property name="actionParameters">
@@ -133,7 +134,8 @@ limitations under the License.
                 <property name="finalizeMethodAdditionalArguments">
                   <list>
                     <value>docHandler</value>
-                    <value>CM-Proposal-Course-Create-Page</value>
+                      <value>@{(#lp.typeKey eq T(org.kuali.student.r2.core.constants.ProposalServiceConstants).PROPOSAL_TYPE_COURSE_RETIRE_KEY) ?
+                          'CM-Proposal-Course-Retire-Page' : 'CM-Proposal-Course-Create-Page'}</value>
                   </list>
                 </property>
                 <property name="render" value="@{#ViewHelper.allowsProposalEditAction(#line) and view.renderMaintenanceLinks}"/>

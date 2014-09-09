@@ -53,19 +53,16 @@ public class CourseProposalUtil {
      */
     public static String buildCourseProposalUrl(String methodToCall, String pageId, String workflowDocId, String proposalType) {
         Properties props = ProposalUtil.getProposalUrlProperties(methodToCall, pageId, workflowDocId);
-        props.put(UifParameters.DATA_OBJECT_CLASS_NAME, CourseInfoWrapper.class.getCanonicalName());
+        if (CurriculumManagementConstants.CoursePageIds.REVIEW_RETIRE_COURSE_PROPOSAL_PAGE.equals(pageId)) {
+            props.put(UifParameters.DATA_OBJECT_CLASS_NAME, RetireCourseWrapper.class.getCanonicalName());
+        } else {
+            props.put(UifParameters.DATA_OBJECT_CLASS_NAME, CourseInfoWrapper.class.getCanonicalName());
+        }
         String controllerRequestMapping = CurriculumManagementConstants.ControllerRequestMappings.MappingsByProposalType.getControllerMapping(proposalType);
         if (StringUtils.isBlank(controllerRequestMapping)) {
             throw new RuntimeException("Cannot find request mapping for proposal type: " + proposalType);
         }
         String courseBaseUrl = controllerRequestMapping.replaceFirst("/", "");
-        return UrlFactory.parameterizeUrl(courseBaseUrl, props);
-    }
-
-    public static String buildRetireCourseProposalUrl(String methodToCall, String pageId, String workflowDocId) {
-        Properties props = ProposalUtil.getProposalUrlProperties(methodToCall, pageId, workflowDocId);
-        props.put(UifParameters.DATA_OBJECT_CLASS_NAME, RetireCourseWrapper.class.getCanonicalName());
-        String courseBaseUrl = CurriculumManagementConstants.ControllerRequestMappings.CM_RETIRE_COURSE.replaceFirst("/", "");
         return UrlFactory.parameterizeUrl(courseBaseUrl, props);
     }
 
