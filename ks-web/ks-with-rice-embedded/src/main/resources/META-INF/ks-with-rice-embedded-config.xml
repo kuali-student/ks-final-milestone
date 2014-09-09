@@ -32,6 +32,9 @@
     <param name="db.vendor">oracle</param>
     <param name="jpa.vendor">hibernate</param>
 
+    <!-- By default we index elastic on startup. You can change that here -->
+    <param name="ks.index.elastic.onstartup" override="false">true</param>
+
     <!-- URL that the Active MQ Broker is deployed -->
     <param name="ks.mqbroker.url">nio://localhost:7003</param>
     <param name="ks.mqlistener.url">vm:ksbroker:(${ks.mqbroker.url})?create=false;waitForStart=10000</param>
