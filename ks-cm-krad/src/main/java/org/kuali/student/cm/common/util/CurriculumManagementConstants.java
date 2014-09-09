@@ -157,6 +157,7 @@ public class CurriculumManagementConstants {
         public final static String RETIRE_COURSE_PAGE = "CM-Proposal-Course-Retire-Page";
         public final static String START_RETIRE_COURSE_PAGE = "CM-Proposal-Course-Retire-Start-Page";
         public final static String VIEW_COURSE_PAGE = "CM-ViewCourse-View-Course-Page";
+        public final static String REVIEW_RETIRE_COURSE_PROPOSAL_PAGE = "CM-Proposal-Review-RetireCourse-Page";
     }
 
     public static interface UserInterfaceSections {

@@ -82,7 +82,7 @@
         <property name="items">
             <list>
                 <ref bean="CM-Proposal-Course-Retire-Page"/>
-                <!--<ref bean="CM-Proposal-Review-Course-Page"/> Include the review proposal page once done -->
+                <ref bean="CM-Proposal-Review-RetireCourse-Page"/>
             </list>
         </property>
         <property name="additionalScriptFiles">
@@ -101,6 +101,8 @@
                 <entry key="uiHelper" value="document.newMaintainableObject.dataObject.uiHelper"/>
                 <entry key="workflowDoc" value="document.documentHeader.workflowDocument"/>
                 <entry key="htmlUtils" value="T(org.springframework.web.util.HtmlUtils)"/>
+                <entry key="isCompareView" value="false"/>
+                <entry key="isViewCourseView" value="false"/>
             </map>
         </property>
         <property name="header.rightGroup">
@@ -220,7 +222,7 @@
                 </bean>
 
                 <!-- The text and link below the tab panel. This gets fixed positioning via JS. -->
-                <bean id="CM-Proposal-Course-Retire-ReviewProposalLink" parent="Uif-VerticalBoxGroup"> <!-- p:render="@{(!#workflowDoc.initiated}" -->
+                <bean id="CM-Proposal-Course-Retire-ReviewProposalLink" parent="Uif-VerticalBoxGroup" p:render="@{!#workflowDoc.initiated}"> <!-- p:render="@{(!#workflowDoc.initiated}" -->
                     <property name="header">
                         <bean id="CM-Proposal-Course-View-Tab-ReviewHeader" parent="Uif-HeaderFour">
                             <property name="cssClasses">
@@ -236,7 +238,19 @@
                             <bean parent="Uif-NavigationActionLink">
                                 <property name="id" value="CM-Proposal-Course-Retire-ReviewProposalLink"/>
                                 <property name="actionLabel" value="Review Proposal"/>
-                                <!--<property name="render" value="@{#actionFlags[#Constants.KUALI_ACTION_CAN_EDIT]}"/> -->
+                                <property name="finalizeMethodToCall" value="buildProposalActionLink"/>
+                                <property name="finalizeMethodAdditionalArguments">
+                                    <list>
+                                        <value>docHandler</value>
+                                        <value>CM-Proposal-Review-RetireCourse-Page</value>
+                                    </list>
+                                </property>
+                                <property name="actionParameters">
+                                    <map>
+                                        <entry key="pageId" value="CM-Proposal-Review-RetireCourse-Page"/>
+                                    </map>
+                                </property>
+                                <property name="render" value="@{#actionFlags[#Constants.KUALI_ACTION_CAN_EDIT]}"/>
                             </bean>
                         </list>
                     </property>

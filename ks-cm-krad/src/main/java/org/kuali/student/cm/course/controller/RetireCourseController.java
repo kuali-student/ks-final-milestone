@@ -20,15 +20,16 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 import org.kuali.rice.krad.uif.UifConstants;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
+import org.kuali.rice.krad.web.controller.MethodAccessible;
 import org.kuali.rice.krad.web.form.DocumentFormBase;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 import org.kuali.student.cm.common.util.CurriculumManagementConstants;
 import org.kuali.student.cm.course.form.RecentlyViewedDocsUtil;
-import org.kuali.student.cm.course.form.wrapper.CourseInfoWrapper;
 import org.kuali.student.cm.course.form.wrapper.RetireCourseWrapper;
 import org.kuali.student.cm.course.service.RetireCourseMaintainable;
 import org.kuali.student.cm.course.util.CourseProposalUtil;
@@ -210,7 +211,7 @@ public class RetireCourseController extends CourseController {
      * Returns the KRAD pageId that will be used for the Review Page display
      */
     protected String getReviewPageKradPageId() {
-        return CurriculumManagementConstants.CoursePageIds.REVIEW_COURSE_PROPOSAL_PAGE;
+        return CurriculumManagementConstants.CoursePageIds.REVIEW_RETIRE_COURSE_PROPOSAL_PAGE;
     }
 
     /**
@@ -240,5 +241,27 @@ public class RetireCourseController extends CourseController {
     public ModelAndView copyProposal(@ModelAttribute("KualiForm") DocumentFormBase form) {
         throw new RuntimeException("Cannot copy a Retire Proposal");
     }
+
+    @MethodAccessible
+    @RequestMapping(params = "methodToCall=reviewCourseProposal")
+    public ModelAndView reviewCourseProposal(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result,
+                                             HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        ((RetireCourseMaintainable) ((MaintenanceDocumentForm) form).getDocument().getNewMaintainableObject()).updateReview();
+
+        //  Validate
+        RetireCourseWrapper wrapper = getRetireCourseWrapper(form);
+        KRADServiceLocatorWeb.getViewValidationService().validateViewAgainstNextState(form);
+        if (GlobalVariables.getMessageMap().hasErrors()) {
+            wrapper.setMissingRequiredFields(true);
+        } else
+        {
+            wrapper.setMissingRequiredFields(false);
+        }
+        return getUIFModelAndView(form, CurriculumManagementConstants.CoursePageIds.REVIEW_RETIRE_COURSE_PROPOSAL_PAGE);
+    }
+
+
+
 
 }

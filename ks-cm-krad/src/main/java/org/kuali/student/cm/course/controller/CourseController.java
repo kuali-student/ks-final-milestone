@@ -281,7 +281,7 @@ public class CourseController extends CourseRuleEditorController {
              * discarded in UifControllerHandlerInterceptor#afterCompletion(). If the postedView isn't available the
              * validation in the reviewCourseProposal handler method will fail.
              */
-            String courseBaseUrl = CurriculumManagementConstants.ControllerRequestMappings.COURSE_MAINTENANCE.replaceFirst("/", "");
+            String courseBaseUrl = request.getPathInfo().replaceFirst("/", "");
             ModelAndView mv = performRedirect(formBase, courseBaseUrl, urlParameters);
             formBase.setRequestRedirected(false);
             return mv;
@@ -824,7 +824,7 @@ public class CourseController extends CourseRuleEditorController {
 
         ((CourseMaintainable) maintForm.getDocument().getNewMaintainableObject()).updateReview();
 
-        if (ArrayUtils.contains(CurriculumManagementConstants.DocumentTypeNames.COURSE_MODIFY_DOC_TYPE_NAMES,maintForm.getDocTypeName()) &&
+        if (ArrayUtils.contains(CurriculumManagementConstants.DocumentTypeNames.COURSE_MODIFY_DOC_TYPE_NAMES, maintForm.getDocTypeName()) &&
             maintForm.getWorkflowDocument().isSaved()){
 
             CourseInfoWrapper compareCourseWrapper = new CourseInfoWrapper();
@@ -1545,7 +1545,7 @@ public class CourseController extends CourseRuleEditorController {
         /**
          * It should be always 'curriculum review' for both CS and faculty users for copy.
          */
-        urlParameters.put(CurriculumManagementConstants.UrlParams.USE_CURRICULUM_REVIEW,Boolean.TRUE.toString());
+        urlParameters.put(CurriculumManagementConstants.UrlParams.USE_CURRICULUM_REVIEW, Boolean.TRUE.toString());
         urlParameters.put(UifConstants.UrlParams.PAGE_ID, CurriculumManagementConstants.CoursePageIds.CREATE_COURSE_PAGE);
         urlParameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, KRADConstants.Maintenance.METHOD_TO_CALL_COPY);
         urlParameters.put(KRADConstants.DATA_OBJECT_CLASS_ATTRIBUTE, CourseInfoWrapper.class.getName());

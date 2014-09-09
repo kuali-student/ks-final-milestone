@@ -19,24 +19,42 @@ package org.kuali.student.cm.course.service.impl;
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
+import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
+import org.kuali.rice.krad.uif.element.Action;
+import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 import org.kuali.rice.krms.api.repository.reference.ReferenceObjectBinding;
 import org.kuali.student.cm.common.util.CurriculumManagementConstants;
+import org.kuali.student.cm.course.form.wrapper.CourseCreateUnitsContentOwner;
+import org.kuali.student.cm.course.form.wrapper.RetireCourseReviewProposalDisplay;
 import org.kuali.student.cm.course.form.wrapper.RetireCourseWrapper;
 import org.kuali.student.cm.course.service.RetireCourseMaintainable;
+import org.kuali.student.cm.course.util.CourseProposalUtil;
 import org.kuali.student.cm.proposal.form.wrapper.ProposalElementsWrapper;
 import org.kuali.student.cm.proposal.service.impl.ProposalMaintainableImpl;
+import org.kuali.student.common.collection.KSCollectionUtils;
 import org.kuali.student.common.util.security.ContextUtils;
+import org.kuali.student.r1.core.subjectcode.service.SubjectCodeService;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
+import org.kuali.student.r2.common.util.AttributeHelper;
 import org.kuali.student.r2.core.constants.KSKRMSServiceConstants;
 import org.kuali.student.r2.core.constants.ProposalServiceConstants;
 import org.kuali.student.r2.core.proposal.dto.ProposalInfo;
+import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
+import org.kuali.student.r2.core.search.dto.SearchResultCellInfo;
+import org.kuali.student.r2.core.search.dto.SearchResultInfo;
+import org.kuali.student.r2.core.search.dto.SearchResultRowInfo;
+import org.kuali.student.r2.lum.course.dto.CourseCrossListingInfo;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
+import org.kuali.student.r2.lum.course.dto.CourseJointInfo;
 import org.kuali.student.r2.lum.course.service.CourseService;
 import org.kuali.student.r2.lum.util.constants.CourseServiceConstants;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.xml.namespace.QName;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -47,6 +65,10 @@ import java.util.Map;
  * @author Kuali Student Team
  */
 public class RetireCourseMaintainableImpl extends ProposalMaintainableImpl implements RetireCourseMaintainable {
+
+    private static final Logger LOG = LoggerFactory.getLogger(RetireCourseMaintainableImpl.class);
+
+    private transient SubjectCodeService subjectCodeService;
 
     @Override
     public void processAfterNew(MaintenanceDocument document, Map<String, String[]> requestParameters) {
@@ -197,5 +219,130 @@ public class RetireCourseMaintainableImpl extends ProposalMaintainableImpl imple
             courseService = (CourseService) GlobalResourceLoader.getService(new QName(CourseServiceConstants.COURSE_NAMESPACE, CourseServiceConstants.SERVICE_NAME_LOCAL_PART));
         }
         return courseService;
+    }
+
+    /**
+     * The finalizeMethodToCall for the Review Proposal link. Populates the given action link with the URL for the
+     * document.
+     */
+    protected void buildProposalActionLink(Action actionLink, MaintenanceDocumentForm form, String methodToCall, String pageId) {
+        String docId = form.getDocument().getDocumentNumber();
+
+        String href = CourseProposalUtil.buildRetireCourseProposalUrl(methodToCall, pageId, docId);
+
+        if (StringUtils.isBlank(href)) {
+            actionLink.setRender(false);
+            return;
+        }
+
+        actionLink.setActionScript("window.open('" + href + "', '_self');");
+    }
+
+    @Override
+    public void updateReview() {
+        super.updateReview();
+        RetireCourseWrapper retireCourseWrapper = (RetireCourseWrapper) getDataObject();
+        RetireCourseReviewProposalDisplay reviewProposalDisplay = (RetireCourseReviewProposalDisplay) retireCourseWrapper.getReviewProposalDisplay();
+        reviewProposalDisplay.getRetireCourseSection().setEndTerm(new AttributeHelper(retireCourseWrapper.getProposalInfo().getAttributes()).get(CurriculumManagementConstants.PROPOSED_END_TERM));
+        reviewProposalDisplay.getRetireCourseSection().setLastTerm(new AttributeHelper(retireCourseWrapper.getProposalInfo().getAttributes()).get(CurriculumManagementConstants.PROPOSED_LAST_TERM_OFFERED));
+        reviewProposalDisplay.getRetireCourseSection().setPublicationYear(new AttributeHelper(retireCourseWrapper.getProposalInfo().getAttributes()).get(CurriculumManagementConstants.PROPOSED_LAST_COURSE_CATALOG_YEAR));
+        RichTextInfo otherComment = new RichTextInfo();
+        otherComment.setPlain(new AttributeHelper(retireCourseWrapper.getProposalInfo().getAttributes()).get(CurriculumManagementConstants.PROPOSED_OTHER_COMMENTS));
+        otherComment.setFormatted(otherComment.getPlain());
+        retireCourseWrapper.setOtherComment(otherComment);
+
+        reviewProposalDisplay.getReferenceDataSection().getCrossListings().clear();
+        if (!retireCourseWrapper.getCourseInfo().getCrossListings().isEmpty()) {
+            for (CourseCrossListingInfo crossListingInfo : retireCourseWrapper.getCourseInfo().getCrossListings()) {
+                reviewProposalDisplay.getReferenceDataSection().getCrossListings().add(crossListingInfo.getCode());
+            }
+        }
+
+        reviewProposalDisplay.getReferenceDataSection().getJointlyOfferedCourses().clear();
+        if (!retireCourseWrapper.getCourseInfo().getJoints().isEmpty()) {
+            for (CourseJointInfo jointInfo : retireCourseWrapper.getCourseInfo().getJoints()) {
+                reviewProposalDisplay.getReferenceDataSection().getJointlyOfferedCourses().add(jointInfo.getSubjectArea() + jointInfo.getCourseNumberSuffix());
+            }
+        }
+
+        reviewProposalDisplay.getReferenceDataSection().setCurriculumOversight(buildCurriculumOversightList());
+
+    }
+
+    /**
+     * Creates a List of curriculum oversight strings.
+     */
+    protected List<String> buildCurriculumOversightList() {
+        List<String> oversights = new ArrayList<String>();
+        RetireCourseWrapper courseInfoWrapper = (RetireCourseWrapper) getDataObject();
+
+        for (String existing : courseInfoWrapper.getCourseInfo().getUnitsContentOwner()) {
+            CourseCreateUnitsContentOwner courseCreateUnitsContentOwner = new CourseCreateUnitsContentOwner();
+            courseCreateUnitsContentOwner.setOrgId(existing);
+            populateOrgName(courseInfoWrapper.getCourseInfo().getSubjectArea(), courseCreateUnitsContentOwner);
+            oversights.add(courseCreateUnitsContentOwner.getRenderHelper().getOrgLongName());
+        }
+        return oversights;
+    }
+
+    protected String populateOrgName(String subjectArea, CourseCreateUnitsContentOwner unitsContentOwner) {
+
+        if (StringUtils.isBlank(unitsContentOwner.getOrgId())) {
+            return StringUtils.EMPTY;
+        }
+
+        final SearchRequestInfo searchRequest = new SearchRequestInfo();
+        searchRequest.setSearchKey("subjectCode.search.orgsForSubjectCode");
+
+        searchRequest.addParam("subjectCode.queryParam.code", subjectArea);
+        searchRequest.addParam("subjectCode.queryParam.optionalOrgId", unitsContentOwner.getOrgId());
+
+        List<KeyValue> departments = new ArrayList<KeyValue>();
+
+        try {
+
+            SearchResultInfo result = getSubjectCodeService().search(searchRequest, ContextUtils.createDefaultContextInfo());
+
+            if (result.getRows().isEmpty()) {
+                throw new RuntimeException("Invalid Org Id");
+            }
+
+            SearchResultRowInfo row = null;
+            if (subjectArea == null) {
+                // This for loop is kind of get(0) this is to avid sonar violation.
+                // without giving subjectArea Organization cannot be added. this is tricky scenario where subjectArea ia added and Orgs is chosen, but before "save" subjectArea is removed.
+                // search result returns multiple values without subjectArea.
+                // for all return result "subjectCode.resultColumn.orgLongName" will be the same.
+                for (SearchResultRowInfo resultCell : result.getRows()) {
+                    row = resultCell;
+                    break;
+                }
+            } else {
+                row = KSCollectionUtils.getOptionalZeroElement(result.getRows(), true);
+            }
+
+            for (final SearchResultCellInfo resultCell : row.getCells()) {
+                if ("subjectCode.resultColumn.orgLongName".equals(resultCell.getKey())) {
+                    unitsContentOwner.getRenderHelper().setOrgLongName(resultCell.getValue());
+                    break;
+                }
+            }
+
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("Returning {}", departments);
+            }
+
+            return StringUtils.EMPTY;
+
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    protected SubjectCodeService getSubjectCodeService() {
+        if (subjectCodeService == null) {
+            subjectCodeService = GlobalResourceLoader.getService(new QName(CourseServiceConstants.NAMESPACE_SUBJECTCODE, SubjectCodeService.class.getSimpleName()));
+        }
+        return subjectCodeService;
     }
 }

@@ -64,6 +64,7 @@
                     <value>classpath:org/kuali/student/cm/comment/CMCommentView.xml</value>
                     <value>classpath:org/kuali/student/cm/comment/CMDecisionView.xml</value>
                     <value>classpath:org/kuali/student/cm/course/retire/RetireCourseRetireInfo.xml</value>
+                    <value>classpath:org/kuali/student/cm/course/retire/review/RetireCourseReviewProposal.xml</value>
                 </list>
             </constructor-arg>
         </bean>

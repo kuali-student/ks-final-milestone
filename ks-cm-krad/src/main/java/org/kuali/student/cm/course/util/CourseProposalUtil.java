@@ -27,6 +27,7 @@ import org.kuali.rice.krad.util.UrlFactory;
 import org.kuali.student.cm.common.util.CMUtils;
 import org.kuali.student.cm.common.util.CurriculumManagementConstants;
 import org.kuali.student.cm.course.form.wrapper.CourseInfoWrapper;
+import org.kuali.student.cm.course.form.wrapper.RetireCourseWrapper;
 import org.kuali.student.cm.proposal.util.ProposalUtil;
 
 import java.util.HashMap;
@@ -58,6 +59,13 @@ public class CourseProposalUtil {
             throw new RuntimeException("Cannot find request mapping for proposal type: " + proposalType);
         }
         String courseBaseUrl = controllerRequestMapping.replaceFirst("/", "");
+        return UrlFactory.parameterizeUrl(courseBaseUrl, props);
+    }
+
+    public static String buildRetireCourseProposalUrl(String methodToCall, String pageId, String workflowDocId) {
+        Properties props = ProposalUtil.getProposalUrlProperties(methodToCall, pageId, workflowDocId);
+        props.put(UifParameters.DATA_OBJECT_CLASS_NAME, RetireCourseWrapper.class.getCanonicalName());
+        String courseBaseUrl = CurriculumManagementConstants.ControllerRequestMappings.CM_RETIRE_COURSE.replaceFirst("/", "");
         return UrlFactory.parameterizeUrl(courseBaseUrl, props);
     }
 

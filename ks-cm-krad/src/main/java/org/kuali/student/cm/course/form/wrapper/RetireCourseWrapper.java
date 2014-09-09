@@ -22,6 +22,7 @@ import org.kuali.student.cm.proposal.util.ProposalUtil;
 import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.infc.RichText;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
+import org.kuali.student.cm.proposal.form.wrapper.ReviewProposalDisplay;
 
 import java.io.Serializable;
 
@@ -33,7 +34,7 @@ import java.io.Serializable;
 public class RetireCourseWrapper extends ProposalElementsWrapper implements Serializable {
 
     private CourseInfo courseInfo = new CourseInfo();
-    private ReviewProposalDisplay reviewProposalDisplay = new ReviewProposalDisplay();
+    private RetireCourseReviewProposalDisplay reviewProposalDisplay =  new RetireCourseReviewProposalDisplay();
 
     private String lastTerm;
     private String publicationYear;
@@ -101,7 +102,7 @@ public class RetireCourseWrapper extends ProposalElementsWrapper implements Seri
         return reviewProposalDisplay;
     }
 
-    public void setReviewProposalDisplay(ReviewProposalDisplay reviewProposalDisplay) {
+    public void setReviewProposalDisplay(RetireCourseReviewProposalDisplay reviewProposalDisplay) {
         this.reviewProposalDisplay = reviewProposalDisplay;
     }
 
