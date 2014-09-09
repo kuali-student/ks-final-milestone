@@ -37,7 +37,7 @@ function ksapInitializePlannerItems(pageSize) {
             },
             init : function(opts, a) {
                 // a is the full list, so need to get the visible list
-                ksapPlannerUpdateTitle(a.slice(opts.start, opts.visible-1));
+                ksapPlannerUpdateTitle(a.slice(opts.start, opts.start + opts.visible-1));
             }
         });
     }
