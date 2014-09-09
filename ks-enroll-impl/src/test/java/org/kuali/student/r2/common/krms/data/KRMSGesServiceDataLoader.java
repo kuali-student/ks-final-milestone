@@ -48,7 +48,7 @@ public class KRMSGesServiceDataLoader extends AbstractMockServicesAwareDataLoade
         info.setKey(key);
         info.setName(name);
         info.setDescr(RichTextHelper.buildRichTextInfo(descr, descr));
-        info.setGesGesValueTypeEnum(gesValueTypeEnum);
+        info.setGesValueTypeEnum(gesValueTypeEnum);
         info.setTypeKey(GesServiceConstants.GES_PARAMETER_TYPE_KEY);
         info.setStateKey(GesServiceConstants.GES_PARAMETER_ACTIVE_STATE_KEY);
         info.setRequireUniquePriorities(true);
@@ -69,14 +69,14 @@ public class KRMSGesServiceDataLoader extends AbstractMockServicesAwareDataLoade
     }
 
     private ValueInfo _createValue(String paramKey,int priority, String populationId,
-                                   String atpTypeKeys,
+                                   String atpTypeKey,
                                    ContextInfo context, ValueInfo info) {
         info.setParameterKey(paramKey);
         info.setTypeKey(GesServiceConstants.GES_VALUE_TYPE_KEY);
         info.setStateKey(GesServiceConstants.GES_VALUE_ACTIVE_STATE_KEY);
         info.setPriority(priority);
         info.setPopulationId(populationId);
-        info.setAtpTypeKeys(this._splitIt(atpTypeKeys));
+        info.setAtpTypeKey(atpTypeKey);
         try {
             info = gesService.createValue(info.getTypeKey(), paramKey, info, context);
         } catch (Exception ex) {

@@ -216,7 +216,6 @@ public class BestEffortCreditLoadProposition extends AbstractBestEffortPropositi
         ValueInfo value;
         value = new ValueInfo();
         value.setParameterKey(GesServiceConstants.PARAMETER_KEY_CREDIT_LIMIT);
-        value.setAtpTypeKeys(new ArrayList<String>());
         value.setPopulationId(PopulationServiceConstants.POPULATION_RULE_TYPE_EVERYONE_KEY);
         value.setDecimalValue(NO_CREDIT_LIMIT);
         value.setTypeKey(GesServiceConstants.GES_VALUE_TYPE_KEY);

@@ -206,7 +206,9 @@
 
         <!-- Ges -->
         <class>org.kuali.student.core.ges.service.model.ParameterEntity</class>
+        <class>org.kuali.student.core.ges.service.model.ParameterGroupEntity</class>
         <class>org.kuali.student.core.ges.service.model.ParameterAttributeEntity</class>
+        <class>org.kuali.student.core.ges.service.model.ParameterGroupAttributeEntity</class>
         <class>org.kuali.student.core.ges.service.model.ValueEntity</class>
         <class>org.kuali.student.core.ges.service.model.ValueAttributeEntity</class>
 
