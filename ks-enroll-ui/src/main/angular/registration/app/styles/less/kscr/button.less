@@ -143,7 +143,7 @@
 .kscr-Button-common(@bgColor, @bgColor2, @borderColor, @textColor) {
     .kscr-Button-common(@bgColor, @borderColor, @textColor); // Call the base mixin
 
-    background: -webkit-gradient(linear, top, bottom, from(@bgColor), to(@bgColor2));
+    background: -webkit-linear-gradient(top, @bgColor, @bgColor2);
     background: -moz-linear-gradient(top,  @bgColor,  @bgColor2);
     filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='@{bgColor}', endColorstr='@{bgColor2}');
 }
