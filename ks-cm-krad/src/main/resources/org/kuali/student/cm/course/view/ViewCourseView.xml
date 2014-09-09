@@ -180,7 +180,7 @@
                                 <property name="actionLabel" value="Retire"/>
                                 <property name="methodToCall" value="retireCourse"/>
                                 <property name="render" value="@{!comparision and !(courseInfoWrapper.courseInfo.stateKey eq 'Retired')}"/>
-                                <property name="disabled" value="@{canRetireCourse}" />
+                                <property name="disabled" value="@{!canRetireCourse}" />
                             </bean>
 
                             <bean id="CM-VersionHistory-Button" parent="Uif-SecondaryActionButton"
