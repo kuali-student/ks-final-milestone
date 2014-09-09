@@ -71,10 +71,8 @@ public class CourseRegistrationVerifyRegRequestNode extends AbstractCourseRegist
         List<ValidationResultInfo> validationResults = new ArrayList<>();
         Exception transactionException = null; // if an exception happens during processing we should fail the entire transaction
         try {
-            if (shouldValidate(regRequest)) {
-                validationResults.addAll(this.getCourseRegistrationService().verifyRegistrationRequestForSubmission(message.
-                        getRegistrationRequest().getId(), contextInfo));
-            }
+            validationResults.addAll(this.getCourseRegistrationService().verifyRegistrationRequestForSubmission(message.
+                getRegistrationRequest().getId(), contextInfo));
         } catch (Exception ex) {
             transactionException = ex;
             LOG.error("Error during rules execution.", ex);
@@ -197,13 +195,6 @@ public class CourseRegistrationVerifyRegRequestNode extends AbstractCourseRegist
             }
         }
         return false;
-    }
-
-    @SuppressWarnings("unused")
-    private boolean shouldValidate(RegistrationRequest regRequest) {
-
-        //We are currently validating all requests
-        return true;
     }
 
     private List<ValidationResultInfo> getErrors(List<ValidationResultInfo> results) {

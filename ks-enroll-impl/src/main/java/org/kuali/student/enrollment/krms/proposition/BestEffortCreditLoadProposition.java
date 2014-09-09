@@ -31,6 +31,7 @@ import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService
 import org.kuali.student.enrollment.courseregistration.dto.CourseRegistrationInfo;
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestItemInfo;
 import org.kuali.student.enrollment.registration.client.service.impl.util.RegistrationValidationResultsUtil;
+import org.kuali.student.enrollment.rules.credit.limit.CourseRegistrationServiceTypeStateConstants;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
@@ -53,6 +54,7 @@ import java.util.Map;
  * @author Kuali Student Team
  */
 public class BestEffortCreditLoadProposition extends AbstractBestEffortProposition {
+
     public static final KualiDecimal NO_CREDIT_LIMIT = new KualiDecimal(-1);
     private boolean countWaitlistedCoursesTowardsCreditLimit = true;
 
@@ -84,35 +86,48 @@ public class BestEffortCreditLoadProposition extends AbstractBestEffortPropositi
         }
         existingCrs.addAll((List<CourseRegistrationInfo>) environment.resolveTerm(RulesExecutionConstants.SIMULATED_REGISTRATIONS_TERM, this));
 
-//        try {
-//            existingCrs = getCourseAndWaitlistRegistrations(request, personId, getCourseRegistrationService(), getCourseWaitListService(), contextInfo);
-//        } catch (Exception ex) {
-//            return KRMSEvaluator.constructExceptionPropositionResult(environment, ex, this);
-//        }
-
-
         // Iterate over each item and check load
         List<CourseRegistrationInfo> successFromCart = new ArrayList<>();
-//        for (RegistrationRequestItemInfo item: request.getRegistrationRequestItems()) {
         for (RegistrationRequestItemInfo item: regRequestItems) {
             List<CourseRegistrationInfo> copyExistingCrs = new ArrayList<>();
+
             // Copy the existing registrations
             copyExistingCrs.addAll(existingCrs);
+
             // Add the successful RGs from the cart (added from previous iterations)
             copyExistingCrs.addAll(successFromCart);
-            // Add the item being iterated over
-            CourseRegistrationInfo regItem;
-            try {
-                regItem = createNewCourseRegistration(coService, item, contextInfo);
-            } catch (OperationFailedException ex) {
-                return KRMSEvaluator.constructExceptionPropositionResult(environment, ex, this);
+
+            boolean addRequest = item.getTypeKey().equals(CourseRegistrationServiceTypeStateConstants.REQ_ITEM_ADD_TYPE_KEY);
+            CourseRegistrationInfo regItem = null;
+
+            // If this is an add request, add it to the list of courses calculated
+            if (addRequest) {
+                try {
+                    regItem = createNewCourseRegistration(coService, item, contextInfo);
+                } catch (OperationFailedException ex) {
+                    return KRMSEvaluator.constructExceptionPropositionResult(environment, ex, this);
+                }
+                copyExistingCrs.add(regItem);
+            } else {
+                // see if we are editing an existing item
+                if (item.getExistingCourseRegistrationId() != null) {
+                    // update the existing cr with the new credit options
+                    for (CourseRegistrationInfo existingCr: existingCrs) {
+                        if (existingCr.getId().equals(item.getExistingCourseRegistrationId())) {
+                            existingCr.setCredits(item.getCredits());
+                            break;
+                        }
+                    }
+                }
             }
-            copyExistingCrs.add(regItem);
+
             // Verify the credit load
             boolean loadVerified = verifyLoadIsOK(copyExistingCrs, creditLimitValue);
             if (loadVerified) {
-                // Add the successful cart "registrations" to the list for use in next iteration
-                successFromCart.add(regItem);
+                if (addRequest && regItem != null) {
+                    // Add the successful cart "registrations" to the list for use in next iteration
+                    successFromCart.add(regItem);
+                }
             } else {
                 ValidationResultInfo vr = createValidationResultFailureForRegRequestItem(item, creditLimitValue);
                 Map<String, Object> executionDetails = new LinkedHashMap<>();
@@ -128,8 +143,14 @@ public class BestEffortCreditLoadProposition extends AbstractBestEffortPropositi
     }
 
     private ValidationResultInfo createValidationResultFailureForRegRequestItem(RegistrationRequestItemInfo item, KualiDecimal creditLimitValue) {
+        String messageKey;
+        if (item.getTypeKey().equals(CourseRegistrationServiceTypeStateConstants.REQ_ITEM_UPDATE_TYPE_KEY)) {
+            messageKey = LprServiceConstants.LPRTRANS_ITEM_CREDIT_LOAD_REACHED_MESSAGE_KEY;
+        } else {
+            messageKey = LprServiceConstants.LPRTRANS_ITEM_CREDIT_LOAD_EXCEEDED_MESSAGE_KEY;
+        }
         String msg = RegistrationValidationResultsUtil.marshallMaxCreditMessage(
-                LprServiceConstants.LPRTRANS_ITEM_CREDIT_LOAD_EXCEEDED_MESSAGE_KEY, creditLimitValue.bigDecimalValue().stripTrailingZeros().toPlainString());
+                messageKey, creditLimitValue.bigDecimalValue().stripTrailingZeros().toPlainString());
         return createValidationResultFailureForRegRequestItem(item, msg);
     }
 
@@ -167,11 +188,8 @@ public class BestEffortCreditLoadProposition extends AbstractBestEffortPropositi
             throws PermissionDeniedException, MissingParameterException, InvalidParameterException,
             OperationFailedException, DoesNotExistException {
         ContextInfo contextInfo = environment.resolveTerm(RulesExecutionConstants.CONTEXT_INFO_TERM, this);
-        //        RegistrationRequestInfo request = environment.resolveTerm(RulesExecutionConstants.REGISTRATION_REQUEST_TERM, this);
-//        String registrationRequestId = environment.resolveTerm(RulesExecutionConstants.REGISTRATION_REQUEST_ID_TERM, this);
         String personId = environment.resolveTerm(RulesExecutionConstants.PERSON_ID_TERM, this);
         String atpId = environment.resolveTerm(RulesExecutionConstants.ATP_ID_TERM, this);
-        //        AtpInfo atp = environment.resolveTerm(RulesExecutionConstants.ATP_TERM, this);
         Date asOfDate = environment.resolveTerm(RulesExecutionConstants.AS_OF_DATE_TERM, this);
         GesService gesService = environment.resolveTerm(RulesExecutionConstants.GES_SERVICE_TERM, this);
         GesCriteriaInfo criteria = new GesCriteriaInfo();
