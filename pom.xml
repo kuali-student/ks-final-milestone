@@ -148,6 +148,8 @@
         <metainf.sql.context>org.kuali.common.util.metainf.spring.SqlConfig</metainf.sql.context>
         <metainf.sql.propertySource>org.kuali.student.deploy.spring.SqlPropertySourceConfig</metainf.sql.propertySource>
         <kuali-impex.version>${impex.version}</kuali-impex.version>
+        <mockito.version>1.9.5</mockito.version>
+        <springockito.version>1.0.9</springockito.version>
     </properties>
     <profiles>
         <profile>
@@ -956,6 +958,18 @@
                 </exclusions>
             </dependency>
             <dependency>
+                <!-- needs extra dependencies: objenesis & hamcrest -->
+                <groupId>org.mockito</groupId>
+                <artifactId>mockito-core</artifactId>
+                <version>${mockito.version}</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.kubek2k</groupId>
+                <artifactId>springockito</artifactId>
+                <version>${springockito.version}</version>
+            </dependency>
+            <dependency>
                 <groupId>org.codehaus.jackson</groupId>
                 <artifactId>jackson-jaxrs</artifactId>
                 <version>${jackson.version}</version>
@@ -979,6 +993,12 @@
                 <groupId>org.apache.camel</groupId>
                 <artifactId>camel-jaxb</artifactId>
                 <version>${apache.camel.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.camel</groupId>
+                <artifactId>camel-test-spring</artifactId>
+                <version>${apache.camel.version}</version>
+                <scope>test</scope>
             </dependency>
             <dependency>
                 <groupId>org.springframework.batch</groupId>
