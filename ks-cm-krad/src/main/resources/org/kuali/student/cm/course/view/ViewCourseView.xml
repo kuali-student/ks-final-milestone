@@ -158,6 +158,7 @@
 
                             <bean id="CM-VersionHistory-Button" parent="Uif-SecondaryActionButton"
                                 p:ajaxSubmit="false"
+                                p:jumpToIdAfterSubmit="TOP"
                                 p:actionScript="showViewInLightBox('@{#ConfigProperties['application.url']}/kr-krad/course_versions?viewId=CourseVersionsView&amp;methodToCall=showVersionHistory&amp;#{T(org.kuali.student.cm.common.util.CurriculumManagementConstants$UrlParams).VERSION_INDEPENDENT_ID}=@{courseInfoWrapper.courseInfo.version.versionIndId}');"
                                 p:performClientSideValidation="false"
                                 p:actionLabel="Version History"/>
