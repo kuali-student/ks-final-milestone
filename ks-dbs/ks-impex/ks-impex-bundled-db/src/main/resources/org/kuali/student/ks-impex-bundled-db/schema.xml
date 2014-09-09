@@ -778,9 +778,9 @@
         <foreignColumnNames>ID</foreignColumnNames>
         <localColumnNames>OWNER_ID</localColumnNames>
     </foreignKey>
-    <foreignKey foreignTableName="KSEN_GES_VALUE" localTableName="KSEN_GES_VALUE_ATP_TYPE" name="KSEN_GES_VALUE_ATPTYPE_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+    <foreignKey foreignTableName="KSEN_GES_PARM_GRP" localTableName="KSEN_GES_PARM_GRP_ATTR" name="KSEN_GES_PARM_GRP_ATTR_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
         <foreignColumnNames>ID</foreignColumnNames>
-        <localColumnNames>VALUE_ID</localColumnNames>
+        <localColumnNames>OWNER_ID</localColumnNames>
     </foreignKey>
     <foreignKey foreignTableName="KSEN_GES_PARM" localTableName="KSEN_GES_VALUE" name="KSEN_GES_VALUE_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
         <foreignColumnNames>ID</foreignColumnNames>
@@ -10995,7 +10995,91 @@
             <column>OWNER_ID</column>
         </index>
     </table>
+    <table name="KSEN_GES_PARM_GRP">
+        <column name="CREATEID" nullable="false" type="STRING">
+            <size value="255"/>
+        </column>
+        <column name="CREATETIME" nullable="false" type="TIMESTAMP">
+            <size scale="6" scaleSet="true" value="11"/>
+        </column>
+        <column name="DESCR_FORMATTED" type="STRING">
+            <size value="4000"/>
+        </column>
+        <column name="DESCR_PLAIN" type="STRING">
+            <size value="4000"/>
+        </column>
+        <column name="GES_PARM_GRP_STATE" nullable="false" type="STRING">
+            <size value="255"/>
+        </column>
+        <column name="GES_PARM_GRP_TYPE" nullable="false" type="STRING">
+            <size value="255"/>
+        </column>
+        <column name="ID" nullable="false" primaryKey="true" type="STRING">
+            <size value="255"/>
+        </column>
+        <column name="NAME" type="STRING">
+            <size value="255"/>
+        </column>
+        <column name="OBJ_ID" type="STRING">
+            <size value="36"/>
+        </column>
+        <column name="UPDATEID" type="STRING">
+            <size value="6"/>
+        </column>
+        <column name="UPDATETIME" type="TIMESTAMP">
+            <size scale="6" scaleSet="true" value="11"/>
+        </column>
+        <column name="VER_NBR" nullable="false" type="FLOAT">
+            <size value="19"/>
+        </column>
+        <index name="KSEN_GES_PARM_GRP_I1">
+            <column>GES_PARM_GRP_TYPE</column>
+        </index>
+    </table>
+    <table name="KSEN_GES_PARM_GRP_ATTR">
+        <column name="ATTR_KEY" type="STRING">
+            <size value="255"/>
+        </column>
+        <column name="ATTR_VALUE" type="STRING">
+            <size value="4000"/>
+        </column>
+        <column name="ID" nullable="false" primaryKey="true" type="STRING">
+            <size value="255"/>
+        </column>
+        <column name="OBJ_ID" type="STRING">
+            <size value="36"/>
+        </column>
+        <column name="OWNER_ID" type="STRING">
+            <size value="255"/>
+        </column>
+        <index name="KSEN_GES_PARM_GRP_ATTR_I1">
+            <column>OWNER_ID</column>
+        </index>
+    </table>
+    <table name="KSEN_GES_PARM_GRP_JN_GES_PARM">
+        <column name="GES_PARM_GRP_ID" nullable="false" primaryKey="true" type="STRING">
+            <size value="255"/>
+        </column>
+        <column name="GES_PARM_ID" nullable="false" primaryKey="true" type="STRING">
+            <size value="255"/>
+        </column>
+        <index name="GES_PARM_GRP_JN_GES_PARM_I1">
+            <column>GES_PARM_GRP_ID</column>
+        </index>
+        <index name="GES_PARM_GRP_JN_GES_PARM_I2">
+            <column>GES_PARM_ID</column>
+        </index>
+    </table>
     <table name="KSEN_GES_VALUE">
+        <column name="ATP_ID" type="STRING">
+            <size value="255"/>
+        </column>
+        <column name="ATP_TYPE_KEY" type="STRING">
+            <size value="255"/>
+        </column>
+        <column name="CLU_ID" type="STRING">
+            <size value="255"/>
+        </column>
         <column name="CREATEID" nullable="false" type="STRING">
             <size value="255"/>
         </column>
@@ -11029,6 +11113,9 @@
         <column name="OBJ_ID" type="STRING">
             <size value="36"/>
         </column>
+        <column name="ORG_ID" type="STRING">
+            <size value="255"/>
+        </column>
         <column name="POPULATION_ID" type="STRING">
             <size value="255"/>
         </column>
@@ -11036,6 +11123,12 @@
             <size value="0"/>
         </column>
         <column name="RULE_ID" type="STRING">
+            <size value="255"/>
+        </column>
+        <column name="SOC_ID" type="STRING">
+            <size value="255"/>
+        </column>
+        <column name="SUBJECT_CODE" type="STRING">
             <size value="255"/>
         </column>
         <column name="UPDATEID" type="STRING">
@@ -11050,19 +11143,14 @@
         <index name="KSEN_GES_VALUE_I1">
             <column>GES_VALUE_TYPE</column>
         </index>
+        <index name="KSEN_GES_VALUE_I2">
+            <column>ATP_ID</column>
+        </index>
+        <index name="KSEN_GES_VALUE_I3">
+            <column>ATP_TYPE_KEY</column>
+        </index>
         <index name="XIF1KSEN_GES_VALUE">
             <column>GES_PARM_ID</column>
-        </index>
-    </table>
-    <table name="KSEN_GES_VALUE_ATP_TYPE">
-        <column name="ATP_TYPE" nullable="false" primaryKey="true" type="STRING">
-            <size value="255"/>
-        </column>
-        <column name="VALUE_ID" nullable="false" primaryKey="true" type="STRING">
-            <size value="255"/>
-        </column>
-        <index name="XIF1KSEN_GES_VALUE_ATP_TYPE">
-            <column>VALUE_ID</column>
         </index>
     </table>
     <table name="KSEN_GES_VALUE_ATTR">
