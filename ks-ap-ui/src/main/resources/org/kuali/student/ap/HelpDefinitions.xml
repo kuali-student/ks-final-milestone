@@ -66,7 +66,7 @@
     </bean>
 
     <bean id="planner_academic_record_help_tooltip" parent="KSAP-Tooltip" p:tooltipContent="@{#line.completed ? #textHelper.getText('planner.body.completed.tooltip') : #textHelper.getText('planner.body.registered.tooltip')}"/>
-    <bean id="planner_cart_help_tooltip" parent="KSAP-Tooltip" p:tooltipContent="Items in the cart are those you have selected to register for but have not been submitted for registration yet."/>
+    <bean id="planner_registered_help_tooltip" parent="KSAP-Tooltip" p:tooltipContent="@{#textHelper.getText('planner.body.registered.tooltip')}"/>
     <bean id="planner_planned_help_tooltip" parent="KSAP-Tooltip" p:tooltipContent="@{#textHelper.getText('planner.body.planned.tooltip')}"/>
     <bean id="planner_backup_help_tooltip" parent="KSAP-Tooltip" p:tooltipContent="@{#textHelper.getText('planner.body.backup.tooltip')}"/>
     <bean id="bookmarks_help_tooltip" parent="KSAP-Tooltip" p:tooltipContent="Bookmark a course to save it for future planning. The course remains in your bookmarks until you've added it to your Plan or deleted it."/>

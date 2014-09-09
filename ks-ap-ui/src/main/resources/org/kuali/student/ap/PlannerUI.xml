@@ -780,7 +780,7 @@
                     <list>
                         <bean parent="Uif-HeaderFive" p:headerText="@{#textHelper.getText('planner.body.registered')}">
                             <property name="toolTip">
-                                <ref bean="planner_cart_help_tooltip"/>
+                                <ref bean="planner_registered_help_tooltip"/>
                             </property>
                         </bean>
                     </list>
