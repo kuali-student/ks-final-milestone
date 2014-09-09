@@ -72,13 +72,14 @@ public class AppliedHoldManagementController extends UifControllerBase {
     @RequestMapping(params = "methodToCall=search")
     public ModelAndView search(@ModelAttribute("KualiForm") AppliedHoldManagementForm form, BindingResult result,
                                HttpServletRequest request, HttpServletResponse response) throws Exception {
-
+        form.clearResults();
         form.setHasSearchBeenCalled(true);
         PersonInfo person = this.getViewHelper(form).getStudentById(form.getPerson().getId());
         if (GlobalVariables.getMessageMap().hasErrors()) {
-            form.clear();
+            form.setValidPerson(false);
             return getUIFModelAndView(form);
         } else {
+            form.setValidPerson(true);
             form.setPerson(person);
             form.setHoldResultList(searchAppliedHolds(form));
         }

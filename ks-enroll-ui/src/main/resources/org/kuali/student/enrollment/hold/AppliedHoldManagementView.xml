@@ -89,28 +89,22 @@
     </bean>
 
     <bean id="KS-AppliedHold-CriteriaSection" parent="Uif-HorizontalBoxSection" >
+        <property name="validationMessages" ref="KS-ValidationMessages-Off"/>
         <property name="items">
             <list>
-                <bean parent="Uif-HorizontalFieldGroup">
-                    <property name="items">
-                        <list>
-                            <bean parent="KS-Uif-InputField-LabelLeft" p:propertyName="person.id"
-                                  p:label="Student ID" p:readOnly="false" p:id="studentIdField">
-                                <property name="control">
-                                    <bean parent="KS-Uif-TextControl" p:size="12" p:maxLength="40"/>
-                                </property>
-                            </bean>
-                            <bean parent="KS-Uif-SecondaryActionButton" p:performClientSideValidation="false"
-                                  p:actionLabel="Show" p:methodToCall="search" p:id="show_button"/>
-                        </list>
+                <bean parent="KS-Uif-InputField-LabelLeft" p:propertyName="person.id"
+                    p:label="Student ID" p:readOnly="false" p:id="studentIdField">
+                    <property name="control">
+                    <bean parent="KS-Uif-TextControl" p:size="12" p:maxLength="40"/>
                     </property>
                 </bean>
-
+                <bean parent="KS-Uif-SecondaryActionButton" p:performClientSideValidation="false"
+                    p:actionLabel="Show" p:methodToCall="search" p:id="show_button"/>
             </list>
         </property>
     </bean>
 
-    <bean id="KS-Hold-ToolBarSection" parent="KS-Uif-HorizontalBoxSection-ToolbarSection" p:render="@{!#empty(personHeaderInfo)}">
+    <bean id="KS-Hold-ToolBarSection" parent="KS-Uif-HorizontalBoxSection-ToolbarSection" p:render="@{validPerson}">
         <property name="items">
             <list>
                 <bean parent="KS-Uif-HorizontalBoxGroup-ToolbarGroup" p:noLeftBorder="true">
