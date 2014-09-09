@@ -29,7 +29,7 @@
 
 // Base button
 .kscr-Button {
-    .kscr-Button-common(@buttonBackgroundColor, @buttonGradientColor, @buttonBorderColor, @buttonTextColor);
+    .kscr-Button-common-gradient(@buttonBackgroundColor, @buttonGradientColor, @buttonBorderColor, @buttonTextColor);
 
     &[disabled], &:disabled {
         background-color: @buttonDisabledBackgroundColor;
@@ -42,7 +42,7 @@
 
 // Primary Button
 .kscr-Button--primary {
-    .kscr-Button-common(@buttonPrimaryBackgroundColor, @buttonPrimaryGradientColor, @buttonPrimaryBorderColor, @buttonPrimaryTextColor);
+    .kscr-Button-common-gradient(@buttonPrimaryBackgroundColor, @buttonPrimaryGradientColor, @buttonPrimaryBorderColor, @buttonPrimaryTextColor);
 
     font-weight: bold;
 
@@ -139,11 +139,8 @@
     }
 }
 
-// Overloaded Mixin for gradient background
-.kscr-Button-common(@bgColor, @bgColor2, @borderColor, @textColor) {
+// Button Mixin for gradient background
+.kscr-Button-common-gradient(@bgColor, @bgColor2, @borderColor, @textColor) {
     .kscr-Button-common(@bgColor, @borderColor, @textColor); // Call the base mixin
-
-    background: -webkit-linear-gradient(top, @bgColor, @bgColor2);
-    background: -moz-linear-gradient(top,  @bgColor,  @bgColor2);
-    filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='@{bgColor}', endColorstr='@{bgColor2}');
+    .linear-gradient(@bgColor, @bgColor2);
 }

@@ -50,6 +50,15 @@ input:-moz-placeholder {
 }
 
 
+.linear-gradient(@startColor, @endColor) {
+    background-color: @startColor; /* fallback color if gradients are not supported */
+
+    filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='@{startColor}', endColorstr='@{endColor}'); /* IE 5.5 - 9.0 */
+    background-image: -webkit-linear-gradient(top, @startColor, @endColor); /* For Chrome 25 and Safari 6, iOS 6.1, Android 4.3 */
+    background-image:    -moz-linear-gradient(top, @startColor, @endColor); /* For Firefox (3.6 to 15) */
+    background-image:      -o-linear-gradient(top, @startColor, @endColor); /* For old Opera (11.1 to 12.0) */
+    background-image:         linear-gradient(to bottom, @startColor, @endColor); /* Standard syntax; must be last */
+}
 
 // -----------------------------------------------
 // Misc Mixins Pulled from Bootstrap mixins.less
