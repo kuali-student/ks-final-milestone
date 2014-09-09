@@ -67,6 +67,8 @@
                 <entry key="isCompareView" value="viewId eq T(org.kuali.student.cm.common.util.CurriculumManagementConstants$CourseViewIds).VIEW_COURSE_VIEW and compareCourseInfoWrapper != null"/>
                 <entry key="isViewCourseView" value="viewId eq T(org.kuali.student.cm.common.util.CurriculumManagementConstants$CourseViewIds).VIEW_COURSE_VIEW"/>
                 <entry key="uiHelper" value="courseInfoWrapper.uiHelper"/>
+                <entry key="modifyFacultyCheck" value="@{!comparision and courseInfoWrapper.currentVersion and versionable and ! #uiHelper.curriculumSpecialistUser}"/>
+                <entry key="modifyCSCheck" value="@{!comparision and #uiHelper.curriculumSpecialistUser}"/>
             </map>
         </property>
         <property name="dialogs">
@@ -122,10 +124,11 @@
     </bean>
 
     <!-- Parent for modify buttons. -->
-    <bean id="CM-VersionHistory-ModifyButton" parent="Uif-PrimaryActionButton" abstract="true">
+    <bean id="CM-VersionHistory-ModifyButton-Parent" parent="Uif-PrimaryActionButton" abstract="true">
         <property name="additionalCssClasses" value="btn-success"/>
         <property name="ajaxSubmit" value="false"/>
         <property name="actionLabel" value="Modify"/>
+        <property name="render" value="false"/>
     </bean>
 
     <bean id="CM-ViewCourse-Footer" parent="Uif-FooterBase">
@@ -136,15 +139,39 @@
                         <list>
 
                             <!-- Users with the Faculty role get this modify button -->
-                            <bean id="CM-VersionHistory-ModifyButton-Faculty" parent="CM-VersionHistory-ModifyButton">
-                                <property name="methodToCall" value="modifyCourseFaculty"/>
-                                <property name="render" value="@{!comparision and courseInfoWrapper.currentVersion and versionable and ! #uiHelper.curriculumSpecialistUser}"/>
-                            </bean>
-
-                            <!-- Users with the CS role get this modify button -->
-                            <bean id="CM-VersionHistory-ModifyButton-CurriculumSpecialist" parent="CM-VersionHistory-ModifyButton">
-                                <property name="methodToCall" value="modifyCourseCurriculumSpecialist"/>
-                                 <property name="render" value="@{!comparision and #uiHelper.curriculumSpecialistUser}"/>
+                            <bean id="CM-VersionHistory-ModifyButton" parent="CM-VersionHistory-ModifyButton-Parent">
+                                <property name="propertyReplacers">
+                                    <list>
+                                        <bean parent="Uif-ConditionalBeanPropertyReplacer"
+                                              p:propertyName="methodToCall"
+                                              p:condition="@{#modifyFacultyCheck}" >
+                                            <property name="replacement">
+                                                <value>modifyCourseFaculty</value>
+                                            </property>
+                                        </bean>
+                                        <bean parent="Uif-ConditionalBeanPropertyReplacer"
+                                              p:propertyName="render"
+                                              p:condition="@{#modifyFacultyCheck}" >
+                                            <property name="replacement">
+                                                <value>true</value>
+                                            </property>
+                                        </bean>
+                                        <bean parent="Uif-ConditionalBeanPropertyReplacer"
+                                              p:propertyName="methodToCall"
+                                              p:condition="@{#modifyCSCheck}" >
+                                            <property name="replacement">
+                                                <value>modifyCourseCurriculumSpecialist</value>
+                                            </property>
+                                        </bean>
+                                        <bean parent="Uif-ConditionalBeanPropertyReplacer"
+                                              p:propertyName="render"
+                                              p:condition="@{#modifyCSCheck}" >
+                                            <property name="replacement">
+                                                <value>true</value>
+                                            </property>
+                                        </bean>
+                                    </list>
+                                </property>
                             </bean>
 
                             <bean id="CM-Course-RetireButton" parent="Uif-PrimaryActionButton">
