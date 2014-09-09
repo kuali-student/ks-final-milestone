@@ -90,7 +90,8 @@
                                 </property>
                             </bean>
                             <!-- This action will (1) set the period you are working with, and (2) load the persisted windows attached to the period-->
-                            <bean parent="Uif-PrimaryActionButton" p:methodToCall="show" p:actionLabel="Show" p:performClientSideValidation="false" />
+                            <bean parent="Uif-PrimaryActionButton" p:methodToCall="show" p:actionLabel="Show" p:performClientSideValidation="false"
+                                  p:additionalCssClasses="ks-ManageRegistration-show"/>
                         </list>
                    </property>
                 </bean>
@@ -166,7 +167,8 @@
                 </bean>
 
 
-                <bean parent="KS-Uif-InputField" p:fieldLabel.render="false" p:label="Student Group"  p:propertyName="assignedPopulationName" p:style="font-weight:bold;white-space:nowrap;" p:required="true"
+                <bean parent="KS-Uif-InputField" p:fieldLabel.render="false" p:label="Student Group"  p:propertyName="assignedPopulationName" p:additionalCssClasses="ks-ManageRegistration-studentGroup"
+                      p:style="font-weight:bold;white-space:nowrap;" p:required="true"
                       p:render="@{#isAddLine or (!#isAddLine and #line.appointmentWindowInfo.stateKey!='kuali.appointment.window.state.assigned')}"
                       p:readOnly="@{!#isAddLine or #lp.appointmentWindowInfo.stateKey=='kuali.appointment.window.state.assigned'}">
                     <property name="control">
@@ -220,7 +222,8 @@
                     </property>
                 </bean>
 
-                <bean parent="KS-Uif-InputField" p:propertyName="startDate" p:label="Start Date" p:required="true" p:style="font-weight:normal;white-space:nowrap;" p:readOnlyDisplayReplacementPropertyName="startDateUI"
+                <bean parent="KS-Uif-InputField" p:propertyName="startDate" p:label="Start Date" p:required="true"
+                      p:additionalCssClasses="ks-ManageRegistration-startDate" p:readOnlyDisplayReplacementPropertyName="startDateUI"
                       p:readOnly="@{!#isAddLine and #lp.appointmentWindowInfo.stateKey=='kuali.appointment.window.state.assigned'}">
                     <property name="control">
                         <bean parent="KS-Uif-Default-DateControl" p:size="10" p:watermarkText="mm/dd/yyyy"/>
@@ -255,7 +258,7 @@
                     </property>
                 </bean>
 
-                <bean parent="KS-Uif-InputField" p:propertyName="endDate" p:label="Last Date"  p:style="font-weight:normal;white-space:nowrap;"
+                <bean parent="KS-Uif-InputField" p:propertyName="endDate" p:label="Last Date" p:additionalCssClasses="ks-ManageRegistration-lastDate"
                       p:readOnly="@{!#isAddLine and #lp.appointmentWindowInfo.stateKey=='kuali.appointment.window.state.assigned'}">
                     <property name="control">
                         <bean parent="KS-Uif-Default-DateControl" p:size="10" p:watermarkText="mm/dd/yyyy"/>
@@ -341,7 +344,7 @@
         </property>
 
         <property name="layoutManager.actionFieldPrototype">
-            <bean parent="Uif-HorizontalFieldGroup" p:style="white-space:nowrap;" p:align="center" p:required="false" p:label="Actions" p:shortLabel="Actions"/>
+            <bean parent="Uif-HorizontalFieldGroup" p:style="white-space:nowrap;" p:align="center" p:required="false"/>
         </property>
     </bean>
 
