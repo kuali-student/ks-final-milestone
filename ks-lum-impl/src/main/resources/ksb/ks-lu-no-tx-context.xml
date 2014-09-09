@@ -361,7 +361,8 @@
     <!-- CourseService config -->
 
     <!-- Top Level Alias -->
-    <alias name="courseServiceCacheDecorator" alias="CourseService" />
+    <!-- TODO KSENROLL-14770 switch back to using the cache -->
+    <alias name="courseServiceImpl" alias="CourseService" />
 
     <bean id="courseServiceImpl"
           class="org.kuali.student.r2.lum.course.service.impl.CourseServiceImpl">
