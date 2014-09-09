@@ -55,6 +55,8 @@ function ksapPlannerUpdateTitle(a) {
         "div:hidden[id^='plan_base_atpId']").text());
     jQuery("#planner_courses_detail .ksap-planner-term-year")
         .html(aFirst + ' &ndash; ' + aLast);
+    // Remove focus on carousel buttons
+    jQuery('.ksap-planner-header a.uif-actionLink').blur();
 }
 
 /**
