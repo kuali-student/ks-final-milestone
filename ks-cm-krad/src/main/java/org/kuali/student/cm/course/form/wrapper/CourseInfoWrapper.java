@@ -75,6 +75,9 @@ public class CourseInfoWrapper extends ProposalElementsWrapper implements Serial
     private boolean currentVersion = true;
     private String versionText;
 
+    //Whether to save a course or not. This is useful for modify new version
+    private boolean saveCourse = true;
+
     /**
      * This is a display property for the course version (e.g. "Version 2 (current version)") on View Course compare view.
      */
@@ -100,6 +103,12 @@ public class CourseInfoWrapper extends ProposalElementsWrapper implements Serial
     public CourseInfoWrapper() {
         super(ProposalUtil.isUserCurriculumSpecialist(CurriculumManagementConstants.DocumentTypeNames.CourseProposal.COURSE_CREATE_ADMIN),
                 CurriculumManagementConstants.CourseViewSections.COURSE_INFO);
+    }
+
+    public CourseInfoWrapper(boolean saveCourse) {
+        super(ProposalUtil.isUserCurriculumSpecialist(CurriculumManagementConstants.DocumentTypeNames.CourseProposal.COURSE_CREATE_ADMIN),
+                        CurriculumManagementConstants.CourseViewSections.COURSE_INFO);
+        this.saveCourse = saveCourse;
     }
 
     /**
@@ -203,6 +212,10 @@ public class CourseInfoWrapper extends ProposalElementsWrapper implements Serial
      */
     public String getFinalExamStatus() {
         return this.finalExamStatus;
+    }
+
+    public boolean isSaveCourse() {
+        return saveCourse;
     }
 
     /**

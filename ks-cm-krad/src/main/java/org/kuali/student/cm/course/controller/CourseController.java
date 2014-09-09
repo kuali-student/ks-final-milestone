@@ -330,27 +330,18 @@ public class CourseController extends CourseRuleEditorController {
 
         CourseInfo courseInfo = getCourseService().createNewCourseVersion(versionIndId,"", ContextUtils.createDefaultContextInfo());
 
-        ProposalInfo proposalInfo = new ProposalInfo();
-
-        CourseInfoWrapper courseInfoWrapper = new CourseInfoWrapper();
+        CourseInfoWrapper courseInfoWrapper = new CourseInfoWrapper(false);
         courseInfoWrapper.setCourseInfo(courseInfo);
+
+        ProposalInfo proposalInfo = new ProposalInfo();
         courseInfoWrapper.setProposalInfo(proposalInfo);
-//        form.setDataObjectClassName(CourseInfo.class.getName());
-//        ((MaintenanceDocumentForm) form).getDocument().getNewMaintainableObject().setDataObject(courseInfoWrapper);
+        proposalInfo.setName(courseInfo.getCourseTitle());
 
-//        ((CourseMaintainable)form.getViewHelperService()).setDataObject(courseInfoWrapper);
-//        ((CourseMaintainable)form.getViewHelperService()).populateCourseAndReviewData(courseInfo.getId(), courseInfoWrapper);
+        form.getDocument().getNewMaintainableObject().setDataObject(courseInfoWrapper);
 
-//        createDocument(form);
-        save(form, result, request, response);
+        saveProposal(form, result, request, response);
 
         return getUIFModelAndView(form);
-
-//        courseInfoWrapper.getUiHelper().setPendingWorkflowAction(true);
-//        form.setPageId(getReviewPageKradPageId());
-//        form.setMethodToCall("docHandler");
-//        String href = CourseProposalUtil.buildCourseProposalUrl("docHandler", getReviewPageKradPageId(), form.getDocument().getDocumentNumber(), courseInfoWrapper.getProposalInfo().getTypeKey());
-//        return performRedirect(form,href);
 
     }
 

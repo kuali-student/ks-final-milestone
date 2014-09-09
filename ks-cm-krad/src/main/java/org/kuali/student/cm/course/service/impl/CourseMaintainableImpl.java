@@ -1121,11 +1121,13 @@ public class CourseMaintainableImpl extends ProposalMaintainableImpl implements 
         courseInfoWrapper.getCourseInfo().setEndTerm(courseInfoWrapper.getCourseInfo().getEndTerm());
         courseInfoWrapper.getCourseInfo().setPilotCourse(courseInfoWrapper.getCourseInfo().isPilotCourse());
 
-        try {
-            LOG.info("Saving Proposal for course {}", courseInfoWrapper.getCourseInfo().getId());
-            updateAndSaveCourseInfo();
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+        if (courseInfoWrapper.isSaveCourse()) {
+            try {
+                LOG.info("Saving Proposal for course {}", courseInfoWrapper.getCourseInfo().getId());
+                updateAndSaveCourseInfo();
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
         }
 
         courseInfoWrapper.setNamespace(KSKRMSServiceConstants.NAMESPACE_CODE);
