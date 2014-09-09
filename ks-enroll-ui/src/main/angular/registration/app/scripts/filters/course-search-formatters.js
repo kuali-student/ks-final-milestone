@@ -79,14 +79,19 @@ angular.module('regCartApp')
                     time = addSortField(time, getActualTime(scheduleComponents[0].startTime));
                 }
 
-                if (instructors && angular.isArray(instructors) && instructors.length > 0) {
-                    for (var j = 0; j < instructors.length; j++) {
-                        instructorList += denullify(instructors[j].firstName) + ' ' + denullify(instructors[j].lastName);
-                        if (j < (instructors.length - 1)) {
-                            instructorList += '<br />';
+                if (instructors && angular.isArray(instructors)) {
+                    if (instructors.length > 0) {
+                        for (var j = 0; j < instructors.length; j++) {
+                            instructorList += denullify(instructors[j].firstName) + ' ' + denullify(instructors[j].lastName);
+                            if (j < (instructors.length - 1)) {
+                                instructorList += '<br />';
+                            }
                         }
+                        instructorList = addSortField(instructorList, instructors[0].lastName + instructors[0].firstName);
+                    } else {
+                        instructorList += 'TBA';
+                        instructorList = addSortField(instructorList, 'TBA');
                     }
-                    instructorList = addSortField(instructorList, instructors[0].lastName + instructors[0].firstName);
                 }
 
                 seatsOpen += ao.seatsOpen + '/' + ao.seatsAvailable;

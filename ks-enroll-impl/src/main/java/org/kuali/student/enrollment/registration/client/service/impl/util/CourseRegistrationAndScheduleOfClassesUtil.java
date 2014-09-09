@@ -207,8 +207,12 @@ public class CourseRegistrationAndScheduleOfClassesUtil {
     public static ActivityOfferingScheduleComponentResult getActivityOfferingScheduleComponent(String isTBA, String roomCode, String buildingCode,
                                                                                                String weekdays, String startTimeMs, String endTimeMs) throws InvalidParameterException {
         ActivityOfferingScheduleComponentResult scheduleComponent = new ActivityOfferingScheduleComponentResult();
+        if (StringUtils.equals(isTBA, "1") && StringUtils.isEmpty(roomCode) && StringUtils.isEmpty(buildingCode)) {
+            scheduleComponent.setBuildingCode("TBA");
+        } else {
+            scheduleComponent.setBuildingCode(buildingCode);
+        }
         scheduleComponent.setRoomCode(roomCode);
-        scheduleComponent.setBuildingCode(buildingCode);
 
         if (StringUtils.equals(isTBA, "1")) {
             scheduleComponent.setIsTBA(true);
@@ -216,13 +220,20 @@ public class CourseRegistrationAndScheduleOfClassesUtil {
             scheduleComponent.setIsTBA(false);
         }
 
-        scheduleComponent.setDays(StringUtils.isEmpty(weekdays) ? "" : dayDisplayHelper(weekdays));
+        if (StringUtils.equals(isTBA, "1") && StringUtils.isEmpty(weekdays)) {
+            scheduleComponent.setDays("TBA");
+        } else {
+            scheduleComponent.setDays(StringUtils.isEmpty(weekdays) ? "" : dayDisplayHelper(weekdays));
+        }
+
         String startTime = StringUtils.isEmpty(startTimeMs) ? "" : TimeOfDayHelper.formatTimeOfDay(TimeOfDayHelper.setMillis(Long.valueOf(startTimeMs)));
         String endTime = StringUtils.isEmpty(endTimeMs) ? "" : TimeOfDayHelper.formatTimeOfDay(TimeOfDayHelper.setMillis(Long.valueOf(endTimeMs)));
         scheduleComponent.setStartTime(startTime);
         scheduleComponent.setEndTime(endTime);
         if (!StringUtils.isEmpty(startTimeMs) && !StringUtils.isEmpty(endTimeMs)) {
             scheduleComponent.setDisplayTime(TimeOfDayHelper.makeFormattedTimeForAOScheduleComponent(startTimeMs, endTimeMs));
+        } else if (StringUtils.equals(isTBA, "1") && StringUtils.isEmpty(startTimeMs) && StringUtils.isEmpty(endTimeMs)) {
+            scheduleComponent.setDisplayTime("TBA");
         }
 
         if (!StringUtils.isEmpty(weekdays)) {
