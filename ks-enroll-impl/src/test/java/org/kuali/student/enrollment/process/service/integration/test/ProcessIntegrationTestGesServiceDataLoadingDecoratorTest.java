@@ -57,18 +57,18 @@ public class ProcessIntegrationTestGesServiceDataLoadingDecoratorTest {
         GesService service = new GesServiceMapImpl();
         service = new ProcessIntegrationTestGesServiceDataLoadingDecorator(service);
 
-        ParameterInfo param = null;
-        List<ValueInfo> values = null;
+        ParameterInfo param;
+        List<ValueInfo> values;
 
         param = service.getParameter(GesServiceConstants.PARAMETER_KEY_CREDIT_LIMIT, contextInfo);
         assertEquals (GesServiceConstants.PARAMETER_KEY_CREDIT_LIMIT, param.getKey());
         values = service.getValuesByParameter(GesServiceConstants.PARAMETER_KEY_CREDIT_LIMIT,contextInfo);
-        assertEquals(6, values.size());
+        assertEquals(9, values.size());
         
         
         param = service.getParameter(GesServiceConstants.PARAMETER_KEY_CREDIT_MINIMUM, contextInfo);
         assertEquals (GesServiceConstants.PARAMETER_KEY_CREDIT_MINIMUM, param.getKey());
         values = service.getValuesByParameter(GesServiceConstants.PARAMETER_KEY_CREDIT_MINIMUM,contextInfo);
-        assertEquals(4, values.size());
+        assertEquals(7, values.size());
     }
 }
