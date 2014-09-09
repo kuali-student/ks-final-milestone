@@ -147,11 +147,15 @@ public class HoldsViewHelperServiceImpl extends KSViewHelperServiceImpl implemen
                     PredicateFactory.in(HoldsConstants.HOLD_ISSUE_CODE, holdCode)));
 
             List<HoldIssueInfo> holdIssueInfos = HoldsResourceLoader.getHoldService().searchForHoldIssues(query, createContextInfo());
-            return KSCollectionUtils.getOptionalZeroElement(holdIssueInfos);
+            if (holdIssueInfos.size() == 0 || holdIssueInfos.isEmpty()) {
+                GlobalVariables.getMessageMap().putError(HoldsConstants.APPLIED_HOLDS_PROP_NAME_CODE, HoldsConstants.APPLIED_HOLDS_MSG_ERROR_HOLD_CODE_INVALID);
+            } else {
+                return KSCollectionUtils.getOptionalZeroElement(holdIssueInfos);
+            }
         } catch (Exception e) {
             GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, e.getMessage());
         }
-        return null;
+        return new HoldIssueInfo();
     }
 
     public List<String> retrieveHoldCodes( String holdCode) {

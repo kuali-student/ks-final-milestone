@@ -159,7 +159,7 @@ limitations under the License.
                     <property name="methodToCallOnRefresh" value="searchHoldIssueByCode"/>
                     <property name="items">
                         <list>
-                            <bean parent="KS-Uif-InputField-LabelTop" p:label="First Application Term" p:propertyName="firstTerm" p:required="false" p:progressiveRender="@{#dp.holdIssue != null}">
+                            <bean parent="KS-Uif-InputField-LabelTop" p:label="First Application Term" p:propertyName="firstTerm" p:required="false" p:progressiveRender="@{#dp.holdIssue.isHoldIssueTermBased == true}">
                                 <property name="control">
                                     <bean parent="KS-Uif-TextControl" p:size="20" p:minLength="6" p:maxLength="6" p:disabled="false"/>
                                 </property>
@@ -169,7 +169,7 @@ limitations under the License.
                                           p:messageKey="error.hold.issue.termcode.invalid" p:value="^\d{6}$"/>
                                 </property>
                             </bean>
-                            <bean parent="Uif-InputField" p:label="First Applied Date" p:propertyName="appliedHold.effectiveDate" p:progressiveRender="@{#dp.holdIssue != null}">
+                            <bean parent="Uif-InputField" p:label="First Applied Date" p:propertyName="appliedHold.effectiveDate" p:progressiveRender="@{#dp.holdIssue.isHoldIssueTermBased != null}">
                                 <property name="control">
                                     <bean parent="KS-Uif-Default-DateControl" p:size="10"/>
                                 </property>

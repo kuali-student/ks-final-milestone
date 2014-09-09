@@ -87,8 +87,6 @@ public class AppliedHoldMaintenanceController extends MaintenanceDocumentControl
 
         if (GlobalVariables.getMessageMap().hasErrors()) {
             return getUIFModelAndView(form);
-        } else {
-        //Set Defaults
         }
         return getUIFModelAndView(form);
     }

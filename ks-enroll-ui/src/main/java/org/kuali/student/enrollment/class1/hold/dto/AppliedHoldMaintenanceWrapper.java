@@ -30,7 +30,7 @@ public class AppliedHoldMaintenanceWrapper implements Serializable {
     private String holdCode;
     private String firstTerm;
     private String lastTerm;
-    private HoldIssueInfo holdIssue;
+    private HoldIssueInfo holdIssue = new HoldIssueInfo();
     private AppliedHoldInfo appliedHold;
 
     public AppliedHoldMaintenanceWrapper() {

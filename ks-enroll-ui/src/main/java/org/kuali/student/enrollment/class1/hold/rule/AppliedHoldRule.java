@@ -32,6 +32,7 @@ public class AppliedHoldRule extends BasicHoldsRule {
 
         AppliedHoldMaintenanceWrapper holdWrapper = (AppliedHoldMaintenanceWrapper) maintenanceDocument.getNewMaintainableObject().getDataObject();
         AppliedHoldInfo appliedHold = holdWrapper.getAppliedHold();
+        HoldIssueInfo holdIssueInfo = holdWrapper.getHoldIssue();
 
         if (StringUtils.isBlank(appliedHold.getStateKey())) {
             appliedHold.setStateKey(HoldServiceConstants.ISSUE_ACTIVE_STATE_KEY);
@@ -47,9 +48,11 @@ public class AppliedHoldRule extends BasicHoldsRule {
             appliedHold.setExpirationDate(holdIssue.getLastAppliedDate());
         }
 
+
         isValid &= validateBasicHold(appliedHold);
         isValid &= validateAppliedHold(appliedHold);
         if (holdIssue.getIsHoldIssueTermBased()) {
+            holdWrapper.setLastTerm(resolveTermCode(holdIssue.getLastApplicationTermId()));
             isValid &= validateTerm(holdWrapper);
         } else {
             //set applied hold terms to null.
