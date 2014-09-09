@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <import resource="classpath:ks-core-api-dictionary-file-locations.xml" />
+    <import resource="classpath:ks-core-api-data-dictionary-validator-configuration.xml" />
+
+    <!-- redefine riceDataDictionaryService to be able to use DataDictionaryWithFakeEnvironment for fake environment to make Rice happy -->
+    <bean id="riceDataDictionaryService" class="org.kuali.rice.krad.service.impl.DataDictionaryServiceImpl">
+        <constructor-arg>
+            <bean class="org.kuali.student.r2.common.datadictionary.DataDictionaryWithFakeEnvironment" init-method="init">
+                <property name="dataDictionaryMapper">
+                    <bean class="org.kuali.rice.krad.datadictionary.DataDictionaryIndexMapper"/>
+                </property>
+            </bean>
+        </constructor-arg>
+        <property name="kualiModuleService" ref="kualiModuleService" />
+        <property name="additionalDictionaryFiles">
+            <map>
+                <entry key="http://student.kuali.org/wsdl/datadictionary">
+                    <ref bean="allDictionaryFileLocations"/>
+                </entry>
+            </map>
+        </property>
+    </bean>
+
+
+    <bean id="allDictionaryFileLocations" class="org.kuali.student.common.spring.CollectionAggregatingFactoryBean">
+        <property name="collectionBeanReferences" >
+            <list>
+                <value>ks-core-dictionary-file-locations</value>
+                <value>ks-enroll-dictionary-file-locations</value>
+                <value>ks-cm-dictionary-file-locations</value>
+                <value>ks-ap-dictionary-file-locations</value>
+            </list>
+        </property>
+    </bean>
+
+</beans>

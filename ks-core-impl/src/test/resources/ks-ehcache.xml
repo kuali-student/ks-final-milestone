@@ -1,0 +1,9 @@
+
+<ehcache name="ks-ehcache">
+    <defaultCache maxElementsInMemory="10" eternal="false" timeToIdleSeconds="3600" timeToLiveSeconds="3600" />
+    <cache name="gesServiceCache" maxElementsInMemory="100" eternal="true" timeToIdleSeconds="3600" timeToLiveSeconds="3600"  >
+        <searchable>
+            <searchAttribute name="id" class="org.kuali.student.core.ges.service.decorators.GesValueAttributeExtractor"/>
+        </searchable>
+    </cache>
+</ehcache>
