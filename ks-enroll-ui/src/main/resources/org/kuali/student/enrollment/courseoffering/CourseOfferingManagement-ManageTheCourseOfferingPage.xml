@@ -110,13 +110,14 @@
         <property name="disclosure.render" value="false"/>
        <!-- <property name="header.cssClasses">
             <list merge="true">
-                <value>ks-borderBottom</value>
+                <value>ks-borderBottom</value>sv
             </list>
         </property>-->
         <property name="items">
             <list>
                 <ref bean="KS-CourseOfferingManagement-TitleAndCrossListInfoSection" />
-                <bean id="KS-Tab-Hidden-Input" parent="KS-Uif-InputField" p:showLabel="false" p:propertyName="selectedTabId" p:hidden="true">
+                <bean id="KS-Tab-Hidden-Input" parent="KS-Uif-InputField" p:defaultValue="0" p:showLabel="false" p:propertyName="selectedTabId" p:style="display:none;">
+                    <property name="onDocumentReadyScript" value="jQuery('#KS-Tab-Hidden-Input').hide();"/>
                     <property name="control">
                         <bean parent="KS-Uif-HiddenControl"/>
                     </property>
