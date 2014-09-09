@@ -50,6 +50,7 @@ public class HoldsConstants {
     public static final String HOLD_ISSUE_LAST_APP_TERM_ID = "lastApplicationTermId";
     public static final String HOLD_ISSUE_FIRST_APPLIED_DATE = "firstAppliedDate";
     public static final String HOLD_ISSUE_LAST_APPLIED_DATE = "lastAppliedDate";
+    public static final String HOLD_ISSUE_STATE_KEY_ACTIVE = "kuali.hold.issue.state.active";
 
     //Hold Issue property names
     public static final String HOLDS_DATAOBJECT_PATH = "document.newMaintainableObject.dataObject";

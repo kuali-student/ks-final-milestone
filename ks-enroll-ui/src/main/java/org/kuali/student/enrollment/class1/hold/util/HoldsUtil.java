@@ -14,6 +14,7 @@ import org.kuali.student.r2.core.hold.dto.HoldIssueInfo;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import static org.kuali.rice.core.api.criteria.PredicateFactory.and;
 import static org.kuali.rice.core.api.criteria.PredicateFactory.equal;
@@ -25,30 +26,33 @@ import static org.kuali.rice.core.api.criteria.PredicateFactory.like;
 public class HoldsUtil {
 
 
-    public static QueryByCriteria.Builder buildQueryByCriteria(String name, String type, String state, String orgId, String descr) {
+    public static QueryByCriteria.Builder buildQueryByCriteria(Map<String,String> criteria) {
 
         QueryByCriteria.Builder qBuilder = QueryByCriteria.Builder.create();
         List<Predicate> pList = new ArrayList<Predicate>();
 
         qBuilder.setPredicates();
-        if (StringUtils.isNotBlank(name)) {
-            pList.add(like(HoldsConstants.HOLD_ISSUE_NAME, "%" + name + "%"));
+        if (StringUtils.isNotBlank(criteria.get("code"))) {
+            pList.add(like(HoldsConstants.HOLD_ISSUE_CODE, "%" + criteria.get("code") + "%"));
+        }
+        if (StringUtils.isNotBlank(criteria.get("name"))) {
+            pList.add(like(HoldsConstants.HOLD_ISSUE_NAME, "%" + criteria.get("name") + "%"));
         }
 
-        if (StringUtils.isNotBlank(type)) {
-            pList.add(equal(HoldsConstants.HOLD_ISSUE_TYPE_KEY, type));
+        if (StringUtils.isNotBlank(criteria.get("typeKey"))) {
+            pList.add(equal(HoldsConstants.HOLD_ISSUE_TYPE_KEY, criteria.get("typeKey")));
         }
 
-        if (StringUtils.isNotBlank(state)) {
-            pList.add(equal(HoldsConstants.HOLD_ISSUE_STATE_KEY, state));
+        if (StringUtils.isNotBlank(criteria.get("stateKey"))) {
+            pList.add(equal(HoldsConstants.HOLD_ISSUE_STATE_KEY, criteria.get("stateKey")));
         }
 
-        if (StringUtils.isNotBlank(orgId)) {
-            pList.add(equal(HoldsConstants.HOLD_ISSUE_ORG_ID, orgId));
+        if (StringUtils.isNotBlank(criteria.get("organizationId"))) {
+            pList.add(equal(HoldsConstants.HOLD_ISSUE_ORG_ID, criteria.get("organizationId")));
         }
 
-        if (StringUtils.isNotBlank(descr)) {
-            pList.add(like(HoldsConstants.HOLD_ISSUE_DESCR_PLAIN, "%" + descr + "%"));
+        if (StringUtils.isNotBlank(criteria.get("descr.plain"))) {
+            pList.add(like(HoldsConstants.HOLD_ISSUE_DESCR_PLAIN, "%" + criteria.get("descr.plain") + "%"));
         }
 
         if (!pList.isEmpty()) {

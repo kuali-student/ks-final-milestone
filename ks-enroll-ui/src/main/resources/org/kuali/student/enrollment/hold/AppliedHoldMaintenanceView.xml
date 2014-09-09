@@ -143,8 +143,10 @@ limitations under the License.
                             <property name="fieldConversions">
                                 <map>
                                     <entry key="holdCode" value="holdCode"/>
-                                    <!--<entry key="shortName" value="orgName"/>-->
                                 </map>
+                            </property>
+                            <property name="quickfinderAction">
+                                <bean parent="KS-Uif-ActionLink" p:methodToCall="performLookup" p:id="lookup_searchHoldIssues" p:actionLabel="Find a Hold" />
                             </property>
                         </bean>
                     </property>

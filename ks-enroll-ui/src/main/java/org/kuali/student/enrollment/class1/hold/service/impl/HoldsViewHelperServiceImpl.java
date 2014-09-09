@@ -26,7 +26,9 @@ import org.kuali.student.r2.core.hold.dto.HoldIssueInfo;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created with IntelliJ IDEA.
@@ -47,8 +49,14 @@ public class HoldsViewHelperServiceImpl extends KSViewHelperServiceImpl implemen
     public List<HoldIssueResult> searchHolds(HoldIssueManagementForm holdIssueFrom) {
 
         try {
-            QueryByCriteria.Builder query = HoldsUtil.buildQueryByCriteria(holdIssueFrom.getName(), holdIssueFrom.getTypeKey(),
-                    holdIssueFrom.getState(), holdIssueFrom.getOrganizationId(), holdIssueFrom.getDescr());
+            Map<String, String> searchCriteria = new HashMap<String,String>();
+            searchCriteria.put(HoldsConstants.HOLD_ISSUE_NAME,holdIssueFrom.getName());
+            searchCriteria.put(HoldsConstants.HOLD_ISSUE_TYPE_KEY, holdIssueFrom.getTypeKey());
+            searchCriteria.put(HoldsConstants.HOLD_ISSUE_STATE_KEY, holdIssueFrom.getState());
+            searchCriteria.put(HoldsConstants.HOLD_ISSUE_ORG_ID, holdIssueFrom.getOrganizationId());
+            searchCriteria.put(HoldsConstants.HOLD_ISSUE_DESCR_PLAIN, holdIssueFrom.getDescr());
+
+            QueryByCriteria.Builder query = HoldsUtil.buildQueryByCriteria(searchCriteria);
 
             return HoldsUtil.createHoldIssueResultList(HoldsResourceLoader.getHoldService().searchForHoldIssues(query.build(), createContextInfo()));
 

@@ -20,6 +20,7 @@ import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.krad.lookup.LookupForm;
 import org.kuali.rice.krad.lookup.LookupableImpl;
 import org.kuali.student.common.util.security.ContextUtils;
+import org.kuali.student.enrollment.class1.hold.util.HoldsConstants;
 import org.kuali.student.enrollment.class1.hold.util.HoldsResourceLoader;
 import org.kuali.student.enrollment.class1.hold.util.HoldsUtil;
 
@@ -39,8 +40,8 @@ public class HoldIssueLookupableImpl extends LookupableImpl {
     public List<?> performSearch(LookupForm lookupForm, Map<String, String> searchCriteria, boolean bounded) {
 
         try {
-            QueryByCriteria.Builder query = HoldsUtil.buildQueryByCriteria(searchCriteria.get("name"), searchCriteria.get("typeKey"),
-                    searchCriteria.get("stateKey"), searchCriteria.get("organizationId"), searchCriteria.get("descr.plain"));
+            searchCriteria.put(HoldsConstants.HOLD_ISSUE_STATE_KEY, HoldsConstants.HOLD_ISSUE_STATE_KEY_ACTIVE);
+            QueryByCriteria.Builder query = HoldsUtil.buildQueryByCriteria(searchCriteria);
 
             return HoldsUtil.createHoldIssueResultList(HoldsResourceLoader.getHoldService().searchForHoldIssues(query.build(), ContextUtils.createDefaultContextInfo()));
 
