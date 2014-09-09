@@ -50,11 +50,17 @@ public class ProcessIntegrationTestGesServiceDataLoadingDecorator extends GesSer
         _createValue(GesServiceConstants.PARAMETER_KEY_CREDIT_LIMIT, 1, new KualiDecimal(6),
                 "kuali.population.everyone", AtpServiceConstants.ATP_SUMMER_TYPE_KEY, contextInfo);
         _createValue(GesServiceConstants.PARAMETER_KEY_CREDIT_LIMIT, 2, new KualiDecimal(9),
-                "kuali.population.everyone", "kuali.atp.type.Fall, kuali.atp.type.Spring", contextInfo);
+                "kuali.population.everyone", "kuali.atp.type.Fall", contextInfo);
+        _createValue(GesServiceConstants.PARAMETER_KEY_CREDIT_LIMIT, 2, new KualiDecimal(9),
+                "kuali.population.everyone", "kuali.atp.type.Spring", contextInfo);
         _createValue(GesServiceConstants.PARAMETER_KEY_CREDIT_LIMIT, 3, new KualiDecimal(15),
-                "kuali.population.freshman", "kuali.atp.type.Fall, kuali.atp.type.Spring", contextInfo);
+                "kuali.population.freshman", "kuali.atp.type.Fall", contextInfo);
+        _createValue(GesServiceConstants.PARAMETER_KEY_CREDIT_LIMIT, 3, new KualiDecimal(15),
+                "kuali.population.freshman", "kuali.atp.type.Spring", contextInfo);
         _createValue(GesServiceConstants.PARAMETER_KEY_CREDIT_LIMIT, 4, new KualiDecimal(18),
-                "kuali.population.upperclass", "kuali.atp.type.Fall, kuali.atp.type.Spring", contextInfo);
+                "kuali.population.upperclass", "kuali.atp.type.Fall", contextInfo);
+        _createValue(GesServiceConstants.PARAMETER_KEY_CREDIT_LIMIT, 4, new KualiDecimal(18),
+                "kuali.population.upperclass", "kuali.atp.type.Spring", contextInfo);
         _createValue(GesServiceConstants.PARAMETER_KEY_CREDIT_LIMIT, 5, new KualiDecimal(18),
                 "kuali.population.law.school.students", "", contextInfo);
         _createValue(GesServiceConstants.PARAMETER_KEY_CREDIT_LIMIT, 6, new KualiDecimal(17),
@@ -62,10 +68,16 @@ public class ProcessIntegrationTestGesServiceDataLoadingDecorator extends GesSer
 
         _createValue(GesServiceConstants.PARAMETER_KEY_CREDIT_MINIMUM, 1,
                 "12", "kuali.population.athletes", "kuali.atp.type.Fall", contextInfo);
+        _createValue(GesServiceConstants.PARAMETER_KEY_CREDIT_MINIMUM, 1,
+                "12", "kuali.population.athletes", "kuali.atp.type.Spring", contextInfo);
         _createValue(GesServiceConstants.PARAMETER_KEY_CREDIT_MINIMUM, 2, new KualiDecimal(9),
-                "kuali.population.fin.aid.recipients", "kuali.atp.type.Fall, kuali.atp.type.Spring", contextInfo);
+                "kuali.population.fin.aid.recipients", "kuali.atp.type.Fall", contextInfo);
+        _createValue(GesServiceConstants.PARAMETER_KEY_CREDIT_MINIMUM, 2, new KualiDecimal(9),
+                "kuali.population.fin.aid.recipients", "kuali.atp.type.Spring", contextInfo);
         _createValue(GesServiceConstants.PARAMETER_KEY_CREDIT_MINIMUM, 3, new KualiDecimal(1),
-                "kuali.population.everyone", "kuali.atp.type.Fall, kuali.atp.type.Spring", contextInfo);
+                "kuali.population.everyone", "kuali.atp.type.Fall", contextInfo);
+        _createValue(GesServiceConstants.PARAMETER_KEY_CREDIT_MINIMUM, 3, new KualiDecimal(1),
+                "kuali.population.everyone", "kuali.atp.type.Spring", contextInfo);
         _createValue(GesServiceConstants.PARAMETER_KEY_CREDIT_MINIMUM, 4, new KualiDecimal(0),
                 "kuali.population.everyone", AtpServiceConstants.ATP_SUMMER_TYPE_KEY, contextInfo);
 
