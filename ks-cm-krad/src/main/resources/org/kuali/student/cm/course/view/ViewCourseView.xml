@@ -67,8 +67,8 @@
                 <entry key="isCompareView" value="viewId eq T(org.kuali.student.cm.common.util.CurriculumManagementConstants$CourseViewIds).VIEW_COURSE_VIEW and compareCourseInfoWrapper != null"/>
                 <entry key="isViewCourseView" value="viewId eq T(org.kuali.student.cm.common.util.CurriculumManagementConstants$CourseViewIds).VIEW_COURSE_VIEW"/>
                 <entry key="uiHelper" value="courseInfoWrapper.uiHelper"/>
-                <entry key="modifyFacultyCheck" value="@{!comparision and courseInfoWrapper.currentVersion and versionable and ! #uiHelper.curriculumSpecialistUser}"/>
-                <entry key="modifyCSCheck" value="@{!comparision and #uiHelper.curriculumSpecialistUser}"/>
+                <entry key="modifyFacultyCheck" value="!comparision and courseInfoWrapper.currentVersion and versionable and ! courseInfoWrapper.uiHelper.curriculumSpecialistUser"/>
+                <entry key="modifyCSCheck" value="!comparision and courseInfoWrapper.uiHelper.curriculumSpecialistUser"/>
             </map>
         </property>
         <property name="dialogs">
@@ -140,20 +140,21 @@
 
                             <!-- Users with the Faculty role get this modify button -->
                             <bean id="CM-VersionHistory-ModifyButton" parent="CM-VersionHistory-ModifyButton-Parent">
+                                <property name="render" value="true"/>
                                 <property name="propertyReplacers">
                                     <list>
-                                        <bean parent="Uif-ConditionalBeanPropertyReplacer"
-                                              p:propertyName="methodToCall"
-                                              p:condition="@{#modifyFacultyCheck}" >
-                                            <property name="replacement">
-                                                <value>modifyCourseFaculty</value>
-                                            </property>
-                                        </bean>
                                         <bean parent="Uif-ConditionalBeanPropertyReplacer"
                                               p:propertyName="render"
                                               p:condition="@{#modifyFacultyCheck}" >
                                             <property name="replacement">
                                                 <value>true</value>
+                                            </property>
+                                        </bean>
+                                        <bean parent="Uif-ConditionalBeanPropertyReplacer"
+                                              p:propertyName="methodToCall"
+                                              p:condition="@{#modifyFacultyCheck}" >
+                                            <property name="replacement">
+                                                <value>modifyCourseFaculty</value>
                                             </property>
                                         </bean>
                                         <bean parent="Uif-ConditionalBeanPropertyReplacer"
