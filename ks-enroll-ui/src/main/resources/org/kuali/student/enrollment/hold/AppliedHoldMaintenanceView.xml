@@ -142,7 +142,7 @@ limitations under the License.
                             <property name="dataObjectClassName" value="org.kuali.student.r2.core.hold.dto.HoldIssueInfo"/>
                             <property name="fieldConversions">
                                 <map>
-                                    <entry key="holdCode" value="holdCode"/>
+                                    <entry key="code" value="holdCode"/>
                                 </map>
                             </property>
                             <property name="quickfinderAction">
