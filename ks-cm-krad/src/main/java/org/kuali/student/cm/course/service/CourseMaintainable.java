@@ -79,6 +79,8 @@ public interface CourseMaintainable extends ProposalMaintainable {
 
     public CourseInfo getCurrentVersionOfCourse(CourseInfo course,ContextInfo contextInfo) throws Exception;
 
+    public boolean getIsVersionable(CourseInfo course, ContextInfo contextInfo) throws Exception;
+
     /**
      * We can only have one retire proposal in workflow at a time.  This method
      * will call the proposal webservice and run a custom search that will look
@@ -86,5 +88,4 @@ public interface CourseMaintainable extends ProposalMaintainable {
      * count is returned and, if the count is > 0, this method will return false.
      */
     public boolean canInitiateRetireProposal() throws Exception;
-
 }

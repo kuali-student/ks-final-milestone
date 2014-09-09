@@ -32,6 +32,8 @@ public class ViewCourseForm extends KSUifForm {
     private CourseInfoWrapper compareCourseInfoWrapper;
     private boolean canRetireCourse;
     private boolean useReviewProcess;
+    private boolean isVersionable;
+    private boolean isComparision;
 
     public ViewCourseForm(){
         viewType = CurriculumManagementConstants.ViewCourseType.COURSE_VIEW;
@@ -110,6 +112,14 @@ public class ViewCourseForm extends KSUifForm {
         this.canRetireCourse = canRetireCourse;
     }
 
+    public boolean isVersionable() {
+        return isVersionable;
+    }
+
+    public void setVersionable(boolean isVersionable) {
+        this.isVersionable = isVersionable;
+    }
+
     public boolean isUseReviewProcess() {
         return useReviewProcess;
     }
@@ -118,4 +128,11 @@ public class ViewCourseForm extends KSUifForm {
         this.useReviewProcess = useReviewProcess;
     }
 
+    public boolean isComparision() {
+        return isComparision;
+    }
+
+    public void setComparision(boolean isComparision) {
+        this.isComparision = isComparision;
+    }
 }

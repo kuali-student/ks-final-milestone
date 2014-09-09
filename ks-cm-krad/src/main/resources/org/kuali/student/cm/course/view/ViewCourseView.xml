@@ -138,13 +138,13 @@
                             <!-- Users with the Faculty role get this modify button -->
                             <bean id="CM-VersionHistory-ModifyButton-Faculty" parent="CM-VersionHistory-ModifyButton">
                                 <property name="methodToCall" value="modifyCourseFaculty"/>
-                                <property name="render" value="@{ ! #uiHelper.curriculumSpecialistUser}"/>
+                                <property name="render" value="@{!comparision and courseInfoWrapper.currentVersion and versionable and ! #uiHelper.curriculumSpecialistUser}"/>
                             </bean>
 
                             <!-- Users with the CS role get this modify button -->
                             <bean id="CM-VersionHistory-ModifyButton-CurriculumSpecialist" parent="CM-VersionHistory-ModifyButton">
                                 <property name="methodToCall" value="modifyCourseCurriculumSpecialist"/>
-                                 <property name="render" value="@{#uiHelper.curriculumSpecialistUser}"/>
+                                 <property name="render" value="@{!comparision and #uiHelper.curriculumSpecialistUser}"/>
                             </bean>
 
                             <bean id="CM-Course-RetireButton" parent="Uif-PrimaryActionButton">
@@ -152,7 +152,7 @@
                                 <property name="ajaxSubmit" value="false"/>
                                 <property name="actionLabel" value="Retire"/>
                                 <property name="methodToCall" value="retireCourse"/>
-                                <property name="render" value="@{canRetireCourse and !(courseInfoWrapper.courseInfo.stateKey eq 'Retired')}"/>
+                                <property name="render" value="@{!comparision and canRetireCourse and !(courseInfoWrapper.courseInfo.stateKey eq 'Retired')}"/>
                             </bean>
 
                             <bean id="CM-VersionHistory-Button" parent="Uif-SecondaryActionButton"

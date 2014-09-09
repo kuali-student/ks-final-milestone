@@ -124,7 +124,6 @@ import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
 import org.kuali.student.r2.lum.lrc.service.LRCService;
 import org.kuali.student.r2.lum.util.constants.CluServiceConstants;
 import org.kuali.student.r2.lum.util.constants.CourseServiceConstants;
-import static org.kuali.student.r1.lum.course.service.CourseServiceConstants.COURSE_NAMESPACE_URI;
 import org.kuali.student.r2.lum.util.constants.LrcServiceConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -138,6 +137,8 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+
+import static org.kuali.student.r1.lum.course.service.CourseServiceConstants.COURSE_NAMESPACE_URI;
 
 /**
  * Base view helper service for both create and edit course info presentations.
@@ -2319,6 +2320,34 @@ public class CourseMaintainableImpl extends ProposalMaintainableImpl implements 
         CourseInfo currVerCourse = getCourseService().getCourse(curVerId,contextInfo);
 
         return currVerCourse;
+    }
+
+    /**
+     * Check if there are any new versions of the course that are approved, draft, etc.
+     *
+     * @param versionIndId
+     * @param versionSequenceNumber
+     * @return
+     * @throws Exception
+    */
+    public boolean getIsVersionable(CourseInfo courseInfo, ContextInfo contextInfo) throws Exception {
+
+            String versionIndId = courseInfo.getVersion().getVersionIndId();
+            Long versionSequenceNumber = courseInfo.getVersion().getSequenceNumber();
+
+            SearchRequestInfo request = new SearchRequestInfo("lu.search.isVersionable");
+            request.addParam("lu.queryParam.versionIndId", versionIndId);
+            request.addParam("lu.queryParam.sequenceNumber", versionSequenceNumber.toString());
+            List<String> states = new ArrayList<String>();
+            states.add("Approved");
+            states.add("Active");
+            states.add("Draft");
+            states.add("Superseded");
+            request.addParam("lu.queryParam.luOptionalState", states);
+            SearchResultInfo result = getCluService().search(request, contextInfo);
+
+            String resultString = result.getRows().get(0).getCells().get(0).getValue();
+            return "0".equals(resultString);
     }
 
     public boolean isCurrentVersionOfCourse(CourseInfo course, ContextInfo contextInfo) throws Exception {
