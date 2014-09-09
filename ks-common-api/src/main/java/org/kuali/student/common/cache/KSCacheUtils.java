@@ -255,9 +255,9 @@ public final class KSCacheUtils {
 	}
 
 	public static <T extends HasPrimaryKey> void updateCacheElement(Cache cache, String cacheKey,
-			T courseInfo, CacheElementCopier<T> cacheElementCopier) {
+			T cacheElement, CacheElementCopier<T> cacheElementCopier) {
 
-		T copy = cacheElementCopier.deepCopy(courseInfo);
+		T copy = cacheElementCopier.deepCopy(cacheElement);
 		
     	cache.put(new Element(cacheKey, copy));
 	}
