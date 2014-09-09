@@ -7,13 +7,18 @@ import org.junit.runner.RunWith;
 import org.kuali.student.enrollment.class1.lui.service.impl.LuiServiceImpl;
 import org.kuali.student.enrollment.lui.dto.LuiInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
-import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import javax.annotation.Resource;
+
+import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 /**
  * This class tests the   LuiBroadcastAspect.java class.
@@ -30,7 +35,7 @@ public class LuiBroadcastAspectTest {
 
     @Before
     public void setUp(){
-        luiBroadcastAspect.setJmsTemplate(Mockito.mock(JmsTemplate.class));
+        luiBroadcastAspect.setJmsTemplate(mock(JmsTemplate.class));
         luiBroadcastAspect.setJmsDestination("junk-dest");
         MockitoAnnotations.initMocks(this);
 
@@ -44,13 +49,13 @@ public class LuiBroadcastAspectTest {
     @Test
     public void testAspectFiring() throws Throwable {
 
-        LuiInfo lui = Mockito.mock(LuiInfo.class);
-        Mockito.when(lui.getId()).thenReturn("Lui-1");
-        ContextInfo callContext = Mockito.mock(ContextInfo.class);
+        LuiInfo lui = mock(LuiInfo.class);
+        when(lui.getId()).thenReturn("Lui-1");
+        ContextInfo callContext = mock(ContextInfo.class);
 
         luiService.updateLui("Lui-1", lui, callContext);    // should trigger aspect
 
-        Mockito.verify(luiBroadcastAspect, Mockito.times(1) ).updateLuiAdvise(Mockito.any(ProceedingJoinPoint.class));
+        verify(luiBroadcastAspect, times(1)).updateLuiAdvise(any(ProceedingJoinPoint.class));
 
 
     }
