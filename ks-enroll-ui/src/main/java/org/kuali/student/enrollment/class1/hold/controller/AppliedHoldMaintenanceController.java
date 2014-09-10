@@ -20,6 +20,7 @@ import org.kuali.rice.krad.uif.UifConstants;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.web.controller.MaintenanceDocumentController;
+import org.kuali.rice.krad.web.controller.MethodAccessible;
 import org.kuali.rice.krad.web.form.DocumentFormBase;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 import org.kuali.rice.krad.web.form.UifFormBase;
@@ -76,13 +77,12 @@ public class AppliedHoldMaintenanceController extends MaintenanceDocumentControl
         return back(form,result,request,response);
     }
 
-
+    @MethodAccessible
     @RequestMapping(params = "methodToCall=searchHoldIssueByCode")
-    public ModelAndView searchHoldIssueByCode(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
+    public ModelAndView searchHoldIssueByCode(@ModelAttribute("KualiForm") MaintenanceDocumentForm form, BindingResult result,
                                HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-        MaintenanceDocumentForm document = this.getMaintenanceDocumentForm( form);
-        AppliedHoldMaintenanceWrapper holdWrapper = (AppliedHoldMaintenanceWrapper) document.getDocument().getNewMaintainableObject().getDataObject();
+        AppliedHoldMaintenanceWrapper holdWrapper = (AppliedHoldMaintenanceWrapper)form.getDocument().getNewMaintainableObject().getDataObject();
         holdWrapper.setHoldIssue(this.getViewHelper(form).searchHoldIssueByCode(holdWrapper.getHoldCode()));
 
         if (GlobalVariables.getMessageMap().hasErrors()) {

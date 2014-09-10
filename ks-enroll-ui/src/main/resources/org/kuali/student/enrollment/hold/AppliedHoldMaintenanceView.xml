@@ -156,6 +156,7 @@ limitations under the License.
                     <property name="refreshWhenChangedPropertyNames">
                         <list>
                             <value>#dp.holdCode</value>
+                            <value>holdCode</value>
                         </list>
                     </property>
                     <property name="methodToCallOnRefresh" value="searchHoldIssueByCode"/>

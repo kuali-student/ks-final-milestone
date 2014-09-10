@@ -26,7 +26,7 @@ import java.util.Date;
  * @author Kuali Student Team
  */
 public class AppliedHoldResult extends UifFormBase {
-
+    private String id;
     private String holdName;
     private String code;
     private String consequence;
@@ -36,6 +36,14 @@ public class AppliedHoldResult extends UifFormBase {
     private String startTerm;
     private String endTerm;
     private HoldIssueInfo holdIssue;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public String getHoldName() {
         return holdName;

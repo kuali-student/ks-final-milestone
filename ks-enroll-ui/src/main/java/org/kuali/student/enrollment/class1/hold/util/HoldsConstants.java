@@ -70,10 +70,13 @@ public class HoldsConstants {
 
     //Applied Hold property names
     public static final String APPLIED_HOLDS_PERSON_ID = "person.id";
-
+    public static final String APPLIED_HOLDS_FIRST_APPLIED_DATE = "effectiveDate";
+    public static final String APPLIED_HOLDS_FIRST_TERM = "firstTerm";
     public static final String APPLIED_HOLDS_PROP_NAME = "appliedHold";
     public static final String APPLIED_HOLDS_PATH = HOLDS_DATAOBJECT_PATH;
     public static final String APPLIED_HOLDS_PROP_NAME_CODE =  APPLIED_HOLDS_PATH + "." + HOLD_ISSUE_CODE;
+    public static final String APPLIED_HOLDS_PROP_NAME_FIRST_TERM = APPLIED_HOLDS_PATH + "." + APPLIED_HOLDS_FIRST_TERM;
+    public static final String APPLIED_HOLDS_PROP_NAME_FIRST_APPLIED_DATE = APPLIED_HOLDS_PATH + "." + APPLIED_HOLDS_PROP_NAME +"."+APPLIED_HOLDS_FIRST_APPLIED_DATE;
 
     //error Message keys
     public static final String HOLDS_ISSUE_MSG_ERROR_HOLD_ISSUE_NAME_REQUIRED = "error.hold.issue.name.required";
@@ -95,7 +98,9 @@ public class HoldsConstants {
     public static final String APPLIED_HOLDS_MSG_ERROR_INVALID_STUDENT = "error.admin.reg.studentId.invalid";
     public static final String APPLIED_HOLDS_MSG_ERROR_NO_STUDENT_AFFILIATION = "error.admin.reg.studentId.no.affiliation";
     public static final String APPLIED_HOLDS_MSG_ERROR_HOLD_CODE_INVALID = "error.hold.issue.applied.code.invalid";
-
+    public static final String APPLIED_HOLDS_MSG_ERROR_HOLD_CODE_ALREADY_APPLIED = "error.hold.issue.applied.code.exist";
+    public static final String APPLIED_HOLDS_MSG_ERROR_FIRST_TERM_REQUIRED = "error.hold.issue.first.term.required";
+    public static final String APPLIED_HOLDS_MSG_ERROR_FIRST_APPLIED_DATE_REQUIRED = "error.hold.issue.applied.first.date.required";
     //info Message keys
     public static final String HOLDS_ISSUE_MSG_INFO_HOLD_ISSUE_SAVE_SUCCESS = "info.enroll.save.success";
 

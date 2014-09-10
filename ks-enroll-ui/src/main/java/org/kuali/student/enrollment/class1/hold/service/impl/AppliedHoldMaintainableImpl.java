@@ -11,6 +11,7 @@ import org.kuali.student.enrollment.class1.hold.util.HoldsResourceLoader;
 import org.kuali.student.r2.core.hold.dto.AppliedHoldInfo;
 import org.kuali.student.r2.core.hold.dto.HoldIssueInfo;
 
+import java.util.Date;
 import java.util.Map;
 
 public class AppliedHoldMaintainableImpl extends KSMaintainableImpl {
@@ -34,6 +35,7 @@ public class AppliedHoldMaintainableImpl extends KSMaintainableImpl {
         AppliedHoldMaintenanceWrapper dataObject = new AppliedHoldMaintenanceWrapper();
         try {
             AppliedHoldInfo appliedHold = new AppliedHoldInfo();
+            appliedHold.setEffectiveDate(new Date());
             appliedHold.setPersonId(personId);
             dataObject.setAppliedHold(appliedHold);
 

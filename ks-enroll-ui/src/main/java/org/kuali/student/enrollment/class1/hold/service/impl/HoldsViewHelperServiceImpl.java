@@ -121,6 +121,7 @@ public class HoldsViewHelperServiceImpl extends KSViewHelperServiceImpl implemen
                 AppliedHoldResult appliedHoldResult = new AppliedHoldResult();
                 HoldIssueInfo holdIssue = HoldsResourceLoader.getHoldService().getHoldIssue(appliedHoldInfo.getHoldIssueId(), createContextInfo());
                 //if(holdIssue.getMaintainHistoryOfApplicationOfHold()){
+                    appliedHoldResult.setId(appliedHoldInfo.getId());
                     appliedHoldResult.setHoldIssue(holdIssue);
                     appliedHoldResult.setHoldName(holdIssue.getName());
                     appliedHoldResult.setCode(holdIssue.getHoldCode());
@@ -157,6 +158,7 @@ public class HoldsViewHelperServiceImpl extends KSViewHelperServiceImpl implemen
             List<HoldIssueInfo> holdIssueInfos = HoldsResourceLoader.getHoldService().searchForHoldIssues(query, createContextInfo());
             if (holdIssueInfos.size() == 0 || holdIssueInfos.isEmpty()) {
                 GlobalVariables.getMessageMap().putError(HoldsConstants.APPLIED_HOLDS_PROP_NAME_CODE, HoldsConstants.APPLIED_HOLDS_MSG_ERROR_HOLD_CODE_INVALID);
+                GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, HoldsConstants.APPLIED_HOLDS_MSG_ERROR_HOLD_CODE_INVALID, holdCode);
             } else {
                 return KSCollectionUtils.getOptionalZeroElement(holdIssueInfos);
             }
