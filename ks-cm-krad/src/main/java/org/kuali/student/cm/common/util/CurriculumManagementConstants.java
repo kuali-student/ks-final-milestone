@@ -109,6 +109,7 @@ public class CurriculumManagementConstants {
             public final static String COURSE_RETIRE = "kuali.proposal.type.course.retire";
             public final static String COURSE_CREATE_ADMIN = "kuali.proposal.type.course.create.admin";
             public final static String COURSE_MODIFY_ADMIN = "kuali.proposal.type.course.modify.admin";
+            public final static String COURSE_MODIFY_ADMIN_NOVERSION = "kuali.proposal.type.course.modify.admin.noversion";
             public final static String COURSE_RETIRE_ADMIN = "kuali.proposal.type.course.retire.admin";
         }
 

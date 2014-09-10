@@ -120,10 +120,20 @@ public class CourseController extends CourseRuleEditorController {
             throw new RuntimeException(String.format("User (%s) is not allowed to disable Curriculum Review (Workflow Approval).",
                     GlobalVariables.getUserSession().getPerson().getPrincipalName()));
         }
+        String methodToCall = request.getParameter(KRADConstants.DISPATCH_REQUEST_PARAMETER);
+
         // set the doc type name based on the whether the user is CS and if they have chosen to use curriculum review
-        return ((!isUseReviewProcess)
+        if (StringUtils.equals(methodToCall,CurriculumManagementConstants.ModifyCourseStartOptions.MODIFY_WITH_A_NEW_VERSION)){
+            return ((!isUseReviewProcess)
+                    ? CurriculumManagementConstants.DocumentTypeNames.CourseProposal.COURSE_MODIFY_ADMIN
+                    : CurriculumManagementConstants.DocumentTypeNames.CourseProposal.COURSE_MODIFY);
+        } else if (StringUtils.equals(methodToCall,CurriculumManagementConstants.ModifyCourseStartOptions.MODIFY_WITH_A_NEW_VERSION)){
+            return CurriculumManagementConstants.DocumentTypeNames.CourseProposal.COURSE_MODIFY_ADMIN_NOVERSION;
+        } else {
+            return ((!isUseReviewProcess)
                 ? CurriculumManagementConstants.DocumentTypeNames.CourseProposal.COURSE_CREATE_ADMIN
                 : CurriculumManagementConstants.DocumentTypeNames.CourseProposal.COURSE_CREATE);
+        }
     }
 
     protected CurriculumManagementConstants.UserInterfaceSections getNextSection(CurriculumManagementConstants.UserInterfaceSections selectedSection) {
@@ -158,7 +168,7 @@ public class CourseController extends CourseRuleEditorController {
                                                          HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         String courseId = request.getParameter(CurriculumManagementConstants.UrlParams.CLU_ID);
-        form.setDocTypeName(CurriculumManagementConstants.DocumentTypeNames.CourseProposal.COURSE_MODIFY);
+
         super.createDocument(form);
 
         CourseInfo courseInfo = getCourseService().getCourse( courseId , ContextUtils.createDefaultContextInfo());
@@ -183,7 +193,6 @@ public class CourseController extends CourseRuleEditorController {
     public ModelAndView modifyNewVersion(@ModelAttribute("KualiForm") MaintenanceDocumentForm form, BindingResult result,
                                           HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-        form.setDocTypeName(CurriculumManagementConstants.DocumentTypeNames.CourseProposal.COURSE_MODIFY);
         super.createDocument(form);
 
         String versionIndId = request.getParameter(CurriculumManagementConstants.UrlParams.VERSION_IND_ID);
