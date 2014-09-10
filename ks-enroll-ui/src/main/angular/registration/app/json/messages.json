@@ -53,15 +53,15 @@
     },
     {
         "messageKey": "kuali.lpr.trans.message.course.not.open.late",
-        "message": "Last day of Registration was {{endDate}}"
+        "message": "Reason: Last day of Registration was {{endDate}}"
     },
     {
         "messageKey": "kuali.lpr.trans.message.drop.period.closed",
-        "message": "Deadline for dropping has passed"
+        "message": "Reason: Last day to drop was {{endDate}}"
     },
     {
         "messageKey": "kuali.lpr.trans.message.edit.period.closed",
-        "message": "Deadline for editing has passed"
+        "message": "Reason: Last day to modify was {{endDate}}"
     },
     {
         "messageKey": "kuali.lpr.trans.message.course.grade.incomplete",
