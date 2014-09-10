@@ -526,7 +526,6 @@
     <bean id="KSAP-Planner-Item-CourseRecord" parent="KSAP-Planner-Item-CourseRecord-parent"/>
     <bean id="KSAP-Planner-Item-CourseRecord-parent" parent="KSAP-Planner-Item-Base">
         <property name="id" value="@{#line.uniqueId}"/>
-        <property name="title" value="@{#line.courseTitle}"/>
         <property name="render" value="@{#line.type == 'CourseRecord'}"/>
         <property name="onDocumentReadyScript" value='ksapSetStaticCourseIDs("@{#line.uniqueId}_code", "@{#line.uniqueId}_courseNote")' />
         <property name="onClickScript"
@@ -545,6 +544,7 @@
         <property name="items">
             <list>
                 <bean p:id="@{#line.uniqueId}_code" parent="Uif-MessageField">
+                    <property name="title" value="@{#line.courseTitle}"/>
                     <property name="messageText"
                               value="@{#line.campusCode} @{#line.courseCode} @{#line.activityCode}" />
                     <property name="cssClasses">
