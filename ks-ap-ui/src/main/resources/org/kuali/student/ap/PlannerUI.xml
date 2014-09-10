@@ -720,11 +720,7 @@
             <bean p:id="planner_planned_collection_header" parent="Uif-HeaderUpperGroup">
                 <property name="items">
                     <list>
-                        <bean parent="Uif-HeaderFive" p:headerText="@{#line.completed
-                            ? #textHelper.getText('planner.body.completed')
-                            : (#line.academicRecord.size() gt 0 or !#line.planning)
-                            ? #textHelper.getText('planner.body.registered')
-                            : ''}">
+                        <bean parent="Uif-HeaderFive" p:headerText="@{#textHelper.getText('planner.body.completed')}">
                             <property name="toolTip">
                                 <ref bean="planner_academic_record_help_tooltip"/>
                             </property>

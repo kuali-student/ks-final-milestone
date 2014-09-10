@@ -65,7 +65,7 @@
         </property>
     </bean>
 
-    <bean id="planner_academic_record_help_tooltip" parent="KSAP-Tooltip" p:tooltipContent="@{#line.completed ? #textHelper.getText('planner.body.completed.tooltip') : #textHelper.getText('planner.body.registered.tooltip')}"/>
+    <bean id="planner_academic_record_help_tooltip" parent="KSAP-Tooltip" p:tooltipContent="@{#textHelper.getText('planner.body.completed.tooltip')}"/>
     <bean id="planner_registered_help_tooltip" parent="KSAP-Tooltip" p:tooltipContent="@{#textHelper.getText('planner.body.registered.tooltip')}"/>
     <bean id="planner_planned_help_tooltip" parent="KSAP-Tooltip" p:tooltipContent="@{#textHelper.getText('planner.body.planned.tooltip')}"/>
     <bean id="planner_backup_help_tooltip" parent="KSAP-Tooltip" p:tooltipContent="@{#textHelper.getText('planner.body.backup.tooltip')}"/>
