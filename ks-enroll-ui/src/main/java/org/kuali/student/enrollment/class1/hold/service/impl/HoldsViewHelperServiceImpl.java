@@ -168,6 +168,12 @@ public class HoldsViewHelperServiceImpl extends KSViewHelperServiceImpl implemen
         return new HoldIssueInfo();
     }
 
+    /**
+     * This method is used for the hold code suggest field on the input section on the client.
+     *
+     * @param holdCode
+     * @return List<String> holdIssueCodeList
+     */
     public List<String> retrieveHoldCodes( String holdCode) {
 
         List<String> holdIssueCodeList = new ArrayList<String>();
