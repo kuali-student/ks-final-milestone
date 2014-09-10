@@ -24,11 +24,6 @@ import org.kuali.rice.core.api.exception.RiceIllegalStateException;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
-import org.kuali.rice.kew.api.KewApiConstants;
-import org.kuali.rice.kew.api.action.ActionTaken;
-import org.kuali.rice.kew.framework.postprocessor.ActionTakenEvent;
-import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
-import org.kuali.rice.kew.framework.postprocessor.IDocumentEvent;
 import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
@@ -63,17 +58,13 @@ import org.kuali.student.cm.course.service.util.OrganizationSearchUtil;
 import org.kuali.student.cm.course.util.CourseProposalUtil;
 import org.kuali.student.cm.proposal.form.wrapper.ProposalElementsWrapper;
 import org.kuali.student.cm.proposal.service.ProposalMaintainable;
-import org.kuali.student.cm.proposal.service.impl.ProposalMaintainableImpl;
 import org.kuali.student.common.collection.KSCollectionUtils;
 import org.kuali.student.common.util.security.ContextUtils;
 import org.kuali.student.lum.lu.ui.course.keyvalues.OrgsBySubjectCodeValuesFinder;
 import org.kuali.student.lum.lu.ui.krms.dto.CluInformation;
 import org.kuali.student.lum.lu.ui.krms.util.CluInformationHelper;
 import org.kuali.student.lum.program.client.ProgramConstants;
-import org.kuali.student.lum.workflow.CourseStateChangeServiceImpl;
 import org.kuali.student.r1.core.personsearch.service.impl.QuickViewByGivenName;
-import org.kuali.student.r1.core.statement.dto.ReqComponentInfo;
-import org.kuali.student.r1.core.statement.dto.StatementTreeViewInfo;
 import org.kuali.student.r1.core.subjectcode.service.SubjectCodeService;
 import org.kuali.student.r2.common.constants.CommonServiceConstants;
 import org.kuali.student.r2.common.dto.AttributeInfo;
@@ -81,7 +72,6 @@ import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.DtoConstants;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
-import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.util.AttributeHelper;
 import org.kuali.student.r2.common.util.constants.LearningObjectiveServiceConstants;
 import org.kuali.student.r2.core.atp.dto.AtpInfo;
@@ -104,7 +94,6 @@ import org.kuali.student.r2.core.search.dto.SearchResultCellInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultRowInfo;
 import org.kuali.student.r2.core.versionmanagement.dto.VersionDisplayInfo;
-import org.kuali.student.r2.lum.clu.CLUConstants;
 import org.kuali.student.r2.lum.clu.dto.CluInstructorInfo;
 import org.kuali.student.r2.lum.clu.dto.MembershipQueryInfo;
 import org.kuali.student.r2.lum.clu.service.CluService;
@@ -115,7 +104,6 @@ import org.kuali.student.r2.lum.course.dto.CourseJointInfo;
 import org.kuali.student.r2.lum.course.dto.CourseVariationInfo;
 import org.kuali.student.r2.lum.course.dto.FormatInfo;
 import org.kuali.student.r2.lum.course.dto.LoDisplayInfo;
-import org.kuali.student.r2.lum.course.service.CourseService;
 import org.kuali.student.r2.lum.course.service.assembler.CourseAssemblerConstants;
 import org.kuali.student.r2.lum.lo.dto.LoCategoryInfo;
 import org.kuali.student.r2.lum.lo.service.LearningObjectiveService;
@@ -134,7 +122,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -1876,9 +1863,9 @@ public class CourseMaintainableImpl extends CommonCourseMaintainableImpl impleme
     }
 
     /**
-     * @see org.kuali.student.cm.course.service.CourseMaintainable#canInitiateRetireProposal()
+     * @see org.kuali.student.cm.course.service.CourseMaintainable#hasInProgressProposalForCourse()
      */
-    public boolean canInitiateRetireProposal() throws Exception {
+    public boolean hasInProgressProposalForCourse() throws Exception {
         // Fill the request with the key to identify the search
         SearchRequestInfo request = new SearchRequestInfo("proposal.search.countForProposals");
 
@@ -1896,7 +1883,7 @@ public class CourseMaintainableImpl extends CommonCourseMaintainableImpl impleme
 
         // If there are no retire proposals enroute or in saved status/
         // return false, else return true
-        return "0".equals(resultString);
+        return !("0".equals(resultString));
     }
 
     /**
@@ -2026,6 +2013,8 @@ public class CourseMaintainableImpl extends CommonCourseMaintainableImpl impleme
         return currVerCourse;
     }
 
+    @Override
+
     /**
      * Check if there are any new versions of the course that are approved, draft, etc.
      *
@@ -2034,8 +2023,7 @@ public class CourseMaintainableImpl extends CommonCourseMaintainableImpl impleme
      * @return
      * @throws Exception
     */
-    public boolean getIsVersionable(CourseInfo courseInfo, ContextInfo contextInfo) throws Exception {
-
+    public boolean isModifiableCourse(CourseInfo courseInfo, ContextInfo contextInfo) throws Exception {
             String versionIndId = courseInfo.getVersion().getVersionIndId();
             Long versionSequenceNumber = courseInfo.getVersion().getSequenceNumber();
 

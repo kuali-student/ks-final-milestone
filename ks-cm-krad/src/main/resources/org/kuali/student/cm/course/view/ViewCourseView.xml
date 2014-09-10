@@ -67,8 +67,8 @@
                 <entry key="isCompareView" value="viewId eq T(org.kuali.student.cm.common.util.CurriculumManagementConstants$CourseViewIds).VIEW_COURSE_VIEW and compareCourseInfoWrapper != null"/>
                 <entry key="isViewCourseView" value="viewId eq T(org.kuali.student.cm.common.util.CurriculumManagementConstants$CourseViewIds).VIEW_COURSE_VIEW"/>
                 <entry key="uiHelper" value="courseInfoWrapper.uiHelper"/>
-                <entry key="modifyFacultyCheck" value="!comparision and courseInfoWrapper.currentVersion and versionable and ! courseInfoWrapper.uiHelper.curriculumSpecialistUser"/>
-                <entry key="modifyCSCheck" value="!comparision and courseInfoWrapper.uiHelper.curriculumSpecialistUser"/>
+                <entry key="modifyFacultyCheck" value="!comparison and courseInfoWrapper.currentVersion and canRetireCourse and ! courseInfoWrapper.uiHelper.curriculumSpecialistUser"/>
+                <entry key="modifyCSCheck" value="!comparison and courseInfoWrapper.uiHelper.curriculumSpecialistUser"/>
             </map>
         </property>
         <property name="dialogs">
@@ -123,24 +123,17 @@
         </property>
     </bean>
 
-    <!-- Parent for modify buttons. -->
-    <bean id="CM-VersionHistory-ModifyButton-Parent" parent="Uif-PrimaryActionButton" abstract="true">
-        <property name="additionalCssClasses" value="btn-success"/>
-        <property name="ajaxSubmit" value="false"/>
-        <property name="actionLabel" value="Modify"/>
-        <property name="render" value="false"/>
-    </bean>
-
     <bean id="CM-ViewCourse-Footer" parent="Uif-FooterBase">
         <property name="items">
             <list>
                 <bean parent="Uif-HorizontalBoxGroup">
                     <property name="items">
                         <list>
-
-                            <!-- Users with the Faculty role get this modify button -->
-                            <bean id="CM-VersionHistory-ModifyButton" parent="CM-VersionHistory-ModifyButton-Parent">
-                                <property name="render" value="true"/>
+                            <bean id="CM-VersionHistory-ModifyButton" parent="Uif-PrimaryActionButton">
+                                <property name="additionalCssClasses" value="btn-success"/>
+                                <property name="ajaxSubmit" value="false"/>
+                                <property name="actionLabel" value="Modify"/>
+                                <property name="render" value="false"/>
                                 <property name="propertyReplacers">
                                     <list>
                                         <bean parent="Uif-ConditionalBeanPropertyReplacer"
@@ -180,7 +173,7 @@
                                 <property name="ajaxSubmit" value="false"/>
                                 <property name="actionLabel" value="Retire"/>
                                 <property name="methodToCall" value="retireCourse"/>
-                                <property name="render" value="@{!comparision and !(courseInfoWrapper.courseInfo.stateKey eq 'Retired')}"/>
+                                <property name="render" value="@{!comparison and !(courseInfoWrapper.courseInfo.stateKey eq 'Retired')}"/>
                                 <property name="disabled" value="@{!canRetireCourse}" />
                             </bean>
 

@@ -77,9 +77,9 @@ public interface CourseMaintainable extends ProposalMaintainable {
 
     public CourseInfoWrapper copyCourse(String sourceCourseId) throws Exception;
 
-    public CourseInfo getCurrentVersionOfCourse(CourseInfo course,ContextInfo contextInfo) throws Exception;
+    public CourseInfo getCurrentVersionOfCourse(CourseInfo courseInfo,ContextInfo contextInfo) throws Exception;
 
-    public boolean getIsVersionable(CourseInfo course, ContextInfo contextInfo) throws Exception;
+    public boolean isModifiableCourse(CourseInfo course, ContextInfo contextInfo) throws Exception;
 
     /**
      * We can only have one retire proposal in workflow at a time.  This method
@@ -87,5 +87,5 @@ public interface CourseMaintainable extends ProposalMaintainable {
      * for any retire proposals that are in the saved or enroute state.  A
      * count is returned and, if the count is > 0, this method will return false.
      */
-    public boolean canInitiateRetireProposal() throws Exception;
+    public boolean hasInProgressProposalForCourse() throws Exception;
 }

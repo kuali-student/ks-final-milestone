@@ -98,7 +98,7 @@ public class ViewCourseController extends KsUifControllerBase {
             ((CourseMaintainable) form.getViewHelperService()).setDataObject(courseWrapper);
             ((CourseMaintainable) form.getViewHelperService()).populateCourseAndReviewData(courseId, courseWrapper, true);
             detailedViewForm.setCourseInfoWrapper(courseWrapper);
-            detailedViewForm.setCanRetireCourse(((CourseMaintainable) form.getViewHelperService()).canInitiateRetireProposal());
+            detailedViewForm.setCanRetireCourse(!((CourseMaintainable) form.getViewHelperService()).hasInProgressProposalForCourse());
 
             //  Load the data for the other/compare-to course.
             if (isComparison) {
@@ -108,8 +108,8 @@ public class ViewCourseController extends KsUifControllerBase {
                 ((CourseMaintainable)form.getViewHelperService()).populateCourseAndReviewData(compareCourseId, compareCourseWrapper, true);
                 detailedViewForm.setCompareCourseInfoWrapper(compareCourseWrapper);
             }
-            detailedViewForm.setVersionable(((CourseMaintainable)form.getViewHelperService()).getIsVersionable(courseWrapper.getCourseInfo(), ContextUtils.createDefaultContextInfo()));
-            detailedViewForm.setComparision(isComparison);
+            detailedViewForm.setModifiableCourse(((CourseMaintainable)form.getViewHelperService()).isModifiableCourse(courseWrapper.getCourseInfo(), ContextUtils.createDefaultContextInfo()));
+            detailedViewForm.setComparison(isComparison);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
