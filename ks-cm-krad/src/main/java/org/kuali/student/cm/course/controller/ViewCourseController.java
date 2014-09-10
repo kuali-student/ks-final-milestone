@@ -270,7 +270,7 @@ public class ViewCourseController extends KsUifControllerBase {
         ViewCourseForm detailedViewForm = (ViewCourseForm) form;
 
         try {
-            CourseInfo currentCourse = ((CourseMaintainable) form.getViewHelperService()).getCurrentVersionOfCourse(detailedViewForm.getCourseInfoWrapper().getCourseInfo(), ContextUtils.createDefaultContextInfo());
+            CourseInfo currentCourse = ((CourseMaintainable) form.getViewHelperService()).getCurrentVersionOfCourse(detailedViewForm.getCourseInfoWrapper().getCourseInfo().getVersion().getVersionIndId(), ContextUtils.createDefaultContextInfo());
             CourseInfoWrapper courseWrapper = new CourseInfoWrapper();
             courseWrapper.setProposalDataRequired(false);
             ((CourseMaintainable) form.getViewHelperService()).setDataObject(courseWrapper);

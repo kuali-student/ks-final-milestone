@@ -197,6 +197,16 @@ public class CourseController extends CourseRuleEditorController {
 
         String versionIndId = request.getParameter(CurriculumManagementConstants.UrlParams.VERSION_IND_ID);
 
+
+        //Get the current version first and assign it at old maintainable impl for compare view
+        if (StringUtils.equals(form.getPageId(),CurriculumManagementConstants.CoursePageIds.REVIEW_COURSE_PROPOSAL_PAGE)){
+            CourseInfoWrapper compareCourseWrapper = new CourseInfoWrapper();
+            CourseMaintainable oldMaintainble = (CourseMaintainable)((MaintenanceDocumentForm)form).getDocument().getOldMaintainableObject();
+            CourseInfo currentVersion = oldMaintainble.getCurrentVersionOfCourse(versionIndId,ContextUtils.createDefaultContextInfo());
+            oldMaintainble.setDataObject(compareCourseWrapper);
+            oldMaintainble.populateCourseAndReviewData(currentVersion.getId(),compareCourseWrapper);
+        }
+
         CourseInfo courseInfo = getCourseService().createNewCourseVersion(versionIndId,"", ContextUtils.createDefaultContextInfo());
 
         CourseInfoWrapper courseInfoWrapper = new CourseInfoWrapper(false);
@@ -299,18 +309,10 @@ public class CourseController extends CourseRuleEditorController {
 
             CourseInfoWrapper compareCourseWrapper = new CourseInfoWrapper();
             CourseMaintainable oldMaintainble = (CourseMaintainable)((MaintenanceDocumentForm)form).getDocument().getOldMaintainableObject();
-            CourseInfo currentVersion = oldMaintainble.getCurrentVersionOfCourse(wrapper.getCourseInfo(),ContextUtils.createDefaultContextInfo());
+            CourseInfo currentVersion = oldMaintainble.getCurrentVersionOfCourse(wrapper.getCourseInfo().getVersion().getVersionIndId(),ContextUtils.createDefaultContextInfo());
             oldMaintainble.setDataObject(compareCourseWrapper);
             oldMaintainble.populateCourseAndReviewData(currentVersion.getId(),compareCourseWrapper);
 
-//            String title = compareCourseWrapper.getCourseInfo().getCourseTitle();
-//            compareCourseWrapper.getCourseInfo().setCourseTitle(title + "a");
-//
-//
-//            String subArea = compareCourseWrapper.getCourseInfo().getSubjectArea();
-//            compareCourseWrapper.getCourseInfo().setSubjectArea(subArea + "a");
-//            OutcomeReviewSection outcome = new OutcomeReviewSection("test","1");
-//            compareCourseWrapper.getReviewProposalDisplay().getCourseLogisticsSection().getOutcomes().add(outcome);
         }
 
         //  Validate

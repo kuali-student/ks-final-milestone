@@ -77,7 +77,7 @@ public interface CourseMaintainable extends ProposalMaintainable {
 
     public CourseInfoWrapper copyCourse(String sourceCourseId) throws Exception;
 
-    public CourseInfo getCurrentVersionOfCourse(CourseInfo courseInfo,ContextInfo contextInfo) throws Exception;
+    public CourseInfo getCurrentVersionOfCourse(String versionIndId,ContextInfo contextInfo) throws Exception;
 
     public boolean isModifiableCourse(CourseInfo course, ContextInfo contextInfo) throws Exception;
 

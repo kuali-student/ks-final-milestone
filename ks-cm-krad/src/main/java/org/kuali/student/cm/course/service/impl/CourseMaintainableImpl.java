@@ -1999,12 +1999,10 @@ public class CourseMaintainableImpl extends CommonCourseMaintainableImpl impleme
         this.courseCopyHelper = courseCopyHelper;
     }
 
-    public CourseInfo getCurrentVersionOfCourse(CourseInfo course,ContextInfo contextInfo) throws Exception {
-        // Get version independent id of course
-        String verIndId = course.getVersion().getVersionIndId();
+    public CourseInfo getCurrentVersionOfCourse(String versionIndId,ContextInfo contextInfo) throws Exception {
 
         // Get id of current version of course given the version independent id
-        VersionDisplayInfo curVerDisplayInfo = getCourseService().getCurrentVersion(COURSE_NAMESPACE_URI, verIndId, contextInfo);
+        VersionDisplayInfo curVerDisplayInfo = getCourseService().getCurrentVersion(COURSE_NAMESPACE_URI, versionIndId, contextInfo);
         String curVerId = curVerDisplayInfo.getId();
 
         // Return the current version of the course
