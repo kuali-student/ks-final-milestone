@@ -1036,12 +1036,13 @@ public abstract class ProposalController extends RuleEditorController {
         if (displaySectionId == null) {
             wrapper.getUiHelper().setSelectedSection(getDefaultSectionKradIdForEdit());
         } else {
-            CurriculumManagementConstants.CourseViewSections section = CurriculumManagementConstants.CourseViewSections.getSection(displaySectionId);
-            wrapper.getUiHelper().setSelectedSection(section);
+            wrapper.getUiHelper().setSelectedSection(getSectionById(displaySectionId));
         }
 
         return getUIFModelAndView(form, getKradPageIdForEdit());
     }
+
+    protected abstract CurriculumManagementConstants.UserInterfaceSections getSectionById(String sectionId);
 
     protected abstract CurriculumManagementConstants.UserInterfaceSections getDefaultSectionKradIdForEdit();
 

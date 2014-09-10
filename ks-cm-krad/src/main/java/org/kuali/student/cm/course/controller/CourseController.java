@@ -199,7 +199,7 @@ public class CourseController extends CourseRuleEditorController {
 
 
         //Get the current version first and assign it at old maintainable impl for compare view
-        if (StringUtils.equals(form.getPageId(),CurriculumManagementConstants.CoursePageIds.REVIEW_COURSE_PROPOSAL_PAGE)){
+        if (StringUtils.equals(form.getPageId(),getReviewPageKradPageId())){
             CourseInfoWrapper compareCourseWrapper = new CourseInfoWrapper();
             CourseMaintainable oldMaintainble = (CourseMaintainable)((MaintenanceDocumentForm)form).getDocument().getOldMaintainableObject();
             CourseInfo currentVersion = oldMaintainble.getCurrentVersionOfCourse(versionIndId,ContextUtils.createDefaultContextInfo());
@@ -354,6 +354,10 @@ public class CourseController extends CourseRuleEditorController {
             wrapper.getInstructorWrappers().add(new CluInstructorInfoWrapper());
         }
         return super.editProposalPage(form, result, request, response);
+    }
+
+    protected CurriculumManagementConstants.UserInterfaceSections getSectionById(String sectionId) {
+        return CurriculumManagementConstants.CourseViewSections.getSection(sectionId);
     }
 
     protected CurriculumManagementConstants.UserInterfaceSections getDefaultSectionKradIdForEdit() {

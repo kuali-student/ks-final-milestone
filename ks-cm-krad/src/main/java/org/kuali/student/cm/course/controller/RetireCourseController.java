@@ -139,6 +139,10 @@ public class RetireCourseController extends ProposalController {
         return RetireCourseWrapper.class.getCanonicalName();
     }
 
+    protected CurriculumManagementConstants.UserInterfaceSections getSectionById(String sectionId) {
+        return CurriculumManagementConstants.CourseRetireSections.getSection(sectionId);
+    }
+
     protected CurriculumManagementConstants.UserInterfaceSections getDefaultSectionKradIdForEdit() {
         return CurriculumManagementConstants.CourseRetireSections.RETIRE_INFO;
     }
@@ -341,53 +345,6 @@ public class RetireCourseController extends ProposalController {
             // Hide all the workflow action buttons on the review proposal page while the document is still in Enroute state(It is being processed at the back-end)
             retireCourseWrapper.getUiHelper().setPendingWorkflowAction(true);
             //redirect back to client to display confirm dialog
-            return getUIFModelAndView(form, getReviewPageKradPageId());
-        } else {
-            return getUIFModelAndView(form);
-        }
-    }
-
-    /**
-     * This will save the Course Proposal.
-     *
-     * @param form     {@link MaintenanceDocumentForm} instance used for this action
-     * @param result
-     * @param request  {@link HttpServletRequest} instance of the actual HTTP request made
-     * @param response The intended {@link HttpServletResponse} sent back to the user
-     * @return The new {@link ModelAndView} that contains the newly created/updated {@CourseInfo} and {@ProposalInfo} information.
-     */
-    @Override
-    @RequestMapping(method = RequestMethod.POST, params = "methodToCall=saveProposal")
-    public ModelAndView saveProposal(@ModelAttribute("KualiForm") MaintenanceDocumentForm form, BindingResult result,
-                                     HttpServletRequest request, HttpServletResponse response) throws Exception {
-
-        ProposalElementsWrapper proposalElementsWrapper = getProposalElementsWrapper(form);
-        form.getDocument().getDocumentHeader().setDocumentDescription(proposalElementsWrapper.getProposalInfo().getName());
-
-        ModelAndView modelAndView;
-
-        modelAndView = save(form, result, request, response);
-
-        if (GlobalVariables.getMessageMap().hasErrors()) {
-            return modelAndView;
-        }
-
-        RecentlyViewedDocsUtil.addRecentDoc(form.getDocument().getDocumentHeader().getDocumentDescription(),
-                form.getDocument().getDocumentHeader().getWorkflowDocument().getDocumentHandlerUrl() + "&"
-                        + KewApiConstants.COMMAND_PARAMETER + "="
-                        + KewApiConstants.DOCSEARCH_COMMAND + "&"
-                        + KewApiConstants.DOCUMENT_ID_PARAMETER + "="
-                        + form.getDocument().getDocumentHeader().getWorkflowDocument().getDocumentId());
-
-        String nextOrCurrentPage = form.getActionParameters().get("displayPage");
-
-        if (StringUtils.equalsIgnoreCase(nextOrCurrentPage, "NEXT")) {
-            CurriculumManagementConstants.UserInterfaceSections nextSection = getNextSection(proposalElementsWrapper.getUiHelper().getSelectedSection());
-            if (nextSection != null) {
-                proposalElementsWrapper.getUiHelper().setSelectedSection(nextSection);
-            }
-            return getUIFModelAndView(form);
-        } else if (StringUtils.equalsIgnoreCase(nextOrCurrentPage, getReviewProposalLinkBeanId())) {
             return getUIFModelAndView(form, getReviewPageKradPageId());
         } else {
             return getUIFModelAndView(form);
