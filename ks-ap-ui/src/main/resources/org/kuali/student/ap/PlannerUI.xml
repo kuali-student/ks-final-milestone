@@ -938,7 +938,7 @@
             <list>
                 <ref bean="planner_menu_course_summary" />
                 <!--  <ref bean="planner_menu_copy_plan_item" /> -->
-                <ref bean="planner_menu_remove_from_cart" />
+                <!--<ref bean="planner_menu_remove_from_cart" />-->
             </list>
         </property>
     </bean>
@@ -1006,6 +1006,8 @@
     </bean>
 
     <!-- Planner Menu Actions -->
+
+    <!--
     <bean id="planner_menu_remove_from_cart" parent="planner_menu_remove_from_cart-parent"/>
     <bean id="planner_menu_remove_from_cart-parent" abstract="true" parent="Uif-ActionLink"
           p:actionLabel="@{#textHelper.getText('planner.menu.remove')}" p:title="@{#textHelper.getText('planner.menu.remove')}">
@@ -1017,6 +1019,7 @@
         <property name="actionScript"
                   value="ksapOpenPlanDialog('sb_cart_remove_page','sb/cart','remove', this, e);" />
     </bean>
+    -->
 
     <bean id="planner_menu_copy_plan_item" parent="planner_menu_copy_plan_item-parent"/>
     <bean id="planner_menu_copy_plan_item-parent" abstract="true" parent="Uif-ActionLink"
