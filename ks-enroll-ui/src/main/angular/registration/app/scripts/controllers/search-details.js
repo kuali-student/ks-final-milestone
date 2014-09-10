@@ -58,7 +58,7 @@ angular.module('regCartApp')
                         angular.forEach(result.activityOfferingTypes, function(aoType) {
 
                             // Apply aoFormatter filter to the activity offerings for display in the table
-                            aoType.formattedOfferings=$filter('aoFormatter')(angular.copy(aoType.activityOfferings));
+                            aoType.formattedOfferings = $filter('aoFormatter')(angular.copy(aoType.activityOfferings));
 
                             angular.forEach(aoType.activityOfferings, function(ao) {
 
@@ -67,7 +67,7 @@ angular.module('regCartApp')
                                 ao.activityOfferingType = aoType.activityOfferingType;
 
                                 // Add the ao to the map
-                                aoMap[ao.activityOfferingCode]=ao;
+                                aoMap[ao.activityOfferingCode] = ao;
 
                                 // Transform the reg groups to be more easily consumed
                                 angular.forEach(ao.regGroupInfos, function(regGroup, id) {
@@ -343,23 +343,25 @@ angular.module('regCartApp')
             if (angular.isDefined($scope.availableRegGroups) &&
                 angular.isDefined($scope.stateParams.regGroupId) &&
                 (angular.isUndefined($scope.selectedRegGroup) || $scope.selectedRegGroup === null)) {
-                var regGroupId = $scope.stateParams.regGroupId;
-                var selectableRegGroups = getSelectableRegGroups();
-                //a forEach loop is needed here because this is a map
-                angular.forEach(selectableRegGroups, function(selectableRegGroup) {
-                    if (regGroupId === selectableRegGroup.regGroupId) {
-                        $scope.selectedRegGroup = selectableRegGroup;
-                        for (var i = 0; i < selectableRegGroup.activityOfferingIds.length; i++) {
-                            //a forEach loops is needed here because this is a map
-                            angular.forEach($scope.aoMap, function(ao) {
-                                if (ao.activityOfferingId === selectableRegGroup.activityOfferingIds[i]) {
-                                    selectAO(ao);
-                                    $scope.updateAOStates();
-                                }
-                            });
-                        }
+
+                var regGroupId = $scope.stateParams.regGroupId,
+                    selectableRegGroups = getSelectableRegGroups();
+
+                if (angular.isDefined(selectableRegGroups[regGroupId])) {
+                    var rg = selectableRegGroups[regGroupId];
+
+                    for (var i = 0; i < rg.activityOfferingIds.length; i++) {
+                        //a forEach loops is needed here because this is a map
+                        angular.forEach($scope.aoMap, function(ao) {
+                            if (ao.activityOfferingId === rg.activityOfferingIds[i]) {
+                                selectAO(ao);
+                            }
+                        });
                     }
-                });
+
+                    $scope.updateAOStates();
+                    $scope.selectedRegGroup = calculateCapacityForRegGroup(rg);
+                }
             }
         });
 
@@ -441,7 +443,7 @@ angular.module('regCartApp')
         /**
          * Method for identifying the selected reg group based on the selected activity offerings.
          *
-         * @returns registration group {id, code}
+         * @returns regGroup registration group {id, code}
          */
         function checkForSelectedRegGroup() {
             // A reg group is only capable of being selected when each AO type has a selected AO
