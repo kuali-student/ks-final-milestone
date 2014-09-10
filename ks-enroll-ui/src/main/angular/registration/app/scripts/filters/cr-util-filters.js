@@ -6,6 +6,21 @@
 angular.module('regCartApp')
 
 /**
+ * Take a course code in the format of ENGL101A and put a space in it to be ENGL 101A.
+ *
+ * Usage: {{ courseCode | courseSpace }}
+ *        {{ courseCode | courseSpace:'&#8203;' }} // Non-breaking space
+ */
+    .filter('courseSpace', function() {
+        return function (courseCode, space) {
+            var prefix = courseCode.match(/^[a-zA-Z]+/),
+                level = courseCode.replace(prefix, '');
+
+            return prefix + (space || ' ') + level;
+        };
+    })
+
+/**
  * Cleanses a string by removing spaces
  *
  * Usage: {{ 'a b c d' | cleanse }} = 'abcd'

@@ -8,6 +8,24 @@ describe('Filters: CR-Util-Filters -', function() {
     var filter;
 
 
+    describe('CourseSpace', function() {
+        // instantiate the filter
+        beforeEach(inject(function(courseSpaceFilter) {
+            filter = courseSpaceFilter;
+        }));
+
+        it('should space out a course code', function() {
+            // Default space ' '
+            expect(filter('CHEM101')).toBe('CHEM 101');
+            expect(filter('ENGL101A')).toBe('ENGL 101A');
+
+            // Custom space
+            expect(filter('CHEM101', '&#8203;')).toBe('CHEM&#8203;101');
+            expect(filter('CHEM101', '-space-')).toBe('CHEM-space-101');
+        });
+    });
+
+
     describe('Cleanse', function() {
         // instantiate the filter
         beforeEach(inject(function(cleanseFilter) {

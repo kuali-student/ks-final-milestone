@@ -137,7 +137,7 @@ angular.module('regCartApp')
 
             var course = {
                 index: getCourseIndex(courseDetails),
-                courseCode: parseCourseCode(courseDetails.courseCode),
+                courseCode: courseDetails.courseCode,
                 startTime: startTime,
                 endTime: endTime,
                 type: type,
@@ -358,16 +358,6 @@ angular.module('regCartApp')
             if (!matchFound) {
                 conflictMap[regGroupId].push(conflictOffering);
             }
-        }
-
-        /*
-        Add a zero-width space between the course prefix and level, allowing the course
-        code to wrap in the mobile grid if necessary.
-         */
-        function parseCourseCode(courseCode) {
-            var prefix = courseCode.match(/^[a-zA-Z]+/);
-            var level = courseCode.replace(prefix, '');
-            return (prefix+'&#8203;'+level);
         }
     }]);
 
