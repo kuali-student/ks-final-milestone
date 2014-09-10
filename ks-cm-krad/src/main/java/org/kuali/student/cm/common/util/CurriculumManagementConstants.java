@@ -118,6 +118,11 @@ public class CurriculumManagementConstants {
         }
     }
 
+    public static class WorkflowActions {
+        public static final String WITHDRAW = "withdraw";
+        public static final String RETURN_TO_PREVIOUS = "returnToPreviousNode";
+    }
+
     public static class ActionFlags {
         public final static String KUALI_ACTION_CAN_WITHDRAW = "canWithdraw";
         public final static String KUALI_ACTION_CAN_ADD_COLLABORATOR = "canAddCollaborator";
@@ -290,15 +295,15 @@ public class CurriculumManagementConstants {
 
     public static class ProposalConfirmationDialogs {
 
-        public final static String COURSE_SUBMIT_CONFIRMATION_DIALOG = "Proposal-Review-Course-ConfirmSubmit-Dialog";
+        public final static String SUBMIT_CONFIRMATION_DIALOG = "Proposal-Review-Course-ConfirmSubmit-Dialog";
         public final static String CANCEL_PROPOSAL_CONFIRMATION_DIALOG = "Proposal-Review-Course-ConfirmCancelProposal-Dialog";
-        public final static String COURSE_RETURN_TO_PREVIOUS_NODE_DIALOG = "Proposal-Review-Course-ConfirmReturnToPreviousNode-Dialog";
-        public final static String COURSE_APPROVE_CONFIRMATION_DIALOG = "Proposal-Review-Course-ConfirmApprove-Dialog";
-        public final static String COURSE_BLANKET_APPROVE_CONFIRMATION_DIALOG = "Proposal-Review-Course-ConfirmBlanketApprove-Dialog";
-        public final static String COURSE_ACKNOWLEDGE_CONFIRMATION_DIALOG = "Proposal-Review-Course-ConfirmAcknowledge-Dialog";
-        public final static String COURSE_WITHDRAW_CONFIRMATION_DIALOG = "Proposal-Review-Course-ConfirmWithdraw-Dialog";
-        public final static String COURSE_REJECT_CONFIRMATION_DIALOG = "Proposal-Review-Course-ConfirmReject-Dialog";
-        public final static String COURSE_RETIRE_CONFIRMATION_DIALOG = "Course-Retire-ConfirmRetire-Dialog";
+        public final static String RETURN_TO_PREVIOUS_NODE_DIALOG = "Proposal-Review-Course-ConfirmReturnToPreviousNode-Dialog";
+        public final static String APPROVE_CONFIRMATION_DIALOG = "Proposal-Review-Course-ConfirmApprove-Dialog";
+        public final static String BLANKET_APPROVE_CONFIRMATION_DIALOG = "Proposal-Review-Course-ConfirmBlanketApprove-Dialog";
+        public final static String ACKNOWLEDGE_CONFIRMATION_DIALOG = "Proposal-Review-Course-ConfirmAcknowledge-Dialog";
+        public final static String WITHDRAW_CONFIRMATION_DIALOG = "Proposal-Review-Course-ConfirmWithdraw-Dialog";
+        public final static String REJECT_CONFIRMATION_DIALOG = "Proposal-Review-Course-ConfirmReject-Dialog";
+        public final static String RETIRE_CONFIRMATION_DIALOG = "Course-Retire-ConfirmRetire-Dialog";
     }
 
     //  Learning Objective Repository keys

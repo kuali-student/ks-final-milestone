@@ -14,7 +14,7 @@
  *
  * Created by delyea on 3/19/14
  */
-package org.kuali.student.cm.course.controller;
+package org.kuali.student.cm.proposal.controller;
 
 import org.kuali.rice.krad.uif.UifConstants;
 import org.kuali.rice.krad.web.form.DocumentFormBase;
@@ -38,15 +38,15 @@ import org.springframework.transaction.annotation.Transactional;
  *
  * @author Kuali Student Team
  */
-public class CourseControllerTransactionHelperImpl implements CourseControllerTransactionHelper {
+public class ProposalControllerTransactionHelperImpl implements ProposalControllerTransactionHelper {
 
     @Transactional(propagation = Propagation.REQUIRES_NEW)
-    public void performWorkflowActionSuper(DocumentFormBase form, UifConstants.WorkflowAction action, boolean checkSensitiveData, CourseController courseController) {
-        courseController.performWorkflowActionSuper(form,action,checkSensitiveData);
+    public void performWorkflowActionSuper(DocumentFormBase form, UifConstants.WorkflowAction action, boolean checkSensitiveData, ProposalController proposalController) {
+        proposalController.performWorkflowActionSuper(form,action,checkSensitiveData);
     }
 
     @Transactional(propagation = Propagation.REQUIRES_NEW)
-    public void performCustomWorkflowActionSuper(DocumentFormBase form, String action, CourseController courseController) {
-        courseController.performCustomWorkflowActionSuper(form, action);
+    public void performCustomWorkflowActionSuper(DocumentFormBase form, String action, ProposalController proposalController) {
+        proposalController.performCustomWorkflowActionSuper(form, action);
     }
 }

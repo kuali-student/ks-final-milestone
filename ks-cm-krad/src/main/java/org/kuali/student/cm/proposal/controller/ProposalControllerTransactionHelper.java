@@ -1,7 +1,8 @@
-package org.kuali.student.cm.course.controller;
+package org.kuali.student.cm.proposal.controller;
 
 import org.kuali.rice.krad.uif.UifConstants;
 import org.kuali.rice.krad.web.form.DocumentFormBase;
+import org.kuali.student.cm.proposal.controller.ProposalController;
 
 /**
  * This method is a round-about way to provide a new transaction when calling MaintenanceDocumentController.route()
@@ -20,10 +21,10 @@ import org.kuali.rice.krad.web.form.DocumentFormBase;
  *
  * @author Kuali Student Team
  */
-public interface CourseControllerTransactionHelper {
+public interface ProposalControllerTransactionHelper {
 
-    public void performWorkflowActionSuper(DocumentFormBase form, UifConstants.WorkflowAction action, boolean checkSensitiveData, CourseController courseController);
+    public void performWorkflowActionSuper(DocumentFormBase form, UifConstants.WorkflowAction action, boolean checkSensitiveData, ProposalController proposalController);
 
-    public void performCustomWorkflowActionSuper(DocumentFormBase form, String action, CourseController courseController);
+    public void performCustomWorkflowActionSuper(DocumentFormBase form, String action, ProposalController proposalController);
 
 }

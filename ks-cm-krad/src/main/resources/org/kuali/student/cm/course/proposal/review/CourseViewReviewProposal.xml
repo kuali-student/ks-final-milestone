@@ -421,7 +421,7 @@
 
     <bean id="CM-Proposal-Review-Course-Edit-Link" parent="Uif-ActionLink" abstract="true"
           p:ajaxSubmit="false"
-          p:methodToCall="editCourseProposalPage"
+          p:methodToCall="editProposalPage"
           p:actionLabel="Edit"
           p:render="@{(#actionFlags[#Constants.KUALI_ACTION_CAN_EDIT]) and (!#uiHelper.pendingWorkflowAction)}"/>
 

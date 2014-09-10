@@ -37,6 +37,7 @@ import org.kuali.student.cm.course.form.wrapper.RetireCourseWrapper;
 import org.kuali.student.cm.course.service.RetireCourseMaintainable;
 import org.kuali.student.cm.course.util.CourseProposalUtil;
 import org.kuali.student.common.collection.KSCollectionUtils;
+import org.kuali.student.cm.proposal.form.wrapper.ProposalElementsWrapper;
 import org.kuali.student.common.object.KSObjectUtils;
 import org.kuali.student.common.util.security.ContextUtils;
 import org.kuali.student.r2.common.dto.DtoConstants;
@@ -81,7 +82,7 @@ public class RetireCourseController extends CourseController {
         // only do the manually setup of the MaintenanceDocumentForm fields if the USE_CURRICULUM_REVIEW param was passed in from initial view
         if (StringUtils.isNotBlank(useReviewProcessParam)) {
             Boolean isUseReviewProcess = Boolean.valueOf(useReviewProcessParam);
-            form.setDocTypeName(getDocumentTypeNameForProposal(isUseReviewProcess, request));
+            form.setDocTypeName(getDocumentTypeNameForProposalStart(isUseReviewProcess, request));
         }
 
         form.getExtensionData().put(CurriculumManagementConstants.Export.UrlParams.EXPORT_TYPE, CurriculumManagementConstants.Export.FileType.PDF);
@@ -89,7 +90,7 @@ public class RetireCourseController extends CourseController {
         return form;
     }
 
-    protected String getDocumentTypeNameForProposal(Boolean isUseReviewProcess, HttpServletRequest request) {
+    protected String getDocumentTypeNameForProposalStart(Boolean isUseReviewProcess, HttpServletRequest request) {
         // throw an exception if the user is not a CS user but attempts to disable Curriculum Review for a proposal
         if (!isUseReviewProcess && !CourseProposalUtil.isUserCurriculumSpecialist()) {
             throw new RuntimeException(String.format("User (%s) is not allowed to disable Curriculum Review (Workflow Approval).",
@@ -99,6 +100,70 @@ public class RetireCourseController extends CourseController {
         return ((!isUseReviewProcess)
                 ? CurriculumManagementConstants.DocumentTypeNames.CourseProposal.COURSE_RETIRE_ADMIN
                 : CurriculumManagementConstants.DocumentTypeNames.CourseProposal.COURSE_RETIRE);
+    }
+
+    protected CurriculumManagementConstants.UserInterfaceSections getNextSection(CurriculumManagementConstants.UserInterfaceSections selectedSection) {
+        CurriculumManagementConstants.CourseRetireSections currentSection = (CurriculumManagementConstants.CourseRetireSections) selectedSection;
+        if (currentSection.ordinal() < CurriculumManagementConstants.CourseRetireSections.values().length) {
+            return CurriculumManagementConstants.CourseRetireSections.values()[currentSection.ordinal() + 1];
+        }
+        // cannot find valid section
+        return null;
+    }
+
+    protected String getReviewProposalLinkBeanId() {
+        return "CM-Proposal-Course-Retire-ReviewProposalLink";
+    }
+
+    /**
+     * Returns the KRAD pageId that will be used for the Review Page display
+     */
+    protected String getReviewPageKradPageId() {
+        return CurriculumManagementConstants.CoursePageIds.REVIEW_RETIRE_COURSE_PROPOSAL_PAGE;
+    }
+
+    protected String getBaseUrlForProposal() {
+        return CurriculumManagementConstants.ControllerRequestMappings.CM_RETIRE_COURSE.replaceFirst("/", "");
+    }
+
+    protected String getProposalReviewMethodToCall() {
+        return "reviewCourseProposal";
+    }
+
+    protected String getDataObjectClassName() {
+        return RetireCourseWrapper.class.getCanonicalName();
+    }
+
+    protected CurriculumManagementConstants.UserInterfaceSections getDefaultSectionKradIdForEdit() {
+        return CurriculumManagementConstants.CourseViewSections.COURSE_INFO;
+    }
+
+    protected String getKradPageIdForEdit() {
+        return CurriculumManagementConstants.CoursePageIds.CREATE_COURSE_PAGE;
+    }
+
+    /**
+     * Method that will run the Kuali student course service validation.
+     *
+     * @param form - the form of the current users session
+     * @param forcedStudentObjectStateKey - the stateKey that needs to be faked for the CourseService.validationCourse() method (if null, uses state in CourseInfo object)
+     */
+    protected void runStudentServiceValidation(DocumentFormBase form, String forcedStudentObjectStateKey) {
+        List<ValidationResultInfo> errors = Collections.EMPTY_LIST;
+        RetireCourseWrapper retireCourseWrapper = getRetireCourseWrapper(form);
+        try {
+            //Perform Service Layer Data Dictionary validation
+            CourseInfo courseInfoToValidate = (CourseInfo) ObjectUtils.deepCopy(retireCourseWrapper.getCourseInfo());
+            if (StringUtils.isNotBlank(forcedStudentObjectStateKey)) {
+                courseInfoToValidate.setStateKey(forcedStudentObjectStateKey);
+            }
+            errors = getCourseService().validateCourse("OBJECT", courseInfoToValidate, ContextUtils.createDefaultContextInfo());
+        } catch (Exception ex) {
+            LOG.error("Error occurred while performing service layer validation for Submit", ex);
+            GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, KSObjectUtils.unwrapException(20, ex).getMessage());
+            retireCourseWrapper.getReviewProposalDisplay().setShowUnknownErrors(true);
+        }
+        bindValidationErrorsToPath(errors, form);
     }
 
     /**
@@ -171,82 +236,50 @@ public class RetireCourseController extends CourseController {
     }
 
     /**
-         * This will save the Course Proposal.
-         *
-         * @param form     {@link MaintenanceDocumentForm} instance used for this action
-         * @param result
-         * @param request  {@link HttpServletRequest} instance of the actual HTTP request made
-         * @param response The intended {@link HttpServletResponse} sent back to the user
-         * @return The new {@link ModelAndView} that contains the newly created/updated {@CourseInfo} and {@ProposalInfo} information.
-         */
-        @Override
-        @RequestMapping(method = RequestMethod.POST, params = "methodToCall=saveProposal")
-        public ModelAndView saveProposal(@ModelAttribute("KualiForm") MaintenanceDocumentForm form, BindingResult result,
-                HttpServletRequest request, HttpServletResponse response) throws Exception {
-
-            RetireCourseWrapper courseWrapper = getRetireCourseWrapper(form);
-            form.getDocument().getDocumentHeader().setDocumentDescription(courseWrapper.getProposalInfo().getName());
-
-            ModelAndView modelAndView;
-
-            modelAndView = save(form, result, request, response);
-
-            if (GlobalVariables.getMessageMap().hasErrors()) {
-                return modelAndView;
-            }
-
-            RecentlyViewedDocsUtil.addRecentDoc(form.getDocument().getDocumentHeader().getDocumentDescription(),
-                    form.getDocument().getDocumentHeader().getWorkflowDocument().getDocumentHandlerUrl() + "&"
-                            + KewApiConstants.COMMAND_PARAMETER + "="
-                            + KewApiConstants.DOCSEARCH_COMMAND + "&"
-                            + KewApiConstants.DOCUMENT_ID_PARAMETER + "="
-                            + form.getDocument().getDocumentHeader().getWorkflowDocument().getDocumentId());
-
-            String nextOrCurrentPage = form.getActionParameters().get("displayPage");
-
-            if (StringUtils.equalsIgnoreCase(nextOrCurrentPage, "NEXT")) {
-                CurriculumManagementConstants.CourseRetireSections currentSection = (CurriculumManagementConstants.CourseRetireSections)courseWrapper.getUiHelper().getSelectedSection();
-                if (currentSection.ordinal() < CurriculumManagementConstants.CourseRetireSections.values().length) {
-                    CurriculumManagementConstants.CourseRetireSections nextSection = CurriculumManagementConstants.CourseRetireSections.values()[currentSection.ordinal() + 1];
-                    courseWrapper.getUiHelper().setSelectedSection(nextSection);
-                }
-                return getUIFModelAndView(form);
-            } else if (StringUtils.equalsIgnoreCase(nextOrCurrentPage, "CM-Proposal-Course-Retire-ReviewProposalLink")) {
-                return getUIFModelAndView(form, getReviewPageKradPageId());
-            } else {
-                return getUIFModelAndView(form);
-            }
-        }
-
-    /**
-     * Returns the KRAD pageId that will be used for the Review Page display
-     */
-    protected String getReviewPageKradPageId() {
-        return CurriculumManagementConstants.CoursePageIds.REVIEW_RETIRE_COURSE_PROPOSAL_PAGE;
-    }
-
-    /**
-     * Method that will run the Kuali student course service validation.
+     * This will save the Course Proposal.
      *
-     * @param form - the form of the current users session
-     * @param forcedCourseStateKey - the stateKey that needs to be faked for the CourseService.validationCourse() method (if null, uses state in CourseInfo object)
-     * @return a list of errors from the CourseService validation method if it was properly executed and errors were found
+     * @param form     {@link MaintenanceDocumentForm} instance used for this action
+     * @param result
+     * @param request  {@link HttpServletRequest} instance of the actual HTTP request made
+     * @param response The intended {@link HttpServletResponse} sent back to the user
+     * @return The new {@link ModelAndView} that contains the newly created/updated {@CourseInfo} and {@ProposalInfo} information.
      */
-    protected List<ValidationResultInfo> runCourseServiceValidation(DocumentFormBase form, String forcedCourseStateKey) {
-        RetireCourseWrapper retireCourseWrapper = getRetireCourseWrapper(form);
-        try {
-            //Perform Service Layer Data Dictionary validation
-            CourseInfo courseInfoToValidate = (CourseInfo) ObjectUtils.deepCopy(retireCourseWrapper.getCourseInfo());
-            if (StringUtils.isNotBlank(forcedCourseStateKey)) {
-                courseInfoToValidate.setStateKey(forcedCourseStateKey);
-            }
-            return getCourseService().validateCourse("OBJECT", courseInfoToValidate, ContextUtils.createDefaultContextInfo());
-        } catch (Exception ex) {
-            LOG.error("Error occurred while performing service layer validation for Submit", ex);
-            GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, KSObjectUtils.unwrapException(20, ex).getMessage());
-            retireCourseWrapper.getReviewProposalDisplay().setShowUnknownErrors(true);
+    @Override
+    @RequestMapping(method = RequestMethod.POST, params = "methodToCall=saveProposal")
+    public ModelAndView saveProposal(@ModelAttribute("KualiForm") MaintenanceDocumentForm form, BindingResult result,
+                                     HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        ProposalElementsWrapper proposalElementsWrapper = getProposalElementsWrapper(form);
+        form.getDocument().getDocumentHeader().setDocumentDescription(proposalElementsWrapper.getProposalInfo().getName());
+
+        ModelAndView modelAndView;
+
+        modelAndView = save(form, result, request, response);
+
+        if (GlobalVariables.getMessageMap().hasErrors()) {
+            return modelAndView;
         }
-        return Collections.EMPTY_LIST;
+
+        RecentlyViewedDocsUtil.addRecentDoc(form.getDocument().getDocumentHeader().getDocumentDescription(),
+                form.getDocument().getDocumentHeader().getWorkflowDocument().getDocumentHandlerUrl() + "&"
+                        + KewApiConstants.COMMAND_PARAMETER + "="
+                        + KewApiConstants.DOCSEARCH_COMMAND + "&"
+                        + KewApiConstants.DOCUMENT_ID_PARAMETER + "="
+                        + form.getDocument().getDocumentHeader().getWorkflowDocument().getDocumentId());
+
+        String nextOrCurrentPage = form.getActionParameters().get("displayPage");
+
+        if (StringUtils.equalsIgnoreCase(nextOrCurrentPage, "NEXT")) {
+            CurriculumManagementConstants.UserInterfaceSections nextSection = getNextSection(proposalElementsWrapper.getUiHelper().getSelectedSection());
+            if (nextSection != null) {
+                proposalElementsWrapper.getUiHelper().setSelectedSection(nextSection);
+            }
+            return getUIFModelAndView(form);
+        } else if (StringUtils.equalsIgnoreCase(nextOrCurrentPage, getReviewProposalLinkBeanId())) {
+            return getUIFModelAndView(form, getReviewPageKradPageId());
+        } else {
+            return getUIFModelAndView(form);
+        }
     }
 
     public ModelAndView copyProposal(@ModelAttribute("KualiForm") DocumentFormBase form) {
@@ -308,24 +341,4 @@ public class RetireCourseController extends CourseController {
         return atpService;
     }
 
-    /**
-     * Load the course retire proposal review page
-     */
-    @Override
-    @RequestMapping(params = "methodToCall=editCourseProposalPage")
-    public ModelAndView editCourseProposalPage(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result,
-                                               HttpServletRequest request, HttpServletResponse response) throws Exception {
-
-        String displaySectionId = form.getActionParameters().get("displaySection");
-        RetireCourseWrapper wrapper = getRetireCourseWrapper(form);
-
-        if (displaySectionId == null) {
-            wrapper.getUiHelper().setSelectedSection(CurriculumManagementConstants.CourseRetireSections.RETIRE_INFO);
-        } else {
-            CurriculumManagementConstants.CourseRetireSections section = CurriculumManagementConstants.CourseRetireSections.getSection(displaySectionId);
-            wrapper.getUiHelper().setSelectedSection(section);
-        }
-
-        return getUIFModelAndView(form, CurriculumManagementConstants.CoursePageIds.RETIRE_COURSE_PAGE);
-    }
 }

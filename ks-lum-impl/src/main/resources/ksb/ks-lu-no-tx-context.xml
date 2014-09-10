@@ -429,15 +429,15 @@
         <property name="cluService" ref="CluService"/>
     </bean>
 
-    <!-- This class is needed to create a different transactional boundary for the CourseController class-->
-    <bean id="courseControllerTransactionHelper" class="org.kuali.student.cm.course.controller.CourseControllerTransactionHelperImpl"/>
-    <bean id="ks.exp.courseControllerTransactionHelper" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
+    <!-- This class is needed to create a different transactional boundary for the CM Controllers-->
+    <bean id="proposalControllerTransactionHelper" class="org.kuali.student.cm.proposal.controller.ProposalControllerTransactionHelperImpl"/>
+    <bean id="ks.exp.proposalControllerTransactionHelper" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
         <property name="serviceDefinition">
             <bean class="org.kuali.rice.ksb.api.bus.support.JavaServiceDefinition">
-                <property name="service" ref="courseControllerTransactionHelper" />
-                <property name="serviceInterface" value="org.kuali.student.cm.course.controller.CourseControllerTransactionHelper"/>
-                <property name="localServiceName" value="CourseControllerTransactionHelper" />
-                <property name="serviceNameSpaceURI" value="http://student.kuali.org/wsdl/courseControllerTransactionHelper" />
+                <property name="service" ref="proposalControllerTransactionHelper" />
+                <property name="serviceInterface" value="org.kuali.student.cm.proposal.controller.ProposalControllerTransactionHelper"/>
+                <property name="localServiceName" value="ProposalControllerTransactionHelper" />
+                <property name="serviceNameSpaceURI" value="http://student.kuali.org/wsdl/proposalControllerTransactionHelper" />
                 <property name="busSecurity" value="${ks.core.bus.security}" />
             </bean>
         </property>

@@ -25,7 +25,6 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 import org.kuali.rice.krad.web.form.UifFormBase;
-import org.kuali.rice.krms.controller.RuleEditorController;
 import org.kuali.rice.krms.dto.AgendaEditor;
 import org.kuali.rice.krms.dto.PropositionEditor;
 import org.kuali.rice.krms.dto.RuleEditor;
@@ -37,6 +36,7 @@ import org.kuali.student.cm.common.util.CurriculumManagementConstants;
 import org.kuali.student.cm.course.form.wrapper.CourseInfoWrapper;
 import org.kuali.student.cm.course.service.CourseMaintainable;
 import org.kuali.student.cm.course.service.impl.CourseMaintainableImpl;
+import org.kuali.student.cm.proposal.controller.ProposalController;
 import org.kuali.student.lum.lu.ui.krms.dto.CluSetRangeInformation;
 import org.kuali.student.lum.lu.ui.krms.dto.CluSetRangeWrapper;
 import org.kuali.student.lum.lu.ui.krms.dto.LUPropositionEditor;
@@ -55,7 +55,7 @@ import org.springframework.web.servlet.ModelAndView;
  */
 @Controller
 @RequestMapping(value = "/courseRules")
-public class CourseRuleEditorController extends RuleEditorController {
+public abstract class CourseRuleEditorController extends ProposalController {
     
     private static final String KSKRMS_RULE_CO_TABS_ID = "CM-Proposal-Course-TabsWidget";
     

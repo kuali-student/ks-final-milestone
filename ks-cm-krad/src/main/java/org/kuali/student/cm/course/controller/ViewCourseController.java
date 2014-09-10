@@ -161,7 +161,7 @@ public class ViewCourseController extends KsUifControllerBase {
             dm.setCurrentDialogId(null);
         }
 
-        String dialog = CurriculumManagementConstants.ProposalConfirmationDialogs.COURSE_RETIRE_CONFIRMATION_DIALOG;
+        String dialog = CurriculumManagementConstants.ProposalConfirmationDialogs.RETIRE_CONFIRMATION_DIALOG;
         if (!hasDialogBeenDisplayed(dialog, form)) {
             if (!GlobalVariables.getMessageMap().hasErrors()) {
                 //redirect back to client to display confirm dialog
