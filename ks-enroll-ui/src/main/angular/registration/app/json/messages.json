@@ -57,11 +57,11 @@
     },
     {
         "messageKey": "kuali.lpr.trans.message.drop.period.closed",
-        "message": "Last day to drop has passed"
+        "message": "Last day to drop was {{endDate}}"
     },
     {
         "messageKey": "kuali.lpr.trans.message.edit.period.closed",
-        "message": "Last day to modify has passed"
+        "message": "Last day to modify was {{endDate}}"
     },
     {
         "messageKey": "kuali.lpr.trans.message.course.grade.incomplete",
