@@ -56,6 +56,7 @@ public class RulesExecutionConstants {
     public static final Term USER_ACTION_DATE_TERM = new Term("userActionDate");
     public static final Term SCHEDULE_ADJUSTMENT_START_TERM = new Term("scheduleAdjustmentStart");
     public static final Term SCHEDULE_ADJUSTMENT_END_TERM = new Term("scheduleAdjustmentEnd");
+    public static final Term DROP_PERIOD_END_TERM = new Term("dropPeriodEnd");
     // services
     public static final Term KRMS_EVALUATOR_TERM = new Term("krmsEvaluator");
     public static final Term ACADEMIC_RECORD_SERVICE_TERM = new Term("academicRecordService");
