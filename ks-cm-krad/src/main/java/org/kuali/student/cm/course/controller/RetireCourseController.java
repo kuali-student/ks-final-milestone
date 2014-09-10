@@ -308,5 +308,24 @@ public class RetireCourseController extends CourseController {
         return atpService;
     }
 
+    /**
+     * Load the course retire proposal review page
+     */
+    @Override
+    @RequestMapping(params = "methodToCall=editCourseProposalPage")
+    public ModelAndView editCourseProposalPage(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result,
+                                               HttpServletRequest request, HttpServletResponse response) throws Exception {
 
+        String displaySectionId = form.getActionParameters().get("displaySection");
+        RetireCourseWrapper wrapper = getRetireCourseWrapper(form);
+
+        if (displaySectionId == null) {
+            wrapper.getUiHelper().setSelectedSection(CurriculumManagementConstants.CourseRetireSections.RETIRE_INFO);
+        } else {
+            CurriculumManagementConstants.CourseRetireSections section = CurriculumManagementConstants.CourseRetireSections.getSection(displaySectionId);
+            wrapper.getUiHelper().setSelectedSection(section);
+        }
+
+        return getUIFModelAndView(form, CurriculumManagementConstants.CoursePageIds.RETIRE_COURSE_PAGE);
+    }
 }

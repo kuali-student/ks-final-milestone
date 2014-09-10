@@ -37,12 +37,12 @@
         </property>
         <property name="breadcrumbOptions.homewardPathBreadcrumbs">
             <list merge="true">
-                <ref bean="KS-HomewardPathBreadcrumbs-NewCourse"/>
+                <ref bean="KS-HomewardPathBreadcrumbs-RetireCourse"/>
             </list>
         </property>
         <property name="breadcrumbOptions.breadcrumbOverrides">
             <list>
-                <ref bean="KS-HomewardPathBreadcrumbs-ReviewProposal-Page"/>
+                <ref bean="KS-HomewardPathBreadcrumbs-RetireCourseReviewProposal-Page"/>
             </list>
         </property>
         <!-- Hide the validation messages if no unknown error messages are there to display -->
@@ -56,6 +56,17 @@
                 </bean>
             </list>
         </property>
+    </bean>
+
+    <bean id="KS-HomewardPathBreadcrumbs-RetireCourse" parent="Uif-BreadcrumbItem">
+        <property name="label"
+                  value="Retire Course"/>
+        <property name="url.baseUrl" value="cmHome"/>
+        <property name="url.viewId" value="curriculumHomeView"/>
+    </bean>
+
+    <bean id="KS-HomewardPathBreadcrumbs-RetireCourseReviewProposal-Page" parent="Uif-BreadcrumbItem">
+        <property name="label" value="@{#uiHelper.proposalName}: Review Retire Proposal"/>
     </bean>
 
     <bean id="CM-Proposal-Review-RetireCourse-PageSections" parent="CM-Proposal-Course-View-VerticalBoxSection">
@@ -106,6 +117,11 @@
         <property name="items">
             <list>
                 <bean parent="CM-ViewCourse-View-Course-GridGroup">
+                    <property name="cssClasses">
+                        <list merge="true">
+                            <value>course_ref_details-grid</value>
+                        </list>
+                    </property>
                     <property name="items">
                         <list>
                             <bean parent="CM-ReadOnlyInput" p:label="Course Number" id="CM-Proposal-Review-RetireCourse-Number"
