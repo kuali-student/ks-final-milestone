@@ -136,15 +136,15 @@
                             ng-if="selectedRegGroup && selectedRegGroup.isFull && selectedRegGroup.isWaitlistAvailable">Add to Waitlist</button>
 
                     <!-- Split Button Dropdown -->
-                    <button class="kscr-Button dropdown-toggle" data-toggle="dropdown" type="button" ng-disabled="!selectedRegGroup">
+                    <button id="search_details_add_dropdown" class="kscr-Button dropdown-toggle" data-toggle="dropdown" type="button" ng-disabled="!selectedRegGroup">
                         <span class="caret"></span>
                     </button>
                     <ul class="dropdown-menu" role="menu">
                         <!-- Alt Add to Cart - Only when Add to Waitlist takes over the primary action -->
-                        <li ng-if="selectedRegGroup && selectedRegGroup.isFull && selectedRegGroup.isWaitlistAvailable"><a ng-click="addToCart()">Add to Cart</a></li>
+                        <li ng-if="selectedRegGroup && selectedRegGroup.isFull && selectedRegGroup.isWaitlistAvailable"><a id="alt_add_to_cart" ng-click="addToCart()">Add to Cart</a></li>
 
                         <!-- Direct Register - Only when Add to Cart is the primary action -->
-                        <li ng-if="!selectedRegGroup || !selectedRegGroup.isFull || !selectedRegGroup.isWaitlistAvailable"><a ng-click="directRegister()">Register Now</a></li>
+                        <li ng-if="!selectedRegGroup || !selectedRegGroup.isFull || !selectedRegGroup.isWaitlistAvailable"><a id="direct_register" ng-click="directRegister()">Register Now</a></li>
                     </ul>
                 </div>
 
