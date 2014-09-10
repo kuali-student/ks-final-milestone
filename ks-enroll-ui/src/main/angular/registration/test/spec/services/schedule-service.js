@@ -15,13 +15,11 @@ describe('Service: ScheduleService', function () {
 
     describe('getters & setters', function() {
         it('should initialize the variables', function() {
-            expect(ScheduleService.getRegisteredCredits()).toBeUndefined();
+            expect(ScheduleService.getRegisteredCredits()).toBe(0);
             expect(ScheduleService.getRegisteredCourseCount()).toBe(0);
 
             expect(ScheduleService.getWaitlistedCredits()).toBe(0);
             expect(ScheduleService.getWaitlistedCourseCount()).toBe(0);
-
-            expect(ScheduleService.getSchedules()).toBeUndefined();
         });
 
         it('should set & get the correct values', function() {
@@ -36,23 +34,18 @@ describe('Service: ScheduleService', function () {
 
             ScheduleService.setWaitlistedCourseCount(1);
             expect(ScheduleService.getWaitlistedCourseCount()).toBe(1);
-
-
-            var schedule = [{item: 'abcd'}];
-            ScheduleService.setSchedules(schedule);
-            expect(ScheduleService.getSchedules()).toEqual(schedule);
         });
     });
 
     describe('update schedule counts', function() {
         it('should correctly process the schedule response json', inject(function(_studentScheduleTermResult_) {
+            var mockData = angular.copy(_studentScheduleTermResult_);
+
             ScheduleService.updateScheduleCounts(_studentScheduleTermResult_);
 
-            expect(ScheduleService.getSchedules()).toEqual(_studentScheduleTermResult_.registeredCourseOfferings.concat(_studentScheduleTermResult_.waitlistCourseOfferings));
-
-            expect(ScheduleService.getRegisteredCourses()[0]).toEqual(_studentScheduleTermResult_.registeredCourseOfferings[1]);
-            expect(ScheduleService.getRegisteredCourses()[1]).toEqual(_studentScheduleTermResult_.registeredCourseOfferings[0]);
-            expect(ScheduleService.getRegisteredCourses()[2]).toEqual(_studentScheduleTermResult_.registeredCourseOfferings[2]);
+            expect(ScheduleService.getRegisteredCourses()[0].createTime).toEqual(mockData.registeredCourseOfferings[1].createTime);
+            expect(ScheduleService.getRegisteredCourses()[1].createTime).toEqual(mockData.registeredCourseOfferings[0].createTime);
+            expect(ScheduleService.getRegisteredCourses()[2].createTime).toEqual(mockData.registeredCourseOfferings[2].createTime);
 
             expect(ScheduleService.getRegisteredCourseCount()).toBe(3);
             expect(ScheduleService.getRegisteredCredits()).toBe(7);

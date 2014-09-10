@@ -3,13 +3,15 @@
 angular.module('regCartApp')
     .service('ScheduleService', ['$q', '$timeout', 'URLS', 'STATUS', 'ServiceUtilities', 'GlobalVarsService', 'COURSE_TYPES', function ScheduleService($q, $timeout, URLS, STATUS, ServiceUtilities, GlobalVarsService, COURSE_TYPES) {
 
-        var registeredCredits;
+        var registeredCredits = 0;
         var registeredCourseCount = 0;
+        var registeredCourses = [];
+        var droppedRegistered = [];
+
         var waitlistedCredits = 0;
         var waitlistedCourseCount = 0;
-        var scheduleArray;
-        var registeredCourses = [];
         var waitlistedCourses = [];
+        var droppedWaitlisted = [];
 
         // Cache of schedules per term
         var scheduleMap = {};
@@ -105,9 +107,11 @@ angular.module('regCartApp')
             switch (type) {
                 case COURSE_TYPES.waitlisted:
                     this.getWaitlistedCourses().splice(this.getWaitlistedCourses().indexOf(course), 1);
+                    this.getDroppedWaitlisted().splice(this.getDroppedWaitlisted().indexOf(course), 1);
                     break;
                 case COURSE_TYPES.registered:
                     this.getRegisteredCourses().splice(this.getRegisteredCourses().indexOf(course), 1);
+                    this.getDroppedRegistered().splice(this.getDroppedRegistered().indexOf(course), 1);
             }
         };
 
@@ -131,80 +135,73 @@ angular.module('regCartApp')
             return ServiceUtilities.isCourseInList(course, this.getWaitlistedCourses());
         };
 
-        this.getSchedules = function () {
-            return scheduleArray;
-        };
-
-        this.setSchedules = function (value) {
-            scheduleArray = value;
-        };
-
         /**
          * This method takes the schedule list returned from the schedule service and updates the global counts.
          *
          * @param personSchedule
          */
         this.updateScheduleCounts = function (personSchedule) {
-            var scheduleList = [];
-
-            if (personSchedule.registeredCourseOfferings !== null && personSchedule.waitlistCourseOfferings !== null) {
-                var registeredCO = personSchedule.registeredCourseOfferings;
-                var waitlistedCO = personSchedule.waitlistCourseOfferings;
-                scheduleList = registeredCO.concat(waitlistedCO);
-            } else if (personSchedule.registeredCourseOfferings === null && personSchedule.waitlistCourseOfferings !== null) {
-                scheduleList = personSchedule.waitlistCourseOfferings;
-            } else if (personSchedule.registeredCourseOfferings !== null && personSchedule.waitlistCourseOfferings === null) {
-                scheduleList = personSchedule.registeredCourseOfferings;
-            }
-
             var userId = personSchedule.userId;
-
-            //Calculate credit count, course count and grading option count
-            var creditCount = 0;
-            var waitlistCreditCount = 0;
-
-            registeredCourses.splice(0, registeredCourses.length);
-            waitlistedCourses.splice(0, waitlistedCourses.length);
-
-            this.setSchedules(scheduleList);
-            angular.forEach(personSchedule.registeredCourseOfferings, function (course) {
-                creditCount += parseFloat(course.credits);
-                registeredCourses.push(course);
-
-                var gradingOptionCount = 0;
-                //grading options are an object (map) so there's no easy way to get the object size without this code
-                //used for checking if Edit button is needed
-                angular.forEach(course.gradingOptions, function () {
-                    gradingOptionCount++;
-                });
-                course.gradingOptionCount = gradingOptionCount;
-            });
-            angular.forEach(personSchedule.waitlistCourseOfferings, function (course) {
-                waitlistCreditCount += parseFloat(course.credits);
-                waitlistedCourses.push(course);
-
-                var gradingOptionCount = 0;
-                //grading options are an object (map) so there's no easy way to get the object size without this code
-                //used for checking if Edit button is needed
-                angular.forEach(course.gradingOptions, function () {
-                    gradingOptionCount++;
-                });
-                course.gradingOptionCount = gradingOptionCount;
-            });
-
-            // Sort courses according to date registered/added to waitlist (latest first)
-            registeredCourses.sort(function(course1, course2) {
-                return course1.createTime < course2.createTime;
-            });
-            waitlistedCourses.sort(function(course1, course2) {
-                return course1.createTime < course2.createTime;
-            });
-
-            this.setRegisteredCourseCount(registeredCourses.length);
-            this.setRegisteredCredits(creditCount);
-            this.setWaitlistedCredits(waitlistCreditCount);
-            this.setWaitlistedCourseCount(waitlistedCourses.length);
             GlobalVarsService.setUserId(userId);
+
+            // Update registered courses
+            if (registeredCourses.length == 0) {
+                if (personSchedule.registeredCourseOfferings != null) {
+                    this.sortCoursesByCreateTime(personSchedule.registeredCourseOfferings, "latestFirst");
+                    for (var i=0; i<personSchedule.registeredCourseOfferings.length; i++){
+                        var course = personSchedule.registeredCourseOfferings[i];
+                        this.setRegisteredCredits(this.getRegisteredCredits() + parseFloat(course.credits));
+                        course.gradingOptionCount = this.countGradingOptions(course);
+                        registeredCourses.push(course);
+                    }
+                }
+            } else {
+                // Remove messages, if they exist
+                while(droppedRegistered.length > 0){
+                    this.spliceCourse(COURSE_TYPES.registered, droppedRegistered[0]);
+                }
+                // Add only the new registered courses
+                var difference = personSchedule.registeredCourseOfferings.length - (registeredCourses.length - droppedRegistered.length);
+                this.sortCoursesByCreateTime(personSchedule.registeredCourseOfferings, "latestFirst");
+
+                for (var j=0; j<difference; j++) {
+                    var course = personSchedule.registeredCourseOfferings[j];
+                    this.setRegisteredCredits(this.getRegisteredCredits() + parseFloat(course.credits));
+                    course.gradingOptionCount = this.countGradingOptions(course);
+                    registeredCourses.unshift(personSchedule.registeredCourseOfferings[j]);
+                }
+            }
+            this.setRegisteredCourseCount(registeredCourses.length);
+
+
+            // Update waitlisted courses
+            if (waitlistedCourses.length == 0) {
+                if (personSchedule.waitlistCourseOfferings != null) {
+                    this.sortCoursesByCreateTime(personSchedule.waitlistCourseOfferings, "latestFirst");
+                    for (var i=0; i<personSchedule.waitlistCourseOfferings.length; i++){
+                        var course = personSchedule.waitlistCourseOfferings[i];
+                        this.setWaitlistedCredits(this.getWaitlistedCredits() + parseFloat(course.credits));
+                        course.gradingOptionCount = this.countGradingOptions(course);
+                        waitlistedCourses.push(course);
+                    }
+                }
+            } else {
+                // Remove messages, if they exist
+                while(droppedWaitlisted.length > 0){
+                    this.spliceCourse(COURSE_TYPES.waitlisted, droppedWaitlisted[0]);
+                }
+                // Add only the new waitlisted courses
+                var difference = personSchedule.waitlistCourseOfferings.length - (waitlistedCourses.length - droppedWaitlisted.length);
+                if (personSchedule.waitlistCourseOfferings != null) { this.sortCoursesByCreateTime(personSchedule.waitlistCourseOfferings, "latestFirst"); }
+
+                for (var j=0; j<difference; j++) {
+                    var course = personSchedule.waitlistCourseOfferings[j];
+                    this.setWaitlistedCredits(this.getWaitlistedCredits() + parseFloat(course.credits));
+                    course.gradingOptionCount = this.countGradingOptions(course);
+                    waitlistedCourses.unshift(personSchedule.waitlistCourseOfferings[j]);
+                }
+            }
+            this.setWaitlistedCourseCount(waitlistedCourses.length);
         };
 
         // Schedule Poller
@@ -308,4 +305,56 @@ angular.module('regCartApp')
             return ServiceUtilities.getData(URLS.courseRegistration + '/registrationStatus');
         };
 
+        this.setDroppedRegistered = function (value) {
+            droppedRegistered = value;
+        }
+
+        this.getDroppedRegistered = function () {
+            return droppedRegistered;
+        };
+
+        this.addDroppedRegistered = function (course) {
+            droppedRegistered.push(course);
+        };
+
+        this.setDroppedWaitlisted = function (value) {
+            droppedWaitlisted = value;
+        }
+
+        this.getDroppedWaitlisted = function () {
+            return droppedWaitlisted;
+        };
+
+        this.addDroppedWaitlisted = function (course) {
+            droppedWaitlisted.push(course);
+        };
+
+        this.sortCoursesByCreateTime = function (unsortedList, order) {
+            if (unsortedList.length > 1) {
+                switch(order) {
+                    case "latestFirst":
+                        unsortedList.sort(function(course1, course2) {
+                            return course1.createTime < course2.createTime;
+                        });
+                        break;
+                    case "latestLast":
+                        unsortedList.sort(function(course1, course2) {
+                            return course1.createTime > course2.createTime;
+                        });
+                        break;
+                }
+
+            }
+        };
+
+        this.countGradingOptions = function (course) {
+            // Grading options are an object (map) so there's no easy way to get the object size without this code
+            // Used for checking if Edit button is needed
+            var gradingOptionCount = 0;
+            for (var gradingOption in course.gradingOptions) {
+                gradingOptionCount++;
+            }
+
+            return gradingOptionCount;
+        }
     }]);

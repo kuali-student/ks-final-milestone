@@ -25,7 +25,8 @@ angular.module('regCartApp')
          -- A waitlist message is on the screen
          */
         $scope.showWaitlist = function() {
-            return ($scope.waitlistedCredits() > 0 || numberOfDroppedWailistedCourses > 0);
+            //return ($scope.waitlistedCredits() > 0 || numberOfDroppedWailistedCourses > 0);
+            return (ScheduleService.getWaitlistedCourses().length > 0);
         };
 
         /*
