@@ -44,7 +44,8 @@
 
     <bean id="CM-Proposal-Course-Retire-View" parent="KS-Uif-MaintenanceView">
         <property name="dataObjectClassName" value="org.kuali.student.cm.course.form.wrapper.RetireCourseWrapper"/>
-        <property name="headerText" value="@{(#uiHelper.headerText) + ' (Proposed Retirement)'}"/>
+        <property name="headerText"
+                  value="@{(#uiHelper.headerText eq null or #uiHelper.headerText.length() lt 1) ? 'Retire Course': #uiHelper.headerText }"/>
         <property name="singlePageView" value="false"/>
         <!-- Override the default to allow for navigation -->
         <property name="viewHelperServiceClass"
@@ -113,6 +114,7 @@
                 <entry key="uiHelper" value="document.newMaintainableObject.dataObject.uiHelper"/>
                 <entry key="workflowDoc" value="document.documentHeader.workflowDocument"/>
                 <entry key="htmlUtils" value="T(org.springframework.web.util.HtmlUtils)"/>
+                <!-- below exist and hard-coded to false due to shared beans from Create/Modify course screens -->
                 <entry key="isCompareView" value="false"/>
                 <entry key="isViewCourseView" value="false"/>
             </map>

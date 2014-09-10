@@ -25,6 +25,7 @@ import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 import org.kuali.rice.krad.uif.UifConstants;
+import org.kuali.rice.krad.uif.container.CollectionGroup;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
@@ -36,6 +37,7 @@ import org.kuali.student.cm.course.form.RecentlyViewedDocsUtil;
 import org.kuali.student.cm.course.form.wrapper.RetireCourseWrapper;
 import org.kuali.student.cm.course.service.RetireCourseMaintainable;
 import org.kuali.student.cm.course.util.CourseProposalUtil;
+import org.kuali.student.cm.proposal.controller.ProposalController;
 import org.kuali.student.common.collection.KSCollectionUtils;
 import org.kuali.student.cm.proposal.form.wrapper.ProposalElementsWrapper;
 import org.kuali.student.common.object.KSObjectUtils;
@@ -46,6 +48,8 @@ import org.kuali.student.r2.core.atp.dto.AtpInfo;
 import org.kuali.student.r2.core.atp.service.AtpService;
 import org.kuali.student.r2.core.constants.AtpServiceConstants;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
+import org.kuali.student.r2.lum.course.service.CourseService;
+import org.kuali.student.r2.lum.util.constants.CourseServiceConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -69,9 +73,10 @@ import java.util.List;
 
 @Controller
 @RequestMapping(value = CurriculumManagementConstants.ControllerRequestMappings.CM_RETIRE_COURSE)
-public class RetireCourseController extends CourseController {
+public class RetireCourseController extends ProposalController {
     private static final Logger LOG = LoggerFactory.getLogger(RetireCourseController.class);
 
+    private transient CourseService courseService;
     private transient AtpService atpService;
 
     @Override
@@ -135,11 +140,11 @@ public class RetireCourseController extends CourseController {
     }
 
     protected CurriculumManagementConstants.UserInterfaceSections getDefaultSectionKradIdForEdit() {
-        return CurriculumManagementConstants.CourseViewSections.COURSE_INFO;
+        return CurriculumManagementConstants.CourseRetireSections.RETIRE_INFO;
     }
 
     protected String getKradPageIdForEdit() {
-        return CurriculumManagementConstants.CoursePageIds.CREATE_COURSE_PAGE;
+        return CurriculumManagementConstants.CoursePageIds.RETIRE_COURSE_PAGE;
     }
 
     /**
@@ -164,6 +169,113 @@ public class RetireCourseController extends CourseController {
             retireCourseWrapper.getReviewProposalDisplay().setShowUnknownErrors(true);
         }
         bindValidationErrorsToPath(errors, form);
+    }
+
+    /**
+     *  Binds the each validation errors with its property path
+     * @param validationResultInfoList
+     * @param form
+     */
+    protected void bindValidationErrorsToPath(List<ValidationResultInfo> validationResultInfoList, DocumentFormBase form) {
+        ProposalElementsWrapper wrapper = (ProposalElementsWrapper)(((MaintenanceDocumentForm) form).getDocument().getNewMaintainableObject().getDataObject());
+        wrapper.getReviewProposalDisplay().setShowUnknownErrors(false);
+
+        if (validationResultInfoList != null && !validationResultInfoList.isEmpty()) {
+            for( ValidationResultInfo error : validationResultInfoList ) {
+                String message = error.getMessage();
+                String element = error.getElement().replace("/0","").replace("/","");
+                String elementPath = null;
+
+                switch(element) {
+                    case "courseTitle":
+                        if (StringUtils.equals(CurriculumManagementConstants.CoursePageIds.CREATE_COURSE_PAGE, form.getPageId())) {
+                            elementPath = CurriculumManagementConstants.DATA_OBJECT_PATH + ".courseInfo.courseTitle";
+                        } else {
+                            elementPath = CurriculumManagementConstants.DATA_OBJECT_PATH + ".courseInfo.courseTitle";
+                        }
+                        break;
+                    case "subjectArea":
+                        if (StringUtils.equals(CurriculumManagementConstants.CoursePageIds.CREATE_COURSE_PAGE, form.getPageId())) {
+                            elementPath = CurriculumManagementConstants.DATA_OBJECT_PATH + ".courseInfo.subjectArea";
+                        } else {
+                            elementPath = CurriculumManagementConstants.DATA_OBJECT_PATH + ".courseInfo.subjectArea";
+                        }
+                        break;
+                    case "courseNumberSuffix":
+                        if (StringUtils.equals(CurriculumManagementConstants.CoursePageIds.CREATE_COURSE_PAGE, form.getPageId())) {
+                            elementPath = CurriculumManagementConstants.DATA_OBJECT_PATH + ".courseInfo.courseNumberSuffix";
+                        } else {
+                            elementPath = CurriculumManagementConstants.DATA_OBJECT_PATH + ".courseInfo.courseNumberSuffix";
+                        }
+                        break;
+                    case "campusLocations":
+                        if (StringUtils.equals(CurriculumManagementConstants.CoursePageIds.CREATE_COURSE_PAGE, form.getPageId())) {
+                            elementPath = CurriculumManagementConstants.DATA_OBJECT_PATH + ".campusLocations";
+                        } else {
+                            elementPath = CurriculumManagementConstants.DATA_OBJECT_PATH + ".reviewProposalDisplay.governanceSection.campusLocationsAsString";
+                        }
+                        break;
+                    case "startTerm":
+                        if (StringUtils.equals(CurriculumManagementConstants.CoursePageIds.CREATE_COURSE_PAGE, form.getPageId())) {
+                            elementPath = CurriculumManagementConstants.DATA_OBJECT_PATH + ".courseInfo.startTerm";
+                        } else {
+                            elementPath = CurriculumManagementConstants.DATA_OBJECT_PATH + ".reviewProposalDisplay.activeDatesSection.startTerm";
+                        }
+                        break;
+                    case "transcriptTitle":
+                        if (StringUtils.equals(CurriculumManagementConstants.CoursePageIds.CREATE_COURSE_PAGE, form.getPageId())) {
+                            elementPath = CurriculumManagementConstants.DATA_OBJECT_PATH + ".courseInfo.transcriptTitle";
+                        } else {
+                            elementPath = CurriculumManagementConstants.DATA_OBJECT_PATH + ".courseInfo.transcriptTitle";
+                        }
+                        break;
+                    case "finalExamStatus":
+                        if (StringUtils.equals(CurriculumManagementConstants.CoursePageIds.CREATE_COURSE_PAGE, form.getPageId())) {
+                            elementPath = CurriculumManagementConstants.DATA_OBJECT_PATH + ".finalExamStatus";
+                        } else {
+                            elementPath = CurriculumManagementConstants.DATA_OBJECT_PATH + ".reviewProposalDisplay.courseLogisticsSection.finalExamStatus";
+                        }
+                        break;
+                    case "finalExamRationale":
+                        if (StringUtils.equals(CurriculumManagementConstants.CoursePageIds.CREATE_COURSE_PAGE, form.getPageId())) {
+                            elementPath = CurriculumManagementConstants.DATA_OBJECT_PATH + ".finalExamRationale";
+                        } else {
+                            elementPath = CurriculumManagementConstants.DATA_OBJECT_PATH + ".reviewProposalDisplay.courseLogisticsSection.finalExamStatusRationale";
+                        }
+                        break;
+                    case "gradingOptions":
+                        if (StringUtils.equals(CurriculumManagementConstants.CoursePageIds.CREATE_COURSE_PAGE, form.getPageId())) {
+                            elementPath = CurriculumManagementConstants.DATA_OBJECT_PATH + ".courseInfo.gradingOptions";
+                        } else {
+                            elementPath = CurriculumManagementConstants.DATA_OBJECT_PATH + ".reviewProposalDisplay.courseLogisticsSection.gradingOptionsAsString";
+                        }
+                        break;
+                    case "unitsContentOwner":
+                        if (StringUtils.equals(CurriculumManagementConstants.CoursePageIds.CREATE_COURSE_PAGE, form.getPageId())) {
+                            String collectionPath = CurriculumManagementConstants.DATA_OBJECT_PATH + ".unitsContentOwner";
+                            CollectionGroup collectionGroup = (CollectionGroup) form.getView().getViewIndex().getComponentById("CM-Proposal-Course-Governance-CurriculumOversight-Section");
+                            if (collectionGroup != null) {
+                                message = collectionGroup.getHeaderText() + ": " + message;
+                            }
+                            elementPath = collectionPath + "[0].orgId";
+                        } else {
+                            elementPath = CurriculumManagementConstants.DATA_OBJECT_PATH + ".reviewProposalDisplay.governanceSection.curriculumOversightAsString";
+                        }
+                        break;
+                    case "stateKey":    // ignore this one as it's always returned whenever a validation error is thrown
+                    case "code":        // ignore this one since it is only valid for the old GWT UI
+                        break;
+
+                    default:
+                        elementPath = KRADConstants.GLOBAL_ERRORS;
+                        wrapper.getReviewProposalDisplay().setShowUnknownErrors(true);
+                        error.setMessage(error.getElement() + ": " + error.getMessage());
+                }
+                if (StringUtils.isNotBlank(elementPath)) {
+                    GlobalVariables.getMessageMap().putError(elementPath, RiceKeyConstants.ERROR_CUSTOM, message);
+                }
+            }
+        }
     }
 
     /**
@@ -331,6 +443,13 @@ public class RetireCourseController extends CourseController {
         }
 
         return result;
+    }
+
+    protected CourseService getCourseService() {
+        if (courseService == null) {
+            courseService = (CourseService) GlobalResourceLoader.getService(new QName(CourseServiceConstants.COURSE_NAMESPACE, CourseServiceConstants.SERVICE_NAME_LOCAL_PART));
+        }
+        return courseService;
     }
 
     protected AtpService getAtpService() {
