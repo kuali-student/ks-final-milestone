@@ -56,19 +56,19 @@ angular.module('mockTransactionMessages', []).value('transactionMessages',
         },
         {
             "messageKey": "kuali.lpr.trans.message.course.not.open.late",
-            "message": "Last day of Registration was {{endDate}}"
+            "message": "Reason: Last day of Registration was {{endDate}}"
         },
         {
             "messageKey": "kuali.lpr.trans.message.drop.period.closed",
-            "message": "Deadline for dropping has passed"
+            "message": "Reason: Last day to drop was {{endDate}}"
         },
         {
             "messageKey": "kuali.lpr.trans.message.edit.period.closed",
-            "message": "Deadline for editing has passed"
+            "message": "Reason: Last day to modify was {{endDate}}"
         },
         {
             "messageKey": "kuali.lpr.trans.message.course.grade.incomplete",
-            "message": "{{courseCode}} has already been taken. Cannot repeat a course with a mark of 'I'."
+            "message": "{{cluCode}} has already been taken. Cannot repeat a course with a mark of 'I'."
         },
         {
             "messageKey": "kuali.lpr.trans.message.course.already.registered",
@@ -76,11 +76,11 @@ angular.module('mockTransactionMessages', []).value('transactionMessages',
         },
         {
             "messageKey": "kuali.lpr.trans.message.course.already.taken",
-            "message": "{{courseCode}} has already been taken {{attempts | multiplicativeAdverb : ' times'}}. This course cannot be repeated more than {{maxRepeats - 1 | multiplicativeAdverb : ' times'}}."
+            "message": "{{cluCode}} has already been taken {{attempts | multiplicativeAdverb : ' times'}}. This course cannot be repeated more than {{maxRepeats - 1 | multiplicativeAdverb : ' times'}}."
         },
         {
             "messageKey": "kuali.lpr.trans.message.repeatability.warning",
-            "message": "This will be your {{attempts + 1 | ordinal}} attempt of {{courseCode}}. This course cannot be attempted more than {{maxRepeats | multiplicativeAdverb : ' times'}}."
+            "message": "This will be your {{attempts + 1 | ordinal}} attempt of {{cluCode}}. This course cannot be attempted more than {{maxRepeats | multiplicativeAdverb : ' times'}}."
         },
         {
             "messageKey": "kuali.lpr.trans.item.message.exception",

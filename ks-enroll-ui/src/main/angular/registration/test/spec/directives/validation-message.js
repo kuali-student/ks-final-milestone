@@ -121,6 +121,10 @@ describe('Directive: ValidationMessage', function() {
             data.attempts = 3;
             data.maxRepeats = 3;
             expect(compile(data, course)).toBe('code1 has already been taken 3 times. This course cannot be repeated more than twice.');
+
+            // Validate that we are truncating course suffixes
+            course = { courseCode: 'CHEM399A'};
+            expect(compile(data, course)).toBe('CHEM399 has already been taken 3 times. This course cannot be repeated more than twice.');
         });
     });
 
@@ -144,6 +148,10 @@ describe('Directive: ValidationMessage', function() {
             data.attempts = 2;
             data.maxRepeats = 3;
             expect(compile(data, course)).toBe('This will be your 3rd attempt of code1. This course cannot be attempted more than 3 times.');
+
+            // Validate that we are truncating course suffixes
+            course = { courseCode: 'CHEM399A'};
+            expect(compile(data, course)).toBe('This will be your 3rd attempt of CHEM399. This course cannot be attempted more than 3 times.');
         });
     });
 
@@ -277,7 +285,7 @@ describe('Directive: ValidationMessage', function() {
 
             // Registration window has passed
             data.actionDate = '10/11/2014';
-            expect(compile(data, course)).toBe('Last day of Registration was 10/10/2014');
+            expect(compile(data, course)).toBe('Reason: Last day of Registration was 10/10/2014');
         });
     });
 

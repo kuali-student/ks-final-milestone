@@ -230,6 +230,13 @@ angular.module('regCartApp')
                         }
                     }
 
+                    if (!$scope.cluCode) {
+                        // Remove the suffix from the course code (if any)
+                        if (angular.isString($scope.courseCode)) {
+                            $scope.cluCode = $scope.courseCode.replace(/\D+$/, '');
+                        }
+                    }
+
                     if (!$scope.regGroupCode) {
                         if (angular.isObject(course) && angular.isDefined(course.regGroupCode)) {
                             $scope.regGroupCode = course.regGroupCode;
@@ -243,7 +250,7 @@ angular.module('regCartApp')
                     var checks = [
                         '{{courseCode}} ({{regGroupCode}})',
                         '{{courseCode}} {{regGroupCode}}',
-                        '{{courseCode}}'
+                        '{{courseCode}}', '{{cluCode}}'
                     ];
 
                     for (var i = 0; i < checks.length; i++) {
