@@ -922,7 +922,6 @@ public class DefaultPlanHelper implements PlanHelper {
 
         newPlannerItem.setMeta(registrationRecord.getMeta());
 
-        String creditsString = registrationRecord.getCredits().toString();
         try {
             if(registrationRecord.getCredits() == null){
                 newPlannerItem.setMaxCredits(BigDecimal.ZERO);
