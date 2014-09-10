@@ -4,10 +4,12 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
                     http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
+
 	<bean id="Planner-FormView" parent="Planner-FormView-parent" />
-	<bean abstract="true" id="Planner-FormView-parent" parent="KSAPFormView">
+	<bean id="Planner-FormView-parent" abstract="true" parent="KSAPFormView">
 		<property name="id" value="Planner-FormView" />
-		<property name="cssClasses">
+        <property name="formClass" value="org.kuali.student.ap.planner.PlannerForm" />
+        <property name="cssClasses">
 			<list merge="true">
 				<value>ksap-view</value>
 			</list>
@@ -49,7 +51,7 @@
                             </bean>
                             <ref bean="planner_sidebar_section"/>
 							<ref bean="planner_menu_completed" />
-							<ref bean="planner_menu_cart" />
+							<ref bean="planner_menu_registered" />
 							<ref bean="planner_menu_planned" />
 							<ref bean="planner_menu_planned_cartavailable" />
 							<ref bean="planner_menu_backup" />
@@ -62,8 +64,8 @@
 			</list>
 		</property>
 		<property name="footer.render" value="false" />
-		<property name="formClass" value="org.kuali.student.ap.planner.PlannerForm" />
 	</bean>
+
 
     <bean id="planner_sidebar_section" parent="planner_sidebar_section-parent" />
     <bean id="planner_sidebar_section-parent" abstract="true" parent="ksap_section">
@@ -82,7 +84,12 @@
     </bean>
 
     <!-- Planner Calendar -->
-    <bean id="PlannerCalendar-Holder" parent="Uif-VerticalBoxGroup" p:cssClasses="ksap-planner-details">
+    <bean id="PlannerCalendar-Holder" parent="Uif-VerticalBoxGroup" >
+        <property name="cssClasses">
+            <list merge="true">
+                <value>ksap-planner-details</value>
+            </list>
+        </property>
         <property name="items">
             <list>
                 <bean p:id="planner_calendar_placeholder" parent="Uif-VerticalBoxGroup">
@@ -93,7 +100,7 @@
     </bean>
 
     <bean id="PlannerCalendar-FormView" parent="PlannerCalendar-FormView-parent" />
-    <bean abstract="true" id="PlannerCalendar-FormView-parent" parent="KSAPFormView">
+    <bean id="PlannerCalendar-FormView-parent" abstract="true"  parent="KSAPFormView">
         <property name="id" value="PlannerCalendar-FormView" />
         <property name="cssClasses">
             <list merge="true">
@@ -142,8 +149,13 @@
     </bean>
 
     <bean id="planner_courses_detail" parent="planner_courses_detail_parent" />
-    <bean id="planner_courses_detail_parent" parent="Uif-VerticalBoxSubSection"
-          abstract="true" p:cssClasses="ksap-planner-details" p:forceSessionPersistence="true">
+    <bean id="planner_courses_detail_parent" abstract="true" parent="Uif-VerticalBoxSubSection" >
+        <property name="cssClasses">
+            <list merge="true">
+                <value>ksap-planner-details</value>
+            </list>
+        </property>
+        <property name="forceSessionPersistence" value="true"/>
         <property name="onDocumentReadyScript"
                   value="ksapInitializePlannerItems(@{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTermHelper().getNumberOfTermsInAcademicYear()});" />
         <property name="validationMessages.displayMessages" value="false" />
@@ -162,8 +174,7 @@
                                 <property name="items">
                                     <list>
                                         <!-- Previous Year Button -->
-                                        <bean p:id="previous_year_button"
-                                              parent="Uif-ActionLink"
+                                        <bean p:id="previous_year_button"   parent="Uif-ActionLink"
                                               p:actionScript="doNothing();" p:title="@{#textHelper.getText('planner.header.previous')}">
                                             <property name="cssClasses">
                                                 <list merge="true">
@@ -177,8 +188,7 @@
                                         <bean parent="Uif-HeaderTwo" p:headerText="@{#textHelper.getText('planner.header.title')}" />
 
                                         <!-- Next Year Button -->
-                                        <bean p:id="next_year_button"
-                                              parent="Uif-ActionLink"
+                                        <bean p:id="next_year_button"   parent="Uif-ActionLink"
                                               p:actionScript="doNothing();"
                                               p:title="@{#textHelper.getText('planner.header.next')}">
                                             <property name="cssClasses">
@@ -217,9 +227,8 @@
         <property name="collectionObjectClass" value="org.kuali.student.ap.planner.PlannerTerm" />
         <property name="layoutManager.lineGroupPrototype.header.render"
                   value="true" />
-        <property
-                name="layoutManager.lineGroupPrototype.header.additionalCssClasses"
-                value="ksap-planner-term-header" />
+        <property name="layoutManager.lineGroupPrototype.header.additionalCssClasses"
+                  value="ksap-planner-term-header" />
         <property name="layoutManager.lineGroupPrototype.headerText"
                   value="@{#line.termName}" />
         <property name="layoutManager.lineGroupPrototype.validationMessages.displayMessages"
@@ -294,7 +303,7 @@
                     <property name="items">
                         <list>
                             <ref bean="planner_completed_collection" />
-                            <ref bean="planner_cart_collection" />
+                            <ref bean="planner_registered_collection" />
                             <bean parent="planner_planned_collection" p:render="@{#line.planning}" />
                             <bean parent="planner_credits_footer">
                                 <property name="items">
@@ -769,8 +778,8 @@
         </property>
     </bean>
 
-    <bean id="planner_cart_collection" parent="planner_cart_collection-parent"/>
-    <bean id="planner_cart_collection-parent" abstract="true" parent="planner_item_collection"
+    <bean id="planner_registered_collection" parent="planner_registered_collection-parent"/>
+    <bean id="planner_registered_collection-parent" abstract="true" parent="planner_item_collection"
           p:render="@{#line.registrationList.size()>0}">
         <property name="validationMessages.displayMessages" value="false" />
         <property name="propertyName" value="registrationList" />
@@ -917,8 +926,8 @@
     </bean>
 
     <!-- Planner Menus -->
-    <bean id="planner_menu_cart" parent="planner_menu_cart-parent"/>
-    <bean id="planner_menu_cart-parent" abstract="true" parent="Uif-VerticalBoxSubSection">
+    <bean id="planner_menu_registered" parent="planner_menu_registered-parent"/>
+    <bean id="planner_menu_registered-parent" abstract="true" parent="Uif-VerticalBoxSubSection">
         <property name="layoutManager.cssClasses">
             <list merge="true">
                 <value>ks-plan-ContextMenu</value>
