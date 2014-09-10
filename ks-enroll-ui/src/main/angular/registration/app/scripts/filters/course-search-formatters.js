@@ -82,7 +82,9 @@ angular.module('regCartApp')
                 if (instructors && angular.isArray(instructors)) {
                     if (instructors.length > 0) {
                         for (var j = 0; j < instructors.length; j++) {
-                            instructorList += denullify(instructors[j].firstName) + ' ' + denullify(instructors[j].lastName);
+                            instructorList += capitalize(denullify(instructors[j].firstName))
+                                            + ' '
+                                            + capitalize(denullify(instructors[j].lastName));
                             if (j < (instructors.length - 1)) {
                                 instructorList += '<br />';
                             }
@@ -183,6 +185,15 @@ angular.module('regCartApp')
                 actualTime = 9999;
             }
             return zeroPad(actualTime, 4);
+        }
+
+        // Capitalizes the first letter of a word, and leaves the rest lowercase
+        // e.g. "ZELDA" becomes "Zelda"
+        function capitalize(string) {
+            if (angular.isString(string) && string.length > 0) {
+                var lowercase = string.toLowerCase();
+                return lowercase.charAt(0).toUpperCase() + lowercase.slice(1);
+            }
         }
 
     }])
