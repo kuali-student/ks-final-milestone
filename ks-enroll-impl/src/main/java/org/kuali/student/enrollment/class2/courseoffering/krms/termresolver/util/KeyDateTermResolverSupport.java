@@ -29,6 +29,7 @@ import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.core.atp.dto.MilestoneInfo;
 import org.kuali.student.r2.core.atp.service.AtpService;
 
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -61,6 +62,19 @@ public abstract class KeyDateTermResolverSupport<T> implements TermResolver<T> {
 
         // Milestones store start and end date information. All KeyDates are Milestones
         return getAtpService().getMilestonesByTypeForAtp(termId, keydateTypeParameter, contextInfo);
+    }
+
+    protected Date getEndDateForKeydateType(ContextInfo contextInfo, RegistrationGroupInfo regGroupInfo, String keydateTypeParameter) throws MissingParameterException, PermissionDeniedException, InvalidParameterException, OperationFailedException, DoesNotExistException {
+        Date endDate = null;
+        List<MilestoneInfo> mstones = getMilestones(contextInfo, regGroupInfo, keydateTypeParameter);
+        for (MilestoneInfo mstone : mstones) {
+            if (mstone.getEndDate() != null) {
+                if (endDate == null || endDate.before(mstone.getEndDate())) {
+                    endDate = mstone.getEndDate();
+                }
+            }
+        }
+        return endDate;
     }
 
     // helper method that takes in a list of luis and returns if all atpIds are the same

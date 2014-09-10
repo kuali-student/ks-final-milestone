@@ -135,7 +135,7 @@ INSERT INTO KSEN_PROCESS_INSTRN
     'Y',
     '029131DA-AD5F-7808-E050-007F010124D0',
     'Drop eligibility - Drop Period is not open',
-    '"messageKey":"kuali.lpr.trans.message.drop.period.closed"',
+    '"messageKey":"kuali.lpr.trans.message.drop.period.closed","endDate":"$dropPeriodEnd"',
     '029131DA-AD60-7808-E050-007F010124D0',
     2,
     'kuali.process.course.eligible.for.drop',
@@ -178,7 +178,7 @@ INSERT INTO KSEN_PROCESS_INSTRN
     'Y',
     '029131DA-AD61-7808-E0500-07F010124D0',
     'Drop eligibility - Drop Period is not open',
-    '"messageKey":"kuali.lpr.trans.message.drop.period.closed"',
+    '"messageKey":"kuali.lpr.trans.message.drop.period.closed","endDate":"$dropPeriodEnd"',
     '029131DA-AD62-7808-E050-007F010124D0',
     2,
     'kuali.process.course.eligible.for.waitlist.drop',
@@ -192,7 +192,7 @@ INSERT INTO KSEN_PROCESS_INSTRN
 UPDATE
   KSEN_PROCESS_INSTRN
 SET
-  MESG_FORMATTED='"messageKey":"kuali.lpr.trans.message.edit.period.closed"'
+  MESG_FORMATTED='"messageKey":"kuali.lpr.trans.message.edit.period.closed","endDate":"$scheduleAdjustmentEnd"'
 WHERE
   ID in ('01CC67C7-6A56-82C3-E050-007F010105C1', '01CC67C7-6A51-82C3-E050-007F010105C1')
 /

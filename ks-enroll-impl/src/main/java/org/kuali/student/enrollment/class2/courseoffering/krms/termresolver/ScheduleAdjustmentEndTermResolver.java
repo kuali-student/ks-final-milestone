@@ -24,13 +24,11 @@ import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.krms.util.KSKRMSExecutionUtil;
 import org.kuali.student.r2.common.util.date.DateFormatters;
 import org.kuali.student.r2.common.util.date.KSDateTimeFormatter;
-import org.kuali.student.r2.core.atp.dto.MilestoneInfo;
 import org.kuali.student.r2.core.constants.AtpServiceConstants;
 
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -71,19 +69,9 @@ public class ScheduleAdjustmentEndTermResolver extends KeyDateTermResolverSuppor
         ContextInfo context = (ContextInfo) resolvedPrereqs.get(RulesExecutionConstants.CONTEXT_INFO_TERM.getName());
         RegistrationGroupInfo regGroupInfo = (RegistrationGroupInfo) resolvedPrereqs.get(RulesExecutionConstants.REGISTRATION_GROUP_TERM.getName());
 
-        String keydateTypeParameter = AtpServiceConstants.MILESTONE_SCHEDULE_ADJUSTMENT_PERIOD_TYPE_KEY;
-
         Date endDate = null;
         try {
-            // Search through the milestones and find the first available date for registration
-            List<MilestoneInfo> mstones = getMilestones(context, regGroupInfo, keydateTypeParameter);
-            for (MilestoneInfo mstone : mstones) {
-                if (mstone.getEndDate() != null) {
-                    if (endDate == null || endDate.before(mstone.getEndDate())) {
-                        endDate = mstone.getEndDate();
-                    }
-                }
-            }
+            endDate = getEndDateForKeydateType(context, regGroupInfo, AtpServiceConstants.MILESTONE_SCHEDULE_ADJUSTMENT_PERIOD_TYPE_KEY);
         } catch (Exception e) {
             KSKRMSExecutionUtil.convertExceptionsToTermResolutionException(parameters, e, this);
         }
