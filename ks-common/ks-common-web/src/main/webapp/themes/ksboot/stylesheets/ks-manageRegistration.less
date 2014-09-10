@@ -1,34 +1,31 @@
+.ks-ManageRegistration{
+  &-show {
+    margin-top: 1.7rem;
+  }
 
-.ks-ManageRegistration-show {
-  margin-top: 1.7rem;
+  &--startDate, &-lastDate {
+    font-weight: normal;
+    white-space: nowrap;
+  }
+
+  &-studentGroup {
+    font-weight: bold;
+    white-space: nowrap;
+  }
 }
 
-.ks-ManageRegistration-startDate {
-  font-weight: normal;
-  white-space: nowrap;
-}
 
-.ks-ManageRegistration-lastDate {
-  font-weight: normal;
-  white-space: nowrap;
-}
-
-.ks-ManageRegistration-studentGroup {
-  font-weight: bold;
-  white-space: nowrap;
-}
-
-#addRegistrationWindowCollection {
- & .uif-tableCollectionLayout > thead > tr > th,
- & .uif-tableCollectionLayout > tbody > tr > th,
- & .uif-tableCollectionLayout > tfoot > tr > th,
- & .uif-tableCollectionLayout > thead > tr > td,
- & .uif-tableCollectionLayout > tbody > tr > td,
- & .uif-tableCollectionLayout > tfoot > tr > td {
+#addRegistrationWindowCollection .uif-tableCollectionLayout {
+ &  > thead > tr > th,
+ &  > tbody > tr > th,
+ &  > tfoot > tr > th,
+ &  > thead > tr > td,
+ &  > tbody > tr > td,
+ &  > tfoot > tr > td {
     padding: 10px 5px 5px;
   }
 }
 
 #addRegistrationWindowCollection_disclosureContent > table {
-  max-width: 132em;
+  min-width: 132em;
 }
