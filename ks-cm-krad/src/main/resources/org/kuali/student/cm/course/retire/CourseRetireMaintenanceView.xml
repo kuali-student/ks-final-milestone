@@ -232,12 +232,13 @@
                 </bean>
 
                 <!-- The text above the tab panel. This gets fixed positioning via JS. -->
-                <bean id="CM-Proposal-Course-Retire-TabHeader" parent="Uif-VerticalBoxGroup" p:render="@{!#uiHelper.adminProposal}" >
+                <bean id="CM-Proposal-Course-Retire-TabHeader" parent="Uif-VerticalBoxGroup" p:additionalCssClasses="proposal_tab_header_footer"
+                      p:render="@{!#uiHelper.adminProposal}" >
                     <property name="header">
                         <bean parent="Uif-HeaderFour">
                             <property name="cssClasses">
                                 <list merge="true">
-                                    <value>course_tabs_header_text</value>
+                                    <value>course_tabs_header_footer_text</value>
                                 </list>
                             </property>
                             <property name="headerText" value="1. Section Information"/>
@@ -246,12 +247,13 @@
                 </bean>
 
                 <!-- The text and link below the tab panel. This gets fixed positioning via JS. -->
-                <bean id="CM-Proposal-Course-Retire-ReviewProposalLink" parent="Uif-VerticalBoxGroup" p:render="@{(!#uiHelper.adminProposal) and !#workflowDoc.initiated}">
+                <bean id="CM-Proposal-Course-Retire-ReviewProposalLink" parent="Uif-VerticalBoxGroup" p:additionalCssClasses="proposal_tab_header_footer"
+                      p:render="@{(!#uiHelper.adminProposal) and !#workflowDoc.initiated}">
                     <property name="header">
                         <bean id="CM-Proposal-Course-View-Tab-ReviewHeader" parent="Uif-HeaderFour">
                             <property name="cssClasses">
                                 <list merge="true">
-                                    <value>course_tabs_header_text</value>
+                                    <value>course_tabs_header_footer_text</value>
                                 </list>
                             </property>
                             <property name="headerText" value="2. Review and Submit"/>

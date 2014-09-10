@@ -520,12 +520,12 @@
 
                 <!-- The text above the tab panel. This gets fixed positioning via JS. -->
                 <bean id="CM-Proposal-Course-View-TabHeader" parent="Uif-VerticalBoxGroup"
-                      p:render="@{!#uiHelper.adminProposal}">
+                      p:render="@{!#uiHelper.adminProposal}" p:additionalCssClasses="proposal_tab_header_footer">
                     <property name="header">
                         <bean parent="Uif-HeaderFour">
                             <property name="cssClasses">
                                 <list merge="true">
-                                    <value>course_tabs_header_text</value>
+                                    <value>course_tabs_header_footer_text</value>
                                 </list>
                             </property>
                             <property name="headerText" value="1. Define Course"/>
@@ -535,12 +535,12 @@
 
                 <!-- The text and link below the tab panel. This gets fixed positioning via JS. -->
                 <bean id="CM-Proposal-Course-View-ReviewProposalLink" parent="Uif-VerticalBoxGroup"
-                      p:render="@{(!#uiHelper.adminProposal) and !#workflowDoc.initiated}">
+                      p:render="@{(!#uiHelper.adminProposal) and !#workflowDoc.initiated}" p:additionalCssClasses="proposal_tab_header_footer">
                     <property name="header">
                         <bean id="CM-Proposal-Course-View-Tab-ReviewHeader" parent="Uif-HeaderFour">
                             <property name="cssClasses">
                                 <list merge="true">
-                                    <value>course_tabs_header_text</value>
+                                    <value>course_tabs_header_footer_text</value>
                                 </list>
                             </property>
                             <property name="headerText" value="2. Review and Submit"/>
