@@ -79,6 +79,18 @@
                 </property>
             </bean>
         </property>
+        <property name="dialogs">
+            <list>
+                <bean id="Proposal-Review-Course-ConfirmCancelProposal-Dialog" parent="CM-Proposal-Review-ConfirmCancelProposal-Dialog"/>
+                <bean id="Proposal-Review-Course-ConfirmSubmit-Dialog" parent="CM-Proposal-Review-ConfirmSubmit-Dialog"/>
+                <bean id="Proposal-Review-Course-ConfirmReturnToPreviousNode-Dialog" parent="CM-Proposal-Review-ConfirmReturnToPreviousNode-Dialog"/>
+                <bean id="Proposal-Review-Course-ConfirmApprove-Dialog" parent="CM-Proposal-Review-ConfirmApprove-Dialog"/>
+                <bean id="Proposal-Review-Course-ConfirmBlanketApprove-Dialog" parent="CM-Proposal-Review-ConfirmBlanketApprove-Dialog"/>
+                <bean id="Proposal-Review-Course-ConfirmReject-Dialog" parent="CM-Proposal-Review-ConfirmReject-Dialog"/>
+                <bean id="Proposal-Review-Course-ConfirmAcknowledge-Dialog" parent="CM-Proposal-Review-ConfirmAcknowledge-Dialog"/>
+                <bean id="Proposal-Review-Course-ConfirmWithdraw-Dialog" parent="CM-Proposal-Review-ConfirmWithdraw-Dialog"/>
+            </list>
+        </property>
         <property name="items">
             <list>
                 <ref bean="CM-Proposal-Course-Retire-Page"/>
