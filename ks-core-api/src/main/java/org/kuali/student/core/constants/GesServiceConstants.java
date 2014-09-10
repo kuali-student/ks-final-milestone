@@ -71,6 +71,16 @@ public class GesServiceConstants
     public static final String GES_ROLLOVER_PRIORITY_LEVEL_ORG_COURSE = "400";
     public static final String GES_ROLLOVER_PRIORITY_LEVEL_GENERAL = "600";
 
-    // Course repeatability
+    //Parameter keys
     public static final String PARAMETER_KEY_MAX_REPEATABLE = "kuali.ges.max.repeatable";
+
+    public static final String PARAMETER_KEY_ROLLOVER_ROOMASSIGNMENT_INCLUDE = "kuali.ges.parameter.key.rollover.roomassignment.include";
+    public static final String PARAMETER_KEY_ROLLOVER_SCHEDULING_INFORMATION_INCLUDE = "kuali.ges.parameter.key.rollover.allschedulinginformation.include";
+    public static final String PARAMETER_KEY_ROLLOVER_INSTRUCTOR_INFORMATION_INCLUDE = "kuali.ges.parameter.key.rollover.instructorinformation.include";
+    public static final String PARAMETER_KEY_ROLLOVER_ACTIVITYOFFERING_CANCELLED_INCLUDE = "kuali.ges.parameter.key.rollover.activityofferingsstateofcancelled.include";
+    public static final String PARAMETER_KEY_ROLLOVER_ACTIVITYOFFERING_COLOCATED_INCLUDE = "kuali.ges.parameter.key.rollover.activityofferingscolocation.include";
+    public static final String PARAMETER_KEY_ROLLOVER_CLU_VERSIONS_INCLUDE = "kuali.ges.parameter.key.rollover.cluversions.include";
+    public static final String PARAMETER_KEY_ROLLOVER_COURSEOFFERING_REQUISITES_INCLUDE = "kuali.ges.parameter.key.rollover.requisitesaddedincourseoffering.include";
+
+
 }
