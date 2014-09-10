@@ -339,9 +339,17 @@ public class CourseController extends CourseRuleEditorController {
 
         form.getDocument().getNewMaintainableObject().setDataObject(courseInfoWrapper);
 
-        saveProposal(form, result, request, response);
+        Properties urlParameters = new Properties();
 
-        return getUIFModelAndView(form);
+        urlParameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, "saveNewVersion");
+        urlParameters.put(KRADConstants.RETURN_LOCATION_PARAMETER, CMUtils.getCMHomeUrl() );
+        urlParameters.put(KRADConstants.DATA_OBJECT_CLASS_ATTRIBUTE, CourseInfoWrapper.class.getName());
+        urlParameters.put(KRADConstants.FORM_KEY, form.getFormKey());
+
+        String courseBaseUrl = CurriculumManagementConstants.ControllerRequestMappings.COURSE_MAINTENANCE.replaceFirst("/", "");
+
+
+        return performRedirect(form, courseBaseUrl, urlParameters);
 
     }
 
@@ -1026,6 +1034,12 @@ public class CourseController extends CourseRuleEditorController {
         }
     }
 
+    @MethodAccessible
+    @RequestMapping(params = "methodToCall=saveNewVersion")
+    public ModelAndView saveNewVersion(@ModelAttribute("KualiForm") MaintenanceDocumentForm form, BindingResult result,
+                                     HttpServletRequest request, HttpServletResponse response) throws Exception {
+        return saveProposal(form,result,request,response);
+    }
 
     /**
      * This will approve and activate an admin proposal.
