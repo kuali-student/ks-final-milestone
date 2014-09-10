@@ -87,7 +87,7 @@
                         </bean>
                     </property>
                 </bean>
-                <ref bean="CM-Proposal-Course-Create-Start-ReviewSection"/>
+                <ref bean="CM-Proposal-Course-Modify-Start-ReviewSection"/>
             </list>
         </property>
     </bean>
@@ -237,6 +237,8 @@
         </property>
     </bean>
 
+    <!--  Review Process for Start Proposal/Course -->
+
     <bean id="CM-Proposal-Course-Create-Start-ReviewSection" parent="Uif-VerticalBoxSubSection"
           p:render="@{#form.curriculumSpecialistUser}" p:style="margin-top: 35px;">
         <property name="headerText" value="Review Process"/>
@@ -247,14 +249,33 @@
         </property>
         <property name="items">
             <list>
-                <bean id="CM-Proposal-Course-Start-ReviewProcess"
-                      parent="KS-Uif-InputField"
-                      p:propertyName="useReviewProcess" p:bindingInfo.bindToForm="true"
-                      p:required="false">
-                    <property name="control">
-                        <bean parent="KS-Uif-CheckboxControl" p:checkboxLabel="Use curriculum review process"/>
-                    </property>
-                </bean>
+                <ref bean="CM-Proposal-Course-Start-ReviewProcess"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="CM-Proposal-Course-Start-ReviewProcess"
+          parent="KS-Uif-InputField"
+          p:propertyName="useReviewProcess" p:bindingInfo.bindToForm="true"
+          p:required="false">
+        <property name="control">
+            <bean parent="KS-Uif-CheckboxControl" p:checkboxLabel="Use curriculum review process"/>
+        </property>
+    </bean>
+
+    <!--  Review Process for Modify Course -->
+
+    <bean id="CM-Proposal-Course-Modify-Start-ReviewSection" parent="Uif-VerticalBoxSubSection"
+          p:progressiveRender="@{startProposalCourseAction eq 'modifyNewVersion'}" p:style="margin-top: 35px;">
+        <property name="headerText" value="Review Process"/>
+        <property name="cssClasses">
+            <list merge="true">
+                <value>cm-collection-width</value>
+            </list>
+        </property>
+        <property name="items">
+            <list>
+                <ref bean="CM-Proposal-Course-Start-ReviewProcess"/>
             </list>
         </property>
     </bean>

@@ -299,6 +299,8 @@ public class CourseController extends CourseRuleEditorController {
                                                          HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         String courseId = request.getParameter(CurriculumManagementConstants.UrlParams.CLU_ID);
+        form.setDocTypeName(CurriculumManagementConstants.DocumentTypeNames.CourseProposal.COURSE_MODIFY);
+        super.createDocument(form);
 
         CourseInfo courseInfo = getCourseService().getCourse( courseId , ContextUtils.createDefaultContextInfo());
 
@@ -308,9 +310,8 @@ public class CourseController extends CourseRuleEditorController {
         courseInfoWrapper.setCourseInfo(courseInfo);
         courseInfoWrapper.setProposalInfo(proposalInfo);
         form.setDataObjectClassName(CourseInfo.class.getName());
-        ((MaintenanceDocumentForm) form).getDocument().getNewMaintainableObject().setDataObject(courseInfoWrapper);
+        form.getDocument().getNewMaintainableObject().setDataObject(courseInfoWrapper);
 
-        form.setDocTypeName(CurriculumManagementConstants.DocumentTypeNames.CourseProposal.COURSE_MODIFY);
         return getUIFModelAndView(form);
     }
 
@@ -347,7 +348,6 @@ public class CourseController extends CourseRuleEditorController {
         urlParameters.put(KRADConstants.FORM_KEY, form.getFormKey());
 
         String courseBaseUrl = CurriculumManagementConstants.ControllerRequestMappings.COURSE_MAINTENANCE.replaceFirst("/", "");
-
 
         return performRedirect(form, courseBaseUrl, urlParameters);
 
