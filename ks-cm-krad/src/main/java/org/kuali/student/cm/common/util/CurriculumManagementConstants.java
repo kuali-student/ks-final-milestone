@@ -98,7 +98,7 @@ public class CurriculumManagementConstants {
     public static class DocumentTypeNames {
 
         public final static String[] ADMIN_DOC_TYPE_NAMES =
-                {CourseProposal.COURSE_CREATE_ADMIN, CourseProposal.COURSE_MODIFY_ADMIN};
+                {CourseProposal.COURSE_CREATE_ADMIN, CourseProposal.COURSE_MODIFY_ADMIN, CourseProposal.COURSE_RETIRE_ADMIN};
 
         public final static String[] COURSE_MODIFY_DOC_TYPE_NAMES =
                 {CourseProposal.COURSE_MODIFY, CourseProposal.COURSE_MODIFY_ADMIN};
@@ -155,7 +155,6 @@ public class CurriculumManagementConstants {
         public final static String REVIEW_COURSE_PROPOSAL_PAGE = "CM-Proposal-Review-Course-Page";
         public final static String CREATE_COURSE_PAGE = "CM-Proposal-Course-Create-Page";
         public final static String RETIRE_COURSE_PAGE = "CM-Proposal-Course-Retire-Page";
-        public final static String START_RETIRE_COURSE_PAGE = "CM-Proposal-Course-Retire-Start-Page";
         public final static String VIEW_COURSE_PAGE = "CM-ViewCourse-View-Course-Page";
         public final static String REVIEW_RETIRE_COURSE_PROPOSAL_PAGE = "CM-Proposal-Review-RetireCourse-Page";
     }
@@ -207,12 +206,10 @@ public class CurriculumManagementConstants {
     }
 
     public static enum CourseRetireSections implements UserInterfaceSections {
-        RETIRE_COURSE_ENTRY("CM-Proposal-Course-Retire-Start-Page"),
         RETIRE_INFO("CM-Proposal-Course-RetireInfo-Section"),
-        ACTIVE_DATES("CM-Proposal-Course-ActiveDates-Section"),
         AUTHORS_AND_COLLABORATORS("CM-Proposal-Course-AuthorsAndCollaborator-Section"),
-        SUPPORTING_DOCUMENTS("CM-Proposal-Course-SupportingDocument-Section");
-        /*REVIEW_COURSE_PROPOSAL(CoursePageIds.REVIEW_COURSE_PROPOSAL_PAGE);*/
+        SUPPORTING_DOCUMENTS("CM-Proposal-Course-SupportingDocument-Section"),
+        RETIRE_REVIEW_COURSE_PROPOSAL(CoursePageIds.REVIEW_RETIRE_COURSE_PROPOSAL_PAGE);
 
         private String sectionId;
 

@@ -44,6 +44,10 @@
 
     <bean id="CM-Proposal-Course-Retire-View" parent="KS-Uif-MaintenanceView">
         <property name="dataObjectClassName" value="org.kuali.student.cm.course.form.wrapper.RetireCourseWrapper"/>
+       <!-- <property name="page.header.lowerGroup.items">
+            &lt;!&ndash; In KS, expandall/collapseall not needed&ndash;&gt;
+            <list/>
+        </property>-->
         <property name="headerText" value="@{(#uiHelper.headerText) + ' (Proposed Retirement)'}"/>
         <property name="singlePageView" value="false"/>
         <!-- Override the default to allow for navigation -->
@@ -185,11 +189,23 @@
                       p:render="@{#uiHelper.curriculumSpecialistUser}"/>
             </list>
         </property>
-        <property name="onDocumentReadyScript"
-                  value="onCourseRetireLoad(@{#uiHelper.curriculumSpecialistUser}, '@{#uiHelper.selectedSection.sectionId}')"/>
+        <!--<property name="onDocumentReadyScript"
+                  value="onCourseRetireLoad(@{#uiHelper.curriculumSpecialistUser}, '@{#uiHelper.selectedSection.sectionId}')"/>-->
+        <property name="propertyReplacers">
+            <list>
+                <bean parent="Uif-ConditionalBeanPropertyReplacer" p:propertyName="items"
+                      p:condition="@{#uiHelper.adminProposal}">
+                    <property name="replacement">
+                        <list>
+                            <bean parent="CM-Proposal-Course-RetireInfo-Section"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
         <property name="items">
             <list>
-                <bean parent="Uif-TabGroup" p:id="course_tabs">
+                <bean parent="Uif-TabGroup" p:id="course_tabs" p:render="@{(!#uiHelper.adminProposal)}">
                     <property name="validationMessages.displayMessages" value="false"/>
                     <property name="validationMessages" ref="KS-ValidationMessages-Off"/>
                     <property name="items">
@@ -208,7 +224,7 @@
                 </bean>
 
                 <!-- The text above the tab panel. This gets fixed positioning via JS. -->
-                <bean id="CM-Proposal-Course-Retire-TabHeader" parent="Uif-VerticalBoxGroup"> <!-- p:render="@{!#uiHelper.adminProposal}" -->
+                <bean id="CM-Proposal-Course-Retire-TabHeader" parent="Uif-VerticalBoxGroup" p:render="@{!#uiHelper.adminProposal}" >
                     <property name="header">
                         <bean parent="Uif-HeaderFour">
                             <property name="cssClasses">
@@ -222,7 +238,7 @@
                 </bean>
 
                 <!-- The text and link below the tab panel. This gets fixed positioning via JS. -->
-                <bean id="CM-Proposal-Course-Retire-ReviewProposalLink" parent="Uif-VerticalBoxGroup" p:render="@{!#workflowDoc.initiated}"> <!-- p:render="@{(!#workflowDoc.initiated}" -->
+                <bean id="CM-Proposal-Course-Retire-ReviewProposalLink" parent="Uif-VerticalBoxGroup" p:render="@{(!#uiHelper.adminProposal) and !#workflowDoc.initiated}">
                     <property name="header">
                         <bean id="CM-Proposal-Course-View-Tab-ReviewHeader" parent="Uif-HeaderFour">
                             <property name="cssClasses">
@@ -263,28 +279,6 @@
     <bean id="CM-Proposal-Course-Retire-CurriculumSpecialistFooter" parent="Uif-FooterBase">
         <property name="items">
             <list>
-                <!--<bean parent="Uif-PrimaryActionButton"
-                      p:ajaxSubmit="false"
-                      p:methodToCall="performRouteReport"
-                      p:actionLabel="Route Report"
-                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_PERFORM_ROUTE_REPORT]}"/>
-                <bean parent="Uif-PrimaryActionButton"
-                      p:ajaxSubmit="false"
-                      p:methodToCall="sendAdHocRequests"
-                      p:actionLabel="Send Adhoc"
-                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_SEND_ADHOC_REQUESTS]}"/>
-                <bean parent="Uif-PrimaryActionButton"
-                      p:ajaxSubmit="false"
-                      p:methodToCall="blanketApprove"
-                      p:actionLabel="Approve and Activate"
-                      p:performClientSideValidation="true"
-                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_BLANKET_APPROVE] and (!#uiHelper.useReviewProcess)}"/>
-                <bean parent="Uif-PrimaryActionButton"
-                      p:ajaxSubmit="false"
-                      p:methodToCall="blanketApprove"
-                      p:actionLabel="Blanket Approve"
-                      p:performClientSideValidation="true"
-                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_BLANKET_APPROVE] and #uiHelper.useReviewProcess}"/>-->
                 <bean parent="Uif-SecondaryActionButton"
                       p:additionalCssClasses="btn-success"
                       p:ajaxSubmit="false"
@@ -300,50 +294,11 @@
                       p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_SAVE]}"
                       p:jumpToIdAfterSubmit="TOP">
                 </bean>
-                <!--<bean parent="Uif-PrimaryActionButton"
-                      p:ajaxSubmit="false"
-                      p:methodToCall="reload"
-                      p:actionLabel="Reload"
-                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_RELOAD]}"/> -->
                 <bean parent="Uif-ActionLink" p:id="CM-Proposal-Course-View-Admin-Cancel"
                       p:actionLabel="Cancel"
                       p:methodToCall="back"
                       p:style="margin-top:5px;"
                       p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_CLOSE]}"/>
-
-                <!--<bean parent="Uif-PrimaryActionButton"
-                      p:ajaxSubmit="false"
-                      p:methodToCall="approve"
-                      p:actionLabel="Approve"
-                      p:performClientSideValidation="true"
-                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_APPROVE]}"/>
-                <bean parent="Uif-PrimaryActionButton"
-                      p:ajaxSubmit="false"
-                      p:methodToCall="disapprove"
-                      p:actionLabel="Disapprove"
-                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_DISAPPROVE]}"/>
-                <bean parent="Uif-PrimaryActionButton"
-                      p:ajaxSubmit="false"
-                      p:methodToCall="fyi"
-                      p:actionLabel="FYI"
-                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_FYI]}"/>
-                <bean parent="Uif-PrimaryActionButton"
-                      p:ajaxSubmit="false"
-                      p:methodToCall="acknowledge"
-                      p:actionLabel="Acknowledge"
-                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ACKNOWLEDGE]}"/>
-                <bean parent="Uif-BackAction"
-                      p:ajaxSubmit="false"
-                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_CLOSE]}"/>
-                <bean parent="Uif-CancelAction"
-                      p:ajaxSubmit="false"
-                      p:methodToCall="cancel"
-                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_CANCEL]}"/>
-                <bean parent="Uif-ActionLink"
-                      p:ajaxSubmit="false"
-                      p:methodToCall="copy"
-                      p:actionLabel="copy"
-                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_COPY]}"/>-->
             </list>
         </property>
     </bean>
