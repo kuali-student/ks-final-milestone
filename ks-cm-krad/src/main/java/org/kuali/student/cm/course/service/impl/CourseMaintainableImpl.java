@@ -2014,30 +2014,35 @@ public class CourseMaintainableImpl extends CommonCourseMaintainableImpl impleme
     @Override
 
     /**
-     * Check if there are any new versions of the course that are approved, draft, etc.
-     *
+     * Checks if the Course is modifiable. A Course is modifiable if:
+     * - it is the 'current' version
+     * -
      * @param courseInfo
      * @param contextInfo
      * @return
      * @throws Exception
     */
     public boolean isModifiableCourse(CourseInfo courseInfo, ContextInfo contextInfo) throws Exception {
-            String versionIndId = courseInfo.getVersion().getVersionIndId();
-            Long versionSequenceNumber = courseInfo.getVersion().getSequenceNumber();
 
-            SearchRequestInfo request = new SearchRequestInfo("lu.search.isVersionable");
-            request.addParam("lu.queryParam.versionIndId", versionIndId);
-            request.addParam("lu.queryParam.sequenceNumber", versionSequenceNumber.toString());
-            List<String> states = new ArrayList<String>();
-            states.add("Approved");
-            states.add("Active");
-            states.add("Draft");
-            states.add("Superseded");
-            request.addParam("lu.queryParam.luOptionalState", states);
-            SearchResultInfo result = getCluService().search(request, contextInfo);
+        // If this is not 'current' course, return 'false' immediately
+        if(!this.isCurrentVersionOfCourse(courseInfo,contextInfo)) {
+            return false;
+        }
 
-            String resultString = result.getRows().get(0).getCells().get(0).getValue();
-            return "0".equals(resultString);
+        String versionIndId = courseInfo.getVersion().getVersionIndId();
+        Long versionSequenceNumber = courseInfo.getVersion().getSequenceNumber();
+
+        SearchRequestInfo request = new SearchRequestInfo("lu.search.isVersionable");
+        request.addParam("lu.queryParam.versionIndId", versionIndId);
+        request.addParam("lu.queryParam.sequenceNumber", versionSequenceNumber.toString());
+        List<String> states = new ArrayList<String>();
+        states.add(DtoConstants.STATE_DRAFT);
+        states.add(DtoConstants.STATE_SUPERSEDED);
+        request.addParam("lu.queryParam.luOptionalState", states);
+        SearchResultInfo result = getCluService().search(request, contextInfo);
+
+        String resultString = result.getRows().get(0).getCells().get(0).getValue();
+        return "0".equals(resultString);
     }
 
     public boolean isCurrentVersionOfCourse(CourseInfo course, ContextInfo contextInfo) throws Exception {
