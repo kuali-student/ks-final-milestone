@@ -93,7 +93,7 @@ h3.uif-headerText a {
   padding-bottom: 3px; /* Reduce the bottom padding of headers within sections used on view course, review proposal, etc  */
 }
 
-/* end */
+/* end course and proposal lookup */
 
 /* find course proposal start */
 
@@ -566,6 +566,15 @@ table tr.cm-compare-highlighter td {
 
 /* Review End */
 
+
+/*
+ * General styling for proposal tab panels.
+ */
+.proposal_tab_header_footer  {
+    position: fixed;
+}
+/*  */
+
 /*
 * TODO: KSCM-2058 This section contains workarounds for breakage that come in with the Rice 2.4 upgrade. The KRAD team
 * is probably going to replace the jQuery tab implementation with the one from Bootstrap. When that happens the left nav
@@ -710,7 +719,6 @@ div {
 
 /* The words at the top of the tab panel */
 #CM-Proposal-Course-View-TabHeader {
-    position: fixed;
     margin-top: 15px;
 }
 
@@ -721,11 +729,6 @@ div {
 
 #CM-Proposal-Course-View-ReviewProposalLink a {
     margin-left: 22px;
-}
-
-/* Fix positions of nav elements */
-#CM-Proposal-Course-View-ReviewProposalLink {
-    position: fixed;
 }
 
 .CourseRequisites-DisclosureLinks a {
@@ -759,7 +762,7 @@ div {
     padding-left: 6px;
 }
 
-.course_tabs_header_text {
+.course_tabs_header_footer_text {
     padding-left: 6px;
 }
 
