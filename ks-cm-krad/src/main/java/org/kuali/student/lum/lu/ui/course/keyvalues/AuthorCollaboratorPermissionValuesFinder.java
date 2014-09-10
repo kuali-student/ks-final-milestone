@@ -12,6 +12,7 @@ import org.kuali.rice.krad.uif.field.InputField;
 import org.kuali.rice.krad.uif.view.ViewModel;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 import org.kuali.student.cm.course.form.wrapper.CourseInfoWrapper;
+import org.kuali.student.cm.proposal.form.wrapper.ProposalElementsWrapper;
 import org.kuali.student.r1.common.rice.authorization.ProposalPermissionTypes;
 import org.kuali.student.r1.core.workflow.dto.CollaboratorWrapper;
 import org.slf4j.Logger;
@@ -50,8 +51,8 @@ public class AuthorCollaboratorPermissionValuesFinder extends UifKeyValuesFinder
 
             if (DocumentStatus.ENROUTE.getCode().equals(workflowDocument.getStatus().getCode())) {
 
-                CourseInfoWrapper courseInfoWrapper = (CourseInfoWrapper) maintenanceForm.getDocument().getNewMaintainableObject().getDataObject();
-                List<CollaboratorWrapper> collaboratorWrapperList = courseInfoWrapper.getCollaboratorWrappers();
+                ProposalElementsWrapper Wrapper = (ProposalElementsWrapper) maintenanceForm.getDocument().getNewMaintainableObject().getDataObject();
+                List<CollaboratorWrapper> collaboratorWrapperList = Wrapper.getCollaboratorWrappers();
                 String index = field.getContext().get(UifConstants.ContextVariableNames.INDEX).toString();
                 CollaboratorWrapper collaboratorWrapper = collaboratorWrapperList.get(Integer.valueOf(index));
 
