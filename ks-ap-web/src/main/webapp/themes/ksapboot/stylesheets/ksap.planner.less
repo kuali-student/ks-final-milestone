@@ -100,11 +100,22 @@
     }
   }
 
+  // Backup header
+  .ksap-planner-term-backup .uif-header-upperGroup {
+    border-bottom: 0;
+  }
+  .ksap-planner-term-backup .uif-boxCollectionItem:first-child .ksap-planner-cell  {
+    border-top: solid 1px #ddd; // If ksap-planner-cell exists, add border-top to first one
+  }
+
   // Cells
   .ksap-planner-cell {
     border-bottom: solid 1px #ddd;
     height: 27px;
     padding: .55rem;
+  }
+  .ksap-planner-section .uif-collectionItem:last-child .ksap-planner-cell {
+    border-bottom: 0;
   }
 
   // Courses
@@ -152,11 +163,6 @@
     font-size: 1.3rem;
     padding: .4rem;
     text-align: center;
-  }
-
-  // Backup Courses
-  .ksap-planner-backup .ksap-planner-add {
-    border-bottom: 0; //No border after Add Course under backup
   }
 
   // Registration Groups
