@@ -299,7 +299,6 @@ public abstract class ProposalMaintainableImpl extends RuleEditorMaintainableImp
         // do nothing
     }
 
-
     /*
         This method is copied from KualiStudentPostProcessorBase
     */

@@ -70,7 +70,7 @@ import java.util.Map;
  *
  * @author Kuali Student Team
  */
-public class RetireCourseMaintainableImpl extends ProposalMaintainableImpl implements RetireCourseMaintainable {
+public class RetireCourseMaintainableImpl extends CommonCourseMaintainableImpl implements RetireCourseMaintainable {
 
     private static final Logger LOG = LoggerFactory.getLogger(RetireCourseMaintainableImpl.class);
 
