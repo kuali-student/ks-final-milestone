@@ -28,6 +28,7 @@ import org.kuali.student.common.object.KSObjectUtils;
 import org.kuali.student.common.uif.util.KSControllerHelper;
 import org.kuali.student.enrollment.class1.hold.dto.AppliedHoldMaintenanceWrapper;
 import org.kuali.student.enrollment.class1.hold.service.HoldsViewHelperService;
+import org.kuali.student.enrollment.class1.hold.util.HoldsConstants;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -51,14 +52,18 @@ public class AppliedHoldMaintenanceController extends MaintenanceDocumentControl
     public ModelAndView route(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result,
                               HttpServletRequest request, HttpServletResponse response) {
 
+        MaintenanceDocumentForm document = this.getMaintenanceDocumentForm( form);
+        AppliedHoldMaintenanceWrapper holdWrapper = (AppliedHoldMaintenanceWrapper) document.getDocument().getDocumentDataObject();
 
-
-        try {
-            super.route(form, result, request, response);
-        } catch (Exception e) {
-            GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, KSObjectUtils.unwrapException(20, e).getMessage());
+        if(!this.getViewHelper(form).canApply(holdWrapper.getHoldIssue().getId())){
+            GlobalVariables.getMessageMap().putError(HoldsConstants.HOLD_ISSUE_CODE, HoldsConstants.APPLIED_HOLDS_MSG_ERROR_UNAUTHORIZED_APPLY);
+        }else{
+            try {
+                super.route(form, result, request, response);
+            } catch (Exception e) {
+                GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, KSObjectUtils.unwrapException(20, e).getMessage());
+            }
         }
-
         if (GlobalVariables.getMessageMap().hasErrors()) {
             return getUIFModelAndView(form);
         }

@@ -143,6 +143,7 @@ public class HoldsViewHelperServiceImpl extends KSViewHelperServiceImpl implemen
         return holdResultList;
     }
 
+    @Override
     public boolean canApply(String holdIssueId){
         return HoldsResourceLoader.getHoldIssueAuthorizingOrgFacade().canPerformFunction(SecurityUtils.getCurrentUserId(),
                 holdIssueId, HoldsConstants.APPLIED_HOLD_ACTION_EVENT_APPLY_HOLD);

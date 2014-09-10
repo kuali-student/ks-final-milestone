@@ -101,6 +101,10 @@ public class HoldsConstants {
     public static final String APPLIED_HOLDS_MSG_ERROR_HOLD_CODE_ALREADY_APPLIED = "error.hold.issue.applied.code.exist";
     public static final String APPLIED_HOLDS_MSG_ERROR_FIRST_TERM_REQUIRED = "error.hold.issue.first.term.required";
     public static final String APPLIED_HOLDS_MSG_ERROR_FIRST_APPLIED_DATE_REQUIRED = "error.hold.issue.applied.first.date.required";
+    public static final String APPLIED_HOLDS_MSG_ERROR_UNAUTHORIZED_APPLY = "error.hold.issue.applied.unauthorized.apply";
+    public static final String APPLIED_HOLDS_MSG_ERROR_UNAUTHORIZED_EXPIRE = "error.hold.issue.applied.unauthorized.expire";
+
+
     //info Message keys
     public static final String HOLDS_ISSUE_MSG_INFO_HOLD_ISSUE_SAVE_SUCCESS = "info.enroll.save.success";
 
