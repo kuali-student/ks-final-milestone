@@ -83,8 +83,8 @@ angular.module('regCartApp')
                     if (instructors.length > 0) {
                         for (var j = 0; j < instructors.length; j++) {
                             instructorList += capitalize(denullify(instructors[j].firstName))
-                                            + ' '
-                                            + capitalize(denullify(instructors[j].lastName));
+                                + ' '
+                                + capitalize(denullify(instructors[j].lastName));
                             if (j < (instructors.length - 1)) {
                                 instructorList += '<br />';
                             }

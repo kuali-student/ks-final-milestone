@@ -117,23 +117,46 @@ angular.module('regCartApp')
 
         this.updateRegisteredCourse = function(oldCourse, newCourse) {
             var credits = parseFloat(this.getRegisteredCredits()) - parseFloat(oldCourse.credits) + parseFloat(newCourse.credits);
-            console.log('registeredCredits = ' + credits);
             this.setRegisteredCredits(credits);
         };
 
         this.updateWaitlistedCourse = function(oldCourse, newCourse) {
             var credits = parseFloat(this.getWaitlistedCredits()) - parseFloat(oldCourse.credits) + parseFloat(newCourse.credits);
-            console.log('waitlistedCredits = ' + credits);
             this.setWaitlistedCredits(credits);
         };
 
+        this.setDroppedRegistered = function(value) {
+            droppedRegistered = value;
+        };
+
+        this.getDroppedRegistered = function() {
+            return droppedRegistered;
+        };
+
+        this.addDroppedRegistered = function(course) {
+            droppedRegistered.push(course);
+        };
+
+        this.setDroppedWaitlisted = function(value) {
+            droppedWaitlisted = value;
+        };
+
+        this.getDroppedWaitlisted = function() {
+            return droppedWaitlisted;
+        };
+
+        this.addDroppedWaitlisted = function(course) {
+            droppedWaitlisted.push(course);
+        };
+
         this.isCourseRegistered = function(course) {
-            return ServiceUtilities.isCourseInList(course, this.getRegisteredCourses());
+            return this.isCourseInList(course, this.getRegisteredCourses());
         };
 
         this.isCourseWaitlisted = function(course) {
-            return ServiceUtilities.isCourseInList(course, this.getWaitlistedCourses());
+            return this.isCourseInList(course, this.getWaitlistedCourses());
         };
+
 
         /**
          * This method takes the schedule list returned from the schedule service and updates the global counts.
@@ -144,65 +167,101 @@ angular.module('regCartApp')
             var userId = personSchedule.userId;
             GlobalVarsService.setUserId(userId);
 
+
+            if (scheduleMap[personSchedule.term.termId] === personSchedule) {
+                // This really shouldn't be here, we should have a better way of handling this.
+                console.log('Term not the same, clearing course lists');
+                registeredCourses.splice(0, registeredCourses.length);
+                waitlistedCourses.splice(0, waitlistedCourses.length);
+            }
+
+
+            var i;
+
+            // Remove messages, if they exist
+            for (i = 0; i < droppedRegistered.length; i++) {
+                this.spliceCourse(COURSE_TYPES.registered, droppedRegistered[0]);
+            }
+
+            for (i = 0; i < droppedWaitlisted.length; i++) {
+                this.spliceCourse(COURSE_TYPES.waitlisted, droppedWaitlisted[0]);
+            }
+
+
+            var registered = this.prepCourseList(personSchedule.registeredCourseOfferings),
+                waitlisted = this.prepCourseList(personSchedule.waitlistCourseOfferings);
+
+
             // Update registered courses
-            if (registeredCourses.length == 0) {
-                if (personSchedule.registeredCourseOfferings != null) {
-                    this.sortCoursesByCreateTime(personSchedule.registeredCourseOfferings, "latestFirst");
-                    for (var i=0; i<personSchedule.registeredCourseOfferings.length; i++){
-                        var course = personSchedule.registeredCourseOfferings[i];
-                        this.setRegisteredCredits(this.getRegisteredCredits() + parseFloat(course.credits));
-                        course.gradingOptionCount = this.countGradingOptions(course);
-                        registeredCourses.push(course);
-                    }
+            if (registeredCourses.length === 0) {
+                // Add all of the courses
+                for (i = 0; i < registered.courses.length; i++){
+                    registeredCourses.push(registered.courses[i]);
                 }
             } else {
-                // Remove messages, if they exist
-                while(droppedRegistered.length > 0){
-                    this.spliceCourse(COURSE_TYPES.registered, droppedRegistered[0]);
-                }
-                // Add only the new registered courses
-                var difference = personSchedule.registeredCourseOfferings.length - (registeredCourses.length - droppedRegistered.length);
-                this.sortCoursesByCreateTime(personSchedule.registeredCourseOfferings, "latestFirst");
-
-                for (var j=0; j<difference; j++) {
-                    var course = personSchedule.registeredCourseOfferings[j];
-                    this.setRegisteredCredits(this.getRegisteredCredits() + parseFloat(course.credits));
-                    course.gradingOptionCount = this.countGradingOptions(course);
-                    registeredCourses.unshift(personSchedule.registeredCourseOfferings[j]);
+                // Add only the new courses
+                for (i = 0; i < (registered.courses.length - (registeredCourses.length - droppedRegistered.length)); i++) {
+                    registeredCourses.unshift(registered.courses[i]);
                 }
             }
-            this.setRegisteredCourseCount(registeredCourses.length);
+
+            this.setRegisteredCredits(registered.totalCredits);
+            this.setRegisteredCourseCount(registered.courses.length);
 
 
             // Update waitlisted courses
-            if (waitlistedCourses.length == 0) {
-                if (personSchedule.waitlistCourseOfferings != null) {
-                    this.sortCoursesByCreateTime(personSchedule.waitlistCourseOfferings, "latestFirst");
-                    for (var i=0; i<personSchedule.waitlistCourseOfferings.length; i++){
-                        var course = personSchedule.waitlistCourseOfferings[i];
-                        this.setWaitlistedCredits(this.getWaitlistedCredits() + parseFloat(course.credits));
-                        course.gradingOptionCount = this.countGradingOptions(course);
-                        waitlistedCourses.push(course);
-                    }
+            if (waitlistedCourses.length === 0) {
+                // Add all of the courses
+                for (i = 0; i < waitlisted.courses.length; i++){
+                    waitlistedCourses.push(waitlisted.courses[i]);
                 }
             } else {
-                // Remove messages, if they exist
-                while(droppedWaitlisted.length > 0){
-                    this.spliceCourse(COURSE_TYPES.waitlisted, droppedWaitlisted[0]);
-                }
-                // Add only the new waitlisted courses
-                var difference = personSchedule.waitlistCourseOfferings.length - (waitlistedCourses.length - droppedWaitlisted.length);
-                if (personSchedule.waitlistCourseOfferings != null) { this.sortCoursesByCreateTime(personSchedule.waitlistCourseOfferings, "latestFirst"); }
-
-                for (var j=0; j<difference; j++) {
-                    var course = personSchedule.waitlistCourseOfferings[j];
-                    this.setWaitlistedCredits(this.getWaitlistedCredits() + parseFloat(course.credits));
-                    course.gradingOptionCount = this.countGradingOptions(course);
-                    waitlistedCourses.unshift(personSchedule.waitlistCourseOfferings[j]);
+                // Add only the new courses
+                for (i = 0; i < (waitlisted.courses.length - (waitlistedCourses.length - droppedWaitlisted.length)); i++) {
+                    waitlistedCourses.unshift(waitlisted.courses[i]);
                 }
             }
+
+            this.setWaitlistedCredits(waitlisted.totalCredits);
             this.setWaitlistedCourseCount(waitlistedCourses.length);
         };
+
+        this.prepCourseList = function(courses) {
+            if (!angular.isArray(courses)) {
+                courses = [];
+            }
+
+            var totalCredits = 0;
+            for (var i = 0; i < courses.length; i++) {
+                var course = courses[i];
+
+                // Used for checking if Edit button is needed
+                course.gradingOptionCount = Object.keys(course.gradingOptions).length;
+                totalCredits += parseFloat(course.credits);
+            }
+
+            this.sortCoursesByCreateTime(courses, 'latestFirst');
+
+            return { courses: courses, totalCredits: totalCredits };
+        };
+
+        this.sortCoursesByCreateTime = function (unsortedList, order) {
+            if (unsortedList.length > 1) {
+                switch (order) {
+                    case 'latestFirst':
+                        unsortedList.sort(function(course1, course2) {
+                            return course1.createTime < course2.createTime;
+                        });
+                        break;
+                    case 'latestLast':
+                        unsortedList.sort(function(course1, course2) {
+                            return course1.createTime > course2.createTime;
+                        });
+                        break;
+                }
+            }
+        };
+
 
         // Schedule Poller
         this.pollRegistrationRequestStatus = function(registrationRequestId, interval, deferred) {
@@ -304,57 +363,4 @@ angular.module('regCartApp')
         this.getRegistrationStatus = function () {
             return ServiceUtilities.getData(URLS.courseRegistration + '/registrationStatus');
         };
-
-        this.setDroppedRegistered = function (value) {
-            droppedRegistered = value;
-        }
-
-        this.getDroppedRegistered = function () {
-            return droppedRegistered;
-        };
-
-        this.addDroppedRegistered = function (course) {
-            droppedRegistered.push(course);
-        };
-
-        this.setDroppedWaitlisted = function (value) {
-            droppedWaitlisted = value;
-        }
-
-        this.getDroppedWaitlisted = function () {
-            return droppedWaitlisted;
-        };
-
-        this.addDroppedWaitlisted = function (course) {
-            droppedWaitlisted.push(course);
-        };
-
-        this.sortCoursesByCreateTime = function (unsortedList, order) {
-            if (unsortedList.length > 1) {
-                switch(order) {
-                    case "latestFirst":
-                        unsortedList.sort(function(course1, course2) {
-                            return course1.createTime < course2.createTime;
-                        });
-                        break;
-                    case "latestLast":
-                        unsortedList.sort(function(course1, course2) {
-                            return course1.createTime > course2.createTime;
-                        });
-                        break;
-                }
-
-            }
-        };
-
-        this.countGradingOptions = function (course) {
-            // Grading options are an object (map) so there's no easy way to get the object size without this code
-            // Used for checking if Edit button is needed
-            var gradingOptionCount = 0;
-            for (var gradingOption in course.gradingOptions) {
-                gradingOptionCount++;
-            }
-
-            return gradingOptionCount;
-        }
     }]);

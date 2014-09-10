@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('regCartApp')
-    .controller('ScheduleCtrl', ['$scope', '$modal', '$timeout', 'STATUS', 'GRADING_OPTION', 'COURSE_TYPES', 'GlobalVarsService', 'TermsService', 'ScheduleService', 'CartService',
-    function ($scope, $modal, $timeout, STATUS, GRADING_OPTION, COURSE_TYPES, GlobalVarsService, TermsService, ScheduleService, CartService) {
+    .controller('ScheduleCtrl', ['$scope', '$modal', '$timeout', 'STATUS', 'GRADING_OPTION', 'COURSE_TYPES', 'GlobalVarsService', 'RegUtil', 'TermsService', 'ScheduleService', 'CartService',
+    function ($scope, $modal, $timeout, STATUS, GRADING_OPTION, COURSE_TYPES, GlobalVarsService, RegUtil, TermsService, ScheduleService, CartService) {
         console.log('>> ScheduleCtrl');
 
         $scope.schedule = ScheduleService.getSchedule();
@@ -48,36 +48,8 @@ angular.module('regCartApp')
          cart, registered, or waitlisted.
          */
         $scope.showGrid = function() {
-            var showGrid = false;
-
-            //check the cart
-            angular.forEach(CartService.getCartCourses(), function(course) {
-                angular.forEach(course.schedule, function(schedule) {
-                    if (!showGrid) {
-                        var locationTime = schedule.activityOfferingLocationTime;
-                        showGrid = !locationTime.isTBA;
-                    }
-                });
-            });
-
-            // if no non-TBA courses in the cart, check the schedule
-            if (!showGrid) {
-                angular.forEach(ScheduleService.getScheduledCourses(), function(course) {
-                    angular.forEach(course.activityOfferings, function(ao) {
-                        if (!showGrid) {
-                            var scheduleComponents = ao.scheduleComponents;
-                            for (var i = 0; i < scheduleComponents.length; i++) {
-                                if (!scheduleComponents[i].isTBA) {
-                                    showGrid = true;
-                                    break;
-                                }
-                            }
-                        }
-                    });
-                });
-            }
-
-            return showGrid;
+            return RegUtil.coursesHaveScheduledTimes(CartService.getCartCourses()) ||
+                RegUtil.coursesHaveScheduledTimes(ScheduleService.getScheduledCourses());
         };
 
         /*

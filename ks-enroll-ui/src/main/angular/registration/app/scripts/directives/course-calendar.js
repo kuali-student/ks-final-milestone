@@ -2,7 +2,7 @@
 
 angular.module('regCartApp')
     .service('CourseCalendarDataParser', ['GRID_CONSTANTS', 'DAY_CONSTANTS', 'RegUtil', 'GlobalVarsService',
-    function(GRID_CONSTANTS, DAY_CONSTANTS, RegUtil, GlobalVarsService) {
+    function CourseCalendarDataParser(GRID_CONSTANTS, DAY_CONSTANTS, RegUtil, GlobalVarsService) {
         var conflictMap;
 
         /*
@@ -305,7 +305,7 @@ angular.module('regCartApp')
 
         /*
          A course conflicts if its time range overlaps at all with another course
-         E.g. Course:                    [-----]
+         E.g. Course:                [-----]
          Conflicts with both:      [--] [---]
          */
         function coursesConflict(c1, c2) {

@@ -43,7 +43,7 @@ angular.module('regCartApp')
                     submittedCartId = null; // we must assume that the items are all from one cart
 
                 // if there are any processing items in the cart we need to start polling
-                angular.forEach($scope.cart.items, function(item) {
+                angular.forEach(theCart.items, function(item) {
                     // Standardize the fields between cart & scheduled courses. This should really be done on the REST side.
                     standardizeCourseData(item);
 

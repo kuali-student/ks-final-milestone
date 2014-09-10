@@ -57,8 +57,8 @@ angular.module('regCartApp')
             course.gradingOptionId = course.grading;
 
             // Schedule AO's are structured quite differently than the cart
-            var activityOfferings = [];
             if (angular.isArray(course.schedule)) {
+                var activityOfferings = [];
                 for (var i = 0; i < course.schedule.length; i++) {
                     var ao = course.schedule[i];
                     ao.scheduleComponents = [];
@@ -84,11 +84,33 @@ angular.module('regCartApp')
 
                 // Delete the old data structure
                 delete course.schedule;
+
+                course.activityOfferings = activityOfferings;
             }
 
-            course.activityOfferings = activityOfferings;
-
             return course;
+        };
+
+
+        /**
+         * Check to see if any course in the list has an AO with a scheduled time (!isTBA).
+         *
+         * @param courses list of courses
+         * @returns {boolean}
+         */
+        this.coursesHaveScheduledTimes = function(courses) {
+            for (var i = 0; i < courses.length; i++) {
+                for (var j = 0; j < courses[i].activityOfferings.length; j++) {
+                    var scheduleComponents = courses[i].activityOfferings[j].scheduleComponents;
+                    for (var k = 0; k < scheduleComponents.length; k++) {
+                        if (!scheduleComponents[k].isTBA) {
+                            return true;
+                        }
+                    }
+                }
+            }
+
+            return false;
         };
     }])
 ;

@@ -170,25 +170,28 @@ angular.module('regCartApp')
                  */
                 function formatCourseNotOpen(data) {
 
-                    var messageKey = data.messageKey;
+                    var messageKey = data.messageKey,
+                        actionDate = null,
+                        startDate = null,
+                        endDate = null;
 
                     if (angular.isDefined(data.actionDate) && angular.isString(data.actionDate)) {
-                        var actionDate = RegUtil.convertStringToDate(data.actionDate);
+                        actionDate = RegUtil.convertStringToDate(data.actionDate);
                     }
                     if (angular.isDefined(data.startDate) && angular.isString(data.startDate)) {
-                        var startDate = RegUtil.convertStringToDate(data.startDate);
+                        startDate = RegUtil.convertStringToDate(data.startDate);
                     }
                     if (angular.isDefined(data.endDate) && angular.isString(data.endDate)) {
-                        var endDate = RegUtil.convertStringToDate(data.endDate);
+                        endDate = RegUtil.convertStringToDate(data.endDate);
                     }
 
-                    if (angular.isDefined(actionDate) && angular.isDate(actionDate)) {
-                        if (angular.isDefined(startDate) && angular.isDate(startDate)) {
+                    if (angular.isDate(actionDate)) {
+                        if (angular.isDate(startDate)) {
                             if (actionDate < startDate) {
                                 messageKey = VALIDATION_ERROR_TYPE.courseNotOpenEarly;
                             }
                         }
-                        if(angular.isDefined(endDate) && angular.isDate(endDate)) {
+                        if (angular.isDate(endDate)) {
                             if (actionDate > endDate) {
                                 messageKey = VALIDATION_ERROR_TYPE.courseNotOpenLate;
                             }

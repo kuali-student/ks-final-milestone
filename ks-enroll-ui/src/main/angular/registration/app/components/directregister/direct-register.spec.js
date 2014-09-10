@@ -80,7 +80,7 @@ describe('Controller: DirectRegisterCtrl', function () {
             expect(scope.showResults()).toBeFalsy();
 
             // Step 1 (alt1)
-            scope.course.credits = "3.0";
+            scope.course.credits = '3.0';
             expect(scope.showOptions()).toBeTruthy();
             expect(scope.showConfirm()).toBeFalsy();
             expect(scope.showProcessing()).toBeFalsy();
