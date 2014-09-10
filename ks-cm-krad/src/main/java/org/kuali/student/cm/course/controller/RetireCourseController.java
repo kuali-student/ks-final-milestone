@@ -211,7 +211,7 @@ public class RetireCourseController extends CourseController {
                     courseWrapper.getUiHelper().setSelectedSection(nextSection);
                 }
                 return getUIFModelAndView(form);
-            } else if (StringUtils.equalsIgnoreCase(nextOrCurrentPage, "CM-Proposal-Course-View-ReviewProposalLink")) {
+            } else if (StringUtils.equalsIgnoreCase(nextOrCurrentPage, "CM-Proposal-Course-Retire-ReviewProposalLink")) {
                 return getUIFModelAndView(form, getReviewPageKradPageId());
             } else {
                 return getUIFModelAndView(form);

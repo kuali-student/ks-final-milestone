@@ -44,10 +44,6 @@
 
     <bean id="CM-Proposal-Course-Retire-View" parent="KS-Uif-MaintenanceView">
         <property name="dataObjectClassName" value="org.kuali.student.cm.course.form.wrapper.RetireCourseWrapper"/>
-       <!-- <property name="page.header.lowerGroup.items">
-            &lt;!&ndash; In KS, expandall/collapseall not needed&ndash;&gt;
-            <list/>
-        </property>-->
         <property name="headerText" value="@{(#uiHelper.headerText) + ' (Proposed Retirement)'}"/>
         <property name="singlePageView" value="false"/>
         <!-- Override the default to allow for navigation -->
@@ -189,8 +185,8 @@
                       p:render="@{#uiHelper.curriculumSpecialistUser}"/>
             </list>
         </property>
-        <!--<property name="onDocumentReadyScript"
-                  value="onCourseRetireLoad(@{#uiHelper.curriculumSpecialistUser}, '@{#uiHelper.selectedSection.sectionId}')"/>-->
+        <property name="onDocumentReadyScript"
+                  value="onCourseRetireLoad(@{#uiHelper.curriculumSpecialistUser}, '@{#uiHelper.selectedSection.sectionId}')"/>
         <property name="propertyReplacers">
             <list>
                 <bean parent="Uif-ConditionalBeanPropertyReplacer" p:propertyName="items"
