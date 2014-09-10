@@ -1653,8 +1653,8 @@ public class CourseController extends CourseRuleEditorController {
      * @param form
      */
     protected void bindValidationErrorsToPath(List<ValidationResultInfo> validationResultInfoList, DocumentFormBase form) {
-        CourseInfoWrapper courseInfoWrapper = getCourseInfoWrapper(form);
-        courseInfoWrapper.getReviewProposalDisplay().setShowUnknownErrors(false);
+        ProposalElementsWrapper wrapper = (ProposalElementsWrapper)(((MaintenanceDocumentForm) form).getDocument().getNewMaintainableObject().getDataObject());
+        wrapper.getReviewProposalDisplay().setShowUnknownErrors(false);
 
         if (validationResultInfoList != null && !validationResultInfoList.isEmpty()) {
             for( ValidationResultInfo error : validationResultInfoList ) {
@@ -1744,7 +1744,7 @@ public class CourseController extends CourseRuleEditorController {
 
                     default:
                         elementPath = KRADConstants.GLOBAL_ERRORS;
-                        courseInfoWrapper.getReviewProposalDisplay().setShowUnknownErrors(true);
+                        wrapper.getReviewProposalDisplay().setShowUnknownErrors(true);
                         error.setMessage(error.getElement() + ": " + error.getMessage());
                 }
                 if (StringUtils.isNotBlank(elementPath)) {
