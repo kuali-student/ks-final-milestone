@@ -105,7 +105,7 @@ VALUES('Y',null,'10014','Hold Functionaries for UME-1890 Cecil','KS-KRIM-TYP-101
 /
 --link group to org
 insert into krim_grp_attr_data_t(attr_data_id,attr_val,grp_id,kim_attr_defn_id,kim_typ_id,obj_id,ver_nbr)
-VALUES('10014','ORGID-1873606557','10010','KS-KRIM-ATTR-DEFN-1003','KS-KRIM-TYP-1011',SYS_GUID(),'1')
+VALUES('10014','ORGID-1873606557','10014','KS-KRIM-ATTR-DEFN-1003','KS-KRIM-TYP-1011',SYS_GUID(),'1')
 /
 --link user to group
 insert into krim_grp_mbr_t (actv_frm_dt,actv_to_dt,grp_id,grp_mbr_id,last_updt_dt,mbr_id,mbr_typ_cd,obj_id,ver_nbr)
