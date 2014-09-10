@@ -43,21 +43,23 @@ public class HoldsConstants {
     public static final String HOLD_ISSUE_ID = "id";
     public static final String HOLD_ISSUE_NAME = "name";
     public static final String HOLD_ISSUE_ORG_ID = "organizationId";
-    public static final String HOLD_ISSUE_CODE = "holdCode";
+    public static final String HOLD_ISSUE_ORG_NAME = "orgName";
+    public static final String HOLD_ISSUE_CODE = "code";
+    public static final String HOLD_ISSUE_HOLD_CODE = "holdCode";
     public static final String HOLD_ISSUE_TYPE_KEY = "typeKey";
     public static final String HOLD_ISSUE_STATE_KEY = "stateKey";
+    public static final String HOLD_ISSUE_DESCT_DOT_PLAIN = "descr.plain";
     public static final String HOLD_ISSUE_FIRST_APP_TERM_ID = "firstApplicationTermId";
     public static final String HOLD_ISSUE_LAST_APP_TERM_ID = "lastApplicationTermId";
     public static final String HOLD_ISSUE_FIRST_APPLIED_DATE = "firstAppliedDate";
     public static final String HOLD_ISSUE_LAST_APPLIED_DATE = "lastAppliedDate";
-    public static final String HOLD_ISSUE_STATE_KEY_ACTIVE = "kuali.hold.issue.state.active";
 
     //Hold Issue property names
     public static final String HOLDS_DATAOBJECT_PATH = "document.newMaintainableObject.dataObject";
 
     public static final String HOLD_ISSUE_PROP_NAME = "holdIssue";
     public static final String HOLD_ISSUE_HOLDISSUE_PATH = HOLDS_DATAOBJECT_PATH + "." + HOLD_ISSUE_PROP_NAME;
-    public static final String HOLD_ISSUE_PROP_NAME_CODE = HOLD_ISSUE_HOLDISSUE_PATH + "." + HOLD_ISSUE_CODE;
+    public static final String HOLD_ISSUE_PROP_NAME_CODE = HOLD_ISSUE_HOLDISSUE_PATH + "." + HOLD_ISSUE_HOLD_CODE;
 
     public static final String HOLD_ISSUE_PROP_NAME_FIRST_APPLIED_DATE = HOLD_ISSUE_HOLDISSUE_PATH + "." + HOLD_ISSUE_FIRST_APPLIED_DATE;
     public static final String HOLD_ISSUE_PROP_NAME_LAST_APPLIED_DATE = HOLD_ISSUE_HOLDISSUE_PATH + "." + HOLD_ISSUE_LAST_APPLIED_DATE;
@@ -74,7 +76,7 @@ public class HoldsConstants {
     public static final String APPLIED_HOLDS_FIRST_TERM = "firstTerm";
     public static final String APPLIED_HOLDS_PROP_NAME = "appliedHold";
     public static final String APPLIED_HOLDS_PATH = HOLDS_DATAOBJECT_PATH;
-    public static final String APPLIED_HOLDS_PROP_NAME_CODE =  APPLIED_HOLDS_PATH + "." + HOLD_ISSUE_CODE;
+    public static final String APPLIED_HOLDS_PROP_NAME_CODE =  APPLIED_HOLDS_PATH + "." + HOLD_ISSUE_HOLD_CODE;
     public static final String APPLIED_HOLDS_PROP_NAME_FIRST_TERM = APPLIED_HOLDS_PATH + "." + APPLIED_HOLDS_FIRST_TERM;
     public static final String APPLIED_HOLDS_PROP_NAME_FIRST_APPLIED_DATE = APPLIED_HOLDS_PATH + "." + APPLIED_HOLDS_PROP_NAME +"."+APPLIED_HOLDS_FIRST_APPLIED_DATE;
 

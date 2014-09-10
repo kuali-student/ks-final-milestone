@@ -3,16 +3,18 @@ package org.kuali.student.enrollment.class1.hold.util;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.criteria.Predicate;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
+import org.kuali.student.common.collection.KSCollectionUtils;
 import org.kuali.student.common.util.security.ContextUtils;
 import org.kuali.student.enrollment.class1.hold.form.HoldIssueResult;
-import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.core.constants.HoldServiceConstants;
 import org.kuali.student.r2.core.hold.dto.HoldIssueInfo;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -26,33 +28,34 @@ import static org.kuali.rice.core.api.criteria.PredicateFactory.like;
 public class HoldsUtil {
 
 
-    public static QueryByCriteria.Builder buildQueryByCriteria(Map<String,String> criteria) {
+    public static QueryByCriteria.Builder buildQueryByCriteria(Map<String, String> criteria) {
 
         QueryByCriteria.Builder qBuilder = QueryByCriteria.Builder.create();
         List<Predicate> pList = new ArrayList<Predicate>();
 
         qBuilder.setPredicates();
-        if (StringUtils.isNotBlank(criteria.get("code"))) {
-            pList.add(like(HoldsConstants.HOLD_ISSUE_CODE, "%" + criteria.get("code") + "%"));
-        }
-        if (StringUtils.isNotBlank(criteria.get("name"))) {
-            pList.add(like(HoldsConstants.HOLD_ISSUE_NAME, "%" + criteria.get("name") + "%"));
+        if (StringUtils.isNotBlank(criteria.get(HoldsConstants.HOLD_ISSUE_HOLD_CODE))) {
+            pList.add(equal(HoldsConstants.HOLD_ISSUE_HOLD_CODE, criteria.get(HoldsConstants.HOLD_ISSUE_HOLD_CODE)));
         }
 
-        if (StringUtils.isNotBlank(criteria.get("typeKey"))) {
-            pList.add(equal(HoldsConstants.HOLD_ISSUE_TYPE_KEY, criteria.get("typeKey")));
+        if (StringUtils.isNotBlank(criteria.get(HoldsConstants.HOLD_ISSUE_NAME))) {
+            pList.add(like(HoldsConstants.HOLD_ISSUE_NAME, "%" + criteria.get(HoldsConstants.HOLD_ISSUE_NAME) + "%"));
         }
 
-        if (StringUtils.isNotBlank(criteria.get("stateKey"))) {
-            pList.add(equal(HoldsConstants.HOLD_ISSUE_STATE_KEY, criteria.get("stateKey")));
+        if (StringUtils.isNotBlank(criteria.get(HoldsConstants.HOLD_ISSUE_TYPE_KEY))) {
+            pList.add(equal(HoldsConstants.HOLD_ISSUE_TYPE_KEY, criteria.get(HoldsConstants.HOLD_ISSUE_TYPE_KEY)));
         }
 
-        if (StringUtils.isNotBlank(criteria.get("organizationId"))) {
-            pList.add(equal(HoldsConstants.HOLD_ISSUE_ORG_ID, criteria.get("organizationId")));
+        if (StringUtils.isNotBlank(criteria.get(HoldsConstants.HOLD_ISSUE_STATE_KEY))) {
+            pList.add(equal(HoldsConstants.HOLD_ISSUE_STATE_KEY, criteria.get(HoldsConstants.HOLD_ISSUE_STATE_KEY)));
         }
 
-        if (StringUtils.isNotBlank(criteria.get("descr.plain"))) {
-            pList.add(like(HoldsConstants.HOLD_ISSUE_DESCR_PLAIN, "%" + criteria.get("descr.plain") + "%"));
+        if (StringUtils.isNotBlank(criteria.get(HoldsConstants.HOLD_ISSUE_ORG_ID))) {
+            pList.add(equal(HoldsConstants.HOLD_ISSUE_ORG_ID, criteria.get(HoldsConstants.HOLD_ISSUE_ORG_ID)));
+        }
+
+        if (StringUtils.isNotBlank(criteria.get(HoldsConstants.HOLD_ISSUE_DESCR_PLAIN))) {
+            pList.add(like(HoldsConstants.HOLD_ISSUE_DESCR_PLAIN, "%" + criteria.get(HoldsConstants.HOLD_ISSUE_DESCT_DOT_PLAIN) + "%"));
         }
 
         if (!pList.isEmpty()) {

@@ -29,6 +29,9 @@
                     </property>
                 </bean>
                 <bean parent="Uif-LookupCriteriaInputField" p:propertyName="orgName" p:label="Owning Organization">
+                    <property name="control">
+                        <bean parent="KS-Uif-TextControl" p:size="30" p:disabled="true"/>
+                    </property>
                     <property name="quickfinder">
                         <bean parent="Uif-QuickFinder">
                             <property name="dataObjectClassName" value="org.kuali.student.r2.core.organization.dto.OrgInfo"/>
@@ -60,6 +63,30 @@
                 <bean parent="KS-Uif-DataField" p:label="State" p:propertyName="state" p:additionalCssClasses="nowrap"/>
             </list>
         </property>
+        <property name="footer">
+            <bean parent="KS-Uif-FooterBase">
+                <property name="items">
+                    <list>
+                        <bean parent="Uif-HorizontalBoxGroup">
+                            <property name="items">
+                                <list>
+                                    <bean id="button_search" parent="Uif-PrimaryActionButton" p:methodToCall="search"
+                                          p:actionLabel="Search"/>
+                                    <bean parent="Uif-SecondaryActionButton" p:methodToCall="clearValues" p:render="@{!displayResults}"
+                                          p:actionLabel="Clear Values"
+                                          p:refreshId="uLookupCriteria" p:ajaxSubmit="false" />
+                                    <bean parent="Uif-ActionLink" p:actionLabel="Cancel"
+                                          p:render="@{#form.renderedInLightBox}"
+                                          p:onClickScript="e.preventDefault();closeLightbox();return false;"
+                                          p:additionalCssClasses="cancel_link"/>
+                                </list>
+                            </property>
+                        </bean>
+                    </list>
+                </property>
+            </bean>
+        </property>
     </bean>
+
 
 </beans>
