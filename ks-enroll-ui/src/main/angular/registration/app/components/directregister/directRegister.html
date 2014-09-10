@@ -59,7 +59,10 @@
             <!-- Buttons -->
             <div class="kscr-Card-buttons">
                 <span>
-                    <button class="kscr-Button--primary" id="directReg_edit_{{course.courseCode}}_{{course.regGroupCode}}" ng-click="confirm()">Confirm Registration</button>
+                    <button class="kscr-Button--primary" id="directReg_edit_{{course.courseCode}}_{{course.regGroupCode}}" ng-click="confirm()">
+                        <span ng-if="course.sourceAction === 'waitlist'">Add to Waitlist</span>
+                        <span ng-if="course.sourceAction !== 'waitlist'">Confirm Registration</span>
+                    </button>
                     <button class="kscr-Button" id="directReg_remove_{{course.courseCode}}_{{course.regGroupCode}}" ng-click="cancel()">Cancel</button>
                 </span>
             </div>
