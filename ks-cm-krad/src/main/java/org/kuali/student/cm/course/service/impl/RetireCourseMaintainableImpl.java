@@ -135,6 +135,14 @@ public class RetireCourseMaintainableImpl extends ProposalMaintainableImpl imple
         otherComment.setPlain(courseWrapper.getProposalInfo().getAttributeValue(CurriculumManagementConstants.PROPOSED_OTHER_COMMENTS));
         otherComment.setFormatted(otherComment.getPlain());
         courseWrapper.setOtherComment(otherComment);
+
+        courseWrapper.getUnitsContentOwner().clear();
+        for (String orgId : course.getUnitsContentOwner()) {
+            CourseCreateUnitsContentOwner orgWrapper = new CourseCreateUnitsContentOwner();
+            orgWrapper.setOrgId(orgId);
+            populateOrgName(course.getSubjectArea(), orgWrapper);
+            courseWrapper.getUnitsContentOwner().add(orgWrapper);
+        }
     }
 
     protected void updateReview(RetireCourseWrapper retireCourseWrapper, boolean shouldRepopulateRemoteData) {

@@ -25,6 +25,8 @@ import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.kuali.student.cm.proposal.form.wrapper.ReviewProposalDisplay;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Wrapper for Retire Course
@@ -41,6 +43,7 @@ public class RetireCourseWrapper extends ProposalElementsWrapper implements Seri
     private RichTextInfo otherComment;
     private String retireEndTerm;
     private String retireStartTerm;
+    private List<CourseCreateUnitsContentOwner> unitsContentOwner = new ArrayList<CourseCreateUnitsContentOwner>();
 
     private String userId = "";
 
@@ -129,5 +132,21 @@ public class RetireCourseWrapper extends ProposalElementsWrapper implements Seri
 
     public void setRetireStartTerm(String retireStartTerm) {
         this.retireStartTerm = retireStartTerm;
+    }
+
+    /**
+     *  This gets the unitContentOwner which is used for Workflow routing process to Retire a course.
+     * @return
+     */
+    public List<CourseCreateUnitsContentOwner> getUnitsContentOwner() {
+        return unitsContentOwner;
+    }
+
+    /**
+     *  This sets the unitContentOwner which is used for Workflow routing process to Retire a course
+     * @param unitsContentOwner
+     */
+    public void setUnitsContentOwner(List<CourseCreateUnitsContentOwner> unitsContentOwner) {
+        this.unitsContentOwner = unitsContentOwner;
     }
 }
