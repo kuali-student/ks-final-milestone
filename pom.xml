@@ -968,6 +968,7 @@
                 <groupId>org.kubek2k</groupId>
                 <artifactId>springockito</artifactId>
                 <version>${springockito.version}</version>
+                <scope>test</scope>
             </dependency>
             <dependency>
                 <groupId>org.codehaus.jackson</groupId>
