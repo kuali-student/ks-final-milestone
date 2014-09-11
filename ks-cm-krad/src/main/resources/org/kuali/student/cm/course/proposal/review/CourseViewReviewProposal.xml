@@ -598,13 +598,9 @@
     </bean>
 
     <bean id="CM-Proposal-Review-ConfirmSubmit-Dialog" parent="CM-Proposal-Review-ConfirmSubmit-Dialog-parentBean" />
-    <bean id="CM-Proposal-Review-ConfirmSubmit-Dialog-parentBean" parent="Uif-DialogGroup" abstract="true" >
+    <bean id="CM-Proposal-Review-ConfirmSubmit-Dialog-parentBean" parent="KS-Dialog" abstract="true" >
         <property name="onDialogResponseScript" value="closeLightbox();ajaxSubmitForm('route');"/>
-        <property name="responseInputField">
-            <bean parent="Uif-DialogResponse" p:readOnly="false"/>
-        </property>
         <property name="headerText" value="Submit Proposal"/>
-        <property name="renderHeader" value="true"/>
         <property name="cssClasses" >
             <list merge="true">
                 <value>submitcourse_dialog</value>
