@@ -191,6 +191,15 @@
     </bean>
 
     <bean id="CM-Proposal-Course-Retire-Page" parent="Uif-MaintenancePage" p:disclosure.render="false">
+
+        <property name="header">
+            <bean parent="Uif-HeaderTwo">
+                <property name="lowerGroup">
+                    <ref bean="Uif-HeaderLowerGroup"/>
+                </property>
+            </bean>
+        </property>
+
         <property name="headerText" value="Retire Course"/>
         <property name="footer.items">
             <list>
@@ -221,7 +230,7 @@
                     <property name="items">
                         <list>
                             <ref bean="CM-Proposal-Course-RetireInfo-Section"/>
-                            <ref bean="CM-Proposal-Course-AuthorsAndCollaborator-Section"/>
+                            <bean id="CM-Course-Retire-AuthorsandCollaborators" parent="CM-Proposal-Course-AuthorsAndCollaborator-Section" p:style="margin-top:-10px"/>
                             <ref bean="CM-Proposal-Course-SupportingDocument-Section"/>
                         </list>
                     </property>

@@ -58,7 +58,10 @@
                                 </property>
                             </bean>
 
-                            <bean id="CM-Proposal-RetireCourse-StartTerm" parent="CM-ReadOnlyInput" p:propertyName="retireStartTerm" p:label="Start Term">
+                            <bean id="CM-Proposal-RetireCourse-StartTerm" parent="KS-Uif-DataField" p:propertyName="retireStartTerm"
+                                  p:label="Start Term">
+                                <property name="fieldLabel.renderColon" value="false"/>
+                                <property name="fieldLabel.render" value="true"/>
                                 <property name="fieldLabel.richLabelMessage">
                                     <bean parent="CM-IconLabelMessage">
                                         <property name="iconToolTipText" value="New Courses: This course will not necessarily be activated or offered this term, but will be
