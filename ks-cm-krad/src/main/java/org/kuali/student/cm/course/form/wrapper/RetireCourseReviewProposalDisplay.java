@@ -129,8 +129,8 @@ public class RetireCourseReviewProposalDisplay extends org.kuali.student.cm.prop
 
         public String getJointlyOfferedAndCrossListedCoursesAsString() {
             List<String> crossListedJointlyOfferedCourseList = new LinkedList<>();
-            crossListedJointlyOfferedCourseList.addAll(jointlyOfferedCourses);
-            crossListedJointlyOfferedCourseList.addAll(crossListings);
+            crossListedJointlyOfferedCourseList.addAll(getJointlyOfferedCourses());
+            crossListedJointlyOfferedCourseList.addAll(getCrossListings());
             return StringUtils.join(crossListedJointlyOfferedCourseList, CurriculumManagementConstants.COLLECTION_ITEMS_DELIMITER);
         }
     }
