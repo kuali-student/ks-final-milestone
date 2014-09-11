@@ -119,47 +119,49 @@ limitations under the License.
         <property name="headerText" value="Hold Details"/>
         <property name="items">
             <list>
-                <bean parent="KS-Uif-InputField-LabelTop" p:label="Hold Code" p:propertyName="holdCode" p:required="true">
-                    <property name="control">
-                        <bean parent="KS-Uif-TextControl" p:size="10"/>
-                    </property>
-                    <!-- The hold code auto-complete -->
-                    <property name="suggest">
-                        <bean parent="Uif-Suggest" p:render="true" p:valuePropertyName="holdCode">
-                            <property name="returnFullQueryObject" value="true"/>
-                            <property name="suggestQuery">
-                                <bean parent="Uif-AttributeQueryConfig" p:queryMethodToCall="retrieveHoldCodes"/>
-                            </property>
-                            <property name="templateOptions">
-                                <map merge="true">
-                                    <entry key="minLength" value="3"/>
-                                </map>
-                            </property>
-                        </bean>
-                    </property>
-                    <property name="quickfinder">
-                        <bean parent="Uif-QuickFinder">
-                            <property name="dataObjectClassName" value="org.kuali.student.r2.core.hold.dto.HoldIssueInfo"/>
-                            <property name="fieldConversions">
-                                <map>
-                                    <entry key="code" value="holdCode"/>
-                                </map>
-                            </property>
-                            <property name="quickfinderAction">
-                                <bean parent="KS-Uif-ActionLink" p:methodToCall="performLookup" p:id="lookup_searchHoldIssues" p:actionLabel="Find a Hold" />
-                            </property>
-                        </bean>
+                <bean id="KS-ApplyHold-HoldCode-Section" parent="Uif-HorizontalBoxGroup">
+                    <property name="validationMessages" ref="KS-ValidationMessages-Off"/>
+                    <property name="items">
+                         <list>
+                             <bean parent="KS-Uif-InputField-LabelTop" p:label="Hold Code" p:propertyName="holdCode" p:required="true">
+                                 <property name="control">
+                                     <bean parent="KS-Uif-TextControl" p:size="8"/>
+                                 </property>
+                                 <!-- The hold code auto-complete -->
+                                 <property name="suggest">
+                                     <bean parent="Uif-Suggest" p:render="true" p:valuePropertyName="holdCode">
+                                         <property name="returnFullQueryObject" value="true"/>
+                                         <property name="suggestQuery">
+                                             <bean parent="Uif-AttributeQueryConfig" p:queryMethodToCall="retrieveHoldCodes"/>
+                                         </property>
+                                         <property name="templateOptions">
+                                             <map merge="true">
+                                                 <entry key="minLength" value="3"/>
+                                             </map>
+                                         </property>
+                                     </bean>
+                                 </property>
+                                 <property name="quickfinder">
+                                     <bean parent="Uif-QuickFinder">
+                                         <property name="dataObjectClassName" value="org.kuali.student.r2.core.hold.dto.HoldIssueInfo"/>
+                                         <property name="fieldConversions">
+                                             <map>
+                                                 <entry key="code" value="holdCode"/>
+                                             </map>
+                                         </property>
+                                         <property name="quickfinderAction">
+                                             <bean parent="KS-Uif-ActionLink" p:methodToCall="performLookup" p:id="lookup_searchHoldIssues" p:actionLabel="Find a Hold" />
+                                         </property>
+                                     </bean>
+                                 </property>
+                             </bean>
+                             <bean parent="Uif-SecondaryActionButton" p:performClientSideValidation="false"
+                                   p:actionLabel="Show" p:methodToCall="searchHoldIssueByCode" />
+                         </list>
                     </property>
                 </bean>
                 <bean parent="Uif-HorizontalBoxGroup"  >
                     <property name="validationMessages" ref="KS-ValidationMessages-Off"/>
-                    <property name="refreshWhenChangedPropertyNames">
-                        <list>
-                            <value>#dp.holdCode</value>
-                            <value>holdCode</value>
-                        </list>
-                    </property>
-                    <property name="methodToCallOnRefresh" value="searchHoldIssueByCode"/>
                     <property name="items">
                         <list>
                             <bean parent="KS-Uif-InputField-LabelTop" p:label="First Application Term" p:propertyName="firstTerm" p:required="false" p:progressiveRender="@{#dp.holdIssue.isHoldIssueTermBased == true}">
