@@ -169,7 +169,6 @@ public class CourseController extends CourseRuleEditorController {
         String courseId = request.getParameter(CurriculumManagementConstants.UrlParams.CLU_ID);
 
         super.createDocument(form);
-
         CourseInfo courseInfo = getCourseService().getCourse( courseId , ContextUtils.createDefaultContextInfo());
 
         ProposalInfo proposalInfo = new ProposalInfo();
@@ -215,19 +214,30 @@ public class CourseController extends CourseRuleEditorController {
         courseInfoWrapper.setProposalInfo(proposalInfo);
         proposalInfo.setName(courseInfo.getCourseTitle());
 
+        //  set the Curriculum review status on the uiHelper
+        courseInfoWrapper.getUiHelper().setUseReviewProcess(
+                request.getParameter(CurriculumManagementConstants.UrlParams.USE_CURRICULUM_REVIEW).equals(Boolean.TRUE.toString()));
+
         form.getDocument().getNewMaintainableObject().setDataObject(courseInfoWrapper);
 
         Properties urlParameters = new Properties();
 
-        urlParameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, "saveNewVersion");
-        urlParameters.put(KRADConstants.RETURN_LOCATION_PARAMETER, CMUtils.getCMHomeUrl() );
-        urlParameters.put(KRADConstants.DATA_OBJECT_CLASS_ATTRIBUTE, CourseInfoWrapper.class.getName());
-        urlParameters.put(KRADConstants.FORM_KEY, form.getFormKey());
-
-        String courseBaseUrl = CurriculumManagementConstants.ControllerRequestMappings.COURSE_MAINTENANCE.replaceFirst("/", "");
-
-        return performRedirect(form, courseBaseUrl, urlParameters);
-
+        //  CS creating a Modify Admin Proposal with curric review
+        if(request.getParameter(CurriculumManagementConstants.UrlParams.USE_CURRICULUM_REVIEW).equals(Boolean.FALSE.toString())) {
+            urlParameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, "saveNewVersion");
+            urlParameters.put(KRADConstants.RETURN_LOCATION_PARAMETER, CMUtils.getCMHomeUrl() );
+            urlParameters.put(KRADConstants.DATA_OBJECT_CLASS_ATTRIBUTE, CourseInfoWrapper.class.getName());
+            urlParameters.put(KRADConstants.FORM_KEY, form.getFormKey());
+            String courseBaseUrl = CurriculumManagementConstants.ControllerRequestMappings.COURSE_MAINTENANCE.replaceFirst("/", "");
+            return performRedirect(form, courseBaseUrl, urlParameters);
+        }
+        //  CS creating a Modify Admin Proposal (no curric review)
+        else{
+            // Set the request redirect to false so that the user stays on the same page
+            form.setRequestRedirected(false);
+            //redirect back to client to display confirm dialog
+            return getUIFModelAndView(form, getReviewPageKradPageId());
+        }
     }
 
     /**
