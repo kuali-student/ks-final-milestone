@@ -95,9 +95,9 @@ public class HoldIssueRule extends BasicHoldsRule {
         try {
             QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
             if (holdIssue.getId() == null) {
-                qbcBuilder.setPredicates(PredicateFactory.equal(HoldsConstants.HOLD_ISSUE_CODE, holdIssue.getHoldCode()));
+                qbcBuilder.setPredicates(PredicateFactory.equal(HoldsConstants.HOLD_ISSUE_HOLD_CODE, holdIssue.getHoldCode()));
             } else {
-                qbcBuilder.setPredicates(PredicateFactory.and(PredicateFactory.equal(HoldsConstants.HOLD_ISSUE_CODE, holdIssue.getHoldCode()),
+                qbcBuilder.setPredicates(PredicateFactory.and(PredicateFactory.equal(HoldsConstants.HOLD_ISSUE_HOLD_CODE, holdIssue.getHoldCode()),
                         PredicateFactory.notEqual(HoldsConstants.HOLD_ISSUE_ID, holdIssue.getId())));
             }
 
