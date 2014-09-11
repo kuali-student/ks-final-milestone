@@ -53,7 +53,7 @@ module.exports = function (grunt) {
         // Watches files for changes and runs tasks based on the changed files
         watch:{
             js:{
-                files:['<%= yeoman.app %>/scripts/{,*/}*.js', '<%= yeoman.app %>/components/{,*/}*.js'],
+                files:['<%= yeoman.app %>/scripts/{,*/}*.js', '<%= yeoman.app %>/components/{,*/}*.js', '!<%= yeoman.app %>/components/{,*/}*.spec.js'], // Any .js files in /scripts/ but exclude .spec.js files in /components/.
                 tasks:['newer:jshint:all'],
                 options:{
                     livereload:true
@@ -165,13 +165,14 @@ module.exports = function (grunt) {
             all:[
                 'Gruntfile.js',
                 '<%= yeoman.app %>/scripts/{,*/}*.js',
-                '<%= yeoman.app %>/components/{,*/}*.js'
+                '<%= yeoman.app %>/components/{,*/}*.js',
+                '!<%= yeoman.app %>/components/{,*/}*.spec.js' // Exclude the tests in /components/
             ],
             test:{
                 options:{
                     jshintrc:'test/.jshintrc'
                 },
-                src:['test/spec/{,*/}*.js']
+                src:['test/spec/{,*/}*.js', '<%= yeoman.app %>/components/{,*/}*.spec.js']
             }
         },
 
@@ -230,6 +231,8 @@ module.exports = function (grunt) {
                 files:{
                     src:[
                         '<%= yeoman.dist %>/scripts/{,*/}*.js',
+                        '<%= yeoman.dist %>/components/{,*/}*.js',
+                        '!<%= yeoman.dist %>/components/{,*/}*.spec.js', // Exclude the tests in /components/
                         '<%= yeoman.dist %>/styles/{,*/}*.css',
                         '<%= yeoman.dist %>/images/{,*/}*.{png,jpg,jpeg,gif,webp,svg}',
                         '<%= yeoman.dist %>/styles/fonts/*'

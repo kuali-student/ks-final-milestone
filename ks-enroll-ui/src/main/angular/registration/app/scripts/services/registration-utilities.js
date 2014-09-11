@@ -112,5 +112,29 @@ angular.module('regCartApp')
 
             return false;
         };
+
+        /**
+         * Sort a course list by a specified order
+         *
+         * @param list of courses
+         * @param order to sort by [ 'latestFirst' || 'latestLast' ]
+         */
+        this.sortCoursesByCreateTime = function(list, order) {
+            if (list.length > 1) {
+                switch (order) {
+                    case 'latestFirst':
+                        list.sort(function(course1, course2) {
+                            return course1.createTime < course2.createTime;
+                        });
+                        break;
+                    default:
+                        list.sort(function(course1, course2) {
+                            return course1.createTime > course2.createTime;
+                        });
+                }
+            }
+
+            return list;
+        };
     }])
 ;

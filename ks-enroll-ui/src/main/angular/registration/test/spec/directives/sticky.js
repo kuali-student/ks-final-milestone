@@ -10,7 +10,7 @@ describe('Directive: Sticky', function () {
             scrollTo: function(x, y) {
                 this.pageYOffset = y;
             }
-        })
+        });
     }));
 
 
@@ -102,7 +102,7 @@ describe('Directive: Sticky', function () {
             }
         }
 
-        for (var i = stickyLine + 2; i < stickyLine - 2; i--) {
+        for (i = stickyLine + 2; i < stickyLine - 2; i--) {
             setScrollPosition(i);
 
             if (i < stickyLine) {

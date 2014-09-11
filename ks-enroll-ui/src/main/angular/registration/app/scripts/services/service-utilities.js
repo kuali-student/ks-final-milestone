@@ -44,19 +44,24 @@ angular.module('regCartApp')
         /*
          Global method for seeing if a course is present in a list of courses
          */
-        this.isCourseInList = function (course, list) {
-            if (angular.isString(course)) {
+        this.isCourseInList = function (c, list) {
+            var course = c;
+            if (angular.isString(c)) {
                 course = {
-                    regGroupId: course
+                    masterLprId: c,
+                    regGroupId: c
                 };
             }
 
             var inList = false;
-            angular.forEach(list, function(listCourse) {
-                if (!inList && (listCourse.regGroupId === course.regGroupId)) { // Courses match on regGroupId
+            for (var i = 0; i < list.length; i++) {
+                if ((angular.isDefined(list[i].regGroupId) && list[i].regGroupId === course.regGroupId) ||
+                    (angular.isDefined(list[i].masterLprId) && list[i].masterLprId === course.masterLprId)) {
+
                     inList = true;
+                    break;
                 }
-            });
+            }
 
             return inList;
         };

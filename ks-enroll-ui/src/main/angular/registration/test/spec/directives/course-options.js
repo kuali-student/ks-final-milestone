@@ -139,7 +139,12 @@ describe('Directive: CourseOptions', function () {
         it('should correctly determine whether or not to show the More grading options toggle', function() {
             var course = {
                 gradingOptions: {
-                    'a': 'OptionA', 'b': 'OptionB', 'c': 'OptionC', 'd': 'OptionD', 'e': 'OptionE', 'f': 'OptionF'
+                    'a': 'OptionA',
+                    'b': 'OptionB',
+                    'c': 'OptionC',
+                    'd': 'OptionD',
+                    'e': 'OptionE',
+                    'f': 'OptionF'
                 }
             };
 

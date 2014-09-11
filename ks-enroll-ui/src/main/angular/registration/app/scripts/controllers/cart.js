@@ -547,9 +547,7 @@ angular.module('regCartApp')
         function reloadSchedule() {
             ScheduleService.getSchedule(TermsService.getTermId(), true).then(function (result) {
                 console.log('Called rest service to get schedule data - in cart.js');
-                ScheduleService.updateScheduleCounts(result);
-                $scope.registeredCredits = ScheduleService.getRegisteredCredits;
-                $scope.registeredCourseCount = ScheduleService.getRegisteredCourseCount;
+                ScheduleService.setSelectedSchedule(result);
             });
         }
 

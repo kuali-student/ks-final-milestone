@@ -217,8 +217,7 @@ describe('Controller: DirectRegisterCtrl', function () {
 
     describe('updating with results', function() {
         var STATE,
-            STATUS,
-            response;
+            STATUS;
 
         beforeEach(inject(function(_STATE_, _STATUS_) {
             STATE = _STATE_;

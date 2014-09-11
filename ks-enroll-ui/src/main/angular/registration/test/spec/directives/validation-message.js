@@ -86,7 +86,7 @@ describe('Directive: ValidationMessage', function() {
 
     describe('parameterized messages', function() {
         it('should format the {{courseCode}} parameter in a message string correctly', function() {
-            expect(compile("Course {{courseCode}} Should Be 'code1'", { courseCode: 'code1' })).toContain('code1');
+            expect(compile('Course {{courseCode}} Should Be \'code1\'', { courseCode: 'code1' })).toContain('code1');
         });
 
         it('should a variety of parameters in the message string correctly', function() {
