@@ -2,7 +2,7 @@
     <div class="kscr-DirectRegister-header">
         <span ng-if="course.sourceAction === 'waitlist'">Waitlist</span>
         <span ng-if="course.sourceAction !== 'waitlist'">Register</span>
-        <span> (<span class="kscr-DirectRegister-header-course">{{course.courseCode}} {{course.regGroupCode}}</span>)</span>
+        <span> (<span id="direct_register_popup_course" class="kscr-DirectRegister-header-course">{{course.courseCode}} {{course.regGroupCode}}</span>)</span>
     </div>
 
     <div class="kscr-DirectRegister-content">
