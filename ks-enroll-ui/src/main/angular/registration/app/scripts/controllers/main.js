@@ -61,7 +61,12 @@ angular.module('regCartApp')
         var logout = function() {
             console.log('Logging out');
             LoginService.logout().query({}, function () {
-                // After logging in, reload the page.
+                // if port 9000, log back in (test code only for development environments using grunt serve)
+                if ($location.port() === 9000) {
+                    LoginService.logOnAsAdmin().query({userId: 'student1', password: 'student1'});
+                }
+
+                // Reload the page.
                 var url = $location.absUrl();
                 url = url.substring(0, url.indexOf('#'));
 
