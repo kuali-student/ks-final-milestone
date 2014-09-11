@@ -90,7 +90,7 @@ public class AppliedHoldRule extends BasicHoldsRule {
 
         try {
 
-            //Check if hold already applied to student?
+            //Check if hold already applied to student?/Date based? TODO: KSENROLL-14775
             List<AppliedHoldInfo> appliedHolds = HoldsResourceLoader.getHoldService().getActiveAppliedHoldsByIssueAndPerson(appliedHold.getHoldIssueId(),
                     appliedHold.getPersonId(), createContextInfo());
             if (appliedHolds.size() > 0) {
