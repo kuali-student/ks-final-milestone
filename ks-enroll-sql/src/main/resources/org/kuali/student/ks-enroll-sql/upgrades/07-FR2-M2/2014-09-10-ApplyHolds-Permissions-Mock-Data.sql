@@ -121,3 +121,9 @@ VALUES('KS-KRIM-ROLE-MBR-ATTR-DATA-10014','kuali.hold.issue.fundamental.math','K
 /
 
 
+--link admin person to role
+insert into krim_role_mbr_t(actv_frm_dt,actv_to_dt,last_updt_dt,mbr_id,mbr_typ_cd,obj_id,role_id,role_mbr_id,ver_nbr)
+VALUES(null,null,TO_DATE( '20140910000000', 'YYYYMMDDHH24MISS' ),'admin','P',SYS_GUID(),'KS-10004','KS-KRIM-ROLE-MBR-10015','1')
+/
+
+
